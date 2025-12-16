@@ -233,6 +233,13 @@ PDF 预览：
 `SILICON_API_KEY=...`（也兼容 `SILICONFLOW_API_KEY`）
 
 默认模型：`Qwen/Qwen3-Reranker-8B`，默认缓存：`.cache/siliconflow_rerank.sqlite3`。
+
+## 两阶段检索（Embedding -> Rerank）
+当单个角色的候选图较多时（上百张），直接对全部候选做 rerank 可能较慢。`resolve_expressions.py` 支持先用 embedding 做召回，再对召回的 top-k 进行 rerank 精排：
+
+- Embedding 模型：`Qwen/Qwen3-Embedding-8B`（SiliconFlow OpenAI 兼容 `/v1/embeddings`）
+- 默认召回：top 50（`--embed-top-k 50`）
+- Embedding 会写入缓存：`.cache/siliconflow_embed.sqlite3`（只缓存候选文档，不缓存 query）
 ###  1.获取角色列表
 ### GET
 #### 基础URL:

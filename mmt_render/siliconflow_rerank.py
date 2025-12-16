@@ -183,12 +183,12 @@ class SiliconFlowReranker:
         if use_cache:
             cached = self._cache.get(key)
             if cached is not None:
-                logger.info("rerank cache hit | model={} docs={} top_n={}", self.config.model, len(documents), top_n)
+                logger.info(f"rerank cache hit | model={self.config.model} docs={len(documents)} top_n={top_n}")
                 return _normalize_results(cached)
 
         token = _get_api_key(self.config.api_key_env)
         started = time.time()
-        logger.info("rerank request | model={} docs={} top_n={}", self.config.model, len(documents), top_n)
+        logger.info(f"rerank request | model={self.config.model} docs={len(documents)} top_n={top_n}")
         try:
             resp = await self._session.post(
                 self.config.url,
@@ -214,5 +214,5 @@ class SiliconFlowReranker:
             raise RerankError(f"Unexpected response type: {type(data)}")
 
         self._cache.set(key, data)
-        logger.info("rerank ok | elapsed_ms={} cached=1", elapsed_ms)
+        logger.info(f"rerank ok | elapsed_ms={elapsed_ms} cached=1")
         return _normalize_results(data)
