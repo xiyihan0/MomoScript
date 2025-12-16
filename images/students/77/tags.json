@@ -1,0 +1,88 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "expressionless"
+    ],
+    "description": "标准的平静表情，眼神直视前方，没有任何明显的情绪波动，属于角色的默认状态。",
+    "image_name": "CH0187_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "attentive"
+    ],
+    "description": "面无表情，神态比上一张略显严肃和专注，冷静地注视着。",
+    "image_name": "CH0187_spr_01.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "half_closed_eyes",
+      "confident",
+      "cool"
+    ],
+    "description": "眼神半眯，透露出一丝自信、得意甚至是冷酷的神情（Smug face）。",
+    "image_name": "CH0187_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle"
+    ],
+    "description": "嘴角微微上扬，露出温柔的微笑，眼神也变得柔和。",
+    "image_name": "CH0187_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "worried",
+      "anxious"
+    ],
+    "description": "脸上挂着一滴冷汗，眉毛微蹙，眼神直视，看起来感到紧张、尴尬或有些担忧。",
+    "image_name": "CH0187_spr_04.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "surprised"
+    ],
+    "description": "嘴巴张开，眼神显得有些呆萌或惊讶，看起来像是在说话。",
+    "image_name": "CH0187_spr_05.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "awkward",
+      "troubled",
+      "half_closed_eyes"
+    ],
+    "description": "脸上流着汗，眼神半眯或游移，表情显得非常尴尬、无奈或不知所措。",
+    "image_name": "CH0187_spr_06.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "frown",
+      "serious",
+      "glare"
+    ],
+    "description": "眉头紧锁，眼神锐利，嘴角下沉，看起来生气、不悦或者是极其严肃。",
+    "image_name": "CH0187_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "serene",
+      "silent"
+    ],
+    "description": "双眼完全闭合，神态安详平静，仿佛正在闭目养神、深思或者表示一种沉静的默许。",
+    "image_name": "CH0187_spr_99.png"
+  }
+]

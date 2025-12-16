@@ -1,0 +1,138 @@
+[
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "furious",
+      "aggressive"
+    ],
+    "description": "愤怒地大喊，嘴巴张大，眉毛倒竖，表现出强烈的不满和攻击性。",
+    "image_name": "neru_spr-00_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "serious",
+      "closed_mouth",
+      "displeased",
+      "glaring"
+    ],
+    "description": "一脸不爽或严肃的表情，闭着嘴，眼神犀利地盯着前方。",
+    "image_name": "neru_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "agitated",
+      "open_mouth",
+      "teeth",
+      "complaining",
+      "shocked"
+    ],
+    "description": "激动地张嘴反驳或抱怨，露出牙齿，神情显得有些焦躁。",
+    "image_name": "neru_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "开怀大笑，眼睛眯成弯月状，嘴巴张开露出牙齿，心情非常愉快。",
+    "image_name": "neru_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "awkward",
+      "worried",
+      "sweat_drop",
+      "wavy_mouth",
+      "uneasy"
+    ],
+    "description": "感到尴尬或棘手，面露难色，脸颊流着冷汗，嘴唇呈波浪状。",
+    "image_name": "neru_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "confused",
+      "surprised",
+      "open_mouth",
+      "dumbfounded",
+      "blank_stare"
+    ],
+    "description": "微微张嘴显得困惑或惊讶，眼神发愣，似乎没理解现状或刚意识到某事。",
+    "image_name": "neru_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "exasperated",
+      "sigh",
+      "closed_eyes",
+      "sweat_drop",
+      "tired"
+    ],
+    "description": "无奈地闭眼叹气，流着冷汗，表现出精疲力尽或受不了的样子。",
+    "image_name": "neru_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "grin",
+      "confident",
+      "mocking",
+      "evil_smile"
+    ],
+    "description": "得意的坏笑，嘴角上扬露出牙齿，充满自信或带有嘲讽意味。",
+    "image_name": "neru_spr-07_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "blush",
+      "clenched_teeth",
+      "embarrassed",
+      "sweat_drop",
+      "glaring",
+      "flustered"
+    ],
+    "description": "满脸通红，咬牙切齿，眼神充满羞愤，脸颊流下冷汗，似乎在极力掩饰害羞或忍耐着某种情绪。",
+    "image_name": "neru_spr-08_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "blank_eyes",
+      "open_mouth",
+      "blush",
+      "panic",
+      "screaming"
+    ],
+    "description": "极度震惊或惊慌，眼睛失去高光变成眼白，张大嘴巴惨叫，满脸通红，完全慌乱失措的样子。",
+    "image_name": "neru_spr-09_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "blush",
+      "angry",
+      "embarrassed",
+      "open_mouth",
+      "sweat_drop"
+    ],
+    "description": "脸红耳赤地大声反驳，眼神尖锐，张嘴露出虎牙，流着冷汗，表现出激动的羞愤情绪。",
+    "image_name": "neru_spr-10_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "unconscious",
+      "sad",
+      "pain",
+      "silent",
+      "defeated"
+    ],
+    "description": "双眼紧闭，眉头微蹙，表情显得痛苦或虚弱，仿佛失去了意识或正在昏睡。",
+    "image_name": "neru_spr-99_0_waifu2x_2x_2n_png.jpg"
+  }
+]

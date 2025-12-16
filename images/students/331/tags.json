@@ -1,0 +1,207 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "red_eyes",
+      "open_mouth",
+      "black_hair"
+    ],
+    "description": "表情冷淡且严肃，红色的双眼直视前方，嘴巴微微张开，似乎在认真倾听或准备发言。",
+    "image_name": "CH0226_spr_00.png"
+  },
+  {
+    "tags": [
+      "narrowed_eyes",
+      "suspicious",
+      "judgmental",
+      "closed_mouth"
+    ],
+    "description": "眼睛半眯，流露出怀疑和审视的目光，嘴角紧闭，带有一种不信任或鄙视的神情。",
+    "image_name": "CH0226_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "concerned",
+      "talking"
+    ],
+    "description": "眉毛微微挑起，嘴巴张开，神情中带有一丝惊讶或关切，看起来正在质问或急切地表达观点。",
+    "image_name": "CH0226_spr_02.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "bored",
+      "unimpressed",
+      "tired"
+    ],
+    "description": "眼皮低垂，眼神显得慵懒无神，表情平淡，似乎对眼前的情况感到无聊或缺乏兴趣。",
+    "image_name": "CH0226_spr_03.png"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "side_eye",
+      "thinking",
+      "avoiding_eye_contact"
+    ],
+    "description": "视线向侧面偏移，似乎在刻意回避目光交流，或者陷入了沉思，表情显得有些疏离。",
+    "image_name": "CH0226_spr_04.png"
+  },
+  {
+    "tags": [
+      "exhausted",
+      "sigh",
+      "open_mouth",
+      "annoyed"
+    ],
+    "description": "眼神疲惫，嘴巴微张仿佛刚叹了一口气，表现出一种深深的无奈、厌烦或筋疲力尽的状态。",
+    "image_name": "CH0226_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "pain",
+      "troubled",
+      "disappointed"
+    ],
+    "description": "双眼紧闭，眉头紧锁，似乎感到头疼、失望，或者正在极力忍耐某种不快的情绪。",
+    "image_name": "CH0226_spr_06.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "happy",
+      "smug"
+    ],
+    "description": "嘴角上扬露出明显的微笑，眼神变得柔和且自信，流露出心情愉悦或有些得意的情绪。",
+    "image_name": "CH0226_spr_07.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "open_mouth",
+      "blank_stare",
+      "calm"
+    ],
+    "description": "表情平淡，红色的双眼略显空洞，嘴巴微微张开，似乎正在发呆，或者处于一种毫无防备的平静状态。",
+    "image_name": "CH0226_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "serene",
+      "peaceful"
+    ],
+    "description": "双眼轻闭，面部肌肉放松，神情安详宁静，仿佛正在闭目养神或享受片刻的安宁。",
+    "image_name": "CH0226_spr_09.png"
+  },
+  {
+    "tags": [
+      "narrowed_eyes",
+      "suspicious",
+      "judgmental",
+      "annoyed"
+    ],
+    "description": "眼睛眯起，目光中透着审视和怀疑，嘴角微沉，流露出一种不满、鄙视或正在评判对方的神情。",
+    "image_name": "CH0226_spr_10.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "friendly",
+      "happy"
+    ],
+    "description": "眼神柔和直视前方，嘴角上扬露出淡淡的微笑，表情友好且轻松，给人一种平易近人的温和感。",
+    "image_name": "CH0226_spr_11.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "relaxed",
+      "soft_smile",
+      "sultry"
+    ],
+    "description": "眼帘低垂，眼神显得慵懒而有些迷离，嘴角带着若有若无的笑意，散发出一种成熟且放松的气息。",
+    "image_name": "CH0226_spr_12.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "amused",
+      "smirk"
+    ],
+    "description": "嘴角勾起一抹明显的笑容，眼神明亮，神情中带着自信甚至几分戏谑，似乎对眼前的情况感到愉悦。",
+    "image_name": "CH0226_spr_13.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "happy",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "双眼眯成弯弯的月牙，脸上洋溢着开心的笑容，神情舒展，表现出一种纯粹的快乐和满足。",
+    "image_name": "CH0226_spr_14.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "awkward",
+      "troubled"
+    ],
+    "description": "脸颊上挂着一滴冷汗，眉头微蹙，眼神游移不定，流露出尴尬、紧张或者因为棘手情况而感到不知所措的情绪。",
+    "image_name": "CH0226_spr_15.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "awkward",
+      "troubled",
+      "nervous"
+    ],
+    "description": "双眼紧闭，脸颊挂着一滴冷汗，嘴巴微张，表情显得尴尬、无奈或因为某些棘手的情况而感到焦躁不知所措。",
+    "image_name": "CH0226_spr_16.png"
+  },
+  {
+    "tags": [
+      "narrowed_eyes",
+      "looking_down",
+      "scorn",
+      "arrogant",
+      "cold"
+    ],
+    "description": "目光向下斜视，半眯着眼，眼神中流露出冷漠、轻蔑与傲慢，仿佛在俯视不屑一顾的事物。",
+    "image_name": "CH0226_spr_17.png"
+  },
+  {
+    "tags": [
+      "narrowed_eyes",
+      "intense",
+      "dark",
+      "serious",
+      "threatening"
+    ],
+    "description": "眼神阴沉犀利，微微眯起双眼直视前方，表情严肃且带有强烈的压迫感，散发出一种危险或准备发难的气息。",
+    "image_name": "CH0226_spr_18.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "peaceful",
+      "serene",
+      "sleeping"
+    ],
+    "description": "双眼自然闭合，神情平静安详，毫无情绪波动，仿佛正在安稳地沉睡或闭目养神。",
+    "image_name": "CH0226_spr_99.png"
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "tags": [
+      "smile",
+      "light_smile",
+      "closed_mouth",
+      "shadow_over_eyes"
+    ],
+    "description": "嘴角微微上扬，带着一抹淡淡的微笑，眼睛完全被刘海的阴影遮挡。",
+    "image_name": "J_NP0024_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "closed_mouth",
+      "shadow_over_eyes"
+    ],
+    "description": "面无表情，嘴巴闭合，看起来非常平静或冷淡，没有任何明显的情绪波动。",
+    "image_name": "J_NP0024_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "parted_lips",
+      "small_open_mouth",
+      "dazed",
+      "shadow_over_eyes"
+    ],
+    "description": "嘴巴微微张开，似乎有些发愣、茫然，或者正在轻声低语。",
+    "image_name": "J_NP0024_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "grin",
+      "teeth",
+      "happy",
+      "shadow_over_eyes"
+    ],
+    "description": "咧嘴大笑，露出了牙齿，表现出自信、开心或有些顽皮的样子。",
+    "image_name": "J_NP0024_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "awkward",
+      "shadow_over_eyes"
+    ],
+    "description": "脸颊上挂着一滴冷汗，嘴巴微张，神情显得尴尬、紧张或不知所措。",
+    "image_name": "J_NP0024_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "frown",
+      "sad",
+      "upset",
+      "shadow_over_eyes"
+    ],
+    "description": "嘴角向下撇，表情看起来不高兴、失望或有些悲伤。",
+    "image_name": "J_NP0024_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "gloom_lines",
+      "shock",
+      "despair",
+      "shadow_over_eyes"
+    ],
+    "description": "脸上笼罩着垂直的阴沉黑线，表现出受到打击、绝望或极度震惊的情绪。",
+    "image_name": "J_NP0024_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "surprised",
+      "shadow_over_eyes"
+    ],
+    "description": "嘴巴张得很大，似乎在大声喊叫、反驳或者表现出明显的惊讶。",
+    "image_name": "J_NP0024_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "dazed",
+      "shadow_over_eyes"
+    ],
+    "description": "嘴巴微微张开呈圆形，似乎有些惊讶、发呆，或者正在轻声发出感叹。",
+    "image_name": "J_NP0024_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "neutral",
+      "expressionless",
+      "shadow_over_eyes"
+    ],
+    "description": "嘴巴闭合，没有任何表情，显得非常平静、冷淡或沉默。",
+    "image_name": "J_NP0024_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

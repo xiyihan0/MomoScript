@@ -1,0 +1,90 @@
+[
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "mekakure"
+    ],
+    "description": "嘴角微微上扬，展现出温和、平静的微笑。",
+    "image_name": "J_NP0025_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "mekakure"
+    ],
+    "description": "嘴巴闭合成一条直线，没有任何明显的表情，看起来严肃或冷静。",
+    "image_name": "J_NP0025_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "curious",
+      "mekakure"
+    ],
+    "description": "嘴巴微微张开成圆形，像是在轻声说话或发出疑问的声音。",
+    "image_name": "J_NP0025_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "grin",
+      "happy",
+      "open_mouth",
+      "mekakure"
+    ],
+    "description": "开心地咧嘴笑，露出了牙齿，显得自信且心情愉快。",
+    "image_name": "J_NP0025_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "troubled",
+      "mekakure"
+    ],
+    "description": "脸颊旁挂着汗珠，嘴巴微张，神情显得焦急、紧张或不知所措。",
+    "image_name": "J_NP0025_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "frown",
+      "sad",
+      "displeased",
+      "mekakure"
+    ],
+    "description": "嘴角明显向下弯曲，表现出不满、悲伤或失望的情绪。",
+    "image_name": "J_NP0025_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sigh",
+      "breath",
+      "exhausted",
+      "mekakure"
+    ],
+    "description": "嘴边呼出一团白气，表现出叹气、无奈或疲惫的状态。",
+    "image_name": "J_NP0025_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "awkward",
+      "sweat",
+      "grimace",
+      "mekakure"
+    ],
+    "description": "脸上流着明显的汗水，嘴巴紧绷扭曲，表现出极度的尴尬或窘迫。",
+    "image_name": "J_NP0025_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shadowed_face",
+      "ominous",
+      "serious",
+      "mekakure"
+    ],
+    "description": "面部上半部分笼罩着阴影，嘴巴紧闭，散发出一种阴沉、压迫感或极度严肃的气场。",
+    "image_name": "J_NP0025_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

@@ -1,0 +1,95 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "blue_eyes",
+      "closed_mouth"
+    ],
+    "description": "平静的标准表情，蓝色的双眼睁开，嘴巴闭合，神情认真且冷静。",
+    "image_name": "NP0032_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "closed_mouth",
+      "expressionless"
+    ],
+    "description": "面无表情，眼神直视前方，没有任何情绪波动，呈现出非常平淡的状态。",
+    "image_name": "NP0032_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "mildly_surprised",
+      "curious"
+    ],
+    "description": "嘴巴微微张开成O形，似乎正在说话或者表现出轻微的惊讶与好奇。",
+    "image_name": "NP0032_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "speaking"
+    ],
+    "description": "面带微笑且嘴巴张开，看起来正在愉快地交谈，神情友好。",
+    "image_name": "NP0032_spr_03.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "content"
+    ],
+    "description": "双眼眯成月牙状的开心笑容，表现出满足和欣慰的情绪。",
+    "image_name": "NP0032_spr_04.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "bored",
+      "unamused",
+      "blank_stare",
+      "deadpan"
+    ],
+    "description": "半睁着死鱼眼，目光呆滞，透出一种无语、疲惫或不感兴趣的态度。",
+    "image_name": "NP0032_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "solemn",
+      "thinking",
+      "resigned"
+    ],
+    "description": "双眼紧闭，嘴巴闭合，像是在闭目养神、沉思或者无奈地叹气。",
+    "image_name": "NP0032_spr_06.png"
+  },
+  {
+    "tags": [
+      "grimace",
+      "awkward",
+      "wavy_mouth",
+      "annoyed",
+      "troubled"
+    ],
+    "description": "嘴角呈现波浪状扭曲，眼神显得有些困扰，表现出尴尬、为难或轻微的不满。",
+    "image_name": "NP0032_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "solemn",
+      "thinking",
+      "neutral"
+    ],
+    "description": "双眼完全闭合，神情平静且严肃，仿佛正在闭目沉思、冥想或者保持沉默。",
+    "image_name": "NP0032_spr_99.png"
+  }
+]

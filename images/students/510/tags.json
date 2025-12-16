@@ -1,0 +1,145 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "calm",
+      "looking_aside"
+    ],
+    "description": "基础立绘表情，眼神平静地看向侧前方，嘴巴闭合，神态自然。",
+    "image_name": "CH0313_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "focused",
+      "closed_mouth"
+    ],
+    "description": "表情严肃且专注，眼神比基础状态更加锐利，似乎在认真倾听或审视状况。",
+    "image_name": "CH0313_spr_01.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "open_mouth",
+      "explaining",
+      "neutral"
+    ],
+    "description": "张嘴说话的表情，眉眼保持平静，像是在进行理性的解说或传达信息。",
+    "image_name": "CH0313_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "closed_mouth"
+    ],
+    "description": "温和微笑的表情，眼神柔和，嘴角微微上扬，展现出友好和放松的态度。",
+    "image_name": "CH0313_spr_03.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "closed_eyes",
+      "sweat_drop",
+      "sigh",
+      "open_mouth"
+    ],
+    "description": "困扰无奈的表情，双眼紧闭，脸颊挂着汗珠，嘴巴微张，表现出叹气或对现状感到棘手。",
+    "image_name": "CH0313_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "shouting",
+      "open_mouth",
+      "frown"
+    ],
+    "description": "生气的表情，眉头紧锁，张嘴大声斥责，表现出强烈的不满或严厉的指正。",
+    "image_name": "CH0313_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "thinking",
+      "calm",
+      "silent"
+    ],
+    "description": "闭眼沉思的表情，没有流汗，神态平静，似乎在整理思绪或闭目养神。",
+    "image_name": "CH0313_spr_06.png"
+  },
+  {
+    "tags": [
+      "scary_glasses",
+      "opaque_glasses",
+      "hidden_eyes",
+      "intimidating",
+      "scheming"
+    ],
+    "description": "眼镜反光遮住眼睛的表情，镜片呈现不透明白色，营造出一种压迫感、黑客模式开启或正在谋划计策的氛围。",
+    "image_name": "CH0313_spr_07.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "open_mouth",
+      "cheerful",
+      "laughing"
+    ],
+    "description": "开心大笑的表情，双眼眯成弯月状，嘴巴张开，展现出爽朗且愉快的笑颜。",
+    "image_name": "CH0313_spr_08.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "closed_eyes",
+      "sweat_drop",
+      "sigh",
+      "uneasy",
+      "nervous"
+    ],
+    "description": "感到困扰或无奈的表情，双眼紧闭，眉毛下垂，脸颊挂着汗珠，似乎正在为难或叹气。",
+    "image_name": "CH0313_spr_09.png"
+  },
+  {
+    "tags": [
+      "pale",
+      "shadowed_face",
+      "shocked",
+      "sweat_drop",
+      "despair",
+      "horror",
+      "scared"
+    ],
+    "description": "极度震惊或恐惧的表情，面部被阴影覆盖显得脸色苍白，瞳孔收缩，流着冷汗，表现出绝望或大受打击的状态。",
+    "image_name": "CH0313_spr_10.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "furrowed_brows",
+      "serious",
+      "annoyed"
+    ],
+    "description": "愤怒喊叫的表情，眉头紧锁，眼神犀利，张嘴大声抗议或斥责，情绪显得十分激动。",
+    "image_name": "CH0313_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral",
+      "sleeping",
+      "closed_mouth"
+    ],
+    "description": "平静闭眼的表情，面部放松，嘴巴闭合，像是在安静地休息或沉睡。",
+    "image_name": "CH0313_spr_99.png"
+  }
+]

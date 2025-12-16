@@ -1,0 +1,100 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "closed_mouth",
+      "purple_eyes",
+      "red_bandana"
+    ],
+    "description": "表情平静且略带严肃，眼神专注地直视前方，嘴巴闭合，展现出认真的态度。",
+    "image_name": "J_Cook_GenbuStore_SG_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "curious",
+      "speaking"
+    ],
+    "description": "嘴巴微张呈小圆型，眼神中流露出一丝惊讶或好奇，似乎正在询问或感到意外。",
+    "image_name": "J_Cook_GenbuStore_SG_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "smug",
+      "closed_mouth"
+    ],
+    "description": "嘴角微微上扬，眼神坚定，露出一抹自信甚至略带得意的微笑。",
+    "image_name": "J_Cook_GenbuStore_SG_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "worried",
+      "open_mouth",
+      "anxious"
+    ],
+    "description": "脸颊流下一滴冷汗，眉头微皱，嘴巴张开，表现出紧张、焦急或感到棘手的情绪。",
+    "image_name": "J_Cook_GenbuStore_SG_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "angry",
+      "open_mouth",
+      "serious",
+      "yelling"
+    ],
+    "description": "嘴巴大张，眉头紧锁，似乎正在大声喊叫、训斥或发出指令，气势强烈。",
+    "image_name": "J_Cook_GenbuStore_SG_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sad",
+      "disappointed",
+      "sigh",
+      "resigned"
+    ],
+    "description": "双眼紧闭，眉毛下垂，神情显得无奈、疲惫或失望，仿佛正在叹气。",
+    "image_name": "J_Cook_GenbuStore_SG_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "happy",
+      "smile",
+      "joyful"
+    ],
+    "description": "眯起眼睛开怀大笑，嘴巴张开，脸上洋溢着灿烂、纯粹的快乐笑容。",
+    "image_name": "J_Cook_GenbuStore_SG_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "confused",
+      "skeptical",
+      "frown",
+      "doubt",
+      "displeased"
+    ],
+    "description": "眉头皱起，眼神带着明显的怀疑、不解或轻微的嫌弃，似乎对眼前的情况表示质疑。",
+    "image_name": "J_Cook_GenbuStore_SG_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smug",
+      "proud",
+      "blush",
+      "confident",
+      "chin_up"
+    ],
+    "description": "双眼闭合，下巴微微扬起，脸颊泛起红晕，流露出一种非常得意、骄傲且充满自信的神情，仿佛正在享受赞美或自我陶醉。",
+    "image_name": "J_Cook_GenbuStore_SG_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

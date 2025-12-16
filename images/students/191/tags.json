@@ -1,0 +1,67 @@
+[
+  {
+    "tags": [
+      "hair_over_eyes",
+      "smile",
+      "cat_mouth",
+      ":3",
+      "helmet"
+    ],
+    "description": "角色戴着白色安全帽，刘海完全遮住了眼睛，嘴角上扬呈波浪状（:3），露出俏皮可爱的猫嘴微笑。",
+    "image_name": "J_Soldier_OnsenDev_RL_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "smile",
+      "open_mouth",
+      "helmet"
+    ],
+    "description": "角色戴着白色安全帽，刘海遮眼，嘴巴微微张开，露出开朗自信的笑容。",
+    "image_name": "J_Soldier_OnsenDev_RL_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "laugh",
+      "open_mouth",
+      "happy",
+      "helmet"
+    ],
+    "description": "角色戴着白色安全帽，刘海遮眼，嘴巴张得很大，表现出开怀大笑或非常兴奋的样子。",
+    "image_name": "J_Soldier_OnsenDev_RL_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "nervous",
+      "sweat_drop",
+      "awkward_smile",
+      "helmet"
+    ],
+    "description": "角色戴着白色安全帽，刘海遮眼，脸颊上挂着一滴汗珠，嘴角有些勉强地弯曲，显得尴尬或紧张。",
+    "image_name": "J_Soldier_OnsenDev_RL_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "neutral",
+      "expressionless",
+      "helmet"
+    ],
+    "description": "角色戴着白色安全帽，刘海遮眼，嘴巴抿成一条线，没有任何明显的表情，看起来平静或严肃。",
+    "image_name": "J_Soldier_OnsenDev_RL_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "shock",
+      "gloom_lines",
+      "sweat_drop",
+      "open_mouth",
+      "helmet"
+    ],
+    "description": "角色戴着白色安全帽，刘海遮眼，脸上覆盖着代表阴沉或震惊的竖线（黑线），嘴巴张大，显得非常惊恐或绝望。",
+    "image_name": "J_Soldier_OnsenDev_RL_spr-06_0_waifu2x_2x_1n_png.jpg"
+  }
+]

@@ -1,0 +1,350 @@
+[
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "open_eyes",
+      "normal"
+    ],
+    "description": "标准的温柔微笑，眼神平静柔和。",
+    "image_name": "CH0267_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "open_eyes",
+      "confident"
+    ],
+    "description": "自信且开心的笑容，眉毛微微上扬。",
+    "image_name": "CH0267_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprise",
+      "talking",
+      "dot_mouth"
+    ],
+    "description": "嘴巴微张呈圆形，表现出轻微的惊讶或正在说话。",
+    "image_name": "CH0267_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "peaceful"
+    ],
+    "description": "闭眼微笑，表情十分惬意和享受。",
+    "image_name": "CH0267_spr_03.png"
+  },
+  {
+    "tags": [
+      "frown",
+      "troubled",
+      "sweat_drop",
+      "annoyed"
+    ],
+    "description": "眉头微皱，脸上带有汗珠，表情显得困扰或有些不悦。",
+    "image_name": "CH0267_spr_04.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "serious",
+      "stare"
+    ],
+    "description": "面无表情，冷静且认真地注视着前方。",
+    "image_name": "CH0267_spr_05.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "sweat_drop",
+      "anxious"
+    ],
+    "description": "眉毛下垂表现出担忧，脸上有汗珠，看起来很焦虑或悲伤。",
+    "image_name": "CH0267_spr_06.png"
+  },
+  {
+    "tags": [
+      "jitome",
+      "unamused",
+      "deadpan",
+      "half_closed_eyes"
+    ],
+    "description": "半睁着眼的冷漠表情，透露出无语或鄙视的情绪（死鱼眼）。",
+    "image_name": "CH0267_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "peaceful"
+    ],
+    "description": "双眼闭合成一条缝，嘴角微微上扬，展现出非常平和且温柔的笑容。",
+    "image_name": "CH0267_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "blush",
+      "shy",
+      "happy"
+    ],
+    "description": "闭眼微笑，脸颊上染上了明显的红晕，流露出害羞或沉浸在幸福中的神情。",
+    "image_name": "CH0267_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "smile",
+      "blush",
+      "laughing"
+    ],
+    "description": "闭着眼睛张嘴开怀大笑，脸上带着红晕，看起来心情非常愉快。",
+    "image_name": "CH0267_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "blush",
+      "troubled_smile",
+      "embarrassed"
+    ],
+    "description": "眉毛微微下垂呈八字形，闭眼张嘴，脸上泛红，像是在尴尬地笑或感到有些难为情。",
+    "image_name": "CH0267_spr_11.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "open_mouth",
+      "smile",
+      "happy",
+      "energetic"
+    ],
+    "description": "睁大红色的眼睛，张嘴露出明快的笑容，表情充满活力与期待。",
+    "image_name": "CH0267_spr_12.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smile",
+      "blush",
+      "gentle",
+      "soft"
+    ],
+    "description": "眼帘低垂半睁着眼，眼神柔和迷离，带着淡淡的红晕，显得十分温婉深情。",
+    "image_name": "CH0267_spr_13.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "frown",
+      "serious",
+      "confident",
+      "determined"
+    ],
+    "description": "眉毛微皱，眼神变得犀利认真，嘴角却含着自信的笑意，气场变得稍微强势。",
+    "image_name": "CH0267_spr_14.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "troubled",
+      "apologetic",
+      "sigh"
+    ],
+    "description": "闭眼张嘴，眉毛下垂表现出困扰的样子，像是在叹气、道歉或感到无奈。",
+    "image_name": "CH0267_spr_15.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "smile",
+      "happy",
+      "talking"
+    ],
+    "description": "张嘴露出明快的笑容，眼神清澈，心情看起来很不错，正在进行愉快的对话。",
+    "image_name": "CH0267_spr_16.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "open_eyes",
+      "awkward",
+      "dot_mouth"
+    ],
+    "description": "脸上流着冷汗，嘴巴微张，表情有些僵硬和尴尬，似乎遇到了让人不知所措的情况。",
+    "image_name": "CH0267_spr_17.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "troubled",
+      "open_eyes",
+      "sad"
+    ],
+    "description": "眉毛微微下垂呈八字形，眼神流露出担忧，嘴巴紧闭，神情显得有些困扰。",
+    "image_name": "CH0267_spr_18.png"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "troubled",
+      "pout",
+      "sulking"
+    ],
+    "description": "视线移向一侧，眉头微皱，嘴巴微微嘟起，看起来像是在生闷气、闹别扭或感到委屈。",
+    "image_name": "CH0267_spr_19.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sad",
+      "troubled",
+      "sigh"
+    ],
+    "description": "闭着双眼，眉毛下垂，表情安静但带着淡淡的哀伤或无奈，像是在轻轻叹息。",
+    "image_name": "CH0267_spr_20.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "worried",
+      "surprised",
+      "confused"
+    ],
+    "description": "张开嘴巴，眉毛呈八字形，眼神中带着惊讶和困惑，似乎对现状感到不解或担忧。",
+    "image_name": "CH0267_spr_21.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "sweat_drop",
+      "panicked",
+      "anxious"
+    ],
+    "description": "嘴巴张大，脸上有明显的汗珠，眉头紧锁，表现出强烈的惊慌、焦急和不知所措。",
+    "image_name": "CH0267_spr_22.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "troubled_smile",
+      "awkward",
+      "nervous_laugh"
+    ],
+    "description": "眉毛下垂表现出困扰，嘴巴却张开笑着，像是在尴尬地打圆场、苦笑或试图解释。",
+    "image_name": "CH0267_spr_23.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "neutral",
+      "dot_mouth",
+      "stare",
+      "blank"
+    ],
+    "description": "睁大眼睛直视前方，嘴巴抿成一个小点，表情平淡呆萌，看不出明显的情绪波动，像是在发呆。",
+    "image_name": "CH0267_spr_24.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "frown",
+      "serious",
+      "displeased",
+      "pout"
+    ],
+    "description": "闭着双眼，眉心微蹙，嘴角抿成一条直线，神情严肃，似乎在闭目养神或对某事感到轻微不悦。",
+    "image_name": "CH0267_spr_25.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "pout",
+      "sulking",
+      "angry",
+      "puffed_cheeks"
+    ],
+    "description": "眼神带着不满，腮帮子鼓起，嘴巴嘟着，一副典型的赌气或生闷气的可爱模样。",
+    "image_name": "CH0267_spr_26.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "frown",
+      "disgusted",
+      "annoyed",
+      "glare"
+    ],
+    "description": "眼神犀利地盯着，眉头紧锁，嘴唇微张表现出嫌弃或厌恶，神情显得相当不耐烦。",
+    "image_name": "CH0267_spr_27.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "open_mouth",
+      "scorn",
+      "arrogant",
+      "complaining"
+    ],
+    "description": "眼帘低垂，眼神中透着不屑，张嘴像是在发出嘲讽或抱怨的声音，表情略显傲慢。",
+    "image_name": "CH0267_spr_28.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "grimace",
+      "sad",
+      "frustrated",
+      "pain"
+    ],
+    "description": "紧闭双眼，眉毛下垂，嘴巴扭曲紧抿，表情显得非常纠结、痛苦或是在忍耐某种情绪。",
+    "image_name": "CH0267_spr_29.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "sweat_drop",
+      "nervous",
+      "blush",
+      "worried"
+    ],
+    "description": "睁大眼睛，脸上挂着冷汗和红晕，眉毛下垂，神情显得非常惊慌、尴尬或不知所措。",
+    "image_name": "CH0267_spr_30.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "blush",
+      "troubled",
+      "confused",
+      "wavy_mouth"
+    ],
+    "description": "眼睛略微睁大，脸上泛红，嘴唇扭曲成波浪状，眼神中流露出困惑、为难或动摇的情绪。",
+    "image_name": "CH0267_spr_31.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "peaceful",
+      "serene",
+      "content"
+    ],
+    "description": "闭着双眼，嘴角微微上扬露出温柔恬静的微笑，神情显得非常安详、放松，仿佛正沉浸在幸福或舒适的氛围中，给人一种治愈的感觉。",
+    "image_name": "CH0267_spr_99.png"
+  }
+]

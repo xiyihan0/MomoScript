@@ -1,0 +1,87 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "expressionless",
+      "looking_at_viewer"
+    ],
+    "description": "表情平静自然，眼神直视前方，嘴巴呈现微小的点状或闭合，没有任何强烈的情绪流露，属于标准的待机表情。",
+    "image_name": "J_tomoe_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy",
+      "soft_expression"
+    ],
+    "description": "嘴角微微上扬，露出温柔含蓄的微笑，眼神柔和，给人一种亲切、友好且安心的感觉。",
+    "image_name": "J_tomoe_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "confused",
+      "blank_stare"
+    ],
+    "description": "嘴巴张开呈小圆O型，似乎因为听到了意料之外的事情而感到惊讶或发呆，表现出一种呆萌的吃惊状。",
+    "image_name": "J_tomoe_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "open_mouth",
+      "excited",
+      "speaking",
+      "cheerful"
+    ],
+    "description": "开心地张大嘴巴，仿佛正在热切地交谈或欢笑，神情明朗愉快，充满了活力和积极的情绪。",
+    "image_name": "J_tomoe_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "troubled",
+      "anxious",
+      "frown",
+      "sweat_drop"
+    ],
+    "description": "眉毛呈八字下垂，眼神流露出明显的担忧和困扰，嘴巴微张，表现出焦虑、不安或不知所措的样子。",
+    "image_name": "J_tomoe_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "serious",
+      "annoyed",
+      "open_mouth"
+    ],
+    "description": "眉毛倒竖，眼神变得犀利，张嘴似乎在斥责或大声争辩，表现出愤怒、急躁或非常严肃的情绪。",
+    "image_name": "J_tomoe_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "crying",
+      "tears",
+      "upset",
+      "pain"
+    ],
+    "description": "眼角含着泪水，眉毛紧锁，表情极其悲伤和痛苦，看起来受了很大的委屈，正在努力忍住不哭出声。",
+    "image_name": "J_tomoe_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "serene",
+      "satisfied",
+      "happy"
+    ],
+    "description": "双眼紧闭，脸上洋溢着满足和幸福的笑容，看起来非常安详，仿佛沉浸在美好的事物或氛围中。",
+    "image_name": "J_tomoe_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

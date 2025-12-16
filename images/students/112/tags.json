@@ -1,0 +1,183 @@
+[
+  {
+    "tags": [
+      "panic",
+      "shock",
+      "nervous",
+      "sweat",
+      "wavy_mouth",
+      "wide_eyes"
+    ],
+    "description": "惊慌失措的表情，眼睛瞪圆，脸颊挂着冷汗，嘴巴扭曲成波浪状，显得非常紧张和动摇。",
+    "image_name": "QQ截图20211115183209.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "angry",
+      "yelling",
+      "furrowed_brows",
+      "open_mouth"
+    ],
+    "description": "大声怒吼的表情，眉头紧锁，嘴巴张得很大，看起来正在生气地喊叫或发号施令。",
+    "image_name": "QQ截图20211115183224.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "smile",
+      "happy",
+      "closed_eyes",
+      "cheerful",
+      "blush"
+    ],
+    "description": "开怀大笑的表情，眼睛眯成弯弯的缝，脸上带着红晕，嘴巴张大，看起来非常开心和得意。",
+    "image_name": "QQ截图20211115183231.png"
+  },
+  {
+    "tags": [
+      "shock",
+      "blank_eyes",
+      "white_eyes",
+      "screaming",
+      "stunned",
+      "pale"
+    ],
+    "description": "极度震惊导致失去高光的表情，双眼翻白，嘴巴大张仿佛在尖叫，整个人都吓傻了。",
+    "image_name": "QQ截图20211115183237.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "scheming",
+      "confident",
+      "shadowed_face",
+      "evil_smile"
+    ],
+    "description": "一脸坏笑的表情，眼神带着几分阴险和自信，嘴角上扬，仿佛正在策划什么坏主意。",
+    "image_name": "QQ截图20211115183244.png"
+  },
+  {
+    "tags": [
+      "unimpressed",
+      "bored",
+      "expressionless",
+      "dead_pan",
+      "stare"
+    ],
+    "description": "无语或鄙视的表情，眼神半睁半闭显得很冷淡，面无表情地注视着前方，感到无聊或无语。",
+    "image_name": "QQ截图20211115183251.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "proud",
+      "confident",
+      "smile",
+      "leader_vibes"
+    ],
+    "description": "得意洋洋的表情，眼神坚定且自信，嘴角露出从容的微笑，展现出作为社长的骄傲。",
+    "image_name": "QQ截图20211115183256.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "neutral",
+      "calm",
+      "staring",
+      "contemplating"
+    ],
+    "description": "平静注视的表情，神情比较认真和收敛，没有过多的情绪流露，静静地看着对方。",
+    "image_name": "QQ截图20211115183304.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "gentle",
+      "calm"
+    ],
+    "description": "温和的闭眼微笑，神情安详平静，给人一种如沐春风的感觉。",
+    "image_name": "QQ截图20211115183310.png"
+  },
+  {
+    "tags": [
+      "awkward_smile",
+      "sweat",
+      "closed_eyes",
+      "nervous",
+      "troubled"
+    ],
+    "description": "尴尬的笑容，虽然闭着眼睛在笑，但脸颊上的汗珠暴露了内心的紧张和勉强。",
+    "image_name": "QQ截图20211115183321.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "laughing",
+      "blush",
+      "closed_eyes",
+      "cheerful",
+      "smile"
+    ],
+    "description": "灿烂开心的笑容，双眼眯成弯弯的月牙，脸颊泛红，洋溢着纯粹的喜悦和幸福。",
+    "image_name": "QQ截图20211115183327.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "smirk",
+      "narrow_eyes",
+      "confident",
+      "arrogant"
+    ],
+    "description": "一脸得意的坏笑，半睁着眼透出自信甚至傲慢的神色，仿佛一切尽在掌握之中。",
+    "image_name": "QQ截图20211115183332.png"
+  },
+  {
+    "tags": [
+      "bored",
+      "unimpressed",
+      "side_glance",
+      "neutral",
+      "aloof"
+    ],
+    "description": "冷淡或无聊的表情，眼神向侧面瞥去，眼皮半垂，似乎对眼前的事物提不起兴趣。",
+    "image_name": "QQ截图20211115183340.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "shouting",
+      "confident",
+      "open_mouth",
+      "energetic"
+    ],
+    "description": "自信满满的大笑或高呼，嘴巴张得很大，眼神犀利，充满了活力和气势。",
+    "image_name": "QQ截图20211115183347.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "shocked",
+      "blush",
+      "sweat",
+      "open_mouth",
+      "wide_eyes"
+    ],
+    "description": "惊慌失措的惊讶表情，眼睛瞪圆，嘴巴大张，脸上带着红晕和冷汗，显得非常意外。",
+    "image_name": "QQ截图20211115183354.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "serious",
+      "sweat",
+      "stare",
+      "furrowed_brows",
+      "tense"
+    ],
+    "description": "紧张严肃的凝视，眉头紧锁，眼神直勾勾地盯着前方，脸颊流下一滴冷汗，处于高度戒备状态。",
+    "image_name": "QQ截图20211115183404.png"
+  }
+]

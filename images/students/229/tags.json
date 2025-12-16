@@ -1,0 +1,100 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "energetic",
+      "blue_eyes"
+    ],
+    "description": "开心地笑着，嘴巴张开，显得非常有活力和热情。",
+    "image_name": "J_CH0088_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "light_smile",
+      "closed_mouth",
+      "confident",
+      "gentle"
+    ],
+    "description": "嘴角微微上扬的自信微笑，嘴巴闭合，表情比较温和。",
+    "image_name": "J_CH0088_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "speaking",
+      "curious"
+    ],
+    "description": "嘴巴张成圆形，似乎有些惊讶，或者正在说话询问某事。",
+    "image_name": "J_CH0088_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "big_smile",
+      "fang",
+      "joy"
+    ],
+    "description": "眯着眼睛大笑，露出洁白的牙齿和小虎牙，非常开心的样子。",
+    "image_name": "J_CH0088_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shock",
+      "blank_eyes",
+      "white_eyes",
+      "sweat_drop",
+      "comical"
+    ],
+    "description": "受到惊吓后的滑稽表情，眼睛变成了白色的圆圈（豆豆眼），脸颊挂着冷汗，嘴巴微张。",
+    "image_name": "J_CH0088_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "furious",
+      "slit_pupils",
+      "intense"
+    ],
+    "description": "愤怒地大叫，瞳孔收缩竖起，表情凶狠且情绪激动。",
+    "image_name": "J_CH0088_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "pout",
+      "unhappy",
+      "looking_away",
+      "sulking",
+      "serious"
+    ],
+    "description": "撇着嘴不高兴，眼神看向别处，似乎在闹别扭或在沉思。",
+    "image_name": "J_CH0088_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "mischievous",
+      "half_closed_eyes",
+      "fang",
+      "teasing"
+    ],
+    "description": "得意洋洋的坏笑，眼神半眯，露出虎牙，看起来在恶作剧或充满自信。",
+    "image_name": "J_CH0088_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "wavy_mouth",
+      "dirty_face",
+      "blush",
+      "strained",
+      "embarrassed"
+    ],
+    "description": "紧闭双眼，嘴巴抿成波浪形，脸上沾有黑色污渍和红晕，似乎因为搞砸了什么或者正在用力忍耐，表情既尴尬又可爱。",
+    "image_name": "J_CH0088_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

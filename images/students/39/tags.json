@@ -1,0 +1,176 @@
+[
+  {
+    "tags": [
+      "half_closed_eyes",
+      "expressionless",
+      "bored",
+      "neutral",
+      "staring"
+    ],
+    "description": "半睁着眼睛，眼神有些呆滞或无聊，嘴巴微张，表现出一种无精打采或正在发呆的神情。",
+    "image_name": "QQ截图20211116221625.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "slight_smile",
+      "calm",
+      "gentle",
+      "content"
+    ],
+    "description": "闭着双眼，嘴角微微上扬，表情平静且温柔，看起来很安心或满足。",
+    "image_name": "QQ截图20211116221631.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "confident",
+      "smug",
+      "looking_at_viewer"
+    ],
+    "description": "睁大眼睛自信地微笑，嘴巴张开，眼神中透着一丝得意或开心。",
+    "image_name": "QQ截图20211116221636.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "delighted",
+      "sweet"
+    ],
+    "description": "眯起眼睛开心地笑，笑容比之前更明显，洋溢着喜悦和愉悦的氛围。",
+    "image_name": "QQ截图20211116221648.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "sweat_drop",
+      "surprised",
+      "nervous",
+      "awkward",
+      "worry"
+    ],
+    "description": "眼睛睁大，瞳孔收缩，脸颊上挂着一滴冷汗，表现出惊讶、紧张或尴尬不知所措的样子。",
+    "image_name": "QQ截图20211116221655.png"
+  },
+  {
+    "tags": [
+      "frown",
+      "annoyed",
+      "serious",
+      "glaring",
+      "displeased"
+    ],
+    "description": "眉头紧锁，眼神锐利地盯着前方，表情严肃，流露出不满或审视的态度。",
+    "image_name": "QQ截图20211116221701.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shocked",
+      "vein_popping",
+      "frustrated",
+      "wide_eyes"
+    ],
+    "description": "脸上暴起青筋，眼睛瞪大，表情混合了震惊与愤怒，看起来非常生气或急躁。",
+    "image_name": "QQ截图20211116221707.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "open_mouth",
+      "cheerful",
+      "joy"
+    ],
+    "description": "闭着眼睛开怀大笑，嘴巴张得很大，看起来非常开心，充满活力。",
+    "image_name": "QQ截图20211116221712.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "frown",
+      "angry",
+      "complaining",
+      "shouting",
+      "annoyed"
+    ],
+    "description": "皱着眉头张大嘴巴，似乎在大声抱怨或生气地反驳，情绪显得有些激动和不满。",
+    "image_name": "QQ截图20211116221717.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "open_eyes",
+      "calm",
+      "friendly",
+      "pleased"
+    ],
+    "description": "睁着眼睛露出温和的微笑，眼神平静且柔和，展现出友善、礼貌或心情不错的样子。",
+    "image_name": "QQ截图20211116221722.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "neutral",
+      "curious",
+      "innocent",
+      "staring",
+      "dazed"
+    ],
+    "description": "睁大双眼直视前方，嘴巴微抿，表情显得有些呆萌、无辜或好奇，没有什么明显的喜怒情绪。",
+    "image_name": "QQ截图20211116221728.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "tears",
+      "closed_eyes",
+      "open_mouth",
+      "whining",
+      "sad",
+      "upset"
+    ],
+    "description": "紧闭双眼大声哭泣，眼角挂着泪珠，嘴巴张得很大，看起来非常委屈、伤心或正在撒泼。",
+    "image_name": "QQ截图20211116221733.png"
+  },
+  {
+    "tags": [
+      "blank_eyes",
+      "white_eyes",
+      "shocked",
+      "stunned",
+      "despair",
+      "soulless"
+    ],
+    "description": "双眼失去高光变成纯白色，瞳孔消失，表情呆滞且极度震惊，仿佛失去了灵魂或受到了巨大打击。",
+    "image_name": "QQ截图20211116221739.png"
+  },
+  {
+    "tags": [
+      "tired",
+      "exhausted",
+      "dark_circles",
+      "gloom",
+      "half_closed_eyes",
+      "depressed"
+    ],
+    "description": "双眼无神且半睁，眼下有深深的黑眼圈（阴影），脸色阴沉，看起来极度疲惫、憔悴或生无可恋。",
+    "image_name": "QQ截图20211116221744.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "sweat_drop",
+      "awkward",
+      "nervous",
+      "embarrassed"
+    ],
+    "description": "闭着眼睛尴尬地笑，脸颊旁挂着几滴冷汗，表现出一种无可奈何、心虚或想要敷衍过去的紧张感。",
+    "image_name": "QQ截图20211116221843.png"
+  }
+]

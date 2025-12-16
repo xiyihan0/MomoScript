@@ -1,0 +1,117 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "energetic"
+    ],
+    "description": "充满元气的快乐笑容，嘴巴张开，眼睛睁大，展现出兴奋和活力的样子。",
+    "image_name": "CH0195_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "soft"
+    ],
+    "description": "闭着嘴的温柔微笑，眼神柔和，表情平静而友善。",
+    "image_name": "CH0195_spr_01.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "talking",
+      "excited"
+    ],
+    "description": "张开嘴巴微笑，看起来像是在积极地说话或表达兴奋的情绪。",
+    "image_name": "CH0195_spr_02.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "open_mouth",
+      "playful"
+    ],
+    "description": "俏皮地眨眼（Wink），一只眼睛闭上，嘴巴张开露出笑容，充满活泼感。",
+    "image_name": "CH0195_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "open_mouth",
+      "awkward_smile"
+    ],
+    "description": "脸上挂着汗珠，张嘴露出尴尬或勉强的笑容，显得有些紧张和慌乱。",
+    "image_name": "CH0195_spr_04.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "frown",
+      "closed_mouth",
+      "determined"
+    ],
+    "description": "皱着眉头，眼神严肃，嘴巴紧闭，表现出认真、不满或坚决的态度。",
+    "image_name": "CH0195_spr_05.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "troubled",
+      "eyebrows_furrowed"
+    ],
+    "description": "眉毛下垂呈八字形，眼神显得困扰和担忧，流露出难过或不安的情绪。",
+    "image_name": "CH0195_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "big_smile",
+      "open_mouth",
+      "joy"
+    ],
+    "description": "双眼眯成弯月形，嘴巴大张，开怀大笑，洋溢着极致的幸福和开心。",
+    "image_name": "CH0195_spr_07.png"
+  },
+  {
+    "tags": [
+      "panic",
+      "sweat",
+      "open_mouth",
+      "anxious",
+      "surprised",
+      "troubled"
+    ],
+    "description": "满脸汗水，眼神惊慌失措，嘴巴大张，眉毛呈八字形，表现出极度的紧张、焦急或被吓到的状态。",
+    "image_name": "CH0195_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "content",
+      "proud",
+      "calm"
+    ],
+    "description": "闭着眼睛微笑，眉毛轻微上扬，神情看起来既满足又带有一丝得意或自豪的感觉，心情愉悦。",
+    "image_name": "CH0195_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "peaceful",
+      "happy"
+    ],
+    "description": "温柔地闭眼微笑，神态安详柔和，流露出纯粹的喜悦、宁静和治愈感。",
+    "image_name": "CH0195_spr_99.png"
+  }
+]

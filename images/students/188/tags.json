@@ -1,0 +1,82 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "bored",
+      "half_closed_eyes",
+      "jitome"
+    ],
+    "description": "眼神半睁（死鱼眼），显得无精打采、无聊或处于默认的平淡状态。",
+    "image_name": "sukeban_SR_spr_00.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "suspicious",
+      "glaring",
+      "side_glance"
+    ],
+    "description": "眼神略微向侧方瞥视，透露出不爽、怀疑或审视的情绪。",
+    "image_name": "sukeban_SR_spr_01.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "intense",
+      "shadowed_eyes",
+      "disgust"
+    ],
+    "description": "眉头紧锁，眼部带有阴影，眼神犀利凶狠，表现出愤怒、威压或极度的厌恶。",
+    "image_name": "sukeban_SR_spr_02.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "eye_smile",
+      "content"
+    ],
+    "description": "眼睛眯成月牙状（笑眼），虽然戴着口罩，但能明显感觉到开心、满足的笑意。",
+    "image_name": "sukeban_SR_spr_03.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "nervous",
+      "sweat",
+      "wide_eyes"
+    ],
+    "description": "眼睛瞪大瞳孔收缩，脸颊上有冷汗滑落，表现出震惊、慌乱或心虚的状态。",
+    "image_name": "sukeban_SR_spr_04.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "looking_away",
+      "guilty",
+      "avert_eyes"
+    ],
+    "description": "视线明显向一侧游移，似乎在回避目光，表现出尴尬、心虚或装作没看见的样子。",
+    "image_name": "sukeban_SR_spr_05.png"
+  },
+  {
+    "tags": [
+      "stunned",
+      "white_eyes",
+      "gloom",
+      "passed_out"
+    ],
+    "description": "翻白眼（失去瞳孔），面部带有阴影线条，表现出昏厥、受到打击后的呆滞或灵魂出窍的状态。",
+    "image_name": "sukeban_SR_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "unconscious"
+    ],
+    "description": "双眼平缓闭合，神情平静，可能是在睡觉、昏迷或闭目养神。",
+    "image_name": "sukeban_SR_spr_99.png"
+  }
+]

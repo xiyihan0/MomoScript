@@ -1,0 +1,191 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "sparkling_eyes",
+      "happy",
+      "v_sign"
+    ],
+    "description": "她开心地笑着，紫色的眼睛里闪烁着金色的星星，张大嘴巴显得非常兴奋和充满活力。",
+    "image_name": "CH0198_spr_00.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "closed_mouth",
+      "wavy_mouth",
+      "sparkling_eyes",
+      "confident"
+    ],
+    "description": "她露出得意洋洋的表情，嘴角呈现波浪形（ω嘴），眼神中充满了自信和调皮。",
+    "image_name": "CH0198_spr_01.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "sparkling_eyes",
+      "curious"
+    ],
+    "description": "她微微张开嘴巴呈圆形，眼睛闪亮，似乎发现了什么新奇的事物或感到惊讶。",
+    "image_name": "CH0198_spr_02.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "happy",
+      "open_mouth",
+      "joy"
+    ],
+    "description": "她闭着双眼（弯月眼）开怀大笑，脸上洋溢着纯粹的快乐和喜悦。",
+    "image_name": "CH0198_spr_03.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "sweat_drop",
+      "closed_eyes",
+      "troubled",
+      "open_mouth"
+    ],
+    "description": "她紧闭双眼呈“><”状，脸颊旁挂着一滴冷汗，张着嘴露出尴尬或慌乱的笑容，似乎搞砸了什么。",
+    "image_name": "CH0198_spr_04.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "sparkling_eyes",
+      "serious",
+      "listening"
+    ],
+    "description": "她紧抿着小嘴，睁大闪闪发光的眼睛直视前方，表情看起来比较认真或正在专注听讲。",
+    "image_name": "CH0198_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "crying",
+      "tears",
+      "closed_eyes",
+      "wavy_mouth"
+    ],
+    "description": "她闭着眼睛流着眼泪，嘴角委屈地撇着，看起来非常难过，像是在哭诉或求饶。",
+    "image_name": "CH0198_spr_06.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "gloom_lines",
+      "blank_eyes",
+      "open_mouth",
+      "despair"
+    ],
+    "description": "她额头挂着阴影线，翻着白眼失去了高光，张着嘴，呈现出极度震惊、绝望或“死机”的滑稽表情。",
+    "image_name": "CH0198_spr_07.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "tears",
+      "closed_eyes",
+      "open_mouth",
+      "sad",
+      "wailing"
+    ],
+    "description": "她大声哭泣，眼泪直流，紧闭双眼，张大嘴巴，看起来非常伤心，像是在大声耍赖或诉苦。",
+    "image_name": "CH0198_spr_08.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "wavy_mouth",
+      "playful",
+      "pout"
+    ],
+    "description": "她调皮地眨着左眼（Wink），嘴巴嘟成波浪形，表情显得有些得意、搞怪或是在开玩笑。",
+    "image_name": "CH0198_spr_09.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "awkward_smile",
+      "open_mouth",
+      "troubled"
+    ],
+    "description": "她脸上挂着一滴巨大的冷汗，露出尴尬而紧张的笑容，眼神游移，似乎感到心虚、惊慌或不知所措。",
+    "image_name": "CH0198_spr_10.png"
+  },
+  {
+    "tags": [
+      "amazed",
+      "sparkling_eyes",
+      "open_mouth",
+      "excited",
+      "blushing"
+    ],
+    "description": "她双眼放光闪烁着星星，兴奋地张大嘴巴呈“O”型，脸颊微红，表现出极度的惊讶、崇拜和期待。",
+    "image_name": "CH0198_spr_11.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "half_closed_eyes",
+      "smile",
+      "confident",
+      "relaxed"
+    ],
+    "description": "她半眯着眼睛，嘴角上扬露出自信的微笑，表情显得从容不迫，透着一股“计划通”的得意感。",
+    "image_name": "CH0198_spr_12.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "smile",
+      "confident",
+      "playful"
+    ],
+    "description": "她自信地眨着右眼（Wink），嘴角微微上扬，看起来既帅气又顽皮，充满了活力。",
+    "image_name": "CH0198_spr_13.png"
+  },
+  {
+    "tags": [
+      "cheeky",
+      "wink",
+      "one_eye_closed",
+      "wavy_mouth",
+      "blushing"
+    ],
+    "description": "她脸颊泛红，做出装傻或卖萌的表情，一只眼睛紧闭呈“>”状，嘴巴呈波浪形，显得有些滑稽和可爱。",
+    "image_name": "CH0198_spr_14.png"
+  },
+  {
+    "tags": [
+      "embarrassed",
+      "blushing",
+      "looking_away",
+      "wavy_mouth",
+      "shy"
+    ],
+    "description": "她满脸通红，眼神向一侧游移不敢直视，嘴巴抿成波浪状，看起来非常害羞，或者因为做错事而感到尴尬和心虚。",
+    "image_name": "CH0198_spr_15.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "v_sign",
+      "smug",
+      "confident",
+      "happy",
+      "blushing"
+    ],
+    "description": "她闭着双眼，嘴角上扬露出自信且得意的微笑，脸颊微红，一只手举起比出“V”字手势（剪刀手），看起来非常开心和满足，像是在庆祝胜利。",
+    "image_name": "CH0198_spr_99.png"
+  }
+]

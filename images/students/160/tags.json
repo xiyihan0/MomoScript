@@ -1,0 +1,76 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "open_mouth",
+      "calm",
+      "looking_aside"
+    ],
+    "description": "标准的平静表情，黄色的眼睛看向一侧，嘴巴微微张开，没有明显的情绪波动。",
+    "image_name": "hare_spr-00_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "serious",
+      "silent"
+    ],
+    "description": "稍微严肃的表情，嘴巴紧闭成一条线，眼神专注且安静。",
+    "image_name": "hare_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "soft_look"
+    ],
+    "description": "温柔微笑的表情，嘴角上扬，眼神变得柔和，看起来心情愉快。",
+    "image_name": "hare_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "troubled",
+      "awkward",
+      "tired"
+    ],
+    "description": "紧闭双眼并流下一滴冷汗，看起来感到无奈、尴尬、无语或者是疲惫。",
+    "image_name": "hare_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "pout",
+      "angry",
+      "complaining",
+      "frown"
+    ],
+    "description": "生气的表情，眉头紧锁，嘴巴微微嘟起张开，似乎在抱怨或表示不满。",
+    "image_name": "hare_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "concerned",
+      "troubled",
+      "brows_furrowed"
+    ],
+    "description": "悲伤或担忧的表情，眉毛呈现八字形下垂，眼神流露出困扰和不安。",
+    "image_name": "hare_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "peaceful",
+      "ignoring"
+    ],
+    "description": "完全闭上眼睛，神情平淡安详，像是在闭目养神、睡觉或者是故意无视。",
+    "image_name": "hare_spr-99_0_waifu2x_2x_2n_png.jpg"
+  }
+]

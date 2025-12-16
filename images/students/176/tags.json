@@ -1,0 +1,76 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "looking_at_viewer",
+      "composed"
+    ],
+    "description": "平静且冷静的标准表情，红色的双眼直视前方，没有任何明显的情绪波动。",
+    "image_name": "kayoko_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "bored",
+      "unamused",
+      "half_closed_eyes",
+      "deadpan"
+    ],
+    "description": "半睁着眼的无语表情，眼神显得有些呆滞或无聊，似乎对眼前的事物提不起兴趣。",
+    "image_name": "kayoko_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "soft_expression"
+    ],
+    "description": "嘴角微微上扬露出的温柔微笑，眼神变得柔和，展现出友善和愉悦的心情。",
+    "image_name": "kayoko_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "blush",
+      "embarrassed",
+      "shy",
+      "sweat_drop",
+      "flustered"
+    ],
+    "description": "害羞脸红的表情，脸颊泛红并挂着汗珠，眉毛微皱，看起来有些不知所措或局促不安。",
+    "image_name": "kayoko_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "frown",
+      "glare",
+      "annoyed",
+      "serious"
+    ],
+    "description": "皱着眉头的生气表情，眼神锐利地瞪视着，表现出不满或严肃的态度。",
+    "image_name": "kayoko_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "pain",
+      "distressed",
+      "sigh",
+      "headache"
+    ],
+    "description": "紧闭双眼的痛苦或无奈表情，眉头紧锁，仿佛感到头疼或对某种情况感到难以直视。",
+    "image_name": "kayoko_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "awkward",
+      "sweat_drop",
+      "troubled",
+      "grimace",
+      "confused"
+    ],
+    "description": "面露难色的尴尬表情，流着汗且嘴角抽搐，似乎遇到了令人困惑或难以评价的状况。",
+    "image_name": "kayoko_spr-07_0_waifu2x_2x_2n_png.jpg"
+  }
+]

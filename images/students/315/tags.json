@@ -1,0 +1,232 @@
+[
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy",
+      "confident"
+    ],
+    "description": "御坂美琴露出标准且温柔的微笑，眼神柔和，嘴角微微上扬，展现出自信友好的态度。",
+    "image_name": "CH9998_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "expressionless",
+      "serious"
+    ],
+    "description": "面无表情，眼神平静直视前方，没有任何明显的情绪波动，处于认真聆听或待机状态。",
+    "image_name": "CH9998_spr_01.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "dazed",
+      "confused"
+    ],
+    "description": "微微张着嘴，眼神显得有些呆滞或惊讶，似乎对眼前发生的事情感到意外或正在发呆。",
+    "image_name": "CH9998_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "开心地眯起眼睛笑，心情看起来非常愉快，洋溢着轻松欢乐的氛围。",
+    "image_name": "CH9998_spr_03.png"
+  },
+  {
+    "tags": [
+      "shock",
+      "panic",
+      "white_eyes",
+      "blank_eyes",
+      "sweat_drop",
+      "wavy_mouth"
+    ],
+    "description": "极度震惊和慌乱的夸张表情，眼睛变成了白色的圆圈，嘴巴呈波浪状，脸上挂着汗珠，表现出混乱或不知所措。",
+    "image_name": "CH9998_spr_04.png"
+  },
+  {
+    "tags": [
+      "skeptical",
+      "unamused",
+      "half_closed_eyes",
+      "jitome",
+      "suspicion"
+    ],
+    "description": "半眯着眼睛，露出怀疑和无语的眼神（死鱼眼），似乎对某人的言行感到鄙夷或不信任。",
+    "image_name": "CH9998_spr_05.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "sweat_drop",
+      "closed_eyes",
+      "wry_smile",
+      "embarrassed"
+    ],
+    "description": "闭着眼睛流着冷汗，露出一丝尴尬的苦笑，表现出无奈、抱歉或想要敷衍过去的情绪。",
+    "image_name": "CH9998_spr_06.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "frown",
+      "furrowed_eyebrows",
+      "serious"
+    ],
+    "description": "眉头紧锁，眼神锐利且带着怒气，嘴角下撇，表现出生气、不满或严肃抗议的样子。",
+    "image_name": "CH9998_spr_07.png"
+  },
+  {
+    "tags": [
+      "cat_eyes",
+      "wavy_mouth",
+      "silly",
+      "funny",
+      "trolling",
+      "comic"
+    ],
+    "description": "眼睛变成卡通化的竖瞳圆圈，嘴巴呈波浪状，露出一副搞怪、装傻或恶作剧的滑稽表情。",
+    "image_name": "CH9998_spr_08.png"
+  },
+  {
+    "tags": [
+      "cat_eyes",
+      "open_mouth",
+      "laughing",
+      "excited",
+      "fang",
+      "crazy"
+    ],
+    "description": "眼睛呈竖瞳圆圈状，张大嘴巴狂笑并露出尖牙，看起来情绪高涨、疯狂或是在得意地大笑。",
+    "image_name": "CH9998_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "tongue_out",
+      "teasing",
+      "mischievous",
+      "blep",
+      "cute"
+    ],
+    "description": "闭着眼睛吐出舌头做鬼脸，表现出调皮、挑衅或“略略略”的恶作剧心态。",
+    "image_name": "CH9998_spr_10.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "blush",
+      "happy",
+      "radiant",
+      "open_mouth",
+      "gentle"
+    ],
+    "description": "面带红晕，露出灿烂且温柔的笑容，眼神明亮，表现出非常开心和愉悦的心情。",
+    "image_name": "CH9998_spr_11.png"
+  },
+  {
+    "tags": [
+      "disgust",
+      "troubled",
+      "wavy_mouth",
+      "grimace",
+      "awkward",
+      "confused"
+    ],
+    "description": "眉头紧锁，眼神游移，嘴巴扭曲成波浪状，表现出嫌弃、为难或感到棘手的样子。",
+    "image_name": "CH9998_spr_12.png"
+  },
+  {
+    "tags": [
+      "suspicious",
+      "skeptical",
+      "side_eye",
+      "doubt",
+      "unimpressed",
+      "serious"
+    ],
+    "description": "斜着眼睛看人，眉头微蹙，神情严肃且充满怀疑，似乎对某事感到不信任或正在审视。",
+    "image_name": "CH9998_spr_13.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "smile",
+      "confident",
+      "playful",
+      "charming"
+    ],
+    "description": "自信地眨着一只眼睛（Wink），嘴角上扬，展现出俏皮、活泼和充满魅力的态度。",
+    "image_name": "CH9998_spr_14.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "shark_teeth",
+      "furious",
+      "comic_style",
+      "white_eyes"
+    ],
+    "description": "极度愤怒的夸张漫画风格，眼神变得锐利且眼白突出，张大嘴露出锯齿状牙齿咆哮，处于抓狂状态。",
+    "image_name": "CH9998_spr_15.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "white_eyes",
+      "clenched_teeth",
+      "sweat_drop",
+      "frustrated",
+      "comic_style"
+    ],
+    "description": "眼睛变成白色的愤怒圆圈，咬牙切齿，脸上挂着冷汗，表现出气急败坏、不甘心或恼羞成怒的夸张神态。",
+    "image_name": "CH9998_spr_16.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "dot_eyes",
+      "shark_teeth",
+      "sweat_drop",
+      "comic",
+      "shock"
+    ],
+    "description": "眼睛呈简笔画的黑点状，张大嘴露出锯齿状牙齿咆哮，挂着汗珠，表现出抓狂、激烈吐槽或被震惊到的愤怒样子。",
+    "image_name": "CH9998_spr_17.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "clenched_teeth",
+      "shark_teeth",
+      "dot_eyes",
+      "sweat_drop",
+      "frustrated",
+      "holding_back"
+    ],
+    "description": "眼睛呈黑点状，紧咬着锯齿状的牙齿，流着冷汗，看起来正在极力忍耐怒火，或者对某事感到极度无语和焦躁。",
+    "image_name": "CH9998_spr_18.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "neutral",
+      "calm",
+      "silent",
+      "peaceful"
+    ],
+    "description": "双眼紧闭，表情平静自然，没有任何明显的情绪流露，像是在闭目养神、沉思或安静地等待。",
+    "image_name": "CH9998_spr_99.png"
+  }
+]

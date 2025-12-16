@@ -1,0 +1,96 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "confident",
+      "glasses",
+      "yellow_eyes"
+    ],
+    "description": "充满自信的笑容，嘴巴张开，眼神坚定且富有活力。",
+    "image_name": "J_1_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "smirk",
+      "glasses",
+      "confident"
+    ],
+    "description": "嘴角微微上扬，闭着嘴微笑，带有一丝得意或自信的神情。",
+    "image_name": "J_2_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "glasses",
+      "shocked",
+      "o_mouth"
+    ],
+    "description": "嘴巴张成圆形，表现出惊讶、意外或恍然大悟的样子。",
+    "image_name": "J_3_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "laughing",
+      "glasses",
+      "happy"
+    ],
+    "description": "眼睛眯成弯月形，开心地大笑，看起来非常愉快和爽朗。",
+    "image_name": "J_4_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sweat",
+      "shouting",
+      "dizzy",
+      "glasses",
+      "confused"
+    ],
+    "description": "紧闭双眼，张大嘴巴喊叫，流着冷汗，表现出慌乱、晕头转向或崩溃的状态。",
+    "image_name": "J_5_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "angry",
+      "annoyed",
+      "glasses",
+      "clenched_teeth",
+      "grimace"
+    ],
+    "description": "眉头紧锁，张嘴露出牙齿，表现出愤怒、焦躁或不爽的情绪。",
+    "image_name": "J_6_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "confused",
+      "skeptical",
+      "glasses",
+      "troubled",
+      "thinking"
+    ],
+    "description": "眉头微皱，眼神充满疑惑或怀疑，似乎在思考问题或感到不解。",
+    "image_name": "J_7_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "closed_mouth",
+      "calm",
+      "glasses",
+      "proud"
+    ],
+    "description": "闭着眼睛，嘴角含笑，神态平静，展现出从容、满足或得意的样子。",
+    "image_name": "J_8_waifu2x_2x_1n_png.jpg"
+  }
+]

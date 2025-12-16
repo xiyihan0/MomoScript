@@ -1,0 +1,86 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "surprise",
+      "mekakure"
+    ],
+    "description": "刘海遮住眼睛，嘴巴微微张开呈圆形，看起来有点惊讶或发呆。",
+    "image_name": "NP0159_spr_00.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "neutral",
+      "mekakure"
+    ],
+    "description": "嘴巴闭合成一个小点，表情平淡，处于默认的待机状态。",
+    "image_name": "NP0159_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "mekakure"
+    ],
+    "description": "嘴巴自然张开，似乎正在进行日常的对话或发言。",
+    "image_name": "NP0159_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "mekakure"
+    ],
+    "description": "嘴角微微上扬，露出了一个温和且平静的微笑。",
+    "image_name": "NP0159_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "open_mouth",
+      "mekakure"
+    ],
+    "description": "脸颊上挂着一滴汗珠，嘴巴微张，表现出紧张、尴尬或疲惫的神情。",
+    "image_name": "NP0159_spr_04.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "serious",
+      "mekakure"
+    ],
+    "description": "嘴巴抿成一条直线，神情严肃认真，似乎在聆听指令或思考。",
+    "image_name": "NP0159_spr_05.png"
+  },
+  {
+    "tags": [
+      "gloom",
+      "sweat",
+      "fear",
+      "mekakure"
+    ],
+    "description": "额头处有垂直的阴影线条，流着冷汗，表情显得非常恐惧、痛苦或焦虑。",
+    "image_name": "NP0159_spr_06.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "open_mouth",
+      "mekakure"
+    ],
+    "description": "嘴巴大幅度张开，像是在大声呼喊、报告或表达强烈的情绪。",
+    "image_name": "NP0159_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "confused",
+      "mekakure",
+      "neutral"
+    ],
+    "description": "刘海遮住眼睛，嘴巴闭合并微微向下撇呈倒弧形，流露出一种困惑、不解或略显无语的情绪。",
+    "image_name": "NP0159_spr_99.png"
+  }
+]

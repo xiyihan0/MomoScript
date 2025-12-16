@@ -1,0 +1,92 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "sunglasses"
+    ],
+    "description": "表情平静，嘴巴闭合成一个小点，戴着墨镜，看起来处于待机或认真状态。",
+    "image_name": "NP0121_spr_00.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "closed_mouth",
+      "sunglasses"
+    ],
+    "description": "表情比平时更严肃，嘴唇抿成一条直线，戴着墨镜，似乎在警戒或不悦。",
+    "image_name": "NP0121_spr_01.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "open_mouth",
+      "sunglasses"
+    ],
+    "description": "嘴巴微张，像是在进行日常对话或汇报工作，依然戴着墨镜。",
+    "image_name": "NP0121_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "open_mouth",
+      "sunglasses"
+    ],
+    "description": "嘴角上扬露出牙齿，展现出自信或开心的笑容，戴着墨镜。",
+    "image_name": "NP0121_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "open_mouth",
+      "sunglasses",
+      "worried"
+    ],
+    "description": "脸颊上挂着一滴冷汗，嘴巴张开，看起来感到紧张、慌乱或尴尬。",
+    "image_name": "NP0121_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "sunglasses"
+    ],
+    "description": "眉头紧锁，嘴巴大张，像是在大声呵斥、争辩或非常生气。",
+    "image_name": "NP0121_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "sigh",
+      "worried",
+      "open_mouth",
+      "sunglasses"
+    ],
+    "description": "眉毛下垂呈八字状，嘴巴微张，看起来在叹气、感到无奈或困扰。",
+    "image_name": "NP0121_spr_06.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "clenched_teeth",
+      "frustrated",
+      "sunglasses"
+    ],
+    "description": "咬牙切齿，眉头紧皱，表现出极度的愤怒、不甘心或焦躁的情绪。",
+    "image_name": "NP0121_spr_07.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "sunglasses",
+      "communication",
+      "touching_earpiece"
+    ],
+    "description": "左手按住耳边的通讯耳机，表情冷静严肃，似乎正在认真接收指令或进行联络。",
+    "image_name": "NP0121_spr_99.png"
+  }
+]

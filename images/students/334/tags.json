@@ -1,0 +1,123 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "neutral",
+      "pink_hair",
+      "goggles",
+      "purple_eyes"
+    ],
+    "description": "嘴巴微张，表情平淡自然，眼神专注。",
+    "image_name": "P_CH0219_spr_00_waifu2x_1x_3n_png_W2xEX7637.jpg"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "serious",
+      "calm",
+      "pink_hair",
+      "goggles",
+      "purple_eyes"
+    ],
+    "description": "闭着嘴，表情认真平静，眼神直视前方。",
+    "image_name": "P_CH0219_spr_01.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "confused",
+      "blank_stare",
+      "pink_hair",
+      "goggles",
+      "purple_eyes"
+    ],
+    "description": "嘴巴微张，眼神略显呆滞，似乎有些发呆或困惑。",
+    "image_name": "P_CH0219_spr_02.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "pink_hair",
+      "goggles",
+      "purple_eyes"
+    ],
+    "description": "嘴角上扬，面带温和的微笑，神情柔和。",
+    "image_name": "P_CH0219_spr_03_waifu2x_1x_3n_png_W2xEX7637.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "deadpan",
+      "unimpressed",
+      "pink_hair",
+      "goggles",
+      "purple_eyes"
+    ],
+    "description": "半眯着眼（死鱼眼），表情冷淡无语，一副提不起劲的样子。",
+    "image_name": "P_CH0219_spr_04.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "angry",
+      "pink_hair",
+      "goggles",
+      "purple_eyes"
+    ],
+    "description": "张大嘴巴大声喊叫，眉毛倒竖，看起来很生气或情绪激动。",
+    "image_name": "P_CH0219_spr_05_waifu2x_1x_3n_png_W2xEX7637.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "pink_hair",
+      "goggles",
+      "purple_eyes"
+    ],
+    "description": "眉毛下垂呈八字，神情忧伤委屈，看起来很担心。",
+    "image_name": "P_CH0219_spr_06.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "panicked",
+      "open_mouth",
+      "pink_hair",
+      "goggles",
+      "purple_eyes"
+    ],
+    "description": "脸上流着冷汗，嘴巴张开，神情慌张，显得有些不知所措。",
+    "image_name": "P_CH0219_spr_07.jpg"
+  },
+  {
+    "tags": [
+      "pouting",
+      "annoyed",
+      "puffed_cheeks",
+      "closed_mouth",
+      "pink_hair",
+      "goggles",
+      "purple_eyes"
+    ],
+    "description": "脸颊鼓起，嘟着嘴，眼神移向一边，表情看起来像是在赌气、不满或撒娇。",
+    "image_name": "P_CH0219_spr_08.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "calm",
+      "serene",
+      "pink_hair",
+      "goggles"
+    ],
+    "description": "双眼紧闭，神情平静安详，似乎在闭目养神或沉思。",
+    "image_name": "P_CH0219_spr_99_waifu2x_1x_3n_png_W2xEX7637.jpg"
+  }
+]

@@ -1,0 +1,145 @@
+[
+  {
+    "tags": [
+      "winking",
+      "one_eye_closed",
+      "open_mouth",
+      "shouting",
+      "energetic"
+    ],
+    "description": "一只眼睛闭上（wink），嘴巴张大仿佛在大声呼喊或充满活力地打招呼，神情兴奋。",
+    "image_name": "NP0037_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "closed_mouth",
+      "staring",
+      "yellow_eyes"
+    ],
+    "description": "面无表情，双眼直视前方，嘴巴紧闭，看起来十分严肃或正在认真审视某物。",
+    "image_name": "NP0037_spr_01.png"
+  },
+  {
+    "tags": [
+      "winking",
+      "one_eye_closed",
+      "open_mouth",
+      "playful",
+      "talking"
+    ],
+    "description": "单眼闭上（wink），嘴巴呈小圆形张开，看起来像是在俏皮地说话或正在解释什么。",
+    "image_name": "NP0037_spr_02.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "laughing",
+      "open_mouth",
+      "smile"
+    ],
+    "description": "双眼眯成弯月状，嘴巴大张开怀大笑，展现出非常开心和纯粹的喜悦。",
+    "image_name": "NP0037_spr_03.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "tired",
+      "annoyed",
+      "sigh"
+    ],
+    "description": "双眼紧闭，脸颊挂着汗珠，嘴巴抿成波浪状或小点，表现出无奈、疲惫或正在叹气的样子。",
+    "image_name": "NP0037_spr_04.png"
+  },
+  {
+    "tags": [
+      "confident",
+      "smug",
+      "closed_mouth",
+      "determined",
+      "yellow_eyes"
+    ],
+    "description": "眼神比平时稍微锐利，嘴角带着自信或略显严肃的神情，看起来胸有成竹。",
+    "image_name": "NP0037_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "thinking",
+      "neutral",
+      "serene"
+    ],
+    "description": "双眼轻轻闭上，表情平静，没有汗珠，像是在闭目养神、沉思或表示默许。",
+    "image_name": "NP0037_spr_06.png"
+  },
+  {
+    "tags": [
+      "confused",
+      "sweat_drop",
+      "open_mouth",
+      "surprised",
+      "awkward"
+    ],
+    "description": "双眼睁大，脸颊上有明显的汗珠，嘴巴微张，看起来感到困惑、尴尬或有些不知所措。",
+    "image_name": "NP0037_spr_07.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "open_mouth",
+      "smile",
+      "energetic"
+    ],
+    "description": "双眼眯成开心的弧度，嘴巴大张大笑，看起来充满活力，非常高兴。",
+    "image_name": "NP0037_spr_08.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "closed_eyes",
+      "open_mouth",
+      "shouting",
+      "whining"
+    ],
+    "description": "紧闭双眼，眉毛下垂显得有些苦恼，嘴巴大张仿佛在大声抱怨或哭喊。",
+    "image_name": "NP0037_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "calm",
+      "gentle",
+      "peaceful"
+    ],
+    "description": "双眼轻闭，嘴角微微上扬，表情柔和安详，看起来十分满足和平静。",
+    "image_name": "NP0037_spr_10.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "yellow_eyes",
+      "open_mouth",
+      "surprised",
+      "curious"
+    ],
+    "description": "睁大金色的双眼直视前方，嘴巴微张呈小圆形，表现出惊讶、呆萌或好奇的神情。",
+    "image_name": "NP0037_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "neutral",
+      "closed_mouth",
+      "serious",
+      "silent"
+    ],
+    "description": "双眼闭合，嘴唇抿成一条直线，面无表情，像是在闭目养神、沉思或保持沉默。",
+    "image_name": "NP0037_spr_99.png"
+  }
+]

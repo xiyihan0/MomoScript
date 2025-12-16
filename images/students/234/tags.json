@@ -1,0 +1,38 @@
+[
+  {
+    "tags": [
+      "helmet",
+      "safety_hat",
+      "dirty_face",
+      "no_mask",
+      "shadowed_eyes",
+      "neutral"
+    ],
+    "description": "一名戴着印有红色条纹白色安全帽的角色，脸上沾有些许灰尘，没有佩戴口罩，双眼被帽檐阴影遮挡，表情看起来呆板或严肃。",
+    "image_name": "yoheki_redwinter1_spr_00.png"
+  },
+  {
+    "tags": [
+      "helmet",
+      "safety_hat",
+      "dirty_face",
+      "chin_mask",
+      "mask_down",
+      "shadowed_eyes"
+    ],
+    "description": "戴着白色安全帽的角色，脸上带有灰尘，白色的口罩被拉到了下巴处（挂在下巴上），露出了嘴巴，神态依旧保持原样。",
+    "image_name": "yoheki_redwinter1_spr_07.png"
+  },
+  {
+    "tags": [
+      "helmet",
+      "safety_hat",
+      "dirty_face",
+      "wearing_mask",
+      "mask",
+      "shadowed_eyes"
+    ],
+    "description": "戴着白色安全帽的角色，脸上带有灰尘，规整地佩戴着白色口罩，完全遮住了口鼻部分，看不出具体表情。",
+    "image_name": "yoheki_redwinter1_spr_08.png"
+  }
+]

@@ -1,0 +1,146 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "looking_aside",
+      "yellow_eyes",
+      "short_hair"
+    ],
+    "description": "表情冷淡平静，眼神向侧边瞥视，显得有些严肃或对当下状况不置可否。",
+    "image_name": "marina_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "talking",
+      "confused",
+      "yellow_eyes",
+      "short_hair"
+    ],
+    "description": "嘴巴微微张开，似乎正在说话或感到轻微的惊讶与困惑，表情略显呆萌。",
+    "image_name": "marina_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "smug",
+      "yellow_eyes",
+      "short_hair"
+    ],
+    "description": "嘴角上扬露出自信的微笑，眼神坚定且带有一丝得意，显得胸有成竹。",
+    "image_name": "marina_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "embarrassed",
+      "awkward",
+      "looking_down",
+      "yellow_eyes"
+    ],
+    "description": "脸颊挂着一滴冷汗，眼神游离向下看，嘴巴微张，表现出尴尬、心虚或不知所措的样子。",
+    "image_name": "marina_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "furrowed_brows",
+      "shouting",
+      "yellow_eyes"
+    ],
+    "description": "眉头紧锁，眼神凌厉，嘴巴张开露出牙齿，似乎在生气地呵斥或表达强烈的不满。",
+    "image_name": "marina_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat",
+      "resigned",
+      "sigh",
+      "speechless"
+    ],
+    "description": "双眼紧闭，脸上流着冷汗，似乎在无奈地叹气、放弃思考或对现状感到无语。",
+    "image_name": "marina_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "nervous_smile",
+      "sweat",
+      "awkward",
+      "troubled",
+      "yellow_eyes"
+    ],
+    "description": "眉毛下垂，脸上流汗，嘴角勉强上扬露出尴尬而不失礼貌的苦笑，显得十分为难。",
+    "image_name": "marina_spr-07_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "panicked",
+      "anxious",
+      "sweat",
+      "worried",
+      "yellow_eyes"
+    ],
+    "description": "满脸冷汗，眉毛八字下垂，眼神惊慌，嘴巴张开呈现焦虑的状态，看起来非常慌张和不知所措。",
+    "image_name": "marina_spr-08_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "smile",
+      "happy",
+      "cheerful"
+    ],
+    "description": "双眼紧闭成弯月状，嘴巴张开露出牙齿，脸上洋溢着灿烂且得意的笑容，看起来非常开心。",
+    "image_name": "marina_spr-09_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "sweat",
+      "annoyed",
+      "speechless",
+      "tired"
+    ],
+    "description": "眼神半睁显得有些死鱼眼，脸颊流着一滴汗，嘴巴微张，流露出无语、疲惫或对现状感到无奈的神情。",
+    "image_name": "marina_spr-10_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "smile",
+      "excited",
+      "yellow_eyes",
+      "energetic"
+    ],
+    "description": "眼睛睁大炯炯有神，嘴巴大张露出爽朗的笑容，神情充满活力、兴奋与期待，显得兴致高昂。",
+    "image_name": "marina_spr-11_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "white_eyes",
+      "blank_eyes",
+      "shocked",
+      "despair",
+      "sweat",
+      "open_mouth"
+    ],
+    "description": "双眼翻白失去高光，眼下挂着阴影线条，嘴巴大张，满脸冷汗，表现出极度震惊、绝望或灵魂出窍的崩溃模样。",
+    "image_name": "marina_spr-12_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral",
+      "silent",
+      "peaceful"
+    ],
+    "description": "双眼轻轻闭合，表情平静祥和，没有明显的情绪波动，像是在闭目养神、沉思或安静地等待。",
+    "image_name": "marina_spr-99_0_waifu2x_2x_2n_png.jpg"
+  }
+]

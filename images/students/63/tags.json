@@ -1,0 +1,132 @@
+[
+  {
+    "tags": [
+      "shock",
+      "panic",
+      "sweat",
+      "open_mouth",
+      "wide_eyes"
+    ],
+    "description": "角色面露惊慌神色，瞳孔收缩，流着冷汗，嘴巴张大，表现出震惊或不知所措的样子。",
+    "image_name": "QQ截图20220201121759.png"
+  },
+  {
+    "tags": [
+      "grimace",
+      "clenched_teeth",
+      "annoyed",
+      "awkward",
+      "looking_away"
+    ],
+    "description": "角色咬着牙，露出有些尴尬、不爽或正在用力的表情，视线稍向一侧偏移。",
+    "image_name": "QQ截图20220201121811.png"
+  },
+  {
+    "tags": [
+      "blank_stare",
+      "wide_eyes",
+      "dazed",
+      "neutral",
+      "stunned"
+    ],
+    "description": "角色睁大红色的眼睛呆呆地看着前方，神情呆滞，仿佛大脑一片空白。",
+    "image_name": "QQ截图20220201121831.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "laughing",
+      "joy"
+    ],
+    "description": "角色闭着眼睛开怀大笑，脸上洋溢着幸福和愉悦的神情。",
+    "image_name": "QQ截图20220201121841.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "bored",
+      "unimpressed",
+      "deadpan",
+      "glare"
+    ],
+    "description": "角色半眯着眼，眼神显得有些无语、蔑视或感到无聊，面无表情。",
+    "image_name": "QQ截图20220201121847.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "peaceful"
+    ],
+    "description": "角色双眼紧闭，面部放松，看起来正在熟睡或安静地休息。",
+    "image_name": "QQ截图20220201121855.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "frown",
+      "displeased",
+      "stare"
+    ],
+    "description": "角色表情严肃，眉头微皱，眼神略带不满或认真地注视着前方。",
+    "image_name": "QQ截图20220201121903.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sweat",
+      "troubled",
+      "open_mouth",
+      "nervous"
+    ],
+    "description": "角色眉毛下垂，面露难色，流着汗水，看起来感到困扰、担忧或紧张。",
+    "image_name": "QQ截图20220201121912.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "bored",
+      "unimpressed",
+      "glare",
+      "neutral"
+    ],
+    "description": "角色半睁着眼，眼神显得冷淡且无语，仿佛对周围的事物感到无聊或不屑，流露出慵懒的气质。",
+    "image_name": "QQ截图20220201121919.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "open_mouth",
+      "surprise",
+      "curious",
+      "dazed"
+    ],
+    "description": "角色眼睛睁大，嘴巴微微张开呈小圆形，看起来有些呆萌、惊讶或正在发愣。",
+    "image_name": "QQ截图20220201121925.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "smug",
+      "confident"
+    ],
+    "description": "角色嘴角上扬，张嘴露出自信或得意的笑容，眼神明亮，看起来心情很好或胸有成竹。",
+    "image_name": "QQ截图20220201121931.png"
+  },
+  {
+    "tags": [
+      "shock",
+      "wide_eyes",
+      "open_mouth",
+      "panic",
+      "stunned"
+    ],
+    "description": "角色瞳孔收缩，双眼圆睁，嘴巴大张，面露极度震惊或惊慌的神色，仿佛看到了不可思议的事情。",
+    "image_name": "QQ截图20220201121942.png"
+  }
+]

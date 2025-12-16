@@ -1,0 +1,132 @@
+[
+  {
+    "tags": [
+      "worried",
+      "eyebrows_furrowed",
+      "purple_eyes",
+      "troubled"
+    ],
+    "description": "眉头微皱，眼神游移，流露出担忧和困扰的神情。",
+    "image_name": "CH0203_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "blank_stare",
+      "dazed",
+      "anxious"
+    ],
+    "description": "表情有些呆滞，眼神发愣，似乎在发呆或者感到轻微的不安。",
+    "image_name": "CH0203_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "confused",
+      "surprised",
+      "speaking"
+    ],
+    "description": "嘴巴微张，眼神带着疑惑和轻微的惊讶，似乎正在询问或小心翼翼地说话。",
+    "image_name": "CH0203_spr_02.png"
+  },
+  {
+    "tags": [
+      "slight_smile",
+      "gentle",
+      "calm",
+      "soft_expression"
+    ],
+    "description": "嘴角带着若有若无的浅笑，眼神柔和，表现出平静和温顺的样子。",
+    "image_name": "CH0203_spr_03.png"
+  },
+  {
+    "tags": [
+      "gloom_lines",
+      "panic",
+      "scared",
+      "eyes_closed",
+      "fear"
+    ],
+    "description": "面部带有阴影线条（黑线），紧闭双眼，极度惊恐和害怕，陷入慌乱状态。",
+    "image_name": "CH0203_spr_04.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "focused",
+      "frowning",
+      "determined"
+    ],
+    "description": "眼神凝重，眉头紧锁，表现出严肃、认真或者急切想要表达的神情。",
+    "image_name": "CH0203_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "eyes_closed",
+      "apologetic",
+      "pain"
+    ],
+    "description": "闭着眼睛，眉头紧缩，表情痛苦或悲伤，像是正在忍耐、道歉或感到羞愧。",
+    "image_name": "CH0203_spr_06.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "cheerful",
+      "blush"
+    ],
+    "description": "闭眼甜笑，脸上带着红晕，洋溢着开心、满足和治愈的氛围。",
+    "image_name": "CH0203_spr_07.png"
+  },
+  {
+    "tags": [
+      "gloom_lines",
+      "terrified",
+      "shocked",
+      "pale",
+      "wide_eyes",
+      "despair"
+    ],
+    "description": "面部覆盖着代表消沉的黑线阴影，瞳孔收缩，眼神极度惊恐和绝望，仿佛受到了巨大的打击。",
+    "image_name": "CH0203_spr_08.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "unamused",
+      "bored",
+      "blush",
+      "staring",
+      "jitome"
+    ],
+    "description": "半眯着眼睛，眼神呆滞而无奈，流露出一种无语、慵懒或者对现状感到乏味的神情。",
+    "image_name": "CH0203_spr_09.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "anxious",
+      "worried",
+      "troubled",
+      "blush"
+    ],
+    "description": "脸颊挂着一滴冷汗，眉头紧锁，眼神慌张，表现出非常紧张、焦急或者陷入尴尬困境的样子。",
+    "image_name": "CH0203_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "resigned",
+      "blush",
+      "calm",
+      "silent"
+    ],
+    "description": "双眼闭合，眉眼低垂，表情平静中带着一丝无奈，像是在轻轻叹气、认命或者闭目养神。",
+    "image_name": "CH0203_spr_99.png"
+  }
+]

@@ -1,0 +1,126 @@
+[
+  {
+    "tags": [
+      "frowning",
+      "sweat",
+      "annoyed",
+      "purple_eyes"
+    ],
+    "description": "眉头微微皱起，嘴角向下撇，脸颊上挂着一滴汗珠，表情看起来有些烦躁或困扰。",
+    "image_name": "CH0063_spr-00_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "serious",
+      "purple_eyes"
+    ],
+    "description": "面部表情平静，眼神直视前方，显得比较认真或略带冷淡。",
+    "image_name": "CH0063_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "indifferent",
+      "bored",
+      "purple_eyes"
+    ],
+    "description": "视线向侧面移开，表情显得有些冷漠，似乎在无视某人或者在思考别的事情。",
+    "image_name": "CH0063_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "purple_eyes"
+    ],
+    "description": "嘴角微微上扬，眼神变得柔和，露出了温柔的微笑。",
+    "image_name": "CH0063_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "frowning",
+      "sweat",
+      "angry",
+      "tense"
+    ],
+    "description": "眉头紧锁，眼神锐利，脸颊带有汗水，表现出明显的不满或紧张情绪。",
+    "image_name": "CH0063_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "open_mouth",
+      "shouting",
+      "frowning"
+    ],
+    "description": "表情愤怒，嘴巴微张似乎在呵斥或争辩，眼神充满压迫感。",
+    "image_name": "CH0063_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat",
+      "painful",
+      "grimace"
+    ],
+    "description": "双眼紧闭，眉头紧锁，嘴巴张开，脸上流汗，表现出痛苦、忍耐或极度无奈的神情。",
+    "image_name": "CH0063_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "blush",
+      "embarrassed",
+      "sweat",
+      "frowning"
+    ],
+    "description": "面颊通红，眉头皱起并带有汗水，看起来既羞愤又局促不安。",
+    "image_name": "CH0063_spr-07_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "happy",
+      "laughing"
+    ],
+    "description": "眼睛开心地眯成缝，嘴巴张开大笑，洋溢着极其兴奋和愉悦的情绪，看起来非常开心。",
+    "image_name": "CH0063_spr-08_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "purple_eyes",
+      "confident",
+      "mischievous"
+    ],
+    "description": "嘴角勾起一抹坏笑，眼神中透着自信与戏谑，展现出标志性的小恶魔般得意的神情。",
+    "image_name": "CH0063_spr-09_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "purple_eyes",
+      "playful",
+      "neutral"
+    ],
+    "description": "俏皮地眨了一只眼睛（Wink），表情显得轻松可爱，似乎在暗示什么或进行互动。",
+    "image_name": "CH0063_spr-10_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral",
+      "sleeping",
+      "silent"
+    ],
+    "description": "双眼轻轻闭合，面部表情非常平静，看起来像是在闭目养神、沉思或者是睡着了。",
+    "image_name": "CH0063_spr-99_0_waifu2x_2x_2n_png.jpg"
+  }
+]

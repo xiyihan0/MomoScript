@@ -1,0 +1,114 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "calm",
+      "expressionless",
+      "stare"
+    ],
+    "description": "表情平静冷淡，眼神直视前方，看不出明显的情绪波动，呈现出认真待命的状态。",
+    "image_name": "CH0282_spr_00.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "frown",
+      "skeptical",
+      "unimpressed",
+      "sharp_glance"
+    ],
+    "description": "眉头微蹙，眼神略显锐利和不满，似乎对某事感到怀疑或轻微的不耐烦。",
+    "image_name": "CH0282_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "speaking",
+      "curious",
+      "dumbfounded"
+    ],
+    "description": "嘴巴微微张开，神情带着些许惊讶或好奇，仿佛正在说话或在询问什么。",
+    "image_name": "CH0282_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy",
+      "pleased",
+      "soft_gaze"
+    ],
+    "description": "嘴角上扬露出淡淡的微笑，眼神变得柔和，展现出友好和自信的一面。",
+    "image_name": "CH0282_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "awkward",
+      "troubled",
+      "worried"
+    ],
+    "description": "脸颊挂着一滴冷汗，眉毛呈现困扰的八字形，看起来感到尴尬、紧张或有些不知所措。",
+    "image_name": "CH0282_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "glare",
+      "furious",
+      "hostile",
+      "irritated"
+    ],
+    "description": "眉头紧锁，眼神凶狠地瞪视，明显表现出生气、被冒犯或强烈的敌意。",
+    "image_name": "CH0282_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat",
+      "sigh",
+      "tired",
+      "resigned",
+      "exasperated"
+    ],
+    "description": "闭着眼睛叹气，脸上带着汗珠，表现出深深的无奈、疲惫或是对现状感到无语。",
+    "image_name": "CH0282_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "laughing",
+      "cheerful",
+      "delighted"
+    ],
+    "description": "闭着眼睛开心地笑，神情轻松愉悦，看起来非常满足和高兴。",
+    "image_name": "CH0282_spr_07.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "shy",
+      "embarrassed",
+      "looking_away",
+      "hesitant"
+    ],
+    "description": "脸颊微微泛红，眼神游移避开直视，手放在脑后，显露出害羞、尴尬或有些犹豫不决的可爱神情。",
+    "image_name": "CH0282_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "thinking",
+      "silent",
+      "composed"
+    ],
+    "description": "双眼轻轻闭合，表情平静且内敛，仿佛正在闭目养神、沉思，或是表现出一种沉稳的态度。",
+    "image_name": "CH0282_spr_99.png"
+  }
+]

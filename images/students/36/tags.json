@@ -1,0 +1,283 @@
+[
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "resting",
+      "neutral"
+    ],
+    "description": "纱织闭着双眼，神态平静安详，似乎正在闭目养神或安静地思考，没有任何情绪波动。",
+    "image_name": "QQ截图20211125172120.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "blue_eyes",
+      "neutral",
+      "serious",
+      "staring"
+    ],
+    "description": "睁开双眼直视前方，眼神清澈而认真，表情处于标准的平静待机状态，显得十分专注。",
+    "image_name": "QQ截图20211125172133.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "dull_eyes",
+      "expressionless",
+      "cold"
+    ],
+    "description": "虽然睁着眼，但眼神比平时更加黯淡和冷漠，呈现出一种毫无波澜、缺乏生气的冷淡注视。",
+    "image_name": "QQ截图20211125172912.png"
+  },
+  {
+    "tags": [
+      "narrowed_eyes",
+      "glaring",
+      "annoyed",
+      "suspicious",
+      "frowning"
+    ],
+    "description": "眉头微皱，眼神锐利地眯起，似乎对眼前的事物感到不悦、怀疑或带有轻微的敌意。",
+    "image_name": "QQ截图20211125173427.png"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "sideways_glance",
+      "awkward",
+      "avoiding_eye_contact"
+    ],
+    "description": "视线向一侧移开，避免与人对视，神情中流露出一丝尴尬、心虚或者是想要回避话题的态度。",
+    "image_name": "QQ截图20211125173433.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "shocked",
+      "surprised",
+      "small_pupils",
+      "stunned"
+    ],
+    "description": "瞳孔剧烈收缩，眼眶完全撑开，表现出极度的震惊、错愕，仿佛看到了什么难以置信的景象。",
+    "image_name": "QQ截图20211125173439.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "furious",
+      "intense",
+      "aggressive",
+      "furrowed_brows"
+    ],
+    "description": "眉头紧锁，眼神充满了强烈的愤怒和攻击性，情绪激动，散发出明显的压迫感。",
+    "image_name": "QQ截图20211125173447.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "smiling_eyes",
+      "closed_eyes",
+      "gentle",
+      "content"
+    ],
+    "description": "双眼弯成月牙状，虽然戴着口罩遮住了嘴部，但眼角的笑意清晰地传达出开心、温柔和愉悦的心情。",
+    "image_name": "QQ截图20211125173453.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "blue_eyes",
+      "soft_gaze"
+    ],
+    "description": "神态平和，眼神清澈温柔，只是静静地注视着前方，处于一种放松且友好的待机状态。",
+    "image_name": "QQ截图20211125173500.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "skeptical",
+      "unimpressed",
+      "slightly_frowning"
+    ],
+    "description": "表情略显严肃，嘴角抿成一条直线，眼神中带着一丝审视或不以为然，似乎在评估情况。",
+    "image_name": "QQ截图20211125173506.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "glaring",
+      "frowning",
+      "hostile",
+      "annoyed"
+    ],
+    "description": "眉头紧锁，眼神犀利地瞪视着，明显流露出愤怒、不满以及强烈的敌意，极具攻击性。",
+    "image_name": "QQ截图20211125173512.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smiling",
+      "gentle",
+      "happy",
+      "relieved"
+    ],
+    "description": "双眼轻闭，嘴角露出一抹温柔的微笑，显得十分安心、放松，仿佛卸下了心中的重担。",
+    "image_name": "QQ截图20211125173519.png"
+  },
+  {
+    "tags": [
+      "staring",
+      "intense",
+      "focused",
+      "serious",
+      "wide_eyes"
+    ],
+    "description": "双眼略微睁大，目光如炬，全神贯注地盯着某处，展现出极强的压迫感和毫不动摇的专注力。",
+    "image_name": "QQ截图20211125173525.png"
+  },
+  {
+    "tags": [
+      "dull_eyes",
+      "shocked",
+      "empty",
+      "stunned",
+      "despair"
+    ],
+    "description": "瞳孔失去高光，眼神变得空洞无神，显得呆滞、错愕，仿佛遭受了精神上的打击或陷入了绝望。",
+    "image_name": "QQ截图20211125173532.png"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "sideways_glance",
+      "disinterested",
+      "cold",
+      "avoiding_eye_contact"
+    ],
+    "description": "视线冷冷地瞥向一侧，似乎在刻意回避目光接触，或者对眼前的事物表现出一种漠不关心的态度。",
+    "image_name": "QQ截图20211125173539.png"
+  },
+  {
+    "tags": [
+      "smiling",
+      "confident",
+      "smug",
+      "happy",
+      "amused"
+    ],
+    "description": "嘴角自信地上扬，勾勒出一抹从容甚至带有些许得意的笑容，眼神明亮，心情显得非常不错。",
+    "image_name": "QQ截图20211125173547.png"
+  },
+  {
+    "tags": [
+      "gritting_teeth",
+      "furious",
+      "wide_eyes",
+      "stressed",
+      "pain"
+    ],
+    "description": "咬牙切齿，面部肌肉紧绷，双眼圆睁，瞳孔微缩，流露出极度的愤怒、痛苦或是正在承受巨大的心理压力。",
+    "image_name": "QQ截图20211125173553.png"
+  },
+  {
+    "tags": [
+      "grimace",
+      "aggressive",
+      "angry",
+      "clenched_teeth",
+      "fierce"
+    ],
+    "description": "露齿怒视，神情极具攻击性，仿佛正在战斗中发力或对敌人表现出强烈的敌意，充满了凶狠的斗志。",
+    "image_name": "QQ截图20211125173600.png"
+  },
+  {
+    "tags": [
+      "unimpressed",
+      "skeptical",
+      "narrowed_eyes",
+      "cold",
+      "suspicious"
+    ],
+    "description": "眼神半眯，透着怀疑和冷淡，嘴角抿平，似乎对眼前的事物感到无语、不信任或者是毫无兴趣（鄙视眼）。",
+    "image_name": "QQ截图20211125173606.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweating",
+      "awkward",
+      "worried",
+      "anxious"
+    ],
+    "description": "脸颊流下一滴冷汗，视线向一侧游移，神情显得十分尴尬、心虚或紧张，像是犯了错或遇到了意料之外的棘手状况。",
+    "image_name": "QQ截图20211125173612.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "cold",
+      "neutral",
+      "sharp_eyes",
+      "focused"
+    ],
+    "description": "表情冷峻严肃，目光锐利直视前方，没有任何多余的情绪，保持着高度的警惕和冷静沉着的状态。",
+    "image_name": "QQ截图20211125173621.png"
+  },
+  {
+    "tags": [
+      "smirk",
+      "confident",
+      "smug",
+      "mocking",
+      "provocative"
+    ],
+    "description": "嘴角微微上扬露出一抹坏笑，眼神带着几分轻蔑和挑衅，表现出胜券在握的自信，或者是在嘲弄对手。",
+    "image_name": "QQ截图20211125173626.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "satisfied",
+      "friendly",
+      "soft_gaze"
+    ],
+    "description": "面露温和的微笑，眼神变得柔软，少了几分平时的戾气，显得比较友好、满足且心情愉悦。",
+    "image_name": "QQ截图20211125173632.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "urgent",
+      "angry",
+      "complaining"
+    ],
+    "description": "张嘴大声喊叫或争辩，眉头紧锁，情绪显得有些激动，似乎在强烈地表达不满、吐槽或者是传达紧急信息。",
+    "image_name": "QQ截图20211125173638.png"
+  },
+  {
+    "tags": [
+      "smiling",
+      "confident",
+      "calm",
+      "cool",
+      "gentle_smile"
+    ],
+    "description": "嘴角微微上扬，露出一抹自信且淡定的微笑，眼神平静温和，整体给人一种从容不迫、酷酷的感觉。",
+    "image_name": "QQ截图20211125173643.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "glaring",
+      "grimace",
+      "disgusted"
+    ],
+    "description": "眉头紧锁，眼神凶狠地瞪视前方，嘴角微微抽动露出牙齿，流露出明显的不满、厌恶以及强烈的敌意。",
+    "image_name": "QQ截图20211125173650.png"
+  }
+]

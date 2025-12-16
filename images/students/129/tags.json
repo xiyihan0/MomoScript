@@ -1,0 +1,99 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "green_eyes"
+    ],
+    "description": "表情平静，眼神专注，没有明显的情绪波动。",
+    "image_name": "CH0152_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "curious"
+    ],
+    "description": "嘴巴微微张开，眼睛睁大，表现出惊讶或好奇的样子。",
+    "image_name": "CH0152_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy"
+    ],
+    "description": "嘴角微微上扬，眼神柔和，露出温柔的微笑。",
+    "image_name": "CH0152_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "worried",
+      "troubled"
+    ],
+    "description": "脸颊上挂着汗珠，眉毛下垂，看起来感到紧张、尴尬或困扰。",
+    "image_name": "CH0152_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "frown",
+      "open_mouth"
+    ],
+    "description": "眉头紧锁，眼神锐利，嘴巴微张，显得有些生气或不满。",
+    "image_name": "CH0152_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "gloomy",
+      "serious",
+      "stern"
+    ],
+    "description": "眼神显得黯淡，表情严肃且带有几分忧郁或不悦。",
+    "image_name": "CH0152_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "serene",
+      "peaceful"
+    ],
+    "description": "闭着眼睛微笑，神情看起来非常安详和平和。",
+    "image_name": "CH0152_spr-07_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "闭眼开怀大笑，嘴巴张开，洋溢着快乐和喜悦的情绪。",
+    "image_name": "CH0152_spr-08_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "serious",
+      "frown",
+      "glare"
+    ],
+    "description": "眉头紧锁，眼神犀利地盯着前方，表情显得非常严肃甚至带有几分怒气。",
+    "image_name": "CH0152_spr-09_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "silent",
+      "resigned",
+      "thinking"
+    ],
+    "description": "双眼紧闭，神情略显无奈或深沉，仿佛在轻轻叹气或是闭目沉思。",
+    "image_name": "CH0152_spr-99_0_waifu2x_2x_2n_png.jpg"
+  }
+]

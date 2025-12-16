@@ -1,0 +1,228 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "looking_at_viewer"
+    ],
+    "description": "标准的平静表情，眼神清澈，直视前方。",
+    "image_name": "CH0230_spr_00_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "looking_down",
+      "half_closed_eyes",
+      "quiet"
+    ],
+    "description": "眼帘微垂，视线向下，显得有些沉思或冷淡。",
+    "image_name": "CH0230_spr_01_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "looking_aside",
+      "glance",
+      "neutral"
+    ],
+    "description": "视线向一侧撇去，似乎在留意旁边的事物，面部无明显表情。",
+    "image_name": "CH0230_spr_02_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy"
+    ],
+    "description": "嘴角微微上扬，眼神柔和，露出淡淡的温柔微笑。",
+    "image_name": "CH0230_spr_03_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "awkward",
+      "nervous",
+      "troubled"
+    ],
+    "description": "脸颊旁挂着一滴冷汗，眼神略显游移，表现出尴尬或棘手的状态。",
+    "image_name": "CH0230_spr_04_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "annoyed",
+      "frown",
+      "glare"
+    ],
+    "description": "眉头紧锁，眼神变得犀利，流露出严肃、警惕甚至不满的情绪。",
+    "image_name": "CH0230_spr_05_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "pout",
+      "troubled_eyebrows"
+    ],
+    "description": "眉毛呈八字下撇，嘴巴微嘟，看起来十分委屈或担忧。",
+    "image_name": "CH0230_spr_06_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "shy",
+      "embarrassed"
+    ],
+    "description": "脸颊泛起红晕，神情局促，表现出害羞或难为情的模样。",
+    "image_name": "CH0230_spr_07_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "eyebrows_furrowed",
+      "troubled",
+      "blush"
+    ],
+    "description": "眉毛呈八字下垂，眼神流露出忧伤与不安，脸颊带着红晕，似乎在为某事感到困扰或同情。",
+    "image_name": "CH0230_spr_08_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "annoyed",
+      "frown",
+      "stare",
+      "displeased"
+    ],
+    "description": "眼神锐利直视前方，眉头紧锁，表情严肃甚至带着一丝不悦，显得十分认真。",
+    "image_name": "CH0230_spr_09_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "neutral",
+      "calm"
+    ],
+    "description": "轻轻眨起一只眼睛，另一只眼睛保持平静，神情淡定，是一个略显内敛的眨眼动作。",
+    "image_name": "CH0230_spr_10_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "smile",
+      "happy",
+      "playful"
+    ],
+    "description": "面带微笑并眨着一只眼睛，表情轻松愉快，透出一丝俏皮和友好的气息。",
+    "image_name": "CH0230_spr_11_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "laughing",
+      "happy",
+      "blush",
+      "joy"
+    ],
+    "description": "双眼眯成弯月状，嘴巴张开露出灿烂的笑容，脸颊泛红，表现出极度的开心和喜悦。",
+    "image_name": "CH0230_spr_12_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "awkward",
+      "concerned",
+      "looking_aside"
+    ],
+    "description": "脸颊挂着汗珠，眼神向旁边游移，神情显得紧张、尴尬或有些不知所措。",
+    "image_name": "CH0230_spr_13_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "spiral_eyes",
+      "hypnotized",
+      "dazed",
+      "blush",
+      "confused"
+    ],
+    "description": "瞳孔变成了螺旋状，脸颊微红，看起来神志不清、眩晕或是陷入了某种混乱迷离的状态。",
+    "image_name": "CH0230_spr_14_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "spiral_eyes",
+      "open_mouth",
+      "panic",
+      "shouting",
+      "sweat_drop",
+      "shock"
+    ],
+    "description": "眼睛呈螺旋状，嘴巴大张似乎在惊叫，伴随着冷汗和红晕，表现出极度的慌乱、震惊或混乱。",
+    "image_name": "CH0230_spr_15_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "smile",
+      "shy",
+      "happy",
+      "affectionate"
+    ],
+    "description": "脸颊泛起明显的红晕，嘴角带着温柔的笑意，看起来既害羞又充满爱意。",
+    "image_name": "CH0230_spr_16_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "angry",
+      "open_mouth",
+      "annoyed",
+      "frown"
+    ],
+    "description": "眉头紧锁，嘴巴张开似乎在大声呵斥或抱怨，表现出明显的不满和愤怒。",
+    "image_name": "CH0230_spr_17_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "shadow_over_face",
+      "spiral_eyes",
+      "gloomy",
+      "despair",
+      "dark_aura"
+    ],
+    "description": "面部覆盖着沉重的阴影，瞳孔呈螺旋状，散发出一种阴森、绝望甚至可怕的气场。",
+    "image_name": "CH0230_spr_18_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "serene",
+      "sleeping"
+    ],
+    "description": "双眼闭合，表情安详，看起来像是在闭目养神或安静地睡着了。",
+    "image_name": "CH0230_spr_99_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "looking_aside",
+      "stoic"
+    ],
+    "description": "神情平静，目光微微向一侧看去，表现出一种淡然的注视状态。",
+    "image_name": "CH0230_spr_Eye_Close_01_waifu2x_art_noise3.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "idle",
+      "calm",
+      "composed"
+    ],
+    "description": "标准的待机状态，表情冷静沉着，眼神清澈，没有任何多余的情绪。",
+    "image_name": "CH0230_spr_Idle_01_waifu2x_art_noise3.png"
+  }
+]

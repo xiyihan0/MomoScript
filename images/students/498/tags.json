@@ -1,0 +1,389 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "speaking",
+      "cheerful"
+    ],
+    "description": "面带开朗的微笑，嘴巴微张仿佛在说话，眼神清澈柔和，展现出充满活力且友好的态度。",
+    "image_name": "CH0273_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "calm",
+      "listening"
+    ],
+    "description": "嘴角微微上扬，闭嘴微笑，眼神平静而温柔，给人一种端庄、耐心倾听的安心感。",
+    "image_name": "CH0273_spr_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "closed_mouth",
+      "thinking",
+      "attentive"
+    ],
+    "description": "表情变得严肃且中性，嘴巴抿成一条线，眼神专注，似乎正在认真思考问题或仔细观察情况。",
+    "image_name": "CH0273_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "delighted",
+      "cute"
+    ],
+    "description": "双眼眯成弯弯的弧线，脸上洋溢着纯粹的喜悦和幸福的笑容，表现出非常开心和满足的样子。",
+    "image_name": "CH0273_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "worried",
+      "nervous",
+      "awkward",
+      "hesitant"
+    ],
+    "description": "脸颊挂着一滴冷汗，眼神游移显得局促不安，眉毛微蹙，嘴角下撇，表现出尴尬、紧张或不知所措的情绪。",
+    "image_name": "CH0273_spr_04.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "frowning",
+      "skeptical",
+      "determined",
+      "judging"
+    ],
+    "description": "眉头紧锁，眼神锐利，神情严肃甚至带有一丝审视或怀疑，表现出不悦或坚定反对的态度。",
+    "image_name": "CH0273_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "troubled",
+      "whining",
+      "overwhelmed",
+      "grimace"
+    ],
+    "description": "紧闭双眼，眉毛呈八字形，嘴巴张开呈波浪状，看起来非常困扰、痛苦，或者正在撒娇抱怨事情变得一团糟。",
+    "image_name": "CH0273_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "wry_smile",
+      "shy",
+      "apologetic",
+      "bittersweet"
+    ],
+    "description": "闭着眼睛露出苦笑，眉毛微垂表现出歉意或羞涩，似乎在为某种尴尬的情况感到不好意思或无奈。",
+    "image_name": "CH0273_spr_07.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "worried",
+      "nervous",
+      "anxious",
+      "open_mouth"
+    ],
+    "description": "脸颊流下一滴冷汗，眉毛呈八字下垂，眼神游移，嘴巴微张，表现出明显的紧张、焦虑或不知所措的状态。",
+    "image_name": "CH0273_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "shouting",
+      "whining",
+      "frustrated",
+      "open_mouth"
+    ],
+    "description": "双眼紧闭呈“>_<”状，嘴巴大张，似乎正在大声喊叫、抗议或发泄不满，表现出急躁、受挫或抓狂的情绪。",
+    "image_name": "CH0273_spr_09.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "excited",
+      "blushing"
+    ],
+    "description": "眼睛明亮，脸颊泛着微红，嘴巴张开露出灿烂的笑容，神情充满活力，看起来非常开心、兴奋或对某事充满兴趣。",
+    "image_name": "CH0273_spr_10.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "wide_eyes",
+      "open_mouth",
+      "surprised",
+      "stunned",
+      "blush"
+    ],
+    "description": "双眼圆睁，瞳孔收缩，嘴巴大张呈O型，满脸通红，表现出极度的震惊、难以置信或被突发状况吓呆的样子。",
+    "image_name": "CH0273_spr_11.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "depressed",
+      "frowning",
+      "disappointed",
+      "closed_mouth"
+    ],
+    "description": "眉毛低垂，眼神黯淡，嘴角紧闭下撇，流露出深深的失落、悲伤和委屈，看起来无精打采。",
+    "image_name": "CH0273_spr_12.png"
+  },
+  {
+    "tags": [
+      "shy",
+      "embarrassed",
+      "blushing",
+      "flustered",
+      "awkward"
+    ],
+    "description": "满脸通红，眼神向侧下方躲闪，表情局促不安，表现出极度的害羞、尴尬或因被捉弄而感到手足无措。",
+    "image_name": "CH0273_spr_13.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "happy",
+      "relieved"
+    ],
+    "description": "闭着眼睛露出温柔恬静的微笑，神情舒展，给人一种安心、释怀或感到幸福满足的治愈感。",
+    "image_name": "CH0273_spr_14.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "neutral",
+      "calm",
+      "meditating",
+      "serious"
+    ],
+    "description": "双眼平静地闭合，面部没有明显表情，像是在闭目养神、深思，或者表现出一种拒绝交流的沉默状态。",
+    "image_name": "CH0273_spr_15.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "neutral",
+      "bored",
+      "unamused",
+      "cool"
+    ],
+    "description": "眼神半睁，神情显得有些慵懒、无聊或是不以为然，嘴巴抿成一条线，表现出冷淡或毫无干劲的中性状态。",
+    "image_name": "CH0273_spr_16.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "happy",
+      "elegant"
+    ],
+    "description": "双眼轻闭，脸上挂着温柔恬静的微笑，神态优雅，给人一种安心、放松且充满善意的感觉。",
+    "image_name": "CH0273_spr_99.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "smile",
+      "open_mouth",
+      "confident",
+      "energetic"
+    ],
+    "description": "佩戴着白色羽翼状眼罩，嘴巴张开露出自信且开朗的笑容，看起来充满活力，仿佛正在享受当下的时刻。",
+    "image_name": "CH0273_spr_S2_00.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "smile",
+      "closed_mouth",
+      "calm",
+      "gentle"
+    ],
+    "description": "佩戴着白色眼罩，嘴角微微上扬，神情平和温柔，表现出一种从容不迫的优雅气质。",
+    "image_name": "CH0273_spr_S2_01.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "neutral",
+      "serious",
+      "closed_mouth",
+      "attentive"
+    ],
+    "description": "佩戴着白色眼罩，表情回归中性严肃，嘴巴紧闭，似乎正在认真听取指令或冷静地观察周围环境。",
+    "image_name": "CH0273_spr_S2_02.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "smile",
+      "happy",
+      "delighted",
+      "closed_mouth"
+    ],
+    "description": "佩戴着白色眼罩，眉毛高高挑起，嘴角带着明显的笑意，看起来心情非常好，显得得意或欣慰。",
+    "image_name": "CH0273_spr_S2_03.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "sweat",
+      "worried",
+      "nervous",
+      "troubled"
+    ],
+    "description": "佩戴着白色眼罩，脸颊滑落一滴冷汗，眉毛下垂，嘴角表现出不安，显露出紧张、尴尬或遇到麻烦时的焦躁感。",
+    "image_name": "CH0273_spr_S2_04.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "serious",
+      "frowning",
+      "determined",
+      "stern"
+    ],
+    "description": "佩戴着白色眼罩，眉头紧锁，神情严峻，嘴角紧闭，表现出坚决、严肃或对某事表示不赞同的态度。",
+    "image_name": "CH0273_spr_S2_05.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "confused",
+      "troubled",
+      "nervous",
+      "open_mouth"
+    ],
+    "description": "佩戴着白色眼罩，眉毛微蹙，嘴巴呈波浪状微张，表现出困惑、为难或者对现状感到不知所措的样子。",
+    "image_name": "CH0273_spr_S2_06.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "smile",
+      "gentle",
+      "happy",
+      "closed_mouth"
+    ],
+    "description": "佩戴着白色眼罩，嘴角微微上扬含笑，神情柔和恬静，给人一种礼貌、友善且安心的感觉。",
+    "image_name": "CH0273_spr_S2_07.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "sweat",
+      "worried",
+      "nervous",
+      "open_mouth"
+    ],
+    "description": "佩戴着白色眼罩，脸颊流下冷汗，嘴巴张开呈尴尬的形状，眉毛下垂，表现出焦虑、棘手或被难住的状态。",
+    "image_name": "CH0273_spr_S2_08.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "shouting",
+      "annoyed",
+      "frustrated",
+      "open_mouth"
+    ],
+    "description": "佩戴着白色眼罩，嘴巴张大似乎在抗议或大声抱怨，眉宇间流露出明显的不满、急躁或受挫的情绪。",
+    "image_name": "CH0273_spr_S2_09.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "smile",
+      "laughing",
+      "energetic",
+      "open_mouth"
+    ],
+    "description": "佩戴着白色眼罩，嘴巴大张露出开朗的笑容，眉毛高挑，看起来非常开心、爽朗，充满了正能量。",
+    "image_name": "CH0273_spr_S2_10.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "blush",
+      "sweat",
+      "shocked",
+      "embarrassed",
+      "open_mouth"
+    ],
+    "description": "佩戴着白色眼罩，满脸通红并挂着汗珠，嘴巴大张，表现出极度的害羞、慌乱或因突发状况而感到震惊。",
+    "image_name": "CH0273_spr_S2_11.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "neutral",
+      "serious",
+      "calm",
+      "closed_mouth"
+    ],
+    "description": "佩戴着白色眼罩，面部缺乏明显的表情，嘴巴抿成一条直线，看起来十分冷静、严肃，或者正在进行理性分析。",
+    "image_name": "CH0273_spr_S2_12.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "sad",
+      "worried",
+      "disappointed",
+      "closed_mouth"
+    ],
+    "description": "佩戴着白色眼罩，眉毛低垂，嘴角向下撇，流露出悲伤、失望或担忧的神情，显得有些消沉。",
+    "image_name": "CH0273_spr_S2_13.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "smile",
+      "confident",
+      "gentle",
+      "closed_mouth"
+    ],
+    "description": "佩戴着白色眼罩，嘴角微微上扬，露出一抹自信且温柔的微笑，神态从容不迫，给人一种值得信赖的感觉。",
+    "image_name": "CH0273_spr_S2_14.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "neutral",
+      "blank",
+      "calm",
+      "closed_mouth"
+    ],
+    "description": "佩戴着白色眼罩，脸上缺乏明显的表情变化，嘴巴抿成一个小点，神情平淡如水，显得有些呆然或正在静静等待。",
+    "image_name": "CH0273_spr_S2_15.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "serious",
+      "stern",
+      "frowning",
+      "closed_mouth"
+    ],
+    "description": "佩戴着白色眼罩，眉头微微压低，神情变得严肃而冷峻，嘴角紧抿，流露出一种警惕、审视或不悦的态度。",
+    "image_name": "CH0273_spr_S2_16.png"
+  }
+]

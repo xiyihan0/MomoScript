@@ -1,0 +1,257 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "purple_eyes",
+      "straight_face"
+    ],
+    "description": "优香面无表情，神情平静而冷静，眼神直视前方，处于一种标准的待机或观察状态。",
+    "image_name": "CH0284_spr_00.png"
+  },
+  {
+    "tags": [
+      "attentive",
+      "listening",
+      "curious",
+      "open_mouth_slight"
+    ],
+    "description": "优香稍微睁大眼睛，表情比平时更加专注，似乎正在认真倾听对话或对某事表现出轻微的好奇心。",
+    "image_name": "CH0284_spr_01.png"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "shy",
+      "blush",
+      "embarrassed",
+      "avoiding_eye_contact"
+    ],
+    "description": "优香将视线向侧面游移，不敢直视对方，脸颊泛起红晕，流露出害羞或试图掩饰心事的神情。",
+    "image_name": "CH0284_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "cheerful",
+      "blush"
+    ],
+    "description": "优香闭起双眼，露出了灿烂且开朗的笑容，脸颊微红，看起来心情非常愉快和治愈。",
+    "image_name": "CH0284_spr_03.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "troubled",
+      "nervous",
+      "wavy_mouth",
+      "anxious"
+    ],
+    "description": "优香露出了明显的为难表情，眉毛低垂，嘴角呈波浪状，看起来十分焦急、不知所措或感到棘手。",
+    "image_name": "CH0284_spr_04.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "skeptical",
+      "half_closed_eyes",
+      "unamused",
+      "deadpan"
+    ],
+    "description": "优香半眯着眼睛（鄙视眼/死鱼眼），神情冷淡且充满怀疑，似乎对眼前的情况感到无语或不以为然。",
+    "image_name": "CH0284_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "crying",
+      "tears",
+      "distressed",
+      "upset"
+    ],
+    "description": "优香眼角噙着泪花，眉头紧锁，神情悲伤且委屈，看起来快要哭出来了，让人感到心疼。",
+    "image_name": "CH0284_spr_06.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "half_closed_eyes",
+      "smile",
+      "teasing"
+    ],
+    "description": "优香半眯着眼，嘴角微微上扬，露出一副得意洋洋、自信满满甚至带有一丝调侃意味的表情（Smug face）。",
+    "image_name": "CH0284_spr_07.png"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "blush",
+      "thinking",
+      "open_mouth_slight",
+      "shy"
+    ],
+    "description": "优香脸颊泛红，眼神向一旁游移，手抚摸着头侧，嘴巴微张，似乎在思考什么或者感到有些害羞和不知所措。",
+    "image_name": "CH0284_spr_08.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "awkward",
+      "sweat_drop",
+      "wavy_mouth",
+      "troubled",
+      "blush"
+    ],
+    "description": "优香脸上流下一滴冷汗，神情尴尬且紧张，嘴角抽搐呈波浪状，似乎遇到了什么难以启齿或令人难为情的情况。",
+    "image_name": "CH0284_spr_09.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "happy",
+      "cheerful",
+      "open_mouth",
+      "blush"
+    ],
+    "description": "优香闭着眼睛开怀大笑，脸上洋溢着灿烂的红晕，看起来心情极佳，毫无防备地展示着快乐的情绪。",
+    "image_name": "CH0284_spr_10.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "ringed_eyes",
+      "dizzy",
+      "panic",
+      "open_mouth",
+      "confused"
+    ],
+    "description": "优香双眼变成了圈圈眼，神情极度震惊和混乱，嘴巴大张，似乎受到了巨大的冲击或处于眩晕状态。",
+    "image_name": "CH0284_spr_11.png"
+  },
+  {
+    "tags": [
+      "disappointed",
+      "gloomy",
+      "gloom_lines",
+      "sad",
+      "speechless",
+      "depressed"
+    ],
+    "description": "优香垂头丧气，眼神黯淡，脸侧挂着明显的黑线（阴影线），流露出深深的失望、无奈或被打击到的情绪。",
+    "image_name": "CH0284_spr_12.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy",
+      "blush",
+      "looking_at_viewer",
+      "soft"
+    ],
+    "description": "优香面带温柔的微笑，眼神清澈地注视着前方，脸颊微红，展现出一种平静、包容且充满善意的神情。",
+    "image_name": "CH0284_spr_13.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "looking_down",
+      "pensive",
+      "blush",
+      "melancholic"
+    ],
+    "description": "优香眉眼低垂，视线向下，神情略显忧郁和担忧，脸颊虽有红晕但难掩心事重重的样子，似乎在担心着什么。",
+    "image_name": "CH0284_spr_14.png"
+  },
+  {
+    "tags": [
+      "confused",
+      "questioning",
+      "raised_eyebrow",
+      "surprised",
+      "open_mouth_slight",
+      "blush"
+    ],
+    "description": "优香挑起一边的眉毛，眼神略带疑惑，嘴巴微张，似乎对眼前的情况表示不解，正在发出无声的疑问。",
+    "image_name": "CH0284_spr_15.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "closed_eyes",
+      "annoyed",
+      "open_mouth",
+      "frustrated"
+    ],
+    "description": "优香紧闭双眼，张大嘴巴似乎在大声喊叫或抱怨，一手抓着头发，眉头紧锁，表现出强烈的不满、抓狂或恼怒的情绪。",
+    "image_name": "CH0284_spr_16.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "cheerful",
+      "gentle",
+      "relaxed"
+    ],
+    "description": "优香闭起眼睛露出了温和治愈的笑容，一手轻抚头部，看起来心情愉快、放松，洋溢着开心和满足的氛围。",
+    "image_name": "CH0284_spr_17.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "evil_smile",
+      "half_closed_eyes",
+      "blush",
+      "teasing",
+      "scheming"
+    ],
+    "description": "优香露出了一副得意的坏笑，眼神向一旁瞥去，脸上带着红晕，似乎在心里盘算着什么恶作剧或者正在得意地调侃对方（计划通表情）。",
+    "image_name": "CH0284_spr_18.png"
+  },
+  {
+    "tags": [
+      "ringed_eyes",
+      "panic",
+      "blush",
+      "sweat",
+      "shocked",
+      "dizzy",
+      "embarrassed"
+    ],
+    "description": "优香双眼变成了眩晕的圈圈眼，满脸通红，大汗淋漓，嘴巴张开，处于极度的慌乱、羞耻和大脑宕机状态，完全不知所措。",
+    "image_name": "CH0284_spr_19.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "blush",
+      "dazed",
+      "exhausted",
+      "troubled",
+      "shy",
+      "blank_stare"
+    ],
+    "description": "优香眼神涣散无神，半睁着眼，脸颊泛红，神情呆滞，看起来处于一种极度疲惫、恍惚或者因某种情况而感到无力应对的状态。",
+    "image_name": "CH0284_spr_20.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "blush",
+      "calm",
+      "sleeping",
+      "peaceful",
+      "serene"
+    ],
+    "description": "优香安详地闭着双眼，脸颊带着淡淡的红晕，神情平和恬静，仿佛正在闭目养神，或者已经陷入了沉睡。",
+    "image_name": "CH0284_spr_99.png"
+  }
+]

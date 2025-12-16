@@ -1,0 +1,173 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "energetic"
+    ],
+    "description": "开朗的笑容，嘴巴张开，显得非常有活力和开心。",
+    "image_name": "CH9996_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "soft"
+    ],
+    "description": "嘴角微微上扬，闭着嘴温柔地微笑。",
+    "image_name": "CH9996_spr_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "open_mouth",
+      "dot_mouth",
+      "surprise",
+      "dazed"
+    ],
+    "description": "表情略显呆滞或惊讶，嘴巴微张呈圆形（小圆嘴）。",
+    "image_name": "CH9996_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "laughing",
+      "happy"
+    ],
+    "description": "眯起眼睛开怀大笑，洋溢着喜悦的气氛。",
+    "image_name": "CH9996_spr_03.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "open_mouth",
+      "sweat_drop",
+      "anxious",
+      "troubled"
+    ],
+    "description": "脸上挂着冷汗，眉毛下垂，张着嘴表现出焦急或困扰的样子。",
+    "image_name": "CH9996_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "open_mouth",
+      "shouting",
+      "serious",
+      "frown"
+    ],
+    "description": "眉头紧锁，张大嘴巴似乎在喊叫或生气，表情严肃。",
+    "image_name": "CH9996_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "sweat_drop",
+      "tired",
+      "relief"
+    ],
+    "description": "闭着眼睛叹气，脸上有冷汗，看起来感到疲惫或无奈。",
+    "image_name": "CH9996_spr_06.png"
+  },
+  {
+    "tags": [
+      "smirk",
+      "closed_mouth",
+      "confident",
+      "sly"
+    ],
+    "description": "露出一丝得意的坏笑，眼神自信，嘴角歪向一边。",
+    "image_name": "CH9996_spr_07.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "teeth",
+      "confident",
+      "happy"
+    ],
+    "description": "自信满满的露齿笑容，展现出非常有把握和开心的样子。",
+    "image_name": "CH9996_spr_08.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "serious",
+      "calm",
+      "stare"
+    ],
+    "description": "面无表情，眼神平静而严肃地注视着前方。",
+    "image_name": "CH9996_spr_09.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "sweat_drop",
+      "open_mouth",
+      "nervous",
+      "shock"
+    ],
+    "description": "脸上挂着冷汗，瞳孔微缩，显得非常惊讶和慌张。",
+    "image_name": "CH9996_spr_10.png"
+  },
+  {
+    "tags": [
+      "sparkling_eyes",
+      "star_eyes",
+      "open_mouth",
+      "excited",
+      "happy"
+    ],
+    "description": "双眼变成了闪闪发光的星星，兴奋地张大嘴巴，充满期待。",
+    "image_name": "CH9996_spr_11.png"
+  },
+  {
+    "tags": [
+      "shadowed_face",
+      "dark_eyes",
+      "annoyed",
+      "serious",
+      "scary"
+    ],
+    "description": "面部阴沉（黑脸），眼神失去高光，散发出一种压迫感或无语的情绪。",
+    "image_name": "CH9996_spr_12.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "closed_mouth",
+      "attentive"
+    ],
+    "description": "表情严肃，紧闭双唇，看起来比平时更加认真或严厉。",
+    "image_name": "CH9996_spr_13.png"
+  },
+  {
+    "tags": [
+      "tongue_out",
+      "teasing",
+      "playful",
+      "mischievous"
+    ],
+    "description": "调皮地吐着舌头（blep），眼神戏谑，显得非常搞怪。",
+    "image_name": "CH9996_spr_14.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "happy",
+      "content"
+    ],
+    "description": "闭着眼睛温柔地微笑，看起来很满足、惬意或在表示赞许。",
+    "image_name": "CH9996_spr_99.png"
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "energetic",
+      "determined"
+    ],
+    "description": "米诺里充满活力地张大嘴巴喊叫，似乎正在下达指令或抗议。",
+    "image_name": "CH0214_spr_00.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "serious",
+      "neutral",
+      "stare"
+    ],
+    "description": "表情严肃平静，嘴巴紧闭，眼神直视前方。",
+    "image_name": "CH0214_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "dazed",
+      "blank_stare"
+    ],
+    "description": "微微张嘴，眼神显得有些呆滞或惊讶，似乎刚反应过来什么。",
+    "image_name": "CH0214_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "laughing",
+      "happy"
+    ],
+    "description": "闭着眼睛开怀大笑，表情非常开心和爽朗。",
+    "image_name": "CH0214_spr_03.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "sweat_drop",
+      "nervous",
+      "worried",
+      "confused"
+    ],
+    "description": "脸上挂着冷汗，张着嘴显得有些紧张、焦急或不知所措。",
+    "image_name": "CH0214_spr_04.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "angry",
+      "shouting",
+      "annoyed",
+      "furrowed_brows"
+    ],
+    "description": "皱着眉头大声喊叫，表现出愤怒、不满或正在激烈争辩。",
+    "image_name": "CH0214_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "grimace",
+      "disgusted",
+      "awkward",
+      "wavy_mouth"
+    ],
+    "description": "嘴巴抿成波浪状，眉头紧锁，露出一脸嫌弃、尴尬或难以言喻的表情。",
+    "image_name": "CH0214_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smug",
+      "smile",
+      "confident",
+      "proud"
+    ],
+    "description": "闭着眼睛露出得意的微笑，看起来非常自信或满足。",
+    "image_name": "CH0214_spr_07.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "blush",
+      "happy",
+      "excited",
+      "moved",
+      "sparkling_eyes"
+    ],
+    "description": "脸颊泛红，眼神闪闪发亮，张着嘴露出感动且兴奋的笑容，仿佛看到了令人向往的东西。",
+    "image_name": "CH0214_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "pout",
+      "angry",
+      "annoyed",
+      "sulking",
+      "furrowed_brows"
+    ],
+    "description": "鼓起腮帮子闹别扭，眉头紧皱，眼神充满不满，像是在生气或抗议。",
+    "image_name": "CH0214_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "sigh",
+      "serious",
+      "disappointed",
+      "calm"
+    ],
+    "description": "闭着眼睛，表情严肃沉静，似乎在无奈叹气、沉思或对某事感到失望。",
+    "image_name": "CH0214_spr_99.png"
+  }
+]

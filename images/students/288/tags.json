@@ -1,0 +1,286 @@
+[
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "laughing",
+      "happy",
+      "joyful"
+    ],
+    "description": "她闭着双眼开怀大笑，嘴巴张大，看起来非常开心和充满活力。",
+    "image_name": "CH0157_spr_00_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "closed_mouth",
+      "slight_smile",
+      "neutral",
+      "gentle",
+      "calm"
+    ],
+    "description": "她睁着眼睛直视前方，嘴角带着一丝淡淡的温和微笑，表情平静。",
+    "image_name": "CH0157_spr_01_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "open_mouth",
+      "smile",
+      "talking",
+      "cheerful"
+    ],
+    "description": "她睁着眼睛，嘴巴张开微笑着，仿佛正在开心地与人交谈或打招呼。",
+    "image_name": "CH0157_spr_02_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "smile",
+      "peaceful",
+      "relieved",
+      "satisfied"
+    ],
+    "description": "她闭着双眼，嘴角微微上扬，表情看起来非常安详、满足或松了一口气。",
+    "image_name": "CH0157_spr_03_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "open_mouth",
+      "sweat_drop",
+      "anxious",
+      "surprised",
+      "worried",
+      "shocked"
+    ],
+    "description": "她看起来非常惊慌或焦虑，脸上挂着一滴冷汗，眉头紧锁，嘴巴惊讶地张开。",
+    "image_name": "CH0157_spr_04_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "closed_mouth",
+      "furrowed_brows",
+      "serious",
+      "thinking",
+      "concerned"
+    ],
+    "description": "她表情严肃，眉头微微皱起，眼神凝重，似乎在思考问题或感到有些困惑。",
+    "image_name": "CH0157_spr_05_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "wavy_mouth",
+      "uneasy",
+      "troubled",
+      "sad",
+      "awkward"
+    ],
+    "description": "她看起来感到委屈或不安，嘴巴抿成波浪状，眼神中流露出一丝为难和悲伤。",
+    "image_name": "CH0157_spr_06_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "tears",
+      "crying",
+      "happy_crying",
+      "emotional",
+      "touched"
+    ],
+    "description": "她眼角含着泪水，闭着眼睛张嘴大笑，看起来像是感动得喜极而泣。",
+    "image_name": "CH0157_spr_07_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "tears",
+      "happy_crying",
+      "touched",
+      "relief"
+    ],
+    "description": "她闭着双眼，脸上带着欣慰的微笑，眼角闪烁着泪光，看起来像是喜极而泣或深受感动。",
+    "image_name": "CH0157_spr_08_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "sad",
+      "tearing_up",
+      "troubled",
+      "anxious",
+      "wavy_mouth",
+      "worried"
+    ],
+    "description": "她睁着眼睛，眉头紧锁，眼角挂着泪珠，神情委屈且焦虑，仿佛下一秒就要哭出来。",
+    "image_name": "CH0157_spr_09_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "neutral",
+      "blank_stare",
+      "expressionless",
+      "dazed",
+      "calm"
+    ],
+    "description": "她睁着大眼睛直视前方，眼神显得有些空洞无神，面无表情，仿佛正在发呆或思绪游离。",
+    "image_name": "CH0157_spr_10_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "shouting",
+      "embarrassed",
+      "flustered",
+      ">_<",
+      "blush"
+    ],
+    "description": "她紧闭双眼呈“><”状，张大嘴巴似乎在大声喊叫或抗议，脸颊通红，显得既激动又害羞。",
+    "image_name": "CH0157_spr_11_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "whining",
+      "frustrated",
+      "pain",
+      ">_<",
+      "suffering"
+    ],
+    "description": "她紧闭双眼，眉头紧皱，张着嘴巴发出痛苦的声音，看起来非常受挫、难受或是在哀嚎。",
+    "image_name": "CH0157_spr_12_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "drooling",
+      "unconscious",
+      "exhausted",
+      "messy",
+      "fainted"
+    ],
+    "description": "她闭着眼睛，嘴巴无力地张开，嘴角流出口水，看起来像是体力透支晕了过去或是饿昏了头。",
+    "image_name": "CH0157_spr_13_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "blank_eyes",
+      "white_eyes",
+      "circle_eyes",
+      "smile",
+      "dazed",
+      "confused",
+      "broken"
+    ],
+    "description": "她的眼睛变成了白色的圆圈，嘴角却挂着一丝呆滞的微笑，看起来精神恍惚，像是大脑停止了思考。",
+    "image_name": "CH0157_spr_14_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "blank_eyes",
+      "white_eyes",
+      "circle_eyes",
+      "open_mouth",
+      "shocked",
+      "panicked",
+      "sweat_drop",
+      "chaos"
+    ],
+    "description": "她的眼睛变成了白色的圆圈，嘴巴大张，脸上挂着汗珠，看起来受到了巨大的惊吓，陷入了极度的恐慌和混乱。",
+    "image_name": "CH0157_spr_15_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "open_mouth",
+      "o_mouth",
+      "surprised",
+      "curious",
+      "innocent"
+    ],
+    "description": "她睁着大大的眼睛，嘴巴张成小小的O型，看起来有些惊讶，又仿佛对什么事物感到好奇，表情十分天真。",
+    "image_name": "CH0157_spr_16_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "closed_mouth",
+      "wry_smile",
+      "troubled",
+      "uneasy",
+      "awkward"
+    ],
+    "description": "她眉毛微微下垂，嘴角勉强上扬带着一丝苦笑，眼神中流露出尴尬、无奈或是有些困扰的情绪。",
+    "image_name": "CH0157_spr_17_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "smile",
+      "blush",
+      "shy",
+      "satisfied"
+    ],
+    "description": "她闭着双眼，脸颊泛着红晕，嘴角微微上扬，看起来既害羞又满足，像是在享受什么开心的夸奖。",
+    "image_name": "CH0157_spr_18_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "open_mouth",
+      "sweat_drop",
+      "nervous_smile",
+      "awkward",
+      "anxious"
+    ],
+    "description": "她睁着眼睛，脸上挂着一滴冷汗，嘴巴张开露出尴尬的笑容，看起来有些紧张，似乎在试图掩饰慌乱。",
+    "image_name": "CH0157_spr_19_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "laughing",
+      "happy",
+      "cheerful",
+      "joyful"
+    ],
+    "description": "她闭着眼睛开怀大笑，嘴巴张大，表情洋溢着纯粹的快乐和爽朗的气息。",
+    "image_name": "CH0157_spr_20_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "open_mouth",
+      "smile",
+      "excited",
+      "energetic",
+      "happy"
+    ],
+    "description": "她睁大眼睛，嘴巴开心地张开，看起来充满活力、兴奋且心情愉悦，仿佛正在期待着什么。",
+    "image_name": "CH0157_spr_21_W2xEX_1x_2n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "smile",
+      "calm",
+      "peaceful",
+      "gentle"
+    ],
+    "description": "她轻轻闭着双眼，嘴角微微上扬，神情平静而温和，给人一种安详、岁月静好的感觉。",
+    "image_name": "CH0157_spr_99_W2xEX_1x_2n.jpg"
+  }
+]

@@ -1,0 +1,377 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "smile",
+      "happy",
+      "excited",
+      "talking"
+    ],
+    "description": "她张大嘴巴开心地笑着，表情充满活力，仿佛正在兴奋地说话。",
+    "image_name": "CH0319_spr_00.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "wavy_mouth",
+      "smile",
+      "mischievous",
+      ":3"
+    ],
+    "description": "她嘴角呈现波浪状（猫嘴），露出了有些得意且调皮的微笑。",
+    "image_name": "CH0319_spr_01.png"
+  },
+  {
+    "tags": [
+      "parted_lips",
+      "surprised",
+      "confused",
+      "blank_stare",
+      "dazed"
+    ],
+    "description": "她微微张着嘴，眼神有些发愣，看起来既惊讶又有点困惑。",
+    "image_name": "CH0319_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "smile",
+      "gentle",
+      "calm",
+      "soft"
+    ],
+    "description": "她闭着嘴巴，脸上带着温柔平静的微笑。",
+    "image_name": "CH0319_spr_03.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "shocked",
+      "wide_eyes",
+      "shouting"
+    ],
+    "description": "她瞪大了眼睛，嘴巴大张呈O型，看起来非常震惊，仿佛看到了什么难以置信的事情。",
+    "image_name": "CH0319_spr_04.png"
+  },
+  {
+    "tags": [
+      "confused",
+      "open_mouth",
+      "worried",
+      "furrowed_brows",
+      "talking"
+    ],
+    "description": "她微微皱着眉头，张着嘴巴，眼神中流露出一丝困惑和担忧，似乎正在询问或不解。",
+    "image_name": "CH0319_spr_05.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "blush",
+      "jitome",
+      "unimpressed",
+      "embarrassed"
+    ],
+    "description": "她半眯着眼睛盯着前方（鄙视眼/死鱼眼），脸颊上带着红晕，神情看起来有些无语、不耐烦或是尴尬。",
+    "image_name": "CH0319_spr_06.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "cheerful",
+      "excited"
+    ],
+    "description": "她开心地张着嘴笑，双眼有神，脸上洋溢着活泼开朗的喜悦情绪。",
+    "image_name": "CH0319_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smug",
+      "wavy_mouth",
+      "blush",
+      ":3"
+    ],
+    "description": "她闭着眼睛，嘴角翘起呈波浪状（猫嘴），脸颊微红，神情显得非常得意和满足。",
+    "image_name": "CH0319_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "happy",
+      "cheerful"
+    ],
+    "description": "她眯起眼睛开心地张嘴大笑，脸上洋溢着纯真快乐的笑容。",
+    "image_name": "CH0319_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "tongue_out",
+      "blush",
+      "mischievous",
+      "teasing"
+    ],
+    "description": "她闭着眼睛吐出舌头，脸上带着红晕，做出一副调皮搞怪的表情，似乎在开玩笑或恶作剧。",
+    "image_name": "CH0319_spr_10.png"
+  },
+  {
+    "tags": [
+      "droopy_eyes",
+      "open_mouth",
+      "blush",
+      "smile",
+      "shy",
+      "gentle"
+    ],
+    "description": "她眼角微微下垂，眼神温柔且带点羞涩，张着嘴巴露出憨厚的笑容，看起来非常治愈。",
+    "image_name": "CH0319_spr_11.png"
+  },
+  {
+    "tags": [
+      "tongue_out",
+      "smile",
+      "mischievous",
+      "playful",
+      "cute",
+      ":p"
+    ],
+    "description": "她调皮地吐出舌头，眼神灵动，脸上带着顽皮可爱的微笑，仿佛在卖萌。",
+    "image_name": "CH0319_spr_12.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "jitome",
+      "tongue_out",
+      "mocking",
+      "blush",
+      "unimpressed"
+    ],
+    "description": "她半眯着眼睛（死鱼眼），吐着舌头做鬼脸，脸上带着红晕，神情看起来既不屑又带有嘲弄意味。",
+    "image_name": "CH0319_spr_13.png"
+  },
+  {
+    "tags": [
+      "sparkling_eyes",
+      "open_mouth",
+      "smile",
+      "excited",
+      "amazed",
+      "star_eyes"
+    ],
+    "description": "她的眼睛里闪烁着星光（星星眼），张着嘴巴开心地笑，看起来充满了憧憬、兴奋和期待。",
+    "image_name": "CH0319_spr_14.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "smile",
+      "happy",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "她闭着眼睛张大嘴巴开怀大笑，脸上带着红晕，洋溢着无比快乐、纯真和爽朗的气息。",
+    "image_name": "CH0319_spr_15.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "tongue_out",
+      "licking_lips",
+      "blush",
+      "delicious",
+      "cute"
+    ],
+    "description": "她闭着眼睛露出甜美的微笑，舌头俏皮地舔着嘴角，脸颊微红，一副贪吃满足或是期待美味的样子。",
+    "image_name": "CH0319_spr_16.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "rectangular_eyes",
+      "wavy_mouth",
+      "blush",
+      "relaxed",
+      "cute",
+      ":3"
+    ],
+    "description": "她的眼睛眯成两条黑色的长方形（简笔画风格），嘴巴呈波浪状（猫嘴），神情看起来呆萌、慵懒又有些得意。",
+    "image_name": "CH0319_spr_17.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "rectangular_eyes",
+      "open_mouth",
+      "smile",
+      "happy",
+      "blush",
+      "silly"
+    ],
+    "description": "她眯着长方形的眼睛，张大嘴巴开心地傻笑，脸上带着红晕，洋溢着一种滑稽、随性且无忧无虑的快乐。",
+    "image_name": "CH0319_spr_18.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "open_mouth",
+      "surprised",
+      "curious",
+      "innocent",
+      "blank_stare"
+    ],
+    "description": "她睁大双眼，嘴巴微张呈小O型，一脸好奇或惊讶地注视着前方，看起来天真无邪且有些呆气。",
+    "image_name": "CH0319_spr_19.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "worried",
+      "confused",
+      "troubled",
+      "innocent"
+    ],
+    "description": "她微微皱着八字眉，张着嘴巴，眼神无辜，看起来有些困惑、担忧，似乎遇到了什么难题。",
+    "image_name": "CH0319_spr_20.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "open_mouth",
+      "surprised",
+      "shocked",
+      "amazed"
+    ],
+    "description": "她眉毛高高扬起，瞪圆了眼睛，嘴巴张成O型，一脸惊讶和错愕，仿佛看到了意料之外的事物。",
+    "image_name": "CH0319_spr_21.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "frown",
+      "serious",
+      "upset",
+      "concerned"
+    ],
+    "description": "她紧抿着嘴唇，嘴角微微向下撇，眉头微皱，神情严肃，流露出一种不满、担心或者是认真的情绪。",
+    "image_name": "CH0319_spr_22.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "blank_stare",
+      "dazed",
+      "clueless",
+      "dumbfounded"
+    ],
+    "description": "她微微张着小嘴，眼神有些发直和呆滞，看起来一脸茫然，仿佛大脑一片空白或正在发呆。",
+    "image_name": "CH0319_spr_23.png"
+  },
+  {
+    "tags": [
+      "pout",
+      "puffed_cheeks",
+      "angry",
+      "annoyed",
+      "grumpy",
+      "cute"
+    ],
+    "description": "她用力鼓起腮帮子，眉头紧锁，眼神带着一丝怨气，看起来正在赌气或者闹别扭，一副气鼓鼓的可爱模样。",
+    "image_name": "CH0319_spr_24.png"
+  },
+  {
+    "tags": [
+      "jitome",
+      "half_closed_eyes",
+      "unamused",
+      "blush",
+      "pout",
+      "suspicious"
+    ],
+    "description": "她半眯着眼投来怀疑或不屑的目光（死鱼眼），嘴巴微微撅起，脸上带着红晕，似乎对眼前的情况感到无语或无奈。",
+    "image_name": "CH0319_spr_25.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "shouting",
+      "blush",
+      "embarrassed",
+      "flustered",
+      "upset"
+    ],
+    "description": "她紧闭双眼，满脸通红，张大嘴巴似乎在羞愤地大喊或反驳，神情看起来非常慌乱、焦急且难为情。",
+    "image_name": "CH0319_spr_26.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "frown",
+      "worried",
+      "puppy_eyes",
+      "pitiful",
+      "depressed"
+    ],
+    "description": "她耷拉着眉毛，眼神忧郁悲伤，嘴角向下撇，一副委屈巴巴、楚楚可怜的样子，仿佛下一秒就要哭出来。",
+    "image_name": "CH0319_spr_27.png"
+  },
+  {
+    "tags": [
+      "white_eyes",
+      "blank_eyes",
+      "crying",
+      "tears",
+      "panic",
+      "sweat",
+      "flustered",
+      "overwhelmed"
+    ],
+    "description": "她的眼睛变成了白色的空白圆圈，眼角挂着泪珠，满头大汗，表情极度惊慌失措，看起来受到了巨大的惊吓或压力。",
+    "image_name": "CH0319_spr_28.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "open_mouth",
+      "curious",
+      "innocent",
+      "looking_away",
+      "dazed"
+    ],
+    "description": "她睁着圆圆的大眼睛，嘴巴微张，视线看向一侧，神情显得非常天真、好奇，又带有一点呆萌的感觉。",
+    "image_name": "CH0319_spr_29.png"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "pursed_lips",
+      "whistling",
+      "feigning_ignorance",
+      "innocent",
+      "avoiding_eye_contact"
+    ],
+    "description": "她嘟着小嘴，视线刻意游移向一旁，一副假装吹口哨、装傻充愣或者试图掩饰心虚的可爱模样。",
+    "image_name": "CH0319_spr_30.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "wavy_mouth",
+      "cat_mouth",
+      "smug",
+      "satisfied",
+      "cute",
+      ":3"
+    ],
+    "description": "她闭着眼睛，嘴角翘起呈波浪状（猫嘴），脸上洋溢着得意、满足和慵懒的神情，看起来非常治愈。",
+    "image_name": "CH0319_spr_99.png"
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "closed_mouth",
+      "calm",
+      "red_eyes"
+    ],
+    "description": "面无表情，眼神冷静，嘴巴闭合，展现出平时严肃认真的模样。",
+    "image_name": "iori_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "neutral",
+      "calm"
+    ],
+    "description": "嘴巴微张，眼神平静，似乎正在进行普通的对话或说明。",
+    "image_name": "iori_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "open_mouth",
+      "pleased"
+    ],
+    "description": "闭着眼睛开心地微笑，看起来心情愉悦或者有些得意。",
+    "image_name": "iori_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "blush",
+      "sweat_drop",
+      "embarrassed",
+      "flustered",
+      "open_mouth",
+      "shy"
+    ],
+    "description": "满脸通红，脸颊挂着汗珠，眼神惊慌，表现出极度的害羞或不知所措。",
+    "image_name": "iori_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "jitome",
+      "annoyed",
+      "scorn",
+      "half_closed_eyes",
+      "open_mouth",
+      "disdain"
+    ],
+    "description": "眼神半眯（鄙视眼），嘴巴微张，流露出不耐烦、嫌弃或无语的神情。",
+    "image_name": "iori_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "sad",
+      "resigned",
+      "sigh",
+      "troubled"
+    ],
+    "description": "闭着眼睛，脸上带着汗珠，看起来非常无奈、失望，仿佛在叹气。",
+    "image_name": "iori_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "sweat_drop",
+      "furrowed_brows",
+      "annoyed",
+      "open_mouth",
+      "urgency"
+    ],
+    "description": "眉头紧锁，流着汗，神情焦急或生气，似乎在抗议或责备。",
+    "image_name": "iori_spr-07_0_waifu2x_2x_2n_png.jpg"
+  }
+]

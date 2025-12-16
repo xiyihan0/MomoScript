@@ -1,0 +1,104 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "bangs_covering_eyes",
+      "pony_tail"
+    ],
+    "description": "角色表情平静，刘海完全遮住了眼睛，嘴巴抿成一条直线，看起来毫无波澜。",
+    "image_name": "NP0107_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "small_mouth",
+      "bangs_covering_eyes",
+      "pony_tail"
+    ],
+    "description": "依然是平静的神态，嘴巴呈现为一个很小的点或短线，显得比上一张更加沉默或呆萌。",
+    "image_name": "NP0107_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "bangs_covering_eyes",
+      "pony_tail"
+    ],
+    "description": "角色的嘴巴微微张开，似乎正在进行对话或者是发出了轻微的声音。",
+    "image_name": "NP0107_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "slight_smile",
+      "happy",
+      "bangs_covering_eyes"
+    ],
+    "description": "嘴角微微上扬，露出了一个淡淡的、温柔的微笑，心情看起来不错。",
+    "image_name": "NP0107_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "open_mouth",
+      "bangs_covering_eyes"
+    ],
+    "description": "脸颊侧面挂着一滴冷汗，嘴巴微张，表现出一种惊讶、紧张或者是有些慌乱的情绪。",
+    "image_name": "NP0107_spr_04.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "wavy_mouth",
+      "annoyed",
+      "bangs_covering_eyes"
+    ],
+    "description": "嘴巴变成了波浪状的线条，似乎在撇嘴，流露出一种不满、为难或者是被什么事情困扰的样子。",
+    "image_name": "NP0107_spr_05.png"
+  },
+  {
+    "tags": [
+      "gloom",
+      "dark_shadow",
+      "depressed",
+      "bangs_covering_eyes"
+    ],
+    "description": "面部上半部分被打上了阴影线条，营造出一种阴沉、沮丧或者是极度消极的氛围。",
+    "image_name": "NP0107_spr_06.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "sweat_drop",
+      "shy",
+      "embarrassed",
+      "bangs_covering_eyes"
+    ],
+    "description": "脸颊泛起明显的红晕，同时还伴有一滴冷汗，看起来非常害羞、局促不安或者是感到尴尬。",
+    "image_name": "NP0107_spr_07.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "bangs_covering_eyes",
+      "pony_tail",
+      "gaping"
+    ],
+    "description": "嘴巴张开呈一个小圆形，看起来有些惊讶、发愣，或者是在呆滞地发出声音，刘海遮住了眼神，让人难以捉摸具体的心理活动。",
+    "image_name": "NP0107_spr_08.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "bangs_covering_eyes",
+      "pony_tail"
+    ],
+    "description": "回归到最基础的平静状态，嘴巴闭合，没有任何多余的表情修饰，神态安详而沉默，通常作为标准的待机立绘。",
+    "image_name": "NP0107_spr_99.png"
+  }
+]

@@ -1,0 +1,230 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "slight_smile",
+      "open_eyes",
+      "red_eyes",
+      "blush"
+    ],
+    "description": "标准的平静表情，红色的双眼注视前方，嘴角带着礼貌而微小的笑意。",
+    "image_name": "CH0290_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "open_eyes",
+      "red_eyes",
+      "blush",
+      "soft"
+    ],
+    "description": "温柔的微笑，眼神比平静时更加柔和，传递出亲切友好的氛围。",
+    "image_name": "CH0290_spr_01.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "open_eyes",
+      "curiosity",
+      "red_eyes"
+    ],
+    "description": "略显惊讶或好奇，嘴巴微张呈小O型，似乎对眼前的事物感到意外。",
+    "image_name": "CH0290_spr_02.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "open_mouth",
+      "smile",
+      "joyful",
+      "laugh"
+    ],
+    "description": "十分开心的笑容，眼睛眯成弯弯的月牙状（^^），嘴巴张开，洋溢着喜悦。",
+    "image_name": "CH0290_spr_03.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "shock",
+      "white_eyes",
+      "tears",
+      "open_mouth",
+      "distressed",
+      "comic_style"
+    ],
+    "description": "崩溃或受到打击的夸张表情，瞳孔消失变成白色圆圈，眼角挂着泪珠，嘴巴波浪状张开，显得非常委屈或震惊。",
+    "image_name": "CH0290_spr_04.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "half_closed_eyes",
+      "skeptical",
+      "unimpressed",
+      "stare",
+      "jitome"
+    ],
+    "description": "鄙视或无语的眼神（半月眼），眼睛半眯着审视前方，流露出怀疑、不悦或无可奈何的情绪。",
+    "image_name": "CH0290_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sad",
+      "resigned",
+      "disappointed",
+      "sigh"
+    ],
+    "description": "闭着眼睛叹气，神情低落或无奈，似乎在容忍什么或感到失望。",
+    "image_name": "CH0290_spr_06.png"
+  },
+  {
+    "tags": [
+      "tired",
+      "deadpan",
+      "bored",
+      "half_open_eyes",
+      "blank_stare",
+      "exhausted"
+    ],
+    "description": "生无可恋的死鱼眼表情，眼神呆滞无神，眼皮下垂，嘴巴微张，看起来极度疲惫或心累。",
+    "image_name": "CH0290_spr_07.png"
+  },
+  {
+    "tags": [
+      "shock",
+      "shouting",
+      "panic",
+      "sweat",
+      "wide_eyes",
+      "angry"
+    ],
+    "description": "震惊大喊的表情，瞳孔收缩，嘴巴张大，脸上挂着汗珠，似乎处于极度慌乱或正在发火的状态。",
+    "image_name": "CH0290_spr_08.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "nervous",
+      "sweat",
+      "open_mouth",
+      "confusion"
+    ],
+    "description": "略显紧张或困惑的表情，脸上有一滴汗珠，嘴巴微张，眼神显得有些不知所措。",
+    "image_name": "CH0290_spr_09.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sweat",
+      "anxious",
+      "open_eyes",
+      "troubled"
+    ],
+    "description": "带着汗珠的担忧表情，神情比上一张更显焦虑，似乎遇到了麻烦事正在焦急应对。",
+    "image_name": "CH0290_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "pout",
+      "annoyed",
+      "sulking",
+      "grumpy"
+    ],
+    "description": "闭眼赌气的表情，嘴角撇向一边，眉头微皱，表现出明显的不满或正在闹别扭（哼！）。",
+    "image_name": "CH0290_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "relief",
+      "blush"
+    ],
+    "description": "释然的温柔微笑，双眼眯成月牙状，脸上带着红晕，看起来感到非常放松和欣慰。",
+    "image_name": "CH0290_spr_12.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "speaking",
+      "open_mouth",
+      "open_eyes",
+      "calm"
+    ],
+    "description": "平静地张嘴说话，神态自然，像是在进行普通的解释或对话。",
+    "image_name": "CH0290_spr_13.png"
+  },
+  {
+    "tags": [
+      "tired",
+      "half_closed_eyes",
+      "exhausted",
+      "open_mouth",
+      "unimpressed"
+    ],
+    "description": "疲惫无语地张嘴说话，眼神半眯，显得无精打采，透出一股深深的无力感。",
+    "image_name": "CH0290_spr_14.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "silent",
+      "judging",
+      "moody",
+      "serious"
+    ],
+    "description": "半眯着眼的沉默表情，嘴巴闭成一条线，眼神显得冷淡或带有审视的意味，似乎不太高兴。",
+    "image_name": "CH0290_spr_15.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "emotional",
+      "shouting",
+      "strained"
+    ],
+    "description": "闭着眼睛张嘴喊叫或倾诉，眉间微聚，神情显得有些激动或费力，似乎在强烈地表达某种情绪。",
+    "image_name": "CH0290_spr_16.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "silent",
+      "calm",
+      "thinking",
+      "serious"
+    ],
+    "description": "平静的闭眼表情，嘴巴闭合，神态沉稳，像是在闭目沉思、养神或保持沉默。",
+    "image_name": "CH0290_spr_17.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "worried",
+      "open_mouth",
+      "open_eyes",
+      "flustered"
+    ],
+    "description": "慌张焦虑的表情，脸上挂着汗珠，红色的双眼流露出不安，嘴巴张开，似乎正在急忙辩解或感到不知所措。",
+    "image_name": "CH0290_spr_18.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "gentle",
+      "serene"
+    ],
+    "description": "恬静温柔的闭眼微笑，双眼眯成柔和的弧线，脸上洋溢着安心与幸福的感觉，极具治愈感。",
+    "image_name": "CH0290_spr_99.png"
+  }
+]

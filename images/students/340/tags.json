@@ -1,0 +1,169 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "serious",
+      "yellow_eyes",
+      "white_hat"
+    ],
+    "description": "表情平静且略显严肃，眼神直视前方，嘴巴抿成一条直线，展现出冷静沉着的姿态。",
+    "image_name": "J_CH0233_spr_00_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "focused",
+      "staring"
+    ],
+    "description": "神情专注，目光没有任何偏移，面部肌肉放松，表现出一种标准的待机或聆听状态。",
+    "image_name": "J_CH0233_spr_01_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "speaking",
+      "mouth_open",
+      "calm"
+    ],
+    "description": "嘴巴微微张开，似乎正在轻声细语地说话，眼神依然保持着特有的平静。",
+    "image_name": "J_CH0233_spr_02_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "friendly"
+    ],
+    "description": "嘴角微微上扬露出淡淡的微笑，眼神变得柔和，给人一种亲切友好的感觉。",
+    "image_name": "J_CH0233_spr_03_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "awkward",
+      "troubled",
+      "wavy_mouth"
+    ],
+    "description": "双眼紧闭，脸颊挂着一滴汗珠，嘴巴呈波浪状扭曲，表现出尴尬、无奈或不知所措的心情。",
+    "image_name": "J_CH0233_spr_04_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "mouth_open",
+      "shocked",
+      "exclaiming"
+    ],
+    "description": "嘴巴张大呈圆形，眼神略带惊讶，似乎正在发出惊叹或者对某事感到意外。",
+    "image_name": "J_CH0233_spr_05_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "frown",
+      "troubled"
+    ],
+    "description": "眉毛微微皱起，嘴角向下撇，眼神流露出明显的忧虑和不安，显得有些伤感。",
+    "image_name": "J_CH0233_spr_06_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "tired",
+      "sigh",
+      "resigned"
+    ],
+    "description": "闭着眼睛，脸颊带有汗珠，嘴巴抿紧，似乎在无奈地叹气，表现出一种放弃或心累的状态。",
+    "image_name": "J_CH0233_spr_07_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "pain",
+      "squeezed_eyes",
+      "wavy_mouth",
+      "sweat_drop",
+      "struggle"
+    ],
+    "description": "双眼紧闭呈><形状，嘴角呈波浪形扭曲，脸上挂着冷汗，表现出极度的痛苦、忍耐或身体不适。",
+    "image_name": "J_CH0233_spr_08_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "staring",
+      "expressionless",
+      "yellow_eyes",
+      "blank_look"
+    ],
+    "description": "面无表情，睁着大眼睛直视前方，眼神略显空洞或呆滞，处于一种完全的放空或待机状态。",
+    "image_name": "J_CH0233_spr_09_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "speaking",
+      "mouth_open",
+      "calm",
+      "neutral"
+    ],
+    "description": "嘴巴张开，似乎正在进行对话、解释或询问，神情保持自然且平和。",
+    "image_name": "J_CH0233_spr_10_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "relaxed",
+      "sleeping",
+      "mouth_open",
+      "peaceful"
+    ],
+    "description": "闭着双眼，嘴巴微张，表情十分松弛安详，看起来像是在熟睡、打瞌睡或在舒适地休息。",
+    "image_name": "J_CH0233_spr_11_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "frown",
+      "displeased",
+      "glaring",
+      "doubtful"
+    ],
+    "description": "眉头紧锁，眼神锐利地注视着前方，嘴巴抿紧，表现出严肃、怀疑或轻微不满的态度。",
+    "image_name": "J_CH0233_spr_12_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "sweat_drop",
+      "mouth_open",
+      "nervous",
+      "flustered"
+    ],
+    "description": "眼睛微微瞪大，嘴巴张开，脸颊有一滴汗珠，显得有些慌乱、惊讶或被突发状况吓了一跳。",
+    "image_name": "J_CH0233_spr_13_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "troubled",
+      "sweat_drop",
+      "worried",
+      "awkward",
+      "anxious"
+    ],
+    "description": "眉毛呈八字下垂，眼神游移，脸上挂着汗珠，嘴巴尴尬地微张，表现出明显的困扰、焦急或为难。",
+    "image_name": "J_CH0233_spr_14_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "silent",
+      "calm",
+      "flat_expression"
+    ],
+    "description": "双眼平静地闭合，面部肌肉放松，嘴巴闭着，看起来非常宁静，像是在闭目养神、沉思或仅仅是闭着眼。",
+    "image_name": "J_CH0233_spr_99_W2xEX_2x_1n.jpg"
+  }
+]

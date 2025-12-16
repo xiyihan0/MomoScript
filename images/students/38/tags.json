@@ -1,0 +1,99 @@
+[
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "troubled",
+      "sigh",
+      "tired"
+    ],
+    "description": "闭着眼睛叹气，脸上挂着汗珠，表现出无奈、疲惫或头疼的样子。",
+    "image_name": "QQ截图20220118113144.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "sweat_drop",
+      "skeptical",
+      "awkward",
+      "looking_at_viewer"
+    ],
+    "description": "睁大眼睛注视前方，流着一滴冷汗，神情略显尴尬或对现状感到困惑。",
+    "image_name": "QQ截图20220118113152.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "bored",
+      "looking_away",
+      "indifferent"
+    ],
+    "description": "眼神向旁边游离，表情平淡，看起来漫不经心或有些无聊。",
+    "image_name": "QQ截图20220118113159.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "stare",
+      "blank_look",
+      "expressionless"
+    ],
+    "description": "面无表情地直视前方，眼神空洞或发呆，没有任何情绪波动。",
+    "image_name": "QQ截图20220118113205.png"
+  },
+  {
+    "tags": [
+      "disgust",
+      "clenched_teeth",
+      "annoyed",
+      "frown",
+      "grimace"
+    ],
+    "description": "嫌弃的表情，皱着眉头并咬紧牙关，明显感到烦躁、厌恶或不爽。",
+    "image_name": "QQ截图20220118113213.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "looking_sideways",
+      "serious"
+    ],
+    "description": "冷静且略带严肃的表情，眼神向侧下方瞥视，似乎在思考或观察。",
+    "image_name": "QQ截图20220118113221.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "sleeping",
+      "peaceful"
+    ],
+    "description": "完全闭上双眼，神态安详平静，像是在闭目养神或睡觉。",
+    "image_name": "QQ截图20220118113229.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "smug",
+      "confident",
+      "teasing",
+      "looking_at_viewer"
+    ],
+    "description": "嘴角上扬，露出一副自信、从容甚至略带嘲讽和捉弄意味的坏笑（雌小鬼笑容）。",
+    "image_name": "QQ截图20220118113236.png"
+  },
+  {
+    "tags": [
+      "frown",
+      "angry",
+      "serious",
+      "glare",
+      "displeased",
+      "judging",
+      "stare"
+    ],
+    "description": "紧锁眉头，眼神犀利且充满审视意味，嘴角紧闭，表现出明显的不满、生气或严厉的责备态度（看垃圾的眼神）。",
+    "image_name": "QQ截图20220118113243.png"
+  }
+]

@@ -1,0 +1,136 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy"
+    ],
+    "description": "张嘴微笑，表现出基础的开心和活力。",
+    "image_name": "CH0201_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "confident",
+      "smug"
+    ],
+    "description": "闭嘴微笑，眼神略带自信或得意的神情。",
+    "image_name": "CH0201_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "blank_stare"
+    ],
+    "description": "嘴巴微张呈小圆孔状，表现出惊讶、发呆或突然意识到了什么。",
+    "image_name": "CH0201_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "laughing"
+    ],
+    "description": "闭眼开怀大笑，非常兴奋和喜悦的样子。",
+    "image_name": "CH0201_spr_03.png"
+  },
+  {
+    "tags": [
+      "blank_eyes",
+      "tongue_out",
+      "dizzy",
+      "shock"
+    ],
+    "description": "双眼变成空心白眼并吐出舌头，表现出晕头转向、死机或受到打击的搞怪表情。",
+    "image_name": "CH0201_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "open_mouth",
+      "shouting",
+      "annoyed"
+    ],
+    "description": "皱起眉头张嘴大喊，表现出生气、抗议或急躁的情绪。",
+    "image_name": "CH0201_spr_05.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "closed_eyes",
+      "tears",
+      "sad"
+    ],
+    "description": "闭着眼睛流泪大哭，看起来非常伤心难过。",
+    "image_name": "CH0201_spr_06.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "wavy_mouth",
+      "nervous",
+      "awkward"
+    ],
+    "description": "眉头微皱，嘴巴呈波浪状，表现出尴尬、困扰、为难或委屈的样子。",
+    "image_name": "CH0201_spr_07.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "angry",
+      "shouting",
+      "serious",
+      "furrowed_brows"
+    ],
+    "description": "眼神犀利，皱眉张大嘴巴大喊，表现出认真、生气或充满气势的样子。",
+    "image_name": "CH0201_spr_08.png"
+  },
+  {
+    "tags": [
+      "blank_eyes",
+      "white_eyes",
+      "open_mouth",
+      "shock",
+      "sweat_drop",
+      "panic"
+    ],
+    "description": "双眼变成白色空心圆，嘴巴张成O型并流下冷汗，表现出极度震惊、慌乱或死机的状态。",
+    "image_name": "CH0201_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "happy",
+      "relaxed",
+      "speaking"
+    ],
+    "description": "闭着双眼张嘴，面带轻松愉快的表情，像是在开心地说话或叹气。",
+    "image_name": "CH0201_spr_10.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smug",
+      "scheming",
+      "mischievous",
+      "slight_smile"
+    ],
+    "description": "半眯着眼睛，嘴角露出坏笑，一脸得意或像是在打什么坏主意的神情。",
+    "image_name": "CH0201_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "smile",
+      "satisfied",
+      "peaceful"
+    ],
+    "description": "闭眼抿嘴微笑，看起来非常安详、满足，或者表现出自信的肯定。",
+    "image_name": "CH0201_spr_99.png"
+  }
+]

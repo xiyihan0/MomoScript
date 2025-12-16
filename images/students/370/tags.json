@@ -1,0 +1,139 @@
+[
+  {
+    "tags": [
+      "serious",
+      "neutral",
+      "stare",
+      "focused"
+    ],
+    "description": "表情严肃且专注，眼神犀利地直视前方，没有任何放松的迹象，带有一种审视感。",
+    "image_name": "CH0220_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "normal",
+      "idle"
+    ],
+    "description": "非常平静的标准表情，情绪稳定，眼神柔和，处于一种自然的待机状态。",
+    "image_name": "CH0220_spr_01.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "open_mouth",
+      "curious",
+      "parted_lips"
+    ],
+    "description": "嘴巴微微张开成圆形，似乎正在说话、提问，或者对眼前的事物感到轻微的惊讶。",
+    "image_name": "CH0220_spr_02.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "laughing",
+      "joy"
+    ],
+    "description": "开怀大笑的表情，眼睛眯成弯弯的月牙状，嘴巴张开，洋溢着纯粹的开心和喜悦。",
+    "image_name": "CH0220_spr_03.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "grimace",
+      "clenched_teeth",
+      "displeased",
+      "awkward"
+    ],
+    "description": "表现出不耐烦或尴尬的样子，咬牙切齿（或嘴角抽搐），眉头紧锁，似乎遇到了令人无语或讨厌的情况。",
+    "image_name": "CH0220_spr_04.png"
+  },
+  {
+    "tags": [
+      "stern",
+      "serious",
+      "suspicious",
+      "judging"
+    ],
+    "description": "神情比平时更加冷峻，眼神中透露出一丝怀疑或警戒，似乎在严肃地评判某事。",
+    "image_name": "CH0220_spr_05.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "troubled",
+      "eyebrows_down"
+    ],
+    "description": "眉毛呈八字下垂，眼神流露出明显的担忧、困扰和不安，看起来有些委屈。",
+    "image_name": "CH0220_spr_06.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "grin",
+      "confident",
+      "mischievous"
+    ],
+    "description": "露出一副得意的坏笑，嘴角自信上扬，眼神中带着一丝恶作剧得逞般的狡黠。",
+    "image_name": "CH0220_spr_07.png"
+  },
+  {
+    "tags": [
+      "skeptical",
+      "unimpressed",
+      "doubt",
+      "stare",
+      "flat_gaze"
+    ],
+    "description": "表情冷淡且充满怀疑，半睁着眼无精打采地注视着，嘴角微微下撇，流露出一副“真的吗”或完全不以为然的样子。",
+    "image_name": "CH0220_spr_08.png"
+  },
+  {
+    "tags": [
+      "white_eyes",
+      "shouting",
+      "shock",
+      "comic_style",
+      "angry"
+    ],
+    "description": "漫画夸张风格的震惊或愤怒表情，双眼翻白（瞳孔消失），嘴巴大张正在咆哮，表现出极度的惊讶或强烈的吐槽欲望。",
+    "image_name": "CH0220_spr_09.png"
+  },
+  {
+    "tags": [
+      "white_eyes",
+      "blushing",
+      "flustered",
+      "shouting",
+      "embarrassed"
+    ],
+    "description": "在翻白眼咆哮的基础上加上了明显的面部红晕，表现出极度害羞、尴尬后的抓狂，或者正在因为羞愤而大声掩饰。",
+    "image_name": "CH0220_spr_10.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "confident",
+      "soft_gaze",
+      "content"
+    ],
+    "description": "露出一抹温和而自信的微笑，眼神比平时柔和，嘴角上扬，带有一种从容不迫、仿佛对现状感到满意的成熟感。",
+    "image_name": "CH0220_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "thinking",
+      "silent",
+      "ignoring"
+    ],
+    "description": "双眼轻轻闭上，表情平静，像是在闭目养神、深思，或者带着一丝无奈选择闭眼不看，拒绝进行眼神交流。",
+    "image_name": "CH0220_spr_99.png"
+  }
+]

@@ -1,0 +1,216 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "confused",
+      "open_mouth",
+      "looking_away"
+    ],
+    "description": "略带困惑或呆滞的平淡表情，嘴巴微张，眼神似乎在看向别处或放空。",
+    "image_name": "CH0253_spr_00_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "unimpressed",
+      "closed_mouth",
+      "looking_away"
+    ],
+    "description": "不耐烦或无语的表情，抿着嘴，眼神斜视，似乎对某事感到不满。",
+    "image_name": "CH0253_spr_01_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "open_mouth",
+      "talking"
+    ],
+    "description": "平静的常规表情，嘴巴自然张开，看起来正在进行对话。",
+    "image_name": "CH0253_spr_02_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "confident",
+      "teeth"
+    ],
+    "description": "标志性的得意笑脸，嘴角上扬露出牙齿，神情充满自信和狡黠。",
+    "image_name": "CH0253_spr_03_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "awkward",
+      "worried"
+    ],
+    "description": "尴尬或心虚的表情，脸颊挂着汗珠，眼神显得有些焦急或局促不安。",
+    "image_name": "CH0253_spr_04_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "disgust",
+      "cringe",
+      "grimace",
+      "one_eye_closed"
+    ],
+    "description": "嫌弃或感到棘手的表情，嘴角抽搐，一只眼睛微微眯起，表现出难受的样子。",
+    "image_name": "CH0253_spr_05_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "tired",
+      "sigh",
+      "closed_eyes",
+      "sweat_drop"
+    ],
+    "description": "闭眼叹气，流着冷汗，表现出深深的无奈、疲惫或放弃思考。",
+    "image_name": "CH0253_spr_06_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "shock",
+      "vein_pop"
+    ],
+    "description": "愤怒的大喊或震惊的咆哮，脸上有青筋暴起的愤怒符号，情绪非常激动。",
+    "image_name": "CH0253_spr_07_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "laughing",
+      "closed_eyes",
+      "blush",
+      "smile",
+      "open_mouth"
+    ],
+    "description": "开心的笑脸，双眼眯成月牙状，脸颊泛红，嘴巴张开大笑，洋溢着喜悦和轻松的氛围。",
+    "image_name": "CH0253_spr_08_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "playful",
+      "teasing",
+      "tongue_out",
+      "closed_eyes",
+      "blush"
+    ],
+    "description": "调皮的鬼脸，闭着眼睛吐出舌头（略略略），脸颊微红，带有一种捉弄人或卖萌的俏皮感。",
+    "image_name": "CH0253_spr_09_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "half_closed_eyes",
+      "smile",
+      "cool"
+    ],
+    "description": "自信而冷静的微笑，眼神半眯，嘴角微微上扬，流露出一种从容、得意甚至略带轻蔑的帅气气质。",
+    "image_name": "CH0253_spr_10_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "panic",
+      "shock",
+      "shouting",
+      "sweat",
+      "wide_eyes",
+      "open_mouth"
+    ],
+    "description": "极度震惊或恐慌的表情，瞳孔收缩，嘴巴大张仿佛在尖叫，满头大汗，显得非常慌乱和不知所措。",
+    "image_name": "CH0253_spr_11_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "wince",
+      "one_eye_closed",
+      "grimace",
+      "displeasure"
+    ],
+    "description": "感到棘手或轻微不爽的表情，单眼闭起，嘴角撇向一边露出牙齿，似乎在咂舌或忍受某种不悦。",
+    "image_name": "CH0253_spr_12_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "mischievous",
+      "smirk",
+      "grin",
+      "looking_away",
+      "teeth"
+    ],
+    "description": "坏笑或挑衅的表情，眼神斜视，嘴角上扬露出牙齿，显得有些狡黠，似乎在谋划什么或嘲讽对方。",
+    "image_name": "CH0253_spr_13_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "confused",
+      "awkward",
+      "sweat_drop",
+      "looking_away",
+      "speechless"
+    ],
+    "description": "困惑或无语的表情，脸颊挂着汗珠，眼神游移，嘴巴微张，似乎对眼前的情况感到难以置信或尴尬。",
+    "image_name": "CH0253_spr_14_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "tense",
+      "nervous",
+      "struggle",
+      "sweat",
+      "grimace",
+      "clenched_teeth"
+    ],
+    "description": "紧张或焦躁的表情，流着大量冷汗，咬紧牙关，眼神显得非常吃力，像是在忍耐巨大的压力或感到十分窘迫。",
+    "image_name": "CH0253_spr_15_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "grimace",
+      "wince",
+      "one_eye_closed",
+      "teeth",
+      "awkward"
+    ],
+    "description": "尴尬或吃痛的表情，单眼紧闭，龇牙咧嘴，似乎遇到了麻烦、感到棘手或是在忍受某种不适。",
+    "image_name": "CH0253_spr_16_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral",
+      "peaceful"
+    ],
+    "description": "双眼完全闭合，表情平静祥和，似乎在闭目养神、沉思或安静地聆听。",
+    "image_name": "CH0253_spr_99_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "side_eye",
+      "suspicious",
+      "glare",
+      "serious"
+    ],
+    "description": "半眯着眼睛瞥向一侧，眼神犀利且带有几分怀疑、审视或不悦的意味。",
+    "image_name": "CH0253_spr_Eye_Close_01_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "bored",
+      "looking_away",
+      "cool",
+      "open_mouth"
+    ],
+    "description": "冷淡的待机表情，眼神游离看向一侧，嘴巴微微张开，显得百无聊赖或漫不经心。",
+    "image_name": "CH0253_spr_Idle_01_waifu2x_art_noise3_scale.png"
+  }
+]

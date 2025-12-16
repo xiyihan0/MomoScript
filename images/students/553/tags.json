@@ -1,0 +1,116 @@
+[
+  {
+    "tags": [
+      "smile",
+      "bangs_covering_eyes",
+      "neutral"
+    ],
+    "description": "基础的微笑表情，厚重的刘海完全遮住了眼睛，嘴角微微上扬，神态温和。",
+    "image_name": "NP0253_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "bangs_covering_eyes",
+      "neutral"
+    ],
+    "description": "保持着温和的微笑，刘海遮眼，与标准立绘非常相似。",
+    "image_name": "NP0253_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "bangs_covering_eyes"
+    ],
+    "description": "嘴巴微微张开呈圆形，像是在说话，或者表现出轻微的惊讶和好奇。",
+    "image_name": "NP0253_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "bangs_covering_eyes",
+      "happy"
+    ],
+    "description": "温和的微笑，看不见眼睛，心情看起来很不错。",
+    "image_name": "NP0253_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "worried",
+      "nervous",
+      "bangs_covering_eyes"
+    ],
+    "description": "脸颊左侧挂着一滴冷汗，嘴巴微张，表现出尴尬、紧张或担心的样子。",
+    "image_name": "NP0253_spr_04.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "neutral",
+      "closed_mouth",
+      "bangs_covering_eyes"
+    ],
+    "description": "嘴巴抿成一条直线，没有任何笑容，显得比较严肃、沉默或正在思考。",
+    "image_name": "NP0253_spr_05.png"
+  },
+  {
+    "tags": [
+      "gloom_lines",
+      "shock",
+      "grimace",
+      "bangs_covering_eyes"
+    ],
+    "description": "面部上半部分覆盖着垂直的阴沉黑线（黑线），嘴巴张开呈尴尬的形状，表现出震惊、无语或绝望的情绪。",
+    "image_name": "NP0253_spr_06.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "open_mouth",
+      "happy",
+      "bangs_covering_eyes"
+    ],
+    "description": "开怀大笑的表情，嘴巴大幅张开，虽然眼睛被遮住，但明显能感受到非常开心和爽朗的情绪。",
+    "image_name": "NP0253_spr_07.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "speaking",
+      "bangs_covering_eyes"
+    ],
+    "description": "嘴巴张开呈圆形，似乎在发出感叹、表示惊讶或正在说话。",
+    "image_name": "NP0253_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "neutral",
+      "silent",
+      "bangs_covering_eyes"
+    ],
+    "description": "嘴巴闭合成一个小点，表现出沉默、无语或者平静的思考状态。",
+    "image_name": "NP0253_spr_09.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "bangs_covering_eyes"
+    ],
+    "description": "嘴角微微上扬，露出了温和的笑容，看起来心情愉快。",
+    "image_name": "NP0253_spr_99.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "neutral",
+      "bangs_covering_eyes"
+    ],
+    "description": "标准待机表情，保持着淡淡的微笑，神态平静自然。",
+    "image_name": "NP0253_spr_Idle_01.png"
+  }
+]

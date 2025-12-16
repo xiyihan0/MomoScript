@@ -1,0 +1,238 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "half_closed_eyes",
+      "hand_on_cheek",
+      "hat"
+    ],
+    "description": "角色单手托腮，眼神半睁注视前方，表情平静且略带慵懒的中性神态。",
+    "image_name": "CH0316_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "smug",
+      "confident",
+      "half_closed_eyes",
+      "hand_on_cheek"
+    ],
+    "description": "保持托腮姿势，嘴角微微上扬露出一抹自信或带有深意的微笑（得意颜/Smug），眼神显得更加敏锐。",
+    "image_name": "CH0316_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "talking",
+      "speaking",
+      "half_closed_eyes",
+      "hand_on_cheek"
+    ],
+    "description": "托着下巴，嘴巴微微张开呈O型，仿佛正在说话、解说或轻微感叹，神情依旧冷静。",
+    "image_name": "CH0316_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "hand_on_cheek"
+    ],
+    "description": "托着下巴，双眼完全眯成弯弯的线条，脸上洋溢着温和、轻松且愉快的闭眼笑容。",
+    "image_name": "CH0316_spr_03.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "sweat_drop",
+      "open_mouth",
+      "wavy_mouth",
+      "awkward",
+      "confused",
+      "troubled"
+    ],
+    "description": "角色单手托腮，脸颊上挂着一滴汗珠，嘴巴呈波浪状张开，眼神半睁显得有些尴尬、为难或不知所措。",
+    "image_name": "CH0316_spr_04.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "angry",
+      "annoyed",
+      "open_mouth",
+      "shouting",
+      "furrowed_brows"
+    ],
+    "description": "保持托腮姿势，眉头紧锁倒竖，眼神犀利，嘴巴张大，似乎正在生气地抱怨、大声斥责或表达强烈的不满。",
+    "image_name": "CH0316_spr_05.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "sad",
+      "worried",
+      "melancholic",
+      "eyebrows_down",
+      "half_closed_eyes"
+    ],
+    "description": "托着脸颊，眉毛呈八字下垂，眼神忧郁黯淡，表情显得非常悲伤、担忧或充满无奈的失落感。",
+    "image_name": "CH0316_spr_06.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "closed_eyes",
+      "sigh",
+      "exasperated",
+      "tired",
+      "resigned"
+    ],
+    "description": "托着下巴，双眼紧闭，眉头微皱，仿佛在无奈地叹气、感到头疼，或者是对现状表示放弃思考和无语。",
+    "image_name": "CH0316_spr_07.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "closed_eyes",
+      "angry",
+      "annoyed",
+      "open_mouth",
+      "complaining"
+    ],
+    "description": "角色单手托腮，双眼紧闭呈直线，眉头倒竖，嘴巴张开，神情显得非常不耐烦，像是在生气地抱怨或指责。",
+    "image_name": "CH0316_spr_08.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "closed_eyes",
+      "squeezed_eyes",
+      ">_<",
+      "shouting",
+      "frustrated",
+      "open_mouth"
+    ],
+    "description": "保持托腮姿势，双眼紧闭呈“> <”形状，嘴巴大张，表情夸张，仿佛在抓狂、大声抗议或发脾气（闹别扭）。",
+    "image_name": "CH0316_spr_09.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "closed_eyes",
+      "sad",
+      "sigh",
+      "tired",
+      "open_mouth",
+      "eyebrows_down"
+    ],
+    "description": "托着脸颊，双眼温和地闭上，眉毛呈八字下垂，嘴巴微张，流露出一种无奈、疲惫叹息或示弱的神态。",
+    "image_name": "CH0316_spr_10.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "open_eyes",
+      "open_mouth",
+      "sweat_drop",
+      "shock",
+      "blank_stare",
+      "hollow_eyes"
+    ],
+    "description": "托着下巴，双眼圆睁且眼神失去高光（呈空洞状），脸颊挂着冷汗，嘴巴张开，表现出极度的震惊、无语或被吓得僵住的反应。",
+    "image_name": "CH0316_spr_11.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "sweat_drop",
+      "open_mouth",
+      "confused",
+      "awkward",
+      "dumbfounded",
+      "half_closed_eyes"
+    ],
+    "description": "角色单手托腮，脸颊上挂着一滴冷汗，嘴巴张开呈O型，眼神显得有些呆滞和发愣，表现出一种尴尬、困惑或对突发状况感到无语（傻眼）的反应。",
+    "image_name": "CH0316_spr_12.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "sweat_drop",
+      "angry",
+      "shouting",
+      "open_mouth",
+      "furrowed_brows",
+      "annoyed",
+      "flustered"
+    ],
+    "description": "保持托腮姿势，眉头倒竖且脸上流着冷汗，嘴巴大张，似乎正在焦急地争辩、大声吐槽或对某种荒谬的情况表示强烈的抗议和急躁。",
+    "image_name": "CH0316_spr_13.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "annoyed",
+      "furrowed_brows",
+      "frowning",
+      "skeptical",
+      "dissatisfied",
+      "serious"
+    ],
+    "description": "托着下巴，眉头紧锁，嘴角略微向下撇或呈扭曲状，眼神充满审视或怀疑，流露出一种明显的不满、生闷气或是在心里咂舌的神态。",
+    "image_name": "CH0316_spr_14.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "troubled",
+      "sad",
+      "eyebrows_down",
+      "open_mouth",
+      "sigh",
+      "tired",
+      "complaining"
+    ],
+    "description": "托着脸颊，眉毛呈八字下垂，眼神显得疲惫无神，嘴巴微张，看起来像是在无奈地叹气、抱怨劳累或是对棘手的麻烦事感到苦恼。",
+    "image_name": "CH0316_spr_15.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "annoyed",
+      "angry",
+      "furrowed_brows",
+      "glaring",
+      "twitching_mouth",
+      "dissatisfied"
+    ],
+    "description": "托着下巴，眉头紧锁，眼神锐利且充满不悦，嘴角扭曲抽动，仿佛在极度不耐烦地咂舌（啧）或压抑着怒气。",
+    "image_name": "CH0316_spr_16.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "angry",
+      "annoyed",
+      "open_mouth",
+      "shouting",
+      "complaining",
+      "furrowed_brows"
+    ],
+    "description": "保持托腮姿势，神情愤怒，眉头倒竖，嘴巴张大，似乎正在大声抗议、激烈争辩或表达强烈的不满情绪。",
+    "image_name": "CH0316_spr_17.png"
+  },
+  {
+    "tags": [
+      "hand_on_cheek",
+      "closed_eyes",
+      "smile",
+      "happy",
+      "gentle",
+      "relaxed",
+      "peaceful"
+    ],
+    "description": "托着下巴，双眼闭起露出柔和的笑容，神情放松且愉悦，洋溢着一种安心、满足或温柔的氛围。",
+    "image_name": "CH0316_spr_99.png"
+  }
+]

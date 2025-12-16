@@ -1,0 +1,41 @@
+[
+  {
+    "tags": [
+      "construction_helmet",
+      "hard_hat",
+      "black_hair",
+      "twintails",
+      "shadow_over_eyes",
+      "no_mask",
+      "neutral"
+    ],
+    "description": "戴着白色带有绿色条纹安全帽的少女，黑色双马尾，帽檐的阴影遮住了眼睛部位，没有佩戴口罩，嘴角微微向下，表情看起来比较呆板或平静。",
+    "image_name": "yoheki_normal1_spr_00.png"
+  },
+  {
+    "tags": [
+      "construction_helmet",
+      "hard_hat",
+      "black_hair",
+      "twintails",
+      "shadow_over_eyes",
+      "mask_on_chin",
+      "mask_down"
+    ],
+    "description": "戴着白色安全帽的少女，将白色的口罩拉到了下巴位置，露出了嘴巴，帽檐依然遮挡着眼睛，表情保持不变。",
+    "image_name": "yoheki_normal1_spr_07.png"
+  },
+  {
+    "tags": [
+      "construction_helmet",
+      "hard_hat",
+      "black_hair",
+      "twintails",
+      "shadow_over_eyes",
+      "wearing_mask",
+      "surgical_mask"
+    ],
+    "description": "戴着白色安全帽的少女，正确佩戴了白色口罩，遮住了口鼻部分，整张脸只露出被帽檐阴影覆盖的眼部区域。",
+    "image_name": "yoheki_normal1_spr_08.png"
+  }
+]

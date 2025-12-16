@@ -1,0 +1,93 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "annoyed",
+      "serious",
+      "yellow_eyes"
+    ],
+    "description": "神情冷漠且略带不爽，眉毛微蹙，眼神锐利地直视前方，展现出标准的不良少女姿态。",
+    "image_name": "sukeban_HMG_spr_00.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "troubled",
+      "raised_eyebrows",
+      "sad"
+    ],
+    "description": "眉毛呈八字形下垂，眼神中流露出明显的困惑与不安，似乎遇到了什么麻烦事。",
+    "image_name": "sukeban_HMG_spr_01.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "anger_vein",
+      "frustrated",
+      "holding_back"
+    ],
+    "description": "额头上暴起青筋，虽然表情看似无奈，但显然正在极力忍耐着内心的烦躁与愤怒。",
+    "image_name": "sukeban_HMG_spr_02.png"
+  },
+  {
+    "tags": [
+      "shy",
+      "looking_away",
+      "embarrassed",
+      "guilty"
+    ],
+    "description": "视线向侧下方游移不敢对视，神情显得害羞、尴尬或者因为做错事而感到心虚。",
+    "image_name": "sukeban_HMG_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweating",
+      "anxious",
+      "panicked"
+    ],
+    "description": "脸上挂着几滴冷汗，瞳孔微缩，表现出明显的紧张、惊慌和焦虑。",
+    "image_name": "sukeban_HMG_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "glaring",
+      "furrowed_brows",
+      "aggressive"
+    ],
+    "description": "眉头紧紧锁住，目光凶狠地瞪着前方，充满了敌意和怒气，准备随时发作。",
+    "image_name": "sukeban_HMG_spr_05.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "blank_eyes",
+      "stunned",
+      "gloom_lines"
+    ],
+    "description": "双眼翻白失去高光，面部带有消沉的纵向阴影线条，处于极度震惊、崩溃或失去意识的状态。",
+    "image_name": "sukeban_HMG_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "happy",
+      "smiling",
+      "relaxed"
+    ],
+    "description": "双眼弯成弧线闭合，眉宇间流露出轻松愉快的笑意，看起来心情很好。",
+    "image_name": "sukeban_HMG_spr_99.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "tired",
+      "worried",
+      "troubled",
+      "unimpressed"
+    ],
+    "description": "眼皮下垂呈半睁半闭状，配合下撇的八字眉，神情显得无精打采、疲惫，或者充满了无奈与困扰。",
+    "image_name": "sukeban_HMG_spr_eyeclose.png"
+  }
+]

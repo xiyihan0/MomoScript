@@ -1,0 +1,112 @@
+[
+  {
+    "tags": [
+      "hair_over_eyes",
+      "neutral",
+      "slight_smile"
+    ],
+    "description": "表情平静，嘴角只有极轻微的弧度，看起来处于自然或待机状态，刘海完全遮住了眼睛。",
+    "image_name": "NP0252_spr_00.png"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "smile",
+      "closed_mouth"
+    ],
+    "description": "嘴角微微上扬，露出了温和且标准的微笑。",
+    "image_name": "NP0252_spr_01.png"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "open_mouth",
+      "surprised",
+      "dazed"
+    ],
+    "description": "嘴巴微微张开呈圆形，似乎在发呆、说话，或者表现出轻微的惊讶。",
+    "image_name": "NP0252_spr_02.png"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "happy",
+      "smile",
+      "open_mouth"
+    ],
+    "description": "嘴巴张开，露出开朗愉快的笑容，看起来心情很好。",
+    "image_name": "NP0252_spr_03.png"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "nervous",
+      "sweat",
+      "troubled",
+      "open_mouth"
+    ],
+    "description": "脸颊旁流下一滴冷汗，嘴巴微张呈波浪状，表现出尴尬、焦急或困扰的情绪。",
+    "image_name": "NP0252_spr_04.png"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "sad",
+      "frown",
+      "disappointed"
+    ],
+    "description": "嘴角明显向下弯曲，表现出悲伤、失落或不满的情绪。",
+    "image_name": "NP0252_spr_05.png"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "gloom",
+      "shadow_lines",
+      "sweat",
+      "panic"
+    ],
+    "description": "面部笼罩着垂直的阴影线条（黑线），流着冷汗，表情极度慌张、阴沉或感到巨大的压力。",
+    "image_name": "NP0252_spr_06.png"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "smile",
+      "closed_mouth",
+      "satisfied"
+    ],
+    "description": "闭着嘴微笑，弧度比普通微笑稍宽，看起来比较满意或自信。",
+    "image_name": "NP0252_spr_07.png"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "open_mouth",
+      "surprised",
+      "speaking"
+    ],
+    "description": "刘海完全遮住眼睛，嘴巴张开，看起来像是在说话或者对某事感到轻微的惊讶。",
+    "image_name": "NP0252_spr_08.png"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "no_mouth",
+      "blank_face",
+      "silence"
+    ],
+    "description": "面部完全没有绘制嘴巴，只有被刘海遮挡的眼部阴影，表现出无语、极度沉默的状态，或作为表情差分的底图。",
+    "image_name": "NP0252_spr_99.png"
+  },
+  {
+    "tags": [
+      "hair_over_eyes",
+      "smile",
+      "closed_mouth",
+      "relax"
+    ],
+    "description": "处于待机状态的表情，嘴角微微上扬露出温和的微笑，整体显得放松且平静。",
+    "image_name": "NP0252_spr_Idle_01.png"
+  }
+]

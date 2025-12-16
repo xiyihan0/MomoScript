@@ -1,0 +1,506 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "closed_mouth",
+      "blue_eyes",
+      "glasses"
+    ],
+    "description": "表情十分平静，蓝色的眼睛直视前方，嘴巴闭合，展现出一种冷静、专业的标准神态。",
+    "image_name": "J_rin_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "blank_stare",
+      "o_mouth",
+      "glasses"
+    ],
+    "description": "嘴巴微微张开呈小圆形，眼神显得有些呆滞或惊讶，仿佛看到了什么意料之外的事情。",
+    "image_name": "J_rin_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "confident",
+      "closed_mouth",
+      "glasses"
+    ],
+    "description": "嘴角微微上扬露出淡淡的微笑，眼神柔和，流露出自信和友善的心情。",
+    "image_name": "J_rin_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "confused",
+      "glasses"
+    ],
+    "description": "嘴巴张开，幅度比之前的惊讶表情稍大且扁，看起来正在说话、询问或者对某事表示轻微的困惑。",
+    "image_name": "J_rin_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "frown",
+      "annoyed",
+      "serious",
+      "glasses"
+    ],
+    "description": "眉头紧锁呈倒八字，眼神犀利，嘴巴微张，明显表现出生气、不满或正在严厉责备的神情。",
+    "image_name": "J_rin_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "thinking",
+      "meditative",
+      "glasses"
+    ],
+    "description": "双眼轻轻闭合，嘴巴抿着，神态安详平静，似乎正在沉思、闭目养神或表示默许。",
+    "image_name": "J_rin_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sigh",
+      "disappointed",
+      "helpless",
+      "glasses"
+    ],
+    "description": "闭着眼睛，眉毛下垂，嘴巴张开，看起来正在深深地叹气，充满了无奈、疲惫或失望的情绪。",
+    "image_name": "J_rin_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sad",
+      "worried",
+      "troubled",
+      "frown",
+      "glasses"
+    ],
+    "description": "双眼紧闭，眉头紧锁且下垂，嘴巴紧闭，脸上写满了担忧、悲伤或正在忍耐某种痛苦的神色。",
+    "image_name": "J_rin_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sigh",
+      "troubled",
+      "helpless",
+      "glasses"
+    ],
+    "description": "双眼紧闭，眉毛呈八字下垂，嘴巴微张成小圆形，看起来正在无奈地叹气，表现出疲惫或困扰的样子。",
+    "image_name": "J_rin_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "blue_eyes",
+      "frown",
+      "serious",
+      "annoyed",
+      "open_mouth",
+      "glasses"
+    ],
+    "description": "眼神犀利直视前方，眉头紧锁，嘴巴微微张开，流露出严肃、不满或正在质疑的神情。",
+    "image_name": "J_rin_spr-10_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "blue_eyes",
+      "sideways_glance",
+      "disgust",
+      "annoyed",
+      "open_mouth",
+      "glasses"
+    ],
+    "description": "视线向侧方瞥去，眉头微皱，嘴巴半张，表现出一种嫌弃、无语或极度不耐烦的态度。",
+    "image_name": "J_rin_spr-11_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "bored",
+      "blank_stare",
+      "open_mouth",
+      "glasses"
+    ],
+    "description": "眼睛半眯呈死鱼眼状，嘴巴微张成小圆，神情显得呆滞、无聊、茫然或有些不知所措。",
+    "image_name": "J_rin_spr-12_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smug",
+      "smile",
+      "sideways_glance",
+      "confident",
+      "glasses"
+    ],
+    "description": "眼神半眯斜视，嘴角微微上扬，流露出一种得意、自信甚至略带戏谑或嘲讽的微笑。",
+    "image_name": "J_rin_spr-13_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "gentle",
+      "glasses"
+    ],
+    "description": "双眼眯成两条弯弯的缝，嘴角上扬，展现出温柔、真诚且非常开心的治愈系笑容。",
+    "image_name": "J_rin_spr-14_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shiny_glasses",
+      "lens_flare",
+      "serious",
+      "mysterious",
+      "closed_mouth",
+      "glasses"
+    ],
+    "description": "眼镜镜片泛起白光完全遮住了双眼，嘴巴紧闭，散发出一种神秘莫测、腹黑、算计或带有压迫感的气场。",
+    "image_name": "J_rin_spr-15_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "blue_eyes",
+      "frown",
+      "angry",
+      "shocked",
+      "open_mouth",
+      "sideways_glance",
+      "glasses"
+    ],
+    "description": "眉头紧锁，眼神斜视，嘴巴张开呈扁圆形，似乎因某事感到惊讶、生气，或者正在大声质问和责备。",
+    "image_name": "J_rin_spr-16_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "frown",
+      "closed_mouth",
+      "blue_eyes",
+      "glasses"
+    ],
+    "description": "眉头微皱，蓝色的眼睛严厉地注视着前方，嘴巴紧闭，流露出严肃、认真且略带审视的态度。",
+    "image_name": "J_rin_spr-17_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "frown",
+      "open_mouth",
+      "blue_eyes",
+      "glasses"
+    ],
+    "description": "眉头依然紧锁，但嘴巴微微张开，似乎对某事感到意外、困惑，或者正准备严肃地发话。",
+    "image_name": "J_rin_spr-18_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "frown",
+      "glasses"
+    ],
+    "description": "眉头紧皱，眼神愤怒，嘴巴大张，明显是在大声斥责、争辩或表达强烈的不满情绪。",
+    "image_name": "J_rin_spr-19_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "open_mouth",
+      "exasperated",
+      "glasses"
+    ],
+    "description": "闭着双眼，眉毛微皱，嘴巴张开，看起来正在无奈地叹气，表现出对现状的疲惫或没辙。",
+    "image_name": "J_rin_spr-20_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "gentle",
+      "glasses"
+    ],
+    "description": "双眼弯成两道弧线，嘴角上扬，神态轻松温和，展现出开心、释然或正在享受片刻宁静的模样。",
+    "image_name": "J_rin_spr-21_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smug",
+      "smile",
+      "sideways_glance",
+      "glasses"
+    ],
+    "description": "眼神半眯瞥向一侧，嘴角勾起自信的微笑，流露出一种得意、腹黑或掌握了局势的优越感。",
+    "image_name": "J_rin_spr-22_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "bored",
+      "open_mouth",
+      "sideways_glance",
+      "glasses"
+    ],
+    "description": "死鱼眼半眯斜视，嘴巴微张，表现出极度的无语、乏味或对眼前发生的事情感到莫名其妙。",
+    "image_name": "J_rin_spr-23_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "serious",
+      "closed_mouth",
+      "sideways_glance",
+      "glasses"
+    ],
+    "description": "眼神半眯冷冷地斜视，嘴巴紧闭，神情冷漠且充满怀疑，仿佛在用鄙视的目光看着某人。",
+    "image_name": "J_rin_spr-24_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "expressionless",
+      "neutral",
+      "closed_mouth",
+      "glasses",
+      "blue_eyes"
+    ],
+    "description": "眼神半眯，神情平淡，嘴巴紧闭，看起来十分冷静、冷漠，或者仅仅是在发呆放空。",
+    "image_name": "J_rin_spr-25_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "frown",
+      "sideways_glance",
+      "serious",
+      "closed_mouth",
+      "glasses"
+    ],
+    "description": "眉头紧锁，眼神锐利地斜视一侧，嘴巴抿紧，流露出明显的不满、生气或严肃的审视态度。",
+    "image_name": "J_rin_spr-26_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "confused",
+      "frown",
+      "open_mouth",
+      "sideways_glance",
+      "glasses",
+      "blue_eyes"
+    ],
+    "description": "视线斜向一侧，眉头微皱，嘴巴微张，似乎对所见所闻感到困惑不解，或者正准备提出质疑。",
+    "image_name": "J_rin_spr-27_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "disgust",
+      "scorn",
+      "sideways_glance",
+      "frown",
+      "closed_mouth",
+      "glasses"
+    ],
+    "description": "眼神冷漠且充满鄙视地斜视，眉头紧皱，嘴巴紧闭，表现出极度的厌恶、不屑或不耐烦。",
+    "image_name": "J_rin_spr-28_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "blank_stare",
+      "dazed",
+      "open_mouth",
+      "glasses",
+      "blue_eyes"
+    ],
+    "description": "眼神有些空洞呆滞，嘴巴微微张开，表情茫然，看起来像是在发呆、走神或一时没反应过来。",
+    "image_name": "J_rin_spr-29_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "troubled",
+      "worried",
+      "open_mouth",
+      "sad_eyebrows",
+      "glasses",
+      "blue_eyes"
+    ],
+    "description": "眉毛呈八字下垂，眼神流露出担忧和不安，嘴巴微张，表现出困扰、为难或不知所措的样子。",
+    "image_name": "J_rin_spr-30_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "disappointed",
+      "sigh",
+      "open_mouth",
+      "sad_eyebrows",
+      "glasses"
+    ],
+    "description": "眉毛下垂显出哀伤，眼神黯淡，嘴巴微张似在叹息，流露出失望、沮丧或无力的情绪。",
+    "image_name": "J_rin_spr-31_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "curious",
+      "open_mouth",
+      "wide_eyes",
+      "glasses",
+      "blue_eyes"
+    ],
+    "description": "眼睛微微睁大，嘴巴张成小圆，神情惊讶且带有一丝好奇，仿佛刚得知了什么意外的消息。",
+    "image_name": "J_rin_spr-32_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "open_mouth",
+      "blue_eyes",
+      "glasses"
+    ],
+    "description": "神情平静，蓝色的眼睛注视着前方，嘴巴微微张开，像是在进行冷静的陈述或说明，没有明显的情绪波动。",
+    "image_name": "J_rin_spr-33_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "confused",
+      "swirly_eyes",
+      "dizzy",
+      "open_mouth",
+      "glasses"
+    ],
+    "description": "瞳孔变成了蚊香状的圆圈，嘴巴微张，一脸茫然和晕眩，似乎大脑已经过载或受到了某种精神冲击。",
+    "image_name": "J_rin_spr-34_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "confused",
+      "swirly_eyes",
+      "troubled",
+      "open_mouth",
+      "glasses"
+    ],
+    "description": "双眼呈螺旋状，眉头紧皱，嘴巴张开，表现出极度的困惑和混乱，完全搞不清状况的样子。",
+    "image_name": "J_rin_spr-35_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "swirly_eyes",
+      "sad",
+      "closed_mouth",
+      "glasses"
+    ],
+    "description": "眼睛依然是螺旋状，但嘴巴紧闭，眉毛下垂，看起来像是在默默忍受晕眩感，显得既无助又混乱。",
+    "image_name": "J_rin_spr-36_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "frown",
+      "open_mouth",
+      "blue_eyes",
+      "glasses"
+    ],
+    "description": "眉头微蹙，眼神犀利，嘴巴张开，神态严肃认真，仿佛正在下达命令或指出某个关键问题。",
+    "image_name": "J_rin_spr-37_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "skeptical",
+      "frown",
+      "sideways_glance",
+      "open_mouth",
+      "glasses"
+    ],
+    "description": "眼神充满怀疑地斜视一侧，眉头紧锁，嘴巴微张，流露出不信任、质疑或对荒谬情况感到无语的神情。",
+    "image_name": "J_rin_spr-38_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "frown",
+      "open_mouth",
+      "glasses"
+    ],
+    "description": "眉头紧锁，眼神愤怒，嘴巴大张，明显是在大声怒吼、斥责或激烈地反驳，情绪十分激动。",
+    "image_name": "J_rin_spr-39_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "serious",
+      "frown",
+      "open_mouth",
+      "glasses"
+    ],
+    "description": "神情惊愕且严肃，眉头深锁，嘴巴张开，似乎对眼前发生的意料之外的糟糕情况感到震惊或担忧。",
+    "image_name": "J_rin_spr-41_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "serious",
+      "frown",
+      "closed_mouth",
+      "stare",
+      "glasses",
+      "blue_eyes"
+    ],
+    "description": "眉头紧锁，眼神锐利地直视前方，嘴巴抿成一点，流露出十分严肃、生气甚至是在无声施压的神情。",
+    "image_name": "J_rin_spr-42_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "serious",
+      "frown",
+      "open_mouth",
+      "glasses",
+      "blue_eyes"
+    ],
+    "description": "延续了严肃愤怒的神态，眉头依旧紧蹙，但嘴巴微微张开，仿佛正在严厉地斥责、质问或对某事表达强烈的不满。",
+    "image_name": "J_rin_spr-43_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "dazed",
+      "surprised",
+      "blank_stare",
+      "neutral",
+      "open_mouth",
+      "glasses",
+      "blue_eyes"
+    ],
+    "description": "表情变得呆然，眼神略显空洞，嘴巴微微张开成小圆，似乎一时没反应过来，表现出一种茫然、放空或轻微惊讶的状态。",
+    "image_name": "J_rin_spr-44_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "thinking",
+      "closed_mouth",
+      "glasses"
+    ],
+    "description": "双眼闭合，神情安详平静，嘴巴紧闭，看起来正在闭目养神、沉思，或是对令人头疼的状况感到无奈而选择暂时闭眼。",
+    "image_name": "J_rin_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

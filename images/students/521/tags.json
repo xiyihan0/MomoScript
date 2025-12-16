@@ -1,0 +1,155 @@
+[
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "normal",
+      "happy"
+    ],
+    "description": "标准的温柔微笑，眼神柔和，表情平静。",
+    "image_name": "CH0286_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "smug",
+      "happy"
+    ],
+    "description": "自信的笑容，嘴角上扬幅度稍大，看起来心情不错。",
+    "image_name": "CH0286_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "curious",
+      "talking"
+    ],
+    "description": "嘴巴微张，眼神略带惊讶或好奇，似乎正在说话。",
+    "image_name": "CH0286_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "very_happy",
+      "smile",
+      "joy"
+    ],
+    "description": "闭眼开怀大笑，表情非常开心，充满喜悦。",
+    "image_name": "CH0286_spr_03.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "nervous",
+      "sweat",
+      "troubled",
+      "awkward"
+    ],
+    "description": "困扰的表情，脸上挂着汗珠，眉毛下垂，感到焦虑或尴尬。",
+    "image_name": "CH0286_spr_04.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "thinking",
+      "doubt",
+      "pout",
+      "stern"
+    ],
+    "description": "严肃思考的表情，嘴巴嘟起，眼神有些怀疑或不满。",
+    "image_name": "CH0286_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "disappointed",
+      "gloomy",
+      "depressed"
+    ],
+    "description": "悲伤失落的样子，眉毛低垂，看起来非常失望或难过。",
+    "image_name": "CH0286_spr_06.png"
+  },
+  {
+    "tags": [
+      "panic",
+      "flustered",
+      "shocked",
+      "sweat",
+      "confused"
+    ],
+    "description": "慌乱震惊的表情，流着冷汗，嘴巴呈波浪状，看起来不知所措。",
+    "image_name": "CH0286_spr_07.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "shy",
+      "embarrassed",
+      "troubled",
+      "worried"
+    ],
+    "description": "脸颊泛红，眉毛微蹙，眼神躲闪且嘴巴微张，看起来既羞涩又有些困扰的样子。",
+    "image_name": "CH0286_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      ">_<",
+      "shouting",
+      "annoyed",
+      "complaining",
+      "frustrated"
+    ],
+    "description": "眼睛紧闭呈><状，张大嘴巴大声喊叫或抱怨，看起来非常焦急、无奈或抓狂。",
+    "image_name": "CH0286_spr_09.png"
+  },
+  {
+    "tags": [
+      "white_eyes",
+      "shocked",
+      "stunned",
+      "blank_eyes",
+      "dazed",
+      "passed_out"
+    ],
+    "description": "双眼翻白失去高光，表情呆滞震惊，似乎受到了巨大的打击、灵魂出窍或正在晕厥。",
+    "image_name": "CH0286_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "gentle",
+      "cheerful"
+    ],
+    "description": "闭着眼睛露出温柔且开朗的笑容，看起来非常开心、轻松和欣慰。",
+    "image_name": "CH0286_spr_11.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "smile",
+      "happy",
+      "talking",
+      "energetic"
+    ],
+    "description": "睁大眼睛看着前方，开心地张嘴笑着说话，表情充满活力和热情。",
+    "image_name": "CH0286_spr_12.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "calm",
+      "peaceful",
+      "content",
+      "serene"
+    ],
+    "description": "闭着眼睛，神情比之前的笑容更加安详宁静，嘴角带着淡淡的满足微笑。",
+    "image_name": "CH0286_spr_99.png"
+  }
+]

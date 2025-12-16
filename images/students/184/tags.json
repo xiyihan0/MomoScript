@@ -1,0 +1,528 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "neutral",
+      "speaking",
+      "green_eyes"
+    ],
+    "description": "普通的说话表情，嘴巴微微张开，眼神平静直视前方。",
+    "image_name": "J_momoka_spr-00_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "expressionless",
+      "bored",
+      "half_lidded_eyes",
+      "stare"
+    ],
+    "description": "面无表情，眼神半眯显得有些无聊或发呆，嘴巴闭成一条小线。",
+    "image_name": "J_momoka_spr-01_0.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "o_mouth",
+      "realization"
+    ],
+    "description": "惊讶的表情，嘴巴张成圆圆的O型，似乎恍然大悟或看到了什么新奇的东西。",
+    "image_name": "J_momoka_spr-02_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "laughing",
+      "open_mouth"
+    ],
+    "description": "开心地大笑，双眼眯成月牙状，嘴巴张开露出牙齿，显得非常愉悦。",
+    "image_name": "J_momoka_spr-03_0.jpg"
+  },
+  {
+    "tags": [
+      "grimace",
+      "disgust",
+      "wavy_mouth",
+      "annoyed",
+      "clenched_teeth"
+    ],
+    "description": "嫌弃或感到棘手的表情，咬紧牙关，嘴唇呈现波浪状，眼神显得有些抗拒。",
+    "image_name": "J_momoka_spr-04_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "scornful",
+      "open_mouth",
+      "annoyed",
+      "complaining"
+    ],
+    "description": "眼神半眯带着一丝鄙视或不耐烦，嘴巴张开像是在吐槽或抱怨。",
+    "image_name": "J_momoka_spr-05_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "troubled",
+      "sigh",
+      "resigned"
+    ],
+    "description": "闭眼叹气，眉毛微皱，嘴巴闭合，表现出无奈、放弃或正在沉思的样子。",
+    "image_name": "J_momoka_spr-06_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "troubled_smile",
+      "whining",
+      "awkward"
+    ],
+    "description": "闭眼苦笑或撒娇抱怨，眉毛下垂显得困扰，嘴巴张开露出牙齿，神情有些尴尬。",
+    "image_name": "J_momoka_spr-07_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sigh",
+      "troubled",
+      "tired"
+    ],
+    "description": "闭眼叹气，眉毛微皱，嘴巴微微张开呈O型，表现出一种疲惫、无奈或正在为某事发愁的样子。",
+    "image_name": "J_momoka_spr-08_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "shouting",
+      "complaining",
+      "excited"
+    ],
+    "description": "闭着眼睛大声喊叫或抱怨，眉头紧锁，嘴巴张大露出牙齿，情绪显得有些激动或急切。",
+    "image_name": "J_momoka_spr-09_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "laughing",
+      "open_mouth"
+    ],
+    "description": "闭眼开心地笑，眉毛舒展，嘴巴张开露出牙齿，神情轻松愉快。",
+    "image_name": "J_momoka_spr-10_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "smug",
+      "open_mouth",
+      "green_eyes",
+      "teasing"
+    ],
+    "description": "半睁着眼，眼神带着一丝得意或嘲讽，嘴巴张开露出牙齿，像是在看热闹或吐槽。",
+    "image_name": "J_momoka_spr-11_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "cat_mouth",
+      "wavy_mouth",
+      "bored",
+      "neutral"
+    ],
+    "description": "眼神半眯显得有些无聊或发呆，嘴巴呈现出可爱的波浪状（:3），表情呆萌。",
+    "image_name": "J_momoka_spr-12_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "puckered_lips",
+      "whistling",
+      "playful",
+      "feigning_ignorance"
+    ],
+    "description": "眼神半眯，嘴巴撅起像是在吹口哨装傻，或者是在索吻，带有一种调皮敷衍的感觉。",
+    "image_name": "J_momoka_spr-13_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "wavy_mouth",
+      "closed_mouth",
+      "awkward",
+      "speechless"
+    ],
+    "description": "眼神半眯透着怀疑，嘴唇抿成不规则的波浪线，似乎对眼前的情况感到无语、尴尬或正在憋笑。",
+    "image_name": "J_momoka_spr-14_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "grimace",
+      "open_mouth",
+      "disgust",
+      "annoyed"
+    ],
+    "description": "眼神半眯流露出嫌弃或厌恶，嘴巴张开露出牙齿，表情有些扭曲，像是在抱怨讨厌的东西。",
+    "image_name": "J_momoka_spr-15_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "grimace",
+      "wavy_mouth",
+      "disgust",
+      "awkward"
+    ],
+    "description": "眼神半眯，嘴巴呈波浪状扭曲，表现出一种尴尬、嫌弃或感到棘手的样子。",
+    "image_name": "J_momoka_spr-16_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "cat_mouth",
+      "wavy_mouth",
+      "smug",
+      "neutral"
+    ],
+    "description": "眼神半眯，嘴巴抿成波浪状（:3），带着一丝得意或漫不经心的神情。",
+    "image_name": "J_momoka_spr-17_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "open_mouth",
+      "speaking",
+      "neutral",
+      "bored"
+    ],
+    "description": "眼神半眯，嘴巴微微张开，眉毛微皱，似乎在平淡地说话或表现出轻微的惊讶。",
+    "image_name": "J_momoka_spr-18_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "open_mouth",
+      "laughing",
+      "teasing",
+      "smug"
+    ],
+    "description": "眼神半眯，嘴巴张大露出牙齿在笑，表情带着明显的嘲讽、得意或大声吐槽。",
+    "image_name": "J_momoka_spr-19_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "clenched_teeth",
+      "grimace",
+      "annoyed",
+      "forced_smile"
+    ],
+    "description": "眼神半眯，咬紧牙关露出牙齿，眉毛紧锁，表现出焦躁、尴尬或强颜欢笑的神情。",
+    "image_name": "J_momoka_spr-20_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "puckered_lips",
+      "whistling",
+      "playful",
+      "feigning_ignorance"
+    ],
+    "description": "眼神半眯，嘴巴嘟起呈“3”字形，像是在吹口哨装傻，透着一股敷衍或调皮。",
+    "image_name": "J_momoka_spr-21_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "grimace",
+      "wavy_mouth",
+      "disgust",
+      "troubled"
+    ],
+    "description": "眼神半眯流露出嫌弃，嘴唇扭曲呈波浪状，似乎对眼前的情况感到非常无语或为难。",
+    "image_name": "J_momoka_spr-22_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "cat_mouth",
+      "smug",
+      "wavy_mouth",
+      "bored"
+    ],
+    "description": "眼神半眯，嘴巴闭合呈波浪状（:3），表情有些呆萌，又带着一点看热闹的得意。",
+    "image_name": "J_momoka_spr-23_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "closed_mouth",
+      "neutral",
+      "bored",
+      "indifferent"
+    ],
+    "description": "眼神半眯，嘴巴闭合，神情平淡，看起来无聊、发呆或不感兴趣。",
+    "image_name": "J_momoka_spr-24_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "open_mouth",
+      "laughing",
+      "smug",
+      "teasing"
+    ],
+    "description": "眼神半眯，嘴巴张开露出牙齿大笑，带着明显的得意、嘲讽或看热闹的神情。",
+    "image_name": "J_momoka_spr-25_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "clenched_teeth",
+      "grimace",
+      "disgust",
+      "annoyed"
+    ],
+    "description": "眼神半眯，咬紧牙关，表情扭曲，流露出强烈的嫌弃、厌恶或不爽。",
+    "image_name": "J_momoka_spr-26_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "clenched_teeth",
+      "grin",
+      "mischievous",
+      "playful"
+    ],
+    "description": "闭着眼睛咧嘴笑，露出整齐的牙齿，表现出一种调皮、得意或“嘿嘿”傻笑的样子。",
+    "image_name": "J_momoka_spr-27_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "laughing",
+      "happy",
+      "cheerful"
+    ],
+    "description": "闭眼开心地大笑，嘴巴张开，眉毛舒展，神情非常愉快和轻松。",
+    "image_name": "J_momoka_spr-28_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "open_mouth",
+      "awkward_laugh",
+      "troubled",
+      "forced_smile"
+    ],
+    "description": "眼神半眯，嘴巴张开笑，但眉毛微皱呈八字，表现出一种尴尬的笑、苦笑或试图敷衍的神情。",
+    "image_name": "J_momoka_spr-29_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "open_mouth",
+      "sigh",
+      "troubled",
+      "concerned"
+    ],
+    "description": "眼神半眯带着忧虑，嘴巴微微张开，眉毛下垂，似乎在叹气、抱怨或感到为难。",
+    "image_name": "J_momoka_spr-30_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "clenched_teeth",
+      "grimace",
+      "troubled",
+      "awkward"
+    ],
+    "description": "眼神半眯，咬着牙，眉毛下垂，神情显得尴尬、棘手或正在忍耐某种情绪。",
+    "image_name": "J_momoka_spr-31_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "grimace",
+      "wavy_mouth",
+      "disgust",
+      "awkward"
+    ],
+    "description": "眼神半眯，嘴巴呈波浪状扭曲，眉毛微皱，表现出一种尴尬、嫌弃或感到棘手的样子。",
+    "image_name": "J_momoka_spr-32_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "open_mouth",
+      "grimace",
+      "wavy_mouth",
+      "troubled"
+    ],
+    "description": "眼神半眯，张嘴呈波浪状，眉头微皱，流露出强烈的嫌弃、抱怨或不知所措的神情。",
+    "image_name": "J_momoka_spr-33_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "puckered_lips",
+      "whistling",
+      "playful",
+      "feigning_ignorance"
+    ],
+    "description": "眼神半眯，嘴巴嘟起呈“3”字形，像是在吹口哨装傻，显得既敷衍又带点调皮。",
+    "image_name": "J_momoka_spr-34_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "cat_mouth",
+      "wavy_mouth",
+      "smug",
+      "neutral"
+    ],
+    "description": "眼神半眯，嘴巴抿成波浪状（:3），带着一丝得意、慵懒或漫不经心的神情。",
+    "image_name": "J_momoka_spr-35_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "open_mouth",
+      "speaking",
+      "neutral",
+      "surprised"
+    ],
+    "description": "眼神半眯，嘴巴微张呈圆形，眉毛微挑，似乎在发呆、说话或表示轻微的惊讶。",
+    "image_name": "J_momoka_spr-36_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "open_mouth",
+      "laughing",
+      "smug",
+      "teasing"
+    ],
+    "description": "眼神半眯，张嘴露出牙齿大笑，带着明显的嘲讽、得意或开玩笑的意味。",
+    "image_name": "J_momoka_spr-37_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "closed_mouth",
+      "serious",
+      "annoyed",
+      "unimpressed"
+    ],
+    "description": "眼神半眯，嘴巴紧闭，眉头微皱，神情严肃、冷淡，似乎对眼前的事物感到不满或无语。",
+    "image_name": "J_momoka_spr-38_0.jpg"
+  },
+  {
+    "tags": [
+      "half_lidded_eyes",
+      "clenched_teeth",
+      "grimace",
+      "angry",
+      "annoyed"
+    ],
+    "description": "眼神半眯，咬紧牙关露出牙齿，眉毛紧锁，表现出愤怒、挑衅或极度不爽的情绪。",
+    "image_name": "J_momoka_spr-39_0.jpg"
+  },
+  {
+    "tags": [
+      "swirly_eyes",
+      "wavy_mouth",
+      "dizzy",
+      "confused",
+      "panicked"
+    ],
+    "description": "眼睛呈蚊香状（旋涡），嘴巴扭曲颤抖，眉毛紧蹙，表现出极度混乱、晕头转向或惊慌失措的样子。",
+    "image_name": "J_momoka_spr-41_0.jpg"
+  },
+  {
+    "tags": [
+      "swirly_eyes",
+      "half_lidded_eyes",
+      "wavy_mouth",
+      "dizzy",
+      "exhausted"
+    ],
+    "description": "眼神呈蚊香状且半眯着，嘴巴扭曲，看起来在大脑混乱的同时感到精疲力竭，似乎快要晕倒了。",
+    "image_name": "J_momoka_spr-42_0.jpg"
+  },
+  {
+    "tags": [
+      "swirly_eyes",
+      "half_lidded_eyes",
+      "grimace",
+      "troubled",
+      "unwell"
+    ],
+    "description": "蚊香眼半眯，咬牙切齿或嘴巴极度扭曲，神情痛苦，表现出强烈的不适感、晕眩或正在忍受某种糟糕的状况。",
+    "image_name": "J_momoka_spr-43_0.jpg"
+  },
+  {
+    "tags": [
+      "blank_eyes",
+      "hollow_eyes",
+      "grimace",
+      "shock",
+      "despair"
+    ],
+    "description": "眼神空洞失去高光（呈竖瞳状），嘴巴颤抖，一脸深受打击、魂飞魄散或彻底绝望的震惊表情。",
+    "image_name": "J_momoka_spr-44_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "cat_mouth",
+      "smug",
+      "satisfied",
+      "proud"
+    ],
+    "description": "闭眼，嘴角上扬呈波浪状（猫嘴），眉毛舒展，流露出一种非常得意、自我满足或哼哼自喜的神情。",
+    "image_name": "J_momoka_spr-45_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sharp_teeth",
+      "laughing",
+      "mischievous"
+    ],
+    "description": "闭眼咧嘴大笑，露出锯齿状的牙齿，看起来充满活力，带有一种调皮、恶作剧成功或爽朗的开心感。",
+    "image_name": "J_momoka_spr-46_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "awkward_laugh",
+      "apologetic",
+      "troubled"
+    ],
+    "description": "闭眼张嘴笑，但眉毛呈八字下垂，表现出一种“哎呀搞砸了”的尴尬笑、试图萌混过关或抱歉的神情。",
+    "image_name": "J_momoka_spr-47_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "neutral",
+      "sleeping",
+      "calm",
+      "ignoring"
+    ],
+    "description": "双眼完全闭合，面无表情或神情平淡，看起来正在睡觉、冥想，或者是故意装作没听见。",
+    "image_name": "J_momoka_spr-99_0.jpg"
+  }
+]

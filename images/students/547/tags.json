@@ -1,0 +1,138 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "confident"
+    ],
+    "description": "角色面带自信开朗的笑容，嘴巴张开，眼神明亮。",
+    "image_name": "CH0329_spr_00.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "closed_mouth",
+      "w_mouth",
+      "teasing"
+    ],
+    "description": "嘴角微微上扬呈现猫嘴形状，表情带有一丝得意或戏谑。",
+    "image_name": "CH0329_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "dazed",
+      "surprised",
+      "blank_stare"
+    ],
+    "description": "嘴巴微微张开，眼神有些发愣，似乎感到意外或正在发呆。",
+    "image_name": "CH0329_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "open_mouth",
+      "joy"
+    ],
+    "description": "闭着双眼开怀大笑，洋溢着非常快乐和幸福的情绪。",
+    "image_name": "CH0329_spr_03.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "blank_eyes",
+      "white_eyes",
+      "panic",
+      "sweat_drop"
+    ],
+    "description": "眼睛变成白色的圆圈，脸上带有汗珠，表现出极度的震惊或慌乱。",
+    "image_name": "CH0329_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "furrowed_eyebrows",
+      "annoyed"
+    ],
+    "description": "眉毛倒竖，嘴巴张大仿佛在生气地喊叫或抱怨。",
+    "image_name": "CH0329_spr_05.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "serious",
+      "calm"
+    ],
+    "description": "面无表情，嘴巴闭合，眼神平静，表现出认真或冷淡的状态。",
+    "image_name": "CH0329_spr_06.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "aggressive",
+      "determined"
+    ],
+    "description": "眉头紧锁，神情激烈地张嘴怒吼，显得非常愤怒或充满斗志。",
+    "image_name": "CH0329_spr_09.png"
+  },
+  {
+    "tags": [
+      "skeptical",
+      "side_glance",
+      "suspicious",
+      "doubt",
+      "serious"
+    ],
+    "description": "眼神向侧面瞥视，半眯着眼，流露出怀疑、审视或不满的神情，显得有些高冷。",
+    "image_name": "CH0329_spr_10.png"
+  },
+  {
+    "tags": [
+      "confident",
+      "open_mouth",
+      "shouting",
+      "smug",
+      "determined"
+    ],
+    "description": "眉头微皱，自信满满地张嘴喊话，神情坚定且带有一丝得意，仿佛在发表强力宣言。",
+    "image_name": "CH0329_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "open_mouth",
+      "happy",
+      "cheerful"
+    ],
+    "description": "眼睛笑成弯弯的月牙，嘴巴张开露出爽朗的笑容，表现出单纯的快乐和开怀大笑的状态。",
+    "image_name": "CH0329_spr_12.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "wavy_mouth",
+      "anxious",
+      "awkward"
+    ],
+    "description": "脸上挂着冷汗，眼神游移，嘴巴扭曲成波浪状，表现出尴尬、心虚或不知所措的紧张感。",
+    "image_name": "CH0329_spr_13.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smug",
+      "w_mouth",
+      "satisfied",
+      "proud"
+    ],
+    "description": "双眼闭合，嘴角上扬呈猫嘴状（ω），一脸满足、得意洋洋甚至有些陶醉的表情。",
+    "image_name": "CH0329_spr_99.png"
+  }
+]

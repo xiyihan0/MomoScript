@@ -1,0 +1,111 @@
+[
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "looking_away",
+      "gentle"
+    ],
+    "description": "未花面带温柔的微笑，眼神注视着左侧，神情轻松愉快。",
+    "image_name": "QQ截图20211101204541.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "troubled",
+      "sigh",
+      "worried",
+      "open_mouth"
+    ],
+    "description": "未花闭着眼睛，眉毛微微下垂呈八字状，嘴巴张开，看起来有些无奈、困扰或正在叹气。",
+    "image_name": "QQ截图20211101204555.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "blank_stare",
+      "looking_away"
+    ],
+    "description": "未花面无表情，眼神平静甚至略带空洞地看向一侧，显得有些冷淡或正在发呆。",
+    "image_name": "QQ截图20211101204605.png"
+  },
+  {
+    "tags": [
+      "frown",
+      "annoyed",
+      "angry",
+      "suspicious",
+      "serious"
+    ],
+    "description": "未花皱着眉头，眼神锐利地盯着看，看起来有些不悦、生气或者在怀疑什么。",
+    "image_name": "QQ截图20211101204613.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "未花闭着眼睛开心地笑着，嘴巴张开，表情十分灿烂，洋溢着喜悦的气氛。",
+    "image_name": "QQ截图20211101204624.png"
+  },
+  {
+    "tags": [
+      "dazed",
+      "confused",
+      "open_mouth",
+      "surprised",
+      "looking_away"
+    ],
+    "description": "未花眼神有些呆滞地看向旁边，嘴巴微张，看起来有点迷茫、发呆或者是轻微的惊讶。",
+    "image_name": "QQ截图20211101204641.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "sleeping",
+      "silent",
+      "serene"
+    ],
+    "description": "未花安静地闭着眼睛，表情平和安详，像是在闭目养神、睡觉或是正在等待着什么。",
+    "image_name": "QQ截图20211101204652.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "shy",
+      "embarrassed",
+      "smile",
+      "flustered"
+    ],
+    "description": "未花满脸通红，羞涩地微笑着看向一侧，眼神显得有些迷离，看起来既害羞又开心。",
+    "image_name": "QQ截图20211101204702.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "blush",
+      "shy",
+      "embarrassed",
+      "troubled",
+      "open_mouth"
+    ],
+    "description": "圣亚紧闭双眼，满脸通红，眉毛微微皱起呈八字状，嘴巴微张，看起来非常害羞、难为情或者有些困扰。",
+    "image_name": "QQ截图20211101204710.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "serene",
+      "silent",
+      "thinking"
+    ],
+    "description": "圣亚平静地闭着双眼，神情安详柔和，面部没有多余的动作，似乎正在安静地沉思或闭目养神。",
+    "image_name": "QQ截图20211101204720.png"
+  }
+]

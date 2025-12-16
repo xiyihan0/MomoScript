@@ -1,0 +1,229 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "looking_away",
+      "serious",
+      "purple_eyes"
+    ],
+    "description": "表情平静，眼神向侧面看去，神态认真且略带冷淡，鼻梁上贴着标志性的创可贴。",
+    "image_name": "J_CH0245_spr_00_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "frowning",
+      "serious",
+      "staring"
+    ],
+    "description": "眉头微微皱起，眼神变得犀利直视前方，流露出不悦、严肃或正在生气的神情。",
+    "image_name": "J_CH0245_spr_01_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "open_mouth",
+      "shouting",
+      "complaining"
+    ],
+    "description": "张着嘴似乎在争辩或大声喊叫，眉毛倒竖，表现出焦急、抗议或激动的样子。",
+    "image_name": "J_CH0245_spr_02_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "laughing",
+      "excited"
+    ],
+    "description": "闭着眼睛开怀大笑，张着嘴，脸上洋溢着极度开心、兴奋和活泼的笑容。",
+    "image_name": "J_CH0245_spr_03_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "open_mouth",
+      "awkward",
+      "surprised",
+      "confused"
+    ],
+    "description": "脸上挂着明显的汗珠，嘴巴微张，眼神流露出尴尬、吃惊或不知所措的困惑感。",
+    "image_name": "J_CH0245_spr_04_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "confident",
+      "narrowing_eyes"
+    ],
+    "description": "眯着眼睛，嘴角勾起一抹自信的微笑，展现出典型的得意、自满甚至带点调皮的坏笑表情。",
+    "image_name": "J_CH0245_spr_05_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "closed_eyes",
+      "disappointed",
+      "troubled",
+      "sighing"
+    ],
+    "description": "双眼紧闭，眉毛下垂，神情看起来非常难过、失望，或者是在面对麻烦时无奈地叹气。",
+    "image_name": "J_CH0245_spr_06_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "bored",
+      "half_closed_eyes",
+      "expressionless",
+      "jitome",
+      "unamused"
+    ],
+    "description": "半睁着死鱼眼，目光呆滞且冷淡，嘴角微撇，表现出无聊、无语或不感兴趣的态度。",
+    "image_name": "J_CH0245_spr_07_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "blush",
+      "open_mouth",
+      "surprised"
+    ],
+    "description": "脸上带着明显的红晕和汗珠，嘴巴微张，眼神显得有些慌乱和紧张，似乎因为害羞或突发状况而不知所措。",
+    "image_name": "J_CH0245_spr_08_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "shock",
+      "pale",
+      "blue_lines",
+      "despair",
+      "speechless"
+    ],
+    "description": "面色发青，脸上笼罩着垂直的阴影线条，眼神空洞，表现出极度的震惊、绝望或无语凝噎的状态。",
+    "image_name": "J_CH0245_spr_09_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "blush",
+      "narrowing_eyes",
+      "determined"
+    ],
+    "description": "眼神略微眯起，带着自信甚至有些挑衅的目光，嘴角上扬，脸上带着红晕，仿佛在打什么坏主意或胜券在握。",
+    "image_name": "J_CH0245_spr_10_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "smile",
+      "blush",
+      "cheerful"
+    ],
+    "description": "双眼眯成弯月状，脸上洋溢着开心的红晕，嘴角上扬，表现出纯粹的喜悦和心情愉悦的样子。",
+    "image_name": "J_CH0245_spr_11_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "pain",
+      "grimace",
+      "closed_eyes",
+      "struggling",
+      "open_mouth"
+    ],
+    "description": "双眼紧闭呈“>_<”状，眉头紧锁，嘴巴微张，看起来非常吃力、痛苦，或者是因为失败而感到懊恼。",
+    "image_name": "J_CH0245_spr_12_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "satisfied",
+      "closed_eyes",
+      "smug",
+      "proud",
+      "smile"
+    ],
+    "description": "闭着眼睛，嘴角勾起一抹得意的弧度，脸上带着红晕，神态轻松，表现出满足、骄傲或自我陶醉的感觉。",
+    "image_name": "J_CH0245_spr_13_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "confident",
+      "smile",
+      "blush",
+      "looking_at_viewer",
+      "purple_eyes"
+    ],
+    "description": "面带红晕，眼神坚定直视前方，嘴角带着自信的微笑，神情既显得精神饱满又隐含着一丝期待。",
+    "image_name": "J_CH0245_spr_14_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "whistling",
+      "feigning_ignorance",
+      "closed_eyes",
+      "puckered_lips",
+      "innocent"
+    ],
+    "description": "闭着双眼，嘴巴嘟起似乎在吹口哨，把头撇向一边，摆出一副装傻充愣、假装无事发生的滑稽样子。",
+    "image_name": "J_CH0245_spr_15_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "pain",
+      "shouting",
+      "closed_eyes",
+      "struggling",
+      "frustrated"
+    ],
+    "description": "双眼紧闭呈“>_<”状，张大嘴巴似乎在大声喊叫或抱怨，眉头紧锁，表现出极度的痛苦、焦急或崩溃发泄的样子。",
+    "image_name": "J_CH0245_spr_16_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "frowning",
+      "aggressive"
+    ],
+    "description": "眉头倒竖，眼神凶狠地直视前方，张嘴怒吼，展现出强烈的愤怒和攻击性，似乎正在进行激烈的争吵。",
+    "image_name": "J_CH0245_spr_17_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "fierce",
+      "complaining"
+    ],
+    "description": "保持着愤怒的姿态，眼神犀利，张大嘴巴大声抗议或责备，情绪显得非常激动和不满。",
+    "image_name": "J_CH0245_spr_18_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "yelling",
+      "open_mouth",
+      "serious",
+      "annoyed"
+    ],
+    "description": "眉头紧皱，眼神充满怒火，张嘴大喊，持续表达着强烈的不满，神态严肃且充满压迫感。",
+    "image_name": "J_CH0245_spr_19_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "shy",
+      "closed_eyes",
+      "blush",
+      "embarrassed",
+      "passive"
+    ],
+    "description": "双眼紧闭，脸颊泛起明显的红晕，神情看起来非常害羞、温顺，或者是因为不好意思而不敢睁眼。",
+    "image_name": "J_CH0245_spr_99_W2xEX_2x_1n.jpg"
+  }
+]

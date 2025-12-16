@@ -1,0 +1,80 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_eyes",
+      "purple_eyes",
+      "happy",
+      "gentle"
+    ],
+    "description": "标准的微笑表情，双眼睁开注视前方，眼神清澈温和，嘴角微微上扬，展现出友善和亲切的态度。",
+    "image_name": "J_akari_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "smile",
+      "playful",
+      "cute"
+    ],
+    "description": "俏皮的眨眼（Wink）表情，左眼闭合，右眼睁开，面带笑容，给人一种活泼开朗的感觉。",
+    "image_name": "J_akari_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "open_mouth",
+      "happy",
+      "joy"
+    ],
+    "description": "开怀大笑的表情，双眼眯成弯月形，嘴巴张开，看起来非常开心，充满了喜悦的氛围。",
+    "image_name": "J_akari_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "worried",
+      "troubled",
+      "nervous",
+      "frown"
+    ],
+    "description": "感到困扰或尴尬的表情，脸颊上挂着一滴汗珠，眉毛微皱，眼神游移，显得有些不知所措或担忧。",
+    "image_name": "J_akari_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smug",
+      "confident",
+      "smile",
+      "relaxed"
+    ],
+    "description": "半眯着眼睛的微笑，眼神显得有些慵懒或得意（Smug），透着一股自信和从容的气质。",
+    "image_name": "J_akari_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "glowing_eyes",
+      "pink_eyes",
+      "scary",
+      "yandere",
+      "shadowed_face",
+      "open_mouth"
+    ],
+    "description": "黑化或暴走的恐怖表情，上半脸笼罩在阴影中，瞳孔失去高光并发出粉红色的亮光，嘴巴张开，给人一种极度危险或疯狂的感觉。",
+    "image_name": "J_akari_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "calm",
+      "peaceful",
+      "serene"
+    ],
+    "description": "安详的闭眼微笑，神情平静柔和，没有张嘴，表现出一种满足、放松或沉稳的状态。",
+    "image_name": "J_akari_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

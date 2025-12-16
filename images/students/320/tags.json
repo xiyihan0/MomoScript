@@ -1,0 +1,192 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "seriousness",
+      "staring"
+    ],
+    "description": "标准的平静表情，眼神直视前方，神情端庄且略显严肃，没有明显的情绪波动。",
+    "image_name": "CH0225_spr_00.png"
+  },
+  {
+    "tags": [
+      "cold_gaze",
+      "skeptical",
+      "unimpressed",
+      "staring"
+    ],
+    "description": "眼神比平时更加冷淡，微微眯起眼睛，似乎带着审视或不信任的态度注视着对方。",
+    "image_name": "CH0225_spr_01.png"
+  },
+  {
+    "tags": [
+      "mouth_open",
+      "speaking",
+      "explaining",
+      "neutral"
+    ],
+    "description": "嘴巴微微张开，像是在进行日常对话或冷静地解释说明某事。",
+    "image_name": "CH0225_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "softness"
+    ],
+    "description": "嘴角微微上扬，露出了罕见的温柔浅笑，眼神也变得柔和，表现出善意或开心。",
+    "image_name": "CH0225_spr_03.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "sweat_drop",
+      "nervous",
+      "looking_away"
+    ],
+    "description": "脸颊挂着一滴冷汗，视线尴尬地游移向一旁，似乎遇到了令人为难或无语的情况。",
+    "image_name": "CH0225_spr_04.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "gloomy",
+      "looking_down",
+      "contemplative"
+    ],
+    "description": "眼神向下垂落，神情显得低落、忧郁，或者正在进行沉重的思考。",
+    "image_name": "CH0225_spr_05.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "looking_away",
+      "displeased",
+      "pout"
+    ],
+    "description": "视线撇向一边，似乎带着些许不悦、嫌弃或者是闹别扭的情绪。",
+    "image_name": "CH0225_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "resignation",
+      "calm"
+    ],
+    "description": "双眼紧闭，神态平和但略显无奈，像是在轻轻叹气或者是闭目养神。",
+    "image_name": "CH0225_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "pain",
+      "struggle",
+      "frown",
+      "grimace"
+    ],
+    "description": "双眼紧闭，眉头深锁，神情显得痛苦、吃力或是在极力忍耐着什么，表现出强烈的不适感。",
+    "image_name": "CH0225_spr_08.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "scorn",
+      "cold_gaze",
+      "looking_down",
+      "disdain"
+    ],
+    "description": "眼神半垂，用一种冷淡甚至带有明显鄙视意味的目光向下扫视，流露出不屑与无语的情绪。",
+    "image_name": "CH0225_spr_09.png"
+  },
+  {
+    "tags": [
+      "disgust",
+      "annoyed",
+      "looking_away",
+      "frown",
+      "tch"
+    ],
+    "description": "眉头紧皱，嘴角扭曲，一脸嫌弃地将视线撇向一旁，明显表现出厌恶、不爽或抗拒的态度。",
+    "image_name": "CH0225_spr_10.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "aggressive",
+      "frown",
+      "staring"
+    ],
+    "description": "怒目圆睁，眉头倒竖，嘴巴大张仿佛正在大声呵斥或激烈争辩，充满了攻击性与怒火。",
+    "image_name": "CH0225_spr_11.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "shy",
+      "looking_away",
+      "awkward",
+      "embarrassed"
+    ],
+    "description": "脸颊泛起红晕，视线尴尬地向一旁游移，嘴角带着一丝勉强的笑意，显得羞涩且局促不安。",
+    "image_name": "CH0225_spr_12.png"
+  },
+  {
+    "tags": [
+      "bored",
+      "tired",
+      "half_closed_eyes",
+      "looking_away",
+      "uninterested"
+    ],
+    "description": "眼皮无力地半耷拉着，视线飘向一侧，看起来百无聊赖、疲惫不堪，或者对周围的事物完全提不起兴趣。",
+    "image_name": "CH0225_spr_13.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "nervous",
+      "cringe",
+      "awkward",
+      "troubled"
+    ],
+    "description": "紧闭双眼，五官微微挤在一起，似乎因为极度的尴尬、羞耻或无奈而感到难以面对现实。",
+    "image_name": "CH0225_spr_14.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "depressed",
+      "looking_down",
+      "gloomy",
+      "lonely"
+    ],
+    "description": "垂下眼帘，目光黯淡无神地向下看，神情充满了失落、忧郁与孤独感，显得格外消沉。",
+    "image_name": "CH0225_spr_15.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "sly",
+      "mischievous",
+      "confident"
+    ],
+    "description": "嘴角勾起一抹自信甚至带着些许狡黠的坏笑，眼神微微眯起，流露出得意、计谋得逞或是想要捉弄人的神情。",
+    "image_name": "CH0225_spr_16.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral",
+      "silence",
+      "meditating"
+    ],
+    "description": "双眼轻轻闭合，面部表情十分平静，没有明显的负面情绪，像是在闭目养神、安静思考或是处于沉默之中。",
+    "image_name": "CH0225_spr_99.png"
+  }
+]

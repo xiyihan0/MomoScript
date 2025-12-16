@@ -1,0 +1,147 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "blue_eyes",
+      "glasses",
+      "stare"
+    ],
+    "description": "标准的默认表情，眼神略显空洞地直视前方，带着一丝特有的消极或平淡感。",
+    "image_name": "J_CH0234_spr_00_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "glasses",
+      "closed_mouth"
+    ],
+    "description": "非常平淡的表情，嘴巴闭合，没有任何明显的情绪流露，看起来很安静。",
+    "image_name": "J_CH0234_spr_01_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "open_mouth",
+      "concerned",
+      "anxious",
+      "glasses"
+    ],
+    "description": "担忧的表情，眉毛微微下垂，嘴巴微张，似乎在表达不安、困扰或者是正在叹气。",
+    "image_name": "J_CH0234_spr_02_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "slight_smile",
+      "happy",
+      "gentle",
+      "glasses"
+    ],
+    "description": "嘴角微微上扬，露出了难得的浅笑，眼神看起来比平时柔和，表现出一种安心或温和的状态。",
+    "image_name": "J_CH0234_spr_03_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "pain",
+      "exhausted",
+      "struggle",
+      "glasses"
+    ],
+    "description": "痛苦或极度困扰的表情，紧闭双眼，面带汗珠，嘴巴张开，看起来非常疲惫、焦虑或正在忍受某种苦难。",
+    "image_name": "J_CH0234_spr_04_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "confused",
+      "open_mouth",
+      "glasses",
+      "speaking"
+    ],
+    "description": "困惑或轻微惊讶的表情，眉头微皱，嘴巴张开，像是在询问、质疑或者急切地解释某事。",
+    "image_name": "J_CH0234_spr_05_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "resigned",
+      "calm",
+      "sigh",
+      "glasses"
+    ],
+    "description": "闭着眼睛，表情无奈或平静，像是在深深地叹气、认命，或者是闭目养神。",
+    "image_name": "J_CH0234_spr_06_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "shiny_glasses",
+      "opaque_glasses",
+      "hidden_eyes",
+      "scheming",
+      "serious"
+    ],
+    "description": "眼镜反光导致镜片全白，完全挡住了眼睛，通常用于表现“睿智”、腹黑、认真解说或搞笑的严肃时刻。",
+    "image_name": "J_CH0234_spr_07_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "laughing",
+      "glasses"
+    ],
+    "description": "开朗的笑容，双眼眯成弯月状，嘴巴张开，看起来非常开心，像是在开怀大笑。",
+    "image_name": "J_CH0234_spr_08_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "awkward",
+      "troubled",
+      "nervous",
+      "glasses"
+    ],
+    "description": "尴尬或为难的表情，闭着眼睛，脸颊挂着汗珠，嘴角紧绷，表现出一种无可奈何或焦灼的状态。",
+    "image_name": "J_CH0234_spr_09_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "fear",
+      "sweat_drop",
+      "small_pupils",
+      "gloom",
+      "glasses"
+    ],
+    "description": "极度震惊或恐惧的表情，瞳孔收缩，面部带有阴影（黑线）和冷汗，似乎受到了惊吓或遭遇了极大的心理压力。",
+    "image_name": "J_CH0234_spr_10_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "serious",
+      "shouting",
+      "open_mouth",
+      "furrowed_brows",
+      "glasses"
+    ],
+    "description": "生气或严肃的表情，眉头紧锁，眼神犀利，嘴巴张开，像是在大声呵斥、争论或下达命令。",
+    "image_name": "J_CH0234_spr_11_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "sleeping",
+      "neutral",
+      "glasses"
+    ],
+    "description": "平静的闭眼表情，神态安详，没有多余的情绪，通常用于表现睡眠、眨眼或闭目养神的状态。",
+    "image_name": "J_CH0234_spr_99_W2xEX_2x_1n.jpg"
+  }
+]

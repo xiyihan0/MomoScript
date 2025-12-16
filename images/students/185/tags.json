@@ -1,0 +1,74 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "purple_eyes"
+    ],
+    "description": "表情平静，直视前方，眼神专注，嘴巴闭合，展现出标准的冷静姿态。",
+    "image_name": "J_utaha_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "talking",
+      "neutral"
+    ],
+    "description": "嘴巴微微张开，眼神保持平静，仿佛正在进行冷静的陈述或说明。",
+    "image_name": "J_utaha_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "confident"
+    ],
+    "description": "嘴角上扬露出微笑，眼神变得柔和，流露出自信和愉悦的心情。",
+    "image_name": "J_utaha_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "thinking",
+      "looking_down"
+    ],
+    "description": "视线向下低垂，表情变得严肃深沉，嘴巴紧闭，似乎在思考棘手的问题。",
+    "image_name": "J_utaha_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "open_mouth",
+      "narrowed_eyes"
+    ],
+    "description": "半眯着眼睛，嘴巴张开，带有一丝得意、调侃或自信满满的说教神态。",
+    "image_name": "J_utaha_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "shy",
+      "neutral"
+    ],
+    "description": "视线移向侧下方，不敢直视前方，神情显得有些害羞、犹豫或不好意思。",
+    "image_name": "J_utaha_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "curious"
+    ],
+    "description": "眼睛略微睁大，嘴巴呈小圆孔状微张，表现出惊讶、好奇或“哦？”的反应。",
+    "image_name": "J_utaha_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "meditating"
+    ],
+    "description": "双眼完全闭合，面部放松，神态安详，像是在闭目养神或无奈叹气。",
+    "image_name": "J_utaha_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

@@ -1,0 +1,181 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "green_eyes",
+      "looking_at_viewer"
+    ],
+    "description": "标准的平静表情，眼神直视前方，没有任何特殊的情绪波动，表现出认真或待机的状态。",
+    "image_name": "CH0174_spr_00.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "neutral",
+      "focused",
+      "closed_mouth"
+    ],
+    "description": "非常严肃和平静的表情，眉头似乎比标准表情微皱，眼神专注，表现出正在认真听取任务或思考的样子。",
+    "image_name": "CH0174_spr_01.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "open_mouth",
+      "calm",
+      "neutral"
+    ],
+    "description": "嘴巴微微张开，眼神保持平静，呈现出正在说话、解释情况或回答问题的状态。",
+    "image_name": "CH0174_spr_02.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "small_pupils",
+      "sweat_drop",
+      "awkward",
+      "wide_eyes"
+    ],
+    "description": "瞳孔缩小成点状，眼眶睁大，脸颊挂着汗珠，嘴巴紧闭，表现出震惊、尴尬或由于意想不到的情况而感到僵硬。",
+    "image_name": "CH0174_spr_04.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "half_closed_eyes",
+      "relaxed",
+      "slight_smile"
+    ],
+    "description": "眼神半眯，带着一丝自信甚至得意的神情，看起来很放松，似乎对计划胸有成竹。",
+    "image_name": "CH0174_spr_05.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "open_mouth",
+      "small_pupils",
+      "sweat_drop",
+      "confused"
+    ],
+    "description": "瞳孔缩小，嘴巴张开，脸颊有汗珠，表现出强烈的惊讶、慌张或正在对突发状况发出惊呼。",
+    "image_name": "CH0174_spr_07.png"
+  },
+  {
+    "tags": [
+      "blank_eyes",
+      "white_eyes",
+      "stunned",
+      "sweat_drop",
+      "speechless",
+      "comic_shock"
+    ],
+    "description": "眼睛变成白色的圆圈（失去高光和瞳孔），流着冷汗，表现出极度无语、傻眼、被雷到或“灵魂出窍”的夸张搞笑状态。",
+    "image_name": "CH0174_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "tired",
+      "resigned",
+      "sigh"
+    ],
+    "description": "双眼呈水平线闭合，流着冷汗，表现出无奈、放弃思考、疲惫或正在叹气的样子。",
+    "image_name": "CH0174_spr_09.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "bored",
+      "unimpressed",
+      "staring",
+      "neutral"
+    ],
+    "description": "半耷拉着眼皮，眼神显得冷淡、无聊或不以为然，表现出一种“也就那样吧”或者对现状提不起兴趣的态度。",
+    "image_name": "CH0174_spr_10.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "shouting",
+      "angry",
+      "comic_eyes",
+      "open_mouth",
+      "aggressive"
+    ],
+    "description": "嘴巴大张怒吼，眼睛变成漫画风格的极简圆点（瞳孔收缩），表现出强烈的震惊、愤怒或者正在进行激烈的吐槽。",
+    "image_name": "CH0174_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "shouting",
+      "grimace",
+      "pain",
+      "frustrated",
+      "yelling"
+    ],
+    "description": "紧闭双眼，眉头紧锁，嘴巴大张，表现出痛苦、焦躁、受挫，或者正在声嘶力竭地大喊大叫。",
+    "image_name": "CH0174_spr_12.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "confident",
+      "looking_aside",
+      "mischievous"
+    ],
+    "description": "眼神向侧面瞟去，嘴角上扬带着一抹得意的微笑，流露出自信、从容，似乎心里正在盘算着什么有趣的计划。",
+    "image_name": "CH0174_spr_13.png"
+  },
+  {
+    "tags": [
+      "gritting_teeth",
+      "awkward",
+      "nervous",
+      "forced_smile",
+      "troubled",
+      "clenched_teeth"
+    ],
+    "description": "咬紧牙关（龇牙），视线游移，表现出极度的尴尬、不知所措，或者正在勉强自己忍耐某种麻烦的情况。",
+    "image_name": "CH0174_spr_14.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "grin",
+      "happy",
+      "showing_teeth",
+      "cheerful"
+    ],
+    "description": "眼睛笑成弯弯的月牙形，嘴巴咧开露出牙齿，表现出非常开心、爽朗的大笑，或者是一种恶作剧成功后的调皮笑容。",
+    "image_name": "CH0174_spr_15.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "cheerful",
+      "open_mouth",
+      "smile",
+      "excited",
+      "friendly"
+    ],
+    "description": "眼神明亮柔和，嘴巴张开带着笑容，表现出充满活力、心情愉快，或者正在高兴地进行对话。",
+    "image_name": "CH0174_spr_16.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "meditating",
+      "peaceful"
+    ],
+    "description": "双眼完全闭合，表情平和安详，没有多余的情绪，处于闭目养神、沉思或者睡觉的状态。",
+    "image_name": "CH0174_spr_99.png"
+  }
+]

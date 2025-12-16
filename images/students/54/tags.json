@@ -1,0 +1,180 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "normal",
+      "calm"
+    ],
+    "description": "标准的平静表情，面无表情直视前方，没有任何强烈的情绪流露。",
+    "image_name": "CH0184_spr_00.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "focused",
+      "silent"
+    ],
+    "description": "稍微严肃或专注的表情，嘴唇紧闭，眼神比标准表情更锐利一些。",
+    "image_name": "CH0184_spr_01.png"
+  },
+  {
+    "tags": [
+      "dazed",
+      "blank_stare",
+      "open_mouth",
+      "surprise"
+    ],
+    "description": "发呆或轻微惊讶的表情，嘴巴微微张开成一个小圆点，看起来有些呆萌。",
+    "image_name": "CH0184_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "closed_eyes",
+      "laughing"
+    ],
+    "description": "开心的笑脸，眼睛眯成月牙状，展现出愉悦和轻松的心情。",
+    "image_name": "CH0184_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "blush",
+      "sweat",
+      "embarrassed",
+      "worried"
+    ],
+    "description": "紧张害羞且焦虑的表情，脸上有红晕和汗珠，眉毛下垂，看起来非常尴尬或不知所措。",
+    "image_name": "CH0184_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "frown",
+      "stern"
+    ],
+    "description": "生气或不满的表情，眉头紧锁，眼神严厉，似乎在责备或表示抗议。",
+    "image_name": "CH0184_spr_05.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "confused",
+      "troubled",
+      "open_mouth"
+    ],
+    "description": "担忧或困惑的表情，眉毛微皱，嘴巴微张，似乎遇到了难题或感到不安。",
+    "image_name": "CH0184_spr_06.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "half_closed_eyes",
+      "smile"
+    ],
+    "description": "得意或自信的表情，眼神半眯，嘴角微微上扬，带有一种‘尽在掌握’的自满感。",
+    "image_name": "CH0184_spr_07.png"
+  },
+  {
+    "tags": [
+      "dazed",
+      "blank_stare",
+      "sweat",
+      "blush",
+      "surprise"
+    ],
+    "description": "发呆或轻微震惊的表情，眼神空洞直视前方，脸上挂着汗珠，似乎因突发状况而一时反应不过来。",
+    "image_name": "CH0184_spr_08.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "disgusted",
+      "frown",
+      "angry",
+      "grimace"
+    ],
+    "description": "厌恶或不爽的表情，眉头紧锁，嘴角扭曲下撇，眼神中透露出明显的嫌弃或不满。",
+    "image_name": "CH0184_spr_09.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "excited",
+      "closed_eyes",
+      "happy",
+      "shouting"
+    ],
+    "description": "兴奋的大笑表情，眼睛紧闭呈‘><’状，嘴巴张大，表现出极度的开心或正在欢呼。",
+    "image_name": "CH0184_spr_10.png"
+  },
+  {
+    "tags": [
+      "panic",
+      "shocked",
+      "swirly_eyes",
+      "sweat",
+      "blush"
+    ],
+    "description": "极度惊慌失措的表情，眼睛变成混乱的圈圈状，满脸通红且大汗淋漓，看起来处于极度混乱或焦急的状态。",
+    "image_name": "CH0184_spr_11.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "troubled",
+      "sweat",
+      "worried",
+      "frown"
+    ],
+    "description": "委屈或困扰的表情，眉毛下垂呈八字状，眼神闪躲，脸上有汗珠，看起来即将哭泣或感到非常抱歉。",
+    "image_name": "CH0184_spr_12.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy",
+      "calm",
+      "soft_eyes"
+    ],
+    "description": "温柔的微笑表情，眼神平和充满善意，嘴角微微上扬，给人一种治愈和安心的感觉。",
+    "image_name": "CH0184_spr_13.png"
+  },
+  {
+    "tags": [
+      "melancholic",
+      "sad",
+      "worried",
+      "quiet",
+      "gloomy"
+    ],
+    "description": "忧郁或失落的表情，眉毛微皱，眼神显得黯淡无光，流露出一种安静的悲伤或无奈。",
+    "image_name": "CH0184_spr_14.png"
+  },
+  {
+    "tags": [
+      "confused",
+      "concerned",
+      "surprise",
+      "open_mouth",
+      "questioning"
+    ],
+    "description": "困惑或关切的表情，眼神中带着疑问，嘴巴微张，似乎对眼前的情况感到不解或在表示关心。",
+    "image_name": "CH0184_spr_15.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "star_sticker",
+      "peaceful",
+      "gentle"
+    ],
+    "description": "闭着双眼的平静表情，神态安详，脸颊上贴着一枚黄色的五角星贴纸，给人一种柔和且略带俏皮的感觉。",
+    "image_name": "CH0184_spr_99.png"
+  }
+]

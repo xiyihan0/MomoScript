@@ -1,0 +1,68 @@
+# Git internals (avoid committing nested repos)
+.git/
+
+# Python bytecode / caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Test / type-check / lint caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# IDEs
+.idea/
+.vscode/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Local env / secrets
+.env
+.env.*
+
+# Project caches / temp outputs
+.cache/
+.tmp/
+*.log
+
+# Large downloaded assets (regenerate via scripts)
+# images/
+mmt_render/images/
+
+# If you want to version only tags metadata (but not images), replace the line above
+# with the following block:
+# mmt_render/images/**
+images/**
+!images/students/
+!images/students/**/
+!images/students/**/tags.json
+
+# Avatar images are large; keep mapping JSONs
+avatar/*
+!avatar/name_to_id.json
+!avatar/download_errors.json
+
+# Copy under mmt_render is cache only
+mmt_render/avatar/
+
+# Typst / exports
+*.pdf
+
+# mmt_render generated artifacts
+mmt_render/*.pipe.json
+mmt_render/*.pipe.resolved.json
+mmt_render/*.pipe.pdf
+mmt_render/*.resolved.json
+mmt_render/*.report.json
+mmt_render/*.render*.json

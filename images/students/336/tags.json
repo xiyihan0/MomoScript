@@ -1,0 +1,185 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "slight_smile",
+      "blush"
+    ],
+    "description": "表情平静自然，嘴角带着一丝若有若无的微笑，脸颊微红。",
+    "image_name": "P_NP0131_spr_00_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "blush"
+    ],
+    "description": "嘴角微微上扬，展现出温柔且含蓄的笑容。",
+    "image_name": "P_NP0131_spr_01_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "curious"
+    ],
+    "description": "嘴巴呈小圆形张开，仿佛正在说话或对某事感到好奇。",
+    "image_name": "P_NP0131_spr_02_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled"
+    ],
+    "description": "面具上的眼部线条向下弯曲，嘴巴微张，流露出困扰和担忧的神情。",
+    "image_name": "P_NP0131_spr_03_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "smirk",
+      "confident",
+      "tooth"
+    ],
+    "description": "露出一侧尖牙的坏笑，看起来充满自信或在谋划着什么。",
+    "image_name": "P_NP0131_spr_04_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "wavy_mouth",
+      "cat_mouth"
+    ],
+    "description": "嘴唇抿成波浪状（ω形），表现出得意洋洋或调皮的猫系神态。",
+    "image_name": "P_NP0131_spr_05_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "tongue_out",
+      "dizzy",
+      "exhausted"
+    ],
+    "description": "吐出舌头，面具上的线条呈锯齿状，看起来像是晕头转向或精疲力竭的样子。",
+    "image_name": "P_NP0131_spr_06_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "laughing",
+      "happy",
+      "closed_eyes"
+    ],
+    "description": "开怀大笑，面具上的眼部线条呈倒U型（笑眼），洋溢着快乐的情绪。",
+    "image_name": "P_NP0131_spr_07_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "open_mouth",
+      "blush",
+      "excited"
+    ],
+    "description": "嘴巴大张开怀大笑，面具上的眼部纹样呈弯弯的倒C型，脸颊泛红，洋溢着兴奋和快乐。",
+    "image_name": "P_NP0131_spr_08_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "grin"
+    ],
+    "description": "嘴角自信地上扬，面具上的眼部图案正常睁开，表现出从容不迫或略带得意的神情。",
+    "image_name": "P_NP0131_spr_09_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "scheming",
+      "evil_smile",
+      "sharp_eyes",
+      "bad_ass"
+    ],
+    "description": "面具上的眼部图案变为尖锐的菱形，嘴角露出狡黠的坏笑，仿佛在谋划什么恶作剧或阴谋。",
+    "image_name": "P_NP0131_spr_10_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "neutral",
+      "calm",
+      "thinking"
+    ],
+    "description": "面具上的眼部线条呈闭合状，嘴巴缩成一个小点或短线，显得平静沉稳，像是在闭目养神或思考。",
+    "image_name": "P_NP0131_spr_11_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "pout",
+      "unhappy",
+      "dissatisfied"
+    ],
+    "description": "嘴巴撇成倒V字形，面具上的眼睛睁着，流露出一丝不满、闹别扭或嫌弃的情绪。",
+    "image_name": "P_NP0131_spr_12_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "awkward",
+      "troubled",
+      "open_mouth"
+    ],
+    "description": "脸颊旁挂着一滴冷汗，嘴巴微张呈不规则状，看起来感到尴尬、无语或有些棘手。",
+    "image_name": "P_NP0131_spr_13_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "drooling",
+      "sleeping",
+      "melted_eyes",
+      "dazed"
+    ],
+    "description": "面具上的眼部图案变形仿佛融化了一般，嘴角流出口水，看起来是在做美梦或者是馋得发呆。",
+    "image_name": "P_NP0131_spr_14_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "panic",
+      "blush",
+      "shocked"
+    ],
+    "description": "嘴巴大张仿佛在喊叫，脸颊通红，面具眼部图案瞪大，表现出惊慌失措、焦急或震惊的样子。",
+    "image_name": "P_NP0131_spr_15_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "excited",
+      "shouting",
+      "starry_eyes",
+      "sweat",
+      "blush"
+    ],
+    "description": "面具上的眼部图案变为闪耀的十字星，嘴巴大张呈方形，脸颊泛红并挂着汗珠，表现出极度兴奋、激动或大声吐槽的状态。",
+    "image_name": "P_NP0131_spr_16_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "awkward",
+      "sweat",
+      "fang",
+      "blush"
+    ],
+    "description": "嘴角微微露出一颗尖牙，面具上的眼部光点较圆，脸上挂着冷汗且脸颊通红，流露出尴尬、紧张或有些不知所措的神情。",
+    "image_name": "P_NP0131_spr_17_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "wavy_mouth",
+      "satisfied",
+      "blush"
+    ],
+    "description": "嘴唇抿成波浪状，面具上的眼部图案明亮，脸颊微红，看起来心情很好，洋溢着满足和愉悦的感觉。",
+    "image_name": "P_NP0131_spr_99_W2xEX_1x_3n.jpg"
+  }
+]

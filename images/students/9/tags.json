@@ -1,0 +1,140 @@
+[
+  {
+    "tags": [
+      "half_closed_eyes",
+      "dot_mouth",
+      "dazed",
+      "expressionless",
+      "leaf_on_head"
+    ],
+    "description": "眼神呆滞，半睁着眼，嘴巴微张呈小圆点状，看起来有些迷茫或正在发呆。",
+    "image_name": "CH0145_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smile",
+      "gentle",
+      "leaf_on_head",
+      "happy"
+    ],
+    "description": "脸上带着淡淡的微笑，眼神柔和，看起来比较温顺或感到一丝欣慰。",
+    "image_name": "CH0145_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "sweat_drop",
+      "blush",
+      "awkward",
+      "nervous",
+      "leaf_on_head"
+    ],
+    "description": "视线向侧边游移，脸颊有红晕，流着冷汗，嘴巴张开，表现出尴尬、紧张或不知所措的样子。",
+    "image_name": "CH0145_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "frown",
+      "stare",
+      "closed_mouth",
+      "leaf_on_head"
+    ],
+    "description": "表情严肃，眉头微皱，眼神直视前方，嘴巴紧闭，看起来有些认真或轻微的不满。",
+    "image_name": "CH0145_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "disappointed",
+      "resigned",
+      "wavy_mouth",
+      "leaf_on_head"
+    ],
+    "description": "双眼紧闭，眉头低垂，嘴巴呈波浪状，表现出一种无奈、放弃或不敢看的神情。",
+    "image_name": "CH0145_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "empty_eyes",
+      "dazed",
+      "shock",
+      "sweat_drop",
+      "blush",
+      "leaf_on_head"
+    ],
+    "description": "眼神失去高光显得空洞，流着汗且脸红，嘴巴微张，似乎处于某种震惊、大脑空白或过度紧张的状态。",
+    "image_name": "CH0145_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "gloom",
+      "shadowed_eyes",
+      "tear",
+      "scared",
+      "depressed",
+      "leaf_on_head"
+    ],
+    "description": "脸色阴沉（眼睛上方有阴影），眼角含泪，流着冷汗，表现出极度的沮丧、害怕或快要哭出来的样子。",
+    "image_name": "CH0145_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "shouting",
+      "whining",
+      "open_mouth",
+      "sweat_drop",
+      "leaf_on_head"
+    ],
+    "description": "闭着眼睛大喊大叫，嘴巴张大，脸颊红晕且流汗，像是在抗议、抱怨或者是受不了当下的状况。",
+    "image_name": "CH0145_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "swirly_eyes",
+      "dizzy",
+      "confused",
+      "wavy_mouth",
+      "leaf_on_head"
+    ],
+    "description": "眼睛变成蚊香状螺旋，嘴巴呈波浪形张开，表现出晕头转向、极度混乱或神志不清的样子。",
+    "image_name": "CH0145_spr-10_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "blush",
+      "leaf_on_head"
+    ],
+    "description": "眯着眼睛露出灿烂的笑容，脸颊泛红，看起来非常开心、满足或正在欢笑。",
+    "image_name": "CH0145_spr-11_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "squinting",
+      "crying",
+      "open_mouth",
+      "tears",
+      "distressed",
+      "leaf_on_head"
+    ],
+    "description": "眼睛紧闭呈“><”状，眼角挂着泪珠，嘴巴张大，表现出受委屈、焦急或忍不住大哭的神情。",
+    "image_name": "CH0145_spr-12_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "expressionless",
+      "sleeping",
+      "unconscious",
+      "leaf_on_head"
+    ],
+    "description": "双眼紧闭，面无表情，嘴巴闭合，看起来像是陷入昏迷、睡着了或者是彻底失去了意识。",
+    "image_name": "CH0145_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

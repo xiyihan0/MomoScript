@@ -1,0 +1,120 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "blue_eyes"
+    ],
+    "description": "开心地笑着，嘴巴张开，眼神明亮充满活力。",
+    "image_name": "kirino_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "blue_eyes"
+    ],
+    "description": "温柔含蓄的微笑，嘴巴闭合，神情平和自信。",
+    "image_name": "kirino_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "neutral",
+      "blue_eyes",
+      "curious"
+    ],
+    "description": "嘴巴微微张开，似乎在发呆或正要说话，表情略显疑惑。",
+    "image_name": "kirino_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "open_mouth",
+      "blush",
+      "happy"
+    ],
+    "description": "闭着眼睛开怀大笑，脸上带着开心的红晕，情绪高涨。",
+    "image_name": "kirino_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "open_mouth",
+      "sweat_drop",
+      "shouting",
+      "blue_eyes"
+    ],
+    "description": "受到惊吓或正在大声喊叫，嘴巴张得很大，脸颊上有汗珠。",
+    "image_name": "kirino_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "frown",
+      "blue_eyes",
+      "determined",
+      "angry"
+    ],
+    "description": "表情严肃认真，眉头紧锁，嘴巴抿成波浪状，似乎有些生气或不服气。",
+    "image_name": "kirino_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "tears",
+      "closed_eyes",
+      "sad",
+      "distressed"
+    ],
+    "description": "哭泣的表情，眼睛紧闭流着眼泪，看起来非常委屈和难过。",
+    "image_name": "kirino_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "dot_eyes",
+      "simplified_face",
+      "surprised",
+      "open_mouth",
+      "dumbfounded"
+    ],
+    "description": "简笔画风格的呆滞表情，眼睛变成圆点，嘴巴呈三角形，显得十分震惊和呆萌。",
+    "image_name": "kirino_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "open_mouth",
+      "surprised",
+      "blue_eyes",
+      "energetic"
+    ],
+    "description": "大声喊叫或惊讶的表情，嘴巴张大呈梯形，眼神急切，似乎正在大声传达信息或表达震惊。",
+    "image_name": "kirino_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "closed_mouth",
+      "awkward",
+      "blue_eyes"
+    ],
+    "description": "感到尴尬或紧张，脸颊上挂着明显的汗珠，嘴巴紧闭，眼神显得有些局促不安和无奈。",
+    "image_name": "kirino_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "half_closed_eyes",
+      "smile",
+      "relaxed",
+      "funny_face"
+    ],
+    "description": "得意的半眯眼表情，眼睛呈半睁状态，嘴角微微上扬，流露出一种自信、放松或搞怪的“屑”气场。",
+    "image_name": "kirino_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

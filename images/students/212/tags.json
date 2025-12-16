@@ -1,0 +1,167 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "glasses",
+      "closed_mouth",
+      "purple_eyes"
+    ],
+    "description": "平静的标准表情，双眼直视前方，嘴巴闭合成一个小点，没有任何明显的情绪波动。",
+    "image_name": "1_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "glasses",
+      "purple_eyes",
+      "o_shaped_mouth"
+    ],
+    "description": "惊讶的表情，嘴巴微微张开呈O形，似乎看到了意料之外的信息或情况。",
+    "image_name": "2_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "glasses",
+      "open_mouth",
+      "joy"
+    ],
+    "description": "开心的笑容，眼睛眯成弯弯的月牙状，嘴巴张开，展现出愉悦和满足的心情。",
+    "image_name": "3_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "confused",
+      "annoyed",
+      "furrowed_brows",
+      "open_mouth",
+      "glasses",
+      "displeased"
+    ],
+    "description": "困惑或略带嫌弃的表情，眉头紧锁，嘴巴张开，似乎对听到的话感到不解或轻微的不满。",
+    "image_name": "4_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "stern",
+      "furrowed_brows",
+      "closed_mouth",
+      "glasses",
+      "focused"
+    ],
+    "description": "严肃的表情，眉头皱起，嘴巴紧闭，眼神锐利，表现出认真或审视的态度。",
+    "image_name": "5_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "shouting",
+      "agitated",
+      "open_mouth",
+      "furrowed_brows",
+      "glasses"
+    ],
+    "description": "震惊或急切的表情，眉毛紧皱，嘴巴大张，仿佛在大声喊叫或对某事感到强烈抗议。",
+    "image_name": "6_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "thinking",
+      "glasses",
+      "closed_mouth",
+      "resigned"
+    ],
+    "description": "闭眼的表情，嘴巴紧闭，神态平静，似乎在闭目养神、仔细聆听录音或感到些许无奈。",
+    "image_name": "7_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "glasses",
+      "closed_mouth",
+      "purple_eyes",
+      "attentive"
+    ],
+    "description": "常规的平静表情，与第一张非常相似，安静地注视着对方，等待指令或观察情况。",
+    "image_name": "kotama_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "neutral",
+      "purple_eyes",
+      "curious"
+    ],
+    "description": "略显呆萌的惊讶表情，嘴巴微微张开呈小O形，眼神直视前方，似乎刚刚捕捉到了什么意料之外的声音。",
+    "image_name": "kotama_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "cheerful",
+      "joy"
+    ],
+    "description": "开朗的笑容，双眼眯成弯弯的月牙状，嘴巴张开，展现出毫无防备的快乐和满足感。",
+    "image_name": "kotama_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "confused",
+      "awkward",
+      "furrowed_brows",
+      "open_mouth",
+      "skeptical",
+      "troubled"
+    ],
+    "description": "困惑且略带尴尬的表情，眉头皱起，一侧眉毛挑高，嘴巴半张，似乎对眼前的情况感到棘手或难以置信。",
+    "image_name": "kotama_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "angry",
+      "stern",
+      "furrowed_brows",
+      "closed_mouth",
+      "glaring"
+    ],
+    "description": "严肃甚至生气的表情，眉头紧锁，眼神锐利地盯着对方，嘴巴抿成一条线，流露出强烈的不满或警惕。",
+    "image_name": "kotama_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "agitated",
+      "open_mouth",
+      "furrowed_brows",
+      "urgent",
+      "shocked"
+    ],
+    "description": "焦急喊叫的表情，嘴巴张得很大，眉宇间充满紧迫感，仿佛正在大声发出警告或极力争辩某事。",
+    "image_name": "kotama_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "defeated",
+      "closed_eyes",
+      "overwhelmed",
+      "pouting",
+      "unconscious"
+    ],
+    "description": "晕头转向或彻底被击败的表情，双眼紧闭呈“><”状的痛苦线条，显得极度无力，仿佛已经放弃了思考或失去了意识。",
+    "image_name": "kotama_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

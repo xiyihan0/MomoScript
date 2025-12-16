@@ -1,0 +1,88 @@
+[
+  {
+    "tags": [
+      "blush",
+      "panic",
+      "sweat_drops",
+      "wavy_mouth",
+      "embarrassed"
+    ],
+    "description": "满脸通红且流着冷汗，眼神惊慌失措，嘴巴呈波浪状，表现出极度的羞耻和慌张。",
+    "image_name": "QQ截图20211127194631.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "open_mouth",
+      "surprise",
+      "dazed"
+    ],
+    "description": "呆滞或轻微惊讶的表情，嘴巴微张，眼神直视前方，似乎处于放空或刚听到消息的反应。",
+    "image_name": "QQ截图20211127194639.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "thinking",
+      "silent",
+      "resigned"
+    ],
+    "description": "双眼紧闭，面部平静，像是在闭目养神、深呼吸，或者对某种情况感到无奈而选择沉默。",
+    "image_name": "QQ截图20211127194646.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "worried",
+      "disgusted",
+      "frown",
+      "grimace"
+    ],
+    "description": "眉头紧锁，嘴角向下，露出一副困扰、担忧甚至是有些嫌弃的表情，显得不知所措。",
+    "image_name": "QQ截图20211127194653.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "staring",
+      "attentive"
+    ],
+    "description": "面无表情，嘴巴紧闭，眼神专注地看着前方，表现出冷静、认真听讲或待机的状态。",
+    "image_name": "QQ截图20211127194659.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "angry",
+      "glaring",
+      "skeptical",
+      "frown"
+    ],
+    "description": "生气的表情，眉头压低，眼神锐利地盯着看，显得不高兴，像是在责备或质疑对方。",
+    "image_name": "QQ截图20211127194705.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "blush",
+      "laughing"
+    ],
+    "description": "闭眼开怀大笑，脸颊微红，看起来非常开心、轻松和满足，充满治愈感。",
+    "image_name": "QQ截图20211127194711.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "half_closed_eyes",
+      "smile",
+      "teasing"
+    ],
+    "description": "一脸得意洋洋的表情，半眯着眼（垂眼），嘴角自信上扬，像是在嘲弄或者表示“我早就知道”。",
+    "image_name": "QQ截图20211127194716.png"
+  }
+]

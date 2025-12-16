@@ -1,0 +1,129 @@
+[
+  {
+    "tags": [
+      "serious",
+      "frowning",
+      "closed_mouth",
+      "stern",
+      "focused"
+    ],
+    "description": "日富美皱着眉头，表情严肃认真，嘴巴紧闭，眼神坚定。",
+    "image_name": "QQ截图20220125174056.png"
+  },
+  {
+    "tags": [
+      "panicked",
+      "shouting",
+      "closed_eyes",
+      "sweat_drop",
+      "flustered",
+      "open_mouth"
+    ],
+    "description": "日富美惊慌失措，紧闭双眼张大嘴巴大喊，脸颊上挂着汗珠，看起来非常焦急。",
+    "image_name": "QQ截图20220125174103.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "excited",
+      "energetic",
+      "happy"
+    ],
+    "description": "日富美睁大眼睛张着嘴，看起来很惊讶或兴奋，充满了活力。",
+    "image_name": "QQ截图20220125174108.png"
+  },
+  {
+    "tags": [
+      "dazed",
+      "curious",
+      "slightly_open_mouth",
+      "neutral",
+      "blank_stare"
+    ],
+    "description": "日富美嘴巴微张，眼神有些呆萌或放空，表现出一丝好奇或发呆的样子。",
+    "image_name": "QQ截图20220125174113.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "laughing",
+      "cheerful",
+      "happy"
+    ],
+    "description": "日富美闭着眼睛开心地大笑，表情非常灿烂和愉快。",
+    "image_name": "QQ截图20220125174119.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "nervous",
+      "wavy_mouth",
+      "worried",
+      "troubled"
+    ],
+    "description": "日富美抿着波浪状的嘴唇，眉头微皱，看起来有些尴尬、为难或不知所措。",
+    "image_name": "QQ截图20220125174124.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "concerned",
+      "troubled",
+      "closed_mouth",
+      "eyebrows_lowered"
+    ],
+    "description": "日富美眉毛下垂成八字眉，抿着嘴，眼神流露出悲伤、担忧或同情的像子。",
+    "image_name": "QQ截图20220125174130.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "frowning",
+      "complaining"
+    ],
+    "description": "日富美皱着眉头张嘴大喊，看起来在生气、抗议或大声反驳。",
+    "image_name": "QQ截图20220125174136.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral",
+      "silent",
+      "peaceful",
+      "closed_mouth"
+    ],
+    "description": "日富美闭着双眼，表情平静安详，嘴巴微抿，似乎正在闭目养神或享受宁静。",
+    "image_name": "QQ截图20220125174142.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "sweat_drop",
+      "awkward_laugh",
+      "shy",
+      "open_mouth",
+      "troubled_eyebrows"
+    ],
+    "description": "日富美闭眼张嘴笑着，脸上流着汗珠，眉毛微垂，看起来是在尴尬地笑或者是有些害羞、不好意思。",
+    "image_name": "QQ截图20220125174147.png"
+  },
+  {
+    "tags": [
+      "swirly_eyes",
+      "dizzy",
+      "open_mouth",
+      "confused",
+      "sweat_drop",
+      "shocked",
+      "chaos"
+    ],
+    "description": "日富美的眼睛变成了螺旋状的蚊香眼，张大嘴巴，一脸晕头转向、混乱不知所措的样子。",
+    "image_name": "QQ截图20220125174152.png"
+  }
+]

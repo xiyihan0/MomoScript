@@ -1,0 +1,112 @@
+[
+  {
+    "tags": [
+      "crying",
+      "sad",
+      "closed_eyes",
+      "tears",
+      "sobbing"
+    ],
+    "description": "闭着眼睛流泪，脸上挂着泪珠，表情看起来非常悲伤或受了委屈。",
+    "image_name": "QQ截图20211103221458.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "red_eyes"
+    ],
+    "description": "面带温柔的微笑，眼神平和，看起来心情不错。",
+    "image_name": "QQ截图20211103221504.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "excited",
+      "open_mouth",
+      "smile",
+      "blush"
+    ],
+    "description": "开心地笑着，嘴巴张开，脸颊微红，表现出兴奋或喜悦的样子。",
+    "image_name": "QQ截图20211103221510.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "white_eyes",
+      "panic",
+      "open_mouth",
+      "sweat",
+      "comical"
+    ],
+    "description": "双眼翻白（漫画夸张表现），满脸冷汗，张大嘴巴，表现出极度震惊、崩溃或惊慌失措。",
+    "image_name": "QQ截图20211103221518.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "curious",
+      "daze"
+    ],
+    "description": "嘴巴微微张开呈O型，眼睛睁大，看起来有些惊讶、发呆或感到意外。",
+    "image_name": "QQ截图20211103221523.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "frown",
+      "serious"
+    ],
+    "description": "皱着眉头，眼神变得犀利，看起来有些生气、严肃或不满。",
+    "image_name": "QQ截图20211103221531.png"
+  },
+  {
+    "tags": [
+      "jitome",
+      "tired",
+      "bored",
+      "speechless",
+      "half_closed_eyes"
+    ],
+    "description": "死鱼眼（半睁眼），看起来非常疲惫、无语，或者对某事感到厌烦。",
+    "image_name": "QQ截图20211103221536.png"
+  },
+  {
+    "tags": [
+      "skeptical",
+      "awkward",
+      "jitome",
+      "doubt",
+      "side_glance"
+    ],
+    "description": "半睁着眼，视线似乎有点游移或斜视，流露出尴尬、怀疑或无可奈何的情绪。",
+    "image_name": "QQ截图20211103221542.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "closed_eyes",
+      "open_mouth",
+      "blush",
+      "cheerful"
+    ],
+    "description": "眼睛眯成弯弯的缝，嘴巴张开，脸颊带着红晕，展现出非常灿烂、开心且充满活力的笑容。",
+    "image_name": "QQ截图20211103221549.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "calm",
+      "blush",
+      "gentle",
+      "relaxed"
+    ],
+    "description": "双眼闭合，嘴角微微上扬，表情平静安详，看起来感到满足、放松或正在享受宁静。",
+    "image_name": "QQ截图20211103221554.png"
+  }
+]

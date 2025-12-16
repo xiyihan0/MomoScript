@@ -1,0 +1,95 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "stare",
+      "closed_mouth",
+      "normal"
+    ],
+    "description": "标准的平静表情，眼神直视前方，嘴巴闭合，没有明显的情绪波动，作为默认立绘使用。",
+    "image_name": "mashiro_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "pout",
+      "closed_mouth",
+      "unimpressed"
+    ],
+    "description": "稍微严肃或不置可否的表情，嘴唇抿成一条线（略微像是在撇嘴），眼神比默认状态更专注或冷淡。",
+    "image_name": "mashiro_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "speaking",
+      "open_mouth",
+      "talking",
+      "neutral",
+      "explaining"
+    ],
+    "description": "张嘴说话的表情，眼神保持平静，嘴型呈‘o’状或正在发声，用于一般的对话场景。",
+    "image_name": "mashiro_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "blush",
+      "open_mouth",
+      "cheerful",
+      "excited"
+    ],
+    "description": "开心的笑脸，脸颊带有明显的红晕，嘴巴张开露出笑容，眼神变得柔和且充满活力。",
+    "image_name": "mashiro_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "dumbfounded",
+      "sweat_drop",
+      "simplified_eyes",
+      "stunned",
+      "confused"
+    ],
+    "description": "震惊呆滞的表情，瞳孔简化为垂直的椭圆（豆豆眼），脸颊挂着一滴冷汗，表现出无语、惊讶或不知所措。",
+    "image_name": "mashiro_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "shouting",
+      "furrowed_brows",
+      "open_mouth",
+      "aggressive"
+    ],
+    "description": "愤怒或抗议的表情，眉毛紧紧皱起，嘴巴大张似乎在大声争辩或表达不满。",
+    "image_name": "mashiro_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "anxious",
+      "open_mouth",
+      "frowning"
+    ],
+    "description": "困扰或担忧的表情，眉毛呈八字下垂，眼神流露出焦虑，嘴巴微张，看起来遇到了难处或感到悲伤。",
+    "image_name": "mashiro_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "meditating",
+      "resigned",
+      "closed_mouth"
+    ],
+    "description": "双眼完全闭合的表情，面部平静，可以解释为正在睡觉、闭目养神、沉思或者是无奈地叹气。",
+    "image_name": "mashiro_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

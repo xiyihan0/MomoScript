@@ -1,0 +1,209 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "mouth_closed",
+      "cool"
+    ],
+    "description": "表情平静且略显冷酷，眼神认真，嘴巴闭合，展现出作为社长的威严感。",
+    "image_name": "aru_newyear_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "mouth_closed",
+      "normal"
+    ],
+    "description": "标准的默认表情，神态自然平静，没有表现出强烈的情绪。",
+    "image_name": "aru_newyear_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "suspicious",
+      "mouth_closed",
+      "glance"
+    ],
+    "description": "眼神稍微眯起，似乎在审视某物或感到一丝怀疑，表情变得严肃。",
+    "image_name": "aru_newyear_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "mouth_closed",
+      "confident"
+    ],
+    "description": "嘴角微微上扬，露出了温柔且带有自信的微笑，眼神柔和。",
+    "image_name": "aru_newyear_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "panic",
+      "sweat_drop",
+      "excited"
+    ],
+    "description": "嘴巴张大呈现D字形，眼睛睁大，脸颊旁挂着汗珠，表现出惊讶或慌张的情绪。",
+    "image_name": "aru_newyear_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "blank",
+      "mouth_closed",
+      "dull"
+    ],
+    "description": "面无表情，眼神显得比较平淡，似乎在发呆或只是静静地看着。",
+    "image_name": "aru_newyear_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shock",
+      "despair",
+      "gloom_lines",
+      "pale",
+      "open_mouth"
+    ],
+    "description": "受到打击的夸张表情，面部带有阴影线条（黑线），瞳孔收缩，显得极度绝望和震惊。",
+    "image_name": "aru_newyear_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "confident",
+      "proud"
+    ],
+    "description": "标志性的得意表情，眼神流露出傲慢和自满，嘴角上扬，似乎对计划胸有成竹。",
+    "image_name": "aru_newyear_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shout",
+      "energetic",
+      "open_mouth",
+      "confident",
+      "angry"
+    ],
+    "description": "表情强势，嘴巴大张似乎在发号施令或大声喊叫，眼神犀利，充满社长的威严与魄力。",
+    "image_name": "aru_newyear_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "blank",
+      "stare",
+      "mouth_closed",
+      "cool"
+    ],
+    "description": "眼神平静甚至略带冷漠，面部没有明显的情绪波动，静静地注视着前方，显得有些难以捉摸。",
+    "image_name": "aru_newyear_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "confused",
+      "mouth_closed",
+      "stiff"
+    ],
+    "description": "眼神略显呆滞，脸颊旁挂着汗珠，似乎对眼前的情况感到困惑或有些许尴尬的紧张。",
+    "image_name": "aru_newyear_spr-10_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shock",
+      "white_eyes",
+      "gloom_lines",
+      "open_mouth",
+      "panic",
+      "despair"
+    ],
+    "description": "受到巨大冲击的夸张表情，双眼翻白失去神采，面部布满阴影线条，嘴巴大张，显得魂飞魄散。",
+    "image_name": "aru_newyear_spr-11_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "blush",
+      "happy",
+      "gentle"
+    ],
+    "description": "闭着眼睛露出爽朗的笑容，脸颊微红，神态轻松愉快，看起来心情非常好。",
+    "image_name": "aru_newyear_spr-12_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "laugh",
+      "closed_eyes",
+      "open_mouth",
+      "excited",
+      "blush",
+      "joy"
+    ],
+    "description": "闭眼开怀大笑，嘴巴张大呈现D字形，脸颊红润，表现出抑制不住的兴奋和喜悦。",
+    "image_name": "aru_newyear_spr-13_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "evil_smile",
+      "confident",
+      "scheming",
+      "bad_face"
+    ],
+    "description": "嘴角上扬露出自信满满的坏笑，眼神狡黠，仿佛心中策划的完美计划即将成功，典型的“恶人颜”。",
+    "image_name": "aru_newyear_spr-14_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "frustration",
+      "cringe",
+      "sweat_drop",
+      "closed_eyes",
+      "teeth",
+      "regret"
+    ],
+    "description": "紧闭双眼，咬牙切齿，脸上挂着冷汗，表现出极度的懊恼、尴尬或不甘心，仿佛搞砸了什么。",
+    "image_name": "aru_newyear_spr-15_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "cringe",
+      "pain",
+      "struggle",
+      "closed_eyes",
+      "teeth",
+      "sweat_drop"
+    ],
+    "description": "紧闭双眼呈><型，咬紧牙关，满头大汗，表现出极度吃力、痛苦或是正在忍受尴尬的夸张表情。",
+    "image_name": "aru_newyear_spr-16_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "dazed",
+      "blank",
+      "wide_eyes",
+      "surprise",
+      "stare"
+    ],
+    "description": "睁大眼睛一脸茫然，神情呆滞，似乎因为突发状况而大脑宕机，处于发懵或不知所措的状态。",
+    "image_name": "aru_newyear_spr-17_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "unconscious",
+      "peaceful"
+    ],
+    "description": "双眼轻轻闭合，神情安详宁静，看起来像是在沉睡或者是昏迷状态，没有任何动作。",
+    "image_name": "aru_newyear_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

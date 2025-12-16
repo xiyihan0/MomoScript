@@ -1,0 +1,87 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "quiet",
+      "staring"
+    ],
+    "description": "表情平淡，眼神显得有些空洞或发呆，只有一只眼睛露出来，没有任何明显的情绪波动。",
+    "image_name": "CH0114_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprise",
+      "open_mouth",
+      "blank_stare",
+      "dazed"
+    ],
+    "description": "嘴巴微微张开呈圆形，眉毛稍微上扬，露出一副呆萌、轻微惊讶或懵懂的表情。",
+    "image_name": "CH0114_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "closed_eyes",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "眼睛眯成弯弯的笑眼，嘴巴张开露出开心的笑容，看起来非常愉快和轻松。",
+    "image_name": "CH0114_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "spiral_eyes",
+      "panic",
+      "shouting",
+      "blush",
+      "sweat"
+    ],
+    "description": "眼睛变成了蚊香圈状，脸上带着红晕和汗珠，嘴巴大张，表现出极度混乱、晕头转向或惊慌失措的样子。",
+    "image_name": "CH0114_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "doubt",
+      "skeptical",
+      "glance",
+      "judging"
+    ],
+    "description": "眼神半眯显得有些鄙夷或怀疑，眉毛微皱，嘴巴微张，流露出一种不信任、嫌弃或无语的神情。",
+    "image_name": "CH0114_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "pout",
+      "wavy_mouth",
+      "depressed",
+      "gloomy"
+    ],
+    "description": "眉毛下垂，嘴巴抿成波浪状，眼神低垂无光，看起来非常委屈、难过或沮丧。",
+    "image_name": "CH0114_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "awkward",
+      "sweat",
+      "troubled_smile"
+    ],
+    "description": "脸上挂着几滴冷汗，嘴角勉强上扬露出尴尬的笑容，眼神游移，表现出紧张或不知所措。",
+    "image_name": "CH0114_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "peaceful"
+    ],
+    "description": "双眼完全闭合，表情安详平静，嘴巴放松，像是在闭目养神或已经睡着了。",
+    "image_name": "CH0114_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

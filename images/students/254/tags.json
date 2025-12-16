@@ -1,0 +1,208 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "serious",
+      "expressionless"
+    ],
+    "description": "表情平静，眼神冷淡，没有任何明显的情绪波动，展现出一种理智且严肃的常态。",
+    "image_name": "CH0222_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "listening",
+      "attentive",
+      "waiting"
+    ],
+    "description": "保持着严肃的面容，安静地注视着前方，似乎正在认真聆听或处于待机状态。",
+    "image_name": "CH0222_spr_01.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "open_mouth",
+      "explaining",
+      "serious"
+    ],
+    "description": "嘴巴微微张开，似乎正在进行冷静的说明、陈述或发表意见，神情依然专注。",
+    "image_name": "CH0222_spr_02.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "confident",
+      "smirk"
+    ],
+    "description": "嘴角微微上扬，露出一丝自信甚至得意的微笑，眼神中透露出一种游刃有余或略带嘲弄的优越感。",
+    "image_name": "CH0222_spr_03.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "sweat_drop",
+      "surprised",
+      "speechless",
+      "wide_eyes"
+    ],
+    "description": "脸颊上挂着一滴冷汗，眼神发直显得有些惊愕，表现出尴尬、无语或对现状感到措手不及的样子。",
+    "image_name": "CH0222_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "frowning",
+      "glare",
+      "displeased"
+    ],
+    "description": "眉头紧锁，眼神锐利地瞪视前方，嘴角下撇，明显流露出不悦、生气或对抗的情绪。",
+    "image_name": "CH0222_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "thinking",
+      "resigned",
+      "sigh"
+    ],
+    "description": "双眼轻轻闭合，表情平和，看起来像是在闭目养神、深思，或者是在无奈地叹气。",
+    "image_name": "CH0222_spr_06.png"
+  },
+  {
+    "tags": [
+      "wince",
+      "closed_eyes",
+      "sweat_drop",
+      "troubled",
+      "cringe",
+      "pain"
+    ],
+    "description": "用力紧闭双眼，面露难色并流下冷汗，嘴巴微张，表现出极度的尴尬、痛苦或对某种情况感到难以忍受。",
+    "image_name": "CH0222_spr_07.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "glance",
+      "troubled",
+      "nervous",
+      "awkward"
+    ],
+    "description": "眼神向侧面斜视，脸颊上挂着一滴冷汗，眉头微皱，表现出感到棘手、紧张或尴尬不安的情绪。",
+    "image_name": "CH0222_spr_08.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "frowning",
+      "depressed",
+      "gloomy"
+    ],
+    "description": "眉毛呈现八字形下垂，眼神黯淡忧郁，嘴角紧抿，流露出明显的悲伤、担忧或失落感。",
+    "image_name": "CH0222_spr_09.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "sad",
+      "worried",
+      "open_mouth",
+      "anxious"
+    ],
+    "description": "带着忧郁悲伤的表情微微张嘴，眉头紧锁，似乎正在焦急地询问、解释或表达内心的不安。",
+    "image_name": "CH0222_spr_10.png"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "swirly_eyes",
+      "confused",
+      "panicked",
+      "overwhelmed"
+    ],
+    "description": "双眼变成了漩涡状（圈圈眼），神情极度混乱和呆滞，表现出大脑过载、眩晕或完全不知所措的状态。",
+    "image_name": "CH0222_spr_11.png"
+  },
+  {
+    "tags": [
+      "looking_down",
+      "depressed",
+      "shadowed_face",
+      "silent",
+      "remorseful"
+    ],
+    "description": "低垂着眼帘，面部略带阴影，表情阴沉抑郁，陷入了深深的自责、失落或消极的沉默之中。",
+    "image_name": "CH0222_spr_12.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "looking_down",
+      "depressed",
+      "weak",
+      "hesitant"
+    ],
+    "description": "视线向下，无力地张开嘴巴，神色黯然，似乎正在低声下气地道歉、承认错误或犹豫地陈述。",
+    "image_name": "CH0222_spr_13.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "intense",
+      "determined",
+      "staring",
+      "stern"
+    ],
+    "description": "双眼直视前方，眼神比平时更加犀利和专注，表情严肃冷峻，透出一股强烈的压迫感或坚定的意志。",
+    "image_name": "CH0222_spr_14.png"
+  },
+  {
+    "tags": [
+      "glance",
+      "suspicious",
+      "side_eye",
+      "sharp",
+      "displeased"
+    ],
+    "description": "眼神锐利地向一侧瞥去，目光中带着明显的怀疑、审视或不满，表现出警惕或不屑的态度。",
+    "image_name": "CH0222_spr_15.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "confident",
+      "scheming",
+      "sharp_eyes"
+    ],
+    "description": "嘴角微微上扬，露出一抹自信甚至带着些许算计的微笑，眼神犀利，仿佛掌握了局势或在酝酿什么计划。",
+    "image_name": "CH0222_spr_16.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "annoyed",
+      "complaining",
+      "grimace",
+      "frustrated"
+    ],
+    "description": "紧闭双眼，眉头皱起，嘴巴张开呈现抱怨状，表现出明显的不满、无奈或者正在抗议某种令人不适的情况。",
+    "image_name": "CH0222_spr_17.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "silent",
+      "unconscious"
+    ],
+    "description": "双眼完全闭合，面无表情且十分平静，看起来像是在熟睡、昏迷或者完全切断了与外界的交流。",
+    "image_name": "CH0222_spr_99.png"
+  }
+]

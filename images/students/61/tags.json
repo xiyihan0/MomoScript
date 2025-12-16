@@ -1,0 +1,187 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "looking_back"
+    ],
+    "description": "侧身回眸，面无表情，神态平静冷淡。",
+    "image_name": "CH0139_spr_00_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "stern",
+      "focused"
+    ],
+    "description": "表情比平时更加严肃，目光凝重专注。",
+    "image_name": "CH0139_spr_01_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "open_mouth",
+      "neutral"
+    ],
+    "description": "微微张开嘴巴，似乎正在进行对话。",
+    "image_name": "CH0139_spr_02_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "smug"
+    ],
+    "description": "嘴角微微上扬，露出一丝自信得意的微笑。",
+    "image_name": "CH0139_spr_03_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "frown"
+    ],
+    "description": "眉头紧锁，眼神凌厉，明显感到生气或不悦。",
+    "image_name": "CH0139_spr_04_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "narrowed_eyes",
+      "suspicious",
+      "glare"
+    ],
+    "description": "眯起眼睛审视，流露出怀疑与冷淡的目光。",
+    "image_name": "CH0139_spr_05_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "raised_eyebrows",
+      "curious"
+    ],
+    "description": "眉毛微微抬起，表情略带惊讶或疑惑。",
+    "image_name": "CH0139_spr_06_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "peaceful",
+      "meditating"
+    ],
+    "description": "双眼轻闭，神态安详，仿佛在闭目养神。",
+    "image_name": "CH0139_spr_07_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral"
+    ],
+    "description": "双眼轻闭，面部线条平缓，神态平静且略显冷淡。",
+    "image_name": "CH0139_spr_08_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "troubled",
+      "melancholy"
+    ],
+    "description": "闭着眼睛，眉头微蹙，流露出一丝忧郁、无奈或失望的情绪。",
+    "image_name": "CH0139_spr_09_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "blank_stare",
+      "open_mouth"
+    ],
+    "description": "眼神有些发愣，嘴巴微张，表现出一种呆滞或意外惊讶的状态。",
+    "image_name": "CH0139_spr_10_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "disdain",
+      "scornful",
+      "cold_gaze"
+    ],
+    "description": "眼神半眯，带着明显的鄙视与不屑，冷冷地侧视着前方。",
+    "image_name": "CH0139_spr_11_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "shouting",
+      "frustrated",
+      "open_mouth"
+    ],
+    "description": "紧闭双眼，张大嘴巴，似乎正在大声抗议、喊叫或感到极度抓狂。",
+    "image_name": "CH0139_spr_12_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "looking_away",
+      "troubled"
+    ],
+    "description": "视线向侧面游移，神情显得尴尬、为难，似乎想要回避当前的话题。",
+    "image_name": "CH0139_spr_13_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "speaking",
+      "focused"
+    ],
+    "description": "目光炯炯有神，表情严肃认真，微微张口仿佛正在进行重要的说明。",
+    "image_name": "CH0139_spr_14_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "star_eyes",
+      "excited",
+      "anticipation"
+    ],
+    "description": "眼中闪烁着星星般的光芒，表情充满兴奋、期待与好奇。",
+    "image_name": "CH0139_spr_15_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sighing",
+      "helpless"
+    ],
+    "description": "双眼紧闭，嘴巴微张，神态显得疲惫或无奈，似乎正在叹气。",
+    "image_name": "CH0139_spr_16_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "shocked",
+      "angry",
+      "open_mouth"
+    ],
+    "description": "瞪大眼睛，瞳孔微缩，眼神凌厉且错愕，嘴巴张开，似乎对眼前的情况感到震惊或愤怒。",
+    "image_name": "CH0139_spr_17_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "narrowed_eyes",
+      "smile",
+      "confident"
+    ],
+    "description": "眼神半眯侧视，嘴角勾起一抹狡黠自信的微笑，神态显得得意或带有挑衅意味。",
+    "image_name": "CH0139_spr_18_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral",
+      "silent"
+    ],
+    "description": "双眼闭合，面无表情，神态冷淡平静，仿佛在闭目养神或拒绝交流。",
+    "image_name": "CH0139_spr_99_waifu2x_1x_3n_png.png"
+  }
+]

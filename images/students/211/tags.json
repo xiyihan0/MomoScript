@@ -1,0 +1,78 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_eyes",
+      "happy",
+      "gentle"
+    ],
+    "description": "面带温和的微笑，注视前方，看起来心情不错。",
+    "image_name": "J_kotori_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "wink",
+      "open_mouth",
+      "playful",
+      "energetic"
+    ],
+    "description": "俏皮地眨一只眼（Wink），张嘴像是在说话，充满活力。",
+    "image_name": "J_kotori_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "joy",
+      "open_mouth",
+      "happy"
+    ],
+    "description": "眯着眼睛大笑，看起来非常开心和喜悦。",
+    "image_name": "J_kotori_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "blank_eyes",
+      "white_eyes",
+      "shock",
+      "dizzy",
+      "confused",
+      "panicked"
+    ],
+    "description": "双眼变成白色圆圈，表现出晕头转向、震惊、混乱或惊慌失措的状态。",
+    "image_name": "J_kotori_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "troubled",
+      "anxious",
+      "eyebrows_furrowed"
+    ],
+    "description": "眉头微皱，眼神流露出担忧、困扰或抱歉的情绪。",
+    "image_name": "J_kotori_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "annoyed",
+      "open_mouth",
+      "serious"
+    ],
+    "description": "有些生气或急躁，张着嘴像是在大声争辩或抱怨。",
+    "image_name": "J_kotori_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "peaceful",
+      "content",
+      "satisfied"
+    ],
+    "description": "闭着眼睛轻柔地微笑，一脸满足、惬意和安详的样子。",
+    "image_name": "J_kotori_spr-99_0_waifu2x_2x_2n_png.jpg"
+  }
+]

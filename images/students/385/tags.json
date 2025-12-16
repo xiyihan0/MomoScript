@@ -1,0 +1,247 @@
+[
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "parted_lips",
+      "blank_stare",
+      "neutral"
+    ],
+    "description": "角色的基础表情，眼神有些迷离或放空，嘴巴自然微张，表现出一种发呆或平淡的状态。",
+    "image_name": "CH0265_spr_00.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "pout",
+      "small_mouth",
+      "oo_mouth"
+    ],
+    "description": "嘴唇缩成小圆形，呈现出嘟嘴或发出“哦”声的样子，表情显得略带疑惑或有些俏皮。",
+    "image_name": "CH0265_spr_01.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "open_mouth",
+      "surprised",
+      "talking"
+    ],
+    "description": "嘴巴明显张大呈竖长的椭圆形，像是感到惊讶或者正在大声说话。",
+    "image_name": "CH0265_spr_02.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "smile",
+      "happy",
+      "gentle"
+    ],
+    "description": "面带温柔的微笑，嘴角微微上扬，眼神柔和，展现出自信和友好的气质。",
+    "image_name": "CH0265_spr_03.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "sweat",
+      "panting",
+      "exhausted",
+      "nervous"
+    ],
+    "description": "脸颊上挂着明显的汗珠，嘴巴微张仿佛在喘息，眼神显得有些疲惫、紧张或不知所措，表现出一种劳累或尴尬的状态。",
+    "image_name": "CH0265_spr_04.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "side_glance",
+      "skeptical",
+      "unimpressed",
+      "judgmental"
+    ],
+    "description": "眼神向一侧斜视，带着几分怀疑或不屑，表情冷淡，似乎对眼前的情况感到无语、不信任或者不感兴趣。",
+    "image_name": "CH0265_spr_05.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "worried",
+      "sad",
+      "troubled",
+      "furrowed_brows"
+    ],
+    "description": "眉毛微微皱起呈现八字形，眼神流露出忧郁和困扰，嘴巴微张，表现出一种担心、难过或者感到棘手、委屈的样子。",
+    "image_name": "CH0265_spr_06.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "open_mouth",
+      "surprised",
+      "curious",
+      "o_mouth",
+      "wow"
+    ],
+    "description": "眼睛睁大，嘴巴张成圆润的“O”型，看起来像是发现了新奇事物感到惊讶，或者是正在发出“哇”的感叹，充满好奇。",
+    "image_name": "CH0265_spr_07.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "closed_eyes",
+      "smile",
+      "happy",
+      "cheerful",
+      "beaming"
+    ],
+    "description": "双眼眯成弯月形，脸上洋溢着灿烂且爽朗的笑容，嘴角大幅上扬，表现出极度开心、愉悦和毫无防备的快乐状态。",
+    "image_name": "CH0265_spr_08.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "open_mouth",
+      "annoyed",
+      "complaining",
+      "displeased",
+      "arrogant"
+    ],
+    "description": "眼神带着几分嫌弃和不屑，一只眼睛微微眯起，嘴巴张开仿佛在吐槽、抱怨或者发出不耐烦的声音，显得有些傲慢。",
+    "image_name": "CH0265_spr_09.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "open_mouth",
+      "angry",
+      "shouting",
+      "furious",
+      "aggressive",
+      "yelling"
+    ],
+    "description": "眉头紧锁，怒目圆睁，嘴巴大张正在咆哮，表现出强烈的愤怒、情绪激动或正在进行激烈的争吵。",
+    "image_name": "CH0265_spr_10.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "sad",
+      "gloomy",
+      "disappointed",
+      "empty_eyes",
+      "depressed"
+    ],
+    "description": "眉毛无力地下垂，眼神空洞无神，嘴巴微张，整个人显得非常失落、消沉和沮丧，仿佛失去了希望或遭受了打击。",
+    "image_name": "CH0265_spr_11.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "half_closed_eyes",
+      "smile",
+      "gentle",
+      "relaxed",
+      "alluring"
+    ],
+    "description": "眼神温柔且略带迷离，眼皮微垂，嘴角带着淡淡的笑意，展现出一种成熟、知性且略显慵懒的柔和气质。",
+    "image_name": "CH0265_spr_12.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "open_mouth",
+      "blank_stare",
+      "dazed",
+      "confused",
+      "small_mouth"
+    ],
+    "description": "眼神有些呆滞无神，嘴巴微张成小小的圆形，似乎大脑一片空白，表现出一种发呆、没反应过来或者懵圈的状态。",
+    "image_name": "CH0265_spr_13.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "sweat",
+      "open_mouth",
+      "panicked",
+      "nervous",
+      "anxious",
+      "shocked"
+    ],
+    "description": "脸颊流下冷汗，眉头紧皱，眼神充满惊恐和慌乱，嘴巴张大，表现出极度的紧张、焦虑或者因为失误而感到不知所措。",
+    "image_name": "CH0265_spr_14.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "smirk",
+      "confident",
+      "narrowed_eyes",
+      "scheming",
+      "provocative"
+    ],
+    "description": "眼神变得锐利且带有深意，眼角微微眯起，嘴角勾起一抹自信的坏笑，表现出一种从容不迫、甚至带有一丝挑衅或正在打坏主意的样子。",
+    "image_name": "CH0265_spr_15.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "worried",
+      "troubled",
+      "sad",
+      "furrowed_brows",
+      "parted_lips",
+      "hesitant"
+    ],
+    "description": "眉毛微微皱起呈八字形，眼神流露出担忧和困扰，嘴巴微张，看起来像是在为难、感到抱歉或者犹豫不决，表现出一种楚楚可怜或不知所措的状态。",
+    "image_name": "CH0265_spr_16.png"
+  },
+  {
+    "tags": [
+      "blonde_hair",
+      "mole_under_eye",
+      "red_gloves",
+      "closed_eyes",
+      "pout",
+      "small_mouth",
+      "kissing",
+      "whistle",
+      "relaxed"
+    ],
+    "description": "双眼完全闭合，嘴唇嘟起呈小圆形，看起来像是在索吻，又像是在吹口哨装傻或者放松地呼气，表现出一种俏皮、撒娇或享受的样子。",
+    "image_name": "CH0265_spr_99.png"
+  }
+]

@@ -1,0 +1,120 @@
+[
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "half_closed_eyes",
+      "calm"
+    ],
+    "description": "温柔的微笑，眼神柔和，嘴角微微上扬，展现出平静且友好的神态（基础立绘）。",
+    "image_name": "CH0209_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "subtle",
+      "relaxed",
+      "looking_at_viewer"
+    ],
+    "description": "面带淡淡的笑意，神情自若，表现出非常轻松和自然的氛围。",
+    "image_name": "CH0209_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "smile",
+      "happy",
+      "talking",
+      "cheerful"
+    ],
+    "description": "开心地张嘴笑着，眼神明亮，仿佛正在愉快地交谈或发出欢快的声音。",
+    "image_name": "CH0209_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "serene",
+      "cute"
+    ],
+    "description": "双眼眯成弯弯的弧线，温柔地微笑着，流露出安心、宠溺和治愈的感觉。",
+    "image_name": "CH0209_spr_03.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sweat_drop",
+      "awkward",
+      "troubled_smile"
+    ],
+    "description": "闭着眼睛张嘴苦笑，脸颊上挂着一滴汗珠，看起来有些尴尬、无奈或者是为了掩饰什么。",
+    "image_name": "CH0209_spr_04.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "raised_eyebrow",
+      "surprise",
+      "playful",
+      "skeptical"
+    ],
+    "description": "微微张嘴呈O形，一边眉毛挑起，眼神中带着一丝惊讶、戏谑或疑问，仿佛在说“哦？”。",
+    "image_name": "CH0209_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "frowning",
+      "furrowed_brows",
+      "troubled"
+    ],
+    "description": "眉头紧锁呈八字形，嘴角撇平，神情忧郁，流露出担心、困扰或悲伤的情绪。",
+    "image_name": "CH0209_spr_06.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "mysterious",
+      "composed"
+    ],
+    "description": "嘴角上扬露出自信且略带神秘感的微笑，眼神深邃平静，显得从容不迫。",
+    "image_name": "CH0209_spr_07.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "half_closed_eyes",
+      "dazed",
+      "blank_stare",
+      "speechless"
+    ],
+    "description": "眼神半睁显得有些呆滞或冷漠，嘴巴微微张开呈小圆形，仿佛在发呆、感到无语，又像是在发出毫无起伏的声音。",
+    "image_name": "CH0209_spr_08.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "wry_smile",
+      "troubled_brows",
+      "half_closed_eyes",
+      "gentle"
+    ],
+    "description": "眉毛微蹙呈八字形，眼神半阖，嘴角却挂着淡淡的微笑，流露出一种无奈、苦涩或者是充满包容的“真拿你没办法”的神情。",
+    "image_name": "CH0209_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "peaceful",
+      "happy",
+      "serene"
+    ],
+    "description": "双眼完全闭合成弯弯的弧线，脸上洋溢着纯粹、安详且满足的笑容，散发出温柔和幸福的气息。",
+    "image_name": "CH0209_spr_99.png"
+  }
+]

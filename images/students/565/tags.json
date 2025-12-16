@@ -1,0 +1,351 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "confident",
+      "purple_eyes",
+      "happy"
+    ],
+    "description": "角色张开嘴自信地笑着，眼神明亮坚定，看起来充满活力和自信。",
+    "image_name": "CH0326_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "closed_mouth",
+      "purple_eyes",
+      "expressionless"
+    ],
+    "description": "角色表情平静中性，眼神直视前方，嘴巴几乎闭合，没有明显的情绪波动。",
+    "image_name": "CH0326_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "looking_away",
+      "confused",
+      "purple_eyes"
+    ],
+    "description": "角色嘴巴微张呈圆形，视线向一侧偏移，显得有些惊讶、发愣或困惑。",
+    "image_name": "CH0326_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "happy",
+      "laughing",
+      "blush"
+    ],
+    "description": "角色闭着双眼开怀大笑，嘴巴张开，脸上带有红晕，洋溢着纯粹的喜悦和快乐。",
+    "image_name": "CH0326_spr_03.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "confused",
+      "purple_eyes",
+      "worry"
+    ],
+    "description": "角色嘴巴微张，眼神流露出惊讶和困惑，眉毛微蹙，似乎对眼前的情况感到不解或轻微的惊慌。",
+    "image_name": "CH0326_spr_04.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "looking_away",
+      "serious",
+      "purple_eyes",
+      "neutral",
+      "side_glance"
+    ],
+    "description": "角色视线向一侧偏移，嘴巴紧闭，表情显得有些冷淡、严肃，或者是在刻意回避目光，带有一丝傲娇或怀疑的感觉。",
+    "image_name": "CH0326_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sad",
+      "sigh",
+      "troubled",
+      "disappointed"
+    ],
+    "description": "角色闭着眼睛，眉头紧锁，嘴巴张开仿佛在叹气，表现出一种无奈、失望、疲惫或困扰的情绪。",
+    "image_name": "CH0326_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "happy",
+      "cheerful",
+      "laughing"
+    ],
+    "description": "角色眯着双眼开心地笑着，嘴巴张开，神态轻松自然，脸上洋溢着纯真、愉快和活泼的气息。",
+    "image_name": "CH0326_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "dizzy",
+      "exhausted",
+      "troubled",
+      "pain"
+    ],
+    "description": "角色双眼紧闭呈横线状，嘴巴微张，眉头紧锁，神情痛苦或疲惫，看起来像是头晕或快要昏倒的样子。",
+    "image_name": "CH0326_spr_08.png"
+  },
+  {
+    "tags": [
+      "purple_eyes",
+      "open_mouth",
+      "smile",
+      "happy",
+      "confident",
+      "cheerful"
+    ],
+    "description": "角色眼神明亮，张开嘴巴自信地微笑着，神态轻松愉悦，充满了元气和活力。",
+    "image_name": "CH0326_spr_09.png"
+  },
+  {
+    "tags": [
+      "star_eyes",
+      "purple_eyes",
+      "open_mouth",
+      "smile",
+      "excited",
+      "fascinated"
+    ],
+    "description": "角色瞳孔中闪烁着金色的星星，张大嘴巴开心地笑着，表现出极度的兴奋、期待或对某事物的着迷。",
+    "image_name": "CH0326_spr_10.png"
+  },
+  {
+    "tags": [
+      "purple_eyes",
+      "open_mouth",
+      "smile",
+      "troubled_eyebrows",
+      "wry_smile",
+      "awkward"
+    ],
+    "description": "角色虽然张着嘴在笑，但眉毛呈八字下垂状，流露出一丝尴尬、无奈或勉强的感觉，像是在苦笑。",
+    "image_name": "CH0326_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "pout",
+      "annoyed",
+      "purple_eyes",
+      "dissatisfied",
+      "grumpy"
+    ],
+    "description": "角色抿着嘴唇，嘴角微微向下，眼神流露出不满或抗议的情绪，像是在嘟嘴生气或表达傲娇的不悦。",
+    "image_name": "CH0326_spr_12.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "shouting",
+      "shocked",
+      "purple_eyes",
+      "yelling"
+    ],
+    "description": "角色嘴巴大张，双眼圆睁，表现出强烈的惊讶、震惊，或者是在大声喊叫，情绪非常激动。",
+    "image_name": "CH0326_spr_13.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "sweat",
+      "troubled",
+      "nervous",
+      "purple_eyes",
+      "worried",
+      "anxious"
+    ],
+    "description": "角色脸上挂着汗珠，眉毛八字下垂，嘴巴微张，流露出明显的紧张、焦虑、尴尬或不知所措。",
+    "image_name": "CH0326_spr_14.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "smile",
+      "wry_smile",
+      "troubled_eyebrows",
+      "shy",
+      "hapless"
+    ],
+    "description": "角色闭着眼睛张嘴笑着，眉毛微微下垂，带有一种无奈、害羞、难为情或者是“真拿你没办法”的苦笑感。",
+    "image_name": "CH0326_spr_15.png"
+  },
+  {
+    "tags": [
+      "white_eyes",
+      "shocked",
+      "panic",
+      "open_mouth",
+      "gloom_lines",
+      "wavy_mouth",
+      "pale"
+    ],
+    "description": "角色双眼翻白失去高光，面部带有阴影竖线，嘴巴呈波浪状张开，表现出极度的惊恐、崩溃或灵魂出窍般的震惊。",
+    "image_name": "CH0326_spr_16.png"
+  },
+  {
+    "tags": [
+      "purple_eyes",
+      "open_mouth",
+      "angry",
+      "shouting",
+      "protesting",
+      "serious",
+      "determined"
+    ],
+    "description": "角色眉头紧蹙，眼神犀利，嘴巴大张，似乎在生气地大喊、强烈抗议或进行激烈的争辩。",
+    "image_name": "CH0326_spr_17.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "happy",
+      "proud",
+      "cheerful",
+      "laughing"
+    ],
+    "description": "角色闭着眼睛，张大嘴巴开心地笑着，神态中透着一股得意、自豪或是被夸奖后的纯粹喜悦。",
+    "image_name": "CH0326_spr_18.png"
+  },
+  {
+    "tags": [
+      "purple_eyes",
+      "closed_mouth",
+      "sweat",
+      "nervous",
+      "serious",
+      "tense",
+      "concerned"
+    ],
+    "description": "角色脸颊流下一滴冷汗，嘴巴紧闭，眼神显得凝重且紧张，表现出担忧、压力或不知所措的状态。",
+    "image_name": "CH0326_spr_19.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "sweat",
+      "sad",
+      "worry",
+      "troubled",
+      "purple_eyes",
+      "looking_away",
+      "depressed"
+    ],
+    "description": "角色眉毛八字下垂，眼神流露出明显的忧郁和失落，脸颊滑落一滴冷汗，嘴巴紧闭，显得非常担忧、消沉或感到无助。",
+    "image_name": "CH0326_spr_20.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "shouting",
+      "frustrated",
+      "annoyed",
+      "screaming",
+      "panic",
+      ">_<"
+    ],
+    "description": "角色紧闭双眼呈“> <”状，嘴巴大张大喊，眉头紧锁，表现出焦急、抓狂、大声抗议或是受不了现状而崩溃的情绪。",
+    "image_name": "CH0326_spr_21.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "annoyed",
+      "stubborn",
+      "pout",
+      "dissatisfied",
+      "grumpy",
+      "silent"
+    ],
+    "description": "角色紧闭双眼和嘴巴，眉头深锁，神情显得倔强、不悦，像是在赌气、拒绝交流或强行忍耐着不满。",
+    "image_name": "CH0326_spr_22.png"
+  },
+  {
+    "tags": [
+      "purple_eyes",
+      "open_mouth",
+      "angry",
+      "annoyed",
+      "complaining",
+      "serious",
+      "aggressive",
+      "shouting"
+    ],
+    "description": "角色眉头紧蹙，眼神带着怒意看向侧方，嘴巴张开，似乎正在生气地指责、抱怨或进行激烈的反驳。",
+    "image_name": "CH0326_spr_23.png"
+  },
+  {
+    "tags": [
+      "one_eye_closed",
+      "wink",
+      "open_mouth",
+      "purple_eyes",
+      "confused",
+      "troubled",
+      "awkward"
+    ],
+    "description": "角色闭着一只左眼，右眼睁开，眉毛微微皱起，嘴巴张开，看起来像是一个笨拙的眨眼（Wink），或者是因为困惑、无奈而表现出的尴尬神情。",
+    "image_name": "CH0326_spr_24.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "sleeping",
+      "peaceful",
+      "calm",
+      "serene",
+      "relaxing"
+    ],
+    "description": "角色双眼轻闭，嘴巴闭合，面带淡淡的红晕，神情安详宁静，看起来正在熟睡或者是闭目养神，给人一种非常柔和的感觉。",
+    "image_name": "CH0326_spr_99.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "sleeping",
+      "peaceful",
+      "calm",
+      "serene"
+    ],
+    "description": "角色双眼紧闭，神态平和，没有任何紧张感，表现出完全放松、休息或睡眠的状态，与熟睡的表情极为相似。",
+    "image_name": "CH0326_spr_Eye_Close_01.png"
+  },
+  {
+    "tags": [
+      "purple_eyes",
+      "open_mouth",
+      "smile",
+      "happy",
+      "cheerful",
+      "energetic",
+      "normal"
+    ],
+    "description": "角色双眼明亮有神，张着嘴露出开心的笑容，神态轻松自然，充满了元气，是典型的愉快对话或标准待机表情。",
+    "image_name": "CH0326_spr_Idle_01.png"
+  }
+]

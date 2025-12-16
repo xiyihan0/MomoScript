@@ -1,0 +1,91 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "hidden_eyes",
+      "mouth_closed",
+      "expressionless"
+    ],
+    "description": "面无表情，嘴巴紧闭成一条水平线，双眼完全被刘海的阴影遮挡，呈现出平静的状态。",
+    "image_name": "J_NP0028_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "parted_lips",
+      "hidden_eyes",
+      "surprised",
+      "dazed",
+      "small_mouth"
+    ],
+    "description": "嘴巴微微张开呈小O型，似乎有些惊讶、发呆或正在轻声说话。",
+    "image_name": "J_NP0028_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "hidden_eyes",
+      "happy",
+      "gentle",
+      "mouth_closed"
+    ],
+    "description": "嘴角微微上扬，露出了温柔的微笑，虽然看不到眼睛但能感觉到心情不错。",
+    "image_name": "J_NP0028_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "hidden_eyes",
+      "open_mouth",
+      "awkward",
+      "tired"
+    ],
+    "description": "脸颊上挂着一滴汗珠，嘴巴微张，看起来感到尴尬、紧张或有些疲惫。",
+    "image_name": "J_NP0028_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "frown",
+      "hidden_eyes",
+      "disappointed",
+      "gloomy",
+      "mouth_closed"
+    ],
+    "description": "嘴角明显向下弯曲，表情沮丧、难过，传达出失望或不悦的情绪。",
+    "image_name": "J_NP0028_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "gloom",
+      "dark_shadows",
+      "shock",
+      "hidden_eyes",
+      "despair",
+      "open_mouth"
+    ],
+    "description": "面部上半部分覆盖着竖线阴影（黑线），嘴巴微张，表现出极度的震惊、绝望或心理阴影。",
+    "image_name": "J_NP0028_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "wide_open_mouth",
+      "hidden_eyes",
+      "intense",
+      "yelling"
+    ],
+    "description": "嘴巴大幅度张开，似乎正在大声呼喊、吐槽或情绪十分激动。",
+    "image_name": "J_NP0028_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "hidden_eyes",
+      "mouth_closed",
+      "calm"
+    ],
+    "description": "恢复了平静的状态，面无表情，嘴巴闭合，与第一张图片的表情基本一致。",
+    "image_name": "J_NP0028_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

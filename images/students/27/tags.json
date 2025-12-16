@@ -1,0 +1,85 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "looking_away",
+      "green_eyes"
+    ],
+    "description": "标准的平静表情，眼神清澈，视线微微向侧方看去，嘴角自然抿起，展现出放松的待机状态。",
+    "image_name": "midori_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "pout",
+      "curious",
+      "open_mouth",
+      "surprise"
+    ],
+    "description": "嘴巴嘟成小圆形（O形嘴），眼神直视前方，看起来有些惊讶，又像是在好奇地观察或撒娇。",
+    "image_name": "midori_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "half_closed_eyes",
+      "confident"
+    ],
+    "description": "半眯着眼睛，嘴角微微上扬，露出一副得意洋洋、自信满满甚至带有一丝嘲讽的“计划通”表情。",
+    "image_name": "midori_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "panic",
+      "shock",
+      "blank_eyes",
+      "white_eyes",
+      "sweat_drop",
+      "open_mouth"
+    ],
+    "description": "极度惊慌失措的表情，双眼变成白色的圆圈（失去高光），脸颊挂着汗珠，嘴巴呈波浪状张开。",
+    "image_name": "midori_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "frown",
+      "glare",
+      "looking_away"
+    ],
+    "description": "眉头紧锁，眼神锐利地向侧面瞪视，嘴角下撇，明显表现出愤怒、不悦或抗议的情绪。",
+    "image_name": "midori_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "sad",
+      "tears",
+      "frown"
+    ],
+    "description": "悲伤哭泣的样子，眼角噙着晶莹的泪水，眉毛八字下垂，神情显得非常委屈和难过。",
+    "image_name": "midori_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "skeptical",
+      "disgust",
+      "looking_away",
+      "doubt"
+    ],
+    "description": "眼神向侧面斜视，带着明显的怀疑、嫌弃或无语的神情，仿佛对看到的事物感到难以置信或不屑。",
+    "image_name": "midori_spr-07_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "sleeping",
+      "peaceful"
+    ],
+    "description": "双眼完全闭合，面部表情平静安详，像是在闭目养神、冥想或者是已经睡着了。",
+    "image_name": "midori_spr-99_0_waifu2x_2x_2n_png.jpg"
+  }
+]

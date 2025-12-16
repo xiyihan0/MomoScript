@@ -1,0 +1,104 @@
+[
+  {
+    "tags": [
+      "gas_mask",
+      "mask",
+      "hidden_face"
+    ],
+    "description": "佩戴着黑色的战术防毒面具，完全遮挡了面部表情，看起来处于备战状态。",
+    "image_name": "QQ截图20211124201617.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "bored",
+      "indifferent",
+      "jitome"
+    ],
+    "description": "眼神半睁，目光显得有些呆滞、无聊或冷淡，似乎对眼前的事物不感兴趣。",
+    "image_name": "QQ截图20211124201627.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "concerned",
+      "slightly_frowning",
+      "pensive"
+    ],
+    "description": "表情严肃，眉宇间略带忧虑或困惑，似乎正在认真思考或担心某事。",
+    "image_name": "QQ截图20211124201634.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "furrowed_brows",
+      "intense"
+    ],
+    "description": "眉头紧锁，张嘴大喊，眼神犀利，表现出强烈的愤怒、急切或斥责的情绪。",
+    "image_name": "QQ截图20211124201642.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "blush",
+      "happy",
+      "shy"
+    ],
+    "description": "脸颊上泛着淡淡的红晕，露出温柔且略带羞涩的微笑，看起来很开心。",
+    "image_name": "QQ截图20211124201649.png"
+  },
+  {
+    "tags": [
+      "scorn",
+      "suspicious",
+      "narrow_eyes",
+      "disdain"
+    ],
+    "description": "大幅度眯起眼睛，露出怀疑、鄙视或不屑的目光（死鱼眼），看起来很不信任对方。",
+    "image_name": "QQ截图20211124201656.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "wide_eyes",
+      "alert",
+      "shocked"
+    ],
+    "description": "眼睛微微睁大，瞳孔收缩，流露出惊讶、意外或突然警觉的神情。",
+    "image_name": "QQ截图20211124201704.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "looking_at_viewer",
+      "normal"
+    ],
+    "description": "标准的平静表情，眼神清澈地注视前方，没有明显的情绪波动。",
+    "image_name": "QQ截图20211124201719.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "blush",
+      "happy",
+      "joy"
+    ],
+    "description": "眼睛眯成弯月状，张嘴露出灿烂的笑容，脸颊泛着红晕，看起来非常开心和幸福。",
+    "image_name": "QQ截图20211124201731.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "serious",
+      "calm",
+      "thinking",
+      "closed_mouth"
+    ],
+    "description": "双眼闭合，表情平静且略带严肃，嘴巴闭紧，看起来像是在深思、闭目养神或表现出沉稳的态度。",
+    "image_name": "QQ截图20211124201738.png"
+  }
+]

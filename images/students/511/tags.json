@@ -1,0 +1,185 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "looking_away"
+    ],
+    "description": "表情平静，视线微微向侧下方看去，显得比较安稳。",
+    "image_name": "CH0314_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "staring",
+      "open_mouth_slightly"
+    ],
+    "description": "直视前方，嘴巴微微张开成圆形，似乎在发呆或表示惊讶。",
+    "image_name": "CH0314_spr_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "looking_at_viewer"
+    ],
+    "description": "面无表情地注视着前方，显得非常冷静和平淡。",
+    "image_name": "CH0314_spr_02.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "laughing"
+    ],
+    "description": "闭着眼睛开心地大笑，嘴巴张开，看起来心情非常愉悦。",
+    "image_name": "CH0314_spr_03.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "nervous",
+      "sweat",
+      "troubled"
+    ],
+    "description": "脸上挂着一滴冷汗，眉毛皱起，看起来感到尴尬、棘手或紧张。",
+    "image_name": "CH0314_spr_04.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "annoyed",
+      "frowning",
+      "focused"
+    ],
+    "description": "眉头紧锁，眼神犀利，表情严肃，似乎在怀疑或感到轻微的不满。",
+    "image_name": "CH0314_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "resigned",
+      "disappointed"
+    ],
+    "description": "闭着双眼，眉头微蹙，仿佛在无奈地叹气或感到有些失望。",
+    "image_name": "CH0314_spr_06.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "looking_at_viewer"
+    ],
+    "description": "嘴角微微上扬，眼神柔和，露出温柔且友好的微笑。",
+    "image_name": "CH0314_spr_07.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "looking_at_viewer"
+    ],
+    "description": "面带温和的微笑注视前方，眼神清澈，给人一种平易近人且安心的感觉。",
+    "image_name": "CH0314_spr_08.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "open_mouth",
+      "talking",
+      "smile",
+      "energetic"
+    ],
+    "description": "嘴巴张开似乎在愉快地交谈或解释着什么，表情生动，充满了活力和热情。",
+    "image_name": "CH0314_spr_09.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "looking_away",
+      "confident",
+      "pleased"
+    ],
+    "description": "视线向侧面看去，嘴角微微上扬，露出一丝自信且满意的神情，似乎对现状感到不错。",
+    "image_name": "CH0314_spr_10.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "sweat",
+      "open_mouth",
+      "nervous",
+      "worried"
+    ],
+    "description": "脸上挂着一滴冷汗，嘴巴惊讶地张开，眼神慌乱，看起来遇到了意料之外的麻烦或惊吓。",
+    "image_name": "CH0314_spr_11.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "looking_away",
+      "thinking",
+      "scheming"
+    ],
+    "description": "眼神向侧上方飘去，带着意味深长的微笑，仿佛正在构思什么计划或想到了有趣的事情。",
+    "image_name": "CH0314_spr_12.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "half_closed_eyes",
+      "bored",
+      "staring"
+    ],
+    "description": "眼神半睁，面无表情地直视前方，流露出一种无语、冷漠或是感到无聊的情绪。",
+    "image_name": "CH0314_spr_13.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "frowning",
+      "pain",
+      "troubled",
+      "struggling"
+    ],
+    "description": "紧闭双眼，眉头深锁，表情看起来相当痛苦、纠结，或者正在努力忍耐着某种不适。",
+    "image_name": "CH0314_spr_14.png"
+  },
+  {
+    "tags": [
+      "looking_down",
+      "pensive",
+      "neutral",
+      "shy",
+      "reserved"
+    ],
+    "description": "微微低头，视线向下垂落，表情沉静，似乎在害羞、反省或是陷入了独自的沉思中。",
+    "image_name": "CH0314_spr_15.png"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "dazed",
+      "neutral",
+      "blush",
+      "innocent"
+    ],
+    "description": "视线向一侧游离，眼神显得有些迷离和呆萌，脸颊微红，仿佛在发呆或刚睡醒。",
+    "image_name": "CH0314_spr_16.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "glasses",
+      "calm",
+      "sleeping",
+      "peaceful"
+    ],
+    "description": "戴着黑框眼镜，双眼紧闭，面容安详平静，看起来正在熟睡或是闭目养神。",
+    "image_name": "CH0314_spr_99.png"
+  }
+]

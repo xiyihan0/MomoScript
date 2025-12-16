@@ -1,0 +1,144 @@
+[
+  {
+    "tags": [
+      "wink",
+      "open_mouth",
+      "smile",
+      "energetic",
+      "happy"
+    ],
+    "description": "一只眼睛眨眼，嘴巴张大开朗地笑，表现出充满活力的打招呼或开心状态。",
+    "image_name": "kirara_spr_00.png"
+  },
+  {
+    "tags": [
+      "grin",
+      "clenched_teeth",
+      "awkward",
+      "nervous_smile"
+    ],
+    "description": "露齿咧嘴笑，眼神游移，看起来有些尴尬、心虚或者是为了掩饰失误。",
+    "image_name": "kirara_spr_01.png"
+  },
+  {
+    "tags": [
+      "whistle",
+      "o_mouth",
+      "feign_innocence",
+      "relaxed",
+      "look_away"
+    ],
+    "description": "嘴巴嘟成圆形（O型），眼神看向别处，像是在吹口哨装傻或假装无事发生。",
+    "image_name": "kirara_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "smile",
+      "joy",
+      "open_mouth"
+    ],
+    "description": "双眼紧闭成月牙状，张嘴开怀大笑，表现出纯粹的快乐和喜悦。",
+    "image_name": "kirara_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "wavy_mouth",
+      "nervous",
+      "troubled",
+      "awkward"
+    ],
+    "description": "脸上挂着汗珠，嘴角呈波浪状抽搐，眼神显得很为难，感到非常尴尬或焦躁。",
+    "image_name": "kirara_spr_04.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "complaining",
+      "assertive",
+      "talking"
+    ],
+    "description": "张大嘴巴说话，眼神稍微有些认真或不满，似乎在抱怨、吐槽或大声强调某事。",
+    "image_name": "kirara_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "frown",
+      "worried",
+      "disappointed",
+      "troubled"
+    ],
+    "description": "眉毛下垂，嘴角微撇，眼神流露出困扰、担忧、歉意或失落的情绪。",
+    "image_name": "kirara_spr_06.png"
+  },
+  {
+    "tags": [
+      "pout",
+      "angry",
+      "annoyed",
+      "puffed_cheeks",
+      "sulking"
+    ],
+    "description": "鼓起脸颊嘟嘴，眼神不满，表现出生气、抗议或在闹别扭的样子。",
+    "image_name": "kirara_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "laughing",
+      "open_mouth"
+    ],
+    "description": "双眼眯成开心的弧度，嘴巴张开大笑，表现出爽朗、兴奋或非常快乐的情绪。",
+    "image_name": "kirara_spr_08.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smile",
+      "relaxed",
+      "gentle",
+      "soft_look"
+    ],
+    "description": "眼神半睁半闭，显得比较慵懒或柔和，嘴角微微上扬，表现出放松、安心或温柔的微笑。",
+    "image_name": "kirara_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "nervous_laugh",
+      "open_mouth",
+      "awkward"
+    ],
+    "description": "闭着眼睛张嘴大笑，脸颊上挂着一滴汗珠，像是在尴尬地打哈哈，或者试图用笑声掩饰紧张。",
+    "image_name": "kirara_spr_10.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smug",
+      "open_mouth",
+      "teasing",
+      "confident"
+    ],
+    "description": "眼神半眯带着几分戏谑，嘴巴张开露出得意的笑容，看起来像是在调侃对方或对现状感到自信满满。",
+    "image_name": "kirara_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "grimace",
+      "clenched_teeth",
+      "pain",
+      "wince"
+    ],
+    "description": "双眼紧闭，龇牙咧嘴仿佛咬紧牙关，表现出疼痛、忍耐、被击中痛处或“看起来很疼”的样子。",
+    "image_name": "kirara_spr_99.png"
+  }
+]

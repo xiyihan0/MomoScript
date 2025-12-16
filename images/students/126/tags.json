@@ -1,0 +1,191 @@
+[
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "energetic"
+    ],
+    "description": "开朗的大笑表情，眼睛眯成弯月状，嘴巴张开，展现出充满活力的喜悦。",
+    "image_name": "CH0109_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "closed_mouth",
+      "gentle",
+      "content"
+    ],
+    "description": "温柔的闭眼微笑，嘴角上扬但未张开，表现出满足和平静的态度。",
+    "image_name": "CH0109_spr_01.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "open_mouth",
+      "playful",
+      "cute"
+    ],
+    "description": "俏皮的眨眼表情，左眼闭合右眼睁开，嘴巴微张，显得十分可爱和调皮。",
+    "image_name": "CH0109_spr_02.png"
+  },
+  {
+    "tags": [
+      "awkward_smile",
+      "sweat_drop",
+      "closed_eyes",
+      "nervous",
+      "open_mouth"
+    ],
+    "description": "尴尬的笑容，虽然眼睛眯着在笑，但脸颊上挂着冷汗，流露出紧张或不好意思的情绪。",
+    "image_name": "CH0109_spr_03.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "panic",
+      "sweat",
+      "closed_eyes",
+      "scrunch_face"
+    ],
+    "description": "慌张焦急的表情，眼睛紧闭呈><形状，脸上流汗，显得不知所措或非常苦恼。",
+    "image_name": "CH0109_spr_04.png"
+  },
+  {
+    "tags": [
+      "confused",
+      "dazed",
+      "open_mouth",
+      "asymmetrical_eyes",
+      "stunned"
+    ],
+    "description": "困惑或发懵的表情，一只眼睛微眯，神情显得有些晕头转向或无法理解现状。",
+    "image_name": "CH0109_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "disappointed",
+      "closed_eyes",
+      "closed_mouth",
+      "gloomy"
+    ],
+    "description": "悲伤失落的表情，双眼紧闭，眉毛下垂，神情显得沮丧和消沉。",
+    "image_name": "CH0109_spr_06.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "half_closed_eyes",
+      "smile",
+      "proud"
+    ],
+    "description": "得意的表情，眼睛半眯视线向下，嘴角上扬，透露出一种自信或“计划通”的感觉。",
+    "image_name": "CH0109_spr_07.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "gentle",
+      "happy",
+      "relaxed"
+    ],
+    "description": "温柔的闭眼微笑，嘴角微微上扬，神情舒展，给人一种亲切、平和且心情愉快的感觉。",
+    "image_name": "CH0109_spr_08.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "half_closed_eyes",
+      "doubtful",
+      "serious",
+      "unamused"
+    ],
+    "description": "略带不满或怀疑的表情，眼神半眯视线尖锐，嘴角平直，似乎对眼前的情况表示质疑或感到无语。",
+    "image_name": "CH0109_spr_09.png"
+  },
+  {
+    "tags": [
+      "sigh",
+      "closed_eyes",
+      "troubled",
+      "resigned",
+      "thinking"
+    ],
+    "description": "无奈叹气的神情，双眼紧闭，眉毛微微下压，表现出一种放弃思考、头疼或正在忍耐的状态。",
+    "image_name": "CH0109_spr_10.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "confident",
+      "sly",
+      "plotting"
+    ],
+    "description": "充满自信的坏笑，眼神带有一丝狡黠，嘴角上扬，仿佛想到了什么鬼点子或处于优势地位。",
+    "image_name": "CH0109_spr_11.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "sweat",
+      "closed_eyes",
+      "nervous",
+      "guilty"
+    ],
+    "description": "尴尬紧张的表情，紧闭双眼，脸颊上挂着冷汗，流露出一种做错事后的心虚感或不知所措。",
+    "image_name": "CH0109_spr_12.png"
+  },
+  {
+    "tags": [
+      "satisfied",
+      "closed_eyes",
+      "smile",
+      "proud",
+      "content"
+    ],
+    "description": "满足且得意的闭眼微笑，相比普通微笑显得更加自信和舒畅，透露出一种“事情进展顺利”的愉悦感。",
+    "image_name": "CH0109_spr_13.png"
+  },
+  {
+    "tags": [
+      "disdain",
+      "cold",
+      "half_closed_eyes",
+      "unimpressed",
+      "scorn"
+    ],
+    "description": "冷漠蔑视的表情，半眯着眼视线向下，神情中充满了不屑和距离感，仿佛对眼前的事物完全不感兴趣。",
+    "image_name": "CH0109_spr_14.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "excited",
+      "blush",
+      "closed_eyes",
+      "open_mouth",
+      "energetic"
+    ],
+    "description": "极度兴奋的大笑表情，脸颊泛红，眼睛眯成弯月状，嘴巴大张，展现出毫无防备、天真烂漫的喜悦。",
+    "image_name": "CH0109_spr_99.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "laughing",
+      "energetic"
+    ],
+    "description": "开朗灿烂的大笑，双眼眯成弯月形，嘴巴大张，洋溢着自信与喜悦的情绪。",
+    "image_name": "CH0109_spr_Idle_01.png"
+  }
+]

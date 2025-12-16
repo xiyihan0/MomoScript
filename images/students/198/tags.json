@@ -1,0 +1,174 @@
+[
+  {
+    "tags": [
+      "sunglasses",
+      "mask",
+      "neutral",
+      "brown_hair",
+      "serious"
+    ],
+    "description": "戴着橙色反光墨镜和印有白色十字的黑色口罩，眉头微蹙，表情严肃且平淡。",
+    "image_name": "J_GLS_schoolGirl01_SukebanSwim_MG_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "mask",
+      "angry",
+      "annoyed",
+      "furrowed_brows",
+      "vein_popping"
+    ],
+    "description": "戴着墨镜和口罩，眉毛紧紧皱起，额角似乎有青筋暴起，表现出愤怒或极度不耐烦的情绪。",
+    "image_name": "J_GLS_schoolGirl01_SukebanSwim_MG_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "mask",
+      "sad",
+      "worried",
+      "troubled",
+      "eyebrows_down"
+    ],
+    "description": "戴着墨镜和口罩，眉毛呈八字形下垂，流露出悲伤、困扰或担忧的神情。",
+    "image_name": "J_GLS_schoolGirl01_SukebanSwim_MG_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "mask",
+      "sweat",
+      "nervous",
+      "stressed",
+      "anxious"
+    ],
+    "description": "戴着墨镜和口罩，脸颊和额头上有明显的汗珠，看起来非常紧张或感到压力。",
+    "image_name": "J_GLS_schoolGirl01_SukebanSwim_MG_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "mask",
+      "happy",
+      "satisfied",
+      "relaxed",
+      "smile"
+    ],
+    "description": "戴着墨镜和口罩，眉毛舒展，虽然嘴被遮住，但神态轻松，看起来很开心或在得意地笑。",
+    "image_name": "J_GLS_schoolGirl01_SukebanSwim_MG_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "mask",
+      "gloom_lines",
+      "shock",
+      "despair",
+      "pale"
+    ],
+    "description": "戴着墨镜和口罩，面部覆盖着垂直的阴影线条（黑线），表现出极度的震惊、消沉或绝望。",
+    "image_name": "J_GLS_schoolGirl01_SukebanSwim_MG_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "mask",
+      "dizzy",
+      "confused",
+      "stunned"
+    ],
+    "description": "戴着墨镜和口罩，眉毛高低不平，看起来晕头转向，似乎处于混乱或被打晕的状态。",
+    "image_name": "J_GLS_schoolGirl01_SukebanSwim_MG_spr-99_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_sunglasses",
+      "mask",
+      "blue_eyes",
+      "neutral",
+      "bored",
+      "half_closed_eyes"
+    ],
+    "description": "摘下了墨镜，露出蓝色的眼睛，眼神半睁半闭显得有些无聊或冷淡，戴着黑色口罩。",
+    "image_name": "J_schoolGirl01_SukebanSwim_SMG_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_sunglasses",
+      "mask",
+      "angry",
+      "annoyed",
+      "vein_popping",
+      "blue_eyes",
+      "furrowed_brows"
+    ],
+    "description": "摘下了墨镜，眉毛紧紧皱起，额头上暴起明显的青筋符号，眼神锐利且充满愤怒，看起来非常生气或不耐烦。",
+    "image_name": "J_schoolGirl01_SukebanSwim_SMG_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_sunglasses",
+      "mask",
+      "sad",
+      "worried",
+      "troubled",
+      "eyebrows_down",
+      "blue_eyes"
+    ],
+    "description": "摘下了墨镜，眉毛呈八字形下垂，眼神流露出明显的担忧、困扰或悲伤的情绪。",
+    "image_name": "J_schoolGirl01_SukebanSwim_SMG_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_sunglasses",
+      "mask",
+      "nervous",
+      "sweat",
+      "anxious",
+      "stressed",
+      "blue_eyes"
+    ],
+    "description": "摘下了墨镜，脸颊和额头上挂着明显的汗珠，眼神显得紧张、焦虑或有些尴尬，似乎感到压力很大。",
+    "image_name": "J_schoolGirl01_SukebanSwim_SMG_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_sunglasses",
+      "mask",
+      "happy",
+      "confident",
+      "smug",
+      "relaxed",
+      "blue_eyes"
+    ],
+    "description": "摘下了墨镜，眉毛舒展上扬，眼神中透露出自信、得意或轻松的笑意，看起来心情不错。",
+    "image_name": "J_schoolGirl01_SukebanSwim_SMG_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_sunglasses",
+      "mask",
+      "shock",
+      "gloom_lines",
+      "despair",
+      "pale",
+      "blank_eyes"
+    ],
+    "description": "摘下了墨镜，面部笼罩着垂直的阴影线条（黑线），眼睛失去高光呈空白状，表现出极度的震惊、消沉或绝望。",
+    "image_name": "J_schoolGirl01_SukebanSwim_SMG_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_sunglasses",
+      "mask",
+      "dizzy",
+      "knocked_out",
+      "closed_eyes",
+      "pain",
+      "defeat"
+    ],
+    "description": "摘下了墨镜，双眼紧闭呈痛苦状，眉毛扭曲，看起来像是被打晕了，或者处于极度痛苦、晕厥的状态。",
+    "image_name": "J_schoolGirl01_SukebanSwim_SMG_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

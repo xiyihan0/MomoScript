@@ -1,0 +1,155 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "happy",
+      "energetic"
+    ],
+    "description": "张着嘴巴似乎在兴奋地说话或打招呼，红色的眼睛睁大，表情充满活力。",
+    "image_name": "CH0236_spr_00.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "slight_smile",
+      "calm",
+      "gentle"
+    ],
+    "description": "嘴角微微上扬露出淡淡的微笑，表情平静温柔，注视着前方。",
+    "image_name": "CH0236_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "dazed",
+      "blank_stare",
+      "surprised"
+    ],
+    "description": "嘴巴微张呈圆形，眼神显得有些呆滞或茫然，似乎对某事感到意外或发愣。",
+    "image_name": "CH0236_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "grin",
+      "showing_teeth",
+      "happy",
+      "cheeky"
+    ],
+    "description": "眼睛眯成一条缝，露齿大笑，看起来非常得意或开心，带有一丝调皮的感觉。",
+    "image_name": "CH0236_spr_03.png"
+  },
+  {
+    "tags": [
+      "swirl_eyes",
+      "dizzy",
+      "confused",
+      "sweat_drop",
+      "panic"
+    ],
+    "description": "眼睛变成了蚊香状的螺旋纹，脸上挂着冷汗，嘴巴扭曲，表现出极度晕眩或混乱的状态。",
+    "image_name": "CH0236_spr_04.png"
+  },
+  {
+    "tags": [
+      "frown",
+      "annoyed",
+      "serious",
+      "glare"
+    ],
+    "description": "眉头微皱，眼神变得犀利，嘴巴抿成一条线，表现出不满、生气或严肃的情绪。",
+    "image_name": "CH0236_spr_05.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "tears",
+      "sobbing",
+      "sad",
+      "open_mouth"
+    ],
+    "description": "双眼流出夸张的泪水，张大嘴巴大哭，看起来非常委屈、悲伤或崩溃。",
+    "image_name": "CH0236_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "laughing",
+      "cheerful",
+      "joy"
+    ],
+    "description": "闭着眼睛张大嘴巴开怀大笑，表情洋溢着纯粹的喜悦和轻松。",
+    "image_name": "CH0236_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "slight_smile",
+      "content",
+      "smug",
+      "calm"
+    ],
+    "description": "闭着双眼，嘴角微微上扬，表情看起来非常安详、满足，带有一丝不易察觉的小得意。",
+    "image_name": "CH0236_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "greater_less_than_eyes",
+      "open_mouth",
+      "happy",
+      "excited",
+      "energetic"
+    ],
+    "description": "眼睛眯成“><”形状，张大嘴巴开心地笑着，脸颊微红，洋溢着兴奋和活力的情绪。",
+    "image_name": "CH0236_spr_09.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "awkward",
+      "troubled",
+      "open_eyes"
+    ],
+    "description": "睁大眼睛，额头和脸颊挂着明显的冷汗，虽然嘴角似乎想保持礼貌，但神情透露出紧张、尴尬和不安。",
+    "image_name": "CH0236_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "tearing_up",
+      "grimace",
+      "frustrated",
+      "sad",
+      "pain"
+    ],
+    "description": "紧闭双眼，眼角挂着泪花，嘴巴咬紧或扭曲，表现出一种痛苦、委屈或极力忍耐的不甘神情。",
+    "image_name": "CH0236_spr_11.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "blank_stare",
+      "open_mouth",
+      "shocked",
+      "stunned",
+      "dazed"
+    ],
+    "description": "双眼圆睁，瞳孔缩小显得呆滞，嘴巴大张，脸上带有红晕，表现出极度的震惊、发懵或不知所措。",
+    "image_name": "CH0236_spr_12.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "peaceful",
+      "relaxed"
+    ],
+    "description": "闭着眼睛，面带柔和自然的微笑，神态显得非常平静、温柔且放松。",
+    "image_name": "CH0236_spr_99.png"
+  }
+]

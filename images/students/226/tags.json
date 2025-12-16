@@ -1,0 +1,86 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "calm",
+      "eyes_shadowed"
+    ],
+    "description": "平静的基础表情，嘴巴闭合成一条线，眼神隐藏在帽檐的阴影下，没有明显的情绪流露。",
+    "image_name": "J_fuuki_normal1_spr-01_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "speaking",
+      "open_mouth",
+      "neutral",
+      "eyes_shadowed"
+    ],
+    "description": "嘴巴微微张开成圆形，似乎正在说话、发出声音或处于轻微呆滞的状态。",
+    "image_name": "J_fuuki_normal1_spr-02_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "closed_mouth",
+      "eyes_shadowed"
+    ],
+    "description": "嘴角微微上扬，露出了温和的微笑，表现出心情愉快或友好的样子。",
+    "image_name": "J_fuuki_normal1_spr-03_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "open_mouth",
+      "troubled",
+      "eyes_shadowed"
+    ],
+    "description": "脸颊上挂着一滴冷汗，嘴巴微张，表现出紧张、慌乱或感到棘手的情绪。",
+    "image_name": "J_fuuki_normal1_spr-04_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "closed_mouth",
+      "eyes_shadowed"
+    ],
+    "description": "恢复了面无表情的状态，嘴巴抿成直线，看起来比较严肃或正在待机。",
+    "image_name": "J_fuuki_normal1_spr-05_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "frown",
+      "sad",
+      "troubled",
+      "eyes_shadowed"
+    ],
+    "description": "嘴角明显向下撇，配合脸上的冷汗，流露出难过、委屈或遇到大麻烦时的困扰感。",
+    "image_name": "J_fuuki_normal1_spr-06_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "blush",
+      "shy",
+      "embarrassed",
+      "closed_mouth",
+      "eyes_shadowed"
+    ],
+    "description": "脸颊上出现了明显的红晕，表现出害羞、尴尬或内心动摇的可爱模样。",
+    "image_name": "J_fuuki_normal1_spr-07_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "lens_flare",
+      "glowing_eye",
+      "realization",
+      "alert",
+      "eyes_shadowed"
+    ],
+    "description": "原本被阴影遮蔽的眼睛位置闪烁出金色的十字星光芒，象征着警觉、发现目标或气势突然变得犀利。",
+    "image_name": "J_fuuki_normal1_spr-08_0_waifu2x_2x_0n_png.jpg"
+  }
+]

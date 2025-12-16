@@ -1,0 +1,175 @@
+[
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "open_eyes",
+      "smirk"
+    ],
+    "description": "自信的微笑，眼神坚定略带挑衅。",
+    "image_name": "CH0193_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "open_eyes",
+      "neutral"
+    ],
+    "description": "标准的温柔浅笑，神情放松自然。",
+    "image_name": "CH0193_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprise",
+      "curiosity",
+      "open_eyes"
+    ],
+    "description": "嘴巴微张成O型，表现出轻微的惊讶或好奇。",
+    "image_name": "CH0193_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "teeth",
+      "open_eyes"
+    ],
+    "description": "露齿大笑，充满活力的开心表情。",
+    "image_name": "CH0193_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "troubled",
+      "awkward",
+      "open_eyes"
+    ],
+    "description": "脸上流着汗，表情有些尴尬或不知所措。",
+    "image_name": "CH0193_spr_04.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "serious",
+      "frown",
+      "pout",
+      "open_eyes"
+    ],
+    "description": "皱着眉头撇嘴，看起来有些不悦或严肃。",
+    "image_name": "CH0193_spr_05.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "open_mouth",
+      "concerned",
+      "dazed",
+      "open_eyes"
+    ],
+    "description": "眉毛下垂显得担忧，眼神看起来有些呆滞或困惑。",
+    "image_name": "CH0193_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "laughing",
+      "joy"
+    ],
+    "description": "闭眼开怀大笑，心情非常愉快。",
+    "image_name": "CH0193_spr_07.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "awkward",
+      "smile",
+      "open_eyes"
+    ],
+    "description": "脸上流着汗珠，嘴角勉强上扬，表现出一种紧张、尴尬或不知所措的微笑。",
+    "image_name": "CH0193_spr_08.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "curious",
+      "open_eyes",
+      "staring",
+      "serious"
+    ],
+    "description": "表情平静略带好奇，睁大眼睛直视前方，嘴巴微抿，似乎在认真观察或思考。",
+    "image_name": "CH0193_spr_09.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "frown",
+      "open_eyes"
+    ],
+    "description": "眉毛下垂呈八字状，眼神流露出一丝悲伤和担忧，看起来有些委屈或困扰。",
+    "image_name": "CH0193_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat",
+      "nervous",
+      "sigh",
+      "troubled"
+    ],
+    "description": "闭着眼睛流汗，表情显得有些无奈、疲惫，像是在面对棘手情况时轻轻叹气。",
+    "image_name": "CH0193_spr_11.png"
+  },
+  {
+    "tags": [
+      "doubt",
+      "skeptical",
+      "open_mouth",
+      "open_eyes",
+      "serious"
+    ],
+    "description": "眼神稍微眯起显得有些犀利，嘴巴微张，似乎对某事表示怀疑、不解或正在质问。",
+    "image_name": "CH0193_spr_12.png"
+  },
+  {
+    "tags": [
+      "confused",
+      "flustered",
+      "open_mouth",
+      "open_eyes",
+      "surprise"
+    ],
+    "description": "神情有些慌乱或困惑，嘴巴张开，眼神显得有些动摇，似乎被突发状况搞得措手不及。",
+    "image_name": "CH0193_spr_13.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "happy",
+      "peaceful"
+    ],
+    "description": "闭着双眼露出温柔的微笑，神情宁静祥和，看起来非常满足。",
+    "image_name": "CH0193_spr_14.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "relaxed",
+      "happy",
+      "serene"
+    ],
+    "description": "闭眼微笑的标准表情，神态轻松自然，给人一种安心的感觉。",
+    "image_name": "CH0193_spr_99.png"
+  }
+]

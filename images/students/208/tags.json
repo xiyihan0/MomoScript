@@ -1,0 +1,107 @@
+[
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "closed_mouth",
+      "mekakure"
+    ],
+    "description": "嘴角微微上扬露出温柔的微笑，刘海遮住了眼睛，看起来心情平静且愉快。",
+    "image_name": "NP0106_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "closed_mouth",
+      "mekakure"
+    ],
+    "description": "嘴巴抿成一条直线，没有任何明显的表情，显得非常平静或认真。",
+    "image_name": "NP0106_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "surprise",
+      "mekakure"
+    ],
+    "description": "嘴巴微微张开呈O型，似乎正在说话，或者表现出轻微的惊讶和呆萌。",
+    "image_name": "NP0106_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "laughing",
+      "happy",
+      "mekakure"
+    ],
+    "description": "张嘴开心地笑着，洋溢着活泼、积极和快乐的氛围。",
+    "image_name": "NP0106_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "wavy_mouth",
+      "awkward",
+      "mekakure"
+    ],
+    "description": "嘴角呈现波浪状，脸颊上挂着一滴汗珠，表现出尴尬、困扰或不知所措的情绪。",
+    "image_name": "NP0106_spr_04.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "frown",
+      "upset",
+      "mekakure"
+    ],
+    "description": "嘴角明显向下弯曲，表现出失落、难过、不满或委屈的样子。",
+    "image_name": "NP0106_spr_05.png"
+  },
+  {
+    "tags": [
+      "gloom_lines",
+      "shocked",
+      "despair",
+      "open_mouth",
+      "mekakure"
+    ],
+    "description": "面部覆盖着阴影线条（黑线），嘴巴张开，表现出极度的震惊、绝望或无语。",
+    "image_name": "NP0106_spr_06.png"
+  },
+  {
+    "tags": [
+      "tired",
+      "sweat_drop",
+      "blush",
+      "panting",
+      "open_mouth",
+      "mekakure"
+    ],
+    "description": "脸上带着红晕和汗珠，嘴巴张开似乎在喘气，表现出疲惫、焦急或害羞的状态。",
+    "image_name": "NP0106_spr_07.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "closed_mouth",
+      "mekakure"
+    ],
+    "description": "嘴巴闭合成一个小点或短线，面部没有明显的情绪波动，显得十分平静、呆萌或正在发呆。",
+    "image_name": "NP0106_spr_08.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "closed_mouth",
+      "mekakure"
+    ],
+    "description": "神态平静，嘴巴自然闭合，没有任何显著的情绪流露，呈现出一种沉稳或默认的状态。",
+    "image_name": "NP0106_spr_99.png"
+  }
+]

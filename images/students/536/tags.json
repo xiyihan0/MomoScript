@@ -1,0 +1,96 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "cheerful"
+    ],
+    "description": "开心地笑着，嘴巴张开呈现D字形，看起来非常有精神。",
+    "image_name": "NP0255_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "cat_mouth",
+      "smug",
+      ":3"
+    ],
+    "description": "嘴角上扬呈波浪状（猫嘴），表情看起来有些得意或满足。",
+    "image_name": "NP0255_spr_01.png"
+  },
+  {
+    "tags": [
+      "tongue_out",
+      "teasing",
+      "playful",
+      "cheeky"
+    ],
+    "description": "调皮地吐着舌头，带有一种捉弄或搞怪的可爱表情。",
+    "image_name": "NP0255_spr_02.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "excited",
+      "loud"
+    ],
+    "description": "嘴巴张得很大，似乎正在兴奋地大喊或大笑。",
+    "image_name": "NP0255_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "open_mouth",
+      "surprised",
+      "confused",
+      "anxious"
+    ],
+    "description": "脸上挂着汗珠，嘴巴微张，看起来感到惊讶、困惑或有些不知所措。",
+    "image_name": "NP0255_spr_04.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "neutral",
+      "serious",
+      "thinking"
+    ],
+    "description": "嘴巴闭成一条小弧线，表情平淡，似乎在思考或认真听讲。",
+    "image_name": "NP0255_spr_05.png"
+  },
+  {
+    "tags": [
+      "x_mouth",
+      "closed_mouth",
+      "refusal",
+      "annoyed",
+      "miffy"
+    ],
+    "description": "嘴巴变成了“X”的形状，表示拒绝、无语或者不想说话。",
+    "image_name": "NP0255_spr_06.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous_smile",
+      "awkward",
+      "troubled"
+    ],
+    "description": "流着冷汗，嘴角勉强上扬，表现出尴尬、紧张或为难的样子。",
+    "image_name": "NP0255_spr_07.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "bangs_covering_eyes",
+      "cheerful"
+    ],
+    "description": "刘海遮住了双眼，嘴巴张开笑着，脸上带着淡淡的红晕，表现出开心和充满活力的样子。",
+    "image_name": "NP0255_spr_Idle_01.png"
+  }
+]

@@ -1,0 +1,154 @@
+[
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "looking_at_viewer"
+    ],
+    "description": "嘴角微微上扬，露出温和且友善的微笑。",
+    "image_name": "CH0213_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "calm"
+    ],
+    "description": "面无表情，眼神平静，标准的冷淡神态。",
+    "image_name": "CH0213_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "slightly_surprised"
+    ],
+    "description": "嘴巴微张，似乎正在说话，或者对某事感到轻微的惊讶。",
+    "image_name": "CH0213_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "cheerful"
+    ],
+    "description": "双眼眯成弯月状，脸上洋溢着开心放松的笑容。",
+    "image_name": "CH0213_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "awkward",
+      "troubled"
+    ],
+    "description": "脸上挂着汗珠，神情显得有些紧张、尴尬或无语。",
+    "image_name": "CH0213_spr_04.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "stern",
+      "focused"
+    ],
+    "description": "眉头微锁，神情比平时更加严肃认真，眼神锐利。",
+    "image_name": "CH0213_spr_05.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "indifferent",
+      "blank_stare"
+    ],
+    "description": "保持着一贯的平静神态，没有任何明显的情绪波动，略显呆萌。",
+    "image_name": "CH0213_spr_06.png"
+  },
+  {
+    "tags": [
+      "smirk",
+      "confident",
+      "mischievous"
+    ],
+    "description": "嘴角歪起露出自信的坏笑，眼神中带有一丝戏谑。",
+    "image_name": "CH0213_spr_07.png"
+  },
+  {
+    "tags": [
+      "smirk",
+      "mischievous",
+      "side_glance",
+      "confident",
+      "scheming"
+    ],
+    "description": "眼神向侧面斜视，嘴角大幅度勾起，露出一抹充满自信、戏谑甚至带有挑衅意味的坏笑。",
+    "image_name": "CH0213_spr_08.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "awkward",
+      "speechless",
+      "blank_stare"
+    ],
+    "description": "脸上挂着汗珠，眼神发直，表情僵硬，透露出一种无语、尴尬或不知所措的情绪。",
+    "image_name": "CH0213_spr_09.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "worried",
+      "troubled",
+      "anxious",
+      "sad_eyebrows"
+    ],
+    "description": "眉头呈八字形下垂，脸上流着冷汗，眼神游移，显得非常担忧、困扰和不安。",
+    "image_name": "CH0213_spr_10.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "wavy_mouth",
+      "grimace",
+      "annoyed",
+      "speechless",
+      "difficult"
+    ],
+    "description": "眼神半眯显得有些嫌弃，嘴巴扭曲成波浪状，满脸冷汗，表现出极度的无奈、忍耐或感到棘手。",
+    "image_name": "CH0213_spr_11.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "tongue_out",
+      "blep",
+      "playing_dumb",
+      "tehepero"
+    ],
+    "description": "眼神游移不敢直视，脸上挂着汗珠，俏皮地吐出舌尖试图装傻，表现出“搞砸了”之后的尴尬卖萌。",
+    "image_name": "CH0213_spr_12.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "pout",
+      "sulking",
+      "dissatisfied",
+      "grumpy"
+    ],
+    "description": "眉头微皱，嘴巴嘟起，脸上带着汗珠，看起来有些委屈、不满或是在闹别扭。",
+    "image_name": "CH0213_spr_13.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral",
+      "thinking",
+      "serene"
+    ],
+    "description": "双眼完全闭合，面部表情平静祥和，似乎正在闭目养神、沉思或安静地等待。",
+    "image_name": "CH0213_spr_99.png"
+  }
+]

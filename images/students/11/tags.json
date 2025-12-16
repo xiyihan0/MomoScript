@@ -1,0 +1,150 @@
+[
+  {
+    "tags": [
+      "mask",
+      "kitsune_mask",
+      "flower",
+      "mysterious",
+      "no_face"
+    ],
+    "description": "佩戴着标志性的红白狐狸面具，完全遮住了面部，透露出神秘且危险的气息。",
+    "image_name": "wakamo_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "smirk",
+      "confident",
+      "yellow_eyes",
+      "looking_at_viewer"
+    ],
+    "description": "自信地微笑着，嘴角轻微上扬，眼神中带着一丝戏谑或从容。",
+    "image_name": "wakamo_spr-S2_01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "blank_stare",
+      "confused",
+      "dazed",
+      "neutral"
+    ],
+    "description": "表情呆滞或困惑，嘴巴微张，似乎正在发呆或对某事感到不解。",
+    "image_name": "wakamo_spr-S2_02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "blush",
+      "gentle",
+      "happy",
+      "soft_expression"
+    ],
+    "description": "温柔且开心地微笑着，脸颊泛红，眼神柔和，展现出害羞或幸福的模样。",
+    "image_name": "wakamo_spr-S2_03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "disgust",
+      "annoyed",
+      "frown",
+      "narrowed_eyes",
+      "judgmental"
+    ],
+    "description": "流露出嫌弃或不悦的神情，眼神变得尖锐，似乎对眼前的事物感到反感。",
+    "image_name": "wakamo_spr-S2_04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shadowed_face",
+      "empty_eyes",
+      "yandere",
+      "dark",
+      "scary"
+    ],
+    "description": "上半张脸笼罩在阴影中，眼神失去高光，散发出一种病娇或黑化的压迫感。",
+    "image_name": "wakamo_spr-S2_05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "crazy",
+      "wide_eyes",
+      "sharp_teeth",
+      "shouting",
+      "insane"
+    ],
+    "description": "极度疯狂的表情，瞳孔收缩，张嘴大笑并露出尖牙，显得情绪极度激动或崩坏。",
+    "image_name": "wakamo_spr-S2_06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "tears",
+      "panicked",
+      "sweat",
+      "sad"
+    ],
+    "description": "哭泣且惊慌失措的表情，泪水溢出眼眶，伴有冷汗，显得非常无助或悲伤。",
+    "image_name": "wakamo_spr-S2_07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "sobbing",
+      "tears",
+      "sad",
+      "distress",
+      "grimace"
+    ],
+    "description": "痛哭流涕的表情，紧闭双眼，泪水止不住地流淌，显得极度悲伤和委屈。",
+    "image_name": "wakamo_spr-S2_08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy",
+      "yellow_eyes",
+      "soft_expression",
+      "blush"
+    ],
+    "description": "带着温柔的微笑注视前方，眼神清澈，脸颊微红，给人一种平静且友好的感觉。",
+    "image_name": "wakamo_spr-S2_09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "troubled",
+      "sad",
+      "pout",
+      "anxious",
+      "frown"
+    ],
+    "description": "眉头微皱，眼神忧郁，嘴角微撇，流露出担忧、困扰或某种不安的情绪。",
+    "image_name": "wakamo_spr-S2_10_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "heart_eyes",
+      "love",
+      "infatuation",
+      "smile",
+      "blush",
+      "passionate"
+    ],
+    "description": "瞳孔变成了爱心形状，满脸通红地微笑着，毫不掩饰地表达着强烈的爱慕与迷恋。",
+    "image_name": "wakamo_spr-S2_11_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "peaceful",
+      "calm",
+      "content",
+      "satisfied"
+    ],
+    "description": "闭着眼睛露出恬静的微笑，神态安详，仿佛沉浸在某种幸福或满足的氛围中。",
+    "image_name": "wakamo_spr-S2_99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

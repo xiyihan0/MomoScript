@@ -1,0 +1,157 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "smile",
+      "blue_eyes",
+      "green_hair",
+      "halo"
+    ],
+    "description": "标准立绘，少女面带自然的微笑，眼神平静注视前方。",
+    "image_name": "CH0252_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "soft",
+      "blue_eyes",
+      "green_hair"
+    ],
+    "description": "嘴角微微上扬，展现出温和且礼貌的笑容。",
+    "image_name": "CH0252_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprise",
+      "curious",
+      "dot_mouth",
+      "blue_eyes"
+    ],
+    "description": "嘴巴张成小圆点状（O形），表情显得有些呆萌、惊讶或感到好奇。",
+    "image_name": "CH0252_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "calm",
+      "content"
+    ],
+    "description": "闭着嘴轻柔地微笑，眼神柔和，看起来心情很平静满足。",
+    "image_name": "CH0252_spr_03.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "awkward_smile",
+      "nervous",
+      "open_mouth"
+    ],
+    "description": "双眼紧闭呈弯月状，脸颊挂着一滴冷汗，嘴巴张开苦笑，表现出尴尬、紧张或不知所措的样子。",
+    "image_name": "CH0252_spr_04.png"
+  },
+  {
+    "tags": [
+      "frown",
+      "annoyed",
+      "serious",
+      "displeased",
+      "glare"
+    ],
+    "description": "眉头紧锁，眼神变得锐利，嘴角拉平或向下，流露出不悦、严肃或怀疑的神情。",
+    "image_name": "CH0252_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "anxious",
+      "furrowed_brows"
+    ],
+    "description": "眉毛呈八字形下垂，眼神充满忧虑，表情看起来非常悲伤、担心或感到困扰。",
+    "image_name": "CH0252_spr_06.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "happy",
+      "smile",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "嘴巴张开露出牙齿，脸上洋溢着开朗的笑容，看起来非常高兴和兴奋。",
+    "image_name": "CH0252_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "calm",
+      "peaceful"
+    ],
+    "description": "双眼温柔地眯成弯月状，嘴角带着恬静的微笑，给人一种治愈和安心的感觉。",
+    "image_name": "CH0252_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "happy",
+      "laughing",
+      "joy",
+      "excited"
+    ],
+    "description": "非常开心地大笑，眼睛眯成缝，嘴巴张开，洋溢着纯粹的快乐和兴奋。",
+    "image_name": "CH0252_spr_09.png"
+  },
+  {
+    "tags": [
+      "empty_eyes",
+      "expressionless",
+      "dull",
+      "blank_stare",
+      "neutral"
+    ],
+    "description": "眼睛失去了高光，眼神显得空洞呆滞，面无表情，仿佛失去了意识或陷入了极度的虚无中。",
+    "image_name": "CH0252_spr_10.png"
+  },
+  {
+    "tags": [
+      "empty_eyes",
+      "open_mouth",
+      "dazed",
+      "confused",
+      "blank",
+      "shocked"
+    ],
+    "description": "眼神空洞无神，嘴巴微微张开，表现出茫然、不知所措或受到精神冲击后的呆滞状态。",
+    "image_name": "CH0252_spr_11.png"
+  },
+  {
+    "tags": [
+      "cartoon_eyes",
+      "dot_eyes",
+      "blush",
+      "cute",
+      "dumbfounded",
+      "simple_face"
+    ],
+    "description": "Q版简笔画风格的表情，眼睛变成了垂直的椭圆豆豆眼，脸颊泛红，看起来非常呆萌、害羞或有些傻眼。",
+    "image_name": "CH0252_spr_12.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "serene",
+      "meditative",
+      "neutral"
+    ],
+    "description": "平静地闭着双眼，表情非常安详，似乎在闭目养神、沉思或安静地等待。",
+    "image_name": "CH0252_spr_99.png"
+  }
+]

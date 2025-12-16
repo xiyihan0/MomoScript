@@ -1,0 +1,115 @@
+[
+  {
+    "tags": [
+      "worried",
+      "neutral",
+      "closed_mouth",
+      "anxious"
+    ],
+    "description": "标准的担忧表情，眉毛下垂，眼神显得有些不安，嘴巴闭合。",
+    "image_name": "hiyori_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "stare",
+      "dazed",
+      "neutral",
+      "blank_look"
+    ],
+    "description": "发呆或呆滞的表情，眼睛直视前方，没有任何明显的笑意或悲伤，显得有些不知所措。",
+    "image_name": "hiyori_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "shy",
+      "happy"
+    ],
+    "description": "略带羞涩的开心笑容，嘴巴微微张开，看起来心情不错或正在愉快地交谈。",
+    "image_name": "hiyori_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "shock",
+      "wide_eyes"
+    ],
+    "description": "惊讶的表情，眼睛稍微睁大，嘴巴张开，似乎对某事感到意外或震惊。",
+    "image_name": "hiyori_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "gloom",
+      "focused",
+      "closed_mouth"
+    ],
+    "description": "严肃或阴沉的表情，眼神变得犀利且聚焦，看起来在认真思考或者情绪低落。",
+    "image_name": "hiyori_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "troubled",
+      "sad",
+      "wavy_mouth",
+      "complaining"
+    ],
+    "description": "困扰或委屈的表情，嘴巴呈现波浪状，看起来快要哭出来或者正在抱怨某事。",
+    "image_name": "hiyori_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "awkward",
+      "glance_away",
+      "shy",
+      "avoiding_eye_contact"
+    ],
+    "description": "尴尬或心虚的表情，视线向旁边移开，似乎在回避眼神接触，显得局促不安。",
+    "image_name": "hiyori_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "closed_mouth",
+      "soft"
+    ],
+    "description": "温柔含蓄的微笑，嘴巴闭合，嘴角轻微上扬，眼神柔和。",
+    "image_name": "hiyori_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "empty_eyes",
+      "despair",
+      "gloomy",
+      "dead_inside",
+      "blank_stare"
+    ],
+    "description": "眼神失去高光，显得极度空虚和绝望，眉毛无力地下垂，仿佛心如死灰或受到了精神打击。",
+    "image_name": "hiyori_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "panic",
+      "open_mouth",
+      "shouting",
+      "distressed",
+      "anxious"
+    ],
+    "description": "惊慌失措的表情，嘴巴大张似乎在喊叫或极力辩解，眉毛紧皱，眼神充满焦虑和混乱。",
+    "image_name": "hiyori_spr-10_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sad",
+      "resigned",
+      "enduring",
+      "painful"
+    ],
+    "description": "紧闭双眼忍受痛苦或悲伤的表情，眉毛呈八字形下垂，看起来像是在默默承受委屈或已经放弃抵抗。",
+    "image_name": "hiyori_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

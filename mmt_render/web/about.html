@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>关于 MMT Viewer</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand"><a href="/">MMT Viewer</a><a class="nav" href="/about">介绍 / 语法</a></div>
+      <div class="actions">
+        <a class="btn-link" href="/">返回预览</a>
+      </div>
+    </header>
+
+    <main class="layout layout-single">
+      <section class="panel">
+        <div class="panel-title">项目简介</div>
+        <div class="doc">
+          <p>
+            这是一个把“蔚蓝档案风格的聊天记录”用纯文本 DSL 记录、解析，并用 Typst 渲染成 PDF 的小工具。
+            主要目标是：好写、好改、好做脚本处理。
+          </p>
+
+          <h3>工作流</h3>
+          <ol>
+            <li>在预览页粘贴/导入 MMT 文本</li>
+            <li>点“解析”得到结构化 JSON（可下载）</li>
+            <li>点“生成 PDF”用 Typst 渲染并预览</li>
+          </ol>
+
+          <h3>语法（纯文本 DSL）</h3>
+          <ul>
+            <li><code>- </code>：旁白（居中/系统文本）</li>
+            <li><code>&gt; </code>：对方气泡（左侧）</li>
+            <li><code>&lt; </code>：自己/Sensei 气泡（右侧）</li>
+            <li>续行：不以 <code>- </code>/<code>&gt; </code>/<code>&lt; </code> 开头的行会续到上一条内容后（用换行拼接）</li>
+          </ul>
+
+          <h3>说话人（仅对 <code>&gt;</code>/<code>&lt;</code>）</h3>
+          <ul>
+            <li>显式指定：<code>&gt; 星野: ……</code></li>
+            <li>历史回溯：<code>&gt; _: ……</code>（回到上一个说话人），<code>&gt; _2: ……</code>（回到上 2 个说话人）</li>
+            <li>若没有写 <code>名字:</code> 或 <code>_n:</code>，则沿用当前说话人</li>
+          </ul>
+
+          <h3>示例</h3>
+          <pre><code>&gt; 星野: 第一行
+续行（仍然是星野）
+
+&gt; 梦: 插话
+
+&gt; _:
+回到上一个对方说话人（星野）
+
+- 旁白一行
+旁白续行
+</code></pre>
+
+          <p class="muted">
+            提示：PDF 生成需要本机安装 <code>typst</code>（命令行可用：<code>typst --version</code>）。
+          </p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+

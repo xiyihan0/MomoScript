@@ -1,0 +1,181 @@
+[
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "smug",
+      "pleased"
+    ],
+    "description": "自信得意的微笑，嘴角微微上扬，眼神中透露出一种游刃有余或略带调皮的神情。",
+    "image_name": "erika_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "expressionless",
+      "calm"
+    ],
+    "description": "面无表情，眼神平静地注视前方，嘴巴紧闭，表现出严肃或认真听讲的状态。",
+    "image_name": "erika_spr_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "idle",
+      "soft_gaze",
+      "waiting"
+    ],
+    "description": "平静的待机表情，相比严肃脸眼神稍显柔和，没有任何明显的情绪波动。",
+    "image_name": "erika_spr_02.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "open_mouth",
+      "cheerful"
+    ],
+    "description": "开心的笑容，嘴巴张开露齿笑，看起来心情非常愉快，充满活力。",
+    "image_name": "erika_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "worried",
+      "awkward"
+    ],
+    "description": "感到尴尬或紧张，脸颊挂着一滴汗珠，眉毛微皱，嘴巴紧闭，眼神游移。",
+    "image_name": "erika_spr_04.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "shouting",
+      "open_mouth",
+      "exclamation"
+    ],
+    "description": "惊讶或正在大声说话，嘴巴张成O型，眉毛上扬，似乎在发出感叹或抗议。",
+    "image_name": "erika_spr_05.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "sweat_drop",
+      "uneasy",
+      "confused"
+    ],
+    "description": "困扰和不知所措，嘴巴微张呈波浪状，流着冷汗，似乎遇到了棘手的问题。",
+    "image_name": "erika_spr_06.png"
+  },
+  {
+    "tags": [
+      "awkward_smile",
+      "sweat_drop",
+      "wry_smile",
+      "trying_to_smile"
+    ],
+    "description": "尴尬的苦笑，脸上流着汗但勉强挤出笑容，试图掩饰紧张或歉意。",
+    "image_name": "erika_spr_07.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "laughing",
+      "closed_eyes",
+      "cheerful",
+      "open_mouth"
+    ],
+    "description": "爽朗的大笑，眼睛眯成两条缝，嘴巴张开，表现出毫无保留的开心和喜悦。",
+    "image_name": "erika_spr_08.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "closed_eyes",
+      "vein_pop",
+      "gritting_teeth"
+    ],
+    "description": "恼火的表情，紧闭双眼，咬牙切齿，脸颊上带有代表愤怒的井字纹，似乎在忍耐不满。",
+    "image_name": "erika_spr_09.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "annoyed",
+      "vein_pop",
+      "closed_eyes",
+      "smile"
+    ],
+    "description": "带着恼怒的得意笑容，虽然脸上有愤怒的井字纹，但嘴角自信上扬，闭眼展现出一种复杂的挑衅感。",
+    "image_name": "erika_spr_10.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "closed_eyes",
+      "grin",
+      "mischievous"
+    ],
+    "description": "自信满满的坏笑，眼睛眯起，嘴角大幅上扬，透露出调皮、得意和胸有成竹的神情。",
+    "image_name": "erika_spr_11.png"
+  },
+  {
+    "tags": [
+      "tired",
+      "sigh",
+      "closed_eyes",
+      "sweat_drop",
+      "exhausted"
+    ],
+    "description": "疲惫无奈的叹气，闭着眼睛嘴巴微张，脸上挂着一滴汗珠，表现出精疲力尽或放弃的状态。",
+    "image_name": "erika_spr_12.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "sweat_drop",
+      "glancing_away",
+      "wry_smile",
+      "troubled"
+    ],
+    "description": "心虚尴尬的苦笑，视线向一侧游移不敢直视，脸上流着冷汗，似乎在试图掩饰什么或逃避话题。",
+    "image_name": "erika_spr_13.png"
+  },
+  {
+    "tags": [
+      "awkward_smile",
+      "sweat_drop",
+      "troubled",
+      "apologetic",
+      "nervous"
+    ],
+    "description": "带着歉意的尴尬笑容，正视前方但眼神流露出困扰，脸上挂着汗珠，仿佛在为尴尬的局面打圆场。",
+    "image_name": "erika_spr_14.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "sweat_drop",
+      "glancing_away",
+      "uneasy",
+      "speechless"
+    ],
+    "description": "感到为难或无语，眼神游移向一侧，嘴巴微抿，流着冷汗，显得不知所措或难以启齿。",
+    "image_name": "erika_spr_15.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "neutral",
+      "calm",
+      "silent",
+      "indifferent"
+    ],
+    "description": "平静地闭着双眼，嘴巴紧闭，神情淡然，似乎在闭目养神或保持沉默，表现出一种从容或略显冷淡的态度。",
+    "image_name": "erika_spr_99.png"
+  }
+]

@@ -1,0 +1,338 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_eyes",
+      "gentle",
+      "blush",
+      "pink_hair"
+    ],
+    "description": "面带温柔的浅笑，眼神清澈平静，注视着前方。",
+    "image_name": "CH0294_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_eyes",
+      "confident",
+      "blush",
+      "happy"
+    ],
+    "description": "嘴角微微上扬，展现出自信而从容的微笑。",
+    "image_name": "CH0294_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "talking",
+      "smile",
+      "happy",
+      "blush"
+    ],
+    "description": "嘴巴张开仿佛在说话，带着愉快开朗的神情。",
+    "image_name": "CH0294_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "smile",
+      "joyful",
+      "happy"
+    ],
+    "description": "眯起眼睛开心地大笑，洋溢着喜悦和幸福的气氛。",
+    "image_name": "CH0294_spr_03.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "excited",
+      "wide_eyes",
+      "blush"
+    ],
+    "description": "眼睛睁大，嘴巴惊讶地张开，看起来既惊讶又兴奋。",
+    "image_name": "CH0294_spr_04.png"
+  },
+  {
+    "tags": [
+      "furrowed_brows",
+      "confused",
+      "annoyed",
+      "open_mouth",
+      "blush"
+    ],
+    "description": "眉头微皱，嘴巴半张，表现出困惑、不解或轻微的不满。",
+    "image_name": "CH0294_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "resignation",
+      "sad",
+      "blush"
+    ],
+    "description": "双眼紧闭，似乎在无奈地叹气或是在平复心情。",
+    "image_name": "CH0294_spr_06.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "tears",
+      "panic",
+      ">_<",
+      "sad"
+    ],
+    "description": "眼睛呈“>_<”状紧闭，流着眼泪，表情慌张且委屈。",
+    "image_name": "CH0294_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "peaceful",
+      "sleeping",
+      "blush"
+    ],
+    "description": "双眼轻轻闭合，神情安详宁静，脸颊带着淡淡红晕，仿佛在闭目养神。",
+    "image_name": "CH0294_spr_08.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "open_mouth",
+      "surprised",
+      "dazed",
+      "blush"
+    ],
+    "description": "眼睛睁大，嘴巴微张呈圆形，表情显得有些呆萌、惊讶或是在发呆。",
+    "image_name": "CH0294_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      ">_<",
+      "excited",
+      "open_mouth",
+      "happy"
+    ],
+    "description": "双眼紧闭成“>_<”形状，嘴巴大张，展现出极度兴奋和开心的笑容。",
+    "image_name": "CH0294_spr_10.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "shocked",
+      "confused",
+      "open_mouth",
+      "blush"
+    ],
+    "description": "瞳孔微缩，眉头紧锁，嘴巴半张，表现出震惊、困惑甚至有些不知所措的情绪。",
+    "image_name": "CH0294_spr_11.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "neutral",
+      "staring",
+      "blush",
+      "calm"
+    ],
+    "description": "面无表情地注视着前方，嘴巴闭合，眼神平静，处于一种放松或发呆的状态。",
+    "image_name": "CH0294_spr_12.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "laughing",
+      "blush"
+    ],
+    "description": "眯起双眼露出甜美的笑容，嘴巴张开，洋溢着纯真快乐的喜悦之情。",
+    "image_name": "CH0294_spr_13.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "smile",
+      "shy",
+      "gentle",
+      "blush"
+    ],
+    "description": "带着温和的微笑，眼神柔和，看起来略带羞涩或有些尴尬地笑着。",
+    "image_name": "CH0294_spr_14.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "neutral",
+      "pout",
+      "blush",
+      "silent"
+    ],
+    "description": "嘴巴抿成一个小点，眼神直视前方，表情略显无辜或是在静静地等待。",
+    "image_name": "CH0294_spr_15.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "staring",
+      "blush",
+      "silent"
+    ],
+    "description": "表情平静淡然，眼神直视前方，没有任何明显的波澜，显得十分沉稳或是在静静聆听。",
+    "image_name": "CH0294_spr_16.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "open_eyes",
+      "blush",
+      "happy"
+    ],
+    "description": "嘴角微微上扬带着温柔的浅笑，眼神柔和，散发出友善和治愈的氛围。",
+    "image_name": "CH0294_spr_17.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "serene",
+      "blush",
+      "warm"
+    ],
+    "description": "双眼闭合，嘴角上扬，露出了非常安心且温柔的微笑，仿佛沉浸在幸福和宁静中。",
+    "image_name": "CH0294_spr_18.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "furrowed_brows",
+      "serious",
+      "open_eyes",
+      "blush"
+    ],
+    "description": "眉头微皱，眼神显得有些凝重或担忧，似乎在担心某件事或是在认真地审视。",
+    "image_name": "CH0294_spr_19.png"
+  },
+  {
+    "tags": [
+      "confused",
+      "open_mouth",
+      "worried",
+      "troubled",
+      "blush"
+    ],
+    "description": "眉头紧锁，嘴巴微微张开，眼神略显游移，表现出困惑、为难或是不知如何是好的样子。",
+    "image_name": "CH0294_spr_20.png"
+  },
+  {
+    "tags": [
+      "skeptical",
+      "annoyed",
+      "unimpressed",
+      "staring",
+      "blush"
+    ],
+    "description": "眼睛半眯，眼神犀利，带着一丝审视或怀疑的目光，似乎对眼前的情况感到无语或轻微不满。",
+    "image_name": "CH0294_spr_21.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "dazed",
+      "shocked",
+      "open_mouth",
+      "blank_stare"
+    ],
+    "description": "瞳孔失去高光呈现深邃的漩涡状，嘴巴微张，整个人完全呆滞，仿佛大脑停止了思考或受到了精神冲击。",
+    "image_name": "CH0294_spr_22.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "confused",
+      "dumbfounded",
+      "open_mouth",
+      "chaos_eyes"
+    ],
+    "description": "眼神同样呈现失去焦距的状态，嘴巴张开，神情看起来既呆萌又混乱，完全处于状况外。",
+    "image_name": "CH0294_spr_23.png"
+  },
+  {
+    "tags": [
+      "chaos_eyes",
+      "swirling_eyes",
+      "panicked",
+      "shocked",
+      "open_mouth",
+      "blush"
+    ],
+    "description": "瞳孔呈现深邃的漩涡状，嘴巴大张，神情显得极度惊慌失措和混乱，脸颊带着红晕，仿佛受到了强烈的精神冲击。",
+    "image_name": "CH0294_spr_24.png"
+  },
+  {
+    "tags": [
+      "chaos_eyes",
+      "swirling_eyes",
+      "troubled",
+      "worried",
+      "open_mouth",
+      "sad"
+    ],
+    "description": "眼神依然是混乱的漩涡状，但眉毛下垂显露出无助和悲伤的情绪，嘴巴微张，看起来既晕头转向又十分委屈。",
+    "image_name": "CH0294_spr_25.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "happy",
+      "smile",
+      "excited",
+      "open_mouth",
+      "blush"
+    ],
+    "description": "眼睛炯炯有神，嘴角上扬露出充满活力的笑容，嘴巴张开，展现出兴奋、期待和纯粹开心的心情。",
+    "image_name": "CH0294_spr_26.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "surprised",
+      "dazed",
+      "open_mouth",
+      "curious",
+      "blush"
+    ],
+    "description": "眼睛睁大，眼神中带着一丝好奇或惊讶，嘴巴微微张开，表情显得有些呆萌，似乎对眼前发生的事情感到意外。",
+    "image_name": "CH0294_spr_27.png"
+  },
+  {
+    "tags": [
+      "side_glance",
+      "skeptical",
+      "neutral",
+      "pout",
+      "blush",
+      "unamused"
+    ],
+    "description": "目光斜视一侧，嘴巴紧闭，神情略显冷淡、怀疑或是不以为然，表现出一种微妙的抗拒或对现状感到无语。",
+    "image_name": "CH0294_spr_28.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "serene",
+      "gentle",
+      "happy",
+      "blush"
+    ],
+    "description": "双眼轻闭，嘴角挂着温柔恬静的微笑，脸颊微红，散发出一种无比安心和幸福的治愈氛围。",
+    "image_name": "CH0294_spr_99.png"
+  }
+]

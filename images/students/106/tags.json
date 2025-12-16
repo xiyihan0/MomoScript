@@ -1,0 +1,140 @@
+[
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "eyes_open",
+      "confident"
+    ],
+    "description": "面带温柔且自信的微笑，眼神平静地注视着前方，给人一种友好的感觉。",
+    "image_name": "shigure_spr-00_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "serious",
+      "staring"
+    ],
+    "description": "表情平静中略带严肃，嘴唇闭合，眼神直视，似乎在认真倾听或观察。",
+    "image_name": "shigure_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "mouth_open",
+      "curious",
+      "stunned"
+    ],
+    "description": "显得有些惊讶或好奇，嘴巴微微张开成O型，眼睛睁大，似乎发现了什么意料之外的事。",
+    "image_name": "shigure_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "laughing",
+      "smile",
+      "joy"
+    ],
+    "description": "开心地大笑，眼睛眯成弯弯的线条，脸上洋溢着纯粹的喜悦和快乐。",
+    "image_name": "shigure_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "confused",
+      "troubled",
+      "sweat"
+    ],
+    "description": "眉头微蹙，眼神流露出困惑、担忧或尴尬，嘴巴微张，看起来有些不知所措。",
+    "image_name": "shigure_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "serious",
+      "frowning",
+      "stern",
+      "angry"
+    ],
+    "description": "表情严肃甚至有些生气，眉毛压低，眼神锐利，流露出不满或责备的情绪。",
+    "image_name": "shigure_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "disappointed",
+      "troubled",
+      "pouting"
+    ],
+    "description": "神情悲伤或失望，眉毛下垂，看起来有些委屈或沮丧。",
+    "image_name": "shigure_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "laughing",
+      "smile",
+      "joy"
+    ],
+    "description": "脸上再次洋溢着灿烂的笑容，眼睛闭起，十分开心（表情与第4张相同）。",
+    "image_name": "shigure_spr-07_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "laughing",
+      "smile",
+      "joy"
+    ],
+    "description": "笑容灿烂，眼睛眯成弯弯的缝，嘴巴张开，看起来非常开心和愉悦。",
+    "image_name": "shigure_spr-08_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "energetic",
+      "eyes_open"
+    ],
+    "description": "充满活力的笑容，眼睛睁大注视前方，嘴巴张开，表现出兴奋或开朗的情绪。",
+    "image_name": "shigure_spr-09_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "blank_stare",
+      "confused",
+      "stunned",
+      "wide_eyes"
+    ],
+    "description": "瞳孔收缩，神情呆滞茫然，似乎受到了惊吓或处于极度混乱、大脑空白的状态。",
+    "image_name": "shigure_spr-10_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "calm",
+      "gentle",
+      "content"
+    ],
+    "description": "双眼轻闭，嘴角上扬，面带温和的微笑，流露出满足、平静或享受的神态。",
+    "image_name": "shigure_spr-11_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "neutral",
+      "thinking",
+      "silent",
+      "calm"
+    ],
+    "description": "眼睛闭合，嘴唇抿起，表情平静淡然，似乎在闭目养神，又像是在默默思考或感到些许无奈。",
+    "image_name": "shigure_spr-99_0_waifu2x_2x_2n_png.jpg"
+  }
+]

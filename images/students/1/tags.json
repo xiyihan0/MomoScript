@@ -1,0 +1,330 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_eyes",
+      "gentle",
+      "normal"
+    ],
+    "description": "弥香面带标准的温柔微笑，金色的双眼注视前方，表情平静而友好。",
+    "image_name": "J_CH0069_spr_00.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "looking_away",
+      "side_glance",
+      "playful"
+    ],
+    "description": "视线向侧面飘移，嘴角带着一丝含蓄且略带调皮的笑意。",
+    "image_name": "J_CH0069_spr_01.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "smile",
+      "happy"
+    ],
+    "description": "嘴巴微微张开，似乎正在说话，神情愉快，充满活力。",
+    "image_name": "J_CH0069_spr_02.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "laughing",
+      "joy"
+    ],
+    "description": "双眼眯成弯弯的弧线，开心地大笑，洋溢着纯粹的幸福感。",
+    "image_name": "J_CH0069_spr_03.jpg"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "surprised",
+      "wide_eyes",
+      "nervous"
+    ],
+    "description": "脸上挂着汗珠，瞳孔收缩，显得惊慌失措、尴尬或感到意外。",
+    "image_name": "J_CH0069_spr_04.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "curious",
+      "dumbfounded"
+    ],
+    "description": "嘴巴张成O型，表情显得有些呆萌，表现出好奇或轻微的吃惊。",
+    "image_name": "J_CH0069_spr_05.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "disappointed",
+      "sigh",
+      "troubled"
+    ],
+    "description": "闭着眼睛，眉头微皱，似乎在无奈地叹气或感到失望。",
+    "image_name": "J_CH0069_spr_06.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "tears",
+      "shouting",
+      "sad",
+      "agony"
+    ],
+    "description": "紧闭双眼（><眼），泪流满面地大声哭泣或哀嚎，看起来十分委屈。",
+    "image_name": "J_CH0069_spr_07.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "awkward",
+      "wavy_mouth",
+      "troubled"
+    ],
+    "description": "双眼紧闭，嘴角呈现波浪状，眉头微蹙，表现出尴尬、无语或感到为难的状态。",
+    "image_name": "J_CH0069_spr_08.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "surprised",
+      "blank",
+      "dazed"
+    ],
+    "description": "睁大双眼，嘴巴微张，眼神显得有些呆滞或茫然，似乎对眼前的情况感到意外或正在发呆。",
+    "image_name": "J_CH0069_spr_09.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "excited",
+      "joy",
+      "><"
+    ],
+    "description": "双眼紧闭呈“><”状，张大嘴巴开怀大笑，洋溢着极度的兴奋与喜悦。",
+    "image_name": "J_CH0069_spr_10.jpg"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "shocked",
+      "fear",
+      "panic"
+    ],
+    "description": "瞳孔剧烈收缩，眼睛瞪大，神情惊恐，表现出极度的震惊、恐惧或绝望。",
+    "image_name": "J_CH0069_spr_11.jpg"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "side_glance",
+      "thinking",
+      "neutral"
+    ],
+    "description": "视线向侧面偏移，表情趋于平淡，似乎在思考、回避视线或对话题持保留态度。",
+    "image_name": "J_CH0069_spr_12.jpg"
+  },
+  {
+    "tags": [
+      "teary_eyes",
+      "sad",
+      "upset",
+      "crying"
+    ],
+    "description": "眼角含着泪水，眉毛下垂，神情委屈且悲伤，看起来楚楚可怜，即将哭出来的样子。",
+    "image_name": "J_CH0069_spr_13.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "cheerful"
+    ],
+    "description": "双眼眯成弯弯的弧线（^^），开心地微笑着，散发出轻松、纯真且愉快的氛围。",
+    "image_name": "J_CH0069_spr_14.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "wry_smile",
+      "troubled",
+      "complex"
+    ],
+    "description": "嘴角虽然挂着微笑，但眉毛呈八字状下垂，流露出一种勉强、尴尬或带有歉意的苦笑。",
+    "image_name": "J_CH0069_spr_15.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "tears",
+      "happy_tears",
+      "moved",
+      "gentle"
+    ],
+    "description": "脸上挂着晶莹的泪珠，嘴角却绽放出温柔的笑容，表现出喜极而泣、感动或释怀的复杂情感。",
+    "image_name": "J_CH0069_spr_16.jpg"
+  },
+  {
+    "tags": [
+      "swirly_eyes",
+      "dizzy",
+      "confused",
+      "chaos",
+      "troubled"
+    ],
+    "description": "眼睛变成了漩涡状的黑圈，神情恍惚，看起来晕头转向、极度混乱或受到了强烈的精神冲击。",
+    "image_name": "J_CH0069_spr_17.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "crying",
+      "pain",
+      "sad",
+      "frustrated"
+    ],
+    "description": "紧闭双眼，泪水夺眶而出，嘴角向下扭曲，显得非常痛苦、悲伤，仿佛正在忍受极大的委屈。",
+    "image_name": "J_CH0069_spr_18.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "sobbing",
+      "open_mouth",
+      "sad",
+      "wailing"
+    ],
+    "description": "泪流满面，嘴巴大张，眉毛无力地下垂，正在放声大哭，情绪激动且充满了悲伤。",
+    "image_name": "J_CH0069_spr_19.jpg"
+  },
+  {
+    "tags": [
+      "empty_eyes",
+      "yandere",
+      "scary",
+      "smile",
+      "dark"
+    ],
+    "description": "失去了眼中的高光，眼神空洞无神，嘴角却挂着诡异的微笑，散发出一种崩坏、病娇或黑化的危险气息。",
+    "image_name": "J_CH0069_spr_20.jpg"
+  },
+  {
+    "tags": [
+      "sharp_eyes",
+      "confident",
+      "serious",
+      "smile",
+      "determined"
+    ],
+    "description": "眉头微微压低，眼神犀利且坚定，嘴角自信上扬，表现出认真、强势或准备迎战的帅气状态。",
+    "image_name": "J_CH0069_spr_21.jpg"
+  },
+  {
+    "tags": [
+      "blush",
+      "shy",
+      "embarrassed",
+      "flustered",
+      "wide_eyes"
+    ],
+    "description": "面颊染上深红色的红晕，眼神游移羞涩，看起来非常害羞、动情或因某种情况感到难为情。",
+    "image_name": "J_CH0069_spr_22.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "sneer",
+      "playful",
+      "smile"
+    ],
+    "description": "眼神略带戏谑，嘴角勾起一抹自信得意的坏笑，似乎在嘲讽对方或表现出胜券在握的优越感。",
+    "image_name": "J_CH0069_spr_23.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "blank",
+      "dazed",
+      "staring",
+      "open_eyes"
+    ],
+    "description": "睁大眼睛直视前方，表情平淡呆滞，眼神中似乎没有任何情绪波动，像是在发呆或处于放空状态。",
+    "image_name": "J_CH0069_spr_24.jpg"
+  },
+  {
+    "tags": [
+      "troubled",
+      "worried",
+      "anxious",
+      "sad_eyebrows",
+      "open_mouth"
+    ],
+    "description": "眉毛八字下垂，眼神游移显得不安，嘴巴微张，流露出困扰、担忧或不知如何是好的尴尬神情。",
+    "image_name": "J_CH0069_spr_25.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "speaking",
+      "sighing",
+      "calm",
+      "soft"
+    ],
+    "description": "双眼轻闭，嘴巴微张，似乎正在轻声细语、无奈叹气或是沉稳地陈述某件事情，氛围平和。",
+    "image_name": "J_CH0069_spr_26.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "provocative",
+      "sharp_eyes",
+      "smile"
+    ],
+    "description": "眼神变得犀利自信，嘴角勾起一抹带有挑衅意味的坏笑，表现出一种小恶魔般的得意或强势态度。",
+    "image_name": "J_CH0069_spr_27.jpg"
+  },
+  {
+    "tags": [
+      "insane",
+      "shrunk_pupils",
+      "wide_eyes",
+      "broken",
+      "shocked",
+      "yandere"
+    ],
+    "description": "瞳孔剧烈收缩成小点，眼睛瞪大，表情崩坏且令人不寒而栗，表现出精神失常、极度恐惧或病娇化的危险状态。",
+    "image_name": "J_CH0069_spr_28.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "stunned",
+      "wide_eyes",
+      "shocked",
+      "blank"
+    ],
+    "description": "双眼圆睁，瞳孔震颤，神情错愕，看起来被突如其来的事情吓了一跳，完全处于惊讶和呆滞之中。",
+    "image_name": "J_CH0069_spr_29.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "gentle",
+      "smile",
+      "peaceful",
+      "serene"
+    ],
+    "description": "闭着眼睛露出恬静温柔的微笑，神态安详舒缓，散发出一种治愈、包容和内心满足的氛围。",
+    "image_name": "J_CH0069_spr_99.jpg"
+  }
+]

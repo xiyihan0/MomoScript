@@ -1,0 +1,134 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "robot",
+      "blue_eyes"
+    ],
+    "description": "机器人的默认平静表情，双眼呈竖直椭圆形的蓝光。",
+    "image_name": "citizen_borot1_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "robot"
+    ],
+    "description": "机器人面部平静，双眼显示为稳定的蓝色光圈（待机动作帧）。",
+    "image_name": "citizen_borot1_spr_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "robot"
+    ],
+    "description": "机器人处于常规状态，神态平稳，注视前方（待机动作帧）。",
+    "image_name": "citizen_borot1_spr_02.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "caret_eyes",
+      "joy"
+    ],
+    "description": "机器人开心的表情，双眼变成了弯弯的倒V字形(^ ^)，显得十分愉悦。",
+    "image_name": "citizen_borot1_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "awkward",
+      "round_eyes",
+      "surprised"
+    ],
+    "description": "机器人感到尴尬或紧张，圆睁着双眼(O O)，面部左下方带有一滴蓝色的冷汗符号。",
+    "image_name": "citizen_borot1_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "serious",
+      "mad",
+      "slanted_eyes"
+    ],
+    "description": "机器人愤怒或严肃的表情，双眼变成锐利的斜线，眼神显得很凶。",
+    "image_name": "citizen_borot1_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "crying",
+      "tears",
+      "weeping"
+    ],
+    "description": "机器人悲伤哭泣的表情，双眼呈U形，下方伴有蓝色的泪水符号。",
+    "image_name": "citizen_borot1_spr_06.png"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "error",
+      "x_eyes",
+      "knockout",
+      "dead"
+    ],
+    "description": "机器人晕厥、死机或发生故障的表情，双眼显示为蓝色的叉号(X X)。",
+    "image_name": "citizen_borot1_spr_07.png"
+  },
+  {
+    "tags": [
+      "excited",
+      "wince",
+      "closed_eyes",
+      ">_<",
+      "flustered"
+    ],
+    "description": "机器人表现出兴奋、慌乱或紧绷的神态，双眼呈现为向内的尖角状(> <)。",
+    "image_name": "citizen_borot1_spr_08.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "troubled",
+      "slanted_eyes"
+    ],
+    "description": "机器人感到困扰或担忧的表情，双眼呈八字形(/ \\)倾斜，看起来有些无助。",
+    "image_name": "citizen_borot1_spr_09.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "sad",
+      "T_T",
+      "tears"
+    ],
+    "description": "机器人流泪或悲伤的表情，双眼显示为蓝色的字母T，模拟颜文字(T_T)的哭泣效果。",
+    "image_name": "citizen_borot1_spr_10.png"
+  },
+  {
+    "tags": [
+      "off",
+      "black_screen",
+      "no_eyes",
+      "shutdown"
+    ],
+    "description": "机器人面部屏幕全黑，没有任何显示，处于关机、故障或无意识的状态。",
+    "image_name": "citizen_borot1_spr_11.png"
+  },
+  {
+    "tags": [
+      "bored",
+      "indifferent",
+      "flat_eyes",
+      "sleeping",
+      "speechless"
+    ],
+    "description": "机器人感到无聊、无语或正在休眠的表情，双眼显示为两条水平的短横线(- -)。",
+    "image_name": "citizen_borot1_spr_99.png"
+  }
+]

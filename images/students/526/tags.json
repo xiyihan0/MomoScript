@@ -1,0 +1,93 @@
+[
+  {
+    "tags": [
+      "frown",
+      "serious",
+      "closed_mouth",
+      "displeased"
+    ],
+    "description": "嘴角微微向下撇，表情严肃，似乎有些不悦或正在生气，刘海完全遮住了眼睛。",
+    "image_name": "NP0245_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "closed_mouth",
+      "calm"
+    ],
+    "description": "面无表情，嘴巴闭合成一条平直的短线，情绪平淡，没有任何明显的波澜。",
+    "image_name": "NP0245_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "o_mouth",
+      "dazed"
+    ],
+    "description": "嘴巴微微张开呈圆形（O型嘴），表现出惊讶、发呆或者有些茫然的样子。",
+    "image_name": "NP0245_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "slightly_open_mouth"
+    ],
+    "description": "嘴角微微上扬露出微笑，看起来心情不错，表现出友善或开心的情绪。",
+    "image_name": "NP0245_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "wavy_mouth",
+      "sweat",
+      "awkward",
+      "troubled"
+    ],
+    "description": "嘴巴抿成波浪状，脸颊挂着一滴冷汗，表现出紧张、尴尬、为难或不知所措的情绪。",
+    "image_name": "NP0245_spr_04.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "closed_mouth",
+      "calm"
+    ],
+    "description": "面无表情，嘴巴闭合成一条平直的短线，看不出任何情绪波动，显得十分平静。",
+    "image_name": "NP0245_spr_05.png"
+  },
+  {
+    "tags": [
+      "gloomy",
+      "scared",
+      "sweat",
+      "open_mouth",
+      "shock"
+    ],
+    "description": "面部笼罩着阴沉的垂直线条，脸颊流汗，嘴巴微微张开，看起来受到了惊吓、打击或感到绝望。",
+    "image_name": "NP0245_spr_06.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "closed_mouth",
+      "dazed"
+    ],
+    "description": "处于一种标准的中性状态，嘴巴闭合，没有任何明显的情绪流露，看起来像是在发呆或保持默认表情。",
+    "image_name": "NP0245_spr_99.png"
+  },
+  {
+    "tags": [
+      "frown",
+      "serious",
+      "closed_mouth",
+      "displeased"
+    ],
+    "description": "嘴角微微向下撇，表情严肃，似乎有些不悦或正在生气，刘海完全遮住了眼睛。",
+    "image_name": "NP0245_spr_Idle_01.png"
+  }
+]

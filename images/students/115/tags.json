@@ -1,0 +1,138 @@
+[
+  {
+    "tags": [
+      "annoyed",
+      "disgusted",
+      "frowning",
+      "grimace",
+      "looking_away"
+    ],
+    "description": "一脸嫌弃或不爽的表情，眉头微皱，眼神斜视，嘴巴微张露出牙齿，似乎对眼前的事物感到反感。",
+    "image_name": "CH0079_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "stern",
+      "neutral",
+      "confident",
+      "focused"
+    ],
+    "description": "严肃认真的神情，眼神犀利地直视前方（或略微侧视），嘴唇紧闭，展现出一种冷静或对峙的态度。",
+    "image_name": "CH0079_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "dazed",
+      "blank_stare",
+      "surprised",
+      "mouth_open",
+      "confused"
+    ],
+    "description": "稍微有些发愣或茫然的表情，眼神显得空洞，嘴巴微微张开，似乎处于放空或轻微吃惊的状态。",
+    "image_name": "CH0079_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "confident",
+      "scheming",
+      "arrogant"
+    ],
+    "description": "标志性的得意坏笑（Smug），嘴角上扬，眼神带着傲慢和自信，仿佛正在策划什么诡计或对现状感到满意。",
+    "image_name": "CH0079_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "worried",
+      "sweat_drop",
+      "awkward",
+      "frowning"
+    ],
+    "description": "紧张尴尬的表情，脸颊上挂着一滴汗珠，眼神显得有些焦虑和动摇，似乎遇到了棘手的麻烦。",
+    "image_name": "CH0079_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "scorn",
+      "disdain",
+      "annoyed",
+      "grimace",
+      "teeth",
+      "looking_away"
+    ],
+    "description": "明显的轻蔑与不耐烦，咬紧牙关或龇牙（类似咋舌），眼神斜视，表现出强烈的厌恶或焦躁情绪。",
+    "image_name": "CH0079_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "sweat_drop",
+      "exhausted",
+      "disappointed",
+      "pain"
+    ],
+    "description": "闭着眼睛叹气的样子，脸上带着尴尬的汗珠，神情显得无奈、精疲力竭或感到头疼。",
+    "image_name": "CH0079_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "yelling",
+      "shocked",
+      "angry",
+      "mouth_wide_open",
+      "glowing_eye",
+      "furious"
+    ],
+    "description": "极度愤怒或震惊的咆哮，嘴巴大张，眼睛瞪大（甚至出现高光/翻白眼效果），表现出失控抓狂或大声质问的状态。",
+    "image_name": "CH0079_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "非常开心的笑容，眼睛眯成弯月形（闭眼），嘴巴张开大笑，洋溢着纯真喜悦和充满活力的氛围。",
+    "image_name": "CH0079_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "drooling",
+      "sleeping",
+      "hungry",
+      "closed_eyes",
+      "silly"
+    ],
+    "description": "嘴角流着口水，闭着眼睛，表情呆萌，看起来像是在做美梦或者看到了美味的食物馋得不行。",
+    "image_name": "CH0079_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "smirk",
+      "confident",
+      "scheming",
+      "sharp_eyes"
+    ],
+    "description": "带着自信甚至有些嚣张的歪嘴坏笑（Smirk），眼神犀利，仿佛胜券在握或正在策划什么恶作剧。",
+    "image_name": "CH0079_spr-10_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "panic",
+      "sweating",
+      "mouth_wide_open",
+      "terrified"
+    ],
+    "description": "极度惊恐失措的表情，瞳孔收缩，嘴巴大张，脸上挂满冷汗，似乎受到了巨大的惊吓或陷入了绝望的境地。",
+    "image_name": "CH0079_spr-11_0_waifu2x_2x_1n_png.jpg"
+  }
+]

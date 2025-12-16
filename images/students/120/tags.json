@@ -1,0 +1,505 @@
+[
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "curious",
+      "neutral",
+      "wide_eyes"
+    ],
+    "description": "角色睁大眼睛，嘴巴微微张开，表现出一种惊讶、好奇或者呆萌的愣神状态。",
+    "image_name": "QQ截图20211203121130.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "concerned",
+      "frown",
+      "troubled"
+    ],
+    "description": "眉毛下垂，眼神略显悲伤，嘴角向下撇，看起来感到困扰、担忧或有些难过。",
+    "image_name": "QQ截图20211203121143.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "wailing",
+      "tears",
+      "closed_eyes",
+      "open_mouth",
+      "comic"
+    ],
+    "description": "紧闭双眼，张大嘴巴大哭，眼角挂着泪珠，表现出一种孩子气或略带滑稽的哭闹情绪。",
+    "image_name": "QQ截图20211203121303.png"
+  },
+  {
+    "tags": [
+      "disappointed",
+      "disdain",
+      "half_closed_eyes",
+      "wavy_mouth",
+      "gloomy"
+    ],
+    "description": "眼神半眯向下看，嘴巴呈波浪状，流露出明显的嫌弃、失望或者委屈巴巴的神情。",
+    "image_name": "QQ截图20211203121552.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "frustrated",
+      "pout",
+      "determined"
+    ],
+    "description": "眉头紧锁，眼神认真且带有怒意，抿着嘴（或嘴型呈波浪状），表现出生气、不满或倔强的样子。",
+    "image_name": "QQ截图20211203121645.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "shy",
+      "embarrassed",
+      "looking_away",
+      "red_face"
+    ],
+    "description": "满脸通红，眼神向侧下方游移，表现出极度的害羞、尴尬或不知所措。",
+    "image_name": "QQ截图20211203121857.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "blush",
+      "happy",
+      "relieved",
+      "bliss"
+    ],
+    "description": "闭着眼睛微笑，脸上带着红晕，看起来非常幸福、满足，仿佛沉浸在温暖舒适的氛围中（如泡温泉）。",
+    "image_name": "QQ截图20211203122033.png"
+  },
+  {
+    "tags": [
+      "excited",
+      "blush",
+      "surprised",
+      "open_mouth",
+      "flustered",
+      "happy"
+    ],
+    "description": "睁大眼睛，满脸通红，嘴巴张开笑，表现出兴奋、害羞且情绪高涨，或者有些慌乱的喜悦。",
+    "image_name": "QQ截图20211203122214.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "open_mouth",
+      "excited",
+      "shy",
+      "smile",
+      "happy"
+    ],
+    "description": "脸颊泛红，嘴巴张开大笑，眼神明亮，表现出一种害羞又兴奋的开心状态。",
+    "image_name": "QQ截图20211203122252.png"
+  },
+  {
+    "tags": [
+      "sparkling_eyes",
+      "star_eyes",
+      "sweat_drop",
+      "amazed",
+      "excited",
+      "open_mouth"
+    ],
+    "description": "眼睛变成星星状闪闪发光，脸上挂着汗珠，嘴巴张开，表现出极度的崇拜、兴奋或被感动到的样子。",
+    "image_name": "QQ截图20211203122354.png"
+  },
+  {
+    "tags": [
+      "blank_eyes",
+      "white_eyes",
+      "shocked",
+      "stunned",
+      "dazed",
+      "speechless"
+    ],
+    "description": "双眼变成空洞的白圈，神情呆滞，表现出巨大的震惊、无语或“失去思考能力”的状态。",
+    "image_name": "QQ截图20211203122410.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "open_mouth",
+      "happy",
+      "cheerful",
+      "joy"
+    ],
+    "description": "眼睛眯成月牙形，嘴巴大张大笑，充满了开朗、活泼和纯粹的喜悦。",
+    "image_name": "QQ截图20211203122417.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "peaceful",
+      "serene",
+      "soft"
+    ],
+    "description": "双眼闭合，嘴角微微上扬，展现出非常温柔、治愈且宁静的淑女微笑。",
+    "image_name": "QQ截图20211203122423.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "neutral",
+      "open_eyes",
+      "gentle",
+      "listening"
+    ],
+    "description": "睁着大大的眼睛，面带标准的温柔微笑，静静地注视着前方，显得乖巧且专注。",
+    "image_name": "QQ截图20211203122429.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "awkward",
+      "troubled",
+      "frown",
+      "confused"
+    ],
+    "description": "眉毛压低，眼神流露出一丝困扰或尴尬，嘴巴微张，似乎遇到了难办的事情或感到有些为难。",
+    "image_name": "QQ截图20211203122434.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "satisfied",
+      "relaxed",
+      "happy"
+    ],
+    "description": "闭着眼睛，嘴角上扬，神情看起来很满足、惬意，或者是在表示一种轻松的肯定。",
+    "image_name": "QQ截图20211203122441.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "wavy_mouth",
+      "displeased",
+      "frown",
+      "complaining"
+    ],
+    "description": "眉头微皱，眼神犀利，嘴巴扭曲成波浪状，表现出明显的不满、嫌弃或者正在抱怨的情绪。",
+    "image_name": "QQ截图20211203122447.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "yelling",
+      "aggressive"
+    ],
+    "description": "眉头倒竖，张大嘴巴大声喊叫，眼神充满怒意，表现出激烈的情绪爆发，像是在怒吼或大声争辩。",
+    "image_name": "QQ截图20211203122453.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "open_mouth",
+      "excited",
+      "cheerful",
+      "smile"
+    ],
+    "description": "眼睛睁得圆圆的，嘴巴张开露出灿烂的笑容，神情开朗，看起来非常开心、兴奋且充满活力。",
+    "image_name": "QQ截图20211203122459.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "wavy_mouth",
+      "uncomfortable",
+      "pain",
+      "struggle"
+    ],
+    "description": "双眼紧闭，眉毛纠结，嘴巴歪成波浪状，表现出一种痛苦、极度不适或者在艰难忍耐的表情。",
+    "image_name": "QQ截图20211203122505.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "staring",
+      "calm",
+      "expressionless"
+    ],
+    "description": "面无表情，眼神直直地注视前方，嘴巴抿成一条线，显得非常冷静、严肃，或者是在发呆。",
+    "image_name": "QQ截图20211203122511.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "confident",
+      "pleased",
+      "soft"
+    ],
+    "description": "嘴角微微上扬，眼神柔和而坚定，流露出一种自信、从容且温柔的微笑。",
+    "image_name": "QQ截图20211203122516.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sigh",
+      "sleepy",
+      "relaxed"
+    ],
+    "description": "闭着眼睛，嘴巴微张，像是在轻轻叹气，又像是因为困倦或极度放松而显得迷迷糊糊、毫无防备。",
+    "image_name": "QQ截图20211203122524.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "awkward_smile",
+      "troubled",
+      "wry",
+      "helpless"
+    ],
+    "description": "闭着眼睛，眉毛微垂，嘴角勉强上扬，表现出一种尴尬、无奈或者是苦笑的神情。",
+    "image_name": "QQ截图20211203122530.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "dazed",
+      "stunned",
+      "shock"
+    ],
+    "description": "嘴巴张成小圆孔状，眼神略显呆滞或惊讶，表现出一种突然的震惊、发呆或者难以置信的样子。",
+    "image_name": "QQ截图20211203122538.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "open_mouth",
+      "smile",
+      "talking",
+      "cheerful"
+    ],
+    "description": "嘴巴张开，面带笑容，眼神充满活力，看起来正在高兴地交谈或者是对某事感到兴奋。",
+    "image_name": "QQ截图20211203122551.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "grimace",
+      "uncomfortable",
+      "awkward",
+      "troubled"
+    ],
+    "description": "双眼紧闭，嘴角尴尬地咧开或抿着，露出一丝难色，表现出一种“哎呀糟糕了”、身体不适或正在忍耐的表情。",
+    "image_name": "QQ截图20211203122557.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "open_eyes",
+      "pleased",
+      "soft"
+    ],
+    "description": "面带温柔的微笑，双眼注视前方，神情轻松自然，给人一种乖巧、亲切且自信的感觉。",
+    "image_name": "QQ截图20211203122602.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sad",
+      "disappointed",
+      "gloom",
+      "frown"
+    ],
+    "description": "闭着眼睛，眉头微垂，嘴角向下，表现出一种失望、沮丧或者是正在反省的安静悲伤状态。",
+    "image_name": "QQ截图20211203122608.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "happy",
+      "open_mouth",
+      "excited"
+    ],
+    "description": "眼睛眯成欢快的弧线（> <），嘴巴大张大笑，充满了极度的喜悦、兴奋和活泼感。",
+    "image_name": "QQ截图20211203122614.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "stare",
+      "neutral",
+      "cold",
+      "displeased"
+    ],
+    "description": "眼神直直地盯着，表情严肃甚至带点冷淡，嘴角抿平，表现出审视、认真或者轻微的不悦。",
+    "image_name": "QQ截图20211203122619.png"
+  },
+  {
+    "tags": [
+      "pout",
+      "puffed_cheeks",
+      "sulking",
+      "angry",
+      "cute"
+    ],
+    "description": "脸颊鼓起，嘴巴抿紧，眼神带着一丝倔强，典型的赌气、生闷气或者撒娇时的“鼓包脸”表情。",
+    "image_name": "QQ截图20211203122624.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "dazed",
+      "staring",
+      "quiet"
+    ],
+    "description": "面无表情，眼神略显空洞地注视着侧方，嘴巴抿成一条小线，看起来像是在发呆、思考或者有些无精打采。",
+    "image_name": "QQ截图20211203122629.png"
+  },
+  {
+    "tags": [
+      "wavy_mouth",
+      "annoyed",
+      "displeased",
+      "uncomfortable",
+      "troubled"
+    ],
+    "description": "眉头微皱，嘴巴扭曲成波浪状，眼神游离，表现出一种不适、为难或者轻微嫌弃的情绪。",
+    "image_name": "QQ截图20211203122636.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "yawn",
+      "sleepy",
+      "tired"
+    ],
+    "description": "双眼紧闭，嘴巴大张成圆形，看起来像是在打一个大大的哈欠，表现出困倦、疲惫或者是无聊的状态。",
+    "image_name": "QQ截图20211203122641.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "open_mouth",
+      "shouting",
+      "protest",
+      "shock"
+    ],
+    "description": "眉头紧锁，眼睛睁大，嘴巴张开像是在大声抗议或喊叫，表现出惊讶中带着愤怒或急切的情绪。",
+    "image_name": "QQ截图20211203122647.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "frown",
+      "disappointed",
+      "gloom"
+    ],
+    "description": "眉毛下垂，眼神流露出忧郁和担心，嘴角向下撇，看起来非常伤心、失望或者是被委屈了。",
+    "image_name": "QQ截图20211203122655.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "dazed",
+      "blank",
+      "stunned"
+    ],
+    "description": "眼睛睁得圆圆的，嘴巴微微张开成小圆形，眼神显得呆呆的，表现出一种突然的惊讶、发愣或者是“啊？”的反应。",
+    "image_name": "QQ截图20211203122700.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "眼睛眯成开心的弧线，嘴巴张开露出灿烂的笑容，洋溢着纯粹的喜悦、开心和轻松的氛围。",
+    "image_name": "QQ截图20211203122705.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "confident",
+      "energetic",
+      "excited"
+    ],
+    "description": "眼神坚定充满神采，嘴巴张开带着自信的笑容，表现出一种充满活力、意气风发或者正在大声宣告的兴奋状态。",
+    "image_name": "QQ截图20211203122711.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "open_mouth",
+      "smile",
+      "talking",
+      "energetic"
+    ],
+    "description": "眼神明亮，嘴巴张开带着愉快的笑容，充满了活力，看起来正在高兴地交谈或者是心情很好的样子。",
+    "image_name": "QQ截图20211203122716.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "frown",
+      "annoyed",
+      "aggressive"
+    ],
+    "description": "眉头紧锁，眼神带怒，嘴巴大张，表现出强烈的不满和愤怒情绪，像是在大声抗议或训斥。",
+    "image_name": "QQ截图20211203122722.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "dazed",
+      "blank",
+      "innocent"
+    ],
+    "description": "眼睛睁得圆圆的，嘴巴张成O型，表情略显呆萌和惊讶，仿佛刚听到什么意外的消息而在发愣。",
+    "image_name": "QQ截图20211203122728.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "open_mouth",
+      "shouting",
+      "determined",
+      "earnest"
+    ],
+    "description": "眉头微皱，眼神坚定且专注，嘴巴张开，表现出一种认真、急切或者是正在大声强调某事的神态。",
+    "image_name": "QQ截图20211203122735.png"
+  },
+  {
+    "tags": [
+      "shock",
+      "open_mouth",
+      "gasp",
+      "stunned",
+      "panicked"
+    ],
+    "description": "眉毛高高挑起，眼睛和嘴巴都张得很大，表现出极度的震惊、难以置信或者是受到了惊吓的反应。",
+    "image_name": "QQ截图20211203122740.png"
+  }
+]

@@ -1,0 +1,287 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "calm",
+      "yellow_eyes"
+    ],
+    "description": "面无表情，眼神平静而呆滞，没有明显的情绪波动，属于默认的标准立绘。",
+    "image_name": "CH0306_spr_00.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "slight_frown",
+      "focused"
+    ],
+    "description": "表情变得稍微严肃，眉毛微微下压，眼神比默认状态更加凝重。",
+    "image_name": "CH0306_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "surprised",
+      "o_mouth"
+    ],
+    "description": "嘴巴张成小圆O形，像是在发呆时突然发出了声音，或者是在进行简单的应答。",
+    "image_name": "CH0306_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "soft_expression"
+    ],
+    "description": "嘴角微微上扬，露出了温柔且含蓄的微笑，看起来心情不错。",
+    "image_name": "CH0306_spr_03.png"
+  },
+  {
+    "tags": [
+      "thinking",
+      "confused",
+      "furrowed_brows",
+      "closed_mouth"
+    ],
+    "description": "眉头微蹙，嘴巴紧闭成一点，似乎遇到了一些困惑的事情正在思考，或者感到轻微的为难。",
+    "image_name": "CH0306_spr_04.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "open_mouth",
+      "anxious",
+      "shouting"
+    ],
+    "description": "眉毛呈现八字形下垂，嘴巴张大，表现出明显的焦虑、慌张，像是在急切地解释或喊叫。",
+    "image_name": "CH0306_spr_05.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "wavy_mouth",
+      "troubled",
+      "awkward",
+      "sad"
+    ],
+    "description": "眉毛下垂，嘴巴呈现波浪状的线条，表现出极度的尴尬、不安、委屈或是想哭的情绪。",
+    "image_name": "CH0306_spr_06.png"
+  },
+  {
+    "tags": [
+      "sad_smile",
+      "wry_smile",
+      "bittersweet",
+      "troubled"
+    ],
+    "description": "眉毛依然是担忧的八字形，但嘴角却勉强上扬微笑，呈现出一种苦笑、无奈或试图安抚他人的神情。",
+    "image_name": "CH0306_spr_07.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "smile",
+      "sharp_eyes"
+    ],
+    "description": "眼神犀利且充满自信，嘴角微微上扬露出得意的笑容，展现出一种胸有成竹或稍显自负的神态。",
+    "image_name": "CH0306_spr_08.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "grimace",
+      "clenched_teeth",
+      "irritated",
+      "frustrated"
+    ],
+    "description": "嘴部线条呈现波浪状或紧咬牙关，表现出明显的不耐烦、懊恼或正在忍受某种不快的情绪。",
+    "image_name": "CH0306_spr_09.png"
+  },
+  {
+    "tags": [
+      "tongue_out",
+      "teasing",
+      "mischievous",
+      "smug",
+      "playful"
+    ],
+    "description": "调皮地吐出舌头，眼神带着一丝狡黠和得意，像是在进行恶作剧后的挑衅或开玩笑。",
+    "image_name": "CH0306_spr_10.png"
+  },
+  {
+    "tags": [
+      "stunned",
+      "blank_stare",
+      "dazed",
+      "wide_eyes",
+      "shocked"
+    ],
+    "description": "眼睛瞪大，瞳孔显得有些呆滞无神，仿佛受到了震惊，大脑一片空白，处于发愣的状态。",
+    "image_name": "CH0306_spr_11.png"
+  },
+  {
+    "tags": [
+      "deadpan",
+      "unimpressed",
+      "staring",
+      "bored",
+      "jito_eyes"
+    ],
+    "description": "半睁着眼，眼神毫无干劲，直勾勾地盯着前方，流露出一种冷漠、鄙视或感到无聊的态度。",
+    "image_name": "CH0306_spr_12.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "open_mouth",
+      "neutral",
+      "explaining"
+    ],
+    "description": "嘴巴微微张开，眼神保持平静，看起来正在进行正常的对话、说明情况或发出声音。",
+    "image_name": "CH0306_spr_13.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "concerned",
+      "troubled",
+      "sad",
+      "frown"
+    ],
+    "description": "眉眼低垂流露出担忧的神色，嘴唇紧抿，表现出不安、困扰或对现状感到棘手的情绪。",
+    "image_name": "CH0306_spr_14.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "ignoring",
+      "resigned"
+    ],
+    "description": "双眼完全闭合，表情平静，像是在闭目养神、沉睡，或者是无奈地叹气并拒绝眼神交流。",
+    "image_name": "CH0306_spr_15.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "serene",
+      "silent",
+      "peaceful"
+    ],
+    "description": "双眼完全闭合，嘴巴轻轻抿起，表情平静祥和，像是在闭目养神、沉思，或者默默感受周围的宁静氛围。",
+    "image_name": "CH0306_spr_16.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "soft_expression",
+      "neutral"
+    ],
+    "description": "睁开单眼（另一只眼被刘海遮挡），嘴角带着浅浅的微笑，神态自然且柔和，展现出一种友好、乖巧的标准立绘姿态。",
+    "image_name": "CH0306_spr_17.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "confident",
+      "pleased"
+    ],
+    "description": "嘴角的弧度比平时更明显，眼神清澈明亮，流露出自信、愉悦的心情，看起来对现状感到满意。",
+    "image_name": "CH0306_spr_18.png"
+  },
+  {
+    "tags": [
+      "wavy_mouth",
+      "awkward",
+      "troubled",
+      "uneasy",
+      "confused"
+    ],
+    "description": "嘴部线条呈现波浪状，眼神似乎有些游离，表现出一种尴尬、为难、无语或是遇到了棘手情况时的微妙情绪。",
+    "image_name": "CH0306_spr_19.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "content",
+      "gentle"
+    ],
+    "description": "双眼眯成弯弯的弧线，嘴角含笑，表现出发自内心的满足和淡淡的喜悦，给人一种治愈、安心的感觉。",
+    "image_name": "CH0306_spr_20.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "speaking",
+      "relaxed",
+      "sigh"
+    ],
+    "description": "闭着眼睛，嘴巴微微张开，像是在轻声叹息、放松地呼气，或者是在闭目状态下悠闲地说话。",
+    "image_name": "CH0306_spr_21.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "happy",
+      "open_mouth",
+      "cheerful"
+    ],
+    "description": "眼睛眯成月牙状，嘴巴大张，露出了爽朗开心的笑容，情绪高涨，看起来非常快乐或正在欢笑。",
+    "image_name": "CH0306_spr_22.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "happy",
+      "energetic",
+      "speaking",
+      "surprised"
+    ],
+    "description": "眼睛睁得圆圆的，嘴巴张开，带着惊喜或兴奋的表情，像是在充满活力地发言、打招呼或看到了令人高兴的事物。",
+    "image_name": "CH0306_spr_23.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "silent",
+      "peaceful"
+    ],
+    "description": "双眼完全闭合，神态安详宁静，看起来像是在熟睡、闭目养神，或者是安静地等待着什么，流露出一种平和的氛围。",
+    "image_name": "CH0306_spr_99.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "staring",
+      "one_eye_covered",
+      "calm",
+      "expressionless"
+    ],
+    "description": "睁开一只眼睛（另一只被刘海遮住），眼神平静且缺乏明显的情绪波动，嘴角微抿，展现出一种冷淡或呆萌的“三无”神态。",
+    "image_name": "CH0306_spr_Eye_Close_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "idle",
+      "gentle",
+      "quiet",
+      "standard"
+    ],
+    "description": "标准的待机立绘，单眼平视前方，表情淡然乖巧，没有过多的情绪流露，给人一种文静、内敛的印象。",
+    "image_name": "CH0306_spr_Idle_01.png"
+  }
+]

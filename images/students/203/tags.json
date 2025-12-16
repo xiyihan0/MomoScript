@@ -1,0 +1,166 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "slight_smile",
+      "open_eyes"
+    ],
+    "description": "标准的平静表情，眼神柔和，嘴角带着淡淡的微笑，显得庄重而温柔。",
+    "image_name": "sakurako_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "smug",
+      "pleased"
+    ],
+    "description": "自信的微笑，嘴角上扬幅度稍大，眼神坚定，带有一丝得意或胸有成竹的神情。",
+    "image_name": "sakurako_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "happy",
+      "gentle"
+    ],
+    "description": "张开嘴巴的微笑表情，仿佛正在温和地说话、解释或者回应对方。",
+    "image_name": "sakurako_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "laughing"
+    ],
+    "description": "眯起眼睛开心地笑，双眼呈弯月状，表现出纯粹的喜悦和轻松的氛围。",
+    "image_name": "sakurako_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "awkward",
+      "worried",
+      "troubled"
+    ],
+    "description": "感到尴尬或棘手的表情，脸颊有汗珠流下，嘴角有些扭曲，视线显得游移不定。",
+    "image_name": "sakurako_spr_04.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "angry",
+      "open_mouth",
+      "serious",
+      "loud"
+    ],
+    "description": "大声喊叫或斥责的表情，嘴巴张得很大，眉毛倒竖，情绪显得非常激动或严肃。",
+    "image_name": "sakurako_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "wince",
+      "pain",
+      "sweat_drop",
+      "struggling"
+    ],
+    "description": "紧闭双眼，脸上流着冷汗，表情显得痛苦、忍耐或者是极度的尴尬与无奈。",
+    "image_name": "sakurako_spr_06.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "expressionless",
+      "cold",
+      "blank_stare",
+      "flat_gaze"
+    ],
+    "description": "面无表情（死鱼眼），眼神显得冷淡且呆滞，看不出任何情绪波动，仿佛在发呆或表示无语。",
+    "image_name": "sakurako_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "happy",
+      "open_mouth",
+      "cheerful"
+    ],
+    "description": "闭眼开怀大笑的表情，嘴巴张开，洋溢着愉悦和爽朗的氛围，表现出毫无保留的开心。",
+    "image_name": "sakurako_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "gentle",
+      "serene"
+    ],
+    "description": "闭着眼睛露出温柔微笑，神情柔和安详，给人一种亲切、治愈且安心的感觉。",
+    "image_name": "sakurako_spr_09.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "sweat_drop",
+      "frustrated",
+      "open_mouth",
+      "panic"
+    ],
+    "description": "焦急愤怒的表情，眉头紧皱，张嘴大喊，脸上挂着汗珠，似乎被某事惹恼或感到急躁不安。",
+    "image_name": "sakurako_spr_10.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "cold",
+      "stern",
+      "annoyed",
+      "sharp_glance"
+    ],
+    "description": "眼神冰冷严肃的表情，眉头微蹙，紧闭双唇，目光锐利，透露出不满或正在严厉审视的态度。",
+    "image_name": "sakurako_spr_11.png"
+  },
+  {
+    "tags": [
+      "struggling",
+      "sweat_drop",
+      "gritted_teeth",
+      "wince",
+      "pain",
+      "awkward"
+    ],
+    "description": "咬牙忍耐的痛苦表情，面带冷汗，神情扭曲，似乎正在极力对抗某种不适、压力或极度的尴尬。",
+    "image_name": "sakurako_spr_12.png"
+  },
+  {
+    "tags": [
+      "shy",
+      "blushing",
+      "embarrassed",
+      "looking_away",
+      "bashful"
+    ],
+    "description": "脸红羞涩的表情，视线低垂游移，脸颊泛起明显的红晕，显得有些不知所措或含蓄的害羞。",
+    "image_name": "sakurako_spr_13.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "meditative",
+      "serene",
+      "peaceful",
+      "prayer"
+    ],
+    "description": "安静闭目的神情，面部肌肉放松，仿佛正在虔诚祈祷或沉思，表现出一种庄重而宁静的气质。",
+    "image_name": "sakurako_spr_99.png"
+  }
+]

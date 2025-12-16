@@ -1,0 +1,746 @@
+[
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "no_mask",
+      "open_mouth",
+      "neck_bandage",
+      "bored",
+      "half_closed_eyes",
+      "short_hair",
+      "black_hair"
+    ],
+    "description": "美咲取下了常戴的口罩，露出略显苍白的脸庞。她的嘴巴微微张开，眼神空洞且无精打采，脖子上缠绕着厚厚的绷带，散发着一种虚无和疲惫的气质。",
+    "image_name": "misaki_spr_00.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "bored",
+      "half_closed_eyes",
+      "short_hair",
+      "black_hair"
+    ],
+    "description": "美咲戴着标志性的黑色口罩遮住了下半张脸，只露出一双半睁的红色眼睛。她的眼神显得冷淡而毫无干劲，仿佛对周围的一切都不感兴趣。",
+    "image_name": "misaki_spr_01.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "bored",
+      "half_closed_eyes",
+      "short_hair",
+      "black_hair"
+    ],
+    "description": "美咲佩戴着黑色口罩，目光低垂涣散。虽然口罩遮挡了面部表情，但从她阴郁的眼神中依然能读出深深的厌世感和疏离感。",
+    "image_name": "misaki_spr_02.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "bored",
+      "half_closed_eyes",
+      "short_hair",
+      "black_hair"
+    ],
+    "description": "美咲戴着口罩，维持着一贯的阴沉氛围。她的眼神看起来十分疲惫和空虚，静静地注视着前方。",
+    "image_name": "misaki_spr_03.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "annoyed",
+      "bored"
+    ],
+    "description": "美咲戴着口罩，眼神向侧边瞥去，眉头微微皱起，流露出一丝不悦和抗拒，仿佛对眼前的事物感到厌烦。",
+    "image_name": "misaki_spr_04.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "expressionless",
+      "staring",
+      "calm"
+    ],
+    "description": "美咲戴着口罩，面无表情地注视着前方。她的眼神空洞而平静，看不出任何情绪波动，保持着一贯的冷淡疏离感。",
+    "image_name": "misaki_spr_05.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "bored",
+      "indifferent"
+    ],
+    "description": "美咲戴着口罩，视线向另一侧移开，眼神显得有些游离和无聊，似乎对周围的环境并不在意，或是想要回避视线。",
+    "image_name": "misaki_spr_06.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "sad",
+      "troubled",
+      "worried",
+      "furrowed_brows"
+    ],
+    "description": "美咲戴着口罩，眉毛无力地下垂成八字，眼神中充满了忧郁和困扰。她看起来心情低落，仿佛正在为某事感到难过或无奈。",
+    "image_name": "misaki_spr_07.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "closed_eyes",
+      "smile",
+      "happy",
+      "cheerful"
+    ],
+    "description": "美咲戴着黑色口罩，双眼眯成弯弯的月牙状，流露出难得的愉快和释然的神情，仿佛在口罩下露出了发自内心的笑容。",
+    "image_name": "misaki_spr_08.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "skeptical",
+      "unimpressed",
+      "sideways_glance"
+    ],
+    "description": "美咲戴着口罩，半睁着眼向侧面瞥去，眼神中充满了怀疑、审视和一丝不屑，似乎对眼前的情况感到无语或无法苟同。",
+    "image_name": "misaki_spr_09.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "open_eyes",
+      "surprised",
+      "confused",
+      "staring",
+      "curious"
+    ],
+    "description": "美咲戴着口罩，眼睛微微睁大，直视前方。她的眼神中带着些许惊讶和困惑，仿佛注意到了什么意想不到的事情，打破了她平时的沉闷。",
+    "image_name": "misaki_spr_10.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "furrowed_brows",
+      "glaring",
+      "annoyed",
+      "angry"
+    ],
+    "description": "美咲戴着口罩，眉头紧紧皱起，半眯着眼睛露出锐利且带有攻击性的目光。她看起来非常恼火和不悦，散发着强烈的抗拒气场。",
+    "image_name": "misaki_spr_11.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "looking_away",
+      "shy",
+      "embarrassed",
+      "troubled"
+    ],
+    "description": "美咲戴着口罩，视线向侧下方躲闪，眼神中带着几分羞涩和不安。她看起来有些局促，仿佛在回避着什么，展现出一种柔弱且惹人怜爱的一面。",
+    "image_name": "misaki_spr_12.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "open_eyes",
+      "serious",
+      "calm",
+      "attentive"
+    ],
+    "description": "美咲戴着口罩，双眼清晰地注视着前方，神情认真。她的眼神比平时更加专注，少了一份慵懒，似乎正在认真对待眼前的人或事。",
+    "image_name": "misaki_spr_13.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "closed_eyes",
+      "smile",
+      "happy",
+      "cheerful"
+    ],
+    "description": "美咲戴着口罩，眼睛紧闭成弯弯的月牙形，流露出非常开心的神情。眉眼间的笑意浓郁，显示出她此刻心情格外明朗，享受着当下的快乐。",
+    "image_name": "misaki_spr_14.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "gentle",
+      "soft_gaze",
+      "calm"
+    ],
+    "description": "美咲戴着口罩，眼神柔和而平静地看向前方。她的目光中蕴含着一种淡淡的温情与安宁，褪去了平日的防备，显得格外乖巧温顺。",
+    "image_name": "misaki_spr_15.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "sad",
+      "depressed",
+      "gloomy",
+      "looking_down"
+    ],
+    "description": "美咲戴着口罩，目光无力地低垂，眼神中充满了阴郁和消沉。她看起来心情极其低落，散发着一种拒绝交流的压抑气息，仿佛沉浸在悲伤的情绪中。",
+    "image_name": "misaki_spr_16.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "shy",
+      "awkward",
+      "troubled"
+    ],
+    "description": "美咲戴着口罩，视线向侧下方躲闪，眼神游离不定。她看起来有些尴尬或局促不安，仿佛想要回避视线，流露出些许不自在的羞涩感。",
+    "image_name": "misaki_spr_17.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "open_eyes",
+      "glaring",
+      "annoyed",
+      "angry",
+      "sideways_glance"
+    ],
+    "description": "美咲戴着口罩，向侧面投去锐利的目光，眉头微蹙。她的眼神中带着明显的不满和责备，似乎对某事感到恼火，表现出强烈的抗拒。",
+    "image_name": "misaki_spr_18.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "open_eyes",
+      "surprised",
+      "curious",
+      "looking_away",
+      "attentive"
+    ],
+    "description": "美咲戴着口罩，眼睛微微睁大看向一侧，流露出惊讶和意外的神情。她的眼神比平时更加灵动，似乎被旁边的某个人或事物引起了注意。",
+    "image_name": "misaki_spr_19.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "closed_eyes",
+      "smile",
+      "happy",
+      "cheerful"
+    ],
+    "description": "美咲戴着口罩，双眼紧闭成弯弯的月牙状，流露出非常开心和释然的神情。眉眼间满是笑意，仿佛心情格外轻松愉快。",
+    "image_name": "misaki_spr_99.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask",
+      "black_mask",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "bored",
+      "indifferent",
+      "jitome"
+    ],
+    "description": "美咲戴着口罩，半睁着死鱼眼向侧面瞥去，眼神中充满了无聊和冷漠。她似乎对周围的一切都不感兴趣，散发着一种生人勿近的气场。",
+    "image_name": "misaki_spr_Eye_Close_01.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "melancholy",
+      "indifferent",
+      "exposed_face"
+    ],
+    "description": "美咲将黑色口罩拉至下巴处，露出了清秀的面容。她侧过头半眯着眼，眼神依旧游离且带着一丝忧郁，显得有些无精打采。",
+    "image_name": "misaki_spr_Eye_Close_S2_01.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "parted_lips",
+      "dazed",
+      "blank_stare",
+      "exposed_face"
+    ],
+    "description": "美咲的口罩挂在下巴上，嘴唇微微张开，半睁着眼茫然地注视着前方。她的神情显得有些呆滞和放空，透出一种慵懒而脆弱的虚无感。",
+    "image_name": "misaki_spr_Idle_01.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "parted_lips",
+      "indifferent",
+      "dazed",
+      "exposed_face"
+    ],
+    "description": "美咲将黑色口罩拉至下巴处，嘴唇微微张开，半眯着眼看向一侧。她的神情显得有些呆滞和无力，仿佛正在发呆或准备开口说话，透出一种慵懒的虚无感。",
+    "image_name": "misaki_spr_S2_00.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "closed_mouth",
+      "indifferent",
+      "calm",
+      "exposed_face"
+    ],
+    "description": "美咲将口罩挂在下巴上，双唇闭合，眼神半睁地向侧面看去。她面无表情，保持着一种安静且冷漠的姿态，似乎在默默观察或陷入了沉思。",
+    "image_name": "misaki_spr_S2_01.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "parted_lips",
+      "melancholy",
+      "talking",
+      "exposed_face"
+    ],
+    "description": "美咲拉下口罩露出面容，嘴巴微张，眼神依旧半眯且游离。这副神情看起来像是在低声细语或是轻微叹息，散发着她特有的忧郁气质，显得有些脆弱。",
+    "image_name": "misaki_spr_S2_02.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "closed_mouth",
+      "indifferent",
+      "serious",
+      "exposed_face"
+    ],
+    "description": "美咲把口罩拉在下巴处，紧闭着嘴，神情冷淡。她半睁的眼中没有太多波澜，只是静静地看向别处，表现出一种拒绝交流或对周遭漠不关心的态度。",
+    "image_name": "misaki_spr_S2_03.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "sweat",
+      "nervous",
+      "anxious",
+      "troubled",
+      "exposed_face"
+    ],
+    "description": "美咲把口罩拉到下巴处，脸颊上挂着一滴明显的汗珠，神情显得局促不安。她视线向侧下方游移，仿佛正在为某事感到焦虑或不知所措，流露出一丝慌张与动摇。",
+    "image_name": "misaki_spr_S2_04.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "sideways_glance",
+      "indifferent",
+      "bored",
+      "cold",
+      "exposed_face"
+    ],
+    "description": "美咲将口罩挂在下巴上，半眯着眼向侧面瞥去，眼神冷淡且漫不经心。她看起来对眼前的事物毫无兴趣，散发着一种拒人于千里之外的冷漠与慵懒气息。",
+    "image_name": "misaki_spr_S2_05.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "calm",
+      "quiet",
+      "neutral",
+      "exposed_face"
+    ],
+    "description": "美咲拉下口罩露出清秀的面容，安静地看向一侧。她的眼神比刚才更加平和，少了一份尖锐的冷漠，看起来像是在静静地观察或处于一种平稳的待机状态。",
+    "image_name": "misaki_spr_S2_06.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_down",
+      "sad",
+      "worried",
+      "troubled",
+      "eyebrows_furrowed",
+      "exposed_face"
+    ],
+    "description": "美咲将口罩拉至下巴处，眉头轻蹙，眼神无助地低垂。她看起来心事重重，流露出一种深深的忧虑和悲伤，仿佛沉浸在某种困扰之中，显得格外脆弱惹人怜爱。",
+    "image_name": "misaki_spr_S2_07.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "closed_eyes",
+      "troubled",
+      "shy",
+      "flustered",
+      "exposed_face"
+    ],
+    "description": "美咲将口罩拉至下巴处，紧紧闭着双眼，神情显得局促且羞涩。她似乎因为听到或看到了什么令人害羞的事情而不敢睁眼，表现出一种想要逃避现实却又无处可躲的可爱慌张感。",
+    "image_name": "misaki_spr_S2_08.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "looking_away",
+      "smile",
+      "gentle",
+      "happy",
+      "exposed_face"
+    ],
+    "description": "美咲拉下口罩露出面容，向侧面投去温柔的目光，嘴角微微上扬露出一抹浅笑。她的神情难得地平和与放松，少了几分阴郁，流露出一种发自内心的柔和与暖意。",
+    "image_name": "misaki_spr_S2_09.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "open_eyes",
+      "surprised",
+      "curious",
+      "looking_away",
+      "exposed_face"
+    ],
+    "description": "美咲将口罩挂在下巴上，眼睛微微睁大，流露出有些呆萌和惊讶的神情。她看向一侧，眼神清澈而专注，仿佛被什么意料之外的事情引起了好奇心，显得有些无辜。",
+    "image_name": "misaki_spr_S2_10.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "jitome",
+      "disgust",
+      "scorn",
+      "annoyed",
+      "exposed_face"
+    ],
+    "description": "美咲拉下口罩，半眯着眼投来充满鄙夷和嫌弃的目光（死鱼眼）。她嘴唇微张，似乎对眼前的人或事感到极度无语或厌烦，毫不掩饰地表达着一种看垃圾般的冷漠情绪。",
+    "image_name": "misaki_spr_S2_11.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "grimace",
+      "pain",
+      "troubled",
+      "teeth",
+      "exposed_face"
+    ],
+    "description": "美咲拉下口罩，眉头紧锁，半眯着眼露出痛苦难耐的神情。她嘴角抽搐微张，露出牙齿，仿佛正在忍受强烈的身体不适或心理上的煎熬，显得十分艰难。",
+    "image_name": "misaki_spr_S2_12.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "open_eyes",
+      "open_mouth",
+      "shouting",
+      "surprised",
+      "agitated",
+      "exposed_face"
+    ],
+    "description": "美咲拉下口罩，难得地睁大眼睛并张大嘴巴，仿佛正在大声喊叫或激烈地表达不满。她的神情惊讶且激动，打破了以往的沉闷，显得格外生动。",
+    "image_name": "misaki_spr_S2_13.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "closed_eyes",
+      "pouting",
+      "kiss",
+      "waiting",
+      "cute",
+      "exposed_face"
+    ],
+    "description": "美咲将口罩挂在下巴上，轻轻闭上双眼，微微嘟起嘴唇。这副模样看起来像是在索吻，又像是在安静地等待着什么，流露出一种少见的乖巧与依恋感。",
+    "image_name": "misaki_spr_S2_14.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "open_eyes",
+      "empty_eyes",
+      "dazed",
+      "blank_stare",
+      "parted_lips",
+      "exposed_face"
+    ],
+    "description": "美咲拉下口罩，眼神彻底失去了光彩，变得空洞而虚无。她微张着嘴茫然地看着前方，仿佛意识已经游离，散发着一种令人心悸的绝望与破碎感。",
+    "image_name": "misaki_spr_S2_15.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "jitome",
+      "looking_away",
+      "bored",
+      "indifferent",
+      "exposed_face"
+    ],
+    "description": "美咲将口罩拉下，半眯着死鱼眼看向一侧，神情显得百无聊赖。她似乎对周围的一切都提不起劲，透出一种毫无干劲的慵懒与冷漠感。",
+    "image_name": "misaki_spr_S2_16.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "half_closed_eyes",
+      "looking_away",
+      "grimace",
+      "awkward",
+      "discomfort",
+      "hesitant",
+      "exposed_face"
+    ],
+    "description": "美咲拉下口罩，视线游移向侧方，嘴角有些扭曲地微张。这副神情看起来有些尴尬、难为情，或者是对某种状况感到了轻微的不适与抗拒，显得有些不知所措。",
+    "image_name": "misaki_spr_S2_17.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "open_eyes",
+      "open_mouth",
+      "talking",
+      "looking_away",
+      "explaining",
+      "exposed_face"
+    ],
+    "description": "美咲露出面容，睁开眼睛并张着嘴，似乎正在认真地说明着什么。相比平时的沉默寡言，此时的她神情专注，显得更有表达欲，正在进行正常的交流。",
+    "image_name": "misaki_spr_S2_18.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "open_eyes",
+      "open_mouth",
+      "smile",
+      "happy",
+      "laughing",
+      "cheerful",
+      "exposed_face"
+    ],
+    "description": "美咲将口罩挂在下巴上，露出了十分罕见的开朗笑容。她双眼明亮，嘴巴张开仿佛在欢笑或惊喜地回应，展现出平日里隐藏在阴郁外表下的少女活力。",
+    "image_name": "misaki_spr_S2_19.png"
+  },
+  {
+    "tags": [
+      "misaki_(blue_archive)",
+      "mask_down",
+      "neck_bandage",
+      "short_hair",
+      "black_hair",
+      "closed_eyes",
+      "calm",
+      "serene",
+      "sleeping",
+      "meditating",
+      "exposed_face"
+    ],
+    "description": "美咲拉下口罩，安静地闭上了双眼。她面色平静，看起来像是在闭目养神，又像是在享受片刻的安宁，隔绝了外界的喧嚣，显得格外平和。",
+    "image_name": "misaki_spr_S2_99.png"
+  }
+]

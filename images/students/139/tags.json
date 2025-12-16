@@ -1,0 +1,83 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "dazed",
+      "blank_stare",
+      "surprised"
+    ],
+    "description": "嘴巴张成O型，眼神有些呆滞和放空，似乎在发呆或者因某事感到轻微惊讶。",
+    "image_name": "QQ截图20211101182103.png"
+  },
+  {
+    "tags": [
+      "pout",
+      "suspicious",
+      "judging",
+      "serious"
+    ],
+    "description": "微微嘟着嘴，眼神半眯带着怀疑和审视的态度，似乎对某事表示不满或不信任。",
+    "image_name": "QQ截图20211101182114.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "sideways_glance",
+      "bored",
+      "indifferent"
+    ],
+    "description": "视线向旁边飘忽，表情平淡且缺乏兴趣，看起来有些无聊或在想别的事情。",
+    "image_name": "QQ截图20211101182120.png"
+  },
+  {
+    "tags": [
+      "curious",
+      "head_tilt",
+      "innocent",
+      "staring"
+    ],
+    "description": "微微歪头，睁大眼睛直视前方，嘴巴微张，表现出单纯的好奇心或探究的样子。",
+    "image_name": "QQ截图20211101182133.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "peaceful",
+      "calm"
+    ],
+    "description": "双眼紧闭，面部表情非常安详平静，像是在打瞌睡或者正在闭目养神。",
+    "image_name": "QQ截图20211101182142.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "closed_eyes",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "开心地笑着，眼睛眯成弯弯的月牙状，嘴巴张开，展现出纯粹的快乐和愉悦。",
+    "image_name": "QQ截图20211101182148.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "troubled",
+      "frowning",
+      "worried"
+    ],
+    "description": "眉毛下垂，眼神流露出忧郁和困扰，嘴角向下，看起来感到委屈或有着心事。",
+    "image_name": "QQ截图20211101182158.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "awkward",
+      "tired"
+    ],
+    "description": "脸颊旁挂着汗珠，眼神有些游离和躲闪，表现出尴尬、紧张或者疲惫的状态。",
+    "image_name": "QQ截图20211101182210.png"
+  }
+]

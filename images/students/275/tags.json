@@ -1,0 +1,239 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "serious",
+      "normal"
+    ],
+    "description": "标准的默认表情，眼神直视前方，神态平静且略带认真，没有明显的情绪波动。",
+    "image_name": "NP0033_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "listening",
+      "attentive"
+    ],
+    "description": "与默认表情非常相似的平静神态，依然保持着沉着冷静的氛围。",
+    "image_name": "NP0033_spr_01.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "mouth_open",
+      "explaining"
+    ],
+    "description": "嘴巴微张，似乎正在说话、解释情况或进行日常的交流，神情依然平和。",
+    "image_name": "NP0033_spr_02.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "smile",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "眼睛眯成弯月状，嘴巴张开大笑，展现出非常爽朗、开心和愉快的样子。",
+    "image_name": "NP0033_spr_03.png"
+  },
+  {
+    "tags": [
+      "dotted_eyes",
+      "shock",
+      "stunned",
+      "blank_stare",
+      "confused"
+    ],
+    "description": "眼睛变成了极简的黑点（豆豆眼），面无表情，表现出呆滞、震惊或大脑宕机的状态。",
+    "image_name": "NP0033_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "frowning",
+      "glare",
+      "serious"
+    ],
+    "description": "眉头紧锁，眼神变得锐利，嘴角紧绷，流露出明显的不满、生气或严肃警告的情绪。",
+    "image_name": "NP0033_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "troubled",
+      "disappointed",
+      "resigned"
+    ],
+    "description": "双眼紧闭，嘴角向下撇，似乎在无奈地叹气，表现出失望、头疼或放弃争辩的样子。",
+    "image_name": "NP0033_spr_06.png"
+  },
+  {
+    "tags": [
+      "dotted_eyes",
+      "nervous",
+      "sweat",
+      "awkward",
+      "panic"
+    ],
+    "description": "豆豆眼配合脸颊上的冷汗，嘴部呈波浪状，表现出尴尬、慌张、不知所措或心虚的状态。",
+    "image_name": "NP0033_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "tired",
+      "sigh",
+      "exhausted",
+      "resigned"
+    ],
+    "description": "双眼眯成缝，嘴巴微张，神情疲惫无奈，仿佛在长叹一口气，表现出心累或对现状感到无语的状态。",
+    "image_name": "NP0033_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "nosebleed",
+      "excited",
+      "stunned",
+      "overwhelmed"
+    ],
+    "description": "流着鼻血，双眼紧闭，通常用于表现受到强烈视觉刺激、兴奋过度或由于某种冲击而看似昏迷的搞笑状态。",
+    "image_name": "NP0033_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smug",
+      "cat_mouth",
+      "playful",
+      "satisfied"
+    ],
+    "description": "双眼闭起，嘴角上扬呈波浪状（猫嘴/:3），透着一股得意、自满、调皮或想以此蒙混过关的神态。",
+    "image_name": "NP0033_spr_10.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "shocked",
+      "sweat",
+      "nervous",
+      "surprised"
+    ],
+    "description": "瞳孔缩小，睁大眼睛，脸颊挂着冷汗，表现出惊讶、慌张、不知所措或突然意识到严重问题时的紧张状态。",
+    "image_name": "NP0033_spr_11.png"
+  },
+  {
+    "tags": [
+      "blank_eyes",
+      "white_eyes",
+      "fainting",
+      "shock",
+      "soul_leaving"
+    ],
+    "description": "双眼翻白变成空洞的白色，神情呆滞且带有冷汗，表现出极度震惊、遭受打击导致昏厥或“灵魂出窍”的夸张状态。",
+    "image_name": "NP0033_spr_12.png"
+  },
+  {
+    "tags": [
+      "confident",
+      "smile",
+      "determined",
+      "sharp_eyes",
+      "grinning"
+    ],
+    "description": "眼神锐利自信，嘴角上扬露出牙齿，展现出充满活力、胜券在握、得意或准备大干一场的帅气表情。",
+    "image_name": "NP0033_spr_13.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "smile",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "眼睛眯成倒U型的开心状，嘴巴张开大笑，洋溢着纯粹的快乐、爽朗和毫无防备的喜悦。",
+    "image_name": "NP0033_spr_14.png"
+  },
+  {
+    "tags": [
+      "side_glance",
+      "looking_away",
+      "suspicious",
+      "awkward",
+      "neutral"
+    ],
+    "description": "眼神向侧面瞥去，不敢直视或在观察侧面，神态略显尴尬、迟疑、心虚或是在暗中观察。",
+    "image_name": "NP0033_spr_15.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "mouth_open",
+      "curious",
+      "o_mouth",
+      "speaking"
+    ],
+    "description": "嘴巴呈小O型张开，眼神直视前方，表现出轻微的惊讶、好奇，或者恍然大悟发出感叹声的状态。",
+    "image_name": "NP0033_spr_16.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "bored",
+      "unamused",
+      "deadpan",
+      "tired"
+    ],
+    "description": "半睁着眼（死鱼眼），神情冷淡、无语或感到无聊，透着一种没精打采、不感兴趣或看透一切的平淡态度。",
+    "image_name": "NP0033_spr_17.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "nervous_smile",
+      "gloom_lines",
+      "troubled",
+      "sweat"
+    ],
+    "description": "额头挂着阴影线条（漫符），嘴角勉强上扬露出尴尬的笑容，表现出心虚、难堪或对棘手现状感到苦恼的样子。",
+    "image_name": "NP0033_spr_18.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweating",
+      "side_glance",
+      "panic",
+      "guilty"
+    ],
+    "description": "眼神明显向一侧游移不敢直视，脸上布满冷汗，表现出极度心虚、紧张、焦虑或试图掩饰慌张的状态。",
+    "image_name": "NP0033_spr_19.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "complaining",
+      "annoyed",
+      "mouth_open"
+    ],
+    "description": "眉头紧锁，张大嘴巴露出牙齿，似乎在生气地抗议、争辩、大声抱怨或吐槽，情绪比较激动。",
+    "image_name": "NP0033_spr_20.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "serene",
+      "meditating",
+      "quiet"
+    ],
+    "description": "双眼完全闭合，面部表情平静安详，像是在闭目养神、沉思、或者仅仅是处于安静的休息状态。",
+    "image_name": "NP0033_spr_99.png"
+  }
+]

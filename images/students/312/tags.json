@@ -1,0 +1,125 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "cheerful",
+      "bangs_covering_eyes"
+    ],
+    "description": "开朗的笑容，嘴巴自然张开，看起来心情愉快且乐观。",
+    "image_name": "NP0158_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "wavy_mouth",
+      "smug",
+      "bangs_covering_eyes"
+    ],
+    "description": "得意的抿嘴笑，嘴唇呈波浪状（ω嘴），看起来有些自满或开心。",
+    "image_name": "NP0158_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "parted_lips",
+      "dazed",
+      "surprise",
+      "bangs_covering_eyes"
+    ],
+    "description": "嘴巴微张呈小O型，似乎在发呆、困惑或感到轻微惊讶。",
+    "image_name": "NP0158_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "laughing",
+      "energetic",
+      "bangs_covering_eyes"
+    ],
+    "description": "充满活力的笑容，嘴巴张开的幅度较大，表现出兴奋或大笑的样子。",
+    "image_name": "NP0158_spr_03.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "sweat_drop",
+      "nervous",
+      "awkward",
+      "bangs_covering_eyes"
+    ],
+    "description": "脸上挂着汗珠的苦笑，虽然嘴巴张开笑着，但显得紧张或尴尬。",
+    "image_name": "NP0158_spr_04.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "frown",
+      "upset",
+      "displeased",
+      "bangs_covering_eyes"
+    ],
+    "description": "嘴巴紧闭并嘴角下撇，表现出不满、无语或困扰的情绪。",
+    "image_name": "NP0158_spr_05.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shock",
+      "gloom_lines",
+      "despair",
+      "pale",
+      "bangs_covering_eyes"
+    ],
+    "description": "面部带有垂直的阴影线条（黑线），嘴巴张开，表现出极度震惊、绝望或受到打击。",
+    "image_name": "NP0158_spr_06.png"
+  },
+  {
+    "tags": [
+      "clenched_teeth",
+      "grimace",
+      "angry",
+      "frustrated",
+      "bangs_covering_eyes"
+    ],
+    "description": "咬紧牙关露出牙齿，表情用力，表现出愤怒、不甘或忍耐的样子。",
+    "image_name": "NP0158_spr_07.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "sweat_drop",
+      "nervous",
+      "panic",
+      "bangs_covering_eyes"
+    ],
+    "description": "脸上挂着汗珠的慌乱表情，嘴巴歪斜张开，看起来焦急、不知所措或正在尴尬地辩解。",
+    "image_name": "NP0158_spr_08.png"
+  },
+  {
+    "tags": [
+      "wavy_mouth",
+      "uneasy",
+      "troubled",
+      "grimace",
+      "bangs_covering_eyes"
+    ],
+    "description": "嘴巴扭曲成波浪线，表现出为难、无语、感到棘手或不知该说什么的尴尬神情。",
+    "image_name": "NP0158_spr_09.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "wavy_mouth",
+      "smug",
+      "bangs_covering_eyes"
+    ],
+    "description": "得意的猫嘴笑（:3），嘴角上扬呈“ω”型，显得十分满足、自信或带有一丝俏皮的恶作剧感。",
+    "image_name": "NP0158_spr_99.png"
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "open_mouth",
+      "smile",
+      "energetic",
+      "happy"
+    ],
+    "description": "眨着一只眼睛（Wink），张嘴笑着，充满活力的元气表情。",
+    "image_name": "hanae_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "happy",
+      "normal"
+    ],
+    "description": "标准的闭嘴微笑，表情柔和友善。",
+    "image_name": "hanae_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "smile",
+      "talking",
+      "happy",
+      "cheerful"
+    ],
+    "description": "张嘴微笑，似乎在说话或表达开心的事情。",
+    "image_name": "hanae_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "open_mouth",
+      "happy",
+      "smile"
+    ],
+    "description": "双眼眯成弯月形闭起，张嘴大笑，非常开心的样子。",
+    "image_name": "hanae_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "surprised",
+      "blush",
+      "sweat_drop",
+      "wide_eyes",
+      "flustered"
+    ],
+    "description": "震惊慌乱，瞳孔缩小，脸上有红晕和汗珠，显得不知所措。",
+    "image_name": "hanae_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "furrowed_brows",
+      "open_mouth",
+      "annoyed"
+    ],
+    "description": "生气，眉头紧锁，张嘴像是在大声抗议或斥责。",
+    "image_name": "hanae_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "frown",
+      "concerned"
+    ],
+    "description": "困扰担忧，眉毛呈八字形下垂，看起来有点难过或不安。",
+    "image_name": "hanae_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "closed_mouth",
+      "peaceful",
+      "satisfied"
+    ],
+    "description": "闭着双眼微笑，表情安详、平静且满足。",
+    "image_name": "hanae_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

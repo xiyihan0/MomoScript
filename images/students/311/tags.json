@@ -1,0 +1,133 @@
+[
+  {
+    "tags": [
+      "smile",
+      "laughing",
+      "open_mouth",
+      "happy",
+      "bangs_covering_eyes"
+    ],
+    "description": "她张大嘴巴开怀大笑，虽然长刘海遮住了眼睛，但整张脸洋溢着爽朗和快乐的气息。",
+    "image_name": "NP0138_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "serious",
+      "calm",
+      "bangs_covering_eyes"
+    ],
+    "description": "她紧闭着嘴，面无表情，看起来非常平静、严肃，似乎在认真待命。",
+    "image_name": "NP0138_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprise",
+      "o_mouth",
+      "speaking",
+      "bangs_covering_eyes"
+    ],
+    "description": "她的嘴巴张成了圆圆的O型，似乎对某事感到惊讶，或者正在发出感叹的声音。",
+    "image_name": "NP0138_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "confident",
+      "happy",
+      "bangs_covering_eyes"
+    ],
+    "description": "她闭着嘴露出淡淡的微笑，嘴角微微上扬，显得自信、从容且心情不错。",
+    "image_name": "NP0138_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "open_mouth",
+      "awkward",
+      "bangs_covering_eyes"
+    ],
+    "description": "她脸颊上流下一滴冷汗，嘴巴张开呈现波浪状，看起来有些慌张、尴尬或不知所措。",
+    "image_name": "NP0138_spr_04.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "neutral",
+      "dazed",
+      "speaking",
+      "bangs_covering_eyes"
+    ],
+    "description": "她微微张开嘴巴，表情有些呆滞或茫然，也可能是在平淡地叙述某件事情。",
+    "image_name": "NP0138_spr_05.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "scared",
+      "nervous",
+      "grimace",
+      "gloom_lines",
+      "bangs_covering_eyes"
+    ],
+    "description": "她满头大汗，脸上带有阴沉的线条（黑线），咬紧牙关，表现出极度的焦虑、恐惧或尴尬。",
+    "image_name": "NP0138_spr_06.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "sad",
+      "troubled",
+      "disappointed",
+      "bangs_covering_eyes"
+    ],
+    "description": "她微微张着嘴，嘴角略微向下，看起来有些困扰、失望或者带着一丝悲伤的情绪。",
+    "image_name": "NP0138_spr_07.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "troubled",
+      "sad",
+      "nervous",
+      "bangs_covering_eyes"
+    ],
+    "description": "她嘴角向下弯曲，脸上挂着汗珠，看起来有些难过、困扰或感到不安。",
+    "image_name": "NP0138_spr_08.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "neutral",
+      "bangs_covering_eyes"
+    ],
+    "description": "她张开嘴巴，似乎正在平淡地说话、叙述，或者发出声音。",
+    "image_name": "NP0138_spr_09.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "shouting",
+      "bangs_covering_eyes"
+    ],
+    "description": "她张大嘴巴，口型清晰，看起来像是在大声说话、呼喊或强调某事。",
+    "image_name": "NP0138_spr_10.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "calm",
+      "serious",
+      "bangs_covering_eyes"
+    ],
+    "description": "她闭着嘴，面无表情，看起来非常平静、冷淡，或者只是在安静地待命。",
+    "image_name": "NP0138_spr_99.png"
+  }
+]

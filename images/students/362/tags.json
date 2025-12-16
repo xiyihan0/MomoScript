@@ -1,0 +1,112 @@
+[
+  {
+    "tags": [
+      "wink",
+      "open_mouth",
+      "happy",
+      "energetic"
+    ],
+    "description": "一只眼睛眨眼，嘴巴张开大笑，表现出充满活力的快乐样子。",
+    "image_name": "CH0257_spr_00.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "neutral"
+    ],
+    "description": "面带温和的微笑，嘴巴闭合，眼神平静。",
+    "image_name": "CH0257_spr_01.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "happy",
+      "excited",
+      "playful"
+    ],
+    "description": "张大嘴巴开心笑着，看起来非常兴奋或正在开玩笑。",
+    "image_name": "CH0257_spr_02.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "laugh",
+      "joy"
+    ],
+    "description": "双眼眯成月牙状，张嘴开怀大笑，洋溢着纯粹的喜悦。",
+    "image_name": "CH0257_spr_03.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "tired",
+      "troubled",
+      "wince"
+    ],
+    "description": "脸上流着汗，一只眼睛紧闭，表情看起来很疲惫、焦急或在忍耐痛苦。",
+    "image_name": "CH0257_spr_04.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "serious",
+      "frown"
+    ],
+    "description": "眉头紧锁，张嘴大喊，表现出生气、严肃或抗议的情绪。",
+    "image_name": "CH0257_spr_05.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "nervous",
+      "troubled"
+    ],
+    "description": "眉毛下垂，眼神忧郁，嘴巴微张呈波浪状，看起来很困扰或担心。",
+    "image_name": "CH0257_spr_06.jpg"
+  },
+  {
+    "tags": [
+      "wink",
+      "closed_mouth",
+      "smile",
+      "confident"
+    ],
+    "description": "一只眼睛眨眼，嘴巴闭合带着自信的微笑。",
+    "image_name": "CH0257_spr_07.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "open_mouth",
+      "confident",
+      "smile"
+    ],
+    "description": "嘴巴张开露出牙齿，带着一脸自信甚至有点得意的坏笑，眼神犀利。",
+    "image_name": "CH0257_spr_08.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "frown",
+      "worried",
+      "troubled"
+    ],
+    "description": "眉毛下垂紧锁，嘴角向下撇，眼神忧郁，表现出悲伤、委屈或困扰的情绪。",
+    "image_name": "CH0257_spr_09.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "peaceful"
+    ],
+    "description": "双眼闭合，面带温柔恬静的微笑，看起来心情很平静愉悦。",
+    "image_name": "CH0257_spr_99.jpg"
+  }
+]

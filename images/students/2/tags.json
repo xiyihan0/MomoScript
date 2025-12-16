@@ -1,0 +1,105 @@
+[
+  {
+    "tags": [
+      "serious",
+      "pout",
+      "closed_mouth",
+      "skeptical",
+      "annoyed"
+    ],
+    "description": "表情严肃，紧闭嘴巴，眼神看起来有些怀疑或不高兴。",
+    "image_name": "QQ截图20211101185829.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "satisfied",
+      "smug",
+      "napping"
+    ],
+    "description": "闭着眼睛微笑，看起来非常满足、得意或者是很享受的样子。",
+    "image_name": "QQ截图20211101185839.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_eyes",
+      "confident",
+      "happy",
+      "neutral"
+    ],
+    "description": "睁大眼睛自信地微笑，标准的开朗快乐表情。",
+    "image_name": "QQ截图20211101185847.png"
+  },
+  {
+    "tags": [
+      "shock",
+      "blank_eyes",
+      "white_eyes",
+      "open_mouth",
+      "sweat_drop",
+      "confused"
+    ],
+    "description": "极度震惊，双眼翻白变成了圆圈，流着冷汗，目瞪口呆。",
+    "image_name": "QQ截图20211101185903.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "shouting",
+      "wide_eyes",
+      "gasp"
+    ],
+    "description": "张大嘴巴惊呼，眼睛睁圆，看起来很惊讶或者是在大声抗议。",
+    "image_name": "QQ截图20211101185918.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "talking",
+      "energetic",
+      "assertive",
+      "excited"
+    ],
+    "description": "张嘴说话，眼神专注，看起来很有活力地在解释或主张什么。",
+    "image_name": "QQ截图20211101185929.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "open_mouth",
+      "happy",
+      "joy"
+    ],
+    "description": "闭着眼睛开怀大笑，张着嘴，洋溢着纯粹的喜悦。",
+    "image_name": "QQ截图20211101185950.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "tears",
+      "sad",
+      "whining",
+      "closed_eyes",
+      "open_mouth"
+    ],
+    "description": "痛苦大哭，闭着眼睛流泪，张嘴哀嚎，看起来很委屈或是在撒娇。",
+    "image_name": "QQ截图20211101190001.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "parted_lips",
+      "innocent",
+      "dazed",
+      "blank_stare",
+      "curious",
+      "slightly_worried"
+    ],
+    "description": "嘴巴微微张开呈小圆形，眉毛略微下垂，眼神看起来有些呆滞或茫然，透着一种无辜和轻微的困惑感。",
+    "image_name": "QQ截图20211101190053.png"
+  }
+]

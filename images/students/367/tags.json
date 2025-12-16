@@ -1,0 +1,115 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "indifferent"
+    ],
+    "description": "平静的标准表情，眼神冷淡，没有任何显著的情绪波动。",
+    "image_name": "CH0244_spr_01_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "silent",
+      "serious",
+      "pout"
+    ],
+    "description": "嘴巴抿成一个小点，显得沉默寡言，表情比平时更加严肃。",
+    "image_name": "CH0244_spr_02_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "smug",
+      "confident"
+    ],
+    "description": "嘴角微微上扬，露出一丝自信且带有几分得意的坏笑。",
+    "image_name": "CH0244_spr_03_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "awkward"
+    ],
+    "description": "脸颊上挂着冷汗，眼神有些游离，显得十分尴尬和紧张。",
+    "image_name": "CH0244_spr_04_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "mouth_open",
+      "surprised",
+      "speaking"
+    ],
+    "description": "嘴巴微微张开成圆形，似乎有些惊讶，或者正在发呆。",
+    "image_name": "CH0244_spr_05_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "grimace",
+      "troubled",
+      "annoyed"
+    ],
+    "description": "流着冷汗，嘴角扭曲，表现出感到棘手、不悦或无可奈何的样子。",
+    "image_name": "CH0244_spr_06_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "disgust",
+      "scorn",
+      "half_closed_eyes",
+      "judging"
+    ],
+    "description": "半眯着眼睛，眼神中透露出强烈的鄙夷和嫌弃，仿佛在看垃圾一样。",
+    "image_name": "CH0244_spr_07_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "angry",
+      "mouth_wide_open"
+    ],
+    "description": "张大嘴巴大声喊叫，情绪激动，充满怒气。",
+    "image_name": "CH0244_spr_08_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "thinking",
+      "stoic"
+    ],
+    "description": "唯一的眼睛闭起，表情沉稳冷静，仿佛在闭目沉思或表现出一种冷淡的克制。",
+    "image_name": "CH0244_spr_09_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "grimace",
+      "annoyed",
+      "teeth_clenched",
+      "frustrated"
+    ],
+    "description": "咬牙切齿，眼神中带着明显的不悦，表现出焦躁、恼火或不甘心的情绪。",
+    "image_name": "CH0244_spr_10_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "troubled",
+      "anxious"
+    ],
+    "description": "脸上挂着冷汗，咬着牙，神情紧绷且尴尬，显露出动摇、紧张或感到棘手的心态。",
+    "image_name": "CH0244_spr_11_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral"
+    ],
+    "description": "闭着眼睛，神态平和安静，没有任何特别的情绪流露，处于一种静止状态。",
+    "image_name": "CH0244_spr_99_waifu2x_1x_3n_png.png"
+  }
+]

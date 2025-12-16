@@ -1,0 +1,63 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "mask",
+      "serious"
+    ],
+    "description": "角色戴着遮住上半脸的红色天狗面具，嘴巴紧闭成一个小点，表情看起来十分平静、严肃，或者正在认真倾听。",
+    "image_name": "J_Yukata_StreetGhostes_RL_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprise",
+      "open_mouth",
+      "mask",
+      "dazed"
+    ],
+    "description": "戴着红色天狗面具，嘴巴微微张开呈小圆形，看起来似乎感到有些惊讶、意外，或者正在发呆。",
+    "image_name": "J_Yukata_StreetGhostes_RL_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "open_mouth",
+      "mask",
+      "cheerful"
+    ],
+    "description": "戴着红色天狗面具，嘴巴张大呈现出明显的D字形笑容，看起来非常开心、兴奋或正在欢呼。",
+    "image_name": "J_Yukata_StreetGhostes_RL_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "talking",
+      "open_mouth",
+      "mask"
+    ],
+    "description": "戴着红色天狗面具，嘴巴自然张开，幅度适中，看起来正在进行日常对话或解释说明。",
+    "image_name": "J_Yukata_StreetGhostes_RL_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "mask",
+      "smug"
+    ],
+    "description": "戴着红色天狗面具，嘴唇闭合形成一道弯曲的弧线，嘴角上扬，流露出自信、得意甚至带有一丝嘲讽的微笑。",
+    "image_name": "J_Yukata_StreetGhostes_RL_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "angry",
+      "open_mouth",
+      "mask",
+      "complaining"
+    ],
+    "description": "戴着红色天狗面具，嘴巴大幅度张开呈倒梯形，看起来像是在大声喊叫、激烈争吵或在抱怨不满。",
+    "image_name": "J_Yukata_StreetGhostes_RL_spr-06_0_waifu2x_2x_1n_png.jpg"
+  }
+]

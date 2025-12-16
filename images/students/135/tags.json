@@ -1,0 +1,102 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "expressionless"
+    ],
+    "description": "默认的平静表情，眼神直视前方，面部没有明显的情绪波动，显得冷淡而沉静。",
+    "image_name": "CH0199_spr_00.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "focused",
+      "stern"
+    ],
+    "description": "表情比默认状态略显严肃，眼神更加锐利，仿佛正在认真倾听或准备应对突发状况。",
+    "image_name": "CH0199_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "slight_surprise"
+    ],
+    "description": "嘴巴微微张开，呈圆形，似乎正在说话，或者对某事感到轻微的惊讶。",
+    "image_name": "CH0199_spr_02.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "concerned",
+      "furrowed_eyebrows"
+    ],
+    "description": "眉毛微微皱起呈八字形，眼神流露出忧虑和悲伤的情绪，显得有些无助。",
+    "image_name": "CH0199_spr_03.png"
+  },
+  {
+    "tags": [
+      "bored",
+      "unimpressed",
+      "half_closed_eyes",
+      "cold_stare"
+    ],
+    "description": "眼睑下垂呈半睁状态，眼神冷漠且带有倦怠感，表现出不屑、无语或无动于衷的态度。",
+    "image_name": "CH0199_spr_04.png"
+  },
+  {
+    "tags": [
+      "doubt",
+      "skeptical",
+      "staring"
+    ],
+    "description": "眼神凝视，眉头微蹙，带有一种审视、怀疑或难以置信的冷峻神情。",
+    "image_name": "CH0199_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "thinking",
+      "serene"
+    ],
+    "description": "双眼完全闭合，神情安详平静，仿佛在闭目养神、深思或表示无奈。",
+    "image_name": "CH0199_spr_06.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "tears",
+      "sadness",
+      "sobbing",
+      "heartbroken"
+    ],
+    "description": "极度悲伤的表情，眼泪不断流淌，眉毛紧锁，神情痛苦，令人心碎。",
+    "image_name": "CH0199_spr_07.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "tears",
+      "sadness",
+      "painful",
+      "distressed",
+      "open_mouth"
+    ],
+    "description": "满脸泪痕，神情极度痛苦，眉毛紧锁，嘴巴微张，眼神中流露出无法抑制的悲伤与无助，显得非常惹人怜爱。",
+    "image_name": "CH0199_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "peaceful",
+      "serene"
+    ],
+    "description": "双眼轻闭，面部放松，神态安详宁静，仿佛正在沉睡或陷入了深深的平静之中，没有任何防备。",
+    "image_name": "CH0199_spr_99.png"
+  }
+]

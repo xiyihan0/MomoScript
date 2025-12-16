@@ -1,0 +1,82 @@
+[
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "shadow_over_eyes",
+      "closed_mouth",
+      "neutral",
+      "expressionless"
+    ],
+    "description": "刘海遮住眼睛，面部上半部分带有阴影，嘴巴闭合成一条直线，没有任何明显的情绪波动，显得冷淡或面无表情。",
+    "image_name": "J_NP0036_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "shadow_over_eyes",
+      "open_mouth",
+      "small_o_mouth",
+      "curious",
+      "speaking"
+    ],
+    "description": "刘海遮住眼睛，面部带有阴影，嘴巴微微张开呈小圆O形，似乎在发出轻微的声音、提问或感到一点意外。",
+    "image_name": "J_NP0036_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "shadow_over_eyes",
+      "smile",
+      "scheming",
+      "smug"
+    ],
+    "description": "刘海遮住眼睛，面部带有阴影，嘴角微微上扬露出微笑。配合面部阴影，给人一种腹黑、正在盘算计划或略带嘲弄的感觉。",
+    "image_name": "J_NP0036_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "shadow_over_eyes",
+      "sweat_drop",
+      "open_mouth",
+      "nervous",
+      "awkward"
+    ],
+    "description": "刘海遮住眼睛，面部带有阴影，脸颊上流下一滴冷汗，嘴巴微张，表现出尴尬、紧张或不知所措的状态。",
+    "image_name": "J_NP0036_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "shadow_over_eyes",
+      "closed_mouth",
+      "serious",
+      "silent"
+    ],
+    "description": "刘海遮住眼睛，面部带有阴影，嘴巴紧闭且线条很短，看起来比第一张图更加严肃、沉默或正在深思。",
+    "image_name": "J_NP0036_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "gloom_lines",
+      "sweat_drop",
+      "wavy_mouth",
+      "distressed",
+      "speechless"
+    ],
+    "description": "刘海遮住眼睛，面部覆盖着明显的纵向阴沉线条（黑线），脸颊带有冷汗，嘴巴呈波浪状扭曲，表现出极度的无语、受到打击或内心崩溃。",
+    "image_name": "J_NP0036_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "shadow_over_eyes",
+      "open_mouth",
+      "sighing",
+      "dazed"
+    ],
+    "description": "刘海遮住眼睛，面部带有阴影，嘴巴呈半开状态（比图2略大且放松），像是在叹气、发呆或者是平淡地说话。",
+    "image_name": "J_NP0036_spr-07_0_waifu2x_2x_1n_png.jpg"
+  }
+]

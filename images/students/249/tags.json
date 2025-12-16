@@ -1,0 +1,52 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "standard",
+      "robot"
+    ],
+    "description": "机器人的表情非常平静，眉毛保持水平状态，没有任何明显的情绪波动，属于默认的待机神态。",
+    "image_name": "J_NP0031_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "stern",
+      "determined",
+      "frowning"
+    ],
+    "description": "眉毛向眉心处微微压低，眼神显得严肃且专注，表现出一种认真、审视或保持警惕的态度。",
+    "image_name": "J_NP0031_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "troubled",
+      "confused",
+      "eyebrows_raised"
+    ],
+    "description": "眉毛呈八字形向上扬起，流露出明显的担忧、困扰或不知所措的情绪，看起来有些为难。",
+    "image_name": "J_NP0031_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "furious",
+      "aggressive",
+      "annoyed"
+    ],
+    "description": "眉毛大幅度向内倾斜形成倒八字，角度比严肃时更加尖锐，表现出强烈的愤怒、不满或攻击性。",
+    "image_name": "J_NP0031_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "depressed",
+      "disappointed",
+      "helpless"
+    ],
+    "description": "眉毛无力地向下撇成八字形状，看起来非常沮丧和失落，比之前的担忧表情更显悲伤和无奈。",
+    "image_name": "J_NP0031_spr-06_0_waifu2x_2x_1n_png.jpg"
+  }
+]

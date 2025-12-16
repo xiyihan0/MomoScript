@@ -1,0 +1,133 @@
+[
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "skeptical",
+      "thinking"
+    ],
+    "description": "左眼闭起眨眼，神情略带怀疑或正在思考。",
+    "image_name": "CH0255_spr_00.jpg"
+  },
+  {
+    "tags": [
+      "jitome",
+      "half_closed_eyes",
+      "bored",
+      "unamused",
+      "neutral"
+    ],
+    "description": "半睁着眼（死鱼眼），面无表情，看起来感到无聊或无语。",
+    "image_name": "CH0255_spr_01.jpg"
+  },
+  {
+    "tags": [
+      "jitome",
+      "half_closed_eyes",
+      "mouth_open",
+      "talking",
+      "sigh"
+    ],
+    "description": "半睁眼，嘴巴微张，似乎在无力地说话或叹气。",
+    "image_name": "CH0255_spr_02.jpg"
+  },
+  {
+    "tags": [
+      "squinting",
+      "smile",
+      "smug",
+      "relaxed",
+      "content"
+    ],
+    "description": "眯眼微笑，神情轻松，带有一丝得意或满足感。",
+    "image_name": "CH0255_spr_03.jpg"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "troubled",
+      "nervous",
+      "mouth_open",
+      "worried"
+    ],
+    "description": "脸上挂着汗珠，面露难色，看起来感到紧张或困扰。",
+    "image_name": "CH0255_spr_04.jpg"
+  },
+  {
+    "tags": [
+      "glare",
+      "furrowed_eyebrows",
+      "suspicious",
+      "annoyed",
+      "serious"
+    ],
+    "description": "皱眉凝视，眼神犀利，流露出怀疑或不满的情绪。",
+    "image_name": "CH0255_spr_05.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "gloomy",
+      "depressed",
+      "eyebrows_down",
+      "troubled"
+    ],
+    "description": "眉毛下垂，眼神忧郁，看起来很失落或委屈。",
+    "image_name": "CH0255_spr_06.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "cheerful",
+      "beaming"
+    ],
+    "description": "闭着眼睛灿烂微笑，充满喜悦和活力的表情。",
+    "image_name": "CH0255_spr_07.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "mouth_open",
+      "closed_eyes",
+      "energetic",
+      "excited"
+    ],
+    "description": "双眼紧闭，嘴巴张大，神情激动，看起来正在大声呼喊或充满活力。",
+    "image_name": "CH0255_spr_08.jpg"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "jitome",
+      "side_glance",
+      "awkward",
+      "speechless"
+    ],
+    "description": "半睁眼瞥向一侧，脸颊流下一滴冷汗，表现出尴尬、无语或无奈的情绪。",
+    "image_name": "CH0255_spr_09.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "disappointed",
+      "troubled",
+      "resigned"
+    ],
+    "description": "闭着眼睛，眉毛下撇，神情显得无奈或失望，像是在叹气。",
+    "image_name": "CH0255_spr_10.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral",
+      "peaceful",
+      "thinking"
+    ],
+    "description": "平静地闭着双眼，神情安详，像是在闭目养神或正在思考。",
+    "image_name": "CH0255_spr_99.jpg"
+  }
+]

@@ -1,0 +1,230 @@
+[
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "open_mouth",
+      "sunglasses",
+      "swimsuit",
+      "blue_hair",
+      "flower_ornament"
+    ],
+    "description": "千世（泳装）面带温柔开朗的微笑，嘴巴微微张开，眼神明亮，头顶架着墨镜，耳边别着鸡蛋花，展现出轻松愉快的夏日氛围。",
+    "image_name": "CH0269_spr_00.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "troubled",
+      "sad",
+      "closed_mouth",
+      "furrowed_eyebrows"
+    ],
+    "description": "眉毛微微下垂呈八字形，流露出明显的担忧或困惑神情，嘴巴紧闭成一条直线，看起来似乎遇到了什么为难的事情。",
+    "image_name": "CH0269_spr_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "expressionless",
+      "closed_mouth",
+      "staring"
+    ],
+    "description": "表情恢复了平静，眉目舒展，没有明显的情绪起伏，眼神直直地注视着前方，仿佛在认真倾听或处于发呆状态。",
+    "image_name": "CH0269_spr_02.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "playful",
+      "mischievous",
+      "wavy_mouth",
+      "cat_mouth"
+    ],
+    "description": "露出了有些调皮和得意的表情，嘴角上扬呈现出波浪状（猫嘴），眼神中透着一丝恶作剧般的俏皮感。",
+    "image_name": "CH0269_spr_03.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "pale",
+      "blue_face",
+      "sweat",
+      "scared",
+      "open_mouth",
+      "panicked"
+    ],
+    "description": "脸色瞬间变得铁青，额头上挂着明显的冷汗，瞳孔收缩，眼神中充满了震惊与恐慌，嘴巴微微张开，仿佛看到了什么极其可怕或不可思议的事物。",
+    "image_name": "CH0269_spr_04.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "neutral",
+      "furrowed_eyebrows",
+      "closed_mouth",
+      "stern",
+      "concerned"
+    ],
+    "description": "眉头微微皱起，表情变得严肃而认真，嘴巴紧闭成一条线，眼神直视前方，没有了之前的轻松感，似乎在审视什么或对现状感到一丝不满与困扰。",
+    "image_name": "CH0269_spr_05.png"
+  },
+  {
+    "tags": [
+      "pout",
+      "wavy_mouth",
+      "troubled",
+      "sad",
+      "aggrieved",
+      "furrowed_eyebrows"
+    ],
+    "description": "露出了一脸委屈巴巴的表情，眉毛无力地下垂，嘴角扭曲呈波浪状（忍住不哭或闹别扭的样子），看起来受了欺负或者心里感到非常不情愿。",
+    "image_name": "CH0269_spr_06.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "anxious",
+      "furrowed_eyebrows",
+      "closed_mouth",
+      "melancholic"
+    ],
+    "description": "眉毛呈八字形明显下垂，流露出深深的担忧和不安，嘴巴抿得很紧，神色黯淡，眼神中带着无助和忧郁，看起来心事重重。",
+    "image_name": "CH0269_spr_07.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "closed_mouth",
+      "happy",
+      "soft_expression"
+    ],
+    "description": "面带温婉柔和的微笑，嘴巴自然闭合，眼神清澈而专注，眉眼舒展，散发出一种治愈、宁静且亲切的气质。",
+    "image_name": "CH0269_spr_08.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "troubled",
+      "shy",
+      "looking_away",
+      "closed_mouth",
+      "blush"
+    ],
+    "description": "眉毛呈现八字形，流露出担忧或困扰的情绪，眼神游移看向一侧，脸颊微红，嘴巴紧闭，似乎在犹豫或者感到害羞、为难。",
+    "image_name": "CH0269_spr_09.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "panicked",
+      "sweat",
+      "open_mouth",
+      "confused",
+      "wavy_mouth"
+    ],
+    "description": "脸上挂着明显的汗珠，嘴巴张开呈扭曲的波浪状，眉毛紧皱，眼神中充满了惊慌与不知所措，仿佛遇到了突如其来的麻烦。",
+    "image_name": "CH0269_spr_10.png"
+  },
+  {
+    "tags": [
+      "exhausted",
+      "pain",
+      "sweat",
+      "one_eye_closed",
+      "open_mouth",
+      "suffering",
+      "hot"
+    ],
+    "description": "表情看起来非常痛苦或精疲力竭，满头大汗，一只眼睛紧闭，嘴巴张大仿佛在哀嚎或艰难喘息，脸颊通红，表现出一种快要晕倒或极限状态的样子（如中暑）。",
+    "image_name": "CH0269_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "open_mouth",
+      "joy",
+      "laughing"
+    ],
+    "description": "双眼眯成弯弯的线条，嘴巴张开露出开朗的笑容，洋溢着纯粹的快乐，仿佛正在开心地欢笑或享受当下的美好时光。",
+    "image_name": "CH0269_spr_12.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "closed_mouth",
+      "calm",
+      "confident",
+      "looking_ahead"
+    ],
+    "description": "眼神清澈平静，直视前方，嘴角微微上扬，带着一抹自信而从容的微笑，给人一种安心且稳重的感觉。",
+    "image_name": "CH0269_spr_13.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "curious",
+      "wide_eyes",
+      "energetic",
+      "talking"
+    ],
+    "description": "眼睛睁大，嘴巴张开，流露出惊讶或强烈的好奇心，仿佛发现了什么新奇有趣的事物，充满了活力。",
+    "image_name": "CH0269_spr_14.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "drool",
+      "sleeping",
+      "blush",
+      "open_mouth",
+      "dazed",
+      "dreaming"
+    ],
+    "description": "双眼紧闭，嘴角挂着一滴晶莹的口水，脸颊微红，显然是陷入了沉睡并做着美梦，展现出毫无防备的呆萌睡相。",
+    "image_name": "CH0269_spr_15.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "tears",
+      "sad",
+      "aggrieved",
+      "open_mouth",
+      "furrowed_eyebrows"
+    ],
+    "description": "眼角挂着晶莹的泪珠，眉头紧紧皱起，嘴巴张开，露出一副受了天大委屈、马上就要放声大哭的表情，看起来既伤心又充满了不甘。",
+    "image_name": "CH0269_spr_16.png"
+  },
+  {
+    "tags": [
+      "dazed",
+      "blank_stare",
+      "open_mouth",
+      "confused",
+      "neutral",
+      "dumbfounded"
+    ],
+    "description": "眼神显得有些呆滞和茫然，嘴巴微微张开，仿佛大脑一片空白，或者对眼前发生的事情还没反应过来，处于一种呆萌的放空状态。",
+    "image_name": "CH0269_spr_17.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "calm",
+      "serene",
+      "meditating",
+      "quiet"
+    ],
+    "description": "双眼轻轻闭合，面部肌肉放松，神情平静安详，没有明显的喜怒哀乐，仿佛在闭目养神，享受片刻的宁静，或是正在进行无声的思考。",
+    "image_name": "CH0269_spr_99.png"
+  }
+]

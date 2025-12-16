@@ -1,0 +1,103 @@
+[
+  {
+    "tags": [
+      "smile",
+      "neutral",
+      "blue_eyes",
+      "closed_mouth",
+      "calm"
+    ],
+    "description": "角色面带温和的微笑，双眼睁开，神情平静自然。",
+    "image_name": "J_pina_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "open_mouth",
+      "smile",
+      "cheerful",
+      "excited"
+    ],
+    "description": "角色开心地笑着，嘴巴张开，展现出充满活力的快乐表情。",
+    "image_name": "J_pina_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "open_mouth",
+      "very_happy",
+      "joy"
+    ],
+    "description": "角色眯起眼睛开怀大笑，双眼呈弯月状，嘴巴张开，洋溢着极大的喜悦。",
+    "image_name": "J_pina_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "distressed",
+      "closed_eyes",
+      "open_mouth",
+      "pain",
+      "exhausted",
+      "tired"
+    ],
+    "description": "角色紧闭双眼，眉头紧锁，嘴巴大张似乎在喘气，表现出痛苦或极度疲惫的样子。",
+    "image_name": "J_pina_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "open_mouth",
+      "shouting",
+      "serious",
+      "annoyed"
+    ],
+    "description": "角色眉头倒竖，眼神犀利，嘴巴张开似乎在生气地大喊或争论。",
+    "image_name": "J_pina_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "crying",
+      "tears",
+      "worried",
+      "open_mouth"
+    ],
+    "description": "角色眼角挂着泪水，表情悲伤委屈，眉头低垂，嘴巴微张，显得楚楚可怜。",
+    "image_name": "J_pina_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "smile",
+      "teeth",
+      "half_closed_eyes"
+    ],
+    "description": "角色露出自信且带有一丝得意的笑容，眼神半眯，牙齿微微露出，神情有些调皮。",
+    "image_name": "J_pina_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "concerned",
+      "closed_mouth",
+      "anxious",
+      "frown"
+    ],
+    "description": "角色眉头皱起，眼神流露出担忧和困惑，嘴巴紧闭，神情显得不安。",
+    "image_name": "J_pina_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "content",
+      "closed_mouth",
+      "peaceful",
+      "pleased"
+    ],
+    "description": "角色双眼闭合，嘴角微微上扬露出满足且惬意的微笑，神情安详平静，仿佛正沉浸在美好的氛围中。",
+    "image_name": "J_pina_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

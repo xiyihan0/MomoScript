@@ -1,0 +1,66 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "closed_mouth",
+      "calm"
+    ],
+    "description": "面无表情，嘴巴闭合成一条直线，刘海遮住眼睛，处于平静或待机的默认状态。",
+    "image_name": "QQ截图20220110193310.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "closed_mouth"
+    ],
+    "description": "嘴角微微上扬，露出温和且含蓄的微笑，表现出开心、满足或友好的情绪。",
+    "image_name": "QQ截图20220110193320.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "speaking",
+      "o_mouth"
+    ],
+    "description": "嘴巴微微张开呈小圆O型，看起来像是在发呆、轻微惊讶或者正在发出声音。",
+    "image_name": "QQ截图20220110193328.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "wavy_mouth",
+      "awkward",
+      "troubled"
+    ],
+    "description": "脸上挂着一滴冷汗，嘴巴变成波浪状线条，表现出尴尬、为难、紧张或不知所措的样子。",
+    "image_name": "QQ截图20220110193334.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "sweat_drop",
+      "open_mouth",
+      "flustered",
+      "shouting",
+      "embarrassed"
+    ],
+    "description": "脸颊泛起红晕并伴有汗水，嘴巴大张，看起来非常慌张、害羞焦急或者正在大声喊叫。",
+    "image_name": "QQ截图20220110193341.png"
+  },
+  {
+    "tags": [
+      "gloom_lines",
+      "depressed",
+      "shock",
+      "wavy_mouth",
+      "despair"
+    ],
+    "description": "脸上出现垂直的阴影线条（黑线），嘴巴呈波浪状，表现出极度沮丧、受到打击、绝望或无语的心情。",
+    "image_name": "QQ截图20220110193348.png"
+  }
+]

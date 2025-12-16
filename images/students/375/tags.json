@@ -1,0 +1,283 @@
+[
+  {
+    "tags": [
+      "serious",
+      "neutral",
+      "open_eyes",
+      "blue_eyes"
+    ],
+    "description": "表情严肃认真，眉头微皱，蓝色的眼睛直视前方，嘴巴微张，显得冷静且略带戒备。",
+    "image_name": "CH0260_spr_00_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "jitome",
+      "unimpressed",
+      "half_closed_eyes",
+      "deadpan"
+    ],
+    "description": "半眯着眼（死鱼眼）看着前方，神情冷淡、无语或不以为然，嘴巴闭合成一条线。",
+    "image_name": "CH0260_spr_01_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "open_mouth",
+      "serious",
+      "complaining"
+    ],
+    "description": "张嘴似乎正在说话或抱怨，眼神依然严肃，眉头紧锁，表现出一种强硬或急切的态度。",
+    "image_name": "CH0260_spr_02_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "relieved"
+    ],
+    "description": "闭着双眼露出温柔的微笑，表情轻松愉快，看起来感到安心、满足或释然。",
+    "image_name": "CH0260_spr_03_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "sweat_drop",
+      "closed_eyes",
+      "awkward"
+    ],
+    "description": "紧闭双眼，脸颊上挂着一滴冷汗，嘴巴微抿，表现出尴尬、无奈或感到棘手的样子。",
+    "image_name": "CH0260_spr_04_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "displeased",
+      "open_eyes",
+      "frown"
+    ],
+    "description": "眼神锐利且充满不悦，眉头深锁，嘴巴微张，似乎对眼前的情况感到反感或生气。",
+    "image_name": "CH0260_spr_05_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "sigh",
+      "closed_eyes",
+      "open_mouth",
+      "disappointed"
+    ],
+    "description": "闭着眼睛张开嘴巴，像是在深深地叹气，流露出无奈、失望或疲惫的情绪。",
+    "image_name": "CH0260_spr_06_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "glance",
+      "suspicious",
+      "half_closed_eyes",
+      "doubtful"
+    ],
+    "description": "半眯着眼睛向侧面瞥视，眼神中带着怀疑、审视或不信任，似乎察觉到了什么猫腻。",
+    "image_name": "CH0260_spr_07_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "jitome",
+      "scorn",
+      "disgust",
+      "unimpressed"
+    ],
+    "description": "半眯着眼眼神犀利，嘴角略微抽动，露出一副鄙视、嫌弃或感到无语的表情。",
+    "image_name": "CH0260_spr_08_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "complaining",
+      "jitome",
+      "open_mouth"
+    ],
+    "description": "保持着半眯眼的冷淡神情，张开嘴巴似乎正在进行吐槽、抱怨或冷嘲热讽。",
+    "image_name": "CH0260_spr_09_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "smirk",
+      "mischievous",
+      "one_eye_closed",
+      "jagged_teeth"
+    ],
+    "description": "单眼闭起（Wink），嘴角上扬露出锯齿状的牙齿，表情充满自信、调皮与坏心眼。",
+    "image_name": "CH0260_spr_10_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "grimace",
+      "sweat_drop",
+      "closed_eyes",
+      "awkward"
+    ],
+    "description": "紧闭双眼，脸上挂着冷汗，龇牙咧嘴的样子，看起来正在忍耐疼痛、压力或极度的尴尬。",
+    "image_name": "CH0260_spr_11_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "gentle",
+      "calm",
+      "half_closed_eyes",
+      "soft_look"
+    ],
+    "description": "眼神柔和地看向侧下方，表情平静且带着一丝温柔，显得若有所思或沉静。",
+    "image_name": "CH0260_spr_12_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "shouting",
+      "sweat_drop",
+      "flustered"
+    ],
+    "description": "一脸慌张，流着冷汗张大嘴巴惊呼或抗议，表现出震惊、急躁或不知所措。",
+    "image_name": "CH0260_spr_13_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "shy",
+      "looking_away",
+      "embarrassed"
+    ],
+    "description": "脸颊泛红，眼神游移向一侧，不敢直视，表现出害羞、难为情或动摇的样子。",
+    "image_name": "CH0260_spr_14_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "closed_eyes",
+      "sigh",
+      "open_mouth"
+    ],
+    "description": "闭着眼睛脸红，嘴巴微张，似乎是在羞涩地叹气，或者表现出一种无可奈何的娇羞感。",
+    "image_name": "CH0260_spr_15_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "sweat_drop",
+      "open_mouth",
+      "jagged_teeth",
+      "panic"
+    ],
+    "description": "满脸惊慌，流着冷汗张大嘴巴，露出尖尖的牙齿，表现出受到惊吓、慌乱或不知所措的模样。",
+    "image_name": "CH0260_spr_16_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "stern",
+      "frown",
+      "suspicious",
+      "focused"
+    ],
+    "description": "表情严肃冷峻，眉头紧锁，眼神锐利地直视前方，似乎正在审视局势或保持高度警惕。",
+    "image_name": "CH0260_spr_17_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "confused",
+      "dumbfounded",
+      "open_mouth",
+      "troubled",
+      "blank_stare"
+    ],
+    "description": "嘴巴微张，眉头微皱，眼神显得呆滞困惑，似乎对眼前发生的事情感到发懵、无语或反应不过来。",
+    "image_name": "CH0260_spr_18_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "jitome",
+      "disgust",
+      "unimpressed",
+      "scorn",
+      "cold_eyes"
+    ],
+    "description": "半眯着眼（死鱼眼）流露出明显的嫌弃与鄙夷，神情冷淡，似乎对某人或某事感到非常不屑。",
+    "image_name": "CH0260_spr_19_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "complaining",
+      "jitome",
+      "open_mouth",
+      "displeased"
+    ],
+    "description": "带着嫌弃的半眯眼表情张嘴说话，似乎正在进行辛辣的吐槽、抱怨或表达强烈的不满。",
+    "image_name": "CH0260_spr_20_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "whistle",
+      "jitome",
+      "serious",
+      "deadpan",
+      "neutral"
+    ],
+    "description": "嘴里含着红色的哨子，眼神依然保持半眯的冷淡状态，看起来正准备严肃或机械地执行发令。",
+    "image_name": "CH0260_spr_21_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "whistle",
+      "glance",
+      "side_eye",
+      "observing",
+      "alert"
+    ],
+    "description": "含着哨子向侧面瞥视，神情冷静且警觉，似乎在发令或执勤过程中注意到了旁边的动向。",
+    "image_name": "CH0260_spr_22_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "whistle",
+      "blush",
+      "shy",
+      "embarrassed",
+      "troubled"
+    ],
+    "description": "含着哨子脸颊泛红，眉头微蹙，眼神中带着羞涩和动摇，表现出一种难为情或害羞的可爱反差。",
+    "image_name": "CH0260_spr_23_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "whistle",
+      "closed_eyes",
+      "sweat_drop",
+      "grimace",
+      "tired"
+    ],
+    "description": "紧闭双眼，口中含着哨子，脸颊滑落一滴冷汗，眉头紧锁，表现出吃力、疲惫或是忍耐着某种不适的样子。",
+    "image_name": "CH0260_spr_24_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "whistle",
+      "closed_eyes",
+      "concentrating",
+      "blowing",
+      "serious"
+    ],
+    "description": "闭着双眼含着哨子，神情专注而用力，脸上没有冷汗，似乎正在全神贯注地吹响哨声。",
+    "image_name": "CH0260_spr_25_waifu2x_1x_3n_png.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "silent",
+      "neutral",
+      "calm",
+      "thinking"
+    ],
+    "description": "嘴里没有含着哨子，双眼闭合，表情平静且默然，看起来像是在闭目养神、沉思或是表现出一种无言的无奈。",
+    "image_name": "CH0260_spr_99_waifu2x_1x_3n_png.png"
+  }
+]

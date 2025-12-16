@@ -1,0 +1,146 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "laughing",
+      "excited",
+      "fangs",
+      "shouting"
+    ],
+    "description": "她张大嘴巴大笑，露出尖牙，看起来非常兴奋，充满了活力和狂气。",
+    "image_name": "CH0080_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "calm",
+      "confident",
+      "gentle"
+    ],
+    "description": "她嘴角微微上扬，带着自信而从容的微笑，眼神柔和。",
+    "image_name": "CH0080_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "smile",
+      "happy",
+      "teeth",
+      "talking"
+    ],
+    "description": "她开心地笑着，嘴巴张开露出牙齿，看起来正在愉快地交谈或欢笑。",
+    "image_name": "CH0080_spr_02.png"
+  },
+  {
+    "tags": [
+      "grin",
+      "smug",
+      "mischievous",
+      "teeth",
+      "confident"
+    ],
+    "description": "她露齿而笑，表情得意且充满自信，眼神中带有一丝戏谑和恶作剧的意味（坏笑）。",
+    "image_name": "CH0080_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "annoyed",
+      "open_mouth",
+      "frustrated",
+      "troubled"
+    ],
+    "description": "她脸上挂着汗珠，张着嘴似乎在抱怨或喘息，表现出焦躁、无奈或棘手的情绪。",
+    "image_name": "CH0080_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "disgusted",
+      "clenched_teeth",
+      "glare",
+      "irritated"
+    ],
+    "description": "她紧咬牙关，表情扭曲，眼神凶狠，流露出明显的愤怒、厌恶或不爽。",
+    "image_name": "CH0080_spr_05.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "disdain",
+      "awkward",
+      "grimace",
+      "cringe"
+    ],
+    "description": "她流着汗，嘴角抽搐，眼神嫌弃，似乎看到了什么令人无语或尴尬的东西。",
+    "image_name": "CH0080_spr_06.png"
+  },
+  {
+    "tags": [
+      "blank",
+      "bored",
+      "half_closed_eyes",
+      "dazed",
+      "open_mouth"
+    ],
+    "description": "她眼神呆滞，眼皮半垂，嘴巴微张，看起来非常无聊、发呆或者茫然。",
+    "image_name": "CH0080_spr_07.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "open_mouth",
+      "bored",
+      "apathetic",
+      "sigh"
+    ],
+    "description": "她眼神半垂，目光呆滞，嘴巴微张，看起来百无聊赖、缺乏干劲，或者正在发呆叹气。",
+    "image_name": "CH0080_spr_08.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "surprised",
+      "open_mouth",
+      "shock",
+      "ringed_eyes"
+    ],
+    "description": "她惊讶地瞪大眼睛，瞳孔呈现出特殊的圈状纹路，嘴巴张成小O型，表现出明显的错愕或震惊。",
+    "image_name": "CH0080_spr_09.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "stare",
+      "ringed_eyes",
+      "intense",
+      "open_mouth",
+      "dazed"
+    ],
+    "description": "她双眼圆睁直视前方，眼神中透着一种狂热或失神的凝视感，嘴巴微张，看起来像是处于精神恍惚或极度专注的状态。",
+    "image_name": "CH0080_spr_10.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "exhausted",
+      "annoyed",
+      "sigh",
+      "open_mouth"
+    ],
+    "description": "她脸上流着汗，眉头微皱，眼神显得疲惫不堪，张着嘴仿佛刚进行完剧烈运动或是在无奈地叹息抱怨。",
+    "image_name": "CH0080_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "peaceful",
+      "happy"
+    ],
+    "description": "她闭着眼睛，脸上带着温柔恬静的微笑，看起来非常满足、安心，洋溢着幸福的氛围。",
+    "image_name": "CH0080_spr_99.png"
+  }
+]

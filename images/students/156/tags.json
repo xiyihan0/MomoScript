@@ -1,0 +1,130 @@
+[
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "open_mouth",
+      "energetic"
+    ],
+    "description": "开心地笑着，眼神明亮，充满活力的表情。",
+    "image_name": "CH0197_spr_00.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "o_mouth",
+      "curious"
+    ],
+    "description": "嘴巴张成O型，表现出惊讶或好奇的样子。",
+    "image_name": "CH0197_spr_01.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "talking",
+      "cheerful"
+    ],
+    "description": "面带愉快的笑容，看起来正在高兴地说话。",
+    "image_name": "CH0197_spr_02.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "excited",
+      "open_mouth",
+      "joy"
+    ],
+    "description": "开怀大笑，情绪高涨，看起来非常开心。",
+    "image_name": "CH0197_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "worried",
+      "awkward"
+    ],
+    "description": "脸上挂着汗珠，眉毛下垂，感到尴尬或有些困扰。",
+    "image_name": "CH0197_spr_04.png"
+  },
+  {
+    "tags": [
+      "pout",
+      "annoyed",
+      "dissatisfied",
+      "upset"
+    ],
+    "description": "嘟着嘴，眉头微皱，表现出不满或生气的样子。",
+    "image_name": "CH0197_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "teary_eyes",
+      "distressed",
+      "about_to_cry"
+    ],
+    "description": "眼角含泪，表情委屈悲伤，看起来快要哭出来了。",
+    "image_name": "CH0197_spr_06.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "blank_eyes",
+      "stunned",
+      "white_eyes",
+      "sweat"
+    ],
+    "description": "受到惊吓导致眼神呆滞（白眼/圈圈眼），目瞪口呆，不知所措。",
+    "image_name": "CH0197_spr_07.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "closed_eyes",
+      "distressed",
+      "pain",
+      "open_mouth",
+      ">_<"
+    ],
+    "description": "双眼紧闭呈“><”状，张大嘴巴大声喊叫，看起来非常痛苦或抓狂。",
+    "image_name": "CH0197_spr_08.png"
+  },
+  {
+    "tags": [
+      "exhausted",
+      "sigh",
+      "sweat",
+      "tired",
+      "closed_eyes",
+      "open_mouth"
+    ],
+    "description": "闭眼叹气，脸上挂着汗珠，表现出疲惫不堪或无奈的样子。",
+    "image_name": "CH0197_spr_09.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "laughing",
+      "closed_eyes",
+      "joy",
+      "open_mouth"
+    ],
+    "description": "眯起眼睛开怀大笑，表情十分灿烂，充满了幸福感。",
+    "image_name": "CH0197_spr_10.png"
+  },
+  {
+    "tags": [
+      "sleeping",
+      "closed_eyes",
+      "peaceful",
+      "dozing",
+      "open_mouth"
+    ],
+    "description": "闭着眼睛，嘴巴微张，一副正在熟睡或做美梦的安详模样。",
+    "image_name": "CH0197_spr_99.png"
+  }
+]

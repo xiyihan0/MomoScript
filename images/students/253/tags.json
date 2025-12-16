@@ -1,0 +1,317 @@
+[
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy"
+    ],
+    "description": "面带温和的微笑，嘴唇轻微张开，神情平静且友善。",
+    "image_name": "CH0212_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "confident"
+    ],
+    "description": "闭嘴微笑，嘴角上扬，展现出一种自信或内心愉悦的神情。",
+    "image_name": "CH0212_spr_01.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy"
+    ],
+    "description": "开心地笑着，嘴巴张开露出一点牙齿，心情看起来很不错。",
+    "image_name": "CH0212_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "talking"
+    ],
+    "description": "张着嘴微笑，弧度自然，仿佛正在愉快地与人交谈。",
+    "image_name": "CH0212_spr_03.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "sweat",
+      "anxious",
+      "open_mouth"
+    ],
+    "description": "表情显得慌张或尴尬，嘴巴张开，脸颊上挂着汗珠，似乎遇到了意料之外的情况。",
+    "image_name": "CH0212_spr_04.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "serious",
+      "silent"
+    ],
+    "description": "嘴巴紧闭成一条线，表情冷淡、严肃或有些无语。",
+    "image_name": "CH0212_spr_05.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "clenched_teeth",
+      "annoyed"
+    ],
+    "description": "咬着牙，表情焦躁不安或极度尴尬，脸颊上有汗珠，似乎在极力忍耐。",
+    "image_name": "CH0212_spr_06.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "dazed",
+      "blank_stare"
+    ],
+    "description": "嘴巴微张呈O型，看起来有些惊讶、发呆或茫然。",
+    "image_name": "CH0212_spr_07.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "energetic"
+    ],
+    "description": "开心地大笑，嘴巴张得很开，洋溢着快乐和充满活力的情绪。",
+    "image_name": "CH0212_spr_08.png"
+  },
+  {
+    "tags": [
+      "pout",
+      "closed_mouth",
+      "neutral",
+      "cute"
+    ],
+    "description": "嘴巴缩成一个小点，像是在嘟嘴或发呆，表情显得有些呆萌或无语。",
+    "image_name": "CH0212_spr_09.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "talking"
+    ],
+    "description": "张着嘴微笑，神情轻松自然，仿佛正在愉快地与人交谈。",
+    "image_name": "CH0212_spr_10.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "silent",
+      "calm"
+    ],
+    "description": "嘴巴闭成一条平线，面无表情，神态平静且冷淡。",
+    "image_name": "CH0212_spr_11.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "closed_mouth",
+      "thinking",
+      "stern"
+    ],
+    "description": "紧闭双唇，神情比平时更为严肃，似乎正在思考或审视着什么。",
+    "image_name": "CH0212_spr_12.png"
+  },
+  {
+    "tags": [
+      "wry_smile",
+      "open_mouth",
+      "troubled",
+      "awkward"
+    ],
+    "description": "张着嘴露出一丝苦笑，眉宇间流露出无奈，似乎遇到了棘手或尴尬的情况。",
+    "image_name": "CH0212_spr_13.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "awkward_smile",
+      "flustered"
+    ],
+    "description": "脸颊上挂着汗珠，勉强挤出一丝微笑，看起来非常紧张、心虚或尴尬。",
+    "image_name": "CH0212_spr_14.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "confident"
+    ],
+    "description": "闭嘴微笑，嘴角上扬的弧度柔和，展现出一种自信、从容且愉悦的态度。",
+    "image_name": "CH0212_spr_99.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "happy"
+    ],
+    "description": "闭着双眼微笑，神情安详柔和，透着一种宁静的满足感。",
+    "image_name": "CH0212_spr_Eye_Close_S2_01.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "calm"
+    ],
+    "description": "面带淡淡的微笑，眼神柔和注视前方，给人一种平静且友好的感觉。",
+    "image_name": "CH0212_spr_S2_01.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "talking",
+      "happy"
+    ],
+    "description": "微笑着张开嘴，露出一丝牙齿，看起来心情愉快，仿佛正在与人交谈。",
+    "image_name": "CH0212_spr_S2_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "smile",
+      "laughing"
+    ],
+    "description": "闭着眼开心地笑着，嘴巴张开，神情轻松愉悦，充满亲和力。",
+    "image_name": "CH0212_spr_S2_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "open_mouth",
+      "troubled"
+    ],
+    "description": "脸上挂着汗珠，眉头微皱，嘴巴半张，看起来有些焦急、困扰或不知所措。",
+    "image_name": "CH0212_spr_S2_04.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "serious",
+      "silent"
+    ],
+    "description": "面无表情，嘴巴紧闭，眼神平淡，看不出明显的情绪波动，显得冷静或冷淡。",
+    "image_name": "CH0212_spr_S2_05.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "wavy_mouth",
+      "awkward"
+    ],
+    "description": "神情尴尬，脸上流汗，嘴唇抿成波浪状，似乎遇到了令人无语或棘手的状况，正在极力忍耐。",
+    "image_name": "CH0212_spr_S2_06.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "dazed",
+      "surprised",
+      "blank_stare"
+    ],
+    "description": "嘴巴张开呈小圆状，眼神有些发愣，显得惊讶或是在茫然发呆。",
+    "image_name": "CH0212_spr_S2_07.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "smug",
+      "confident"
+    ],
+    "description": "面带自信的笑容，张着嘴，眼神半眯显得有些得意，洋溢着轻松愉快的情绪。",
+    "image_name": "CH0212_spr_S2_08.png"
+  },
+  {
+    "tags": [
+      "bored",
+      "unamused",
+      "half_closed_eyes",
+      "neutral"
+    ],
+    "description": "眼神半睁半闭，显得有些无精打采或不耐烦，嘴巴微张，神态冷淡且缺乏兴致。",
+    "image_name": "CH0212_spr_S2_09.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "open_mouth",
+      "happy"
+    ],
+    "description": "闭着眼睛开心地大笑，嘴巴张开，脸上洋溢着灿烂的喜悦，充满感染力。",
+    "image_name": "CH0212_spr_S2_10.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "stare",
+      "neutral",
+      "closed_mouth"
+    ],
+    "description": "睁大眼睛直视前方，嘴巴抿成一条线，神情严肃认真，似乎在审视着什么。",
+    "image_name": "CH0212_spr_S2_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "calm",
+      "thinking"
+    ],
+    "description": "双眼紧闭，面部平静，嘴巴闭合，像是在安静地思考、拒绝交流或闭目养神。",
+    "image_name": "CH0212_spr_S2_12.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "teasing",
+      "open_mouth",
+      "smile"
+    ],
+    "description": "带着戏谑的表情，眼神有些狡黠，张着嘴笑，看起来自信满满或正准备捉弄人。",
+    "image_name": "CH0212_spr_S2_13.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "sweat",
+      "closed_eyes",
+      "nervous_smile"
+    ],
+    "description": "闭着眼露出尴尬的笑容，脸上流着冷汗，神情显得有些心虚、紧张或无奈。",
+    "image_name": "CH0212_spr_S2_14.png"
+  },
+  {
+    "tags": [
+      "gentle",
+      "closed_eyes",
+      "closed_mouth",
+      "smile"
+    ],
+    "description": "闭着双眼恬静地微笑，神态柔和安详，给人一种温暖、满足且治愈的感觉。",
+    "image_name": "CH0212_spr_S2_99.png"
+  }
+]

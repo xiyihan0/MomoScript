@@ -1,0 +1,209 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "looking_away",
+      "cross_shaped_pupils",
+      "blush",
+      "mask"
+    ],
+    "description": "角色视线向侧下方游离，黄色十字瞳孔清晰可见，脸颊微红，神态平静略带羞涩。",
+    "image_name": "P_NP0129_spr_00_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "attentive",
+      "cross_shaped_pupils",
+      "mask",
+      "looking_side"
+    ],
+    "description": "标准的常态表情，眼神向一侧注视，眉头舒展，戴着标志性的战术面罩。",
+    "image_name": "P_NP0129_spr_01_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "troubled",
+      "sad",
+      "eyebrows_furrowed",
+      "mask"
+    ],
+    "description": "眉毛呈八字下垂，眼神流露出担忧、困扰或抱歉的情绪。",
+    "image_name": "P_NP0129_spr_02_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "joy",
+      "blush",
+      "mask"
+    ],
+    "description": "双眼眯成弯月状（^ ^），脸颊泛起红晕，洋溢着开心和喜悦的笑容。",
+    "image_name": "P_NP0129_spr_03_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "wince",
+      "squint",
+      "closed_eyes",
+      "pain",
+      "embarrassed",
+      ">_<"
+    ],
+    "description": "双眼紧闭呈“> <”状，似乎感到了疼痛、尴尬、抗拒或者不知所措。",
+    "image_name": "P_NP0129_spr_04_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "serious",
+      "frown",
+      "determined",
+      "mask"
+    ],
+    "description": "眉头紧锁，眼神变得犀利严肃，表现出愤怒、不满或认真对峙的态度。",
+    "image_name": "P_NP0129_spr_05_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "sigh",
+      "tired",
+      "closed_eyes",
+      "sweat_drop",
+      "relief",
+      "mask"
+    ],
+    "description": "闭着眼睛，脸颊挂着一滴汗珠，表现出无奈、疲惫、无语或是松了一口气的神情。",
+    "image_name": "P_NP0129_spr_06_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "shock",
+      "stunned",
+      "blank_eyes",
+      "white_eyes",
+      "dazed",
+      "mask"
+    ],
+    "description": "眼睛失去了高光和瞳孔，变成了空洞的白色圆圈，表现出极度的震惊、呆滞或灵魂出窍的状态。",
+    "image_name": "P_NP0129_spr_07_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "tears",
+      "closed_eyes",
+      ">_<",
+      "blush",
+      "mask"
+    ],
+    "description": "双眼紧闭呈“> <”状，眼角挂着泪珠，脸颊微红，似乎在哭泣或因感动而情绪激动。",
+    "image_name": "P_NP0129_spr_08_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "dot_eyes",
+      "blank_stare",
+      "comic_style",
+      "speechless",
+      "mask"
+    ],
+    "description": "眼睛变成了简单的黑色小点（豆豆眼），表现出呆萌、无语、大脑空白或不知所措的状态。",
+    "image_name": "P_NP0129_spr_09_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "ring_eyes",
+      "hollow_eyes",
+      "shocked",
+      "dazed",
+      "mask"
+    ],
+    "description": "眼睛变成了空心的圆圈，失去了焦点，表现出极度的震惊、混乱、呆滞或晕头转向。",
+    "image_name": "P_NP0129_spr_10_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "x_eyes",
+      "knocked_out",
+      "dizzy",
+      "unconscious",
+      "mask"
+    ],
+    "description": "瞳孔变成了“X”形，通常用于夸张地表现昏迷、被打败、晕倒或完全失去意识。",
+    "image_name": "P_NP0129_spr_11_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "swirl_eyes",
+      "spiral_eyes",
+      "chaos",
+      "confused",
+      "mask"
+    ],
+    "description": "眼睛里呈现出杂乱的螺旋或纹路（蚊香眼），表现出思维混乱、过载、被催眠或神志不清。",
+    "image_name": "P_NP0129_spr_12_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "exclamation_eyes",
+      "symbol_eyes",
+      "surprised",
+      "alert",
+      "mask"
+    ],
+    "description": "瞳孔变成了感叹号“!”的形状，表现出惊讶、警觉、突然察觉或发现了新情况。",
+    "image_name": "P_NP0129_spr_13_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "sparkling_eyes",
+      "star_eyes",
+      "excited",
+      "blue_eyes",
+      "anticipation",
+      "mask"
+    ],
+    "description": "双眼闪烁着蓝色的光芒（类似宝石或星星），表现出极度的兴奋、崇拜、期待或被某物深深吸引。",
+    "image_name": "P_NP0129_spr_14_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "scared",
+      "teary_eyes",
+      "blue_eyes",
+      "nervous",
+      "mask"
+    ],
+    "description": "蓝色的瞳孔显得颤抖不稳，眉毛下垂，流露出恐惧、紧张、担忧、委屈或即将哭出来的神情。",
+    "image_name": "P_NP0129_spr_15_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "shadow_over_eyes",
+      "x_pupils",
+      "gloom",
+      "dark",
+      "scary",
+      "mask"
+    ],
+    "description": "额头笼罩着浓重的阴影，金色的瞳孔中显现出红色的“X”形印记，散发出一种阴沉、危险、黑化或压抑的气息。",
+    "image_name": "P_NP0129_spr_16_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "blush",
+      "smile",
+      "shy",
+      "gentle",
+      "mask"
+    ],
+    "description": "双眼轻轻闭合，脸颊泛着淡淡的红晕，神态安详温柔，表现出羞涩、满足或内心平静的状态。",
+    "image_name": "P_NP0129_spr_99_W2xEX_1x_3n.jpg"
+  }
+]

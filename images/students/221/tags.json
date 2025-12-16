@@ -1,0 +1,107 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "hair_over_eyes",
+      "calm"
+    ],
+    "description": "面无表情，嘴巴闭合成一个小点，看起来非常平静或正在发呆。",
+    "image_name": "J_NP0026_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "serious",
+      "hair_over_eyes"
+    ],
+    "description": "嘴巴抿成一条直线，表情比上一张显得更加严肃或认真。",
+    "image_name": "J_NP0026_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "parted_lips",
+      "slightly_open_mouth",
+      "hair_over_eyes",
+      "dazed"
+    ],
+    "description": "嘴巴微微张开，似乎有些茫然，或者正在轻声细语。",
+    "image_name": "J_NP0026_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "closed_mouth",
+      "hair_over_eyes"
+    ],
+    "description": "嘴角上扬，露出了温柔且愉快的微笑。",
+    "image_name": "J_NP0026_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "awkward",
+      "worry",
+      "hair_over_eyes"
+    ],
+    "description": "脸颊挂着一滴冷汗，嘴型呈波浪状，表现出尴尬、紧张或困扰的情绪。",
+    "image_name": "J_NP0026_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "hair_over_eyes",
+      "neutral"
+    ],
+    "description": "嘴巴自然张开呈圆形，看起来正在说话或发表意见。",
+    "image_name": "J_NP0026_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "gloom_lines",
+      "blue_lines",
+      "scared",
+      "fear",
+      "nervous",
+      "hair_over_eyes"
+    ],
+    "description": "面部覆盖着竖直的阴沉线条（黑线），嘴巴紧绷，表现出极度的恐惧、阴沉或心理压力。",
+    "image_name": "J_NP0026_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "shouting",
+      "hair_over_eyes"
+    ],
+    "description": "嘴巴大张呈O型，表现出惊讶、震惊或者正在大声呼喊。",
+    "image_name": "J_NP0026_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "o_mouth",
+      "hair_over_eyes",
+      "dazed",
+      "shadowed_face"
+    ],
+    "description": "面部带有阴影，嘴巴张开呈小圆形，看起来有些呆滞、茫然，或者正在发出轻微的惊叹声。",
+    "image_name": "J_NP0026_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "neutral",
+      "serious",
+      "hair_over_eyes",
+      "shadowed_face"
+    ],
+    "description": "面部带有阴影，嘴巴闭合成一条直线，表情显得平静、严肃或正在保持沉默。",
+    "image_name": "J_NP0026_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

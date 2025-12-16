@@ -1,0 +1,244 @@
+[
+  {
+    "tags": [
+      "blush",
+      "embarrassed",
+      "troubled",
+      "wavy_mouth",
+      "shy"
+    ],
+    "description": "害羞且困扰的表情，脸颊泛红，眉毛下垂，嘴巴呈波浪状，看起来有些不知所措。",
+    "image_name": "CH0205_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "listening",
+      "normal"
+    ],
+    "description": "平静的日常表情，眼神温和地注视着前方，没有明显的情绪波动。",
+    "image_name": "CH0205_spr_01.png"
+  },
+  {
+    "tags": [
+      "dazed",
+      "blank_stare",
+      "wide_eyes",
+      "surprised",
+      "curious"
+    ],
+    "description": "发呆或略显惊讶的表情，眼睛睁得略大，神情呆滞，似乎正在理解现状。",
+    "image_name": "CH0205_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "开心的笑容，眼睛眯成弯月形，嘴巴张开露出爽朗的笑意，看起来心情很好。",
+    "image_name": "CH0205_spr_03.png"
+  },
+  {
+    "tags": [
+      "heavy_blush",
+      "panic",
+      "dizzy",
+      "sweat_drop",
+      "overwhelmed"
+    ],
+    "description": "极度慌乱和害羞的表情，满脸通红，眼神呈晕眩状，流着冷汗，看起来受到了强烈的刺激。",
+    "image_name": "CH0205_spr_04.png"
+  },
+  {
+    "tags": [
+      "suspicious",
+      "annoyed",
+      "sweat_drop",
+      "doubt",
+      "glare"
+    ],
+    "description": "怀疑或无语的表情，眼神变得犀利，带着一丝审视，脸颊挂着汗珠，似乎对眼前的情况感到无语。",
+    "image_name": "CH0205_spr_05.png"
+  },
+  {
+    "tags": [
+      "teary_eyes",
+      "distressed",
+      "heavy_blush",
+      "sad",
+      "shame"
+    ],
+    "description": "羞愤欲泣的表情，眼角含着泪水，脸颊通红，嘴巴扭曲，看起来既委屈又羞耻。",
+    "image_name": "CH0205_spr_06.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "scolding",
+      "open_mouth",
+      "loud"
+    ],
+    "description": "生气怒吼的表情，眉头紧锁，张大嘴巴大声斥责，表现出强烈的不满或抗议。",
+    "image_name": "CH0205_spr_07.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "protest",
+      "sweat_drop",
+      "agitated"
+    ],
+    "description": "生气抗议的表情，眉头紧蹙，张大嘴巴大声喊叫，脸颊挂着汗珠，显得急躁且不满。",
+    "image_name": "CH0205_spr_08.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "blank_stare",
+      "cat_eyes",
+      "blush",
+      "stunned"
+    ],
+    "description": "震惊呆滞的表情，双眼变成竖瞳猫眼状，满脸通红，嘴巴微张，似乎因受到了某种冲击而大脑死机。",
+    "image_name": "CH0205_spr_09.png"
+  },
+  {
+    "tags": [
+      "panic",
+      "shouting",
+      "cat_eyes",
+      "blush",
+      "wavy_mouth"
+    ],
+    "description": "慌乱大叫的表情，保持着震惊的竖瞳眼神，脸颊通红，嘴巴呈波浪状张开，显得极度动摇。",
+    "image_name": "CH0205_spr_10.png"
+  },
+  {
+    "tags": [
+      "screaming",
+      "shocked",
+      "cat_eyes",
+      "blush",
+      "loud"
+    ],
+    "description": "失控尖叫的表情，眼神呆滞呈竖瞳状，脸红耳赤，张大嘴巴发出惊呼，完全失去了冷静。",
+    "image_name": "CH0205_spr_11.png"
+  },
+  {
+    "tags": [
+      "endure",
+      "trembling",
+      "cat_eyes",
+      "blush",
+      "sweat_drop",
+      "wavy_mouth"
+    ],
+    "description": "强忍羞耻的表情，眼神发直，嘴角颤抖呈波浪状，流着冷汗，似乎正在拼命忍耐某种情绪。",
+    "image_name": "CH0205_spr_12.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "anxious",
+      "cat_eyes",
+      "blush",
+      "heavy_sweat"
+    ],
+    "description": "极度紧张的表情，满脸通红，眼神呆滞，汗如雨下，嘴巴紧闭，显得非常焦虑和不知所措。",
+    "image_name": "CH0205_spr_13.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "excited",
+      "smile",
+      "open_mouth",
+      "energetic"
+    ],
+    "description": "兴奋快乐的表情，眼睛睁大，嘴巴张开露出笑容，看起来充满活力，正在开心地交谈。",
+    "image_name": "CH0205_spr_14.png"
+  },
+  {
+    "tags": [
+      "dark",
+      "gloomy",
+      "shadowed_face",
+      "scary",
+      "despair"
+    ],
+    "description": "阴沉恐怖的表情，上半张脸笼罩在阴影中，眼神失去高光，带有黑线，散发出一种压抑的气场。",
+    "image_name": "CH0205_spr_15.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "wavy_mouth",
+      "looking_away",
+      "annoyed",
+      "blush"
+    ],
+    "description": "困扰且略带不悦的表情，眼神游移向一侧，脸颊微红，嘴巴扭曲呈波浪状，似乎对现状感到无奈或轻微的抵触。",
+    "image_name": "CH0205_spr_16.png"
+  },
+  {
+    "tags": [
+      "heavy_blush",
+      "embarrassed",
+      "shy",
+      "looking_away",
+      "shame"
+    ],
+    "description": "极度害羞的表情，满脸通红，眼神躲闪不敢直视，眉头紧锁，显得非常尴尬和羞耻，仿佛被戳穿了心事。",
+    "image_name": "CH0205_spr_17.png"
+  },
+  {
+    "tags": [
+      "spiral_eyes",
+      "smug",
+      "smile",
+      "dizzy",
+      "delusion"
+    ],
+    "description": "陷入妄想或混乱的表情，双眼呈蚊香状，嘴角却挂着自信甚至有些得意的笑容，看起来正沉浸在某种奇怪的想象中。",
+    "image_name": "CH0205_spr_18.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smug",
+      "smile",
+      "proud",
+      "satisfied"
+    ],
+    "description": "闭眼得意的表情，嘴角上扬露出笑容，神情显得非常满足和自豪，散发着一种傲娇自信的氛围。",
+    "image_name": "CH0205_spr_19.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "shouting",
+      "laughing",
+      "energetic"
+    ],
+    "description": "闭眼大笑或大喊的表情，嘴巴张大，眉头微皱，看起来既像是在激动地反驳，又像是在掩饰害羞地大笑。",
+    "image_name": "CH0205_spr_20.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral",
+      "sigh",
+      "thinking"
+    ],
+    "description": "闭目养神或无奈叹气的表情，神情平静，面部肌肉放松，看起来正在沉思或进行短暂的休息。",
+    "image_name": "CH0205_spr_99.png"
+  }
+]

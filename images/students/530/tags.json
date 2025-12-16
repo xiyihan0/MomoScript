@@ -1,0 +1,426 @@
+[
+  {
+    "tags": [
+      "smile",
+      "neutral",
+      "yellow_eyes"
+    ],
+    "description": "基础表情，面带温和的微笑，眼神平静地注视前方，展现出友好且沉稳的态度。",
+    "image_name": "CH0276_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "smirk"
+    ],
+    "description": "自信的微笑，嘴角上扬的幅度比基础表情略大，眼神坚定，流露出一种胸有成竹的神情。",
+    "image_name": "CH0276_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprise",
+      "speaking"
+    ],
+    "description": "嘴巴微张呈圆形，似乎正在说话或对某事感到轻微的惊讶，注意力集中的表情。",
+    "image_name": "CH0276_spr_02.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "half_closed_eyes",
+      "mischievous"
+    ],
+    "description": "半眯着眼睛，带着得意的坏笑（雌小鬼表情），眼神中流露出调侃、恶作剧或看穿对方的意味。",
+    "image_name": "CH0276_spr_03.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "open_mouth",
+      "agitated"
+    ],
+    "description": "嘴巴大幅张开，眼神瞪大，似乎在抗议、大声喊叫或感到强烈的震惊，情绪比较激动。",
+    "image_name": "CH0276_spr_04.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "frown",
+      "half_closed_eyes"
+    ],
+    "description": "眼神冷淡且半眯着，嘴角紧抿或下撇，表现出无奈、不悦、无语或嫌弃的情绪。",
+    "image_name": "CH0276_spr_05.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "troubled",
+      "grimace"
+    ],
+    "description": "脸上带有明显的汗珠，嘴角抽搐或咬牙，眼神显得不安，表现出焦急、尴尬或感到棘手的状态。",
+    "image_name": "CH0276_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "laughing"
+    ],
+    "description": "双眼紧闭成弯月形，露出开心的笑容，没有任何防备，表现出纯粹的喜悦和轻松。",
+    "image_name": "CH0276_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "grin"
+    ],
+    "description": "双眼紧闭成弯月状，露出整齐洁白的牙齿，面带开朗且充满活力的笑容，表现出纯粹的开心。",
+    "image_name": "CH0276_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "闭着双眼，嘴巴大幅张开，仿佛正在发出爽朗的笑声，洋溢着极度愉悦和豪爽的情绪。",
+    "image_name": "CH0276_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "mischievous",
+      "fang"
+    ],
+    "description": "闭眼张嘴笑，嘴角特意露出一点小尖牙（虎牙），带着一种调皮、小恶魔般恶作剧得逞的得意感。",
+    "image_name": "CH0276_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "tongue_out",
+      "teasing",
+      "playful"
+    ],
+    "description": "闭着眼睛吐出舌头做鬼脸，表现出明显的调侃、搞怪和孩子气的挑衅态度。",
+    "image_name": "CH0276_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sigh",
+      "breath"
+    ],
+    "description": "双眼闭合，嘴巴微张呈圆形，似乎在轻轻叹气、呼气，或者表现出一种放松、无防备的状态。",
+    "image_name": "CH0276_spr_12.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "narrowed_eyes",
+      "confident",
+      "yellow_eyes"
+    ],
+    "description": "半眯着金色的眼睛，嘴角勾起自信的弧度，流露出得意、从容甚至带有一丝轻蔑的坏笑。",
+    "image_name": "CH0276_spr_13.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "tongue_out",
+      "teasing",
+      "seductive"
+    ],
+    "description": "眼神半眯，嘴角上扬并吐出一点舌尖，带有强烈的挑逗、戏弄意味（经典的雌小鬼表情）。",
+    "image_name": "CH0276_spr_14.png"
+  },
+  {
+    "tags": [
+      "disgust",
+      "narrowed_eyes",
+      "annoyed",
+      "grimace"
+    ],
+    "description": "眼神冷漠且半眯，嘴角不自然地歪斜或抽动，直白地表达出嫌弃、不爽或看垃圾一样的鄙视情绪。",
+    "image_name": "CH0276_spr_15.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "grin",
+      "narrowed_eyes",
+      "mischievous",
+      "teeth"
+    ],
+    "description": "眼神半眯，嘴角大幅上扬露出牙齿，带着强烈的坏笑和阴谋得逞的得意感。",
+    "image_name": "CH0276_spr_16.png"
+  },
+  {
+    "tags": [
+      "tongue_out",
+      "narrowed_eyes",
+      "crazy",
+      "teasing",
+      "eccentric"
+    ],
+    "description": "眼神迷离半眯，大幅度吐出舌头，神情显得疯狂、怪异，带有强烈的不正常或极度挑衅的意味。",
+    "image_name": "CH0276_spr_17.png"
+  },
+  {
+    "tags": [
+      "side_glance",
+      "pout",
+      "annoyed",
+      "ignoring"
+    ],
+    "description": "视线移向一侧，嘴巴嘟起，表现出不满、闹别扭或者故意无视对方的态度。",
+    "image_name": "CH0276_spr_18.png"
+  },
+  {
+    "tags": [
+      "stare",
+      "serious",
+      "small_mouth",
+      "focused"
+    ],
+    "description": "眼神直视前方，神情冷峻严肃，嘴唇微张，似乎在认真审视或感到警惕。",
+    "image_name": "CH0276_spr_19.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "smile",
+      "intense",
+      "yandere",
+      "creepy"
+    ],
+    "description": "眼睛非自然地睁大，嘴角带着微妙的笑意，眼神直勾勾地盯着，流露出一丝病娇或令人不寒而栗的执着。",
+    "image_name": "CH0276_spr_20.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "disgust",
+      "angry",
+      "shock",
+      "grimace"
+    ],
+    "description": "眼睛瞪大，嘴角抽搐露出厌恶的神情，似乎对眼前的事物感到震惊、愤怒或难以置信。",
+    "image_name": "CH0276_spr_21.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "grin",
+      "crazy",
+      "excited",
+      "teeth"
+    ],
+    "description": "眼睛圆睁，露出夸张的露齿笑容，表现出极度的亢奋、狂喜，带有猎食者般的疯狂气质。",
+    "image_name": "CH0276_spr_22.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "tongue_out",
+      "crazy",
+      "manic",
+      "hungry"
+    ],
+    "description": "眼睛瞪大，舌头长长伸出，表情极度癫狂、饥渴，完全失去了冷静，展现出失控的狂气。",
+    "image_name": "CH0276_spr_23.png"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "tongue_out",
+      "fang",
+      "crazy",
+      "playful"
+    ],
+    "description": "睁大金色的双眼，夸张地吐出舌头并露出尖牙，表情显得疯狂、调皮且带有一丝挑衅。",
+    "image_name": "CH0276_spr_24.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "stare",
+      "calm"
+    ],
+    "description": "表情平静冷淡，眼神直视前方，嘴巴闭合，没有任何明显的情绪波动，处于一种标准的待机状态。",
+    "image_name": "CH0276_spr_25.png"
+  },
+  {
+    "tags": [
+      "narrowed_eyes",
+      "bored",
+      "unimpressed",
+      "flat_mouth"
+    ],
+    "description": "眼神半眯，视线略显呆滞或无聊，嘴巴呈平直状，表现出对眼前事物毫无兴趣或感到乏味的态度。",
+    "image_name": "CH0276_spr_26.png"
+  },
+  {
+    "tags": [
+      "narrowed_eyes",
+      "doubt",
+      "awkward",
+      "grimace"
+    ],
+    "description": "眼神半眯带着一丝怀疑，嘴角微微抽动，流露出一种尴尬、困惑或者“这啥啊”的微妙嫌弃感。",
+    "image_name": "CH0276_spr_27.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "narrowed_eyes",
+      "smile",
+      "confident",
+      "mischievous"
+    ],
+    "description": "眼神半眯，嘴角勾起自信的弧度，脸上写满了得意和戏谑，仿佛恶作剧得逞后的神情。",
+    "image_name": "CH0276_spr_28.png"
+  },
+  {
+    "tags": [
+      "narrowed_eyes",
+      "teeth",
+      "aggressive",
+      "annoyed",
+      "growling"
+    ],
+    "description": "眯起眼睛，嘴角咧开露出牙齿，表情凶狠且带有攻击性，仿佛正在低吼威吓或极度不爽。",
+    "image_name": "CH0276_spr_29.png"
+  },
+  {
+    "tags": [
+      "frustrated",
+      "grimace",
+      "wavy_mouth",
+      "holding_back",
+      "upset"
+    ],
+    "description": "眉头紧皱，嘴巴紧抿成波浪状，满脸的不甘心和憋屈，仿佛正在强忍着某种极度懊恼或委屈的情绪。",
+    "image_name": "CH0276_spr_30.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "disgust",
+      "open_mouth",
+      "teeth",
+      "scorn"
+    ],
+    "description": "满脸怒容，眼神凶狠，嘴巴歪斜张开露出牙齿，直接表达出强烈的愤怒、嫌弃和鄙视。",
+    "image_name": "CH0276_spr_31.png"
+  },
+  {
+    "tags": [
+      "clenched_teeth",
+      "annoyed",
+      "grimace",
+      "angry",
+      "struggle"
+    ],
+    "description": "咬紧牙关，表情狰狞，眼神中透露出强烈的不爽和焦躁，仿佛正在极力忍耐某种情绪。",
+    "image_name": "CH0276_spr_32.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "angry",
+      "open_mouth",
+      "aggressive",
+      "loud"
+    ],
+    "description": "张大嘴巴怒吼，眼神凶狠，情绪十分激动，表现出强烈的攻击性或愤怒的抗议。",
+    "image_name": "CH0276_spr_33.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "grin",
+      "teeth",
+      "mischievous",
+      "teasing"
+    ],
+    "description": "嘴角大幅咧开露出牙齿，带着一脸狡黠和得意的坏笑，仿佛正在策划或享受某个恶作剧。",
+    "image_name": "CH0276_spr_34.png"
+  },
+  {
+    "tags": [
+      "tongue_out",
+      "cheeky",
+      "teasing",
+      "playful",
+      "provoking"
+    ],
+    "description": "伸出舌头，眼神带着挑衅，做出一副顽皮且不屑的鬼脸，充满嘲弄意味。",
+    "image_name": "CH0276_spr_35.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "awkward",
+      "nervous",
+      "wry_smile",
+      "troubled"
+    ],
+    "description": "脸上挂着冷汗，眼神游移，嘴角勉强扯出一个尴尬的笑容，显得非常心虚或不知所措。",
+    "image_name": "CH0276_spr_36.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "panic",
+      "open_mouth",
+      "anxious",
+      "overwhelmed"
+    ],
+    "description": "满头大汗，嘴巴张开，神情惊慌且焦急，似乎对眼前的突发状况感到震惊和无力招架。",
+    "image_name": "CH0276_spr_37.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "gentle",
+      "peaceful"
+    ],
+    "description": "双眼闭合，嘴角上扬，神情柔和安详，表现出纯粹的开心和满足感。",
+    "image_name": "CH0276_spr_99.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "stare",
+      "open_eyes",
+      "pleased"
+    ],
+    "description": "眼神清澈，嘴角带着自信的微笑，神情从容不迫，展现出心情愉悦的一面。",
+    "image_name": "CH0276_spr_Eye_Close_01.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "smirk",
+      "sharp_eyes",
+      "relaxed"
+    ],
+    "description": "眼神锐利且充满自信，嘴角微微上扬露出得意的神情，神态轻松从容，仿佛对一切都游刃有余。",
+    "image_name": "CH0276_spr_Idle_01.png"
+  }
+]

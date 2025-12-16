@@ -1,0 +1,192 @@
+[
+  {
+    "tags": [
+      "thinking",
+      "serious",
+      "frown",
+      "hand_on_chin",
+      "closed_mouth"
+    ],
+    "description": "她眉头微蹙，神情严肃，手指抵住下巴，正专注于思考某个问题。",
+    "image_name": "NP0130_spr_14.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "surprised",
+      "open_mouth",
+      "frown",
+      "hand_on_chin"
+    ],
+    "description": "她张大嘴巴似乎在惊讶地大喊或急切地反驳，眉头紧锁，情绪显得有些激动。",
+    "image_name": "NP0130_spr_15.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "blush",
+      "open_mouth",
+      "hand_on_chin"
+    ],
+    "description": "她脸上泛着红晕，露出了自信满满甚至带有些许嘲讽意味的得意笑容。",
+    "image_name": "P_NP0130_spr_00_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "shy",
+      "looking_away",
+      "blush",
+      "closed_mouth",
+      "hand_on_chin"
+    ],
+    "description": "她眼神向一侧游移，似乎在避开视线，脸颊微红，看起来有些害羞或尴尬。",
+    "image_name": "P_NP0130_spr_01_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "confused",
+      "annoyed",
+      "blush",
+      "parted_lips",
+      "hand_on_chin"
+    ],
+    "description": "她微微张嘴，眉头轻皱，面带红晕地盯着看，眼神中流露出一丝困惑或无语的情绪。",
+    "image_name": "P_NP0130_spr_02_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "laughing",
+      "blush",
+      "open_mouth",
+      "hand_on_chin"
+    ],
+    "description": "她开怀地笑着，眼神中充满了得意与自信，脸颊微红，仿佛胜券在握。",
+    "image_name": "P_NP0130_spr_03_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "worried",
+      "sweat",
+      "open_mouth",
+      "blush",
+      "hand_on_chin"
+    ],
+    "description": "她脸上挂着明显的冷汗，眉头紧锁，神色慌张且焦急，似乎遇到了棘手的状况。",
+    "image_name": "P_NP0130_spr_04_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "closed_mouth",
+      "hand_on_chin",
+      "looking_at_viewer"
+    ],
+    "description": "她神情平淡冷静，没有任何特殊的表情，只是静静地注视着前方。",
+    "image_name": "P_NP0130_spr_05_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "frown",
+      "blush",
+      "hand_on_chin"
+    ],
+    "description": "她眉头微蹙，嘴角向下撇，脸上带着红晕，眼神中流露出一丝忧郁和担忧，似乎遇到了什么令人困扰的事情。",
+    "image_name": "P_NP0130_spr_06_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "blush",
+      "hand_on_chin",
+      "looking_at_viewer"
+    ],
+    "description": "她嘴角勾起一抹自信的微笑，脸颊泛红，眼神直视前方，透露出一种游刃有余甚至略带得意的神情。",
+    "image_name": "P_NP0130_spr_07_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "thinking",
+      "blush",
+      "hand_on_chin",
+      "neutral"
+    ],
+    "description": "她视线向侧面游移，似乎在回避目光或在思考别的事情，脸颊微红，表情显得比较平静但带着一丝微妙的心思。",
+    "image_name": "P_NP0130_spr_08_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "pout",
+      "annoyed",
+      "blush",
+      "hand_on_chin",
+      "looking_at_viewer"
+    ],
+    "description": "她嘟着嘴，眉头轻微皱起，脸上泛着红晕，像是在闹别扭或者对某事感到不满，流露出一种可爱的怨气。",
+    "image_name": "P_NP0130_spr_09_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "dazed",
+      "open_mouth",
+      "blush",
+      "hand_on_chin",
+      "blank_stare"
+    ],
+    "description": "她微微张着嘴，眼神显得有些呆滞或放空，脸颊微红，仿佛正在发呆或者对眼前的情况感到一时反应不过来。",
+    "image_name": "P_NP0130_spr_10_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "cat_mouth",
+      "mischievous",
+      "blush",
+      "hand_on_chin",
+      "smile",
+      ":3"
+    ],
+    "description": "她露出了波浪状的“猫嘴”笑容，眼神中带着狡黠和调皮，脸颊微红，看起来似乎正在策划什么恶作剧。",
+    "image_name": "P_NP0130_spr_11_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "awkward",
+      "nervous",
+      "hand_on_chin",
+      "neutral"
+    ],
+    "description": "她脸颊上挂着一滴明显的冷汗，虽然表情看起来比较平淡，但透露出一丝尴尬、无语或者是轻微的紧张感。",
+    "image_name": "P_NP0130_spr_12_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "talking",
+      "neutral",
+      "hand_on_chin",
+      "serious"
+    ],
+    "description": "她微微张开嘴巴，似乎正准备说话或正在进行说明，神情相对平静且认真，眼神聚焦于前方。",
+    "image_name": "P_NP0130_spr_13_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "thinking",
+      "blush",
+      "hand_on_chin",
+      "calm",
+      "closed_mouth"
+    ],
+    "description": "她闭着双眼，脸颊带着微红，手指抵住下巴，神情平静沉稳，仿佛正在闭目沉思。",
+    "image_name": "P_NP0130_spr_99_W2xEX_1x_3n.jpg"
+  }
+]

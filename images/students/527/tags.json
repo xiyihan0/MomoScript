@@ -1,0 +1,192 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "serious",
+      "mouth_closed"
+    ],
+    "description": "默认的平静表情，眼神略显冷淡，嘴角平直，表现出一种认真或待机的状态。",
+    "image_name": "NP0246_spr_00.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "displeased",
+      "frown",
+      "serious"
+    ],
+    "description": "眉头微皱，嘴角向下撇，流露出不满、怀疑或不高兴的情绪。",
+    "image_name": "NP0246_spr_01.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "neutral",
+      "open_mouth"
+    ],
+    "description": "嘴巴微微张开，似乎正在陈述某事，神情依然保持冷静和理智。",
+    "image_name": "NP0246_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "smug",
+      "confident",
+      "mischievous"
+    ],
+    "description": "嘴角上扬露出一丝得意的坏笑，眼神中带着自信甚至有些戏谑的意味。",
+    "image_name": "NP0246_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "awkward",
+      "mouth_closed"
+    ],
+    "description": "脸颊挂着冷汗，紧闭嘴巴，看起来感到局促不安、尴尬或无语。",
+    "image_name": "NP0246_spr_04.png"
+  },
+  {
+    "tags": [
+      "expressionless",
+      "cold",
+      "neutral",
+      "stare"
+    ],
+    "description": "面无表情，嘴巴抿成一条短线，眼神空洞，表现出冷漠或毫不在意的样子。",
+    "image_name": "NP0246_spr_05.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "sweat_drop",
+      "confused",
+      "wavy_mouth"
+    ],
+    "description": "流着冷汗，嘴巴呈波浪状微张，显得非常困扰、为难或不知所措。",
+    "image_name": "NP0246_spr_06.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "panic",
+      "sweat_drop",
+      "open_mouth",
+      "shouting"
+    ],
+    "description": "满头大汗，嘴巴张大，似乎在惊慌失措地大喊或受到了强烈的惊吓。",
+    "image_name": "NP0246_spr_07.png"
+  },
+  {
+    "tags": [
+      "painful",
+      "sweat_drop",
+      "closed_eyes",
+      "open_mouth",
+      "suffering"
+    ],
+    "description": "双眼紧闭，满头大汗，嘴巴张开，似乎正在忍受巨大的痛苦、疲惫或在拼命忍耐。",
+    "image_name": "NP0246_spr_08.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shadowed_face",
+      "glare",
+      "scary",
+      "frown"
+    ],
+    "description": "面部覆盖着阴影，眼神凶狠失去高光，眉头紧锁，散发出强烈的愤怒、威压或黑化的气息。",
+    "image_name": "NP0246_spr_09.png"
+  },
+  {
+    "tags": [
+      "crazy",
+      "laughing",
+      "manic",
+      "open_mouth",
+      "wide_eyes"
+    ],
+    "description": "表情崩坏，瞳孔收缩，张大嘴巴狂笑，展现出一种疯狂、失控甚至有些神经质的状态。",
+    "image_name": "NP0246_spr_10.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "panic",
+      "sweat_drop",
+      "small_pupils",
+      "open_mouth"
+    ],
+    "description": "瞳孔极度收缩，满脸冷汗，嘴巴张开，表现出极度的震惊、恐慌和难以置信。",
+    "image_name": "NP0246_spr_11.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "laughing",
+      "excited",
+      "open_mouth",
+      "cheerful"
+    ],
+    "description": "开心地张嘴大笑，眼神明亮，显得非常兴奋、充满活力和喜悦。",
+    "image_name": "NP0246_spr_12.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "mocking",
+      "half_closed_eyes",
+      "smile",
+      "disdain"
+    ],
+    "description": "眼神半眯带着轻蔑，嘴角勾起一丝冷笑，流露出嘲讽、自信或看不起对方的神态。",
+    "image_name": "NP0246_spr_13.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "closed_eyes",
+      "smile",
+      "confident",
+      "proud"
+    ],
+    "description": "闭着眼睛微笑，嘴角上扬，表现出一种得意洋洋、自我满足或胸有成竹的傲慢感。",
+    "image_name": "NP0246_spr_14.png"
+  },
+  {
+    "tags": [
+      "sigh",
+      "closed_eyes",
+      "disappointed",
+      "tired",
+      "resigned"
+    ],
+    "description": "闭着眼睛，嘴巴微张，似乎在无奈地叹气，表现出失望、疲惫或放弃的情绪。",
+    "image_name": "NP0246_spr_99.png"
+  },
+  {
+    "tags": [
+      "cold",
+      "glare",
+      "annoyed",
+      "side_glance",
+      "displeased"
+    ],
+    "description": "眼神冰冷地向侧面瞥视，眉头微压，嘴角微微下撇，流露出一种不屑、厌恶或极度冷漠的情绪。",
+    "image_name": "NP0246_spr_Eye_Close_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "calm",
+      "stare",
+      "bored"
+    ],
+    "description": "默认的待机神态，只有单眼露出且目光锐利，面部表情严肃而平静，散发出一种生人勿近的高冷气质。",
+    "image_name": "NP0246_spr_Idle_01.png"
+  }
+]

@@ -1,0 +1,71 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "cool",
+      "yellow_eyes"
+    ],
+    "description": "神情冷淡，眼神直视前方，嘴角紧闭，展现出标准的冷静与严肃状态。",
+    "image_name": "J_karin_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "talking",
+      "open_mouth",
+      "explaining"
+    ],
+    "description": "嘴巴微微张开，似乎正在进行对话、发出指令或解释某种情况。",
+    "image_name": "J_karin_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smirk",
+      "confident",
+      "smile",
+      "narrowed_eyes"
+    ],
+    "description": "眼神微眯，嘴角上扬，流露出一种自信、得意甚至带有挑衅意味的微笑。",
+    "image_name": "J_karin_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "shocked",
+      "wide_eyes",
+      "confused"
+    ],
+    "description": "眼睛睁大，瞳孔收缩，显得非常惊讶，仿佛看到了意料之外的事物或感到措手不及。",
+    "image_name": "J_karin_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "glare",
+      "frown",
+      "focused"
+    ],
+    "description": "眉头紧锁，眼神变得凶狠犀利，透露出明显的不悦、愤怒或高度警惕。",
+    "image_name": "J_karin_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sigh",
+      "closed_eyes",
+      "sweat_drop",
+      "exasperated"
+    ],
+    "description": "闭着眼睛，嘴巴微张似在叹气，脸颊挂着汗珠，表现出无奈、无语或疲惫的情绪。",
+    "image_name": "J_karin_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "unconscious",
+      "closed_eyes",
+      "defeat",
+      "pain"
+    ],
+    "description": "双眼紧闭，面部肌肉松弛或带有痛苦之色，看起来像是昏迷、战败或彻底失去意识的状态。",
+    "image_name": "J_karin_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

@@ -1,0 +1,285 @@
+[
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "frown",
+      "red_eyes"
+    ],
+    "description": "愤怒的大喊表情，眉毛紧紧皱起，嘴巴张开露出牙齿，眼神充满攻击性，看起来非常生气。",
+    "image_name": "CH0280_spr_00.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "annoyed",
+      "closed_mouth",
+      "glaring",
+      "neutral"
+    ],
+    "description": "严肃且略带不悦的表情，嘴巴紧闭，眼神冷淡地注视着前方，表现出不耐烦的情绪。",
+    "image_name": "CH0280_spr_01.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "aggressive"
+    ],
+    "description": "激动的怒吼表情，神情凶狠，似乎正在大声训斥某人，情绪十分高昂。",
+    "image_name": "CH0280_spr_02.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "laughing",
+      "grin"
+    ],
+    "description": "开心地大笑，眼睛眯成弯月状，嘴巴张开露出得意的笑容，看起来心情很好。",
+    "image_name": "CH0280_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "grimace",
+      "awkward",
+      "troubled"
+    ],
+    "description": "感到尴尬或棘手的表情，脸颊上挂着冷汗，嘴角抽搐，显得有些不知所措。",
+    "image_name": "CH0280_spr_04.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "unimpressed",
+      "closed_mouth",
+      "silent"
+    ],
+    "description": "冷淡的注视表情，没有什么特别的情绪波动，只是静静地看着，带有一丝压迫感。",
+    "image_name": "CH0280_spr_05.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "looking_away",
+      "worried",
+      "guilty"
+    ],
+    "description": "心虚或焦虑的表情，视线向旁边游移不敢直视，脸上流着冷汗，似乎在隐瞒什么或感到不安。",
+    "image_name": "CH0280_spr_06.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "yelling",
+      "open_mouth",
+      "furious"
+    ],
+    "description": "暴躁的表情，再次张大嘴巴咆哮，眉眼间充满了怒气，极具威慑力。",
+    "image_name": "CH0280_spr_07.png"
+  },
+  {
+    "tags": [
+      "confident",
+      "smirk",
+      "mischievous",
+      "grin",
+      "red_eyes"
+    ],
+    "description": "自信且带着坏笑的表情，嘴角上扬露出牙齿，眼神犀利，仿佛在策划什么恶作剧或胜券在握。",
+    "image_name": "CH0280_spr_08.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "laughing",
+      "closed_eyes",
+      "cheerful",
+      "joy"
+    ],
+    "description": "极其开心的笑容，眼睛眯成弯弯的线条，嘴巴大张大笑，充满了爽朗和愉悦的气息。",
+    "image_name": "CH0280_spr_09.png"
+  },
+  {
+    "tags": [
+      "embarrassed",
+      "frustrated",
+      "blushing",
+      "grit_teeth",
+      "sweat"
+    ],
+    "description": "羞愤交加的表情，脸颊通红，咬紧牙关，眼神中透露出不甘和尴尬，脸侧挂着汗珠。",
+    "image_name": "CH0280_spr_10.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shock",
+      "blank_eyes",
+      "comic_style",
+      "furious"
+    ],
+    "description": "被气昏头的夸张表情，眼睛变成了空白状，咬牙切齿，满脸通红，显得既生气又无奈。",
+    "image_name": "CH0280_spr_11.png"
+  },
+  {
+    "tags": [
+      "yelling",
+      "shouting",
+      "blank_eyes",
+      "comic_style",
+      "rage"
+    ],
+    "description": "歇斯底里的怒吼，双眼翻白，嘴巴大张咆哮，脸红筋涨，情绪极其激动。",
+    "image_name": "CH0280_spr_12.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "complaining",
+      "side_glance",
+      "irritated",
+      "open_mouth"
+    ],
+    "description": "不满的抱怨表情，眼神斜视一旁，嘴巴张开大声抗议，看起来对现状非常不爽。",
+    "image_name": "CH0280_spr_13.png"
+  },
+  {
+    "tags": [
+      "gloomy",
+      "shadow_face",
+      "depressed",
+      "grit_teeth",
+      "dark"
+    ],
+    "description": "阴沉压抑的表情，上半张脸被阴影覆盖看不清眼神，咬着牙忍耐着，充满了挫败感或黑化的气息。",
+    "image_name": "CH0280_spr_14.png"
+  },
+  {
+    "tags": [
+      "flustered",
+      "blushing",
+      "arguing",
+      "sweat",
+      "anxious"
+    ],
+    "description": "焦急辩解的表情，脸颊泛红，流着冷汗，张嘴大声争论，眼神中带着一丝慌乱和羞涩。",
+    "image_name": "CH0280_spr_15.png"
+  },
+  {
+    "tags": [
+      "disgusted",
+      "grimace",
+      "annoyed",
+      "frown",
+      "upset"
+    ],
+    "description": "厌恶或不满的表情，嘴角扭曲，眉头紧锁，眼神中透露出嫌弃，似乎看到了什么令人不快的东西。",
+    "image_name": "CH0280_spr_16.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "stare",
+      "blank",
+      "calm"
+    ],
+    "description": "面无表情的注视，眼神平静且空洞，没有任何明显的情绪起伏，只是静静地看着前方。",
+    "image_name": "CH0280_spr_17.png"
+  },
+  {
+    "tags": [
+      "bubble_gum",
+      "bored",
+      "casual",
+      "relaxed",
+      "bad_attitude"
+    ],
+    "description": "吹着泡泡糖的悠闲表情，眼神漫不经心，透露出一股叛逆和无聊的气息，显得毫不在意。",
+    "image_name": "CH0280_spr_18.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "grit_teeth",
+      "snarl",
+      "furious",
+      "frustrated"
+    ],
+    "description": "凶狠的表情，咬牙切齿，眼神犀利充满怒火，似乎正在忍耐极大的愤怒或准备发火。",
+    "image_name": "CH0280_spr_19.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "yelling",
+      "angry",
+      "open_mouth",
+      "loud"
+    ],
+    "description": "大声怒吼的表情，嘴巴张大，眉毛倒竖，充满了攻击性，正在激烈地表达不满或抗议。",
+    "image_name": "CH0280_spr_20.png"
+  },
+  {
+    "tags": [
+      "smirk",
+      "confident",
+      "grin",
+      "provocative",
+      "smug"
+    ],
+    "description": "挑衅的坏笑，嘴角上扬露出牙齿，眼神中带着自信和轻蔑，似乎在嘲讽对手。",
+    "image_name": "CH0280_spr_21.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "sly",
+      "scheming",
+      "satisfied",
+      "soft_smile"
+    ],
+    "description": "意味深长的微笑，眼神略带狡黠，嘴角微微上扬，仿佛想到了什么有趣的鬼点子或感到满意。",
+    "image_name": "CH0280_spr_22.png"
+  },
+  {
+    "tags": [
+      "unimpressed",
+      "skeptical",
+      "tired",
+      "half_closed_eyes",
+      "doubt"
+    ],
+    "description": "半眯着眼的鄙视或怀疑表情，一脸不屑和无语，似乎对眼前的情况感到非常无聊或不信任。",
+    "image_name": "CH0280_spr_23.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "shouting",
+      "annoyed",
+      "complaining",
+      "frustrated"
+    ],
+    "description": "闭眼大喊的表情，眉头紧锁，张大嘴巴似乎在发泄不满或大声抗议，充满了不耐烦的情绪。",
+    "image_name": "CH0280_spr_24.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "neutral",
+      "silent",
+      "calm",
+      "thinking"
+    ],
+    "description": "闭眼沉默的表情，神态平和，像是在安静地思考、闭目养神，或是单纯地不想理人。",
+    "image_name": "CH0280_spr_99.png"
+  }
+]

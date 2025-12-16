@@ -1,0 +1,231 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_eyes",
+      "normal"
+    ],
+    "description": "海花标准的微笑表情，绿色的竖瞳注视前方，神态温和。",
+    "image_name": "CH0289_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_eyes"
+    ],
+    "description": "面带温和的微笑，与标准表情基本一致，透出一股平静的气质。",
+    "image_name": "CH0289_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "open_eyes"
+    ],
+    "description": "嘴巴微微张开呈圆形，似乎对某事感到惊讶，或者正在开口说话。",
+    "image_name": "CH0289_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "happy",
+      "laugh",
+      "open_mouth"
+    ],
+    "description": "双眼眯成弯弯的弧线，嘴巴张开露出牙齿，开怀大笑，看起来非常开心。",
+    "image_name": "CH0289_spr_03.png"
+  },
+  {
+    "tags": [
+      "expressionless",
+      "serious",
+      "open_eyes"
+    ],
+    "description": "面无表情，嘴巴抿成小点，眼神直直地看着前方，显得有些严肃或发呆。",
+    "image_name": "CH0289_spr_04.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "jitome",
+      "annoyed",
+      "bored"
+    ],
+    "description": "眼睛半睁（死鱼眼），眼神冷淡，流露出无语、鄙视或疲惫的情绪。",
+    "image_name": "CH0289_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "serious"
+    ],
+    "description": "双眼完全闭合，表情平静且略带严肃，像是在沉思、忍耐或闭目养神。",
+    "image_name": "CH0289_spr_06.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_eyes",
+      "confident"
+    ],
+    "description": "嘴角微微上扬，眼神坚定，展现出从容且自信的微笑。",
+    "image_name": "CH0289_spr_07.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_eyes",
+      "confident",
+      "open_mouth"
+    ],
+    "description": "眼神清澈注视前方，嘴角微微露齿轻笑，展现出一种自信且从容的神态。",
+    "image_name": "CH0289_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "calm"
+    ],
+    "description": "双眼轻闭，嘴角微微上扬，表情恬静温柔，显得非常安心。",
+    "image_name": "CH0289_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "happy",
+      "smile"
+    ],
+    "description": "眼睛眯成弯弯的月牙状（倒U型），脸上挂着亲切的笑容，心情看起来很不错。",
+    "image_name": "CH0289_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "happy",
+      "laugh",
+      "open_mouth"
+    ],
+    "description": "眼睛眯成开心的弧线，嘴巴张开大笑，洋溢着纯粹的快乐和喜悦。",
+    "image_name": "CH0289_spr_11.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smug",
+      "smile",
+      "open_mouth"
+    ],
+    "description": "半睁着眼（垂眼），嘴角勾起一抹露齿的坏笑，似乎在打什么如意算盘，显得有些得意。",
+    "image_name": "CH0289_spr_12.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smile",
+      "gentle"
+    ],
+    "description": "眼神半睁显得有些慵懒，嘴角含笑，透着一种成熟、从容甚至略带慈爱的温柔感。",
+    "image_name": "CH0289_spr_13.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "annoyed",
+      "serious",
+      "jitome"
+    ],
+    "description": "眼神半睁（死鱼眼），嘴角抿成直线，流露出一种冷淡、无语或轻微鄙视的情绪。",
+    "image_name": "CH0289_spr_14.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "open_mouth",
+      "dazed",
+      "speechless"
+    ],
+    "description": "眼神呆滞半睁，嘴巴微微张开呈圆形，像是在发呆、愣神或者发出了无语的声音。",
+    "image_name": "CH0289_spr_15.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "open_mouth",
+      "surprised",
+      "dazed"
+    ],
+    "description": "眼神略显呆滞，嘴巴微张呈圆形，似乎对眼前的情况感到惊讶或正在发愣。",
+    "image_name": "CH0289_spr_16.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "jitome",
+      "serious",
+      "annoyed"
+    ],
+    "description": "眼神半睁（死鱼眼），表情冷漠且严肃，嘴巴抿紧，似乎流露出不满或无语的情绪。",
+    "image_name": "CH0289_spr_17.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "open_mouth",
+      "sigh",
+      "speechless"
+    ],
+    "description": "眼神半睁，嘴巴张开，像是在叹气、吐槽或者表达无奈的情绪，显得有些疲惫。",
+    "image_name": "CH0289_spr_18.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "happy"
+    ],
+    "description": "双眼眯成柔和的弧线，嘴角含笑，展现出温柔且心情愉悦的样子。",
+    "image_name": "CH0289_spr_19.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smug",
+      "evil_smile",
+      "scheming"
+    ],
+    "description": "眼神半睁带着狡黠，嘴角咧开露出得意的坏笑，像是在打什么坏主意或计谋得逞。",
+    "image_name": "CH0289_spr_20.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "calm",
+      "gentle"
+    ],
+    "description": "双眼完全闭合，面带安详亲切的微笑，表情十分平静柔和。",
+    "image_name": "CH0289_spr_99.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "smile",
+      "gentle"
+    ],
+    "description": "双眼睁开，绿色的眸子注视前方，嘴角带着浅浅的笑意，神态温和（注：尽管文件名为闭眼，图片内容为睁眼）。",
+    "image_name": "CH0289_spr_Eye_Close_01.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "smile",
+      "normal"
+    ],
+    "description": "标准的待机表情，眼神平静注视前方，面带自然的微笑，展现出从容的气质。",
+    "image_name": "CH0289_spr_Idle_01.png"
+  }
+]

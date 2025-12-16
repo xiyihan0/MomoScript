@@ -1,0 +1,90 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "stare",
+      "calm",
+      "green_hair",
+      "blue_archive"
+    ],
+    "description": "标准的平静表情，眼神直视前方，嘴巴闭合，没有明显的情绪波动。",
+    "image_name": "momiji_spr-00_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "curious",
+      "surprised",
+      "stare",
+      "dumbfounded"
+    ],
+    "description": "嘴巴微微张成圆形，眼神显得有些呆萌或好奇，似乎对某事感到轻微惊讶。",
+    "image_name": "momiji_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "joy",
+      "laughing"
+    ],
+    "description": "闭着眼睛开心地笑，双眼弯成弧形，看起来非常愉快和享受。",
+    "image_name": "momiji_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "shock",
+      "white_eyes",
+      "sweat_drops",
+      "panic",
+      "confused"
+    ],
+    "description": "受到惊吓的表情，瞳孔消失变成白色的圆圈，脸上挂着冷汗，嘴巴显得慌乱。",
+    "image_name": "momiji_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "jitome",
+      "suspicion",
+      "unimpressed",
+      "half_closed_eyes",
+      "sideways_glance"
+    ],
+    "description": "眼神变成半月眼（鄙视或怀疑），眼皮下垂，流露出不信任或无语的情绪。",
+    "image_name": "momiji_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "tears",
+      "crying",
+      "sad",
+      "emotional",
+      "upset"
+    ],
+    "description": "眼角挂着泪珠，眼神悲伤，看起来快要哭出来了或者感到很委屈。",
+    "image_name": "momiji_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "half_closed_eyes",
+      "smile",
+      "confident",
+      "relaxed"
+    ],
+    "description": "半睁着眼睛微笑，带有一种得意、自信或者稍微有点坏心眼的轻松神情。",
+    "image_name": "momiji_spr-07_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "sleeping",
+      "closed_eyes",
+      "peaceful",
+      "rest",
+      "calm"
+    ],
+    "description": "双眼完全闭合，表情安详平静，正在睡觉或休息的状态。",
+    "image_name": "momiji_spr-99_0_waifu2x_2x_2n_png.jpg"
+  }
+]

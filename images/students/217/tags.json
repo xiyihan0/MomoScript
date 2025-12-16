@@ -1,0 +1,83 @@
+[
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "closed_mouth",
+      "hair_over_eyes"
+    ],
+    "description": "嘴角微微上扬，流露出温柔且平静的微笑。",
+    "image_name": "J_NP0022_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "closed_mouth",
+      "hair_over_eyes"
+    ],
+    "description": "嘴巴闭合成一条平直的线，表情看起来比较严肃、中性，或者正在认真倾听。",
+    "image_name": "J_NP0022_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "dazed",
+      "small_mouth",
+      "hair_over_eyes"
+    ],
+    "description": "嘴巴抿得很小，像是在发呆、放空或者有些许困惑的呆萌表情。",
+    "image_name": "J_NP0022_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "satisfied",
+      "closed_mouth",
+      "hair_over_eyes"
+    ],
+    "description": "嘴角上扬的幅度比平时略大，表现出一种自信、满意或心情愉快的状态。",
+    "image_name": "J_NP0022_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "awkward",
+      "hair_over_eyes"
+    ],
+    "description": "脸颊上挂着一滴冷汗，嘴角勉强上扬，表现出尴尬、紧张或不知所措的样子。",
+    "image_name": "J_NP0022_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "frown",
+      "unhappy",
+      "hair_over_eyes"
+    ],
+    "description": "嘴角向下撇，呈现出明显的波浪状，表达了不悦、困扰、嫌弃或不满的情绪。",
+    "image_name": "J_NP0022_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "gloom",
+      "shock",
+      "dark_lines",
+      "open_mouth",
+      "hair_over_eyes"
+    ],
+    "description": "面部覆盖着代表阴沉或震惊的垂直黑线（阴影），嘴巴微张，看起来受到了巨大的打击、绝望或恐惧。",
+    "image_name": "J_NP0022_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "open_mouth",
+      "yelling",
+      "hair_over_eyes"
+    ],
+    "description": "嘴巴大张呈O形，像是在大声呼喊、争辩、发布命令或表达强烈的情绪。",
+    "image_name": "J_NP0022_spr-07_0_waifu2x_2x_1n_png.jpg"
+  }
+]

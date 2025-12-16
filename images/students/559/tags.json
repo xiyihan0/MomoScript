@@ -1,0 +1,384 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "confident",
+      "purple_eyes"
+    ],
+    "description": "角色面带标准的露齿笑容，眼神明亮直视前方，展现出自信和大方的态度，属于基础的开心表情。",
+    "image_name": "CH0309_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "soft",
+      "purple_eyes"
+    ],
+    "description": "角色嘴角微微上扬，闭着嘴唇微笑，眼神显得更加柔和与含蓄，给人一种平静、友善的感觉。",
+    "image_name": "CH0309_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "parted_lips",
+      "surprise",
+      "blank_stare",
+      "confused",
+      "purple_eyes"
+    ],
+    "description": "角色嘴巴呈小圆形微微张开，没有明显的笑意，看起来像是正在发呆、感到轻微的惊讶或者有些无语的呆萌神态。",
+    "image_name": "CH0309_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "smug",
+      "teasing",
+      "purple_eyes"
+    ],
+    "description": "角色露齿而笑，嘴角弧度似乎比平时略大，透出一股自信、得意甚至是带有戏谑意味的坏笑感。",
+    "image_name": "CH0309_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "open_mouth",
+      "nervous",
+      "awkward",
+      "confused",
+      "purple_eyes"
+    ],
+    "description": "角色脸颊上挂着一滴汗珠，嘴巴呈小圆形微微张开，眼神显得尴尬、紧张且不知所措，表现出一种面对突发状况时的无语或窘迫感。",
+    "image_name": "CH0309_spr_04.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "closed_mouth",
+      "unamused",
+      "expressionless",
+      "cold",
+      "purple_eyes"
+    ],
+    "description": "角色半眯着眼睛，眼神平直且冷淡，嘴角抿成直线，没有任何明显的笑意或怒意，流露出一种“无语”、“不感兴趣”或冷眼旁观的淡漠神态。",
+    "image_name": "CH0309_spr_05.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "closed_mouth",
+      "worried",
+      "troubled",
+      "sad",
+      "purple_eyes"
+    ],
+    "description": "角色同样是半闭着眼，但眉尾微微下垂，神情比上一张更加柔和且带有情绪色彩，透出一股无奈、担忧或者是轻微的悲伤与困扰。",
+    "image_name": "CH0309_spr_06.png"
+  },
+  {
+    "tags": [
+      "clenched_teeth",
+      "grimace",
+      "annoyed",
+      "disgusted",
+      "frown",
+      "purple_eyes"
+    ],
+    "description": "角色眉头紧锁，咬紧牙关露出一部分牙齿，表情扭曲，明显地表现出厌恶、烦躁、极度不爽或是在忍耐某种令人不快事物的神态。",
+    "image_name": "CH0309_spr_07.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "angry",
+      "complaining",
+      "furrowed_brows",
+      "purple_eyes"
+    ],
+    "description": "角色张大嘴巴仿佛在大声喊叫或抱怨，眉头紧皱，眼神犀利，表现出强烈的不满、抗议或者是正在训斥他人的愤怒情绪。",
+    "image_name": "CH0309_spr_08.png"
+  },
+  {
+    "tags": [
+      "clenched_teeth",
+      "grimace",
+      "disgusted",
+      "scorn",
+      "annoyed",
+      "purple_eyes"
+    ],
+    "description": "角色咬着牙，嘴角扭曲成波浪状，眼神斜视充满嫌弃，表现出一种“啧”的不爽、鄙视或是对眼前事物感到极度棘手和厌烦的神情。",
+    "image_name": "CH0309_spr_09.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "open_mouth",
+      "tired",
+      "exhausted",
+      "nervous",
+      "purple_eyes"
+    ],
+    "description": "角色脸颊滑落一滴冷汗，嘴巴微张似乎在喘气，眼神显得有些茫然和疲惫，透出一种不知所措、无奈或是体力不支的感觉。",
+    "image_name": "CH0309_spr_10.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "blush",
+      "clenched_teeth",
+      "grimace",
+      "embarrassed",
+      "flustered",
+      "purple_eyes"
+    ],
+    "description": "角色满脸通红并挂着汗珠，咬紧牙关，表情显得非常焦急和羞耻，表现出一种极度尴尬、不知如何是好或是正在勉强支撑羞耻感的可爱神态。",
+    "image_name": "CH0309_spr_11.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "blush",
+      "open_mouth",
+      "shouting",
+      "panic",
+      "flustered",
+      "purple_eyes"
+    ],
+    "description": "角色满脸通红且挂着冷汗，张大嘴巴仿佛在大声喊叫或争辩，眼神慌乱焦急，表现出一种极度羞愤、惊慌失措或是陷入混乱的激烈状态。",
+    "image_name": "CH0309_spr_12.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "closed_mouth",
+      "calm",
+      "gentle",
+      "soft",
+      "purple_eyes"
+    ],
+    "description": "角色眼帘低垂半眯，眼神显得非常平静与柔和，嘴角自然闭合，神态从容放松，给人一种安详、知性且温柔注视的感觉。",
+    "image_name": "CH0309_spr_13.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "parted_lips",
+      "dazed",
+      "tired",
+      "sigh",
+      "purple_eyes"
+    ],
+    "description": "角色半垂着眼帘，嘴唇微微张开，神情恍惚，看起来像是正在发呆、刚叹了一口气或者是处于极度疲惫、精神涣散的状态。",
+    "image_name": "CH0309_spr_14.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "grimace",
+      "disgusted",
+      "scorn",
+      "annoyed",
+      "purple_eyes"
+    ],
+    "description": "角色眼神半眯带着明显的冷漠与审视，嘴巴微张露出不悦的形状，流露出一股嫌弃、鄙视或者是对眼前事物感到极度不耐烦的负面情绪。",
+    "image_name": "CH0309_spr_15.png"
+  },
+  {
+    "tags": [
+      "one_eye_closed",
+      "tear",
+      "smile",
+      "open_mouth",
+      "happy",
+      "teasing",
+      "purple_eyes"
+    ],
+    "description": "角色一只眼睛闭起，另一只眼角挂着晶莹的泪珠，嘴巴张开大笑，看起来像是笑出了眼泪，或者是在进行夸张的“感动”与调皮的假哭，充满戏谑感。",
+    "image_name": "CH0309_spr_16.png"
+  },
+  {
+    "tags": [
+      "looking_down",
+      "half_closed_eyes",
+      "closed_mouth",
+      "gentle",
+      "melancholy",
+      "sad",
+      "purple_eyes"
+    ],
+    "description": "角色视线向下低垂，神情显得格外柔和且略带忧郁，嘴角自然闭合，流露出一种静谧、沉思或是温柔的落寞感。",
+    "image_name": "CH0309_spr_17.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "smile",
+      "open_mouth",
+      "playful",
+      "confident",
+      "purple_eyes"
+    ],
+    "description": "角色俏皮地眨着一只眼睛（Wink），露齿而笑，眼神明亮，表现出一种自信、活泼且充满魅力的友好或挑逗神态。",
+    "image_name": "CH0309_spr_18.png"
+  },
+  {
+    "tags": [
+      "heavy_sweat",
+      "sweat_drop",
+      "half_closed_eyes",
+      "tired",
+      "exhausted",
+      "troubled",
+      "purple_eyes"
+    ],
+    "description": "角色额头和脸颊挂满了汗珠，眼神半眯显得极度疲惫或无奈，嘴巴微张，表现出一种精疲力竭、被折腾得够呛或是面对麻烦事感到无力的状态。",
+    "image_name": "CH0309_spr_19.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "angry",
+      "furrowed_brows",
+      "aggressive",
+      "purple_eyes"
+    ],
+    "description": "角色眉头紧皱，眼神犀利，嘴巴张大仿佛在大声争辩或训斥，表现出强烈的不满、愤怒以及咄咄逼人的气势。",
+    "image_name": "CH0309_spr_20.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "looking_sideways",
+      "suspicious",
+      "doubt",
+      "closed_mouth",
+      "purple_eyes"
+    ],
+    "description": "角色眼神半眯斜视一旁，嘴巴抿成直线，神情充满怀疑与审视，流露出一种“真的假的？”或是不信任、冷眼旁观的态度。",
+    "image_name": "CH0309_spr_21.png"
+  },
+  {
+    "tags": [
+      "tear",
+      "sad",
+      "crying",
+      "parted_lips",
+      "worried",
+      "purple_eyes"
+    ],
+    "description": "角色眼角挂着泪珠，眉尾下垂，嘴唇微张，眼神显得无助且悲伤，表现出一种心碎、受伤或是正在哭泣的楚楚可怜的神态。",
+    "image_name": "CH0309_spr_22.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "blush",
+      "happy",
+      "open_mouth",
+      "purple_eyes"
+    ],
+    "description": "角色双眼眯成弯弯的月牙状，脸颊泛红，露齿而笑，神情显得非常开心、甜蜜，透出一种毫无防备的幸福感与治愈感。",
+    "image_name": "CH0309_spr_23.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "blush",
+      "open_mouth",
+      "happy",
+      "shy",
+      "purple_eyes"
+    ],
+    "description": "角色双眼眯成弯弯的月牙状，脸颊泛着明显的红晕，露齿而笑，神情显得非常甜蜜、幸福且略带害羞，透出一股被感动的喜悦。",
+    "image_name": "CH0309_spr_24.png"
+  },
+  {
+    "tags": [
+      "purple_eyes",
+      "sweat_drop",
+      "blush",
+      "furrowed_brows",
+      "grimace",
+      "annoyed",
+      "suspicious"
+    ],
+    "description": "角色眼神犀利略带不满，眉头微皱，脸颊微红并挂着汗珠，嘴巴抿成不悦的波浪状，表现出一种尴尬、棘手或是傲娇的嫌弃与审视神态。",
+    "image_name": "CH0309_spr_25.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "grimace",
+      "troubled",
+      "awkward",
+      "nervous",
+      "purple_eyes"
+    ],
+    "description": "角色紧闭双眼，眉毛下垂，脸上挂满了冷汗，嘴角呈现波浪状的尴尬苦笑，表现出一种极度无奈、搞砸了或是感到非常难为情的状态。",
+    "image_name": "CH0309_spr_26.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "happy",
+      "cheerful",
+      "laughing",
+      "purple_eyes"
+    ],
+    "description": "角色双眼眯成弯弯的月牙状，嘴巴张开露出洁白的牙齿，脸上洋溢着爽朗的笑容，表现出一种心情极佳、正在开怀大笑或是愉快交谈的开朗神态。",
+    "image_name": "CH0309_spr_27.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "closed_mouth",
+      "calm",
+      "gentle",
+      "content",
+      "purple_eyes"
+    ],
+    "description": "角色双眼轻闭，嘴角微微上扬抿起，神情显得格外安详与平和，流露出一种内心满足、陶醉或是正在温柔默许的静谧美感。",
+    "image_name": "CH0309_spr_99.png"
+  },
+  {
+    "tags": [
+      "purple_eyes",
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "calm",
+      "confident",
+      "soft_gaze"
+    ],
+    "description": "角色紫色的双眸平静而温柔地注视着前方，嘴角自然抿起一抹淡淡的微笑，神态从容优雅，给人一种知性、可靠且安心的感觉。",
+    "image_name": "CH0309_spr_Eye_Close_01.png"
+  },
+  {
+    "tags": [
+      "purple_eyes",
+      "smile",
+      "open_mouth",
+      "happy",
+      "friendly",
+      "talking",
+      "vibrant"
+    ],
+    "description": "角色紫眸中含着明亮的笑意，嘴巴微微张开露出皓齿，似乎正在轻声细语或发出愉快的笑声，神情亲切自然，表现出一种欢迎与互动的友好姿态。",
+    "image_name": "CH0309_spr_Idle_01.png"
+  }
+]

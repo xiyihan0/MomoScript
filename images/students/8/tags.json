@@ -1,0 +1,314 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "staring",
+      "mouth_closed"
+    ],
+    "description": "表情平静且严肃，眼神直视前方，嘴巴闭合，表现出一种标准的待机或认真状态。",
+    "image_name": "CH0144_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "curious",
+      "dazed"
+    ],
+    "description": "嘴巴微微张开呈小圆孔状，眼神显得有些呆萌或轻微惊讶，似乎看见了意料之外的事物。",
+    "image_name": "CH0144_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "confident",
+      "gentle"
+    ],
+    "description": "嘴角微微上扬，露出温和且带有几分自信的微笑，心情看起来很不错。",
+    "image_name": "CH0144_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "annoyed",
+      "awkward",
+      "troubled",
+      "furrowed_eyebrows"
+    ],
+    "description": "脸上挂着一滴冷汗，眉头紧锁，眼神偏向一侧，表现出尴尬、无语或感到棘手的情绪。",
+    "image_name": "CH0144_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "talking",
+      "shouting",
+      "surprised"
+    ],
+    "description": "嘴巴张大，似乎正在大声说话或发出喊叫，表情比微张时更为激动或惊讶。",
+    "image_name": "CH0144_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "narrow_eyes",
+      "suspicious",
+      "glare",
+      "doubt"
+    ],
+    "description": "眼睛半眯，投来审视和怀疑的目光，也就是俗称的“吉伊盯”，流露出不信任或鄙视的态度。",
+    "image_name": "CH0144_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "big_smile",
+      "cheerful",
+      "joy"
+    ],
+    "description": "双眼眯成弯月状，嘴巴张开，正在开怀大笑，洋溢着非常开心和爽朗的氛围。",
+    "image_name": "CH0144_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "frowning",
+      "concerned"
+    ],
+    "description": "眉毛呈八字下垂，眼神显得担忧和悲伤，嘴巴微张，看起来有些委屈或正在为难。",
+    "image_name": "CH0144_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shocked",
+      "dazed",
+      "blank_stare",
+      "speechless"
+    ],
+    "description": "眼神发直，瞳孔似乎有些许收缩，嘴巴微张，表现出一种突然被震惊到大脑空白或不知所措的呆滞状态。",
+    "image_name": "CH0144_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "wavy_mouth",
+      "grimace",
+      "annoyed",
+      "disgusted",
+      "frustrated"
+    ],
+    "description": "眉毛紧皱，嘴巴扭曲成波浪状，明显的嫌弃、不耐烦或感到极度无语的表情。",
+    "image_name": "CH0144_spr-10_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "serious",
+      "determined",
+      "commanding"
+    ],
+    "description": "眼神犀利坚定，嘴巴张大，仿佛正在大声发布命令或严肃地反驳，充满气势。",
+    "image_name": "CH0144_spr-11_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "looking_aside",
+      "annoyed",
+      "skeptical",
+      "open_mouth",
+      "disdain"
+    ],
+    "description": "视线向侧面瞥去，嘴巴张开，眉头微皱，流露出一股怀疑、咂舌（啧）或感到麻烦的态度。",
+    "image_name": "CH0144_spr-12_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "wide_eyes",
+      "blank_stare",
+      "neutral",
+      "dazed",
+      "head_empty"
+    ],
+    "description": "双眼圆睁直视前方，眼神空洞，嘴巴微张，是一种完全放空、呆呆的、没有任何想法的表情。",
+    "image_name": "CH0144_spr-13_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "sleeping",
+      "silent",
+      "neutral"
+    ],
+    "description": "双眼完全闭合，面无表情，看起来非常平静，像是在闭目养神、睡觉或是无奈地保持沉默。",
+    "image_name": "CH0144_spr-99_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "neutral",
+      "serious",
+      "staring",
+      "mouth_closed"
+    ],
+    "description": "摘下头盔后的形象（S2差分），表情平静且严肃，眼神直视前方，嘴巴闭合，处于无头盔的待机状态。",
+    "image_name": "CH0144_spr-S2_01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "open_mouth",
+      "surprised",
+      "curious",
+      "dazed"
+    ],
+    "description": "摘下头盔后的形象（S2差分），嘴巴微张呈小圆孔状，眼神显得有些呆萌或好奇，表现出轻微的惊讶。",
+    "image_name": "CH0144_spr-S2_02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "smile",
+      "happy",
+      "confident",
+      "gentle"
+    ],
+    "description": "摘下头盔后的形象（S2差分），嘴角微微上扬，露出温和且带有几分自信的微笑，心情看起来很不错。",
+    "image_name": "CH0144_spr-S2_03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "sweat_drop",
+      "annoyed",
+      "awkward",
+      "troubled",
+      "furrowed_eyebrows"
+    ],
+    "description": "摘下头盔后的形象（S2差分），脸上挂着一滴冷汗，眉头紧锁，眼神偏向一侧，表现出尴尬、无语或感到棘手的情绪。",
+    "image_name": "CH0144_spr-S2_04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "open_mouth",
+      "talking",
+      "shouting",
+      "surprised"
+    ],
+    "description": "摘下头盔后的形象（S2差分），嘴巴张大，似乎正在大声说话或发出喊叫，表情比微张时更为激动或惊讶。",
+    "image_name": "CH0144_spr-S2_05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "narrow_eyes",
+      "suspicious",
+      "glare",
+      "doubt"
+    ],
+    "description": "摘下头盔后的形象（S2差分），眼睛半眯，投来审视和怀疑的目光，也就是俗称的“吉伊盯”，流露出不信任或鄙视的态度。",
+    "image_name": "CH0144_spr-S2_06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "closed_eyes",
+      "laughing",
+      "big_smile",
+      "cheerful",
+      "joy"
+    ],
+    "description": "摘下头盔后的形象（S2差分），双眼眯成弯月状，嘴巴张开，正在开怀大笑，洋溢着非常开心和爽朗的氛围。",
+    "image_name": "CH0144_spr-S2_07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "sad",
+      "worried",
+      "troubled",
+      "frowning",
+      "concerned"
+    ],
+    "description": "摘下头盔后的形象（S2差分），眉毛呈八字下垂，眼神显得担忧和悲伤，嘴巴微张，看起来有些委屈或正在为难。",
+    "image_name": "CH0144_spr-S2_08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "open_mouth",
+      "shocked",
+      "dazed",
+      "blank_stare",
+      "speechless"
+    ],
+    "description": "摘下头盔后的形象（S2差分），眼神发直，瞳孔似乎有些许收缩，嘴巴微张，表现出一种突然被震惊到大脑空白或不知所措的呆滞状态。",
+    "image_name": "CH0144_spr-S2_09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "wavy_mouth",
+      "grimace",
+      "annoyed",
+      "disgusted",
+      "frustrated"
+    ],
+    "description": "摘下头盔后的形象（S2差分），眉毛紧皱，嘴巴扭曲成波浪状，明显的嫌弃、不耐烦或感到极度无语的表情。",
+    "image_name": "CH0144_spr-S2_10_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "open_mouth",
+      "shouting",
+      "serious",
+      "determined",
+      "commanding"
+    ],
+    "description": "摘下头盔后的形象（S2差分），眼神犀利坚定，嘴巴张大，仿佛正在大声发布命令或严肃地反驳，充满气势。",
+    "image_name": "CH0144_spr-S2_11_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "looking_aside",
+      "annoyed",
+      "skeptical",
+      "open_mouth",
+      "disdain"
+    ],
+    "description": "摘下头盔后的形象（S2差分），视线向侧面瞥去，嘴巴张开，眉头微皱，流露出一股怀疑、咂舌（啧）或感到麻烦的态度。",
+    "image_name": "CH0144_spr-S2_12_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "wide_eyes",
+      "blank_stare",
+      "neutral",
+      "dazed",
+      "head_empty"
+    ],
+    "description": "摘下头盔后的形象（S2差分），双眼圆睁直视前方，眼神空洞，嘴巴微张，是一种完全放空、呆呆的、没有任何想法的表情。",
+    "image_name": "CH0144_spr-S2_13_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "no_helmet",
+      "closed_eyes",
+      "calm",
+      "sleeping",
+      "silent",
+      "neutral"
+    ],
+    "description": "摘下头盔后的形象（S2差分），双眼完全闭合，面无表情，看起来非常平静，像是在闭目养神、睡觉或是无奈地保持沉默。",
+    "image_name": "CH0144_spr-S2_99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

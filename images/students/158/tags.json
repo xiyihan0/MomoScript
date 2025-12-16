@@ -1,0 +1,83 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "open_mouth",
+      "purple_eyes",
+      "pink_hair"
+    ],
+    "description": "表情平淡，嘴巴微张，眼神直视前方。",
+    "image_name": "J_eimi_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "calm",
+      "serious"
+    ],
+    "description": "嘴巴闭合，神情冷静沉稳。",
+    "image_name": "J_eimi_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "open_mouth",
+      "talking",
+      "parted_lips"
+    ],
+    "description": "嘴巴张开，仿佛正在说话，表情自然。",
+    "image_name": "J_eimi_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "blush",
+      "happy",
+      "gentle"
+    ],
+    "description": "面带温柔的微笑，脸颊微红，心情看起来很不错。",
+    "image_name": "J_eimi_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "bored",
+      "jitome",
+      "blush",
+      "unamused"
+    ],
+    "description": "半睁着眼（死鱼眼），表情冷淡无语，脸颊带有红晕。",
+    "image_name": "J_eimi_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "furrowed_brows",
+      "serious",
+      "annoyed"
+    ],
+    "description": "眉头紧锁，眼神锐利，看起来有些生气或不满。",
+    "image_name": "J_eimi_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "troubled",
+      "anxious"
+    ],
+    "description": "眉毛下垂，嘴角显得勉强，表情困扰且带有担忧。",
+    "image_name": "J_eimi_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "peaceful",
+      "calm"
+    ],
+    "description": "双眼紧闭，神态安详，像是在闭目养神。",
+    "image_name": "J_eimi_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

@@ -1,0 +1,107 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "calm"
+    ],
+    "description": "面无表情，眼神平静地注视着前方，没有流露明显的情绪。",
+    "image_name": "chise_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "curious",
+      "speaking"
+    ],
+    "description": "嘴巴微张呈小O形，似乎在说话，或者表现出轻微的惊讶和发呆。",
+    "image_name": "chise_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "relaxed"
+    ],
+    "description": "双眼闭合成弯月状，面带微笑，看起来心情愉快且放松。",
+    "image_name": "chise_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "spiral_eyes",
+      "dizzy",
+      "confused",
+      "blush",
+      "open_mouth"
+    ],
+    "description": "眼睛变成螺旋状的蚊香眼，面颊泛红，嘴巴张开，表现出极度眩晕、混乱或不知所措的状态。",
+    "image_name": "chise_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "annoyed"
+    ],
+    "description": "眉头紧锁，嘴巴大张仿佛在喊叫，表现出生气、抗议或急躁的情绪。",
+    "image_name": "chise_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "sad",
+      "disappointed",
+      "troubled"
+    ],
+    "description": "双眼紧闭，眉尾下垂，嘴巴微张，看起来像是在叹气，感到无奈、困扰或失望。",
+    "image_name": "chise_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy",
+      "open_eyes"
+    ],
+    "description": "睁着眼睛露出温柔含蓄的微笑，神情友善。",
+    "image_name": "chise_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "blank_eyes",
+      "comic_eyes",
+      "stunned",
+      "tearing_up"
+    ],
+    "description": "眼睛变成了漫画风格的白色圆圈并挂着眼泪，嘴巴呈波浪状，表现出受到打击、极度震惊或失去高光的滑稽模样。",
+    "image_name": "chise_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat",
+      "troubled",
+      "nervous",
+      "open_mouth",
+      "anxious"
+    ],
+    "description": "双眼紧闭呈受力状，脸颊挂着汗珠，嘴巴微张，眉头紧锁，表现出紧张、焦急、尴尬或感到棘手的神情。",
+    "image_name": "chise_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "peaceful",
+      "serene"
+    ],
+    "description": "双眼自然闭合，面部表情非常放松且平静，没有张嘴，看起来正在熟睡、冥想或安静地闭目养神。",
+    "image_name": "chise_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

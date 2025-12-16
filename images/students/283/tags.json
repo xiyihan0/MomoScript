@@ -1,0 +1,133 @@
+[
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "bangs_covering_eyes",
+      "hat"
+    ],
+    "description": "嘴角微微上扬的温柔微笑，刘海遮住了眼睛，看起来心情不错。",
+    "image_name": "NP0134_spr_00.png"
+  },
+  {
+    "tags": [
+      "cat_mouth",
+      "smug",
+      "cute",
+      "bangs_covering_eyes",
+      "hat"
+    ],
+    "description": "嘴巴变成了波浪形的猫嘴（:3），看起来有点得意、顽皮或觉得很有趣。",
+    "image_name": "NP0134_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "o_mouth",
+      "surprised",
+      "blank",
+      "bangs_covering_eyes",
+      "hat"
+    ],
+    "description": "嘴巴张成小小的O型，似乎感到有些惊讶、好奇或者是呆住了。",
+    "image_name": "NP0134_spr_02.png"
+  },
+  {
+    "tags": [
+      "grin",
+      "fang",
+      "excited",
+      "open_mouth",
+      "mischievous",
+      "bangs_covering_eyes",
+      "hat"
+    ],
+    "description": "咧嘴大笑，露出了牙齿和一颗明显的虎牙，看起来非常兴奋、自信或正在恶作剧。",
+    "image_name": "NP0134_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweatdrop",
+      "nervous",
+      "awkward",
+      "open_mouth",
+      "bangs_covering_eyes",
+      "hat"
+    ],
+    "description": "脸上挂着汗珠，嘴巴尴尬地微张，表现出紧张、不知所措或有点疲惫的样子。",
+    "image_name": "NP0134_spr_04.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "flat_mouth",
+      "expressionless",
+      "bangs_covering_eyes",
+      "hat"
+    ],
+    "description": "嘴巴抿成一条直线，没有任何明显的表情，看起来很平静或是在发呆。",
+    "image_name": "NP0134_spr_05.png"
+  },
+  {
+    "tags": [
+      "frown",
+      "pout",
+      "upset",
+      "displeased",
+      "bangs_covering_eyes",
+      "hat"
+    ],
+    "description": "嘴角向下弯曲，像是在嘟嘴或撇嘴，表现出不满、委屈或困惑的情绪。",
+    "image_name": "NP0134_spr_06.png"
+  },
+  {
+    "tags": [
+      "sweatdrop",
+      "sigh",
+      "troubled",
+      "exhausted",
+      "bangs_covering_eyes",
+      "hat"
+    ],
+    "description": "流着汗，嘴巴微张像是正在叹气，看起来感到无奈、困扰或者是松了一口气的样子。",
+    "image_name": "NP0134_spr_07.png"
+  },
+  {
+    "tags": [
+      "panic",
+      "sweatdrop",
+      "open_mouth",
+      "shouting",
+      "anxious",
+      "bangs_covering_eyes",
+      "hat"
+    ],
+    "description": "脸上挂着汗珠，嘴巴大张像是正在大叫或惊慌失措，表现出极度的焦虑、慌乱或急迫的样子。",
+    "image_name": "NP0134_spr_08.png"
+  },
+  {
+    "tags": [
+      "gloom",
+      "vertical_lines",
+      "depressed",
+      "speechless",
+      "open_mouth",
+      "bangs_covering_eyes",
+      "hat"
+    ],
+    "description": "脸上挂着垂直的黑线（阴影），嘴巴微张，看起来非常沮丧、消沉或者是对现状感到无语。",
+    "image_name": "NP0134_spr_09.png"
+  },
+  {
+    "tags": [
+      "cat_mouth",
+      "smile",
+      "smug",
+      "cute",
+      "bangs_covering_eyes",
+      "hat"
+    ],
+    "description": "嘴巴变成了波浪形的猫嘴（:3），嘴角微微上扬，看起来有点得意、顽皮或是在装傻。",
+    "image_name": "NP0134_spr_99.png"
+  }
+]

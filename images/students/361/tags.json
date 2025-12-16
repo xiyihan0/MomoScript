@@ -1,0 +1,186 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "smile",
+      "happy",
+      "talking"
+    ],
+    "description": "张嘴笑着说话，看起来很有活力。",
+    "image_name": "CH0256_spr_00.jpg"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "smile",
+      "confident",
+      "smug"
+    ],
+    "description": "闭着嘴自信地微笑，眼神看起来有些得意。",
+    "image_name": "CH0256_spr_01.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "smile",
+      "happy",
+      "energetic"
+    ],
+    "description": "张开嘴开心地笑，表情轻松愉快。",
+    "image_name": "CH0256_spr_02.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "laughing",
+      "open_mouth",
+      "joy"
+    ],
+    "description": "闭着眼睛开怀大笑，看起来非常高兴。",
+    "image_name": "CH0256_spr_03.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "worried",
+      "nervous",
+      "awkward",
+      "open_mouth"
+    ],
+    "description": "脸上流着汗，表情看起来有些担忧、紧张或尴尬。",
+    "image_name": "CH0256_spr_04.jpg"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "serious",
+      "annoyed",
+      "frown",
+      "unhappy"
+    ],
+    "description": "闭着嘴眉头微皱，看起来有些严肃或是不满。",
+    "image_name": "CH0256_spr_05.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "sigh",
+      "tired",
+      "bored",
+      "open_mouth"
+    ],
+    "description": "眼神疲惫半睁，似乎在叹气，表现出无奈或无语。",
+    "image_name": "CH0256_spr_06.jpg"
+  },
+  {
+    "tags": [
+      "shock",
+      "blank_eyes",
+      "white_eyes",
+      "surprise",
+      "open_mouth"
+    ],
+    "description": "眼睛变成了白色的圆圈，表现出极度的震惊、混乱或目瞪口呆。",
+    "image_name": "CH0256_spr_07.jpg"
+  },
+  {
+    "tags": [
+      "shock",
+      "blank_eyes",
+      "circle_eyes",
+      "surprise",
+      "open_mouth"
+    ],
+    "description": "眼睛瞪圆变成了白色的圆圈，嘴巴张大，表现出极度的震惊、呆滞或不知所措。",
+    "image_name": "CH0256_spr_08.jpg"
+  },
+  {
+    "tags": [
+      "empty_eyes",
+      "no_highlights",
+      "smile",
+      "open_mouth",
+      "dull_eyes"
+    ],
+    "description": "眼神失去高光变得空洞，嘴巴张开笑着，看起来像是坏掉了或是精神恍惚的状态。",
+    "image_name": "CH0256_spr_09.jpg"
+  },
+  {
+    "tags": [
+      "spiral_eyes",
+      "swirling_eyes",
+      "dizzy",
+      "confused",
+      "panic"
+    ],
+    "description": "眼睛变成了漩涡状，嘴巴微张，看起来非常晕头转向、混乱或神志不清。",
+    "image_name": "CH0256_spr_10.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      ">_<",
+      "shouting",
+      "pain",
+      "annoyed"
+    ],
+    "description": "眼睛紧闭呈><形状，张大嘴巴，看起来在尖叫、感到疼痛或极度抗拒。",
+    "image_name": "CH0256_spr_11.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      ">_<",
+      "whining",
+      "frustrated",
+      "upset"
+    ],
+    "description": "眼睛紧闭呈><形状，嘴巴扭曲，看起来非常委屈、苦恼或是在抱怨。",
+    "image_name": "CH0256_spr_12.jpg"
+  },
+  {
+    "tags": [
+      "side_glance",
+      "looking_away",
+      "sweat",
+      "nervous",
+      "guilty"
+    ],
+    "description": "眼神向一侧游移，脸上流着汗，表现出心虚、尴尬或试图逃避视线的样子。",
+    "image_name": "CH0256_spr_13.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "comic_tears",
+      "white_eyes",
+      "despair",
+      "shock"
+    ],
+    "description": "眼睛变成白圈并流下夸张的宽面条泪，嘴巴张大，看起来极度崩溃或绝望大哭。",
+    "image_name": "CH0256_spr_14.jpg"
+  },
+  {
+    "tags": [
+      "mocking",
+      "smug",
+      "weird_face",
+      "funny",
+      "crazy"
+    ],
+    "description": "眼神变得滑稽且带有攻击性，嘴巴张开，表现出嘲讽、挑衅或颜艺崩坏的状态。",
+    "image_name": "CH0256_spr_15.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smug",
+      "smile",
+      "confident",
+      "proud"
+    ],
+    "description": "闭着眼睛，脸上带着得意且自信的微笑，看起来胸有成竹或是在暗自窃喜。",
+    "image_name": "CH0256_spr_99.jpg"
+  }
+]

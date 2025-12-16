@@ -1,0 +1,120 @@
+[
+  {
+    "tags": [
+      "sweat",
+      "open_mouth",
+      "smile",
+      "eyebrows_furrowed",
+      "black_hair",
+      "ponytail",
+      "yellow_eyes"
+    ],
+    "description": "她脸上流着汗，微微皱着眉头，张着嘴露出一种略显费力但充满干劲的笑容。",
+    "image_name": "NP0182_spr_00.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "open_mouth",
+      "smile",
+      "happy",
+      "black_hair",
+      "ponytail",
+      "yellow_eyes"
+    ],
+    "description": "她流着汗，眉毛舒展，张大嘴巴开心地笑着，神情比上一张更加轻松和愉快。",
+    "image_name": "NP0182_spr_01.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "open_mouth",
+      "small_mouth",
+      "surprised",
+      "blank_stare",
+      "black_hair",
+      "ponytail"
+    ],
+    "description": "她流着汗，睁大眼睛，嘴巴微张成一个小圆圈，似乎对眼前的情况感到惊讶或发愣。",
+    "image_name": "NP0182_spr_02.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "laughing",
+      "happy",
+      "black_hair"
+    ],
+    "description": "她闭着双眼，张大嘴巴开怀大笑，脸上挂着汗珠，洋溢着爽朗快乐的气息。",
+    "image_name": "NP0182_spr_03.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "open_mouth",
+      "shouting",
+      "angry",
+      "eyebrows_furrowed",
+      "serious",
+      "black_hair"
+    ],
+    "description": "她紧皱眉头，眼神犀利，张大嘴巴似乎在大声喊叫或质问，满头大汗，表情焦急且严厉。",
+    "image_name": "NP0182_spr_04.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "closed_mouth",
+      "serious",
+      "eyebrows_furrowed",
+      "annoyed",
+      "black_hair",
+      "ponytail"
+    ],
+    "description": "她紧闭嘴巴，皱着眉头，流着汗一脸严肃甚至有些不悦地注视着前方。",
+    "image_name": "NP0182_spr_05.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "closed_eyes",
+      "open_mouth",
+      "exhausted",
+      "pain",
+      "panting",
+      "black_hair"
+    ],
+    "description": "她紧闭双眼，眉头紧锁，张开嘴巴大口喘气，看起来已经筋疲力尽或正在忍受痛苦。",
+    "image_name": "NP0182_spr_06.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "open_mouth",
+      "worried",
+      "confused",
+      "eyebrows_furrowed",
+      "black_hair",
+      "ponytail"
+    ],
+    "description": "她流着汗，眉头皱成八字形，张着嘴巴，表情看起来既困惑又慌乱，似乎遇到了让她不知所措的麻烦。",
+    "image_name": "NP0182_spr_07.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "closed_eyes",
+      "open_mouth",
+      "laughing",
+      "happy",
+      "black_hair",
+      "ponytail",
+      "exhausted"
+    ],
+    "description": "她满脸是汗，汗珠顺着脸颊和下巴滴落，闭着双眼张大嘴巴爽朗地笑着，看起来像是剧烈运动后虽然疲惫但心情非常舒畅。",
+    "image_name": "NP0182_spr_99.jpg"
+  }
+]

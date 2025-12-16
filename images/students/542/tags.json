@@ -1,0 +1,349 @@
+[
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "showing_teeth",
+      "happy",
+      "cheerful"
+    ],
+    "description": "非常灿烂的笑容，嘴巴张开露出洁白的牙齿，眼睛眯成月牙状，洋溢着开心和兴奋的情绪。",
+    "image_name": "CH0292_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "closed_mouth",
+      "gentle",
+      "relaxed"
+    ],
+    "description": "温柔含蓄的微笑，嘴巴闭合，神情平静放松，表现出一种恬静的愉悦感。",
+    "image_name": "CH0292_spr_01.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "o_shaped_mouth",
+      "talking",
+      "singing",
+      "surprised"
+    ],
+    "description": "嘴巴张开呈小O型，似乎正在说话、轻声歌唱或者是发出轻微的感叹，表情呆萌。",
+    "image_name": "CH0292_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "laughing",
+      "happy",
+      "teeth"
+    ],
+    "description": "爽朗的笑颜，与第一张类似但嘴型稍有不同，表现出真诚且轻松的笑意。",
+    "image_name": "CH0292_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "closed_eyes",
+      "open_mouth",
+      "panting",
+      "hot",
+      "exhausted",
+      "troubled_smile"
+    ],
+    "description": "脸颊挂着汗珠，嘴巴张开像是在喘气，表情看起来有些疲惫或觉得天气炎热，但仍勉强保持微笑。",
+    "image_name": "CH0292_spr_04.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "frown",
+      "serious",
+      "thinking",
+      "annoyed"
+    ],
+    "description": "眉头紧锁，嘴角抿成一条直线，看起来正在严肃思考问题，或者感到有些棘手和不悦。",
+    "image_name": "CH0292_spr_05.png"
+  },
+  {
+    "tags": [
+      "shadow_over_face",
+      "sweat",
+      "forced_smile",
+      "awkward",
+      "scared",
+      "gloom"
+    ],
+    "description": "面部上半部分被阴影覆盖（黑线），流着冷汗，尴尬地勉强微笑着，表现出极度的恐慌、心虚或不知所措。",
+    "image_name": "CH0292_spr_06.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "closed_eyes",
+      "closed_mouth",
+      "smile",
+      "proud"
+    ],
+    "description": "充满自信甚至有些得意的神情，眉毛挑起，嘴角上扬，表现出胸有成竹或骄傲的样子。",
+    "image_name": "CH0292_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "shouting",
+      "complaining",
+      "frustrated",
+      "annoyed"
+    ],
+    "description": "双眼紧闭，嘴巴大张，眉头紧锁，似乎正在大声抱怨、喊叫或者是感到极度无奈和烦躁。",
+    "image_name": "CH0292_spr_08.png"
+  },
+  {
+    "tags": [
+      "shadow_over_face",
+      "gloom",
+      "sweat",
+      "forced_smile",
+      "despair",
+      "shocked",
+      "broken"
+    ],
+    "description": "面部被阴影笼罩（黑线），瞳孔收缩，流着冷汗，嘴角勉强上扬，表现出极度的恐惧、震惊或精神崩溃坏掉的状态。",
+    "image_name": "CH0292_spr_09.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "smile",
+      "open_mouth",
+      "showing_teeth",
+      "happy",
+      "cheerful"
+    ],
+    "description": "眼睛睁开神采奕奕，嘴巴张开露出灿烂的笑容，神情开朗自信，充满活力和喜悦。",
+    "image_name": "CH0292_spr_10.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "open_mouth",
+      "o_shaped_mouth",
+      "talking",
+      "curious",
+      "surprised"
+    ],
+    "description": "眼睛睁开，嘴巴呈小O型张开，像是在发出“哦”的声音，或者正在进行日常对话，表情显得有些呆萌或好奇。",
+    "image_name": "CH0292_spr_11.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "troubled",
+      "open_mouth",
+      "awkward",
+      "nervous",
+      "shy"
+    ],
+    "description": "脸上挂着汗珠，眉毛呈八字状微微下垂，嘴巴微张，看起来感到尴尬、害羞或者有些不知所措。",
+    "image_name": "CH0292_spr_12.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "closed_mouth",
+      "serious",
+      "annoyed",
+      "glare",
+      "displeased"
+    ],
+    "description": "眼神冷峻，嘴巴紧闭，神情严肃且略带不悦，似乎正在审视某人或对现状表示不满。",
+    "image_name": "CH0292_spr_13.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "open_mouth",
+      "angry",
+      "shouting",
+      "aggressive",
+      "frown"
+    ],
+    "description": "眉头紧蹙，眼神犀利，嘴巴张开似乎正在大声争辩、斥责或者表达强烈的情绪，显得有些生气。",
+    "image_name": "CH0292_spr_14.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "closed_mouth",
+      "smile",
+      "smug",
+      "confident",
+      "cool"
+    ],
+    "description": "嘴角上扬露出自信的微笑，眼神坚定且带有一丝得意，展现出从容不迫、胸有成竹的酷帅气质。",
+    "image_name": "CH0292_spr_15.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "closed_mouth",
+      "smile",
+      "gentle",
+      "relaxed",
+      "confident"
+    ],
+    "description": "神态自然放松，嘴角挂着淡淡的微笑，眼神柔和且自信，表现出一种从容优雅的气质。",
+    "image_name": "CH0292_spr_16.png"
+  },
+  {
+    "tags": [
+      "shadow_over_face",
+      "closed_eyes",
+      "closed_mouth",
+      "sweat",
+      "forced_smile",
+      "awkward",
+      "troubled"
+    ],
+    "description": "面部被黑色阴影覆盖，闭着眼睛流着冷汗，嘴角勉强上扬，看起来不仅尴尬，还显得有些焦头烂额。",
+    "image_name": "CH0292_spr_17.png"
+  },
+  {
+    "tags": [
+      "shadow_over_face",
+      "closed_eyes",
+      "closed_mouth",
+      "sweat",
+      "forced_smile",
+      "pain",
+      "sad"
+    ],
+    "description": "同样是面部阴影和冷汗，眉头的神态略显悲伤或痛苦，维持着极其勉强的笑容，似乎内心充满了无奈。",
+    "image_name": "CH0292_spr_18.png"
+  },
+  {
+    "tags": [
+      "shadow_over_face",
+      "closed_eyes",
+      "closed_mouth",
+      "sweat",
+      "forced_smile",
+      "gloom",
+      "resigned"
+    ],
+    "description": "面部阴影下是一副“心如死灰”的表情，流着汗保持微笑，仿佛已经对现状感到绝望或彻底放弃了抵抗。",
+    "image_name": "CH0292_spr_19.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sweat",
+      "panting",
+      "exhausted",
+      "hot",
+      "complaining"
+    ],
+    "description": "紧闭双眼，嘴巴大张，脸上挂着汗珠，看起来像是热得受不了正在喘气，或者是累得大声抱怨。",
+    "image_name": "CH0292_spr_20.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "closed_mouth",
+      "smile",
+      "gentle",
+      "soft",
+      "affectionate"
+    ],
+    "description": "眼帘微垂（半眯眼），目光显得非常温柔深情，嘴角含笑，散发出一种成熟且包容的亲切感。",
+    "image_name": "CH0292_spr_21.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "closed_mouth",
+      "smile",
+      "playful",
+      "cute"
+    ],
+    "description": "俏皮地眨着一只眼睛（Wink），嘴巴闭合微笑着，神情轻松活泼，带有一丝可爱的挑逗意味。",
+    "image_name": "CH0292_spr_22.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "open_mouth",
+      "smile",
+      "happy",
+      "energetic"
+    ],
+    "description": "眨着一只眼睛，嘴巴张开露出灿烂的笑容，比上一张显得更加热情、开心，充满了夏日的活力。",
+    "image_name": "CH0292_spr_23.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "open_mouth",
+      "sweat",
+      "awkward",
+      "playful",
+      "troubled"
+    ],
+    "description": "眨着一只眼睛（Wink），嘴巴张开笑着，但脸颊上挂着汗珠，看起来既俏皮又带着一丝尴尬，仿佛在试图用笑容掩饰某种失误或不知所措。",
+    "image_name": "CH0292_spr_24.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "white_eyes",
+      "open_mouth",
+      "shouting",
+      "angry",
+      "vein_pop",
+      "furious",
+      "comic_anger"
+    ],
+    "description": "眼睛瞪成漫画式的空白状，额头青筋暴起，嘴巴大张怒吼，表现出极度的愤怒、抓狂或者是正在进行激烈的吐槽。",
+    "image_name": "CH0292_spr_25.png"
+  },
+  {
+    "tags": [
+      "shadow_over_face",
+      "open_eyes",
+      "closed_mouth",
+      "scary",
+      "dark",
+      "menacing",
+      "smug",
+      "yandere"
+    ],
+    "description": "面部上半部分被浓重的阴影笼罩，眼神阴沉，嘴角挂着一丝令人不寒而栗的自信微笑，散发出强烈的压迫感、腹黑或“黑化”的气场。",
+    "image_name": "CH0292_spr_26.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "smile",
+      "happy",
+      "gentle",
+      "relaxed",
+      "content"
+    ],
+    "description": "双眼眯成弯弯的月牙状，嘴角上扬，神情无比温柔、放松且满足，展现出一种治愈人心的纯真笑容。",
+    "image_name": "CH0292_spr_99.png"
+  }
+]

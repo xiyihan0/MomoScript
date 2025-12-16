@@ -1,0 +1,90 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "talking",
+      "mekakure"
+    ],
+    "description": "角色开心地张着嘴笑，刘海遮住了眼睛部位（mekakure），看起来正在愉快地交谈或打招呼。",
+    "image_name": "NP0156_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "neutral",
+      "mekakure"
+    ],
+    "description": "角色嘴角微微上扬，闭着嘴露出温和的微笑，表现出平静和友好的态度。",
+    "image_name": "NP0156_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "o_shape_mouth",
+      "curious",
+      "mekakure"
+    ],
+    "description": "角色嘴巴张成小小的O型，似乎感到有些惊讶，或者正在发出“哦？”的疑问声。",
+    "image_name": "NP0156_spr_02.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "energetic",
+      "happy",
+      "shouting",
+      "mekakure"
+    ],
+    "description": "角色大幅度张开嘴巴，看起来非常充满活力，像是在大声回应或高兴地呼喊。",
+    "image_name": "NP0156_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "awkward",
+      "troubled",
+      "mekakure"
+    ],
+    "description": "角色脸颊旁挂着一滴汗珠，嘴巴微张，看起来感到紧张、尴尬或有些不知所措。",
+    "image_name": "NP0156_spr_04.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "serious",
+      "neutral",
+      "listening",
+      "mekakure"
+    ],
+    "description": "角色闭着嘴，没有任何笑容，表情显得比较严肃或认真，像是在听取指令。",
+    "image_name": "NP0156_spr_05.png"
+  },
+  {
+    "tags": [
+      "frown",
+      "sad",
+      "troubled",
+      "wavy_mouth",
+      "mekakure"
+    ],
+    "description": "角色嘴角向下撇呈波浪状，表情显得有些悲伤、委屈或对现状感到不满。",
+    "image_name": "NP0156_spr_06.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "calm",
+      "standard",
+      "mekakure"
+    ],
+    "description": "角色保持着标准的闭嘴微笑，神态端庄平静，是该角色的基础表情状态。",
+    "image_name": "NP0156_spr_99.png"
+  }
+]

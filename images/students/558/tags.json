@@ -1,0 +1,306 @@
+[
+  {
+    "tags": [
+      "smile",
+      "neutral",
+      "calm",
+      "closed_mouth",
+      "blue_eyes",
+      "white_hair"
+    ],
+    "description": "面带淡淡的微笑，神情平静温和，是标准的默认表情。",
+    "image_name": "CH0324_spr_00.png"
+  },
+  {
+    "tags": [
+      "wavy_mouth",
+      "troubled",
+      "awkward",
+      "confused",
+      "blue_eyes",
+      "white_hair"
+    ],
+    "description": "嘴巴呈波浪状线条，眉宇间流露出尴尬、无奈或有些困扰的情绪。",
+    "image_name": "CH0324_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "curious",
+      "dazed",
+      "o_mouth",
+      "blue_eyes",
+      "white_hair"
+    ],
+    "description": "嘴巴微微张开呈小圆形，看起来感到惊讶、好奇，或者有些呆萌的样子。",
+    "image_name": "CH0324_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy",
+      "closed_mouth",
+      "blue_eyes",
+      "white_hair"
+    ],
+    "description": "嘴角上扬，展现出温柔且愉快的微笑，与默认表情非常相似但氛围更轻松。",
+    "image_name": "CH0324_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "worried",
+      "anxious",
+      "open_mouth",
+      "blue_eyes",
+      "white_hair"
+    ],
+    "description": "脸颊上挂着明显的汗珠，眉头紧锁，嘴巴微微张开，神情看起来非常焦虑、惊慌或感到巨大的压力。",
+    "image_name": "CH0324_spr_04.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "serious",
+      "worried",
+      "frowning",
+      "blue_eyes",
+      "white_hair"
+    ],
+    "description": "嘴巴抿成一条直线，眉毛微微下垂，表情看起来严肃且带着一丝担忧，似乎在审视情况。",
+    "image_name": "CH0324_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "dazed",
+      "confused",
+      "blank_stare",
+      "blue_eyes",
+      "white_hair"
+    ],
+    "description": "嘴巴缩成一个小点（或短线），神情看起来有些茫然、发呆或无语，表现出一种不知所措的困惑感。",
+    "image_name": "CH0324_spr_06.png"
+  },
+  {
+    "tags": [
+      "wavy_mouth",
+      "awkward",
+      "troubled",
+      "nervous",
+      "blue_eyes",
+      "white_hair"
+    ],
+    "description": "嘴巴呈波浪状线条，眉毛呈八字形下垂，流露出尴尬、为难或者勉强苦笑的情绪。",
+    "image_name": "CH0324_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat",
+      "sigh",
+      "tired",
+      "troubled",
+      "white_hair"
+    ],
+    "description": "双眼紧闭，眉毛呈八字下垂，脸颊上挂着汗珠，嘴巴微微张开，看起来像是在无奈叹气或感到非常疲惫。",
+    "image_name": "CH0324_spr_08.png"
+  },
+  {
+    "tags": [
+      "blue_eyes",
+      "open_eyes",
+      "stare",
+      "neutral",
+      "awkward",
+      "closed_mouth",
+      "white_hair"
+    ],
+    "description": "睁大双眼直视前方，眼神显得有些呆滞或茫然，嘴巴抿成一条线，流露出一种不知该作何反应的无语或尴尬感。",
+    "image_name": "CH0324_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "content",
+      "gentle",
+      "closed_mouth",
+      "white_hair"
+    ],
+    "description": "双眼闭合，嘴角微微上扬，神情平静祥和，展现出一种非常满足、惬意且温柔的微笑。",
+    "image_name": "CH0324_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "sweat",
+      "nervous",
+      "awkward",
+      "white_hair"
+    ],
+    "description": "眼睛眯成弯弯的月牙状，嘴巴张开露出笑容，但脸颊上的汗珠暴露了紧张的情绪，看起来是在尴尬地赔笑或试图敷衍过去。",
+    "image_name": "CH0324_spr_11.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "happy",
+      "laughing",
+      "white_hair"
+    ],
+    "description": "双眼眯成弯弯的月牙状，嘴巴张大，展现出非常开朗、毫无保留的笑容，洋溢着纯粹的喜悦和兴奋。",
+    "image_name": "CH0324_spr_12.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "troubled",
+      "awkward",
+      "white_hair"
+    ],
+    "description": "虽然也是眯眼张嘴的笑容，但眉毛呈八字形微微下垂，流露出一丝尴尬、不好意思或者苦笑的无奈感。",
+    "image_name": "CH0324_spr_13.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "tears",
+      "happy",
+      "moved",
+      "white_hair"
+    ],
+    "description": "面带灿烂的笑容，双眼眯起，眼角却挂着晶莹的泪珠，表现出喜极而泣、深受感动或幸福得流泪的神情。",
+    "image_name": "CH0324_spr_14.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "blue_eyes",
+      "wavy_mouth",
+      "sweat",
+      "confused",
+      "worried",
+      "white_hair"
+    ],
+    "description": "双眼睁大，眼神显得有些惊慌失措，嘴巴呈波浪状，脸颊上挂着明显的汗珠，看起来非常困扰、混乱或不知所措。",
+    "image_name": "CH0324_spr_15.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "blue_eyes",
+      "wavy_mouth",
+      "sad",
+      "worried",
+      "troubled",
+      "white_hair"
+    ],
+    "description": "眉毛呈八字下垂，眼神显得有些忧郁和担忧，嘴巴呈波浪状，流露出一副受了委屈或感到为难的神情。",
+    "image_name": "CH0324_spr_16.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "blue_eyes",
+      "tears",
+      "sad",
+      "crying",
+      "worried",
+      "wavy_mouth",
+      "white_hair"
+    ],
+    "description": "眼角噙着泪水，眉毛紧锁，神情看起来非常悲伤和无助，仿佛下一秒就要哭出来，令人心生怜爱。",
+    "image_name": "CH0324_spr_17.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "scrunched_eyes",
+      "open_mouth",
+      "wavy_mouth",
+      "sweat",
+      "troubled",
+      "crying",
+      "white_hair"
+    ],
+    "description": "双眼紧闭呈“>_<”状，嘴巴张大呈波浪状，脸上挂着汗珠，看起来像是在崩溃地大叫、抱怨或者是急得快哭出来的样子。",
+    "image_name": "CH0324_spr_18.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sweat",
+      "tired",
+      "sad",
+      "whining",
+      "white_hair"
+    ],
+    "description": "双眼无力地闭合成下垂的弧线，嘴巴张开，脸上带有汗珠，流露出一种深深的疲惫感、无奈或者想要放弃的撒娇感。",
+    "image_name": "CH0324_spr_19.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "crying",
+      "tears",
+      "sad",
+      "sobbing",
+      "wailing",
+      "white_hair"
+    ],
+    "description": "双眼紧闭，泪水夺眶而出，嘴巴张大，脸颊上挂着泪珠，看起来像是在放声大哭，充满了极度的悲伤和委屈。",
+    "image_name": "CH0324_spr_20.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "blue_eyes",
+      "closed_mouth",
+      "stare",
+      "neutral",
+      "emotionless",
+      "dull_eyes",
+      "white_hair"
+    ],
+    "description": "半睁着双眼，眼神显得空洞呆滞，嘴巴紧闭，面无表情，流露出一股生无可恋、彻底无语或者是发呆的状态。",
+    "image_name": "CH0324_spr_21.png"
+  },
+  {
+    "tags": [
+      "gas_mask",
+      "mask",
+      "covered_face",
+      "hidden_expression",
+      "white_hair"
+    ],
+    "description": "面部佩戴着巨大的黑色防毒面具，完全遮挡了五官和表情，看起来严阵以待，充满了一种特殊的战术感或神秘感。",
+    "image_name": "CH0324_spr_22.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "peaceful",
+      "serene",
+      "white_hair"
+    ],
+    "description": "双眼闭合成柔和的弧线，嘴角微微上扬含笑，神情安详宁静，表现出一种非常温柔、内心平和且满足的状态。",
+    "image_name": "CH0324_spr_99.png"
+  }
+]

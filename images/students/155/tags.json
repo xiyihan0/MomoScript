@@ -1,0 +1,143 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "energetic"
+    ],
+    "description": "她开心地笑着，嘴巴张开，神情显得充满活力和兴奋。",
+    "image_name": "CH0196_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "soft"
+    ],
+    "description": "她露出了温柔含蓄的微笑，嘴巴闭合，眼神柔和。",
+    "image_name": "CH0196_spr_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "open_mouth",
+      "curious",
+      "blank_stare"
+    ],
+    "description": "她表情平淡呆萌，嘴巴微微张成一个小圆，似乎在发呆或感到好奇。",
+    "image_name": "CH0196_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "happy",
+      "joy"
+    ],
+    "description": "她闭着眼睛开怀大笑，眉眼弯弯，看起来非常高兴。",
+    "image_name": "CH0196_spr_03.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sweat_drop",
+      "nervous",
+      "awkward"
+    ],
+    "description": "她脸上挂着一滴冷汗，表情显得有些尴尬、紧张或担忧。",
+    "image_name": "CH0196_spr_04.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "smug",
+      "confident",
+      "mischievous"
+    ],
+    "description": "她嘴角上扬，露出一丝自信甚至带点得意的神情，眼神略带深意。",
+    "image_name": "CH0196_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "concerned",
+      "troubled",
+      "frown"
+    ],
+    "description": "她眉毛低垂，表情显得忧郁、困扰或有些难过。",
+    "image_name": "CH0196_spr_06.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "smile",
+      "playful"
+    ],
+    "description": "她俏皮地眨了一只眼睛（Wink），面带微笑，显得十分活泼可爱。",
+    "image_name": "CH0196_spr_07.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "calm"
+    ],
+    "description": "她睁着眼睛，嘴角微微上扬，露出了非常温柔且平静的浅笑。",
+    "image_name": "CH0196_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "content",
+      "relaxed"
+    ],
+    "description": "她眯起眼睛，脸上挂着满足而惬意的微笑，显得十分放松。",
+    "image_name": "CH0196_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "happy",
+      "laughing"
+    ],
+    "description": "她闭着眼睛开心地笑着，嘴巴张开，显得非常愉悦和开朗。",
+    "image_name": "CH0196_spr_10.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "smile",
+      "speaking",
+      "energetic"
+    ],
+    "description": "她睁着大眼睛，嘴巴张开仿佛在说话或欢笑，神情充满活力。",
+    "image_name": "CH0196_spr_11.png"
+  },
+  {
+    "tags": [
+      "glowing_eyes",
+      "pink_pupils",
+      "excited",
+      "intense",
+      "open_mouth"
+    ],
+    "description": "她的瞳孔闪烁着粉红色的光芒，表情兴奋甚至有些狂热，显得兴致高昂。",
+    "image_name": "CH0196_spr_12.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "serene",
+      "meditating",
+      "gentle"
+    ],
+    "description": "她双眼闭合，神情比平时更加安详，仿佛沉浸在冥想或美梦中。",
+    "image_name": "CH0196_spr_99.png"
+  }
+]

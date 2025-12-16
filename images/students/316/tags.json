@@ -1,0 +1,137 @@
+[
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "sparkling_eyes",
+      "happy"
+    ],
+    "description": "自信的微笑，金色的双眸中闪烁着标志性的星星光芒，看起来游刃有余。",
+    "image_name": "CH9997_spr_00.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "mischievous",
+      "playful"
+    ],
+    "description": "嘴角微微上扬露出得意的坏笑，眼神中带着一丝调皮和算计。",
+    "image_name": "CH9997_spr_01.png"
+  },
+  {
+    "tags": [
+      "curious",
+      "surprise",
+      "neutral",
+      "o_mouth"
+    ],
+    "description": "嘴巴微张呈O形，睁大眼睛注视着前方，表现出呆萌、好奇或轻微的惊讶。",
+    "image_name": "CH9997_spr_02.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "happy",
+      "beaming"
+    ],
+    "description": "闭着眼睛开怀大笑，脸上洋溢着毫无保留的喜悦和灿烂。",
+    "image_name": "CH9997_spr_03.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "sweat_drop",
+      "nervous",
+      "troubled"
+    ],
+    "description": "脸颊上流下一滴冷汗，眼神有些游移，表情显得尴尬、局促或感到棘手。",
+    "image_name": "CH9997_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "frown",
+      "serious"
+    ],
+    "description": "眉头紧锁，眼神变得锐利严肃，嘴角向下，明显表现出生气或不满的情绪。",
+    "image_name": "CH9997_spr_05.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "gloom",
+      "shadowed_face",
+      "despair"
+    ],
+    "description": "面部上半部分被阴影笼罩，瞳孔失去高光，表情阴沉，表现出受到打击、震惊或绝望。",
+    "image_name": "CH9997_spr_06.png"
+  },
+  {
+    "tags": [
+      "unamused",
+      "disdain",
+      "dead_pan",
+      "judgmental"
+    ],
+    "description": "半睁着眼的死鱼眼表情，面无表情地凝视，流露出无语、鄙视或冷漠的态度。",
+    "image_name": "CH9997_spr_07.png"
+  },
+  {
+    "tags": [
+      "shadowed_face",
+      "gloom",
+      "despair",
+      "shock",
+      "empty_eyes"
+    ],
+    "description": "面部上半部分被阴影笼罩，眼神失去高光显得空洞，脸颊挂着黑线，表现出绝望、无语或深受打击的样子。",
+    "image_name": "CH9997_spr_08.png"
+  },
+  {
+    "tags": [
+      "sparkling_eyes",
+      "smile",
+      "excited",
+      "expectant",
+      "star_eyes"
+    ],
+    "description": "双眼闪烁着星星般的光芒，嘴角微微上扬，表现出兴奋、期待或满怀憧憬的情绪。",
+    "image_name": "CH9997_spr_09.png"
+  },
+  {
+    "tags": [
+      "sparkling_eyes",
+      "laughing",
+      "open_mouth",
+      "enthusiastic",
+      "happy"
+    ],
+    "description": "眼中闪烁着明亮的星星，嘴巴张开露出灿烂的笑容，洋溢着热情、极度开心和活力的气息。",
+    "image_name": "CH9997_spr_10.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "tongue_out",
+      "playful",
+      "mischievous",
+      "cute"
+    ],
+    "description": "眨着一只眼睛，调皮地吐出舌头，眼神中带着星星光芒，表现出恶作剧成功后的俏皮与卖萌。",
+    "image_name": "CH9997_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "calm",
+      "content",
+      "gentle"
+    ],
+    "description": "双眼闭合，嘴角挂着温柔恬静的微笑，看起来非常安心，流露出满足和惬意的感觉。",
+    "image_name": "CH9997_spr_99.png"
+  }
+]

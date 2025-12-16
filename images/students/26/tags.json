@@ -1,0 +1,95 @@
+[
+  {
+    "tags": [
+      "open_eyes",
+      "red_eyes",
+      "worried",
+      "hand_on_chin",
+      "neutral"
+    ],
+    "description": "睁着红色的眼睛，眉毛微微下垂，流露出一丝困惑或担忧的神情，手轻轻托着下巴。",
+    "image_name": "hinata_spr-00_0_waifu2x_2x_-1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "red_eyes",
+      "calm",
+      "hand_on_chin",
+      "neutral"
+    ],
+    "description": "表情平静自然，眼神清澈，没有任何特别的情绪波动，手托着下巴的静止姿态。",
+    "image_name": "hinata_spr-01_0_waifu2x_2x_-1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "red_eyes",
+      "open_mouth",
+      "surprised",
+      "speaking",
+      "hand_on_chin"
+    ],
+    "description": "嘴巴微微张开呈小圆形，似乎正在轻声说话或对某事感到轻微的惊讶。",
+    "image_name": "hinata_spr-02_0_waifu2x_2x_-1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "happy",
+      "smile",
+      "blush",
+      "hand_on_chin"
+    ],
+    "description": "双眼眯成弯弯的月牙状，面颊染上红晕，露出甜美开心的笑容。",
+    "image_name": "hinata_spr-03_0_waifu2x_2x_-1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "red_eyes",
+      "blush",
+      "nervous",
+      "awkward",
+      "wavy_mouth",
+      "hand_on_chin"
+    ],
+    "description": "面带羞涩的红晕，嘴巴抿成波浪状，眼神显得有些慌乱和尴尬，似乎不知所措。",
+    "image_name": "hinata_spr-04_0_waifu2x_2x_-1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "red_eyes",
+      "angry",
+      "serious",
+      "frown",
+      "hand_on_chin"
+    ],
+    "description": "眉头紧锁，眼神变得锐利且严肃，表现出不满或生气的神情。",
+    "image_name": "hinata_spr-05_0_waifu2x_2x_-1n_png.jpg"
+  },
+  {
+    "tags": [
+      "wince",
+      "one_eye_closed",
+      "pain",
+      "blush",
+      "troubled",
+      "hand_on_chin"
+    ],
+    "description": "表情显得有些痛苦或为难，一只眼睛紧闭，面带红晕，像是在忍耐什么。",
+    "image_name": "hinata_spr-06_0_waifu2x_2x_-1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "peaceful",
+      "serene",
+      "hand_on_chin"
+    ],
+    "description": "双眼轻柔地闭合，嘴角放松，神情安详宁静，仿佛正在闭目养神。",
+    "image_name": "hinata_spr-99_0_waifu2x_2x_-1n_png.jpg"
+  }
+]

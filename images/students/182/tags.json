@@ -1,0 +1,93 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "looking_away",
+      "dot_mouth",
+      "daze"
+    ],
+    "description": "表情平淡，眼神看向一侧，嘴巴微张成小圆点状，看起来像是在发呆或放空。",
+    "image_name": "QQ截图20211128142907.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "looking_at_viewer",
+      "gentle",
+      "happy"
+    ],
+    "description": "面带温和的微笑，注视着镜头，看起来心情不错或很友好。",
+    "image_name": "QQ截图20211128142914.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "open_mouth",
+      "exuberant"
+    ],
+    "description": "闭眼大笑，嘴巴张大，表现出非常开心、爽朗的情绪。",
+    "image_name": "QQ截图20211128142921.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "wavy_mouth",
+      "mischievous",
+      "confident"
+    ],
+    "description": "表情得意，嘴角呈现波浪状（猫嘴），看起来有些调皮、自满或是在恶作剧成功后的神情。",
+    "image_name": "QQ截图20211128142930.png"
+  },
+  {
+    "tags": [
+      "grin",
+      "teeth",
+      "excited",
+      "determined"
+    ],
+    "description": "自信地咧嘴笑并露出洁白的牙齿，眼神坚定有力，看起来充满活力或有些激动。",
+    "image_name": "QQ截图20211128142937.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "blank_eyes",
+      "white_eyes",
+      "dumbfounded"
+    ],
+    "description": "受到惊吓或打击，瞳孔消失变成白眼，嘴巴微张，表现出极度的震惊、呆滞或不知所措。",
+    "image_name": "QQ截图20211128142943.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "frowning",
+      "annoyed",
+      "focused"
+    ],
+    "description": "眉头紧锁，眼神锐利，表情严肃甚至有些生气，似乎对某事感到不满。",
+    "image_name": "QQ截图20211128142955.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "relaxed",
+      "peaceful"
+    ],
+    "description": "闭着眼睛微笑，神情安详柔和，表现出一种满足、放松或被治愈的感觉。",
+    "image_name": "QQ截图20211128143003.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "troubled",
+      "sad",
+      "hesitant",
+      "furrowed_brows"
+    ],
+    "description": "眉毛微皱呈八字形，眼神流露出担忧或不安，嘴巴紧闭，表现出一种困扰、愧疚或犹豫的神情。",
+    "image_name": "QQ截图20211128143010.png"
+  }
+]

@@ -1,0 +1,204 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "idle",
+      "expressionless"
+    ],
+    "description": "表情平静，眼神直视前方，嘴巴闭合，没有任何明显的情绪波动，呈现出一种冷静或标准的待机状态。",
+    "image_name": "CH0303_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "focused",
+      "listening"
+    ],
+    "description": "保持冷静的表情，眼神比起前一张略显严肃或专注，嘴唇紧闭，表现出一种沉稳的气质。",
+    "image_name": "CH0303_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "surprised",
+      "dumbfounded"
+    ],
+    "description": "嘴巴微微张开呈O形，似乎正在说话，或者对某事感到轻微的惊讶和发愣。",
+    "image_name": "CH0303_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy",
+      "soft"
+    ],
+    "description": "嘴角微微上扬，露出一抹温柔的微笑，眼神变得柔和，表现出友好和愉悦的心情。",
+    "image_name": "CH0303_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "awkward",
+      "worried",
+      "troubled"
+    ],
+    "description": "左侧脸颊上流下一滴冷汗，眉眼间流露出紧张、尴尬或担心的神色，似乎遇到了让人为难的情况。",
+    "image_name": "CH0303_spr_04.png"
+  },
+  {
+    "tags": [
+      "narrowed_eyes",
+      "suspicious",
+      "judging",
+      "smug",
+      "stare"
+    ],
+    "description": "眼睛眯起，眼神犀利且带有审视感，表现出怀疑、鄙视或是在看穿某种谎言的表情。",
+    "image_name": "CH0303_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "crying",
+      "tears",
+      "sad",
+      "pain"
+    ],
+    "description": "双眼紧闭，眼角溢出泪水，神情显得非常悲伤、痛苦或委屈，正在哭泣。",
+    "image_name": "CH0303_spr_06.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "furrowed_brows",
+      "stern",
+      "annoyed",
+      "displeased"
+    ],
+    "description": "眉头紧紧锁起，眼神严厉，嘴角紧绷，表现出明显的不满、生气或非常严肃的态度。",
+    "image_name": "CH0303_spr_07.png"
+  },
+  {
+    "tags": [
+      "shadowed_face",
+      "scary",
+      "menacing",
+      "dark",
+      "smile",
+      "intimidating"
+    ],
+    "description": "面部上半部分笼罩在阴影中，眼神显得暗淡无光，嘴角却挂着难以捉摸的微笑，散发出一种可怕、腹黑或强烈的压迫感。",
+    "image_name": "CH0303_spr_08.png"
+  },
+  {
+    "tags": [
+      "shadowed_face",
+      "scary",
+      "speaking",
+      "menacing",
+      "open_mouth",
+      "dark"
+    ],
+    "description": "面部依然被阴影覆盖，嘴巴微微张开，似乎正在说着什么令人不寒而栗的话，带有明显的威胁意味或正在策划某种阴谋。",
+    "image_name": "CH0303_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "sigh",
+      "tired",
+      "exasperated",
+      "troubled"
+    ],
+    "description": "双眼紧闭，侧脸挂着一滴明显的汗珠，嘴巴张开似乎在叹气，表现出无可奈何、精疲力尽或感到事情非常棘手的样子。",
+    "image_name": "CH0303_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "gentle",
+      "delighted",
+      "content"
+    ],
+    "description": "双眼眯成弯弯的月牙状，脸上洋溢着温和且愉悦的笑容，表现出非常开心、满足、赞同或享受当下的神情。",
+    "image_name": "CH0303_spr_11.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "concerned",
+      "pensive",
+      "troubled",
+      "downcast",
+      "unhappy"
+    ],
+    "description": "眼神微微向下看，眉毛呈八字形，神情显得忧郁、担忧或失落，似乎在思考沉重的话题或对现状感到不安。",
+    "image_name": "CH0303_spr_12.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "teasing",
+      "confident",
+      "half_lidded",
+      "smile",
+      "provocative"
+    ],
+    "description": "眼神半眯，带着一种自信甚至略带得意的神情，嘴角上扬，似乎看穿了对方的秘密，或者正在进行某种恶作剧般的调侃。",
+    "image_name": "CH0303_spr_13.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "speaking",
+      "confident",
+      "cool",
+      "open_mouth",
+      "teasing"
+    ],
+    "description": "保持着半眯眼的自信神态，嘴巴微微张开，像是在游刃有余地陈述事实，或者对某人进行言语上的压制与调戏。",
+    "image_name": "CH0303_spr_14.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "neutral",
+      "calm",
+      "silent",
+      "meditating",
+      "asleep"
+    ],
+    "description": "双眼平缓闭合，没有笑意，表情平静无波，像是在闭目养神、沉思，或者单纯地睡着了，处于一种静止的状态。",
+    "image_name": "CH0303_spr_99.png"
+  },
+  {
+    "tags": [
+      "half_lidded",
+      "neutral",
+      "cold",
+      "stare",
+      "calm"
+    ],
+    "description": "眼神半眯，瞳孔视线略微向下，神情冷漠且疏离，没有任何明显的情绪波动，带有一种审视或即将闭目的感觉。",
+    "image_name": "CH0303_spr_Eye_Close_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "idle",
+      "expressionless",
+      "calm",
+      "half_lidded"
+    ],
+    "description": "保持着标准的待机表情，双眼半垂，眼神平静而空洞，显得格外冷静沉稳，透出一股难以接近的气质。",
+    "image_name": "CH0303_spr_Idle_01.png"
+  }
+]

@@ -1,0 +1,509 @@
+[
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "neutral",
+      "calm"
+    ],
+    "description": "角色戴着粉色墨镜，手扶镜框，透过墨镜上方注视前方，表情平静自然，嘴巴闭合成一条直线。",
+    "image_name": "CH0293_spr_00.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "serious",
+      "silent",
+      "expressionless"
+    ],
+    "description": "戴着墨镜，眼神稍显凝重或冷淡，嘴巴紧闭成一个小点，显得比较严肃或沉默。",
+    "image_name": "CH0293_spr_01.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "mouth_open",
+      "speaking",
+      "surprise"
+    ],
+    "description": "戴着墨镜，嘴巴微微张开，似乎正在说话，或者对某事感到轻微的惊讶。",
+    "image_name": "CH0293_spr_02.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "smile",
+      "happy",
+      "confident"
+    ],
+    "description": "戴着墨镜，嘴角微微上扬，露出一抹自信且愉快的微笑，神情轻松。",
+    "image_name": "CH0293_spr_03.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "worried",
+      "troubled",
+      "sad_eyebrows"
+    ],
+    "description": "戴着墨镜，眉毛呈八字形下垂，眼神流露出担忧、困扰或不安的情绪。",
+    "image_name": "CH0293_spr_04.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "annoyed",
+      "angry",
+      "grimace"
+    ],
+    "description": "戴着墨镜，眉头紧锁，嘴角撇向一边，表现出不耐烦、生气或嫌弃的样子。",
+    "image_name": "CH0293_spr_05.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "closed_eyes",
+      "sigh",
+      "exasperated"
+    ],
+    "description": "戴着墨镜，双眼紧闭，嘴巴微张，似乎在叹气、感到无奈或者是正在休息。",
+    "image_name": "CH0293_spr_06.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "wry_smile",
+      "awkward",
+      "troubled_smile"
+    ],
+    "description": "戴着墨镜，眉毛微皱显示出困扰，但嘴角却勉强上扬，流露出尴尬的苦笑或无奈的笑意。",
+    "image_name": "CH0293_spr_07.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "closed_eyes",
+      "smile",
+      "calm",
+      "peaceful"
+    ],
+    "description": "戴着墨镜，双眼闭合，嘴角微微上扬，表现出一种平静、安详或享受的微笑神态。",
+    "image_name": "CH0293_spr_08.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "serious",
+      "annoyed",
+      "frowning",
+      "stare"
+    ],
+    "description": "戴着墨镜，透过镜片上方注视，眉头紧锁，神情严肃甚至带点不悦，嘴巴紧闭。",
+    "image_name": "CH0293_spr_09.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "closed_eyes",
+      "happy",
+      "smile",
+      "content"
+    ],
+    "description": "戴着墨镜，双眼眯成弯弯的月牙状，脸上洋溢着温柔开心的笑容，显得非常愉快满足。",
+    "image_name": "CH0293_spr_10.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "closed_eyes",
+      "mouth_open",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "戴着墨镜，眼睛开心地眯起，嘴巴张开，似乎正在开怀大笑或心情愉快地交谈。",
+    "image_name": "CH0293_spr_11.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "smile",
+      "gentle",
+      "neutral",
+      "soft_expression"
+    ],
+    "description": "戴着墨镜，眼神温和地注视前方，嘴角带着淡淡的微笑，神态自然亲切。",
+    "image_name": "CH0293_spr_12.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "mouth_open",
+      "shouting",
+      "complaining",
+      "energetic",
+      "angry"
+    ],
+    "description": "戴着墨镜，眼神锐利，嘴巴大张，似乎正在大声说话、抗议或表达强烈的情绪。",
+    "image_name": "CH0293_spr_13.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "worried",
+      "sad",
+      "concerned",
+      "anxious"
+    ],
+    "description": "戴着墨镜，眉尾下垂表现出担忧或哀伤，眼神显得有些落寞与不安，嘴巴紧闭。",
+    "image_name": "CH0293_spr_14.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "wry_smile",
+      "awkward",
+      "troubled_smile",
+      "conflicted"
+    ],
+    "description": "戴着墨镜，眉毛微皱似有难言之隐，嘴角却勉强上扬，露出一副尴尬、无奈或带有苦涩的笑容。",
+    "image_name": "CH0293_spr_15.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "closed_eyes",
+      "smile",
+      "shy",
+      "gentle"
+    ],
+    "description": "戴着墨镜，双眼闭合呈下弯状，嘴角微微上扬，带着一丝羞涩、温和且安心的笑意。",
+    "image_name": "CH0293_spr_16.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "worried",
+      "sad",
+      "troubled",
+      "eyebrows_down"
+    ],
+    "description": "戴着墨镜，眉毛呈八字下垂，眼神透过镜片上方流露出明显的悲伤、委屈与担忧。",
+    "image_name": "CH0293_spr_17.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "smug",
+      "confident",
+      "smile",
+      "teasing"
+    ],
+    "description": "戴着墨镜，眼神略带狡黠，嘴角自信上扬，表现出一种得意、挑衅或胸有成竹的神态。",
+    "image_name": "CH0293_spr_18.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "grimace",
+      "annoyed",
+      "sweat_drop",
+      "angry",
+      "awkward"
+    ],
+    "description": "戴着墨镜，流着冷汗，眉头紧锁，嘴巴咬牙切齿或扭曲，显得非常焦躁、尴尬或不耐烦。",
+    "image_name": "CH0293_spr_19.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "smile",
+      "sweat_drop",
+      "awkward",
+      "nervous"
+    ],
+    "description": "戴着墨镜，脸颊挂着冷汗，嘴角勉强维持着微笑，神情显得有些紧张、心虚或尴尬。",
+    "image_name": "CH0293_spr_20.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "peering_over_glasses",
+      "closed_eyes",
+      "neutral",
+      "calm",
+      "silent"
+    ],
+    "description": "戴着墨镜，双眼闭合，面无表情，似乎正在闭目养神，或者对接下来的事情保持沉默。",
+    "image_name": "CH0293_spr_99.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "neutral",
+      "serious",
+      "calm",
+      "stare"
+    ],
+    "description": "摘下了墨镜，完全露出金色的双眸，表情平静、认真且专注地注视着前方，没有任何多余的情绪。",
+    "image_name": "CH0293_spr_S2_00.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "serious",
+      "cold",
+      "focused",
+      "expressionless"
+    ],
+    "description": "未佩戴墨镜，眼神比平时更加冷淡和严肃，嘴角抿成一条线，表现出一种冷静审视的态度。",
+    "image_name": "CH0293_spr_S2_01.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "neutral",
+      "mouth_slightly_open",
+      "curious",
+      "surprise"
+    ],
+    "description": "摘下墨镜，金色的双眼睁开，嘴巴微微张成小圆形，似乎对某事感到一丝意外、好奇，或正准备发出轻微的声音。",
+    "image_name": "CH0293_spr_S2_02.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "smile",
+      "happy",
+      "gentle",
+      "confident"
+    ],
+    "description": "摘下墨镜，眼神柔和，嘴角上扬露出自信且亲切的微笑，展现出心情愉快或友好的态度。",
+    "image_name": "CH0293_spr_S2_03.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "worried",
+      "sad",
+      "troubled",
+      "eyebrows_down"
+    ],
+    "description": "摘下墨镜，眉毛呈八字下垂，眼神流露出明显的担忧与困惑，嘴巴微抿，看起来有些伤感或不知所措。",
+    "image_name": "CH0293_spr_S2_04.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "annoyed",
+      "displeased",
+      "grimace",
+      "crooked_mouth",
+      "angry"
+    ],
+    "description": "摘下墨镜，眉头紧锁，嘴角不悦地撇向一边（波浪状），明显表现出嫌弃、不爽或轻微生气的神情。",
+    "image_name": "CH0293_spr_S2_05.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "closed_eyes",
+      "sigh",
+      "tired",
+      "resigned",
+      "disappointed"
+    ],
+    "description": "摘下墨镜，双眼闭合，眉宇间带着疲惫，嘴巴微张仿佛正在无奈地叹气，表现出一种放弃或失望的状态。",
+    "image_name": "CH0293_spr_S2_06.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "wry_smile",
+      "troubled_smile",
+      "awkward",
+      "gentle"
+    ],
+    "description": "摘下墨镜，眉毛微皱显得有些困扰，但嘴角却勉强上扬，露出一副苦涩、无奈却又不失礼貌的微笑。",
+    "image_name": "CH0293_spr_S2_07.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "closed_eyes",
+      "smile",
+      "shy",
+      "relieved",
+      "peaceful"
+    ],
+    "description": "摘下墨镜，闭着双眼，脸上洋溢着安心温暖的笑容，眉眼舒展，神态显得非常羞涩、宁静且满足。",
+    "image_name": "CH0293_spr_S2_08.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "sweat_drop",
+      "nervous",
+      "awkward",
+      "worried",
+      "stare"
+    ],
+    "description": "摘下墨镜，脸颊滑落一滴冷汗，眉头微皱，表情僵硬紧张，似乎陷入了某种尴尬境地或感到心虚。",
+    "image_name": "CH0293_spr_S2_09.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "happy"
+    ],
+    "description": "摘下墨镜，闭着双眼，嘴角温柔上扬，神情显得非常轻松、愉悦且充满善意。",
+    "image_name": "CH0293_spr_S2_10.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "happy",
+      "cheerful"
+    ],
+    "description": "摘下墨镜，双眼眯成弯月状，嘴巴张开露出开朗的笑容，似乎正在愉快地说话或开怀大笑，充满活力。",
+    "image_name": "CH0293_spr_S2_11.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "smile",
+      "gentle",
+      "calm",
+      "soft_gaze"
+    ],
+    "description": "摘下墨镜，金色的双眸温柔地注视前方，嘴角挂着淡淡的微笑，气质优雅且从容。",
+    "image_name": "CH0293_spr_S2_12.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "open_mouth",
+      "confident",
+      "serious",
+      "talking"
+    ],
+    "description": "摘下墨镜，眼神坚定自信，嘴巴张开似乎正在认真地表达观点或下达指令，展现出一种果敢的态度。",
+    "image_name": "CH0293_spr_S2_13.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "worried",
+      "neutral",
+      "troubled",
+      "eyebrows_down"
+    ],
+    "description": "摘下墨镜，眉毛微皱，眼神显得有些犹豫和担忧，嘴角抿成一条线，流露出一种心事重重或困惑的神情。",
+    "image_name": "CH0293_spr_S2_14.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "wry_smile",
+      "troubled_smile",
+      "awkward",
+      "worried"
+    ],
+    "description": "摘下墨镜，眉宇间带着困扰，但嘴角却勉强上扬露出苦笑，表现出一种无奈、尴尬或试图缓和气氛的神态。",
+    "image_name": "CH0293_spr_S2_15.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "closed_eyes",
+      "wry_smile",
+      "troubled",
+      "resigned"
+    ],
+    "description": "摘下墨镜，双眼闭合，眉头微锁，嘴角露出一抹无奈的苦笑，似乎对现状感到有些头疼但又不得不接受。",
+    "image_name": "CH0293_spr_S2_16.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "sad",
+      "worried",
+      "troubled",
+      "eyebrows_down"
+    ],
+    "description": "摘下墨镜，眉毛呈八字下垂，眼神黯淡流露出明显的悲伤与不安，神情显得十分低落或委屈。",
+    "image_name": "CH0293_spr_S2_17.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "sweat_drop",
+      "side_glance",
+      "wry_smile",
+      "awkward",
+      "nervous"
+    ],
+    "description": "摘下墨镜，脸颊滑落冷汗，眼神心虚地游移向一侧，嘴角勉强上扬，表现出一种尴尬、试图掩饰或强装镇定的神态。",
+    "image_name": "CH0293_spr_S2_18.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "sweat_drop",
+      "grimace",
+      "annoyed",
+      "stressed",
+      "clenched_teeth"
+    ],
+    "description": "摘下墨镜，眉头紧锁，咬紧牙关，脸颊带着汗珠，神情流露出明显的不耐烦、焦躁和压力，似乎对眼前的状况感到棘手。",
+    "image_name": "CH0293_spr_S2_19.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "sweat_drop",
+      "smile",
+      "stare",
+      "awkward",
+      "nervous"
+    ],
+    "description": "摘下墨镜，直视前方，脸颊挂着冷汗，脸上维持着僵硬的笑容，显得非常局促不安或尴尬，仿佛在巨大的压力下强颜欢笑。",
+    "image_name": "CH0293_spr_S2_20.png"
+  },
+  {
+    "tags": [
+      "no_glasses",
+      "closed_eyes",
+      "neutral",
+      "calm",
+      "silent"
+    ],
+    "description": "摘下墨镜，双眼轻轻闭合，神情平淡安详，没有任何情绪波动，似乎正在安静地闭目养神或陷入沉思。",
+    "image_name": "CH0293_spr_S2_99.png"
+  }
+]

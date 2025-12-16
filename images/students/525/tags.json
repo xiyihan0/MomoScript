@@ -1,0 +1,378 @@
+[
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "awkward_smile",
+      "blush",
+      "worry"
+    ],
+    "description": "她脸上流着一滴明显的冷汗，嘴角虽然带着笑意但略显勉强，眉毛微蹙，表现出一种尴尬、紧张或心虚的神情。",
+    "image_name": "CH0288_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "gentle",
+      "blush"
+    ],
+    "description": "她面带温和开朗的笑容，嘴巴微微张开露出牙齿，眼神清澈，展现出一种标准且友好的开心状态。",
+    "image_name": "CH0288_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "speaking",
+      "curious",
+      "blush",
+      "o_mouth"
+    ],
+    "description": "她嘴巴张开呈圆形的“O”字状，似乎正在开口说话，或者对眼前的事物感到轻微的惊讶与好奇，神态有些呆萌。",
+    "image_name": "CH0288_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "content",
+      "soft",
+      "blush"
+    ],
+    "description": "她闭着嘴露出一抹恬静的微笑，嘴角微微上扬，眼神温柔，给人一种沉稳、安心和满足的感觉。",
+    "image_name": "CH0288_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "worried",
+      "troubled",
+      "open_mouth",
+      "blush"
+    ],
+    "description": "她眉毛呈八字下垂，脸颊旁挂着一滴明显的冷汗，嘴巴微张，神情显得焦虑、困扰且有些不知所措，似乎遇到了棘手的情况。",
+    "image_name": "CH0288_spr_04.png"
+  },
+  {
+    "tags": [
+      "side_glance",
+      "serious",
+      "annoyed",
+      "pout",
+      "blush",
+      "silent"
+    ],
+    "description": "她眼神向一侧斜视，嘴巴紧抿微撇，表情严肃中带有一丝不满或怀疑，似乎在审视着什么，流露出一种冷淡无语的态度。",
+    "image_name": "CH0288_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sad",
+      "troubled",
+      "frown",
+      "blush",
+      "disappointed"
+    ],
+    "description": "她紧闭双眼，眉毛紧锁下撇，嘴角向下弯曲，神情显得非常痛苦、无奈或失望，仿佛不忍直视或正在忍受某种不快。",
+    "image_name": "CH0288_spr_06.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "laughing",
+      "open_mouth",
+      "blush"
+    ],
+    "description": "她笑得眼睛眯成两条缝，嘴巴大大张开，脸颊泛红，展现出一种极度开心、爽朗且充满感染力的笑容，看起来非常兴奋。",
+    "image_name": "CH0288_spr_07.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "open_mouth",
+      "blush",
+      "confused",
+      "hesitant"
+    ],
+    "description": "她脸上流着一滴冷汗，眼神中带着一丝困惑和迟疑，嘴巴微微张开，脸颊泛红，似乎对眼前的情况感到些许不解或尴尬。",
+    "image_name": "CH0288_spr_08.png"
+  },
+  {
+    "tags": [
+      "tears",
+      "sad",
+      "open_mouth",
+      "blush",
+      "upset",
+      "emotional"
+    ],
+    "description": "她的眼角挂着一滴晶莹的泪珠，眉毛低垂，嘴巴微张，神情显得十分委屈或伤心，脸颊的红晕更增添了几分惹人怜爱的感觉。",
+    "image_name": "CH0288_spr_09.png"
+  },
+  {
+    "tags": [
+      "dazed",
+      "sweat",
+      "open_mouth",
+      "blush",
+      "blank_stare",
+      "stunned"
+    ],
+    "description": "她眼神发直，显得有些呆滞，嘴巴微张，脸颊旁挂着冷汗，整个人仿佛愣住了，表现出一种没反应过来或大脑宕机的呆萌状态。",
+    "image_name": "CH0288_spr_10.png"
+  },
+  {
+    "tags": [
+      "profuse_sweating",
+      "panic",
+      "nervous",
+      "blush",
+      "anxious",
+      "open_mouth"
+    ],
+    "description": "她满头大汗，密集的汗珠挂在脸上，面色通红，眉毛紧皱，嘴巴张开，神情显得极度慌乱、紧张和焦急，仿佛遇到了巨大的压力。",
+    "image_name": "CH0288_spr_11.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "sweat",
+      "nervous",
+      "pout",
+      "embarrassed",
+      "shy"
+    ],
+    "description": "她满脸通红，流着明显的冷汗，眼神显得游移且羞涩，嘴巴微微嘟起，表现出一种极度的尴尬、难为情或者是正在忍耐羞耻感的可爱模样。",
+    "image_name": "CH0288_spr_12.png"
+  },
+  {
+    "tags": [
+      "swirl_eyes",
+      "dizzy",
+      "confused",
+      "wavy_mouth",
+      "blush",
+      "sweat"
+    ],
+    "description": "她的眼睛变成了螺旋状的“蚊香眼”，嘴巴呈波浪形扭曲，脸上挂着汗珠，表现出一种晕头转向、极度混乱或者是大脑过载后的眩晕状态。",
+    "image_name": "CH0288_spr_13.png"
+  },
+  {
+    "tags": [
+      "hollow_eyes",
+      "blank_stare",
+      "shocked",
+      "despair",
+      "blush",
+      "sweat",
+      "open_mouth"
+    ],
+    "description": "她眼神失去了高光，呈现出空洞呆滞的红色，嘴巴微张，脸上带着汗珠，仿佛受到了某种精神打击或感到绝望，表现出一种“坏掉”了的失神状态。",
+    "image_name": "CH0288_spr_14.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "tipsy",
+      "drunk",
+      "blush",
+      "sweat",
+      "drowsy"
+    ],
+    "description": "她眼皮低垂，眼神迷离半睁，脸颊有着浓重的红晕和汗滴，神情显得困倦且放松，看起来像是因为喝醉而处于微醺状态，散发出一种迷糊的气息。",
+    "image_name": "CH0288_spr_15.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "open_mouth",
+      "blush",
+      "surprised",
+      "confused"
+    ],
+    "description": "她脸上带着明显的红晕和一滴冷汗，嘴巴微张，眼神显得有些惊愕或不知所措，似乎对突发状况感到意外或尴尬。",
+    "image_name": "CH0288_spr_16.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "awkward",
+      "sweat",
+      "blush",
+      "wavy_mouth",
+      "troubled",
+      "disgust"
+    ],
+    "description": "她眼神半眯，带着一种难以言喻的嫌弃或为难，嘴巴扭曲成波浪状，脸颊泛红且挂着冷汗，表现出极度的尴尬、不适或无语。",
+    "image_name": "CH0288_spr_17.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "laughing",
+      "open_mouth",
+      "blush",
+      "cheerful"
+    ],
+    "description": "她眼睛笑成了弯弯的月牙，嘴巴张开，脸颊通红，洋溢着一种毫无防备、天真烂漫甚至带点微醺感的快乐笑容。",
+    "image_name": "CH0288_spr_18.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "shouting",
+      "complaining",
+      "sweat",
+      "blush",
+      "open_mouth",
+      "whining"
+    ],
+    "description": "她紧闭双眼，嘴巴大张仿佛在喊叫或抱怨，脸上挂着汗珠和红晕，神情显得有些急躁、无奈或者是正在撒娇发泄不满。",
+    "image_name": "CH0288_spr_19.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "shouting",
+      "panic",
+      "sweat",
+      "blush",
+      "open_mouth",
+      "flustered"
+    ],
+    "description": "她双眼紧闭呈“><”状，嘴巴大张，神情显得极度惊慌和焦急，脸上挂着汗珠和红晕，仿佛在手足无措地大声辩解或尖叫。",
+    "image_name": "CH0288_spr_20.png"
+  },
+  {
+    "tags": [
+      "scribble_eyes",
+      "gloomy",
+      "shocked",
+      "dizzy",
+      "open_mouth",
+      "sweat",
+      "despair"
+    ],
+    "description": "她的眼睛变成了混乱的黑色涂鸦状，额头挂着表示消沉的阴影线，嘴巴无力张开，表现出一种大脑宕机、深受打击或精神混乱的崩溃状态。",
+    "image_name": "CH0288_spr_21.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "sweat",
+      "blush",
+      "shy",
+      "embarrassed",
+      "gentle"
+    ],
+    "description": "她嘴角挂着一抹温和的微笑，脸颊泛红，但脸旁流下的一滴冷汗暴露了她内心的紧张或羞涩，看起来像是在尴尬地陪笑。",
+    "image_name": "CH0288_spr_22.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "wide_eyes",
+      "sweat",
+      "fear",
+      "stunned",
+      "blush",
+      "panic"
+    ],
+    "description": "她瞪大了双眼，瞳孔剧烈收缩，满脸密布着冷汗，神情中充满了极度的震惊和恐惧，仿佛看到了什么不可思议的可怕事物而完全僵住。",
+    "image_name": "CH0288_spr_24.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "blush",
+      "pout",
+      "shy",
+      "disgust",
+      "side_glance"
+    ],
+    "description": "她眼神半眯向一侧看去，脸颊泛着明显的红晕，嘴巴微微嘟起，神情中夹杂着嫌弃与羞涩，仿佛在别扭地表达不满或害羞。",
+    "image_name": "CH0288_spr_25.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "bored",
+      "indifferent",
+      "unamused",
+      "jitome",
+      "expressionless"
+    ],
+    "description": "她半眯着双眼呈现出标准的“死鱼眼”，面无表情且脸上没有红晕，透露出一种极致的冷漠、无聊以及对周围事物的毫无兴致。",
+    "image_name": "CH0288_spr_26.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "dazed",
+      "blank_stare",
+      "confused",
+      "wide_eyes"
+    ],
+    "description": "她嘴巴张开呈O型，眼神有些发直和呆滞，似乎对突发情况感到惊讶，或者单纯处于一种大脑放空的茫然状态。",
+    "image_name": "CH0288_spr_27.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "open_mouth",
+      "blush",
+      "awkward",
+      "troubled"
+    ],
+    "description": "她眉毛微微下垂，脸上带着明显的红晕和一滴冷汗，嘴巴张开，神情显得有些紧张、慌张或不知所措，仿佛在面对棘手的情况时露出的尴尬反应。",
+    "image_name": "CH0288_spr_28.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "blush",
+      "shy",
+      "peaceful",
+      "happy"
+    ],
+    "description": "她轻轻闭着双眼，嘴角挂着温柔的微笑，脸颊泛红，神情显得非常安详、害羞且陶醉，仿佛正沉浸在美好的氛围或幻想中。",
+    "image_name": "CH0288_spr_99.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "blush",
+      "happy",
+      "normal",
+      "looking_at_viewer"
+    ],
+    "description": "她睁着红宝石般的眼睛注视前方，脸上带着淡淡的红晕，嘴角微微上扬，展现出一种标准、友好且充满温柔气息的常态微笑。",
+    "image_name": "CH0288_spr_Eye_Close_01.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "sweat",
+      "nervous",
+      "blush",
+      "awkward",
+      "troubled"
+    ],
+    "description": "她嘴角虽然挂着一丝微笑，但眉毛微蹙且脸旁流下一滴冷汗，脸颊泛红，神情中透着一种尴尬、紧张或者是为了掩饰内心不安而勉强维持的笑容。",
+    "image_name": "CH0288_spr_Idle_01.png"
+  }
+]

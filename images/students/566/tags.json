@@ -1,0 +1,252 @@
+[
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "frown",
+      "open_mouth",
+      "annoyed"
+    ],
+    "description": "眉头紧锁，眼神显得有些焦急和尖锐，嘴巴大张，似乎正在生气地大声抗议或训斥。",
+    "image_name": "CH0327_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "confident",
+      "gentle"
+    ],
+    "description": "嘴角微微上扬，闭着嘴巴露出自信而温和的微笑，眼神平静，显得游刃有余。",
+    "image_name": "CH0327_spr_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "confused",
+      "open_mouth",
+      "blank_stare"
+    ],
+    "description": "表情有些呆滞或困惑，嘴巴微微张开，眼神游离，似乎在发呆、思考或者对眼前的情况感到无语。",
+    "image_name": "CH0327_spr_02.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "open_mouth",
+      "excited"
+    ],
+    "description": "开心地张嘴笑着，眉眼舒展，神情愉快，看起来心情很好，正在兴致勃勃地交谈。",
+    "image_name": "CH0327_spr_03.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "nervous",
+      "open_mouth",
+      "sweat",
+      "confused"
+    ],
+    "description": "脸上挂着汗珠，嘴巴微微张开，眼神显得有些惊慌失措或困惑，似乎遇到了意料之外的麻烦或感到紧张。",
+    "image_name": "CH0327_spr_04.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "serious",
+      "frown",
+      "sweat",
+      "skeptical"
+    ],
+    "description": "眉头紧锁，流着冷汗，眼神锐利且带着一丝怀疑或不满，表情严肃，似乎对眼前的情况感到棘手或正在审视某事。",
+    "image_name": "CH0327_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "frown",
+      "closed_mouth"
+    ],
+    "description": "眉毛下垂成八字，眼神流露出担忧、抱歉或委屈的情绪，表情看起来有些沮丧或不知所措。",
+    "image_name": "CH0327_spr_06.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "excited"
+    ],
+    "description": "眼睛眯成弯弯的线条，开心地张大嘴巴笑着，神情充满活力与喜悦，看起来非常兴奋或得意。",
+    "image_name": "CH0327_spr_07.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "laugh",
+      "closed_eyes",
+      "open_mouth",
+      "excited"
+    ],
+    "description": "双眼眯成弯弯的线条，嘴巴大张开怀大笑，神情毫无阴霾，洋溢着纯粹的快乐和喜悦，看起来非常开心。",
+    "image_name": "CH0327_spr_08.png"
+  },
+  {
+    "tags": [
+      "confident",
+      "smile",
+      "open_eyes",
+      "open_mouth",
+      "energetic"
+    ],
+    "description": "蓝色的眼睛注视前方，自信地张嘴笑着，眉毛舒展，表情开朗大方，看起来充满干劲，正准备大展身手。",
+    "image_name": "CH0327_spr_09.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "frown",
+      "open_mouth",
+      "determined"
+    ],
+    "description": "眉头微微下压，眼神变得犀利，嘴角却自信上扬，流露出一股胜券在握的得意感，或者是不服输的强势态度。",
+    "image_name": "CH0327_spr_10.png"
+  },
+  {
+    "tags": [
+      "provocative",
+      "smug",
+      "frown",
+      "open_mouth",
+      "cheeky"
+    ],
+    "description": "眉头紧锁呈倒八字，脸上却挂着有些嚣张的坏笑，表情显得既顽皮又充满了挑衅意味，像是在嘲笑对手或对自己恶作剧的成果感到满意。",
+    "image_name": "CH0327_spr_11.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "frown",
+      "open_mouth",
+      "aggressive"
+    ],
+    "description": "眉头紧锁，眼神凌厉地直视前方，嘴巴大张仿佛正在大声呵斥或发出愤怒的抗议，手中的教鞭也似乎挥舞得更有力，气势汹汹。",
+    "image_name": "CH0327_spr_12.png"
+  },
+  {
+    "tags": [
+      "disgusted",
+      "annoyed",
+      "glancing_away",
+      "open_mouth",
+      "awkward"
+    ],
+    "description": "眼神斜向一侧，眉头微皱，脸上带着明显的嫌弃、无语或感到棘手的表情，嘴巴微微张开，似乎对眼前的情况感到难以置信或不想面对。",
+    "image_name": "CH0327_spr_13.png"
+  },
+  {
+    "tags": [
+      "flustered",
+      "complaining",
+      "open_mouth",
+      "glancing_away",
+      "worried"
+    ],
+    "description": "视线游移看向旁边，神情显得有些焦躁和心虚，张大嘴巴似乎正在急切地辩解、抱怨或大声吐槽，眉宇间流露出一丝慌乱。",
+    "image_name": "CH0327_spr_14.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "scheming",
+      "smirk",
+      "glancing_away",
+      "confident"
+    ],
+    "description": "眼神狡黠地看向一侧，嘴角勾起一抹自信甚至带着些许恶作剧意味的坏笑，表情显得从容不迫，似乎正在打什么歪主意或感到胜券在握。",
+    "image_name": "CH0327_spr_15.png"
+  },
+  {
+    "tags": [
+      "flustered",
+      "sweat",
+      "heart_eyes",
+      "open_mouth",
+      "embarrassed"
+    ],
+    "description": "双眼中出现心形高光，脸上流着冷汗，嘴巴张成波浪状，表情显得既慌乱羞涩又有些手足无措，似乎受到了极大的动摇或冲击。",
+    "image_name": "CH0327_spr_17.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "confident",
+      "calm"
+    ],
+    "description": "嘴角微微上扬，露出一抹温和而从容的微笑，眼神平静深邃，透出一股知性与自信的气质，静静地注视着前方。",
+    "image_name": "CH0327_spr_18.png"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "swirl_eyes",
+      "open_mouth",
+      "confused",
+      "funny"
+    ],
+    "description": "双眼变成了螺旋状的蚊香眼，嘴巴无意识地张开，神情看起来晕头转向，似乎已经彻底混乱、大脑死机或失去了思考能力。",
+    "image_name": "CH0327_spr_19.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "stressed",
+      "sweat",
+      "grimace",
+      "angry"
+    ],
+    "description": "眉头紧锁，额头挂着冷汗，嘴角抽搐呈现出波浪状，眼神充满了压抑的怒火和烦躁，看起来对现状感到极度无语或正在努力忍耐。",
+    "image_name": "CH0327_spr_20.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "gentle",
+      "serene"
+    ],
+    "description": "双眼闭合，眉眼弯弯，嘴角挂着温柔恬静的微笑，神情安详，散发着一种治愈、亲切且令人安心的气质。",
+    "image_name": "CH0327_spr_99.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "smirk",
+      "sharp_eyes",
+      "determined"
+    ],
+    "description": "眼神锐利而自信，嘴角微微上扬勾起一抹得意的笑容，神情显得从容不迫，仿佛一切都在掌握之中，透着一股帅气与强势。",
+    "image_name": "CH0327_spr_Eye_Close_01.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "complaining",
+      "open_mouth",
+      "frown",
+      "impatient"
+    ],
+    "description": "眉头微蹙，眼神显得有些不耐烦或困扰，嘴巴张开仿佛正在大声抱怨、吐槽或表达不满，情绪生动且略显焦躁。",
+    "image_name": "CH0327_spr_Idle_01.png"
+  }
+]

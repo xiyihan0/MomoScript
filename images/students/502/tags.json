@@ -1,0 +1,75 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "expressionless"
+    ],
+    "description": "标准的平静表情，眼神直视前方，没有任何明显的情绪波动，嘴角闭合。",
+    "image_name": "NP0119_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "stoic",
+      "calm"
+    ],
+    "description": "基础立绘状态，神情冷淡且安详，表现出一种缺乏情感起伏的静止感。",
+    "image_name": "NP0119_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "parted_lips"
+    ],
+    "description": "嘴巴微微张开，似乎正在进行冷静的陈述或对话，眼神依旧保持平稳。",
+    "image_name": "NP0119_spr_02.png"
+  },
+  {
+    "tags": [
+      "slight_smile",
+      "looking_aside",
+      "soft_expression"
+    ],
+    "description": "视线移向画面右侧（角色的左侧），嘴角带着极其微弱的笑意，神态比平时柔和一些。",
+    "image_name": "NP0119_spr_03.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "confused",
+      "troubled",
+      "open_mouth"
+    ],
+    "description": "面露难色，眉头微皱，嘴巴张开呈现出困惑、不解或轻微焦虑的样子，仿佛遇到了意料之外的情况。",
+    "image_name": "NP0119_spr_04.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "serious",
+      "open_mouth"
+    ],
+    "description": "张口说话的表情，相比于之前的对话表情，眼神似乎更加专注或严肃。",
+    "image_name": "NP0119_spr_05.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "listening",
+      "calm"
+    ],
+    "description": "恢复到闭口不言的状态，安静地注视着前方，情绪回归到绝对的理性和冷漠。",
+    "image_name": "NP0119_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "thinking",
+      "unconscious"
+    ],
+    "description": "双眼完全闭合，看起来像是在深沉地思考、闭目养神，或者是失去了意识。",
+    "image_name": "NP0119_spr_99.png"
+  }
+]

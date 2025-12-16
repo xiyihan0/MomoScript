@@ -1,0 +1,122 @@
+[
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "calm",
+      "blue_eyes"
+    ],
+    "description": "平静温柔的微笑，眼神柔和地注视前方。",
+    "image_name": "CH0186_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "open_mouth",
+      "blue_eyes"
+    ],
+    "description": "稍微张开嘴的开心笑容，表情比上一张更生动，显得很友善。",
+    "image_name": "CH0186_spr_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "jitome",
+      "half_closed_eyes",
+      "bored"
+    ],
+    "description": "面无表情，眼神平淡半睁（死鱼眼），嘴巴闭成一条线，表现出冷漠或无语。",
+    "image_name": "CH0186_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "joy",
+      "blush"
+    ],
+    "description": "双眼眯成弯月状的甜美笑容，看起来非常开心和幸福。",
+    "image_name": "CH0186_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "awkward",
+      "worry",
+      "blue_eyes"
+    ],
+    "description": "脸颊挂着汗珠，眼神略微游移，表现出尴尬、紧张或不知所措的样子。",
+    "image_name": "CH0186_spr_04.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "serious",
+      "furrowed_brows",
+      "stern",
+      "blue_eyes"
+    ],
+    "description": "眉头紧锁，眼神锐利，嘴巴紧闭，表现出生气、严肃或不满的情绪。",
+    "image_name": "CH0186_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "wavy_mouth",
+      "troubled",
+      "pain",
+      "cringe"
+    ],
+    "description": "紧闭双眼，嘴巴呈波浪状，眉头紧皱，表现出痛苦、忍耐或极度为难的神情。",
+    "image_name": "CH0186_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "wry_smile",
+      "troubled",
+      "apologetic",
+      "sweat"
+    ],
+    "description": "眉毛下垂呈八字形，虽然闭眼在笑，但带着无奈、苦笑或抱歉的感觉。",
+    "image_name": "CH0186_spr_07.png"
+  },
+  {
+    "tags": [
+      "confused",
+      "open_mouth",
+      "blue_eyes",
+      "dazed",
+      "blank_stare"
+    ],
+    "description": "眼神呆滞茫然，嘴巴微张，看起来感到困惑、发呆，或者对眼前的情况没反应过来的样子。",
+    "image_name": "CH0186_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "shouting",
+      "troubled",
+      "complaining",
+      "sad_brows",
+      ">_<"
+    ],
+    "description": "紧闭双眼，嘴巴大张，眉毛呈八字下垂，像是在大声抱怨、撒娇或者受到了委屈。",
+    "image_name": "CH0186_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "calm",
+      "serene"
+    ],
+    "description": "闭着双眼，嘴角微微上扬，表情宁静祥和，透着一股温柔且安心的气息。",
+    "image_name": "CH0186_spr_99.png"
+  }
+]

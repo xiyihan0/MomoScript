@@ -1,0 +1,175 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "looking_away",
+      "relaxed"
+    ],
+    "description": "表情平静，眼神微微向侧面看去，嘴巴微张，处于一种放松或默认的待机状态。",
+    "image_name": "J_NP0013_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "concerned",
+      "troubled",
+      "eyebrows_furrowed"
+    ],
+    "description": "眉毛呈现八字形下垂，眼神中流露出明显的忧虑和悲伤，看起来心事重重或感到困扰。",
+    "image_name": "J_NP0013_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "satisfied"
+    ],
+    "description": "嘴角上扬露出温柔的微笑，眼神柔和，表现出愉快、友善或满意的情绪。",
+    "image_name": "J_NP0013_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "gasp",
+      "shocked",
+      "wide_eyes"
+    ],
+    "description": "嘴巴张成O型，眼睛微微睁大，表现出惊讶、恍然大悟或是被突发状况吓一跳的反应。",
+    "image_name": "J_NP0013_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "serious",
+      "frowning",
+      "skeptical"
+    ],
+    "description": "眉头紧锁，眼神锐利且带有审视感，嘴巴紧闭，表现出不悦、生气或严肃怀疑的态度。",
+    "image_name": "J_NP0013_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "pain",
+      "whining",
+      "crying",
+      "eyes_closed",
+      "shouting"
+    ],
+    "description": "双眼紧闭，五官皱在一起，嘴巴大张，看起来非常痛苦、在撒娇抱怨或是受到了打击。",
+    "image_name": "J_NP0013_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "listening",
+      "blank_stare"
+    ],
+    "description": "非常平淡的表情，眼神直视前方（或微微侧视），比第一张图看起来更加放空，像是在安静地倾听。",
+    "image_name": "J_NP0013_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "awkward",
+      "confused",
+      "troubled"
+    ],
+    "description": "脸颊上挂着一滴冷汗，神情显得尴尬、紧张或不知所措，似乎遇到了棘手的情况。",
+    "image_name": "J_NP0013_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "sweat_drop",
+      "anxious",
+      "troubled",
+      "concerned"
+    ],
+    "description": "脸颊上挂着一滴冷汗，眉毛微微下垂，眼神中透露出不安和忧虑，看起来像是遇到了令人紧张或棘手的麻烦。",
+    "image_name": "J_NP0013_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "amazed",
+      "talking",
+      "wow"
+    ],
+    "description": "嘴巴张开呈O型，眼睛睁大，眉毛上扬，表现出惊讶、赞叹的神情，或者正在大声发表某种感言。",
+    "image_name": "J_NP0013_spr-10_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "eyes_closed",
+      "sigh",
+      "tired",
+      "exhausted",
+      "helpless"
+    ],
+    "description": "双眼紧闭，嘴巴张开，像是在深深地叹气，流露出一种无可奈何、疲惫不堪或是想要放弃的情绪。",
+    "image_name": "J_NP0013_spr-11_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "confused",
+      "dazed",
+      "blank_stare",
+      "dumbfounded",
+      "staring"
+    ],
+    "description": "眼神有些发愣和呆滞，眉毛微蹙，嘴巴微张，看起来对眼前的情况感到困惑，或者处于一种懵懂的反应迟钝状态。",
+    "image_name": "J_NP0013_spr-12_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "skeptical",
+      "unamused",
+      "suspicious",
+      "half_closed_eyes",
+      "judgmental"
+    ],
+    "description": "眼皮半垂，眼神中带着审视和怀疑，嘴角没有笑意，表现出不信任、无语或者轻微鄙视的态度（死鱼眼）。",
+    "image_name": "J_NP0013_spr-13_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shy",
+      "embarrassed",
+      "blushing",
+      "looking_away",
+      "guilty"
+    ],
+    "description": "视线向侧下方游移，不敢直视前方，脸颊泛起红晕，眉毛呈八字状，表现出害羞、尴尬或是心虚内疚的样子。",
+    "image_name": "J_NP0013_spr-14_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "closed_eyes",
+      "cheerful",
+      "radiant"
+    ],
+    "description": "眼睛眯成弯弯的月牙状，嘴角高高上扬，露出灿烂、真诚且富有感染力的笑容，看起来非常开心和幸福。",
+    "image_name": "J_NP0013_spr-15_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "eyes_closed",
+      "calm",
+      "thinking",
+      "peaceful",
+      "meditating"
+    ],
+    "description": "双眼轻闭，神情平稳安详，没有过多的情绪波动，像是在闭目养神、安静沉思或者是正在祈祷。",
+    "image_name": "J_NP0013_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

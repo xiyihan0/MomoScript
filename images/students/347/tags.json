@@ -1,0 +1,190 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "smile",
+      "calm"
+    ],
+    "description": "标准立绘，面带淡淡的微笑，红色的眼睛注视前方，表情平静且温和，手持相机。",
+    "image_name": "CH0238_spr_00_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "smug",
+      "slight_smirk"
+    ],
+    "description": "自信的微笑，嘴角上扬的弧度比标准表情略大，眼神中流露出一丝得意或确信。",
+    "image_name": "CH0238_spr_01_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "curious",
+      "surprise"
+    ],
+    "description": "嘴巴微张呈O型，似乎正在说话或对某事感到轻微的好奇与惊讶。",
+    "image_name": "CH0238_spr_02_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "happy",
+      "open_mouth",
+      "cheerful"
+    ],
+    "description": "闭眼开怀大笑，嘴巴张大，眉眼弯弯，表现出非常愉快和开心的情绪。",
+    "image_name": "CH0238_spr_03_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "worried",
+      "awkward",
+      "troubled"
+    ],
+    "description": "紧张尴尬的表情，脸颊上挂着一滴汗珠，眉毛微皱，似乎遇到了棘手的情况。",
+    "image_name": "CH0238_spr_04_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "annoyed",
+      "frown",
+      "stern",
+      "unhappy"
+    ],
+    "description": "严肃甚至有些生气的表情，眉头紧锁，嘴角下撇，眼神变得犀利。",
+    "image_name": "CH0238_spr_05_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "troubled",
+      "disappointed",
+      "pout",
+      "brows_furrowed"
+    ],
+    "description": "悲伤或困扰的表情，眉毛呈八字下垂，眼神显得有些无助和失望。",
+    "image_name": "CH0238_spr_06_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "sparkling_eyes",
+      "excited",
+      "interested",
+      "star_eyes"
+    ],
+    "description": "兴奋的表情，红色的瞳孔中闪烁着星星般的光芒，看起来对眼前的事物非常感兴趣或期待。",
+    "image_name": "CH0238_spr_07_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "sparkling_eyes",
+      "shouting",
+      "passionate",
+      "star_eyes",
+      "open_mouth"
+    ],
+    "description": "眼中闪烁着星光，嘴巴张大仿佛在大声疾呼，眉头微皱，充满了极度的热情和魄力。",
+    "image_name": "CH0238_spr_08_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "awkward_laugh",
+      "troubled",
+      "open_mouth"
+    ],
+    "description": "尴尬的苦笑，脸上挂着汗珠，眉毛下垂，似乎在试图掩饰紧张或应对突发状况。",
+    "image_name": "CH0238_spr_09_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "panicked",
+      "shouting",
+      "closed_eyes",
+      "sweat_drop",
+      "overwhelmed",
+      ">_<"
+    ],
+    "description": "慌乱崩溃的表情，双眼紧闭呈“><”状，嘴巴张大在喊叫，脸上带着汗珠，显得不知所措。",
+    "image_name": "CH0238_spr_10_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "mischievous",
+      "smile"
+    ],
+    "description": "得意的坏笑，眼神显得自信且带着一丝恶作剧的意味，嘴角自信地上扬。",
+    "image_name": "CH0238_spr_11_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "proud",
+      "happy",
+      ">_<"
+    ],
+    "description": "闭眼开怀大笑，表情中带有一丝自豪或得意，看起来非常开心和爽朗。",
+    "image_name": "CH0238_spr_12_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "soft_laugh",
+      "closed_eyes",
+      "gentle",
+      "relieved",
+      "happy"
+    ],
+    "description": "温柔的闭眼笑容，眉眼舒展，神情放松，像是在享受此刻或感到宽慰。",
+    "image_name": "CH0238_spr_13_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "pout",
+      "sulking",
+      "annoyed",
+      "puffed_cheeks"
+    ],
+    "description": "鼓着脸颊赌气，眼神撇向一边，眉头微皱，表现出可爱的不满或撒娇情绪。",
+    "image_name": "CH0238_spr_14_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "serene",
+      "smile",
+      "nodding"
+    ],
+    "description": "闭目微笑，表情安详平静，似乎在满意地点头或享受片刻的宁静。",
+    "image_name": "CH0238_spr_99_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "smile",
+      "calm"
+    ],
+    "description": "标准立绘表情，面带温和的微笑，红色的眼睛注视前方，手持相机，神态平静。",
+    "image_name": "CH0238_spr_Eye_Close_01_waifu2x_art_noise3_scale.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "smile",
+      "calm"
+    ],
+    "description": "日常待机状态的表情，与标准立绘一致，面带淡淡的笑容，眼神平和，展现出一种轻松的氛围。",
+    "image_name": "CH0238_spr_Idle_01_waifu2x_art_noise3_scale.png"
+  }
+]

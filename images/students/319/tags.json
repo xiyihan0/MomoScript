@@ -1,0 +1,168 @@
+[
+  {
+    "tags": [
+      "confident",
+      "neutral",
+      "slight_smile"
+    ],
+    "description": "表情平静而自信，红色的眼睛坚定地注视前方，嘴角带着一抹淡淡的微笑。",
+    "image_name": "CH0224_spr_00.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "confident"
+    ],
+    "description": "带着几分得意的神情，嘴角上扬的幅度比平时更大，眉宇间透着自信与坏笑。",
+    "image_name": "CH0224_spr_01.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "blank_stare"
+    ],
+    "description": "感到惊讶或呆滞，嘴巴微微张开呈O型，眼神显得有些迷茫和意外。",
+    "image_name": "CH0224_spr_02.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "grin",
+      "open_mouth",
+      "happy"
+    ],
+    "description": "开怀大笑，嘴巴张大露出洁白的牙齿，充满了元气和快乐的活力。",
+    "image_name": "CH0224_spr_03.png"
+  },
+  {
+    "tags": [
+      "scared",
+      "shocked",
+      "sweat",
+      "nervous"
+    ],
+    "description": "惊慌失措的样子，脸颊挂着冷汗，瞳孔震颤，嘴巴因紧张而扭曲，显得非常害怕。",
+    "image_name": "CH0224_spr_04.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "annoyed",
+      "frown"
+    ],
+    "description": "表情严肃且略带不悦，紧闭双唇，嘴角向下撇，眼神犀利，似乎在生气或警戒。",
+    "image_name": "CH0224_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled"
+    ],
+    "description": "悲伤担忧的表情，眉毛呈八字下垂，眼神显得无助和委屈，仿佛遇到了困难。",
+    "image_name": "CH0224_spr_06.png"
+  },
+  {
+    "tags": [
+      "excited",
+      "wild_grin",
+      "aggressive"
+    ],
+    "description": "充满野性的露齿笑，眼神狂热而好战，表现出极度的兴奋或挑衅的姿态。",
+    "image_name": "CH0224_spr_07.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "serious",
+      "frown",
+      "glare"
+    ],
+    "description": "表情严肃且带有明显的怒意，眉头紧锁，眼神锐利地盯着前方，紧闭双唇，显得非常不悦。",
+    "image_name": "CH0224_spr_08.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "happy",
+      "open_mouth"
+    ],
+    "description": "闭着眼睛开怀大笑，嘴巴张大露出洁白的牙齿，洋溢着极度的喜悦和爽朗的情绪。",
+    "image_name": "CH0224_spr_09.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "grimace",
+      "disgusted",
+      "unhappy"
+    ],
+    "description": "嘴角扭曲呈波浪状，眉头微皱，眼神中带着一丝嫌弃、无语或不耐烦，显得相当无奈。",
+    "image_name": "CH0224_spr_10.png"
+  },
+  {
+    "tags": [
+      "curious",
+      "neutral",
+      "staring",
+      "innocent"
+    ],
+    "description": "表情相对平静但略带好奇，眉毛轻微上扬，睁大眼睛注视着前方，似乎在询问或观察。",
+    "image_name": "CH0224_spr_11.png"
+  },
+  {
+    "tags": [
+      "furious",
+      "shouting",
+      "aggressive",
+      "open_mouth"
+    ],
+    "description": "愤怒地咆哮，嘴巴大张，眉毛倒竖，眼神凶狠，表现出强烈的攻击性和无法遏制的怒火。",
+    "image_name": "CH0224_spr_12.png"
+  },
+  {
+    "tags": [
+      "confused",
+      "worried",
+      "open_mouth",
+      "dumbfounded"
+    ],
+    "description": "面露难色，眉毛下垂呈八字，嘴巴微张，眼神显得迷茫和困惑，似乎不理解发生了什么。",
+    "image_name": "CH0224_spr_13.png"
+  },
+  {
+    "tags": [
+      "panicked",
+      "spiral_eyes",
+      "sweat",
+      "shocked"
+    ],
+    "description": "极度惊慌失措，瞳孔变成同心圆或螺旋状，满头大汗，嘴巴扭曲，完全陷入了混乱状态。",
+    "image_name": "CH0224_spr_14.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "embarrassed",
+      "spiral_eyes",
+      "sweat",
+      "clenched_teeth"
+    ],
+    "description": "眼神游移且瞳孔呈螺旋状，咬紧牙关，脸上流着冷汗，显得既紧张又羞耻，内心极度动摇。",
+    "image_name": "CH0224_spr_15.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "smug",
+      "confident",
+      "proud"
+    ],
+    "description": "闭着双眼，嘴角自信地上扬，流露出一种得意洋洋且胸有成竹的神情，显得非常自豪。",
+    "image_name": "CH0224_spr_99.png"
+  }
+]

@@ -1,0 +1,194 @@
+[
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "red_eyes",
+      "hand_on_hat"
+    ],
+    "description": "白发狐耳少女自信地微笑着，眼神直视前方，一只手优雅地扶着帽檐，神情从容。",
+    "image_name": "CH0323_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "pleased"
+    ],
+    "description": "她面露更加柔和的笑意，眼神显得亲切友好，保持着扶帽的姿势。",
+    "image_name": "CH0323_spr_01.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "narrow_eyes",
+      "mischievous",
+      "closed_mouth"
+    ],
+    "description": "她微微眯起眼睛，嘴角上扬，露出一副得意且略带调皮的坏笑（smug face），仿佛在策划什么恶作剧。",
+    "image_name": "CH0323_spr_02.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "grin",
+      "narrow_eyes",
+      "confident"
+    ],
+    "description": "她的表情更加嚣张，眯着眼露齿而笑，展现出十足的自信和得逞后的快感。",
+    "image_name": "CH0323_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "flustered",
+      "open_mouth",
+      "shocked"
+    ],
+    "description": "她脸上挂着汗珠，嘴巴微张，眉头紧锁，看起来因为突发状况而感到慌乱和不知所措。",
+    "image_name": "CH0323_spr_04.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "silent",
+      "expressionless"
+    ],
+    "description": "她收起了笑容，表情变得冷淡严肃，眼神平静无波，嘴角抿成一条直线。",
+    "image_name": "CH0323_spr_05.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "grimace",
+      "awkward",
+      "annoyed"
+    ],
+    "description": "她流着冷汗，嘴角抽搐扭曲，露出一副尴尬、嫌弃或感到棘手的神情。",
+    "image_name": "CH0323_spr_06.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "open_mouth",
+      "talking",
+      "dazed"
+    ],
+    "description": "她眼神略显呆滞或平静，嘴巴微张，似乎正在平铺直叙地说话，或者在发呆。",
+    "image_name": "CH0323_spr_07.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "looking_away",
+      "cheerful"
+    ],
+    "description": "她视线向侧面看去，嘴巴微张带着笑意，神情轻松愉快，似乎正在与旁人交谈。",
+    "image_name": "CH0323_spr_08.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "bored",
+      "half_closed_eyes",
+      "unimpressed"
+    ],
+    "description": "她半眯着眼，眼神显得有些无聊或冷淡，嘴角没有弧度，表现出漫不经心的态度。",
+    "image_name": "CH0323_spr_09.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "open_mouth",
+      "happy"
+    ],
+    "description": "她开怀大笑，眼睛眯成弯弯的月牙状，嘴巴张开，洋溢着毫不掩饰的喜悦。",
+    "image_name": "CH0323_spr_10.png"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "serious",
+      "neutral",
+      "calm"
+    ],
+    "description": "她将视线移向一边，表情变得严肃且平静，嘴巴闭合，似乎在警惕或思考着什么。",
+    "image_name": "CH0323_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "serious",
+      "silent",
+      "resigned"
+    ],
+    "description": "她闭上双眼，表情沉静而略显无奈，像是在闭目养神，又像是在进行无声的叹息。",
+    "image_name": "CH0323_spr_12.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "smile",
+      "open_mouth",
+      "worried"
+    ],
+    "description": "她眉毛呈八字下垂，虽然嘴上带着笑意，但眼神中流露出为难、尴尬或苦恼的情绪。",
+    "image_name": "CH0323_spr_13.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "closed_eyes",
+      "awkward",
+      "flustered"
+    ],
+    "description": "她紧闭双眼，脸上挂着汗珠，露出一副尴尬而不失礼貌的笑容，显得有些不知所措。",
+    "image_name": "CH0323_spr_14.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "satisfied"
+    ],
+    "description": "她闭着眼睛露出温柔平和的微笑，神情看起来非常满足、惬意且友好。",
+    "image_name": "CH0323_spr_15.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "cheerful",
+      "hand_on_hat"
+    ],
+    "description": "她双眼紧闭成弯弯的线条，脸上洋溢着开朗愉快的笑容，单手扶着帽檐，看起来心情非常好。",
+    "image_name": "CH0323_spr_99.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smile",
+      "smug",
+      "gentle",
+      "hand_on_hat"
+    ],
+    "description": "她半眯着眼睛，红色的瞳孔半遮半掩，神情显得慵懒而狡黠，嘴角微微上扬，透着一股从容的自信。",
+    "image_name": "CH0323_spr_Eye_Close_01.png"
+  },
+  {
+    "tags": [
+      "red_eyes",
+      "smile",
+      "confident",
+      "looking_at_viewer",
+      "hand_on_hat"
+    ],
+    "description": "她睁开红色的双眼直视前方，眼神清澈而自信，嘴角挂着优雅的微笑，保持着扶帽的姿势。",
+    "image_name": "CH0323_spr_Idle_01.png"
+  }
+]

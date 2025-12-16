@@ -1,0 +1,83 @@
+[
+  {
+    "tags": [
+      "shadowed_eyes",
+      "laughing",
+      "open_mouth",
+      "happy"
+    ],
+    "description": "角色眼睛被阴影遮住，嘴巴大幅张开，表现出非常开心、开怀大笑的样子。",
+    "image_name": "NP0157_spr_00.png"
+  },
+  {
+    "tags": [
+      "shadowed_eyes",
+      "smile",
+      "closed_mouth",
+      "confident"
+    ],
+    "description": "角色眼睛被阴影遮住，嘴角微微上扬，露出一丝自信或温和的微笑。",
+    "image_name": "NP0157_spr_01.png"
+  },
+  {
+    "tags": [
+      "shadowed_eyes",
+      "open_mouth",
+      "o_mouth",
+      "surprise"
+    ],
+    "description": "角色眼睛被阴影遮住，嘴巴呈O型张开，似乎感到惊讶、恍然大悟或正在发声。",
+    "image_name": "NP0157_spr_02.png"
+  },
+  {
+    "tags": [
+      "shadowed_eyes",
+      "smile",
+      "open_mouth",
+      "talking"
+    ],
+    "description": "角色眼睛被阴影遮住，嘴巴张开微笑着，看起来正在愉快地交谈或发出笑声。",
+    "image_name": "NP0157_spr_03.png"
+  },
+  {
+    "tags": [
+      "shadowed_eyes",
+      "nervous",
+      "sweat",
+      "open_mouth",
+      "awkward"
+    ],
+    "description": "角色眼睛被阴影遮住，脸颊挂着一滴冷汗，嘴巴张开，神情显得紧张、尴尬或不知所措。",
+    "image_name": "NP0157_spr_04.png"
+  },
+  {
+    "tags": [
+      "shadowed_eyes",
+      "frown",
+      "closed_mouth",
+      "confused"
+    ],
+    "description": "角色眼睛被阴影遮住，嘴巴抿紧或微微下撇，表现出困惑、无语或不满的情绪。",
+    "image_name": "NP0157_spr_05.png"
+  },
+  {
+    "tags": [
+      "shadowed_eyes",
+      "smile",
+      "closed_mouth",
+      "calm"
+    ],
+    "description": "角色眼睛被阴影遮住，面带浅浅的微笑，看起来情绪平静且友好。",
+    "image_name": "NP0157_spr_06.png"
+  },
+  {
+    "tags": [
+      "shadowed_eyes",
+      "smile",
+      "closed_mouth",
+      "neutral"
+    ],
+    "description": "角色眼睛被阴影遮住，保持着标准的微笑表情，神态从容自然。",
+    "image_name": "NP0157_spr_99.png"
+  }
+]

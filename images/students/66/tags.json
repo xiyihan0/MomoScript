@@ -1,0 +1,157 @@
+[
+  {
+    "tags": [
+      "serious",
+      "frown",
+      "determined",
+      "focused"
+    ],
+    "description": "严肃认真的表情，眉头微皱，眼神坚定地注视前方。",
+    "image_name": "CH0173_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "calm",
+      "staring"
+    ],
+    "description": "平静的面无表情，没有明显的情绪波动，处于待机状态。",
+    "image_name": "CH0173_spr_01.png"
+  },
+  {
+    "tags": [
+      "surprise",
+      "open_mouth",
+      "curious",
+      "speaking"
+    ],
+    "description": "轻微的惊讶或正在说话，嘴巴微微张成O型，眼神带着好奇。",
+    "image_name": "CH0173_spr_02.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "laughing",
+      "joy"
+    ],
+    "description": "非常开心的笑容，闭着眼睛大笑，充满喜悦。",
+    "image_name": "CH0173_spr_03.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "grimace",
+      "confused",
+      "wavy_mouth",
+      "awkward"
+    ],
+    "description": "感到为难或困扰的表情，嘴巴扭曲成波浪状，似乎遇到了难以理解的事。",
+    "image_name": "CH0173_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "annoyed",
+      "frown"
+    ],
+    "description": "生气或大声抗议的表情，眉头紧锁，张大嘴巴似乎在喊叫。",
+    "image_name": "CH0173_spr_05.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "looking_away",
+      "awkward",
+      "guilty"
+    ],
+    "description": "尴尬心虚的表情，脸颊挂着汗珠，眼神向旁边游移，不敢直视。",
+    "image_name": "CH0173_spr_06.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "grin",
+      "closed_eyes",
+      "teeth",
+      "confident"
+    ],
+    "description": "得意洋洋的表情，闭着眼睛露齿坏笑，看起来很自信或在打什么鬼主意。",
+    "image_name": "CH0173_spr_07.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "open_mouth",
+      "singing",
+      "cheerful",
+      "joy"
+    ],
+    "description": "开心愉悦的表情，闭着眼睛张大嘴巴，看起来像是在唱歌或者欢快地交谈。",
+    "image_name": "CH0173_spr_08.png"
+  },
+  {
+    "tags": [
+      "confident",
+      "open_mouth",
+      "energetic",
+      "talking",
+      "determined"
+    ],
+    "description": "自信满满的表情，睁大眼睛注视前方，张嘴似乎在发表强有力的言论或主张。",
+    "image_name": "CH0173_spr_09.png"
+  },
+  {
+    "tags": [
+      "disgusted",
+      "annoyed",
+      "glare",
+      "scorn",
+      "dark_shadow",
+      "judgmental"
+    ],
+    "description": "充满嫌弃或鄙视的表情，眼神冰冷，额头带有阴影，似乎看到了什么令人反感的东西。",
+    "image_name": "CH0173_spr_10.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "troubled",
+      "wavy_mouth",
+      "wry_smile",
+      "nervous"
+    ],
+    "description": "尴尬无奈的表情，眉毛下垂呈八字状，嘴巴扭曲成波浪形，表现出一种难以言喻的困扰。",
+    "image_name": "CH0173_spr_11.png"
+  },
+  {
+    "tags": [
+      "sigh",
+      "tired",
+      "closed_eyes",
+      "open_mouth",
+      "exhausted",
+      "resigned"
+    ],
+    "description": "深深叹气的表情，闭着眼睛张嘴，表现出疲惫、无奈或者放弃挣扎的情绪。",
+    "image_name": "CH0173_spr_12.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "closed_eyes",
+      "disappointed",
+      "upset",
+      "silent",
+      "pouting"
+    ],
+    "description": "失落或难过的表情，闭着眼睛，眉毛微微下垂，嘴巴紧闭，看起来有些委屈或失望。",
+    "image_name": "CH0173_spr_99.png"
+  }
+]

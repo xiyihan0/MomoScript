@@ -1,0 +1,78 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "normal"
+    ],
+    "description": "基础表情，眼神平静且略带严肃，直视前方，是不良少女角色的标准神态。",
+    "image_name": "sukeban_SMG_spr_00.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "wide_eyed",
+      "shocked"
+    ],
+    "description": "惊讶的表情，眼睛微微睁大，眉毛上扬，流露出意料之外的吃惊感。",
+    "image_name": "sukeban_SMG_spr_01.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "frown",
+      "vein"
+    ],
+    "description": "愤怒的表情，眉头紧锁，眼神犀利，额头上有红色的青筋符号，表现出明显的生气或烦躁。",
+    "image_name": "sukeban_SMG_spr_02.png"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "side_glance",
+      "awkward"
+    ],
+    "description": "视线移向一侧（画面左侧），不敢直视前方，表现出心虚、尴尬或试图无视对方的态度。",
+    "image_name": "sukeban_SMG_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "embarrassed",
+      "worry"
+    ],
+    "description": "紧张流汗的表情，脸颊边挂着明显的汗珠，眼神显得有些慌乱和尴尬。",
+    "image_name": "sukeban_SMG_spr_04.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "troubled",
+      "eyebrows_furrowed"
+    ],
+    "description": "困扰的表情，眉毛呈八字形微微下垂，眼神显得有些为难、担忧或无奈。",
+    "image_name": "sukeban_SMG_spr_05.png"
+  },
+  {
+    "tags": [
+      "white_eyes",
+      "blank_eyes",
+      "fainted",
+      "shocked",
+      "gloom"
+    ],
+    "description": "失去意识或极度震惊的表情，双眼翻白（无瞳孔），面部带有垂直的阴影线条，通常用于表现晕倒或受到巨大打击。",
+    "image_name": "sukeban_SMG_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "happy",
+      "smiling_eyes"
+    ],
+    "description": "闭眼微笑的表情，双眼闭合呈弯月状，眉毛舒展，虽然戴着口罩但能感受到开心的情绪。",
+    "image_name": "sukeban_SMG_spr_99.png"
+  }
+]

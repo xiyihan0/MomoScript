@@ -1,0 +1,204 @@
+[
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "closed_mouth"
+    ],
+    "description": "嘴角微微上扬，眼神温和，展现出礼貌、平静且含蓄的微笑。",
+    "image_name": "CH0229_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "expressionless"
+    ],
+    "description": "面无表情，眼神直视前方，显得十分冷静、认真，或者正在处于待机状态。",
+    "image_name": "CH0229_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "curious",
+      "speaking"
+    ],
+    "description": "嘴巴微张呈圆形，眉毛微挑，表现出轻微的惊讶、呆萌，或者正在发出疑问。",
+    "image_name": "CH0229_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "happy",
+      "laughing",
+      "big_smile"
+    ],
+    "description": "双眼眯成弯弯的缝，嘴巴大张，开怀大笑，充满了纯粹的喜悦和快乐。",
+    "image_name": "CH0229_spr_03.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "confident",
+      "smug",
+      "mischievous"
+    ],
+    "description": "睁大眼睛张嘴笑着，眼神中流露出一丝自信、得意甚至是有些调皮狡黠的神情。",
+    "image_name": "CH0229_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "frown",
+      "shouting",
+      "annoyed"
+    ],
+    "description": "眉头紧锁，眼神变得犀利，嘴巴张开，似乎在生气地反驳、抗议或大声斥责。",
+    "image_name": "CH0229_spr_05.png"
+  },
+  {
+    "tags": [
+      "disgust",
+      "troubled",
+      "sweat_drop",
+      "frown",
+      "awkward"
+    ],
+    "description": "眉头皱起，脸颊挂着一滴冷汗，眼神中带着嫌弃、怀疑、无语或感到棘手的情绪。",
+    "image_name": "CH0229_spr_06.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "cheerful"
+    ],
+    "description": "自然的张嘴微笑，表情明朗大方，看起来心情很不错，充满亲和力。",
+    "image_name": "CH0229_spr_07.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "frown",
+      "annoyed",
+      "aggressive"
+    ],
+    "description": "眉头紧锁，眼神变得犀利且充满怒气，嘴巴大张，似乎正在大声斥责或激烈抗议。",
+    "image_name": "CH0229_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "happy",
+      "warm"
+    ],
+    "description": "双眼眯成弯弯的线条，嘴角温柔地上扬，表现出一种治愈、内心平静且充满善意的微笑。",
+    "image_name": "CH0229_spr_10.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "worried",
+      "open_mouth",
+      "confused",
+      "sad_brows"
+    ],
+    "description": "眉毛呈现八字下垂状，眼神流露出担忧或困惑，嘴巴微微张开，显得有些无措或遗憾。",
+    "image_name": "CH0229_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smug",
+      "confident",
+      "smile",
+      "proud"
+    ],
+    "description": "闭着眼睛，嘴角自信地上扬，神情中透着一股得意、自豪甚至是“哼哼”的傲娇感。",
+    "image_name": "CH0229_spr_12.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "open_mouth",
+      "cheerful",
+      "excited"
+    ],
+    "description": "双眼眯起，嘴巴张开大笑，神情爽朗明快，传递出纯粹的开心和兴奋的情绪。",
+    "image_name": "CH0229_spr_13.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "surprised",
+      "awkward",
+      "open_mouth"
+    ],
+    "description": "脸颊挂着冷汗，瞳孔微缩显得有些慌乱，嘴巴张开，表现出惊讶、尴尬或不知所措的状态。",
+    "image_name": "CH0229_spr_14.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "sweat_drop",
+      "panicked",
+      "urgent"
+    ],
+    "description": "眉头紧皱且流着汗，嘴巴大张，神情焦急而愤怒，似乎在急切地争辩或面对突发状况大喊。",
+    "image_name": "CH0229_spr_15.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "expressionless",
+      "cold",
+      "bored",
+      "unamused"
+    ],
+    "description": "眼皮半垂，眼神显得十分冷淡、无语或疲惫，嘴角平直，对周围的事物表现出不屑或无聊。",
+    "image_name": "CH0229_spr_16.png"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "open_mouth",
+      "awkward",
+      "troubled",
+      "nervous"
+    ],
+    "description": "眉毛微皱，脸颊挂着一滴冷汗，嘴巴张开，眼神显得有些游移和尴尬，似乎遇到了让人无语或棘手的状况，不知道该如何回应。",
+    "image_name": "CH0229_spr_17.png"
+  },
+  {
+    "tags": [
+      "panicked",
+      "shocked",
+      "sweat_drop",
+      "open_mouth",
+      "scared",
+      "shouting"
+    ],
+    "description": "瞳孔紧缩，眉头八字下垂，脸颊流着冷汗且嘴巴大张，表现出极度的惊慌、恐惧或者是被突发状况吓了一大跳的夸张反应。",
+    "image_name": "CH0229_spr_18.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "serious",
+      "silent",
+      "unamused"
+    ],
+    "description": "双眼紧闭，嘴巴抿成一条直线，面部没有什么情绪波动，像是在闭目养神，又仿佛是对某事感到无语而选择沉默不语。",
+    "image_name": "CH0229_spr_99.png"
+  }
+]

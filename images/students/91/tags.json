@@ -1,0 +1,77 @@
+[
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "normal",
+      "happy"
+    ],
+    "description": "标准的温柔微笑，眼神柔和，看起来平静且友好。",
+    "image_name": "serina_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "curious",
+      "speaking"
+    ],
+    "description": "略显惊讶或好奇的表情，嘴巴微张，像是在发出感叹或正在说话。",
+    "image_name": "serina_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "happy",
+      "laughing",
+      "smile",
+      "joy"
+    ],
+    "description": "闭眼开怀大笑的表情，眉眼弯弯，洋溢着快乐和喜悦。",
+    "image_name": "serina_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat",
+      "worried",
+      "awkward",
+      "troubled"
+    ],
+    "description": "紧张或尴尬的表情，脸颊上挂着一滴冷汗，眉毛呈八字形，看起来有些困扰。",
+    "image_name": "serina_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "skeptical",
+      "neutral",
+      "stare",
+      "unhappy"
+    ],
+    "description": "严肃或略带怀疑的表情，眼神直视前方，嘴唇紧闭，看起来在深思或有些不满。",
+    "image_name": "serina_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "angry",
+      "urgent",
+      "open_mouth",
+      "serious"
+    ],
+    "description": "焦急、生气或大声喊叫的表情，眉毛紧锁，嘴巴张大，似乎在进行紧急提醒或训斥。",
+    "image_name": "serina_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "peaceful",
+      "smile",
+      "satisfied"
+    ],
+    "description": "闭着眼睛露出安详的微笑，看起来非常满足、放松和平静。",
+    "image_name": "serina_spr-99_0_waifu2x_2x_2n_png.jpg"
+  }
+]

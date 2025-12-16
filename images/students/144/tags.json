@@ -1,0 +1,107 @@
+[
+  {
+    "tags": [
+      "annoyed",
+      "grimace",
+      "looking_away",
+      "skeptical",
+      "teeth",
+      "irritated"
+    ],
+    "description": "表情烦躁，眼神看向一侧充满怀疑，嘴角抽动露出牙齿，似乎在咋舌或表示不爽。",
+    "image_name": "CH0170_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "surprised",
+      "confused",
+      "neutral_eyes"
+    ],
+    "description": "嘴巴微张呈O形，眼神略显呆滞或惊讶，似乎正在说话或感到困惑。",
+    "image_name": "CH0170_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "grin",
+      "smug",
+      "confident",
+      "teeth"
+    ],
+    "description": "闭眼自信地微笑，露出尖锐的牙齿，神情得意洋洋，显得胸有成竹。",
+    "image_name": "CH0170_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "worried",
+      "looking_away",
+      "anxious"
+    ],
+    "description": "脸上挂着冷汗，眼神游移看向一边，显得紧张不安或心虚。",
+    "image_name": "CH0170_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "stare",
+      "unimpressed",
+      "bored"
+    ],
+    "description": "面无表情，眼神平淡甚至有些死板地注视前方，显得无动于衷或感到无聊。",
+    "image_name": "CH0170_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "grimace",
+      "teeth",
+      "frustrated",
+      "pain",
+      "struggling"
+    ],
+    "description": "紧闭双眼，咬紧牙关，表情痛苦、纠结或感到极度沮丧。",
+    "image_name": "CH0170_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "grimace",
+      "tired",
+      "exasperated",
+      "awkward"
+    ],
+    "description": "闭着眼睛流汗，嘴角勉强牵动，表现出疲惫、无奈或尴尬忍耐的神情。",
+    "image_name": "CH0170_spr-07_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "furious",
+      "teeth",
+      "aggressive"
+    ],
+    "description": "愤怒地大喊，眉头紧锁，嘴巴大张露出牙齿，情绪非常激动且具有攻击性。",
+    "image_name": "CH0170_spr-08_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "grimace",
+      "annoyed",
+      "teeth",
+      "disgusted",
+      "frustrated"
+    ],
+    "description": "闭着眼睛，眉头紧锁，嘴角抽动露出牙齿，一脸嫌弃、烦躁或痛苦的样子，似乎在咋舌或忍耐某种不快。",
+    "image_name": "CH0170_spr-99_0_waifu2x_2x_2n_png.jpg"
+  }
+]

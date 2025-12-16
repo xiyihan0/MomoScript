@@ -1,0 +1,86 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "open_eyes",
+      "staring"
+    ],
+    "description": "表情平静，没有任何明显的情绪波动，睁大眼睛直视前方，处于标准的待机或倾听状态。",
+    "image_name": "saya_casual_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "open_eyes",
+      "happy"
+    ],
+    "description": "嘴角微微上扬，眼神变得柔和，流露出淡淡的微笑，给人一种友好和轻松的感觉。",
+    "image_name": "saya_casual_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "happy",
+      "energetic"
+    ],
+    "description": "张开嘴巴似乎正在说话或打招呼，神情生动活泼，显得很有精神和活力。",
+    "image_name": "saya_casual_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "joy",
+      "big_smile"
+    ],
+    "description": "眼睛眯成两条缝（笑眼），嘴巴张开，正在开怀大笑，洋溢着非常开心和喜悦的氛围。",
+    "image_name": "saya_casual_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "blush",
+      "shy",
+      "embarrassed",
+      "troubled",
+      "open_eyes"
+    ],
+    "description": "脸颊泛起明显的红晕，眉毛微皱，眼神显得有些局促不安，表现出害羞、尴尬或不知所措的样子。",
+    "image_name": "saya_casual_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "frown",
+      "thinking",
+      "focused",
+      "open_eyes"
+    ],
+    "description": "眉头紧锁，表情变得严肃认真，眼神专注，似乎正在思考重要的问题或对现状感到一丝凝重。",
+    "image_name": "saya_casual_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "sweat",
+      "shock",
+      "nervous",
+      "open_mouth"
+    ],
+    "description": "脸上挂着冷汗，瞳孔微缩，嘴巴微张，表现出明显的惊讶、紧张或被突发状况吓到的神情。",
+    "image_name": "saya_casual_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "satisfied",
+      "confident",
+      "smug"
+    ],
+    "description": "双眼闭合，嘴角带着一抹自信的微笑，表现出一种从容、满足，或者是‘正如我所料’的得意神态。",
+    "image_name": "saya_casual_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

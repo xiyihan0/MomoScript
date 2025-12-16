@@ -1,0 +1,169 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "staring",
+      "yellow_eyes",
+      "open_mouth_slight"
+    ],
+    "description": "角色面无表情地注视前方，眼神略显呆萌，嘴巴微微张开，呈现出一种平静或发呆的状态。",
+    "image_name": "CH0254_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy",
+      "looking_at_viewer"
+    ],
+    "description": "角色嘴角微微上扬，眼神柔和，露出了温柔且友好的微笑，看起来心情不错。",
+    "image_name": "CH0254_spr_01.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "o_mouth",
+      "curious"
+    ],
+    "description": "角色嘴巴张成圆形的“O”字，眼神中流露出好奇与惊讶，似乎发现了什么新奇的事物。",
+    "image_name": "CH0254_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "very_happy",
+      "open_mouth",
+      "smile"
+    ],
+    "description": "角色闭着眼睛开怀大笑，嘴巴张大，洋溢着纯粹的快乐和喜悦，非常有感染力。",
+    "image_name": "CH0254_spr_03.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "blank_eyes",
+      "white_eyes",
+      "panic",
+      "sweat_drop",
+      "open_mouth"
+    ],
+    "description": "角色极度震惊，眼睛变成了白色的空心圆圈，嘴巴大张，脸颊流着冷汗，表现出惊慌失措和混乱的样子。",
+    "image_name": "CH0254_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "serious",
+      "furrowed_brows",
+      "pout",
+      "stare"
+    ],
+    "description": "角色眉头紧锁，眼神锐利，紧闭双唇，流露出严肃、生气或是不满的情绪，似乎在抗议什么。",
+    "image_name": "CH0254_spr_05.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "sad",
+      "tears",
+      "distress",
+      "open_mouth",
+      "sweat_drop"
+    ],
+    "description": "角色眼角含泪，泪水溢出，表情悲伤且惊慌，嘴巴微张，看起来非常委屈和难过，正在哭泣。",
+    "image_name": "CH0254_spr_06.png"
+  },
+  {
+    "tags": [
+      "holding_back_tears",
+      "sad",
+      "frown",
+      "upset",
+      "tears"
+    ],
+    "description": "角色嘴角向下撇成倒U型，眼中含着泪水，表情苦涩，似乎在强忍着不哭出来，表现出极度委屈和不甘心的样子。",
+    "image_name": "CH0254_spr_07.png"
+  },
+  {
+    "tags": [
+      "frustrated",
+      "shouting",
+      "closed_eyes",
+      ">_<",
+      "open_mouth",
+      "annoyed"
+    ],
+    "description": "角色紧闭双眼呈“>_<”状，嘴巴大张，眉头紧锁，似乎在大声喊叫、抱怨或宣泄不满，表现出受挫和焦躁的样子。",
+    "image_name": "CH0254_spr_08.png"
+  },
+  {
+    "tags": [
+      "pout",
+      "angry",
+      "annoyed",
+      "glaring",
+      "yellow_eyes"
+    ],
+    "description": "角色鼓起脸颊嘟着嘴，眼神有些生气地盯着前方，眉头微蹙，一副在赌气或不高兴的模样。",
+    "image_name": "CH0254_spr_09.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "very_happy",
+      "excited",
+      "closed_eyes",
+      ">_<",
+      "open_mouth"
+    ],
+    "description": "角色闭着眼睛开怀大笑，眼角弯成“>_<”型，嘴巴大张，洋溢着极度的兴奋和喜悦，充满活力。",
+    "image_name": "CH0254_spr_10.png"
+  },
+  {
+    "tags": [
+      "jitome",
+      "half_closed_eyes",
+      "unamused",
+      "skeptical",
+      "pout",
+      "bored"
+    ],
+    "description": "角色半眯着眼（死鱼眼），嘴巴嘟起，流露出鄙视、无语或怀疑的神情，似乎对眼前的情况感到无奈或不屑。",
+    "image_name": "CH0254_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "peaceful",
+      "content",
+      "serene"
+    ],
+    "description": "角色双眼轻闭，嘴角带着恬静的微笑，神态安详柔和，看起来非常满足、放松和惬意。",
+    "image_name": "CH0254_spr_99.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "yellow_eyes",
+      "gentle",
+      "looking_at_viewer"
+    ],
+    "description": "角色睁着明亮的双眼，嘴角微微上扬，露出了温柔且友好的微笑，给人一种平易近人的感觉。",
+    "image_name": "CH0254_spr_Eye_Close_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "curious",
+      "yellow_eyes",
+      "staring",
+      "dot_mouth"
+    ],
+    "description": "角色面带呆萌的表情，眼睛睁得圆圆的，嘴巴微张成小圆点状，看起来既好奇又有些出神，处于待机状态。",
+    "image_name": "CH0254_spr_Idle_01.png"
+  }
+]

@@ -1,0 +1,182 @@
+[
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "sunglasses",
+      "finger_on_glasses"
+    ],
+    "description": "自信的微笑，手指轻推墨镜，显得游刃有余。",
+    "image_name": "CH0295_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "sunglasses",
+      "finger_on_glasses"
+    ],
+    "description": "面无表情，冷静严肃地注视前方。",
+    "image_name": "CH0295_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprise",
+      "curious",
+      "sunglasses"
+    ],
+    "description": "嘴巴微张，似乎在说话或对某事感到惊讶与好奇。",
+    "image_name": "CH0295_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "sunglasses"
+    ],
+    "description": "闭眼微笑，表情轻松愉快，十分享受。",
+    "image_name": "CH0295_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "open_mouth",
+      "flustered"
+    ],
+    "description": "脸上流着汗珠，嘴巴张开，看起来有些慌张或不知所措。",
+    "image_name": "CH0295_spr_04.png"
+  },
+  {
+    "tags": [
+      "frown",
+      "annoyed",
+      "serious",
+      "sunglasses"
+    ],
+    "description": "眉头紧锁，表情严肃，似乎有些不悦或正在审视。",
+    "image_name": "CH0295_spr_05.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "sad",
+      "open_mouth",
+      "sigh"
+    ],
+    "description": "眉毛下垂，嘴巴微张，表现出无奈、困扰或叹气的样子。",
+    "image_name": "CH0295_spr_06.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "wavy_mouth",
+      "sweat_drop",
+      "nervous"
+    ],
+    "description": "嘴角呈现波浪状，流着冷汗，表情十分尴尬或窘迫。",
+    "image_name": "CH0295_spr_07.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "open_mouth",
+      "laughing",
+      "energetic",
+      "sunglasses"
+    ],
+    "description": "眨着一只眼睛大笑，表情充满活力，看起来非常开心和顽皮。",
+    "image_name": "CH0295_spr_08.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "w_mouth",
+      "cat_mouth",
+      "awkward",
+      "sunglasses"
+    ],
+    "description": "眉毛下垂，嘴巴呈现波浪状（猫嘴），看起来有些困扰、尴尬或是在卖萌。",
+    "image_name": "CH0295_spr_09.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "side_glance",
+      "mischievous",
+      "w_mouth",
+      "sunglasses"
+    ],
+    "description": "眼神向一侧斜视，带着得意的神情，似乎在打什么坏主意或感到优越。",
+    "image_name": "CH0295_spr_10.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "relaxed",
+      "confident",
+      "sunglasses"
+    ],
+    "description": "面带温柔的浅笑，眼神柔和，神情放松，显得从容且友善。",
+    "image_name": "CH0295_spr_11.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "shy",
+      "worried",
+      "soft",
+      "sunglasses"
+    ],
+    "description": "眉头微蹙，带着一丝苦恼或羞涩的表情，眼神看起来有些无辜。",
+    "image_name": "CH0295_spr_12.png"
+  },
+  {
+    "tags": [
+      "suspicious",
+      "narrowed_eyes",
+      "judging",
+      "serious",
+      "sunglasses"
+    ],
+    "description": "眯起眼睛审视，目光充满怀疑，表情严肃，似乎在判断对方的意图。",
+    "image_name": "CH0295_spr_13.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "dazed",
+      "blank_stare",
+      "calm",
+      "sunglasses"
+    ],
+    "description": "面无表情，眼神有些呆滞或平静，似乎在发呆或安静地注视。",
+    "image_name": "CH0295_spr_14.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "satisfied",
+      "content",
+      "sunglasses"
+    ],
+    "description": "闭着眼睛微笑，表情平和满足，显得自信或正在认可某事。",
+    "image_name": "CH0295_spr_15.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "sunglasses",
+      "finger_on_cheek",
+      "cool",
+      "calm",
+      "looking_down"
+    ],
+    "description": "手指轻点脸颊，视线微微向下，神情淡定冷静，戴着墨镜的样子显得十分酷然。",
+    "image_name": "CH0295_spr_99.png"
+  }
+]

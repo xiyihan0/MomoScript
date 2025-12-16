@@ -1,0 +1,73 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "open_mouth",
+      "looking_ahead",
+      "normal"
+    ],
+    "description": "表情平静，眼神直视前方，嘴巴微微张开，呈现出一种自然的常态或正在倾听的状态。",
+    "image_name": "J_CH0188_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "o_mouth",
+      "curious"
+    ],
+    "description": "略显惊讶，嘴巴张成圆形仿佛发出“哦”的声音，眼神中流露出好奇或意想不到的神情。",
+    "image_name": "J_CH0188_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "satisfied"
+    ],
+    "description": "嘴角微微上扬露出温柔的微笑，眼神柔和，看起来心情愉快且充满善意。",
+    "image_name": "J_CH0188_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "awkward",
+      "troubled"
+    ],
+    "description": "脸颊上挂着一滴冷汗，嘴角略显僵硬，眼神流露出尴尬、紧张或者是对现状感到有些无语。",
+    "image_name": "J_CH0188_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "frown",
+      "determined",
+      "annoyed"
+    ],
+    "description": "眉头紧锁，眼神变得锐利严肃，嘴角抿成一条线，表现出认真、警惕或者有些不悦的情绪。",
+    "image_name": "J_CH0188_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "sweat_drop",
+      "tired",
+      "exasperated"
+    ],
+    "description": "双眼紧闭，脸上带有汗珠，嘴巴张开像是在叹气，表现出无奈、疲惫或者是松了一口气的状态。",
+    "image_name": "J_CH0188_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "sleeping",
+      "peaceful"
+    ],
+    "description": "双眼安详地闭着，表情非常平静，看起来像是在闭目养神、沉思或者是睡着了。",
+    "image_name": "J_CH0188_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

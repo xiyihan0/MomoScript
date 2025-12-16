@@ -1,0 +1,77 @@
+[
+  {
+    "tags": [
+      "happy",
+      "laughing",
+      "open_mouth",
+      "blush",
+      "cheerful"
+    ],
+    "description": "开朗地大笑，嘴巴张开，脸颊带着红晕，看起来非常开心。",
+    "image_name": "NP0150_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "expressionless",
+      "calm"
+    ],
+    "description": "面无表情的标准站姿，嘴巴闭成一条线，情绪平静。",
+    "image_name": "NP0150_spr_01.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "o_mouth",
+      "speaking",
+      "curious"
+    ],
+    "description": "嘴巴张成O型，似乎正在说话，或者对某事感到轻微的惊讶和好奇。",
+    "image_name": "NP0150_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "content"
+    ],
+    "description": "嘴角微微上扬，闭着嘴微笑，给人一种温柔平和的感觉。",
+    "image_name": "NP0150_spr_03.png"
+  },
+  {
+    "tags": [
+      "panic",
+      "nervous",
+      "sweat_drop",
+      "wavy_mouth",
+      "open_mouth",
+      "confused"
+    ],
+    "description": "慌乱焦急的表情，嘴巴呈波浪状张开，脸颊上有明显的汗珠，显得不知所措。",
+    "image_name": "NP0150_spr_04.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sweat_drop",
+      "closed_mouth",
+      "troubled",
+      "uneasy"
+    ],
+    "description": "困扰或担心的表情，闭着嘴，脸颊挂着汗珠，似乎在为难什么。",
+    "image_name": "NP0150_spr_05.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "closed_mouth",
+      "silent",
+      "neutral"
+    ],
+    "description": "严肃沉默的表情，嘴巴紧闭，比普通状态看起来更加拘谨或认真。",
+    "image_name": "NP0150_spr_06.png"
+  }
+]

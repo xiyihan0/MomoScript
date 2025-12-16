@@ -1,0 +1,152 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "smile",
+      "happy",
+      "talking"
+    ],
+    "description": "张嘴微笑着说话，表情开朗自然，显得非常友好。",
+    "image_name": "hihumi_spr_00.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "worried",
+      "troubled",
+      "sad_eyebrows"
+    ],
+    "description": "闭着嘴，眉毛微皱下垂，流露出担忧或困扰的神情。",
+    "image_name": "hihumi_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "curious",
+      "soft_speaking"
+    ],
+    "description": "微微张嘴，眼神中带着一丝惊讶或好奇，似乎在轻声询问。",
+    "image_name": "hihumi_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "laughing",
+      "happy"
+    ],
+    "description": "闭着双眼开怀大笑，看起来非常开心和满足。",
+    "image_name": "hihumi_spr_03.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "sweat_drop",
+      "nervous",
+      "awkward_smile"
+    ],
+    "description": "脸颊挂着汗珠，张嘴露出尴尬或紧张的笑容，显得有些不知所措。",
+    "image_name": "hihumi_spr_04.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "serious",
+      "stern",
+      "focused"
+    ],
+    "description": "紧闭嘴巴，眼神凝重，表情严肃认真，似乎在生气或深思。",
+    "image_name": "hihumi_spr_05.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "determined",
+      "energetic"
+    ],
+    "description": "张大嘴巴似乎在大声喊叫或强调某事，充满活力和决心。",
+    "image_name": "hihumi_spr_06.png"
+  },
+  {
+    "tags": [
+      "swirl_eyes",
+      "dizzy",
+      "panic",
+      "confused"
+    ],
+    "description": "眼睛变成了圈圈眼（蚊香眼），神情慌乱，处于极度晕头转向或混乱的状态。",
+    "image_name": "hihumi_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "shouting",
+      "panic",
+      "sweat_drop",
+      "frustrated",
+      "open_mouth"
+    ],
+    "description": "紧闭双眼大声喊叫，脸上挂着汗珠，神情焦急且充满挫折感。",
+    "image_name": "hihumi_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "tired",
+      "sweat_drop",
+      "open_mouth",
+      "relief"
+    ],
+    "description": "闭眼叹气，流露出疲惫或无奈的神情，脸颊带有汗珠。",
+    "image_name": "hihumi_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "sweat_drop",
+      "bashful",
+      "awkward_laugh"
+    ],
+    "description": "闭着眼露出尴尬或害羞的笑容，流着冷汗，似乎在试图打圆场。",
+    "image_name": "hihumi_spr_10.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "teary_eyes",
+      "pouting",
+      "wavy_mouth",
+      "troubled"
+    ],
+    "description": "眼神含泪，表情委屈，嘴角呈波浪状弯曲，看起来楚楚可怜，快要哭出来的样子。",
+    "image_name": "hihumi_spr_11.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "closed_eyes",
+      "tears",
+      "open_mouth",
+      "wailing",
+      "sad"
+    ],
+    "description": "紧闭双眼痛哭，眼角挂着泪水，张嘴大哭，显得十分伤心和无助。",
+    "image_name": "hihumi_spr_12.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "calm",
+      "silent",
+      "neutral"
+    ],
+    "description": "闭着眼睛，嘴巴紧闭，表情平静沉默，像是在闭目养神。",
+    "image_name": "hihumi_spr_99.png"
+  }
+]

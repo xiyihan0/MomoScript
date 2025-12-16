@@ -1,0 +1,124 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "calm",
+      "open_mouth",
+      "red_eyes"
+    ],
+    "description": "面无表情，眼神冷静直视前方，嘴巴微张，神态十分严肃。",
+    "image_name": "CH0158_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "closed_mouth",
+      "silent",
+      "calm"
+    ],
+    "description": "闭着嘴，神情平淡且认真，保持着沉默观察的状态。",
+    "image_name": "CH0158_spr_01.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "frowning",
+      "skeptical",
+      "open_mouth",
+      "stern"
+    ],
+    "description": "眉头微皱，眼神犀利，似乎对某事感到不悦或正在提出质疑。",
+    "image_name": "CH0158_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "confident",
+      "closed_mouth",
+      "smug"
+    ],
+    "description": "嘴角微微上扬，露出了自信、从容甚至略带得意的微笑。",
+    "image_name": "CH0158_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "awkward",
+      "looking_away",
+      "concerned"
+    ],
+    "description": "脸颊挂着冷汗，视线向一侧游移，看起来感到尴尬或紧张。",
+    "image_name": "CH0158_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "frowning",
+      "intense",
+      "open_mouth"
+    ],
+    "description": "紧锁眉头，张嘴似乎在争辩或斥责，表情带有明显的怒气。",
+    "image_name": "CH0158_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "sigh",
+      "exasperated",
+      "tired"
+    ],
+    "description": "紧闭双眼并流着汗，仿佛在无奈地叹气，感到非常疲惫或无语。",
+    "image_name": "CH0158_spr_06.png"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "closed_mouth",
+      "thinking",
+      "aloof",
+      "serious"
+    ],
+    "description": "视线移向一侧，闭口不言，似乎在深思或刻意回避视线。",
+    "image_name": "CH0158_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "gentle",
+      "open_mouth"
+    ],
+    "description": "双眼眯成弯月状，嘴角微微张开，露出了温和且愉快的笑容。",
+    "image_name": "CH0158_spr_08.png"
+  },
+  {
+    "tags": [
+      "red_eyes",
+      "smile",
+      "open_mouth",
+      "sinister",
+      "crazy",
+      "intense"
+    ],
+    "description": "双眼圆睁，眼神犀利甚至带有些许疯狂，嘴角上扬露出略显险恶或狂妄的笑容。",
+    "image_name": "CH0158_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "calm",
+      "silent",
+      "thinking"
+    ],
+    "description": "双眼紧闭，面部平静闭口不言，似乎在闭目养神或沉思。",
+    "image_name": "CH0158_spr_99.png"
+  }
+]

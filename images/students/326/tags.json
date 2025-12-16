@@ -1,0 +1,75 @@
+[
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "open_mouth",
+      "smile",
+      "talking",
+      "playful"
+    ],
+    "description": "眼睛完全被刘海遮住，嘴巴张开呈倒三角形或猫嘴状，表现出一种调皮或正在说话的愉快神态。",
+    "image_name": "NP0152_spr_00.png"
+  },
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "closed_mouth",
+      "smile",
+      "gentle"
+    ],
+    "description": "眼睛被刘海遮挡，嘴巴闭合嘴角微微上扬，流露出温和且平静的微笑。",
+    "image_name": "NP0152_spr_01.png"
+  },
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "open_mouth",
+      "smile",
+      "happy"
+    ],
+    "description": "眼睛被刘海遮挡，嘴巴张开露出笑容，看起来很开心，像是在积极地回应或交谈。",
+    "image_name": "NP0152_spr_02.png"
+  },
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "open_mouth",
+      "laughing",
+      "excited"
+    ],
+    "description": "眼睛被刘海遮挡，嘴巴大幅张开呈D字形，表现出大笑、兴奋或大声呼喊的样子。",
+    "image_name": "NP0152_spr_03.png"
+  },
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "open_mouth",
+      "sweat_drop",
+      "nervous",
+      "awkward"
+    ],
+    "description": "眼睛被刘海遮挡，脸颊挂着一滴冷汗，嘴巴微张呈波浪状或尴尬的形状，表现出紧张、困扰或无语的情绪。",
+    "image_name": "NP0152_spr_04.png"
+  },
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "closed_mouth",
+      "neutral",
+      "calm"
+    ],
+    "description": "眼睛被刘海遮挡，嘴巴闭合成一条平直的线条，没有明显的表情，显得十分平静或冷淡。",
+    "image_name": "NP0152_spr_05.png"
+  },
+  {
+    "tags": [
+      "bangs_covering_eyes",
+      "closed_mouth",
+      "pensive",
+      "sad",
+      "serious"
+    ],
+    "description": "眼睛被刘海遮挡，嘴巴闭合且线条较短，位置略低，表现出一种沉思、严肃或轻微失落的感觉。",
+    "image_name": "NP0152_spr_06.png"
+  }
+]

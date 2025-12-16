@@ -1,0 +1,98 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "pout",
+      "eyes_covered",
+      "mekakure"
+    ],
+    "description": "表情平淡，嘴角微微向下，看起来有些严肃或不开心。",
+    "image_name": "J_NP0023_spr-00_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "eyes_covered",
+      "mekakure"
+    ],
+    "description": "面无表情，嘴巴闭成一条直线，看不出明显的情绪波动。",
+    "image_name": "J_NP0023_spr-01_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "parted_lips",
+      "speaking",
+      "eyes_covered",
+      "mekakure"
+    ],
+    "description": "嘴唇微微张开，似乎正在轻声细语或感到轻微困惑。",
+    "image_name": "J_NP0023_spr-02_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "eyes_covered",
+      "mekakure"
+    ],
+    "description": "嘴角上扬，露出了温和愉快的微笑。",
+    "image_name": "J_NP0023_spr-03_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "wavy_mouth",
+      "eyes_covered",
+      "mekakure"
+    ],
+    "description": "脸颊上挂着冷汗，嘴型呈波浪状，表现出紧张、尴尬或不知所措。",
+    "image_name": "J_NP0023_spr-04_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "open_mouth",
+      "surprised",
+      "eyes_covered",
+      "mekakure"
+    ],
+    "description": "嘴巴大张，像是在大声呼喊或者感到非常惊讶。",
+    "image_name": "J_NP0023_spr-05_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "gloom",
+      "scared",
+      "sweat_drop",
+      "dark_lines",
+      "eyes_covered",
+      "mekakure"
+    ],
+    "description": "脸色阴沉带有黑线，流着冷汗，显得惊恐、绝望或深受打击。",
+    "image_name": "J_NP0023_spr-06_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "sigh",
+      "open_mouth",
+      "dazed",
+      "eyes_covered",
+      "mekakure"
+    ],
+    "description": "嘴巴张成O型，像是在无奈地叹气或者是发呆。",
+    "image_name": "J_NP0023_spr-07_0_waifu2x_2x_0n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "eyes_covered",
+      "mekakure",
+      "small_mouth"
+    ],
+    "description": "刘海完全遮住了眼睛，嘴巴紧闭且非常小，呈现出一副面无表情、平静或正在发呆的模样。",
+    "image_name": "J_NP0023_spr-99_0_waifu2x_2x_0n_png.jpg"
+  }
+]

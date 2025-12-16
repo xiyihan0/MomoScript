@@ -1,0 +1,151 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "closed_mouth"
+    ],
+    "description": "面无表情，眼神平静且严肃，直视前方。",
+    "image_name": "J_sumire_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy"
+    ],
+    "description": "嘴角微微上扬，露出温柔且友好的微笑。",
+    "image_name": "J_sumire_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "looking_away",
+      "neutral",
+      "sideways_glance"
+    ],
+    "description": "视线向一侧偏移，表情平淡，似乎在思考或回避视线。",
+    "image_name": "J_sumire_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "eyebrows_furrowed"
+    ],
+    "description": "眉毛呈八字下垂，神情忧伤，看起来有些担忧或困扰。",
+    "image_name": "J_sumire_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "awkward",
+      "looking_away"
+    ],
+    "description": "脸颊流着冷汗，视线游移，表现出紧张、尴尬或心虚的样子。",
+    "image_name": "J_sumire_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "glaring",
+      "serious",
+      "unhappy"
+    ],
+    "description": "眼神锐利，眉头微皱，流露出不悦、生气或责备的情绪。",
+    "image_name": "J_sumire_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "sweat",
+      "open_mouth",
+      "confused"
+    ],
+    "description": "嘴巴微张，脸上带有汗珠，表现出惊讶、困惑或措手不及。",
+    "image_name": "J_sumire_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smirk",
+      "confident",
+      "smile"
+    ],
+    "description": "自信的笑容，嘴角大幅上扬，显得意气风发或有些得意。",
+    "image_name": "J_sumire_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy",
+      "soft_expression"
+    ],
+    "description": "眼神柔和，嘴角带着温和的微笑，表情显得非常平静且亲切。",
+    "image_name": "J_sumire_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "confused",
+      "open_mouth",
+      "troubled",
+      "questioning"
+    ],
+    "description": "眉头微蹙，嘴巴微张，眼神中带着一丝困惑或不解，似乎对现状感到奇怪。",
+    "image_name": "J_sumire_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "serious",
+      "open_mouth",
+      "aggressive"
+    ],
+    "description": "眉毛紧锁，眼神凌厉，嘴巴张开，表现出强烈的不满、愤怒或正在大声呵斥。",
+    "image_name": "J_sumire_spr-10_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "smile",
+      "confident",
+      "cool"
+    ],
+    "description": "佩戴着运动墨镜，嘴角上扬，脸上洋溢着自信和从容的笑容。",
+    "image_name": "J_sumire_spr-11_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "sweat",
+      "exhausted",
+      "tired",
+      "open_mouth"
+    ],
+    "description": "佩戴着运动墨镜，脸颊滑落汗水，嘴巴微张，显露出疲惫、气喘吁吁或有些吃力的状态。",
+    "image_name": "J_sumire_spr-12_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "sweat",
+      "smile",
+      "confident",
+      "determined"
+    ],
+    "description": "佩戴着运动墨镜，虽然流着汗，但嘴角依然保持微笑，展现出运动时的坚韧或自信。",
+    "image_name": "J_sumire_spr-13_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "meditating",
+      "quiet"
+    ],
+    "description": "双眼紧闭，神态安详平静，像是在闭目养神、沉思或无奈地接受。",
+    "image_name": "J_sumire_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

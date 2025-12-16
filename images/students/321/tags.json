@@ -1,0 +1,299 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "fang",
+      "red_eyes",
+      "excited"
+    ],
+    "description": "开朗的笑容，嘴巴张开露出可爱的虎牙，眼神充满活力。",
+    "image_name": "CH0227_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "red_eyes",
+      "calm"
+    ],
+    "description": "温柔的抿嘴微笑，表情平和且友善。",
+    "image_name": "CH0227_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "o_mouth",
+      "curious",
+      "dumbfounded"
+    ],
+    "description": "嘴巴呈小圆O型张开，眼神显得有些呆萌、惊讶或好奇。",
+    "image_name": "CH0227_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "happy",
+      "laughing"
+    ],
+    "description": "闭着眼睛开怀大笑，表情非常愉快，洋溢着喜悦。",
+    "image_name": "CH0227_spr_03.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "shocked",
+      "wide_eyed",
+      "yelling"
+    ],
+    "description": "张大嘴巴似乎在大喊或感到震惊，眼睛圆睁，情绪激动。",
+    "image_name": "CH0227_spr_04.png"
+  },
+  {
+    "tags": [
+      "wide_eyed",
+      "blank_stare",
+      "dazed",
+      "speechless",
+      "neutral"
+    ],
+    "description": "眼睛睁得大大的直视前方，表情呆滞，似乎愣住了或在发呆。",
+    "image_name": "CH0227_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "frown",
+      "disappointed",
+      "half_closed_eyes",
+      "gloomy"
+    ],
+    "description": "眼神低垂，嘴角向下撇，流露出悲伤、失望或委屈的情绪。",
+    "image_name": "CH0227_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "fang",
+      "excited",
+      "ecstatic"
+    ],
+    "description": "闭眼露齿大笑，显眼的虎牙露了出来，看起来比平时更加兴奋和得意。",
+    "image_name": "CH0227_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "peaceful",
+      "happy"
+    ],
+    "description": "双眼眯成弯弯的线条，嘴角上扬，表情安详恬静，散发着温柔与安心的气息。",
+    "image_name": "CH0227_spr_08.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smug",
+      "smile",
+      "open_mouth",
+      "fang",
+      "teasing"
+    ],
+    "description": "眼神半眯带着几分戏谑和得意，嘴巴张开露出小虎牙，像是在坏笑或开玩笑。",
+    "image_name": "CH0227_spr_09.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "frown",
+      "unamused",
+      "bored",
+      "deadpan"
+    ],
+    "description": "耷拉着眼皮，目光冷淡，嘴角撇成一条线，表现出无语、鄙视或毫无兴趣的态度。",
+    "image_name": "CH0227_spr_10.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "staring",
+      "calm",
+      "open_eyes",
+      "expressionless"
+    ],
+    "description": "睁着眼睛直视前方，面部没有任何明显的情绪波动，显得平静、乖巧或是在发呆。",
+    "image_name": "CH0227_spr_11.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "o_mouth",
+      "curious",
+      "wide_eyed"
+    ],
+    "description": "眼睛微微睁大，嘴巴张成小小的圆O型，流露出轻微的惊讶、好奇或恍然大悟的神情。",
+    "image_name": "CH0227_spr_12.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "half_closed_eyes",
+      "soft",
+      "kind"
+    ],
+    "description": "目光柔和，嘴角含着淡淡的笑意，神情比起平时更加温和亲切，给人一种友善的感觉。",
+    "image_name": "CH0227_spr_13.png"
+  },
+  {
+    "tags": [
+      "excited",
+      "wide_eyed",
+      "smile",
+      "open_mouth",
+      "blush",
+      "happy"
+    ],
+    "description": "眼睛睁得圆圆的，脸颊泛着红晕，开心地张嘴大笑，看起来情绪高涨，充满期待或喜悦。",
+    "image_name": "CH0227_spr_14.png"
+  },
+  {
+    "tags": [
+      "insane",
+      "constricted_pupils",
+      "wide_eyed",
+      "crazy",
+      "broken",
+      "shouting"
+    ],
+    "description": "瞳孔剧烈收缩，眼睛瞪至极限，面带潮红且嘴巴大张，表情崩坏，透出一种疯狂、失控或极度病娇的气质。",
+    "image_name": "CH0227_spr_15.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "dazed",
+      "confused",
+      "blank_stare",
+      "neutral"
+    ],
+    "description": "嘴巴微微张开，眼神有些发愣，显得困惑、呆滞或是在发呆。",
+    "image_name": "CH0227_spr_16.png"
+  },
+  {
+    "tags": [
+      "shadowed_face",
+      "despair",
+      "scared",
+      "fear",
+      "grimace",
+      "constricted_pupils"
+    ],
+    "description": "面部笼罩着阴影，瞳孔收缩，嘴角抽搐，流露出极度的恐惧、绝望或心理阴影。",
+    "image_name": "CH0227_spr_17.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "shouting",
+      "angry",
+      "frustrated",
+      "fang",
+      ">_<"
+    ],
+    "description": "紧闭双眼呈>_<状，张大嘴巴抓狂大喊，露出虎牙，看起来非常焦急、气急败坏。",
+    "image_name": "CH0227_spr_18.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "laughing",
+      "fang",
+      "excited"
+    ],
+    "description": "开怀大笑，嘴巴张开露出可爱的虎牙，眼神明亮，充满喜悦和活力。",
+    "image_name": "CH0227_spr_19.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "pleased",
+      "confident",
+      "wide_eyed"
+    ],
+    "description": "嘴角上扬露出自信满满的笑容，眼睛睁大，神情愉快且精神饱满。",
+    "image_name": "CH0227_spr_20.png"
+  },
+  {
+    "tags": [
+      "wide_eyed",
+      "surprised",
+      "dumbfounded",
+      "neutral",
+      "blank_stare"
+    ],
+    "description": "眼睛睁得大大的，表情呆滞且略显惊讶，似乎因为突发状况而愣住了。",
+    "image_name": "CH0227_spr_21.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "frown",
+      "serious",
+      "aggressive",
+      "fang"
+    ],
+    "description": "眉头紧锁，张嘴大声呵斥，表情严肃且带有明显的怒意，像是在激烈争论。",
+    "image_name": "CH0227_spr_22.png"
+  },
+  {
+    "tags": [
+      "disgusted",
+      "uneasy",
+      "frown",
+      "awkward",
+      "shadowed_eyes",
+      "scorn"
+    ],
+    "description": "脸色阴沉，眼神流露出嫌弃、无语或看垃圾一样的神情，感到强烈的不适或尴尬。",
+    "image_name": "CH0227_spr_23.png"
+  },
+  {
+    "tags": [
+      "tears",
+      "sad",
+      "wavy_mouth",
+      "crying",
+      "wronged",
+      "upset"
+    ],
+    "description": "眼角挂着泪珠，嘴巴抿成波浪状，神情极度委屈和难过，像是在忍耐哭泣或是感到非常不甘心。",
+    "image_name": "CH0227_spr_24.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "peaceful",
+      "gentle"
+    ],
+    "description": "双眼眯成弯弯的线条，嘴角上扬露出甜美的笑容，表情安详愉快，充满治愈感。",
+    "image_name": "CH0227_spr_99.png"
+  }
+]

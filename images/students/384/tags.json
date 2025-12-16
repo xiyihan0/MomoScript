@@ -1,0 +1,134 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "indifferent",
+      "closed_mouth"
+    ],
+    "description": "面无表情，眼神平静且冷淡，没有任何明显的情绪波动，是一种标准的冷漠神态。",
+    "image_name": "CH0268_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "staring",
+      "listening"
+    ],
+    "description": "非常细微的表情变化，眼神依然冷静，嘴唇紧闭，看起来像是在认真听讲或严肃地注视着某人。",
+    "image_name": "CH0268_spr_01.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "open_mouth",
+      "neutral",
+      "parted_lips"
+    ],
+    "description": "嘴巴微微张开，似乎正在说话或正准备开口，但眼神依旧保持着平静。",
+    "image_name": "CH0268_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "content"
+    ],
+    "description": "嘴角微微上扬，露出了淡淡的微笑，眼神变得柔和，表现出放松和心情不错的样子。",
+    "image_name": "CH0268_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "worried",
+      "awkward",
+      "troubled"
+    ],
+    "description": "脸颊上挂着一滴冷汗，眉毛微微皱起，嘴角呈现波浪状，看起来感到尴尬、紧张或有些棘手。",
+    "image_name": "CH0268_spr_04.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "glaring",
+      "skeptical",
+      "frowning",
+      "displeased"
+    ],
+    "description": "眉头紧锁，眼神变得锐利且带有审视感，流露出不悦、怀疑或厌烦的情绪。",
+    "image_name": "CH0268_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "gloomy",
+      "depressed",
+      "looking_down",
+      "disappointed"
+    ],
+    "description": "眉毛呈现八字形，视线向下低垂，神情显得非常忧郁、悲伤和失落。",
+    "image_name": "CH0268_spr_06.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "shouting",
+      "open_mouth",
+      "surprised",
+      "sweat_drop",
+      "flustered"
+    ],
+    "description": "张大嘴巴似乎在喊叫或反驳，脸上带着汗珠，神情显得惊讶、焦急且有些慌张。",
+    "image_name": "CH0268_spr_07.png"
+  },
+  {
+    "tags": [
+      "blushing",
+      "shouting",
+      "sweat_drop",
+      "flustered",
+      "embarrassed",
+      "agitated"
+    ],
+    "description": "脸颊泛红，额头挂着冷汗，张大嘴巴似乎在急切地反驳或喊叫，神情显得羞愤、慌张且有些不知所措。",
+    "image_name": "CH0268_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sighing",
+      "sweat_drop",
+      "resigned",
+      "helpless",
+      "tired"
+    ],
+    "description": "双眼紧闭，侧脸挂着一滴汗珠，嘴唇微张，看起来像是在无奈地叹气，表现出一种对现状感到无语或放弃治疗的疲惫感。",
+    "image_name": "CH0268_spr_09.png"
+  },
+  {
+    "tags": [
+      "glaring",
+      "sweat_drop",
+      "skeptical",
+      "disgusted",
+      "awkward",
+      "confused"
+    ],
+    "description": "眼神半眯带有强烈的审视感，眉头皱起，脸上挂着冷汗，嘴角抽动，流露出嫌弃、尴尬、怀疑或是看到离谱事物时的困惑情绪。",
+    "image_name": "CH0268_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "thinking",
+      "serene",
+      "neutral"
+    ],
+    "description": "双眼闭合，面容平静祥和，没有表现出明显的情绪波动，像是在闭目养神、沉思或者是安静地休息。",
+    "image_name": "CH0268_spr_99.png"
+  }
+]

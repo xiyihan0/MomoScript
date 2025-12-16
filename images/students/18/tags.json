@@ -1,0 +1,85 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "stoic",
+      "yellow_eyes"
+    ],
+    "description": "标准的平静表情，眼神直视前方，面部肌肉放松，表现出冷静且专业的态度。",
+    "image_name": "sena_spr-00_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "focused"
+    ],
+    "description": "神情严肃，与标准表情极为相似，但眼神似乎更加专注，维持着一贯的扑克脸。",
+    "image_name": "sena_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "mouth_open",
+      "talking",
+      "explaining",
+      "calm"
+    ],
+    "description": "嘴巴微微张开，呈圆形，似乎正在冷静地陈述事实或进行说明。",
+    "image_name": "sena_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "soft",
+      "happy"
+    ],
+    "description": "嘴角微微上扬，眼神变得柔和，露出罕见的淡淡微笑，展现出温柔的一面。",
+    "image_name": "sena_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat_drop",
+      "nervous",
+      "awkward",
+      "troubled",
+      "worry"
+    ],
+    "description": "脸颊侧面挂着一滴冷汗，眉毛微微皱起，表现出尴尬、紧张或遇到了棘手的情况。",
+    "image_name": "sena_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "annoyed",
+      "frown",
+      "mouth_open"
+    ],
+    "description": "眉头紧锁，嘴巴张大，明显表现出生气、急躁或正在大声抗议的情绪。",
+    "image_name": "sena_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "skeptical",
+      "unimpressed",
+      "disdain",
+      "glance"
+    ],
+    "description": "半眯着眼睛（死鱼眼），眼神中流露出怀疑、无语、鄙视或不以为然的态度。",
+    "image_name": "sena_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "resting",
+      "thinking",
+      "calm"
+    ],
+    "description": "双眼完全闭合，表情安详平稳，像是在闭目养神、深思或拒绝交流。",
+    "image_name": "sena_spr-99_0_waifu2x_2x_2n_png.jpg"
+  }
+]

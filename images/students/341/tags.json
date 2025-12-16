@@ -1,0 +1,153 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "looking_forward",
+      "glasses"
+    ],
+    "description": "琴里表情平静，眼神自然地看向前方，没有明显的情绪波动，展现出常态下的模样。",
+    "image_name": "J_CH0232_spr_00_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "troubled",
+      "worried",
+      "sad",
+      "eyebrows_down",
+      "blush"
+    ],
+    "description": "琴里眉毛呈八字下垂，眼神显得有些无辜和困扰，似乎在担心什么或者感到委屈。",
+    "image_name": "J_CH0232_spr_01_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "talking",
+      "curious"
+    ],
+    "description": "琴里微微张开嘴巴，睁大眼睛，像是在惊讶地发现新事物，或者正在进行解说。",
+    "image_name": "J_CH0232_spr_02_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "laughing",
+      "joy"
+    ],
+    "description": "琴里双眼眯成弯月状，开怀大笑，脸上洋溢着开心和幸福的神情。",
+    "image_name": "J_CH0232_spr_03_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweatdrop",
+      "awkward",
+      "looking_away"
+    ],
+    "description": "琴里脸颊流下一滴冷汗，眼神向侧边游离，紧闭着嘴，看起来感到尴尬、心虚或紧张。",
+    "image_name": "J_CH0232_spr_04_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "serious",
+      "annoyed",
+      "frown",
+      "glaring"
+    ],
+    "description": "琴里眉头紧锁倒竖，眼神锐利地盯着前方，表情严肃，明显带着生气或不满的情绪。",
+    "image_name": "J_CH0232_spr_05_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "tired",
+      "sweatdrop",
+      "resigned"
+    ],
+    "description": "琴里紧闭双眼，脸上挂着汗珠，似乎对他人的言行感到无奈，正在深深地叹气或扶额。",
+    "image_name": "J_CH0232_spr_06_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "panic",
+      "shocked",
+      "sweatdrop",
+      "open_mouth",
+      "anxious"
+    ],
+    "description": "琴里张大嘴巴，满头大汗，眉毛紧皱，眼神慌乱，表现出极度的惊慌失措或焦急。",
+    "image_name": "J_CH0232_spr_07_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "dazed",
+      "blank_stare",
+      "neutral",
+      "dot_mouth",
+      "spacing_out"
+    ],
+    "description": "琴里眼神显得有些空洞和呆滞，直直地看着前方，嘴巴缩成一个小点，看起来正在发呆或者大脑一片空白。",
+    "image_name": "J_CH0232_spr_08_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "smile",
+      "looking_aside",
+      "confident",
+      "playful"
+    ],
+    "description": "琴里嘴角勾起一抹自信的微笑，眼神向侧边瞟去，神情中透着一丝得意、狡黠或调侃的意味。",
+    "image_name": "J_CH0232_spr_09_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "awkward_smile",
+      "troubled",
+      "looking_aside",
+      "wry_smile",
+      "nervous"
+    ],
+    "description": "琴里眉毛微微下垂呈八字状，眼神游离，嘴角勉强上扬露出尴尬的苦笑，似乎对当前状况感到有些为难。",
+    "image_name": "J_CH0232_spr_10_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "glasses_reflection",
+      "serious",
+      "ominous",
+      "hidden_eyes",
+      "scheming"
+    ],
+    "description": "琴里的眼镜镜片完全反光，遮挡住了双眼，表情看起来深不可测，似乎正在酝酿什么计划，或者展现出腹黑、认真的一面。",
+    "image_name": "J_CH0232_spr_11_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "glasses_reflection",
+      "furious",
+      "complaining"
+    ],
+    "description": "虽然眼镜反光遮住了眼睛，但琴里眉头紧锁，张嘴大喊，明显表现出强烈的不满、激动或愤怒的情绪。",
+    "image_name": "J_CH0232_spr_12_W2xEX_2x_1n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "peaceful",
+      "resting"
+    ],
+    "description": "琴里双眼紧闭，神情安详恬静，没有多余的表情，看起来正在闭目养神，又或者已经睡着了。",
+    "image_name": "J_CH0232_spr_99_W2xEX_2x_1n.jpg"
+  }
+]

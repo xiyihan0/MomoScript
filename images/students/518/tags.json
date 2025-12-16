@@ -1,0 +1,288 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "normal",
+      "robot",
+      "screen_face",
+      "blue_eyes"
+    ],
+    "description": "机器人的屏幕显示着标准的待机表情，两只竖直的椭圆形眼睛和一条水平的长方形嘴巴，没有任何明显的情绪波动，显得平静而中立。",
+    "image_name": "J_NP0241_spr_01.jpg"
+  },
+  {
+    "tags": [
+      "surprise",
+      "open_mouth",
+      "o_mouth",
+      "curious",
+      "realization"
+    ],
+    "description": "屏幕上的眼睛保持竖直椭圆状，但嘴巴变成了一个小圆点，看起来像是发出了“哦”的声音，表现出惊讶、好奇或者恍然大悟的神态。",
+    "image_name": "J_NP0241_spr_02.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "joy",
+      "^_^"
+    ],
+    "description": "机器人的眼睛变成了弯弯的拱形，嘴巴上扬呈半圆形，构成了一个非常典型的开心笑脸，传达出喜悦、欢迎或满足的情绪。",
+    "image_name": "J_NP0241_spr_03.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "awkward",
+      "worry",
+      "troubled"
+    ],
+    "description": "机器人的眼睛变成了较短的椭圆，屏幕右下角出现了一滴明显的冷汗符号，嘴巴微张，表现出紧张、尴尬、焦虑或不知所措的状态。",
+    "image_name": "J_NP0241_spr_04.jpg"
+  },
+  {
+    "tags": [
+      "speechless",
+      "deadpan",
+      "annoyed",
+      "flat_eyes",
+      "-_-"
+    ],
+    "description": "屏幕上的眼睛变成了两条水平的短线，配合平直的嘴巴，呈现出一种无语、鄙视、疲惫或毫无波澜的“死鱼眼”表情。",
+    "image_name": "J_NP0241_spr_05.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "depressed",
+      "frown",
+      "disappointed",
+      "gloomy"
+    ],
+    "description": "眼睛呈现八字下垂的形状，嘴巴也向下弯曲，构成了一个标准的悲伤或哭泣的表情，看起来非常沮丧、委屈或失望。",
+    "image_name": "J_NP0241_spr_06.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_eyes",
+      "friendly",
+      "pleased",
+      "talking"
+    ],
+    "description": "眼睛睁大呈竖直椭圆状，同时嘴巴呈上扬的微笑形状，结合了清醒与快乐，看起来像是在友好地交谈或礼貌地微笑。",
+    "image_name": "J_NP0241_spr_07.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "square_mouth",
+      "loud",
+      "stunned",
+      "blank_stare"
+    ],
+    "description": "眼睛和嘴巴都变成了较宽的圆角矩形（方形），嘴巴张得较大，看起来像是在大声喊叫、发出机械音，或者处于一种呆滞的震惊状态。",
+    "image_name": "J_NP0241_spr_08.jpg"
+  },
+  {
+    "tags": [
+      "stare",
+      "blank",
+      "dot_eyes",
+      "innocent",
+      "listening"
+    ],
+    "description": "机器人的屏幕上显示着两只竖直的圆角矩形眼睛和一个小小的方形嘴巴，表情看起来非常呆萌、乖巧，或者正在专注地发呆。",
+    "image_name": "J_NP0241_spr_09.jpg"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "confused",
+      "wavy_eyes",
+      "malfunction",
+      "chaos"
+    ],
+    "description": "屏幕上的五官被三条波浪线取代，表现出晕头转向、极度混乱、系统故障或者因为受到冲击而神志不清的状态。",
+    "image_name": "J_NP0241_spr_10.jpg"
+  },
+  {
+    "tags": [
+      "static",
+      "noise",
+      "glitch",
+      "no_signal",
+      "offline"
+    ],
+    "description": "屏幕上充满了灰白色的噪点和水平条纹，没有任何具体的表情符号，代表着信号干扰、死机、系统错误或通讯中断。",
+    "image_name": "J_NP0241_spr_11.jpg"
+  },
+  {
+    "tags": [
+      "black_screen",
+      "off",
+      "shutdown",
+      "sleep",
+      "dark"
+    ],
+    "description": "整个屏幕完全变黑，没有任何光亮或符号，显示机器人处于关机、休眠、断电或停止运作的状态。",
+    "image_name": "J_NP0241_spr_12.jpg"
+  },
+  {
+    "tags": [
+      "question_mark",
+      "confused",
+      "curious",
+      "query",
+      "?"
+    ],
+    "description": "屏幕正中央显示着一个巨大的问号符号，直观地表达出疑问、不解、困惑，或者正在检索信息、提出问题的状态。",
+    "image_name": "J_NP0241_spr_13.jpg"
+  },
+  {
+    "tags": [
+      "exclamation_mark",
+      "alert",
+      "surprise",
+      "warning",
+      "!"
+    ],
+    "description": "屏幕正中央显示着一个巨大的感叹号符号，传达出警告、震惊、引起注意、发现敌人或强调重要信息的情绪。",
+    "image_name": "J_NP0241_spr_14.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "sad",
+      "tear",
+      "upset",
+      "weep"
+    ],
+    "description": "眼睛呈现悲伤的八字形，嘴角下垂，且右侧有一滴明显的眼泪落下，表现出伤心、委屈或正在默默哭泣的样子。",
+    "image_name": "J_NP0241_spr_15.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "sobbing",
+      "loud_cry",
+      "tears_streaming",
+      "TT"
+    ],
+    "description": "眼睛变成了像是两条宽宽的瀑布泪一样的形状（TT状），配合方形的小嘴，表现出号啕大哭、泪流满面或极度悲痛夸张的情绪。",
+    "image_name": "J_NP0241_spr_16.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "distressed",
+      "shaking",
+      "blur",
+      "wailing"
+    ],
+    "description": "屏幕画面带有明显的震动和重影模糊效果，眼睛呈八字下垂或哭泣状，嘴巴张大，表现出受到冲击时的哀嚎、极度悲伤或动摇。",
+    "image_name": "J_NP0241_spr_17.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "mad",
+      "frown",
+      "serious",
+      ">_<"
+    ],
+    "description": "眼睛呈倒八字形向内倾斜，眼神锐利，配合向下弯曲的嘴巴，构成了一个标准的生气、愤怒或严肃的表情。",
+    "image_name": "J_NP0241_spr_18.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "yell",
+      "open_mouth",
+      "furious"
+    ],
+    "description": "保持着愤怒的倒八字眼形，但嘴巴张开呈圆角方形，看起来像是在大声怒吼、呵斥或表达强烈的愤怒情绪。",
+    "image_name": "J_NP0241_spr_19.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "intense",
+      "blur",
+      "chaos"
+    ],
+    "description": "愤怒怒吼的表情（倒八字眼加张嘴）配合强烈的震动模糊和色散效果，表现出情绪极度激动、暴怒或系统处于不稳定状态。",
+    "image_name": "J_NP0241_spr_20.jpg"
+  },
+  {
+    "tags": [
+      "side_eye",
+      "looking_left",
+      "neutral",
+      "glance",
+      "flat_mouth"
+    ],
+    "description": "眼球向左侧（观众视角的左边）瞥去，嘴巴呈平直状，表现出一种瞥视、无视、尴尬或冷淡地观察左侧事物的神态。",
+    "image_name": "J_NP0241_spr_21.jpg"
+  },
+  {
+    "tags": [
+      "side_eye",
+      "looking_left",
+      "unhappy",
+      "frown",
+      "displeased"
+    ],
+    "description": "眼球向左侧瞥去，但嘴巴向下弯曲，表现出不悦、心虚、嫌弃或带着负面情绪地看向左侧。",
+    "image_name": "J_NP0241_spr_22.jpg"
+  },
+  {
+    "tags": [
+      "side_eye",
+      "looking_right",
+      "neutral",
+      "glance",
+      "flat_mouth"
+    ],
+    "description": "眼球向右侧（观众视角的右边）瞥去，嘴巴呈平直状，表现出瞥视、思考、无视或冷淡地观察右侧事物的神态。",
+    "image_name": "J_NP0241_spr_23.jpg"
+  },
+  {
+    "tags": [
+      "side_eye",
+      "looking_right",
+      "unhappy",
+      "frown",
+      "displeased"
+    ],
+    "description": "眼球向右侧瞥去，配合向下弯曲的嘴角，表现出对右侧发生的事物感到不悦、无奈、失望或担忧。",
+    "image_name": "J_NP0241_spr_24.jpg"
+  },
+  {
+    "tags": [
+      "low_battery",
+      "energy_low",
+      "tired",
+      "exhausted",
+      "icon"
+    ],
+    "description": "屏幕正中央显示着一个低电量的电池图标，仅剩左侧一格电量，直观地表达出能量不足、疲惫、即将关机或急需充电的状态。",
+    "image_name": "J_NP0241_spr_25.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "normal",
+      "stare",
+      "open_eyes",
+      "idle"
+    ],
+    "description": "屏幕上显示着两只竖直的圆角矩形眼睛和扁平的短横线嘴巴，虽然文件名提及闭眼，但画面实际展示的是标准的睁眼待机状态，表情平静且呆萌。",
+    "image_name": "J_NP0241_spr_Eye_Close_01.jpg"
+  }
+]

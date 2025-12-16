@@ -1,0 +1,217 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "calm",
+      "closed_mouth"
+    ],
+    "description": "表情平静且略带严肃，嘴巴闭合，眼神直视前方，展现出一种冷静或冷淡的态度。",
+    "image_name": "reizyo_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "looking_at_viewer",
+      "idle"
+    ],
+    "description": "标准的平静表情，情绪没有任何波动，眼神平淡，看起来非常沉着，类似于待机状态。",
+    "image_name": "reizyo_spr_01.png"
+  },
+  {
+    "tags": [
+      "mouth_open",
+      "speaking",
+      "slightly_surprised",
+      "curious"
+    ],
+    "description": "嘴巴微微张开，似乎正在说话或对某事感到轻微惊讶，眼神中流露出一丝好奇。",
+    "image_name": "reizyo_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "pleased"
+    ],
+    "description": "嘴角微微上扬，露出淡淡的微笑，眼神变得柔和，表现出友好或满意的情绪。",
+    "image_name": "reizyo_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "awkward",
+      "worried",
+      "troubled"
+    ],
+    "description": "脸颊上挂着一滴汗珠，眉毛微皱，眼神游移，显得有些紧张、尴尬或不知所措。",
+    "image_name": "reizyo_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "furrowed_brows",
+      "displeased"
+    ],
+    "description": "眉头紧锁，眼神锐利，流露出明显的不满、生气或恼怒的情绪，具有攻击性。",
+    "image_name": "reizyo_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sad",
+      "disappointed",
+      "sighing",
+      "resigned"
+    ],
+    "description": "双眼紧闭，眉毛呈悲伤的八字形，似乎正在叹气、感到失望或在忍耐某种情绪。",
+    "image_name": "reizyo_spr_06.png"
+  },
+  {
+    "tags": [
+      "skeptical",
+      "confused",
+      "mouth_open",
+      "questioning",
+      "doubt"
+    ],
+    "description": "嘴巴张开，眉头微皱，表情中带着疑惑或质疑，似乎在询问或对某事表示不解。",
+    "image_name": "reizyo_spr_07.png"
+  },
+  {
+    "tags": [
+      "confused",
+      "worried",
+      "mouth_open",
+      "troubled",
+      "hesitant"
+    ],
+    "description": "嘴巴微微张开，眉毛呈现困惑的八字形，眼神显得有些迷茫和担忧，似乎对眼前的情况感到不解或棘手。",
+    "image_name": "reizyo_spr_08.png"
+  },
+  {
+    "tags": [
+      "shadowed_face",
+      "angry",
+      "serious",
+      "intimidating",
+      "glaring"
+    ],
+    "description": "额头处打着阴影，眼神锐利且充满压迫感，嘴角紧闭，表现出压抑的愤怒、极度的认真或一种危险的威慑力。",
+    "image_name": "reizyo_spr_09.png"
+  },
+  {
+    "tags": [
+      "shadowed_eyes",
+      "gloom",
+      "dark_atmosphere",
+      "despair",
+      "speechless"
+    ],
+    "description": "双眼完全被黑暗的阴影遮盖，无法看清眼神，散发出一股沉重、阴郁、绝望或彻底无语的负面气场。",
+    "image_name": "reizyo_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "disappointed",
+      "resigned",
+      "sighing",
+      "unimpressed"
+    ],
+    "description": "双眼闭合，眉头微皱，表情显得无奈且略带失望，似乎在心里叹气，或者对某种情况表示放弃争辩。",
+    "image_name": "reizyo_spr_11.png"
+  },
+  {
+    "tags": [
+      "dot_eyes",
+      "speechless",
+      "awkward",
+      "dumbfounded",
+      "comic_style"
+    ],
+    "description": "眼睛变成了简笔画的小黑点，脸上带有红晕，表现出极度的无语、尴尬、呆滞或被整得不知所措的滑稽状态。",
+    "image_name": "reizyo_spr_12.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "cheerful",
+      "laughing"
+    ],
+    "description": "双眼眯成弯月形，嘴角大幅上扬，脸上带有红晕，展现出非常开朗、爽朗且发自内心的愉快笑容。",
+    "image_name": "reizyo_spr_13.png"
+  },
+  {
+    "tags": [
+      "jitome",
+      "suspicious",
+      "skeptical",
+      "judging",
+      "side_glance"
+    ],
+    "description": "著名的“鄙视眼”或“半月眼”，半眯着眼斜视，眼神中充满怀疑、审视和不信任，仿佛在质疑对方的行为。",
+    "image_name": "reizyo_spr_14.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "mouth_open",
+      "annoyed",
+      "frustrated",
+      "complaining"
+    ],
+    "description": "双眼紧闭，嘴巴张开，眉头紧锁，似乎正在大声抱怨、发牢骚，或者因为某事感到极度的懊恼和抓狂。",
+    "image_name": "reizyo_spr_15.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "mouth_open",
+      "tired",
+      "sighing",
+      "sleepy"
+    ],
+    "description": "双眼闭合，嘴巴微微张开呈小圆形，神情显得有些疲惫或困倦，仿佛正在轻声叹息或半梦半醒。",
+    "image_name": "reizyo_spr_16.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "gentle",
+      "satisfied"
+    ],
+    "description": "双眼眯成弯月状，嘴角上扬露出温柔的微笑，表情十分柔和，展现出开心、满意或享受当下的情绪。",
+    "image_name": "reizyo_spr_17.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "mouth_open",
+      "speaking",
+      "explaining",
+      "confident"
+    ],
+    "description": "双眼闭合，嘴巴张开，似乎正在闭着眼睛自信地侃侃而谈，或者在耐心地进行某种说明和解释。",
+    "image_name": "reizyo_spr_18.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "silent",
+      "thinking",
+      "meditating"
+    ],
+    "description": "双眼轻闭，嘴巴闭合，面部表情平静无波，显得非常安详，似乎正在沉思、闭目养神或保持沉默。",
+    "image_name": "reizyo_spr_99.png"
+  }
+]

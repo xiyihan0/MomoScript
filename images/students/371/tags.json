@@ -1,0 +1,131 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "tired",
+      "blank_stare",
+      "small_mouth"
+    ],
+    "description": "平淡的表情，眼神略显呆滞或困倦，嘴巴微微张开呈小圆点状，标志性的慵懒常态。",
+    "image_name": "CH0221_spr_00.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "bored",
+      "sleepy",
+      "unimpressed"
+    ],
+    "description": "半眯着眼睛，眼神向下看，看起来非常困倦、无聊或对眼前的事物提不起劲。",
+    "image_name": "CH0221_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "talking",
+      "calm",
+      "neutral"
+    ],
+    "description": "嘴巴微张仿佛在说话，眼神平静温和，通常用于正常的对话场景。",
+    "image_name": "CH0221_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "laughing",
+      "blush",
+      "happy"
+    ],
+    "description": "闭眼开怀大笑，脸颊带有红晕，表现出非常开心、爽朗的情绪，也就是常说的'Uhe'笑脸。",
+    "image_name": "CH0221_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "worried",
+      "awkward",
+      "stare"
+    ],
+    "description": "脸上挂着汗珠，眼神显得有些游移和尴尬，表现出紧张、心虚或不知所措的样子。",
+    "image_name": "CH0221_spr_04.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "serious",
+      "frown",
+      "angry"
+    ],
+    "description": "眉头紧锁，眼神变得犀利严肃，表现出不悦、生气或认真警告的态度。",
+    "image_name": "CH0221_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "troubled",
+      "wavy_mouth",
+      "worried",
+      "disappointed"
+    ],
+    "description": "眉毛呈八字下垂，嘴巴变成波浪状，看起来非常困扰、委屈、失望或难过。",
+    "image_name": "CH0221_spr_06.png"
+  },
+  {
+    "tags": [
+      "star_eyes",
+      "excited",
+      "drooling",
+      "blush",
+      "open_mouth"
+    ],
+    "description": "眼中闪烁着星星光芒，嘴角流出口水，脸颊泛红，表现出极度的兴奋、期待或对某物的强烈渴望（如看到鲸鱼或想要睡觉）。",
+    "image_name": "CH0221_spr_07.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "half_closed_eyes",
+      "blush",
+      "disdain",
+      "confident"
+    ],
+    "description": "半眯着眼略带审视与轻视，眉毛微皱，脸颊泛红，嘴角微微上扬，露出一副得意、傲娇或看透一切的自信神情。",
+    "image_name": "CH0221_spr_08.png"
+  },
+  {
+    "tags": [
+      "shock",
+      "blue_lines",
+      "blank_eyes",
+      "open_mouth",
+      "despair",
+      "pale"
+    ],
+    "description": "面部覆盖着代表阴沉的线条阴影，双眼翻白失去高光，嘴巴大张，表现出受到巨大打击、魂飞魄散、极度震惊或绝望崩溃的样子。",
+    "image_name": "CH0221_spr_09.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "angry",
+      "frown",
+      "open_mouth",
+      "serious"
+    ],
+    "description": "眉头倒竖紧锁，眼神犀利严肃，张大嘴巴仿佛在大声喊叫或激烈争辩，表现出愤怒、焦急或强烈抗议的情绪。",
+    "image_name": "CH0221_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "calm",
+      "peaceful",
+      "neutral"
+    ],
+    "description": "双眼完全闭合，表情平稳安详，没有任何多余的情绪波动，标志性的正在熟睡、闭目养神或完全放松的状态。",
+    "image_name": "CH0221_spr_99.png"
+  }
+]

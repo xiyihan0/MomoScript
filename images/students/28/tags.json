@@ -1,0 +1,83 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_eyes",
+      "gentle",
+      "purple_eyes"
+    ],
+    "description": "温柔的微笑，双眼睁开注视前方，表情柔和。",
+    "image_name": "J_1_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "dot_mouth",
+      "open_eyes",
+      "dazed"
+    ],
+    "description": "呆萌的表情，眼神有些呆滞，嘴巴缩成一个小圆点。",
+    "image_name": "J_2_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "joy"
+    ],
+    "description": "开心的笑脸，眼睛眯成弯月状，看起来非常愉悦。",
+    "image_name": "J_3_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "confused",
+      "open_eyes"
+    ],
+    "description": "惊讶或困惑的表情，嘴巴微张，似乎看到了意料之外的事物。",
+    "image_name": "J_4_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "frown",
+      "serious",
+      "open_eyes"
+    ],
+    "description": "有些生气或严肃的样子，眉头紧锁，眼神锐利。",
+    "image_name": "J_5_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "sad",
+      "open_mouth",
+      "closed_eyes",
+      ">_<"
+    ],
+    "description": "痛苦哭泣的表情，紧闭双眼，嘴巴张开，看起来很委屈。",
+    "image_name": "J_6_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "open_eyes",
+      "calm"
+    ],
+    "description": "平静的面无表情，嘴巴呈一条直线，没有明显的情绪波动。",
+    "image_name": "J_7_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "peaceful",
+      "calm",
+      "sleeping"
+    ],
+    "description": "闭着眼睛，神态安详，像是在闭目养神或睡觉。",
+    "image_name": "J_8_waifu2x_2x_1n_png.jpg"
+  }
+]

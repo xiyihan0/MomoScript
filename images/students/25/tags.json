@@ -1,0 +1,282 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "gentle",
+      "normal"
+    ],
+    "description": "渚的标准立绘表情，面带平静且温柔的浅笑，眼神柔和。",
+    "image_name": "nagisa_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "happy",
+      "pleased"
+    ],
+    "description": "嘴角上扬幅度变大，露出了自信且优雅的微笑，看起来心情不错。",
+    "image_name": "nagisa_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "talking",
+      "explaining",
+      "serious"
+    ],
+    "description": "微微张开嘴巴，似乎正在说话、解释情况或感到轻微的惊讶。",
+    "image_name": "nagisa_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "laughing",
+      "joy"
+    ],
+    "description": "双眼眯成弯月状，闭眼开怀微笑，表现出非常开心和愉悦的状态。",
+    "image_name": "nagisa_spr_03.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "troubled",
+      "concerned",
+      "frown"
+    ],
+    "description": "眉毛呈现八字形下撇，眼神流露出担忧、困扰或伤心的情绪。",
+    "image_name": "nagisa_spr_04.png"
+  },
+  {
+    "tags": [
+      "disgusted",
+      "awkward",
+      "grimace",
+      "speechless",
+      "annoyed"
+    ],
+    "description": "露出了嫌弃、尴尬或无语的表情，嘴角抽搐，似乎看到了不想看的东西。",
+    "image_name": "nagisa_spr_05.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "furious",
+      "scolding",
+      "open_mouth"
+    ],
+    "description": "眉头紧锁，眼神犀利，张嘴似乎在大声呵斥或表达强烈的愤怒。",
+    "image_name": "nagisa_spr_06.png"
+  },
+  {
+    "tags": [
+      "suspicious",
+      "side_glance",
+      "doubt",
+      "thinking",
+      "observing"
+    ],
+    "description": "眼神向一侧瞥去，神情严肃且带有怀疑色彩，似乎在审视或思考某事。",
+    "image_name": "nagisa_spr_07.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "calm",
+      "neutral"
+    ],
+    "description": "面带温柔恬静的微笑，眼神柔和，展现出优雅从容的姿态。",
+    "image_name": "nagisa_spr_08.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "troubled",
+      "nervous",
+      "uneasy",
+      "smile"
+    ],
+    "description": "眉毛微微下压，脸上带着尴尬或勉强的笑容，似乎感到有些局促不安。",
+    "image_name": "nagisa_spr_09.png"
+  },
+  {
+    "tags": [
+      "side_glance",
+      "neutral",
+      "thinking",
+      "serious"
+    ],
+    "description": "目光瞥向一侧，表情平淡且略显严肃，似乎在思考别的事情或回避视线。",
+    "image_name": "nagisa_spr_10.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "neutral",
+      "calm",
+      "focused"
+    ],
+    "description": "直视前方，表情认真严肃，收起了笑容，表现出审视或专注的态度。",
+    "image_name": "nagisa_spr_11.png"
+  },
+  {
+    "tags": [
+      "smirk",
+      "confident",
+      "side_glance",
+      "smug",
+      "smile"
+    ],
+    "description": "嘴角上扬露出一抹意味深长的坏笑，眼神瞥向一侧，显得自信满满且略带狡黠。",
+    "image_name": "nagisa_spr_12.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "angry",
+      "complaining",
+      "open_mouth",
+      "frown"
+    ],
+    "description": "眉头紧锁，张嘴似乎在抱怨或表达不满，神情显得有些焦躁或生气。",
+    "image_name": "nagisa_spr_13.png"
+  },
+  {
+    "tags": [
+      "doubt",
+      "suspicious",
+      "side_glance",
+      "serious",
+      "frown"
+    ],
+    "description": "带着怀疑的目光瞥向一侧，眉头微蹙，神情严肃，似乎察觉到了可疑之处。",
+    "image_name": "nagisa_spr_14.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "concerned",
+      "troubled",
+      "gentle"
+    ],
+    "description": "眉毛呈八字形下垂，神色忧虑悲伤，眼神中流露出同情或困扰的情绪。",
+    "image_name": "nagisa_spr_15.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "troubled",
+      "awkward",
+      "side_glance",
+      "frown"
+    ],
+    "description": "眉毛微蹙，视线游移向一侧，嘴角紧抿，流露出担忧、尴尬或不知所措的局促神情。",
+    "image_name": "nagisa_spr_16.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral",
+      "silence",
+      "listening"
+    ],
+    "description": "双眼轻闭，表情平静淡然，没有明显的悲喜，似乎在闭目养神或安静聆听。",
+    "image_name": "nagisa_spr_17.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "worried",
+      "troubled",
+      "disappointed",
+      "frown"
+    ],
+    "description": "紧闭双眼，眉头紧锁，神色凝重，表现出苦恼、无奈或对现状感到失望的情绪。",
+    "image_name": "nagisa_spr_18.png"
+  },
+  {
+    "tags": [
+      "side_glance",
+      "neutral",
+      "thinking",
+      "cold",
+      "avoidance"
+    ],
+    "description": "眼神向侧下方瞥去，表情冷淡平静，似乎在回避目光交流或独自沉思。",
+    "image_name": "nagisa_spr_19.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "stern",
+      "angry",
+      "focused",
+      "frown"
+    ],
+    "description": "眉头压低，目光锐利直视前方，表情十分严肃甚至带有一丝怒意，展现出严厉审视的态度。",
+    "image_name": "nagisa_spr_20.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "open_mouth",
+      "tired",
+      "troubled"
+    ],
+    "description": "闭着眼睛，嘴巴微微张开，眉头微皱，似乎正在发出无奈的叹息，感到疲惫或心累。",
+    "image_name": "nagisa_spr_21.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "talking",
+      "open_mouth",
+      "confident",
+      "calm"
+    ],
+    "description": "双眼闭合，嘴巴张开似乎在说话，神情看起来比较从容自信，像是在流利地陈述观点。",
+    "image_name": "nagisa_spr_22.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "annoyed",
+      "complaining",
+      "suffering"
+    ],
+    "description": "紧闭双眼，张大嘴巴，眉头深锁，看起来非常烦躁、痛苦，似乎在发牢骚或大声抱怨。",
+    "image_name": "nagisa_spr_23.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "awkward",
+      "troubled",
+      "side_glance"
+    ],
+    "description": "脸颊上挂着汗珠，眼神游移，眉毛微蹙，表情显得紧张、尴尬，似乎遇到了棘手的情况或感到不知所措。",
+    "image_name": "nagisa_spr_24.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "gentle",
+      "calm"
+    ],
+    "description": "双眼弯成月牙状闭合，嘴角上扬，流露出开心、温柔且如释重负的笑容，显得十分轻松愉悦。",
+    "image_name": "nagisa_spr_99.png"
+  }
+]

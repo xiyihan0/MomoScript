@@ -1,0 +1,93 @@
+[
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "blush",
+      "gentle"
+    ],
+    "description": "闭着双眼，嘴角上扬露出温柔的微笑，脸颊微红，神情愉快。",
+    "image_name": "QQ截图20220120173916.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sweat_drop",
+      "nervous",
+      "awkward_smile"
+    ],
+    "description": "闭眼张嘴苦笑，脸颊上挂着一滴冷汗，表现出尴尬或紧张的情绪。",
+    "image_name": "QQ截图20220120173923.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "green_eyes",
+      "worried",
+      "troubled",
+      "eyebrows_down",
+      "closed_mouth"
+    ],
+    "description": "睁着绿色的眼睛，眉毛呈八字下垂，嘴角抿起，流露出担忧或困扰的神色。",
+    "image_name": "QQ截图20220120173929.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "green_eyes",
+      "open_mouth",
+      "angry",
+      "annoyed",
+      "shouting"
+    ],
+    "description": "眉头紧锁，眼神锐利，张嘴似乎在生气地大喊或抗议。",
+    "image_name": "QQ截图20220120173935.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "serene",
+      "neutral",
+      "sleeping"
+    ],
+    "description": "双眼紧闭，面部表情平静安详，像是在闭目养神或沉思。",
+    "image_name": "QQ截图20220120173942.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "green_eyes",
+      "smile",
+      "happy",
+      "confident"
+    ],
+    "description": "睁开双眼，目光温和，嘴角带着自信且友好的微笑。",
+    "image_name": "QQ截图20220120173948.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "green_eyes",
+      "open_mouth",
+      "surprised",
+      "speaking"
+    ],
+    "description": "睁眼张嘴，神情略显惊讶，或者正在进行普通的对话交流。",
+    "image_name": "QQ截图20220120173955.png"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "green_eyes",
+      "open_mouth",
+      "confused",
+      "dumbfounded",
+      "blank_stare"
+    ],
+    "description": "睁眼张着小嘴，眉毛微蹙，神情显得有些呆萌、困惑或茫然。",
+    "image_name": "QQ截图20220120174001.png"
+  }
+]

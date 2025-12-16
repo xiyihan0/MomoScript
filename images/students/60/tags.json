@@ -1,0 +1,136 @@
+[
+  {
+    "tags": [
+      "nervous",
+      "worry",
+      "sweat",
+      "frown",
+      "red_eyes",
+      "black_hair"
+    ],
+    "description": "表情担忧且紧张，眉毛微微皱起，脸颊上挂着一滴冷汗，视线向下游移，显得有些不安。",
+    "image_name": "CH0190_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "serious",
+      "red_eyes",
+      "black_hair"
+    ],
+    "description": "面无表情，神态平静且略显严肃，红色的眼睛直视前方，没有明显的情绪流露。",
+    "image_name": "CH0190_spr_01.png"
+  },
+  {
+    "tags": [
+      "talking",
+      "open_mouth",
+      "neutral",
+      "red_eyes",
+      "black_hair"
+    ],
+    "description": "嘴巴微微张开，似乎正在进行对话或发出声音，眼神保持平静。",
+    "image_name": "CH0190_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "open_mouth",
+      "gentle",
+      "red_eyes"
+    ],
+    "description": "脸上带着温柔的微笑，嘴巴微张，眼神柔和，表现出愉快和亲切的态度。",
+    "image_name": "CH0190_spr_03.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "sweat",
+      "awkward",
+      "red_eyes",
+      "black_hair"
+    ],
+    "description": "表情略显困扰和尴尬，脸颊上有汗珠，眼神看起来有些发愣或不知所措。",
+    "image_name": "CH0190_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "serious",
+      "stern",
+      "frown",
+      "sharp_eyes"
+    ],
+    "description": "表情严厉甚至有些生气，眉头紧锁，眼神变得锐利，透露出不悦或高度警惕的情绪。",
+    "image_name": "CH0190_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "wince",
+      "sweat",
+      "disappointed",
+      "troubled"
+    ],
+    "description": "双眼紧闭，眉头皱起，脸上有汗水，表现出无奈、痛苦或者是对他人的行为感到头疼的样子。",
+    "image_name": "CH0190_spr_06.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "laughing",
+      "cheerful"
+    ],
+    "description": "闭着眼睛开心地笑，眼睛眯成弯月状，神情轻松愉悦，充满了喜悦的氛围。",
+    "image_name": "CH0190_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "gentle",
+      "calm",
+      "happy"
+    ],
+    "description": "双眼闭合，脸上带着温柔恬静的微笑，神态安详，表现出一种轻松和满足的感觉。",
+    "image_name": "CH0190_spr_08.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "angry",
+      "shouting",
+      "annoyed",
+      "frown",
+      "red_eyes"
+    ],
+    "description": "眉头紧锁，红色的眼睛瞪视前方，嘴巴张开似在大声争辩或表达不满，情绪显得有些激动和恼火。",
+    "image_name": "CH0190_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "wavy_mouth",
+      "awkward",
+      "troubled",
+      "wry_smile"
+    ],
+    "description": "双眼紧闭，眉毛呈现困扰的八字形，嘴巴变成了波浪状，流露出一种尴尬、无奈或是勉强苦笑的神情。",
+    "image_name": "CH0190_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "neutral",
+      "serious",
+      "thinking",
+      "silent"
+    ],
+    "description": "双眼闭合，嘴角平直没有笑容，神情平静而略显严肃，似乎正在闭目养神或进行深思。",
+    "image_name": "CH0190_spr_99.png"
+  }
+]

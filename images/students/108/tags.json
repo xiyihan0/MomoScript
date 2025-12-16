@@ -1,0 +1,227 @@
+[
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle"
+    ],
+    "description": "面带温柔的微笑，眼神平和，展现出友好的态度。",
+    "image_name": "aris_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "daze",
+      "blank_stare"
+    ],
+    "description": "面无表情，眼神略显呆滞，仿佛在发呆或处于待机状态。",
+    "image_name": "aris_spr_01.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "focused",
+      "neutral"
+    ],
+    "description": "表情严肃认真，抿着嘴，眼神坚定地注视着前方。",
+    "image_name": "aris_spr_02.png"
+  },
+  {
+    "tags": [
+      "excited",
+      "sparkling_eyes",
+      "open_mouth",
+      "blush"
+    ],
+    "description": "兴奋地张开嘴巴，眼睛闪闪发光，脸颊微红，看起来充满期待和惊喜。",
+    "image_name": "aris_spr_03.png"
+  },
+  {
+    "tags": [
+      "panicked",
+      "nervous",
+      "sweat",
+      "troubled"
+    ],
+    "description": "慌张困扰的表情，眉毛下垂呈八字，脸颊流着冷汗，嘴巴扭曲，显得不知所措。",
+    "image_name": "aris_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "annoyed",
+      "frown",
+      "pout"
+    ],
+    "description": "生气的表情，眉头紧锁，嘴角向下撇，眼神犀利，表现出不满或抗议。",
+    "image_name": "aris_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "crying",
+      "tears",
+      "upset"
+    ],
+    "description": "悲伤委屈的样子，眼角含着泪水，眉毛哀伤地下垂，看起来快要哭出来了。",
+    "image_name": "aris_spr_06.png"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "very_happy",
+      "joy"
+    ],
+    "description": "闭着眼睛开怀大笑，嘴巴张大，洋溢着纯粹的幸福和快乐。",
+    "image_name": "aris_spr_07.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "joy"
+    ],
+    "description": "闭着双眼开心地笑着，嘴巴张开，看起来非常喜悦，仿佛在歌唱或欢呼。",
+    "image_name": "aris_spr_08.png"
+  },
+  {
+    "tags": [
+      "confused",
+      "worried",
+      "troubled",
+      "wide_eyes"
+    ],
+    "description": "困惑担忧的表情，眉毛呈八字下垂，眼睛睁大，看起来有些不知所措或焦虑。",
+    "image_name": "aris_spr_09.png"
+  },
+  {
+    "tags": [
+      "panicked",
+      "shouting",
+      "closed_eyes",
+      "sweat",
+      "suffering"
+    ],
+    "description": "极度慌张或痛苦的样子，紧闭双眼（><状），张大嘴巴大喊，脸颊滑落冷汗。",
+    "image_name": "aris_spr_10.png"
+  },
+  {
+    "tags": [
+      "disappointed",
+      "unimpressed",
+      "half_closed_eyes",
+      "scorn",
+      "jito_eyes"
+    ],
+    "description": "半睁着眼的鄙视表情，眼神流露出无奈、失望或无语，嘴角微微向下。",
+    "image_name": "aris_spr_11.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "red_eyes",
+      "blank_stare",
+      "kei"
+    ],
+    "description": "眼睛变为红色的特殊状态（Kei），面无表情，眼神冷漠空洞，呈现出机械感。",
+    "image_name": "aris_spr_12.png"
+  },
+  {
+    "tags": [
+      "embarrassed",
+      "shy",
+      "troubled_smile",
+      "closed_eyes",
+      "blush"
+    ],
+    "description": "带着尴尬或害羞的苦笑，闭着眼睛，眉毛微皱，脸颊泛红，显得有些不好意思。",
+    "image_name": "aris_spr_13.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "red_eyes",
+      "confident",
+      "sharp_gaze",
+      "kei"
+    ],
+    "description": "红眼状态下的严肃表情，眼神比平时更加锐利和自信，透出一股压迫感。",
+    "image_name": "aris_spr_14.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "troubled",
+      "red_eyes",
+      "worried",
+      "kei"
+    ],
+    "description": "红眼状态下流露出悲伤或困扰，眉毛下垂呈八字，眼神显得低落。",
+    "image_name": "aris_spr_15.png"
+  },
+  {
+    "tags": [
+      "red_eyes",
+      "worried",
+      "anxious",
+      "open_mouth",
+      "kei",
+      "troubled"
+    ],
+    "description": "红眼状态下表现出明显的焦虑与困扰，眉毛呈八字下垂，嘴巴微张，眼神显得无助和迷茫。",
+    "image_name": "aris_spr_16.png"
+  },
+  {
+    "tags": [
+      "red_eyes",
+      "wide_eyes",
+      "shocked",
+      "stunned",
+      "stare",
+      "kei"
+    ],
+    "description": "红眼状态下睁大双眼，表情有些僵硬和呆滞，似乎受到了震惊，或是正在冷冷地注视着某物。",
+    "image_name": "aris_spr_17.png"
+  },
+  {
+    "tags": [
+      "red_eyes",
+      "angry",
+      "frown",
+      "furious",
+      "hostile",
+      "kei"
+    ],
+    "description": "红眼状态下的愤怒表情，眉头紧锁，眼神锐利且充满敌意，表现出强烈的不满或攻击性。",
+    "image_name": "aris_spr_18.png"
+  },
+  {
+    "tags": [
+      "red_eyes",
+      "shadow",
+      "dark",
+      "despair",
+      "broken",
+      "kei",
+      "scary"
+    ],
+    "description": "面部上半部分笼罩着阴影，红色的双眼在黑暗中透出绝望、崩坏或危险的气息，给人一种压迫感。",
+    "image_name": "aris_spr_19.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "sleeping",
+      "peaceful",
+      "neutral"
+    ],
+    "description": "平静地闭着双眼，神态安详，看起来像是在熟睡、冥想或是处于待机模式。",
+    "image_name": "aris_spr_99.png"
+  }
+]

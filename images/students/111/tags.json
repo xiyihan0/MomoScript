@@ -1,0 +1,89 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_eyes",
+      "neutral"
+    ],
+    "description": "面带温和的微笑，红色的眼睛注视着前方，表情平静自然。",
+    "image_name": "hasumi_spr-01_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "blush"
+    ],
+    "description": "闭着眼睛，脸上带着愉快的笑容，看起来非常开心。",
+    "image_name": "hasumi_spr-02_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "serene"
+    ],
+    "description": "双眼轻闭，神情安详平静，仿佛在闭目养神。",
+    "image_name": "hasumi_spr-03_0.jpg"
+  },
+  {
+    "tags": [
+      "open_eyes",
+      "worried",
+      "awkward",
+      "sweat"
+    ],
+    "description": "眉头微皱，眼神游移，看起来有些尴尬、紧张或不知所措。",
+    "image_name": "hasumi_spr-04_0.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_eyes",
+      "gentle"
+    ],
+    "description": "眼神柔和，嘴角微微上扬，展现出一种温柔而自信的微笑。",
+    "image_name": "hasumi_spr-05_0.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "frown"
+    ],
+    "description": "眉头紧锁，张大嘴巴大声呼喊，表现出愤怒或急切的情绪。",
+    "image_name": "hasumi_spr-06_0.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "looking_down",
+      "troubled",
+      "gloom"
+    ],
+    "description": "眼帘低垂，目光向下，神情忧郁，看起来有些失落或为难。",
+    "image_name": "hasumi_spr-07_0.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "dazed",
+      "blank_stare"
+    ],
+    "description": "睁大眼睛，嘴巴微张，呈现出惊讶或发呆的表情。",
+    "image_name": "hasumi_spr-08_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "profile",
+      "calm"
+    ],
+    "description": "侧脸视角，闭着眼睛面带淡淡的微笑，神情看起来非常平静和安详。",
+    "image_name": "hasumi_spr-99_0.jpg"
+  }
+]

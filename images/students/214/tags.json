@@ -1,0 +1,129 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "looking_away",
+      "smug",
+      "confident"
+    ],
+    "description": "张开嘴自信地笑着，眼神看向一侧，带有一种得意的神情。",
+    "image_name": "CH0113_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "cat_mouth",
+      "wavy_mouth",
+      "smug"
+    ],
+    "description": "闭着嘴微笑，嘴唇呈现波浪形（猫嘴），看起来有些自满或得意。",
+    "image_name": "CH0113_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprise",
+      "parted_lips",
+      "curious",
+      "confusion"
+    ],
+    "description": "嘴巴微张成圆形，略带惊讶或困惑的表情。",
+    "image_name": "CH0113_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "laughing",
+      "happy",
+      "cheerful"
+    ],
+    "description": "闭着眼睛开怀大笑，张开嘴巴，表现出非常开心和愉快的样子。",
+    "image_name": "CH0113_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shock",
+      "open_mouth",
+      "wide_eyes",
+      "small_pupils",
+      "sweat",
+      "panicked"
+    ],
+    "description": "瞳孔缩小，瞪大眼睛，脸上流着冷汗，表现出极度的震惊或惊慌。",
+    "image_name": "CH0113_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "frown",
+      "serious",
+      "annoyed",
+      "displeasure"
+    ],
+    "description": "皱着眉头，紧闭嘴巴，表情严肃，似乎感到不满或无语。",
+    "image_name": "CH0113_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "worried",
+      "troubled",
+      "sad_brows",
+      "confused"
+    ],
+    "description": "眉毛下垂，嘴巴微张，露出一副担忧、困扰或无奈的神情。",
+    "image_name": "CH0113_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "sweat",
+      "awkward_smile",
+      "nervous"
+    ],
+    "description": "闭着眼睛张嘴笑，脸上挂着汗珠，看起来是在尴尬地苦笑或试图掩饰紧张。",
+    "image_name": "CH0113_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "shadowed_face",
+      "gloom",
+      "serious",
+      "deadpan",
+      "dark"
+    ],
+    "description": "面部上半部分笼罩着阴影，眼神半睁且黯淡无光，表现出阴沉、消沉或内心毫无波澜的“死鱼眼”神情。",
+    "image_name": "CH0113_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "shadowed_face",
+      "smile",
+      "smug",
+      "creepy",
+      "scheming"
+    ],
+    "description": "同样笼罩在面部阴影下，但嘴角上扬露出诡异的笑容，看起来阴险狡诈，仿佛正在策划阴谋或感到阴暗的得意。",
+    "image_name": "CH0113_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "cat_mouth",
+      "wavy_mouth",
+      "smug",
+      "content",
+      "cute"
+    ],
+    "description": "双眼紧闭，嘴巴变成波浪形的猫嘴状，微微仰头，表现出一副得意洋洋、享受夸奖或自我满足的可爱样子。",
+    "image_name": "CH0113_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

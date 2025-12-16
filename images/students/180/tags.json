@@ -1,0 +1,92 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "awe",
+      "curious",
+      "yellow_eyes"
+    ],
+    "description": "表情惊讶且充满好奇，嘴巴微微张开呈'O'型，眼神专注，仿佛看到了什么新奇的东西。",
+    "image_name": "QQ截图20211107191658.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "big_smile",
+      "happy",
+      "joy"
+    ],
+    "description": "闭着眼睛开怀大笑，嘴巴张得很大，洋溢着极度的快乐和兴奋感。",
+    "image_name": "QQ截图20211107192114.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "closed_mouth",
+      "yellow_eyes",
+      "calm"
+    ],
+    "description": "面带温柔且含蓄的微笑，嘴角微微上扬，眼神平静柔和地注视着前方。",
+    "image_name": "QQ截图20211107192121.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "blank_eyes",
+      "panic",
+      "wavy_mouth",
+      "sweat",
+      "comic_style"
+    ],
+    "description": "极度震惊和恐慌的夸张表情，眼睛变成了黄色的圆圈，嘴巴张大呈波浪状，脸上带有冷汗。",
+    "image_name": "QQ截图20211107192130.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "frown",
+      "yellow_eyes"
+    ],
+    "description": "露出困扰和担忧的神情，眉毛下垂（八字眉），嘴角向下，看起来有些委屈或无助。",
+    "image_name": "QQ截图20211107192138.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smug",
+      "wavy_mouth",
+      "pride",
+      "satisfied"
+    ],
+    "description": "闭着眼睛露出得意洋洋的表情，嘴唇呈波浪线形状，显得非常自负或满足。",
+    "image_name": "QQ截图20211107192331.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "smile",
+      "energetic",
+      "happy",
+      "yellow_eyes"
+    ],
+    "description": "充满元气地张嘴笑着，眼神明亮，表现出积极、开朗和期待的态度。",
+    "image_name": "QQ截图20211107192337.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "grin",
+      "showing_teeth",
+      "confident",
+      "playful"
+    ],
+    "description": "调皮地眨着一只眼（Wink），露出洁白的牙齿自信地笑，充满活力和俏皮感。",
+    "image_name": "QQ截图20211107192349.png"
+  }
+]

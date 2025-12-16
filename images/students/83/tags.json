@@ -1,0 +1,170 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "neutral",
+      "talking",
+      "attentive"
+    ],
+    "description": "普通的说话表情，嘴巴微张，眼神注视前方，看起来像是在认真解释或询问什么。",
+    "image_name": "serika_spr_00.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "neutral",
+      "calm",
+      "listening"
+    ],
+    "description": "平静的闭嘴表情，神情温和，似乎在安静地聆听或者是待机状态。",
+    "image_name": "serika_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "o_mouth",
+      "realization"
+    ],
+    "description": "惊讶的表情，嘴巴张成O型，眼神中带着一丝意外或恍然大悟的感觉。",
+    "image_name": "serika_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "laughing",
+      "joy"
+    ],
+    "description": "开心的笑容，眼睛眯成弯月状，嘴巴张开大笑，展现出非常愉快和轻松的心情。",
+    "image_name": "serika_spr_03.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "sweat_drop",
+      "nervous",
+      "complaining",
+      "flustered"
+    ],
+    "description": "焦急或有些狼狈的表情，脸颊挂着汗珠，嘴巴张大像是在大声争辩或抱怨，眉头微皱。",
+    "image_name": "serika_spr_04.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "serious",
+      "frown",
+      "suspicious",
+      "angry"
+    ],
+    "description": "严肃或生气的表情，眉头紧皱，嘴巴紧闭，眼神锐利，似乎在怀疑或表达强烈的不满。",
+    "image_name": "serika_spr_05.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "angry",
+      "aggressive",
+      "protesting"
+    ],
+    "description": "愤怒的喊叫表情，眉头倒竖，嘴巴大张，表现出强烈的情绪激动、抗议或责备。",
+    "image_name": "serika_spr_06.png"
+  },
+  {
+    "tags": [
+      "swirl_eyes",
+      "blush",
+      "sweat_drop",
+      "dizzy",
+      "panic",
+      "confused"
+    ],
+    "description": "慌乱晕眩的表情，眼睛变成了圈圈眼（蚊香眼），脸颊泛红且有汗珠，显得不知所措或极度混乱。",
+    "image_name": "serika_spr_07.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "neutral",
+      "talking",
+      "explaining",
+      "serious"
+    ],
+    "description": "自然的说话表情，眼神清澈，嘴巴张开，像是在进行正常的沟通、说明情况或发表意见。",
+    "image_name": "serika_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "vein_pop",
+      "angry",
+      "forced_smile",
+      "annoyed"
+    ],
+    "description": "强颜欢笑的表情，虽然眯着眼在笑，但额头上的红色青筋符号暴露了内心的愤怒或忍耐，带有一丝讽刺意味。",
+    "image_name": "serika_spr_09.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "frown",
+      "angry",
+      "glaring",
+      "teeth",
+      "aggressive"
+    ],
+    "description": "愤怒斥责的表情，眼神犀利，眉头紧皱，嘴巴微张露出牙齿，表现出强烈的不满、威慑或敌意。",
+    "image_name": "serika_spr_10.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "sweat_drop",
+      "worried",
+      "nervous",
+      "awkward",
+      "troubled"
+    ],
+    "description": "尴尬或担忧的表情，脸上挂着汗珠，眉毛呈八字形下撇，显得有些为难、抱歉或不知所措。",
+    "image_name": "serika_spr_11.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "smile",
+      "confident",
+      "gentle",
+      "pleased"
+    ],
+    "description": "自信温柔的微笑，嘴角微微上扬，眼神柔和，展现出安心、满意或略显得意的良好状态。",
+    "image_name": "serika_spr_12.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "frown",
+      "skeptical",
+      "unhappy",
+      "pouting",
+      "doubting"
+    ],
+    "description": "怀疑或闹别扭的表情，眼神略带审视和不满，嘴巴紧闭，神情中透着不信任或心情不佳。",
+    "image_name": "serika_spr_13.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "neutral",
+      "sighing",
+      "ignoring",
+      "resigned"
+    ],
+    "description": "闭目养神或无奈的表情，双眼闭合，神情平静，像是在叹气、沉思，或者是故意对外界保持沉默和无视。",
+    "image_name": "serika_spr_99.png"
+  }
+]

@@ -1,0 +1,158 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "blank_stare",
+      "confusion",
+      "dot_mouth"
+    ],
+    "description": "微微张着嘴，眼神显得呆滞或有些惊讶，似乎对刚才发生的事情感到困惑或没反应过来。",
+    "image_name": "CH0137_spr-00_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "looking_at_viewer",
+      "calm"
+    ],
+    "description": "面带温柔且标准的微笑，眼神平静地注视着前方，表现出友善和耐心的态度。",
+    "image_name": "CH0137_spr-01_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "closed_mouth",
+      "focused",
+      "stern"
+    ],
+    "description": "表情严肃认真，嘴巴紧闭成一条线，眼神凝重，似乎正在思考重要问题或审视对方。",
+    "image_name": "CH0137_spr-02_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "open_mouth",
+      "happy",
+      "joy"
+    ],
+    "description": "开怀大笑，眼睛眯成弯弯的月牙状，嘴巴张开，洋溢着纯粹的快乐和喜悦。",
+    "image_name": "CH0137_spr-03_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "awkward_smile",
+      "sweat_drop",
+      "closed_eyes",
+      "nervous",
+      "troubled"
+    ],
+    "description": "脸上挂着一滴冷汗，眯着眼睛勉强地笑着，表现出尴尬、局促不安或想要敷衍过去的神情。",
+    "image_name": "CH0137_spr-04_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "skeptical",
+      "annoyed",
+      "half_closed_eyes",
+      "jitome",
+      "displeased"
+    ],
+    "description": "眼神半眯（死鱼眼），眉头微皱，流露出怀疑、不屑或对某事感到无语和不耐烦的情绪。",
+    "image_name": "CH0137_spr-05_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "hollow_eyes",
+      "stunned",
+      "blank",
+      "traumatized"
+    ],
+    "description": "瞳孔收缩失去高光，眼神变得空洞且震惊，仿佛受到了巨大的精神冲击或惊吓，完全呆住了。",
+    "image_name": "CH0137_spr-06_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "cheerful",
+      "closed_eyes",
+      "smile",
+      "relieved",
+      "happy"
+    ],
+    "description": "闭着眼睛露出爽朗的微笑，看起来心情非常舒畅，或许是在被人夸奖后感到得意或满足。",
+    "image_name": "CH0137_spr-07_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "wink",
+      "one_eye_closed",
+      "blush",
+      "playful",
+      "cute"
+    ],
+    "description": "俏皮地眨着一只眼睛（Wink），脸上带着红晕，表现出可爱、撒娇或试图“萌混过关”的神情。",
+    "image_name": "CH0137_spr-08_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "tearing_up",
+      "distressed",
+      "wavy_mouth",
+      "sad",
+      "troubled"
+    ],
+    "description": "眼里含着泪水，眉头紧锁，嘴巴呈波浪状，看起来受了极大的委屈，焦虑不安，马上就要哭出来的样子。",
+    "image_name": "CH0137_spr-09_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "complaining",
+      "annoyed",
+      "frustrated"
+    ],
+    "description": "眉头倒竖，张大嘴巴大声喊叫，看起来非常生气或急躁，像是在大声抗议、抱怨或训斥对方。",
+    "image_name": "CH0137_spr-10_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "sweat_drop",
+      "open_mouth",
+      "awkward",
+      "gasp"
+    ],
+    "description": "眼睛睁大，脸颊流下一滴冷汗，嘴巴微张，似乎对眼前的情况感到意外、尴尬，或是刚刚跑完步气喘吁吁的样子。",
+    "image_name": "CH0137_spr-11_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "pout",
+      "serious",
+      "stern",
+      "displeased",
+      "stare",
+      "closed_mouth"
+    ],
+    "description": "眉头微皱，眼神认真且带着不满，紧闭嘴巴，像是在赌气、闹别扭或者严肃地审视着对方。",
+    "image_name": "CH0137_spr-12_0_waifu2x_2x_2n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "calm",
+      "satisfied",
+      "peaceful",
+      "gentle"
+    ],
+    "description": "闭着双眼，嘴角挂着温和恬静的微笑，表情安详，看起来内心非常平静、满足或正在享受当下的氛围。",
+    "image_name": "CH0137_spr-99_0_waifu2x_2x_2n_png.jpg"
+  }
+]

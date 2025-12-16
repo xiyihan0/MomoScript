@@ -1,0 +1,83 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "glasses",
+      "blue_hair",
+      "calm"
+    ],
+    "description": "表情平静，双眼睁开直视前方，嘴巴闭合，没有任何明显的情绪波动，是标准的默认立绘状态。",
+    "image_name": "QQ截图20220214145605.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "disgust",
+      "glaring",
+      "looking_sideways"
+    ],
+    "description": "眼神流露出嫌弃或鄙视，目光向一侧瞥视，眉宇间带有不满，表现出对他人的无语或不悦。",
+    "image_name": "QQ截图20220214145616.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "soft_expression"
+    ],
+    "description": "嘴角微微上扬，露出温柔的微笑，眼神变得柔和，表现出愉快、友好或赞赏的态度。",
+    "image_name": "QQ截图20220214145625.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "shock",
+      "speaking"
+    ],
+    "description": "嘴巴张开呈O型，似乎正在说话或感到惊讶，眼神直视，表现出一种恍然大悟或轻微吃惊的状态。",
+    "image_name": "QQ截图20220214145632.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "listening",
+      "attentive",
+      "serious"
+    ],
+    "description": "神情专注，虽然与默认表情相似，但眼神显得更加认真，处于一种冷静聆听或待机的状态。",
+    "image_name": "QQ截图20220214145640.png"
+  },
+  {
+    "tags": [
+      "tired",
+      "sigh",
+      "closed_eyes",
+      "sweat_drop",
+      "exasperated"
+    ],
+    "description": "双眼紧闭，脸颊上挂着一滴汗珠，嘴巴微张仿佛在叹气，表现出无奈、疲惫或“真拿你没办法”的情绪。",
+    "image_name": "QQ截图20220214145648.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "stern",
+      "frown",
+      "focused"
+    ],
+    "description": "表情变得严肃且严厉，眉头微锁，眼神犀利地盯着前方，表现出正在审视、思考难题或进入工作模式的认真感。",
+    "image_name": "QQ截图20220214145654.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "thinking",
+      "calm",
+      "accepting"
+    ],
+    "description": "双眼闭合，神态安详平静（无汗珠），看起来像是在闭目养神、深思，或是在表示默认和理解。",
+    "image_name": "QQ截图20220214145702.png"
+  }
+]

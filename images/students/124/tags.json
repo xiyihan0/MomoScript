@@ -1,0 +1,169 @@
+[
+  {
+    "tags": [
+      "gloom",
+      "shadow_over_face",
+      "fear",
+      "shock",
+      "despair",
+      "wide_eyes"
+    ],
+    "description": "面部覆盖着垂直的阴影线条，瞳孔收缩，神情呆滞且充满恐惧，仿佛受到了巨大的精神打击或绝望。",
+    "image_name": "QQ截图20220107101016.png"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "swirly_eyes",
+      "panic",
+      "sweat",
+      "open_mouth",
+      "confused"
+    ],
+    "description": "眼睛变成了漩涡状的圈圈眼，嘴巴张成波浪形，满头大汗，表现出极度的混乱、晕头转向或惊慌失措。",
+    "image_name": "QQ截图20220107101025.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "smirk",
+      "half_closed_eyes",
+      "confident",
+      "teasing"
+    ],
+    "description": "半眯着眼睛，嘴角歪向一边露出得意的坏笑，眼神中透露出一种嘲讽、自信或“计划通”的神态。",
+    "image_name": "QQ截图20220107101031.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "blush",
+      "gentle",
+      "angelic"
+    ],
+    "description": "双眼眯成弯弯的月牙状，面带红晕，露出了非常温柔、治愈且甜美的笑容，展现出纯粹的开心。",
+    "image_name": "QQ截图20220107101037.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral",
+      "meditating",
+      "ignoring",
+      "serene"
+    ],
+    "description": "双眼闭合，表情平淡且安详，像是在闭目养神，又像是在刻意无视周围的喧嚣，内心毫无波澜。",
+    "image_name": "QQ截图20220107101043.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "annoyed",
+      "sweat",
+      "open_mouth",
+      "complaining"
+    ],
+    "description": "眉毛紧皱，张大嘴巴似乎在大声抗议或抱怨，脸上挂着汗珠，神情急躁、生气且带有强烈的不满。",
+    "image_name": "QQ截图20220107101049.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "blush",
+      "delighted",
+      "joyful"
+    ],
+    "description": "眼睛眯成一条缝，满脸通红，嘴角大幅上扬，表现出比第4张更加爽朗和满足的喜悦之情。",
+    "image_name": "QQ截图20220107101054.png"
+  },
+  {
+    "tags": [
+      "shy",
+      "embarrassed",
+      "nervous",
+      "sweat",
+      "troubled",
+      "looking_away"
+    ],
+    "description": "眼神向侧下方游移不敢直视，嘴角尴尬地撇起，脸上流着冷汗，显得非常害羞、局促不安或社恐发作。",
+    "image_name": "QQ截图20220107101109.png"
+  },
+  {
+    "tags": [
+      "deadpan",
+      "bored",
+      "half_closed_eyes",
+      "unimpressed",
+      "apathy",
+      "neutral"
+    ],
+    "description": "半眯着眼睛，眼神涣散且毫无干劲，嘴角呈一条直线，表现出一种极致的无聊、冷漠或者对现状感到无语的态度。",
+    "image_name": "QQ截图20220107101115.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "depressed",
+      "downcast",
+      "gloom",
+      "pout",
+      "disappointed"
+    ],
+    "description": "眉毛呈现八字形下垂，眼神低垂无光，嘴角微微向下撇，看起来非常沮丧、失落，仿佛受了委屈或感到遗憾。",
+    "image_name": "QQ截图20220107101121.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "wavy_mouth",
+      "confused",
+      "awkward",
+      "concerned",
+      "uneasy"
+    ],
+    "description": "眉头微皱，嘴巴抿成了波浪状，眼神向侧边游移，表现出一种尴尬、为难、困扰或者不知道该如何应对的微妙心情。",
+    "image_name": "QQ截图20220107101128.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "flustered",
+      "blush",
+      "embarrassed",
+      "angry",
+      "protesting"
+    ],
+    "description": "脸颊泛起红晕，张大嘴巴似乎在大声喊叫或抗议，眉头紧锁，神情显得既急躁又害羞，像是在进行慌乱的辩解。",
+    "image_name": "QQ截图20220107101136.png"
+  },
+  {
+    "tags": [
+      "stare",
+      "blank_stare",
+      "dazed",
+      "neutral",
+      "observing",
+      "speechless"
+    ],
+    "description": "眼睛睁得略大，直勾勾地盯着前方，表情平淡如水，看起来像是在发呆，又像是因为无话可说而陷入了短暂的死机状态。",
+    "image_name": "QQ截图20220107101143.png"
+  },
+  {
+    "tags": [
+      "shock",
+      "horror",
+      "pale",
+      "gloom_lines",
+      "despair",
+      "traumatized"
+    ],
+    "description": "面部覆盖着密集的垂直黑线阴影，脸色惨白，瞳孔收缩，嘴巴惊恐地张开，表现出极度的震惊、恐惧或绝望。",
+    "image_name": "QQ截图20220107101150.png"
+  }
+]

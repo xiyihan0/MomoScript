@@ -1,0 +1,457 @@
+[
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "closed_mouth"
+    ],
+    "description": "自信的微笑，眼神直视前方，嘴角微微上扬，带着一丝标志性的调皮感。",
+    "image_name": "CH0274_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "closed_mouth"
+    ],
+    "description": "温和的微笑，表情相比上一张更为柔和放松，眼神平静。",
+    "image_name": "CH0274_spr_01.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "open_mouth",
+      "teeth",
+      "confident"
+    ],
+    "description": "得意的坏笑，嘴巴微微张开露出牙齿，眼神犀利，充满恶作剧成功的自信。",
+    "image_name": "CH0274_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laugh",
+      "happy",
+      "open_mouth"
+    ],
+    "description": "开怀大笑，双眼眯成弯月形，嘴巴张开，洋溢着纯粹的快乐。",
+    "image_name": "CH0274_spr_03.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "awkward",
+      "grimace"
+    ],
+    "description": "尴尬或焦急的表情，脸颊滑落汗珠，嘴角略微抽搐，眼神显得有些慌乱。",
+    "image_name": "CH0274_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "frown"
+    ],
+    "description": "愤怒的表情，眉头紧锁，嘴巴大张似乎在进行斥责或大声抗议。",
+    "image_name": "CH0274_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat",
+      "pain",
+      "annoyed"
+    ],
+    "description": "紧闭双眼忍耐的表情，脸上流着汗，咬紧牙关，似乎感到痛苦或极度无奈。",
+    "image_name": "CH0274_spr_06.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "serious",
+      "expressionless",
+      "closed_mouth"
+    ],
+    "description": "面无表情的冷漠脸，嘴角平直，眼神严肃，没有任何情绪波动。",
+    "image_name": "CH0274_spr_07.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "happy"
+    ],
+    "description": "闭眼开怀大笑，嘴巴张开，脸上洋溢着灿烂且毫无保留的喜悦。",
+    "image_name": "CH0274_spr_08.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "closed_mouth",
+      "gentle"
+    ],
+    "description": "闭眼温柔微笑，神情安详恬静，嘴角微微勾起，给人一种安心的感觉。",
+    "image_name": "CH0274_spr_09.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "open_mouth",
+      "sweat",
+      "shouting"
+    ],
+    "description": "震惊或慌乱的大喊，脸上挂着汗珠，嘴巴大张，眼神中充满了惊愕。",
+    "image_name": "CH0274_spr_10.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "closed_mouth",
+      "stare"
+    ],
+    "description": "平静的注视，面部没有明显的情绪波动，眼神专注且淡定。",
+    "image_name": "CH0274_spr_11.png"
+  },
+  {
+    "tags": [
+      "disgust",
+      "annoyed",
+      "sweat",
+      "grimace"
+    ],
+    "description": "嫌弃或极度困扰的表情，咬牙切齿，眉头紧锁并流着汗，似乎看到了令人不适的事物。",
+    "image_name": "CH0274_spr_12.png"
+  },
+  {
+    "tags": [
+      "bored",
+      "unimpressed",
+      "half_closed_eyes",
+      "closed_mouth"
+    ],
+    "description": "半睁眼的冷淡神情，眼神慵懒仿佛在表示无语或不感兴趣，透着一丝不屑。",
+    "image_name": "CH0274_spr_13.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "glare",
+      "closed_mouth",
+      "stern"
+    ],
+    "description": "严肃的凝视，眉头微蹙，眼神比平时更加锐利和深沉，带着压迫感。",
+    "image_name": "CH0274_spr_14.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "confident",
+      "happy"
+    ],
+    "description": "愉快的交谈表情，嘴巴微张似在说话，眼神明亮，显得轻松且自信。",
+    "image_name": "CH0274_spr_15.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "crying",
+      "open_mouth",
+      "whining",
+      "distressed"
+    ],
+    "description": "像小孩子一样哭闹的表情，双眼紧闭成“><”状，嘴巴大张，似乎在撒娇或抱怨不满。",
+    "image_name": "CH0274_spr_16.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "narrow_eyes",
+      "closed_mouth",
+      "smile",
+      "mischievous"
+    ],
+    "description": "一脸坏笑，眼神微眯显得意味深长，嘴角上扬，透着一股恶作剧得逞或正在盘算什么的狡黠感。",
+    "image_name": "CH0274_spr_17.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "open_mouth",
+      "teeth",
+      "arrogant",
+      "teasing"
+    ],
+    "description": "充满挑衅意味的得意表情，嘴巴张开露出牙齿，眼神半眯，似乎在嘲笑对手或炫耀胜利。",
+    "image_name": "CH0274_spr_18.png"
+  },
+  {
+    "tags": [
+      "clenched_teeth",
+      "narrow_eyes",
+      "grimace",
+      "annoyed",
+      "fierce"
+    ],
+    "description": "咬牙切齿的表情，眼神犀利，似乎正在用力或极力忍耐某种情绪，展现出不服输的一面。",
+    "image_name": "CH0274_spr_19.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "open_mouth",
+      "smile",
+      "playful",
+      "energetic"
+    ],
+    "description": "俏皮的眨眼（Wink），嘴巴张开露出开朗的笑容，充满了活泼可爱的少女气息。",
+    "image_name": "CH0274_spr_20.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "peaceful"
+    ],
+    "description": "闭眼恬静的微笑，神态安详，嘴角温柔地上扬，给人一种沉稳优雅的感觉。",
+    "image_name": "CH0274_spr_99.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "smile",
+      "confident",
+      "closed_mouth",
+      "elegant"
+    ],
+    "description": "佩戴着华丽的羽毛假面，遮住了上半张脸，嘴角挂着自信的微笑，增添了一份神秘与高贵的气质。",
+    "image_name": "CH0274_spr_S2_00.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "smug",
+      "closed_mouth",
+      "mystery",
+      "neutral"
+    ],
+    "description": "戴着假面的变体表情，嘴角微微勾起，神情比上一张更显从容和难以捉摸，保持着某种距离感。",
+    "image_name": "CH0274_spr_S2_01.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "smile",
+      "smug",
+      "confident",
+      "open_mouth"
+    ],
+    "description": "佩戴着羽毛假面，嘴角上扬露出一抹自信且略带得意的微笑，眼神透过面具显得从容不迫。",
+    "image_name": "CH0274_spr_S2_02.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "smile",
+      "open_mouth",
+      "happy",
+      "excited"
+    ],
+    "description": "佩戴假面，开心地张大嘴巴笑着，神情雀跃，洋溢着明显的喜悦和兴奋之情。",
+    "image_name": "CH0274_spr_S2_03.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "sweat",
+      "grimace",
+      "nervous",
+      "awkward"
+    ],
+    "description": "佩戴假面，脸颊流下冷汗，嘴巴扭曲呈波浪状，表现出极度的尴尬、紧张或不知所措。",
+    "image_name": "CH0274_spr_S2_04.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "open_mouth",
+      "surprised",
+      "shouting",
+      "shock"
+    ],
+    "description": "佩戴假面，嘴巴大张呈O型，似乎在惊讶地喊叫或发出惊叹，情绪激动。",
+    "image_name": "CH0274_spr_S2_05.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "sweat",
+      "clenched_teeth",
+      "anxious",
+      "struggling"
+    ],
+    "description": "佩戴假面，咬牙切齿，脸上挂着汗珠，似乎正在承受压力或极力忍耐着焦躁的情绪。",
+    "image_name": "CH0274_spr_S2_06.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "closed_mouth",
+      "neutral",
+      "serious",
+      "silent"
+    ],
+    "description": "佩戴假面，双唇紧闭成一条线，表情平淡严肃，看不出悲喜，散发着一种沉静的距离感。",
+    "image_name": "CH0274_spr_S2_07.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "smile",
+      "open_mouth",
+      "talking",
+      "cheerful"
+    ],
+    "description": "佩戴假面，嘴巴张开似乎正在愉快地交谈，笑容亲切自然，比大笑更为收敛和礼貌。",
+    "image_name": "CH0274_spr_S2_08.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "calm"
+    ],
+    "description": "佩戴假面，闭着嘴温柔地微笑，神态安详恬静，显得彬彬有礼且优雅。",
+    "image_name": "CH0274_spr_S2_09.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "sweat",
+      "open_mouth",
+      "confused",
+      "panicked"
+    ],
+    "description": "佩戴假面，脸上挂着汗珠，嘴巴半张，神情显得慌乱且不知所措，似乎遇到了意料之外的麻烦。",
+    "image_name": "CH0274_spr_S2_10.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "pout",
+      "annoyed",
+      "closed_mouth",
+      "displeased"
+    ],
+    "description": "佩戴假面，嘴角明显向下撇，一脸不悦和闹别扭的神情，似乎对现状感到不满。",
+    "image_name": "CH0274_spr_S2_11.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "sweat",
+      "clenched_teeth",
+      "grimace",
+      "struggling"
+    ],
+    "description": "佩戴假面，咬紧牙关，面颊流下冷汗，表情痛苦且吃力，似乎正在极力忍耐某种压力。",
+    "image_name": "CH0274_spr_S2_12.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "closed_mouth",
+      "speechless",
+      "blank",
+      "neutral"
+    ],
+    "description": "佩戴假面，嘴巴微抿或缩成一点，表情呆滞无语，仿佛大脑一片空白或对眼前的事感到无话可说。",
+    "image_name": "CH0274_spr_S2_13.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "closed_mouth",
+      "serious",
+      "frown",
+      "stern"
+    ],
+    "description": "佩戴假面，神情严肃凝重，嘴角紧闭向下，透着一种冷淡和不容置疑的压迫感。",
+    "image_name": "CH0274_spr_S2_14.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "open_mouth",
+      "smile",
+      "happy",
+      "energetic"
+    ],
+    "description": "佩戴假面，开心地张大嘴巴笑着，神态轻松愉快，洋溢着纯粹的喜悦。",
+    "image_name": "CH0274_spr_S2_15.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "open_mouth",
+      "shouting",
+      "angry",
+      "agitated"
+    ],
+    "description": "佩戴假面，嘴巴大张呈梯形，似乎正在生气地大喊或情绪激动地表达抗议。",
+    "image_name": "CH0274_spr_S2_16.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "smug",
+      "smile",
+      "mischievous",
+      "confident"
+    ],
+    "description": "佩戴假面，嘴角自信地上扬，勾起一抹得意的弧度，展现出标志性的小恶魔般坏笑。",
+    "image_name": "CH0274_spr_S2_17.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "open_mouth",
+      "smile",
+      "mischievous",
+      "energetic"
+    ],
+    "description": "佩戴假面，嘴巴张开露出牙齿和舌头，嘴角锐利地上扬，神情充满活力且带有一丝标志性的小恶魔调皮感。",
+    "image_name": "CH0274_spr_S2_18.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "clenched_teeth",
+      "smile",
+      "smug",
+      "confident"
+    ],
+    "description": "佩戴假面，上下牙齿咬合在一起，咧嘴露出自信甚至带有挑衅意味的笑容，显得非常得意。",
+    "image_name": "CH0274_spr_S2_19.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "open_mouth",
+      "happy",
+      "talking",
+      "cheerful"
+    ],
+    "description": "佩戴假面，嘴巴张开呈较为圆润的形状，神态比之前更为单纯和轻松，似乎正在愉快地说话或发出笑声。",
+    "image_name": "CH0274_spr_S2_20.png"
+  }
+]

@@ -1,0 +1,200 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "stoic",
+      "sunglasses",
+      "closed_mouth",
+      "poker_face"
+    ],
+    "description": "面无表情，嘴角平直，戴着墨镜显得非常冷静，典型的扑克脸，没有任何情绪波动。",
+    "image_name": "1.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "o_mouth",
+      "sunglasses",
+      "dazed"
+    ],
+    "description": "嘴巴微微张开呈小圆形，看起来有些惊讶、发呆，或者正在发出“哦”的声音。",
+    "image_name": "2.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "smirk",
+      "confident",
+      "sunglasses",
+      "pleased"
+    ],
+    "description": "嘴角微微上扬，露出一抹自信且得意的微笑，看起来心情不错或胸有成竹。",
+    "image_name": "3.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "awkward",
+      "sunglasses",
+      "troubled"
+    ],
+    "description": "脸颊挂着一滴汗珠，嘴角平直，表现出尴尬、紧张、无语或不知所措的状态。",
+    "image_name": "4.jpg"
+  },
+  {
+    "tags": [
+      "shouting",
+      "open_mouth",
+      "excited",
+      "sunglasses",
+      "energetic"
+    ],
+    "description": "嘴巴大张，像是在大声喊叫、吐槽，或者充满活力地表达强烈的情绪。",
+    "image_name": "5.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "frown",
+      "disappointed",
+      "sunglasses",
+      "unhappy"
+    ],
+    "description": "嘴角向下弯曲，明显表现出失落、沮丧、遗憾或不满的情绪。",
+    "image_name": "6.jpg"
+  },
+  {
+    "tags": [
+      "wavy_mouth",
+      "uneasy",
+      "grimace",
+      "sunglasses",
+      "cringe"
+    ],
+    "description": "嘴巴呈波浪线状扭曲，表现出动摇、极度尴尬、忍耐痛苦或感到不适的样子。",
+    "image_name": "7.jpg"
+  },
+  {
+    "tags": [
+      "dark_shadow",
+      "evil_grin",
+      "menacing",
+      "sunglasses",
+      "gloomy"
+    ],
+    "description": "上半脸笼罩在深色阴影中，露出牙齿邪恶地咧嘴笑，看起来像是在策划阴谋或黑化暴走。",
+    "image_name": "8.jpg"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "cool",
+      "confident",
+      "stoic",
+      "pointy_shades"
+    ],
+    "description": "戴着夸张的黄色尖角墨镜，神情冷静自若，嘴角平直，散发出一种酷拽自信的气场。",
+    "image_name": "9.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "serious",
+      "stoic",
+      "blue_eyes"
+    ],
+    "description": "面无表情，眼神平静直视前方，嘴角平直，表现出标准的冷静与认真状态。",
+    "image_name": "BunnyGirl_SR_spr-01_0.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "curious",
+      "neutral",
+      "attention"
+    ],
+    "description": "嘴巴微微张开，眼神专注，看起来像是在说话、提问或对某事表示轻微的惊讶。",
+    "image_name": "BunnyGirl_SR_spr-02_0.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy",
+      "pleased",
+      "soft"
+    ],
+    "description": "嘴角微微上扬，眼神变得柔和，露出一抹温柔且友善的微笑，心情看起来不错。",
+    "image_name": "BunnyGirl_SR_spr-03_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat_drop",
+      "awkward",
+      "tired",
+      "resigned"
+    ],
+    "description": "紧闭双眼，脸颊旁挂着一滴汗珠，表现出无奈、尴尬、无语或想要叹气的样子。",
+    "image_name": "BunnyGirl_SR_spr-04_0.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "blank_eyes",
+      "shouting",
+      "open_mouth",
+      "comic_shock"
+    ],
+    "description": "瞳孔失去高光变成纯色方块，嘴巴大张，表现出极度的震惊、混乱或夸张的吐槽情绪。",
+    "image_name": "BunnyGirl_SR_spr-05_0.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "sad",
+      "troubled",
+      "concerned",
+      "frown"
+    ],
+    "description": "眉尾微微下垂，眼神流露出担忧或困扰，嘴角虽然平直但略显忧郁，看起来心事重重。",
+    "image_name": "BunnyGirl_SR_spr-06_0.jpg"
+  },
+  {
+    "tags": [
+      "grimace",
+      "wavy_mouth",
+      "closed_eyes",
+      "cringe",
+      "frustrated"
+    ],
+    "description": "双眼紧闭，嘴巴扭曲成波浪状，表现出痛苦、极度尴尬、不甘心或正在忍耐某种不适。",
+    "image_name": "BunnyGirl_SR_spr-07_0.jpg"
+  },
+  {
+    "tags": [
+      "dark_shadow",
+      "evil_grin",
+      "menacing",
+      "scheming",
+      "shadowed_face"
+    ],
+    "description": "上半脸笼罩在深色阴影中，露出牙齿邪恶地咧嘴笑，看起来像是在策划阴谋、腹黑黑化，或者表现出一种危险且不怀好意的神情。",
+    "image_name": "BunnyGirl_SR_spr-08_0.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "serious",
+      "thinking",
+      "silent",
+      "pondering"
+    ],
+    "description": "双眼紧闭，眉头微微皱起，嘴巴闭合成一条小线，看起来像是在闭目沉思、冥想，或者保持沉默和严肃的状态。",
+    "image_name": "BunnyGirl_SR_spr-99_0.jpg"
+  }
+]

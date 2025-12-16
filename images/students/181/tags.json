@@ -1,0 +1,69 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "staring"
+    ],
+    "description": "铃美标准的平静表情，红色的眼睛直视前方，神态自然且放松。",
+    "image_name": "J_suzumi_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "serious",
+      "frown",
+      "displeased"
+    ],
+    "description": "铃美微微皱眉，嘴角向下撇，看起来有些不悦或正在以严肃的态度审视某事。",
+    "image_name": "J_suzumi_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle"
+    ],
+    "description": "铃美露出温柔的微笑，眼神柔和，展现出开心和友善的一面。",
+    "image_name": "J_suzumi_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "worried",
+      "awkward"
+    ],
+    "description": "铃美脸颊上挂着一滴冷汗，眉头紧锁，眼神游移，表现出尴尬、焦急或紧张的情绪。",
+    "image_name": "J_suzumi_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "stern",
+      "focused"
+    ],
+    "description": "铃美神情冷峻，表情比平时更加严肃，紧闭双唇，似乎进入了警戒或认真思考的状态。",
+    "image_name": "J_suzumi_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "surprised",
+      "talking"
+    ],
+    "description": "铃美张大了嘴巴，瞳孔微缩，似乎正在大声喊叫、发出指令或对某事感到惊讶。",
+    "image_name": "J_suzumi_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "thinking",
+      "sleeping"
+    ],
+    "description": "铃美闭上了双眼，表情平静安详，像是在闭目养神、沉思或是无奈地叹气。",
+    "image_name": "J_suzumi_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

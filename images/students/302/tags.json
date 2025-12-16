@@ -1,0 +1,343 @@
+[
+  {
+    "tags": [
+      "worried",
+      "anxious",
+      "sweat_drop",
+      "open_mouth",
+      "troubled"
+    ],
+    "description": "焦虑担忧的表情，眉毛紧皱，嘴角下撇微张，脸上挂着汗珠，看起来感到棘手或不安。",
+    "image_name": "CH0204_spr_00.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "neutral",
+      "closed_mouth",
+      "staring",
+      "unimpressed"
+    ],
+    "description": "严肃冷静的表情，眼神直视前方，嘴巴紧闭，似乎在认真倾听或表达不满。",
+    "image_name": "CH0204_spr_01.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "dazed",
+      "open_mouth",
+      "blank_stare",
+      "confused"
+    ],
+    "description": "发呆或轻微惊讶的表情，嘴巴微微张开成圆形，眼神显得有些茫然或意外。",
+    "image_name": "CH0204_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "confident",
+      "happy",
+      "closed_mouth",
+      "gentle"
+    ],
+    "description": "自信的微笑，嘴角微微上扬，眼神柔和，表现出轻松或满意的情绪。",
+    "image_name": "CH0204_spr_03.png"
+  },
+  {
+    "tags": [
+      "disgust",
+      "annoyed",
+      "sweat_drop",
+      "narrowed_eyes",
+      "skeptical"
+    ],
+    "description": "嫌弃或无语的表情，半眯着眼表示怀疑，流着汗，嘴角抽搐，似乎对现状感到尴尬或难以置信。",
+    "image_name": "CH0204_spr_04.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "stern",
+      "open_mouth",
+      "shouting",
+      "narrowed_eyes"
+    ],
+    "description": "生气或严厉的表情，眼神锐利，嘴巴张开似乎在进行训斥或大声反驳。",
+    "image_name": "CH0204_spr_05.png"
+  },
+  {
+    "tags": [
+      "exhausted",
+      "sigh",
+      "closed_eyes",
+      "sweat_drop",
+      "open_mouth"
+    ],
+    "description": "疲惫叹气的表情，双眼紧闭，脸上流汗，嘴巴微张，显得精疲力竭或无奈。",
+    "image_name": "CH0204_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "thinking",
+      "closed_mouth",
+      "refusal"
+    ],
+    "description": "闭目养神或沉思的表情，表情平静，嘴巴闭合，可能是在休息或表示拒绝交流。",
+    "image_name": "CH0204_spr_07.png"
+  },
+  {
+    "tags": [
+      "dazed",
+      "confused",
+      "open_mouth",
+      "blank_stare",
+      "surprised"
+    ],
+    "description": "发呆或困惑的表情，眼神茫然直视前方，嘴巴微微张开，似乎对眼前的情况感到不解。",
+    "image_name": "CH0204_spr_08.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "grimace",
+      "narrowed_eyes",
+      "wry_smile",
+      "annoyed"
+    ],
+    "description": "尴尬或嫌弃的表情，半眯着眼，嘴角扭曲歪向一边，似乎在强颜欢笑或对现状感到无语。",
+    "image_name": "CH0204_spr_09.png"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "swirls_in_eyes",
+      "confused",
+      "sweat_drop",
+      "stunned"
+    ],
+    "description": "晕头转向的表情，双眼变成螺旋状的蚊香眼，脸上挂着汗珠，看起来意识混乱或受到了冲击。",
+    "image_name": "CH0204_spr_10.png"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "panicked",
+      "swirls_in_eyes",
+      "sweat_drop",
+      "anxious"
+    ],
+    "description": "惊慌失措的晕眩表情，眼中转着圈圈，眉头紧锁且流汗，显得极度焦虑和不知所措。",
+    "image_name": "CH0204_spr_11.png"
+  },
+  {
+    "tags": [
+      "exhausted",
+      "unconscious",
+      "closed_eyes",
+      "open_mouth",
+      "sleeping"
+    ],
+    "description": "失去意识或极度疲惫的表情，双眼紧闭，嘴巴无力地张开，似乎已经昏迷或沉睡。",
+    "image_name": "CH0204_spr_12.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "looking_away",
+      "guilty",
+      "troubled"
+    ],
+    "description": "心虚紧张的表情，眼神向侧下方游移，脸上流着冷汗，嘴巴微张，似乎因为尴尬或内疚而不敢直视。",
+    "image_name": "CH0204_spr_13.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "angry",
+      "shouting",
+      "open_mouth",
+      "vein_pop"
+    ],
+    "description": "震惊怒吼的表情，瞳孔收缩，嘴巴大张大喊，脸上带有怒气符号，表现出强烈的吐槽或愤怒情绪。",
+    "image_name": "CH0204_spr_14.png"
+  },
+  {
+    "tags": [
+      "skeptical",
+      "unimpressed",
+      "narrowed_eyes",
+      "annoyed",
+      "displeased"
+    ],
+    "description": "怀疑嫌弃的表情，眼神半眯斜视，嘴角扭曲，一脸不相信或对某事感到不满的样子。",
+    "image_name": "CH0204_spr_15.png"
+  },
+  {
+    "tags": [
+      "shadowed_face",
+      "empty_eyes",
+      "dark",
+      "scary",
+      "despair"
+    ],
+    "description": "脸部上半部分被阴影笼罩，眼神空洞无光，散发出一种压抑、绝望或黑化的恐怖气息。",
+    "image_name": "CH0204_spr_16.png"
+  },
+  {
+    "tags": [
+      "disgust",
+      "annoyed",
+      "side_glance",
+      "sweat_drop",
+      "skeptical"
+    ],
+    "description": "嫌弃不满的表情，眼神斜视一边，额头挂着汗珠，嘴角下撇，似乎对某事感到非常无语或反感。",
+    "image_name": "CH0204_spr_17.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "awkward",
+      "sweat_drop",
+      "looking_away",
+      "hesitant"
+    ],
+    "description": "困扰尴尬的表情，视线游移不定，脸上流着冷汗，嘴巴微撇，表现出犹豫或不知所措的样子。",
+    "image_name": "CH0204_spr_18.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "confident",
+      "open_mouth",
+      "determined",
+      "serious"
+    ],
+    "description": "自信喊话的表情，眼神坚定，嘴巴张开，似乎在有力地表达观点、命令或进行反驳。",
+    "image_name": "CH0204_spr_19.png"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "swirls_in_eyes",
+      "shocked",
+      "open_mouth",
+      "confused"
+    ],
+    "description": "极度震惊混乱的表情，双眼变成螺旋状蚊香眼，嘴巴大张，流着汗，完全搞不清楚状况。",
+    "image_name": "CH0204_spr_20.png"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "sick",
+      "swirls_in_eyes",
+      "sweat_drop",
+      "troubled"
+    ],
+    "description": "晕眩难受的表情，眼中转着圈圈，流着冷汗，嘴巴微张，看起来身体不适或精神恍惚。",
+    "image_name": "CH0204_spr_21.png"
+  },
+  {
+    "tags": [
+      "panicked",
+      "swirls_in_eyes",
+      "shouting",
+      "sweat_drop",
+      "chaos"
+    ],
+    "description": "惊慌失措的呐喊，双眼呈螺旋状，嘴巴大张，满头大汗，处于极度混乱和恐慌的状态。",
+    "image_name": "CH0204_spr_22.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "laughing",
+      "happy",
+      "cheerful"
+    ],
+    "description": "闭眼开怀大笑的表情，嘴角上扬露出牙齿，看起来心情非常愉快，或者是在用爽朗的笑声掩饰尴尬。",
+    "image_name": "CH0204_spr_23.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "pale",
+      "sweat_drop",
+      "wavy_mouth",
+      "speechless"
+    ],
+    "description": "震惊且无语的表情，脸色发白，瞳孔收缩，流着冷汗，嘴巴呈波浪状，表现出极度的尴尬或受到冲击。",
+    "image_name": "CH0204_spr_24.png"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "swirls_in_eyes",
+      "drooling",
+      "fainting",
+      "sick"
+    ],
+    "description": "神志不清的晕厥表情，双眼变成圈圈眼，嘴角流着口水，脸色发黑，似乎因中暑或过度劳累而即将昏迷。",
+    "image_name": "CH0204_spr_25.png"
+  },
+  {
+    "tags": [
+      "glasses",
+      "annoyed",
+      "grimace",
+      "disgusted",
+      "complaining"
+    ],
+    "description": "戴眼镜的嫌弃表情，眉头紧皱，嘴角抽搐张开，似乎对眼前的情况感到非常不满或正在大声抱怨。",
+    "image_name": "CH0204_spr_26.png"
+  },
+  {
+    "tags": [
+      "glasses",
+      "serious",
+      "staring",
+      "unimpressed",
+      "silent"
+    ],
+    "description": "戴眼镜的严肃表情，眼神犀利直视前方，抿着嘴，表现出冷静审视或不苟言笑的态度。",
+    "image_name": "CH0204_spr_27.png"
+  },
+  {
+    "tags": [
+      "glasses",
+      "smile",
+      "confident",
+      "gentle",
+      "happy"
+    ],
+    "description": "戴眼镜的自信微笑，嘴角上扬，眼神柔和，散发出一种知性、从容且心情愉悦的气质。",
+    "image_name": "CH0204_spr_28.png"
+  },
+  {
+    "tags": [
+      "glasses",
+      "surprised",
+      "open_mouth",
+      "curious",
+      "dazed"
+    ],
+    "description": "戴眼镜的呆萌惊讶表情，嘴巴微张呈O型，眼神带着探究或意外，似乎刚反应过来某事。",
+    "image_name": "CH0204_spr_29.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "silent",
+      "calm",
+      "resignation",
+      "sleeping"
+    ],
+    "description": "闭眼沉思或无奈的表情，面部肌肉放松，似乎在闭目养神，又像是在无奈地接受现实。",
+    "image_name": "CH0204_spr_99.png"
+  }
+]

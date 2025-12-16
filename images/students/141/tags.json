@@ -1,0 +1,278 @@
+[
+  {
+    "tags": [
+      "serious",
+      "frown",
+      "confident",
+      "mustache",
+      "white_hair",
+      "blue_eyes"
+    ],
+    "description": "表情严肃自信，眉头紧锁，眼神坚定犀利，戴着白色的假胡子，看起来很有威严。",
+    "image_name": "CH0164_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "mustache",
+      "white_hair",
+      "blue_eyes"
+    ],
+    "description": "平静正常的表情，眉毛舒展，眼神温和地直视前方，戴着白色假胡子。",
+    "image_name": "CH0164_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "smile",
+      "mustache",
+      "white_hair"
+    ],
+    "description": "开心的笑脸，双眼眯成弯弯的弧线，戴着白色假胡子，看起来非常愉悦。",
+    "image_name": "CH0164_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "swirly_eyes",
+      "confused",
+      "sweat",
+      "mustache"
+    ],
+    "description": "晕头转向的表情，瞳孔变成了螺旋状的蚊香眼，脸颊上有汗珠，看起来处于混乱或眩晕状态。",
+    "image_name": "CH0164_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "determined",
+      "frown",
+      "mustache",
+      "white_hair"
+    ],
+    "description": "神情庄重认真，眉间聚拢，表现出一种不容置疑的严肃感，戴着白色假胡子。",
+    "image_name": "CH0164_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "mustache",
+      "white_hair"
+    ],
+    "description": "悲伤担忧的表情，眉尾下垂，眼神显得有些委屈和无助，戴着白色假胡子。",
+    "image_name": "CH0164_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "awkward",
+      "troubled",
+      "concerned",
+      "mustache",
+      "white_hair"
+    ],
+    "description": "尴尬或困扰的表情，眉毛呈八字形，眼神流露出为难的情绪，戴着白色假胡子。",
+    "image_name": "CH0164_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "smile",
+      "cheerful",
+      "mustache"
+    ],
+    "description": "满面笑容，闭着眼睛表现出纯粹的快乐，戴着白色假胡子，心情很好的样子。",
+    "image_name": "CH0164_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "blank_eyes",
+      "wide_eyes",
+      "mustache",
+      "white_hair"
+    ],
+    "description": "极度震惊或呆滞的表情，双眼圆睁呈空白状，戴着白色假胡子，仿佛受到了巨大的惊吓或打击。",
+    "image_name": "CH0164_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "proud",
+      "closed_eyes",
+      "confident",
+      "mustache",
+      "white_hair"
+    ],
+    "description": "闭着眼睛一脸得意或自豪的表情，戴着白色假胡子，神情自信，似乎在享受某种成就感。",
+    "image_name": "CH0164_spr-99_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "open_mouth",
+      "blue_eyes",
+      "no_mustache"
+    ],
+    "description": "摘掉了假胡子，露出原本开朗的笑容，嘴巴张开，蓝色的眼睛充满活力，看起来非常开心。",
+    "image_name": "CH0164_spr-S2_00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "frown",
+      "determined",
+      "blue_eyes",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，表情严肃认真，眉头微皱，嘴巴紧闭，眼神锐利地直视前方。",
+    "image_name": "CH0164_spr-S2_01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "curious",
+      "blue_eyes",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，流露出惊讶的表情，嘴巴微张成小圆圈，眼神中带着意外和好奇。",
+    "image_name": "CH0164_spr-S2_02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "smile",
+      "cheerful",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，满面笑容，闭着眼睛开怀大笑，洋溢着纯真和快乐的气息。",
+    "image_name": "CH0164_spr-S2_03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "swirly_eyes",
+      "confused",
+      "sweat",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，晕头转向的表情，瞳孔呈螺旋状，脸颊挂着汗珠，看起来非常混乱。",
+    "image_name": "CH0164_spr-S2_04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "pout",
+      "angry",
+      "blue_eyes",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，一脸生气不满的表情，嘴巴嘟起，眼神带着怨气，像是在闹别扭。",
+    "image_name": "CH0164_spr-S2_05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "blue_eyes",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，流露出悲伤担忧的神情，眉尾下垂，眼神显得有些委屈和无助。",
+    "image_name": "CH0164_spr-S2_06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "nervous",
+      "wavy_mouth",
+      "sweat",
+      "confused",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，表情慌张混乱，嘴唇扭曲成波浪状，脸颊挂着汗珠，看起来手足无措。",
+    "image_name": "CH0164_spr-S2_07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "troubled",
+      "sweat",
+      "awkward",
+      "blue_eyes",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，面带困扰和尴尬的表情，眉间微蹙，脸颊有一滴冷汗，似乎遇到了难题。",
+    "image_name": "CH0164_spr-S2_08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "neutral",
+      "silent",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，双眼闭合，表情平静淡然，仿佛在闭目养神或拒绝交流。",
+    "image_name": "CH0164_spr-S2_09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "blank",
+      "blue_eyes",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，一脸平静呆萌，眼神直视前方，没有任何明显的情绪波动。",
+    "image_name": "CH0164_spr-S2_10_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "open_mouth",
+      "excited",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，表情开朗兴奋，嘴巴张开像是在说话，蓝色的眼睛闪闪发光。",
+    "image_name": "CH0164_spr-S2_11_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "laughing",
+      "closed_eyes",
+      "open_mouth",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，满面笑容，闭着眼睛开怀大笑，嘴巴张开，看起来非常开心和满足。",
+    "image_name": "CH0164_spr-S2_12_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "blank_eyes",
+      "stunned",
+      "wide_eyes",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，受到震惊的表情，双眼变成了空洞的白色圆圈，整个人仿佛石化了一般。",
+    "image_name": "CH0164_spr-S2_13_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "proud",
+      "closed_eyes",
+      "confident",
+      "smug",
+      "no_mustache"
+    ],
+    "description": "没有佩戴假胡子，闭着眼睛一脸得意或自豪的表情，神情自信，似乎在享受某种成就感。",
+    "image_name": "CH0164_spr-S2_99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

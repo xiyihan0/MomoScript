@@ -1,0 +1,127 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "shadowed_face",
+      "bangs_covering_eyes",
+      "gloom"
+    ],
+    "description": "面部平静，嘴巴呈直线闭合，上半脸被阴影覆盖，刘海遮住眼睛，表现出默认的阴沉或发呆状态。",
+    "image_name": "NP0257_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "serious",
+      "shadowed_face",
+      "bangs_covering_eyes"
+    ],
+    "description": "保持着严肃或无表情的神态，嘴巴紧闭，双眼被刘海完全遮挡，看起来像是在静止或聆听。",
+    "image_name": "NP0257_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "surprise",
+      "shadowed_face",
+      "bangs_covering_eyes"
+    ],
+    "description": "嘴巴微微张开呈圆形，仿佛正在说话、叹气，或者对某事感到轻微的惊讶。",
+    "image_name": "NP0257_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "blush",
+      "shy",
+      "happy",
+      "shadowed_face",
+      "bangs_covering_eyes"
+    ],
+    "description": "脸上带有明显的红晕，嘴角上扬露出羞涩且柔和的微笑，看起来感到幸福、害羞或被治愈。",
+    "image_name": "NP0257_spr_03.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "sweat",
+      "surprise",
+      "shadowed_face",
+      "bangs_covering_eyes",
+      "nervous"
+    ],
+    "description": "嘴巴呈圆形张开，脸颊上挂着汗珠，上半脸被阴影遮挡，表现出惊讶、紧张或气喘吁吁的样子。",
+    "image_name": "NP0257_spr_04.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "neutral",
+      "shadowed_face",
+      "bangs_covering_eyes",
+      "calm"
+    ],
+    "description": "嘴巴闭合呈短线状，面部没有汗水，上半脸被阴影覆盖，表现出平静、冷淡或默认的待机状态。",
+    "image_name": "NP0257_spr_05.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "sweat",
+      "speaking",
+      "shadowed_face",
+      "bangs_covering_eyes",
+      "anxious"
+    ],
+    "description": "嘴巴微微张开仿佛正在说话或叹息，脸上流着汗水，配合遮眼的阴影，显得有些焦虑、困扰或疲惫。",
+    "image_name": "NP0257_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "serious",
+      "shadowed_face",
+      "bangs_covering_eyes",
+      "silent"
+    ],
+    "description": "嘴巴紧闭呈直线，神态严肃沉默，上半脸完全被阴影和刘海遮挡，给人一种深沉、认真或无语的感觉。",
+    "image_name": "NP0257_spr_07.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "blush",
+      "shadowed_face",
+      "bangs_covering_eyes",
+      "happy"
+    ],
+    "description": "上半脸被阴影和刘海遮挡，脸颊带有红晕，嘴巴张开露出笑容，看起来既害羞又带着一丝开心的情绪。",
+    "image_name": "NP0257_spr_08.png"
+  },
+  {
+    "tags": [
+      "gas_mask",
+      "face_covered",
+      "mask",
+      "no_face_visible"
+    ],
+    "description": "佩戴着全覆盖式的黑色防毒面具，完全遮挡了面部表情，显得全副武装。",
+    "image_name": "NP0257_spr_09.png"
+  },
+  {
+    "tags": [
+      "closed_mouth",
+      "blush",
+      "shadowed_face",
+      "bangs_covering_eyes",
+      "silent",
+      "neutral"
+    ],
+    "description": "嘴巴紧闭呈直线，脸颊带有红晕，上半脸被阴影覆盖，表现出一种沉默、尴尬或不知所措的状态。",
+    "image_name": "NP0257_spr_99.png"
+  }
+]

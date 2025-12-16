@@ -1,0 +1,166 @@
+[
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "annoyed",
+      "complaining"
+    ],
+    "description": "张大嘴巴愤怒地喊叫，眉头紧锁，表现出不满或激动的样子。",
+    "image_name": "QQ截图20211102192526.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "neutral",
+      "calm",
+      "silent",
+      "meditating"
+    ],
+    "description": "双眼紧闭，面无表情，看起来非常平静，像是在闭目养神或拒绝交流。",
+    "image_name": "QQ截图20211102192534.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "embarrassed",
+      "nervous",
+      "wavy_mouth",
+      "sweat_drop",
+      "flustered"
+    ],
+    "description": "满脸通红，流着冷汗，嘴巴呈波浪状，表现出极度的害羞、尴尬或惊慌失措。",
+    "image_name": "QQ截图20211102192540.png"
+  },
+  {
+    "tags": [
+      "despair",
+      "ringed_eyes",
+      "gloom",
+      "shadowed_face",
+      "shocked",
+      "confused"
+    ],
+    "description": "眼神失去高光呈圈圈状，面部带有阴影，显得呆滞、绝望或受到了精神冲击。",
+    "image_name": "QQ截图20211102192551.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "staring",
+      "expressionless",
+      "calm",
+      "listening"
+    ],
+    "description": "睁着眼睛平静地注视前方，没有明显的情绪波动，是标准的常态表情。",
+    "image_name": "QQ截图20211102192600.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "aggressive",
+      "scolding",
+      "fierce"
+    ],
+    "description": "愤怒地张嘴大喊，眼神比第一张更具攻击性，像是在严厉斥责对方。",
+    "image_name": "QQ截图20211102192607.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "laughing",
+      "happy",
+      "closed_eyes",
+      "cheerful",
+      "joy"
+    ],
+    "description": "闭着眼睛开怀大笑，脸上带着红晕，表现出非常开心和爽朗的情绪。",
+    "image_name": "QQ截图20211102192613.png"
+  },
+  {
+    "tags": [
+      "skeptical",
+      "unimpressed",
+      "suspicious",
+      "glaring",
+      "deadpan",
+      "judgmental"
+    ],
+    "description": "半眯着眼睛，眼神中透露出怀疑、无语或审视的态度，看起来不以为然。",
+    "image_name": "QQ截图20211102192620.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "shy",
+      "embarrassed",
+      "nervous",
+      "teary_eyes",
+      "troubled"
+    ],
+    "description": "满脸通红，眼神躲闪，眉头紧蹙，显得非常害羞、委屈或正在忍耐某种羞耻感。",
+    "image_name": "QQ截图20211102192626.png"
+  },
+  {
+    "tags": [
+      "shocked",
+      "slit_pupils",
+      "blush",
+      "stunned",
+      "sweat_drop",
+      "cat_eyes"
+    ],
+    "description": "瞳孔收缩成竖状（猫眼），满脸通红并流着冷汗，表现出极度的震惊、呆滞或因过激反应而大脑空白。",
+    "image_name": "QQ截图20211102192631.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "angry",
+      "protesting",
+      "open_mouth",
+      "serious",
+      "blush"
+    ],
+    "description": "张大嘴巴大声喊叫，眼神坚定且眉头紧锁，脸上带着红晕，看起来像是在严正抗议或大声反驳。",
+    "image_name": "QQ截图20211102192637.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "disappointed",
+      "half_closed_eyes",
+      "sulking",
+      "blush",
+      "depressed"
+    ],
+    "description": "眼神黯淡低垂，表情失落，脸上带着红晕，看起来非常沮丧、失望或是在闹别扭。",
+    "image_name": "QQ截图20211102192643.png"
+  },
+  {
+    "tags": [
+      "suspicious",
+      "sweat_drop",
+      "awkward",
+      "glancing",
+      "wary",
+      "concerned"
+    ],
+    "description": "斜着眼睛看向一侧，脸上挂着冷汗，眼神中透露出怀疑、警惕以及一丝尴尬的情绪。",
+    "image_name": "QQ截图20211102192649.png"
+  },
+  {
+    "tags": [
+      "panic",
+      "shouting",
+      "slit_pupils",
+      "blush",
+      "shocked",
+      "chaos"
+    ],
+    "description": "瞳孔呈竖状，满脸通红并张大嘴巴惊叫，表现出完全的惊慌失措、混乱和极度的动摇。",
+    "image_name": "QQ截图20211102192656.png"
+  }
+]

@@ -1,0 +1,184 @@
+[
+  {
+    "tags": [
+      "smug",
+      "mischievous",
+      "open_mouth",
+      "smile"
+    ],
+    "description": "得意的坏笑，眼神略带调皮和挑衅，嘴巴张开。",
+    "image_name": "New_CH0124_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "calm",
+      "confident",
+      "closed_mouth"
+    ],
+    "description": "平静且自信的微笑，嘴巴闭合，神情柔和。",
+    "image_name": "New_CH0124_spr_01.png"
+  },
+  {
+    "tags": [
+      "talking",
+      "sigh",
+      "bored",
+      "half_closed_eyes"
+    ],
+    "description": "张嘴说话，眼神看向一侧，似乎在随口吐槽或感到无奈。",
+    "image_name": "New_CH0124_spr_02.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "happy",
+      "playful",
+      "open_mouth"
+    ],
+    "description": "俏皮地眨眼（Wink），开心地张嘴笑，充满活力。",
+    "image_name": "New_CH0124_spr_03.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "angry",
+      "shocked",
+      "intense"
+    ],
+    "description": "惊讶或愤怒地大喊，眉毛倒竖，情绪激动。",
+    "image_name": "New_CH0124_spr_04.png"
+  },
+  {
+    "tags": [
+      "disgusted",
+      "suspicious",
+      "judgmental",
+      "glare"
+    ],
+    "description": "充满嫌弃和怀疑的凝视，眉毛紧皱，似乎在审视这什么。",
+    "image_name": "New_CH0124_spr_05.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "sad",
+      "tears",
+      "anxious"
+    ],
+    "description": "眼含泪水，表情悲伤且焦虑，显得委屈或无助。",
+    "image_name": "New_CH0124_spr_06.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "awkward",
+      "sweat",
+      "embarrassed"
+    ],
+    "description": "尴尬慌张的苦笑，流着冷汗，表现出心虚或不知所措的样子。",
+    "image_name": "New_CH0124_spr_07.png"
+  },
+  {
+    "tags": [
+      "drooling",
+      "dazed",
+      "exhausted",
+      "messy"
+    ],
+    "description": "嘴角流着口水，眼神呆滞且有些混乱，似乎处于极度饥饿、疲惫或精神恍惚的状态。",
+    "image_name": "New_CH0124_spr_08.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "complaining",
+      "open_mouth",
+      "frown"
+    ],
+    "description": "皱着眉头张嘴抱怨，眼神中带着不满和烦躁，似乎在责备什么。",
+    "image_name": "New_CH0124_spr_09.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "angry",
+      "shocked",
+      "intense"
+    ],
+    "description": "情绪激动地大声喊叫，瞳孔收缩，表情充满了震惊和愤怒。",
+    "image_name": "New_CH0124_spr_10.png"
+  },
+  {
+    "tags": [
+      "shiny_glasses",
+      "hidden_eyes",
+      "ominous",
+      "serious"
+    ],
+    "description": "眼镜反光遮住了眼睛，神情变得高深莫测，散发出一种充满压迫感或在谋划什么的氛围。",
+    "image_name": "New_CH0124_spr_11.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "sad",
+      "tears",
+      "whining"
+    ],
+    "description": "泪眼汪汪，张着嘴巴大哭，表情充满了悲伤和委屈，像是在撒娇或求助。",
+    "image_name": "New_CH0124_spr_12.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "shouting",
+      "frustrated",
+      "tears"
+    ],
+    "description": "边哭边喊，一只眼睛紧闭，脸上挂着泪珠，看起来既痛苦又有些不甘心。",
+    "image_name": "New_CH0124_spr_13.png"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "spiral_eyes",
+      "confused",
+      "panicked"
+    ],
+    "description": "眼睛变成了圈圈眼（蚊香眼），嘴巴大张，一脸晕头转向、意识不清的混乱模样。",
+    "image_name": "New_CH0124_spr_14.png"
+  },
+  {
+    "tags": [
+      "sleepy",
+      "drooling",
+      "half_closed_eyes",
+      "daydreaming"
+    ],
+    "description": "睡眼惺忪的样子，嘴角流着口水，眼神迷离，看起来刚醒或者正在做白日梦。",
+    "image_name": "New_CH0124_spr_15.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "wince",
+      "open_mouth",
+      "awkward",
+      "one_eye_closed"
+    ],
+    "description": "表情痛苦或尴尬，一只眼睛紧闭，眉毛纠结，张大嘴巴似乎在喊疼或感到不知所措。",
+    "image_name": "New_CH0124_spr_16.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "calm",
+      "satisfied",
+      "confident"
+    ],
+    "description": "双眼紧闭，嘴角微微上扬，神情安详、自信且满足，像是在闭目养神或胸有成竹。",
+    "image_name": "New_CH0124_spr_99.png"
+  }
+]

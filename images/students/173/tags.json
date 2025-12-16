@@ -1,0 +1,238 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "expressionless",
+      "purple_eyes"
+    ],
+    "description": "面无表情，神态平静，眼神自然地注视前方。",
+    "image_name": "NP0035_spr_00.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "suspicious",
+      "narrowed_eyes",
+      "serious"
+    ],
+    "description": "半眯着眼睛，眼神显得有些犀利和不满，似乎在怀疑或审视什么。",
+    "image_name": "NP0035_spr_01.png"
+  },
+  {
+    "tags": [
+      "dazed",
+      "blank_stare",
+      "dot_mouth",
+      "neutral"
+    ],
+    "description": "嘴巴变成一个小圆点，表情有些呆萌，似乎在发呆或感到茫然。",
+    "image_name": "NP0035_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "pleased"
+    ],
+    "description": "嘴角微微上扬，露出了温柔且含蓄的微笑，心情看起来不错。",
+    "image_name": "NP0035_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "awkward",
+      "troubled"
+    ],
+    "description": "脸上挂着一滴冷汗，眼神游移，显得有些尴尬或不知所措。",
+    "image_name": "NP0035_spr_04.png"
+  },
+  {
+    "tags": [
+      "talking",
+      "open_mouth",
+      "serious",
+      "explaining"
+    ],
+    "description": "张嘴似乎在说话或解释，眼神依然保持着严肃和冷静。",
+    "image_name": "NP0035_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "disappointed",
+      "gloomy",
+      "concerned"
+    ],
+    "description": "眉毛低垂，神情显得忧郁、失落，看起来有些伤心。",
+    "image_name": "NP0035_spr_06.png"
+  },
+  {
+    "tags": [
+      "surprised",
+      "shocked",
+      "sweat_drop",
+      "wide_eyed"
+    ],
+    "description": "眼睛睁大，脸上流着汗，表现出明显的惊讶和错愕。",
+    "image_name": "NP0035_spr_07.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "dazed",
+      "dot_mouth",
+      "blank_stare"
+    ],
+    "description": "嘴巴变成一个小圆点，眼神呆滞地注视前方，看起来在发呆或放空。",
+    "image_name": "NP0035_spr_08.png"
+  },
+  {
+    "tags": [
+      "sparkling_eyes",
+      "star_eyes",
+      "excited",
+      "curious",
+      "blush"
+    ],
+    "description": "眼睛里闪烁着星光，脸上带着淡淡的红晕，充满了好奇、期待和兴奋。",
+    "image_name": "NP0035_spr_09.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "annoyed",
+      "open_mouth",
+      "aggressive"
+    ],
+    "description": "眉头紧锁，张大嘴巴，神情激动，似乎在生气地大喊或强烈抗议。",
+    "image_name": "NP0035_spr_10.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "dissatisfied",
+      "pout",
+      "cold_stare",
+      "silent"
+    ],
+    "description": "抿着嘴，眼神冷淡甚至有些犀利，看起来感到不满或正在闹别扭。",
+    "image_name": "NP0035_spr_11.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "worried",
+      "sweat_drop",
+      "troubled",
+      "anxious"
+    ],
+    "description": "眉毛低垂，脸颊滑落一滴冷汗，神情显得担忧、紧张或感到为难。",
+    "image_name": "NP0035_spr_12.png"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "swirly_eyes",
+      "confused",
+      "overwhelmed",
+      "blush"
+    ],
+    "description": "眼睛变成了蚊香圈状，满脸通红，神智不清，看起来晕头转向或受到了极大的冲击。",
+    "image_name": "NP0035_spr_13.png"
+  },
+  {
+    "tags": [
+      "shy",
+      "embarrassed",
+      "flustered",
+      "closed_eyes",
+      "blush"
+    ],
+    "description": "双眼紧闭呈“><”形状，整张脸羞得通红，表现出极度的害羞、尴尬或慌乱。",
+    "image_name": "NP0035_spr_14.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "talking",
+      "relaxed",
+      "gentle"
+    ],
+    "description": "微微张嘴露出温柔的笑容，神态轻松自然，似乎正在愉快地交谈。",
+    "image_name": "NP0035_spr_15.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "happy",
+      "gentle",
+      "relaxed"
+    ],
+    "description": "闭着双眼露出温柔的微笑，神态安详，心情看起来很愉快。",
+    "image_name": "NP0035_spr_16.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "shy",
+      "closed_eyes",
+      "smile",
+      "happy",
+      "embarrassed"
+    ],
+    "description": "脸上泛着明显的红晕，闭着眼睛微笑，看起来既害羞又幸福，充满了爱意。",
+    "image_name": "NP0035_spr_17.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "blush",
+      "gentle",
+      "looking_at_viewer",
+      "soft"
+    ],
+    "description": "脸上带着淡淡的红晕，眼神温柔地注视前方，嘴角微微上扬，显得十分乖巧。",
+    "image_name": "NP0035_spr_18.png"
+  },
+  {
+    "tags": [
+      "dark_face",
+      "shadow",
+      "scary",
+      "serious",
+      "cold",
+      "ominous"
+    ],
+    "description": "脸部上半部分笼罩在阴影中，眼神冷酷无光，散发出一种压抑、危险或黑化的气息。",
+    "image_name": "NP0035_spr_19.png"
+  },
+  {
+    "tags": [
+      "dark_face",
+      "shadow",
+      "open_mouth",
+      "talking",
+      "scary",
+      "intimidating"
+    ],
+    "description": "脸部被阴影覆盖，微微张嘴似乎在说话，配合阴沉的眼神，给人一种阴森或威慑的感觉。",
+    "image_name": "NP0035_spr_20.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "neutral",
+      "calm",
+      "sleeping",
+      "silent"
+    ],
+    "description": "双眼紧闭，表情平淡静默，看起来正在休息、闭目养神或拒绝交流。",
+    "image_name": "NP0035_spr_99.png"
+  }
+]

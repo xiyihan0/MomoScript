@@ -1,0 +1,282 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "blue_eyes",
+      "closed_mouth",
+      "calm"
+    ],
+    "description": "标准的平静表情，睁着蓝色的眼睛，嘴巴闭合，看起来很认真。",
+    "image_name": "J_sora_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "confused",
+      "worried"
+    ],
+    "description": "惊讶或困惑的表情，眉毛微微皱起，嘴巴张成小圆形，似乎有些不知所措。",
+    "image_name": "J_sora_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "closed_mouth",
+      "gentle"
+    ],
+    "description": "温柔的闭眼微笑，嘴角微微上扬，表现出安心或满足的状态。",
+    "image_name": "J_sora_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "open_mouth",
+      "happy"
+    ],
+    "description": "开怀大笑的表情，眼睛闭成月牙状，嘴巴张开，非常快乐。",
+    "image_name": "J_sora_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "deadpan",
+      "half_closed_eyes",
+      "stare",
+      "unimpressed"
+    ],
+    "description": "半睁着眼的表情（死鱼眼），眼神显得冷淡或无语，毫无干劲的样子。",
+    "image_name": "J_sora_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "wavy_mouth",
+      "awkward",
+      "troubled",
+      "uneasy"
+    ],
+    "description": "尴尬或为难的表情，嘴巴呈波浪状线条，显得有些棘手或无语。",
+    "image_name": "J_sora_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "talking",
+      "open_mouth",
+      "smile",
+      "open_eyes"
+    ],
+    "description": "张嘴微笑的表情，眼神明亮，看起来正在愉快地说话或打招呼。",
+    "image_name": "J_sora_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "open_mouth",
+      "cheerful"
+    ],
+    "description": "闭眼张嘴的笑容，比大笑稍微含蓄一点，表现出纯粹的喜悦。",
+    "image_name": "J_sora_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "open_mouth",
+      "blue_eyes",
+      "confused"
+    ],
+    "description": "稍微有些困扰或担忧的表情，眉毛微微皱起，嘴巴微张，似乎正在询问或感到不解。",
+    "image_name": "J_sora_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "swirly_eyes",
+      "wavy_mouth",
+      "troubled"
+    ],
+    "description": "晕头转向的表情，眼睛变成了螺旋状，嘴巴呈波浪形，看起来因为混乱而感到困扰。",
+    "image_name": "J_sora_spr-10_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shocked",
+      "swirly_eyes",
+      "wavy_mouth",
+      "panic"
+    ],
+    "description": "震惊且混乱的表情，相比前一张眉毛高高挑起，眼睛呈螺旋状，表现出受到了冲击或惊吓。",
+    "image_name": "J_sora_spr-11_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "tired",
+      "closed_eyes",
+      "open_mouth",
+      "sigh"
+    ],
+    "description": "无奈叹气或疲惫的表情，闭着眼睛，眉毛下撇，嘴巴微张，看起来有些力不从心。",
+    "image_name": "J_sora_spr-12_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "laughing",
+      "closed_eyes",
+      "open_mouth",
+      "cheerful"
+    ],
+    "description": "非常开心的笑容，眼睛眯成愉快的弧线，嘴巴大张，表现出极大的喜悦和活力。",
+    "image_name": "J_sora_spr-13_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "talking",
+      "closed_eyes",
+      "open_mouth",
+      "happy"
+    ],
+    "description": "闭眼说话的表情，眉毛舒展较高，神态轻松，看起来正在愉快地交谈或哼歌。",
+    "image_name": "J_sora_spr-14_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "talking",
+      "closed_eyes",
+      "open_mouth",
+      "gentle"
+    ],
+    "description": "温和的闭眼解说表情，相比前一张眉毛更平缓，看起来正在耐心地说明某事。",
+    "image_name": "J_sora_spr-15_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "closed_mouth",
+      "peaceful"
+    ],
+    "description": "安详的闭目微笑，嘴巴闭合，表情非常柔和，散发出一种宁静治愈的气质。",
+    "image_name": "J_sora_spr-16_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "blue_eyes",
+      "closed_mouth",
+      "frown"
+    ],
+    "description": "严肃或认真的表情，眉毛微微向内皱起，嘴巴紧闭，眼神显得比较犀利，似乎在审视某事。",
+    "image_name": "J_sora_spr-17_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "surprised",
+      "open_mouth",
+      "blue_eyes",
+      "blank"
+    ],
+    "description": "轻微惊讶或呆滞的表情，嘴巴张开呈梯形，眼神直愣愣的，看起来反应有些迟钝或正在发呆。",
+    "image_name": "J_sora_spr-18_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "swirly_eyes",
+      "closed_mouth",
+      "troubled"
+    ],
+    "description": "晕眩且沉默的表情，眼睛呈螺旋状，眉毛下垂，嘴巴紧闭，看起来内心混乱但没有叫出声。",
+    "image_name": "J_sora_spr-19_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sigh",
+      "closed_eyes",
+      "open_mouth",
+      "tired"
+    ],
+    "description": "叹气或无奈的表情，闭着眼睛，眉毛呈八字形，嘴巴微张，表现出疲惫或对现状的失望。",
+    "image_name": "J_sora_spr-20_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "neutral",
+      "blue_eyes",
+      "closed_mouth",
+      "calm"
+    ],
+    "description": "非常标准的中立表情，眉毛舒展，眼神平静直视前方，没有任何明显的情绪波动。",
+    "image_name": "J_sora_spr-21_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "stare",
+      "blue_eyes",
+      "closed_mouth",
+      "curious"
+    ],
+    "description": "略显好奇或呆萌的注视，相比普通表情眉毛抬得稍高，眼睛睁得较大，像是在观察什么。",
+    "image_name": "J_sora_spr-22_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "open_mouth",
+      "smile",
+      "cheerful"
+    ],
+    "description": "开心的张嘴笑容，眼神明亮，嘴巴张开呈D字形，看起来充满了活力和积极的情绪。",
+    "image_name": "J_sora_spr-23_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "suspicious",
+      "half_closed_eyes",
+      "glare",
+      "doubt"
+    ],
+    "description": "怀疑或鄙视的眼神（半睁眼），上眼皮下垂，眉毛微皱，流露出不信任或冷淡的态度。",
+    "image_name": "J_sora_spr-24_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "skeptical",
+      "half_closed_eyes",
+      "smile",
+      "smug"
+    ],
+    "description": "半睁眼带着一丝微妙笑容的表情，眉毛微皱，眼神中透露出怀疑或看热闹的意味，显得有些得意或无语。",
+    "image_name": "J_sora_spr-25_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "disgust",
+      "wavy_mouth",
+      "troubled",
+      "grimace"
+    ],
+    "description": "明显的嫌弃或为难表情，嘴巴扭曲成波浪状，眉毛皱起，表现出对眼前状况的强烈不适或抗拒。",
+    "image_name": "J_sora_spr-26_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "complaining",
+      "half_closed_eyes",
+      "open_mouth",
+      "bored"
+    ],
+    "description": "半睁眼张嘴的表情，看起来正在无力地吐槽或抱怨，神态慵懒，似乎对当下的话题感到乏味或无奈。",
+    "image_name": "J_sora_spr-27_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "resignation",
+      "closed_eyes",
+      "closed_mouth",
+      "worried"
+    ],
+    "description": "闭眼无奈或忍耐的表情，眉毛依旧呈担心的八字形，嘴巴紧闭，似乎在平复心情，表现出一种“眼不见为净”的沉默。",
+    "image_name": "J_sora_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

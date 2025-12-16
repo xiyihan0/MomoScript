@@ -1,0 +1,76 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "calm"
+    ],
+    "description": "默认的中性表情，眼神平静且略显空洞，嘴巴闭合成一个小点，没有明显的情绪流露。",
+    "image_name": "CH0082_spr_00.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "focused",
+      "confident"
+    ],
+    "description": "神情比默认状态更加认真，眼神显得坚定且聚焦，眉宇间透露出一丝严肃。",
+    "image_name": "CH0082_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "speaking"
+    ],
+    "description": "嘴巴微微张开呈圆形，眉毛稍微抬起，表现出轻微的惊讶或正在发出声音。",
+    "image_name": "CH0082_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy"
+    ],
+    "description": "嘴角微微上扬，露出淡淡的温柔微笑，眼神也随之变得柔和。",
+    "image_name": "CH0082_spr_03.png"
+  },
+  {
+    "tags": [
+      "troubled",
+      "sweat_drop",
+      "worried",
+      "nervous"
+    ],
+    "description": "脸颊侧面挂着一滴冷汗，眉毛微微下垂呈八字状，表现出困扰、尴尬或紧张的情绪。",
+    "image_name": "CH0082_spr_04.png"
+  },
+  {
+    "tags": [
+      "speaking",
+      "shouting",
+      "open_mouth"
+    ],
+    "description": "嘴巴大幅度张开，似乎正在大声说话、呼喊或强调某事。",
+    "image_name": "CH0082_spr_05.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "scorn",
+      "disgust",
+      "glare"
+    ],
+    "description": "眉头紧锁，眼神变得犀利冷淡，似乎带着一种嫌弃或鄙夷的态度盯着前方。",
+    "image_name": "CH0082_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sleeping",
+      "peaceful"
+    ],
+    "description": "双眼完全闭合，面部表情平静安详，像是在闭目养神或等待某事。",
+    "image_name": "CH0082_spr_99.png"
+  }
+]

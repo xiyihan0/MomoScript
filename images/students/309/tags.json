@@ -1,0 +1,167 @@
+[
+  {
+    "tags": [
+      "smug",
+      "grin",
+      "half_closed_eyes",
+      "toothy_smile",
+      "confident"
+    ],
+    "description": "她露出自信且略带得意的露齿笑容，眼神慵懒半睁，像是在策划什么恶作剧或者对现状胸有成竹。",
+    "image_name": "CH0228_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "bored",
+      "half_closed_eyes",
+      "expressionless",
+      "stare"
+    ],
+    "description": "她面无表情地看着前方，眼神半睁显得有些无聊或发呆，没有任何明显的情绪流露。",
+    "image_name": "CH0228_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "dazed",
+      "half_closed_eyes",
+      "speaking",
+      "blank_stare"
+    ],
+    "description": "她的嘴巴微微张开，似乎正在轻声说话或者因为某事而短暂地发愣，眼神依然保持着特有的慵懒感。",
+    "image_name": "CH0228_spr_02.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "grin",
+      "half_closed_eyes",
+      "cheeky",
+      "mischievous"
+    ],
+    "description": "经典的得意表情，嘴角上扬露出牙齿，眼神中透露出一丝狡黠和调皮，看起来心情很好。",
+    "image_name": "CH0228_spr_03.png"
+  },
+  {
+    "tags": [
+      "cat_mouth",
+      ":3",
+      "smile",
+      "cute",
+      "half_closed_eyes"
+    ],
+    "description": "她的嘴变成了波浪状的“猫嘴”（:3），眼神柔和，表现出一种装傻、卖萌或者是有些淘气的可爱神态。",
+    "image_name": "CH0228_spr_04.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "serious",
+      "frown",
+      "half_closed_eyes",
+      "displeased"
+    ],
+    "description": "她微微皱着眉头，眼神变得锐利，嘴角向下，流露出不悦、严肃或者对某事感到不耐烦的情绪。",
+    "image_name": "CH0228_spr_05.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "troubled",
+      "sad",
+      "eyebrows_down",
+      "half_closed_eyes"
+    ],
+    "description": "她的眉毛呈八字下垂，眼神显得游移和困扰，看起来遇到了难题或者感到有些委屈和担忧。",
+    "image_name": "CH0228_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laugh",
+      "happy",
+      "grin",
+      "joy"
+    ],
+    "description": "她闭着眼睛开怀大笑，露齿的笑容充满了真诚的喜悦，表现出非常开心和满足的状态。",
+    "image_name": "CH0228_spr_07.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smile",
+      "confident",
+      "calm",
+      "neutral_smile"
+    ],
+    "description": "她眼神半睁，嘴角微微上扬，露出一如既往的自信且平静的微笑，显得游刃有余。",
+    "image_name": "CH0228_spr_08.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "smirk",
+      "side_glance",
+      "teasing",
+      "arrogant"
+    ],
+    "description": "她斜视一旁，嘴角带着一丝嘲弄或挑逗的坏笑，似乎对眼前的情况感到有趣或不屑。",
+    "image_name": "CH0228_spr_09.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "tongue_out",
+      "playful",
+      "cheeky",
+      "blep"
+    ],
+    "description": "她顽皮地吐出舌头，眼神依然慵懒，表现出一种调皮捣蛋后的可爱神态，像是在做鬼脸。",
+    "image_name": "CH0228_spr_10.png"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "grin",
+      "toothy_smile",
+      "excited",
+      "ambitious"
+    ],
+    "description": "她露出了灿烂的露齿笑，眼神中闪烁着兴奋的光芒，看起来像是计划通或者遇到了什么让她极其开心的事情。",
+    "image_name": "CH0228_spr_11.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "awkward",
+      "side_glance",
+      "troubled"
+    ],
+    "description": "她脸上流着冷汗，视线心虚地飘向一旁，嘴角勉强维持着尴尬的弧度，显得有些紧张或想要掩饰什么。",
+    "image_name": "CH0228_spr_12.png"
+  },
+  {
+    "tags": [
+      "shock",
+      "wide_eyes",
+      "sweat",
+      "panic",
+      "open_mouth"
+    ],
+    "description": "她罕见地瞪大了眼睛，瞳孔缩小，满头大汗且嘴巴张开，表现出极度的震惊、慌乱或不知所措。",
+    "image_name": "CH0228_spr_13.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "sleeping",
+      "peaceful",
+      "silent"
+    ],
+    "description": "她双眼紧闭，面部表情平静，看起来正在小憩、闭目养神，或者是干脆拒绝交流的沉睡状态。",
+    "image_name": "CH0228_spr_99.png"
+  }
+]

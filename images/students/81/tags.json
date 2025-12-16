@@ -1,0 +1,103 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "stare",
+      "expressionless"
+    ],
+    "description": "面无表情，眼神直视前方，显得有些呆萌或正在放空。",
+    "image_name": "yuzu_spr-00_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "frown"
+    ],
+    "description": "眉头微皱，眼神显得忧郁和担忧，看起来有些委屈。",
+    "image_name": "yuzu_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "parted_lips",
+      "dazed",
+      "tired",
+      "sigh"
+    ],
+    "description": "嘴巴微张，眼神半睁，似乎在发呆、叹气或感到疲惫。",
+    "image_name": "yuzu_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "light_smile"
+    ],
+    "description": "嘴角微微上扬，露出温和且友善的浅笑。",
+    "image_name": "yuzu_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "nervous",
+      "wavy_mouth",
+      "flustered"
+    ],
+    "description": "紧闭双眼，嘴唇呈波浪状，表现出明显的紧张、尴尬或害怕。",
+    "image_name": "yuzu_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "frown",
+      "focused",
+      "annoyed"
+    ],
+    "description": "眼神犀利，眉头紧锁，表情严肃，似乎在认真思考或感到有些不悦。",
+    "image_name": "yuzu_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "crying",
+      "tears",
+      "closed_eyes",
+      "sad"
+    ],
+    "description": "闭着眼睛流泪，眼角挂着泪珠，表情非常难过和痛苦。",
+    "image_name": "yuzu_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "blush"
+    ],
+    "description": "眯起眼睛开心地甜笑，脸上洋溢着幸福、满足和安心的神情。",
+    "image_name": "yuzu_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "scared",
+      "terrified",
+      "gloom",
+      "dark_lines",
+      "tears",
+      "shock"
+    ],
+    "description": "额头布满黑线阴影，瞳孔收缩，眼角含泪，嘴巴扭曲，表现出极度的惊恐、害怕和绝望，仿佛遭受了巨大的心理打击。",
+    "image_name": "yuzu_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "unconscious",
+      "fainted",
+      "sad",
+      "defeat"
+    ],
+    "description": "双眼紧闭，眉毛下垂，神情虚弱且带有无奈，看起来像是晕倒了或失去了意识。",
+    "image_name": "yuzu_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

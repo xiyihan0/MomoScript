@@ -1,0 +1,166 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "red_eyes"
+    ],
+    "description": "角色面带标准的愉快微笑，嘴巴微微张开，眼神明亮。",
+    "image_name": "CH0191_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_mouth",
+      "gentle",
+      "soft_expression"
+    ],
+    "description": "角色闭嘴微笑，嘴角上扬，神情温柔恬静。",
+    "image_name": "CH0191_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "talking",
+      "neutral"
+    ],
+    "description": "角色嘴巴呈O形张开，似乎正在说话或感到轻微的惊讶。",
+    "image_name": "CH0191_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "laughing",
+      "open_mouth",
+      "happy"
+    ],
+    "description": "角色双眼眯成月牙状，开怀大笑，表现出极度开心的样子。",
+    "image_name": "CH0191_spr_03.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "wavy_mouth",
+      "awkward",
+      "troubled"
+    ],
+    "description": "角色脸上挂着汗珠，嘴巴呈波浪状，表现出尴尬、紧张或为难的情绪。",
+    "image_name": "CH0191_spr_04.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "unimpressed",
+      "narrowed_eyes",
+      "annoyed",
+      "cold_gaze"
+    ],
+    "description": "角色眼神冷淡，微微眯起眼睛注视，流露出严肃、不悦或怀疑的神情。",
+    "image_name": "CH0191_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "frown",
+      "eyebrows_raised"
+    ],
+    "description": "角色眉毛呈八字下垂，眼神忧郁，看起来悲伤、担忧或困扰。",
+    "image_name": "CH0191_spr_06.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "open_mouth",
+      "playful",
+      "excited",
+      "teasing"
+    ],
+    "description": "角色张嘴露出爽朗的笑容，眼神略带调皮，显得充满活力或有些戏谑。",
+    "image_name": "CH0191_spr_07.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "open_mouth",
+      "shy",
+      "flustered",
+      "happy",
+      "nervous_smile"
+    ],
+    "description": "角色脸颊泛红，嘴巴张开露出笑容，神情看起来既害羞又开心，似乎有些慌张。",
+    "image_name": "CH0191_spr_08.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "cold_gaze",
+      "closed_mouth",
+      "annoyed",
+      "skeptical",
+      "glare"
+    ],
+    "description": "角色眼神锐利冷淡，嘴角紧闭，表现出严肃、怀疑或不悦的审视神情。",
+    "image_name": "CH0191_spr_09.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "soft_expression",
+      "happy",
+      "closed_mouth"
+    ],
+    "description": "角色面带温柔恬静的微笑，眼神柔和地注视着前方，给人一种亲切感。",
+    "image_name": "CH0191_spr_10.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "joyful",
+      "happy",
+      "sweet"
+    ],
+    "description": "角色双眼眯成弯弯的月牙状，嘴角上扬，洋溢着发自内心的喜悦和甜蜜。",
+    "image_name": "CH0191_spr_11.png"
+  },
+  {
+    "tags": [
+      "wink",
+      "open_mouth",
+      "playful",
+      "energetic",
+      "cute"
+    ],
+    "description": "角色俏皮地眨了一只眼睛（Wink），嘴巴张开，显得非常有活力和调皮。",
+    "image_name": "CH0191_spr_12.png"
+  },
+  {
+    "tags": [
+      "dazed",
+      "blank_stare",
+      "confused",
+      "neutral",
+      "dumbfounded"
+    ],
+    "description": "角色眼神有些呆滞放空，表情平淡，似乎在发呆、困惑或对现状感到无语。",
+    "image_name": "CH0191_spr_13.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "serene",
+      "content",
+      "gentle"
+    ],
+    "description": "角色闭着双眼，脸上挂着安宁祥和的微笑，显得十分满足和治愈。",
+    "image_name": "CH0191_spr_99.png"
+  }
+]

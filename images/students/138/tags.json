@@ -1,0 +1,114 @@
+[
+  {
+    "tags": [
+      "angry",
+      "shouting",
+      "open_mouth",
+      "furrowed_brows",
+      "red_eyes"
+    ],
+    "description": "角色愤怒地张大嘴巴喊叫，眉头紧锁，眼神犀利，表现出激动的情绪。",
+    "image_name": "CH0101_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "complaining",
+      "open_mouth",
+      "aggressive",
+      "frown"
+    ],
+    "description": "带着恼火的表情张嘴似乎在抱怨或反驳，嘴角略微下撇，眼神充满攻击性。",
+    "image_name": "CH0101_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smirk",
+      "grin",
+      "confident",
+      "provocative",
+      "showing_teeth"
+    ],
+    "description": "自信地露齿坏笑，嘴角上扬，眼神中带着挑衅和戏谑的意味。",
+    "image_name": "CH0101_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "shock",
+      "exaggerated",
+      "comic_style_eyes",
+      "shouting",
+      "flushed"
+    ],
+    "description": "极度震惊或抓狂的漫画式夸张表情，眼睛简化为白色圆圈，嘴巴大张，面带红晕。",
+    "image_name": "CH0101_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "serious",
+      "silent",
+      "closed_mouth",
+      "glaring",
+      "furrowed_brows"
+    ],
+    "description": "紧闭嘴巴，神情严肃冷峻，眉头紧皱地盯着前方，似乎在警惕或生气。",
+    "image_name": "CH0101_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "grimace",
+      "awkward",
+      "frustrated",
+      "disgusted",
+      "clenched_teeth"
+    ],
+    "description": "咬牙切齿，面部表情扭曲，显得非常尴尬、焦躁或遇到麻烦时的吃瘪模样。",
+    "image_name": "CH0101_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "laughing",
+      "smile",
+      "cheerful"
+    ],
+    "description": "闭着眼睛开怀大笑，表情轻松愉悦，充满了喜悦和得意的氛围。",
+    "image_name": "CH0101_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "scolding",
+      "angry",
+      "open_mouth",
+      "yelling",
+      "emotional"
+    ],
+    "description": "情绪激动地张嘴训斥或大声争辩，眼神凶狠，表现出强烈的不满。",
+    "image_name": "CH0101_spr-08_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "clenched_teeth",
+      "glaring",
+      "furrowed_brows",
+      "fierce",
+      "annoyed"
+    ],
+    "description": "咬牙切齿地瞪视前方，眉头紧锁，眼神凶狠，充满威胁和愤怒的情绪。",
+    "image_name": "CH0101_spr-09_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "shouting",
+      "frustrated",
+      "sweat_drop",
+      "annoyed",
+      "open_mouth"
+    ],
+    "description": "闭着眼睛张嘴大喊或抱怨，脸颊带有红晕和汗珠，表现出无奈、抓狂或烦躁的样子。",
+    "image_name": "CH0101_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

@@ -1,0 +1,153 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "open_mouth",
+      "attentive",
+      "curious"
+    ],
+    "description": "自然的表情，嘴巴微微张开，眼神专注，似乎在倾听或准备说话。",
+    "image_name": "CH0210_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "calm",
+      "gentle"
+    ],
+    "description": "平静的表情，嘴巴闭合，眼神柔和，神态安详。",
+    "image_name": "CH0210_spr_01.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "speaking",
+      "soft_smile",
+      "composed"
+    ],
+    "description": "温和的表情，嘴角带着一点点极其细微的笑意，看起来很从容。",
+    "image_name": "CH0210_spr_02.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "closed_eyes",
+      "smile",
+      "delighted"
+    ],
+    "description": "闭眼微笑，表现出非常开心、惬意和满足的情绪。",
+    "image_name": "CH0210_spr_03.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "open_mouth",
+      "sweat_drop",
+      "nervous",
+      "panicked"
+    ],
+    "description": "焦急不安的表情，张着嘴似乎在慌张地解释或抱怨，脸颊挂着汗珠。",
+    "image_name": "CH0210_spr_04.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "annoyed",
+      "closed_mouth",
+      "furrowed_brows",
+      "stern"
+    ],
+    "description": "严肃或略带不满的表情，眉头微皱，眼神变得犀利。",
+    "image_name": "CH0210_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "closed_eyes",
+      "sigh",
+      "disappointed",
+      "giving_up"
+    ],
+    "description": "难过或失望的表情，闭着眼睛似乎在叹气或感到无力。",
+    "image_name": "CH0210_spr_06.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "sweat_drop",
+      "confused",
+      "troubled",
+      "wavy_mouth"
+    ],
+    "description": "尴尬或困惑的表情，嘴角呈现波浪状，脸上流着冷汗，显得不知所措。",
+    "image_name": "CH0210_spr_07.png"
+  },
+  {
+    "tags": [
+      "happy",
+      "smile",
+      "closed_eyes",
+      "blush",
+      "sweet"
+    ],
+    "description": "闭眼温柔微笑的表情，脸上带着淡淡的红晕，看起来非常幸福和甜蜜。",
+    "image_name": "CH0210_spr_08.png"
+  },
+  {
+    "tags": [
+      "awkward",
+      "troubled",
+      "sweat_drop",
+      "closed_eyes",
+      "wry_smile"
+    ],
+    "description": "尴尬或为难的表情，脸上挂着汗珠，虽然闭着眼但神情显得有些勉强和苦恼。",
+    "image_name": "CH0210_spr_09.png"
+  },
+  {
+    "tags": [
+      "shock",
+      "blank_eyes",
+      "stunned",
+      "sweat_drop",
+      "dazed"
+    ],
+    "description": "震惊呆滞的表情，双眼变成了白色的圆圈，脸上流着冷汗，似乎失去了思考能力。",
+    "image_name": "CH0210_spr_10.png"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "confused",
+      "wavy_mouth",
+      "blank_eyes",
+      "sweat_drop",
+      "panicked"
+    ],
+    "description": "极度混乱或眩晕的表情，眼神呆滞，嘴角呈波浪状，满头大汗，显得不知所措。",
+    "image_name": "CH0210_spr_11.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "staring",
+      "neutral",
+      "intense",
+      "red_eyes"
+    ],
+    "description": "严肃认真的表情，睁大红色的眼睛直视前方，眼神犀利，没有多余的情绪。",
+    "image_name": "CH0210_spr_12.png"
+  },
+  {
+    "tags": [
+      "sleeping",
+      "closed_eyes",
+      "peaceful",
+      "unconscious",
+      "calm"
+    ],
+    "description": "安详闭眼的表情，看起来像是在熟睡或者是昏迷状态，神情非常平静。",
+    "image_name": "CH0210_spr_99.png"
+  }
+]

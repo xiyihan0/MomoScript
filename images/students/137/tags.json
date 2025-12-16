@@ -1,0 +1,85 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "stare",
+      "stoic",
+      "yellow_eyes"
+    ],
+    "description": "面无表情，眼神锐利地直视前方，嘴角平直，展现出平时冷淡、沉稳且威严的样子。",
+    "image_name": "CH0100_spr-01_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "talking",
+      "serious",
+      "assertive"
+    ],
+    "description": "张着嘴似乎正在说话、下达指令或发表意见，眼神坚定，带有一种严肃的气场。",
+    "image_name": "CH0100_spr-02_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "smug",
+      "confident",
+      "narrowed_eyes"
+    ],
+    "description": "嘴角微微上扬，眼神略微眯起，流露出自信、从容甚至带有一丝得意的神情。",
+    "image_name": "CH0100_spr-03_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "sweat",
+      "nervous",
+      "worried",
+      "shocked",
+      "wide_eyes"
+    ],
+    "description": "脸颊上挂着汗珠，睁大眼睛，表现出惊讶、紧张、焦虑或尴尬不知所措的状态。",
+    "image_name": "CH0100_spr-04_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "glare",
+      "annoyed",
+      "furrowed_brows"
+    ],
+    "description": "眉头紧锁，目光犀利地凝视前方，明显表现出怀疑、生气、严厉或不悦的情绪。",
+    "image_name": "CH0100_spr-05_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "open_mouth",
+      "sigh",
+      "exasperated",
+      "tired"
+    ],
+    "description": "紧闭双眼（呈><状）并张开嘴巴，看起来像是在无奈地重重叹气，或者感到疲惫和头疼。",
+    "image_name": "CH0100_spr-06_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "gentle"
+    ],
+    "description": "闭着眼睛（呈弯月状）露出温柔的笑容，表情祥和，看起来非常开心、愉快或满足。",
+    "image_name": "CH0100_spr-07_0_waifu2x_2x_1n_png.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "closed_mouth",
+      "silent",
+      "calm",
+      "ignoring"
+    ],
+    "description": "双眼闭合（呈直线状），嘴巴紧闭，神态平静，像是在闭目养神、沉思或拒绝交流。",
+    "image_name": "CH0100_spr-99_0_waifu2x_2x_1n_png.jpg"
+  }
+]

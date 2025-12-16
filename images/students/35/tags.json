@@ -1,0 +1,99 @@
+[
+  {
+    "tags": [
+      "neutral",
+      "calm",
+      "purple_hair",
+      "white_hood",
+      "red_eyes"
+    ],
+    "description": "亚津子标准的平静表情，眼神柔和地注视前方，嘴角微微上扬，表现出一种沉稳和淡然的态度。",
+    "image_name": "QQ截图20211126120405.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "happy",
+      "soft_expression"
+    ],
+    "description": "略带笑意的表情，眼神比平时更加温柔，嘴角上扬的弧度稍大，给人一种亲切、友好或正在倾听的感觉。",
+    "image_name": "QQ截图20211126120413.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "thinking",
+      "serious",
+      "dot_mouth"
+    ],
+    "description": "表情变得稍微严肃或放空，嘴巴抿成一个小点，似乎正在思考问题，或者对某个话题保持沉默和观察。",
+    "image_name": "QQ截图20211126120419.png"
+  },
+  {
+    "tags": [
+      "nervous",
+      "sweat_drop",
+      "worried",
+      "anxious",
+      "troubled"
+    ],
+    "description": "脸上挂着一滴明显的冷汗，眉头微蹙，眼神显得有些飘忽和不安，表现出尴尬、紧张或者遇到棘手情况时的困扰。",
+    "image_name": "QQ截图20211126120440.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "peaceful",
+      "content"
+    ],
+    "description": "双眼闭合，面带安详的微笑，仿佛在享受片刻的宁静，或者是在表示满意的点头，显得非常乖巧可爱。",
+    "image_name": "QQ截图20211126120446.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "frowning",
+      "glare",
+      "focused",
+      "annoyed"
+    ],
+    "description": "眉头紧锁，眼神变得犀利甚至带有攻击性，嘴角下沉，表现出警惕、不悦或者准备战斗的严肃神情。",
+    "image_name": "QQ截图20211126120451.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "surprised",
+      "explaining"
+    ],
+    "description": "嘴巴微张，眼神稍微睁大，似乎正在开口说话、解释某事，或者是对眼前发生的事情感到一丝惊讶。",
+    "image_name": "QQ截图20211126120502.png"
+  },
+  {
+    "tags": [
+      "blank_eyes",
+      "shocked",
+      "stunned",
+      "comic_effect",
+      "speechless"
+    ],
+    "description": "眼睛变成了白色的空白圆圈（失去高光），这是一种夸张的漫画表现手法，表达了极度的震惊、无语、呆滞或者是灵魂出窍的状态。",
+    "image_name": "QQ截图20211126120508.png"
+  },
+  {
+    "tags": [
+      "mask",
+      "gas_mask",
+      "combat_mode",
+      "hidden_face",
+      "cool",
+      "mysterious",
+      "glowing_eyes"
+    ],
+    "description": "亚津子戴上了全覆式的黑色防毒面具，完全遮挡了面容。面具上双眼位置亮起犀利的蓝色光芒，散发出一种冷酷、神秘且蓄势待发的战斗气息。",
+    "image_name": "QQ截图20211126120517.png"
+  }
+]

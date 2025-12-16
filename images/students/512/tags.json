@@ -1,0 +1,114 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "confident",
+      "happy",
+      "looking_at_viewer"
+    ],
+    "description": "她自信地微笑着，嘴巴张开露出牙齿，眼神明亮且专注地注视着前方，展现出充满活力的一面。",
+    "image_name": "CH0281_spr_00.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "relaxed",
+      "friendly",
+      "looking_at_viewer"
+    ],
+    "description": "面带爽朗的笑容，神情比前一张更加轻松柔和，给人一种友好且心情愉快的印象。",
+    "image_name": "CH0281_spr_01.png"
+  },
+  {
+    "tags": [
+      "parted_lips",
+      "small_mouth",
+      "curious",
+      "dazed",
+      "blank_stare"
+    ],
+    "description": "嘴巴微微张开呈小圆形，眼神显得有些呆萌或正在发愣，似乎对某事感到好奇或感到意外。",
+    "image_name": "CH0281_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "laughing",
+      "very_happy",
+      "joy"
+    ],
+    "description": "闭着双眼开怀大笑，脸上洋溢着纯粹的喜悦，表现出毫无保留的开心心情。",
+    "image_name": "CH0281_spr_03.png"
+  },
+  {
+    "tags": [
+      "blush",
+      "sweat_drop",
+      "embarrassed",
+      "shy",
+      "nervous",
+      "troubled"
+    ],
+    "description": "面颊泛起红晕，侧脸流下一滴冷汗，眼神游移且嘴角微撇，表现出害羞、尴尬或不知所措的紧张感。",
+    "image_name": "CH0281_spr_04.png"
+  },
+  {
+    "tags": [
+      "frown",
+      "serious",
+      "annoyed",
+      "closed_mouth",
+      "glaring"
+    ],
+    "description": "眉头微皱，眼神变得严肃犀利，嘴巴紧闭，流露出不满、认真审视或轻微生气的神情。",
+    "image_name": "CH0281_spr_05.png"
+  },
+  {
+    "tags": [
+      "sad",
+      "worried",
+      "troubled",
+      "anxious",
+      "eyebrows_furrowed"
+    ],
+    "description": "眉毛呈八字下垂，眼神忧郁，嘴巴微张，表现出担忧、困扰或难过的情绪。",
+    "image_name": "CH0281_spr_06.png"
+  },
+  {
+    "tags": [
+      "pout",
+      "angry",
+      "looking_away",
+      "annoyed",
+      "childish"
+    ],
+    "description": "鼓起脸颊生气（pout），视线撇向一边不看人，像是在闹别扭、不满或撒娇。",
+    "image_name": "CH0281_spr_07.png"
+  },
+  {
+    "tags": [
+      "smirk",
+      "confident",
+      "half_closed_eyes",
+      "calm",
+      "looking_at_viewer"
+    ],
+    "description": "嘴角勾起一抹自信的浅笑（smirk），眼神半眯显得从容淡定，流露出冷静且略带戏谑或神秘的气质。",
+    "image_name": "CH0281_spr_08.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "open_mouth",
+      "happy",
+      "cheerful",
+      "laughing"
+    ],
+    "description": "闭着双眼露出爽朗的笑容，嘴巴张开可见牙齿，神情轻松愉快，展现出毫无防备的开朗一面。",
+    "image_name": "CH0281_spr_99.png"
+  }
+]

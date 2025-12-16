@@ -1,0 +1,318 @@
+[
+  {
+    "tags": [
+      "sweat",
+      "troubled",
+      "half_closed_eyes",
+      "worried"
+    ],
+    "description": "眼神游离，脸颊挂着一滴冷汗，看起来有些困扰或尴尬。",
+    "image_name": "CH0218_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "stare",
+      "dazed"
+    ],
+    "description": "面无表情地注视着前方，眼神平淡，处于发呆或冷静的状态。",
+    "image_name": "CH0218_spr_01.png"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "frown",
+      "open_mouth",
+      "complaining"
+    ],
+    "description": "眉头微皱，张着嘴，似乎正在抱怨、反驳或表达不满。",
+    "image_name": "CH0218_spr_02.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "gentle",
+      "relaxed",
+      "happy"
+    ],
+    "description": "嘴角微微上扬，眼神柔和，露出了淡淡的、轻松的微笑。",
+    "image_name": "CH0218_spr_03.png"
+  },
+  {
+    "tags": [
+      "panic",
+      "shock",
+      "gloom_lines",
+      "sweat",
+      "pale"
+    ],
+    "description": "极度惊慌，脸上有纵向的阴影线（黑线），眼神呆滞，不知所措。",
+    "image_name": "CH0218_spr_04.png"
+  },
+  {
+    "tags": [
+      "serious",
+      "skeptical",
+      "glare",
+      "unimpressed"
+    ],
+    "description": "神情严肃，眼神锐利地盯着对方，似乎在怀疑或审视。",
+    "image_name": "CH0218_spr_05.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "wince",
+      "frustrated",
+      "pain"
+    ],
+    "description": "紧闭双眼，表情扭曲，看起来在忍受痛苦、无奈或感到非常抗拒。",
+    "image_name": "CH0218_spr_06.png"
+  },
+  {
+    "tags": [
+      "flustered",
+      "exhausted",
+      "heavy_sweat",
+      "blush",
+      "gloom_lines"
+    ],
+    "description": "满脸通红且带有阴影线，大汗淋漓，看起来已经精疲力尽或过度紧张。",
+    "image_name": "CH0218_spr_07.png"
+  },
+  {
+    "tags": [
+      "dizzy",
+      "confusion",
+      "wavy_mouth",
+      "blush",
+      "sweat",
+      "empty_eyes"
+    ],
+    "description": "眼神失去高光，嘴巴呈波浪状，脸上挂着汗珠和阴影线，看起来非常困惑、晕头转向或感到混乱。",
+    "image_name": "CH0218_spr_08.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "closed_eyes",
+      "open_mouth",
+      "sweat",
+      "complaining",
+      "frustrated"
+    ],
+    "description": "紧闭双眼呈“><”状，张大嘴巴大声喊叫，脸上挂着汗水，似乎正在激烈地抱怨、抗议或发泄不满。",
+    "image_name": "CH0218_spr_09.png"
+  },
+  {
+    "tags": [
+      "swirly_eyes",
+      "dizzy",
+      "panic",
+      "wavy_mouth",
+      "overheated"
+    ],
+    "description": "双眼变成了漩涡状，嘴巴扭曲，神情极度混乱，看起来已经彻底晕头转向，失去了理智或神志不清。",
+    "image_name": "CH0218_spr_10.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "laughing",
+      "closed_eyes",
+      "happy",
+      "cheerful"
+    ],
+    "description": "闭着眼睛开怀大笑，嘴巴张开，表情洋溢着纯真、快乐和阳光的气息。",
+    "image_name": "CH0218_spr_11.png"
+  },
+  {
+    "tags": [
+      "smile",
+      "closed_eyes",
+      "relaxed",
+      "blush",
+      "gentle"
+    ],
+    "description": "眼睛眯成一条缝，嘴角温柔上扬，脸上带着红晕，看起来非常放松、惬意或满足。",
+    "image_name": "CH0218_spr_12.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "sleeping",
+      "neutral",
+      "quiet"
+    ],
+    "description": "双眼闭合，表情平静，嘴巴微张，看起来像是在无奈叹气，或者正在闭目养神。",
+    "image_name": "CH0218_spr_99.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "stare",
+      "sideways_glance",
+      "blush",
+      "neutral"
+    ],
+    "description": "头顶戴着兔耳装饰，面无表情地看向侧面，眼神略显冷淡或呆萌，脸上有一丝红晕。",
+    "image_name": "CH0218_spr_Eye_Close_S2_01.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "sweat",
+      "troubled",
+      "half_closed_eyes",
+      "awkward"
+    ],
+    "description": "戴着兔耳，眼神半垂显得有些疲惫或无语，脸颊流下一滴冷汗，似乎对现状感到尴尬或无力。",
+    "image_name": "CH0218_spr_S2_00.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "neutral",
+      "stare",
+      "expressionless"
+    ],
+    "description": "头顶戴着兔耳，面无表情地注视着前方，眼神平淡，显得有些呆萌。",
+    "image_name": "CH0218_spr_S2_01.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "neutral",
+      "open_mouth",
+      "curious"
+    ],
+    "description": "戴着兔耳，微微张开嘴巴，眼神专注，似乎正在说话或表现出探询的神情。",
+    "image_name": "CH0218_spr_S2_02.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "smile",
+      "gentle",
+      "happy"
+    ],
+    "description": "戴着兔耳，嘴角轻轻上扬，露出了温柔且含蓄的微笑。",
+    "image_name": "CH0218_spr_S2_03.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "flustered",
+      "sweat",
+      "blush",
+      "nervous"
+    ],
+    "description": "戴着兔耳，脸上泛着红晕并挂着冷汗，眼神游离，看起来有些紧张或害羞。",
+    "image_name": "CH0218_spr_S2_04.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "serious",
+      "frown",
+      "skeptical"
+    ],
+    "description": "戴着兔耳，眉头微皱，表情严肃，眼神中带着一丝怀疑或审视。",
+    "image_name": "CH0218_spr_S2_05.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "closed_eyes",
+      "wince",
+      "troubled",
+      "pain"
+    ],
+    "description": "戴着兔耳，紧闭双眼，表情痛苦或无奈，似乎正在忍受某种不适或感到抗拒。",
+    "image_name": "CH0218_spr_S2_06.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "exhausted",
+      "heavy_sweat",
+      "blush",
+      "dazed"
+    ],
+    "description": "戴着兔耳，面色通红，大汗淋漓，眼神涣散，看起来体力透支或极度疲惫。",
+    "image_name": "CH0218_spr_S2_07.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "confused",
+      "wavy_mouth",
+      "sweat",
+      "empty_eyes"
+    ],
+    "description": "戴着兔耳，眼神失去高光，嘴巴变成波浪状，脸上挂着汗珠，看起来非常混乱或晕头转向。",
+    "image_name": "CH0218_spr_S2_08.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "shouting",
+      "closed_eyes",
+      "frustrated",
+      "sweat",
+      "blush"
+    ],
+    "description": "戴着兔耳，双眼紧闭呈“><”状，张大嘴巴似乎在大声喊叫或抗议，脸上带着红晕和汗水，表现出急切或受挫的情绪。",
+    "image_name": "CH0218_spr_S2_09.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "swirly_eyes",
+      "dizzy",
+      "confusion",
+      "wavy_mouth",
+      "panic"
+    ],
+    "description": "戴着兔耳，双眼变成了漩涡状，嘴巴扭曲，神情极度混乱，看起来已经彻底晕头转向，失去了理智。",
+    "image_name": "CH0218_spr_S2_10.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "smile",
+      "laughing",
+      "closed_eyes",
+      "happy",
+      "cheerful"
+    ],
+    "description": "戴着兔耳，闭着眼睛开怀大笑，嘴巴张开，表情洋溢着纯真、快乐和阳光的气息。",
+    "image_name": "CH0218_spr_S2_11.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "smile",
+      "closed_eyes",
+      "relaxed",
+      "blush",
+      "silly"
+    ],
+    "description": "戴着兔耳，眼睛眯成一条缝，嘴角上扬露齿傻笑，脸上带着红晕，看起来非常放松、惬意且略显呆萌。",
+    "image_name": "CH0218_spr_S2_12.png"
+  },
+  {
+    "tags": [
+      "rabbit_ears",
+      "closed_eyes",
+      "sleeping",
+      "neutral",
+      "quiet",
+      "sigh"
+    ],
+    "description": "戴着兔耳，双眼闭合，表情平静，看起来像是在无奈叹气，或者正在闭目养神。",
+    "image_name": "CH0218_spr_S2_99.png"
+  }
+]

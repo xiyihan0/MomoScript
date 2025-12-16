@@ -1,0 +1,204 @@
+[
+  {
+    "tags": [
+      "smile",
+      "open_mouth",
+      "happy",
+      "excited"
+    ],
+    "description": "张开嘴巴微笑，眼神明亮，表现出兴奋和开心的样子。",
+    "image_name": "CH0192_spr_00.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "calm",
+      "serious"
+    ],
+    "description": "闭着嘴，面无表情，眼神平静地注视前方。",
+    "image_name": "CH0192_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "surprised",
+      "dazed",
+      "blank_stare"
+    ],
+    "description": "微微张着小嘴，眼神显得有些呆滞或轻微惊讶。",
+    "image_name": "CH0192_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "open_mouth",
+      "laughing",
+      "happy"
+    ],
+    "description": "闭着双眼张大嘴巴大笑，洋溢着非常快乐的情绪。",
+    "image_name": "CH0192_spr_03.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shocked",
+      "confused",
+      "wavy_mouth"
+    ],
+    "description": "张大嘴巴，嘴型略显扭曲，眉毛挑起，表现出震惊、慌张或吐槽的表情。",
+    "image_name": "CH0192_spr_04.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "shouting",
+      "angry",
+      "intense"
+    ],
+    "description": "张大嘴巴似乎在喊叫或争辩，眼神锐利，带有怒气。",
+    "image_name": "CH0192_spr_05.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "closed_mouth",
+      "serious",
+      "attentive"
+    ],
+    "description": "闭着嘴，神情比普通状态更为认真严肃。",
+    "image_name": "CH0192_spr_06.png"
+  },
+  {
+    "tags": [
+      "angry",
+      "clenched_teeth",
+      "annoyed",
+      "frown"
+    ],
+    "description": "咬牙切齿，眉头紧锁，表现出明显的不甘心、生气或恼怒。",
+    "image_name": "CH0192_spr_07.png"
+  },
+  {
+    "tags": [
+      "crying",
+      "sad",
+      "shouting",
+      "tears",
+      "open_mouth"
+    ],
+    "description": "张大嘴巴痛哭，眼角挂着泪水，眉毛下撇，表情显得非常悲伤和委屈。",
+    "image_name": "CH0192_spr_08.png"
+  },
+  {
+    "tags": [
+      "sparkling_eyes",
+      "drooling",
+      "excited",
+      "amazed",
+      "open_mouth"
+    ],
+    "description": "眼睛里闪烁着星星，嘴角流着口水，表现出极度兴奋、渴望或被深深吸引的样子。",
+    "image_name": "CH0192_spr_09.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "angry",
+      "sweat_drop",
+      "annoyed",
+      "open_mouth"
+    ],
+    "description": "皱着眉头张大嘴巴喊叫，脸颊挂着汗珠，看起来既生气又有些焦急。",
+    "image_name": "CH0192_spr_10.png"
+  },
+  {
+    "tags": [
+      "pouting",
+      "skeptical",
+      "sweat_drop",
+      "serious",
+      "closed_mouth"
+    ],
+    "description": "抿着小嘴，眼神怀疑或不满，脸上带着冷汗，似乎在生闷气或感到无语。",
+    "image_name": "CH0192_spr_11.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "smile",
+      "smirk"
+    ],
+    "description": "嘴角上扬露出自信甚至得意的坏笑，眼神坚定，表现出胸有成竹的神态。",
+    "image_name": "CH0192_spr_12.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "laughing",
+      "happy",
+      "smile",
+      "open_mouth"
+    ],
+    "description": "闭着眼睛开心地大笑，张着嘴，洋溢着爽朗和愉悦的情绪。",
+    "image_name": "CH0192_spr_13.png"
+  },
+  {
+    "tags": [
+      "worried",
+      "confused",
+      "sweat_drop",
+      "awkward",
+      "closed_mouth"
+    ],
+    "description": "眉头微皱，脸上带着汗珠，眼神显得困扰和尴尬，似乎不知所措。",
+    "image_name": "CH0192_spr_14.png"
+  },
+  {
+    "tags": [
+      "embarrassed",
+      "frustrated",
+      "tearing_up",
+      "blushing",
+      "wavy_mouth"
+    ],
+    "description": "脸颊通红，眼角含泪，嘴型呈波浪状，表现出羞愤交加、不甘或忍耐的情绪。",
+    "image_name": "CH0192_spr_15.png"
+  },
+  {
+    "tags": [
+      "shouting",
+      "open_mouth",
+      "sweat_drop",
+      "angry",
+      "shocked"
+    ],
+    "description": "张大嘴巴大喊，眉头倒竖，脸上挂着汗珠，表现出焦急、震惊或正在激烈吐槽的样子。",
+    "image_name": "CH0192_spr_16.png"
+  },
+  {
+    "tags": [
+      "blank_eyes",
+      "white_eyes",
+      "open_mouth",
+      "shocked",
+      "panicked",
+      "despair"
+    ],
+    "description": "双眼变成空白圆圈，张大嘴巴，脸上带有红晕和泪水，表现出极度崩溃、混乱或失去意识的震惊状态。",
+    "image_name": "CH0192_spr_17.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "peaceful",
+      "neutral",
+      "closed_mouth"
+    ],
+    "description": "闭着双眼，神情安详平静，似乎在闭目养神或表现出一种无奈后的沉静。",
+    "image_name": "CH0192_spr_99.png"
+  }
+]

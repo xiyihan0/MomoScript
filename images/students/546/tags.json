@@ -1,0 +1,192 @@
+[
+  {
+    "tags": [
+      "open_mouth",
+      "smile",
+      "excited",
+      "energetic",
+      "yellow_eyes"
+    ],
+    "description": "她张大嘴巴开心地笑着，眼神坚定且充满活力，看起来非常兴奋或自信。",
+    "image_name": "CH0328_spr_00.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "wavy_mouth",
+      "smile",
+      "confident",
+      "mischievous"
+    ],
+    "description": "她露出得意的坏笑，嘴巴呈波浪形（猫嘴状），眼神中透露出一丝狡黠和自信。",
+    "image_name": "CH0328_spr_01.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "neutral",
+      "daze",
+      "blank_stare",
+      "confused"
+    ],
+    "description": "她微微张着嘴，眼神显得有些呆滞或茫然，似乎正在发愣或感到困惑。",
+    "image_name": "CH0328_spr_02.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "laugh",
+      "happy",
+      "cheerful"
+    ],
+    "description": "她闭着眼睛开怀大笑，脸上洋溢着纯粹的快乐，看起来心情非常好。",
+    "image_name": "CH0328_spr_03.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sweat",
+      "grimace",
+      "pain",
+      "struggle",
+      "hardship"
+    ],
+    "description": "她紧闭双眼，眉头紧锁，脸上挂着汗珠，嘴角抽搐，看起来非常痛苦、吃力或是在极力忍耐着什么。",
+    "image_name": "CH0328_spr_04.png"
+  },
+  {
+    "tags": [
+      "glowing_eyes",
+      "star_eyes",
+      "lens_flare",
+      "smug",
+      "funny"
+    ],
+    "description": "她的双眼位置闪烁着明亮的十字星光，嘴角得意地上扬，仿佛想到了什么绝妙（或搞怪）的计划。",
+    "image_name": "CH0328_spr_05.png"
+  },
+  {
+    "tags": [
+      "sweat",
+      "exhausted",
+      "panting",
+      "half_closed_eyes",
+      "open_mouth",
+      "tired"
+    ],
+    "description": "她满脸通红且流着汗，眼神迷离半睁，嘴巴张开似乎在喘息，看起来精疲力竭或处于酷热难耐的状态。",
+    "image_name": "CH0328_spr_06.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "pout",
+      "annoyed",
+      "stubborn",
+      "hmph"
+    ],
+    "description": "她闭着眼睛，嘴巴抿起，一脸不服气或闹别扭的样子，仿佛正在生气地‘哼’一声拒绝对方。",
+    "image_name": "CH0328_spr_07.png"
+  },
+  {
+    "tags": [
+      "neutral",
+      "expressionless",
+      "calm",
+      "stare",
+      "closed_mouth"
+    ],
+    "description": "她面无表情地注视着前方，眼神平静甚至有些冷淡，嘴巴闭合，没有任何明显的情绪流露。",
+    "image_name": "CH0328_spr_08.png"
+  },
+  {
+    "tags": [
+      "smug",
+      "confident",
+      "provocative",
+      "sharp_eyes",
+      "smirk"
+    ],
+    "description": "她露出自信且充满挑衅意味的坏笑，眼神锐利，嘴角上扬露出牙齿，仿佛正在得意地炫耀。",
+    "image_name": "CH0328_spr_09.png"
+  },
+  {
+    "tags": [
+      "awkward_smile",
+      "nervous",
+      "troubled",
+      "grimace",
+      "wry_smile"
+    ],
+    "description": "她眉毛呈八字下撇，露出一副尴尬而不失礼貌的勉强笑容，看起来有些心虚或不知所措。",
+    "image_name": "CH0328_spr_10.png"
+  },
+  {
+    "tags": [
+      "gentle_smile",
+      "soft_gaze",
+      "relaxed",
+      "kind",
+      "subtle_smile"
+    ],
+    "description": "她眼神变得柔和，嘴角微微勾起一个浅浅的弧度，展现出温柔、放松且友善的一面。",
+    "image_name": "CH0328_spr_11.png"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "excited",
+      "shouting",
+      "fang",
+      "energetic"
+    ],
+    "description": "她兴奋地张大嘴巴呼喊，露出可爱的小虎牙，眼神明亮，充满了高昂的情绪和活力。",
+    "image_name": "CH0328_spr_12.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "calm",
+      "smile",
+      "peaceful",
+      "content"
+    ],
+    "description": "她闭上双眼，脸上带着恬静安详的微笑，仿佛正沉浸在美好的氛围中，感到十分满足。",
+    "image_name": "CH0328_spr_13.png"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "happy",
+      "laugh",
+      "cheerful",
+      "big_smile"
+    ],
+    "description": "她眯起眼睛开怀大笑，嘴角上扬露出牙齿，神情爽朗，看起来心情非常愉悦。",
+    "image_name": "CH0328_spr_14.png"
+  },
+  {
+    "tags": [
+      "confident",
+      "determined",
+      "smile",
+      "fearless",
+      "cool"
+    ],
+    "description": "她眼神坚定有力，嘴角自信地上扬，展现出一种帅气、无所畏惧的从容姿态。",
+    "image_name": "CH0328_spr_15.png"
+  },
+  {
+    "tags": [
+      "sunglasses",
+      "closed_eyes",
+      "smug",
+      "wavy_mouth",
+      "confident",
+      "cool"
+    ],
+    "description": "她额头上架着一副墨镜，双眼紧闭，嘴角呈波浪形勾起，露出一副得意洋洋且充满自信的表情，看起来既酷又调皮。",
+    "image_name": "CH0328_spr_99.png"
+  }
+]
