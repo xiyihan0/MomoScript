@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import argparse
 import base64
+import concurrent.futures
 import json
 import os
+import threading
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
@@ -201,10 +203,76 @@ def _process_images_with_fallback(
         return left + right
 
 
+_print_lock = threading.Lock()
+
+
+def _safe_print(msg: str) -> None:
+    with _print_lock:
+        print(msg, flush=True)
+
+
+def _process_one_folder(folder: Path, args: argparse.Namespace, cfg) -> None:
+    client = OpenAIChat(cfg)
+
+    images = _iter_images(folder)
+    if args.max_images and args.max_images > 0:
+        images = images[: args.max_images]
+
+    out_path = folder / args.out_name
+    existing: List[Dict[str, Any]] = []
+    if out_path.exists():
+        if not args.resume:
+            _safe_print(f"skip folder (already has {out_path.name}): {folder.name}")
+            return
+        try:
+            existing = json.loads(out_path.read_text(encoding="utf-8"))
+            if not isinstance(existing, list):
+                raise ValueError("existing output is not a list")
+        except Exception as exc:
+            raise RuntimeError(f"cannot resume; invalid existing json: {out_path}: {exc}") from exc
+
+    start_idx = len(existing)
+    if start_idx >= len(images):
+        _safe_print(f"skip folder (already complete): {folder.name}")
+        return
+
+    images_to_process = images[start_idx:]
+    folder_result = FolderResult(items=list(existing))
+    batches = _chunk(images_to_process, args.batch_size)
+
+    _safe_print(f"folder {folder.name}: {len(images)} images, start={start_idx}, batches={len(batches)}")
+
+    for batch_i, batch in enumerate(batches):
+        is_first_batch = start_idx == 0 and batch_i == 0 and not folder_result.items
+        try:
+            items = _process_images_with_fallback(
+                llm=client, prev_items=folder_result.items, image_paths=batch, is_first_batch=is_first_batch
+            )
+        except Exception as exc:
+            raise RuntimeError(f"LLM failed after retries in {folder.name}: {exc}") from exc
+
+        # Join filenames after we know output is aligned with image order
+        for img_path, item in zip(batch, items):
+            item = dict(item)
+            item["image_name"] = img_path.name
+            folder_result.items.append(item)
+
+        out_path.write_text(json.dumps(folder_result.items, ensure_ascii=False, indent=2), encoding="utf-8")
+        _safe_print(
+            f"  [{folder.name}] batch {batch_i+1}/{len(batches)} ok -> {out_path.name} ({len(folder_result.items)}/{len(images)})"
+        )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Batch tag student images via an OpenAI-compatible API.")
     parser.add_argument("--images-root", type=str, default="images/students")
     parser.add_argument("--batch-size", type=int, default=8)
+    parser.add_argument(
+        "--folder-concurrency",
+        type=int,
+        default=1,
+        help="How many student folders to process concurrently (default: 1).",
+    )
     parser.add_argument("--model", type=str, default="gemini-3-pro-preview-maxthinking")
     parser.add_argument("--base-url", type=str, default="https://gcli.ggchan.dev/v1")
     parser.add_argument("--api-key-env", type=str, default="GCLI_API_KEY")
@@ -222,59 +290,32 @@ def main() -> int:
         raise SystemExit("--batch-size must be > 0")
 
     cfg = load_openai_config(model=args.model, base_url=args.base_url, api_key_env=args.api_key_env)
-    client = OpenAIChat(cfg)
 
     root = Path(args.images_root)
     folders = _iter_student_folders(root)
     if args.max_folders and args.max_folders > 0:
         folders = folders[: args.max_folders]
 
-    for folder in folders:
-        images = _iter_images(folder)
-        if args.max_images and args.max_images > 0:
-            images = images[: args.max_images]
+    folder_conc = int(args.folder_concurrency or 1)
+    if folder_conc <= 1 or len(folders) <= 1:
+        for folder in folders:
+            _process_one_folder(folder, args, cfg)
+        return 0
 
-        out_path = folder / args.out_name
-        existing: List[Dict[str, Any]] = []
-        if out_path.exists():
-            if not args.resume:
-                print(f"skip folder (already has {out_path.name}): {folder.name}")
-                continue
-            try:
-                existing = json.loads(out_path.read_text(encoding="utf-8"))
-                if not isinstance(existing, list):
-                    raise ValueError("existing output is not a list")
-            except Exception as exc:
-                raise SystemExit(f"cannot resume; invalid existing json: {out_path}: {exc}")
+    _safe_print(f"processing {len(folders)} folders with folder_concurrency={folder_conc}")
+    futures: list[concurrent.futures.Future[None]] = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=folder_conc) as ex:
+        for folder in folders:
+            futures.append(ex.submit(_process_one_folder, folder, args, cfg))
 
-        start_idx = len(existing)
-        if start_idx >= len(images):
-            print(f"skip folder (already complete): {folder.name}")
-            continue
-
-        images_to_process = images[start_idx:]
-        folder_result = FolderResult(items=list(existing))
-        batches = _chunk(images_to_process, args.batch_size)
-
-        print(f"folder {folder.name}: {len(images)} images, start={start_idx}, batches={len(batches)}")
-
-        for batch_i, batch in enumerate(batches):
-            is_first_batch = (start_idx == 0 and batch_i == 0 and not folder_result.items)
-            try:
-                items = _process_images_with_fallback(
-                    llm=client, prev_items=folder_result.items, image_paths=batch, is_first_batch=is_first_batch
-                )
-            except Exception as exc:
-                raise SystemExit(f"LLM failed after retries in {folder.name}: {exc}") from exc
-
-            # Join filenames after we know output is aligned with image order
-            for img_path, item in zip(batch, items):
-                item = dict(item)
-                item["image_name"] = img_path.name
-                folder_result.items.append(item)
-
-            out_path.write_text(json.dumps(folder_result.items, ensure_ascii=False, indent=2), encoding="utf-8")
-            print(f"  batch {batch_i+1}/{len(batches)} ok -> {out_path.name} ({len(folder_result.items)}/{len(images)})")
+        try:
+            for fut in concurrent.futures.as_completed(futures):
+                fut.result()
+        except Exception as exc:
+            # Best-effort cancel outstanding work; in-flight HTTP calls can't be interrupted reliably.
+            for f in futures:
+                f.cancel()
+            raise SystemExit(str(exc)) from exc
 
     return 0
 
