@@ -28,8 +28,8 @@ NoneBot 配置项（环境变量/`.env`/`pyproject.toml` 均可）：
 ## 使用
 在聊天里对 bot 说（不需要 @）：
 
-- `/mmt <MMT文本>`（默认 `--resolve`）
-- `/mmtpdf <MMT文本>`（同上，别名）
+- `/mmt <MMT文本>`（默认 `--resolve`，默认输出 PNG）
+- `/mmtpdf <MMT文本>`（默认 `--resolve`，默认输出 PDF；可用 `--png` 强制 PNG）
 - `/mmt --help`（查看参数与用法）
 - `/mmt -h syntax`（渲染 DSL 语法速览图）
 - `/mmt-img <角色名>`（把该角色库内所有表情渲染成表格图）
@@ -40,8 +40,12 @@ NoneBot 配置项（环境变量/`.env`/`pyproject.toml` 均可）：
 - `/mmt --no-time <MMT文本>`（不自动填充编译时间）
 - `/mmt --no-resolve <MMT文本>`（只渲染文本/占位符，不做 rerank）
 - `/mmt --ctx-n 2 <MMT文本>`
+- `/mmt --pdf <MMT文本>` / `/mmt --format pdf <MMT文本>`（输出 PDF）
+- `/mmtpdf --png <MMT文本>`（输出 PNG）
 
 默认使用 Typst 导出 PNG（多页会按页拆成多张），并用 OneBot v11 的 `image` 段发送；若当前适配器不可用则返回生成路径。
+PDF 模式会尝试调用 OneBot v11 的 `upload_group_file` / `upload_private_file` 上传文件；失败则返回生成路径。
+上传文件名会优先格式化为 `{title}-{author}-{time}.pdf`（来自头部 `@title/@author` 与编译时间）；缺失时会自动回退。
 
 Tip：Typst markup 中 `[` / `]` 等字符有语法含义，纯文本需要转义；`eval` 的定义不会跨气泡持久化，建议用 `@typst_global` 放全局定义，或把定义和使用写在同一个气泡（例如三引号多行块）。
 

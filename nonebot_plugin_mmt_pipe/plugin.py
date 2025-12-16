@@ -136,6 +136,65 @@ async def _send_onebot_images(bot: Bot, event: Event, png_paths: list[Path]) -> 
         if delay:
             await asyncio.sleep(delay)
 
+async def _upload_onebot_file(
+    bot: Bot,
+    event: Event,
+    file_path: Path,
+    *,
+    file_name: Optional[str] = None,
+    folder_id: Optional[str] = None,
+) -> dict:
+    p = file_path.resolve()
+    if not p.exists():
+        raise FileNotFoundError(f"file not found: {p}")
+    name = (file_name or p.name).strip() or p.name
+
+    group_id = getattr(event, "group_id", None)
+    user_id = getattr(event, "user_id", None)
+    if group_id is not None:
+        return await bot.call_api(
+            "upload_group_file",
+            group_id=int(group_id),
+            file=str(p),
+            name=name,
+            folder=folder_id,
+        )
+    if user_id is not None:
+        return await bot.call_api(
+            "upload_private_file",
+            user_id=int(user_id),
+            file=str(p),
+            name=name,
+        )
+    raise ValueError("event type not supported for file upload")
+
+
+def _sanitize_filename_component(s: str) -> str:
+    s = (s or "").strip()
+    if not s:
+        return ""
+    # Windows forbidden chars: \ / : * ? " < > | and control chars.
+    s = re.sub(r'[\x00-\x1f<>:"/\\\\|?*]+', "_", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    s = s.strip(". ")
+    return s
+
+
+def _format_pdf_name(*, meta: dict, compiled_at: str, fallback: str) -> str:
+    title = _sanitize_filename_component(str(meta.get("title") or "无题"))
+    author = _sanitize_filename_component(str(meta.get("author") or ""))
+    # Always include a time part to avoid unreadable random stems.
+    ts = compiled_at.strip() or time.strftime("%Y-%m-%d %H:%M:%S")
+    ts = _sanitize_filename_component(ts)
+
+    parts = [p for p in (title, author, ts) if p]
+    if not parts:
+        parts = [_sanitize_filename_component(fallback) or "mmt"]
+    name = "-".join(parts) + ".pdf"
+    if len(name) > 160:
+        name = name[:156] + ".pdf"
+    return name
+
 
 def _common_root(*paths: Path) -> Path:
     import os
@@ -333,7 +392,7 @@ async def _render_syntax_help_pngs(*, out_dir: Path) -> list[Path]:
     return pngs
 
 
-async def _pipe_to_pngs(
+async def _pipe_to_outputs(
     *,
     text: str,
     resolve: bool,
@@ -343,8 +402,9 @@ async def _pipe_to_pngs(
     typst: bool,
     disable_heading: bool,
     no_time: bool,
+    out_format: str,
     out_dir: Path,
-) -> tuple[list[Path], dict]:
+) -> tuple[list[Path], dict, dict, str]:
     if mmt_text_to_json is None:
         raise RuntimeError("mmt_render.mmt_text_to_json is not importable in this environment")
 
@@ -352,7 +412,12 @@ async def _pipe_to_pngs(
     stem = _safe_stem(text)
     json_path = out_dir / f"{stem}.json"
     resolved_path = out_dir / f"{stem}.resolved.json"
-    png_out_tpl = out_dir / f"{stem}-{{0p}}.png"
+    out_format_norm = (out_format or "png").strip().lower()
+    if out_format_norm not in {"png", "pdf"}:
+        raise ValueError(f"unsupported format: {out_format}")
+    out_path: Path = (
+        (out_dir / f"{stem}-{{0p}}.png") if out_format_norm == "png" else (out_dir / f"{stem}.pdf")
+    )
 
     # Parse text -> json
     name_map_path, avatar_dir = _find_name_map_and_avatar_dir()
@@ -367,6 +432,8 @@ async def _pipe_to_pngs(
         typst_mode=bool(typst),
     )
     json_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    meta = data.get("meta") if isinstance(data, dict) else None
+    meta = meta if isinstance(meta, dict) else {}
 
     chat_for_render = json_path
     resolve_stats: dict = {"unresolved": 0, "errors": []}
@@ -426,14 +493,15 @@ async def _pipe_to_pngs(
 
     if not tags_root.is_absolute():
         tags_root = (Path.cwd() / tags_root).resolve()
+    compiled_at = "" if no_time else time.strftime("%Y-%m-%d %H:%M:%S")
     await asyncio.to_thread(
         _run_typst,
         typst_bin=plugin_config.mmt_typst_bin,
         template=template,
         input_json=chat_for_render,
-        out_path=png_out_tpl,
+        out_path=out_path,
         tags_root=tags_root,
-        out_format="png",
+        out_format=out_format_norm,
         input_key="chat",
         extra_inputs={
             **(
@@ -443,22 +511,26 @@ async def _pipe_to_pngs(
             ),
             **({"typst_mode": "1"} if typst else {}),
             **({"disable_heading": "1"} if disable_heading else {}),
-            **({} if no_time else {"compiled_at": time.strftime("%Y-%m-%d %H:%M:%S")}),
+            **({} if no_time else {"compiled_at": compiled_at}),
         }
         or None,
     )
 
+    if out_format_norm == "pdf":
+        if out_path.exists():
+            return [out_path], resolve_stats, meta, compiled_at
+        raise RuntimeError("typst succeeded but no pdf output found")
+
     pngs = sorted(out_dir.glob(f"{stem}-*.png"), key=lambda p: p.name)
     if not pngs:
-        # typst could output a single png without page template in some cases
         single = out_dir / f"{stem}.png"
         if single.exists():
-            return [single], resolve_stats
+            return [single], resolve_stats, meta, compiled_at
         raise RuntimeError("typst succeeded but no png output found")
-    return pngs, resolve_stats
+    return pngs, resolve_stats, meta, compiled_at
 
 
-def _parse_flags(text: str) -> tuple[dict, str]:
+def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
     # Keep user's newlines in body; only strip leading CLI flags.
     s = text.strip()
     resolve = True
@@ -468,6 +540,7 @@ def _parse_flags(text: str) -> tuple[dict, str]:
     typst: bool = False
     disable_heading: bool = False
     no_time: bool = False
+    out_format: str = (default_format or "png").strip().lower()
     show_help: bool = False
     help_mode: Optional[str] = None
 
@@ -504,6 +577,19 @@ def _parse_flags(text: str) -> tuple[dict, str]:
         if s.startswith("--no_time"):
             no_time = True
             s = s[len("--no_time") :]
+            continue
+        if s.startswith("--pdf"):
+            out_format = "pdf"
+            s = s[len("--pdf") :]
+            continue
+        if s.startswith("--png"):
+            out_format = "png"
+            s = s[len("--png") :]
+            continue
+        m = re.match(r"^--format(?:=|\s+)(png|pdf)(?=\s|$)", s, flags=re.IGNORECASE)
+        if m:
+            out_format = m.group(1).lower()
+            s = s[m.end() :]
             continue
         if s.startswith("--no-resolve"):
             resolve = False
@@ -551,6 +637,7 @@ def _parse_flags(text: str) -> tuple[dict, str]:
         "typst": typst,
         "disable_heading": disable_heading,
         "no_time": no_time,
+        "out_format": out_format,
         "help": show_help,
         "help_mode": help_mode,
     }
@@ -615,18 +702,25 @@ def _inject_author_if_missing(text: str, author: Optional[str]) -> str:
     return f"@author: {author}\n{text}"
 
 
-mmtpdf = on_command("mmtpdf", aliases={"mmt"}, priority=10, block=True)
+mmt = on_command("mmt", priority=10, block=True)
+mmtpdf = on_command("mmtpdf", priority=10, block=True)
 mmt_img = on_command("mmt-img", aliases={"mmtimg", "mmt_img"}, priority=10, block=True)
 mmt_imgmatch = on_command("mmt-imgmatch", aliases={"mmtimgmatch", "mmt_imgmatch"}, priority=10, block=True)
 
-
-@mmtpdf.handle()
-async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
-    raw = arg.extract_plain_text().strip()
+async def _handle_mmt_common(
+    *,
+    matcher_name: str,
+    bot: Bot,
+    event: Event,
+    raw: str,
+    default_format: str,
+) -> None:
     if not raw:
-        await mmtpdf.finish("请在指令后粘贴 MMT 文本，例如：/mmt <内容>（默认会 resolve）")
+        if matcher_name == "mmtpdf":
+            await mmtpdf.finish("请在指令后粘贴 MMT 文本，例如：/mmtpdf <内容>（默认会 resolve；默认输出 pdf）")
+        await mmt.finish("请在指令后粘贴 MMT 文本，例如：/mmt <内容>（默认会 resolve）")
 
-    flags, content = _parse_flags(raw)
+    flags, content = _parse_flags(raw, default_format=default_format)
     if flags.get("help"):
         if flags.get("help_mode") == "syntax":
             out_dir = plugin_config.work_dir_path()
@@ -634,44 +728,59 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
                 png_paths = await _render_syntax_help_pngs(out_dir=out_dir)
             except Exception as exc:
                 logger.exception("render syntax help failed: %s", exc)
-                await mmtpdf.finish(f"生成语法帮助失败：{exc}")
+                if matcher_name == "mmtpdf":
+                    await mmtpdf.finish(f"生成语法帮助失败：{exc}")
+                await mmt.finish(f"生成语法帮助失败：{exc}")
 
             if V11MessageSegment is None or V11Message is None:
-                await mmtpdf.finish(f"已生成：{png_paths[0]}")
+                if matcher_name == "mmtpdf":
+                    await mmtpdf.finish(f"已生成：{png_paths[0]}")
+                await mmt.finish(f"已生成：{png_paths[0]}")
 
             await _send_onebot_images(bot, event, png_paths)
-            await mmtpdf.finish()
+            if matcher_name == "mmtpdf":
+                await mmtpdf.finish()
+            await mmt.finish()
 
-        await mmtpdf.finish(
-            "\n".join(
-                [
-                    "用法：/mmt [flags] <MMT文本>（默认会 resolve）",
-                    "",
-                    "常用 flags：",
-                    "- --no-resolve：不做表情/图片推断",
-                    "- --resolve：强制开启 resolve",
-                    "- --strict：resolve 失败直接报错",
-                    "- --typst：文本按 Typst markup 渲染（表情标记仅识别 '[:...]'）",
-                    "- --image-scale <0.1-1.0>：气泡内图片缩放",
-                    f"- --ctx-n <N>：'[图片]' 使用的上下文窗口大小（默认 {plugin_config.mmt_ctx_n}）",
-                    "- --disable-heading：关闭标题栏",
-                    "- --no-time：不自动填充编译时间",
-                    "",
-                    "其他指令：",
-                    "- /mmt-img <角色名>：列出该角色库内所有表情",
-                    "- /mmt-imgmatch <角色名> [--top-n=5] <描述>：语义匹配表情",
-                    "- /mmt -h syntax：渲染 DSL 语法速览图",
-                ]
-            )
+        help_text = "\n".join(
+            [
+                f"用法：/{matcher_name} [flags] <MMT文本>（默认会 resolve）",
+                "",
+                "输出格式：",
+                f"- --png：输出 PNG（默认：/mmt）",
+                f"- --pdf：输出 PDF（默认：/mmtpdf）",
+                "- --format <png|pdf>：同上",
+                "",
+                "常用 flags：",
+                "- --no-resolve：不做表情/图片推断",
+                "- --resolve：强制开启 resolve",
+                "- --strict：resolve 失败直接报错",
+                "- --typst：文本按 Typst markup 渲染（表情标记仅识别 '[:...]'）",
+                "- --image-scale <0.1-1.0>：气泡内图片缩放",
+                f"- --ctx-n <N>：'[图片]' 使用的上下文窗口大小（默认 {plugin_config.mmt_ctx_n}）",
+                "- --disable-heading：关闭标题栏",
+                "- --no-time：不自动填充编译时间",
+                "",
+                "其他指令：",
+                "- /mmt-img <角色名>：列出该角色库内所有表情",
+                "- /mmt-imgmatch <角色名> [--top-n=5] <描述>：语义匹配表情",
+                "- /mmt -h syntax：渲染 DSL 语法速览图",
+            ]
         )
+        if matcher_name == "mmtpdf":
+            await mmtpdf.finish(help_text)
+        await mmt.finish(help_text)
+
     if not content:
-        await mmtpdf.finish("未检测到正文内容（参数后需要跟 MMT 文本）。")
+        if matcher_name == "mmtpdf":
+            await mmtpdf.finish("未检测到正文内容（参数后需要跟 MMT 文本）。")
+        await mmt.finish("未检测到正文内容（参数后需要跟 MMT 文本）。")
 
     content = _inject_author_if_missing(content, _extract_invoker_name(event))
 
     out_dir = plugin_config.work_dir_path()
     try:
-        png_paths, resolve_stats = await _pipe_to_pngs(
+        out_paths, resolve_stats, meta, compiled_at = await _pipe_to_outputs(
             text=content,
             resolve=flags["resolve"],
             strict=flags["strict"],
@@ -680,29 +789,72 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
             typst=bool(flags.get("typst")),
             disable_heading=bool(flags.get("disable_heading")),
             no_time=bool(flags.get("no_time")),
+            out_format=str(flags.get("out_format") or default_format),
             out_dir=out_dir,
         )
     except subprocess.CalledProcessError as exc:
         logger.exception("typst failed: %s", exc)
-        await mmtpdf.finish(f"Typst 渲染失败：{exc}")
+        if matcher_name == "mmtpdf":
+            await mmtpdf.finish(f"Typst 渲染失败：{exc}")
+        await mmt.finish(f"Typst 渲染失败：{exc}")
     except Exception as exc:
         logger.exception("mmt pipe failed: %s", exc)
-        await mmtpdf.finish(f"处理失败：{exc}")
+        if matcher_name == "mmtpdf":
+            await mmtpdf.finish(f"处理失败：{exc}")
+        await mmt.finish(f"处理失败：{exc}")
 
-    # For OneBot v11/NapCat, sending images is more compatible than sending PDFs.
+    out_format_norm = str(flags.get("out_format") or default_format).strip().lower()
+    if out_format_norm == "pdf":
+        pdf_path = out_paths[0]
+        upload_name = _format_pdf_name(meta=meta, compiled_at=compiled_at, fallback=pdf_path.stem)
+        try:
+            await _upload_onebot_file(bot, event, pdf_path, file_name=upload_name)
+        except Exception as exc:
+            logger.warning("upload pdf failed: %s", exc)
+            if matcher_name == "mmtpdf":
+                await mmtpdf.finish(f"已生成：{pdf_path}（上传失败：{exc}）")
+            await mmt.finish(f"已生成：{pdf_path}（上传失败：{exc}）")
+
+        msg = ""
+        if flags["resolve"] and int(resolve_stats.get("unresolved") or 0) > 0:
+            msg += f"\n注意：仍有 {resolve_stats['unresolved']} 处表情未解析（通常是找不到对应学生的 tags.json 或图片文件）。"
+            errs = resolve_stats.get("errors") or []
+            if errs:
+                msg += "\n示例错误：" + "; ".join(str(x) for x in errs)
+            msg += "\n可用 `--strict` 让其直接报错定位。"
+        if matcher_name == "mmtpdf":
+            await mmtpdf.finish(msg if msg else None)
+        await mmt.finish(msg if msg else None)
+
+    # PNG: For OneBot v11/NapCat, sending images is more compatible than sending PDFs.
     if V11MessageSegment is None or V11Message is None:
-        await mmtpdf.finish(f"已生成图片：{png_paths[0]}")
+        if matcher_name == "mmtpdf":
+            await mmtpdf.finish(f"已生成图片：{out_paths[0]}")
+        await mmt.finish(f"已生成图片：{out_paths[0]}")
 
-    await _send_onebot_images(bot, event, png_paths)
-    # msg = f"已发送 {len(png_paths)} 张图片。"
-    msg=""
+    await _send_onebot_images(bot, event, out_paths)
+    msg = ""
     if flags["resolve"] and int(resolve_stats.get("unresolved") or 0) > 0:
         msg += f"\n注意：仍有 {resolve_stats['unresolved']} 处表情未解析（通常是找不到对应学生的 tags.json 或图片文件）。"
         errs = resolve_stats.get("errors") or []
         if errs:
             msg += "\n示例错误：" + "; ".join(str(x) for x in errs)
         msg += "\n可用 `--strict` 让其直接报错定位。"
-    await mmtpdf.finish(msg if msg else None)
+    if matcher_name == "mmtpdf":
+        await mmtpdf.finish(msg if msg else None)
+    await mmt.finish(msg if msg else None)
+
+
+@mmtpdf.handle()
+async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
+    raw = arg.extract_plain_text().strip()
+    await _handle_mmt_common(matcher_name="mmtpdf", bot=bot, event=event, raw=raw, default_format="pdf")
+
+
+@mmt.handle()
+async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
+    raw = arg.extract_plain_text().strip()
+    await _handle_mmt_common(matcher_name="mmt", bot=bot, event=event, raw=raw, default_format="png")
 
 
 @mmt_img.handle()
