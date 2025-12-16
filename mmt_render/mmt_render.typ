@@ -14,7 +14,12 @@
 #let disable_heading = sys.inputs.at("disable_heading", default: "0") == "1"
 
 #set text(font: "FZLanTingYuanGBK", size: 10pt)
-#set page(width: 300pt, height: auto, margin: (x: 10pt, y: 20pt))
+#let _parse_code_or(raw, fallback) = {
+  let s = if raw == none { "" } else { str(raw).trim() }
+  if s == "" { fallback } else { eval(s, mode: "code") }
+}
+#let page_width = _parse_code_or(meta.at("width", default: ""), 300pt)
+#set page(width: page_width, height: auto, margin: (x: 10pt, y: 20pt))
 #set par(spacing: 1em)
 #show raw.where(block: true): it => block(
   fill: luma(240),
@@ -69,7 +74,8 @@
   ])
 }
 
-#let bubble(text_color: black, fill_color: luma(230), side: left, tip: true, inset: 7pt, content) = {
+#let bubble_inset = _parse_code_or(meta.at("bubble_inset", default: ""), 7pt)
+#let bubble(text_color: black, fill_color: luma(230), side: left, tip: true, inset: bubble_inset, content) = {
   set text(fill: text_color)
   let tip_element = if tip {
     if side == left {
@@ -225,6 +231,9 @@
     narration(line.content, global_code: typst_global)
     last_key = none
     parbreak()
+    } else if t == "PAGEBREAK" {
+      last_key = none
+      pagebreak()
     } else if t == "TEXT" {
       let char_id = line.at("char_id", default: "__Sensei")
       if char_id == none { char_id = "__Sensei" }

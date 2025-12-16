@@ -502,6 +502,21 @@ def convert_text(
             i += 1
             continue
 
+        # Page break directive (allowed anywhere; not a continuation line).
+        if re.match(r"^@pagebreak\b", stripped, flags=re.IGNORECASE):
+            # no args for now; trailing content is considered an error to avoid silent mistakes
+            if stripped.strip().lower() != "@pagebreak":
+                raise ValueError(f"line {line_no}: invalid @pagebreak directive (expected: @pagebreak)")
+            messages.append(
+                {
+                    "yuzutalk": {"type": "PAGEBREAK", "avatarState": "AUTO", "nameOverride": ""},
+                    "content": "",
+                    "line_no": line_no,
+                }
+            )
+            i += 1
+            continue
+
         # Dynamic alias directive (allowed anywhere; not a continuation line).
         if re.match(r"^@alias\b", stripped, flags=re.IGNORECASE):
             _parse_alias_line(stripped, line_no=line_no)
