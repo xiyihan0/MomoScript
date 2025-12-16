@@ -24,6 +24,9 @@ NoneBot 配置项（环境变量/`.env`/`pyproject.toml` 均可）：
 - `mmt_rerank_key_env`：默认 `SILICON_API_KEY`
 - `mmt_rerank_model`：默认 `Qwen/Qwen3-Reranker-8B`
 - `mmt_rerank_concurrency`：默认 `10`
+- `mmt_asset_cache_dir`：默认空（外链图片缓存目录；空则使用 `<mmt_work_dir>/assets`）
+- `mmt_asset_redownload`：默认 `false`（强制重新下载外链图片）
+- `mmt_asset_max_mb`：默认 `10`（外链图片最大下载大小，MB）
 
 ## 使用
 在聊天里对 bot 说（不需要 @）：
@@ -42,10 +45,15 @@ NoneBot 配置项（环境变量/`.env`/`pyproject.toml` 均可）：
 - `/mmt --ctx-n 2 <MMT文本>`
 - `/mmt --pdf <MMT文本>` / `/mmt --format pdf <MMT文本>`（输出 PDF）
 - `/mmtpdf --png <MMT文本>`（输出 PNG）
+- `/mmt --redownload-assets <MMT文本>`（外链图片/asset 强制重新下载）
 
 默认使用 Typst 导出 PNG（多页会按页拆成多张），并用 OneBot v11 的 `image` 段发送；若当前适配器不可用则返回生成路径。
 PDF 模式会尝试调用 OneBot v11 的 `upload_group_file` / `upload_private_file` 上传文件；失败则返回生成路径。
 上传文件名会优先格式化为 `{title}-{author}-{time}.pdf`（来自头部 `@title/@author` 与编译时间）；缺失时会自动回退。
+
+## 外链图片与 asset
+- 在正文里使用 `[:https://...]`（或 `[://...]`）会被当作“外链图片”，在 resolve 阶段下载到缓存目录并作为图片渲染。
+- 头部可声明 `@asset.xxx: https://...`，resolve 后会注入 `typst_assets_global`，Typst 模式下可在任意气泡里用 `#asset("xxx")` 复用。
 
 Tip：Typst markup 中 `[` / `]` 等字符有语法含义，纯文本需要转义；`eval` 的定义不会跨气泡持久化，建议用 `@typst_global` 放全局定义，或把定义和使用写在同一个气泡（例如三引号多行块）。
 

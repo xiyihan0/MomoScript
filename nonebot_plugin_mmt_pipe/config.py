@@ -37,6 +37,13 @@ class MMTPipeConfig(BaseModel):
     # Concurrency for rerank resolve.
     mmt_rerank_concurrency: int = Field(default=10)
 
+    # External asset cache dir (for [:https://...] and @asset.*). If empty, defaults to <work_dir>/assets.
+    mmt_asset_cache_dir: str = Field(default="")
+    # Force redownload external assets (overrides cache).
+    mmt_asset_redownload: bool = Field(default=False)
+    # Max download size (MB) for external assets.
+    mmt_asset_max_mb: int = Field(default=10)
+
     def tags_root_path(self) -> Path:
         return Path(self.mmt_tags_root).expanduser()
 
@@ -45,3 +52,8 @@ class MMTPipeConfig(BaseModel):
 
     def work_dir_path(self) -> Path:
         return Path(self.mmt_work_dir).expanduser()
+
+    def asset_cache_dir_path(self) -> Path:
+        if self.mmt_asset_cache_dir.strip():
+            return Path(self.mmt_asset_cache_dir).expanduser()
+        return self.work_dir_path() / "assets"

@@ -7,6 +7,7 @@
 
 #let data = json(sys.inputs.at("chat",default: "mmt_format_test.json"))
 #let typst_global = data.at("typst_global", default: "")
+#let typst_assets_global = data.at("typst_assets_global", default: "")
 #let meta = data.at("meta", default: (:))
 #let doc_title = meta.at("title", default: "无题")
 #let doc_author = meta.at("author", default: "")
@@ -126,14 +127,14 @@
   let segments = line.at("segments", default: none)
   if segments == none {
     let s = line.content
-    if typst_mode { eval(global_code + "\n" + s, mode: "markup") } else { s }
+    if typst_mode { eval(typst_assets_global + "\n" + global_code + "\n" + s, mode: "markup") } else { s }
   } else {
     // inline sequence: text + image refs
     for seg in segments {
       let t = seg.at("type", default: "text")
       if t == "text" {
         let s = seg.at("text", default: "")
-        if typst_mode { eval(global_code + "\n" + s, mode: "markup") } else { s }
+        if typst_mode { eval(typst_assets_global + "\n" + global_code + "\n" + s, mode: "markup") } else { s }
       } else if t == "image" {
         inline_expr_image(seg.at("ref", default: "uploaded"))
       } else {
@@ -203,7 +204,7 @@
     fill: rgb(220, 229, 232),
     inset: 5pt,
     radius: 4pt,
-    if typst_mode { eval(global_code + "\n" + content, mode: "markup") } else { content },
+    if typst_mode { eval(typst_assets_global + "\n" + global_code + "\n" + content, mode: "markup") } else { content },
   )
 }
 

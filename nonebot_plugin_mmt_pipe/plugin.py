@@ -403,6 +403,7 @@ async def _pipe_to_outputs(
     disable_heading: bool,
     no_time: bool,
     out_format: str,
+    redownload_assets: bool,
     out_dir: Path,
 ) -> tuple[list[Path], dict, dict, str]:
     if mmt_text_to_json is None:
@@ -451,6 +452,9 @@ async def _pipe_to_outputs(
             api_key_env=plugin_config.mmt_rerank_key_env,
             concurrency=plugin_config.mmt_rerank_concurrency,
             strict=bool(strict),
+            asset_cache_dir=plugin_config.asset_cache_dir_path(),
+            redownload_assets=bool(redownload_assets or getattr(plugin_config, "mmt_asset_redownload", False)),
+            asset_max_mb=int(getattr(plugin_config, "mmt_asset_max_mb", 10) or 10),
         )
         chat_for_render = resolved_path
         try:
@@ -541,6 +545,7 @@ def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
     disable_heading: bool = False
     no_time: bool = False
     out_format: str = (default_format or "png").strip().lower()
+    redownload_assets: bool = False
     show_help: bool = False
     help_mode: Optional[str] = None
 
@@ -577,6 +582,14 @@ def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
         if s.startswith("--no_time"):
             no_time = True
             s = s[len("--no_time") :]
+            continue
+        if s.startswith("--redownload-assets"):
+            redownload_assets = True
+            s = s[len("--redownload-assets") :]
+            continue
+        if s.startswith("--redownload_assets"):
+            redownload_assets = True
+            s = s[len("--redownload_assets") :]
             continue
         if s.startswith("--pdf"):
             out_format = "pdf"
@@ -638,6 +651,7 @@ def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
         "disable_heading": disable_heading,
         "no_time": no_time,
         "out_format": out_format,
+        "redownload_assets": redownload_assets,
         "help": show_help,
         "help_mode": help_mode,
     }
@@ -750,6 +764,7 @@ async def _handle_mmt_common(
                 f"- --png：输出 PNG（默认：/mmt）",
                 f"- --pdf：输出 PDF（默认：/mmtpdf）",
                 "- --format <png|pdf>：同上",
+                "- --redownload-assets：外链图片/asset 强制重新下载",
                 "",
                 "常用 flags：",
                 "- --no-resolve：不做表情/图片推断",
@@ -790,6 +805,7 @@ async def _handle_mmt_common(
             disable_heading=bool(flags.get("disable_heading")),
             no_time=bool(flags.get("no_time")),
             out_format=str(flags.get("out_format") or default_format),
+            redownload_assets=bool(flags.get("redownload_assets")),
             out_dir=out_dir,
         )
     except subprocess.CalledProcessError as exc:

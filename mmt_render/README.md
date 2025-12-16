@@ -12,6 +12,7 @@
 - `@bubble_inset: 7pt|3mm|0.8em`（可选：气泡内边距，越大气泡越“胖”）
 - `@typst_global: ...`（单行）或 `@typst_global: """ ... """`（多行块）
 - `@typst: on|off`（仅作为元信息写入 `meta.typst`，解析模式仍以命令行 `--typst` 为准）
+- `@asset.<name>: https://...`（可选：声明一个外链图片资源，resolve 后可在 Typst 模式中用 `#asset("<name>")` 复用）
 
 注：文档中的 `...` 仅表示“任意内容占位”，不是语法的一部分；实际写法是 `@key: value`。
 
@@ -63,6 +64,7 @@
 - Typst 模式下，会保留语句内的空行（作为段落分隔）；非 Typst 模式下空行默认会被忽略（兼容旧行为）。
 - Typst markup 里 `[` / `]` 等字符有语法含义，纯文本需要用 `\\[` / `\\]` 等方式转义。
 - `eval` 的作用域不会跨气泡/旁白持久化；若要“全局可用”的定义，请写在文件头部的 `@typst_global`，或把 `#let ...` 和使用放在同一个气泡/旁白（例如三引号多行块里）。
+- 外链图片：可以写 `[:https://...]`，resolve 阶段会把它下载到缓存目录并作为图片渲染（避免 Typst 直接访问网络）。
 
 ### 语句行
 忽略行首空白后，满足以下前缀之一的行称为“语句行”：
@@ -240,6 +242,13 @@ PDF 预览：
 - Embedding 模型：`Qwen/Qwen3-Embedding-8B`（SiliconFlow OpenAI 兼容 `/v1/embeddings`）
 - 默认召回：top 50（`--embed-top-k 50`）
 - Embedding 会写入缓存：`.cache/siliconflow_embed.sqlite3`（只缓存候选文档，不缓存 query）
+
+## 外链图片缓存（resolve_expressions.py）
+`resolve_expressions.py` 支持把 `[:https://...]` 与 `@asset.*` 下载到本地缓存：
+
+- 默认缓存目录：环境变量 `MMT_ASSET_CACHE_DIR` 或 `.cache/mmt_assets`
+- `--redownload-assets`：强制重新下载（URL 内容可能变化时使用）
+- `--asset-max-mb`：限制单图最大下载体积（默认 10MB）
 ###  1.获取角色列表
 ### GET
 #### 基础URL:

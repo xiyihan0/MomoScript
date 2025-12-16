@@ -20,6 +20,11 @@ try:
 except ModuleNotFoundError:
     from siliconflow_rerank import SiliconFlowRerankConfig, SiliconFlowReranker
 
+try:
+    from mmt_render.external_assets import ExternalAssetConfig, ExternalAssetDownloader, is_url_like
+except ModuleNotFoundError:  # pragma: no cover
+    from external_assets import ExternalAssetConfig, ExternalAssetDownloader, is_url_like  # type: ignore
+
 
 @dataclass(frozen=True)
 class CandidateDoc:
@@ -65,6 +70,45 @@ def _doc_text(candidate: CandidateDoc) -> str:
         return f"{candidate.description}\nTags: {tags}\nFile: {candidate.image_name}"
     return f"{candidate.description}\nFile: {candidate.image_name}"
 
+
+def _assets_from_meta(meta: Dict[str, Any]) -> Dict[str, str]:
+    assets: Dict[str, str] = {}
+    for k, v in (meta or {}).items():
+        if not isinstance(k, str):
+            continue
+        if not k.startswith("asset."):
+            continue
+        name = k.split(".", 1)[1].strip()
+        if not name:
+            continue
+        if not isinstance(v, str):
+            continue
+        vv = v.strip()
+        if not vv:
+            continue
+        assets[name] = vv
+    return assets
+
+
+def _escape_typst_string(s: str) -> str:
+    return s.replace("\\", "\\\\").replace('"', '\\"')
+
+
+def _build_typst_assets_global(meta: Dict[str, Any]) -> str:
+    assets = _assets_from_meta(meta)
+    if not assets:
+        return ""
+    lines = ["#let assets = (:)"]
+    for name in sorted(assets.keys()):
+        v = assets[name]
+        lines.append(f'#assets.insert("{_escape_typst_string(name)}", "{_escape_typst_string(v)}")')
+    lines.append(
+        "#let asset(name, width: none, height: none, fit: \"contain\") = {"
+        " let p = assets.at(name, default: none);"
+        " if p == none { none } else { image(p, width: width, height: height, fit: fit) }"
+        "}"
+    )
+    return "\n".join(lines) + "\n"
 
 def _student_key(student_id: int) -> str:
     return str(int(student_id))
@@ -176,6 +220,9 @@ async def resolve_file(
     use_embedding: bool = True,
     embed_model: str = "Qwen/Qwen3-Embedding-8B",
     embed_top_k: int = 50,
+    asset_cache_dir: Optional[Path] = None,
+    redownload_assets: bool = False,
+    asset_max_mb: int = 10,
 ) -> int:
     data = json.loads(input_path.read_text(encoding="utf-8"))
     chat = data.get("chat")
@@ -187,6 +234,9 @@ async def resolve_file(
     sem = asyncio.Semaphore(max(1, concurrency))
     idx_cache = _StudentIndexCache(max_students=8)
 
+    meta = data.get("meta") if isinstance(data, dict) else None
+    meta = meta if isinstance(meta, dict) else {}
+
     ref_base = tags_root
     if ref_root is not None:
         # Typst resolves relative paths against the source file directory. Using relpath is more robust than Path.relative_to
@@ -196,70 +246,134 @@ async def resolve_file(
         except Exception:
             ref_base = tags_root
 
-    async def resolve_line(
-        reranker: SiliconFlowReranker,
-        embedder: Optional[SiliconFlowEmbedder],
-        line: Dict[str, Any],
-    ) -> Optional[Exception]:
-        segments = line.get("segments")
-        if not isinstance(segments, list):
-            return None
-        new_segments: List[Dict[str, Any]] = []
-        for seg in segments:
-            if not isinstance(seg, dict):
-                continue
-            if seg.get("type") != "expr":
-                new_segments.append(seg)
-                continue
-            query = str(seg.get("query") or "").strip()
-            student_id = seg.get("student_id")
-            if not query or not isinstance(student_id, int):
-                new_segments.append(seg)
-                continue
-            try:
-                async with sem:
-                    image_name, score = await resolve_one(
-                        reranker,
-                        query=query,
-                        student_id=student_id,
-                        tags_root=tags_root,
-                        top_n=1,
-                        embedder=embedder,
-                        embed_top_k=int(embed_top_k),
-                        index_cache=idx_cache,
-                    )
-                new_segments.append(
-                    {
-                        "type": "image",
-                        "ref": f"{ref_base.as_posix()}/{student_id}/{image_name}",
-                        "alt": query,
-                        "score": score,
-                    }
-                )
-            except Exception as exc:
-                if strict:
-                    return exc
-                # Keep unresolved expr but annotate error for debugging.
-                seg2 = dict(seg)
-                seg2["error"] = str(exc)
-                new_segments.append(seg2)
-        line["segments"] = new_segments
-        return None
+    if asset_cache_dir is None:
+        env_dir = os.getenv("MMT_ASSET_CACHE_DIR", "").strip()
+        asset_cache_dir = Path(env_dir) if env_dir else Path(".cache/mmt_assets")
+    asset_cache_dir = asset_cache_dir.expanduser()
+    asset_ref_base = asset_cache_dir
+    if ref_root is not None:
+        try:
+            asset_ref_base = Path(os.path.relpath(asset_cache_dir.resolve(), start=ref_root.resolve()))
+        except Exception:
+            asset_ref_base = asset_cache_dir
 
-    async with SiliconFlowReranker(cfg) as reranker:
-        if use_embedding:
-            try:
-                async with SiliconFlowEmbedder(embed_cfg) as embedder:
+    max_bytes = max(1, int(asset_max_mb)) * 1024 * 1024
+
+    async with ExternalAssetDownloader(ExternalAssetConfig(cache_dir=asset_cache_dir, max_bytes=max_bytes)) as dl:
+        # Resolve @asset.* in meta to local cached files so Typst can read them.
+        assets = _assets_from_meta(meta)
+        if assets:
+            for name, url in list(assets.items()):
+                if not is_url_like(url):
+                    continue
+                try:
+                    p = await dl.fetch(url, force=bool(redownload_assets))
+                    meta[f"asset.{name}"] = f"{asset_ref_base.as_posix()}/{p.name}"
+                except Exception:
+                    if strict:
+                        raise
+                    meta[f"asset.{name}"] = url
+
+        data["meta"] = meta
+        data["typst_assets_global"] = _build_typst_assets_global(meta)
+
+        async def resolve_line(
+            reranker: SiliconFlowReranker,
+            embedder: Optional[SiliconFlowEmbedder],
+            line: Dict[str, Any],
+        ) -> Optional[Exception]:
+            segments = line.get("segments")
+            if not isinstance(segments, list):
+                return None
+            new_segments: List[Dict[str, Any]] = []
+            for seg in segments:
+                if not isinstance(seg, dict):
+                    continue
+                if seg.get("type") != "expr":
+                    new_segments.append(seg)
+                    continue
+                query = str(seg.get("query") or "").strip()
+                student_id = seg.get("student_id")
+                if not query or not isinstance(student_id, int):
+                    new_segments.append(seg)
+                    continue
+
+                # External inline image: allow using [:https://...] as "inline image", bypassing rerank.
+                if query.startswith("data:image/"):
+                    new_segments.append({"type": "image", "ref": query, "alt": "data"})
+                    continue
+                if is_url_like(query):
+                    try:
+                        async with sem:
+                            p = await dl.fetch(query, force=bool(redownload_assets))
+                        new_segments.append(
+                            {
+                                "type": "image",
+                                "ref": f"{asset_ref_base.as_posix()}/{p.name}",
+                                "alt": query,
+                            }
+                        )
+                        continue
+                    except Exception as exc:
+                        if strict:
+                            return exc
+                        seg2 = dict(seg)
+                        seg2["error"] = str(exc)
+                        new_segments.append(seg2)
+                        continue
+
+                try:
+                    async with sem:
+                        image_name, score = await resolve_one(
+                            reranker,
+                            query=query,
+                            student_id=student_id,
+                            tags_root=tags_root,
+                            top_n=1,
+                            embedder=embedder,
+                            embed_top_k=int(embed_top_k),
+                            index_cache=idx_cache,
+                        )
+                    new_segments.append(
+                        {
+                            "type": "image",
+                            "ref": f"{ref_base.as_posix()}/{student_id}/{image_name}",
+                            "alt": query,
+                            "score": score,
+                        }
+                    )
+                except Exception as exc:
+                    if strict:
+                        return exc
+                    seg2 = dict(seg)
+                    seg2["error"] = str(exc)
+                    new_segments.append(seg2)
+            line["segments"] = new_segments
+            return None
+
+        async with SiliconFlowReranker(cfg) as reranker:
+            if use_embedding:
+                try:
+                    async with SiliconFlowEmbedder(embed_cfg) as embedder:
+                        tasks = []
+                        for line in chat:
+                            if isinstance(line, dict):
+                                tasks.append(asyncio.create_task(resolve_line(reranker, embedder, line)))
+                        results = await asyncio.gather(*tasks, return_exceptions=False)
+                        for r in results:
+                            if isinstance(r, Exception):
+                                raise r
+                except Exception:
+                    # Fallback: rerank-only if embedding fails (e.g. no key / endpoint issues).
                     tasks = []
                     for line in chat:
                         if isinstance(line, dict):
-                            tasks.append(asyncio.create_task(resolve_line(reranker, embedder, line)))
+                            tasks.append(asyncio.create_task(resolve_line(reranker, None, line)))
                     results = await asyncio.gather(*tasks, return_exceptions=False)
                     for r in results:
                         if isinstance(r, Exception):
                             raise r
-            except Exception:
-                # Fallback: rerank-only if embedding fails (e.g. no key / endpoint issues).
+            else:
                 tasks = []
                 for line in chat:
                     if isinstance(line, dict):
@@ -268,15 +382,6 @@ async def resolve_file(
                 for r in results:
                     if isinstance(r, Exception):
                         raise r
-        else:
-            tasks = []
-            for line in chat:
-                if isinstance(line, dict):
-                    tasks.append(asyncio.create_task(resolve_line(reranker, None, line)))
-            results = await asyncio.gather(*tasks, return_exceptions=False)
-            for r in results:
-                if isinstance(r, Exception):
-                    raise r
 
     output_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     return 0
@@ -293,6 +398,13 @@ def main() -> int:
     p.add_argument("--embed-model", default="Qwen/Qwen3-Embedding-8B", help="Embedding model for first-stage recall.")
     p.add_argument("--embed-top-k", type=int, default=50, help="Recall top-k docs before rerank (default: 50).")
     p.add_argument("--no-embedding", action="store_true", help="Disable embedding recall; rerank over all candidates.")
+    p.add_argument(
+        "--asset-cache-dir",
+        default=None,
+        help="Cache dir for external image URLs (default: env MMT_ASSET_CACHE_DIR or .cache/mmt_assets)",
+    )
+    p.add_argument("--redownload-assets", action="store_true", help="Force redownload external images even if cached.")
+    p.add_argument("--asset-max-mb", type=int, default=10, help="Max download size (MB) for external images.")
     p.add_argument(
         "--strict",
         action="store_true",
@@ -318,6 +430,9 @@ def main() -> int:
             use_embedding=not bool(args.no_embedding),
             embed_model=str(args.embed_model),
             embed_top_k=int(args.embed_top_k),
+            asset_cache_dir=Path(args.asset_cache_dir) if args.asset_cache_dir else None,
+            redownload_assets=bool(args.redownload_assets),
+            asset_max_mb=int(args.asset_max_mb),
         )
     )
 

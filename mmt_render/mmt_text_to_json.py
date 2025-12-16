@@ -38,7 +38,8 @@ except ModuleNotFoundError:
 
 SPEAKER_BACKREF_RE = re.compile(r"^_(\d*)\s*:\s*(.*)$")
 SPEAKER_INDEX_RE = re.compile(r"^~(\d*)\s*:\s*(.*)$")
-HEADER_DIRECTIVE_RE = re.compile(r"^@([A-Za-z_][\w-]*)\s*:\s*(.*)$")
+# Allow dotted keys for meta namespaces (e.g. @asset.hero: ...).
+HEADER_DIRECTIVE_RE = re.compile(r"^@([A-Za-z_][\w.-]*)\s*:\s*(.*)$")
 
 
 def _strip_bom(text: str) -> str:
