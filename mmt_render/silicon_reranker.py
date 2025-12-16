@@ -12,6 +12,24 @@ class RerankError(RuntimeError):
     pass
 
 
+def _env_first(*names: str) -> str:
+    for n in names:
+        v = os.getenv(n, "").strip()
+        if v:
+            return v
+    return ""
+
+
+def _default_rerank_url() -> str:
+    direct = _env_first("SILICONFLOW_RERANK_URL", "SILICON_RERANK_URL")
+    if direct:
+        return direct
+    base = _env_first("SILICONFLOW_BASE_URL", "SILICON_API_BASE_URL", "SILICON_API_BASE")
+    if base:
+        return base.rstrip("/") + "/v1/rerank"
+    return "https://api.siliconflow.cn/v1/rerank"
+
+
 @dataclass(frozen=True)
 class RerankResult:
     index: int
@@ -22,7 +40,7 @@ class RerankResult:
 @dataclass(frozen=True)
 class SiliconFlowRerankerConfig:
     api_key_env: str = "SILICON_API_KEY"
-    api_url: str = "https://api.siliconflow.cn/v1/rerank"
+    api_url: str = _default_rerank_url()
     model: str = "Qwen/Qwen3-Reranker-8B"
     timeout: float = 60.0
     instruction: str = "Please rerank the documents based on the query."
@@ -105,4 +123,3 @@ class SiliconFlowReranker:
         if not parsed:
             raise RerankError(f"Empty rerank results: {data}")
         return parsed
-

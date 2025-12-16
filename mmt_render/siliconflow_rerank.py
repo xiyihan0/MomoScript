@@ -23,7 +23,7 @@ except Exception:  # pragma: no cover
     logger = _logger  # type: ignore
 
 
-DEFAULT_RERANK_URL = "https://api.siliconflow.cn/v1/rerank"
+_DEFAULT_RERANK_URL = "https://api.siliconflow.cn/v1/rerank"
 DEFAULT_MODEL = "Qwen/Qwen3-Reranker-8B"
 
 # Relaxed instruction: semantic relevance first, mild preference for facial-expression cues.
@@ -36,6 +36,27 @@ DEFAULT_INSTRUCTION = (
 
 class RerankError(RuntimeError):
     pass
+
+
+def _env_first(*names: str) -> str:
+    for n in names:
+        v = os.getenv(n, "").strip()
+        if v:
+            return v
+    return ""
+
+
+def _default_rerank_url() -> str:
+    direct = _env_first("SILICONFLOW_RERANK_URL", "SILICON_RERANK_URL")
+    if direct:
+        return direct
+    base = _env_first("SILICONFLOW_BASE_URL", "SILICON_API_BASE_URL", "SILICON_API_BASE")
+    if base:
+        return base.rstrip("/") + "/v1/rerank"
+    return _DEFAULT_RERANK_URL
+
+
+DEFAULT_RERANK_URL = _default_rerank_url()
 
 
 def _sha1(text: str) -> str:

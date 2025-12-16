@@ -23,12 +23,33 @@ except Exception:  # pragma: no cover
     logger = _logger  # type: ignore
 
 
-DEFAULT_EMBED_URL = "https://api.siliconflow.cn/v1/embeddings"
+_DEFAULT_EMBED_URL = "https://api.siliconflow.cn/v1/embeddings"
 DEFAULT_MODEL = "Qwen/Qwen3-Embedding-8B"
 
 
 class EmbedError(RuntimeError):
     pass
+
+
+def _env_first(*names: str) -> str:
+    for n in names:
+        v = os.getenv(n, "").strip()
+        if v:
+            return v
+    return ""
+
+
+def _default_embed_url() -> str:
+    direct = _env_first("SILICONFLOW_EMBED_URL", "SILICON_EMBED_URL")
+    if direct:
+        return direct
+    base = _env_first("SILICONFLOW_BASE_URL", "SILICON_API_BASE_URL", "SILICON_API_BASE")
+    if base:
+        return base.rstrip("/") + "/v1/embeddings"
+    return _DEFAULT_EMBED_URL
+
+
+DEFAULT_EMBED_URL = _default_embed_url()
 
 
 def _sha1(text: str) -> str:

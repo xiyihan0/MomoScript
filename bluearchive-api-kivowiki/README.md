@@ -24,7 +24,7 @@
 `python bluearchive-api-kivowiki/download_student_gallery_images.py --limit-students 5 --max-per-student 2 --report bluearchive-api-kivowiki/download_report_sample.json`
 
 ## 批量打标（LLM）
-使用 OpenAI 兼容 API（例如 `https://gcli.ggchan.dev/v1`）对 `images/students/{id}` 下的图片按文件名顺序分批（默认 8 张）打标，并在每个学生文件夹输出 `tags.json`。
+使用 OpenAI 兼容 API（例如 `https://gcli.ggchan.dev/v1`）对 `images/students/{id}` 下的图片按文件名顺序分批（默认 8 张）打标，并在每个学生文件夹输出 `tags.json`。也可以通过环境变量 `OPENAI_BASE_URL`（或 `GCLI_BASE_URL`）设置默认端点。
 
 先设置环境变量（不要把密钥写进代码/提交到仓库）：
 
@@ -36,7 +36,7 @@
 
 运行（模型名按需调整）：
 
-`python batch_tag_students.py --model gemini-3-pro-preview-maxthinking --base-url https://gcli.ggchan.dev/v1 --resume`
+`python batch_tag_students.py --model gemini-3-pro-preview-maxthinking --base-url https://gcli.ggchan.dev/v1 --resume`（或设置 `OPENAI_BASE_URL` 后省略 `--base-url`）
 ###  1.获取角色列表
 ### GET
 #### 基础URL:

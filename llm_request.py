@@ -93,7 +93,7 @@ class OpenAIChat:
 def load_openai_config(
     *,
     model: str,
-    base_url: str = "https://gcli.ggchan.dev/v1",
+    base_url: Optional[str] = None,
     api_key_env: str = "GCLI_API_KEY",
     timeout: float = 120.0,
     max_tokens: int = 2048,
@@ -103,10 +103,19 @@ def load_openai_config(
     if not api_key:
         raise LlmRequestError(f"Missing API key env var: {api_key_env}")
 
+    resolved_base_url = (base_url or "").strip()
+    if not resolved_base_url:
+        resolved_base_url = (
+            os.getenv("OPENAI_BASE_URL", "").strip()
+            or os.getenv("OPENAI_API_BASE", "").strip()
+            or os.getenv("GCLI_BASE_URL", "").strip()
+            or "https://gcli.ggchan.dev/v1"
+        )
+
     return OpenAIConfig(
         api_key=api_key,
         model=model,
-        base_url=base_url.rstrip("/"),
+        base_url=resolved_base_url.rstrip("/"),
         timeout=timeout,
         max_tokens=max_tokens,
         temperature=temperature,

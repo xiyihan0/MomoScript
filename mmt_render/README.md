@@ -213,7 +213,7 @@ PDF 预览：
 - 默认示例：页面打开时会自动加载 `mmt_format_test.txt` 到输入框（仅在输入框为空时）
 
 ## 批量打标（LLM）
-使用 OpenAI 兼容 API（例如 `https://gcli.ggchan.dev/v1`）对 `images/students/{id}` 下的图片按文件名顺序分批（默认 8 张）打标，并在每个学生文件夹输出 `tags.json`。
+使用 OpenAI 兼容 API（例如 `https://gcli.ggchan.dev/v1`）对 `images/students/{id}` 下的图片按文件名顺序分批（默认 8 张）打标，并在每个学生文件夹输出 `tags.json`。也可以通过环境变量 `OPENAI_BASE_URL`（或 `GCLI_BASE_URL`）设置默认端点。
 
 先设置环境变量（不要把密钥写进代码/提交到仓库）：
 
@@ -225,14 +225,14 @@ PDF 预览：
 
 运行（模型名按需调整）：
 
-`python batch_tag_students.py --model gemini-3-pro-preview-maxthinking --base-url https://gcli.ggchan.dev/v1 --resume`
+`python batch_tag_students.py --model gemini-3-pro-preview-maxthinking --base-url https://gcli.ggchan.dev/v1 --resume`（或设置 `OPENAI_BASE_URL` 后省略 `--base-url`）
 
 ## Reranker（SiliconFlow）
 用于把“自然语言表情描述”在某个角色的 `tags.json` 候选中做重排（命中缓存/请求都会输出日志）。
 
 环境变量：
 
-`SILICON_API_KEY=...`（也兼容 `SILICONFLOW_API_KEY`）
+`SILICON_API_KEY=...`（也兼容 `SILICONFLOW_API_KEY`；端点可用 `SILICONFLOW_BASE_URL`/`SILICONFLOW_RERANK_URL`/`SILICONFLOW_EMBED_URL` 覆盖）
 
 默认模型：`Qwen/Qwen3-Reranker-8B`，默认缓存：`.cache/siliconflow_rerank.sqlite3`。
 

@@ -14,6 +14,12 @@ from llm_request import OpenAIChat, load_openai_config, LlmRequestError, load_do
 
 
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".webp"}
+DEFAULT_OPENAI_BASE_URL = (
+    os.getenv("OPENAI_BASE_URL", "").strip()
+    or os.getenv("OPENAI_API_BASE", "").strip()
+    or os.getenv("GCLI_BASE_URL", "").strip()
+    or "https://gcli.ggchan.dev/v1"
+)
 
 
 PROMPT_FIRST_BATCH = """\
@@ -274,7 +280,7 @@ def main() -> int:
         help="How many student folders to process concurrently (default: 1).",
     )
     parser.add_argument("--model", type=str, default="gemini-3-pro-preview-maxthinking")
-    parser.add_argument("--base-url", type=str, default="https://gcli.ggchan.dev/v1")
+    parser.add_argument("--base-url", type=str, default=DEFAULT_OPENAI_BASE_URL)
     parser.add_argument("--api-key-env", type=str, default="GCLI_API_KEY")
     parser.add_argument("--dotenv", type=str, default=".env", help="Load env vars from this file if present.")
     parser.add_argument("--dotenv-override", action="store_true", help="Override existing env vars from .env.")
