@@ -145,7 +145,16 @@ class ExternalAssetDownloader:
             started = time.time()
             logger.info(f"asset fetch | url={url}")
             try:
-                resp = await self._session.get(url, timeout=self.config.timeout_s)
+                req_headers: Optional[dict] = None
+                try:
+                    host = (urlparse(url).netloc or "").lower()
+                    # Pixiv's image CDN requires a Referer to be set, otherwise returns 403.
+                    if host.endswith("pximg.net"):
+                        req_headers = {"Referer": "https://www.pixiv.net/"}
+                except Exception:
+                    req_headers = None
+
+                resp = await self._session.get(url, timeout=self.config.timeout_s, headers=req_headers)
             except Exception as exc:
                 raise ExternalAssetError(f"download failed: {exc}") from exc
 
