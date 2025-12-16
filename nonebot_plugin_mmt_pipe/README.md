@@ -53,7 +53,7 @@ PDF 模式会尝试调用 OneBot v11 的 `upload_group_file` / `upload_private_f
 
 ## 外链图片与 asset
 - 在正文里使用 `[:https://...]`（或 `[://...]`）会被当作“外链图片”，在 resolve 阶段下载到缓存目录并作为图片渲染。
-- 头部可声明 `@asset.xxx: https://...`，resolve 后会注入 `typst_assets_global`，Typst 模式下可在任意气泡里用 `#asset("xxx")` 复用。
+- 头部可声明 `@asset.xxx: https://...`，resolve 后会注入 `typst_assets_global`，Typst 模式下可在任意气泡里用 `#asset_img("xxx")` 复用。
 
 Tip：Typst markup 中 `[` / `]` 等字符有语法含义，纯文本需要转义；`eval` 的定义不会跨气泡持久化，建议用 `@typst_global` 放全局定义，或把定义和使用写在同一个气泡（例如三引号多行块）。
 

@@ -106,13 +106,16 @@ def _build_typst_assets_global(meta: Dict[str, Any]) -> str:
     assets = _assets_from_meta(meta)
     if not assets:
         return ""
-    lines = ["#let assets = (:)"]
+    # Expose a simple Typst API:
+    #   - `asset`: a dict mapping names -> image refs
+    #   - `asset_img(name, ..)` returns an `image(...)` for the mapped ref
+    lines = ["#let asset = (:)"]
     for name in sorted(assets.keys()):
         v = assets[name]
-        lines.append(f'#assets.insert("{_escape_typst_string(name)}", "{_escape_typst_string(v)}")')
+        lines.append(f'#asset.insert("{_escape_typst_string(name)}", "{_escape_typst_string(v)}")')
     lines.append(
-        "#let asset(name, width: none, height: none, fit: \"contain\") = {"
-        " let p = assets.at(name, default: none);"
+        "#let asset_img(name, width: auto, height: auto, fit: \"contain\") = {"
+        " let p = asset.at(name, default: none);"
         " if p == none { none } else { image(p, width: width, height: height, fit: fit) }"
         "}"
     )

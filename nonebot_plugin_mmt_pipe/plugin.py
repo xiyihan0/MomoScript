@@ -302,7 +302,7 @@ async def _render_syntax_help_pngs(*, out_dir: Path) -> list[Path]:
                 "- 常用：`@title` / `@author` / `@created_at`（会写入输出 JSON 的 `meta`）",
                 "- 其它 `@key` 也会写入 `meta`（不与保留字段冲突即可）",
                 "- Typst：`@typst_global: ...`（可配合 `\"\"\"...\"\"\"` 写多行块）",
-                "- 资源：`@asset.<name>: <url|data:image/...>`（默认只允许外链或 data URL；resolve 后可在 Typst 模式用 `#asset(\"<name>\")` 引用）",
+                "- 资源：`@asset.<name>: <url|data:image/...>`（默认只允许外链或 data URL；resolve 后可在 Typst 模式用 `#asset_img(\"<name>\")` 引用）",
                 "- 本地资源（可选）：加 `--allow-local-assets` 后，允许 `@asset.<name>: mmt_assets/xxx.png`（仅限白名单目录且必须是图片文件）",
                 """- 备注：
   - `@typst: on|off` 只写入 `meta.typst`，实际解析模式以 `--typst` 为准

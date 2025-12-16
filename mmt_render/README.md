@@ -12,7 +12,7 @@
 - `@bubble_inset: 7pt|3mm|0.8em`（可选：气泡内边距，越大气泡越“胖”）
 - `@typst_global: ...`（单行）或 `@typst_global: """ ... """`（多行块）
 - `@typst: on|off`（仅作为元信息写入 `meta.typst`，解析模式仍以命令行 `--typst` 为准）
-- `@asset.<name>: https://...`（可选：声明一个外链图片资源，resolve 后可在 Typst 模式中用 `#asset("<name>")` 复用）
+- `@asset.<name>: https://...`（可选：声明一个外链图片资源，resolve 后可在 Typst 模式中用 `#asset_img("<name>")` 复用）
 
 注：文档中的 `...` 仅表示“任意内容占位”，不是语法的一部分；实际写法是 `@key: value`。
 
