@@ -289,7 +289,35 @@ async def resolve_file(
             for seg in segments:
                 if not isinstance(seg, dict):
                     continue
-                if seg.get("type") != "expr":
+                seg_type = seg.get("type")
+                # External image URLs might already be parsed as `type=image` by the DSL parser.
+                if seg_type == "image":
+                    ref = str(seg.get("ref") or "").strip()
+                    if not ref:
+                        new_segments.append(seg)
+                        continue
+                    if ref.startswith("data:image/"):
+                        new_segments.append(seg)
+                        continue
+                    if is_url_like(ref):
+                        try:
+                            async with sem:
+                                p = await dl.fetch(ref, force=bool(redownload_assets))
+                            seg2 = dict(seg)
+                            seg2["ref"] = f"{asset_ref_base.as_posix()}/{p.name}"
+                            new_segments.append(seg2)
+                            continue
+                        except Exception as exc:
+                            if strict:
+                                return exc
+                            seg2 = dict(seg)
+                            seg2["error"] = str(exc)
+                            new_segments.append(seg2)
+                            continue
+                    new_segments.append(seg)
+                    continue
+
+                if seg_type != "expr":
                     new_segments.append(seg)
                     continue
                 query = str(seg.get("query") or "").strip()

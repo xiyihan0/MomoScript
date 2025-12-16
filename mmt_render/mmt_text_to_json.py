@@ -27,6 +27,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import urlparse
 
 try:
     # When executed as a module: `python -m mmt_render.mmt_text_to_json ...`
@@ -58,6 +59,20 @@ def _base_name(name: str) -> str:
 def _hash_id(text: str) -> str:
     return hashlib.sha1(text.encode("utf-8")).hexdigest()[:10]
 
+
+def _is_url_like(s: str) -> bool:
+    s = (s or "").strip()
+    if not s:
+        return False
+    if s.startswith("data:image/"):
+        return True
+    if s.startswith("//"):
+        return True
+    try:
+        u = urlparse(s)
+        return u.scheme in ("http", "https") and bool(u.netloc)
+    except Exception:
+        return False
 
 def _posix(path: Path) -> str:
     return path.as_posix()
@@ -724,6 +739,11 @@ def convert_text(
             target = (seg.target or "").strip()
             if not query:
                 segments_out.append({"type": "text", "text": "[]"})
+                continue
+
+            # External image URLs can be used directly without a character context, even on Sensei side.
+            if _is_url_like(query) and target == "":
+                segments_out.append({"type": "image", "ref": query, "alt": query})
                 continue
 
             # Backward-compatible: treat `[{...}]`-style placeholders as plain text.
