@@ -32,6 +32,12 @@ except Exception:  # pragma: no cover
     mmt_text_to_json = None  # type: ignore
 
 try:
+    from mmt_render.typst_sandbox import TypstSandboxOptions, run_typst_sandboxed
+except Exception:  # pragma: no cover
+    TypstSandboxOptions = None  # type: ignore
+    run_typst_sandboxed = None  # type: ignore
+
+try:
     from mmt_render.resolve_expressions import resolve_file
 except Exception:  # pragma: no cover
     resolve_file = None  # type: ignore
@@ -184,7 +190,19 @@ def _run_typst(
     if extra_inputs:
         for k, v in extra_inputs.items():
             cmd.extend(["--input", f"{k}={v}"])
-    proc = subprocess.run(cmd, cwd=str(cwd), capture_output=True, text=True)
+
+    if run_typst_sandboxed is not None and TypstSandboxOptions is not None:
+        procgov_bin = (plugin_config.mmt_procgov_bin or "").strip() or None
+        opts = TypstSandboxOptions(
+            timeout_s=float(getattr(plugin_config, "mmt_typst_timeout_s", 30.0) or 30.0),
+            max_mem_mb=int(getattr(plugin_config, "mmt_typst_maxmem_mb", 0) or 0) or None,
+            rayon_threads=int(getattr(plugin_config, "mmt_typst_rayon_threads", 0) or 0) or None,
+            procgov_bin=procgov_bin,
+            enable_procgov=bool(getattr(plugin_config, "mmt_typst_enable_procgov", True)),
+        )
+        proc = run_typst_sandboxed(cmd, cwd=cwd, options=opts)
+    else:
+        proc = subprocess.run(cmd, cwd=str(cwd), capture_output=True, text=True)
     if proc.returncode != 0:
         raise RuntimeError(f"typst failed ({proc.returncode}):\n{proc.stderr or proc.stdout}")
 

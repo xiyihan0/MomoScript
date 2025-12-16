@@ -11,9 +11,11 @@ from typing import Optional
 try:
     from mmt_render import mmt_text_to_json
     from mmt_render.resolve_expressions import resolve_file
+    from mmt_render.typst_sandbox import TypstSandboxOptions, run_typst_sandboxed
 except ModuleNotFoundError:
     import mmt_text_to_json  # type: ignore
     from resolve_expressions import resolve_file  # type: ignore
+    from typst_sandbox import TypstSandboxOptions, run_typst_sandboxed  # type: ignore
 
 
 def _find_tags_root(start: Path) -> Optional[Path]:
@@ -102,7 +104,36 @@ def _run_typst(
         cmd.extend(["--input", "typst_mode=1"])
     if disable_heading:
         cmd.extend(["--input", "disable_heading=1"])
-    subprocess.run(cmd, cwd=str(cwd), check=True)
+
+    # Best-effort sandbox: allow controlling via env without changing CLI surface too much.
+    def _env_float(name: str, default: float) -> float:
+        try:
+            return float(os.environ.get(name, "").strip() or default)
+        except Exception:
+            return default
+
+    def _env_int(name: str, default: int) -> int:
+        try:
+            return int(float(os.environ.get(name, "").strip() or default))
+        except Exception:
+            return default
+
+    timeout_s = _env_float("MMT_TYPST_TIMEOUT_S", 30.0)
+    max_mem_mb = _env_int("MMT_TYPST_MAXMEM_MB", 2048)
+    rayon_threads = _env_int("MMT_TYPST_RAYON_THREADS", 4)
+    procgov_bin = os.environ.get("MMT_PROCGOV_BIN", "").strip() or None
+    enable_procgov = os.environ.get("MMT_TYPST_ENABLE_PROCGOV", "1").strip() not in {"0", "false", "False"}
+
+    opts = TypstSandboxOptions(
+        timeout_s=timeout_s if timeout_s > 0 else None,
+        max_mem_mb=max_mem_mb if max_mem_mb > 0 else None,
+        rayon_threads=rayon_threads if rayon_threads > 0 else None,
+        procgov_bin=procgov_bin,
+        enable_procgov=enable_procgov,
+    )
+    result = run_typst_sandboxed(cmd, cwd=cwd, options=opts)
+    if result.returncode != 0:
+        raise subprocess.CalledProcessError(result.returncode, cmd, output=result.stdout, stderr=result.stderr)
 
 
 def main() -> int:

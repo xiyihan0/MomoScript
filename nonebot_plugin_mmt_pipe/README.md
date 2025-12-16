@@ -13,6 +13,11 @@ NoneBot 配置项（环境变量/`.env`/`pyproject.toml` 均可）：
 - `mmt_typst_template`：默认 `mmt_render/mmt_render.typ`（建议配置成绝对路径或相对 NoneBot 项目根目录）
 - `mmt_work_dir`：默认 `.cache/nonebot_mmt`
 - `mmt_typst_bin`：默认 `typst`
+- `mmt_typst_timeout_s`：默认 `30`（Typst 渲染超时，秒）
+- `mmt_typst_maxmem_mb`：默认 `2048`（Typst 渲染内存上限，MB；Windows 下通过 procgov/Job Object 尽力限制）
+- `mmt_typst_rayon_threads`：默认 `4`（限制 Typst 并行度，设置 `RAYON_NUM_THREADS`）
+- `mmt_procgov_bin`：默认空（若安装了 `procgov`，Windows 下会自动使用；也可填绝对路径）
+- `mmt_typst_enable_procgov`：默认 `true`（Windows 下优先使用 procgov）
 - `mmt_png_ppi`：默认 `144`（PNG 导出分辨率，调小可减少发送体积）
 - `mmt_send_delay_ms`：默认 `0`（发送多张图片失败时的逐张发送间隔）
 - `mmt_ctx_n`：默认 `2`
@@ -41,6 +46,12 @@ NoneBot 配置项（环境变量/`.env`/`pyproject.toml` 均可）：
 Tip：Typst markup 中 `[` / `]` 等字符有语法含义，纯文本需要转义；`eval` 的定义不会跨气泡持久化，建议用 `@typst_global` 放全局定义，或把定义和使用写在同一个气泡（例如三引号多行块）。
 
 默认行为：若文本头部没有写 `@author: ...`，插件会自动用“指令发起者昵称/群名片”注入 `@author`，用于标题栏显示。
+
+## 安全提示（Typst 资源限制）
+如果你开启了 `--typst`（允许在气泡内执行 Typst markup），建议保持 Typst 沙箱限制开启：
+
+- 默认会设置 `RAYON_NUM_THREADS`，并对 Typst 渲染加 `timeout` 与 `maxmem`（尽力限制 OOM/卡死风险）
+- Windows 推荐安装 Process Governor：`winget install procgov` 或 `choco install procgov`，插件会自动调用它来强制限制内存/超时并递归终止子进程
 
 头部指令：`@key: value` 只在文件开头解析（例如 `@title` / `@author` / `@typst_global`）；文档里的 `...` 仅表示“任意内容占位”。
 

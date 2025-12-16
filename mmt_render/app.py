@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import threading
 import time
@@ -14,6 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from mmt_text_to_json import convert_text
+from typst_sandbox import TypstSandboxOptions, run_typst_sandboxed
 
 
 ROOT = Path(__file__).resolve().parent
@@ -173,21 +175,24 @@ def render_pdf(req: ParseRequest, request: Request) -> FileResponse:
     json_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
     try:
-        result = subprocess.run(
-            [
-                "typst",
-                "compile",
-                str(TYPST_TEMPLATE),
-                str(pdf_path),
-                "--root",
-                str(ROOT),
-                "--input",
-                f"chat={json_path.relative_to(ROOT).as_posix()}",
-            ],
-            cwd=str(ROOT),
-            capture_output=True,
-            text=True,
+        cmd = [
+            "typst",
+            "compile",
+            str(TYPST_TEMPLATE),
+            str(pdf_path),
+            "--root",
+            str(ROOT),
+            "--input",
+            f"chat={json_path.relative_to(ROOT).as_posix()}",
+        ]
+        opts = TypstSandboxOptions(
+            timeout_s=float(os.environ.get("MMT_TYPST_TIMEOUT_S", "30") or 30),
+            max_mem_mb=int(float(os.environ.get("MMT_TYPST_MAXMEM_MB", "2048") or 2048)),
+            rayon_threads=int(float(os.environ.get("MMT_TYPST_RAYON_THREADS", "4") or 4)),
+            procgov_bin=os.environ.get("MMT_PROCGOV_BIN", "").strip() or None,
+            enable_procgov=os.environ.get("MMT_TYPST_ENABLE_PROCGOV", "1").strip() not in {"0", "false", "False"},
         )
+        result = run_typst_sandboxed(cmd, cwd=ROOT, options=opts)
     except FileNotFoundError as exc:
         raise HTTPException(status_code=501, detail="typst CLI not found in PATH") from exc
     finally:

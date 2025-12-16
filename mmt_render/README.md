@@ -178,6 +178,15 @@
 
 `python mmt_pipeline.py mmt_format_test.txt --resolve --pdf`
 
+### Typst 渲染安全（可选）
+如果你允许用户输入参与 Typst 渲染（例如 `--typst`），建议对 Typst 进程做资源限制（防止恶意 payload 导致 OOM/卡死）：
+
+- `MMT_TYPST_TIMEOUT_S`：默认 `30`（秒）
+- `MMT_TYPST_MAXMEM_MB`：默认 `2048`
+- `MMT_TYPST_RAYON_THREADS`：默认 `4`（设置 `RAYON_NUM_THREADS`）
+- `MMT_PROCGOV_BIN`：Windows 下可选，指向 `procgov`（Process Governor）
+- `MMT_TYPST_ENABLE_PROCGOV`：默认 `1`（Windows 下优先用 procgov 强制限制）
+
 ## 前端：本地预览页（FastAPI）
 提供一个本地网页：粘贴/选择 MMT 文本 -> 调用后端解析 -> 在浏览器里预览气泡与头像，并可一键下载 JSON。
 

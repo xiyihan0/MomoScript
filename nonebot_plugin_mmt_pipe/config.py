@@ -14,6 +14,16 @@ class MMTPipeConfig(BaseModel):
     mmt_work_dir: str = Field(default=".cache/nonebot_mmt")
     # Typst executable name/path.
     mmt_typst_bin: str = Field(default="typst")
+    # Typst rendering sandbox: wall-clock timeout (seconds).
+    mmt_typst_timeout_s: float = Field(default=30.0)
+    # Typst rendering sandbox: max memory (MB). On Windows this is enforced via procgov/job object.
+    mmt_typst_maxmem_mb: int = Field(default=2048)
+    # Limit Typst parallelism (Typst uses Rayon); 1-4 is usually enough.
+    mmt_typst_rayon_threads: int = Field(default=4)
+    # Optional: path/name of procgov (Process Governor). If installed, it will be used automatically on Windows.
+    mmt_procgov_bin: str = Field(default="")
+    # Prefer procgov when available (Windows).
+    mmt_typst_enable_procgov: bool = Field(default=True)
     # PPI for PNG export (smaller -> faster to send).
     mmt_png_ppi: int = Field(default=144)
     # Delay between sending multiple messages (ms). Used as fallback when we can't send all images in one message.
