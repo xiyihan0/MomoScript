@@ -302,6 +302,7 @@ async def _render_syntax_help_pngs(*, out_dir: Path) -> list[Path]:
                 "- 常用：`@title` / `@author` / `@created_at`（会写入输出 JSON 的 `meta`）",
                 "- 其它 `@key` 也会写入 `meta`（不与保留字段冲突即可）",
                 "- Typst：`@typst_global: ...`（可配合 `\"\"\"...\"\"\"` 写多行块）",
+                "- 资源：`@asset.<name>: <url|data:image/...>`（仅允许外链或 data URL；resolve 后可在 Typst 模式用 `#asset(\"<name>\")` 引用）",
                 """- 备注：
   - `@typst: on|off` 只写入 `meta.typst`，实际解析模式以 `--typst` 为准
   - 文档中的 `...` 仅表示“任意内容占位”，不是语法的一部分；实际写法是 `@key: value`""",

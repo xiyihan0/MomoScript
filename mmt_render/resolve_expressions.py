@@ -264,15 +264,26 @@ async def resolve_file(
         assets = _assets_from_meta(meta)
         if assets:
             for name, url in list(assets.items()):
-                if not is_url_like(url):
+                raw = (url or "").strip()
+                # Security: do not allow arbitrary local paths via @asset.* (Typst would be able to read them
+                # as long as they are under --root). Only allow external URLs (downloaded to cache) or data URLs.
+                if raw.startswith("data:image/"):
+                    meta[f"asset.{name}"] = raw
+                    continue
+                if not is_url_like(raw):
+                    if strict:
+                        raise RuntimeError(f"invalid @asset.{name}: only URL or data:image/... is allowed")
+                    meta.pop(f"asset.{name}", None)
+                    meta[f"asset_error.{name}"] = "only URL or data:image/... is allowed; local paths are forbidden"
                     continue
                 try:
-                    p = await dl.fetch(url, force=bool(redownload_assets))
+                    p = await dl.fetch(raw, force=bool(redownload_assets))
                     meta[f"asset.{name}"] = f"{asset_ref_base.as_posix()}/{p.name}"
-                except Exception:
+                except Exception as exc:
                     if strict:
                         raise
-                    meta[f"asset.{name}"] = url
+                    meta.pop(f"asset.{name}", None)
+                    meta[f"asset_error.{name}"] = str(exc)
 
         data["meta"] = meta
         data["typst_assets_global"] = _build_typst_assets_global(meta)
