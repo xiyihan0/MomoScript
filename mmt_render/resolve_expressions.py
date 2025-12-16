@@ -91,6 +91,13 @@ def _assets_from_meta(meta: Dict[str, Any]) -> Dict[str, str]:
     return assets
 
 
+def _asset_value(meta: Dict[str, Any], name: str) -> Optional[str]:
+    if not name:
+        return None
+    v = (meta or {}).get(f"asset.{name}")
+    return v.strip() if isinstance(v, str) and v.strip() else None
+
+
 def _escape_typst_string(s: str) -> str:
     return s.replace("\\", "\\\\").replace('"', '\\"')
 
@@ -358,6 +365,44 @@ async def resolve_file(
                 if not isinstance(seg, dict):
                     continue
                 seg_type = seg.get("type")
+                if seg_type == "asset":
+                    name = str(seg.get("name") or "").strip()
+                    v = _asset_value(meta, name)
+                    if not v:
+                        if strict:
+                            return RuntimeError(f"missing @asset.{name}")
+                        seg2 = dict(seg)
+                        seg2["error"] = f"missing @asset.{name}"
+                        new_segments.append(seg2)
+                        continue
+
+                    # v is already policy-filtered by the meta rewrite step above.
+                    if v.startswith("data:image/"):
+                        new_segments.append({"type": "image", "ref": v, "alt": f"asset:{name}"})
+                        continue
+
+                    if is_url_like(v):
+                        try:
+                            async with sem:
+                                p = await dl.fetch(v, force=bool(redownload_assets))
+                            new_segments.append(
+                                {
+                                    "type": "image",
+                                    "ref": f"{asset_ref_base.as_posix()}/{p.name}",
+                                    "alt": f"asset:{name}",
+                                }
+                            )
+                            continue
+                        except Exception as exc:
+                            if strict:
+                                return exc
+                            seg2 = dict(seg)
+                            seg2["error"] = str(exc)
+                            new_segments.append(seg2)
+                            continue
+
+                    new_segments.append({"type": "image", "ref": v, "alt": f"asset:{name}"})
+                    continue
                 # External image URLs might already be parsed as `type=image` by the DSL parser.
                 if seg_type == "image":
                     ref = str(seg.get("ref") or "").strip()

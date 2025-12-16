@@ -76,6 +76,16 @@ def _is_url_like(s: str) -> bool:
     except Exception:
         return False
 
+
+def _parse_asset_query(query: str) -> Optional[str]:
+    q = (query or "").strip()
+    if not q:
+        return None
+    if q.lower().startswith("asset:"):
+        name = q.split(":", 1)[1].strip()
+        return name or None
+    return None
+
 def _posix(path: Path) -> str:
     return path.as_posix()
 
@@ -747,6 +757,13 @@ def convert_text(
             if _is_url_like(query) and target == "":
                 segments_out.append({"type": "image", "ref": query, "alt": query})
                 continue
+
+            # Asset reference: [asset:xxx] resolves to @asset.xxx (validated in resolve stage).
+            if target == "":
+                asset_name = _parse_asset_query(query)
+                if asset_name:
+                    segments_out.append({"type": "asset", "name": asset_name, "text": f"[asset:{asset_name}]"})
+                    continue
 
             # Backward-compatible: treat `[{...}]`-style placeholders as plain text.
             if target == "" and query.lstrip().startswith("{") and query.rstrip().endswith("}"):
