@@ -139,8 +139,8 @@ async def resolve_one(
             idx = EmbeddingIndex.build(vecs)
             cached = _StudentIndex(candidates=candidates, docs=docs_all, index=idx)
             cache.put(student_id, cached)
-        # Do not cache queries to avoid unbounded cache growth.
-        q_vec = (await embedder.embed_texts([query], use_cache=False))[0]
+        # Cache query embeddings too (small: ~16KB for 4096-dim float32), to reduce repeated requests.
+        q_vec = (await embedder.embed_texts([query], use_cache=True))[0]
         top_idx = cached.index.top_k(q_vec, int(embed_top_k))
         if top_idx:
             chosen_map = top_idx
