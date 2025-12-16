@@ -43,6 +43,10 @@ class MMTPipeConfig(BaseModel):
     mmt_asset_redownload: bool = Field(default=False)
     # Max download size (MB) for external assets.
     mmt_asset_max_mb: int = Field(default=10)
+    # Allow @asset.* to reference local images under mmt_asset_local_prefixes.
+    mmt_asset_allow_local: bool = Field(default=False)
+    # Comma-separated list of allowed first path segments for local @asset.* (default: mmt_assets).
+    mmt_asset_local_prefixes: str = Field(default="mmt_assets")
 
     def tags_root_path(self) -> Path:
         return Path(self.mmt_tags_root).expanduser()
@@ -57,3 +61,6 @@ class MMTPipeConfig(BaseModel):
         if self.mmt_asset_cache_dir.strip():
             return Path(self.mmt_asset_cache_dir).expanduser()
         return self.work_dir_path() / "assets"
+
+    def asset_local_prefixes_list(self) -> list[str]:
+        return [x.strip() for x in str(self.mmt_asset_local_prefixes).split(",") if x.strip()]

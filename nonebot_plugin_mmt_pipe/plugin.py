@@ -302,7 +302,8 @@ async def _render_syntax_help_pngs(*, out_dir: Path) -> list[Path]:
                 "- 常用：`@title` / `@author` / `@created_at`（会写入输出 JSON 的 `meta`）",
                 "- 其它 `@key` 也会写入 `meta`（不与保留字段冲突即可）",
                 "- Typst：`@typst_global: ...`（可配合 `\"\"\"...\"\"\"` 写多行块）",
-                "- 资源：`@asset.<name>: <url|data:image/...>`（仅允许外链或 data URL；resolve 后可在 Typst 模式用 `#asset(\"<name>\")` 引用）",
+                "- 资源：`@asset.<name>: <url|data:image/...>`（默认只允许外链或 data URL；resolve 后可在 Typst 模式用 `#asset(\"<name>\")` 引用）",
+                "- 本地资源（可选）：加 `--allow-local-assets` 后，允许 `@asset.<name>: mmt_assets/xxx.png`（仅限白名单目录且必须是图片文件）",
                 """- 备注：
   - `@typst: on|off` 只写入 `meta.typst`，实际解析模式以 `--typst` 为准
   - 文档中的 `...` 仅表示“任意内容占位”，不是语法的一部分；实际写法是 `@key: value`""",
@@ -405,6 +406,8 @@ async def _pipe_to_outputs(
     no_time: bool,
     out_format: str,
     redownload_assets: bool,
+    allow_local_assets: bool,
+    asset_local_prefixes: Optional[str],
     out_dir: Path,
 ) -> tuple[list[Path], dict, dict, str]:
     if mmt_text_to_json is None:
@@ -456,6 +459,12 @@ async def _pipe_to_outputs(
             asset_cache_dir=plugin_config.asset_cache_dir_path(),
             redownload_assets=bool(redownload_assets or getattr(plugin_config, "mmt_asset_redownload", False)),
             asset_max_mb=int(getattr(plugin_config, "mmt_asset_max_mb", 10) or 10),
+            allow_local_assets=bool(allow_local_assets or getattr(plugin_config, "mmt_asset_allow_local", False)),
+            asset_local_prefixes=(
+                [x.strip() for x in str(asset_local_prefixes or "").split(",") if x.strip()]
+                if asset_local_prefixes
+                else plugin_config.asset_local_prefixes_list()
+            ),
         )
         chat_for_render = resolved_path
         try:
@@ -547,6 +556,8 @@ def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
     no_time: bool = False
     out_format: str = (default_format or "png").strip().lower()
     redownload_assets: bool = False
+    allow_local_assets: bool = False
+    asset_local_prefixes: Optional[str] = None
     show_help: bool = False
     help_mode: Optional[str] = None
 
@@ -591,6 +602,19 @@ def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
         if s.startswith("--redownload_assets"):
             redownload_assets = True
             s = s[len("--redownload_assets") :]
+            continue
+        if s.startswith("--allow-local-assets"):
+            allow_local_assets = True
+            s = s[len("--allow-local-assets") :]
+            continue
+        if s.startswith("--allow_local_assets"):
+            allow_local_assets = True
+            s = s[len("--allow_local_assets") :]
+            continue
+        m = re.match(r"^--asset-local-prefixes(?:=|\s+)([^\\s]+)", s)
+        if m:
+            asset_local_prefixes = str(m.group(1)).strip()
+            s = s[m.end() :]
             continue
         if s.startswith("--pdf"):
             out_format = "pdf"
@@ -653,6 +677,8 @@ def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
         "no_time": no_time,
         "out_format": out_format,
         "redownload_assets": redownload_assets,
+        "allow_local_assets": allow_local_assets,
+        "asset_local_prefixes": asset_local_prefixes,
         "help": show_help,
         "help_mode": help_mode,
     }
@@ -776,6 +802,9 @@ async def _handle_mmt_common(
                 f"- --ctx-n <N>：'[图片]' 使用的上下文窗口大小（默认 {plugin_config.mmt_ctx_n}）",
                 "- --disable-heading：关闭标题栏",
                 "- --no-time：不自动填充编译时间",
+                "- --redownload-assets：强制重新下载外链图片",
+                "- --allow-local-assets：允许 @asset.* 引用本地图片（受前缀白名单限制）",
+                "- --asset-local-prefixes <a,b,c>：本地 @asset.* 允许的一级目录（默认 mmt_assets）",
                 "",
                 "其他指令：",
                 "- /mmt-img <角色名>：列出该角色库内所有表情",
@@ -807,6 +836,8 @@ async def _handle_mmt_common(
             no_time=bool(flags.get("no_time")),
             out_format=str(flags.get("out_format") or default_format),
             redownload_assets=bool(flags.get("redownload_assets")),
+            allow_local_assets=bool(flags.get("allow_local_assets")),
+            asset_local_prefixes=flags.get("asset_local_prefixes"),
             out_dir=out_dir,
         )
     except subprocess.CalledProcessError as exc:

@@ -4,6 +4,7 @@ import argparse
 import asyncio
 import json
 import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -109,6 +110,50 @@ def _build_typst_assets_global(meta: Dict[str, Any]) -> str:
         "}"
     )
     return "\n".join(lines) + "\n"
+
+
+_LOCAL_ASSET_EXTS = {"png", "jpg", "jpeg", "webp", "gif", "bmp", "svg"}
+
+
+def _normalize_local_asset_ref(raw: str, *, allowed_prefixes: List[str]) -> Optional[str]:
+    """
+    Normalize a local asset reference to a Typst project-root absolute path:
+      - No schemes like file://
+      - No Windows drive letters
+      - No '..' segments
+      - Must be under one of allowed_prefixes (first path segment)
+      - Must have an image extension
+    Returns: '/prefix/.../file.ext' or None if invalid.
+    """
+    s = (raw or "").strip().replace("\\", "/")
+    if not s:
+        return None
+    if s.startswith("./"):
+        s = s[2:]
+    if s.startswith("/"):
+        s = s[1:]
+    s = s.lstrip("/")
+    if not s:
+        return None
+    if re.match(r"^[A-Za-z]:", s):
+        return None
+    if "://" in s or s.startswith("//"):
+        return None
+    parts = [p for p in s.split("/") if p not in ("", ".")]
+    if not parts or any(p == ".." for p in parts):
+        return None
+    if allowed_prefixes:
+        if parts[0] not in set(allowed_prefixes):
+            return None
+    last = parts[-1]
+    m = re.search(r"\.([A-Za-z0-9]{2,5})$", last)
+    if not m:
+        return None
+    ext = m.group(1).lower()
+    if ext not in _LOCAL_ASSET_EXTS:
+        return None
+    return "/" + "/".join(parts)
+
 
 def _student_key(student_id: int) -> str:
     return str(int(student_id))
@@ -223,6 +268,8 @@ async def resolve_file(
     asset_cache_dir: Optional[Path] = None,
     redownload_assets: bool = False,
     asset_max_mb: int = 10,
+    allow_local_assets: bool = False,
+    asset_local_prefixes: Optional[List[str]] = None,
 ) -> int:
     data = json.loads(input_path.read_text(encoding="utf-8"))
     chat = data.get("chat")
@@ -258,6 +305,7 @@ async def resolve_file(
             asset_ref_base = asset_cache_dir
 
     max_bytes = max(1, int(asset_max_mb)) * 1024 * 1024
+    local_prefixes = asset_local_prefixes or ["mmt_assets"]
 
     async with ExternalAssetDownloader(ExternalAssetConfig(cache_dir=asset_cache_dir, max_bytes=max_bytes)) as dl:
         # Resolve @asset.* in meta to local cached files so Typst can read them.
@@ -271,10 +319,19 @@ async def resolve_file(
                     meta[f"asset.{name}"] = raw
                     continue
                 if not is_url_like(raw):
+                    if allow_local_assets:
+                        norm = _normalize_local_asset_ref(raw, allowed_prefixes=list(local_prefixes))
+                        if norm is not None:
+                            meta[f"asset.{name}"] = norm
+                            continue
                     if strict:
-                        raise RuntimeError(f"invalid @asset.{name}: only URL or data:image/... is allowed")
+                        raise RuntimeError(
+                            f"invalid @asset.{name}: only URL/data:image/... is allowed (local requires allow_local_assets and under {local_prefixes})"
+                        )
                     meta.pop(f"asset.{name}", None)
-                    meta[f"asset_error.{name}"] = "only URL or data:image/... is allowed; local paths are forbidden"
+                    meta[f"asset_error.{name}"] = (
+                        f"only URL/data:image/... is allowed; local must be under {local_prefixes} and be an image file"
+                    )
                     continue
                 try:
                     p = await dl.fetch(raw, force=bool(redownload_assets))
@@ -445,6 +502,16 @@ def main() -> int:
     p.add_argument("--redownload-assets", action="store_true", help="Force redownload external images even if cached.")
     p.add_argument("--asset-max-mb", type=int, default=10, help="Max download size (MB) for external images.")
     p.add_argument(
+        "--allow-local-assets",
+        action="store_true",
+        help="Allow @asset.* to reference local image files under specific prefixes (default: disabled).",
+    )
+    p.add_argument(
+        "--asset-local-prefixes",
+        default="mmt_assets",
+        help="Comma-separated allowed first path segments for local @asset.* (default: mmt_assets).",
+    )
+    p.add_argument(
         "--strict",
         action="store_true",
         help="Fail the whole run if any expression cannot be resolved (default: keep unresolved with error).",
@@ -472,6 +539,8 @@ def main() -> int:
             asset_cache_dir=Path(args.asset_cache_dir) if args.asset_cache_dir else None,
             redownload_assets=bool(args.redownload_assets),
             asset_max_mb=int(args.asset_max_mb),
+            allow_local_assets=bool(args.allow_local_assets),
+            asset_local_prefixes=[x.strip() for x in str(args.asset_local_prefixes).split(",") if x.strip()],
         )
     )
 
