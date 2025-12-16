@@ -32,6 +32,9 @@ def is_url_like(s: str) -> bool:
         return False
     if s.startswith("data:image/"):
         return True
+    if s.startswith("://"):
+        # Shorthand used by some users; treat as https://
+        return True
     if s.startswith("//"):
         return True
     try:
@@ -45,6 +48,8 @@ def is_url_like(s: str) -> bool:
 
 def normalize_url(s: str) -> str:
     s = (s or "").strip()
+    if s.startswith("://"):
+        return "https" + s
     if s.startswith("//"):
         return "https:" + s
     return s
@@ -173,4 +178,3 @@ class ExternalAssetDownloader:
 
             logger.info(f"asset ok | elapsed_ms={elapsed_ms} path={out_path.name}")
             return out_path
-

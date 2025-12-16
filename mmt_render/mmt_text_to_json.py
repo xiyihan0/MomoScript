@@ -66,6 +66,8 @@ def _is_url_like(s: str) -> bool:
         return False
     if s.startswith("data:image/"):
         return True
+    if s.startswith("://"):
+        return True
     if s.startswith("//"):
         return True
     try:
