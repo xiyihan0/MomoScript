@@ -611,12 +611,6 @@ def convert_text(
                 alias = tmpalias or alias_char_id_to_override.get(char_id, "")
                 if alias:
                     name_override = alias
-                elif marker is not None and marker[0] == "explicit":
-                    # For explicit markers, preserve "(...)" variants (or custom names) as display override.
-                    if char_id.startswith("kivo-") and display and display != _base_name(display):
-                        name_override = display
-                    elif existing is not None and display and display != existing:
-                        name_override = display
 
             if speaker and char_id != "__Sensei":
                 char_id_to_display_name.setdefault(char_id, speaker)
