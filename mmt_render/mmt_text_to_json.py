@@ -271,6 +271,10 @@ def convert_text(
     # - @aliasid yz 柚子
     # - @unaliasid yz
     alias_id_to_name: Dict[str, str] = {}
+    # Custom-id: create a stable custom character id (no student lookup).
+    # - @charid yz 柚子
+    # - @uncharid yz
+    custom_id_to_display: Dict[str, str] = {}
     # Temporary aliasing for display name (scoped):
     # - @tmpalias 星野=星野(临战)
     # Activates on the next TEXT line whose resolved speaker is 星野 (explicit or implicit) and stays active
@@ -447,6 +451,39 @@ def convert_text(
             raise ValueError(f"line {line_no}: @unaliasid id not found: {alias_id}")
         del alias_id_to_name[alias_id]
 
+    def _parse_charid_line(line: str, *, line_no: int) -> None:
+        # Syntax: @charid <id> <display_name>
+        m = re.match(r"^@charid\s+(.+)$", line.strip(), flags=re.IGNORECASE)
+        if not m:
+            raise ValueError(f"line {line_no}: invalid @charid directive")
+        rest = m.group(1).strip()
+        parts = rest.split(None, 1)
+        if len(parts) != 2:
+            raise ValueError(f"line {line_no}: invalid @charid directive (expected: @charid <id> <display>)")
+        cid, display = parts[0].strip(), parts[1].strip()
+        if not cid:
+            raise ValueError(f"line {line_no}: invalid @charid directive (empty id)")
+        if not re.match(r"^[A-Za-z0-9_][A-Za-z0-9_\\-]*$", cid):
+            raise ValueError(f"line {line_no}: invalid @charid id: {cid}")
+        if _is_reserved_aliasid(cid):
+            raise ValueError(f"line {line_no}: @charid cannot use reserved/original id: {cid}")
+        if not display:
+            raise ValueError(f"line {line_no}: invalid @charid directive (empty display)")
+        custom_id_to_display[cid] = display
+
+    def _parse_uncharid_line(line: str, *, line_no: int) -> None:
+        m = re.match(r"^@uncharid\s+(.+)$", line.strip(), flags=re.IGNORECASE)
+        if not m:
+            raise ValueError(f"line {line_no}: invalid @uncharid directive")
+        cid = m.group(1).strip()
+        if not cid:
+            raise ValueError(f"line {line_no}: invalid @uncharid directive (empty id)")
+        if _is_reserved_aliasid(cid):
+            raise ValueError(f"line {line_no}: @uncharid cannot target reserved/original id: {cid}")
+        if cid not in custom_id_to_display:
+            raise ValueError(f"line {line_no}: @uncharid id not found: {cid}")
+        del custom_id_to_display[cid]
+
     def _parse_header_block(start_i: int, first_line_value: str, start_line_no: int) -> Tuple[str, int]:
         """
         Parse a triple-quoted block that starts in a header directive value.
@@ -491,6 +528,14 @@ def convert_text(
             continue
         if re.match(r"^@unaliasid\b", lstripped, flags=re.IGNORECASE):
             _parse_unaliasid_line(lstripped, line_no=i + 1)
+            i += 1
+            continue
+        if re.match(r"^@charid\b", lstripped, flags=re.IGNORECASE):
+            _parse_charid_line(lstripped, line_no=i + 1)
+            i += 1
+            continue
+        if re.match(r"^@uncharid\b", lstripped, flags=re.IGNORECASE):
+            _parse_uncharid_line(lstripped, line_no=i + 1)
             i += 1
             continue
         if lstripped.startswith("- ") or lstripped.startswith("> ") or lstripped.startswith("< "):
@@ -562,6 +607,14 @@ def convert_text(
             _parse_unaliasid_line(stripped, line_no=line_no)
             i += 1
             continue
+        if re.match(r"^@charid\b", stripped, flags=re.IGNORECASE):
+            _parse_charid_line(stripped, line_no=line_no)
+            i += 1
+            continue
+        if re.match(r"^@uncharid\b", stripped, flags=re.IGNORECASE):
+            _parse_uncharid_line(stripped, line_no=line_no)
+            i += 1
+            continue
 
         if stripped.startswith("- "):
             flush_continuation()
@@ -609,10 +662,14 @@ def convert_text(
                 mtype, mval = marker
                 if mtype == "explicit":
                     raw_name = str(mval)
-                    canonical = alias_id_to_name.get(raw_name, raw_name)
-                    speaker = state.set_explicit(canonical)
-                    # If this is an alias-id, do not show the alias token; show the canonical name.
-                    speaker_raw_for_display = canonical if canonical != raw_name else raw_name
+                    if raw_name in custom_id_to_display:
+                        speaker = state.set_explicit(raw_name)
+                        speaker_raw_for_display = custom_id_to_display.get(raw_name, raw_name)
+                    else:
+                        canonical = alias_id_to_name.get(raw_name, raw_name)
+                        speaker = state.set_explicit(canonical)
+                        # If this is an alias-id, do not show the alias token; show the canonical name.
+                        speaker_raw_for_display = canonical if canonical != raw_name else raw_name
                 elif mtype == "backref":
                     speaker = state.set_backref(int(mval))
                 elif mtype == "index":
@@ -626,16 +683,19 @@ def convert_text(
             if speaker is None:
                 char_id = "__Sensei"
             else:
-                sid = _resolve_student_id(speaker, name_to_id, base_index)
-                if sid is None:
-                    base = _base_name(speaker)
-                    if base in base_index and len(base_index[base]) > 1:
-                        ambiguous_speakers[speaker] = ambiguous_speakers.get(speaker, 0) + 1
-                    else:
-                        unresolved_speakers[speaker] = unresolved_speakers.get(speaker, 0) + 1
-                    char_id = f"custom-{_hash_id(speaker)}"
+                if speaker in custom_id_to_display:
+                    char_id = f"custom-{speaker}"
                 else:
-                    char_id = f"kivo-{sid}"
+                    sid = _resolve_student_id(speaker, name_to_id, base_index)
+                    if sid is None:
+                        base = _base_name(speaker)
+                        if base in base_index and len(base_index[base]) > 1:
+                            ambiguous_speakers[speaker] = ambiguous_speakers.get(speaker, 0) + 1
+                        else:
+                            unresolved_speakers[speaker] = unresolved_speakers.get(speaker, 0) + 1
+                        char_id = f"custom-{_hash_id(speaker)}"
+                    else:
+                        char_id = f"kivo-{sid}"
 
             # Manage tmpalias scope for this side.
             if char_id != "__Sensei":
@@ -656,7 +716,10 @@ def convert_text(
                     name_override = alias
 
             if speaker and char_id != "__Sensei":
-                char_id_to_display_name.setdefault(char_id, speaker)
+                if speaker in custom_id_to_display:
+                    char_id_to_display_name.setdefault(char_id, custom_id_to_display[speaker])
+                else:
+                    char_id_to_display_name.setdefault(char_id, speaker)
 
             content = content.rstrip()
             block = _maybe_parse_triple_quote_block(head=content, all_lines=lines, start_index=i, start_line_no=line_no)
