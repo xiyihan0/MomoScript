@@ -15,7 +15,9 @@ class InlineSegment:
     target: str = ""  # name / "_" / "_2" / etc, resolved later
 
 
-def parse_inline_segments(content: str, *, require_colon_prefix: bool = False) -> Sequence[InlineSegment]:
+def parse_inline_segments(
+    content: str, *, require_colon_prefix: bool = False, preserve_backslash: bool = False
+) -> Sequence[InlineSegment]:
     """
     Parse inline expressions:
       - [natural_language_description](character_name_or__n)
@@ -40,6 +42,8 @@ def parse_inline_segments(content: str, *, require_colon_prefix: bool = False) -
     while i < n:
         ch = content[i]
         if ch == "\\" and i + 1 < n:
+            if preserve_backslash:
+                buf.append("\\")
             buf.append(content[i + 1])
             i += 2
             continue
@@ -51,6 +55,8 @@ def parse_inline_segments(content: str, *, require_colon_prefix: bool = False) -
             while j < n:
                 c = content[j]
                 if c == "\\" and j + 1 < n:
+                    if preserve_backslash:
+                        target_chars.append("\\")
                     target_chars.append(content[j + 1])
                     j += 2
                     continue
@@ -66,6 +72,8 @@ def parse_inline_segments(content: str, *, require_colon_prefix: bool = False) -
                 while k < n:
                     c = content[k]
                     if c == "\\" and k + 1 < n:
+                        if preserve_backslash:
+                            query_chars.append("\\")
                         query_chars.append(content[k + 1])
                         k += 2
                         continue
@@ -100,6 +108,8 @@ def parse_inline_segments(content: str, *, require_colon_prefix: bool = False) -
         while j < n:
             c = content[j]
             if c == "\\" and j + 1 < n:
+                if preserve_backslash:
+                    query_chars.append("\\")
                 query_chars.append(content[j + 1])
                 j += 2
                 continue
@@ -123,6 +133,8 @@ def parse_inline_segments(content: str, *, require_colon_prefix: bool = False) -
             while k < n:
                 c = content[k]
                 if c == "\\" and k + 1 < n:
+                    if preserve_backslash:
+                        target_chars.append("\\")
                     target_chars.append(content[k + 1])
                     k += 2
                     continue

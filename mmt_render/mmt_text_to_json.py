@@ -734,7 +734,9 @@ def convert_text(
         content_clean = str(msg.get("content") or "")
         segments_out: List[Dict[str, Any]] = []
 
-        for seg in parse_inline_segments(content_clean, require_colon_prefix=bool(typst_mode)):
+        for seg in parse_inline_segments(
+            content_clean, require_colon_prefix=bool(typst_mode), preserve_backslash=bool(typst_mode)
+        ):
             if seg.type == "text":
                 if seg.text:
                     segments_out.append({"type": "text", "text": seg.text})
