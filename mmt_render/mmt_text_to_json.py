@@ -467,7 +467,9 @@ def convert_text(
         cid, display = parts[0].strip(), parts[1].strip()
         if not cid:
             raise ValueError(f"line {line_no}: invalid @charid directive (empty id)")
-        if not re.match(r"^[A-Za-z0-9_][A-Za-z0-9_\\-]*$", cid):
+        # Allow Unicode word characters (e.g. Chinese), keep it path-safe (no spaces or slashes).
+        # `\w` in Python is Unicode-aware by default.
+        if not re.match(r"^[\w][\w\-]*$", cid):
             raise ValueError(f"line {line_no}: invalid @charid id: {cid}")
         if _is_reserved_aliasid(cid):
             raise ValueError(f"line {line_no}: @charid cannot use reserved/original id: {cid}")
