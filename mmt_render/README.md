@@ -50,6 +50,20 @@
 - `@uncharid <id>`：撤销一个已声明的自定义人物 id
 
 之后正文可直接用该 `<id>` 作为说话人：`> yz: 你好` / `< yz: 你好`，渲染时会显示为对应的“显示名”。
+
+### 自定义头像（`@avatarid` / `@unavatarid`）
+在你已经用 `@asset.<name>` 声明了图片资源的前提下，可以把它绑定为某个自定义人物（`@charid`）的头像。
+
+- `@avatarid <id> <asset_name>`：把自定义人物 `<id>` 的头像设置为 `@asset.<asset_name>`
+- `@unavatarid <id>`：撤销该头像绑定
+
+示例：
+```text
+@charid yz 柚子
+@asset.yz_ava: https://.../avatar.png
+@avatarid yz yz_ava
+> yz: 你好！
+```
 - 解析时若遇到 `> <id>:` / `< <id>:`，会按映射替换成对应角色名；因此同一个角色的多个 id 不会导致头像/名称刷新
 
 示例：
