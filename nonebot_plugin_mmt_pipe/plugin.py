@@ -333,6 +333,48 @@ def _first_image_url_from_message(msg: object) -> Optional[str]:
     return None
 
 
+def _extract_image_from_cqcode(text: str) -> tuple[Optional[str], Optional[str]]:
+    """
+    Parse OneBot CQ code string and return (url, file).
+    """
+    s = (text or "").strip()
+    if not s:
+        return None, None
+    # Example: [CQ:image,file=xxx,url=https://...]
+    m = re.search(r"\[CQ:image,([^\]]+)\]", s)
+    if not m:
+        return None, None
+    params = m.group(1)
+    url: Optional[str] = None
+    file: Optional[str] = None
+    for part in params.split(","):
+        if "=" not in part:
+            continue
+        k, v = part.split("=", 1)
+        k = k.strip()
+        v = v.strip()
+        v = v.replace("&amp;", "&")
+        if k == "url" and v:
+            url = v
+        if k == "file" and v:
+            file = v
+    return url, file
+
+
+async def _get_image_url_from_file(bot: Bot, file_token: str) -> Optional[str]:
+    ft = (file_token or "").strip()
+    if not ft:
+        return None
+    try:
+        ret = await bot.call_api("get_image", file=ft)
+        if isinstance(ret, dict):
+            url = str(ret.get("url") or "").strip()
+            return url or None
+    except Exception:
+        return None
+    return None
+
+
 async def _extract_image_url(bot: Bot, event: Event, arg_msg: object) -> str:
     # 1) Try image segments in command arg
     url = _first_image_url_from_message(arg_msg)
@@ -354,9 +396,17 @@ async def _extract_image_url(bot: Bot, event: Event, arg_msg: object) -> str:
     if rid is not None:
         try:
             ret = await bot.call_api("get_msg", message_id=int(rid))
-            msg_arr = ret.get("message")
-            if isinstance(msg_arr, list):
-                for seg in msg_arr:
+            msg_val = ret.get("message")
+            if isinstance(msg_val, str):
+                url3, file3 = _extract_image_from_cqcode(msg_val)
+                if url3:
+                    return url3
+                if file3:
+                    url4 = await _get_image_url_from_file(bot, file3)
+                    if url4:
+                        return url4
+            elif isinstance(msg_val, list):
+                for seg in msg_val:
                     if not isinstance(seg, dict):
                         continue
                     if seg.get("type") != "image":
@@ -367,6 +417,11 @@ async def _extract_image_url(bot: Bot, event: Event, arg_msg: object) -> str:
                     url3 = str(data.get("url") or "").strip()
                     if url3:
                         return url3
+                    file3 = str(data.get("file") or "").strip()
+                    if file3:
+                        url4 = await _get_image_url_from_file(bot, file3)
+                        if url4:
+                            return url4
         except Exception:
             pass
 
