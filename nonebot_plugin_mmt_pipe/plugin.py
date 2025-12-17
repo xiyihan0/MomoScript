@@ -297,6 +297,7 @@ def _event_scope_ids(event: Event) -> tuple[Optional[str], Optional[str]]:
 
 def _extract_onebot_reply_id(event: Event) -> Optional[int]:
     # OneBot v11: reply segment may exist in message.
+    # NapCat may use CQ-code like `[reply:id=123]` in raw_message.
     try:
         msg = getattr(event, "get_message", None)
         if callable(msg):
@@ -304,18 +305,42 @@ def _extract_onebot_reply_id(event: Event) -> Optional[int]:
         else:
             m = getattr(event, "message", None)
         if m is None:
-            return None
-        for seg in m:
-            try:
-                if getattr(seg, "type", None) == "reply":
-                    data = getattr(seg, "data", None) or {}
-                    rid = data.get("id")
-                    if rid is not None:
-                        return int(rid)
-            except Exception:
-                continue
+            m = None
+        if m is not None:
+            for seg in m:
+                try:
+                    if isinstance(seg, dict):
+                        if seg.get("type") != "reply":
+                            continue
+                        data = seg.get("data") or {}
+                        if isinstance(data, dict):
+                            rid = data.get("id") or data.get("message_id")
+                        else:
+                            rid = seg.get("id") or seg.get("message_id")
+                        if rid is not None:
+                            return int(rid)
+                    else:
+                        if getattr(seg, "type", None) != "reply":
+                            continue
+                        data = getattr(seg, "data", None) or {}
+                        rid = None
+                        if isinstance(data, dict):
+                            rid = data.get("id") or data.get("message_id")
+                        if rid is not None:
+                            return int(rid)
+                except Exception:
+                    continue
     except Exception:
         return None
+
+    # Fallback: parse from raw_message CQ-code.
+    raw = str(getattr(event, "raw_message", "") or "")
+    m = re.search(r"\[(?:CQ:)?reply[:,]id=(\d+)\]", raw)
+    if m:
+        try:
+            return int(m.group(1))
+        except Exception:
+            return None
     return None
 
 
@@ -335,13 +360,15 @@ def _first_image_url_from_message(msg: object) -> Optional[str]:
 
 def _extract_image_from_cqcode(text: str) -> tuple[Optional[str], Optional[str]]:
     """
-    Parse OneBot CQ code string and return (url, file).
+    Parse OneBot/NapCat CQ-like code string and return (url, file).
     """
     s = (text or "").strip()
     if not s:
         return None, None
-    # Example: [CQ:image,file=xxx,url=https://...]
-    m = re.search(r"\[CQ:image,([^\]]+)\]", s)
+    # Examples:
+    # - [CQ:image,file=xxx,url=https://...]
+    # - [image:summary=,file=xxx,url=https://...]
+    m = re.search(r"\[(?:CQ:)?image(?::|,)([^\]]+)\]", s)
     if not m:
         return None, None
     params = m.group(1)
