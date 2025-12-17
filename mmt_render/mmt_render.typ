@@ -200,22 +200,27 @@
   set align(center)
   set text(fill: black)
   let segs = line.at("segments", default: none)
+  let image_only = is_image_only(line)
   let content = if segs == none {
     line.content
   } else {
     render_segments(line, global_code: global_code)
   }
-  block(
-    width: 100%,
-    fill: rgb(220, 229, 232),
-    inset: 5pt,
-    radius: 4pt,
-    if segs == none {
-      if typst_mode { eval(typst_assets_global + "\n" + global_code + "\n" + content, mode: "markup") } else { content }
-    } else {
-      content
-    },
-  )
+  if image_only {
+    image_bubble(content)
+  } else {
+    block(
+      width: 100%,
+      fill: rgb(220, 229, 232),
+      inset: 5pt,
+      radius: 4pt,
+      if segs == none {
+        if typst_mode { eval(typst_assets_global + "\n" + global_code + "\n" + content, mode: "markup") } else { content }
+      } else {
+        content
+      },
+    )
+  }
 }
 
 
