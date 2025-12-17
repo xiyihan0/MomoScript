@@ -659,7 +659,7 @@ async def _pipe_to_outputs(
     meta = meta if isinstance(meta, dict) else {}
 
     chat_for_render = json_path
-    resolve_stats: dict = {"unresolved": 0, "errors": []}
+    resolve_stats: dict = {"unresolved": 0, "errors": [], "asset_errors": 0, "avatar_errors": 0, "asset_error_examples": []}
     if resolve:
         if resolve_file is None:
             raise RuntimeError("mmt_render.resolve_expressions.resolve_file is not importable in this environment")
@@ -703,6 +703,14 @@ async def _pipe_to_outputs(
                             err = seg.get("error")
                             if isinstance(err, str) and err and len(resolve_stats["errors"]) < 5:
                                 resolve_stats["errors"].append(err)
+                        if seg.get("type") == "asset":
+                            err = seg.get("error")
+                            if isinstance(err, str) and err:
+                                resolve_stats["asset_errors"] += 1
+                                if len(resolve_stats["asset_error_examples"]) < 5:
+                                    resolve_stats["asset_error_examples"].append(err)
+                    if isinstance(line.get("avatar_override_error"), str) and line.get("avatar_override_error"):
+                        resolve_stats["avatar_errors"] += 1
         except Exception:
             pass
 
@@ -1109,6 +1117,13 @@ async def _handle_mmt_common(
         if errs:
             msg += "\n示例错误：" + "; ".join(str(x) for x in errs)
         msg += "\n可用 `--strict` 让其直接报错定位。"
+    if flags["resolve"] and int(resolve_stats.get("asset_errors") or 0) > 0:
+        msg += f"\n注意：有 {resolve_stats['asset_errors']} 处资源未找到（通常是 asset 名写错或未上传）。"
+        ex = resolve_stats.get("asset_error_examples") or []
+        if ex:
+            msg += "\n示例错误：" + "; ".join(str(x) for x in ex)
+    if flags["resolve"] and int(resolve_stats.get("avatar_errors") or 0) > 0:
+        msg += f"\n注意：有 {resolve_stats['avatar_errors']} 处头像覆盖未生效（asset 名可能写错）。"
     if matcher_name == "mmtpdf":
         await mmtpdf.finish(msg if msg else None)
     await mmt.finish(msg if msg else None)

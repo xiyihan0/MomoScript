@@ -149,7 +149,11 @@ def _rewrite_line_avatar_override(line: Dict[str, Any], meta: Dict[str, Any]) ->
         return
     vv = _rewrite_asset_ref(v, meta)
     if isinstance(vv, str) and vv.strip().lower().startswith("asset:"):
+        # Missing asset mapping: drop override to avoid Typst trying to load an invalid path,
+        # but keep a warning marker for the caller.
+        name = vv.split(":", 1)[1].strip()
         line.pop("avatar_override", None)
+        line["avatar_override_error"] = f"missing @asset.{name}"
         return
     line["avatar_override"] = vv
 
