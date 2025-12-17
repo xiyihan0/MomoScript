@@ -98,6 +98,15 @@ def _asset_value(meta: Dict[str, Any], name: str) -> Optional[str]:
     return v.strip() if isinstance(v, str) and v.strip() else None
 
 
+def _safe_cache_filename(name: str) -> Optional[str]:
+    s = (name or "").strip()
+    if not s:
+        return None
+    if "/" in s or "\\" in s or ".." in s:
+        return None
+    return s
+
+
 def _rewrite_asset_ref(ref: str, meta: Dict[str, Any]) -> str:
     s = (ref or "").strip()
     if s.lower().startswith("asset:"):
@@ -370,6 +379,26 @@ async def resolve_file(
         if assets:
             for name, url in list(assets.items()):
                 raw = (url or "").strip()
+                # Trusted local cache reference injected by the bot/plugin:
+                #   asset.<name>: cache:<filename>
+                # This never allows arbitrary paths; only a basename under asset_cache_dir is accepted.
+                if raw.lower().startswith("cache:"):
+                    fn = _safe_cache_filename(raw.split(":", 1)[1].strip())
+                    if not fn:
+                        if strict:
+                            raise RuntimeError(f"invalid @asset.{name}: bad cache ref")
+                        meta.pop(f"asset.{name}", None)
+                        meta[f"asset_error.{name}"] = "invalid cache ref"
+                        continue
+                    p_local = asset_cache_dir / fn
+                    if not p_local.exists():
+                        if strict:
+                            raise RuntimeError(f"missing cached asset file for @asset.{name}: {fn}")
+                        meta.pop(f"asset.{name}", None)
+                        meta[f"asset_error.{name}"] = f"missing cached file: {fn}"
+                        continue
+                    meta[f"asset.{name}"] = f"{asset_ref_base.as_posix()}/{fn}"
+                    continue
                 # Security: do not allow arbitrary local paths via @asset.* (Typst would be able to read them
                 # as long as they are under --root). Only allow external URLs (downloaded to cache) or data URLs.
                 if raw.startswith("data:image/"):
