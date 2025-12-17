@@ -402,6 +402,173 @@ async def _get_image_url_from_file(bot: Bot, file_token: str) -> Optional[str]:
     return None
 
 
+def _extract_file_from_cqcode(text: str) -> tuple[Optional[str], Optional[str], Optional[str]]:
+    """
+    Parse OneBot/NapCat CQ-like code string and return (url, file, name).
+    Examples:
+      - [CQ:file,file=...,url=...,name=...]
+      - [file:file=...,url=...,name=...]
+    """
+    s = (text or "").strip()
+    if not s:
+        return None, None, None
+    m = re.search(r"\[(?:CQ:)?file(?::|,)([^\]]+)\]", s)
+    if not m:
+        return None, None, None
+    params = m.group(1)
+    url: Optional[str] = None
+    file: Optional[str] = None
+    name: Optional[str] = None
+    for part in params.split(","):
+        if "=" not in part:
+            continue
+        k, v = part.split("=", 1)
+        k = k.strip()
+        v = v.strip().replace("&amp;", "&")
+        if k == "url" and v:
+            url = v
+        if k == "file" and v:
+            file = v
+        if k in {"name", "filename"} and v:
+            name = v
+    return url, file, name
+
+
+async def _get_file_url_from_file(bot: Bot, file_token: str) -> Optional[str]:
+    ft = (file_token or "").strip()
+    if not ft:
+        return None
+    for api in ("get_file", "get_file_url"):
+        try:
+            ret = await bot.call_api(api, file=ft)
+            if isinstance(ret, dict):
+                url = str(ret.get("url") or "").strip()
+                if url:
+                    return url
+        except Exception:
+            continue
+    return None
+
+
+def _first_file_url_from_message(msg: object) -> tuple[Optional[str], Optional[str], Optional[str]]:
+    """
+    Returns (url, file, name).
+    """
+    try:
+        for seg in msg:
+            if getattr(seg, "type", None) != "file":
+                continue
+            data = getattr(seg, "data", None) or {}
+            url = (data.get("url") or "").strip()
+            file = (data.get("file") or "").strip()
+            name = (data.get("name") or data.get("filename") or "").strip()
+            if url or file:
+                return (url or None), (file or None), (name or None)
+    except Exception:
+        return None, None, None
+    return None, None, None
+
+
+async def _extract_text_file_url(bot: Bot, event: Event, arg_msg: object) -> tuple[str, Optional[str]]:
+    # 1) file segments in command arg
+    url, file, name = _first_file_url_from_message(arg_msg)
+    if url:
+        return url, name
+    if file:
+        url2 = await _get_file_url_from_file(bot, file)
+        if url2:
+            return url2, name
+
+    # 2) file segments in the full message
+    try:
+        msg = getattr(event, "get_message", None)
+        if callable(msg):
+            url, file, name = _first_file_url_from_message(msg())
+            if url:
+                return url, name
+            if file:
+                url2 = await _get_file_url_from_file(bot, file)
+                if url2:
+                    return url2, name
+    except Exception:
+        pass
+
+    # 3) replied message
+    rid = _extract_onebot_reply_id(event)
+    if rid is not None:
+        try:
+            ret = await bot.call_api("get_msg", message_id=int(rid))
+            msg_val = ret.get("message")
+            if isinstance(msg_val, str):
+                url3, file3, name3 = _extract_file_from_cqcode(msg_val)
+                if url3:
+                    return url3, name3
+                if file3:
+                    url4 = await _get_file_url_from_file(bot, file3)
+                    if url4:
+                        return url4, name3
+            elif isinstance(msg_val, list):
+                for seg in msg_val:
+                    if not isinstance(seg, dict):
+                        continue
+                    if seg.get("type") != "file":
+                        continue
+                    data = seg.get("data") or {}
+                    if not isinstance(data, dict):
+                        continue
+                    url3 = str(data.get("url") or "").strip()
+                    name3 = str(data.get("name") or data.get("filename") or "").strip() or None
+                    if url3:
+                        return url3, name3
+                    file3 = str(data.get("file") or "").strip()
+                    if file3:
+                        url4 = await _get_file_url_from_file(bot, file3)
+                        if url4:
+                            return url4, name3
+        except Exception:
+            pass
+
+    # 4) raw_message fallback: parse file CQ-code directly
+    raw = str(getattr(event, "raw_message", "") or "")
+    url5, file5, name5 = _extract_file_from_cqcode(raw)
+    if url5:
+        return url5, name5
+    if file5:
+        url6 = await _get_file_url_from_file(bot, file5)
+        if url6:
+            return url6, name5
+
+    raise AssetError("no file found: attach a .txt file or reply to a file message")
+
+
+async def _download_text_file(url: str, *, max_bytes: int = 1024 * 1024) -> bytes:
+    from curl_cffi import requests as curl_requests
+
+    u = (url or "").strip()
+    if not (u.startswith("http://") or u.startswith("https://")):
+        raise AssetError("only http/https url is allowed")
+    async with curl_requests.AsyncSession() as s:
+        s.headers.update({"User-Agent": "mmt-textfile/0.1"})
+        resp = await s.get(u, timeout=30.0)
+        if resp.status_code >= 400:
+            raise AssetError(f"download HTTP {resp.status_code}")
+        data = resp.content or b""
+        if max_bytes > 0 and len(data) > max_bytes:
+            raise AssetError(f"text file too large: {len(data)} bytes (max {max_bytes})")
+        return data
+
+
+def _decode_text_file(data: bytes) -> str:
+    # Try UTF-8 first, then a common Chinese fallback.
+    for enc in ("utf-8-sig", "utf-8", "gb18030"):
+        try:
+            return data.decode(enc)
+        except Exception:
+            continue
+    # last resort
+    return data.decode("utf-8", errors="replace")
+
+
 async def _extract_image_url(bot: Bot, event: Event, arg_msg: object) -> str:
     # 1) Try image segments in command arg
     url = _first_image_url_from_message(arg_msg)
@@ -784,6 +951,7 @@ def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
     redownload_assets: bool = False
     allow_local_assets: bool = False
     asset_local_prefixes: Optional[str] = None
+    from_file: bool = False
     show_help: bool = False
     help_mode: Optional[str] = None
 
@@ -828,6 +996,18 @@ def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
         if s.startswith("--redownload_assets"):
             redownload_assets = True
             s = s[len("--redownload_assets") :]
+            continue
+        if s.startswith("--file"):
+            from_file = True
+            s = s[len("--file") :]
+            continue
+        if s.startswith("--from-file"):
+            from_file = True
+            s = s[len("--from-file") :]
+            continue
+        if s.startswith("--from_file"):
+            from_file = True
+            s = s[len("--from_file") :]
             continue
         if s.startswith("--allow-local-assets"):
             allow_local_assets = True
@@ -905,6 +1085,7 @@ def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
         "redownload_assets": redownload_assets,
         "allow_local_assets": allow_local_assets,
         "asset_local_prefixes": asset_local_prefixes,
+        "from_file": from_file,
         "help": show_help,
         "help_mode": help_mode,
     }
@@ -1037,16 +1218,29 @@ async def _handle_mmt_common(
                 "- /mmt-img <角色名>：列出该角色库内所有表情",
                 "- /mmt-imgmatch <角色名> [--top-n=5] <描述>：语义匹配表情",
                 "- /mmt -h syntax：渲染 DSL 语法速览图",
+                "- /mmt --file：从“回复的 .txt 文件”读取 MMT 文本（解决超长输入）",
             ]
         )
         if matcher_name == "mmtpdf":
             await mmtpdf.finish(help_text)
         await mmt.finish(help_text)
 
-    if not content:
+    if not content and not bool(flags.get("from_file")):
         if matcher_name == "mmtpdf":
             await mmtpdf.finish("未检测到正文内容（参数后需要跟 MMT 文本）。")
         await mmt.finish("未检测到正文内容（参数后需要跟 MMT 文本）。")
+
+    if bool(flags.get("from_file")):
+        try:
+            url, fname = await _extract_text_file_url(bot, event, arg)
+            data = await _download_text_file(url, max_bytes=2 * 1024 * 1024)
+            file_text = _decode_text_file(data)
+        except Exception as exc:
+            if matcher_name == "mmtpdf":
+                await mmtpdf.finish(f"读取文本文件失败：{exc}")
+            await mmt.finish(f"读取文本文件失败：{exc}")
+        # Allow optional prefix content after flags (useful for overriding @title/@author etc).
+        content = (content.rstrip() + "\n" + file_text) if content.strip() else file_text
 
     content = _inject_author_if_missing(content, _extract_invoker_name(event))
 

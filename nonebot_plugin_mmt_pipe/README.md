@@ -91,3 +91,8 @@ QQ群图片资产（可选）：`/mmt-asset` 用于把群成员发的图片入�
 
 - 保存：回复一条图片消息后执行 `/mmt-asset add <name> --scope p|g|both`
 - 引用：`[asset:<name>]`（默认 p>g），或显式写 `[asset:p.<name>]` / `[asset:g.<name>]`
+
+超长文本（可选）：可以发送 `.txt` 文件并在指令中读取：
+
+- 先发送一个 `.txt` 文件（群/私聊均可）
+- 再回复该文件消息：`/mmt --file`（也支持 `/mmtpdf --file`）
