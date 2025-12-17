@@ -192,19 +192,29 @@
   ]
 }
 
-#let narration(content, global_code: "") = {
+#let narration(line, global_code: "") = {
   // 将强样式（*text*）重定义为伪粗体
   show strong: fake-bold
   // 将强调样式（_text_）应用此逻辑
   show emph: fake-italic
   set align(center)
   set text(fill: black)
+  let segs = line.at("segments", default: none)
+  let content = if segs == none {
+    line.content
+  } else {
+    render_segments(line, global_code: global_code)
+  }
   block(
     width: 100%,
     fill: rgb(220, 229, 232),
     inset: 5pt,
     radius: 4pt,
-    if typst_mode { eval(typst_assets_global + "\n" + global_code + "\n" + content, mode: "markup") } else { content },
+    if segs == none {
+      if typst_mode { eval(typst_assets_global + "\n" + global_code + "\n" + content, mode: "markup") } else { content }
+    } else {
+      content
+    },
   )
 }
 
@@ -229,7 +239,7 @@
   let yuzutalk = line.yuzutalk
   let t = yuzutalk.type
   if t == "NARRATION" {
-    narration(line.content, global_code: typst_global)
+    narration(line, global_code: typst_global)
     last_key = none
     parbreak()
     } else if t == "PAGEBREAK" {

@@ -718,13 +718,16 @@ def convert_text(
         yuzutalk = (msg.get("yuzutalk") or {})
         if not isinstance(yuzutalk, dict):
             continue
-        if yuzutalk.get("type") != "TEXT":
+        t = yuzutalk.get("type")
+        if t not in ("TEXT", "NARRATION"):
             continue
 
         line_no = int(msg.get("line_no") or 0)
-        char_id = str(msg.get("char_id") or "__Sensei")
-        global_current_char_id = char_id
-        global_history.append(char_id)
+        # Only update global speaker context for TEXT lines.
+        if t == "TEXT":
+            char_id = str(msg.get("char_id") or "__Sensei")
+            global_current_char_id = char_id
+            global_history.append(char_id)
 
         if msg.get("no_inline_expr"):
             content_clean = str(msg.get("content") or "")
