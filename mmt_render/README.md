@@ -64,6 +64,19 @@
 @avatarid yz yz_ava
 > yz: 你好！
 ```
+
+### 标准库角色换头像（`@avatar`）
+给学生库（kivo）角色临时换头像（仅对本次文本生效），依赖 `@asset`：
+
+- `@avatar <角色名>=<asset_name>`：把该角色头像改为 `@asset.<asset_name>`
+- `@avatar <角色名>=`：清空头像覆盖
+
+示例：
+```text
+@asset.hoshino_ava: https://.../hoshino.png
+@avatar 星野=hoshino_ava
+> 星野: 早上好
+```
 - 解析时若遇到 `> <id>:` / `< <id>:`，会按映射替换成对应角色名；因此同一个角色的多个 id 不会导致头像/名称刷新
 
 示例：

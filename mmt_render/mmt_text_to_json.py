@@ -275,10 +275,14 @@ def convert_text(
     # - @charid yz 柚子
     # - @uncharid yz
     custom_id_to_display: Dict[str, str] = {}
-    # Custom avatar binding (by custom id token -> asset name).
-    # - @avatarid yz yz_avatar
+    # Avatar overrides (per-document; applied in resolve stage, so failures fall back to original avatars).
+    # - @avatarid yz yz_avatar     (requires @charid yz ... and @asset.yz_avatar)
     # - @unavatarid yz
-    custom_id_to_avatar_asset: Dict[str, str] = {}
+    # - @avatar 星野=hoshino_ava   (requires @asset.hoshino_ava)
+    # - @avatar 星野=             (clear)
+    #
+    # Stored as: resolved char_id -> asset name
+    avatar_override_by_char_id: Dict[str, str] = {}
     # Temporary aliasing for display name (scoped):
     # - @tmpalias 星野=星野(临战)
     # Activates on the next TEXT line whose resolved speaker is 星野 (explicit or implicit) and stays active
@@ -489,7 +493,7 @@ def convert_text(
         if cid not in custom_id_to_display:
             raise ValueError(f"line {line_no}: @uncharid id not found: {cid}")
         del custom_id_to_display[cid]
-        custom_id_to_avatar_asset.pop(cid, None)
+        avatar_override_by_char_id.pop(f"custom-{cid}", None)
 
     def _parse_avatarid_line(line: str, *, line_no: int) -> None:
         # Syntax: @avatarid <custom_id> <asset_name>
@@ -508,7 +512,7 @@ def convert_text(
         if not asset_name:
             raise ValueError(f"line {line_no}: invalid @avatarid directive (empty asset name)")
         # Just store the asset name token; resolve stage will map it to a safe local/data ref.
-        custom_id_to_avatar_asset[cid] = asset_name
+        avatar_override_by_char_id[f"custom-{cid}"] = asset_name
 
     def _parse_unavatarid_line(line: str, *, line_no: int) -> None:
         m = re.match(r"^@unavatarid\s+(.+)$", line.strip(), flags=re.IGNORECASE)
@@ -517,9 +521,32 @@ def convert_text(
         cid = m.group(1).strip()
         if not cid:
             raise ValueError(f"line {line_no}: invalid @unavatarid directive (empty id)")
-        if cid not in custom_id_to_avatar_asset:
+        key = f"custom-{cid}"
+        if key not in avatar_override_by_char_id:
             raise ValueError(f"line {line_no}: @unavatarid id not found: {cid}")
-        del custom_id_to_avatar_asset[cid]
+        del avatar_override_by_char_id[key]
+
+    def _parse_avatar_line(line: str, *, line_no: int) -> None:
+        # Syntax: @avatar <student_name>=<asset_name>
+        m = re.match(r"^@avatar\s+(.+)$", line.strip(), flags=re.IGNORECASE)
+        if not m:
+            raise ValueError(f"line {line_no}: invalid @avatar directive")
+        rest = m.group(1).strip()
+        if "=" not in rest:
+            raise ValueError(f"line {line_no}: invalid @avatar directive (missing '=')")
+        base_name, asset_name = rest.split("=", 1)
+        base_name = base_name.strip()
+        asset_name = asset_name.strip()
+        if not base_name:
+            raise ValueError(f"line {line_no}: invalid @avatar directive (empty character name)")
+        sid = _resolve_student_id(base_name, name_to_id, base_index)
+        if sid is None:
+            raise ValueError(f"line {line_no}: @avatar only supports kivo characters; unknown: {base_name}")
+        char_id = f"kivo-{sid}"
+        if asset_name == "":
+            avatar_override_by_char_id.pop(char_id, None)
+            return
+        avatar_override_by_char_id[char_id] = asset_name
 
     def _parse_header_block(start_i: int, first_line_value: str, start_line_no: int) -> Tuple[str, int]:
         """
@@ -581,6 +608,10 @@ def convert_text(
             continue
         if re.match(r"^@unavatarid\b", lstripped, flags=re.IGNORECASE):
             _parse_unavatarid_line(lstripped, line_no=i + 1)
+            i += 1
+            continue
+        if re.match(r"^@avatar\b", lstripped, flags=re.IGNORECASE):
+            _parse_avatar_line(lstripped, line_no=i + 1)
             i += 1
             continue
         if lstripped.startswith("- ") or lstripped.startswith("> ") or lstripped.startswith("< "):
@@ -666,6 +697,10 @@ def convert_text(
             continue
         if re.match(r"^@unavatarid\b", stripped, flags=re.IGNORECASE):
             _parse_unavatarid_line(stripped, line_no=line_no)
+            i += 1
+            continue
+        if re.match(r"^@avatar\b", stripped, flags=re.IGNORECASE):
+            _parse_avatar_line(stripped, line_no=line_no)
             i += 1
             continue
 
@@ -970,16 +1005,12 @@ def convert_text(
             # custom speaker without resolved avatar
             display_name = char_id_to_display_name.get(char_id, char_id)
             avatar_ref = "uploaded"
-            if char_id.startswith("custom-"):
-                cid = char_id.split("-", 1)[1]
-                asset_name = custom_id_to_avatar_asset.get(cid)
-                if asset_name:
-                    avatar_ref = f"asset:{asset_name}"
             custom_chars.append([char_id, avatar_ref, display_name])
 
     data = {
         "meta": meta,
         "typst_global": typst_global,
+        "avatar_overrides": avatar_override_by_char_id,
         "chars": [],
         "custom_chars": custom_chars,
         "chat": messages,

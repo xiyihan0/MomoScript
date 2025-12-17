@@ -107,6 +107,29 @@ def _rewrite_asset_ref(ref: str, meta: Dict[str, Any]) -> str:
     return ref
 
 
+def _apply_avatar_overrides(data: Dict[str, Any], meta: Dict[str, Any]) -> None:
+    overrides = data.get("avatar_overrides")
+    if not isinstance(overrides, dict) or not overrides:
+        return
+    cc = data.get("custom_chars")
+    if not isinstance(cc, list) or not cc:
+        return
+
+    new_cc: list[list[Any]] = []
+    for row in cc:
+        if not (isinstance(row, list) and len(row) >= 3):
+            continue
+        char_id, avatar_ref, display = row[0], row[1], row[2]
+        if isinstance(char_id, str):
+            asset_name = overrides.get(char_id)
+            if isinstance(asset_name, str) and asset_name.strip():
+                v = _asset_value(meta, asset_name.strip())
+                if v:
+                    avatar_ref = v
+        new_cc.append([char_id, avatar_ref, display])
+    data["custom_chars"] = new_cc
+
+
 def _escape_typst_string(s: str) -> str:
     return s.replace("\\", "\\\\").replace('"', '\\"')
 
@@ -363,20 +386,7 @@ async def resolve_file(
 
         data["meta"] = meta
         data["typst_assets_global"] = _build_typst_assets_global(meta)
-
-        # Rewrite custom_chars avatar refs like `asset:foo` -> actual `meta.asset.foo` path/data.
-        # This keeps custom avatars safe: they still go through the @asset policy filter above.
-        cc = data.get("custom_chars")
-        if isinstance(cc, list):
-            new_cc: list[list[Any]] = []
-            for row in cc:
-                if not (isinstance(row, list) and len(row) >= 3):
-                    continue
-                char_id, avatar_ref, display = row[0], row[1], row[2]
-                if isinstance(avatar_ref, str):
-                    avatar_ref = _rewrite_asset_ref(avatar_ref, meta)
-                new_cc.append([char_id, avatar_ref, display])
-            data["custom_chars"] = new_cc
+        _apply_avatar_overrides(data, meta)
 
         async def resolve_line(
             reranker: SiliconFlowReranker,

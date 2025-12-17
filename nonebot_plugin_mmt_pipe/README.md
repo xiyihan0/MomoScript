@@ -82,3 +82,5 @@ Tip：Typst markup 中 `[` / `]` 等字符有语法含义，纯文本需要转�
 自定义人物 ID：`@charid <id> <显示名>` / `@uncharid <id>` 用短 id 声明“非学生库角色”，避免被哈希化为 `custom-xxxx`。
 
 自定义头像：`@avatarid <id> <asset_name>` / `@unavatarid <id>` 把 `@asset.<asset_name>` 绑定为该自定义人物（`@charid`）的头像。
+
+标准库角色换头像：`@avatar <角色名>=<asset_name>` / `@avatar <角色名>=` 临时覆盖学生库角色头像（仅对本次文本生效）。
