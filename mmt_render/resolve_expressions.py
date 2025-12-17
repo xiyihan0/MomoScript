@@ -108,6 +108,10 @@ def _rewrite_asset_ref(ref: str, meta: Dict[str, Any]) -> str:
 
 
 def _apply_avatar_overrides(data: Dict[str, Any], meta: Dict[str, Any]) -> None:
+    # Backward compatibility:
+    # Older JSON schema used a global `avatar_overrides: {char_id: asset_name}` to rewrite
+    # `custom_chars`' avatar refs (global/static). The current pipeline prefers per-line
+    # `line.avatar_override` so avatar changes can be scoped inside a document.
     overrides = data.get("avatar_overrides")
     if not isinstance(overrides, dict) or not overrides:
         return
@@ -128,6 +132,17 @@ def _apply_avatar_overrides(data: Dict[str, Any], meta: Dict[str, Any]) -> None:
                     avatar_ref = v
         new_cc.append([char_id, avatar_ref, display])
     data["custom_chars"] = new_cc
+
+
+def _rewrite_line_avatar_override(line: Dict[str, Any], meta: Dict[str, Any]) -> None:
+    v = line.get("avatar_override")
+    if not isinstance(v, str) or not v.strip():
+        return
+    vv = _rewrite_asset_ref(v, meta)
+    if isinstance(vv, str) and vv.strip().lower().startswith("asset:"):
+        line.pop("avatar_override", None)
+        return
+    line["avatar_override"] = vv
 
 
 def _escape_typst_string(s: str) -> str:
@@ -387,6 +402,9 @@ async def resolve_file(
         data["meta"] = meta
         data["typst_assets_global"] = _build_typst_assets_global(meta)
         _apply_avatar_overrides(data, meta)
+        for line in chat:
+            if isinstance(line, dict):
+                _rewrite_line_avatar_override(line, meta)
 
         async def resolve_line(
             reranker: SiliconFlowReranker,

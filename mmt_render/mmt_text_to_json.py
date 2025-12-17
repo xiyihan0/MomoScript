@@ -275,14 +275,17 @@ def convert_text(
     # - @charid yz 柚子
     # - @uncharid yz
     custom_id_to_display: Dict[str, str] = {}
-    # Avatar overrides (per-document; applied in resolve stage, so failures fall back to original avatars).
+    # Avatar overrides (scoped; applied to subsequent messages until changed).
     # - @avatarid yz yz_avatar     (requires @charid yz ... and @asset.yz_avatar)
     # - @unavatarid yz
     # - @avatar 星野=hoshino_ava   (requires @asset.hoshino_ava)
     # - @avatar 星野=             (clear)
     #
-    # Stored as: resolved char_id -> asset name
-    avatar_override_by_char_id: Dict[str, str] = {}
+    # Stored as: resolved char_id -> avatar override ref (current state while parsing)
+    # Values are either:
+    #   - "asset:<name>" (resolved later via @asset.<name>)
+    #   - a direct Typst-readable path like "avatar/288.png"
+    current_avatar_override_by_char_id: Dict[str, str] = {}
     # Temporary aliasing for display name (scoped):
     # - @tmpalias 星野=星野(临战)
     # Activates on the next TEXT line whose resolved speaker is 星野 (explicit or implicit) and stays active
@@ -291,6 +294,94 @@ def convert_text(
     active_tmpalias: Dict[str, Optional[Tuple[str, str]]] = {">": None, "<": None}  # kind -> (char_id, override)
 
     base_index = _build_base_index(name_to_id)
+
+    # Namespace importing (like `using namespace`): bare names are resolved in this order.
+    # For now we ship two builtin namespaces:
+    #   - ba: Blue Archive student library (kivo-<id>)
+    #   - custom: user-defined / ad-hoc speakers (custom-<id>)
+    using_namespaces: List[str] = ["ba", "custom"]
+    _CUSTOM_ID_RE = re.compile(r"^[\w][\w\-]*$", flags=0)
+
+    def _split_namespace(token: str) -> Tuple[Optional[str], str]:
+        s = (token or "").strip()
+        if "." in s:
+            ns, rest = s.split(".", 1)
+            ns = ns.strip()
+            rest = rest.strip()
+            if ns and rest:
+                return ns, rest
+        return None, s
+
+    def _display_from_selector(selector: str) -> str:
+        ns, rest = _split_namespace(selector)
+        return rest if ns is not None else selector
+
+    def _resolve_char_id_from_selector(
+        selector: str,
+        *,
+        line_no: int,
+        allow_custom_fallback: bool,
+    ) -> Tuple[str, str]:
+        """
+        Resolve a selector to (char_id, display_name_guess).
+
+        Selector forms:
+          - kivo-288 / custom-yz (char_id passthrough)
+          - ba.梦 / custom.yz
+          - 梦 (resolved by imported namespaces)
+
+        Notes:
+          - `ba.*` is strict: unknown -> error (no custom fallback).
+          - bare unknown -> custom-<hash> only when allow_custom_fallback=True.
+        """
+        s = (selector or "").strip()
+        if not s:
+            raise ValueError(f"line {line_no}: empty selector")
+
+        if s == "__Sensei":
+            return "__Sensei", "Sensei"
+        if s.startswith("kivo-") and s.split("-", 1)[1].isdigit():
+            sid = int(s.split("-", 1)[1])
+            return f"kivo-{sid}", str(sid)
+        if s.startswith("custom-") and len(s) > len("custom-"):
+            # keep raw id part for display by default
+            return s, s.split("-", 1)[1]
+
+        ns, name = _split_namespace(s)
+        if ns is not None:
+            ns_l = ns.lower()
+            if ns_l in {"ba", "kivo"}:
+                sid = _resolve_student_id(name, name_to_id, base_index)
+                if sid is None:
+                    raise ValueError(f"line {line_no}: unknown ba character: {name}")
+                return f"kivo-{sid}", name
+            if ns_l == "custom":
+                if _CUSTOM_ID_RE.match(name):
+                    disp = custom_id_to_display.get(name, name)
+                    return f"custom-{name}", disp
+                # not a safe/stable id token -> fall back to hashed custom id
+                return f"custom-{_hash_id(name)}", name
+            raise ValueError(f"line {line_no}: unknown namespace: {ns}")
+
+        # Bare name: resolve by imported namespaces.
+        for ns_try in using_namespaces:
+            if ns_try == "custom":
+                if s in custom_id_to_display:
+                    return f"custom-{s}", custom_id_to_display.get(s, s)
+            elif ns_try == "ba":
+                sid = _resolve_student_id(s, name_to_id, base_index)
+                if sid is not None:
+                    return f"kivo-{sid}", s
+
+        # Unknown bare name.
+        base = _base_name(s)
+        if base in base_index and len(base_index[base]) > 1:
+            ambiguous_speakers[s] = ambiguous_speakers.get(s, 0) + 1
+        else:
+            unresolved_speakers[s] = unresolved_speakers.get(s, 0) + 1
+        if not allow_custom_fallback:
+            raise ValueError(f"line {line_no}: unknown speaker: {s}")
+        return f"custom-{_hash_id(s)}", s
 
     def flush_continuation() -> None:
         return
@@ -347,6 +438,13 @@ def convert_text(
             return True
         if s == "__Sensei":
             return True
+        if s.startswith(("kivo-", "custom-")):
+            return True
+        if "." in s:
+            # Namespaced tokens are treated as "original ids" and should not be overridden.
+            return True
+        if s in custom_id_to_display:
+            return True
         # If it already resolves as a student name, treat it as reserved ("original id").
         if _resolve_student_id(s, name_to_id, base_index) is not None:
             return True
@@ -369,17 +467,7 @@ def convert_text(
         override_name = override_name.strip()
         if not base_name:
             raise ValueError(f"line {line_no}: invalid @alias directive (empty base name)")
-
-        sid = _resolve_student_id(base_name, name_to_id, base_index)
-        if sid is None:
-            base = _base_name(base_name)
-            if base in base_index and len(base_index[base]) > 1:
-                ambiguous_speakers[base_name] = ambiguous_speakers.get(base_name, 0) + 1
-            else:
-                unresolved_speakers[base_name] = unresolved_speakers.get(base_name, 0) + 1
-            char_id = f"custom-{_hash_id(base_name)}"
-        else:
-            char_id = f"kivo-{sid}"
+        char_id, _disp = _resolve_char_id_from_selector(base_name, line_no=line_no, allow_custom_fallback=True)
 
         if override_name == "":
             alias_char_id_to_override.pop(char_id, None)
@@ -398,17 +486,7 @@ def convert_text(
         override_name = override_name.strip()
         if not base_name:
             raise ValueError(f"line {line_no}: invalid @tmpalias directive (empty base name)")
-
-        sid = _resolve_student_id(base_name, name_to_id, base_index)
-        if sid is None:
-            base = _base_name(base_name)
-            if base in base_index and len(base_index[base]) > 1:
-                ambiguous_speakers[base_name] = ambiguous_speakers.get(base_name, 0) + 1
-            else:
-                unresolved_speakers[base_name] = unresolved_speakers.get(base_name, 0) + 1
-            char_id = f"custom-{_hash_id(base_name)}"
-        else:
-            char_id = f"kivo-{sid}"
+        char_id, _disp = _resolve_char_id_from_selector(base_name, line_no=line_no, allow_custom_fallback=True)
 
         # Set as pending for both directions; it will only activate when that direction next speaks as this char_id.
         if override_name == "":
@@ -493,7 +571,30 @@ def convert_text(
         if cid not in custom_id_to_display:
             raise ValueError(f"line {line_no}: @uncharid id not found: {cid}")
         del custom_id_to_display[cid]
-        avatar_override_by_char_id.pop(f"custom-{cid}", None)
+        current_avatar_override_by_char_id.pop(f"custom-{cid}", None)
+
+    def _student_avatar_ref_from_token(token: str) -> Optional[str]:
+        """
+        Interpret token as a standard student avatar reference.
+        Accepted:
+          - kivo-288 / ba.梦 / 梦
+        Returns: "avatar/<id>.png" or None.
+        """
+        s = (token or "").strip()
+        if not s:
+            return None
+        if s.lower().startswith("asset:"):
+            return None
+        if s.startswith("avatar/"):
+            return s
+        try:
+            cid, _disp = _resolve_char_id_from_selector(s, line_no=-1, allow_custom_fallback=False)
+        except Exception:
+            return None
+        if not cid.startswith("kivo-"):
+            return None
+        sid = int(cid.split("-", 1)[1])
+        return f"avatar/{sid}.png"
 
     def _parse_avatarid_line(line: str, *, line_no: int) -> None:
         # Syntax: @avatarid <custom_id> <asset_name>
@@ -511,8 +612,17 @@ def convert_text(
             raise ValueError(f"line {line_no}: @avatarid requires existing @charid for id: {cid}")
         if not asset_name:
             raise ValueError(f"line {line_no}: invalid @avatarid directive (empty asset name)")
-        # Just store the asset name token; resolve stage will map it to a safe local/data ref.
-        avatar_override_by_char_id[f"custom-{cid}"] = asset_name
+
+        # Allow custom speakers to reuse standard student avatars by selector/id.
+        ref = _student_avatar_ref_from_token(asset_name)
+        if ref is not None:
+            current_avatar_override_by_char_id[f"custom-{cid}"] = ref
+            return
+
+        # Otherwise treat it as an @asset.<name> reference (explicitly allow "asset:<name>" too).
+        if asset_name.lower().startswith("asset:"):
+            asset_name = asset_name.split(":", 1)[1].strip()
+        current_avatar_override_by_char_id[f"custom-{cid}"] = f"asset:{asset_name}"
 
     def _parse_unavatarid_line(line: str, *, line_no: int) -> None:
         m = re.match(r"^@unavatarid\s+(.+)$", line.strip(), flags=re.IGNORECASE)
@@ -522,9 +632,9 @@ def convert_text(
         if not cid:
             raise ValueError(f"line {line_no}: invalid @unavatarid directive (empty id)")
         key = f"custom-{cid}"
-        if key not in avatar_override_by_char_id:
+        if key not in current_avatar_override_by_char_id:
             raise ValueError(f"line {line_no}: @unavatarid id not found: {cid}")
-        del avatar_override_by_char_id[key]
+        del current_avatar_override_by_char_id[key]
 
     def _parse_avatar_line(line: str, *, line_no: int) -> None:
         # Syntax: @avatar <student_name>=<asset_name>
@@ -539,14 +649,25 @@ def convert_text(
         asset_name = asset_name.strip()
         if not base_name:
             raise ValueError(f"line {line_no}: invalid @avatar directive (empty character name)")
-        sid = _resolve_student_id(base_name, name_to_id, base_index)
-        if sid is None:
-            raise ValueError(f"line {line_no}: @avatar only supports kivo characters; unknown: {base_name}")
-        char_id = f"kivo-{sid}"
+
+        # Unified avatar override:
+        # - base_name can be a kivo name, custom id, or a namespaced selector (ba.xxx/custom.xxx)
+        char_id, _disp = _resolve_char_id_from_selector(base_name, line_no=line_no, allow_custom_fallback=False)
+        if char_id == "__Sensei":
+            raise ValueError(f"line {line_no}: @avatar cannot target Sensei")
         if asset_name == "":
-            avatar_override_by_char_id.pop(char_id, None)
+            current_avatar_override_by_char_id.pop(char_id, None)
             return
-        avatar_override_by_char_id[char_id] = asset_name
+
+        # Allow pointing to another student's standard avatar by name or id.
+        ref = _student_avatar_ref_from_token(asset_name)
+        if ref is not None:
+            current_avatar_override_by_char_id[char_id] = ref
+            return
+
+        if asset_name.lower().startswith("asset:"):
+            asset_name = asset_name.split(":", 1)[1].strip()
+        current_avatar_override_by_char_id[char_id] = f"asset:{asset_name}"
 
     def _parse_header_block(start_i: int, first_line_value: str, start_line_no: int) -> Tuple[str, int]:
         """
@@ -740,7 +861,7 @@ def convert_text(
             marker, content = _parse_payload(payload)
             state = speaker_state[kind]
 
-            speaker: Optional[str] = None
+            speaker: Optional[str] = None  # identity token stored in state; will become char_id
             speaker_raw_for_display: Optional[str] = None
             if marker is None:
                 speaker = state.current
@@ -750,14 +871,12 @@ def convert_text(
                 mtype, mval = marker
                 if mtype == "explicit":
                     raw_name = str(mval)
-                    if raw_name in custom_id_to_display:
-                        speaker = state.set_explicit(raw_name)
-                        speaker_raw_for_display = custom_id_to_display.get(raw_name, raw_name)
-                    else:
-                        canonical = alias_id_to_name.get(raw_name, raw_name)
-                        speaker = state.set_explicit(canonical)
-                        # If this is an alias-id, do not show the alias token; show the canonical name.
-                        speaker_raw_for_display = canonical if canonical != raw_name else raw_name
+                    canonical = alias_id_to_name.get(raw_name, raw_name)
+                    char_id_resolved, disp_guess = _resolve_char_id_from_selector(
+                        canonical, line_no=line_no, allow_custom_fallback=True
+                    )
+                    speaker = state.set_explicit(char_id_resolved)
+                    speaker_raw_for_display = disp_guess if disp_guess else _display_from_selector(canonical)
                 elif mtype == "backref":
                     speaker = state.set_backref(int(mval))
                 elif mtype == "index":
@@ -771,19 +890,8 @@ def convert_text(
             if speaker is None:
                 char_id = "__Sensei"
             else:
-                if speaker in custom_id_to_display:
-                    char_id = f"custom-{speaker}"
-                else:
-                    sid = _resolve_student_id(speaker, name_to_id, base_index)
-                    if sid is None:
-                        base = _base_name(speaker)
-                        if base in base_index and len(base_index[base]) > 1:
-                            ambiguous_speakers[speaker] = ambiguous_speakers.get(speaker, 0) + 1
-                        else:
-                            unresolved_speakers[speaker] = unresolved_speakers.get(speaker, 0) + 1
-                        char_id = f"custom-{_hash_id(speaker)}"
-                    else:
-                        char_id = f"kivo-{sid}"
+                # state stores char_id as speaker identity
+                char_id = str(speaker)
 
             # Manage tmpalias scope for this side.
             if char_id != "__Sensei":
@@ -795,7 +903,7 @@ def convert_text(
 
             name_override = ""
             if char_id != "__Sensei":
-                display = (speaker_raw_for_display or speaker or "").strip()
+                display = (speaker_raw_for_display or "").strip()
                 existing = char_id_to_display_name.get(char_id)
                 active = active_tmpalias[kind]
                 tmpalias = active[1] if active is not None and active[0] == char_id else ""
@@ -803,11 +911,9 @@ def convert_text(
                 if alias:
                     name_override = alias
 
-            if speaker and char_id != "__Sensei":
-                if speaker in custom_id_to_display:
-                    char_id_to_display_name.setdefault(char_id, custom_id_to_display[speaker])
-                else:
-                    char_id_to_display_name.setdefault(char_id, speaker)
+            if char_id != "__Sensei":
+                if speaker_raw_for_display and speaker_raw_for_display.strip():
+                    char_id_to_display_name.setdefault(char_id, speaker_raw_for_display.strip())
 
             content = content.rstrip()
             block = _maybe_parse_triple_quote_block(head=content, all_lines=lines, start_index=i, start_line_no=line_no)
@@ -820,6 +926,11 @@ def convert_text(
                         "side": side,
                         "content": block_text,
                         "no_inline_expr": True,
+                        **(
+                            {"avatar_override": current_avatar_override_by_char_id[char_id]}
+                            if isinstance(char_id, str) and char_id in current_avatar_override_by_char_id
+                            else {}
+                        ),
                         "line_no": line_no,
                     }
                 )
@@ -832,6 +943,11 @@ def convert_text(
                     "char_id": char_id,
                     "side": side,
                     "content": content,
+                    **(
+                        {"avatar_override": current_avatar_override_by_char_id[char_id]}
+                        if isinstance(char_id, str) and char_id in current_avatar_override_by_char_id
+                        else {}
+                    ),
                     "line_no": line_no,
                 }
             )
@@ -950,11 +1066,21 @@ def convert_text(
                     raise ValueError(f"line {line_no}: not enough global speaker history for {target}")
                 resolved_char_id = global_history[idx2]
             else:
-                # Explicit name: resolve to student id.
-                sid = _resolve_student_id(target, name_to_id, base_index)
-                if sid is None:
-                    raise ValueError(f"line {line_no}: unknown character name in expression: {target}")
-                resolved_char_id = f"kivo-{sid}"
+                # Explicit target: allow `ba.xxx` / `kivo-288` / `xxx` (student name).
+                tsel = target.strip()
+                if tsel.startswith("kivo-") and tsel.split("-", 1)[1].isdigit():
+                    resolved_char_id = f"kivo-{int(tsel.split('-', 1)[1])}"
+                else:
+                    ns, rest = _split_namespace(tsel)
+                    if ns is not None:
+                        if ns.lower() not in {"ba", "kivo"}:
+                            raise ValueError(f"line {line_no}: expression namespace must be 'ba': {tsel}")
+                        sid = _resolve_student_id(rest, name_to_id, base_index)
+                    else:
+                        sid = _resolve_student_id(tsel, name_to_id, base_index)
+                    if sid is None:
+                        raise ValueError(f"line {line_no}: unknown character name in expression: {target}")
+                    resolved_char_id = f"kivo-{sid}"
 
             if resolved_char_id == "__Sensei":
                 raise ValueError(f"line {line_no}: expression target cannot be Sensei")
@@ -1010,7 +1136,6 @@ def convert_text(
     data = {
         "meta": meta,
         "typst_global": typst_global,
-        "avatar_overrides": avatar_override_by_char_id,
         "chars": [],
         "custom_chars": custom_chars,
         "chat": messages,

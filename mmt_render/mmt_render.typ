@@ -252,9 +252,18 @@
       if side == none { side = if char_id == "__Sensei" { "right" } else { "left" } }
     let raw_override = line.yuzutalk.at("nameOverride", default: "")
     let name_override = if raw_override == none { "" } else { str(raw_override) }
-    let key = side + ":" + char_id + ":" + name_override
+    let raw_avatar_override = line.at("avatar_override", default: "")
+    let avatar_override = if raw_avatar_override == none { "" } else { str(raw_avatar_override) }
+    let key = side + ":" + char_id + ":" + name_override + ":" + avatar_override
     let show_avatar = key != last_key
-    let avatar = if show_avatar and char_id != "__Sensei" { avatar_mapping.at(char_id) }
+    let avatar = if show_avatar and char_id != "__Sensei" {
+      if avatar_override != "" {
+        let img = parse_custom_img(avatar_override)
+        if img == none { avatar_mapping.at(char_id) } else { circle_avatar(img) }
+      } else {
+        avatar_mapping.at(char_id)
+      }
+    }
     let image_only = is_image_only(line)
     if not show_avatar { v(-0.7em) }
     if side == "right" {

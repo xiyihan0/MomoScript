@@ -75,12 +75,14 @@ Tip：Typst markup 中 `[` / `]` 等字符有语法含义，纯文本需要转�
 
 动态别名：`@alias 角色名=显示名` 可出现在任意位置，仅修改渲染显示名（不影响 id 查找）；皮肤括号名（如 `晴(露营)`）默认只用于选人，不会自动作为显示名。
 
+命名空间（可选）：说话人可写成 `namespace.character`，例如 `ba.梦`（蔚蓝档案）或 `custom.yz`（自定义人物 id）。
+
 临时别名：`@tmpalias 角色名=显示名` 可出现在任意位置，作用于下方同方向的连续对话段，切换到其它说话人后自动回退。
 
 别名 ID：`@aliasid <id> <角色名>` / `@unaliasid <id>` 用短 id 映射到真实角色名（多个 id 指向同角色不会刷新头像/名称）。
 
 自定义人物 ID：`@charid <id> <显示名>` / `@uncharid <id>` 用短 id 声明“非学生库角色”，避免被哈希化为 `custom-xxxx`。
 
-自定义头像：`@avatarid <id> <asset_name>` / `@unavatarid <id>` 把 `@asset.<asset_name>` 绑定为该自定义人物（`@charid`）的头像。
+自定义头像：`@avatarid <id> <asset_name>` / `@unavatarid <id>` 把 `@asset.<asset_name>` 绑定为该自定义人物（`@charid`）的头像；也支持 `@avatarid <id> <学生名>` 或 `@avatarid <id> kivo-288` 直接复用标准库头像。
 
-标准库角色换头像：`@avatar <角色名>=<asset_name>` / `@avatar <角色名>=` 临时覆盖学生库角色头像（仅对本次文本生效）。
+标准库角色换头像：`@avatar <角色名>=<asset_name>` / `@avatar <角色名>=` 临时覆盖学生库角色头像（仅对本次文本生效）；从指令出现后开始，对后续该角色气泡生效，直到再次修改或清空。
