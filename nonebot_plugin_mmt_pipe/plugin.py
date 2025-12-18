@@ -127,6 +127,154 @@ def _resolve_tags_file_and_images_dir_for_character(name: str) -> tuple[Path, Pa
     tags_file = (images_dir / "tags.json").resolve()
     return tags_file, images_dir, int(sid)
 
+def _parse_pack_csv(value: str) -> list[str]:
+    raw = (value or "").strip()
+    if not raw:
+        return []
+    out: list[str] = []
+    for part in raw.split(","):
+        p = part.strip()
+        if not p:
+            continue
+        out.append(validate_pack_id(p))
+    # de-dup, preserve order
+    seen: set[str] = set()
+    uniq: list[str] = []
+    for p in out:
+        if p in seen:
+            continue
+        seen.add(p)
+        uniq.append(p)
+    return uniq
+
+
+def _parse_opts_tokens(tokens: list[str]) -> tuple[dict, list[str]]:
+    """
+    Extracts known options from tokens (any position).
+    Returns: (opts, remaining_tokens)
+    opts:
+      - packs: list[str] | None
+      - top_n: int | None
+    """
+    packs: list[str] | None = None
+    top_n: int | None = None
+
+    remain: list[str] = []
+    i = 0
+    while i < len(tokens):
+        t = tokens[i]
+        if t == "--pack" and i + 1 < len(tokens):
+            packs = _parse_pack_csv(tokens[i + 1])
+            i += 2
+            continue
+        if t.startswith("--pack="):
+            packs = _parse_pack_csv(t.split("=", 1)[1])
+            i += 1
+            continue
+        if t == "--top-n" and i + 1 < len(tokens):
+            try:
+                top_n = max(1, int(tokens[i + 1]))
+            except Exception:
+                top_n = None
+            i += 2
+            continue
+        if t.startswith("--top-n="):
+            try:
+                top_n = max(1, int(t.split("=", 1)[1]))
+            except Exception:
+                top_n = None
+            i += 1
+            continue
+        remain.append(t)
+        i += 1
+
+    return {"packs": packs, "top_n": top_n}, remain
+
+
+def _load_pack_v2_by_id(pack_id: str) -> "PackV2":
+    if load_pack_v2 is None:
+        raise RuntimeError("pack-v2 loader 不可用。")
+    pid = validate_pack_id(pack_id)
+    root = plugin_config.pack_v2_root_path() / pid
+    if not root.exists():
+        raise RuntimeError(f"pack-v2 不存在：{pid}（目录：{root}）")
+    return load_pack_v2(root)
+
+
+def _resolve_pack_v2_sources_for_character(
+    *,
+    name: str,
+    pack_ids: Optional[list[str]],
+) -> tuple[list[dict], object]:
+    """
+    Returns:
+      - sources: list[{"pack_id","pack","char_id","tags_file","images_dir"}]
+      - id_for_title: usually char_id (str) for pack-v2, or legacy student id (int)
+    """
+    token = (name or "").strip()
+    if not token:
+        raise RuntimeError("未提供角色名。")
+
+    # Namespaced form: "<pack_id>.<char>"
+    if "." in token:
+        head, tail = token.split(".", 1)
+        if head and tail:
+            head_id = head.strip()
+            if pack_ids is None or head_id in pack_ids:
+                token = tail.strip()
+                pack_ids = [head_id]
+
+    if pack_ids:
+        sources: list[dict] = []
+        for pid in pack_ids:
+            pack = _load_pack_v2_by_id(pid)
+            cid = pack.resolve_char_id(token)
+            if cid is None:
+                continue
+            tags_file = pack.tags_path(cid)
+            sources.append(
+                {
+                    "pack_id": pid,
+                    "pack": pack,
+                    "char_id": cid,
+                    "tags_file": tags_file,
+                    "images_dir": tags_file.parent,
+                }
+            )
+        if not sources:
+            raise RuntimeError(f"未找到角色：{token}（pack={','.join(pack_ids)}）")
+        # Prefer showing the first resolved id.
+        return sources, sources[0]["char_id"]
+
+    # No explicit pack: keep existing resolution behavior (ba pack-v2 -> legacy fallback).
+    tags_file, images_dir, sid_for_title = _resolve_tags_file_and_images_dir_for_character(token)
+    if load_pack_v2 is not None:
+        # If pack-v2 ba hit, `_resolve_tags_file_and_images_dir_for_character` returns (tags_file, images_dir, char_id)
+        # but we don't have the pack_id from it; infer it as "ba".
+        if isinstance(sid_for_title, str):
+            pack = _load_pack_v2_by_id("ba")
+            return [
+                {
+                    "pack_id": "ba",
+                    "pack": pack,
+                    "char_id": sid_for_title,
+                    "tags_file": tags_file,
+                    "images_dir": images_dir,
+                }
+            ], sid_for_title
+
+    # Legacy fallback: treat as a single source.
+    return [
+        {
+            "pack_id": "legacy",
+            "pack": None,
+            "char_id": sid_for_title,
+            "tags_file": tags_file,
+            "images_dir": images_dir,
+        }
+    ], sid_for_title
+
+
 def _find_name_map_and_avatar_dir() -> tuple[Path, Path]:
     name_map_path = Path("avatar/name_to_id.json")
     avatar_dir = Path("avatar")
@@ -1728,68 +1876,98 @@ def _doc_text_for_rerank(item: dict) -> str:
 
 
 def _parse_imgmatch_args(text: str) -> tuple[str, int, str]:
+    # Back-compat helper (pack arg is ignored).
+    _packs, name, top_n, desc = _parse_imgmatch_args_v2(text)
+    return name, top_n, desc
+
+
+def _parse_imgmatch_args_v2(text: str) -> tuple[Optional[list[str]], str, int, str]:
     """
-    Parses: "<character_name> [--top-n=5] description..."
-    Returns: (character_name, top_n, description)
+    Parses:
+      [--pack ba,ba_extpack] <character_name> [--top-n=5] <description...>
+    Options can appear in any position.
+
+    Returns: (pack_ids, character_name, top_n, description)
     """
-    s = text.strip()
+    s = (text or "").strip()
     if not s:
         raise ValueError("missing args")
-    # First token = name
-    parts = s.split(None, 1)
-    name = parts[0].strip()
-    rest = parts[1] if len(parts) == 2 else ""
+    tokens = s.split()
+    opts, remain = _parse_opts_tokens(tokens)
+    packs = opts.get("packs")
+    top_n = int(opts.get("top_n") or 5)
 
-    top_n = 5
-    # allow --top-n=5 or --top-n 5
-    m = re.search(r"(?:^|\s)--top-n(?:=|\s+)(\d+)(?=\s|$)", rest)
-    if m:
-        top_n = max(1, int(m.group(1)))
-        rest = (rest[: m.start()] + " " + rest[m.end() :]).strip()
-
-    desc = rest.strip()
+    if not remain:
+        raise ValueError("missing args")
+    name = remain[0].strip()
+    desc = " ".join(remain[1:]).strip()
     if not desc:
         raise ValueError("missing description")
-    return name, top_n, desc
+    return packs, name, top_n, desc
 
 
 @mmt_imgmatch.handle()
 async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
     raw = arg.extract_plain_text().strip()
     try:
-        name, top_n, query = _parse_imgmatch_args(raw)
+        packs, name, top_n, query = _parse_imgmatch_args_v2(raw)
     except Exception:
-        await mmt_imgmatch.finish("用法：/mmt-imgmatch <角色名> [--top-n=5] <描述>")
+        await mmt_imgmatch.finish("用法：/mmt-imgmatch [--pack ba,ba_extpack] <角色名> [--top-n=5] <描述>")
 
     if mmt_text_to_json is None:
         await mmt_imgmatch.finish("mmt_render.mmt_text_to_json 无法导入，无法解析角色名。")
     if SiliconFlowRerankConfig is None or SiliconFlowReranker is None:
         await mmt_imgmatch.finish("mmt_render.siliconflow_rerank 无法导入，无法使用 reranker。")
 
+    # Resolve sources (support multiple packs)
     try:
-        tags_file, images_dir, sid_for_title = _resolve_tags_file_and_images_dir_for_character(name)
+        sources, sid_for_title = _resolve_pack_v2_sources_for_character(name=name, pack_ids=packs)
     except Exception as exc:
         await mmt_imgmatch.finish(str(exc))
-    if not tags_file.exists():
-        await mmt_imgmatch.finish(f"该角色没有 tags.json：{tags_file}")
 
-    try:
-        raw_items = json.loads(tags_file.read_text(encoding="utf-8"))
-    except Exception as exc:
-        await mmt_imgmatch.finish(f"tags.json 解析失败：{exc}")
-    if not isinstance(raw_items, list) or not raw_items:
-        await mmt_imgmatch.finish("tags.json 为空。")
+    # EULA gate (best-effort)
+    private_id, _group_id = _event_scope_ids(event)
+    if private_id:
+        eula_db = EulaDB(_state_db_path())
+        for src in sources:
+            pid = str(src.get("pack_id") or "")
+            pack = src.get("pack")
+            if pack is None:
+                continue
+            if pack.manifest.eula_required and not eula_db.is_accepted(user_id=private_id, pack_id=pid):
+                await mmt_imgmatch.finish(f"该包需要先同意 EULA：{pid}\n同意后请发送：/mmt-pack accept {pid}")
 
     docs: list[str] = []
-    cleaned: list[dict] = []
-    for it in raw_items:
-        if not isinstance(it, dict):
+    entries: list[dict] = []
+    for src in sources:
+        pid = str(src.get("pack_id") or "")
+        tags_file = src.get("tags_file")
+        images_dir = src.get("images_dir")
+        if not isinstance(tags_file, Path) or not isinstance(images_dir, Path):
             continue
-        if not it.get("image_name"):
+        if not tags_file.exists():
+            await mmt_imgmatch.finish(f"该角色没有 tags.json：{tags_file}")
+        try:
+            raw_items = json.loads(tags_file.read_text(encoding="utf-8"))
+        except Exception as exc:
+            await mmt_imgmatch.finish(f"tags.json 解析失败：{exc}")
+        if not isinstance(raw_items, list) or not raw_items:
             continue
-        cleaned.append(it)
-        docs.append(_doc_text_for_rerank(it))
-    if not cleaned:
+        raw_items = sorted(
+            [x for x in raw_items if isinstance(x, dict)],
+            key=lambda it: _image_order_key(str(it.get("image_name") or "")),
+        )
+        for it in raw_items:
+            image_name = str(it.get("image_name") or "")
+            if not image_name:
+                continue
+            entry = dict(it)
+            entry["_pack_id"] = pid
+            entry["_images_dir"] = images_dir
+            entries.append(entry)
+            docs.append(_doc_text_for_rerank(it))
+
+    if not entries:
         await mmt_imgmatch.finish("tags.json 没有有效条目（缺 image_name）。")
 
     cfg = SiliconFlowRerankConfig(api_key_env=plugin_config.mmt_rerank_key_env, model=plugin_config.mmt_rerank_model)
@@ -1815,16 +1993,18 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
         template,
         data_json,
         png_out_tpl,
-        images_dir,
-        pack_v2_root if pack_v2_root.exists() else images_dir,
+        pack_v2_root if pack_v2_root.exists() else sources[0]["images_dir"],
     )
     items: list[dict] = []
     for r in results:
         idx = r.get("index")
-        if not isinstance(idx, int) or not (0 <= idx < len(cleaned)):
+        if not isinstance(idx, int) or not (0 <= idx < len(entries)):
             continue
-        base = cleaned[idx]
+        base = entries[idx]
         image_name = str(base.get("image_name") or "")
+        images_dir = base.get("_images_dir")
+        if not isinstance(images_dir, Path):
+            images_dir = sources[0]["images_dir"]
         img_abs = images_dir / image_name
         try:
             img_abs_resolved = img_abs.resolve()
@@ -1843,6 +2023,7 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
             {
                 "img_path": img_path,
                 "image_name": image_name,
+                "pack_id": str(base.get("_pack_id") or ""),
                 "tags": tags,
                 "description": desc,
                 "score": round(score, 6),
@@ -1865,7 +2046,7 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
             template=template,
             input_json=data_json,
             out_path=png_out_tpl,
-            tags_root=images_dir,
+            tags_root=pack_v2_root if pack_v2_root.exists() else sources[0]["images_dir"],
             out_format="png",
             input_key="data",
         )
