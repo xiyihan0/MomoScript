@@ -143,26 +143,57 @@ def _parse_payload(payload: str) -> Tuple[Marker, str]:
       - ("index", <n>)
       - None
     """
-    s = (payload or "").rstrip()
-    if ":" not in s:
-        return None, s
-    head, rest = s.split(":", 1)
-    head = head.strip()
-    rest = rest.lstrip()
+    payload = (payload or "").rstrip()
 
-    m = SPEAKER_BACKREF_RE.match(f"{head}:")
-    if m:
-        n_raw = m.group(1) or "1"
-        n = int(n_raw) if n_raw.isdigit() else 1
-        return ("backref", n), rest
+    def split_top_level_colon(s: str) -> Optional[Tuple[str, str]]:
+        depth_sq = 0
+        depth_par = 0
+        escaped = False
+        for idx, ch in enumerate(s):
+            if escaped:
+                escaped = False
+                continue
+            if ch == "\\":
+                escaped = True
+                continue
+            if ch == "[":
+                depth_sq += 1
+                continue
+            if ch == "]" and depth_sq > 0:
+                depth_sq -= 1
+                continue
+            if ch == "(":
+                depth_par += 1
+                continue
+            if ch == ")" and depth_par > 0:
+                depth_par -= 1
+                continue
+            if ch == ":" and depth_sq == 0 and depth_par == 0:
+                return s[:idx], s[idx + 1 :]
+        return None
 
-    m = SPEAKER_INDEX_RE.match(f"{head}:")
-    if m:
-        n_raw = m.group(1) or "1"
-        n = int(n_raw) if n_raw.isdigit() else 1
-        return ("index", n), rest
+    split = split_top_level_colon(payload)
+    if split is not None:
+        head, tail = split
+        head = head.strip()
+        tail = tail.lstrip()
 
-    return ("explicit", head), rest
+        m = SPEAKER_BACKREF_RE.match(head + ":" + tail)  # allow "_:" without extra spaces
+        if m:
+            n_txt, content = m.group(1), m.group(2)
+            n = int(n_txt) if n_txt else 1
+            return ("backref", n), content
+
+        m = SPEAKER_INDEX_RE.match(head + ":" + tail)  # allow "~:" without extra spaces
+        if m:
+            n_txt, content = m.group(1), m.group(2)
+            n = int(n_txt) if n_txt else 1
+            return ("index", n), content
+
+        if head:
+            return ("explicit", head), tail
+
+    return None, payload
 
 
 def _is_usepack_line(line: str) -> bool:
@@ -346,4 +377,3 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

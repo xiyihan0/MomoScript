@@ -69,6 +69,22 @@ def _run_one(*, text: str, typst_mode: bool, engine: str) -> dict:
         )
         return data
 
+    if engine == "compiler_nodes":
+        compiler = MMTCompiler()
+        nodes = compiler.parse_nodes(text)
+        data, _report = compiler.compile_nodes(
+            nodes,
+            name_to_id={},
+            avatar_dir=Path("avatar"),
+            options=CompileOptions(
+                join_with_newline=True,
+                context_window=2,
+                typst_mode=bool(typst_mode),
+                pack_v2_root=Path("pack-v2"),
+            ),
+        )
+        return data
+
     raise SystemExit(f"unknown engine: {engine} (expected: legacy|compiler)")
 
 
@@ -76,7 +92,12 @@ def main() -> int:
     p = argparse.ArgumentParser(description="DSL refactor fixture runner (v1 convert_text).")
     p.add_argument("--update", action="store_true", help="Regenerate golden JSON files.")
     p.add_argument("--only", default="", help="Only run a single fixture file.")
-    p.add_argument("--engine", default="legacy", choices=["legacy", "compiler"], help="Which implementation to run.")
+    p.add_argument(
+        "--engine",
+        default="legacy",
+        choices=["legacy", "compiler", "compiler_nodes"],
+        help="Which implementation to run.",
+    )
     args = p.parse_args()
 
     root = _repo_root()
