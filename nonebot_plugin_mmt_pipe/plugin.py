@@ -24,6 +24,7 @@ from .assets_store import (
     validate_asset_name,
     write_blob,
 )
+from .pack_store import EulaDB, PackStoreError, validate_pack_id
 
 try:
     from nonebot.adapters.onebot.v11 import MessageSegment as V11MessageSegment
@@ -352,6 +353,69 @@ def _asset_db_and_dir() -> tuple[Path, Path]:
     asset_dir = plugin_config.asset_cache_dir_path()
     asset_dir.mkdir(parents=True, exist_ok=True)
     return db_path, asset_dir
+
+
+def _state_db_path() -> Path:
+    work = plugin_config.work_dir_path()
+    work.mkdir(parents=True, exist_ok=True)
+    return work / "state.sqlite3"
+
+
+def _packs_from_data(data: object) -> dict[str, str]:
+    """
+    Returns alias -> pack_id mapping from mmt_text_to_json output.
+    """
+    if not isinstance(data, dict):
+        return {}
+    packs = data.get("packs")
+    if not isinstance(packs, dict):
+        return {}
+    aliases = packs.get("aliases")
+    if not isinstance(aliases, dict):
+        return {}
+    out: dict[str, str] = {}
+    for k, v in aliases.items():
+        if not isinstance(k, str) or not isinstance(v, str):
+            continue
+        kk = k.strip()
+        vv = v.strip()
+        if not kk or not vv:
+            continue
+        out[kk] = vv
+    return out
+
+
+def _enforce_pack_eulas_or_raise(*, data: dict, event: Event) -> None:
+    """
+    Enforce per-user EULA acceptance for @usepack packs.
+    """
+    if load_pack_v2 is None:
+        return
+    alias_to_pack = _packs_from_data(data)
+    if not alias_to_pack:
+        return
+    private_id, _group_id = _event_scope_ids(event)
+    if not private_id:
+        return
+    eula_db = EulaDB(_state_db_path())
+    pack_root = plugin_config.pack_v2_root_path()
+    for alias, pack_id in alias_to_pack.items():
+        pid = validate_pack_id(pack_id)
+        if pid == "ba":
+            continue
+        pack_path = (pack_root / pid).resolve()
+        pack = load_pack_v2(pack_path)
+        if not bool(getattr(pack.manifest, "eula_required", False)):
+            continue
+        if eula_db.is_accepted(user_id=private_id, pack_id=pid):
+            continue
+        title = (getattr(pack.manifest, "eula_title", "") or "").strip() or pid
+        url = (getattr(pack.manifest, "eula_url", "") or "").strip()
+        msg = f"需要先同意扩展包 EULA 才能使用：{pid}（alias={alias}, title={title}）"
+        if url:
+            msg += f"\nEULA: {url}"
+        msg += f"\n同意后请发送：/mmt-pack accept {pid}"
+        raise RuntimeError(msg)
 
 
 def _event_scope_ids(event: Event) -> tuple[Optional[str], Optional[str]]:
@@ -895,6 +959,10 @@ async def _pipe_to_outputs(
         pass
     t_inj1 = time.perf_counter()
 
+    # Enforce EULA for @usepack packs (per-user acceptance).
+    if isinstance(data, dict):
+        _enforce_pack_eulas_or_raise(data=data, event=event)
+
     json_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     meta = data.get("meta") if isinstance(data, dict) else None
     meta = meta if isinstance(meta, dict) else {}
@@ -1255,6 +1323,7 @@ def _inject_author_if_missing(text: str, author: Optional[str]) -> str:
 
 mmt = on_command("mmt", priority=10, block=True)
 mmtpdf = on_command("mmtpdf", priority=10, block=True)
+mmt_pack = on_command("mmt-pack", aliases={"mmtpack", "mmt_pack"}, priority=10, block=True)
 mmt_img = on_command("mmt-img", aliases={"mmtimg", "mmt_img"}, priority=10, block=True)
 mmt_imgmatch = on_command("mmt-imgmatch", aliases={"mmtimgmatch", "mmt_imgmatch"}, priority=10, block=True)
 mmt_asset = on_command("mmt-asset", aliases={"mmtasset", "mmt_asset"}, priority=10, block=True)
@@ -1478,6 +1547,49 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
 async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
     raw = arg.extract_plain_text().strip()
     await _handle_mmt_common(matcher_name="mmt", bot=bot, event=event, raw=raw, arg_msg=arg, default_format="png")
+
+
+@mmt_pack.handle()
+async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
+    raw = arg.extract_plain_text().strip()
+    if not raw:
+        await mmt_pack.finish("用法：/mmt-pack list | /mmt-pack accept <pack_id>")
+
+    parts = raw.split()
+    cmd = parts[0].lower()
+    rest = parts[1:] if len(parts) > 1 else []
+
+    private_id, _group_id = _event_scope_ids(event)
+    if not private_id:
+        await mmt_pack.finish("无法获取用户 id，无法记录 EULA 同意状态。")
+
+    if cmd == "accept":
+        if not rest:
+            await mmt_pack.finish("用法：/mmt-pack accept <pack_id>")
+        pid = validate_pack_id(rest[0])
+        EulaDB(_state_db_path()).accept(user_id=private_id, pack_id=pid)
+        await mmt_pack.finish(f"已记录同意：{pid}")
+
+    if cmd == "list":
+        if load_pack_v2 is None:
+            await mmt_pack.finish("pack-v2 loader 不可用。")
+        root = plugin_config.pack_v2_root_path()
+        if not root.exists():
+            await mmt_pack.finish(f"pack-v2 根目录不存在：{root}")
+        eula_db = EulaDB(_state_db_path())
+        lines: list[str] = []
+        for d in sorted([p for p in root.iterdir() if p.is_dir()], key=lambda p: p.name.lower()):
+            try:
+                pack = load_pack_v2(d)
+            except Exception:
+                continue
+            pid = pack.manifest.pack_id
+            req = "EULA" if pack.manifest.eula_required else "-"
+            acc = "accepted" if eula_db.is_accepted(user_id=private_id, pack_id=pid) else "not-accepted"
+            lines.append(f"- {pid} ({pack.manifest.type}) {req} {acc}")
+        await mmt_pack.finish("\n".join(lines) if lines else "未找到可用 pack。")
+
+    await mmt_pack.finish("未知子命令。用法：/mmt-pack list | /mmt-pack accept <pack_id>")
 
 
 @mmt_img.handle()

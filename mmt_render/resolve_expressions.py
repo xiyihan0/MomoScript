@@ -47,6 +47,12 @@ class CandidateDoc:
         )
 
 
+@dataclass(frozen=True)
+class CandidateItem:
+    doc: CandidateDoc
+    image_path: Path
+
+
 def _image_order_key(image_name: str) -> tuple[int, str]:
     """
     Prefer numeric suffix order (e.g. xxx.png, xxx1.png, xxx2.png, xxx10.png, ...).
@@ -274,7 +280,7 @@ def _student_key(student_id: int) -> str:
 
 @dataclass
 class _IndexItem:
-    candidates: List[CandidateDoc]
+    items: List[CandidateItem]
     docs: List[str]
     index: EmbeddingIndex
 
@@ -317,52 +323,50 @@ async def resolve_one(
     reranker: SiliconFlowReranker,
     *,
     query: str,
-    candidates: List[CandidateDoc],
-    images_dir: Path,
+    items: List[CandidateItem],
     cache_key: str,
     top_n: int = 1,
     embedder: Optional[SiliconFlowEmbedder] = None,
     embed_top_k: int = 50,
     index_cache: Optional[_IndexCache] = None,
-) -> Tuple[str, float]:
-    if not candidates:
+) -> Tuple[CandidateItem, float]:
+    if not items:
         raise RuntimeError("missing tags for target")
 
-    docs_all = [_doc_text(c) for c in candidates]
-    chosen_candidates = candidates
+    docs_all = [_doc_text(it.doc) for it in items]
+    chosen_items = items
     chosen_docs = docs_all
     chosen_map: Optional[List[int]] = None
 
-    if embedder is not None and int(embed_top_k) > 0 and len(candidates) > int(embed_top_k):
+    if embedder is not None and int(embed_top_k) > 0 and len(items) > int(embed_top_k):
         cache = index_cache or _IndexCache(max_items=8)
         cached = cache.get(cache_key)
         if cached is None:
             vecs = await embedder.embed_texts(docs_all, use_cache=True)
             idx = EmbeddingIndex.build(vecs)
-            cached = _IndexItem(candidates=candidates, docs=docs_all, index=idx)
+            cached = _IndexItem(items=items, docs=docs_all, index=idx)
             cache.put(cache_key, cached)
         # Cache query embeddings too (small: ~16KB for 4096-dim float32), to reduce repeated requests.
         q_vec = (await embedder.embed_texts([query], use_cache=True))[0]
         top_idx = cached.index.top_k(q_vec, int(embed_top_k))
         if top_idx:
             chosen_map = top_idx
-            chosen_candidates = [cached.candidates[i] for i in top_idx]
+            chosen_items = [cached.items[i] for i in top_idx]
             chosen_docs = [cached.docs[i] for i in top_idx]
 
     results = await reranker.rerank(query=query, documents=chosen_docs, top_n=top_n, return_documents=False)
     best = results[0]
     idx = best.get("index")
     score = float(best.get("score") or 0.0)
-    if not isinstance(idx, int) or not (0 <= idx < len(chosen_candidates)):
+    if not isinstance(idx, int) or not (0 <= idx < len(chosen_items)):
         raise RuntimeError(f"invalid reranker result index: {idx}")
 
     if chosen_map is not None:
         idx = chosen_map[idx]
-    image_name = candidates[idx].image_name
-    image_path = images_dir / image_name
-    if not image_path.exists():
-        raise RuntimeError(f"resolved image missing on disk: {image_path}")
-    return image_name, score
+    picked = items[idx]
+    if not picked.image_path.exists():
+        raise RuntimeError(f"resolved image missing on disk: {picked.image_path}")
+    return picked, score
 
 
 async def resolve_file(
@@ -407,6 +411,34 @@ async def resolve_file(
                 pack_ba = load_pack_v2(ba_root)
             except Exception:
                 pack_ba = None
+
+    # Active extension packs from the DSL (@usepack ... as ...).
+    active_packs: Dict[str, "PackV2"] = {}
+    packs_cfg = data.get("packs") if isinstance(data, dict) else None
+    aliases_map = packs_cfg.get("aliases") if isinstance(packs_cfg, dict) else None
+    order_list = packs_cfg.get("order") if isinstance(packs_cfg, dict) else None
+    if isinstance(aliases_map, dict) and load_pack_v2 is not None:
+        aliases: List[str] = []
+        if isinstance(order_list, list) and all(isinstance(x, str) for x in order_list):
+            aliases = [str(x) for x in order_list if isinstance(x, str)]
+        # append any missing aliases deterministically
+        for a in sorted(str(k) for k in aliases_map.keys() if isinstance(k, str)):
+            if a not in aliases:
+                aliases.append(a)
+        for alias in aliases:
+            pid = aliases_map.get(alias)
+            if not isinstance(pid, str) or not pid.strip():
+                continue
+            pack_id = pid.strip()
+            # Ignore base pack itself if someone wrote @usepack ba as ...
+            if pack_id == "ba":
+                continue
+            root = (pack_v2_root / pack_id) if pack_v2_root is not None else Path(pack_id)
+            try:
+                pack = load_pack_v2(root)
+            except Exception:
+                continue
+            active_packs[alias] = pack
 
     meta = data.get("meta") if isinstance(data, dict) else None
     meta = meta if isinstance(meta, dict) else {}
@@ -608,39 +640,43 @@ async def resolve_file(
                         new_segments.append(seg2)
                         continue
 
-                # Direct by-index reference: [:#5] / [#5]
-                m_idx = re.match(r"^#\s*(\d+)\s*$", query)
-                direct_idx = int(m_idx.group(1)) if m_idx else None
+                # Direct by-index reference:
+                # - [:#5] / [#5]              => merged/default index
+                # - [:#ex:12] / [#ex:12]      => index within pack alias "ex"
+                m_idx = re.match(r"^#\s*(?:(?P<alias>[A-Za-z0-9_]+)\s*:\s*)?(?P<n>\d+)\s*$", query)
+                direct_idx = int(m_idx.group("n")) if m_idx else None
+                direct_alias = (m_idx.group("alias") or "").strip() if m_idx else ""
+                direct_alias = direct_alias or ""
 
                 try:
                     async with sem:
                         if isinstance(student_id, int):
-                            candidates = _load_tags_for_student(tags_root, student_id)
-                            if not candidates:
+                            docs = _load_tags_for_student(tags_root, student_id)
+                            if not docs:
                                 raise RuntimeError(f"missing tags for student {student_id}")
                             images_dir = (tags_root / str(student_id)).resolve()
+                            items = [CandidateItem(doc=d, image_path=(images_dir / d.image_name)) for d in docs]
 
                             if direct_idx is not None:
                                 i0 = direct_idx - 1
-                                if i0 < 0 or i0 >= len(candidates):
-                                    raise RuntimeError(f"index out of range: #{direct_idx} (1..{len(candidates)})")
-                                image_name = candidates[i0].image_name
-                                image_path = images_dir / image_name
-                                if not image_path.exists():
-                                    raise RuntimeError(f"resolved image missing on disk: {image_path}")
+                                if i0 < 0 or i0 >= len(items):
+                                    raise RuntimeError(f"index out of range: #{direct_idx} (1..{len(items)})")
+                                picked = items[i0]
+                                if not picked.image_path.exists():
+                                    raise RuntimeError(f"resolved image missing on disk: {picked.image_path}")
                                 score = 1.0
                             else:
-                                image_name, score = await resolve_one(
+                                picked, score = await resolve_one(
                                     reranker,
                                     query=query,
-                                    candidates=candidates,
-                                    images_dir=images_dir,
+                                    items=items,
                                     cache_key=f"kivo:{student_id}",
                                     top_n=1,
                                     embedder=embedder,
                                     embed_top_k=int(embed_top_k),
                                     index_cache=idx_cache,
                                 )
+                            image_name = picked.doc.image_name
 
                             new_segments.append(
                                 {
@@ -652,37 +688,66 @@ async def resolve_file(
                             )
                         elif isinstance(target_char_id, str) and target_char_id.startswith("ba.") and pack_ba is not None:
                             cid = target_char_id.split(".", 1)[1]
-                            if cid not in pack_ba.id_to_assets:
-                                raise RuntimeError(f"unknown ba character: {cid}")
-                            candidates = _load_tags_for_pack_char(pack_ba, cid)
-                            if not candidates:
+
+                            def _items_for_pack(pack: "PackV2", *, cid: str) -> List[CandidateItem]:
+                                if cid not in pack.id_to_assets:
+                                    return []
+                                docs = _load_tags_for_pack_char(pack, cid)
+                                if not docs:
+                                    return []
+                                images_dir = pack.tags_path(cid).parent.resolve()
+                                return [CandidateItem(doc=d, image_path=(images_dir / d.image_name)) for d in docs]
+
+                            merged_items: List[CandidateItem] = []
+                            pack_items_by_alias: Dict[str, List[CandidateItem]] = {}
+                            base_items = _items_for_pack(pack_ba, cid=cid)
+                            if base_items:
+                                pack_items_by_alias["ba"] = base_items
+                                merged_items.extend(base_items)
+                            for alias, pack in active_packs.items():
+                                pit = _items_for_pack(pack, cid=cid)
+                                if pit:
+                                    pack_items_by_alias[alias] = pit
+                                    merged_items.extend(pit)
+
+                            if not merged_items:
                                 raise RuntimeError(f"missing tags for ba.{cid}")
-                            tags_path = pack_ba.tags_path(cid)
-                            images_dir = tags_path.parent.resolve()
+
+                            selected_items = merged_items
+                            if direct_idx is not None and direct_alias:
+                                if direct_alias not in pack_items_by_alias:
+                                    raise RuntimeError(f"unknown pack alias in index: {direct_alias}")
+                                selected_items = pack_items_by_alias[direct_alias]
 
                             if direct_idx is not None:
                                 i0 = direct_idx - 1
-                                if i0 < 0 or i0 >= len(candidates):
-                                    raise RuntimeError(f"index out of range: #{direct_idx} (1..{len(candidates)})")
-                                image_name = candidates[i0].image_name
-                                image_path = images_dir / image_name
-                                if not image_path.exists():
-                                    raise RuntimeError(f"resolved image missing on disk: {image_path}")
+                                if i0 < 0 or i0 >= len(selected_items):
+                                    raise RuntimeError(f"index out of range: #{direct_idx} (1..{len(selected_items)})")
+                                picked = selected_items[i0]
+                                if not picked.image_path.exists():
+                                    raise RuntimeError(f"resolved image missing on disk: {picked.image_path}")
                                 score = 1.0
                             else:
-                                image_name, score = await resolve_one(
+                                # Cache must include the exact merged order to avoid mixing indices across different merge orders.
+                                merged_order: List[str] = []
+                                if "ba" in pack_items_by_alias:
+                                    merged_order.append("ba")
+                                for a in active_packs.keys():
+                                    if a in pack_items_by_alias:
+                                        merged_order.append(a)
+                                cache_key = f"ba:{cid}|packs:" + ",".join(merged_order)
+                                picked, score = await resolve_one(
                                     reranker,
                                     query=query,
-                                    candidates=candidates,
-                                    images_dir=images_dir,
-                                    cache_key=f"ba:{cid}",
+                                    items=selected_items,
+                                    cache_key=cache_key,
                                     top_n=1,
                                     embedder=embedder,
                                     embed_top_k=int(embed_top_k),
                                     index_cache=idx_cache,
                                 )
 
-                            img_abs = (images_dir / image_name).resolve()
+                            img_abs = picked.image_path.resolve()
                             if ref_root is not None:
                                 try:
                                     ref = Path(os.path.relpath(img_abs, start=Path(ref_root).resolve())).as_posix()

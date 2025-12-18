@@ -42,7 +42,7 @@ class PackManifest:
 @dataclass(frozen=True)
 class CharacterAssets:
     char_id: str
-    avatar: str  # relpath under pack root
+    avatar: str  # relpath under pack root; may be "" for extension packs (inherit from base)
     expressions_dir: str  # relpath under pack root
     tags: str = "tags.json"  # file name under expressions_dir
 
@@ -66,6 +66,8 @@ class PackV2:
 
     def avatar_path(self, char_id: str) -> Path:
         assets = self.id_to_assets[char_id]
+        if not assets.avatar:
+            raise FileNotFoundError(f"avatar is not provided for {char_id} in pack {self.manifest.pack_id}")
         return (self.root / assets.avatar).resolve()
 
 
@@ -133,8 +135,12 @@ def load_pack_v2(pack_root: Path) -> PackV2:
         avatar = str(obj.get("avatar") or "").strip()
         expr_dir = str(obj.get("expressions_dir") or "").strip()
         tags = str(obj.get("tags") or "tags.json").strip() or "tags.json"
-        if not _is_safe_relpath(avatar):
-            raise ValueError(f"invalid avatar path for {cid}: {avatar}")
+        if not avatar:
+            if manifest.type != "extension":
+                raise ValueError(f"missing avatar path for {cid} in base pack")
+        else:
+            if not _is_safe_relpath(avatar):
+                raise ValueError(f"invalid avatar path for {cid}: {avatar}")
         if not _is_safe_relpath(expr_dir):
             raise ValueError(f"invalid expressions_dir for {cid}: {expr_dir}")
         if "/" in tags or "\\" in tags or ".." in tags:
@@ -153,10 +159,11 @@ def validate_pack_v2(pack_root: Path) -> None:
     # Basic file existence checks (best-effort)
     for cid, assets in pack.id_to_assets.items():
         _ = assets
-        avatar = pack.avatar_path(cid)
+        avatar = None
+        if assets.avatar:
+            avatar = pack.avatar_path(cid)
         tags = pack.tags_path(cid)
-        if not avatar.exists():
+        if avatar is not None and not avatar.exists():
             raise FileNotFoundError(f"missing avatar for {cid}: {avatar}")
         if not tags.exists():
             raise FileNotFoundError(f"missing tags.json for {cid}: {tags}")
-

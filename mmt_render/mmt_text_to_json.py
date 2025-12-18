@@ -321,6 +321,11 @@ def convert_text(
     pending_tmpalias: Dict[str, Dict[str, str]] = {">": {}, "<": {}}
     active_tmpalias: Dict[str, Optional[Tuple[str, str]]] = {">": None, "<": None}  # kind -> (char_id, override)
 
+    # Extension packs (overlay). These do not affect speaker id lookup, only expression resolution.
+    # Syntax: @usepack <pack_id> as <alias>
+    usepack_alias_to_pack_id: Dict[str, str] = {}
+    usepack_order: List[str] = []
+
     base_index = _build_base_index(name_to_id)
 
     # Namespace importing (like `using namespace`): bare names are resolved in this order.
@@ -328,6 +333,27 @@ def convert_text(
     #   - ba: Blue Archive student library (kivo-<id>)
     #   - custom: user-defined / ad-hoc speakers (custom-<id>)
     using_namespaces: List[str] = ["ba", "custom"]
+
+    _PACK_ID_RE = re.compile(r"^[A-Za-z0-9_]+$")
+
+    def _parse_usepack_line(line: str, *, line_no: int) -> None:
+        # Syntax: @usepack <pack_id> as <alias>
+        m = re.match(r"^@usepack\s+(.+)$", line.strip(), flags=re.IGNORECASE)
+        if not m:
+            raise ValueError(f"line {line_no}: invalid @usepack directive")
+        rest = m.group(1).strip()
+        m2 = re.match(r"^([A-Za-z0-9_]+)\s+as\s+([A-Za-z0-9_]+)$", rest, flags=re.IGNORECASE)
+        if not m2:
+            raise ValueError(f"line {line_no}: invalid @usepack directive (expected: @usepack <pack_id> as <alias>)")
+        pack_id = m2.group(1).strip()
+        alias = m2.group(2).strip()
+        if not _PACK_ID_RE.match(pack_id):
+            raise ValueError(f"line {line_no}: invalid pack_id: {pack_id}")
+        if not _PACK_ID_RE.match(alias):
+            raise ValueError(f"line {line_no}: invalid pack alias: {alias}")
+        usepack_alias_to_pack_id[alias] = pack_id
+        if alias not in usepack_order:
+            usepack_order.append(alias)
     _CUSTOM_ID_RE = re.compile(r"^[\w][\w\-]*$", flags=0)
 
     def _split_namespace(token: str) -> Tuple[Optional[str], str]:
@@ -772,6 +798,10 @@ def convert_text(
             _parse_avatar_line(lstripped, line_no=i + 1)
             i += 1
             continue
+        if re.match(r"^@usepack\b", lstripped, flags=re.IGNORECASE):
+            _parse_usepack_line(lstripped, line_no=i + 1)
+            i += 1
+            continue
         if lstripped.startswith("- ") or lstripped.startswith("> ") or lstripped.startswith("< "):
             break
         m = HEADER_DIRECTIVE_RE.match(stripped)
@@ -859,6 +889,10 @@ def convert_text(
             continue
         if re.match(r"^@avatar\b", stripped, flags=re.IGNORECASE):
             _parse_avatar_line(stripped, line_no=line_no)
+            i += 1
+            continue
+        if re.match(r"^@usepack\b", stripped, flags=re.IGNORECASE):
+            _parse_usepack_line(stripped, line_no=line_no)
             i += 1
             continue
 
@@ -1217,6 +1251,7 @@ def convert_text(
     data = {
         "meta": meta,
         "typst_global": typst_global,
+        "packs": {"aliases": usepack_alias_to_pack_id, "order": usepack_order},
         "chars": [],
         "custom_chars": custom_chars,
         "chat": messages,
