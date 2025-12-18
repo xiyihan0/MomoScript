@@ -1162,6 +1162,7 @@ async def _handle_mmt_common(
     bot: Bot,
     event: Event,
     raw: str,
+    arg_msg: object,
     default_format: str,
 ) -> None:
     if not raw:
@@ -1232,7 +1233,7 @@ async def _handle_mmt_common(
 
     if bool(flags.get("from_file")):
         try:
-            url, fname = await _extract_text_file_url(bot, event, arg)
+            url, fname = await _extract_text_file_url(bot, event, arg_msg)
             data = await _download_text_file(url, max_bytes=2 * 1024 * 1024)
             file_text = _decode_text_file(data)
         except Exception as exc:
@@ -1326,13 +1327,13 @@ async def _handle_mmt_common(
 @mmtpdf.handle()
 async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
     raw = arg.extract_plain_text().strip()
-    await _handle_mmt_common(matcher_name="mmtpdf", bot=bot, event=event, raw=raw, default_format="pdf")
+    await _handle_mmt_common(matcher_name="mmtpdf", bot=bot, event=event, raw=raw, arg_msg=arg, default_format="pdf")
 
 
 @mmt.handle()
 async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
     raw = arg.extract_plain_text().strip()
-    await _handle_mmt_common(matcher_name="mmt", bot=bot, event=event, raw=raw, default_format="png")
+    await _handle_mmt_common(matcher_name="mmt", bot=bot, event=event, raw=raw, arg_msg=arg, default_format="png")
 
 
 @mmt_img.handle()
