@@ -43,6 +43,7 @@ class MMTCompiler:
             context_window=max(0, int(options.context_window)),
             typst_mode=bool(options.typst_mode),
             pack_v2_root=options.pack_v2_root,
+            dsl_engine="legacy",
         )
 
     # --- New pipeline (WIP) ---

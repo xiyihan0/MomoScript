@@ -51,6 +51,7 @@ def _run_one(*, text: str, typst_mode: bool, engine: str) -> dict:
             context_window=2,
             typst_mode=bool(typst_mode),
             pack_v2_root=Path("pack-v2"),
+            dsl_engine="legacy",
         )
         return data
 

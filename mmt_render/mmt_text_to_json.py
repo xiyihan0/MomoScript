@@ -249,10 +249,40 @@ def convert_text(
     context_window: int = 2,
     typst_mode: bool = False,
     pack_v2_root: Optional[Path] = None,
+    dsl_engine: Optional[str] = None,
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """
     Returns: (json_data, report)
     """
+    # DSL refactor toggle:
+    # - Default to the new node-based pipeline on this branch.
+    # - Force legacy via `dsl_engine="legacy"` or env `MMT_DSL_ENGINE=legacy`.
+    engine = (dsl_engine or os.getenv("MMT_DSL_ENGINE") or "compiler_nodes").strip().lower()
+    if engine not in ("legacy", "old"):
+        effective_pack_v2_root: Optional[Path] = pack_v2_root
+        if effective_pack_v2_root is None:
+            env = os.getenv("MMT_PACK_V2_ROOT", "").strip()
+            if env:
+                effective_pack_v2_root = Path(env).expanduser()
+            elif Path("pack-v2").exists():
+                effective_pack_v2_root = Path("pack-v2")
+
+        from mmt_render.dsl_compiler import CompileOptions, MMTCompiler
+
+        compiler = MMTCompiler()
+        options = CompileOptions(
+            join_with_newline=bool(join_with_newline),
+            context_window=max(0, int(context_window)),
+            typst_mode=bool(typst_mode),
+            pack_v2_root=effective_pack_v2_root,
+        )
+        if engine in ("compiler_nodes", "nodes", "node"):
+            nodes = compiler.parse_nodes(text)
+            return compiler.compile_nodes(nodes, name_to_id=name_to_id, avatar_dir=avatar_dir, options=options)
+        if engine in ("compiler", "text"):
+            return compiler.compile_text(text, name_to_id=name_to_id, avatar_dir=avatar_dir, options=options)
+        raise ValueError(f"invalid dsl_engine: {dsl_engine!r} (or env MMT_DSL_ENGINE={engine!r})")
+
     # Optional Pack v2 (draft) support for speaker/avatar resolution.
     # Best-effort: only affects speaker identity + avatar refs.
     pack_v2_ba = None
