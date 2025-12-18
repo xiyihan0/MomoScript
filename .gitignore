@@ -66,3 +66,6 @@ mmt_render/*.pipe.pdf
 mmt_render/*.resolved.json
 mmt_render/*.report.json
 mmt_render/*.render*.json
+
+# MomoScript Test Examples
+mmt_render/*.txt

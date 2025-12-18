@@ -989,6 +989,10 @@ def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
             show_help = True
             s = s[len("-h") :]
             continue
+        if s == "-t" or s.startswith("-t "):
+            typst = True
+            s = s[len("-t") :]
+            continue
         if s.startswith("--typst"):
             typst = True
             s = s[len("--typst") :]
@@ -1237,7 +1241,7 @@ async def _handle_mmt_common(
                 "- --resolve：强制开启 resolve",
                 "- --strict：resolve 失败直接报错",
                 "- --verbose / -v：输出各阶段用时信息",
-                "- --typst：文本按 Typst markup 渲染（表情标记仅识别 '[:...]'）",
+                "- --typst / -t：文本按 Typst markup 渲染（表情标记仅识别 '[:...]'）",
                 "- --image-scale <0.1-1.0>：气泡内图片缩放",
                 f"- --ctx-n <N>：'[图片]' 使用的上下文窗口大小（默认 {plugin_config.mmt_ctx_n}）",
                 "- --disable-heading：关闭标题栏",
