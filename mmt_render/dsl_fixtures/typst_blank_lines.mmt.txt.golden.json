@@ -1,0 +1,60 @@
+{
+  "chars": [],
+  "chat": [
+    {
+      "char_id": "ba.晴(露营)",
+      "content": "第一段第一行\n\n\n第二段第一行（空行应保留）",
+      "line_no": 2,
+      "segments": [
+        {
+          "text": "第一段第一行\n\n\n第二段第一行（空行应保留）",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    },
+    {
+      "char_id": "ba.晴(露营)",
+      "content": "[:Smile]\n",
+      "line_no": 6,
+      "segments": [
+        {
+          "query": "Smile",
+          "target_char_id": "ba.晴(露营)",
+          "text": "[Smile]",
+          "type": "expr"
+        },
+        {
+          "text": "\n",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    }
+  ],
+  "custom_chars": [
+    [
+      "ba.晴(露营)",
+      "/pack-v2/ba/avatar/340.png",
+      "晴"
+    ]
+  ],
+  "meta": {
+    "title": "TypstBlank"
+  },
+  "packs": {
+    "aliases": {},
+    "order": []
+  },
+  "typst_global": ""
+}

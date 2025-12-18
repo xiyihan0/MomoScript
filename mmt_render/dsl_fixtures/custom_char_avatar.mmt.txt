@@ -1,0 +1,5 @@
+@charid xl 昔涟
+@asset.xl_avatar: https://example.com/xl.jpg
+@avatar xl=xl_avatar
+> xl: Hi~想我了吗？
+

@@ -1,0 +1,98 @@
+{
+  "chars": [],
+  "chat": [
+    {
+      "char_id": "ba.优香",
+      "content": "[:#5]",
+      "line_no": 2,
+      "segments": [
+        {
+          "query": "#5",
+          "target_char_id": "ba.优香",
+          "text": "[#5]",
+          "type": "expr"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    },
+    {
+      "char_id": "ba.优香",
+      "content": "[:#ba:2]",
+      "line_no": 3,
+      "segments": [
+        {
+          "query": "#ba:2",
+          "target_char_id": "ba.优香",
+          "text": "[#ba:2]",
+          "type": "expr"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    },
+    {
+      "char_id": "ba.优香",
+      "content": "[:#ex:1]",
+      "line_no": 4,
+      "segments": [
+        {
+          "query": "#ex:1",
+          "target_char_id": "ba.优香",
+          "text": "[#ex:1]",
+          "type": "expr"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    },
+    {
+      "char_id": "ba.优香",
+      "content": "[smile]",
+      "line_no": 5,
+      "segments": [
+        {
+          "query": "smile",
+          "target_char_id": "ba.优香",
+          "text": "[smile]",
+          "type": "expr"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    }
+  ],
+  "custom_chars": [
+    [
+      "ba.优香",
+      "/pack-v2/ba/avatar/52.png",
+      "优香"
+    ]
+  ],
+  "meta": {},
+  "packs": {
+    "aliases": {
+      "ex": "pack_tmp_ext"
+    },
+    "order": [
+      "ex"
+    ]
+  },
+  "typst_global": ""
+}

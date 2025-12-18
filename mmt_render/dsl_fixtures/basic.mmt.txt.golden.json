@@ -1,0 +1,155 @@
+{
+  "chars": [],
+  "chat": [
+    {
+      "char_id": "ba.优香",
+      "content": "你好",
+      "line_no": 3,
+      "segments": [
+        {
+          "text": "你好",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    },
+    {
+      "char_id": "ba.晴(露营)",
+      "content": "另一位说话人（用于 _1 回溯）",
+      "line_no": 4,
+      "segments": [
+        {
+          "text": "另一位说话人（用于 _1 回溯）",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    },
+    {
+      "char_id": "ba.晴(露营)",
+      "content": "1!",
+      "line_no": 6,
+      "segments": [
+        {
+          "text": "1!",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    },
+    {
+      "char_id": "ba.晴(露营)",
+      "content": "2!",
+      "line_no": 8,
+      "segments": [
+        {
+          "text": "2!",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    },
+    {
+      "char_id": "ba.优香",
+      "content": "3!",
+      "line_no": 9,
+      "segments": [
+        {
+          "text": "3!",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "优香(一年级)",
+        "type": "TEXT"
+      }
+    },
+    {
+      "content": "旁白",
+      "line_no": 10,
+      "segments": [
+        {
+          "text": "旁白",
+          "type": "text"
+        }
+      ],
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "NARRATION"
+      }
+    },
+    {
+      "content": "",
+      "line_no": 11,
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "PAGEBREAK"
+      }
+    },
+    {
+      "char_id": "ba.优香",
+      "content": "右侧也可以",
+      "line_no": 12,
+      "segments": [
+        {
+          "text": "右侧也可以",
+          "type": "text"
+        }
+      ],
+      "side": "right",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "优香(一年级)",
+        "type": "TEXT"
+      }
+    }
+  ],
+  "custom_chars": [
+    [
+      "ba.优香",
+      "/pack-v2/ba/avatar/52.png",
+      "优香"
+    ],
+    [
+      "ba.晴(露营)",
+      "/pack-v2/ba/avatar/340.png",
+      "晴"
+    ]
+  ],
+  "meta": {
+    "title": "测试"
+  },
+  "packs": {
+    "aliases": {
+      "ex": "demo"
+    },
+    "order": [
+      "ex"
+    ]
+  },
+  "typst_global": ""
+}

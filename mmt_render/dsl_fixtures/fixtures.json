@@ -1,0 +1,15 @@
+{
+  "basic.mmt.txt": {
+    "typst_mode": false
+  },
+  "typst_blank_lines.mmt.txt": {
+    "typst_mode": true
+  },
+  "expr_direct_ref.mmt.txt": {
+    "typst_mode": false
+  },
+  "custom_char_avatar.mmt.txt": {
+    "typst_mode": false
+  }
+}
+

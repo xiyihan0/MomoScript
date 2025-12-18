@@ -1,0 +1,38 @@
+{
+  "chars": [],
+  "chat": [
+    {
+      "avatar_override": "asset:xl_avatar",
+      "char_id": "custom-xl",
+      "content": "Hi~想我了吗？",
+      "line_no": 4,
+      "segments": [
+        {
+          "text": "Hi~想我了吗？",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    }
+  ],
+  "custom_chars": [
+    [
+      "custom-xl",
+      "uploaded",
+      "昔涟"
+    ]
+  ],
+  "meta": {
+    "asset.xl_avatar": "https://example.com/xl.jpg"
+  },
+  "packs": {
+    "aliases": {},
+    "order": []
+  },
+  "typst_global": ""
+}

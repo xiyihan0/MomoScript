@@ -1,0 +1,6 @@
+@usepack pack_tmp_ext as ex
+> 优香: [:#5]
+> 优香: [:#ba:2]
+> 优香: [:#ex:1]
+> 优香: [smile]
+
