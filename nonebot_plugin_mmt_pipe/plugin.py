@@ -777,7 +777,7 @@ async def _pipe_to_outputs(
     allow_local_assets: bool,
     asset_local_prefixes: Optional[str],
     out_dir: Path,
-) -> tuple[list[Path], dict, dict, str]:
+) -> tuple[list[Path], dict, dict, str, dict]:
     if mmt_text_to_json is None:
         raise RuntimeError("mmt_render.mmt_text_to_json is not importable in this environment")
 
@@ -793,6 +793,8 @@ async def _pipe_to_outputs(
     )
 
     # Parse text -> json
+    t_start = time.perf_counter()
+    t_parse0 = time.perf_counter()
     name_map_path, avatar_dir = _find_name_map_and_avatar_dir()
 
     name_map = mmt_text_to_json._load_name_to_id(name_map_path)
@@ -804,8 +806,10 @@ async def _pipe_to_outputs(
         context_window=max(0, int(ctx_n)),
         typst_mode=bool(typst),
     )
+    t_parse1 = time.perf_counter()
 
     # Inject per-user/private and per-group assets into meta (default lookup order: p > g).
+    t_inj0 = time.perf_counter()
     try:
         private_id, group_id = _event_scope_ids(event)
         if private_id or group_id:
@@ -820,6 +824,7 @@ async def _pipe_to_outputs(
     except Exception:
         # Asset injection is best-effort; do not fail rendering.
         pass
+    t_inj1 = time.perf_counter()
 
     json_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     meta = data.get("meta") if isinstance(data, dict) else None
@@ -828,6 +833,7 @@ async def _pipe_to_outputs(
     chat_for_render = json_path
     resolve_stats: dict = {"unresolved": 0, "errors": [], "asset_errors": 0, "avatar_errors": 0, "asset_error_examples": []}
     if resolve:
+        t_resolve0 = time.perf_counter()
         if resolve_file is None:
             raise RuntimeError("mmt_render.resolve_expressions.resolve_file is not importable in this environment")
         tags_root = plugin_config.tags_root_path()
@@ -880,6 +886,9 @@ async def _pipe_to_outputs(
                         resolve_stats["avatar_errors"] += 1
         except Exception:
             pass
+        t_resolve1 = time.perf_counter()
+    else:
+        t_resolve0 = t_resolve1 = time.perf_counter()
 
     # Render png(s) via typst (blocking)
     tags_root = plugin_config.tags_root_path()
@@ -901,6 +910,7 @@ async def _pipe_to_outputs(
     if not tags_root.is_absolute():
         tags_root = (Path.cwd() / tags_root).resolve()
     compiled_at = "" if no_time else time.strftime("%Y-%m-%d %H:%M:%S")
+    t_render0 = time.perf_counter()
     await asyncio.to_thread(
         _run_typst,
         typst_bin=plugin_config.mmt_typst_bin,
@@ -922,19 +932,28 @@ async def _pipe_to_outputs(
         }
         or None,
     )
+    t_render1 = time.perf_counter()
+
+    timings: dict = {
+        "parse_ms": int((t_parse1 - t_parse0) * 1000),
+        "asset_inject_ms": int((t_inj1 - t_inj0) * 1000),
+        "resolve_ms": int((t_resolve1 - t_resolve0) * 1000),
+        "render_ms": int((t_render1 - t_render0) * 1000),
+        "total_ms": int((t_render1 - t_start) * 1000),
+    }
 
     if out_format_norm == "pdf":
         if out_path.exists():
-            return [out_path], resolve_stats, meta, compiled_at
+            return [out_path], resolve_stats, meta, compiled_at, timings
         raise RuntimeError("typst succeeded but no pdf output found")
 
     pngs = sorted(out_dir.glob(f"{stem}-*.png"), key=lambda p: p.name)
     if not pngs:
         single = out_dir / f"{stem}.png"
         if single.exists():
-            return [single], resolve_stats, meta, compiled_at
+            return [single], resolve_stats, meta, compiled_at, timings
         raise RuntimeError("typst succeeded but no png output found")
-    return pngs, resolve_stats, meta, compiled_at
+    return pngs, resolve_stats, meta, compiled_at, timings
 
 
 def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
@@ -952,6 +971,7 @@ def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
     allow_local_assets: bool = False
     asset_local_prefixes: Optional[str] = None
     from_file: bool = False
+    verbose: bool = False
     show_help: bool = False
     help_mode: Optional[str] = None
 
@@ -1051,6 +1071,14 @@ def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
             strict = True
             s = s[len("--strict") :]
             continue
+        if s.startswith("--verbose"):
+            verbose = True
+            s = s[len("--verbose") :]
+            continue
+        if s == "-v" or s.startswith("-v "):
+            verbose = True
+            s = s[len("-v") :]
+            continue
         m = re.match(r"^--image(?:_|-)scale(?:=|\s+)([0-9]*\.?[0-9]+)", s)
         if m:
             try:
@@ -1086,6 +1114,7 @@ def _parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
         "allow_local_assets": allow_local_assets,
         "asset_local_prefixes": asset_local_prefixes,
         "from_file": from_file,
+        "verbose": verbose,
         "help": show_help,
         "help_mode": help_mode,
     }
@@ -1165,6 +1194,7 @@ async def _handle_mmt_common(
     arg_msg: object,
     default_format: str,
 ) -> None:
+    t_total0 = time.perf_counter()
     if not raw:
         if matcher_name == "mmtpdf":
             await mmtpdf.finish("请在指令后粘贴 MMT 文本，例如：/mmtpdf <内容>（默认会 resolve；默认输出 pdf）")
@@ -1206,6 +1236,7 @@ async def _handle_mmt_common(
                 "- --no-resolve：不做表情/图片推断",
                 "- --resolve：强制开启 resolve",
                 "- --strict：resolve 失败直接报错",
+                "- --verbose / -v：输出各阶段用时信息",
                 "- --typst：文本按 Typst markup 渲染（表情标记仅识别 '[:...]'）",
                 "- --image-scale <0.1-1.0>：气泡内图片缩放",
                 f"- --ctx-n <N>：'[图片]' 使用的上下文窗口大小（默认 {plugin_config.mmt_ctx_n}）",
@@ -1231,7 +1262,9 @@ async def _handle_mmt_common(
             await mmtpdf.finish("未检测到正文内容（参数后需要跟 MMT 文本）。")
         await mmt.finish("未检测到正文内容（参数后需要跟 MMT 文本）。")
 
+    file_read_ms = 0
     if bool(flags.get("from_file")):
+        t_file0 = time.perf_counter()
         try:
             url, fname = await _extract_text_file_url(bot, event, arg_msg)
             data = await _download_text_file(url, max_bytes=2 * 1024 * 1024)
@@ -1240,6 +1273,7 @@ async def _handle_mmt_common(
             if matcher_name == "mmtpdf":
                 await mmtpdf.finish(f"读取文本文件失败：{exc}")
             await mmt.finish(f"读取文本文件失败：{exc}")
+        file_read_ms = int((time.perf_counter() - t_file0) * 1000)
         # Allow optional prefix content after flags (useful for overriding @title/@author etc).
         content = (content.rstrip() + "\n" + file_text) if content.strip() else file_text
 
@@ -1247,7 +1281,7 @@ async def _handle_mmt_common(
 
     out_dir = plugin_config.work_dir_path()
     try:
-        out_paths, resolve_stats, meta, compiled_at = await _pipe_to_outputs(
+        out_paths, resolve_stats, meta, compiled_at, timings = await _pipe_to_outputs(
             text=content,
             bot=bot,
             event=event,
@@ -1279,8 +1313,11 @@ async def _handle_mmt_common(
     if out_format_norm == "pdf":
         pdf_path = out_paths[0]
         upload_name = _format_pdf_name(meta=meta, compiled_at=compiled_at, fallback=pdf_path.stem)
+        upload_ms = 0
         try:
+            t_up0 = time.perf_counter()
             await _upload_onebot_file(bot, event, pdf_path, file_name=upload_name)
+            upload_ms = int((time.perf_counter() - t_up0) * 1000)
         except Exception as exc:
             logger.warning("upload pdf failed: %s", exc)
             if matcher_name == "mmtpdf":
@@ -1294,6 +1331,22 @@ async def _handle_mmt_common(
             if errs:
                 msg += "\n示例错误：" + "; ".join(str(x) for x in errs)
             msg += "\n可用 `--strict` 让其直接报错定位。"
+        if bool(flags.get("verbose")) and isinstance(timings, dict):
+            parts = []
+            if file_read_ms:
+                parts.append(f"file={file_read_ms}ms")
+            parts.extend(
+                [
+                    f"parse={timings.get('parse_ms', 0)}ms",
+                    f"asset_inject={timings.get('asset_inject_ms', 0)}ms",
+                    f"resolve={timings.get('resolve_ms', 0)}ms",
+                    f"render={timings.get('render_ms', 0)}ms",
+                ]
+            )
+            if upload_ms:
+                parts.append(f"upload={upload_ms}ms")
+            parts.append(f"total={int((time.perf_counter() - t_total0) * 1000)}ms")
+            msg += ("\n" if msg else "") + "用时：" + ", ".join(parts)
         if matcher_name == "mmtpdf":
             await mmtpdf.finish(msg if msg else None)
         await mmt.finish(msg if msg else None)
@@ -1304,7 +1357,9 @@ async def _handle_mmt_common(
             await mmtpdf.finish(f"已生成图片：{out_paths[0]}")
         await mmt.finish(f"已生成图片：{out_paths[0]}")
 
+    t_send0 = time.perf_counter()
     await _send_onebot_images(bot, event, out_paths)
+    send_ms = int((time.perf_counter() - t_send0) * 1000)
     msg = ""
     if flags["resolve"] and int(resolve_stats.get("unresolved") or 0) > 0:
         msg += f"\n注意：仍有 {resolve_stats['unresolved']} 处表情未解析（通常是找不到对应学生的 tags.json 或图片文件）。"
@@ -1319,6 +1374,21 @@ async def _handle_mmt_common(
             msg += "\n示例错误：" + "; ".join(str(x) for x in ex)
     if flags["resolve"] and int(resolve_stats.get("avatar_errors") or 0) > 0:
         msg += f"\n注意：有 {resolve_stats['avatar_errors']} 处头像覆盖未生效（asset 名可能写错）。"
+    if bool(flags.get("verbose")) and isinstance(timings, dict):
+        parts = []
+        if file_read_ms:
+            parts.append(f"file={file_read_ms}ms")
+        parts.extend(
+            [
+                f"parse={timings.get('parse_ms', 0)}ms",
+                f"asset_inject={timings.get('asset_inject_ms', 0)}ms",
+                f"resolve={timings.get('resolve_ms', 0)}ms",
+                f"render={timings.get('render_ms', 0)}ms",
+                f"send={send_ms}ms",
+                f"total={int((time.perf_counter() - t_total0) * 1000)}ms",
+            ]
+        )
+        msg += ("\n" if msg else "") + "用时：" + ", ".join(parts)
     if matcher_name == "mmtpdf":
         await mmtpdf.finish(msg if msg else None)
     await mmt.finish(msg if msg else None)
