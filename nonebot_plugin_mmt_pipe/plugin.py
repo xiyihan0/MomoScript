@@ -231,7 +231,11 @@ def _run_typst(
     input_key: str = "chat",
     extra_inputs: Optional[dict[str, str]] = None,
 ) -> None:
-    root = _common_root(template, input_json, out_path, tags_root)
+    pack_v2_root = plugin_config.pack_v2_root_path()
+    if pack_v2_root.exists():
+        root = _common_root(template, input_json, out_path, tags_root, pack_v2_root)
+    else:
+        root = _common_root(template, input_json, out_path, tags_root)
     cwd = template.parent
     rel_in = Path(os.path.relpath(input_json.absolute(), start=cwd.absolute()))
     rel_out = Path(os.path.relpath(out_path.absolute(), start=cwd.absolute()))
@@ -805,6 +809,7 @@ async def _pipe_to_outputs(
         join_with_newline=True,
         context_window=max(0, int(ctx_n)),
         typst_mode=bool(typst),
+        pack_v2_root=plugin_config.pack_v2_root_path(),
     )
     t_parse1 = time.perf_counter()
 

@@ -8,6 +8,8 @@ from pydantic import BaseModel, Field
 class MMTPipeConfig(BaseModel):
     # Root folder containing `images/students/{id}/tags.json` and images.
     mmt_tags_root: str = Field(default="images/students")
+    # Pack v2 root (draft): contains pack folders like `pack-v2/ba/manifest.json`.
+    mmt_pack_v2_root: str = Field(default="pack-v2")
     # Typst template path (usually `mmt_render/mmt_render.typ` in this repo).
     mmt_typst_template: str = Field(default="mmt_render/mmt_render.typ")
     # Work dir for intermediate json/pdf.
@@ -50,6 +52,9 @@ class MMTPipeConfig(BaseModel):
 
     def tags_root_path(self) -> Path:
         return Path(self.mmt_tags_root).expanduser()
+
+    def pack_v2_root_path(self) -> Path:
+        return Path(self.mmt_pack_v2_root).expanduser()
 
     def typst_template_path(self) -> Path:
         return Path(self.mmt_typst_template).expanduser()

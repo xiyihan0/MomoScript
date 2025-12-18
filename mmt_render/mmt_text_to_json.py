@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -247,10 +248,37 @@ def convert_text(
     join_with_newline: bool = True,
     context_window: int = 2,
     typst_mode: bool = False,
+    pack_v2_root: Optional[Path] = None,
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """
     Returns: (json_data, report)
     """
+    # Optional Pack v2 (draft) support for speaker/avatar resolution.
+    # Best-effort: only affects speaker identity + avatar refs.
+    pack_v2_ba = None
+    pack_v2_root_path: Optional[Path] = None
+    if pack_v2_root is not None:
+        pack_v2_root_path = Path(pack_v2_root).expanduser()
+    else:
+        env = os.getenv("MMT_PACK_V2_ROOT", "").strip()
+        if env:
+            pack_v2_root_path = Path(env).expanduser()
+        elif Path("pack-v2").exists():
+            pack_v2_root_path = Path("pack-v2")
+
+    if pack_v2_root_path is not None:
+        try:
+            from mmt_render.pack_v2 import load_pack_v2  # type: ignore
+        except Exception:  # pragma: no cover
+            load_pack_v2 = None  # type: ignore
+        if load_pack_v2 is not None:
+            ba_root = (pack_v2_root_path / "ba").resolve()
+            if ba_root.exists():
+                try:
+                    pack_v2_ba = load_pack_v2(ba_root)
+                except Exception:
+                    pack_v2_ba = None
+
     speaker_state = {
         ">": SpeakerState(),
         "<": SpeakerState(),
@@ -351,6 +379,11 @@ def convert_text(
         if ns is not None:
             ns_l = ns.lower()
             if ns_l in {"ba", "kivo"}:
+                if pack_v2_ba is not None and ns_l == "ba":
+                    cid = pack_v2_ba.resolve_char_id(name)
+                    if cid is None:
+                        raise ValueError(f"line {line_no}: unknown ba character: {name}")
+                    return f"ba.{cid}", _base_name(cid)
                 sid = _resolve_student_id(name, name_to_id, base_index)
                 if sid is None:
                     raise ValueError(f"line {line_no}: unknown ba character: {name}")
@@ -369,6 +402,10 @@ def convert_text(
                 if s in custom_id_to_display:
                     return f"custom-{s}", custom_id_to_display.get(s, s)
             elif ns_try == "ba":
+                if pack_v2_ba is not None:
+                    cid = pack_v2_ba.resolve_char_id(s)
+                    if cid is not None:
+                        return f"ba.{cid}", _base_name(cid)
                 sid = _resolve_student_id(s, name_to_id, base_index)
                 if sid is not None:
                     return f"kivo-{sid}", s
@@ -1121,7 +1158,24 @@ def convert_text(
             continue
         seen.add(char_id)
 
-        if char_id.startswith("kivo-"):
+        if isinstance(char_id, str) and char_id.startswith("ba.") and pack_v2_ba is not None:
+            cid = char_id.split(".", 1)[1]
+            avatar_ref = "uploaded"
+            try:
+                # Prefer Typst project-root absolute paths: "/pack-v2/ba/avatar/xxx.png"
+                pack_root = Path(pack_v2_ba.root).resolve()
+                rel_pack = pack_root
+                try:
+                    rel_pack = pack_root.relative_to(Path.cwd().resolve())
+                except Exception:
+                    rel_pack = pack_root
+                avatar_rel = pack_v2_ba.id_to_assets[cid].avatar
+                avatar_ref = "/" + (rel_pack / avatar_rel).as_posix().lstrip("/")
+            except Exception:
+                avatar_ref = "uploaded"
+            display_name = _base_name(char_id_to_display_name.get(char_id, cid))
+            custom_chars.append([char_id, avatar_ref, display_name])
+        elif char_id.startswith("kivo-"):
             sid = int(char_id.split("-", 1)[1])
             avatar_path = _find_avatar_file(avatar_dir, sid)
             avatar_ref = _avatar_ref(avatar_path, avatar_dir) if avatar_path else "uploaded"
