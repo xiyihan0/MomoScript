@@ -56,6 +56,12 @@ except Exception:  # pragma: no cover
     SiliconFlowRerankConfig = None  # type: ignore
     SiliconFlowReranker = None  # type: ignore
 
+try:
+    from mmt_render.pack_v2 import PackV2, load_pack_v2
+except Exception:  # pragma: no cover
+    PackV2 = None  # type: ignore
+    load_pack_v2 = None  # type: ignore
+
 
 driver = get_driver()
 raw_cfg = driver.config
@@ -69,6 +75,56 @@ except Exception:
         cfg_dict = dict(raw_cfg)  # type: ignore[arg-type]
 
 plugin_config = MMTPipeConfig.model_validate(cfg_dict)
+
+
+def _load_ba_pack_v2() -> Optional["PackV2"]:
+    if load_pack_v2 is None:
+        return None
+    root = plugin_config.pack_v2_root_path() / "ba"
+    if not root.exists():
+        return None
+    try:
+        return load_pack_v2(root)
+    except Exception:
+        return None
+
+
+def _resolve_tags_file_and_images_dir_for_character(name: str) -> tuple[Path, Path, object]:
+    """
+    Returns: (tags_file, images_dir, id_for_title)
+    - pack-v2: id_for_title = pack_char_id (str, e.g. "优香")
+    - legacy:  id_for_title = student id (int)
+    """
+    token = (name or "").strip()
+    if token.lower().startswith("ba."):
+        token = token[3:].strip()
+
+    # Prefer pack-v2 ba if available.
+    pack = _load_ba_pack_v2()
+    if pack is not None:
+        pack_char_id = pack.resolve_char_id(token)
+        if pack_char_id is not None:
+            if pack_char_id not in pack.id_to_assets:
+                raise RuntimeError(f"pack-v2 映射缺失：{token} -> {pack_char_id}")
+            tags_file = pack.tags_path(pack_char_id)
+            images_dir = tags_file.parent
+            return tags_file, images_dir, pack_char_id
+
+    # Fallback: legacy kivo id lookup.
+    name_map_path, _avatar_dir = _find_name_map_and_avatar_dir()
+    if not name_map_path.exists():
+        raise RuntimeError(
+            "pack-v2 未启用/未命中，且 legacy 名称映射缺失："
+            f"{name_map_path}（请检查 `MMT_PACK_V2_ROOT` 或恢复 `avatar/name_to_id.json`）"
+        )
+    name_map = mmt_text_to_json._load_name_to_id(name_map_path)  # type: ignore[union-attr]
+    base_index = mmt_text_to_json._build_base_index(name_map)  # type: ignore[union-attr]
+    sid = mmt_text_to_json._resolve_student_id(token, name_map, base_index)  # type: ignore[union-attr]
+    if sid is None:
+        raise RuntimeError(f"未找到角色：{token}")
+    images_dir = (plugin_config.tags_root_path() / str(sid)).resolve()
+    tags_file = (images_dir / "tags.json").resolve()
+    return tags_file, images_dir, int(sid)
 
 def _find_name_map_and_avatar_dir() -> tuple[Path, Path]:
     name_map_path = Path("avatar/name_to_id.json")
@@ -1424,15 +1480,10 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
     if mmt_text_to_json is None:
         await mmt_img.finish("mmt_render.mmt_text_to_json 无法导入，无法解析角色名。")
 
-    name_map_path, _avatar_dir = _find_name_map_and_avatar_dir()
-    name_map = mmt_text_to_json._load_name_to_id(name_map_path)
-    base_index = mmt_text_to_json._build_base_index(name_map)
-    sid = mmt_text_to_json._resolve_student_id(name, name_map, base_index)
-    if sid is None:
-        await mmt_img.finish(f"未找到角色：{name}")
-
-    tags_root = plugin_config.tags_root_path()
-    tags_file = tags_root / str(sid) / "tags.json"
+    try:
+        tags_file, images_dir, sid_for_title = _resolve_tags_file_and_images_dir_for_character(name)
+    except Exception as exc:
+        await mmt_img.finish(str(exc))
     if not tags_file.exists():
         await mmt_img.finish(f"该角色没有 tags.json：{tags_file}")
 
@@ -1456,14 +1507,21 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
     items = []
     # Use project-root absolute paths (`/...`) so Typst resolves them against `--root`
     # instead of relative to the template directory. This avoids `..` escaping issues.
-    root_for_paths = _common_root(template, data_json, png_out_tpl, tags_root)
+    pack_v2_root = plugin_config.pack_v2_root_path()
+    root_for_paths = _common_root(
+        template,
+        data_json,
+        png_out_tpl,
+        images_dir,
+        pack_v2_root if pack_v2_root.exists() else images_dir,
+    )
     for it in raw:
         if not isinstance(it, dict):
             continue
         image_name = str(it.get("image_name") or "")
         if not image_name:
             continue
-        img_abs = (tags_root / str(sid) / image_name)
+        img_abs = (images_dir / image_name)
         try:
             img_abs_resolved = img_abs.resolve()
         except Exception:
@@ -1479,7 +1537,7 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
         items.append({"img_path": img_rel, "tags": tags, "description": desc})
 
     data_json.write_text(
-        json.dumps({"character": name, "student_id": int(sid), "items": items}, ensure_ascii=False, indent=2),
+        json.dumps({"character": name, "student_id": sid_for_title, "items": items}, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
 
@@ -1490,7 +1548,7 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
             template=template,
             input_json=data_json,
             out_path=png_out_tpl,
-            tags_root=tags_root,
+            tags_root=images_dir,
             out_format="png",
             input_key="data",
         )
@@ -1507,7 +1565,7 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
             f"- error: {exc}\n"
             f"- data_json: {_p(data_json)}\n"
             f"- template: {_p(template)}\n"
-            f"- tags_root: {_p(tags_root)}\n"
+            f"- tags_root: {_p(images_dir)}\n"
             f"- img_path examples: {examples}"
         )
 
@@ -1577,15 +1635,10 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
     if SiliconFlowRerankConfig is None or SiliconFlowReranker is None:
         await mmt_imgmatch.finish("mmt_render.siliconflow_rerank 无法导入，无法使用 reranker。")
 
-    name_map_path, _avatar_dir = _find_name_map_and_avatar_dir()
-    name_map = mmt_text_to_json._load_name_to_id(name_map_path)
-    base_index = mmt_text_to_json._build_base_index(name_map)
-    sid = mmt_text_to_json._resolve_student_id(name, name_map, base_index)
-    if sid is None:
-        await mmt_imgmatch.finish(f"未找到角色：{name}")
-
-    tags_root = plugin_config.tags_root_path()
-    tags_file = tags_root / str(sid) / "tags.json"
+    try:
+        tags_file, images_dir, sid_for_title = _resolve_tags_file_and_images_dir_for_character(name)
+    except Exception as exc:
+        await mmt_imgmatch.finish(str(exc))
     if not tags_file.exists():
         await mmt_imgmatch.finish(f"该角色没有 tags.json：{tags_file}")
 
@@ -1626,7 +1679,14 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
     if not template.exists():
         await mmt_imgmatch.finish(f"typst 模板不存在：{template}")
 
-    root_for_paths = _common_root(template, data_json, png_out_tpl, tags_root)
+    pack_v2_root = plugin_config.pack_v2_root_path()
+    root_for_paths = _common_root(
+        template,
+        data_json,
+        png_out_tpl,
+        images_dir,
+        pack_v2_root if pack_v2_root.exists() else images_dir,
+    )
     items: list[dict] = []
     for r in results:
         idx = r.get("index")
@@ -1634,7 +1694,7 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
             continue
         base = cleaned[idx]
         image_name = str(base.get("image_name") or "")
-        img_abs = tags_root / str(sid) / image_name
+        img_abs = images_dir / image_name
         try:
             img_abs_resolved = img_abs.resolve()
         except Exception:
@@ -1659,7 +1719,11 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
         )
 
     data_json.write_text(
-        json.dumps({"character": name, "student_id": int(sid), "query": query, "items": items}, ensure_ascii=False, indent=2),
+        json.dumps(
+            {"character": name, "student_id": sid_for_title, "query": query, "items": items},
+            ensure_ascii=False,
+            indent=2,
+        ),
         encoding="utf-8",
     )
 
@@ -1670,7 +1734,7 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
             template=template,
             input_json=data_json,
             out_path=png_out_tpl,
-            tags_root=tags_root,
+            tags_root=images_dir,
             out_format="png",
             input_key="data",
         )
