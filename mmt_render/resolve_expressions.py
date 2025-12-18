@@ -26,6 +26,12 @@ try:
 except ModuleNotFoundError:  # pragma: no cover
     from external_assets import ExternalAssetConfig, ExternalAssetDownloader, is_url_like  # type: ignore
 
+try:
+    from mmt_render.pack_v2 import PackV2, load_pack_v2
+except ModuleNotFoundError:  # pragma: no cover
+    PackV2 = None  # type: ignore
+    load_pack_v2 = None  # type: ignore
+
 
 @dataclass(frozen=True)
 class CandidateDoc:
@@ -39,6 +45,18 @@ class CandidateDoc:
             ensure_ascii=False,
             separators=(",", ":"),
         )
+
+
+def _image_order_key(image_name: str) -> tuple[int, str]:
+    """
+    Prefer numeric suffix order (e.g. xxx.png, xxx1.png, xxx2.png, xxx10.png, ...).
+    - No number => -1 (often the "base" image).
+    """
+    s = (image_name or "").strip()
+    stem = s.rsplit(".", 1)[0]
+    nums = re.findall(r"\d+", stem)
+    n = int(nums[-1]) if nums else -1
+    return (n, s.lower())
 
 
 def _load_tags_for_student(tags_root: Path, student_id: int) -> List[CandidateDoc]:
@@ -61,6 +79,31 @@ def _load_tags_for_student(tags_root: Path, student_id: int) -> List[CandidateDo
         tags = [str(x) for x in tags if isinstance(x, str)]
         desc = str(item.get("description") or "")
         docs.append(CandidateDoc(image_name=img, tags=tags, description=desc))
+    docs.sort(key=lambda d: _image_order_key(d.image_name))
+    return docs
+
+
+def _load_tags_for_pack_char(pack: "PackV2", char_id: str) -> List[CandidateDoc]:
+    p = pack.tags_path(char_id)
+    if not p.exists():
+        return []
+    raw = json.loads(p.read_text(encoding="utf-8"))
+    if not isinstance(raw, list):
+        return []
+    docs: List[CandidateDoc] = []
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        img = str(item.get("image_name") or "")
+        if not img:
+            continue
+        tags = item.get("tags") or []
+        if not isinstance(tags, list):
+            tags = []
+        tags = [str(x) for x in tags if isinstance(x, str)]
+        desc = str(item.get("description") or "")
+        docs.append(CandidateDoc(image_name=img, tags=tags, description=desc))
+    docs.sort(key=lambda d: _image_order_key(d.image_name))
     return docs
 
 
@@ -230,42 +273,42 @@ def _student_key(student_id: int) -> str:
 
 
 @dataclass
-class _StudentIndex:
+class _IndexItem:
     candidates: List[CandidateDoc]
     docs: List[str]
     index: EmbeddingIndex
 
 
-class _StudentIndexCache:
-    def __init__(self, max_students: int = 8):
-        self.max_students = max(1, int(max_students))
-        self._order: List[int] = []
-        self._data: Dict[int, _StudentIndex] = {}
+class _IndexCache:
+    def __init__(self, max_items: int = 8):
+        self.max_items = max(1, int(max_items))
+        self._order: List[str] = []
+        self._data: Dict[str, _IndexItem] = {}
 
-    def get(self, student_id: int) -> Optional[_StudentIndex]:
-        it = self._data.get(student_id)
+    def get(self, key: str) -> Optional[_IndexItem]:
+        it = self._data.get(key)
         if it is None:
             return None
         # refresh LRU
         try:
-            self._order.remove(student_id)
+            self._order.remove(key)
         except ValueError:
             pass
-        self._order.append(student_id)
+        self._order.append(key)
         return it
 
-    def put(self, student_id: int, item: _StudentIndex) -> None:
-        if student_id in self._data:
-            self._data[student_id] = item
+    def put(self, key: str, item: _IndexItem) -> None:
+        if key in self._data:
+            self._data[key] = item
             try:
-                self._order.remove(student_id)
+                self._order.remove(key)
             except ValueError:
                 pass
-            self._order.append(student_id)
+            self._order.append(key)
             return
-        self._data[student_id] = item
-        self._order.append(student_id)
-        while len(self._order) > self.max_students:
+        self._data[key] = item
+        self._order.append(key)
+        while len(self._order) > self.max_items:
             evict = self._order.pop(0)
             self._data.pop(evict, None)
 
@@ -274,16 +317,16 @@ async def resolve_one(
     reranker: SiliconFlowReranker,
     *,
     query: str,
-    student_id: int,
-    tags_root: Path,
+    candidates: List[CandidateDoc],
+    images_dir: Path,
+    cache_key: str,
     top_n: int = 1,
     embedder: Optional[SiliconFlowEmbedder] = None,
     embed_top_k: int = 50,
-    index_cache: Optional[_StudentIndexCache] = None,
+    index_cache: Optional[_IndexCache] = None,
 ) -> Tuple[str, float]:
-    candidates = _load_tags_for_student(tags_root, student_id)
     if not candidates:
-        raise RuntimeError(f"missing tags for student {student_id}")
+        raise RuntimeError("missing tags for target")
 
     docs_all = [_doc_text(c) for c in candidates]
     chosen_candidates = candidates
@@ -291,13 +334,13 @@ async def resolve_one(
     chosen_map: Optional[List[int]] = None
 
     if embedder is not None and int(embed_top_k) > 0 and len(candidates) > int(embed_top_k):
-        cache = index_cache or _StudentIndexCache(max_students=8)
-        cached = cache.get(student_id)
+        cache = index_cache or _IndexCache(max_items=8)
+        cached = cache.get(cache_key)
         if cached is None:
             vecs = await embedder.embed_texts(docs_all, use_cache=True)
             idx = EmbeddingIndex.build(vecs)
-            cached = _StudentIndex(candidates=candidates, docs=docs_all, index=idx)
-            cache.put(student_id, cached)
+            cached = _IndexItem(candidates=candidates, docs=docs_all, index=idx)
+            cache.put(cache_key, cached)
         # Cache query embeddings too (small: ~16KB for 4096-dim float32), to reduce repeated requests.
         q_vec = (await embedder.embed_texts([query], use_cache=True))[0]
         top_idx = cached.index.top_k(q_vec, int(embed_top_k))
@@ -316,7 +359,7 @@ async def resolve_one(
     if chosen_map is not None:
         idx = chosen_map[idx]
     image_name = candidates[idx].image_name
-    image_path = tags_root / str(student_id) / image_name
+    image_path = images_dir / image_name
     if not image_path.exists():
         raise RuntimeError(f"resolved image missing on disk: {image_path}")
     return image_name, score
@@ -327,6 +370,7 @@ async def resolve_file(
     input_path: Path,
     output_path: Path,
     tags_root: Path,
+    pack_v2_root: Optional[Path] = None,
     ref_root: Optional[Path] = None,
     model: str,
     api_key_env: str,
@@ -349,7 +393,20 @@ async def resolve_file(
     cfg = SiliconFlowRerankConfig(api_key_env=api_key_env, model=model)
     embed_cfg = SiliconFlowEmbedConfig(api_key_env=api_key_env, model=embed_model)
     sem = asyncio.Semaphore(max(1, concurrency))
-    idx_cache = _StudentIndexCache(max_students=8)
+    idx_cache = _IndexCache(max_items=8)
+
+    pack_ba: Optional["PackV2"] = None
+    if load_pack_v2 is not None:
+        if pack_v2_root is None:
+            env_root = os.getenv("MMT_PACK_V2_ROOT", "").strip()
+            pack_v2_root = Path(env_root) if env_root else Path("pack-v2")
+        pack_v2_root = Path(pack_v2_root).expanduser()
+        ba_root = pack_v2_root / "ba"
+        if ba_root.exists():
+            try:
+                pack_ba = load_pack_v2(ba_root)
+            except Exception:
+                pack_ba = None
 
     meta = data.get("meta") if isinstance(data, dict) else None
     meta = meta if isinstance(meta, dict) else {}
@@ -522,7 +579,8 @@ async def resolve_file(
                     continue
                 query = str(seg.get("query") or "").strip()
                 student_id = seg.get("student_id")
-                if not query or not isinstance(student_id, int):
+                target_char_id = seg.get("target_char_id") or seg.get("char_id") or line.get("char_id")
+                if not query:
                     new_segments.append(seg)
                     continue
 
@@ -550,26 +608,92 @@ async def resolve_file(
                         new_segments.append(seg2)
                         continue
 
+                # Direct by-index reference: [:#5] / [#5]
+                m_idx = re.match(r"^#\s*(\d+)\s*$", query)
+                direct_idx = int(m_idx.group(1)) if m_idx else None
+
                 try:
                     async with sem:
-                        image_name, score = await resolve_one(
-                            reranker,
-                            query=query,
-                            student_id=student_id,
-                            tags_root=tags_root,
-                            top_n=1,
-                            embedder=embedder,
-                            embed_top_k=int(embed_top_k),
-                            index_cache=idx_cache,
-                        )
-                    new_segments.append(
-                        {
-                            "type": "image",
-                            "ref": f"{ref_base.as_posix()}/{student_id}/{image_name}",
-                            "alt": query,
-                            "score": score,
-                        }
-                    )
+                        if isinstance(student_id, int):
+                            candidates = _load_tags_for_student(tags_root, student_id)
+                            if not candidates:
+                                raise RuntimeError(f"missing tags for student {student_id}")
+                            images_dir = (tags_root / str(student_id)).resolve()
+
+                            if direct_idx is not None:
+                                i0 = direct_idx - 1
+                                if i0 < 0 or i0 >= len(candidates):
+                                    raise RuntimeError(f"index out of range: #{direct_idx} (1..{len(candidates)})")
+                                image_name = candidates[i0].image_name
+                                image_path = images_dir / image_name
+                                if not image_path.exists():
+                                    raise RuntimeError(f"resolved image missing on disk: {image_path}")
+                                score = 1.0
+                            else:
+                                image_name, score = await resolve_one(
+                                    reranker,
+                                    query=query,
+                                    candidates=candidates,
+                                    images_dir=images_dir,
+                                    cache_key=f"kivo:{student_id}",
+                                    top_n=1,
+                                    embedder=embedder,
+                                    embed_top_k=int(embed_top_k),
+                                    index_cache=idx_cache,
+                                )
+
+                            new_segments.append(
+                                {
+                                    "type": "image",
+                                    "ref": f"{ref_base.as_posix()}/{student_id}/{image_name}",
+                                    "alt": query,
+                                    "score": score,
+                                }
+                            )
+                        elif isinstance(target_char_id, str) and target_char_id.startswith("ba.") and pack_ba is not None:
+                            cid = target_char_id.split(".", 1)[1]
+                            if cid not in pack_ba.id_to_assets:
+                                raise RuntimeError(f"unknown ba character: {cid}")
+                            candidates = _load_tags_for_pack_char(pack_ba, cid)
+                            if not candidates:
+                                raise RuntimeError(f"missing tags for ba.{cid}")
+                            tags_path = pack_ba.tags_path(cid)
+                            images_dir = tags_path.parent.resolve()
+
+                            if direct_idx is not None:
+                                i0 = direct_idx - 1
+                                if i0 < 0 or i0 >= len(candidates):
+                                    raise RuntimeError(f"index out of range: #{direct_idx} (1..{len(candidates)})")
+                                image_name = candidates[i0].image_name
+                                image_path = images_dir / image_name
+                                if not image_path.exists():
+                                    raise RuntimeError(f"resolved image missing on disk: {image_path}")
+                                score = 1.0
+                            else:
+                                image_name, score = await resolve_one(
+                                    reranker,
+                                    query=query,
+                                    candidates=candidates,
+                                    images_dir=images_dir,
+                                    cache_key=f"ba:{cid}",
+                                    top_n=1,
+                                    embedder=embedder,
+                                    embed_top_k=int(embed_top_k),
+                                    index_cache=idx_cache,
+                                )
+
+                            img_abs = (images_dir / image_name).resolve()
+                            if ref_root is not None:
+                                try:
+                                    ref = Path(os.path.relpath(img_abs, start=Path(ref_root).resolve())).as_posix()
+                                except Exception:
+                                    ref = img_abs.as_posix()
+                            else:
+                                ref = img_abs.as_posix()
+                            new_segments.append({"type": "image", "ref": ref, "alt": query, "score": score})
+                        else:
+                            new_segments.append(seg)
+                            continue
                 except Exception as exc:
                     if strict:
                         return exc

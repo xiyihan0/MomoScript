@@ -338,6 +338,14 @@ def _safe_stem(text: str) -> str:
     return str(int(time.time() * 1000))
 
 
+def _image_order_key(image_name: str) -> tuple[int, str]:
+    s = (image_name or "").strip()
+    stem = s.rsplit(".", 1)[0]
+    nums = re.findall(r"\d+", stem)
+    n = int(nums[-1]) if nums else -1
+    return (n, s.lower())
+
+
 def _asset_db_and_dir() -> tuple[Path, Path]:
     work = plugin_config.work_dir_path()
     db_path = work / "assets.sqlite3"
@@ -903,6 +911,7 @@ async def _pipe_to_outputs(
             input_path=json_path,
             output_path=resolved_path,
             tags_root=tags_root,
+            pack_v2_root=plugin_config.pack_v2_root_path(),
             ref_root=template.parent,
             model=plugin_config.mmt_rerank_model,
             api_key_env=plugin_config.mmt_rerank_key_env,
@@ -1493,6 +1502,10 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
         await mmt_img.finish(f"tags.json 解析失败：{exc}")
     if not isinstance(raw, list) or not raw:
         await mmt_img.finish("tags.json 为空。")
+    raw = sorted(
+        raw,
+        key=lambda it: _image_order_key(str(it.get("image_name") or "")) if isinstance(it, dict) else (10**9, ""),
+    )
 
     out_dir = plugin_config.work_dir_path()
     out_dir.mkdir(parents=True, exist_ok=True)

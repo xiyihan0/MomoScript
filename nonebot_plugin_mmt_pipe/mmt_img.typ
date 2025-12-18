@@ -29,12 +29,13 @@
 #heading(level: 1)[#character (#sid)]
 
 #table(
-  columns: (25mm, auto, auto),
+  columns: (10mm, 25mm, auto, auto),
   inset: 2pt,
   stroke: 0.5pt,
   align: left+horizon,
-  table.header([img], [img_name], [tags/description]),
-  ..items.map(it=>(
+  table.header([#"#"], [img], [img_name], [tags/description]),
+  ..items.enumerate().map(((i, it))=>(
+    [#str(i + 1)],
     image(it.img_path, width: 23mm, height: 23mm, fit: "contain"),
     [#get_file_name(it.img_path)],
     [#(it.tags.join(", "))\ #it.description],

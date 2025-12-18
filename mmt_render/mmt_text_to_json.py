@@ -1089,8 +1089,11 @@ def convert_text(
                         f"line {line_no}: implicit expression '[{query}]' requires a non-sensei current character; "
                         f"use '[{query}](角色)'"
                     )
-                # If current speaker is not a kivo student (e.g. custom speaker), keep as plain text.
-                if not global_current_char_id.startswith("kivo-"):
+                # If current speaker doesn't support expressions (e.g. custom speaker), keep as plain text.
+                if not (
+                    global_current_char_id.startswith("kivo-")
+                    or (global_current_char_id.startswith("ba.") and pack_v2_ba is not None)
+                ):
                     segments_out.append({"type": "text", "text": f"[{query}]"})
                     continue
                 resolved_char_id = global_current_char_id
@@ -1110,40 +1113,64 @@ def convert_text(
                 else:
                     ns, rest = _split_namespace(tsel)
                     if ns is not None:
-                        if ns.lower() not in {"ba", "kivo"}:
-                            raise ValueError(f"line {line_no}: expression namespace must be 'ba': {tsel}")
-                        sid = _resolve_student_id(rest, name_to_id, base_index)
+                        if ns.lower() == "ba":
+                            if pack_v2_ba is None:
+                                raise ValueError(f"line {line_no}: ba pack-v2 is not available for expression: {tsel}")
+                            cid = pack_v2_ba.resolve_char_id(rest)
+                            if cid is None:
+                                raise ValueError(f"line {line_no}: unknown ba character in expression: {tsel}")
+                            resolved_char_id = f"ba.{cid}"
+                        elif ns.lower() == "kivo":
+                            sid = _resolve_student_id(rest, name_to_id, base_index)
+                            if sid is None:
+                                raise ValueError(f"line {line_no}: unknown character name in expression: {tsel}")
+                            resolved_char_id = f"kivo-{sid}"
+                        else:
+                            raise ValueError(f"line {line_no}: unknown expression namespace: {tsel}")
                     else:
-                        sid = _resolve_student_id(tsel, name_to_id, base_index)
-                    if sid is None:
-                        raise ValueError(f"line {line_no}: unknown character name in expression: {target}")
-                    resolved_char_id = f"kivo-{sid}"
+                        if pack_v2_ba is not None:
+                            cid = pack_v2_ba.resolve_char_id(tsel)
+                            if cid is not None:
+                                resolved_char_id = f"ba.{cid}"
+                        if resolved_char_id is None:
+                            sid = _resolve_student_id(tsel, name_to_id, base_index)
+                            if sid is None:
+                                raise ValueError(f"line {line_no}: unknown character name in expression: {target}")
+                            resolved_char_id = f"kivo-{sid}"
 
             if resolved_char_id == "__Sensei":
                 raise ValueError(f"line {line_no}: expression target cannot be Sensei")
-            if not resolved_char_id.startswith("kivo-"):
-                raise ValueError(
-                    f"line {line_no}: expression target '{resolved_char_id}' has no student id; only kivo characters are supported"
-                )
-            student_id = int(resolved_char_id.split("-", 1)[1])
+            student_id: Optional[int] = None
+            if resolved_char_id.startswith("kivo-"):
+                student_id = int(resolved_char_id.split("-", 1)[1])
+            elif resolved_char_id.startswith("ba."):
+                # pack-v2 characters are resolved in the resolve stage.
+                student_id = None
+            else:
+                raise ValueError(f"line {line_no}: expression target '{resolved_char_id}' is not supported")
 
             final_query = query
             if is_image_placeholder:
-                display = char_id_to_display_name.get(resolved_char_id, str(student_id))
+                if resolved_char_id.startswith("ba."):
+                    display_default = resolved_char_id.split(".", 1)[1]
+                else:
+                    display_default = str(student_id) if student_id is not None else resolved_char_id
+                display = _base_name(char_id_to_display_name.get(resolved_char_id, display_default))
                 ctx = context_text(idx)
                 if ctx:
                     final_query = f"{display} 的反应图/表情图。上下文：{ctx}"
                 else:
                     final_query = f"{display} 的反应图/表情图"
 
-            segments_out.append(
-                {
-                    "type": "expr",
-                    "text": f"[{query}]",
-                    "query": final_query,
-                    "student_id": student_id,
-                }
-            )
+            payload: Dict[str, Any] = {
+                "type": "expr",
+                "text": f"[{query}]",
+                "query": final_query,
+                "target_char_id": resolved_char_id,
+            }
+            if student_id is not None:
+                payload["student_id"] = student_id
+            segments_out.append(payload)
 
         msg["segments"] = segments_out if segments_out else [{"type": "text", "text": content_clean}]
 
