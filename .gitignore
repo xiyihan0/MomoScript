@@ -53,6 +53,14 @@ avatar/*
 !avatar/name_to_id.json
 !avatar/download_errors.json
 
+# Packs: ignore large assets, keep metadata/json
+mmt_packs/**
+!mmt_packs/README.md
+!mmt_packs/**/manifest.json
+!mmt_packs/**/char_id.json
+!mmt_packs/**/asset_mapping.json
+!mmt_packs/**/images/**/tags.json
+
 # Copy under mmt_render is cache only
 mmt_render/avatar/
 
