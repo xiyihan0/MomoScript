@@ -1,0 +1,1522 @@
+{
+    "「香主」": {
+        "avatar": "avatar/519.png",
+        "expressions_dir": "images/519",
+        "tags": "tags.json"
+    },
+    "一花": {
+        "avatar": "avatar/114.png",
+        "expressions_dir": "images/114",
+        "tags": "tags.json"
+    },
+    "一花(泳装)": {
+        "avatar": "avatar/542.png",
+        "expressions_dir": "images/542",
+        "tags": "tags.json"
+    },
+    "丽情": {
+        "avatar": "avatar/271.png",
+        "expressions_dir": "images/271",
+        "tags": "tags.json"
+    },
+    "亚子": {
+        "avatar": "avatar/39.png",
+        "expressions_dir": "images/39",
+        "tags": "tags.json"
+    },
+    "亚子(礼服)": {
+        "avatar": "avatar/345.png",
+        "expressions_dir": "images/345",
+        "tags": "tags.json"
+    },
+    "亚津子": {
+        "avatar": "avatar/35.png",
+        "expressions_dir": "images/35",
+        "tags": "tags.json"
+    },
+    "亚津子(泳装)": {
+        "avatar": "avatar/382.png",
+        "expressions_dir": "images/382",
+        "tags": "tags.json"
+    },
+    "伊吕波": {
+        "avatar": "avatar/38.png",
+        "expressions_dir": "images/38",
+        "tags": "tags.json"
+    },
+    "伊吹": {
+        "avatar": "avatar/136.png",
+        "expressions_dir": "images/136",
+        "tags": "tags.json"
+    },
+    "伊吹(礼服)": {
+        "avatar": "avatar/538.png",
+        "expressions_dir": "images/538",
+        "tags": "tags.json"
+    },
+    "伊织": {
+        "avatar": "avatar/72.png",
+        "expressions_dir": "images/72",
+        "tags": "tags.json"
+    },
+    "伊织(泳装)": {
+        "avatar": "avatar/122.png",
+        "expressions_dir": "images/122",
+        "tags": "tags.json"
+    },
+    "优香": {
+        "avatar": "avatar/52.png",
+        "expressions_dir": "images/52",
+        "tags": "tags.json"
+    },
+    "优香(体操服)": {
+        "avatar": "avatar/54.png",
+        "expressions_dir": "images/54",
+        "tags": "tags.json"
+    },
+    "优香(睡衣)": {
+        "avatar": "avatar/505.png",
+        "expressions_dir": "images/505",
+        "tags": "tags.json"
+    },
+    "佳代子": {
+        "avatar": "avatar/176.png",
+        "expressions_dir": "images/176",
+        "tags": "tags.json"
+    },
+    "佳代子(正月)": {
+        "avatar": "avatar/123.png",
+        "expressions_dir": "images/123",
+        "tags": "tags.json"
+    },
+    "佳代子(礼服)": {
+        "avatar": "avatar/351.png",
+        "expressions_dir": "images/351",
+        "tags": "tags.json"
+    },
+    "光": {
+        "avatar": "avatar/365.png",
+        "expressions_dir": "images/365",
+        "tags": "tags.json"
+    },
+    "八云": {
+        "avatar": "avatar/309.png",
+        "expressions_dir": "images/309",
+        "tags": "tags.json"
+    },
+    "兰舞": {
+        "avatar": "avatar/134.png",
+        "expressions_dir": "images/134",
+        "tags": "tags.json"
+    },
+    "兰舞(泳装)": {
+        "avatar": "avatar/379.png",
+        "expressions_dir": "images/379",
+        "tags": "tags.json"
+    },
+    "冬": {
+        "avatar": "avatar/560.png",
+        "expressions_dir": "images/560",
+        "tags": "tags.json"
+    },
+    "凛华": {
+        "avatar": "avatar/304.png",
+        "expressions_dir": "images/304",
+        "tags": "tags.json"
+    },
+    "切里诺": {
+        "avatar": "avatar/179.png",
+        "expressions_dir": "images/179",
+        "tags": "tags.json"
+    },
+    "切里诺(旗袍)": {
+        "avatar": "avatar/391.png",
+        "expressions_dir": "images/391",
+        "tags": "tags.json"
+    },
+    "切里诺(温泉)": {
+        "avatar": "avatar/141.png",
+        "expressions_dir": "images/141",
+        "tags": "tags.json"
+    },
+    "初音未来": {
+        "avatar": "avatar/68.png",
+        "expressions_dir": "images/68",
+        "tags": "tags.json"
+    },
+    "千世": {
+        "avatar": "avatar/84.png",
+        "expressions_dir": "images/84",
+        "tags": "tags.json"
+    },
+    "千世(泳装)": {
+        "avatar": "avatar/48.png",
+        "expressions_dir": "images/48",
+        "tags": "tags.json"
+    },
+    "千夏": {
+        "avatar": "avatar/117.png",
+        "expressions_dir": "images/117",
+        "tags": "tags.json"
+    },
+    "千夏(温泉)": {
+        "avatar": "avatar/140.png",
+        "expressions_dir": "images/140",
+        "tags": "tags.json"
+    },
+    "千寻": {
+        "avatar": "avatar/20.png",
+        "expressions_dir": "images/20",
+        "tags": "tags.json"
+    },
+    "千寻(睡衣)": {
+        "avatar": "avatar/510.png",
+        "expressions_dir": "images/510",
+        "tags": "tags.json"
+    },
+    "千寻(露营)": {
+        "avatar": "avatar/344.png",
+        "expressions_dir": "images/344",
+        "tags": "tags.json"
+    },
+    "千明": {
+        "avatar": "avatar/347.png",
+        "expressions_dir": "images/347",
+        "tags": "tags.json"
+    },
+    "南": {
+        "avatar": "avatar/131.png",
+        "expressions_dir": "images/131",
+        "tags": "tags.json"
+    },
+    "叶渚": {
+        "avatar": "avatar/144.png",
+        "expressions_dir": "images/144",
+        "tags": "tags.json"
+    },
+    "叶渚(泳装)": {
+        "avatar": "avatar/375.png",
+        "expressions_dir": "images/375",
+        "tags": "tags.json"
+    },
+    "名草": {
+        "avatar": "avatar/254.png",
+        "expressions_dir": "images/254",
+        "tags": "tags.json"
+    },
+    "名草(泳装)": {
+        "avatar": "avatar/537.png",
+        "expressions_dir": "images/537",
+        "tags": "tags.json"
+    },
+    "吹雪": {
+        "avatar": "avatar/63.png",
+        "expressions_dir": "images/63",
+        "tags": "tags.json"
+    },
+    "吹雪(泳装)": {
+        "avatar": "avatar/376.png",
+        "expressions_dir": "images/376",
+        "tags": "tags.json"
+    },
+    "周防": {
+        "avatar": "avatar/367.png",
+        "expressions_dir": "images/367",
+        "tags": "tags.json"
+    },
+    "和纱": {
+        "avatar": "avatar/37.png",
+        "expressions_dir": "images/37",
+        "tags": "tags.json"
+    },
+    "和纱(乐队)": {
+        "avatar": "avatar/368.png",
+        "expressions_dir": "images/368",
+        "tags": "tags.json"
+    },
+    "和香": {
+        "avatar": "avatar/119.png",
+        "expressions_dir": "images/119",
+        "tags": "tags.json"
+    },
+    "和香(温泉)": {
+        "avatar": "avatar/120.png",
+        "expressions_dir": "images/120",
+        "tags": "tags.json"
+    },
+    "咲": {
+        "avatar": "avatar/8.png",
+        "expressions_dir": "images/8",
+        "tags": "tags.json"
+    },
+    "咲(泳装)": {
+        "avatar": "avatar/279.png",
+        "expressions_dir": "images/279",
+        "tags": "tags.json"
+    },
+    "响": {
+        "avatar": "avatar/69.png",
+        "expressions_dir": "images/69",
+        "tags": "tags.json"
+    },
+    "响(应援团)": {
+        "avatar": "avatar/51.png",
+        "expressions_dir": "images/51",
+        "tags": "tags.json"
+    },
+    "圣娅": {
+        "avatar": "avatar/43.png",
+        "expressions_dir": "images/43",
+        "tags": "tags.json"
+    },
+    "圣娅(泳装)": {
+        "avatar": "avatar/543.png",
+        "expressions_dir": "images/543",
+        "tags": "tags.json"
+    },
+    "堇": {
+        "avatar": "avatar/187.png",
+        "expressions_dir": "images/187",
+        "tags": "tags.json"
+    },
+    "堇(打工)": {
+        "avatar": "avatar/523.png",
+        "expressions_dir": "images/523",
+        "tags": "tags.json"
+    },
+    "夏": {
+        "avatar": "avatar/139.png",
+        "expressions_dir": "images/139",
+        "tags": "tags.json"
+    },
+    "夏(乐队)": {
+        "avatar": "avatar/371.png",
+        "expressions_dir": "images/371",
+        "tags": "tags.json"
+    },
+    "奈央（CBT）": {
+        "avatar": "avatar/291.png",
+        "expressions_dir": "images/291",
+        "tags": "tags.json"
+    },
+    "好美": {
+        "avatar": "avatar/118.png",
+        "expressions_dir": "images/118",
+        "tags": "tags.json"
+    },
+    "好美(乐队)": {
+        "avatar": "avatar/370.png",
+        "expressions_dir": "images/370",
+        "tags": "tags.json"
+    },
+    "妃咲": {
+        "avatar": "avatar/61.png",
+        "expressions_dir": "images/61",
+        "tags": "tags.json"
+    },
+    "妮可": {
+        "avatar": "avatar/65.png",
+        "expressions_dir": "images/65",
+        "tags": "tags.json"
+    },
+    "妮禄": {
+        "avatar": "avatar/213.png",
+        "expressions_dir": "images/213",
+        "tags": "tags.json"
+    },
+    "妮禄(兔女郎)": {
+        "avatar": "avatar/138.png",
+        "expressions_dir": "images/138",
+        "tags": "tags.json"
+    },
+    "妮禄(制服)": {
+        "avatar": "avatar/514.png",
+        "expressions_dir": "images/514",
+        "tags": "tags.json"
+    },
+    "实梨": {
+        "avatar": "avatar/166.png",
+        "expressions_dir": "images/166",
+        "tags": "tags.json"
+    },
+    "宫子": {
+        "avatar": "avatar/6.png",
+        "expressions_dir": "images/6",
+        "tags": "tags.json"
+    },
+    "宫子(泳装)": {
+        "avatar": "avatar/280.png",
+        "expressions_dir": "images/280",
+        "tags": "tags.json"
+    },
+    "小春": {
+        "avatar": "avatar/157.png",
+        "expressions_dir": "images/157",
+        "tags": "tags.json"
+    },
+    "小春(泳装)": {
+        "avatar": "avatar/299.png",
+        "expressions_dir": "images/299",
+        "tags": "tags.json"
+    },
+    "小玉": {
+        "avatar": "avatar/212.png",
+        "expressions_dir": "images/212",
+        "tags": "tags.json"
+    },
+    "小玉(睡衣)": {
+        "avatar": "avatar/511.png",
+        "expressions_dir": "images/511",
+        "tags": "tags.json"
+    },
+    "小玉(露营)": {
+        "avatar": "avatar/341.png",
+        "expressions_dir": "images/341",
+        "tags": "tags.json"
+    },
+    "小雪": {
+        "avatar": "avatar/101.png",
+        "expressions_dir": "images/101",
+        "tags": "tags.json"
+    },
+    "小雪(兔女郎)": {
+        "avatar": "avatar/161.png",
+        "expressions_dir": "images/161",
+        "tags": "tags.json"
+    },
+    "小雪(睡衣)": {
+        "avatar": "avatar/508.png",
+        "expressions_dir": "images/508",
+        "tags": "tags.json"
+    },
+    "小鸟": {
+        "avatar": "avatar/211.png",
+        "expressions_dir": "images/211",
+        "tags": "tags.json"
+    },
+    "小鸟(应援团)": {
+        "avatar": "avatar/57.png",
+        "expressions_dir": "images/57",
+        "tags": "tags.json"
+    },
+    "尼娅": {
+        "avatar": "avatar/126.png",
+        "expressions_dir": "images/126",
+        "tags": "tags.json"
+    },
+    "庚": {
+        "avatar": "avatar/548.png",
+        "expressions_dir": "images/548",
+        "tags": "tags.json"
+    },
+    "康娜（CBT）": {
+        "avatar": "avatar/289.png",
+        "expressions_dir": "images/289",
+        "tags": "tags.json"
+    },
+    "弥守": {
+        "avatar": "avatar/22.png",
+        "expressions_dir": "images/22",
+        "tags": "tags.json"
+    },
+    "弥守(泳装)": {
+        "avatar": "avatar/56.png",
+        "expressions_dir": "images/56",
+        "tags": "tags.json"
+    },
+    "律": {
+        "avatar": "avatar/561.png",
+        "expressions_dir": "images/561",
+        "tags": "tags.json"
+    },
+    "微笑教授": {
+        "avatar": "avatar/386.png",
+        "expressions_dir": "images/386",
+        "tags": "tags.json"
+    },
+    "心华": {
+        "avatar": "avatar/378.png",
+        "expressions_dir": "images/378",
+        "tags": "tags.json"
+    },
+    "心奈": {
+        "avatar": "avatar/4.png",
+        "expressions_dir": "images/4",
+        "tags": "tags.json"
+    },
+    "志美子": {
+        "avatar": "avatar/194.png",
+        "expressions_dir": "images/194",
+        "tags": "tags.json"
+    },
+    "志美子(魔法)": {
+        "avatar": "avatar/566.png",
+        "expressions_dir": "images/566",
+        "tags": "tags.json"
+    },
+    "忧": {
+        "avatar": "avatar/23.png",
+        "expressions_dir": "images/23",
+        "tags": "tags.json"
+    },
+    "忧(泳装)": {
+        "avatar": "avatar/302.png",
+        "expressions_dir": "images/302",
+        "tags": "tags.json"
+    },
+    "惠": {
+        "avatar": "avatar/229.png",
+        "expressions_dir": "images/229",
+        "tags": "tags.json"
+    },
+    "惠(泳装)": {
+        "avatar": "avatar/547.png",
+        "expressions_dir": "images/547",
+        "tags": "tags.json"
+    },
+    "操祈": {
+        "avatar": "avatar/316.png",
+        "expressions_dir": "images/316",
+        "tags": "tags.json"
+    },
+    "新": {
+        "avatar": "avatar/322.png",
+        "expressions_dir": "images/322",
+        "tags": "tags.json"
+    },
+    "日向": {
+        "avatar": "avatar/26.png",
+        "expressions_dir": "images/26",
+        "tags": "tags.json"
+    },
+    "日向(泳装)": {
+        "avatar": "avatar/301.png",
+        "expressions_dir": "images/301",
+        "tags": "tags.json"
+    },
+    "日和": {
+        "avatar": "avatar/34.png",
+        "expressions_dir": "images/34",
+        "tags": "tags.json"
+    },
+    "日和(泳装)": {
+        "avatar": "avatar/383.png",
+        "expressions_dir": "images/383",
+        "tags": "tags.json"
+    },
+    "日奈": {
+        "avatar": "avatar/71.png",
+        "expressions_dir": "images/71",
+        "tags": "tags.json"
+    },
+    "日奈(泳装)": {
+        "avatar": "avatar/121.png",
+        "expressions_dir": "images/121",
+        "tags": "tags.json"
+    },
+    "日奈(礼服)": {
+        "avatar": "avatar/346.png",
+        "expressions_dir": "images/346",
+        "tags": "tags.json"
+    },
+    "日富美": {
+        "avatar": "avatar/74.png",
+        "expressions_dir": "images/74",
+        "tags": "tags.json"
+    },
+    "日富美(泳装)": {
+        "avatar": "avatar/70.png",
+        "expressions_dir": "images/70",
+        "tags": "tags.json"
+    },
+    "日鞠": {
+        "avatar": "avatar/62.png",
+        "expressions_dir": "images/62",
+        "tags": "tags.json"
+    },
+    "时": {
+        "avatar": "avatar/77.png",
+        "expressions_dir": "images/77",
+        "tags": "tags.json"
+    },
+    "时(兔女郎)": {
+        "avatar": "avatar/230.png",
+        "expressions_dir": "images/230",
+        "tags": "tags.json"
+    },
+    "时(制服)": {
+        "avatar": "avatar/516.png",
+        "expressions_dir": "images/516",
+        "tags": "tags.json"
+    },
+    "时雨": {
+        "avatar": "avatar/106.png",
+        "expressions_dir": "images/106",
+        "tags": "tags.json"
+    },
+    "时雨(温泉)": {
+        "avatar": "avatar/227.png",
+        "expressions_dir": "images/227",
+        "tags": "tags.json"
+    },
+    "明日奈": {
+        "avatar": "avatar/113.png",
+        "expressions_dir": "images/113",
+        "tags": "tags.json"
+    },
+    "明日奈(兔女郎)": {
+        "avatar": "avatar/130.png",
+        "expressions_dir": "images/130",
+        "tags": "tags.json"
+    },
+    "明日奈(制服)": {
+        "avatar": "avatar/512.png",
+        "expressions_dir": "images/512",
+        "tags": "tags.json"
+    },
+    "明美": {
+        "avatar": "avatar/385.png",
+        "expressions_dir": "images/385",
+        "tags": "tags.json"
+    },
+    "明里": {
+        "avatar": "avatar/110.png",
+        "expressions_dir": "images/110",
+        "tags": "tags.json"
+    },
+    "明里(正月)": {
+        "avatar": "avatar/155.png",
+        "expressions_dir": "images/155",
+        "tags": "tags.json"
+    },
+    "星野": {
+        "avatar": "avatar/76.png",
+        "expressions_dir": "images/76",
+        "tags": "tags.json"
+    },
+    "星野(一年级)": {
+        "avatar": "avatar/287.png",
+        "expressions_dir": "images/287",
+        "tags": "tags.json"
+    },
+    "星野(临战)": {
+        "avatar": "avatar/373.png",
+        "expressions_dir": "images/373",
+        "tags": "tags.json"
+    },
+    "星野(泳装)": {
+        "avatar": "avatar/42.png",
+        "expressions_dir": "images/42",
+        "tags": "tags.json"
+    },
+    "昴": {
+        "avatar": "avatar/559.png",
+        "expressions_dir": "images/559",
+        "tags": "tags.json"
+    },
+    "晴": {
+        "avatar": "avatar/160.png",
+        "expressions_dir": "images/160",
+        "tags": "tags.json"
+    },
+    "晴(睡衣)": {
+        "avatar": "avatar/507.png",
+        "expressions_dir": "images/507",
+        "tags": "tags.json"
+    },
+    "晴(露营)": {
+        "avatar": "avatar/340.png",
+        "expressions_dir": "images/340",
+        "tags": "tags.json"
+    },
+    "晴奈": {
+        "avatar": "avatar/195.png",
+        "expressions_dir": "images/195",
+        "tags": "tags.json"
+    },
+    "晴奈(体操服)": {
+        "avatar": "avatar/154.png",
+        "expressions_dir": "images/154",
+        "tags": "tags.json"
+    },
+    "晴奈(正月)": {
+        "avatar": "avatar/145.png",
+        "expressions_dir": "images/145",
+        "tags": "tags.json"
+    },
+    "晶": {
+        "avatar": "avatar/253.png",
+        "expressions_dir": "images/253",
+        "tags": "tags.json"
+    },
+    "晶(制服)": {
+        "avatar": "avatar/551.png",
+        "expressions_dir": "images/551",
+        "tags": "tags.json"
+    },
+    "智惠": {
+        "avatar": "avatar/95.png",
+        "expressions_dir": "images/95",
+        "tags": "tags.json"
+    },
+    "智惠(旗袍)": {
+        "avatar": "avatar/388.png",
+        "expressions_dir": "images/388",
+        "tags": "tags.json"
+    },
+    "月咏": {
+        "avatar": "avatar/32.png",
+        "expressions_dir": "images/32",
+        "tags": "tags.json"
+    },
+    "望": {
+        "avatar": "avatar/366.png",
+        "expressions_dir": "images/366",
+        "tags": "tags.json"
+    },
+    "未来": {
+        "avatar": "avatar/515.png",
+        "expressions_dir": "images/515",
+        "tags": "tags.json"
+    },
+    "未花": {
+        "avatar": "avatar/1.png",
+        "expressions_dir": "images/1",
+        "tags": "tags.json"
+    },
+    "未花(泳装)": {
+        "avatar": "avatar/545.png",
+        "expressions_dir": "images/545",
+        "tags": "tags.json"
+    },
+    "朱莉": {
+        "avatar": "avatar/186.png",
+        "expressions_dir": "images/186",
+        "tags": "tags.json"
+    },
+    "朱莉(打工)": {
+        "avatar": "avatar/521.png",
+        "expressions_dir": "images/521",
+        "tags": "tags.json"
+    },
+    "果穗": {
+        "avatar": "avatar/143.png",
+        "expressions_dir": "images/143",
+        "tags": "tags.json"
+    },
+    "枫": {
+        "avatar": "avatar/29.png",
+        "expressions_dir": "images/29",
+        "tags": "tags.json"
+    },
+    "枫(导游)": {
+        "avatar": "avatar/361.png",
+        "expressions_dir": "images/361",
+        "tags": "tags.json"
+    },
+    "枫香": {
+        "avatar": "avatar/97.png",
+        "expressions_dir": "images/97",
+        "tags": "tags.json"
+    },
+    "枫香(正月)": {
+        "avatar": "avatar/49.png",
+        "expressions_dir": "images/49",
+        "tags": "tags.json"
+    },
+    "枫香(私服)": {
+        "avatar": "avatar/522.png",
+        "expressions_dir": "images/522",
+        "tags": "tags.json"
+    },
+    "柚子": {
+        "avatar": "avatar/81.png",
+        "expressions_dir": "images/81",
+        "tags": "tags.json"
+    },
+    "柚子(女仆)": {
+        "avatar": "avatar/82.png",
+        "expressions_dir": "images/82",
+        "tags": "tags.json"
+    },
+    "桃井": {
+        "avatar": "avatar/2.png",
+        "expressions_dir": "images/2",
+        "tags": "tags.json"
+    },
+    "桃井(女仆)": {
+        "avatar": "avatar/30.png",
+        "expressions_dir": "images/30",
+        "tags": "tags.json"
+    },
+    "桐乃": {
+        "avatar": "avatar/100.png",
+        "expressions_dir": "images/100",
+        "tags": "tags.json"
+    },
+    "桐乃(泳装)": {
+        "avatar": "avatar/377.png",
+        "expressions_dir": "images/377",
+        "tags": "tags.json"
+    },
+    "桔梗": {
+        "avatar": "avatar/320.png",
+        "expressions_dir": "images/320",
+        "tags": "tags.json"
+    },
+    "桔梗(泳装)": {
+        "avatar": "avatar/534.png",
+        "expressions_dir": "images/534",
+        "tags": "tags.json"
+    },
+    "梅露": {
+        "avatar": "avatar/264.png",
+        "expressions_dir": "images/264",
+        "tags": "tags.json"
+    },
+    "梅露(温泉)": {
+        "avatar": "avatar/265.png",
+        "expressions_dir": "images/265",
+        "tags": "tags.json"
+    },
+    "梓": {
+        "avatar": "avatar/3.png",
+        "expressions_dir": "images/3",
+        "tags": "tags.json"
+    },
+    "梓(泳装)": {
+        "avatar": "avatar/228.png",
+        "expressions_dir": "images/228",
+        "tags": "tags.json"
+    },
+    "梦": {
+        "avatar": "avatar/288.png",
+        "expressions_dir": "images/288",
+        "tags": "tags.json"
+    },
+    "棕榈": {
+        "avatar": "avatar/321.png",
+        "expressions_dir": "images/321",
+        "tags": "tags.json"
+    },
+    "椿": {
+        "avatar": "avatar/93.png",
+        "expressions_dir": "images/93",
+        "tags": "tags.json"
+    },
+    "椿(导游)": {
+        "avatar": "avatar/360.png",
+        "expressions_dir": "images/360",
+        "tags": "tags.json"
+    },
+    "樱子": {
+        "avatar": "avatar/203.png",
+        "expressions_dir": "images/203",
+        "tags": "tags.json"
+    },
+    "樱子(偶像)": {
+        "avatar": "avatar/499.png",
+        "expressions_dir": "images/499",
+        "tags": "tags.json"
+    },
+    "歌原": {
+        "avatar": "avatar/185.png",
+        "expressions_dir": "images/185",
+        "tags": "tags.json"
+    },
+    "歌原(应援团)": {
+        "avatar": "avatar/53.png",
+        "expressions_dir": "images/53",
+        "tags": "tags.json"
+    },
+    "泉": {
+        "avatar": "avatar/73.png",
+        "expressions_dir": "images/73",
+        "tags": "tags.json"
+    },
+    "泉(正月)": {
+        "avatar": "avatar/156.png",
+        "expressions_dir": "images/156",
+        "tags": "tags.json"
+    },
+    "泉(泳装)": {
+        "avatar": "avatar/75.png",
+        "expressions_dir": "images/75",
+        "tags": "tags.json"
+    },
+    "泉奈": {
+        "avatar": "avatar/180.png",
+        "expressions_dir": "images/180",
+        "tags": "tags.json"
+    },
+    "泉奈(泳装)": {
+        "avatar": "avatar/46.png",
+        "expressions_dir": "images/46",
+        "tags": "tags.json"
+    },
+    "泪子": {
+        "avatar": "avatar/317.png",
+        "expressions_dir": "images/317",
+        "tags": "tags.json"
+    },
+    "海": {
+        "avatar": "avatar/270.png",
+        "expressions_dir": "images/270",
+        "tags": "tags.json"
+    },
+    "海夏": {
+        "avatar": "avatar/127.png",
+        "expressions_dir": "images/127",
+        "tags": "tags.json"
+    },
+    "渚": {
+        "avatar": "avatar/25.png",
+        "expressions_dir": "images/25",
+        "tags": "tags.json"
+    },
+    "渚(泳装)": {
+        "avatar": "avatar/544.png",
+        "expressions_dir": "images/544",
+        "tags": "tags.json"
+    },
+    "满": {
+        "avatar": "avatar/214.png",
+        "expressions_dir": "images/214",
+        "tags": "tags.json"
+    },
+    "濑名": {
+        "avatar": "avatar/18.png",
+        "expressions_dir": "images/18",
+        "tags": "tags.json"
+    },
+    "濑名(私服)": {
+        "avatar": "avatar/520.png",
+        "expressions_dir": "images/520",
+        "tags": "tags.json"
+    },
+    "爱丽丝": {
+        "avatar": "avatar/108.png",
+        "expressions_dir": "images/108",
+        "tags": "tags.json"
+    },
+    "爱丽丝(女仆)": {
+        "avatar": "avatar/152.png",
+        "expressions_dir": "images/152",
+        "tags": "tags.json"
+    },
+    "爱美": {
+        "avatar": "avatar/555.png",
+        "expressions_dir": "images/555",
+        "tags": "tags.json"
+    },
+    "爱莉": {
+        "avatar": "avatar/10.png",
+        "expressions_dir": "images/10",
+        "tags": "tags.json"
+    },
+    "爱莉(乐队)": {
+        "avatar": "avatar/369.png",
+        "expressions_dir": "images/369",
+        "tags": "tags.json"
+    },
+    "玛丽": {
+        "avatar": "avatar/99.png",
+        "expressions_dir": "images/99",
+        "tags": "tags.json"
+    },
+    "玛丽(体操服)": {
+        "avatar": "avatar/55.png",
+        "expressions_dir": "images/55",
+        "tags": "tags.json"
+    },
+    "玛丽(偶像)": {
+        "avatar": "avatar/498.png",
+        "expressions_dir": "images/498",
+        "tags": "tags.json"
+    },
+    "玛丽娜": {
+        "avatar": "avatar/45.png",
+        "expressions_dir": "images/45",
+        "tags": "tags.json"
+    },
+    "玛丽娜(旗袍)": {
+        "avatar": "avatar/389.png",
+        "expressions_dir": "images/389",
+        "tags": "tags.json"
+    },
+    "玲纱": {
+        "avatar": "avatar/142.png",
+        "expressions_dir": "images/142",
+        "tags": "tags.json"
+    },
+    "玲纱(魔法)": {
+        "avatar": "avatar/565.png",
+        "expressions_dir": "images/565",
+        "tags": "tags.json"
+    },
+    "由加利（CBT）": {
+        "avatar": "avatar/294.png",
+        "expressions_dir": "images/294",
+        "tags": "tags.json"
+    },
+    "留美": {
+        "avatar": "avatar/128.png",
+        "expressions_dir": "images/128",
+        "tags": "tags.json"
+    },
+    "白子": {
+        "avatar": "avatar/86.png",
+        "expressions_dir": "images/86",
+        "tags": "tags.json"
+    },
+    "白子(泳装)": {
+        "avatar": "avatar/58.png",
+        "expressions_dir": "images/58",
+        "tags": "tags.json"
+    },
+    "白子(骑行服)": {
+        "avatar": "avatar/87.png",
+        "expressions_dir": "images/87",
+        "tags": "tags.json"
+    },
+    "白子*恐怖": {
+        "avatar": "avatar/135.png",
+        "expressions_dir": "images/135",
+        "tags": "tags.json"
+    },
+    "皋月": {
+        "avatar": "avatar/216.png",
+        "expressions_dir": "images/216",
+        "tags": "tags.json"
+    },
+    "真琴": {
+        "avatar": "avatar/115.png",
+        "expressions_dir": "images/115",
+        "tags": "tags.json"
+    },
+    "真琴(礼服)": {
+        "avatar": "avatar/539.png",
+        "expressions_dir": "images/539",
+        "tags": "tags.json"
+    },
+    "真白": {
+        "avatar": "avatar/79.png",
+        "expressions_dir": "images/79",
+        "tags": "tags.json"
+    },
+    "真白(泳装)": {
+        "avatar": "avatar/80.png",
+        "expressions_dir": "images/80",
+        "tags": "tags.json"
+    },
+    "真纪": {
+        "avatar": "avatar/182.png",
+        "expressions_dir": "images/182",
+        "tags": "tags.json"
+    },
+    "真纪(睡衣)": {
+        "avatar": "avatar/509.png",
+        "expressions_dir": "images/509",
+        "tags": "tags.json"
+    },
+    "真纪(露营)": {
+        "avatar": "avatar/343.png",
+        "expressions_dir": "images/343",
+        "tags": "tags.json"
+    },
+    "睦月": {
+        "avatar": "avatar/107.png",
+        "expressions_dir": "images/107",
+        "tags": "tags.json"
+    },
+    "睦月(正月)": {
+        "avatar": "avatar/177.png",
+        "expressions_dir": "images/177",
+        "tags": "tags.json"
+    },
+    "睦月(礼服)": {
+        "avatar": "avatar/352.png",
+        "expressions_dir": "images/352",
+        "tags": "tags.json"
+    },
+    "睦月(西装)": {
+        "avatar": "avatar/354.png",
+        "expressions_dir": "images/354",
+        "tags": "tags.json"
+    },
+    "瞬": {
+        "avatar": "avatar/90.png",
+        "expressions_dir": "images/90",
+        "tags": "tags.json"
+    },
+    "瞬(幼女)": {
+        "avatar": "avatar/109.png",
+        "expressions_dir": "images/109",
+        "tags": "tags.json"
+    },
+    "米莉亚（CBT）": {
+        "avatar": "avatar/290.png",
+        "expressions_dir": "images/290",
+        "tags": "tags.json"
+    },
+    "紫": {
+        "avatar": "avatar/318.png",
+        "expressions_dir": "images/318",
+        "tags": "tags.json"
+    },
+    "紫(泳装)": {
+        "avatar": "avatar/533.png",
+        "expressions_dir": "images/533",
+        "tags": "tags.json"
+    },
+    "红叶": {
+        "avatar": "avatar/167.png",
+        "expressions_dir": "images/167",
+        "tags": "tags.json"
+    },
+    "纯子": {
+        "avatar": "avatar/103.png",
+        "expressions_dir": "images/103",
+        "tags": "tags.json"
+    },
+    "纯子(正月)": {
+        "avatar": "avatar/146.png",
+        "expressions_dir": "images/146",
+        "tags": "tags.json"
+    },
+    "纱织": {
+        "avatar": "avatar/36.png",
+        "expressions_dir": "images/36",
+        "tags": "tags.json"
+    },
+    "纱织(泳装)": {
+        "avatar": "avatar/381.png",
+        "expressions_dir": "images/381",
+        "tags": "tags.json"
+    },
+    "纱织(礼服)": {
+        "avatar": "avatar/356.png",
+        "expressions_dir": "images/356",
+        "tags": "tags.json"
+    },
+    "纱绫": {
+        "avatar": "avatar/88.png",
+        "expressions_dir": "images/88",
+        "tags": "tags.json"
+    },
+    "纱绫(私服)": {
+        "avatar": "avatar/89.png",
+        "expressions_dir": "images/89",
+        "tags": "tags.json"
+    },
+    "纺": {
+        "avatar": "avatar/372.png",
+        "expressions_dir": "images/372",
+        "tags": "tags.json"
+    },
+    "绘里香": {
+        "avatar": "avatar/159.png",
+        "expressions_dir": "images/159",
+        "tags": "tags.json"
+    },
+    "绫音": {
+        "avatar": "avatar/85.png",
+        "expressions_dir": "images/85",
+        "tags": "tags.json"
+    },
+    "绫音(泳装)": {
+        "avatar": "avatar/47.png",
+        "expressions_dir": "images/47",
+        "tags": "tags.json"
+    },
+    "绮良": {
+        "avatar": "avatar/163.png",
+        "expressions_dir": "images/163",
+        "tags": "tags.json"
+    },
+    "绿": {
+        "avatar": "avatar/27.png",
+        "expressions_dir": "images/27",
+        "tags": "tags.json"
+    },
+    "绿(女仆)": {
+        "avatar": "avatar/31.png",
+        "expressions_dir": "images/31",
+        "tags": "tags.json"
+    },
+    "美代": {
+        "avatar": "avatar/554.png",
+        "expressions_dir": "images/554",
+        "tags": "tags.json"
+    },
+    "美咲": {
+        "avatar": "avatar/33.png",
+        "expressions_dir": "images/33",
+        "tags": "tags.json"
+    },
+    "美咲(泳装)": {
+        "avatar": "avatar/384.png",
+        "expressions_dir": "images/384",
+        "tags": "tags.json"
+    },
+    "美弥": {
+        "avatar": "avatar/129.png",
+        "expressions_dir": "images/129",
+        "tags": "tags.json"
+    },
+    "美弥(偶像)": {
+        "avatar": "avatar/500.png",
+        "expressions_dir": "images/500",
+        "tags": "tags.json"
+    },
+    "美游": {
+        "avatar": "avatar/9.png",
+        "expressions_dir": "images/9",
+        "tags": "tags.json"
+    },
+    "美游(泳装)": {
+        "avatar": "avatar/278.png",
+        "expressions_dir": "images/278",
+        "tags": "tags.json"
+    },
+    "美琴": {
+        "avatar": "avatar/315.png",
+        "expressions_dir": "images/315",
+        "tags": "tags.json"
+    },
+    "胡桃": {
+        "avatar": "avatar/66.png",
+        "expressions_dir": "images/66",
+        "tags": "tags.json"
+    },
+    "舞": {
+        "avatar": "avatar/165.png",
+        "expressions_dir": "images/165",
+        "tags": "tags.json"
+    },
+    "艾利": {
+        "avatar": "avatar/549.png",
+        "expressions_dir": "images/549",
+        "tags": "tags.json"
+    },
+    "艾米": {
+        "avatar": "avatar/158.png",
+        "expressions_dir": "images/158",
+        "tags": "tags.json"
+    },
+    "艾米(泳装)": {
+        "avatar": "avatar/334.png",
+        "expressions_dir": "images/334",
+        "tags": "tags.json"
+    },
+    "花凛": {
+        "avatar": "avatar/175.png",
+        "expressions_dir": "images/175",
+        "tags": "tags.json"
+    },
+    "花凛(兔女郎)": {
+        "avatar": "avatar/137.png",
+        "expressions_dir": "images/137",
+        "tags": "tags.json"
+    },
+    "花凛(制服)": {
+        "avatar": "avatar/513.png",
+        "expressions_dir": "images/513",
+        "tags": "tags.json"
+    },
+    "花子": {
+        "avatar": "avatar/92.png",
+        "expressions_dir": "images/92",
+        "tags": "tags.json"
+    },
+    "花子(泳装)": {
+        "avatar": "avatar/300.png",
+        "expressions_dir": "images/300",
+        "tags": "tags.json"
+    },
+    "花江": {
+        "avatar": "avatar/98.png",
+        "expressions_dir": "images/98",
+        "tags": "tags.json"
+    },
+    "花江(圣诞节)": {
+        "avatar": "avatar/178.png",
+        "expressions_dir": "images/178",
+        "tags": "tags.json"
+    },
+    "芹娜": {
+        "avatar": "avatar/91.png",
+        "expressions_dir": "images/91",
+        "tags": "tags.json"
+    },
+    "芹娜(圣诞节)": {
+        "avatar": "avatar/153.png",
+        "expressions_dir": "images/153",
+        "tags": "tags.json"
+    },
+    "芹香": {
+        "avatar": "avatar/83.png",
+        "expressions_dir": "images/83",
+        "tags": "tags.json"
+    },
+    "芹香(正月)": {
+        "avatar": "avatar/44.png",
+        "expressions_dir": "images/44",
+        "tags": "tags.json"
+    },
+    "芹香(泳装)": {
+        "avatar": "avatar/59.png",
+        "expressions_dir": "images/59",
+        "tags": "tags.json"
+    },
+    "若藻": {
+        "avatar": "avatar/11.png",
+        "expressions_dir": "images/11",
+        "tags": "tags.json"
+    },
+    "若藻(泳装)": {
+        "avatar": "avatar/41.png",
+        "expressions_dir": "images/41",
+        "tags": "tags.json"
+    },
+    "茜": {
+        "avatar": "avatar/24.png",
+        "expressions_dir": "images/24",
+        "tags": "tags.json"
+    },
+    "茜(兔女郎)": {
+        "avatar": "avatar/132.png",
+        "expressions_dir": "images/132",
+        "tags": "tags.json"
+    },
+    "茜(制服)": {
+        "avatar": "avatar/517.png",
+        "expressions_dir": "images/517",
+        "tags": "tags.json"
+    },
+    "莉音": {
+        "avatar": "avatar/133.png",
+        "expressions_dir": "images/133",
+        "tags": "tags.json"
+    },
+    "莱依": {
+        "avatar": "avatar/342.png",
+        "expressions_dir": "images/342",
+        "tags": "tags.json"
+    },
+    "莱娜": {
+        "avatar": "avatar/550.png",
+        "expressions_dir": "images/550",
+        "tags": "tags.json"
+    },
+    "莲华": {
+        "avatar": "avatar/319.png",
+        "expressions_dir": "images/319",
+        "tags": "tags.json"
+    },
+    "莲华(泳装)": {
+        "avatar": "avatar/535.png",
+        "expressions_dir": "images/535",
+        "tags": "tags.json"
+    },
+    "莲见": {
+        "avatar": "avatar/111.png",
+        "expressions_dir": "images/111",
+        "tags": "tags.json"
+    },
+    "莲见(体操服)": {
+        "avatar": "avatar/60.png",
+        "expressions_dir": "images/60",
+        "tags": "tags.json"
+    },
+    "莲见(泳装)": {
+        "avatar": "avatar/541.png",
+        "expressions_dir": "images/541",
+        "tags": "tags.json"
+    },
+    "菖蒲": {
+        "avatar": "avatar/529.png",
+        "expressions_dir": "images/529",
+        "tags": "tags.json"
+    },
+    "菲娜": {
+        "avatar": "avatar/215.png",
+        "expressions_dir": "images/215",
+        "tags": "tags.json"
+    },
+    "菲娜(导游)": {
+        "avatar": "avatar/362.png",
+        "expressions_dir": "images/362",
+        "tags": "tags.json"
+    },
+    "萌绘": {
+        "avatar": "avatar/7.png",
+        "expressions_dir": "images/7",
+        "tags": "tags.json"
+    },
+    "萌绘(泳装)": {
+        "avatar": "avatar/286.png",
+        "expressions_dir": "images/286",
+        "tags": "tags.json"
+    },
+    "蓟": {
+        "avatar": "avatar/530.png",
+        "expressions_dir": "images/530",
+        "tags": "tags.json"
+    },
+    "蓟(和服)": {
+        "avatar": "avatar/531.png",
+        "expressions_dir": "images/531",
+        "tags": "tags.json"
+    },
+    "虞美人": {
+        "avatar": "avatar/331.png",
+        "expressions_dir": "images/331",
+        "tags": "tags.json"
+    },
+    "裕美": {
+        "avatar": "avatar/562.png",
+        "expressions_dir": "images/562",
+        "tags": "tags.json"
+    },
+    "裴（CBT）": {
+        "avatar": "avatar/292.png",
+        "expressions_dir": "images/292",
+        "tags": "tags.json"
+    },
+    "诗乃": {
+        "avatar": "avatar/193.png",
+        "expressions_dir": "images/193",
+        "tags": "tags.json"
+    },
+    "诺亚": {
+        "avatar": "avatar/28.png",
+        "expressions_dir": "images/28",
+        "tags": "tags.json"
+    },
+    "诺亚(睡衣)": {
+        "avatar": "avatar/506.png",
+        "expressions_dir": "images/506",
+        "tags": "tags.json"
+    },
+    "贵音": {
+        "avatar": "avatar/308.png",
+        "expressions_dir": "images/308",
+        "tags": "tags.json"
+    },
+    "辉夜": {
+        "avatar": "avatar/390.png",
+        "expressions_dir": "images/390",
+        "tags": "tags.json"
+    },
+    "迈亚": {
+        "avatar": "avatar/558.png",
+        "expressions_dir": "images/558",
+        "tags": "tags.json"
+    },
+    "遥香": {
+        "avatar": "avatar/192.png",
+        "expressions_dir": "images/192",
+        "tags": "tags.json"
+    },
+    "遥香(正月)": {
+        "avatar": "avatar/124.png",
+        "expressions_dir": "images/124",
+        "tags": "tags.json"
+    },
+    "遥香(礼服)": {
+        "avatar": "avatar/353.png",
+        "expressions_dir": "images/353",
+        "tags": "tags.json"
+    },
+    "遥香(西装)": {
+        "avatar": "avatar/355.png",
+        "expressions_dir": "images/355",
+        "tags": "tags.json"
+    },
+    "野宫": {
+        "avatar": "avatar/78.png",
+        "expressions_dir": "images/78",
+        "tags": "tags.json"
+    },
+    "野宫(泳装)": {
+        "avatar": "avatar/40.png",
+        "expressions_dir": "images/40",
+        "tags": "tags.json"
+    },
+    "铃美": {
+        "avatar": "avatar/181.png",
+        "expressions_dir": "images/181",
+        "tags": "tags.json"
+    },
+    "铃美(魔法)": {
+        "avatar": "avatar/563.png",
+        "expressions_dir": "images/563",
+        "tags": "tags.json"
+    },
+    "阿露": {
+        "avatar": "avatar/112.png",
+        "expressions_dir": "images/112",
+        "tags": "tags.json"
+    },
+    "阿露(正月)": {
+        "avatar": "avatar/102.png",
+        "expressions_dir": "images/102",
+        "tags": "tags.json"
+    },
+    "阿露(礼服)": {
+        "avatar": "avatar/350.png",
+        "expressions_dir": "images/350",
+        "tags": "tags.json"
+    },
+    "雪乃": {
+        "avatar": "avatar/64.png",
+        "expressions_dir": "images/64",
+        "tags": "tags.json"
+    },
+    "霞": {
+        "avatar": "avatar/116.png",
+        "expressions_dir": "images/116",
+        "tags": "tags.json"
+    },
+    "霞(泳装)": {
+        "avatar": "avatar/546.png",
+        "expressions_dir": "images/546",
+        "tags": "tags.json"
+    },
+    "露音（CBT）": {
+        "avatar": "avatar/293.png",
+        "expressions_dir": "images/293",
+        "tags": "tags.json"
+    },
+    "青叶": {
+        "avatar": "avatar/525.png",
+        "expressions_dir": "images/525",
+        "tags": "tags.json"
+    },
+    "静子": {
+        "avatar": "avatar/96.png",
+        "expressions_dir": "images/96",
+        "tags": "tags.json"
+    },
+    "静子(泳装)": {
+        "avatar": "avatar/50.png",
+        "expressions_dir": "images/50",
+        "tags": "tags.json"
+    },
+    "音葵": {
+        "avatar": "avatar/67.png",
+        "expressions_dir": "images/67",
+        "tags": "tags.json"
+    },
+    "鹤城": {
+        "avatar": "avatar/94.png",
+        "expressions_dir": "images/94",
+        "tags": "tags.json"
+    },
+    "鹤城(泳装)": {
+        "avatar": "avatar/269.png",
+        "expressions_dir": "images/269",
+        "tags": "tags.json"
+    }
+}

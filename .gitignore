@@ -55,6 +55,8 @@ avatar/*
 
 # Packs: ignore large assets, keep metadata/json
 mmt_packs/**
+!mmt_packs/
+!mmt_packs/**/
 !mmt_packs/README.md
 !mmt_packs/**/manifest.json
 !mmt_packs/**/char_id.json
@@ -63,6 +65,8 @@ mmt_packs/**
 
 # Pack v2 migration workspace (same policy as mmt_packs)
 pack-v2/**
+!pack-v2/
+!pack-v2/**/
 !pack-v2/**/manifest.json
 !pack-v2/**/char_id.json
 !pack-v2/**/asset_mapping.json
@@ -84,3 +88,6 @@ mmt_render/*.render*.json
 
 # MomoScript Test Examples
 mmt_render/*.txt
+
+# Backup files
+*.bak/
