@@ -12,6 +12,7 @@ if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
 from mmt_render import mmt_text_to_json  # noqa: E402
+from mmt_render.dsl_compiler import CompileOptions, MMTCompiler  # noqa: E402
 
 
 def _repo_root() -> Path:
@@ -40,23 +41,42 @@ def _load_fixtures_cfg(fixtures_dir: Path) -> Dict[str, Dict[str, Any]]:
     return out
 
 
-def _run_one(*, text: str, typst_mode: bool) -> dict:
-    data, _report = mmt_text_to_json.convert_text(
-        text,
-        name_to_id={},
-        avatar_dir=Path("avatar"),
-        join_with_newline=True,
-        context_window=2,
-        typst_mode=bool(typst_mode),
-        pack_v2_root=Path("pack-v2"),
-    )
-    return data
+def _run_one(*, text: str, typst_mode: bool, engine: str) -> dict:
+    if engine == "legacy":
+        data, _report = mmt_text_to_json.convert_text(
+            text,
+            name_to_id={},
+            avatar_dir=Path("avatar"),
+            join_with_newline=True,
+            context_window=2,
+            typst_mode=bool(typst_mode),
+            pack_v2_root=Path("pack-v2"),
+        )
+        return data
+
+    if engine == "compiler":
+        compiler = MMTCompiler()
+        data, _report = compiler.compile_text(
+            text,
+            name_to_id={},
+            avatar_dir=Path("avatar"),
+            options=CompileOptions(
+                join_with_newline=True,
+                context_window=2,
+                typst_mode=bool(typst_mode),
+                pack_v2_root=Path("pack-v2"),
+            ),
+        )
+        return data
+
+    raise SystemExit(f"unknown engine: {engine} (expected: legacy|compiler)")
 
 
 def main() -> int:
     p = argparse.ArgumentParser(description="DSL refactor fixture runner (v1 convert_text).")
     p.add_argument("--update", action="store_true", help="Regenerate golden JSON files.")
     p.add_argument("--only", default="", help="Only run a single fixture file.")
+    p.add_argument("--engine", default="legacy", choices=["legacy", "compiler"], help="Which implementation to run.")
     args = p.parse_args()
 
     root = _repo_root()
@@ -72,7 +92,7 @@ def main() -> int:
         out_path = fixtures_dir / (name + ".golden.json")
         text = in_path.read_text(encoding="utf-8")
         typst_mode = bool(opt.get("typst_mode"))
-        data = _run_one(text=text, typst_mode=typst_mode)
+        data = _run_one(text=text, typst_mode=typst_mode, engine=str(args.engine))
         canon = _canonical(data)
         rendered = json.dumps(canon, ensure_ascii=False, indent=2) + "\n"
 
