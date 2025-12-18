@@ -58,6 +58,14 @@ except Exception:  # pragma: no cover
     SiliconFlowReranker = None  # type: ignore
 
 try:
+    from mmt_render.siliconflow_embed import SiliconFlowEmbedConfig, SiliconFlowEmbedder
+    from mmt_render.embedding_index import EmbeddingIndex
+except Exception:  # pragma: no cover
+    SiliconFlowEmbedConfig = None  # type: ignore
+    SiliconFlowEmbedder = None  # type: ignore
+    EmbeddingIndex = None  # type: ignore
+
+try:
     from mmt_render.pack_v2 import PackV2, load_pack_v2
 except Exception:  # pragma: no cover
     PackV2 = None  # type: ignore
@@ -1957,13 +1965,18 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
             [x for x in raw_items if isinstance(x, dict)],
             key=lambda it: _image_order_key(str(it.get("image_name") or "")),
         )
-        for it in raw_items:
+        for i, it in enumerate(raw_items):
             image_name = str(it.get("image_name") or "")
             if not image_name:
                 continue
             entry = dict(it)
             entry["_pack_id"] = pid
             entry["_images_dir"] = images_dir
+            entry["_pack_index"] = i + 1
+            if pid and pid != "legacy":
+                entry["_ref"] = f"#{pid}.{i + 1}"
+            else:
+                entry["_ref"] = f"#{i + 1}"
             entries.append(entry)
             docs.append(_doc_text_for_rerank(it))
 
@@ -1972,8 +1985,46 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
 
     cfg = SiliconFlowRerankConfig(api_key_env=plugin_config.mmt_rerank_key_env, model=plugin_config.mmt_rerank_model)
     try:
+        # Two-stage retrieval (embedding -> rerank) when the candidate list is large.
+        # For small lists, rerank directly is fast enough.
+        docs_for_rerank = docs
+        index_map: Optional[list[int]] = None
+
+        embed_top_k = 50
+        if (
+            SiliconFlowEmbedConfig is not None
+            and SiliconFlowEmbedder is not None
+            and EmbeddingIndex is not None
+            and embed_top_k > 0
+            and len(docs) > embed_top_k
+        ):
+            try:
+                embed_cfg = SiliconFlowEmbedConfig(api_key_env=plugin_config.mmt_rerank_key_env)
+                async with SiliconFlowEmbedder(embed_cfg) as embedder:
+                    vecs = await embedder.embed_texts(docs, use_cache=True)
+                    q_vec = (await embedder.embed_texts([query], use_cache=True))[0]
+                idx = EmbeddingIndex.build(vecs)
+                top_idx = idx.top_k(q_vec, embed_top_k)
+                if top_idx:
+                    index_map = list(top_idx)
+                    docs_for_rerank = [docs[i] for i in top_idx]
+            except Exception as exc:
+                logger.warning("imgmatch embedding prefilter failed, fallback to rerank-only: %s", exc)
+                docs_for_rerank = docs
+                index_map = None
+
         async with SiliconFlowReranker(cfg) as reranker:
-            results = await reranker.rerank(query=query, documents=docs, top_n=min(top_n, len(docs)), return_documents=False)
+            results = await reranker.rerank(
+                query=query,
+                documents=docs_for_rerank,
+                top_n=min(top_n, len(docs_for_rerank)),
+                return_documents=False,
+            )
+            if index_map is not None:
+                for r in results:
+                    idx = r.get("index")
+                    if isinstance(idx, int) and 0 <= idx < len(index_map):
+                        r["index"] = index_map[idx]
     except Exception as exc:
         await mmt_imgmatch.finish(f"rerank 失败：{exc}")
 
@@ -2024,6 +2075,8 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
                 "img_path": img_path,
                 "image_name": image_name,
                 "pack_id": str(base.get("_pack_id") or ""),
+                "pack_index": int(base.get("_pack_index") or 0),
+                "ref": str(base.get("_ref") or ""),
                 "tags": tags,
                 "description": desc,
                 "score": round(score, 6),

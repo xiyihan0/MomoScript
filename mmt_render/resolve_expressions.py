@@ -339,20 +339,26 @@ async def resolve_one(
     chosen_map: Optional[List[int]] = None
 
     if embedder is not None and int(embed_top_k) > 0 and len(items) > int(embed_top_k):
-        cache = index_cache or _IndexCache(max_items=8)
-        cached = cache.get(cache_key)
-        if cached is None:
-            vecs = await embedder.embed_texts(docs_all, use_cache=True)
-            idx = EmbeddingIndex.build(vecs)
-            cached = _IndexItem(items=items, docs=docs_all, index=idx)
-            cache.put(cache_key, cached)
-        # Cache query embeddings too (small: ~16KB for 4096-dim float32), to reduce repeated requests.
-        q_vec = (await embedder.embed_texts([query], use_cache=True))[0]
-        top_idx = cached.index.top_k(q_vec, int(embed_top_k))
-        if top_idx:
-            chosen_map = top_idx
-            chosen_items = [cached.items[i] for i in top_idx]
-            chosen_docs = [cached.docs[i] for i in top_idx]
+        try:
+            cache = index_cache or _IndexCache(max_items=8)
+            cached = cache.get(cache_key)
+            if cached is None:
+                vecs = await embedder.embed_texts(docs_all, use_cache=True)
+                idx = EmbeddingIndex.build(vecs)
+                cached = _IndexItem(items=items, docs=docs_all, index=idx)
+                cache.put(cache_key, cached)
+            # Cache query embeddings too (small: ~16KB for 4096-dim float32), to reduce repeated requests.
+            q_vec = (await embedder.embed_texts([query], use_cache=True))[0]
+            top_idx = cached.index.top_k(q_vec, int(embed_top_k))
+            if top_idx:
+                chosen_map = top_idx
+                chosen_items = [cached.items[i] for i in top_idx]
+                chosen_docs = [cached.docs[i] for i in top_idx]
+        except Exception:
+            # Embedding is an optimization; if it fails, fall back to rerank-only.
+            chosen_items = items
+            chosen_docs = docs_all
+            chosen_map = None
 
     results = await reranker.rerank(query=query, documents=chosen_docs, top_n=top_n, return_documents=False)
     best = results[0]
