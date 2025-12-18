@@ -1999,7 +1999,10 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
             and len(docs) > embed_top_k
         ):
             try:
-                embed_cfg = SiliconFlowEmbedConfig(api_key_env=plugin_config.mmt_rerank_key_env)
+                embed_cfg = SiliconFlowEmbedConfig(
+                    api_key_env=plugin_config.mmt_rerank_key_env,
+                    cache_path=str(plugin_config.work_dir_path() / "siliconflow_embed.sqlite3"),
+                )
                 async with SiliconFlowEmbedder(embed_cfg) as embedder:
                     vecs = await embedder.embed_texts(docs, use_cache=True)
                     q_vec = (await embedder.embed_texts([query], use_cache=True))[0]
@@ -2009,7 +2012,7 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
                     index_map = list(top_idx)
                     docs_for_rerank = [docs[i] for i in top_idx]
             except Exception as exc:
-                logger.warning("imgmatch embedding prefilter failed, fallback to rerank-only: %s", exc)
+                logger.warning(f"imgmatch embedding prefilter failed, fallback to rerank-only: {exc}")
                 docs_for_rerank = docs
                 index_map = None
 

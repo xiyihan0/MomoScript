@@ -122,7 +122,7 @@ class SiliconFlowEmbedConfig:
     url: str = DEFAULT_EMBED_URL
     model: str = DEFAULT_MODEL
     timeout: float = 60.0
-    cache_path: str = ".cache/siliconflow_embed.sqlite3"
+    cache_path: str = os.getenv("MMT_EMBED_CACHE_PATH", "").strip() or ".cache/siliconflow_embed.sqlite3"
     user_agent: str = "mmt-embed/0.1"
     batch_size: int = 64
 
@@ -203,7 +203,10 @@ class SiliconFlowEmbedder:
             except Exception:
                 missing.append((i, texts[i]))
 
+        cache_hits = len(texts) - len(missing)
         if not missing:
+            if use_cache and cache_hits:
+                logger.info(f"embed cache hit | model={model} hits={cache_hits} total={len(texts)}")
             return [x or [] for x in out]
 
         token = _get_api_key(self.config.api_key_env)
@@ -212,7 +215,8 @@ class SiliconFlowEmbedder:
             for j in range(0, len(seq), max(1, n)):
                 yield list(seq[j : j + max(1, n)])
 
-        new_cache_rows: List[Tuple[str, int, bytes]] = []
+        if use_cache and cache_hits:
+            logger.info(f"embed cache hit | model={model} hits={cache_hits} total={len(texts)}")
         for chunk in _chunks(missing, self.config.batch_size):
             started = time.time()
             inputs = [t for _, t in chunk]
@@ -246,6 +250,7 @@ class SiliconFlowEmbedder:
                 raise EmbedError(f"embed: expected {len(chunk)} vectors, got {len(vectors)}")
 
             # Cache as float32 bytes
+            chunk_cache_rows: List[Tuple[str, int, bytes]] = []
             try:
                 import struct
 
@@ -253,15 +258,14 @@ class SiliconFlowEmbedder:
                     out[orig_idx] = vec
                     dims = len(vec)
                     blob = struct.pack(f"<{dims}f", *[float(x) for x in vec])
-                    new_cache_rows.append((keys[orig_idx], dims, blob))
+                    chunk_cache_rows.append((keys[orig_idx], dims, blob))
             except Exception:
                 # If packing fails, still return vectors but skip caching.
                 for (orig_idx, _), vec in zip(chunk, vectors):
                     out[orig_idx] = vec
 
-            logger.info(f"embed ok | elapsed_ms={elapsed_ms} cached={1 if new_cache_rows else 0}")
-
-        if use_cache and new_cache_rows:
-            self._cache.set_many(new_cache_rows)
+            if use_cache and chunk_cache_rows:
+                self._cache.set_many(chunk_cache_rows)
+            logger.info(f"embed ok | elapsed_ms={elapsed_ms} cached={len(chunk_cache_rows)}")
 
         return [x or [] for x in out]
