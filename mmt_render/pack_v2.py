@@ -85,8 +85,6 @@ def load_pack_v2(pack_root: Path) -> PackV2:
     mapping_path = pack_root / "asset_mapping.json"
     if not manifest_path.exists():
         raise FileNotFoundError(f"missing manifest.json: {manifest_path}")
-    if not char_id_path.exists():
-        raise FileNotFoundError(f"missing char_id.json: {char_id_path}")
     if not mapping_path.exists():
         raise FileNotFoundError(f"missing asset_mapping.json: {mapping_path}")
 
@@ -108,9 +106,15 @@ def load_pack_v2(pack_root: Path) -> PackV2:
         eula_url=str(eula.get("url") or "").strip() if isinstance(eula, dict) else "",
     )
 
-    raw_alias = _read_json(char_id_path)
-    if not isinstance(raw_alias, dict):
-        raise ValueError("char_id.json must be an object")
+    raw_alias: Any
+    if char_id_path.exists():
+        raw_alias = _read_json(char_id_path)
+        if not isinstance(raw_alias, dict):
+            raise ValueError("char_id.json must be an object")
+    else:
+        # `char_id.json` is optional: ids are always resolvable by themselves.
+        # This makes extension packs easier to prototype (aliases can be added later).
+        raw_alias = {}
     aliases: Dict[str, str] = {}
     for k, v in raw_alias.items():
         if not isinstance(k, str) or not isinstance(v, str):

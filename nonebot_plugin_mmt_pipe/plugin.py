@@ -1581,11 +1581,17 @@ async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
         for d in sorted([p for p in root.iterdir() if p.is_dir()], key=lambda p: p.name.lower()):
             try:
                 pack = load_pack_v2(d)
-            except Exception:
+            except Exception as exc:
+                # In this test-phase command, show invalid packs to help debugging.
+                lines.append(f"- {d.name} (invalid) - error: {exc}")
                 continue
             pid = pack.manifest.pack_id
             req = "EULA" if pack.manifest.eula_required else "-"
-            acc = "accepted" if eula_db.is_accepted(user_id=private_id, pack_id=pid) else "not-accepted"
+            acc = (
+                "accepted"
+                if (not pack.manifest.eula_required or eula_db.is_accepted(user_id=private_id, pack_id=pid))
+                else "not-accepted"
+            )
             lines.append(f"- {pid} ({pack.manifest.type}) {req} {acc}")
         await mmt_pack.finish("\n".join(lines) if lines else "未找到可用 pack。")
 
