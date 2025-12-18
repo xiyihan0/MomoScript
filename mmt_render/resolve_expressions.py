@@ -641,9 +641,10 @@ async def resolve_file(
                         continue
 
                 # Direct by-index reference:
-                # - [:#5] / [#5]              => merged/default index
-                # - [:#ex:12] / [#ex:12]      => index within pack alias "ex"
-                m_idx = re.match(r"^#\s*(?:(?P<alias>[A-Za-z0-9_]+)\s*:\s*)?(?P<n>\d+)\s*$", query)
+                # - [:#5] / [#5]                  => merged/default index
+                # - [:#ex:12] / [#ex:12]          => index within pack alias "ex"
+                # - [:#ex.12] / [#ex.12]          => same as above (dot separator for convenience)
+                m_idx = re.match(r"^#\s*(?:(?P<alias>[A-Za-z0-9_]+)\s*[:.]\s*)?(?P<n>\d+)\s*$", query)
                 direct_idx = int(m_idx.group("n")) if m_idx else None
                 direct_alias = (m_idx.group("alias") or "").strip() if m_idx else ""
                 direct_alias = direct_alias or ""
