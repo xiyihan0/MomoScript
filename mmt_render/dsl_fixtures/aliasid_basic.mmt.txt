@@ -1,0 +1,5 @@
+@aliasid yz 柚子
+> yz: 我是柚子!
+@aliasid yuzu 柚子
+> yuzu: 我也是！
+

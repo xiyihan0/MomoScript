@@ -10,6 +10,11 @@
   },
   "custom_char_avatar.mmt.txt": {
     "typst_mode": false
+  },
+  "aliasid_basic.mmt.txt": {
+    "typst_mode": false
+  },
+  "tmpalias_scope.mmt.txt": {
+    "typst_mode": false
   }
 }
-

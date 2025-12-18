@@ -1,0 +1,91 @@
+{
+  "chars": [],
+  "chat": [
+    {
+      "char_id": "ba.星野",
+      "content": "你好！",
+      "line_no": 2,
+      "segments": [
+        {
+          "text": "你好！",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "星野(一年级)",
+        "type": "TEXT"
+      }
+    },
+    {
+      "char_id": "ba.星野",
+      "content": "1!",
+      "line_no": 4,
+      "segments": [
+        {
+          "text": "1!",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "星野(临战)",
+        "type": "TEXT"
+      }
+    },
+    {
+      "char_id": "ba.梦",
+      "content": "break",
+      "line_no": 5,
+      "segments": [
+        {
+          "text": "break",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    },
+    {
+      "char_id": "ba.星野",
+      "content": "2!",
+      "line_no": 6,
+      "segments": [
+        {
+          "text": "2!",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "星野(一年级)",
+        "type": "TEXT"
+      }
+    }
+  ],
+  "custom_chars": [
+    [
+      "ba.星野",
+      "/pack-v2/ba/avatar/76.png",
+      "星野"
+    ],
+    [
+      "ba.梦",
+      "/pack-v2/ba/avatar/288.png",
+      "梦"
+    ]
+  ],
+  "meta": {},
+  "packs": {
+    "aliases": {},
+    "order": []
+  },
+  "typst_global": ""
+}

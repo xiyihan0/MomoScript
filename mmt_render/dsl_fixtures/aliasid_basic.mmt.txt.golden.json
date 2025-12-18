@@ -1,0 +1,52 @@
+{
+  "chars": [],
+  "chat": [
+    {
+      "char_id": "ba.柚子",
+      "content": "我是柚子!",
+      "line_no": 2,
+      "segments": [
+        {
+          "text": "我是柚子!",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    },
+    {
+      "char_id": "ba.柚子",
+      "content": "我也是！",
+      "line_no": 4,
+      "segments": [
+        {
+          "text": "我也是！",
+          "type": "text"
+        }
+      ],
+      "side": "left",
+      "yuzutalk": {
+        "avatarState": "AUTO",
+        "nameOverride": "",
+        "type": "TEXT"
+      }
+    }
+  ],
+  "custom_chars": [
+    [
+      "ba.柚子",
+      "/pack-v2/ba/avatar/81.png",
+      "柚子"
+    ]
+  ],
+  "meta": {},
+  "packs": {
+    "aliases": {},
+    "order": []
+  },
+  "typst_global": ""
+}
