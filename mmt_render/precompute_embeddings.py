@@ -52,13 +52,28 @@ async def _embed_docs(
     embedder: SiliconFlowEmbedder,
     docs: List[str],
     label: str,
-    batch_hint: int,
+    retries: int,
+    backoff: float,
+    sleep_s: float,
 ) -> int:
     if not docs:
         return 0
     logger.info("embedding %s | docs=%d", label, len(docs))
-    await embedder.embed_texts(docs, use_cache=True)
-    return len(docs)
+    attempt = 0
+    while True:
+        try:
+            await embedder.embed_texts(docs, use_cache=True)
+            if sleep_s > 0:
+                await asyncio.sleep(float(sleep_s))
+            return len(docs)
+        except Exception as exc:
+            attempt += 1
+            if attempt > retries:
+                logger.warning("embed failed for %s after %d retries: %s", label, retries, exc)
+                return 0
+            wait_s = float(backoff) * attempt
+            logger.warning("embed failed for %s (attempt %d/%d): %s; retry in %.2fs", label, attempt, retries, exc, wait_s)
+            await asyncio.sleep(wait_s)
 
 
 async def _run(
@@ -68,6 +83,9 @@ async def _run(
     include_legacy: bool,
     legacy_tags_root: Optional[Path],
     config: SiliconFlowEmbedConfig,
+    retries: int,
+    backoff: float,
+    sleep_s: float,
 ) -> int:
     total_docs = 0
     pack_v2_root = pack_v2_root.expanduser()
@@ -97,7 +115,9 @@ async def _run(
                         embedder=embedder,
                         docs=text_docs,
                         label=label,
-                        batch_hint=config.batch_size,
+                        retries=retries,
+                        backoff=backoff,
+                        sleep_s=sleep_s,
                     )
 
         if include_legacy:
@@ -118,7 +138,9 @@ async def _run(
                         embedder=embedder,
                         docs=text_docs,
                         label=label,
-                        batch_hint=config.batch_size,
+                        retries=retries,
+                        backoff=backoff,
+                        sleep_s=sleep_s,
                     )
 
     return total_docs
@@ -134,6 +156,9 @@ def main() -> int:
     p.add_argument("--api-key-env", default="SILICON_API_KEY")
     p.add_argument("--cache-path", default=os.getenv("MMT_EMBED_CACHE_PATH", "").strip())
     p.add_argument("--batch-size", type=int, default=64)
+    p.add_argument("--retries", type=int, default=3, help="Retry count per character on embed failure.")
+    p.add_argument("--retry-backoff", type=float, default=1.0, help="Retry backoff seconds (linear).")
+    p.add_argument("--sleep", type=float, default=0.0, help="Sleep seconds after each successful embed batch.")
     args = p.parse_args()
 
     cache_path = args.cache_path or SiliconFlowEmbedConfig.cache_path
@@ -154,6 +179,9 @@ def main() -> int:
             include_legacy=bool(args.include_legacy),
             legacy_tags_root=legacy_root,
             config=cfg,
+            retries=max(0, int(args.retries)),
+            backoff=float(args.retry_backoff),
+            sleep_s=max(0.0, float(args.sleep)),
         )
     )
     logger.info("done | total_docs=%d cache=%s", total, cfg.cache_path)
