@@ -63,14 +63,18 @@ mmt_packs/**
 !mmt_packs/**/asset_mapping.json
 !mmt_packs/**/images/**/tags.json
 
-# Pack v2 migration workspace (same policy as mmt_packs)
-pack-v2/**
-!pack-v2/
-!pack-v2/**/
-!pack-v2/**/manifest.json
-!pack-v2/**/char_id.json
-!pack-v2/**/asset_mapping.json
-!pack-v2/**/images/**/tags.json
+# Pack v2 workspace:
+# - Only keep the base pack `pack-v2/ba/` in git.
+# - Other packs (e.g. third-party extension packs) stay local-only for now.
+pack-v2/*
+!pack-v2/ba/
+
+# For `pack-v2/ba/`, keep metadata + tags, ignore large assets by default.
+pack-v2/ba/**
+!pack-v2/ba/manifest.json
+!pack-v2/ba/char_id.json
+!pack-v2/ba/asset_mapping.json
+!pack-v2/ba/images/**/tags.json
 
 # Copy under mmt_render is cache only
 mmt_render/avatar/
