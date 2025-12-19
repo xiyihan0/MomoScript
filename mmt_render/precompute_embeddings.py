@@ -4,16 +4,21 @@ import argparse
 import asyncio
 import logging
 import os
+import sys
 from pathlib import Path
 from typing import Iterable, List, Optional
 
-from mmt_render.pack_v2 import PackV2, load_pack_v2
-from mmt_render.resolve_expressions import (
+_ROOT = Path(__file__).resolve().parents[1]
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
+from mmt_render.pack_v2 import PackV2, load_pack_v2  # noqa: E402
+from mmt_render.resolve_expressions import (  # noqa: E402
     _doc_text,
     _load_tags_for_pack_char,
     _load_tags_for_student,
 )
-from mmt_render.siliconflow_embed import SiliconFlowEmbedConfig, SiliconFlowEmbedder
+from mmt_render.siliconflow_embed import SiliconFlowEmbedConfig, SiliconFlowEmbedder  # noqa: E402
 
 
 logger = logging.getLogger("mmt_precompute")
