@@ -230,6 +230,13 @@ class MMTLineParser:
     def __init__(self) -> None:
         self._nodes: List[Node] = []
 
+    @staticmethod
+    def _match_statement(line: str) -> Optional[Tuple[str, str]]:
+        m = re.match(r"^([\-<>])\s+(.*)$", line)
+        if not m:
+            return None
+        return m.group(1), m.group(2)
+
     def parse(self, text: str) -> List[Node]:
         self._nodes = []
         lines = _strip_bom(text).splitlines()
@@ -252,7 +259,7 @@ class MMTLineParser:
                 i += 1
                 continue
 
-            if lstripped.startswith(("- ", "> ", "< ")):
+            if self._match_statement(lstripped) is not None:
                 break
 
             m = HEADER_DIRECTIVE_RE.match(stripped)
@@ -319,8 +326,9 @@ class MMTLineParser:
                     i = next_i
                     continue
 
-            if stripped.startswith("- "):
-                head = stripped[2:].rstrip()
+            stmt = self._match_statement(stripped)
+            if stmt is not None and stmt[0] == "-":
+                head = stmt[1].rstrip()
                 block = _parse_triple_quote_block(head=head, all_lines=lines, start_index=i, start_line_no=line_no)
                 if block is not None:
                     block_text, next_i = block
@@ -331,9 +339,9 @@ class MMTLineParser:
                 i += 1
                 continue
 
-            if stripped.startswith("> ") or stripped.startswith("< "):
-                kind = stripped[0]
-                payload = stripped[2:]
+            if stmt is not None and stmt[0] in {">", "<"}:
+                kind = stmt[0]
+                payload = stmt[1]
                 marker, head = _parse_payload(payload)
                 block = _parse_triple_quote_block(head=head, all_lines=lines, start_index=i, start_line_no=line_no)
                 if block is not None:

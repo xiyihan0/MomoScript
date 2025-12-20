@@ -196,15 +196,17 @@ class MMTCompiler:
                 self._append_continuation(st, "")
             return
         if t == "Continuation":
-            self._append_continuation(st, str(getattr(node, "text")))
+            self._append_continuation(st, str(getattr(node, "text")), line_no=int(getattr(node, "line_no", 0)))
             return
         if t == "Statement" or t == "Block":
             self._emit_statement(st, node, is_block=(t == "Block"))
             return
         st.body.append(node)
 
-    def _append_continuation(self, st: _State, text: str) -> None:
+    def _append_continuation(self, st: _State, text: str, *, line_no: int = 0) -> None:
         if not st.messages:
+            if line_no:
+                raise ValueError(f"line {line_no}: continuation line before any statement")
             raise ValueError("continuation line before any statement")
         sep = "\n" if bool(self._options.join_with_newline) else " "
         st.messages[-1]["content"] = f"{st.messages[-1].get('content','')}{sep}{text}"
