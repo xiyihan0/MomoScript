@@ -367,7 +367,9 @@ async def pipe_to_outputs(
 def parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
     # Parse CLI-style flags from a raw text payload, keep the remaining body.
     # Keep user's newlines in body; only strip leading CLI flags.
-    s = text.strip()
+    s = (text or "")
+    s = re.sub(r"^[\s\u200b\u200c\u200d\ufeff\u2060]+", "", s)
+    s = s.rstrip()
     resolve = True
     strict = False
     ctx_n: Optional[int] = None
@@ -458,12 +460,12 @@ def parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
             allow_local_assets = True
             s = s[len("--allow-local-assets") :]
             continue
-        m = re.match(r"^--asset-local-prefixes(?:=|\\s+)([^\\s]+)", s)
+        m = re.match(r"^--asset-local-prefixes(?:=|\s+)([^\s]+)", s)
         if m:
             asset_local_prefixes = m.group(1)
             s = s[m.end() :]
             continue
-        m = re.match(r"^--image(?:_|-)scale(?:=|\\s+)([0-9]*\\.?[0-9]+)", s)
+        m = re.match(r"^--image(?:_|-)scale(?:=|\s+)([0-9]*\.?[0-9]+)", s)
         if m:
             try:
                 image_scale = float(m.group(1))
@@ -471,7 +473,7 @@ def parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
                 image_scale = None
             s = s[m.end() :]
             continue
-        m = re.match(r"^--ctx-n(?:=|\\s+)(\\d+)", s)
+        m = re.match(r"^--ctx-n(?:=|\s+)(\d+)", s)
         if m:
             ctx_n = int(m.group(1))
             s = s[m.end() :]
@@ -484,7 +486,7 @@ def parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
             out_format = "pdf"
             s = s[len("--pdf") :]
             continue
-        m = re.match(r"^--format(?:=|\\s+)(\\w+)", s)
+        m = re.match(r"^--format(?:=|\s+)(\w+)", s)
         if m:
             out_format = m.group(1).strip().lower()
             s = s[m.end() :]
@@ -493,7 +495,7 @@ def parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
 
     if show_help:
         ss = s.lstrip()
-        m = re.match(r"^(syntax|dsl)(?:\\s+|$)", ss, flags=re.IGNORECASE)
+        m = re.match(r"^(syntax|dsl)(?:\s+|$)", ss, flags=re.IGNORECASE)
         if m:
             help_mode = "syntax"
             s = ss[m.end() :]
@@ -527,16 +529,26 @@ async def handle_mmt_common(
     raw: str,
     arg_msg: object,
     default_format: str,
+    flags_override: Optional[dict] = None,
 ) -> None:
     # Command entrypoint for /mmt and /mmtpdf: parse flags, render, and send.
     t_total0 = time.perf_counter()
-    if not raw:
-        msg = "请在指令后粘贴 MMT 文本，例如：/mmt <内容>（默认会 resolve）"
-        if matcher_name == "mmtpdf":
-            msg = "请在指令后粘贴 MMT 文本，例如：/mmtpdf <内容>（默认会 resolve；默认输出 pdf）"
-        await finish(msg)
 
-    flags, content = parse_flags(raw, default_format=default_format)
+    if flags_override is not None:
+        flags, _ = parse_flags("", default_format=default_format)
+        for k, v in flags_override.items():
+            if v is None:
+                continue
+            flags[k] = v
+        content = raw
+        if flags.get("help"):
+            ss = content.lstrip()
+            m = re.match(r"^(syntax|dsl)(?:\s+|$)", ss, flags=re.IGNORECASE)
+            if m:
+                flags["help_mode"] = "syntax"
+                content = ss[m.end() :]
+    else:
+        flags, content = parse_flags(raw, default_format=default_format)
     if flags.get("help"):
         if flags.get("help_mode") == "syntax":
             out_dir = plugin_config.work_dir_path()
@@ -585,8 +597,11 @@ async def handle_mmt_common(
         )
         await finish(help_text)
 
-    if not content and not bool(flags.get("from_file")):
-        await finish("未检测到正文内容（参数后需要跟 MMT 文本）。")
+    if not content and not bool(flags.get("from_file")) and not bool(flags.get("help")):
+        msg = "未检测到正文内容（参数后需要跟 MMT 文本）。"
+        if matcher_name == "mmtpdf":
+            msg = "未检测到正文内容（参数后需要跟 MMT 文本；默认输出 PDF）。"
+        await finish(msg)
 
     file_read_ms = 0
     if bool(flags.get("from_file")):
