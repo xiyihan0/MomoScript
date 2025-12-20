@@ -414,12 +414,12 @@
         "expressions_dir": "images/289",
         "tags": "tags.json"
     },
-    "弥守": {
+    "三森": {
         "avatar": "avatar/22.png",
         "expressions_dir": "images/22",
         "tags": "tags.json"
     },
-    "弥守(泳装)": {
+    "三森(泳装)": {
         "avatar": "avatar/56.png",
         "expressions_dir": "images/56",
         "tags": "tags.json"
@@ -429,7 +429,7 @@
         "expressions_dir": "images/561",
         "tags": "tags.json"
     },
-    "微笑教授": {
+    "笑面教授": {
         "avatar": "avatar/386.png",
         "expressions_dir": "images/386",
         "tags": "tags.json"
@@ -739,12 +739,12 @@
         "expressions_dir": "images/82",
         "tags": "tags.json"
     },
-    "桃井": {
+    "桃": {
         "avatar": "avatar/2.png",
         "expressions_dir": "images/2",
         "tags": "tags.json"
     },
-    "桃井(女仆)": {
+    "桃(女仆)": {
         "avatar": "avatar/30.png",
         "expressions_dir": "images/30",
         "tags": "tags.json"
@@ -1517,6 +1517,26 @@
     "鹤城(泳装)": {
         "avatar": "avatar/269.png",
         "expressions_dir": "images/269",
+        "tags": "tags.json"
+    },
+    "联邦学生会长": {
+        "avatar": "avatar/17.png",
+        "expressions_dir": "images/17",
+        "tags": "tags.json"
+    },
+    "阿罗娜": {
+        "avatar": "avatar/104.png",
+        "expressions_dir": "images/104",
+        "tags": "tags.json"
+    },
+    "普拉娜": {
+        "avatar": "avatar/173.png",
+        "expressions_dir": "images/173",
+        "tags": "tags.json"
+    },
+    "Kei": {
+        "avatar": "avatar/518.png",
+        "expressions_dir": "images/518",
         "tags": "tags.json"
     }
 }
