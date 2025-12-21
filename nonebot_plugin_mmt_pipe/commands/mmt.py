@@ -81,117 +81,87 @@ def _build_mmt_flags_override(arp) -> dict:
     return flags
 
 
-if ALCONNA_AVAILABLE:
-    _mmt_options = (
-        Option("--help", alias=["-h"], action=store_true, dest="help"),
-        Option("--typst", alias=["-t"], action=store_true, dest="typst"),
-        Option("--no-resolve", alias=["--noresolve"], action=store_true, dest="no_resolve"),
-        Option("--resolve", action=store_true, dest="resolve"),
-        Option("--strict", action=store_true, dest="strict"),
-        Option("--disable-heading", alias=["--disable_heading"], action=store_true, dest="disable_heading"),
-        Option("--no-time", alias=["--no_time"], action=store_true, dest="no_time"),
-        Option("--file", action=store_true, dest="from_file"),
-        Option("--verbose", alias=["-v"], action=store_true, dest="verbose"),
-        Option("--redownload-assets", action=store_true, dest="redownload_assets"),
-        Option("--allow-local-assets", action=store_true, dest="allow_local_assets"),
-        Option("--asset-local-prefixes", Args["asset_local_prefixes", str], dest="asset_local_prefixes"),
-        Option("--image-scale", Args["image_scale", float], alias=["--image_scale"], dest="image_scale"),
-        Option("--ctx-n", Args["ctx_n", int], alias=["--ctx_n"], dest="ctx_n"),
-        Option("--png", action=store_true, dest="out_png"),
-        Option("--pdf", action=store_true, dest="out_pdf"),
-        Option("--format", Args["out_format", str], dest="out_format"),
-    )
-    _alc_mmt = Alconna(
-        "mmt",
-        *_mmt_options,
-        Args["text?", AllParam],
-        namespace=_ALCONNA_NAMESPACE,
-    )
-    _alc_mmtpdf = Alconna(
-        "mmtpdf",
-        *_mmt_options,
-        Args["text?", AllParam],
-        namespace=_ALCONNA_NAMESPACE,
-    )
-    mmt = on_alconna(
-        _alc_mmt,
-        priority=10,
-        block=True,
-        use_cmd_start=True,
-    )
-    mmtpdf = on_alconna(
-        _alc_mmtpdf,
-        priority=10,
-        block=True,
-        use_cmd_start=True,
-    )
-else:
-    mmt = on_command("mmt", priority=10, block=True, force_whitespace=True)
-    mmtpdf = on_command("mmtpdf", priority=10, block=True, force_whitespace=True)
 
+_mmt_options = (
+    Option("--help", alias=["-h"], action=store_true, dest="help"),
+    Option("--typst", alias=["-t"], action=store_true, dest="typst"),
+    Option("--no-resolve", alias=["--noresolve"], action=store_true, dest="no_resolve"),
+    Option("--resolve", action=store_true, dest="resolve"),
+    Option("--strict", action=store_true, dest="strict"),
+    Option("--disable-heading", alias=["--disable_heading"], action=store_true, dest="disable_heading"),
+    Option("--no-time", alias=["--no_time"], action=store_true, dest="no_time"),
+    Option("--file", action=store_true, dest="from_file"),
+    Option("--verbose", alias=["-v"], action=store_true, dest="verbose"),
+    Option("--redownload-assets", action=store_true, dest="redownload_assets"),
+    Option("--allow-local-assets", action=store_true, dest="allow_local_assets"),
+    Option("--asset-local-prefixes", Args["asset_local_prefixes", str], dest="asset_local_prefixes"),
+    Option("--image-scale", Args["image_scale", float], alias=["--image_scale"], dest="image_scale"),
+    Option("--ctx-n", Args["ctx_n", int], alias=["--ctx_n"], dest="ctx_n"),
+    Option("--png", action=store_true, dest="out_png"),
+    Option("--pdf", action=store_true, dest="out_pdf"),
+    Option("--format", Args["out_format", str], dest="out_format"),
+)
+_alc_mmt = Alconna(
+    "mmt",
+    *_mmt_options,
+    Args["text?", AllParam],
+    namespace=_ALCONNA_NAMESPACE,
+)
+_alc_mmtpdf = Alconna(
+    "mmtpdf",
+    *_mmt_options,
+    Args["text?", AllParam],
+    namespace=_ALCONNA_NAMESPACE,
+)
+mmt = on_alconna(
+    _alc_mmt,
+    priority=10,
+    block=True,
+    use_cmd_start=True,
+)
+mmtpdf = on_alconna(
+    _alc_mmtpdf,
+    priority=10,
+    block=True,
+    use_cmd_start=True,
+)
 
-if ALCONNA_AVAILABLE:
-    @mmtpdf.handle()
-    async def _(bot: Bot, event: Event, state: T_State, result: CommandResult):
-        arp = result.result
-        flags_override = _build_mmt_flags_override(arp)
-        args = arp.all_matched_args if arp else {}
-        raw_val = args.get("text")
-        raw = raw_val if isinstance(raw_val, str) else join_tokens(raw_val)
-        await handle_mmt_common(
-            finish=mmtpdf.finish,
-            matcher_name="mmtpdf",
-            bot=bot,
-            event=event,
-            raw=raw,
-            arg_msg=event_message_or_empty(event),
-            default_format="pdf",
-            flags_override=flags_override,
-        )
+@mmtpdf.handle()
+async def _(bot: Bot, event: Event, state: T_State, result: CommandResult):
+    arp = result.result
+    flags_override = _build_mmt_flags_override(arp)
+    args = arp.all_matched_args if arp else {}
+    raw_val = args.get("text")
+    raw = raw_val if isinstance(raw_val, str) else join_tokens(raw_val)
+    await handle_mmt_common(
+        finish=mmtpdf.finish,
+        matcher_name="mmtpdf",
+        bot=bot,
+        event=event,
+        raw=raw,
+        arg_msg=event_message_or_empty(event),
+        default_format="pdf",
+        flags_override=flags_override,
+    )
 
-    @mmt.handle()
-    async def _(bot: Bot, event: Event, state: T_State, result: CommandResult):
-        arp = result.result
-        flags_override = _build_mmt_flags_override(arp)
-        args = arp.all_matched_args if arp else {}
-        raw_val = args.get("text")
-        raw = raw_val if isinstance(raw_val, str) else join_tokens(raw_val)
-        await handle_mmt_common(
-            finish=mmt.finish,
-            matcher_name="mmt",
-            bot=bot,
-            event=event,
-            raw=raw,
-            arg_msg=event_message_or_empty(event),
-            default_format="png",
-            flags_override=flags_override,
-        )
-else:
-    @mmtpdf.handle()
-    async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
-        raw = arg.extract_plain_text().strip()
-        await handle_mmt_common(
-            finish=mmtpdf.finish,
-            matcher_name="mmtpdf",
-            bot=bot,
-            event=event,
-            raw=raw,
-            arg_msg=arg,
-            default_format="pdf",
-        )
+@mmt.handle()
+async def _(bot: Bot, event: Event, state: T_State, result: CommandResult):
+    arp = result.result
+    flags_override = _build_mmt_flags_override(arp)
+    args = arp.all_matched_args if arp else {}
+    raw_val = args.get("text")
+    raw = raw_val if isinstance(raw_val, str) else join_tokens(raw_val)
+    await handle_mmt_common(
+        finish=mmt.finish,
+        matcher_name="mmt",
+        bot=bot,
+        event=event,
+        raw=raw,
+        arg_msg=event_message_or_empty(event),
+        default_format="png",
+        flags_override=flags_override,
+    )
 
-    @mmt.handle()
-    async def _(bot: Bot, event: Event, state: T_State, arg=CommandArg()):
-        raw = arg.extract_plain_text().strip()
-        await handle_mmt_common(
-            finish=mmt.finish,
-            matcher_name="mmt",
-            bot=bot,
-            event=event,
-            raw=raw,
-            arg_msg=arg,
-            default_format="png",
-        )
 
 
 __all__ = ["mmt", "mmtpdf"]

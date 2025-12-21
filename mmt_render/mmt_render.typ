@@ -22,12 +22,20 @@
 #let page_width = _parse_code_or(meta.at("width", default: ""), 300pt)
 #set page(width: page_width, height: auto, margin: (x: 10pt, y: 20pt))
 #set par(spacing: 1em)
-#show raw.where(block: true): it => block(
-  fill: luma(240),
-  inset: 10pt,
-  radius: 4pt,
-  text(fill: black, it)
-)
+#show raw: it => {
+  set text(font: ("JetBrains Mono", "FZLanTingYuanGBK"), fill: black)
+  if it.block{
+      block(
+      fill: luma(240),
+      inset: 10pt,
+      radius: 4pt,
+      text(fill: black, it)
+    )
+  }
+  else{
+    box(fill: luma(245), inset: (x: 2pt), outset: (y: 3pt), radius: 2pt, it)
+  }
+}
 
 #let typst_mode = sys.inputs.at("typst_mode", default: "0") == "1"
 

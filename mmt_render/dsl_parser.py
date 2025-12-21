@@ -88,10 +88,11 @@ def _parse_triple_quote_block(
     start_line_no: int,
 ) -> Optional[Tuple[str, int]]:
     lstripped = head.lstrip()
-    if not lstripped.startswith('"""'):
+    m = re.match(r'^("{3,})(.*)$', lstripped)
+    if not m:
         return None
-    prefix_len = len(head) - len(lstripped)
-    after = head[prefix_len + 3 :]
+    delim = m.group(1)
+    after = m.group(2)
 
     block_lines: List[str] = []
     if after != "":
@@ -100,11 +101,13 @@ def _parse_triple_quote_block(
     j = start_index + 1
     while j < len(all_lines):
         raw_line = all_lines[j]
-        if raw_line.strip() == '"""':
+        if raw_line.strip() == delim:
             return "\n".join(block_lines), j + 1
         block_lines.append(raw_line)
         j += 1
-    raise ValueError(f"line {start_line_no}: unterminated triple-quote block (missing \"\"\" line)")
+    raise ValueError(
+        f"line {start_line_no}: unterminated quote block (missing {delim!r} line)"
+    )
 
 
 def _parse_header_block(
@@ -115,10 +118,12 @@ def _parse_header_block(
     start_line_no: int,
 ) -> Tuple[str, int]:
     lstripped = first_line_value.lstrip()
-    if not lstripped.startswith('"""'):
+    m = re.match(r'^("{3,})(.*)$', lstripped)
+    if not m:
         return first_line_value.strip(), start_index + 1
 
-    after = lstripped[3:]
+    delim = m.group(1)
+    after = m.group(2)
     block_lines: List[str] = []
     if after != "":
         block_lines.append(after)
@@ -126,11 +131,13 @@ def _parse_header_block(
     j = start_index + 1
     while j < len(all_lines):
         raw_line = all_lines[j]
-        if raw_line.strip() == '"""':
+        if raw_line.strip() == delim:
             return "\n".join(block_lines), j + 1
         block_lines.append(raw_line)
         j += 1
-    raise ValueError(f"line {start_line_no}: unterminated header triple-quote block (missing \"\"\" line)")
+    raise ValueError(
+        f"line {start_line_no}: unterminated header quote block (missing {delim!r} line)"
+    )
 
 
 def _parse_payload(payload: str) -> Tuple[Marker, str]:
