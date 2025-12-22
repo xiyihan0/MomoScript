@@ -33,8 +33,8 @@ from .typst import run_typst
 from .common import event_scope_ids, find_name_map_and_avatar_dir
 
 
-from mmt_render import mmt_text_to_json
-from mmt_render.resolve_expressions import resolve_file
+from mmt_core import mmt_text_to_json
+from mmt_core.resolve_expressions import resolve_file
 
 
 
@@ -179,7 +179,7 @@ async def pipe_to_outputs(
 ) -> tuple[list[Path], dict, dict, str, dict]:
     # End-to-end pipeline: parse -> resolve -> render -> return outputs + stats.
     if mmt_text_to_json is None:
-        raise RuntimeError("mmt_render.mmt_text_to_json is not importable in this environment")
+        raise RuntimeError("mmt_core.mmt_text_to_json is not importable in this environment")
 
     out_dir.mkdir(parents=True, exist_ok=True)
     stem = safe_stem(text)
@@ -242,7 +242,7 @@ async def pipe_to_outputs(
     if resolve:
         t_resolve0 = time.perf_counter()
         if resolve_file is None:
-            raise RuntimeError("mmt_render.resolve_expressions.resolve_file is not importable in this environment")
+            raise RuntimeError("mmt_core.resolve_expressions.resolve_file is not importable in this environment")
         tags_root = plugin_config.tags_root_path()
         template = plugin_config.typst_template_path()
         await resolve_file(
@@ -306,6 +306,7 @@ async def pipe_to_outputs(
     if not template.exists():
         # Fallback: common locations in a repo checkout
         for cand in (
+            Path.cwd() / "typst_sandbox" / "mmt_render" / "mmt_render.typ",
             Path.cwd() / "mmt_render" / "mmt_render.typ",
             Path.cwd() / "mmt_render.typ",
         ):

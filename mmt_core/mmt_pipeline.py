@@ -9,9 +9,9 @@ from pathlib import Path
 from typing import Optional
 
 try:
-    from mmt_render import mmt_text_to_json
-    from mmt_render.resolve_expressions import resolve_file
-    from mmt_render.typst_sandbox import TypstSandboxOptions, run_typst_sandboxed
+    from mmt_core import mmt_text_to_json
+    from mmt_core.resolve_expressions import resolve_file
+    from mmt_core.typst_sandbox import TypstSandboxOptions, run_typst_sandboxed
 except ModuleNotFoundError:
     import mmt_text_to_json  # type: ignore
     from resolve_expressions import resolve_file  # type: ignore
@@ -21,7 +21,7 @@ except ModuleNotFoundError:
 def _find_tags_root(start: Path) -> Optional[Path]:
     """
     Find an existing `images/students` folder.
-    Works even when `mmt_render` is a symlink to a sibling folder.
+    Works even when the assets live under typst_sandbox.
     """
     p = start
     for _ in range(10):
@@ -158,7 +158,10 @@ def main() -> int:
     p.add_argument("--rerank-concurrency", type=int, default=10)
 
     p.add_argument("--pdf", action="store_true", help="Render PDF via typst.")
-    p.add_argument("--typst-template", default=str(Path(__file__).resolve().parent / "mmt_render.typ"))
+    p.add_argument(
+        "--typst-template",
+        default=str(Path(__file__).resolve().parents[1] / "typst_sandbox" / "mmt_render" / "mmt_render.typ"),
+    )
     p.add_argument("--disable-heading", action="store_true", help="Disable the MoeTalk-style heading bar.")
     p.add_argument("--no-time", action="store_true", help="Do not auto-fill compiled_at time.")
     args = p.parse_args()
@@ -178,8 +181,8 @@ def main() -> int:
     report_path = Path(args.report).resolve() if args.report else None
 
     # Parse text -> json
-    name_map_path = Path("avatar/name_to_id.json")
-    avatar_dir = Path("avatar")
+    name_map_path = Path("typst_sandbox") / "mmt_render" / "avatar" / "name_to_id.json"
+    avatar_dir = Path("typst_sandbox") / "mmt_render" / "avatar"
     # Use same convenience logic as mmt_text_to_json.main()
     if not name_map_path.exists():
         candidate = in_path.parent / "avatar" / "name_to_id.json"

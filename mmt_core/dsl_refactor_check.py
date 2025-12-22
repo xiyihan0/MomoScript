@@ -11,12 +11,12 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from mmt_render import mmt_text_to_json  # noqa: E402
-from mmt_render.dsl_compiler import CompileOptions, MMTCompiler  # noqa: E402
+from mmt_core import mmt_text_to_json  # noqa: E402
+from mmt_core.dsl_compiler import CompileOptions, MMTCompiler  # noqa: E402
 
 
 def _repo_root() -> Path:
-    # .../mmt_render/dsl_refactor_check.py -> repo root
+    # .../mmt_core/dsl_refactor_check.py -> repo root
     return _ROOT
 
 
@@ -42,15 +42,17 @@ def _load_fixtures_cfg(fixtures_dir: Path) -> Dict[str, Dict[str, Any]]:
 
 
 def _run_one(*, text: str, typst_mode: bool, engine: str) -> dict:
+    avatar_dir = Path("typst_sandbox") / "mmt_render" / "avatar"
+    pack_v2_root = Path("typst_sandbox") / "pack-v2"
     if engine == "legacy":
         data, _report = mmt_text_to_json.convert_text(
             text,
             name_to_id={},
-            avatar_dir=Path("avatar"),
+            avatar_dir=avatar_dir,
             join_with_newline=True,
             context_window=2,
             typst_mode=bool(typst_mode),
-            pack_v2_root=Path("pack-v2"),
+            pack_v2_root=pack_v2_root,
             dsl_engine="legacy",
         )
         return data
@@ -60,12 +62,12 @@ def _run_one(*, text: str, typst_mode: bool, engine: str) -> dict:
         data, _report = compiler.compile_text(
             text,
             name_to_id={},
-            avatar_dir=Path("avatar"),
+            avatar_dir=avatar_dir,
             options=CompileOptions(
                 join_with_newline=True,
                 context_window=2,
                 typst_mode=bool(typst_mode),
-                pack_v2_root=Path("pack-v2"),
+                pack_v2_root=pack_v2_root,
             ),
         )
         return data
@@ -76,12 +78,12 @@ def _run_one(*, text: str, typst_mode: bool, engine: str) -> dict:
         data, _report = compiler.compile_nodes(
             nodes,
             name_to_id={},
-            avatar_dir=Path("avatar"),
+            avatar_dir=avatar_dir,
             options=CompileOptions(
                 join_with_newline=True,
                 context_window=2,
                 typst_mode=bool(typst_mode),
-                pack_v2_root=Path("pack-v2"),
+                pack_v2_root=pack_v2_root,
             ),
         )
         return data
@@ -103,7 +105,7 @@ def main() -> int:
 
     root = _repo_root()
     os.chdir(root)
-    fixtures_dir = root / "mmt_render" / "dsl_fixtures"
+    fixtures_dir = root / "mmt_core" / "dsl_fixtures"
     cfg = _load_fixtures_cfg(fixtures_dir)
 
     failures = 0

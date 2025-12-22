@@ -5,6 +5,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.egg-info/
 
 # Virtual environments
 .venv/
@@ -38,11 +39,11 @@ Thumbs.db
 
 # Large downloaded assets (regenerate via scripts)
 # images/
-mmt_render/images/
+typst_sandbox/mmt_render/images/
 
 # If you want to version only tags metadata (but not images), replace the line above
 # with the following block:
-# mmt_render/images/**
+# typst_sandbox/mmt_render/images/**
 images/**
 !images/students/
 !images/students/**/
@@ -54,44 +55,48 @@ avatar/*
 !avatar/download_errors.json
 
 # Packs: ignore large assets, keep metadata/json
-mmt_packs/**
-!mmt_packs/
-!mmt_packs/**/
-!mmt_packs/README.md
-!mmt_packs/**/manifest.json
-!mmt_packs/**/char_id.json
-!mmt_packs/**/asset_mapping.json
-!mmt_packs/**/images/**/tags.json
+typst_sandbox/mmt_packs/**
+!typst_sandbox/mmt_packs/
+!typst_sandbox/mmt_packs/**/
+!typst_sandbox/mmt_packs/README.md
+!typst_sandbox/mmt_packs/**/manifest.json
+!typst_sandbox/mmt_packs/**/char_id.json
+!typst_sandbox/mmt_packs/**/asset_mapping.json
+!typst_sandbox/mmt_packs/**/images/**/tags.json
+**.png
+**.jpg
 
 # Pack v2 workspace:
-# - Only keep the base pack `pack-v2/ba/` in git.
+# - Only keep the base pack `typst_sandbox/pack-v2/ba/` in git.
 # - Other packs (e.g. third-party extension packs) stay local-only for now.
-pack-v2/*
-!pack-v2/ba/
+typst_sandbox/pack-v2/*
+!typst_sandbox/pack-v2/ba/
 
-# For `pack-v2/ba/`, keep metadata + tags, ignore large assets by default.
-pack-v2/ba/**
-!pack-v2/ba/manifest.json
-!pack-v2/ba/char_id.json
-!pack-v2/ba/asset_mapping.json
-!pack-v2/ba/images/**/tags.json
+# For `typst_sandbox/pack-v2/ba/`, keep metadata + tags, ignore large assets by default.
+typst_sandbox/pack-v2/ba/**
+!typst_sandbox/pack-v2/ba/images/
+!typst_sandbox/pack-v2/ba/images/**/
+!typst_sandbox/pack-v2/ba/manifest.json
+!typst_sandbox/pack-v2/ba/char_id.json
+!typst_sandbox/pack-v2/ba/asset_mapping.json
+!typst_sandbox/pack-v2/ba/images/**/tags.json
 
-# Copy under mmt_render is cache only
-mmt_render/avatar/
+# Copy under typst_sandbox/mmt_render is cache only
+typst_sandbox/mmt_render/avatar/
 
 # Typst / exports
 *.pdf
 
 # mmt_render generated artifacts
-mmt_render/*.pipe.json
-mmt_render/*.pipe.resolved.json
-mmt_render/*.pipe.pdf
-mmt_render/*.resolved.json
-mmt_render/*.report.json
-mmt_render/*.render*.json
+typst_sandbox/mmt_render/*.pipe.json
+typst_sandbox/mmt_render/*.pipe.resolved.json
+typst_sandbox/mmt_render/*.pipe.pdf
+typst_sandbox/mmt_render/*.resolved.json
+typst_sandbox/mmt_render/*.report.json
+typst_sandbox/mmt_render/*.render*.json
 
 # MomoScript Test Examples
-mmt_render/*.txt
+typst_sandbox/mmt_render/*.txt
 
 # Backup files
 *.bak/

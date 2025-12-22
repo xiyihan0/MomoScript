@@ -10,12 +10,12 @@ from ..pack_store import EulaDB, validate_pack_id
 from .common import event_scope_ids, find_name_map_and_avatar_dir
 
 try:
-    from mmt_render import mmt_text_to_json
+    from mmt_core import mmt_text_to_json
 except Exception:  # pragma: no cover
     mmt_text_to_json = None  # type: ignore
 
 try:
-    from mmt_render.pack_v2 import PackV2, load_pack_v2
+    from mmt_core.pack_v2 import PackV2, load_pack_v2
 except Exception:  # pragma: no cover
     PackV2 = None  # type: ignore
     load_pack_v2 = None  # type: ignore

@@ -8,7 +8,7 @@ from typing import Optional
 from ..context import plugin_config
 
 try:
-    from mmt_render.typst_sandbox import TypstSandboxOptions, run_typst_sandboxed
+    from mmt_core.typst_sandbox import TypstSandboxOptions, run_typst_sandboxed
 except Exception:  # pragma: no cover
     TypstSandboxOptions = None  # type: ignore
     run_typst_sandboxed = None  # type: ignore

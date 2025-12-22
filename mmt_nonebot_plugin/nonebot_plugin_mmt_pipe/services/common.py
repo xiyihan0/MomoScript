@@ -125,13 +125,21 @@ def find_name_map_and_avatar_dir() -> tuple[Path, Path]:
     name_map_path = Path("avatar/name_to_id.json")
     avatar_dir = Path("avatar")
     if not name_map_path.exists():
-        candidate = Path.cwd() / "mmt_render" / "avatar" / "name_to_id.json"
-        if candidate.exists():
-            name_map_path = candidate
+        for candidate in (
+            Path.cwd() / "typst_sandbox" / "mmt_render" / "avatar" / "name_to_id.json",
+            Path.cwd() / "mmt_render" / "avatar" / "name_to_id.json",
+        ):
+            if candidate.exists():
+                name_map_path = candidate
+                break
     if not avatar_dir.exists():
-        candidate = Path.cwd() / "mmt_render" / "avatar"
-        if candidate.exists():
-            avatar_dir = candidate
+        for candidate in (
+            Path.cwd() / "typst_sandbox" / "mmt_render" / "avatar",
+            Path.cwd() / "mmt_render" / "avatar",
+        ):
+            if candidate.exists():
+                avatar_dir = candidate
+                break
     return name_map_path, avatar_dir
 
 

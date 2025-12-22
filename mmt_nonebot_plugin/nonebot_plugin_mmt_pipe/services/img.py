@@ -21,19 +21,19 @@ from .typst import common_root, run_typst
 from .io import send_onebot_images
 
 try:
-    from mmt_render import mmt_text_to_json
+    from mmt_core import mmt_text_to_json
 except Exception:  # pragma: no cover
     mmt_text_to_json = None  # type: ignore
 
 try:
-    from mmt_render.siliconflow_rerank import SiliconFlowRerankConfig, SiliconFlowReranker
+    from mmt_core.siliconflow_rerank import SiliconFlowRerankConfig, SiliconFlowReranker
 except Exception:  # pragma: no cover
     SiliconFlowRerankConfig = None  # type: ignore
     SiliconFlowReranker = None  # type: ignore
 
 try:
-    from mmt_render.siliconflow_embed import SiliconFlowEmbedConfig, SiliconFlowEmbedder
-    from mmt_render.embedding_index import EmbeddingIndex
+    from mmt_core.siliconflow_embed import SiliconFlowEmbedConfig, SiliconFlowEmbedder
+    from mmt_core.embedding_index import EmbeddingIndex
 except Exception:  # pragma: no cover
     SiliconFlowEmbedConfig = None  # type: ignore
     SiliconFlowEmbedder = None  # type: ignore
@@ -54,7 +54,7 @@ async def handle_mmt_img(
         await finish("用法：/mmt-img [--pack ba,ba_extpack] [--page 1] <角色名>")
 
     if mmt_text_to_json is None:
-        await finish("mmt_render.mmt_text_to_json 无法导入，无法解析角色名。")
+        await finish("mmt_core.mmt_text_to_json 无法导入，无法解析角色名。")
 
     try:
         sources, sid_for_title = resolve_pack_v2_sources_for_character(name=name, pack_ids=packs)
@@ -228,9 +228,9 @@ async def handle_imgmatch(
         await finish("用法：/mmt-imgmatch [--pack ba,ba_extpack] <角色名> [--top-n=5] <描述>")
 
     if mmt_text_to_json is None:
-        await finish("mmt_render.mmt_text_to_json 无法导入，无法解析角色名。")
+        await finish("mmt_core.mmt_text_to_json 无法导入，无法解析角色名。")
     if SiliconFlowRerankConfig is None or SiliconFlowReranker is None:
-        await finish("mmt_render.siliconflow_rerank 无法导入，无法使用 reranker。")
+        await finish("mmt_core.siliconflow_rerank 无法导入，无法使用 reranker。")
 
     # Resolve sources (support multiple packs)
     try:

@@ -38,8 +38,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Update asset_mapping.json from images/<id> folders.",
     )
-    parser.add_argument("pack", help="extension pack path, e.g. pack-v2/ba_extpack")
-    parser.add_argument("--base", default="pack-v2/ba", help="base pack path (for char_id.json)")
+    parser.add_argument("pack", help="extension pack path, e.g. typst_sandbox/pack-v2/ba_extpack")
+    parser.add_argument("--base", default="typst_sandbox/pack-v2/ba", help="base pack path (for char_id.json)")
     parser.add_argument(
         "--allow-new-ids",
         action="store_true",

@@ -2,7 +2,7 @@
 
 本目录描述 **Pack v2** 的格式：用于存放可插拔的素材包（pack）。
 
-实现侧默认从 `pack-v2/` 读取（可用环境变量 `MMT_PACK_V2_ROOT` 修改）。
+实现侧默认从 `typst_sandbox/pack-v2/` 读取（可用环境变量 `MMT_PACK_V2_ROOT` 修改）。
 一个 pack 可以代表某个游戏的“基础素材库”，也可以代表扩展/同人差分包。
 
 目标：
@@ -14,7 +14,7 @@
 ## 目录结构
 
 ```
-pack-v2/
+typst_sandbox/pack-v2/
   <pack_id>/
     manifest.json
     asset_mapping.json

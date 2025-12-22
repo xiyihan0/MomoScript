@@ -14,18 +14,19 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from mmt_text_to_json import convert_text
-from typst_sandbox import TypstSandboxOptions, run_typst_sandboxed
+from mmt_core.mmt_text_to_json import convert_text
+from mmt_core.typst_sandbox import TypstSandboxOptions, run_typst_sandboxed
 
 
-ROOT = Path(__file__).resolve().parent
-WEB_DIR = ROOT / "web"
-AVATAR_DIR = ROOT / "avatar"
+REPO_ROOT = Path(__file__).resolve().parents[1]
+SANDBOX_ROOT = REPO_ROOT / "typst_sandbox" / "mmt_render"
+WEB_DIR = SANDBOX_ROOT / "web"
+AVATAR_DIR = SANDBOX_ROOT / "avatar"
 NAME_MAP_PATH = AVATAR_DIR / "name_to_id.json"
-TYPST_TEMPLATE = ROOT / "mmt_render.typ"
-CACHE_DIR = ROOT / ".cache"
-TMP_DIR = ROOT / ".tmp"
-SAMPLE_TEXT_PATH = ROOT / "mmt_format_test.txt"
+TYPST_TEMPLATE = SANDBOX_ROOT / "mmt_render.typ"
+CACHE_DIR = SANDBOX_ROOT / ".cache"
+TMP_DIR = SANDBOX_ROOT / ".tmp"
+SAMPLE_TEXT_PATH = SANDBOX_ROOT / "mmt_format_test.txt"
 
 MAX_TEXT_BYTES = 300_000
 RATE_LIMIT_WINDOW_SECONDS = 60

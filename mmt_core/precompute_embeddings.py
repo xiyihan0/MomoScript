@@ -12,13 +12,13 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from mmt_render.pack_v2 import PackV2, load_pack_v2  # noqa: E402
-from mmt_render.resolve_expressions import (  # noqa: E402
+from mmt_core.pack_v2 import PackV2, load_pack_v2  # noqa: E402
+from mmt_core.resolve_expressions import (  # noqa: E402
     _doc_text,
     _load_tags_for_pack_char,
     _load_tags_for_student,
 )
-from mmt_render.siliconflow_embed import SiliconFlowEmbedConfig, SiliconFlowEmbedder  # noqa: E402
+from mmt_core.siliconflow_embed import SiliconFlowEmbedConfig, SiliconFlowEmbedder  # noqa: E402
 
 
 logger = logging.getLogger("mmt_precompute")
@@ -148,7 +148,7 @@ async def _run(
 
 def main() -> int:
     p = argparse.ArgumentParser(description="Precompute embedding cache for all tags.json entries.")
-    p.add_argument("--pack-v2-root", default=os.getenv("MMT_PACK_V2_ROOT", "pack-v2"))
+    p.add_argument("--pack-v2-root", default=os.getenv("MMT_PACK_V2_ROOT", "typst_sandbox/pack-v2"))
     p.add_argument("--packs", default="", help="Comma-separated pack ids (default: all under pack-v2 root).")
     p.add_argument("--include-legacy", action="store_true", help="Also scan legacy tags root (images/students).")
     p.add_argument("--legacy-tags-root", default="", help="Legacy tags root (default: images/students).")

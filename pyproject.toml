@@ -1,0 +1,6 @@
+[tool.uv.workspace]
+members = ["mmt_core", "mmt_nonebot_plugin"]
+
+[tool.uv.sources]
+mmt-core = { workspace = true }
+nonebot-plugin-mmt-pipe = { workspace = true }

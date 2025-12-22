@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nonebot-plugin-mmt-pipe"
+version = "0.1.0"
+description = "NoneBot plugin for the MomoScript rendering pipeline."
+requires-python = ">=3.10"
+license = {text = "MPL-2.0"}
+dependencies = [
+  "mmt-core>=0.1.0",
+  "nonebot2[fastapi]>=2.1.0",
+  "nonebot-plugin-alconna>=0.60.3",
+  "nonebot-adapter-onebot>=2.2.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["nonebot_plugin_mmt_pipe*"]
+
+[tool.setuptools.package-data]
+nonebot_plugin_mmt_pipe = ["*.typ"]

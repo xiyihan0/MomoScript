@@ -31,10 +31,10 @@ from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import urlparse
 
 try:
-    # When executed as a module: `python -m mmt_render.mmt_text_to_json ...`
-    from mmt_render.inline_expr import is_backref_target, parse_backref_n, parse_inline_segments
+    # When executed as a module: `python -m mmt_core.mmt_text_to_json ...`
+    from mmt_core.inline_expr import is_backref_target, parse_backref_n, parse_inline_segments
 except ModuleNotFoundError:
-    # When executed as a script: `python mmt_render/mmt_text_to_json.py ...`
+    # When executed as a script: `python mmt_core/mmt_text_to_json.py ...`
     from inline_expr import is_backref_target, parse_backref_n, parse_inline_segments
 
 
@@ -85,6 +85,13 @@ def _parse_asset_query(query: str) -> Optional[str]:
     if q.lower().startswith("asset:"):
         name = q.split(":", 1)[1].strip()
         return name or None
+    return None
+
+
+def _default_pack_v2_root() -> Optional[Path]:
+    for cand in (Path("pack-v2"), Path("typst_sandbox") / "pack-v2"):
+        if cand.exists():
+            return cand
     return None
 
 def _posix(path: Path) -> str:
@@ -264,10 +271,10 @@ def convert_text(
             env = os.getenv("MMT_PACK_V2_ROOT", "").strip()
             if env:
                 effective_pack_v2_root = Path(env).expanduser()
-            elif Path("pack-v2").exists():
-                effective_pack_v2_root = Path("pack-v2")
+            else:
+                effective_pack_v2_root = _default_pack_v2_root()
 
-        from mmt_render.dsl_compiler import CompileOptions, MMTCompiler
+        from mmt_core.dsl_compiler import CompileOptions, MMTCompiler
 
         compiler = MMTCompiler()
         options = CompileOptions(
@@ -293,12 +300,12 @@ def convert_text(
         env = os.getenv("MMT_PACK_V2_ROOT", "").strip()
         if env:
             pack_v2_root_path = Path(env).expanduser()
-        elif Path("pack-v2").exists():
-            pack_v2_root_path = Path("pack-v2")
+        else:
+            pack_v2_root_path = _default_pack_v2_root()
 
     if pack_v2_root_path is not None:
         try:
-            from mmt_render.pack_v2 import load_pack_v2  # type: ignore
+            from mmt_core.pack_v2 import load_pack_v2  # type: ignore
         except Exception:  # pragma: no cover
             load_pack_v2 = None  # type: ignore
         if load_pack_v2 is not None:
@@ -1253,7 +1260,7 @@ def convert_text(
             cid = char_id.split(".", 1)[1]
             avatar_ref = "uploaded"
             try:
-                # Prefer Typst project-root absolute paths: "/pack-v2/ba/avatar/xxx.png"
+                # Prefer Typst project-root absolute paths: "/typst_sandbox/pack-v2/ba/avatar/xxx.png"
                 pack_root = Path(pack_v2_ba.root).resolve()
                 rel_pack = pack_root
                 try:
@@ -1300,11 +1307,15 @@ def build_argparser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Convert MMT text DSL into JSON for mmt.typ.")
     p.add_argument("input", help="Input .txt")
     p.add_argument("-o", "--output", default=None, help="Output .json (default: alongside input)")
-    p.add_argument("--avatar-dir", default="avatar", help="Avatar folder (default: avatar)")
+    p.add_argument(
+        "--avatar-dir",
+        default="typst_sandbox/mmt_render/avatar",
+        help="Avatar folder (default: typst_sandbox/mmt_render/avatar)",
+    )
     p.add_argument(
         "--name-map",
-        default="avatar/name_to_id.json",
-        help="Path to name_to_id.json from download_student_avatars.py (default: avatar/name_to_id.json)",
+        default="typst_sandbox/mmt_render/avatar/name_to_id.json",
+        help="Path to name_to_id.json from download_student_avatars.py (default: typst_sandbox/mmt_render/avatar/name_to_id.json)",
     )
     p.add_argument(
         "--join",
@@ -1333,13 +1344,13 @@ def main() -> int:
     name_map_path = Path(args.name_map)
     avatar_dir = Path(args.avatar_dir)
 
-    # Convenience: when running from repo root with input under mmt_render/,
+    # Convenience: when running from repo root with input under typst_sandbox/mmt_render/,
     # auto-resolve defaults relative to the input file directory.
-    if not name_map_path.exists() and args.name_map == "avatar/name_to_id.json":
+    if not name_map_path.exists() and args.name_map == "typst_sandbox/mmt_render/avatar/name_to_id.json":
         candidate = in_path.parent / "avatar" / "name_to_id.json"
         if candidate.exists():
             name_map_path = candidate
-    if not avatar_dir.exists() and args.avatar_dir == "avatar":
+    if not avatar_dir.exists() and args.avatar_dir == "typst_sandbox/mmt_render/avatar":
         candidate = in_path.parent / "avatar"
         if candidate.exists():
             avatar_dir = candidate

@@ -4,13 +4,13 @@
 
 ## 安装
 - 复制 `nonebot_plugin_mmt_pipe/` 到你的 NoneBot2 项目下（或做成包安装）
-- 确保运行环境可 `import mmt_render`，并且已安装 `typst` 命令
+- 确保运行环境可 `import mmt_core`，并且已安装 `typst` 命令
 - 确保有 `images/students/{id}`（图片）与 `images/students/{id}/tags.json`（打标结果）
 
 ## 配置（可选）
 NoneBot 配置项（环境变量/`.env`/`pyproject.toml` 均可）：
 - `mmt_tags_root`：默认 `images/students`
-- `mmt_typst_template`：默认 `mmt_render/mmt_render.typ`（建议配置成绝对路径或相对 NoneBot 项目根目录）
+- `mmt_typst_template`：默认 `typst_sandbox/mmt_render/mmt_render.typ`（建议配置成绝对路径或相对 NoneBot 项目根目录）
 - `mmt_work_dir`：默认 `.cache/nonebot_mmt`
 - `mmt_typst_bin`：默认 `typst`
 - `mmt_typst_timeout_s`：默认 `30`（Typst 渲染超时，秒）

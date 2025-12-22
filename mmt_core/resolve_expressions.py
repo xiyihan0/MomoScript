@@ -10,24 +10,24 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 try:
-    from mmt_render.embedding_index import EmbeddingIndex
-    from mmt_render.siliconflow_embed import SiliconFlowEmbedConfig, SiliconFlowEmbedder
+    from mmt_core.embedding_index import EmbeddingIndex
+    from mmt_core.siliconflow_embed import SiliconFlowEmbedConfig, SiliconFlowEmbedder
 except ModuleNotFoundError:  # pragma: no cover
     from embedding_index import EmbeddingIndex  # type: ignore
     from siliconflow_embed import SiliconFlowEmbedConfig, SiliconFlowEmbedder  # type: ignore
 
 try:
-    from mmt_render.siliconflow_rerank import SiliconFlowRerankConfig, SiliconFlowReranker
+    from mmt_core.siliconflow_rerank import SiliconFlowRerankConfig, SiliconFlowReranker
 except ModuleNotFoundError:
     from siliconflow_rerank import SiliconFlowRerankConfig, SiliconFlowReranker
 
 try:
-    from mmt_render.external_assets import ExternalAssetConfig, ExternalAssetDownloader, is_url_like
+    from mmt_core.external_assets import ExternalAssetConfig, ExternalAssetDownloader, is_url_like
 except ModuleNotFoundError:  # pragma: no cover
     from external_assets import ExternalAssetConfig, ExternalAssetDownloader, is_url_like  # type: ignore
 
 try:
-    from mmt_render.pack_v2 import PackV2, load_pack_v2
+    from mmt_core.pack_v2 import PackV2, load_pack_v2
 except ModuleNotFoundError:  # pragma: no cover
     PackV2 = None  # type: ignore
     load_pack_v2 = None  # type: ignore
@@ -51,6 +51,13 @@ class CandidateDoc:
 class CandidateItem:
     doc: CandidateDoc
     image_path: Path
+
+
+def _default_pack_v2_root() -> Optional[Path]:
+    for cand in (Path("pack-v2"), Path("typst_sandbox") / "pack-v2"):
+        if cand.exists():
+            return cand
+    return None
 
 
 def _image_order_key(image_name: str) -> tuple[int, str]:
@@ -409,7 +416,7 @@ async def resolve_file(
     if load_pack_v2 is not None:
         if pack_v2_root is None:
             env_root = os.getenv("MMT_PACK_V2_ROOT", "").strip()
-            pack_v2_root = Path(env_root) if env_root else Path("pack-v2")
+            pack_v2_root = Path(env_root).expanduser() if env_root else (_default_pack_v2_root() or Path("pack-v2"))
         pack_v2_root = Path(pack_v2_root).expanduser()
         ba_root = pack_v2_root / "ba"
         if ba_root.exists():

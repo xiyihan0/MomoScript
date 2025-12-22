@@ -8,7 +8,7 @@ nonebot.init(command_start=["/"])
 driver = nonebot.get_driver()
 driver.register_adapter(ONEBOT_V11Adapter)
 
-nonebot.load_plugins("nonebot_plugin_mmt_pipe")
+nonebot.load_plugins("mmt_nonebot_plugin")
 
 
 if __name__ == "__main__":

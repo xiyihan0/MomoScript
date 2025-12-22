@@ -1,0 +1,441 @@
+[
+  {
+    "tags": [
+      "smile",
+      "neutral",
+      "normal",
+      "closed_mouth"
+    ],
+    "description": "阿洛娜的标准立绘，面带温柔的浅笑，眼神平静且友好。",
+    "image_name": "J_arona_spr_00_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "confident",
+      "looking_at_viewer"
+    ],
+    "description": "她的笑容比上一张更加明显，嘴角上扬，看起来心情很不错。",
+    "image_name": "J_arona_spr_01_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "speaking",
+      "curious",
+      "explaining"
+    ],
+    "description": "她的嘴巴微微张开呈O型，仿佛正在说话、解说或者对某事感到好奇。",
+    "image_name": "J_arona_spr_02_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "happy",
+      "cheerful"
+    ],
+    "description": "她闭着双眼（眯眯眼），露出非常灿烂且治愈的笑容，显得十分开心。",
+    "image_name": "J_arona_spr_03_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "open_mouth",
+      "sweat",
+      "glitch_halo",
+      "confused"
+    ],
+    "description": "她脸上挂着汗珠，表情显得惊慌困惑，头顶的蓝色光环呈现出不稳定的故障噪点状态。",
+    "image_name": "J_arona_spr_04_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "angry",
+      "serious",
+      "frown",
+      "red_halo"
+    ],
+    "description": "她眉头紧锁，表情严肃甚至在生气，头顶的光环变成了红色的锯齿状警戒形态。",
+    "image_name": "J_arona_spr_05_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "shy",
+      "blushing",
+      "embarrassed",
+      "wavy_mouth",
+      "red_halo"
+    ],
+    "description": "她满脸通红，嘴巴呈波浪状，眼神游移，显得非常害羞或尴尬，光环依然是红色状态。",
+    "image_name": "J_arona_spr_06_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "shock",
+      "fear",
+      "pale",
+      "gloomy",
+      "dripping_halo"
+    ],
+    "description": "她面色发青（阴沉），瞳孔失去高光，表情充满了恐惧或绝望，头顶的光环仿佛在融化滴落。",
+    "image_name": "J_arona_spr_07_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "surprise",
+      "open_mouth",
+      "dripping_halo",
+      "realization",
+      "wide_eyes"
+    ],
+    "description": "她睁大眼睛，嘴巴微张，露出一副恍然大悟或感到惊讶的表情。头顶的蓝色光环呈现出一种类似融化液体的故障状态。",
+    "image_name": "J_arona_spr_08_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "awkward",
+      "looking_away",
+      "sweat",
+      "dripping_halo",
+      "sheepish"
+    ],
+    "description": "她的视线向侧面游移，脸上带着尴尬或心虚的笑容，仿佛在试图掩饰什么失误，光环依然保持着融化滴落的故障形态。",
+    "image_name": "J_arona_spr_09_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "sigh",
+      "tired",
+      "closed_eyes",
+      "open_mouth",
+      "exhausted"
+    ],
+    "description": "光环恢复了正常的蓝色圆环状。她双眼紧闭，嘴巴张开，似乎正在深深地叹气，表现出疲惫、无奈或抱怨的情绪。",
+    "image_name": "J_arona_spr_10_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "wink",
+      "heart",
+      "happy",
+      "cheerful",
+      "love"
+    ],
+    "description": "她俏皮地眨着左眼（Wink），嘴巴开心地张开，头顶上方浮现出一个粉红色的手绘风格爱心，充满了活力与爱意。",
+    "image_name": "J_arona_spr_11_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "green_halo",
+      "pixelated_halo",
+      "wince",
+      "struggling",
+      "concentration",
+      "one_eye_closed"
+    ],
+    "description": "头顶的光环变成了绿色的像素数据环（通常代表计算或系统处理中）。她咬紧牙关，一只眼紧闭（> < 眼），表情看起来很吃力，似乎正在全力处理数据。",
+    "image_name": "J_arona_spr_12_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "smug",
+      "wink",
+      "smile",
+      "teasing",
+      "confident"
+    ],
+    "description": "光环变回蓝色。她再次眨眼，但这次带着一丝得意或坏笑（Smug），眼神自信，仿佛在捉弄老师或者对某事胸有成竹。",
+    "image_name": "J_arona_spr_13_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "annoyed",
+      "red_halo",
+      "pout",
+      "looking_away",
+      "scorn"
+    ],
+    "description": "头顶光环呈现红色的锯齿警戒状。她半眯着眼瞥向一边，嘴角撇着，表现出明显的嫌弃、不满、闹别扭或是鄙视（“看垃圾的眼神”）。",
+    "image_name": "J_arona_spr_14_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "worried",
+      "nervous",
+      "sweat",
+      "awkward",
+      "troubled"
+    ],
+    "description": "光环恢复蓝色。她眉头下垂，脸上挂着汗珠，眼神显得非常担忧和紧张，嘴巴呈尴尬的线条，看起来像是遇到了麻烦。",
+    "image_name": "J_arona_spr_15_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "blushing",
+      "panic",
+      "glitch_halo",
+      "open_mouth",
+      "surprised",
+      "nervous"
+    ],
+    "description": "她满脸通红，嘴巴张开，眼神显得非常慌张且不知所措，头顶的蓝色光环呈现出锯齿状的故障形态，仿佛系统发生了突发错误。",
+    "image_name": "J_arona_spr_16_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "swirly_eyes",
+      "dizzy",
+      "glitch_halo",
+      "blushing",
+      "confused",
+      "chaos"
+    ],
+    "description": "她的眼睛变成了螺旋状的蚊香眼，表情晕头转向，似乎系统过载或极度混乱，头顶的光环变成了杂乱的彩色条纹故障形态。",
+    "image_name": "J_arona_spr_17_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "wince",
+      "one_eye_closed",
+      "dripping_halo",
+      "blushing",
+      "pain",
+      "awkward"
+    ],
+    "description": "她紧闭着一只眼（> <），面色潮红，表情看起来有些痛苦、忍耐或者是极度尴尬，头顶的光环呈现出蓝色液体融化滴落的故障状态。",
+    "image_name": "J_arona_spr_18_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "fear",
+      "shock",
+      "dripping_halo",
+      "blushing",
+      "scared",
+      "wide_eyes"
+    ],
+    "description": "她面带惊恐，眼神颤抖，似乎被什么吓到了或者预感到了不妙的事情，光环依然维持着融化滴落的故障状态。",
+    "image_name": "J_arona_spr_19_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "normal",
+      "speaking",
+      "neutral",
+      "responsive"
+    ],
+    "description": "光环恢复了正常的圆环状态。她嘴巴微张，眼神清澈，表情恢复平静，似乎正在回应呼唤或者准备说话。",
+    "image_name": "J_arona_spr_20_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "star_eyes",
+      "drooling",
+      "heart",
+      "excited",
+      "craving",
+      "happy"
+    ],
+    "description": "她的瞳孔变成了金色的星星形状，嘴角流出口水，头顶浮现出手绘爱心，表现出极度渴望、兴奋或者是看到心爱之物（如美食）时的痴迷模样。",
+    "image_name": "J_arona_spr_21_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "star_eyes",
+      "serious",
+      "determined",
+      "frown",
+      "focused"
+    ],
+    "description": "她依然保持着星星眼，但眉头紧锁，表情变得严肃且充满决心，仿佛正在进行某种重要的决策、计算或是期待着某种结果。",
+    "image_name": "J_arona_spr_22_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "sleeping",
+      "drooling",
+      "closed_eyes",
+      "relaxed",
+      "napping"
+    ],
+    "description": "她闭着眼睛，嘴角挂着口水，表情安详放松，光环正常悬浮，显然是正在打瞌睡或睡得很香。",
+    "image_name": "J_arona_spr_23_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "sigh",
+      "relaxed",
+      "open_mouth",
+      "sleepy",
+      "whistling"
+    ],
+    "description": "她双眼紧闭，嘴巴呈小圆孔状张开，看起来像是在放松地叹气，又像是在吹口哨或者是迷迷糊糊的睡颜，光环保持正常的蓝色圆环。",
+    "image_name": "J_arona_spr_24_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "green_halo",
+      "pixelated_halo",
+      "star_eyes",
+      "surprise",
+      "realization",
+      "open_mouth",
+      "computing"
+    ],
+    "description": "头顶的光环变成了绿色的像素数据环，代表正在进行计算。她的瞳孔中闪烁着黄色的星星，嘴巴惊讶地张开，似乎发现了什么令人兴奋的新数据。",
+    "image_name": "J_arona_spr_25_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "half_closed_eyes",
+      "bored",
+      "unamused",
+      "open_mouth",
+      "deadpan",
+      "jitome"
+    ],
+    "description": "光环为蓝色常态。她半睁着眼（死鱼眼），嘴巴微张，表情看起来非常无聊、呆滞，或者是对眼前的情况感到无语和缺乏兴致。",
+    "image_name": "J_arona_spr_26_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "dripping_halo",
+      "glitch_halo",
+      "unamused",
+      "disgust",
+      "tired",
+      "wavy_mouth",
+      "fed_up"
+    ],
+    "description": "头顶光环呈现出蓝色液体融化滴落的故障状态。她眼神半死不活，嘴角扭曲成波浪状，看起来既嫌弃又疲惫，仿佛对现状感到极度厌烦或不适。",
+    "image_name": "J_arona_spr_27_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "shock",
+      "wide_eyes",
+      "spiky_halo",
+      "jagged_halo",
+      "stunned",
+      "open_mouth",
+      "sweat",
+      "fear"
+    ],
+    "description": "头顶的光环变成了带刺的锯齿状，显示出剧烈的波动。她瞪大眼睛，瞳孔收缩成一个小点，嘴巴大张，脸上挂着冷汗，显然受到了极大的惊吓或冲击。",
+    "image_name": "J_arona_spr_28_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "swirly_eyes",
+      "dizzy",
+      "glitch_halo",
+      "rainbow_halo",
+      "confused",
+      "wavy_mouth",
+      "chaos"
+    ],
+    "description": "光环变成了杂乱的彩色条纹故障形态。她的眼睛变成了螺旋状的蚊香眼，嘴角呈波浪形，表情晕头转向，似乎系统处于混乱或过载状态。",
+    "image_name": "J_arona_spr_29_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "swirly_eyes",
+      "dizzy",
+      "glitch_halo",
+      "sweat",
+      "panic",
+      "rainbow_halo",
+      "struggling"
+    ],
+    "description": "延续了彩色故障光环和蚊香眼的状态，但脸上多了明显的汗珠，嘴巴张得更大且扭曲，看起来比前一张更加难受、慌乱且不知所措。",
+    "image_name": "J_arona_spr_30_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "cheerful",
+      "open_mouth",
+      "normal",
+      "excited"
+    ],
+    "description": "光环恢复了正常的蓝色圆环。她睁着明亮的大眼睛，开心地笑着，嘴巴张开，展现出充满活力、元气满满的标准可爱表情。",
+    "image_name": "J_arona_spr_31_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "wink",
+      "smile",
+      "happy",
+      "cheerful",
+      "open_mouth",
+      "energetic"
+    ],
+    "description": "她调皮地眨着一只眼睛（Wink），嘴巴张开露出灿烂的笑容，看起来非常有活力，仿佛在快乐地打招呼或开玩笑。",
+    "image_name": "J_arona_spr_32_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "closed_eyes",
+      "smile",
+      "peaceful",
+      "gentle",
+      "content",
+      "calm"
+    ],
+    "description": "她双眼紧闭，嘴角挂着温柔恬静的微笑，表情舒缓，散发出一种安心、信任和极度满足的氛围。",
+    "image_name": "J_arona_spr_99_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "open_mouth",
+      "curious",
+      "looking_away",
+      "innocent",
+      "surprise",
+      "blue_eyes"
+    ],
+    "description": "她睁大眼睛看向别处，嘴巴微微张成小圆孔状，表情中带着一丝好奇和纯真，似乎刚注意到了什么新奇的事物。",
+    "image_name": "J_arona_spr_LookEnd_01_A_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "looking_side",
+      "curious",
+      "open_mouth",
+      "wondering",
+      "attentive",
+      "focus"
+    ],
+    "description": "视线向侧面偏移，嘴巴微张，眼神中流露出好奇与关注，仿佛被屏幕外某处的动静吸引了注意力。",
+    "image_name": "J_arona_spr_Look_01_A_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "smile",
+      "happy",
+      "gentle",
+      "satisfied",
+      "open_eyes",
+      "pleased"
+    ],
+    "description": "她睁着清澈的眼睛温柔地微笑着，神情显得非常满足和愉悦，像是刚接受了摸头夸奖后的开心模样。",
+    "image_name": "J_arona_spr_PatEnd_01_M_W2xEX_1x_3n.jpg"
+  },
+  {
+    "tags": [
+      "wink",
+      "smile",
+      "happy",
+      "playful",
+      "cute",
+      "affectionate"
+    ],
+    "description": "她单眼眨动（Wink），嘴角微微上扬含笑，表情看起来既乖巧又有些调皮，充满了亲切的互动感。",
+    "image_name": "J_arona_spr_Pat_01_A_W2xEX_1x_3n.jpg"
+  }
+]

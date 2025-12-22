@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from mmt_render.pack_v2 import validate_pack_v2
+from mmt_core.pack_v2 import validate_pack_v2
 
 
 def main() -> int:

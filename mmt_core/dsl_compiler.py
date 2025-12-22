@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
-from mmt_render.inline_expr import is_backref_target, parse_backref_n, parse_inline_segments
+from mmt_core.inline_expr import is_backref_target, parse_backref_n, parse_inline_segments
 
 
 @dataclass(frozen=True)
@@ -33,7 +33,7 @@ class MMTCompiler:
         options: CompileOptions,
     ) -> Tuple[dict, dict]:
         # Defer import to avoid future circular dependencies when we start moving code.
-        from mmt_render import mmt_text_to_json
+        from mmt_core import mmt_text_to_json
 
         return mmt_text_to_json.convert_text(
             text,
@@ -85,7 +85,7 @@ class MMTCompiler:
         self._using_namespaces: List[str] = ["ba", "custom"]
 
         # Speaker state for each side
-        from mmt_render.mmt_text_to_json import SpeakerState  # reuse exact behavior
+        from mmt_core.mmt_text_to_json import SpeakerState  # reuse exact behavior
 
         self._speaker_state = {">": SpeakerState(), "<": SpeakerState()}
 
@@ -101,7 +101,7 @@ class MMTCompiler:
         self._char_id_to_display_name: Dict[str, str] = {}
 
     def parse_nodes(self, text: str) -> List[Any]:
-        from mmt_render.dsl_parser import MMTLineParser
+        from mmt_core.dsl_parser import MMTLineParser
 
         return MMTLineParser().parse(text)
 
@@ -121,14 +121,14 @@ class MMTCompiler:
         self._avatar_dir = avatar_dir
         self._options = options
 
-        from mmt_render.mmt_text_to_json import _build_base_index, _load_name_to_id  # noqa: F401
+        from mmt_core.mmt_text_to_json import _build_base_index, _load_name_to_id  # noqa: F401
 
         self._base_index = _build_base_index(self._name_to_id)
 
         # Load pack-v2 ba if available.
         self._pack_v2_ba = None
         try:
-            from mmt_render.pack_v2 import load_pack_v2
+            from mmt_core.pack_v2 import load_pack_v2
         except Exception:  # pragma: no cover
             load_pack_v2 = None  # type: ignore
         if load_pack_v2 is not None and options.pack_v2_root is not None:
@@ -543,7 +543,7 @@ class MMTCompiler:
         global_current_char_id: Optional[str] = None
         global_history: List[str] = []
 
-        from mmt_render.mmt_text_to_json import _is_url_like, _parse_asset_query  # reuse behavior
+        from mmt_core.mmt_text_to_json import _is_url_like, _parse_asset_query  # reuse behavior
 
         def context_text(_idx: int) -> str:
             # fixtures use ctx_n=2; implement minimal placeholder support
