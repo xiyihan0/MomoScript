@@ -80,6 +80,16 @@ class Block(Node):
     content: str
 
 
+@dataclass(frozen=True)
+class Reply(Node):
+    items: List[str]
+
+
+@dataclass(frozen=True)
+class Bond(Node):
+    content: str
+
+
 def _parse_triple_quote_block(
     *,
     head: str,
@@ -218,6 +228,40 @@ def _parse_usepack_line(line: str, *, line_no: int) -> UsePack:
     return UsePack(line_no=line_no, pack_id=m2.group(1).strip(), alias=m2.group(2).strip())
 
 
+def _split_reply_items(raw: str) -> List[str]:
+    items = [part.strip() for part in (raw or "").split("|")]
+    return [it for it in items if it]
+
+
+def _parse_reply_block(
+    *,
+    all_lines: Sequence[str],
+    start_index: int,
+    start_line_no: int,
+) -> Tuple[List[str], int]:
+    items: List[str] = []
+    j = start_index + 1
+    while j < len(all_lines):
+        raw = all_lines[j]
+        line_no = j + 1
+        stripped = raw.strip()
+        if stripped == "" or stripped.startswith("#"):
+            j += 1
+            continue
+        if re.match(r"^@end\b", stripped, flags=re.IGNORECASE):
+            if stripped.lower() != "@end":
+                raise ValueError(f"line {line_no}: invalid @end directive (expected: @end)")
+            return items, j + 1
+        if stripped.startswith("@"):
+            raise ValueError(f"line {line_no}: unexpected directive inside @reply block (use @end to close)")
+        if stripped.startswith("- "):
+            stripped = stripped[2:].strip()
+        if stripped:
+            items.append(stripped)
+        j += 1
+    raise ValueError(f"line {start_line_no}: unterminated @reply block (missing @end)")
+
+
 def _is_known_directive_token(token: str) -> bool:
     return token.lower() in {
         "@alias",
@@ -269,6 +313,11 @@ class MMTLineParser:
             if self._match_statement(lstripped) is not None:
                 break
 
+            if re.match(r"^@reply\b", lstripped, flags=re.IGNORECASE) or re.match(
+                r"^@bond\b", lstripped, flags=re.IGNORECASE
+            ):
+                break
+
             m = HEADER_DIRECTIVE_RE.match(stripped)
             if not m:
                 break
@@ -295,6 +344,42 @@ class MMTLineParser:
 
             if stripped == "":
                 self._nodes.append(BlankLine(line_no=line_no))
+                i += 1
+                continue
+
+            if re.match(r"^@reply\s*:", stripped, flags=re.IGNORECASE):
+                m = re.match(r"^@reply\s*:\s*(.*)$", stripped, flags=re.IGNORECASE)
+                payload = m.group(1) if m else ""
+                items = _split_reply_items(payload)
+                if not items:
+                    raise ValueError(f"line {line_no}: @reply requires at least one option")
+                self._nodes.append(Reply(line_no=line_no, items=items))
+                i += 1
+                continue
+
+            if re.match(r"^@reply\b", stripped, flags=re.IGNORECASE):
+                if stripped.lower() != "@reply":
+                    raise ValueError(f"line {line_no}: invalid @reply directive (expected: @reply or @reply: ...)")
+                items, next_i = _parse_reply_block(
+                    all_lines=lines,
+                    start_index=i,
+                    start_line_no=line_no,
+                )
+                if not items:
+                    raise ValueError(f"line {line_no}: @reply block cannot be empty")
+                self._nodes.append(Reply(line_no=line_no, items=items))
+                i = next_i
+                continue
+
+            if re.match(r"^@end\b", stripped, flags=re.IGNORECASE):
+                raise ValueError(f"line {line_no}: unexpected @end without @reply")
+
+            if re.match(r"^@bond\b", stripped, flags=re.IGNORECASE):
+                m = re.match(r"^@bond(?:\s*:\s*(.*))?$", stripped, flags=re.IGNORECASE)
+                if not m:
+                    raise ValueError(f"line {line_no}: invalid @bond directive (expected: @bond or @bond: text)")
+                content = (m.group(1) or "").strip()
+                self._nodes.append(Bond(line_no=line_no, content=content))
                 i += 1
                 continue
 

@@ -4,6 +4,7 @@
 //   typst compile mmt_render.typ out.pdf --root . --input chat=path/to/chat.json
 
 #import "@preview/based:0.2.0": base64
+#import "@preview/shadowed:0.2.0": shadowed
 
 #let data = json(sys.inputs.at("chat",default: "mmt_format_test.json"))
 #let typst_global = data.at("typst_global", default: "")
@@ -57,6 +58,54 @@
   body
 }
 #let fake-bold(body) = text(stroke: 0.028em, body)
+
+#let reply_box(..items) = box(
+  fill: rgb("E1EDF0"),
+  radius: 1em,
+  inset: (x:6pt, y:8pt),
+  width: 100%,
+  height: auto,
+  clip: true,
+)[
+  #place(top+right, dx:6pt, dy:-8pt, image("mmt_options.webp"))
+  #place(line(start: (0pt, -0.3em), end: (0pt, 1em), stroke: blue+0.15em))
+  #h(5pt)回复
+  #line(length: 100%, stroke: gray+0.05em)
+  #v(-0.7em)
+  #set text(fill: rgb("#4B6989"))
+  #set align(center)
+  #stack(
+    ..items.pos().map(it =>
+      pad(x:-4pt, y:-4pt,
+        shadowed(radius: 4pt,
+          block(width: 100%, fill: white, inset: 5pt, radius: 4pt, [#it])
+        )
+      )
+    )
+  )
+]
+
+#let bond_box(content) = box(
+  fill: rgb("FCEEF0"),
+  radius: 1em,
+  inset: (x:6pt, y:8pt),
+  width: 100%,
+  height: auto,
+  clip: true,
+)[
+  #place(top+right, dx:6pt, dy:-8pt, image("mmt_favor.webp"))
+  #place(line(start: (0pt, -0.3em), end: (0pt, 1em), stroke: rgb("ff8e9b")+0.15em))
+  #h(5pt)羁绊剧情
+  #line(length: 100%, stroke: gray+0.05em)
+  #v(-0.7em)
+  #set text(fill: white)
+  #set align(center)
+  #pad(x:-4pt, y:-4pt,
+    shadowed(radius: 4pt,
+      block(width: 100%, fill: rgb("FC879B"), inset: 5pt, radius: 4pt, [#content])
+    )
+  )
+]
 
 
 #let header_bar(project: "MomoScript", title: "无题", author: "", compiled_at: "") = {
@@ -258,6 +307,21 @@
     } else if t == "PAGEBREAK" {
       last_key = none
       pagebreak()
+    } else if t == "REPLY" {
+      let raw_items = line.at("items", default: none)
+      let items = if raw_items == none { () } else { raw_items.map(it => {
+        let txt = it.at("text", default: "")
+        if typst_mode { eval(typst_assets_global + "\n" + typst_global + "\n" + txt, mode: "markup") } else { txt }
+      }) }
+      reply_box(..items)
+      last_key = none
+      parbreak()
+    } else if t == "BOND" {
+      let raw_content = line.at("content", default: "")
+      let content = if typst_mode { eval(typst_assets_global + "\n" + typst_global + "\n" + raw_content, mode: "markup") } else { raw_content }
+      bond_box(content)
+      last_key = none
+      parbreak()
     } else if t == "TEXT" {
       let char_id = line.at("char_id", default: "__Sensei")
       if char_id == none { char_id = "__Sensei" }

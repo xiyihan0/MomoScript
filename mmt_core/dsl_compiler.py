@@ -57,6 +57,7 @@ class MMTCompiler:
         # Parse-time state (copied from legacy convert_text)
         messages: List[Dict[str, Any]] = field(default_factory=list)
         last_kind: Optional[str] = None
+        last_display_name: Optional[str] = None
         # Nodes we don't understand yet (kept for debugging)
         body: List[Any] = field(default_factory=list)
 
@@ -78,6 +79,7 @@ class MMTCompiler:
         self._avatar_dir: Optional[Path] = None
         self._options: CompileOptions = CompileOptions()
         self._base_index: Dict[str, List[int]] = {}
+        self._id_to_name: Dict[int, str] = {}
 
         self._pack_v2_ba: Any = None
 
@@ -124,6 +126,10 @@ class MMTCompiler:
         from mmt_core.mmt_text_to_json import _build_base_index, _load_name_to_id  # noqa: F401
 
         self._base_index = _build_base_index(self._name_to_id)
+        self._id_to_name = {}
+        for name, sid in self._name_to_id.items():
+            if sid not in self._id_to_name:
+                self._id_to_name[int(sid)] = self._base_name(str(name))
 
         # Load pack-v2 ba if available.
         self._pack_v2_ba = None
@@ -185,6 +191,34 @@ class MMTCompiler:
                 {
                     "yuzutalk": {"type": "PAGEBREAK", "avatarState": "AUTO", "nameOverride": ""},
                     "content": "",
+                    "line_no": int(getattr(node, "line_no")),
+                }
+            )
+            st.last_kind = "-"
+            return
+        if t == "Reply":
+            items = [str(it) for it in (getattr(node, "items") or []) if str(it).strip()]
+            if not items:
+                return
+            st.messages.append(
+                {
+                    "yuzutalk": {"type": "REPLY", "avatarState": "NONE", "nameOverride": ""},
+                    "label": "回复",
+                    "items": [{"text": it} for it in items],
+                    "line_no": int(getattr(node, "line_no")),
+                }
+            )
+            st.last_kind = "-"
+            return
+        if t == "Bond":
+            content = str(getattr(node, "content") or "").strip()
+            if not content:
+                name = st.last_display_name or "未知角色"
+                content = f"{name}的羁绊剧情"
+            st.messages.append(
+                {
+                    "yuzutalk": {"type": "BOND", "avatarState": "NONE", "nameOverride": ""},
+                    "content": content,
                     "line_no": int(getattr(node, "line_no")),
                 }
             )
@@ -296,6 +330,25 @@ class MMTCompiler:
 
         if speaker_raw_for_display:
             self._char_id_to_display_name[char_id] = speaker_raw_for_display
+
+        display_name = ""
+        if name_override:
+            display_name = name_override
+        elif speaker_raw_for_display:
+            display_name = speaker_raw_for_display
+        elif char_id == "__Sensei":
+            display_name = "老师"
+        elif char_id.startswith("ba."):
+            display_name = self._base_name(char_id.split(".", 1)[1])
+        elif char_id.startswith("kivo-"):
+            sid_txt = char_id.split("-", 1)[1]
+            if sid_txt.isdigit():
+                display_name = self._id_to_name.get(int(sid_txt), char_id)
+            else:
+                display_name = char_id
+        else:
+            display_name = self._char_id_to_display_name.get(char_id, char_id)
+        st.last_display_name = display_name or st.last_display_name
 
         if char_id in self._current_avatar_override_by_char_id:
             msg2["avatar_override"] = self._current_avatar_override_by_char_id[char_id]
@@ -553,6 +606,8 @@ class MMTCompiler:
             t = msg.get("yuzutalk", {}).get("type") if isinstance(msg.get("yuzutalk"), dict) else None
             if t == "PAGEBREAK":
                 # Legacy output does not include `segments` on PAGEBREAK entries.
+                continue
+            if t in {"REPLY", "BOND"}:
                 continue
             if t == "TEXT":
                 char_id = str(msg.get("char_id") or "__Sensei")
