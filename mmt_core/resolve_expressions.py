@@ -467,7 +467,11 @@ async def resolve_file(
 
     if asset_cache_dir is None:
         env_dir = os.getenv("MMT_ASSET_CACHE_DIR", "").strip()
-        asset_cache_dir = Path(env_dir) if env_dir else Path(".cache/mmt_assets")
+        asset_cache_dir = (
+            Path(env_dir)
+            if env_dir
+            else Path("typst_sandbox") / "mmt_render" / ".assets"
+        )
     asset_cache_dir = asset_cache_dir.expanduser()
     asset_ref_base = asset_cache_dir
     if ref_root is not None:

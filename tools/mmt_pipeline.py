@@ -2,20 +2,19 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
-import os
 from pathlib import Path
 from typing import Optional
 
-try:
-    from mmt_core import mmt_text_to_json
-    from mmt_core.resolve_expressions import resolve_file
-    from mmt_core.typst_sandbox import TypstSandboxOptions, run_typst_sandboxed
-except ModuleNotFoundError:
-    import mmt_text_to_json  # type: ignore
-    from resolve_expressions import resolve_file  # type: ignore
-    from typst_sandbox import TypstSandboxOptions, run_typst_sandboxed  # type: ignore
+_ROOT = Path(__file__).resolve().parents[1]
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
+from mmt_core import mmt_text_to_json  # noqa: E402
+from mmt_core.resolve_expressions import resolve_file  # noqa: E402
+from mmt_core.typst_sandbox import TypstSandboxOptions, run_typst_sandboxed  # noqa: E402
 
 
 def _find_tags_root(start: Path) -> Optional[Path]:

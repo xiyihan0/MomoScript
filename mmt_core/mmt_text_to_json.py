@@ -1260,14 +1260,23 @@ def convert_text(
             cid = char_id.split(".", 1)[1]
             avatar_ref = "uploaded"
             try:
-                # Prefer Typst project-root absolute paths: "/typst_sandbox/pack-v2/ba/avatar/xxx.png"
+                # Prefer Typst project-root absolute paths: "/pack-v2/ba/avatar/xxx.png"
                 pack_root = Path(pack_v2_ba.root).resolve()
-                rel_pack = pack_root
-                try:
-                    rel_pack = pack_root.relative_to(Path.cwd().resolve())
-                except Exception:
-                    rel_pack = pack_root
                 avatar_rel = pack_v2_ba.id_to_assets[cid].avatar
+                base_root: Optional[Path] = None
+                if pack_v2_root_path is not None:
+                    try:
+                        base_root = Path(pack_v2_root_path).expanduser().resolve().parent
+                        pack_root.relative_to(base_root)
+                    except Exception:
+                        base_root = None
+                if base_root is None:
+                    try:
+                        base_root = Path.cwd().resolve()
+                        pack_root.relative_to(base_root)
+                    except Exception:
+                        base_root = pack_root
+                rel_pack = pack_root.relative_to(base_root) if base_root else pack_root
                 avatar_ref = "/" + (rel_pack / avatar_rel).as_posix().lstrip("/")
             except Exception:
                 avatar_ref = "uploaded"

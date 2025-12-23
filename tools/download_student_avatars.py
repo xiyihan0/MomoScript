@@ -14,13 +14,18 @@ import argparse
 import asyncio
 import json
 import os
+import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from io import BytesIO
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
-from kivowiki_api import ApiError, KivoWikiClient, parse_student_list_response
+_ROOT = Path(__file__).resolve().parents[1]
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
+from mmt_core.kivowiki_api import ApiError, KivoWikiClient, parse_student_list_response  # noqa: E402
 
 
 def _utc_now_iso() -> str:

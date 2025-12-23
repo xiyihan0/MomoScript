@@ -17,7 +17,7 @@ class AssetError(RuntimeError):
     pass
 
 
-_NAME_RE = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
+_NAME_RE = re.compile(r"^[^\s/\\\\:*?\"<>|\[\]]{1,64}$")
 _CT_TO_EXT = {
     "image/png": "png",
     "image/jpeg": "jpg",
@@ -32,7 +32,7 @@ _CT_TO_EXT = {
 def validate_asset_name(name: str) -> str:
     n = (name or "").strip()
     if not _NAME_RE.match(n):
-        raise AssetError("invalid name: only [A-Za-z0-9_-], length 1-64")
+        raise AssetError('invalid name: 1-64 chars, no whitespace or /\\:*?"<>|[]')
     return n
 
 

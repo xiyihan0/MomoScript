@@ -9,7 +9,8 @@
 
 ## 配置（可选）
 NoneBot 配置项（环境变量/`.env`/`pyproject.toml` 均可）：
-- `mmt_tags_root`：默认 `images/students`
+- `mmt_tags_root`：默认 `typst_sandbox/mmt_render/images/students`
+- `mmt_pack_v2_root`：默认 `typst_sandbox/pack-v2`
 - `mmt_typst_template`：默认 `typst_sandbox/mmt_render/mmt_render.typ`（建议配置成绝对路径或相对 NoneBot 项目根目录）
 - `mmt_work_dir`：默认 `.cache/nonebot_mmt`
 - `mmt_typst_bin`：默认 `typst`
@@ -24,7 +25,7 @@ NoneBot 配置项（环境变量/`.env`/`pyproject.toml` 均可）：
 - `mmt_rerank_key_env`：默认 `SILICON_API_KEY`
 - `mmt_rerank_model`：默认 `Qwen/Qwen3-Reranker-8B`
 - `mmt_rerank_concurrency`：默认 `10`
-- `mmt_asset_cache_dir`：默认空（外链图片缓存目录；空则使用 `<mmt_work_dir>/assets`）
+- `mmt_asset_cache_dir`：默认 `typst_sandbox/mmt_render/.assets`
 - `mmt_asset_redownload`：默认 `false`（强制重新下载外链图片）
 - `mmt_asset_max_mb`：默认 `10`（外链图片最大下载大小，MB）
 
@@ -34,7 +35,7 @@ NoneBot 配置项（环境变量/`.env`/`pyproject.toml` 均可）：
 - `/mmt <MMT文本>`（默认 `--resolve`，默认输出 PNG）
 - `/mmtpdf <MMT文本>`（默认 `--resolve`，默认输出 PDF；可用 `--png` 强制 PNG）
 - `/mmt --help`（查看参数与用法）
-- `/mmt -h syntax`（渲染 DSL 语法速览图）
+- `/mmt -h syntax`（渲染 DSL 语法速览图；模板为 `typst_sandbox/mmt_render/mmt_help_syntax.typ`）
 - `/mmt-img <角色名>`（把该角色库内所有表情渲染成表格图）
 - `/mmt-imgmatch <角色名> [--top-n=5] <描述>`（对该角色表情库做语义匹配并输出 top-n 表格图）
 - `/mmt --image-scale 0.7 <MMT文本>`（调整图片/表情在气泡内的缩放，0.1–1.0）

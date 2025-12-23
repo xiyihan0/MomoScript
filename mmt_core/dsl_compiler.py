@@ -82,6 +82,7 @@ class MMTCompiler:
         self._id_to_name: Dict[int, str] = {}
 
         self._pack_v2_ba: Any = None
+        self._pack_v2_base_root: Optional[Path] = None
 
         # Namespace importing order for bare selectors
         self._using_namespaces: List[str] = ["ba", "custom"]
@@ -133,12 +134,15 @@ class MMTCompiler:
 
         # Load pack-v2 ba if available.
         self._pack_v2_ba = None
+        self._pack_v2_base_root = None
         try:
             from mmt_core.pack_v2 import load_pack_v2
         except Exception:  # pragma: no cover
             load_pack_v2 = None  # type: ignore
         if load_pack_v2 is not None and options.pack_v2_root is not None:
-            ba_root = (Path(options.pack_v2_root).expanduser() / "ba").resolve()
+            pack_root = Path(options.pack_v2_root).expanduser().resolve()
+            self._pack_v2_base_root = pack_root.parent
+            ba_root = (pack_root / "ba").resolve()
             if ba_root.exists():
                 try:
                     self._pack_v2_ba = load_pack_v2(ba_root)
@@ -757,12 +761,21 @@ class MMTCompiler:
                 avatar_ref = "uploaded"
                 try:
                     pack_root = Path(self._pack_v2_ba.root).resolve()
-                    rel_pack = pack_root
-                    try:
-                        rel_pack = pack_root.relative_to(Path.cwd().resolve())
-                    except Exception:
-                        rel_pack = pack_root
                     avatar_rel = self._pack_v2_ba.id_to_assets[cid].avatar
+                    base_root: Optional[Path] = None
+                    if self._pack_v2_base_root is not None:
+                        try:
+                            base_root = Path(self._pack_v2_base_root).resolve()
+                            pack_root.relative_to(base_root)
+                        except Exception:
+                            base_root = None
+                    if base_root is None:
+                        try:
+                            base_root = Path.cwd().resolve()
+                            pack_root.relative_to(base_root)
+                        except Exception:
+                            base_root = pack_root
+                    rel_pack = pack_root.relative_to(base_root) if base_root else pack_root
                     avatar_ref = "/" + (rel_pack / avatar_rel).as_posix().lstrip("/")
                 except Exception:
                     avatar_ref = "uploaded"

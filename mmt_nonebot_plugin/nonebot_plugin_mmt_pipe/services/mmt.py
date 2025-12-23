@@ -37,106 +37,52 @@ from mmt_core import mmt_text_to_json
 from mmt_core.resolve_expressions import resolve_file
 
 
+def _resolve_typst_template() -> Path:
+    template = plugin_config.typst_template_path()
+    if not template.is_absolute():
+        template = (Path.cwd() / template).resolve()
+    if template.exists():
+        return template
+    # Fallback: common locations in a repo checkout
+    for cand in (
+        Path.cwd() / "typst_sandbox" / "mmt_render" / "mmt_render.typ",
+        Path.cwd() / "mmt_render" / "mmt_render.typ",
+        Path.cwd() / "mmt_render.typ",
+    ):
+        if cand.exists():
+            return cand.resolve()
+    raise RuntimeError(f"typst template not found: {template}")
+
+
+def _typst_tmp_dir(template: Path) -> Path:
+    tmp_dir = template.parent / ".tmp"
+    tmp_dir.mkdir(parents=True, exist_ok=True)
+    return tmp_dir
+
+
+def _resolve_typst_help_template() -> Path:
+    template = _resolve_typst_template()
+    for cand in (
+        template.parent / "mmt_help_syntax.typ",
+        Path.cwd() / "typst_sandbox" / "mmt_render" / "mmt_help_syntax.typ",
+        Path.cwd() / "mmt_render" / "mmt_help_syntax.typ",
+        Path.cwd() / "mmt_help_syntax.typ",
+    ):
+        if cand.exists():
+            return cand.resolve()
+    raise RuntimeError("mmt_help_syntax.typ not found under typst_sandbox")
+
+
 
 async def render_syntax_help_pngs(*, out_dir: Path) -> list[Path]:
     # Build a standalone Typst doc for syntax help and render it to PNG pages.
     out_dir.mkdir(parents=True, exist_ok=True)
     stem = safe_stem("mmt-help-syntax")
-    typ_path = out_dir / f"{stem}.mmt_help_syntax.typ"
+    typ_path = _resolve_typst_help_template()
     dummy_json = out_dir / f"{stem}.dummy.json"
     png_out_tpl = out_dir / f"{stem}-{{0p}}.png"
 
     dummy_json.write_text("{}", encoding="utf-8")
-    typ_path.write_text(
-        "\n".join(
-            [
-                """\
-#show raw: set text(font: ("Cascadia Code","FZLanTingYuanGBK"))
-#show raw.where(block: true): it => block(
-  fill: luma(240),
-  inset: 6pt,
-  radius: 4pt,
-  text(fill: black, it)
-)""",
-                "#set page(width: 168mm, height: auto, margin: (x: 10mm, y: 10mm))",
-                "#set text(size: 10.5pt, font: \"FZLanTingYuanGBK\",lang:\"zh\")",
-                "#set par(first-line-indent: (amount: 2em, all: true))",
-                "",
-                "= MomoScript",
-                "MMT DSL 语法速览",
-                "",
-                r"== 头部指令（\@）",
-                "- 只在文件开头解析，用于填写元信息或 Typst 全局代码",
-                "- 形式：`@key: value`（value 为任意文本）",
-                "- 常用：`@title` / `@author` / `@created_at`（会写入输出 JSON 的 `meta`）",
-                "- 其它 `@key` 也会写入 `meta`（不与保留字段冲突即可）",
-                "- Typst：`@typst_global: ...`（可配合 `\"\"\"...\"\"\"` 写多行块）",
-                """- 备注：
-  - `@typst: on|off` 只写入 `meta.typst`，实际解析模式以 `--typst` 为准
-  - 文档中的 `...` 仅表示“任意内容占位”，不是语法的一部分；实际写法是 `@key: value`""",
-                "",
-                r"== 动态别名（\@alias）",
-                "- 可出现在任意位置，仅修改显示名（不影响 id 查找；对后续气泡持续生效）",
-                "- 语法：`@alias 角色名=显示名`（清空：`@alias 角色名=`）",
-                "",
-                r"== 临时别名（\@tmpalias）",
-                "- 局部作用域显示名覆盖（切换到其它说话人后自动回退）",
-                "- 语法：`@tmpalias 角色名=显示名`（清空：`@tmpalias 角色名=`）",
-                "",
-                "== 语句行",
-                "- `- `：旁白（居中系统文本）",
-                "- `> `：对方气泡（默认左侧）",
-                "- `< `：自己气泡（默认右侧；也可以写成其它角色的右侧气泡）",
-                "",
-                "== 续行",
-                "不以 `- ` / `> ` / `< ` 开头的行会被视为上一条语句的续行（一般用 `\\\\n` 连接）。",
-                "",
-                '== 多行块（`"""..."""`）',
-                '当内容以 `"""`（或更多连续引号，如 `""""`）开头时进入多行块，直到遇到“单独一行”的同样引号长度结束。',
-                "块内内容原样保留（推荐用于列表/公式/代码）。",
-                "",
-                "== 说话人",
-                "`>` 与 `<` 可携带“说话人切换”标记：",
-                "",
-                "- 显式指定：`> {name}: {content}` 或 `< {name}: {content}`",
-                "- 方向内回溯：`> _:` / `> _2:`（回到该方向历史的第 1/2 个说话人）",
-                "- “第 i 个出现的人物”：`> ~1:`（从对话开始以来第 1 个新出现的说话人）",
-                "",
-                "== 表情/图片标记",
-                "普通模式（未开启 `--typst`）：",
-                "- `[描述]` / `[角色:描述]` / `(角色)[描述]`（会进入 rerank 解析）",
-                "- `[asset:xxx]`（引用头部 `@asset.xxx`；需要 resolve 才能下载外链）",
-                "",
-                "Typst 模式（`--typst`）：",
-                "- 只识别 `[:描述]` / `[:角色:描述]` / `(角色)[:描述]`",
-                "- `[:asset:xxx]`（引用头部 `@asset.xxx`；需要 resolve 才能下载外链）",
-                "- 其它 `[...]` 会原样交给 Typst（因此纯文本里的 `[`/`]` 可能需要转义）",
-                "",
-                "== 示例",
-                "```text",
-                "@title: 测试",
-                "@author: (可省略，插件会自动填充)",
-                "",
-                "> 星野: 早上好",
-                "> 续行（仍然是星野）",
-                "@alias 星野=星野(一年级)",
-                "> 1!",
-                "@alias 星野=星野(临战)",
-                "> 2!",
-                "",
-                "- \"\"\"",
-                "#let fib(n) = if n <= 2 { 1 } else { fib(n - 1) + fib(n - 2) }",
-                "#fib(10)",
-                "\"\"\"",
-                "",
-                "> [:期待]",
-                "```",
-                "",
-                'Tip：若开启 `--typst`，可以用 ``` """...""" ``` 在气泡里写 Typst 的原始代码块。',
-            ]
-        ),
-        encoding="utf-8",
-    )
 
     await asyncio.to_thread(
         run_typst,
@@ -183,13 +129,15 @@ async def pipe_to_outputs(
 
     out_dir.mkdir(parents=True, exist_ok=True)
     stem = safe_stem(text)
-    json_path = out_dir / f"{stem}.json"
-    resolved_path = out_dir / f"{stem}.resolved.json"
+    template = _resolve_typst_template()
+    typst_tmp_dir = _typst_tmp_dir(template)
+    json_path = typst_tmp_dir / f"{stem}.json"
+    resolved_path = typst_tmp_dir / f"{stem}.resolved.json"
     out_format_norm = (out_format or "png").strip().lower()
     if out_format_norm not in {"png", "pdf"}:
         raise ValueError(f"unsupported format: {out_format}")
     out_path: Path = (
-        (out_dir / f"{stem}-{{0p}}.png") if out_format_norm == "png" else (out_dir / f"{stem}.pdf")
+        (typst_tmp_dir / f"{stem}-{{0p}}.png") if out_format_norm == "png" else (typst_tmp_dir / f"{stem}.pdf")
     )
 
     # Parse text -> json
@@ -244,7 +192,6 @@ async def pipe_to_outputs(
         if resolve_file is None:
             raise RuntimeError("mmt_core.resolve_expressions.resolve_file is not importable in this environment")
         tags_root = plugin_config.tags_root_path()
-        template = plugin_config.typst_template_path()
         await resolve_file(
             input_path=json_path,
             output_path=resolved_path,
@@ -300,22 +247,6 @@ async def pipe_to_outputs(
 
     # Render png(s) via typst (blocking)
     tags_root = plugin_config.tags_root_path()
-    template = plugin_config.typst_template_path()
-    if not template.is_absolute():
-        template = (Path.cwd() / template).resolve()
-    if not template.exists():
-        # Fallback: common locations in a repo checkout
-        for cand in (
-            Path.cwd() / "typst_sandbox" / "mmt_render" / "mmt_render.typ",
-            Path.cwd() / "mmt_render" / "mmt_render.typ",
-            Path.cwd() / "mmt_render.typ",
-        ):
-            if cand.exists():
-                template = cand.resolve()
-                break
-    if not template.exists():
-        raise RuntimeError(f"typst template not found: {template}")
-
     if not tags_root.is_absolute():
         tags_root = (Path.cwd() / tags_root).resolve()
     compiled_at = "" if no_time else time.strftime("%Y-%m-%d %H:%M:%S")
@@ -356,9 +287,9 @@ async def pipe_to_outputs(
             return [out_path], resolve_stats, meta, compiled_at, timings
         raise RuntimeError("typst succeeded but no pdf output found")
 
-    pngs = sorted(out_dir.glob(f"{stem}-*.png"), key=lambda p: p.name)
+    pngs = sorted(typst_tmp_dir.glob(f"{stem}-*.png"), key=lambda p: p.name)
     if not pngs:
-        single = out_dir / f"{stem}.png"
+        single = typst_tmp_dir / f"{stem}.png"
         if single.exists():
             return [single], resolve_stats, meta, compiled_at, timings
         raise RuntimeError("typst succeeded but no png output found")
@@ -552,7 +483,10 @@ async def handle_mmt_common(
         flags, content = parse_flags(raw, default_format=default_format)
     if flags.get("help"):
         if flags.get("help_mode") == "syntax":
-            out_dir = plugin_config.work_dir_path()
+            try:
+                out_dir = _typst_tmp_dir(_resolve_typst_template())
+            except Exception:
+                out_dir = plugin_config.work_dir_path()
             try:
                 png_paths = await render_syntax_help_pngs(out_dir=out_dir)
             except Exception as exc:

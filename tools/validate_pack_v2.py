@@ -1,9 +1,14 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
-from mmt_core.pack_v2 import validate_pack_v2
+_ROOT = Path(__file__).resolve().parents[1]
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
+from mmt_core.pack_v2 import validate_pack_v2  # noqa: E402
 
 
 def main() -> int:

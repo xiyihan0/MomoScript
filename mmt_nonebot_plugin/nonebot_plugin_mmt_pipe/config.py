@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 
 class MMTPipeConfig(BaseModel):
     # Root folder containing `images/students/{id}/tags.json` and images.
-    mmt_tags_root: str = Field(default="images/students")
+    mmt_tags_root: str = Field(default="typst_sandbox/mmt_render/images/students")
     # Pack v2 root (draft): contains pack folders like `typst_sandbox/pack-v2/ba/manifest.json`.
     mmt_pack_v2_root: str = Field(default="typst_sandbox/pack-v2")
     # Typst template path (usually `typst_sandbox/mmt_render/mmt_render.typ` in this repo).
@@ -39,8 +39,9 @@ class MMTPipeConfig(BaseModel):
     # Concurrency for rerank resolve.
     mmt_rerank_concurrency: int = Field(default=10)
 
-    # External asset cache dir (for [:https://...] and @asset.*). If empty, defaults to <work_dir>/assets.
-    mmt_asset_cache_dir: str = Field(default="")
+    # External asset cache dir (for [:https://...] and @asset.*).
+    # Default keeps assets under typst_sandbox to avoid widening Typst --root.
+    mmt_asset_cache_dir: str = Field(default="typst_sandbox/mmt_render/.assets")
     # Force redownload external assets (overrides cache).
     mmt_asset_redownload: bool = Field(default=False)
     # Max download size (MB) for external assets.
