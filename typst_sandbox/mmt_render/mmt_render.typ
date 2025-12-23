@@ -59,53 +59,59 @@
 }
 #let fake-bold(body) = text(stroke: 0.028em, body)
 
-#let reply_box(..items) = box(
-  fill: rgb("E1EDF0"),
-  radius: 1em,
-  inset: (x:6pt, y:8pt),
-  width: 100%,
-  height: auto,
-  clip: true,
-)[
-  #place(top+right, dx:6pt, dy:-8pt, image("mmt_options.webp"))
-  #place(line(start: (0pt, -0.3em), end: (0pt, 1em), stroke: blue+0.15em))
-  #h(5pt)回复
-  #line(length: 100%, stroke: gray+0.05em)
-  #v(-0.7em)
-  #set text(fill: rgb("#4B6989"))
-  #set align(center)
-  #stack(
-    ..items.pos().map(it =>
-      pad(x:-4pt, y:-4pt,
-        shadowed(radius: 4pt,
-          block(width: 100%, fill: white, inset: 5pt, radius: 4pt, [#it])
+#let reply_box(..items) = pad(left: 4em, box(
+    fill: rgb("E1EDF0"),
+    radius: 0.5em,
+    inset: (x:6pt, y:8pt),
+    width: 100%,
+    height: auto,
+    clip: true,
+  )[
+    #place(top+right, dx:6pt, dy:-8pt, image("mmt_options.webp"))
+    #place(line(start: (2pt, -0.2em), end: (2pt, 1em), stroke: blue+0.15em))
+    #v(1pt)
+    #h(5pt)回复
+    #v(-0.4em)
+    #line(length: 100%, stroke: gray+0.05em)
+    #v(-0.7em)
+    #set text(fill: rgb("#4B6989"))
+    #set align(center)
+    #stack(
+      ..items.pos().map(it =>
+        pad(x:-4pt, y:-4pt,
+          shadowed(radius: 4pt, dy:3pt, color: rgb(89, 85, 101, 50%),
+            block(width: 100%, fill: white, inset: 8pt, radius: 4pt, [#it])
+          )
         )
       )
     )
-  )
-]
+  ]
+)
 
-#let bond_box(content) = box(
-  fill: rgb("FCEEF0"),
-  radius: 1em,
-  inset: (x:6pt, y:8pt),
-  width: 100%,
-  height: auto,
-  clip: true,
-)[
-  #place(top+right, dx:6pt, dy:-8pt, image("mmt_favor.webp"))
-  #place(line(start: (0pt, -0.3em), end: (0pt, 1em), stroke: rgb("ff8e9b")+0.15em))
-  #h(5pt)羁绊剧情
-  #line(length: 100%, stroke: gray+0.05em)
-  #v(-0.7em)
-  #set text(fill: white)
-  #set align(center)
-  #pad(x:-4pt, y:-4pt,
-    shadowed(radius: 4pt,
-      block(width: 100%, fill: rgb("FC879B"), inset: 5pt, radius: 4pt, [#content])
+#let bond_box(content) = pad(left: 4em, box(
+    fill: rgb("FCEEF0"),
+    radius: 0.5em,
+    inset: (x:6pt, y:8pt),
+    width: 100%,
+    height: auto,
+    clip: true,
+  )[
+    #place(top+right, dx:6pt, dy:-8pt, image("mmt_favor.webp", width: 25%))
+    #place(line(start: (2pt, -0.2em), end: (2pt, 1em), stroke: rgb("ff8e9b")+0.15em))
+    #v(1pt)
+    #h(5pt)羁绊事件
+    #v(-0.4em)
+    #line(length: 100%, stroke: gray+0.05em)
+    #v(-0.7em)
+    #set text(fill: white)
+    #set align(center)
+    #pad(x:-4pt, y:-4pt,
+      shadowed(radius: 4pt, dy:3pt, color: rgb(89, 85, 101, 50%),
+        block(width: 100%, fill: rgb("FC879B"), inset: 8pt, radius: 4pt, [#content])
+      )
     )
-  )
-]
+  ]
+)
 
 
 #let header_bar(project: "MomoScript", title: "无题", author: "", compiled_at: "") = {

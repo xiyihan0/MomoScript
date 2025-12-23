@@ -214,7 +214,7 @@ class MMTCompiler:
             content = str(getattr(node, "content") or "").strip()
             if not content:
                 name = st.last_display_name or "未知角色"
-                content = f"{name}的羁绊剧情"
+                content = f"进入{name}的羁绊剧情"
             st.messages.append(
                 {
                     "yuzutalk": {"type": "BOND", "avatarState": "NONE", "nameOverride": ""},
