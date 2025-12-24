@@ -464,12 +464,45 @@ class MMTCompiler:
         self._current_avatar_override_by_char_id.pop(f"custom-{cid}", None)
 
     def _handle_avatarid(self, st: _State, node: Any) -> None:
-        # Not needed for fixtures yet.
-        st.body.append(node)
+        payload = str(getattr(node, "payload") or "").strip()
+        m = re.match(r"^@avatarid\s+(.+)$", payload, flags=re.IGNORECASE)
+        if not m:
+            raise ValueError(f"line {getattr(node,'line_no')}: invalid @avatarid directive")
+        rest = m.group(1).strip()
+        parts = rest.split(None, 1)
+        if len(parts) != 2:
+            raise ValueError(
+                f"line {getattr(node,'line_no')}: invalid @avatarid directive (expected: @avatarid <id> <asset_name>)"
+            )
+        cid, asset_name = parts[0].strip(), parts[1].strip()
+        if not cid:
+            raise ValueError(f"line {getattr(node,'line_no')}: invalid @avatarid directive (empty id)")
+        if cid not in self._custom_id_to_display:
+            raise ValueError(f"line {getattr(node,'line_no')}: @avatarid requires existing @charid for id: {cid}")
+        if not asset_name:
+            raise ValueError(f"line {getattr(node,'line_no')}: invalid @avatarid directive (empty asset name)")
+
+        ref = self._student_avatar_ref_from_token(asset_name)
+        if ref is not None:
+            self._current_avatar_override_by_char_id[f"custom-{cid}"] = ref
+            return
+
+        if asset_name.lower().startswith("asset:"):
+            asset_name = asset_name.split(":", 1)[1].strip()
+        self._current_avatar_override_by_char_id[f"custom-{cid}"] = f"asset:{asset_name}"
 
     def _handle_unavatarid(self, st: _State, node: Any) -> None:
-        # Not needed for fixtures yet.
-        st.body.append(node)
+        payload = str(getattr(node, "payload") or "").strip()
+        m = re.match(r"^@unavatarid\s+(.+)$", payload, flags=re.IGNORECASE)
+        if not m:
+            raise ValueError(f"line {getattr(node,'line_no')}: invalid @unavatarid directive")
+        cid = m.group(1).strip()
+        if not cid:
+            raise ValueError(f"line {getattr(node,'line_no')}: invalid @unavatarid directive (empty id)")
+        key = f"custom-{cid}"
+        if key not in self._current_avatar_override_by_char_id:
+            raise ValueError(f"line {getattr(node,'line_no')}: @unavatarid id not found: {cid}")
+        del self._current_avatar_override_by_char_id[key]
 
     def _handle_avatar(self, st: _State, node: Any) -> None:
         payload = str(getattr(node, "payload") or "").strip()
@@ -593,6 +626,29 @@ class MMTCompiler:
             return int(self._name_to_id[n])
         return None
 
+    def _student_avatar_ref_from_token(self, token: str) -> Optional[str]:
+        """
+        Interpret token as a standard student avatar reference.
+        Accepted:
+          - kivo-288 / ba.梦 / 梦
+        Returns: "avatar/<id>.png" or None.
+        """
+        s = (token or "").strip()
+        if not s:
+            return None
+        if s.lower().startswith("asset:"):
+            return None
+        if s.startswith("avatar/"):
+            return s
+        try:
+            cid, _disp = self._resolve_char_id_from_selector(s, line_no=-1, allow_custom_fallback=False)
+        except Exception:
+            return None
+        if not cid.startswith("kivo-"):
+            return None
+        sid = int(cid.split("-", 1)[1])
+        return f"avatar/{sid}.png"
+
     def _attach_segments(self, st: _State) -> None:
         # mirror legacy segment parsing for expr/text
         typst_mode = bool(self._options.typst_mode)
@@ -606,26 +662,8 @@ class MMTCompiler:
             # fixtures use ctx_n=2; implement minimal placeholder support
             return ""
 
-        for idx, msg in enumerate(st.messages):
-            t = msg.get("yuzutalk", {}).get("type") if isinstance(msg.get("yuzutalk"), dict) else None
-            if t == "PAGEBREAK":
-                # Legacy output does not include `segments` on PAGEBREAK entries.
-                continue
-            if t in {"REPLY", "BOND"}:
-                continue
-            if t == "TEXT":
-                char_id = str(msg.get("char_id") or "__Sensei")
-                global_current_char_id = char_id
-                global_history.append(char_id)
-
-            if msg.get("no_inline_expr"):
-                content_clean = str(msg.get("content") or "")
-                msg["segments"] = [{"type": "text", "text": content_clean}]
-                continue
-
-            content_clean = str(msg.get("content") or "")
+        def build_segments_for_text(content_clean: str, *, line_no: int) -> List[Dict[str, Any]]:
             segments_out: List[Dict[str, Any]] = []
-
             for seg in parse_inline_segments(
                 content_clean,
                 require_colon_prefix=bool(typst_mode),
@@ -666,7 +704,7 @@ class MMTCompiler:
                 if target == "":
                     if global_current_char_id is None or global_current_char_id == "__Sensei":
                         raise ValueError(
-                            f"line {msg.get('line_no')}: implicit expression '[{query}]' requires a non-sensei current character; "
+                            f"line {line_no}: implicit expression '[{query}]' requires a non-sensei current character; "
                             f"use '[{query}](角色)'"
                         )
                     if not (
@@ -679,10 +717,10 @@ class MMTCompiler:
                 elif is_backref_target(target):
                     n = parse_backref_n(target)
                     if n is None or n <= 0:
-                        raise ValueError(f"line {msg.get('line_no')}: invalid backref target: {target}")
+                        raise ValueError(f"line {line_no}: invalid backref target: {target}")
                     idx2 = -(n + 1)
                     if len(global_history) < (n + 1):
-                        raise ValueError(f"line {msg.get('line_no')}: not enough global speaker history for {target}")
+                        raise ValueError(f"line {line_no}: not enough global speaker history for {target}")
                     resolved_char_id = global_history[idx2]
                 else:
                     tsel = target.strip()
@@ -693,18 +731,18 @@ class MMTCompiler:
                         if ns is not None:
                             if ns.lower() == "ba":
                                 if self._pack_v2_ba is None:
-                                    raise ValueError(f"line {msg.get('line_no')}: ba pack-v2 is not available for expression: {tsel}")
+                                    raise ValueError(f"line {line_no}: ba pack-v2 is not available for expression: {tsel}")
                                 cid = self._pack_v2_ba.resolve_char_id(rest)
                                 if cid is None:
-                                    raise ValueError(f"line {msg.get('line_no')}: unknown ba character in expression: {tsel}")
+                                    raise ValueError(f"line {line_no}: unknown ba character in expression: {tsel}")
                                 resolved_char_id = f"ba.{cid}"
                             elif ns.lower() == "kivo":
                                 sid = self._resolve_student_id(rest)
                                 if sid is None:
-                                    raise ValueError(f"line {msg.get('line_no')}: unknown character name in expression: {tsel}")
+                                    raise ValueError(f"line {line_no}: unknown character name in expression: {tsel}")
                                 resolved_char_id = f"kivo-{sid}"
                             else:
-                                raise ValueError(f"line {msg.get('line_no')}: unknown expression namespace: {tsel}")
+                                raise ValueError(f"line {line_no}: unknown expression namespace: {tsel}")
                         else:
                             if self._pack_v2_ba is not None:
                                 cid = self._pack_v2_ba.resolve_char_id(tsel)
@@ -713,11 +751,11 @@ class MMTCompiler:
                             if resolved_char_id is None:
                                 sid = self._resolve_student_id(tsel)
                                 if sid is None:
-                                    raise ValueError(f"line {msg.get('line_no')}: unknown character name in expression: {target}")
+                                    raise ValueError(f"line {line_no}: unknown character name in expression: {target}")
                                 resolved_char_id = f"kivo-{sid}"
 
                 if resolved_char_id == "__Sensei":
-                    raise ValueError(f"line {msg.get('line_no')}: expression target cannot be Sensei")
+                    raise ValueError(f"line {line_no}: expression target cannot be Sensei")
 
                 student_id: Optional[int] = None
                 if resolved_char_id.startswith("kivo-"):
@@ -742,8 +780,42 @@ class MMTCompiler:
                 if student_id is not None:
                     payload2["student_id"] = student_id
                 segments_out.append(payload2)
+            return segments_out if segments_out else [{"type": "text", "text": content_clean}]
 
-            msg["segments"] = segments_out if segments_out else [{"type": "text", "text": content_clean}]
+        for idx, msg in enumerate(st.messages):
+            t = msg.get("yuzutalk", {}).get("type") if isinstance(msg.get("yuzutalk"), dict) else None
+            if t == "PAGEBREAK":
+                # Legacy output does not include `segments` on PAGEBREAK entries.
+                continue
+            if t == "TEXT":
+                char_id = str(msg.get("char_id") or "__Sensei")
+                global_current_char_id = char_id
+                global_history.append(char_id)
+
+            line_no = int(msg.get("line_no") or 0)
+
+            if msg.get("no_inline_expr"):
+                content_clean = str(msg.get("content") or "")
+                msg["segments"] = [{"type": "text", "text": content_clean}]
+                continue
+
+            if t == "REPLY":
+                items = msg.get("items")
+                if isinstance(items, list):
+                    for it in items:
+                        if not isinstance(it, dict):
+                            continue
+                        txt = str(it.get("text") or "")
+                        it["segments"] = build_segments_for_text(txt, line_no=line_no)
+                continue
+
+            if t == "BOND":
+                content_clean = str(msg.get("content") or "")
+                msg["segments"] = build_segments_for_text(content_clean, line_no=line_no)
+                continue
+
+            content_clean = str(msg.get("content") or "")
+            msg["segments"] = build_segments_for_text(content_clean, line_no=line_no)
 
     def _build_custom_chars(self, st: _State) -> List[List[Any]]:
         custom_chars: List[List[Any]] = []

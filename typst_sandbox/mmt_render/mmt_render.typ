@@ -316,15 +316,25 @@
     } else if t == "REPLY" {
       let raw_items = line.at("items", default: none)
       let items = if raw_items == none { () } else { raw_items.map(it => {
-        let txt = it.at("text", default: "")
-        if typst_mode { eval(typst_assets_global + "\n" + typst_global + "\n" + txt, mode: "markup") } else { txt }
+        let item_segments = it.at("segments", default: none)
+        if item_segments == none {
+          let txt = it.at("text", default: "")
+          if typst_mode { eval(typst_assets_global + "\n" + typst_global + "\n" + txt, mode: "markup") } else { txt }
+        } else {
+          render_segments((segments: item_segments, content: it.at("text", default: "")), global_code: typst_global)
+        }
       }) }
       reply_box(..items)
       last_key = none
       parbreak()
     } else if t == "BOND" {
       let raw_content = line.at("content", default: "")
-      let content = if typst_mode { eval(typst_assets_global + "\n" + typst_global + "\n" + raw_content, mode: "markup") } else { raw_content }
+      let segs = line.at("segments", default: none)
+      let content = if segs == none {
+        if typst_mode { eval(typst_assets_global + "\n" + typst_global + "\n" + raw_content, mode: "markup") } else { raw_content }
+      } else {
+        render_segments(line, global_code: typst_global)
+      }
       bond_box(content)
       last_key = none
       parbreak()

@@ -550,240 +550,260 @@ async def resolve_file(
             embedder: Optional[SiliconFlowEmbedder],
             line: Dict[str, Any],
         ) -> Optional[Exception]:
-            segments = line.get("segments")
-            if not isinstance(segments, list):
-                return None
-            new_segments: List[Dict[str, Any]] = []
-            for seg in segments:
-                if not isinstance(seg, dict):
-                    continue
-                seg_type = seg.get("type")
-                if seg_type == "asset":
-                    name = str(seg.get("name") or "").strip()
-                    v = _asset_value(meta, name)
-                    if not v:
-                        if strict:
-                            return RuntimeError(f"missing @asset.{name}")
-                        seg2 = dict(seg)
-                        seg2["error"] = f"missing @asset.{name}"
-                        new_segments.append(seg2)
+            async def resolve_segments_list(
+                segments: List[Any],
+            ) -> tuple[List[Dict[str, Any]], Optional[Exception]]:
+                new_segments: List[Dict[str, Any]] = []
+                for seg in segments:
+                    if not isinstance(seg, dict):
                         continue
+                    seg_type = seg.get("type")
+                    if seg_type == "asset":
+                        name = str(seg.get("name") or "").strip()
+                        v = _asset_value(meta, name)
+                        if not v:
+                            if strict:
+                                return new_segments, RuntimeError(f"missing @asset.{name}")
+                            seg2 = dict(seg)
+                            seg2["error"] = f"missing @asset.{name}"
+                            new_segments.append(seg2)
+                            continue
 
-                    # v is already policy-filtered by the meta rewrite step above.
-                    if v.startswith("data:image/"):
+                        # v is already policy-filtered by the meta rewrite step above.
+                        if v.startswith("data:image/"):
+                            new_segments.append({"type": "image", "ref": v, "alt": f"asset:{name}"})
+                            continue
+
+                        if is_url_like(v):
+                            try:
+                                async with sem:
+                                    p = await dl.fetch(v, force=bool(redownload_assets))
+                                new_segments.append(
+                                    {
+                                        "type": "image",
+                                        "ref": f"{asset_ref_base.as_posix()}/{p.name}",
+                                        "alt": f"asset:{name}",
+                                    }
+                                )
+                                continue
+                            except Exception as exc:
+                                if strict:
+                                    return new_segments, exc
+                                seg2 = dict(seg)
+                                seg2["error"] = str(exc)
+                                new_segments.append(seg2)
+                                continue
+
                         new_segments.append({"type": "image", "ref": v, "alt": f"asset:{name}"})
                         continue
+                    # External image URLs might already be parsed as `type=image` by the DSL parser.
+                    if seg_type == "image":
+                        ref = str(seg.get("ref") or "").strip()
+                        if not ref:
+                            new_segments.append(seg)
+                            continue
+                        if ref.startswith("data:image/"):
+                            new_segments.append(seg)
+                            continue
+                        if is_url_like(ref):
+                            try:
+                                async with sem:
+                                    p = await dl.fetch(ref, force=bool(redownload_assets))
+                                seg2 = dict(seg)
+                                seg2["ref"] = f"{asset_ref_base.as_posix()}/{p.name}"
+                                new_segments.append(seg2)
+                                continue
+                            except Exception as exc:
+                                if strict:
+                                    return new_segments, exc
+                                seg2 = dict(seg)
+                                seg2["error"] = str(exc)
+                                new_segments.append(seg2)
+                                continue
+                        new_segments.append(seg)
+                        continue
 
-                    if is_url_like(v):
+                    if seg_type != "expr":
+                        new_segments.append(seg)
+                        continue
+                    query = str(seg.get("query") or "").strip()
+                    student_id = seg.get("student_id")
+                    target_char_id = seg.get("target_char_id") or seg.get("char_id") or line.get("char_id")
+                    if not query:
+                        new_segments.append(seg)
+                        continue
+
+                    # External inline image: allow using [:https://...] as "inline image", bypassing rerank.
+                    if query.startswith("data:image/"):
+                        new_segments.append({"type": "image", "ref": query, "alt": "data"})
+                        continue
+                    if is_url_like(query):
                         try:
                             async with sem:
-                                p = await dl.fetch(v, force=bool(redownload_assets))
+                                p = await dl.fetch(query, force=bool(redownload_assets))
                             new_segments.append(
                                 {
                                     "type": "image",
                                     "ref": f"{asset_ref_base.as_posix()}/{p.name}",
-                                    "alt": f"asset:{name}",
+                                    "alt": query,
                                 }
                             )
                             continue
                         except Exception as exc:
                             if strict:
-                                return exc
+                                return new_segments, exc
                             seg2 = dict(seg)
                             seg2["error"] = str(exc)
                             new_segments.append(seg2)
                             continue
 
-                    new_segments.append({"type": "image", "ref": v, "alt": f"asset:{name}"})
-                    continue
-                # External image URLs might already be parsed as `type=image` by the DSL parser.
-                if seg_type == "image":
-                    ref = str(seg.get("ref") or "").strip()
-                    if not ref:
-                        new_segments.append(seg)
-                        continue
-                    if ref.startswith("data:image/"):
-                        new_segments.append(seg)
-                        continue
-                    if is_url_like(ref):
-                        try:
-                            async with sem:
-                                p = await dl.fetch(ref, force=bool(redownload_assets))
-                            seg2 = dict(seg)
-                            seg2["ref"] = f"{asset_ref_base.as_posix()}/{p.name}"
-                            new_segments.append(seg2)
-                            continue
-                        except Exception as exc:
-                            if strict:
-                                return exc
-                            seg2 = dict(seg)
-                            seg2["error"] = str(exc)
-                            new_segments.append(seg2)
-                            continue
-                    new_segments.append(seg)
-                    continue
+                    # Direct by-index reference:
+                    # - [:#5] / [#5]                  => merged/default index
+                    # - [:#ex:12] / [#ex:12]          => index within pack alias "ex"
+                    # - [:#ex.12] / [#ex.12]          => same as above (dot separator for convenience)
+                    m_idx = re.match(r"^#\s*(?:(?P<alias>[A-Za-z0-9_]+)\s*[:.]\s*)?(?P<n>\d+)\s*$", query)
+                    direct_idx = int(m_idx.group("n")) if m_idx else None
+                    direct_alias = (m_idx.group("alias") or "").strip() if m_idx else ""
+                    direct_alias = direct_alias or ""
 
-                if seg_type != "expr":
-                    new_segments.append(seg)
-                    continue
-                query = str(seg.get("query") or "").strip()
-                student_id = seg.get("student_id")
-                target_char_id = seg.get("target_char_id") or seg.get("char_id") or line.get("char_id")
-                if not query:
-                    new_segments.append(seg)
-                    continue
-
-                # External inline image: allow using [:https://...] as "inline image", bypassing rerank.
-                if query.startswith("data:image/"):
-                    new_segments.append({"type": "image", "ref": query, "alt": "data"})
-                    continue
-                if is_url_like(query):
                     try:
                         async with sem:
-                            p = await dl.fetch(query, force=bool(redownload_assets))
-                        new_segments.append(
-                            {
-                                "type": "image",
-                                "ref": f"{asset_ref_base.as_posix()}/{p.name}",
-                                "alt": query,
-                            }
-                        )
-                        continue
+                            if isinstance(student_id, int):
+                                docs = _load_tags_for_student(tags_root, student_id)
+                                if not docs:
+                                    raise RuntimeError(f"missing tags for student {student_id}")
+                                images_dir = (tags_root / str(student_id)).resolve()
+                                items = [CandidateItem(doc=d, image_path=(images_dir / d.image_name)) for d in docs]
+
+                                if direct_idx is not None:
+                                    i0 = direct_idx - 1
+                                    if i0 < 0 or i0 >= len(items):
+                                        raise RuntimeError(f"index out of range: #{direct_idx} (1..{len(items)})")
+                                    picked = items[i0]
+                                    if not picked.image_path.exists():
+                                        raise RuntimeError(f"resolved image missing on disk: {picked.image_path}")
+                                    score = 1.0
+                                else:
+                                    picked, score = await resolve_one(
+                                        reranker,
+                                        query=query,
+                                        items=items,
+                                        cache_key=f"kivo:{student_id}",
+                                        top_n=1,
+                                        embedder=embedder,
+                                        embed_top_k=int(embed_top_k),
+                                        index_cache=idx_cache,
+                                    )
+                                image_name = picked.doc.image_name
+
+                                new_segments.append(
+                                    {
+                                        "type": "image",
+                                        "ref": f"{ref_base.as_posix()}/{student_id}/{image_name}",
+                                        "alt": query,
+                                        "score": score,
+                                    }
+                                )
+                            elif isinstance(target_char_id, str) and target_char_id.startswith("ba.") and pack_ba is not None:
+                                cid = target_char_id.split(".", 1)[1]
+
+                                def _items_for_pack(pack: "PackV2", *, cid: str) -> List[CandidateItem]:
+                                    if cid not in pack.id_to_assets:
+                                        return []
+                                    docs = _load_tags_for_pack_char(pack, cid)
+                                    if not docs:
+                                        return []
+                                    images_dir = pack.tags_path(cid).parent.resolve()
+                                    return [CandidateItem(doc=d, image_path=(images_dir / d.image_name)) for d in docs]
+
+                                merged_items: List[CandidateItem] = []
+                                pack_items_by_alias: Dict[str, List[CandidateItem]] = {}
+                                base_items = _items_for_pack(pack_ba, cid=cid)
+                                if base_items:
+                                    pack_items_by_alias["ba"] = base_items
+                                    merged_items.extend(base_items)
+                                for alias, pack in active_packs.items():
+                                    pit = _items_for_pack(pack, cid=cid)
+                                    if pit:
+                                        pack_items_by_alias[alias] = pit
+                                        merged_items.extend(pit)
+
+                                if not merged_items:
+                                    raise RuntimeError(f"missing tags for ba.{cid}")
+
+                                selected_items = merged_items
+                                if direct_idx is not None and direct_alias:
+                                    if direct_alias not in pack_items_by_alias:
+                                        raise RuntimeError(f"unknown pack alias in index: {direct_alias}")
+                                    selected_items = pack_items_by_alias[direct_alias]
+
+                                if direct_idx is not None:
+                                    i0 = direct_idx - 1
+                                    if i0 < 0 or i0 >= len(selected_items):
+                                        raise RuntimeError(f"index out of range: #{direct_idx} (1..{len(selected_items)})")
+                                    picked = selected_items[i0]
+                                    if not picked.image_path.exists():
+                                        raise RuntimeError(f"resolved image missing on disk: {picked.image_path}")
+                                    score = 1.0
+                                else:
+                                    # Cache must include the exact merged order to avoid mixing indices across different merge orders.
+                                    merged_order: List[str] = []
+                                    if "ba" in pack_items_by_alias:
+                                        merged_order.append("ba")
+                                    for a in active_packs.keys():
+                                        if a in pack_items_by_alias:
+                                            merged_order.append(a)
+                                    cache_key = f"ba:{cid}|packs:" + ",".join(merged_order)
+                                    picked, score = await resolve_one(
+                                        reranker,
+                                        query=query,
+                                        items=selected_items,
+                                        cache_key=cache_key,
+                                        top_n=1,
+                                        embedder=embedder,
+                                        embed_top_k=int(embed_top_k),
+                                        index_cache=idx_cache,
+                                    )
+
+                                img_abs = picked.image_path.resolve()
+                                if ref_root is not None:
+                                    try:
+                                        ref = Path(os.path.relpath(img_abs, start=Path(ref_root).resolve())).as_posix()
+                                    except Exception:
+                                        ref = img_abs.as_posix()
+                                else:
+                                    ref = img_abs.as_posix()
+                                new_segments.append({"type": "image", "ref": ref, "alt": query, "score": score})
+                            else:
+                                new_segments.append(seg)
+                                continue
                     except Exception as exc:
                         if strict:
-                            return exc
+                            return new_segments, exc
                         seg2 = dict(seg)
                         seg2["error"] = str(exc)
                         new_segments.append(seg2)
+                return new_segments, None
+
+            segments = line.get("segments")
+            if isinstance(segments, list):
+                new_segments, err = await resolve_segments_list(segments)
+                if err:
+                    return err
+                line["segments"] = new_segments
+
+            items = line.get("items")
+            if isinstance(items, list):
+                for item in items:
+                    if not isinstance(item, dict):
                         continue
-
-                # Direct by-index reference:
-                # - [:#5] / [#5]                  => merged/default index
-                # - [:#ex:12] / [#ex:12]          => index within pack alias "ex"
-                # - [:#ex.12] / [#ex.12]          => same as above (dot separator for convenience)
-                m_idx = re.match(r"^#\s*(?:(?P<alias>[A-Za-z0-9_]+)\s*[:.]\s*)?(?P<n>\d+)\s*$", query)
-                direct_idx = int(m_idx.group("n")) if m_idx else None
-                direct_alias = (m_idx.group("alias") or "").strip() if m_idx else ""
-                direct_alias = direct_alias or ""
-
-                try:
-                    async with sem:
-                        if isinstance(student_id, int):
-                            docs = _load_tags_for_student(tags_root, student_id)
-                            if not docs:
-                                raise RuntimeError(f"missing tags for student {student_id}")
-                            images_dir = (tags_root / str(student_id)).resolve()
-                            items = [CandidateItem(doc=d, image_path=(images_dir / d.image_name)) for d in docs]
-
-                            if direct_idx is not None:
-                                i0 = direct_idx - 1
-                                if i0 < 0 or i0 >= len(items):
-                                    raise RuntimeError(f"index out of range: #{direct_idx} (1..{len(items)})")
-                                picked = items[i0]
-                                if not picked.image_path.exists():
-                                    raise RuntimeError(f"resolved image missing on disk: {picked.image_path}")
-                                score = 1.0
-                            else:
-                                picked, score = await resolve_one(
-                                    reranker,
-                                    query=query,
-                                    items=items,
-                                    cache_key=f"kivo:{student_id}",
-                                    top_n=1,
-                                    embedder=embedder,
-                                    embed_top_k=int(embed_top_k),
-                                    index_cache=idx_cache,
-                                )
-                            image_name = picked.doc.image_name
-
-                            new_segments.append(
-                                {
-                                    "type": "image",
-                                    "ref": f"{ref_base.as_posix()}/{student_id}/{image_name}",
-                                    "alt": query,
-                                    "score": score,
-                                }
-                            )
-                        elif isinstance(target_char_id, str) and target_char_id.startswith("ba.") and pack_ba is not None:
-                            cid = target_char_id.split(".", 1)[1]
-
-                            def _items_for_pack(pack: "PackV2", *, cid: str) -> List[CandidateItem]:
-                                if cid not in pack.id_to_assets:
-                                    return []
-                                docs = _load_tags_for_pack_char(pack, cid)
-                                if not docs:
-                                    return []
-                                images_dir = pack.tags_path(cid).parent.resolve()
-                                return [CandidateItem(doc=d, image_path=(images_dir / d.image_name)) for d in docs]
-
-                            merged_items: List[CandidateItem] = []
-                            pack_items_by_alias: Dict[str, List[CandidateItem]] = {}
-                            base_items = _items_for_pack(pack_ba, cid=cid)
-                            if base_items:
-                                pack_items_by_alias["ba"] = base_items
-                                merged_items.extend(base_items)
-                            for alias, pack in active_packs.items():
-                                pit = _items_for_pack(pack, cid=cid)
-                                if pit:
-                                    pack_items_by_alias[alias] = pit
-                                    merged_items.extend(pit)
-
-                            if not merged_items:
-                                raise RuntimeError(f"missing tags for ba.{cid}")
-
-                            selected_items = merged_items
-                            if direct_idx is not None and direct_alias:
-                                if direct_alias not in pack_items_by_alias:
-                                    raise RuntimeError(f"unknown pack alias in index: {direct_alias}")
-                                selected_items = pack_items_by_alias[direct_alias]
-
-                            if direct_idx is not None:
-                                i0 = direct_idx - 1
-                                if i0 < 0 or i0 >= len(selected_items):
-                                    raise RuntimeError(f"index out of range: #{direct_idx} (1..{len(selected_items)})")
-                                picked = selected_items[i0]
-                                if not picked.image_path.exists():
-                                    raise RuntimeError(f"resolved image missing on disk: {picked.image_path}")
-                                score = 1.0
-                            else:
-                                # Cache must include the exact merged order to avoid mixing indices across different merge orders.
-                                merged_order: List[str] = []
-                                if "ba" in pack_items_by_alias:
-                                    merged_order.append("ba")
-                                for a in active_packs.keys():
-                                    if a in pack_items_by_alias:
-                                        merged_order.append(a)
-                                cache_key = f"ba:{cid}|packs:" + ",".join(merged_order)
-                                picked, score = await resolve_one(
-                                    reranker,
-                                    query=query,
-                                    items=selected_items,
-                                    cache_key=cache_key,
-                                    top_n=1,
-                                    embedder=embedder,
-                                    embed_top_k=int(embed_top_k),
-                                    index_cache=idx_cache,
-                                )
-
-                            img_abs = picked.image_path.resolve()
-                            if ref_root is not None:
-                                try:
-                                    ref = Path(os.path.relpath(img_abs, start=Path(ref_root).resolve())).as_posix()
-                                except Exception:
-                                    ref = img_abs.as_posix()
-                            else:
-                                ref = img_abs.as_posix()
-                            new_segments.append({"type": "image", "ref": ref, "alt": query, "score": score})
-                        else:
-                            new_segments.append(seg)
-                            continue
-                except Exception as exc:
-                    if strict:
-                        return exc
-                    seg2 = dict(seg)
-                    seg2["error"] = str(exc)
-                    new_segments.append(seg2)
-            line["segments"] = new_segments
+                    segs = item.get("segments")
+                    if not isinstance(segs, list):
+                        continue
+                    new_segments, err = await resolve_segments_list(segs)
+                    if err:
+                        return err
+                    item["segments"] = new_segments
             return None
 
         async with SiliconFlowReranker(cfg) as reranker:

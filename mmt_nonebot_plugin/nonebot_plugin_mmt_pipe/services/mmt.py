@@ -217,12 +217,9 @@ async def pipe_to_outputs(
             resolved_data = json.loads(resolved_path.read_text(encoding="utf-8"))
             chat = resolved_data.get("chat") if isinstance(resolved_data, dict) else None
             if isinstance(chat, list):
-                for line in chat:
-                    if not isinstance(line, dict):
-                        continue
-                    segs = line.get("segments")
+                def _scan_segments(segs: object) -> None:
                     if not isinstance(segs, list):
-                        continue
+                        return
                     for seg in segs:
                         if not isinstance(seg, dict):
                             continue
@@ -237,6 +234,17 @@ async def pipe_to_outputs(
                                 resolve_stats["asset_errors"] += 1
                                 if len(resolve_stats["asset_error_examples"]) < 5:
                                     resolve_stats["asset_error_examples"].append(err)
+
+                for line in chat:
+                    if not isinstance(line, dict):
+                        continue
+                    _scan_segments(line.get("segments"))
+                    items = line.get("items")
+                    if isinstance(items, list):
+                        for item in items:
+                            if not isinstance(item, dict):
+                                continue
+                            _scan_segments(item.get("segments"))
                     if isinstance(line.get("avatar_override_error"), str) and line.get("avatar_override_error"):
                         resolve_stats["avatar_errors"] += 1
         except Exception:

@@ -254,10 +254,19 @@ def _parse_reply_block(
             return items, j + 1
         if stripped.startswith("@"):
             raise ValueError(f"line {line_no}: unexpected directive inside @reply block (use @end to close)")
-        if stripped.startswith("- "):
-            stripped = stripped[2:].strip()
-        if stripped:
-            items.append(stripped)
+
+        item = stripped
+        if item.startswith("- "):
+            item = item[2:].strip()
+        block = _parse_triple_quote_block(head=item, all_lines=all_lines, start_index=j, start_line_no=line_no)
+        if block is not None:
+            block_text, next_j = block
+            if block_text.strip():
+                items.append(block_text)
+            j = next_j
+            continue
+        if item:
+            items.append(item)
         j += 1
     raise ValueError(f"line {start_line_no}: unterminated @reply block (missing @end)")
 
@@ -378,8 +387,25 @@ class MMTLineParser:
                 m = re.match(r"^@bond(?:\s*:\s*(.*))?$", stripped, flags=re.IGNORECASE)
                 if not m:
                     raise ValueError(f"line {line_no}: invalid @bond directive (expected: @bond or @bond: text)")
-                content = (m.group(1) or "").strip()
-                self._nodes.append(Bond(line_no=line_no, content=content))
+                content_raw = m.group(1) or ""
+                if content_raw:
+                    block_text, next_i = _parse_header_block(
+                        first_line_value=content_raw, all_lines=lines, start_index=i, start_line_no=line_no
+                    )
+                    self._nodes.append(Bond(line_no=line_no, content=block_text))
+                    i = next_i
+                    continue
+                if i + 1 < len(lines):
+                    next_line = lines[i + 1].strip()
+                    block = _parse_triple_quote_block(
+                        head=next_line, all_lines=lines, start_index=i + 1, start_line_no=line_no + 1
+                    )
+                    if block is not None:
+                        block_text, next_i = block
+                        self._nodes.append(Bond(line_no=line_no, content=block_text))
+                        i = next_i
+                        continue
+                self._nodes.append(Bond(line_no=line_no, content=""))
                 i += 1
                 continue
 

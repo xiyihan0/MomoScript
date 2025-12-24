@@ -168,28 +168,6 @@
 旁白续行
 ```
 
-## 验证脚本（全异步）
-校验所有学生 `id` 的详情接口是否可访问：
-
-`python bluearchive-api-kivowiki/validate_all_students.py --concurrency 25 --out bluearchive-api-kivowiki/validate_report.json`
-
-只跑前 N 个：
-
-`python bluearchive-api-kivowiki/validate_all_students.py --limit 100 --concurrency 25 --out bluearchive-api-kivowiki/validate_report_100.json`
-
-## 下载脚本：学生初始立绘差分（全异步）
-提取每个学生详情里的 `gallery` 中 `title == "初始立绘差分"` 的全部图片链接，并下载到：
-
-`images/students/{data.id}/{filename}`
-
-运行：
-
-`python bluearchive-api-kivowiki/download_student_gallery_images.py --gallery-title \"初始立绘差分\" --out-root images --detail-concurrency 15 --download-concurrency 25 --report bluearchive-api-kivowiki/download_report.json`
-
-只试跑一小部分：
-
-`python bluearchive-api-kivowiki/download_student_gallery_images.py --limit-students 5 --max-per-student 2 --report bluearchive-api-kivowiki/download_report_sample.json`
-
 ## 下载脚本：学生头像（全异步）
 从 `https://api.kivo.wiki/api/v1/data/students` 拉取学生列表，生成：
 
@@ -198,19 +176,19 @@
 
 运行：
 
-`python download_student_avatars.py --out-dir avatar --resume`
+`python tools/download_student_avatars.py --out-dir avatar --resume`
 
 只写映射不下载：
 
-`python download_student_avatars.py --out-dir avatar --dry-run`
+`python tools/download_student_avatars.py --out-dir avatar --dry-run`
 
 优先保存 PNG（需要 Pillow 才能把 webp/jpg 转 png）：
 
-`python download_student_avatars.py --out-dir avatar --prefer-png --resume`
+`python tools/download_student_avatars.py --out-dir avatar --prefer-png --resume`
 
 保留原始后缀（不尝试转 PNG）：
 
-`python download_student_avatars.py --out-dir avatar --no-prefer-png --resume`
+`python tools/download_student_avatars.py --out-dir avatar --no-prefer-png --resume`
 
 ## 解析器：MMT 文本 DSL -> Typst JSON
 把 `-` / `>` / `<` 的 MMT 文本对话 DSL 转成 `mmt.typ` 可直接 `json(...)` 读取的格式，并自动尝试用 `avatar/name_to_id.json` + `avatar/{id}.*` 绑定头像。
