@@ -91,6 +91,70 @@
 }
 ```
 
+## 6. AST/LSP 结构化清单（草案）
+目标：把语义尽量前置到 parse 阶段，compiler 只做状态机与语义校验。
+
+### 6.1 位置模型（Span）
+- `Span`：`start_line/start_col/end_line/end_col`（1-based）
+- 所有 Node 都带 `span`（至少 `start_line/start_col`）
+
+### 6.2 头部指令（Header）
+- `@key: value` → `MetaKV(key, value, span)`
+- `@typst_global: ...` / `@typst_global: """..."""` → `TypstGlobal(value, span)`
+
+### 6.3 正文指令（Directive）
+- `@usepack <pack_id> as <alias>` → `UsePack(pack_id, alias, span)`
+- `@alias <name>=<display>` → `Alias(name, display, span)`
+- `@tmpalias <name>=<display>` → `TmpAlias(name, display, span)`
+- `@aliasid <id> <name>` → `AliasId(id, name, span)`
+- `@unaliasid <id>` → `UnaliasId(id, span)`
+- `@charid <id> <display>` → `CharId(id, display, span)`
+- `@uncharid <id>` → `UncharId(id, span)`
+- `@avatarid <id> <asset>` → `AvatarId(id, asset, span)`
+- `@unavatarid <id>` → `UnavatarId(id, span)`
+- `@avatar <name>=<asset>` → `AvatarOverride(name, asset, span)`
+- `@pagebreak` → `PageBreak(span)`
+- `@reply: a|b|c` → `Reply(items[], span)`
+- `@reply`...`@end` → `Reply(items[], span)`（支持三引号块）
+- `@bond` / `@bond: ...` → `Bond(content, span)`（支持三引号块）
+
+### 6.4 语句与续行
+- `- / > / <` → `Statement(kind, marker, content, span)`
+- 多行块 `"""..."""` → `Block(kind, marker, content, span)`
+- 续行 → `Continuation(text, span)`
+
+### 6.5 说话人标记（Marker）
+- `> 名字: ...` → `MarkerExplicit(selector, span)`
+- `> _n: ...` → `MarkerBackref(n, span)`（`_` 视为 `_1`）
+- `> ~n: ...` → `MarkerIndex(n, span)`
+- 无 marker → `MarkerNone`
+  - `selector` 命名空间仅使用 `.` 作为分隔：`ba.xxx` / `custom.xxx` / `alias.xxx`
+
+### 6.6 内联表达式（InlineExpr，建议在 parse 阶段结构化）
+- 非 Typst 模式：
+  - `[query]` / `(target)[query]` / `[query](target)` → `InlineExpr(query, target, span)`
+- Typst 模式：
+  - 仅允许 `[:query]` / `(target)[:query]` / `[:query](target)`（避免与 Typst 的 `[...]` 语法冲突）
+- `query` 可细分：
+  - `asset:<name>` / `asset:<ns>.<name>` → `InlineAsset(ns?, name)`（namespace 可选，默认按解析顺序）
+  - `#5` / `#alias:12` / `#alias.12` → `InlineIndex(alias, n)`
+  - `https://...` / `data:image/...` → `InlineImage(url)`
+  - `图片` → `InlinePlaceholder`
+- `target` 可细分：
+  - `ba.xxx` / `custom.xxx` / `alias.xxx` / `_` / `_n`
+
+## 7. 指令参数语法（讨论草案）
+目标：为未来复杂指令提供统一、可扩展的参数格式。
+
+候选 A：KV + 块（当前兼容路线）
+- 行内：`@cmd key=value key2=value2`
+- 块式：`@cmd` ... `@end`
+- 块内用 `- item` 或 `key=value` 扩展结构
+
+候选 B：S-Expression（结构表达力强，LSP 解析更一致）
+- 形式：`(@cmd arg1 arg2 :key value (list ...))`
+- 例：`@cmd (:items ("A" "B") :label "回复")`
+
 ## Corner Cases
 - `> """123:` 会先被当成“说话人解析”（说话人 = `"""123`），导致块未被识别。
   - 建议写法：`> """` 起块，或 `> 角色名: """`。

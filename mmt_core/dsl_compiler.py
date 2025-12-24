@@ -3,9 +3,183 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple, Sequence, Literal
 
-from mmt_core.inline_expr import is_backref_target, parse_backref_n, parse_inline_segments
+SegmentType = Literal["text", "expr", "image"]
+
+
+@dataclass(frozen=True)
+class InlineSegment:
+    type: SegmentType
+    text: str = ""
+    query: str = ""
+    target: str = ""  # name / "_" / "_2" / etc, resolved later
+
+
+def parse_inline_segments(
+    content: str, *, require_colon_prefix: bool = False, preserve_backslash: bool = False
+) -> Sequence[InlineSegment]:
+    """
+    Parse inline expressions:
+      - [natural_language_description](character_name_or__n)
+      - (character_name_or__n)[natural_language_description]
+      - [natural_language_description]
+
+    Escapes:
+      - \\[ \\] \\( \\) \\\\
+
+    This is a minimal tokenizer: no nesting for now.
+    """
+    out: list[InlineSegment] = []
+    buf: list[str] = []
+
+    def flush_text() -> None:
+        if buf:
+            out.append(InlineSegment(type="text", text="".join(buf)))
+            buf.clear()
+
+    i = 0
+    n = len(content)
+    while i < n:
+        ch = content[i]
+        if ch == "\\" and i + 1 < n:
+            if preserve_backslash:
+                buf.append("\\")
+            buf.append(content[i + 1])
+            i += 2
+            continue
+
+        # Parse (target)[query]
+        if ch == "(":
+            j = i + 1
+            target_chars: list[str] = []
+            while j < n:
+                c = content[j]
+                if c == "\\" and j + 1 < n:
+                    if preserve_backslash:
+                        target_chars.append("\\")
+                    target_chars.append(content[j + 1])
+                    j += 2
+                    continue
+                if c == ")":
+                    break
+                target_chars.append(c)
+                j += 1
+            if j < n and content[j] == ")" and (j + 1) < n and content[j + 1] == "[":
+                target = "".join(target_chars).strip()
+                # Parse [query]
+                k = j + 2
+                query_chars: list[str] = []
+                while k < n:
+                    c = content[k]
+                    if c == "\\" and k + 1 < n:
+                        if preserve_backslash:
+                            query_chars.append("\\")
+                        query_chars.append(content[k + 1])
+                        k += 2
+                        continue
+                    if c == "]":
+                        break
+                    query_chars.append(c)
+                    k += 1
+                if k < n and content[k] == "]":
+                    query = "".join(query_chars).strip()
+                    end = k + 1
+                    if require_colon_prefix and not query.startswith(":"):
+                        buf.append(content[i:end])
+                        i = end
+                        continue
+                    flush_text()
+                    out.append(InlineSegment(type="expr", query=query, target=target))
+                    i = end
+                    continue
+            # Not a valid marker; treat as plain text
+            buf.append(ch)
+            i += 1
+            continue
+
+        if ch != "[":
+            buf.append(ch)
+            i += 1
+            continue
+
+        # Parse [query]
+        j = i + 1
+        query_chars: list[str] = []
+        while j < n:
+            c = content[j]
+            if c == "\\" and j + 1 < n:
+                if preserve_backslash:
+                    query_chars.append("\\")
+                query_chars.append(content[j + 1])
+                j += 2
+                continue
+            if c == "]":
+                break
+            query_chars.append(c)
+            j += 1
+        if j >= n or content[j] != "]":
+            # Not a valid bracket; treat as plain text.
+            buf.append(ch)
+            i += 1
+            continue
+
+        query = "".join(query_chars).strip()
+        k = j + 1
+        target = ""
+        if k < n and content[k] == "(":
+            # Parse (target)
+            k += 1
+            target_chars: list[str] = []
+            while k < n:
+                c = content[k]
+                if c == "\\" and k + 1 < n:
+                    if preserve_backslash:
+                        target_chars.append("\\")
+                    target_chars.append(content[k + 1])
+                    k += 2
+                    continue
+                if c == ")":
+                    break
+                target_chars.append(c)
+                k += 1
+            if k < n and content[k] == ")":
+                target = "".join(target_chars).strip()
+                end = k + 1
+            else:
+                # No closing ')', treat as plain text.
+                buf.append(ch)
+                i += 1
+                continue
+        else:
+            end = j + 1
+
+        if require_colon_prefix and not query.startswith(":"):
+            # Keep original slice for Typst markup compatibility.
+            buf.append(content[i:end])
+            i = end
+            continue
+
+        flush_text()
+        out.append(InlineSegment(type="expr", query=query, target=target))
+        i = end
+
+    flush_text()
+    return out
+
+
+def is_backref_target(target: str) -> bool:
+    t = target.strip()
+    return t == "_" or (t.startswith("_") and t[1:].isdigit())
+
+
+def parse_backref_n(target: str) -> Optional[int]:
+    t = target.strip()
+    if t == "_":
+        return 1
+    if t.startswith("_") and t[1:].isdigit():
+        return int(t[1:])
+    return None
 
 
 @dataclass(frozen=True)
@@ -182,6 +356,21 @@ class MMTCompiler:
             if alias not in st.packs_order:
                 st.packs_order.append(alias)
             return
+        if t in {"Alias", "TmpAlias", "AliasId", "UnaliasId", "CharId", "UncharId", "AvatarId", "UnavatarId", "AvatarOverride"}:
+            handler = {
+                "Alias": self._handle_alias,
+                "TmpAlias": self._handle_tmpalias,
+                "AliasId": self._handle_aliasid,
+                "UnaliasId": self._handle_unaliasid,
+                "CharId": self._handle_charid,
+                "UncharId": self._handle_uncharid,
+                "AvatarId": self._handle_avatarid,
+                "UnavatarId": self._handle_unavatarid,
+                "AvatarOverride": self._handle_avatar,
+            }.get(t)
+            if handler is not None:
+                handler(st, node)
+                return
         if t == "Directive":
             name = str(getattr(node, "name") or "").lower()
             h = self._directive_handlers.get(name)
@@ -195,7 +384,7 @@ class MMTCompiler:
                 {
                     "yuzutalk": {"type": "PAGEBREAK", "avatarState": "AUTO", "nameOverride": ""},
                     "content": "",
-                    "line_no": int(getattr(node, "line_no")),
+                    "line_no": self._node_line_no(node),
                 }
             )
             st.last_kind = "-"
@@ -209,7 +398,7 @@ class MMTCompiler:
                     "yuzutalk": {"type": "REPLY", "avatarState": "NONE", "nameOverride": ""},
                     "label": "回复",
                     "items": [{"text": it} for it in items],
-                    "line_no": int(getattr(node, "line_no")),
+                    "line_no": self._node_line_no(node),
                 }
             )
             st.last_kind = "-"
@@ -223,7 +412,7 @@ class MMTCompiler:
                 {
                     "yuzutalk": {"type": "BOND", "avatarState": "NONE", "nameOverride": ""},
                     "content": content,
-                    "line_no": int(getattr(node, "line_no")),
+                    "line_no": self._node_line_no(node),
                 }
             )
             st.last_kind = "-"
@@ -234,24 +423,63 @@ class MMTCompiler:
                 self._append_continuation(st, "")
             return
         if t == "Continuation":
-            self._append_continuation(st, str(getattr(node, "text")), line_no=int(getattr(node, "line_no", 0)))
+            self._append_continuation(
+                st,
+                str(getattr(node, "text")),
+                line_no=self._node_line_no(node),
+                col=self._node_col(node),
+            )
             return
         if t == "Statement" or t == "Block":
             self._emit_statement(st, node, is_block=(t == "Block"))
             return
         st.body.append(node)
 
-    def _append_continuation(self, st: _State, text: str, *, line_no: int = 0) -> None:
+    def _append_continuation(self, st: _State, text: str, *, line_no: int = 0, col: int = 0) -> None:
         if not st.messages:
             if line_no:
-                raise ValueError(f"line {line_no}: continuation line before any statement")
+                loc = f"line {line_no}:{col}" if col else f"line {line_no}"
+                raise ValueError(f"{loc}: continuation line before any statement")
             raise ValueError("continuation line before any statement")
         sep = "\n" if bool(self._options.join_with_newline) else " "
         st.messages[-1]["content"] = f"{st.messages[-1].get('content','')}{sep}{text}"
 
+    @staticmethod
+    def _node_line_no(node: Any) -> int:
+        span = getattr(node, "span", None)
+        if span is not None and getattr(span, "start_line", None) is not None:
+            try:
+                return int(span.start_line)
+            except Exception:
+                pass
+        try:
+            return int(getattr(node, "line_no"))
+        except Exception:
+            return 0
+
+    @staticmethod
+    def _node_col(node: Any) -> int:
+        span = getattr(node, "span", None)
+        if span is not None and getattr(span, "start_col", None) is not None:
+            try:
+                return int(span.start_col)
+            except Exception:
+                pass
+        return 0
+
+    @classmethod
+    def _node_loc(cls, node: Any) -> str:
+        line_no = cls._node_line_no(node)
+        col = cls._node_col(node)
+        if line_no and col:
+            return f"line {line_no}:{col}"
+        if line_no:
+            return f"line {line_no}"
+        return "line ?"
+
     def _emit_statement(self, st: _State, node: Any, *, is_block: bool) -> None:
         kind = str(getattr(node, "kind"))
-        line_no = int(getattr(node, "line_no"))
+        line_no = self._node_line_no(node)
         marker = getattr(node, "marker")
         content = str(getattr(node, "content") or "")
 
@@ -279,23 +507,27 @@ class MMTCompiler:
         if marker is None:
             speaker = state.current
             if speaker is None and kind != "<":
-                raise ValueError(f"line {line_no}: missing speaker for '{kind}'")
+                raise ValueError(f"{self._node_loc(node)}: missing speaker for '{kind}'")
         else:
-            mtype, mval = marker
-            if mtype == "explicit":
-                raw_name = str(mval)
+            from mmt_core.dsl_parser import MarkerBackref, MarkerExplicit, MarkerIndex
+
+            if isinstance(marker, MarkerExplicit):
+                raw_name = str(marker.selector)
                 canonical = self._alias_id_to_name.get(raw_name, raw_name)
                 char_id_resolved, disp_guess = self._resolve_char_id_from_selector(
-                    canonical, line_no=line_no, allow_custom_fallback=True
+                    canonical,
+                    line_no=line_no,
+                    col=self._node_col(node),
+                    allow_custom_fallback=True,
                 )
                 speaker = state.set_explicit(char_id_resolved)
                 speaker_raw_for_display = disp_guess
-            elif mtype == "backref":
-                speaker = state.set_backref(int(mval))
-            elif mtype == "index":
-                speaker = state.set_index(int(mval))
+            elif isinstance(marker, MarkerBackref):
+                speaker = state.set_backref(int(marker.n))
+            elif isinstance(marker, MarkerIndex):
+                speaker = state.set_index(int(marker.n))
             else:
-                raise ValueError(f"line {line_no}: unknown marker type {mtype}")
+                raise ValueError(f"{self._node_loc(node)}: unknown marker type {marker}")
 
         side = "right" if kind == "<" else "left"
 
@@ -364,21 +596,34 @@ class MMTCompiler:
 
     def _handle_alias(self, st: _State, node: Any) -> None:
         # Syntax: @alias <name>=<override>
-        payload = str(getattr(node, "payload") or "").strip()
-        m = re.match(r"^@alias\s+(.+)$", payload, flags=re.IGNORECASE)
-        if not m:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @alias directive")
-        rest = m.group(1).strip()
-        if "=" not in rest:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @alias directive (missing '=')")
-        base_name, override = rest.split("=", 1)
-        base_name = base_name.strip()
-        override = override.strip()
-        if not base_name:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @alias directive (empty name)")
-        char_id, _disp = self._resolve_char_id_from_selector(base_name, line_no=int(getattr(node, "line_no")), allow_custom_fallback=False)
+        line_no = self._node_line_no(node)
+        loc = self._node_loc(node)
+        if hasattr(node, "name") and hasattr(node, "display"):
+            base_name = str(getattr(node, "name") or "").strip()
+            override = str(getattr(node, "display") or "").strip()
+            if not base_name:
+                raise ValueError(f"{loc}: invalid @alias directive (empty name)")
+        else:
+            payload = str(getattr(node, "payload") or "").strip()
+            m = re.match(r"^@alias\s+(.+)$", payload, flags=re.IGNORECASE)
+            if not m:
+                raise ValueError(f"{loc}: invalid @alias directive")
+            rest = m.group(1).strip()
+            if "=" not in rest:
+                raise ValueError(f"{loc}: invalid @alias directive (missing '=')")
+            base_name, override = rest.split("=", 1)
+            base_name = base_name.strip()
+            override = override.strip()
+            if not base_name:
+                raise ValueError(f"{loc}: invalid @alias directive (empty name)")
+        char_id, _disp = self._resolve_char_id_from_selector(
+            base_name,
+            line_no=line_no,
+            col=self._node_col(node),
+            allow_custom_fallback=False,
+        )
         if char_id == "__Sensei":
-            raise ValueError(f"line {getattr(node,'line_no')}: @alias cannot target Sensei")
+            raise ValueError(f"{loc}: @alias cannot target Sensei")
         if override == "":
             self._alias_char_id_to_override.pop(char_id, None)
             return
@@ -386,21 +631,34 @@ class MMTCompiler:
 
     def _handle_tmpalias(self, st: _State, node: Any) -> None:
         # Syntax: @tmpalias <name>=<override>
-        payload = str(getattr(node, "payload") or "").strip()
-        m = re.match(r"^@tmpalias\s+(.+)$", payload, flags=re.IGNORECASE)
-        if not m:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @tmpalias directive")
-        rest = m.group(1).strip()
-        if "=" not in rest:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @tmpalias directive (missing '=')")
-        base_name, override = rest.split("=", 1)
-        base_name = base_name.strip()
-        override = override.strip()
-        if not base_name:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @tmpalias directive (empty name)")
-        char_id, _disp = self._resolve_char_id_from_selector(base_name, line_no=int(getattr(node, "line_no")), allow_custom_fallback=False)
+        line_no = self._node_line_no(node)
+        loc = self._node_loc(node)
+        if hasattr(node, "name") and hasattr(node, "display"):
+            base_name = str(getattr(node, "name") or "").strip()
+            override = str(getattr(node, "display") or "").strip()
+            if not base_name:
+                raise ValueError(f"{loc}: invalid @tmpalias directive (empty name)")
+        else:
+            payload = str(getattr(node, "payload") or "").strip()
+            m = re.match(r"^@tmpalias\s+(.+)$", payload, flags=re.IGNORECASE)
+            if not m:
+                raise ValueError(f"{loc}: invalid @tmpalias directive")
+            rest = m.group(1).strip()
+            if "=" not in rest:
+                raise ValueError(f"{loc}: invalid @tmpalias directive (missing '=')")
+            base_name, override = rest.split("=", 1)
+            base_name = base_name.strip()
+            override = override.strip()
+            if not base_name:
+                raise ValueError(f"{loc}: invalid @tmpalias directive (empty name)")
+        char_id, _disp = self._resolve_char_id_from_selector(
+            base_name,
+            line_no=line_no,
+            col=self._node_col(node),
+            allow_custom_fallback=False,
+        )
         if char_id == "__Sensei":
-            raise ValueError(f"line {getattr(node,'line_no')}: @tmpalias cannot target Sensei")
+            raise ValueError(f"{loc}: @tmpalias cannot target Sensei")
         # Set pending override for both sides (legacy: directive is global, but activates on a side when that side speaks)
         for k in (">", "<"):
             if override == "":
@@ -411,76 +669,116 @@ class MMTCompiler:
                 self._pending_tmpalias[k][char_id] = override
 
     def _handle_aliasid(self, st: _State, node: Any) -> None:
-        payload = str(getattr(node, "payload") or "").strip()
-        m = re.match(r"^@aliasid\s+(.+)$", payload, flags=re.IGNORECASE)
-        if not m:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @aliasid directive")
-        rest = m.group(1).strip()
-        parts = rest.split(None, 1)
-        if len(parts) != 2:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @aliasid directive (expected: @aliasid <id> <name>)")
-        alias_id, name = parts[0].strip(), parts[1].strip()
-        if not alias_id or not name:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @aliasid directive")
+        line_no = self._node_line_no(node)
+        loc = self._node_loc(node)
+        if hasattr(node, "alias_id") and hasattr(node, "name"):
+            alias_id = str(getattr(node, "alias_id") or "").strip()
+            name = str(getattr(node, "name") or "").strip()
+            if not alias_id or not name:
+                raise ValueError(f"{loc}: invalid @aliasid directive")
+        else:
+            payload = str(getattr(node, "payload") or "").strip()
+            m = re.match(r"^@aliasid\s+(.+)$", payload, flags=re.IGNORECASE)
+            if not m:
+                raise ValueError(f"{loc}: invalid @aliasid directive")
+            rest = m.group(1).strip()
+            parts = rest.split(None, 1)
+            if len(parts) != 2:
+                raise ValueError(f"{loc}: invalid @aliasid directive (expected: @aliasid <id> <name>)")
+            alias_id, name = parts[0].strip(), parts[1].strip()
+            if not alias_id or not name:
+                raise ValueError(f"{loc}: invalid @aliasid directive")
         self._alias_id_to_name[alias_id] = name
 
     def _handle_unaliasid(self, st: _State, node: Any) -> None:
-        payload = str(getattr(node, "payload") or "").strip()
-        m = re.match(r"^@unaliasid\s+(.+)$", payload, flags=re.IGNORECASE)
-        if not m:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @unaliasid directive")
-        alias_id = m.group(1).strip()
-        if not alias_id:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @unaliasid directive (empty id)")
+        line_no = self._node_line_no(node)
+        loc = self._node_loc(node)
+        if hasattr(node, "alias_id"):
+            alias_id = str(getattr(node, "alias_id") or "").strip()
+            if not alias_id:
+                raise ValueError(f"{loc}: invalid @unaliasid directive (empty id)")
+        else:
+            payload = str(getattr(node, "payload") or "").strip()
+            m = re.match(r"^@unaliasid\s+(.+)$", payload, flags=re.IGNORECASE)
+            if not m:
+                raise ValueError(f"{loc}: invalid @unaliasid directive")
+            alias_id = m.group(1).strip()
+            if not alias_id:
+                raise ValueError(f"{loc}: invalid @unaliasid directive (empty id)")
         if alias_id in self._alias_id_to_name:
             del self._alias_id_to_name[alias_id]
 
     def _handle_charid(self, st: _State, node: Any) -> None:
-        payload = str(getattr(node, "payload") or "").strip()
-        m = re.match(r"^@charid\s+(.+)$", payload, flags=re.IGNORECASE)
-        if not m:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @charid directive")
-        rest = m.group(1).strip()
-        parts = rest.split(None, 1)
-        if len(parts) != 2:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @charid directive (expected: @charid <id> <display>)")
-        cid, display = parts[0].strip(), parts[1].strip()
-        if not cid or not display:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @charid directive")
+        line_no = self._node_line_no(node)
+        loc = self._node_loc(node)
+        if hasattr(node, "char_id") and hasattr(node, "display"):
+            cid = str(getattr(node, "char_id") or "").strip()
+            display = str(getattr(node, "display") or "").strip()
+            if not cid or not display:
+                raise ValueError(f"{loc}: invalid @charid directive")
+        else:
+            payload = str(getattr(node, "payload") or "").strip()
+            m = re.match(r"^@charid\s+(.+)$", payload, flags=re.IGNORECASE)
+            if not m:
+                raise ValueError(f"{loc}: invalid @charid directive")
+            rest = m.group(1).strip()
+            parts = rest.split(None, 1)
+            if len(parts) != 2:
+                raise ValueError(f"{loc}: invalid @charid directive (expected: @charid <id> <display>)")
+            cid, display = parts[0].strip(), parts[1].strip()
+            if not cid or not display:
+                raise ValueError(f"{loc}: invalid @charid directive")
         if not re.match(r"^[\w][\w\-]*$", cid):
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @charid id: {cid}")
+            raise ValueError(f"{loc}: invalid @charid id: {cid}")
         self._custom_id_to_display[cid] = display
 
     def _handle_uncharid(self, st: _State, node: Any) -> None:
-        payload = str(getattr(node, "payload") or "").strip()
-        m = re.match(r"^@uncharid\s+(.+)$", payload, flags=re.IGNORECASE)
-        if not m:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @uncharid directive")
-        cid = m.group(1).strip()
-        if not cid:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @uncharid directive (empty id)")
+        line_no = self._node_line_no(node)
+        loc = self._node_loc(node)
+        if hasattr(node, "char_id"):
+            cid = str(getattr(node, "char_id") or "").strip()
+            if not cid:
+                raise ValueError(f"{loc}: invalid @uncharid directive (empty id)")
+        else:
+            payload = str(getattr(node, "payload") or "").strip()
+            m = re.match(r"^@uncharid\s+(.+)$", payload, flags=re.IGNORECASE)
+            if not m:
+                raise ValueError(f"{loc}: invalid @uncharid directive")
+            cid = m.group(1).strip()
+            if not cid:
+                raise ValueError(f"{loc}: invalid @uncharid directive (empty id)")
         if cid in self._custom_id_to_display:
             del self._custom_id_to_display[cid]
         self._current_avatar_override_by_char_id.pop(f"custom-{cid}", None)
 
     def _handle_avatarid(self, st: _State, node: Any) -> None:
-        payload = str(getattr(node, "payload") or "").strip()
-        m = re.match(r"^@avatarid\s+(.+)$", payload, flags=re.IGNORECASE)
-        if not m:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @avatarid directive")
-        rest = m.group(1).strip()
-        parts = rest.split(None, 1)
-        if len(parts) != 2:
-            raise ValueError(
-                f"line {getattr(node,'line_no')}: invalid @avatarid directive (expected: @avatarid <id> <asset_name>)"
-            )
-        cid, asset_name = parts[0].strip(), parts[1].strip()
-        if not cid:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @avatarid directive (empty id)")
+        line_no = self._node_line_no(node)
+        loc = self._node_loc(node)
+        if hasattr(node, "char_id") and hasattr(node, "asset"):
+            cid = str(getattr(node, "char_id") or "").strip()
+            asset_name = str(getattr(node, "asset") or "").strip()
+            if not cid:
+                raise ValueError(f"{loc}: invalid @avatarid directive (empty id)")
+            if not asset_name:
+                raise ValueError(f"{loc}: invalid @avatarid directive (empty asset name)")
+        else:
+            payload = str(getattr(node, "payload") or "").strip()
+            m = re.match(r"^@avatarid\s+(.+)$", payload, flags=re.IGNORECASE)
+            if not m:
+                raise ValueError(f"{loc}: invalid @avatarid directive")
+            rest = m.group(1).strip()
+            parts = rest.split(None, 1)
+            if len(parts) != 2:
+                raise ValueError(
+                    f"{loc}: invalid @avatarid directive (expected: @avatarid <id> <asset_name>)"
+                )
+            cid, asset_name = parts[0].strip(), parts[1].strip()
+            if not cid:
+                raise ValueError(f"{loc}: invalid @avatarid directive (empty id)")
+            if not asset_name:
+                raise ValueError(f"{loc}: invalid @avatarid directive (empty asset name)")
         if cid not in self._custom_id_to_display:
-            raise ValueError(f"line {getattr(node,'line_no')}: @avatarid requires existing @charid for id: {cid}")
-        if not asset_name:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @avatarid directive (empty asset name)")
+            raise ValueError(f"{loc}: @avatarid requires existing @charid for id: {cid}")
 
         ref = self._student_avatar_ref_from_token(asset_name)
         if ref is not None:
@@ -492,34 +790,54 @@ class MMTCompiler:
         self._current_avatar_override_by_char_id[f"custom-{cid}"] = f"asset:{asset_name}"
 
     def _handle_unavatarid(self, st: _State, node: Any) -> None:
-        payload = str(getattr(node, "payload") or "").strip()
-        m = re.match(r"^@unavatarid\s+(.+)$", payload, flags=re.IGNORECASE)
-        if not m:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @unavatarid directive")
-        cid = m.group(1).strip()
-        if not cid:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @unavatarid directive (empty id)")
+        line_no = self._node_line_no(node)
+        loc = self._node_loc(node)
+        if hasattr(node, "char_id"):
+            cid = str(getattr(node, "char_id") or "").strip()
+            if not cid:
+                raise ValueError(f"{loc}: invalid @unavatarid directive (empty id)")
+        else:
+            payload = str(getattr(node, "payload") or "").strip()
+            m = re.match(r"^@unavatarid\s+(.+)$", payload, flags=re.IGNORECASE)
+            if not m:
+                raise ValueError(f"{loc}: invalid @unavatarid directive")
+            cid = m.group(1).strip()
+            if not cid:
+                raise ValueError(f"{loc}: invalid @unavatarid directive (empty id)")
         key = f"custom-{cid}"
         if key not in self._current_avatar_override_by_char_id:
-            raise ValueError(f"line {getattr(node,'line_no')}: @unavatarid id not found: {cid}")
+            raise ValueError(f"{loc}: @unavatarid id not found: {cid}")
         del self._current_avatar_override_by_char_id[key]
 
     def _handle_avatar(self, st: _State, node: Any) -> None:
-        payload = str(getattr(node, "payload") or "").strip()
-        m = re.match(r"^@avatar\s+(.+)$", payload, flags=re.IGNORECASE)
-        if not m:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @avatar directive")
-        rest = m.group(1).strip()
-        if "=" not in rest:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @avatar directive (missing '=')")
-        base_name, asset_name = rest.split("=", 1)
-        base_name = base_name.strip()
-        asset_name = asset_name.strip()
-        if not base_name:
-            raise ValueError(f"line {getattr(node,'line_no')}: invalid @avatar directive (empty character name)")
-        char_id, _disp = self._resolve_char_id_from_selector(base_name, line_no=int(getattr(node, "line_no")), allow_custom_fallback=False)
+        line_no = self._node_line_no(node)
+        loc = self._node_loc(node)
+        if hasattr(node, "name") and hasattr(node, "asset"):
+            base_name = str(getattr(node, "name") or "").strip()
+            asset_name = str(getattr(node, "asset") or "").strip()
+            if not base_name:
+                raise ValueError(f"{loc}: invalid @avatar directive (empty character name)")
+        else:
+            payload = str(getattr(node, "payload") or "").strip()
+            m = re.match(r"^@avatar\s+(.+)$", payload, flags=re.IGNORECASE)
+            if not m:
+                raise ValueError(f"{loc}: invalid @avatar directive")
+            rest = m.group(1).strip()
+            if "=" not in rest:
+                raise ValueError(f"{loc}: invalid @avatar directive (missing '=')")
+            base_name, asset_name = rest.split("=", 1)
+            base_name = base_name.strip()
+            asset_name = asset_name.strip()
+            if not base_name:
+                raise ValueError(f"{loc}: invalid @avatar directive (empty character name)")
+        char_id, _disp = self._resolve_char_id_from_selector(
+            base_name,
+            line_no=line_no,
+            col=self._node_col(node),
+            allow_custom_fallback=False,
+        )
         if char_id == "__Sensei":
-            raise ValueError(f"line {getattr(node,'line_no')}: @avatar cannot target Sensei")
+            raise ValueError(f"{loc}: @avatar cannot target Sensei")
         if asset_name == "":
             self._current_avatar_override_by_char_id.pop(char_id, None)
             return
@@ -544,11 +862,13 @@ class MMTCompiler:
         selector: str,
         *,
         line_no: int,
+        col: Optional[int] = None,
         allow_custom_fallback: bool,
     ) -> Tuple[str, str]:
         s = (selector or "").strip()
         if not s:
-            raise ValueError(f"line {line_no}: empty selector")
+            loc = f"line {line_no}:{col}" if col else f"line {line_no}"
+            raise ValueError(f"{loc}: empty selector")
 
         if s == "__Sensei":
             return "__Sensei", "Sensei"
@@ -565,18 +885,21 @@ class MMTCompiler:
                 if self._pack_v2_ba is not None and ns_l == "ba":
                     cid = self._pack_v2_ba.resolve_char_id(name)
                     if cid is None:
-                        raise ValueError(f"line {line_no}: unknown ba character: {name}")
+                        loc = f"line {line_no}:{col}" if col else f"line {line_no}"
+                        raise ValueError(f"{loc}: unknown ba character: {name}")
                     return f"ba.{cid}", self._base_name(cid)
                 sid = self._resolve_student_id(name)
                 if sid is None:
-                    raise ValueError(f"line {line_no}: unknown ba character: {name}")
+                    loc = f"line {line_no}:{col}" if col else f"line {line_no}"
+                    raise ValueError(f"{loc}: unknown ba character: {name}")
                 return f"kivo-{sid}", name
             if ns_l == "custom":
                 if re.match(r"^[\w][\w\-]*$", name):
                     disp = self._custom_id_to_display.get(name, name)
                     return f"custom-{name}", disp
                 return f"custom-{self._hash_id(name)}", name
-            raise ValueError(f"line {line_no}: unknown namespace: {ns}")
+            loc = f"line {line_no}:{col}" if col else f"line {line_no}"
+            raise ValueError(f"{loc}: unknown namespace: {ns}")
 
         # Bare name: resolve by imported namespaces
         for ns_try in self._using_namespaces:
@@ -593,7 +916,8 @@ class MMTCompiler:
                     return f"kivo-{sid}", s
 
         if not allow_custom_fallback:
-            raise ValueError(f"line {line_no}: unknown speaker: {s}")
+            loc = f"line {line_no}:{col}" if col else f"line {line_no}"
+            raise ValueError(f"{loc}: unknown speaker: {s}")
         return f"custom-{self._hash_id(s)}", s
 
     def _base_name(self, name: str) -> str:
