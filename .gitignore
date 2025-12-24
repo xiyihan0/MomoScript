@@ -101,3 +101,6 @@ typst_sandbox/mmt_render/*.txt
 
 # Backup files
 *.bak/
+
+# Demo/Test tool files
+tools/*demo.py 
