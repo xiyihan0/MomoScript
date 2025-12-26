@@ -104,3 +104,6 @@ typst_sandbox/mmt_render/*.txt
 
 # Demo/Test tool files
 tools/*demo.py 
+
+# Profile reports
+result.json
