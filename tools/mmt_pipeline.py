@@ -18,32 +18,22 @@ from mmt_core.typst_sandbox import TypstSandboxOptions, run_typst_sandboxed  # n
 
 
 def _find_tags_root(start: Path) -> Optional[Path]:
-    """
-    Find an existing `images/students` folder.
-    Works even when the assets live under typst_sandbox.
-    """
     p = start
-    for _ in range(10):
+    for _ in range(6):
         direct = p / "images" / "students"
         if direct.exists():
             return direct
-        # scan siblings under this parent (e.g. ../bluearchive-imgtagger/images/students)
-        parent = p.parent
-        if parent != p and parent.exists():
-            for sib in parent.iterdir():
-                cand = sib / "images" / "students"
-                if cand.exists():
-                    return cand
+        pack_images = p / "pack-v2" / "ba" / "images"
+        if pack_images.exists():
+            return pack_images
         if p.parent == p:
             break
         p = p.parent
     return None
 
 
-def _typst_root_for(template: Path, chat_json: Path, tags_root: Path) -> Path:
-    # Choose a root that contains all paths so typst can access them.
-    common = os.path.commonpath([str(template.absolute()), str(chat_json.absolute()), str(tags_root.absolute())])
-    return Path(common)
+def _typst_root_for() -> Path:
+    return (_ROOT / "typst_sandbox").resolve()
 
 
 def _load_dotenv(path: Path) -> None:
@@ -75,12 +65,16 @@ def _run_typst(
     typst_mode: bool = False,
     disable_heading: bool = False,
     no_time: bool = False,
+    tags_root: Optional[Path] = None,
 ) -> None:
-    tags_root = _find_tags_root(Path.cwd())
     if tags_root is None:
-        raise RuntimeError("Cannot find images/students; please pass --tags-root explicitly.")
+        tags_root = _find_tags_root(_ROOT / "typst_sandbox")
+    if tags_root is None:
+        raise RuntimeError(
+            "Cannot find images/students; please pass --tags-root explicitly."
+        )
 
-    root = _typst_root_for(template, chat_json, tags_root)
+    root = _typst_root_for()
     # Typst resolves `json("...")` paths relative to the *source file directory*,
     # so pass the `chat` input relative to `template.parent`, not `--root`.
     cwd = template.absolute().parent
@@ -98,7 +92,12 @@ def _run_typst(
         f"chat={str(rel_chat).replace('\\', '/')}",
     ]
     if not no_time:
-        cmd.extend(["--input", f"compiled_at={__import__('time').strftime('%Y-%m-%d %H:%M:%S')}"])
+        cmd.extend(
+            [
+                "--input",
+                f"compiled_at={__import__('time').strftime('%Y-%m-%d %H:%M:%S')}",
+            ]
+        )
     if typst_mode:
         cmd.extend(["--input", "typst_mode=1"])
     if disable_heading:
@@ -121,7 +120,11 @@ def _run_typst(
     max_mem_mb = _env_int("MMT_TYPST_MAXMEM_MB", 2048)
     rayon_threads = _env_int("MMT_TYPST_RAYON_THREADS", 4)
     procgov_bin = os.environ.get("MMT_PROCGOV_BIN", "").strip() or None
-    enable_procgov = os.environ.get("MMT_TYPST_ENABLE_PROCGOV", "1").strip() not in {"0", "false", "False"}
+    enable_procgov = os.environ.get("MMT_TYPST_ENABLE_PROCGOV", "1").strip() not in {
+        "0",
+        "false",
+        "False",
+    }
 
     opts = TypstSandboxOptions(
         timeout_s=timeout_s if timeout_s > 0 else None,
@@ -132,26 +135,44 @@ def _run_typst(
     )
     result = run_typst_sandboxed(cmd, cwd=cwd, options=opts)
     if result.returncode != 0:
-        raise subprocess.CalledProcessError(result.returncode, cmd, output=result.stdout, stderr=result.stderr)
+        raise subprocess.CalledProcessError(
+            result.returncode, cmd, output=result.stdout, stderr=result.stderr
+        )
 
 
 def main() -> int:
-    p = argparse.ArgumentParser(description="MMT pipeline: text -> json -> (optional) resolve -> (optional) pdf.")
+    p = argparse.ArgumentParser(
+        description="MMT pipeline: text -> json -> (optional) resolve -> (optional) pdf."
+    )
     p.add_argument("input", help="Input MMT .txt")
     p.add_argument("--out-json", default=None)
     p.add_argument("--out-resolved", default=None)
     p.add_argument("--out-pdf", default=None)
     p.add_argument("--report", default=None, help="Write parse report json (optional)")
-    p.add_argument("--ctx-n", type=int, default=2, help="Global context window size for '[图片]' (default: 2)")
+    p.add_argument(
+        "--ctx-n",
+        type=int,
+        default=2,
+        help="Global context window size for '[图片]' (default: 2)",
+    )
     p.add_argument(
         "--typst",
         action="store_true",
         help="Typst markup mode: only parse expression markers written as '[:...]', leaving other '[...]' for Typst.",
     )
 
-    p.add_argument("--resolve", action="store_true", help="Resolve inline [..] expressions to images via reranker.")
-    tags_root_guess = _find_tags_root(Path.cwd())
-    p.add_argument("--tags-root", default=str(tags_root_guess) if tags_root_guess else "images/students")
+    p.add_argument(
+        "--resolve",
+        action="store_true",
+        help="Resolve inline [..] expressions to images via reranker.",
+    )
+    tags_root_guess = _find_tags_root(_ROOT / "typst_sandbox")
+    p.add_argument(
+        "--tags-root",
+        default=str(tags_root_guess)
+        if tags_root_guess
+        else str(_ROOT / "typst_sandbox" / "pack-v2" / "ba" / "images"),
+    )
     p.add_argument("--rerank-model", default="Qwen/Qwen3-Reranker-8B")
     p.add_argument("--rerank-key-env", default="SILICON_API_KEY")
     p.add_argument("--rerank-concurrency", type=int, default=10)
@@ -159,10 +180,21 @@ def main() -> int:
     p.add_argument("--pdf", action="store_true", help="Render PDF via typst.")
     p.add_argument(
         "--typst-template",
-        default=str(Path(__file__).resolve().parents[1] / "typst_sandbox" / "mmt_render" / "mmt_render.typ"),
+        default=str(
+            Path(__file__).resolve().parents[1]
+            / "typst_sandbox"
+            / "mmt_render"
+            / "mmt_render.typ"
+        ),
     )
-    p.add_argument("--disable-heading", action="store_true", help="Disable the MoeTalk-style heading bar.")
-    p.add_argument("--no-time", action="store_true", help="Do not auto-fill compiled_at time.")
+    p.add_argument(
+        "--disable-heading",
+        action="store_true",
+        help="Disable the MoeTalk-style heading bar.",
+    )
+    p.add_argument(
+        "--no-time", action="store_true", help="Do not auto-fill compiled_at time."
+    )
     args = p.parse_args()
 
     # Load env vars if user keeps secrets in .env (cwd or parent)
@@ -173,11 +205,26 @@ def main() -> int:
         pass
 
     in_path = Path(args.input).absolute()
+    auto_typst = in_path.name.endswith("_t.mmt.txt")
+    typst_mode = bool(args.typst) or auto_typst
+
     out_json_default, out_resolved_default, out_pdf_default = _default_paths(in_path)
     out_json = Path(args.out_json).resolve() if args.out_json else out_json_default
-    out_resolved = Path(args.out_resolved).resolve() if args.out_resolved else out_resolved_default
+    out_resolved = (
+        Path(args.out_resolved).resolve() if args.out_resolved else out_resolved_default
+    )
     out_pdf = Path(args.out_pdf).resolve() if args.out_pdf else out_pdf_default
     report_path = Path(args.report).resolve() if args.report else None
+
+    typst_root = _typst_root_for()
+    if args.pdf:
+        render_root = typst_root / "mmt_render"
+        if not out_json.is_relative_to(typst_root):
+            out_json = render_root / out_json.name
+        if not out_resolved.is_relative_to(typst_root):
+            out_resolved = render_root / out_resolved.name
+        if not out_pdf.is_relative_to(typst_root):
+            out_pdf = render_root / out_pdf.name
 
     # Parse text -> json
     name_map_path = Path("typst_sandbox") / "mmt_render" / "avatar" / "name_to_id.json"
@@ -199,11 +246,15 @@ def main() -> int:
         avatar_dir=avatar_dir,
         join_with_newline=True,
         context_window=max(0, int(args.ctx_n)),
-        typst_mode=bool(args.typst),
+        typst_mode=typst_mode,
     )
-    out_json.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    out_json.write_text(
+        json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
     if report_path:
-        report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+        report_path.write_text(
+            json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
 
     chat_for_render = out_json
     if args.resolve:
@@ -212,13 +263,11 @@ def main() -> int:
 
         tags_root = Path(args.tags_root).absolute()
         template = Path(args.typst_template).absolute()
-        root = _typst_root_for(template, out_json, tags_root)
         asyncio.run(
             resolve_file(
                 input_path=out_json,
                 output_path=out_resolved,
                 tags_root=tags_root,
-                # refs should be relative to the typst source dir, not project root
                 ref_root=template.parent,
                 model=args.rerank_model,
                 api_key_env=args.rerank_key_env,
@@ -233,9 +282,10 @@ def main() -> int:
             template,
             out_pdf,
             chat_for_render,
-            typst_mode=bool(args.typst),
+            typst_mode=typst_mode,
             disable_heading=bool(args.disable_heading),
             no_time=bool(args.no_time),
+            tags_root=Path(args.tags_root).absolute() if args.tags_root else None,
         )
 
     print(f"[ok] json={out_json}")

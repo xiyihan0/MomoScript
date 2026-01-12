@@ -109,3 +109,5 @@ tools/*demo.py
 result.json
 
 examples/
+
+mmt_rs/target/
