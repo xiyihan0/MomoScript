@@ -1,0 +1,7 @@
+*
+!.gitignore
+!mmt_rs_bg.wasm
+!mmt_rs_bg.wasm.d.ts
+!mmt_rs.d.ts
+!mmt_rs.js
+!package.json

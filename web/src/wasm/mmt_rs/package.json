@@ -1,0 +1,15 @@
+{
+  "name": "mmt_rs",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "mmt_rs_bg.wasm",
+    "mmt_rs.js",
+    "mmt_rs.d.ts"
+  ],
+  "main": "mmt_rs.js",
+  "types": "mmt_rs.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

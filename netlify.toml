@@ -1,7 +1,7 @@
 [build]
   base = "web"
   command = "npm run build"
-  publish = "web/dist"
+  publish = "dist"
 
 [build.environment]
   VITE_MMT_TYPST_ROOT = "https://eo.xiyihan.cn/typst_sandbox"
