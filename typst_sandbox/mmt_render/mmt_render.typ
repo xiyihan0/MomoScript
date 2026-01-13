@@ -2,7 +2,7 @@
 //
 // Usage:
 //   typst compile mmt_render.typ out.pdf --root . --input chat=path/to/chat.json
-
+// Updated at 2026/01/13
 #import "@preview/based:0.2.0": base64
 #import "@preview/shadowed:0.2.0": shadowed
 
@@ -20,7 +20,12 @@
   let s = if raw == none { "" } else { str(raw).trim() }
   if s == "" { fallback } else { eval(s, mode: "code") }
 }
-#let page_width = _parse_code_or(meta.at("width", default: ""), 300pt)
+#let input_width = sys.inputs.at("width", default: "")
+#let page_width = if input_width != "" {
+  _parse_code_or(input_width, 300pt)
+} else {
+  _parse_code_or(meta.at("width", default: ""), 300pt)
+}
 #set page(width: page_width, height: auto, margin: (x: 10pt, y: 20pt))
 #set par(spacing: 1em)
 #show raw: it => {

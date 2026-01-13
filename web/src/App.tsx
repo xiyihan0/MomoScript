@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import OpenAI from "openai";
 import { $typst, FetchAccessModel } from "@myriaddreamin/typst.ts";
 import { loadFonts } from "@myriaddreamin/typst.ts/dist/esm/options.init.mjs";
@@ -48,7 +48,7 @@ const resolveTypstRoot = () => {
     return normalizeTypstRoot(import.meta.env.VITE_MMT_TYPST_ROOT);
   }
 
-  return normalizeTypstRoot("https://eo.xiyihan.cn/typst_sandbox");
+  return normalizeTypstRoot("/typst_sandbox");
 };
 
 const resolvePackFetchUrl = () => {
@@ -72,7 +72,7 @@ const resolvePackBasePath = () => {
     return import.meta.env.VITE_MMT_PACK_BASE;
   }
 
-  return "https://eo.xiyihan.cn/typst_sandbox";
+  return resolveTypstRoot();
 };
 
 const resolvePackRootPath = () => {
@@ -130,6 +130,7 @@ const loadPackData = async () => {
 };
 
 const apiKeyStorageKey = "SILICONFLOW_API_KEY";
+const pageWidthStorageKey = "MMT_PAGE_WIDTH";
 const apiBaseUrl = "https://api.siliconflow.cn/v1";
 const embeddingModel = "Qwen/Qwen3-Embedding-8B";
 const rerankModel = "Qwen/Qwen3-Reranker-8B";
@@ -156,12 +157,21 @@ let openAiClient: OpenAI | null = null;
 let openAiKey: string | null = null;
 
 const loadApiKey = () => localStorage.getItem(apiKeyStorageKey) ?? "";
+const loadPageWidth = () => localStorage.getItem(pageWidthStorageKey) ?? "";
 
 const storeApiKey = (value: string) => {
   if (value) {
     localStorage.setItem(apiKeyStorageKey, value);
   } else {
     localStorage.removeItem(apiKeyStorageKey);
+  }
+};
+
+const storePageWidth = (value: string) => {
+  if (value) {
+    localStorage.setItem(pageWidthStorageKey, value);
+  } else {
+    localStorage.removeItem(pageWidthStorageKey);
   }
 };
 
@@ -650,14 +660,203 @@ function App() {
   const [renderedSvg, setRenderedSvg] = useState<string>("");
   const [debugJson, setDebugJson] = useState<string>("");
   const [apiKey, setApiKey] = useState<string>(loadApiKey());
+  const [pageWidth, setPageWidth] = useState<string>(loadPageWidth());
   const [resolveEnabled, setResolveEnabled] = useState<boolean>(true);
   const [typstMode, setTypstMode] = useState<boolean>(true);
-  const [showJson, setShowJson] = useState<boolean>(false);
-  const [showSettings, setShowSettings] = useState<boolean>(false);
+  const [activeSidebarTab, setActiveSidebarTab] = useState<
+    "settings" | "debug" | null
+  >(null);
   const [zoom, setZoom] = useState<number>(1.0);
+  const [jsonCopied, setJsonCopied] = useState<boolean>(false);
+  const [sourceWidth, setSourceWidth] = useState<number>(420);
+  const [sidebarWidth, setSidebarWidth] = useState<number>(320);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const previewContainerRef = useRef<HTMLDivElement | null>(null);
+  const previewContentRef = useRef<HTMLDivElement | null>(null);
+  const resizeStateRef = useRef<{
+    type: "source" | "sidebar";
+    startX: number;
+    startSourceWidth: number;
+    startSidebarWidth: number;
+  } | null>(null);
+  const initialWidthSetRef = useRef<boolean>(false);
+  const minSourceWidth = 280;
+  const minSidebarWidth = 260;
+  const minPreviewWidth = 320;
+  const previewPadding = 32;
 
-  const handleZoomIn = () => setZoom((prev) => Math.min(prev + 0.1, 2.0));
-  const handleZoomOut = () => setZoom((prev) => Math.max(prev - 0.1, 0.5));
+  const handleZoomIn = () => setZoom((prev) => Math.min(prev + 0.1, 5.0));
+  const handleZoomOut = () => setZoom((prev) => Math.max(prev - 0.1, 0.1));
+
+  const getMainWidth = () => containerRef.current?.clientWidth ?? 0;
+
+  useEffect(() => {
+    if (initialWidthSetRef.current) {
+      return;
+    }
+    const mainWidth = getMainWidth();
+    if (!mainWidth) {
+      return;
+    }
+    const sidebarSpace = activeSidebarTab ? sidebarWidth : 0;
+    const maxSourceWidth = Math.max(
+      minSourceWidth,
+      mainWidth - sidebarSpace - minPreviewWidth,
+    );
+    const targetWidth = Math.min(
+      Math.max(minSourceWidth, Math.round(mainWidth * 0.5)),
+      maxSourceWidth,
+    );
+    if (targetWidth > 0) {
+      setSourceWidth(targetWidth);
+      initialWidthSetRef.current = true;
+    }
+  }, [
+    activeSidebarTab,
+    sidebarWidth,
+    minPreviewWidth,
+    minSourceWidth,
+    sourceWidth,
+  ]);
+
+  useEffect(() => {
+    const mainWidth = getMainWidth();
+    if (!mainWidth) {
+      return;
+    }
+    const sidebarSpace = activeSidebarTab ? sidebarWidth : 0;
+    const maxSourceWidth = Math.max(
+      minSourceWidth,
+      mainWidth - sidebarSpace - minPreviewWidth,
+    );
+    if (sourceWidth > maxSourceWidth) {
+      setSourceWidth(maxSourceWidth);
+    }
+    if (activeSidebarTab) {
+      const maxSidebarWidth = Math.max(
+        minSidebarWidth,
+        mainWidth - sourceWidth - minPreviewWidth,
+      );
+      if (sidebarWidth > maxSidebarWidth) {
+        setSidebarWidth(maxSidebarWidth);
+      }
+    }
+  }, [
+    activeSidebarTab,
+    sidebarWidth,
+    sourceWidth,
+    minPreviewWidth,
+    minSidebarWidth,
+    minSourceWidth,
+  ]);
+
+  const handleFitWidth = () => {
+    const container = previewContainerRef.current;
+    const content = previewContentRef.current;
+    if (!container || !content) {
+      return;
+    }
+    const containerWidth = Math.max(container.clientWidth - previewPadding, 1);
+    const rect = content.getBoundingClientRect();
+    const unscaledWidth = rect.width / zoom;
+    if (unscaledWidth <= 0) {
+      return;
+    }
+    const nextZoom = containerWidth / unscaledWidth;
+    const clampedZoom = Math.min(Math.max(0.1, nextZoom), 5.0);
+    setZoom(Math.round(clampedZoom * 100) / 100);
+  };
+
+  const startResize = (type: "source" | "sidebar", event: React.MouseEvent) => {
+    event.preventDefault();
+    const mainWidth = getMainWidth();
+    if (!mainWidth) {
+      return;
+    }
+    resizeStateRef.current = {
+      type,
+      startX: event.clientX,
+      startSourceWidth: sourceWidth,
+      startSidebarWidth: sidebarWidth,
+    };
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const state = resizeStateRef.current;
+      if (!state) {
+        return;
+      }
+      const width = getMainWidth();
+      if (!width) {
+        return;
+      }
+      const delta = moveEvent.clientX - state.startX;
+      if (state.type === "source") {
+        const sidebarSpace = activeSidebarTab ? state.startSidebarWidth : 0;
+        const maxSourceWidth = Math.max(
+          minSourceWidth,
+          width - sidebarSpace - minPreviewWidth,
+        );
+        const nextWidth = Math.min(
+          Math.max(minSourceWidth, state.startSourceWidth + delta),
+          maxSourceWidth,
+        );
+        setSourceWidth(nextWidth);
+        return;
+      }
+      const maxSidebarWidth = Math.max(
+        minSidebarWidth,
+        width - state.startSourceWidth - minPreviewWidth,
+      );
+      const nextSidebarWidth = Math.min(
+        Math.max(minSidebarWidth, state.startSidebarWidth - delta),
+        maxSidebarWidth,
+      );
+      setSidebarWidth(nextSidebarWidth);
+    };
+
+    const handleMouseUp = () => {
+      resizeStateRef.current = null;
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+
+    document.body.style.cursor = "col-resize";
+    document.body.style.userSelect = "none";
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleWheel = useCallback(
+    (e: React.WheelEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? -0.1 : 0.1;
+        setZoom((prev) => {
+          const next = prev + delta;
+          return Math.min(Math.max(0.1, next), 5.0);
+        });
+      }
+    },
+    [setZoom],
+  );
+
+  const handleCopyJson = async () => {
+    try {
+      let textToCopy = debugJson;
+      try {
+        textToCopy = JSON.stringify(JSON.parse(debugJson), null, 2);
+      } catch {
+        textToCopy = debugJson;
+      }
+      await navigator.clipboard.writeText(textToCopy);
+      setJsonCopied(true);
+      setTimeout(() => setJsonCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy JSON", err);
+    }
+  };
 
   const buildResolvedJson = async (source: string, typstMode: boolean) => {
     const chatJson = await compileMmtToJson(source, typstMode);
@@ -665,23 +864,127 @@ function App() {
     const resolved = resolveEnabled
       ? await resolveExpressions(apiKey, data)
       : data;
-    return JSON.stringify(resolved, null, 2);
+    return resolved;
+  };
+
+  const extractImagePaths = (data: Record<string, unknown>) => {
+    const paths = new Set<string>();
+
+    // 1. Extract from custom_chars (avatars)
+    if (Array.isArray(data.custom_chars)) {
+      for (const item of data.custom_chars) {
+        if (Array.isArray(item) && typeof item[1] === "string") {
+          const ref = item[1];
+          if (ref && !ref.startsWith("data:") && !ref.startsWith("http")) {
+            paths.add(ref);
+          }
+        }
+      }
+    }
+
+    // 2. Extract from chat segments (expressions / images)
+    if (Array.isArray(data.chat)) {
+      for (const line of data.chat) {
+        if (!line || typeof line !== "object") continue;
+        const lineObj = line as Record<string, unknown>;
+
+        // Chat segments
+        if (Array.isArray(lineObj.segments)) {
+          for (const seg of lineObj.segments) {
+            const segObj = seg as Record<string, unknown>;
+            if (segObj.type === "image" && typeof segObj.ref === "string") {
+              const ref = segObj.ref;
+              if (ref && !ref.startsWith("data:") && !ref.startsWith("http")) {
+                paths.add(ref);
+              }
+            }
+          }
+        }
+
+        // Reply items
+        if (Array.isArray(lineObj.items)) {
+          for (const item of lineObj.items) {
+            const itemObj = item as Record<string, unknown>;
+            if (Array.isArray(itemObj.segments)) {
+              for (const seg of itemObj.segments) {
+                const segObj = seg as Record<string, unknown>;
+                if (segObj.type === "image" && typeof segObj.ref === "string") {
+                  const ref = segObj.ref;
+                  if (
+                    ref &&
+                    !ref.startsWith("data:") &&
+                    !ref.startsWith("http")
+                  ) {
+                    paths.add(ref);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return Array.from(paths);
+  };
+
+  const fetchAndMapImages = async (paths: string[]) => {
+    let base = resolveTypstRoot();
+    if (!base.endsWith("/")) {
+      base += "/";
+    }
+
+    await Promise.all(
+      paths.map(async (path) => {
+        try {
+          let fetchUrl: string;
+          try {
+            fetchUrl = new URL(path, base).href;
+          } catch {
+            fetchUrl = path;
+          }
+
+          const res = await fetch(fetchUrl);
+          if (!res.ok) {
+            throw new Error(`Failed to fetch ${fetchUrl}: ${res.status}`);
+          }
+
+          const contentType = res.headers.get("Content-Type");
+          if (contentType && contentType.includes("text/html")) {
+            throw new Error(`Expected image but got HTML for ${fetchUrl}`);
+          }
+
+          const buf = await res.arrayBuffer();
+          await $typst.mapShadow(path, new Uint8Array(buf));
+        } catch (e) {
+          console.warn(`Failed to preload image: ${path}`, e);
+        }
+      }),
+    );
   };
 
   const handleExportPdf = async () => {
     try {
       ensureTypstReady();
       ensureAccessModelReady();
-      const resolvedJson = await buildResolvedJson(code, typstMode);
+      const resolvedData = await buildResolvedJson(code, typstMode);
+
+      // Preload images
+      const imagePaths = extractImagePaths(resolvedData);
+      await fetchAndMapImages(imagePaths);
+
+      const jsonString = JSON.stringify(resolvedData, null, 2);
       await $typst.mapShadow(
         "/@memory/chat.json",
-        new TextEncoder().encode(resolvedJson),
+        new TextEncoder().encode(jsonString),
       );
+      const widthInput = pageWidth.trim();
       const pdfData = await $typst.pdf({
         mainFilePath: "/mmt_render/mmt_render.typ",
         inputs: {
           chat: "/@memory/chat.json",
           typst_mode: typstMode ? "1" : "0",
+          width: widthInput,
         },
       });
       if (!pdfData) {
@@ -706,17 +1009,25 @@ function App() {
       try {
         ensureTypstReady();
         ensureAccessModelReady();
-        const resolvedJson = await buildResolvedJson(source, typstMode);
-        setDebugJson(resolvedJson);
+        const resolvedData = await buildResolvedJson(source, typstMode);
+        const jsonString = JSON.stringify(resolvedData, null, 2);
+        setDebugJson(jsonString);
+
+        // Preload images
+        const imagePaths = extractImagePaths(resolvedData);
+        await fetchAndMapImages(imagePaths);
+
         await $typst.mapShadow(
           "/@memory/chat.json",
-          new TextEncoder().encode(resolvedJson),
+          new TextEncoder().encode(jsonString),
         );
+        const widthInput = pageWidth.trim();
         const svg = await $typst.svg({
           mainFilePath: "/mmt_render/mmt_render.typ",
           inputs: {
             chat: "/@memory/chat.json",
             typst_mode: typstMode ? "1" : "0",
+            width: widthInput,
           },
         });
         setRenderedSvg(svg);
@@ -725,12 +1036,16 @@ function App() {
         setRenderedSvg("");
       }
     },
-    [apiKey, resolveEnabled, typstMode],
+    [apiKey, resolveEnabled, typstMode, pageWidth],
   );
 
   useEffect(() => {
     storeApiKey(apiKey.trim());
   }, [apiKey]);
+
+  useEffect(() => {
+    storePageWidth(pageWidth.trim());
+  }, [pageWidth]);
 
   useEffect(() => {
     const handle = window.setTimeout(() => {
@@ -752,9 +1067,11 @@ function App() {
           <span className="text-xs text-gray-400 mr-2">v0.1.0</span>
 
           <button
-            onClick={() => setShowJson(!showJson)}
+            onClick={() =>
+              setActiveSidebarTab(activeSidebarTab === "debug" ? null : "debug")
+            }
             className={`p-2 rounded-md transition-colors ${
-              showJson
+              activeSidebarTab === "debug"
                 ? "bg-blue-50 text-blue-600"
                 : "text-gray-500 hover:bg-gray-100"
             }`}
@@ -779,11 +1096,15 @@ function App() {
 
           <button
             className={`p-2 rounded-md transition-colors ${
-              showSettings
+              activeSidebarTab === "settings"
                 ? "bg-blue-50 text-blue-600"
                 : "text-gray-500 hover:bg-gray-100"
             }`}
-            onClick={() => setShowSettings(!showSettings)}
+            onClick={() =>
+              setActiveSidebarTab(
+                activeSidebarTab === "settings" ? null : "settings",
+              )
+            }
             title="Settings"
             type="button"
           >
@@ -815,8 +1136,11 @@ function App() {
         </div>
       </header>
 
-      <main className="flex-1 flex overflow-hidden">
-        <div className="flex-1 flex flex-col border-r border-gray-200 bg-white min-w-0">
+      <main ref={containerRef} className="flex-1 flex overflow-hidden">
+        <div
+          className="flex-none flex flex-col bg-white min-w-[240px]"
+          style={{ width: sourceWidth }}
+        >
           <div className="flex-none px-4 py-2 border-b border-gray-100 bg-gray-50 text-xs text-gray-500 uppercase font-medium tracking-wider flex justify-between items-center">
             <span>Source</span>
           </div>
@@ -831,7 +1155,17 @@ function App() {
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col bg-gray-100/50 min-w-0">
+        <div
+          role="separator"
+          aria-orientation="vertical"
+          aria-label="Resize panels"
+          className="w-2 flex-none cursor-col-resize -ml-1 z-10 flex justify-center group outline-none hover:bg-blue-50"
+          onMouseDown={(event) => startResize("source", event)}
+        >
+          <div className="w-[1px] h-full bg-gray-200 transition-colors duration-200 ease-out group-hover:bg-blue-400 group-active:bg-blue-600" />
+        </div>
+
+        <div className="flex-1 flex flex-col bg-gray-100/50 min-w-[320px]">
           <div className="flex-none px-4 py-2 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
             <span className="text-xs text-gray-500 uppercase font-medium tracking-wider">
               Preview
@@ -879,6 +1213,28 @@ function App() {
                   <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
               </button>
+              <button
+                onClick={handleFitWidth}
+                className="p-1 hover:bg-gray-200 rounded text-gray-600 transition-colors"
+                title="Fit Width"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="15 3 21 3 21 9" />
+                  <polyline points="9 21 3 21 3 15" />
+                  <line x1="21" y1="3" x2="14" y2="10" />
+                  <line x1="3" y1="21" x2="10" y2="14" />
+                </svg>
+              </button>
               <div className="h-4 w-px bg-gray-300 mx-2"></div>
               <button
                 onClick={handleExportPdf}
@@ -904,9 +1260,18 @@ function App() {
               </button>
             </div>
           </div>
-          <div className="flex-1 overflow-auto p-4 flex flex-col items-center gap-4">
+          <div
+            ref={previewContainerRef}
+            className="flex-1 overflow-auto p-4 flex flex-col items-center gap-4"
+            onWheel={handleWheel}
+          >
             <div
-              className="bg-white shadow-lg ring-1 ring-gray-900/5 w-full max-w-2xl min-h-[500px] flex items-center justify-center text-gray-400 transition-transform duration-200 ease-out origin-top"
+              ref={previewContentRef}
+              className={`bg-white shadow-lg ring-1 ring-gray-900/5 w-auto min-w-[300px] transition-transform duration-200 ease-out origin-top ${
+                renderedSvg
+                  ? ""
+                  : "min-h-[500px] flex items-center justify-center"
+              }`}
               style={{ transform: `scale(${zoom})` }}
             >
               {renderedSvg ? (
@@ -939,153 +1304,255 @@ function App() {
                 </div>
               )}
             </div>
-
-            {showJson && debugJson && (
-              <div className="w-full max-w-2xl bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg overflow-hidden transition-all">
-                <div className="px-4 py-2 bg-gray-50 border-b border-gray-100 flex justify-between items-center">
-                  <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Debug JSON
-                  </span>
-                  <span className="text-xs text-gray-400">
-                    {(debugJson.length / 1024).toFixed(1)} KB
-                  </span>
-                </div>
-                <pre className="p-4 text-xs font-mono text-gray-600 bg-white overflow-auto max-h-96 whitespace-pre-wrap break-all">
-                  {(() => {
-                    try {
-                      return JSON.stringify(JSON.parse(debugJson), null, 2);
-                    } catch {
-                      return debugJson;
-                    }
-                  })()}
-                </pre>
-              </div>
-            )}
           </div>
         </div>
 
-        {showSettings && (
-          <div className="w-80 bg-white border-l border-gray-200 flex flex-col transition-all duration-300 ease-in-out">
-            <div className="flex-none px-4 py-3 border-b border-gray-100 flex justify-between items-center">
-              <h2 className="text-sm font-semibold text-gray-800">Settings</h2>
-              <button
-                onClick={() => setShowSettings(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M18 6 6 18" />
-                  <path d="m6 6 12 12" />
-                </svg>
-              </button>
+        {activeSidebarTab && (
+          <>
+            <div
+              role="separator"
+              aria-orientation="vertical"
+              aria-label="Resize sidebar"
+              className="w-2 flex-none cursor-col-resize -ml-1 z-10 flex justify-center group outline-none hover:bg-blue-50"
+              onMouseDown={(event) => startResize("sidebar", event)}
+            >
+              <div className="w-[1px] h-full bg-gray-200 transition-colors duration-200 ease-out group-hover:bg-blue-400 group-active:bg-blue-600" />
             </div>
-            <div className="flex-1 overflow-auto p-4 space-y-6">
-              <div>
-                <label className="flex items-center justify-between cursor-pointer group mb-1">
-                  <span className="text-sm font-medium text-gray-700">
-                    Expression Resolve
-                  </span>
-                  <div className="relative">
-                    <input
-                      type="checkbox"
-                      className="sr-only"
-                      checked={resolveEnabled}
-                      onChange={(e) => setResolveEnabled(e.target.checked)}
-                    />
-                    <div
-                      className={`block w-9 h-5 rounded-full transition-colors duration-200 ease-in-out ${
-                        resolveEnabled ? "bg-blue-600" : "bg-gray-200"
-                      }`}
-                    ></div>
-                    <div
-                      className={`absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform duration-200 ease-in-out shadow-sm ${
-                        resolveEnabled ? "translate-x-4" : "translate-x-0"
-                      }`}
-                    ></div>
-                  </div>
-                </label>
-                <p className="text-xs text-gray-500">
-                  Enable AI-based character and expression resolution.
-                </p>
-              </div>
-
-              <div>
-                <label className="flex items-center justify-between cursor-pointer group mb-1">
-                  <span className="text-sm font-medium text-gray-700">
-                    Typst Mode
-                  </span>
-                  <div className="relative">
-                    <input
-                      type="checkbox"
-                      className="sr-only"
-                      checked={typstMode}
-                      onChange={(e) => setTypstMode(e.target.checked)}
-                    />
-                    <div
-                      className={`block w-9 h-5 rounded-full transition-colors duration-200 ease-in-out ${
-                        typstMode ? "bg-blue-600" : "bg-gray-200"
-                      }`}
-                    ></div>
-                    <div
-                      className={`absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform duration-200 ease-in-out shadow-sm ${
-                        typstMode ? "translate-x-4" : "translate-x-0"
-                      }`}
-                    ></div>
-                  </div>
-                </label>
-                <p className="text-xs text-gray-500">
-                  Interpret inline segments in Typst mode.
-                </p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  SiliconFlow API Key
-                </label>
-                <div className="relative">
-                  <input
-                    type="password"
-                    className="w-full pl-3 pr-8 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-gray-700 placeholder-gray-400 bg-gray-50/50 hover:bg-white focus:bg-white"
-                    placeholder="sk-..."
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    autoComplete="off"
-                    spellCheck={false}
-                  />
-                  {apiKey && (
-                    <button
-                      type="button"
-                      onClick={() => setApiKey("")}
-                      className="absolute right-2 top-2.5 text-gray-400 hover:text-red-500 transition-colors"
-                      title="Clear API Key"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="14"
-                        height="14"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
+            <div
+              className="flex-none bg-white min-w-[260px] flex flex-col transition-all duration-300 ease-in-out"
+              style={{ width: sidebarWidth }}
+            >
+              <div className="flex-none px-4 py-3 border-b border-gray-100 flex justify-between items-center">
+                <h2 className="text-sm font-semibold text-gray-800">
+                  {activeSidebarTab === "settings" ? "Settings" : "Debug JSON"}
+                </h2>
+                <div className="flex items-center gap-2">
+                  {activeSidebarTab === "debug" && (
+                    <>
+                      <span className="text-xs text-gray-400 font-mono">
+                        {(debugJson.length / 1024).toFixed(1)} KB
+                      </span>
+                      <div className="h-3 w-px bg-gray-200 mx-1"></div>
+                      <button
+                        onClick={handleCopyJson}
+                        className="text-gray-400 hover:text-blue-600 p-1 hover:bg-blue-50 rounded transition-colors"
+                        title="Copy to Clipboard"
                       >
-                        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-                      </svg>
-                    </button>
+                        {jsonCopied ? (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="text-green-500"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        ) : (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <rect
+                              x="9"
+                              y="9"
+                              width="13"
+                              height="13"
+                              rx="2"
+                              ry="2"
+                            ></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                          </svg>
+                        )}
+                      </button>
+                    </>
                   )}
+                  <button
+                    onClick={() => setActiveSidebarTab(null)}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M18 6 6 18" />
+                      <path d="m6 6 12 12" />
+                    </svg>
+                  </button>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
-                  Required for image search and ranking.
-                </p>
+              </div>
+              <div className="flex-1 overflow-auto p-4 space-y-6">
+                {activeSidebarTab === "settings" ? (
+                  <>
+                    <div>
+                      <label className="flex items-center justify-between cursor-pointer group mb-1">
+                        <span className="text-sm font-medium text-gray-700">
+                          Expression Resolve
+                        </span>
+                        <div className="relative">
+                          <input
+                            type="checkbox"
+                            className="sr-only"
+                            checked={resolveEnabled}
+                            onChange={(e) =>
+                              setResolveEnabled(e.target.checked)
+                            }
+                          />
+                          <div
+                            className={`block w-9 h-5 rounded-full transition-colors duration-200 ease-in-out ${
+                              resolveEnabled ? "bg-blue-600" : "bg-gray-200"
+                            }`}
+                          ></div>
+                          <div
+                            className={`absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform duration-200 ease-in-out shadow-sm ${
+                              resolveEnabled ? "translate-x-4" : "translate-x-0"
+                            }`}
+                          ></div>
+                        </div>
+                      </label>
+                      <p className="text-xs text-gray-500">
+                        Enable AI-based character and expression resolution.
+                      </p>
+                    </div>
+
+                    <div>
+                      <label className="flex items-center justify-between cursor-pointer group mb-1">
+                        <span className="text-sm font-medium text-gray-700">
+                          Typst Mode
+                        </span>
+                        <div className="relative">
+                          <input
+                            type="checkbox"
+                            className="sr-only"
+                            checked={typstMode}
+                            onChange={(e) => setTypstMode(e.target.checked)}
+                          />
+                          <div
+                            className={`block w-9 h-5 rounded-full transition-colors duration-200 ease-in-out ${
+                              typstMode ? "bg-blue-600" : "bg-gray-200"
+                            }`}
+                          ></div>
+                          <div
+                            className={`absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform duration-200 ease-in-out shadow-sm ${
+                              typstMode ? "translate-x-4" : "translate-x-0"
+                            }`}
+                          ></div>
+                        </div>
+                      </label>
+                      <p className="text-xs text-gray-500">
+                        Interpret inline segments in Typst mode.
+                      </p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Page Width
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          className="w-full pl-3 pr-8 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-gray-700 placeholder-gray-400 bg-gray-50/50 hover:bg-white focus:bg-white"
+                          placeholder="e.g. 300pt, 100mm"
+                          value={pageWidth}
+                          onChange={(e) => setPageWidth(e.target.value)}
+                          spellCheck={false}
+                        />
+                        {pageWidth && (
+                          <button
+                            type="button"
+                            onClick={() => setPageWidth("")}
+                            className="absolute right-2 top-2.5 text-gray-400 hover:text-red-500 transition-colors"
+                            title="Reset to Auto"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Override document width (e.g. 400pt). Leave empty for
+                        auto.
+                      </p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        SiliconFlow API Key
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="password"
+                          className="w-full pl-3 pr-8 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-gray-700 placeholder-gray-400 bg-gray-50/50 hover:bg-white focus:bg-white"
+                          placeholder="sk-..."
+                          value={apiKey}
+                          onChange={(e) => setApiKey(e.target.value)}
+                          autoComplete="off"
+                          spellCheck={false}
+                        />
+                        {apiKey && (
+                          <button
+                            type="button"
+                            onClick={() => setApiKey("")}
+                            className="absolute right-2 top-2.5 text-gray-400 hover:text-red-500 transition-colors"
+                            title="Clear API Key"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Required for image search and ranking.
+                      </p>
+                    </div>
+                  </>
+                ) : (
+                  <pre className="text-xs font-mono text-gray-600 bg-white whitespace-pre-wrap break-all">
+                    {(() => {
+                      try {
+                        return JSON.stringify(JSON.parse(debugJson), null, 2);
+                      } catch {
+                        return debugJson;
+                      }
+                    })()}
+                  </pre>
+                )}
               </div>
             </div>
-          </div>
+          </>
         )}
       </main>
     </div>
