@@ -1,5 +1,5 @@
-use crate::ast::{Directive, Node, Statement, StatementKind};
-use crate::types::{ChatLine, MmtOutput, PackConfig, Segment, YuzuTalk};
+use crate::ast::{Bond, Directive, Node, Reply, Statement, StatementKind};
+use crate::types::{ChatLine, MmtOutput, PackConfig, ReplyItem, Segment, YuzuTalk};
 use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -59,6 +59,7 @@ pub struct CompilerState {
 
     name_map: HashMap<String, String>,
     id_to_display: HashMap<String, String>,
+    last_display_name: Option<String>,
 
     left_history: Vec<String>,
     right_history: Vec<String>,
@@ -88,6 +89,7 @@ impl Default for CompilerState {
             current_avatar_override_by_char_id: HashMap::new(),
             name_map: HashMap::new(),
             id_to_display: HashMap::new(),
+            last_display_name: None,
             left_history: Vec::new(),
             right_history: Vec::new(),
             left_unique_first_seen: Vec::new(),
@@ -152,6 +154,8 @@ impl CompilerState {
         for node in nodes {
             match node {
                 Node::Directive(d) => self.handle_directive(d),
+                Node::Reply(r) => self.handle_reply(r),
+                Node::Bond(bond) => self.handle_bond(bond),
                 Node::Statement(s) => self.handle_statement(s),
                 Node::Continuation(c) => self.handle_continuation(c),
                 Node::BlankLine(b) => self.handle_blank_line(b),
@@ -177,6 +181,9 @@ impl CompilerState {
         match name.as_str() {
             "title" => {
                 self.meta.insert("title".to_string(), d.payload);
+            }
+            "typst_global" => {
+                self.typst_global = d.payload;
             }
             "usepack" => {
                 let parts: Vec<&str> = d.payload.split_whitespace().collect();
@@ -253,6 +260,35 @@ impl CompilerState {
                     }
                 }
             }
+            "avatarid" => {
+                let parts: Vec<&str> = d.payload.split_whitespace().collect();
+                if parts.len() >= 2 {
+                    let cid = parts[0].trim();
+                    let mut asset_name = parts[1..].join(" ").trim().to_string();
+                    if !cid.is_empty() && !asset_name.is_empty() {
+                        let key = format!("custom-{}", cid);
+                        if self.custom_id_to_display.contains_key(cid) {
+                            if let Some(resolved) = self.resolve_avatar_token(&asset_name) {
+                                self.current_avatar_override_by_char_id
+                                    .insert(key, resolved);
+                            } else {
+                                if !asset_name.to_lowercase().starts_with("asset:") {
+                                    asset_name = format!("asset:{}", asset_name);
+                                }
+                                self.current_avatar_override_by_char_id
+                                    .insert(key, asset_name);
+                            }
+                        }
+                    }
+                }
+            }
+            "unavatarid" => {
+                let cid = d.payload.trim();
+                if !cid.is_empty() {
+                    let key = format!("custom-{}", cid);
+                    self.current_avatar_override_by_char_id.remove(&key);
+                }
+            }
             "pagebreak" => {
                 self.chat.push(ChatLine {
                     char_id: None,
@@ -261,6 +297,8 @@ impl CompilerState {
                     segments: vec![],
                     side: None,
                     avatar_override: None,
+                    label: None,
+                    items: vec![],
                     yuzutalk: YuzuTalk {
                         avatar_state: "AUTO".to_string(),
                         name_override: String::new(),
@@ -269,11 +307,64 @@ impl CompilerState {
                 });
             }
             _ => {
-                if name.starts_with("asset.") {
+                if !name.is_empty() {
                     self.meta.insert(name, d.payload);
                 }
             }
         }
+    }
+
+    fn handle_reply(&mut self, r: Reply) {
+        let items: Vec<ReplyItem> = r
+            .items
+            .into_iter()
+            .filter(|it| !it.trim().is_empty())
+            .map(|it| ReplyItem { text: it })
+            .collect();
+        if items.is_empty() {
+            return;
+        }
+        self.chat.push(ChatLine {
+            char_id: None,
+            content: String::new(),
+            line_no: r.line_no,
+            segments: vec![],
+            side: None,
+            avatar_override: None,
+            label: Some("回复".to_string()),
+            items,
+            yuzutalk: YuzuTalk {
+                avatar_state: "NONE".to_string(),
+                name_override: String::new(),
+                r#type: "REPLY".to_string(),
+            },
+        });
+    }
+
+    fn handle_bond(&mut self, b: Bond) {
+        let mut content = b.content.trim().to_string();
+        if content.is_empty() {
+            let name = self
+                .last_display_name
+                .clone()
+                .unwrap_or_else(|| "未知角色".to_string());
+            content = format!("进入{}的羁绊剧情", name);
+        }
+        self.chat.push(ChatLine {
+            char_id: None,
+            content,
+            line_no: b.line_no,
+            segments: vec![],
+            side: None,
+            avatar_override: None,
+            label: None,
+            items: vec![],
+            yuzutalk: YuzuTalk {
+                avatar_state: "NONE".to_string(),
+                name_override: String::new(),
+                r#type: "BOND".to_string(),
+            },
+        });
     }
 
     fn handle_statement(&mut self, s: Statement) {
@@ -285,6 +376,8 @@ impl CompilerState {
                 segments: vec![],
                 side: None,
                 avatar_override: None,
+                label: None,
+                items: vec![],
                 yuzutalk: YuzuTalk {
                     avatar_state: "AUTO".to_string(),
                     name_override: String::new(),
@@ -332,10 +425,19 @@ impl CompilerState {
             name_override = val.clone();
         }
 
+        let display_name = if !name_override.is_empty() {
+            name_override.clone()
+        } else {
+            self.display_for_id(&speaker_id)
+                .unwrap_or_else(|| speaker_id.clone())
+        };
+        self.last_display_name = Some(display_name);
+
         let avatar_override = self
             .current_avatar_override_by_char_id
             .get(&speaker_id)
             .cloned();
+
         let line = ChatLine {
             char_id: Some(speaker_id),
             content: s.content,
@@ -343,6 +445,8 @@ impl CompilerState {
             segments: vec![],
             side: Some(side.to_string()),
             avatar_override,
+            label: None,
+            items: vec![],
             yuzutalk: YuzuTalk {
                 avatar_state: "AUTO".to_string(),
                 name_override: name_override,
@@ -500,6 +604,9 @@ impl CompilerState {
             if msg_type == "TEXT" {
                 current_char = msg.char_id.clone();
             }
+            if msg_type != "TEXT" && msg_type != "NARRATION" {
+                continue;
+            }
             let segments = build_segments(
                 &msg.content,
                 current_char.as_deref(),
@@ -509,6 +616,57 @@ impl CompilerState {
                 msg.segments = segments;
             }
         }
+    }
+
+    fn resolve_avatar_token(&self, token: &str) -> Option<String> {
+        if token.is_empty() {
+            return None;
+        }
+        if token.to_lowercase().starts_with("asset:") {
+            return Some(token.to_string());
+        }
+        let trimmed = token.trim();
+        if trimmed.starts_with("ba.") {
+            if let Some(pack) = &self.pack_ba {
+                let name = trimmed.trim_start_matches("ba.");
+                if let Some(avatar_rel) = pack.id_to_avatar.get(name) {
+                    if let Some(base_root) = &self.pack_v2_base_root {
+                        if let Ok(rel_pack) = pack.root.strip_prefix(base_root) {
+                            let avatar_ref =
+                                format!("/{}/{}", rel_pack.to_string_lossy(), avatar_rel);
+                            return Some(avatar_ref);
+                        }
+                    }
+                    return Some(avatar_rel.to_string());
+                }
+            }
+        }
+        if let Some(pack) = &self.pack_ba {
+            if let Some(id) = pack.aliases_to_id.get(trimmed) {
+                if let Some(avatar_rel) = pack.id_to_avatar.get(id) {
+                    if let Some(base_root) = &self.pack_v2_base_root {
+                        if let Ok(rel_pack) = pack.root.strip_prefix(base_root) {
+                            let avatar_ref =
+                                format!("/{}/{}", rel_pack.to_string_lossy(), avatar_rel);
+                            return Some(avatar_ref);
+                        }
+                    }
+                    return Some(avatar_rel.to_string());
+                }
+            }
+        }
+        if let Some(pack) = &self.pack_ba {
+            if let Some(avatar_rel) = pack.id_to_avatar.get(trimmed) {
+                if let Some(base_root) = &self.pack_v2_base_root {
+                    if let Ok(rel_pack) = pack.root.strip_prefix(base_root) {
+                        let avatar_ref = format!("/{}/{}", rel_pack.to_string_lossy(), avatar_rel);
+                        return Some(avatar_ref);
+                    }
+                }
+                return Some(avatar_rel.to_string());
+            }
+        }
+        None
     }
 
     fn build_custom_chars(&self) -> Vec<(String, String, String)> {

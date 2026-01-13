@@ -48,7 +48,7 @@ const resolveTypstRoot = () => {
     return normalizeTypstRoot(import.meta.env.VITE_MMT_TYPST_ROOT);
   }
 
-  return normalizeTypstRoot("/@fs/home/xiyihan/MomoScript/typst_sandbox");
+  return normalizeTypstRoot("https://eo.xiyihan.cn/typst_sandbox");
 };
 
 const resolvePackFetchUrl = () => {
@@ -72,7 +72,7 @@ const resolvePackBasePath = () => {
     return import.meta.env.VITE_MMT_PACK_BASE;
   }
 
-  return "/typst_sandbox";
+  return "https://eo.xiyihan.cn/typst_sandbox";
 };
 
 const resolvePackRootPath = () => {
@@ -84,6 +84,10 @@ const resolvePackRootPath = () => {
     return import.meta.env.VITE_MMT_PACK_ROOT;
   }
 
+  const base = resolvePackBasePath();
+  if (base.startsWith("http://") || base.startsWith("https://")) {
+    return `${base.replace(/\/+$/, "")}/pack-v2/ba`;
+  }
   return "/typst_sandbox/pack-v2/ba";
 };
 

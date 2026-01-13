@@ -2,6 +2,8 @@
 pub enum Node {
     Statement(Statement),
     Directive(Directive),
+    Reply(Reply),
+    Bond(Bond),
     Continuation(Continuation),
     BlankLine(BlankLine),
     Block(Block),
@@ -28,6 +30,18 @@ pub enum StatementKind {
 pub struct Directive {
     pub name: String,
     pub payload: String,
+    pub line_no: usize,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct Reply {
+    pub items: Vec<String>,
+    pub line_no: usize,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct Bond {
+    pub content: String,
     pub line_no: usize,
 }
 

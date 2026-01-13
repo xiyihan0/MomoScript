@@ -24,7 +24,16 @@ pub struct ChatLine {
     pub side: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub avatar_override: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub label: Option<String>,
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
+    pub items: Vec<ReplyItem>,
     pub yuzutalk: YuzuTalk,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct ReplyItem {
+    pub text: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
