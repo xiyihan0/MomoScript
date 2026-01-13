@@ -111,3 +111,4 @@ result.json
 examples/
 
 mmt_rs/target/
+web/.vite/
