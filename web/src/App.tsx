@@ -18,6 +18,16 @@ declare global {
     mmtPackRoot?: string;
     mmtPackBase?: string;
     mmtPackFetchUrl?: string;
+    mmtDebugTypst?: () => Promise<{
+      typstRoot: string;
+      packBase: string;
+      packFetchUrl: string;
+      packRoot: string;
+      templateUrl: string;
+      templateStatus: number;
+      templateLength: number;
+      templatePreview: string;
+    }>;
   }
 }
 
@@ -1046,6 +1056,33 @@ function App() {
   useEffect(() => {
     storePageWidth(pageWidth.trim());
   }, [pageWidth]);
+
+  useEffect(() => {
+    window.mmtDebugTypst = async () => {
+      const typstRoot = resolveTypstRoot();
+      const packBase = resolvePackBasePath();
+      const packFetchUrl = resolvePackFetchUrl();
+      const packRoot = resolvePackRootPath();
+      const templateUrl = new URL("mmt_render/mmt_render.typ", `${typstRoot}/`)
+        .href;
+      const res = await fetch(templateUrl);
+      const text = await res.text();
+      return {
+        typstRoot,
+        packBase,
+        packFetchUrl,
+        packRoot,
+        templateUrl,
+        templateStatus: res.status,
+        templateLength: text.length,
+        templatePreview: text.slice(0, 400),
+      };
+    };
+
+    return () => {
+      delete window.mmtDebugTypst;
+    };
+  }, []);
 
   useEffect(() => {
     const handle = window.setTimeout(() => {
