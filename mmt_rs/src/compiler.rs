@@ -1,4 +1,4 @@
-use crate::ast::{Node, Directive, Statement, StatementKind};
+use crate::ast::{Directive, Node, Statement, StatementKind};
 use crate::types::{ChatLine, MmtOutput, PackConfig, Segment, YuzuTalk};
 use std::collections::HashMap;
 use std::fs;
@@ -12,7 +12,10 @@ pub struct CompileOptions {
 
 impl Default for CompileOptions {
     fn default() -> Self {
-        Self { typst_mode: false, join_with_newline: true }
+        Self {
+            typst_mode: false,
+            join_with_newline: true,
+        }
     }
 }
 
@@ -24,7 +27,11 @@ struct PackV2Data {
 
 enum InlineSegment {
     Text(String),
-    Expr { query: String, target: String, raw: String },
+    Expr {
+        query: String,
+        target: String,
+        raw: String,
+    },
 }
 
 pub struct CompilerState {
@@ -53,8 +60,10 @@ pub struct CompilerState {
     name_map: HashMap<String, String>,
     id_to_display: HashMap<String, String>,
 
-    history: Vec<String>,
-    unique_first_seen: Vec<String>,
+    left_history: Vec<String>,
+    right_history: Vec<String>,
+    left_unique_first_seen: Vec<String>,
+    right_unique_first_seen: Vec<String>,
 }
 
 impl Default for CompilerState {
@@ -79,8 +88,10 @@ impl Default for CompilerState {
             current_avatar_override_by_char_id: HashMap::new(),
             name_map: HashMap::new(),
             id_to_display: HashMap::new(),
-            history: Vec::new(),
-            unique_first_seen: Vec::new(),
+            left_history: Vec::new(),
+            right_history: Vec::new(),
+            left_unique_first_seen: Vec::new(),
+            right_unique_first_seen: Vec::new(),
         }
     }
 }
@@ -92,11 +103,37 @@ impl CompilerState {
         st
     }
 
+    pub fn new_without_pack() -> Self {
+        Self::default()
+    }
+
+    pub fn new_without_pack_with_options(options: CompileOptions) -> Self {
+        let mut st = Self::default();
+        st.options = options;
+        st
+    }
+
     pub fn with_options(options: CompileOptions) -> Self {
         let mut st = Self::default();
         st.options = options;
         st.init_pack_v2();
         st
+    }
+
+    pub fn set_pack_v2_from_json(
+        &mut self,
+        pack_root: &str,
+        base_root: &str,
+        char_id_json: &str,
+        asset_mapping_json: &str,
+    ) {
+        if let Some((pack, base_root)) =
+            load_pack_v2_from_json(pack_root, base_root, char_id_json, asset_mapping_json)
+        {
+            self.pack_v2_root = Some(pack.root.clone());
+            self.pack_v2_base_root = Some(base_root);
+            self.pack_ba = Some(pack);
+        }
     }
 
     fn init_pack_v2(&mut self) {
@@ -124,11 +161,11 @@ impl CompilerState {
 
         self.attach_segments();
         self.custom_chars = self.build_custom_chars();
-        
+
         MmtOutput {
             chars: vec![],
             chat: self.chat,
-            custom_chars: self.custom_chars, 
+            custom_chars: self.custom_chars,
             meta: self.meta,
             packs: self.packs,
             typst_global: self.typst_global,
@@ -138,7 +175,9 @@ impl CompilerState {
     fn handle_directive(&mut self, d: Directive) {
         let name = d.name.trim().to_lowercase();
         match name.as_str() {
-            "title" => { self.meta.insert("title".to_string(), d.payload); }
+            "title" => {
+                self.meta.insert("title".to_string(), d.payload);
+            }
             "usepack" => {
                 let parts: Vec<&str> = d.payload.split_whitespace().collect();
                 if parts.len() >= 3 && parts[1] == "as" {
@@ -163,7 +202,8 @@ impl CompilerState {
             "tmpalias" => {
                 if let Some((name, val)) = d.payload.split_once('=') {
                     let char_id = self.resolve_char_id(name.trim());
-                    self.tmp_aliases_pending.insert(char_id, val.trim().to_string());
+                    self.tmp_aliases_pending
+                        .insert(char_id, val.trim().to_string());
                 }
             }
             "aliasid" => {
@@ -208,7 +248,8 @@ impl CompilerState {
                         if !asset_name.to_lowercase().starts_with("asset:") {
                             asset_name = format!("asset:{}", asset_name);
                         }
-                        self.current_avatar_override_by_char_id.insert(char_id, asset_name);
+                        self.current_avatar_override_by_char_id
+                            .insert(char_id, asset_name);
                     }
                 }
             }
@@ -252,21 +293,21 @@ impl CompilerState {
             });
             return;
         }
-        
-        let (speaker_id, explicit_display) = self.resolve_speaker(&s);
-        
+
         let side = match s.kind {
             StatementKind::Left => "left",
             StatementKind::Right => "right",
             _ => "left",
         };
 
+        let (speaker_id, explicit_display) = self.resolve_speaker(&s, side);
+
         if side == "left" {
             self.left_speaker = Some(speaker_id.clone());
         } else {
             self.right_speaker = Some(speaker_id.clone());
         }
-        self.update_history(speaker_id.clone());
+        self.update_history(side, speaker_id.clone());
 
         if let Some(display) = explicit_display {
             self.id_to_display.insert(speaker_id.clone(), display);
@@ -277,7 +318,7 @@ impl CompilerState {
                 self.tmp_aliases_active = None;
             }
         }
-        
+
         if let Some(val) = self.tmp_aliases_pending.remove(&speaker_id) {
             self.tmp_aliases_active = Some((speaker_id.clone(), val));
         }
@@ -291,7 +332,10 @@ impl CompilerState {
             name_override = val.clone();
         }
 
-        let avatar_override = self.current_avatar_override_by_char_id.get(&speaker_id).cloned();
+        let avatar_override = self
+            .current_avatar_override_by_char_id
+            .get(&speaker_id)
+            .cloned();
         let line = ChatLine {
             char_id: Some(speaker_id),
             content: s.content,
@@ -301,11 +345,11 @@ impl CompilerState {
             avatar_override,
             yuzutalk: YuzuTalk {
                 avatar_state: "AUTO".to_string(),
-                name_override: name_override, 
+                name_override: name_override,
                 r#type: "TEXT".to_string(),
             },
         };
-        
+
         self.chat.push(line);
     }
 
@@ -313,7 +357,11 @@ impl CompilerState {
         if self.chat.is_empty() {
             return;
         }
-        let sep = if self.options.join_with_newline { "\n" } else { " " };
+        let sep = if self.options.join_with_newline {
+            "\n"
+        } else {
+            " "
+        };
         let last = self.chat.last_mut().unwrap();
         last.content = format!("{}{}{}", last.content, sep, c.text);
     }
@@ -325,14 +373,32 @@ impl CompilerState {
         if self.chat.is_empty() {
             return;
         }
-        let sep = if self.options.join_with_newline { "\n" } else { " " };
+        let sep = if self.options.join_with_newline {
+            "\n"
+        } else {
+            " "
+        };
         let last = self.chat.last_mut().unwrap();
         last.content = format!("{}{}", last.content, sep);
     }
 
-    fn update_history(&mut self, speaker_id: String) {
-        if self.history.is_empty() || self.history.last() != Some(&speaker_id) {
-            self.history.push(speaker_id);
+    fn update_history(&mut self, side: &str, speaker_id: String) {
+        let history = if side == "left" {
+            &mut self.left_history
+        } else {
+            &mut self.right_history
+        };
+        if history.is_empty() || history.last() != Some(&speaker_id) {
+            history.push(speaker_id.clone());
+        }
+
+        let unique_first_seen = if side == "left" {
+            &mut self.left_unique_first_seen
+        } else {
+            &mut self.right_unique_first_seen
+        };
+        if !unique_first_seen.contains(&speaker_id) {
+            unique_first_seen.push(speaker_id);
         }
     }
 
@@ -352,30 +418,41 @@ impl CompilerState {
         Some(id.to_string())
     }
 
-    fn resolve_speaker(&mut self, s: &Statement) -> (String, Option<String>) {
+    fn resolve_speaker(&mut self, s: &Statement, side: &str) -> (String, Option<String>) {
+        let (history, unique_first_seen) = if side == "left" {
+            (&self.left_history, &self.left_unique_first_seen)
+        } else {
+            (&self.right_history, &self.right_unique_first_seen)
+        };
+
         if let Some(sp) = &s.speaker {
             if let Some(rest) = sp.strip_prefix('_') {
-                let n = if rest.is_empty() { 1 } else { rest.parse::<usize>().unwrap_or(1) };
-                if n > 0 && self.history.len() >= n + 1 {
-                    let id = self.history[self.history.len() - (n + 1)].clone();
+                let n = if rest.is_empty() {
+                    1
+                } else {
+                    rest.parse::<usize>().unwrap_or(1)
+                };
+                if n > 0 && history.len() >= n + 1 {
+                    let id = history[history.len() - (n + 1)].clone();
                     return (id, None);
                 }
-                if let Some(last) = self.history.last() {
+                if let Some(last) = history.last() {
                     return (last.clone(), None);
                 }
             }
             if let Some(rest) = sp.strip_prefix('~') {
-                let n = if rest.is_empty() { 1 } else { rest.parse::<usize>().unwrap_or(1) };
-                if n > 0 && self.unique_first_seen.len() >= n {
-                    let id = self.unique_first_seen[n - 1].clone();
+                let n = if rest.is_empty() {
+                    1
+                } else {
+                    rest.parse::<usize>().unwrap_or(1)
+                };
+                if n > 0 && unique_first_seen.len() >= n {
+                    let id = unique_first_seen[n - 1].clone();
                     return (id, None);
                 }
             }
 
             let id = self.resolve_char_id(sp);
-            if !self.unique_first_seen.contains(&id) {
-                self.unique_first_seen.push(id.clone());
-            }
             let display = self.display_for_id(&id);
             return (id, display);
         } else {
@@ -423,7 +500,11 @@ impl CompilerState {
             if msg_type == "TEXT" {
                 current_char = msg.char_id.clone();
             }
-            let segments = build_segments(&msg.content, current_char.as_deref(), self.options.typst_mode);
+            let segments = build_segments(
+                &msg.content,
+                current_char.as_deref(),
+                self.options.typst_mode,
+            );
             if !segments.is_empty() {
                 msg.segments = segments;
             }
@@ -434,13 +515,23 @@ impl CompilerState {
         let mut out: Vec<(String, String, String)> = Vec::new();
         let mut seen: HashMap<String, bool> = HashMap::new();
         for msg in &self.chat {
-            let Some(char_id) = msg.char_id.as_ref() else { continue; };
-            if char_id == "__Sensei" { continue; }
-            if seen.get(char_id).is_some() { continue; }
+            let Some(char_id) = msg.char_id.as_ref() else {
+                continue;
+            };
+            if char_id == "__Sensei" {
+                continue;
+            }
+            if seen.get(char_id).is_some() {
+                continue;
+            }
             seen.insert(char_id.clone(), true);
 
             if let Some(cid) = char_id.strip_prefix("custom-") {
-                let display = self.custom_id_to_display.get(cid).cloned().unwrap_or_else(|| cid.to_string());
+                let display = self
+                    .custom_id_to_display
+                    .get(cid)
+                    .cloned()
+                    .unwrap_or_else(|| cid.to_string());
                 out.push((char_id.clone(), "uploaded".to_string(), display));
                 continue;
             }
@@ -450,8 +541,14 @@ impl CompilerState {
                     if let Some(avatar_rel) = pack.id_to_avatar.get(cid) {
                         if let Some(base_root) = &self.pack_v2_base_root {
                             if let Ok(rel_pack) = pack.root.strip_prefix(base_root) {
-                                let avatar_ref = format!("/{}/{}", rel_pack.to_string_lossy(), avatar_rel);
-                                let display_name = base_name(self.id_to_display.get(char_id).map(|s| s.as_str()).unwrap_or(cid));
+                                let avatar_ref =
+                                    format!("/{}/{}", rel_pack.to_string_lossy(), avatar_rel);
+                                let display_name = base_name(
+                                    self.id_to_display
+                                        .get(char_id)
+                                        .map(|s| s.as_str())
+                                        .unwrap_or(cid),
+                                );
                                 out.push((char_id.clone(), avatar_ref, display_name));
                                 continue;
                             }
@@ -459,7 +556,12 @@ impl CompilerState {
                     }
                 }
             }
-            let display_name = base_name(self.id_to_display.get(char_id).map(|s| s.as_str()).unwrap_or(char_id));
+            let display_name = base_name(
+                self.id_to_display
+                    .get(char_id)
+                    .map(|s| s.as_str())
+                    .unwrap_or(char_id),
+            );
             out.push((char_id.clone(), "uploaded".to_string(), display_name));
         }
         out
@@ -495,42 +597,93 @@ fn load_pack_v2(pack_root: &Path) -> Option<PackV2Data> {
     let char_id_path = pack_root.join("char_id.json");
     if char_id_path.exists() {
         if let Ok(text) = fs::read_to_string(char_id_path) {
-            if let Ok(value) = serde_json::from_str::<serde_json::Value>(&text) {
-                if let Some(obj) = value.as_object() {
-                    for (k, v) in obj {
-                        if let Some(id) = v.as_str() {
-                            if !k.trim().is_empty() && !id.trim().is_empty() {
-                                aliases_to_id.insert(k.trim().to_string(), id.trim().to_string());
-                            }
-                        }
-                    }
-                }
-            }
+            aliases_to_id = parse_char_id_json(&text);
         }
     }
 
     let mut id_to_avatar: HashMap<String, String> = HashMap::new();
     if let Ok(text) = fs::read_to_string(mapping_path) {
-        if let Ok(value) = serde_json::from_str::<serde_json::Value>(&text) {
-            if let Some(obj) = value.as_object() {
-                for (k, v) in obj {
-                    if let Some(map) = v.as_object() {
-                        if let Some(avatar) = map.get("avatar").and_then(|v| v.as_str()) {
-                            if !avatar.trim().is_empty() {
-                                id_to_avatar.insert(k.to_string(), avatar.to_string());
-                            }
+        id_to_avatar = parse_asset_mapping_json(&text);
+    }
+
+    if id_to_avatar.is_empty() {
+        return None;
+    }
+
+    for id in id_to_avatar.keys() {
+        aliases_to_id
+            .entry(id.clone())
+            .or_insert_with(|| id.clone());
+    }
+
+    Some(PackV2Data {
+        root: pack_root.to_path_buf(),
+        aliases_to_id,
+        id_to_avatar,
+    })
+}
+
+fn load_pack_v2_from_json(
+    pack_root: &str,
+    base_root: &str,
+    char_id_json: &str,
+    asset_mapping_json: &str,
+) -> Option<(PackV2Data, PathBuf)> {
+    let mut aliases_to_id = parse_char_id_json(char_id_json);
+    let id_to_avatar = parse_asset_mapping_json(asset_mapping_json);
+
+    if id_to_avatar.is_empty() {
+        return None;
+    }
+
+    for id in id_to_avatar.keys() {
+        aliases_to_id
+            .entry(id.clone())
+            .or_insert_with(|| id.clone());
+    }
+
+    Some((
+        PackV2Data {
+            root: PathBuf::from(pack_root),
+            aliases_to_id,
+            id_to_avatar,
+        },
+        PathBuf::from(base_root),
+    ))
+}
+
+fn parse_char_id_json(text: &str) -> HashMap<String, String> {
+    let mut out = HashMap::new();
+    if let Ok(value) = serde_json::from_str::<serde_json::Value>(text) {
+        if let Some(obj) = value.as_object() {
+            for (k, v) in obj {
+                if let Some(id) = v.as_str() {
+                    if !k.trim().is_empty() && !id.trim().is_empty() {
+                        out.insert(k.trim().to_string(), id.trim().to_string());
+                    }
+                }
+            }
+        }
+    }
+    out
+}
+
+fn parse_asset_mapping_json(text: &str) -> HashMap<String, String> {
+    let mut out = HashMap::new();
+    if let Ok(value) = serde_json::from_str::<serde_json::Value>(text) {
+        if let Some(obj) = value.as_object() {
+            for (k, v) in obj {
+                if let Some(map) = v.as_object() {
+                    if let Some(avatar) = map.get("avatar").and_then(|v| v.as_str()) {
+                        if !avatar.trim().is_empty() {
+                            out.insert(k.to_string(), avatar.to_string());
                         }
                     }
                 }
             }
         }
     }
-
-    for id in id_to_avatar.keys() {
-        aliases_to_id.entry(id.clone()).or_insert_with(|| id.clone());
-    }
-
-    Some(PackV2Data { root: pack_root.to_path_buf(), aliases_to_id, id_to_avatar })
+    out
 }
 
 fn base_name(name: &str) -> String {
@@ -546,7 +699,9 @@ fn base_name(name: &str) -> String {
 fn build_segments(content: &str, current_char: Option<&str>, typst_mode: bool) -> Vec<Segment> {
     let segments = parse_inline_segments(content, typst_mode, typst_mode);
     if segments.is_empty() {
-        return vec![Segment::Text { text: content.to_string() }];
+        return vec![Segment::Text {
+            text: content.to_string(),
+        }];
     }
 
     let mut out: Vec<Segment> = Vec::new();
@@ -588,19 +743,29 @@ fn build_segments(content: &str, current_char: Option<&str>, typst_mode: bool) -
                     }
                 };
                 let text = format!("[{}]", q);
-                out.push(Segment::Expr { text, query: q, target_char_id: target_id });
+                out.push(Segment::Expr {
+                    text,
+                    query: q,
+                    target_char_id: target_id,
+                });
             }
         }
     }
 
     if out.is_empty() {
-        vec![Segment::Text { text: content.to_string() }]
+        vec![Segment::Text {
+            text: content.to_string(),
+        }]
     } else {
         out
     }
 }
 
-fn parse_inline_segments(content: &str, require_colon_prefix: bool, preserve_backslash: bool) -> Vec<InlineSegment> {
+fn parse_inline_segments(
+    content: &str,
+    require_colon_prefix: bool,
+    preserve_backslash: bool,
+) -> Vec<InlineSegment> {
     let chars: Vec<char> = content.chars().collect();
     let mut i = 0;
     let len = chars.len();
@@ -626,9 +791,13 @@ fn parse_inline_segments(content: &str, require_colon_prefix: bool, preserve_bac
         }
 
         if ch == '(' {
-            if let Some((target, close_idx)) = parse_delimited(&chars, i + 1, ')', preserve_backslash) {
+            if let Some((target, close_idx)) =
+                parse_delimited(&chars, i + 1, ')', preserve_backslash)
+            {
                 if close_idx + 1 < len && chars[close_idx + 1] == '[' {
-                    if let Some((query, end_idx)) = parse_delimited(&chars, close_idx + 2, ']', preserve_backslash) {
+                    if let Some((query, end_idx)) =
+                        parse_delimited(&chars, close_idx + 2, ']', preserve_backslash)
+                    {
                         let raw = slice_chars(&chars, i, end_idx + 1);
                         if require_colon_prefix && !query.trim().starts_with(':') {
                             buf.push_str(&raw);
@@ -645,11 +814,15 @@ fn parse_inline_segments(content: &str, require_colon_prefix: bool, preserve_bac
         }
 
         if ch == '[' {
-            if let Some((query, close_idx)) = parse_delimited(&chars, i + 1, ']', preserve_backslash) {
+            if let Some((query, close_idx)) =
+                parse_delimited(&chars, i + 1, ']', preserve_backslash)
+            {
                 let mut target = String::new();
                 let mut end_idx = close_idx + 1;
                 if end_idx < len && chars[end_idx] == '(' {
-                    if let Some((t, t_end)) = parse_delimited(&chars, end_idx + 1, ')', preserve_backslash) {
+                    if let Some((t, t_end)) =
+                        parse_delimited(&chars, end_idx + 1, ')', preserve_backslash)
+                    {
                         target = t;
                         end_idx = t_end + 1;
                     }
@@ -678,7 +851,12 @@ fn parse_inline_segments(content: &str, require_colon_prefix: bool, preserve_bac
     out
 }
 
-fn parse_delimited(chars: &[char], mut idx: usize, close: char, preserve_backslash: bool) -> Option<(String, usize)> {
+fn parse_delimited(
+    chars: &[char],
+    mut idx: usize,
+    close: char,
+    preserve_backslash: bool,
+) -> Option<(String, usize)> {
     let mut out = String::new();
     while idx < chars.len() {
         let c = chars[idx];
@@ -709,4 +887,3 @@ fn slice_chars(chars: &[char], start: usize, end: usize) -> String {
     }
     out
 }
-

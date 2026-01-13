@@ -82,7 +82,10 @@ pub fn parse(input: &str) -> Vec<Node> {
             continue;
         }
 
-        nodes.push(Node::Continuation(Continuation { text: lstripped.trim_end().to_string(), line_no }));
+        nodes.push(Node::Continuation(Continuation {
+            text: lstripped.trim_end().to_string(),
+            line_no,
+        }));
     }
 
     nodes

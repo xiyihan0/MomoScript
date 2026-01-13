@@ -8,8 +8,13 @@ name = "mmt_rs"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-pyo3 = { version = "0.27.2", features = ["extension-module"] }
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.149"
 thiserror = "2.0.17"
 winnow = "0.7.14"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+pyo3 = { version = "0.27.2", features = ["extension-module"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2.101"

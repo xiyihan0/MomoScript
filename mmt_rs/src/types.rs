@@ -4,9 +4,9 @@ use std::collections::HashMap;
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct MmtOutput {
     #[serde(default)]
-    pub chars: Vec<String>, 
+    pub chars: Vec<String>,
     pub chat: Vec<ChatLine>,
-    pub custom_chars: Vec<(String, String, String)>, 
+    pub custom_chars: Vec<(String, String, String)>,
     pub meta: HashMap<String, String>,
     pub packs: PackConfig,
     pub typst_global: String,
@@ -28,20 +28,30 @@ pub struct ChatLine {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
-#[serde(tag = "type", rename_all = "lowercase")] 
+#[serde(tag = "type", rename_all = "lowercase")]
 pub enum Segment {
-    Text { text: String },
-    Expr { text: String, query: String, target_char_id: String },
-    Image { #[serde(rename = "ref")] ref_: String, alt: String }, 
+    Text {
+        text: String,
+    },
+    Expr {
+        text: String,
+        query: String,
+        target_char_id: String,
+    },
+    Image {
+        #[serde(rename = "ref")]
+        ref_: String,
+        alt: String,
+    },
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct YuzuTalk {
     #[serde(rename = "avatarState")]
-    pub avatar_state: String, 
+    pub avatar_state: String,
     #[serde(rename = "nameOverride")]
     pub name_override: String,
-    pub r#type: String, 
+    pub r#type: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
