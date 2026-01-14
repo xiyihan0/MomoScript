@@ -4,6 +4,6 @@
   publish = "dist"
 
 [build.environment]
-  VITE_MMT_TYPST_ROOT = "https://eo.xiyihan.cn/typst_sandbox"
+  VITE_MMT_TYPST_ROOT = "/typst_sandbox"
   VITE_MMT_PACK_FETCH_URL = "https://eo.xiyihan.cn/typst_sandbox/pack-v2/ba"
   VITE_MMT_PACK_BASE = "https://eo.xiyihan.cn/typst_sandbox"

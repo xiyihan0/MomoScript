@@ -1,4 +1,6 @@
 # MomoScript
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1b48c1c1-6c02-424b-bb3c-0304c500b741/deploy-status)](https://app.netlify.com/projects/momoscript/deploys)
+
 
 MomoScript 是一个正在开发中的，专为编写《蔚蓝档案》的 Momotalk 样式文档设计的领域特定语言（DSL）和渲染器。它能够将简单的文本脚本转换成类似 Momotalk/MoeTalk 风格的可视化对话图片或 PDF 示例文档，借助 Typst 本身的强大排版能力进行高级样式设置，并可以集成到 NoneBot 机器人框架中。
 
