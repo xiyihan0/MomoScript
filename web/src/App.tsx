@@ -28,6 +28,16 @@ declare global {
       templateLength: number;
       templatePreview: string;
     }>;
+    mmtDebugEnv?: () => {
+      typstRootEnv: string;
+      packFetchEnv: string;
+      packBaseEnv: string;
+      packRootEnv: string;
+      resolvedTypstRoot: string;
+      resolvedPackFetchUrl: string;
+      resolvedPackBase: string;
+      resolvedPackRoot: string;
+    };
   }
 }
 
@@ -1079,8 +1089,23 @@ function App() {
       };
     };
 
+    window.mmtDebugEnv = () => {
+      const env = import.meta.env;
+      return {
+        typstRootEnv: env.VITE_MMT_TYPST_ROOT ?? "",
+        packFetchEnv: env.VITE_MMT_PACK_FETCH_URL ?? "",
+        packBaseEnv: env.VITE_MMT_PACK_BASE ?? "",
+        packRootEnv: env.VITE_MMT_PACK_ROOT ?? "",
+        resolvedTypstRoot: resolveTypstRoot(),
+        resolvedPackFetchUrl: resolvePackFetchUrl(),
+        resolvedPackBase: resolvePackBasePath(),
+        resolvedPackRoot: resolvePackRootPath(),
+      };
+    };
+
     return () => {
       delete window.mmtDebugTypst;
+      delete window.mmtDebugEnv;
     };
   }, []);
 
