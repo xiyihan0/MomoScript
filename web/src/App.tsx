@@ -979,7 +979,12 @@ function App() {
         try {
           let fetchUrl: string;
           try {
-            fetchUrl = new URL(path, base).href;
+            if (path.startsWith("http://") || path.startsWith("https://")) {
+              fetchUrl = path;
+            } else {
+              const normalizedPath = path.replace(/^\/+/, "");
+              fetchUrl = new URL(normalizedPath, base).href;
+            }
           } catch {
             fetchUrl = path;
           }
@@ -1597,7 +1602,7 @@ function App() {
                         <input
                           type="text"
                           className="w-full pl-3 pr-8 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-gray-700 placeholder-gray-400 bg-gray-50/50 hover:bg-white focus:bg-white"
-                          placeholder="https://mms.xiyihan.cn/typst_sandbox"
+                          placeholder="https://eo.xiyihan.cn/typst_sandbox"
                           value={prefetchBase}
                           onChange={(e) => setPrefetchBase(e.target.value)}
                           spellCheck={false}
