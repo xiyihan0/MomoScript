@@ -151,6 +151,7 @@ const loadPackData = async () => {
 
 const apiKeyStorageKey = "SILICONFLOW_API_KEY";
 const pageWidthStorageKey = "MMT_PAGE_WIDTH";
+const prefetchBaseStorageKey = "MMT_PREFETCH_BASE";
 const apiBaseUrl = "https://api.siliconflow.cn/v1";
 const embeddingModel = "Qwen/Qwen3-Embedding-8B";
 const rerankModel = "Qwen/Qwen3-Reranker-8B";
@@ -178,6 +179,16 @@ let openAiKey: string | null = null;
 
 const loadApiKey = () => localStorage.getItem(apiKeyStorageKey) ?? "";
 const loadPageWidth = () => localStorage.getItem(pageWidthStorageKey) ?? "";
+const loadPrefetchBase = () => {
+  const stored = localStorage.getItem(prefetchBaseStorageKey) ?? "";
+  if (stored) {
+    return stored;
+  }
+  if (import.meta.env.VITE_MMT_PREFETCH_BASE) {
+    return import.meta.env.VITE_MMT_PREFETCH_BASE;
+  }
+  return "";
+};
 
 const storeApiKey = (value: string) => {
   if (value) {
@@ -192,6 +203,14 @@ const storePageWidth = (value: string) => {
     localStorage.setItem(pageWidthStorageKey, value);
   } else {
     localStorage.removeItem(pageWidthStorageKey);
+  }
+};
+
+const storePrefetchBase = (value: string) => {
+  if (value) {
+    localStorage.setItem(prefetchBaseStorageKey, value);
+  } else {
+    localStorage.removeItem(prefetchBaseStorageKey);
   }
 };
 
@@ -681,6 +700,7 @@ function App() {
   const [debugJson, setDebugJson] = useState<string>("");
   const [apiKey, setApiKey] = useState<string>(loadApiKey());
   const [pageWidth, setPageWidth] = useState<string>(loadPageWidth());
+  const [prefetchBase, setPrefetchBase] = useState<string>(loadPrefetchBase());
   const [resolveEnabled, setResolveEnabled] = useState<boolean>(true);
   const [typstMode, setTypstMode] = useState<boolean>(true);
   const [activeSidebarTab, setActiveSidebarTab] = useState<
@@ -949,7 +969,7 @@ function App() {
   };
 
   const fetchAndMapImages = async (paths: string[]) => {
-    let base = resolveTypstRoot();
+    let base = prefetchBase.trim() || resolvePackBasePath();
     if (!base.endsWith("/")) {
       base += "/";
     }
@@ -1056,7 +1076,7 @@ function App() {
         setRenderedSvg("");
       }
     },
-    [apiKey, resolveEnabled, typstMode, pageWidth],
+    [apiKey, resolveEnabled, typstMode, pageWidth, prefetchBase],
   );
 
   useEffect(() => {
@@ -1066,6 +1086,10 @@ function App() {
   useEffect(() => {
     storePageWidth(pageWidth.trim());
   }, [pageWidth]);
+
+  useEffect(() => {
+    storePrefetchBase(prefetchBase.trim());
+  }, [prefetchBase]);
 
   useEffect(() => {
     window.mmtDebugTypst = async () => {
@@ -1096,10 +1120,12 @@ function App() {
         packFetchEnv: env.VITE_MMT_PACK_FETCH_URL ?? "",
         packBaseEnv: env.VITE_MMT_PACK_BASE ?? "",
         packRootEnv: env.VITE_MMT_PACK_ROOT ?? "",
+        prefetchBaseEnv: env.VITE_MMT_PREFETCH_BASE ?? "",
         resolvedTypstRoot: resolveTypstRoot(),
         resolvedPackFetchUrl: resolvePackFetchUrl(),
         resolvedPackBase: resolvePackBasePath(),
         resolvedPackRoot: resolvePackRootPath(),
+        prefetchBaseSetting: prefetchBase.trim(),
       };
     };
 
@@ -1560,6 +1586,44 @@ function App() {
                       <p className="text-xs text-gray-500 mt-1">
                         Override document width (e.g. 400pt). Leave empty for
                         auto.
+                      </p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Image Prefetch Base URL
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          className="w-full pl-3 pr-8 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-gray-700 placeholder-gray-400 bg-gray-50/50 hover:bg-white focus:bg-white"
+                          placeholder="https://mms.xiyihan.cn/typst_sandbox"
+                          value={prefetchBase}
+                          onChange={(e) => setPrefetchBase(e.target.value)}
+                          spellCheck={false}
+                        />
+                        {prefetchBase && (
+                          <button
+                            type="button"
+                            onClick={() => setPrefetchBase("")}
+                            className="absolute right-2 top-2.5 text-gray-400 hover:text-red-500 transition-colors"
+                            title="Reset to Default"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Base URL for resolving relative image paths. Leave empty
+                        to use default root.
                       </p>
                     </div>
 
