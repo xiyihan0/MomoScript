@@ -1010,21 +1010,61 @@ function App() {
 
   const buildTypstInputs = () => {
     const widthInput = pageWidth.trim();
-    const rawBase = prefetchBase.trim();
-    const assetBase = rawBase
-      ? normalizeTypstRoot(rawBase)
-      : resolveTypstRoot();
-    const baseWithSlash = assetBase.endsWith("/") ? assetBase : `${assetBase}/`;
-    const optionsAsset = new URL("mmt_render/mmt_options.webp", baseWithSlash)
-      .href;
-    const favorAsset = new URL("mmt_render/mmt_favor.webp", baseWithSlash).href;
-    return {
+    const inputs: Record<string, string> = {
       chat: "/@memory/chat.json",
       typst_mode: typstMode ? "1" : "0",
       width: widthInput,
-      options_asset: optionsAsset,
-      favor_asset: favorAsset,
     };
+    if (prefetchBase.trim()) {
+      inputs.options_asset = "/@memory/mmt_options.webp";
+      inputs.favor_asset = "/@memory/mmt_favor.webp";
+    }
+    return inputs;
+  };
+
+  const preloadUiAssets = async () => {
+    const rawBase = prefetchBase.trim();
+    if (!rawBase) {
+      return;
+    }
+    const assetBase = normalizeTypstRoot(rawBase);
+    const baseWithSlash = assetBase.endsWith("/") ? assetBase : `${assetBase}/`;
+    const optionsUrl = new URL("mmt_render/mmt_options.webp", baseWithSlash)
+      .href;
+    const favorUrl = new URL("mmt_render/mmt_favor.webp", baseWithSlash).href;
+
+    await Promise.all([
+      (async () => {
+        try {
+          const res = await fetch(optionsUrl);
+          if (!res.ok) {
+            throw new Error(`Failed to fetch ${optionsUrl}: ${res.status}`);
+          }
+          const buf = await res.arrayBuffer();
+          await $typst.mapShadow(
+            "/@memory/mmt_options.webp",
+            new Uint8Array(buf),
+          );
+        } catch (error) {
+          console.warn("Failed to preload mmt_options.webp", error);
+        }
+      })(),
+      (async () => {
+        try {
+          const res = await fetch(favorUrl);
+          if (!res.ok) {
+            throw new Error(`Failed to fetch ${favorUrl}: ${res.status}`);
+          }
+          const buf = await res.arrayBuffer();
+          await $typst.mapShadow(
+            "/@memory/mmt_favor.webp",
+            new Uint8Array(buf),
+          );
+        } catch (error) {
+          console.warn("Failed to preload mmt_favor.webp", error);
+        }
+      })(),
+    ]);
   };
 
   const handleExportPdf = async () => {
@@ -1033,9 +1073,9 @@ function App() {
       ensureAccessModelReady();
       const resolvedData = await buildResolvedJson(code, typstMode);
 
-      // Preload images
       const imagePaths = extractImagePaths(resolvedData);
       await fetchAndMapImages(imagePaths);
+      await preloadUiAssets();
 
       const jsonString = JSON.stringify(resolvedData, null, 2);
       await $typst.mapShadow(
@@ -1072,9 +1112,9 @@ function App() {
         const jsonString = JSON.stringify(resolvedData, null, 2);
         setDebugJson(jsonString);
 
-        // Preload images
         const imagePaths = extractImagePaths(resolvedData);
         await fetchAndMapImages(imagePaths);
+        await preloadUiAssets();
 
         await $typst.mapShadow(
           "/@memory/chat.json",
@@ -1115,20 +1155,19 @@ function App() {
         .href;
       const res = await fetch(templateUrl);
       const text = await res.text();
-      const assetBase = prefetchBase.trim()
-        ? normalizeTypstRoot(prefetchBase.trim())
-        : resolveTypstRoot();
-      const assetBaseWithSlash = assetBase.endsWith("/")
-        ? assetBase
-        : `${assetBase}/`;
-      const optionsAsset = new URL(
-        "mmt_render/mmt_options.webp",
-        assetBaseWithSlash,
-      ).href;
-      const favorAsset = new URL(
-        "mmt_render/mmt_favor.webp",
-        assetBaseWithSlash,
-      ).href;
+      const rawBase = prefetchBase.trim();
+      const assetBase = rawBase ? normalizeTypstRoot(rawBase) : "";
+      const assetBaseWithSlash = assetBase
+        ? assetBase.endsWith("/")
+          ? assetBase
+          : `${assetBase}/`
+        : "";
+      const optionsAssetSource = assetBaseWithSlash
+        ? new URL("mmt_render/mmt_options.webp", assetBaseWithSlash).href
+        : "";
+      const favorAssetSource = assetBaseWithSlash
+        ? new URL("mmt_render/mmt_favor.webp", assetBaseWithSlash).href
+        : "";
       return {
         typstRoot,
         packBase,
@@ -1138,8 +1177,10 @@ function App() {
         templateStatus: res.status,
         templateLength: text.length,
         templatePreview: text.slice(0, 400),
-        optionsAsset,
-        favorAsset,
+        optionsAssetSource,
+        favorAssetSource,
+        optionsAssetInput: rawBase ? "/@memory/mmt_options.webp" : "",
+        favorAssetInput: rawBase ? "/@memory/mmt_favor.webp" : "",
       };
     };
 
