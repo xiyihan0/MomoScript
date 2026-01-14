@@ -12,6 +12,8 @@
 #let meta = data.at("meta", default: (:))
 #let doc_title = meta.at("title", default: "无题")
 #let doc_author = meta.at("author", default: "")
+#let options_asset = sys.inputs.at("options_asset", default: "mmt_options.webp")
+#let favor_asset = sys.inputs.at("favor_asset", default: "mmt_favor.webp")
 #let compiled_at = sys.inputs.at("compiled_at", default: "")
 #let disable_heading = sys.inputs.at("disable_heading", default: "0") == "1"
 
@@ -72,7 +74,7 @@
     height: auto,
     clip: true,
   )[
-    #place(top+right, dx:6pt, dy:-8pt, image("mmt_options.webp"))
+    #place(top+right, dx:6pt, dy:-8pt, image(options_asset))
     #place(line(start: (2pt, -0.2em), end: (2pt, 1em), stroke: blue+0.15em))
     #v(1pt)
     #h(5pt)回复
@@ -101,7 +103,7 @@
     height: auto,
     clip: true,
   )[
-    #place(top+right, dx:6pt, dy:-8pt, image("mmt_favor.webp", width: 25%))
+    #place(top+right, dx:6pt, dy:-8pt, image(favor_asset, width: 25%))
     #place(line(start: (2pt, -0.2em), end: (2pt, 1em), stroke: rgb("ff8e9b")+0.15em))
     #v(1pt)
     #h(5pt)羁绊事件

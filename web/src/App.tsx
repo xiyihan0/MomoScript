@@ -1008,6 +1008,25 @@ function App() {
     );
   };
 
+  const buildTypstInputs = () => {
+    const widthInput = pageWidth.trim();
+    const rawBase = prefetchBase.trim();
+    const assetBase = rawBase
+      ? normalizeTypstRoot(rawBase)
+      : resolveTypstRoot();
+    const baseWithSlash = assetBase.endsWith("/") ? assetBase : `${assetBase}/`;
+    const optionsAsset = new URL("mmt_render/mmt_options.webp", baseWithSlash)
+      .href;
+    const favorAsset = new URL("mmt_render/mmt_favor.webp", baseWithSlash).href;
+    return {
+      chat: "/@memory/chat.json",
+      typst_mode: typstMode ? "1" : "0",
+      width: widthInput,
+      options_asset: optionsAsset,
+      favor_asset: favorAsset,
+    };
+  };
+
   const handleExportPdf = async () => {
     try {
       ensureTypstReady();
@@ -1023,14 +1042,9 @@ function App() {
         "/@memory/chat.json",
         new TextEncoder().encode(jsonString),
       );
-      const widthInput = pageWidth.trim();
       const pdfData = await $typst.pdf({
         mainFilePath: "/mmt_render/mmt_render.typ",
-        inputs: {
-          chat: "/@memory/chat.json",
-          typst_mode: typstMode ? "1" : "0",
-          width: widthInput,
-        },
+        inputs: buildTypstInputs(),
       });
       if (!pdfData) {
         throw new Error("PDF generation failed");
@@ -1066,14 +1080,9 @@ function App() {
           "/@memory/chat.json",
           new TextEncoder().encode(jsonString),
         );
-        const widthInput = pageWidth.trim();
         const svg = await $typst.svg({
           mainFilePath: "/mmt_render/mmt_render.typ",
-          inputs: {
-            chat: "/@memory/chat.json",
-            typst_mode: typstMode ? "1" : "0",
-            width: widthInput,
-          },
+          inputs: buildTypstInputs(),
         });
         setRenderedSvg(svg);
       } catch (error) {
@@ -1106,6 +1115,20 @@ function App() {
         .href;
       const res = await fetch(templateUrl);
       const text = await res.text();
+      const assetBase = prefetchBase.trim()
+        ? normalizeTypstRoot(prefetchBase.trim())
+        : resolveTypstRoot();
+      const assetBaseWithSlash = assetBase.endsWith("/")
+        ? assetBase
+        : `${assetBase}/`;
+      const optionsAsset = new URL(
+        "mmt_render/mmt_options.webp",
+        assetBaseWithSlash,
+      ).href;
+      const favorAsset = new URL(
+        "mmt_render/mmt_favor.webp",
+        assetBaseWithSlash,
+      ).href;
       return {
         typstRoot,
         packBase,
@@ -1115,6 +1138,8 @@ function App() {
         templateStatus: res.status,
         templateLength: text.length,
         templatePreview: text.slice(0, 400),
+        optionsAsset,
+        favorAsset,
       };
     };
 
