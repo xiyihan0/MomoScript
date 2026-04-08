@@ -23,6 +23,7 @@ MomoScript (MMT) is a DSL for scripted visual storytelling (MoeTalk style), feat
 |------|----------|-------|
 | **DSL Parsing** | `mmt_core/dsl_parser.py` | Custom grammar logic |
 | **Compilation** | `mmt_core/dsl_compiler.py` | AST to JSON/Typst conversion |
+| **Implemented DSL Syntax** | `openspec/specs/dsl-syntax/spec.md` | Spec aligned to parser/compiler behavior |
 | **Rendering** | `typst_sandbox/mmt_render` | Typst rendering templates |
 | **Validation** | `tools/dsl_refactor_check.py` | Golden file regression tests |
 | **Pipeline** | `tools/mmt_pipeline.py` | End-to-end (Text -> PDF) runner |
@@ -34,6 +35,8 @@ MomoScript (MMT) is a DSL for scripted visual storytelling (MoeTalk style), feat
 - **Testing**: **NO standard pytest**. Uses "Golden File" regression (`tools/dsl_refactor_check.py`).
 - **Assets**: Large binaries ignored in git. Metadata (`manifest.json`, `tags.json`) tracked.
 - **Typst**: Executed via sandbox (`mmt_core/typst_sandbox.py`) with memory/timeout limits.
+- **OpenSpec**: Substantial DSL/rendering/workflow changes should be described under `openspec/changes/` and aligned to `openspec/specs/`.
+- **Syntax Truth Source**: Treat `mmt_core/dsl_parser.py`, `mmt_core/dsl_compiler.py`, and `openspec/specs/dsl-syntax/spec.md` as the source of truth for implemented syntax. `typst_sandbox/mmt_render/mmt_help_syntax.typ` is helpful, but may lag behind implementation.
 
 ## ANTI-PATTERNS (THIS PROJECT)
 - **NO** root pollution: (Legacy) Scripts like `bot.py` are at root, but new tools should go in `tools/`.
@@ -60,3 +63,4 @@ uv run bot.py
 - **EULA**: User-specific EULAs must be accepted for certain packs.
 - **Performance**: Typst rendering capped at 2GB RAM / 30s timeout.
 - **Legacy**: `MMT_DSL_ENGINE=legacy` is deprecated/unsupported.
+- **OpenSpec Entry**: Start with `openspec/project.md`, then the relevant file under `openspec/specs/`.

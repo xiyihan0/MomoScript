@@ -17,6 +17,7 @@
 - **Speaker Resolution**: `_emit_statement` in `dsl_compiler.py`. Handles backrefs (`_`), indices (`~1`), and explicit names.
 - **Inline Expressions**: `parse_inline_segments` (compiler) and `resolve_expressions.py` (vector search).
 - **ID Mapping**: `_resolve_char_id_from_selector`. Maps names to `ba.id` or `kivo-id`.
+- **Spec Reference**: `../openspec/specs/dsl-syntax/spec.md` documents the currently implemented syntax surface.
 
 ## CONVENTIONS
 - **Nodes**: All AST nodes inherit from `Node` and include a `Span`.
@@ -26,9 +27,11 @@
   - `custom-<hash>`: User-defined characters.
 - **State Management**: The compiler maintains `SpeakerState` per side (`>` vs `<`) to track history for backrefs.
 - **Goldens**: Verification is done by comparing `parse_to_json()` output against files in `dsl_fixtures/`.
+- **Syntax Source of Truth**: Prefer parser/compiler behavior and the OpenSpec syntax spec over prose help text when they conflict.
 
 ## ANTI-PATTERNS
 - **NO Nesting**: Directives like `@reply` or triple-quote blocks cannot be nested.
 - **Indentation**: Statement kind markers (`-`, `>`, `<`) must be followed by at least one space.
 - **Implicit Speakers**: Do not use `>` without a previous speaker defined unless it's the first statement (which will error).
 - **Direct JSON Edit**: Never manually edit `.golden.json` files; use `tools/dsl_refactor_check.py --update`.
+- **Spec Drift**: Do not update only `mmt_help_syntax.typ` when changing syntax behavior; update OpenSpec and parser/compiler-facing docs together.

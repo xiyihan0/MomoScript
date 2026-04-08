@@ -1,16 +1,16 @@
-## 1. Bootstrap OpenSpec structure
+## 1. 初始化 OpenSpec 目录结构
 
-- [x] 1.1 Add `openspec/project.md` with repository context and constraints
-- [x] 1.2 Add a repository-level `openspec/README.md`
+- [x] 1.1 添加包含仓库上下文与约束的 `openspec/project.md`
+- [x] 1.2 添加仓库级的 `openspec/README.md`
 
-## 2. Seed initial capability specs
+## 2. 预置初始 capability spec
 
-- [x] 2.1 Add the DSL compilation capability spec
-- [x] 2.2 Add the rendering pipeline capability spec
-- [x] 2.3 Add the tooling and verification capability spec
-- [x] 2.4 Add the change management capability spec
+- [x] 2.1 添加 DSL 编译 capability spec
+- [x] 2.2 添加渲染流水线 capability spec
+- [x] 2.3 添加工具链与验证 capability spec
+- [x] 2.4 添加变更管理 capability spec
 
-## 3. Make the workflow discoverable
+## 3. 提高流程可发现性
 
-- [x] 3.1 Link OpenSpec from the root README
-- [x] 3.2 Review the spec set for clarity and repository fit
+- [x] 3.1 在根 README 中加入 OpenSpec 入口
+- [x] 3.2 检查 spec 集合是否足够清晰且贴合仓库
