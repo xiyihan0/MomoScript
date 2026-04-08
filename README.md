@@ -61,6 +61,16 @@ npm run dev
 
 语法文档见：`typst_sandbox/mmt_render/mmt_help_syntax.typ`
 
+## OpenSpec
+
+仓库已加入一个轻量的 OpenSpec 目录用于记录能力规格和变更提案：
+
+- 项目上下文：`openspec/project.md`
+- 当前能力规格：`openspec/specs/`
+- 变更提案：`openspec/changes/`
+
+推荐在修改 DSL 语义、渲染流程、资源解析、Web 编辑器行为或跨模块工作流之前，先写对应的 OpenSpec 变更提案，再开始实现。
+
 ---
 
 ## 渲染流程
