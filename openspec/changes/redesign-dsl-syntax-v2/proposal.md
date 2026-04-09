@@ -1,0 +1,23 @@
+## Why
+
+当前 MomoScript 的 DSL 已经能承载实际创作，但随着 Typst 模式、查询占位、人物配置、局部样式覆盖等能力叠加，语法边界开始变得模糊。尤其是在准备重写渲染管线、改为直接生成 Typst 文档的背景下，旧语法里的若干历史设计需要重新分层。
+
+这次 change 的目标不是立刻实现全部重构，而是先明确下一版 DSL 的核心方向，让后续 parser / compiler / emitter 重写有稳定锚点。
+
+## What Changes
+
+- 为 DSL 下一版建立更清晰的语义分层：
+  - 核心 DSL 负责叙事结构
+  - `[...]` 负责查询占位
+  - `@typ` 负责高权限 Typst 注入
+- 引入“节点头部局部 patch”作为局部渲染参数覆盖机制
+- 重新设计人物与资源配置语法，倾向使用聚合声明，并在需要时提供统一短行简写
+- 收敛值层命名空间、短行参数、字面量和字符串规则
+- 明确废弃候选语法，例如 `(target)[expr]`
+
+## Impact
+
+- Formal spec delta: `dsl-syntax`
+- 相关实现参考：`mmt_core/dsl_parser.py`、`mmt_core/dsl_compiler.py`
+- 受影响范围：DSL parser、compiler、Typst emitter、文档、示例
+- 影响代码：暂未实现，本 change 目前用于收敛设计
