@@ -127,6 +127,88 @@ src: https://example.com/hero.png
 
 这里的目标是把结构分隔用的 `:` 和值内部命名空间分隔区分开来。
 
+### 统一资源路径
+
+人物资源路径倾向采用：
+
+```text
+<subject-ref>/[contribution_namespace::]<slot>/<variant>
+```
+
+其中：
+
+- `subject-ref` 可以是全局实体引用，例如 `ba::梦`，也可以是在脚本上下文中已经绑定的 handle
+- `contribution_namespace` 表示某个资源包对该实体贡献的资源来源，例如 `ba_extpack`
+- `slot` 第一版至少包含 `avatar` 和 `sticker`
+- `variant` 表示该 slot 下的具体差分名
+
+示例：
+
+```text
+ba::梦/avatar/default
+ba::梦/sticker/happy
+ba::梦/ba_extpack::sticker/happy
+dream/ba_extpack::avatar/smile
+```
+
+这里 `avatar` 专指聊天气泡旁边的说话人头像；`sticker` 专指发在对话内容里的角色表情包。旧讨论中的 `charface` 不作为下一版推荐命名。
+
+### slot 上下文简写
+
+在已经知道 slot 的位置，例如 patch 的 `avatar:` 或 `sticker:` 参数中，允许使用更短的 selector：
+
+```text
+[subject-ref/][contribution_namespace::]<variant>
+```
+
+例如：
+
+```text
+>(avatar: happy) dream: 你好
+>(avatar: ba_extpack::happy) dream: 你好
+>(sticker: ba_extpack::surprised) dream: [惊讶]
+>(avatar: other/ba_extpack::happy) dream: 复用另一个 handle 的头像
+```
+
+这些简写只在 slot 已由字段名确定的位置启用。没有 slot 上下文时，应使用完整资源路径，避免让 parser 猜测 `happy` 属于 `avatar`、`sticker`、`asset` 或其他资源类型。
+
+### 自定义素材与临时素材
+
+非人物资源不挂到人物路径下，使用独立命名空间：
+
+```text
+asset::hero
+tmp::upload_1
+```
+
+其中：
+
+- `asset::name` 表示脚本、项目或资源包中声明过的稳定自定义素材
+- `tmp::name` 表示运行环境注入的临时素材，例如 Web 编辑器上传文件或机器人会话里的临时图片
+- `tmp::` 不保证脚本脱离当前会话后仍可复现
+
+### 多资源包贡献规则
+
+资源包可以定义实体，也可以对已有实体追加资源贡献。扩展资源包 patch 到某个实体时，不会创建新的同名实体。
+
+例如：
+
+```text
+ba::梦
+gf2::梦
+ba_extpack patches ba::梦
+```
+
+这里 `ba::梦` 和 `gf2::梦` 是两个不同实体；`ba_extpack` 只是给 `ba::梦` 追加资源贡献。
+
+资源合并遵循：
+
+- 扩展资源包可以追加 `avatar` / `sticker` variant
+- 同一实体、同一 slot 下的裸 variant 如果唯一，则可以短写使用
+- 若多个资源包贡献了同名 variant，不按导入顺序隐式覆盖
+- 冲突时必须通过 `contribution_namespace::variant` 或完整资源路径显式指定
+- 扩展资源包不应静默修改 base pack 的默认值；若需要更改默认值，应由脚本层或显式配置层写出
+
 ### 字面量系统
 
 DSL 声明层倾向支持：
@@ -174,6 +256,10 @@ src: https://example.com/hero.png
 ### 短行声明的统一风格是否只采用 `key:value`
 
 当前认为 `key:value` 与 `key: value` 都可接受；是否完全禁用 `key=value`，还可继续收敛。
+
+### 资源路径里的 handle 是否允许出现在 pack manifest
+
+脚本 DSL 中倾向允许 `handle/slot/variant`，但 pack manifest 没有脚本上下文，原则上应使用全局实体引用，例如 `ba::梦/avatar/default`。
 
 ## Non-Goals
 
