@@ -7,7 +7,7 @@
 ## What Changes
 
 - 提出 pack-v3 manifest 草案，把“逻辑资源索引”和“物理存储格式”分层。
-- 将人物实体、资源贡献、slot、variant、tags、description、`#n` 顺序统一收进 manifest。
+- 将人物实体、资源贡献、slot、set、variant、tags、description、`#n` 顺序统一收进 manifest。
 - 允许资源条目指向普通图片文件，也允许指向 WebM video-frame blob 中的某一帧。
 - 明确 WebM blob 只是压缩存储格式，进入 Typst 前必须解析为 Typst 可消费的静态图片资源。
 
