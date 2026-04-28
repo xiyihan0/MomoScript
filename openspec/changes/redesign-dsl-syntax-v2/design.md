@@ -98,24 +98,65 @@ src: https://example.com/hero.png
 - 内容必须能被解析为合法的 Typst 参数列表
 - 不允许在 patch 中嵌入任意 Typst statement block
 
-### 查询占位
+### 表情与资源引用标记
 
-倾向收敛为：
+下一版倾向把消息正文里的表情包、素材引用与轻量查询收束为 bracket-colon 参数列表：
 
-- `[expr]`
-- `[expr](target)`
-- Typst 模式下的 `[:expr]`
-- Typst 模式下的 `[:expr](target)`
+```text
+[:selector:]
+[:subject-ref, selector:]
+[:subject-ref, contribution_namespace::variant:]
+[:subject-ref, ?query:]
+[:subject-ref, contribution_namespace::?query:]
+[:space, ref:]
+[:subject-ref, selector, key: value, ...:]
+```
 
-并废弃：
+其中：
 
-- `(target)[expr]`
-- `(target)[:expr]`
+- 单个位置参数默认按当前 subject 的 `sticker` slot 查找
+- 两个位置参数时，第一个默认是 subject-ref，第二个是 selector 或 query
+- 如果第一个位置参数是保留资源空间 `sticker` / `asset` / `tmp` / `file` / `url`，则不解释为 subject
+- 第二个位置参数可以带贡献命名空间，例如 `ba_extpack::happy`
+- 贡献命名空间右侧允许使用字符串字面量，例如 `ba_extpack::">_<笑"`
+- `?query` 表示显式自然语言查询；可以写在普通 selector 位置，也可以写在贡献命名空间右侧，例如 `ba_extpack::?坏笑`
+- `#n` 表示按 manifest / tags 显式顺序选择第 n 个资源，编号从 1 开始
+- 命名参数用于传给渲染层，例如 `width: 2em`，仍需通过 Typst 参数级检查
 
-原因：
+示例：
 
-- 前缀圆括号形态要让位给头部 patch
-- 群友试用反馈显示 `(target)[expr]` 基本没有实际使用
+```text
+[:开心:]
+[:#1:]
+[:晴_露营, >_<笑:]
+[:ba::晴_露营, >_<笑:]
+[:ba::晴_露营, ba_extpack::">_<笑":]
+[:ba::晴_露营, ?坏笑:]
+[:ba::晴_露营, ba_extpack::?"半眯眼、得意、像是在调侃":]
+[:ba::晴_露营, ba_extpack::#1:]
+[:ba::晴_露营/sticker/#1:]
+[:ba::晴_露营/ba_extpack::sticker/#1:]
+[:ba::晴_露营, ba_extpack::">_<笑", width: 2em:]
+[:sticker, 开心:]
+[:asset, hero:]
+[:file, images/foo.png:]
+[:url, https://example.com/a.png:]
+```
+
+解析优先级倾向为：
+
+- 显式资源空间引用优先，例如 `sticker`、`asset`、`tmp`、`file`、`url`
+- 带 subject-ref 的 sticker selector 次之
+- 当前 subject 下的 sticker selector 再次之
+- 显式 `?query` 自然语言查询最后处理
+
+确定性引用解析失败时不应静默降级为自然语言查询。尤其是裸写的位置参数只要包含 `:`、`.`、`/` 这类结构字符，就不应在解析失败后被当成自然语言文本；如果作者确实想表达自然语言查询，应使用 `?` 前缀，必要时再用单引号或双引号包裹 query 文本。
+
+`namespace::"literal"` 始终表示带命名空间的确定性 selector，引号只影响分词，不改变匹配模式。只有 `namespace::?query` 或 `namespace::?"query text"` 才会进入该 contribution namespace 限定下的自然语言查询。
+
+`#n` 编号 selector 也是确定性 selector。编号顺序必须来自 manifest / tags 中的显式顺序，不能依赖文件系统遍历顺序；越界、缺少顺序信息或 contribution namespace 歧义时应报错，不进入关键词或语义匹配。
+
+旧的 `[expr]`、`[expr](target)`、`(target)[expr]` 以及旧 Typst 模式占位形态作为兼容或废弃策略另行评估；下一版主写法优先使用 `[:...:]`。
 
 ### 命名空间和值层引用
 
@@ -153,24 +194,22 @@ dream/ba_extpack::avatar/smile
 
 这里 `avatar` 专指聊天气泡旁边的说话人头像；`sticker` 专指发在对话内容里的角色表情包。旧讨论中的 `charface` 不作为下一版推荐命名。
 
-### slot 上下文简写
+### patch 中的资源引用边界
 
-在已经知道 slot 的位置，例如 patch 的 `avatar:` 或 `sticker:` 参数中，允许使用更短的 selector：
-
-```text
-[subject-ref/][contribution_namespace::]<variant>
-```
-
-例如：
+第一版不在节点头部 patch 中引入 slot 上下文简写。也就是说，类似下面的写法暂不作为 v2 第一版目标：
 
 ```text
 >(avatar: happy) dream: 你好
 >(avatar: ba_extpack::happy) dream: 你好
->(sticker: ba_extpack::surprised) dream: [惊讶]
->(avatar: other/ba_extpack::happy) dream: 复用另一个 handle 的头像
 ```
 
-这些简写只在 slot 已由字段名确定的位置启用。没有 slot 上下文时，应使用完整资源路径，避免让 parser 猜测 `happy` 属于 `avatar`、`sticker`、`asset` 或其他资源类型。
+原因是 patch 本身应保持为 Typst 风格参数片段；如果让 `avatar: happy` 中的 `happy` 同时承担 DSL selector 语义，就会在 Typst 参数解析之外再引入一层隐式 DSL 值重写。
+
+第一版倾向采用更明确的边界：
+
+- `[:...:]` 负责正文里的 sticker/resource selector 与 query
+- patch 负责传递合法 Typst 参数，不复刻 `[:...:]` 的资源解析规则
+- patch 如需引用资源，应先使用完整字符串路径或后续专门设计的显式 Typst helper
 
 ### 自定义素材与临时素材
 

@@ -39,20 +39,106 @@
 
 ### Requirement: Inline expressions follow compiler tokenization rules
 
-下一版 DSL SHALL 收敛查询占位的外形，保留后缀 target 形式并废弃前缀 target 形式。
+下一版 DSL SHALL 将消息正文中的表情包、素材引用与轻量查询收束为 `[:...:]` bracket-colon 参数列表。
 
-#### Scenario: Query placeholders keep suffix targets
+#### Scenario: Sticker marker uses argument-list syntax
 
-- GIVEN 一条查询占位语法
-- WHEN 它需要显式 target
-- THEN 使用 `[expr](target)` 或 `[:expr](target)` 形式
+- GIVEN 一条消息正文需要插入当前 subject 的表情包
+- WHEN 作者写出 `[:开心:]`
+- THEN parser 将其识别为 sticker/resource marker
+- AND 单个位置参数按当前 subject 的 `sticker` slot 解析
 
-#### Scenario: Prefix target form is retired
+#### Scenario: Subject and sticker selector can be provided positionally
 
-- GIVEN 当前存在的 `(target)[expr]` 或 `(target)[:expr]` 形式
-- WHEN 下一版 DSL 收敛查询语法时
-- THEN 这些前缀 target 形式被废弃
-- AND 前缀圆括号位置让给节点头部 patch
+- GIVEN 一条消息正文需要引用指定人物的表情包
+- WHEN 作者写出 `[:晴_露营, >_<笑:]` 或 `[:ba::晴_露营, >_<笑:]`
+- THEN 第一个位置参数按 subject-ref 解析
+- AND 第二个位置参数按该 subject 的 `sticker` selector 或 query 解析
+
+#### Scenario: Contribution namespace can disambiguate sticker variants
+
+- GIVEN 某个实体的 `sticker` slot 有多个资源包贡献
+- WHEN 作者写出 `[:ba::晴_露营, ba_extpack::happy:]`
+- THEN `ba_extpack` 按 contribution namespace 解析
+- AND `happy` 按该贡献来源下的 sticker variant 解析
+
+#### Scenario: Namespaced selector may quote the right-hand literal
+
+- GIVEN sticker variant 名称包含容易与语法冲突的字符
+- WHEN 作者写出 `[:ba::晴_露营, ba_extpack::">_<笑":]`
+- THEN namespace 仍按 `ba_extpack` 解析
+- AND 引号内文本作为完整 variant literal 保留
+- AND 该 selector 仍是确定性资源查找，不进入自然语言语义查询
+
+#### Scenario: Semantic sticker query uses explicit question prefix
+
+- GIVEN 作者需要按自然语言描述查找表情包
+- WHEN 作者写出 `[:?坏笑:]` 或 `[:ba::晴_露营, ?坏笑:]`
+- THEN `?` 后的文本进入自然语言查询
+- AND 查询范围限定在当前 subject 或显式 subject 的 `sticker` slot
+
+#### Scenario: Semantic query can be scoped to a contribution namespace
+
+- GIVEN 作者需要在某个资源包贡献的表情包中按自然语言查询
+- WHEN 作者写出 `[:ba::晴_露营, ba_extpack::?坏笑:]`
+- THEN `ba_extpack` 按 contribution namespace 解析
+- AND `?坏笑` 只在该贡献来源下进入自然语言查询
+
+#### Scenario: Quoted semantic query keeps punctuation as query text
+
+- GIVEN 自然语言查询包含逗号、空格或其他分隔字符
+- WHEN 作者写出 `[:ba::晴_露营, ba_extpack::?"半眯眼、得意、像是在调侃":]`
+- THEN 引号内文本作为完整 query 保留
+- AND `?` 仍然是进入自然语言查询的唯一触发标记
+
+#### Scenario: Ordinal selector references manifest order
+
+- GIVEN 某个 subject 的 `sticker` slot 具有 manifest 或 tags 中声明的稳定顺序
+- WHEN 作者写出 `[:#1:]`、`[:ba_extpack::#1:]` 或 `[:ba::晴_露营/sticker/#1:]`
+- THEN `#1` 按 1-based ordinal selector 解析
+- AND 该 selector 不进入关键词匹配或自然语言语义查询
+
+#### Scenario: Ordinal selector fails deterministically
+
+- GIVEN 作者使用 `#n` 编号 selector
+- WHEN 编号越界、缺少稳定顺序信息或 contribution namespace 存在歧义
+- THEN compiler MUST report an unresolved or ambiguous reference
+- AND MUST NOT fall back to keyword or semantic matching
+
+#### Scenario: Explicit resource spaces bypass subject interpretation
+
+- GIVEN marker 的第一个位置参数是 `sticker`、`asset`、`tmp`、`file` 或 `url`
+- WHEN 作者写出 `[:sticker, 开心:]`、`[:asset, hero:]`、`[:file, images/foo.png:]` 或 `[:url, https://example.com/a.png:]`
+- THEN 第一个位置参数按资源空间解析
+- AND 不会被解释为 subject-ref
+
+#### Scenario: Named arguments are local render options
+
+- GIVEN marker 需要为当前表情包设置局部渲染参数
+- WHEN 作者写出 `[:ba::晴_露营, ba_extpack::">_<笑", width: 2em:]`
+- THEN `width: 2em` 作为该 marker 的局部参数传给渲染层
+- AND 参数片段仍需满足 Typst 参数级语法检查
+
+#### Scenario: Deterministic references do not fall back to natural language
+
+- GIVEN marker 中的裸位置参数包含 `:`、`.` 或 `/`
+- WHEN 它没有被引号包裹且资源解析失败
+- THEN compiler MUST report an unresolved or invalid reference
+- AND MUST NOT silently reinterpret it as natural language query
+
+#### Scenario: Natural language fallback is not implicit for quoted deterministic selectors
+
+- GIVEN marker 中出现 `namespace::"literal"`
+- WHEN 该 selector 查找失败
+- THEN compiler MUST report an unresolved reference
+- AND MUST NOT reinterpret `"literal"` as a semantic query unless it used `?`
+
+#### Scenario: Legacy inline target forms are not the preferred next syntax
+
+- GIVEN 当前实现存在 `[expr]`、`[expr](target)`、`(target)[expr]` 或旧 Typst 模式占位形态
+- WHEN 下一版 DSL 收敛内联表达式语法时
+- THEN 主写法应使用 `[:...:]`
+- AND 旧形态只作为兼容或废弃策略另行评估
 
 ## ADDED Requirements
 
@@ -65,7 +151,7 @@
 - GIVEN 作者需要注入顶层 Typst 代码
 - WHEN 在 DSL 中表达这类能力时
 - THEN 使用 `@typ` 入口
-- AND 它与普通内容节点、查询占位和局部 patch 明确分层
+- AND 它与普通内容节点、表情/资源引用标记和局部 patch 明确分层
 
 ### Requirement: Local patch syntax embeds valid Typst call arguments
 
@@ -108,29 +194,30 @@
 - THEN `avatar` 表示聊天气泡旁边的说话人头像
 - AND `sticker` 表示发在对话内容里的角色表情包
 
-### Requirement: Slot-context selectors may omit the slot path
+### Requirement: Patch arguments do not use slot-context selector shorthand
 
-下一版 DSL SHALL 在 slot 已由上下文字段确定时，允许使用短资源 selector。
+下一版 DSL 第一版 SHALL NOT 在节点头部 patch 中启用裸资源 selector 简写。
 
-#### Scenario: Avatar patch can use a short variant selector
+#### Scenario: Avatar patch keeps Typst argument semantics
 
 - GIVEN 一条带有当前说话人的消息节点
 - WHEN `avatar:` patch 参数写成 `happy`
-- THEN 它按当前 subject 的 `avatar/happy` 解析
+- THEN parser 不应把 `happy` 隐式重写为当前 subject 的 `avatar/happy`
+- AND patch 内容仍按 Typst 参数片段处理
 
-#### Scenario: Contribution namespace disambiguates short selectors
+#### Scenario: Resource selector logic stays in sticker markers
 
-- GIVEN 多个资源包为同一实体的同一 slot 贡献了同名 variant
-- WHEN 作者需要选择其中一个
-- THEN 可以写成 `contribution_namespace::variant`
-- AND 编译器按当前 subject 与当前 slot 查找该资源包贡献的 variant
+- GIVEN 作者需要在正文中引用角色表情包或资源
+- WHEN 该引用需要 DSL selector、contribution namespace 或 query fallback
+- THEN 使用 `[:...:]` marker 表达
+- AND 不在 patch 参数里复刻同一套解析规则
 
-#### Scenario: Slot-context shorthand is not used without slot context
+#### Scenario: Patch resource references must be explicit
 
-- GIVEN 一个没有明确 slot 字段的资源引用位置
-- WHEN 作者写出裸 variant
-- THEN parser 不应猜测它属于 `avatar`、`sticker` 或其他资源类型
-- AND 作者应使用完整资源路径或其他明确资源引用
+- GIVEN patch 参数确实需要引用资源
+- WHEN 第一版 DSL 尚未设计专用 Typst helper
+- THEN 作者应使用完整字符串路径或其他显式资源引用形式
+- AND 裸 `contribution_namespace::variant` 不在 patch 中获得特殊 DSL selector 语义
 
 ### Requirement: Non-character assets use dedicated namespaces
 
