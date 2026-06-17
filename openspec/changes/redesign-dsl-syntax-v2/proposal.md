@@ -22,7 +22,7 @@
 
 ## Impact
 
-- Formal spec delta: `dsl-syntax`
+- Formal spec delta: `dsl-syntax`、`dsl-parser-architecture`
 - 相关实现参考：`mmt_core/dsl_parser.py`、`mmt_core/dsl_compiler.py`
 - 受影响范围：DSL parser、compiler、Typst emitter、文档、示例
 - 影响代码：暂未实现，本 change 目前用于收敛设计

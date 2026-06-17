@@ -115,6 +115,30 @@ src: https://example.com/hero.png
 - 内容必须能被解析为合法的 Typst 参数列表
 - 不允许在 patch 中嵌入任意 Typst statement block
 
+syntax parser 第一版只负责检查外层 `(...)` 是否闭合，并保留 patch 原文 range；具体内容是否是合法 Typst 参数列表，交给后续 Typst 参数级检查。这样可以把“MMT 行头结构解析”和“Typst 参数语法检查”解耦。
+
+### 说话人 marker 与历史引用
+
+旧语法中的 `_` / `~` 说话人引用第一版先保留，但作为 legacy-compatible speaker marker 明确建模，而不是继续混入普通 selector 字符串。
+
+```text
+> 柚子: 你好
+> _: 继续由上一位右侧说话人发言
+> _2: 引用右侧历史中的上一位之前的说话人
+> ~1: 引用右侧首次出现顺序中的第 1 位说话人
+```
+
+建议规则：
+
+- `_:` 与 `_1:` 等价，表示当前方向的最近一次说话人
+- `_n:` 表示当前方向 speaker history 中向前第 n 个说话人
+- `~:` 与 `~1:` 等价，表示当前方向首次出现顺序中的第 1 位说话人
+- `~n:` 表示当前方向首次出现顺序中的第 n 位说话人
+- `>` 与 `<` 各自维护独立 speaker history 与 unique speaker index
+- 在新 `@char` 模型下，这类引用应解析到人物 instance 本身，而不是 template id、handle 字符串或显示名
+
+也就是说，历史引用指向“已经解析出来的可变人物实例”。如果多个 handle 指向同一个 instance，通过任一 handle 修改该 instance 后，speaker history 中的引用仍然观察到同一个实例状态。
+
 ### statement 续行与 fenced block
 
 `>`、`<`、`-` 这三类 statement 默认支持续行：
@@ -384,6 +408,10 @@ handles: hifumi, "日富美, 小鸟游", alias\,with\,comma
 ```
 
 列表分隔规则与 `@reply:` 行内列表保持同一心智模型：未引号且未转义的分隔符用于切分 item；单引号或双引号内的分隔符保留为文本；需要字面量分隔符时使用反斜杠转义。
+
+## Implementation Notes
+
+Rust parser / language core 的具体实现架构、Syntax AST 草案、byte range/source map 取舍和错误恢复策略，单独记录在 `rust-parser-architecture.md`。主设计文档只保留语言设计层面的决定，避免后续 parser 细节继续膨胀。
 
 ## Open Questions
 

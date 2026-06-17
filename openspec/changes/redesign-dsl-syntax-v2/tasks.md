@@ -32,6 +32,8 @@
 
 ## 4. 后续实现准备
 
-- [ ] 4.1 将语法草案进一步细化为 parser 级规则
-- [ ] 4.2 明确 patch 的 AST 约束和 source map 需求
+- [x] 4.1 将语法草案进一步细化为 parser 级规则
+- [x] 4.2 明确 patch 的 AST 约束和 source map 需求
 - [ ] 4.3 基于新语法草案拆出渲染管线重构任务
+- [x] 4.4 明确 Rust parser 的 syntax AST / semantic IR 分层与错误恢复原则
+- [x] 4.5 明确旧 `_n` / `~n` speaker ref 在下一版中先保留并引用人物 instance

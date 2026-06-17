@@ -59,7 +59,9 @@ npm run dev
 
 ## DSL 语法速览
 
-语法文档见：`typst_sandbox/mmt_render/mmt_help_syntax.typ`
+当前帮助页见：`typst_sandbox/mmt_render/mmt_help_syntax.typ`。
+
+实现规格与下一版设计见 OpenSpec：当前实现以 `openspec/specs/dsl-syntax/spec.md` 为入口，下一版草案见 `openspec/changes/redesign-dsl-syntax-v2/`。
 
 ## OpenSpec
 

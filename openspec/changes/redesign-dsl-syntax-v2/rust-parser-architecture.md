@@ -1,0 +1,237 @@
+## Overview
+
+这份补充文档记录下一版 Rust parser / language core 的实现架构草案。它服务于 `redesign-dsl-syntax-v2/design.md` 中的语言设计，但不把具体实现细节塞进主设计文档。
+
+`mmt_rs` 现有实现可以视为实验性脚手架；下一版 Rust parser 可以推倒重来，目标是成为同时服务 CLI / Python binding / VSCode Web / WASM 预览 / Typst emitter 的 MMT language core。
+
+## Module Boundaries
+
+建议模块边界：
+
+- `source`：管理原文、UTF-8 byte offset、line index、`TextRange` 与 line/column 映射
+- `syntax`：行驱动 parser，识别 statement、directive block、reply、bond、fence、patch、body mode，产出忠实保留作者写法的 syntax AST
+- `inline`：解析 `[:...:]` 参数列表、声明层 literal/list、`@reply:` 分隔规则
+- `typst_check`：接入 `typst-syntax`，检查 Typst body / patch，并计算 `T` 模式可做 overlay macro 替换的源码区间
+- `semantic`：处理 `@char` template / instance / handle、speaker history、裸 marker 是否允许、资源 selector 规范化
+- `pack`：定义 pack-v3 manifest 类型与 resolver，把逻辑资源引用解析到 variant / storage / frame
+- `emit`：把 semantic IR 展开为 Typst，并产出 MMT span 到 Typst span 的 source map
+- `diag`：统一 diagnostic、severity、labels 与 recoverable parse error 表达
+
+内部 range 建议统一使用 UTF-8 byte offset，而不是 char offset。Rust 字符串切片、`typst-syntax` 与常见 Rust 文本库都以 byte range 为基础；对外展示时再通过 line index 转为 line/column。这样既能安全处理中文，又能直接与 Typst 语法检查结果对齐。
+
+## Syntax AST 与 Semantic IR 分层
+
+syntax 层应尽量只回答“作者写了什么”，semantic 层才回答“这些写法引用了什么实体或资源”。第一版核心类型可以沿用下面的形状：
+
+```rust
+pub struct SyntaxDocument {
+    pub nodes: Vec<SyntaxNode>,
+    pub diagnostics: Vec<Diagnostic>,
+    pub range: TextRange,
+}
+
+pub enum SyntaxNode {
+    Statement(StatementSyntax),
+    DirectiveLine(DirectiveLineSyntax),
+    DirectiveBlock(DirectiveBlockSyntax),
+    Reply(ReplySyntax),
+    Bond(BondSyntax),
+    Blank(BlankSyntax),
+    Error(ErrorNode),
+}
+```
+
+statement 保存说话人 marker、局部 patch 与正文，但不在 syntax 层解析出最终人物：
+
+```rust
+pub struct StatementSyntax {
+    pub kind: StatementKind,
+    pub marker: Option<SpeakerMarkerSyntax>,
+    pub patch: Option<PatchSyntax>,
+    pub body: BodySyntax,
+    pub range: TextRange,
+}
+
+pub enum SpeakerMarkerSyntax {
+    Explicit { raw: String, range: TextRange },
+    BackRef { n: u32, range: TextRange },
+    UniqueIndex { n: u32, range: TextRange },
+}
+```
+
+patch 在 syntax 层只保存外壳与原文：
+
+```rust
+pub struct PatchSyntax {
+    pub raw_args: String,
+    pub range: TextRange,
+    pub args_range: TextRange,
+}
+```
+
+正文模式把 text / Typst 与 macro / raw 两个维度显式记录下来：
+
+```rust
+pub struct BodySyntax {
+    pub mode: BodyMode,
+    pub source: String,
+    pub range: TextRange,
+    pub parts: Vec<BodyPartSyntax>,
+}
+
+pub enum BodyMode {
+    TextMacro,
+    TypstMacro,
+    TextRaw,
+    TypstRaw,
+}
+```
+
+`[:...:]` 在 syntax 层可以拆成参数列表，并把 `#n` 识别成编号 selector；但不查资源包：
+
+```rust
+pub struct InlineMacroSyntax {
+    pub args: Vec<MacroArgSyntax>,
+    pub render_patch: Option<PatchSyntax>,
+    pub range: TextRange,
+    pub args_range: TextRange,
+}
+
+pub enum MacroValueSyntax {
+    Bare(String),
+    Quoted { value: String, quote: QuoteKind },
+    Namespaced { namespace: String, value: Box<MacroValueSyntax> },
+    Ordinal { n: u32 },
+}
+```
+
+聚合指令使用通用 block AST，而不是为 `@char`、`@asset` 等提前写死不同节点类型：
+
+```rust
+pub struct DirectiveBlockSyntax {
+    pub name: String,
+    pub head_args: Vec<LiteralSyntax>,
+    pub patch: Option<PatchSyntax>,
+    pub items: Vec<DirectiveItemSyntax>,
+    pub range: TextRange,
+}
+
+pub enum DirectiveItemSyntax {
+    Field(FieldSyntax),
+    Body(BodySyntax),
+    Error(ErrorNode),
+}
+```
+
+`@char` 的字段白名单、`bind:` 是否允许、`handles:` 是否冲突、`@asset` 是否缺少 `src:` 等判断，都应放到 semantic 层。syntax 层只负责保留 block 结构和字段原文。
+
+## 错误恢复
+
+parser 可以为 IDE 场景做 panic recovery，但恢复必须是显式可见的：
+
+- 不支持嵌套 directive block；block 内遇到新的明确顶层 block 起始时，应报告 diagnostic
+- 坏 block 可以恢复到下一个明确顶层节点起始，但必须产出 `ErrorNode`
+- `ErrorNode` 应保留坏区间原文 range，避免静默丢文本
+- CLI / 严格编译路径看到 error diagnostic 时仍应失败；恢复只用于继续展示后续错误与 IDE 体验
+
+对于 `T` 模式 overlay macro，`[:...:]` 扫描应按 Typst CST/AST 给出的可替换源码区间分段执行，不能跨越 string、raw、comment、code expression 等不可替换区间拼接出一个 marker。`#1` 虽然会破坏 Typst content 结构，但第一版因为 `#` 后只允许数字编号，仍可在允许的 markup source range 上按 MMT overlay macro 独立扫描处理。
+
+## Typst 0.15 Diagnostic Probe
+
+基于 `typst 0.15.0` 的临时 probe 结论：
+
+- `typst 0.15.0` 和 `typst-syntax 0.15.0` 的 MSRV 是 Rust `1.92+`
+- `typst::compile::<PagedDocument>(&world)` 返回的错误是 `SourceDiagnostic`
+- `SourceDiagnostic` 包含 `span: DiagSpan`、`message`、`hints`、`trace`
+- `WorldExt::range(error.span)` 可以把 Typst diagnostic span 转成 generated `.typ` 的 UTF-8 byte range
+- `Source::lines().byte_to_line_column(...)` 可以把 byte range 起点转成人类可读的 line / column
+- 语法预检查可以用 `Source::new(file_id, text)` 后的 `source.root().errors_and_warnings()`，再用 `Source::range(...)` 把 syntax diagnostic span 转 byte range
+- 直接使用裸 `typst_syntax::parse(text)` 时不应假定已有适合 source map 的文件上下文；建议包成 `Source` 后让 Typst 为 syntax tree numberize
+
+实测错误形态：
+
+- `#let x =` 这类语法错误可返回 `8..8` 这样的 zero-length byte range，表示错误发生在插入点
+- `#rect(width: "oops")` 这类 eval / type error 可精确落在参数值，例如 `"oops"` 的 byte range
+- `#mmt-image(width: 2em)` 这类未知变量错误可精确落在未知符号本身
+
+因此，下一版 source map 应以 generated Typst byte range 作为机器映射主键，并支持 zero-length range 查询。Typst diagnostic 处理链路建议是：
+
+```text
+Typst SourceDiagnostic
+-> WorldExt::range(DiagSpan)
+-> generated .typ byte range
+-> MMT source map lookup
+-> MMT origin range + diagnostic phase/kind
+```
+
+## Source Map 与 Emitted Chunk
+
+source map 不应作为最后补上的行号表，而应从 emitter 一开始就作为带来源的字符串拼接器维护。
+
+建议核心模型：
+
+```rust
+pub struct EmitChunk {
+    pub text: String,
+    pub origin: Origin,
+}
+
+pub enum Origin {
+    MmtRange {
+        file_id: FileId,
+        range: TextRange,
+        kind: OriginKind,
+    },
+    Generated {
+        kind: GeneratedKind,
+        parent: Option<OriginId>,
+    },
+}
+```
+
+`OriginKind` 可以区分：
+
+- `TextBody`
+- `TypstBody`
+- `StatementPatch`
+- `ResourceMarker`
+- `ResourcePatch`
+- `TypDirective`
+- `DirectiveField`
+
+`GeneratedKind` 可以区分：
+
+- `TemplateWrapper`
+- `EscapedText`
+- `MacroExpansion`
+- `ResourceCallWrapper`
+- `StatementCallWrapper`
+
+生成 Typst 时不应直接 `push_str`，而应通过 `emit(text, origin)` 写入 chunk。flatten 成最终 `.typ` 时，同时生成：
+
+```text
+generated_typst_range -> origin
+```
+
+映射层建议分三类：
+
+- 直接映射：`@typ` block、`T"""..."""` 中原样进入 Typst 的片段，generated range 直接对应 MMT range
+- 局部转换映射：普通 text body 被 escape 成 Typst markup/text 后，按较小 segment 映射回原 text range
+- 宏展开映射：`[:#1:](width: 2em)` 展开成 Typst resource call 时，wrapper 是 generated 且 parent 指向 marker，后缀 `width: 2em` 映射回 `ResourcePatch`
+
+查询 source map 时需要处理：
+
+- 普通包含命中：diagnostic range 落在某个 generated range 内
+- zero-length 命中：diagnostic range 为空时，按插入点查找相邻或包含该点的最具体 chunk
+- generated wrapper 命中：错误落在模板生成结构时，回退到 wrapper 的 parent origin，例如整条 statement 或 marker
+
+多阶段 pipeline 的错误不应都伪装成 Typst 错误。建议至少区分：
+
+- syntax：MMT parser / Typst syntax precheck 错误
+- semantic：`@char`、speaker、`[:...:]` selector、资源引用规范化错误
+- materialize：资源包 storage、AVIFS 抽帧、缓存文件生成错误
+- typst：最终 Typst 编译 / eval / layout 错误
+
+resolver 与 materializer 也应接收并传播 origin。比如 `[:#999:]` 在 resolver 阶段失败时，直接指向 macro range；AVIFS 解码失败时指向引用它的 marker；如果失败来自资源后缀 patch，则优先指向 patch range。
+
+debug 模式下，emitter 可以在展开 `.typ` 中插入轻量注释，例如标记 MMT 行号或 origin id，方便人工打开生成文件排查。但机器映射必须依赖 source map 数据结构，而不是依赖注释文本。

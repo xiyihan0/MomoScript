@@ -119,6 +119,21 @@
 - THEN patch 只允许单行形式
 - AND 多行 patch 不作为第一版目标
 
+#### Scenario: Syntax parser only checks patch enclosure
+
+- GIVEN 一个节点头部 patch，例如 `>(fill: green, inset: 5pt)`
+- WHEN syntax parser 读取该节点
+- THEN syntax parser MUST verify that the outer `(...)` patch enclosure is balanced
+- AND MUST preserve the patch raw argument text and source range
+- AND MUST NOT validate Typst argument semantics in the syntax phase
+
+#### Scenario: Typst argument validation happens after syntax parsing
+
+- GIVEN syntax parser 已经保留某个 patch 的 raw argument text
+- WHEN compiler 准备把该 patch 展开到 Typst façade 函数调用
+- THEN compiler MUST validate the patch as Typst call arguments before emission
+- AND Typst validation errors SHOULD map back to the original patch source range
+
 #### Scenario: Statement lines accept implicit continuations
 
 - GIVEN 一条顶层 `>`、`<` 或 `-` statement
@@ -153,6 +168,63 @@
 - WHEN body 内部出现少于 N 个连续双引号
 - THEN parser MUST keep them as body text
 - AND only a closing fence with at least N consecutive double quotes can close the body
+
+#### Scenario: Colon directives are single-line or fenced payloads
+
+- GIVEN 作者写出 `@name: payload`
+- WHEN parser 读取该 directive
+- THEN parser MUST consume only the same-line payload
+- AND MUST NOT implicitly append following ordinary lines as continuation
+- AND if the payload starts a fenced block, parser MAY consume that fenced payload before ending the directive
+
+#### Scenario: Non-colon directives are explicit blocks
+
+- GIVEN 作者写出无冒号的 `@name` directive block
+- WHEN parser 读取该 block
+- THEN parser MUST require an explicit top-level `@end`
+- AND missing `@end` MUST produce an unterminated block diagnostic
+
+#### Scenario: Top-level control tokens are unindented
+
+- GIVEN 一行看起来像 `@end`、`@name`、`>`、`<` 或 `-`
+- WHEN 该行存在前导缩进
+- THEN parser MUST NOT treat it as a top-level control token
+- AND SHOULD preserve it as text or field content according to the current context
+
+### Requirement: Dialogue speaker references remain explicit syntax nodes
+
+下一版 DSL SHALL 保留当前实现中的 `_n` / `~n` 说话人引用语法，并将其作为 speaker marker 建模。
+
+#### Scenario: Backreference marker references side-local speaker history
+
+- GIVEN 当前方向已有说话人历史
+- WHEN 作者写出 `_:`、`_1:` 或 `_2:` 作为 `>` / `<` statement 的说话人 marker
+- THEN `_:` 与 `_1:` MUST resolve to the most recent speaker instance on the same side
+- AND `_2:` MUST resolve to the previous speaker instance before that on the same side
+- AND `>` 与 `<` MUST maintain independent speaker histories
+
+#### Scenario: Unique-index marker references side-local first-seen order
+
+- GIVEN 当前方向已有首次出现顺序记录
+- WHEN 作者写出 `~:`、`~1:` 或 `~2:` 作为 `>` / `<` statement 的说话人 marker
+- THEN `~:` 与 `~1:` MUST resolve to the first speaker instance seen on the same side
+- AND `~2:` MUST resolve to the second distinct speaker instance seen on the same side
+- AND `>` 与 `<` MUST maintain independent unique speaker indexes
+
+#### Scenario: Speaker references point to character instances
+
+- GIVEN `@char` 将人物 template clone 为 workspace instance
+- AND 某个 speaker marker 已经解析到该 instance
+- WHEN 后续 `_n` 或 `~n` 引用该历史说话人
+- THEN compiler MUST resolve the reference to the same character instance
+- AND MUST NOT resolve it merely to the original template id, handle text, or display name string
+
+#### Scenario: Invalid speaker references fail deterministically
+
+- GIVEN 作者使用 `_n` 或 `~n` speaker marker
+- WHEN 当前方向没有足够的 speaker history 或 unique speaker index
+- THEN compiler MUST report an invalid speaker reference
+- AND MUST NOT silently fall back to a textual speaker name
 
 ### Requirement: Inline expressions follow compiler tokenization rules
 
@@ -200,6 +272,15 @@
 - WHEN 作者写出 `[:#1:]`、`[:ba_extpack::#1:]` 或 `[:ba::晴_露营/sticker/#1:]`
 - THEN `#1` 按 1-based ordinal selector 解析
 - AND 该 selector 不进入关键词匹配或自然语言语义查询
+
+#### Scenario: Syntax parser tokenizes inline marker arguments
+
+- GIVEN 正文模式启用 MMT inline macro expansion
+- WHEN syntax parser scans a `[:...:]` marker
+- THEN parser SHOULD tokenize the marker body into an argument list using unquoted and unescaped commas
+- AND namespace separators such as `ba_extpack::">_<笑"` SHOULD be preserved as structured syntax
+- AND ordinal selectors such as `#1` SHOULD be represented as ordinal syntax rather than plain text
+- AND parser MUST NOT access pack manifests or resolve resource existence in this phase
 
 #### Scenario: Ordinal selector fails deterministically
 
@@ -340,6 +421,7 @@
 - THEN compiler MUST use Typst syntax checking for the Typst body text
 - AND for `T` mode, compiler SHOULD use Typst CST/AST ranges to allow replacement in markup regions, including markup inside content blocks
 - AND compiler SHOULD exclude strings, raw blocks, comments, code expressions, and other non-replaceable regions before scanning for `[:...:]`
+- AND macro scanning SHOULD run within each replaceable source range independently, without stitching across excluded ranges
 - AND compiler SHOULD NOT require a fork or grammar modification of `typst-syntax` for MMT macro support
 
 ### Requirement: Local patch syntax embeds valid Typst call arguments
