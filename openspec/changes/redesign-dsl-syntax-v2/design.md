@@ -10,7 +10,7 @@
 
 - 叙事节点结构
 - 说话人与人物引用
-- 查询占位
+- 确定性资源引用标记
 - 节点级局部参数 patch
 
 核心 DSL 不负责：
@@ -40,14 +40,20 @@
 
 ### 人物配置
 
-倾向采用聚合声明：
+倾向采用聚合声明，并把人物相关对象分成三层：
+
+- `template`：资源包或脚本声明的不可变人物模板，提供默认显示名、头像、sticker 等资源
+- `instance`：当前脚本工作区从 template clone 出来的可变人物实例
+- `handle`：脚本里可引用的名字，指向某个 instance
+
+`@char <handle>` 第一版只接受一个位置 handle。它的默认语义是“打开或创建这个 handle 对应的 instance，然后把 block 内字段 patch 到该 instance 上”。多个 handle 指向同一个 instance 时，通过任意 handle 修改 instance，影响都会传递给其他 handle。
 
 ```text
 @char yz
 name: "游戏开发部的柚子"
-from: ba::柚子
+bind: ba::柚子
 avatar: asset::yz_default
-alias: yuzu
+handles: yuzu
 @end
 ```
 
@@ -55,6 +61,17 @@ alias: yuzu
 
 - `avatar` 更像人物实体属性，而不是流程中的临时命令
 - 人物定义需要容纳多个相关字段，散装指令会继续加重心智负担
+- template 不应被脚本修改；脚本只修改当前工作区里的 instance
+- 额外 handle 必须通过 `handles:` 等显式字段添加，避免多位置参数带来隐式合并语义
+
+创建与修改的建议规则：
+
+- 若 `<handle>` 不存在且 block 内有 `bind:`，则从对应 template clone 一个新 instance，并把 `<handle>` 绑定到它
+- 若 `<handle>` 已存在，则打开它当前指向的 instance；没有 `bind:` 时只 patch 该 instance，不重新 clone
+- 若 `<handle>` 不存在且 block 内没有 `bind:`，则创建一个脚本本地 template，同时 clone 一个对应 instance
+- `handles:` 用于显式添加更多 handle 指向当前 instance
+- 如果 `handles:` 中的名字已经指向其他 instance，第一版默认报错，不隐式抢占或合并
+- `@char a b` 这类多位置 handle 写法不作为第一版目标
 
 ### 资源配置
 
@@ -98,30 +115,120 @@ src: https://example.com/hero.png
 - 内容必须能被解析为合法的 Typst 参数列表
 - 不允许在 patch 中嵌入任意 Typst statement block
 
+### statement 续行与 fenced block
+
+`>`、`<`、`-` 这三类 statement 默认支持续行：
+
+```text
+- 12345
+67890
+```
+
+语义上等价于同一个旁白节点包含两行内容。普通续行的终止条件是遇到新的明确顶层节点起始，例如新的 `>` / `<` / `-` statement、`@reply`、`@bond`、`@char`、`@asset`、`@typ` 或 `@end` 等。
+
+顶层节点识别只看未缩进的行首。缩进后的 `> `、`@reply` 等文本不切断当前 statement，而是作为 continuation 原样保留；parser 可以为这种“缩进后看起来像节点头”的行给出 info 级 diagnostic。
+
+`"""..."""` 这类 fenced block 不是为了“启用多行”，而是为了保护内容不被行头标记打断：
+
+```text
+- """
+@reply: 这行只是文本
+> 这行也只是文本
+"""
+```
+
+fence 内部保持为当前 statement 的正文，不参与顶层行头识别。是否继续扫描 `[:...:]` marker 取决于该 statement 的正文模式，而不是 fence 本身。
+
+fence 至少使用 3 个连续双引号。若正文需要包含 `"""`，作者可以使用更长 fence，例如 `""""...""""`；closing fence 需要使用不少于 opening fence 长度的连续双引号。
+
+### 正文模式与 inline macro
+
+正文内容有两个正交维度：文本语法和宏展开。第一版候选标记为：
+
+- `t`：普通 text body，并启用 MMT inline macro
+- `T`：Typst body，并启用 MMT inline macro
+- `rt`：普通 text body，但禁用 MMT inline macro
+- `rT`：Typst body，但禁用 MMT inline macro
+
+文档级默认模式可以通过 `@mode: t` / `@mode: T` 等动态设置，影响当前文件内后续 statement、reply item 与 bond 正文，直到下一次设置。`@mode` 不影响 `@char`、`@asset`、`@typ` 等声明或注入块，也不跨文件传播。fenced block 可以用前缀局部覆盖当前块：
+
+```text
+- T"""#strong[你好] [:#1:]"""
+- rT"""#let s = "literal [:#1:]" """
+- t"""普通文本 [:#1:]"""
+- rt"""这里的 [:#1:] 不展开"""
+```
+
+无前缀的 `"""..."""` 继承当前正文模式。
+
+`[:...:]` 是 MMT 层 inline macro，而不是 Typst 语法的一部分。它在 `t` 和 `T` 模式下展开，在 `rt` 和 `rT` 模式下保留为普通正文。普通 `t` 模式下若需要字面量 `[:`，可以使用 `\[:`；如果需要整段禁用宏，可以使用 `rt`。
+
+`T` / `rT` 模式的 Typst 文本应该先通过 `typst-syntax` 做语法检查和 CST/AST 分析。对于 `T` 模式，编译器在 Typst AST 中找到允许宏替换的 markup/source 区间，包括 content block 内的 markup 区域，并排除 `Str`、`Raw`、注释、code expression 等不可替换区域，再对这些区间做 `[:...:]` overlay macro 扫描与替换。第一版不魔改 `typst-syntax`，而是把它作为 Typst 语法检查与可替换区间识别器。
+
+### reply 选项列表
+
+`@reply` 保留行内紧凑写法和块状显式列表写法，但二者使用不同的列表分隔规则。
+
+行内写法使用 `|` 分隔选项：
+
+```text
+@reply: 是 | 否 | "也许 | 之后再说" | 不知道\|算了
+```
+
+其中：
+
+- 未引号包裹的 `|` 是分隔符
+- 单引号或双引号内的 `|` 是普通字符
+- 未引号文本里需要字面量 `|` 时使用 `\|`
+- quoted string 使用声明层字符串转义规则
+
+块状写法使用显式 `-` item marker：
+
+```text
+@reply
+- 是
+- 否
+- "也许 | 之后再说"
+- """
+多行
+选项
+"""
+@end
+```
+
+其中：
+
+- 只有 `-` 开头的行创建 reply item
+- `-` 后面可以是裸文本、quoted string 或 fenced block
+- item 后续普通行作为当前 item 的 continuation，直到遇到下一个 block-local `-` item marker 或 `@end`
+- fenced block 只属于当前 `-` item
+- continuation 保留原始缩进，例如 `  34` 会成为 item 文本中的 `  34`
+- `|` 在块状 `@reply` 中没有列表分隔语义
+
 ### 表情与资源引用标记
 
-下一版倾向把消息正文里的表情包、素材引用与轻量查询收束为 bracket-colon 参数列表：
+下一版倾向把消息正文里的表情包与素材引用收束为 bracket-colon 参数列表。第一版暂不引入自然语言查询；`[:...:]` 内部只表达确定性资源选择。
 
 ```text
 [:selector:]
 [:subject-ref, selector:]
 [:subject-ref, contribution_namespace::variant:]
-[:subject-ref, ?query:]
-[:subject-ref, contribution_namespace::?query:]
 [:space, ref:]
-[:subject-ref, selector, key: value, ...:]
+[:subject-ref, selector:](key: value, ...)
 ```
 
 其中：
 
 - 单个位置参数默认按当前 subject 的 `sticker` slot 查找
-- 两个位置参数时，第一个默认是 subject-ref，第二个是 selector 或 query
+- 两个位置参数时，第一个默认是 subject-ref，第二个是 selector
 - 如果第一个位置参数是保留资源空间 `sticker` / `asset` / `tmp` / `file` / `url`，则不解释为 subject
 - 第二个位置参数可以带贡献命名空间，例如 `ba_extpack::happy`
 - 贡献命名空间右侧允许使用字符串字面量，例如 `ba_extpack::">_<笑"`
-- `?query` 表示显式自然语言查询；可以写在普通 selector 位置，也可以写在贡献命名空间右侧，例如 `ba_extpack::?坏笑`
 - `#n` 表示按 manifest / tags 显式顺序选择第 n 个资源，编号从 1 开始
-- 命名参数用于传给渲染层，例如 `width: 2em`，仍需通过 Typst 参数级检查
+- 资源渲染参数不写在 `[:...:]` 内部，而写在 marker 后缀 `(...)` 中，例如 `[:#1:](width: 2em)`
+- marker 后缀 `(...)` 是 Typst 风格参数片段，仍需通过 Typst 参数级检查
+
+裸 subject selector 只在有明确 speaker 的 message statement 中可用，例如 `> 柚子: [:#1:]`。旁白、`@reply` item 与 `@bond` content 没有 speaker，也不继承上下文 speaker；这些位置若要引用 sticker，必须显式写出 subject，例如 `[:柚子, #1:]`。
 
 示例：
 
@@ -131,12 +238,10 @@ src: https://example.com/hero.png
 [:晴_露营, >_<笑:]
 [:ba::晴_露营, >_<笑:]
 [:ba::晴_露营, ba_extpack::">_<笑":]
-[:ba::晴_露营, ?坏笑:]
-[:ba::晴_露营, ba_extpack::?"半眯眼、得意、像是在调侃":]
 [:ba::晴_露营, ba_extpack::#1:]
 [:ba::晴_露营/sticker/#1:]
 [:ba::晴_露营/ba_extpack::sticker/#1:]
-[:ba::晴_露营, ba_extpack::">_<笑", width: 2em:]
+[:ba::晴_露营, ba_extpack::">_<笑":](width: 2em)
 [:sticker, 开心:]
 [:asset, hero:]
 [:file, images/foo.png:]
@@ -148,15 +253,16 @@ src: https://example.com/hero.png
 - 显式资源空间引用优先，例如 `sticker`、`asset`、`tmp`、`file`、`url`
 - 带 subject-ref 的 sticker selector 次之
 - 当前 subject 下的 sticker selector 再次之
-- 显式 `?query` 自然语言查询最后处理
 
-确定性引用解析失败时不应静默降级为自然语言查询。尤其是裸写的位置参数只要包含 `:`、`.`、`/` 这类结构字符，就不应在解析失败后被当成自然语言文本；如果作者确实想表达自然语言查询，应使用 `?` 前缀，必要时再用单引号或双引号包裹 query 文本。
+确定性引用解析失败时不应静默降级为自然语言查询。第一版没有自然语言查询 fallback；裸写的位置参数只要不能按资源 selector 解析，就应该报 unresolved 或 invalid reference。
 
-`namespace::"literal"` 始终表示带命名空间的确定性 selector，引号只影响分词，不改变匹配模式。只有 `namespace::?query` 或 `namespace::?"query text"` 才会进入该 contribution namespace 限定下的自然语言查询。
+`namespace::"literal"` 始终表示带命名空间的确定性 selector，引号只影响分词，不改变匹配模式。
 
 `#n` 编号 selector 也是确定性 selector。编号顺序必须来自 manifest / tags 中的显式顺序，不能依赖文件系统遍历顺序；越界、缺少顺序信息或 contribution namespace 歧义时应报错，不进入关键词或语义匹配。
 
-旧的 `[expr]`、`[expr](target)`、`(target)[expr]` 以及旧 Typst 模式占位形态作为兼容或废弃策略另行评估；下一版主写法优先使用 `[:...:]`。
+`[:...:]` 内部禁止混入 Typst 参数写法。尤其是 `[:ba::晴_露营, ba_extpack::happy(width: 2em):]` 这类把命名空间 selector 和函数调用形态混合的写法不作为第一版目标；应改写为 `[:ba::晴_露营, ba_extpack::happy:](width: 2em)`。
+
+旧的 `[expr]`、`[expr](target)`、`(target)[expr]` 以及旧 Typst 模式占位形态在下一版主语法中直接 deprecated，不作为新 parser 的主路径兼容目标；下一版主写法使用 `[:...:]`。
 
 ### 命名空间和值层引用
 
@@ -207,9 +313,13 @@ dream/ba_extpack::avatar/smile
 
 第一版倾向采用更明确的边界：
 
-- `[:...:]` 负责正文里的 sticker/resource selector 与 query
+- `[:...:]` 负责正文里的 sticker/resource selector
+- `[:...:](...)` 负责当前资源节点的渲染参数
+- `>(...)` / `<(...)` / `-(...)` 负责当前 statement 节点的渲染参数
 - patch 负责传递合法 Typst 参数，不复刻 `[:...:]` 的资源解析规则
 - patch 如需引用资源，应先使用完整字符串路径或后续专门设计的显式 Typst helper
+
+因此 `>(sticker: #3)` 不作为第一版合法写法：`sticker` 是 DSL 资源选择语义，不是直接传给 Typst façade 渲染函数的参数。作者应在正文中写 `> yz: [:#3:]`，再用 `[:#3:](width: 2em)` 调整该资源节点的显示参数。
 
 ### 自定义素材与临时素材
 
@@ -267,6 +377,14 @@ src:"https://example.com/a:b,c.png"
 
 patch 内部则不走 DSL 字面量解析，而直接按 Typst 参数语法解析。
 
+字段列表使用字段自己的分隔符，而不是全局分隔符。例如 `handles:` 使用逗号分隔：
+
+```text
+handles: hifumi, "日富美, 小鸟游", alias\,with\,comma
+```
+
+列表分隔规则与 `@reply:` 行内列表保持同一心智模型：未引号且未转义的分隔符用于切分 item；单引号或双引号内的分隔符保留为文本；需要字面量分隔符时使用反斜杠转义。
+
 ## Open Questions
 
 ### `@asset` 是否长期同时保留短行简写
@@ -291,6 +409,8 @@ src: https://example.com/hero.png
 ### `@bond` 是否只保留无冒号版本
 
 目前倾向让 `@bond` 默认支持后续多行内容，从而弱化 `@bond:` 与 `@bond` 的区别；但是否保留 `@bond:` 作为长期兼容语法，仍待决定。
+
+`@bond` 暂不设计多个列表项，也不引入 `@reply` 风格的 `-` item marker。它继续保持普通正文模型：后续普通行作为 bond content continuation，直到遇到新的明确节点头或 `@end`。
 
 ### 短行声明的统一风格是否只采用 `key:value`
 
