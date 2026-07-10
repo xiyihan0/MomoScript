@@ -129,12 +129,14 @@ pub struct LiteralSyntax {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ReplySyntax {
     pub items: Vec<BodySyntax>,
+    pub patch: Option<PatchSyntax>,
     pub range: TextRange,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct BondSyntax {
     pub body: BodySyntax,
+    pub patch: Option<PatchSyntax>,
     pub range: TextRange,
 }
 

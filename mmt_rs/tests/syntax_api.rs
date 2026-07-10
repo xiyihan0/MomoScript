@@ -30,7 +30,7 @@ fn public_parse_text_api_returns_statement_ast() {
 fn public_parse_document_api_preserves_source_positions_for_diagnostics() {
     let source = SourceFile::new(
         Some("case.mmt.txt".to_string()),
-        "@char hifumi\nbind: ba::日富美",
+        "@actor hifumi\npreset: ba::日富美",
     );
     let doc = parse_document(&source);
 

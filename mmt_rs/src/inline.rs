@@ -37,30 +37,69 @@ pub enum QuoteKind {
     Double,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct InlineMacroParse {
+    pub syntax: InlineMacroSyntax,
+    pub diagnostics: Vec<InlineMacroDiagnostic>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct InlineMacroDiagnostic {
+    pub message: String,
+    pub range: TextRange,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum InlineMacroParseError {
+    MissingClose { range: TextRange },
+}
+
 pub fn parse_inline_macro_at(text: &str, absolute_start: usize) -> Option<InlineMacroSyntax> {
+    parse_inline_macro_at_checked(text, absolute_start)
+        .ok()
+        .map(|parsed| parsed.syntax)
+}
+
+pub fn parse_inline_macro_at_checked(
+    text: &str,
+    absolute_start: usize,
+) -> Result<InlineMacroParse, InlineMacroParseError> {
     if !text.starts_with("[:") {
-        return None;
+        return Err(InlineMacroParseError::MissingClose {
+            range: TextRange::empty(absolute_start),
+        });
     }
 
-    let close = find_macro_close(text)?;
+    let close = find_macro_close(text).ok_or(InlineMacroParseError::MissingClose {
+        range: TextRange::new(absolute_start, absolute_start + text.len()),
+    })?;
     let args_text = &text[2..close];
     let args_range = TextRange::new(absolute_start + 2, absolute_start + close);
     let mut range_end = absolute_start + close + 2;
     let mut render_patch = None;
+    let mut diagnostics = Vec::new();
 
     let suffix = &text[close + 2..];
     if suffix.starts_with('(') {
         if let Some((patch, consumed)) = parse_patch_suffix(suffix, absolute_start + close + 2) {
             range_end += consumed;
             render_patch = Some(patch);
+        } else {
+            diagnostics.push(InlineMacroDiagnostic {
+                message: "unclosed inline macro render patch".to_string(),
+                range: TextRange::new(absolute_start + close + 2, absolute_start + text.len()),
+            });
         }
     }
 
-    Some(InlineMacroSyntax {
-        args: parse_macro_args(args_text, args_range.start),
-        render_patch,
-        range: TextRange::new(absolute_start, range_end),
-        args_range,
+    Ok(InlineMacroParse {
+        syntax: InlineMacroSyntax {
+            args: parse_macro_args(args_text, args_range.start),
+            render_patch,
+            range: TextRange::new(absolute_start, range_end),
+            args_range,
+        },
+        diagnostics,
     })
 }
 
@@ -94,15 +133,6 @@ fn parse_macro_value(raw: &str) -> MacroValueSyntax {
         }
     }
 
-    if let Some((namespace, value)) = raw.split_once("::") {
-        if !namespace.is_empty() && !value.is_empty() {
-            return MacroValueSyntax::Namespaced {
-                namespace: namespace.to_string(),
-                value: Box::new(parse_macro_value(value)),
-            };
-        }
-    }
-
     if let Some(value) = unquote(raw, '"') {
         return MacroValueSyntax::Quoted {
             value,
@@ -114,6 +144,15 @@ fn parse_macro_value(raw: &str) -> MacroValueSyntax {
             value,
             quote: QuoteKind::Single,
         };
+    }
+
+    if let Some((namespace, value)) = raw.split_once("::") {
+        if !namespace.is_empty() && !value.is_empty() {
+            return MacroValueSyntax::Namespaced {
+                namespace: namespace.to_string(),
+                value: Box::new(parse_macro_value(value)),
+            };
+        }
     }
 
     MacroValueSyntax::Bare(raw.to_string())
@@ -291,5 +330,28 @@ mod tests {
             parsed.args[2].value,
             MacroValueSyntax::Ordinal { n: 12 }
         ));
+    }
+
+    #[test]
+    fn fully_quoted_namespace_like_text_stays_quoted() {
+        let parsed = parse_inline_macro_at(r#"[:"ba::晴":]"#, 0).expect("macro should parse");
+
+        assert!(matches!(
+            parsed.args[0].value,
+            MacroValueSyntax::Quoted { ref value, .. } if value == "ba::晴"
+        ));
+    }
+
+    #[test]
+    fn checked_parser_reports_unclosed_render_patch() {
+        let parsed =
+            parse_inline_macro_at_checked("[:#1:](width: 2em", 5).expect("macro should parse");
+
+        assert_eq!(parsed.syntax.render_patch, None);
+        assert_eq!(parsed.diagnostics.len(), 1);
+        assert_eq!(
+            parsed.diagnostics[0].message,
+            "unclosed inline macro render patch"
+        );
     }
 }
