@@ -545,7 +545,7 @@ impl Parser<'_> {
         let head_args = if payload_start.is_some() {
             Vec::new()
         } else {
-            parse_head_args(rest, cursor)
+            parse_head_args(rest, cursor, &mut self.diagnostics)
         };
 
         Some(DirectiveHeader {
@@ -798,17 +798,59 @@ fn parse_directive_name(text: &str, absolute_start: usize) -> Option<(String, Te
     ))
 }
 
-fn parse_head_args(text: &str, absolute_start: usize) -> Vec<LiteralSyntax> {
+fn parse_head_args(
+    text: &str,
+    absolute_start: usize,
+    diagnostics: &mut Vec<Diagnostic>,
+) -> Vec<LiteralSyntax> {
     let mut result = Vec::new();
-    let mut cursor = 0;
-    for token in text.split_whitespace() {
-        if let Some(relative) = text[cursor..].find(token) {
-            let start = cursor + relative;
-            result.push(LiteralSyntax {
-                raw: token.to_string(),
-                range: TextRange::new(absolute_start + start, absolute_start + start + token.len()),
-            });
-            cursor = start + token.len();
+    let mut token_start = None;
+    let mut quote = None;
+    let mut escaped = false;
+
+    for (offset, ch) in text.char_indices() {
+        if escaped {
+            escaped = false;
+            continue;
+        }
+        if ch == '\\' {
+            token_start.get_or_insert(offset);
+            escaped = true;
+            continue;
+        }
+        if let Some(active_quote) = quote {
+            if ch == active_quote {
+                quote = None;
+            }
+            continue;
+        }
+        if ch == '"' || ch == '\'' {
+            token_start.get_or_insert(offset);
+            quote = Some(ch);
+            continue;
+        }
+        if ch.is_whitespace() {
+            if let Some(start) = token_start.take() {
+                result.push(LiteralSyntax {
+                    raw: text[start..offset].to_string(),
+                    range: TextRange::new(absolute_start + start, absolute_start + offset),
+                });
+            }
+        } else {
+            token_start.get_or_insert(offset);
+        }
+    }
+
+    if let Some(start) = token_start {
+        result.push(LiteralSyntax {
+            raw: text[start..].to_string(),
+            range: TextRange::new(absolute_start + start, absolute_start + text.len()),
+        });
+        if quote.is_some() {
+            diagnostics.push(Diagnostic::syntax_error(
+                "unclosed quoted directive argument",
+                TextRange::new(absolute_start + start, absolute_start + text.len()),
+            ));
         }
     }
     result
@@ -1362,6 +1404,27 @@ mod tests {
             Some("display: \"left\"")
         );
         assert_eq!(block.head_args[0].raw, "hifumi");
+    }
+
+    #[test]
+    fn directive_head_arguments_preserve_quoted_spaces_and_escapes() {
+        let doc = parse_text("@actor \"Alice Smith\" alias\\ name\n@end");
+        assert!(doc.diagnostics.is_empty());
+
+        let SyntaxNode::DirectiveBlock(block) = &doc.nodes[0] else {
+            panic!("expected directive block");
+        };
+        assert_eq!(block.head_args.len(), 2);
+        assert_eq!(block.head_args[0].raw, "\"Alice Smith\"");
+        assert_eq!(block.head_args[1].raw, "alias\\ name");
+    }
+
+    #[test]
+    fn unclosed_quoted_head_argument_reports_syntax_error() {
+        let doc = parse_text("@actor \"Alice Smith\n@end");
+
+        assert_eq!(doc.diagnostics.len(), 1);
+        assert!(doc.diagnostics[0].message.contains("unclosed quoted"));
     }
 
     #[test]

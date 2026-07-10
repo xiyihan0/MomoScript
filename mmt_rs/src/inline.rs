@@ -54,6 +54,199 @@ pub enum InlineMacroParseError {
     MissingClose { range: TextRange },
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct DeclarationValueParse {
+    pub value: Option<DeclarationValueSyntax>,
+    pub diagnostics: Vec<InlineMacroDiagnostic>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum DeclarationValueSyntax {
+    Scalar(DeclarationLiteralSyntax),
+    List {
+        items: Vec<DeclarationLiteralSyntax>,
+        range: TextRange,
+    },
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct DeclarationLiteralSyntax {
+    pub value: String,
+    pub quote: Option<QuoteKind>,
+    pub range: TextRange,
+}
+
+pub fn parse_declaration_value(text: &str, absolute_start: usize) -> DeclarationValueParse {
+    let leading = text.len() - text.trim_start().len();
+    let trailing = text.len() - text.trim_end().len();
+    let trimmed = text.trim();
+    let range = TextRange::new(
+        absolute_start + leading,
+        absolute_start + text.len() - trailing,
+    );
+    if trimmed.is_empty() {
+        return DeclarationValueParse {
+            value: None,
+            diagnostics: vec![InlineMacroDiagnostic {
+                message: "missing declaration value".to_string(),
+                range,
+            }],
+        };
+    }
+
+    if trimmed.starts_with('[') {
+        return parse_declaration_list(trimmed, range);
+    }
+
+    let (literal, diagnostic) = parse_declaration_literal(trimmed, range);
+    DeclarationValueParse {
+        value: literal.map(DeclarationValueSyntax::Scalar),
+        diagnostics: diagnostic.into_iter().collect(),
+    }
+}
+
+fn parse_declaration_list(text: &str, range: TextRange) -> DeclarationValueParse {
+    let Some(close) = find_declaration_list_close(text) else {
+        return DeclarationValueParse {
+            value: None,
+            diagnostics: vec![InlineMacroDiagnostic {
+                message: "unclosed declaration list".to_string(),
+                range,
+            }],
+        };
+    };
+
+    if !text[close + 1..].trim().is_empty() {
+        return DeclarationValueParse {
+            value: None,
+            diagnostics: vec![InlineMacroDiagnostic {
+                message: "unexpected content after declaration list".to_string(),
+                range: TextRange::new(range.start + close + 1, range.end),
+            }],
+        };
+    }
+
+    let inner = &text[1..close];
+    let mut items = Vec::new();
+    let mut diagnostics = Vec::new();
+    for (start, end) in split_top_level_commas(inner) {
+        let raw = &inner[start..end];
+        let leading = raw.len() - raw.trim_start().len();
+        let trailing = raw.len() - raw.trim_end().len();
+        let item = raw.trim();
+        let item_range = TextRange::new(
+            range.start + 1 + start + leading,
+            range.start + 1 + end - trailing,
+        );
+        if item.is_empty() {
+            diagnostics.push(InlineMacroDiagnostic {
+                message: "empty declaration list item".to_string(),
+                range: item_range,
+            });
+            continue;
+        }
+        let (literal, diagnostic) = parse_declaration_literal(item, item_range);
+        if let Some(literal) = literal {
+            items.push(literal);
+        }
+        diagnostics.extend(diagnostic);
+    }
+
+    DeclarationValueParse {
+        value: Some(DeclarationValueSyntax::List { items, range }),
+        diagnostics,
+    }
+}
+
+fn find_declaration_list_close(text: &str) -> Option<usize> {
+    let mut quote = None;
+    let mut escaped = false;
+    for (offset, ch) in text.char_indices().skip(1) {
+        if escaped {
+            escaped = false;
+            continue;
+        }
+        if ch == '\\' {
+            escaped = true;
+            continue;
+        }
+        if let Some(active_quote) = quote {
+            if ch == active_quote {
+                quote = None;
+            }
+            continue;
+        }
+        if ch == '"' || ch == '\'' {
+            quote = Some(ch);
+        } else if ch == ']' {
+            return Some(offset);
+        }
+    }
+    None
+}
+
+fn parse_declaration_literal(
+    raw: &str,
+    range: TextRange,
+) -> (
+    Option<DeclarationLiteralSyntax>,
+    Option<InlineMacroDiagnostic>,
+) {
+    let quote = match raw.chars().next() {
+        Some('"') => Some(('"', QuoteKind::Double)),
+        Some('\'') => Some(('\'', QuoteKind::Single)),
+        _ => None,
+    };
+
+    if let Some((delimiter, quote_kind)) = quote {
+        let Some(value) = unquote(raw, delimiter) else {
+            return (
+                None,
+                Some(InlineMacroDiagnostic {
+                    message: "malformed quoted declaration value".to_string(),
+                    range,
+                }),
+            );
+        };
+        return (
+            Some(DeclarationLiteralSyntax {
+                value,
+                quote: Some(quote_kind),
+                range,
+            }),
+            None,
+        );
+    }
+
+    (
+        Some(DeclarationLiteralSyntax {
+            value: unescape_declaration_bare(raw),
+            quote: None,
+            range,
+        }),
+        None,
+    )
+}
+
+fn unescape_declaration_bare(raw: &str) -> String {
+    let mut value = String::new();
+    let mut escaped = false;
+    for ch in raw.chars() {
+        if escaped {
+            value.push(ch);
+            escaped = false;
+        } else if ch == '\\' {
+            escaped = true;
+        } else {
+            value.push(ch);
+        }
+    }
+    if escaped {
+        value.push('\\');
+    }
+    value
+}
+
 pub fn parse_inline_macro_at(text: &str, absolute_start: usize) -> Option<InlineMacroSyntax> {
     parse_inline_macro_at_checked(text, absolute_start)
         .ok()
@@ -353,5 +546,46 @@ mod tests {
             parsed.diagnostics[0].message,
             "unclosed inline macro render patch"
         );
+    }
+
+    #[test]
+    fn declaration_lists_preserve_quotes_escapes_and_ranges() {
+        let parsed =
+            parse_declaration_value(r#" [hifumi, "日富美, 小鸟游", name\,with\,comma] "#, 10);
+        assert!(parsed.diagnostics.is_empty());
+
+        let Some(DeclarationValueSyntax::List { items, .. }) = parsed.value else {
+            panic!("expected declaration list");
+        };
+        assert_eq!(
+            items
+                .iter()
+                .map(|item| item.value.as_str())
+                .collect::<Vec<_>>(),
+            vec!["hifumi", "日富美, 小鸟游", "name,with,comma"]
+        );
+        assert_eq!(items[0].range, TextRange::new(12, 18));
+    }
+
+    #[test]
+    fn declaration_scalar_unquotes_special_characters() {
+        let parsed = parse_declaration_value(r#""游戏开发部的\"柚子\"""#, 4);
+        assert!(parsed.diagnostics.is_empty());
+        assert!(matches!(
+            parsed.value,
+            Some(DeclarationValueSyntax::Scalar(DeclarationLiteralSyntax {
+                ref value,
+                quote: Some(QuoteKind::Double),
+                ..
+            })) if value == "游戏开发部的\"柚子\""
+        ));
+    }
+
+    #[test]
+    fn malformed_declaration_values_report_diagnostics() {
+        for value in ["[a, b", "[a] trailing", "\"unclosed"] {
+            let parsed = parse_declaration_value(value, 0);
+            assert_eq!(parsed.diagnostics.len(), 1, "value: {value}");
+        }
     }
 }
