@@ -11,3 +11,4 @@ name = "mmt_rs"
 path = "src/lib.rs"
 
 [dependencies]
+typst-syntax = "0.15"

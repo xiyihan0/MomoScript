@@ -3,8 +3,8 @@ use mmt_rs::inline::MacroValueSyntax;
 use mmt_rs::source::{LineColumn, SourceFile};
 use mmt_rs::syntax::{BodyPartSyntax, SpeakerMarkerSyntax, StatementKind, SyntaxNode};
 use mmt_rs::{
-    CharacterPreset, ResolvedBodyMode, StaticPresetCatalog, lower_actors, parse_document,
-    parse_text, resolve_body_modes,
+    CharacterPreset, ResolvedBodyMode, StaticPresetCatalog, check_typst_args, lower_actors,
+    parse_document, parse_text, resolve_body_modes,
 };
 
 #[test]
@@ -76,7 +76,21 @@ fn public_actor_lowering_api_captures_statement_revisions() {
     assert!(lowered.diagnostics.is_empty());
     assert_eq!(lowered.actors.len(), 1);
     assert_eq!(lowered.actors[0].revisions.len(), 2);
-    assert_eq!(lowered.speakers[0].revision, 0);
-    assert_eq!(lowered.speakers[1].revision, 1);
-    assert_eq!(lowered.speakers[0].actor_id, lowered.speakers[1].actor_id);
+    assert_eq!(lowered.speakers[0].revision, Some(0));
+    assert_eq!(lowered.speakers[1].revision, Some(1));
+    assert_eq!(lowered.speakers[0].speaker, lowered.speakers[1].speaker);
+}
+
+#[test]
+fn public_typst_argument_check_maps_errors_to_mmt_ranges() {
+    let args = "fill: (";
+    let range = mmt_rs::source::TextRange::new(300, 300 + args.len());
+    let diagnostics = check_typst_args(args, range);
+
+    assert!(!diagnostics.is_empty());
+    assert!(diagnostics.iter().all(|diagnostic| {
+        diagnostic.range.is_some_and(|diagnostic_range| {
+            diagnostic_range.start >= range.start && diagnostic_range.end <= range.end
+        })
+    }));
 }

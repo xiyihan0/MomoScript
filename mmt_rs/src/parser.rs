@@ -199,6 +199,9 @@ impl Parser<'_> {
         match header_parts.name.as_str() {
             "reply" => self.parse_reply(header_parts, header),
             "bond" => self.parse_bond(header_parts, header),
+            "typ" if header_parts.payload_start.is_none() => {
+                self.parse_content_directive_block(header_parts, header)
+            }
             _ if header_parts.payload_start.is_some() => {
                 self.parse_directive_line(header_parts, header)
             }
@@ -226,6 +229,12 @@ impl Parser<'_> {
             self.try_parse_fenced_body(&payload, payload_start, header.range.end)
         {
             Some(body)
+        } else if header_parts.name == "typ" {
+            Some(self.make_body_with_mode(
+                BodyMode::TypstRaw,
+                payload,
+                TextRange::new(payload_start, header.range.end),
+            ))
         } else {
             Some(self.make_body(payload, TextRange::new(payload_start, header.range.end)))
         };
@@ -235,6 +244,65 @@ impl Parser<'_> {
             name_range: header_parts.name_range,
             payload,
             range: header.range,
+        })
+    }
+
+    fn parse_content_directive_block(
+        &mut self,
+        header_parts: DirectiveHeader,
+        header: Line<'_>,
+    ) -> SyntaxNode {
+        let mut source = String::new();
+        let mut body_start = header.range.end;
+        let mut body_end = header.range.end;
+        let mut range_end = header.range.end;
+        self.index += 1;
+
+        while self.index < self.lines.len() {
+            let line = self.lines[self.index].clone();
+            if line.text == "@end" {
+                range_end = line.range.end;
+                self.index += 1;
+                return SyntaxNode::DirectiveBlock(DirectiveBlockSyntax {
+                    name: header_parts.name,
+                    name_range: header_parts.name_range,
+                    head_args: header_parts.head_args,
+                    patch: header_parts.patch,
+                    items: vec![DirectiveItemSyntax::Body(self.make_body_with_mode(
+                        BodyMode::TypstRaw,
+                        source,
+                        TextRange::new(body_start, body_end),
+                    ))],
+                    range: TextRange::new(header.range.start, range_end),
+                });
+            }
+
+            if source.is_empty() {
+                body_start = line.range.start;
+            } else {
+                source.push('\n');
+            }
+            source.push_str(line.text);
+            body_end = line.range.end;
+            range_end = line.range.end;
+            self.index += 1;
+        }
+
+        self.diagnostics.push(Diagnostic::syntax_error(
+            "unterminated @typ block, expected @end",
+            TextRange::new(header.range.start, range_end),
+        ));
+        SyntaxNode::DirectiveBlock(DirectiveBlockSyntax {
+            name: header_parts.name,
+            name_range: header_parts.name_range,
+            head_args: header_parts.head_args,
+            patch: header_parts.patch,
+            items: vec![DirectiveItemSyntax::Body(self.make_body_with_mode(
+                BodyMode::TypstRaw,
+                source,
+                TextRange::new(body_start, body_end),
+            ))],
+            range: TextRange::new(header.range.start, range_end),
         })
     }
 
@@ -1168,6 +1236,35 @@ mod tests {
             line.payload.as_ref().map(|body| body.source.as_str()),
             Some("#let x = 1")
         );
+        assert_eq!(
+            line.payload.as_ref().map(|body| body.mode),
+            Some(BodyMode::TypstRaw)
+        );
+    }
+
+    #[test]
+    fn typ_block_preserves_arbitrary_content_as_one_raw_body() {
+        let doc = parse_text(
+            "@typ\n\
+             #let config = (\n\
+             name: \"value\",\n\
+             )\n\
+             @reference remains typst content\n\
+             @end",
+        );
+        assert!(doc.diagnostics.is_empty());
+
+        let SyntaxNode::DirectiveBlock(block) = &doc.nodes[0] else {
+            panic!("expected typ directive block");
+        };
+        assert_eq!(block.name, "typ");
+        assert_eq!(block.items.len(), 1);
+        assert!(matches!(
+            &block.items[0],
+            DirectiveItemSyntax::Body(body)
+                if body.mode == BodyMode::TypstRaw
+                    && body.source == "#let config = (\nname: \"value\",\n)\n@reference remains typst content"
+        ));
     }
 
     #[test]

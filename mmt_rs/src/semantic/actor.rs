@@ -84,11 +84,20 @@ pub struct ScriptActor {
     pub revisions: Vec<ActorRevision>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct BuiltinSpeakerId(pub String);
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum SpeakerIdentity {
+    Actor(ActorId),
+    Builtin(BuiltinSpeakerId),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ResolvedStatementSpeaker {
     pub statement_range: TextRange,
-    pub actor_id: ActorId,
-    pub revision: u32,
+    pub speaker: SpeakerIdentity,
+    pub revision: Option<u32>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -98,15 +107,39 @@ pub struct ActorLowering {
     pub diagnostics: Vec<Diagnostic>,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ActorLoweringOptions {
+    pub left_fallback: Option<BuiltinSpeakerId>,
+    pub right_fallback: Option<BuiltinSpeakerId>,
+}
+
+impl Default for ActorLoweringOptions {
+    fn default() -> Self {
+        Self {
+            left_fallback: Some(BuiltinSpeakerId("__Sensei".to_string())),
+            right_fallback: None,
+        }
+    }
+}
+
 pub fn lower_actors(
     document: &SyntaxDocument,
     catalog: &impl CharacterPresetCatalog,
 ) -> ActorLowering {
-    ActorLowerer::new(catalog).lower(document)
+    lower_actors_with_options(document, catalog, &ActorLoweringOptions::default())
+}
+
+pub fn lower_actors_with_options(
+    document: &SyntaxDocument,
+    catalog: &impl CharacterPresetCatalog,
+    options: &ActorLoweringOptions,
+) -> ActorLowering {
+    ActorLowerer::new(catalog, options).lower(document)
 }
 
 struct ActorLowerer<'a, C> {
     catalog: &'a C,
+    options: &'a ActorLoweringOptions,
     actors: Vec<ScriptActor>,
     names: HashMap<String, ActorId>,
     default_actors: HashMap<String, ActorId>,
@@ -118,6 +151,7 @@ struct ActorLowerer<'a, C> {
 
 #[derive(Default)]
 struct SpeakerHistory {
+    current: Option<ActorId>,
     messages: Vec<ActorId>,
     unique: Vec<ActorId>,
 }
@@ -131,9 +165,10 @@ struct ActorPatch {
 }
 
 impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
-    fn new(catalog: &'a C) -> Self {
+    fn new(catalog: &'a C, options: &'a ActorLoweringOptions) -> Self {
         Self {
             catalog,
+            options,
             actors: Vec::new(),
             names: HashMap::new(),
             default_actors: HashMap::new(),
@@ -469,7 +504,20 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
             return;
         }
         let Some(marker) = &statement.marker else {
-            self.error("dialogue statement requires a speaker", statement.range);
+            if let Some(actor_id) = self.history(statement.kind).current {
+                self.capture_actor_speaker(statement, actor_id);
+            } else if let Some(builtin) = self.fallback_speaker(statement.kind).cloned() {
+                self.speakers.push(ResolvedStatementSpeaker {
+                    statement_range: statement.range,
+                    speaker: SpeakerIdentity::Builtin(builtin),
+                    revision: None,
+                });
+            } else {
+                self.error(
+                    "right-side dialogue requires a current speaker",
+                    statement.range,
+                );
+            }
             return;
         };
 
@@ -487,6 +535,10 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
         let Some(actor_id) = actor_id else {
             return;
         };
+        self.capture_actor_speaker(statement, actor_id);
+    }
+
+    fn capture_actor_speaker(&mut self, statement: &StatementSyntax, actor_id: ActorId) {
         let revision = self.actors[actor_id.0 as usize]
             .revisions
             .last()
@@ -494,8 +546,8 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
             .number;
         self.speakers.push(ResolvedStatementSpeaker {
             statement_range: statement.range,
-            actor_id,
-            revision,
+            speaker: SpeakerIdentity::Actor(actor_id),
+            revision: Some(revision),
         });
         self.history_mut(statement.kind).record(actor_id);
     }
@@ -566,6 +618,14 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
         }
     }
 
+    fn fallback_speaker(&self, kind: StatementKind) -> Option<&BuiltinSpeakerId> {
+        match kind {
+            StatementKind::Left => self.options.left_fallback.as_ref(),
+            StatementKind::Right => self.options.right_fallback.as_ref(),
+            StatementKind::Narration => None,
+        }
+    }
+
     fn extend_literal_diagnostics(
         &mut self,
         diagnostics: Vec<crate::inline::InlineMacroDiagnostic>,
@@ -593,6 +653,7 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
 
 impl SpeakerHistory {
     fn record(&mut self, actor_id: ActorId) {
+        self.current = Some(actor_id);
         self.messages.push(actor_id);
         if !self.unique.contains(&actor_id) {
             self.unique.push(actor_id);
@@ -665,9 +726,13 @@ mod tests {
             lowered
                 .speakers
                 .iter()
-                .map(|speaker| (speaker.actor_id, speaker.revision))
+                .map(|speaker| (speaker.speaker.clone(), speaker.revision))
                 .collect::<Vec<_>>(),
-            vec![(ActorId(0), 0), (ActorId(0), 1), (ActorId(0), 1)]
+            vec![
+                (SpeakerIdentity::Actor(ActorId(0)), Some(0)),
+                (SpeakerIdentity::Actor(ActorId(0)), Some(1)),
+                (SpeakerIdentity::Actor(ActorId(0)), Some(1)),
+            ]
         );
     }
 
@@ -689,7 +754,7 @@ mod tests {
 
         assert!(lowered.diagnostics.is_empty());
         assert_eq!(lowered.actors.len(), 2);
-        assert_ne!(lowered.speakers[0].actor_id, lowered.speakers[1].actor_id);
+        assert_ne!(lowered.speakers[0].speaker, lowered.speakers[1].speaker);
         assert_eq!(lowered.actors[0].revisions[0].state.display_name, "First");
         assert_eq!(lowered.actors[1].revisions[0].state.display_name, "Second");
     }
@@ -738,15 +803,15 @@ mod tests {
             lowered
                 .speakers
                 .iter()
-                .map(|speaker| speaker.actor_id)
+                .map(|speaker| speaker.speaker.clone())
                 .collect::<Vec<_>>(),
             vec![
-                ActorId(0),
-                ActorId(1),
-                ActorId(0),
-                ActorId(1),
-                ActorId(1),
-                ActorId(1),
+                SpeakerIdentity::Actor(ActorId(0)),
+                SpeakerIdentity::Actor(ActorId(1)),
+                SpeakerIdentity::Actor(ActorId(0)),
+                SpeakerIdentity::Actor(ActorId(1)),
+                SpeakerIdentity::Actor(ActorId(1)),
+                SpeakerIdentity::Actor(ActorId(1)),
             ]
         );
     }
@@ -816,5 +881,55 @@ mod tests {
         assert!(lowered.speakers.is_empty());
         assert_eq!(lowered.diagnostics.len(), 1);
         assert!(lowered.diagnostics[0].message.contains("ambiguous"));
+    }
+
+    #[test]
+    fn omitted_speakers_reuse_current_actor_or_default_left_side_to_sensei() {
+        let document = parse_text(
+            "> 柚子: first\n\
+             > continues current actor\n\
+             < implicit Sensei\n\
+             < still Sensei",
+        );
+        let lowered = lower_actors(&document, &catalog());
+
+        assert!(lowered.diagnostics.is_empty());
+        assert_eq!(
+            lowered
+                .speakers
+                .iter()
+                .map(|speaker| speaker.speaker.clone())
+                .collect::<Vec<_>>(),
+            vec![
+                SpeakerIdentity::Actor(ActorId(0)),
+                SpeakerIdentity::Actor(ActorId(0)),
+                SpeakerIdentity::Builtin(BuiltinSpeakerId("__Sensei".to_string())),
+                SpeakerIdentity::Builtin(BuiltinSpeakerId("__Sensei".to_string())),
+            ]
+        );
+        assert_eq!(lowered.speakers[2].revision, None);
+    }
+
+    #[test]
+    fn fallback_builtin_speakers_are_configurable_by_side() {
+        let options = ActorLoweringOptions {
+            left_fallback: Some(BuiltinSpeakerId("narrator-left".to_string())),
+            right_fallback: Some(BuiltinSpeakerId("narrator-right".to_string())),
+        };
+        let document = parse_text("> right fallback\n< left fallback");
+        let lowered = lower_actors_with_options(&document, &catalog(), &options);
+
+        assert!(lowered.diagnostics.is_empty());
+        assert_eq!(
+            lowered
+                .speakers
+                .iter()
+                .map(|speaker| speaker.speaker.clone())
+                .collect::<Vec<_>>(),
+            vec![
+                SpeakerIdentity::Builtin(BuiltinSpeakerId("narrator-right".to_string())),
+                SpeakerIdentity::Builtin(BuiltinSpeakerId("narrator-left".to_string())),
+            ]
+        );
     }
 }

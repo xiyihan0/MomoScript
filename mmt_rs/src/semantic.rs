@@ -7,8 +7,9 @@
 pub mod actor;
 
 pub use actor::{
-    ActorId, ActorLowering, ActorRevision, ActorState, CharacterPreset, CharacterPresetCatalog,
-    PresetLookup, ResolvedStatementSpeaker, ScriptActor, StaticPresetCatalog, lower_actors,
+    ActorId, ActorLowering, ActorLoweringOptions, ActorRevision, ActorState, BuiltinSpeakerId,
+    CharacterPreset, CharacterPresetCatalog, PresetLookup, ResolvedStatementSpeaker, ScriptActor,
+    SpeakerIdentity, StaticPresetCatalog, lower_actors, lower_actors_with_options,
 };
 
 use crate::diag::{Diagnostic, DiagnosticPhase, Severity};

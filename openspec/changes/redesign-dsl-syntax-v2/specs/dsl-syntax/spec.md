@@ -250,6 +250,19 @@
 - THEN compiler MUST report an invalid speaker reference
 - AND MUST NOT silently fall back to a textual speaker name
 
+#### Scenario: Omitted speaker preserves side-local current state and Sensei default
+
+- GIVEN `>` 或 `<` statement 没有 speaker marker
+- WHEN 当前方向已有 script actor speaker
+- THEN statement SHALL capture that actor's current revision
+- AND the omission MUST NOT create a new history selector or actor
+- WHEN 左侧方向尚无当前 actor
+- THEN `<` statement SHALL use the configured left-side built-in identity, whose default id is `__Sensei`
+- AND a built-in speaker SHALL have no actor revision
+- AND its display name、avatar 与 avatar-column policy SHALL come from presentation configuration rather than id-specific template branches
+- WHEN 右侧方向尚无当前 actor
+- THEN `>` statement MUST report a missing current speaker
+
 ### Requirement: Inline expressions follow compiler tokenization rules
 
 下一版 DSL SHALL 将消息正文中的表情包与素材引用收束为 `[:...:]` bracket-colon 参数列表；第一版 `[:...:]` 只表达确定性资源选择，不启用自然语言查询 fallback。
