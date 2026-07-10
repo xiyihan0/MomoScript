@@ -56,7 +56,7 @@
   radius: auto,
   tip: auto,
   image-only: false,
-  align-with-avatar: true,
+  reserve-avatar-space: auto,
   body,
 ) = context {
   let config = current-config()
@@ -82,6 +82,11 @@
   let bubble-tip = if tip == auto { not effective-continued } else { tip }
   let visible-avatar = if effective-continued { none } else { avatar }
   let visible-name = if effective-continued { none } else { name }
+  let reserve-avatar-space = if reserve-avatar-space == auto {
+    avatar != none
+  } else {
+    reserve-avatar-space
+  }
   let content-bubble = if image-only {
     bubble(
       side: side,
@@ -108,14 +113,14 @@
   box(width: 100%, inset: 0pt, outset: 0pt, fill: none)[
     #if visible-avatar != none { place(side, dy: 0pt, visible-avatar) }
     #if side == left {
-      pad(left: if avatar != none or align-with-avatar { 4em } else { 0em })[
+      pad(left: if avatar != none or reserve-avatar-space { 4em } else { 0em })[
         #if visible-name != none { [#v(0.25em)#strong(visible-name)] }
         #v(0.5em, weak: true)
         #content-bubble
       ]
     } else {
       pad(
-        right: if avatar != none or align-with-avatar { 4em } else { 0em },
+        right: if avatar != none or reserve-avatar-space { 4em } else { 0em },
         left: 4em,
       )[
         #align(right)[
