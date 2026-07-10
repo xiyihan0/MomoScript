@@ -80,12 +80,17 @@ pub struct BodySyntax {
 }
 
 pub enum BodyMode {
+    Inherit,
     TextMacro,
     TypstMacro,
     TextRaw,
     TypstRaw,
 }
 ```
+
+`Inherit` 表示正文没有显式模式前缀，syntax parser 不在此处应用 `@mode`；lowering
+阶段再按当前文件中最近的 `@mode`（没有时为默认 `t`）解析最终模式。显式
+`t` / `T` / `rt` / `rT` fenced body 则直接记录对应模式。
 
 `[:...:]` 在 syntax 层可以拆成参数列表，并把 `#n` 识别成编号 selector；但不查资源包：
 

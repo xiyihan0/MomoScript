@@ -74,6 +74,7 @@ pub struct BodySyntax {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum BodyMode {
+    Inherit,
     TextMacro,
     TypstMacro,
     TextRaw,

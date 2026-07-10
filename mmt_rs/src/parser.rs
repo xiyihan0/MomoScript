@@ -25,7 +25,6 @@ pub fn parse_document(source: &SourceFile) -> SyntaxDocument {
         lines,
         index: 0,
         diagnostics: Vec::new(),
-        mode: BodyMode::TextMacro,
     };
     parser.parse()
 }
@@ -35,7 +34,6 @@ struct Parser<'a> {
     lines: Vec<Line<'a>>,
     index: usize,
     diagnostics: Vec<Diagnostic>,
-    mode: BodyMode,
 }
 
 #[derive(Debug, Clone)]
@@ -272,7 +270,7 @@ impl Parser<'_> {
             }
 
             range_end = line.range.end;
-            items.push(parse_directive_item(line, self.mode, &mut self.diagnostics));
+            items.push(parse_directive_item(line, &mut self.diagnostics));
             self.index += 1;
         }
 
@@ -565,7 +563,7 @@ impl Parser<'_> {
         first_start: usize,
         first_line_end: usize,
     ) -> Option<(BodySyntax, usize)> {
-        let open = parse_fence_open(first_text, first_start, self.mode)?;
+        let open = parse_fence_open(first_text, first_start)?;
         let body_start = open.content_start;
 
         if let Some(close_offset) = find_fence_close(open.remaining, open.fence_len) {
@@ -624,7 +622,7 @@ impl Parser<'_> {
     }
 
     fn make_body(&mut self, source: String, range: TextRange) -> BodySyntax {
-        self.make_body_with_mode(self.mode, source, range)
+        self.make_body_with_mode(BodyMode::Inherit, source, range)
     }
 
     fn make_body_with_mode(
@@ -816,11 +814,7 @@ fn parse_head_args(text: &str, absolute_start: usize) -> Vec<LiteralSyntax> {
     result
 }
 
-fn parse_directive_item(
-    line: Line<'_>,
-    mode: BodyMode,
-    diagnostics: &mut Vec<Diagnostic>,
-) -> DirectiveItemSyntax {
+fn parse_directive_item(line: Line<'_>, diagnostics: &mut Vec<Diagnostic>) -> DirectiveItemSyntax {
     if let Some(colon) = line.text.find(':') {
         let name = line.text[..colon].trim();
         if !name.is_empty()
@@ -848,7 +842,7 @@ fn parse_directive_item(
     }
 
     DirectiveItemSyntax::Body(make_body(
-        mode,
+        BodyMode::Inherit,
         line.text.to_string(),
         line.range,
         diagnostics,
@@ -937,11 +931,7 @@ fn parse_body_parts(
     parts
 }
 
-fn parse_fence_open<'a>(
-    text: &'a str,
-    absolute_start: usize,
-    default_mode: BodyMode,
-) -> Option<FenceOpen<'a>> {
+fn parse_fence_open<'a>(text: &'a str, absolute_start: usize) -> Option<FenceOpen<'a>> {
     let leading_ws = text.len() - text.trim_start().len();
     let trimmed = text.trim_start();
 
@@ -950,7 +940,7 @@ fn parse_fence_open<'a>(
         ("rt", BodyMode::TextRaw),
         ("T", BodyMode::TypstMacro),
         ("t", BodyMode::TextMacro),
-        ("", default_mode),
+        ("", BodyMode::Inherit),
     ] {
         let Some(after_prefix) = trimmed.strip_prefix(prefix) else {
             continue;
@@ -1247,6 +1237,58 @@ mod tests {
             panic!("expected statement");
         };
         assert_eq!(statement.body.source, "@reply: 不应切出\n> 也不是新消息\n");
+        assert_eq!(statement.body.mode, BodyMode::Inherit);
+    }
+
+    #[test]
+    fn body_modes_distinguish_inherited_and_explicit_fences() {
+        let doc = parse_text(
+            "> 柚子: plain\n\
+             > 柚子: t\"\"\"text\"\"\"\n\
+             > 柚子: T\"\"\"typst\"\"\"\n\
+             > 柚子: rt\"\"\"raw text\"\"\"\n\
+             > 柚子: rT\"\"\"raw typst\"\"\"",
+        );
+        assert!(doc.diagnostics.is_empty());
+
+        let modes = doc
+            .nodes
+            .iter()
+            .map(|node| match node {
+                SyntaxNode::Statement(statement) => statement.body.mode,
+                _ => panic!("expected statement"),
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(
+            modes,
+            vec![
+                BodyMode::Inherit,
+                BodyMode::TextMacro,
+                BodyMode::TypstMacro,
+                BodyMode::TextRaw,
+                BodyMode::TypstRaw,
+            ]
+        );
+    }
+
+    #[test]
+    fn mode_directive_does_not_change_syntax_body_mode() {
+        let doc = parse_text("@mode: T\n> 柚子: [:ba::柚子/#1:]");
+        assert!(doc.diagnostics.is_empty());
+
+        let SyntaxNode::DirectiveLine(mode) = &doc.nodes[0] else {
+            panic!("expected mode directive");
+        };
+        assert_eq!(mode.name, "mode");
+
+        let SyntaxNode::Statement(statement) = &doc.nodes[1] else {
+            panic!("expected statement");
+        };
+        assert_eq!(statement.body.mode, BodyMode::Inherit);
+        assert!(matches!(
+            statement.body.parts.as_slice(),
+            [BodyPartSyntax::InlineMacro(_)]
+        ));
     }
 
     #[test]
