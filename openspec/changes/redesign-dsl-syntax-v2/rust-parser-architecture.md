@@ -136,6 +136,23 @@ pub enum DirectiveItemSyntax {
 映射。未知 mode 产生 semantic diagnostic，但不覆盖之前有效的文件默认值。完整
 semantic IR 后续可在该结果上继续叠加 actor revision、speaker history 与资源解析。
 
+actor lowering 通过只读 `CharacterPresetCatalog` 接收资源包预设，不直接修改 manifest，
+也不把 pack-v3 JSON 结构耦合进语义状态机。其第一阶段输出至少包含：
+
+- `ScriptActor`：稳定 actor identity、初始 preset id、确定性 actor names 与 revision 列表
+- `ActorRevision`：从当前位置起生效的 display name / avatar 状态及声明来源 range
+- `ResolvedStatementSpeaker`：statement range、actor identity 与该语句捕获的 revision number
+
+无头 `@actor` 与正文中唯一匹配的 preset name 都打开或惰性创建 preset default actor，
+并把 preset 的 deterministic names 绑定到同一 identity；`@actor <name>` 携带
+`preset:` 时则创建独立 actor。`also-as:` 只增加名称，名称冲突和已有 actor 的 preset
+replacement 必须在修改 name table 或 revision 前失败，不能留下半应用状态。
+
+speaker lowering 为左右方向分别维护 message history 与 first-seen unique actor list：
+`_n` 从同方向消息历史倒数第 n 项取 actor，`~n` 从同方向不同 actor 的首次出现顺序
+取第 n 项。两者都读取该 actor 的当前 revision 供新 statement 捕获；早期 statement
+保存的 revision number 不随之后的 `@actor` 修改而变化。
+
 ## 错误恢复
 
 parser 可以为 IDE 场景做 panic recovery，但恢复必须是显式可见的：

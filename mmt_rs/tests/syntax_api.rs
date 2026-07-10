@@ -2,7 +2,10 @@ use mmt_rs::diag::Severity;
 use mmt_rs::inline::MacroValueSyntax;
 use mmt_rs::source::{LineColumn, SourceFile};
 use mmt_rs::syntax::{BodyPartSyntax, SpeakerMarkerSyntax, StatementKind, SyntaxNode};
-use mmt_rs::{ResolvedBodyMode, parse_document, parse_text, resolve_body_modes};
+use mmt_rs::{
+    CharacterPreset, ResolvedBodyMode, StaticPresetCatalog, lower_actors, parse_document,
+    parse_text, resolve_body_modes,
+};
 
 #[test]
 fn public_parse_text_api_returns_statement_ast() {
@@ -51,4 +54,29 @@ fn public_mode_resolution_api_applies_file_local_directives() {
     assert!(resolution.diagnostics.is_empty());
     assert_eq!(resolution.bodies.len(), 1);
     assert_eq!(resolution.bodies[0].mode, ResolvedBodyMode::TypstMacro);
+}
+
+#[test]
+fn public_actor_lowering_api_captures_statement_revisions() {
+    let catalog = StaticPresetCatalog::new(vec![CharacterPreset {
+        id: "ba::日富美".to_string(),
+        names: vec!["日富美".to_string()],
+        display_name: None,
+        avatar: Some("ba::日富美/avatar/default".to_string()),
+    }]);
+    let doc = parse_text(
+        "> 日富美: first\n\
+         @actor 日富美\n\
+         display-name: \"小鸟游日富美\"\n\
+         @end\n\
+         > _: second",
+    );
+    let lowered = lower_actors(&doc, &catalog);
+
+    assert!(lowered.diagnostics.is_empty());
+    assert_eq!(lowered.actors.len(), 1);
+    assert_eq!(lowered.actors[0].revisions.len(), 2);
+    assert_eq!(lowered.speakers[0].revision, 0);
+    assert_eq!(lowered.speakers[1].revision, 1);
+    assert_eq!(lowered.speakers[0].actor_id, lowered.speakers[1].actor_id);
 }

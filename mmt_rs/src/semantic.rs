@@ -4,6 +4,13 @@
 //! resource selectors, or file-local directives. Each concern is lowered in a
 //! separate pass so diagnostics can retain precise syntax ranges.
 
+pub mod actor;
+
+pub use actor::{
+    ActorId, ActorLowering, ActorRevision, ActorState, CharacterPreset, CharacterPresetCatalog,
+    PresetLookup, ResolvedStatementSpeaker, ScriptActor, StaticPresetCatalog, lower_actors,
+};
+
 use crate::diag::{Diagnostic, DiagnosticPhase, Severity};
 use crate::source::TextRange;
 use crate::syntax::{BodyMode, BodySyntax, SyntaxDocument, SyntaxNode};

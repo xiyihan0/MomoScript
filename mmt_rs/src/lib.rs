@@ -10,5 +10,7 @@ pub mod typst_check;
 
 pub use parser::{parse_document, parse_text};
 pub use semantic::{
-    BodyModeResolution, ResolvedBodyMode, ResolvedBodyModeEntry, resolve_body_modes,
+    ActorId, ActorLowering, ActorRevision, ActorState, BodyModeResolution, CharacterPreset,
+    CharacterPresetCatalog, PresetLookup, ResolvedBodyMode, ResolvedBodyModeEntry,
+    ResolvedStatementSpeaker, ScriptActor, StaticPresetCatalog, lower_actors, resolve_body_modes,
 };
