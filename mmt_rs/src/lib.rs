@@ -9,3 +9,6 @@ pub mod syntax;
 pub mod typst_check;
 
 pub use parser::{parse_document, parse_text};
+pub use semantic::{
+    BodyModeResolution, ResolvedBodyMode, ResolvedBodyModeEntry, resolve_body_modes,
+};

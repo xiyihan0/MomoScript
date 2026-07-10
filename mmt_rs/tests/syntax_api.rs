@@ -2,7 +2,7 @@ use mmt_rs::diag::Severity;
 use mmt_rs::inline::MacroValueSyntax;
 use mmt_rs::source::{LineColumn, SourceFile};
 use mmt_rs::syntax::{BodyPartSyntax, SpeakerMarkerSyntax, StatementKind, SyntaxNode};
-use mmt_rs::{parse_document, parse_text};
+use mmt_rs::{ResolvedBodyMode, parse_document, parse_text, resolve_body_modes};
 
 #[test]
 fn public_parse_text_api_returns_statement_ast() {
@@ -41,4 +41,14 @@ fn public_parse_document_api_preserves_source_positions_for_diagnostics() {
         doc.diagnostics[0].primary_position(&source),
         Some(LineColumn { line: 1, column: 1 })
     );
+}
+
+#[test]
+fn public_mode_resolution_api_applies_file_local_directives() {
+    let doc = parse_text("@mode: typst\n- #strong[你好]");
+    let resolution = resolve_body_modes(&doc);
+
+    assert!(resolution.diagnostics.is_empty());
+    assert_eq!(resolution.bodies.len(), 1);
+    assert_eq!(resolution.bodies[0].mode, ResolvedBodyMode::TypstMacro);
 }

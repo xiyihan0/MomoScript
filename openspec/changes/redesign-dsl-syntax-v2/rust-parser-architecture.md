@@ -130,6 +130,12 @@ pub enum DirectiveItemSyntax {
 
 `@actor` 的字段白名单、`preset:` 是否允许、`also-as:` 是否冲突、`@asset` 是否缺少 `src:` 等判断，都应放到 semantic 层。syntax 层只负责保留 block 结构和字段原文。
 
+第一阶段 semantic lowering 可以拆成独立、可组合的 pass。`resolve_body_modes`
+按节点顺序解释文件内的 `@mode`，只为 statement、reply item 和 bond body 产出
+`body range -> resolved mode`；配置 block、普通 directive payload 与 `@typ` 不进入该
+映射。未知 mode 产生 semantic diagnostic，但不覆盖之前有效的文件默认值。完整
+semantic IR 后续可在该结果上继续叠加 actor revision、speaker history 与资源解析。
+
 ## 错误恢复
 
 parser 可以为 IDE 场景做 panic recovery，但恢复必须是显式可见的：
