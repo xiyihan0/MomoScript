@@ -1,3 +1,35 @@
+# MMT Typst Renderer
+
+## DSL v2 模板库
+
+DSL v2 使用当前目录的 `lib.typ` 作为无 import 副作用的模板入口：
+
+```typst
+#import "lib.typ" as mmt
+
+#show: mmt.template.with(
+  title: "无题",
+  author: "xiyihan",
+)
+
+#mmt.chat-left(avatar: ..., name: [柚子])[正文]
+#mmt.reply[A][B]
+#mmt.bond[羁绊内容]
+```
+
+`chat.typ`、`special.typ`、`resource.typ` 与 `template.typ` 只接收已经由 language
+core lowering/materialize 的 Typst content，不读取 MMT JSON，也不调用 `eval`。旧
+`mmt_render.typ` / `mmt.typ` 暂时作为 legacy JSON renderer 保留。
+
+使用 Typst 0.15 验证完整 façade 和 MoeTalk 默认视觉：
+
+```bash
+cd typst_sandbox/mmt_render
+typst compile tests/v2-smoke.typ /tmp/mmt-v2-smoke.pdf --root ..
+```
+
+## Legacy Renderer
+
 # api.kivo.wiki 使用方法(非官方)
 ***在箭头指向内的参数任选其一***
 
