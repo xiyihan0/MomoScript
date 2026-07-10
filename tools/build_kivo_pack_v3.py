@@ -14,7 +14,6 @@ import hashlib
 import json
 import os
 import re
-import shutil
 import subprocess
 import sys
 import tempfile
@@ -96,7 +95,7 @@ KNOWN_SET_IDS = {
     "头套差分": "mask",
     "头套眼镜差分": "mask_glasses",
 }
-COLLAB_FULL_HANDLE_NAMES = {
+COLLAB_FULL_NAMES = {
     "初音未来",
     "御坂美琴",
     "食蜂操祈",
@@ -178,8 +177,10 @@ def _entity_id_for(detail: dict[str, Any]) -> str:
     student_id = int(detail.get("id") or 0)
     full_cn = _full_name(detail, locale="zh-CN")
     given = _display_name(detail)
-    base_id = full_cn if full_cn in COLLAB_FULL_HANDLE_NAMES else given
-    skin = _safe_text(detail.get("skin_cn") or detail.get("skin") or detail.get("skin_jp"))
+    base_id = full_cn if full_cn in COLLAB_FULL_NAMES else given
+    skin = _safe_text(
+        detail.get("skin_cn") or detail.get("skin") or detail.get("skin_jp")
+    )
     if base_id and skin:
         return f"{base_id}_{skin}"
     if base_id:
@@ -188,51 +189,40 @@ def _entity_id_for(detail: dict[str, Any]) -> str:
 
 
 def _display_name(detail: dict[str, Any]) -> str:
-    return _safe_text(detail.get("given_name_cn") or detail.get("given_name") or detail.get("given_name_en")) or f"student-{detail.get('id')}"
+    return (
+        _safe_text(
+            detail.get("given_name_cn")
+            or detail.get("given_name")
+            or detail.get("given_name_en")
+        )
+        or f"student-{detail.get('id')}"
+    )
 
 
-def _canonical_handles(detail: dict[str, Any], *, nickname_handles: bool, english_handles: bool) -> list[str]:
+def _canonical_names(
+    detail: dict[str, Any], *, nickname_names: bool, english_names: bool
+) -> list[str]:
     full_cn = _full_name(detail, locale="zh-CN")
     given = _display_name(detail)
-    base_handle = full_cn if full_cn in COLLAB_FULL_HANDLE_NAMES else given
+    primary_name = full_cn if full_cn in COLLAB_FULL_NAMES else given
     skin = _safe_text(detail.get("skin_cn") or detail.get("skin"))
-    handles: list[str] = []
+    names: list[str] = []
     if skin:
-        handles.extend([f"{base_handle}_{skin}", f"{base_handle}({skin})"])
+        names.extend([f"{primary_name}_{skin}", f"{primary_name}({skin})"])
     else:
-        handles.append(base_handle)
+        names.append(primary_name)
 
-    if english_handles:
+    if english_names:
         given_en = _safe_text(detail.get("given_name_en"))
         skin_en = _safe_text(detail.get("skin_jp") or detail.get("skin"))
         if given_en and skin:
-            handles.append(f"{given_en}_{_slugify(skin_en or skin, fallback='skin')}")
+            names.append(f"{given_en}_{_slugify(skin_en or skin, fallback='skin')}")
         elif given_en:
-            handles.append(given_en)
+            names.append(given_en)
 
-    if nickname_handles:
-        handles.extend(_split_nicknames(_safe_text(detail.get("nick_name"))))
+    if nickname_names:
+        names.extend(_split_nicknames(_safe_text(detail.get("nick_name"))))
 
-    return _unique(handles)
-
-
-def _aliases(detail: dict[str, Any]) -> list[str]:
-    names: list[str] = []
-    for family_key, given_key in [
-        ("family_name", "given_name"),
-        ("family_name_cn", "given_name_cn"),
-        ("family_name_jp", "given_name_jp"),
-        ("family_name_kr", "given_name_kr"),
-        ("family_name_en", "given_name_en"),
-        ("family_name_zh_tw", "given_name_zh_tw"),
-    ]:
-        family = _safe_text(detail.get(family_key))
-        given = _safe_text(detail.get(given_key))
-        if family or given:
-            names.append(f"{family}{given}" if family_key != "family_name_en" else f"{given} {family}".strip())
-        if given:
-            names.append(given)
-    names.extend(_split_nicknames(_safe_text(detail.get("nick_name"))))
     return _unique(names)
 
 
@@ -240,7 +230,9 @@ def _locale_map(*items: tuple[str, Any]) -> dict[str, str]:
     return {locale: text for locale, raw in items if (text := _safe_text(raw))}
 
 
-def _entity_meta(detail: dict[str, Any], *, api_version: str = "", api_time: int = 0) -> dict[str, Any]:
+def _entity_meta(
+    detail: dict[str, Any], *, api_version: str = "", api_time: int = 0
+) -> dict[str, Any]:
     cdata = _first_character_data(detail)
     character_id = cdata.get("character_id")
     nicknames = _split_nicknames(_safe_text(detail.get("nick_name")))
@@ -280,8 +272,12 @@ def _entity_meta(detail: dict[str, Any], *, api_version: str = "", api_time: int
             "nicknames": {"zh-CN": nicknames} if nicknames else {},
         },
         "affiliation": {
-            "school": {"source_id": detail.get("school")} if detail.get("school") is not None else {},
-            "main_relation": {"source_id": detail.get("main_relation")} if detail.get("main_relation") is not None else {},
+            "school": {"source_id": detail.get("school")}
+            if detail.get("school") is not None
+            else {},
+            "main_relation": {"source_id": detail.get("main_relation")}
+            if detail.get("main_relation") is not None
+            else {},
             "relations": [{"source_id": r} for r in (detail.get("relation") or [])],
         },
     }
@@ -295,7 +291,9 @@ def _drop_empty(value: Any) -> Any:
         out = {k: _drop_empty(v) for k, v in value.items()}
         return {k: v for k, v in out.items() if v not in ({}, [], "", None)}
     if isinstance(value, list):
-        return [_drop_empty(v) for v in value if _drop_empty(v) not in ({}, [], "", None)]
+        return [
+            _drop_empty(v) for v in value if _drop_empty(v) not in ({}, [], "", None)
+        ]
     return value
 
 
@@ -316,7 +314,9 @@ def _set_handles_for(title: str, *, is_default: bool, is_only_set: bool) -> list
     return _unique(names)
 
 
-def _is_sticker_gallery(title: str, count: int, *, mode: str, excluded_titles: list[str]) -> bool:
+def _is_sticker_gallery(
+    title: str, count: int, *, mode: str, excluded_titles: list[str]
+) -> bool:
     if mode == "none":
         return False
     if mode == "all":
@@ -343,7 +343,9 @@ async def _fetch_student_ids(
     limit: Optional[int],
 ) -> list[int]:
     ids: list[int] = []
-    raw = await client.get_students_raw(page=1, page_size=page_size, is_npc=None if include_npc else False)
+    raw = await client.get_students_raw(
+        page=1, page_size=page_size, is_npc=None if include_npc else False
+    )
     parsed = parse_student_list_response(raw)
     ids.extend(s.id for s in parsed.data.students)
     max_page = int(parsed.data.max_page or 1)
@@ -351,7 +353,9 @@ async def _fetch_student_ids(
     for page in range(2, max_page + 1):
         if limit is not None and len(ids) >= limit:
             break
-        raw = await client.get_students_raw(page=page, page_size=page_size, is_npc=None if include_npc else False)
+        raw = await client.get_students_raw(
+            page=page, page_size=page_size, is_npc=None if include_npc else False
+        )
         parsed = parse_student_list_response(raw)
         ids.extend(s.id for s in parsed.data.students)
 
@@ -372,8 +376,20 @@ async def _fetch_detail(
 
     data = raw.get("data")
     if not isinstance(data, dict):
-        return student_id, None, "missing data object", _safe_text(raw.get("version")), int(raw.get("time") or 0)
-    return student_id, data, None, _safe_text(raw.get("version")), int(raw.get("time") or 0)
+        return (
+            student_id,
+            None,
+            "missing data object",
+            _safe_text(raw.get("version")),
+            int(raw.get("time") or 0),
+        )
+    return (
+        student_id,
+        data,
+        None,
+        _safe_text(raw.get("version")),
+        int(raw.get("time") or 0),
+    )
 
 
 async def _download_one(
@@ -388,7 +404,9 @@ async def _download_one(
         if resume and task.target.exists() and task.target.stat().st_size > 0:
             return task, True, None
         try:
-            status_code, _headers, content = await client.get_bytes(task.url, timeout=timeout)
+            status_code, _headers, content = await client.get_bytes(
+                task.url, timeout=timeout
+            )
         except ApiError as exc:
             return task, False, str(exc)
 
@@ -413,8 +431,8 @@ def _build_manifest(
     gallery_mode: str,
     excluded_gallery_titles: list[str],
     max_gallery_images: Optional[int],
-    nickname_handles: bool,
-    english_handles: bool,
+    nickname_names: bool,
+    english_names: bool,
     api_versions: dict[int, str],
     api_times: dict[int, int],
 ) -> tuple[dict[str, Any], list[DownloadTask]]:
@@ -471,7 +489,9 @@ def _build_manifest(
             for gallery_index, gallery in enumerate(galleries):
                 if not isinstance(gallery, dict):
                     continue
-                title = _safe_text(gallery.get("title")) or f"gallery-{gallery_index + 1}"
+                title = (
+                    _safe_text(gallery.get("title")) or f"gallery-{gallery_index + 1}"
+                )
                 images = [u for u in (gallery.get("images") or []) if _safe_text(u)]
                 if not _is_sticker_gallery(
                     title,
@@ -522,7 +542,9 @@ def _build_manifest(
                 }
 
         if sticker_sets:
-            default_set = "default" if "default" in sticker_sets else next(iter(sticker_sets))
+            default_set = (
+                "default" if "default" in sticker_sets else next(iter(sticker_sets))
+            )
             is_only_set = len(sticker_sets) == 1
             for set_id, set_data in sticker_sets.items():
                 set_data["handles"] = _set_handles_for(
@@ -537,9 +559,12 @@ def _build_manifest(
 
         entities[entity_id] = _drop_empty(
             {
-                "handles": _canonical_handles(detail, nickname_handles=nickname_handles, english_handles=english_handles),
+                "names": _canonical_names(
+                    detail,
+                    nickname_names=nickname_names,
+                    english_names=english_names,
+                ),
                 "display_name": _display_name(detail),
-                "aliases": _aliases(detail),
                 "slots": slots,
             }
         )
@@ -564,7 +589,24 @@ def _build_manifest(
 
 def _write_json(path: Path, data: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    path.write_text(
+        json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+
+
+def _entity_name_conflicts(manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    owners: dict[str, list[str]] = {}
+    for entity_id, entity in manifest.get("entities", {}).items():
+        if not isinstance(entity, dict):
+            continue
+        for name in entity.get("names") or []:
+            if isinstance(name, str) and name:
+                owners.setdefault(name, []).append(str(entity_id))
+    return [
+        {"name": name, "entities": entity_ids}
+        for name, entity_ids in sorted(owners.items())
+        if len(entity_ids) > 1
+    ]
 
 
 def _sha256_file(path: Path) -> str:
@@ -587,14 +629,18 @@ def _image_info(paths: list[Path]) -> tuple[list[tuple[int, int]], bool]:
             check=False,
         )
         if result.returncode != 0:
-            raise RuntimeError((result.stderr or result.stdout).strip() or f"identify failed: {path}")
+            raise RuntimeError(
+                (result.stderr or result.stdout).strip() or f"identify failed: {path}"
+            )
         width, height, channels = result.stdout.strip().split(maxsplit=2)
         sizes.append((int(width), int(height)))
         has_alpha = has_alpha or "a" in channels.lower() or "alpha" in channels.lower()
     return sizes, has_alpha
 
 
-def _prepare_padded_frames(paths: list[Path], out_dir: Path, *, size: tuple[int, int], alpha: bool) -> list[Path]:
+def _prepare_padded_frames(
+    paths: list[Path], out_dir: Path, *, size: tuple[int, int], alpha: bool
+) -> list[Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     background = "none" if alpha else "white"
     prepared: list[Path] = []
@@ -618,7 +664,9 @@ def _prepare_padded_frames(paths: list[Path], out_dir: Path, *, size: tuple[int,
             check=False,
         )
         if result.returncode != 0:
-            raise RuntimeError((result.stderr or result.stdout).strip() or f"padding failed: {src}")
+            raise RuntimeError(
+                (result.stderr or result.stdout).strip() or f"padding failed: {src}"
+            )
         prepared.append(target)
     return prepared
 
@@ -654,10 +702,14 @@ def _run_avifenc(
         *[str(p) for p in inputs],
         str(output),
     ]
-    return subprocess.run(cmd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
+    return subprocess.run(
+        cmd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False
+    )
 
 
-def _drop_sticker_set(manifest: dict[str, Any], entity: dict[str, Any], set_id: str, storage_id: Any) -> None:
+def _drop_sticker_set(
+    manifest: dict[str, Any], entity: dict[str, Any], set_id: str, storage_id: Any
+) -> None:
     sticker = entity.get("slots", {}).get("sticker")
     if not isinstance(sticker, dict):
         return
@@ -669,12 +721,16 @@ def _drop_sticker_set(manifest: dict[str, Any], entity: dict[str, Any], set_id: 
             manifest.get("storage", {}).pop(storage_id, None)
         if sets:
             if sticker.get("default") == set_id:
-                sticker["default"] = "default" if "default" in sets else next(iter(sets))
+                sticker["default"] = (
+                    "default" if "default" in sets else next(iter(sets))
+                )
         else:
             entity.get("slots", {}).pop("sticker", None)
 
 
-def _encode_avif_sequences(out_dir: Path, manifest: dict[str, Any], args: argparse.Namespace) -> dict[str, Any]:
+def _encode_avif_sequences(
+    out_dir: Path, manifest: dict[str, Any], args: argparse.Namespace
+) -> dict[str, Any]:
     report_path = out_dir / "encode_report.jsonl"
     summary: dict[str, Any] = {
         "enabled": True,
@@ -735,7 +791,9 @@ def _encode_avif_sequences(out_dir: Path, manifest: dict[str, Any], args: argpar
                 if skipped_variants:
                     summary["skipped_variants"] += len(skipped_variants)
                     record["skipped_variants"] = skipped_variants
-                    variant_pairs = [(v, p) for v, p in variant_pairs if p.suffix.lower() != ".gif"]
+                    variant_pairs = [
+                        (v, p) for v, p in variant_pairs if p.suffix.lower() != ".gif"
+                    ]
                     set_data["variants"] = [v for v, _p in variant_pairs]
 
                 image_paths = [p for _v, p in variant_pairs]
@@ -748,7 +806,9 @@ def _encode_avif_sequences(out_dir: Path, manifest: dict[str, Any], args: argpar
                     summary["skipped_sets"] += 1
                     report.write(json.dumps(record, ensure_ascii=False) + "\n")
                     report.flush()
-                    done = summary["encoded"] + summary["failed"] + summary["skipped_sets"]
+                    done = (
+                        summary["encoded"] + summary["failed"] + summary["skipped_sets"]
+                    )
                     if done == 1 or done % 25 == 0:
                         print(
                             f"[encode] processed={done} "
@@ -772,7 +832,9 @@ def _encode_avif_sequences(out_dir: Path, manifest: dict[str, Any], args: argpar
                     sizes, has_alpha = _image_info(image_paths)
                     target_size = (max(w for w, _h in sizes), max(h for _w, h in sizes))
                     target_pixels = target_size[0] * target_size[1]
-                    aspect_ratio = max(target_size[0] / target_size[1], target_size[1] / target_size[0])
+                    aspect_ratio = max(
+                        target_size[0] / target_size[1], target_size[1] / target_size[0]
+                    )
                     if target_pixels > int(args.sticker_max_canvas_pixels):
                         record["status"] = "skipped"
                         record["reason"] = "sticker canvas too large"
@@ -783,7 +845,11 @@ def _encode_avif_sequences(out_dir: Path, manifest: dict[str, Any], args: argpar
                         summary["skipped_sets"] += 1
                         report.write(json.dumps(record, ensure_ascii=False) + "\n")
                         report.flush()
-                        done = summary["encoded"] + summary["failed"] + summary["skipped_sets"]
+                        done = (
+                            summary["encoded"]
+                            + summary["failed"]
+                            + summary["skipped_sets"]
+                        )
                         if done == 1 or done % 25 == 0:
                             print(
                                 f"[encode] processed={done} "
@@ -802,7 +868,11 @@ def _encode_avif_sequences(out_dir: Path, manifest: dict[str, Any], args: argpar
                         summary["skipped_sets"] += 1
                         report.write(json.dumps(record, ensure_ascii=False) + "\n")
                         report.flush()
-                        done = summary["encoded"] + summary["failed"] + summary["skipped_sets"]
+                        done = (
+                            summary["encoded"]
+                            + summary["failed"]
+                            + summary["skipped_sets"]
+                        )
                         if done == 1 or done % 25 == 0:
                             print(
                                 f"[encode] processed={done} "
@@ -817,11 +887,17 @@ def _encode_avif_sequences(out_dir: Path, manifest: dict[str, Any], args: argpar
                             f"({target_pixels} pixels)"
                         )
                     if max(target_size) > int(args.avif_max_canvas_edge):
-                        raise RuntimeError(f"canvas edge too large: {target_size[0]}x{target_size[1]}")
+                        raise RuntimeError(
+                            f"canvas edge too large: {target_size[0]}x{target_size[1]}"
+                        )
 
                     encode_inputs = image_paths
                     temp_dir_obj: tempfile.TemporaryDirectory[str] | None = None
-                    if bool(args.resume) and output_path.exists() and output_path.stat().st_size > 0:
+                    if (
+                        bool(args.resume)
+                        and output_path.exists()
+                        and output_path.stat().st_size > 0
+                    ):
                         for index, variant in enumerate(variants):
                             variant.pop("path", None)
                             variant["frame"] = index
@@ -849,7 +925,11 @@ def _encode_avif_sequences(out_dir: Path, manifest: dict[str, Any], args: argpar
                         summary["encoded"] += 1
                         report.write(json.dumps(record, ensure_ascii=False) + "\n")
                         report.flush()
-                        done = summary["encoded"] + summary["failed"] + summary["skipped_sets"]
+                        done = (
+                            summary["encoded"]
+                            + summary["failed"]
+                            + summary["skipped_sets"]
+                        )
                         if done == 1 or done % 25 == 0:
                             print(
                                 f"[encode] processed={done} "
@@ -889,7 +969,10 @@ def _encode_avif_sequences(out_dir: Path, manifest: dict[str, Any], args: argpar
                             temp_dir_obj.cleanup()
 
                     if result.returncode != 0 or not output_path.exists():
-                        raise RuntimeError((result.stdout or "").strip()[-1000:] or f"avifenc exited {result.returncode}")
+                        raise RuntimeError(
+                            (result.stdout or "").strip()[-1000:]
+                            or f"avifenc exited {result.returncode}"
+                        )
 
                     for index, variant in enumerate(variants):
                         variant.pop("path", None)
@@ -939,10 +1022,14 @@ async def main_async(args: argparse.Namespace) -> int:
     out_dir = Path(args.out_dir).resolve()
     student_ids = list(args.student_id or [])
     if args.student_ids:
-        student_ids.extend(int(x.strip()) for x in args.student_ids.split(",") if x.strip())
+        student_ids.extend(
+            int(x.strip()) for x in args.student_ids.split(",") if x.strip()
+        )
     student_ids = list(dict.fromkeys(student_ids))
 
-    async with KivoWikiClient(timeout=float(args.timeout), user_agent=args.user_agent) as client:
+    async with KivoWikiClient(
+        timeout=float(args.timeout), user_agent=args.user_agent
+    ) as client:
         if not student_ids:
             try:
                 student_ids = await _fetch_student_ids(
@@ -981,14 +1068,23 @@ async def main_async(args: argparse.Namespace) -> int:
             api_times[student_id] = api_time
 
         if not details:
-            _write_json(out_dir / "build_errors.json", {"errors": errors, "generated_at": _utc_now_iso()})
-            print(f"[error] no details fetched; see {out_dir / 'build_errors.json'}", file=sys.stderr)
+            _write_json(
+                out_dir / "build_errors.json",
+                {"errors": errors, "generated_at": _utc_now_iso()},
+            )
+            print(
+                f"[error] no details fetched; see {out_dir / 'build_errors.json'}",
+                file=sys.stderr,
+            )
             return 1
 
         if args.save_raw:
             for detail in details:
                 student_id = int(detail.get("id") or 0)
-                _write_json(out_dir / "sources" / "kivo" / "students" / f"{student_id}.json", detail)
+                _write_json(
+                    out_dir / "sources" / "kivo" / "students" / f"{student_id}.json",
+                    detail,
+                )
 
         manifest, tasks = _build_manifest(
             details,
@@ -998,9 +1094,11 @@ async def main_async(args: argparse.Namespace) -> int:
             out_dir=out_dir,
             gallery_mode=args.gallery_mode,
             excluded_gallery_titles=list(args.exclude_gallery_title),
-            max_gallery_images=int(args.max_gallery_images) if args.max_gallery_images is not None else None,
-            nickname_handles=bool(args.nickname_handles),
-            english_handles=bool(args.english_handles),
+            max_gallery_images=int(args.max_gallery_images)
+            if args.max_gallery_images is not None
+            else None,
+            nickname_names=bool(args.nickname_names),
+            english_names=bool(args.english_names),
             api_versions=api_versions,
             api_times=api_times,
         )
@@ -1010,6 +1108,7 @@ async def main_async(args: argparse.Namespace) -> int:
             "generated_at": _utc_now_iso(),
             "student_ids": student_ids,
             "entities": len(manifest["entities"]),
+            "name_conflicts": _entity_name_conflicts(manifest),
             "download_tasks": len(tasks),
             "detail_errors": errors,
             "dry_run": bool(args.dry_run),
@@ -1021,7 +1120,9 @@ async def main_async(args: argparse.Namespace) -> int:
             return 0 if not errors else 1
 
         print(f"[info] downloading {len(tasks)} resource file(s)")
-        download_sem = asyncio.Semaphore(int(args.download_concurrency or args.concurrency))
+        download_sem = asyncio.Semaphore(
+            int(args.download_concurrency or args.concurrency)
+        )
         download_results = await asyncio.gather(
             *[
                 _download_one(
@@ -1035,7 +1136,12 @@ async def main_async(args: argparse.Namespace) -> int:
             ]
         )
         failures = [
-            {"label": task.label, "url": task.url, "target": str(task.target), "error": err}
+            {
+                "label": task.label,
+                "url": task.url,
+                "target": str(task.target),
+                "error": err,
+            }
             for task, ok, err in download_results
             if not ok
         ]
@@ -1064,24 +1170,86 @@ async def main_async(args: argparse.Namespace) -> int:
 
 
 def build_argparser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Build a draft MomoScript pack-v3 from Kivo Wiki resources.")
-    parser.add_argument("--out-dir", default="typst_sandbox/pack-v3/ba_kivo", help="Output pack directory.")
-    parser.add_argument("--namespace", default="ba", help="Pack namespace written to manifest.")
-    parser.add_argument("--pack-name", default="Kivo Wiki Blue Archive draft pack", help="Pack display name.")
-    parser.add_argument("--pack-version", default=datetime.now().strftime("%Y.%m.%d"), help="Pack version.")
-    parser.add_argument("--student-id", type=int, action="append", help="Kivo student id to include. Can repeat.")
-    parser.add_argument("--student-ids", default="", help="Comma-separated Kivo student ids to include.")
-    parser.add_argument("--limit", type=int, default=None, help="Limit fetched students when using list mode.")
-    parser.add_argument("--include-npc", action="store_true", help="Include NPCs in list mode.")
-    parser.add_argument("--page-size", type=int, default=100, help="Kivo list page size.")
-    parser.add_argument("--concurrency", type=int, default=12, help="Concurrent API detail fetches.")
-    parser.add_argument("--download-concurrency", type=int, default=None, help="Concurrent resource downloads.")
-    parser.add_argument("--timeout", type=float, default=20.0, help="API timeout seconds.")
-    parser.add_argument("--download-timeout", type=float, default=45.0, help="Resource download timeout seconds.")
-    parser.add_argument("--user-agent", default="MomoScript-pack-v3-builder/0.1", help="HTTP User-Agent.")
-    parser.add_argument("--resume", action="store_true", help="Skip downloads for existing non-empty files.")
-    parser.add_argument("--dry-run", action="store_true", help="Write manifest/report only; do not download files.")
-    parser.add_argument("--save-raw", action="store_true", help="Save raw Kivo student detail JSON under sources/kivo.")
+    parser = argparse.ArgumentParser(
+        description="Build a draft MomoScript pack-v3 from Kivo Wiki resources."
+    )
+    parser.add_argument(
+        "--out-dir",
+        default="typst_sandbox/pack-v3/ba_kivo",
+        help="Output pack directory.",
+    )
+    parser.add_argument(
+        "--namespace", default="ba", help="Pack namespace written to manifest."
+    )
+    parser.add_argument(
+        "--pack-name",
+        default="Kivo Wiki Blue Archive draft pack",
+        help="Pack display name.",
+    )
+    parser.add_argument(
+        "--pack-version",
+        default=datetime.now().strftime("%Y.%m.%d"),
+        help="Pack version.",
+    )
+    parser.add_argument(
+        "--student-id",
+        type=int,
+        action="append",
+        help="Kivo student id to include. Can repeat.",
+    )
+    parser.add_argument(
+        "--student-ids", default="", help="Comma-separated Kivo student ids to include."
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="Limit fetched students when using list mode.",
+    )
+    parser.add_argument(
+        "--include-npc", action="store_true", help="Include NPCs in list mode."
+    )
+    parser.add_argument(
+        "--page-size", type=int, default=100, help="Kivo list page size."
+    )
+    parser.add_argument(
+        "--concurrency", type=int, default=12, help="Concurrent API detail fetches."
+    )
+    parser.add_argument(
+        "--download-concurrency",
+        type=int,
+        default=None,
+        help="Concurrent resource downloads.",
+    )
+    parser.add_argument(
+        "--timeout", type=float, default=20.0, help="API timeout seconds."
+    )
+    parser.add_argument(
+        "--download-timeout",
+        type=float,
+        default=45.0,
+        help="Resource download timeout seconds.",
+    )
+    parser.add_argument(
+        "--user-agent",
+        default="MomoScript-pack-v3-builder/0.1",
+        help="HTTP User-Agent.",
+    )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Skip downloads for existing non-empty files.",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Write manifest/report only; do not download files.",
+    )
+    parser.add_argument(
+        "--save-raw",
+        action="store_true",
+        help="Save raw Kivo student detail JSON under sources/kivo.",
+    )
     parser.add_argument(
         "--gallery-mode",
         choices=["sticker-like", "all", "none"],
@@ -1094,14 +1262,46 @@ def build_argparser() -> argparse.ArgumentParser:
         default=list(DEFAULT_EXCLUDED_GALLERY_TITLES),
         help="Substring of gallery titles to exclude in sticker-like mode. Can repeat.",
     )
-    parser.add_argument("--max-gallery-images", type=int, default=None, help="Cap images per gallery set for tests.")
-    parser.add_argument("--nickname-handles", action="store_true", help="Promote Kivo nicknames to DSL handles.")
-    parser.add_argument("--english-handles", action="store_true", help="Add English generated handles.")
-    parser.add_argument("--encode-avifs", action="store_true", help="Encode sticker image dirs to AVIFS sequences.")
-    parser.add_argument("--avif-qcolor", type=int, default=80, help="AVIF color quality.")
-    parser.add_argument("--avif-qalpha", type=int, default=80, help="AVIF alpha quality.")
-    parser.add_argument("--avif-yuv", choices=["420", "422", "444"], default="420", help="AVIF chroma format.")
-    parser.add_argument("--avif-keyframe", type=int, default=30, help="AVIF sequence keyframe interval.")
+    parser.add_argument(
+        "--max-gallery-images",
+        type=int,
+        default=None,
+        help="Cap images per gallery set for tests.",
+    )
+    parser.add_argument(
+        "--nickname-names",
+        "--nickname-handles",
+        dest="nickname_names",
+        action="store_true",
+        help="Promote Kivo nicknames to deterministic entity names.",
+    )
+    parser.add_argument(
+        "--english-names",
+        "--english-handles",
+        dest="english_names",
+        action="store_true",
+        help="Add generated English entity names.",
+    )
+    parser.add_argument(
+        "--encode-avifs",
+        action="store_true",
+        help="Encode sticker image dirs to AVIFS sequences.",
+    )
+    parser.add_argument(
+        "--avif-qcolor", type=int, default=80, help="AVIF color quality."
+    )
+    parser.add_argument(
+        "--avif-qalpha", type=int, default=80, help="AVIF alpha quality."
+    )
+    parser.add_argument(
+        "--avif-yuv",
+        choices=["420", "422", "444"],
+        default="420",
+        help="AVIF chroma format.",
+    )
+    parser.add_argument(
+        "--avif-keyframe", type=int, default=30, help="AVIF sequence keyframe interval."
+    )
     parser.add_argument("--avif-speed", type=int, default=8, help="avifenc speed.")
     parser.add_argument("--avif-jobs", default="4", help="avifenc worker jobs.")
     parser.add_argument(
