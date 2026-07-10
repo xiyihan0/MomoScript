@@ -104,21 +104,37 @@ pack-v3 基础资源包构建器 SHALL 能从 Kivo Wiki 数据源重建主资源
 - THEN 该 student 默认映射为一个独立 entity id
 - AND 不同 skin 的 student 记录通过 `meta.related_entities` 关联，而不是隐式合并
 
-#### Scenario: entity id 和 handle 使用不同命名规则
+#### Scenario: entity id 和 deterministic names 使用不同命名规则
 
 - GIVEN Kivo Wiki student detail 提供国服翻译
 - WHEN 构建器生成 entity core
 - THEN entity id 使用中文 canonical 名称
+- AND entity `names` MUST be non-empty
+- AND `names[0]` SHALL be the default script actor name supplied by the preset
 - AND 默认皮肤使用中文角色名
 - AND 非默认皮肤使用 `中文角色名_中文皮肤名`
 - AND 国服翻译缺失时回退到国际服/英文名
 
-#### Scenario: 联动角色使用全名 handle
+#### Scenario: 联动角色使用全名作为默认 name
 
 - GIVEN Kivo Wiki student detail 对应 Blue Archive 联动角色
-- WHEN 构建器生成 entity handles
-- THEN `初音未来`、`御坂美琴`、`食蜂操祈`、`佐天泪子` 这四类联动角色使用全名 handle
-- AND 构建器不使用 `未来`、`美琴`、`操祈`、`泪子` 作为默认 handle
+- WHEN 构建器生成 entity names
+- THEN `初音未来`、`御坂美琴`、`食蜂操祈`、`佐天泪子` 这四类联动角色使用全名作为 `names[0]`
+- AND 构建器不使用 `未来`、`美琴`、`操祈`、`泪子` 作为默认 name
+
+#### Scenario: Search aliases stay outside the main manifest
+
+- GIVEN Kivo Wiki 提供昵称、多语言名称或其他检索词
+- WHEN 构建器生成第一版主 manifest
+- THEN those search aliases MUST NOT be emitted as deterministic entity names by default
+- AND SHOULD be preserved in raw source data or a future catalog/search index
+
+#### Scenario: Duplicate deterministic names are reported
+
+- GIVEN two generated entities contain the same deterministic name
+- WHEN 构建器写出 build report
+- THEN it MUST list the conflicting name and all owning entity ids
+- AND MUST NOT silently select one entity as the winner
 
 #### Scenario: 主 manifest 暂不输出 entity meta
 

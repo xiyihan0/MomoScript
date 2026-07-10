@@ -12,7 +12,7 @@
 - `syntax`：行驱动 parser，识别 statement、directive block、reply、bond、fence、patch、body mode，产出忠实保留作者写法的 syntax AST
 - `inline`：解析 `[:...:]` 参数列表、声明层 literal/list、`@reply:` 分隔规则
 - `typst_check`：接入 `typst-syntax`，检查 Typst body / patch，并计算 `T` 模式可做 overlay macro 替换的源码区间
-- `semantic`：处理 `@char` template / instance / handle、speaker history、裸 marker 是否允许、资源 selector 规范化
+- `semantic`：处理 character preset / script actor / actor revision / actor name、speaker history、裸 marker 是否允许、资源 selector 规范化
 - `pack`：定义 pack-v3 manifest 类型与 resolver，把逻辑资源引用解析到 variant / storage / frame
 - `emit`：把 semantic IR 展开为 Typst，并产出 MMT span 到 Typst span 的 source map
 - `diag`：统一 diagnostic、severity、labels 与 recoverable parse error 表达
@@ -105,7 +105,7 @@ pub enum MacroValueSyntax {
 }
 ```
 
-聚合指令使用通用 block AST，而不是为 `@char`、`@asset` 等提前写死不同节点类型：
+聚合指令使用通用 block AST，而不是为 `@actor`、`@asset` 等提前写死不同节点类型：
 
 ```rust
 pub struct DirectiveBlockSyntax {
@@ -123,7 +123,7 @@ pub enum DirectiveItemSyntax {
 }
 ```
 
-`@char` 的字段白名单、`bind:` 是否允许、`handles:` 是否冲突、`@asset` 是否缺少 `src:` 等判断，都应放到 semantic 层。syntax 层只负责保留 block 结构和字段原文。
+`@actor` 的字段白名单、`preset:` 是否允许、`also-as:` 是否冲突、`@asset` 是否缺少 `src:` 等判断，都应放到 semantic 层。syntax 层只负责保留 block 结构和字段原文。
 
 ## 错误恢复
 
@@ -228,7 +228,7 @@ generated_typst_range -> origin
 多阶段 pipeline 的错误不应都伪装成 Typst 错误。建议至少区分：
 
 - syntax：MMT parser / Typst syntax precheck 错误
-- semantic：`@char`、speaker、`[:...:]` selector、资源引用规范化错误
+- semantic：`@actor`、speaker、`[:...:]` selector、资源引用规范化错误
 - materialize：资源包 storage、AVIFS 抽帧、缓存文件生成错误
 - typst：最终 Typst 编译 / eval / layout 错误
 

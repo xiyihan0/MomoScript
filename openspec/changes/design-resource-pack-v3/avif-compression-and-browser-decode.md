@@ -25,7 +25,7 @@
 1. 抓取索引：分页下载 students list，记录 API `version`、`time`、构建时间和参数。
 2. 抓取详情：按 student id 下载详情，规范化 protocol-relative URL 为 `https://...`。
 3. 建立实体：每个 Kivo student id 默认生成一个独立 pack-v3 entity；同一人物的不同 skin 通过 `meta.related_entities` 关联，不合并为同一个 entity id。
-4. 建立命名：第一版 entity id 直接使用中文 canonical 名称；默认皮肤使用中文角色名，非默认皮肤使用 `中文角色名_中文皮肤名`；`handles` 与 entity id 同源，缺失时再回退国际服/英文名；`aliases` 主要服务 IDE 检索。
+4. 建立命名：第一版 entity id 直接使用中文 canonical 名称；默认皮肤使用中文角色名，非默认皮肤使用 `中文角色名_中文皮肤名`；entity `names` 与 entity id 同源，`names[0]` 是默认 script actor name，缺失时再回退国际服/英文名；搜索 aliases 不进入主 manifest。
 5. 建立 sticker sets：从 `gallery` 中挑选差分组，例如 `初始立绘差分`、`战损差分`、`学校泳装`，每组生成一个 `sticker.set`。
 6. 固化顺序：`gallery.images[]` 顺序可作为初始 `ordinal` 来源，写入 manifest 后不得再依赖文件系统顺序。
 7. 下载素材：远端 URL 下载到 pack-relative asset staging 目录，并记录原始 URL、内容 hash、下载状态。
@@ -56,12 +56,12 @@
 - 默认 skin 不加后缀；非默认 skin 使用中文皮肤名作为后缀。
 - 如果中文名缺失，则回退到国际服/英文名；仍缺失时使用 `student_<kivo_id>`。
 - 如果 entity id 冲突，则追加 Kivo student id，例如 `星野_42`，并在构建报告中记录冲突。
-- `handles` 与中文 canonical id 同源；非默认 skin 可同时提供 `星野_泳装` 和 `星野(泳装)`。
+- entity `names` 与中文 canonical id 同源；首项是默认 actor name，非默认 skin 可同时提供 `星野_泳装` 和 `星野(泳装)`。
 - 主 `manifest.json` 暂时不输出 `meta`；多语言名称、学校/社团、差分皮肤关系后续进入轻量 catalog 或单独索引。
-- Kivo `nick_name` 默认进入 `aliases` 或独立 catalog，不自动提升为 `handles`。
-- handle 冲突 MUST 写入构建报告；构建器不得静默让后出现的实体覆盖先出现的实体。
+- Kivo `nick_name` 保留在原始来源或独立 catalog，不自动提升为 deterministic entity names。
+- entity name 冲突 MUST 写入构建报告；构建器不得静默让后出现的实体覆盖先出现的实体。
 
-联动角色是例外：Blue Archive 的四位联动角色 handle SHOULD 使用全名，而不是只使用 given name。第一版 override 名单包括：
+联动角色是例外：Blue Archive 的四位联动角色默认 entity name SHOULD 使用全名，而不是只使用 given name。第一版 override 名单包括：
 
 - `初音未来`
 - `御坂美琴`

@@ -13,10 +13,10 @@
 
 #### Scenario: Directive blocks are parsed generically
 
-- GIVEN 作者写出 `@char ... @end` 或 `@asset ... @end`
+- GIVEN 作者写出 `@actor ... @end` 或 `@asset ... @end`
 - WHEN syntax parser 读取该 block
 - THEN parser SHOULD produce a generic directive block syntax node containing directive name, head arguments, fields, body items, and source range
-- AND `@char` / `@asset` field validation SHOULD happen in semantic lowering rather than the syntax phase
+- AND `@actor` / `@asset` field validation SHOULD happen in semantic lowering rather than the syntax phase
 
 #### Scenario: Nested directive blocks are not supported in the first revision
 

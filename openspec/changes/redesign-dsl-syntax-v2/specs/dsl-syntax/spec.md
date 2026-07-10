@@ -4,64 +4,80 @@
 
 下一版 DSL SHALL 收敛正文指令体系，优先采用聚合声明；若提供短行形式，也应视为统一简写而不是独立风格。
 
-#### Scenario: Character configuration moves toward aggregated declarations
+#### Scenario: Script actor configuration uses aggregated declarations
 
-- GIVEN 下一版 DSL 需要表达人物默认显示名、来源角色、头像和别名
-- WHEN 设计人物配置语法时
-- THEN 优先使用类似 `@char ... @end` 的聚合声明
-- AND 不再把这些能力拆散到多条互相耦合的指令里
+- GIVEN 下一版 DSL 需要表达角色预设、显示名、头像和其他脚本名称
+- WHEN 作者配置剧本中的登场角色
+- THEN canonical syntax SHALL use an `@actor ... @end` aggregated declaration
+- AND MUST NOT require the author to understand mutable instance references or internal ids
 
-#### Scenario: Character template is cloned into a workspace instance
+#### Scenario: Headless actor opens the preset default actor
 
-- GIVEN `ba::日富美` 是资源包提供的不可变人物 template
-- WHEN 作者写出 `@char hifumi` 且 block 内包含 `bind: ba::日富美`
-- THEN compiler 在当前脚本工作区创建一个从该 template clone 而来的 mutable instance
-- AND `hifumi` handle 指向这个 instance
-- AND 后续 patch 不修改资源包里的 `ba::日富美` template
+- GIVEN `ba::日富美` 是资源包提供的只读 character preset
+- AND 该 entity 的 `names[0]` 是 `日富美`
+- WHEN 作者写出无头 `@actor` 且 block 内包含 `preset: ba::日富美`
+- THEN compiler SHALL open or lazily create that preset's default script actor
+- AND the actor's initial state SHALL come from the preset
+- AND the resource pack entity MUST remain immutable
 
-#### Scenario: Existing character handle opens its current instance
+#### Scenario: Headless actor requires a preset
 
-- GIVEN `hifumi` 已经指向某个 workspace instance
-- WHEN 作者再次写出 `@char hifumi` 且 block 内没有 `bind:`
-- THEN compiler 打开 `hifumi` 当前指向的 instance
-- AND block 内字段 patch 到该 instance 上
-- AND 作者不需要为了让修改延续到后续文本而重复 `bind:`
+- GIVEN 作者写出没有位置名称的 `@actor` block
+- WHEN block 内也没有 `preset:`
+- THEN compiler MUST report that the actor target is missing
+- AND MUST NOT create an anonymous actor
 
-#### Scenario: Existing character handle rejects implicit rebind
+#### Scenario: Named actor with preset creates an independent actor
 
-- GIVEN `hifumi` 已经指向某个 workspace instance
-- WHEN 作者再次写出 `@char hifumi` 且 block 内包含 `bind: ba::日富美`
-- THEN compiler MUST report unsupported rebind syntax in the first revision
-- AND MUST NOT clone a new instance or mutate the existing binding implicitly
+- GIVEN `ba::日富美` 是资源包提供的 character preset
+- WHEN 作者写出 `@actor hifumi` 且 block 内包含 `preset: ba::日富美`
+- AND `hifumi` 尚未解析到已有 actor
+- THEN compiler SHALL create an independent script actor initialized from that preset
+- AND `hifumi` SHALL become its primary actor name
 
-#### Scenario: Script-local character template creates a matching instance
+#### Scenario: Existing actor name opens its actor
 
-- GIVEN 作者需要创建一个不来自资源包的新人物
-- WHEN 作者写出 `@char yz` 且 block 内没有 `bind:`
-- THEN compiler 创建一个脚本本地 character template
-- AND 同时 clone 一个对应 workspace instance
-- AND `yz` handle 指向该 instance
+- GIVEN `hifumi` 已经解析到某个 script actor
+- WHEN 作者再次写出 `@actor hifumi` 且 block 内没有 `preset:`
+- THEN compiler SHALL apply block fields to that actor's current state
+- AND later statements SHALL observe a new actor revision
+- AND earlier statements MUST retain the revision captured when they were lowered
 
-#### Scenario: Additional handles are explicit
+#### Scenario: Existing actor rejects implicit preset replacement
 
-- GIVEN `hifumi` 已经指向某个 workspace instance
-- WHEN 作者在 `@char hifumi` block 内写出 `handles: 日富美`
-- THEN `日富美` 被显式绑定为指向同一个 instance 的额外 handle
-- AND 通过 `hifumi` 或 `日富美` 修改该 instance 时，另一个 handle 观察到同一修改
+- GIVEN `hifumi` 已经解析到某个 script actor
+- WHEN 作者再次写出 `@actor hifumi` 且 block 内包含 `preset: ba::日富美`
+- THEN compiler MUST report unsupported preset replacement in the first revision
+- AND MUST NOT silently replace the actor's initial preset or merge actors
 
-#### Scenario: Multiple positional handles are not implicit aliases
+#### Scenario: Missing named actor does not infer a local preset
 
-- GIVEN 下一版 `@char` 第一版语法
-- WHEN 作者写出 `@char hifumi 日富美`
+- GIVEN `unknown` 尚未解析到 actor
+- WHEN 作者写出 `@actor unknown` 且没有 `preset:`
+- THEN compiler MUST report an unknown actor name
+- AND MUST NOT implicitly create a resource-less character preset
+
+#### Scenario: Additional actor names are explicit and additive
+
+- GIVEN `hifumi` 已经解析到某个 script actor
+- WHEN 作者在 `@actor hifumi` block 内写出 `also-as: [日富美, hifumi2]`
+- THEN each listed name SHALL be added as another deterministic name for the same actor
+- AND modifying the actor through any of those names SHALL affect later statements using the others
+- AND `also-as:` MUST NOT replace the actor's existing names
+
+#### Scenario: Multiple positional actor names are rejected
+
+- GIVEN 下一版 `@actor` 第一版语法
+- WHEN 作者写出 `@actor hifumi 日富美`
 - THEN compiler MUST reject this form as ambiguous
-- AND 作者应使用单一主 handle 加 `handles:` 字段显式添加额外 handle
+- AND 作者应使用一个主要名称加 `also-as:` 显式添加其他名称
 
-#### Scenario: Handle conflict is rejected by default
+#### Scenario: Actor name conflict is rejected by default
 
-- GIVEN `a` 和 `b` 已经分别指向不同 workspace instance
-- WHEN 作者在 `@char a` block 内写出 `handles: b`
-- THEN compiler MUST report a handle conflict
-- AND MUST NOT implicitly merge instances or rebind `b`
+- GIVEN `a` 和 `b` 已经分别解析到不同 script actors
+- WHEN 作者在 `@actor a` block 内写出 `also-as: [b]`
+- THEN compiler MUST report an actor name conflict
+- AND MUST NOT implicitly merge actors or move `b`
 
 #### Scenario: Asset registration moves toward aggregated declarations
 
@@ -100,6 +116,14 @@
 - WHEN 后续行不是明确的新顶层节点起始或 `@end`
 - THEN parser MUST append those lines as bond content continuation
 - AND MUST NOT interpret `-` as a bond item marker
+
+#### Scenario: Bond colon form is single-line or fenced
+
+- GIVEN 作者写出 `@bond: payload`
+- WHEN parser 读取该 directive
+- THEN parser MUST consume only the same-line payload
+- AND MUST NOT implicitly append following ordinary lines as bond continuation
+- AND if the payload starts a fenced block, parser MAY consume that fenced payload before ending the bond node
 
 ### Requirement: Statements, blocks, and continuation lines follow line-based parsing
 
@@ -144,7 +168,7 @@
 #### Scenario: Statement continuation stops at explicit node starts
 
 - GIVEN 一条 statement 后存在后续行
-- WHEN 后续行在未缩进的行首以新的 `>`、`<`、`-` statement 或 `@reply`、`@bond`、`@char`、`@asset`、`@typ`、`@end` 等明确节点头开始
+- WHEN 后续行在未缩进的行首以新的 `>`、`<`、`-` statement 或 `@reply`、`@bond`、`@actor`、`@asset`、`@typ`、`@end` 等明确节点头开始
 - THEN parser MUST stop the previous statement continuation before that line
 - AND parse the line according to its own node kind
 
@@ -199,25 +223,25 @@
 
 - GIVEN 当前方向已有说话人历史
 - WHEN 作者写出 `_:`、`_1:` 或 `_2:` 作为 `>` / `<` statement 的说话人 marker
-- THEN `_:` 与 `_1:` MUST resolve to the most recent speaker instance on the same side
-- AND `_2:` MUST resolve to the previous speaker instance before that on the same side
+- THEN `_:` 与 `_1:` MUST resolve to the most recent script actor on the same side
+- AND `_2:` MUST resolve to the previous script actor before that on the same side
 - AND `>` 与 `<` MUST maintain independent speaker histories
 
 #### Scenario: Unique-index marker references side-local first-seen order
 
 - GIVEN 当前方向已有首次出现顺序记录
 - WHEN 作者写出 `~:`、`~1:` 或 `~2:` 作为 `>` / `<` statement 的说话人 marker
-- THEN `~:` 与 `~1:` MUST resolve to the first speaker instance seen on the same side
-- AND `~2:` MUST resolve to the second distinct speaker instance seen on the same side
+- THEN `~:` 与 `~1:` MUST resolve to the first script actor seen on the same side
+- AND `~2:` MUST resolve to the second distinct script actor seen on the same side
 - AND `>` 与 `<` MUST maintain independent unique speaker indexes
 
-#### Scenario: Speaker references point to character instances
+#### Scenario: Speaker references point to script actor identities
 
-- GIVEN `@char` 将人物 template clone 为 workspace instance
-- AND 某个 speaker marker 已经解析到该 instance
+- GIVEN 某个 speaker marker 已经解析到 script actor
 - WHEN 后续 `_n` 或 `~n` 引用该历史说话人
-- THEN compiler MUST resolve the reference to the same character instance
-- AND MUST NOT resolve it merely to the original template id, handle text, or display name string
+- THEN compiler MUST resolve the reference to the same actor identity
+- AND the new statement SHALL capture that actor's current revision
+- AND MUST NOT resolve it merely to the preset id、actor name 或 display name string
 
 #### Scenario: Invalid speaker references fail deterministically
 
@@ -268,9 +292,11 @@
 
 #### Scenario: Ordinal selector references manifest order
 
-- GIVEN 某个 subject 的 `sticker` slot 具有 manifest 或 tags 中声明的稳定顺序
-- WHEN 作者写出 `[:#1:]`、`[:ba_extpack::#1:]` 或 `[:ba::晴_露营/sticker/#1:]`
+- GIVEN 某个 subject 的 `sticker` slot 具有明确的 sticker set
+- AND 该 set 具有 manifest 中声明的稳定 variant 顺序
+- WHEN 作者写出 `[:#1:]`、`[:ba_extpack::#1:]`、`[:ba::晴_露营/sticker/#1:]` 或 `[:ba::晴_露营/sticker/default/#1:]`
 - THEN `#1` 按 1-based ordinal selector 解析
+- AND ordinal 的作用域是该 sticker set 内的 variants，而不是整个 subject 的全部 sticker 资源
 - AND 该 selector 不进入关键词匹配或自然语言语义查询
 
 #### Scenario: Syntax parser tokenizes inline marker arguments
@@ -285,7 +311,7 @@
 #### Scenario: Ordinal selector fails deterministically
 
 - GIVEN 作者使用 `#n` 编号 selector
-- WHEN 编号越界、缺少稳定顺序信息或 contribution namespace 存在歧义
+- WHEN 编号越界、缺少稳定顺序信息、缺少明确 default set 或 contribution namespace 存在歧义
 - THEN compiler MUST report an unresolved or ambiguous reference
 - AND MUST NOT fall back to keyword or semantic matching
 
@@ -374,16 +400,24 @@
 
 #### Scenario: Mode directive affects following body nodes
 
-- GIVEN 作者写出 `@mode: T`
+- GIVEN 作者写出 `@mode: T` 或 `@mode: typst`
 - WHEN 后续 statement、reply item 或 bond content 没有局部 body mode override
-- THEN those body nodes inherit Typst syntax with MMT macro expansion
+- THEN lowering 阶段使 those body nodes inherit Typst syntax with MMT macro expansion
 - AND later `@mode:` directives update the default for following body nodes
+- AND syntax parser MUST preserve `@mode` as a directive instead of changing later node parse shape during line parsing
+
+#### Scenario: Mode directive accepts short and long names
+
+- GIVEN 作者需要设置文件级正文模式
+- WHEN 作者写出 `@mode: t`、`@mode: text`、`@mode: T`、`@mode: typst`、`@mode: rt`、`@mode: raw-text`、`@mode: rT` 或 `@mode: raw-typst`
+- THEN compiler SHOULD normalize them to `t`、`T`、`rt` 或 `rT`
+- AND unknown mode names MUST produce a diagnostic
 
 #### Scenario: Mode directive is file-local and body-only
 
 - GIVEN 作者在某个文件中写出 `@mode: T`
 - WHEN compiler parses declarations, `@typ` blocks, or another file
-- THEN `@mode` MUST NOT affect `@char` fields, `@asset` fields, or `@typ` content
+- THEN `@mode` MUST NOT affect `@actor` fields, `@asset` fields, or `@typ` content
 - AND MUST NOT propagate across file boundaries
 
 #### Scenario: Fenced body can override mode locally
@@ -391,7 +425,7 @@
 - GIVEN 当前默认正文模式是 `t`
 - WHEN 作者写出 `T"""#strong[你好] [:#1:]"""`、`rT"""#let s = "literal [:#1:]" """`、`t"""普通文本 [:#1:]"""` 或 `rt"""这里的 [:#1:] 不展开"""`
 - THEN the prefix controls only that fenced body
-- AND unprefixed fenced bodies inherit the current default body mode
+- AND unprefixed fenced bodies inherit the current default body mode during lowering
 
 #### Scenario: Inline resource marker is an MMT macro, not Typst syntax
 
@@ -400,10 +434,10 @@
 - THEN compiler MUST parse it as an MMT inline resource macro before final Typst emission
 - AND final emitted Typst source MUST contain valid Typst constructs instead of raw `[:...:]` marker syntax
 
-#### Scenario: Text mode can escape macro opener
+#### Scenario: Macro-enabled body can escape marker opener
 
-- GIVEN 正文模式是 `t`
-- WHEN body text contains `\[:`
+- GIVEN 正文模式是 `t` 或 `T`
+- WHEN body text contains `[\:`
 - THEN compiler MUST preserve it as literal `[:`
 - AND MUST NOT start an inline resource macro at that position
 
@@ -421,6 +455,8 @@
 - THEN compiler MUST use Typst syntax checking for the Typst body text
 - AND for `T` mode, compiler SHOULD use Typst CST/AST ranges to allow replacement in markup regions, including markup inside content blocks
 - AND compiler SHOULD exclude strings, raw blocks, comments, code expressions, and other non-replaceable regions before scanning for `[:...:]`
+- AND compiler MUST treat Typst `Escape` leaf nodes as macro-scan boundaries, so `[\:` does not get stitched into a `[:` marker
+- AND compiler SHOULD NOT treat `\[:...:]` as the recommended escape form because it can be invalid Typst markup unless the closing bracket is also escaped
 - AND macro scanning SHOULD run within each replaceable source range independently, without stitching across excluded ranges
 - AND compiler SHOULD NOT require a fork or grammar modification of `typst-syntax` for MMT macro support
 
@@ -464,13 +500,40 @@
 
 下一版 DSL SHALL 使用实体作用域下的统一资源路径表达人物头像和表情包资源。
 
-#### Scenario: Full resource paths identify entity, contribution source, slot, and variant
+#### Scenario: Avatar resource paths identify entity, contribution source, slot, and variant
 
 - GIVEN 一条人物资源引用
-- WHEN 作者需要完整指定资源
-- THEN 使用 `<subject-ref>/[contribution_namespace::]<slot>/<variant>` 形式
-- AND `subject-ref` 可以是全局实体引用或脚本上下文中的 handle
+- WHEN 作者需要完整指定聊天气泡头像资源
+- THEN 使用 `<subject-ref>/[contribution_namespace::]avatar/<variant>` 形式
+- AND `subject-ref` 可以是全局 entity 引用或脚本上下文中的 actor name
 - AND `contribution_namespace` 用于显式指定某个资源包贡献的资源
+- AND `variant` 是 avatar slot 下的逻辑头像 variant
+
+#### Scenario: Sticker resource paths identify entity, contribution source, set, and variant
+
+- GIVEN 一条人物资源引用
+- WHEN 作者需要完整指定正文表情包资源
+- THEN 使用 `<subject-ref>/[contribution_namespace::]sticker/[set]/<variant>` 形式
+- AND `subject-ref` 可以是全局 entity 引用或脚本上下文中的 actor name
+- AND `contribution_namespace` 用于显式指定某个资源包贡献的资源
+- AND `set` 指定 sticker slot 下的某个 set
+- AND `variant` 是该 set 内的逻辑 variant，不是物理图片路径或 AVIFS frame
+
+#### Scenario: Sticker path may omit set only when default set is explicit
+
+- GIVEN 某个 subject 的 `sticker` slot 定义了明确 default set
+- WHEN 作者写出 `<subject-ref>/sticker/<variant>` 或 `<subject-ref>/[contribution_namespace::]sticker/<variant>`
+- THEN resolver MAY treat the omitted set as that default set
+- AND 如果没有明确 default set，compiler MUST report ambiguous instead of searching all sets
+
+#### Scenario: Slot omission is limited to contexts with a default slot
+
+- GIVEN 某个资源 selector 出现在 `[:...:]` marker、`avatar:` field 或 `sticker:` field 中
+- WHEN selector 省略 slot 名称
+- THEN `[:...:]` marker MAY default to `sticker`
+- AND `avatar:` field MAY default to `avatar`
+- AND `sticker:` field MAY default to `sticker`
+- AND ordinary resource paths, patch arguments, and Typst argument fragments MUST NOT infer a slot implicitly
 
 #### Scenario: Avatar and sticker slots are distinct
 
@@ -557,9 +620,17 @@
 - THEN 可以使用单引号或双引号字符串
 - AND parser 应正确保留该值
 
-#### Scenario: Field lists use quoted and escaped separators
+#### Scenario: Field lists use explicit brackets
 
-- GIVEN 某个声明字段使用逗号分隔列表值，例如 `handles:`
-- WHEN 作者写出 `handles: hifumi, "日富美, 小鸟游", alias\,with\,comma`
-- THEN parser MUST split only on unquoted and unescaped commas
+- GIVEN 某个声明字段需要列表值，例如 `also-as:`
+- WHEN 作者写出 `also-as: [hifumi, "日富美, 小鸟游", name\,with\,comma]`
+- THEN parser MUST treat `[...]` as an explicit list
+- AND split only on unquoted and unescaped commas inside the list
 - AND quoted commas and escaped `\,` MUST remain part of the corresponding list item
+
+#### Scenario: Bare comma-separated fields are ambiguous
+
+- GIVEN 某个声明字段需要列表值
+- WHEN 作者写出 `also-as: hifumi, 日富美` without `[...]`
+- THEN compiler SHOULD report ambiguous field list syntax
+- AND MUST NOT silently reinterpret the bare scalar value as a list

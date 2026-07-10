@@ -235,10 +235,9 @@ Kivo 字段到 pack-v3 entity core 的建议映射：
 ```json
 {
   "entities": {
-    "hoshino_swimsuit": {
-      "handles": ["星野_泳装", "水星野", "水叔"],
+    "星野_泳装": {
+      "names": ["星野_泳装", "星野(泳装)"],
       "display_name": "星野",
-      "aliases": ["Hoshino Swimsuit", "小鸟游星野 泳装"],
       "slots": {}
     }
   }
@@ -248,10 +247,10 @@ Kivo 字段到 pack-v3 entity core 的建议映射：
 注意：
 
 - 第一版 `entity id` 直接使用中文 canonical 名称；非默认 skin 使用 `中文角色名_中文皮肤名`
-- `handles` 与中文 canonical id 同源；缺失时回退到国际服/英文名，参与 DSL 裸名解析
-- `aliases` 只服务 IDE 检索，不参与 DSL 裸名解析
-- Kivo `nick_name` 可以作为 `aliases` 候选，但不应自动全部升级为 `handles`
-- Blue Archive 的四位联动角色应使用全名 handle：`初音未来`、`御坂美琴`、`食蜂操祈`、`佐天泪子`
+- entity `names` 与中文 canonical id 同源；缺失时回退到国际服/英文名，参与 DSL 裸名解析
+- `names[0]` 是该 character preset 提供的默认 script actor name
+- Kivo `nick_name` 与多语言别称只服务 IDE 检索，不参与 DSL 裸名解析，也不应自动全部升级为 deterministic names
+- Blue Archive 的四位联动角色应使用全名作为默认 name：`初音未来`、`御坂美琴`、`食蜂操祈`、`佐天泪子`
 
 ### Entity Meta
 
@@ -385,8 +384,8 @@ Kivo `gallery` 到 pack-v3 `sticker.sets` 的建议映射：
 
 不是所有 Kivo gallery 都应该进入 `sticker` slot。需要为 `官方图集`、`相关图像`、活动图、设定图等类别制定过滤或映射规则。
 
-### handle 生成规则
+### entity name 生成规则
 
-handle 与中文 canonical id 同源；缺失时回退到国际服/英文名。Kivo 的 `nick_name` 经常是逗号分隔字符串，且可能包含大量俗称。迁移工具可以把它们放入 `aliases`，但升级为 `handles` 前需要人工或规则审查。
+entity names 与中文 canonical id 同源；缺失时回退到国际服/英文名。Kivo 的 `nick_name` 经常是逗号分隔字符串，且可能包含大量俗称；迁移工具可以把它们保留在 raw source 或后续 catalog，但升级为 deterministic names 前需要人工或规则审查。
 
-联动角色应使用全名 handle，而不是只用 given name。第一版 override 名单为 `初音未来`、`御坂美琴`、`食蜂操祈`、`佐天泪子`。
+联动角色应使用全名作为默认 entity name，而不是只用 given name。第一版 override 名单为 `初音未来`、`御坂美琴`、`食蜂操祈`、`佐天泪子`。
