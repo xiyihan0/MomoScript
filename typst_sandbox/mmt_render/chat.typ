@@ -9,27 +9,39 @@
   tip: true,
   body,
 ) = {
-  let tip-shape = if tip {
-    let x = if side == left { -1.5pt } else { 1.5pt }
-    place(
-      side,
-      dx: x,
-      dy: 3pt,
-      scale(y: 50%, rotate(45deg, rect(
-        width: 6pt,
-        height: 6pt,
-        radius: 0.5pt,
-        fill: fill,
-      ))),
-    )
+  set text(fill: text-fill)
+  let tip-element = if tip {
+    if side == left {
+      place(
+        left,
+        dy: 3pt,
+        dx: -1.5pt,
+        scale(y: 50%, rotate(45deg, rect(
+          fill: fill,
+          width: 6pt,
+          height: 6pt,
+          radius: 0.5pt,
+        ))),
+      )
+    } else {
+      place(
+        right,
+        dy: 3pt,
+        dx: 1.5pt,
+        scale(y: 50%, rotate(45deg, rect(
+          fill: fill,
+          width: 6pt,
+          height: 6pt,
+          radius: 0.5pt,
+        ))),
+      )
+    }
   }
-  box(inset: 0pt, outset: 0pt)[
-    #tip-shape
-    #block(fill: fill, inset: inset, radius: radius)[
-      #set text(fill: text-fill)
-      #body
-    ]
-  ]
+  box(
+    inset: 0pt,
+    outset: 0pt,
+    tip-element + block(fill: fill, inset: inset, radius: radius, body),
+  )
 }
 
 #let chat(
@@ -43,6 +55,8 @@
   inset: auto,
   radius: auto,
   tip: auto,
+  image-only: false,
+  align-with-avatar: true,
   body,
 ) = context {
   let config = current-config()
@@ -62,99 +76,59 @@
   } else {
     theme.bubble-right-fill
   }
-  let bubble-text-fill = if text-fill == auto { theme.bubble-text-fill } else { text-fill }
+  let bubble-text = if text-fill == auto { theme.bubble-text-fill } else { text-fill }
   let bubble-inset = if inset == auto { theme.bubble-inset } else { inset }
   let bubble-radius = if radius == auto { theme.bubble-radius } else { radius }
   let bubble-tip = if tip == auto { not effective-continued } else { tip }
   let visible-avatar = if effective-continued { none } else { avatar }
   let visible-name = if effective-continued { none } else { name }
-  let edge-pad = theme.avatar-size + theme.avatar-gap
-  let gap = if effective-continued { theme.continued-gap } else { theme.message-gap }
+  let content-bubble = if image-only {
+    bubble(
+      side: side,
+      fill: luma(94%),
+      text-fill: black,
+      tip: false,
+      inset: 3pt,
+      radius: bubble-radius,
+      body,
+    )
+  } else {
+    bubble(
+      side: side,
+      fill: bubble-fill,
+      text-fill: bubble-text,
+      tip: bubble-tip,
+      inset: bubble-inset,
+      radius: bubble-radius,
+      body,
+    )
+  }
 
-  block(width: 100%, above: gap, below: 0pt)[
-    #if visible-avatar != none {
-      place(side, visible-avatar)
-    }
+  if effective-continued { v(-0.7em) }
+  box(width: 100%, inset: 0pt, outset: 0pt, fill: none)[
+    #if visible-avatar != none { place(side, dy: 0pt, visible-avatar) }
     #if side == left {
-      pad(left: edge-pad)[
-        #if visible-name != none { strong(visible-name) + v(0.35em) }
-        #bubble(
-          side: left,
-          fill: bubble-fill,
-          text-fill: bubble-text-fill,
-          inset: bubble-inset,
-          radius: bubble-radius,
-          tip: bubble-tip,
-          body,
-        )
+      pad(left: if avatar != none or align-with-avatar { 4em } else { 0em })[
+        #if visible-name != none { [#v(0.25em)#strong(visible-name)] }
+        #v(0.5em, weak: true)
+        #content-bubble
       ]
     } else {
-      pad(left: edge-pad, right: edge-pad)[
+      pad(
+        right: if avatar != none or align-with-avatar { 4em } else { 0em },
+        left: 4em,
+      )[
         #align(right)[
-          #box[
-            #if visible-name != none { align(right, strong(visible-name)) + v(0.35em) }
-            #bubble(
-              side: right,
-              fill: bubble-fill,
-              text-fill: bubble-text-fill,
-              inset: bubble-inset,
-              radius: bubble-radius,
-              tip: bubble-tip,
-              body,
-            )
-          ]
+          #box(align(left)[
+            #if visible-name != none { [#v(0.25em)#align(right, strong(visible-name))] }
+            #v(0.5em, weak: true)
+            #content-bubble
+          ])
         ]
       ]
     }
   ]
 }
 
-#let chat-left(
-  avatar: none,
-  name: none,
-  auto-continued: false,
-  continued: auto,
-  fill: auto,
-  text-fill: auto,
-  inset: auto,
-  radius: auto,
-  tip: auto,
-  body,
-) = chat(
-  side: left,
-  avatar: avatar,
-  name: name,
-  auto-continued: auto-continued,
-  continued: continued,
-  fill: fill,
-  text-fill: text-fill,
-  inset: inset,
-  radius: radius,
-  tip: tip,
-  body,
-)
-
-#let chat-right(
-  avatar: none,
-  name: none,
-  auto-continued: false,
-  continued: auto,
-  fill: auto,
-  text-fill: auto,
-  inset: auto,
-  radius: auto,
-  tip: auto,
-  body,
-) = chat(
-  side: right,
-  avatar: avatar,
-  name: name,
-  auto-continued: auto-continued,
-  continued: continued,
-  fill: fill,
-  text-fill: text-fill,
-  inset: inset,
-  radius: radius,
-  tip: tip,
-  body,
-)
+#let chat-left(..args) = chat(side: left, ..args)
+#let chat-right(..args) = chat(side: right, ..args)
