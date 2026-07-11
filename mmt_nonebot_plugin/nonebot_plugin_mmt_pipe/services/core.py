@@ -26,7 +26,7 @@ from .io import (
     send_onebot_images,
     upload_onebot_file,
 )
-from .mmt import handle_mmt_common, parse_flags, pipe_to_outputs, render_syntax_help_pngs
+from .mmt import handle_mmt_common, parse_flags, pipe_to_outputs
 from .pack import (
     enforce_pack_eulas_or_raise,
     handle_mmt_pack,
@@ -35,7 +35,7 @@ from .pack import (
     resolve_pack_v2_sources_for_character,
     resolve_tags_file_and_images_dir_for_character,
 )
-from .typst import common_root, run_typst
+from .typst import common_root, run_typst, run_typst_project
 
 __all__ = [
     "asset_db_and_dir",
@@ -65,10 +65,10 @@ __all__ = [
     "parse_opts_tokens",
     "parse_pack_csv",
     "pipe_to_outputs",
-    "render_syntax_help_pngs",
     "resolve_pack_v2_sources_for_character",
     "resolve_tags_file_and_images_dir_for_character",
     "run_typst",
+    "run_typst_project",
     "safe_stem",
     "sanitize_filename_component",
     "send_onebot_images",

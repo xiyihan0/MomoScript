@@ -17,10 +17,10 @@ from .plugin import mmtpdf  # noqa: F401
 
 __plugin_meta__ = PluginMetadata(
     name="MMT Pipe",
-    description="Parse MMT DSL and render to PDF (optional rerank resolve).",
+    description="Compile Rust DSL v2 with pack-v3 and render PNG/PDF via Typst.",
     usage=(
-        "/mmtpdf <MMT文本>\n"
-        "/mmtpdf --resolve <MMT文本>\n"
-        "也可发送指令后分行粘贴文本。"
+        "/mmt <Rust DSL v2 文本>\n"
+        "/mmtpdf <Rust DSL v2 文本>\n"
+        "支持 --file、--png、--pdf 与 --verbose。"
     ),
 )

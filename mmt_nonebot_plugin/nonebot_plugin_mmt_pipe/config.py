@@ -14,6 +14,18 @@ class MMTPipeConfig(BaseModel):
     mmt_typst_template: str = Field(default="typst_sandbox/mmt_render/mmt_render.typ")
     # Work dir for intermediate json/pdf.
     mmt_work_dir: str = Field(default=".cache/nonebot_mmt")
+    # Rust DSL v2 native compiler and project-export settings.
+    mmt_compile_bin: str = Field(default="mmt_rs/target/release/mmt-compile")
+    # Comma-separated pack-v3 manifest paths loaded in order.
+    mmt_pack_v3_manifests: str = Field(
+        default="typst_sandbox/pack-v3/ba_kivo/manifest.json"
+    )
+    mmt_template_v2_dir: str = Field(default="typst_sandbox/mmt_render")
+    mmt_materialize_cache_dir: str = Field(default=".cache/nonebot_mmt/materialized")
+    mmt_compile_timeout_s: float = Field(default=30.0)
+    mmt_workspace_root: str = Field(default=".")
+    mmt_avifdec_bin: str = Field(default="avifdec")
+    mmt_decoder_profile: str = Field(default="avifdec-dav1d-png-v1")
     # Typst executable name/path.
     mmt_typst_bin: str = Field(default="typst")
     # Typst rendering sandbox: wall-clock timeout (seconds).
@@ -63,10 +75,33 @@ class MMTPipeConfig(BaseModel):
     def work_dir_path(self) -> Path:
         return Path(self.mmt_work_dir).expanduser()
 
+    def compile_bin_path(self) -> Path:
+        return Path(self.mmt_compile_bin).expanduser()
+
+    def pack_v3_manifest_paths(self) -> list[Path]:
+        return [
+            Path(value.strip()).expanduser()
+            for value in self.mmt_pack_v3_manifests.split(",")
+            if value.strip()
+        ]
+
+    def template_v2_dir_path(self) -> Path:
+        return Path(self.mmt_template_v2_dir).expanduser()
+
+    def materialize_cache_dir_path(self) -> Path:
+        return Path(self.mmt_materialize_cache_dir).expanduser()
+
+    def workspace_root_path(self) -> Path:
+        return Path(self.mmt_workspace_root).expanduser()
+
     def asset_cache_dir_path(self) -> Path:
         if self.mmt_asset_cache_dir.strip():
             return Path(self.mmt_asset_cache_dir).expanduser()
         return self.work_dir_path() / "assets"
 
     def asset_local_prefixes_list(self) -> list[str]:
-        return [x.strip() for x in str(self.mmt_asset_local_prefixes).split(",") if x.strip()]
+        return [
+            x.strip()
+            for x in str(self.mmt_asset_local_prefixes).split(",")
+            if x.strip()
+        ]

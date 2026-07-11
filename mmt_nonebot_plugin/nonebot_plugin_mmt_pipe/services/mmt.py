@@ -2,24 +2,21 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import re
+import signal
+import shutil
 import subprocess
 import time
+import uuid
 from pathlib import Path
 from typing import Optional
 
 from nonebot import logger
 from nonebot.adapters import Bot, Event
 
-from ..assets_store import AssetDB, merge_asset_meta
 from ..context import plugin_config
-from .assets import asset_db_and_dir
-from .common import (
-    extract_invoker_name,
-    format_pdf_name,
-    inject_author_if_missing,
-    safe_stem,
-)
+from .common import extract_invoker_name, format_pdf_name
 from .io import (
     decode_text_file,
     download_text_file,
@@ -28,436 +25,181 @@ from .io import (
     send_onebot_images,
     upload_onebot_file,
 )
-from .pack import enforce_pack_eulas_or_raise
-from .typst import run_typst
-from .common import event_scope_ids, find_name_map_and_avatar_dir
+from .typst import run_typst_project
+
+_METADATA_RE = re.compile(r"^@(title|author):\s*(.*?)\s*$", re.MULTILINE)
 
 
-from mmt_core import mmt_text_to_json
-from mmt_core.resolve_expressions import resolve_file
+def _absolute(path: Path) -> Path:
+    return path.resolve() if path.is_absolute() else (Path.cwd() / path).resolve()
 
 
-def _resolve_typst_template() -> Path:
-    template = plugin_config.typst_template_path()
-    if not template.is_absolute():
-        template = (Path.cwd() / template).resolve()
-    if template.exists():
-        return template
-    # Fallback: common locations in a repo checkout
-    for cand in (
-        Path.cwd() / "typst_sandbox" / "mmt_render" / "mmt_render.typ",
-        Path.cwd() / "mmt_render" / "mmt_render.typ",
-        Path.cwd() / "mmt_render.typ",
-    ):
-        if cand.exists():
-            return cand.resolve()
-    raise RuntimeError(f"typst template not found: {template}")
+def _document_metadata(text: str, *, fallback_author: str) -> dict[str, str]:
+    metadata = {"title": "无题", "author": fallback_author}
+    for key, value in _METADATA_RE.findall(text):
+        if value:
+            metadata[key] = value
+    return metadata
 
 
-def _typst_tmp_dir(template: Path) -> Path:
-    tmp_dir = template.parent / ".tmp"
-    tmp_dir.mkdir(parents=True, exist_ok=True)
-    return tmp_dir
+def _format_diagnostics(report: dict) -> str:
+    diagnostics = report.get("diagnostics")
+    if not isinstance(diagnostics, list) or not diagnostics:
+        return "Rust DSL v2 编译失败，但未返回诊断。"
+    lines: list[str] = []
+    for item in diagnostics[:8]:
+        if not isinstance(item, dict):
+            continue
+        phase = str(item.get("phase") or "compile")
+        message = str(item.get("message") or "unknown error")
+        span = item.get("span")
+        location = ""
+        if isinstance(span, dict) and isinstance(span.get("start"), dict):
+            start = span["start"]
+            location = f" {start.get('line', '?')}:{start.get('column', '?')}"
+        lines.append(f"[{phase}{location}] {message}")
+    return "\n".join(lines) or "Rust DSL v2 编译失败。"
 
 
-def _resolve_typst_help_template() -> Path:
-    template = _resolve_typst_template()
-    for cand in (
-        template.parent / "mmt_help_syntax.typ",
-        Path.cwd() / "typst_sandbox" / "mmt_render" / "mmt_help_syntax.typ",
-        Path.cwd() / "mmt_render" / "mmt_help_syntax.typ",
-        Path.cwd() / "mmt_help_syntax.typ",
-    ):
-        if cand.exists():
-            return cand.resolve()
-    raise RuntimeError("mmt_help_syntax.typ not found under typst_sandbox")
+async def _run_compiler(
+    *, text: str, project_dir: Path, title: str, author: str
+) -> dict:
+    compiler = _absolute(plugin_config.compile_bin_path())
+    if not compiler.is_file():
+        raise RuntimeError(
+            f"Rust compiler not found: {compiler}; run "
+            "`cargo build --release --bin mmt-compile` first"
+        )
+    manifests = [_absolute(path) for path in plugin_config.pack_v3_manifest_paths()]
+    if not manifests:
+        raise RuntimeError("no pack-v3 manifest configured")
+    missing = [str(path) for path in manifests if not path.is_file()]
+    if missing:
+        raise RuntimeError(f"pack-v3 manifest not found: {', '.join(missing)}")
+    template_dir = _absolute(plugin_config.template_v2_dir_path())
+    if not template_dir.joinpath("lib.typ").is_file():
+        raise RuntimeError(f"Typst v2 template library not found: {template_dir}")
 
+    workspace_root = _absolute(plugin_config.workspace_root_path())
+    cache_dir = _absolute(plugin_config.materialize_cache_dir_path())
+    command = [
+        str(compiler),
+        "--input",
+        "-",
+        "--output-dir",
+        str(project_dir),
+        "--template-dir",
+        str(template_dir),
+        "--workspace-root",
+        str(workspace_root),
+        "--cache-dir",
+        str(cache_dir),
+        "--avifdec-bin",
+        str(plugin_config.mmt_avifdec_bin),
+        "--decoder-profile",
+        str(plugin_config.mmt_decoder_profile),
+        "--title",
+        title,
+        "--author",
+        author,
+    ]
+    for manifest in manifests:
+        command.extend(["--manifest", str(manifest)])
 
-
-async def render_syntax_help_pngs(*, out_dir: Path) -> list[Path]:
-    # Build a standalone Typst doc for syntax help and render it to PNG pages.
-    out_dir.mkdir(parents=True, exist_ok=True)
-    stem = safe_stem("mmt-help-syntax")
-    typ_path = _resolve_typst_help_template()
-    dummy_json = out_dir / f"{stem}.dummy.json"
-    png_out_tpl = out_dir / f"{stem}-{{0p}}.png"
-
-    dummy_json.write_text("{}", encoding="utf-8")
-
-    await asyncio.to_thread(
-        run_typst,
-        typst_bin=plugin_config.mmt_typst_bin,
-        template=typ_path,
-        input_json=dummy_json,
-        out_path=png_out_tpl,
-        tags_root=out_dir,
-        out_format="png",
-        input_key="dummy",
-        extra_inputs=None,
+    process_options: dict[str, object] = {}
+    if os.name == "posix":
+        process_options["start_new_session"] = True
+    elif os.name == "nt":
+        process_options["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
+    process = await asyncio.create_subprocess_exec(
+        *command,
+        cwd=str(workspace_root),
+        stdin=asyncio.subprocess.PIPE,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
+        **process_options,
     )
+    timeout = max(1.0, float(plugin_config.mmt_compile_timeout_s))
+    try:
+        stdout, stderr = await asyncio.wait_for(
+            process.communicate(text.encode("utf-8")), timeout=timeout
+        )
+    except asyncio.TimeoutError:
+        if os.name == "posix":
+            os.killpg(process.pid, signal.SIGKILL)
+            await process.wait()
+        elif os.name == "nt":
+            killer = await asyncio.create_subprocess_exec(
+                "taskkill", "/PID", str(process.pid), "/T", "/F"
+            )
+            await killer.wait()
+            await process.wait()
+        else:
+            process.kill()
+            await process.wait()
+        raise RuntimeError(
+            f"Rust DSL v2 compilation timed out after {timeout:g}s"
+        ) from None
 
-    pngs = sorted(out_dir.glob(f"{stem}-*.png"), key=lambda p: p.name)
-    if not pngs:
-        single = out_dir / f"{stem}.png"
-        if single.exists():
-            return [single]
-        raise RuntimeError("typst succeeded but no png output found")
-    return pngs
+    try:
+        report = json.loads(stdout.decode("utf-8"))
+    except Exception as exc:
+        detail = stderr.decode("utf-8", errors="replace").strip()
+        raise RuntimeError(
+            f"invalid mmt-compile response: {exc}" + (f"\n{detail}" if detail else "")
+        ) from exc
+    if process.returncode != 0 or report.get("success") is not True:
+        raise RuntimeError(_format_diagnostics(report))
+    return report
 
 
 async def pipe_to_outputs(
     *,
     text: str,
-    bot: Bot,
-    event: Event,
-    resolve: bool,
-    strict: bool,
-    ctx_n: int,
-    image_scale: Optional[float],
-    typst: bool,
-    disable_heading: bool,
-    no_time: bool,
     out_format: str,
-    redownload_assets: bool,
-    allow_local_assets: bool,
-    asset_local_prefixes: Optional[str],
     out_dir: Path,
-) -> tuple[list[Path], dict, dict, str, dict]:
-    # End-to-end pipeline: parse -> resolve -> render -> return outputs + stats.
-    if mmt_text_to_json is None:
-        raise RuntimeError("mmt_core.mmt_text_to_json is not importable in this environment")
-
-    out_dir.mkdir(parents=True, exist_ok=True)
-    stem = safe_stem(text)
-    template = _resolve_typst_template()
-    typst_tmp_dir = _typst_tmp_dir(template)
-    json_path = typst_tmp_dir / f"{stem}.json"
-    resolved_path = typst_tmp_dir / f"{stem}.resolved.json"
-    out_format_norm = (out_format or "png").strip().lower()
-    if out_format_norm not in {"png", "pdf"}:
+    title: str,
+    author: str,
+) -> tuple[list[Path], dict[str, str], dict[str, int]]:
+    out_format = out_format.strip().lower()
+    if out_format not in {"png", "pdf"}:
         raise ValueError(f"unsupported format: {out_format}")
-    out_path: Path = (
-        (typst_tmp_dir / f"{stem}-{{0p}}.png") if out_format_norm == "png" else (typst_tmp_dir / f"{stem}.pdf")
-    )
+    work_root = _absolute(out_dir)
+    work_root.mkdir(parents=True, exist_ok=True)
+    project_dir = work_root / f"rust-v2-{time.time_ns()}-{uuid.uuid4().hex[:8]}"
 
-    # Parse text -> json
-    t_start = time.perf_counter()
-    t_parse0 = time.perf_counter()
-    name_map_path, avatar_dir = find_name_map_and_avatar_dir()
-
-    name_map = mmt_text_to_json._load_name_to_id(name_map_path)
-    data, _report = mmt_text_to_json.convert_text(
-        text,
-        name_to_id=name_map,
-        avatar_dir=avatar_dir,
-        join_with_newline=True,
-        context_window=max(0, int(ctx_n)),
-        typst_mode=bool(typst),
-        pack_v2_root=plugin_config.pack_v2_root_path(),
-    )
-    t_parse1 = time.perf_counter()
-
-    # Inject per-user/private and per-group assets into meta (default lookup order: p > g).
-    t_inj0 = time.perf_counter()
+    started = time.perf_counter()
+    compile_started = time.perf_counter()
     try:
-        private_id, group_id = event_scope_ids(event)
-        if private_id or group_id:
-            db_path, _asset_dir = asset_db_and_dir()
-            db = AssetDB(db_path)
-            p_assets = db.list_names(scope="p", scope_id=private_id) if private_id else []
-            g_assets = db.list_names(scope="g", scope_id=group_id) if group_id else []
-            if isinstance(data, dict):
-                meta0 = data.get("meta")
-                meta0 = meta0 if isinstance(meta0, dict) else {}
-                data["meta"] = merge_asset_meta(
-                    meta=meta0, private_assets=p_assets, group_assets=g_assets, prefer_private=True
-                )
-    except Exception:
-        # Asset injection is best-effort; do not fail rendering.
-        pass
-    t_inj1 = time.perf_counter()
-
-    # Enforce EULA for @usepack packs (per-user acceptance).
-    if isinstance(data, dict):
-        enforce_pack_eulas_or_raise(data=data, event=event)
-
-    json_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-    meta = data.get("meta") if isinstance(data, dict) else None
-    meta = meta if isinstance(meta, dict) else {}
-
-    chat_for_render = json_path
-    resolve_stats: dict = {"unresolved": 0, "errors": [], "asset_errors": 0, "avatar_errors": 0, "asset_error_examples": []}
-    if resolve:
-        t_resolve0 = time.perf_counter()
-        if resolve_file is None:
-            raise RuntimeError("mmt_core.resolve_expressions.resolve_file is not importable in this environment")
-        tags_root = plugin_config.tags_root_path()
-        await resolve_file(
-            input_path=json_path,
-            output_path=resolved_path,
-            tags_root=tags_root,
-            pack_v2_root=plugin_config.pack_v2_root_path(),
-            ref_root=template.parent,
-            model=plugin_config.mmt_rerank_model,
-            api_key_env=plugin_config.mmt_rerank_key_env,
-            concurrency=plugin_config.mmt_rerank_concurrency,
-            strict=bool(strict),
-            asset_cache_dir=plugin_config.asset_cache_dir_path(),
-            redownload_assets=bool(redownload_assets or getattr(plugin_config, "mmt_asset_redownload", False)),
-            asset_max_mb=int(getattr(plugin_config, "mmt_asset_max_mb", 10) or 10),
-            allow_local_assets=bool(allow_local_assets or getattr(plugin_config, "mmt_asset_allow_local", False)),
-            asset_local_prefixes=(
-                [x.strip() for x in str(asset_local_prefixes or "").split(",") if x.strip()]
-                if asset_local_prefixes
-                else plugin_config.asset_local_prefixes_list()
-            ),
+        await _run_compiler(
+            text=text, project_dir=project_dir, title=title, author=author
         )
-        chat_for_render = resolved_path
-        try:
-            resolved_data = json.loads(resolved_path.read_text(encoding="utf-8"))
-            chat = resolved_data.get("chat") if isinstance(resolved_data, dict) else None
-            if isinstance(chat, list):
-                def _scan_segments(segs: object) -> None:
-                    if not isinstance(segs, list):
-                        return
-                    for seg in segs:
-                        if not isinstance(seg, dict):
-                            continue
-                        if seg.get("type") == "expr":
-                            resolve_stats["unresolved"] += 1
-                            err = seg.get("error")
-                            if isinstance(err, str) and err and len(resolve_stats["errors"]) < 5:
-                                resolve_stats["errors"].append(err)
-                        if seg.get("type") == "asset":
-                            err = seg.get("error")
-                            if isinstance(err, str) and err:
-                                resolve_stats["asset_errors"] += 1
-                                if len(resolve_stats["asset_error_examples"]) < 5:
-                                    resolve_stats["asset_error_examples"].append(err)
-
-                for line in chat:
-                    if not isinstance(line, dict):
-                        continue
-                    _scan_segments(line.get("segments"))
-                    items = line.get("items")
-                    if isinstance(items, list):
-                        for item in items:
-                            if not isinstance(item, dict):
-                                continue
-                            _scan_segments(item.get("segments"))
-                    if isinstance(line.get("avatar_override_error"), str) and line.get("avatar_override_error"):
-                        resolve_stats["avatar_errors"] += 1
-        except Exception:
-            pass
-        t_resolve1 = time.perf_counter()
-    else:
-        t_resolve0 = t_resolve1 = time.perf_counter()
-
-    # Render png(s) via typst (blocking)
-    tags_root = plugin_config.tags_root_path()
-    if not tags_root.is_absolute():
-        tags_root = (Path.cwd() / tags_root).resolve()
-    compiled_at = "" if no_time else time.strftime("%Y-%m-%d %H:%M:%S")
-    t_render0 = time.perf_counter()
-    await asyncio.to_thread(
-        run_typst,
-        typst_bin=plugin_config.mmt_typst_bin,
-        template=template,
-        input_json=chat_for_render,
-        out_path=out_path,
-        tags_root=tags_root,
-        out_format=out_format_norm,
-        input_key="chat",
-        extra_inputs={
-            **(
-                {"image_scale": str(float(image_scale))}
-                if image_scale is not None and image_scale > 0
-                else {}
-            ),
-            **({"typst_mode": "1"} if typst else {}),
-            **({"disable_heading": "1"} if disable_heading else {}),
-            **({} if no_time else {"compiled_at": compiled_at}),
-        }
-        or None,
-    )
-    t_render1 = time.perf_counter()
-
-    timings: dict = {
-        "parse_ms": int((t_parse1 - t_parse0) * 1000),
-        "asset_inject_ms": int((t_inj1 - t_inj0) * 1000),
-        "resolve_ms": int((t_resolve1 - t_resolve0) * 1000),
-        "render_ms": int((t_render1 - t_render0) * 1000),
-        "total_ms": int((t_render1 - t_start) * 1000),
+        compile_finished = time.perf_counter()
+        outputs = await asyncio.to_thread(
+            run_typst_project,
+            typst_bin=plugin_config.mmt_typst_bin,
+            project_dir=project_dir,
+            out_format=out_format,
+        )
+    except Exception:
+        await asyncio.to_thread(shutil.rmtree, project_dir, True)
+        raise
+    render_finished = time.perf_counter()
+    timings = {
+        "compile_ms": int((compile_finished - compile_started) * 1000),
+        "render_ms": int((render_finished - compile_finished) * 1000),
+        "total_ms": int((render_finished - started) * 1000),
     }
-
-    if out_format_norm == "pdf":
-        if out_path.exists():
-            return [out_path], resolve_stats, meta, compiled_at, timings
-        raise RuntimeError("typst succeeded but no pdf output found")
-
-    pngs = sorted(typst_tmp_dir.glob(f"{stem}-*.png"), key=lambda p: p.name)
-    if not pngs:
-        single = typst_tmp_dir / f"{stem}.png"
-        if single.exists():
-            return [single], resolve_stats, meta, compiled_at, timings
-        raise RuntimeError("typst succeeded but no png output found")
-    return pngs, resolve_stats, meta, compiled_at, timings
+    return outputs, {"title": title, "author": author}, timings
 
 
 def parse_flags(text: str, *, default_format: str) -> tuple[dict, str]:
-    # Parse CLI-style flags from a raw text payload, keep the remaining body.
-    # Keep user's newlines in body; only strip leading CLI flags.
-    s = (text or "")
-    s = re.sub(r"^[\s\u200b\u200c\u200d\ufeff\u2060]+", "", s)
-    s = s.rstrip()
-    resolve = True
-    strict = False
-    ctx_n: Optional[int] = None
-    image_scale: Optional[float] = None
-    typst: bool = False
-    disable_heading: bool = False
-    no_time: bool = False
-    out_format: str = (default_format or "png").strip().lower()
-    redownload_assets: bool = False
-    allow_local_assets: bool = False
-    asset_local_prefixes: Optional[str] = None
-    from_file: bool = False
-    verbose: bool = False
-    show_help: bool = False
-    help_mode: Optional[str] = None
-
-    while True:
-        s = s.lstrip()
-        if s == "help" or s.startswith("help "):
-            show_help = True
-            s = s[len("help") :]
-            continue
-        if s == "--help" or s.startswith("--help "):
-            show_help = True
-            s = s[len("--help") :]
-            continue
-        if s == "-h" or s.startswith("-h "):
-            show_help = True
-            s = s[len("-h") :]
-            continue
-        if s == "-t" or s.startswith("-t "):
-            typst = True
-            s = s[len("-t") :]
-            continue
-        if s.startswith("--typst"):
-            typst = True
-            s = s[len("--typst") :]
-            continue
-        if s.startswith("--disable-heading"):
-            disable_heading = True
-            s = s[len("--disable-heading") :]
-            continue
-        if s.startswith("--disable_heading"):
-            disable_heading = True
-            s = s[len("--disable_heading") :]
-            continue
-        if s.startswith("--no-time"):
-            no_time = True
-            s = s[len("--no-time") :]
-            continue
-        if s.startswith("--no_time"):
-            no_time = True
-            s = s[len("--no_time") :]
-            continue
-        if s.startswith("--no-resolve"):
-            resolve = False
-            s = s[len("--no-resolve") :]
-            continue
-        if s.startswith("--noresolve"):
-            resolve = False
-            s = s[len("--noresolve") :]
-            continue
-        if s.startswith("--resolve"):
-            resolve = True
-            s = s[len("--resolve") :]
-            continue
-        if s.startswith("--strict"):
-            strict = True
-            s = s[len("--strict") :]
-            continue
-        if s.startswith("--file"):
-            from_file = True
-            s = s[len("--file") :]
-            continue
-        if s.startswith("--verbose"):
-            verbose = True
-            s = s[len("--verbose") :]
-            continue
-        if s == "-v" or s.startswith("-v "):
-            verbose = True
-            s = s[len("-v") :]
-            continue
-        if s.startswith("--redownload-assets"):
-            redownload_assets = True
-            s = s[len("--redownload-assets") :]
-            continue
-        if s.startswith("--allow-local-assets"):
-            allow_local_assets = True
-            s = s[len("--allow-local-assets") :]
-            continue
-        m = re.match(r"^--asset-local-prefixes(?:=|\s+)([^\s]+)", s)
-        if m:
-            asset_local_prefixes = m.group(1)
-            s = s[m.end() :]
-            continue
-        m = re.match(r"^--image(?:_|-)scale(?:=|\s+)([0-9]*\.?[0-9]+)", s)
-        if m:
-            try:
-                image_scale = float(m.group(1))
-            except Exception:
-                image_scale = None
-            s = s[m.end() :]
-            continue
-        m = re.match(r"^--ctx-n(?:=|\s+)(\d+)", s)
-        if m:
-            ctx_n = int(m.group(1))
-            s = s[m.end() :]
-            continue
-        if s.startswith("--png"):
-            out_format = "png"
-            s = s[len("--png") :]
-            continue
-        if s.startswith("--pdf"):
-            out_format = "pdf"
-            s = s[len("--pdf") :]
-            continue
-        m = re.match(r"^--format(?:=|\s+)(\w+)", s)
-        if m:
-            out_format = m.group(1).strip().lower()
-            s = s[m.end() :]
-            continue
-        break
-
-    if show_help:
-        ss = s.lstrip()
-        m = re.match(r"^(syntax|dsl)(?:\s+|$)", ss, flags=re.IGNORECASE)
-        if m:
-            help_mode = "syntax"
-            s = ss[m.end() :]
-
-    cfg = {
-        "resolve": resolve,
-        "strict": strict,
-        "ctx_n": plugin_config.mmt_ctx_n if ctx_n is None else int(ctx_n),
-        "image_scale": image_scale,
-        "typst": typst,
-        "disable_heading": disable_heading,
-        "no_time": no_time,
-        "out_format": out_format,
-        "redownload_assets": redownload_assets,
-        "allow_local_assets": allow_local_assets,
-        "asset_local_prefixes": asset_local_prefixes,
-        "from_file": from_file,
-        "verbose": verbose,
-        "help": show_help,
-        "help_mode": help_mode,
-    }
-    return cfg, s.lstrip("\r\n ")
+    return {
+        "help": False,
+        "from_file": False,
+        "verbose": False,
+        "out_format": default_format,
+    }, text
 
 
 async def handle_mmt_common(
@@ -471,197 +213,99 @@ async def handle_mmt_common(
     default_format: str,
     flags_override: Optional[dict] = None,
 ) -> None:
-    # Command entrypoint for /mmt and /mmtpdf: parse flags, render, and send.
-    t_total0 = time.perf_counter()
+    total_started = time.perf_counter()
+    flags, content = parse_flags(raw, default_format=default_format)
+    for key, value in (flags_override or {}).items():
+        if value is not None:
+            flags[key] = value
 
-    if flags_override is not None:
-        flags, _ = parse_flags("", default_format=default_format)
-        for k, v in flags_override.items():
-            if v is None:
-                continue
-            flags[k] = v
-        content = raw
-        if flags.get("help"):
-            ss = content.lstrip()
-            m = re.match(r"^(syntax|dsl)(?:\s+|$)", ss, flags=re.IGNORECASE)
-            if m:
-                flags["help_mode"] = "syntax"
-                content = ss[m.end() :]
-    else:
-        flags, content = parse_flags(raw, default_format=default_format)
     if flags.get("help"):
-        if flags.get("help_mode") == "syntax":
-            try:
-                out_dir = _typst_tmp_dir(_resolve_typst_template())
-            except Exception:
-                out_dir = plugin_config.work_dir_path()
-            try:
-                png_paths = await render_syntax_help_pngs(out_dir=out_dir)
-            except Exception as exc:
-                logger.exception("render syntax help failed: %s", exc)
-                await finish(f"生成语法帮助失败：{exc}")
-
-            if not onebot_available():
-                await finish(f"已生成：{png_paths[0]}")
-
-            await send_onebot_images(bot, event, png_paths)
-            await finish()
-
-        help_text = "\n".join(
-            [
-                f"用法：/{matcher_name} [flags] <MMT文本>（默认会 resolve）",
-                "",
-                "输出格式：",
-                f"- --png：输出 PNG（默认：/mmt）",
-                f"- --pdf：输出 PDF（默认：/mmtpdf）",
-                "- --format <png|pdf>：同上",
-                "- --redownload-assets：外链图片/asset 强制重新下载",
-                "",
-                "常用 flags：",
-                "- --no-resolve：不做表情/图片推断",
-                "- --resolve：强制开启 resolve",
-                "- --strict：resolve 失败直接报错",
-                "- --verbose / -v：输出各阶段用时信息",
-                "- --typst / -t：文本按 Typst markup 渲染（表情标记仅识别 '[:...]'）",
-                "- --image-scale <0.1-1.0>：气泡内图片缩放",
-                f"- --ctx-n <N>：'[图片]' 使用的上下文窗口大小（默认 {plugin_config.mmt_ctx_n}）",
-                "- --disable-heading：关闭标题栏",
-                "- --no-time：不自动填充编译时间",
-                "- --redownload-assets：强制重新下载外链图片",
-                "- --allow-local-assets：允许 @asset.* 引用本地图片（受前缀白名单限制）",
-                "- --asset-local-prefixes <a,b,c>：本地 @asset.* 允许的一级目录（默认 mmt_assets）",
-                "",
-                "其他指令：",
-                "- /mmt-img [--pack ba,ba_extpack] [--page 1] <角色名>：列出该角色库内所有表情",
-                "- /mmt-imgmatch [--pack ba,ba_extpack] <角色名> [--top-n=5] <描述>：语义匹配表情",
-                "- /mmt -h syntax：渲染 DSL 语法速览图",
-                "- /mmt --file：从“回复的 .txt 文件”读取 MMT 文本（解决超长输入）",
-            ]
+        await finish(
+            "\n".join(
+                [
+                    f"用法：/{matcher_name} [--png|--pdf] [--file] [-v] <Rust DSL v2 文本>",
+                    "",
+                    "Rust DSL v2 使用 pack-v3 做确定性资源解析。",
+                    "表情示例：[:#1:]、[:星野, sportswear/#1:]",
+                    "正文模式：t / T / rt / rT；不再提供旧自然语言 resolve。",
+                    "",
+                    "选项：",
+                    "- --png：输出 PNG（/mmt 默认）",
+                    "- --pdf：输出 PDF（/mmtpdf 默认）",
+                    "- --format <png|pdf>：指定格式",
+                    "- --file：读取回复的 UTF-8 .txt 文件",
+                    "- --verbose / -v：返回编译、渲染和发送用时",
+                ]
+            )
         )
-        await finish(help_text)
 
-    if not content and not bool(flags.get("from_file")) and not bool(flags.get("help")):
-        msg = "未检测到正文内容（参数后需要跟 MMT 文本）。"
-        if matcher_name == "mmtpdf":
-            msg = "未检测到正文内容（参数后需要跟 MMT 文本；默认输出 PDF）。"
-        await finish(msg)
+    if not content and not flags.get("from_file"):
+        await finish("未检测到 Rust DSL v2 正文。")
 
     file_read_ms = 0
-    if bool(flags.get("from_file")):
-        t_file0 = time.perf_counter()
+    if flags.get("from_file"):
+        file_started = time.perf_counter()
         try:
-            url, fname = await extract_text_file_url(bot, event, arg_msg)
+            url, _ = await extract_text_file_url(bot, event, arg_msg)
             data = await download_text_file(url, max_bytes=2 * 1024 * 1024)
             file_text = decode_text_file(data)
         except Exception as exc:
             await finish(f"读取文本文件失败：{exc}")
-        file_read_ms = int((time.perf_counter() - t_file0) * 1000)
-        # Allow optional prefix content after flags (useful for overriding @title/@author etc).
-        content = (content.rstrip() + "\n" + file_text) if content.strip() else file_text
+        file_read_ms = int((time.perf_counter() - file_started) * 1000)
+        content = (
+            (content.rstrip() + "\n" + file_text) if content.strip() else file_text
+        )
 
-    content = inject_author_if_missing(content, extract_invoker_name(event))
-
-    out_dir = plugin_config.work_dir_path()
+    metadata = _document_metadata(
+        content, fallback_author=extract_invoker_name(event) or ""
+    )
     try:
-        out_paths, resolve_stats, meta, compiled_at, timings = await pipe_to_outputs(
+        outputs, meta, timings = await pipe_to_outputs(
             text=content,
-            bot=bot,
-            event=event,
-            resolve=flags["resolve"],
-            strict=flags["strict"],
-            ctx_n=flags["ctx_n"],
-            image_scale=flags.get("image_scale"),
-            typst=bool(flags.get("typst")),
-            disable_heading=bool(flags.get("disable_heading")),
-            no_time=bool(flags.get("no_time")),
             out_format=str(flags.get("out_format") or default_format),
-            redownload_assets=bool(flags.get("redownload_assets")),
-            allow_local_assets=bool(flags.get("allow_local_assets")),
-            asset_local_prefixes=flags.get("asset_local_prefixes"),
-            out_dir=out_dir,
+            out_dir=plugin_config.work_dir_path(),
+            title=metadata["title"],
+            author=metadata["author"],
         )
-    except subprocess.CalledProcessError as exc:
-        logger.exception("typst failed: %s", exc)
-        await finish(f"Typst 渲染失败：{exc}")
     except Exception as exc:
-        logger.exception("mmt pipe failed: %s", exc)
+        logger.exception("Rust DSL v2 pipeline failed: %s", exc)
         await finish(f"处理失败：{exc}")
+    if file_read_ms:
+        timings["file_ms"] = file_read_ms
 
-    out_format_norm = str(flags.get("out_format") or default_format).strip().lower()
-    if out_format_norm == "pdf":
-        pdf_path = out_paths[0]
-        upload_name = format_pdf_name(meta=meta, compiled_at=compiled_at, fallback=pdf_path.stem)
-        upload_ms = 0
-        try:
-            t_up0 = time.perf_counter()
-            await upload_onebot_file(bot, event, pdf_path, file_name=upload_name)
-            upload_ms = int((time.perf_counter() - t_up0) * 1000)
-        except Exception as exc:
-            logger.warning("upload pdf failed: %s", exc)
-            await finish(f"已生成：{pdf_path}（上传失败：{exc}）")
-
-        msg = ""
-        if flags["resolve"] and int(resolve_stats.get("unresolved") or 0) > 0:
-            msg += f"\n注意：仍有 {resolve_stats['unresolved']} 处表情未解析（通常是找不到对应学生的 tags.json 或图片文件）。"
-            errs = resolve_stats.get("errors") or []
-            if errs:
-                msg += "\n示例错误：" + "; ".join(str(x) for x in errs)
-            msg += "\n可用 `--strict` 让其直接报错定位。"
-        if bool(flags.get("verbose")) and isinstance(timings, dict):
-            parts = []
-            if file_read_ms:
-                parts.append(f"file={file_read_ms}ms")
-            parts.extend(
-                [
-                    f"parse={timings.get('parse_ms', 0)}ms",
-                    f"asset_inject={timings.get('asset_inject_ms', 0)}ms",
-                    f"resolve={timings.get('resolve_ms', 0)}ms",
-                    f"render={timings.get('render_ms', 0)}ms",
-                ]
-            )
-            if upload_ms:
-                parts.append(f"upload={upload_ms}ms")
-            parts.append(f"total={int((time.perf_counter() - t_total0) * 1000)}ms")
-            msg += ("\n" if msg else "") + "用时：" + ", ".join(parts)
-        await finish(msg if msg else None)
-
-    # PNG: For OneBot v11/NapCat, sending images is more compatible than sending PDFs.
-    if not onebot_available():
-        await finish(f"已生成图片：{out_paths[0]}")
-
-    t_send0 = time.perf_counter()
-    await send_onebot_images(bot, event, out_paths)
-    send_ms = int((time.perf_counter() - t_send0) * 1000)
-    msg = ""
-    if flags["resolve"] and int(resolve_stats.get("unresolved") or 0) > 0:
-        msg += f"\n注意：仍有 {resolve_stats['unresolved']} 处表情未解析（通常是找不到对应学生的 tags.json 或图片文件）。"
-        errs = resolve_stats.get("errors") or []
-        if errs:
-            msg += "\n示例错误：" + "; ".join(str(x) for x in errs)
-        msg += "\n可用 `--strict` 让其直接报错定位。"
-    if flags["resolve"] and int(resolve_stats.get("asset_errors") or 0) > 0:
-        msg += f"\n注意：有 {resolve_stats['asset_errors']} 处资源未找到（通常是 asset 名写错或未上传）。"
-        ex = resolve_stats.get("asset_error_examples") or []
-        if ex:
-            msg += "\n示例错误：" + "; ".join(str(x) for x in ex)
-    if flags["resolve"] and int(resolve_stats.get("avatar_errors") or 0) > 0:
-        msg += f"\n注意：有 {resolve_stats['avatar_errors']} 处头像覆盖未生效（asset 名可能写错）。"
-    if bool(flags.get("verbose")) and isinstance(timings, dict):
-        parts = []
-        if file_read_ms:
-            parts.append(f"file={file_read_ms}ms")
-        parts.extend(
-            [
-                f"parse={timings.get('parse_ms', 0)}ms",
-                f"asset_inject={timings.get('asset_inject_ms', 0)}ms",
-                f"resolve={timings.get('resolve_ms', 0)}ms",
-                f"render={timings.get('render_ms', 0)}ms",
-                f"send={send_ms}ms",
-                f"total={int((time.perf_counter() - t_total0) * 1000)}ms",
-            ]
+    out_format = str(flags.get("out_format") or default_format).strip().lower()
+    project_dir = outputs[0].parent
+    if out_format == "pdf":
+        upload_name = format_pdf_name(
+            meta=meta,
+            compiled_at=time.strftime("%Y-%m-%d %H:%M:%S"),
+            fallback=outputs[0].stem,
         )
-        msg += ("\n" if msg else "") + "用时：" + ", ".join(parts)
-    await finish(msg if msg else None)
+        try:
+            upload_started = time.perf_counter()
+            await upload_onebot_file(bot, event, outputs[0], file_name=upload_name)
+            upload_ms = int((time.perf_counter() - upload_started) * 1000)
+        except Exception as exc:
+            logger.warning("upload Rust v2 PDF failed: %s", exc)
+            await finish(f"已生成：{outputs[0]}（上传失败：{exc}）")
+        await asyncio.to_thread(shutil.rmtree, project_dir, True)
+        if flags.get("verbose"):
+            timings["upload_ms"] = upload_ms
+            timings["total_ms"] = int((time.perf_counter() - total_started) * 1000)
+            await finish("用时：" + ", ".join(f"{k}={v}ms" for k, v in timings.items()))
+        await finish()
+
+    if not onebot_available():
+        await finish(f"已生成图片：{outputs[0]}")
+    send_started = time.perf_counter()
+    await send_onebot_images(bot, event, outputs)
+    send_ms = int((time.perf_counter() - send_started) * 1000)
+    await asyncio.to_thread(shutil.rmtree, project_dir, True)
+    if flags.get("verbose"):
+        timings["send_ms"] = send_ms
+        timings["total_ms"] = int((time.perf_counter() - total_started) * 1000)
+        await finish("用时：" + ", ".join(f"{k}={v}ms" for k, v in timings.items()))
+    await finish()
 
 
-__all__ = ["handle_mmt_common", "parse_flags", "pipe_to_outputs", "render_syntax_help_pngs"]
+__all__ = ["handle_mmt_common", "parse_flags", "pipe_to_outputs"]

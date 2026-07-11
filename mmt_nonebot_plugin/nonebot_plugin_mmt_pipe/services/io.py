@@ -12,7 +12,10 @@ from ..assets_store import AssetError
 from ..context import plugin_config
 
 
-from nonebot.adapters.onebot.v11 import Message as V11Message, MessageSegment as V11MessageSegment
+from nonebot.adapters.onebot.v11 import (
+    Message as V11Message,
+    MessageSegment as V11MessageSegment,
+)
 from nonebot.adapters.onebot.v11.exception import ActionFailed as V11ActionFailed
 
 
@@ -31,63 +34,48 @@ def event_message_or_empty(event: Event) -> object:
 
 
 async def send_onebot_images(bot: Bot, event: Event, png_paths: list[Path]) -> None:
-    # Best-effort image send with URI/file fallback and timeout retry.
+    # NapCat may run on a different host and cannot open NoneBot-local paths.
+    # Passing bytes makes the adapter emit base64:// payloads over OneBot.
     if V11MessageSegment is None or V11Message is None:
         raise RuntimeError("onebot v11 adapter is not available")
+    missing = [str(path) for path in png_paths if not path.is_file()]
+    if missing:
+        raise FileNotFoundError(f"generated image not found: {', '.join(missing)}")
+    payloads = await asyncio.gather(
+        *(asyncio.to_thread(path.read_bytes) for path in png_paths)
+    )
 
-    def _img_seg(p: Path, *, use_uri: bool) -> object:
-        if use_uri:
-            return V11MessageSegment.image(file=p.resolve().as_uri())  # type: ignore[misc]
-        return V11MessageSegment.image(file=str(p.resolve()))  # type: ignore[misc]
+    def image_segment(payload: bytes) -> object:
+        return V11MessageSegment.image(file=payload)  # type: ignore[misc]
 
-    async def _send_once(*, use_uri: bool) -> None:
-        msg = V11Message()  # type: ignore[call-arg]
-        for p in png_paths:
-            msg.append(_img_seg(p, use_uri=use_uri))  # type: ignore[attr-defined]
-        await bot.send(event=event, message=msg)
-
-    async def _send_with_retry(*, use_uri: bool) -> None:
+    async def send_with_retry(message: object) -> None:
         try:
-            await _send_once(use_uri=use_uri)
+            await bot.send(event=event, message=message)
             return
         except Exception as exc:
             if V11ActionFailed is not None and isinstance(exc, V11ActionFailed):
-                ret = getattr(exc, "retcode", None)
-                if ret == 1200 or "Timeout" in str(exc):
+                info = getattr(exc, "info", {})
+                retcode = getattr(exc, "retcode", None)
+                if retcode is None and isinstance(info, dict):
+                    retcode = info.get("retcode")
+                if retcode == 1200 or "Timeout" in str(exc):
                     await asyncio.sleep(0.8)
-                    await _send_once(use_uri=use_uri)
+                    await bot.send(event=event, message=message)
                     return
             raise
 
-    async def _send_seg_with_retry(seg: object) -> None:
-        try:
-            await bot.send(event=event, message=seg)
-            return
-        except Exception as exc:
-            if V11ActionFailed is not None and isinstance(exc, V11ActionFailed):
-                ret = getattr(exc, "retcode", None)
-                if ret == 1200 or "Timeout" in str(exc):
-                    await asyncio.sleep(0.8)
-                    await bot.send(event=event, message=seg)
-                    return
-            raise
-
+    batch = V11Message()  # type: ignore[call-arg]
+    for payload in payloads:
+        batch.append(image_segment(payload))  # type: ignore[attr-defined]
     try:
-        await _send_with_retry(use_uri=True)
+        await send_with_retry(batch)
         return
-    except Exception as exc1:
-        try:
-            await _send_with_retry(use_uri=False)
-            return
-        except Exception as exc2:
-            logger.warning("send images failed (batch), fallback to sequential: %s | %s", exc1, exc2)
+    except Exception as exc:
+        logger.warning("send images failed (batch), fallback to sequential: %s", exc)
 
     delay = max(0, int(getattr(plugin_config, "mmt_send_delay_ms", 0) or 0)) / 1000.0
-    for p in png_paths:
-        try:
-            await _send_seg_with_retry(_img_seg(p, use_uri=False))
-        except Exception:
-            await _send_seg_with_retry(_img_seg(p, use_uri=True))
+    for payload in payloads:
+        await send_with_retry(image_segment(payload))
         if delay:
             await asyncio.sleep(delay)
 
@@ -225,7 +213,9 @@ async def _get_image_url_from_file(bot: Bot, file_token: str) -> Optional[str]:
     return None
 
 
-def _extract_file_from_cqcode(text: str) -> tuple[Optional[str], Optional[str], Optional[str]]:
+def _extract_file_from_cqcode(
+    text: str,
+) -> tuple[Optional[str], Optional[str], Optional[str]]:
     url = None
     file = None
     name = None
@@ -252,7 +242,9 @@ async def _get_file_url_from_file(bot: Bot, file_token: str) -> Optional[str]:
     return None
 
 
-def _first_file_url_from_message(msg: object) -> tuple[Optional[str], Optional[str], Optional[str]]:
+def _first_file_url_from_message(
+    msg: object,
+) -> tuple[Optional[str], Optional[str], Optional[str]]:
     """
     Returns (url, file, name).
     """
@@ -271,7 +263,9 @@ def _first_file_url_from_message(msg: object) -> tuple[Optional[str], Optional[s
     return None, None, None
 
 
-async def extract_text_file_url(bot: Bot, event: Event, arg_msg: object) -> tuple[str, Optional[str]]:
+async def extract_text_file_url(
+    bot: Bot, event: Event, arg_msg: object
+) -> tuple[str, Optional[str]]:
     # Try command arg, full message, reply, then raw CQ-code for file URLs.
     # 1) file segments in command arg
     url, file, name = _first_file_url_from_message(arg_msg)
@@ -320,7 +314,10 @@ async def extract_text_file_url(bot: Bot, event: Event, arg_msg: object) -> tupl
                     if not isinstance(data, dict):
                         continue
                     url3 = str(data.get("url") or "").strip()
-                    name3 = str(data.get("name") or data.get("filename") or "").strip() or None
+                    name3 = (
+                        str(data.get("name") or data.get("filename") or "").strip()
+                        or None
+                    )
                     if url3:
                         return url3, name3
                     file3 = str(data.get("file") or "").strip()
@@ -357,7 +354,9 @@ async def download_text_file(url: str, *, max_bytes: int = 1024 * 1024) -> bytes
             raise AssetError(f"download HTTP {resp.status_code}")
         data = resp.content or b""
         if max_bytes > 0 and len(data) > max_bytes:
-            raise AssetError(f"text file too large: {len(data)} bytes (max {max_bytes})")
+            raise AssetError(
+                f"text file too large: {len(data)} bytes (max {max_bytes})"
+            )
         return data
 
 
