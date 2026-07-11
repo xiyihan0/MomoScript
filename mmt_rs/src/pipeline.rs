@@ -1,6 +1,6 @@
 //! End-to-end language-core orchestration without platform-specific I/O.
 
-use crate::diag::Diagnostic;
+use crate::diag::{Diagnostic, Severity};
 use crate::emit::{EmitOptions, EmittedTypst, emit_typst};
 use crate::materialize::{Materialization, ResourceMaterializer, materialize_resources};
 use crate::pack::PackRegistry;
@@ -9,7 +9,9 @@ use crate::semantic::{
     ActorLowering, AssetLowering, BodyModeResolution, ResourceLowering, lower_actors, lower_assets,
     lower_resource_markers, resolve_body_modes,
 };
+use crate::source::TextRange;
 use crate::syntax::SyntaxDocument;
+use crate::typst_check::check_typst_source;
 
 #[derive(Debug, Clone)]
 pub struct Compilation {
@@ -21,6 +23,11 @@ pub struct Compilation {
     pub resolution: ResourceResolution,
     pub materialization: Materialization,
     pub typst: EmittedTypst,
+    pub diagnostics: Vec<Diagnostic>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CompilationFailure {
     pub diagnostics: Vec<Diagnostic>,
 }
 
@@ -41,13 +48,14 @@ pub fn compile_text(
     resolution.failures.extend(avatars.failures);
     resolution.diagnostics.extend(avatars.diagnostics);
     let materialization = materialize_resources(&resolution, materializer);
-    let typst = emit_typst(
+    let mut typst = emit_typst(
         &document,
         &modes,
         &actors,
         &materialization.content,
         emit_options,
     );
+    validate_generated_typst(&mut typst);
 
     let diagnostics = [
         document.diagnostics.as_slice(),
@@ -74,6 +82,105 @@ pub fn compile_text(
         materialization,
         typst,
         diagnostics,
+    }
+}
+
+pub fn compile_text_strict(
+    source: &str,
+    packs: &PackRegistry,
+    materializer: &mut impl ResourceMaterializer,
+    emit_options: &EmitOptions,
+) -> Result<Compilation, CompilationFailure> {
+    let document = crate::parse_text(source);
+    fail_if_errors(document.diagnostics.clone())?;
+
+    let modes = resolve_body_modes(&document);
+    let actors = lower_actors(&document, packs);
+    let assets = lower_assets(&document);
+    let resource_markers = lower_resource_markers(&document, &modes, &actors);
+    fail_if_errors(
+        [
+            modes.diagnostics.as_slice(),
+            actors.diagnostics.as_slice(),
+            assets.diagnostics.as_slice(),
+            resource_markers.diagnostics.as_slice(),
+        ]
+        .into_iter()
+        .flatten()
+        .cloned()
+        .collect(),
+    )?;
+
+    let mut resolution = resolve_resources(&resource_markers, &actors, &assets, packs);
+    let avatars = resolve_actor_avatars(&actors, &assets, packs);
+    resolution.resources.extend(avatars.resources);
+    resolution.failures.extend(avatars.failures);
+    resolution.diagnostics.extend(avatars.diagnostics);
+    fail_if_errors(resolution.diagnostics.clone())?;
+
+    let materialization = materialize_resources(&resolution, materializer);
+    fail_if_errors(materialization.diagnostics.clone())?;
+
+    let mut typst = emit_typst(
+        &document,
+        &modes,
+        &actors,
+        &materialization.content,
+        emit_options,
+    );
+    validate_generated_typst(&mut typst);
+    fail_if_errors(typst.diagnostics.clone())?;
+
+    let diagnostics = [
+        document.diagnostics.as_slice(),
+        modes.diagnostics.as_slice(),
+        actors.diagnostics.as_slice(),
+        assets.diagnostics.as_slice(),
+        resource_markers.diagnostics.as_slice(),
+        resolution.diagnostics.as_slice(),
+        materialization.diagnostics.as_slice(),
+        typst.diagnostics.as_slice(),
+    ]
+    .into_iter()
+    .flatten()
+    .cloned()
+    .collect();
+
+    Ok(Compilation {
+        document,
+        modes,
+        actors,
+        assets,
+        resource_markers,
+        resolution,
+        materialization,
+        typst,
+        diagnostics,
+    })
+}
+
+fn fail_if_errors(diagnostics: Vec<Diagnostic>) -> Result<(), CompilationFailure> {
+    if diagnostics
+        .iter()
+        .any(|diagnostic| diagnostic.severity == Severity::Error)
+    {
+        Err(CompilationFailure { diagnostics })
+    } else {
+        Ok(())
+    }
+}
+
+fn validate_generated_typst(typst: &mut EmittedTypst) {
+    let generated_range = TextRange::new(0, typst.source.len());
+    let diagnostics = check_typst_source(&typst.source, generated_range);
+    for diagnostic in diagnostics {
+        let mapped = diagnostic
+            .range
+            .map(|range| typst.map_typst_diagnostic(diagnostic.message.clone(), range))
+            .unwrap_or(diagnostic);
+        if !typst.diagnostics.contains(&mapped) {
+            typst.diagnostics.push(mapped);
+        }
     }
 }
 
@@ -104,6 +211,22 @@ mod tests {
             ));
             Ok(MaterializedImage {
                 typst_path: "cache/happy.png".to_string(),
+            })
+        }
+    }
+
+    struct CountingMaterializer {
+        calls: usize,
+    }
+
+    impl ResourceMaterializer for CountingMaterializer {
+        fn materialize(
+            &mut self,
+            _resource: &ResolvedResource,
+        ) -> Result<MaterializedImage, MaterializeError> {
+            self.calls += 1;
+            Ok(MaterializedImage {
+                typst_path: "cache/image.png".to_string(),
             })
         }
     }
@@ -140,5 +263,42 @@ mod tests {
             crate::diag::DiagnosticPhase::Resolve
         );
         assert!(result.typst.source.contains("missing resource"));
+    }
+
+    #[test]
+    fn strict_compilation_stops_before_io_on_syntax_or_resolve_errors() {
+        let packs = PackRegistry::new(vec![PackManifest::from_json(PACK).unwrap()]).unwrap();
+        let mut materializer = CountingMaterializer { calls: 0 };
+
+        let syntax =
+            compile_text_strict("@end", &packs, &mut materializer, &EmitOptions::default());
+        assert!(syntax.is_err());
+        assert_eq!(materializer.calls, 0);
+
+        let resolve = compile_text_strict(
+            "- [:asset::missing:]",
+            &packs,
+            &mut materializer,
+            &EmitOptions::default(),
+        );
+        assert!(resolve.is_err());
+        assert_eq!(materializer.calls, 0);
+    }
+
+    #[test]
+    fn strict_compilation_returns_complete_valid_pipeline() {
+        let packs = PackRegistry::new(vec![PackManifest::from_json(PACK).unwrap()]).unwrap();
+        let mut materializer = CountingMaterializer { calls: 0 };
+        let result = compile_text_strict(
+            "> 柚子: [:#1:]",
+            &packs,
+            &mut materializer,
+            &EmitOptions::default(),
+        )
+        .expect("valid strict compilation");
+
+        assert_eq!(materializer.calls, 1);
+        assert!(result.diagnostics.is_empty());
+        assert!(result.typst.source.contains("cache/image.png"));
     }
 }

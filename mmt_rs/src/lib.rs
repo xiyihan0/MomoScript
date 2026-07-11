@@ -19,7 +19,7 @@ pub use materialize::{
     materialize_resources,
 };
 pub use parser::{parse_document, parse_text};
-pub use pipeline::{Compilation, compile_text};
+pub use pipeline::{Compilation, CompilationFailure, compile_text, compile_text_strict};
 pub use resolve::{
     PackStorageSource, ResolvedResource, ResolvedResourceKind, ResourceFailure, ResourceResolution,
     ResourceTarget, resolve_actor_avatars, resolve_resources,

@@ -85,6 +85,18 @@ impl EmittedTypst {
         }
     }
 
+    pub fn map_typst_diagnostic(
+        &self,
+        message: impl Into<String>,
+        generated_range: TextRange,
+    ) -> Diagnostic {
+        let range = match self.lookup_mmt_origin(generated_range) {
+            Some(Origin::MmtRange { range, .. }) => Some(*range),
+            _ => None,
+        };
+        Diagnostic::new(Severity::Error, DiagnosticPhase::Typst, message, range)
+    }
+
     fn lookup_origin_id(&self, generated_range: TextRange) -> Option<usize> {
         let offset = generated_range.start.min(self.source.len());
         self.source_map
@@ -877,5 +889,34 @@ mod tests {
         assert!(
             check_typst_source(&emitted.source, TextRange::new(0, emitted.source.len())).is_empty()
         );
+    }
+
+    #[test]
+    fn generated_typst_diagnostic_maps_back_to_resource_patch() {
+        let source = "> 柚子: [:happy:](width: 2em)";
+        let (document, modes, actors) = lower(source);
+        let resources = lower_resource_markers(&document, &modes, &actors);
+        let patch_range = resources.markers[0]
+            .render_patch
+            .as_ref()
+            .expect("resource patch")
+            .args_range;
+        let mut materialized = MaterializedContent::default();
+        materialized.bind_inline_image(&resources.markers[0], "cache/happy.png");
+        let emitted = emit_typst(
+            &document,
+            &modes,
+            &actors,
+            &materialized,
+            &EmitOptions::default(),
+        );
+        let generated_offset = emitted.source.find("width: 2em").unwrap();
+        let diagnostic = emitted.map_typst_diagnostic(
+            "invalid width",
+            TextRange::new(generated_offset, generated_offset + 5),
+        );
+
+        assert_eq!(diagnostic.phase, DiagnosticPhase::Typst);
+        assert_eq!(diagnostic.range, Some(patch_range));
     }
 }
