@@ -2,7 +2,7 @@
 
 ## Purpose
 
-定义当前已经实现的 MomoScript 语法表面，以 `mmt_core/dsl_parser.py` 的解析行为和 `mmt_core/dsl_compiler.py` 的解释行为为准。
+定义 Python v1 已实现语法的 legacy baseline，以 `mmt_core/dsl_parser.py` 与 `mmt_core/dsl_compiler.py` 的历史行为为准。本文件不再定义当前 Rust DSL v2 主线；v2 在开发期间以 `openspec/changes/redesign-dsl-syntax-v2/specs/dsl-syntax/spec.md` 为权威 delta，完成验收后将归档并替换本 baseline。
 
 ## Requirements
 

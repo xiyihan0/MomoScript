@@ -1,40 +1,57 @@
-## 1. 收敛 DSL 下一版的设计原则
+## 1. 语言与架构合同
 
-- [x] 1.1 明确核心 DSL、表情/资源引用标记与 `@typ` 的职责分层
-- [x] 1.2 明确节点头部局部 patch 的目标与边界
-- [x] 1.3 明确人物配置需要转向聚合声明
-- [x] 1.4 将人物模型收束为 character preset、script actor、actor revision 与角色名称
+- [x] 1.1 明确核心 DSL、`[:...:]`、节点 patch 与 `@typ` 的职责边界
+- [x] 1.2 明确 Syntax AST / Semantic IR 分层、UTF-8 byte range 与 recoverable error node
+- [x] 1.3 明确 character preset、script actor、actor revision、actor name 与 builtin speaker 模型
+- [x] 1.4 明确 `t` / `T` / `rt` / `rT`、`@mode` 与 Typst AST overlay 策略
+- [x] 1.5 明确 pack-v3 entity、contribution、slot、set、variant、ordinal 与 materializer 边界
+- [x] 1.6 明确 direct Typst façade emission、chunk-level source map 与 strict/permissive pipeline
 
-## 2. 形成初版语法草案
+## 2. Syntax parser 与 analysis surface
 
-- [x] 2.1 给出 `@actor` 的候选聚合声明写法、无头 preset 形式与名称规则
-- [x] 2.2 给出 `@asset` 的候选块状配置与短行简写方向
-- [x] 2.3 给出 statement / `@reply` / `@bond` 的头部 patch 草案
-- [x] 2.4 给出正文资源引用向 `[:...:]` 标记收敛的方向
-- [x] 2.5 给出统一资源路径、`avatar` / `sticker` slot 与资源贡献消歧规则
-- [x] 2.6 给出 `[:...:]` 表情/资源引用标记的参数列表、确定性失败规则与渲染参数后缀
-- [x] 2.7 给出 `#n` 编号 selector 规则，并暂缓自然语言查询
-- [x] 2.8 明确 statement continuation、fenced body 与 `@reply` 显式列表项规则
-- [x] 2.9 明确 `t` / `T` / `rt` / `rT` 正文模式与 Typst AST overlay macro 处理策略
-- [x] 2.10 明确字段列表分隔符使用引号保护与反斜杠转义
-- [x] 2.11 明确 `@mode` 当前文件、正文节点限定作用域
-- [x] 2.12 明确裸 subject selector 只在有明确 speaker 的 message 中可用
-- [x] 2.13 明确旧 inline target forms 在下一版主 parser 中 deprecated
+- [x] 2.1 实现 statement、generic directive line/block、reply、bond、blank 与 error syntax nodes
+- [x] 2.2 实现 continuation、缩进控制、任意长度 fence、头部 patch 和 `@typ` raw block
+- [x] 2.3 实现 `[:...:]`、render patch、quoted/escaped args、ordinal 与 declaration literal/list parsing
+- [x] 2.4 保留每个节点、body part、patch、field 和 diagnostic 的 UTF-8 source range
+- [x] 2.5 提供 `parse_text` / `parse_document` 公开 API 和版本化 `mmt.syntax.v2` JSON analysis surface
+- [x] 2.6 提供纯文本 `analyze_text_wasm` export；该 portability surface 本阶段不承担 Web 产品迁移或旧 ABI 兼容
 
-## 3. 留出待决问题
+## 3. Semantic lowering
 
-- [x] 3.1 记录 `@asset` 是否长期保留短行简写
-- [x] 3.2 记录 `@bond` / `@bond:` 的收敛问题
-- [x] 3.3 记录短行参数与字面量系统的待定点
-- [x] 3.4 记录 pack manifest 中 entity names 与脚本 actor name 的边界
-- [x] 3.5 记录旧 `[]` / `[expr](target)` 写法的兼容或废弃问题
-- [x] 3.6 记录第一版不在 patch 中启用 slot 上下文简写
+- [x] 3.1 实现文件局部 mode resolution，并让显式 fenced mode 覆盖继承值
+- [x] 3.2 实现 preset lookup、actor 创建/打开、name conflict、revision 与 statement snapshot
+- [x] 3.3 实现按边 current/history/unique index、`_n` / `~n` 与可配置 builtin fallback
+- [x] 3.4 实现 `@asset` block 和 short form 到统一 `ScriptAsset` IR 的 lowering
+- [x] 3.5 实现 marker subject/resource-space/full-path normalization 与确定性失败
+- [x] 3.6 使用 Typst 0.15 syntax tree 限定 `T` mode overlay 展开区域并验证 patch args
 
-## 4. 后续实现准备
+## 4. Pack、resolve 与 materialization
 
-- [x] 4.1 将语法草案进一步细化为 parser 级规则
-- [x] 4.2 明确 patch 的 AST 约束和 source map 需求
-- [x] 4.3 基于新语法草案拆出渲染管线重构任务
-- [x] 4.4 明确 Rust parser 的 syntax AST / semantic IR 分层与错误恢复原则
-- [x] 4.5 明确旧 `_n` / `~n` speaker ref 在下一版中先保留并引用 script actor identity
-- [x] 4.6 形成 Typst 模板库职责、public façade 与位置相关配置状态草案
+- [x] 4.1 实现 pack-v3 manifest model、registry validation 与 `CharacterPresetCatalog`
+- [x] 4.2 实现 entity/contribution/default set/name/ordinal 的确定性 sticker 与 avatar resolution
+- [x] 4.3 拒绝 unsafe pack path、缺失 storage、无效 image-sequence metadata 与歧义 selector
+- [x] 4.4 实现 script asset、pack asset、actor avatar 和 marker resource resolution
+- [x] 4.5 实现平台无关 `ResourceMaterializer` interface 与 range-preserving materialize diagnostics
+- [ ] 4.6 增加通过 schema 校验的最小 pack-v3 fixture，覆盖 base、contribution、default set 与 sequence frame
+
+## 5. Typst emission 与模板
+
+- [x] 5.1 实现 chat、narration、reply、bond、sticker、avatar 与 `@typ` façade emission
+- [x] 5.2 实现 actor revision presentation、avatar materialization binding 与 automatic continuation key
+- [x] 5.3 实现 node/resource patch origin、generated wrapper parent 和 zero-length source-map lookup
+- [x] 5.4 对完整 generated source 执行 `typst-syntax` 0.15 precheck 并回映射 diagnostic
+- [x] 5.5 实现无 import 副作用的 `lib.typ` façade、template/theme/config 与 v2 smoke source
+- [ ] 5.6 让 v2 façade smoke 在 clean checkout 自包含运行；当前缺少被 `special.typ` 引用的 tracked `mmt_options.webp`
+- [ ] 5.7 固化哪些节点打断 automatic continuation，并写入 formal scenario
+- [ ] 5.8 明确 v2 第一版 template 管理的 page/header/raw 样式；image-only sticker 与 advanced API 可 deferred
+
+## 6. 主线交付与验收
+
+- [x] 6.1 为 parser、inline、semantic、pack、resolve、materialize、emit、pipeline 和公开 API 建立 Rust 行为测试
+- [x] 6.2 验证 strict pipeline 在 syntax/semantic/resolve error 后不触发 materializer I/O
+- [ ] 6.3 建立无网络 Rust v2 fixture：`compile_text_strict` → generated Typst → Typst 0.15 compile
+- [ ] 6.4 将真实 Typst compile/layout diagnostic 通过 `EmittedTypst` source map 映射回 MMT origin
+- [ ] 6.5 提供以 `compile_text_strict` 为核心的 native CLI/build 入口
+- [x] 6.6 固化 `@asset` canonical block 和 v2 第一版 short form；两者共享 `ScriptAsset` lowering 与 validation
+- [ ] 6.7 将稳定 delta 归档到 `openspec/specs/`，并把 Python v1 规格保留为明确 legacy reference 或移入 archive
+- [ ] 6.8 明确标注 Python/JSON legacy 验证入口与 Rust v2 默认命令的适用范围，避免混用验收信号

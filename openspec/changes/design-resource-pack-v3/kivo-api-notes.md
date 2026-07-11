@@ -374,18 +374,14 @@ Kivo `gallery` 到 pack-v3 `sticker.sets` 的建议映射：
 - 可重建的外部数据缓存
 - pack 构建阶段的下载清单
 
-## Open Questions
+## First-Revision Decisions
 
-### entity id 命名规则
+### entity id 与 deterministic names
 
-当前草案第一版倾向直接使用中文 canonical 名称作为 entity id。默认皮肤使用中文角色名，例如 `星野`；非默认皮肤使用 `中文角色名_中文皮肤名`，例如 `星野_泳装`。Kivo `id` 很稳定，但不适合直接作为作者可读资源路径；它应保留在构建报告或后续 catalog 中。
+第一版使用中文 canonical 名称作为 entity id。默认皮肤使用中文角色名，例如 `星野`；非默认皮肤使用 `中文角色名_中文皮肤名`，例如 `星野_泳装`。Kivo numeric id 保留在 build report 或 catalog，不作为作者默认资源路径。
 
-### gallery 组过滤规则
+entity `names[0]` 与 canonical id 同源；缺失中文翻译时回退到国际服/英文名。Kivo `nick_name` 和其他搜索 aliases 保留在 raw source 或派生 catalog，不默认升级为 deterministic names。联动角色使用全名，第一版 override 名单为 `初音未来`、`御坂美琴`、`食蜂操祈`、`佐天泪子`。
 
-不是所有 Kivo gallery 都应该进入 `sticker` slot。需要为 `官方图集`、`相关图像`、活动图、设定图等类别制定过滤或映射规则。
+### Remaining gallery filtering rule
 
-### entity name 生成规则
-
-entity names 与中文 canonical id 同源；缺失时回退到国际服/英文名。Kivo 的 `nick_name` 经常是逗号分隔字符串，且可能包含大量俗称；迁移工具可以把它们保留在 raw source 或后续 catalog，但升级为 deterministic names 前需要人工或规则审查。
-
-联动角色应使用全名作为默认 entity name，而不是只用 given name。第一版 override 名单为 `初音未来`、`御坂美琴`、`食蜂操祈`、`佐天泪子`。
+不是所有 Kivo gallery 都应进入 `sticker` slot。`初始立绘差分` 和已明确识别的差分组可以生成 set；`官方图集`、`相关图像`、活动图和设定图的过滤或映射规则仍需在生成正式 base pack 前封口，并由 build report 记录跳过原因。

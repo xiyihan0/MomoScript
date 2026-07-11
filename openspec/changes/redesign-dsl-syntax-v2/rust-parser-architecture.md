@@ -1,32 +1,28 @@
 ## Overview
 
-这份补充文档记录下一版 Rust parser / language core 的实现架构草案。它服务于 `redesign-dsl-syntax-v2/design.md` 中的语言设计，但不把具体实现细节塞进主设计文档。
+这份文档记录 Rust DSL v2 parser / language core 的实施架构。它服务于 `design.md` 中的语言合同；当前 `mmt_rs` 已按这些边界实现，不再是可推倒的实验脚手架。
 
-`mmt_rs` 现有实现可以视为实验性脚手架；下一版 Rust parser 可以推倒重来，目标是成为同时服务 CLI / Python binding / VSCode Web / WASM 预览 / Typst emitter 的 MMT language core。
+当前已实现 syntax AST、inline/declaration parser、mode/actor/asset/resource lowering、pack-v3 registry、resolve、materializer coordination、Typst façade emitter、chunk-level source map、diagnostic phases、strict/permissive pipeline，以及公开 parser/analysis API。尚未完成的主线边界是 native CLI/build 入口、仓库内 pack-v3 fixture 驱动的真实 Typst 0.15 端到端编译，以及 compile/layout diagnostic 到 MMT origin 的平台集成。
 
-浏览器分析入口使用版本化 JSON ABI，而不直接暴露 Rust enum 的内存布局。当前
-`analyze_text_wasm(text)` 返回 schema 为 `mmt.syntax.v2` 的完整 syntax AST：包含节点、
-body parts、inline macro、patch 与 UTF-8 byte ranges；diagnostic 另带 1-based line/column
-span。AST enum 采用显式 `kind` / `data` 表示，方便 TypeScript 做判别联合。该入口只做
-纯文本分析，不读取 pack、文件、网络或 decoder；资源 materialization 仍由宿主窄接口完成。
+`analysis` 模块提供版本化 JSON ABI，而不直接暴露 Rust enum 的内存布局。`analyze_text_json` 与 `analyze_text_wasm` 返回 schema `mmt.syntax.v2` 的完整 syntax AST、UTF-8 byte ranges 和带 1-based line/column 的 diagnostics。WASM export 是纯文本宿主 portability surface，不读取 pack、文件、网络或 decoder，也不表示当前阶段已经迁移 Web 编辑器。
 
-新 ABI 不应冒充旧实验版 `compile_text_*_wasm` 的 JSON compiler。Web 编辑器迁移时应先
-切换调用方与 TypeScript 类型，再用 `wasm-pack build mmt_rs --target web` 替换生成物，
-避免新旧 ABI 名称相同但语义不同。release probe 中新分析 WASM 约 99 KiB，并已实际加载
-验证中文输入、inline macro AST 与 diagnostic 行号。
+旧实验版 `compile_text_*_wasm` JSON compiler 不属于 v2 API，也不提供兼容承诺。正式 build/CLI 路径应使用 native `compile_text_strict`；需要编辑器式恢复的宿主可使用 parser/analysis 或 permissive `compile_text`。
 
 ## Module Boundaries
 
-建议模块边界：
+当前模块边界：
 
 - `source`：管理原文、UTF-8 byte offset、line index、`TextRange` 与 line/column 映射
-- `syntax`：行驱动 parser，识别 statement、directive block、reply、bond、fence、patch、body mode，产出忠实保留作者写法的 syntax AST
-- `inline`：解析 `[:...:]` 参数列表、声明层 literal/list、`@reply:` 分隔规则
-- `typst_check`：接入 `typst-syntax`，检查 Typst body / patch，并计算 `T` 模式可做 overlay macro 替换的源码区间
-- `semantic`：处理 character preset / script actor / actor revision / actor name、speaker history、裸 marker 是否允许、资源 selector 规范化
-- `pack`：定义 pack-v3 manifest 类型与 resolver，把逻辑资源引用解析到 variant / storage / frame
-- `emit`：把 semantic IR 展开为 Typst，并产出 MMT span 到 Typst span 的 source map
-- `diag`：统一 diagnostic、severity、labels 与 recoverable parse error 表达
+- `syntax`：保存 statement、directive、reply、bond、blank/error、patch、body mode 与忠实 source ranges
+- `parser` / `inline`：执行行驱动 syntax parsing、fence/reply/patch、`[:...:]` 和声明 literal/list 解析
+- `typst_check`：使用 `typst-syntax` 检查 Typst body/patch/generated source，并识别 `T` 模式可展开 overlay 的 markup ranges
+- `semantic`：处理 body mode、character preset、script actor/revision/name、speaker history、asset 和资源 marker normalization
+- `pack` / `resolve`：校验 pack-v3 manifest，并把逻辑 selector 解析到 contribution、variant、storage 与 frame
+- `materialize`：通过窄 `ResourceMaterializer` 协调平台 I/O，并把成功结果绑定为 Typst 可读路径
+- `emit`：生成 Typst façade calls、origin table 与 generated-range source map
+- `diag`：统一 diagnostic severity、phase、labels 与 recoverable error 表达
+- `pipeline`：依次协调所有阶段；strict 路径按 error phase 短路，permissive 路径保留部分结果
+- `analysis`：提供稳定、版本化、只读的 JSON analysis surface
 
 内部 range 建议统一使用 UTF-8 byte offset，而不是 char offset。Rust 字符串切片、`typst-syntax` 与常见 Rust 文本库都以 byte range 为基础；对外展示时再通过 line index 转为 line/column。这样既能安全处理中文，又能直接与 Typst 语法检查结果对齐。
 

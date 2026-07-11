@@ -165,21 +165,35 @@ pack-v3 基础资源包构建器 SHALL 能从 Kivo Wiki 数据源重建主资源
 - WHEN 写出构建报告
 - THEN 报告包含 source API version、成功 set 数、跳过 set 数、原始体积、压缩体积、编码 profile、sha256 与失败原因列表
 
-### Requirement: 浏览器 materializer 使用窄接口 AVIF WASM 解码
+### Requirement: Language core uses a narrow platform materializer contract
 
-Web/WASM 环境 SHALL 使用 worker-hosted AVIF decoder materialize sequence frames，而不是依赖完整视频播放管线。
+Rust language core SHALL pass fully resolved logical resources to a platform materializer and consume only controlled Typst-readable outputs.
 
-#### Scenario: Worker 解码 AVIFS frame
+#### Scenario: Core delegates storage I/O
 
-- GIVEN manifest storage entry 指向 AVIFS sequence
-- WHEN Web 编辑器需要预览某个 sticker variant
-- THEN Worker 加载 AVIF WASM decoder
-- AND 通过 frame index 解码对应帧
-- AND 返回 ImageBitmap、object URL 或 materialized image bytes 给调用方
+- GIVEN resolver 已产出包含 pack namespace、storage id、path 或 frame 的 `ResolvedResource`
+- WHEN compilation 进入 materialize 阶段
+- THEN core SHALL call `ResourceMaterializer` with that resolved value
+- AND core MUST NOT itself open arbitrary workspace paths、perform network fetches or invoke a decoder
+- AND successful output SHALL be a controlled Typst-readable static image path
 
-#### Scenario: WASM decoder profile 参与 cache key
+#### Scenario: Materializer failure preserves resource origin
 
-- GIVEN decoder build id 或输出格式发生变化
-- WHEN materializer 请求同一个 storage sha256 与 frame index
-- THEN cache key 因 decoder profile 变化而不同
-- AND 不会复用旧 decoder 输出
+- GIVEN platform materializer 无法读取 blob、解码 frame 或写入 cache
+- WHEN 它返回 materialize error
+- THEN compilation SHALL report `Materialize` phase
+- AND diagnostic SHALL point to the original marker or actor revision resource origin
+
+#### Scenario: Decoder profile participates in cache identity
+
+- GIVEN image-sequence frame 的 decoder build、输出格式或输出尺寸发生变化
+- WHEN platform materializer 计算 cache key
+- THEN cache identity MUST include storage sha256、frame index、decoder profile、output format 与 output size
+- AND 不会复用不兼容的旧输出
+
+#### Scenario: Deferred browser surface does not constrain current pack-v3 acceptance
+
+- GIVEN 当前 pack-v3 阶段未迁移 Web 编辑器
+- WHEN pack-v3 或 native materializer 被实现和验收
+- THEN browser Worker、ImageBitmap、object URL 或 browser-only AVIF WASM decoder MUST NOT 成为完成条件
+- AND 后续 Web materializer MAY 复用相同 logical resource 与 cache identity 合同

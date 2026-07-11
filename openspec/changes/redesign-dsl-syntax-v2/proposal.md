@@ -1,8 +1,8 @@
 ## Why
 
-当前 MomoScript 的 DSL 已经能承载实际创作，但随着 Typst 模式、查询占位、人物配置、局部样式覆盖等能力叠加，语法边界开始变得模糊。尤其是在准备重写渲染管线、改为直接生成 Typst 文档的背景下，旧语法里的若干历史设计需要重新分层。
+Python v1 DSL 已能承载实际创作，但 Typst 模式、查询占位、人物配置和局部样式覆盖把解析、语义、资源 I/O 与 JSON 渲染耦合在一起。项目当前以 Rust DSL v2 作为主要开发主线，通过直接生成 Typst、显式 semantic IR 和 pack-v3 资源解析替代该历史结构。
 
-这次 change 的目标不是立刻实现全部重构，而是先明确下一版 DSL 的核心方向，让后续 parser / compiler / emitter 重写有稳定锚点。
+这次 change 已从设计收敛进入 active implementation。核心 parser、lowering、resolver、materializer 协调、emitter、source map 和 diagnostics 已在 `mmt_rs` 落地；剩余工作集中于第一版合同封口、真实 Typst 编译验收、native CLI/build 入口和 spec 归档。
 
 ## What Changes
 
@@ -20,9 +20,29 @@
 - 收敛值层命名空间、短行参数、字面量和字符串规则
 - 明确废弃候选语法，例如 `(target)[expr]`
 
+## Implementation Status
+
+已实现并有 Rust 行为测试覆盖：
+
+- UTF-8 byte-range syntax AST、generic directive blocks、错误恢复、fence、continuation、reply/bond、patch 与 `@typ`
+- `t` / `T` / `rt` / `rT` mode resolution，以及仅在 Typst markup AST 区域展开 overlay marker
+- character preset、script actor、actor revision、按边 speaker history、`_n` / `~n` 与 builtin speaker
+- `@asset` block/short form、声明字面量/list、确定性 `[:...:]` lowering
+- pack-v3 registry/validation、sticker/avatar/asset resolution、受控 materializer interface
+- façade emitter、chunk-level source map、generated Typst syntax precheck、strict/permissive compilation pipeline
+- 版本化 `mmt.syntax.v2` analysis JSON surface；WASM export 仅是纯分析宿主接口，不等同于本阶段迁移 Web 产品
+
+尚未完成：
+
+- 用仓库内最小 pack-v3 fixture 将 Rust emitter 的真实输出交给 Typst 0.15 完整编译
+- 接入 Typst compile/layout diagnostic 到 `EmittedTypst` source map，而不只做 `typst-syntax` precheck
+- 提供以 `compile_text_strict` 为核心的 native CLI/build 入口
+- 封口第一版剩余 façade/continuation 决策，并把 active delta 归档到正式 capability specs
+
 ## Impact
 
-- Formal spec delta: `dsl-syntax`、`dsl-parser-architecture`
-- 相关实现参考：`mmt_core/dsl_parser.py`、`mmt_core/dsl_compiler.py`
-- 受影响范围：DSL parser、compiler、Typst emitter、文档、示例
-- 影响代码：暂未实现，本 change 目前用于收敛设计
+- Formal spec delta：`dsl-syntax`、`dsl-parser-architecture`、`typst-template-library`
+- 主实现：`mmt_rs/src/{parser,inline,semantic,pack,resolve,materialize,emit,pipeline,analysis}.rs`
+- 模板实现：`typst_sandbox/mmt_render/{lib,template,chat,special,resource,config}.typ`
+- 历史参考：`mmt_core/` 与 legacy JSON renderer；它们不定义 Rust v2 正确性
+- 本阶段非目标：迁移 `web/`、维持旧 `compile_text_*_wasm` JSON ABI、完整兼容 Python v1 语法

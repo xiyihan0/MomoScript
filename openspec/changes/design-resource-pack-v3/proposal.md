@@ -1,19 +1,36 @@
 ## Why
 
-现有 pack-v2 把 pack 元信息、人物映射、头像路径、表情 tags 分散在多个文件里。它能服务当前渲染流程，但不适合下一版资源路径、贡献命名空间、`#n` 编号 selector、以及浏览器/WASM 场景下的轻量资源加载。
+现有 pack-v2 把 pack 元信息、人物映射、头像路径和表情 tags 分散在多个文件里，无法为 Rust DSL v2 的统一资源路径、贡献命名空间、set-scoped `#n` selector 和确定性解析提供单一权威索引。
 
-同时，表情包图片序列占用体积很大。实测将同一 sticker set 的静态图片序列转换为 AVIFS image sequence 后，可以在保留透明通道与可接受画质的前提下显著降低资源包分发体积。当前草案优先采用 AVIFS，而不是浏览器侧视频解码管线。
+表情图片序列同时占用较大分发体积。pack-v3 将 AVIFS image sequence 建模为可选物理 storage backend；DSL、semantic IR 和 Typst façade 只观察逻辑资源及 materialized 静态图片，不依赖具体 decoder 或历史 Web 产品。
 
 ## What Changes
 
-- 提出 pack-v3 manifest 草案，把“逻辑资源索引”和“物理存储格式”分层。
-- 将人物实体、资源贡献、slot、set、variant、tags、description、`#n` 顺序统一收进 manifest。
-- 允许资源条目指向普通图片文件，也允许指向 AVIFS sequence 中的某一帧。
-- 明确 AVIFS sequence 只是压缩存储格式，进入 Typst 前必须解析为 Typst 可消费的静态图片资源。
-- 记录 Kivo Wiki 数据抓取、pack-v3 manifest 组装、AVIFS 编码 profile、以及浏览器侧 AVIF WASM 解码组件的构建策略。
+- 定义 pack-v3 manifest，把逻辑资源索引和物理存储格式分层。
+- 将人物实体、资源贡献、slot、set、variant、tags、description 与 ordinal 统一收进 manifest。
+- 允许资源条目指向普通图片文件，或指向 `image-sequence` storage 中的明确 frame。
+- 要求 compressed sequence 在进入 Typst 前 materialize 为受控静态图片。
+- 提供 Kivo Wiki 构建器和 AVIFS 编码 profile；浏览器 AVIF decoder 笔记保留为后续迁移参考，但不属于当前 parser 实现范围。
+
+## Implementation Status
+
+已实现：
+
+- `mmt_rs::pack` 中的 manifest model、validation、registry、character preset catalog、avatar/sticker/asset deterministic resolution
+- unsafe path、缺失 storage、无效 image-sequence metadata、ordinal/default-set/contribution ambiguity 检查
+- `ResolvedResource` / `PackStorageSource`、actor avatar 与 inline marker resolution
+- 平台无关 `ResourceMaterializer` 接口和 range-preserving materialize diagnostics
+- `tools/build_kivo_pack_v3.py` 的 Kivo fetch、manifest/report、资源下载和可选 AVIFS 编码流程
+
+尚未完成：
+
+- 仓库内可重复使用的 manifest schema 和最小 pack-v3 fixture
+- 使用该 fixture 的 resolver → materializer → Rust emitter → Typst 0.15 端到端验收
+- native 平台 AVIFS frame materializer、内容寻址 cache 与 decoder profile 验证
 
 ## Impact
 
 - Formal spec delta：`rendering-pipeline`
-- 相关设计：DSL v2 的统一资源路径、`sticker` slot、贡献命名空间、`#n` ordinal selector
-- 影响代码：资源包加载器、资源 resolver、Typst 渲染准备阶段、Kivo Wiki 到 pack-v3 构建工具、AVIFS 编码工具、浏览器/WASM materializer
+- 相关设计：DSL v2 统一资源路径、`avatar` / `sticker` slot、contribution namespace 与 set-scoped ordinal
+- 主实现：`mmt_rs/src/{pack,resolve,materialize,pipeline}.rs`、`tools/build_kivo_pack_v3.py`
+- 本阶段非目标：Web editor 迁移、browser Worker、browser-only AVIF WASM decoder 或 UI 预热策略

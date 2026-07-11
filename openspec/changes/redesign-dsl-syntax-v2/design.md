@@ -94,7 +94,7 @@ avatar: smile
 
 ### 资源配置
 
-倾向采用块状配置作为推荐形态，并允许以后根据使用频率保留统一短行简写：
+块状配置是 canonical form：
 
 ```text
 @asset hero
@@ -103,7 +103,7 @@ src: https://example.com/hero.png
 @end
 ```
 
-对应的短行简写候选可以是：
+v2 第一版同时支持 lowering 到相同 `ScriptAsset` IR 的 short form：
 
 ```text
 @asset: hero src:https://example.com/hero.png
@@ -112,8 +112,10 @@ src: https://example.com/hero.png
 
 其中：
 
+- `src` 必填
 - `ns` 若省略，默认使用 `custom`
-- 是否长期保留短行简写与 `@asset.<name>:` 旧语法，仍待决定
+- short form 只支持与 block 相同的 `src` / `ns` 字段，不形成第二套语义
+- 旧 `@asset.<name>:` metadata 形式不进入 v2 主 parser
 
 ### 节点头部 patch
 
@@ -213,7 +215,7 @@ fenced block 可以用前缀局部覆盖当前块：
 
 无前缀的 `"""..."""` 在 syntax AST 中保持未覆盖状态；lowering 阶段再根据最近的 `@mode` 或默认 `t` 决定最终正文模式。
 
-`[:...:]` 是 MMT 层 inline macro，而不是 Typst 语法的一部分。它在 `t` 和 `T` 模式下展开，在 `rt` 和 `rT` 模式下保留为普通正文。若需要字面量 marker opener，应写成 `[\:`，例如 `[\:#1:]` 会输出字面量 `[:#1:]` 且不启动 MMT macro；如果需要整段禁用宏，可以使用 `rt`。
+`[:...:]` 是 MMT 层 inline macro，而不是 Typst 语法的一部分。它在 `t` 和 `T` 模式下展开，在 `rt` 和 `rT` 模式下保留为普通正文。若需要阻断 marker opener，应写成 `[\:`；这只使开头不再被识别为 MMT macro，剩余内容仍遵循当前 body mode。例如在 `T` 模式中 `[\:#1:]` 交给 Typst 后，`#1` 仍会正常求值为 `1`。如果需要整段禁用宏，应使用 `rt` / `rT`。
 
 `T` / `rT` 模式的 Typst 文本应该先通过 `typst-syntax` 做语法检查和 CST/AST 分析。对于 `T` 模式，编译器在 Typst AST 中找到允许宏替换的 markup/source 区间，包括 content block 内的 markup 区域，并排除 `Str`、`Raw`、注释、code expression 等不可替换区域，再对这些区间做 `[:...:]` overlay macro 扫描与替换。第一版不魔改 `typst-syntax`，而是把它作为 Typst 语法检查与可替换区间识别器。
 
@@ -488,11 +490,11 @@ Rust parser / language core 的具体实现架构、Syntax AST 草案、byte ran
 
 Typst 模板库的职责边界、public façade、主题与位置相关配置状态、连续消息控制和 Typst 0.15 probe，单独记录在 [`typst-template-library.md`](./typst-template-library.md)。模板库只渲染已经 lowering/materialize 的 Typst content；旧 JSON 遍历与正文 `eval` 不进入 v2 主路径。
 
-## Open Questions
+## First-Revision Decisions
 
-### `@asset` 是否长期同时保留短行简写
+### `@asset` block 与 short form
 
-目前已经倾向推荐块状配置：
+块状声明是 canonical form：
 
 ```text
 @asset hero
@@ -501,24 +503,26 @@ src: https://example.com/hero.png
 @end
 ```
 
-但是否长期同时保留：
+v2 第一版同时支持 `@asset:` short form，并将其 lowering 到同一个 `ScriptAsset` IR：
 
 ```text
 @asset: hero src:https://example.com/hero.png
 ```
 
-仍待决定。
+short form 是便利语法，不形成第二套字段语义；`src` 仍必填，`ns` 仍缺省为 `custom`。第一版支持不等于承诺长期稳定，归档前应在 public syntax spec 中明确其稳定级别。
 
-### 短行声明的统一风格是否只采用 `key:value`
+### 短行字段分隔符
 
-当前认为 `key:value` 与 `key: value` 都可接受；是否完全禁用 `key=value`，还可继续收敛。
+第一版接受 `key:value` 和 `key: value`，不接受 `key=value`。字段 value 继续使用声明层 literal/list 规则；patch 内部仍使用 Typst 参数语法。
 
-### 资源路径里的 actor name 是否允许出现在 pack manifest
+### pack manifest 与 actor name
 
-脚本 DSL 中允许 `actor-name/slot/variant`，但 pack manifest 没有脚本上下文，原则上应使用全局 entity 引用，例如 `ba::梦/avatar/default`。entity 自身的确定性作者名称使用 `names` 字段表达，不引用脚本 actor。
+pack manifest 没有脚本 actor 上下文，资源目标必须使用全局 entity 引用，例如 `ba::梦/avatar/default`。entity 的确定性作者名称由 `names` 表达；脚本 actor name 只在当前编译的 semantic state 中解析，不能写回 pack manifest。
 
 ## Non-Goals
 
-- 这次 change 不直接实现 parser / compiler 改写
-- 这次 change 不定义全部 patch 字段白名单
-- 这次 change 不决定最终 Typst emitter 的全部函数签名
+- 本阶段不迁移 Web 编辑器，也不承诺兼容旧 `compile_text_*_wasm` JSON compiler；后续 Web 工作单独立项。
+- 不完整兼容 Python v1 的 alias、query fallback 与旧 inline target forms；保留项必须由 v2 spec 明确列出。
+- 第一版不提供自然语言资源查询 fallback。
+- 第一版不要求穷举全部 patch 字段白名单或 advanced visual API。
+- 第一版不把 image-only sticker bubble、WebP materialization 或 manifest splitting 作为交付条件。

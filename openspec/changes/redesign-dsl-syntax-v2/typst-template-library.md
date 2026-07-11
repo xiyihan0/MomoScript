@@ -181,9 +181,20 @@ Emitter 应生成真实 façade 调用，而不是把正文重新包装成待 `e
 
 `mmt.configure` 是普通 emitted Typst chunk。若它来自 `@typ`，Typst diagnostic 应直接映射回该 `@typ` content；若未来由 DSL 专用配置节点生成，则 wrapper 与参数也应分别记录 origin。
 
-## 尚待收敛
+## Implementation Status
 
-- 哪些节点严格打断 emitter 的 automatic continuation group
+当前 `typst_sandbox/mmt_render/lib.typ` 已公开 `template`、`configure`、`bubble`、`chat`、`chat-left`、`chat-right`、`narration`、`reply`、`bond`、`avatar` 与 `sticker`。import 无输出副作用；`tests/v2-smoke.typ` 覆盖 façade、template/theme/config 和连续 content block，但 clean checkout 尚缺少 `special.typ` 引用的 tracked `mmt_options.webp`，因此该 smoke 还不是可重复的主线检查。
+
+Rust emitter 已生成这些 façade 调用，并用 `(side, speaker identity, display name, materialized avatar path)` 计算 `auto-continued`。当前 narration、reply、bond 和 `@typ` 会打断连续 chat；非渲染声明节点不会主动打断。该行为在归档前仍需写成 formal scenario，避免实现细节成为未声明合同。
+
+## Remaining Decisions
+
+第一版归档前必须决定：
+
+- actor/asset/mode 等非渲染 directive 是否保持当前“不打断 continuation”的行为
+- `template` 第一版负责的 page、header 与 raw/default text 样式范围
+
+明确 deferred，不阻塞第一版：
+
 - 单 sticker 消息是否自动使用 image-only bubble，以及对应参数名
-- `template` 第一版具体管理哪些 header/page/raw 样式
-- advanced visual API 的完整导出清单
+- advanced visual API 在当前 `bubble` 之外的完整导出清单

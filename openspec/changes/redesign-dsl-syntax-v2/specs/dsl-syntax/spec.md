@@ -2,7 +2,7 @@
 
 ### Requirement: Body directives use strict implemented forms
 
-下一版 DSL SHALL 收敛正文指令体系，优先采用聚合声明；若提供短行形式，也应视为统一简写而不是独立风格。
+下一版 DSL SHALL 收敛正文指令体系，聚合声明是 canonical form；第一版明确提供的短行形式 MUST lowering 到同一语义模型，而不是形成独立风格。
 
 #### Scenario: Script actor configuration uses aggregated declarations
 
@@ -79,13 +79,15 @@
 - THEN compiler MUST report an actor name conflict
 - AND MUST NOT implicitly merge actors or move `b`
 
-#### Scenario: Asset registration moves toward aggregated declarations
+#### Scenario: Asset registration supports canonical block and shared short form
 
-- GIVEN 下一版 DSL 需要注册资源并允许显式 namespace
-- WHEN 设计资源声明语法时
-- THEN 优先采用类似 `@asset ... @end` 的聚合声明
-- AND 允许 `ns` 参数显式指定命名空间
-- AND 如果存在 `@asset: hero src:...` 之类的短行形式，它应被视作统一简写而不是另一套配置体系
+- GIVEN DSL v2 需要注册资源并允许显式 namespace
+- WHEN 作者使用 `@asset hero ... @end` block
+- THEN compiler SHALL lower `src`、可选 `ns` 与 asset name 到 `ScriptAsset`
+- AND `ns` 缺省为 `custom`
+- WHEN 作者使用 `@asset: hero src:...` short form
+- THEN compiler SHALL apply the same required fields、defaults、validation and duplicate-name rules
+- AND legacy `@asset.<name>:` metadata syntax MUST NOT become a v2 asset declaration
 
 #### Scenario: Inline reply uses pipe-separated items
 
@@ -451,8 +453,9 @@
 
 - GIVEN 正文模式是 `t` 或 `T`
 - WHEN body text contains `[\:`
-- THEN compiler MUST preserve it as literal `[:`
-- AND MUST NOT start an inline resource macro at that position
+- THEN compiler MUST NOT start an inline resource macro at that position
+- AND the remaining content MUST continue to follow the active text or Typst body semantics
+- AND in `T` mode, Typst expressions after the escaped opener, such as `#1`, MUST remain eligible for normal Typst evaluation
 
 #### Scenario: Raw macro modes preserve marker text
 

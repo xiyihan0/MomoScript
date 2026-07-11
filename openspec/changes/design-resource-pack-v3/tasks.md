@@ -1,26 +1,35 @@
-## 1. 定义 pack-v3 manifest
+## 1. Manifest 与解析合同
 
-- [x] 1.1 明确 manifest 需要统一承载 pack 元信息、实体定义、资源贡献、slot、set、variant 与 storage backend
-- [x] 1.2 明确 base pack 定义实体，extension pack 默认通过 `contributions` patch 既有实体
-- [x] 1.3 明确 `avatar` 与 `sticker` 的第一版 slot 语义
-- [x] 1.4 明确 `ordinal` 支撑 `#n` selector，且不能依赖文件系统顺序
-- [x] 1.5 明确 `sticker` 这类成组资源需要 `set` 层，且 `#n` 在 set 内解析
+- [x] 1.1 定义 pack metadata、entity、contribution、avatar/sticker slots、set、variant、asset 与 storage model
+- [x] 1.2 明确 base entity 与 contribution-scoped 扩展资源，禁止按加载顺序静默覆盖
+- [x] 1.3 明确 set-scoped ordinal、default set 和 `#n` 不依赖文件系统顺序
+- [x] 1.4 明确普通图片与 image-sequence storage、set storage inheritance 和 0-based frame
+- [x] 1.5 明确 pack-relative path、受控 cache 与 DSL 不可选择输出路径的安全边界
 
-## 2. 定义压缩序列存储草案
+## 2. Rust registry、resolver 与 materializer 协调
 
-- [x] 2.1 将 AVIFS sequence 作为推荐的 `image-sequence` storage backend，而不是逻辑资源语义
-- [x] 2.2 明确 variant 通过 set storage 与 `frame` 指向 sequence 中的帧
-- [x] 2.3 记录 alpha、codec、hash、frame_count、random_access 等必要元数据
-- [x] 2.4 明确进入 Typst 前需要 materialize 为静态图片 cache
-- [x] 2.5 明确 compressed sequence 推荐按 sticker set 拆分，variant 可继承 set storage
-- [x] 2.6 记录当前推荐 AVIFS 编码 profile：`aom`、`qcolor=80`、`qalpha=80`、`yuv=420`、`keyframe_interval=30`
+- [x] 2.1 实现 manifest deserialize、registry validation 与 `CharacterPresetCatalog`
+- [x] 2.2 实现 entity/name、contribution、set/default、variant handle/ordinal 和 pack asset 解析
+- [x] 2.3 拒绝 unsafe path、缺失 storage、无效 entity names 和不完整 image-sequence metadata
+- [x] 2.4 实现带 pack namespace、storage id、path、frame 和 marker origin 的 `ResolvedResource`
+- [x] 2.5 实现 actor avatar、script asset、pack asset 与 inline sticker 的统一 resolve 流程
+- [x] 2.6 实现平台无关 `ResourceMaterializer` interface 和 materialize phase diagnostics
 
-## 3. 后续实现准备
+## 3. Kivo 构建与压缩研究
 
-- [x] 3.1 补充 Kivo API 结构笔记，作为重建主资源包的数据源参考
-- [x] 3.2 编写 Kivo 数据到 pack-v3 manifest 的构建流程草案
-- [x] 3.3 实测 AVIFS 编码 profile 在体积、透明度、抽帧速度和画质上的 tradeoff
-- [x] 3.4 设计 resolver 返回的 `ResolvedResource` 数据结构
-- [x] 3.5 设计 CLI / NoneBot / Web-WASM 共用的 materializer 接口草案
-- [ ] 3.6 增加 pack-v3 manifest schema 校验与示例资源包
-- [x] 3.7 补充浏览器侧 AVIF WASM 解码组件构建草案
+- [x] 3.1 记录 Kivo API 结构、entity/name/skin/gallery 映射和可审计 build report
+- [x] 3.2 实现 `tools/build_kivo_pack_v3.py` 的 fetch、筛选、下载、resume/dry-run 与 manifest/report 输出
+- [x] 3.3 实现可选 AVIFS 编码、profile 参数、canvas guard 和失败报告
+- [x] 3.4 实测 AVIFS 在体积、透明度、抽帧速度与画质上的 tradeoff
+- [x] 3.5 保留 browser AVIF decoder 调研为后续迁移参考；不把 Web/WASM 实现列为当前 parser 主线任务
+
+## 4. 剩余实施与验收
+
+- [ ] 4.1 定义机器可校验的 pack-v3 manifest schema，并与 Rust model 字段保持一致
+- [ ] 4.2 增加最小 fixture pack：base entity、extension contribution、avatar、default/non-default sticker set、ordinal 和 sequence frame
+- [ ] 4.3 为 schema invalid、path traversal、missing storage、ambiguous contribution 和 missing default set 增加 fixture-level failure cases
+- [ ] 4.4 实现 native image-sequence materializer，第一版优先输出受控 PNG
+- [ ] 4.5 实现包含 storage sha256、frame、decoder profile、output format/size 的内容寻址 cache
+- [ ] 4.6 用 fixture 验证 resolve → materialize → Rust emit → Typst 0.15 compile
+- [ ] 4.7 用 builder 生成一个小型可审计样例并同时通过 schema 与 `PackRegistry` validation
+- [ ] 4.8 完成验收后把稳定 rendering-pipeline delta 归档到 `openspec/specs/`

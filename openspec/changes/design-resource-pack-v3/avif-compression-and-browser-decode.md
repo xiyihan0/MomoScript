@@ -1,13 +1,13 @@
 ## Overview
 
-这份笔记记录 pack-v3 当前推荐的 sticker 压缩策略、Kivo Wiki 基础资源包构建流程，以及浏览器侧 AVIF 解码组件的构建方向。它是 `design.md` 的实现补充，不是最终 schema。
+这份笔记记录 pack-v3 当前推荐的 sticker 压缩策略、Kivo Wiki 基础资源包构建流程，以及浏览器 AVIF 解码路线。它是 `design.md` 的研究补充，不是 schema；浏览器部分暂不进入当前 parser 实现范围，但保留为后续迁移参考。
 
-当前判断：
+当前结论：
 
 - sticker 差分序列优先使用 AVIFS image sequence，而不是 WebM 视频流。
-- 资源包 manifest 只暴露逻辑资源与 storage 元数据，不把 AVIFS 细节泄漏给 DSL 作者。
-- CLI / NoneBot / VSCode Web 都通过 materializer 把 sequence frame 转成静态图片再交给渲染层。
-- 浏览器侧优先使用 `libavif + dav1d` 的 WASM 解码组件，在 Worker 中按需解码帧。
+- manifest 只暴露逻辑资源与 storage 元数据，不把 AVIFS 细节泄漏给 DSL 作者。
+- 当前主线只要求平台 materializer 把 sequence frame 转成受控静态图片；第一版输出固定为 PNG。
+- browser Worker / WASM decoder 暂不构成当前 parser 的 requirement 或 task，但未来 Web materializer 可以复用该研究。
 
 ## Kivo Wiki Base Pack Build
 
@@ -156,40 +156,19 @@ variant 继续只关心 frame index：
 }
 ```
 
-## Browser AVIF Decoder Component
+## Deferred Browser Decoder Research
 
-VSCode Web / 浏览器侧不应依赖完整视频编解码栈。第一版建议构建一个窄接口 AVIF sequence decoder：
+项目已评估以 `libavif + dav1d`、Emscripten、WASM SIMD 和 Web Worker 建立窄 AVIFS frame decoder，并用 storage hash、frame、decoder build id、输出格式和尺寸组成 cache key。该路线暂不属于当前 parser/pack-v3 实施或验收范围，但不在本文中宣告废弃。
 
-- `libavif` 负责 AVIF/AVIFS 容器解析。
-- `dav1d` 负责 AV1 decode，默认启用 WASM SIMD。
-- `aom` decoder 可作为兼容 fallback，但不作为默认 Web bundle。
-- 解码组件运行在 Web Worker 中，主线程只接收 decoded frame 或 ImageBitmap。
+其中仍适用于 native materializer 的平台无关结论已经进入正式设计：
 
-推荐构建路线：
+- decoder 不进入 DSL 或 manifest 的逻辑资源语义
+- decoder profile 必须参与内容寻址 cache identity
+- materialized output 必须是 Typst 可读取的受控静态图片
+- 第一版选择 PNG；WebP 仅作为后续优化
 
-1. 使用 Emscripten 构建 `dav1d` wasm，启用 `-msimd128`。
-2. 使用 Emscripten 构建 `libavif`，链接 dav1d decoder，关闭不需要的 encoder。
-3. 暴露最小 C ABI：`open(buffer)`、`frame_count()`、`decode(index)`、`close()`。
-4. JS wrapper 负责把 AVIFS ArrayBuffer 传入 WASM，把 RGBA frame 转成 PNG/WebP blob 或 ImageBitmap。
-5. materializer cache key 包含 storage hash、frame index、decoder build id、输出格式与尺寸。
-
-浏览器 materializer 的输出可以分两层：
-
-- 预览层：直接返回 ImageBitmap / object URL，服务编辑器即时预览。
-- 编译层：导出 PNG/WebP 文件或虚拟文件句柄，服务 Typst 编译输入。
-
-第一版 SHOULD 把 PNG 作为最保守输出格式；WebP 可作为后续优化项。
-
-## Open Questions
+## Remaining Compression Question
 
 ### q80 yuv420 是否作为长期默认
 
-`q80 yuv420` 当前更稳，但体积约为 `q45 yuv444` 的两倍。后续可以按资源类型分 profile，例如浅色 JPG 图集使用 q80，透明 PNG 差分组使用更激进的 profile。
-
-### 浏览器是否需要渐进式预热
-
-如果用户连续浏览同一个 sticker set，Worker 可以在解码某一帧后顺带预热附近帧。但这属于 UI 性能策略，不应写入 manifest 语义。
-
-### 是否保留 WebM backend
-
-WebM 仍可作为未来 storage backend，但第一版不应优先实现。原因是浏览器 worker 内纯视频编解码链路较重，且透明通道与随机访问行为更难统一。
+`q80 yuv420` 当前更稳，但体积约为 `q45 yuv444` 的两倍。后续可以按资源类型分 profile，例如浅色 JPG 图集使用 q80，透明 PNG 差分组使用更激进的 profile。manifest 必须记录实际 profile，因此该调优不改变 DSL 或 resolver 语义。
