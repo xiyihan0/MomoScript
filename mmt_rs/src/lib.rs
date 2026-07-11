@@ -16,8 +16,10 @@ pub use semantic::{
     ActorId, ActorLowering, ActorLoweringOptions, ActorRevision, ActorState, BodyModeResolution,
     BuiltinSpeakerId, CharacterPreset, CharacterPresetCatalog, PresetLookup, ResolvedBodyMode,
     ResolvedBodyModeEntry, ResolvedStatementSpeaker, ScriptActor, SpeakerIdentity,
-    StaticPresetCatalog, lower_actors, lower_actors_with_options, resolve_body_modes,
+    StaticPresetCatalog, SubjectRef, VariantSelector, lower_actors, lower_actors_with_options,
+    lower_resource_markers, resolve_body_modes,
 };
+pub use semantic::{ResolvedResourceMarker, ResourceLowering, ResourceSelector};
 pub use typst_check::{
     TypstCheckConfig, TypstOverlayScan, check_typst_args, check_typst_source,
     scan_typst_overlay_macros,

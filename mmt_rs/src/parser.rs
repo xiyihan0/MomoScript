@@ -790,7 +790,11 @@ fn parse_speaker_and_body(
     text: &str,
     absolute_start: usize,
 ) -> (Option<SpeakerMarkerSyntax>, String, usize) {
-    let Some(colon_offset) = text.find(':') else {
+    if parse_fence_open(text, absolute_start).is_some() {
+        return (None, text.to_string(), absolute_start);
+    }
+
+    let Some(colon_offset) = find_speaker_colon(text) else {
         return (None, text.to_string(), absolute_start);
     };
 
@@ -818,6 +822,56 @@ fn parse_speaker_and_body(
         body_raw.trim_start().to_string(),
         body_start,
     )
+}
+
+fn find_speaker_colon(text: &str) -> Option<usize> {
+    let mut quote = None;
+    let mut escaped = false;
+    let mut paren_depth = 0usize;
+    let mut bracket_depth = 0usize;
+    let mut brace_depth = 0usize;
+
+    for (offset, ch) in text.char_indices() {
+        if escaped {
+            escaped = false;
+            continue;
+        }
+        if ch == '\\' {
+            escaped = true;
+            continue;
+        }
+        if let Some(active_quote) = quote {
+            if ch == active_quote {
+                quote = None;
+            }
+            continue;
+        }
+        if ch == '"' || ch == '\'' {
+            quote = Some(ch);
+            continue;
+        }
+        match ch {
+            '(' => paren_depth += 1,
+            ')' => paren_depth = paren_depth.saturating_sub(1),
+            '[' => bracket_depth += 1,
+            ']' => bracket_depth = bracket_depth.saturating_sub(1),
+            '{' => brace_depth += 1,
+            '}' => brace_depth = brace_depth.saturating_sub(1),
+            ':' if paren_depth == 0 && bracket_depth == 0 && brace_depth == 0 => {
+                let before = text[..offset].chars().next_back();
+                let after = text[offset + 1..].chars().next();
+                if before == Some(':') || after == Some(':') {
+                    continue;
+                }
+                if text[offset + 1..].starts_with("//") {
+                    continue;
+                }
+                return Some(offset);
+            }
+            _ => {}
+        }
+    }
+    None
 }
 
 fn parse_speaker_marker(raw: &str, range: TextRange) -> SpeakerMarkerSyntax {
@@ -1212,6 +1266,44 @@ mod tests {
             second.marker,
             Some(SpeakerMarkerSyntax::UniqueIndex { n: 2, .. })
         ));
+    }
+
+    #[test]
+    fn speaker_separator_ignores_namespaces_urls_and_nested_colons() {
+        let doc = parse_text(
+            "> ba::柚子: namespaced speaker\n\
+             > [:#1:] body without speaker\n\
+             > https://example.com/a.png\n\
+             > #text(\"label: value\")",
+        );
+        assert!(doc.diagnostics.is_empty());
+
+        let SyntaxNode::Statement(first) = &doc.nodes[0] else {
+            panic!("expected statement");
+        };
+        assert!(matches!(
+            &first.marker,
+            Some(SpeakerMarkerSyntax::Explicit { raw, .. }) if raw == "ba::柚子"
+        ));
+        for node in &doc.nodes[1..] {
+            let SyntaxNode::Statement(statement) = node else {
+                panic!("expected statement");
+            };
+            assert!(statement.marker.is_none());
+        }
+    }
+
+    #[test]
+    fn speaker_separator_does_not_split_fenced_typst_body() {
+        let doc = parse_text("> T\"\"\"[:#1:] #text(\"label: value\")\"\"\"");
+        assert!(doc.diagnostics.is_empty());
+
+        let SyntaxNode::Statement(statement) = &doc.nodes[0] else {
+            panic!("expected statement");
+        };
+        assert!(statement.marker.is_none());
+        assert_eq!(statement.body.mode, BodyMode::TypstMacro);
+        assert_eq!(statement.body.source, "[:#1:] #text(\"label: value\")");
     }
 
     #[test]

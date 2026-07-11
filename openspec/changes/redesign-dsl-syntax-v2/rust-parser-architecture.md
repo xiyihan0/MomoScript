@@ -291,3 +291,11 @@ range 的 origin lookup；generated wrapper 可沿 parent 回退到对应 MMT no
 leaf 仍处于 `SyntaxMode::Markup` 时才展开，因此普通 markup 与嵌套 content block 可用，
 string、raw、comment、math 和 code expression 中的同形文本保持原样。Emitter 随后按
 这些 range 分段写入原 Typst chunk 与 materialized resource call，二者分别维护 origin。
+
+resource semantic pass 将 macro 参数规范化为 `Sticker`、`Asset`、`Temporary`、`File`
+或 `Url` selector。Sticker selector 显式保存 subject、contribution namespace、可选 set
+与 name/ordinal variant；裸 selector 只接受当前 statement 的 actor speaker，builtin、
+narration、reply 和 bond 不获得隐式 subject。该 pass 不访问 manifest，也不做自然语言
+fallback。Resolver/materializer 可把结果按 marker range 绑定到 `MaterializedContent`；
+emitter 再生成 `mmt.sticker(image(...), patch...)`，并把 suffix patch 单独标为
+`ResourcePatch` origin。

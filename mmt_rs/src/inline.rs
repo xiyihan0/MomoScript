@@ -339,15 +339,44 @@ fn parse_macro_value(raw: &str) -> MacroValueSyntax {
         };
     }
 
-    if let Some((namespace, value)) = raw.split_once("::") {
+    if let Some((namespace, value)) = split_leading_namespace(raw) {
         if !namespace.is_empty() && !value.is_empty() {
             return MacroValueSyntax::Namespaced {
                 namespace: namespace.to_string(),
-                value: Box::new(parse_macro_value(value)),
+                value: Box::new(parse_namespaced_value(value)),
             };
         }
     }
 
+    MacroValueSyntax::Bare(raw.to_string())
+}
+
+fn split_leading_namespace(raw: &str) -> Option<(&str, &str)> {
+    let namespace_offset = raw.find("::")?;
+    if raw.find('/').is_some_and(|slash| slash < namespace_offset) {
+        return None;
+    }
+    Some((&raw[..namespace_offset], &raw[namespace_offset + 2..]))
+}
+
+fn parse_namespaced_value(raw: &str) -> MacroValueSyntax {
+    if let Some(rest) = raw.strip_prefix('#')
+        && let Ok(n) = rest.parse::<u32>()
+    {
+        return MacroValueSyntax::Ordinal { n };
+    }
+    if let Some(value) = unquote(raw, '"') {
+        return MacroValueSyntax::Quoted {
+            value,
+            quote: QuoteKind::Double,
+        };
+    }
+    if let Some(value) = unquote(raw, '\'') {
+        return MacroValueSyntax::Quoted {
+            value,
+            quote: QuoteKind::Single,
+        };
+    }
     MacroValueSyntax::Bare(raw.to_string())
 }
 
@@ -532,6 +561,20 @@ mod tests {
         assert!(matches!(
             parsed.args[0].value,
             MacroValueSyntax::Quoted { ref value, .. } if value == "ba::晴"
+        ));
+    }
+
+    #[test]
+    fn full_resource_path_only_structures_the_leading_namespace() {
+        let parsed = parse_inline_macro_at("[:ba::晴_露营/ba_extpack::sticker/default/#1:]", 0)
+            .expect("macro should parse");
+
+        assert!(matches!(
+            &parsed.args[0].value,
+            MacroValueSyntax::Namespaced { namespace, value }
+                if namespace == "ba"
+                    && matches!(value.as_ref(), MacroValueSyntax::Bare(path)
+                        if path == "晴_露营/ba_extpack::sticker/default/#1")
         ));
     }
 

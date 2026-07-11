@@ -4,7 +4,8 @@ use std::collections::HashMap;
 
 use crate::diag::{Diagnostic, DiagnosticPhase, Severity};
 use crate::semantic::{
-    ActorId, ActorLowering, BodyModeResolution, BuiltinSpeakerId, ResolvedBodyMode, SpeakerIdentity,
+    ActorId, ActorLowering, BodyModeResolution, BuiltinSpeakerId, ResolvedBodyMode,
+    ResolvedResourceMarker, SpeakerIdentity,
 };
 use crate::source::TextRange;
 use crate::syntax::{
@@ -131,6 +132,18 @@ pub struct MaterializedContent {
     pub actor_avatars: HashMap<(ActorId, u32), String>,
     pub builtins: HashMap<BuiltinSpeakerId, BuiltinPresentation>,
     pub inline_typst: HashMap<TextRange, String>,
+    pub inline_images: HashMap<TextRange, String>,
+}
+
+impl MaterializedContent {
+    pub fn bind_inline_image(
+        &mut self,
+        marker: &ResolvedResourceMarker,
+        materialized_path: impl Into<String>,
+    ) {
+        self.inline_images
+            .insert(marker.range, materialized_path.into());
+    }
 }
 
 pub fn emit_typst(
@@ -474,16 +487,7 @@ impl<'a> TypstEmitter<'a> {
                     OriginKind::TypstBody,
                 );
             }
-            if let Some(typst) = self.materialized.inline_typst.get(&marker.range) {
-                self.builder
-                    .push_mmt(typst, marker.range, OriginKind::ResourceMarker);
-            } else {
-                self.materialize_error(
-                    "inline resource marker has not been materialized",
-                    marker.range,
-                );
-                self.emit_text_source("[missing resource]", marker.range, parent);
-            }
+            self.emit_materialized_marker(&marker, parent);
             cursor = marker_end;
         }
 
@@ -503,16 +507,7 @@ impl<'a> TypstEmitter<'a> {
                     self.emit_text_source(source, *range, parent);
                 }
                 BodyPartSyntax::InlineMacro(marker) if expand_macros => {
-                    if let Some(typst) = self.materialized.inline_typst.get(&marker.range) {
-                        self.builder
-                            .push_mmt(typst, marker.range, OriginKind::ResourceMarker);
-                    } else {
-                        self.materialize_error(
-                            "inline resource marker has not been materialized",
-                            marker.range,
-                        );
-                        self.emit_text_source("[missing resource]", marker.range, parent);
-                    }
+                    self.emit_materialized_marker(marker, parent);
                 }
                 BodyPartSyntax::InlineMacro(marker) => {
                     self.emit_text_source(
@@ -528,6 +523,39 @@ impl<'a> TypstEmitter<'a> {
 
     fn emit_text(&mut self, body: &BodySyntax, parent: usize) {
         self.emit_text_source(&body.source, body.range, parent);
+    }
+
+    fn emit_materialized_marker(
+        &mut self,
+        marker: &crate::inline::InlineMacroSyntax,
+        parent: usize,
+    ) {
+        if let Some(path) = self.materialized.inline_images.get(&marker.range) {
+            self.builder.push_generated(
+                &format!("#mmt.sticker(image(\"{}\")", escape_typst_string(path)),
+                GeneratedKind::ResourceCallWrapper,
+                Some(parent),
+            );
+            if let Some(patch) = &marker.render_patch {
+                self.builder
+                    .push_generated(", ", GeneratedKind::ResourceCallWrapper, Some(parent));
+                self.diagnostics
+                    .extend(check_typst_args(&patch.raw_args, patch.args_range));
+                self.builder
+                    .push_mmt(&patch.raw_args, patch.args_range, OriginKind::ResourcePatch);
+            }
+            self.builder
+                .push_generated(")", GeneratedKind::ResourceCallWrapper, Some(parent));
+        } else if let Some(typst) = self.materialized.inline_typst.get(&marker.range) {
+            self.builder
+                .push_mmt(typst, marker.range, OriginKind::ResourceMarker);
+        } else {
+            self.materialize_error(
+                "inline resource marker has not been materialized",
+                marker.range,
+            );
+            self.emit_text_source("[missing resource]", marker.range, parent);
+        }
     }
 
     fn emit_text_source(&mut self, source: &str, range: TextRange, parent: usize) {
@@ -626,7 +654,10 @@ fn escape_typst_string(text: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::semantic::{CharacterPreset, StaticPresetCatalog, lower_actors, resolve_body_modes};
+    use crate::semantic::{
+        CharacterPreset, StaticPresetCatalog, lower_actors, lower_resource_markers,
+        resolve_body_modes,
+    };
     use crate::{parse_text, typst_check::check_typst_source};
 
     fn lower(source: &str) -> (SyntaxDocument, BodyModeResolution, ActorLowering) {
@@ -794,6 +825,42 @@ mod tests {
             origin,
             Origin::MmtRange {
                 kind: OriginKind::ResourceMarker,
+                ..
+            }
+        )));
+        assert!(
+            check_typst_source(&emitted.source, TextRange::new(0, emitted.source.len())).is_empty()
+        );
+    }
+
+    #[test]
+    fn resolved_resource_marker_materializes_into_sticker_call_with_patch_origin() {
+        let source = "> 柚子: [:happy:](width: 2em)";
+        let (document, modes, actors) = lower(source);
+        let resources = lower_resource_markers(&document, &modes, &actors);
+        assert!(resources.diagnostics.is_empty());
+        assert_eq!(resources.markers.len(), 1);
+
+        let mut materialized = MaterializedContent::default();
+        materialized.bind_inline_image(&resources.markers[0], "cache/happy.png");
+        let emitted = emit_typst(
+            &document,
+            &modes,
+            &actors,
+            &materialized,
+            &EmitOptions::default(),
+        );
+
+        assert!(emitted.diagnostics.is_empty());
+        assert!(
+            emitted
+                .source
+                .contains("#mmt.sticker(image(\"cache/happy.png\"), width: 2em)")
+        );
+        assert!(emitted.origins.iter().any(|origin| matches!(
+            origin,
+            Origin::MmtRange {
+                kind: OriginKind::ResourcePatch,
                 ..
             }
         )));

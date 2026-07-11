@@ -5,11 +5,16 @@
 //! separate pass so diagnostics can retain precise syntax ranges.
 
 pub mod actor;
+pub mod resource;
 
 pub use actor::{
     ActorId, ActorLowering, ActorLoweringOptions, ActorRevision, ActorState, BuiltinSpeakerId,
     CharacterPreset, CharacterPresetCatalog, PresetLookup, ResolvedStatementSpeaker, ScriptActor,
     SpeakerIdentity, StaticPresetCatalog, lower_actors, lower_actors_with_options,
+};
+pub use resource::{
+    ResolvedResourceMarker, ResourceLowering, ResourceSelector, SubjectRef, VariantSelector,
+    lower_resource_markers,
 };
 
 use crate::diag::{Diagnostic, DiagnosticPhase, Severity};
