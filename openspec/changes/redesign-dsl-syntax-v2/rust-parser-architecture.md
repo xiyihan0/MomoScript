@@ -4,6 +4,17 @@
 
 `mmt_rs` 现有实现可以视为实验性脚手架；下一版 Rust parser 可以推倒重来，目标是成为同时服务 CLI / Python binding / VSCode Web / WASM 预览 / Typst emitter 的 MMT language core。
 
+浏览器分析入口使用版本化 JSON ABI，而不直接暴露 Rust enum 的内存布局。当前
+`analyze_text_wasm(text)` 返回 schema 为 `mmt.syntax.v2` 的完整 syntax AST：包含节点、
+body parts、inline macro、patch 与 UTF-8 byte ranges；diagnostic 另带 1-based line/column
+span。AST enum 采用显式 `kind` / `data` 表示，方便 TypeScript 做判别联合。该入口只做
+纯文本分析，不读取 pack、文件、网络或 decoder；资源 materialization 仍由宿主窄接口完成。
+
+新 ABI 不应冒充旧实验版 `compile_text_*_wasm` 的 JSON compiler。Web 编辑器迁移时应先
+切换调用方与 TypeScript 类型，再用 `wasm-pack build mmt_rs --target web` 替换生成物，
+避免新旧 ABI 名称相同但语义不同。release probe 中新分析 WASM 约 99 KiB，并已实际加载
+验证中文输入、inline macro AST 与 diagnostic 行号。
+
 ## Module Boundaries
 
 建议模块边界：

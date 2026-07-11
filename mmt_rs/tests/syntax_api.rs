@@ -3,8 +3,8 @@ use mmt_rs::inline::MacroValueSyntax;
 use mmt_rs::source::{LineColumn, SourceFile};
 use mmt_rs::syntax::{BodyPartSyntax, SpeakerMarkerSyntax, StatementKind, SyntaxNode};
 use mmt_rs::{
-    CharacterPreset, ResolvedBodyMode, StaticPresetCatalog, check_typst_args, lower_actors,
-    parse_document, parse_text, resolve_body_modes,
+    ANALYSIS_SCHEMA, CharacterPreset, ResolvedBodyMode, StaticPresetCatalog, analyze_text_json,
+    check_typst_args, lower_actors, parse_document, parse_text, resolve_body_modes,
 };
 
 #[test]
@@ -93,4 +93,13 @@ fn public_typst_argument_check_maps_errors_to_mmt_ranges() {
             diagnostic_range.start >= range.start && diagnostic_range.end <= range.end
         })
     }));
+}
+
+#[test]
+fn public_analysis_json_api_exposes_versioned_ast() {
+    let report: serde_json::Value =
+        serde_json::from_str(&analyze_text_json("- hello").unwrap()).unwrap();
+
+    assert_eq!(report["schema"], ANALYSIS_SCHEMA);
+    assert_eq!(report["ast"]["nodes"][0]["kind"], "statement");
 }

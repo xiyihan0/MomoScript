@@ -1,7 +1,8 @@
 use crate::source::TextRange;
 use crate::syntax::PatchSyntax;
+use serde::Serialize;
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct InlineMacroSyntax {
     pub args: Vec<MacroArgSyntax>,
     pub render_patch: Option<PatchSyntax>,
@@ -9,13 +10,14 @@ pub struct InlineMacroSyntax {
     pub args_range: TextRange,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct MacroArgSyntax {
     pub value: MacroValueSyntax,
     pub range: TextRange,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[serde(tag = "kind", content = "value", rename_all = "snake_case")]
 pub enum MacroValueSyntax {
     Bare(String),
     Quoted {
@@ -31,36 +33,39 @@ pub enum MacroValueSyntax {
     },
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
 pub enum QuoteKind {
     Single,
     Double,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct InlineMacroParse {
     pub syntax: InlineMacroSyntax,
     pub diagnostics: Vec<InlineMacroDiagnostic>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct InlineMacroDiagnostic {
     pub message: String,
     pub range: TextRange,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[serde(tag = "kind", rename_all = "snake_case")]
 pub enum InlineMacroParseError {
     MissingClose { range: TextRange },
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct DeclarationValueParse {
     pub value: Option<DeclarationValueSyntax>,
     pub diagnostics: Vec<InlineMacroDiagnostic>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[serde(tag = "kind", content = "data", rename_all = "snake_case")]
 pub enum DeclarationValueSyntax {
     Scalar(DeclarationLiteralSyntax),
     List {
@@ -69,7 +74,7 @@ pub enum DeclarationValueSyntax {
     },
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct DeclarationLiteralSyntax {
     pub value: String,
     pub quote: Option<QuoteKind>,

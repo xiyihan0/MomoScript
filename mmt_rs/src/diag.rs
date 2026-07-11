@@ -1,13 +1,16 @@
 use crate::source::{LineColumn, SourceFile, TextRange};
+use serde::Serialize;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
 pub enum Severity {
     Info,
     Warning,
     Error,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
 pub enum DiagnosticPhase {
     Syntax,
     Semantic,
@@ -16,13 +19,13 @@ pub enum DiagnosticPhase {
     Typst,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct DiagnosticLabel {
     pub range: TextRange,
     pub message: Option<String>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct Diagnostic {
     pub severity: Severity,
     pub phase: DiagnosticPhase,

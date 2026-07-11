@@ -1,3 +1,4 @@
+pub mod analysis;
 pub mod diag;
 pub mod emit;
 pub mod inline;
@@ -11,6 +12,10 @@ pub mod source;
 pub mod syntax;
 pub mod typst_check;
 
+pub use analysis::{
+    ANALYSIS_SCHEMA, AnalysisDiagnostic, AnalysisLabel, AnalysisReport, AstReport, SourceSpan,
+    analyze_text_json, analyze_text_wasm,
+};
 pub use emit::{
     BuiltinPresentation, EmitOptions, EmittedTypst, MaterializedContent, SourceMapEntry, emit_typst,
 };
