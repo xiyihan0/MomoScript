@@ -18,4 +18,7 @@ pub use semantic::{
     ResolvedBodyModeEntry, ResolvedStatementSpeaker, ScriptActor, SpeakerIdentity,
     StaticPresetCatalog, lower_actors, lower_actors_with_options, resolve_body_modes,
 };
-pub use typst_check::{TypstCheckConfig, check_typst_args, check_typst_source};
+pub use typst_check::{
+    TypstCheckConfig, TypstOverlayScan, check_typst_args, check_typst_source,
+    scan_typst_overlay_macros,
+};

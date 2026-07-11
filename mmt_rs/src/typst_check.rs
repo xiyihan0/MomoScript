@@ -2,14 +2,21 @@
 
 use std::ops::Range;
 
-use typst_syntax::{DiagSpanKind, Source, SyntaxDiagnostic};
+use typst_syntax::{DiagSpanKind, LinkedNode, Side, Source, SyntaxDiagnostic, SyntaxMode};
 
 use crate::diag::{Diagnostic, DiagnosticPhase, Severity};
+use crate::inline::{InlineMacroParseError, InlineMacroSyntax, parse_inline_macro_at_checked};
 use crate::source::TextRange;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct TypstCheckConfig {
     pub allow_overlay_macros: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct TypstOverlayScan {
+    pub macros: Vec<InlineMacroSyntax>,
+    pub diagnostics: Vec<Diagnostic>,
 }
 
 impl Default for TypstCheckConfig {
@@ -45,6 +52,84 @@ pub fn check_typst_args(args: &str, origin: TextRange) -> Vec<Diagnostic> {
             Some(typst_diagnostic(diagnostic, projected))
         })
         .collect()
+}
+
+/// Finds MMT inline macros that occur in Typst markup regions.
+///
+/// Candidates are replaced with same-byte-length identifier text before Typst
+/// parsing, so MMT-only tokens such as `#1` cannot corrupt the surrounding CST.
+pub fn scan_typst_overlay_macros(text: &str, origin: TextRange) -> TypstOverlayScan {
+    debug_assert_eq!(text.len(), origin.len());
+    let mut masked = text.as_bytes().to_vec();
+    let mut candidates = Vec::new();
+    let mut cursor = 0;
+
+    while let Some(relative) = text[cursor..].find("[:") {
+        let start = cursor + relative;
+        match parse_inline_macro_at_checked(&text[start..], origin.start + start) {
+            Ok(parsed) => {
+                let end = parsed.syntax.range.end - origin.start;
+                mask_overlay_candidate(&mut masked, start, end);
+                candidates.push((start, Some(parsed.syntax), parsed.diagnostics));
+                cursor = end;
+            }
+            Err(InlineMacroParseError::MissingClose { range }) => {
+                let end = start + 2;
+                mask_overlay_candidate(&mut masked, start, end);
+                candidates.push((
+                    start,
+                    None,
+                    vec![crate::inline::InlineMacroDiagnostic {
+                        message: "unclosed inline macro".to_string(),
+                        range,
+                    }],
+                ));
+                cursor = end;
+            }
+        }
+    }
+
+    let masked = String::from_utf8(masked).expect("overlay mask always produces valid UTF-8");
+    let source = Source::detached(masked);
+    let mut diagnostics = syntax_errors(&source)
+        .into_iter()
+        .map(|(diagnostic, range)| {
+            typst_diagnostic(diagnostic, project_range(range, 0, text.len(), origin))
+        })
+        .collect::<Vec<_>>();
+    let root = LinkedNode::new(source.root());
+    let mut macros = Vec::new();
+
+    for (start, syntax, candidate_diagnostics) in candidates {
+        let is_markup = root
+            .leaf_at(start, Side::After)
+            .and_then(|leaf| leaf.mode_after())
+            == Some(SyntaxMode::Markup);
+        if !is_markup {
+            continue;
+        }
+        diagnostics.extend(
+            candidate_diagnostics
+                .into_iter()
+                .map(|diagnostic| Diagnostic::syntax_error(diagnostic.message, diagnostic.range)),
+        );
+        if let Some(syntax) = syntax {
+            macros.push(syntax);
+        }
+    }
+
+    TypstOverlayScan {
+        macros,
+        diagnostics,
+    }
+}
+
+fn mask_overlay_candidate(masked: &mut [u8], start: usize, end: usize) {
+    for byte in &mut masked[start..end] {
+        if !matches!(*byte, b'\n' | b'\r') {
+            *byte = b'x';
+        }
+    }
 }
 
 fn syntax_errors(source: &Source) -> Vec<(SyntaxDiagnostic, Range<usize>)> {
@@ -160,5 +245,43 @@ mod tests {
                 .range
                 .is_some_and(|range| range.start == origin.end && range.end == origin.end)
         }));
+    }
+
+    #[test]
+    fn typst_overlay_only_selects_markup_and_nested_content_regions() {
+        let text = r#"before [:#1:]
+#let string = "[:#2:]"
+#let raw = `[:#3:]`
+// [:#4:]
+#let content = [nested [:#5:]]
+#text([:#6:])"#;
+        let scan = scan_typst_overlay_macros(text, TextRange::new(20, 20 + text.len()));
+
+        assert!(scan.diagnostics.is_empty());
+        assert_eq!(
+            scan.macros
+                .iter()
+                .map(|marker| marker.args[0].range)
+                .map(|range| &text[range.start - 20..range.end - 20])
+                .collect::<Vec<_>>(),
+            vec!["#1", "#5"]
+        );
+    }
+
+    #[test]
+    fn malformed_overlay_marker_only_errors_in_markup() {
+        let markup = "before [:";
+        let string = "#let value = \"[:\"";
+
+        let markup_scan = scan_typst_overlay_macros(markup, TextRange::new(0, markup.len()));
+        let string_scan = scan_typst_overlay_macros(string, TextRange::new(0, string.len()));
+
+        assert!(
+            markup_scan
+                .diagnostics
+                .iter()
+                .any(|diagnostic| diagnostic.message.contains("unclosed inline macro"))
+        );
+        assert!(string_scan.diagnostics.is_empty());
     }
 }

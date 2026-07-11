@@ -10,7 +10,7 @@ use crate::source::TextRange;
 use crate::syntax::{
     BodyPartSyntax, BodySyntax, PatchSyntax, StatementKind, SyntaxDocument, SyntaxNode,
 };
-use crate::typst_check::{check_typst_args, check_typst_source};
+use crate::typst_check::{check_typst_args, check_typst_source, scan_typst_overlay_macros};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum OriginKind {
@@ -455,21 +455,44 @@ impl<'a> TypstEmitter<'a> {
             ResolvedBodyMode::TextMacro => self.emit_text_parts(body, parent, true),
             ResolvedBodyMode::TextRaw => self.emit_text(body, parent),
             ResolvedBodyMode::TypstRaw => self.emit_checked_typst(body, OriginKind::TypstBody),
-            ResolvedBodyMode::TypstMacro => {
-                if body
-                    .parts
-                    .iter()
-                    .any(|part| matches!(part, BodyPartSyntax::InlineMacro(_)))
-                {
-                    self.semantic_error(
-                        "Typst overlay macro emission is not implemented yet",
-                        body.range,
-                    );
-                    self.emit_text(body, parent);
-                } else {
-                    self.emit_checked_typst(body, OriginKind::TypstBody);
-                }
+            ResolvedBodyMode::TypstMacro => self.emit_typst_overlay(body, parent),
+        }
+    }
+
+    fn emit_typst_overlay(&mut self, body: &BodySyntax, parent: usize) {
+        let scan = scan_typst_overlay_macros(&body.source, body.range);
+        self.diagnostics.extend(scan.diagnostics);
+        let mut cursor = 0;
+
+        for marker in scan.macros {
+            let marker_start = marker.range.start - body.range.start;
+            let marker_end = marker.range.end - body.range.start;
+            if cursor < marker_start {
+                self.builder.push_mmt(
+                    &body.source[cursor..marker_start],
+                    TextRange::new(body.range.start + cursor, marker.range.start),
+                    OriginKind::TypstBody,
+                );
             }
+            if let Some(typst) = self.materialized.inline_typst.get(&marker.range) {
+                self.builder
+                    .push_mmt(typst, marker.range, OriginKind::ResourceMarker);
+            } else {
+                self.materialize_error(
+                    "inline resource marker has not been materialized",
+                    marker.range,
+                );
+                self.emit_text_source("[missing resource]", marker.range, parent);
+            }
+            cursor = marker_end;
+        }
+
+        if cursor < body.source.len() {
+            self.builder.push_mmt(
+                &body.source[cursor..],
+                TextRange::new(body.range.start + cursor, body.range.end),
+                OriginKind::TypstBody,
+            );
         }
     }
 
@@ -736,6 +759,46 @@ mod tests {
             emitted
                 .lookup_origin(TextRange::empty(emitted.source.len()))
                 .is_some()
+        );
+    }
+
+    #[test]
+    fn typst_macro_mode_only_expands_ast_markup_regions() {
+        let source = "> 柚子: T\"\"\"before [:#1:] #text(\"[:#2:]\") [nested [:#3:]]\"\"\"";
+        let (document, modes, actors) = lower(source);
+        let SyntaxNode::Statement(statement) = &document.nodes[0] else {
+            panic!("expected statement");
+        };
+        let scan = scan_typst_overlay_macros(&statement.body.source, statement.body.range);
+        assert_eq!(scan.macros.len(), 2);
+
+        let mut materialized = MaterializedContent::default();
+        for marker in scan.macros {
+            materialized.inline_typst.insert(
+                marker.range,
+                "#mmt.sticker(rect(width: 1em, height: 1em))".to_string(),
+            );
+        }
+        let emitted = emit_typst(
+            &document,
+            &modes,
+            &actors,
+            &materialized,
+            &EmitOptions::default(),
+        );
+
+        assert!(emitted.diagnostics.is_empty());
+        assert_eq!(emitted.source.matches("#mmt.sticker(").count(), 2);
+        assert!(emitted.source.contains("#text(\"[:#2:]\")"));
+        assert!(emitted.origins.iter().any(|origin| matches!(
+            origin,
+            Origin::MmtRange {
+                kind: OriginKind::ResourceMarker,
+                ..
+            }
+        )));
+        assert!(
+            check_typst_source(&emitted.source, TextRange::new(0, emitted.source.len())).is_empty()
         );
     }
 }
