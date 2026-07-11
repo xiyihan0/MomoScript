@@ -144,18 +144,20 @@ syntax parser 第一版只负责检查外层 `(...)` 是否闭合，并保留 pa
 
 ```text
 > 柚子: 你好
-> _: 继续由上一位右侧说话人发言
-> _2: 引用右侧历史中的上一位之前的说话人
-> ~1: 引用右侧首次出现顺序中的第 1 位说话人
+> 桃井: 你好
+> _: 切换回最近的另一位左侧说话人（柚子）
+> _2: 引用左侧 MRU 不同说话人列表中的再前一位
+> ~1: 引用左侧首次出现顺序中的第 1 位说话人
 ```
 
 建议规则：
 
-- `_:` 与 `_1:` 等价，表示当前方向的最近一次说话人
-- `_n:` 表示当前方向 speaker history 中向前第 n 个说话人
+- 省略 speaker marker 与 `_0:` 等价，表示当前方向的 current actor
+- `_:` 与 `_1:` 等价，表示当前方向最近的另一位不同 actor；选择后 current actor 随之切换，因此连续 `_:` 可用于两人交替
+- `_n:` 表示排除 current actor 后，按最近使用顺序去重得到的第 n 位 actor
 - `~:` 与 `~1:` 等价，表示当前方向首次出现顺序中的第 1 位说话人
 - `~n:` 表示当前方向首次出现顺序中的第 n 位说话人
-- `>` 与 `<` 各自维护独立 speaker history 与 unique speaker index
+- `>` 与 `<` 各自维护独立 current actor、MRU distinct-speaker history 与 unique speaker index
 - 在新 `@actor` 模型下，这类引用应解析到 script actor identity，而不是 preset id、名称字符串或 display name
 
 也就是说，历史引用指向 actor identity。多个名称可以指向同一个 actor；通过任一名称修改后，后续历史引用会观察到该 actor 的最新 revision，而已经生成的早期 statement 仍保留原 revision。

@@ -2,6 +2,8 @@
 
 use std::collections::{HashMap, HashSet};
 
+use serde::Serialize;
+
 use crate::diag::{Diagnostic, DiagnosticPhase, Severity};
 use crate::semantic::{
     ActorId, ActorLowering, BodyModeResolution, BuiltinSpeakerId, ResolvedBodyMode,
@@ -13,7 +15,8 @@ use crate::syntax::{
 };
 use crate::typst_check::{check_typst_args, check_typst_source, scan_typst_overlay_macros};
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
 pub enum OriginKind {
     TextBody,
     TypstBody,
@@ -24,7 +27,8 @@ pub enum OriginKind {
     DirectiveField,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
 pub enum GeneratedKind {
     TemplateWrapper,
     EscapedText,
@@ -33,7 +37,8 @@ pub enum GeneratedKind {
     StatementCallWrapper,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[serde(tag = "type", rename_all = "snake_case")]
 pub enum Origin {
     MmtRange {
         range: TextRange,
@@ -51,7 +56,7 @@ pub struct EmitChunk {
     pub origin: Origin,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct SourceMapEntry {
     pub generated_range: TextRange,
     pub origin_id: usize,
@@ -328,8 +333,8 @@ impl<'a> TypstEmitter<'a> {
             kind: OriginKind::TextBody,
         });
         let function = match statement.kind {
-            StatementKind::Right => "chat-left",
-            StatementKind::Left => "chat-right",
+            StatementKind::Left => "chat-left",
+            StatementKind::Right => "chat-right",
             StatementKind::Narration => unreachable!(),
         };
         self.builder.push_generated(
@@ -548,35 +553,45 @@ impl<'a> TypstEmitter<'a> {
     fn emit_materialized_marker(
         &mut self,
         marker: &crate::inline::InlineMacroSyntax,
-        parent: usize,
+        _parent: usize,
     ) {
+        let marker_parent = self.builder.register_origin(Origin::MmtRange {
+            range: marker.range,
+            kind: OriginKind::ResourceMarker,
+        });
         if let Some(path) = self.materialized.inline_images.get(&marker.range) {
             self.builder.push_generated(
                 &format!("#mmt.sticker(image(\"{}\")", escape_typst_string(path)),
                 GeneratedKind::ResourceCallWrapper,
-                Some(parent),
+                Some(marker_parent),
             );
             if let Some(patch) = &marker.render_patch {
-                self.builder
-                    .push_generated(", ", GeneratedKind::ResourceCallWrapper, Some(parent));
+                self.builder.push_generated(
+                    ", ",
+                    GeneratedKind::ResourceCallWrapper,
+                    Some(marker_parent),
+                );
                 self.diagnostics
                     .extend(check_typst_args(&patch.raw_args, patch.args_range));
                 self.builder
                     .push_mmt(&patch.raw_args, patch.args_range, OriginKind::ResourcePatch);
             }
-            self.builder
-                .push_generated(")", GeneratedKind::ResourceCallWrapper, Some(parent));
+            self.builder.push_generated(
+                ")",
+                GeneratedKind::ResourceCallWrapper,
+                Some(marker_parent),
+            );
         } else if let Some(typst) = self.materialized.inline_typst.get(&marker.range) {
             self.builder
                 .push_mmt(typst, marker.range, OriginKind::ResourceMarker);
         } else if self.materialized.failed_inline.contains(&marker.range) {
-            self.emit_text_source("[missing resource]", marker.range, parent);
+            self.emit_text_source("[missing resource]", marker.range, marker_parent);
         } else {
             self.materialize_error(
                 "inline resource marker has not been materialized",
                 marker.range,
             );
-            self.emit_text_source("[missing resource]", marker.range, parent);
+            self.emit_text_source("[missing resource]", marker.range, marker_parent);
         }
     }
 
@@ -816,6 +831,56 @@ mod tests {
     }
 
     #[test]
+    fn source_map_covers_content_directives_patches_and_generated_wrappers() {
+        let source = "@typ\n#let accent = blue\n@end\n\
+                      >(fill: accent) 柚子: hello\n\
+                      - rT\"\"\"#rect(width: 1em)\"\"\"\n\
+                      @reply: option A | option B\n\
+                      @bond: bond body";
+        let emitted = emit(source);
+
+        let cases = [
+            (
+                "#let accent = blue",
+                "#let accent = blue",
+                OriginKind::TypDirective,
+            ),
+            ("fill: accent", "fill: accent", OriginKind::StatementPatch),
+            ("hello", "hello", OriginKind::TextBody),
+            (
+                "#rect(width: 1em)",
+                "#rect(width: 1em)",
+                OriginKind::TypstBody,
+            ),
+            ("option A", "option A", OriginKind::TextBody),
+            ("option B", "option B", OriginKind::TextBody),
+            ("bond body", "bond body", OriginKind::TextBody),
+        ];
+
+        for (generated_fragment, source_fragment, expected_kind) in cases {
+            let generated_offset = emitted.source.find(generated_fragment).unwrap();
+            let source_offset = source.find(source_fragment).unwrap();
+            assert_eq!(
+                emitted.lookup_mmt_origin(TextRange::empty(generated_offset)),
+                Some(&Origin::MmtRange {
+                    range: TextRange::new(source_offset, source_offset + source_fragment.len()),
+                    kind: expected_kind,
+                }),
+                "unexpected origin for {generated_fragment}"
+            );
+        }
+
+        let reply_wrapper = emitted.source.find("#mmt.reply(").unwrap();
+        assert!(matches!(
+            emitted.lookup_mmt_origin(TextRange::empty(reply_wrapper)),
+            Some(Origin::MmtRange {
+                kind: OriginKind::TextBody,
+                ..
+            })
+        ));
+    }
+
+    #[test]
     fn typst_macro_mode_only_expands_ast_markup_regions() {
         let source = "> 柚子: T\"\"\"before [:#1:] #text(\"[:#2:]\") [nested [:#3:]]\"\"\"";
         let (document, modes, actors) = lower(source);
@@ -918,5 +983,36 @@ mod tests {
 
         assert_eq!(diagnostic.phase, DiagnosticPhase::Typst);
         assert_eq!(diagnostic.range, Some(patch_range));
+    }
+
+    #[test]
+    fn generated_resource_wrapper_diagnostic_maps_to_marker() {
+        let source = "> 柚子: before [:happy:] after";
+        let (document, modes, actors) = lower(source);
+        let resources = lower_resource_markers(&document, &modes, &actors);
+        let marker_range = resources.markers[0].range;
+        let mut materialized = MaterializedContent::default();
+        materialized.bind_inline_image(&resources.markers[0], "cache/happy.png");
+        let emitted = emit_typst(
+            &document,
+            &modes,
+            &actors,
+            &materialized,
+            &EmitOptions::default(),
+        );
+
+        let generated_offset = emitted.source.find("image(\"cache/happy.png\")").unwrap();
+        let diagnostic =
+            emitted.map_typst_diagnostic("image decode failed", TextRange::empty(generated_offset));
+
+        assert_eq!(diagnostic.phase, DiagnosticPhase::Typst);
+        assert_eq!(diagnostic.range, Some(marker_range));
+        assert!(matches!(
+            emitted.lookup_origin(TextRange::empty(generated_offset)),
+            Some(Origin::Generated {
+                kind: GeneratedKind::ResourceCallWrapper,
+                ..
+            })
+        ));
     }
 }

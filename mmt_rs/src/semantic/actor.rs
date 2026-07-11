@@ -116,8 +116,8 @@ pub struct ActorLoweringOptions {
 impl Default for ActorLoweringOptions {
     fn default() -> Self {
         Self {
-            left_fallback: Some(BuiltinSpeakerId("__Sensei".to_string())),
-            right_fallback: None,
+            left_fallback: None,
+            right_fallback: Some(BuiltinSpeakerId("__Sensei".to_string())),
         }
     }
 }
@@ -504,22 +504,14 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
             return;
         }
         let Some(marker) = &statement.marker else {
-            if let Some(actor_id) = self.history(statement.kind).current {
-                self.capture_actor_speaker(statement, actor_id);
-            } else if let Some(builtin) = self.fallback_speaker(statement.kind).cloned() {
-                self.speakers.push(ResolvedStatementSpeaker {
-                    statement_range: statement.range,
-                    speaker: SpeakerIdentity::Builtin(builtin),
-                    revision: None,
-                });
-            } else {
-                self.error(
-                    "right-side dialogue requires a current speaker",
-                    statement.range,
-                );
-            }
+            self.capture_current_or_fallback(statement);
             return;
         };
+
+        if matches!(marker, SpeakerMarkerSyntax::BackRef { n: 0, .. }) {
+            self.capture_current_or_fallback(statement);
+            return;
+        }
 
         let actor_id = match marker {
             SpeakerMarkerSyntax::Explicit { raw, range } => {
@@ -536,6 +528,26 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
             return;
         };
         self.capture_actor_speaker(statement, actor_id);
+    }
+
+    fn capture_current_or_fallback(&mut self, statement: &StatementSyntax) {
+        if let Some(actor_id) = self.history(statement.kind).current {
+            self.capture_actor_speaker(statement, actor_id);
+        } else if let Some(builtin) = self.fallback_speaker(statement.kind).cloned() {
+            self.speakers.push(ResolvedStatementSpeaker {
+                statement_range: statement.range,
+                speaker: SpeakerIdentity::Builtin(builtin),
+                revision: None,
+            });
+        } else {
+            self.error(
+                format!(
+                    "{} dialogue requires a current speaker",
+                    side_name(statement.kind)
+                ),
+                statement.range,
+            );
+        }
     }
 
     fn capture_actor_speaker(&mut self, statement: &StatementSyntax, actor_id: ActorId) {
@@ -578,7 +590,7 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
         unique: bool,
         range: TextRange,
     ) -> Option<ActorId> {
-        if n == 0 {
+        if unique && n == 0 {
             self.error("speaker reference index must be at least 1", range);
             return None;
         }
@@ -586,7 +598,7 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
         let actor_id = if unique {
             history.unique.get(n as usize - 1).copied()
         } else {
-            history.messages.iter().rev().nth(n as usize - 1).copied()
+            history.recent_distinct(n)
         };
         if actor_id.is_none() {
             self.error(
@@ -659,6 +671,21 @@ impl SpeakerHistory {
             self.unique.push(actor_id);
         }
     }
+
+    fn recent_distinct(&self, n: u32) -> Option<ActorId> {
+        let current = self.current?;
+        if n == 0 {
+            return Some(current);
+        }
+
+        let mut seen = HashSet::new();
+        self.messages
+            .iter()
+            .rev()
+            .copied()
+            .filter(|actor_id| *actor_id != current && seen.insert(*actor_id))
+            .nth(n as usize - 1)
+    }
 }
 
 fn deduplicate_names(names: Vec<String>) -> Vec<String> {
@@ -696,6 +723,8 @@ mod tests {
             preset("ba::日富美", &["日富美"]),
             preset("ba::柚子", &["柚子", "花冈柚子"]),
             preset("ba::桃井", &["桃井"]),
+            preset("ba::优香", &["优香"]),
+            preset("ba::诺亚", &["诺亚"]),
         ])
     }
 
@@ -709,7 +738,7 @@ mod tests {
              also-as: [hifumi]\n\
              @end\n\
              > hifumi: second\n\
-             > _: third",
+             > _0: third",
         );
         assert!(document.diagnostics.is_empty());
 
@@ -781,15 +810,17 @@ mod tests {
     }
 
     #[test]
-    fn backrefs_and_unique_indexes_are_side_local() {
+    fn distinct_backrefs_and_unique_indexes_are_side_local() {
         let document = parse_text(
             "> 柚子: one\n\
              > 桃井: two\n\
-             > _2: right backref\n\
-             > ~2: right unique\n\
-             < 桃井: left one\n\
-             < _: left backref\n\
-             < ~2: invalid left unique",
+             > _1: left alternate\n\
+             > _: left alternate again\n\
+             > _0: left current\n\
+             > ~2: left unique\n\
+             < 桃井: right one\n\
+             < _0: right current\n\
+             < ~2: invalid right unique",
         );
         let lowered = lower_actors(&document, &catalog());
 
@@ -797,7 +828,7 @@ mod tests {
         assert!(
             lowered.diagnostics[0]
                 .message
-                .contains("invalid left-side speaker reference ~2")
+                .contains("invalid right-side speaker reference ~2")
         );
         assert_eq!(
             lowered
@@ -812,6 +843,66 @@ mod tests {
                 SpeakerIdentity::Actor(ActorId(1)),
                 SpeakerIdentity::Actor(ActorId(1)),
                 SpeakerIdentity::Actor(ActorId(1)),
+                SpeakerIdentity::Actor(ActorId(1)),
+                SpeakerIdentity::Actor(ActorId(1)),
+            ]
+        );
+    }
+
+    #[test]
+    fn backref_one_alternates_between_recent_distinct_speakers() {
+        let document = parse_text(
+            "> 优香: 1\n\
+             > 1.5\n\
+             > 诺亚: 2\n\
+             > 2.5\n\
+             > _: 3\n\
+             > _1: 4",
+        );
+        let lowered = lower_actors(&document, &catalog());
+
+        assert!(lowered.diagnostics.is_empty(), "{:?}", lowered.diagnostics);
+        assert_eq!(
+            lowered
+                .speakers
+                .iter()
+                .map(|speaker| speaker.speaker.clone())
+                .collect::<Vec<_>>(),
+            vec![
+                SpeakerIdentity::Actor(ActorId(0)),
+                SpeakerIdentity::Actor(ActorId(0)),
+                SpeakerIdentity::Actor(ActorId(1)),
+                SpeakerIdentity::Actor(ActorId(1)),
+                SpeakerIdentity::Actor(ActorId(0)),
+                SpeakerIdentity::Actor(ActorId(1)),
+            ]
+        );
+    }
+
+    #[test]
+    fn backref_two_uses_distinct_speaker_mru_order() {
+        let document = parse_text(
+            "> 优香: first\n\
+             > 诺亚: second\n\
+             > 日富美: third\n\
+             > _2: returns to Yuuka\n\
+             > _1: returns to Hifumi",
+        );
+        let lowered = lower_actors(&document, &catalog());
+
+        assert!(lowered.diagnostics.is_empty(), "{:?}", lowered.diagnostics);
+        assert_eq!(
+            lowered
+                .speakers
+                .iter()
+                .map(|speaker| speaker.speaker.clone())
+                .collect::<Vec<_>>(),
+            vec![
+                SpeakerIdentity::Actor(ActorId(0)),
+                SpeakerIdentity::Actor(ActorId(1)),
+                SpeakerIdentity::Actor(ActorId(2)),
+                SpeakerIdentity::Actor(ActorId(0)),
+                SpeakerIdentity::Actor(ActorId(2)),
             ]
         );
     }
@@ -884,12 +975,14 @@ mod tests {
     }
 
     #[test]
-    fn omitted_speakers_reuse_current_actor_or_default_left_side_to_sensei() {
+    fn omitted_speakers_reuse_current_actor_or_default_right_side_to_sensei() {
         let document = parse_text(
             "> 柚子: first\n\
              > continues current actor\n\
+             > _0: explicit current actor\n\
              < implicit Sensei\n\
-             < still Sensei",
+             < still Sensei\n\
+             < _0: explicit Sensei fallback",
         );
         let lowered = lower_actors(&document, &catalog());
 
@@ -903,11 +996,13 @@ mod tests {
             vec![
                 SpeakerIdentity::Actor(ActorId(0)),
                 SpeakerIdentity::Actor(ActorId(0)),
+                SpeakerIdentity::Actor(ActorId(0)),
+                SpeakerIdentity::Builtin(BuiltinSpeakerId("__Sensei".to_string())),
                 SpeakerIdentity::Builtin(BuiltinSpeakerId("__Sensei".to_string())),
                 SpeakerIdentity::Builtin(BuiltinSpeakerId("__Sensei".to_string())),
             ]
         );
-        assert_eq!(lowered.speakers[2].revision, None);
+        assert_eq!(lowered.speakers[3].revision, None);
     }
 
     #[test]
@@ -916,7 +1011,7 @@ mod tests {
             left_fallback: Some(BuiltinSpeakerId("narrator-left".to_string())),
             right_fallback: Some(BuiltinSpeakerId("narrator-right".to_string())),
         };
-        let document = parse_text("> right fallback\n< left fallback");
+        let document = parse_text("> left fallback\n< right fallback");
         let lowered = lower_actors_with_options(&document, &catalog(), &options);
 
         assert!(lowered.diagnostics.is_empty());
@@ -927,8 +1022,8 @@ mod tests {
                 .map(|speaker| speaker.speaker.clone())
                 .collect::<Vec<_>>(),
             vec![
-                SpeakerIdentity::Builtin(BuiltinSpeakerId("narrator-right".to_string())),
                 SpeakerIdentity::Builtin(BuiltinSpeakerId("narrator-left".to_string())),
+                SpeakerIdentity::Builtin(BuiltinSpeakerId("narrator-right".to_string())),
             ]
         );
     }

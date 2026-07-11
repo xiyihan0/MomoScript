@@ -1,0 +1,98 @@
+{
+  "schema": "mmt-pack.v3",
+  "pack": {
+    "namespace": "ba_fixture",
+    "name": "Pack v3 test base",
+    "version": "1.0.0",
+    "type": "base"
+  },
+  "entities": {
+    "佳代子": {
+      "names": ["佳代子"],
+      "display_name": "佳代子",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "佳代子.svg"
+            }
+          }
+        },
+        "sticker": {
+          "default": "default",
+          "sets": {
+            "default": {
+              "display_name": "初始立绘差分",
+              "handles": ["default", "初始立绘差分"],
+              "storage": "kayoko_default",
+              "variants": [
+                {"id": "default_001", "ordinal": 1, "frame": 0},
+                {"id": "default_002", "ordinal": 2, "frame": 1}
+              ]
+            },
+            "set_02": {
+              "display_name": "领航服差分",
+              "handles": ["领航服差分"],
+              "storage": "kayoko_set_02",
+              "variants": [
+                {"id": "set_02_001", "ordinal": 1, "frame": 0}
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "storage": {
+    "avatars": {
+      "kind": "image-dir",
+      "base": "assets/avatar"
+    },
+    "kayoko_default": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/佳代子/default.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 2,
+      "fps": 1,
+      "size": [589, 574],
+      "alpha": false,
+      "sha256": "76bfe55f6a23ca92041111e0cf5160897ce5a186a9940773b75d6f2f3e1cb84f",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
+    "kayoko_set_02": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/佳代子/set_02.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 1,
+      "fps": 1,
+      "size": [471, 582],
+      "alpha": true,
+      "sha256": "4bc5a9de84a68398c1f8307521db89059982f39e00f91cad25a7fec670d2d39c",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    }
+  }
+}

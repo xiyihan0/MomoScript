@@ -6,6 +6,7 @@ pub mod materialize;
 pub mod pack;
 pub mod parser;
 pub mod pipeline;
+pub mod project;
 pub mod resolve;
 pub mod semantic;
 pub mod source;
@@ -25,6 +26,7 @@ pub use materialize::{
 };
 pub use parser::{parse_document, parse_text};
 pub use pipeline::{Compilation, CompilationFailure, compile_text, compile_text_strict};
+pub use project::{ProjectMaterializer, ProjectMaterializerOptions, export_template_library};
 pub use resolve::{
     PackStorageSource, ResolvedResource, ResolvedResourceKind, ResourceFailure, ResourceResolution,
     ResourceTarget, resolve_actor_avatars, resolve_resources,

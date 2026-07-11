@@ -16,7 +16,7 @@ fn public_parse_text_api_returns_statement_ast() {
         panic!("expected statement node");
     };
 
-    assert_eq!(statement.kind, StatementKind::Right);
+    assert_eq!(statement.kind, StatementKind::Left);
     assert!(matches!(
         statement.marker,
         Some(SpeakerMarkerSyntax::BackRef { n: 2, .. })
@@ -69,7 +69,7 @@ fn public_actor_lowering_api_captures_statement_revisions() {
          @actor 日富美\n\
          display-name: \"小鸟游日富美\"\n\
          @end\n\
-         > _: second",
+         > _0: second",
     );
     let lowered = lower_actors(&doc, &catalog);
 

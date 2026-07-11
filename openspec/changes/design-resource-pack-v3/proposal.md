@@ -21,12 +21,14 @@
 - `ResolvedResource` / `PackStorageSource`、actor avatar 与 inline marker resolution
 - 平台无关 `ResourceMaterializer` 接口和 range-preserving materialize diagnostics
 - `tools/build_kivo_pack_v3.py` 的 Kivo fetch、manifest/report、资源下载和可选 AVIFS 编码流程
+- 从真实 Kivo pack 结构提炼的 base/extension fixture，以及 strict pipeline 到 Typst 0.15 的无网络编译测试
+- `ProjectMaterializer` 的 `image-dir` 复制与 AVIFS image-sequence 抽帧；后者使用受控 `avifdec + dav1d`、容器 SHA-256/尺寸校验、原子 PNG 输出和内容寻址 cache
+- 透明 AVIFS fixture 的 alpha 保留/cache 回归，以及真实 ba_kivo pack 的 avatar + sticker → Typst PDF smoke
 
 尚未完成：
 
-- 仓库内可重复使用的 manifest schema 和最小 pack-v3 fixture
-- 使用该 fixture 的 resolver → materializer → Rust emitter → Typst 0.15 端到端验收
-- native 平台 AVIFS frame materializer、内容寻址 cache 与 decoder profile 验证
+- 仓库内可重复使用的 machine-readable manifest schema
+- direct libavif FFI backend；当前 native 子进程 backend 已可用，并保持相同 materializer/cache 合同
 
 ## Impact
 

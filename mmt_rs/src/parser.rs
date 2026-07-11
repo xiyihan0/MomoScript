@@ -108,8 +108,8 @@ impl Parser<'_> {
         let first_line = self.lines[self.index].clone();
         let sigil = first_line.text.as_bytes()[0] as char;
         let kind = match sigil {
-            '>' => StatementKind::Right,
-            '<' => StatementKind::Left,
+            '>' => StatementKind::Left,
+            '<' => StatementKind::Right,
             '-' => StatementKind::Narration,
             _ => unreachable!("caller only invokes parse_statement for statement lines"),
         };
@@ -1231,7 +1231,7 @@ mod tests {
         let SyntaxNode::Statement(statement) = &doc.nodes[0] else {
             panic!("expected statement");
         };
-        assert_eq!(statement.kind, StatementKind::Right);
+        assert_eq!(statement.kind, StatementKind::Left);
         assert_eq!(
             statement
                 .patch
@@ -1248,8 +1248,8 @@ mod tests {
 
     #[test]
     fn parses_backref_and_unique_speaker_markers() {
-        let doc = parse_text("> _: one\n< ~2: two");
-        assert_eq!(doc.nodes.len(), 2);
+        let doc = parse_text("> _: one\n> _0: current\n< ~2: two");
+        assert_eq!(doc.nodes.len(), 3);
 
         let SyntaxNode::Statement(first) = &doc.nodes[0] else {
             panic!("expected first statement");
@@ -1264,6 +1264,14 @@ mod tests {
         };
         assert!(matches!(
             second.marker,
+            Some(SpeakerMarkerSyntax::BackRef { n: 0, .. })
+        ));
+
+        let SyntaxNode::Statement(third) = &doc.nodes[2] else {
+            panic!("expected third statement");
+        };
+        assert!(matches!(
+            third.marker,
             Some(SpeakerMarkerSyntax::UniqueIndex { n: 2, .. })
         ));
     }

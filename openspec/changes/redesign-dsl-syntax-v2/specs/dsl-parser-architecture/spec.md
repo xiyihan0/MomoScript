@@ -77,3 +77,22 @@
 - WHEN compiler maps diagnostics back to MMT source
 - THEN machine mapping MUST rely on source map data
 - AND MUST NOT depend on parsing debug comments from generated Typst text
+
+### Requirement: One compilation bundle supports internal and exported builds
+
+下一版 build layer SHALL 从同一份 strict compilation result 构造可重复使用的 Typst 构建产物，而不是让不同 backend 分别重新生成正文。
+
+#### Scenario: Internal Typst compilation
+
+- GIVEN strict pipeline 已生成 Typst source、source map、模板与物化资源
+- WHEN native backend 使用 Typst 0.15 library 构造 `World` 并编译文档
+- THEN backend MUST compile the same generated source represented by the compilation bundle
+- AND Typst diagnostics SHOULD map through `EmittedTypst` to MMT origins
+
+#### Scenario: Export a Typst CLI project
+
+- GIVEN 同一个 compilation bundle
+- WHEN 作者选择导出中间目录
+- THEN exporter MUST write a self-contained Typst project using project-relative imports and resource paths
+- AND the exported entry file SHOULD compile with Typst 0.15 CLI without rerunning MMT lowering
+- AND exporter SHOULD preserve source-map metadata as a debugging sidecar

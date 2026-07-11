@@ -1,0 +1,54 @@
+{
+  "schema": "mmt-pack.v3",
+  "pack": {
+    "namespace": "ba_fixture_ext",
+    "name": "Pack v3 test extension",
+    "version": "1.0.0",
+    "type": "extension",
+    "requires": ["ba_fixture"]
+  },
+  "contributions": [
+    {
+      "target": "ba_fixture::佳代子",
+      "slots": {
+        "sticker": {
+          "default": "festival",
+          "sets": {
+            "festival": {
+              "display_name": "活动差分",
+              "handles": ["活动差分"],
+              "storage": "kayoko_festival",
+              "variants": [
+                {"id": "festival_001", "ordinal": 1, "frame": 0}
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "storage": {
+    "kayoko_festival": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/佳代子/festival.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 1,
+      "fps": 1,
+      "size": [512, 512],
+      "alpha": true,
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    }
+  }
+}

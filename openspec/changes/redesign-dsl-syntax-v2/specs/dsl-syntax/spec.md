@@ -221,13 +221,23 @@
 
 下一版 DSL SHALL 保留当前实现中的 `_n` / `~n` 说话人引用语法，并将其作为 speaker marker 建模。
 
-#### Scenario: Backreference marker references side-local speaker history
+#### Scenario: Backreference marker references side-local MRU distinct speakers
 
-- GIVEN 当前方向已有说话人历史
+- GIVEN 当前方向已有 current actor 和说话人历史
+- WHEN 作者省略 speaker marker 或写出 `_0:`
+- THEN statement MUST keep the current script actor on that side
 - WHEN 作者写出 `_:`、`_1:` 或 `_2:` 作为 `>` / `<` statement 的说话人 marker
-- THEN `_:` 与 `_1:` MUST resolve to the most recent script actor on the same side
-- AND `_2:` MUST resolve to the previous script actor before that on the same side
-- AND `>` 与 `<` MUST maintain independent speaker histories
+- THEN `_:` 与 `_1:` MUST resolve to the most recently used different actor after excluding current actor and deduplicating history
+- AND `_2:` MUST resolve to the second actor in that side-local MRU distinct-speaker order
+- AND selecting `_n` MUST update current actor, so repeated `_:` can alternate two recent actors
+- AND `>` 与 `<` MUST maintain independent current actors and MRU distinct-speaker histories
+
+#### Scenario: Repeated shorthand alternates two speakers
+
+- GIVEN 输入依次为 `> 优香: 1`、`> 1.5`、`> 诺亚: 2`、`> 2.5`、`> _: 3`、`> _: 4`
+- WHEN compiler resolves left-side speakers
+- THEN the resolved actor sequence MUST be `优香`、`优香`、`诺亚`、`诺亚`、`优香`、`诺亚`
+- AND continuation statements without a marker MUST NOT add another actor to the distinct-speaker order
 
 #### Scenario: Unique-index marker references side-local first-seen order
 
@@ -254,15 +264,15 @@
 
 #### Scenario: Omitted speaker preserves side-local current state and Sensei default
 
-- GIVEN `>` 或 `<` statement 没有 speaker marker
+- GIVEN `>` 或 `<` statement 没有 speaker marker，或显式使用 `_0:`
 - WHEN 当前方向已有 script actor speaker
 - THEN statement SHALL capture that actor's current revision
 - AND the omission MUST NOT create a new history selector or actor
-- WHEN 左侧方向尚无当前 actor
-- THEN `<` statement SHALL use the configured left-side built-in identity, whose default id is `__Sensei`
+- WHEN 右侧方向尚无当前 actor
+- THEN `<` statement SHALL use the configured right-side built-in identity, whose default id is `__Sensei`
 - AND a built-in speaker SHALL have no actor revision
 - AND its display name、avatar 与 avatar-column policy SHALL come from presentation configuration rather than id-specific template branches
-- WHEN 右侧方向尚无当前 actor
+- WHEN 左侧方向尚无当前 actor
 - THEN `>` statement MUST report a missing current speaker
 
 ### Requirement: Inline expressions follow compiler tokenization rules

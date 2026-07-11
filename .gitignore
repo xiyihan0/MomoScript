@@ -87,6 +87,8 @@ typst_sandbox/mmt_render/avatar/
 # Typst / exports
 *.pdf
 *.webp
+!typst_sandbox/mmt_render/mmt_options.webp
+!typst_sandbox/mmt_render/mmt_favor.webp
 
 # mmt_render generated artifacts
 typst_sandbox/mmt_render/*.pipe.json

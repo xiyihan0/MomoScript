@@ -26,10 +26,11 @@
 ## 4. 剩余实施与验收
 
 - [ ] 4.1 定义机器可校验的 pack-v3 manifest schema，并与 Rust model 字段保持一致
-- [ ] 4.2 增加最小 fixture pack：base entity、extension contribution、avatar、default/non-default sticker set、ordinal 和 sequence frame
+- [x] 4.2 增加最小 fixture pack：base entity、extension contribution、avatar、default/non-default sticker set、ordinal 和 sequence frame
 - [ ] 4.3 为 schema invalid、path traversal、missing storage、ambiguous contribution 和 missing default set 增加 fixture-level failure cases
-- [ ] 4.4 实现 native image-sequence materializer，第一版优先输出受控 PNG
-- [ ] 4.5 实现包含 storage sha256、frame、decoder profile、output format/size 的内容寻址 cache
-- [ ] 4.6 用 fixture 验证 resolve → materialize → Rust emit → Typst 0.15 compile
+- [x] 4.4 实现基于 `libavif + dav1d` 的受控 `avifdec -c dav1d --index` native image-sequence materializer，输出并校验受控 PNG
+- [x] 4.5 实现包含 storage sha256、frame、decoder profile、output format/size 的内容寻址 cache，并在解码前校验容器 SHA-256
+- [x] 4.6 用 fixture 验证 resolve → materialize → Rust emit → Typst 0.15 compile
 - [ ] 4.7 用 builder 生成一个小型可审计样例并同时通过 schema 与 `PackRegistry` validation
 - [ ] 4.8 完成验收后把稳定 rendering-pipeline delta 归档到 `openspec/specs/`
+- [ ] 4.9 在不改变 materializer/cache 合同的前提下，用 direct libavif FFI backend 替换 native `avifdec` 子进程

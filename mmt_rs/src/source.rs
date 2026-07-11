@@ -89,6 +89,26 @@ impl SourceFile {
             column: prefix.chars().count() + 1,
         })
     }
+
+    pub fn byte_offset(&self, position: LineColumn) -> Option<usize> {
+        if position.line == 0 || position.column == 0 {
+            return None;
+        }
+        let line_start = *self.line_starts.get(position.line - 1)?;
+        let line_end = self
+            .line_starts
+            .get(position.line)
+            .copied()
+            .unwrap_or(self.text.len());
+        let line = &self.text[line_start..line_end];
+        if position.column == 1 {
+            return Some(line_start);
+        }
+        line.char_indices()
+            .nth(position.column - 1)
+            .map(|(offset, _)| line_start + offset)
+            .or_else(|| (position.column == line.chars().count() + 1).then_some(line_end))
+    }
 }
 
 #[cfg(test)]
@@ -119,5 +139,20 @@ mod tests {
 
         assert_eq!(source.line_column(1), None);
         assert_eq!(source.line_column(4), None);
+    }
+
+    #[test]
+    fn converts_one_based_line_columns_back_to_utf8_offsets() {
+        let source = SourceFile::anonymous("一二\nabc");
+
+        assert_eq!(
+            source.byte_offset(LineColumn { line: 1, column: 2 }),
+            Some("一".len())
+        );
+        assert_eq!(
+            source.byte_offset(LineColumn { line: 2, column: 3 }),
+            Some("一二\nab".len())
+        );
+        assert_eq!(source.byte_offset(LineColumn { line: 0, column: 1 }), None);
     }
 }

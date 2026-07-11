@@ -31,6 +31,12 @@ pack-v3 不再要求 resolver 同时理解 `char_id.json`、`asset_mapping.json`
 
 AVIFS sequence 用于压缩分发体积，但它不是渲染语义。渲染准备阶段需要把被引用的帧抽取到受控 cache，再交给 Typst 静态渲染。第一版推荐以 sticker set 为粒度生成一个 AVIFS sequence。
 
+Native decoder 的固定边界为 `libavif + dav1d`：`libavif` 负责 AVIFS/HEIF 容器解析、
+0-based frame 选择、color/alpha item 关联、色彩转换与 alpha 合成，`dav1d` 作为 AV1
+color/alpha payload 的首选 decoder。materializer 不得绕过容器层把完整 `.avifs` 当作
+裸 AV1 bitstream 直接交给 dav1d。第一阶段允许通过受控 `avifdec -c dav1d --index N`
+backend 验证 native 路径；后续 libavif FFI backend 必须复用相同 cache identity 与输出合同。
+
 ### 4. `#n` 必须有稳定顺序
 
 `#1`、`#2` 这类 ordinal selector 必须来自 manifest 明确声明的顺序。不能用文件系统遍历顺序，也不能用自然排序临时推断。对 `sticker` 这类成组资源，ordinal 作用域是某个明确的 set，而不是整个角色的所有差分混排。

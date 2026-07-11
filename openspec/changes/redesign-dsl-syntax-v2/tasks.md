@@ -32,7 +32,7 @@
 - [x] 4.3 拒绝 unsafe pack path、缺失 storage、无效 image-sequence metadata 与歧义 selector
 - [x] 4.4 实现 script asset、pack asset、actor avatar 和 marker resource resolution
 - [x] 4.5 实现平台无关 `ResourceMaterializer` interface 与 range-preserving materialize diagnostics
-- [ ] 4.6 增加通过 schema 校验的最小 pack-v3 fixture，覆盖 base、contribution、default set 与 sequence frame
+- [x] 4.6 增加通过 `PackRegistry` validation 的最小 pack-v3 fixture，覆盖 base、contribution、default/non-default set 与 sequence frame
 
 ## 5. Typst emission 与模板
 
@@ -41,7 +41,7 @@
 - [x] 5.3 实现 node/resource patch origin、generated wrapper parent 和 zero-length source-map lookup
 - [x] 5.4 对完整 generated source 执行 `typst-syntax` 0.15 precheck 并回映射 diagnostic
 - [x] 5.5 实现无 import 副作用的 `lib.typ` façade、template/theme/config 与 v2 smoke source
-- [ ] 5.6 让 v2 façade smoke 在 clean checkout 自包含运行；当前缺少被 `special.typ` 引用的 tracked `mmt_options.webp`
+- [x] 5.6 跟踪 `special.typ` 使用的 `mmt_options.webp` 与 `mmt_favor.webp`，并验证 v2 façade smoke 可在指定 project root 下自包含编译
 - [ ] 5.7 固化哪些节点打断 automatic continuation，并写入 formal scenario
 - [ ] 5.8 明确 v2 第一版 template 管理的 page/header/raw 样式；image-only sticker 与 advanced API 可 deferred
 
@@ -49,9 +49,13 @@
 
 - [x] 6.1 为 parser、inline、semantic、pack、resolve、materialize、emit、pipeline 和公开 API 建立 Rust 行为测试
 - [x] 6.2 验证 strict pipeline 在 syntax/semantic/resolve error 后不触发 materializer I/O
-- [ ] 6.3 建立无网络 Rust v2 fixture：`compile_text_strict` → generated Typst → Typst 0.15 compile
+- [x] 6.3 建立无网络 Rust v2 fixture：`compile_text_strict` → generated Typst → Typst 0.15 compile
 - [ ] 6.4 将真实 Typst compile/layout diagnostic 通过 `EmittedTypst` source map 映射回 MMT origin
-- [ ] 6.5 提供以 `compile_text_strict` 为核心的 native CLI/build 入口
+- [x] 6.5 提供以 `compile_text_strict` 为核心、支持 stdin/文件输入、JSON diagnostics 与自包含 Typst project 导出的 `mmt-compile` native CLI
 - [x] 6.6 固化 `@asset` canonical block 和 v2 第一版 short form；两者共享 `ScriptAsset` lowering 与 validation
 - [ ] 6.7 将稳定 delta 归档到 `openspec/specs/`，并把 Python v1 规格保留为明确 legacy reference 或移入 archive
 - [ ] 6.8 明确标注 Python/JSON legacy 验证入口与 Rust v2 默认命令的适用范围，避免混用验收信号
+- [x] 6.9 为 text/Typst body、`@typ`、statement patch、reply/bond、resource marker/wrapper/patch 与 zero-length lookup 建立 emitter source-map 回射测试
+- [ ] 6.10 定义共享 generated source、source map、模板和物化资源的 compilation bundle
+- [x] 6.11 实现自包含 Typst CLI project exporter，并以普通资源、透明 AVIFS fixture 和真实 ba_kivo pack 验证导出项目可由 Typst 0.15 编译
+- [ ] 6.12 实现 Typst 0.15 library `World` backend，并验证它与 project exporter 使用相同 compilation bundle
