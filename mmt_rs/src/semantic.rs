@@ -5,6 +5,7 @@
 //! separate pass so diagnostics can retain precise syntax ranges.
 
 pub mod actor;
+pub mod asset;
 pub mod resource;
 
 pub use actor::{
@@ -12,6 +13,7 @@ pub use actor::{
     CharacterPreset, CharacterPresetCatalog, PresetLookup, ResolvedStatementSpeaker, ScriptActor,
     SpeakerIdentity, StaticPresetCatalog, lower_actors, lower_actors_with_options,
 };
+pub use asset::{AssetId, AssetLowering, AssetSource, ScriptAsset, lower_assets};
 pub use resource::{
     ResolvedResourceMarker, ResourceLowering, ResourceSelector, SubjectRef, VariantSelector,
     lower_resource_markers,

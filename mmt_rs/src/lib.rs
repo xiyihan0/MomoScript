@@ -13,10 +13,11 @@ pub use emit::{
 };
 pub use parser::{parse_document, parse_text};
 pub use semantic::{
-    ActorId, ActorLowering, ActorLoweringOptions, ActorRevision, ActorState, BodyModeResolution,
-    BuiltinSpeakerId, CharacterPreset, CharacterPresetCatalog, PresetLookup, ResolvedBodyMode,
-    ResolvedBodyModeEntry, ResolvedStatementSpeaker, ScriptActor, SpeakerIdentity,
-    StaticPresetCatalog, SubjectRef, VariantSelector, lower_actors, lower_actors_with_options,
+    ActorId, ActorLowering, ActorLoweringOptions, ActorRevision, ActorState, AssetId,
+    AssetLowering, AssetSource, BodyModeResolution, BuiltinSpeakerId, CharacterPreset,
+    CharacterPresetCatalog, PresetLookup, ResolvedBodyMode, ResolvedBodyModeEntry,
+    ResolvedStatementSpeaker, ScriptActor, ScriptAsset, SpeakerIdentity, StaticPresetCatalog,
+    SubjectRef, VariantSelector, lower_actors, lower_actors_with_options, lower_assets,
     lower_resource_markers, resolve_body_modes,
 };
 pub use semantic::{ResolvedResourceMarker, ResourceLowering, ResourceSelector};

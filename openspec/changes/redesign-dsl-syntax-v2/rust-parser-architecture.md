@@ -299,3 +299,16 @@ narration、reply 和 bond 不获得隐式 subject。该 pass 不访问 manifest
 fallback。Resolver/materializer 可把结果按 marker range 绑定到 `MaterializedContent`；
 emitter 再生成 `mmt.sticker(image(...), patch...)`，并把 suffix patch 单独标为
 `ResourcePatch` origin。
+
+`@asset` 也由独立 semantic pass 处理。块状声明和 `@asset: ...` 短行声明必须归一化为
+同一个 `ScriptAsset` IR；`src` 必填，`ns` 缺省为 `custom`。由于稳定引用目前只有
+`asset::<name>`，不同 namespace 下同名的脚本资产仍视为冲突，不能让 namespace 形成
+一个 DSL 无法显式访问的隐藏消歧维度。URL 与本地 basename 在 IR 中分型；本地输入在
+lowering 阶段拒绝目录分隔符和 traversal，实际工作区读取仍由 materializer 的沙箱边界负责。
+
+pack-v3 manifest 由独立 `PackRegistry` 加载和校验，并实现只读
+`CharacterPresetCatalog`。registry 负责 entity id 规范化、contribution target、默认
+slot/set、variant handle/ordinal 和 storage 引用的确定性解析；它不解码图片，也不生成
+临时文件。解析结果必须同时携带 contribution namespace 与 storage 所属 pack namespace，
+因为 storage id 只在单个 pack 内唯一。未显式 contribution namespace 时，如果基础包和
+扩展包都命中同一 selector，必须报 ambiguous，禁止通过加载顺序实现隐式覆盖。
