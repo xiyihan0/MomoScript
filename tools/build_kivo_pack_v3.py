@@ -3,7 +3,8 @@ Build a draft pack-v3 resource pack from Kivo Wiki student data.
 
 This is intentionally a pack builder, not the final schema validator. It fetches
 Kivo student details, downloads avatars and sticker-like gallery groups in
-parallel, and writes a pack-v3-style manifest that can be refined by later tools.
+parallel, optionally encodes sticker sets concurrently, and writes a pack-v3
+manifest plus an auditable build report.
 """
 
 from __future__ import annotations
@@ -17,6 +18,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -94,6 +96,64 @@ KNOWN_SET_IDS = {
     "旧冬装差分": "old_winter",
     "头套差分": "mask",
     "头套眼镜差分": "mask_glasses",
+    "一年级立绘差分": "first_year",
+    "中学时期差分": "middle_school",
+    "临战立绘差分": "tactical",
+    "体操服立绘差分": "gym_uniform",
+    "偶像服差分": "idol",
+    "初始立绘-脸部差分": "default_face",
+    "初始立绘差分（持盾）": "default_shield_raised",
+    "初始立绘差分（收盾）": "default_shield_lowered",
+    "副武器持盾差分": "secondary_weapon_shield",
+    "包扎差分": "bandaged",
+    "包扎立绘差分": "bandaged_full",
+    "和服差分": "kimono",
+    "圣徒会制服立绘差分": "saint_council_uniform",
+    "墨镜立绘差分": "sunglasses",
+    "巫女服差分": "miko",
+    "差分": "variants",
+    "幼儿园泳装立绘差分": "kindergarten_swimsuit",
+    "幼儿园立绘差分": "kindergarten",
+    "应援服立绘差分": "cheer_uniform",
+    "战损立绘差分": "damaged_full",
+    "战损（机甲）差分": "damaged_mecha",
+    "战斗模式立绘差分": "battle_mode",
+    "打工制服差分": "work_uniform",
+    "护士服立绘差分": "nurse",
+    "新立绘表情差分": "new_art_expressions",
+    "无披肩差分": "no_cape",
+    "无武器差分": "no_weapon",
+    "无武器立绘差分": "no_weapon_full",
+    "无眼镜差分": "no_glasses",
+    "无耳机差分": "no_headphones",
+    "旧立绘差分": "old_art",
+    "机器人表情差分": "robot_expressions",
+    "泳装立绘差分": "swimsuit",
+    "演出服差分": "stage_outfit",
+    "偶像服": "idol",
+    "玩偶服立绘差分": "mascot_costume",
+    "燕尾服差分": "tailcoat",
+    "燕尾服": "tailcoat",
+    "睡衣差分": "pajamas",
+    "睡衣（黑眼圈）差分": "pajamas_dark_circles",
+    "礼服立绘差分": "formal_dress",
+    "神名十文字身体差分": "shinmei_cross_body",
+    "紧身衣差分": "bodysuit",
+    "脱帽差分": "no_hat",
+    "脸图差分": "face_portrait",
+    "脸部差分": "face",
+    "脸部差分-正面": "face_front",
+    "表情差分": "expressions",
+    "角色差分": "character_variants",
+    "轮椅立绘差分": "wheelchair",
+    "运动服立绘差分": "sportswear",
+    "防寒服差分": "winter_uniform",
+    "防寒棉袄差分": "winter_coat",
+    "阿比舒机甲差分": "abydos_mecha",
+    "领航服差分": "navigator_uniform",
+    "鬼屋装扮差分": "haunted_house",
+    "黄昏立绘差分": "twilight",
+    "黑化立绘差分": "corrupted",
 }
 COLLAB_FULL_NAMES = {
     "初音未来",
@@ -734,6 +794,7 @@ def _encode_avif_sequences(
     report_path = out_dir / "encode_report.jsonl"
     summary: dict[str, Any] = {
         "enabled": True,
+        "concurrency": int(args.avif_concurrency),
         "profile": {
             "encoder": "avifenc",
             "codec": "aom",
@@ -750,270 +811,240 @@ def _encode_avif_sequences(
         "failed": 0,
         "skipped_sets": 0,
         "skipped_variants": 0,
+        "original_bytes": 0,
+        "compressed_bytes": 0,
+        "compression_ratio": None,
         "failures": [],
     }
 
-    with report_path.open("w", encoding="utf-8") as report:
-        for entity_id, entity in manifest.get("entities", {}).items():
-            sticker = entity.get("slots", {}).get("sticker")
-            if not isinstance(sticker, dict):
-                continue
-            for set_id, set_data in list(sticker.get("sets", {}).items()):
-                summary["total"] += 1
-                storage_id = set_data.get("storage")
-                storage = manifest.get("storage", {}).get(storage_id)
-                if not isinstance(storage, dict) or storage.get("kind") != "image-dir":
-                    continue
+    def run_one(job: dict[str, Any]) -> dict[str, Any]:
+        record = dict(job["record"])
+        image_paths: list[Path] = job["image_paths"]
+        record["original_bytes"] = sum(
+            path.stat().st_size for path in image_paths if path.exists()
+        )
+        variants: list[dict[str, Any]] = job["variants"]
+        output_rel: Path = job["output_rel"]
+        output_path = out_dir / output_rel
+        try:
+            if any(not path.exists() for path in image_paths):
+                raise RuntimeError("missing input image")
 
-                base = out_dir / str(storage.get("base", ""))
-                variants = set_data.get("variants") or []
-                variant_pairs = [
-                    (v, base / str(v.get("path")))
-                    for v in variants
-                    if isinstance(v, dict) and v.get("path")
-                ]
-                record: dict[str, Any] = {
-                    "entity": entity_id,
-                    "set": set_id,
-                    "storage": storage_id,
-                    "frames": len(variant_pairs),
-                }
-                skipped_variants = [
-                    {
-                        "id": v.get("id"),
-                        "ordinal": v.get("ordinal"),
-                        "path": p.name,
-                        "reason": "gif",
-                    }
-                    for v, p in variant_pairs
-                    if p.suffix.lower() == ".gif"
-                ]
-                if skipped_variants:
-                    summary["skipped_variants"] += len(skipped_variants)
-                    record["skipped_variants"] = skipped_variants
-                    variant_pairs = [
-                        (v, p) for v, p in variant_pairs if p.suffix.lower() != ".gif"
-                    ]
-                    set_data["variants"] = [v for v, _p in variant_pairs]
+            sizes, has_alpha = _image_info(image_paths)
+            target_size = (
+                max(width for width, _ in sizes),
+                max(height for _, height in sizes),
+            )
+            target_pixels = target_size[0] * target_size[1]
+            aspect_ratio = max(
+                target_size[0] / target_size[1], target_size[1] / target_size[0]
+            )
+            record["size"] = [target_size[0], target_size[1]]
+            record["pixels"] = target_pixels
+            record["aspect_ratio"] = round(aspect_ratio, 3)
+            record["alpha"] = bool(has_alpha)
 
-                image_paths = [p for _v, p in variant_pairs]
-                variants = [v for v, _p in variant_pairs]
-                record["encoded_frames"] = len(image_paths)
-                if not image_paths:
-                    record["status"] = "skipped"
-                    record["reason"] = "no encodable image after per-file filtering"
-                    _drop_sticker_set(manifest, entity, set_id, storage_id)
-                    summary["skipped_sets"] += 1
-                    report.write(json.dumps(record, ensure_ascii=False) + "\n")
-                    report.flush()
-                    done = (
-                        summary["encoded"] + summary["failed"] + summary["skipped_sets"]
+            if target_pixels > int(args.sticker_max_canvas_pixels):
+                record["status"] = "skipped"
+                record["reason"] = "sticker canvas too large"
+                return {**job, "record": record}
+            if aspect_ratio > float(args.sticker_max_aspect_ratio):
+                record["status"] = "skipped"
+                record["reason"] = "sticker canvas aspect ratio too large"
+                return {**job, "record": record}
+            if target_pixels > int(args.avif_max_canvas_pixels):
+                raise RuntimeError(
+                    f"canvas too large: {target_size[0]}x{target_size[1]} "
+                    f"({target_pixels} pixels)"
+                )
+            if max(target_size) > int(args.avif_max_canvas_edge):
+                raise RuntimeError(
+                    f"canvas edge too large: {target_size[0]}x{target_size[1]}"
+                )
+
+            if (
+                bool(args.resume)
+                and output_path.exists()
+                and output_path.stat().st_size > 0
+            ):
+                status = "reused"
+            else:
+                encode_inputs = image_paths
+                temp_dir_obj: tempfile.TemporaryDirectory[str] | None = None
+                if len(set(sizes)) > 1:
+                    temp_dir_obj = tempfile.TemporaryDirectory(prefix="mmt-avif-")
+                    encode_inputs = _prepare_padded_frames(
+                        image_paths,
+                        Path(temp_dir_obj.name),
+                        size=target_size,
+                        alpha=has_alpha,
                     )
-                    if done == 1 or done % 25 == 0:
-                        print(
-                            f"[encode] processed={done} "
-                            f"ok={summary['encoded']} skipped={summary['skipped_sets']} "
-                            f"failed={summary['failed']} last={entity_id}/{set_id}",
-                            flush=True,
-                        )
-                    continue
-                if any(not p.exists() for p in image_paths):
-                    record["status"] = "failed"
-                    record["error"] = "missing input image"
-                    summary["failed"] += 1
-                    summary["failures"].append(record)
-                    report.write(json.dumps(record, ensure_ascii=False) + "\n")
-                    report.flush()
-                    continue
+                    record["padded"] = True
+                    record["source_sizes"] = sorted(set(sizes))
+                else:
+                    record["padded"] = False
 
-                output_rel = Path("blobs") / "stickers" / entity_id / f"{set_id}.avifs"
-                output_path = out_dir / output_rel
                 try:
-                    sizes, has_alpha = _image_info(image_paths)
-                    target_size = (max(w for w, _h in sizes), max(h for _w, h in sizes))
-                    target_pixels = target_size[0] * target_size[1]
-                    aspect_ratio = max(
-                        target_size[0] / target_size[1], target_size[1] / target_size[0]
+                    output_path.unlink(missing_ok=True)
+                    result = _run_avifenc(
+                        encode_inputs,
+                        output_path,
+                        qcolor=int(args.avif_qcolor),
+                        qalpha=int(args.avif_qalpha),
+                        yuv=str(args.avif_yuv),
+                        keyframe=int(args.avif_keyframe),
+                        speed=int(args.avif_speed),
+                        jobs=str(args.avif_jobs),
                     )
-                    if target_pixels > int(args.sticker_max_canvas_pixels):
-                        record["status"] = "skipped"
-                        record["reason"] = "sticker canvas too large"
-                        record["size"] = [target_size[0], target_size[1]]
-                        record["pixels"] = target_pixels
-                        record["aspect_ratio"] = round(aspect_ratio, 3)
-                        _drop_sticker_set(manifest, entity, set_id, storage_id)
-                        summary["skipped_sets"] += 1
-                        report.write(json.dumps(record, ensure_ascii=False) + "\n")
-                        report.flush()
-                        done = (
-                            summary["encoded"]
-                            + summary["failed"]
-                            + summary["skipped_sets"]
-                        )
-                        if done == 1 or done % 25 == 0:
-                            print(
-                                f"[encode] processed={done} "
-                                f"ok={summary['encoded']} skipped={summary['skipped_sets']} "
-                                f"failed={summary['failed']} last={entity_id}/{set_id}",
-                                flush=True,
-                            )
-                        continue
-                    if aspect_ratio > float(args.sticker_max_aspect_ratio):
-                        record["status"] = "skipped"
-                        record["reason"] = "sticker canvas aspect ratio too large"
-                        record["size"] = [target_size[0], target_size[1]]
-                        record["pixels"] = target_pixels
-                        record["aspect_ratio"] = round(aspect_ratio, 3)
-                        _drop_sticker_set(manifest, entity, set_id, storage_id)
-                        summary["skipped_sets"] += 1
-                        report.write(json.dumps(record, ensure_ascii=False) + "\n")
-                        report.flush()
-                        done = (
-                            summary["encoded"]
-                            + summary["failed"]
-                            + summary["skipped_sets"]
-                        )
-                        if done == 1 or done % 25 == 0:
-                            print(
-                                f"[encode] processed={done} "
-                                f"ok={summary['encoded']} skipped={summary['skipped_sets']} "
-                                f"failed={summary['failed']} last={entity_id}/{set_id}",
-                                flush=True,
-                            )
-                        continue
-                    if target_pixels > int(args.avif_max_canvas_pixels):
-                        raise RuntimeError(
-                            f"canvas too large: {target_size[0]}x{target_size[1]} "
-                            f"({target_pixels} pixels)"
-                        )
-                    if max(target_size) > int(args.avif_max_canvas_edge):
-                        raise RuntimeError(
-                            f"canvas edge too large: {target_size[0]}x{target_size[1]}"
-                        )
+                finally:
+                    if temp_dir_obj is not None:
+                        temp_dir_obj.cleanup()
 
-                    encode_inputs = image_paths
-                    temp_dir_obj: tempfile.TemporaryDirectory[str] | None = None
-                    if (
-                        bool(args.resume)
-                        and output_path.exists()
-                        and output_path.stat().st_size > 0
-                    ):
-                        for index, variant in enumerate(variants):
-                            variant.pop("path", None)
-                            variant["frame"] = index
-
-                        storage.clear()
-                        storage.update(
-                            {
-                                "kind": "image-sequence",
-                                "path": output_rel.as_posix(),
-                                "container": "avifs",
-                                "codec": "av1",
-                                "frame_count": len(variants),
-                                "fps": 1,
-                                "size": [target_size[0], target_size[1]],
-                                "alpha": bool(has_alpha),
-                                "sha256": _sha256_file(output_path),
-                                "profile": summary["profile"],
-                            }
-                        )
-                        record["status"] = "reused"
-                        record["output"] = output_rel.as_posix()
-                        record["bytes"] = output_path.stat().st_size
-                        record["size"] = [target_size[0], target_size[1]]
-                        record["alpha"] = bool(has_alpha)
-                        summary["encoded"] += 1
-                        report.write(json.dumps(record, ensure_ascii=False) + "\n")
-                        report.flush()
-                        done = (
-                            summary["encoded"]
-                            + summary["failed"]
-                            + summary["skipped_sets"]
-                        )
-                        if done == 1 or done % 25 == 0:
-                            print(
-                                f"[encode] processed={done} "
-                                f"ok={summary['encoded']} skipped={summary['skipped_sets']} "
-                                f"failed={summary['failed']} last={entity_id}/{set_id}",
-                                flush=True,
-                            )
-                        continue
-
-                    if len(set(sizes)) > 1:
-                        temp_dir_obj = tempfile.TemporaryDirectory(prefix="mmt-avif-")
-                        encode_inputs = _prepare_padded_frames(
-                            image_paths,
-                            Path(temp_dir_obj.name),
-                            size=target_size,
-                            alpha=has_alpha,
-                        )
-                        record["padded"] = True
-                        record["source_sizes"] = sorted(set(sizes))
-                    else:
-                        record["padded"] = False
-
-                    try:
-                        output_path.unlink(missing_ok=True)
-                        result = _run_avifenc(
-                            encode_inputs,
-                            output_path,
-                            qcolor=int(args.avif_qcolor),
-                            qalpha=int(args.avif_qalpha),
-                            yuv=str(args.avif_yuv),
-                            keyframe=int(args.avif_keyframe),
-                            speed=int(args.avif_speed),
-                            jobs=str(args.avif_jobs),
-                        )
-                    finally:
-                        if temp_dir_obj is not None:
-                            temp_dir_obj.cleanup()
-
-                    if result.returncode != 0 or not output_path.exists():
-                        raise RuntimeError(
-                            (result.stdout or "").strip()[-1000:]
-                            or f"avifenc exited {result.returncode}"
-                        )
-
-                    for index, variant in enumerate(variants):
-                        variant.pop("path", None)
-                        variant["frame"] = index
-
-                    storage.clear()
-                    storage.update(
-                        {
-                            "kind": "image-sequence",
-                            "path": output_rel.as_posix(),
-                            "container": "avifs",
-                            "codec": "av1",
-                            "frame_count": len(variants),
-                            "fps": 1,
-                            "size": [target_size[0], target_size[1]],
-                            "alpha": bool(has_alpha),
-                            "sha256": _sha256_file(output_path),
-                            "profile": summary["profile"],
-                        }
+                if result.returncode != 0 or not output_path.exists():
+                    raise RuntimeError(
+                        (result.stdout or "").strip()[-1000:]
+                        or f"avifenc exited {result.returncode}"
                     )
-                    record["status"] = "encoded"
-                    record["output"] = output_rel.as_posix()
-                    record["bytes"] = output_path.stat().st_size
-                    record["size"] = [target_size[0], target_size[1]]
-                    record["alpha"] = bool(has_alpha)
-                    summary["encoded"] += 1
-                except Exception as exc:
-                    record["status"] = "failed"
-                    record["error"] = str(exc)
-                    summary["failed"] += 1
-                    summary["failures"].append(record)
-                report.write(json.dumps(record, ensure_ascii=False) + "\n")
-                report.flush()
-                done = summary["encoded"] + summary["failed"] + summary["skipped_sets"]
-                if done == 1 or done % 25 == 0:
-                    print(
-                        f"[encode] processed={done} "
-                        f"ok={summary['encoded']} skipped={summary['skipped_sets']} "
-                        f"failed={summary['failed']} last={entity_id}/{set_id}",
-                        flush=True,
-                    )
+                status = "encoded"
+
+            storage_update = {
+                "kind": "image-sequence",
+                "path": output_rel.as_posix(),
+                "container": "avifs",
+                "codec": "av1",
+                "frame_count": len(variants),
+                "fps": 1,
+                "size": [target_size[0], target_size[1]],
+                "alpha": bool(has_alpha),
+                "sha256": _sha256_file(output_path),
+                "profile": summary["profile"],
+            }
+            record["status"] = status
+            record["output"] = output_rel.as_posix()
+            record["bytes"] = output_path.stat().st_size
+            return {**job, "record": record, "storage_update": storage_update}
+        except Exception as exc:
+            record["status"] = "failed"
+            record["error"] = str(exc)
+            return {**job, "record": record}
+
+    jobs: list[dict[str, Any]] = []
+    immediate: list[dict[str, Any]] = []
+    for entity_id, entity in manifest.get("entities", {}).items():
+        sticker = entity.get("slots", {}).get("sticker")
+        if not isinstance(sticker, dict):
+            continue
+        for set_id, set_data in list(sticker.get("sets", {}).items()):
+            summary["total"] += 1
+            storage_id = set_data.get("storage")
+            storage = manifest.get("storage", {}).get(storage_id)
+            if not isinstance(storage, dict) or storage.get("kind") != "image-dir":
+                continue
+
+            base = out_dir / str(storage.get("base", ""))
+            variant_pairs = [
+                (variant, base / str(variant.get("path")))
+                for variant in set_data.get("variants") or []
+                if isinstance(variant, dict) and variant.get("path")
+            ]
+            skipped_variants = [
+                {
+                    "id": variant.get("id"),
+                    "ordinal": variant.get("ordinal"),
+                    "path": path.name,
+                    "reason": "gif",
+                }
+                for variant, path in variant_pairs
+                if path.suffix.lower() == ".gif"
+            ]
+            if skipped_variants:
+                summary["skipped_variants"] += len(skipped_variants)
+                variant_pairs = [
+                    (variant, path)
+                    for variant, path in variant_pairs
+                    if path.suffix.lower() != ".gif"
+                ]
+                set_data["variants"] = [variant for variant, _ in variant_pairs]
+
+            record: dict[str, Any] = {
+                "entity": entity_id,
+                "set": set_id,
+                "storage": storage_id,
+                "frames": len(set_data.get("variants") or []),
+                "encoded_frames": len(variant_pairs),
+            }
+            if skipped_variants:
+                record["skipped_variants"] = skipped_variants
+
+            job = {
+                "entity": entity,
+                "set_id": set_id,
+                "set_data": set_data,
+                "storage_id": storage_id,
+                "storage": storage,
+                "variants": [variant for variant, _ in variant_pairs],
+                "image_paths": [path for _, path in variant_pairs],
+                "output_rel": Path("blobs")
+                / "stickers"
+                / entity_id
+                / f"{set_id}.avifs",
+                "record": record,
+            }
+            if variant_pairs:
+                jobs.append(job)
+            else:
+                record["status"] = "skipped"
+                record["reason"] = "no encodable image after per-file filtering"
+                immediate.append(job)
+
+    def apply_result(result: dict[str, Any], report: Any) -> None:
+        record = result["record"]
+        status = record["status"]
+        summary["original_bytes"] += int(record.get("original_bytes") or 0)
+        if status in {"encoded", "reused"}:
+            for index, variant in enumerate(result["variants"]):
+                variant.pop("path", None)
+                variant["frame"] = index
+            storage = result["storage"]
+            storage.clear()
+            storage.update(result["storage_update"])
+            summary["encoded"] += 1
+            summary["compressed_bytes"] += int(record.get("bytes") or 0)
+        elif status == "skipped":
+            _drop_sticker_set(
+                manifest, result["entity"], result["set_id"], result["storage_id"]
+            )
+            summary["skipped_sets"] += 1
+        else:
+            summary["failed"] += 1
+            summary["failures"].append(record)
+
+        report.write(json.dumps(record, ensure_ascii=False) + "\n")
+        report.flush()
+        done = summary["encoded"] + summary["failed"] + summary["skipped_sets"]
+        if done == 1 or done % 25 == 0 or done == len(jobs) + len(immediate):
+            print(
+                f"[encode] processed={done} ok={summary['encoded']} "
+                f"skipped={summary['skipped_sets']} failed={summary['failed']} "
+                f"last={record['entity']}/{record['set']}",
+                flush=True,
+            )
+
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    with report_path.open("w", encoding="utf-8") as report:
+        for job in immediate:
+            apply_result(job, report)
+        with ThreadPoolExecutor(
+            max_workers=max(1, int(args.avif_concurrency))
+        ) as executor:
+            futures = [executor.submit(run_one, job) for job in jobs]
+            for future in as_completed(futures):
+                apply_result(future.result(), report)
+
+    if summary["original_bytes"]:
+        summary["compression_ratio"] = round(
+            summary["compressed_bytes"] / summary["original_bytes"], 6
+        )
 
     return summary
 
@@ -1304,6 +1335,12 @@ def build_argparser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--avif-speed", type=int, default=8, help="avifenc speed.")
     parser.add_argument("--avif-jobs", default="4", help="avifenc worker jobs.")
+    parser.add_argument(
+        "--avif-concurrency",
+        type=int,
+        default=4,
+        help="Sticker sets encoded concurrently; each avifenc also uses --avif-jobs.",
+    )
     parser.add_argument(
         "--sticker-max-canvas-pixels",
         type=int,
