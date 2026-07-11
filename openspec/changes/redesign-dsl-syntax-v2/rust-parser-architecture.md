@@ -278,3 +278,13 @@ generated_typst_range -> origin
 resolver 与 materializer 也应接收并传播 origin。比如 `[:#999:]` 在 resolver 阶段失败时，直接指向 macro range；AVIFS 解码失败时指向引用它的 marker；如果失败来自资源后缀 patch，则优先指向 patch range。
 
 debug 模式下，emitter 可以在展开 `.typ` 中插入轻量注释，例如标记 MMT 行号或 origin id，方便人工打开生成文件排查。但机器映射必须依赖 source map 数据结构，而不是依赖注释文本。
+
+当前第一阶段 emitter 已直接生成 `mmt.chat-left` / `chat-right`、`narration`、`reply`、
+`bond` façade 调用和 `@typ` chunk。它接收 mode resolution、actor lowering 与显式
+`MaterializedContent`，不会把 actor avatar selector 或 `[:...:]` 当作文件路径；未完成
+materialization 的引用产生 materialize diagnostic。`EmittedTypst` 同时保存 generated
+source、origin table 与 source-map entries，并提供普通 range 和文件末尾 zero-length
+range 的 origin lookup；generated wrapper 可沿 parent 回退到对应 MMT node。
+
+`T` 模式中包含 overlay macro 的正文目前仍明确报告未实现，不能在不知道 Typst AST
+可替换区间的情况下退化为字符串替换。这一项应在下一阶段接入 Typst CST overlay pass。

@@ -8,6 +8,9 @@ pub mod source;
 pub mod syntax;
 pub mod typst_check;
 
+pub use emit::{
+    BuiltinPresentation, EmitOptions, EmittedTypst, MaterializedContent, SourceMapEntry, emit_typst,
+};
 pub use parser::{parse_document, parse_text};
 pub use semantic::{
     ActorId, ActorLowering, ActorLoweringOptions, ActorRevision, ActorState, BodyModeResolution,
