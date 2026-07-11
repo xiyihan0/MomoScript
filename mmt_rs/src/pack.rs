@@ -148,6 +148,14 @@ pub struct StorageEntry {
     #[serde(default)]
     pub frame_count: Option<u32>,
     #[serde(default)]
+    pub fps: Option<u32>,
+    #[serde(default)]
+    pub size: Option<[u32; 2]>,
+    #[serde(default)]
+    pub profile: Option<serde_json::Value>,
+    #[serde(default)]
+    pub random_access: Option<String>,
+    #[serde(default)]
     pub sha256: Option<String>,
 }
 
@@ -167,6 +175,17 @@ pub struct ResolvedSticker {
     pub entity_id: String,
     pub contribution_namespace: String,
     pub set_id: String,
+    pub variant_id: String,
+    pub storage_pack_namespace: String,
+    pub storage_id: String,
+    pub path: Option<String>,
+    pub frame: Option<u32>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ResolvedAvatar {
+    pub entity_id: String,
+    pub contribution_namespace: String,
     pub variant_id: String,
     pub storage_pack_namespace: String,
     pub storage_id: String,
@@ -282,6 +301,48 @@ impl PackRegistry {
         })
     }
 
+    pub fn resolve_avatar(
+        &self,
+        entity_id: &str,
+        contribution: Option<&str>,
+        variant: &str,
+    ) -> Result<ResolvedAvatar, ResolveError> {
+        let mut matches = Vec::new();
+        for source in self.avatar_sources(entity_id) {
+            if contribution.is_some_and(|expected| expected != source.namespace) {
+                continue;
+            }
+            for (variant_id, item) in &source.slot.items {
+                if variant_id == variant || item.handles.iter().any(|handle| handle == variant) {
+                    matches.push(ResolvedAvatar {
+                        entity_id: entity_id.to_string(),
+                        contribution_namespace: source.namespace.to_string(),
+                        variant_id: variant_id.clone(),
+                        storage_pack_namespace: source.namespace.to_string(),
+                        storage_id: item.storage.clone(),
+                        path: item.path.clone(),
+                        frame: item.frame,
+                    });
+                }
+            }
+        }
+        unique_resolution(
+            format!(
+                "{entity_id}/{}avatar/{variant}",
+                contribution
+                    .map(|namespace| format!("{namespace}::"))
+                    .unwrap_or_default()
+            ),
+            matches,
+            |item| {
+                format!(
+                    "{}/{}/avatar/{}",
+                    item.entity_id, item.contribution_namespace, item.variant_id
+                )
+            },
+        )
+    }
+
     pub fn storage(&self, pack_namespace: &str, storage_id: &str) -> Option<&StorageEntry> {
         self.manifests
             .iter()
@@ -317,6 +378,9 @@ impl PackRegistry {
                     Some(namespace),
                     "pack namespace is empty or duplicated",
                 ));
+            }
+            for (storage_id, entry) in &manifest.storage {
+                validate_storage(namespace, storage_id, entry, &mut errors);
             }
             for (local_id, entity) in &manifest.entities {
                 let entity_id = canonical_entity_id(namespace, local_id);
@@ -360,6 +424,12 @@ impl PackRegistry {
                             "asset '{name}' references missing storage '{}'",
                             asset.source.storage
                         ),
+                    ));
+                }
+                if !is_safe_pack_path(&asset.source.path) {
+                    errors.push(validation_error(
+                        Some(namespace),
+                        format!("asset '{name}' contains an unsafe pack-relative path"),
                     ));
                 }
             }
@@ -447,6 +517,33 @@ impl PackRegistry {
         }
         sources
     }
+
+    fn avatar_sources<'a>(&'a self, entity_id: &'a str) -> Vec<AvatarSource<'a>> {
+        let mut sources = Vec::new();
+        for manifest in &self.manifests {
+            for (local_id, entity) in &manifest.entities {
+                if canonical_entity_id(&manifest.pack.namespace, local_id) == entity_id
+                    && let Some(slot) = &entity.slots.avatar
+                {
+                    sources.push(AvatarSource {
+                        namespace: &manifest.pack.namespace,
+                        slot,
+                    });
+                }
+            }
+            for contribution in &manifest.contributions {
+                if contribution.target == entity_id
+                    && let Some(slot) = &contribution.slots.avatar
+                {
+                    sources.push(AvatarSource {
+                        namespace: &manifest.pack.namespace,
+                        slot,
+                    });
+                }
+            }
+        }
+        sources
+    }
 }
 
 impl CharacterPresetCatalog for PackRegistry {
@@ -494,6 +591,11 @@ struct EntityRef<'a> {
 struct StickerSource<'a> {
     namespace: &'a str,
     slot: &'a StickerSlot,
+}
+
+struct AvatarSource<'a> {
+    namespace: &'a str,
+    slot: &'a AvatarSlot,
 }
 
 fn canonical_entity_id(namespace: &str, id: &str) -> String {
@@ -562,6 +664,16 @@ fn validate_slots(
                     ),
                 ));
             }
+            if item
+                .path
+                .as_deref()
+                .is_some_and(|path| !is_safe_pack_path(path))
+            {
+                errors.push(validation_error(
+                    Some(namespace),
+                    format!("'{owner}' avatar '{id}' contains an unsafe path"),
+                ));
+            }
         }
     }
     if let Some(sticker) = &slots.sticker {
@@ -617,9 +729,91 @@ fn validate_slots(
                         ),
                     ));
                 }
+                if variant
+                    .path
+                    .as_deref()
+                    .is_some_and(|path| !is_safe_pack_path(path))
+                {
+                    errors.push(validation_error(
+                        Some(namespace),
+                        format!(
+                            "'{owner}' sticker set '{set_id}' variant '{}' contains an unsafe path",
+                            variant.id
+                        ),
+                    ));
+                }
             }
         }
     }
+}
+
+fn validate_storage(
+    namespace: &str,
+    storage_id: &str,
+    entry: &StorageEntry,
+    errors: &mut Vec<PackValidationError>,
+) {
+    for path in [entry.base.as_deref(), entry.path.as_deref()]
+        .into_iter()
+        .flatten()
+    {
+        if !is_safe_pack_path(path) {
+            errors.push(validation_error(
+                Some(namespace),
+                format!("storage '{storage_id}' contains an unsafe pack-relative path"),
+            ));
+        }
+    }
+    match entry.kind.as_str() {
+        "image-dir" => {
+            if entry.base.is_none() {
+                errors.push(validation_error(
+                    Some(namespace),
+                    format!("image-dir storage '{storage_id}' requires base"),
+                ));
+            }
+        }
+        "image-sequence" => {
+            let has_random_access = entry.random_access.is_some()
+                || entry
+                    .profile
+                    .as_ref()
+                    .and_then(|profile| profile.get("keyframe_interval"))
+                    .is_some();
+            let complete = entry.path.is_some()
+                && entry.container.is_some()
+                && entry.codec.is_some()
+                && entry.alpha.is_some()
+                && entry.frame_count.is_some_and(|count| count > 0)
+                && entry
+                    .size
+                    .is_some_and(|[width, height]| width > 0 && height > 0)
+                && entry.sha256.as_ref().is_some_and(|hash| !hash.is_empty())
+                && entry.profile.is_some()
+                && has_random_access;
+            if !complete {
+                errors.push(validation_error(
+                    Some(namespace),
+                    format!(
+                        "image-sequence storage '{storage_id}' requires path, container, codec, alpha, frame_count, size, sha256, profile, and random-access metadata"
+                    ),
+                ));
+            }
+        }
+        kind => errors.push(validation_error(
+            Some(namespace),
+            format!("storage '{storage_id}' has unsupported kind '{kind}'"),
+        )),
+    }
+}
+
+fn is_safe_pack_path(path: &str) -> bool {
+    !path.is_empty()
+        && !path.starts_with(['/', '\\'])
+        && path.as_bytes().get(1).is_none_or(|byte| *byte != b':')
+        && !path
+            .split(['/', '\\'])
+            .any(|component| component.is_empty() || component == "." || component == "..")
 }
 
 fn validation_error(namespace: Option<&str>, message: impl Into<String>) -> PackValidationError {
@@ -695,7 +889,7 @@ mod tests {
       "assets": {"logo":{"kind":"image","source":{"storage":"assets","path":"logo.png"}}},
       "storage": {
         "avatars":{"kind":"image-dir","base":"avatars"},
-        "stickers":{"kind":"image-sequence","path":"stickers.avifs","frame_count":2},
+        "stickers":{"kind":"image-sequence","path":"stickers.avifs","container":"avifs","codec":"av1","alpha":true,"frame_count":2,"size":[512,512],"sha256":"basehash","profile":{"qcolor":80,"keyframe_interval":30}},
         "assets":{"kind":"image-dir","base":"assets"}
       }
     }"#;
@@ -709,7 +903,7 @@ mod tests {
           "storage":"ext_stickers","variants":[{"id":"happy_ext","ordinal":1,"frame":0,"handles":["开心"]}]
         }}}}
       }],
-      "storage":{"ext_stickers":{"kind":"image-sequence","path":"ext.avifs","frame_count":1}}
+      "storage":{"ext_stickers":{"kind":"image-sequence","path":"ext.avifs","container":"avifs","codec":"av1","alpha":true,"frame_count":1,"size":[512,512],"sha256":"exthash","profile":{"qcolor":80,"keyframe_interval":30}}}
     }"#;
 
     fn registry() -> PackRegistry {
@@ -798,6 +992,34 @@ mod tests {
         let errors = PackRegistry::new(vec![invalid]).unwrap_err();
 
         assert!(errors.len() >= 2);
+    }
+
+    #[test]
+    fn validation_rejects_unsafe_paths_and_incomplete_sequences() {
+        let invalid = PackManifest::from_json(
+            r#"{
+              "schema":"mmt-pack.v3",
+              "pack":{"namespace":"bad","name":"Bad","version":"1","type":"base"},
+              "assets":{"escape":{"source":{"storage":"images","path":"../secret.png"}}},
+              "storage":{
+                "images":{"kind":"image-dir","base":"/absolute"},
+                "sequence":{"kind":"image-sequence","path":"frames.avifs","frame_count":1}
+              }
+            }"#,
+        )
+        .unwrap();
+        let errors = PackRegistry::new(vec![invalid]).unwrap_err();
+
+        assert!(
+            errors
+                .iter()
+                .any(|error| error.message.contains("unsafe pack-relative path"))
+        );
+        assert!(
+            errors
+                .iter()
+                .any(|error| error.message.contains("requires path, container, codec"))
+        );
     }
 
     #[test]

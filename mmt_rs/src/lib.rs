@@ -1,8 +1,11 @@
 pub mod diag;
 pub mod emit;
 pub mod inline;
+pub mod materialize;
 pub mod pack;
 pub mod parser;
+pub mod pipeline;
+pub mod resolve;
 pub mod semantic;
 pub mod source;
 pub mod syntax;
@@ -11,7 +14,16 @@ pub mod typst_check;
 pub use emit::{
     BuiltinPresentation, EmitOptions, EmittedTypst, MaterializedContent, SourceMapEntry, emit_typst,
 };
+pub use materialize::{
+    Materialization, MaterializeError, MaterializedImage, ResourceMaterializer,
+    materialize_resources,
+};
 pub use parser::{parse_document, parse_text};
+pub use pipeline::{Compilation, compile_text};
+pub use resolve::{
+    PackStorageSource, ResolvedResource, ResolvedResourceKind, ResourceFailure, ResourceResolution,
+    ResourceTarget, resolve_actor_avatars, resolve_resources,
+};
 pub use semantic::{
     ActorId, ActorLowering, ActorLoweringOptions, ActorRevision, ActorState, AssetId,
     AssetLowering, AssetSource, BodyModeResolution, BuiltinSpeakerId, CharacterPreset,

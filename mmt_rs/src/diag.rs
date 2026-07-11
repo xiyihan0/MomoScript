@@ -11,6 +11,7 @@ pub enum Severity {
 pub enum DiagnosticPhase {
     Syntax,
     Semantic,
+    Resolve,
     Materialize,
     Typst,
 }

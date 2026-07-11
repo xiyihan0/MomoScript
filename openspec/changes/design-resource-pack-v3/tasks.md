@@ -20,7 +20,7 @@
 - [x] 3.1 补充 Kivo API 结构笔记，作为重建主资源包的数据源参考
 - [x] 3.2 编写 Kivo 数据到 pack-v3 manifest 的构建流程草案
 - [x] 3.3 实测 AVIFS 编码 profile 在体积、透明度、抽帧速度和画质上的 tradeoff
-- [ ] 3.4 设计 resolver 返回的 `ResolvedResource` 数据结构
+- [x] 3.4 设计 resolver 返回的 `ResolvedResource` 数据结构
 - [x] 3.5 设计 CLI / NoneBot / Web-WASM 共用的 materializer 接口草案
 - [ ] 3.6 增加 pack-v3 manifest schema 校验与示例资源包
 - [x] 3.7 补充浏览器侧 AVIF WASM 解码组件构建草案

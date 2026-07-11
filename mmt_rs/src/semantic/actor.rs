@@ -242,12 +242,12 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
             }
             (Some((name, name_range)), preset) => {
                 if let Some(actor_id) = self.names.get(&name).copied() {
-                    if preset.is_some() {
+                    if let Some((_, preset_range)) = &preset {
                         self.error(
                             format!(
                                 "actor '{name}' already exists; preset replacement is unsupported"
                             ),
-                            preset.expect("checked as some").1,
+                            *preset_range,
                         );
                         return;
                     }

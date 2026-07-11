@@ -1,6 +1,6 @@
 //! Typst façade emitter with chunk-level source maps.
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use crate::diag::{Diagnostic, DiagnosticPhase, Severity};
 use crate::semantic::{
@@ -130,9 +130,11 @@ impl Default for EmitOptions {
 #[derive(Debug, Clone, Default)]
 pub struct MaterializedContent {
     pub actor_avatars: HashMap<(ActorId, u32), String>,
+    pub failed_actor_avatars: HashSet<(ActorId, u32)>,
     pub builtins: HashMap<BuiltinSpeakerId, BuiltinPresentation>,
     pub inline_typst: HashMap<TextRange, String>,
     pub inline_images: HashMap<TextRange, String>,
+    pub failed_inline: HashSet<TextRange>,
 }
 
 impl MaterializedContent {
@@ -368,7 +370,13 @@ impl<'a> TypstEmitter<'a> {
                     .actor_avatars
                     .get(&(*actor_id, revision_number))
                     .cloned();
-                if revision.state.avatar.is_some() && avatar_path.is_none() {
+                if revision.state.avatar.is_some()
+                    && avatar_path.is_none()
+                    && !self
+                        .materialized
+                        .failed_actor_avatars
+                        .contains(&(*actor_id, revision_number))
+                {
                     self.materialize_error("actor avatar has not been materialized", range);
                 }
                 Some(SpeakerView {
@@ -549,6 +557,8 @@ impl<'a> TypstEmitter<'a> {
         } else if let Some(typst) = self.materialized.inline_typst.get(&marker.range) {
             self.builder
                 .push_mmt(typst, marker.range, OriginKind::ResourceMarker);
+        } else if self.materialized.failed_inline.contains(&marker.range) {
+            self.emit_text_source("[missing resource]", marker.range, parent);
         } else {
             self.materialize_error(
                 "inline resource marker has not been materialized",

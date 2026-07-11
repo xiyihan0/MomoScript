@@ -320,10 +320,10 @@ pub fn parse_macro_args(args_text: &str, absolute_start: usize) -> Vec<MacroArgS
 }
 
 fn parse_macro_value(raw: &str) -> MacroValueSyntax {
-    if let Some(rest) = raw.strip_prefix('#') {
-        if let Ok(n) = rest.parse::<u32>() {
-            return MacroValueSyntax::Ordinal { n };
-        }
+    if let Some(rest) = raw.strip_prefix('#')
+        && let Ok(n) = rest.parse::<u32>()
+    {
+        return MacroValueSyntax::Ordinal { n };
     }
 
     if let Some(value) = unquote(raw, '"') {
@@ -339,13 +339,14 @@ fn parse_macro_value(raw: &str) -> MacroValueSyntax {
         };
     }
 
-    if let Some((namespace, value)) = split_leading_namespace(raw) {
-        if !namespace.is_empty() && !value.is_empty() {
-            return MacroValueSyntax::Namespaced {
-                namespace: namespace.to_string(),
-                value: Box::new(parse_namespaced_value(value)),
-            };
-        }
+    if let Some((namespace, value)) = split_leading_namespace(raw)
+        && !namespace.is_empty()
+        && !value.is_empty()
+    {
+        return MacroValueSyntax::Namespaced {
+            namespace: namespace.to_string(),
+            value: Box::new(parse_namespaced_value(value)),
+        };
     }
 
     MacroValueSyntax::Bare(raw.to_string())
