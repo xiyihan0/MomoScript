@@ -1,0 +1,2236 @@
+{
+  "id": 180,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 180,
+      "avatar": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 46,
+      "avatar": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    },
+    {
+      "id": 570,
+      "avatar": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/%E7%A4%BC%E6%9C%8D/%E3%82%A4%E3%82%BA%E3%83%8A.png",
+      "skin": "礼服",
+      "skin_cn": "礼服"
+    }
+  ],
+  "family_name": "久田",
+  "given_name": "泉奈",
+  "family_name_jp": "久田",
+  "given_name_jp": "イズナ",
+  "family_name_kr": "쿠다",
+  "given_name_kr": "이즈나",
+  "family_name_en": "Kuda",
+  "given_name_en": "Izuna",
+  "family_name_zh_tw": "久田",
+  "given_name_zh_tw": "伊樹菜",
+  "family_name_cn": "久田",
+  "given_name_cn": "泉奈",
+  "nick_name": "忍忍，小狐狸",
+  "introduction": "百鬼夜行联合学园所属，忍术研究部的少女。\n\n虽然是个性格开朗且充满活力的少女，因为追求他人无法理解的梦想，至今为止都是一个人孤独的成长。\n\n那个梦想就是「成为基沃托斯最强的忍者」。\n\n为了成为出色的忍者，今天也过着一边称老师为「主公！」一边进行护卫（也可以单纯说是跟着老师）的生活。\n\n>如果是为了主公的话！",
+  "introduction_cn": "隶属于百鬼夜行忍术研究部的少女。\n\n虽然活泼开朗，但因追求着他人无法理解的梦想，一直以来都是孤身一人。而她的梦想就是成为基沃托斯最强的忍者。\n为了成为一个出色的忍者，泉奈称呼老师“主公”，并一直活跃在各种任务中。\n\n>一切都是为了主公！",
+  "momo_talk_signature": "泉奈会加油的！忍忍！",
+  "main_relation": 48,
+  "relation": [
+    24
+  ],
+  "age": 15,
+  "grade": "一年生",
+  "height": 155,
+  "birthday": "12-16",
+  "hobby": "钻研忍术、护卫主公",
+  "designer": "はねこと",
+  "illustrator": "はねこと",
+  "character_voice": "阿澄佳奈",
+  "character_voice_cn": "Z君",
+  "release_date": "2021-02-25",
+  "release_date_cn": "2023-08-17",
+  "release_date_global": "2021-11-29",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/avatar.png",
+  "school": 9,
+  "weapon_type": "SMG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": true,
+  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 祭り囃子はしのぶれど | 庆典乐声响&emsp;难掩相思意 | 為了回應主公的呼喚飛奔而來！忍忍！ | I responded to your summons immediately! Nin nin! |\n| ![イズナ＆シズコ.jpg](images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%82%A4%E3%82%BA%E3%83%8A%EF%BC%86%E3%82%B7%E3%82%BA%E3%82%B3.jpg =450x) | ![izuna_shizuko.png](images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_shizuko_banner_chs.png =450x) | ![izuna_shizuko_re.png](images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_shizuko__banner_cht_re.png =450x) | ![izuna_shizuko_re.jpg](images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_shizuko__banner_en_re.jpg =450x) |\n|  |  | 聽到主公叫我，我就跑來了~！忍忍！ |  |\n|  |  | ![izuna_shizuko.png](images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_shizuko_banner_cht.png =450x) | ![izuna_shizuko.jpg](images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_shizuko_banner_en.jpg =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Izuna.jpg](images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_Intro_jp.jpg =420x) | ![izuna.jpg](images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_Intro_chs.jpg =425x) | ![izuna.jpg](images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_Intro_cht.jpg =700x) | ![izuna.jpg](images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_Intro_en.jpg =370x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[扩张型传统木窗](https://kivo.wiki/data/item/827) |\n| :---: | :---: | :---: |\n| ![izuna_ex.gif](images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_ex.gif =450x) | ![izuna_cafe.gif](images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_cafe.gif =450x) | ![izuna_interaction.gif](images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_interaction.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 泉奈 汉化\n![泉奈](files/2/DpkYquJLjGKQj9rNJGZArwNWk6ew7ENC.png =450x)\n@tab 泉奈 原文\n![泉奈](files/2/BZdfrTZUnQ06IvQJHUHeyxtT3Lw6vDgD.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_095.png =450x)\n\n![zsbd](images/gallery/36/Vol2-78.jpg =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_263.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_264.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_190.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_227.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_020.png =450x)\n\n![zsbd](images/gallery/36/Vol2-6.jpg =450x)\n\n![zsbd](images/gallery/36/Vol2-11.jpg =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_030.png =450x)\n\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|イズナ|\n|[老师](https://kivo.wiki/data/character/16)|主殿<br><details><summary><font color=\"448aff\">先生</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">初次见面时的称呼</details></font></font></font></b>|\n|[满](https://kivo.wiki/data/character/214)|部長|\n|[月咏](https://kivo.wiki/data/character/32)|ツクヨ殿|\n|[菖蒲](https://kivo.wiki/data/character/529)|アヤメ殿|\n|[爱丽丝](https://kivo.wiki/data/character/108)|アリス殿|\n|[一花](https://kivo.wiki/data/character/114)|イチカ殿<br>あなた|\n|[伊吹](https://kivo.wiki/data/character/136)|イブキ殿|\n|[果穗](https://kivo.wiki/data/character/143)|カホ殿|\n|[静子](https://kivo.wiki/data/character/96)|シズコ殿|\n|[千世](https://kivo.wiki/data/character/84)|チセ殿|\n|[名草](https://kivo.wiki/data/character/254)|ナグサ殿|\n|[尼娅](https://kivo.wiki/data/character/126)|ニヤ殿|\n|喵天丸|ニャン天丸|\n|[莲见](https://kivo.wiki/data/character/111)|ハスミ殿|\n|[日富美](https://kivo.wiki/data/character/74)|ヒフミ殿|\n|[菲娜](https://kivo.wiki/data/character/215)|フィーナ殿|\n|[莲华](https://kivo.wiki/data/character/319)|レンゲ殿|\n|正义实现委员会|正義実現委員会|\n\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/Izuna_home_Idle_01_1.091800000000003.jpg",
+  "spine": [
+    1397,
+    480,
+    1721,
+    1035
+  ],
+  "model": [
+    38,
+    395
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/voice/play_icon.webp",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/voice/pause_icon.webp",
+  "voice": [
+    {
+      "description": "Izuna_Title",
+      "category": "lobby",
+      "text": "Blue Archive!",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/ZEI0xnrhjHO5XbVmN9UkVubclp0AvcPV.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Buffed_1.ogg",
+      "category": "battle",
+      "text": "忍法，感谢之术！",
+      "text_original": "忍法、感謝の術！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/rJw8hOSdM7QgnoEsw4QGWfnpdtKOgEJ7.ogg"
+    },
+    {
+      "description": "Izuna_Battle_BuffSelf_1.ogg",
+      "category": "battle",
+      "text": "忍法，身体强化之术。",
+      "text_original": "忍法、身体強化の術！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/7rHDiKyUqpNVIqS2LsBWxohGFtZnOZFY.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Covered_1.ogg",
+      "category": "battle",
+      "text": "我躲好啦！",
+      "text_original": "隠れました！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/7y1EzDCP0cla3Xf8iKajyhJ2S4j1v0Af.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Damage_1.ogg",
+      "category": "battle",
+      "text": "好疼！",
+      "text_original": "いたっ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/zoCWg4OtuK6xfbx7z9pxGybQDtCgUh7D.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Damage_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "きゃんっ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/kvhEHDxxJtlOCOms9npKgR97qTYjj3BC.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Damage_3.ogg",
+      "category": "battle",
+      "text": "太过分了！",
+      "text_original": "ひどいです！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/wBsAXEFTA1P7QkUavn2HOy6bD0ogGgYX.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Defense_1.ogg",
+      "category": "battle",
+      "text": "这招对泉奈可没用！",
+      "text_original": "イズナには通じません！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/f3PRl3MY1ImMWPuz3rzJgX0F99qC9CfZ.ogg"
+    },
+    {
+      "description": "Izuna_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "泉奈，参见！",
+      "text_original": "イズナ、参ります！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/PsF1vKsli2P42pisv5QVIrr3I2AqkMpF.ogg"
+    },
+    {
+      "description": "Izuna_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "请各位相信泉奈! 跟上来吧！",
+      "text_original": "みなさん、イズナを信じてついてきてください！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/1N2apBurUWqCkc2PAM7xfWiMZpkJx3tA.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Move_1.ogg",
+      "category": "battle",
+      "text": "泉奈，继续前进！",
+      "text_original": "イズナ、移動します！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/hZjyZALstvzbLcSx5pd355Duc3nGXUAP.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Move_2.ogg",
+      "category": "battle",
+      "text": "到下一个行动区域的路上，要用忍者跑！",
+      "text_original": "次の作戦区域まで、忍者走りです！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/zOOoG6QMo7HfE6mhap4RJk4EOt5b5DKS.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Recovery_1.ogg",
+      "category": "battle",
+      "text": "非常感谢！",
+      "text_original": "ありがとうございます！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/AFz4JZTXQSlcYpSBV9SBV7XIq5h0boEz.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Retire.ogg",
+      "category": "battle",
+      "text": "眼…眼睛怎么也…好多星…星……",
+      "text_original": "きゃんっ！め、目の前がぁ……ぐるぐるぅぅぅ～……。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/VLBdMP71aaDRPTJouBFfyegTpPe8Ex3o.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Shout_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "やっ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/2HXxI2cktzeNTPZHXiMLHcn4Ek7BU7hj.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Shout_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "はあ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/PCC2u1SHJR702gR6E7PoARdVwIIUJ6Cf.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Shout_3.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "ニンニン！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/H7n7rJqnIH1ao5IB391EZnxvNpq8kzel.ogg"
+    },
+    {
+      "description": "Izuna_Battle_TacticalAction_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "さささっ。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/F5IlkQCUzw5AUwWE4qedSoufUjDfWirh.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Victory_1.ogg",
+      "category": "battle",
+      "text": "这是泉奈流忍法的胜利！",
+      "text_original": "イズナ流忍法の勝利です！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/BMT09doA5GojOb1vVEvds6c6j5i0w8qA.ogg"
+    },
+    {
+      "description": "Izuna_Battle_Victory_2.ogg",
+      "category": "battle",
+      "text": "空空~胜利胜利！",
+      "text_original": "コンコン！勝利勝利♪",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/UK4t9sLtC4r0w7QWk6fTc062VUXLHgRL.ogg"
+    },
+    {
+      "description": "Izuna_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "啊，主公——！",
+      "text_original": "あっ、主殿ー！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/XgyFYEvbNeUmQGsD2dmuW8R4bak3sUdX.ogg"
+    },
+    {
+      "description": "Izuna_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "忍者自古以来就生存于黑暗之中……黑暗……黑暗之中……那样对眼睛不好吧？",
+      "text_original": "忍者とは古くから闇の世界で生きるもの……闇……闇の中…………目が悪くなりそうですね？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/sOxoZUe0Im8RGMPJJnUmNOctgrA7QrNx.ogg"
+    },
+    {
+      "description": "Izuna_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "这也是为了收集情报……藏在这里怎么样呢？",
+      "text_original": "これも情報収集のため……隠れるのは、この辺りがよいでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/BC9KVvMd0AdUXbP4qJtweTvHYas0ZsPX.ogg"
+    },
+    {
+      "description": "Izuna_Cafe_monolog_4.ogg",
+      "category": "cafe",
+      "text": "这个地方这么宽敞，说不定可以使出泉奈流忍法奥义“百八式·影分身之术”了吧……",
+      "text_original": "ここまで広ければ、イズナ流忍法奥義「百八式・影分身の術」が使えるかもしれません……",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/FljU04NBWppuB3CiGHZufIW8Bzgz9WSr.ogg"
+    },
+    {
+      "description": "Izuna_Cafe_monolog_5.ogg",
+      "category": "cafe",
+      "text": "静静地等待主公的命令……嗯——感觉有点无所事事的……",
+      "text_original": "主殿の命を静かに待つ……うーん、暇になってきてしまいました……",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/AoYadI4Ydz05uwn8aLI1ai7tKOh8VB59.ogg"
+    },
+    {
+      "description": "Izuna_CommonSkill.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "行きます、手裏剣！えいっ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/8YP1pgPAVN3DGrSdEozw3MRm0q6HhKwv.ogg"
+    },
+    {
+      "description": "Izuna_EventLobby_1.ogg",
+      "category": "event",
+      "text": "哼~哼哼~哼哼~♪泉奈空空，空空空~♪",
+      "text_original": "ふん～ふふん～ふんふん～♪イズナこんこん、こんここ～ん♪",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/8svmN2CjNSzmvOWbBFoxe2JRDKQXo1Lk.ogg"
+    },
+    {
+      "description": "Izuna_EventLobby_2.ogg",
+      "category": "event",
+      "text": "唔，这股气息……是主公吧！ 应该是来寻找泉奈的吧！诶嘿嘿！",
+      "text_original": "むっ、この気配は……主殿ですね！ イズナのこと、見つけてくださったのですね！えへへっ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/LpkKxLMJLovgeCBekJvCEMKWXYG2lxNp.ogg"
+    },
+    {
+      "description": "Izuna_EventLobby_3.ogg",
+      "category": "event",
+      "text": "团子、煎饼、什锦烧……！ 我有好多东西想和主公一起吃！",
+      "text_original": "お団子、おせんべい、お好み焼き……！ 主殿と一緒に食べたい物がたくさんです！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/AL1nkQbqm0viPeaW2OIk0BwgQaGeCqEJ.ogg"
+    },
+    {
+      "description": "Izuna_EventLobby_4.ogg",
+      "category": "event",
+      "text": "万事俱备！泉奈，会在保护主公的同时带领主公在庆典上游玩！忍忍！",
+      "text_original": "イズナ、準備万端です！主殿のことをお守りしつつ、お祭りをご案内します！ニンニン！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/ZAoYUj1mtk4Krv2JZRcNin3jfN3PvBaW.ogg"
+    },
+    {
+      "description": "Izuna_EventLogin_1.ogg",
+      "category": "event",
+      "text": "主公，有庆典哎！来嘛~我们要从哪里开始玩起呢？",
+      "text_original": "お祭りですよ、主殿！さあ、どこから遊びに行きましょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/5buduV6O34xwWcj3CITjkP226G7hPmI5.ogg"
+    },
+    {
+      "description": "Izuna_EventLogin_2.ogg",
+      "category": "event",
+      "text": "主公主公，庆典真的好有意思啊！ 泉奈会一直陪在主公身边的！",
+      "text_original": "主殿主殿、お祭りとっても楽しみですね！ イズナ、ずっとそばでお供しますので！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/9XLcSjTh8Due3LxbCZhUh17ZTzRUzdBV.ogg"
+    },
+    {
+      "description": "Izuna_EventLogin_Season_1.ogg",
+      "category": "lobby",
+      "text": "庆典越来越热闹了！ 主公，我们现在去哪里玩呢？",
+      "text_original": "お祭りがどんどん盛り上がってきましたね！ 主殿、次はどこへ行きましょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/yVcrRjVPGSq5eV0RDBAHfFWmY5CHOjat.ogg"
+    },
+    {
+      "description": "Izuna_EventLogin_Season_2.ogg",
+      "category": "lobby",
+      "text": "庆典马上就要结束了啊…… 但，但是最后这段时间，主公可以和泉奈在一起吗……！",
+      "text_original": "お祭り、もうすぐ終わてしまいますね。せ、せめて最後まで、イズナと一緒にいただけますか？主殿！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/vVmIZ0NT2sfBTQh9ZIOdh9jD4WoLieO2.ogg"
+    },
+    {
+      "description": "Izuna_EventLogin_Season_End.ogg",
+      "category": "lobby",
+      "text": "百夜迎春樱花节，已经结束了…… 不过今后还会有很多节日庆典对吧？ 到时候，主公还会和泉奈一起去参加吗？",
+      "text_original": "百夜ノ春ノ桜花祭は、終わってしまいましたが…… お祭りはこれからもまだたくさんありますよね その時はまたイズナと一緒に行ってくれますか、主殿！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/FNomlYluUku30YGYU24StR2Lr5jkNlzd.ogg"
+    },
+    {
+      "description": "Izuna_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "泉奈流忍法！",
+      "text_original": "イズナ流忍法！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/qqiX3uZbn5JVpzFPY4Tsz6m4dbNKHxfj.ogg"
+    },
+    {
+      "description": "Izuna_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "让你们见识一下什么是忍术吧！",
+      "text_original": "忍術！お見せしましょう！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/6znALxLQZ2Ones2KZFxebiuqEcDnrUAU.ogg"
+    },
+    {
+      "description": "Izuna_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "呀！金蝉脱壳之术！",
+      "text_original": "やっ！空蝉の術！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/aJ8GUQXDMGJUqNSJS7ax2wXaxmcMYMXJ.ogg"
+    },
+    {
+      "description": "Izuna_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "紧急闪避！",
+      "text_original": "緊急回避です！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/RMAVchYcieOBuWEWvbxefkBs3rvnHrVw.ogg"
+    },
+    {
+      "description": "Izuna_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "这也是忍术……的一种……应该……",
+      "text_original": "これも忍術……みたいなものです！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/Xrbc152NMeCyQfELPhj7hQHvtaumC7OW.ogg"
+    },
+    {
+      "description": "Izuna_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "我躲，我闪！",
+      "text_original": "躱してみせます！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/IkUUWTZUF5w2i24GzlVSaJJeSbNtwTk4.ogg"
+    },
+    {
+      "description": "Izuna_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "这，这就是最先进的忍者武器……！有了这个，泉奈是不是就能成为中忍了呢？！",
+      "text_original": "こ、これが最先端の忍者の武器……！これでイズナも、中忍になれますでしょうか！？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/TB1Og64FKyKT7Xe8WQ9owdb4nw66VwUt.ogg"
+    },
+    {
+      "description": "Izuna_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "主公，只需下令即可！",
+      "text_original": "それが主殿のご命令であれば！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/AJ42NlPrvpaNuVtwPAwxU4orK4cbPDwe.ogg"
+    },
+    {
+      "description": "Izuna_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "泉奈为主公马首是瞻！",
+      "text_original": "イズナに何なりとご用命ください！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/ARvpUwwPbzdKx5ybUk6O6B4ImpoHwUCx.ogg"
+    },
+    {
+      "description": "Izuna_Formation_Select.ogg",
+      "category": "formation",
+      "text": "忍忍！泉奈现在该做些什么好呢？",
+      "text_original": "ニンニン！主殿、イズナは何をすればよいでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/jPh4VsZTIv0T0GS5vrNyik3qZ6pYNhId.ogg"
+    },
+    {
+      "description": "Izuna_Gachaget.ogg",
+      "category": "growup",
+      "text": "泉奈，参上！听到了老师……不对，主公的呼唤，立刻疾行而来～！忍忍！",
+      "text_original": "イズナ、参上です！ 先生の……、いえ、主殿のお呼びを受けて、走って参りました～！にんにん！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/D823WYlbErs5SQLg6nNTw7NWNHPPUUKB.ogg"
+    },
+    {
+      "description": "Izuna_Growup_1.ogg",
+      "category": "growup",
+      "text": "这样应该就可以学习更难的忍术了吧！",
+      "text_original": "これでもっと難度の高い忍術が学べそうです！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/NdomdXiwHqMmdp7aPucWHl0Rgk0roXOx.ogg"
+    },
+    {
+      "description": "Izuna_Growup_2.ogg",
+      "category": "growup",
+      "text": "又领受到主公的恩典了！",
+      "text_original": "これもまた、主殿からのご恩のひとつですね！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/llJJ4STgVSm2yOOiFS9mwUxKcKoLwXjW.ogg"
+    },
+    {
+      "description": "Izuna_Growup_3.ogg",
+      "category": "growup",
+      "text": "在下一定会成为不负主公期待的忍者！",
+      "text_original": "きっと！主殿の期待に応えられる忍者になってみせます！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/kHIbh4cxyHr79zyt09Qs9HRw00cqQDkH.ogg"
+    },
+    {
+      "description": "Izuna_Growup_4.ogg",
+      "category": "growup",
+      "text": "更高！更快！泉奈现在说不定已经是最强的人者了，主公！",
+      "text_original": "以前よりもさらに高く！さらに速く！今のイズナは最強の忍者かもしれません、主殿！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/3RB0via2xsGwHHxvJ5GgoQ8nyV3NGLgR.ogg"
+    },
+    {
+      "description": "Izuna_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "泉奈的梦想，就是成为基沃托斯最强的忍者。 所以，您今天也会陪泉奈一起修行的吧……？",
+      "text_original": "イズナの夢は、キヴォトスいちの忍者になることなんです。 なので、その、今日も修行に付き合ってくれますでしょうか……？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/N9eeVT3y5vcZLcVIJ0Xs7lBkpYNY5pOt.ogg"
+    },
+    {
+      "description": "Izuna_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "主公，今天的任务是什么呢？是侦察吗？还是潜入敌营？ ……诶，要准备明天的考试？！",
+      "text_original": "主殿、今日の任務は何でしょうか？偵察でしょうか？それとも敵陣への潜入？ ……え、明日のテスト対策ですか！？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/ft0VvArIfcC2XoZfM1LwsBIZJvZX5oBX.ogg"
+    },
+    {
+      "description": "Izuna_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "主公，今天也要去巡视吧？ 泉奈会如影随形跟着您的！忍忍～！",
+      "text_original": "主殿、今日も巡回に行かれるんですよね？ イズナも影のようについていきます！ニンニン～！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/2BHaRe5nlPsH6LNMET2aGLyFGTkEzUdk.ogg"
+    },
+    {
+      "description": "Izuna_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "泉奈好歹是个忍者，对美人计还是很有信心的！ 只要对象是主公的话！",
+      "text_original": "こう見えてもイズナは忍びですので、色仕掛けには自信があります！ 主殿がお相手であれば！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/CokFYMnR2vkxcKylXHqrq0RPuDv3yMS4.ogg"
+    },
+    {
+      "description": "Izuna_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "诶？不能对主公用这种计谋吗？ 那……就没有别的目标可以用了啊……？",
+      "text_original": "え？主を相手にそういう技を使っちゃいけない、ですか？ それでは、使う相手がいなくなってしまうのですが……？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/isIFhJlJExmUcLh4C1YwrgsVANev02HJ.ogg"
+    },
+    {
+      "description": "Izuna_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "啊，主公！等候您多时啦！今天也要请您多多指教！忍忍！",
+      "text_original": "あっ、主殿！お待ちしておりました！今日もよろしくお願いいたします！ニンニン！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/9HmZXJLmeMspR3CSTDXJMULJ8Ap3jwYq.ogg"
+    },
+    {
+      "description": "Izuna_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "恭迎主公回来！您想看看泉奈昨天学到的忍术吗？！",
+      "text_original": "おかえりなさいませ、主殿！イズナが昨日習得した忍法を見てくれませんか！？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/NMmKnS5oan9ZOYCJVxW8q4sdICz7EMYm.ogg"
+    },
+    {
+      "description": "Izuna_MemorialLobby_1_1.ogg",
+      "category": "lobby",
+      "text": "啊，主公，主公！那个您看见了吗？！",
+      "text_original": "あっ、主殿、主殿！今の見ましたか！？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/4lJBUkSZ9N3ZfaDnXNWdN7qlxRi9tig5.ogg"
+    },
+    {
+      "description": "Izuna_MemorialLobby_1_2.ogg",
+      "category": "lobby",
+      "text": "刚刚有条鲤鱼跳出水面了！",
+      "text_original": "鯉が水面で跳ねていましたよ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/p0KELfsjez8t7P2DyuMZrJDSffKENWhV.ogg"
+    },
+    {
+      "description": "Izuna_MemorialLobby_2_1.ogg",
+      "category": "lobby",
+      "text": "啊，对了。要冷静……泉奈……要冷静下来……",
+      "text_original": "あ、そうですね。落ち着いて、イズナ……精神を落ち着けて……。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/WJBcYmWF9Wti9LK9bTa9FjQ6SP3dZ2MT.ogg"
+    },
+    {
+      "description": "Izuna_MemorialLobby_2_2.ogg",
+      "category": "lobby",
+      "text": "……诶嘿，诶嘿嘿嘿。",
+      "text_original": "……えへっ、えへへへっ。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/pFkuU2DPQ4i4hZxD8St0NUaYvyaF3Mhu.ogg"
+    },
+    {
+      "description": "Izuna_MemorialLobby_3_1.ogg",
+      "category": "lobby",
+      "text": "嗯！泉奈很开心，能这么开心，应该是因为……",
+      "text_original": "はい！楽しいです、こんなにも楽しいのはやはり……",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/QptH0NSZEhljNhIfymJGSbX0t3uMw3T9.ogg"
+    },
+    {
+      "description": "Izuna_MemorialLobby_3_2.ogg",
+      "category": "lobby",
+      "text": "和最喜欢的主公两个人在一起吧？",
+      "text_original": "大好きな主殿と、一緒だから、でしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/fwPOrhj8o3xMcUFN2F5cvzvQgP55uVSZ.ogg"
+    },
+    {
+      "description": "Izuna_MemorialLobby_4.ogg",
+      "category": "lobby",
+      "text": "今天这个日子，泉奈肯定今生今世都不会忘记。",
+      "text_original": "今日のこの日は、イズナにとってきっと一生の思い出になります。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/7oVtnMO5ojaSxbaqr6e1AkKVgwqoJUoD.ogg"
+    },
+    {
+      "description": "Izuna_MemorialLobby_5_1.ogg",
+      "category": "lobby",
+      "text": "……！是，主公！虽然小女子不才……！",
+      "text_original": "……っ！はい、主殿！不束者ではありますが……！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/Y1yIWW57X1JTQqTP4gyiVISXARa5W5wp.ogg"
+    },
+    {
+      "description": "Izuna_MemorialLobby_5_2.ogg",
+      "category": "lobby",
+      "text": "但是，还请您以后多多关照泉奈了，诶嘿嘿！",
+      "text_original": "これからもイズナを、よろしくお願いいたします！えへへっ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/K8S9ur2WlvNS7hdvO3wKerZYSL1d0tb6.ogg"
+    },
+    {
+      "description": "Izuna_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "和主公在一起的时候，这种兴奋的感觉，难道是……使命感吗？",
+      "text_original": "主殿と一緒にいる時のこのドキドキは、使命感……でしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/qNbTGeCBMpXBoGjz1v31k4PWpz53I4cX.ogg"
+    },
+    {
+      "description": "Izuna_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "只要待在主公身边，就会感觉很幸福。这会不会就是，作为忍者，协助主公的快乐呢？",
+      "text_original": "主殿のお傍にいると……幸せな気分になります。 これは……主君に仕える忍としての喜び……なのでしょうか……？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/ttHHlMUzd2VuKAFLjR9zF0WusUB9neIy.ogg"
+    },
+    {
+      "description": "Izuna_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "请主公随意吩咐！泉奈正是为了执行主公的命令，才在这里的！",
+      "text_original": "なんなりとご命令ください！主殿の命を遂行するためにイズナはここにおりますので！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/2LysgdYscYiJb5jjZsL0OjwH12FzdkrN.ogg"
+    },
+    {
+      "description": "Izuna_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "泉奈一直都在寻找像您这样的主公……现在，现在终于找到了，泉奈现在非常幸福。",
+      "text_original": "イズナは、これまで主殿のような主君をずっと探していました。 やっと……やっとお会いすることができました。今のイズナ、とっても幸せです。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/tMJcWXl9XQgwXPIvwOu7KJUk7ZVKyhye.ogg"
+    },
+    {
+      "description": "Izuna_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "诶，啊！祝，祝泉奈生日快乐？ 非，非常感谢，主公……！",
+      "text_original": "えっ、あっ！イ、イズナの誕生日を祝ってくださるのですか？ あ、ありがとうございます、主殿ぉ……！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/ckKnyELLwjPdyo2KT5OBCHVNBT1hqzHA.ogg"
+    },
+    {
+      "description": "Izuna_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "主公！祝您生日快乐！ 今天为了能让主公过上一个完美的生日，泉奈一整天都会守在主公的身边！",
+      "text_original": "主殿！お誕生日おめでとうございます！ 今日が素敵な日になるように、このイズナ、一日中主殿の傍にいてお守りします！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/K7n2QTcrdn6mJX4hqJtXcWjd1LlBuKyB.ogg"
+    },
+    {
+      "description": "Izuna_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "万圣节，就是魑魅魍魉横行霸道的日子…… 不过主公，您不用担心。 就算有人来玩不给糖就捣蛋，泉奈也能完美地保护您！",
+      "text_original": "ハロウィン、つまりは魑魅魍魎が闊歩する日…… ですが主殿、どうかご心配なく。 このイズナが、トリック・オア・トリートから完璧に守ってみせますので！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/z27lLLDiLY2N8ytdhKSzgehukiWbFleg.ogg"
+    },
+    {
+      "description": "Izuna_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "和主公一起迎来新年！太棒了！ 恭祝您新春快乐！主公！",
+      "text_original": "主殿と一緒に迎えられるお正月！素敵です！ あけましておめでとうございます、主殿！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/QosypxReuAAON7KnnsixDPf7KSReSC8r.ogg"
+    },
+    {
+      "description": "Izuna_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "圣诞快乐！主公！ 为了今天我特意准备了圣诞节版的忍术，表演给您看一下吧！",
+      "text_original": "メリークリスマスです！主殿！ 今日のために用意した、クリスマス版の忍法をお見せしましょう！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/UHS39w2j69qNTNrMLLoGFL9z1scorMmK.ogg"
+    },
+    {
+      "description": "Izuna_Tactic_Defeat_1.ogg",
+      "category": "battle",
+      "text": "诶！？任务失败了吗？",
+      "text_original": "ええっ！？任務失敗ですかぁ！？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/XbE0dE1HZh4vhpXd3GGmYRzUwvmXlPKz.ogg"
+    },
+    {
+      "description": "Izuna_Tactic_Defeat_2.ogg",
+      "category": "battle",
+      "text": "就……就算输了，忍者也不会哭……",
+      "text_original": "……ま、負けても忍者は泣きませんので！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/PYMJtrWinKxOHgQMZJ9F95fBzAZo5Ii5.ogg"
+    },
+    {
+      "description": "Izuna_Tactic_In_1.ogg",
+      "category": "battle",
+      "text": "任务开始！",
+      "text_original": "任務開始！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/exgv5spo2LXR16x4LkqHBr8CCpb01fGE.ogg"
+    },
+    {
+      "description": "Izuna_Tactic_In_2.ogg",
+      "category": "battle",
+      "text": "让你们见识一下泉奈流忍法！",
+      "text_original": "イズナ流忍法！お見せします！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/yRBBlKi8Hrg1mX3GkQsQhTtjWqwtNKO2.ogg"
+    },
+    {
+      "description": "Izuna_Tactic_Victory_1.ogg",
+      "category": "battle",
+      "text": "任务成功！今天，我也作为一名忍者，完美地完成了工作！",
+      "text_original": "任務成功！今日も忍びの者として、かんっぺきな働きができました。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/ISD60VQ8a3NJVBNGtf3ZTMTmtcDbmOaQ.ogg"
+    },
+    {
+      "description": "Izuna_Tactic_Victory_2.ogg",
+      "category": "battle",
+      "text": "为主公献上胜利！",
+      "text_original": "主殿に勝利を献上します！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/k53TTZA1T3AiDGXNwJcvpkHkfwEzF1ri.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "izuna_battle_buffed_1.ogg",
+      "category": "battle",
+      "text": "忍法，感谢之术！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/jYF3QJIJFLwYr4oV4MpKvyR0PERG8Kcs.ogg"
+    },
+    {
+      "description": "izuna_battle_buffself_1.ogg",
+      "category": "battle",
+      "text": "忍法，身体强化之术。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/m14EBtS6C4jrYEDE2lSUd3acZkxH41lF.ogg"
+    },
+    {
+      "description": "izuna_battle_covered_1.ogg",
+      "category": "battle",
+      "text": "我躲好啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/C0V0AG1OIknmTMhmGmxGyLPZ8xi4RQ1J.ogg"
+    },
+    {
+      "description": "izuna_battle_damage_1.ogg",
+      "category": "battle",
+      "text": "好疼！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/WslUbd5mWmQzbYzVUjmy2d99eOzvhIE7.ogg"
+    },
+    {
+      "description": "izuna_battle_damage_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/07iNAeYwRJWLmVx2R9sMs7zQ5QS8cPUL.ogg"
+    },
+    {
+      "description": "izuna_battle_damage_3.ogg",
+      "category": "battle",
+      "text": "太过分了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/2oZ6xXFm8vyuVGL8BmZXKi7LmuYvGU9b.ogg"
+    },
+    {
+      "description": "izuna_battle_defense_1.ogg",
+      "category": "battle",
+      "text": "这招对泉奈可没用！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/gHMZZPhO8h631omqvjtheqqstNQsQloK.ogg"
+    },
+    {
+      "description": "izuna_battle_in_1.ogg",
+      "category": "battle",
+      "text": "泉奈，参见！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/88Uaip9wmnhANCGisnrL93CWzEnGyzVw.ogg"
+    },
+    {
+      "description": "izuna_battle_in_2.ogg",
+      "category": "battle",
+      "text": "请各位相信泉奈! 跟上来吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/7C7ArkwYrWzFvltpc1lIxUR2s6b3aB6S.ogg"
+    },
+    {
+      "description": "izuna_battle_move_1.ogg",
+      "category": "battle",
+      "text": "泉奈，继续前进！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/GQ54S46vqcDSlLuQQhWb9un4PAoIpivq.ogg"
+    },
+    {
+      "description": "izuna_battle_move_2.ogg",
+      "category": "battle",
+      "text": "到下一个行动区域的路上，要用忍者跑！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/coda9VuT8fd9t6idv4MGe49VJQKM2YYo.ogg"
+    },
+    {
+      "description": "izuna_battle_recovery_1.ogg",
+      "category": "battle",
+      "text": "非常感谢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/iJdC4ZFFaC32q807Ufa79qaYx1Hom1wA.ogg"
+    },
+    {
+      "description": "izuna_battle_retire.ogg",
+      "category": "battle",
+      "text": "眼…眼睛怎么也…好多星…星……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/v52pHrxz5tdUl6vasDOKpK4cgXdwSACp.ogg"
+    },
+    {
+      "description": "izuna_battle_shout_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/1UfbU7geT3eBZBR26U3ob5RAfRg5ehlw.ogg"
+    },
+    {
+      "description": "izuna_battle_shout_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/1nxtYU5Jeu0IjPj9RT3KK7FeVwecOtw0.ogg"
+    },
+    {
+      "description": "izuna_battle_shout_3.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/eOb95nmNz6mqFIQiWuNASuh1HcH62fGn.ogg"
+    },
+    {
+      "description": "izuna_battle_tacticalaction_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/ESKvLR6jzGaCYTdS3QU5KA8l4A4kuBrC.ogg"
+    },
+    {
+      "description": "izuna_battle_victory_1.ogg",
+      "category": "battle",
+      "text": "这是泉奈流忍法的胜利！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/Q0tqvmOEHuovx14iAgJEtPl4HJBRiCJf.ogg"
+    },
+    {
+      "description": "izuna_battle_victory_2.ogg",
+      "category": "battle",
+      "text": "空空~胜利胜利！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/fA0x3f82hbNxDwm0EuuRtXr9HxGaSdDu.ogg"
+    },
+    {
+      "description": "izuna_cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "啊，主公——！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/RIkpcx6lHGIgFBhL5kbIha1dDamlZOUO.ogg"
+    },
+    {
+      "description": "izuna_cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "忍者自古以来就生存于黑暗之中……黑暗……黑暗之中……那样对眼睛不好吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/VfrYkaxOisuvmPCD7h8I0Csq9vMe2jZf.ogg"
+    },
+    {
+      "description": "izuna_cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "这也是为了收集情报……藏在这里怎么样呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/03lIzVWAppfsndUgFthnOMVVAdiCgWJU.ogg"
+    },
+    {
+      "description": "izuna_cafe_monolog_4.ogg",
+      "category": "cafe",
+      "text": "这个地方这么宽敞，说不定可以使出泉奈流忍法奥义“百八式·影分身之术”了吧……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/SNOnEKbxSDOpuORyxvF0xX1UrNhr9pSI.ogg"
+    },
+    {
+      "description": "izuna_cafe_monolog_5.ogg",
+      "category": "cafe",
+      "text": "静静地等待主公的命令……嗯——感觉有点无所事事的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/pbsbcfKWnUR3PWiLtW88wPkjk1sJkZCz.ogg"
+    },
+    {
+      "description": "izuna_commonskill.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/tMxSIU4Mq9w4RbZCkF2S9y5wEisyPiuC.ogg"
+    },
+    {
+      "description": "izuna_eventlobby_1.ogg",
+      "category": "event",
+      "text": "哼~哼哼~哼哼~♪泉奈空空，空空空~♪",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/33Qsl0fSP0gqJz5YZyYQX96yFh3n633K.ogg"
+    },
+    {
+      "description": "izuna_eventlobby_2.ogg",
+      "category": "event",
+      "text": "唔，这股气息……是主公吧！ 应该是来寻找泉奈的吧！诶嘿嘿！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/ADiz4qSGkSqNqI4k7vjDm5hlti4XANAU.ogg"
+    },
+    {
+      "description": "izuna_eventlobby_3.ogg",
+      "category": "event",
+      "text": "团子、煎饼、什锦烧……！ 我有好多东西想和主公一起吃！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/RCgCuYlSwmRBVFOesClNBkW9L3wIglRt.ogg"
+    },
+    {
+      "description": "izuna_eventlobby_4.ogg",
+      "category": "event",
+      "text": "万事俱备！泉奈，会在保护主公的同时带领主公在庆典上游玩！忍忍！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/8NCgAIld8Bq17GSBKH6gOVM7J3X5p8UO.ogg"
+    },
+    {
+      "description": "izuna_eventlogin_1.ogg",
+      "category": "event",
+      "text": "主公，有庆典哎！来嘛~我们要从哪里开始玩起呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/RutbOTWwEJzWvy83UbXlwpjLPLM7ApfL.ogg"
+    },
+    {
+      "description": "izuna_eventlogin_2.ogg",
+      "category": "event",
+      "text": "主公主公，庆典真的好有意思啊！ 泉奈会一直陪在主公身边的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/mkPAaOeuRlcY7LFSyl3ky4iviGfwEVvA.ogg"
+    },
+    {
+      "description": "izuna_eventlogin_season_1.ogg",
+      "category": "lobby",
+      "text": "庆典越来越热闹了！ 主公，我们现在去哪里玩呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/3BWH69fR0pytHJCcL311UtfVqzI9JMp2.ogg"
+    },
+    {
+      "description": "izuna_eventlogin_season_2.ogg",
+      "category": "lobby",
+      "text": "庆典马上就要结束了啊…… 但，但是最后这段时间，主公可以和泉奈在一起吗……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/TcickRI9ySpDzrWPH1ddaAjzzdXZANK7.ogg"
+    },
+    {
+      "description": "izuna_eventlogin_season_end.ogg",
+      "category": "lobby",
+      "text": "百夜迎春樱花节，已经结束了…… 不过今后还会有很多节日庆典对吧？ 到时候，主公还会和泉奈一起去参加吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/MmLw7VxGFshLUzoWiPvUkWw4XGrgNZqy.ogg"
+    },
+    {
+      "description": "izuna_exskill_1.ogg",
+      "category": "battle",
+      "text": "泉奈流忍法！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/QaXnrFmkxOrwhYCwTXMh8GhqrS7hCmqc.ogg"
+    },
+    {
+      "description": "izuna_exskill_2.ogg",
+      "category": "battle",
+      "text": "让你们见识一下什么是忍术吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/HsJ9XXIDXlHZQmMRxWWHyc36g6WqLwRJ.ogg"
+    },
+    {
+      "description": "izuna_exskill_3.ogg",
+      "category": "battle",
+      "text": "呀！空蝉之术！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/SSQWgsfqTMlpJlRXENLWhM2Us4rQz9cu.ogg"
+    },
+    {
+      "description": "izuna_exskill_level_1.ogg",
+      "category": "battle",
+      "text": "紧急闪避！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/18J2hICSWxWnmE1ZdcgMbaQgghiZRysG.ogg"
+    },
+    {
+      "description": "izuna_exskill_level_2.ogg",
+      "category": "battle",
+      "text": "这也是忍术……的一种……应该……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/SOgftqhxPkuLEWHuljVIj6CjX25h1QBp.ogg"
+    },
+    {
+      "description": "izuna_exskill_level_3.ogg",
+      "category": "battle",
+      "text": "我躲，我闪！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/8naDMQeXYdxaZ5ieQJM2RM9daFevcdiK.ogg"
+    },
+    {
+      "description": "izuna_exweapon_get.ogg",
+      "category": "growup",
+      "text": "这，这就是最先进的忍者武器……！有了这个，泉奈是不是就能成为中忍了呢？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/Y0b1sRNQdWadSXGP7f3PqZ3VeKbwt6kb.ogg"
+    },
+    {
+      "description": "izuna_formation_in_1.ogg",
+      "category": "formation",
+      "text": "主公，只需下令即可！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/wQ2UjFnIxdYrvgtKfmuowEhMVQfkZwro.ogg"
+    },
+    {
+      "description": "izuna_formation_in_2.ogg",
+      "category": "formation",
+      "text": "泉奈为主公马首是瞻！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/zn8mNCzhJeWkJG5N3n33RvBspmGwKpPS.ogg"
+    },
+    {
+      "description": "izuna_formation_select.ogg",
+      "category": "formation",
+      "text": "忍忍！泉奈现在该做些什么好呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/TuMAMm6I4p6OrI5dehoGtrkb6dKn49G2.ogg"
+    },
+    {
+      "description": "izuna_gachaget_old",
+      "category": "growup",
+      "text": "泉奈，前来参见！听到了老师……不对，主公的呼唤，立刻疾行而来～！忍忍！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/aSjpOFwp5tJ2nzT59TUZKqb5758IYBPE.ogg"
+    },
+    {
+      "description": "izuna_growup_1.ogg",
+      "category": "growup",
+      "text": "这样应该就可以学习更难的忍术了吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/rqLpe9ASMvbsP8O0VSMVmJWHyTCY3ocb.ogg"
+    },
+    {
+      "description": "izuna_growup_2.ogg",
+      "category": "growup",
+      "text": "又领受到主公的恩典了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/Y20JEW3i3PWTFbFeUP8EKTNzyBynwRA5.ogg"
+    },
+    {
+      "description": "izuna_growup_3.ogg",
+      "category": "growup",
+      "text": "在下一定会成为不负主公期待的忍者！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/QDSztNyp2DBq1YxjLtctNvkKH19g7NSb.ogg"
+    },
+    {
+      "description": "izuna_growup_4.ogg",
+      "category": "growup",
+      "text": "更高！更快！泉奈现在说不定已经是最强的人者了，主公！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/2wq8K8swnkLDDB1JtrGbkSWpdVr1OE41.ogg"
+    },
+    {
+      "description": "izuna_login_1.ogg",
+      "category": "lobby",
+      "text": "啊，主公！等候您多时啦！今天也要请您多多指教！忍忍！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/oYkY5jXBEEXcT0HWnE78JW29tcmA5fbw.ogg"
+    },
+    {
+      "description": "izuna_login_2.ogg",
+      "category": "lobby",
+      "text": "恭迎主公回来！您想看看泉奈昨天学到的忍术吗？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/AtHm7fpbqe2AoDqbhEGuvbpJcqBYslmE.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_1_1.ogg",
+      "category": "lobby",
+      "text": "啊，主公，主公！那个您看见了吗？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/ZJzGP3MqjroKtn19IffsqERiffChllA6.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_1_2.ogg",
+      "category": "lobby",
+      "text": "刚刚有条鲤鱼跳出水面了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/JnHSTyxY1hQcMLpxrN55DQ57Jww2iT9O.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_2_1.ogg",
+      "category": "lobby",
+      "text": "啊，对了。要冷静……泉奈……要冷静下来……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/4eSiNzfN0HpxtJJQs6XcljElReLzp83h.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_2_2.ogg",
+      "category": "lobby",
+      "text": "……诶嘿，诶嘿嘿嘿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/etFJGG2ce59Q49tVxvPDihjyUzz6sZDn.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_3_1.ogg",
+      "category": "lobby",
+      "text": "嗯！泉奈很开心，能这么开心，应该是因为……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/NgMWESj9GywdfeLTXokY9oVgnZitdF7j.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_3_2.ogg",
+      "category": "lobby",
+      "text": "和最喜欢的主公两个人在一起吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/dWUjbMVnfDrwfJ0mnMHsXqzMwd6WjoLh.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_4.ogg",
+      "category": "lobby",
+      "text": "今天这个日子，泉奈肯定今生今世都不会忘记。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/IGslvdfNLzbIc9gBK6co4ju773emg5Dr.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_5_1.ogg",
+      "category": "lobby",
+      "text": "……！是，主公！虽然小女子不才……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/t1gj9K74MBQugg85fn11C4let8Fl3r2i.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_5_2.ogg",
+      "category": "lobby",
+      "text": "但是，还请您以后多多关照泉奈了，诶嘿嘿！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/dDg97aqRqK3zWOvNyzwUHZhQ2zsQByLR.ogg"
+    },
+    {
+      "description": "izuna_relationship_up_1.ogg",
+      "category": "growup",
+      "text": "和主公在一起的时候，这种兴奋的感觉，难道是……使命感吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/ZY7h23ZeST0aP4RqfAas5h9qYn6RrS3L.ogg"
+    },
+    {
+      "description": "izuna_relationship_up_2.ogg",
+      "category": "growup",
+      "text": "只要待在主公身边，就会感觉很幸福。这会不会就是，作为忍者，协助主公的快乐呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/d0HonGOt7OpSTs8eh3jxGl9KPNibC626.ogg"
+    },
+    {
+      "description": "izuna_relationship_up_3.ogg",
+      "category": "growup",
+      "text": "请主公随意吩咐！泉奈正是为了执行主公的命令，才在这里的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/tpej07TFgl19ca6aQ6wGPPI1aGdRn32s.ogg"
+    },
+    {
+      "description": "izuna_relationship_up_4.ogg",
+      "category": "growup",
+      "text": "泉奈一直都在寻找像您这样的主公……现在，现在终于找到了，泉奈现在非常幸福。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/m69QZKQyB56BeJfx0yDpGh2cG7ZKbdnR.ogg"
+    },
+    {
+      "description": "izuna_season_birthday.ogg",
+      "category": "lobby",
+      "text": "诶，啊！祝，祝泉奈生日快乐？ 非，非常感谢，主公……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/xQW9FwFYG70fz4saP9SqI1CizqSnptUY.ogg"
+    },
+    {
+      "description": "izuna_season_birthday_player.ogg",
+      "category": "lobby",
+      "text": "主公！祝您生日快乐！ 今天为了能让主公过上一个完美的生日，泉奈一整天都会守在主公的身边！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/cfB7nzjs8Vo9USzgzSpMcq8myQBnXz78.ogg"
+    },
+    {
+      "description": "izuna_season_halloween.ogg",
+      "category": "lobby",
+      "text": "万圣节，就是魑魅魍魉横行霸道的日子…… 不过主公，您不用担心。 就算有人来玩不给糖就捣蛋，泉奈也能完美地保护您！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/0ZMAJnLtBGc4CTrElRgO4MeZfv3iNgnZ.ogg"
+    },
+    {
+      "description": "izuna_season_newyear.ogg",
+      "category": "lobby",
+      "text": "和主公一起迎来新年！太棒了！ 恭祝您新春快乐！主公！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/2czD3QEc5BwIfCaFAHxQcqgx32HLy2tE.ogg"
+    },
+    {
+      "description": "izuna_season_xmas.ogg",
+      "category": "lobby",
+      "text": "圣诞快乐！主公！ 为了今天我特意准备了圣诞节版的忍术，表演给您看一下吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/5DNoxB25aDedfg94O1Uuea0IInXCQFuy.ogg"
+    },
+    {
+      "description": "izuna_tactic_defeat_1.ogg",
+      "category": "battle",
+      "text": "诶！？任务失败了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/be049Jexoq9LeOMKVO9SwIDbUBiSJx28.ogg"
+    },
+    {
+      "description": "izuna_tactic_defeat_2.ogg",
+      "category": "battle",
+      "text": "就……就算输了，忍者也不会哭……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/W5se7d6xzLPZddbRMWkBcBex4le4qpF0.ogg"
+    },
+    {
+      "description": "izuna_tactic_in_1.ogg",
+      "category": "battle",
+      "text": "任务开始！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/0CWhtIGPZiMLAOX9BhgoodtJfMpk5mPy.ogg"
+    },
+    {
+      "description": "izuna_tactic_in_2.ogg",
+      "category": "battle",
+      "text": "让你们见识一下泉奈流忍法！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/scvgCkzLboa7HrDTqyq5SNvW3Tv9prVN.ogg"
+    },
+    {
+      "description": "izuna_tactic_victory_1.ogg",
+      "category": "battle",
+      "text": "任务成功！今天，我也作为一名忍者，完美地完成了工作！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/aFeopXXmw62zsG4Z2sXwgOPM9XDzbcqt.ogg"
+    },
+    {
+      "description": "izuna_tactic_victory_2.ogg",
+      "category": "battle",
+      "text": "为主公献上胜利！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/OJpkDwEpfhm9CBbzHxMzytxqWKWDAbxQ.ogg"
+    },
+    {
+      "description": "izuna_season_chinesenewyear",
+      "category": "lobby",
+      "text": "新春到啦！主公出去玩的时候，泉奈也会一直守护在主公的左右！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/ph6gLzRooRqA3bQmkXdorHLfXvSAyb82.ogg"
+    },
+    {
+      "description": "izuna_season_midautumn",
+      "category": "lobby",
+      "text": "泉奈要是能和主公一起，乘船到湖的中央赏月就好了，嘿嘿嘿~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/BjwEKffDltBid3Ue1bKS3MbXyEfhS8AD.ogg"
+    },
+    {
+      "description": "izuna_title",
+      "category": "lobby",
+      "text": "Blue Archive!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/JXdZrXnhNFPkb00tt0uQqRRJjwIcoDyk.ogg"
+    },
+    {
+      "description": "izuna_lobby_1",
+      "category": "lobby",
+      "text": "泉奈的梦想，就是成为基沃托斯最强的忍者。 所以，您今天也会陪泉奈一起修行的吧……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/nynhjn8sj7L8avndXCH0dX50NMJSS0M8.ogg"
+    },
+    {
+      "description": "izuna_lobby_2",
+      "category": "lobby",
+      "text": "主公，今天的任务是什么呢？是侦察吗？还是潜入敌营？ ……诶，要准备明天的考试？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/xZadSSEMyHrSzqK2RrOBT506e8zFm8KH.ogg"
+    },
+    {
+      "description": "izuna_lobby_3",
+      "category": "lobby",
+      "text": "主公，今天也要去巡视吧？ 泉奈会如影随形跟着您的！忍忍～！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/YiHgE6EW8OSsUsMD96uDn39Yf4PxxVEp.ogg"
+    },
+    {
+      "description": "izuna_lobby_4",
+      "category": "lobby",
+      "text": "泉奈好歹是个忍者，对美人计还是很有信心的！ 只要对象是主公的话！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/ycnNrzJ29kE56amsxVKqUdwHJGY5sn1A.ogg"
+    },
+    {
+      "description": "izuna_lobby_5",
+      "category": "lobby",
+      "text": "诶？不能对主公用这种计谋吗？ 那……就没有别的目标可以用了啊……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/YaUoIC7pnal6oCLRVJpP8s1Vd6iLqBBC.ogg"
+    },
+    {
+      "description": "izuna_exskill_3",
+      "category": "battle",
+      "text": "呀！金蝉脱壳之术！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/f645Xtt1qfutKk4SBJZdBAGEQdUuBfTg.ogg"
+    },
+    {
+      "description": "izuna_gachaget",
+      "category": "growup",
+      "text": "泉奈，参上！听到了老师……不对，主公的呼唤，立刻疾行而来～！忍忍！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/cn/izuna_gachaget_new.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "izuna_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_buffself_1.ogg"
+    },
+    {
+      "description": "izuna_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_covered_1.ogg"
+    },
+    {
+      "description": "izuna_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_damage_1.ogg"
+    },
+    {
+      "description": "izuna_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_damage_2.ogg"
+    },
+    {
+      "description": "izuna_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_damage_3.ogg"
+    },
+    {
+      "description": "izuna_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_defense_1.ogg"
+    },
+    {
+      "description": "izuna_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_in_1.ogg"
+    },
+    {
+      "description": "izuna_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_in_2.ogg"
+    },
+    {
+      "description": "izuna_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_move_1.ogg"
+    },
+    {
+      "description": "izuna_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_move_2.ogg"
+    },
+    {
+      "description": "izuna_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_recovery_1.ogg"
+    },
+    {
+      "description": "izuna_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_retire.ogg"
+    },
+    {
+      "description": "izuna_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_shout_1.ogg"
+    },
+    {
+      "description": "izuna_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_shout_2.ogg"
+    },
+    {
+      "description": "izuna_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_shout_3.ogg"
+    },
+    {
+      "description": "izuna_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "izuna_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_victory_1.ogg"
+    },
+    {
+      "description": "izuna_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_victory_2.ogg"
+    },
+    {
+      "description": "izuna_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "izuna_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "izuna_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "izuna_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "izuna_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "izuna_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_commonskill.ogg"
+    },
+    {
+      "description": "izuna_eventlobby_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_eventlobby_1.ogg"
+    },
+    {
+      "description": "izuna_eventlobby_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_eventlobby_2.ogg"
+    },
+    {
+      "description": "izuna_eventlobby_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_eventlobby_3.ogg"
+    },
+    {
+      "description": "izuna_eventlobby_4",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_eventlobby_4.ogg"
+    },
+    {
+      "description": "izuna_eventlogin_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_eventlogin_1.ogg"
+    },
+    {
+      "description": "izuna_eventlogin_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_eventlogin_2.ogg"
+    },
+    {
+      "description": "izuna_eventlogin_season_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "izuna_eventlogin_season_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "izuna_eventlogin_season_end",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "izuna_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_exskill_1.ogg"
+    },
+    {
+      "description": "izuna_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_exskill_2.ogg"
+    },
+    {
+      "description": "izuna_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_exskill_3.ogg"
+    },
+    {
+      "description": "izuna_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_exskill_level_1.ogg"
+    },
+    {
+      "description": "izuna_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_exskill_level_2.ogg"
+    },
+    {
+      "description": "izuna_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_exskill_level_3.ogg"
+    },
+    {
+      "description": "izuna_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_exweapon_get.ogg"
+    },
+    {
+      "description": "izuna_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_formation_in_1.ogg"
+    },
+    {
+      "description": "izuna_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_formation_in_2.ogg"
+    },
+    {
+      "description": "izuna_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_formation_select.ogg"
+    },
+    {
+      "description": "izuna_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_gachaget.ogg"
+    },
+    {
+      "description": "izuna_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_growup_1.ogg"
+    },
+    {
+      "description": "izuna_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_growup_2.ogg"
+    },
+    {
+      "description": "izuna_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_growup_3.ogg"
+    },
+    {
+      "description": "izuna_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_growup_4.ogg"
+    },
+    {
+      "description": "izuna_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_lobby_1.ogg"
+    },
+    {
+      "description": "izuna_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_lobby_2.ogg"
+    },
+    {
+      "description": "izuna_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_lobby_3.ogg"
+    },
+    {
+      "description": "izuna_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_lobby_4.ogg"
+    },
+    {
+      "description": "izuna_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_lobby_5.ogg"
+    },
+    {
+      "description": "izuna_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_login_1.ogg"
+    },
+    {
+      "description": "izuna_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_login_2.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_memoriallobby_4.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "izuna_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "izuna_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_relationship_up_1.ogg"
+    },
+    {
+      "description": "izuna_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_relationship_up_2.ogg"
+    },
+    {
+      "description": "izuna_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_relationship_up_3.ogg"
+    },
+    {
+      "description": "izuna_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_relationship_up_4.ogg"
+    },
+    {
+      "description": "izuna_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_season_birthday.ogg"
+    },
+    {
+      "description": "izuna_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_season_birthday_player.ogg"
+    },
+    {
+      "description": "izuna_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_season_halloween.ogg"
+    },
+    {
+      "description": "izuna_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_season_newyear.ogg"
+    },
+    {
+      "description": "izuna_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_season_xmas.ogg"
+    },
+    {
+      "description": "izuna_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "izuna_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "izuna_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_tactic_in_1.ogg"
+    },
+    {
+      "description": "izuna_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_tactic_in_2.ogg"
+    },
+    {
+      "description": "izuna_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_tactic_victory_1.ogg"
+    },
+    {
+      "description": "izuna_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_tactic_victory_2.ogg"
+    },
+    {
+      "description": "Izuna_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/Izuna_Title.ogg"
+    },
+    {
+      "description": "izuna_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/izuna_battle_buffed_1.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211107192349.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211107192121.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211107192130.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211107192138.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211107192331.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211107192337.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211107191658.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211107192114.png"
+      ]
+    },
+    {
+      "title": "运动服立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0052_spr_05.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0052_spr_99.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0052_spr_00.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0052_spr_01.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0052_spr_03.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0052_spr_07.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0052_spr_Idle_01.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0052_spr_06.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0052_spr_04.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0052_spr_02.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%82%A4%E3%82%BA%E3%83%8A%EF%BC%86%E3%82%B7%E3%82%BA%E3%82%B3.jpg",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_cafe.gif",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_shizuko__banner_en_re.jpg",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_shizuko_banner_en.jpg",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_Intro_chs.jpg",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_Intro_jp.jpg",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_shizuko_banner_chs.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_Intro_en.jpg",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_shizuko__banner_cht_re.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_shizuko_banner_cht.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_skill.jpg",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_ex.gif",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_Intro_cht.jpg",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izuna_interaction.gif",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_095.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_264.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_263.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_190.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_227.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-78.jpg",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20251.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20268.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_020.png",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-11.jpg",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-6.jpg",
+        "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_030.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 131,
+      "favorability": 180
+    },
+    {
+      "id": 52,
+      "favorability": 60
+    }
+  ],
+  "furniture": [
+    827
+  ],
+  "character_datas": [
+    {
+      "character_id": 10014,
+      "dev_name": "Izuna_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Mystic",
+      "defensive_attributes": "Light",
+      "is_groupc_control": false,
+      "team_position": "FRONT",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "D",
+      "street_adaptability": "S",
+      "equipment": [
+        8,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        69,
+        71,
+        72,
+        75,
+        196,
+        198,
+        200,
+        201,
+        407,
+        408,
+        409,
+        410,
+        415,
+        416,
+        417,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/skill_icon/2drmo9pPHFmVkSSIHWNB76ZigVRErPYI.png",
+            "title": "这就是泉奈流忍法！",
+            "title_cn": "泉奈忍法帖！",
+            "preview": "//static.kivo.wiki/videos/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/skill_preview/KZoeDrV98PA8oJL0sbaozqdLD3JAA856.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "移动到指定位置，之后攻击速度增加27.4%（持续30秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "移动到指定位置，之后攻击速度增加31.5%（持续30秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "移动到指定位置，之后攻击速度增加39.7%（持续30秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "移动到指定位置，之后攻击速度增加43.9%（持续30秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "移动到指定位置，之后攻击速度增加52.1%（持续30秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/skill_icon/Vcb9qn1wFGbt60Vy2rUgVwBq8lR1SDmf.png",
+            "title": "秘技！爆裂手里剑！",
+            "title_cn": "秘技！爆炸手里剑！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每进行6次普通攻击，对圆形范围内的敌人造成攻击力444%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行6次普通攻击，对圆形范围内的敌人造成攻击力466%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行6次普通攻击，对圆形范围内的敌人造成攻击力489%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行6次普通攻击，对圆形范围内的敌人造成攻击力578%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行6次普通攻击，对圆形范围内的敌人造成攻击力600%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行6次普通攻击，对圆形范围内的敌人造成攻击力622%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行6次普通攻击，对圆形范围内的敌人造成攻击力711%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行6次普通攻击，对圆形范围内的敌人造成攻击力733%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行6次普通攻击，对圆形范围内的敌人造成攻击力756%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行6次普通攻击，对圆形范围内的敌人造成攻击力845%的伤害"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/skill_icon/3xqJJwTEZ1eFJgWseyeS2D0VSjMjhy15.png",
+            "title": "泉奈流、奇袭之术！",
+            "title_cn": "泉奈流忍术！隐隐作痛之术！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/skill_icon/JUOgyW4yHVdHRvY1zjBz2PjBaBdcflmS.png",
+            "title": "泉奈流、兴起之术！",
+            "title_cn": "泉奈流忍术！茁壮成长之术！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "使用Ex技能时，攻击力增加20.1%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用Ex技能时，攻击力增加21.1%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用Ex技能时，攻击力增加22.1%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用Ex技能时，攻击力增加26.2%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用Ex技能时，攻击力增加27.2%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用Ex技能时，攻击力增加28.2%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用Ex技能时，攻击力增加32.2%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用Ex技能时，攻击力增加33.2%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用Ex技能时，攻击力增加34.2%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用Ex技能时，攻击力增加38.3%（持续30秒）"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2835,
+          "attack": 225,
+          "defense": 22,
+          "healing": 1624,
+          "accuracy": 108,
+          "evasion": 1066,
+          "crit": 246,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1416,
+          "range": 450,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 15
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/weapons_icon.png",
+        "name": "泉奈流超级忍具",
+        "name_cn": "泉奈流超级忍具",
+        "description": "泉奈爱用的冲锋枪。<br>是最先进的忍具，搭配泉奈流忍法一起使用，可以发射烟雾弹，也可以帮主公按摩肩膀，用途无限大。",
+        "description_cn": "泉奈喜欢用的冲锋枪。<br>作为顶尖的忍者道具，既可以配合泉奈流忍术射穿飞来的烟雾弹，也可以按摩主公的肩膀。 用途极为广泛。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「泉奈流、奇袭之术！」升级为「泉奈流、奇袭之术！+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 街道适应性 S -> SS",
+            "description": "在街道地形造成1.3倍伤害。在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 神秘克制伤害增加",
+            "description": "攻击类型为神秘的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%B9%85%E7%94%B0%20%E6%B3%89%E5%A5%88/skill_icon/QPzI8c7E28mN1jvhdf62tUIqkOxbcWzd.png",
+            "title": "泉奈流、奇袭之术！+",
+            "title_cn": "泉奈流忍术！隐隐作痛之术！+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2000/暴击伤害增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2100/暴击伤害增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2200/暴击伤害增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2600/暴击伤害增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2700/暴击伤害增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2800/暴击伤害增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加3200/暴击伤害增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加3300/暴击伤害增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加3400/暴击伤害增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加3800/暴击伤害增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "5488f7c9-1582-4f75-982a-bfb2a842e592",
+  "skill_declare_uuid": "263e88e2-52e2-4029-a154-7d54ec8ff75c",
+  "supplementary_uuid": "fc90a344-7467-46e3-b376-bec71ba026b1",
+  "supplementary_declare_uuid": "c65e1512-3927-48e6-af94-f05e12d5aa56",
+  "created_at": 1685710367,
+  "updated_at": 1783486133
+}

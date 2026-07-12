@@ -1,0 +1,1917 @@
+{
+  "id": 92,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 92,
+      "avatar": "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 300,
+      "avatar": "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "浦和",
+  "given_name": "花子",
+  "family_name_jp": "浦和",
+  "given_name_jp": "ハナコ",
+  "family_name_kr": "우라와",
+  "given_name_kr": "하나코",
+  "family_name_en": "Urawa",
+  "given_name_en": "Hanako",
+  "family_name_zh_tw": "浦和",
+  "given_name_zh_tw": "花子",
+  "family_name_cn": "浦和",
+  "given_name_cn": "花子",
+  "nick_name": "",
+  "introduction": "圣三一综合学园所属，补习部的感情丰富的女孩子。\n\n虽然一眼看起来有端庄气质大小姐……的感觉，其实是一开口就无法停止色情话题的问题学生。\n\n知道花子真面目的补习部学生，每当花子准备开口都会提心吊胆。",
+  "introduction_cn": "补习部的成员，一位情感丰富的少女。\n\n看起来高雅文静，但总会说出与外表大相径庭的过激言论。\n每当花子开口时，了解她的补习部成员都如临大敌。",
+  "momo_talk_signature": "我喜欢形形色色的东西♪",
+  "main_relation": 14,
+  "relation": [
+    2,
+    3,
+    4,
+    6,
+    9
+  ],
+  "age": 16,
+  "grade": "二年生",
+  "height": 161,
+  "birthday": "01-03",
+  "hobby": "散步",
+  "designer": "Hwansang",
+  "illustrator": "Hwansang",
+  "character_voice": "丰田萌绘",
+  "character_voice_cn": "王雅涵",
+  "release_date": "2021-05-27",
+  "release_date_cn": "2023-09-28",
+  "release_date_global": "2022-01-25",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/avatar.png",
+  "school": 2,
+  "weapon_type": "AR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Large",
+  "special_appearance": false,
+  "more": "# 杂项趣闻\n\n:::: center\n!!! question <font size=\"4\">**荣 誉 勋 章**</font>\n![hanamaru_coconut.png](files/19083/lgj4cn7FML4efZeQXT3qrdc0b6jy61g0.png =100x)\n此角色曾在本站开设的投票活动『基沃托斯年度最佳大选』中取得前三名的成绩！\n[2023年](https://www.bilibili.com/opus/872988000253902882)：【年度最佳剧情表现】并列**第2名**![rank2.png](files/19083/MH1lPJFie8xHWAjDEi8IWsqLBYLni61W.png =50x)\n!!!\n::::\n\n# 官方图集\n\n## 卡池Banner\n（与[梓](https://kivo.wiki/data/character/3)同一卡池）\n|日服|简中服|繁中服|国际服|\n| :---: | :---: | :---: | :---: |\n|花散らす仮面舞踏会|落英缤纷的假面舞会| 就算一切都是徒勞的……只要有老師在就沒有關係。 |  Even if none of this matters, it's okay if I'm with you.  |\n|![azusa_hanako_banner.png](files/10/azusa_hanako_banner.png =450x)|![azusa_hanako_cn_banner.png](files/10/9C586gOM3MbXYu9OU84Q3wV0ra3XY27Z.png =450x)|  ![](images/students/%E7%99%BD%E6%B4%B2%20%E6%A2%93/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/azusa_hanako_banner_tw.png =450x) | ![](images/students/%E7%99%BD%E6%B4%B2%20%E6%A2%93/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/azusa_hanako_banner_en.jpg =450x)  |\n| | | 未來在各方面也“請多多關照”。 | |\n| | | ![](images/students/%E7%99%BD%E6%B4%B2%20%E6%A2%93/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/azusa_hanako_banner_tw_re.png =450x)| |\n\n## 官方介绍图\n\n|日服|简中服|繁中服|国际服|\n| :---: | :---: | :---: | :---: |\n|![Hanako_intro_jp.jpg](files/15978/y1jAFw6a6SAKYLgQhG49FGbT3riaTokI.jpg =525x)|![006yPoYygy1hi6nsy5mhjj30xc1jkngk.jpg](files/443/BIzvApoJEC8e4w4tHZaQgWhNKFyypgI2.jpg =425x)|![hanako_intro_hk.jpg](files/15978/fqFkiRHTboir05b64Dz492AJkqe3J6Bi.jpg =700x)|![hanako_intro_en.jpg](files/15978/Q7FNXbeR13lLwqU9t50j7eSNuubPyHbt.jpg =400x)|\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 |\n| :---: | :---: |\n| ![hanako_ex.gif](files/15978/WeCyZlvdVOLT5CMRpsebPq1fvybc72AM.gif =450x) | ![hanako_cafe.gif](files/15978/oNWDZwruEPyavEePDueMxcLzHKXQ2CeX.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 花子 汉化\n![花子](files/2/SawVj2jUVr58iTQ01X9l6rTNljrjiaKA.png =450x)\n@tab 花子 原文\n![花子](files/2/A0GAZznGcZ3iz5JxiKW6XxQsm8WhkdZL.jpg =450x)\n:::\n\n## 设定集\n\n:::: center\n\n![](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_057.png =450x)\n\n![](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_157.png =450x)\n\n![](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_220.png =450x)\n\n::::\n\n## 国际服直播内容\n::::center\n![Snipaste_2026-05-25_23-22-46.png](files/490/q8yxuqAhLZvfk8mnlWyhAETxptF41Dvj.png =450x)\n\n![Snipaste_2026-05-25_23-22-51.png](files/490/hnhx3FM2vvcBYNQF1YZZuGHzeMZuTVPw.png =450x)\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[日富美](https://kivo.wiki/data/character/74)|ヒフミちゃん<br><details><summary><font color=\"448aff\">阿慈谷部長</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">初次见面时的称呼</details></font></font></font></b>|\n|[梓](https://kivo.wiki/data/character/3)|アズサちゃん<br><details><summary><font color=\"448aff\">白洲さん</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">初次见面时的称呼</details></font></font></font></b>白洲アズサちゃん|\n|[小春](https://kivo.wiki/data/character/157)|コハルちゃん<br><details><summary><font color=\"448aff\">下江さん</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">初次见面时的称呼</details></font></font></font></b>|\n|[亚津子](https://kivo.wiki/data/character/35)|アツコちゃん<br>秤アツコさん<br>あなた|\n|[绫音](https://kivo.wiki/data/character/85)|奥空さん<br>アヤネさん|\n|[一花](https://kivo.wiki/data/character/114)|イチカさん|\n|[忧](https://kivo.wiki/data/character/23)|ウイさん<br>古関ウイさん<br>コ・ゼ・キ・先・輩<br>こ・ぜ・き・せ・ん・ぱ・い|\n|[纱织](https://kivo.wiki/data/character/36)|サオリさん|\n|[樱子](https://kivo.wiki/data/character/203)|サクラコさん|\n|[白子](https://kivo.wiki/data/character/86)|シロコさん|\n|[圣娅](https://kivo.wiki/data/character/43)|セイアちゃん|\n|[鹤城](https://kivo.wiki/data/character/94)|ツルギさん|\n|[渚](https://kivo.wiki/data/character/25)|ナギサさん<br>猫ちゃん|\n|[莲见](https://kivo.wiki/data/character/111)|ハスミさん|\n|[日向](https://kivo.wiki/data/character/26)|ヒナタさん|\n|[日鞠](https://kivo.wiki/data/character/62)|ヒマリさん|\n|[日和](https://kivo.wiki/data/character/34)|ヒヨリちゃん<br>槌永ヒヨリさん|\n|[佩洛洛](https://kivo.wiki/data/character/202)|ペロロさん|\n|[佩洛洛斯拉](https://kivo.wiki/data/character/307)|ペロロジラ|\n|[玛丽](https://kivo.wiki/data/character/99)|マリーちゃん|\n|[未花](https://kivo.wiki/data/character/1)|ミカさん<br>聖園ミカさん|\n|[优香](https://kivo.wiki/data/character/52)|ユウカさん|\n|[莉音](https://kivo.wiki/data/character/133)|調月リオさん|\n|[凛](https://kivo.wiki/data/character/183)|リン行政官<br>リンさん|\n|[圣三一综合学园](https://kivo.wiki/data/organize/2)|トリニティ|",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/Hanako_home_Idle_01_0.7247999999999998.jpg",
+  "spine": [
+    265,
+    1667,
+    1668,
+    90,
+    852,
+    453
+  ],
+  "model": [
+    25,
+    379
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/voice/play_icon.webp",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/voice/pause_icon.webp",
+  "voice": [
+    {
+      "description": "Hanako_Title",
+      "category": "lobby",
+      "text": "蔚蓝档案",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/8rhxZAmAu2vhzZ4fp7QipJN2IvtkEelI.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Buffed_1.ogg",
+      "category": "battle",
+      "text": "我会更加努力的。",
+      "text_original": "もっともっと、頑張りますね～",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/4Y77cK2o31Vo2NlCBdW2j5s02QSBipIf.ogg"
+    },
+    {
+      "description": "Hanako_Battle_BuffSelf_1.ogg",
+      "category": "battle",
+      "text": "我可以……再大胆一点吗？",
+      "text_original": "もっと大胆になでも...いいですか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/bHMgkabzUM8gwQxmOipZkpF1uVQjT92x.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Covered_1.ogg",
+      "category": "battle",
+      "text": "呜呼呼~",
+      "text_original": "うふふっ～",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/syzPt8iFQKtlAk3Q8JM4jFk4BQNmM2yD.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Damage_1.ogg",
+      "category": "battle",
+      "text": "呀！",
+      "text_original": "やあ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/Y37LFvOWj8CAw5hIKgIPQeszOY3p2xgk.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Damage_2.ogg",
+      "category": "battle",
+      "text": "疼~",
+      "text_original": "いーた..",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/RIPsE1col962HrCf5OVQG61usCI4NTFE.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Damage_3.ogg",
+      "category": "battle",
+      "text": "刚才这下，还挺疼。",
+      "text_original": "いまのわ痛かったですね",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/eurwcn0MRsCExYw1349JFRST4jProFCA.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Defense_1.ogg",
+      "category": "battle",
+      "text": "呵呵，就这点本事吗。",
+      "text_original": "うふふっ…その程度ですが？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/OqAjr4SZ2A3RUT2C72WFHnipizbXyhCr.ogg"
+    },
+    {
+      "description": "Hanako_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "好好享受吧~",
+      "text_original": "楽しんで行きましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/i9QiEE34ZEzFPui1eLKsyiRRazsYQd9g.ogg"
+    },
+    {
+      "description": "Hanako_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "敬请期待~",
+      "text_original": "期待しでくださいね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/Y0kr1s0O5qBGJW57nu51t86ceCzSwU5y.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Move_1.ogg",
+      "category": "battle",
+      "text": "找到你了~",
+      "text_original": "みすけますだよ～",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/LMboj0OYkAMKZQTGdIE3PBNrp8bo5mIo.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Move_2.ogg",
+      "category": "battle",
+      "text": "我还可以继续哦~",
+      "text_original": "まだまだ行けますよ～",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/GRzHChsCv89N9ZvtQqt7nqYsOWddeyuB.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Recovery_1.ogg",
+      "category": "battle",
+      "text": "非常感谢！",
+      "text_original": "ありがとうございます～",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/9FsAtqPpluQ4FpCBW92w8YdFYaUvu14t.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Retire.ogg",
+      "category": "battle",
+      "text": "不应该是这样的……",
+      "text_original": "こんな...はずでわ...",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/06LzfhiA9RtnqUoQxKfXd8YcOzxkCWLu.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Shout_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "やあ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/sfbQnSiuJIkh9iAKt2KRfu52NT0yCBx6.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Shout_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "えい！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/u4GIYoE0BFJqXB8aO1MHuHnNBZnXtcES.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Shout_3.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "はあ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/eorC4FwiZGkpWycL3M70T7yC1nUjSjS9.ogg"
+    },
+    {
+      "description": "Hanako_Battle_TacticalAction_1.ogg",
+      "category": "battle",
+      "text": "嘿咻！",
+      "text_original": "よいしょ",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/noB5xwWhaDYYhUfjr7DiRGOFVuZUwFhj.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Victory_1.ogg",
+      "category": "battle",
+      "text": "好开心呀！",
+      "text_original": "楽しかったですね",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/4gFDuBvyaX6CpVgX4I0tsZ0OWeP8VC61.ogg"
+    },
+    {
+      "description": "Hanako_Battle_Victory_2.ogg",
+      "category": "battle",
+      "text": "老师，您感觉如何呀？",
+      "text_original": "うふっ...いかがでしだか？先生。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/F6SsY3LMO5OvMbZogPCBaOrtfyjwObZu.ogg"
+    },
+    {
+      "description": "Hanako_Cafe_Act_1.ogg",
+      "category": "cafe",
+      "text": "……呵呵，要不要小小地调皮一下呢？",
+      "text_original": "……ふふっ、ちょっといたずらでもしておきましょうか。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/JovrQO0TjxKNxyguxMzcQEm0V6vQcepa.ogg"
+    },
+    {
+      "description": "Hanako_Cafe_Act_2.ogg",
+      "category": "cafe",
+      "text": "这个地方，真是赏心悦目。",
+      "text_original": "この空間、見ているだけで楽しいですね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/8PAsvUY3MEeb49403440lAF5KezfUuqM.ogg"
+    },
+    {
+      "description": "Hanako_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "哎呀，这个地方很可爱呢~",
+      "text_original": "あら、可愛らしいところですね｡",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/pCa9xGabxFiwm5DkwHpfpDTzwaDmZfEi.ogg"
+    },
+    {
+      "description": "Hanako_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "是老师布置的吗？真不错诶。",
+      "text_original": "この内装は先生が？素敵ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/askRMdGAcGUlbjyCcOwtoZ2SzttDN5NN.ogg"
+    },
+    {
+      "description": "Hanako_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "放在这里的话……会不会吓到别人呀？",
+      "text_original": "ここに置いていったら、誰かが驚くでしょうか……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/KAshRhEOT2BMyDT8XKvaZRwZLTbAZTOw.ogg"
+    },
+    {
+      "description": "Hanako_CommonSkill.ogg",
+      "category": "battle",
+      "text": "我要开始咯！",
+      "text_original": "行きますよぉ～",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/7cvMrJAtEBOv2bkwjAHpvZ9mU9EPWduB.ogg"
+    },
+    {
+      "description": "Hanako_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "那就……啊，呵呵。",
+      "text_original": "さて…あら！？…うふふっ",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/SR5ou1QEaBZ61OT5XqJOAXBHhMy5lTIl.ogg"
+    },
+    {
+      "description": "Hanako_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "我要开枪了！啊，呵呵~",
+      "text_original": "行きます！あっ…うふふっ",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/hl9IzsHx7u9GnqurUUCSjM73tnLHVz0x.ogg"
+    },
+    {
+      "description": "Hanako_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "接下来……啊？哼哼~",
+      "text_original": "では…ああっ！…ふふっ",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/20rRo4zGCKdrUliQk9NvcKpPQ8Yhh0cG.ogg"
+    },
+    {
+      "description": "Hanako_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "能帮上忙，就·好·了！",
+      "text_original": "お役に立てると…いいのですが！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/AoBZHd0yV3VjeZoG0rMAIdFaUykewBiM.ogg"
+    },
+    {
+      "description": "Hanako_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "如果您高兴，我也开心！",
+      "text_original": "喜んでいただけると…嬉しいです！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/OTVHNuTYfBrbVXBHX4DZNJ8cJT3U9EWd.ogg"
+    },
+    {
+      "description": "Hanako_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "请乖乖的……吃我一发！",
+      "text_original": "ちゃんと…受け止めてくださいね！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/lZy9jxIYPLMDQf5WgNX8eDD2CA7HHPYR.ogg"
+    },
+    {
+      "description": "Hanako_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "老师您也真是的。就那么想看，“我的全部”吗？呵呵……我说的是实力，您想到哪儿去了呀？",
+      "text_original": "……先生は困った方ですね。そんなに「私の全部」が見たいのですか？ ふふっ……実力のお話です。今、一体何を考えていたのでしょう？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/y3iwOWZrnA5sBNXswCmVW999XdvQgkyu.ogg"
+    },
+    {
+      "description": "Hanako_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "哎呀，轮到我出场了吗？",
+      "text_original": "あら？私の出番ですが？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/Is0rTWjOehFwT4ik6KXYWBI6zYgLRIx8.ogg"
+    },
+    {
+      "description": "Hanako_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "呵呵呵，您居然会对我有需求……？",
+      "text_original": "うふふっ...私のこともとめてくれるなで",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/Mnv3iBMHX3qGphQk2YA382bIA30UZjaj.ogg"
+    },
+    {
+      "description": "Hanako_Formation_Select.ogg",
+      "category": "formation",
+      "text": "哎呀，好大胆啊~",
+      "text_original": "あら～大胆ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/em5JEvT9GLYFUIiXEeohXkRfw25QJAJl.ogg"
+    },
+    {
+      "description": "Hanako_Gachaget.ogg",
+      "category": "growup",
+      "text": "我是浦和花子。形形色色的方面，都请您多多关照。……对，形形“色色”的方面。",
+      "text_original": "浦和（うらわ）ハナコです。 これから色々とよろしくお願いしますね。 ……はい、それはもう「色々」と。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/MYf8dAA5qFnuUokBJDAI29x6WDwleebL.ogg"
+    },
+    {
+      "description": "Hanako_Growup_1.ogg",
+      "category": "growup",
+      "text": "呵呵呵，您不觉得我又成长了一点吗？",
+      "text_original": "ふふっ、また少し成長したと思いませんか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/nCOwIkmOr6zTTga8GydCSwrgagKu4vIH.ogg"
+    },
+    {
+      "description": "Hanako_Growup_2.ogg",
+      "category": "growup",
+      "text": "老师，非常感谢您！",
+      "text_original": "ありがとうございます、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/2YAi9ePFvYE7BwVbQ0KR2PZHUwXmNXPa.ogg"
+    },
+    {
+      "description": "Hanako_Growup_3.ogg",
+      "category": "growup",
+      "text": "下次，我会好好报答您的。对，就是老师……想要的那个。",
+      "text_original": "今度きちんとお返しをしますね。はい、先生のお望みのもので。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/jUmanxDpcnWUz8qbZofHPfVrELAvxqvQ.ogg"
+    },
+    {
+      "description": "Hanako_Growup_4.ogg",
+      "category": "growup",
+      "text": "你要是再对我这么好，我就真的……要忍不住了……",
+      "text_original": "ここまで大切にしてくださると私、そろそろ我慢できなくなってしまいますよ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/YF8Q52Xw2Zdh4KZ9wJsVYedN3rVmosHC.ogg"
+    },
+    {
+      "description": "Hanako_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "呵呵。在这里“值日”，别有一番乐趣呢。",
+      "text_original": "ふふっ。ここで「当番」をするのは、すごく楽しいですね？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/Wp5Pzu3JqoZwHPlRmZ6qaY86xo1uaxpX.ogg"
+    },
+    {
+      "description": "Hanako_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "现在这里就只有我们两个…… 我可以，有所期待吗？",
+      "text_original": "今ここにいるのは私たち二人だけ…… これは、期待しても良いんでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/CjKYpjNL8MVETHJS30EM2Q7HuMAdQWQ0.ogg"
+    },
+    {
+      "description": "Hanako_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "您问我……什么意思？ 这个嘛……就是老师心里想的那个意思呀。",
+      "text_original": "どういう意味か……ですか？ それはもう、先生のお望み通りの意味で。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/zgqQkKf3m3Qefq2ZU4r1U5UPJrbIGaJK.ogg"
+    },
+    {
+      "description": "Hanako_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "老师，您想让我做什么呢？",
+      "text_original": "先生、何か私にしてほしいことはありますか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/DlxJgzVfHgNVCGrgnPLx5goMvvnbfrEd.ogg"
+    },
+    {
+      "description": "Hanako_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "呵呵。我就是想看老师的这个表情。",
+      "text_original": "ふふっ、先生のその表情が見たかったんです。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/Lx8nagKc9mFh5iJcmB8Xa7ETwHhElawC.ogg"
+    },
+    {
+      "description": "Hanako_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "老师您来了？今天也请多多关照。",
+      "text_original": "おかえりなさい、先生。今日もよろしくお願いいたします。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/lXCWu4ViHUZbZksT0R6PeoFsAkO8hrfV.ogg"
+    },
+    {
+      "description": "Hanako_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "呵呵。老师，我正等您呢。",
+      "text_original": "ふふっ。お待ちしておりましたよ、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/wf9nHtrsqVDNEozV5BOrkHTZGpwQ57fx.ogg"
+    },
+    {
+      "description": "Hanako_MemorialLobby_1_1.ogg",
+      "category": "lobby",
+      "text": "老师，您来了。",
+      "text_original": "こんにちは、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/h8J9e7ti5m3u5bkSs2lE3mVd2ZYpxla5.ogg"
+    },
+    {
+      "description": "Hanako_MemorialLobby_1_2.ogg",
+      "category": "lobby",
+      "text": "谢谢您，特意跑一趟。",
+      "text_original": "来ていただいて、ありがとうございます。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/MBRw89xGsfNryHPsktvQLfkCxmvSE8Rb.ogg"
+    },
+    {
+      "description": "Hanako_MemorialLobby_2_1.ogg",
+      "category": "lobby",
+      "text": "在这里坐着很凉快，感觉很舒服呢。",
+      "text_original": "こうしていると涼しくて、とっても気持ち良いんですよ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/jsqwJM63Dt8nQsrIm5Isg31KnCRae2sD.ogg"
+    },
+    {
+      "description": "Hanako_MemorialLobby_2_2.ogg",
+      "category": "lobby",
+      "text": "对我来说啊，这可是特等席呢……呵呵……",
+      "text_original": "私にとっての特等席なんです、ふふっ……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/xqsXDNoBO2V0Y1jncfAdHw0cf9Yk37BY.ogg"
+    },
+    {
+      "description": "Hanako_MemorialLobby_3_1.ogg",
+      "category": "lobby",
+      "text": "难得来一次，老师也一起来怎么样？",
+      "text_original": "せっかくですし、先生もいかがですか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/tAe1gAnkkA80dcApvg779CP0uf8ZIqTc.ogg"
+    },
+    {
+      "description": "Hanako_MemorialLobby_3_2.ogg",
+      "category": "lobby",
+      "text": "要不要在这里一起“解放”一下……？",
+      "text_original": "ここで一緒に、脱いでしまいません……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/xFCnRBsdeDd8bXzlN4umuKc9wmN3M7ux.ogg"
+    },
+    {
+      "description": "Hanako_MemorialLobby_4_1.ogg",
+      "category": "lobby",
+      "text": "呵呵，像这样，两个人在大白天就坦诚相见……老师不觉得很刺激吗？",
+      "text_original": "こうして、こんな真っ昼間から素肌をさらしていると、 何だか楽しくなってくるんですよ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/Pe2WI5xDh5Jzk6lrXPqn7aEOVQLGocA0.ogg"
+    },
+    {
+      "description": "Hanako_MemorialLobby_4_2.ogg",
+      "category": "lobby",
+      "text": "您是不是也有一种……做了坏事的感觉？",
+      "text_original": "イケないことをしてる……そんな感じがして。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/kc3GaYVPFTrsijAU9n969Vh6G1dUYqrm.ogg"
+    },
+    {
+      "description": "Hanako_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "我……可以相信老师吗？",
+      "text_original": "先生のこと信じてもよろしいのでしょうか。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/JWOCb36py3UYwwuCgryRPkB20TEDPT5o.ogg"
+    },
+    {
+      "description": "Hanako_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "老师，您还能坚持吧？",
+      "text_original": "まだまだ…イケますよね？先～生～？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/ZTUhQOp36PVvMSSchnBIL9ImxhRFS2tH.ogg"
+    },
+    {
+      "description": "Hanako_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "希望，老师能看到真实的我。",
+      "text_original": "先生にはありのままの私を見ていただきたいです。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/RdgDFKSEwUrWWFeNW9dwK2TLjTEUoTwo.ogg"
+    },
+    {
+      "description": "Hanako_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "老师，是会享受辛劳、和痛苦的那种类型吗？",
+      "text_original": "先生は辛くて苦しい方が好きだったりしますか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/GKLL3zChcHiQGK5VlJoOBQFtkTgFPMXP.ogg"
+    },
+    {
+      "description": "Hanako_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "嗯~生日礼物啊…… 啊，老师来当礼物好像不错。 那……我可以拆包装了吗？",
+      "text_original": "誕生日プレゼント、ですか……。 あ、先生がプレゼント、なんて素敵かもしれませんね。 包みは、私が解いても良いですか……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/j2vABNUgizNRZYSPoBoxBKKZrgVHcMbC.ogg"
+    },
+    {
+      "description": "Hanako_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "老师，祝您生日快乐。 您有什么特别想要的礼物吗？没有的话…… “那个”怎么样呢？",
+      "text_original": "お誕生日おめでとうございます、先生。 何か欲しいものなどはありませんか？何も無いのでしたら…… 「あれ」、でも良いんですよ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/eZqM8qo6mauPvgwpvTBR5196m042QKBN.ogg"
+    },
+    {
+      "description": "Hanako_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "万圣节，就是有正当的理由大胆暴露自己的节日…… 诶？不是我想的那样？",
+      "text_original": "ハロウィンといえば、さりげなく大胆な露出ができる日…… ……え、誤解、ですか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/uJVWctDy0FBsfpNcXjmTp3eWmeJ6IWUr.ogg"
+    },
+    {
+      "description": "Hanako_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "老师，今年在形形色色的方面也都要请您多多关照了。 可能会有很多事让您为难，到时候还请您多多包涵哦。",
+      "text_original": "今年も色々とよろしくお願いします、先生。 困らせてしまうことも多いかもしれませんが、これからも私のこと、見捨てないでくださいね？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/SrITJzMGBElllsRpvofJswB2unlSE7nY.ogg"
+    },
+    {
+      "description": "Hanako_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "神圣的夜晚……呵呵，好期待啊…… 啊，只是自言自语啦。请别介意。",
+      "text_original": "聖なる夜……ああ、すごく楽しみですね…… ……あ、ただの独り言です。お気になさらず。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/uEcT8LyuivT3Gxpg6IkCRXpX1l69B4k0.ogg"
+    },
+    {
+      "description": "Hanako_Tactic_Defeat_1.ogg",
+      "category": "battle",
+      "text": "啊~腰腿都软了……",
+      "text_original": "もう、あしこしが立ちません。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/FGdYNAoLEOyoUVul8roYq3CfkE3QCN1X.ogg"
+    },
+    {
+      "description": "Hanako_Tactic_Defeat_2.ogg",
+      "category": "battle",
+      "text": "有点……太不专心了……",
+      "text_original": "少し、余所見わ過ぎました",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/037kTcruT7HCTJxxjKZcjw2ornaRFP2Y.ogg"
+    },
+    {
+      "description": "Hanako_Tactic_In_1.ogg",
+      "category": "battle",
+      "text": "好，那开始吧。",
+      "text_original": "さぁー始めましょうか",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/VKVzutCGpSIjjaG6QnIpNCyuJ2YmaR6D.ogg"
+    },
+    {
+      "description": "Hanako_Tactic_In_2.ogg",
+      "category": "battle",
+      "text": "全都会按老师说的做。",
+      "text_original": "全部...先生の言う通りにしますよ、うふふ～",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/1vsNS0wrzs2DGXRhGxdsWgvz1E4l0VWk.ogg"
+    },
+    {
+      "description": "Hanako_Tactic_Victory_1.ogg",
+      "category": "battle",
+      "text": "呵呵，这种感觉，可以吗？",
+      "text_original": "あは、こんな感じでいいでしょうか",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/06DTwCdvlE0uPEThSzYF3Cygat9BUJkH.ogg"
+    },
+    {
+      "description": "Hanako_Tactic_Victory_2.ogg",
+      "category": "battle",
+      "text": "不愧是老师。真厉害！",
+      "text_original": "さすが先生、すーごいです！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/Kz9oGEiBfTxD35HwX5OnxKjPG0TGos0D.ogg"
+    },
+    {
+      "description": "hanako_formation_select",
+      "category": "formation",
+      "text": "啊啦，真大胆呢……",
+      "text_original": "あら、大胆ですね……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/jp/hanako_formation_select.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "hanako_battle_retire",
+      "category": "battle",
+      "text": "不应该是这样的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/XgsDFmUQIG1UqqkfZ343nXk33OcIIe9z.ogg"
+    },
+    {
+      "description": "hanako_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/lXoRRRDIubXqKOEG1lLaA7vecgnkp8kG.ogg"
+    },
+    {
+      "description": "hanako_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/c81cQeCS2VesNuEGtRaOs82yE35kahkZ.ogg"
+    },
+    {
+      "description": "hanako_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/MfHcpvbdEuUibc9a49kXxWZoODctBaQJ.ogg"
+    },
+    {
+      "description": "hanako_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "嘿咻！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/vgnMvO1dncg6tVMT32iNkzNtAGs2NJpC.ogg"
+    },
+    {
+      "description": "hanako_battle_victory_1",
+      "category": "battle",
+      "text": "好开心呀！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/QMeCfa4eB8aUBQiLsjP6azv411XCdhgu.ogg"
+    },
+    {
+      "description": "hanako_battle_victory_2",
+      "category": "battle",
+      "text": "老师，您感觉如何呀？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/8BC67ztYev6YhiE6TA0JTMgMvP6ENz5W.ogg"
+    },
+    {
+      "description": "hanako_cafe_act_1",
+      "category": "cafe",
+      "text": "……呵呵，要不要小小地调皮一下呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/Q9HF55TYlGMPoYCsXp1iAMrcPI0WAxSw.ogg"
+    },
+    {
+      "description": "hanako_cafe_act_2",
+      "category": "cafe",
+      "text": "这个地方，真是赏心悦目。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/No0rEA2sWXlrNMujMS1mdG45o8Mieycy.ogg"
+    },
+    {
+      "description": "hanako_cafe_monolog_1",
+      "category": "cafe",
+      "text": "哎呀，这个地方很可爱呢~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/M8nS9TlsN3AGNIlhnsqX0K2i4F6RrgJB.ogg"
+    },
+    {
+      "description": "hanako_cafe_monolog_2",
+      "category": "cafe",
+      "text": "是老师布置的吗？真不错诶。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/TacFudPBi91L152RCtDMP6PVibeVPw2y.ogg"
+    },
+    {
+      "description": "hanako_cafe_monolog_3",
+      "category": "cafe",
+      "text": "放在这里的话……会不会吓到别人呀？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/NFc5l1pDOo86ycgIorDpc4SsQ5IB6ay6.ogg"
+    },
+    {
+      "description": "hanako_commonskill",
+      "category": "battle",
+      "text": "我要开始咯！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/Oz8gVxdEydJP5MlQvoaw6ohBurdvhQDT.ogg"
+    },
+    {
+      "description": "hanako_exskill_1",
+      "category": "battle",
+      "text": "那就……啊，呵呵。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/Y5HM1ynGH62UAwKjWx76R8hOnSM4WP0x.ogg"
+    },
+    {
+      "description": "hanako_exskill_2",
+      "category": "battle",
+      "text": "我要开枪了！啊，呵呵~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/GGmMnAXHazowt3OEvQ1SkA0VMiRhI0zV.ogg"
+    },
+    {
+      "description": "hanako_exskill_3",
+      "category": "battle",
+      "text": "接下来……啊？哼哼~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/BPEGfMxuc4CIxpHBMhFgG3yLuMhqnRBg.ogg"
+    },
+    {
+      "description": "hanako_exskill_level_1",
+      "category": "battle",
+      "text": "能帮上忙，就·好·了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/aR2iUKDoB1kP6z9pMdPvNnQtxyLH28aI.ogg"
+    },
+    {
+      "description": "hanako_exskill_level_2",
+      "category": "battle",
+      "text": "如果您高兴，我也开心！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/CwKO9X1MCpvJmvpzMQaX7IMgzKFe2l8x.ogg"
+    },
+    {
+      "description": "hanako_exskill_level_3",
+      "category": "battle",
+      "text": "请乖乖的……吃我一发！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/NCnl7GQpbNRT8GUXhKpUpZPuMgmAPIkv.ogg"
+    },
+    {
+      "description": "hanako_exweapon_get",
+      "category": "growup",
+      "text": "老师您也真是的。就那么想看，“我的全部”吗？呵呵……我说的是实力，您想到哪儿去了呀？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/byqtmlhi6xEY7O44GEqTzS0sxVmA0RxG.ogg"
+    },
+    {
+      "description": "hanako_formation_in_1",
+      "category": "formation",
+      "text": "哎呀，轮到我出场了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/2XXurVs6glj6p1VPjI0c3nYLYvs8BtpH.ogg"
+    },
+    {
+      "description": "hanako_formation_in_2",
+      "category": "formation",
+      "text": "呵呵呵，您居然会对我有需求……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/z1xipmTHC2xo1t4RxSVINfxs895WS8Qi.ogg"
+    },
+    {
+      "description": "hanako_formation_select",
+      "category": "formation",
+      "text": "哎呀，好大胆啊~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/0ZtTSftLBb5RrIBQ7rUsXBMiYuW6Wq84.ogg"
+    },
+    {
+      "description": "hanako_gachaget",
+      "category": "growup",
+      "text": "我是浦和花子。形形色色的方面，都请您多多关照。……对，形形“色色”的方面。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/yB1aUABYuoQWPYSeDvq2V25C02YVjMot.ogg"
+    },
+    {
+      "description": "hanako_growup_1",
+      "category": "growup",
+      "text": "呵呵呵，您不觉得我又成长了一点吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/UjYZhXj8DrfBLG3bAoj9OmQ7g7JjwxB9.ogg"
+    },
+    {
+      "description": "hanako_growup_2",
+      "category": "growup",
+      "text": "老师，非常感谢您！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/zuy6SxdsPNkpf975M3tVtdMlNrGxPqDR.ogg"
+    },
+    {
+      "description": "hanako_growup_3",
+      "category": "growup",
+      "text": "下次，我会好好报答您的。对，就是老师……想要的那个。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/MeurhrePYyOOd6ITXMEACKKT52bK1zF0.ogg"
+    },
+    {
+      "description": "hanako_growup_4",
+      "category": "growup",
+      "text": "你要是再对我这么好，我就真的……要忍不住了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/XSWZo46KcsHaziPtXw2Ulxz2mJR6ar8G.ogg"
+    },
+    {
+      "description": "hanako_lobby_1",
+      "category": "lobby",
+      "text": "呵呵。在这里“值日”，别有一番乐趣呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/SN7OzQ9LXcgJyQL4RDJudAuScQqYg0zJ.ogg"
+    },
+    {
+      "description": "hanako_lobby_2",
+      "category": "lobby",
+      "text": "现在这里就只有我们两个…… 我可以，有所期待吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/sNSQRvw9ms4Hk2Etiak8xntRGzE9xYl9.ogg"
+    },
+    {
+      "description": "hanako_lobby_3",
+      "category": "lobby",
+      "text": "您问我……什么意思？ 这个嘛……就是老师心里想的那个意思呀。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/2V4H7kRjhKHWJgCcpTQpqOladhIUGc6L.ogg"
+    },
+    {
+      "description": "hanako_lobby_4",
+      "category": "lobby",
+      "text": "老师，您想让我做什么呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/98EfMjkT7PLPwiO8KbW8KtP8Pudq5qI3.ogg"
+    },
+    {
+      "description": "hanako_lobby_5",
+      "category": "lobby",
+      "text": "呵呵。我就是想看老师的这个表情。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/8eija2iGjym5HmK3HpdjUTUaibVwDKvH.ogg"
+    },
+    {
+      "description": "hanako_login_1",
+      "category": "lobby",
+      "text": "老师您来了？今天也请多多关照。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/5ycyaFxGSoqL2QYoBAVvJZfCIG8NdavX.ogg"
+    },
+    {
+      "description": "hanako_login_2",
+      "category": "lobby",
+      "text": "呵呵。老师，我正等您呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/NJLqr8mXp3Dpf4zzgcFR75bg2xsOtrKA.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "老师，您来了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/LUyysf8KP4c5YuXd3GUgS3YvkgDOg9fI.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "谢谢您，特意跑一趟。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/54XTaJltycpF2Utr8CBHNtV8XinreZnj.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "在这里坐着很凉快，感觉很舒服呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/zoGD7Ki9YPwVxaPisMEvhITJVLLlnF9G.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "对我来说啊，这可是特等席呢……呵呵……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/Bz4k5YJw4rsbPkkdKu7Ok4e0aQu2e8ss.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "难得来一次，老师也一起来怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/BS0CIRvJuJCIS5kAmBhOBE6yfRw8BTCy.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "要不要在这里一起“解放”一下……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/MZ9UsZUv0ODVbgRxFREzNjAgscX3EltF.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "呵呵，像这样，两个人在大白天就坦诚相见……老师不觉得很刺激吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/uprqthsmYGwrTBXVz16URYPtbUDJPoJC.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "您是不是也有一种……做了坏事的感觉？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/GCz7CFoowDxar4OtLMFXJGVeuv5SbI3x.ogg"
+    },
+    {
+      "description": "hanako_relationship_up_1",
+      "category": "growup",
+      "text": "我……可以相信老师吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/OKLIgN0PJjVRRgJZzAtIHPGbKNtpVhyf.ogg"
+    },
+    {
+      "description": "hanako_relationship_up_2",
+      "category": "growup",
+      "text": "老师，您还能坚持吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/k805hyfjy1mPkS2bY2IhIlx2NHqS53U5.ogg"
+    },
+    {
+      "description": "hanako_relationship_up_3",
+      "category": "growup",
+      "text": "希望，老师能看到真实的我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/OkygJTjGQZZguycvJqozbkq2aq3mztbF.ogg"
+    },
+    {
+      "description": "hanako_relationship_up_4",
+      "category": "growup",
+      "text": "老师，是会享受辛劳、和痛苦的那种类型吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/Nfl7SXEkK7MKcYNdcBisiHmhghWE8Njg.ogg"
+    },
+    {
+      "description": "hanako_season_birthday",
+      "category": "lobby",
+      "text": "嗯~生日礼物啊…… 啊，老师来当礼物好像不错。 那……我可以拆包装了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/hukkqiSJMb2vVN7YcH1aAx2nxXoOHiAH.ogg"
+    },
+    {
+      "description": "hanako_season_birthday_player",
+      "category": "lobby",
+      "text": "老师，祝您生日快乐。 您有什么特别想要的礼物吗？没有的话…… “那个”怎么样呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/DiTHPDi2PdgkvvlwWsN8TOhkdrk6Ef9O.ogg"
+    },
+    {
+      "description": "hanako_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，新春快乐。要和我一起去欣赏象征着勃勃生机的新年日出吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/u4cqXt3TrzbACPgTBJ49RfjgHzSbsVMM.ogg"
+    },
+    {
+      "description": "hanako_season_halloween",
+      "category": "lobby",
+      "text": "万圣节，就是有正当的理由大胆暴露自己的节日…… 诶？不是我想的那样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/8ltmOrW9u1IyFBWT4wf30B5cmgUT0EcJ.ogg"
+    },
+    {
+      "description": "hanako_season_midautumn",
+      "category": "lobby",
+      "text": "今晚的月亮，又大，又圆，真想让人摸摸呢。老师，您说是吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/0p4Jn3WXQfrJVCPMTlVzyxoss2t8TzTC.ogg"
+    },
+    {
+      "description": "hanako_season_newyear",
+      "category": "lobby",
+      "text": "老师，今年在形形色色的方面也都要请您多多关照了。 可能会有很多事让您为难，到时候还请您多多包涵哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/AzoSEm58s0IPgKBsQt86klB8WxyQU4OC.ogg"
+    },
+    {
+      "description": "hanako_season_xmas",
+      "category": "lobby",
+      "text": "神圣的夜晚……呵呵，好期待啊…… 啊，只是自言自语啦。请别介意。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/QjIHV8ntIFo16LlqoIimvBKsxJtl4k64.ogg"
+    },
+    {
+      "description": "hanako_tactic_defeat_1",
+      "category": "battle",
+      "text": "啊~腰腿都软了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/agEbW6lInnLSDS1ib4LHA7sV0O2cudpg.ogg"
+    },
+    {
+      "description": "hanako_tactic_defeat_2",
+      "category": "battle",
+      "text": "有点……太不专心了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/tIUL7iYkZmHBPcjVZhdqfAXzAhmazyxg.ogg"
+    },
+    {
+      "description": "hanako_tactic_in_1",
+      "category": "battle",
+      "text": "好，那开始吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/FcpOVi5EWY0fSDjkkeB4RLRpandEvVcS.ogg"
+    },
+    {
+      "description": "hanako_tactic_in_2",
+      "category": "battle",
+      "text": "全都会按老师说的做。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/ySBEPXYFR082GNc2VMSIqpd5Jw4xIavy.ogg"
+    },
+    {
+      "description": "hanako_tactic_victory_1",
+      "category": "battle",
+      "text": "呵呵，这种感觉，可以吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/OIbS0UMrOP9pPxpRjGuBnV7Kx60NW3N8.ogg"
+    },
+    {
+      "description": "hanako_tactic_victory_2",
+      "category": "battle",
+      "text": "不愧是老师。真厉害！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/9O0LiNkioDPZxOUbEPaPYtHl6aipxS5S.ogg"
+    },
+    {
+      "description": "hanako_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/MXGCm2iZY1j15tg3Ec0YVcvnYBFUAocq.ogg"
+    },
+    {
+      "description": "hanako_battle_buffed_1",
+      "category": "battle",
+      "text": "我会更加努力的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/beWwN6TsqceGJmDpN3WDfu6xBIuuKJxk.ogg"
+    },
+    {
+      "description": "hanako_battle_buffself_1",
+      "category": "battle",
+      "text": "我可以……再大胆一点吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/9RIvX42iwhORV7aL2baAlgivHUeK7zZM.ogg"
+    },
+    {
+      "description": "hanako_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/xZrWcVXvjUpxrHq5vBh97L2GDUoGKx7Z.ogg"
+    },
+    {
+      "description": "hanako_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/IS5pr5RvjIMoHBVi7azOXepCU6HJIZcU.ogg"
+    },
+    {
+      "description": "hanako_battle_damage_2",
+      "category": "battle",
+      "text": "疼~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/gD13ArKnSTinf4HNn5f2KN1zcUM9qlP8.ogg"
+    },
+    {
+      "description": "hanako_battle_damage_3",
+      "category": "battle",
+      "text": "刚才这下，还挺疼。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/ZSrUdjiY4EB7nJe9LuL4KIPD45kZAjCg.ogg"
+    },
+    {
+      "description": "hanako_battle_defense_1",
+      "category": "battle",
+      "text": "呵呵，就这点本事吗。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/WVq9MMQjSf5bfuyyo0Qd0VXiCkSxNePZ.ogg"
+    },
+    {
+      "description": "hanako_battle_in_1",
+      "category": "battle",
+      "text": "好好享受吧~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/a5yXpacIM0BUBWkc9TAprhf8y4h4ymyD.ogg"
+    },
+    {
+      "description": "hanako_battle_in_2",
+      "category": "battle",
+      "text": "敬请期待~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/8LdDfG8p4Tr6swTofkfWfy7BX0dtfb0K.ogg"
+    },
+    {
+      "description": "hanako_battle_move_1",
+      "category": "battle",
+      "text": "找到你了~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/LKu2WCDKKHdzl7vSAvIaLWh6E0ClCb7Z.ogg"
+    },
+    {
+      "description": "hanako_battle_move_2",
+      "category": "battle",
+      "text": "我还可以继续哦~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/VthsuTe1jUCJYhBEkY1XsuQhsVAJQYe4.ogg"
+    },
+    {
+      "description": "hanako_battle_recovery_1",
+      "category": "battle",
+      "text": "非常感谢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/wCy2RF3OzEmtbhQVDaMXeTpuCxASH1Cy.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "Hanako_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/Hanako_Title.ogg"
+    },
+    {
+      "description": "hanako_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_battle_covered_1.ogg"
+    },
+    {
+      "description": "hanako_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_battle_damage_1.ogg"
+    },
+    {
+      "description": "hanako_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_battle_damage_2.ogg"
+    },
+    {
+      "description": "hanako_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_battle_damage_3.ogg"
+    },
+    {
+      "description": "hanako_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_battle_defense_1.ogg"
+    },
+    {
+      "description": "hanako_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_battle_retire.ogg"
+    },
+    {
+      "description": "hanako_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_battle_shout_1.ogg"
+    },
+    {
+      "description": "hanako_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_battle_shout_2.ogg"
+    },
+    {
+      "description": "hanako_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_battle_shout_3.ogg"
+    },
+    {
+      "description": "hanako_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_cafe_act_1.ogg"
+    },
+    {
+      "description": "hanako_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_cafe_act_2.ogg"
+    },
+    {
+      "description": "hanako_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "hanako_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "hanako_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "hanako_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_commonskill.ogg"
+    },
+    {
+      "description": "hanako_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_exskill_1.ogg"
+    },
+    {
+      "description": "hanako_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_exskill_2.ogg"
+    },
+    {
+      "description": "hanako_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_exskill_3.ogg"
+    },
+    {
+      "description": "hanako_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_exskill_level_1.ogg"
+    },
+    {
+      "description": "hanako_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_exskill_level_2.ogg"
+    },
+    {
+      "description": "hanako_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_exskill_level_3.ogg"
+    },
+    {
+      "description": "hanako_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_exweapon_get.ogg"
+    },
+    {
+      "description": "hanako_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_gachaget.ogg"
+    },
+    {
+      "description": "hanako_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_growup_1.ogg"
+    },
+    {
+      "description": "hanako_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_growup_2.ogg"
+    },
+    {
+      "description": "hanako_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_growup_3.ogg"
+    },
+    {
+      "description": "hanako_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_growup_4.ogg"
+    },
+    {
+      "description": "hanako_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_lobby_1.ogg"
+    },
+    {
+      "description": "hanako_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_lobby_2.ogg"
+    },
+    {
+      "description": "hanako_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_lobby_3.ogg"
+    },
+    {
+      "description": "hanako_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_lobby_4.ogg"
+    },
+    {
+      "description": "hanako_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_lobby_5.ogg"
+    },
+    {
+      "description": "hanako_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_login_1.ogg"
+    },
+    {
+      "description": "hanako_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_login_2.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "hanako_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "hanako_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_relationship_up_1.ogg"
+    },
+    {
+      "description": "hanako_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_relationship_up_2.ogg"
+    },
+    {
+      "description": "hanako_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_relationship_up_3.ogg"
+    },
+    {
+      "description": "hanako_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_relationship_up_4.ogg"
+    },
+    {
+      "description": "hanako_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_season_birthday.ogg"
+    },
+    {
+      "description": "hanako_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_season_birthday_player.ogg"
+    },
+    {
+      "description": "hanako_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_season_halloween.ogg"
+    },
+    {
+      "description": "hanako_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_season_newyear.ogg"
+    },
+    {
+      "description": "hanako_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_season_xmas.ogg"
+    },
+    {
+      "description": "hanako_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "hanako_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "hanako_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_tactic_in_1.ogg"
+    },
+    {
+      "description": "hanako_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_tactic_in_2.ogg"
+    },
+    {
+      "description": "hanako_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_tactic_victory_1.ogg"
+    },
+    {
+      "description": "hanako_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/hanako_tactic_victory_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20220120173923.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20220120174001.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20220120173955.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20220120173935.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20220120173916.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20220120173948.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20220120173929.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20220120173942.png"
+      ]
+    },
+    {
+      "title": "领航服差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/gallery/%E9%A2%86%E8%88%AA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0110_spr_04_waifu2x_1x_3n_png.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/gallery/%E9%A2%86%E8%88%AA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0110_spr_02_waifu2x_1x_3n_png.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/gallery/%E9%A2%86%E8%88%AA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0110_spr_00_waifu2x_1x_3n_png.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/gallery/%E9%A2%86%E8%88%AA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0110_spr_05_waifu2x_1x_3n_png.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/gallery/%E9%A2%86%E8%88%AA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0110_spr_01_waifu2x_1x_3n_png.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/gallery/%E9%A2%86%E8%88%AA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0110_spr_03_waifu2x_1x_3n_png.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/gallery/%E9%A2%86%E8%88%AA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0110_spr_99_waifu2x_1x_3n_png.png",
+        "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/original/gallery/%E9%A2%86%E8%88%AA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0110_spr_06_waifu2x_1x_3n_png.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 79,
+      "favorability": 180
+    },
+    {
+      "id": 271,
+      "favorability": 60
+    },
+    {
+      "id": 76,
+      "favorability": 60
+    },
+    {
+      "id": 272,
+      "favorability": 40
+    },
+    {
+      "id": 54,
+      "favorability": 40
+    },
+    {
+      "id": 61,
+      "favorability": 40
+    },
+    {
+      "id": 86,
+      "favorability": 40
+    },
+    {
+      "id": 55,
+      "favorability": 40
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 23007,
+      "dev_name": "Hanako_default",
+      "combat_style": "default",
+      "type": "Healer",
+      "attack_attribute": "Piercing",
+      "defensive_attributes": "Special",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 2,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "A",
+      "street_adaptability": "A",
+      "equipment": [
+        9,
+        6,
+        4
+      ],
+      "cultivate_material": [
+        40,
+        46,
+        48,
+        51,
+        179,
+        182,
+        183,
+        185,
+        427,
+        428,
+        429,
+        430,
+        403,
+        404,
+        405,
+        19
+      ],
+      "favorite_equipment": 36,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/skill_icon/tcew29LzWNwftNGZ6cNdXptf8MuYZGMq.png",
+            "title": "让禁忌的游戏开始吧",
+            "title_cn": "来玩禁忌的游戏吧？",
+            "preview": "//static.kivo.wiki/videos/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/skill_preview/17R4TFPxeWFn6QazSAJUU1zB4uPSgrXN.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 5,
+                "describe": "让圆形范围内的我方持续恢复治疗力26.9%的生命值（持续8秒）"
+              },
+              {
+                "cost": 5,
+                "describe": "让圆形范围内的我方持续恢复治疗力30.9%的生命值（持续8秒）"
+              },
+              {
+                "cost": 5,
+                "describe": "让圆形范围内的我方持续恢复治疗力39%的生命值（持续8秒）"
+              },
+              {
+                "cost": 5,
+                "describe": "让圆形范围内的我方持续恢复治疗力43%的生命值（持续8秒）"
+              },
+              {
+                "cost": 5,
+                "describe": "让圆形范围内的我方持续恢复治疗力51.1%的生命值（持续8秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/skill_icon/dzstNVGNhdBfNUALT0GeoTr9HiHYKOBT.png",
+            "title": "变硬♪",
+            "title_cn": "快变硬吧~",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每20秒让生命值最低的我方1人防御力增加24.2%（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒让生命值最低的我方1人防御力增加25.4%（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒让生命值最低的我方1人防御力增加26.6%（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒让生命值最低的我方1人防御力增加31.5%（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒让生命值最低的我方1人防御力增加32.7%（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒让生命值最低的我方1人防御力增加33.9%（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒让生命值最低的我方1人防御力增加38.7%（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒让生命值最低的我方1人防御力增加40%（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒让生命值最低的我方1人防御力增加41.2%（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒让生命值最低的我方1人防御力增加46%（持续13秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/skill_icon/MEv5rV2asKDO7y0VehRpoQRhbhvdnJbh.png",
+            "title": "元气满满",
+            "title_cn": "干劲满满",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "治疗力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/skill_icon/MEBCEv2rcEeNIjCI51EZYZUP89BoEWDx.png",
+            "title": "一起的话就不会羞耻了！",
+            "title_cn": "一起的话就不会害羞了",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方的治疗力增加9.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的治疗力增加9.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的治疗力增加10%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的治疗力增加11.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的治疗力增加12.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的治疗力增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的治疗力增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的治疗力增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的治疗力增加15.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的治疗力增加17.3%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2658,
+          "attack": 181,
+          "defense": 25,
+          "healing": 2563,
+          "accuracy": 691,
+          "evasion": 809,
+          "crit": 197,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1628,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/weapons_icon.png",
+        "name": "Honest Wish",
+        "name_cn": "诚心所愿",
+        "description": "花子的突击步枪。<br>就算问她名字的由来她也不会回答。",
+        "description_cn": "花子的突击步枪。<br>出乎大家的意料，这把枪有着一个很普通的名字。 每次被问起枪名的含义时，花子总是缄口不言。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「元气满满」升级为「元气满满+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室外适应性 D -> B",
+            "description": "在室外地形造成1倍伤害。在掩体内时掩护成功率+30%。 攻击时绕过掩体概率增加30%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B5%A6%E5%92%8C%20%E8%8A%B1%E5%AD%90/skill_icon/6PQxidRbaNkDq2WJhBGNBtcvv9sJgEvr.png",
+            "title": "元气满满+",
+            "title_cn": "干劲满满+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "治疗力增加954/治疗力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1002/治疗力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1049/治疗力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1240/治疗力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1288/治疗力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1336/治疗力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1526/治疗力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1574/治疗力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1622/治疗力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1812/治疗力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "407d3a7c-ba1e-4353-ac32-8c5c5da9224f",
+  "skill_declare_uuid": "7e38bf2f-e33c-43dd-a307-0db8bda1ee57",
+  "supplementary_uuid": "14fcff76-149f-40df-bcce-7412dabe5803",
+  "supplementary_declare_uuid": "f72a78ec-8a90-4d90-9e46-36d81d4961a4",
+  "created_at": 1685128312,
+  "updated_at": 1783322122
+}

@@ -1,0 +1,1082 @@
+{
+  "id": 159,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 159,
+      "avatar": "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/Student_Portrait_erika_Collection.png",
+      "skin": "",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "旗见",
+  "given_name": "绘里香",
+  "family_name_jp": "旗見",
+  "given_name_jp": "エリカ",
+  "family_name_kr": "하타미",
+  "given_name_kr": "에리카",
+  "family_name_en": "hatami",
+  "given_name_en": "erika",
+  "family_name_zh_tw": "旗見",
+  "given_name_zh_tw": "繪里香",
+  "family_name_cn": "旗见",
+  "given_name_cn": "绘梨香",
+  "nick_name": "艾丽卡",
+  "introduction": "格黑娜学园所属，有着温柔性格的女高中生。\n\n与她理智、冷酷的外表截然相反，十分擅长社交，有着和谁都能打成一片的温柔性格。现在，她正和自己无可替代的好闺蜜绮良一起，每天到处寻找着好玩的事情。\n\n> 抱歉抱歉，让你久等了？",
+  "introduction_cn": "",
+  "momo_talk_signature": "(• - •)",
+  "main_relation": 31,
+  "relation": null,
+  "age": 16,
+  "grade": "二年生",
+  "height": 166,
+  "birthday": "02-01",
+  "hobby": "逛街，收集购物宣传小册子",
+  "designer": "sabet",
+  "illustrator": "DoReMi",
+  "character_voice": "中野彩麻",
+  "character_voice_cn": "",
+  "release_date": "2026-05-20",
+  "release_date_cn": null,
+  "release_date_global": null,
+  "sd_model_image": "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/EnemyInfo_CH0076.png",
+  "avatar": "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/Student_Portrait_erika_Collection.png",
+  "school": 3,
+  "weapon_type": "SG",
+  "is_install": true,
+  "is_install_cn": false,
+  "is_install_global": false,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": true,
+  "more": "# 官方图集\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|やってこYour take on!|暂无 |暂无 |暂无\n|![5798BE51DF26576FC4EA072E42443080.jpg](files/4954/VNFTvr1BzuhvBQkPLa6L8HvTwWPYGj3g.jpg =450x)|暂无|暂无 |暂无\n\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|![7CA1B5B1AF5A1A3BD8EF509F7B576697.jpg](files/4954/7ShCF7AmPkN0DEqrCuhO1SIPu1iO2TQj.jpg =450x)|暂无|暂无|暂无\n\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动:[饰品展示柜](https://kivo.wiki/data/item/1932) |\n| :---: | :---: | :---: |\n|![Erika_ex.gif](files/4954/jfPrEQRym2hBoVi9ekHMaP9GMA0Db9Rx.gif)|暂无|暂无\n\n\n## 设定集\n\n::::center\n\n![Vol2-62.jpg](files/17010/e6clkS21psSQVvshslfs4vR0Y9DKda5z.jpg =450x)\n\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 203.png](files/17010/GsJhJGw3JPsLr9NhDMuqXmY8gMcri5cp.png =450x)\n\n::::\n\n# CBT时期立绘\n:::: center\n![erika_waifu2x_2x_2n_jpg.png](files/3/erika_waifu2x_2x_2n_jpg.png =450x)\n\n::::\n\n# CBT时期SD模型图片\n:::: center\n![sd_model.png](files/4954/HG5yDF9Y1NgrMNpV11Of4iLeXfQY8TnD.png =450x)\n\n\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|あたし<br>私|\n|[绮良](https://kivo.wiki/data/character/163)|キララちゃん<br><details><summary><font color=\"448aff\">キララ</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">偶尔会有的称呼</details></font></font></font></b>|\n|[伊吹](https://kivo.wiki/data/character/136)|イブキちゃん<br>イブキ|\n|[海夏](https://kivo.wiki/data/character/127)|ウミカ|\n|[日奈](https://kivo.wiki/data/character/71)|風紀委員長|\n|[真琴](https://kivo.wiki/data/character/115)|万魔殿の議長|\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/erika_home_Idle_01_8.4159.jpg",
+  "spine": [
+    1626,
+    589,
+    1628
+  ],
+  "model": [
+    128,
+    424,
+    531
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [
+    {
+      "description": "CBT_Erika_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "有没有豹纹图案之类的呢？",
+      "text_original": "レオパード柄とかないのかな。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/A4Prowo1m5YKxV2kgyRs7AUdcWSOz1HF.wav"
+    },
+    {
+      "description": "CBT_Erika_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "呼啊……好困。好想在床上打滚啊。",
+      "text_original": "ふぁー……眠い。ベッドでゴロゴロしたいなぁ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/KS2RH0bZkY808AvwCPo5fSExCX0vRMqG.wav"
+    },
+    {
+      "description": "CBT_Erika_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "这个装饰，是绮良喜欢的那种！拍张照片发给她吧。",
+      "text_original": "この飾り、キララが好きなやつだ！写メ送ってあげよう。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/sGIYeQcXhZJfisQ6uBV1bIDaxIkKCQr8.wav"
+    },
+    {
+      "description": "CBT_Erika_ExSkill_1",
+      "category": "battle",
+      "text": "来，放手一搏吧！",
+      "text_original": "さあ、思い切りやろう！",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/3OGpNGYcBsdMTkftZPNO2P5elwhc9Ucs.wav"
+    },
+    {
+      "description": "CBT_Erika_ExSkill_2",
+      "category": "battle",
+      "text": "好像需要更多弹药呢？",
+      "text_original": "弾薬がもっと必要みたいだね？",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/Bv1EzSd4Xp82VwJP4LmY2z5VHnYsTRKZ.wav"
+    },
+    {
+      "description": "CBT_Erika_ExSkill_3",
+      "category": "battle",
+      "text": "必要的时候可不能小气！",
+      "text_original": "必要な時はケチらない！",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/tydyISIqYuxqEu4PoO7aAOmyKOrjwZBo.wav"
+    },
+    {
+      "description": "CBT_Erika_ExSkill_Level_1",
+      "category": "battle",
+      "text": "再装填！",
+      "text_original": "リロード！",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/zMSelPrY8PnzZKrWZUO3sOlYY4bFC61o.wav"
+    },
+    {
+      "description": "CBT_Erika_ExSkill_Level_2",
+      "category": "battle",
+      "text": "革命！",
+      "text_original": "レボリューション！",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/WlcyHRWyb8NWq1H1dXE2H3D26lTpcAmJ.wav"
+    },
+    {
+      "description": "CBT_Erika_ExSkill_Level_3",
+      "category": "battle",
+      "text": "兴奋起来了！",
+      "text_original": "興奮するじゃん！",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/jRsqgTep0lnIOgZps0vYY7DC6sbBo4K7.wav"
+    },
+    {
+      "description": "CBT_Erika_ExWeapon_Get",
+      "category": "growup",
+      "text": "这个豹纹图案很可爱吧？是我自己弄的哦！",
+      "text_original": "このレオパード柄可愛いでしょ？自分でやったの！",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/SZ9yVbYU2hPVVwKRrasXX60Sxqdn3Bs4.wav"
+    },
+    {
+      "description": "erika_cafe_monolog_1",
+      "category": "cafe",
+      "text": "哇，人还挺多的呢。平时也是这样的吗？",
+      "text_original": "わ、結構人いるんだね。いつもこうなのかな？",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "erika_cafe_monolog_2",
+      "category": "cafe",
+      "text": "如果是和老师一起的话，感觉会很有趣。",
+      "text_original": "先生と一緒にやったら楽しそう。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "erika_cafe_monolog_3",
+      "category": "cafe",
+      "text": "这个是老师的爱好吗？",
+      "text_original": "これって先生の趣味なのかな？",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "erika_cafe_monolog_4",
+      "category": "cafe",
+      "text": "（这个，是谁的呢？）",
+      "text_original": "（これ、誰のなんだろ？）",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "erika_cafe_monolog_5",
+      "category": "cafe",
+      "text": "嗯……？总觉得有人在盯着我。",
+      "text_original": "ん……？なんか視線を感じる。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "erika_commonskill",
+      "category": "battle",
+      "text": "还能再坚持一下吗？",
+      "text_original": "もうちょっと頑張れる？",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_commonskill.ogg"
+    },
+    {
+      "description": "erika_eventlobby_1",
+      "category": "event",
+      "text": "我们学校的学生基本都不太安分，真是辛苦呢……。",
+      "text_original": "うちの生徒ってあんまり落ち着きないから大変だよね……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_eventlobby_1.ogg"
+    },
+    {
+      "description": "erika_eventlobby_2",
+      "category": "event",
+      "text": "这样就没问题了……吧。",
+      "text_original": "これで大丈夫、かな……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_eventlobby_2.ogg"
+    },
+    {
+      "description": "erika_eventlobby_3",
+      "category": "event",
+      "text": "呃……那个要怎么办啊。",
+      "text_original": "げ……どうすんのさアレ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_eventlobby_3.ogg"
+    },
+    {
+      "description": "erika_eventlobby_4",
+      "category": "event",
+      "text": "虽然发生了很多事，但真的很开心呢。",
+      "text_original": "色々あったけど、楽しかったなぁ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_eventlobby_4.ogg"
+    },
+    {
+      "description": "erika_eventlogin_1",
+      "category": "event",
+      "text": "真热闹呢。",
+      "text_original": "賑やかだよね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_eventlogin_1.ogg"
+    },
+    {
+      "description": "erika_eventlogin_2",
+      "category": "event",
+      "text": "呀吼，老师。我刚好在找你呢。",
+      "text_original": "やっほ、先生。ちょうど探してたんだ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_eventlogin_2.ogg"
+    },
+    {
+      "description": "erika_exskill_1",
+      "category": "battle",
+      "text": "有什么呢…………嗯。就选这个吧。",
+      "text_original": "何があるかな…………ん。これにしよ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_exskill_1.ogg"
+    },
+    {
+      "description": "erika_exskill_2",
+      "category": "battle",
+      "text": "嗯～……啊……这个好可爱！",
+      "text_original": "ん～……あっ……これ可愛い！",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_exskill_2.ogg"
+    },
+    {
+      "description": "erika_exskill_3",
+      "category": "battle",
+      "text": "哼哼哼～嗯？这个不得不买了呢。",
+      "text_original": "ふんふんふん～ん？これは買い、だね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_exskill_3.ogg"
+    },
+    {
+      "description": "erika_exskill_level_1",
+      "category": "battle",
+      "text": "来，给你。",
+      "text_original": "はい、あげる。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_exskill_level_1.ogg"
+    },
+    {
+      "description": "erika_exskill_level_2",
+      "category": "battle",
+      "text": "不嫌弃的话就收下吧。",
+      "text_original": "よかったらもらってって。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_exskill_level_2.ogg"
+    },
+    {
+      "description": "erika_exskill_level_3",
+      "category": "battle",
+      "text": "是礼物哦。",
+      "text_original": "プレゼントだよ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_exskill_level_3.ogg"
+    },
+    {
+      "description": "erika_exweapon_get",
+      "category": "growup",
+      "text": "哎呀，你还记得我的喜好呀？啊哈哈，一直以来都谢谢你啦。那作为回报……得给你点谢礼才行呢。",
+      "text_original": "あれ、私の好み覚えててくれたんだ？あははっ、いつもありがとね。そしたら……なにかお礼、しないとね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_exweapon_get.ogg"
+    },
+    {
+      "description": "erika_formation_in_1",
+      "category": "formation",
+      "text": "嗯，今天感觉不错。",
+      "text_original": "ん、今日はいい感じ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_formation_in_1.ogg"
+    },
+    {
+      "description": "erika_formation_in_2",
+      "category": "formation",
+      "text": "要一起去吗？OK。",
+      "text_original": "一緒に行くの？オッケー。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_formation_in_2.ogg"
+    },
+    {
+      "description": "erika_formation_select",
+      "category": "formation",
+      "text": "哇啊！？等一下老师……唉，先跟我说一声嘛。",
+      "text_original": "わぁっ！？ちょっと先生……はぁ、先に言ってよね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_formation_select.ogg"
+    },
+    {
+      "description": "erika_gachaget",
+      "category": "growup",
+      "text": "呀吼。格赫娜学园2年级，旗见绘里香。请多指教喽。",
+      "text_original": "やっほ。ゲヘナ学園2年、旗見エリカ。よろしくね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_gachaget.ogg"
+    },
+    {
+      "description": "erika_growup_1",
+      "category": "growup",
+      "text": "嗯……感觉不错。就像是……充满了电一样？",
+      "text_original": "ん……いい気分。元気チャージ、みたいな？",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_growup_1.ogg"
+    },
+    {
+      "description": "erika_growup_2",
+      "category": "growup",
+      "text": "真不可思议。感觉力量涌上来了～",
+      "text_original": "不思議だね。力が湧いてくる気がする～",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_growup_2.ogg"
+    },
+    {
+      "description": "erika_growup_3",
+      "category": "growup",
+      "text": "我说老师……那个，我还想再来一次呢。",
+      "text_original": "ねえ先生……それ、またやってほしいな。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_growup_3.ogg"
+    },
+    {
+      "description": "erika_growup_4",
+      "category": "growup",
+      "text": "总觉得有点让人上瘾呢……可能稍微有点危险哦。",
+      "text_original": "なんか中毒性あるんだよね……ちょっと危ないかも。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_growup_4.ogg"
+    },
+    {
+      "description": "erika_lobby_1_1",
+      "category": "lobby",
+      "text": "今天的值日生是我哦。有什么事随时跟我说。",
+      "text_original": "今日の当番は私だよ。何かあったらいつでも言って。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_lobby_1_1.ogg"
+    },
+    {
+      "description": "erika_lobby_2_1",
+      "category": "lobby",
+      "text": "老师工作真的很努力呢。虽然看不太出来就是了。",
+      "text_original": "先生って、仕事頑張ってるよね。あんまそうは見えないけど。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_lobby_2_1.ogg"
+    },
+    {
+      "description": "erika_lobby_2_2",
+      "category": "lobby",
+      "text": "哼哼……我只是觉得，努力的大人真的很帅气呢～而已。",
+      "text_original": "ふふっ……頑張ってる大人ってカッコいいな～って、思っただけ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_lobby_2_2.ogg"
+    },
+    {
+      "description": "erika_lobby_3_1",
+      "category": "lobby",
+      "text": "老师为什么会一直当“老师”呢？总觉得，有点好奇……。",
+      "text_original": "先生が「先生」を続けてるのってどうして？なんか、気になって……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_lobby_3_1.ogg"
+    },
+    {
+      "description": "erika_lobby_3_2",
+      "category": "lobby",
+      "text": "因为有想要守护的东西吗……哼嗯。",
+      "text_original": "守るべきものがあるから、か……ふうん。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_lobby_3_2.ogg"
+    },
+    {
+      "description": "erika_lobby_3_3",
+      "category": "lobby",
+      "text": "那，你也会守护……我吗？",
+      "text_original": "じゃあ私のことも……守ってくれる？",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_lobby_3_3.ogg"
+    },
+    {
+      "description": "erika_lobby_4_1",
+      "category": "lobby",
+      "text": "这边的文件已经处理完了哦。好累啊！",
+      "text_original": "こっちの書類は終わったよ。結構キツかったー！",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_lobby_4_1.ogg"
+    },
+    {
+      "description": "erika_lobby_4_2",
+      "category": "lobby",
+      "text": "不过，只要能帮上老师的忙就好了。",
+      "text_original": "まぁ、先生の役に立ってるならいいんだけどさ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_lobby_4_2.ogg"
+    },
+    {
+      "description": "erika_lobby_5_1",
+      "category": "lobby",
+      "text": "嗯？豹纹？我喜欢啊。",
+      "text_original": "ん？レオパード柄？好きだよ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_lobby_5_1.ogg"
+    },
+    {
+      "description": "erika_lobby_5_2",
+      "category": "lobby",
+      "text": "喜欢到除了枪之外，还收集了很多豹纹图案的东西呢♪",
+      "text_original": "銃以外にも色々レオパード柄で揃えたりしてるくらいにはね♪",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_lobby_5_2.ogg"
+    },
+    {
+      "description": "erika_lobby_5_3",
+      "category": "lobby",
+      "text": "其他还有什么豹纹的私人物品？呵呵……才～不告诉你呢♪",
+      "text_original": "他に持ってるレオパード柄の私物？ふふっ……教えてあーげない♪",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_lobby_5_3.ogg"
+    },
+    {
+      "description": "erika_login_1",
+      "category": "lobby",
+      "text": "呀吼，老师♪我一直在等你哦。",
+      "text_original": "やっほ、先生♪待ってたよ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_login_1.ogg"
+    },
+    {
+      "description": "erika_login_2_1",
+      "category": "lobby",
+      "text": "欢迎回来！好想见你呀。",
+      "text_original": "おかえり！会いたかった。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_login_2_1.ogg"
+    },
+    {
+      "description": "erika_login_2_2",
+      "category": "lobby",
+      "text": "（等一下……我刚才说了什么？）",
+      "text_original": "（ちょっと待って……私今なんて？）",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_login_2_2.ogg"
+    },
+    {
+      "description": "erika_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "欢迎光临，老师。",
+      "text_original": "ようこそ、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "erika_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "这里是，只属于我一个人的秘密基地——",
+      "text_original": "ここが、私だけの秘密基地――",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "erika_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "想要独处的时候，就会过来的地方。",
+      "text_original": "一人の時間が欲しい時に、来る場所。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "erika_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "呵呵，不过要说是秘密基地的话，可能稍微宽敞了一点。",
+      "text_original": "ふふっ、でも秘密基地っていうには、ちょっと広いかも。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "erika_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "……总觉得，想要和老师一起分享呢。",
+      "text_original": "……なんか、先生に共有したかったんだよね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "erika_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "比如我平时看到的风景……或者感受到的空气之类的。",
+      "text_original": "私がいつも見ている景色とか……感じてる空気、とか。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "erika_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "就算你问我理由，我也只能说是不知为何……",
+      "text_original": "理由を聞かれてもなんとなく、しか言えないんだけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "erika_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "是啊……因为把秘密场所告诉别人，就是特别的证明嘛。",
+      "text_original": "そうだね……秘密の場所を教えるのって、特別の証だからさ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "erika_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "也就是说，老师对我来说是特别的人。",
+      "text_original": "先生は、私の特別な人ってこと。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_memoriallobby_4_3.ogg"
+    },
+    {
+      "description": "erika_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "……呵呵。",
+      "text_original": "……ふふっ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "erika_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "这里很安静吧？",
+      "text_original": "ここは静かでしょ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "erika_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "不过……我的内心，其实有点吵闹呢。",
+      "text_original": "まあでも……私の心は、ちょっと騒がしいんだけどね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_memoriallobby_5_3.ogg"
+    },
+    {
+      "description": "erika_relationship_up_1",
+      "category": "growup",
+      "text": "最近好像经常和老师见面？为什么呢。",
+      "text_original": "最近先生とよく会うかも？なんでだろね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_relationship_up_1.ogg"
+    },
+    {
+      "description": "erika_relationship_up_2",
+      "category": "growup",
+      "text": "总觉得你送了我好多东西呢。虽然很高兴……但总是我在收礼也不太好吧。老师有什么想要的东西吗？",
+      "text_original": "なんかいっぱいくれるじゃん。嬉しいけど……もらってばっかはなぁ。先生は欲しいもの、ある？",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_relationship_up_2.ogg"
+    },
+    {
+      "description": "erika_relationship_up_3",
+      "category": "growup",
+      "text": "嗯——……感觉要上瘾了。请不要太娇惯我哦？会让我很困扰的。",
+      "text_original": "んー……クセになりそ。あんまり甘やかさないでよ？困っちゃう。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_relationship_up_3.ogg"
+    },
+    {
+      "description": "erika_relationship_up_4",
+      "category": "growup",
+      "text": "真是的……老师这么宠我，我都要被宠坏了。……真是的。总觉得只有我一个人在心动啊？",
+      "text_original": "ほんとさ……先生が甘やかすからダメになっちゃいそ。……もう。私ばっかドキドキさせられてる気がするんだけど？",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_relationship_up_4.ogg"
+    },
+    {
+      "description": "erika_season_birthday_1",
+      "category": "lobby",
+      "text": "诶……你记得我的生日吗？",
+      "text_original": "えっ……私の誕生日、覚えてたの？",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_season_birthday_1.ogg"
+    },
+    {
+      "description": "erika_season_birthday_2",
+      "category": "lobby",
+      "text": "老师真是个罪孽深重的人呢。……让我这么期待，你打算怎么负责？",
+      "text_original": "先生って本当に罪づくりな人だよね。……期待、させちゃってどうする気？",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_season_birthday_2.ogg"
+    },
+    {
+      "description": "erika_season_birthday_player",
+      "category": "lobby",
+      "text": "老师，生日快乐～！祝你度过比世界上任何人都要幸福的一天！",
+      "text_original": "先生、お誕生日おめでと～！世界の誰よりも幸せな日でありますよーに！",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_season_birthday_player.ogg"
+    },
+    {
+      "description": "erika_season_halloween_1",
+      "category": "lobby",
+      "text": "嗷呜——！不给糖就吃掉你哦！",
+      "text_original": "ガオーッ！お菓子くれなきゃ食べちゃうぞ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_season_halloween_1.ogg"
+    },
+    {
+      "description": "erika_season_halloween_2",
+      "category": "lobby",
+      "text": "好啦，为了不被吃掉要好好努力哦。",
+      "text_original": "ほら、食べられないように頑張って。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_season_halloween_2.ogg"
+    },
+    {
+      "description": "erika_season_newyear",
+      "category": "lobby",
+      "text": "新年快乐，老师！今年也要一起创造满满的回忆呢。",
+      "text_original": "あけましておめでとう、先生！今年もいっぱい思い出作ろうね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_season_newyear.ogg"
+    },
+    {
+      "description": "erika_season_xmas_1",
+      "category": "lobby",
+      "text": "圣诞节是个好日子呢。总觉得气氛让人兴奋，又让人心跳加速……。",
+      "text_original": "クリスマスっていい日だよね。雰囲気がワクワクするっていうか、ドキドキするっていうか……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_season_xmas_1.ogg"
+    },
+    {
+      "description": "erika_season_xmas_2",
+      "category": "lobby",
+      "text": "只是待在一起……就有特别的日子的感觉，对吧。",
+      "text_original": "特別な日って感じ……一緒にいるだけで、ね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_season_xmas_2.ogg"
+    },
+    {
+      "description": "erika_Title",
+      "category": "lobby",
+      "text": "蔚蓝档案！",
+      "text_original": "ブルーアーカイブ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/jp/erika_Title.ogg"
+    }
+  ],
+  "voice_cn": [],
+  "voice_kr": [],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_00.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_01.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_02.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_03.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_04.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_05.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_06.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_07.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_08.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_09.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_10.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_11.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_12.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_13.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_14.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_15.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_16.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_17.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_18.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_20.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_19.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_21.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_22.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_23.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_99.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/erika_spr_Idle_01.png"
+      ]
+    },
+    {
+      "title": "CBT旧绘废案差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/Erika_CBT_02.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/Erika_CBT_01.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/Erika_CBT_05.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/Erika_CBT_00.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/Erika_CBT_04.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/Erika_CBT_03.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/Erika_CBT_06.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/Erika_CBT_99.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/ERIKA.jpg",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-62.jpg",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20203.png",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/5798BE51DF26576FC4EA072E42443080.jpg",
+        "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/7CA1B5B1AF5A1A3BD8EF509F7B576697.jpg"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 52,
+      "favorability": 40
+    },
+    {
+      "id": 131,
+      "favorability": 240
+    },
+    {
+      "id": 17,
+      "favorability": 40
+    },
+    {
+      "id": 27,
+      "favorability": 40
+    },
+    {
+      "id": 31,
+      "favorability": 40
+    },
+    {
+      "id": 85,
+      "favorability": 180
+    },
+    {
+      "id": 271,
+      "favorability": 40
+    },
+    {
+      "id": 272,
+      "favorability": 40
+    },
+    {
+      "id": 54,
+      "favorability": 40
+    },
+    {
+      "id": 61,
+      "favorability": 40
+    },
+    {
+      "id": 86,
+      "favorability": 40
+    },
+    {
+      "id": 55,
+      "favorability": 40
+    },
+    {
+      "id": 79,
+      "favorability": 180
+    },
+    {
+      "id": 78,
+      "favorability": 60
+    }
+  ],
+  "furniture": [
+    1932
+  ],
+  "character_datas": [
+    {
+      "character_id": 20058,
+      "dev_name": "CH0076",
+      "combat_style": "default",
+      "type": "Support",
+      "attack_attribute": "Vibration",
+      "defensive_attributes": "Light",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "D",
+      "street_adaptability": "S",
+      "equipment": [
+        9,
+        10,
+        4
+      ],
+      "cultivate_material": [
+        77,
+        80,
+        81,
+        82,
+        158,
+        160,
+        163,
+        165,
+        19,
+        444,
+        445,
+        446,
+        447,
+        438,
+        437,
+        435
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/skill_icon/3NlSxMo1r25NLhqt04pO4P5ofbZ1iA0v.png",
+            "title": "决定就要这个吧！",
+            "title_cn": "",
+            "preview": "//static.kivo.wiki/videos/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/skill_preview/TMAivsvrjOv5ReAqxJkW0A3vDI4ZPOUL.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "解除我方1人的1个负面效果，回复治疗力147%的生命值，并获得与解除负面效果数量相当的“钥匙扣”（“钥匙扣”最多重复获得3个）"
+              },
+              {
+                "cost": 3,
+                "describe": "解除我方1人的1个负面效果，回复治疗力169%的生命值，并获得与解除负面效果数量相当的“钥匙扣”（“钥匙扣”最多重复获得3个）"
+              },
+              {
+                "cost": 3,
+                "describe": "解除我方1人的2个负面效果，回复治疗力213%的生命值，并获得与解除负面效果数量相当的“钥匙扣”（“钥匙扣”最多重复获得3个）"
+              },
+              {
+                "cost": 3,
+                "describe": "解除我方1人的2个负面效果，回复治疗力235%的生命值，并获得与解除负面效果数量相当的“钥匙扣”（“钥匙扣”最多重复获得3个）"
+              },
+              {
+                "cost": 3,
+                "describe": "解除我方1人的3个负面效果，回复治疗力279%的生命值，并获得与解除负面效果数量相当的“钥匙扣”（“钥匙扣”最多重复获得3个）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/skill_icon/wCJP4vKynBSSp3JRn3CKMpMONK01OqYK.png",
+            "title": "CBT时期流出动画",
+            "title_cn": "",
+            "preview": "//static.kivo.wiki/videos/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/skill_preview/upvNndMoVO2o0k5DbTWHcEDwq17sqgcT.mp4",
+            "max_level": 1,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "具体不明"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/skill_icon/6KlKDTJvDrCWt4YW7Vv4xwE0gnZ5STWo.png",
+            "title": "来，这个给你",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": " 获得3个“钥匙扣”时，消费所有\"钥匙扣\"增加我方突击学生13.4%暴击伤害（持续33秒）（冷却时间8秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "获得3个“钥匙扣”时，消费所有\"钥匙扣\"增加我方突击学生14.1%暴击伤害（持续33秒）（冷却时间8秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "获得3个“钥匙扣”时，消费所有\"钥匙扣\"增加我方突击学生14.8%暴击伤害（持续33秒）（冷却时间8秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "获得3个“钥匙扣”时，消费所有\"钥匙扣\"增加我方突击学生17.5%暴击伤害（持续33秒）（冷却时间8秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "获得3个“钥匙扣”时，消费所有\"钥匙扣\"增加我方突击学生18.1%暴击伤害（持续33秒）（冷却时间8秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "获得3个“钥匙扣”时，消费所有\"钥匙扣\"增加我方突击学生18.8%暴击伤害（持续33秒）（冷却时间8秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "获得3个“钥匙扣”时，消费所有\"钥匙扣\"增加我方突击学生21.5%暴击伤害（持续33秒）（冷却时间8秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "获得3个“钥匙扣”时，消费所有\"钥匙扣\"增加我方突击学生22.2%暴击伤害（持续33秒）（冷却时间8秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "获得3个“钥匙扣”时，消费所有\"钥匙扣\"增加我方突击学生22.9%暴击伤害（持续33秒）（冷却时间8秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "获得3个“钥匙扣”时，消费所有\"钥匙扣\"增加我方突击学生25.6%暴击伤害（持续33秒）（冷却时间8秒）。"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/skill_icon/YStv3rjA4Y9yoNXcpGHDAYyNpiIYtgq9.png",
+            "title": "请用创口贴",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "治疗力增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加14.7%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加15.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加18.2%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加18.9%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加19.6%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加22.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加23.1%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加23.8%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加26.6%。"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/skill_icon/OZnqniIBkAnA3JPCFVYon72kH3xyZB2q.png",
+            "title": "闪闪发光☆的感觉？",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方输出角色暴击伤害增加12.7%。"
+              },
+              {
+                "cost": 1,
+                "describe": "我方输出角色暴击伤害增加13.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "我方输出角色暴击伤害增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "我方输出角色暴击伤害增加16.5%。"
+              },
+              {
+                "cost": 1,
+                "describe": "我方输出角色暴击伤害增加17.2%。"
+              },
+              {
+                "cost": 1,
+                "describe": "我方输出角色暴击伤害增加17.8%。"
+              },
+              {
+                "cost": 1,
+                "describe": "我方输出角色暴击伤害增加20.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "我方输出角色暴击伤害增加21%。"
+              },
+              {
+                "cost": 1,
+                "describe": "我方输出角色暴击伤害增加21.7%。"
+              },
+              {
+                "cost": 1,
+                "describe": "我方输出角色暴击伤害增加24.2%。"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 3327,
+          "attack": 295,
+          "defense": 99,
+          "healing": 1985,
+          "accuracy": 524,
+          "evasion": 190,
+          "crit": 262,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 2185,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 1
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/Weapon_Icon_erika.png",
+        "name": "青年豹",
+        "name_cn": "",
+        "description": "绘里香随身携带的霰弹枪。<br> 在保养上十分认真。华丽的豹纹定制枪身，无论在哪都极为引人注目。",
+        "description_cn": "",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「请用创口贴」变为「请用创口贴+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 街道地形适应性 S → SS",
+            "description": "在街道地形造成1.3倍伤害，处于掩体掩护状态时掩护成功率增加75%，攻击时无视掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%97%97%E8%A7%81%20%E7%BB%98%E9%87%8C%E9%A6%99/original/skill_icon/XWTBYKusV6CMk6al6D4gC88jEaBOikt5.png",
+            "title": "请用创口贴+",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "治疗力增加676/治疗力增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加710/治疗力增加14.7%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加744/治疗力增加15.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加879/治疗力增加18.2%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加913/治疗力增加18.9%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加946/治疗力增加19.6%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1081/治疗力增加22.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1115/治疗力增加23.1%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1149/治疗力增加23.8%。"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1284/治疗力增加26.6%。"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "312cb41b-e1b5-4566-8254-2680deb8e97d",
+  "skill_declare_uuid": "a814f152-ce76-4d6a-95da-099c7ab2a54f",
+  "supplementary_uuid": "9391eff9-45ec-457a-b3b9-9e68d6409737",
+  "supplementary_declare_uuid": "168c51a5-55e2-4692-b2b5-12c7b96b96de",
+  "created_at": 1685630595,
+  "updated_at": 1783323815
+}

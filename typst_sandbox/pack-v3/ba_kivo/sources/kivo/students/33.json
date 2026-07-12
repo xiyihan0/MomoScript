@@ -1,0 +1,2206 @@
+{
+  "id": 33,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 33,
+      "avatar": "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 384,
+      "avatar": "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/%E6%B3%B3%E8%A3%85/Student_Portrait_CH0268_Collection.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "戒野",
+  "given_name": "美咲",
+  "family_name_jp": "戒野",
+  "given_name_jp": "ミサキ",
+  "family_name_kr": "이마시노",
+  "given_name_kr": "미사키",
+  "family_name_en": "Imashino",
+  "given_name_en": "Misaki",
+  "family_name_zh_tw": "戒野",
+  "given_name_zh_tw": "美咲",
+  "family_name_cn": "戒野",
+  "given_name_cn": "美咲",
+  "nick_name": "",
+  "introduction": "阿里乌斯分校所属，不爱说话，令人觉得冷淡的阿里乌斯小队成员。\n\n不论对他人对自己都没什么兴趣，有时也会做出自暴自弃的举动。\n手腕和脖子包着厚厚的绷带，像是要隐藏什么一样。\n\n>这份空虚，没有所谓的解答。\n即使如此……",
+  "introduction_cn": "寡言冷淡的阿里乌斯战术小队成员。\n\n不论对他人还是自己都没什么兴趣，有时会做出一些自暴自弃的行为。手腕和脖子上裹着厚厚的绷带，像是要隐藏什么一样。\n\n>这巨大的空虚，并没有所谓的答案。\n但即使如此……",
+  "momo_talk_signature": "会下雨吗......",
+  "main_relation": 42,
+  "relation": [
+    5,
+    14
+  ],
+  "age": 16,
+  "grade": "二年生",
+  "height": 163,
+  "birthday": "01-13",
+  "hobby": "独处",
+  "designer": "9ml",
+  "illustrator": "9ml",
+  "character_voice": "土屋李央",
+  "character_voice_cn": "赵涵雨",
+  "release_date": "2022-05-24",
+  "release_date_cn": "2024-05-16",
+  "release_date_global": "2022-12-20",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/avatar.png",
+  "school": 10,
+  "weapon_type": "RL",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": false,
+  "more": "# 延伸阅读\n\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n| 自己 | 私 |\n| 老师 | 先生<br>あなた<br>この人 |\n|[纱织](https://kivo.wiki/data/character/36)|リーダー<br>サオリ<br><details><summary><font color=\"448aff\">サオリ姉さん</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">回忆中的称呼</details></font></font></font></b><details><summary><font color=\"448aff\">姉さん</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">回忆中的称呼</details></font></font></font></b>|\n|[日和](https://kivo.wiki/data/character/34)|ヒヨリ|\n|[亚津子](https://kivo.wiki/data/character/35)|アツコ<br>姫<br>お姫様|\n|[梓](https://kivo.wiki/data/character/3)|アズサ|\n|[樱子](https://kivo.wiki/data/character/203)|すごい恰好のシスター|\n|[昴](https://kivo.wiki/data/character/559)|スバル先輩<br>あの人|\n|[圣娅](https://kivo.wiki/data/character/43)|セイア|\n|[鹤城](https://kivo.wiki/data/character/94)|ツルギ|\n|[渚](https://kivo.wiki/data/character/25)|桐藤ナギサ<br>ナギサ<br>あなた|\n|[莲见](https://kivo.wiki/data/character/111)|ハスミ|\n|[花子](https://kivo.wiki/data/character/92)|あの人|\n|[日奈](https://kivo.wiki/data/character/71)|ヒナ|\n|[贝阿朵莉切](https://kivo.wiki/data/character/170)|彼女<br>マダム|\n|[迈亚](https://kivo.wiki/data/character/558)|あなた|\n|[巨匠](https://kivo.wiki/data/character/164)|人形<br>木の人形|\n|[未花](https://kivo.wiki/data/character/1)|聖園ミカ<br>ミカ<br>あの女<br>ピンク色のお姫様|\n|[美弥](https://kivo.wiki/data/character/129)|あの人|\n|阿里乌斯小队|アリウススクワッド<br>スクワッド<br>私たち<br>みんな|\n|茶会|ティーパーティー|\n|[阿里乌斯分校](https://kivo.wiki/data/organize/10)|アリウス<br>私たち|\n|[圣三一综合学园](https://kivo.wiki/data/organize/2)|トリニティ<br>あっちの子|\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n\n## 武器\n美咲所使用的主武器原型应为FIM-92“毒刺”（Stinger）单兵便携式防空导弹（MANPADS）。而左靴上的枪套中携带的应是鲁格LCR左轮手枪。\n### 关于美咲所持的FIM-92导弹的具体型号\n要严谨地判断其具体型号，仅凭外观可以说是不可能的。因为“毒刺”导弹的不同型号（如C、D、E型等）在外形上差别极小，很多升级都集中在导弹内部的软件和电路，而不是肉眼可见的外部发射筒等结构。不过考虑到基沃托斯的作战环境复杂，美咲所持的FIM-92至少应当是于1995年开始交付的FIM-92E(RMP Block I)型，因从这代起，内部电路从模拟电路升级为可编程微处理器，而使用“上古”的模拟电路显然是无法在基沃托斯中进行作战的。\n| *FIM-92 Stinger* |角色立绘| 官方设定集图片 |\n|--------------------|-------------|-------------|\n| ![1-7_repels_enemy_assault_at_Lava_Training_Area_140203-M-OM885-094.jpg](files/18728/A30TYqZvaUlqK9XKFYuJyfHFo0Skptkr.jpg =300x) |![203248 拷贝.png](files/18728/eOP9jaCe7QF1HjfCrcEEMsDorafRkDhI.png =300x) | ![437898765354658768.png](files/18728/PWvx9PoncUuybDc0bZUMN3lVZwNERmdN.png =300x) |\n\n\n### 关于鲁格LCR（*Lightweight Compact Revolver*）\n最常见的LCR口径是.38 Special，弹容量为5发。\n- 混合材料结构: 下半部分为聚合物，上半部分为铝或钢，转轮为不锈钢。这种设计极大地减轻了重量。比如.38 Special口径的版本仅约**380克**。\n- 纯双动操作 (DAO): 隐藏式击锤，每次扣动扳机都会完成压倒击锤和释放击锤的动作，扳机行程长且重，但安全性高。\n\n这是一款极致轻量化、高便携性的近距离自卫武器。其技术选择反映了极端的实用主义——在主武器无法使用或敌人突进至近身时的最后一道防线。\n| 鲁格LCR *.38 Special* |角色立绘| 官方设定集图片 |\n|-----------|-------------|----------|\n| ![Ruger-LCR-38-sp-front-quarter.jpg](files/18728/FEqnwNNRD5vZcrUgoYyPsciMBAtmU0eS.jpg =300x)| ![未标题-1.png](files/18728/BzWqmwaWPSgGzVMxo6HMYgZhnBR0YCCY.png =300x)|![3245678553.png](files/18728/Bt4rcV4NeDKH7A6riM4AJJaqhnWUBFXJ.png =300x)|\n\n# 官方图集\n## 卡池Banner\n日服同系列卡池：\n[日和](https://kivo.wiki/data/character/34)「木枯らしに目を引かれ」\n[亚津子](https://kivo.wiki/data/character/35)「徒桜を拾い集めて」\n[纱织](https://kivo.wiki/data/character/36)「雪代水は廻り行く」\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 逃げ水を夢に見て | 阖眼入梦，即见蜃景 | 在虛無縹緲的世界裏，老師您能夠賦予我意義嗎？ | In this hopeless world, could you give me purpose, sensei? |\n| ![misaki_banner.png](files/10/khHR1ZbYg2ED41kw1NWb4cAvJqrTpOc7.png =400x)  | ![5.jpg](files/15949/dLpZdRT88poqu8d1NHnE8mLJXLpDj3XN.jpg =400x)| ![9.jpg](files/15949/Nrz2JQBiz9ksqFgkY2EoJs0N4R754FSu.jpg =400x)| ![7.jfif](files/15949/lzbJbhgRB27guOxiIDfYcterBzjRgNhg.jpg =400x)|\n\n## 人物介绍图\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![3.jfif](files/15949/I0jgM2QCKnIySCQsNlfJFj3NjxwWgWJ7.jpg =525x)| ![4.jpg](files/15949/UvDw9WhX0rtr2fqrWsi0IcxQP3V4FRbg.jpg =425x)| ![misaki.jpg](files/15949/XSNovKuiQpeFMbluiALNP0Fr23StDLCz.jpg =530x) | ![8.jfif](files/15949/aQ3Jj0ASJdU3Gc3Y5z9O5bOHfigjqtpA.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[落地窗](https://kivo.wiki/data/item/565) | 家具互动： [落地窗](https://kivo.wiki/data/item/565) |\n| :---: | :---: | :---: | :---: |\n| ![6.gif](files/15949/yf2flTIvTC9saCmrIwxG3e1Petw4phNm.gif =450x) | ![7.gif](files/15949/LgXR1OlUy6RFwUvswoBBaP37PcrNGDI3.gif =450x) | ![misaki_interaction.gif](files/10355/FRnZq4pXboReRgwBBcO3TV7NYjwBO1s8.gif =450x) | ![saori_misaki_interaction.gif](files/10355/JCmljHAeTTposiFjbM0RmNw42chXKnC4.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 美咲 汉化\n![美咲](files/2/avUitDtGWsTA50xGsiYgjAx6X2Rzyk19.png =450x)\n@tab 美咲 原文\n![美咲](files/2/Xl5WhUD27HfeIPMASdHgNInJhwiQ7uSA.jpg =450x)\n:::\n\n## 设定集\n:::: center\n![Vol.1_页面_127.png](files/15949/rZYX1DKUWB8291SMTnEB02nhUkR0rVSZ.png =450x)\n\n![Vol2-35.jpg](files/15949/yWpYfxJNTE9tIFzgLOfD6VTyVHYEflEJ.jpg =450x)\n\n![Vol2-128.jpg](files/15949/jct5ZFxV2sBuFBEJ6Vk90hd53LluPXC4.jpg =450x)\n\n![Vol2-185.jpg](files/15949/FJHBCbfocvJUvo8O8nKkzBnCUGPPniwX.jpg =450x)\n\n![Vol2-237.jpg](files/15949/FwxRkqkUPdu8N0XKKxb6e4O0xQAPJFXM.jpg =450x)\n\n![Vol2-241.jpg](files/15949/yM5a9kRuYUM58STsAVI7MDAVYeh62QRZ.jpg =450x)\n\n![Vol2-245.jpg](files/15949/uf1jnTeVerIKMwiLPMqajOPkB8tXdlBn.jpg =450x)\n::::\n",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/Misaki_home_Idle_01_2.4091000000000014.jpg",
+  "spine": [
+    346,
+    505
+  ],
+  "model": [
+    107,
+    417
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "Misaki_Title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/SoCmtFzylYRudLI4We0EtSLCzXfbJ0QX.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Buffed_1.ogg",
+      "category": "battle",
+      "text": "支援，已收到。",
+      "text_original": "支援、確認。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/GgzQgDnnaaaHWNpC0wEurMicLB3OStUw.ogg"
+    },
+    {
+      "description": "Misaki_Battle_BuffSelf_1.ogg",
+      "category": "battle",
+      "text": "我还能继续战斗。",
+      "text_original": "まだ戦える。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/FWKnIjDumKx4IpoeQ3RtpEtH2EkoH3KK.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Covered_1.ogg",
+      "category": "battle",
+      "text": "隐蔽。",
+      "text_original": "隠れる。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/n9rBrsQ9YJ3eJDjphpklgziM0RJ35Bqo.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Damage_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "くっ…",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/B9YBIFhBGVurJsq4MLHtB5hi4Z1Asg5E.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Damage_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "ぐぅ…",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/FNulJgg4vEsuJVssW9DZJyzo0C26he6l.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Damage_3.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "うっ、うぅ…",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/p58Sw88m0f8H98iWp2duPwiI3cu3Phsq.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Defense_1.ogg",
+      "category": "battle",
+      "text": "没用的。",
+      "text_original": "無駄だよ",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/j2JALdXNkHQTiq8rR30hpHTnpxPZbGdZ.ogg"
+    },
+    {
+      "description": "Misaki_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "如你所愿。",
+      "text_original": "お望み通りに",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/oBLhLdOsFMXtQggPUkdNbqaZRSwLD7Vc.ogg"
+    },
+    {
+      "description": "Misaki_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "开始交战。",
+      "text_original": "交戦、開始",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/mLGZXnwoZH18LZu4KTPqiHJrJsX2yUfg.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Move_1.ogg",
+      "category": "battle",
+      "text": "已占领目标地点。",
+      "text_original": "確保完了",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/dKcS0P2lAhLW2a7pW7UeHcKXodThajfn.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Move_2.ogg",
+      "category": "battle",
+      "text": "前往下个地区。",
+      "text_original": "次のエリアへ",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/Pms0p2x4uHlU5N4UDj5AJGpJLP9YS9V4.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Recovery_1.ogg",
+      "category": "battle",
+      "text": "确认收到支援。",
+      "text_original": "救援を確認",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/5qbR0feQPL9o72icceb6qp3RNrJcpwHc.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Retire.ogg",
+      "category": "battle",
+      "text": "最后，结果还是这样。",
+      "text_original": "結局、こういうことになる",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/x2JdIsqP9qekaP1YVJCIG23d5DRymoLT.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Shout_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "へ",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/57Eaiu1HcnUwj4vHrBsYHIILxj4qZZd0.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Shout_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "は",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/7OLXROnfl0h7VHDqOQxjdjF99EkzcFMM.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Shout_3.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "は",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/56xT6YAkVBgYUwBVmjOaHruW6VcyuoHD.ogg"
+    },
+    {
+      "description": "Misaki_Battle_TacticalAction_1.ogg",
+      "category": "battle",
+      "text": "哼—",
+      "text_original": "ふっ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/qwW2zfYoyVwc3Nn9xpLsP21jJBdI3K9Y.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Victory_1.ogg",
+      "category": "battle",
+      "text": "战斗结束。",
+      "text_original": "戦闘終了",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/PYiFO1nGZZo8mUQs46nsR3fsnJuHmoCg.ogg"
+    },
+    {
+      "description": "Misaki_Battle_Victory_2.ogg",
+      "category": "battle",
+      "text": "我们赢了,如你所愿。",
+      "text_original": "勝ったよ。お望み通りに。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/UY953J2BypKGat4d8oXN2HnMx5JT4d15.ogg"
+    },
+    {
+      "description": "Misaki_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "……都是第一次见到的东西。",
+      "text_original": "……初めて見るものばっかり",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/YobRFer7v1VlA0X9ZIcLHnK0Xi0XPPnq.ogg"
+    },
+    {
+      "description": "Misaki_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "有点吵啊。",
+      "text_original": "少し騒がしいね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/pRhHKAkDG4tlwzJaj6RymQpf0ZetetH1.ogg"
+    },
+    {
+      "description": "Misaki_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "……那个东西，好玩吗？",
+      "text_original": "……それ、楽しいの？",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/2ub0tAyn0S8Q4qcYJcKaDiLFbw0ScSB3.ogg"
+    },
+    {
+      "description": "Misaki_Cafe_monolog_4.ogg",
+      "category": "cafe",
+      "text": "我没兴趣。",
+      "text_original": "別に興味ない。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/sR8YZ78QXSjE498zKONyJckxnIwTlykF.ogg"
+    },
+    {
+      "description": "Misaki_Cafe_monolog_5.ogg",
+      "category": "cafe",
+      "text": "……你在做什么？",
+      "text_original": "…何をしてるの？",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/OXT3RXKI95A8B5bqfQVLscvt0Nn2hb4V.ogg"
+    },
+    {
+      "description": "Misaki_CommonSkill.ogg",
+      "category": "battle",
+      "text": "多少能派上点用场。",
+      "text_original": "少しは役に立つ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/cThtHfp8TKhObLuqsqgpm3TcvIxYidqa.ogg"
+    },
+    {
+      "description": "Misaki_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "全都没有意义。",
+      "text_original": "全部無意味。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/PNLC7bPKWy58VkCMEvpCP4zzYxoq13iT.ogg"
+    },
+    {
+      "description": "Misaki_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "没什么意义。",
+      "text_original": "意味なんてない。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/y5yTDNfAOKWhFa8bhhX3fGy4VJ2cEu4D.ogg"
+    },
+    {
+      "description": "Misaki_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "凡事都是虚空。",
+      "text_original": "何もかも無駄。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/PzJY53vCzek8tJRQCJ5BL7uTtbWSw44G.ogg"
+    },
+    {
+      "description": "Misaki_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "尘归尘，土归土。",
+      "text_original": "塵は塵にかえるもの。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/XayqdOqkE9gzcSFaNquwHJ9cZSk6ph5E.ogg"
+    },
+    {
+      "description": "Misaki_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "明明从一开始我就知道的。",
+      "text_original": "最初から分かってたのに。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/ShExJioU0pRwzVTEwwPGECsdVAzMu90j.ogg"
+    },
+    {
+      "description": "Misaki_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "这下你懂了吗？",
+      "text_original": "これで分かった？",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/0DPSQc6XHdrjc85Z88PqRPbBd607B2nL.ogg"
+    },
+    {
+      "description": "Misaki_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "虽然我不会再问你理由，但你竟然特意送我这种东西。在我认知的世界里，没有一个人会像你这样。真是个奇怪的人……那我的力量，暂时就交给老师吧。",
+      "text_original": "もう理由なんて聞かないけど、 私にわざわざこんなものを渡すなんて 私の知ってた世界に、あなたみたいな 人はいなかった。変な人。 ……この力は、今は先生に託すとするよ",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/8ClSCdsQpve8TZXSTtwHUfEIKtAEo5RP.ogg"
+    },
+    {
+      "description": "Misaki_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "我会尽到我的职责。",
+      "text_original": "役割は果たす。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/U3nduJluiVqZxW3Xnvmr3QJMBtfU8TmZ.ogg"
+    },
+    {
+      "description": "Misaki_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "是命令吗？知道了。",
+      "text_original": "命令？了解。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/YdXZTGAerf863UUJGkaerReR8oTd01ne.ogg"
+    },
+    {
+      "description": "Misaki_Formation_Select.ogg",
+      "category": "formation",
+      "text": "怎么了？",
+      "text_original": "何？",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/TKzKevq1U2Lt9nK18C1uCSD4arToNMXn.ogg"
+    },
+    {
+      "description": "Misaki_Gachaget.ogg",
+      "category": "growup",
+      "text": "我是阿里乌斯战术小队的美咲。也可以说是条没了主人的丧家犬。我的狗链在你手里，随你怎么命令吧。",
+      "text_original": "……アリウススクワッドのミサキ。今は主のいない猟犬みたいなものだから……リードはあげる。好きに命令して。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/ijhSrflVdIwcfJ576VvlckumJyCdLx2h.ogg"
+    },
+    {
+      "description": "Misaki_Growup_1.ogg",
+      "category": "growup",
+      "text": "为什么要这么做？",
+      "text_original": "こんなことをする理由は何。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/RKA2gmENBmOy9maE8b32IQmQStOulkKB.ogg"
+    },
+    {
+      "description": "Misaki_Growup_2.ogg",
+      "category": "growup",
+      "text": "我不明白。这些，究竟是为了什么？",
+      "text_original": "理解ができない……これ、なんのために……",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/N8K1xSc5D6lRo7AP3VhSL08HEdP7JPx8.ogg"
+    },
+    {
+      "description": "Misaki_Growup_3.ogg",
+      "category": "growup",
+      "text": "反正是要丢掉的弃子，到底是为什么？",
+      "text_original": "所詮捨て駒でしょ？いったい何を……",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/SnRlbnRdNXJg6RFPEal7b4EE6sdx47zq.ogg"
+    },
+    {
+      "description": "Misaki_Growup_4.ogg",
+      "category": "growup",
+      "text": "呃，x…谢，谢谢。",
+      "text_original": "あ……ありが、とう……",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/D9kufa996cBu735gjBxztLCrSJOkgCFa.ogg"
+    },
+    {
+      "description": "Misaki_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "……有什么事吗？我可以帮你。",
+      "text_original": "……何かあった？必要なら手伝うけど",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/e5m2bxtnVo0KVSXtMDXEMGRrSNr3Frdf.ogg"
+    },
+    {
+      "description": "Misaki_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "不管什么事情都行。有需要的就尽管说。",
+      "text_original": "言われれば何だってする。何でも言って。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/kfuSQdEwbiSJsU0ZT0Wgu1j71srZW2Z2.ogg"
+    },
+    {
+      "description": "Misaki_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "如果需要帮忙，可以随时告诉我。",
+      "text_original": "必要とされるなら、何だって構わない。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/gazLpEDfHYpMsj3jlzyJWAptkaFXtnsT.ogg"
+    },
+    {
+      "description": "Misaki_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "我对闲聊并没多大兴趣。 但如果那是命令，我会遵从的。",
+      "text_original": "雑談は、積極的にする方じゃない。 それが命令なら、まぁ、従うけど。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/WzxFvzmbmA9heJH2COVhOk374q1KjkXw.ogg"
+    },
+    {
+      "description": "Misaki_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "老师总不会觉得，我是个能让你开心的人吧？",
+      "text_original": "私が、先生を楽しませられるようなタイプだと思う？",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/h4D5YQqJtGDSgkZNxnu8tVZH3nd2ravZ.ogg"
+    },
+    {
+      "description": "Misaki_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "我一直在待命，老师。那么，今天你有什么吩咐？",
+      "text_original": "……ずっと待機してた。 で、先生。今日の命令は何？",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/1f6lEqYzuuMrbG5HZNG8VVuvAxRgMby2.ogg"
+    },
+    {
+      "description": "Misaki_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "你看起来很忙啊。嗯，这就是大人吗。",
+      "text_original": "何だか忙しそうだね。 まあ、大人だからか。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/UcefjYpXOh2FNu8qHdfuFalQjDoFmbQZ.ogg"
+    },
+    {
+      "description": "Misaki_MemorialLobby_1_1.ogg",
+      "category": "lobby",
+      "text": "……老师？你回来了。",
+      "text_original": "……先生？帰ってきたんだ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/NP22nDYBHns2OP4wYfF216rKp6uFKbMh.ogg"
+    },
+    {
+      "description": "Misaki_MemorialLobby_1_2.ogg",
+      "category": "lobby",
+      "text": "啊，落下了什么重要的东西吗？",
+      "text_original": "何か、大事な忘れ物でも?",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/zE9taWrZFAfr3495umORIBgpEXQHpArA.ogg"
+    },
+    {
+      "description": "Misaki_MemorialLobby_2_1.ogg",
+      "category": "lobby",
+      "text": "……我？",
+      "text_original": "……私？",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/tJyvTHEcHjok2UFnGHNW9w0Ey0okYmZr.ogg"
+    },
+    {
+      "description": "Misaki_MemorialLobby_2_2.ogg",
+      "category": "lobby",
+      "text": "你在，担心我……？",
+      "text_original": "私を、心配して……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/KZAHQ0t9YgUQFHZ4BnN70KunpUXGg3ZQ.ogg"
+    },
+    {
+      "description": "Misaki_MemorialLobby_3_1.ogg",
+      "category": "lobby",
+      "text": "不会吧…… 竟然在这种小事上面花心思……",
+      "text_original": "そんな、くだらないことまで気にするなんて…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/0MErmyVMCzIIbl3NJeeE7TZYdToPM7M2.ogg"
+    },
+    {
+      "description": "Misaki_MemorialLobby_3_2.ogg",
+      "category": "lobby",
+      "text": "身为一个大人，你还真闲呢。",
+      "text_original": "暇なんだね、大人なのに。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/Z8sDlQtxgThhN7vtplwQXiULrbOM0IQr.ogg"
+    },
+    {
+      "description": "Misaki_MemorialLobby_4_1.ogg",
+      "category": "lobby",
+      "text": "无论是这冰冷又嘈杂的世界……还是我，",
+      "text_original": "この冷たくて騒がしい世の中も、私も。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/50dINyWuahHQBNatUxk3K4RjizOTbV2r.ogg"
+    },
+    {
+      "description": "Misaki_MemorialLobby_4_2.ogg",
+      "category": "lobby",
+      "text": "不管下多少雨，都不会，变得洁白无瑕。",
+      "text_original": "……どれだけ雨が降ったところで、洗い流されて綺麗にはならない。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/a7URMHctvMKVGyhzs5Wlyj5BItzACZuZ.ogg"
+    },
+    {
+      "description": "Misaki_MemorialLobby_5.ogg",
+      "category": "lobby",
+      "text": "如果我是个傻瓜就好了。这样我就能相信，一切并非如此……",
+      "text_original": "……そんなことないんだって。馬鹿みたいに、信じられたら……",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/qnpGJLwGc0VbG43E70c6VzfgQSzQcYVO.ogg"
+    },
+    {
+      "description": "Misaki_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "你似乎对我有兴趣，但最好别太相信我。",
+      "text_original": "なんだか興味があるみたいだけど……私のことは信じない方が良い……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/frRen0JHsnl5XcJaZK06kWHYfWJdIXkb.ogg"
+    },
+    {
+      "description": "Misaki_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "嗯。谢谢你。",
+      "text_original": "うん。ありがとう",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/DKF0L4OucBj5d8HEnsP4aYmEYkRtKume.ogg"
+    },
+    {
+      "description": "Misaki_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "我有点混乱。",
+      "text_original": "……少し、混乱してる。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/kAhlNJ3bPXA9zazHQHySPR6hBnvuOAlH.ogg"
+    },
+    {
+      "description": "Misaki_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "从一开始我就没有拒绝的权利。多谢你的好意，我收下了。",
+      "text_original": "もともと拒否権はないし、好意はありがたく受け取っておく…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/uwz9QPZNC3xmpPfpHdy4XbcgHCtogSCG.ogg"
+    },
+    {
+      "description": "Misaki_Season_Birthday_1_1.ogg",
+      "category": "lobby",
+      "text": "庆祝出生的日子有什么意义呢？ 如果当初没有出生，就不用为死亡感到悲伤了。",
+      "text_original": "生まれた日を祝う意味は、今でもあんまりよく分からない。 そもそも生まれなければ、死について考えることもなかったのに。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/Ya48lbjNJN9RFrDXW9Dhwji1dBTUKDZB.ogg"
+    },
+    {
+      "description": "Misaki_Season_Birthday_1_2.ogg",
+      "category": "lobby",
+      "text": "唉，这简直就像是一种疾病。 抱歉。我原本想说的不是这些…… ……谢谢。",
+      "text_original": "まあ、これは、病気みたいなものなんだろうね。 ごめん、こういうことを言ったわけじゃなくて……その…ありがとう。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/p0cwIXBn3tDdacBRo4cOeLkyD5QRwEiO.ogg"
+    },
+    {
+      "description": "Misaki_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "过去我不能理解为什么要庆祝出生的日子。 但是现在……我有点理解了。 你……能在这里真是太好了。",
+      "text_original": "私は、生まれた日を祝う意味を理解できなかった。 でも……今は少しだけ感じる事がある。 ……あなたが、ここにいてくれてよかった。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/fLoJE9zQkUAwuPrZhEg3pfxyCwGjxC3D.ogg"
+    },
+    {
+      "description": "Misaki_Season_Halloween_1_1.ogg",
+      "category": "lobby",
+      "text": "抱歉，我对恶作剧没兴趣。",
+      "text_original": "悪いけど、いたずら特に興味がないから。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/MNhHQ0AMKbO9QJXfQqpnucpPhsxmbPVp.ogg"
+    },
+    {
+      "description": "Misaki_Season_Halloween_1_2.ogg",
+      "category": "lobby",
+      "text": "……什么？不给糖就捣蛋？ ……这个，是命令吗？",
+      "text_original": "えっ？いたずらをしないなら、代わりに飴？それは…命令？",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/l0ZA0A1aSesQyQdidxlfAJZpjH0CnEjg.ogg"
+    },
+    {
+      "description": "Misaki_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "一年又过去了。新的一年还不知道会发生什么事呢……",
+      "text_original": "なんとか一年を終わらたね。今年はまた、どうなるのかわらかないけど",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/UXpOKu4Wr3Otu1z20NDg211oVzga5cfQ.ogg"
+    },
+    {
+      "description": "Misaki_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "……抱歉。我不太适应这样热闹的气氛。 不过我也不想给它泼冷水，所以，我像这样在一旁安静待着就好。",
+      "text_original": "ごめん、こういうお祝いには慣れてなくて、とにかく、いい雰囲気に未曾有さしたくないから、静かにしてるね",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/F8BDvfkIdvG3O3yragU5aF6EVZYWCp2h.ogg"
+    },
+    {
+      "description": "Misaki_Tactic_Defeat_1.ogg",
+      "category": "battle",
+      "text": "我就知道，最后会是这样的结果。",
+      "text_original": "知ってた。こういう結末だって。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/mheGEnit9EF2VuJ0oF7Q5SNsJ90fVj3d.ogg"
+    },
+    {
+      "description": "Misaki_Tactic_Defeat_2.ogg",
+      "category": "battle",
+      "text": "没关系，我已经习惯了。",
+      "text_original": "大丈夫、慣れてるから。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/AOQDp6Z1bhVEcn4SMo6cy5ldbRlAsJnr.ogg"
+    },
+    {
+      "description": "Misaki_Tactic_In_1.ogg",
+      "category": "battle",
+      "text": "好吧。",
+      "text_original": "わかった。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/Uvu4j3grSPko8CyrsUTwMh1VZZx3RBrf.ogg"
+    },
+    {
+      "description": "Misaki_Tactic_In_2.ogg",
+      "category": "battle",
+      "text": "那我就按照你说的做了。",
+      "text_original": "じゃあ、その通りにする。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/iVA55JX1m2Rf3Ott6R51UrbQpyxPDPpk.ogg"
+    },
+    {
+      "description": "Misaki_Tactic_Victory_1.ogg",
+      "category": "battle",
+      "text": "只是听命行事罢了。",
+      "text_original": "言われた通りにやった。それだけ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/pgJCLc2zU4Y6k8QiN1d5BhKHY4Z7z5qI.ogg"
+    },
+    {
+      "description": "Misaki_Tactic_Victory_2.ogg",
+      "category": "battle",
+      "text": "这有什么意义吗？",
+      "text_original": "これに意味はあるの？",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/JxIAShKWFlrF3jE8gwLTol5rQ9s2CegN.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "misaki_battle_buffed_1",
+      "category": "battle",
+      "text": "支援，已收到。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_buffed_1.ogg"
+    },
+    {
+      "description": "misaki_battle_buffself_1",
+      "category": "battle",
+      "text": "我还能继续战斗。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_buffself_1.ogg"
+    },
+    {
+      "description": "misaki_battle_covered_1",
+      "category": "battle",
+      "text": "隐蔽。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_covered_1.ogg"
+    },
+    {
+      "description": "misaki_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_damage_1.ogg"
+    },
+    {
+      "description": "misaki_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_damage_2.ogg"
+    },
+    {
+      "description": "misaki_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_damage_3.ogg"
+    },
+    {
+      "description": "misaki_battle_defense_1",
+      "category": "battle",
+      "text": "没用的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_defense_1.ogg"
+    },
+    {
+      "description": "misaki_battle_in_1",
+      "category": "battle",
+      "text": "如你所愿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_in_1.ogg"
+    },
+    {
+      "description": "misaki_battle_in_2",
+      "category": "battle",
+      "text": "开始交战。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_in_2.ogg"
+    },
+    {
+      "description": "misaki_battle_move_1",
+      "category": "battle",
+      "text": "已占领目标地点。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_move_1.ogg"
+    },
+    {
+      "description": "misaki_battle_move_2",
+      "category": "battle",
+      "text": "前往下个地区。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_move_2.ogg"
+    },
+    {
+      "description": "misaki_battle_recovery_1",
+      "category": "battle",
+      "text": "确认收到支援。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_recovery_1.ogg"
+    },
+    {
+      "description": "misaki_battle_retire",
+      "category": "battle",
+      "text": "最后，结果还是这样。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_retire.ogg"
+    },
+    {
+      "description": "misaki_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_shout_1.ogg"
+    },
+    {
+      "description": "misaki_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_shout_2.ogg"
+    },
+    {
+      "description": "misaki_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_shout_3.ogg"
+    },
+    {
+      "description": "misaki_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "哼—",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "misaki_battle_victory_1",
+      "category": "battle",
+      "text": "战斗结束。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_victory_1.ogg"
+    },
+    {
+      "description": "misaki_battle_victory_2",
+      "category": "battle",
+      "text": "我们赢了,如你所愿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_battle_victory_2.ogg"
+    },
+    {
+      "description": "misaki_cafe_monolog_1",
+      "category": "cafe",
+      "text": "有点吵啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "misaki_cafe_monolog_2",
+      "category": "cafe",
+      "text": "……都是第一次见到的东西。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "misaki_cafe_monolog_3",
+      "category": "cafe",
+      "text": "……那个东西，好玩吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "misaki_cafe_monolog_4",
+      "category": "cafe",
+      "text": "我没兴趣。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "misaki_cafe_monolog_5",
+      "category": "cafe",
+      "text": "……你在做什么？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "misaki_commonskill",
+      "category": "battle",
+      "text": "多少能派上点用场。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_commonskill.ogg"
+    },
+    {
+      "description": "misaki_exskill_1",
+      "category": "battle",
+      "text": "全都没有意义。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_exskill_1.ogg"
+    },
+    {
+      "description": "misaki_exskill_2",
+      "category": "battle",
+      "text": "没什么意义。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_exskill_2.ogg"
+    },
+    {
+      "description": "misaki_exskill_3",
+      "category": "battle",
+      "text": "凡事都是虚空。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_exskill_3.ogg"
+    },
+    {
+      "description": "misaki_exskill_level_1",
+      "category": "battle",
+      "text": "尘归尘，土归土。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_exskill_level_1.ogg"
+    },
+    {
+      "description": "misaki_exskill_level_2",
+      "category": "battle",
+      "text": "明明从一开始我就知道的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_exskill_level_2.ogg"
+    },
+    {
+      "description": "misaki_exskill_level_3",
+      "category": "battle",
+      "text": "这下你懂了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_exskill_level_3.ogg"
+    },
+    {
+      "description": "misaki_exweapon_get",
+      "category": "growup",
+      "text": "虽然我不会再问你理由，但你竟然特意送我这种东西。在我认知的世界里，没有一个人会像你这样。真是个奇怪的人……那我的力量，暂时就交给老师吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_exweapon_get.ogg"
+    },
+    {
+      "description": "misaki_formation_in_1",
+      "category": "formation",
+      "text": "我会尽到我的职责。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_formation_in_1.ogg"
+    },
+    {
+      "description": "misaki_formation_in_2",
+      "category": "formation",
+      "text": "是命令吗？知道了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_formation_in_2.ogg"
+    },
+    {
+      "description": "misaki_formation_select",
+      "category": "formation",
+      "text": "怎么了？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_formation_select.ogg"
+    },
+    {
+      "description": "misaki_gachaget",
+      "category": "growup",
+      "text": "我是阿里乌斯战术小队的美咲。也可以说是条没了主人的丧家犬。我的狗链在你手里，随你怎么命令吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_gachaget.ogg"
+    },
+    {
+      "description": "misaki_growup_1",
+      "category": "growup",
+      "text": "为什么要这么做？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_growup_1.ogg"
+    },
+    {
+      "description": "misaki_growup_2",
+      "category": "growup",
+      "text": "我不明白。这些，究竟是为了什么？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_growup_2.ogg"
+    },
+    {
+      "description": "misaki_growup_3",
+      "category": "growup",
+      "text": "反正是要丢掉的弃子，到底是为什么？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_growup_3.ogg"
+    },
+    {
+      "description": "misaki_growup_4",
+      "category": "growup",
+      "text": "呃，x…谢，谢谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_growup_4.ogg"
+    },
+    {
+      "description": "misaki_lobby_1",
+      "category": "lobby",
+      "text": "……有什么事吗？我可以帮你。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_lobby_1.ogg"
+    },
+    {
+      "description": "misaki_lobby_1_maskeffect",
+      "category": "lobby",
+      "text": "……有什么事吗？我可以帮你。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_lobby_1_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_lobby_2",
+      "category": "lobby",
+      "text": "不管什么事情都行。有需要的就尽管说。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_lobby_2.ogg"
+    },
+    {
+      "description": "misaki_lobby_2_maskeffect",
+      "category": "lobby",
+      "text": "不管什么事情都行。有需要的就尽管说。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_lobby_2_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_lobby_3",
+      "category": "lobby",
+      "text": "如果需要帮忙，可以随时告诉我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_lobby_3.ogg"
+    },
+    {
+      "description": "misaki_lobby_3_maskeffect",
+      "category": "lobby",
+      "text": "如果需要帮忙，可以随时告诉我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_lobby_3_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_lobby_4",
+      "category": "lobby",
+      "text": "我对闲聊并没多大兴趣。 但如果那是命令，我会遵从的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_lobby_4.ogg"
+    },
+    {
+      "description": "misaki_lobby_4_maskeffect",
+      "category": "lobby",
+      "text": "我对闲聊并没多大兴趣。 但如果那是命令，我会遵从的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_lobby_4_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_lobby_5",
+      "category": "lobby",
+      "text": "老师总不会觉得，我是个能让你开心的人吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_lobby_5.ogg"
+    },
+    {
+      "description": "misaki_lobby_5_maskeffect",
+      "category": "lobby",
+      "text": "老师总不会觉得，我是个能让你开心的人吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_lobby_5_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_login_1",
+      "category": "lobby",
+      "text": "我一直在待命，老师。那么，今天你有什么吩咐？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_login_1.ogg"
+    },
+    {
+      "description": "misaki_login_1_maskeffect",
+      "category": "lobby",
+      "text": "我一直在待命，老师。那么，今天你有什么吩咐？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_login_1_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_login_2",
+      "category": "lobby",
+      "text": "你看起来很忙啊。嗯，这就是大人吗。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_login_2.ogg"
+    },
+    {
+      "description": "misaki_login_2_maskeffect",
+      "category": "lobby",
+      "text": "你看起来很忙啊。嗯，这就是大人吗。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_login_2_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "……老师？你回来了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "啊，落下了什么重要的东西吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "……我？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "你在，担心我……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "不会吧…… 竟然在这种小事上面花心思……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "身为一个大人，你还真闲呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "无论是这冰冷又嘈杂的世界……还是我，",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "不管下多少雨，都不会，变得洁白无瑕。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_5",
+      "category": "lobby",
+      "text": "如果我是个傻瓜就好了。这样我就能相信，一切并非如此……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_memoriallobby_5.ogg"
+    },
+    {
+      "description": "misaki_relationship_up_1",
+      "category": "growup",
+      "text": "你似乎对我有兴趣，但最好别太相信我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_relationship_up_1.ogg"
+    },
+    {
+      "description": "misaki_relationship_up_2",
+      "category": "growup",
+      "text": "嗯。谢谢你。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_relationship_up_2.ogg"
+    },
+    {
+      "description": "misaki_relationship_up_3",
+      "category": "growup",
+      "text": "我有点混乱。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_relationship_up_3.ogg"
+    },
+    {
+      "description": "misaki_relationship_up_4",
+      "category": "growup",
+      "text": "从一开始我就没有拒绝的权利。多谢你的好意，我收下了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_relationship_up_4.ogg"
+    },
+    {
+      "description": "misaki_season_birthday_1_1",
+      "category": "lobby",
+      "text": "庆祝出生的日子有什么意义呢？ 如果当初没有出生，就不用为死亡感到悲伤了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_birthday_1_1.ogg"
+    },
+    {
+      "description": "misaki_season_birthday_1_1_maskeffect",
+      "category": "lobby",
+      "text": "庆祝出生的日子有什么意义呢？ 如果当初没有出生，就不用为死亡感到悲伤了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_birthday_1_1_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_season_birthday_1_2",
+      "category": "lobby",
+      "text": "唉，这简直就像是一种疾病。 抱歉。我原本想说的不是这些…… ……谢谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_birthday_1_2.ogg"
+    },
+    {
+      "description": "misaki_season_birthday_1_2_maskeffect",
+      "category": "lobby",
+      "text": "唉，这简直就像是一种疾病。 抱歉。我原本想说的不是这些…… ……谢谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_birthday_1_2_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_season_birthday_player",
+      "category": "lobby",
+      "text": "过去我不能理解为什么要庆祝出生的日子。 但是现在……我有点理解了。 你……能在这里真是太好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_birthday_player.ogg"
+    },
+    {
+      "description": "misaki_season_birthday_player_maskeffect",
+      "category": "lobby",
+      "text": "过去我不能理解为什么要庆祝出生的日子。 但是现在……我有点理解了。 你……能在这里真是太好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_birthday_player_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_season_chinesenewyear",
+      "category": "lobby",
+      "text": "新春……？我没兴趣,而且爆竹声很吵。要是今天下雨就好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "misaki_season_chinesenewyear_maskeffect",
+      "category": "lobby",
+      "text": "新春……？我没兴趣,而且爆竹声很吵。要是今天下雨就好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_chinesenewyear_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_season_halloween_1_1",
+      "category": "lobby",
+      "text": "抱歉，我对恶作剧没兴趣。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_halloween_1_1.ogg"
+    },
+    {
+      "description": "misaki_season_halloween_1_1_maskeffect",
+      "category": "lobby",
+      "text": "抱歉，我对恶作剧没兴趣。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_halloween_1_1_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_season_halloween_1_2",
+      "category": "lobby",
+      "text": "……什么？不给糖就捣蛋？ ……这个，是命令吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_halloween_1_2.ogg"
+    },
+    {
+      "description": "misaki_season_halloween_1_2_maskeffect",
+      "category": "lobby",
+      "text": "……什么？不给糖就捣蛋？ ……这个，是命令吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_halloween_1_2_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_season_midautumn",
+      "category": "lobby",
+      "text": "团圆也没有意义吧，反正最后都会有人先离开。那样想太消极了？好吧，既然你都这么说了，那我试着感受一下氛围吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_midautumn.ogg"
+    },
+    {
+      "description": "misaki_season_midautumn_maskeffect",
+      "category": "lobby",
+      "text": "团圆也没有意义吧，反正最后都会有人先离开。那样想太消极了？好吧，既然你都这么说了，那我试着感受一下氛围吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_midautumn_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_season_newyear",
+      "category": "lobby",
+      "text": "一年又过去了。新的一年还不知道会发生什么事呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_newyear.ogg"
+    },
+    {
+      "description": "misaki_season_newyear_maskeffect",
+      "category": "lobby",
+      "text": "一年又过去了。新的一年还不知道会发生什么事呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_newyear_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_season_xmas",
+      "category": "lobby",
+      "text": "……抱歉。我不太适应这样热闹的气氛。 不过我也不想给它泼冷水，所以，我像这样在一旁安静待着就好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_xmas.ogg"
+    },
+    {
+      "description": "misaki_season_xmas_maskeffect",
+      "category": "lobby",
+      "text": "……抱歉。我不太适应这样热闹的气氛。 不过我也不想给它泼冷水，所以，我像这样在一旁安静待着就好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_season_xmas_maskeffect.ogg"
+    },
+    {
+      "description": "misaki_tactic_defeat_1",
+      "category": "battle",
+      "text": "我就知道，最后会是这样的结果。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "misaki_tactic_defeat_2",
+      "category": "battle",
+      "text": "没关系，我已经习惯了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "misaki_tactic_in_1",
+      "category": "battle",
+      "text": "好吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_tactic_in_1.ogg"
+    },
+    {
+      "description": "misaki_tactic_in_2",
+      "category": "battle",
+      "text": "那我就按照你说的做了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_tactic_in_2.ogg"
+    },
+    {
+      "description": "misaki_tactic_victory_1",
+      "category": "battle",
+      "text": "只是听命行事罢了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_tactic_victory_1.ogg"
+    },
+    {
+      "description": "misaki_tactic_victory_2",
+      "category": "battle",
+      "text": "这有什么意义吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_tactic_victory_2.ogg"
+    },
+    {
+      "description": "misaki_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/cn/misaki_title.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "Misaki_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/Misaki_Title.ogg"
+    },
+    {
+      "description": "misaki_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_buffed_1.ogg"
+    },
+    {
+      "description": "misaki_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_buffself_1.ogg"
+    },
+    {
+      "description": "misaki_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_covered_1.ogg"
+    },
+    {
+      "description": "misaki_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_damage_1.ogg"
+    },
+    {
+      "description": "misaki_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_damage_2.ogg"
+    },
+    {
+      "description": "misaki_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_damage_3.ogg"
+    },
+    {
+      "description": "misaki_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_defense_1.ogg"
+    },
+    {
+      "description": "misaki_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_in_1.ogg"
+    },
+    {
+      "description": "misaki_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_in_2.ogg"
+    },
+    {
+      "description": "misaki_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_move_1.ogg"
+    },
+    {
+      "description": "misaki_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_move_2.ogg"
+    },
+    {
+      "description": "misaki_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_recovery_1.ogg"
+    },
+    {
+      "description": "misaki_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_retire.ogg"
+    },
+    {
+      "description": "misaki_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_shout_1.ogg"
+    },
+    {
+      "description": "misaki_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_shout_2.ogg"
+    },
+    {
+      "description": "misaki_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_shout_3.ogg"
+    },
+    {
+      "description": "misaki_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "misaki_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_victory_1.ogg"
+    },
+    {
+      "description": "misaki_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_battle_victory_2.ogg"
+    },
+    {
+      "description": "misaki_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "misaki_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "misaki_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "misaki_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "misaki_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "misaki_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_commonskill.ogg"
+    },
+    {
+      "description": "misaki_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_exskill_1.ogg"
+    },
+    {
+      "description": "misaki_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_exskill_2.ogg"
+    },
+    {
+      "description": "misaki_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_exskill_3.ogg"
+    },
+    {
+      "description": "misaki_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_exskill_level_1.ogg"
+    },
+    {
+      "description": "misaki_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_exskill_level_2.ogg"
+    },
+    {
+      "description": "misaki_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_exskill_level_3.ogg"
+    },
+    {
+      "description": "misaki_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_exweapon_get.ogg"
+    },
+    {
+      "description": "misaki_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_formation_in_1.ogg"
+    },
+    {
+      "description": "misaki_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_formation_in_2.ogg"
+    },
+    {
+      "description": "misaki_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_formation_select.ogg"
+    },
+    {
+      "description": "misaki_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_gachaget.ogg"
+    },
+    {
+      "description": "misaki_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_growup_1.ogg"
+    },
+    {
+      "description": "misaki_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_growup_2.ogg"
+    },
+    {
+      "description": "misaki_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_growup_3.ogg"
+    },
+    {
+      "description": "misaki_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_growup_4.ogg"
+    },
+    {
+      "description": "misaki_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_lobby_1.ogg"
+    },
+    {
+      "description": "misaki_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_lobby_2.ogg"
+    },
+    {
+      "description": "misaki_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_lobby_3.ogg"
+    },
+    {
+      "description": "misaki_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_lobby_4.ogg"
+    },
+    {
+      "description": "misaki_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_lobby_5.ogg"
+    },
+    {
+      "description": "misaki_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_login_1.ogg"
+    },
+    {
+      "description": "misaki_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_login_2.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "misaki_memoriallobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_memoriallobby_5.ogg"
+    },
+    {
+      "description": "misaki_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_relationship_up_1.ogg"
+    },
+    {
+      "description": "misaki_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_relationship_up_2.ogg"
+    },
+    {
+      "description": "misaki_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_relationship_up_3.ogg"
+    },
+    {
+      "description": "misaki_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_relationship_up_4.ogg"
+    },
+    {
+      "description": "misaki_season_birthday_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_season_birthday_1_1.ogg"
+    },
+    {
+      "description": "misaki_season_birthday_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_season_birthday_1_2.ogg"
+    },
+    {
+      "description": "misaki_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_season_birthday_player.ogg"
+    },
+    {
+      "description": "misaki_season_halloween_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_season_halloween_1_1.ogg"
+    },
+    {
+      "description": "misaki_season_halloween_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_season_halloween_1_2.ogg"
+    },
+    {
+      "description": "misaki_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_season_newyear.ogg"
+    },
+    {
+      "description": "misaki_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_season_xmas.ogg"
+    },
+    {
+      "description": "misaki_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "misaki_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "misaki_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_tactic_in_1.ogg"
+    },
+    {
+      "description": "misaki_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_tactic_in_2.ogg"
+    },
+    {
+      "description": "misaki_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_tactic_victory_1.ogg"
+    },
+    {
+      "description": "misaki_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/misaki_tactic_victory_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_99.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_00.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_01.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_02.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_03.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_04.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_05.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_06.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_07.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_08.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_11.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_14.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_15.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_16.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_09.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_99.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_10.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_13.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_18.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_17.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_12.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_Eye_Close_01.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_19.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_Eye_Close_S2_01.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_Idle_01.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_00.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_01.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_02.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_03.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_04.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_05.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_07.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_06.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_09.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_08.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_10.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_11.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_12.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_13.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_14.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_15.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_16.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_17.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_18.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/misaki_spr_S2_19.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/1.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/2.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/3.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/4.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/5.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/7.gif",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/7.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/8.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/9.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/10.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/11.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/misaki.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-185.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/6.gif",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_127.png",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-128.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-241.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-35.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-245.jpg",
+        "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-237.jpg"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 73,
+      "favorability": 240
+    },
+    {
+      "id": 78,
+      "favorability": 60
+    }
+  ],
+  "furniture": [
+    565
+  ],
+  "character_datas": [
+    {
+      "character_id": 10041,
+      "dev_name": "Misaki_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Special",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "S",
+      "street_adaptability": "B",
+      "equipment": [
+        8,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        106,
+        108,
+        109,
+        110,
+        143,
+        144,
+        145,
+        146,
+        399,
+        400,
+        401,
+        402,
+        427,
+        428,
+        429,
+        19
+      ],
+      "favorite_equipment": 33,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/skill_icon/Hs4902u4kmNFDHjJGHemCrpexnMXvuRb.png",
+            "title": "虚无的世界",
+            "title_cn": "虚空的世界",
+            "preview": "//static.kivo.wiki/videos/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/skill_preview/5QehQZ0eDM0JTwVsPcbMOVz0IDu5LeJW.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 5,
+                "describe": "对7个圆形范围内的敌人每4秒各造成攻击力7.5%的伤害（持续48秒）（再次使用EX技能时，之前使用的EX技能效果会消失）"
+              },
+              {
+                "cost": 5,
+                "describe": "对7个圆形范围内的敌人每4秒各造成攻击力8.6%的伤害（持续48秒）（再次使用EX技能时，之前使用的EX技能效果会消失）"
+              },
+              {
+                "cost": 5,
+                "describe": "对7个圆形范围内的敌人每4秒各造成攻击力10.9%的伤害（持续48秒）（再次使用EX技能时，之前使用的EX技能效果会消失）"
+              },
+              {
+                "cost": 5,
+                "describe": "对7个圆形范围内的敌人每4秒各造成攻击力12%的伤害（持续48秒）（再次使用EX技能时，之前使用的EX技能效果会消失）"
+              },
+              {
+                "cost": 5,
+                "describe": "对7个圆形范围内的敌人每4秒各造成攻击力14.3%的伤害（持续48秒）（再次使用EX技能时，之前使用的EX技能效果会消失）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/skill_icon/Aa5yItutgXtgjN1p9clCxB6gAHqvlyXb.png",
+            "title": "想快点结束",
+            "title_cn": "好想早点结束",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每50秒增加19.5%的攻击力（持续40秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒增加20.5%的攻击力（持续40秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒增加21.5%的攻击力（持续40秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒增加25.4%的攻击力（持续40秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒增加26.4%的攻击力（持续40秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒增加27.3%的攻击力（持续40秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒增加31.3%的攻击力（持续40秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒增加32.2%的攻击力（持续40秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒增加33.2%的攻击力（持续40秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒增加37.1%的攻击力（持续40秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/skill_icon/tmbkBCXG6x6dDqunc4Uy6KEyUBJajF2H.png",
+            "title": "毫无意义的技术",
+            "title_cn": "毫无意义的技术",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/skill_icon/zFYJ7W4gYaKN7KSYDBeyNAFJpsJ3PrsB.png",
+            "title": "等价交换",
+            "title_cn": "等价交换",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击具减益效果的敌人时，根据减益效果的个数，造成攻击力1.1%/2.2%/3.3%/4.4%/5.4%的追加伤害（最多计算5个）"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击具减益效果的敌人时，根据减益效果的个数，造成攻击力1.1%/2.3%/3.4%/4.6%/5.7%的追加伤害（最多计算5个）"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击具减益效果的敌人时，根据减益效果的个数，造成攻击力1.2%/2.4%/3.6%/4.8%/6%的追加伤害（最多计算5个）"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击具减益效果的敌人时，根据减益效果的个数，造成攻击力1.4%/2.8%/4.2%/5.7%/7.1%的追加伤害（最多计算5个）"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击具减益效果的敌人时，根据减益效果的个数，造成攻击力1.4%/2.9%/4.4%/5.9%/7.3%的追加伤害（最多计算5个）"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击具减益效果的敌人时，根据减益效果的个数，造成攻击力1.5%/3%/4.6%/6.1%/7.6%的追加伤害（最多计算5个）"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击具减益效果的敌人时，根据减益效果的个数，造成攻击力1.7%/3.5%/5.2%/7%/8.7%的追加伤害（最多计算5个）"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击具减益效果的敌人时，根据减益效果的个数，造成攻击力1.8%/3.6%/5.4%/7.2%/8.9%的追加伤害（最多计算5个）"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击具减益效果的敌人时，根据减益效果的个数，造成攻击力1.8%/3.7%/5.5%/7.4%/9.2%的追加伤害（最多计算5个）"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击具减益效果的敌人时，根据减益效果的个数，造成攻击力2.1%/4.1%/6.2%/8.3%/10.3%的追加伤害（最多计算5个）"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2499,
+          "attack": 670,
+          "defense": 19,
+          "healing": 1658,
+          "accuracy": 756,
+          "evasion": 198,
+          "crit": 252,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 988,
+          "range": 850,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 2
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/weapons_icon.png",
+        "name": "圣徒猎人",
+        "name_cn": "神圣掠夺者",
+        "description": "美咲使用的火箭发射器。<br/>发射后抵达一定的高度，将释放出数个子炸弹，引发大范围的爆炸。",
+        "description_cn": "美咲使用的火箭发射器。<br/>母弹发射抵达一定高度后将释放出多个子炸弹，对地面进行大范围的轰炸。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「毫无意义的技术」升级为「毫无意义的技术+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室内适应性 S -> SS",
+            "description": "在室内地形造成1.3倍伤害。 在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 爆发克制伤害增加",
+            "description": "攻击类型为爆发的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%88%92%E9%87%8E%20%E7%BE%8E%E5%92%B2/skill_icon/09LAREEQPzdildLSN5zH5xQnSwycrqra.png",
+            "title": "毫无意义的技术+",
+            "title_cn": "毫无意义的技术+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加659/攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加692/攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加725/攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加857/攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加890/攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加923/攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加1055/攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加1088/攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加1120/攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加1252/攻击力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [
+    {
+      "text": "鲁格LCR外观照片来自Wikipedia@Jephthai",
+      "url": "https://commons.wikimedia.org/wiki/File:Ruger-LCR-38-sp-front-quarter.jpg"
+    }
+  ],
+  "contributor": [
+    {
+      "name": "2025/4/12 - Zaxver - 查缺补漏",
+      "url": ""
+    }
+  ],
+  "info_declare_uuid": "0c29ee26-48f5-4b0c-b247-319907a7fb72",
+  "skill_declare_uuid": "3909cf6b-1299-48d5-ad51-908261ced366",
+  "supplementary_uuid": "33ab8ff4-cbe8-46a7-8617-9b0cfeec6b3f",
+  "supplementary_declare_uuid": "f10e881a-e319-461f-a948-c1b319584c65",
+  "created_at": 1684604111,
+  "updated_at": 1783660660
+}

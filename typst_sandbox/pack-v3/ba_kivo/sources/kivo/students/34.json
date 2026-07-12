@@ -1,0 +1,1505 @@
+{
+  "id": 34,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 34,
+      "avatar": "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 383,
+      "avatar": "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "槌永",
+  "given_name": "日和",
+  "family_name_jp": "槌永",
+  "given_name_jp": "ヒヨリ",
+  "family_name_kr": "츠치나가",
+  "given_name_kr": "히요리",
+  "family_name_en": "Tsuchinaga",
+  "given_name_en": "Hiyori",
+  "family_name_zh_tw": "槌永",
+  "given_name_zh_tw": "日和",
+  "family_name_cn": "槌永",
+  "given_name_cn": "日和",
+  "nick_name": "黑暗初音，纳米肚肚",
+  "introduction": "阿里乌斯分校所属，胆小怕事、个性忧郁的阿里乌斯小队成员。\n\n自尊心低、大多时间都很悲观，经常说些自虐发言。时常看到她背着沉重的行李，跟在大家后面。\n\n>今，今天运气真好。唉嘿嘿……",
+  "introduction_cn": "胆小忧郁的阿里乌斯战术小队成员。\n\n一直背着沉重的行李，跟在其他阿里乌斯同伴身边。自尊心低且性格消极，对万事万物都难以积极看待。\n\n>噢噢，今天运气真好啊。\n嘿嘿……",
+  "momo_talk_signature": "人生，就是苦痛的持续......",
+  "main_relation": 42,
+  "relation": [
+    5,
+    14
+  ],
+  "age": 16,
+  "grade": "二年生",
+  "height": 155,
+  "birthday": "01-08",
+  "hobby": "收集杂志",
+  "designer": "9ml",
+  "illustrator": "9ml",
+  "character_voice": "中原麻衣",
+  "character_voice_cn": "降温",
+  "release_date": "2022-05-24",
+  "release_date_cn": "2024-05-16",
+  "release_date_global": "2022-12-20",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/avatar.png",
+  "school": 10,
+  "weapon_type": "SR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": false,
+  "more": "# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n| 自己 | 私 |\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[纱织](https://kivo.wiki/data/character/36)|サオリ姉さん<br>リーダー<br>サオリさん|\n|[美咲](https://kivo.wiki/data/character/33)|ミサキさん|\n|[亚津子](https://kivo.wiki/data/character/35)|姫ちゃん<br>アツコちゃん|\n|[梓](https://kivo.wiki/data/character/3)|アズサちゃん|\n|[志美子](https://kivo.wiki/data/character/194)|シミコさん|\n|[芹娜](https://kivo.wiki/data/character/91)|セリナさん|\n|[渚](https://kivo.wiki/data/character/25)|ナギサさん|\n|[花子](https://kivo.wiki/data/character/92)|ハナコさん|\n|[日奈](https://kivo.wiki/data/character/71)|ヒナさん|\n|[贝阿朵莉切](https://kivo.wiki/data/character/170)|彼女|\n|[美弥](https://kivo.wiki/data/character/129)|ミネさん|\n|阿里乌斯小队|私たち<br>みんな|\n|救护骑士团|皆さん|\n|[阿里乌斯分校](https://kivo.wiki/data/organize/10)|アリウス<br>皆さん<br>アリウスの子たち|\n|[瓦尔基里警察学校](https://kivo.wiki/data/organize/8)|ヴァルキューレ|\n|[圣三一综合学园](https://kivo.wiki/data/organize/2)|トリニティ|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n\n# 杂项趣闻\n## 别称相关\n黑暗初音：因为日和与初音未来发色相近且都有马尾，导致部分老师产生了幻视，进而获得该别称。\n![ko1K56QHjKw02HuXKBEKE6iuWQJ18x19.jpg](files/1279/ko1K56QHjKw02HuXKBEKE6iuWQJ18x19.jpg =200x)\n纳米肚肚：日和上线的时候赶上了“纳米机器，小子”的热梗，故有老师将日和的live2D的进场动画无缝衔接纳米机器，甚至有了相关生草二创。（其中之一：[Bilibili - 纳米肚肚，老师](https://www.bilibili.com/video/BV1j3411V7AP)）\n\n# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 木枯らしに目を引かれ | 惹人瞩目 恰似清商 | 嘿嘿... 不好意思打擾了 抱歉。 | I hate to be a bother. I'm sorry! |\n| ![hiyori-日服Banner.png](files/10355/hToxa5T9k1DRrijWchOl5NCWJpmWPE7d.png =450x) | ![hiyori-国服Banner-国服Banner.jpg](files/10355/IshjvA8ezgC0cizM9wo68dXO6cUiVbbr.jpg =450x) | ![hiyori-繁中Banner-繁中Banner.png](files/10355/YSg9cWmXLUj0JUaNtfcL1ei9Wp6ZdYtB.png =450x) | ![hiyori-enBanner.jpg](files/10355/8FDRVs20DmNKXX10SFq2RGjg7djNxOgn.jpg =450x) |\n\n同系列卡池：\n[纱织](https://kivo.wiki/data/character/36)「雪代水は廻り行く」\n[亚津子](https://kivo.wiki/data/character/35)「徒桜を拾い集めて」\n[美咲](https://kivo.wiki/data/character/33)「逃げ水を夢に見て」\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Hiyori-日服Intro-日服Intro.jpg](files/10355/9aBq3Pi5POucb5SYoHx07tLiRrcYwwYD.jpg =525x) | ![hiyori-国服Intro-国服Intro.jpg](files/10355/YuUyk15Y6yMJoysl4kqHAn5zKBE56aIu.jpg =425x) | ![hiyori-繁中Intro.jpg](files/10355/K0a5Q1YpqaFNizAHoqTIhrc6pD3uHIuN.jpg =530x) | ![hiyori-enIntro-enIntro.jpg](files/10355/PRrw41xgIeEo6KVDwwMa9vyXVlSm5RSd.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[原木收纳柜](https://kivo.wiki/data/item/550) |\n| :---: | :---: | :---: |\n|![hiyori_国服国服ex.gif](files/10355/QjHjDFtqKC9RJhZYKecQrDZKpyHXXhbs.gif =450x)|![hiyori_cafe.gif](files/10355/dsOqL489Nxp77tRdQEN4LvaK6pCIDhES.gif =450x)|![hiyori_interaction.gif](files/10355/RJKLL8vy58b7pqDpQ2f0pEqBi49AeIok.gif =450x)|\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 日和 汉化\n![日和](files/2/NBKjouX4aHCvjyLCDmXdbVndzTYlNwhw.png =450x)\n@tab 日和 原文\n![日和](files/2/GsDwzx6WFmNoxlDxO6ElMEdUxkylDzSx.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n\n![Vol2-186.jpg](files/10355/jwvPeE3ExeY6e93XMIL0bas9QcjXDuLP.jpg =450x)\n\n![Vol.1_页面_127.png](files/10355/z71nEWLgYvyhgzfwYpjViMrpipaQyjGN.png =450x)\n\n![Vol2-36.jpg](files/10355/HVx6TP0JRPkZNmXzUYZHSSDUFaM9VFqi.jpg =450x)\n\n![Vol2-129.jpg](files/10355/QlpkkkA5kGUHdKLEBI4omtWUkLi76BUp.jpg =450x)\n\n![Vol2-159.jpg](files/10355/siehkIyemgkhBJIgtHtNzJQcBr7IG5UC.jpg =450x)\n\n![Vol2-185.jpg](files/10355/kbPIIPkyi0NNktodeFeWG4pBVd5wf6Fo.jpg =450x)\n\n::::",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/Hiyori_home_Idle_01_1.0421000000000007.jpg",
+  "spine": [
+    290,
+    471
+  ],
+  "model": [
+    34,
+    388
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "Hiyori_Title",
+      "category": "lobby",
+      "text": "诶、嘿嘿……Blue Archive.",
+      "text_original": "えへへ……ブルーアーカイブ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/EXfOTtNgizCfllHLgVlzg4ZLCfkBO9XC.ogg"
+    },
+    {
+      "description": "Hiyori_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "诶、嘿嘿……打扰了。",
+      "text_original": "えへへ。失礼します……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/uSG6YtcOr5tFtGpDe7alMHWXW5jA9C7K.ogg"
+    },
+    {
+      "description": "Hiyori_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "这里，有不少看起来很不错的家具呢……",
+      "text_original": "何だか良さそうな家具が、たくさん……",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/Vy3irl945mvdrkYrHIZqeDYEVBOjxczf.ogg"
+    },
+    {
+      "description": "Hiyori_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "这个，还有那个，真不错呀~有这么多好东西！",
+      "text_original": "あれも、これも……良いですね……良さそうなものがたくさん……",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/wM7MUtqBt3wQjKP8Ws80roLzBieY506h.ogg"
+    },
+    {
+      "description": "Hiyori_Cafe_monolog_4.ogg",
+      "category": "cafe",
+      "text": "诶、嘿嘿……我太没礼数了。抱歉。",
+      "text_original": "えへへ……ご迷惑をおかけします、すみません……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/igfzZivl5JeNGHrhfpsKS5Gx3fTDmO5O.ogg"
+    },
+    {
+      "description": "Hiyori_Cafe_monolog_5.ogg",
+      "category": "cafe",
+      "text": "好像变开心了一点，又好像没有……",
+      "text_original": "楽しい気分になれそうな……なれなさそうな……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/3g4riwiiT7x14BXT09Dcji0OFfpQ7GB9.ogg"
+    },
+    {
+      "description": "Hiyori_CommonSkill.ogg",
+      "category": "battle",
+      "text": "会…会很痛吧？",
+      "text_original": "い、痛そうですね……",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/NdUa1VVP2LBfGHb9sLhorF3ujUDk11Ud.ogg"
+    },
+    {
+      "description": "Hiyori_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "哦，呃哇啊啊——我，我来了！",
+      "text_original": "お、おぅわぁ！わ、私が行きます！",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/cZv1e6XBtdKJoPVVGjbXKJ4OdFTyc1iF.ogg"
+    },
+    {
+      "description": "Hiyori_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "我……欸? 稍……稍等一下……！",
+      "text_original": "うぅぅ……えっ！？しょ、少々お待ちを！",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/lGi0QvNtriB7fbp7V3isD3w77wsV8w4m.ogg"
+    },
+    {
+      "description": "Hiyori_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "各……各位……啊……我，我来支援了……！",
+      "text_original": "み、皆さん……？はっ！？し、支援します！",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/JKL0prFM99XKbo3s39FMpMLeW9Hkkq40.ogg"
+    },
+    {
+      "description": "Hiyori_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "嗯,嘿嘿嘿,我也就只会这些了。",
+      "text_original": "えへへ……私には、このくらいしか出来ないので……",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/DKQZIcOQnokx4T0uAtQlREUkwe9YYuIG.ogg"
+    },
+    {
+      "description": "Hiyori_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "那，那么，前往下个地点吧……",
+      "text_original": "で……ではまた、次の場所へ……",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/tGDDx3mCjlouU4QqbsCt7fybnXvCRLbN.ogg"
+    },
+    {
+      "description": "Hiyori_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "这……也是人生……",
+      "text_original": "こういうのも……人生ですよね……",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/FJ3fKbewvfUg44YpqC2InviYt8ddnqvL.ogg"
+    },
+    {
+      "description": "Hiyori_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "老师是想狠狠压榨我吧？唉……反正也没别的办法，只能接受了。嘿嘿嘿……",
+      "text_original": "先生は私を、骨の髄までこき使うつもりなんですね…… まあ、どうしようもありませんし……受け入れるとしましょう、えへへ……。　",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/Py5zy0iTBY9amuKcPdwtlz7C6hyoYziJ.ogg"
+    },
+    {
+      "description": "Hiyori_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "是的,我准备好了,请……多多关照。",
+      "text_original": "はい、準備できました。よろしくお願いします......",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/Ps9wyUSXATuJwoDaTa3xrbcrAxVpaiWe.ogg"
+    },
+    {
+      "description": "Hiyori_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "诶、嘿嘿……这，这次……是什么样的工作……",
+      "text_original": "えへへ……こ、今回はどんなお仕事で……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/HH0pZa7rOtSLoTK8LQsbslXeRfpvevhL.ogg"
+    },
+    {
+      "description": "Hiyori_Gachaget.ogg",
+      "category": "growup",
+      "text": "诶嘿嘿……我终于也来这里了。接下来一定会很累、很辛苦吧？但这就是人生……也没办法吧？我是日和，请多关照……诶、嘿嘿。",
+      "text_original": "えへへ……何だかんだで、来てしまいました……これからも辛いですよね？苦しいんですよね？ ですが、それが人生のようですし……仕方ないですね。ヒヨリです、よろしくお願いいたします……えへへ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/yFnMu3F4mbqAqrK1OC0saJzbq7cPAJUk.ogg"
+    },
+    {
+      "description": "Hiyori_Growup_1.ogg",
+      "category": "growup",
+      "text": "啊？给，给我的吗？也就是说，想让我更痛苦，是这个意思吧？",
+      "text_original": "へ？わ、私ですか！？つまり、もっと苦しめと……そういうことですか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/jiFpaySdDaQIs6ot4rsVIY1XqvfTpMHT.ogg"
+    },
+    {
+      "description": "Hiyori_Growup_2.ogg",
+      "category": "growup",
+      "text": "以后会更痛苦吧……虽然会越来越痛苦……不过这也没办法呢，欸嘿嘿嘿……",
+      "text_original": "この先は、もっと苦しいんですよね……どんどん辛くなるんでしょうけど……仕方ないですね……えへへへ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/tvNF4BC8g0dx3z7mCbRe4xTdgwXQHPiV.ogg"
+    },
+    {
+      "description": "Hiyori_Growup_3.ogg",
+      "category": "growup",
+      "text": "随着我越来越强,应该，也会比现在更痛苦吧……",
+      "text_original": "強くなればなるほど、今以上に苦しむんですよね……",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/m0sDmvrzkygPUgq0ZhwZk5E3BFliF8hG.ogg"
+    },
+    {
+      "description": "Hiyori_Growup_4.ogg",
+      "category": "growup",
+      "text": "就算卑微如我，也能派上用场吗？",
+      "text_original": "こんな私でも、役に立てることが……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/HhIktGNBsY8vj2TKln0e9zmRr4PTukgA.ogg"
+    },
+    {
+      "description": "Hiyori_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "如果有什么事情，就告诉我……没准我可以帮上您什么忙……",
+      "text_original": "何かあれば言ってください……内容によっては、もしかしたら役に……",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/UTntRi8V86rOQRHjRTvR4KAWkeR7f0Ck.ogg"
+    },
+    {
+      "description": "Hiyori_Lobby_2_1.ogg",
+      "category": "lobby",
+      "text": "我说，就没有什么需要我做的事情吗……？从刚才开始就只是一起呆着而已…… 有没有更辛苦的工作之类的……",
+      "text_original": "あの、何かやることなどは……？さっきからただ一緒にいるだけで…… もっと何か、苦しい仕事とか……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/kOBCy4ZteOQzqV11EtaSwhzikSKiHfJT.ogg"
+    },
+    {
+      "description": "Hiyori_Lobby_2_2.ogg",
+      "category": "lobby",
+      "text": "嗯？真的吗？只要继续这样呆着就可以吗？",
+      "text_original": "……はい？こうしているだけでいいんですか？……本当に？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/jTTZ2hz2IKdvejAWXMykAtMTnaHjWYGj.ogg"
+    },
+    {
+      "description": "Hiyori_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "最近，我在杂志上读到过各种各样的文章…… 诶嘿嘿，或许能帮上一些忙……",
+      "text_original": "この間、そういう雑誌で色々読んできましたので。 えへへ……何か役に立てるかもです……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/wy4s3IXQFccNOIyE9yVjCfEFtK1eyGIH.ogg"
+    },
+    {
+      "description": "Hiyori_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "工作，虽然很辛苦…… 但人生本来就是辛苦的。所以没关系。",
+      "text_original": "お仕事は、苦しいですが…… 人生は元々全てが苦しいので、大丈夫です。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/DLHx36CkbYNhOQcK27C4NZCBRIgRwKFL.ogg"
+    },
+    {
+      "description": "Hiyori_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "呜，呜哇啊？！欢，欢迎您，老师…… 等，等候您多时了。",
+      "text_original": "うわぁっ！？お、おかえりなさい、先生…… お、お待ちしておりました……！",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/cmWTYldTsd2qnoxaZC1OTNLyJZu9maUI.ogg"
+    },
+    {
+      "description": "Hiyori_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "诶，嘿嘿……没错，这次值日员是我。所以老师大概会吃点苦吧。",
+      "text_original": "えへへ……はい、お嫌かもしれませんが、本日の当番は私です。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/qSXG505LeOM8Nlyf3Rmhb60C6kx557sE.ogg"
+    },
+    {
+      "description": "Hiyori_MemorialLobby_1.ogg",
+      "category": "lobby",
+      "text": "",
+      "text_original": "み、見てください先生、私のここ……",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/BuKd2OpOaAl3FseMzGSqj2qtnnVmiOgx.ogg"
+    },
+    {
+      "description": "Hiyori_MemorialLobby_2_1.ogg",
+      "category": "lobby",
+      "text": "",
+      "text_original": "や、やっぱり変なんですよね？みんなと違うんですよね！？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/TeMJembO6MdtxWS89pGyN888qy9jL61A.ogg"
+    },
+    {
+      "description": "Hiyori_MemorialLobby_2_2.ogg",
+      "category": "lobby",
+      "text": "",
+      "text_original": "もしかして変なのではと、前から思ってはいましたが……",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/Y7JJA6WVGEdPbTupUqdzs3M49tnqZan0.ogg"
+    },
+    {
+      "description": "Hiyori_MemorialLobby_2_3.ogg",
+      "category": "lobby",
+      "text": "",
+      "text_original": "やっぱり、そうだったんですね……！",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/A5JGEkUGqZ8NhlyQz0G8cwAHTkFSa57X.ogg"
+    },
+    {
+      "description": "Hiyori_MemorialLobby_3_1.ogg",
+      "category": "lobby",
+      "text": "",
+      "text_original": "せ、先生？どうしてさっきから、視線を……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/vXd6IRQJvwu0NZCggyW1nGlpVUAw8RUP.ogg"
+    },
+    {
+      "description": "Hiyori_MemorialLobby_3_2.ogg",
+      "category": "lobby",
+      "text": "",
+      "text_original": "まさか……ま、まともに見られないくらい変なんですか！？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/WhvZtiYwr0oIJH4amfWevSl7iEAmflni.ogg"
+    },
+    {
+      "description": "Hiyori_MemorialLobby_4_1.ogg",
+      "category": "lobby",
+      "text": "",
+      "text_original": "そうなんですね……もう生きていく意味もないかもしれません",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/soCBomp34hSbMXfgkXzlxII95LVm7I8J.ogg"
+    },
+    {
+      "description": "Hiyori_MemorialLobby_4_2.ogg",
+      "category": "lobby",
+      "text": "",
+      "text_original": "どうして人生は、こう……",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/nxSS4YVpi962QAYMEozWoyyjGKNxFh3n.ogg"
+    },
+    {
+      "description": "Hiyori_MemorialLobby_4_3.ogg",
+      "category": "lobby",
+      "text": "",
+      "text_original": "まるで直視できない私のここみたいに、グロテスクで……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/LqylndAyzFPdz4q4qiDKBrYjo5A6dLNN.ogg"
+    },
+    {
+      "description": "Hiyori_MemorialLobby_5_1.ogg",
+      "category": "lobby",
+      "text": "",
+      "text_original": "せ、先生……せめて何か感想を……",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/Xvn7zCVIaWqHJS3q5kfQKruBhP83kFvz.ogg"
+    },
+    {
+      "description": "Hiyori_MemorialLobby_5_2.ogg",
+      "category": "lobby",
+      "text": "",
+      "text_original": "こんな体でも、良いとか役立ちそうとか、何か言っていただけないと……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/ajvIq1rkpOrF68C9qBguDncPxd24cLl2.ogg"
+    },
+    {
+      "description": "Hiyori_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "啊……怎么说呢……虽然我觉得自己的用处也就到这里了，但，这是怎么回事呢……",
+      "text_original": "あの…私、これ以上はきっと役に立てないと思いますが……。どうしたものですかね？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/7WJ0ZSAlckiZ0OaEt6eF7w6S11ptIQfO.ogg"
+    },
+    {
+      "description": "Hiyori_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "谢……谢谢你……欸嘿嘿……",
+      "text_original": "あ、ありがとうございます…。えへへ…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/41kWgMRRZwNZMVPiomccBDrYYPDBIAuN.ogg"
+    },
+    {
+      "description": "Hiyori_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "您这样推着我向前走，是想告诉我，“人生就是受苦”吧？对吧？是这样的吧？",
+      "text_original": "こんなに私を追い詰めて。人生は苦しいものだって教えて下さってるんですか？そうですよね？そういうことですよね？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/eG3JwQjixHg764xCjM5qjd1Yk36tDDWt.ogg"
+    },
+    {
+      "description": "Hiyori_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "夸奖，然后再贬低，以此让我陷入痛苦……原来是这个套路吗……？",
+      "text_original": "上げては落として……また、つらい目に…。そういうことですよね？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/KHcfVgtlk9LU7q6bvNM1Kv3PO5ExNMB4.ogg"
+    },
+    {
+      "description": "Hiyori_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "人是为了受苦才出生的，不是吗？ 嘿嘿……所以我这些年的人生非常充实。 诶？您说这个论调太扭曲了？是，是吗？",
+      "text_original": "人は、苦しむために生まれるんですよね？ へへ……ですから私はもう何年も、充実した年を重ねています。 そ、それは違うかも……？そうなんですか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/bAjVQ2BYF0sWQFdc6SpXWeqL1zsq65kd.ogg"
+    },
+    {
+      "description": "Hiyori_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "祝，祝老师生日快乐！！ 老师一直在不停重复着如此痛苦的时光吗？ 真了不起，太厉害了。 我虽然也很痛苦……但以后会加油的。",
+      "text_original": "せ、先生、誕生日おめでとうございます！！ こんな辛い時間を先生は何度も繰り返してきたんですよね？ すごいですね、本当に素晴らしいです。 私も辛いですが……これからも、頑張ります。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/oOohsmUg4YTJOwiu6BsPul5T0FMCBWxq.ogg"
+    },
+    {
+      "description": "Hiyori_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "嘿嘿……不管是被夺走糖果还是被捣蛋…… 选哪一个，结果都是痛苦的……就像我们的人生一样。",
+      "text_original": "えへへ……飴を奪われるか、いたずらされるか……どっちでも辛いですよね。 どっちを選んでも苦しい二者択一……人生みたいですね……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/okuPHGuPJ4qGtUGFsA1HzRKa6FaUvJlG.ogg"
+    },
+    {
+      "description": "Hiyori_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "一年又这样过去了呢。 新的一年又会有怎样的新苦等着我吃呢……嘿嘿嘿。",
+      "text_original": "またこうして一年が過ぎましたね。 今年は新たに、どれだけの苦しみが待っていることでしょうか……えへへ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/X0bfbCkyUr5JpU6Ww6razenLIWsprxwJ.ogg"
+    },
+    {
+      "description": "Hiyori_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "嘿嘿，我在杂志上学过关于圣诞节的知识，准备可以说是万无一失…… ……咦？您为什么要逃跑？",
+      "text_original": "聖夜について雑誌で読みました。色々と準備は万端です。 ……えっと、どうして逃げようとするんですか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/NzD72oYDiTAARwRWNwuPQadn47xMwdJV.ogg"
+    },
+    {
+      "description": "Hiyori_MemorialLobby_0",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/Hiyori_MemorialLobby_0.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "hiyori_cafe_monolog_1",
+      "category": "cafe",
+      "text": "诶、嘿嘿……打扰了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "hiyori_cafe_monolog_2",
+      "category": "cafe",
+      "text": "这里，有不少看起来很不错的家具呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "hiyori_cafe_monolog_3",
+      "category": "cafe",
+      "text": "这个，还有那个，真不错呀~有这么多好东西！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "hiyori_cafe_monolog_4",
+      "category": "cafe",
+      "text": "诶、嘿嘿……我太没礼数了。抱歉。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "hiyori_cafe_monolog_5",
+      "category": "cafe",
+      "text": "好像变开心了一点，又好像没有……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "hiyori_commonskill",
+      "category": "battle",
+      "text": "会…会很痛吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_commonskill.ogg"
+    },
+    {
+      "description": "hiyori_exskill_1",
+      "category": "battle",
+      "text": "哦，呃哇啊啊——我，我来了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_exskill_1.ogg"
+    },
+    {
+      "description": "hiyori_exskill_2",
+      "category": "battle",
+      "text": "我……欸? 稍……稍等一下……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_exskill_2.ogg"
+    },
+    {
+      "description": "hiyori_exskill_3",
+      "category": "battle",
+      "text": "各……各位……啊……我，我来支援了……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_exskill_3.ogg"
+    },
+    {
+      "description": "hiyori_exskill_level_1",
+      "category": "battle",
+      "text": "嗯,嘿嘿嘿,我也就只会这些了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_exskill_level_1.ogg"
+    },
+    {
+      "description": "hiyori_exskill_level_2",
+      "category": "battle",
+      "text": "那，那么，前往下个地点吧……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_exskill_level_2.ogg"
+    },
+    {
+      "description": "hiyori_exskill_level_3",
+      "category": "battle",
+      "text": "这……也是人生……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_exskill_level_3.ogg"
+    },
+    {
+      "description": "hiyori_exweapon_get",
+      "category": "growup",
+      "text": "老师是想狠狠压榨我吧？唉……反正也没别的办法，只能接受了。嘿嘿嘿……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_exweapon_get.ogg"
+    },
+    {
+      "description": "hiyori_formation_in_1",
+      "category": "formation",
+      "text": "是的,我准备好了,请……多多关照。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_formation_in_1.ogg"
+    },
+    {
+      "description": "hiyori_formation_in_2",
+      "category": "formation",
+      "text": "呃,嘿嘿……这，这次……是什么样的工作……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_formation_in_2.ogg"
+    },
+    {
+      "description": "hiyori_gachaget",
+      "category": "growup",
+      "text": "诶嘿嘿……我终于也来这里了。接下来一定会很累、很辛苦吧？但这就是人生……也没办法吧？我是日和，请多关照……诶、嘿嘿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_gachaget.ogg"
+    },
+    {
+      "description": "hiyori_growup_1",
+      "category": "growup",
+      "text": "啊？给，给我的吗？也就是说，想让我更痛苦，是这个意思吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_growup_1.ogg"
+    },
+    {
+      "description": "hiyori_growup_2",
+      "category": "growup",
+      "text": "以后会更痛苦吧……虽然会越来越痛苦……不过这也没办法呢，欸嘿嘿嘿……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_growup_2.ogg"
+    },
+    {
+      "description": "hiyori_growup_3",
+      "category": "growup",
+      "text": "随着我越来越强,应该，也会比现在更痛苦吧……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_growup_3.ogg"
+    },
+    {
+      "description": "hiyori_growup_4",
+      "category": "growup",
+      "text": "就算卑微如我，也能派上用场吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_growup_4.ogg"
+    },
+    {
+      "description": "hiyori_lobby_1",
+      "category": "lobby",
+      "text": "如果有什么事情，就告诉我……没准我可以帮上您什么忙……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_lobby_1.ogg"
+    },
+    {
+      "description": "hiyori_lobby_2_1",
+      "category": "lobby",
+      "text": "我说，就没有什么需要我做的事情吗……？从刚才开始就只是一起呆着而已…… 有没有更辛苦的工作之类的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_lobby_2_1.ogg"
+    },
+    {
+      "description": "hiyori_lobby_2_2",
+      "category": "lobby",
+      "text": "嗯？真的吗？只要继续这样呆着就可以吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_lobby_2_2.ogg"
+    },
+    {
+      "description": "hiyori_lobby_4",
+      "category": "lobby",
+      "text": "最近，我在杂志上读到过各种各样的文章…… 诶嘿嘿，或许能帮上一些忙……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_lobby_4.ogg"
+    },
+    {
+      "description": "hiyori_lobby_5",
+      "category": "lobby",
+      "text": "工作，虽然很辛苦…… 但人生本来就是辛苦的。所以没关系。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_lobby_5.ogg"
+    },
+    {
+      "description": "hiyori_login_1",
+      "category": "lobby",
+      "text": "呜，呜哇啊？！欢，欢迎您，老师…… 等，等候您多时了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_login_1.ogg"
+    },
+    {
+      "description": "hiyori_login_2",
+      "category": "lobby",
+      "text": "诶，嘿嘿……没错，这次值日员是我。所以老师大概会吃点苦吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_login_2.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_1",
+      "category": "lobby",
+      "text": "老，老师，您看呀。我这里……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_memoriallobby_1.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "是不是，很奇怪？和其他人不一样吧？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "我以前就一直在想，自己的肚脐是不是有些奇怪……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_2_3",
+      "category": "lobby",
+      "text": "呜……果然，是这样的！！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_memoriallobby_2_3.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "老师？您的视线为什么总是闪开啊？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "难道……已经奇怪到无法直视的地步了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "哇啊啊啊啊——果然是这样……这么一来，我已经没有活下去的意义了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "为什么我的人生……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "会像我这里一样不忍直视，这么丑陋畸形呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_memoriallobby_4_3.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "嘿嘿……老师，至少说句安慰的话吧……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "就算身体长得奇怪，也会有它的用处之类的，这样安慰我一下可以吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "hiyori_relationship_up_1",
+      "category": "growup",
+      "text": "啊……怎么说呢……虽然我觉得自己的用处也就到这里了，但，这是怎么回事呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_relationship_up_1.ogg"
+    },
+    {
+      "description": "hiyori_relationship_up_2",
+      "category": "growup",
+      "text": "谢……谢谢你……欸嘿嘿……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_relationship_up_2.ogg"
+    },
+    {
+      "description": "hiyori_relationship_up_3",
+      "category": "growup",
+      "text": "您这样推着我向前走，是想告诉我，“人生就是受苦”吧？对吧？是这样的吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_relationship_up_3.ogg"
+    },
+    {
+      "description": "hiyori_relationship_up_4",
+      "category": "growup",
+      "text": "夸奖，然后再贬低，以此让我陷入痛苦……原来是这个套路吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_relationship_up_4.ogg"
+    },
+    {
+      "description": "hiyori_season_birthday",
+      "category": "lobby",
+      "text": "人是为了受苦才出生的，不是吗？ 嘿嘿……所以我这些年的人生非常充实。 诶？您说这个论调太扭曲了？是，是吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_season_birthday.ogg"
+    },
+    {
+      "description": "hiyori_season_birthday_player",
+      "category": "lobby",
+      "text": "祝，祝老师生日快乐！！ 老师一直在不停重复着如此痛苦的时光吗？ 真了不起，太厉害了。 我虽然也很痛苦……但以后会加油的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_season_birthday_player.ogg"
+    },
+    {
+      "description": "hiyori_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，新春我也会受苦的吧？啊？新春快乐？哎呀，快乐只是一时的，受苦才是长久远……欸…嘿嘿……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "hiyori_season_halloween",
+      "category": "lobby",
+      "text": "嘿嘿……不管是被夺走糖果还是被捣蛋…… 选哪一个，结果都是痛苦的……就像我们的人生一样。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_season_halloween.ogg"
+    },
+    {
+      "description": "hiyori_season_midautumn",
+      "category": "lobby",
+      "text": "月饼？啊，我知道了，里面一定藏了魔鬼辣椒，是用来让我受苦的新道ju——诶？没放那么危险的东西？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_season_midautumn.ogg"
+    },
+    {
+      "description": "hiyori_season_newyear",
+      "category": "lobby",
+      "text": "一年又这样过去了呢。 新的一年又会有怎样的新苦等着我吃呢……嘿嘿嘿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_season_newyear.ogg"
+    },
+    {
+      "description": "hiyori_season_xmas",
+      "category": "lobby",
+      "text": "嘿嘿，我在杂志上学过关于圣诞节的知识，准备可以说是万无一失…… ……咦？您为什么要逃跑？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_season_xmas.ogg"
+    },
+    {
+      "description": "hiyori_title",
+      "category": "lobby",
+      "text": "诶、嘿嘿……Blue Archive.",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/cn/hiyori_title.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "hiyori_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "hiyori_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "hiyori_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "hiyori_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "hiyori_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "hiyori_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_commonskill.ogg"
+    },
+    {
+      "description": "hiyori_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_exskill_1.ogg"
+    },
+    {
+      "description": "hiyori_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_exskill_2.ogg"
+    },
+    {
+      "description": "hiyori_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_exskill_3.ogg"
+    },
+    {
+      "description": "hiyori_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_exskill_level_1.ogg"
+    },
+    {
+      "description": "hiyori_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_exskill_level_2.ogg"
+    },
+    {
+      "description": "hiyori_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_exskill_level_3.ogg"
+    },
+    {
+      "description": "hiyori_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_exweapon_get.ogg"
+    },
+    {
+      "description": "hiyori_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_gachaget.ogg"
+    },
+    {
+      "description": "hiyori_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_growup_1.ogg"
+    },
+    {
+      "description": "hiyori_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_growup_2.ogg"
+    },
+    {
+      "description": "hiyori_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_growup_3.ogg"
+    },
+    {
+      "description": "hiyori_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_growup_4.ogg"
+    },
+    {
+      "description": "hiyori_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_lobby_1.ogg"
+    },
+    {
+      "description": "hiyori_lobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_lobby_2_1.ogg"
+    },
+    {
+      "description": "hiyori_lobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_lobby_2_2.ogg"
+    },
+    {
+      "description": "hiyori_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_lobby_4.ogg"
+    },
+    {
+      "description": "hiyori_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_lobby_5.ogg"
+    },
+    {
+      "description": "hiyori_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_login_1.ogg"
+    },
+    {
+      "description": "hiyori_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_login_2.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_0",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_memoriallobby_0.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_memoriallobby_1.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_2_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_memoriallobby_2_3.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_memoriallobby_4_3.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "hiyori_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "hiyori_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_relationship_up_1.ogg"
+    },
+    {
+      "description": "hiyori_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_relationship_up_2.ogg"
+    },
+    {
+      "description": "hiyori_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_relationship_up_3.ogg"
+    },
+    {
+      "description": "hiyori_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_relationship_up_4.ogg"
+    },
+    {
+      "description": "hiyori_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_season_birthday.ogg"
+    },
+    {
+      "description": "hiyori_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_season_birthday_player.ogg"
+    },
+    {
+      "description": "hiyori_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_season_halloween.ogg"
+    },
+    {
+      "description": "hiyori_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_season_newyear.ogg"
+    },
+    {
+      "description": "hiyori_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/hiyori_season_xmas.ogg"
+    },
+    {
+      "description": "Hiyori_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/Hiyori_Title.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_00.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_06.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_04.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_07.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_05.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_02.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_03.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_09.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_11.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_01.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_08.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_10.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_99.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hiyori_spr_Idle_01.png"
+      ]
+    },
+    {
+      "title": "角色画廊",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol.1_%E9%A1%B5%E9%9D%A2_127.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-36.jpg",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-129.jpg",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-159.jpg",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-185.jpg",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-186.jpg",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/hiyori-%E7%B9%81%E4%B8%ADBanner.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/hiyori-%E5%9B%BD%E6%9C%8DBanner.jpg",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/hiyori-enBanner.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/hiyori-%E6%97%A5%E6%9C%8DBanner.png",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/hiyori-%E7%B9%81%E4%B8%ADIntro.jpg",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/hiyori-%E5%9B%BD%E6%9C%8DIntro.jpg",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/hiyori_%E5%9B%BD%E6%9C%8Dskill.jpg",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/hiyori_%E5%9B%BD%E6%9C%8Dex.gif",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/hiyori_%E5%9B%BD%E6%9C%8Dcafe.gif",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/hiyori-enIntro.jpg",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Hiyori-%E6%97%A5%E6%9C%8DIntro.jpg",
+        "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/hiyori_%E5%9B%BD%E6%9C%8Dinteraction.gif"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 147,
+      "favorability": 180
+    },
+    {
+      "id": 88,
+      "favorability": 60
+    }
+  ],
+  "furniture": [
+    550
+  ],
+  "character_datas": [
+    {
+      "character_id": 20017,
+      "dev_name": "Hiyori_default",
+      "combat_style": "default",
+      "type": "Support",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Light",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "S",
+      "street_adaptability": "B",
+      "equipment": [
+        8,
+        10,
+        3
+      ],
+      "cultivate_material": [
+        106,
+        108,
+        109,
+        110,
+        143,
+        144,
+        145,
+        146,
+        440,
+        441,
+        442,
+        443,
+        407,
+        408,
+        409,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/skill_icon/wjaLtpts4WGZhGmnqr3vQP64hifqUng9.png",
+            "title": "现、现在就来支援！",
+            "title_cn": "我，我来支援了！",
+            "preview": "//static.kivo.wiki/videos/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/skill_preview/911Lgj0th7Uk5RRPIfp6v4c7359T2Ci5.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "发射沿直线飞行的子弹，对最初命中的1个敌人造成攻击力207%的伤害。 另外，在同一部队编成的阿里乌斯小队的学生为2人以下的情况时， 命中的敌人防御力减少23.2%，3人以上时，命中的敌人防御力减少39.7%（持续30秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "发射沿直线飞行的子弹，对最初命中的1个敌人造成攻击力238%的伤害。 另外，在同一部队编成的阿里乌斯小队的学生为2人以下的情况时， 命中的敌人防御力减少23.2%，3人以上时，命中的敌人防御力减少39.7%（持续30秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "发射沿直线飞行的子弹，对最初命中的1个敌人造成攻击力269%的伤害。 另外，在同一部队编成的阿里乌斯小队的学生为2人以下的情况时， 命中的敌人防御力减少26.6%，3人以上时，命中的敌人防御力减少45.7%（持续30秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "发射沿直线飞行的子弹，对最初命中的1个敌人造成攻击力300%的伤害。 另外，在同一部队编成的阿里乌斯小队的学生为2人以下的情况时， 命中的敌人防御力减少26.6%，3人以上时，命中的敌人防御力减少45.7%（持续30秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "发射沿直线飞行的子弹，对最初命中的1个敌人造成攻击力331%的伤害。 另外，在同一部队编成的阿里乌斯小队的学生为2人以下的情况时， 命中的敌人防御力减30.1%，3人以上时，命中的敌人防御力减少51.6%（持续30秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/skill_icon/C8WprfZ5u3r2pgnMUMwQCWNswHcn1OTH.png",
+            "title": "会、会很痛哦！",
+            "title_cn": "会、会很疼哦！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每40秒对敌人1人造成攻击力的255%的伤害，使其防御力减少7.7%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对敌人1人造成攻击力的268%的伤害，使其防御力减少7.7%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对敌人1人造成攻击力的281%的伤害，使其防御力减少7.7%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对敌人1人造成攻击力的307%的伤害，使其防御力减少8.5%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对敌人1人造成攻击力的319%的伤害，使其防御力减少8.5%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对敌人1人造成攻击力的332%的伤害，使其防御力减少8.5%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对敌人1人造成攻击力的358%的伤害，使其防御力减少9.2%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对敌人1人造成攻击力的370%的伤害，使其防御力减少9.2%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对敌人1人造成攻击力的383%的伤害，使其防御力减少9.2%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对敌人1人造成攻击力的409%的伤害，使其防御力减少10%（持续30秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/skill_icon/M8sIVyHw4hx1rcdmZkHqNizzWhH3gj0A.png",
+            "title": "从杂志学到的知识",
+            "title_cn": "杂志上学到的知识",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/skill_icon/LPiqCSwJV3yvY6UCiygrLR9X9SI7M4uo.png",
+            "title": "附录的力量",
+            "title_cn": "这是附录的力量！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加9.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加9.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加10%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加11.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加12.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加15.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加17.3%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2380,
+          "attack": 259,
+          "defense": 18,
+          "healing": 1996,
+          "accuracy": 949,
+          "evasion": 188,
+          "crit": 211,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 2171,
+          "range": 100,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/weapons_icon.png",
+        "name": "同一性原理",
+        "name_cn": "自我同一性",
+        "description": "日和使用的狙击步枪。<br/>瞄准敌人精准飞去的20mm子弹，即使在枪林弹雨的战场上，也能强烈主张自身的存在。",
+        "description_cn": "日和使用的反器材狙击枪。<br/>朝着敌人精准飞去的20mm子弹，即使在枪林弹雨的战场上，也能名副其实地证明自我的存在。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「从杂志学到的知识」升级为「从杂志学到的知识+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室内适应性 S -> SS",
+            "description": "在室内地形造成1.3倍伤害。 在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%A7%8C%E6%B0%B8%20%E6%97%A5%E5%92%8C/skill_icon/S94USlnOrCVzJtT24wO2SVBm5yzIQWN8.png",
+            "title": "从杂志学到的知识+",
+            "title_cn": "杂志上学到的知识+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2000/暴击伤害增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2100/暴击伤害增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2200/暴击伤害增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2600/暴击伤害增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2700/暴击伤害增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2800/暴击伤害增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加3200/暴击伤害增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加3300/暴击伤害增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加3400/暴击伤害增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加3800/暴击伤害增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "5cefb6a1-cbb4-4c98-b44e-5f7145c8ccc8",
+  "skill_declare_uuid": "521a33a1-d02c-4d95-a31b-70e7702083c7",
+  "supplementary_uuid": "0b6de340-868f-4789-8860-aefc84470138",
+  "supplementary_declare_uuid": "2a28fc27-6586-4827-8e95-d4fe33b4a3ad",
+  "created_at": 1684606272,
+  "updated_at": 1783660568
+}

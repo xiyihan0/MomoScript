@@ -1,0 +1,1532 @@
+{
+  "id": 69,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 69,
+      "avatar": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 51,
+      "avatar": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/avatar.png",
+      "skin": "应援团",
+      "skin_cn": "应援团"
+    }
+  ],
+  "family_name": "猫冢",
+  "given_name": "响",
+  "family_name_jp": "猫塚",
+  "given_name_jp": "ヒビキ",
+  "family_name_kr": "네코즈카",
+  "given_name_kr": "히비키",
+  "family_name_en": "Nekozuka",
+  "given_name_en": "Hibiki",
+  "family_name_zh_tw": "猫塚",
+  "given_name_zh_tw": "響",
+  "family_name_cn": "猫冢",
+  "given_name_cn": "响",
+  "nick_name": "",
+  "introduction": "千禧科学学院所属，工程师部的成员。\n\n虽然稍微缺乏社交能力且说话较木讷，但她与生俱有的工学才能相当突出，发明了不少神奇的物品。\n她的发明几乎毫无缺点，全部都被称为杰作也不为过。\n但每个作品一定会带有一个奇怪的功能，经常让使用者不知所措。\n\n>有什么需要改造的东西吗？",
+  "introduction_cn": "千禧年科技的工程部成员。\n\n相比其他女生，她不太善于交际，也不擅长说话，但凭借与生俱来的工程学才能，总是能发明出各种神奇的东西。\n她的大多数发明都是无可挑剔的杰作，但总是会加入一个奇怪的功能，让用户感到困惑。\n\n>有没有需要改造的东西？",
+  "momo_talk_signature": "行胜于言",
+  "main_relation": 38,
+  "relation": [
+    37
+  ],
+  "age": 15,
+  "grade": "一年生",
+  "height": 154,
+  "birthday": "04-02",
+  "hobby": "购物、cosplay",
+  "designer": "ミミトケ",
+  "illustrator": "ミミトケ",
+  "character_voice": "名冢佳织",
+  "character_voice_cn": "小N",
+  "release_date": "2021-02-04",
+  "release_date_cn": "2023-08-03",
+  "release_date_global": "2021-11-09",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/avatar.png",
+  "school": 4,
+  "weapon_type": "MT",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": true,
+  "more": "# 杂项趣闻\n\n:::: center\n!!! question <font size=\"4\">**荣 誉 勋 章**</font>\n![hanamaru_coconut.png](files/19083/lgj4cn7FML4efZeQXT3qrdc0b6jy61g0.png =100x)\n此角色曾在本站开设的投票活动『基沃托斯年度最佳大选』中取得前三名的成绩！\n[2024年](https://kivo.wiki/article/37)：【年度最佳爱用品】**第3名**![rank3.png](files/19083/ZISQ0bfnce5Bj1nzKXXRpkh7fdPIPhnp.png =50x)\n!!!\n::::\n\n# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 閃きよ、この世界を照らして | 闪光点亮世界 | 在規定的時間和預算内做出最佳選擇，這就是巨匠。 | A MEISTER'S JOB IS WITHIN THE GIVEN TIME AND BUDGET. |\n| ![hibiki_banner.png](files/10/Y6W8WUsDMLcEFjnJ668lYAfjkOpdOeeb.png) | ![006yPoYygy1hia4sxg1w7j30zk0k0nnx (1).jpg](files/9283/UZD52bVLevbrry6lcoRVNmXLlnDZjo6M.jpg) | ![hibiki_re.jpg](files/9283/fMC58mEEw2cSu7IEAJZCht27E3BQPqh7.jpg) | ![Ftpsnb-aQAUGqWr.jpg](files/9283/8q9kFOdmWYlPC0MRz7PdKQmWc3pmx8Sv.jpg) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![EsYojn5VEAEl8k6.jpg](files/9283/PwzzgiS5ivF3HTGdbvDoA8gZN5xMMR9t.jpg =415x) | ![006yPoYygy1he1iuurvtzj30xc1jkqpz (1).jpg](files/9283/UVwqoSDVgvGFX9tHr0xJ0Xc9WMVsJsyj.jpg =420x) | ![hibiki.jpg](files/9283/0PCogfR0vwiEuU627ANS4Rt3iT4ofx1M.jpg =700x) | ![FAk3KjqVcAIg3te.jpg](files/9283/opfZeMhCaSuOaRjQjgPAku76EDXZNdBY.jpg =400x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 响 汉化\n![响](files/2/TeldaSrNCbz6mEJfHJJvIgQtoS2w2qBH.png =450x)\n@tab 响 原文\n![响](files/2/9qBSgtywDIpK6zBnG96dfW0u0Mn0BBis.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_078.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_174.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_223.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_252.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_253.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20016.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20240.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20276.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20281.png =450x)\n\n::::\n\n## 国际服直播内容\n::::center\n![Snipaste_2026-05-26_00-01-43.png](files/490/G5FHGg9ssWBtTG0Uc8FVaKnyRpQzdJms.png =450x)\n\n![Snipaste_2026-05-26_00-01-21.png](files/490/zvDGgIpkMpNw9medpve9qxp0P42l6eYx.png =450x)\n::::\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[歌原](https://kivo.wiki/data/character/185)|ウタハ先輩<br>先輩|\n|[小鸟](https://kivo.wiki/data/character/211)|コトリ|\n|[明日奈](https://kivo.wiki/data/character/113)|アスナ先輩|\n|[爱丽丝](https://kivo.wiki/data/character/108)|アリス|\n|[忧](https://kivo.wiki/data/character/23)|図書委員長|\n|[妮禄](https://kivo.wiki/data/character/213)|ネル先輩|\n|[诺亚](https://kivo.wiki/data/character/28)|ノア先輩|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/Hibiki_home_Idle_01_1.5498.jpg",
+  "spine": [
+    279,
+    462
+  ],
+  "model": [
+    30,
+    384
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "Hibiki_Title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/J9WSEWPsBakH1M9BlZ0CB4UPOzFWOPCt.ogg"
+    },
+    {
+      "description": "Hibiki_Battle_In_1",
+      "category": "battle",
+      "text": "所有变量均已计算完毕。",
+      "text_original": "あらゆる変数はすべて計算済。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/2H2bpHxnPiVf0Lx8uvgYL9bGWrDMTDtB.ogg"
+    },
+    {
+      "description": "Hibiki_Battle_In_2",
+      "category": "battle",
+      "text": "小心，可能会有伏击。",
+      "text_original": "待ち伏せに気を付けて。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/xV1J7eTNduNxz2j1VVAXD3ta7wyNwP6g.ogg"
+    },
+    {
+      "description": "Hibiki_Battle_TSA_1",
+      "category": "battle",
+      "text": "虽然我不是开车的专家，但我是机械的专家。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/v25mFFREO370NeY7LaltjSCHRggjF7k5.ogg"
+    },
+    {
+      "description": "Hibiki_Battle_TSA_2",
+      "category": "battle",
+      "text": "这就是，千禧年的品质。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/gn2j42xvK6SzJXL0SLt92votRCWxpaLX.ogg"
+    },
+    {
+      "description": "Hibiki_Cafe_Act_1",
+      "category": "cafe",
+      "text": "嗯，我发现有些内部项目有可以修理和改善的地方。欸？不能修理吗？",
+      "text_original": "ん…内部のいくつかの項目から修理と改善事項を発見…え？修理しちゃダメ？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/1GVwKdvQ7rJK8r0GM89R8gqJdSkTzYt9.ogg"
+    },
+    {
+      "description": "Hibiki_Cafe_Act_2",
+      "category": "cafe",
+      "text": "需要的话，我可以给你装一个陷阱，让过来的人都吓一跳。嗯？不可以啊......",
+      "text_original": "お望みなら、来た人がびっくりするような罠を設置してあげるけど。うん？ダメって？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/D9cvexcgdjVpZVFiFiTPI9ei8mG8EJHs.ogg"
+    },
+    {
+      "description": "Hibiki_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "”要是再给我一点时间和预算的话......“哼，那只是给自己的能力不足找借口罢了。",
+      "text_original": "「今少し時間と予算をいただければ」…？自分の能力不足に対する言い訳に過ぎない。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/S5oqVq7HOSWUq3zsK1Gd1oXffJg0bEya.ogg"
+    },
+    {
+      "description": "Hibiki_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "在有限的时间和预算内得到最好的结果，这才是真正的大师。",
+      "text_original": "与えられた時間と予算内でベストな結果を出すこと。それがマイスターというもの。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/EblSKXh9R0BFyLqWr5qDa8Nq9xKkkYYs.ogg"
+    },
+    {
+      "description": "Hibiki_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "在这里给老师建一个铜像怎么样？我可以让铜像的手脚关节都动起来哦。",
+      "text_original": " ここに先生の銅像を建てるのはどうかな？手足の間接が動くように作れるよ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/clHm8JwYq2yyrZKTsldqEMqULVAdpGJW.ogg"
+    },
+    {
+      "description": "Hibiki_CommonSkill",
+      "category": "battle",
+      "text": "支援射击，开始。",
+      "text_original": "支援射撃、開始。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/woyub0DoaSpkuND2fUh0xFrG8wDLhVfU.ogg"
+    },
+    {
+      "description": "Hibiki_ExSkill_1",
+      "category": "battle",
+      "text": "确认敌人的位置，准备开火。",
+      "text_original": "敵の位置を確認。発砲準備完了。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/OiYBdzHH2sx4vzconlgUFpXe8X9ZeQwU.ogg"
+    },
+    {
+      "description": "Hibiki_ExSkill_2",
+      "category": "battle",
+      "text": "力量正在高涨，上吧。",
+      "text_original": "力がみなぎっている。行こう。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/yVWD3CYVz90UAzIynzib8IfL7FPTaVSg.ogg"
+    },
+    {
+      "description": "Hibiki_ExSkill_3",
+      "category": "battle",
+      "text": "把我的愤怒化作炮弹。",
+      "text_original": "今、装填してるのは…怒り。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/IVWbxvv71ETjlsFXeScIh2Uw8vIrAodP.ogg"
+    },
+    {
+      "description": "Hibiki_ExSkill_Level_1",
+      "category": "battle",
+      "text": "可能会，有点难熬。",
+      "text_original": "それなりに、大変なことになるかも？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/bfDkBEJX8KxHKxOlRluFTz80KZYU45lf.ogg"
+    },
+    {
+      "description": "Hibiki_ExSkill_Level_2",
+      "category": "battle",
+      "text": "直接命中目标，成功。",
+      "text_original": "それなりに、大変なことになるかも？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/pqbXDwas9p5qgcJcW1tBPSxvxpBZGkuI.ogg"
+    },
+    {
+      "description": "Hibiki_ExSkill_Level_3",
+      "category": "battle",
+      "text": "老师的敌人，不可原谅。",
+      "text_original": "先生の敵は、許さない。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/dy2FPErIP1dBpZnuHZ8HL8jtLAZigIM9.ogg"
+    },
+    {
+      "description": "Hibiki_ExWeapon_Get",
+      "category": "growup",
+      "text": "我还想制造出更多的东西，这样我就可以给老师帮更多的忙了。",
+      "text_original": " \t もっとたくさんの物が作りたい。そうして……もっと先生の力になりたい。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/ueipJ6NPPTsxZFz10eeAX1KDKrTvrysM.ogg"
+    },
+    {
+      "description": "Hibiki_Formation_In_1",
+      "category": "formation",
+      "text": "我，会去的。",
+      "text_original": "私が……行く……。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/zNHAqhN2JeKzr8n3RqJ3LfPTaLy8QUeY.ogg"
+    },
+    {
+      "description": "Hibiki_Formation_In_2",
+      "category": "formation",
+      "text": "感觉，有点高兴。",
+      "text_original": "少し、嬉しいかも。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/vSjPwhqJ3CX0wUj6U9lwpLK71g1l82zh.ogg"
+    },
+    {
+      "description": "Hibiki_Gachaget",
+      "category": "growup",
+      "text": "我预测到了时刻将近，所以一直在等待。等着老师您刚才叫我名字的，这个瞬间。",
+      "text_original": "今頃だと予測して、待ってた。先生が私の名前を呼んでくれる…今この瞬間を。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/UV8KIEOSvfPZ4ckysT4m0MwXceHcHaWH.ogg"
+    },
+    {
+      "description": "Hibiki_Growup_1",
+      "category": "growup",
+      "text": "完美是不存在的，只存在追求完美的过程。对所有的大师来说都是如此。",
+      "text_original": "今頃だと予測して、待ってた。先生が私の名前を呼んでくれる…今この瞬間を。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/q2u3cY4nL5zp8n4ySX1KlpjxiKsZrbci.ogg"
+    },
+    {
+      "description": "Hibiki_Growup_2",
+      "category": "growup",
+      "text": "总而言之，我变强了。",
+      "text_original": "要約すると…私、強くなった。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/vUtoQDWpWZDpHUhAEtJEiFFsQIchmlgE.ogg"
+    },
+    {
+      "description": "Hibiki_Growup_3",
+      "category": "growup",
+      "text": "和老师在一起，会很受鼓舞。我想知道，想知道的事情还有很多。",
+      "text_original": "先生と一緒なら、意欲が湧く。うん、もっとたくさん教えて。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/eApeuB5tE9gXuQpjRLDMyFSBu4g2iqYS.ogg"
+    },
+    {
+      "description": "Hibiki_Growup_4",
+      "category": "growup",
+      "text": "我并不喜欢战斗，但是，我也想助老师一臂之力。",
+      "text_original": "戦闘が好きなわけではないけど、私も先生の力になりたい。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/YIolZOOQqfsrcpPsYqJMVtpRTg9jTFcm.ogg"
+    },
+    {
+      "description": "Hibiki_Lobby_1",
+      "category": "lobby",
+      "text": "和老师这么呆在一起......嘿嘿......挺开心的。",
+      "text_original": "こうやって先生と一緒にいると…ふふ…楽しい。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/dtnXPUWiQQ8uJP5CjB1MEp6xt55v65Ul.ogg"
+    },
+    {
+      "description": "Hibiki_Lobby_2",
+      "category": "lobby",
+      "text": "老师，怎么样？我的那些准备，派上用场了吗？",
+      "text_original": "\t 先生、どう？私の装備たち…役に立ったかな？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/idXBCXBFAZVaoiG51FPL0vmEjZZZ9X0f.ogg"
+    },
+    {
+      "description": "Hibiki_Lobby_3",
+      "category": "lobby",
+      "text": "你问我做这些实用的东西开不开心？开心当然是开心的。不过与其说这是我的兴趣，不如说这就是我的生活方式吧。",
+      "text_original": "有用な物を作ることが楽しいかって？それもあるけど… これは趣味じゃなく、生き様だよ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/xAb1LQhd4Aa9HBLJVrGH8F3tFhNchVkx.ogg"
+    },
+    {
+      "description": "Hibiki_Lobby_4",
+      "category": "lobby",
+      "text": "我喜欢整备。让那些死掉的机器的心脏重新跳起来的时候，我会有一种强烈的满足感。我爱那种感觉。",
+      "text_original": "\t 整備は好き。死んでいた機械の心臓がまた動き出す時の、何かが叶えられたっていう、その感覚を愛してる。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/8c32IrMIxqvi1PVQpArQQ22riRg5C9bf.ogg"
+    },
+    {
+      "description": "Hibiki_Lobby_5",
+      "category": "lobby",
+      "text": "老师的笑容，对我来说是最强的动力。",
+      "text_original": "（先生のその笑顔が…私にとっては最高のモチベーションなの）",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/gMWBUAxc76LyotLet1ZVbTIGtpT9GrlR.ogg"
+    },
+    {
+      "description": "Hibiki_LogIn_1",
+      "category": "lobby",
+      "text": "早上好啊，老师。今天的任务列表我放桌子上了，希望你能确认一下。",
+      "text_original": "\t おはよう先生。今日の任務リストを机に置いておいたの。確認してほしい。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/VxlhwvORCje4PcDJAST1v3jJkIEyuHtN.ogg"
+    },
+    {
+      "description": "Hibiki_LogIn_2",
+      "category": "lobby",
+      "text": "嗯，我觉得老师现在执行任务的效率不是太高。我看看能不能帮你找个更好的办法。",
+      "text_original": "ん…今の先生の任務進行は多少、非効率的な状態だと思う。 もっといいやり方を探してみる。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/AcmHYwE0nOGOGHBWxDvkm3LwSw19xm1j.ogg"
+    },
+    {
+      "description": "Hibiki_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "谢谢你，老师。多亏了你，这里的景色才能变成现实。",
+      "text_original": "ありがとう、先生。この風景は先生のおかげで叶えてるの。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/boy99CSo8jGG2HV17j7ANQ2Y2y7I5esa.ogg"
+    },
+    {
+      "description": "Hibiki_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "很美，是吧。",
+      "text_original": "美しいでしょう。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/iWkwRA9CYEXhLhkmqyNWLoSCpnH0kOVx.ogg"
+    },
+    {
+      "description": "Hibiki_MemorialLobby_1_3",
+      "category": "lobby",
+      "text": "还好按时完成了。",
+      "text_original": "間に合ってよかった。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/zS5mDlH6mDSplH6yagWXDtLh9gzUqRqU.ogg"
+    },
+    {
+      "description": "Hibiki_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "嗯？你问我为什么要这么努力？",
+      "text_original": "うん？どうして？そんなに頑張ったのたっけ？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/yQIFOLfMhKZwdFr9uts2ljdpcDM8XnrM.ogg"
+    },
+    {
+      "description": "Hibiki_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "我想保证千禧年大家的安全。",
+      "text_original": "ミレニアムの生徒たちは安全に",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/5k7Xygo619hdIXvGwR0VlQYqslZDZIPj.ogg"
+    },
+    {
+      "description": "Hibiki_MemorialLobby_2_3",
+      "category": "lobby",
+      "text": "想让她们即使是夜里，也能走在明亮的道路上。",
+      "text_original": "輝く夜道が歩けるようにしてあげたっかたから。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/fVN5S8DO9V32Ic8iP7jb5gvq8vwiRAVs.ogg"
+    },
+    {
+      "description": "Hibiki_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "我能做到的事情也就只有这些而已了。",
+      "text_original": "私にできることは、これぐらいしかないから。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/OOjhfAKtH9OYQXZq6B1kWqT92pMgEXuz.ogg"
+    },
+    {
+      "description": "Hibiki_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "而且，对我来说......",
+      "text_original": "そして、私にとって、",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/jilVn6FCyfP4JTXi78rlM0wTUQItSi8n.ogg"
+    },
+    {
+      "description": "Hibiki_MemorialLobby_3_3",
+      "category": "lobby",
+      "text": "这一刻的意义，已经变成了比礼物更美好的东西。",
+      "text_original": "こういう瞬間はすでにプレゼント以上の素敵なものなの。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/ClvsqsClP774Xu9ZN6Y4FYk918SYAdYV.ogg"
+    },
+    {
+      "description": "Hibiki_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "怎么样，老师？现在还有一点时间。",
+      "text_original": "どう？先生。まだ時間はあるから。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/BojjWlHfaKyHlu2EGtWhV7ky24GrrSaW.ogg"
+    },
+    {
+      "description": "Hibiki_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "你愿意再多陪我一会吗？",
+      "text_original": "もう少し一緒にいってくれる？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/UJyGQnRxXq4hkzVn4I58Xmq1ukvADbrZ.ogg"
+    },
+    {
+      "description": "Hibiki_Relationship_Up_1",
+      "category": "growup",
+      "text": "如果现在检测一下我对老师的感情，结果一定是积极的。",
+      "text_original": "もし今、私の先生に対する心を検査したら、きっと、陽性だと思う。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/pNHhld1vREI3Borjmt4aUsCKX3ctWXuO.ogg"
+    },
+    {
+      "description": "Hibiki_Relationship_Up_2",
+      "category": "growup",
+      "text": "今后我会在哪里，又会做些什么呢？大概没有人会知道吧。但是我知道，我会一直陪伴在老师身边。",
+      "text_original": "\t これからの私はどこでなにをするんだろう。誰もわからないと思うけど、私はわかってる。先生と、一緒に行く。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/qcoE3aseplBZVU2G7t9ZDLvgyh6gWLdR.ogg"
+    },
+    {
+      "description": "Hibiki_Relationship_Up_3",
+      "category": "growup",
+      "text": "真是不可思议啊。是不是我的记忆功能出问题了？明明有很多话想说，但是看到老师的脸，就一句都想不起来了。",
+      "text_original": "\t 不思議だね。記憶機能に問題でもあるのかな？言いたいことがたくさんあったのに、先生の顔を見ると思い出せなくなるの……。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/CuICku9Fpw4kn53YGQ8bFR185khavRFJ.ogg"
+    },
+    {
+      "description": "Hibiki_Relationship_Up_4",
+      "category": "growup",
+      "text": "我不相信命运这种东西。但是从遇见老师的那个瞬间起，我就开始感谢命运了。",
+      "text_original": "運命なんて信じてない。でも、先生に出会ったその瞬間から…運命に感謝するようになったの。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/EMge7zmYtgqn4ZApp8sHyc5t4iwrneRU.ogg"
+    },
+    {
+      "description": "Hibiki_Season_Birthday",
+      "category": "lobby",
+      "text": "有什么想要的礼物？没有。因为我已经得到很多了。",
+      "text_original": "プレゼントで欲しいもの？ない …もう、たくさんもらってるから。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/CPNighvn1FgHfOtTborD7mK6dMCKv5Dj.ogg"
+    },
+    {
+      "description": "Hibiki_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "祝老师生日快乐。老师诞生在这个世界上，然后来到我们身边......我很开心。",
+      "text_original": "お誕生日おめでとう先生。先生が生まれて、そして私たちのところに来てくれて。…嬉しい。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/SqpVFIiC2mGz0f701gbXrEGZtoDDjVNl.ogg"
+    },
+    {
+      "description": "Hibiki_Season_Halloween",
+      "category": "lobby",
+      "text": "万圣节啊......虽然这种日子很不科学，但是不知道为什么，感觉有点兴奋。太不可思议了。",
+      "text_original": "ハロウィーンデーか…非科学的な日だけど、なんだかときめく、不思議な日だね。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/AmSdewjxScMpzlkXOXxoFsWswCzPfLYg.ogg"
+    },
+    {
+      "description": "Hibiki_Season_NewYear",
+      "category": "lobby",
+      "text": "新年快乐。今年我会继续提升自己，努力进步，好好表现的。",
+      "text_original": "明けましておめでとう。今年はより改善されて、向上した私を見せてあげるね…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/kEP0HksCdhe8QYVSQxmDEZyVgw5KRMIP.ogg"
+    },
+    {
+      "description": "Hibiki_Season_Xmas",
+      "category": "lobby",
+      "text": "如果圣诞老人想在一夜之间给基沃托斯的所有孩子都送去礼物的话，他的驯鹿速度应该至少要达到4马赫以上。",
+      "text_original": "サンタクロースさんがたった一晩でキヴォトスの子供たちにプレゼントを渡すためには…彼のトナカイは最低マッハ4以上の速度を出さなきゃいけないはず。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/yoXUevoAaqDaqmzdNUMace4HDUr9I0is.ogg"
+    },
+    {
+      "description": "hibiki_formation_select",
+      "category": "formation",
+      "text": "嗯……老师的手，暖暖的。让人安心。  ",
+      "text_original": "ん……先生の手、あったかい。落ち着く。 ",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/jp/hibiki_formation_select.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "hibiki_battle_in_1",
+      "category": "battle",
+      "text": "所有变量均已计算完毕。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/xwULhjVjcuoIcQJ0ajUqRcVHiqWobwKa.ogg"
+    },
+    {
+      "description": "hibiki_battle_in_2",
+      "category": "battle",
+      "text": "小心，可能会有伏击。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/vhAhO7gRYoqgadzPHm45hknmQncpRmyT.ogg"
+    },
+    {
+      "description": "hibiki_battle_tsa_1",
+      "category": "battle",
+      "text": "虽然我不是开车的专家，但我是机械的专家。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/LWuu1PtMoxKOxEAuJD85EqPvyQBbUzif.ogg"
+    },
+    {
+      "description": "hibiki_battle_tsa_2",
+      "category": "battle",
+      "text": "这就是，千禧年的品质。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/vzWhdwbpd6Gvgd9OfFGOfIkibSn6Hacv.ogg"
+    },
+    {
+      "description": "hibiki_cafe_act_1",
+      "category": "cafe",
+      "text": "嗯，我发现有些内部项目有可以修理和改善的地方。欸？不能修理吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/Lo312mFZEX8lKGrtNu2eYEKqlp14g8tD.ogg"
+    },
+    {
+      "description": "hibiki_cafe_act_2",
+      "category": "cafe",
+      "text": "需要的话，我可以给你装一个陷阱，让过来的人都吓一跳。嗯？不可以啊......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/TZsJTil0EievqXb8i515oJqUiLgMYlR7.ogg"
+    },
+    {
+      "description": "hibiki_cafe_monolog_1",
+      "category": "cafe",
+      "text": "”要是再给我一点时间和预算的话......“哼，那只是给自己的能力不足找借口罢了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/Ff89Z7gTuB2pwCIsc2htLzbeE6liTn3A.ogg"
+    },
+    {
+      "description": "hibiki_cafe_monolog_2",
+      "category": "cafe",
+      "text": "在有限的时间和预算内得到最好的结果，这才是真正的大师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/FpZZ7idU3U3a4yCgRCT0yGGnPpHM9Rtd.ogg"
+    },
+    {
+      "description": "hibiki_cafe_monolog_3",
+      "category": "cafe",
+      "text": "在这里给老师建一个铜像怎么样？我可以让铜像的手脚关节都动起来哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/v9hxeNtpzvoqp7ReDCoQYIYOF0H63xD0.ogg"
+    },
+    {
+      "description": "hibiki_commonskill",
+      "category": "battle",
+      "text": "支援射击，开始。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/IX9KCI0Xm3vJ4T9BAtJzT02iZmYschiZ.ogg"
+    },
+    {
+      "description": "hibiki_exskill_1",
+      "category": "battle",
+      "text": "确认敌人的位置，准备开火。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/0KVyfvEZpUzVaIrfzdgWxxXnNjTRIQZz.ogg"
+    },
+    {
+      "description": "hibiki_exskill_2",
+      "category": "battle",
+      "text": "力量正在高涨，上吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/ml8Q5smgpOyMH6yVbm8GFflVvGpv9wjx.ogg"
+    },
+    {
+      "description": "hibiki_exskill_3",
+      "category": "battle",
+      "text": "把我的愤怒化作炮弹。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/JItUwaw4lGMak9yKeGCYYEVIdWSN00J0.ogg"
+    },
+    {
+      "description": "hibiki_exskill_level_1",
+      "category": "battle",
+      "text": "可能会，有点难熬。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/4MgwrURynLwEl51UivAlGNOLElqCpVMT.ogg"
+    },
+    {
+      "description": "hibiki_exskill_level_2",
+      "category": "battle",
+      "text": "直接命中目标，成功。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/byjxUphYOvRlTR3Mm4WVs0czu4pY7odG.ogg"
+    },
+    {
+      "description": "hibiki_exskill_level_3",
+      "category": "battle",
+      "text": "老师的敌人，不可原谅。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/YOFSMFQGpN5yj8GJzSkveNPcmzQzPvBe.ogg"
+    },
+    {
+      "description": "hibiki_exweapon_get",
+      "category": "growup",
+      "text": "我还想制造出更多的东西，这样我就可以给老师帮更多的忙了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/61FtVyrlovMF1e0VOuCjiZYnMUdEs2YB.ogg"
+    },
+    {
+      "description": "hibiki_formation_in_1",
+      "category": "formation",
+      "text": "我，会去的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/u4JUbLIqwOtUzZnUcVFQp83K9vdvur1s.ogg"
+    },
+    {
+      "description": "hibiki_formation_in_2",
+      "category": "formation",
+      "text": "感觉，有点高兴。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/kK7CBFErEsm3voJssKnlebPJFIhTGrou.ogg"
+    },
+    {
+      "description": "hibiki_gachaget",
+      "category": "growup",
+      "text": "我预测到了时刻将近，所以一直在等待。等着老师您刚才叫我名字的，这个瞬间。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/8DEYxE8glXj6VfjDK7RSvGt4noO6TB52.ogg"
+    },
+    {
+      "description": "hibiki_growup_1",
+      "category": "growup",
+      "text": "完美是不存在的，只存在追求完美的过程。对所有的大师来说都是如此。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/XfAgF2a1JYIZ5Ezrg2XRx1EFxMM3ifBp.ogg"
+    },
+    {
+      "description": "hibiki_growup_2",
+      "category": "growup",
+      "text": "总而言之，我变强了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/08KmYOLd7wbe2kE7Dl4lz78qa1b6q0Ui.ogg"
+    },
+    {
+      "description": "hibiki_growup_3",
+      "category": "growup",
+      "text": "和老师在一起，会很受鼓舞。我想知道，想知道的事情还有很多。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/nqQVLSLGcoh2fGPWU6qTDWHr3wmu0DYZ.ogg"
+    },
+    {
+      "description": "hibiki_growup_4",
+      "category": "growup",
+      "text": "我并不喜欢战斗，但是，我也想助老师一臂之力。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/ez3ukv2bEBuQjeUDK0aO7ugwLTHYdgQ3.ogg"
+    },
+    {
+      "description": "hibiki_lobby_1",
+      "category": "lobby",
+      "text": "和老师这么呆在一起......嘿嘿......挺开心的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/J8EIlS92EKevz65PQEpRDyT2arzZjyZu.ogg"
+    },
+    {
+      "description": "hibiki_lobby_2",
+      "category": "lobby",
+      "text": "老师，怎么样？我的那些准备，派上用场了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/TIrwI163MLqPYRo9IvFKskqKRnWgpiwJ.ogg"
+    },
+    {
+      "description": "hibiki_lobby_3",
+      "category": "lobby",
+      "text": "你问我做这些实用的东西开不开心？开心当然是开心的。不过与其说这是我的兴趣，不如说这就是我的生活方式吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/QWDp5ktpK0MBkIj9IQMLaxIrTG00YLeq.ogg"
+    },
+    {
+      "description": "hibiki_lobby_4",
+      "category": "lobby",
+      "text": "我喜欢整备。让那些死掉的机器的心脏重新跳起来的时候，我会有一种强烈的满足感。我爱那种感觉。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/JNMec7DPZAVAQHaARM7PbN23g9h7AhQX.ogg"
+    },
+    {
+      "description": "hibiki_lobby_5",
+      "category": "lobby",
+      "text": "老师的笑容，对我来说是最强的动力。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/8vjjS0Tsb39vdC5IlDSIr1QyXuHBjB9a.ogg"
+    },
+    {
+      "description": "hibiki_login_1",
+      "category": "lobby",
+      "text": "早上好啊，老师。今天的任务列表我放桌子上了，希望你能确认一下。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/w51G9kVOTAuk3qpiKTqCOf72fXVYAAwh.ogg"
+    },
+    {
+      "description": "hibiki_login_2",
+      "category": "lobby",
+      "text": "嗯，我觉得老师现在执行任务的效率不是太高。我看看能不能帮你找个更好的办法。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/DZb1TXFzizbqQ5dbKI9tiy4rWSVxj9if.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "谢谢你，老师。多亏了你，这里的景色才能变成现实。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/xpLxqHZiLJ3Dl1dyGCnj6a9iSaqZE88u.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "很美，是吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/VzkIeFWFfQHzUpm5RJGBe55XeDLQgsRo.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_1_3",
+      "category": "lobby",
+      "text": "还好按时完成了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/rx7d6Oi2vc3EQY4L5s0BHkcSqvgBheeZ.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "嗯？你问我为什么要这么努力？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/VGctuUWSAIbFFlrut8oMtj0uzbI7Jsjx.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "我想保证千禧年大家的安全。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/1xbmcFVT9fva4OcOGwpIpPlkmRkS1yoR.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_2_3",
+      "category": "lobby",
+      "text": "想让她们即使是夜里，也能走在明亮的道路上。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/BCzgJgU7PbIDZ12of76ppfuOPBBhtZai.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "我能做到的事情也就只有这些而已了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/qbMIqWDIhT0PLOMMe4yzA4CcbrhcFJPO.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "而且，对我来说......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/uZWnOhWyIN1ue2vLZwTbbC6Z04CX9Ceh.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "这一刻的意义，已经变成了比礼物更美好的东西。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/NaKLm0NfKAPrlvz7YLUz5iQfvK0V166w.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "怎么样，老师？现在还有一点时间。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/eZDf4WQnKKfTVC73waGsmhjKDfZ5GDJJ.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "你愿意再多陪我一会吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/x9tAC3CKVyAXJeG08jHDvmvWLe9DfW4z.ogg"
+    },
+    {
+      "description": "hibiki_relationship_up_1",
+      "category": "growup",
+      "text": "如果现在检测一下我对老师的感情，结果一定是积极的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/mUHHRa0MVSTHqNqtp46B5lSXBxUYRzUM.ogg"
+    },
+    {
+      "description": "hibiki_relationship_up_2",
+      "category": "growup",
+      "text": "今后我会在哪里，又会做些什么呢？大概没有人会知道吧。但是我知道，我会一直陪伴在老师身边。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/J5HZEfUntr1ONsIzqmVA9Pw8o9HnlNvJ.ogg"
+    },
+    {
+      "description": "hibiki_relationship_up_3",
+      "category": "growup",
+      "text": "真是不可思议啊。是不是我的记忆功能出问题了？明明有很多话想说，但是看到老师的脸，就一句都想不起来了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/B11beGvgfR0pc2QETQhSmV1fPmM7xMIU.ogg"
+    },
+    {
+      "description": "hibiki_relationship_up_4",
+      "category": "growup",
+      "text": "我不相信命运这种东西。但是从遇见老师的那个瞬间起，我就开始感谢命运了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/Au0plfF7wYrkal7BjowCZifU92uRI0GA.ogg"
+    },
+    {
+      "description": "hibiki_season_birthday",
+      "category": "lobby",
+      "text": "有什么想要的礼物？没有。因为我已经得到很多了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/pmcOOwHH060z5uFeEIgBtZ19vCsMsz8h.ogg"
+    },
+    {
+      "description": "hibiki_season_birthday_player",
+      "category": "lobby",
+      "text": "祝老师生日快乐。老师诞生在这个世界上，然后来到我们身边......我很开心。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/Usv6aLZWq1CDx9LNf58Xr7o9OOkrard4.ogg"
+    },
+    {
+      "description": "hibiki_season_halloween",
+      "category": "lobby",
+      "text": "万圣节啊......虽然这种日子很不科学，但是不知道为什么，感觉有点兴奋。太不可思议了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/e6TDnY3PMJ4ivpRvX0IEVuzd4JKrRnGS.ogg"
+    },
+    {
+      "description": "hibiki_season_newyear",
+      "category": "lobby",
+      "text": "新年快乐。今年我会继续提升自己，努力进步，好好表现的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/RRcc8UALUJ1mOZIewRPANg6T0opcnmvs.ogg"
+    },
+    {
+      "description": "hibiki_season_xmas",
+      "category": "lobby",
+      "text": "如果圣诞老人想在一夜之间给基沃托斯的所有孩子都送去礼物的话，他的驯鹿速度应该至少要达到4马赫以上。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/dRZzHbkRjSJ7xIdLhgnPRl0uCN9LUH5m.ogg"
+    },
+    {
+      "description": "hibiki_season_chinesenewyear",
+      "category": "lobby",
+      "text": "新春快乐,今年我想制作出更多实用的装备,为了大家,也为了……老师。 ",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/ge6RjEX7iR9tXilpFNqQq7clQ5PcRVQT.ogg"
+    },
+    {
+      "description": "hibiki_season_midautumn",
+      "category": "lobby",
+      "text": "中秋快乐,千禧年的灯火总是很闪耀,可都比不上这轮明月放出的光辉,真是不可思议啊。 ",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/jDDtceMG29Oq6BpO7cUdA3zNmHQ7yW24.ogg"
+    },
+    {
+      "description": "hibiki_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/QQbVGixI7Eluwe2pIUoWzA5CRG8bfMx1.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "hibiki_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_commonskill.ogg"
+    },
+    {
+      "description": "hibiki_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_exskill_1.ogg"
+    },
+    {
+      "description": "hibiki_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_exskill_2.ogg"
+    },
+    {
+      "description": "hibiki_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_exskill_3.ogg"
+    },
+    {
+      "description": "hibiki_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_exskill_level_1.ogg"
+    },
+    {
+      "description": "hibiki_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_exskill_level_2.ogg"
+    },
+    {
+      "description": "hibiki_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_exskill_level_3.ogg"
+    },
+    {
+      "description": "hibiki_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_exweapon_get.ogg"
+    },
+    {
+      "description": "hibiki_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_gachaget.ogg"
+    },
+    {
+      "description": "hibiki_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_growup_1.ogg"
+    },
+    {
+      "description": "hibiki_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_growup_2.ogg"
+    },
+    {
+      "description": "hibiki_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_growup_3.ogg"
+    },
+    {
+      "description": "hibiki_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_growup_4.ogg"
+    },
+    {
+      "description": "hibiki_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_lobby_1.ogg"
+    },
+    {
+      "description": "hibiki_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_lobby_2.ogg"
+    },
+    {
+      "description": "hibiki_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_lobby_3.ogg"
+    },
+    {
+      "description": "hibiki_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_lobby_4.ogg"
+    },
+    {
+      "description": "hibiki_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_lobby_5.ogg"
+    },
+    {
+      "description": "hibiki_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_login_1.ogg"
+    },
+    {
+      "description": "hibiki_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_login_2.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_1_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_memoriallobby_1_3.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_2_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_memoriallobby_2_3.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_memoriallobby_3_3.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "hibiki_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "hibiki_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_relationship_up_1.ogg"
+    },
+    {
+      "description": "hibiki_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_relationship_up_2.ogg"
+    },
+    {
+      "description": "hibiki_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_relationship_up_3.ogg"
+    },
+    {
+      "description": "hibiki_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_relationship_up_4.ogg"
+    },
+    {
+      "description": "hibiki_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_season_birthday.ogg"
+    },
+    {
+      "description": "hibiki_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_season_birthday_player.ogg"
+    },
+    {
+      "description": "hibiki_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_season_halloween.ogg"
+    },
+    {
+      "description": "hibiki_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_season_newyear.ogg"
+    },
+    {
+      "description": "hibiki_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_season_xmas.ogg"
+    },
+    {
+      "description": "Hibiki_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/Hibiki_Title.ogg"
+    },
+    {
+      "description": "hibiki_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_cafe_act_1.ogg"
+    },
+    {
+      "description": "hibiki_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_cafe_act_2.ogg"
+    },
+    {
+      "description": "hibiki_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "hibiki_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "hibiki_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/hibiki_cafe_monolog_3.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hibiki_spr-07_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hibiki_spr-08_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hibiki_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hibiki_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hibiki_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hibiki_spr-11_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hibiki_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hibiki_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/12_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hibiki_spr-10_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hibiki_spr-09_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hibiki_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hibiki_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hibiki_spr-13_0_waifu2x_2x_1n_png.jpg"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 128,
+      "favorability": 180
+    },
+    {
+      "id": 270,
+      "favorability": 60
+    },
+    {
+      "id": 57,
+      "favorability": 40
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 20000,
+      "dev_name": "Hibiki_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "B",
+      "street_adaptability": "S",
+      "equipment": [
+        7,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        6,
+        7,
+        8,
+        9,
+        2,
+        3,
+        4,
+        5,
+        407,
+        408,
+        409,
+        410,
+        399,
+        400,
+        401,
+        19
+      ],
+      "favorite_equipment": 49,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/skill_icon/WYZTQMpFY6Ek4h1yRIXEYaKTM9PeN2vL.png",
+            "title": "会痛的概率很高哦",
+            "title_cn": "会痛的概率很高哦",
+            "preview": "",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 4,
+                "describe": "对5个圆形范围内的敌人造成攻击力311%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对5个圆形范围内的敌人造成攻击力358%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对5个圆形范围内的敌人造成攻击力451%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对5个圆形范围内的敌人造成攻击力498%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对5个圆形范围内的敌人造成攻击力591%的伤害"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/skill_icon/AyfEEZ8pX6BOEQevxW3aQzhSMBG5NUMX.png",
+            "title": "火力应该充足吧",
+            "title_cn": "火力应该充足吧",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每20秒以生命值最低的敌人为中心，对圆形范围内的敌人造成攻击力144%伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒以生命值最低的敌人为中心，对圆形范围内的敌人造成攻击力152%伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒以生命值最低的敌人为中心，对圆形范围内的敌人造成攻击力159%伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒以生命值最低的敌人为中心，对圆形范围内的敌人造成攻击力188%伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒以生命值最低的敌人为中心，对圆形范围内的敌人造成攻击力195%伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒以生命值最低的敌人为中心，对圆形范围内的敌人造成攻击力202%伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒以生命值最低的敌人为中心，对圆形范围内的敌人造成攻击力231%伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒以生命值最低的敌人为中心，对圆形范围内的敌人造成攻击力239%伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒以生命值最低的敌人为中心，对圆形范围内的敌人造成攻击力246%伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒以生命值最低的敌人为中心，对圆形范围内的敌人造成攻击力275%伤害"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/skill_icon/FhfktMKZxZuAgAQQj1GtCP0TU4Jpk2Bf.png",
+            "title": "可能会有危险哦",
+            "title_cn": "可能会有危险哦",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/skill_icon/w5YBscXDCcGbv9ax6qlbzwzlMAJBV1TC.png",
+            "title": "希望有所帮助哦",
+            "title_cn": "希望有所帮助哦",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害增加9.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害增加9.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害增加10%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害增加11.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害增加12.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害增加15.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害增加17.3%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2506,
+          "attack": 301,
+          "defense": 79,
+          "healing": 1902,
+          "accuracy": 100,
+          "evasion": 201,
+          "crit": 201,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1141,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/weapons_icon.png",
+        "name": "华丽之光",
+        "name_cn": "华丽之光",
+        "description": "响喜欢用的迫击炮。<br>为了进行实验，除了炮弹之外，偶尔还会发射其他各种东西。",
+        "description_cn": "响喜欢用的迫击炮。<br>为了进行实验，除了炮弹之外，偶尔还会发射其他各种东西。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「可能会有危险哦」升级为「可能会有危险哦+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 街道适应性 S -> SS",
+            "description": "在街道地形造成1.3倍伤害。在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/skill_icon/GCtSO4slYVK3IBiJ0rfyQ28IWGMJcbD8.png",
+            "title": "可能会有危险哦+",
+            "title_cn": "可能会有危险哦+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "安定值增加500/暴击伤害率增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "安定值增加525/暴击伤害增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "安定值增加550/暴击伤害增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "安定值增加650/暴击伤害增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "安定值增加675/暴击伤害增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "安定值增加700/暴击伤害增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "安定值增加800/暴击伤害增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "安定值增加825/暴击伤害增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "安定值增加850/暴击伤害增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "安定值增加950/暴击伤害增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "6a3c631b-c8e3-4170-a17e-76dbf4ba0d34",
+  "skill_declare_uuid": "42dd585b-b98c-4416-985b-c94c7cc7e5ad",
+  "supplementary_uuid": "d5e3d7a4-c010-4993-b206-e282fdd7f2e5",
+  "supplementary_declare_uuid": "a23261d3-850f-48f7-b127-992d550d5399",
+  "created_at": 1684863779,
+  "updated_at": 1783483399
+}

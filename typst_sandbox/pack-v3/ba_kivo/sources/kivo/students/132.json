@@ -1,0 +1,1441 @@
+{
+  "id": 132,
+  "skin": "兔女郎",
+  "skin_jp": "バニーガール",
+  "skin_cn": "邦妮",
+  "skin_zh_tw": "兔女郎",
+  "skin_list": [
+    {
+      "id": 24,
+      "avatar": "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 132,
+      "avatar": "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/avatar.png",
+      "skin": "兔女郎",
+      "skin_cn": "邦妮"
+    },
+    {
+      "id": 517,
+      "avatar": "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%88%B6%E6%9C%8D/Student_Portrait_CH0307_Collection.png",
+      "skin": "制服",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "室笠",
+  "given_name": "茜",
+  "family_name_jp": "室笠",
+  "given_name_jp": "アカネ",
+  "family_name_kr": "무로카사",
+  "given_name_kr": "아카네",
+  "family_name_en": "Murokasa",
+  "given_name_en": "Akane",
+  "family_name_zh_tw": "室笠",
+  "given_name_zh_tw": "朱音",
+  "family_name_cn": "室笠",
+  "given_name_cn": "茜",
+  "nick_name": "白兔",
+  "introduction": "千禧科学学院所属，为了潜入任务而换上兔女郎服装的「C&C」特务。\n\n即使身处陌生的环境，依然率先准备兔女郎服装、引爆C4清除障碍物，和平常一样沉着地执行作战。不知是不是因为穿着和平常不同的服装，随时都可以窥见兴奋的神情。\n\n>我是主人的女仆……\n不对，现在\n应该说是主人的兔子吧",
+  "introduction_cn": "为了执行潜伏任务，换上邦妮制服的C&C的特工。\n\n虽然处于陌生的环境，但会跟往常一样，提前准备邦妮制服或用C4爆破障碍物等，谨慎地执行任务。可能因为穿着与平常不同的服装，显得有些兴奋，脸上洋溢着抑制不住的兴奋表情。\n\n\n>主人的女仆……\n不对，现在应该说是主人的\n兔兔了吧？",
+  "momo_talk_signature": "度过有些新鲜的日常",
+  "main_relation": 35,
+  "relation": [
+    34,
+    37
+  ],
+  "age": 16,
+  "grade": "二年生",
+  "height": 164,
+  "birthday": "04-01",
+  "hobby": "打扫",
+  "designer": "Mx2J",
+  "illustrator": "Mx2J",
+  "character_voice": "原由实",
+  "character_voice_cn": "钟可",
+  "release_date": "2022-10-22",
+  "release_date_cn": "2024-10-17",
+  "release_date_global": "2023-04-11",
+  "sd_model_image": "",
+  "avatar": "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/avatar.png",
+  "school": 4,
+  "weapon_type": "HG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Large",
+  "special_appearance": false,
+  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 昼下がりのロイヤルフラッシュ | 过午时分的六六大顺 | 我是朱音 是隨時準備服務主人的兔女郎唷？ | Bunny girl Akane at your service, Master! |\n| ![GBr5UgObsAAqr3r.jpg](files/9283/4Zhg7JXBHY53fIdM9q0Egz2gDkBVjvq0.jpg =450x) | ![akane_bunny.jpg](files/9283/KcsuYjXW3tynBuKXX1YjfNJB9Mnb88Zd.jpg =450x) | ![akane_bunny1.jpg](files/9283/cpqAmHoXIQ1susWOZRicdZRqf2Nq1pc7.jpg =450x) | ![GP1rJhqbUAAgCG2.jpg](files/9283/NB1v7JFceiDUIWIapMRmhE8QXBhZy6Ai.jpg =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![FemIx2yacAEJPne.jpg](files/9283/VBWPyWrLjx3VQWS3ro55wzpBzNzaJeKW.jpg =525x) | 暂无 | ![akane_bunny1 (2).jpg](files/9283/6zhA7LBeXr99GrqNPzqy9kXLac7Er78k.jpg =500x) | ![Fs6tuVFaMAMUCXT.jpg](files/9283/jLEYWskp0aoAloqNgifxNOBIvJSTAZLG.jpg =400x) |\n\n## 设定集\n\n::::center\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_025.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_249.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.2/Vol2-52.jpg =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.2/Vol2-145.jpg =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.2/Vol2-162.jpg =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.2/Vol2-204.jpg =450x)\n\n::::",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/CH0099_home_Idle_01_0.824699999999999.jpg",
+  "spine": [
+    1591,
+    403
+  ],
+  "model": [
+    2,
+    241
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [
+    {
+      "description": "CH0099_Title",
+      "category": "lobby",
+      "text": "蔚蓝档案。",
+      "text_original": "ブルーアーカイブ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ccj7InUdQmRlQ4K7ROcMmlBi2YQJ26on.ogg"
+    },
+    {
+      "description": "CH0099_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "收拾干净了呢。 打扫卫生…… 是很重要的。",
+      "text_original": "綺麗に整頓されていますね。掃除は…大切です。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/shH60LN3ERo8yoIUvnczAf3oizoAsiuD.ogg"
+    },
+    {
+      "description": "CH0099_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "欢迎光临。 要点一杯红茶吗？ ……呵呵",
+      "text_original": "いらっしゃいませ。ご注文は紅茶ですか？…ふふっ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/naevxkEoE6wgaixN3a06Q062sxw8RXTC.ogg"
+    },
+    {
+      "description": "CH0099_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "主人真的…… 是一个很特别的人。",
+      "text_original": "ご主人様は本当に…特別なお方なのです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/H4zHaSbONMuRN6nOgHDFKwaQ2EscRdmU.ogg"
+    },
+    {
+      "description": "CH0099_Cafe_monolog_4",
+      "category": "cafe",
+      "text": "嗯…… 哪里还需要 再整理一下吗？",
+      "text_original": "もう少し整理できるところは…",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/o93dwtLKWNAYrPO6lPQmxs2ONzgsAttY.ogg"
+    },
+    {
+      "description": "CH0099_Cafe_monolog_5",
+      "category": "cafe",
+      "text": "趁此机会， 和主人一起， 漫步在兔兔之路上……？",
+      "text_original": "この際、ご主人様と一緒にウサギの道を歩んでみるのも…？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/k547YD2lUJscIi4SEbW5lJdTkULwWKQl.ogg"
+    },
+    {
+      "description": "CH0099_CommonSkill",
+      "category": "battle",
+      "text": "放在这里了。",
+      "text_original": "ここに置いておきますね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/A1wnAHrz708JIwXMAS2qrxLoB1onJiJO.ogg"
+    },
+    {
+      "description": "CH0099_ExSkill_1",
+      "category": "battle",
+      "text": "这是今天要打扫的目标吗。",
+      "text_original": "こちらが本日の掃除対象でしょうか。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/T1NrMA42GSa82q2VH3X2rGThpPZtkdK0.ogg"
+    },
+    {
+      "description": "CH0099_ExSkill_2",
+      "category": "battle",
+      "text": "弄得真乱……",
+      "text_original": "こんなに散らかして…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/LP9EudmqT2VYFC2soxePJLcD17hcyikQ.ogg"
+    },
+    {
+      "description": "CH0099_ExSkill_3",
+      "category": "battle",
+      "text": "让我来收拾干净吧。",
+      "text_original": "きれいに片付けてしまいましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/c8bR4WTdeRj5fsgvWjG65UBi7DGeUhfV.ogg"
+    },
+    {
+      "description": "CH0099_ExSkill_Level_1",
+      "category": "battle",
+      "text": "好了，请拿好。",
+      "text_original": "はい、どうぞ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/43wb3TE5eLimAgCKmtcuDwRhZi0PgXhm.ogg"
+    },
+    {
+      "description": "CH0099_ExSkill_Level_2",
+      "category": "battle",
+      "text": "请收下我的心意。",
+      "text_original": "私の気持ちを受け取ってくださいませ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/GYZfEpJorKADsDHc9R0CWMDgI345IwHD.ogg"
+    },
+    {
+      "description": "CH0099_ExSkill_Level_3",
+      "category": "battle",
+      "text": "来，请尽情享用哦。",
+      "text_original": "どうぞご堪能ください。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/vVmie7wxTZo0Ktb8s4sAscVl1gqfYPnq.ogg"
+    },
+    {
+      "description": "CH0099_ExWeapon_Get",
+      "category": "growup",
+      "text": "这样就能成为更完美的……“兔兔”了呢。",
+      "text_original": "これでもっと完璧な…「ウサギ」になれますね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/guHZGKrt4s9SXHJ4MKnMaULrc0qcmnv1.ogg"
+    },
+    {
+      "description": "CH0099_Formation_In_1",
+      "category": "formation",
+      "text": "好了，那就开始打扫吧。",
+      "text_original": "さあ、それではお掃除を始めましょうか。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/UIUF8dbbUSWzJRmdhpU4ZiyYi1DiGpUV.ogg"
+    },
+    {
+      "description": "CH0099_Formation_In_2",
+      "category": "formation",
+      "text": "感觉心跳得比平时更快呢……这是因为，和主人在一起吗？",
+      "text_original": "普段より胸が高鳴って、これも、ご主人と一緒にいるからでしょうか。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/QOUdG6tFjvvgxtA5ZQf5lPz64uINuJOD.ogg"
+    },
+    {
+      "description": "CH0099_Gachaget",
+      "category": "growup",
+      "text": "我是主人的女仆，茜。 啊不……现在，应该说我是主人的兔兔了吗？",
+      "text_original": "ご主人様のメイド、アカネです。いえ…今はご主人様のウサギさん、と申し上げるべきでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/jYmm0AeQuvU8q79YrQZVSwWbouWfTBxx.ogg"
+    },
+    {
+      "description": "CH0099_Growup_1",
+      "category": "growup",
+      "text": "有没有稍微帮到您一点呢？",
+      "text_original": "少しは、お役に立てておりますでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/XkNr3OsGOad43dDBmpT8ZdSVkKDg3sZt.ogg"
+    },
+    {
+      "description": "CH0099_Growup_2",
+      "category": "growup",
+      "text": "无论是身为女仆，还是身为兔兔，我都希望能帮上主人的忙。",
+      "text_original": "メイドとしても、ウサギとしても、ご主人様のお役に立てますように。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/n4mlLyvlmkWU7nbuLpgyKkuYnjUou6Uq.ogg"
+    },
+    {
+      "description": "CH0099_Growup_3",
+      "category": "growup",
+      "text": "兔兔成长啦~蹦蹦！",
+      "text_original": "成長しましたよ？ぴょん、ぴょん！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/DAAgD0zQrcyNkb1DiKtXFGWMhIvR8Tsi.ogg"
+    },
+    {
+      "description": "CH0099_Growup_4",
+      "category": "growup",
+      "text": "为了不辜负主人的期待，我一直在好好锻炼。",
+      "text_original": "ご主人様のご期待にお応えできるように……洗練されてきました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/FEMHP28ZZFeJPAgyawAihxWXH2SBrwYt.ogg"
+    },
+    {
+      "description": "CH0099_Lobby_1",
+      "category": "lobby",
+      "text": "问我变成兔兔开不开心？ 呵呵，这个嘛……您觉得呢？",
+      "text_original": "ウサギになりきるのは楽しいか…ですか？うふふ、そうですね…どう見えます？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/hObKfG7vtJCFYDCGbXjoouR1OUqjR1do.ogg"
+    },
+    {
+      "description": "CH0099_Lobby_2",
+      "category": "lobby",
+      "text": "如果您想要什么， 请随时告诉我。 我一直都在。",
+      "text_original": "ご要望がありましたら、いつでもお申し付けください。お待ちしておりますので。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/yy9xhRrpFbrdu7joRq0r8T4lQZIIXwqH.ogg"
+    },
+    {
+      "description": "CH0099_Lobby_3",
+      "category": "lobby",
+      "text": "和主人一起度过的每个瞬间， 对我来说都是无可替代的宝贵时光。",
+      "text_original": "ご主人様とのこの一瞬は、私にとってかけがえのない大切な時間です。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/z2SCDeWQI7An1gMdzIejEe4wJV6NXHa6.ogg"
+    },
+    {
+      "description": "CH0099_Lobby_4",
+      "category": "lobby",
+      "text": "炸弹是最有效的打扫工具之一。我、我开玩笑的。 请不要那样看着我，主人。",
+      "text_original": "爆弾は一番効率的な掃除道具なんですよ。じょ、冗談です…そんな目で見ないでください、ご主人様。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/7gPQajSAyFvbQ1gBjdiZ7QRHWtwpnwQd.ogg"
+    },
+    {
+      "description": "CH0099_Lobby_5",
+      "category": "lobby",
+      "text": "我认为，成为兔兔 是成为完美特工的一种方式。又或者， 是成为更完美女仆的一种方式。",
+      "text_original": "ウサギになりきる事は、より完璧なエージェントに近づくための一歩。 もしくは、より完璧なメイドに近づくための一歩かもしれませんね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/iiMlOo0WuCHVrgcZZdDS7l2ltLkTMghM.ogg"
+    },
+    {
+      "description": "CH0099_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "非常抱歉。 有这样的想法， 是我身为女仆的失职。",
+      "text_original": "申し訳ございません…こんな考え、メイドとしては失格のはずなのに。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/IKmfYaCGaOUHWfQhLOhKvl8fPQwwQLHH.ogg"
+    },
+    {
+      "description": "CH0099_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "我……失去了自信。",
+      "text_original": "私…自信をなくしておりました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/jY3NTDOPBCA24BjJ5ox6AGnTaMp6YO1E.ogg"
+    },
+    {
+      "description": "CH0099_MemorialLobby_2",
+      "category": "lobby",
+      "text": "主人一直背负着很多重担， 可即便如此，您还是会笑着，说没关系。",
+      "text_original": "ご主人様はいつも多くのものを背負っていて、それなのに大丈夫だと笑っていて。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/EFYpVPoCN9IzGZoJdoCyfNsonHyVAp5N.ogg"
+    },
+    {
+      "description": "CH0099_MemorialLobby_3",
+      "category": "lobby",
+      "text": "我……没能替您， 背负那份重担……",
+      "text_original": "私は…全然その重荷を、代わりに持って差し上げられず…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/aAB8CxZeKcf2xMdwEXHji94IOJis9qbe.ogg"
+    },
+    {
+      "description": "CH0099_MemorialLobby_4",
+      "category": "lobby",
+      "text": "可是，听了主人的话， 我再一次找回了自信。",
+      "text_original": "ですが、ご主人様のお言葉で、再び前を向けそうです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/NqiD85EeUifg51GUxbAURv4w8SjUBWQq.ogg"
+    },
+    {
+      "description": "CH0099_MemorialLobby_5",
+      "category": "lobby",
+      "text": "虽然，我还有很多不足之处， 但今后，还是请主人多多关照了。",
+      "text_original": "これからも、ふつつかものですが何卒よろしくお願いいたします。ご主人様。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/wkvADiUcZNG08DICOQOfC95hJi99TZE8.ogg"
+    },
+    {
+      "description": "CH0099_Relationship_Up_1",
+      "category": "growup",
+      "text": "兔兔需要爱哦。蹦蹦~",
+      "text_original": "ウサギには愛が必要なんですよ？ぴょん、ぴょん！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/V90AY8TgIikSCbxUh8WcqC2JwLmUXqTB.ogg"
+    },
+    {
+      "description": "CH0099_Relationship_Up_2",
+      "category": "growup",
+      "text": "多谢主人，今后，也请拭目以待吧。",
+      "text_original": "ありがとうございます、ご主人様。これからもご期待ください。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/Uk8ewo0DIvvdf9RNFEl086o02WIjymbe.ogg"
+    },
+    {
+      "description": "CH0099_Relationship_Up_3",
+      "category": "growup",
+      "text": "这一切都是主人的功劳。呵呵，真的，所有一切……",
+      "text_original": "すべてご主人様のおかげです。ふふっ、本当に…すべてが。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/qqaOXOY0iIVqYs8NQzwkJcoQogaOowS0.ogg"
+    },
+    {
+      "description": "CH0099_Relationship_Up_4",
+      "category": "growup",
+      "text": "请不要错过兔兔茜啊。",
+      "text_original": "ウサギのアカネを、逃がさないでくださいね？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/Pmq4OZJ8k6mraqXzAwcOr71i5XI2dfFg.ogg"
+    },
+    {
+      "description": "CH0099_LogIn_1",
+      "category": "lobby",
+      "text": "我正等你呢，主人。茜是只属于主人的忠诚兔兔，蹦蹦！",
+      "text_original": "お待ちしておりました、ご主人様。アカネはご主人様だけの忠実なウサギです。ぴょんぴょん！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/yRqPSH7DCh4R1viQB3WzPLStPzi2vLb1.ogg"
+    },
+    {
+      "description": "CH0099_LogIn_2",
+      "category": "lobby",
+      "text": "欢迎回来，主人。 所有准备工作都已经完成了，因为我是一只勤劳的兔兔。",
+      "text_original": "おかえりなさいませ、ご主人様。準備は全て終わっております…勤勉なウサギですから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/jOkiNSrhx9KMxkKGXMpaKGA79ONxpYgT.ogg"
+    },
+    {
+      "description": "CH0099_Season_Birthday",
+      "category": "lobby",
+      "text": "您竟然记得我的生日？谢谢您，主人。 茜实在太高兴了。",
+      "text_original": "私の誕生日を覚えてくださっていたのですか？ありがとうございます、ご主人様。 これ以上に嬉しいことはございません。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/laZXGXEwEKCwHlbZq3i0cniycxrTeNch.ogg"
+    },
+    {
+      "description": "CH0099_Season_Birthday_Player_1",
+      "category": "lobby",
+      "text": "生日快乐，主人！请期待兔兔今天的……特别服务。",
+      "text_original": "お誕生日おめでとうございます、ご主人様！ 本日は、ウサギからの特別なご奉仕を、期待していてくださいね？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/2cZKx7TaDxq1jRelXX5ybqWZbzIb2b23.ogg"
+    },
+    {
+      "description": "CH0099_Season_Birthday_Player_2",
+      "category": "lobby",
+      "text": "你问兔兔的特别服务是什么？呵呵…… 这个嘛，会是什么呢？",
+      "text_original": "ウサギの特別な奉仕、ですか？ うふふ…さあ、何でしょうね？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/uLJasA7PDUnm3nL7A4m5E2aFJBjsZImr.ogg"
+    },
+    {
+      "description": "CH0099_Season_Birthday_Player_3",
+      "category": "lobby",
+      "text": "没关系，不需要害怕。 好了，乖~乖……",
+      "text_original": "大丈夫。怖くないですよ～さあ、よしよし…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/O0gMKAEJkm1TXwldMhRIaPgbU98DZxcG.ogg"
+    },
+    {
+      "description": "CH0099_Season_Halloween_1",
+      "category": "lobby",
+      "text": "啊，今天是万圣节啊。 我这身打扮在今天看起来应该很普通吧。",
+      "text_original": "あ、ハロウィーンですね。私のこの格好も、今日だけは普通に見えますね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/Qvbh4DMWqD7AwknNo5jzYICp9zEm7ZFn.ogg"
+    },
+    {
+      "description": "CH0099_Season_Halloween_2",
+      "category": "lobby",
+      "text": "对了……主人喜欢什么样的恶作剧？ 就算给我糖的话，我也会捣蛋的哦？",
+      "text_original": "それで…どんなイタズラがいいですか？お菓子をくださっても、イタズラはしますからね？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/lmRygngNQfvhqHmKo6uD2udaargF81Qw.ogg"
+    },
+    {
+      "description": "CH0099_Season_NewYear",
+      "category": "lobby",
+      "text": "新年快乐，主人。……新年到了。 希望今年好事多多……",
+      "text_original": "あけましておめでとうございます、ご主人様。 …もう新年ですね。今年は本当に良い事がたくさんありますように…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gI5rnwbsJs6S25w3LUSTj5gnjZDIeTDN.ogg"
+    },
+    {
+      "description": "CH0099_Season_Xmas",
+      "category": "lobby",
+      "text": "今天是圣诞节啊，主人。和主人在一起， 每天都很特别…… 但今天是更加特别的一天。您愿意留下来陪着…… 怕冷的兔兔吗？",
+      "text_original": "クリスマスですね、ご主人様。 ご主人様となら毎日が特別ですが…今日はとびきり特別な日です。 寒がっているウサギのために…おそばにいてくださりませんか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/hhJTk03Zjl0aDuUw0m4gFdKZOH1ln5p3.ogg"
+    },
+    {
+      "description": "ch0099_formation_select",
+      "category": "formation",
+      "text": "清扫工作的视野已经确认了。",
+      "text_original": "ふふっ、お掃除のしがいがありますね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/jp/ch0099_formation_select.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "ch0099_cafe_monolog_1",
+      "category": "cafe",
+      "text": "收拾干净了呢。 打扫卫生…… 是很重要的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0099_cafe_monolog_2",
+      "category": "cafe",
+      "text": "欢迎光临。 要点一杯红茶吗？ ……呵呵",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0099_cafe_monolog_3",
+      "category": "cafe",
+      "text": "主人真的…… 是一个很特别的人。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0099_cafe_monolog_4",
+      "category": "cafe",
+      "text": "嗯…… 哪里还需要 再整理一下吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0099_cafe_monolog_5",
+      "category": "cafe",
+      "text": "趁此机会， 和主人一起， 漫步在兔兔之路上……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0099_commonskill",
+      "category": "battle",
+      "text": "放在这里了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_commonskill.ogg"
+    },
+    {
+      "description": "ch0099_exskill_1",
+      "category": "battle",
+      "text": "这是今天要打扫的目标吗。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_exskill_1.ogg"
+    },
+    {
+      "description": "ch0099_exskill_2",
+      "category": "battle",
+      "text": "弄得真乱……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_exskill_2.ogg"
+    },
+    {
+      "description": "ch0099_exskill_3",
+      "category": "battle",
+      "text": "让我来收拾干净吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_exskill_3.ogg"
+    },
+    {
+      "description": "ch0099_exskill_level_1",
+      "category": "battle",
+      "text": "好了，请拿好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0099_exskill_level_2",
+      "category": "battle",
+      "text": "请收下我的心意。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0099_exskill_level_3",
+      "category": "battle",
+      "text": "来，请尽情享用哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0099_exweapon_get",
+      "category": "growup",
+      "text": "这样就能成为更完美的……“兔兔”了呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0099_formation_in_1",
+      "category": "formation",
+      "text": "好了，那就开始打扫吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0099_formation_in_2",
+      "category": "formation",
+      "text": "感觉心跳得比平时更快呢……这是因为，和主人在一起吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0099_gachaget",
+      "category": "growup",
+      "text": "我是主人的女仆，茜。 啊不……现在，应该说我是主人的兔兔了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_gachaget.ogg"
+    },
+    {
+      "description": "ch0099_growup_1",
+      "category": "growup",
+      "text": "有没有稍微帮到您一点呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_growup_1.ogg"
+    },
+    {
+      "description": "ch0099_growup_2",
+      "category": "growup",
+      "text": "无论是身为女仆，还是身为兔兔，我都希望能帮上主人的忙。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_growup_2.ogg"
+    },
+    {
+      "description": "ch0099_growup_3",
+      "category": "growup",
+      "text": "兔兔成长啦~蹦蹦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_growup_3.ogg"
+    },
+    {
+      "description": "ch0099_growup_4",
+      "category": "growup",
+      "text": "为了不辜负主人的期待，我一直在好好锻炼。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_growup_4.ogg"
+    },
+    {
+      "description": "ch0099_lobby_1",
+      "category": "lobby",
+      "text": "问我变成兔兔开不开心？ 呵呵，这个嘛……您觉得呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_lobby_1.ogg"
+    },
+    {
+      "description": "ch0099_lobby_2",
+      "category": "lobby",
+      "text": "如果您想要什么， 请随时告诉我。 我一直都在。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_lobby_2.ogg"
+    },
+    {
+      "description": "ch0099_lobby_3",
+      "category": "lobby",
+      "text": "和主人一起度过的每个瞬间， 对我来说都是无可替代的宝贵时光。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_lobby_3.ogg"
+    },
+    {
+      "description": "ch0099_lobby_4",
+      "category": "lobby",
+      "text": "炸弹是最有效的打扫工具之一。我、我开玩笑的。 请不要那样看着我，主人。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_lobby_4.ogg"
+    },
+    {
+      "description": "ch0099_lobby_5",
+      "category": "lobby",
+      "text": "我认为，成为兔兔 是成为完美特工的一种方式。又或者， 是成为更完美女仆的一种方式。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_lobby_5.ogg"
+    },
+    {
+      "description": "ch0099_login_1",
+      "category": "lobby",
+      "text": "我正等你呢，主人。茜是只属于主人的忠诚兔兔，蹦蹦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_login_1.ogg"
+    },
+    {
+      "description": "ch0099_login_2",
+      "category": "lobby",
+      "text": "欢迎回来，主人。 所有准备工作都已经完成了，因为我是一只勤劳的兔兔。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_login_2.ogg"
+    },
+    {
+      "description": "ch0099_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "非常抱歉。  有这样的想法， 是我身为女仆的失职。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "ch0099_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "我……失去了自信。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "ch0099_memoriallobby_2",
+      "category": "lobby",
+      "text": "主人一直背负着很多重担，  可即便如此，您还是会笑着，说没关系。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_memoriallobby_2.ogg"
+    },
+    {
+      "description": "ch0099_memoriallobby_3",
+      "category": "lobby",
+      "text": "我……没能替您， 背负那份重担……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_memoriallobby_3.ogg"
+    },
+    {
+      "description": "ch0099_memoriallobby_4",
+      "category": "lobby",
+      "text": "可是，听了主人的话， 我再一次找回了自信。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_memoriallobby_4.ogg"
+    },
+    {
+      "description": "ch0099_memoriallobby_5",
+      "category": "lobby",
+      "text": "虽然，我还有很多不足之处， 但今后，还是请主人多多关照了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_memoriallobby_5.ogg"
+    },
+    {
+      "description": "ch0099_relationship_up_1",
+      "category": "growup",
+      "text": "兔兔需要爱哦。蹦蹦~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0099_relationship_up_2",
+      "category": "growup",
+      "text": "多谢主人，今后，也请拭目以待吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0099_relationship_up_3",
+      "category": "growup",
+      "text": "这一切都是主人的功劳。呵呵，真的，所有一切……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0099_relationship_up_4",
+      "category": "growup",
+      "text": "请不要错过兔兔茜啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0099_season_birthday",
+      "category": "lobby",
+      "text": "您竟然记得我的生日？谢谢您，主人。 茜实在太高兴了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_season_birthday.ogg"
+    },
+    {
+      "description": "ch0099_season_birthday_player_1",
+      "category": "lobby",
+      "text": "生日快乐，主人！请期待兔兔今天的……特别服务。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "ch0099_season_birthday_player_2",
+      "category": "lobby",
+      "text": "你问兔兔的特别服务是什么？呵呵…… 这个嘛，会是什么呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "ch0099_season_birthday_player_3",
+      "category": "lobby",
+      "text": "没关系，不需要害怕。 好了，乖~乖……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_season_birthday_player_3.ogg"
+    },
+    {
+      "description": "ch0099_season_chinesenewyear",
+      "category": "lobby",
+      "text": "真是热闹的节日啊， 今年的兔兔茜也会一如既往地为主人服务哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "ch0099_season_halloween_1",
+      "category": "lobby",
+      "text": "啊，今天是万圣节啊。 我这身打扮在今天看起来应该很普通吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_season_halloween_1.ogg"
+    },
+    {
+      "description": "ch0099_season_halloween_2",
+      "category": "lobby",
+      "text": "对了……主人喜欢什么样的恶作剧？ 就算给我糖的话，我也会捣蛋的哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_season_halloween_2.ogg"
+    },
+    {
+      "description": "ch0099_season_midautumn",
+      "category": "lobby",
+      "text": "今天是特别的一天呢， 让兔兔茜为主人准备好月饼和茶水吧，蹦蹦~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_season_midautumn.ogg"
+    },
+    {
+      "description": "ch0099_season_newyear",
+      "category": "lobby",
+      "text": "新年快乐，主人。……新年到了。 希望今年好事多多……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_season_newyear.ogg"
+    },
+    {
+      "description": "ch0099_season_xmas",
+      "category": "lobby",
+      "text": "今天是圣诞节啊，主人。和主人在一起， 每天都很特别……  但今天是更加特别的一天。您愿意留下来陪着…… 怕冷的兔兔吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_season_xmas.ogg"
+    },
+    {
+      "description": "ch0099_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/cn/ch0099_title.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "ch0099_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0099_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0099_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_commonskill.ogg"
+    },
+    {
+      "description": "ch0099_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_exskill_1.ogg"
+    },
+    {
+      "description": "ch0099_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_exskill_2.ogg"
+    },
+    {
+      "description": "ch0099_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_exskill_3.ogg"
+    },
+    {
+      "description": "ch0099_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0099_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0099_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0099_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0099_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_gachaget.ogg"
+    },
+    {
+      "description": "ch0099_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_growup_1.ogg"
+    },
+    {
+      "description": "ch0099_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_growup_2.ogg"
+    },
+    {
+      "description": "ch0099_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_growup_3.ogg"
+    },
+    {
+      "description": "ch0099_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_growup_4.ogg"
+    },
+    {
+      "description": "ch0099_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_lobby_1.ogg"
+    },
+    {
+      "description": "ch0099_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_lobby_2.ogg"
+    },
+    {
+      "description": "ch0099_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_lobby_3.ogg"
+    },
+    {
+      "description": "ch0099_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_lobby_4.ogg"
+    },
+    {
+      "description": "ch0099_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_lobby_5.ogg"
+    },
+    {
+      "description": "ch0099_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_login_1.ogg"
+    },
+    {
+      "description": "ch0099_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_login_2.ogg"
+    },
+    {
+      "description": "ch0099_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "ch0099_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "ch0099_memoriallobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_memoriallobby_2.ogg"
+    },
+    {
+      "description": "ch0099_memoriallobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_memoriallobby_3.ogg"
+    },
+    {
+      "description": "ch0099_memoriallobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_memoriallobby_4.ogg"
+    },
+    {
+      "description": "ch0099_memoriallobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_memoriallobby_5.ogg"
+    },
+    {
+      "description": "ch0099_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0099_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0099_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0099_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0099_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_season_birthday.ogg"
+    },
+    {
+      "description": "ch0099_season_birthday_player_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "ch0099_season_birthday_player_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "ch0099_season_birthday_player_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_season_birthday_player_3.ogg"
+    },
+    {
+      "description": "ch0099_season_halloween_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_season_halloween_1.ogg"
+    },
+    {
+      "description": "ch0099_season_halloween_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_season_halloween_2.ogg"
+    },
+    {
+      "description": "ch0099_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_season_newyear.ogg"
+    },
+    {
+      "description": "ch0099_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_season_xmas.ogg"
+    },
+    {
+      "description": "CH0099_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/CH0099_Title.ogg"
+    },
+    {
+      "description": "ch0099_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0099_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0099_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/ch0099_cafe_monolog_3.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr_Idle_01.png",
+        "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0099_spr_99.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 147,
+      "favorability": 240
+    },
+    {
+      "id": 88,
+      "favorability": 60
+    }
+  ],
+  "furniture": [
+    832
+  ],
+  "character_datas": [
+    {
+      "character_id": 20019,
+      "dev_name": "CH0099",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Mystic",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "S",
+      "street_adaptability": "B",
+      "equipment": [
+        7,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        435,
+        437,
+        438,
+        419,
+        420,
+        421,
+        422,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/skill_icon/FWA06B4BBiRHBNlk0zQONTKtxgXc6olW.png",
+            "title": "精心地准备",
+            "title_cn": "精心地准备",
+            "preview": "//static.kivo.wiki/videos/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/skill_preview/Y4FdeZue81W97zcsY8CS81cJ7sf6HXAH.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "设置进入范围内会自动爆炸，造成攻击力351%伤害的地雷(90秒内)"
+              },
+              {
+                "cost": 3,
+                "describe": "设置进入范围内会自动爆炸，造成攻击力404%伤害的地雷(90秒内)"
+              },
+              {
+                "cost": 3,
+                "describe": "设置进入范围内会自动爆炸，造成攻击力509%伤害的地雷(90秒内)"
+              },
+              {
+                "cost": 3,
+                "describe": "设置进入范围内会自动爆炸，造成攻击力562%伤害的地雷(90秒内)"
+              },
+              {
+                "cost": 3,
+                "describe": "设置进入范围内会自动爆炸，造成攻击力667%伤害的地雷(90秒内)"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/skill_icon/SPJhozZC1bcAQgA5OOU45HZqUDOFDkcO.png",
+            "title": "优雅地扫除",
+            "title_cn": "优雅地扫除",
+            "preview": "",
+            "max_level": 1,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每30秒，对圆形范围内的敌人造成攻击力216%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对圆形范围内的敌人造成攻击力227%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对圆形范围内的敌人造成攻击力238%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对圆形范围内的敌人造成攻击力281%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对圆形范围内的敌人造成攻击力292%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对圆形范围内的敌人造成攻击力302%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对圆形范围内的敌人造成攻击力346%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对圆形范围内的敌人造成攻击力356%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对圆形范围内的敌人造成攻击力367%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒对圆形范围内的敌人造成攻击力411%的伤害"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/skill_icon/9WMzSWsnpFimE2bWqSp6CUMySFmRIIAl.png",
+            "title": "准确地捕捉",
+            "title_cn": "周密地捕捉",
+            "preview": "",
+            "max_level": 1,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/skill_icon/IdtMgQuyePwXhx8jmqWMEpXQECZJMQ52.png",
+            "title": "迅速地支援",
+            "title_cn": "迅速地支援",
+            "preview": "",
+            "max_level": 1,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "神秘类型我军 攻击力 增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘类型我军 攻击力 增加13.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘类型我军 攻击力 增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘类型我军 攻击力 增加16.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘类型我军 攻击力 增加17.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘类型我军 攻击力 增加17.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘类型我军 攻击力 增加20.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘类型我军 攻击力 增加21%"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘类型我军 攻击力 增加21.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘类型我军 攻击力 增加24.2%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 1988,
+          "attack": 419,
+          "defense": 66,
+          "healing": 1618,
+          "accuracy": 1131,
+          "evasion": 1093,
+          "crit": 251,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1141,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/weapons_icon.png",
+        "name": "Silent Solution",
+        "name_cn": "安静的解决方案",
+        "description": "茜总是随身携带的手枪。<br>这是最适合潜入任务的物品。",
+        "description_cn": "茜时常佩戴的手枪。<br>这把枪最适合进行潜伏任务。",
+        "info": [
+          {
+            "title": "",
+            "description": ""
+          },
+          {
+            "title": "固有武器最大等級 Lv.30 → Lv.40 / 解锁强化技能+",
+            "description": "「准确地捕捉」升级为「准确地捕捉+」"
+          },
+          {
+            "title": "固有武器最大等級 Lv.40 → Lv.50 / 地形战力强化 室內战斗力 S → SS",
+            "description": "在室内地形造成1.3倍伤害。 寻找掩体时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%AE%A4%E7%AC%A0%20%E8%8C%9C/%E5%85%94%E5%A5%B3%E9%83%8E/skill_icon/O3ut9dyQwekwFv9WVJ07XVysJFgZcUfE.png",
+            "title": "准确地捕捉+",
+            "title_cn": "周密地捕捉+",
+            "preview": "",
+            "max_level": 1,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力 增加347/ 攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加365/ 攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加382/ 攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加451/ 攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加469/ 攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加486/ 攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加555/ 攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加573/ 攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加590/ 攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加659/ 攻击力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "6573b4fb-8112-4428-878e-2c9bbccff06e",
+  "skill_declare_uuid": "fdc0070c-bfea-48d6-95c4-ccae68ea627f",
+  "supplementary_uuid": "fcdd6f26-ed06-478b-80a3-478e0f0ee128",
+  "supplementary_declare_uuid": "b4cfbfc7-4ebf-4eae-84ac-f97287af6fe8",
+  "created_at": 1685459851,
+  "updated_at": 1781697648
+}

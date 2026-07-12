@@ -1,0 +1,167 @@
+{
+  "id": 509,
+  "skin": "睡衣",
+  "skin_jp": "パジャマ",
+  "skin_cn": "",
+  "skin_zh_tw": "睡衣",
+  "skin_list": [
+    {
+      "id": 182,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 343,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E9%9C%B2%E8%90%A5/Student_Portrait_CH0235_Collection.png",
+      "skin": "露营",
+      "skin_cn": "露营"
+    },
+    {
+      "id": 509,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/maki.png",
+      "skin": "睡衣",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "小涂",
+  "given_name": "真纪",
+  "family_name_jp": "小塗",
+  "given_name_jp": "マキ",
+  "family_name_kr": "코누리",
+  "given_name_kr": "마키",
+  "family_name_en": "Konuri",
+  "given_name_en": "Maki",
+  "family_name_zh_tw": "小塗",
+  "given_name_zh_tw": "真紀",
+  "family_name_cn": "小涂",
+  "given_name_cn": "真纪",
+  "nick_name": "",
+  "introduction": "",
+  "introduction_cn": "",
+  "momo_talk_signature": "",
+  "main_relation": 36,
+  "relation": null,
+  "age": 15,
+  "grade": "一年生",
+  "height": 149,
+  "birthday": "08-01",
+  "hobby": "",
+  "designer": "",
+  "illustrator": "",
+  "character_voice": "三上枝织",
+  "character_voice_cn": "金娜",
+  "release_date": null,
+  "release_date_cn": null,
+  "release_date_global": null,
+  "sd_model_image": "",
+  "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/maki.png",
+  "school": 4,
+  "weapon_type": "",
+  "is_install": false,
+  "is_install_cn": false,
+  "is_install_global": false,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": false,
+  "more": "",
+  "recollection_lobby_image": "",
+  "spine": [
+    1312
+  ],
+  "model": [
+    104
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [],
+  "voice_cn": [],
+  "voice_kr": [],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_07.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_08.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_09.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_10.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_12.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_13.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_99.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0312_spr_11.png"
+      ]
+    }
+  ],
+  "gift_data": null,
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 0,
+      "dev_name": "CH0312",
+      "combat_style": "default",
+      "type": "",
+      "attack_attribute": "",
+      "defensive_attributes": "",
+      "is_groupc_control": false,
+      "team_position": "",
+      "battlefield_position": "",
+      "rarity": 0,
+      "limited": false,
+      "outdoor_adaptability": "",
+      "indoor_adaptability": "",
+      "street_adaptability": "",
+      "equipment": null,
+      "cultivate_material": [],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [],
+        "passive_skill": []
+      },
+      "basic": [
+        {
+          "max_hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "healing": 0,
+          "accuracy": 0,
+          "evasion": 0,
+          "crit": 0,
+          "crit_res": 0,
+          "crit_dmg": 0,
+          "crit_dmg_res": 0,
+          "stability": 0,
+          "range": 0,
+          "cc_power": 0,
+          "cc_res": 0,
+          "recovery_boost": 0,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "",
+        "name": "",
+        "name_cn": "",
+        "description": "",
+        "description_cn": "",
+        "info": [],
+        "skill": []
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "3edd057a-6688-4c71-ade7-170a6e9759e0",
+  "skill_declare_uuid": "cfc3b39c-cfcd-423e-9f33-373f4ac73551",
+  "supplementary_uuid": "f92f7ac4-b58c-4740-a36c-4cd8d530ec96",
+  "supplementary_declare_uuid": "20d2acf9-033d-445c-84a3-7d858bb7bc69",
+  "created_at": 1735038114,
+  "updated_at": 1769515896
+}

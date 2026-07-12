@@ -1,0 +1,2244 @@
+{
+  "id": 42,
+  "skin": "泳装",
+  "skin_jp": "水着",
+  "skin_cn": "泳装",
+  "skin_zh_tw": "泳裝",
+  "skin_list": [
+    {
+      "id": 76,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 42,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    },
+    {
+      "id": 287,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%98%94%E6%97%A5/avatar.png",
+      "skin": "一年级",
+      "skin_cn": ""
+    },
+    {
+      "id": 373,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E4%B8%B4%E6%88%98/avatar.png",
+      "skin": "临战",
+      "skin_cn": "武装"
+    }
+  ],
+  "family_name": "小鸟游",
+  "given_name": "星野",
+  "family_name_jp": "小鳥遊",
+  "given_name_jp": "ホシノ",
+  "family_name_kr": "타카나시",
+  "given_name_kr": "호시노",
+  "family_name_en": "Takanashi",
+  "given_name_en": "Hoshino",
+  "family_name_zh_tw": "小鳥遊",
+  "given_name_zh_tw": "星野",
+  "family_name_cn": "小鸟游",
+  "given_name_cn": "星野",
+  "nick_name": "水星野，水星，水大叔，水叔",
+  "introduction": "阿比多斯高级中学所属，为了追求悠闲夏日，而来到无人岛的对策委员会委员长。\n\n跟她怕麻烦的态度相反，各项准备都非常确实。而她本人并没有发现自己比平常还要积极。\n\n>来这边呀老师～还挺凉快的唷？",
+  "introduction_cn": "为了悠闲度过夏日，才来到无人岛的阿拜多斯对策委员会会长。\n\n虽然嘴上说着想偷懒，却为夏日做足了准备。就连她本人也没有意识到，自己比平时更加积极。\n\n>老师过来呀。\n这边还挺凉快的哦？",
+  "momo_talk_signature": "午睡中~随时欢迎伙伴哦",
+  "main_relation": 19,
+  "relation": [
+    18,
+    17,
+    20,
+    14,
+    70
+  ],
+  "age": 17,
+  "grade": "三年生",
+  "height": 145,
+  "birthday": "01-02",
+  "hobby": "午睡、休息",
+  "designer": "9ml",
+  "illustrator": "9ml",
+  "character_voice": "花守由美里",
+  "character_voice_cn": "刘雯",
+  "release_date": "2022-07-20",
+  "release_date_cn": "2024-06-13",
+  "release_date_global": "2023-01-31",
+  "sd_model_image": "",
+  "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/avatar.png",
+  "school": 1,
+  "weapon_type": "SG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": false,
+  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|黄昏から水面へと　誰そ彼から皆もへと|从黄昏到水面 从恍惚到睡眠|唔嘿~和老師一起来海邊看到了很棒的風景 謝謝！|Heehee... I saw something wonderful because I came to the ocean with you.Thank you, Sensei.|\n|![hoshino_swimsuit_banner.png](files/10/TgxI8Rts6aWNah9RFSThT0biZCfcoMs0.png =450x)|![hoshino_swimsuit.jpg](files/2824/OiWIiuqFUDAjs42MYKZcInODFm265NyP.jpg =450x)|![hoshino_swimsuit.png](files/2824/Ow58SAJNqup6y0FvkftuTBiwSxu5r0ml.png =450x)|![hoshino_swim.jpg](files/2824/KKJh1Z2lYeFgDhc5OSJ9WM73BkIfNfbA.jpg =450x)|\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|![Hoshino-swim.jpg](files/2824/zy0E7eOJFoOY9S1sUMQIPkciEGElAaNm.jpg =525x)|![hoshino_swimsuit.jpg](files/2824/6UIvDu2Ebm89JxKr3dYf9b2UP219Ec4E.jpg =425x)|![hoshino_swimsuit.jpg](files/2824/snoEnf88ckFysnJDGUl9oZ5agoY8y5Yw.jpg =545x)|![hoshino_swimsuit.jpg](files/2824/YZwMe9cNoyneajJvqHbRsPKLmRCMviXb.jpg =400x)|\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[海滩游泳圈](https://kivo.wiki/data/item/710) |\n| :---: | :---: | :---: |\n| ![006yPoYygy1hqgxuodorrg30k00etnpj.gif](files/443/9YL2B0jhHYvFQ2mr80NE8RjAvH1VUOZe.gif =450x) | ![006yPoYygy1hqgxunnfcwg30k00etb2c.gif](files/443/mgqFZl7lyjsoqxgqlPcwowk7ssRxCWGy.gif =450x) | ![hoshino_swimsuit_interaction.gif](files/10355/TMwW0IDmImx6Labt4OQattN8N8n9ybOV.gif =450x) |\n\n## 设定集\n\n::::center\n![image.png](files/2824/YR9VyCkq8p1txApd6M0LOYYrwosU3Y3k.png =450x)\n\n![image.png](files/2824/QsQvfB2N63ew4UICI2B32N6jxJ3byx8n.png =450x)\n\n![image.png](files/2824/u5hc6XfJZRFM8GmsWVqozIk4my7Kh3y6.png =450x)\n\n![image.png](files/2824/DMthcpPNTFcsy2GZ3KJSJih7U7n7mXmm.png =450x)\n\n![image.png](files/2824/INaiFDORJ0A2lSmj6maF0N0U6HRzrKto.png =450x)\n\n![image.png](files/2824/U1A9nk5caUdohTrwPvG6PecNOl2dioIf.png =450x)\n::::",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/Hoshino_swimsuit_home_Idle_01_1.2909000000000006.jpg",
+  "spine": [
+    475,
+    297,
+    1732
+  ],
+  "model": [
+    35,
+    390
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "HoshinoSwimsuit_Title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/KDAbQGHpteCOpXyjUqZMZmMjHT8PRw2d.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Buffed_1",
+      "category": "battle",
+      "text": "谢谢啰~",
+      "text_original": "ありがとう～。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/b0BFaQs9MHi7sV9ON34fwKuO4HGE30hF.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_BuffSelf_1",
+      "category": "battle",
+      "text": "好，那就动真格啦。",
+      "text_original": "さて、んじゃやりますか。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/LXncCczTh00BbsRHfkA2ja6JBKpFp4i3.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "くっ…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/qYKcu5PJlrqd4idpzg2FD3q97c2kBMxX.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "ぐぅ…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hWgxpbDX3FwAMyFKiXAFVoYL0yQVAeCG.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Damage_3",
+      "category": "battle",
+      "text": "哇……疼疼疼……",
+      "text_original": "いたたたー…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/G7lEGHaffmvQOKyoI8OHTpNJZAyOWl06.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Defense_1",
+      "category": "battle",
+      "text": "没门儿没门儿。",
+      "text_original": "無駄無駄～。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/3Hgltf9dVAU7JRPnFZwgPCYLBOZjngbt.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_In_1",
+      "category": "battle",
+      "text": "快点完事去休息吧。",
+      "text_original": "早く終わらせて、休むとしようか。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/pLnjX5pNFfiUDMP97TzfDYDTo0KmWHH5.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_In_2",
+      "category": "battle",
+      "text": "那就跟着我吧。",
+      "text_original": "んじゃ、ついてきて。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/CPgSA55elL89kJ8F01CMdM95rf1Gttdq.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Move_1",
+      "category": "battle",
+      "text": "好，继续前进！",
+      "text_original": "さ～て、次々。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/EcEVeuq11E9b1kU6yFsb9UITfRkS59Lb.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Move_2",
+      "category": "battle",
+      "text": "向下个目标前进！",
+      "text_original": "さぁ、次行こう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/exM8hw9bDgkH6WWRgxSccNWesv8AScCY.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Recovery_1",
+      "category": "battle",
+      "text": "哦~谢谢你。",
+      "text_original": "おー、ありがとう～。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/xRwsRCv5yDfanc0d807447SKidr6atMH.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Retire",
+      "category": "battle",
+      "text": "唔嘿嘿，是不是冲过头了？",
+      "text_original": "うへ～。調子に乗り過ぎちゃったかな？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/PdhkwFw5u4n62JCN1W7mBUdJKUnQCAEF.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "はっ",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/RBLzwA2s7IFwhgnWClmti7BQ6rQN13uW.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "ふぅ",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/U0ItNZO3Q0m4MjkK6fQ6InMc7zN4s0kJ.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "やぁ",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/rxxD4jGQpAaUSYyADCdTFmlVZNg5WnRD.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_TacticalAction_1",
+      "category": "battle",
+      "text": "嘿咻~",
+      "text_original": "よ～いしょっと",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/mJZP8hGpgSZG5YqB1hvtmkTHMhz1Td7O.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Victory_1",
+      "category": "battle",
+      "text": "多亏大伙儿啦！",
+      "text_original": "みんなのおかげだよ～。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/LJ7nX4LObTmugRquq27ctZcO3yP2YhP5.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Battle_Victory_2",
+      "category": "battle",
+      "text": "老师谢啦，有你在才能这么轻松。",
+      "text_original": "ありがとね。先生、おかげで楽勝だったよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/Md7DLHjOQJYbUfSfCTAkZO2WNipGKUEx.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "真好啊，大家。平平安安就是福啊。",
+      "text_original": "微笑ましい光景だねぇ…まあ、余裕があるのは良いことだ",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/TXsX7hq0K2AQqlJPNL3CiKSd15ogHUuT.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "嗯——该找个地方躺下眯一会儿喽……",
+      "text_original": "さーて、どこか横になれるところは…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/70kfkYmxCQmo9UgNw5N7HixZRYOFrfsV.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "哪儿能舒舒服服地休息一下呢……",
+      "text_original": "どこか寛げそうな場所は…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/9cnwlYK4VBpXUbMZEQ241a46bOlvj70a.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Cafe_monolog_4",
+      "category": "cafe",
+      "text": "……哦？看起来很不错啊？",
+      "text_original": "…お、良さそうだねぇ？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/emAdDIvDqnNWL5aeHkcmSc1JG27UrKCc.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Cafe_monolog_5",
+      "category": "cafe",
+      "text": "这是什么……？",
+      "text_original": "何コレ…？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gmZh56lgfY0dbv49dQFRsDN55lYpxl5O.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_CommonSkill",
+      "category": "battle",
+      "text": "尝尝这个。",
+      "text_original": "こ～んなのはどうかな～？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/5qDbswktQ5qKLHSG3z0t0oSuvt6bINYp.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_EventLobby_1",
+      "category": "event",
+      "text": "老师~这么关心大叔我合适吗？会挨骂的哦？",
+      "text_original": "先生～、おじさんに構ってて良いの？ 怒られちゃうよ？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/XgtFXP4F51L0htKFgzG5gsv5jAOCkwPm.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_EventLobby_2",
+      "category": "event",
+      "text": "唔呼……就算你这样戳我，大叔我也什么都没有哦……",
+      "text_original": "うーん…そんなにつつかれても、おじさんからは何も出てこないけど…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/EGuBAH7E3h7WDkNNrvX951JkkcNYrSyV.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_EventLobby_3",
+      "category": "event",
+      "text": "老师也累了吗？那我们一起去那边休息一下吧？",
+      "text_original": "もしかして、先生も疲れた？ それなら一緒に、向こうで一眠りする？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/KEsfa69Edptmo9mBwigyZtLnCtXXmydX.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_EventLobby_4",
+      "category": "event",
+      "text": "好~困~",
+      "text_original": "ねーむぃ…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/9pmrO7EnBwy5BsT1wCjOyuTBKumFXzy7.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_EventLogin_1",
+      "category": "event",
+      "text": "呀~老师，辛苦辛苦~",
+      "text_original": "やー先生、お疲れ様ー",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/HDpQuyUzRtdpI6WeAWhkqeJc29zN6j2O.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_EventLogin_2",
+      "category": "event",
+      "text": "好热……热得我要被晒干了……就算没动也好热啊~",
+      "text_original": "あっつい…暑くて干からびそう… 動いてないのに暑いよ～…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/oSwA35sgLHxAeWcUw3jkhjdZGC6KZ1Tz.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_EventLogin_Season_1",
+      "category": "lobby",
+      "text": "差不多该行动了……？呜嘿——好麻烦呐~",
+      "text_original": "そろそろ行かなきゃダメ？ うへー、面倒くさいなぁ…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/zKlPgtNWPQHFheffUlbWbOzIGy7chcyb.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_EventLogin_Season_2",
+      "category": "lobby",
+      "text": "时间好像不多了。快抓紧时间吧~",
+      "text_original": "もうあんまり時間が無さそうだし、そろそろ動くとしようか～",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/82qmKL792UXF6jwYfrJsfliERFPmU1lp.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_EventLogin_Season_End",
+      "category": "lobby",
+      "text": "老师，活儿还没干完吗？真没办法，那大叔就来帮你吧。",
+      "text_original": "先生、まだやることが残ってるの？ 仕方ないなあ、おじさんが手伝ってあげよう",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/HlRtwhcYJOLuORJEam3AvvpPHqnPE7nR.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_ExSkill_1",
+      "category": "battle",
+      "text": "来都来了。",
+      "text_original": "せっかくなんだし～。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/jQfmTz0Gr2yE6MHK7iBWcLMa4sqxPBJB.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_ExSkill_2",
+      "category": "battle",
+      "text": "好了，别绷这么紧嘛。",
+      "text_original": "ほらほら、そんな固くならないで。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/13ccMs8bwfp3jGNYluAasSusL0yQObGc.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_ExSkill_3",
+      "category": "battle",
+      "text": "好了好了。",
+      "text_original": "まあまあ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/VgbxVPC7RmuZMQPg6e3ITJjoIRJc3A0c.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_ExSkill_Level_1",
+      "category": "battle",
+      "text": "再放松一点。",
+      "text_original": "もっと気楽に～。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/Y0XieTJjAaNYnxhsZoSMY8Z29aCRNrXU.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_ExSkill_Level_2",
+      "category": "battle",
+      "text": "愉快地出发吧。",
+      "text_original": "楽しんでいこ～",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/GS9NhNaOYyFVBZVD7qiNPZFjZNIfHpS9.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_ExSkill_Level_3",
+      "category": "battle",
+      "text": "怎么样？很凉快吧。",
+      "text_original": "どう？涼しぃ～？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/z2nAfFP4IpnQgCUpvEVLBPQH3R8Ft0U2.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_ExWeapon_Get",
+      "category": "growup",
+      "text": "居然为了我做到这个地步……老师可真是个怪人哪。没事没事……那，我就再加把劲喽？",
+      "text_original": "ここまでしてくれるとか…ほんと、変わってるねえ先生も。 まぁ良いけど…じゃあ私も、今まで以上に頑張らないとね？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/qFpCmaN1hReryDr3z2FT57Ab8wEt199t.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Formation_In_1",
+      "category": "formation",
+      "text": "呜嘿嘿，怎么到了这儿也要打啊？",
+      "text_original": "うへ～。ここでも出番かぁ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/A1pZFGfqyEPrdeQeWwuJ7qlQmeiI4Jy8.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Formation_In_2",
+      "category": "formation",
+      "text": "既然老师这么说，那就没办法啦。",
+      "text_original": "先生がそう言うなら、仕方ないなぁ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/6wjLS0YH56PbhBQUPJFwDcFxUrI6cwzG.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Formation_Select",
+      "category": "formation",
+      "text": "嗯——诶？你是不是搞错了？",
+      "text_original": "おぉ…？あれ、間違えた？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/kmYHKqZxQGKVA4o7gg6UNq8D5syoxV0M.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Gachaget",
+      "category": "growup",
+      "text": "呼啊啊……啊，老师~嘿嘿，难得来一次，别着急嘛，放轻松点儿啦~",
+      "text_original": "ふぁあ～…あ、先生～。せっかくなんだし、のんびり行こうよ～",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/H39g2RMKQ4sERSNvSm9psFVmDydAfH7B.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Growup_1",
+      "category": "growup",
+      "text": "呜嘿嘿，老师，我真的能收下吗？",
+      "text_original": "うへ～こんなに貰っちゃって良いの、先生？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/I11Rrvg3AXx7LL95Q1T9zibfeslqfSX4.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Growup_2",
+      "category": "growup",
+      "text": "谢谢，我会珍惜的。",
+      "text_original": "ありがと～、大事に使うね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/7TQNj8bboVdB8vtoGaaxY3LdWrgVH7RS.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Growup_3",
+      "category": "growup",
+      "text": "多谢你一直关照啦~",
+      "text_original": "いつもありがとね～",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/KmPRDIpmrOQ1kzL47pHXazRngo2mdnmO.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Growup_4",
+      "category": "growup",
+      "text": "感觉又变厉害了。",
+      "text_original": "ま～た強くなった気がする～",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/Lgc1rrlmrNEgJPDsfbC4hh9kPNoAjNAZ.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Lobby_1",
+      "category": "lobby",
+      "text": "不会想让我穿成这样去工作吧~？……真的假的？",
+      "text_original": "まさかこの格好で、働かせるつもりかー？なんて",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/p5mgCU28dlMT4CjRipjzNp2Mborlh1Qs.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Lobby_2",
+      "category": "lobby",
+      "text": "老师还是这么忙啊…………这个要我帮帮你吗？",
+      "text_original": "相変わらず先生は忙しそうだねぇ …これを手伝えば良い？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/yAvUzRq8CJ1By9Ssp8d7vJaiUPdWE2Nv.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Lobby_3",
+      "category": "lobby",
+      "text": "……嗯？唔，我确实很想歇着……但是老师在工作，我在旁边摸鱼好像有点……",
+      "text_original": "んー？まあ、確かに休みたい気持ちはやまやまだけど…先生が働いてるのに、その横で休むのもねぇ？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/Onxc4eIPaDdGBTegzH03yDZflKBXn02b.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Lobby_4",
+      "category": "lobby",
+      "text": "老师，累了说一声哦。用这个游泳圈当枕头怎么样？",
+      "text_original": "疲れたらいつでも言ってね、先生 枕代わりに、この浮き輪とかどう？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/btuwVZ2CRXKjl8PEbnccTTQYlulO3Guz.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Lobby_5",
+      "category": "lobby",
+      "text": "今天会有什么事儿呢~？",
+      "text_original": "今日はどんなことが起きるのかな～？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/haMCIPPbiQQEcWAAQ9YE0e0JThFSQIQL.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_LogIn_1",
+      "category": "lobby",
+      "text": "哦哟哟~老师，辛苦啦~今天就轻松一点过吧？",
+      "text_original": "やぁやぁ先生、お疲れ様ー 今日くらいはのんびりしない？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/Uqsder61i00XpyovbaH5SqsXqBc0tcpd.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_LogIn_2",
+      "category": "lobby",
+      "text": "呜嘿，老师你来啦~……嗯？我？我一直在这儿休息啊？",
+      "text_original": "先生おかえり～。…ん、私？ずーっとここで休憩してたよー？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/XbOLQ7k1VXfFXLxSNKOoD7TKYgwZgceb.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_MemorialLobby_1",
+      "category": "lobby",
+      "text": "哎呀，这谁顶得住哇……这里简直就是天堂……",
+      "text_original": "いやぁ、たまんないねぇ… これぞまさに楽園…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/6zq7lBtUsJP5BWus3wI0iURx6BUCCd1H.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "哇，凉爽的树荫……舒适的海风……还有舒缓的海浪声……",
+      "text_original": "涼しい日陰… 心地良い海風… 穏やかな波の音…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/abBghKk8miivdC2lI5dCjJBXzVX7IjbS.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "哎呀，这里真是来对了~太棒了，简直就像做梦一样……",
+      "text_original": "いやぁ、 ここに来られてよかった～ 最高だねぇ、 まるで夢みたいな場所だー…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/ju6Ou0g2TjVvmLUUOYI2VCLHPnWYVFZA.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "唔……老师也别在那里傻站着了，来和我一起躺着吧？",
+      "text_original": "…先生もそんなとこにずっと立ってないで、横になってみたら？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/RCkDOtlOTJVF1evC7hsQvafHckA4QX5d.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "虽然有点挤，要试试吗？很舒服的哦？",
+      "text_original": "あんまり広くはないけど、どう？良い感じだよ～？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/dBY4L4qFBCIAxg6pp7w69zXAECEt7WsZ.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "呜嘿——就知道你会这么说……",
+      "text_original": "うへー、なるほどそう来たか…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/nZTRdeSVvkD2l4NxqALQnk1iNVOuoLvI.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "……也算在我意料之中吧。",
+      "text_original": "まあ、何となく予想はしてたけどね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/Kg0L6Mk3XcH1lEnYjPF9i7xesam3g9W0.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_MemorialLobby_5_1",
+      "category": "lobby",
+      "text": "明明没关系的……不过，我也不讨厌老师这一点。",
+      "text_original": "別にいいのに… まあ、そういうところ嫌いじゃないけど。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/rrDMzxJlsw7EYqxxhJHhNZMO2bKgnrEL.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_MemorialLobby_5_2",
+      "category": "lobby",
+      "text": "……诶嘿嘿。",
+      "text_original": "…えへへ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/JS3juaFYaakKAHXrAzRVEwYm26Xi3HAI.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Relationship_Up_1",
+      "category": "growup",
+      "text": "哎呀，老师老是这样。",
+      "text_original": "まったくもう。先生はいつもそういうことばっかり。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/EgdPgKJO1IDUI5MzgkkhT0cP5NFC5D1B.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Relationship_Up_2",
+      "category": "growup",
+      "text": "嗯，大叔我呀……呃，算了，恭敬不如从命嘛。那我就收下了。老师，谢谢你。",
+      "text_original": "いや、おじさんはさ……。ん～、今のなし。素直に受け取るよ。ありがとね、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/k2l57L4bFkoTREb2i32YgHMVTlgSAgkZ.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Relationship_Up_3",
+      "category": "growup",
+      "text": "大叔我，到底还能干点啥呢？",
+      "text_original": "おじさんに一体何ができるんだろうね？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/RP8qz2th5hTZqUwbRcbbKjOdfXWqsL1D.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Relationship_Up_4",
+      "category": "growup",
+      "text": "有什么事随时跟我说哦。我也想帮老师。",
+      "text_original": "何かあったらいつでも言ってね。私も先生のことを手伝いたいからさ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/VXHr30OSAuiVrPAIqVdO1jwyDGuKaBgu.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Season_Birthday",
+      "category": "lobby",
+      "text": "……哦，对啊，今天是我的生日诶。欸嘿，老师，谢谢你啦，你能记住我的生日，我真的很开心。呜嘿嘿~",
+      "text_original": "…あ、そっか。私の誕生日か。 ありがとう、先生…覚えててもらえるのは、嬉しいことだね。 うへへ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/OzE5oxpFsXA3tQyKwhTr5ushvyO9Rmj8.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "老师，祝你生日快乐。有什么想要的吗？……只要在我能力范围内都可以哦？",
+      "text_original": "お誕生日おめでとう、先生。何か欲しいものでもある？ …私にできる範囲なら、何でも良いけど？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/yj8uQiPfgpemsFw2IRq8kEewZmIL7Ftt.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Season_Halloween",
+      "category": "lobby",
+      "text": "穿奇装异服的人好多啊~……欸？看我干什么？都说了这不是变装啦~",
+      "text_original": "色んな仮装の人がたくさんだぁ …え、何その視線 これは仮装じゃないってば～",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/fMX4fJjT4Zj6YNAnlNoHhNxVMZ0eyUrJ.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Season_NewYear",
+      "category": "lobby",
+      "text": "老师，祝您新年快乐~……要是今年也有很多好事就好啦。",
+      "text_original": "あけましておめでとう、先生～ …今年もたくさん、楽しいことがあると良いね",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/DtDu5tLIxuCjEFEduvNwvfCW8buYYPmT.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Season_Xmas",
+      "category": "lobby",
+      "text": "怪不得外面这么热闹，原来今天是圣诞节呀~大叔我其实也不讨厌这种氛围……不过，我这身打扮，应该不适合出门吧？",
+      "text_original": "何か騒がしいと思ったら、クリスマスか～ ま、おじさんも別に、この空気は嫌いじゃないけどね ただ、ちょっとこの格好じゃ外には出られないかなー？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/7nKUrtnJ6wg0Q0jI8TUc8G0JVrItrr2q.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Tactic_Defeat_1",
+      "category": "battle",
+      "text": "诶？好奇怪呀……",
+      "text_original": "ありゃ？おっかしいな～？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/O0hNAdcZB3jD0azeOSM1W4WkzktjlX3X.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Tactic_Defeat_2",
+      "category": "battle",
+      "text": "没关系没关系，别往心里去哈。",
+      "text_original": "気にしない気にしない。大丈夫。ねっ？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/xyHjnzaIcnORpoYTHk8hvNqnXuriaKpI.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Tactic_In_1",
+      "category": "battle",
+      "text": "那就速战速决搞定吧！",
+      "text_original": "んじゃ、スパッと終わらせて来ようか。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/whwr8nz4zO5A0pfqH03Ya11AM4HJlQ5H.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Tactic_In_2",
+      "category": "battle",
+      "text": "那出发啰！",
+      "text_original": "んじゃ、いってみよう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/56RQsBH9fsgKtUAzuZ0NGU51lFm3K4B1.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Tactic_Victory_1",
+      "category": "battle",
+      "text": "好耶，那现在可以去休息了吧。",
+      "text_original": "いよーし。じゃあ、またのんびりして良いよね～？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/RNsLJLsXMi78Vdz226CcpYSiT7U7wqqy.ogg"
+    },
+    {
+      "description": "HoshinoSwimsuit_Tactic_Victory_2",
+      "category": "battle",
+      "text": "很好很好！",
+      "text_original": "よかったーよかったー。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/NgCLurBtzEmW0TI5BNufQEvvjNYNv2uR.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "hoshinoswimsuit_battle_buffed_1",
+      "category": "battle",
+      "text": "谢谢啰~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_buffed_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_buffself_1",
+      "category": "battle",
+      "text": "好，那就动真格啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_buffself_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_damage_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_damage_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_damage_3",
+      "category": "battle",
+      "text": "哇……疼疼疼……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_damage_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_defense_1",
+      "category": "battle",
+      "text": "没门儿没门儿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_defense_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_in_1",
+      "category": "battle",
+      "text": "快点完事去休息吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_in_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_in_2",
+      "category": "battle",
+      "text": "那就跟着我吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_in_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_move_1",
+      "category": "battle",
+      "text": "好，继续前进！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_move_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_move_2",
+      "category": "battle",
+      "text": "向下个目标前进！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_move_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_recovery_1",
+      "category": "battle",
+      "text": "哦~谢谢你。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_recovery_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_retire",
+      "category": "battle",
+      "text": "唔嘿嘿，是不是冲过头了？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_retire.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_shout_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_shout_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_shout_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "嘿咻~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_victory_1",
+      "category": "battle",
+      "text": "多亏大伙儿啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_victory_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_victory_2",
+      "category": "battle",
+      "text": "老师谢啦，有你在才能这么轻松。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_battle_victory_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_cafe_monolog_1",
+      "category": "cafe",
+      "text": "真好啊，大家。平平安安就是福啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_cafe_monolog_2",
+      "category": "cafe",
+      "text": "嗯——该找个地方躺下眯一会儿喽……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_cafe_monolog_3",
+      "category": "cafe",
+      "text": "哪儿能舒舒服服地休息一下呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_cafe_monolog_4",
+      "category": "cafe",
+      "text": "……哦？看起来很不错啊？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_cafe_monolog_5",
+      "category": "cafe",
+      "text": "这是什么……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_commonskill",
+      "category": "battle",
+      "text": "尝尝这个。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_commonskill.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlobby_1",
+      "category": "event",
+      "text": "老师~这么关心大叔我合适吗？会挨骂的哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_eventlobby_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlobby_2",
+      "category": "event",
+      "text": "唔呼……就算你这样戳我，大叔我也什么都没有哦……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_eventlobby_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlobby_3",
+      "category": "event",
+      "text": "老师也累了吗？那我们一起去那边休息一下吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_eventlobby_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlobby_4",
+      "category": "event",
+      "text": "好~困~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_eventlobby_4.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlogin_1",
+      "category": "event",
+      "text": "呀~老师，辛苦辛苦~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_eventlogin_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlogin_2",
+      "category": "event",
+      "text": "好热……热得我要被晒干了……就算没动也好热啊~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_eventlogin_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlogin_season_1",
+      "category": "event",
+      "text": "差不多该行动了……？呜嘿——好麻烦呐~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlogin_season_2",
+      "category": "event",
+      "text": "时间好像不多了。快抓紧时间吧~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlogin_season_end",
+      "category": "event",
+      "text": "老师，活儿还没干完吗？真没办法，那大叔就来帮你吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exskill_1",
+      "category": "battle",
+      "text": "来都来了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_exskill_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exskill_2",
+      "category": "battle",
+      "text": "好了，别绷这么紧嘛。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_exskill_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exskill_3",
+      "category": "battle",
+      "text": "好了好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_exskill_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exskill_level_1",
+      "category": "battle",
+      "text": "再放松一点。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_exskill_level_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exskill_level_2",
+      "category": "battle",
+      "text": "愉快地出发吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_exskill_level_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exskill_level_3",
+      "category": "battle",
+      "text": "怎么样？很凉快吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_exskill_level_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exweapon_get",
+      "category": "growup",
+      "text": "居然为了我做到这个地步……老师可真是个怪人哪。没事没事……那，我就再加把劲喽？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_exweapon_get.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_formation_in_1",
+      "category": "formation",
+      "text": "呜嘿嘿，怎么到了这儿也要打啊？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_formation_in_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_formation_in_2",
+      "category": "formation",
+      "text": "既然老师这么说，那就没办法啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_formation_in_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_formation_select",
+      "category": "formation",
+      "text": "嗯——诶？你是不是搞错了？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_formation_select.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_gachaget",
+      "category": "growup",
+      "text": "呼啊啊……啊，老师~嘿嘿，难得来一次，别着急嘛，放轻松点儿啦~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_gachaget.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_growup_1",
+      "category": "growup",
+      "text": "呜嘿嘿，老师，我真的能收下吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_growup_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_growup_2",
+      "category": "growup",
+      "text": "谢谢，我会珍惜的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_growup_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_growup_3",
+      "category": "growup",
+      "text": "多谢你一直关照啦~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_growup_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_growup_4",
+      "category": "growup",
+      "text": "感觉又变厉害了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_growup_4.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_lobby_1",
+      "category": "lobby",
+      "text": "不会想让我穿成这样去工作吧~？……真的假的？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_lobby_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_lobby_2",
+      "category": "lobby",
+      "text": "老师还是这么忙啊…………这个要我帮帮你吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_lobby_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_lobby_3",
+      "category": "lobby",
+      "text": "……嗯？唔，我确实很想歇着……但是老师在工作，我在旁边摸鱼好像有点……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_lobby_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_lobby_4",
+      "category": "lobby",
+      "text": "老师，累了说一声哦。用这个游泳圈当枕头怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_lobby_4.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_lobby_5",
+      "category": "lobby",
+      "text": "今天会有什么事儿呢~？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_lobby_5.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_login_1",
+      "category": "lobby",
+      "text": "哦哟哟~老师，辛苦啦~今天就轻松一点过吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_login_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_login_2",
+      "category": "lobby",
+      "text": "呜嘿，老师你来啦~……嗯？我？我一直在这儿休息啊？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_login_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_1",
+      "category": "lobby",
+      "text": "哎呀，这谁顶得住哇……这里简直就是天堂……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_memoriallobby_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "哇，凉爽的树荫……舒适的海风……还有舒缓的海浪声……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "哎呀，这里真是来对了~太棒了，简直就像做梦一样……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "唔……老师也别在那里傻站着了，来和我一起躺着吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "虽然有点挤，要试试吗？很舒服的哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "呜嘿——就知道你会这么说……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "……也算在我意料之中吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "明明没关系的……不过，我也不讨厌老师这一点。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "……诶嘿嘿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_relationship_up_1",
+      "category": "growup",
+      "text": "哎呀，老师老是这样。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_relationship_up_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_relationship_up_2",
+      "category": "growup",
+      "text": "嗯，大叔我呀……呃，算了，恭敬不如从命嘛。那我就收下了。老师，谢谢你。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_relationship_up_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_relationship_up_3",
+      "category": "growup",
+      "text": "大叔我，到底还能干点啥呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_relationship_up_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_relationship_up_4",
+      "category": "growup",
+      "text": "有什么事随时跟我说哦。我也想帮老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_relationship_up_4.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_season_birthday",
+      "category": "lobby",
+      "text": "……哦，对啊，今天是我的生日诶。欸嘿，老师，谢谢你啦，你能记住我的生日，我真的很开心。呜嘿嘿~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_season_birthday.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_season_birthday_player",
+      "category": "lobby",
+      "text": "老师，祝你生日快乐。有什么想要的吗？……只要在我能力范围内都可以哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_season_birthday_player.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_season_chinesenewyear",
+      "category": "lobby",
+      "text": "呜嘿，大家都在热火朝天地为新春做准备。老师，要不咱们两个偷偷去摸会儿鱼？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_season_halloween",
+      "category": "lobby",
+      "text": "穿奇装异服的人好多啊~……欸？看我干什么？都说了这不是变装啦~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_season_halloween.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_season_midautumn",
+      "category": "lobby",
+      "text": "呜嘿，一到这种节日，大叔我总觉得有点头疼。不过，既然是团圆的日子，和老师待在一起，也不坏。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_season_midautumn.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_season_newyear",
+      "category": "lobby",
+      "text": "老师，祝您新年快乐~……要是今年也有很多好事就好啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_season_newyear.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_season_xmas",
+      "category": "lobby",
+      "text": "怪不得外面这么热闹，原来今天是圣诞节呀~大叔我其实也不讨厌这种氛围……不过，我这身打扮，应该不适合出门吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_season_xmas.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_tactic_defeat_1",
+      "category": "battle",
+      "text": "诶？好奇怪呀……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_tactic_defeat_2",
+      "category": "battle",
+      "text": "没关系没关系，别往心里去哈。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_tactic_in_1",
+      "category": "battle",
+      "text": "那就速战速决搞定吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_tactic_in_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_tactic_in_2",
+      "category": "battle",
+      "text": "那出发啰！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_tactic_in_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_tactic_victory_1",
+      "category": "battle",
+      "text": "好耶，那现在可以去休息了吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_tactic_victory_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_tactic_victory_2",
+      "category": "battle",
+      "text": "很好很好！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_tactic_victory_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/cn/hoshinoswimsuit_title.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "HoshinoSwimsuit_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/HoshinoSwimsuit_Title.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_buffed_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_buffself_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_damage_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_damage_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_damage_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_defense_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_in_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_in_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_move_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_move_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_recovery_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_retire.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_shout_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_shout_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_shout_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_victory_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_battle_victory_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_commonskill.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlobby_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_eventlobby_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlobby_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_eventlobby_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlobby_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_eventlobby_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlobby_4",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_eventlobby_4.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlogin_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_eventlogin_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlogin_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_eventlogin_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlogin_season_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlogin_season_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_eventlogin_season_end",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_exskill_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_exskill_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_exskill_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_exskill_level_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_exskill_level_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_exskill_level_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_exweapon_get.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_formation_in_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_formation_in_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_formation_select.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_gachaget.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_growup_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_growup_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_growup_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_growup_4.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_lobby_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_lobby_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_lobby_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_lobby_4.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_lobby_5.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_login_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_login_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_memoriallobby_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_relationship_up_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_relationship_up_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_relationship_up_3.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_relationship_up_4.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_season_birthday.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_season_birthday_player.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_season_halloween.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_season_newyear.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_season_xmas.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_tactic_in_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_tactic_in_2.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_tactic_victory_1.ogg"
+    },
+    {
+      "description": "hoshinoswimsuit_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/hoshinoswimsuit_tactic_victory_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-10_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-11_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-12_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-13_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-07_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-15_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-16_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-17_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-18_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-08_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-20_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-21_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-00_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-14_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-19_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_hoshino_swimsuit_spr-09_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "头套差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-20_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-00_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-21_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-03_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-04_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-05_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-01_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-99_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-02_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-06_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-07_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-08_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-09_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-10_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-11_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-12_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-13_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-14_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-15_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-16_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-18_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-19_0_waifu2x_2x_0n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E5%B7%AE%E5%88%86/J_NP0063_spr-17_0_waifu2x_2x_0n_png.jpg"
+      ]
+    },
+    {
+      "title": "头套眼镜差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_14.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_08.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_16.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_17.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_19.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_07.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_09.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_15.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_18.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_21.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_10.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_12.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_11.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_13.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_99.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_20.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/gallery/%E5%A4%B4%E5%A5%97%E7%9C%BC%E9%95%9C%E5%B7%AE%E5%88%86/NP0063_spr_Idle_01.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 73,
+      "favorability": 240
+    },
+    {
+      "id": 87,
+      "favorability": 240
+    },
+    {
+      "id": 70,
+      "favorability": 60
+    },
+    {
+      "id": 68,
+      "favorability": 60
+    }
+  ],
+  "furniture": [
+    710
+  ],
+  "character_datas": [
+    {
+      "character_id": 10045,
+      "dev_name": "Hoshino_Swimsuit",
+      "combat_style": "default",
+      "type": "Support",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Special",
+      "is_groupc_control": false,
+      "team_position": "FRONT",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": true,
+      "outdoor_adaptability": "A",
+      "indoor_adaptability": "D",
+      "street_adaptability": "S",
+      "equipment": [
+        9,
+        10,
+        2
+      ],
+      "cultivate_material": [
+        99,
+        101,
+        102,
+        103,
+        149,
+        151,
+        153,
+        154,
+        399,
+        400,
+        401,
+        402,
+        444,
+        445,
+        446,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/skill_icon/QMmHlfPRphkiE1E296JsJXWaSMZ561W6.png",
+            "title": "水上支援",
+            "title_cn": "水上支援",
+            "preview": "//static.kivo.wiki/videos/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/%E6%B3%B3%E8%A3%85/skill_preview/MRMDptyuuR6lXbUBKkCvYEFjTzehoALm.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 6,
+                "describe": "以自身为中心，使圆形范围内的我方攻击力增加26.5%，「爆发」类型克制伤害增加68.3%（持续50秒）"
+              },
+              {
+                "cost": 6,
+                "describe": "以自身为中心，使圆形范围内的我方攻击力增加28.5%，「爆发」类型克制伤害增加73.4%（持续50秒）"
+              },
+              {
+                "cost": 6,
+                "describe": "以自身为中心，使圆形范围内的我方攻击力增加32.5%，「爆发」类型克制伤害增加83.6%（持续50秒）"
+              },
+              {
+                "cost": 6,
+                "describe": "以自身为中心，使圆形范围内的我方攻击力增加34.5%，「爆发」类型克制伤害增加88.8%（持续50秒）"
+              },
+              {
+                "cost": 5,
+                "describe": "以自身为中心，使圆形范围内的我方攻击力增加38.5%，「爆发」类型克制伤害增加99%（持续50秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/skill_icon/mI1BZGB48tD1kDgsXKMYzH5qfjHE2F3s.png",
+            "title": "水上袭击",
+            "title_cn": "水上袭击",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每40秒对1名敌人造成攻击力283%的伤害/恢复自身治疗力75%的生命值"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对1名敌人造成攻击力297%的伤害/恢复自身治疗力75%的生命值"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对1名敌人造成攻击力312%的伤害/恢复自身治疗力75%的生命值"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对1名敌人造成攻击力340%的伤害/恢复自身治疗力82.6%的生命值"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对1名敌人造成攻击力354%的伤害/恢复自身治疗力82.6%的生命值"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对1名敌人造成攻击力368%的伤害/恢复自身治疗力82.6%的生命值"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对1名敌人造成攻击力397%的伤害/恢复自身治疗力90.1%的生命值"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对1名敌人造成攻击力411%的伤害/恢复自身治疗力90.1%的生命值"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对1名敌人造成攻击力425%的伤害/恢复自身治疗力90.1%的生命值"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对1名敌人造成攻击力454%的伤害/恢复自身治疗力97.6%的生命值"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/skill_icon/U3us3ONoR5KJrRpDTXbt0OBGZEa2zUWZ.png",
+            "title": "猛暑耐久",
+            "title_cn": "忍耐酷暑",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "防御力增加11.2%，攻击力增加11.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加11.4%，攻击力增加11.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加11.7%，攻击力增加11.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加12.8%，攻击力增加12.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加13.1%，攻击力增加13.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加13.4%，攻击力增加13.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加14.5%，攻击力增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加14.8%，攻击力增加14.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加15.1%，攻击力增加15.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加16.2%，攻击力增加16.2%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/skill_icon/cbxQ8hOxhO5LGxGaL5fxudpJVo01dlJM.png",
+            "title": "海边的快乐",
+            "title_cn": "海边的乐趣",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "在Ex技能持续期间，Cost恢复力增加360"
+              },
+              {
+                "cost": 1,
+                "describe": "在Ex技能持续期间，Cost恢复力增加378"
+              },
+              {
+                "cost": 1,
+                "describe": "在Ex技能持续期间，Cost恢复力增加396"
+              },
+              {
+                "cost": 1,
+                "describe": "在Ex技能持续期间，Cost恢复力增加468"
+              },
+              {
+                "cost": 1,
+                "describe": "在Ex技能持续期间，Cost恢复力增加486"
+              },
+              {
+                "cost": 1,
+                "describe": "在Ex技能持续期间，Cost恢复力增加504"
+              },
+              {
+                "cost": 1,
+                "describe": "在Ex技能持续期间，Cost恢复力增加576"
+              },
+              {
+                "cost": 1,
+                "describe": "在Ex技能持续期间，Cost恢复力增加594"
+              },
+              {
+                "cost": 1,
+                "describe": "在Ex技能持续期间，Cost恢复力增加612"
+              },
+              {
+                "cost": 1,
+                "describe": "在Ex技能持续期间，Cost恢复力增加684"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2554,
+          "attack": 243,
+          "defense": 123,
+          "healing": 1789,
+          "accuracy": 717,
+          "evasion": 164,
+          "crit": 271,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1824,
+          "range": 450,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 8
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/weapons_icon.png",
+        "name": "Eye of Horus",
+        "name_cn": "荷鲁斯之眼",
+        "description": "星野的霰弹枪，功能被调整成适合夏日海边。<br>能在森林开路或是驱赶蚊虫，改装出各种功能。",
+        "description_cn": "星野的霰弹枪，<br/>特别针对夏日海边环境进行了改装。 可以在森林中开辟道路，也可以抓捕昆虫，用处多多。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「猛暑耐久」升级为「猛暑耐久+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 街道适应性 S -> SS",
+            "description": "在街道地形造成1.3倍伤害。在掩体内时掩护成功率+75%。攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 爆发克制伤害增加",
+            "description": "攻击类型为爆发的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E/skill_icon/iq65nNNSoLoq9NFG2xiM9ONuGfnP9SG3.png",
+            "title": "猛暑耐久+",
+            "title_cn": "忍耐酷暑+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "增加防御力160，攻击力192/防御力增加11.2%，攻击力增加11.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加防御力164，攻击力196/防御力增加11.4%，攻击力增加11.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加防御力168，攻击力201/防御力增加11.7%，攻击力增加11.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加防御力184，攻击力220/防御力增加12.8%，攻击力增加12.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加防御力188，攻击力225/防御力增加13.1%，攻击力增加13.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加防御力192，攻击力230/防御力增加13.4%，攻击力增加13.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加防御力208，攻击力249/防御力增加14.5%，攻击力增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加防御力212，攻击力254/防御力增加14.8%，攻击力增加14.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加防御力216，攻击力258/防御力增加15.1%，攻击力增加15.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加防御力232，攻击力278/防御力增加16.2%，攻击力增加16.2%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "661fe164-1727-48f3-ba95-fb95978ebd77",
+  "skill_declare_uuid": "1951cc85-d6a5-48b1-ac36-f0a2b3070a55",
+  "supplementary_uuid": "0dfc7261-5d3b-48b2-a1af-b582a9253eef",
+  "supplementary_declare_uuid": "d5b8a353-bf52-496c-a1a2-5ea50e543715",
+  "created_at": 1684662540,
+  "updated_at": 1783343674
+}

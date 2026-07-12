@@ -1,0 +1,1421 @@
+{
+  "id": 97,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 97,
+      "avatar": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 49,
+      "avatar": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/%E6%AD%A3%E6%9C%88/avatar.png",
+      "skin": "正月",
+      "skin_cn": "新年"
+    },
+    {
+      "id": 522,
+      "avatar": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/%E7%A7%81%E6%9C%8D/fuuka.png",
+      "skin": "私服",
+      "skin_cn": "便服"
+    }
+  ],
+  "family_name": "爱清",
+  "given_name": "枫香",
+  "family_name_jp": "愛清",
+  "given_name_jp": "フウカ",
+  "family_name_kr": "아이키요",
+  "given_name_kr": "후우카",
+  "family_name_en": "Aikiyo",
+  "given_name_en": "Fuuka",
+  "family_name_zh_tw": "愛清",
+  "given_name_zh_tw": "風華",
+  "family_name_cn": "爱清",
+  "given_name_cn": "风香",
+  "nick_name": "煮饭婆",
+  "introduction": "格赫娜学园所属，负责管理格赫娜学园餐厅的供给部的成员。\n\n每天早上都为格赫娜学生准备非常大量的食物，是格赫娜少有的，善良认真的学生。\n\n料理手艺还算不错，但由于餐厅人手不足，其料理实力时常被低估。\n\n但她并未就此放弃，每天都为了提供更好的餐点而不断努力着。",
+  "introduction_cn": "在歌赫娜负责管理食堂的供餐部成员。\n\n作为在歌赫娜很少见的诚实亲切的女生，她每天早上都会为歌赫娜的大家准备数百份食物并进行分发。\n虽然厨艺还算不错，但由于食堂人手不足，无法发挥正常的实力。\n但她并没有因此放弃，一直努力开发更好的食谱。",
+  "momo_talk_signature": "希望能度过平安的一天，哪怕只有今天（ T_T ）",
+  "main_relation": 27,
+  "relation": [
+    29
+  ],
+  "age": 16,
+  "grade": "二年生",
+  "height": 159,
+  "birthday": "04-30",
+  "hobby": "料理、制作便当",
+  "designer": "ヌードル",
+  "illustrator": "ヌードル",
+  "character_voice": "菲鲁兹·蓝",
+  "character_voice_cn": "宋媛媛",
+  "release_date": "2021-02-04",
+  "release_date_cn": "2023-08-03",
+  "release_date_global": "2021-11-03",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/avatar.png",
+  "school": 3,
+  "weapon_type": "SMG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": true,
+  "more": "# 官方图集\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Fuuka_jp.jpg](files/17010/Ss92wI30UocSDaHSkpDHX5lnFDwhDZd2.jpg =450x) | 暂无 | ![fuuka_tw.jpg](files/17010/h366IzD1NIW2gCmMjhqtFXeLR5g8UFxe.jpg =450x) | ![fuuka_en.jpg](files/17010/zgDsV7MuzbvTDoDGG9bkckq30IJRUf9o.jpg =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 枫香 汉化\n![枫香](files/2/B5DBRQxvwqszki3h7AUy7XVJrdFNBfzn.png =450x)\n@tab 枫香 原文\n![枫香](files/2/B7Kirr9zkK8iXzJDkBxqmjDCmCf26V3d.jpg =450x)\n:::\n\n## 设定集\n\n:::: center\n\n![Vol.1_页面_044.png](images/gallery/34/Vol.1_页面_044.png =450x)\n\n![Vol.1_页面_146.png](images/gallery/34/Vol.1_页面_146.png =450x)\n\n![Vol.1_页面_217.png](images/gallery/34/Vol.1_页面_217.png =450x)\n\n![Vol.1_页面_218.png](images/gallery/34/Vol.1_页面_218.png =450x)\n\n![Vol.1_页面_235.png](images/gallery/34/Vol.1_页面_235.png =450x)\n\n![Vol.1_页面_236.png](images/gallery/34/Vol.1_页面_236.png =450x)\n\n::::\n\n# CBT时期\n:::: center\n![锅妹_waifu2x_2x_2n_png.png](files/3/锅妹_waifu2x_2x_2n_png.png =450x)\n::::\n# 延伸阅读\n!!! note 引用声明\n[Horch type 1a](https://wwii.site/imgs/de/army/de_army_mtsHorch_11.jpg)[1][Horch type 40](https://wwii.site/imgs/de/army/de_army_mtsHorch_16.jpg)[2]\n\"图片来自二战军事网\"根据其声明页面的相关规定进行引用：https://wwii.site/about\n如有问题可联系[古书馆值班室](https://space.bilibili.com/3494372842670276/dynamic)\n\n\n!!!\n## 送餐车\n根据枫香的送餐车的外形特征进行推断，其原型可能是1940年由德国霍希汽车公司^（今大众集团奥迪公司前身）^推出的Type 1A车型。\n这款车及其衍生型号^（108/type40/福特EG）^在二战期间是德军的经典军官指挥车，它凭借坚固的结构和强大的全地形能力，确保了送餐任务所需的极致可靠性。\n:::: center\n![8812a26e-03c4-40fd-8438-62756df0a35b.jpeg](files/19266/Pt1AfZIZZwsOG32TSaZ03sWx2PFGRWAi.jpg \"Horch type 1a^[1]^\" =300x)\n:::: center\n![5dcf69a7-1a07-48de-a041-015adb1f59aa.jpeg](files/19266/T8hGWGE521Fxu9q0Ard5u8AewXpVXgnh.jpg \"Horch type 40^[2]^\" =300x)\n\n::::\n\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[朱莉](https://kivo.wiki/data/character/186)|ジュリ|\n|[雀亭老板娘](https://kivo.wiki/data/character/241)|女将さん|\n|[千夏](https://kivo.wiki/data/character/117)|あなた|\n|[晴奈](https://kivo.wiki/data/character/195)|ハルナ|\n|[日奈](https://kivo.wiki/data/character/71)|風紀委員長<br>委員長|\n|美食研究会|あんた達<br>あいつら|\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/Fuuka_home_Idle_01_1.0456999999999992.jpg",
+  "spine": [
+    257,
+    443,
+    590,
+    727,
+    1430
+  ],
+  "model": [
+    64,
+    377
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/voice/play_icon.webp",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/voice/pause_icon.webp",
+  "voice": [
+    {
+      "description": "Fuuka_Title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/Fuuka_Title.ogg"
+    },
+    {
+      "description": "Fuuka_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "供餐部，开始提供支援。",
+      "text_original": "給食部の支援、始めます。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/JD2fK617X7lHVyoqaAOIGUzxnS34wsy7.ogg"
+    },
+    {
+      "description": "Fuuka_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "我准备好了。",
+      "text_original": "準備できますだ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/JpA0ObQY3R0r9iNVEOdBAo2iHSti2A5U.ogg"
+    },
+    {
+      "description": "Fuuka_Battle_TSA_1.ogg",
+      "category": "battle",
+      "text": "非常感谢您的耐心等待，后勤部的送货车已经到了。",
+      "text_original": "大変お待たせしました！給食部の配送者が到着しましたよ！",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/OUFWDq5p87Or4pG0o6LJwZeqTX43FftO.ogg"
+    },
+    {
+      "description": "Fuuka_Battle_TSA_2.ogg",
+      "category": "battle",
+      "text": "让各位久等了，后勤部来了。",
+      "text_original": "お待たせしました！給食部の到着です！",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/6c19piYONdYQRGlV2hrEJZp71tL5DkUu.ogg"
+    },
+    {
+      "description": "Fuuka_Cafe_Act_1.ogg",
+      "category": "cafe",
+      "text": "说不定还得去趟超市……",
+      "text_original": "スーパーに寄らなきゃかも…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/6OVzqdvcu0rar1logYsx8bIBtQSNKhPV.ogg"
+    },
+    {
+      "description": "Fuuka_Cafe_Act_2.ogg",
+      "category": "cafe",
+      "text": "那就开始做饭吧。",
+      "text_original": "料理を始めましょうか。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/8Ds54hiQdZ1kWv4iesKZvbRvk4KDJvG4.ogg"
+    },
+    {
+      "description": "Fuuka_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "这个地方能不能做饭呀？",
+      "text_original": "ここでも料理ができるかな？",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/oYaXQ0notOoOgcfZO6CvbMZOeuoWDkDH.ogg"
+    },
+    {
+      "description": "Fuuka_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "今天的晚饭做什么好呢……",
+      "text_original": "今日の夕食は何にしよう…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/6kdrMR55omyWvIsncvH20Ih5yFA7T56p.ogg"
+    },
+    {
+      "description": "Fuuka_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "这样下去，食材就要不够了啊。",
+      "text_original": "このままじゃ、食材が足りないかも。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/xATQdkXRuTsqJlHLgYdRqLEBqGNnvjxV.ogg"
+    },
+    {
+      "description": "Fuuka_CommonSkill.ogg",
+      "category": "battle",
+      "text": "这就是用餐的效果哦。",
+      "text_original": "食事の効果ですね！",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/dJfX8KazhFeA0qJZ2TKTCjoMsZG7ubhw.ogg"
+    },
+    {
+      "description": "Fuuka_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "不错。",
+      "text_original": "よーし！",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/2xJH5hc1AfIihWKCNIljePQgMQ0dXgGQ.ogg"
+    },
+    {
+      "description": "Fuuka_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "嗯，完美！",
+      "text_original": "うんっ！完璧！",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/9vtD6OkzjPrdDz1YVe0CUQCQ7MDpyUst.ogg"
+    },
+    {
+      "description": "Fuuka_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "味道很棒！",
+      "text_original": "これは…すてきな出来！",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/llAGUwwUbgcTE8n2mRhhy0wx57M3HlvK.ogg"
+    },
+    {
+      "description": "Fuuka_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "这道菜营养丰富哦。",
+      "text_original": "栄養満点の料理です！",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/PXmmCC13igND8RHJixkWkTBF5DctT7Wl.ogg"
+    },
+    {
+      "description": "Fuuka_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "该吃饭了哦。",
+      "text_original": "食事の時間ですよ！",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/E8Mhn3OrdCHE1V91IHfETrB3aenEZsno.ogg"
+    },
+    {
+      "description": "Fuuka_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "尽情享用吧！",
+      "text_original": "おいしく召し上がれ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/RnNyRE639Ao2OyaHMRO23kdA9eOprU5B.ogg"
+    },
+    {
+      "description": "Fuuka_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "啊哈哈……我还真不习惯被这样支持呢，我会尽我所能帮助老师的。",
+      "text_original": "あはは……こういった支援には慣れていませんが、先生のお役に立てるよう、最善を尽くします。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/27mP6t4YLexAphYavyczddpJoXO9LH5S.ogg"
+    },
+    {
+      "description": "Fuuka_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "到。",
+      "text_original": "はい！",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/pVwokVLrz1JqfM826GrIpFBIqZzgIyb8.ogg"
+    },
+    {
+      "description": "Fuuka_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "准备完毕！",
+      "text_original": "準備完了です",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/33om735JbSYaCNgaHO0uF2zuJzrVGpHs.ogg"
+    },
+    {
+      "description": "Fuuka_Gachaget.ogg",
+      "category": "growup",
+      "text": "我是供餐部的风香。有什么想吃的东西，请随时吩咐。",
+      "text_original": "給食部のフウカです。食べたいものがあったら、いつでも仰ってください。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/ehttPSSSsIFrzd7dxD99zQmKx7XjBKGv.ogg"
+    },
+    {
+      "description": "Fuuka_Growup_1.ogg",
+      "category": "growup",
+      "text": "老师，非常感谢您！",
+      "text_original": "ありがとうございます、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/ExuFfQZ8D2hQO6nKztTe0A2IHdfqNELo.ogg"
+    },
+    {
+      "description": "Fuuka_Growup_2.ogg",
+      "category": "growup",
+      "text": "不知道烹饪水平是不是也提高了呢？",
+      "text_original": "料理の実力もさらに上がったのでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/nuBF1moaOAgiuDDEZLqPgBR7kSnnWRYU.ogg"
+    },
+    {
+      "description": "Fuuka_Growup_3.ogg",
+      "category": "growup",
+      "text": "希望，能再多给您帮上一点忙。",
+      "text_original": "これでもう少しお役に立てるように。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/0YDAx4IhPOywIN2XUWKcYE0LgnZ9uBjn.ogg"
+    },
+    {
+      "description": "Fuuka_Growup_4.ogg",
+      "category": "growup",
+      "text": "啊，把这些都给我，这样合适吗？",
+      "text_original": "え？私でいいのですか？",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/DaACmI2dLJAfa74IUBC6G5DWahpZiBpx.ogg"
+    },
+    {
+      "description": "Fuuka_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "您有好好按时吃饭吗？要不要给您做点什么？",
+      "text_original": "ご飯はちゃんと食べてますか？何か作りましょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/Ttz7SDB6bGX58TLtNiAqkuHzGyv6EuED.ogg"
+    },
+    {
+      "description": "Fuuka_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "给大家做饭是很辛苦，不过没关系。",
+      "text_original": "皆のために料理を作るのは大変ですが、大丈夫です。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/k3O5tL3gzrKUNwPH4C6ENO6Z06MBtRQK.ogg"
+    },
+    {
+      "description": "Fuuka_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "啊哈哈哈……您这是在担心我吗？",
+      "text_original": "あはは…。心配してくださるのですか？",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/d1duuj7m5nCYQNbp8IAUQ1Ai2rNyFhOU.ogg"
+    },
+    {
+      "description": "Fuuka_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "我想知道您到底喜欢吃什么样的食物。 嗯？为什么想知道？ 诶嘿，这是秘密哦！",
+      "text_original": "好きな食べ物、気になります。 ん？何でか、ですって？ 秘密です！",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/kjsNxFC6WVesu7reTEUwHL71NBflR7fC.ogg"
+    },
+    {
+      "description": "Fuuka_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "嗯……有没有什么好吃的能给老师补补身子呢……",
+      "text_original": "うーん…,先生がもっと元気になるような料理、何が良いかな…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/I6kAmEnNX6k3Qjhj9VdOGb3Estp6MSLU.ogg"
+    },
+    {
+      "description": "Fuuka_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "辛苦了！我为您准备了热气腾腾的饭菜，您要现在就吃吗？",
+      "text_original": "お疲れ様です！温かい食事をご用意しましたけど、今召し上がりますか？",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/MYPGt7XLXpKDKqYWqwsQ1PaNwup1Vhof.ogg"
+    },
+    {
+      "description": "Fuuka_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "老师，您喜欢这样的半熟蛋呢？还是太阳蛋？或者说玉子烧？",
+      "text_original": "先生、卵は半熟のままがいいですか？サニーサイドアップ？それとも卵焼き？",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/cG9JTLCvkKKplI6hIy1PrTjHgWICUVhi.ogg"
+    },
+    {
+      "description": "Fuuka_MemorialLobby_1.ogg",
+      "category": "lobby",
+      "text": "我就知道会变成这个样子……您是不是又整天吃方便食品了呀？",
+      "text_original": "こうなっていると思っていました…。またインスタントばかり食べてましたね？",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/SOIuVKqq19nGJcTXzwiELCFIwzxuWPok.ogg"
+    },
+    {
+      "description": "Fuuka_MemorialLobby_2.ogg",
+      "category": "lobby",
+      "text": "唉，这样可不行，饭一定要按时好好吃哦。",
+      "text_original": "ダメですよ、食事はちゃんと取らないと。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/a4g21WI5562Pls7nHxTGEUqbkCM7dmh6.ogg"
+    },
+    {
+      "description": "Fuuka_MemorialLobby_3.ogg",
+      "category": "lobby",
+      "text": "我这就去给您好好做顿饭，请您在这里稍微等一下。",
+      "text_original": "私がすぐ作りますから、ちょっと待っててください。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/4Ea5jT3Jv7bXp0PMFNgn1MnGo3VUzHjq.ogg"
+    },
+    {
+      "description": "Fuuka_MemorialLobby_4.ogg",
+      "category": "lobby",
+      "text": "哎呀，老师，您一直这样不注意自己的健康可是不好的哦。",
+      "text_original": "もう、健康に気を付けないのは先生の悪い癖ですよ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/XSh2yAR7VjPCMAy5fG16va5mTj3rTbew.ogg"
+    },
+    {
+      "description": "Fuuka_MemorialLobby_5_1.ogg",
+      "category": "lobby",
+      "text": "啊？您，您说您想每天都能够吃上……我做的饭？",
+      "text_original": "はい？ま、毎日私の作った料理が食べたい、ですか？",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/iuteRpX0CkqFqul3hb86kmTHNUR2HYHt.ogg"
+    },
+    {
+      "description": "Fuuka_MemorialLobby_5_2.ogg",
+      "category": "lobby",
+      "text": "啊，啊哈哈……只，只要老师愿意的话……我，我当然完全不会介意的啦……",
+      "text_original": "あ、あはは… せ、先生さえよろしければ…。 もちろん、私は構わないのですが…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/imyuosoVIyCgcDain7FMvxfjbwUJbDcP.ogg"
+    },
+    {
+      "description": "Fuuka_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "我想为老师做些美味的料理！",
+      "text_original": "先生に美味しい料理を作って差し上げたいです。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/ci4lu0dlsNJq3KMQRahiJ6PyF8ekniVh.ogg"
+    },
+    {
+      "description": "Fuuka_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "老师，您有没有好好吃饭呀？",
+      "text_original": "食事はちゃんと摂れてますか、先生？",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/L4X5YcP44AYF01PZhyPg9hU71wKES8ds.ogg"
+    },
+    {
+      "description": "Fuuka_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "我想知道，老师最喜欢吃什么？",
+      "text_original": "どんな料理がお好きなのか、気になります。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/jlluClQrAdAeWYuNJjM4OT4IGZJsv0Ic.ogg"
+    },
+    {
+      "description": "Fuuka_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "我在想。可不可以……那个，给老师做早饭。",
+      "text_original": "先生に、その…朝ごはんを作ってさしあげたいのですが…",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/jtRYDIoLqXMLLnqnoytOEvFpd2nvfr3H.ogg"
+    },
+    {
+      "description": "Fuuka_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "咦……我的生日？ 啊，啊哈哈……我平时净是去注意别人的生日了…… ……我很开心。非常感谢您。",
+      "text_original": "あれ…。私の誕生日ですか？ あ、あはは…。いつも他の方のお誕生日ばかり気にしていたので…。 …嬉しいです。ありがとうございます。",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/NYnwy4gY85b6eLlJTlcFXhaD9xD2taLX.ogg"
+    },
+    {
+      "description": "Fuuka_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "老师。祝您生日快乐。 我想，您在今天这样的日子，一定想吃一顿不同于往日的大餐…… 嗯，如……如果不介意的话，可以让我为您准备生日餐吗？",
+      "text_original": "先生。お誕生日おめでとうございます。 今日みたいな日にはきっと、すごく特別なものを召し上がるかと思うのですが…。 えっと、よ…よろしければ、私がお誕生日のお料理を作ってもいいでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/8rxFnkeYUItjLQ8f4Bo40ormIpp3ukjI.ogg"
+    },
+    {
+      "description": "Fuuka_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "南瓜汤呀，南瓜派呀，南瓜焗菜呀， 能做的东西我全都想试着做一做。 因为今天可是万圣节哦。老师，您喜欢什么样的饭菜呢？",
+      "text_original": "カボチャのスープとか、カボチャパイとか、カボチャのグラタンとか、 作れそうなものは全部作ってみようかと思いまして。 ハロウィーンですからね。先生はどんなのが好きですか？",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/wcn2GbSvws1KXinGbC7mmjeXp0WkejvT.ogg"
+    },
+    {
+      "description": "Fuuka_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "新的一年开始了哦！ 我在想要不要做些年糕汤，您意下如何呢？",
+      "text_original": "新しい一年が始まりますね！ お雑煮を作ろうかと思うのですが、いかがでしょう？",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/iJEP9bTaU40YsZi62DIB4ZlRM9GM5lhs.ogg"
+    },
+    {
+      "description": "Fuuka_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "圣诞节…… 我在想要不要做一顿特别的晚餐…… 当，当然，前提是老师觉得可以的话！",
+      "text_original": "クリスマス…。 特別な夕食を作ろうかと思っているのですが…。 も、もちろん、先生がよろしければ！",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/mpNozmISpstVl7BVuOPoHXvrKMVxL5e4.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "fuuka_battle_in_1",
+      "category": "battle",
+      "text": "供餐部，开始提供支援。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/lGDcCUKDWuJqu5NzpxQsjpqKpoCAtv4b.ogg"
+    },
+    {
+      "description": "fuuka_battle_in_2",
+      "category": "battle",
+      "text": "我准备好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/hBUcXG38X07FDdALLowXNrr8VHcY3dDr.ogg"
+    },
+    {
+      "description": "fuuka_battle_tsa_1",
+      "category": "battle",
+      "text": "非常感谢您的耐心等待，后勤部的送货车已经到了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/Ry8VzxJAzBG6eSAmgzdJh3DuYgvh4X93.ogg"
+    },
+    {
+      "description": "fuuka_battle_tsa_2",
+      "category": "battle",
+      "text": "让各位久等了，后勤部来了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/1bDbOP2YXVxYBmhtATWujEKwNgO5UCF5.ogg"
+    },
+    {
+      "description": "fuuka_cafe_act_1",
+      "category": "cafe",
+      "text": "说不定还得去趟超市……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/0i02Wk96Y0Pu0BG9tlg9Ur4uicYPufMa.ogg"
+    },
+    {
+      "description": "fuuka_cafe_act_2",
+      "category": "cafe",
+      "text": "那就开始做饭吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/bXv7jDvl5g2gG12OVYCkevIOV2fqFFpf.ogg"
+    },
+    {
+      "description": "fuuka_cafe_monolog_1",
+      "category": "cafe",
+      "text": "这个地方能不能做饭呀？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/pC5rkCFr7WQPyryawHSZ5FYoDbRMwQXX.ogg"
+    },
+    {
+      "description": "fuuka_cafe_monolog_2",
+      "category": "cafe",
+      "text": "今天的晚饭做什么好呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/pomFEy7Mpgtwt64OIvhImjvpMWXagOi3.ogg"
+    },
+    {
+      "description": "fuuka_cafe_monolog_3",
+      "category": "cafe",
+      "text": "这样下去，食材就要不够了啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/VFaoyYh4qkvhYprcsZZBj1uKDr1HgxoH.ogg"
+    },
+    {
+      "description": "fuuka_commonskill",
+      "category": "battle",
+      "text": "这就是用餐的效果哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/NGCuCeSnE4zBfw4qAbrK2ZtrsbhfExG1.ogg"
+    },
+    {
+      "description": "fuuka_exskill_1",
+      "category": "battle",
+      "text": "不错。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/YJoC16v79azJdKrQttsgGAMUNU9IJjti.ogg"
+    },
+    {
+      "description": "fuuka_exskill_2",
+      "category": "battle",
+      "text": "嗯，完美！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/bjGFy7XsPdSwFidBL2Ax638NYyTh8DZf.ogg"
+    },
+    {
+      "description": "fuuka_exskill_3",
+      "category": "battle",
+      "text": "味道很棒！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/4s8o0T0veJd5O6zoQW2FcnSSceOjDaVs.ogg"
+    },
+    {
+      "description": "fuuka_exskill_level_1",
+      "category": "battle",
+      "text": "这道菜营养丰富哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/LDUQIAA1mo8ntO35wp18kdmXgwjxitY0.ogg"
+    },
+    {
+      "description": "fuuka_exskill_level_2",
+      "category": "battle",
+      "text": "该吃饭了哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/KGh0TC2Iirb7f2YFgi5mMQKYZkIzjCBR.ogg"
+    },
+    {
+      "description": "fuuka_exskill_level_3",
+      "category": "battle",
+      "text": "尽情享用吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/XbdMs7q7vS9Vssvof6FpMlbBJ1PveLrn.ogg"
+    },
+    {
+      "description": "fuuka_exweapon_get",
+      "category": "growup",
+      "text": "啊哈哈……我还真不习惯被这样支持呢，我会尽我所能帮助老师的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/bjYmu3AB4svlLIRzFiUPxGR4InISYqW8.ogg"
+    },
+    {
+      "description": "fuuka_formation_in_1",
+      "category": "formation",
+      "text": "到。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/ANt7I0fTSQZ64xUYwQZC7Op9ys8vvdEl.ogg"
+    },
+    {
+      "description": "fuuka_formation_in_2",
+      "category": "formation",
+      "text": "准备完毕！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/VQaKqXUQAuCKigaVT8EcBq0Q6hpr7aqN.ogg"
+    },
+    {
+      "description": "fuuka_gachaget",
+      "category": "growup",
+      "text": "我是供餐部的风香。有什么想吃的东西，请随时吩咐。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/dfcNdPT1nojco51kWFHgmsSwTtuzs0gu.ogg"
+    },
+    {
+      "description": "fuuka_growup_1",
+      "category": "growup",
+      "text": "老师，非常感谢您！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/XxxJakMhLMzjwNHSPMEogSpPB4tvdkcJ.ogg"
+    },
+    {
+      "description": "fuuka_growup_2",
+      "category": "growup",
+      "text": "不知道烹饪水平是不是也提高了呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/G3dElNKyBSq8i7vzUGGe1557d8BNPbWa.ogg"
+    },
+    {
+      "description": "fuuka_growup_3",
+      "category": "growup",
+      "text": "希望，能再多给您帮上一点忙。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/sTSE4k2Go0KdhcPFA4dGQT2BjE59QASm.ogg"
+    },
+    {
+      "description": "fuuka_growup_4",
+      "category": "growup",
+      "text": "啊，把这些都给我，这样合适吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/qW34ZmJExOB7cQhaXq09m4zHR1fMHXGq.ogg"
+    },
+    {
+      "description": "fuuka_lobby_1",
+      "category": "lobby",
+      "text": "您有好好按时吃饭吗？要不要给您做点什么？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/4VlU6lewR2DRaVdNbHXZTjMu3Ls2tFQH.ogg"
+    },
+    {
+      "description": "fuuka_lobby_2",
+      "category": "lobby",
+      "text": "给大家做饭是很辛苦，不过没关系。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/KYUx2VO43sjNpu7oz6Hwm1yvwsJxKEHc.ogg"
+    },
+    {
+      "description": "fuuka_lobby_3",
+      "category": "lobby",
+      "text": "啊哈哈哈……您这是在担心我吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/2XLz6m9ft4M5lOTzQAK9IpVd3Nw2v2VD.ogg"
+    },
+    {
+      "description": "fuuka_lobby_4",
+      "category": "lobby",
+      "text": "我想知道您到底喜欢吃什么样的食物。 嗯？为什么想知道？ 诶嘿，这是秘密哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/C6gbYtL1pURtTzOj5PCvbSTIluTQWNz1.ogg"
+    },
+    {
+      "description": "fuuka_lobby_5",
+      "category": "lobby",
+      "text": "嗯……有没有什么好吃的能给老师补补身子呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/0DD2m2zTwZW1Poxf2XF8Dm2sQoojmK2c.ogg"
+    },
+    {
+      "description": "fuuka_login_1",
+      "category": "lobby",
+      "text": "辛苦了！我为您准备了热气腾腾的饭菜，您要现在就吃吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/QQL66qnHOmwjakRiZ6jfnAFq6EolQrns.ogg"
+    },
+    {
+      "description": "fuuka_login_2",
+      "category": "lobby",
+      "text": "老师，您喜欢这样的半熟蛋呢？还是太阳蛋？或者说玉子烧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/IQMKai84gxdH3EjAIlDFUnBZ0MpiocKG.ogg"
+    },
+    {
+      "description": "fuuka_memoriallobby_1",
+      "category": "lobby",
+      "text": "我就知道会变成这个样子……您是不是又整天吃方便食品了呀？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/C31lDSL9juW8KOm0GtsnGyyaGwg9iFnv.ogg"
+    },
+    {
+      "description": "fuuka_memoriallobby_2",
+      "category": "lobby",
+      "text": "唉，这样可不行，饭一定要按时好好吃哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/jhuX2jsiLV1fQiEqvsShXSrO3QlwGjsi.ogg"
+    },
+    {
+      "description": "fuuka_memoriallobby_3",
+      "category": "lobby",
+      "text": "我这就去给您好好做顿饭，请您在这里稍微等一下。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/q0eXCelrQBW9l7U1mzNOSYdoFDbbRSOe.ogg"
+    },
+    {
+      "description": "fuuka_memoriallobby_4",
+      "category": "lobby",
+      "text": "哎呀，老师，您一直这样不注意自己的健康可是不好的哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/bIit1zd3b7YnJ4agHc5ciybwXXXqkLBn.ogg"
+    },
+    {
+      "description": "fuuka_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "啊？您，您说您想每天都能够吃上……我做的饭？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/RKWvz0LjPFh9Di50HybmHLofqbrUAljv.ogg"
+    },
+    {
+      "description": "fuuka_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "啊，啊哈哈……只，只要老师愿意的话……我，我当然完全不会介意的啦……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/HqLucUcdlYxmBAGYCRJlgoHbVLiuyQEF.ogg"
+    },
+    {
+      "description": "fuuka_relationship_up_1",
+      "category": "growup",
+      "text": "我想为老师做些美味的料理！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/LZA1mKB6P0GNDRiGvv6ndhw2Zgb9dchA.ogg"
+    },
+    {
+      "description": "fuuka_relationship_up_2",
+      "category": "growup",
+      "text": "老师，您有没有好好吃饭呀？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/8xxEgXS7uuSP7iwqZyTOGKWAqP5HPCPI.ogg"
+    },
+    {
+      "description": "fuuka_relationship_up_3",
+      "category": "growup",
+      "text": "我想知道，老师最喜欢吃什么？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/bfsl4SwTKrev0I8ysEP45C5WG0GfrocD.ogg"
+    },
+    {
+      "description": "fuuka_relationship_up_4",
+      "category": "growup",
+      "text": "我在想。可不可以……那个，给老师做早饭。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/FtnROTTNKyQDjI3rfBQQ6ufrbhACl85Z.ogg"
+    },
+    {
+      "description": "fuuka_season_birthday",
+      "category": "lobby",
+      "text": "咦……我的生日？ 啊，啊哈哈……我平时净是去注意别人的生日了…… ……我很开心。非常感谢您。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/keQJrts4fxScNeCVNkgTDKvzdKl6FHlm.ogg"
+    },
+    {
+      "description": "fuuka_season_birthday_player",
+      "category": "lobby",
+      "text": "老师。祝您生日快乐。 我想，您在今天这样的日子，一定想吃一顿不同于往日的大餐…… 嗯，如……如果不介意的话，可以让我为您准备生日餐吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/aJ6BNUSH0VxKIxj3864ipVfHPAub6xEP.ogg"
+    },
+    {
+      "description": "fuuka_season_halloween",
+      "category": "lobby",
+      "text": "南瓜汤呀，南瓜派呀，南瓜焗菜呀， 能做的东西我全都想试着做一做。 因为今天可是万圣节哦。老师，您喜欢什么样的饭菜呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/4UJS5Uk4di9RowxJjCbZlKZzguBSBi27.ogg"
+    },
+    {
+      "description": "fuuka_season_newyear",
+      "category": "lobby",
+      "text": "新的一年开始了哦！ 我在想要不要做些年糕汤，您意下如何呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/TNmBiuBN2PgsRknOT54xnp7ydyPfWNa6.ogg"
+    },
+    {
+      "description": "fuuka_season_xmas",
+      "category": "lobby",
+      "text": "圣诞节…… 我在想要不要做一顿特别的晚餐…… 当，当然，前提是老师觉得可以的话！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/b3P2DxVqS8VF2KLLjpYzVEXcqzOqhwMO.ogg"
+    },
+    {
+      "description": "fuuka_season_chinesenewyear",
+      "category": "lobby",
+      "text": "我准备了一桌年夜饭……不嫌弃的话，老师，来尝尝吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/7sQAxo4K6Scd0lbslbJIgKBUd2H9tHYg.ogg"
+    },
+    {
+      "description": "fuuka_season_midautumn",
+      "category": "lobby",
+      "text": "歌赫娜的大家，会喜欢我做的月饼吗？哎，您，您说您喜欢？真，真是太好了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/sH2JeVf9ZSPJJKA1i3RBYSSqD8DbwoDw.ogg"
+    },
+    {
+      "description": "fuuka_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/cKDfNd85ipIRtvkjTTtnNY4iVyELHAVg.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "Fuuka_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/Fuuka_Title.ogg"
+    },
+    {
+      "description": "fuuka_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_cafe_act_1.ogg"
+    },
+    {
+      "description": "fuuka_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_cafe_act_2.ogg"
+    },
+    {
+      "description": "fuuka_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "fuuka_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "fuuka_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "fuuka_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_commonskill.ogg"
+    },
+    {
+      "description": "fuuka_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_exskill_1.ogg"
+    },
+    {
+      "description": "fuuka_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_exskill_2.ogg"
+    },
+    {
+      "description": "fuuka_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_exskill_3.ogg"
+    },
+    {
+      "description": "fuuka_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_exskill_level_1.ogg"
+    },
+    {
+      "description": "fuuka_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_exskill_level_2.ogg"
+    },
+    {
+      "description": "fuuka_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_exskill_level_3.ogg"
+    },
+    {
+      "description": "fuuka_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_exweapon_get.ogg"
+    },
+    {
+      "description": "fuuka_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_gachaget.ogg"
+    },
+    {
+      "description": "fuuka_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_growup_1.ogg"
+    },
+    {
+      "description": "fuuka_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_growup_2.ogg"
+    },
+    {
+      "description": "fuuka_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_growup_3.ogg"
+    },
+    {
+      "description": "fuuka_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_growup_4.ogg"
+    },
+    {
+      "description": "fuuka_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_lobby_1.ogg"
+    },
+    {
+      "description": "fuuka_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_lobby_2.ogg"
+    },
+    {
+      "description": "fuuka_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_lobby_3.ogg"
+    },
+    {
+      "description": "fuuka_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_lobby_4.ogg"
+    },
+    {
+      "description": "fuuka_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_lobby_5.ogg"
+    },
+    {
+      "description": "fuuka_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_login_1.ogg"
+    },
+    {
+      "description": "fuuka_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_login_2.ogg"
+    },
+    {
+      "description": "fuuka_memoriallobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_memoriallobby_1.ogg"
+    },
+    {
+      "description": "fuuka_memoriallobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_memoriallobby_2.ogg"
+    },
+    {
+      "description": "fuuka_memoriallobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_memoriallobby_3.ogg"
+    },
+    {
+      "description": "fuuka_memoriallobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_memoriallobby_4.ogg"
+    },
+    {
+      "description": "fuuka_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "fuuka_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "fuuka_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_relationship_up_1.ogg"
+    },
+    {
+      "description": "fuuka_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_relationship_up_2.ogg"
+    },
+    {
+      "description": "fuuka_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_relationship_up_3.ogg"
+    },
+    {
+      "description": "fuuka_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_relationship_up_4.ogg"
+    },
+    {
+      "description": "fuuka_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_season_birthday.ogg"
+    },
+    {
+      "description": "fuuka_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_season_birthday_player.ogg"
+    },
+    {
+      "description": "fuuka_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_season_halloween.ogg"
+    },
+    {
+      "description": "fuuka_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_season_newyear.ogg"
+    },
+    {
+      "description": "fuuka_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/original/fuuka_season_xmas.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211103221531.png",
+        "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211103221504.png",
+        "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211103221536.png",
+        "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211103221518.png",
+        "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211103221458.png",
+        "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211103221523.png",
+        "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211103221554.png",
+        "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211103221549.png",
+        "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211103221542.png",
+        "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211103221510.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 147,
+      "favorability": 180
+    },
+    {
+      "id": 88,
+      "favorability": 60
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 23001,
+      "dev_name": "Fuuka_default",
+      "combat_style": "default",
+      "type": "Healer",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 2,
+      "limited": false,
+      "outdoor_adaptability": "A",
+      "indoor_adaptability": "D",
+      "street_adaptability": "A",
+      "equipment": [
+        9,
+        6,
+        4
+      ],
+      "cultivate_material": [
+        77,
+        80,
+        81,
+        82,
+        158,
+        160,
+        163,
+        165,
+        415,
+        416,
+        417,
+        418,
+        399,
+        400,
+        401,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/skill_icon/DgLLSEDrteagQROHxtfDVyHhX4qe36UW.png",
+            "title": "供餐时间！",
+            "title_cn": "供餐时间！",
+            "preview": "//static.kivo.wiki/videos/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/skill_preview/HV16wUvGxPKb4waKXdOJE0JohinKYIAp.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 5,
+                "describe": "将圆形范围内的4名我方角色移动至指定位置，随后恢复范围内角色治疗力109%的体力"
+              },
+              {
+                "cost": 5,
+                "describe": "将圆形范围内的4名我方角色移动至指定位置，随后恢复范围内角色治疗力125%的体力"
+              },
+              {
+                "cost": 5,
+                "describe": "将圆形范围内的4名我方角色移动至指定位置，随后恢复范围内角色治疗力158%的体力"
+              },
+              {
+                "cost": 5,
+                "describe": "将圆形范围内的4名我方角色移动至指定位置，随后恢复范围内角色治疗力174%的体力"
+              },
+              {
+                "cost": 5,
+                "describe": "将圆形范围内的4名我方角色移动至指定位置，随后恢复范围内角色治疗力207%的体力"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/skill_icon/DAFlFuenDlAwrJLK9xElE2D5WSQ5q5pE.png",
+            "title": "供餐部的关怀",
+            "title_cn": "供餐部的关怀",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每20秒为体力上限最高的1名我方角色增加18.1%防御力（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒为体力上限最高的1名我方角色增加19%防御力（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒为体力上限最高的1名我方角色增加19.9%防御力（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒为体力上限最高的1名我方角色增加23.6%防御力（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒为体力上限最高的1名我方角色增加24.5%防御力（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒为体力上限最高的1名我方角色增加25.4%防御力（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒为体力上限最高的1名我方角色增加29%防御力（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒为体力上限最高的1名我方角色增加29.9%防御力（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒为体力上限最高的1名我方角色增加30.8%防御力（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒为体力上限最高的1名我方角色增加34.4%防御力（持续16秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/skill_icon/mBxH0QeMpLh0fKrszTtQGEjLAXhPIa8K.png",
+            "title": "来收集新鲜的食材吧！",
+            "title_cn": "来收集新鲜的食材吧！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "治疗力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/skill_icon/uDO87rgI7Mh5EpieMaaFDiZsfHSkcHSa.png",
+            "title": "供餐部的骄傲",
+            "title_cn": "供餐部的骄傲",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方角色的暴击抵抗力增加9.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的暴击抵抗力增加9.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的暴击抵抗力增加10%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的暴击抵抗力增加11.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的暴击抵抗力增加12.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的暴击抵抗力增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的暴击抵抗力增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的暴击抵抗力增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的暴击抵抗力增加15.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的暴击抵抗力增加17.3%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2674,
+          "attack": 160,
+          "defense": 25,
+          "healing": 2548,
+          "accuracy": 98,
+          "evasion": 1177,
+          "crit": 196,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1638,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/weapons_icon.png",
+        "name": "供给部防身用枪支A型",
+        "name_cn": "供餐部自卫枪械A型",
+        "description": "枫香经常带在身上的冲锋枪。<br>偶尔用来压制在餐厅制造骚动的问题儿童，不过大部分的情况下在真的开火之前对方就会安份下来，所以似乎并不常用到。",
+        "description_cn": "风香经常携带的冲锋枪。<br>可以用于制伏偶尔在食堂引起骚乱的问题儿童。但这些问题儿童通常会在掏出武器前就变得老老实实，因此没有太多机会使用。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「来收集新鲜食材吧！」升级为「来收集新鲜食材吧！+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室内适应性 D -> B",
+            "description": "在街道地形造成1倍伤害。在掩体内时掩护成功率+30%。 攻击时绕过掩体概率增加30%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%88%B1%E6%B8%85%20%E6%9E%AB%E9%A6%99/skill_icon/zYcQZ1YL7Khu9qjZoJWUDTEQPKCUy6oJ.png",
+            "title": "来收集新鲜食材吧！+",
+            "title_cn": "来收集新鲜的食材吧！+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "治疗力增加948/治疗力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加996/治疗力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1043/治疗力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1233/治疗力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1280/治疗力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1328/治疗力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1517/治疗力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1565/治疗力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1612/治疗力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1802/治疗力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "bdaabaaa-e185-450e-9d61-18f2ad510969",
+  "skill_declare_uuid": "72493617-2a1c-4949-835a-7820ccf36205",
+  "supplementary_uuid": "6ebd3f6b-fc8e-42fe-baa7-f6939489daf9",
+  "supplementary_declare_uuid": "eeda417e-b76e-4a50-a971-bc2848232d46",
+  "created_at": 1685182117,
+  "updated_at": 1783323765
+}

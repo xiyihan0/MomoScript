@@ -1,0 +1,1550 @@
+{
+  "id": 118,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 118,
+      "avatar": "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 370,
+      "avatar": "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/%E4%B9%90%E9%98%9F/avatar.png",
+      "skin": "乐队",
+      "skin_cn": "乐队"
+    }
+  ],
+  "family_name": "伊原木",
+  "given_name": "好美",
+  "family_name_jp": "伊原木",
+  "given_name_jp": "ヨシミ",
+  "family_name_kr": "이바라기",
+  "given_name_kr": "요시미",
+  "family_name_en": "Ibaragi",
+  "given_name_en": "Yoshimi",
+  "family_name_zh_tw": "伊原木",
+  "given_name_zh_tw": "喜美",
+  "family_name_cn": "伊原木",
+  "given_name_cn": "好美",
+  "nick_name": "",
+  "introduction": "圣三一综合学园所属，放学后甜点部的成员。\n\n对娇小的身高与体型感到自卑，是个如同凶暴小动物一般的少女。\n\n虽然一直想变得成熟，然而她心里想的都表现在脸上，所以一直受周围人们的喜爱。\n\n兴趣是巡回咖啡厅，在品尝限定版甜点时会露出比任何人都明亮的笑容。",
+  "introduction_cn": "崔尼蒂甜点部的成员。\n\n她为自己矮小的个子和体型感到自卑，看起来就像个粗暴的小动物。\n虽然她时常想让自己成熟些，但想法总是会直接显现在脸上，所以没什么效果。\n不过，在各种甜品店品尝限定的甜点时，她会笑得比任何人都灿烂。",
+  "momo_talk_signature": "#成长中",
+  "main_relation": 13,
+  "relation": null,
+  "age": 15,
+  "grade": "一年生",
+  "height": 146,
+  "birthday": "08-29",
+  "hobby": "参加活动、收集限定版甜点",
+  "designer": "Mx2J",
+  "illustrator": "Mx2J",
+  "character_voice": "真野步",
+  "character_voice_cn": "赵佚",
+  "release_date": "2021-02-04",
+  "release_date_cn": "2023-08-03",
+  "release_date_global": "2021-11-09",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/avatar.png",
+  "school": 2,
+  "weapon_type": "AR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": false,
+  "more": "# 官方图集\n\n## 人物介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Yoshimi.jpg](files/526/Tm4UTs0B34N5V8WDbHblE9BGBGIDqCA8.jpg =425x) | 暂无 | 暂无 | ![FBAZmDuUYAsMO2S.jpg](files/526/dOXQCrO6tmS6u3omCULO7Z7O0KBrJK24.jpg =400x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 好美 汉化\n![好美](files/1348/E3WSN0sNaS4nRSPVl5rBTI0IMBBR3ROO.png =450x)\n@tab 好美 原文\n![好美](files/2/u85Y3Kcsm7xcddwscHXULmRnflTXGsUK.jpg =450x)\n:::\n\n## 设定集\n\n:::: center\n\n![Vol.1_页面_063.png](files/526/CkhdMKpt8CHvsycIQueIsEvcIjBLVuu3.png =450x)\n\n![Vol.1_页面_163.png](files/526/FbxXPjAUvbk5z454RBBq6anjDQzB9EkM.png =450x)\n\n![Vol.1_页面_221.png](files/526/ZKKuA5U9TqPWg9n7srQ4emIvYdJc5mx7.png =450x)\n\n![Vol.1_页面_244.png](files/526/5xh1sAOgfHK5SdvXUs8fULTRIVHx9Ncy.png =450x)\n\n::::\n\n# 页面贡献者\n\n## 外部贡献者\n\n!!! note 提示\n外部贡献者是指在本站的[反馈收集表](https://www.wjx.cn/vm/O3KsQNO.aspx#)中，对该页面提供了纠错、补充等建设性意见，经审核后被本站采纳，并在[收集表](https://www.wjx.cn/vm/O3KsQNO.aspx#)选项留下了自己的ID，希望能够在页面中标注其贡献的一部分贡献者用户。\n!!!\n\n1. 2024/10/08 -  **Yochina** - 资料纠错\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[爱莉](https://kivo.wiki/data/character/10)|アイリ|\n|[夏](https://kivo.wiki/data/character/139)|ナツ<br>あんた|\n|[和纱](https://kivo.wiki/data/character/37)|カズサ<br>キャスパリーグ|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/Yoshimi_home_Idle_01_0.7084999999999987.jpg",
+  "spine": [
+    1425,
+    375,
+    1353,
+    1053
+  ],
+  "model": [
+    142,
+    453
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "Yoshimi_Title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/45dHFdWprONyLwD5LZfzDKMPam3cvYK6.ogg"
+    },
+    {
+      "description": "Yoshimi_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "打垮他们！",
+      "text_original": "ぶっ壊してやるわ。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/WdjZwN0eltJ2vUQlmB1H2JQ6WLjBCYKJ.ogg"
+    },
+    {
+      "description": "Yoshimi_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "饶不了你！",
+      "text_original": "許せない。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/wvbJQc44J2OiXJvycrvWZtOw73rfkCkk.ogg"
+    },
+    {
+      "description": "Yoshimi_Cafe_Act_1.ogg",
+      "category": "cafe",
+      "text": "我想吃好吃的点心——！啊，老师！",
+      "text_original": "美味しいスイーツが食べたーい、あっ！先生！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/SgmJ32WDMuQRb8661mydkaskirNrzkNC.ogg"
+    },
+    {
+      "description": "Yoshimi_Cafe_Act_2.ogg",
+      "category": "cafe",
+      "text": "嗯？诶……我讨厌牛奶。因为我知道必须要喝，所以更讨厌了！诶？是，是草莓牛奶吗？",
+      "text_original": "ん？えー…牛乳は、嫌い。飲まなきゃいけないって分かってるから、尚更！えっ？それ、い、イチゴ牛乳？",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/S1Nomb188v2FxMkDSdJh1JW3KdKCs6la.ogg"
+    },
+    {
+      "description": "Yoshimi_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "……我还没有发育完呢！真的！",
+      "text_original": "…私の成長はまだ終わってないの！信じて！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gdtytXTM3b70zcGtL2QMmYMGVvklCLyF.ogg"
+    },
+    {
+      "description": "Yoshimi_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "嘿嘿。要不要打个盹儿呢。",
+      "text_original": "ふふっ。一眠りしていこっかな。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/zSuV7EFHLY7mAuwlW9FsrCSqTmv6yHFu.ogg"
+    },
+    {
+      "description": "Yoshimi_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "唉……老师为什么这么不会看人眼色呢。",
+      "text_original": "はあ…先生はなんであんなに空気が読めないんだろう。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/nJbJZvt4H3YuTjBxULhewlAngvfqBgtU.ogg"
+    },
+    {
+      "description": "Yoshimi_CommonSkill.ogg",
+      "category": "battle",
+      "text": "这招如何？",
+      "text_original": "これはどう！？",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/6UF3QVZaNNTlCN9l6Ktr5U3RkpfrjUZV.ogg"
+    },
+    {
+      "description": "Yoshimi_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "吃我一发！",
+      "text_original": "くらえっ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/1ssuNQO23dAxLxqOflN4eZywdqGUEhCs.ogg"
+    },
+    {
+      "description": "Yoshimi_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "哼，干掉你！",
+      "text_original": "ふんっ、やっつけてやる！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/wLbcrWYiobGft2zhWVix52A6Rum3OSLR.ogg"
+    },
+    {
+      "description": "Yoshimi_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "给我死心吧！",
+      "text_original": "覚悟しなさい！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/hGeLSCVDxc95yEVped4aqMWrJmBw0cJI.ogg"
+    },
+    {
+      "description": "Yoshimi_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "はあぁぁ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/h9hZBZ4i3xWYA6LtgIAvS3tcPHt7B0xs.ogg"
+    },
+    {
+      "description": "Yoshimi_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "这发怎么样？",
+      "text_original": "これでどう！？",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/o8Bwsld7vehhyQYReis2wSLWcllOmgZk.ogg"
+    },
+    {
+      "description": "Yoshimi_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "再吃一发！",
+      "text_original": "これでもくらえ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/SKJQ2l90N4e1uVf8z4YjalJJi41aZCGO.ogg"
+    },
+    {
+      "description": "Yoshimi_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "收下这种东西……不就只能尽全力了嘛！",
+      "text_original": "こんなの貰っちゃったら…… 本気で頑張るしかないじゃん！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/PtdsDbqHE83ci4YlxeCLuhKpZSQcwdm8.ogg"
+    },
+    {
+      "description": "Yoshimi_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "我可是专程过来和大家会合的，还不快谢谢我？",
+      "text_original": "私が合流したことに感謝しなさい。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/jNUVk3DuNNeHZUKgjXQSntGY9UfSKdAV.ogg"
+    },
+    {
+      "description": "Yoshimi_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "真没办法，走吧！",
+      "text_original": "しょうがないわね、行くわよ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/sfjuA9iI4Gah2WLSmBIGX1lZ08CCOUBo.ogg"
+    },
+    {
+      "description": "Yoshimi_Gachaget.ogg",
+      "category": "growup",
+      "text": "别因为我个子小就看不起我！我的潜力可是很大的！",
+      "text_original": "小さいからって舐めないで！将来性はものすっごいんだから！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/BKcJMLojaGhfLW94cXxbsSX4JKZweFMw.ogg"
+    },
+    {
+      "description": "Yoshimi_Growup_1.ogg",
+      "category": "growup",
+      "text": "谢……谢……谢谢！",
+      "text_original": "あ、あ…ありがとう！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/jwqj8vIEEYe3MtaWpwxg4L3YV3pmZ3lu.ogg"
+    },
+    {
+      "description": "Yoshimi_Growup_2.ogg",
+      "category": "growup",
+      "text": "哼哼，老师，尽管放心交给我吧！",
+      "text_original": "ふふーん、先生！もっと私に頼ってもいいのよ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/eYVvc9nh9qZXKJToOdtCzSEFZ8tk0FJT.ogg"
+    },
+    {
+      "description": "Yoshimi_Growup_3.ogg",
+      "category": "growup",
+      "text": "太好了！这样我就更强了，个子一定会长高吧！",
+      "text_original": "よぉーし！私、これでもっと強くなった！きっと背も伸びたよね！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/2ddGIF7lEBS5WGBek3dgSOq7vyRQkRCf.ogg"
+    },
+    {
+      "description": "Yoshimi_Growup_4.ogg",
+      "category": "growup",
+      "text": "谢谢老师，总有一天我会回报你的。",
+      "text_original": "ありがとう先生。…いつか恩返しするから。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/fY0deaN6x3GIjrsSFEF7uWkznNyZsxPp.ogg"
+    },
+    {
+      "description": "Yoshimi_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "牛奶我每天都要喝一升。有什么办法，每天喝，每天喝，每天喝！",
+      "text_original": "牛乳なら1L飲んでる。仕方なく、毎日、毎日、毎日ね！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/ElxgP7ROKnwTBrwPCTpZfodEEEkcQP76.ogg"
+    },
+    {
+      "description": "Yoshimi_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "如，如果我值日，就有时间和老师一起吃好吃的零食了吧？",
+      "text_original": " と、当番になれば、先生と美味しいお菓子を食べる時間があるはずよね？",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/4bhJpORr8ALlk5icYFgvRcwPWRxTihhl.ogg"
+    },
+    {
+      "description": "Yoshimi_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "好啦，今天也加油吧！我也会帮你的！",
+      "text_original": "ほら、今日も頑張って！私が手伝ってあげるから！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/l1a3ddE4UNTE7HLgin10J3WwULVOZaOQ.ogg"
+    },
+    {
+      "description": "Yoshimi_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "那个，老师你累不累啊？ 要，要不要一起去吃好吃的甜点啊？",
+      "text_original": "あの、先生、疲れてない？ お、美味しいスイーツでも食べに行く？",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/ZG8Y4NNy6KSf29uW2sVOBe8yCPRzjHVf.ogg"
+    },
+    {
+      "description": "Yoshimi_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "喂！我在这儿盯着你还想偷懒啊！来，该干活了！开始执行任务吧！",
+      "text_original": "ほら！私がいる限りサボろうとするのは諦めなさい！さ、仕事の時間よ！任務を始めましょう！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/QabO3PLyPqNGW3SXKqOisiWo8sd3T8yk.ogg"
+    },
+    {
+      "description": "Yoshimi_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "别摸我的头！真是的……我讨厌别人把我当小孩。",
+      "text_original": "頭撫でないでっ！もうっ…子ども扱いは嫌なの。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/1vkQrou0KBHNePqpbNKYNEnTMQCsNygY.ogg"
+    },
+    {
+      "description": "Yoshimi_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "如果再过几年……我会不会看起来……就不只像是你的妹妹了呢？",
+      "text_original": "私も…あと何年か経ったら…妹じゃなくて、恋人に見えるかな？",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/E7DFSe9nb84izRVQah5uFReVuUWOZivr.ogg"
+    },
+    {
+      "description": "Yoshimi_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "怎，怎么说呢，那个，太，太尴尬了吧！",
+      "text_original": "な、なんて言うかその……は、恥ずかしいんだけど！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/EVJicClzV2nOFCeXm2Jl8256oLg04FPL.ogg"
+    },
+    {
+      "description": "Yoshimi_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "今天，很开心。是，是真的！",
+      "text_original": "今日は…楽しかった。う、嘘じゃない！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/huuhHWEd74sNZh8v4e9uWEMXLhyZcXii.ogg"
+    },
+    {
+      "description": "Yoshimi_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "别，别误会了，我只是觉得和老师在一起很开心而已……感觉好像说错话了！",
+      "text_original": "か、勘違いしないで！先生との時間が楽しすぎただけだから！……はっ、何か言い間違えた気がする！？",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/Vj63D8eAGgxgzu1zLwuDIO7rsyjqwir4.ogg"
+    },
+    {
+      "description": "Yoshimi_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "谢，谢，谢谢。现，现在我只能想到这些话了，但是下次，那个……",
+      "text_original": "あ、あ…ありがと！い、今はこの言葉しか浮かばないの。でも…次はその…。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/q4pUT5moGKA12B6Mw6WsMnPKllSVRnUg.ogg"
+    },
+    {
+      "description": "Yoshimi_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "谢，谢谢你的祝福。 （还得过多少生日……才能让大家觉得，我们站在一起比较相称呢？）",
+      "text_original": "お、お祝いしてくれてありがとう。 （あと誕生日が何回来たら…そばにいた時に、お似合いって思ってもらえるのかな？）",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/ic38Bq52GBTYD21yMjeim5uGZLY08eOK.ogg"
+    },
+    {
+      "description": "Yoshimi_Season_Birthday2.ogg",
+      "category": "lobby",
+      "text": "干，干嘛啊？我又没胡思乱想！一直盯着我干什么啊？！",
+      "text_original": "べ、別に何も、変なことは考えてないけど？何をそんなにじっと見つめてるのよ？！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/rH8we7eFQOC3fPZnbhOUDo75MdhBgyr6.ogg"
+    },
+    {
+      "description": "Yoshimi_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "老师，生日快乐！附近有家很棒的甜品店，走吧！",
+      "text_original": "誕生日おめでとう、先生！近くに良いスイーツ屋さんがあるの、行こ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/klK7XpmZDb8e4h6EW45az82ryJCIAlsf.ogg"
+    },
+    {
+      "description": "Yoshimi_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "不给糖，就捣蛋～对甜点部来说万圣节是很特别的节日！我们出去吧！ 我对幽灵没兴趣，但是吃糖要紧！",
+      "text_original": "誕生日おめでとう、先生！近くに良いスイーツ屋さんがあるの、行こ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/27Gr3dKhjWWhUMgGjqforGD9kn17lAuM.ogg"
+    },
+    {
+      "description": "Yoshimi_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "新年快乐！今年的目标？那还用问吗！肯定是变成完美身材啊！",
+      "text_original": "明けましておめでとう！今年の目標？そんなの決まってるでしょ！ナイスバディになることよ！！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/uawYa2TF8HAdn20lFQYQgqmfNzapoTen.ogg"
+    },
+    {
+      "description": "Yoshimi_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "圣诞快乐！我喜欢圣诞节！因为街上到处都是我喜欢的颜色！",
+      "text_original": "メリークリスマス！クリスマスって大好き！街が、私の好きな色でいっぱいになるから！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/YGuaU3HF2a55FTI02S4hY2209Ab42zq0.ogg"
+    },
+    {
+      "description": "Yoshimi_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "非常感谢您…… 连我的份也一起买了，老师。",
+      "text_original": "ほんと、先生には驚かされっぱなしっていうか、",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/kxERKb79ZyBWlQ2KLHeU9oNWgnrobLqu.ogg"
+    },
+    {
+      "description": "Yoshimi_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "甜……甜甜的好好吃啊！",
+      "text_original": "振り回されっぱなしっていうか……。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/zt5ilnTTfB5SlSSyQbuodeMVVbijGKKn.ogg"
+    },
+    {
+      "description": "Yoshimi_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "平常都是在咖啡厅 吃冰淇淋，感觉好久好久 没在外面吃了。",
+      "text_original": "……ん？何をそんな、じっと見てるわけ？",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/aqvdOu31RpKy6RNf6rsm9UPkeUY2KfYj.ogg"
+    },
+    {
+      "description": "Yoshimi_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "而且还是跟老师一起， 诶嘿嘿。",
+      "text_original": "ねぇ、まさかまた変なこと考えてないでしょうね？",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/ZpG53Esl6CZOySsZTzLuzy6ilKxM1egS.ogg"
+    },
+    {
+      "description": "Yoshimi_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "不，没有， 完全没有啦。",
+      "text_original": "私は先生のオモチャじゃないんだから、",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/SrtZrcKOYZpPcdlS01whcSEMS0KgXX6C.ogg"
+    },
+    {
+      "description": "Yoshimi_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "反而有种很怀念的感觉， 好开心。",
+      "text_original": "いい加減やめないと本当に怒るよ。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/3HK0DUpGYxAVZ05HwhShq1J0Lp8L6hvW.ogg"
+    },
+    {
+      "description": "Yoshimi_MemorialLobby_4",
+      "category": "lobby",
+      "text": "不仅开心，而且……感觉真安静啊…… 周围也没有什么人……不知道该不该说， 我感觉心在怦怦乱跳…… ……没，没， 没有没有！请您当我 什么都没说吧！哈哈，啊哈哈……",
+      "text_original": "……いやまあ、別に心の底から嫌、ってわけじゃないけど……。 ……ふふっ。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/8wZgnVPmiNQh4wb1pGWYhqVFpkq0DJ1a.ogg"
+    },
+    {
+      "description": "Yoshimi_MemorialLobby_5_1",
+      "category": "lobby",
+      "text": "……谢谢您，老师。",
+      "text_original": "（いつか……）",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/2kdNPMufhCf0r96Usq98mPpwEUxCIg3c.ogg"
+    },
+    {
+      "description": "Yoshimi_MemorialLobby_5_2",
+      "category": "lobby",
+      "text": "多亏有老师在， 今天真的好幸福。",
+      "text_original": "（いつかこうやって隣に……堂々と、並んで歩ける日が……）",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/cZqI8u3NTsFLGUIErcVSUnov1DTsMxGc.ogg"
+    },
+    {
+      "description": "好美DyDo联动语音",
+      "category": "other",
+      "text": "你转发了啊......谢，谢谢了！",
+      "text_original": "你转发了啊......谢，谢谢了！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/%E3%83%A8%E3%82%B7%E3%83%9F_1.mp3"
+    },
+    {
+      "description": "好美DyDo联动语音2",
+      "category": "other",
+      "text": "谢谢转发。有点……不，这次真是一个超级棒的夏天！",
+      "text_original": "谢谢转发。有点……不，这次真是一个超级棒的夏天！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/jp/%E5%A5%BD%E7%BE%8EDyDo%E8%81%94%E5%8A%A8%E8%AF%AD%E9%9F%B32.wav"
+    },
+    {
+      "description": "yoshimi_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/jp/yoshimi_formation_select.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "Yoshimi_Title.ogg",
+      "category": "other",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/5WB1Vp4wK6HtxGkU6sDNalupkcmmJoso.ogg"
+    },
+    {
+      "description": "yoshimi_battle_in_1.ogg",
+      "category": "battle",
+      "text": "打垮他们！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/mjmkeq7W7pIj4zVd3yG8g12HkMoLy1KD.ogg"
+    },
+    {
+      "description": "yoshimi_battle_in_2.ogg",
+      "category": "battle",
+      "text": "饶不了你！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/k7rlcGFdKLWJa0JsujzDuiPYqTyzMNGG.ogg"
+    },
+    {
+      "description": "yoshimi_cafe_act_1.ogg",
+      "category": "cafe",
+      "text": "我想吃好吃的点心——！啊，老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/lnKRwe6lC3kGIUH1XTAGT6lcGCaqs79f.ogg"
+    },
+    {
+      "description": "yoshimi_cafe_act_2.ogg",
+      "category": "cafe",
+      "text": "嗯？诶……我讨厌牛奶。因为我知道必须要喝，所以更讨厌了！诶？是，是草莓牛奶吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/Q2KuY9gBEzEIggVzsggvKDLwpoFpxzjw.ogg"
+    },
+    {
+      "description": "yoshimi_cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "……我还没有发育完呢！真的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/Ql2yRu4jFo5pem9XmJdPPagDdtZPXwMN.ogg"
+    },
+    {
+      "description": "yoshimi_cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "嘿嘿。要不要打个盹儿呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/kV86UjmyxQhNf2cK76kIPymCiX3zL5zL.ogg"
+    },
+    {
+      "description": "yoshimi_cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "唉……老师为什么这么不会看人眼色呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/A9gGXUJqToq2NGClgR8bwDWhoziRHIEk.ogg"
+    },
+    {
+      "description": "yoshimi_commonskill.ogg",
+      "category": "battle",
+      "text": "这招如何？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/Wydejvo6N9aMfxaGbis9chDcsMRPfYko.ogg"
+    },
+    {
+      "description": "yoshimi_exskill_1.ogg",
+      "category": "battle",
+      "text": "吃我一发！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/uPaf09rrzpCHeQEZX3QuqoangrdH3qYO.ogg"
+    },
+    {
+      "description": "yoshimi_exskill_2.ogg",
+      "category": "battle",
+      "text": "哼，干掉你！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/dKBBSa5LjioTA6zQGXZTuXzO3UaGN7Qi.ogg"
+    },
+    {
+      "description": "yoshimi_exskill_3.ogg",
+      "category": "battle",
+      "text": "给我死心吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/LnAkPOZEPXNTQULUOWYP9KmprtBcSTBP.ogg"
+    },
+    {
+      "description": "yoshimi_exskill_level_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/9dVcRBDho6bd1xfK1gxhq4IVfqIz6iIt.ogg"
+    },
+    {
+      "description": "yoshimi_exskill_level_2.ogg",
+      "category": "battle",
+      "text": "这发怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/BRCbG0HQBLKL6hQwOQcQpsQSG0FLWwMF.ogg"
+    },
+    {
+      "description": "yoshimi_exskill_level_3.ogg",
+      "category": "battle",
+      "text": "再吃一发！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/MuYaQAQ6m4qCdfZsTbCW7XTeYzQD2A4Q.ogg"
+    },
+    {
+      "description": "yoshimi_exweapon_get.ogg",
+      "category": "growup",
+      "text": "收下这种东西……不就只能尽全力了嘛！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/Us39UicvOlfFblUqCVNX6TRQjdfunCdm.ogg"
+    },
+    {
+      "description": "yoshimi_formation_in_1.ogg",
+      "category": "formation",
+      "text": "我可是专程过来和大家会合的，还不快谢谢我？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/q5r3eFobQzVgDvjefKXmV8EPpXfK83c3.ogg"
+    },
+    {
+      "description": "yoshimi_formation_in_2.ogg",
+      "category": "formation",
+      "text": "真没办法，走吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/Ggy4MQRXx5JEMH8u3K5gNHmLI5Cw4LK3.ogg"
+    },
+    {
+      "description": "yoshimi_gachaget.ogg",
+      "category": "growup",
+      "text": "别因为我个子小就看不起我！我的潜力可是很大的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/Q8QiFTZlP3qY53RiiFSpu5vghV4dytsx.ogg"
+    },
+    {
+      "description": "yoshimi_growup_1.ogg",
+      "category": "growup",
+      "text": "谢……谢……谢谢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/0jKApsEqaVEH5YeSZSOHwZMJMVWglOi2.ogg"
+    },
+    {
+      "description": "yoshimi_growup_2.ogg",
+      "category": "growup",
+      "text": "哼哼，老师，尽管放心交给我吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/opGGOU5vJP4d65JJCwI4adWPhEh1Gapd.ogg"
+    },
+    {
+      "description": "yoshimi_growup_3.ogg",
+      "category": "growup",
+      "text": "太好了！这样我就更强了，个子一定会长高吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/5H2uiKUetxnGbs97igMP0pBY9l9NPkaR.ogg"
+    },
+    {
+      "description": "yoshimi_growup_4.ogg",
+      "category": "growup",
+      "text": "谢谢老师，总有一天我会回报你的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/2LGzXZkljyGSENqg7IuJCfGHESIyDqSG.ogg"
+    },
+    {
+      "description": "yoshimi_lobby_1.ogg",
+      "category": "lobby",
+      "text": "牛奶我每天都要喝一升。有什么办法，每天喝，每天喝，每天喝！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/cPn205SdL7JCy2Bs642f6M338pnuWzRj.ogg"
+    },
+    {
+      "description": "yoshimi_lobby_2.ogg",
+      "category": "lobby",
+      "text": "如，如果我值日，就有时间和老师一起吃好吃的零食了吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/lrdME8n0peW49ffpYaisvjSngTm7k22q.ogg"
+    },
+    {
+      "description": "yoshimi_lobby_3.ogg",
+      "category": "lobby",
+      "text": "好啦，今天也加油吧！我也会帮你的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/PnedewscGuhkNhkIk0Ll5OeBd35bz7r7.ogg"
+    },
+    {
+      "description": "yoshimi_lobby_4.ogg",
+      "category": "lobby",
+      "text": "那个，老师你累不累啊？ 要，要不要一起去吃好吃的甜点啊？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/Jd5FWooYWSCw2Y2qpyLTqb6jMF67bQx8.ogg"
+    },
+    {
+      "description": "yoshimi_lobby_5.ogg",
+      "category": "lobby",
+      "text": "喂！我在这儿盯着你还想偷懒啊！来，该干活了！开始执行任务吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/frzF4xTFCsdvNOgnvZV6j3suNDMyv9wF.ogg"
+    },
+    {
+      "description": "yoshimi_login_1.ogg",
+      "category": "lobby",
+      "text": "别摸我的头！真是的……我讨厌别人把我当小孩。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/7tM9i23FqXiCmaYrM2xTEaYjEzXOL01F.ogg"
+    },
+    {
+      "description": "yoshimi_login_2.ogg",
+      "category": "lobby",
+      "text": "如果再过几年……我会不会看起来……就不只像是你的妹妹了呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/W1gSO7sjiTlOK9jF1kAeNgYvKtLh9dzF.ogg"
+    },
+    {
+      "description": "yoshimi_relationship_up_1.ogg",
+      "category": "growup",
+      "text": "怎，怎么说呢，那个，太，太尴尬了吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/8ZeXOLWmedSoIQBhXM9lDfnQldUIrXGo.ogg"
+    },
+    {
+      "description": "yoshimi_relationship_up_2.ogg",
+      "category": "growup",
+      "text": "今天，很开心。是，是真的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/S7uayiD065YdTq0N1Ay5WJD1JSRLFfg7.ogg"
+    },
+    {
+      "description": "yoshimi_relationship_up_3.ogg",
+      "category": "growup",
+      "text": "别，别误会了，我只是觉得和老师在一起很开心而已……感觉好像说错话了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/WBPQj7Z9VXqDzBZ9tAIqLwEmtLkoXvDq.ogg"
+    },
+    {
+      "description": "yoshimi_relationship_up_4.ogg",
+      "category": "growup",
+      "text": "谢，谢，谢谢。现，现在我只能想到这些话了，但是下次，那个……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/eXC7NEo5XobiMged362LjvebOgEuiCCe.ogg"
+    },
+    {
+      "description": "yoshimi_season_birthday.ogg",
+      "category": "lobby",
+      "text": "谢，谢谢你的祝福。 （还得过多少生日……才能让大家觉得，我们站在一起比较相称呢？）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/zkJapuC8TbbVjoQkrBclaKdbVb8G9tDE.ogg"
+    },
+    {
+      "description": "yoshimi_season_birthday_player.ogg",
+      "category": "lobby",
+      "text": "老师，生日快乐！附近有家很棒的甜品店，走吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/qo24qx3yc1YLtRZrfp1wd0E8E0fvFzAf.ogg"
+    },
+    {
+      "description": "yoshimi_season_birthday2.ogg",
+      "category": "lobby",
+      "text": "干，干嘛啊？我又没胡思乱想！一直盯着我干什么啊？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/G7I5Lk3DdrR8BRTpuUm5RxF0hhXUOG8W.ogg"
+    },
+    {
+      "description": "yoshimi_season_halloween.ogg",
+      "category": "lobby",
+      "text": "不给糖，就捣蛋～对甜点部来说万圣节是很特别的节日！我们出去吧！ 我对幽灵没兴趣，但是吃糖要紧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gvgPr6VbBviRKGOvmTQQq7y90qdu779P.ogg"
+    },
+    {
+      "description": "yoshimi_season_newyear.ogg",
+      "category": "lobby",
+      "text": "新年快乐！今年的目标？那还用问吗！肯定是变成完美身材啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/QuARLrsiZGF2svEtxaGFwP81tVADcn9P.ogg"
+    },
+    {
+      "description": "yoshimi_season_xmas.ogg",
+      "category": "lobby",
+      "text": "圣诞快乐！我喜欢圣诞节！因为街上到处都是我喜欢的颜色！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/a6HhdNHSBe8mK72ZozaND7SVbCUQsk2S.ogg"
+    },
+    {
+      "description": "yoshimi_season_chinesenewyear",
+      "category": "lobby",
+      "text": "新春快乐！今年一定能长得更高！绝对不会再被当成小孩子了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/ZfrczT607MsmbC14zM1BJoYjDayg7R9g.ogg"
+    },
+    {
+      "description": "yoshimi_season_midautumn",
+      "category": "lobby",
+      "text": "月饼也算一种甜点吧，呐，分你一块。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/Vy0GZ7zUearkK4nBLHRHrSbLsg3cTHM1.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "非常感谢您…… 连我的份也一起买了，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/cn/yoshimi_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "甜……甜甜的好好吃啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/cn/yoshimi_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "平常都是在咖啡厅 吃冰淇淋，感觉好久好久 没在外面吃了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/cn/yoshimi_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "而且还是跟老师一起， 诶嘿嘿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/cn/yoshimi_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "不，没有， 完全没有啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/cn/yoshimi_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "反而有种很怀念的感觉， 好开心。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/cn/yoshimi_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_4",
+      "category": "lobby",
+      "text": "不仅开心，而且……感觉真安静啊…… 周围也没有什么人……不知道该不该说， 我感觉心在怦怦乱跳…… ……没，没， 没有没有！请您当我 什么都没说吧！哈哈，啊哈哈……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/cn/yoshimi_memoriallobby_4.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "……谢谢您，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/cn/yoshimi_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "多亏有老师在， 今天真的好幸福。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/cn/yoshimi_memoriallobby_5_2.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "yoshimi_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_exskill_2.ogg"
+    },
+    {
+      "description": "yoshimi_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_exskill_3.ogg"
+    },
+    {
+      "description": "yoshimi_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_exskill_level_1.ogg"
+    },
+    {
+      "description": "yoshimi_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_exskill_level_2.ogg"
+    },
+    {
+      "description": "yoshimi_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_exskill_level_3.ogg"
+    },
+    {
+      "description": "yoshimi_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_exweapon_get.ogg"
+    },
+    {
+      "description": "yoshimi_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_gachaget.ogg"
+    },
+    {
+      "description": "yoshimi_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_growup_1.ogg"
+    },
+    {
+      "description": "yoshimi_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_growup_2.ogg"
+    },
+    {
+      "description": "yoshimi_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_growup_3.ogg"
+    },
+    {
+      "description": "yoshimi_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_growup_4.ogg"
+    },
+    {
+      "description": "yoshimi_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_lobby_1.ogg"
+    },
+    {
+      "description": "yoshimi_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_lobby_2.ogg"
+    },
+    {
+      "description": "yoshimi_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_lobby_3.ogg"
+    },
+    {
+      "description": "yoshimi_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_lobby_4.ogg"
+    },
+    {
+      "description": "yoshimi_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_lobby_5.ogg"
+    },
+    {
+      "description": "yoshimi_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_login_1.ogg"
+    },
+    {
+      "description": "yoshimi_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_login_2.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_memoriallobby_4.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "yoshimi_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "yoshimi_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_relationship_up_1.ogg"
+    },
+    {
+      "description": "yoshimi_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_relationship_up_2.ogg"
+    },
+    {
+      "description": "yoshimi_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_relationship_up_3.ogg"
+    },
+    {
+      "description": "yoshimi_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_relationship_up_4.ogg"
+    },
+    {
+      "description": "yoshimi_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_season_birthday.ogg"
+    },
+    {
+      "description": "yoshimi_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_season_birthday_player.ogg"
+    },
+    {
+      "description": "yoshimi_season_birthday2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_season_birthday2.ogg"
+    },
+    {
+      "description": "yoshimi_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_season_halloween.ogg"
+    },
+    {
+      "description": "yoshimi_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_season_newyear.ogg"
+    },
+    {
+      "description": "yoshimi_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_season_xmas.ogg"
+    },
+    {
+      "description": "Yoshimi_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/Yoshimi_Title.ogg"
+    },
+    {
+      "description": "yoshimi_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_cafe_act_1.ogg"
+    },
+    {
+      "description": "yoshimi_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_cafe_act_2.ogg"
+    },
+    {
+      "description": "yoshimi_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "yoshimi_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "yoshimi_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "yoshimi_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_commonskill.ogg"
+    },
+    {
+      "description": "yoshimi_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/yoshimi_exskill_1.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_yoshimi_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_yoshimi_spr-00_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_yoshimi_spr-08_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_yoshimi_spr-07_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_yoshimi_spr-10_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_yoshimi_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_yoshimi_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_yoshimi_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_yoshimi_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_yoshimi_spr-09_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_yoshimi_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_yoshimi_spr-06_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "鬼屋装扮差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_00.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_01.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_02.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_03.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_04.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_06.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_05.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_10.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_07.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_08.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_09.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_13.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_12.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_15.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_11.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_14.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_16.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_18.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_17.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_19.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_20.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_21.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_22.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_23.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_24.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0225_spr_99.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Yoshimi.jpg",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/FBAZmDuUYAsMO2S.jpg",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_063.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_244.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_221.png",
+        "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_163.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 107,
+      "favorability": 180
+    },
+    {
+      "id": 38,
+      "favorability": 60
+    },
+    {
+      "id": 58,
+      "favorability": 40
+    },
+    {
+      "id": 59,
+      "favorability": 40
+    },
+    {
+      "id": 92,
+      "favorability": 40
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 26005,
+      "dev_name": "Yoshimi_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Piercing",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": true,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 1,
+      "limited": false,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "B",
+      "street_adaptability": "B",
+      "equipment": [
+        7,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        40,
+        46,
+        48,
+        51,
+        179,
+        182,
+        183,
+        185,
+        411,
+        412,
+        413,
+        414,
+        440,
+        441,
+        442,
+        19
+      ],
+      "favorite_equipment": 42,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/skill_icon/uBdWXAk9RZKmU1CBNeD2eIP44KkUTfIQ.png",
+            "title": "谁，谁慌了！？",
+            "title_cn": "谁，谁慌了！？",
+            "preview": "//static.kivo.wiki/videos/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/skill_preview/w8NKuBcNtYcoKcaq2LofxW3xvPpPTh0H.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力220%的伤害/并使其陷入昏厥状态（持续2.2秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力254%的伤害/并使其陷入昏厥状态（持续2.2秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力287%的伤害/并使其陷入昏厥状态（持续2.5秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力320%的伤害/并使其陷入昏厥状态（持续2.5秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力353%的伤害/并使其陷入昏厥状态（持续2.9秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/skill_icon/kOZXKoVtY9YUnwcUfKC2LPrGLpPkWUVF.png",
+            "title": "想吃苦头是吧？！",
+            "title_cn": "想吃苦头是吧？！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每25秒对圆形范围内的敌人造成攻击力191%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对圆形范围内的敌人造成攻击力201%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对圆形范围内的敌人造成攻击力210%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对圆形范围内的敌人造成攻击力249%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对圆形范围内的敌人造成攻击力258%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对圆形范围内的敌人造成攻击力268%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对圆形范围内的敌人造成攻击力306%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对圆形范围内的敌人造成攻击力316%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对圆形范围内的敌人造成攻击力325%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对圆形范围内的敌人造成攻击力364%的伤害"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/skill_icon/0qxegz5F7mFPGJc6ouLQNfLL7YE4ea0A.png",
+            "title": "别，别小看我！",
+            "title_cn": "别，别小看我！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "暴击值增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/skill_icon/SryXHvRgQjZu2OtfT9V2CdjUl115rGGA.png",
+            "title": "都，都听我说！",
+            "title_cn": "都，都听我说！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制强化增加9.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制强化增加9.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制强化增加10%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制强化增加11.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制强化增加12.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制强化增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制强化增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制强化增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制强化增加15.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制强化增加17.3%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2232,
+          "attack": 268,
+          "defense": 19,
+          "healing": 1622,
+          "accuracy": 705,
+          "evasion": 806,
+          "crit": 201,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1596,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/weapons_icon.png",
+        "name": "Sweet Driver",
+        "name_cn": "Sweet driver",
+        "description": "好美专用的突击步枪。<br>为了在基沃托斯的巡回甜点竞赛里获胜，首先需要的就是战斗力。",
+        "description_cn": "好美的专用突击步枪。<br>为了在基沃托斯激烈的甜品竞争中获胜，首先要有强大的战斗能力。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「别，别小看我！」升级为「别，别小看我！+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室内适应性 B -> A",
+            "description": "在街道地形造成1.1倍伤害。在掩体内时掩护成功率+45%。 攻击时绕过掩体概率增加45%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%BC%8A%E5%8E%9F%E6%9C%A8%20%E5%A5%BD%E7%BE%8E/skill_icon/2eTcxtVYUfS8eqToTcr1P3XlmutvqinP.png",
+            "title": "别，别小看我！+",
+            "title_cn": "别，别小看我！+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "暴击值增加100/暴击值增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加105/暴击值增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加110/暴击值增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加130/暴击值增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加135/暴击值增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加140/暴击值增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加160/暴击值增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加165/暴击值增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加170/暴击值增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加190/暴击值增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [
+    {
+      "name": "2024/10/08 -  Yochina - 资料纠错",
+      "url": ""
+    }
+  ],
+  "info_declare_uuid": "da0263b2-d16c-4269-bf69-b2b0f5260db4",
+  "skill_declare_uuid": "9185b4f0-be78-4958-894f-db00c5c6cd1f",
+  "supplementary_uuid": "effc9102-2f4e-49b9-ab74-741da2b1eca3",
+  "supplementary_declare_uuid": "d03a7493-ce9a-45c0-85c4-2f9b16cd91b8",
+  "created_at": 1685377410,
+  "updated_at": 1783322399
+}

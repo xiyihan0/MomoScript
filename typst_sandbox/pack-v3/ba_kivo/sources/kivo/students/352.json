@@ -1,0 +1,959 @@
+{
+  "id": 352,
+  "skin": "礼服",
+  "skin_jp": "ドレス",
+  "skin_cn": "礼服",
+  "skin_zh_tw": "禮服",
+  "skin_list": [
+    {
+      "id": 107,
+      "avatar": "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 177,
+      "avatar": "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E6%AD%A3%E6%9C%88/avatar.png",
+      "skin": "正月",
+      "skin_cn": "新年"
+    },
+    {
+      "id": 352,
+      "avatar": "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/Student_Portrait_CH0246_Collection.png",
+      "skin": "礼服",
+      "skin_cn": "礼服"
+    },
+    {
+      "id": 354,
+      "avatar": "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E8%A5%BF%E8%A3%85/avatar.png",
+      "skin": "西装",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "浅黄",
+  "given_name": "睦月",
+  "family_name_jp": "浅黄",
+  "given_name_jp": "ムツキ",
+  "family_name_kr": "아사기",
+  "given_name_kr": "무츠키",
+  "family_name_en": "Asagi",
+  "given_name_en": "Mutsuki",
+  "family_name_zh_tw": "淺黃",
+  "given_name_zh_tw": "無月",
+  "family_name_cn": "浅黄",
+  "given_name_cn": "睦月",
+  "nick_name": "",
+  "introduction": "格黑娜学园所属，便利屋68的行动对长兼突击队长。\n为了完成潜入任务换上了礼服，但也隐藏不了她爱恶作剧的性格。说到底，她可能根本就没打算藏。\n\n>让我们玩得更大些吧！",
+  "introduction_cn": "",
+  "momo_talk_signature": "正在游玩潜入游戏~",
+  "main_relation": 28,
+  "relation": null,
+  "age": 16,
+  "grade": "二年生",
+  "height": 144,
+  "birthday": "07-29",
+  "hobby": "收集炸弹",
+  "designer": "DoReMi",
+  "illustrator": "DoReMi",
+  "character_voice": "大久保瑠美",
+  "character_voice_cn": "侯小菲",
+  "release_date": "2026-05-27",
+  "release_date_cn": null,
+  "release_date_global": null,
+  "sd_model_image": "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/EnemyInfo_CH0246.png",
+  "avatar": "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/Student_Portrait_CH0246_Collection.png",
+  "school": 3,
+  "weapon_type": "MG",
+  "is_install": true,
+  "is_install_cn": false,
+  "is_install_global": false,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": false,
+  "more": "# 杂项趣闻\n\n:::: center\n!!! question <font size=\"4\">**荣 誉 勋 章**</font>\n![hanamaru_coconut.png](files/19083/lgj4cn7FML4efZeQXT3qrdc0b6jy61g0.png =100x)\n此角色曾在本站开设的投票活动『基沃托斯年度最佳大选』中取得前三名的成绩！\n[2024年](https://kivo.wiki/article/37)：【年度最受期待换装】**第3名**![rank3.png](files/19083/ZISQ0bfnce5Bj1nzKXXRpkh7fdPIPhnp.png =50x)\n[2025年](https://kivo.wiki/article/57)：【年度最受期待换装】**第1名**![rank1.png](files/19083/LMDEXyZBQ3zQXr1770iyoLWlXNkjTePK.png =50x)\n!!!\n::::\n\n# 官方图集\n\n## 卡池Banner\n::::center\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| いたずらクイーンの物語 | 暂无 | 暂无 | 暂无 |\n| ![jp](images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/HJOGrBdaAAAsu-p.jpg =450x ) | 暂无 | 暂无|暂无  |\n::::\n\n## 官方介绍图\n::::center\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![jp](images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/HJDYQqibQAAa8jE.jpg =450x) | 暂无 | 暂无 | 暂无 |\n::::\n\n## SD动画\n::::center\n| EX技能动画 | 咖啡厅触摸 | 家具互动:[古典沙发](https://kivo.wiki/data/item/1252)| \n| :---: | :---: | :---: | \n| 暂无 | 暂无 | 暂无 | \n::::\n",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/CH0246_home_Idle_01_4.433400000000144.jpg",
+  "spine": [
+    1492,
+    1634
+  ],
+  "model": [
+    99,
+    532
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [
+    {
+      "description": "ch0246_cafe_monolog_1",
+      "category": "cafe",
+      "text": "真想在这里和大家一起举办一场礼服派对呀～",
+      "text_original": "ここでみんなとドレスパーティーしたいな～",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0246_cafe_monolog_2",
+      "category": "cafe",
+      "text": "库呼呼，老师原来喜欢这种感觉的呀？",
+      "text_original": "くふふっ、先生ってこういうのが好きなんだ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0246_cafe_monolog_3",
+      "category": "cafe",
+      "text": "有没有谁来陪我玩呀～？",
+      "text_original": "誰か遊んでくれないかなぁ～？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0246_cafe_monolog_4",
+      "category": "cafe",
+      "text": "啊咧，欺负一下的话感觉会很有趣呢♪",
+      "text_original": "あれ、いじったら面白そう♪",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0246_cafe_monolog_5",
+      "category": "cafe",
+      "text": "库呼呼！真开心呀~感觉，真的很喜欢这个地方呢。",
+      "text_original": "くふふっ！楽しいなぁ〜なんか好きなんだよね、ここ",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0246_commonskill",
+      "category": "battle",
+      "text": "稍～微有点烫哦？",
+      "text_original": "ちょ～っと熱いよ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_commonskill.ogg"
+    },
+    {
+      "description": "ch0246_eventlobby_1",
+      "category": "event",
+      "text": "恶作剧要像正式演出一样！正式演出要像恶作剧一样♪",
+      "text_original": "イタズラは本番のように！本番はイタズラのように♪",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_eventlobby_1.ogg"
+    },
+    {
+      "description": "ch0246_eventlobby_2",
+      "category": "event",
+      "text": "嗯～……潜入路线的话……应该是那边吧？",
+      "text_original": "ん～……潜入ルートはぁ……あっち、かな？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_eventlobby_2.ogg"
+    },
+    {
+      "description": "ch0246_eventlobby_3",
+      "category": "event",
+      "text": "怎么？想和睦月酱一起玩吗？库呼呼。",
+      "text_original": "なあに？ムツキちゃんと遊びたいの？くふふっ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_eventlobby_3.ogg"
+    },
+    {
+      "description": "ch0246_eventlobby_4",
+      "category": "event",
+      "text": "工作结束之后要不要一起去看歌剧？绝对会很有意思哟♪",
+      "text_original": "仕事が終わったら一緒にオペラ観に行かない？絶対楽しいよ♪",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_eventlobby_4.ogg"
+    },
+    {
+      "description": "ch0246_eventlogin_1",
+      "category": "event",
+      "text": "那么那么，这次会有什么样的事件在等着我们呢～？",
+      "text_original": "さてさて、どんな事件が待ってるのかな～？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_eventlogin_1.ogg"
+    },
+    {
+      "description": "ch0246_eventlogin_2",
+      "category": "event",
+      "text": "这次感觉也会超级有趣！",
+      "text_original": "今回もすっごく面白そう！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_eventlogin_2.ogg"
+    },
+    {
+      "description": "ch0246_exskill_1",
+      "category": "battle",
+      "text": "库呼呼，上当了吗？",
+      "text_original": "くふふ、騙されちゃった？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_exskill_1.ogg"
+    },
+    {
+      "description": "ch0246_exskill_2",
+      "category": "battle",
+      "text": "Surprise！",
+      "text_original": "サプラーイズ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_exskill_2.ogg"
+    },
+    {
+      "description": "ch0246_exskill_3",
+      "category": "battle",
+      "text": "锵～。猜猜这是什么？",
+      "text_original": "じゃーん。これなーんだ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_exskill_3.ogg"
+    },
+    {
+      "description": "ch0246_exskill_level_1",
+      "category": "battle",
+      "text": "快看快看！是可爱的棉花糖哦？",
+      "text_original": "ほらほらっ！可愛いわたあめだよ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0246_exskill_level_2",
+      "category": "battle",
+      "text": "啊哈哈！接招吧～",
+      "text_original": "あははっ！くらえ～",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0246_exskill_level_3",
+      "category": "battle",
+      "text": "猜到了吗？",
+      "text_original": "予想できたかな？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0246_exweapon_get",
+      "category": "growup",
+      "text": "库呼呼♪就是这个～最喜欢这种手感了～",
+      "text_original": "くふふっ♪これこれ〜この手応えが好きなんだよね～",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0246_formation_in_1",
+      "category": "formation",
+      "text": "要在这里玩吗？好呀！要玩什么？",
+      "text_original": "ここで遊ぶの？いいよ！なにする？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0246_formation_in_2",
+      "category": "formation",
+      "text": "库呼呼，交给我吧！",
+      "text_original": "くふふっ、任せて！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0246_formation_select",
+      "category": "formation",
+      "text": "什么什么～？要玩什么呀？",
+      "text_original": "なになに～？どういう遊び？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_formation_select.ogg"
+    },
+    {
+      "description": "ch0246_gachaget",
+      "category": "growup",
+      "text": "库呼呼，睦月酱大变身～！来吧，想让我做什么？尽管说说看？",
+      "text_original": "くふふっ、ムツキちゃんだいへんし～ん！さ、何して欲しい？なんでも言ってごらん？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_gachaget.ogg"
+    },
+    {
+      "description": "ch0246_growup_1",
+      "category": "growup",
+      "text": "睦月酱好像成长了呢！那么，猜猜～是哪里成长了呢？",
+      "text_original": "ムツキちゃん、成長したみたい！さて、どこが成長したでしょ～か？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_growup_1.ogg"
+    },
+    {
+      "description": "ch0246_growup_2",
+      "category": "growup",
+      "text": "也就是说……我可以做更～厉害的恶作剧了对吧？库呼呼！",
+      "text_original": "これってつまり……も～っとすごいイタズラしてもいいってことだよね？くふふっ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_growup_2.ogg"
+    },
+    {
+      "description": "ch0246_growup_3",
+      "category": "growup",
+      "text": "没问题吗？到时候事情要是变麻烦了，我可不管哦～？",
+      "text_original": "大丈夫？手に負えなくなっても知らないよ～？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_growup_3.ogg"
+    },
+    {
+      "description": "ch0246_growup_4",
+      "category": "growup",
+      "text": "啊哈哈哈！感觉能玩得更开心了！",
+      "text_original": "あはははっ！もっと楽しく遊べそう！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_growup_4.ogg"
+    },
+    {
+      "description": "ch0246_lobby_1_1",
+      "category": "lobby",
+      "text": "怎么样？睦月酱看起来像大人一点了吗？",
+      "text_original": "どう？ムツキちゃん、大人っぽい？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_lobby_1_1.ogg"
+    },
+    {
+      "description": "ch0246_lobby_1_2",
+      "category": "lobby",
+      "text": "库呼。老实说出来也没关系哦？毕竟今天的我比平时更“大人”嘛。",
+      "text_original": "くふっ。正直に言っていいんだよ？今日の私はいつもより\"大人\"なんだから。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_lobby_1_2.ogg"
+    },
+    {
+      "description": "ch0246_lobby_2_1",
+      "category": "lobby",
+      "text": "提问！为什么睦月酱会穿着礼服呢！",
+      "text_original": "問題でーす！どうしてムツキちゃんはドレスを着ているのでしょう！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_lobby_2_1.ogg"
+    },
+    {
+      "description": "ch0246_lobby_2_2",
+      "category": "lobby",
+      "text": "要是猜对的话，睦月就送你特别的礼 · 物 · 哦～♪",
+      "text_original": "当てられたら特別なプレゼントをあ・げ・る♪",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_lobby_2_2.ogg"
+    },
+    {
+      "description": "ch0246_lobby_2_3",
+      "category": "lobby",
+      "text": "要是猜错的话，作为惩罚～……就让你来当我的椅子好了♪",
+      "text_original": "間違えたら罰として〜……私の椅子になってもらおっかな♪",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_lobby_2_3.ogg"
+    },
+    {
+      "description": "ch0246_lobby_3_1",
+      "category": "lobby",
+      "text": "今天来玩点比平时更大人一点的游戏吧。",
+      "text_original": "今日はいつもより大人っぽい遊びをしようよ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_lobby_3_1.ogg"
+    },
+    {
+      "description": "ch0246_lobby_3_2",
+      "category": "lobby",
+      "text": "至于玩什么嘛……老师来决定也可以哦？",
+      "text_original": "何をするかは……先生が決めていいよ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_lobby_3_2.ogg"
+    },
+    {
+      "description": "ch0246_lobby_4_1",
+      "category": "lobby",
+      "text": "刚才有人叫我“大姐姐”呢。是因为穿着礼服的关系吗？",
+      "text_original": "さっき「お姉さん」って呼ばれちゃった。ドレス着てたからかな？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_lobby_4_1.ogg"
+    },
+    {
+      "description": "ch0246_lobby_4_2",
+      "category": "lobby",
+      "text": "库呼呼。想让老师也这么叫我一次呢～？",
+      "text_original": "くふふっ。先生からも呼ばれてみたいな～？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_lobby_4_2.ogg"
+    },
+    {
+      "description": "ch0246_lobby_5_1",
+      "category": "lobby",
+      "text": "这件礼服，是我和便利屋的大家一起挑的哦。",
+      "text_original": "このドレス、便利屋のみんなと選んだの。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_lobby_5_1.ogg"
+    },
+    {
+      "description": "ch0246_lobby_5_2",
+      "category": "lobby",
+      "text": "因为是承载着特别回忆的衣服嘛，所以我想珍惜地穿着它。",
+      "text_original": "特別な思い出の服だからね、大切に着たいんだ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_lobby_5_2.ogg"
+    },
+    {
+      "description": "ch0246_login_1",
+      "category": "lobby",
+      "text": "欢迎光临，老师！居然让穿着礼服的可爱睦月酱等这么久，老师可真会摆架子呢~",
+      "text_original": "いらっしゃい、先生！ドレス姿の可愛いムツキちゃんを待たせるなんて、いいご身分だねぇ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_login_1.ogg"
+    },
+    {
+      "description": "ch0246_login_2",
+      "category": "lobby",
+      "text": "这边这边！今天要玩什么呀？",
+      "text_original": "こっちこっち！今日は何して遊ぶ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_login_2.ogg"
+    },
+    {
+      "description": "ch0246_memoriallobby_1",
+      "category": "lobby",
+      "text": "我说？别看我这样，其实我可是相当信赖着老师的哦？",
+      "text_original": "あのね？こう見えても私、結構信頼してるんだよ？先生のこと。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_memoriallobby_1.ogg"
+    },
+    {
+      "description": "ch0246_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "诶，很意外吗？……是因为我总是在恶作剧吗？",
+      "text_original": "え、意外？……いつもイタズラばっかりしてるから？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0246_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "库呼呼。我也不是对谁都会这么做的啦。",
+      "text_original": "くふふっ。私だって誰彼構わずやるわけじゃないって。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0246_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "所以嘛，……那笔钱要怎么处理，就交给老师决定啦。",
+      "text_original": "まあ、だから……そのお金をどうするかは、任せるよ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "ch0246_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "老师的话，一定会把它用在有意义的地方的吧？",
+      "text_original": "先生なら、ちゃんと意味のあることに使ってくれるでしょ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "ch0246_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "拿去捐给什么地方也好，当成老师的活动资金也可以……",
+      "text_original": "どっかに寄付してもいいし、先生の活動資金にしてもいいし……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_memoriallobby_3_3.ogg"
+    },
+    {
+      "description": "ch0246_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "要是都不想样的话，就当作是老师帮我保管好了——",
+      "text_original": "それが嫌なら、先生が預かるってことにして――",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "ch0246_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "为了我们的未来先存起来，这样好像也不错呢？",
+      "text_original": "私たちの未来のために取っておいても、いいかもね？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "ch0246_memoriallobby_5",
+      "category": "lobby",
+      "text": "诶？你问我在说什么？",
+      "text_original": "え？何を言っているのかって？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_memoriallobby_5.ogg"
+    },
+    {
+      "description": "ch0246_memoriallobby_6",
+      "category": "lobby",
+      "text": "库呼呼！谁知道呢？到底会是什么意思呢♪",
+      "text_original": "くふふっ！さあ？どういう意味だろうね♪",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_memoriallobby_6.ogg"
+    },
+    {
+      "description": "ch0246_relationship_up_1",
+      "category": "growup",
+      "text": "老师啊，你真的明白……自己正在做的事情意味着什么吗？库呼呼。",
+      "text_original": "先生さぁ、自分がやってることの意味……ちゃんと分かってるの？くふふ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0246_relationship_up_2",
+      "category": "growup",
+      "text": "啊哈哈！我也最——喜欢老师了！各种意义上都是哦♪",
+      "text_original": "あははっ！私も先生のこと、だーい好き！いろんな意味でね♪",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0246_relationship_up_3",
+      "category": "growup",
+      "text": "哼～……这种感情叫什么，我可是知道的。如果在意的话，要不要我告诉你呀？",
+      "text_original": "ふぅん……この感情の名前、私知ってる。気になるなら、教えてあげよっか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0246_relationship_up_4",
+      "category": "growup",
+      "text": "诶～？嗯～？原来如此。老师是想和我变得更～要好呢。",
+      "text_original": "へ～？ふーん？そっかあ。先生は、も～っと私と仲良くなりたいんだね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0246_season_birthday_1",
+      "category": "lobby",
+      "text": "啊哈哈！谢谢老师来给我庆祝♪",
+      "text_original": "あははっ！お祝いしてくれてありがと、先生♪",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_season_birthday_1.ogg"
+    },
+    {
+      "description": "ch0246_season_birthday_2",
+      "category": "lobby",
+      "text": "想着老师也许会高兴，所以我试着穿上了礼服……怎么样？开心吗？",
+      "text_original": "先生が喜ぶかなって思ってドレスを着てみたんだけど……どう？嬉しい？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_season_birthday_2.ogg"
+    },
+    {
+      "description": "ch0246_season_birthday_player_1",
+      "category": "lobby",
+      "text": "老师，今天是你的生日对吧？",
+      "text_original": "先生、今日誕生日だよね？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "ch0246_season_birthday_player_2",
+      "category": "lobby",
+      "text": "那就来开派对吧！派对♪",
+      "text_original": "じゃあパーティーしよっ！パーティー♪",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "ch0246_season_halloween_1",
+      "category": "lobby",
+      "text": "我的礼服为什么是红色的……猜得到为什么吗？",
+      "text_original": "私のドレスが赤い理由……なんでか分かる？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_season_halloween_1.ogg"
+    },
+    {
+      "description": "ch0246_season_halloween_2",
+      "category": "lobby",
+      "text": "因为沾上血的话也不会太显眼——",
+      "text_original": "血がついても目立たないから――",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_season_halloween_2.ogg"
+    },
+    {
+      "description": "ch0246_season_halloween_3",
+      "category": "lobby",
+      "text": "开玩笑的！啊哈哈！被骗到了吗～？",
+      "text_original": "なーんて！あははっ！騙された～？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_season_halloween_3.ogg"
+    },
+    {
+      "description": "ch0246_season_newyear_1",
+      "category": "lobby",
+      "text": "老师，新年快乐～希望今年也会是开心的一年呢♪",
+      "text_original": "先生、あけおめ～今年も楽しい一年になるといいね♪",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_season_newyear_1.ogg"
+    },
+    {
+      "description": "ch0246_season_newyear_2",
+      "category": "lobby",
+      "text": "老师也是这么想的吧？",
+      "text_original": "先生もそう思うでしょ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_season_newyear_2.ogg"
+    },
+    {
+      "description": "ch0246_season_xmas_1",
+      "category": "lobby",
+      "text": "在圣诞节穿礼服这件事，会不会有什么特别的意义呢？",
+      "text_original": "クリスマスにドレスを着るのって、何か特別な意味があるのかな？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_season_xmas_1.ogg"
+    },
+    {
+      "description": "ch0246_season_xmas_2",
+      "category": "lobby",
+      "text": "要不要一起查查看？库呼呼。",
+      "text_original": "一緒に調べてみない？くふふっ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/ch0246_season_xmas_2.ogg"
+    },
+    {
+      "description": "CH0246_Title",
+      "category": "lobby",
+      "text": "蔚蓝档案！库呼呼！",
+      "text_original": "ブルーアーカイブ！くふふっ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/jp/CH0246_Title.ogg"
+    }
+  ],
+  "voice_cn": [],
+  "voice_kr": [],
+  "gallery": [
+    {
+      "title": "脸部差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E8%84%B8%E9%83%A8%E5%B7%AE%E5%88%86/CH0246_spr_03.jpg",
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E8%84%B8%E9%83%A8%E5%B7%AE%E5%88%86/CH0246_spr_01.jpg",
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E8%84%B8%E9%83%A8%E5%B7%AE%E5%88%86/CH0246_spr_02.jpg",
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E8%84%B8%E9%83%A8%E5%B7%AE%E5%88%86/CH0246_spr_05.jpg",
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E8%84%B8%E9%83%A8%E5%B7%AE%E5%88%86/CH0246_spr_00.jpg",
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E8%84%B8%E9%83%A8%E5%B7%AE%E5%88%86/CH0246_spr_04.jpg",
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E8%84%B8%E9%83%A8%E5%B7%AE%E5%88%86/CH0246_spr_06.jpg",
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E8%84%B8%E9%83%A8%E5%B7%AE%E5%88%86/CH0246_spr_11.jpg",
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E8%84%B8%E9%83%A8%E5%B7%AE%E5%88%86/CH0246_spr_08.jpg",
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E8%84%B8%E9%83%A8%E5%B7%AE%E5%88%86/CH0246_spr_07.jpg",
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E8%84%B8%E9%83%A8%E5%B7%AE%E5%88%86/CH0246_spr_10.jpg",
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E8%84%B8%E9%83%A8%E5%B7%AE%E5%88%86/CH0246_spr_09.jpg",
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E8%84%B8%E9%83%A8%E5%B7%AE%E5%88%86/CH0246_spr_99.jpg"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/HJOGrBdaAAAsu-p.jpg",
+        "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/HJDYQqibQAAa8jE.jpg"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 56,
+      "favorability": 40
+    },
+    {
+      "id": 74,
+      "favorability": 60
+    },
+    {
+      "id": 78,
+      "favorability": 40
+    },
+    {
+      "id": 84,
+      "favorability": 40
+    },
+    {
+      "id": 91,
+      "favorability": 40
+    },
+    {
+      "id": 162,
+      "favorability": 240
+    },
+    {
+      "id": 95,
+      "favorability": 40
+    },
+    {
+      "id": 96,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    1252
+  ],
+  "character_datas": [
+    {
+      "character_id": 20059,
+      "dev_name": "CH0246",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Mystic",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "S",
+      "indoor_adaptability": "D",
+      "street_adaptability": "B",
+      "equipment": [
+        7,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        410,
+        409,
+        408,
+        407,
+        368,
+        369,
+        370,
+        77,
+        80,
+        81,
+        82,
+        165,
+        163,
+        160,
+        158,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/skill_icon/2KpE771QUcrWQXHV91lNeOeC8CJjpw5q.png",
+            "title": "爆燃的小步舞曲",
+            "title_cn": "",
+            "preview": "//static.kivo.wiki/videos/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/skill_preview/OIaFVLemk88l8GAZmaU5EHaTzDjqrWKJ.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 6,
+                "describe": "对1名敌人造成攻击力1740%的伤害"
+              },
+              {
+                "cost": 6,
+                "describe": "对1名敌人造成攻击力2001%的伤害"
+              },
+              {
+                "cost": 6,
+                "describe": "对1名敌人造成攻击力2523%的伤害"
+              },
+              {
+                "cost": 6,
+                "describe": "对1名敌人造成攻击力2784%的伤害"
+              },
+              {
+                "cost": 6,
+                "describe": "对1名敌人造成攻击力3306%的伤害"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/skill_icon/7rI2gOtLkFu5fNh4VYXYPzaJHeiysUvw.png",
+            "title": "小心脚下!",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每30秒，降低圆形范围内敌人的暴击伤害抵抗率14%（持续20秒）<br>每1秒，对圆形范围内的敌人造成攻击力29.7%的伤害（持续10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，降低圆形范围内敌人的暴击伤害抵抗率14.7%（持续20秒）<br>每1秒，对圆形范围内的敌人造成攻击力31.2%的伤害（持续10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，降低圆形范围内敌人的暴击伤害抵抗率15.4%（持续20秒）<br>每1秒，对圆形范围内的敌人造成攻击力32.7%的伤害（持续10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，降低圆形范围内敌人的暴击伤害抵抗率18.3%（持续20秒）<br>每1秒，对圆形范围内的敌人造成攻击力38.7%的伤害（持续10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，降低圆形范围内敌人的暴击伤害抵抗率19%（持续20秒）<br>每1秒，对圆形范围内的敌人造成攻击力40.1%的伤害（持续10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，降低圆形范围内敌人的暴击伤害抵抗率19.7%（持续20秒）<br>每1秒，对圆形范围内的敌人造成攻击力41.6%的伤害（持续10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，降低圆形范围内敌人的暴击伤害抵抗率22.5%（持续20秒）<br>每1秒，对圆形范围内的敌人造成攻击力47.6%的伤害（持续10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，降低圆形范围内敌人的暴击伤害抵抗率23.2%（持续20秒）<br>每1秒，对圆形范围内的敌人造成攻击力49.1%的伤害（持续10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，降低圆形范围内敌人的暴击伤害抵抗率23.9%（持续20秒）<br>每1秒，对圆形范围内的敌人造成攻击力50.6%的伤害（持续10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，降低圆形范围内敌人的暴击伤害抵抗率26.7%（持续20秒）<br>每1秒，对圆形范围内的敌人造成攻击力56.5%的伤害（持续10秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/skill_icon/GFttmTJeGVvgXDYOlkXQPisY2VVcXb4E.png",
+            "title": "会更好玩的哦？",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 1,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/skill_icon/eQ6RVRnQg1dZjMj2RQYQpEDBRa1dlQ9d.png",
+            "title": "一起来玩嘛!",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 1,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方SPECIAL（支援）学生的攻击力增加14.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方SPECIAL（支援）学生的攻击力增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方SPECIAL（支援）学生的攻击力增加15.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方SPECIAL（支援）学生的攻击力增加18.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方SPECIAL（支援）学生的攻击力增加19.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方SPECIAL（支援）学生的攻击力增加20%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方SPECIAL（支援）学生的攻击力增加22.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方SPECIAL（支援）学生的攻击力增加23.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方SPECIAL（支援）学生的攻击力增加24.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方SPECIAL（支援）学生的攻击力增加27.1%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2088,
+          "attack": 406,
+          "defense": 62,
+          "healing": 2020,
+          "accuracy": 520,
+          "evasion": 186,
+          "crit": 266,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1500,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 1
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/weapons_icon.png",
+        "name": "Trick or Trick",
+        "name_cn": "",
+        "description": "睦月随时带在身边的机关枪。<br>无论何时何地，只要是为了恶作剧，即使穿着礼服也要带着它。",
+        "description_cn": "",
+        "info": [
+          {
+            "title": "",
+            "description": ""
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「会更好玩的哦？」升级为「会更好玩的哦？+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室外适应性 S -> SS",
+            "description": "在室内地形造成1.3倍伤害。在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B5%85%E9%BB%84%20%E7%9D%A6%E6%9C%88/%E7%A4%BC%E6%9C%8D/skill_icon/n0kZkeORIJPUvE1YGTKYBqtFFN9en4Sd.png",
+            "title": "会更好玩的哦？+",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "防御贯通值增加360，并且攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御贯通值增加378，并且攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御贯通值增加396，并且攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御贯通值增加468，并且攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御贯通值增加486，并且攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御贯通值增加504，并且攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御贯通值增加576，并且攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御贯通值增加594，并且攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御贯通值增加612，并且攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御贯通值增加684，并且攻击力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "a4a7b7c5-06a8-46a2-bc6e-9921367bd1fd",
+  "skill_declare_uuid": "d8d31dbe-6fa9-440a-b4a5-5b7cb4f17b33",
+  "supplementary_uuid": "76e2c03f-9020-447f-bc77-73e7badbcfa3",
+  "supplementary_declare_uuid": "45e45c19-ccd8-47d9-9e88-eb0fdaa2dbf7",
+  "created_at": 1708514732,
+  "updated_at": 1781769040
+}

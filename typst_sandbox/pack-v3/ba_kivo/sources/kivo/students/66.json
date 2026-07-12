@@ -1,0 +1,1222 @@
+{
+  "id": 66,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 66,
+      "avatar": "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/Student_Portrait_CH0173_Collection.png",
+      "skin": "",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "高仓",
+  "given_name": "胡桃",
+  "family_name_jp": "高倉",
+  "given_name_jp": "クルミ",
+  "family_name_kr": "타카쿠라",
+  "given_name_kr": "쿠루미",
+  "family_name_en": "Takakura",
+  "given_name_en": "Kurumi",
+  "family_name_zh_tw": "",
+  "given_name_zh_tw": "胡桃",
+  "family_name_cn": "",
+  "given_name_cn": "胡桃",
+  "nick_name": "",
+  "introduction": "SRT特殊学院所属、FOX小队的斥候。代号「FOX3」。\n\n拥有出色的身体素质，现场应变能力极强。战斗特化型尖兵。容易意气用事，性格直率，但正因为此多次克服难关，立下战功。\n\n虽然很少提及，但对自己的体型怀有自卑感。\n\n>当心眼睛，别盯着我的盾看哦！\n\n",
+  "introduction_cn": "",
+  "momo_talk_signature": "一往无前主义",
+  "main_relation": 43,
+  "relation": [
+    44,
+    70
+  ],
+  "age": 17,
+  "grade": "三年生",
+  "height": 151,
+  "birthday": "09-30",
+  "hobby": "收集贴纸、清洁",
+  "designer": "CHILD",
+  "illustrator": "CHILD",
+  "character_voice": "橘一花",
+  "character_voice_cn": "",
+  "release_date": "2026-04-21",
+  "release_date_cn": null,
+  "release_date_global": null,
+  "sd_model_image": "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/EnemyInfo_CH0173.png",
+  "avatar": "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/Student_Portrait_CH0173_Collection.png",
+  "school": 11,
+  "weapon_type": "SMG",
+  "is_install": true,
+  "is_install_cn": false,
+  "is_install_global": false,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": true,
+  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| こちらFOX3、経験はこの脚に | 暂无 | 暂无 | 暂无 |\n| ![dPOwA0mq.png](files/18651/HPKOQNvmcnKpx0Hf80OnjjQ3XdPwtSiM.png =450x) | 暂无 | 暂无 | 暂无 |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|![](images/students/高仓%20胡桃/original/gallery/官方图集/HGj8h-jbIAAjZQb.jpg =450x)|暂无|暂无|暂无|\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[作战桌](https://kivo.wiki/data/item/1930)|\n| :---: | :---: | :---: |\n|  |  |  |\n## 设定集\n\n::::center\n\n![Vol.1_页面_007.png](files/4954/CumS3NhY9fWdKdBxOi7aQzNTwIxYKHNK.png =450x)\n\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 071.png](files/4954/Utn6PtyWXRu3cy13FdAWBzc7w5S2nqVM.png =450x)\n\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 072.png](files/4954/S4KQRH0fsK2jBrvvNhzcjRTVbSREK1QX.png =450x)\n\n::::\n\n## 国际服直播内容\n::::center\n![Snipaste_2026-05-25_22-18-09.png](files/490/xwQna4lIeqA79NRo81ZvviWE4ilOT7LV.png =450x)\n\n![Snipaste_2026-05-25_22-17-51.png](files/490/udIdljdeYMxSpPSpj2tKxPGqRy9CV0xC.png =450x)\n\n![Snipaste_2026-05-25_22-19-07.png](files/490/4hd5IczUHBO9YIUjjPirkQitd6oK9cCY.png =450x)\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私<br><details><summary><font color=\"448aff\">FOX3</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">作战行动中的称呼</details></font></font></font></b>|\n|[雪乃](https://kivo.wiki/data/character/64)|ユキノ<br><details><summary><font color=\"448aff\">FOX1</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">作战行动中的称呼</details></font></font></font></b>|\n|[妮可](https://kivo.wiki/data/character/65)|ニコ|\n|[音葵](https://kivo.wiki/data/character/67)|オトギ<br><details><summary><font color=\"448aff\">FOX4</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">作战行动中的称呼</details></font></font></font></b>|\n|[花耶](https://kivo.wiki/data/character/169)|カヤ連邦生徒会長代行|\n|[咲](https://kivo.wiki/data/character/8)|サキ|\n|[凛](https://kivo.wiki/data/character/183)|連邦生徒会長代行|\n\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/Image_1776783049947_703.jpg",
+  "spine": [
+    1611,
+    1623,
+    1565
+  ],
+  "model": [
+    62,
+    520
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [
+    {
+      "description": "ch0173_battle_buffed_1",
+      "category": "battle",
+      "text": "时机正好！",
+      "text_original": "ナイスタイミング！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_buffed_1.ogg"
+    },
+    {
+      "description": "ch0173_battle_buffself_1",
+      "category": "battle",
+      "text": "进行补给！",
+      "text_original": "補給するわ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_buffself_1.ogg"
+    },
+    {
+      "description": "ch0173_battle_covered_1",
+      "category": "battle",
+      "text": "已隐蔽！",
+      "text_original": "隠れたわ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_covered_1.ogg"
+    },
+    {
+      "description": "ch0173_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_damage_1.ogg"
+    },
+    {
+      "description": "ch0173_battle_damage_2",
+      "category": "battle",
+      "text": "疼！",
+      "text_original": "痛！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_damage_2.ogg"
+    },
+    {
+      "description": "ch0173_battle_damage_3",
+      "category": "battle",
+      "text": "说了很痛了！",
+      "text_original": "痛いってば！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_damage_3.ogg"
+    },
+    {
+      "description": "ch0173_battle_defense_1",
+      "category": "battle",
+      "text": "别想通过！",
+      "text_original": "通さないわよ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_defense_1.ogg"
+    },
+    {
+      "description": "ch0173_battle_in_1",
+      "category": "battle",
+      "text": "作战开始！",
+      "text_original": "作戦開始！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_in_1.ogg"
+    },
+    {
+      "description": "ch0173_battle_in_2",
+      "category": "battle",
+      "text": "FOX3，突击！",
+      "text_original": "FOX3、突入！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_in_2.ogg"
+    },
+    {
+      "description": "ch0173_battle_move_1",
+      "category": "battle",
+      "text": "区域安全！",
+      "text_original": "クリア！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_move_1.ogg"
+    },
+    {
+      "description": "ch0173_battle_move_2",
+      "category": "battle",
+      "text": "前往下一个点位。",
+      "text_original": "次のポイントへ向かうわ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_move_2.ogg"
+    },
+    {
+      "description": "ch0173_battle_recovery_1",
+      "category": "battle",
+      "text": "谢了！",
+      "text_original": "ありがと！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_recovery_1.ogg"
+    },
+    {
+      "description": "ch0173_battle_retire",
+      "category": "battle",
+      "text": "呜……真是，糟透了！",
+      "text_original": "うぅ…もう、最悪！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_retire.ogg"
+    },
+    {
+      "description": "ch0173_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_shout_1.ogg"
+    },
+    {
+      "description": "ch0173_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_shout_2.ogg"
+    },
+    {
+      "description": "ch0173_battle_shout_3",
+      "category": "battle",
+      "text": "我在这里哦！",
+      "text_original": "私はここよ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_shout_3.ogg"
+    },
+    {
+      "description": "ch0173_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "请求掩护！",
+      "text_original": "援護をお願い！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "ch0173_battle_victory_1",
+      "category": "battle",
+      "text": "这就是SRT的精髓！",
+      "text_original": "これがSRTの真髄よ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_victory_1.ogg"
+    },
+    {
+      "description": "ch0173_battle_victory_2",
+      "category": "battle",
+      "text": "特殊部队的实力，有好好看在眼里吗？",
+      "text_original": "特殊部隊の実力、ちゃんと目に焼き付けた？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_battle_victory_2.ogg"
+    },
+    {
+      "description": "ch0173_cafe_monolog_1",
+      "category": "cafe",
+      "text": "（哇，那把枪的装饰好可爱……是在哪儿卖的呢？）",
+      "text_original": "（あ、あの銃のデコレーション可愛い……どこで売ってるんだろ？）",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0173_cafe_monolog_2",
+      "category": "cafe",
+      "text": "（总感觉……我看起来是最成熟的那个……？）",
+      "text_original": "（なんか……私が一番大人っぽく見えたり……？）",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0173_cafe_monolog_3",
+      "category": "cafe",
+      "text": "这里的窗户好漂亮……就像我的盾牌一样。",
+      "text_original": "ここの窓って綺麗ね……まるで私の盾みたい。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0173_cafe_monolog_4",
+      "category": "cafe",
+      "text": "呜，肌肉好痛……是不是训练过头了……",
+      "text_original": "うう、筋肉痛……。訓練やりすぎちゃったかな……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0173_cafe_monolog_5",
+      "category": "cafe",
+      "text": "堂堂正正……挺起胸膛……我可是老手了！",
+      "text_original": "堂々と……胸を張って……私はベテラン！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0173_cluesearch_1",
+      "category": "event",
+      "text": "从目前掌握的情报能知道的是……",
+      "text_original": "今の情報で分かることは……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_cluesearch_1.ogg"
+    },
+    {
+      "description": "ch0173_cluesearch_2",
+      "category": "event",
+      "text": "啊！别乱碰啊！我正整理得好好的！",
+      "text_original": "あっ！触らないでよ！ちゃんと並び替えてるんだから！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_cluesearch_2.ogg"
+    },
+    {
+      "description": "ch0173_cluesearch_completion_1",
+      "category": "event",
+      "text": "好了！证明完毕！",
+      "text_original": "よし！証明完了よ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_cluesearch_completion_1.ogg"
+    },
+    {
+      "description": "ch0173_cluesearch_find_1",
+      "category": "event",
+      "text": "这份资料，好像在哪见到过……",
+      "text_original": "この資料、どこかで見たことあるような……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_cluesearch_find_1.ogg"
+    },
+    {
+      "description": "ch0173_cluesearch_login_1",
+      "category": "event",
+      "text": "怎么办呢……啊，老师！你来得正好！我在整理收集到的线索，能帮下忙吗？",
+      "text_original": "どうしよう……。あ、先生！いいところに来たじゃない！集めた手がかりをまとめてるんだけど、ちょっと手伝ってくれない？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_cluesearch_login_1.ogg"
+    },
+    {
+      "description": "ch0173_cluesearch_login_2",
+      "category": "event",
+      "text": "你来啦，老师。我们开始推理吧！",
+      "text_original": "来たわね、先生。推理をはじめていくわよ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_cluesearch_login_2.ogg"
+    },
+    {
+      "description": "ch0173_cluesearch_registration_1",
+      "category": "event",
+      "text": "好厉害！真是完美的推理！",
+      "text_original": "すごいじゃない！完璧な推理だったわ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_cluesearch_registration_1.ogg"
+    },
+    {
+      "description": "ch0173_commonskill",
+      "category": "battle",
+      "text": "躯干两发……头部一发！",
+      "text_original": "ボディーに2発……ヘッドに1発！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_commonskill.ogg"
+    },
+    {
+      "description": "ch0173_eventlobby_1",
+      "category": "event",
+      "text": "得趁着受害范围扩大之前……要抓紧时间了，老师。",
+      "text_original": "被害が増える前に……急ぐわよ、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_eventlobby_1.ogg"
+    },
+    {
+      "description": "ch0173_eventlobby_2_1",
+      "category": "event",
+      "text": "在任务中吃到的稻荷寿司……简直是极品。",
+      "text_original": "作戦中に食べるいなり寿司……最高。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_eventlobby_2_1.ogg"
+    },
+    {
+      "description": "ch0173_eventlobby_2_2",
+      "category": "event",
+      "text": "当、当然了，没有它我也会好好执行作战任务的！",
+      "text_original": "も、もちろん、それがなくても作戦はちゃんとやるわよ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_eventlobby_2_2.ogg"
+    },
+    {
+      "description": "ch0173_eventlobby_3",
+      "category": "event",
+      "text": "不管是鬼怪还是什么，我都不会让它们肆意妄为！",
+      "text_original": "お化けだろうがなんだろうが、好きにはさせないわ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_eventlobby_3.ogg"
+    },
+    {
+      "description": "ch0173_eventlobby_4",
+      "category": "event",
+      "text": "等下！别突然摸别人的肚子啊！？",
+      "text_original": "ちょっと！急に人のお腹触らないでよ！？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_eventlobby_4.ogg"
+    },
+    {
+      "description": "ch0173_eventlogin_1",
+      "category": "event",
+      "text": "「Lore追踪作战」……终于要开始了呢。",
+      "text_original": "「ロア追跡作戦」……いよいよね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_eventlogin_1.ogg"
+    },
+    {
+      "description": "ch0173_eventlogin_2",
+      "category": "event",
+      "text": "我要全力以赴——绝不能给SRT的名号抹黑！",
+      "text_original": "全力で行くわ――SRTの名に泥を塗れないもの！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_eventlogin_2.ogg"
+    },
+    {
+      "description": "ch0173_exskill_1",
+      "category": "battle",
+      "text": "看这边——来，茄子！",
+      "text_original": "こっちを見なさい――はいっ、チーズ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_exskill_1.ogg"
+    },
+    {
+      "description": "ch0173_exskill_2",
+      "category": "battle",
+      "text": "来，笑一个笑一个。",
+      "text_original": "ほら、笑顔笑顔。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_exskill_2.ogg"
+    },
+    {
+      "description": "ch0173_exskill_3",
+      "category": "battle",
+      "text": "Foxtrot！",
+      "text_original": "フォックストロット！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_exskill_3.ogg"
+    },
+    {
+      "description": "ch0173_exskill_level_1",
+      "category": "battle",
+      "text": "闪光盾，开始充能！",
+      "text_original": "フラッシュシールド、チャージ開始！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0173_exskill_level_2",
+      "category": "battle",
+      "text": "放马过来，我会全部挡下！",
+      "text_original": "来なさい、受け止めてあげる！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0173_exskill_level_3",
+      "category": "battle",
+      "text": "这下够扎眼了吧？",
+      "text_original": "ピリっとしたんじゃない？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0173_exweapon_get",
+      "category": "growup",
+      "text": "FOX-45式冲锋枪，收到。要是火力能再强劲点就好了……不过算了，我的职责是小队的尖兵。重在防守，而不是击破。",
+      "text_original": "FOX-45式サブマシンガン、受け取ったわ。もうちょっと火力が高い方が嬉しいけど……。まあいっか。私の役割は小隊のポイントマン。守りであって、撃破じゃないし。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0173_formation_in_1",
+      "category": "formation",
+      "text": "FOX3，准备完毕。",
+      "text_original": "FOX3、準備完了しているわ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0173_formation_in_2",
+      "category": "formation",
+      "text": "该我出场了！",
+      "text_original": "私の出番ね！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0173_formation_select",
+      "category": "formation",
+      "text": "呵呵，这个盾牌啊……等、等下！快还给我！",
+      "text_original": "ふふ、この盾はね……って、ちょっと！返しなさいよ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_formation_select.ogg"
+    },
+    {
+      "description": "ch0173_gachaget",
+      "category": "growup",
+      "text": "我是来自SRT特殊学院、FOX小队的尖兵，高仓胡桃。老师护卫就交给我吧。我会全力守护你的。就是这样，请多关照啦。",
+      "text_original": "SRT特殊学園、FOX小隊のポイントマン、高倉クルミよ。先生の護衛は私に任せて。全力で守るわ。そういうことだから、よろしくね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_gachaget.ogg"
+    },
+    {
+      "description": "ch0173_growup_1",
+      "category": "growup",
+      "text": "总觉得有自己在切实成长的感觉呢。照这个势头下去，很快我就能有完美身材了！",
+      "text_original": "なんだか着実に成長している実感があるわ。このままいけば、すぐにナイスバディになれるかも。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_growup_1.ogg"
+    },
+    {
+      "description": "ch0173_growup_2",
+      "category": "growup",
+      "text": "是场不错的训练呢！",
+      "text_original": "良い訓練だったわ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_growup_2.ogg"
+    },
+    {
+      "description": "ch0173_growup_3",
+      "category": "growup",
+      "text": "感觉视野开阔了不少呢。这或许也是多亏了老师吧。",
+      "text_original": "視野が広くなったような気がするわ。これも先生のおかげなのかもね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_growup_3.ogg"
+    },
+    {
+      "description": "ch0173_growup_4",
+      "category": "growup",
+      "text": "（身体变迟钝了……得尽快找回状态才行）",
+      "text_original": "（身体が鈍ってる……早く取り戻さないと）",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_growup_4.ogg"
+    },
+    {
+      "description": "ch0173_lobby_1",
+      "category": "lobby",
+      "text": "呵呵，可以再多依赖我一点哦？我可是SRT的精英，什么都能搞定的！",
+      "text_original": "ふふっ、もっと私に頼っていいのよ？SRTのエリートだもの、なんでもこなしてみせるわ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_lobby_1.ogg"
+    },
+    {
+      "description": "ch0173_lobby_2_1",
+      "category": "lobby",
+      "text": "嗯…………诶！？没、没什么呀！",
+      "text_original": "うーん………。えっ！？な、何でもないわ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_lobby_2_1.ogg"
+    },
+    {
+      "description": "ch0173_lobby_2_2",
+      "category": "lobby",
+      "text": "不是，也没有什么特别的事……那个……我只是在想，专心工作的大人真不错啊。",
+      "text_original": "いや、特になにかあったわけじゃなくて……。その……仕事に集中している大人っていいなぁって思っただけよ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_lobby_2_2.ogg"
+    },
+    {
+      "description": "ch0173_lobby_2_3",
+      "category": "lobby",
+      "text": "……喂！这有什么好笑的！？",
+      "text_original": "……ちょっと！そこ笑うとこ！？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_lobby_2_3.ogg"
+    },
+    {
+      "description": "ch0173_lobby_3",
+      "category": "lobby",
+      "text": "……天气真不错啊。待会儿去看看后辈们吧。",
+      "text_original": "……いい天気。後で後輩たちの顔でも見に行こうかしら。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_lobby_3.ogg"
+    },
+    {
+      "description": "ch0173_lobby_4_1",
+      "category": "lobby",
+      "text": "FOX4……音葵一集中精神就注意不到周围状况了。就算附近发生爆炸也注意不到。",
+      "text_original": "FOX4……オトギって、一度集中すると周りが見えなくなるのよね。近くで爆発が起きても気づかないくらい。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_lobby_4_1.ogg"
+    },
+    {
+      "description": "ch0173_lobby_4_2",
+      "category": "lobby",
+      "text": "……不过，情况不妙的时候我会出手的，所以也没啥。",
+      "text_original": "……まあ、ヤバそうな時は私がいくからいいんだけど。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_lobby_4_2.ogg"
+    },
+    {
+      "description": "ch0173_lobby_5_1",
+      "category": "lobby",
+      "text": "夏莱……联邦学生会的人也回来这吗……？",
+      "text_original": "シャーレって……連邦生徒会が来ることもあるの……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_lobby_5_1.ogg"
+    },
+    {
+      "description": "ch0173_lobby_5_2",
+      "category": "lobby",
+      "text": "这、这样啊……不，没什么。只是以前袭击的时候和她们交战过，所以有点尴尬而已。",
+      "text_original": "そ、そう……。いや、別に。以前襲撃した時に戦ったから、ちょっと気まずいだけよ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_lobby_5_2.ogg"
+    },
+    {
+      "description": "ch0173_login_1",
+      "category": "lobby",
+      "text": "哎呀，欢迎回来老师。看起来心情不错呢。发生什么了？",
+      "text_original": "あら、おかえり先生。なんか機嫌いいわね。どうしたの？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_login_1.ogg"
+    },
+    {
+      "description": "ch0173_login_2",
+      "category": "lobby",
+      "text": "等你好久了，老师。那么，今天要执行什么作战？",
+      "text_original": "待っていたわ、先生。それで、今日はどの作戦をすればいいの？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_login_2.ogg"
+    },
+    {
+      "description": "ch0173_memoriallobby_0_1",
+      "category": "lobby",
+      "text": "<开始拍摄。>",
+      "text_original": "<撮影を行います。>",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_memoriallobby_0_1.ogg"
+    },
+    {
+      "description": "ch0173_memoriallobby_0_2",
+      "category": "lobby",
+      "text": "<三、二、一。>",
+      "text_original": "<さん、に、いち。>",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_memoriallobby_0_2.ogg"
+    },
+    {
+      "description": "ch0173_memoriallobby_0_3",
+      "category": "lobby",
+      "text": "诶、诶！",
+      "text_original": "えっ、えい！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_memoriallobby_0_3.ogg"
+    },
+    {
+      "description": "ch0173_memoriallobby_1",
+      "category": "lobby",
+      "text": "啊！干、干什么啊老师，你什么时候来的？",
+      "text_original": "なっ！な、なによ先生、いつからいたの？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_memoriallobby_1.ogg"
+    },
+    {
+      "description": "ch0173_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "才、才没有紧张什么的！",
+      "text_original": "べ、別に緊張なんてしてないわ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0173_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "只是……时机有点难把握……",
+      "text_original": "ただ……ちょっとタイミングが難しくて……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0173_memoriallobby_3",
+      "category": "lobby",
+      "text": "茄、茄子！",
+      "text_original": "に、にっ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_memoriallobby_3.ogg"
+    },
+    {
+      "description": "ch0173_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "呜……又把眼睛闭上了……",
+      "text_original": "うっ……また目瞑っちゃった……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "ch0173_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "一听到倒数，总会不自觉地紧张起来……",
+      "text_original": "数字を数えられると、なんか緊張しちゃうのよね……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "ch0173_memoriallobby_5",
+      "category": "lobby",
+      "text": "啊，不对！我才没有紧张！只是、会不小心把眼睛闭上而已——",
+      "text_original": "あ、いや！緊張してるわけじゃないのよ！ただ、目を瞑っちゃうだけで――",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_memoriallobby_5.ogg"
+    },
+    {
+      "description": "ch0173_memoriallobby_6_1",
+      "category": "lobby",
+      "text": "来了！",
+      "text_original": "来た！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_memoriallobby_6_1.ogg"
+    },
+    {
+      "description": "ch0173_memoriallobby_6_2",
+      "category": "lobby",
+      "text": "茄、茄子！",
+      "text_original": "に、にっ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_memoriallobby_6_2.ogg"
+    },
+    {
+      "description": "ch0173_memoriallobby_7",
+      "category": "lobby",
+      "text": "真是的！又闭上了……到底是为什么啊——！",
+      "text_original": "もう！また閉じちゃった……なんでなのよー！　",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_memoriallobby_7.ogg"
+    },
+    {
+      "description": "ch0173_relationship_up_1",
+      "category": "growup",
+      "text": "等、等下……你知道安全距离吗！？靠太近了！Danger Close哦！？",
+      "text_original": "ちょ、ちょっと……適正距離って分かる！？近すぎ！Danger Closeよ！？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0173_relationship_up_2",
+      "category": "growup",
+      "text": "这、这也是训练的一环！别、别误会啊！",
+      "text_original": "こ、これも訓練の一環、なんだから。か、勘違いしないでよね！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0173_relationship_up_3",
+      "category": "growup",
+      "text": "你需要什么东西吗？我能准备哦……诶，真的没有吗？",
+      "text_original": "何か必要なものはある？用意するわよ……って、本当にないの？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0173_relationship_up_4",
+      "category": "growup",
+      "text": "老师意外的可靠呢。真是个奇怪的大人。呵呵。",
+      "text_original": "意外と先生って頼りがいがあるのよね。本当、変な大人。ふふっ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0173_season_birthday_1",
+      "category": "lobby",
+      "text": "我的生日……？诶！你、你怎么知道的？",
+      "text_original": "私の誕生日……？えっ！な、なんで知ってるの？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_season_birthday_1.ogg"
+    },
+    {
+      "description": "ch0173_season_birthday_2",
+      "category": "lobby",
+      "text": "以前听别人说过……？这、这样啊……",
+      "text_original": "前に聞いたことがある……？そ、そう……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_season_birthday_2.ogg"
+    },
+    {
+      "description": "ch0173_season_birthday_3",
+      "category": "lobby",
+      "text": "你记性真好啊！谢、谢谢你！",
+      "text_original": "記憶力が良いのね！あ、ありがとう！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_season_birthday_3.ogg"
+    },
+    {
+      "description": "ch0173_season_birthday_player_1",
+      "category": "lobby",
+      "text": "生日快乐，老师。",
+      "text_original": "お誕生日おめでとう、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "ch0173_season_birthday_player_2",
+      "category": "lobby",
+      "text": "那个……我今天，没有准备，礼物…………老师要不要……来摸摸我的耳朵？",
+      "text_original": "その……今日、プレゼント、用意してなくて……。……私の耳……触ってみる？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "ch0173_season_halloween_1",
+      "category": "lobby",
+      "text": "大家是不是兴奋过头了？这种节日里，犯罪率会增加的，必须得小心才行。",
+      "text_original": "みんな浮かれすぎじゃない？こういうお祭りの日って、犯罪が増えるから気をつけなきゃいけないのに。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_season_halloween_1.ogg"
+    },
+    {
+      "description": "ch0173_season_halloween_2",
+      "category": "lobby",
+      "text": "诶？嘴边……？真是的！我只是试吃了下南瓜汤而已！",
+      "text_original": "え？口元……？もう！かぼちゃスープの試食をさせてもらっただけ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_season_halloween_2.ogg"
+    },
+    {
+      "description": "ch0173_season_newyear",
+      "category": "lobby",
+      "text": "新年快乐。之后我要和小队的大家一起打羽毛毽子……方便的话老师也来吧？",
+      "text_original": "あけましておめでとう。この後、小隊のみんなと羽つきで勝負するんだけど……よかったら先生も来ない？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_season_newyear.ogg"
+    },
+    {
+      "description": "ch0173_season_xmas_1",
+      "category": "lobby",
+      "text": "我很喜欢圣诞季哦。整条街都闪闪发光的……",
+      "text_original": "クリスマスシーズンって好きなのよね。街中がキラキラしてて……",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_season_xmas_1.ogg"
+    },
+    {
+      "description": "ch0173_season_xmas_2",
+      "category": "lobby",
+      "text": "要是没有训练的话就更好了。",
+      "text_original": "訓練がなければもっと良かったんだけど。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_season_xmas_2.ogg"
+    },
+    {
+      "description": "ch0173_tactic_defeat_1",
+      "category": "battle",
+      "text": "唔……我才没有……不甘心呢……",
+      "text_original": "ぐっ…別に、悔しくなんか…ないし…",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "ch0173_tactic_defeat_2",
+      "category": "battle",
+      "text": "对不起…回去后要开反省会呢。下次，我绝对不会再输了！",
+      "text_original": "ごめんなさい…帰ったら反省会ね。次は、絶対に負けないわ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "ch0173_tactic_in_1",
+      "category": "battle",
+      "text": "FOX3，抵达目标区域。",
+      "text_original": "FOX3、目標エリアに到着したわ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_tactic_in_1.ogg"
+    },
+    {
+      "description": "ch0173_tactic_in_2",
+      "category": "battle",
+      "text": "别担心。我来打头阵！",
+      "text_original": "心配しないで。私が先頭にいるわ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_tactic_in_2.ogg"
+    },
+    {
+      "description": "ch0173_tactic_victory_1",
+      "category": "battle",
+      "text": "呵呵，有看到我大显身手吗？",
+      "text_original": "ふふっ、私の大活躍、見ててくれた？",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_tactic_victory_1.ogg"
+    },
+    {
+      "description": "ch0173_tactic_victory_2",
+      "category": "battle",
+      "text": "呼……今天也很努力了呢！老师也辛苦了！",
+      "text_original": "ふぅ……今日も頑張ったわね！先生もお疲れ様！",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/ch0173_tactic_victory_2.ogg"
+    },
+    {
+      "description": "CH0173_Title",
+      "category": "lobby",
+      "text": "蔚蓝档案。",
+      "text_original": "ブルーアーカイブ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/jp/CH0173_Title.ogg"
+    }
+  ],
+  "voice_cn": [],
+  "voice_kr": [],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_00.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_01.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_02.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_03.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_05.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_06.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_07.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_08.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_09.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_10.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_11.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_12.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_99.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_Idle_01.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0173_spr_04.png"
+      ]
+    },
+    {
+      "title": "无武器差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_00.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_01.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_02.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_04.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_03.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_05.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_06.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_07.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_08.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_09.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_10.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_12.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_99.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_Idle_01.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E6%97%A0%E6%AD%A6%E5%99%A8%E5%B7%AE%E5%88%86/NP0140_spr_11.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%20%E8%83%A1%E6%A1%83/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20072.png",
+        "//static.kivo.wiki/images/students/%20%E8%83%A1%E6%A1%83/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20071.png",
+        "//static.kivo.wiki/images/students/%20%E8%83%A1%E6%A1%83/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_007.png",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/HGj8h-jbIAAjZQb.jpg",
+        "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/dPOwA0mq.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 31,
+      "favorability": 40
+    },
+    {
+      "id": 58,
+      "favorability": 40
+    },
+    {
+      "id": 78,
+      "favorability": 40
+    },
+    {
+      "id": 27,
+      "favorability": 60
+    },
+    {
+      "id": 162,
+      "favorability": 240
+    }
+  ],
+  "furniture": [
+    1930
+  ],
+  "character_datas": [
+    {
+      "character_id": 10140,
+      "dev_name": "CH0173",
+      "combat_style": "default",
+      "type": "Tank",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Light",
+      "is_groupc_control": false,
+      "team_position": "FRONT",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": true,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "D",
+      "street_adaptability": "S",
+      "equipment": [
+        9,
+        10,
+        4
+      ],
+      "cultivate_material": [
+        120,
+        121,
+        123,
+        124,
+        133,
+        135,
+        136,
+        138,
+        419,
+        420,
+        421,
+        422,
+        1028,
+        1029,
+        1030,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/skill_icon/khsmbTNJ0BtT17nfeZnqNWQPlaMK1hZ8.png",
+            "title": "防护盾，展开",
+            "title_cn": "",
+            "preview": "//static.kivo.wiki/videos/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/skill_preview/jioYG6ojcSNeKUU4oXBr7AKyAdEFFmFe.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [
+              {
+                "icon": "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/skill_icon/gRoUCARNxpOmnFKfu5sZP2SAR7lhP7v0.png",
+                "title": "铁壁防御（「战术防御状态」时）",
+                "title_cn": "",
+                "preview": "",
+                "max_level": 1,
+                "link_student_id": 0,
+                "is_passive_skill": true,
+                "derived_skills": [],
+                "info": [
+                  {
+                    "cost": 0,
+                    "describe": "处于「战术防御状态」的胡桃不会普通攻击，<br> 护盾受到伤害时恢复治疗力21.2%的「战术护盾」（最多30回）<br> 「战术防御状态」解除时，对1名敌人施加晕厥状态（持续2秒）"
+                  },
+                  {
+                    "cost": 1,
+                    "describe": "处于「战术防御状态」的胡桃不会普通攻击，<br> 护盾受到伤害时恢复治疗力24.4%的「战术护盾」（最多30回）<br> 「战术防御状态」解除时，对1名敌人施加晕厥状态（持续2秒）"
+                  },
+                  {
+                    "cost": 1,
+                    "describe": "处于「战术防御状态」的胡桃不会普通攻击，<br> 护盾受到伤害时恢复治疗力27.6%的「战术护盾」（最多30回）<br> 「战术防御状态」解除时，对1名敌人施加晕厥状态（持续2.6秒）"
+                  },
+                  {
+                    "cost": 1,
+                    "describe": " 处于「战术防御状态」的胡桃不会普通攻击，<br> 护盾受到伤害时恢复治疗力30.8%的「战术护盾」（最多30回）<br> 「战术防御状态」解除时，对1名敌人施加晕厥状态（持续2.6秒） "
+                  },
+                  {
+                    "cost": 1,
+                    "describe": "处于「战术防御状态」的胡桃不会普通攻击，<br> 护盾受到伤害时恢复治疗力34%的「战术护盾」（最多30回）<br> 「战术防御状态」解除时，对1名敌人施加晕厥状态（持续3.1秒）"
+                  }
+                ]
+              }
+            ],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "技能发动后立刻装弹<br> 生成治疗力226%的「战术护盾」（持续10秒）<br> 「战术护盾」持续时间内，转变为「战术防御状态」<br> （「战术护盾」效果结束时，恢复护盾剩余量50%的生命值。<br> 「战术护盾」持续时间内获得其他护盾效果时，<br> 改为恢复自身治疗力100%的「战术护盾」）"
+              },
+              {
+                "cost": 3,
+                "describe": "技能发动后立刻装弹<br> 生成治疗力260%的「战术护盾」（持续10秒）<br> 「战术护盾」持续时间内，转变为「战术防御状态」<br> （「战术护盾」效果结束时，恢复护盾剩余量50%的生命值。<br> 「战术护盾」持续时间内获得其他护盾效果时，<br> 改为恢复自身治疗力100%的「战术护盾」"
+              },
+              {
+                "cost": 3,
+                "describe": "技能发动后立刻装弹<br> 生成治疗力328%的「战术护盾」（持续10秒）<br> 「战术护盾」持续时间内，转变为「战术防御状态」<br> （「战术护盾」效果结束时，恢复护盾剩余量50%的生命值。<br> 「战术护盾」持续时间内获得其他护盾效果时，<br> 改为恢复自身治疗力100%的「战术护盾」）"
+              },
+              {
+                "cost": 3,
+                "describe": "技能发动后立刻装弹<br> 生成治疗力362%的「战术护盾」（持续10秒）<br> 「战术护盾」持续时间内，转变为「战术防御状态」<br> （「战术护盾」效果结束时，恢复护盾剩余量50%的生命值。<br> 「战术护盾」持续时间内获得其他护盾效果时，<br> 改为恢复自身治疗力100%的「战术护盾」）"
+              },
+              {
+                "cost": 3,
+                "describe": "技能发动后立刻装弹<br> 生成治疗力430%的「战术护盾」（持续10秒）<br> 「战术护盾」持续时间内，转变为「战术防御状态」<br> （「战术护盾」效果结束时，恢复护盾剩余量50%的生命值。<br> 「战术护盾」持续时间内获得其他护盾效果时，<br> 改为恢复自身治疗力100%的「战术护盾」）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/skill_icon/RHkEjDidwBtB2zTXxCG9nxe8jgHLU3db.png",
+            "title": "攻势转换",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 0,
+                "describe": "「战术防御状态」解除时，使1名敌人的暴击伤害抵抗率减少15.1%（持续32秒）<br> 造成攻击力211%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "「战术防御状态」解除时，使1名敌人的暴击伤害抵抗率减少15.8%（持续32秒）<br> 造成攻击力222%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "「战术防御状态」解除时，使1名敌人的暴击伤害抵抗率减少16.6%（持续32秒）<br> 造成攻击力232%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "「战术防御状态」解除时，使1名敌人的暴击伤害抵抗率减少19.6%（持续32秒）<br> 造成攻击力274%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "「战术防御状态」解除时，使1名敌人的暴击伤害抵抗率减少20.3%（持续32秒）<br> 造成攻击力285%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "「战术防御状态」解除时，使1名敌人的暴击伤害抵抗率减少21.1%（持续32秒）<br> 造成攻击力295%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "「战术防御状态」解除时，使1名敌人的暴击伤害抵抗率减少24.1%（持续32秒）<br> 造成攻击力338%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "「战术防御状态」解除时，使1名敌人的暴击伤害抵抗率减少24.9%（持续32秒）<br> 造成攻击力348%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "「战术防御状态」解除时，使1名敌人的暴击伤害抵抗率减少25.6%（持续32秒）<br> 造成攻击力359%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "「战术防御状态」解除时，使1名敌人的暴击伤害抵抗率减少28.6%（持续32秒）<br> 造成攻击力401%的伤害"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/skill_icon/sHg1IUdEYSlmiFtje572LH421gwWqrNI.png",
+            "title": "陶瓷装甲板",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 0,
+                "describe": "防御力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": " 防御力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": " 防御力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/skill_icon/M7PqjPkbROsIocDwwesuoudRR5ewjEYv.png",
+            "title": "铁撑底座",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 0,
+                "describe": " COST恢复力增加96，在「战术护盾」持续时间内额外增加450<br> 当「战术护盾」持续5秒后，<br> 该「战术护盾」结束时，STRIKER（突击）的我方攻击力增加20%（持续35秒）"
+              },
+              {
+                "cost": 1,
+                "describe": " COST恢复力增加101，在「战术护盾」持续时间内额外增加472<br> 当「战术护盾」持续5秒后，<br> 该「战术护盾」结束时，STRIKER（突击）的我方攻击力增加20.5%（持续35秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加106，在「战术护盾」持续时间内额外增加495<br> 当「战术护盾」持续5秒后，<br> 该「战术护盾」结束时，STRIKER（突击）的我方攻击力增加21%（持续35秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加125，在「战术护盾」持续时间内额外增加585<br> 当「战术护盾」持续5秒后，<br> 该「战术护盾」结束时，STRIKER（突击）的我方攻击力增加25%（持续35秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加130，在「战术护盾」持续时间内额外增加607<br> 当「战术护盾」持续5秒后，<br> 该「战术护盾」结束时，STRIKER（突击）的我方攻击力增加25.6%（持续35秒）"
+              },
+              {
+                "cost": 1,
+                "describe": " COST恢复力增加135，在「战术护盾」持续时间内额外增加629<br> 当「战术护盾」持续5秒后，<br> 该「战术护盾」结束时，STRIKER（突击）的我方攻击力增加26.1%（持续35秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加154，在「战术护盾」持续时间内额外增加719<br> 当「战术护盾」持续5秒后，<br> 该「战术护盾」结束时，STRIKER（突击）的我方攻击力增加28.1%（持续35秒）"
+              },
+              {
+                "cost": 1,
+                "describe": " COST恢复力增加159，在「战术护盾」持续时间内额外增加742<br> 当「战术护盾」持续5秒后，<br> 该「战术护盾」结束时，STRIKER（突击）的我方攻击力增加29.1%（持续35秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加164，在「战术护盾」持续时间内额外增加764<br> 当「战术护盾」持续5秒后，<br> 该「战术护盾」结束时，STRIKER（突击）的我方攻击力增加29.6%（持续35秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加183，在「战术护盾」持续时间内额外增加854<br> 当「战术护盾」持续5秒后，<br> 该「战术护盾」结束时，STRIKER（突击）的我方攻击力增加33.6%（持续35秒）"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 3188,
+          "attack": 265,
+          "defense": 170,
+          "healing": 1383,
+          "accuracy": 105,
+          "evasion": 227,
+          "crit": 210,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1328,
+          "range": 350,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 25
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/Weapon_Icon_CH0173.png",
+        "name": "FOX-45式冲锋枪",
+        "name_cn": "",
+        "description": "SRT特殊学院配发的制式冲锋枪。<br>重量轻且稳定性高，可与盾牌配合使用。与其他冲锋枪相比消音效果更佳，更适合在暗处解决敌人。",
+        "description_cn": "",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「陶瓷装甲板」变为「陶瓷装甲板+」"
+          },
+          {
+            "title": "固有武器最大等級 Lv.40 → Lv.50 / 地形适应性强化 街道地形适应性 S→SS",
+            "description": "在街道地形造成1.3倍伤害，处于掩体掩护状态时掩护成功率增加75%，攻击时无视掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 爆发克制伤害增加",
+            "description": "攻击类型为爆发的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%AB%98%E4%BB%93%20%E8%83%A1%E6%A1%83/original/skill_icon/Ui2jLMiCrNEWlakid5lPbC6HVYxPWAL2.png",
+            "title": "陶瓷装甲板+",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 0,
+                "describe": "生命值增加4554<br> 防御力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值增加4782<br> 防御力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值增加5009<br> 防御力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值增加5920<br> 防御力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值增加6148<br> 防御力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值增加6376<br> 防御力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值增加7286<br> 防御力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值增加7514<br> 防御力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值增加7742<br> 防御力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值增加8652<br> 防御力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "72358cf9-1f02-4538-bb84-23426a414e9e",
+  "skill_declare_uuid": "e4da0a25-faf8-4c59-b962-2f15cb13ba53",
+  "supplementary_uuid": "d6ce3a3d-9e17-42fa-bc5a-19281de41f7a",
+  "supplementary_declare_uuid": "4e5fb947-df66-4fc6-85bd-485af0e29458",
+  "created_at": 1684831118,
+  "updated_at": 1783661010
+}

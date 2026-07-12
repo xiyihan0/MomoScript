@@ -1,0 +1,3115 @@
+{
+  "id": 182,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 182,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 343,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E9%9C%B2%E8%90%A5/Student_Portrait_CH0235_Collection.png",
+      "skin": "露营",
+      "skin_cn": "露营"
+    },
+    {
+      "id": 509,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/%E7%9D%A1%E8%A1%A3/maki.png",
+      "skin": "睡衣",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "小涂",
+  "given_name": "真纪",
+  "family_name_jp": "小塗",
+  "given_name_jp": "マキ",
+  "family_name_kr": "코누리",
+  "given_name_kr": "마키",
+  "family_name_en": "Konuri",
+  "given_name_en": "Maki",
+  "family_name_zh_tw": "小塗",
+  "given_name_zh_tw": "真紀",
+  "family_name_cn": "小涂",
+  "given_name_cn": "真纪",
+  "nick_name": "彩弹,真纪老祖,大蛇克星",
+  "introduction": "千禧科学学院所属，黑客社团「真理部」的成员。\n\n是个喜欢街头涂鸦的调皮少女，真理部的徽章也是她的作品。\n\n基本上是乐天派且随心所欲的类型，因此和其他社团间经常发生问题。\n\n>我体内的艺术魂正在呼喊！",
+  "introduction_cn": "千禧年科技的黑客组织——真理社的成员。\n一个喜欢涂鸦的淘气少女，真理社的徽章也是她的作品之一。\n因为对任何事都持以不认真、不重视的态度，所以经常和别的社团起冲突。\n\n>哟，老师！\n要不要一块儿去涂鸦～？",
+  "momo_talk_signature": "涂鸦太有趣了！",
+  "main_relation": 36,
+  "relation": null,
+  "age": 15,
+  "grade": "一年生",
+  "height": 149,
+  "birthday": "08-01",
+  "hobby": "画图、玩游戏",
+  "designer": "9ml",
+  "illustrator": "9ml",
+  "character_voice": "三上枝织",
+  "character_voice_cn": "金娜",
+  "release_date": "2021-02-04",
+  "release_date_cn": "2023-08-03",
+  "release_date_global": "2021-11-09",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/avatar.png",
+  "school": 4,
+  "weapon_type": "MG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": false,
+  "more": "!!! hint\n本页面出现的角色及其组织译名以本站为准，剧情中文文本部分参考自B站威威字幕君剧情翻译视频。\n!!!\n\n小涂<font color=d85250>真纪</font>是千禧科学学院知名黑客社团「真理部」中最为年幼的一年生部员，街头艺术家。\n游戏的开服3星稀有度角色之一，拥有自己的PickUp卡池。\n# 目录\n[[toc]]\n\n# 一、外在形象\n::: center\n![脑袋](files/153/TLogLY1iavP99inEgUujwS1zaW45RX85.png =450x)\n:::\n\n丸子头。\n其实头发很长，但是扎成了两个超圆的丸子头。如果全放下来的话是能到腰间的。\n据本人所说因为扎起来很麻烦所以在休息日里不会扎丸子头。\n把头发扎成丸子头大概是为了避免在进行街头涂鸦时长发可能带来的负面影响，也有可能是为了避免让头发沾上喷漆。\n\n::: center\n![睡衣长发](files/153/0mQukxpTydmu6ajCES72hrSYbyPIiiLv.png =450x)\n:::\n\n两颗头发丸子都留了一小绺头发没有扎起来，呆毛和正面的头发都显得有些杂乱，脸的左右两边也都各自留了一绺头发。这样的发型也许是她不拘一格的性格体现，也有可能是她对时尚与艺术的理解的一环。亮红色的发色与蓝色的瞳色的对比和天不怕地不怕的笑容也都一同衬托着真纪那充满活力的性格。\n\n::: center\n![maki_spr_Idle_01.png](files/153/JNkS9q0hIxfii3nmQzQgmWu50F6LPET1.png =450x)\n:::\n\n真纪的初始立绘里一共穿了3层上衣，最里面的一层是标准的千禧学生制服上衣：白色衬衫加蓝色领带，不过她并没有系上最上面的扣子，而领带也是一半露在外面一半塞在外面一层衣服的底下。衬衣的两边底部各有一个黑色三角形。\n\n中间一层是有可能也属于校服范畴内的黑色的无袖背心，因为这件背心在角色模型和设定集中的各种初期设定中都带有千禧的校徽。\n\n::: center\n![EnemyInfo_Maki_MG.png](files/153/2vUIQ1GABGB9OGmNsMx0Y5xHTSbTGX5x.png)\n\n![artwork_2.png](files/153/gshNEJqrJ2ZYmsd6GuOvBY2WqKAH9FYQ.png =450x)\n:::\n\n但是在PV3的画面和「On your mark ＠ millennium ～キヴォトス晄輪大祭～」活动剧情中的一张SD图像中，这件衣服的正面却是不带有任何图案的。也许是因为游戏开发早期团队内部的流程管理不够成熟，也有可能是真纪既有带校徽的款式也有不带校徽的款式。\n\n::: center\n![PV3rd090.png](files/153/sPvFUN4HQDLm8HOZ0qrqT5WRwK25JrKx.png =450x)\n\n![Popup88.png](files/153/2TkE8etBLgC17mNRX4YAT3eNrec7TdFb.png =x300)\n\n:::\n\n最外层则是明显不属于校服范围内的，完全由真纪自己选择的一件以黑白对比色为主色调的短夹克。袖子部分格外肥大，左肩处别有红色的“Veritas”徽章，学生证作为衣服挂件的一部分被挂在了其下的一处拉链上，在左右两处的口袋拉链处有着红色的包边带，长短不一。左边口袋下方还别有一对笑脸和生气表情的徽章。在衣服上以及学生证上还遍布着大小颜色不一的颜料痕迹。\n\n::: center\n![maki_spr_skirt.png](files/153/TxfF8ualljoBL7UeRzMzDp7SlpxpsH6N.png  =450x)\n:::\n\n裙子部分则是普通的在下方配有一道黑条的白色褶裙。\n\n::: center\n![maki_spr_shoes.png](files/153/A3UKooyFMluN0UR8piqSWWo655hqKhzr.png =450x)\n:::\n\n真纪穿的是一双黑色中筒袜和<span class=\"md-hover-text\">适合躲避追捕的</span>跑鞋，配色上与她的夹克大体相同，鞋舌部分印有三条杠和难以辨认的一行字。\n\n根据真纪纪念大厅里出现的其中一罐自喷漆上的图案来看，这双鞋子和这一喷漆罐出自同一品牌：CODE VIENNA。这个品牌名应该也是鞋舌上所印的字。\n\n::: center\n![maki_spr_halo.png](files/153/p8HbQ4tJ1I1amV5NctXI7rHZvvUbOJNY.png)\n\n![artwork_0_halo.png](files/153/pNo9oON4iGNIqr2jl7FL4PsyXxc3QS1c.png =450x)\n\n:::\n\n真纪的光环有3组圆心各自位于一个正三角形的三个角处的完全相同的同心圆组，同心圆组之间由三分之一圆形相连。中央部分是一个锥尖红色其余部分黑色的倒立四棱锥（即金字塔），红色部分的高度基本与圆形部分平齐。这一倒金字塔平常会上下浮动，但高度不会低于圆形部分。\n\n# 二、人物塑造\n真纪是真理部中唯一一名一年生，也是唯一一名纯种阳角，与究极家里蹲的另外2名高学年部员形成了鲜明对比。虽说在网络方面有着超过绝大部分普通学生的经验，但与部长千寻、晴和小玉的能力比的话，可能还是存在一些不足的。\n\n## 真理部外勤人员\n作为真理部部员三人组之中的唯一指定外勤人员，不管是购入妖怪MAX还是实际需要前往前线的战斗，真理部里打头阵的永远是真纪。\n\n参考游戏内真理部各个学生初始角色的战斗类型的话，真纪也是唯一一位属于“Striker”的学生。\n\n## 室内派\n不如说真理部的3个部员里有一个不是室内派的吗？\n\n真纪在不需要进行艺术创作或者没有感兴趣的户外活动时，室内派属性还是和两位前辈部员并无二致的。她们这样的生活习惯非常容易用几个字来简单概括：熬夜游戏吃零食。\n>千寻（真理部）\n>*各位，记得把除夕的行程给空出来。*\n>\n>真纪（真理部）\n>*诶？那天我已经跟别人约好要通宵狩猎了哦？*\n>——「（~~电脑~~）新春进行曲」序章\n\n>真纪（真理部）\n>*啊——不过，我们几个平时就是在通宵吃零食打游戏，\n>好像没什么区别......*\n>——「秘密的午夜派对」第2节\n\n## 熬夜冠军\n如果说要问人们对年轻技术宅的生活方式有什么刻板印象，那昼夜颠倒绝对排得上号。\n\n而真纪对于“合理的就寝时间”的认识貌似也深受这种生活习惯影响，认为12点之前睡觉是很罕见的一件事情。当然，也有可能是因为对同属于真理部一员的千寻的生活习惯和自己并不一致而感到惊讶。\n\n>*“千寻前辈，是怎么做到一大早就能起床的？\n>难不成......她12点之前就睡觉了！？”*\n>——真纪（露营）大厅对话语音\n\n## 喜欢恶作剧\n恶作剧领域大神。在她的角色剧情以及出场的大量活动剧情中都能见到她用黑入、涂鸦等各种手段施展才华，同时为他人带来一定困扰。\n>真纪（真理部）\n>*啊哈哈！真是一脸困扰的样子啊。\n>果然「BOOM」最棒了！*\n>——真纪个人剧情 2\n\n## 超级阳角\n语速较快、感情丰富、思考方式积极，不会过度担忧自己行为的后果......真纪身上有着很多这样显著的阳角特征。在其他2位部员前辈的社交力稍显不足的场合中，真纪的性格是非常合适的社交催化剂。\n\n## 时尚感绝佳\n真纪同样是真理部里最具了解时尚与艺术的一位，不管是自己的机枪的涂装和回忆大厅中的涂鸦，还是由她创作的真理部的部徽，全都是她持有这一特长的最佳证据。\n\n## 艺术之魂\n强烈的创作欲望让真纪经常不分场合不顾后果地进行艺术创作。毕竟灵感来了就要抓住，不然很容易让它白白溜走。不过这样的后果也很明显：容易被拉去进行教育指导。\n>警察\n>*这个孩子啊，未经允许闯入了别人的私有区域......\n>然后还画了画！*\n>——真纪个人剧情 1\n\n除此之外，虽有游戏运营初期常见的角色塑造用力过猛之嫌，但真纪的语音确实很多都是与涂鸦相关的内容。\n>“这面墙，再加上我的画，应该会更好看！”\n>——真纪 咖啡厅语音\n\n>”这个涂鸦是不是很酷？我亲手画的！“\n>——真纪 大厅对话语音\n\n## 绘画技能\n真纪掌握的的绘画类技能多种多样，并不仅仅局限在街头涂鸦上。\n\n根据PV3前半的叙事内容CG来看，她还会用数位屏进行板绘创作。至于设备是从绿那里借来的还是自己就有一台就不得而知了。\n\n在「（~~电脑~~）新春进行曲」中，她还在野外用碳粉和粘土现场制作了原始一些的颜料，并用这些颜料绘制了足以以假乱真的仿制壁画。\n\n而真纪还负责了千禧博览会的海报制作，这些全都足以说明真纪拥有着十足的美术天分。\n\n## 心灵手巧\n不管是平常的丸子头还是露营时的麻花辫，真纪的发型全都是自己扎的。\n\n>*“你说这对麻花辫？嗯，是我自己扎的。\n>因为团子头扎起来有点费时间所以休息日里不想弄啊......”*\n>——真纪（露营）大厅对话语音\n\n麻花辫还好说，但是真纪的双丸子头编起来确实是需要花费大量时间才能做成这么圆的样子。在平常的日子里一直都留着这样的发型，真纪的手应该还是很巧的。\n## 假小子\n说得过分一点是缺乏这个年龄的女孩子该有的少女味，积极地说就是假小子属性很强。可以说导致这一情况的原因大概是涂鸦和艺术在真纪心里的地位要远远高于梳妆打扮。\n\n但真纪也并不是对自己的外观毫不在乎。毕竟比起直接把长发剪掉，真纪实际选择了每天花时间把头发扎成丸子头。\n\n# 三、人物经历\n## 主线剧情\n### Vol.2\n#### Chapter 1\n - 协助爱丽丝落户\n 爱丽丝的学籍信息是真理部帮助<span class=\"md-hover-text\">黑入学籍服务器</span>办理的。\n >桃井（游戏开发部）\n >*这个学生证，就是能证明你是我们学校的学生的证明书。已经让真理部帮忙黑......不是，登记到学生名单里面了。爱丽丝已经正式成为我们的伙伴了哦！*\n >——Vol.2.1.6\n \n根据剧情里的表现，真理部当中与游戏开发部最常交流的应该就是真纪。虽然没有直接描写，但是根据这段话以及真理部社团剧情可以推测，这件事是由真纪牵头，3名真理部社员共同完成的。\n\n - 「镜」取回作战\n 真理部原部长（此时仍为部长）的日鞠制作的解密工具「镜」被研讨会没收并保管，而游戏开发部为了破解G.Bible的加密而选择与真理部和工程部联手从研讨会处取回这一设备。\n 为了掩护才羽姐妹，真纪和小鸟伪装成桃井和绿以牵制C&C的茜。\n\n#### Chapter 2\n - 参与营救爱丽丝的作战\n真理部、C&C、工程部以及研讨会共同协助了游戏开发部进入埃利都营救爱丽丝。期间真理部负责在后方为前线作战人员提供分析和支援。\n>歌原（工程部）\n>*从后方潜入的就是剩下的人，游戏开发部和我们......还有老师？*\n>\n>晴（真理部）\n>*我们真理部会提供远程支援。*\n>\n>真纪（真理部）\n>*黑进防御系统就交给我们吧！*\n>\n>小玉（真理部）\n>*会完美地完成给你们看的。*\n>——Vol.2.2.12\n\n### Final.\n#### Chapter 2\n - 参与攻略比纳（色彩）\n在虚妄圣塔攻略战期间，真纪乘坐夏莱的作战指挥车外出前往第一圣塔战斗区域，作为后方支援协助阿比多斯对策委员会和便利屋68进行第一圣塔攻略战。是攻略战期间唯一离开真理部活动室前往前线的真理部成员。\n\n>诺亚（研讨会）\n>*好的，确认完毕。真纪同学，你那边如何？*\n>\n>真纪（真理部）\n>*没问题哦！啊，但是有一点是要注意的。\n>绝对不要碰到比纳的激光哦！\n>据说那是能瞬间让岩石蒸发的超高温激光。*\n>——Final.2.3\n\n::: center\n![手中的喷漆罐在震动](files/153/jhsD0EyAIjSElCy5GB854SmBGkiL82R0.jpg =550x)\n:::\n\n#### Chapter 3\n - 协助接管乌塔那匹兹姆的大船\n真理部对战舰的控制系统进行了分析，接入了其主系统。\n>千寻（真理部）\n>*......代码算法分析完成。\n>小玉，能接入吗？*\n>\n>小玉（真理部）\n>*好的。成功接入中央处理装置。没问题。*\n>\n>真纪（真理部）\n>*副部长真是帮大忙啦~！\n>说真的，还以为要再花不少时间呢。*\n>\n>晴（真理部）\n>*这就是，战舰的主系统......\n>虽然是没见过的语言，但感觉能解析出来。*\n>\n>千寻（真理部）\n>*日鞠，成功接入了。马上把连接码发给你，能帮忙看看吗？*\n>——Final.3.6\n\n#### Chapter 4\n - 黑入阿特拉·哈西斯的方舟\n 对阿特拉·哈西斯的方舟的黑入是由真理部带头负责的。由于阿特拉·哈西斯的方舟整体就是一座巨大的量子计算机，所以实际的武力占领由老师指挥，黑入和自爆程序的构建则由真理部的4位完成。\n \n  - 尝试阻止侵入\n遭到反向侵入后战舰启动了自爆倒计时。千寻及日鞠带领真理部另外3名成员进行反向追踪并尝试解除连接，尽管他们此时尚不清楚自己所面对的入侵者到底是什么。\n>真纪（真理部）\n>*等......等下，这什么啊！？*\n>\n>小玉（真理部）\n>*这，实在是......*\n>\n>晴（真理部）\n>*在，在实时改变着算法......？*\n>\n>千寻（真理部）\n>*我们也，不会输在速度上的......！好了，进行解除吧日鞠！*\n>\n>——Final.4.1\n\n::: center\n![BG_CS_PV4_135.jpg](files/153/ALHYFP8x2510ukOltMhuLfeptfWCaigH.jpg =x550)\n:::\n\n - 解除与方舟的连接\n在对策委员会、游戏开发部及美食研究会解除了方舟各处的安保系统的解除装置后，真理部成功解除了方舟与战舰的连接，阻止了自爆的发生和「多次元诠释」的继续。\n\n## 活动剧情\n### 晄轮大祭系列活动\n - 偷窥研讨会办公室\n 晴无意间看到老师和优香一起进入了研讨会办公室，于是真理部3人组八卦心大起，决定各以各的方式一起窥探办公室内的情况，美名其曰维护真理与探究知识。\n > 真纪（真理部）\n > *......小玉前辈，有没有听见什么？*\n > \n > 小玉（真理部）\n > *正在扫描波段的频率......目前还没有发现特别奇怪的现象。*\n > \n > 真纪（真理部）\n > *嗯——真奇怪啊......晴前辈呢，无人机摄像头有拍到什么吗？*\n > \n > 晴（真理部）\n > *嗯。这边的画面也没有什么变化。\n > 无论怎么看，现在......研讨会的办公室里都空无一人。*\n > \n > （......）\n > \n > 真纪（真理部）\n > *刚才晴前辈去买能量饮料的时候，好像看到了老师和优香前辈一起进入了研讨会的办公室。*\n > \n > 小玉（真理部）\n > *在这么晚的时候，学生和老师竟然偷偷摸摸地幽会......\n > 那两个人一定偷偷做着有趣的......不对，一定是在策划着什么奇怪的事情。*\n > \n > 真纪（真理部）\n > *作为维护真理与探究知识的真理部的一员，可不能视而不见。\n > 就是这样，千寻前辈也来帮忙入侵吧！*\n > ——「On your mark ＠ millennium」第2话\n \n - 获取选手个人信息\n真理部3人组提前想办法“调查”到了大运动会的所有选手的个人信息和三围数据。\n>真纪（真理部）\n>*哼哼哼......我就知道可能会发生这种事，所以事先调查了选手名单。*\n>\n>晴（真理部）\n>*因为能一下子确保其他学校学生名单的机会很少......*\n>\n>小玉（真理部）\n>*各个学园学生们的个人信息和三......个人数据等等......得到了很多很有趣的东西哦。*\n>——「On your mark ＠ millennium」第2话\n\n - 协助大运动会准备工作\n诺亚以个人身份向研讨会官方并不承认为正规社团的真理部提出请求，希望能得到计算机方面的协助。真理部因此承担起了选手信息的整理和网络维护等任务。\n\n\n - 代替晴出场骑马战\n真纪在代替真理部头号死宅晴出场骑马战的期间，\n\n>真纪（真理部）\n>*嗨呀~我只是来代替晴前辈出场的哦？*\n\n为了获胜而钻了运动会规则的漏洞。由于规则中没有写明能否使用电子设备来干扰对手，于是真纪使用了晴的雅典娜3号无人机的全息投影功能，复制了自己队伍的影像来干扰对方。\n>真纪（真理部）\n>*这是投影了我们的骑马队的全息影响哦！\n>我用「雅典娜3号」最新搭载的全息投影功能，生成了假人！*\n>——「Get, Set, Go!」 第8话\n\n不过最后仍然被忍术研究部和千世组成的队伍击败。\n\n::: center\n![战败CG](files/153/Fz7ofAKN1qSh7RVJ8Mo9VOIsJXhDZ1MZ.jpg =550x)\n:::\n\n### （~~电脑~~）新春进行曲\n新年将至，千寻发现3名部员打算在游戏中度过跨年夜，决定带大家露营度过除夕并上山欣赏新年日出，以此让她们了解外界的优点，学会适当的享受自然。\n\n - 试图在露营地假设通信据点\n 在出门前的准备中，真纪把太阳能发电机塞进了行李里，企图和真理部另外2名部员晴和小玉一起在露营地搭设通信据点以保证能够访问网络。\n >千寻（真理部）\n >*......太阳能发电机？*\n >（......）\n >*......便携式抛物面天线？*\n >（......）\n >*......服务器主机？\n >你们是打算在野营地搭设一个简易通信据点吗！？*\n >——「（~~电脑~~）新春进行曲」第1节\n\n - 主动提出继续登山\n在得知天气不好，登上山顶后也不一定能看到日出后，千寻询问部员是否放弃登山，但是部员们都表示不愿在此放弃。\n >千寻（真理部）\n >*虽然一开始是我提出的，既然天气不好，就没必要强行登顶。*\n >\n >晴（真理部）\n >*......我要继续登山。*\n >\n >千寻（真理部）\n >*也对，我就想到你们会这么......\n >......诶？继续？*\n >\n >晴（真理部）\n >*嗯——好不容易出来一次。*\n >\n >小玉（真理部）\n >*既然都来到这了，没登顶就回去会更令人在意。*\n >\n >真纪（真理部）\n >*虽然我不喜欢反复刷本......\n >但是已经都到boss战前了，怎么可能直接把手柄丢了呢！*\n >——「（~~电脑~~）新春进行曲」第7节\n\n - 书写优香魔王传奇历史\n真纪由于艺术灵感突然爆发而跑到露营地附近的山洞里，用天然颜料玩起了洞穴壁画彩绘。\n>真纪（真理部）\n>*我把粘土和碳粉混合在一起作为绘画材料的替代品，试着调了些颜料。*\n\n而她所画的是经过艺术化加工的千禧塔、千禧普通学生和优香：\n>真纪（真理部）\n>*啊，那个是用立体主义风格重构后的千禧塔！\n>为了能更好地表现重视理论与论证的千禧印象，采用了几何风格的造型来表现它。*\n>\n><span class=\"md-bg-cyan-400\"><font color=black>那，这周围像蚂蚁一样的是......</font></span>\n>\n>真纪（真理部）\n>*那些是吃过午饭的千禧学生。\n>这时候大家都为了买咖啡挤在咖啡店里，每天都很壮观......*\n>\n><span class=\"md-bg-cyan-400\"><font color=black>那站在塔上的那个长角的生物是......？</font></span>\n>\n>真纪（真理部）\n>*那个是......在研讨会处理收据的优香前辈。\n>......画的稍微有点吓人了。*\n>——「（~~电脑~~）新春进行曲」第3节\n\n::: center\n![证明优香管账有着超过几千年的历史的壁画](files/153/HaIG61NgpHtKngTJ2HiGV0Dm3o34oWho.png =450x)\n:::\n\n而令真纪也没有想到的是，她创造出的这一现代壁画竟然被当作了真正的历史古迹，甚至还吸引来了克罗诺斯的记者前来进行调查。\n>舞（克洛诺斯报道部）\n>*在这的洞窟上发现的壁画已经在网上成为了非常热门的话题......\n>和之前发现的描写采集和狩猎的壁画都不同，这次上面画着很高大的塔和机械一样的古代遗物！\n>而且，塔上还画着像凶暴的怪物一样的东西......*\n>——「（~~电脑~~）新春进行曲」第7节\n\n### 秘密的午夜派对\n::: center\n![PV5-4K-337.png](files/153/eGJNWSPUamF0UzLeKdq78ucK8IhqwCIU.png \"跨年睡衣派对\" =550x)\n:::\n - 为「千禧博览会」制作海报\n优香和诺亚为了借桌游而找到了真纪，此时她正在为即将召开的千禧博览会绘制海报。\n>诺亚（研讨会）\n>*话说真纪酱，你在一个人做些什么呢？*\n>\n>真纪（真理部）\n>*我正在绘制「千禧博览会」的宣传海报。\n>因为活动时间推前，所以马上就要开幕了。\n>因此事前准备的时间也随之缩短了。*\n>——「秘密的午夜派对」第2节\n\n - 接应试图脱出宿舍楼的老师和小雪（未遂）\n>晴（真理部）\n>*那我现在就联系真纪开门。\n>咦......*\n>——「秘密的午夜派对」第6节\n\n 晴在老师和小雪来到通道后尝试联系真纪但没能成功， 而老师和小雪还没能接近出口便被带回，其余视角发生了什么无从得知。\n \n 大概是真纪原本在出口处等待，但早已被诺亚优香二人或者千寻拉到了小雪的反省室里参加跨年聚会。\n\n - 真纪的炼药工房 \\~小雪反省室与混搭果汁\\~\n\n在喝到梅干口味的「妖怪MAX」之后，真纪突发奇想，提出了“将梅干味「妖怪MAX」和甜酒混合”的怪点子。在小雪的煽动下，真纪将这一想法付诸实践了。\n>小雪（研讨会）\n>*以追求学问闻名的真理部诸位，\n>居然会因为前辈的威压而踌躇不前吗？\n>难不成——\n>各位是怕了吗？*\n>\n>（......）\n>\n>真纪（真理部）\n>*好啊，那要做就做到底！\n>首先，把梅干味的「妖怪MAX」......\n>和甜酒按1：1混合——*\n\n虽然视觉效果和口味全都一言难尽，\n>真纪（真理部）\n>*这，这颜色......\n>（......）\n>单纯只是酸味和甜味混在了一块......\n>这味道，感觉像用腐烂的米酿出来的甜酒一样......*\n\n但真纪以“事已至此”为由选择接受小雪的提议，又向里面加入了大量其他饮料。\n>真纪（真理部）\n>*既然都已经开始了，为什么不玩得再大点呢？\n>借这个机会，一口气把所有喜欢的饮料都混进去吧！*\n\n结果毫无疑问是灾难性的失败。\n>真纪（真理部）\n>*这刺鼻的臭味是......*\n>——「秘密的午夜派对」After 3\n\n毫无疑问，最后这两位都被前辈们狠狠教育了。\n## 个人&情人节剧情\n### 模范市民\n多次在他人私有区域的墙壁上进行涂鸦的真纪被巡逻的警察带走进行了教育，老师来到警察局让真纪道歉并把她领走之后，真纪表示自己只是按耐不住进行艺术创作的热情，老师则提议真纪可以在大号画布上进行创作。二人约好下次在大号画布上一起画画。\n\n### 可疑的黑入\n真纪不小心在MomoTalk里向老师透露自己准备去黑市，不放心的老师为了确认情况也来到了黑市。结果发现真纪为了看到别人困扰的样子而控制了便利店的收银设备，在上面运行起了经典游戏「BOOM」。老师批评并阻止了真纪，但她好像并没有要改正的意思。\n\n### 傻瓜和天才仅有一线之隔\n面对即将到来的小测验，真纪如临大敌。于是她向老师求救，希望老师能帮助自己进行备考。在老师的指导下，真纪很快就学会了解答文学类题目的方法，甚至把整理有笔记的本子上的每一处细节都精准地背诵了下来。老师不禁感慨傻瓜和天才之间仅有一线之隔。\n\n### 美化活动\n老师给顺利通过测验的真纪买了冰激凌作为奖励，在路上真纪看到了一堵经常被扔垃圾从而变得脏污不堪的墙。到了晚上，真纪忍不住来到这堵墙的面前，打算把这堵墙清理干净，配上涂鸦。发现这件事的老师允许她进行这次涂鸦，并和真纪约定好要一起去和墙的主人道歉。\n\n### 永远的回忆\n之前被真纪涂鸦的墙壁的主人找上了她，希望她能给其他的墙也涂上涂鸦。于是真纪叫上了老师，两个人一起在墙壁上进行涂鸦创作。\n\n### 让世界变得更加甜蜜！\n真纪让老师闭上眼睛张开嘴，然后用喷漆管往老师嘴里喷了可食用的巧克力，并把这罐巧克力作为情人节巧克力送给了老师，邀请老师用这罐巧克力进行涂鸦。\n\n## 社团剧情\n### 真理部\n由于最近没有合理控制饮食而对学校组织的体检当中的体重部分的结果感到不满的真纪决定黑入千禧的学籍服务器修改自己的体重数据，为此她用“让数据在老师面前更好看”和“测试无人机性能”为诱饵分别引诱了小玉和晴两人参与黑入行动。\n\n>真纪（真理部）\n>*明明要是在翻看学籍数据的时候看到好身材的记录的话，老师也一定会为前辈们的身材而震惊的......*\n>\n>小玉（真理部）\n>*......虽、虽然不是很想趟这趟浑水，但既然是后辈的请求那就没办法了。只会帮这一次哦。*\n>\n>（......）\n>\n>真纪（真理部）\n>*说起来晴前辈，之前是不是说过开发了新的入侵用无人机来着？\n>不想试一试那个无人机，与千禧的安全系统......哪边比较强吗？*\n>\n>晴（真理部）\n>*......确实，开发完那个无人机之后也没什么委托，实战数据不足也是事实呢。\n>......只是试一次的话，用来入侵说不定也不错。*\n>\n>——社团剧情「真理部」1\n\n在小玉窃听到艾米和优香的对话得到密码后，真纪利用晴的无人机展开了黑入。在得到体检数据的修改权限后，真纪并不仅仅满足于调整自己的身高、三围和体重数据，\n\n>真纪（真理部）\n>*总之先减轻10kg体重，身高提高10cm，胸围改成90cm......*\n>\n>晴（真理部）\n>*这个体型配这个体重，再怎么说也太不现实了吧？*\n>\n>小玉（真理部）\n>*真纪，我的也按这么改。*\n>\n>——社团剧情「真理部」2\n\n还产生了对优香进行恶作剧的想法：把优香的体重数据改成100kg，让她在开放个人体检数据查询时大吃一惊。\n>真纪（真理部）\n>*操作一下数据，把优香前辈的体重改成100kg吧！\n>这样的话，事后确认自己体重的时候一定会吓一跳吧！嘿嘿嘿......*\n>\n>——社团剧情「真理部」2\n\n但是真纪在修改完优香的体重后便受到了来源未知的逆向入侵，真纪在慌乱之中为了保存自己的“战斗成果”而将篡改过的数据转发到了当前最近的节点：SNS服务器上，导致篡改后的体检数据就这样向全校公开了。\n>真纪（真理部）\n>*诶？我想着在权限被夺走之前备份一下数据......*\n>\n>晴（真理部）\n>*刚才把学籍数据上传的地方，是全体公开的SNS服务器！*\n>——社团剧情「真理部」2\n\n于是优香的100kg体重就这样成为了千禧学生之间的趣闻一桩。尽管对外宣布了这一消息属于谣言，但是发散思维丰富的千禧学生们更倾向于相信优香使用了什么特殊设备来修改自己的外观。\n\n>千禧学生A\n>*那个人就是传说中的......？*\n>\n>千禧学生B\n>*是的，上次的体检中被判明体重有100kg的，会计优香呢。*\n>\n>千禧学生A\n>*乍一看，看不出有那么胖呢......是带上了什么特殊装备吗？*\n>\n>千禧学生B\n>*莫非是把“瘦着的时候的映像”用全息技术投影到身上也说不定呢！*\n>\n>——社团剧情「真理部」3\n\n## 官方衍生\n### PV3\n#### CSP\n在PV3中，有一幕真纪在数位屏上进行绘画的场景。根据图形界面来推测的话，真纪所使用的绘画软件的原型大概为CLIP STUDIO PAINT，而且此时画面上仍是线稿的角色与当时尚未实装的诺亚有些许神似。\n\n::: center\n![PV3rd082.png](files/153/StKqHppZ6Cc3lQ3NUWZl9bkQRSgAr1MD.png =550x)\n:::\n\n#### 成功挤入老师视野\n在PV3前半部分的最后一段里，老师打开办公室的门，随后便受到大量学生的热烈迎接。而真纪有意无意地成为了成功进入老师第一秒的视野并露出正脸的学生之一。\n\n::: center\n![PV3rd094.png](files/153/cCF63WJL6eDXLieaovwZZcmdV9rURPD9.png =550x)\n:::\n\n### 漫画\n#### 晄轮舞台上的捉迷藏\n对千禧学生的狂热程度并不了解的RABBIT小队认定晄轮大祭的举办存在阴谋，并决定潜入千禧一探究竟。期间和负责管理安保和网络的真理部展开了一场战斗。\n\n#### 截货天使24的妖怪MAX\n国际服官方四格漫画39话《平凡的社团活动》中，真理部除千寻外的3人动用各种手段在空为天使24进货时进行拦截，拿走了所有热带水果（Passion Fruit）口味的妖怪MAX（付没付钱不知道）。鉴于标题，可以大致认定她们确实会付钱而且没少干这事。\n\n!!! success 本站已收录以上漫画\n漫画屋：\n[晄轮舞台上的捉迷藏 - せるげい](https://kivo.wiki/comic/6)\n[国际服官方四格漫画 - 돈미니DONMINI](https://kivo.wiki/comic/1)\n!!!\n\n# 四、杂项趣闻\n## 社团归属\n### 为什么不是狂猎学生？\n这个问题到现在也没有明确答案。\n在活动「秘密的午夜派对\\~新年钟声里的捉迷藏\\~」里，优香也向真纪提出了这个问题，而真纪表示这件事说来话长，\n>优香（研讨会）\n>*既然你这么擅长画画，为什么当初不去报考狂猎艺术学院呢？*\n>\n>真纪（真理部）\n>*啊——这就说来话长了，以后有机会再说吧......*\n>——「秘密的午夜派对」 第2节\n\n也许以后哪次更新的剧情会揭开这个问题的答案。\n\n### 加入真理部的契机\n真纪在角色剧情里表示真理部不会将她视作问题儿童，认可了她的才能，\n>真纪（真理部）\n>*因为真理部是少数几个不会叫我问题生，还认同了我的才能的重要的地方之一。*\n>——真纪个人剧情 3\n\n而在露营换装的个人剧情里她还说如果没有涂鸦她就不会和真理部的各位相遇，\n>真纪（真理部）\n>*没有涂鸦的话，我也就遇不到真理部的学姐们了呢......*\n>——真纪（露营）个人剧情 1\n\n真纪或许是因为频繁进行街头涂鸦而被视作问题学生，而真理部接受了她的个性，因此选择了加入真理部。\n\n## 游戏外CG\n在日服的PV3里，有一张真纪诺亚以及优香一起在运动会上拍摄合影的CG，但这张CG并没有出现在游戏里的活动中。\n::: center\n![PV3rd207.png](files/153/4Uv0bEyPGnP3ZRY7DQfLy7KNF3yCK6tZ.png =550x)\n:::\n\n## BOOM\n>*\"（在这上面，能安装BOOM吗？......试一下吧！）\"*\n>——真纪（露营）咖啡厅语音\n\n真纪反复在各种场合下提及/安装的游戏，neta自知名FPS游戏鼻祖DOOM（毁灭战士）。\n这款游戏最早发售于1993年，于MS-DOS系统上运行。\n得益于其开创性的设计和优秀的代码结构，这款游戏多年来被移植到了各种各样的平台上，甚至时至今日也还有很多人热衷于在各种电子产品上（甚至pdf文件里）运行这一游戏。\n\n## 声优梗\n真纪的声优三上枝织的一大知名配音角色便是《摇曳百合》系列中的赤座灯里。而偏红色的发色和丸子头发型则是两人明显的共同特征，因此不少人会以此将两名角色联系起来。\n\n## 作品复用\n根据设定集可以得知，真纪的专属武器上的涂鸦喷漆所绘的分别以“Royal”和\"Love girl\"为主要元素。而这两幅作品的元素也和“Veritas”一样，反复出现在各类场合当中，实际兼用卡。\n\n::: center\n![popup232.png](files/153/blaAVP496lvbe8VANLIQnNu9nOH3qc12.png \"真纪给老师的新年贺卡\" =450x)\n:::\n\n## 真纪老祖\n作为初始3星稀有度角色之一，真纪的攻击属性和技能组合让她成为了第一场总力战Boss比纳的完美对策角色，并且时至今日都维持着\"大蛇克星\"这一强度定位，因此被赋予了“真纪老祖”的昵称。\n\n### 斯德哥尔摩综合征\n由上所述，从总力战尚不存在Lunatic、Torment、Insane甚至Extreme难度的早期（虽说Extreme很快就实装了）直到Torment难度实装的这段时间里，比纳面对真纪毫无招架之力。\n\n因此网络上同时还一度流传着真纪与比纳互换位置的梗图，\n\n::: center\n![我打maki?](files/153/NuHpbhgLV1WtmA9pRyvpg322CMhBzOSw.jpg \"我打maki?\" =550x)\n:::\n!!! attention \n注：该图像未取得任何授权，资源来自于网络社区，来源已难以考据。如果您认为自己拥有该图片所有权或者清楚该图像出处，请联系古书馆相关人员。\n!!!\n\n甚至还出现了不少以真纪和比纳成为好友为主题的二创，\n\n网络社群中有不少人调侃这是斯德哥尔摩综合征的表现。<span class=\"md-hover-text\">患者当然是比纳。</span>\n\n### 官方响应\n面对这个从日服运营初期就一直存在的热门meme，官方也做出了大量回应。\n\n在最终章剧情中，真纪作为后方支援角色参与了比纳（色彩）的攻略。\n\n而在3周年的线下Fes活动主视觉图当中，官方又一次玩了这个梗，让真纪和比纳同时出现在了图里。\n\n::: center\n![检视战利品的真纪](files/153/cOBteS3YAynJBcmTy8CmBhdXE6nxaITm.png \"3周年线下活动主视觉\" =550x)\n:::\n\n甚至在日服的一篇四格漫画里，真纪会把比纳当成星座来记忆星星的位置。\n\n::: center\n![r98hXB1T6a5CWexeMJMqK4qgEpRGoAhA.png](files/153/2HEPOzEbpTaXfdP4361GiZqcoETWlvvz.png \"日服官方四格第208话\" =450x)\n:::\n\n## 100kg梗罪魁祸首\n100kg是由官方开头，社区积极响应的众多剧情meme之一。\n\n真理部社团剧情随着2022年1月26日的1周年活动更新一同发布，官方并没有对这段剧情的公开进行宣传，只是在更新公告里简单说明了剧情追加。不过这段剧情的影响力却是众多迷你剧情中最大的一个，导致此后与优香有关的二创甚至官方内容中经常能看到对此的调侃。\n\n而作为这一切的始作俑者，真纪却并没有过多地被相关创作提及，毕竟这次黑入事件的真相除了真理部部员小团体之外无人知晓。\n\n## 运动服\n真纪是真理部全员之中唯一一个拥有运动服便宜差分立绘的角色。\n\n## 自喷漆品牌\n### MTN\n真纪在回忆大厅里手持的和身后放着的其中一罐自喷漆大概neta自现实当中的“Montana Colors”的知名产品“MTN 94”。\n::: center\n![1cec98d72182a67dafb137d040cc15c0.png](files/153/R9J2D3zgeq9naoHvkp68hdaADBKNOpdr.png =350x)\n\n![image.png](files/153/MSxugU2YPEyEZUzJJeRmjnVrYavw0KHN.png =350x)\n\n:::\n### CODE VIENNA\n这一品牌同时也是真纪的鞋子的品牌，logo十分接近千禧的校徽<span class=md-hover-text>和阿迪</span>，但是现实当中难以寻找到logo设计上类似于此的品牌，可能是美术组同时参考了多家品牌后自行设计的虚构品牌。\n\n::: center\n![image.png](files/153/MgGLSEWunCrSTxJ7ZmBnR3C0Us1Or9hD.png =350x)\n\n![maki_spr_shoes_cv.png](files/153/K9ftx52g8UyAfweqCZ9mR7jCIoVL0NiD.png =350x)\n\n:::\n### SUNDAY\n同上，这款自喷漆的品牌在现实当中难以找到明确的原型，大概是游戏内的虚构品牌。\n::: center\n![image.png](files/153/pr4iSo0Fi7cV1D8rSDCu3F1oGdjW6QA4.png =350x)\n\n:::\n\n## 防毒措施\n自喷漆通常采用高压灌装的方式制成，这导致在使用时会有大量的有机化合物和油漆颗粒物漂浮在空中。过量吸入这些物质的话会对人的呼吸系统造成损害。不过在游戏里的各种场景中，不管是剧情还是回忆大厅，真纪在用喷漆进行涂鸦时从来没有佩戴过任何口罩或者防毒面具。\n\n这可能是因为真纪的神秘保护了她，也有可能是因为真纪使用的喷漆都是低毒性的油漆，也许真纪只是单纯的没有过多在乎这类事情。\n\n甚至有可能是因为MX Studio的美术组和剧情组全都不小心忘记了喷漆的潜在危害性，或者觉得没必要想那么多。\n\n不过最有可能的原因是开发组为了不破坏美术风格而没有为真纪绘制任何佩戴防毒设备的素材。\n\n## 谜之真纪\n### 游戏内登场\n这个形象在游戏里初次登场于千寻的回忆大厅。\n在真理部副部长千寻的回忆大厅中，她身后的自动售卖机上贴着大量的贴纸。而其中一张是这样一个奇怪的真纪小人。\n\n::: center\n![CH0160_home2.png](files/153/bMJ0ZaYeBVuhZ1u36ed2c6gAb4lMSeWW.png =250x)\n:::\n\n后来的晄輪大祭活动的一张过场图里，千寻的笔记本上也有着这个形象的贴纸。\n::: center\n![Event_Photo_CollectionCG_817_03_Full.png](files/153/8EiM0qcFhkc7yJPHNSLfhvLVlYMKI8qR.png =450x)\n\n:::\n\n### 现实影响\n在千寻实装后没多久（大概1天），日服官方四格漫画的作者[@純粋な不純物](https://https://x.com/parang9494)也发布了一篇内容为“真理部非常感谢”的推文，配图是真纪小人鞠躬的动图。\n::: center\n![image.png](files/153/5uK2Ur6F4kdkROrmF3p4aSR9BwKrVpJk.png =450x)\n:::\n\n由于这个meme的来源并不为日服社区的玩家们所熟知，而且这个形象有何意义、到底由谁创建、游戏里又是如何出现的等等问题全都无人知晓，于是日本玩家社区逐渐开始称呼这个形象的真纪为谜之真纪（謎マキ），同时开始出现各种相关的惊人创作。\n\n而且由于这个形象过于抽象与混沌，使得大量与其相关的二创作品基本都十分惊人，不管是视频、插图、漫画还是手办。也可以说，正是因为这个形象过于混沌，大家在想要创作惊人二创时才会更加愿意使用这一形象。\n\n### 实际起源\n!!! attention 资料来源\n以下内容部分参考自韩语网站[Namu Wiki](https://namu.wiki/w/%EC%9C%A0%EB%A6%AC(%EB%B8%8C%EB%9D%BC%EC%9A%B4%20%EB%8D%94%EC%8A%A4%ED%8A%B8))。\n!!!\n这个形象的根源来自于韩国网络社区，是在DCINSIDE这一网络社区的某一套表情包的基础上经历了多次演变与社区再创作变化而来的。\n\n最早这个形象只是DCINSIDE上一组模仿“自嘲熊”的表情包。\n\n在这之后这一形象被韩国社区用于制作韩国游戏《棕色尘埃》的一名角色的meme图（韩国网络社区称这种形象为윾돌이），后来在该游戏官方以及玩家社区的推动下，这个角色meme形象被发扬光大。\n\n而在2022年的时候，大概是MX Studio的美术组里有人灵感乍现，以此meme形象为基础画出了谜之真纪这一形象并添加到了千寻的回忆大厅中。至于是不是回忆大厅画师的kokosando本人就不得而知了。\n\n## 兄弟...兄弟...\n假小子属性很强的真纪从开服便普遍被用“兄弟、哥们”等很常见的对假小子的称呼来代称。\n当然，不管是这个属性还是称呼，都并不是真纪专属的特征。\n\n但巧合的是，2023年末的新年活动「(電脳)新春行進曲」赶上了“chiikawa+兄弟你好香”这类表情包正热的时候。\n露营装的真纪比原立绘减少了一些假小子的特征，形象变得更加可爱，再加上当时在网络上广为流传的表情包热度正高，真纪便迅速成为了这类表情包的又一位常客，网络社区之中的玩家们也从此更容易将“兄弟”这个词和真纪联系在一起。\n\n# 五、延伸阅读\n## 各语言CV\n### 三上枝织\n相关页面：[事务所官网](https://www.aoni.co.jp/search/mikami-shiori.html)、[X账号](https://x.com/mikami_shiori)\n真纪的日语CV，青二Production旗下声优，青森市观光大使。\n\n部分其他动画&游戏配音角色：\n - 《摇曳百合》系列（赤座灯里）\n - 《进击的巨人》系列（希丝特莉亚·雷斯）\n - 《航海王》（云雀）\n - 《喜欢本大爷的竟然就你一个？》（羽立桧菜）\n - 《明日酱的水手服》（峠口鲇美）\n - 《真白之音》（田沼舞）\n - 《Fairy兰丸》（女王）\n - 《飞翔的魔女》（石渡那央）\n - 《兽娘动物园》（白脸角鸮）\n - 《清恋》（上崎真诗）\n - 《锁链战记 ～赫克瑟塔斯之光～》（毛茸茸）\n - 《至高指令》（红铃）\n - 《天才麻将少女》（门松叶子）\n - 《机器人少女Z+》（盖特号）\n - 《超级机器人大战X-Ω》（奥利弗·奥佩特）\n - 《勇者斗恶龙X》（主人公姐姐/妹妹）\n - 《碧蓝幻想》（梅丽莎贝尔）\n - 《真·三国无双》（关银屏）\n - 《莱莎的炼金工房 ～常暗女王与秘密藏身处～》（吉洛·夏伊娜斯）\n - 《碧蓝航线》（埃尔薇拉）\n - 《雀魂》（汉娜）\n\n!!! attention 引用声明\n以上列表内容引用自青二Production官网页面。\n[三上　枝織 | 株式会社青二プロダクション](https://www.aoni.co.jp/search/mikami-shiori.html)\n!!!\n### 金娜\n相关页面：[BiliBili个人主页](https://space.bilibili.com/30751170)、[微博个人主页](https://www.weibo.com/u/1933733557)\n真纪的汉语CV，奇响天外成员。\n\n部分其他动画&游戏配音角色：\n - 《樱桃小丸子》（城崎姬子）\n - 《黄金庭院：冬日里的新年愿望》（帕朵菲莉丝）\n - 《一世之尊》（江芷薇）\n - 《奥奇传说》（神曜蜜西西）\n - 《原神》（阿米娜）\n - 《艾塔纪元》（沃尔特）\n - 《物华弥新》（七盘舞砖、宋金项饰）\n - 《崩坏：星穹铁道》（乱破、AR-1368）\n - 《无尽梦回》（童话之梦·莉莉安）\n - 《无限暖暖》（苏暖暖）\n\n  !!! attention 引用声明\n以上列表内容引用自[萌娘百科](https://zh.moegirl.org.cn/%E9%87%91%E5%A8%9C)，遵循[CC BY-NC-SA 3.0 CN](https://creativecommons.org/licenses/by-nc-sa/3.0/cn/)协议。\n!!!\n\n### 변혜숙（Byun Hye-sook）\n真纪的韩语CV，KBS Voice旗下配音演员。\n\n部分其他动画&游戏配音角色：\n - 《希尔达》（希尔达）\n - 《命运之子》（罗宾）\n\n  !!! attention 引用声明\n以上列表内容引用自[Namu Wiki](https://namu.wiki/w/%EB%B3%80%ED%98%9C%EC%88%99)，遵循[CC BY-NC-SA 2.0 KR](https://creativecommons.org/licenses/by-nc-sa/2.0/kr/)协议。\n!!!\n\n## 9ml\n9ml是真纪的立绘以及回忆大厅的原画、原设作者。他的个人X账号从未发布过评论或角色介绍，只有日韩两个服务器的官方内容和其他图像的转推，简直是一个无情的转推机器。\n\n## Auto Lacquer\n真纪的专属武器，原型是美国通用动力公司研发的LWMMG（Lightweight Medium Machine Gun），即轻量化中型机枪，现属于真正速度公司，更名为RM338。\n::: center\n![weapons_icon.png](files/153/xlz8TpcHeNMll1OCrnBhV4bosIyxiy0r.png \"Auto Lacquer\")\n\n![Lwmmg.jpg](files/153/dTVGJh6RXX4sW9WCgQRdDiPhQrZb2hQe.jpg \"LWMMG^[1]^\")\n:::\n!!! attention 引用声明\n[1]:该图像直接引用自[Internet Movie Firearms Database (IMFDB)](https://www.imfdb.org/wiki/File:Lwmmg.jpg)，以[GNU 自由文档许可证（GFDL）](https://www.gnu.org/licenses/fdl-1.3.html)协议授权。\n!!!\n\n## 专辑\n - Get Over the World（及其广播剧）\n由真理部全员共同演唱的真理部主题专辑，隶属于《青春あんさんぶる》系列。\n\n!!! success 本站已收录以上曲目\n[Get Over the World - Veritas](https://kivo.wiki/music/255)\n[Get Over the World(Instrumental)](https://kivo.wiki/music/256)\n[Voice Drama「Rest & Panic」](https://kivo.wiki/music/257)\n!!!\n\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|あたし|\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[千寻](https://kivo.wiki/data/character/20)|チヒロ先輩<br>先輩<br>副部長|\n|[小玉](https://kivo.wiki/data/character/212)|コタマ先輩|\n|[晴](https://kivo.wiki/data/character/160)|ハレ先輩|\n|[日鞠](https://kivo.wiki/data/character/62)|部長<br>ヒマリ先輩|\n|[茜](https://kivo.wiki/data/character/24)|アカネ先輩|\n|[爱丽丝](https://kivo.wiki/data/character/108)|アリスちゃん|\n|[小雪](https://kivo.wiki/data/character/101)|コユキちゃん|\n|[纯子](https://kivo.wiki/data/character/103)|ジュンコ|\n|[堇](https://kivo.wiki/data/character/187)|スミレ先輩|\n|[诺亚](https://kivo.wiki/data/character/28)|ノア先輩|\n|[晴](https://kivo.wiki/data/character/160)|ハレ先輩<br>先輩|\n|[响](https://kivo.wiki/data/character/69)|ヒビキ|\n|[星野](https://kivo.wiki/data/character/76)|委員長|\n|[绿](https://kivo.wiki/data/character/27)|ミド|\n|[桃井](https://kivo.wiki/data/character/2)|モモ|\n|[优香](https://kivo.wiki/data/character/52)|ユウカ<br>ユウカ先輩|\n|[莱依](https://kivo.wiki/data/character/342)|レイちゃん|\n\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n\n# 六、官方图集\n## 卡池Banner\n| 日服 | 简中服 | 繁中服 | EN服 |\n| :---: | :---: | :---: | :---: |\n| Paint the school “red” !| 暂无 | 準備好成為我的畫布了嗎？我會滿滿地塗上我的顏色 |Ready to be my canvas? I'll paint all over you with my favorite colors.|\n|![gacha_jp.png](images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%9E%E3%82%AD.png =450x)| 暂无 | ![gacha_ct.jpg](images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_banner_cht.jpg =450x)|![gacha_en.jpg](images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_banner_en.jpg =450x)|\n\n## 官方介绍图\n| 日服 | 简中服 | 繁中服 | EN服 |\n| :---: | :---: | :---: |  :---: | \n|![Maki_jp.jpg](images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_Intro_jp.jpg =420x)|![maki_cn.jpg](images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_Intro_chs.jpg =425x)| 暂无 |![maki_en.jpg](images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_Intro_en.jpg =400x)|\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 |\n| :---: | :---: |\n| ![maki_ex.gif](images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_ex.gif =450x) | ![maki_cafe.gif](images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_cafe.gif =x260) |\n\n## 游戏内SD图画\n::: center\n![Event_Photo_CollectionCG_817_04_Full.png](files/153/GX3Cz2N42DfX8WsTgW7jFIk46XczCUTG.png =450x)\n\n![Event_Photo_CollectionCG_818_03_Full.png](files/153/JUCaipNC7QQEZ0jCJVRORrCWL2tSTPTD.png =450x)\n\n![Popup88.png](files/153/xCr1DH8AOl5UfZGcnuhPldNRYxDIFL0q.png =450x)\n:::\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 真纪 汉化\n![真纪](files/2/GhAqO0y3FwY86afC4fdwohuAexH1zdp8.png =450x)\n@tab 真纪 原文\n![真纪](files/2/Jx6fhYHTm9fg2jLSrx6Pr2YtPf5fledO.jpg =450x)\n:::\n\n\n## 设定集\n::: center\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_074.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.2/Vol2-77.jpg =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_249.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_250.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_171.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_222.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.2/Vol2-10.jpg =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20268.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20240.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20244.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20245.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20247.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.2/Vol2-260.jpg =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20281.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.2/Vol2-287.jpg =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20296.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20015.png =450x)\n\n\n:::\n\n## 各类贺图\n\n# 七、人物关系链\n```mermaid\nflowchart TB\n    %% 节点定义和样式\n    classDef club fill:#ffecb3,stroke:#ff9800,stroke-width:2px\n    classDef person fill:#e3f2fd,stroke:#1976d2,stroke-width:2px\n    classDef event fill:#e8f5e9,stroke:#388e3c,stroke-width:2px\n    classDef truthMember fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px\n    classDef maki fill:#ffd700,stroke:#ff4500,stroke-width:2px\n\n    %% 社团节点\n    GameDev[\"游戏开发部\"]:::club\n    EngDept[\"工程部\"]:::club\n    GymDept[\"健身部\"]:::club\n    Seminar[\"研讨会\"]:::club\n    CandC[\"C&C\"]:::club\n\n    %% 人物节点\n    subgraph TruthMembers[\"【真理部】\"]\n        direction LR\n        chr[\"各务 千寻\"]:::truthMember\n        maki[\"小涂 真纪\"]:::maki\n        Kogane[\"小钩 晴\"]:::truthMember\n        Otama[\"音濑 小玉\"]:::truthMember\n    end\n    Mystar[\"明星 日鞠\"]:::person\n\n    \n    subgraph Seminar[\"【研讨会】\"]\n        direction LR\n        100kg[\"早濑 优香\"]\n    end\n\n    %% 事件节点\n    RabbitTeam[\"RABBIT小队\"]:::event\n\n    %% 连接关系\n    Mystar -->|\"前部长\"| TruthMembers\n    \n    GameDev <===>|\"多次合作\"| EngDept\n    \n    TruthMembers <===>|\"多次合作\"| EngDept\n    TruthMembers <-->|\"曾匿名对抗\"| RabbitTeam\n    TruthMembers <--->|\"山中偶遇\"| GymDept\n    TruthMembers <===>|\"伙伴社团\"| GameDev\n    TruthMembers <===>|\"共同准备晄轮大祭&跨年睡衣派对\"| Seminar\n    maki -->|\"造成100kg梗\"| 100kg\n    \n    CandC <--->|\"曾对抗 现伙伴\"| GameDev\n    TruthMembers <--->|\"曾对抗/合作\"| CandC\n```\n\n## 国际服直播内容\n::::center\n![Snipaste_2026-05-25_23-57-01.png](files/490/UtcUkc4oND2M9UzNjy0RCgQGu7eTxN1P.png =450x)\n::::",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/Maki_home_Idle_01_0.8457000000000006.jpg",
+  "spine": [
+    342,
+    496,
+    1720
+  ],
+  "model": [
+    104,
+    411
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/voice/play_icon.webp",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/voice/pause_icon.webp",
+  "voice": [
+    {
+      "description": "Maki_Title",
+      "category": "lobby",
+      "text": "Blue Archive!",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/4tCQXk6HYTL1YJK5RiBC4J2tL9Gu10uS.ogg"
+    },
+    {
+      "description": "Maki_Battle_Buffed_1.ogg",
+      "category": "battle",
+      "text": "该我出场了吧！",
+      "text_original": "私の出番かな？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/guTYDompKYLSo7AxfF1pZYVSBht5D3mk.ogg"
+    },
+    {
+      "description": "Maki_Battle_BuffSelf_1.ogg",
+      "category": "battle",
+      "text": "我现在，感觉热血沸腾！",
+      "text_original": "私は今、心から燃え上がっている！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/t4M1K25LzFMg0PXsJlaacZ6tGJAFuDx1.ogg"
+    },
+    {
+      "description": "Maki_Battle_Damage_1.ogg",
+      "category": "battle",
+      "text": "哈......",
+      "text_original": "あぅ……",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/uHk8QISiGxahwGFEYBwbyxciMBLoby2J.ogg"
+    },
+    {
+      "description": "Maki_Battle_Damage_2.ogg",
+      "category": "battle",
+      "text": "啊—",
+      "text_original": "きゃあ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/0B9LeHywZIehczV5uCX5IxWT4CjBsUA7.ogg"
+    },
+    {
+      "description": "Maki_Battle_Damage_3.ogg",
+      "category": "battle",
+      "text": "唔唉？",
+      "text_original": "うえぇ？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/BeuaoQrBARhd9ifYLS8linB0SMBM8OnQ.ogg"
+    },
+    {
+      "description": "Maki_Battle_Defense_1.ogg",
+      "category": "battle",
+      "text": "欸嘿嘿，没用没用！",
+      "text_original": "えへへー、無駄無駄ぁ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/xbdtOCd4V6HUR4PUZhxhRkEBm8gUGhv7.ogg"
+    },
+    {
+      "description": "Maki_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "好，来发挥一下实力吧！",
+      "text_original": "さて、実力、発揮してみようかな？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/lFD4nURqQf2juqzbKFSVwGyTOlawFU2R.ogg"
+    },
+    {
+      "description": "Maki_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "让世界变得更有趣吧！",
+      "text_original": "世界をもっと愉快に！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/jG69QPPLNjqh0NvKgAnZ2HSTAq1k2Kjl.ogg"
+    },
+    {
+      "description": "Maki_Battle_Move_1.ogg",
+      "category": "battle",
+      "text": "赶快去画下一个涂鸦吧！",
+      "text_original": "早く次のグラフィティを描きに行こう",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/gAedgZvkCpS7AxR56kDpndzs6L8vIw7B.ogg"
+    },
+    {
+      "description": "Maki_Battle_Move_2.ogg",
+      "category": "battle",
+      "text": "好啦，好啦，前进前进！",
+      "text_original": "さぁさぁ、前進前進！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/YT0LTvITBMWX7Zj0Z9Pwz04cHmrVx7Tq.ogg"
+    },
+    {
+      "description": "Maki_Battle_Recovery_1.ogg",
+      "category": "battle",
+      "text": "嗯，谢谢。",
+      "text_original": "おぉ、ありがとう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/CpHA4Q7xdmSJB5jl1sgcKNVQMPnGcnUt.ogg"
+    },
+    {
+      "description": "Maki_Battle_Retire.ogg",
+      "category": "battle",
+      "text": "嗯啊，被干掉啦。",
+      "text_original": "うぅ、やられちゃった",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/Z5WvRXldCKwHeRZyUSy6rNj2RL4844ol.ogg"
+    },
+    {
+      "description": "Maki_Battle_Shout_1.ogg",
+      "category": "battle",
+      "text": "呀！",
+      "text_original": "やぁ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/3vHOcAfkUTBlviIQiKujdKL7KHVC8R15.ogg"
+    },
+    {
+      "description": "Maki_Battle_Shout_2.ogg",
+      "category": "battle",
+      "text": "呀吼！",
+      "text_original": "やーほ～！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/bbzGjx8bRNNoYDPF7zVowwViLr2NwhBY.ogg"
+    },
+    {
+      "description": "Maki_Battle_Shout_3.ogg",
+      "category": "battle",
+      "text": "这个给你！",
+      "text_original": "これあげる",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/yzD8xf3ldx06oxOI30yKrXe5MJ3nfIFL.ogg"
+    },
+    {
+      "description": "Maki_Battle_TacticalAction_1.ogg",
+      "category": "battle",
+      "text": "更换阵型！",
+      "text_original": "フォーメーション変更！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/w0ReLccJosWjyMj02DdpBBSJa8FPXa7D.ogg"
+    },
+    {
+      "description": "Maki_Battle_Victory_1.ogg",
+      "category": "battle",
+      "text": "成果还不错嘛，老师觉得呢？",
+      "text_original": "素晴らしい結果だね。先生から見てどう？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/SiAj3nIEFb3tKWx5apOhD50UKjSi7KBp.ogg"
+    },
+    {
+      "description": "Maki_Battle_Victory_2.ogg",
+      "category": "battle",
+      "text": "嗯嘿嘿！没有任何人可以阻挡我的艺术之魂！",
+      "text_original": "えへへー、あたしの芸術魂は止められない！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/QS7d0UBu2VNoeBXafaYSiOBBw5vjU3wC.ogg"
+    },
+    {
+      "description": "Maki_Cafe_Act_1.ogg",
+      "category": "cafe",
+      "text": "这面墙，再加上我的画，应该会更好看！",
+      "text_original": "ここの壁にあたしの絵を添えたら、もっと素敵になりそう！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/6qYM1FnOXFGlYDJUK64DqgTrzWVVp5hR.ogg"
+    },
+    {
+      "description": "Maki_Cafe_Act_2.ogg",
+      "category": "cafe",
+      "text": "这种松软的感觉，用喷漆应该怎么表现呢？",
+      "text_original": "このふかふかな感じをスプレーで表現するにはどうすればいいのかな？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/y3W5ClS5VYtRTjl2PvziXMwHDaXkapJB.ogg"
+    },
+    {
+      "description": "Maki_Cafe_Act_3.ogg",
+      "category": "cafe",
+      "text": "哎哟，当心点当心点，可不能把颜料蹭到衣服上......",
+      "text_original": "おっと、塗料が付かないように気を付けて、気を付けて…っと。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/fmyxoci9AcoHBZvAoTpVnMEXwsxMkKhY.ogg"
+    },
+    {
+      "description": "Maki_Cafe_Act_4.ogg",
+      "category": "cafe",
+      "text": "在这边补点红色怎么样？",
+      "text_original": "おっと、塗料が付かないように気を付けて、気を付けて…っと。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/DIeG5o7B5MBsgGdlxkhcfL9quawpkcON.ogg"
+    },
+    {
+      "description": "Maki_Cafe_Act_5.ogg",
+      "category": "cafe",
+      "text": "......这个颜色感觉好棒......",
+      "text_original": "…すごくいい色…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/6QKFpATUP2Gt2vAeIGZl0WfNX9zVRY3H.ogg"
+    },
+    {
+      "description": "Maki_CommonSkill.ogg",
+      "category": "battle",
+      "text": "炸裂吧！",
+      "text_original": "弾けろ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/dsHJB3o8m2Dobym6Nm9a2UUFlDsuikmt.ogg"
+    },
+    {
+      "description": "Maki_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "真是完美的一天！",
+      "text_original": "やっぱ今日も完璧！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/8hIKRZJ4gKvfYMmNAKf3JTS78R3zBcVi.ogg"
+    },
+    {
+      "description": "Maki_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "嗯嘿嘿，这次也画了一幅杰作呀！",
+      "text_original": "いひひー、今回の作品も傑作だね",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/GCOW39Gm9ep81g4dPHWusRLbTmZSRQtc.ogg"
+    },
+    {
+      "description": "Maki_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "嗯~嗯~我喜欢！",
+      "text_original": "うんうん、気に入った",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/pbwk9CjwyHU7lG6oHWPxVIfdMLk8FIfJ.ogg"
+    },
+    {
+      "description": "Maki_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "看招！",
+      "text_original": "くらえ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/AUDWzScsyKBl5RSLl1zWyaC7OeCuV454.ogg"
+    },
+    {
+      "description": "Maki_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "送你们一个礼物！",
+      "text_original": "君達にプレゼント！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/VKqZ8bbc8XYNobH9F0qLy2HdCMMX2rSq.ogg"
+    },
+    {
+      "description": "Maki_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "啊哈哈哈！",
+      "text_original": "えはははっ",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/joylefPyUZOn3JmvQvrtAKUX0uukAzDy.ogg"
+    },
+    {
+      "description": "Maki_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "有了这把枪，我可以把整个世界染的色彩斑斓！",
+      "text_original": "この銃で、世界を色鮮やかにに染めるの！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/zKMbaZoYGcsidu381kqLHlkcU0rCBjw6.ogg"
+    },
+    {
+      "description": "Maki_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "怎么啦怎么啦？有什么好玩的事吗？",
+      "text_original": "何々～、なんか面白い事でもあった～",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/NPdtb5LFxFdocJpOXgAlNgtoqHtTA2BV.ogg"
+    },
+    {
+      "description": "Maki_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "嗯嘿嘿，交给我吧！",
+      "text_original": "えへへー、任せて",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/4Pwy2D2kkgCPpT0Msw2m4JYLiNDQyOsM.ogg"
+    },
+    {
+      "description": "Maki_Formation_Select.ogg",
+      "category": "formation",
+      "text": "啊？不是该我出战了吗？",
+      "text_original": "あーれ、あたしの出番じゃ無かった？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/5C36FF01urEPaM30cONFeJ7H1SBLIuZ5.ogg"
+    },
+    {
+      "description": "Maki_Gachaget.ogg",
+      "category": "growup",
+      "text": "哟，老师！ 要不要一块儿去涂鸦～？",
+      "text_original": "や、先生！一緒にグラフィティ描きに行かな～い？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/mz8bKHDkNf6YbVjXtcYb1EPsGP29CBXG.ogg"
+    },
+    {
+      "description": "Maki_Growup_1.ogg",
+      "category": "growup",
+      "text": "我现在，突然有了一个超——棒的灵感！",
+      "text_original": "今、最高のインスピレーションが浮かんだ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/9nrBbpH5tC0mdbYIoEGFtPVZW70PQ1SY.ogg"
+    },
+    {
+      "description": "Maki_Growup_2.ogg",
+      "category": "growup",
+      "text": "嗯~很好~",
+      "text_original": "うん、よーし",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/jym2VawVdB6I0j23P7pXcfsDUkUgYAvf.ogg"
+    },
+    {
+      "description": "Maki_Growup_3.ogg",
+      "category": "growup",
+      "text": "这个，能帮我提高成绩吗？",
+      "text_original": "これ、成績をあげるのにも役立つかな",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/fYf97H0MZtB8A6nU07D5eYeaYaXHfj3p.ogg"
+    },
+    {
+      "description": "Maki_Growup_4.ogg",
+      "category": "growup",
+      "text": "哦~我感受到一股强大的力量！",
+      "text_original": "おほ、すごい力を感じる！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/zYPRZ0e1MVbWpkuAsAI9KUOqZPpv0K8L.ogg"
+    },
+    {
+      "description": "Maki_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "我脸上蹭到什么东西了吗？......嗯？颜料？",
+      "text_original": "あたしの顔に何かついてる？…うん？塗料？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/ybghHJBWpnaZKkqtKcvMfUuP1kq1NB4K.ogg"
+    },
+    {
+      "description": "Maki_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "这个涂鸦是不是很酷？我亲手画的！",
+      "text_original": "このグラフィティ素敵でしょ？あたしが描いたの！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/TBprN0HmnaycDyplGl9wRrdhSQW3bkcf.ogg"
+    },
+    {
+      "description": "Maki_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "好不容易突破了防御，要是不留下点什么,我这个黑客不白当了嘛。嘿嘿。",
+      "text_original": "せっかくセキュリティを突破したのに、 その足跡も残さなかったら、ハッキングのし甲斐がないよね。ふふっ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/bVGBaDdTajs8iQZ0gIRsxiDTENqbFXDx.ogg"
+    },
+    {
+      "description": "Maki_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "TANGO DOWN！",
+      "text_original": "TANGO DOWN！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/Q5DZxUGnpdYilmPYlSYP0q0B9O4qTepO.ogg"
+    },
+    {
+      "description": "Maki_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "如果能把基沃托斯中央那个圣所之塔的外墙，全都画满涂鸦，肯定帅呆了......！",
+      "text_original": "キヴォトス中央のサンクトゥムタワーの外壁を、 全部グラフィティで埋められたら、どんなに素敵だろう…？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/GFJWiMJAqZTv4xTH8u7DNxmOzq0qNTEq.ogg"
+    },
+    {
+      "description": "Maki_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "老师，你回来啦。今天的穿搭也让人眼前一亮嘛！",
+      "text_original": "お帰り、先生。今日のファッションもいい感じだね？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/THw8R3fm0LrQyhpkNGdzkO7ndNOtIhkB.ogg"
+    },
+    {
+      "description": "Maki_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "老师，你怎么才来啊！要是让我再干等会......我就要让老师的手机，“嘣！”地一下爆炸炸掉了哦。",
+      "text_original": "遅いじゃん、先生これ以上待たせてたら… 先生のスマホ、ドカンッ！って爆発させるところだったよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/UiE5LckO3ZesoorMbaRglabzUuQ7QUNu.ogg"
+    },
+    {
+      "description": "Maki_MemorialLobby_1_1.ogg",
+      "category": "lobby",
+      "text": "怎么样？感觉不错吧！",
+      "text_original": "さて、これでいい感じじゃない？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/EJE9MEDr1T5IgVvIYAWN5SRE9yLnxhwH.ogg"
+    },
+    {
+      "description": "Maki_MemorialLobby_1_2.ogg",
+      "category": "lobby",
+      "text": "老师觉得呢？",
+      "text_original": "先生から見て、どう？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/d9HIhWXcYDCfDhQ7syLhkkfQNdcBgPtV.ogg"
+    },
+    {
+      "description": "Maki_MemorialLobby_2_1.ogg",
+      "category": "lobby",
+      "text": "哼——？你的反应怎么这么不冷不热的呀？",
+      "text_original": "えぇっ…なんでそんなにイマイチな反応なの？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/bjp4IgD1enaVuMETBTi7saUoJnVlrXBf.ogg"
+    },
+    {
+      "description": "Maki_MemorialLobby_2_2.ogg",
+      "category": "lobby",
+      "text": "让我看看你熊熊燃烧的艺术之魂吧！",
+      "text_original": "もっと芸術魂を燃やして見てみてよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/SYeGEfHf0NAlDdVWoUvGuPKTjD5WtV6A.ogg"
+    },
+    {
+      "description": "Maki_MemorialLobby_3_1.ogg",
+      "category": "lobby",
+      "text": "老师你在画什么啊？",
+      "text_original": "先生は何を描いたの？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/Q6kK181hcc0nQElaIs7XKDz7lgkfynTx.ogg"
+    },
+    {
+      "description": "Maki_MemorialLobby_3_2.ogg",
+      "category": "lobby",
+      "text": "我看看......",
+      "text_original": "えーっと…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/TECPExW2YhvevdWaxHi3Cre1BhAVoO7H.ogg"
+    },
+    {
+      "description": "Maki_MemorialLobby_3_3.ogg",
+      "category": "lobby",
+      "text": "啊哈哈哈~什么呀这是？太搞笑了吧！",
+      "text_original": "あはは！なにこれ、めっちゃ面白い！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/baK0QpZRtxvGBTYtXIRiqfbNTfxBVMVR.ogg"
+    },
+    {
+      "description": "Maki_MemorialLobby_4_1.ogg",
+      "category": "lobby",
+      "text": "你问我这么高怕不怕？",
+      "text_original": "こんな高いところで怖くないのかって？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/eXZTo6l3pAGYxCHnaq9N7DzamiJMDpo7.ogg"
+    },
+    {
+      "description": "Maki_MemorialLobby_4_2.ogg",
+      "category": "lobby",
+      "text": "不怕呀~因为老师陪着我呢。",
+      "text_original": "大丈夫、先生がそばにいるから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/LisqTEMo9ziY4SQdbqfaZLPCG149Vjcb.ogg"
+    },
+    {
+      "description": "Maki_MemorialLobby_5_1.ogg",
+      "category": "lobby",
+      "text": "需要的话随时叫我哦~",
+      "text_original": "必要ならいつでもあたしを呼んで。 ",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/90wYcIosR4r8XDU7v0hIVGKnfoP48r2e.ogg"
+    },
+    {
+      "description": "Maki_MemorialLobby_5_2.ogg",
+      "category": "lobby",
+      "text": "无论是墙还是老师，我都可以让你们大放异彩！",
+      "text_original": "壁も、先生も、いい感じに彩ってあげる！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/46Joeas56K1GNNUDWFyX9493WntTYrqN.ogg"
+    },
+    {
+      "description": "Maki_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "嗯哈哈~谢谢老师一直帮助我。",
+      "text_original": "あはは、いつも手伝ってくれてありがとう、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/je8DQCGw6Ton0aPrPiqjwifKle38KhQ1.ogg"
+    },
+    {
+      "description": "Maki_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "什么时候有机会，能画一画老师的脸就好了。",
+      "text_original": "一度くらいは、先生の顔を描いてみたいなぁ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/qI8H2MDSXbZrFfSWhsuch1FEVK2C9MNg.ogg"
+    },
+    {
+      "description": "Maki_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "我、w—我可没在看老师的照片哦？",
+      "text_original": "せ、先生の写真とか見てたわけじゃないから…！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/fOws5QZ8Idxxqe6Fk7ujhYikyNaKfT2P.ogg"
+    },
+    {
+      "description": "Maki_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "感觉和老师在一起的时候，脑子里就会闪出很棒的灵感。",
+      "text_original": "先生と一緒にいると、いい感じのインスピレーションがよく浮かぶような気がする",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/oXQMjYJU6s8HU4WDySsGmmbzASqhxymD.ogg"
+    },
+    {
+      "description": "Maki_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "问我想要什么礼物？嗯......老师的衣服，可以让我涂上喜欢的颜色吗？",
+      "text_original": "プレゼントに何が欲しいか、って？ 先生の服、あたしがチョイスした色で塗ってみてもいい？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/BDnu1yMlvg9iLa6OndhbpoudzgEApmsS.ogg"
+    },
+    {
+      "description": "Maki_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "老师，生日快乐！嗯？为什么会知道你的生日？诶呀，这是保密情报来着......",
+      "text_original": "先生、お誕生日おめでとう！ ん？なんで知ってるのかって？ おっと、まだ公開されてない情報だったっけ？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/9yi8rF4fdU9KogJuDCr2ZDiBm5aOggtc.ogg"
+    },
+    {
+      "description": "Maki_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "为了这次的万圣节，我从上个月就开始准备衣服啦。嗯嘿嘿，你就期待着吧！",
+      "text_original": "今回のハロウィンのために、先月からコスチュームを準備してたの。 ふふっ、期待してて！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/803Ugp0biO2rueJevyvvtUK2ZuhrlwKi.ogg"
+    },
+    {
+      "description": "Maki_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "新年快乐，老师！今年也要画好多好多闪闪发光的东西哦！",
+      "text_original": "ハッピーニューイヤー、先生！ 今年もキラキラしたものをいっぱい描いていこう！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/14vYYEQ8GuRe4Ed9PvnP4H1vRZAouCAi.ogg"
+    },
+    {
+      "description": "Maki_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "到处都挂满了好看的彩灯......！可以把这个景象画到墙上吗？",
+      "text_original": "あっちもこっちも綺麗なイルミネーションでいっぱい…。 これ、そのまま壁に描き写せないかな？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/k1KxWRud7t0tRPyhkxc2MNFWZT8nHhMf.ogg"
+    },
+    {
+      "description": "Maki_Tactic_Defeat_1.ogg",
+      "category": "battle",
+      "text": "呜哇，搞砸了......大家快逃！",
+      "text_original": "うーわ、失敗したー。皆逃げてー",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/g6u6l7rR17uuahZDNxHZEKNvfV3v2iyf.ogg"
+    },
+    {
+      "description": "Maki_Tactic_Defeat_2.ogg",
+      "category": "battle",
+      "text": "嗯唉......这次的作品不行呢......",
+      "text_original": "うーわ、失敗したー。皆逃げてー",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/eGBfvScbwHPlkQAyzeRrZF7vBVhtlKKR.ogg"
+    },
+    {
+      "description": "Maki_Tactic_In_1.ogg",
+      "category": "battle",
+      "text": "如果赢了，我就要在那个掩体上画一个最棒的涂鸦！",
+      "text_original": "あたしが勝ったら、あの遮蔽物に最高のグラフィティを描こう？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/0cX7STOEc1EFNzgix9OKdORTtdszEGvJ.ogg"
+    },
+    {
+      "description": "Maki_Tactic_In_2.ogg",
+      "category": "battle",
+      "text": "今天的涂鸦用什么单词呢......？嗯......“真理”......好像不错！",
+      "text_original": "今日のグラフィティのフレーズは～、うん、VERITASが良さそう！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/j1hgxC2HEf6XPeznOrG7BjpHOCdoI1z1.ogg"
+    },
+    {
+      "description": "Maki_Tactic_Victory_1.ogg",
+      "category": "battle",
+      "text": "赢啦赢啦！",
+      "text_original": "勝った勝ったぁ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/eAfgyGIjOXgeLunCp3T4SZITEvQM7ct1.ogg"
+    },
+    {
+      "description": "Maki_Tactic_Victory_2.ogg",
+      "category": "battle",
+      "text": "今天也战了个痛！",
+      "text_original": "今日も一発かましてやったね！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/CQGdyPU4Ss92scM4cI88os9SrBNxVpxw.ogg"
+    },
+    {
+      "description": "Maki_Alarms_Blue_Line",
+      "category": "other",
+      "text": "",
+      "text_original": "どこ行くの?面白いものでもあった?",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Alarms_Blue_Line.ogg"
+    },
+    {
+      "description": "Maki_Alarms_Critical_Flooding_1",
+      "category": "other",
+      "text": "",
+      "text_original": "浸水してるの? あたしの芸術が！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Alarms_Critical_Flooding_1.ogg"
+    },
+    {
+      "description": "Maki_Alarms_Critical_Flooding_2",
+      "category": "other",
+      "text": "",
+      "text_original": "浸水してるよ！まだペンキ塗りたてなのに！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Alarms_Critical_Flooding_2.ogg"
+    },
+    {
+      "description": "Maki_Alarms_Fire_Alarm",
+      "category": "other",
+      "text": "",
+      "text_original": "火災?レーザーでも当たったの?",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Alarms_Fire_Alarm.ogg"
+    },
+    {
+      "description": "Maki_Alarms_Torpedo_Ahead_1",
+      "category": "other",
+      "text": "",
+      "text_original": "前から魚雷！避けないとグラフィティーが！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Alarms_Torpedo_Ahead_1.ogg"
+    },
+    {
+      "description": "Maki_Alarms_Torpedo_Ahead_2",
+      "category": "other",
+      "text": "",
+      "text_original": "前方に魚雷！ これはハッキングできなさそう！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Alarms_Torpedo_Ahead_2.ogg"
+    },
+    {
+      "description": "Maki_Alarms_Torpedo_Back_1",
+      "category": "other",
+      "text": "",
+      "text_original": "後ろから魚雷！ 避けないとグラフィティが！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Alarms_Torpedo_Back_1.ogg"
+    },
+    {
+      "description": "Maki_Alarms_Torpedo_Back_2",
+      "category": "other",
+      "text": "",
+      "text_original": "後方に魚雷！ これはハッキングできなさそう！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Alarms_Torpedo_Back_2.ogg"
+    },
+    {
+      "description": "Maki_Alarms_Torpedo_Left_1",
+      "category": "other",
+      "text": "",
+      "text_original": "左から魚雷！避けないとグラフィティがー！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Alarms_Torpedo_Left_1.ogg"
+    },
+    {
+      "description": "Maki_Alarms_Torpedo_Left_2",
+      "category": "other",
+      "text": "",
+      "text_original": "左下に魚雷！ これはハッキングできなさそう！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Alarms_Torpedo_Left_2.ogg"
+    },
+    {
+      "description": "Maki_Alarms_Torpedo_Right_1",
+      "category": "other",
+      "text": "",
+      "text_original": "右から魚雷！ 避けないとグラフィティが！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Alarms_Torpedo_Right_1.ogg"
+    },
+    {
+      "description": "Maki_Alarms_Torpedo_Right_2",
+      "category": "other",
+      "text": "",
+      "text_original": "右下に魚雷！ これはハッキングできなさそう！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Alarms_Torpedo_Right_2.ogg"
+    },
+    {
+      "description": "Maki_Autopilot_Checkpoint",
+      "category": "other",
+      "text": "",
+      "text_original": "チェックポイント通過だね",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Autopilot_Checkpoint.ogg"
+    },
+    {
+      "description": "Maki_Autopilot_Destination",
+      "category": "other",
+      "text": "",
+      "text_original": "もう到着?まだ書き終わってないよ",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Autopilot_Destination.ogg"
+    },
+    {
+      "description": "Maki_Autopilot_Disabled",
+      "category": "other",
+      "text": "",
+      "text_original": "自動航行オフ！あたし、相談してみてもいい?",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Autopilot_Disabled.ogg"
+    },
+    {
+      "description": "Maki_Autopilot_Enabled",
+      "category": "other",
+      "text": "",
+      "text_original": "自動航行オン！ じゃあ、ちょっとグラフィティ描いてくるね！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Autopilot_Enabled.ogg"
+    },
+    {
+      "description": "Maki_Capture_Fort_1",
+      "category": "other",
+      "text": "",
+      "text_original": "あの要塞を攻撃だ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Capture_Fort_1.ogg"
+    },
+    {
+      "description": "Maki_Capture_Fort_2",
+      "category": "other",
+      "text": "",
+      "text_original": "あの壁、グラフィティにぴったりなんだよな。 で、でも攻撃！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Capture_Fort_2.ogg"
+    },
+    {
+      "description": "Maki_CatFight_Destroyed",
+      "category": "other",
+      "text": "",
+      "text_original": "戦闘機がやられちゃったか 次はあたしが迷彩を塗ってあげるね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_CatFight_Destroyed.ogg"
+    },
+    {
+      "description": "Maki_CatFight_Launch",
+      "category": "other",
+      "text": "",
+      "text_original": "戦闘機の発艦完了！ いってらっしゃい！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_CatFight_Launch.ogg"
+    },
+    {
+      "description": "Maki_CatFight_Return",
+      "category": "other",
+      "text": "",
+      "text_original": "戦闘機が帰投してるね！お疲れ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_CatFight_Return.ogg"
+    },
+    {
+      "description": "Maki_Consumable_AAC_Normal",
+      "category": "other",
+      "text": "",
+      "text_original": "対空砲員の人は休んでて。あたしも塗料の補充するから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Consumable_AAC_Normal.ogg"
+    },
+    {
+      "description": "Maki_Consumable_AAC_Ready",
+      "category": "other",
+      "text": "",
+      "text_original": "対空砲員！一緒に空を砲弾で染めちゃおう！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Consumable_AAC_Ready.ogg"
+    },
+    {
+      "description": "Maki_Consumable_Forsage_Normal",
+      "category": "other",
+      "text": "",
+      "text_original": "エンジンブースト解除！楽しかったな！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Consumable_Forsage_Normal.ogg"
+    },
+    {
+      "description": "Maki_Consumable_Forsage_Start",
+      "category": "other",
+      "text": "",
+      "text_original": "エンジンブースト発動！いくよー！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Consumable_Forsage_Start.ogg"
+    },
+    {
+      "description": "Maki_Consumable_Hydroacoustic_Search",
+      "category": "other",
+      "text": "",
+      "text_original": "水中聴音、このボタンで合ってた?",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Consumable_Hydroacoustic_Search.ogg"
+    },
+    {
+      "description": "Maki_Consumable_Problem_Solved_b",
+      "category": "other",
+      "text": "",
+      "text_original": "対応完了！ついでにグラフィティも完成！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Consumable_Problem_Solved_b.ogg"
+    },
+    {
+      "description": "Maki_Consumable_Smoke_Start",
+      "category": "other",
+      "text": "",
+      "text_original": "煙幕を展開！ 赤い煙も欲しいなぁ…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Consumable_Smoke_Start.ogg"
+    },
+    {
+      "description": "Maki_Consumable_Smoke_Stop",
+      "category": "other",
+      "text": "",
+      "text_original": "煙幕の展開完了！ この隙にグラフィティを！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Consumable_Smoke_Stop.ogg"
+    },
+    {
+      "description": "Maki_Corr_Destroyed",
+      "category": "other",
+      "text": "",
+      "text_original": "観測機がやられちゃった。次はあたしが迷彩を塗ってあげようかな。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Corr_Destroyed.ogg"
+    },
+    {
+      "description": "Maki_Corr_Launch",
+      "category": "other",
+      "text": "",
+      "text_original": "観測機の発艦完了！いってらっしゃーい！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Corr_Launch.ogg"
+    },
+    {
+      "description": "Maki_Corr_Return",
+      "category": "other",
+      "text": "",
+      "text_original": "観測機が帰投してるね！お疲れ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Corr_Return.ogg"
+    },
+    {
+      "description": "Maki_Defeat",
+      "category": "other",
+      "text": "",
+      "text_original": "ダメだったかー。でも、この気持ちを自作へのインスピレーションに変えよう！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Defeat.ogg"
+    },
+    {
+      "description": "Maki_Defective_Modules_Engine_Damaged",
+      "category": "other",
+      "text": "",
+      "text_original": "エンジンにダメージ！ば、爆発とかしないよねー",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Defective_Modules_Engine_Damaged.ogg"
+    },
+    {
+      "description": "Maki_Defective_Modules_MainGun_Damaged",
+      "category": "other",
+      "text": "",
+      "text_original": "主砲に大ダメージ！ あちゃー",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Defective_Modules_MainGun_Damaged.ogg"
+    },
+    {
+      "description": "Maki_Defective_Modules_MainGun_Destroyed",
+      "category": "other",
+      "text": "",
+      "text_original": "主砲が爆発しちゃった！えぇーあたしの作品も！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Defective_Modules_MainGun_Destroyed.ogg"
+    },
+    {
+      "description": "Maki_Defective_Modules_Torpedo_Destroyed",
+      "category": "other",
+      "text": "",
+      "text_original": "魚雷発射管がやられた。先生に使い方を教えてもらおうと思ったのに。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Defective_Modules_Torpedo_Destroyed.ogg"
+    },
+    {
+      "description": "Maki_Defective_Modules_Wheel_Damaged",
+      "category": "other",
+      "text": "",
+      "text_original": "転打不能！このままだとまずいよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Defective_Modules_Wheel_Damaged.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Ally_Aircarrier_1",
+      "category": "other",
+      "text": "",
+      "text_original": "味方の空母を沈めるのはさすがにまずいって",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Ally_Aircarrier_1.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Ally_Aircarrier_2",
+      "category": "other",
+      "text": "",
+      "text_original": "それ、味方の空母だよ、先生！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Ally_Aircarrier_2.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Ally_Battleship_1",
+      "category": "other",
+      "text": "",
+      "text_original": "味方の戦艦を沈めるのはさすがにまずいって",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Ally_Battleship_1.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Ally_Battleship_2",
+      "category": "other",
+      "text": "",
+      "text_original": "それ、味方の戦艦だよ、先生！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Ally_Battleship_2.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Ally_Cruiser_1",
+      "category": "other",
+      "text": "",
+      "text_original": "味方の巡洋艦を沈めるのはさすがにまずいって",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Ally_Cruiser_1.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Ally_Cruiser_2",
+      "category": "other",
+      "text": "",
+      "text_original": "それ、味方の巡洋艦だよ、先生！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Ally_Cruiser_2.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Ally_Destroyer_1",
+      "category": "other",
+      "text": "",
+      "text_original": "味方の駆逐艦を沈めるのはさすがにまずいって",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Ally_Destroyer_1.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Ally_Destroyer_2",
+      "category": "other",
+      "text": "",
+      "text_original": "それ、味方の駆逐艦だよ、先生！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Ally_Destroyer_2.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Ally_Sub_1",
+      "category": "other",
+      "text": "",
+      "text_original": "味方の潜水艦を沈めるのはさすがにまずいって",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Ally_Sub_1.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Ally_Sub_2",
+      "category": "other",
+      "text": "",
+      "text_original": "それ、味方の潜水艦だよ、先生！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Ally_Sub_2.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Enemy_Aircarrier_1",
+      "category": "other",
+      "text": "",
+      "text_original": "敵空母撃沈！ ドッカーン！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Enemy_Aircarrier_1.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Enemy_Aircarrier_2",
+      "category": "other",
+      "text": "",
+      "text_original": "Tango down！敵空母の撃沈を確認！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Enemy_Aircarrier_2.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Enemy_Battleship_1",
+      "category": "other",
+      "text": "",
+      "text_original": "敵戦艦撃沈！ボーン！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Enemy_Battleship_1.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Enemy_Battleship_2",
+      "category": "other",
+      "text": "",
+      "text_original": "Tango down！敵戦艦の撃沈を確認！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Enemy_Battleship_2.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Enemy_Cruiser_1",
+      "category": "other",
+      "text": "",
+      "text_original": "敵巡洋艦撃沈！ ドッカーン！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Enemy_Cruiser_1.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Enemy_Cruiser_2",
+      "category": "other",
+      "text": "",
+      "text_original": "Tango down！ 敵巡洋艦の撃沈を確認！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Enemy_Cruiser_2.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Enemy_Destroyer_1",
+      "category": "other",
+      "text": "",
+      "text_original": "敵駆逐艦撃沈！ ドッカーン！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Enemy_Destroyer_1.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Enemy_Destroyer_2",
+      "category": "other",
+      "text": "",
+      "text_original": "Tango down！ 敵駆逐艦の撃沈を確認！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Enemy_Destroyer_2.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Enemy_Sub_1",
+      "category": "other",
+      "text": "",
+      "text_original": "敵潜水艦撃沈！ボーン！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Enemy_Sub_1.ogg"
+    },
+    {
+      "description": "Maki_Destroy_Enemy_Sub_2",
+      "category": "other",
+      "text": "",
+      "text_original": "Tango down！敵潜水艦の撃沈を確認！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Destroy_Enemy_Sub_2.ogg"
+    },
+    {
+      "description": "Maki_Detection_Enemy_Aircarrier_1",
+      "category": "other",
+      "text": "",
+      "text_original": "敵空母発見！ あの甲板、グラフィティにぴったり！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Detection_Enemy_Aircarrier_1.ogg"
+    },
+    {
+      "description": "Maki_Detection_Enemy_Aircarrier_2",
+      "category": "other",
+      "text": "",
+      "text_original": "敵空母だ！対空砲の準備するね！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Detection_Enemy_Aircarrier_2.ogg"
+    },
+    {
+      "description": "Maki_Detection_Enemy_Any_Ship_1",
+      "category": "other",
+      "text": "",
+      "text_original": "敵発見！撃沈すればいいインスピレーションが浮かぶかも！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Detection_Enemy_Any_Ship_1.ogg"
+    },
+    {
+      "description": "Maki_Detection_Enemy_Any_Ship_2",
+      "category": "other",
+      "text": "",
+      "text_original": "敵だ！ あの舷側にグラフィティしてみたいな！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Detection_Enemy_Any_Ship_2.ogg"
+    },
+    {
+      "description": "Maki_Detection_Enemy_Battleship_1",
+      "category": "other",
+      "text": "",
+      "text_original": "敵戦艦発見！ あの広い舷側、何色が合うかな?",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Detection_Enemy_Battleship_1.ogg"
+    },
+    {
+      "description": "Maki_Detection_Enemy_Battleship_2",
+      "category": "other",
+      "text": "",
+      "text_original": "あ、敵戦艦だよ！射程に入らないようにしないと！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Detection_Enemy_Battleship_2.ogg"
+    },
+    {
+      "description": "Maki_Detection_Enemy_Cruiser_1",
+      "category": "other",
+      "text": "",
+      "text_original": "敵巡洋艦発見！ うーん、どう動くかな?",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Detection_Enemy_Cruiser_1.ogg"
+    },
+    {
+      "description": "Maki_Detection_Enemy_Cruiser_2",
+      "category": "other",
+      "text": "",
+      "text_original": "敵巡洋艦だ！ あの舷側にグラフィティしてみたいな！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Detection_Enemy_Cruiser_2.ogg"
+    },
+    {
+      "description": "Maki_Detection_Enemy_Destroyer_1",
+      "category": "other",
+      "text": "",
+      "text_original": "敵駆逐艦だよ！ 先生、魚雷に気をつけて！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Detection_Enemy_Destroyer_1.ogg"
+    },
+    {
+      "description": "Maki_Detection_Enemy_Destroyer_2",
+      "category": "other",
+      "text": "",
+      "text_original": "敵駆逐艦だ！ あの舷側にグラフィティしてみたいな！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Detection_Enemy_Destroyer_2.ogg"
+    },
+    {
+      "description": "Maki_Detection_Enemy_Sub",
+      "category": "other",
+      "text": "",
+      "text_original": "敵潜水艦を発見！ あたしが見張っておくね！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Detection_Enemy_Sub.ogg"
+    },
+    {
+      "description": "Maki_Detection_Enemy_Sub_1",
+      "category": "other",
+      "text": "",
+      "text_original": "敵潜水艦だ！ あの外殻にグラフィティしてみたいな！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Detection_Enemy_Sub_1.ogg"
+    },
+    {
+      "description": "Maki_Domination_Ally_Advantage",
+      "category": "other",
+      "text": "",
+      "text_original": "あたしたちが勝ってるみたいだよ！このまま前進だ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Domination_Ally_Advantage.ogg"
+    },
+    {
+      "description": "Maki_Domination_Ally_Close_Win",
+      "category": "other",
+      "text": "",
+      "text_original": "もう勝っちゃいそう！やっぱ大事なのは芸術魂だね！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Domination_Ally_Close_Win.ogg"
+    },
+    {
+      "description": "Maki_Domination_Enemy_Advantage",
+      "category": "other",
+      "text": "",
+      "text_original": "あっちが優勢だね！そろそろ本気出さないと！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Domination_Enemy_Advantage.ogg"
+    },
+    {
+      "description": "Maki_Domination_Enemy_Close_Win",
+      "category": "other",
+      "text": "",
+      "text_original": "うわー負けちゃう！芸術魂が足りないのかな…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Domination_Enemy_Close_Win.ogg"
+    },
+    {
+      "description": "Maki_DoubleKill",
+      "category": "other",
+      "text": "",
+      "text_original": "ダブルキルだ！すごいよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_DoubleKill.ogg"
+    },
+    {
+      "description": "Maki_DoubleKill_1",
+      "category": "other",
+      "text": "",
+      "text_original": "2隻同時に！ この砲術ならどんな強敵にも勝てるよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_DoubleKill_1.ogg"
+    },
+    {
+      "description": "Maki_Draw",
+      "category": "other",
+      "text": "",
+      "text_original": "引き分けかー。芸術魂はまだ消えてない。先生、次行こうよ、次。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Draw.ogg"
+    },
+    {
+      "description": "Maki_Fire_Main_Battery_1",
+      "category": "other",
+      "text": "",
+      "text_original": "はい、プレゼント！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Fire_Main_Battery_1.ogg"
+    },
+    {
+      "description": "Maki_Fire_Main_Battery_2",
+      "category": "other",
+      "text": "",
+      "text_original": "くらえ！ ペイント弾！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Fire_Main_Battery_2.ogg"
+    },
+    {
+      "description": "Maki_Fire_Torpedo_1",
+      "category": "other",
+      "text": "",
+      "text_original": "避けたほうがいいかもよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Fire_Torpedo_1.ogg"
+    },
+    {
+      "description": "Maki_Fire_Torpedo_2",
+      "category": "other",
+      "text": "",
+      "text_original": "プレゼントだよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Fire_Torpedo_2.ogg"
+    },
+    {
+      "description": "Maki_FirstKill",
+      "category": "other",
+      "text": "",
+      "text_original": "制先いいね！燃えてきたー！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_FirstKill.ogg"
+    },
+    {
+      "description": "Maki_FirstKill_1",
+      "category": "other",
+      "text": "",
+      "text_original": "芸術魂は誰にも止められない！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_FirstKill_1.ogg"
+    },
+    {
+      "description": "Maki_Friendly_Fire_Hit_Alert_1",
+      "category": "other",
+      "text": "",
+      "text_original": "あ、ごめん。変なボタンを押したかも…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Friendly_Fire_Hit_Alert_1.ogg"
+    },
+    {
+      "description": "Maki_Friendly_Fire_Hit_Alert_2",
+      "category": "other",
+      "text": "",
+      "text_original": "今のは先生だからね！ あたしは何もしてないから！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Friendly_Fire_Hit_Alert_2.ogg"
+    },
+    {
+      "description": "Maki_Friendly_Fire_Punishment",
+      "category": "other",
+      "text": "",
+      "text_original": "ペ、ペナルティ…先生無茶しすぎだよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Friendly_Fire_Punishment.ogg"
+    },
+    {
+      "description": "Maki_Hit_Confirmation_1",
+      "category": "other",
+      "text": "",
+      "text_original": "貫通！芸術的な砲撃だね！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Hit_Confirmation_1.ogg"
+    },
+    {
+      "description": "Maki_Hit_Confirmation_2",
+      "category": "other",
+      "text": "",
+      "text_original": "やったー！当たったー！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Hit_Confirmation_2.ogg"
+    },
+    {
+      "description": "Maki_IDS_TIMER_5",
+      "category": "other",
+      "text": "",
+      "text_original": "残り5分！グラフィティを描く暇あるかな?",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_IDS_TIMER_5.ogg"
+    },
+    {
+      "description": "Maki_Last_Hope_1",
+      "category": "other",
+      "text": "",
+      "text_original": "もうあたしと先生だけみたい、戦いぶりを書いておくね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Last_Hope_1.ogg"
+    },
+    {
+      "description": "Maki_Last_Hope_2",
+      "category": "other",
+      "text": "",
+      "text_original": "あたしたちが最後の一隻みたい。でも、芸術がある限り、あたしは負けられない。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Last_Hope_2.ogg"
+    },
+    {
+      "description": "Maki_Lets_Battle_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "ミレニアムサイエンススクール1年、小塗マキ参戦！ ん?顔に塗料ついてる? あはは…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Lets_Battle_1.ogg"
+    },
+    {
+      "description": "Maki_Lets_Battle_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "あ？先生もう来たの？せっかくこの船でグラフィティしようと思ってたんだけどな…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Lets_Battle_2.ogg"
+    },
+    {
+      "description": "Maki_Pilots_Airborne_1",
+      "category": "other",
+      "text": "",
+      "text_original": "発艦完了！いつかあたしも乗ってみたいな！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Pilots_Airborne_1.ogg"
+    },
+    {
+      "description": "Maki_Pilots_Atpos_1",
+      "category": "other",
+      "text": "",
+      "text_original": "先生、指示を待ってるみたい！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Pilots_Atpos_1.ogg"
+    },
+    {
+      "description": "Maki_Pilots_Destroy_1",
+      "category": "other",
+      "text": "",
+      "text_original": "やられたー！次は迷彩を塗ろうか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Pilots_Destroy_1.ogg"
+    },
+    {
+      "description": "Maki_Pilots_Engage_1",
+      "category": "other",
+      "text": "",
+      "text_original": "目標に接近中！やっちゃいなー！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Pilots_Engage_1.ogg"
+    },
+    {
+      "description": "Maki_Pilots_Land_1",
+      "category": "other",
+      "text": "",
+      "text_original": "戦闘機が起動してる！お疲れ様！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Pilots_Land_1.ogg"
+    },
+    {
+      "description": "Maki_Pilots_Ready_1",
+      "category": "other",
+      "text": "",
+      "text_original": "準備完了！ペイント弾も装填済み！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Pilots_Ready_1.ogg"
+    },
+    {
+      "description": "Maki_Pilots_Tangodown_1",
+      "category": "other",
+      "text": "",
+      "text_original": "Tango down！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Pilots_Tangodown_1.ogg"
+    },
+    {
+      "description": "Maki_Pilots_Under_Attack_1",
+      "category": "other",
+      "text": "",
+      "text_original": "攻撃を受けてるよ！ちょっと色使いが大胆すぎたか。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Pilots_Under_Attack_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Ally_Base_1",
+      "category": "other",
+      "text": "",
+      "text_original": "味方陣地を守らないと！ゴーゴー！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Ally_Base_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Ally_Base_2",
+      "category": "other",
+      "text": "",
+      "text_original": "みんなで味方陣地を防衛しなきゃ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Ally_Base_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Ally_Building_1",
+      "category": "other",
+      "text": "",
+      "text_original": "陸上施設を守らないと、あの壁は誰にも譲らないよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Ally_Building_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Ally_Planes_1",
+      "category": "other",
+      "text": "",
+      "text_original": "味方航空機がピンチだね！ 援護しないと！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Ally_Planes_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Ally_Planes_2",
+      "category": "other",
+      "text": "",
+      "text_original": "味方航空機が危ないかも！ 援護をお願い！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Ally_Planes_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Ally_Point_1",
+      "category": "other",
+      "text": "",
+      "text_original": "このエリアを守るよ。ここからの景色、気に入ってるんだ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Ally_Point_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Ally_Point_2",
+      "category": "other",
+      "text": "",
+      "text_original": "みんな、このエリアを守って！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Ally_Point_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Ally_Ship_1",
+      "category": "other",
+      "text": "",
+      "text_original": "見方を手伝おう！あたしたちの出番だよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Ally_Ship_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Ally_Ship_2",
+      "category": "other",
+      "text": "",
+      "text_original": "支援しないと、芸術魂がそう言っている。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Ally_Ship_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Aye_Aye_1",
+      "category": "other",
+      "text": "",
+      "text_original": "はーい！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Aye_Aye_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Aye_Aye_2",
+      "category": "other",
+      "text": "",
+      "text_original": "Roger！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Aye_Aye_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Back_1",
+      "category": "other",
+      "text": "",
+      "text_original": "さあ逃げるよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Back_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Back_2",
+      "category": "other",
+      "text": "",
+      "text_original": "やばいって！退避ー！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Back_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Back_Ship_1",
+      "category": "other",
+      "text": "",
+      "text_original": "戻って！そこ危ないよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Back_Ship_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Caramba_1",
+      "category": "other",
+      "text": "",
+      "text_original": "強敵を倒すコツ? 攻撃に気をつけつつ…あ、あとはアカネ先輩やヒマリ先輩を呼ぶとか? もちろん！スプレー缶も忘れちゃダメ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Caramba_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Caramba_2",
+      "category": "other",
+      "text": "",
+      "text_original": "ん? これ、先生のスケッチブック? どれどれ?  あははっ！ なにこれ！ すごい個性的なセンスだね！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Caramba_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Enemy_Base_1",
+      "category": "other",
+      "text": "",
+      "text_original": "あの陣地に行こうよ！インスピレーション浮かんじゃうかも！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Enemy_Base_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Enemy_Base_2",
+      "category": "other",
+      "text": "",
+      "text_original": "みんな！あの陣地で集合しよう！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Enemy_Base_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Enemy_Building_1",
+      "category": "other",
+      "text": "",
+      "text_original": "あの陸上施設を攻撃して！あそこの壁は残せる?",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Enemy_Building_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Enemy_Planes_1",
+      "category": "other",
+      "text": "",
+      "text_original": "敵機が近づいてくる！ 迎撃しないと！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Enemy_Planes_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Enemy_Planes_2",
+      "category": "other",
+      "text": "",
+      "text_original": "空襲に気をつけて！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Enemy_Planes_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Enemy_Point_1",
+      "category": "other",
+      "text": "",
+      "text_original": "このエイリアを占領だ！行くよー！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Enemy_Point_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Enemy_Point_2",
+      "category": "other",
+      "text": "",
+      "text_original": "このエリアの占領をお願い！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Enemy_Point_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Enemy_Ship_1",
+      "category": "other",
+      "text": "",
+      "text_original": "ゲットをドカーンと爆沈させよう",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Enemy_Ship_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Enemy_Ship_2",
+      "category": "other",
+      "text": "",
+      "text_original": "火力が足りない！誰か支援射撃して！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Enemy_Ship_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Good_Game_1",
+      "category": "other",
+      "text": "",
+      "text_original": "楽しかったね。次はグラフィティもしたいな。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Good_Game_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Good_Game_2",
+      "category": "other",
+      "text": "",
+      "text_original": "また世界に芸術を生み出しちゃったかな…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Good_Game_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Good_Game_Ship_1",
+      "category": "other",
+      "text": "",
+      "text_original": "大活躍だったね！ あと、今日のファッションもいい感じ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Good_Game_Ship_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Good_Luck_1",
+      "category": "other",
+      "text": "",
+      "text_original": "スプレー缶とペイント弾の準備よしっと！ みんな、行くよー！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Good_Luck_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Good_Luck_2",
+      "category": "other",
+      "text": "",
+      "text_original": "燃えてきたー！ 主砲にペイント弾入れてもいい?",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Good_Luck_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Need_AA_1",
+      "category": "other",
+      "text": "",
+      "text_original": "対空支援お願い！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Need_AA_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Need_Scouting_1",
+      "category": "other",
+      "text": "",
+      "text_original": "偵察情報が必要だね。どこだ?",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Need_Scouting_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Need_Smoke_1",
+      "category": "other",
+      "text": "",
+      "text_original": "煙幕の展開をお願い！ えーと、スプレー缶は…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Need_Smoke_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Need_Support_1",
+      "category": "other",
+      "text": "",
+      "text_original": "火力支援お願い！ いくよー！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Need_Support_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Need_Support_2",
+      "category": "other",
+      "text": "",
+      "text_original": "手を貸して、集中砲火だ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Need_Support_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Need_Support_Plane_1",
+      "category": "other",
+      "text": "",
+      "text_original": "航空支援お願い！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Need_Support_Plane_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Need_Support_Ship_1",
+      "category": "other",
+      "text": "",
+      "text_original": "支援をお願い！後でグラフィティを描いてあげるから！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Need_Support_Ship_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_No_Way_1",
+      "category": "other",
+      "text": "",
+      "text_original": "あ…今は無理。ごめんね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_No_Way_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_No_Way_2",
+      "category": "other",
+      "text": "",
+      "text_original": "い、今ちょっと無理！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_No_Way_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Thank_You_1",
+      "category": "other",
+      "text": "",
+      "text_original": "ありがとう！いいインスピレーションが浮かんだよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Thank_You_1.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Thank_You_2",
+      "category": "other",
+      "text": "",
+      "text_original": "あははっ！ありがとう！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Thank_You_2.ogg"
+    },
+    {
+      "description": "Maki_Quick_Commands_Thank_You_Ship_1",
+      "category": "other",
+      "text": "",
+      "text_original": "この恩は忘れないよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Quick_Commands_Thank_You_Ship_1.ogg"
+    },
+    {
+      "description": "Maki_Ship_Destroyed",
+      "category": "other",
+      "text": "",
+      "text_original": "ぐぼぼぼぼっ",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Ship_Destroyed.ogg"
+    },
+    {
+      "description": "Maki_Torpedo_Hit_1",
+      "category": "other",
+      "text": "",
+      "text_original": "うんうん、当たった！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Torpedo_Hit_1.ogg"
+    },
+    {
+      "description": "Maki_Torpedo_Hit_2",
+      "category": "other",
+      "text": "",
+      "text_original": "ドカーン！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Torpedo_Hit_2.ogg"
+    },
+    {
+      "description": "Maki_Victory",
+      "category": "other",
+      "text": "",
+      "text_original": "大勝利！ 先生、記念に似顔絵描いといたよ、みてみて！ あははっ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/jp/Maki_Victory.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "maki_battle_buffed_1.ogg",
+      "category": "battle",
+      "text": "该我出场了吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/bKO5pk7gswQwoQk1Hq1dNoB9fnNYM6Lg.ogg"
+    },
+    {
+      "description": "maki_battle_buffself_1.ogg",
+      "category": "battle",
+      "text": "我现在，感觉热血沸腾！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/QgGgfL270tFgL0KloYvOSFTQhaMVE5AV.ogg"
+    },
+    {
+      "description": "maki_battle_damage_1.ogg",
+      "category": "battle",
+      "text": "哈......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/tgA0E8mllGsacqUI2juZaIHLqQeCNk9A.ogg"
+    },
+    {
+      "description": "maki_battle_damage_2.ogg",
+      "category": "battle",
+      "text": "啊—",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/bszgSUl2JIO3oA8KfJwAlEtZq3J9kzXG.ogg"
+    },
+    {
+      "description": "maki_battle_damage_3.ogg",
+      "category": "battle",
+      "text": "唔唉？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/1X2BbepO77rT8yhZR4QDccw4HPtOPAfw.ogg"
+    },
+    {
+      "description": "maki_battle_defense_1.ogg",
+      "category": "battle",
+      "text": "欸嘿嘿，没用没用！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/PmR8n3DB0LSrIXE7e6Z5Mu45rpKakBPu.ogg"
+    },
+    {
+      "description": "maki_battle_in_1.ogg",
+      "category": "battle",
+      "text": "好，来发挥一下实力吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/sJaHdaejtXMMSsNtLQPqbx0bqIEmwHu3.ogg"
+    },
+    {
+      "description": "maki_battle_in_2.ogg",
+      "category": "battle",
+      "text": "让世界变得更有趣吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/0x4OiwgQa243NjUH7L6hIqS3pEi43Po0.ogg"
+    },
+    {
+      "description": "maki_battle_move_1.ogg",
+      "category": "battle",
+      "text": "赶快去画下一个涂鸦吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/KqLVJ5COmEHXVZyyib6isqGFJk83UkyS.ogg"
+    },
+    {
+      "description": "maki_battle_move_2.ogg",
+      "category": "battle",
+      "text": "好啦，好啦，前进前进！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/VxLWBRZRB3uPt4mxtWd2zk2HotQNUn8F.ogg"
+    },
+    {
+      "description": "maki_battle_recovery_1.ogg",
+      "category": "battle",
+      "text": "嗯，谢谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/RxnGGDDqzoFNv00NOdSaZqyBNaSBJ2KF.ogg"
+    },
+    {
+      "description": "maki_battle_retire.ogg",
+      "category": "battle",
+      "text": "嗯啊，被干掉啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/2c3FCQjXTQfsVmBHGi1grsESbJRCijLB.ogg"
+    },
+    {
+      "description": "maki_battle_shout_1.ogg",
+      "category": "battle",
+      "text": "呀！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/WYwON81GXDZIqe0XPQzG4i0JPSsLmImH.ogg"
+    },
+    {
+      "description": "maki_battle_shout_2.ogg",
+      "category": "battle",
+      "text": "呀吼！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/CP35MHUptAlyj4chkSjPZnYskmf7jpxh.ogg"
+    },
+    {
+      "description": "maki_battle_shout_3.ogg",
+      "category": "battle",
+      "text": "这个给你！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/Svk13v2f1yMpUItTY6TAccjDVrzM40yk.ogg"
+    },
+    {
+      "description": "maki_battle_tacticalaction_1.ogg",
+      "category": "battle",
+      "text": "更换阵型！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/RDNlyJleLjc3BIZ0gCeNlt0bxXj4a2Km.ogg"
+    },
+    {
+      "description": "maki_battle_victory_1.ogg",
+      "category": "battle",
+      "text": "成果还不错嘛，老师觉得呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/h2o2T3hZ8qJVlyVi2xUDtwaM6hLsWjZJ.ogg"
+    },
+    {
+      "description": "maki_battle_victory_2.ogg",
+      "category": "battle",
+      "text": "嗯嘿嘿！没有任何人可以阻挡我的艺术之魂！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/GTagn0PHiPzo1TcSqslc4UkOTDp22atX.ogg"
+    },
+    {
+      "description": "maki_cafe_act_1.ogg",
+      "category": "cafe",
+      "text": "这面墙，再加上我的画，应该会更好看！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/bC2nKzHvCYiW9nhRq9IQPiVH5aIC61gV.ogg"
+    },
+    {
+      "description": "maki_cafe_act_2.ogg",
+      "category": "cafe",
+      "text": "这种松软的感觉，用喷漆应该怎么表现呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/RP2Ofd4lHFUPMosfTY2LIXRjLkA8fgDx.ogg"
+    },
+    {
+      "description": "maki_cafe_act_3.ogg",
+      "category": "cafe",
+      "text": "哎哟，当心点当心点，可不能把颜料蹭到衣服上......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/n6BFUCK1XaBXJ2Htu6os3E5J5P9I91Jd.ogg"
+    },
+    {
+      "description": "maki_cafe_act_4.ogg",
+      "category": "cafe",
+      "text": "在这边补点红色怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/Y6GjMqLdvDwW6jU6woigcrQ51wFzoaMj.ogg"
+    },
+    {
+      "description": "maki_cafe_act_5.ogg",
+      "category": "cafe",
+      "text": "......这个颜色感觉好棒......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/hmczswYzXGgOWB1RIaX19DZCOLx5qjaJ.ogg"
+    },
+    {
+      "description": "maki_commonskill.ogg",
+      "category": "battle",
+      "text": "炸裂吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/nlZI3TJ622O4BV8ZhTj6oYF8Rj8ELUK2.ogg"
+    },
+    {
+      "description": "maki_exskill_1.ogg",
+      "category": "battle",
+      "text": "真是完美的一天！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/iBVQWr4IO1hK1OGfftHZ50RkMBxERuum.ogg"
+    },
+    {
+      "description": "maki_exskill_2.ogg",
+      "category": "battle",
+      "text": "嗯嘿嘿，这次也画了一幅杰作呀！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/fARDcm2tlFbCwGY5DHfXc4p2rrZ8qTlC.ogg"
+    },
+    {
+      "description": "maki_exskill_3.ogg",
+      "category": "battle",
+      "text": "嗯~嗯~我喜欢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/KiDo6AgNa1vXgH7A8De6vTtmxWieD7RL.ogg"
+    },
+    {
+      "description": "maki_exskill_level_1.ogg",
+      "category": "battle",
+      "text": "看招！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/GMpGXvwUh9JYu3vBVr3oslgKak8dp65B.ogg"
+    },
+    {
+      "description": "maki_exskill_level_2.ogg",
+      "category": "battle",
+      "text": "送你们一个礼物！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/GU5CVFIUYqx2OsbgwFLdf1CIa1bNXc31.ogg"
+    },
+    {
+      "description": "maki_exskill_level_3.ogg",
+      "category": "battle",
+      "text": "啊哈哈哈！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/DHHQuBSA7HhEWdUC8iGeLr5KewW5VyfH.ogg"
+    },
+    {
+      "description": "maki_exweapon_get.ogg",
+      "category": "growup",
+      "text": "有了这把枪，我可以把整个世界染的色彩斑斓！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/KHfZWq9cvWkVPpebLgXyplxNF9Egk4U3.ogg"
+    },
+    {
+      "description": "maki_formation_in_1.ogg",
+      "category": "formation",
+      "text": "怎么啦怎么啦？有什么好玩的事吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/Hb1t7E3NYQsmnq3AZTkek5GsgFUYIphA.ogg"
+    },
+    {
+      "description": "maki_formation_in_2.ogg",
+      "category": "formation",
+      "text": "嗯嘿嘿，交给我吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/VwZRxNeht51eLpVTGDtPqCTxE6xQYrZr.ogg"
+    },
+    {
+      "description": "maki_formation_select.ogg",
+      "category": "formation",
+      "text": "啊？不是该我出战了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/EzzpdLqlOaP6FVgN1GmIrL0Gbqg0MzgF.ogg"
+    },
+    {
+      "description": "maki_gachaget.ogg",
+      "category": "growup",
+      "text": "哟，老师！ 要不要一块儿去涂鸦～？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/dTVteKttCfvsYPHoF7oHb9990tDlssZV.ogg"
+    },
+    {
+      "description": "maki_growup_1.ogg",
+      "category": "growup",
+      "text": "我现在，突然有了一个超——棒的灵感！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/VCKlGkFpioXHqIUOrrWRShumeovv7y0Y.ogg"
+    },
+    {
+      "description": "maki_growup_2.ogg",
+      "category": "growup",
+      "text": "嗯~很好~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/I8UG1B8ZXbJkwBv6kKPGNiLAUJUXoFvr.ogg"
+    },
+    {
+      "description": "maki_growup_3.ogg",
+      "category": "growup",
+      "text": "这个，能帮我提高成绩吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/Xgzl3LDSNU2T5RAG2Rv2vkXdpIOAMgpR.ogg"
+    },
+    {
+      "description": "maki_growup_4.ogg",
+      "category": "growup",
+      "text": "哦~我感受到一股强大的力量！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/rxmSjSQsG3FcpqNrTHP3BmMLJ6YH7nqF.ogg"
+    },
+    {
+      "description": "maki_lobby_1.ogg",
+      "category": "lobby",
+      "text": "我脸上蹭到什么东西了吗？......嗯？颜料？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/BBGrLxHNebI8HP0rVTLdrR7w55NFgp3r.ogg"
+    },
+    {
+      "description": "maki_lobby_2.ogg",
+      "category": "lobby",
+      "text": "这个涂鸦是不是很酷？我亲手画的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/Vd5EeQVqgL1Fd5n6797ddfEI4qJeHFiw.ogg"
+    },
+    {
+      "description": "maki_lobby_3.ogg",
+      "category": "lobby",
+      "text": "好不容易突破了防御，要是不留下点什么,我这个黑客不白当了嘛。嘿嘿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/n3P3PyrvgTV7yNvsSUsuufYJnQJKByxT.ogg"
+    },
+    {
+      "description": "maki_lobby_4.ogg",
+      "category": "lobby",
+      "text": "TANGO DOWN！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/oH2kZxxFEyH5PBcZ0q2rX7gQYdHKD4lt.ogg"
+    },
+    {
+      "description": "maki_lobby_5.ogg",
+      "category": "lobby",
+      "text": "如果能把基沃托斯中央那个圣所之塔的外墙，全都画满涂鸦，肯定帅呆了......！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/gc7W4KeNIB9J84JaiUVWPD8eWLqnEipp.ogg"
+    },
+    {
+      "description": "maki_login_1.ogg",
+      "category": "lobby",
+      "text": "老师，你回来啦。今天的穿搭也让人眼前一亮嘛！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/PT1Q4drDbUu2aYVGr3QcDuw6JLvsb11j.ogg"
+    },
+    {
+      "description": "maki_login_2.ogg",
+      "category": "lobby",
+      "text": "老师，你怎么才来啊！要是让我再干等会......我就要让老师的手机，“嘣！”地一下爆炸炸掉了哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/LnLpIGt8tCbFcqopbWdRSLC8mderTApy.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_1_1.ogg",
+      "category": "lobby",
+      "text": "怎么样？感觉不错吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/2tZNIj5ich6B12Yy8acZhfSU8viOQExj.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_1_2.ogg",
+      "category": "lobby",
+      "text": "老师觉得呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/GaejIuCZBc6MBnaTCUvNlf5nNijxMU6n.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_2_1.ogg",
+      "category": "lobby",
+      "text": "哼——？你的反应怎么这么不冷不热的呀？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/Fg2eY3vCW5i7PI43pz4eibMZ5Y4pcdjK.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_2_2.ogg",
+      "category": "lobby",
+      "text": "让我看看你熊熊燃烧的艺术之魂吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/tBkpfkvndK16RtnfSNXiobZJzX3YeNOs.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_3_1.ogg",
+      "category": "lobby",
+      "text": "老师你在画什么啊？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/F209V2QQXkbCpKFDnmAvEK23Zc3NlzOP.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_3_2.ogg",
+      "category": "lobby",
+      "text": "我看看......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/qeDVLakOXEyzUT99W1AdpHoojrpjDohM.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_3_3.ogg",
+      "category": "lobby",
+      "text": "啊哈哈哈~什么呀这是？太搞笑了吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/fLc9Lz9TWUAEEUBMDUtgYYlyhQyCGYmz.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_4_1.ogg",
+      "category": "lobby",
+      "text": "你问我这么高怕不怕？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/DT8SAOncFY5AI0Hff0cakBqyrSHcKhpX.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_4_2.ogg",
+      "category": "lobby",
+      "text": "不怕呀~因为老师陪着我呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/lMArdZ4hdPQfoQ6vkitz4KrlqyyLPtSU.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_5_1.ogg",
+      "category": "lobby",
+      "text": "需要的话随时叫我哦~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/r4rbBhG4nDqzfmMiVB4E4z8KUQiKoQVM.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_5_2.ogg",
+      "category": "lobby",
+      "text": "无论是墙还是老师，我都可以让你们大放异彩！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/KFLbHbvTEPricIPB7Ja0dEHnu7xUYyTl.ogg"
+    },
+    {
+      "description": "maki_relationship_up_1.ogg",
+      "category": "growup",
+      "text": "嗯哈哈~谢谢老师一直帮助我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/t7IVqgv6mx2LrxBtXhVmguiOVRDaB0Xd.ogg"
+    },
+    {
+      "description": "maki_relationship_up_2.ogg",
+      "category": "growup",
+      "text": "什么时候有机会，能画一画老师的脸就好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/taVHNEoDU8NXzzHBqPAkb5y3vVfxpQzg.ogg"
+    },
+    {
+      "description": "maki_relationship_up_3.ogg",
+      "category": "growup",
+      "text": "我、w—我可没在看老师的照片哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/uTaliRkGIvPpKayuy4Os9sSso1bsBdP2.ogg"
+    },
+    {
+      "description": "maki_relationship_up_4.ogg",
+      "category": "growup",
+      "text": "感觉和老师在一起的时候，脑子里就会闪出很棒的灵感。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/LuU0CHJ9uqXJT8mD2R27BVwnucmKSiCt.ogg"
+    },
+    {
+      "description": "maki_season_birthday.ogg",
+      "category": "lobby",
+      "text": "问我想要什么礼物？嗯......老师的衣服，可以让我涂上喜欢的颜色吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/7FM73zTqHYOEvf6azf4gysjMLkelRNAk.ogg"
+    },
+    {
+      "description": "maki_season_birthday_player.ogg",
+      "category": "lobby",
+      "text": "老师，生日快乐！嗯？为什么会知道你的生日？诶呀，这是保密情报来着......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/L0ZpD7xIRaQQNNNOnN3LxsnbBQC3fqwB.ogg"
+    },
+    {
+      "description": "maki_season_halloween.ogg",
+      "category": "lobby",
+      "text": "为了这次的万圣节，我从上个月就开始准备衣服啦。嗯嘿嘿，你就期待着吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/q4G6Be1ctBqwLeIHrX6OivmpStza8jjV.ogg"
+    },
+    {
+      "description": "maki_season_newyear.ogg",
+      "category": "lobby",
+      "text": "新年快乐，老师！今年也要画好多好多闪闪发光的东西哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/1Zf7M7eN8JOUueiJEW6a4deAdmUUa5SB.ogg"
+    },
+    {
+      "description": "maki_season_xmas.ogg",
+      "category": "lobby",
+      "text": "到处都挂满了好看的彩灯......！可以把这个景象画到墙上吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/vGxW0LLIePyis4ia0RRHvUG7qeKBMm5g.ogg"
+    },
+    {
+      "description": "maki_tactic_defeat_1.ogg",
+      "category": "battle",
+      "text": "呜哇，搞砸了......大家快逃！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/nkITqFb9EZnuKPKFT4jE6vpzsNbt41GG.ogg"
+    },
+    {
+      "description": "maki_tactic_defeat_2.ogg",
+      "category": "battle",
+      "text": "嗯唉......这次的作品不行呢......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/4U9HR5BWYYoBTbmmsZdmuFNFpnVuLHWZ.ogg"
+    },
+    {
+      "description": "maki_tactic_in_1.ogg",
+      "category": "battle",
+      "text": "如果赢了，我就要在那个掩体上画一个最棒的涂鸦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/0kCUks6reYRvq1htVxTmLarjkHzmpdmX.ogg"
+    },
+    {
+      "description": "maki_tactic_in_2.ogg",
+      "category": "battle",
+      "text": "今天的涂鸦用什么单词呢......？嗯......“真理”......好像不错！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/kbDPlCw2CO8kjkxaX5Gn8C0C2W44JTSv.ogg"
+    },
+    {
+      "description": "maki_tactic_victory_1.ogg",
+      "category": "battle",
+      "text": "赢啦赢啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/THzDyok89jsUKUKGIZLX5R56IpKGyL7j.ogg"
+    },
+    {
+      "description": "maki_tactic_victory_2.ogg",
+      "category": "battle",
+      "text": "今天也战了个痛！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/q8fgFc3plUhzNxs45EJDWQKJJmBptJTs.ogg"
+    },
+    {
+      "description": "maki_title.ogg",
+      "category": "lobby",
+      "text": "Blue Archive!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/Flr0Q0j7ZOZECf4xwnGUAvB4uuA2Z1t8.ogg"
+    },
+    {
+      "description": "maki_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，新春快乐呀！今年我想创作更多涂鸦，把枯燥的地方都染上色彩！啊，老师也要来帮忙哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/P6EM4HfA4q3prjTyskER9lQKf4uTmAcv.ogg"
+    },
+    {
+      "description": "maki_season_midautumn",
+      "category": "lobby",
+      "text": "中秋节快乐啊，老师！今晚的月亮真美，下次涂鸦时也画上一轮明月吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/dwDBDipp0XIMfGS9OGc9maaBpxf8B4BB.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "Maki_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/Maki_Title.ogg"
+    },
+    {
+      "description": "maki_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_buffed_1.ogg"
+    },
+    {
+      "description": "maki_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_buffself_1.ogg"
+    },
+    {
+      "description": "maki_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_damage_1.ogg"
+    },
+    {
+      "description": "maki_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_damage_2.ogg"
+    },
+    {
+      "description": "maki_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_damage_3.ogg"
+    },
+    {
+      "description": "maki_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_defense_1.ogg"
+    },
+    {
+      "description": "maki_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_in_1.ogg"
+    },
+    {
+      "description": "maki_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_in_2.ogg"
+    },
+    {
+      "description": "maki_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_move_1.ogg"
+    },
+    {
+      "description": "maki_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_move_2.ogg"
+    },
+    {
+      "description": "maki_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_recovery_1.ogg"
+    },
+    {
+      "description": "maki_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_retire.ogg"
+    },
+    {
+      "description": "maki_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_shout_1.ogg"
+    },
+    {
+      "description": "maki_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_shout_2.ogg"
+    },
+    {
+      "description": "maki_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_shout_3.ogg"
+    },
+    {
+      "description": "maki_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "maki_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_victory_1.ogg"
+    },
+    {
+      "description": "maki_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_battle_victory_2.ogg"
+    },
+    {
+      "description": "maki_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_cafe_act_1.ogg"
+    },
+    {
+      "description": "maki_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_cafe_act_2.ogg"
+    },
+    {
+      "description": "maki_cafe_act_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_cafe_act_3.ogg"
+    },
+    {
+      "description": "maki_cafe_act_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_cafe_act_4.ogg"
+    },
+    {
+      "description": "maki_cafe_act_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_cafe_act_5.ogg"
+    },
+    {
+      "description": "maki_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_commonskill.ogg"
+    },
+    {
+      "description": "maki_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_exskill_1.ogg"
+    },
+    {
+      "description": "maki_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_exskill_2.ogg"
+    },
+    {
+      "description": "maki_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_exskill_3.ogg"
+    },
+    {
+      "description": "maki_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_exskill_level_1.ogg"
+    },
+    {
+      "description": "maki_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_exskill_level_2.ogg"
+    },
+    {
+      "description": "maki_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_exskill_level_3.ogg"
+    },
+    {
+      "description": "maki_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_exweapon_get.ogg"
+    },
+    {
+      "description": "maki_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_formation_in_1.ogg"
+    },
+    {
+      "description": "maki_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_formation_in_2.ogg"
+    },
+    {
+      "description": "maki_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_formation_select.ogg"
+    },
+    {
+      "description": "maki_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_gachaget.ogg"
+    },
+    {
+      "description": "maki_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_growup_1.ogg"
+    },
+    {
+      "description": "maki_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_growup_2.ogg"
+    },
+    {
+      "description": "maki_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_growup_3.ogg"
+    },
+    {
+      "description": "maki_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_growup_4.ogg"
+    },
+    {
+      "description": "maki_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_lobby_1.ogg"
+    },
+    {
+      "description": "maki_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_lobby_2.ogg"
+    },
+    {
+      "description": "maki_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_lobby_3.ogg"
+    },
+    {
+      "description": "maki_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_lobby_4.ogg"
+    },
+    {
+      "description": "maki_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_lobby_5.ogg"
+    },
+    {
+      "description": "maki_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_login_1.ogg"
+    },
+    {
+      "description": "maki_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_login_2.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_memoriallobby_3_3.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "maki_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "maki_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_relationship_up_1.ogg"
+    },
+    {
+      "description": "maki_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_relationship_up_2.ogg"
+    },
+    {
+      "description": "maki_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_relationship_up_3.ogg"
+    },
+    {
+      "description": "maki_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_relationship_up_4.ogg"
+    },
+    {
+      "description": "maki_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_season_birthday.ogg"
+    },
+    {
+      "description": "maki_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_season_birthday_player.ogg"
+    },
+    {
+      "description": "maki_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_season_halloween.ogg"
+    },
+    {
+      "description": "maki_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_season_newyear.ogg"
+    },
+    {
+      "description": "maki_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_season_xmas.ogg"
+    },
+    {
+      "description": "maki_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "maki_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "maki_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_tactic_in_1.ogg"
+    },
+    {
+      "description": "maki_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_tactic_in_2.ogg"
+    },
+    {
+      "description": "maki_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_tactic_victory_1.ogg"
+    },
+    {
+      "description": "maki_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/maki_tactic_victory_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211128143010.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211128142943.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211128143003.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211128142955.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211128142937.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211128142907.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211128142930.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211128142914.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211128142921.png"
+      ]
+    },
+    {
+      "title": "运动服立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0050_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0050_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0050_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0050_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0050_spr_07.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0050_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0050_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0050_spr_Idle_01.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0050_spr_99.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0050_spr_05.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%9E%E3%82%AD.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_banner_cht.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_Intro_chs.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_Intro_en.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_Intro_jp.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_cafe.gif",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_ex.gif",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/maki_banner_en.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_074.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_222.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_249.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_250.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-77.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-260.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-287.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20015.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20240.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20244.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20245.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20247.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20268.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20281.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20296.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-10.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_171.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 162,
+      "favorability": 180
+    },
+    {
+      "id": 84,
+      "favorability": 60
+    },
+    {
+      "id": 56,
+      "favorability": 40
+    },
+    {
+      "id": 74,
+      "favorability": 40
+    },
+    {
+      "id": 78,
+      "favorability": 40
+    },
+    {
+      "id": 91,
+      "favorability": 40
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 10007,
+      "dev_name": "Maki_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Piercing",
+      "defensive_attributes": "Light",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "S",
+      "indoor_adaptability": "C",
+      "street_adaptability": "C",
+      "equipment": [
+        8,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        411,
+        412,
+        413,
+        414,
+        419,
+        420,
+        421,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/skill_icon/Bl2l5WOwTdlkAvKdJwwPB8JIO8Go5dkN.png",
+            "title": "让世界更加鲜艳！",
+            "title_cn": "让世界更加鲜艳！",
+            "preview": "//static.kivo.wiki/videos/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/skill_preview/w3fz3Pc9r7NGojDKojEwJc9ZWo1pN8S9.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 5,
+                "describe": "对1名敌人造成攻击力676%的伤害/攻击力增加41.9%（持续30秒）"
+              },
+              {
+                "cost": 5,
+                "describe": "对1名敌人造成攻击力777%的伤害/攻击力增加41.9%（持续30秒）"
+              },
+              {
+                "cost": 5,
+                "describe": "对1名敌人造成攻击力879%的伤害/攻击力增加48.2%（持续30秒）"
+              },
+              {
+                "cost": 5,
+                "describe": "对1名敌人造成攻击力980%的伤害/攻击力增加48.2%（持续30秒）"
+              },
+              {
+                "cost": 5,
+                "describe": "对1名敌人造成攻击力1081%的伤害/攻击力增加54.5%（持续30秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/skill_icon/OyRw2BhWj3oKVzTp3zOnavhENyM7298k.png",
+            "title": "投掷油漆弹！",
+            "title_cn": "投掷油漆弹！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每25秒减少1名敌人防御力18.3%，赋予印记（持续15秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒减少1名敌人防御力19.2%，赋予印记（持续15秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒减少1名敌人防御力20.2%，赋予印记（持续15秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒减少1名敌人防御力23.8%，赋予印记（持续15秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒减少1名敌人防御力24.8%，赋予印记（持续15秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒减少1名敌人防御力25.7%，赋予印记（持续15秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒减少1名敌人防御力29.3%，赋予印记（持续15秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒减少1名敌人防御力30.3%，赋予印记（持续15秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒减少1名敌人防御力31.2%，赋予印记（持续15秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒减少1名敌人防御力34.8%，赋予印记（持续15秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/skill_icon/IzRehUQFAvwsQdNH0BBgTqFDS9AuWqGD.png",
+            "title": "华丽演出",
+            "title_cn": "华丽演出",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击速度增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/skill_icon/2mYzfcyPaDNq3emqfJfMkNumde8fkt7q.png",
+            "title": "艺术的痛苦",
+            "title_cn": "艺术的苦痛",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击有印记的敌人时，造成攻击力14.9%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击有印记的敌人时，造成攻击力15.7%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击有印记的敌人时，造成攻击力16.4%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击有印记的敌人时，造成攻击力19.4%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击有印记的敌人时，造成攻击力20.1%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击有印记的敌人时，造成攻击力20.8%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击有印记的敌人时，造成攻击力23.8%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击有印记的敌人时，造成攻击力24.6%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击有印记的敌人时，造成攻击力25.3%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击有印记的敌人时，造成攻击力28.3%的追加伤害"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2563,
+          "attack": 276,
+          "defense": 81,
+          "healing": 1616,
+          "accuracy": 98,
+          "evasion": 196,
+          "crit": 245,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1424,
+          "range": 750,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 45
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/weapons_icon.png",
+        "name": "自动喷漆",
+        "name_cn": "自动喷漆",
+        "description": "真纪在涂鸦时经常使用的通用机枪。<br>经过干禧年的技术改造,除了实弹之外，还可以装填油漆弹。",
+        "description_cn": "真纪在涂鸦时经常使用的通用机枪。<br>经过千禧年的技术改造，除了实弹之外，还可以装填油漆弹。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「华丽演出」升级为「华丽演出+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室外适应性 S -> SS",
+            "description": "在室外地形造成1.3倍伤害。在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 贯穿克制伤害增加",
+            "description": "攻击类型为贯穿的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E6%B6%82%20%E7%9C%9F%E7%BA%AA/skill_icon/dOKIeS2D00JbxBJgvzd5zdyE6BDzJwlP.png",
+            "title": "华丽演出+",
+            "title_cn": "华丽演出+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1400/攻击速度增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1470/攻击速度增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1540/攻击速度增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1820/攻击速度增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1890/攻击速度增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1960/攻击速度增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加2240/攻击速度增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加2310/攻击速度增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加2380/攻击速度增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加2660/攻击速度增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [
+    {
+      "text": "三上　枝織 | 株式会社青二プロダクション",
+      "url": "https://www.aoni.co.jp/search/mikami-shiori.html"
+    },
+    {
+      "text": "萌娘百科：金娜",
+      "url": "https://zh.moegirl.org.cn/%E9%87%91%E5%A8%9C"
+    },
+    {
+      "text": "Namu Wiki韩站：변혜숙",
+      "url": "https://namu.wiki/w/%EB%B3%80%ED%98%9C%EC%88%99"
+    },
+    {
+      "text": "Namu Wiki韩站：유리(브라운 더스트)",
+      "url": "https://namu.wiki/w/%EC%9C%A0%EB%A6%AC(%EB%B8%8C%EB%9D%BC%EC%9A%B4%20%EB%8D%94%EC%8A%A4%ED%8A%B8)"
+    },
+    {
+      "text": "B站 威威字幕君 日服剧情翻译",
+      "url": "https://space.bilibili.com/7045822/"
+    }
+  ],
+  "contributor": [],
+  "info_declare_uuid": "aea24b90-e09e-42e9-83bb-6a101d412e47",
+  "skill_declare_uuid": "1b883156-b347-4eae-849d-babafc7c8658",
+  "supplementary_uuid": "9e99b0bb-c862-4a23-a24f-aaa02911ac87",
+  "supplementary_declare_uuid": "43102763-354a-4190-83ca-454d04f20392",
+  "created_at": 1685712160,
+  "updated_at": 1783484833
+}

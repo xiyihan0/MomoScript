@@ -1,0 +1,2454 @@
+{
+  "id": 381,
+  "skin": "泳装",
+  "skin_jp": "水着",
+  "skin_cn": "泳装",
+  "skin_zh_tw": "泳裝",
+  "skin_list": [
+    {
+      "id": 36,
+      "avatar": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 356,
+      "avatar": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E7%A4%BC%E6%9C%8D/Student_Portrait_CH0259_Collection.png",
+      "skin": "礼服",
+      "skin_cn": "礼服"
+    },
+    {
+      "id": 381,
+      "avatar": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "锭前",
+  "given_name": "纱织",
+  "family_name_jp": "錠前",
+  "given_name_jp": "サオリ",
+  "family_name_kr": "조마에",
+  "given_name_kr": "사오리",
+  "family_name_en": "Jomae",
+  "given_name_en": "Saori",
+  "family_name_zh_tw": "錠前",
+  "given_name_zh_tw": "沙織",
+  "family_name_cn": "锭前",
+  "given_name_cn": "纱织",
+  "nick_name": "",
+  "introduction": "仍在继续寻找自我的阿里乌斯小队的队长。\n由于缺少社会经验，偶然会做出一些匪夷所思的举动，但她总是真诚对待承接的每份工作。\n\n> 下个任务是？",
+  "introduction_cn": "在寻找自己真正想做的事情的迷茫中徘徊的阿里乌斯战术小队队长。\n\n虽然还缺乏社会经验，很多事情都不懂，但对承担的工作总是诚实而执着地对待。\n\n> 下一个任务是什么？",
+  "momo_talk_signature": "随时接受求助者咨询",
+  "main_relation": 42,
+  "relation": [
+    5,
+    14
+  ],
+  "age": 17,
+  "grade": "二年生",
+  "height": 167,
+  "birthday": "09-03",
+  "hobby": "无",
+  "designer": "Owa",
+  "illustrator": "Mx2J",
+  "character_voice": "石上静香",
+  "character_voice_cn": "汪滢滢",
+  "release_date": "2024-07-29",
+  "release_date_cn": "2026-02-05",
+  "release_date_global": "2025-01-30",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/avatar.png",
+  "school": 10,
+  "weapon_type": "AR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Large",
+  "special_appearance": false,
+  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 花曇りに白波を映して | 花阴映白浪 | 啊，老師。我一直在等您。對於負責的工作，我總是全力以赴。 | Ah, Sensei There You are I'l always give eVerything I have to the job. |\n| ![サオリ(水着).png](files/16130/pspbhS6jWPQY1HAGrjdsZ2imOmUQCLv0.png =450x) | ![](images/students/锭前%20纱织/泳装/gallery/官方图集/9pCj1oyq.png =450x) | ![BA사오리수영복X1280x720TW.png](files/16130/eq8VREtvozP76u476dVRFJ5VbzaGbBpO.png =450x)| ![20250913_225313.jpg](files/16130/0CJjCnqFsRV9gM5eNIxdmcryAYDX8ajG.jpg =450x)|\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![20250913_224552.jpg](files/16130/gMbleljNDl78bzX1igLzjEcoZcBXbjnO.jpg =525x) | ![](images/students/锭前%20纱织/泳装/gallery/官方图集/050dd8680c80e73e7f82b1baa3bd65403493265644980448.png =430x) | ![saori_swimsuit.jpg](files/16130/Fiz3E2iiOIaLZRmfoeQYhXAZbiBDBaCk.jpg =525x) | ![20250913_225307.jpg](files/16130/gDrR6WttQOIsYFxf5UJkMilXOVuMuFKV.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[DJ现场舞台](https://kivo.wiki/data/item/1279) |\n| :---: | :---: | :---: |\n| ![](images/students/锭前%20纱织/泳装/gallery/官方图集/c48a3877701bf6158c932c47e7a261763493265644980448.gif =450x) | ![](images/students/锭前%20纱织/泳装/gallery/官方图集/17162051d12185e683c6fbb3286fc7893493265644980448.gif =450x) | ![](images/students/锭前%20纱织/泳装/gallery/官方图集/64b5da4b6da9eeaf85e2f37c668d39223493265644980448.gif =450x) |\n\n## 国际服直播内容\n::::center\n\n![Snipaste_2026-05-25_21-05-50.png](files/4954/5FupLhTf5Z0nZLwCdlC4fRjUrwabJuUr.png =450x)\n\n![Snipaste_2026-05-25_21-06-40.png](files/4954/ZvZRJtahHx76Rr9WvQOag2EnQzX4Rfk9.png =450x)\n\n![Snipaste_2026-05-25_21-09-51.png](files/4954/WuMg1J3cnvrgpJXiQ4na0HjlaYNFD48a.png =450x)\n\n\n::::\n",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_home_Idle_01_0.9835000000000009.jpg",
+  "spine": [
+    1268,
+    779,
+    1357
+  ],
+  "model": [
+    93,
+    343
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [
+    {
+      "description": "CH0266_Battle_Buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "支援、感謝する。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Buffed_1.ogg"
+    },
+    {
+      "description": "CH0266_Battle_BuffSelf_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_BuffSelf_1.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "遮蔽する。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Covered_1.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Damage_1.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Damage_2.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Damage_3.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "甘い。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Defense_1.ogg"
+    },
+    {
+      "description": "CH0266_Battle_In_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "前方に立つ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_In_1.ogg"
+    },
+    {
+      "description": "CH0266_Battle_In_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "みなの夏のために。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_In_2.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "移動する。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Move_1.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "次はどこだ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Move_2.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "感謝しよう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Recovery_1.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "まだ…やるべきことが......",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Retire.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Shout_1.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Shout_2.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Shout_3.ogg"
+    },
+    {
+      "description": "CH0266_Battle_TacticalAction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "次。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_TacticalAction_1.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "任務完了。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Victory_1.ogg"
+    },
+    {
+      "description": "CH0266_Battle_Victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "……そろそろ練習に行きたいのだが。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Battle_Victory_2.ogg"
+    },
+    {
+      "description": "CH0266_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "ここで練習してもいいか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Cafe_monolog_1.ogg"
+    },
+    {
+      "description": "CH0266_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "あの装飾…アツコに似合いそうだ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Cafe_monolog_2.ogg"
+    },
+    {
+      "description": "CH0266_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "この辺りは騒々しいな。ミサキには不向きかもしれない。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Cafe_monolog_3.ogg"
+    },
+    {
+      "description": "CH0266_Cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "カフェか…ヒヨリのお気に入りの雑誌が、見つかるといいのだが。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Cafe_monolog_4.ogg"
+    },
+    {
+      "description": "CH0266_Cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "たしかここに、家計簿が…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Cafe_monolog_5.ogg"
+    },
+    {
+      "description": "CH0266_CommonSkill",
+      "category": "battle",
+      "text": "",
+      "text_original": "今日の業務も、丁寧にいこう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_CommonSkill.ogg"
+    },
+    {
+      "description": "CH0266_EventLobby_1",
+      "category": "event",
+      "text": "",
+      "text_original": "海は… 果てしなく広くて、 驚くほど水が多いのだな。感心した。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventLobby_1.ogg"
+    },
+    {
+      "description": "CH0266_EventLobby_2",
+      "category": "event",
+      "text": "",
+      "text_original": "もう少し 時間があったら、 ステージの完成度を あげられたのに…。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventLobby_2.ogg"
+    },
+    {
+      "description": "CH0266_EventLobby_3",
+      "category": "event",
+      "text": "",
+      "text_original": "海風は涼しいな。熱を冷ますのに ちょうどいい。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventLobby_3.ogg"
+    },
+    {
+      "description": "CH0266_EventLobby_4_1",
+      "category": "event",
+      "text": "",
+      "text_original": "楽しいお祭りになるよう、 最善を尽くそう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventLobby_4_1.ogg"
+    },
+    {
+      "description": "CH0266_EventLobby_4_2",
+      "category": "event",
+      "text": "",
+      "text_original": "先生も、どうかお祭りを 楽しんでくれ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventLobby_4_2.ogg"
+    },
+    {
+      "description": "CH0266_EventLogin_1",
+      "category": "event",
+      "text": "",
+      "text_original": "次の仕事は…あ、先生、 何か手伝ってほしいのか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventLogin_1.ogg"
+    },
+    {
+      "description": "CH0266_EventLogin_2",
+      "category": "event",
+      "text": "",
+      "text_original": "い、いらっしゃいませ！ 何名様……あ、先生だったか。 すまない。反射でつい。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventLogin_2.ogg"
+    },
+    {
+      "description": "CH0266_EventLogin_Season_1",
+      "category": "event",
+      "text": "",
+      "text_original": "アルバイトはまだ 終わっていない。最後まで、 気を引き締めていこう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventLogin_Season_1.ogg"
+    },
+    {
+      "description": "CH0266_EventLogin_Season_2",
+      "category": "event",
+      "text": "",
+      "text_original": "お祭りも終盤だな。 楽しめたか？先生。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventLogin_Season_2.ogg"
+    },
+    {
+      "description": "CH0266_EventLogin_Season_End",
+      "category": "event",
+      "text": "",
+      "text_original": "今回の仕事も、 無事に終わったな。先生のおかげだ。 恩に着る。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventLogin_Season_End.ogg"
+    },
+    {
+      "description": "CH0266_EventMission_1",
+      "category": "event",
+      "text": "",
+      "text_original": "アルバイトで生計を 立てている身だ。  仕事の案件は、しっかり 管理しなければならない。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventMission_1.ogg"
+    },
+    {
+      "description": "CH0266_EventMission_2",
+      "category": "event",
+      "text": "",
+      "text_original": "せ、先生、私に用か？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventMission_2.ogg"
+    },
+    {
+      "description": "CH0266_EventMission_Day_End",
+      "category": "event",
+      "text": "",
+      "text_original": "今日はここまでだ。協力に感謝する。先生、一緒に飲み物でも飲まないか？  ",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventMission_Day_End.ogg"
+    },
+    {
+      "description": "CH0266_EventMission_Get_1",
+      "category": "event",
+      "text": "",
+      "text_original": "おかげで助かった。 先生は敏腕だな。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventMission_Get_1.ogg"
+    },
+    {
+      "description": "CH0266_EventMission_Get_2",
+      "category": "event",
+      "text": "",
+      "text_original": "もう片付けたのか…？  お礼にこれを… 受け取ってくれ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventMission_Get_2.ogg"
+    },
+    {
+      "description": "CH0266_EventMission_Login_1",
+      "category": "event",
+      "text": "",
+      "text_original": "悪いが先生、 少し力を貸してくれ。  私一人では手が回らなくてな。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventMission_Login_1.ogg"
+    },
+    {
+      "description": "CH0266_EventMission_Login_2",
+      "category": "event",
+      "text": "",
+      "text_original": "今日の業務リストだ。 先生、手伝ってもらえるか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_EventMission_Login_2.ogg"
+    },
+    {
+      "description": "CH0266_ExSkill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "私にできること、私がしたいことは……！",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_ExSkill_1.ogg"
+    },
+    {
+      "description": "CH0266_ExSkill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "何かが、見える……！",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_ExSkill_2.ogg"
+    },
+    {
+      "description": "CH0266_ExSkill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "胸が、高鳴る……！",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_ExSkill_3.ogg"
+    },
+    {
+      "description": "CH0266_ExSkill_Level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "これを……！",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_ExSkill_Level_1.ogg"
+    },
+    {
+      "description": "CH0266_ExSkill_Level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "もう一曲……！",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_ExSkill_Level_2.ogg"
+    },
+    {
+      "description": "CH0266_ExSkill_Level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "今だ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_ExSkill_Level_3.ogg"
+    },
+    {
+      "description": "CH0266_ExWeapon_Get",
+      "category": "growup",
+      "text": "",
+      "text_original": "将来は不確かだが、一つだけ断言できる。先生からもらったこの信頼の証は…最後まで、大切にする。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_ExWeapon_Get.ogg"
+    },
+    {
+      "description": "CH0266_Formation_In_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "何をすればいい？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Formation_In_1.ogg"
+    },
+    {
+      "description": "CH0266_Formation_In_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "業務を全うする。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Formation_In_2.ogg"
+    },
+    {
+      "description": "CH0266_Formation_Select",
+      "category": "formation",
+      "text": "",
+      "text_original": "次はどんな業務だ？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Formation_Select.ogg"
+    },
+    {
+      "description": "CH0266_Gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "ここが今回のアルバイト先か…海は初めてだが、任せてくれ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Gachaget.ogg"
+    },
+    {
+      "description": "CH0266_Growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "……これで業務が円滑に進む。礼を言おう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Growup_1.ogg"
+    },
+    {
+      "description": "CH0266_Growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "これを……本当に受け取っていいのか……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Growup_2.ogg"
+    },
+    {
+      "description": "CH0266_Growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "次の給料が入ったら、この恩は必ず…… ……むっ、い、要らない……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Growup_3.ogg"
+    },
+    {
+      "description": "CH0266_Growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "計り知れないほど、たくさんの恩が先生にあるというのに、 今の私には、感謝の言葉を返すしかできないのが……もどかしいな。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Growup_4.ogg"
+    },
+    {
+      "description": "CH0266_Lobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "アルバイトだからと、 手を抜くなどあっては ならない。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Lobby_1_1.ogg"
+    },
+    {
+      "description": "CH0266_Lobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "与えられた業務は、 すべて全力で挑んでいる。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Lobby_1_2.ogg"
+    },
+    {
+      "description": "CH0266_Lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "次の給料でミサキに 贈り物をしよう…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Lobby_2.ogg"
+    },
+    {
+      "description": "CH0266_Lobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "この服装は、アルバイトで 必要だから着ているだけだが…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Lobby_3_1.ogg"
+    },
+    {
+      "description": "CH0266_Lobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "先生が気に入ったと いうのなら、これからも 着るとしよう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Lobby_3_2.ogg"
+    },
+    {
+      "description": "CH0266_Lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "海、お祭り…  いつか、 アズサとも一緒に 訪れたいものだ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Lobby_4.ogg"
+    },
+    {
+      "description": "CH0266_Lobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "海もアルバイトも、 知らないことだらけだ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Lobby_5_1.ogg"
+    },
+    {
+      "description": "CH0266_Lobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "しかしいつまでも 「不慣れ」を言い訳には できない。尽力する。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Lobby_5_2.ogg"
+    },
+    {
+      "description": "CH0266_LogIn_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "先生、待っていた。 今日の業務はなんだ？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_LogIn_1.ogg"
+    },
+    {
+      "description": "CH0266_LogIn_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "ん～ん～ん～",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_LogIn_2_1.ogg"
+    },
+    {
+      "description": "CH0266_LogIn_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "せ、先生！？い、今の、 聞こえていたか…？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_LogIn_2_2.ogg"
+    },
+    {
+      "description": "CH0266_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "終演後の 客席というのは、 寂しいものだな。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_MemorialLobby_1_1.ogg"
+    },
+    {
+      "description": "CH0266_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "大勢いた観客がはけ、 照明はすべて消えて…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_MemorialLobby_1_2.ogg"
+    },
+    {
+      "description": "CH0266_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "華やかなステージは 跡形もなく、静寂に 沈んでいる。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_MemorialLobby_2_1.ogg"
+    },
+    {
+      "description": "CH0266_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "熱気と歓声に 満ちていた空間が 突如静まると…どこか、 切なさを覚えるほどだ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_MemorialLobby_2_2.ogg"
+    },
+    {
+      "description": "CH0266_MemorialLobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "…でも、今はもう、 大丈夫だ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_MemorialLobby_3.ogg"
+    },
+    {
+      "description": "CH0266_MemorialLobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "変わったことは 何もないが、 穏やかでいられる。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_MemorialLobby_4.ogg"
+    },
+    {
+      "description": "CH0266_MemorialLobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "…先生が隣にいるから、 かもしれないな。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_MemorialLobby_5.ogg"
+    },
+    {
+      "description": "CH0266_Relationship_Up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "先生の変わらぬ支援に、感謝を。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Relationship_Up_1.ogg"
+    },
+    {
+      "description": "CH0266_Relationship_Up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "その……もしよければ…… 先生のために演奏を……あ、いや、なんでもない。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Relationship_Up_2.ogg"
+    },
+    {
+      "description": "CH0266_Relationship_Up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "私は常に、先生を応援している。 ……それだけ、覚えていてくれ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Relationship_Up_3.ogg"
+    },
+    {
+      "description": "CH0266_Relationship_Up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "働いて給料をもらうのは簡単だ。 しかし先生の信頼に応えるのは……とても難しく感じる。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Relationship_Up_4.ogg"
+    },
+    {
+      "description": "CH0266_Season_Birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "私の誕生日…  ああ…仕事に 没頭していて 忘れていた。  慣れなくても、 お礼はきちんと 言わなければ。  感謝する、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Season_Birthday.ogg"
+    },
+    {
+      "description": "CH0266_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "誕生日だな、先生。  めでたい日に 最適な曲を用意した。 そこに座ってくれ、 今から演奏する。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Season_Birthday_Player.ogg"
+    },
+    {
+      "description": "CH0266_Season_Halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "お菓子…いたずら…む…  まだよく分からないな… 片方を選べば、いいのか？  まだよく分からないな… 片方を選べば、いいのか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Season_Halloween.ogg"
+    },
+    {
+      "description": "CH0266_Season_NewYear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "明けましておめでとう、 先生。  笑顔の一年であるよう、 祈ろう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Season_NewYear.ogg"
+    },
+    {
+      "description": "CH0266_Season_Xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "クリスマスだな。 キャロルを数曲、 サンプリングしてきた。  聞いてくれるか？先生。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Season_Xmas.ogg"
+    },
+    {
+      "description": "CH0266_Tactic_Defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "私の力不足で......すまない。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Tactic_Defeat_1.ogg"
+    },
+    {
+      "description": "CH0266_Tactic_Defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "えっ…気が緩んでいた。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Tactic_Defeat_2.ogg"
+    },
+    {
+      "description": "CH0266_Tactic_In_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "現場に到着した。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Tactic_In_1.ogg"
+    },
+    {
+      "description": "CH0266_Tactic_In_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "準備完了。行くぞ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Tactic_In_2.ogg"
+    },
+    {
+      "description": "CH0266_Tactic_Victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "ステージの時間には間に合いそうだ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Tactic_Victory_1.ogg"
+    },
+    {
+      "description": "CH0266_Tactic_Victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "業務、完了だ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Tactic_Victory_2.ogg"
+    },
+    {
+      "description": "CH0266_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "ブルー、アーカイブ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/CH0266_Title.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "ch0266_battle_buffed_1",
+      "category": "battle",
+      "text": "感谢支援。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_buffed_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_buffself_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_covered_1",
+      "category": "battle",
+      "text": "已掩蔽。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_covered_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_damage_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_damage_2.ogg"
+    },
+    {
+      "description": "ch0266_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_damage_3.ogg"
+    },
+    {
+      "description": "ch0266_battle_defense_1",
+      "category": "battle",
+      "text": "太生疏了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_defense_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_in_1",
+      "category": "battle",
+      "text": "我来带头。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_in_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_in_2",
+      "category": "battle",
+      "text": "为了所有人的夏天。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_in_2.ogg"
+    },
+    {
+      "description": "ch0266_battle_move_1",
+      "category": "battle",
+      "text": "开始移动。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_move_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_move_2",
+      "category": "battle",
+      "text": "接下来去哪儿？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_move_2.ogg"
+    },
+    {
+      "description": "ch0266_battle_recovery_1",
+      "category": "battle",
+      "text": "谢谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_recovery_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_retire",
+      "category": "battle",
+      "text": "我还有未竟之事……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_retire.ogg"
+    },
+    {
+      "description": "ch0266_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_shout_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_shout_2.ogg"
+    },
+    {
+      "description": "ch0266_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_shout_3.ogg"
+    },
+    {
+      "description": "ch0266_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "下一个。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_victory_1",
+      "category": "battle",
+      "text": "任务完成了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_victory_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_victory_2",
+      "category": "battle",
+      "text": "现在该去练习了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_battle_victory_2.ogg"
+    },
+    {
+      "description": "ch0266_cafe_monolog_1",
+      "category": "cafe",
+      "text": "可以在这里练习吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0266_cafe_monolog_2",
+      "category": "cafe",
+      "text": "那个装饰……好像很适合亚津子。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0266_cafe_monolog_3",
+      "category": "cafe",
+      "text": "这周围真吵。美咲应该不太喜欢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0266_cafe_monolog_4",
+      "category": "cafe",
+      "text": "咖啡厅啊……要是有日和喜欢的杂志就好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0266_cafe_monolog_5",
+      "category": "cafe",
+      "text": "账本明明放在这里的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0266_commonskill",
+      "category": "battle",
+      "text": "今天的工作也要谨慎行事。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_commonskill.ogg"
+    },
+    {
+      "description": "ch0266_eventlobby_1",
+      "category": "event",
+      "text": "大海……一望无际，海水之无限，真的令人惊叹。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventlobby_1.ogg"
+    },
+    {
+      "description": "ch0266_eventlobby_2",
+      "category": "event",
+      "text": "如果再多一点时间，舞台的完成度还可以更高……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventlobby_2.ogg"
+    },
+    {
+      "description": "ch0266_eventlobby_3",
+      "category": "event",
+      "text": "海风好凉爽。正好能吹干汗水。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventlobby_3.ogg"
+    },
+    {
+      "description": "ch0266_eventlobby_4_1",
+      "category": "event",
+      "text": "为了打造一场欢乐的庆典，我会全力以赴。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventlobby_4_1.ogg"
+    },
+    {
+      "description": "ch0266_eventlobby_4_2",
+      "category": "event",
+      "text": "希望老师也能好好享受庆典。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventlobby_4_2.ogg"
+    },
+    {
+      "description": "ch0266_eventlogin_1",
+      "category": "event",
+      "text": "接下来的工作是……啊，老师。有什么需要帮忙的吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventlogin_1.ogg"
+    },
+    {
+      "description": "ch0266_eventlogin_2",
+      "category": "event",
+      "text": "欢迎光临！请问几位？……啊，是老师啊。对不起。问候语说顺口了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventlogin_2.ogg"
+    },
+    {
+      "description": "ch0266_eventlogin_season_1",
+      "category": "event",
+      "text": "打工还没结束。 打起精神坚持到最后吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "ch0266_eventlogin_season_2",
+      "category": "event",
+      "text": "庆典也快结束了。玩得开心吗？老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "ch0266_eventlogin_season_end",
+      "category": "event",
+      "text": "这次的工作也顺利完成了。多亏了老师。承蒙你的照顾了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_1",
+      "category": "event",
+      "text": "我是靠打工维持生计的人。工作内容必须严格管理。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventmission_1.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_2",
+      "category": "event",
+      "text": "老，老师？找我有事吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventmission_2.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_day_end",
+      "category": "event",
+      "text": "今天就到这里吧，谢谢老师的协助。要不要一起喝杯饮料？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventmission_day_end.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_get_1",
+      "category": "event",
+      "text": "得救了。老师做事真利索呀。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventmission_get_1.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_get_2",
+      "category": "event",
+      "text": "已经整理好了吗……？那……请老师收下这份谢礼。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventmission_get_2.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_login_1",
+      "category": "event",
+      "text": "啊，老师很抱歉，能帮个忙吗？我一个人有点应付不来。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventmission_login_1.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_login_2",
+      "category": "event",
+      "text": "这是今天的工作清单。老师，可以帮帮我吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_eventmission_login_2.ogg"
+    },
+    {
+      "description": "ch0266_exskill_1",
+      "category": "battle",
+      "text": "我能做到的事，还有想做的事……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_exskill_1.ogg"
+    },
+    {
+      "description": "ch0266_exskill_2",
+      "category": "battle",
+      "text": "我好像有头绪了……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_exskill_2.ogg"
+    },
+    {
+      "description": "ch0266_exskill_3",
+      "category": "battle",
+      "text": "胸口，怦怦直跳……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_exskill_3.ogg"
+    },
+    {
+      "description": "ch0266_exskill_level_1",
+      "category": "battle",
+      "text": "就是这个……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0266_exskill_level_2",
+      "category": "battle",
+      "text": "再来一首……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0266_exskill_level_3",
+      "category": "battle",
+      "text": "就是现在！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0266_exweapon_get",
+      "category": "growup",
+      "text": "虽然前路未知，但有一点我可以保证。老师给予的信任的证明……我会永远视若珍宝。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0266_formation_in_1",
+      "category": "formation",
+      "text": "要做什么呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0266_formation_in_2",
+      "category": "formation",
+      "text": "我会完成工作的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0266_formation_select",
+      "category": "formation",
+      "text": "接下来是什么样的工作？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_formation_select.ogg"
+    },
+    {
+      "description": "ch0266_gachaget",
+      "category": "growup",
+      "text": "这次是在这里打工啊……海边是第一次，但是交给我没问题。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_gachaget.ogg"
+    },
+    {
+      "description": "ch0266_growup_1",
+      "category": "growup",
+      "text": "……多亏有你，工作才能顺利进行。谢谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_growup_1.ogg"
+    },
+    {
+      "description": "ch0266_growup_2",
+      "category": "growup",
+      "text": "这种东西，我真的可以收下吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_growup_2.ogg"
+    },
+    {
+      "description": "ch0266_growup_3",
+      "category": "growup",
+      "text": "等下次我拿到薪水，一定会报答这份恩情…………呃？不，不需要吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_growup_3.ogg"
+    },
+    {
+      "description": "ch0266_growup_4",
+      "category": "growup",
+      "text": "老师给了我数不清的恩情，……我能做的却只有感谢……真是堵心。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_growup_4.ogg"
+    },
+    {
+      "description": "ch0266_lobby_1_1",
+      "category": "lobby",
+      "text": "不能因为是兼职就敷衍了事。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_lobby_1_1.ogg"
+    },
+    {
+      "description": "ch0266_lobby_1_2",
+      "category": "lobby",
+      "text": "交给我的工作，我向来都会竭尽全力。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_lobby_1_2.ogg"
+    },
+    {
+      "description": "ch0266_lobby_2",
+      "category": "lobby",
+      "text": "下次发工资要给美咲买个礼物……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_lobby_2.ogg"
+    },
+    {
+      "description": "ch0266_lobby_3_1",
+      "category": "lobby",
+      "text": "这身衣服是因为打工才穿的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_lobby_3_1.ogg"
+    },
+    {
+      "description": "ch0266_lobby_3_2",
+      "category": "lobby",
+      "text": "老师要是喜欢的话，那我以后也会继续穿的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_lobby_3_2.ogg"
+    },
+    {
+      "description": "ch0266_lobby_4",
+      "category": "lobby",
+      "text": "大海，庆典……总有一天，我要跟阿梓一起去看看。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_lobby_4.ogg"
+    },
+    {
+      "description": "ch0266_lobby_5_1",
+      "category": "lobby",
+      "text": "大海、打工……都是充满未知的事物。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_lobby_5_1.ogg"
+    },
+    {
+      "description": "ch0266_lobby_5_2",
+      "category": "lobby",
+      "text": "但也不能总是以“陌生”为借口。我会全力以赴的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_lobby_5_2.ogg"
+    },
+    {
+      "description": "ch0266_login_1",
+      "category": "lobby",
+      "text": "啊，老师，我正等你呢。今天的工作是什么？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_login_1.ogg"
+    },
+    {
+      "description": "ch0266_login_2_1",
+      "category": "lobby",
+      "text": "嗯~嗯~嗯~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_login_2_1.ogg"
+    },
+    {
+      "description": "ch0266_login_2_2",
+      "category": "lobby",
+      "text": "老，老师？！刚，刚才的听到了吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_login_2_2.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "演出结束后的观众席，真是冷清。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "那么多观众都离开了，灯光也全部熄灭……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "华丽的舞台悄无声息地沉没于寂静之中。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "原本充满热情和呐喊声的空间突然安静下来……甚至让人感到一丝不舍。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_3",
+      "category": "lobby",
+      "text": "……但是现在没事了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_memoriallobby_3.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_4",
+      "category": "lobby",
+      "text": "虽然什么都没变，但是可以平静地待着了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_memoriallobby_4.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_5",
+      "category": "lobby",
+      "text": "……也许是因为老师就在身边吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_memoriallobby_5.ogg"
+    },
+    {
+      "description": "ch0266_relationship_up_1",
+      "category": "growup",
+      "text": "老师总是这么信任我。谢谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0266_relationship_up_2",
+      "category": "growup",
+      "text": "那个，呃，不介意的话……我想为老师演奏……呃，唔，还是算了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0266_relationship_up_3",
+      "category": "growup",
+      "text": "我一直都在支持老师。……只要记住这点就好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0266_relationship_up_4",
+      "category": "growup",
+      "text": "干活拿钱这件事很容易。但是要报答老师的信任……感觉实在很难。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0266_season_birthday_player",
+      "category": "lobby",
+      "text": "老师，今天是你的生日。在这个喜庆的日子里，我准备了一首最合适的曲子。可以请你坐在那边吗？我现在就开始演奏。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_season_birthday_player.ogg"
+    },
+    {
+      "description": "ch0266_season_birthday",
+      "category": "lobby",
+      "text": "我的生日……啊……工作太专心，都忘记了。虽然不太习惯，但还是要好好道谢才是。谢谢你，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_season_birthday.ogg"
+    },
+    {
+      "description": "ch0266_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，过年好！刚才领薪水的时候，发现信封变成了红色的……啊，原来这是新春的习俗吗？去沙勒一起贴春联？……好的，接下来没有工作安排，我这就去！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "ch0266_season_halloween",
+      "category": "lobby",
+      "text": "嗯，点心还是恶作剧……我还是不太明白，是要二选一吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_season_halloween.ogg"
+    },
+    {
+      "description": "ch0266_season_midautumn",
+      "category": "lobby",
+      "text": "昨天接到了做月饼的紧急工作，作为报酬也领到了一些月饼……这，这是我亲手做的，如果不嫌弃的话……请老师尝尝吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_season_midautumn.ogg"
+    },
+    {
+      "description": "ch0266_season_newyear",
+      "category": "lobby",
+      "text": "新年快乐，老师。祝愿您新的一年喜气洋洋。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_season_newyear.ogg"
+    },
+    {
+      "description": "ch0266_season_xmas",
+      "category": "lobby",
+      "text": "圣诞节到了。我准备了几首圣诞颂歌的样曲，要听一下吗？老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_season_xmas.ogg"
+    },
+    {
+      "description": "ch0266_tactic_defeat_1",
+      "category": "battle",
+      "text": "是我力量不足，对不起。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "ch0266_tactic_defeat_2",
+      "category": "battle",
+      "text": "……是我松懈了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "ch0266_tactic_in_1",
+      "category": "battle",
+      "text": "已到达现场。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_tactic_in_1.ogg"
+    },
+    {
+      "description": "ch0266_tactic_in_2",
+      "category": "battle",
+      "text": "准备就绪，出发。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_tactic_in_2.ogg"
+    },
+    {
+      "description": "ch0266_tactic_victory_1",
+      "category": "battle",
+      "text": "应该能赶上演出时间。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_tactic_victory_1.ogg"
+    },
+    {
+      "description": "ch0266_tactic_victory_2",
+      "category": "battle",
+      "text": "工作完成了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_tactic_victory_2.ogg"
+    },
+    {
+      "description": "ch0266_title",
+      "category": "lobby",
+      "text": "Blue Archive.",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/cn/ch0266_title.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "ch0266_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_buffed_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_buffself_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_covered_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_damage_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_damage_2.ogg"
+    },
+    {
+      "description": "ch0266_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_damage_3.ogg"
+    },
+    {
+      "description": "ch0266_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_defense_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_in_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_in_2.ogg"
+    },
+    {
+      "description": "ch0266_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_move_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_move_2.ogg"
+    },
+    {
+      "description": "ch0266_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_recovery_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_retire.ogg"
+    },
+    {
+      "description": "ch0266_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_shout_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_shout_2.ogg"
+    },
+    {
+      "description": "ch0266_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_shout_3.ogg"
+    },
+    {
+      "description": "ch0266_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_victory_1.ogg"
+    },
+    {
+      "description": "ch0266_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_battle_victory_2.ogg"
+    },
+    {
+      "description": "ch0266_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0266_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0266_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0266_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0266_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0266_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_commonskill.ogg"
+    },
+    {
+      "description": "ch0266_eventlobby_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventlobby_1.ogg"
+    },
+    {
+      "description": "ch0266_eventlobby_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventlobby_2.ogg"
+    },
+    {
+      "description": "ch0266_eventlobby_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventlobby_3.ogg"
+    },
+    {
+      "description": "ch0266_eventlobby_4_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventlobby_4_1.ogg"
+    },
+    {
+      "description": "ch0266_eventlobby_4_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventlobby_4_2.ogg"
+    },
+    {
+      "description": "ch0266_eventlogin_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventlogin_1.ogg"
+    },
+    {
+      "description": "ch0266_eventlogin_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventlogin_2.ogg"
+    },
+    {
+      "description": "ch0266_eventlogin_season_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "ch0266_eventlogin_season_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "ch0266_eventlogin_season_end",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventmission_1.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventmission_2.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_day_end",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventmission_day_end.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_get_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventmission_get_1.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_get_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventmission_get_2.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventmission_login_1.ogg"
+    },
+    {
+      "description": "ch0266_eventmission_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_eventmission_login_2.ogg"
+    },
+    {
+      "description": "ch0266_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_exskill_1.ogg"
+    },
+    {
+      "description": "ch0266_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_exskill_2.ogg"
+    },
+    {
+      "description": "ch0266_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_exskill_3.ogg"
+    },
+    {
+      "description": "ch0266_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0266_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0266_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0266_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0266_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0266_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0266_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_formation_select.ogg"
+    },
+    {
+      "description": "ch0266_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_gachaget.ogg"
+    },
+    {
+      "description": "ch0266_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_growup_1.ogg"
+    },
+    {
+      "description": "ch0266_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_growup_2.ogg"
+    },
+    {
+      "description": "ch0266_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_growup_3.ogg"
+    },
+    {
+      "description": "ch0266_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_growup_4.ogg"
+    },
+    {
+      "description": "ch0266_lobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_lobby_1_1.ogg"
+    },
+    {
+      "description": "ch0266_lobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_lobby_1_2.ogg"
+    },
+    {
+      "description": "ch0266_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_lobby_2.ogg"
+    },
+    {
+      "description": "ch0266_lobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_lobby_3_1.ogg"
+    },
+    {
+      "description": "ch0266_lobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_lobby_3_2.ogg"
+    },
+    {
+      "description": "ch0266_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_lobby_4.ogg"
+    },
+    {
+      "description": "ch0266_lobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_lobby_5_1.ogg"
+    },
+    {
+      "description": "ch0266_lobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_lobby_5_2.ogg"
+    },
+    {
+      "description": "ch0266_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_login_1.ogg"
+    },
+    {
+      "description": "ch0266_login_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_login_2_1.ogg"
+    },
+    {
+      "description": "ch0266_login_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_login_2_2.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_memoriallobby_3.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_memoriallobby_4.ogg"
+    },
+    {
+      "description": "ch0266_memoriallobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_memoriallobby_5.ogg"
+    },
+    {
+      "description": "ch0266_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0266_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0266_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0266_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0266_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_season_birthday.ogg"
+    },
+    {
+      "description": "ch0266_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_season_birthday_player.ogg"
+    },
+    {
+      "description": "ch0266_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_season_halloween.ogg"
+    },
+    {
+      "description": "ch0266_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_season_newyear.ogg"
+    },
+    {
+      "description": "ch0266_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_season_xmas.ogg"
+    },
+    {
+      "description": "ch0266_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "ch0266_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "ch0266_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_tactic_in_1.ogg"
+    },
+    {
+      "description": "ch0266_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_tactic_in_2.ogg"
+    },
+    {
+      "description": "ch0266_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_tactic_victory_1.ogg"
+    },
+    {
+      "description": "ch0266_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/ch0266_tactic_victory_2.ogg"
+    },
+    {
+      "description": "CH0266_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/kr/CH0266_Title.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_02.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_01.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_03.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_00.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_05.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_06.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_08.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_11.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_07.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_13.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_04.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_15.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_10.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_99.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_09.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_12.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0266_spr_14.png"
+      ]
+    },
+    {
+      "title": "无耳机差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_01.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_09.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_05.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_03.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_02.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_06.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_04.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_07.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_08.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_10.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_11.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_12.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_14.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_13.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_15.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_00.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E6%97%A0%E8%80%B3%E6%9C%BA%E5%B7%AE%E5%88%86/CH0266_spr_S2_99.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/20250913_224552.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/20250913_225307.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/saori_swimsuit.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%82%B5%E3%82%AA%E3%83%AA%28%E6%B0%B4%E7%9D%80%29.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/20250913_225313.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/BA%EC%82%AC%EC%98%A4%EB%A6%AC%EC%88%98%EC%98%81%EB%B3%B5X1280x720TW.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/9pCj1oyq.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/050dd8680c80e73e7f82b1baa3bd65403493265644980448.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/3a59f3c3727183c5a9ddf5ab819fd1d13493265644980448.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/c48a3877701bf6158c932c47e7a261763493265644980448.gif",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/17162051d12185e683c6fbb3286fc7893493265644980448.gif",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/64b5da4b6da9eeaf85e2f37c668d39223493265644980448.gif"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 17,
+      "favorability": 60
+    },
+    {
+      "id": 27,
+      "favorability": 60
+    },
+    {
+      "id": 31,
+      "favorability": 60
+    },
+    {
+      "id": 131,
+      "favorability": 240
+    },
+    {
+      "id": 68,
+      "favorability": 60
+    },
+    {
+      "id": 58,
+      "favorability": 40
+    },
+    {
+      "id": 85,
+      "favorability": 180
+    }
+  ],
+  "furniture": [
+    1279
+  ],
+  "character_datas": [
+    {
+      "character_id": 10101,
+      "dev_name": "CH0266",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Mystic",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": false,
+      "team_position": "MIDDLE",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": true,
+      "outdoor_adaptability": "S",
+      "indoor_adaptability": "B",
+      "street_adaptability": "D",
+      "equipment": [
+        7,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        106,
+        108,
+        110,
+        109,
+        143,
+        144,
+        145,
+        146,
+        19,
+        372,
+        373,
+        374,
+        375,
+        448,
+        449,
+        450
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/skill_icon/mdbPFdxq1Wff9Xn33DdHI870SQeS4uS1.png",
+            "title": "音乐，开始！",
+            "title_cn": "演出，开始！",
+            "preview": "//static.kivo.wiki/videos/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/skill_preview/69bjjgd9LBswQOrWjoUb6LIOfuDSq7YF.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 7,
+                "describe": "对扇形范围内敌人造成攻击力833%的伤害，给予攻击力360%的恶寒持续伤害（持续40秒），对其他敌人造成攻击力123%的伤害。"
+              },
+              {
+                "cost": 7,
+                "describe": "对扇形范围内敌人造成攻击力833%的伤害，给予攻击力414%的恶寒持续伤害（持续40秒），对其他敌人造成攻击力123%的伤害。"
+              },
+              {
+                "cost": 7,
+                "describe": "对扇形范围内敌人造成攻击力958%的伤害，给予攻击力469%的恶寒持续伤害（持续40秒），对其他敌人造成攻击力123%的伤害。"
+              },
+              {
+                "cost": 7,
+                "describe": "对扇形范围内敌人造成攻击力958%的伤害，给予攻击力523%的恶寒持续伤害（持续40秒），对其他敌人造成攻击力123%的伤害。"
+              },
+              {
+                "cost": 7,
+                "describe": "对扇形范围内敌人造成攻击力1083%的伤害，给予攻击力577%的恶寒持续伤害（持续40秒），对其他敌人造成攻击力123%的伤害。"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/skill_icon/FLD26SOBOyqnngytH1yQI9Kp37VMP3vA.png",
+            "title": "短暂的休息",
+            "title_cn": "片刻的闲暇",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加19.7%（持续20秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加20.7%（持续20秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加21.7%（持续20秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加25.6%（持续20秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加26.6%（持续20秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加27.6%（持续20秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加31.5%（持续20秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加32.5%（持续20秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加33.5%（持续20秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加37.5%（持续20秒）。"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/skill_icon/c1pgEbLoLv2mwrKkjjaP7XQs4N4ewT9S.png",
+            "title": "任务完美完成",
+            "title_cn": "无懈可击的任务执行",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加14.7%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加15.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.2%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.9%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加19.6%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加22.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.1%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.8%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加26.6%。"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/skill_icon/7WTmFx0SKPU9RdzqzD5qI41VEGcsH25h.png",
+            "title": "真诚的学生打工",
+            "title_cn": "勤勉的兼职生",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "普通攻击时，30%概率增加10.08%的持续伤害（恶寒）（持续20秒）（冷却时间5秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，30%概率增加10.59%的持续伤害（恶寒）（持续20秒）（冷却时间5秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，30%概率增加11.09%的持续伤害（恶寒）（持续20秒）（冷却时间5秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，30%概率增加13.11%的持续伤害（恶寒）（持续20秒）（冷却时间5秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，30%概率增加13.61%的持续伤害（恶寒）（持续20秒）（冷却时间5秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，30%概率增加14.12%的持续伤害（恶寒）（持续20秒）（冷却时间5秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，30%概率增加16.13%的持续伤害（恶寒）（持续20秒）（冷却时间5秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，30%概率增加16.64%的持续伤害（恶寒）（持续20秒）（冷却时间5秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，30%概率增加17.14%的持续伤害（恶寒）（持续20秒）（冷却时间5秒）。"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，30%概率增加19.16%的持续伤害（恶寒）（持续20秒）（冷却时间5秒）。"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2400,
+          "attack": 298,
+          "defense": 19,
+          "healing": 1723,
+          "accuracy": 733,
+          "evasion": 761,
+          "crit": 209,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1332,
+          "range": 650,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 15
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/%E9%98%BF%E9%87%8C%E4%B9%8C%E6%96%AF%E5%88%B6%E7%AA%81%E5%87%BB%E6%AD%A5%E6%9E%AA_icon.png",
+        "name": "阿里乌斯制突击步枪",
+        "name_cn": "阿里乌斯制式突击步枪",
+        "description": "纱织使用的突击步枪。<br/>即使在各种兼职工作中，也有细心保养以发挥其应有的性能。",
+        "description_cn": "纱织使用的突击步枪。<br>经过精心保养，即使在各种艰苦的打工活动中也能发挥出色性能。",
+        "info": [
+          {
+            "title": "",
+            "description": ""
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「任务完美完成」升级为「任务完美完成+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室外适应性 S -> SS",
+            "description": "在室外地形造成1.3倍伤害。 在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 神秘克制伤害增加",
+            "description": "攻击类型为神秘的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/skill_icon/WAydy3XcpCwvE0jpc5ZY2tOS1Ni6Tl8v.png",
+            "title": "任务完美完成+",
+            "title_cn": "无懈可击的任务执行+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "神秘克制率加算26%，攻击力增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘克制率加算27.3%，攻击力增加14.7%。"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘克制率加算28.6%，攻击力增加15.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘克制率加算26%，攻击力增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘克制率加算26%，攻击力增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘克制率加算26%，攻击力增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘克制率加算26%，攻击力增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘克制率加算26%，攻击力增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘克制率加算26%，攻击力增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "神秘克制率加算26%，攻击力增加14%。"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "4cb8e76a-f6cd-4193-83c3-8c9da196b192",
+  "skill_declare_uuid": "0f6ba72a-41a5-4307-ad24-e1422b042721",
+  "supplementary_uuid": "4cba5300-c0c5-4936-bc9c-828779bc48eb",
+  "supplementary_declare_uuid": "0f70d9df-4ad4-47c4-8771-559cf2765cc0",
+  "created_at": 1721566138,
+  "updated_at": 1780329317
+}

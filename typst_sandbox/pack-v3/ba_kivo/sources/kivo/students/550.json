@@ -1,0 +1,1381 @@
+{
+  "id": 550,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 550,
+      "avatar": "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/rena.png",
+      "skin": "",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "衣斐",
+  "given_name": "莱娜",
+  "family_name_jp": "衣斐",
+  "given_name_jp": "レナ",
+  "family_name_kr": "키누이",
+  "given_name_kr": "레나",
+  "family_name_en": "Kinui",
+  "given_name_en": "Rena",
+  "family_name_zh_tw": "衣斐",
+  "given_name_zh_tw": "玲奈",
+  "family_name_cn": "",
+  "given_name_cn": "",
+  "nick_name": "",
+  "introduction": "狂猎艺术学院所属，研究蕴藏在艺术中的神秘学的神秘学研究会的成员。\n\n偶然之中被分配进了第4宿舍404室，因此不得已参与起了神秘学研究会的活动。虽然本人坚称神秘学都是糊弄人的，但本人貌似在不知不觉中也陷入其中了。\n\n>我要成为基沃托斯最顶尖的时尚设计师！",
+  "introduction_cn": "",
+  "momo_talk_signature": "神秘学什么的我绝对不信！",
+  "main_relation": 140,
+  "relation": null,
+  "age": 15,
+  "grade": "一年生",
+  "height": 152,
+  "birthday": "09-21",
+  "hobby": "制作服装、饰品",
+  "designer": "GULIM",
+  "illustrator": "GULIM",
+  "character_voice": "梅澤 めぐ",
+  "character_voice_cn": "",
+  "release_date": "2026-03-18",
+  "release_date_cn": null,
+  "release_date_global": null,
+  "sd_model_image": "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/EnemyInfo_CH0305.png",
+  "avatar": "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/rena.png",
+  "school": 14,
+  "weapon_type": "HG",
+  "is_install": true,
+  "is_install_cn": false,
+  "is_install_global": false,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": false,
+  "more": "# 官方图集\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|生地よ、踊れ！裁ち縫うは感性の針！|  |  |  |\n|![0d28e1975f6d0f150cba469c6f76a720_720.jpg](files/21155/7EqqP0SRAVDsWKGXB0Izh4F0OfbQ5Eap.jpg =450x)| 暂无 | 暂无 | 暂无 |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|![de0c7c6ed109a4f88a00bfa064d434e2_720.jpg](files/21155/JMOH8OEZF9NvRDk22NjmD2aOrAdNwxFM.jpg =450x)| 暂无 | 暂无 | 暂无 |\n\n## SD动画\n\n| EX技能动画 | 咖啡厅触摸 | 家具互动：[]() |\n| :---: | :---: | :---: |\n|![F34aZJgQ_converted.gif](files/21155/OYdlKLho7SKPsWrEZPzMbDu6za7Qjssu.gif =450x)| 暂无 |![2KrF9PYq_converted.gif](files/21155/vT4ljRGAXXVtDwVkBcrlx81ES8RlA4c7.gif =450x)|\n\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[艾利](https://kivo.wiki/data/character/549)|エリ先輩<br>先輩|\n|[庚](https://kivo.wiki/data/character/548)|カノエ先輩<br>先輩|\n|[纺](https://kivo.wiki/data/character/372)|ツムギ先輩|\n|[心华](https://kivo.wiki/data/character/378)|コノカ<br>あの子|\n|[翼](https://kivo.wiki/data/character/587)|ツバサ<br>この子|\n|神秘学研究会|みんな<br>先輩たち<br>バカ先輩ども<br>先輩ども<br>ヘンテコ集団<br>ルームメイト|\n|調査班X|調査班X|\n|艺术评议会|評議会<br>芸術評議会|\n|Mo超自然现象研究所|モー超常現象研究所|\n|舍监队|寮監隊|\n|[瓦尔基里警察学校](https://kivo.wiki/data/organize/8)|ヴァルキューレ|\n|[千禧科学学院](https://kivo.wiki/data/organize/4)|ミレニアム|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/CH0305_home_Idle_01_4.899799999999997_%E5%89%AF%E6%9C%AC.png",
+  "spine": [
+    1305,
+    1450
+  ],
+  "model": [
+    518,
+    523
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [
+    {
+      "description": "ch0305_battle_buffed_1",
+      "category": "battle",
+      "text": "这效果真神奇呢。",
+      "text_original": "ふ、不思議な効果があるのね。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_buffed_1.ogg"
+    },
+    {
+      "description": "ch0305_battle_buffself_1",
+      "category": "battle",
+      "text": "再加把劲~",
+      "text_original": "もう一頑張り~",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_buffself_1.ogg"
+    },
+    {
+      "description": "ch0305_battle_covered_1",
+      "category": "battle",
+      "text": "让、让我休息一下！",
+      "text_original": "ちょっ、ちょっと休憩！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_covered_1.ogg"
+    },
+    {
+      "description": "ch0305_battle_damage_1",
+      "category": "battle",
+      "text": "好、好痛——！",
+      "text_original": "い、痛いー！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_damage_1.ogg"
+    },
+    {
+      "description": "ch0305_battle_damage_2",
+      "category": "battle",
+      "text": "干、干嘛——？",
+      "text_original": "な、なにー？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_damage_2.ogg"
+    },
+    {
+      "description": "ch0305_battle_damage_3",
+      "category": "battle",
+      "text": "呜……",
+      "text_original": "うぅぅ…",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_damage_3.ogg"
+    },
+    {
+      "description": "ch0305_battle_defense_1",
+      "category": "battle",
+      "text": "没用的！",
+      "text_original": "効かないよ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_defense_1.ogg"
+    },
+    {
+      "description": "ch0305_battle_in_1",
+      "category": "battle",
+      "text": "哼，别以为能轻易骗到我！",
+      "text_original": "ふんっ、簡単に騙されると思わないでよね！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_in_1.ogg"
+    },
+    {
+      "description": "ch0305_battle_in_2",
+      "category": "battle",
+      "text": "幽灵什么的尽管出来！我会证明你们根本不存在！",
+      "text_original": "幽霊でも何でも出てきなさいよ！いないって証明してやるんだから！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_in_2.ogg"
+    },
+    {
+      "description": "ch0305_battle_move_1",
+      "category": "battle",
+      "text": "前面应该不会……发生什么怪事吧……？",
+      "text_original": "この先って、なんか変なこと起きたり……しないよね？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_move_1.ogg"
+    },
+    {
+      "description": "ch0305_battle_move_2",
+      "category": "battle",
+      "text": "那边好像有什么东西……是什么啊？",
+      "text_original": "あそこ、何か見えるけど……なんだろ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_move_2.ogg"
+    },
+    {
+      "description": "ch0305_battle_recovery_1",
+      "category": "battle",
+      "text": "啊！谢谢！",
+      "text_original": "あっ！ありがとう！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_recovery_1.ogg"
+    },
+    {
+      "description": "ch0305_battle_retire",
+      "category": "battle",
+      "text": "呜呜……真倒霉。",
+      "text_original": "ううう…ついてない。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_retire.ogg"
+    },
+    {
+      "description": "ch0305_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_shout_1.ogg"
+    },
+    {
+      "description": "ch0305_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_shout_2.ogg"
+    },
+    {
+      "description": "ch0305_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_shout_3.ogg"
+    },
+    {
+      "description": "ch0305_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "呀！",
+      "text_original": "やあっ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "ch0305_battle_victory_1",
+      "category": "battle",
+      "text": "我的逻辑推理，可是毫无破绽的！",
+      "text_original": "私の論理的思考に、隙はないっ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_victory_1.ogg"
+    },
+    {
+      "description": "ch0305_battle_victory_2",
+      "category": "battle",
+      "text": "什么神秘学嘛。真是的。",
+      "text_original": "何がオカルトよ。まったくもう。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_battle_victory_2.ogg"
+    },
+    {
+      "description": "ch0305_cafe_monolog_1",
+      "category": "cafe",
+      "text": "那个人适合穿什么样的衣服呢？",
+      "text_original": "あの人にはどんな服が似合うかな？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0305_cafe_monolog_2",
+      "category": "cafe",
+      "text": "这里应该不会发生什么怪事吧……？毕竟……",
+      "text_original": "ここじゃ変なこと起きないよね……？流石に……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0305_cafe_monolog_3",
+      "category": "cafe",
+      "text": "这个布置……老师还挺有品味的嘛。",
+      "text_original": "この配置……先生、まあまあセンスあるじゃん。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0305_cafe_monolog_4",
+      "category": "cafe",
+      "text": "那个设计，有神秘学元素的吧……？难道老师也受影响了吗？",
+      "text_original": "あのデザイン、ってオカルトのよね……？先生も影響されてるのかしら。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0305_cafe_monolog_5",
+      "category": "cafe",
+      "text": "啊、那边好像有奇怪的声音……",
+      "text_original": "あ、あっちで変な音がしたような……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0305_commonskill",
+      "category": "battle",
+      "text": "这可是独一份的，要好好珍惜哦！",
+      "text_original": "一点ものなんだから、大事にしてよね！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_commonskill.ogg"
+    },
+    {
+      "description": "ch0305_eventlobby_1_1",
+      "category": "event",
+      "text": "哼，反正肯定全是骗人的把戏！",
+      "text_original": "ふんっ、どうせ全部インチキなんだから！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlobby_1_1.ogg"
+    },
+    {
+      "description": "ch0305_eventlobby_1_2",
+      "category": "event",
+      "text": "……大、大概吧。",
+      "text_original": "……た、たぶんね。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlobby_1_2.ogg"
+    },
+    {
+      "description": "ch0305_eventlobby_2_1",
+      "category": "event",
+      "text": "怎、怎么觉得有点冷飕飕的……",
+      "text_original": "な、なんだか寒気がする……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlobby_2_1.ogg"
+    },
+    {
+      "description": "ch0305_eventlobby_2_2",
+      "category": "event",
+      "text": "是、是风吹的吧……？对吧？",
+      "text_original": "か、風のせいだよね……？ね？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlobby_2_2.ogg"
+    },
+    {
+      "description": "ch0305_eventlobby_3_1",
+      "category": "event",
+      "text": "哈啊，什么野槌蛇嘛。",
+      "text_original": "はぁ、なーにがツチノコよ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlobby_3_1.ogg"
+    },
+    {
+      "description": "ch0305_eventlobby_3_2",
+      "category": "event",
+      "text": "肯定是把蜥蜴看错了吧？",
+      "text_original": "トカゲの見間違いでしょ？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlobby_3_2.ogg"
+    },
+    {
+      "description": "ch0305_eventlobby_4_1",
+      "category": "event",
+      "text": "咿、咿——！？",
+      "text_original": "ひ、ひいぃっ！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlobby_4_1.ogg"
+    },
+    {
+      "description": "ch0305_eventlobby_4_2",
+      "category": "event",
+      "text": "……什么啊，是老师啊。真是的，别突然戳我！",
+      "text_original": "……なんだ、先生か。って、急につつかないで！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlobby_4_2.ogg"
+    },
+    {
+      "description": "ch0305_eventlogin_1_1",
+      "category": "event",
+      "text": "老师，这边。",
+      "text_original": "先生、こっち。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlogin_1_1.ogg"
+    },
+    {
+      "description": "ch0305_eventlogin_1_2",
+      "category": "event",
+      "text": "我们一起去把那些骗人的把戏全部揭穿吧。",
+      "text_original": "一緒にインチキを解き明かすわよ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlogin_1_2.ogg"
+    },
+    {
+      "description": "ch0305_eventlogin_2_1",
+      "category": "event",
+      "text": "前辈给的护身符……我放哪儿去了……",
+      "text_original": "先輩がくれたお守り……どこやったっけ……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlogin_2_1.ogg"
+    },
+    {
+      "description": "ch0305_eventlogin_2_2",
+      "category": "event",
+      "text": "只、只是因为那是别人送的礼物我才会找的哦！",
+      "text_original": "い、一応もらいものだから探してるだけ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlogin_2_2.ogg"
+    },
+    {
+      "description": "ch0305_eventlogin_season_1_1",
+      "category": "event",
+      "text": "不、不到最后我是绝对不会放弃的！",
+      "text_original": "さ、最後まで諦めないんだから！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlogin_season_1_1.ogg"
+    },
+    {
+      "description": "ch0305_eventlogin_season_1_2",
+      "category": "event",
+      "text": "我要证明这全部都是骗人的！",
+      "text_original": "全部ウソだって証明してやるわ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlogin_season_1_2.ogg"
+    },
+    {
+      "description": "ch0305_eventlogin_season_2_1",
+      "category": "event",
+      "text": "哈——！装神弄鬼！胡说八道！放马过来吧！",
+      "text_original": "シャーッ！インチキ！デタラメ！かかってきなさい！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlogin_season_2_1.ogg"
+    },
+    {
+      "description": "ch0305_eventlogin_season_2_2",
+      "category": "event",
+      "text": "今晚就彻底做个了断！",
+      "text_original": "今夜でケリをつけてあげる！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlogin_season_2_2.ogg"
+    },
+    {
+      "description": "ch0305_eventlogin_season_end_1",
+      "category": "event",
+      "text": "虽然净是些怪事……",
+      "text_original": "変なことばっかだったけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlogin_season_end_1.ogg"
+    },
+    {
+      "description": "ch0305_eventlogin_season_end_2",
+      "category": "event",
+      "text": "算了，还挺开心的，也行吧。",
+      "text_original": "まあ、楽しかったからいいや。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventlogin_season_end_2.ogg"
+    },
+    {
+      "description": "ch0305_eventmission_1",
+      "category": "event",
+      "text": "比、比起鬼魂，还是吊桥更可怕一点……",
+      "text_original": "お、オバケより、吊り橋の方が怖いんだけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventmission_1.ogg"
+    },
+    {
+      "description": "ch0305_eventmission_2",
+      "category": "event",
+      "text": "哈——！别玩了，专心调查！",
+      "text_original": "シャーッ！遊んでないで調査に集中！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventmission_2.ogg"
+    },
+    {
+      "description": "ch0305_eventmission_day_end",
+      "category": "event",
+      "text": "今、今天就到此为止！勉强自己可不好。",
+      "text_original": "きょ、今日はこれでおしまい！無理は良くないし。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventmission_day_end.ogg"
+    },
+    {
+      "description": "ch0305_eventmission_get_1",
+      "category": "event",
+      "text": "哼，果然没什么大不了的嘛。",
+      "text_original": "ふんっ、やっぱ大したことなかったじゃん。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventmission_get_1.ogg"
+    },
+    {
+      "description": "ch0305_eventmission_get_2",
+      "category": "event",
+      "text": "就照这个势头，把它们一个个揭穿吧！",
+      "text_original": "この調子でじゃんじゃん暴いていくわよ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventmission_get_2.ogg"
+    },
+    {
+      "description": "ch0305_eventmission_login_1",
+      "category": "event",
+      "text": "嗯……要确认一下收集到的线索吗？",
+      "text_original": "うーん……集まった手がかりを確認する？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventmission_login_1.ogg"
+    },
+    {
+      "description": "ch0305_eventmission_login_2",
+      "category": "event",
+      "text": "一起来整理下事件经过吧。",
+      "text_original": "一緒に出来事を整理するよ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventmission_login_2.ogg"
+    },
+    {
+      "description": "ch0305_eventshop_1_1",
+      "category": "event",
+      "text": "这、这里应该很安全……吧？",
+      "text_original": "こ、ここは安全……だよね？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventshop_1_1.ogg"
+    },
+    {
+      "description": "ch0305_eventshop_1_2",
+      "category": "event",
+      "text": "该不会……突然冒出妖怪什么的吧……？",
+      "text_original": "いきなりオバケとか……出てこないよね……？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventshop_1_2.ogg"
+    },
+    {
+      "description": "ch0305_eventshop_2_1",
+      "category": "event",
+      "text": "别、别光看着，来帮忙啊！",
+      "text_original": "み、見てないで手伝ってよ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventshop_2_1.ogg"
+    },
+    {
+      "description": "ch0305_eventshop_2_2",
+      "category": "event",
+      "text": "我一个人整理这些，很害——很辛苦的好不好！？",
+      "text_original": "1人でこれ整理するの、こわ――大変なんだけど！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventshop_2_2.ogg"
+    },
+    {
+      "description": "ch0305_eventshop_buy_1",
+      "category": "event",
+      "text": "啊，这好像能派上用场。",
+      "text_original": "あ、何かに使えそう。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventshop_buy_1.ogg"
+    },
+    {
+      "description": "ch0305_eventshop_buy_2",
+      "category": "event",
+      "text": "欸，这东西是你在垃圾堆里翻出来的？",
+      "text_original": "えっ、ガラクタの中にあったの？それ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventshop_buy_2.ogg"
+    },
+    {
+      "description": "ch0305_eventshop_buy_3",
+      "category": "event",
+      "text": "但愿真的能派上用场……",
+      "text_original": "本当に役に立つといいんだけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventshop_buy_3.ogg"
+    },
+    {
+      "description": "ch0305_eventshop_buy_4",
+      "category": "event",
+      "text": "来，给你。好歹是我拿来的，你得好好感谢我哦？",
+      "text_original": "はい、どうぞ。一応取ってきたの私なんだから感謝してね？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventshop_buy_4.ogg"
+    },
+    {
+      "description": "ch0305_eventshop_end",
+      "category": "event",
+      "text": "嘛，现在回想起来……这说不定是段不错的回忆呢。呵呵。",
+      "text_original": "まぁ、振り返ってみたら……良い思い出かもね。ふふ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventshop_end.ogg"
+    },
+    {
+      "description": "ch0305_eventshop_login_1_1",
+      "category": "event",
+      "text": "啊，可疑的东西堆得像山一样……",
+      "text_original": "あ、怪しい物が山のように……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventshop_login_1_1.ogg"
+    },
+    {
+      "description": "ch0305_eventshop_login_1_2",
+      "category": "event",
+      "text": "说不定有能用的。要不看一眼？",
+      "text_original": "使える物があるかも。一応見てみる？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventshop_login_1_2.ogg"
+    },
+    {
+      "description": "ch0305_eventshop_login_2_1",
+      "category": "event",
+      "text": "老师，你知道这是什么吗？",
+      "text_original": "先生、これ何だか知ってる？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventshop_login_2_1.ogg"
+    },
+    {
+      "description": "ch0305_eventshop_login_2_2",
+      "category": "event",
+      "text": "这里各种各样的东西还真多……",
+      "text_original": "なんか色々あるんだけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_eventshop_login_2_2.ogg"
+    },
+    {
+      "description": "ch0305_exskill_1",
+      "category": "battle",
+      "text": "谁、谁啊！？",
+      "text_original": "だっ、誰っ！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_exskill_1.ogg"
+    },
+    {
+      "description": "ch0305_exskill_2",
+      "category": "battle",
+      "text": "刚、刚才有什么东西动了吧！？",
+      "text_original": "な、何か動いたんだけど！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_exskill_2.ogg"
+    },
+    {
+      "description": "ch0305_exskill_3",
+      "category": "battle",
+      "text": "别、别躲躲藏藏的，给我出来！？",
+      "text_original": "か、隠れてないで出てきなさい！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_exskill_3.ogg"
+    },
+    {
+      "description": "ch0305_exskill_level_1",
+      "category": "battle",
+      "text": "我不会上当的！！",
+      "text_original": "騙されないんだから！！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0305_exskill_level_2",
+      "category": "battle",
+      "text": "别想糊弄我的眼睛！？",
+      "text_original": "私の目はごまかせないわよ！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0305_exskill_level_3",
+      "category": "battle",
+      "text": "我要把一切全部查个清楚！！",
+      "text_original": "全部解き明かしてやる！！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0305_exweapon_get",
+      "category": "growup",
+      "text": "可别因为我个子小就小瞧我，会吃苦头的。别看我这样，我很擅长用枪的！我枪法准到甚至能用弹孔画画……喂，这是真的啦！？",
+      "text_original": "ちっちゃいからってバカにしたら痛い目見るわよ。こう見えても、銃の扱いだって上手なんだから！撃った跡で絵が描けるくらい……って本当よ！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0305_formation_in_1",
+      "category": "formation",
+      "text": "要、要带我去哪里……？",
+      "text_original": "ど、どこへ連れてくつもり……？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0305_formation_in_2",
+      "category": "formation",
+      "text": "好啦，你走前面。我会跟上来的。",
+      "text_original": "ほら、前行って。ついてってあげるから。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0305_formation_select",
+      "category": "formation",
+      "text": "哈——！！快、快把我放下来啦，笨蛋老师！",
+      "text_original": "シャーッ！！お、下ろしなさいよバカ先生！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_formation_select.ogg"
+    },
+    {
+      "description": "ch0305_gachaget",
+      "category": "growup",
+      "text": "我是狂猎艺术学院的衣斐莱娜。看好了，我会证明神秘学什么的全都是骗人的！",
+      "text_original": "ワイルドハント芸術学院、衣斐レナ。見てなさい。オカルトなんて全部インチキだって、証明してやるんだから！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_gachaget.ogg"
+    },
+    {
+      "description": "ch0305_growup_1",
+      "category": "growup",
+      "text": "我可不会满足于这种程度。我会一直不断成长的。直到成为基沃托斯最棒的时尚设计师那天为止！",
+      "text_original": "こんなところで満足なんかしない。私はずっと成長を続けるの。キヴォトス最高のファッションデザイナーになる、その日まで！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_growup_1.ogg"
+    },
+    {
+      "description": "ch0305_growup_2",
+      "category": "growup",
+      "text": "啊！我想到个好设计！等会儿也让老师看看。",
+      "text_original": "あっ！いいデザイン思いついた！後で先生にも見せてあげるわね。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_growup_2.ogg"
+    },
+    {
+      "description": "ch0305_growup_3",
+      "category": "growup",
+      "text": "就像这样一步步前进……总有一天我也能……！",
+      "text_original": "こんな風に一歩ずつ進んでいけば……いつか私も……！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_growup_3.ogg"
+    },
+    {
+      "description": "ch0305_growup_4",
+      "category": "growup",
+      "text": "怎、怎么回事……？感觉脑袋里豁然开朗了……难道说，这也是什么神秘学力量……？",
+      "text_original": "な、何で……？なんか、頭の中がスッキリしてる……。もしかして、これもオカルト……？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_growup_4.ogg"
+    },
+    {
+      "description": "ch0305_lobby_1_1",
+      "category": "lobby",
+      "text": "打扫得挺干净的嘛。",
+      "text_original": "ちゃんと綺麗にしてるんだね。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_lobby_1_1.ogg"
+    },
+    {
+      "description": "ch0305_lobby_1_2",
+      "category": "lobby",
+      "text": "我们宿舍……怎么收拾都收拾不完。",
+      "text_original": "うちの寮は……片づけても片づけてもキリがなくて。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_lobby_1_2.ogg"
+    },
+    {
+      "description": "ch0305_lobby_1_3",
+      "category": "lobby",
+      "text": "唉，都怪前辈老是带些多余的东西回来……",
+      "text_original": "はぁ、先輩が余計なものを持ち込むから……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_lobby_1_3.ogg"
+    },
+    {
+      "description": "ch0305_lobby_2_1",
+      "category": "lobby",
+      "text": "确认房间分配那天的事，我至今都忘不了……",
+      "text_original": "部屋割りを確認した日のことは、今でも忘れられない……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_lobby_2_1.ogg"
+    },
+    {
+      "description": "ch0305_lobby_2_2",
+      "category": "lobby",
+      "text": "毕竟是第四宿舍404号房啊？就算对神秘学没兴趣，也很不吉利吧？",
+      "text_original": "だって第4寮404号室よ？オカルトに興味なくても嫌じゃない？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_lobby_2_2.ogg"
+    },
+    {
+      "description": "ch0305_lobby_3_1",
+      "category": "lobby",
+      "text": "为什么会有人相信神秘学呢……",
+      "text_original": "なんでオカルトなんて信じられるんだろ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_lobby_3_1.ogg"
+    },
+    {
+      "description": "ch0305_lobby_3_2",
+      "category": "lobby",
+      "text": "那些东西明明全都可以用科学来解释……老师也是这么认为的吧？",
+      "text_original": "あんなの全部科学的に証明できるのに。……先生もそう思うよね？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_lobby_3_2.ogg"
+    },
+    {
+      "description": "ch0305_lobby_4_1",
+      "category": "lobby",
+      "text": "老师你闲着的时候都在做什么呀？",
+      "text_original": "先生って暇な時何してるの？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_lobby_4_1.ogg"
+    },
+    {
+      "description": "ch0305_lobby_4_2",
+      "category": "lobby",
+      "text": "我？我会试着做做各种小手工吧。有兴趣的话，要不要一起试试？",
+      "text_original": "私？私は色々作ってみたりすることかな。よかったら一緒にやってみない？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_lobby_4_2.ogg"
+    },
+    {
+      "description": "ch0305_lobby_4_3",
+      "category": "lobby",
+      "text": "才、才不是想让你给我做什么！",
+      "text_original": "べ、別に何か作ってほしいとかそういうのじゃないから！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_lobby_4_3.ogg"
+    },
+    {
+      "description": "ch0305_lobby_5_1",
+      "category": "lobby",
+      "text": "最近老是发生奇怪的事情呢。",
+      "text_original": "最近変なことばっか起こるのよね。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_lobby_5_1.ogg"
+    },
+    {
+      "description": "ch0305_lobby_5_2",
+      "category": "lobby",
+      "text": "难道真像前辈们说的那样，去找人占卜一下比较好……？",
+      "text_original": "先輩たちの言う通り、占いで見てもらった方がいいのかな……？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_lobby_5_2.ogg"
+    },
+    {
+      "description": "ch0305_lobby_5_3",
+      "category": "lobby",
+      "text": "呜呜……明明决定不相信那种东西的！",
+      "text_original": "うぅっ……あんなの信じないって決めてるのに！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_lobby_5_3.ogg"
+    },
+    {
+      "description": "ch0305_login_1",
+      "category": "lobby",
+      "text": "太慢了！！我可是等你等了好久唉！？",
+      "text_original": "遅い！！ずっと待ってたんだけど！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_login_1.ogg"
+    },
+    {
+      "description": "ch0305_login_2",
+      "category": "lobby",
+      "text": "欢迎回来，老师。那么，我该做些什么？",
+      "text_original": "おかえり、先生。それで、何すればいいの？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_login_2.ogg"
+    },
+    {
+      "description": "ch0305_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "我呢，从小手就很巧的。",
+      "text_original": "私ね、小さい頃から手先が器用だったの。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "ch0305_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "会自己做些发带之类送给朋友。",
+      "text_original": "リボンとかを作って、友達にあげたりしてた。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "ch0305_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "看到大家开心的样子，我也很高兴。",
+      "text_original": "みんなが喜んでくれると嬉しくって。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0305_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "……后来我明白了。",
+      "text_original": "……それで気づいたんだ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0305_memoriallobby_2_3",
+      "category": "lobby",
+      "text": "原来，即便是这么小巧的东西，也是能给他人带来快乐的。",
+      "text_original": "こんな小さなものでも、誰かを喜ばせることができるんだ、って。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_memoriallobby_2_3.ogg"
+    },
+    {
+      "description": "ch0305_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "所以我决定要成为一名服装设计师。",
+      "text_original": "だからファッションデザイナーを目指すようになったんだ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "ch0305_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "我亲手设计的衣服和饰品，如果大家能喜欢我也会很开心的。",
+      "text_original": "自分でデザインした服とかアクセサリーとか、みんなが楽しんでくれると私も嬉しいから。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "ch0305_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "这种心情，老师也多少能理解吧？",
+      "text_original": "そういうの、先生もなんとなく分かるでしょ？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "ch0305_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "所以我觉得，老师你也是因为这点，才这么关照我的。",
+      "text_original": "それもあって、こうやって気を使ってくれたんだと思ってるし。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "ch0305_memoriallobby_5",
+      "category": "lobby",
+      "text": "诶……？你问我今天过得怎么样……？",
+      "text_original": "え……？今日どうだったかって……？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_memoriallobby_5.ogg"
+    },
+    {
+      "description": "ch0305_memoriallobby_6",
+      "category": "lobby",
+      "text": "哈——！别、别让我说出来啊！笨蛋老师！",
+      "text_original": "シャーッ！い、言わせないでよ！バカ先生！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_memoriallobby_6.ogg"
+    },
+    {
+      "description": "ch0305_relationship_up_1",
+      "category": "growup",
+      "text": "我、我才不相信所谓命运什么的！我说真的啦！",
+      "text_original": "わ、私は運命とか信じてないの！本当だってば！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0305_relationship_up_2",
+      "category": "growup",
+      "text": "为、为什么你会知道我喜欢这个？总不能是因为……心灵感应吧？",
+      "text_original": "なっ、何で私の好きなもの知ってるの？テレパシー……とかじゃ、ないよね？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0305_relationship_up_3",
+      "category": "growup",
+      "text": "总感觉……像是中了什么咒语一样……明明我根本就不相信什么神秘学的……",
+      "text_original": "なんか……呪文をかけられたみたい……。オカルトなんて、信じてないのに……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0305_relationship_up_4",
+      "category": "growup",
+      "text": "被你这样对待…不、不是不喜欢啦……呜～～～……！",
+      "text_original": "そういう風に接されるの、嫌、じゃないけど……。うぅ～～～……！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0305_season_birthday_1",
+      "category": "lobby",
+      "text": "前辈说，今天会帮我开一场生日派对哦。",
+      "text_original": "今日、先輩が誕生日パーティーをしてくれるんだって。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_season_birthday_1.ogg"
+    },
+    {
+      "description": "ch0305_season_birthday_2",
+      "category": "lobby",
+      "text": "老师你也一起来吧。应该会有很多好吃的哦，大概。",
+      "text_original": "先生もおいでよ。おいしいものいっぱいあるよ、多分。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_season_birthday_2.ogg"
+    },
+    {
+      "description": "ch0305_season_birthday_player_1",
+      "category": "lobby",
+      "text": "欸？今天是老师的生日吗？我都不知道呢。",
+      "text_original": "え？先生、誕生日なんだ？知らなかった。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "ch0305_season_birthday_player_2",
+      "category": "lobby",
+      "text": "我藏在背后的东西……？",
+      "text_original": "背中に隠しているもの……？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "ch0305_season_birthday_player_3",
+      "category": "lobby",
+      "text": "才、才不是礼物啦！？我只是碰巧去逛街顺便买的而已啦！",
+      "text_original": "ぷ、プレゼントじゃないよ！？たまたま買い物に寄っただけだし！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_season_birthday_player_3.ogg"
+    },
+    {
+      "description": "ch0305_season_halloween_1",
+      "category": "lobby",
+      "text": "嗯——……这个房间，感觉缺点万圣节的氛围呢。",
+      "text_original": "んー……この部屋、もう少しハロウィンっぽさがほしいなぁ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_season_halloween_1.ogg"
+    },
+    {
+      "description": "ch0305_season_halloween_2",
+      "category": "lobby",
+      "text": "咳……不是在说神秘学的话题啦！纯粹是从设计的角度来说的！",
+      "text_original": "あっ……オカルトの話じゃなくて！デザイン的な話よ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_season_halloween_2.ogg"
+    },
+    {
+      "description": "ch0305_season_newyear_1",
+      "category": "lobby",
+      "text": "新年快乐，老师。新年到了，要不要一起许个愿什么的？",
+      "text_original": "明けましておめでとう、先生。新年だし一緒にお願い事でもしてみる？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_season_newyear_1.ogg"
+    },
+    {
+      "description": "ch0305_season_newyear_2",
+      "category": "lobby",
+      "text": "许、许愿算不上什么神秘学吧！",
+      "text_original": "べっ、別にお願い事はオカルトじゃないでしょ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_season_newyear_2.ogg"
+    },
+    {
+      "description": "ch0305_season_xmas_1",
+      "category": "lobby",
+      "text": "我啊，其实从小就不怎么相信有圣诞老人。",
+      "text_original": "私、小さい頃からサンタとか信じてなかったんだよね。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_season_xmas_1.ogg"
+    },
+    {
+      "description": "ch0305_season_xmas_2",
+      "category": "lobby",
+      "text": "听说他会趁人睡觉的时候偷偷来枕边哦？",
+      "text_original": "寝てる時にこっそり枕元に来るんだよ？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_season_xmas_2.ogg"
+    },
+    {
+      "description": "ch0305_season_xmas_3",
+      "category": "lobby",
+      "text": "那不是超可怕吗！？",
+      "text_original": "そんなの怖すぎない！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_season_xmas_3.ogg"
+    },
+    {
+      "description": "ch0305_tactic_defeat_1",
+      "category": "battle",
+      "text": "呜呜，是我今天运势不好吗。",
+      "text_original": "うう、今日の運勢悪かったかな。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "ch0305_tactic_defeat_2",
+      "category": "battle",
+      "text": "出发前我就觉得有点不对劲了。",
+      "text_original": "出発前から、何か変だと思ってたよね。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "ch0305_tactic_in_1",
+      "category": "battle",
+      "text": "应、应该没有什么……奇怪的东西吧？",
+      "text_original": "へ、変なものとか……ないよね？",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_tactic_in_1.ogg"
+    },
+    {
+      "description": "ch0305_tactic_in_2",
+      "category": "battle",
+      "text": "哼，迷信什么的我才不怕呢！",
+      "text_original": "ふんっ、迷信なんて怖くないんだから！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_tactic_in_2.ogg"
+    },
+    {
+      "description": "ch0305_tactic_victory_1",
+      "category": "battle",
+      "text": "什么嘛？根本没什么大不了的。",
+      "text_original": "なに？大したことなかったじゃん。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_tactic_victory_1.ogg"
+    },
+    {
+      "description": "ch0305_tactic_victory_2",
+      "category": "battle",
+      "text": "果然只是谣言罢了。",
+      "text_original": "やっぱただの噂だったんだ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/ch0305_tactic_victory_2.ogg"
+    },
+    {
+      "description": "CH0305_Title",
+      "category": "lobby",
+      "text": "哼……蔚蓝档案！",
+      "text_original": "ふんっ……ブルーアーカイブ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/jp/CH0305_Title.ogg"
+    }
+  ],
+  "voice_cn": [],
+  "voice_kr": [],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_01.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_04.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_02.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_03.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_05.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_00.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_11.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_06.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_12.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_08.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_09.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_10.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_14.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_15.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_16.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_17.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_13.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_18.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_19.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_20.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_21.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_22.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_23.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_07.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_24.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_25.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_26.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_28.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_27.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_29.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_99.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_Eye_Close_01.png",
+        "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0305_spr_Idle_01.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 17,
+      "favorability": 40
+    },
+    {
+      "id": 27,
+      "favorability": 40
+    },
+    {
+      "id": 31,
+      "favorability": 40
+    },
+    {
+      "id": 85,
+      "favorability": 180
+    },
+    {
+      "id": 52,
+      "favorability": 60
+    },
+    {
+      "id": 131,
+      "favorability": 180
+    },
+    {
+      "id": 78,
+      "favorability": 60
+    },
+    {
+      "id": 147,
+      "favorability": 240
+    }
+  ],
+  "furniture": [
+    1794
+  ],
+  "character_datas": [
+    {
+      "character_id": 10138,
+      "dev_name": "CH0305",
+      "combat_style": "default",
+      "type": "Support",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Light",
+      "is_groupc_control": false,
+      "team_position": "MIDDLE",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "S",
+      "street_adaptability": "B",
+      "equipment": [
+        9,
+        6,
+        4
+      ],
+      "cultivate_material": [
+        372,
+        373,
+        374,
+        375,
+        399,
+        400,
+        401,
+        19,
+        1733,
+        1734,
+        1735,
+        1736,
+        1737,
+        1738,
+        1739,
+        1740
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/skill_icon/8rCXB8eRQ76z4N1nJu24fWnOQFCBfhCP.png",
+            "title": "我非搞清楚不可！",
+            "title_cn": "",
+            "preview": "//static.kivo.wiki/videos/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/skill_preview/HyPvbwBIuwtqR67s9vuRqI0l3H7LrqP6.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "清除除自身之外的我方1人的1个负面效果，防御力增加6.2%（持续18秒）<br>SPECIAL（支援）学生的暴击伤害增加18.3%，攻击力增加20.8%（持续18秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "清除除自身之外的我方1人的1个负面效果，防御力增加7.2%（持续18秒）<br>SPECIAL（支援）学生的暴击伤害增加21%，攻击力增加23.9%（持续18秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "清除除自身之外的我方1人的1个负面效果，防御力增加9.1%（持续18秒）<br>SPECIAL（支援）学生的暴击伤害增加26.5%，攻击力增加30.2%（持续18秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "清除除自身之外的我方1人的1个负面效果，防御力增加10%（持续18秒）<br>SPECIAL（支援）学生的暴击伤害增加29.3%，攻击力增加33.3%（持续18秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "清除除自身之外的我方1人的1个负面效果，防御力增加11.9%（持续18秒）<br>SPECIAL（支援）学生的暴击伤害增加34.8%，攻击力增加39.5%（持续18秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/skill_icon/rA4awL58RWLTccInw2gd3U9lrh5aDR8U.png",
+            "title": "我来帮你弄好！",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每经过30秒，为除自身之外的HP最低的我方1人恢复治愈力55.7%的HP<br>也为自身恢复治愈力75.3%的HP"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过30秒，为除自身之外的HP最低的我方1人恢复治愈力58.4%的HP<br>也为自身恢复治愈力79.1%的HP"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过30秒，为除自身之外的HP最低的我方1人恢复治愈力61.2%的HP<br>也为自身恢复治愈力82.8%的HP"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过30秒，为除自身之外的HP最低的我方1人恢复治愈力66.8%的HP<br>也为自身恢复治愈力90.4%的HP"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过30秒，为除自身之外的HP最低的我方1人恢复治愈力69.6%的HP<br>也为自身恢复治愈力94.1%的HP"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过30秒，为除自身之外的HP最低的我方1人恢复治愈力72.4%的HP<br>也为自身恢复治愈力97.9%的HP"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过30秒，为除自身之外的HP最低的我方1人恢复治愈力77.9%的HP<br>也为自身恢复治愈力105%的HP"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过30秒，为除自身之外的HP最低的我方1人恢复治愈力80.7%的HP<br>也为自身恢复治愈力109%的HP"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过30秒，为除自身之外的HP最低的我方1人恢复治愈力83.5%的HP<br>也为自身恢复治愈力113%的HP"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过30秒，为除自身之外的HP最低的我方1人恢复治愈力89.1%的HP<br>也为自身恢复治愈力120%的HP"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/skill_icon/NXHwawWyhHv0caC2eHhyE9jqAdxlG8IG.png",
+            "title": "我才没害怕呢！",
+            "title_cn": "",
+            "preview": "//static.kivo.wiki/videos/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/skill_preview/RHJ8n15uge2LtzFdJKv2qhv1pq2WYjF0.mp4",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "HP增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/skill_icon/GMm9fbgMBdDYDJZWtoMdiYNKHZPduSpO.png",
+            "title": "你也不害怕对吧！？",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "自身和SPECIAL（支援）学生的暴击伤害增加16.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身和SPECIAL（支援）学生的暴击伤害增加16.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身和SPECIAL（支援）学生的暴击伤害增加17.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身和SPECIAL（支援）学生的暴击伤害增加20.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身和SPECIAL（支援）学生的暴击伤害增加21.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身和SPECIAL（支援）学生的暴击伤害增加22.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身和SPECIAL（支援）学生的暴击伤害增加25.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身和SPECIAL（支援）学生的暴击伤害增加26.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身和SPECIAL（支援）学生的暴击伤害增加27.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身和SPECIAL（支援）学生的暴击伤害增加30.6%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2369,
+          "attack": 209,
+          "defense": 18,
+          "healing": 1743,
+          "accuracy": 105,
+          "evasion": 1034,
+          "crit": 211,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 940,
+          "range": 550,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 5
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/Weapon_Icon_CH0305.png",
+        "name": "护身用缝纫机枪",
+        "name_cn": "",
+        "description": "对莱娜的手来说大小正好的小手枪。<br>虽然用的是莱娜自己的设计，但是打在身上造成的痛感和其他的枪是一样的。",
+        "description_cn": "",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「我才没害怕呢！」变为「我才没害怕呢！+」"
+          },
+          {
+            "title": "固有武器最大等級 Lv.40 → Lv.50 / 地形适应性强化 室内地形适应性 S → SS",
+            "description": "在室内地形造成1.3倍伤害，处于掩体掩护状态时掩护成功率增加75%，攻击时无视掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 爆发克制伤害增加",
+            "description": "攻击类型为爆发的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%A1%A3%E6%96%90%20%E8%8E%B1%E5%A8%9C/original/skill_icon/eJrug3aXPRz0aAUvOnn5Tm9RikVxNsM8.png",
+            "title": "我才没害怕呢！+",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1000，并且HP增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1050，并且HP增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1100，并且HP增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1300，并且HP增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1350，并且HP增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1400，并且HP增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1600，并且HP增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1650，并且HP增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1700，并且HP增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1900，并且HP增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "f82882f9-7401-4ccc-b932-675a73d0dbcd",
+  "skill_declare_uuid": "20511fbe-1673-46f2-8d28-1274475ee149",
+  "supplementary_uuid": "28a853e9-25f6-4858-98ce-25d517cd06cb",
+  "supplementary_declare_uuid": "61e1e41d-20f8-4d54-a8ce-c8be38e87707",
+  "created_at": 1755685682,
+  "updated_at": 1783490277
+}

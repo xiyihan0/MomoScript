@@ -1,0 +1,187 @@
+{
+  "id": 253,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 253,
+      "avatar": "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 551,
+      "avatar": "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/%E5%88%B6%E6%9C%8D/miria.png",
+      "skin": "制服",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "清澄",
+  "given_name": "晶",
+  "family_name_jp": "清澄",
+  "given_name_jp": "アキラ",
+  "family_name_kr": "키요스미 ",
+  "given_name_kr": "아키라",
+  "family_name_en": "Kiyosumi",
+  "given_name_en": "Akira",
+  "family_name_zh_tw": "清澄",
+  "given_name_zh_tw": "晶",
+  "family_name_cn": "清澄",
+  "given_name_cn": "晶",
+  "nick_name": "",
+  "introduction": "",
+  "introduction_cn": "",
+  "momo_talk_signature": "",
+  "main_relation": 66,
+  "relation": [
+    37,
+    35
+  ],
+  "age": 1,
+  "grade": "",
+  "height": 1,
+  "birthday": null,
+  "hobby": "",
+  "designer": "CHILD",
+  "illustrator": "CHILD",
+  "character_voice": "",
+  "character_voice_cn": "",
+  "release_date": null,
+  "release_date_cn": null,
+  "release_date_global": null,
+  "sd_model_image": "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/avatar.png",
+  "school": 14,
+  "weapon_type": "",
+  "is_install": false,
+  "is_install_cn": false,
+  "is_install_global": false,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": true,
+  "more": "## 所属学校\n在首次以狂猎艺术学院为核心展开的活动中，晶以“舍监队干部米莉亚”的身份登场，\n>**米莉亚（舍监队）**\n>……真想不到会在这里重逢呢。\n>呵呵……老师。\n\n并且从相关剧情对话可以看出，晶和神秘学研究会的各位早已熟识，表明“米莉亚”并非她近期才伪造的身份。\n>**庚（神秘学研究会）**\n>噫嘿，谢谢……果然小米莉亚就是好说话呢。\n>\n>**米莉亚（舍监队）**\n>要是被人知道我们拘禁了夏莱的老师的话……都不知道会被说些什么。\n>行了，回去吧。在我改主意以前。\n>:::: right\n>——活动「我らオカルト研究会！～学院の不思議と古の呪文～」第6话\n>::::\n\n\n因此，目前多数观点认为，清澄晶隶属于狂猎艺术学院。\n\n# 官方图集\n## 设定集\n\n:::: center\n\n![](images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20071.png =600x)\n\n::::\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私(わたくし)|\n|[老师](https://kivo.wiki/data/character/16)|先生<br>貴方|\n|学生|お嬢さん|\n|[美代](https://kivo.wiki/data/character/554)|ミヨさん<br>お嬢さん|\n|[律](https://kivo.wiki/data/character/561)|お嬢さん|\n|[裕美](https://kivo.wiki/data/character/562)|<details><summary><font color=\"448aff\">ヒロミちゃん</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">[国际服在四格漫画中进行了中英韩三语的本土化翻译,](https://kivo.wiki/comic/reader?comic_id=1&chapter_id=758)日wiki翻译为ヒロミちゃん</details></font></font></b>|\n|特殊交易部|お嬢さん方|\n|舍监队|寮監隊|\n|[狂猎艺术学院](https://kivo.wiki/data/organize/14)|学院|\n\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "",
+  "spine": [
+    1655
+  ],
+  "model": [
+    136
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [],
+  "voice_cn": [],
+  "voice_kr": [],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_02.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_14.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_99.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_03.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_13.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_01.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_07.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_Eye_Close_S2_01.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_09.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_10.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_12.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_05.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_04.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_06.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_08.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_01.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_11.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_13.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_02.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_05.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_99.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_S2_14.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_06.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_03.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_04.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_00.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_08.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_07.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_11.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_10.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_12.png",
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0212_spr_09.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20071.png"
+      ]
+    }
+  ],
+  "gift_data": null,
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 0,
+      "dev_name": "CH0212",
+      "combat_style": "default",
+      "type": "",
+      "attack_attribute": "",
+      "defensive_attributes": "",
+      "is_groupc_control": false,
+      "team_position": "",
+      "battlefield_position": "",
+      "rarity": 0,
+      "limited": false,
+      "outdoor_adaptability": "",
+      "indoor_adaptability": "",
+      "street_adaptability": "",
+      "equipment": null,
+      "cultivate_material": [],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [],
+        "passive_skill": []
+      },
+      "basic": [
+        {
+          "max_hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "healing": 0,
+          "accuracy": 0,
+          "evasion": 0,
+          "crit": 0,
+          "crit_res": 0,
+          "crit_dmg": 0,
+          "crit_dmg_res": 0,
+          "stability": 0,
+          "range": 0,
+          "cc_power": 0,
+          "cc_res": 0,
+          "recovery_boost": 0,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "",
+        "name": "",
+        "name_cn": "",
+        "description": "",
+        "description_cn": "",
+        "info": [],
+        "skill": []
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "c1ebb201-a743-4d21-90e4-9fe49ce9336e",
+  "skill_declare_uuid": "f3ae1525-5b38-4420-8ad0-c4643d20f56a",
+  "supplementary_uuid": "b9636083-239f-4745-ad7d-7a3606c9c460",
+  "supplementary_declare_uuid": "b469ae47-07d9-4373-9e9e-21b946ef6caf",
+  "created_at": 1685803407,
+  "updated_at": 1783489820
+}

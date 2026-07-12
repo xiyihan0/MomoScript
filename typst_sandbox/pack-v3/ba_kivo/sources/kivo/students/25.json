@@ -1,0 +1,1657 @@
+{
+  "id": 25,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 25,
+      "avatar": "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 544,
+      "avatar": "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/%E6%B3%B3%E8%A3%85/Student_Portrait_CH0293_Collection.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "桐藤",
+  "given_name": "渚",
+  "family_name_jp": "桐藤",
+  "given_name_jp": "ナギサ",
+  "family_name_kr": "키리후지",
+  "given_name_kr": "나기사",
+  "family_name_en": "Kirifuji",
+  "given_name_en": "Nagisa",
+  "family_name_zh_tw": "桐藤",
+  "given_name_zh_tw": "渚",
+  "family_name_cn": "桐藤",
+  "given_name_cn": "渚",
+  "nick_name": "大渚教",
+  "introduction": "\t\n圣三一综合学园所属，构成圣三一的学生组织之一「菲利乌斯」的领导人，兼学生会「茶话会」的话事人。\n\n她总是待人温柔亲切，但很少透露自己的真实想法，被认为是性情难懂谜团众多的人物。兴趣是准备用于茶会的茶叶与点心。许多圣三一学生都梦想着有一天能被邀请去参加她的茶会。\n\n“……贵安。\n代表圣三一为您献上问候”",
+  "introduction_cn": "崔尼蒂综合学院【菲利乌斯】分派的领袖，同时也是理事会【茶话会】的主持者。\n\n她为人温和，说话亲切，但从不轻易袒露心声，因此周围的人都觉得很难与她相处。兴趣是准备茶会需要的红茶与茶点，许多崔尼蒂的学员都憧憬着与她在茶会上共饮。\n\n“……您好。\n我代表崔尼蒂向您致意。”",
+  "momo_talk_signature": "始终持有余度，优雅地",
+  "main_relation": 6,
+  "relation": [
+    3,
+    14,
+    2,
+    4,
+    5
+  ],
+  "age": 17,
+  "grade": "三年生",
+  "height": 160,
+  "birthday": "07-04",
+  "hobby": "收集茶叶，制作点心，维护庭院",
+  "designer": "Fame",
+  "illustrator": "DoReMi",
+  "character_voice": "早见沙织",
+  "character_voice_cn": "木雅瑞林",
+  "release_date": "2023-02-22",
+  "release_date_cn": "2024-12-05",
+  "release_date_global": "2023-08-22",
+  "sd_model_image": "",
+  "avatar": "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/avatar.png",
+  "school": 2,
+  "weapon_type": "HG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": true,
+  "more": "# 延伸阅读\n\n## 技能\n\n### 「Noblesse oblige」\n渚的辅助技能名，原文为法语，意为 **“贵族的义务”**，主要指社会中地位较高或权力较大的人应当承担起更大的社会责任，用于形容社会上层人士做出的慈善行为或对社会的贡献，并加以强调。通俗化理解就是督促他们记住“能力越大，责任越大”。\n\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生<br>シャーレの先生|\n|[未花](https://kivo.wiki/data/character/1)|ミカさん<br>ミカ<br>あなた<br>彼女|\n|[圣娅](https://kivo.wiki/data/character/43)|セイアさん|\n|[梓](https://kivo.wiki/data/character/3)|アズサさん<br>白洲アズサさん|\n|[亚津子](https://kivo.wiki/data/character/35)|アツコさん|\n|[一花](https://kivo.wiki/data/character/114)|イチカさん|\n|[忧](https://kivo.wiki/data/character/23)|ウイさん|\n|[小春](https://kivo.wiki/data/character/157)|コハルさん|\n|[纱织](https://kivo.wiki/data/character/36)|サオリさん|\n|[樱子](https://kivo.wiki/data/character/203)|サクラコさん|\n|[志美子](https://kivo.wiki/data/character/194)|シミコさん|\n|[昴](https://kivo.wiki/data/character/559)|梯スバル|\n|[切里诺](https://kivo.wiki/data/character/179)|チェリノ会長|\n|[鹤城](https://kivo.wiki/data/character/94)|ツルギさん|\n|[莲见](https://kivo.wiki/data/character/111)|ハスミさん|\n|[花子](https://kivo.wiki/data/character/92)|ハナコさん<br>浦和ハナコさん|\n|[日富美](https://kivo.wiki/data/character/74)|ヒフミさん|\n|[佩洛洛斯拉](https://kivo.wiki/data/character/307)|ペロペロ様<br>ペロロシェ様<br>ペナンシェ様<br>ペペローニ様|\n|[真琴](https://kivo.wiki/data/character/115)|マコト議長|\n|[真白](https://kivo.wiki/data/character/79)|マシロさん|\n|[美咲](https://kivo.wiki/data/character/33)|ミサキさん|\n|[美弥](https://kivo.wiki/data/character/129)|ミネ団長<br>ミネさん<br>蒼森ミネさん|\n|[八云](https://kivo.wiki/data/character/309)|ヤクモさん|\n|[凛](https://kivo.wiki/data/character/183)|七神リンさん|\n|茶话会|ティーパーティー<br>私たち|\n|阿里乌斯小队|アリウススクワッドの皆さん<br>皆さん<br>アリウススクワッド|\n|救护骑士团|救護騎士団|\n|出版部|出版部<br>出版部の皆さん|\n|正义实现委员会|正義実現委員会|\n|图书委员会|図書委員会|\n|报道部|クロノススクールの報道部|\n|[圣三一综合学园](https://kivo.wiki/data/organize/2)|トリニティ<br>トリニティの皆さん|\n|[阿里乌斯分校](https://kivo.wiki/data/organize/10)|アリウス<br>アリウス分校<br>アリウスの皆さん<br>アリウス分校の皆さん|\n|[夏莱](https://kivo.wiki/data/organize/6)|シャーレ|\n|[红冬联邦学园](https://kivo.wiki/data/organize/5)|レッドウィンター|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n\n# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|Where there's tea party there's hope. |Where there's tea party there's hope.|歡迎來到茶會，老師。特別準備了紅茶和蛋糕捲 要不要來點呢？| Welcome to the tea party, Sensei. Are you enjoying the specialty black tea and roll cake?|\n|![nagisa_banner.png](files/10/QFewIdYdEFIaMW6qvBMEctUYo556iP6F.png =450x)|![nagisa.jpg](files/2824/RLn3XLFCHBdzZM2tmDFDjtZyUI6Q3iKJ.jpg =450x)|![nagisa.jpg](files/2824/dLm9Jvzz3PflG4yk0fuHzCvK78AnNmHu.jpg =450x)|![nagisa.jpg](files/2824/pNGSSGvIW3banyZaH2p2Do9lTxIk1BBQ.jpg =450x)|\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|![Nagisa (1).jpg](files/2824/tus6gjmf2bmPaj2YwlXjpBbfXxbKdO7z.jpg =525x)|![nagisa.jpg](files/2824/VsnVETYgIFnuzBVdIH8mBJ3L52APRSul.jpg =425x)|![nagisa.jpg](files/2824/NALenboSySKZEiA22gFYcXc0WzSDFOAB.jpg =355x)|![nagisa.jpg](files/2824/7x6FUBbEvnwsDexs9wFfD4yuNvbCKSCo.jpg =400x)|\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[茶话会桌子](https://kivo.wiki/data/item/925) | 家具互动：[茶话会桌子](https://kivo.wiki/data/item/925) |\n| :---: | :---: | :---: | :---: |\n| ![006yPoYygy1hw3bg5231sg30k00etx6v.gif](files/443/mFzHs4oK7UCkirTgX4U8qyocsxXGl1Vs.gif =450x) | ![006yPoYygy1hw3bg2i44og30k00ethdv.gif](files/443/MxVLNZOlvHlXtQliX1lIXqEtBwowS8sz.gif =450x) | ![nagisa_interaction.gif](files/10355/z63pfWjhMQvbLjwinGYvtJ65MD3y8EUy.gif =450x) | ![nagisa_mika_interaction.gif](files/10355/o1NOPKl3GXk98EG15uam0RUWGn3MLmzF.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 渚 汉化\n![渚](files/2/kAZnjK5pouGrQdRwQAFMhUjaKj5AnO77.png =450x)\n@tab 渚 原文\n![渚](files/2/gHRvpSZPz8PwB0tDnvuREYxL8KkvT4CI.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n![image.png](files/2824/OrgxBuE5ky1Lzi3pazAp2kZdLmKRjLOi.png =450x)\n\n![image.png](files/2824/oEyqNdklBgjUZ5ZiYi75ssXDakI66TVz.png =450x)\n\n![image.png](files/2824/F5Z6knVSgjIuSyHmDyxxB9p2A2Cd9EUC.png =450x)\n\n![image.png](files/2824/lhNmMUNJBT2SyUZ7rAwiSF3obI4L867K.png =450x)\n\n![image.png](files/2824/wCBLs8mExgW4cCyltHSkDak84NS6tboT.png =450x)\n\n![image.png](files/2824/dMjvwr9alSsciKKAOiACHrk9Sa11RFak.png =450x)\n\n::::\n\n## 小技能中的图标\n\n:::: center\n![ERM1QSZb9wVBip59CXRp31MVnxo2QZ2O.png](files/3/ERM1QSZb9wVBip59CXRp31MVnxo2QZ2O.png =150x)\n\n![q8HKEapFD40PagtYnoXJqetqcXrToYv2.png](files/3/q8HKEapFD40PagtYnoXJqetqcXrToYv2.png =150x)\n\n![KSAy1AJhmweFCT4IBwrBg0wEKti1uwd7.png](files/3/KSAy1AJhmweFCT4IBwrBg0wEKti1uwd7.png =150x)\n::::\n\n## 国际服直播内容\n::::center\n![QQ20260515-222929.png](files/19083/LjUx4zKBpHmSVd1jLfljE4VmnUnHhjJS.png =450x)\n::::",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/Nagisa_home_Idle_01_4.350499999999995.jpg",
+  "spine": [
+    329,
+    361,
+    1334,
+    637
+  ],
+  "model": [
+    13,
+    425
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/voice/play_icon.webp",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/voice/pause_icon.webp",
+  "voice": [
+    {
+      "description": "Nagisa_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "呵呵呵，您好。",
+      "text_original": "ふふっ。ごきげんよう。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/wCc1qJ4rDX0ioELOVA109ROc1UWEToyO.ogg"
+    },
+    {
+      "description": "Nagisa_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "咖啡的香气…… 偶尔闻闻也不错呢。",
+      "text_original": "コーヒーの香りも…たまには、いいものですね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/lQvz7EQOLd2yiRlmYP31YVcRKBUmmTAi.ogg"
+    },
+    {
+      "description": "Nagisa_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "（这里是众多学生聚集 的场所，我得多打起一点 精神……）",
+      "text_original": "(ここは大勢の生徒が集う場。より一層、気を引き締めねば……)",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/lWkjtuCPBo45AA5oErCz4nkC8xerOLC4.ogg"
+    },
+    {
+      "description": "Nagisa_Cafe_monolog_4",
+      "category": "cafe",
+      "text": "哎呀， 这茶点真可爱。",
+      "text_original": "あら、なんて可愛らしいお茶菓子なのでしょう。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/NOhYLPQshEBzFaS5uazMXHDSrdKqXfei.ogg"
+    },
+    {
+      "description": "Nagisa_Cafe_monolog_5",
+      "category": "cafe",
+      "text": "（……这里的椅子， 看上去都相当柔软呢。）",
+      "text_original": "(ここの椅子はずいぶんと柔らかそうですね)",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/G0CmUW80ISbFicxEJGqe0E4P8HeFwKKR.ogg"
+    },
+    {
+      "description": "Nagisa_CommonSkill",
+      "category": "battle",
+      "text": "希望合您的口味。",
+      "text_original": "お口に合うと良いのですが。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/q5nKImHYBPzmG0rzl6pCKY2IHmz8FUZj.ogg"
+    },
+    {
+      "description": "Nagisa_ExSkill_1",
+      "category": "battle",
+      "text": "美好的下午茶，可少不了音乐。",
+      "text_original": "素敵なティータイムに音楽は欠かせませんね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/riFELTjJwovfWdnajLiBHrTYChgFF3Pv.ogg"
+    },
+    {
+      "description": "Nagisa_ExSkill_2",
+      "category": "battle",
+      "text": "礼炮可以简化，但不要忘记敬意。",
+      "text_original": "礼砲は略式で。ですが、敬意をお忘れなく。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/til0xxAAJjEEBiI4qeKjD9WlNPlj6TFE.ogg"
+    },
+    {
+      "description": "Nagisa_ExSkill_3",
+      "category": "battle",
+      "text": "偶尔换个口味，也不错。",
+      "text_original": "たまにはフレーバーを変えるのも悪くないですね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/hq4NwawR4wgy811haxjYELWNJ1PTTo6L.ogg"
+    },
+    {
+      "description": "Nagisa_ExSkill_Level_1",
+      "category": "battle",
+      "text": "炮手，支援。",
+      "text_original": "砲手、支援を。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/m18NWtlGvTvsbLBqDD5TJfn5hxAQa3Vd.ogg"
+    },
+    {
+      "description": "Nagisa_ExSkill_Level_2",
+      "category": "battle",
+      "text": "送客也不可失了礼数。",
+      "text_original": "お客様のお見送りも、丁寧に。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/wtirc0KVAZslr0klhKfCCXaKqcGkowom.ogg"
+    },
+    {
+      "description": "Nagisa_ExSkill_Level_3",
+      "category": "battle",
+      "text": "圣三一的炮击技术可是很优秀的。",
+      "text_original": "トリニティの砲撃術は優秀ですから。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/L5VLxmJgVLWVjzLws5z6R3dM1R91t9H5.ogg"
+    },
+    {
+      "description": "Nagisa_ExWeapon_Get",
+      "category": "growup",
+      "text": "这把手枪很小巧，不会妨碍我泡茶，我很喜 欢。可是……它也许并不太适合防身。 如果真的到了那个时候…… 就拜托您了，老师。",
+      "text_original": "この拳銃は小さいですから、お茶を淹れる際の邪魔にならず愛用しておりました。 ですが、護身にはあまり向いていないのかもしれません。 もしもの時は……よろしくお願い致しますね、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/zKX6sHiqhSWqiVOKVl2L4gpVsNTxag1F.ogg"
+    },
+    {
+      "description": "Nagisa_Gachaget",
+      "category": "growup",
+      "text": "您好，我是圣三一综合学院， 茶话会的主持者，桐藤渚。 我会尽绵薄之力帮助老师的。",
+      "text_original": "ごきげんよう。トリニティ総合学園、ティーパーティーの ホストを務めております桐藤ナギサと申します。微力ながら 先生のお役に立てるよう尽力してまいります。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/V2OOrPvZzhBfqZO9KJu8JeeNSk4OcE8W.ogg"
+    },
+    {
+      "description": "Nagisa_Growup_1",
+      "category": "growup",
+      "text": "老师的教诲，我会铭记在心的。",
+      "text_original": "先生のお言葉、心に刻んでまいります。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/kKTXTgqCVt7wRHEkPIR5MaQLZz8xIC5X.ogg"
+    },
+    {
+      "description": "Nagisa_Growup_2",
+      "category": "growup",
+      "text": "呵呵，身为茶话会的主持者，我有了这份力量之后，应该不会再有所欠缺。",
+      "text_original": "ふふっ。この力があれば、ティーパーティーのホストとして不足はないでしょう。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/Hbge8cFvOYt9tAa8nmzHeib5ESg78K0T.ogg"
+    },
+    {
+      "description": "Nagisa_Growup_3",
+      "category": "growup",
+      "text": "原来如此，竟然还有这种方法。",
+      "text_original": "なるほど、そういう方法が…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/ZoUtX6P3d5AVAoCmKQbY8fvaaDylnpSg.ogg"
+    },
+    {
+      "description": "Nagisa_Growup_4",
+      "category": "growup",
+      "text": "我总是受老师照顾呢。非常感谢您。",
+      "text_original": "先生にはいただいてばかりですね。ありがとうございます。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/CQL6MpQiLqCEr6Z0KuoFEdrgS3zYrG1p.ogg"
+    },
+    {
+      "description": "Nagisa_Lobby_1",
+      "category": "lobby",
+      "text": "呵呵，今天天气也很不错呢。工作结束以后， 要一起去散散步吗？",
+      "text_original": "ふふ。今日もいいお天気ですね。 日課が終わりましたら、お散歩でもいかがでしょう？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/3Oj7IsWLEVYCByvyCFiOLmIt2Nznc6RV.ogg"
+    },
+    {
+      "description": "Nagisa_Lobby_2_1",
+      "category": "lobby",
+      "text": "咦？我用来加热茶具的 加热器去哪里了……",
+      "text_original": "あら？茶器を温めるウォーマーは、一体どこに…… ",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/GY6NCL8vosylb59q0ObSDt491NjlJXjG.ogg"
+    },
+    {
+      "description": "Nagisa_Lobby_2_2",
+      "category": "lobby",
+      "text": "啊……？！啊……",
+      "text_original": "あ……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/4NRT0rfSFSLnyxuw3aeYf1aVmN4ozigB.ogg"
+    },
+    {
+      "description": "Nagisa_Lobby_2_3",
+      "category": "lobby",
+      "text": "我工作得太专心， 忘了自己现在是在夏莱的办公室……真是不好意思。",
+      "text_original": "業務に集中していると、ここがシャーレの執務室であることをつい忘れてしまいます…… 失礼いたしました。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/Xy7eDLsoGNRr5d8joqPH3CATfvuxylaw.ogg"
+    },
+    {
+      "description": "Nagisa_Lobby_3_1",
+      "category": "lobby",
+      "text": "夏莱的办公室不像茶话会， 没有旁人的目光，让人很放松呢。",
+      "text_original": "シャーレの執務室はティーパーティーと違って人目が少なく、落ち着きますね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/Ya7ItS8VAXTt7cwRgRJhFB86EIJOz6PL.ogg"
+    },
+    {
+      "description": "Nagisa_Lobby_3_2",
+      "category": "lobby",
+      "text": "平时，为了给圣三一的学生们做好表率， 我必须随时注意别人的目光。",
+      "text_original": "トリニティ生の模範となるためには、日頃から人目を意識をすることが大切です。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/XVSpN2jRMlUxlZjUO4bVsWA0ynC2s8zw.ogg"
+    },
+    {
+      "description": "Nagisa_Lobby_4",
+      "category": "lobby",
+      "text": "（是因为……放松下来了吗…… 感觉好困啊……）",
+      "text_original": "(なんだか……安心したからか、眠くなってきました……)",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/RhjGmNLjiVROQdcIi49hVkCOPmGszjhA.ogg"
+    },
+    {
+      "description": "Nagisa_Lobby_5_1",
+      "category": "lobby",
+      "text": "茶话会有许多需要伏案的工作， 所以一定要挑一把舒适的椅子。",
+      "text_original": "ティーパーティーの業務はデスクワークが多いですから、椅子選びが重要なのです。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/s5b4aD3LrXGsEPC6YxaQlrH7GedlbE7D.ogg"
+    },
+    {
+      "description": "Nagisa_Lobby_5_2",
+      "category": "lobby",
+      "text": "老师也给自己在夏莱 挑一把新椅子怎么样？",
+      "text_original": "よろしければ先生も、シャーレに新しい椅子を買ってみては？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/ATY8aQUgxX73KpBTelZ1u4yBn70eb4NN.ogg"
+    },
+    {
+      "description": "Nagisa_LogIn_1",
+      "category": "lobby",
+      "text": "老师，您好。我想您会晚来一会儿， 所以提前泡好了茶。",
+      "text_original": "ごきげんよう、先生。 少し遅くなるようでしたので、お茶を淹れてお待ちしておりました。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/7IORpR6nQlQt3a1I04WzGQpQkxXGmO9j.ogg"
+    },
+    {
+      "description": "Nagisa_LogIn_2",
+      "category": "lobby",
+      "text": "老师，欢迎回来。开始工作之前， 要先来一杯红茶吗？",
+      "text_original": "おかえりなさい、先生。 よろしければ、業務を始める前に紅茶はいかがですか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/GIHGHwryXkwQOqmwaXpVUebK2Oluasks.ogg"
+    },
+    {
+      "description": "Nagisa_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "呵呵……这微微散发出的 香柠檬味道，真是清爽可口呀。",
+      "text_original": "ふふっ……ほのかに香るベルガモットの風味が、 爽やかで良いですね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/5E7OuC9thSYdmrtQTQONliwAZKj0NKGv.ogg"
+    },
+    {
+      "description": "Nagisa_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "（这，果然是海带…… 这股味道是不会骗人的……）",
+      "text_original": "(……これは、やはり昆布…… 誤魔化しようのない香りがしますね……)",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/RD9UhDBVjEFF3AOvDtNB8UzvGDqGmU8H.ogg"
+    },
+    {
+      "description": "Nagisa_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "这红茶特有的清爽余味， 和茶点真的很配呢……",
+      "text_original": "このすっきりとした後味が、 お茶菓子にとてもよく合いますね……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/qxxRJN7SvD5Y6IQg4BFblHEGjnJXsM0W.ogg"
+    },
+    {
+      "description": "Nagisa_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "（海带的味道太过强烈…… 就好像在口腔里跟茶点的味道打架一样……）",
+      "text_original": "(昆布の出汁が強すぎて、 口内でお菓子の味と喧嘩を……)",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/tdSijFC6Gg1kRTFp2xIHbL67X2gI4RhY.ogg"
+    },
+    {
+      "description": "Nagisa_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "……嗯？老师也是第一次 尝到这种味道吗？",
+      "text_original": "……？先生にとっても 初めての味わいでしたか？したか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/rP3spdSffGg3g0s0NfWOf1voxcpwIbf7.ogg"
+    },
+    {
+      "description": "Nagisa_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "我，我想也是…… 毕竟这种茶叶不是随随便便就能弄到的…… 呃呵，呵呵呵……",
+      "text_original": "そ、そうでしょうね…… あまり手に入らないタイプの茶葉ですし……ふ、ふふ……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/7OZp0wKxJu9fZcrUKq0Y00N6GZoI96rX.ogg"
+    },
+    {
+      "description": "Nagisa_MemorialLobby_4",
+      "category": "lobby",
+      "text": "（……应该没有暴露吧？ 虽然味道有些奇怪，但光看颜色还是有模有样的……）",
+      "text_original": "(……バレてませんよね？ 香りはちょっとアレですが、色はそれっぽいですし……)",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/4SFlGNPL7g86Sm8JAuqfA5szdADVaDwL.ogg"
+    },
+    {
+      "description": "Nagisa_MemorialLobby_5",
+      "category": "lobby",
+      "text": "（早知会这样，就不多此一举， 买普通的红茶就好了……）",
+      "text_original": "(こうなると分かっていたら、 無理をせずに普通の紅茶を頼んでおけば……)",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/wzNjcA3YG7E3nQx0Hxxe8VbSQrf3sR7h.ogg"
+    },
+    {
+      "description": "Nagisa_Relationship_Up_1",
+      "category": "growup",
+      "text": "和老师一起喝茶的时候，总觉得时间过得要慢一些。",
+      "text_original": "先生とのティータイムは…… なんだか普段より、お茶を楽しむ時間が長くなってしまいます。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/sEaqtgViWq1PhmB7Bo5vIhtgDeNQCFze.ogg"
+    },
+    {
+      "description": "Nagisa_Relationship_Up_2",
+      "category": "growup",
+      "text": "如果您想喝美味的红茶了，随时欢迎您来茶话会，我会恭候您的光临。",
+      "text_original": "美味しい紅茶が恋しくなりましたら、いつでもティーパーティーにお越しください。お待ちしております。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/ZrCBCkgNPyCumglK7CqhcYfZkmBQyb4q.ogg"
+    },
+    {
+      "description": "Nagisa_Relationship_Up_3",
+      "category": "growup",
+      "text": "呵呵，一直以来劳您费心了，老师。",
+      "text_original": "ふふっ。いつもお気遣いいただき、ありがとうございます。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/SkwuoiNElvrUXvD8oOhC76LkyiaJ3z6l.ogg"
+    },
+    {
+      "description": "Nagisa_Relationship_Up_4",
+      "category": "growup",
+      "text": "感谢老师的关心，我代表圣三一的全体学生，向您致谢。",
+      "text_original": "先生のお心遣いに感謝を。 トリニティの生徒一同を代表し、お礼申し上げます。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/PBB6ijsAWt8Z4x2coU7UpWE47YurVFyD.ogg"
+    },
+    {
+      "description": "Nagisa_Season_Birthday_1",
+      "category": "lobby",
+      "text": "您是说……生日礼物吗？嗯，没什么特别想要的呢……",
+      "text_original": "お誕生日プレゼント……ですか？ ええと、特別なにか欲しい物はありませんが……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/3NURAqIO3PVInoGlP62AprffGzX8W9Aq.ogg"
+    },
+    {
+      "description": "Nagisa_Season_Birthday_2",
+      "category": "lobby",
+      "text": "能和老师一起度过今天， 对我来说，就是最好的礼物了。",
+      "text_original": "先生と一日を共に過ごせるのなら、それ以上の贈り物はありません。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/uAfPUDS6G9xjo0tXOSCdPgWzRvKU3pHz.ogg"
+    },
+    {
+      "description": "Nagisa_Season_Birthday_Player_1",
+      "category": "lobby",
+      "text": "老师，祝您生日快乐。",
+      "text_original": "お誕生日おめでとうございます、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/SU0q0BA6CPxLBdNFuDQs5GAJ7OMcyHXM.ogg"
+    },
+    {
+      "description": "Nagisa_Season_Birthday_Player_2",
+      "category": "lobby",
+      "text": "我为您准备了特别的茶叶。等您工作结束后， 请来一趟圣三一的露台。",
+      "text_original": "特別な茶葉をご用意いたしました。 業務を終えられましたら、トリニティのテラスにいらしてください。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/I2YMkP4iBjdnr5JZLxPlYMapBhKUsUsl.ogg"
+    },
+    {
+      "description": "Nagisa_Season_Halloween_1",
+      "category": "lobby",
+      "text": "这是未花小姐送我的 万圣节限定南瓜茶……可是味道有些奇怪……",
+      "text_original": "これはミカさんから頂いたハロウィーン限定パンプキンティーなのですが…… 味が少し、妙です……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/f2ISShvUa4BLDO8bjzhzHvaUnil7IPpk.ogg"
+    },
+    {
+      "description": "Nagisa_Season_Halloween_2",
+      "category": "lobby",
+      "text": "……嗯？ 这不是南瓜茶…… 而是南瓜糊……？",
+      "text_original": "……え？パンプキンティーではなく…パンプキンスープペースト……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/jB9V6dq8knI1q43H3Q3oGSahVe9gcLPO.ogg"
+    },
+    {
+      "description": "Nagisa_Season_Halloween_3",
+      "category": "lobby",
+      "text": "未——花——小——姐——！",
+      "text_original": "ミーカーさーんー！",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/TV0djvNon4rgbqcdzuykpIl4acSif5Nc.ogg"
+    },
+    {
+      "description": "Nagisa_Season_NewYear",
+      "category": "lobby",
+      "text": "祝您新年快乐。今年也请您一如既往地指导我。",
+      "text_original": "あけましておめでとうございます。 今年も変わらぬご指導を、よろしくお願いいたします。",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/tpjBIWpGVqQOW5pK8beoVx40Y4EtYbwz.ogg"
+    },
+    {
+      "description": "Nagisa_Season_Xmas_1",
+      "category": "lobby",
+      "text": "……今年也要结束了呢。老师，您吃过圣诞蛋糕了吗？",
+      "text_original": "……今年ももう少しで終わりますね。 先生、クリスマスケーキは召し上がりましたか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/zNTPVyiz8AeMTHQUXRKjNTgmiD2m0Bls.ogg"
+    },
+    {
+      "description": "Nagisa_Season_Xmas_2",
+      "category": "lobby",
+      "text": "如果还没吃的话， 我准备了圣诞布丁， 要和我一起尝尝吗？",
+      "text_original": "もし、まだでしたら「クリスマスプリン」を用意しましたので、ご一緒にいかがですか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/ziWTWz3xeyYOUuO6FebTRJTJ4kHaqNVV.ogg"
+    },
+    {
+      "description": "Nagisa_Title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/VU2UtZ1tsKpwD4S4oG9ffovTyF7wMI6X.ogg"
+    },
+    {
+      "description": "nagisa_formation_in_2",
+      "category": "formation",
+      "text": "食後の運動にちょうど良いですね。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/jp/nagisa_formation_in_2.ogg"
+    },
+    {
+      "description": "nagisa_formation_in_1",
+      "category": "formation",
+      "text": "ふふ、今日は少し遠くまで足を伸ばしてみましょうか。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/jp/nagisa_formation_in_1.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "nagisa_cafe_monolog_1",
+      "category": "cafe",
+      "text": "呵呵呵，您好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "nagisa_cafe_monolog_2",
+      "category": "cafe",
+      "text": "咖啡的香气…… 偶尔闻闻也不错呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "nagisa_cafe_monolog_3",
+      "category": "cafe",
+      "text": "（这里是众多学员聚集 的场所，我得多打起一点 精神……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "nagisa_cafe_monolog_4",
+      "category": "cafe",
+      "text": "哎呀， 这茶点真可爱。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "nagisa_cafe_monolog_5",
+      "category": "cafe",
+      "text": "（……这里的椅子， 看上去都相当柔软呢。）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "nagisa_commonskill",
+      "category": "battle",
+      "text": "希望合您的口味。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_commonskill.ogg"
+    },
+    {
+      "description": "nagisa_exskill_1",
+      "category": "battle",
+      "text": "美好的下午茶，可少不了音乐。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_exskill_1.ogg"
+    },
+    {
+      "description": "nagisa_exskill_2",
+      "category": "battle",
+      "text": "礼炮可以简化，但不要忘记敬意。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_exskill_2.ogg"
+    },
+    {
+      "description": "nagisa_exskill_3",
+      "category": "battle",
+      "text": "偶尔换个口味，也不错。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_exskill_3.ogg"
+    },
+    {
+      "description": "nagisa_exskill_level_1",
+      "category": "battle",
+      "text": "炮手，支援。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_exskill_level_1.ogg"
+    },
+    {
+      "description": "nagisa_exskill_level_2",
+      "category": "battle",
+      "text": "送客也不可失了礼数。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_exskill_level_2.ogg"
+    },
+    {
+      "description": "nagisa_exskill_level_3",
+      "category": "battle",
+      "text": "崔尼蒂的炮击技术可是很优秀的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_exskill_level_3.ogg"
+    },
+    {
+      "description": "nagisa_exweapon_get",
+      "category": "growup",
+      "text": "这把手枪很小巧，不会妨碍我泡茶，我很喜 欢。可是……它也许并不太适合防身。 如果真的到了那个时候…… 就拜托您了，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_exweapon_get.ogg"
+    },
+    {
+      "description": "nagisa_formation_in_1",
+      "category": "formation",
+      "text": "呵呵，今天的散步就稍微走远一点吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_formation_in_1.ogg"
+    },
+    {
+      "description": "nagisa_formation_in_2",
+      "category": "formation",
+      "text": "当作饭后运动正好呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_formation_in_2.ogg"
+    },
+    {
+      "description": "nagisa_gachaget",
+      "category": "growup",
+      "text": "您好，我是崔尼蒂综合学院， 茶话会的主持者，桐藤渚。 我会尽绵薄之力帮助老师的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_gachaget.ogg"
+    },
+    {
+      "description": "nagisa_growup_1",
+      "category": "growup",
+      "text": "老师的教诲，我会铭记在心的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_growup_1.ogg"
+    },
+    {
+      "description": "nagisa_growup_2",
+      "category": "growup",
+      "text": "呵呵，身为茶话会的主持者，我有了这份力量之后，应该不会再有所欠缺。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_growup_2.ogg"
+    },
+    {
+      "description": "nagisa_growup_3",
+      "category": "growup",
+      "text": "原来如此，竟然还有这种方法。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_growup_3.ogg"
+    },
+    {
+      "description": "nagisa_growup_4",
+      "category": "growup",
+      "text": "我总是受老师照顾呢。非常感谢您。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_growup_4.ogg"
+    },
+    {
+      "description": "nagisa_lobby_1",
+      "category": "lobby",
+      "text": "呵呵，今天天气也很不错呢。工作结束以后， 要一起去散散步吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_lobby_1.ogg"
+    },
+    {
+      "description": "nagisa_lobby_2_1",
+      "category": "lobby",
+      "text": "咦？我用来加热茶具的 加热器去哪里了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_lobby_2_1.ogg"
+    },
+    {
+      "description": "nagisa_lobby_2_2",
+      "category": "lobby",
+      "text": "啊……？！啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_lobby_2_2.ogg"
+    },
+    {
+      "description": "nagisa_lobby_2_3",
+      "category": "lobby",
+      "text": "我工作得太专心， 忘了自己现在是在沙勒的办公室……真是不好意思。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_lobby_2_3.ogg"
+    },
+    {
+      "description": "nagisa_lobby_3_1",
+      "category": "lobby",
+      "text": "沙勒的办公室不像茶话会， 没有旁人的目光，让人很放松呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_lobby_3_1.ogg"
+    },
+    {
+      "description": "nagisa_lobby_3_2",
+      "category": "lobby",
+      "text": "平时，为了给崔尼蒂的学员们做好表率， 我必须随时注意别人的目光。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_lobby_3_2.ogg"
+    },
+    {
+      "description": "nagisa_lobby_4",
+      "category": "lobby",
+      "text": "（是因为……放松下来了吗…… 感觉好困啊……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_lobby_4.ogg"
+    },
+    {
+      "description": "nagisa_lobby_5_1",
+      "category": "lobby",
+      "text": "茶话会有许多需要伏案的工作， 所以一定要挑一把舒适的椅子。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_lobby_5_1.ogg"
+    },
+    {
+      "description": "nagisa_lobby_5_2",
+      "category": "lobby",
+      "text": "老师也给自己在沙勒 挑一把新椅子怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_lobby_5_2.ogg"
+    },
+    {
+      "description": "nagisa_login_1",
+      "category": "lobby",
+      "text": "老师，您好。我想您会晚来一会儿， 所以提前泡好了茶。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_login_1.ogg"
+    },
+    {
+      "description": "nagisa_login_2",
+      "category": "lobby",
+      "text": "老师，欢迎回来。开始工作之前， 要先来一杯红茶吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_login_2.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "呵呵……这微微散发出的 香柠檬味道，真是清爽可口呀。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "（这，果然是海带…… 这股味道是不会骗人的……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "这红茶特有的清爽余味， 和茶点真的很配呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "（海带的味道太过强烈…… 就好像在口腔里跟茶点的味道打架一样……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "……嗯？老师也是第一次 尝到这种味道吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "我，我想也是…… 毕竟这种茶叶不是随随便便就能弄到的…… 呃呵，呵呵呵……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_4",
+      "category": "lobby",
+      "text": "（……应该没有暴露吧？ 虽然味道有些奇怪，但光看颜色还是有模有样的……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_memoriallobby_4.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_5",
+      "category": "lobby",
+      "text": "（早知会这样，就不多此一举， 买普通的红茶就好了……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_memoriallobby_5.ogg"
+    },
+    {
+      "description": "nagisa_relationship_up_1",
+      "category": "growup",
+      "text": "和老师一起喝茶的时候，总觉得时间过得要慢一些。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_relationship_up_1.ogg"
+    },
+    {
+      "description": "nagisa_relationship_up_2",
+      "category": "growup",
+      "text": "如果您想喝美味的红茶了，随时欢迎您来茶话会，我会恭候您的光临。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_relationship_up_2.ogg"
+    },
+    {
+      "description": "nagisa_relationship_up_3",
+      "category": "growup",
+      "text": "呵呵，一直以来劳您费心了，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_relationship_up_3.ogg"
+    },
+    {
+      "description": "nagisa_relationship_up_4",
+      "category": "growup",
+      "text": "感谢老师的关心，我代表崔尼蒂的全体学员，向您致谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_relationship_up_4.ogg"
+    },
+    {
+      "description": "nagisa_season_birthday_1",
+      "category": "lobby",
+      "text": "您是说……生日礼物吗？嗯，没什么特别想要的呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_season_birthday_1.ogg"
+    },
+    {
+      "description": "nagisa_season_birthday_2",
+      "category": "lobby",
+      "text": "能和老师一起度过今天， 对我来说，就是最好的礼物了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_season_birthday_2.ogg"
+    },
+    {
+      "description": "nagisa_season_birthday_player_1",
+      "category": "lobby",
+      "text": "老师，祝您生日快乐。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "nagisa_season_birthday_player_2",
+      "category": "lobby",
+      "text": "我为您准备了特别的茶叶。等您工作结束后， 请来一趟崔尼蒂的露台。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "nagisa_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师， 听说今天正是山海经的传统节日。 为此我特意准备了绿茶， 就让我们来品品吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "nagisa_season_halloween_1",
+      "category": "lobby",
+      "text": "这是未花小姐送我的 万圣节限定南瓜茶……可是味道有些奇怪……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_season_halloween_1.ogg"
+    },
+    {
+      "description": "nagisa_season_halloween_2",
+      "category": "lobby",
+      "text": "……嗯？ 这不是南瓜茶…… 而是南瓜糊……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_season_halloween_2.ogg"
+    },
+    {
+      "description": "nagisa_season_halloween_3",
+      "category": "lobby",
+      "text": "未——花——小——姐——！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_season_halloween_3.ogg"
+    },
+    {
+      "description": "nagisa_season_midautumn",
+      "category": "lobby",
+      "text": "听说最近很流行用月饼来搭配红茶？ 可惜我还没有试过…… 诶？您要送我月饼吗？ 谢，谢谢您，我很期待。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_season_midautumn.ogg"
+    },
+    {
+      "description": "nagisa_season_newyear",
+      "category": "lobby",
+      "text": "祝您新年快乐。今年也请您一如既往地指导我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_season_newyear.ogg"
+    },
+    {
+      "description": "nagisa_season_xmas_1",
+      "category": "lobby",
+      "text": "……今年也要结束了呢。老师，您吃过圣诞蛋糕了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_season_xmas_1.ogg"
+    },
+    {
+      "description": "nagisa_season_xmas_2",
+      "category": "lobby",
+      "text": "如果还没吃的话， 我准备了圣诞布丁， 要和我一起尝尝吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_season_xmas_2.ogg"
+    },
+    {
+      "description": "nagisa_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/cn/nagisa_title.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "nagisa_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_exskill_level_3.ogg"
+    },
+    {
+      "description": "nagisa_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_exweapon_get.ogg"
+    },
+    {
+      "description": "nagisa_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_gachaget.ogg"
+    },
+    {
+      "description": "nagisa_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_growup_1.ogg"
+    },
+    {
+      "description": "nagisa_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_growup_2.ogg"
+    },
+    {
+      "description": "nagisa_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_growup_3.ogg"
+    },
+    {
+      "description": "nagisa_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_growup_4.ogg"
+    },
+    {
+      "description": "nagisa_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_lobby_1.ogg"
+    },
+    {
+      "description": "nagisa_lobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_lobby_2_1.ogg"
+    },
+    {
+      "description": "nagisa_lobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_lobby_2_2.ogg"
+    },
+    {
+      "description": "nagisa_lobby_2_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_lobby_2_3.ogg"
+    },
+    {
+      "description": "nagisa_lobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_lobby_3_1.ogg"
+    },
+    {
+      "description": "nagisa_lobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_lobby_3_2.ogg"
+    },
+    {
+      "description": "nagisa_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_lobby_4.ogg"
+    },
+    {
+      "description": "nagisa_lobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_lobby_5_1.ogg"
+    },
+    {
+      "description": "nagisa_lobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_lobby_5_2.ogg"
+    },
+    {
+      "description": "nagisa_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_login_1.ogg"
+    },
+    {
+      "description": "nagisa_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_login_2.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_memoriallobby_4.ogg"
+    },
+    {
+      "description": "nagisa_memoriallobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_memoriallobby_5.ogg"
+    },
+    {
+      "description": "nagisa_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_relationship_up_1.ogg"
+    },
+    {
+      "description": "nagisa_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_relationship_up_2.ogg"
+    },
+    {
+      "description": "nagisa_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_relationship_up_3.ogg"
+    },
+    {
+      "description": "nagisa_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_relationship_up_4.ogg"
+    },
+    {
+      "description": "nagisa_season_birthday_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_season_birthday_1.ogg"
+    },
+    {
+      "description": "nagisa_season_birthday_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_season_birthday_2.ogg"
+    },
+    {
+      "description": "nagisa_season_birthday_player_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "nagisa_season_birthday_player_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "nagisa_season_halloween_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_season_halloween_1.ogg"
+    },
+    {
+      "description": "nagisa_season_halloween_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_season_halloween_2.ogg"
+    },
+    {
+      "description": "nagisa_season_halloween_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_season_halloween_3.ogg"
+    },
+    {
+      "description": "nagisa_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_season_newyear.ogg"
+    },
+    {
+      "description": "nagisa_season_xmas_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_season_xmas_1.ogg"
+    },
+    {
+      "description": "nagisa_season_xmas_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_season_xmas_2.ogg"
+    },
+    {
+      "description": "Nagisa_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/Nagisa_Title.ogg"
+    },
+    {
+      "description": "nagisa_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "nagisa_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "nagisa_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "nagisa_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "nagisa_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "nagisa_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_commonskill.ogg"
+    },
+    {
+      "description": "nagisa_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_exskill_1.ogg"
+    },
+    {
+      "description": "nagisa_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_exskill_2.ogg"
+    },
+    {
+      "description": "nagisa_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_exskill_3.ogg"
+    },
+    {
+      "description": "nagisa_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_exskill_level_1.ogg"
+    },
+    {
+      "description": "nagisa_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/nagisa_exskill_level_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "旧立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201405.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201415.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201434.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201439.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201444.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201448.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201453.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201501.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201513.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201537.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201410.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201553.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201323.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201333.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201343.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201348.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201353.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201338.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201357.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211120201401.png"
+      ]
+    },
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_12.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_09.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_15.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_13.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_10.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_14.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_11.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_99.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_04.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_03.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_16.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_00.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_02.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_01.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_05.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_07.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_06.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_08.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_21.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_17.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_18.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_19.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_20.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_22.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_23.png",
+        "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/nagisa_spr_24.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 87,
+      "favorability": 240
+    },
+    {
+      "id": 43,
+      "favorability": 60
+    },
+    {
+      "id": 38,
+      "favorability": 40
+    },
+    {
+      "id": 70,
+      "favorability": 40
+    },
+    {
+      "id": 76,
+      "favorability": 40
+    },
+    {
+      "id": 96,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    925
+  ],
+  "character_datas": [
+    {
+      "character_id": 20024,
+      "dev_name": "Nagisa",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 3,
+      "limited": true,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "S",
+      "street_adaptability": "D",
+      "equipment": [
+        7,
+        10,
+        3
+      ],
+      "cultivate_material": [
+        40,
+        46,
+        48,
+        51,
+        179,
+        182,
+        183,
+        185,
+        407,
+        408,
+        409,
+        410,
+        423,
+        424,
+        425,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/skill_icon/lw20Rqa6SaKjv9OjRDtWJSNsyGNjtnAr.png",
+            "title": "Time on Target",
+            "title_cn": "Time on Target",
+            "preview": "//static.kivo.wiki/videos/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/skill_preview/qD4901qGlbAak7s19EOxa5s9TKBKHD5M.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "对圆形范围内的敌人造成482%攻击力的伤害/ 目标的防御类型为轻装甲时，攻击前施加减少30.9%防御力（持续15秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "对圆形范围内的敌人造成554%攻击力的伤害/ 目标的防御类型为轻装甲时，攻击前施加减少30.9%防御力（持续15秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "对圆形范围内的敌人造成627%攻击力的伤害/ 目标的防御类型为轻装甲时，攻击前施加减少35.6%防御力（持续15秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "对圆形范围内的敌人造成699%攻击力的伤害/ 目标的防御类型为轻装甲时，攻击前施加减少30.9%防御力（持续15秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "对圆形范围内的敌人造成772%攻击力的伤害/ 目标的防御类型为轻装甲时，攻击前施加减少40.2%防御力（持续15秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/skill_icon/ju2UPjrSUlzORFcYWB3AmyclAQjN46PX.png",
+            "title": "Afternoon Tea",
+            "title_cn": "Afternoon Tea",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每50秒，回复体力最低的我方1人147%治愈力的体力/ 目标为圣三一综合学园所属的学生时，回复207%治愈力的体力"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒，回复体力最低的我方1人154%治愈力的体力/ 目标为圣三一综合学园所属的学生时，回复217%治愈力的体力"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒，回复体力最低的我方1人161%治愈力的体力/ 目标为圣三一综合学园所属的学生时，回复227%治愈力的体力"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒，回复体力最低的我方1人191%治愈力的体力/ 目标为圣三一综合学园所属的学生时，回复269%治愈力的体力"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒，回复体力最低的我方1人198%治愈力的体力/ 目标为圣三一综合学园所属的学生时，回复279%治愈力的体力"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒，回复体力最低的我方1人205%治愈力的体力/ 目标为圣三一综合学园所属的学生时，回复290%治愈力的体力"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒，回复体力最低的我方1人235%治愈力的体力/ 目标为圣三一综合学园所属的学生时，回复331%治愈力的体力"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒，回复体力最低的我方1人242%治愈力的体力/ 目标为圣三一综合学园所属的学生时，回复341%治愈力的体力"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒，回复体力最低的我方1人249%治愈力的体力/ 目标为圣三一综合学园所属的学生时，回复352%治愈力的体力"
+              },
+              {
+                "cost": 1,
+                "describe": "每50秒，回复体力最低的我方1人279%治愈力的体力/ 目标为圣三一综合学园所属的学生时，回复393%治愈力的体力"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/skill_icon/nyFJEukQc5hsQ713elR0hYWnttRIQ9XV.png",
+            "title": "Pride of Tea Party",
+            "title_cn": "Pride of Tea Party",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "增加14.4%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加14.7%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加15.4%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加18.2%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加18.9%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加19.6%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加22.4%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加23.1%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加23.8%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加26.6%攻击力"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/skill_icon/KGuUesXw46Qku1S3NAHNdpT7kI2HFOdg.png",
+            "title": "Noblesse oblige",
+            "title_cn": "Noblesse oblige",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "爆发属性的我方角色增加12.7%暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "爆发属性的我方角色增加13.4%暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "爆发属性的我方角色增加14%暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "爆发属性的我方角色增加16.5%暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "爆发属性的我方角色增加17.2%暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "爆发属性的我方角色增加17.8%暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "爆发属性的我方角色增加20.4%暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "爆发属性的我方角色增加21%暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "爆发属性的我方角色增加21.7%暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "爆发属性的我方角色增加24.2%暴击伤害"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2211,
+          "attack": 342,
+          "defense": 65,
+          "healing": 2682,
+          "accuracy": 759,
+          "evasion": 977,
+          "crit": 202,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1132,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/weapons_icon.png",
+        "name": "皇家调配",
+        "name_cn": "皇家红茶",
+        "description": "渚爱用的手枪。<br>古典风格的设计，使其能和谐地融入茶会而不引人注目。经常用于驱逐那些有损茶会品味的不速之客。",
+        "description_cn": "渚爱用的小型手枪。<br>设计古典，能自然地与持有者融为一体，即使在高雅的茶会中也不显得突兀。在驱逐一些有辱茶会品味的不速之客时会派上用场。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40",
+            "description": "「Pride of Tea Party」升级为「Pride of Tea Party+」"
+          },
+          {
+            "title": "固有武器最大等級 Lv.40 → Lv.50 / 地形适应性强化 室内适应性 S → SS",
+            "description": "在室内地形造成1.3倍伤害。处于掩体掩护状态时掩护成功率增加75%，攻击时无视掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%A1%90%E8%97%A4%20%E6%B8%9A/skill_icon/V3tuFRg65fHqH4N9tGl6OKV4sDmUKBg9.png",
+            "title": "Pride of Tea Party+",
+            "title_cn": "Pride of Tea Party+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "增加2000暴击伤害/ 增加14%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加2100暴击伤害/ 增加14.7%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加2200暴击伤害/ 增加15.4%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加2600暴击伤害/ 增加18.2%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加2700暴击伤害/ 增加18.9%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加2800暴击伤害/ 增加19.6%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加3200暴击伤害/ 增加22.4%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加3300暴击伤害/ 增加23.1%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加3400暴击伤害/ 增加23.8%攻击力"
+              },
+              {
+                "cost": 1,
+                "describe": "增加3800暴击伤害/ 增加26.6%攻击力"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [
+    {
+      "name": "",
+      "url": ""
+    }
+  ],
+  "info_declare_uuid": "b079fe9e-1163-4d17-9553-41ef867b1a1e",
+  "skill_declare_uuid": "741d0405-8a4d-4527-a3bb-4d272aaba93f",
+  "supplementary_uuid": "d10c84ef-155e-4795-bef4-2a84ca1d92f6",
+  "supplementary_declare_uuid": "52b64a39-af12-48d1-879d-b4e39aadb0e4",
+  "created_at": 1684506877,
+  "updated_at": 1783322282
+}

@@ -1,0 +1,2040 @@
+{
+  "id": 108,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 108,
+      "avatar": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 152,
+      "avatar": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/avatar.png",
+      "skin": "女仆",
+      "skin_cn": "女仆"
+    },
+    {
+      "id": 574,
+      "avatar": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E4%B8%B4%E6%88%98/Student_Portrait_CH0334_Collection.png",
+      "skin": "临战",
+      "skin_cn": "武装"
+    }
+  ],
+  "family_name": "天童",
+  "given_name": "爱丽丝",
+  "family_name_jp": "天童",
+  "given_name_jp": "アリス",
+  "family_name_kr": "텐도",
+  "given_name_kr": "아리스",
+  "family_name_en": "Tendou",
+  "given_name_en": "Aris",
+  "family_name_zh_tw": "天童",
+  "given_name_zh_tw": "愛麗絲",
+  "family_name_cn": "天童",
+  "given_name_cn": "爱丽丝",
+  "nick_name": "",
+  "introduction": "千禧科学学院所属，游戏开发部的成员。\n\n是在废墟发现的来历不明的少女。包含年龄在内的所有情报都无从得知。\n现在和桃井、绿和柚子一起享受游戏，已经变成重度​游戏狂热者了。\n说话时有点生硬不自然，但那是因为她的语句几乎都是由怀旧游戏的台词所构成。\n\n>……我一直在等待，被那道声音呼唤的时刻",
+  "introduction_cn": "千禧年游戏开发部的成员。\n\n在废墟发现的来历不明的少女，无法查到包括年龄在内的所有情报。\n一直跟着桃和绿打游戏的她，已经成了重度游戏迷。\n原本说话很呆板，但现在常常用复古游戏的台词代替。\n\n>我一直在等待着你的呼唤。",
+  "momo_talk_signature": "我是千禧年游戏开发部的爱丽丝",
+  "main_relation": 37,
+  "relation": [
+    35,
+    66,
+    34,
+    38,
+    39
+  ],
+  "age": 1,
+  "grade": "一年生",
+  "height": 152,
+  "birthday": "03-25",
+  "hobby": "游戏（特别是RPG）",
+  "designer": "DoReMi",
+  "illustrator": "DoReMi",
+  "character_voice": "田中美海",
+  "character_voice_cn": "四白",
+  "release_date": "2021-03-25",
+  "release_date_cn": "2023-08-31",
+  "release_date_global": "2021-12-28",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/avatar.png",
+  "school": 4,
+  "weapon_type": "RG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": false,
+  "more": "# 杂项趣闻\n\n:::: center\n!!! question <font size=\"4\">**荣 誉 勋 章**</font>\n![hanamaru_coconut.png](files/19083/lgj4cn7FML4efZeQXT3qrdc0b6jy61g0.png =100x)\n此角色曾在本站开设的投票活动『基沃托斯年度最佳大选』中取得前三名的成绩！\n[2023年](https://www.bilibili.com/opus/872988000253902882)：【年度最佳剧情表现】并列**第1名**![rank1.png](files/19083/LMDEXyZBQ3zQXr1770iyoLWlXNkjTePK.png =50x)\n!!!\n::::\n\n## 相关meme\n### 长官，我们把二楼拿下来了！\n!!! note 该meme的形成经过了互联网的多层演化，此处不介绍互联网占楼行为及文化，仅介绍与该角色有关的部分。\n!!!\n\n![hBfmsdYKcVTmxSkMikRxZgGn8x7fWrVz.png](files/153/hBfmsdYKcVTmxSkMikRxZgGn8x7fWrVz.png =250x)\n原图出自[藤原たつろ](https://twitter.com/tatsuro_i3i/)老师的漫画，因其敬礼动作较为接近互联网上已有梗图“长官，我们把二楼拿下来了！”而被国内网友进行再次创作，此后也产生了各种变体。\n> ![我们把二楼拿下来了！](files/153/mcnPbqBeoKATZbQHCBLaCWsCApmueUHb.png =250x)\n\n在该图在国内互联网病毒式传播并被多次描改上其他作品角色，产生巨大传播力后，该meme及其大量衍生图飘洋过海并于2023年6月中旬被传播到了该漫画原作者[藤原たつろ](https://twitter.com/tatsuro_i3i/)处。\n![qR3wEqodmA3rmAB0NLGhqlAULxlnDvQW.png](files/153/qR3wEqodmA3rmAB0NLGhqlAULxlnDvQW.png =250x)\n\n### 干什么！\n起源于游戏内爱丽丝表情差分，爱丽丝严肃的表情与可爱的外表形成了极大的反差萌，遂被社区配文“干什么！”，以一种风趣而不失幽默的方式表达自己的震撼，疑问或谴责。\n\n![image.png](files/5579/Y9HoInuzg6PIQuhy5wjdLgYJw7p8S9ZH.png =250x)\n\n# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 機械たちは旅立ちの夢を見るか？ | 机器们会梦见去旅行吗？ | 勇者啊 願光芒與你同在 | Go with the light at your back, hero. |\n| ![日Banner](images/students/天童%20爱丽丝/original/gallery/官方图集/アリス-1.jpg =450x) | ![简中Banner](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_banner_chs.jpg =450x) | ![繁中Banner](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_banner_cht_re.jpg =450x) | ![国际Banner](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_banner_en_re.jpg =450x) |\n|  |  | 叭邦叭邦！愛麗絲已成為「夥伴」 | BUM BUM BUM! ARIS HAS JOINED THE PARTY! |\n|  |  | ![繁中Banner](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_banner_cht_0.png =450x) | ![国际Banner](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_banner_en.jpg =450x) |\n\n## 官方介绍图\n\n### 原皮\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![日介绍](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_Intro_jp.jpg =420x) | ![简介绍](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_Intro_chs.jpg =425x) | ![繁介绍](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_Intro_cht.jpg =700x) | ![EN介绍](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_Intro_en.jpg =400x) |\n\n### 偶像\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![日介绍](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_idol_Intro_jp.jpg =525x) | 暂无 | ![繁介绍](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_idol_Intro_cht.jpg =400x) | ![EN介绍](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_idol_chs.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[格斗游戏机](https://kivo.wiki/data/item/837) | 家具互动：[格斗游戏机](https://kivo.wiki/data/item/837) | 家具互动：[游戏开发部的沙发](https://kivo.wiki/data/item/937) |\n| :---: | :---: | :---: | :---: | :---: |\n| ![EX](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_ex.gif =450x) | ![触摸](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_cafe.gif =450x) | ![家具](images/students/天童%20爱丽丝/original/gallery/官方图集/neru_aris_interaction.gif =450x) | ![家具](images/students/天童%20爱丽丝/original/gallery/官方图集/himari_neru_aris_interaction.gif =450x) | ![家具](images/students/天童%20爱丽丝/original/gallery/官方图集/aris_interaction.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 爱丽丝 汉化\n![爱丽丝](files/2/WHEZqN6SYbdXvCqcvbSRYcZPapKdQhJM.png =450x)\n@tab 爱丽丝 原文\n![爱丽丝](files/2/SlLVrzdRXKcHoXfztnEh4imjzFLmqHUZ.jpg =450x)\n:::\n\n\n## 设定集\n\n::::center\n\n![zsbd](images/gallery/34/Vol.1_页面_084.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_页面_258.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_页面_180.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_页面_224.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_页面_012.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_页面_028.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_页面_031.png =450x)\n\n![zsbd](images/gallery/36/Vol2-16.jpg =450x)\n\n::::\n\n# 延伸阅读\n\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|アリス<br>勇者アリス<br>私<br><details><summary><font color=\"448aff\">本機</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">受到电子游戏熏陶前的自称</details></font></font></font></b>|\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[柚子](https://kivo.wiki/data/character/81)|ユズ<br>UZQueen|\n|[桃井](https://kivo.wiki/data/character/2)|モモイ|\n|[绿](https://kivo.wiki/data/character/27)|ミドリ|\n|[凯伊](https://kivo.wiki/data/character/518)|ケイ|\n|[茜](https://kivo.wiki/data/character/24)|アカネ先輩|\n|[晶](https://kivo.wiki/data/character/253)|慈愛の怪盗|\n|[明日奈](https://kivo.wiki/data/character/113)|アスナ先輩|\n|[阿露](https://kivo.wiki/data/character/112)|アル|\n|[泉奈](https://kivo.wiki/data/character/180)|イズナ|\n|[歌原](https://kivo.wiki/data/character/185)|ウタハ先輩|\n|[艾米](https://kivo.wiki/data/character/158)|エイミ|\n|[花凛](https://kivo.wiki/data/character/175)|カリン先輩|\n|[小玉](https://kivo.wiki/data/character/212)|コタマ先輩|\n|[小鸟](https://kivo.wiki/data/character/211)|コトリ|\n|[小雪](https://kivo.wiki/data/character/101)|コユキ|\n|[堇](https://kivo.wiki/data/character/187)|スミレ先輩|\n|[圣娅](https://kivo.wiki/data/character/43)|シーフ王<br>セイア<br>セイアさん<br>シーフ|\n|[千寻](https://kivo.wiki/data/character/20)|チヒロ先輩|\n|[月咏](https://kivo.wiki/data/character/32)|ツクヨ|\n|[时](https://kivo.wiki/data/character/77)|トキ|\n|[妮禄](https://kivo.wiki/data/character/213)|ネル先輩<br>チビメイド様<details><summary><font color=\"448aff\">チビネル先輩</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">发条花的帕凡舞曲第2章</details></font></font></font></b><details><summary><font color=\"448aff\">ネル</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">[动画:晄轮大祭「障碍物赛跑」](https://www.bilibili.com/video/BV1J8411Y7Uj/?spm_id_from=333.937.top_right_bar_window_history.content.click&vd_source=377b512147d56f5e6fb826f3969ed2d5)中的称呼</details></font></font></font></b>|\n|[诺亚](https://kivo.wiki/data/character/28)|ノア先輩|\n|[野宫](https://kivo.wiki/data/character/78)|ノノミ|\n|[晴](https://kivo.wiki/data/character/160)|ハレ先輩|\n|[日奈](https://kivo.wiki/data/character/71)|風紀委員長<br>ゲヘナの風紀委員長|\n|[响](https://kivo.wiki/data/character/69)|ヒビキ|\n|[日富美](https://kivo.wiki/data/character/74)|ヒフミ|\n|[日鞠](https://kivo.wiki/data/character/62)|ヒマリ先輩|\n|[佩洛洛](https://kivo.wiki/data/character/202)|ペロロ様|\n|[真纪](https://kivo.wiki/data/character/182)|マキ|\n|[满](https://kivo.wiki/data/character/214)|ミチル|\n|[优香](https://kivo.wiki/data/character/52)|ユウカ|\n|[莉音](https://kivo.wiki/data/character/133)|リオ先輩<br>リオ会長<br>賢者|\n\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/Aris_home_Idle_01_0.8457999999999998.jpg",
+  "spine": [
+    1,
+    53,
+    367,
+    1359
+  ],
+  "model": [
+    5,
+    212
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/voice/play_icon.webp",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/voice/pause_icon.webp",
+  "voice": [
+    {
+      "description": "游戏标题",
+      "category": "other",
+      "text": "蔚蓝档案。",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/HKQQ1JW1OJmJToXANUcG8c4OoqGbgkZe.ogg"
+    },
+    {
+      "description": "Aris_Battle_Damage_1",
+      "category": "battle",
+      "text": "呀！",
+      "text_original": "いや",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/Uy78h9uosGRiKkznLEkocP0MPthJaqzp.ogg"
+    },
+    {
+      "description": "Aris_Battle_Damage_2",
+      "category": "battle",
+      "text": "机体发生异常。",
+      "text_original": "機体に異常発生。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/6Vz8WETYGJTFrEXSofu6yXacM7o9ZC4v.ogg"
+    },
+    {
+      "description": "Aris_Battle_Damage_3",
+      "category": "battle",
+      "text": "系统重启。",
+      "text_original": "システムリセット。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/3MiCktveUvdfpzRvl2nAlAq5dMerWf7Q.ogg"
+    },
+    {
+      "description": "Aris_Battle_In_1",
+      "category": "battle",
+      "text": "爱丽丝在这里，爱丽丝会帮忙。",
+      "text_original": "アリスがここにいます。アリスが手伝います。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/TqmJ3w38cnKSvhCtLCBvr5dVHzTLLugb.ogg"
+    },
+    {
+      "description": "Aris_Battle_In_2",
+      "category": "battle",
+      "text": "光，会指引你方向。",
+      "text_original": "光が道へと導くでしょう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/2RPqTjSRg8wOPAAhDFGlKTtwq4brtKNU.ogg"
+    },
+    {
+      "description": "Aris_Battle_Recovery_1.",
+      "category": "battle",
+      "text": "是HP药水。",
+      "text_original": "HPポーションです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/aLgkAyUoYyX7nhvXdKHQGk3XrUJbVmoE.ogg"
+    },
+    {
+      "description": "Aris_Battle_Retire",
+      "category": "battle",
+      "text": "系统，停止。",
+      "text_original": "システム、停止。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/bwuWHmhLoCrgWtJf4B1v8Bs3p2z4AOWG.ogg"
+    },
+    {
+      "description": "Aris_Battle_Shout_1",
+      "category": "battle",
+      "text": "欸！",
+      "text_original": "ええ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/GuWcIlIWsrwZLwPlAH5iUdNw45z7svd3.ogg"
+    },
+    {
+      "description": "Aris_Battle_Shout_2",
+      "category": "battle",
+      "text": "要上了。",
+      "text_original": "行きます。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/0vfazZuxFRsLi0BoYCqDFBUSDDnwFiHN.ogg"
+    },
+    {
+      "description": "Aris_Battle_Shout_3",
+      "category": "battle",
+      "text": "攻击的好机会！",
+      "text_original": "攻撃のチャンスです！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/fCy0frMHcj9XJ31wnR9LH7Ff5XptiPQZ.ogg"
+    },
+    {
+      "description": "Aris_Battle_TSA_1",
+      "category": "battle",
+      "text": "合  体！",
+      "text_original": "合体！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/b3doW88HCuGirz1PDNZE0a4dHTu6jI6L.ogg"
+    },
+    {
+      "description": "Aris_Battle_TSA_2",
+      "category": "battle",
+      "text": "回应召唤吧，魔像啊，谨遵我命！",
+      "text_original": "召喚に応じろ！ゴーレムよ！主人の命令に従い！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/TfXl4e2iBHqDR5Z1xb7QTDYviLv1r8UV.ogg"
+    },
+    {
+      "description": "Aris_Battle_Victory_1",
+      "category": "battle",
+      "text": "因为有伙伴在，所以我不害怕。",
+      "text_original": "仲間がいるから怖くありません。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/nqHeHsCGUNjNboDO8Q0OTF3HjT1rkFwO.ogg"
+    },
+    {
+      "description": "Aris_Battle_Victory_2",
+      "category": "battle",
+      "text": "勇气就是最棒的魔法。",
+      "text_original": "勇気。それは最高の魔法です。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/Ah43CnZf6u4q2FWBjXpCPCjRXW1RSJK8.ogg"
+    },
+    {
+      "description": "Aris_Cafe_Act_1",
+      "category": "cafe",
+      "text": "看来需要准备二周目了。",
+      "text_original": "もう2周目を準備しなきゃですね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/VYtzutMBfKSo00VHradQA4L80Vcts2Gf.ogg"
+    },
+    {
+      "description": "Aris_Cafe_Act_2",
+      "category": "cafe",
+      "text": "爱丽丝也想喝咖啡。",
+      "text_original": "アリスもコーヒーが飲みたいです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/v6isH9yjZVkgQ21a5WDLws3t80F53MAC.ogg"
+    },
+    {
+      "description": "Aris_Cafe_Act_3",
+      "category": "cafe",
+      "text": "休息是很重要的。因为可以恢复HP。",
+      "text_original": "休憩は大事です。HPが回復するので。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/y2iBEFUALeUftbFLHxNo7bEcguQeoOKe.ogg"
+    },
+    {
+      "description": "Aris_Cafe_Act_4",
+      "category": "cafe",
+      "text": "还想再和老师一起打本。登号上去和老师说一声吧。",
+      "text_original": "また先生とレイドに行きたいです。 アカウントに声をかけてみようと思います。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/OlczjrZDCiy5d6I7maRZI5c8VrT5sDNW.ogg"
+    },
+    {
+      "description": "Aris_Cafe_Act_5",
+      "category": "cafe",
+      "text": "请摸摸爱丽丝的头吧。爱丽丝的人造蛋白质皮肤，会变得暖暖的哦。",
+      "text_original": "アリスをナデナデしてください。 アリスの人工タンパク質の皮膚が暖かくなります。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/czXdBLqqCvFtebUhmlNsf0umgBKCTIUa.ogg"
+    },
+    {
+      "description": "Aris_ExSkill_1",
+      "category": "battle",
+      "text": "魔力充能百分之一百，出击！",
+      "text_original": "魔力充電100パーセント…行きます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/17Ph4GGBzXAIbT7RbVzBuzNlNYXw32pC.ogg"
+    },
+    {
+      "description": "Aris_ExSkill_2",
+      "category": "battle",
+      "text": "确认目标，突破输出临界点。",
+      "text_original": "ターゲット確認！出力臨界点突破！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/N6yLRuUub6o9IovSxPMqrwQxRzr6UqjC.ogg"
+    },
+    {
+      "description": "Aris_ExSkill_3",
+      "category": "battle",
+      "text": "粉碎邪恶，正义一击。",
+      "text_original": "悪を撃ち砕く正義の一撃…",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/lLDQkvfxUzyZihj7IP4FcGMXNnXdlBvD.ogg"
+    },
+    {
+      "description": "Aris_ExSkill_Level_1",
+      "category": "battle",
+      "text": "光啊！能量过载……释放！",
+      "text_original": "光よ！エナジーオーバーロード…リリース",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/tbVt2e6COUy6WNc2CpiFrapfPCchGSU8.ogg"
+    },
+    {
+      "description": "Aris_ExSkill_Level_2",
+      "category": "battle",
+      "text": "爱丽丝，全力出击！",
+      "text_original": "アリス、全力で行きます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/lyVXPtUV9BLv0DifiFeWVgalwuKfU0rZ.ogg"
+    },
+    {
+      "description": "Aris_ExSkill_Level_3",
+      "category": "battle",
+      "text": "吾意随光芒，贯穿吧！平衡崩坏！",
+      "text_original": "この光に意志を込めて…貫け！バランス崩壊！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/g5zsF67VTSRDkttvOle3mxvuqKLFqbqL.ogg"
+    },
+    {
+      "description": "Aris_ExWeapon_Get",
+      "category": "growup",
+      "text": "这就是……传说中的圣剑……哦，是炮啊。",
+      "text_original": "これが……伝説の聖剣……あっ、銃ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/bWkciJO0bbvNHp2Sv4wXiPpgdestmsXX.ogg"
+    },
+    {
+      "description": "Aris_Formation_In_1",
+      "category": "formation",
+      "text": "爱丽丝，加入队伍。",
+      "text_original": "アリス、パーティに合流します。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/njBlJW6cuDk0IEqmEegyqbkI1DCh05o5.ogg"
+    },
+    {
+      "description": "Aris_Formation_In_2",
+      "category": "formation",
+      "text": "我的角色定位是……输出，对吧？",
+      "text_original": "私の役割は、アタッカーなんですね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/nQVUYY6FsKi9GQqupbqw55nB16IfcoGv.ogg"
+    },
+    {
+      "description": "Aris_Formation_Select",
+      "category": "formation",
+      "text": "启动准备完毕。",
+      "text_original": "起動準備完了。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/X5zDKS9c4FayptW7Ck97HfaEYUByvM7B.ogg"
+    },
+    {
+      "description": "Aris_Gachaget",
+      "category": "growup",
+      "text": "勇者啊，愿光与你同在。",
+      "text_original": "勇者よ。光があなたと共にあらんことを。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/21mMJ4DO6gubrn2AkXiec7jO7YTSiLjt.ogg"
+    },
+    {
+      "description": "Aris_Growup_1",
+      "category": "growup",
+      "text": "等级提升，获得了大量经验值。",
+      "text_original": "レベルアップ。経験値をたくさん獲得しました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/xgRRB1kzGG1xMA2tokHIxCopj0GpOJQC.ogg"
+    },
+    {
+      "description": "Aris_Growup_2",
+      "category": "growup",
+      "text": "我遇到了大家，学会了什么是游戏和友情。老师会教给爱丽丝什么事情呢？",
+      "text_original": "みんなに出会ってゲームと友情を学びました。先生はアリスに何を教えてくれますか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/usNRz65GHFtpwNFr4AMj93Mr8KWoB4TL.ogg"
+    },
+    {
+      "description": "Aris_Growup_3",
+      "category": "growup",
+      "text": "老师，请看！爱丽丝已经懂得了什么是笑容了！",
+      "text_original": "見てください、先生。アリスはもう笑うということを理解しました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/JE6xOffzJTMHaLe3WPwKNKpvrDWVqMSa.ogg"
+    },
+    {
+      "description": "Aris_Growup_4",
+      "category": "growup",
+      "text": "老师，现在的爱丽丝是世界上最强的战士！",
+      "text_original": "先生、今のアリスはこの世界で最強の戦士です。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/aW3Rj8uzdwKh7d6z6DCQUVuH0s2rUHr7.ogg"
+    },
+    {
+      "description": "Aris_Lobby_1",
+      "category": "lobby",
+      "text": "听说马上要有新游戏发售了！老师会一起玩的吧？",
+      "text_original": "新作のゲームがもうすぐ発売だそうです！先生も一緒にやってくれますよね？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/Tca1y6ruEvdDtUHfHrHDTxMYt8sZXhpo.ogg"
+    },
+    {
+      "description": "Aris_Lobby_2",
+      "category": "lobby",
+      "text": "唔——肚子饿了。诶……？ 爱丽丝不吃电池的！",
+      "text_original": "うーん。お腹がすきました。え…？ アリス、乾電池は食べません！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/qbvMS2334ILg9f4gn4cWbI30shd33U5P.ogg"
+    },
+    {
+      "description": "Aris_Lobby_3",
+      "category": "lobby",
+      "text": "自从上次有人类踏足这里，已经过去了几千年…… 不知道为什么，突然很想试着说一下这种台词。",
+      "text_original": "人間がここに来たのは数千年ぶりだな…。 なんだかこんなセリフを言ってみたくなりました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/7yN8aubiRHoTbXUEWbvbPFZKDnt8gJFY.ogg"
+    },
+    {
+      "description": "Aris_Lobby_4",
+      "category": "lobby",
+      "text": "虽然不知道为什么，但爱丽丝也能流泪。 或许是眼球型摄像头的清洗功能吧。",
+      "text_original": "理由は分かりませんが、アリスは涙を流せます。 おそらく眼球型カメラの洗浄機能だと思います。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/Ax8gMY4Z3Kc43Q1MH6ngwcidhjHXwTiS.ogg"
+    },
+    {
+      "description": "Aris_Lobby_5",
+      "category": "lobby",
+      "text": "老师。下一个目的地是游戏厅…… 爱，爱丽丝不骗人！",
+      "text_original": "先生。次の目的地はゲーセン…。 ア、アリスはうそをつきません！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/aX1VMbi0RNXsPTCXtFTa7T6RECElyRSL.ogg"
+    },
+    {
+      "description": "Aris_LogIn_1",
+      "category": "lobby",
+      "text": "您来了，老师。爱丽丝，一直在等着您呢。",
+      "text_original": "ようこそ先生。アリスは先生を待っていました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/kKiVBBfrP866KTh5HRMdEvcBZpOSo3sv.ogg"
+    },
+    {
+      "description": "Aris_LogIn_2",
+      "category": "lobby",
+      "text": "今天会展开什么样的冒险呢？ 爱丽丝已经做好准备，可以和您一起出发了。",
+      "text_original": "今日はどんな冒険に出かけますか？ アリスは一緒に旅立つ準備ができています。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/rO7udyAZ66QfpgKwzYGar4BTSQ5BnXKw.ogg"
+    },
+    {
+      "description": "Aris_MemorialLobby_1",
+      "category": "lobby",
+      "text": "爱丽丝觉得在基沃托斯魔法并不是空想。",
+      "text_original": "アリスはキヴォトスに魔法がないと思えません。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/PLlDp01c5dVEZgY6YVomii1venH2B3Ft.ogg"
+    },
+    {
+      "description": "Aris_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "魔法是真正存在的。",
+      "text_original": "魔法は存在しています。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gfmkiQJJ3R1MR0wAJQ1FQmeIvy88dWVg.ogg"
+    },
+    {
+      "description": "Aris_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "因为，老师现在让爱丽丝感到非常幸福。",
+      "text_original": "だって、先生は今アリスを幸せにしてくれましたから",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/hmN3vbAxcrCjNYXkieE0lULxN4bxfhA0.ogg"
+    },
+    {
+      "description": "Aris_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "游戏之所以很有趣，",
+      "text_original": "ゲームが面白い理由は",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/hV26vwLjHpFFeBR68ZtfD1ggmPqaFZCG.ogg"
+    },
+    {
+      "description": "Aris_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "是因为它蕴藏了这个世界所有的美丽之处。",
+      "text_original": "そこに世界の美しさを込められているから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/Vit5h9kSFlqsOAyXUukAwXk0I5r4wOHr.ogg"
+    },
+    {
+      "description": "Aris_MemorialLobby_3_3",
+      "category": "lobby",
+      "text": "这是，老师您让我明白的道理。",
+      "text_original": "これは先生を通じてわかったことです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/bKI016W3enKTPDp0Sub1dMnsekEQGRim.ogg"
+    },
+    {
+      "description": "Aris_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "游戏、猫咪、和好朋友……还有……",
+      "text_original": "ゲームも猫も友達も、そして、",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/mrshryM6hj65gXHewSydP1AT6cobRUuT.ogg"
+    },
+    {
+      "description": "Aris_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "现在这个瞬间，在这世界上有太多太多美好的东西。",
+      "text_original": "今この瞬間もこの世界には美しいものが沢山あります。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/sTHKrfONleH0gwdVTY5BD6xY0yXmEIEh.ogg"
+    },
+    {
+      "description": "Aris_MemorialLobby_5_1",
+      "category": "lobby",
+      "text": "爱丽丝还想知道更多更多。",
+      "text_original": "アリスはもっと知りたいです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/0iQCuGA1BoSljlndCQPxKyuUmgqOiEiC.ogg"
+    },
+    {
+      "description": "Aris_MemorialLobby_5_2",
+      "category": "lobby",
+      "text": "想和老师一起……两个人一起，继续探索这个世界！",
+      "text_original": "先生と一緒にこの世界のことをもっと学びたいです！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/Pk1u9WCZcSV9gHreLC1FUegHNrJ5OH3r.ogg"
+    },
+    {
+      "description": "Aris_Relationship_Up_1",
+      "category": "growup",
+      "text": "爱丽丝也想要提升老师的好感度。",
+      "text_original": "アリスも先生の好感度を上げたいです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/hGj9YFdYKDXOLYXTbz7XEDal99nyT7KI.ogg"
+    },
+    {
+      "description": "Aris_Relationship_Up_2",
+      "category": "growup",
+      "text": "第一次接触新游戏的时候、提升等级，成功强化装备的时候，还有每次见到老师的时候，爱丽丝都会产生一种无法归类的、不可思议的感觉。",
+      "text_original": "新しいゲームに初めて向き合うとき……レベルを上げて装備強化に成功したとき……先生に会う度にアリスはカテゴライズできない不思議な感覚を覚えます。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/UTm90RDFk3S1KzhWMQou2rBmmtkoSWDN.ogg"
+    },
+    {
+      "description": "Aris_Relationship_Up_3",
+      "category": "growup",
+      "text": "自从认识了老师，爱丽丝的内部就自动编写了一段程序。这是种庞大的无法用数值来换算的感情，而它应该叫……",
+      "text_original": "先生と接触してから、アリスの中になにかプログラミングされました。数字が換算できないぐらい大きな、この気持ちの名前は…",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/t6A0ElkgLWbSOustMjiPToOCqq3xUax4.ogg"
+    },
+    {
+      "description": "Aris_Relationship_Up_4",
+      "category": "growup",
+      "text": "能和老师相遇，爱丽丝很幸福！",
+      "text_original": "先生に出会えて……アリスは幸せです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/JElGuhTDwr1UedSnCWquwKJAlSZx4R6N.ogg"
+    },
+    {
+      "description": "Aris_Season_Birthday",
+      "category": "lobby",
+      "text": "今天是爱丽丝的生日，就是和大家相遇的那一天。 也是和老师您第一次见面的那一天。",
+      "text_original": "アリスの誕生日は、みんなに出会えた今日です。 先生と初めて会った、まさにその日です。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/GFBaVwY1DhEzSt2XnmMw6tUxBXoAcn9c.ogg"
+    },
+    {
+      "description": "Aris_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "今天是老师在生命中第一次上线的日子吧。此时此刻，对爱丽丝来说就是最好的礼物。 生日快乐，老师。",
+      "text_original": "先生の人生初の接続日ですね。今この瞬間が、アリスには最高のプレゼントです。 おめでとうございます、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/KNYrOczM5xiyqF1E5Q01E9TekPZQ3ZBK.ogg"
+    },
+    {
+      "description": "Aris_Season_Halloween",
+      "category": "lobby",
+      "text": "鬼怪没什么可怕的。因为暗属性应该被光属性克制的吧。",
+      "text_original": "お化けの存在は怖くありません。 きっと闇の属性は光の属性に弱いはずですから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/RamfMOksK3gJO0Vph1qjS8xTVrKvmwnY.ogg"
+    },
+    {
+      "description": "Aris_Season_NewYear",
+      "category": "lobby",
+      "text": "祝您新年快乐。 ……不对，现在不是说这个的时候！ 老师，正月活动本开啦！",
+      "text_original": "明けましておめでとうございます。…と、そんな暇はありません！ 先生！お正月のイベントが始まりましたよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/WyWPDbJC52wzwDTFHX5zr4n6gmR8LLYn.ogg"
+    },
+    {
+      "description": "Aris_Season_Xmas",
+      "category": "lobby",
+      "text": "听说，圣诞老人会给好孩子送礼物。 爱丽丝想要老师当礼物。",
+      "text_original": "サンタクロースはいい子にプレゼントをあげるそうです。 アリスは先生をいただきたいです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/9Ggof6QcIDLXiPoAELAA5O2SIPywEq5b.ogg"
+    },
+    {
+      "description": "Aris_Tactic_Defeat_1",
+      "category": "battle",
+      "text": "凡人啊，现在还不可以放弃。",
+      "text_original": "必滅者よ、このまま諦めてはいけません。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/FAoLVBMBOUhh2dTU86BqGFR9piRXDLbY.ogg"
+    },
+    {
+      "description": "Aris_Tactic_Defeat_2.ogg",
+      "category": "battle",
+      "text": "系统重启，将再次尝试。",
+      "text_original": "リブート。また挑戦します。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/cIUoB9q1Qw8n8l0bqz3nUuviU5qklkG7.ogg"
+    },
+    {
+      "description": "Aris_Tactic_In_1.ogg",
+      "category": "battle",
+      "text": "前方目标已确认，开始推进。",
+      "text_original": "前方に対象を確認。前進します。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/3kvquLmZRSxWwJCRXGBFlZmllOFjeHES.ogg"
+    },
+    {
+      "description": "Aris_Tactic_In_2.ogg",
+      "category": "battle",
+      "text": "老师，请指示！",
+      "text_original": "先生、指示を！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/2KKHsSBrispexVxsIGL7h5Q2ZvWvS6bM.ogg"
+    },
+    {
+      "description": "Aris_Tactic_Victory_1",
+      "category": "battle",
+      "text": "攻略完成，准备返回。",
+      "text_original": "攻略完了。帰還します。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/ROeO5RgLPdM0u40qPLk3i2cY7ng55p1g.ogg"
+    },
+    {
+      "description": "Aris_Tactic_Victory_2",
+      "category": "battle",
+      "text": "确认敌人已被歼灭，任务完成。",
+      "text_original": "敵の殲滅を確認しました。ミッションクリア。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/VUQmk7qlBMbVx6QWZYEV3tn2cpQBidcR.ogg"
+    },
+    {
+      "description": "Aris_Battle_Buffed_1",
+      "category": "battle",
+      "text": "挂上buff了。",
+      "text_original": "バフが掛かりました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/Aris_Battle_Buffed_1.ogg"
+    },
+    {
+      "description": "Aris_Battle_BuffSelf_1",
+      "category": "battle",
+      "text": "上个buff。",
+      "text_original": "バフを掛けます。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/Aris_Battle_BuffSelf_1.ogg"
+    },
+    {
+      "description": "Aris_Battle_Defense_1",
+      "category": "battle",
+      "text": "没有问题",
+      "text_original": "問題ありません。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/Aris_Battle_Defense_1.ogg"
+    },
+    {
+      "description": "Aris_Battle_Move_1",
+      "category": "battle",
+      "text": "爱丽丝，继续前进。",
+      "text_original": "アリス、前進を続けます。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/Aris_Battle_Move_1.ogg"
+    },
+    {
+      "description": "Aris_Battle_Move_2",
+      "category": "battle",
+      "text": "目标已确认，要上了！",
+      "text_original": "目標を確認。行きます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/Aris_Battle_Move_2.ogg"
+    },
+    {
+      "description": "Aris_Battle_TacticalAction_1",
+      "category": "battle",
+      "text": "正在移动。",
+      "text_original": "移動します。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/Aris_Battle_TacticalAction_1.ogg"
+    },
+    {
+      "description": "Aris_CommonSkill",
+      "category": "battle",
+      "text": "充能完毕！",
+      "text_original": "チャージします！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/Aris_CommonSkill.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "aris_relationship_up_1",
+      "category": "growup",
+      "text": "爱丽丝也想要提升老师的好感度。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/WaGVMPIg5o9O1aPms9BrfCLQpR4Lydqa.ogg"
+    },
+    {
+      "description": "aris_relationship_up_2",
+      "category": "growup",
+      "text": "第一次接触新游戏的时候、提升等级，成功强化装备的时候，还有每次见到老师的时候，爱丽丝都会产生一种无法归类的、不可思议的感觉。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/hfnh7G1Z795DsA6qpAzMzkKI3XHG0szj.ogg"
+    },
+    {
+      "description": "aris_relationship_up_3",
+      "category": "growup",
+      "text": "自从认识了老师，爱丽丝的内部就自动编写了一段程序。这是种庞大的无法用数值来换算的感情，而它的名字……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/qCzIk5Xhe3ZsS9Z8AelDx9YnleIlLzTG.ogg"
+    },
+    {
+      "description": "aris_relationship_up_4",
+      "category": "growup",
+      "text": "能和老师相遇，爱丽丝很幸福！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/nFtqxYamqQ76norC2ZVP4utYphHJ0SnO.ogg"
+    },
+    {
+      "description": "aris_season_birthday",
+      "category": "lobby",
+      "text": "今天是爱丽丝的生日，就是和大家相遇的那一天。 也是和老师您第一次见面的那一天。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/1wadnsF6AajACBTWfvEP1BiKRtdC1yun.ogg"
+    },
+    {
+      "description": "aris_season_birthday_player",
+      "category": "lobby",
+      "text": "今天是老师在生命中第一次上线的日子吧。此时此刻，对爱丽丝来说就是最好的礼物。 生日快乐，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/UqMVGAQkyrgqlmrQ6tO7jKc2rEnA7Gpt.ogg"
+    },
+    {
+      "description": "aris_season_chinesenewyear",
+      "category": "lobby",
+      "text": "新的一年里，爱丽丝想和老师一起玩更多更多的游戏！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/Cds12wcGc6PiLkzAPPKqtYsXlscoHGMM.ogg"
+    },
+    {
+      "description": "aris_season_halloween",
+      "category": "lobby",
+      "text": "鬼怪没什么可怕的。因为暗属性应该被光属性克制的吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/uXi7I0XR8S4VWVELaEzYumII3QuTcMlO.ogg"
+    },
+    {
+      "description": "aris_season_midautumn",
+      "category": "lobby",
+      "text": "老师你看，月亮上有黑黑的东西。爱丽丝觉得那一定是从未有人探索过的地下城。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/e3exsR1csyY8xAIAD5QV5UEKMAMoX0WK.ogg"
+    },
+    {
+      "description": "aris_season_newyear",
+      "category": "lobby",
+      "text": "祝您新年快乐。 ……不对，现在不是说这个的时候！ 老师，正月活动本开啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/J466BwL4hPOSt87fC98iuo7ZdFTPoKSL.ogg"
+    },
+    {
+      "description": "aris_season_xmas",
+      "category": "lobby",
+      "text": "听说，圣诞老人会给好孩子送礼物。 爱丽丝想要老师当礼物。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/NdnzYzRifryNTlYRfIliGPIRh8GRZ6nQ.ogg"
+    },
+    {
+      "description": "aris_tactic_defeat_1",
+      "category": "battle",
+      "text": "凡人啊，现在还不可以放弃。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gUbE8MpuSmzz4NfThlI1q957muS0PK3F.ogg"
+    },
+    {
+      "description": "aris_tactic_defeat_2",
+      "category": "battle",
+      "text": "系统重启，将再次尝试。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/VWZj2PdQSpEPbpJwaPAeNy4qmuIxZXhf.ogg"
+    },
+    {
+      "description": "aris_tactic_in_1",
+      "category": "battle",
+      "text": "前方目标已确认，开始推进。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/MQThZki5RFXWHSwElurghZeR9VGDaikt.ogg"
+    },
+    {
+      "description": "aris_tactic_in_2",
+      "category": "battle",
+      "text": "老师，请指示。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/75qHdaHobPWM7qIV1Q1FxCczY430WNWJ.ogg"
+    },
+    {
+      "description": "aris_tactic_victory_1",
+      "category": "battle",
+      "text": "攻略完成，准备返回。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/DohjjjHwyQ8dgQF72HU2uuQ7WDoW6WFR.ogg"
+    },
+    {
+      "description": "aris_tactic_victory_2",
+      "category": "battle",
+      "text": "确认敌人已被歼灭，任务完成。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/cZgYmP4pKozGviDPAUFmYW7j7adEZML3.ogg"
+    },
+    {
+      "description": "aris_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/Fxsk2PXOtnE7nYB06Nol9FGWT6aWBmKp.ogg"
+    },
+    {
+      "description": "aris_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/d6DFzUmsak3o34HJn0GtiCsBYGytZiCP.ogg"
+    },
+    {
+      "description": "aris_battle_damage_2",
+      "category": "battle",
+      "text": "机体发生异常。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/ttKAWOukiv0wjwRq5raP3Dte7LMDWLHE.ogg"
+    },
+    {
+      "description": "aris_battle_damage_3",
+      "category": "battle",
+      "text": "系统重启。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/Bhz8kGB9nMOXCcXtBFUU9ZeL8GP61yph.ogg"
+    },
+    {
+      "description": "aris_battle_in_1",
+      "category": "battle",
+      "text": "爱丽丝在这里，爱丽丝会帮忙。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/X3SvVVFC0BbQTK81knwq3XeXA8oT2qx7.ogg"
+    },
+    {
+      "description": "aris_battle_in_2",
+      "category": "battle",
+      "text": "光，会指引你方向。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/HIIftcJVmaTSUWTEcsNliXUN9se8Zxgn.ogg"
+    },
+    {
+      "description": "aris_battle_recovery_1",
+      "category": "battle",
+      "text": "是HP药水？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/BTQndtKVtTWqDyBBlYoh1GIaduv3sCb0.ogg"
+    },
+    {
+      "description": "aris_battle_retire",
+      "category": "battle",
+      "text": "系统，停止。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/d8pZ6bQoAULlQ4TdHmw3ZCbxAhQbA4J9.ogg"
+    },
+    {
+      "description": "aris_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/OBfd5mFZoKZH0YL7oAHEC6bO0D7ue7VW.ogg"
+    },
+    {
+      "description": "aris_battle_shout_2",
+      "category": "battle",
+      "text": "要上了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/HfIxH0qLGNXUmObIXx8hCJpcj2Irebh8.ogg"
+    },
+    {
+      "description": "aris_battle_shout_3",
+      "category": "battle",
+      "text": "好机会！攻击！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/HEBXkfmvIXDzzaJ5VETlUc0t1qeZj9Yz.ogg"
+    },
+    {
+      "description": "aris_battle_tsa_1",
+      "category": "battle",
+      "text": "合  体！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/uFHb8sNoGMatopT5S6J8kRQ2sc85CTwU.ogg"
+    },
+    {
+      "description": "aris_battle_tsa_2",
+      "category": "battle",
+      "text": "回应召唤吧，魔像啊，谨遵我命！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/u1p98lIgnj9UfMgaTodn5ihtxsgLGEwR.ogg"
+    },
+    {
+      "description": "aris_battle_victory_1",
+      "category": "battle",
+      "text": "因为有伙伴在，所以我不害怕。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/TKrQXdnn8tad82MnRv1sova1WRGvCErX.ogg"
+    },
+    {
+      "description": "aris_battle_victory_2",
+      "category": "battle",
+      "text": "勇气就是最棒的魔法。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/1gHOMbdsPZaegeQ7UKHHDglHLqiqxMkd.ogg"
+    },
+    {
+      "description": "aris_cafe_act_1",
+      "category": "cafe",
+      "text": "看来需要准备二周目了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/XKV3Bpy9YjBD9mFQwc5zL6yOfGFNyIRW.ogg"
+    },
+    {
+      "description": "aris_cafe_act_2",
+      "category": "cafe",
+      "text": "爱丽丝也想喝咖啡。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/NWCEZ56E5rsijkKd5gwQ72OvZYpv9E5T.ogg"
+    },
+    {
+      "description": "aris_cafe_act_3",
+      "category": "cafe",
+      "text": "休息是很重要的。因为可以恢复HP。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/Rbdn8FLW05SWaOB2PcUYrkrNZa98B31k.ogg"
+    },
+    {
+      "description": "aris_cafe_act_4",
+      "category": "cafe",
+      "text": "还想再和老师一起打本。登号上去和老师说一声吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/S0lZymBQjpNYXGfjGaPKNzAAJjBV4ZJq.ogg"
+    },
+    {
+      "description": "aris_cafe_act_5",
+      "category": "cafe",
+      "text": "请摸摸爱丽丝的头吧。爱丽丝的人造蛋白质皮肤，会变得暖暖的哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/k0MisyknyIZwbhDeJxaVwoBrFgTkPxDq.ogg"
+    },
+    {
+      "description": "aris_exskill_1",
+      "category": "battle",
+      "text": "魔力充能百分之一百，出击！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/lR6kdJxSvJ05iFrNeZmlyE8eR1TFJyph.ogg"
+    },
+    {
+      "description": "aris_exskill_2",
+      "category": "battle",
+      "text": "确认目标，突破输出临界点。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/SxewkbIoe645JgxoYmbDjd9uY5Qkm90s.ogg"
+    },
+    {
+      "description": "aris_exskill_3",
+      "category": "battle",
+      "text": "粉碎邪恶，正义一击。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/F9gDFgJLfA2KDn3EMEoz8YMFvKimvVR3.ogg"
+    },
+    {
+      "description": "aris_exskill_level_1",
+      "category": "battle",
+      "text": "光啊！能量过载，开始冷却。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/r5ivDQedgzD7UGz5nx1lSRh79xENQNTW.ogg"
+    },
+    {
+      "description": "aris_exskill_level_2",
+      "category": "battle",
+      "text": "爱丽丝，全力出击！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/n13sFH8iVWlY64fuoddnfjfoHWgK6ZDA.ogg"
+    },
+    {
+      "description": "aris_exskill_level_3",
+      "category": "battle",
+      "text": "吾意随光芒，贯穿吧！平衡崩坏！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/ZEPNiejwVgxVBIBou4lmXl3ZkprlAtl0.ogg"
+    },
+    {
+      "description": "aris_exweapon_get",
+      "category": "growup",
+      "text": "这就是……传说中的圣剑……哦，是炮啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/rR4IkMPJTJdKkbDhH1rggfKFHdKTnF0r.ogg"
+    },
+    {
+      "description": "aris_formation_in_1",
+      "category": "formation",
+      "text": "爱丽丝，加入队伍。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/pzIgGGMacf1ba2VBYty6nfnfQbHtaNp6.ogg"
+    },
+    {
+      "description": "aris_formation_in_2",
+      "category": "formation",
+      "text": "我的角色定位是……输出，对吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/GtELFwfxyTXYkzMO1pjG31VqN1leTpc3.ogg"
+    },
+    {
+      "description": "aris_formation_select",
+      "category": "formation",
+      "text": "启动准备完毕。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/yIrgL1LsJmY6HbahqTMaOMyArgxNes4M.ogg"
+    },
+    {
+      "description": "aris_gachaget",
+      "category": "growup",
+      "text": "勇者啊，愿光与你同在。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/iryy8J0S7NyV06fhUSeByNHxKm6jJwvO.ogg"
+    },
+    {
+      "description": "aris_growup_1",
+      "category": "growup",
+      "text": "等级提升，获得大量经验值。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/s7VEYXPn7HmzgrFqQg81CEQdicbPYVkV.ogg"
+    },
+    {
+      "description": "aris_growup_2",
+      "category": "growup",
+      "text": "我遇到了大家，学会了什么是游戏和友情。老师会教给爱丽丝什么事情呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/RvTNr4Q8vn91X7pqCCYo2avQOu8umaH6.ogg"
+    },
+    {
+      "description": "aris_growup_3",
+      "category": "growup",
+      "text": "老师，请看！爱丽丝已经懂得了什么是笑容了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/W868ijPPtLjzBHcxSTL8uHWg0eDNJigG.ogg"
+    },
+    {
+      "description": "aris_growup_4",
+      "category": "growup",
+      "text": "老师，现在的爱丽丝是世界上最强的战士！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/Z0wEwa5gFhAaKxagEbFVPZpPqQLFcmtM.ogg"
+    },
+    {
+      "description": "aris_lobby_1",
+      "category": "lobby",
+      "text": "听说马上要有新游戏发售了！老师会一起玩的吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/3MJQmtuCiLqSHuW5Fv19IuFOJEk1soGA.ogg"
+    },
+    {
+      "description": "aris_lobby_2",
+      "category": "lobby",
+      "text": "唔——肚子饿了。咦……？ 爱丽丝不吃电池的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/lBPrTC8mSPpn65wk7bb5FlPYsqjv1UiC.ogg"
+    },
+    {
+      "description": "aris_lobby_3",
+      "category": "lobby",
+      "text": "自从上次有人类踏足这里，已经过去了几千年…… 不知道为什么，突然很想试着说一下这种台词。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/6RSoX1PKiYuFCahSLrtcSyGj1oY19JeD.ogg"
+    },
+    {
+      "description": "aris_lobby_4",
+      "category": "lobby",
+      "text": "虽然不知道为什么，但爱丽丝也能流泪。 或许是眼球型摄像头的清洗功能吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/Tr7WSOMR8LbqNskd4ZjNdFQ2aK1dcgnO.ogg"
+    },
+    {
+      "description": "aris_lobby_5",
+      "category": "lobby",
+      "text": "老师。下一个目的地是游戏厅…… 爱，爱丽丝不骗人！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/T9SFMSLUgFaZicmG6mVLoAt1AzAAZ8dm.ogg"
+    },
+    {
+      "description": "aris_login_1",
+      "category": "lobby",
+      "text": "您来了，老师。爱丽丝，一直在等着您呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/I89hRf04YllS2LEH9TzIv1VOCdF4UApt.ogg"
+    },
+    {
+      "description": "aris_login_2",
+      "category": "lobby",
+      "text": "今天会展开什么样的冒险呢？ 爱丽丝已经做好准备，可以和您一起出发了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/m3g9WPYSF9XW2q87jpHqkJEZfWf08mzc.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_1",
+      "category": "lobby",
+      "text": "爱丽丝觉得在基沃托斯魔法并不是空想。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/5sloh5gtR9ji1amfWAMjRaIj6oe3CDPz.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "魔法是真正存在的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/4qHvpzagvL9Gf1GFQVwnUgSKLrxghc71.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "因为，老师现在让爱丽丝感到非常幸福。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/jHZoAdpvBBBTb2o4nqYpGM0N5ZqYlesu.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "游戏之所以很有趣，",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/e8l4x7u6sSBo9fmHuCqvP6xkmDtaFs2y.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "是因为它蕴藏了这个世界所有的美丽之处。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/aDb1Da8HAHnZu6xzmzTabvKwvLrqbEll.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "这是，老师您让我明白的道理。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/8TCj19ef9duCxVJ2AKhxMixhUSG86wEy.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "游戏、猫咪、和好朋友……还有……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/19GeaFNkdlDstxqfoVqMhhmTVAyu6dRq.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "现在这个瞬间，在这世界上有太多太多美好的东西。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/kehqGU4af1duCgtEH31akGapciy4Pfpa.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "爱丽丝还想知道更多更多。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/M3cA0iZCTWEGwxWzatW4v3rlGZc9p4aL.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "想和老师一起……两个人一起，继续探索这个世界！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/OY975XMtLkBu0CT464N5LTvAUEvWaugP.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "aris_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_growup_3.ogg"
+    },
+    {
+      "description": "aris_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_growup_4.ogg"
+    },
+    {
+      "description": "aris_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_lobby_1.ogg"
+    },
+    {
+      "description": "aris_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_lobby_2.ogg"
+    },
+    {
+      "description": "aris_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_lobby_3.ogg"
+    },
+    {
+      "description": "aris_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_lobby_4.ogg"
+    },
+    {
+      "description": "aris_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_lobby_5.ogg"
+    },
+    {
+      "description": "aris_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_login_1.ogg"
+    },
+    {
+      "description": "aris_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_login_2.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_memoriallobby_1.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_memoriallobby_3_3.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "aris_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "aris_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_relationship_up_1.ogg"
+    },
+    {
+      "description": "aris_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_relationship_up_2.ogg"
+    },
+    {
+      "description": "aris_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_relationship_up_3.ogg"
+    },
+    {
+      "description": "aris_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_relationship_up_4.ogg"
+    },
+    {
+      "description": "aris_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_season_birthday.ogg"
+    },
+    {
+      "description": "aris_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_season_birthday_player.ogg"
+    },
+    {
+      "description": "aris_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_season_halloween.ogg"
+    },
+    {
+      "description": "aris_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_season_newyear.ogg"
+    },
+    {
+      "description": "aris_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_season_xmas.ogg"
+    },
+    {
+      "description": "aris_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "aris_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "aris_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_tactic_in_1.ogg"
+    },
+    {
+      "description": "aris_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_tactic_in_2.ogg"
+    },
+    {
+      "description": "aris_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_tactic_victory_1.ogg"
+    },
+    {
+      "description": "aris_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_tactic_victory_2.ogg"
+    },
+    {
+      "description": "aris_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_buffed_1.ogg"
+    },
+    {
+      "description": "aris_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_buffself_1.ogg"
+    },
+    {
+      "description": "aris_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_damage_1.ogg"
+    },
+    {
+      "description": "aris_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_damage_2.ogg"
+    },
+    {
+      "description": "aris_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_damage_3.ogg"
+    },
+    {
+      "description": "aris_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_defense_1.ogg"
+    },
+    {
+      "description": "aris_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_in_1.ogg"
+    },
+    {
+      "description": "aris_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_in_2.ogg"
+    },
+    {
+      "description": "aris_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_move_1.ogg"
+    },
+    {
+      "description": "aris_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_move_2.ogg"
+    },
+    {
+      "description": "aris_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_recovery_1.ogg"
+    },
+    {
+      "description": "aris_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_retire.ogg"
+    },
+    {
+      "description": "aris_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_shout_1.ogg"
+    },
+    {
+      "description": "aris_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_shout_2.ogg"
+    },
+    {
+      "description": "aris_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_shout_3.ogg"
+    },
+    {
+      "description": "aris_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "aris_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_victory_1.ogg"
+    },
+    {
+      "description": "aris_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_battle_victory_2.ogg"
+    },
+    {
+      "description": "aris_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_cafe_act_1.ogg"
+    },
+    {
+      "description": "aris_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_cafe_act_2.ogg"
+    },
+    {
+      "description": "aris_cafe_act_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_cafe_act_3.ogg"
+    },
+    {
+      "description": "aris_cafe_act_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_cafe_act_4.ogg"
+    },
+    {
+      "description": "aris_cafe_act_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_cafe_act_5.ogg"
+    },
+    {
+      "description": "aris_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_commonskill.ogg"
+    },
+    {
+      "description": "aris_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_exskill_1.ogg"
+    },
+    {
+      "description": "aris_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_exskill_2.ogg"
+    },
+    {
+      "description": "Aris_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/Aris_Title.ogg"
+    },
+    {
+      "description": "aris_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_exskill_3.ogg"
+    },
+    {
+      "description": "aris_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_exskill_level_1.ogg"
+    },
+    {
+      "description": "aris_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_exskill_level_2.ogg"
+    },
+    {
+      "description": "aris_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_exskill_level_3.ogg"
+    },
+    {
+      "description": "aris_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_exweapon_get.ogg"
+    },
+    {
+      "description": "aris_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_formation_in_1.ogg"
+    },
+    {
+      "description": "aris_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_formation_in_2.ogg"
+    },
+    {
+      "description": "aris_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_formation_select.ogg"
+    },
+    {
+      "description": "aris_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_gachaget.ogg"
+    },
+    {
+      "description": "aris_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_growup_1.ogg"
+    },
+    {
+      "description": "aris_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/aris_growup_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_09.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_11.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_08.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_07.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_10.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_13.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_14.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_12.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_19.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_15.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_18.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_16.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_17.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_99.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/aris_spr_03.png"
+      ]
+    },
+    {
+      "title": "防寒服差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E9%98%B2%E5%AF%92%E6%9C%8D%E5%B7%AE%E5%88%86/NP0234_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E9%98%B2%E5%AF%92%E6%9C%8D%E5%B7%AE%E5%88%86/NP0234_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E9%98%B2%E5%AF%92%E6%9C%8D%E5%B7%AE%E5%88%86/NP0234_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E9%98%B2%E5%AF%92%E6%9C%8D%E5%B7%AE%E5%88%86/NP0234_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E9%98%B2%E5%AF%92%E6%9C%8D%E5%B7%AE%E5%88%86/NP0234_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E9%98%B2%E5%AF%92%E6%9C%8D%E5%B7%AE%E5%88%86/NP0234_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E9%98%B2%E5%AF%92%E6%9C%8D%E5%B7%AE%E5%88%86/NP0234_spr_08.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E9%98%B2%E5%AF%92%E6%9C%8D%E5%B7%AE%E5%88%86/NP0234_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E9%98%B2%E5%AF%92%E6%9C%8D%E5%B7%AE%E5%88%86/NP0234_spr_07.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E9%98%B2%E5%AF%92%E6%9C%8D%E5%B7%AE%E5%88%86/NP0234_spr_09.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E9%98%B2%E5%AF%92%E6%9C%8D%E5%B7%AE%E5%88%86/NP0234_spr_99.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_012.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_258.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_180.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_031.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_028.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_224.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_084.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-16.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_interaction.gif",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_banner_en.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_Intro_chs.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_ex.gif",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_skill.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_idol_Intro_jp.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_banner_chs.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_cafe.gif",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_idol_chs.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_Intro_en.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_banner_cht_0.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_banner_cht_re.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_idol_Intro_cht.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_Intro_cht.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/himari_neru_aris_interaction.gif",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/neru_aris_interaction.gif",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_Intro_jp.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%82%A2%E3%83%AA%E3%82%B9-1.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/aris_banner_en_re.jpg"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 162,
+      "favorability": 240
+    },
+    {
+      "id": 272,
+      "favorability": 60
+    },
+    {
+      "id": 57,
+      "favorability": 40
+    },
+    {
+      "id": 67,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    837,
+    937
+  ],
+  "character_datas": [
+    {
+      "character_id": 10015,
+      "dev_name": "Aris_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Mystic",
+      "defensive_attributes": "Special",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "S",
+      "street_adaptability": "B",
+      "equipment": [
+        7,
+        6,
+        2
+      ],
+      "cultivate_material": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        19,
+        399,
+        400,
+        401,
+        402,
+        411,
+        412,
+        413
+      ],
+      "favorite_equipment": 74,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/skill_icon/wQvanjxNSXLlKYPvJ6s0tRwZrcAiBag7.png",
+            "title": "平衡崩坏！",
+            "title_cn": "平衡崩坏！",
+            "preview": "//static.kivo.wiki/videos/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/original/skill_preview/PQYDcVAg8MGxRVkTLKSVokqVFWmcHbs3.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 6,
+                "describe": "对直线范围内的敌方单位造成攻击力311%的伤害，基于能量充能阶段将伤害提升至1.5/2倍。发射后，能量充能清零"
+              },
+              {
+                "cost": 6,
+                "describe": "对直线范围内的敌方单位造成攻击力357%的伤害，基于能量充能阶段将伤害提升至1.5/2倍。发射后，能量充能清零"
+              },
+              {
+                "cost": 6,
+                "describe": "对直线范围内的敌方单位造成攻击力451%的伤害，基于能量充能阶段将伤害提升至1.5/2倍。发射后，能量充能清零"
+              },
+              {
+                "cost": 6,
+                "describe": "对直线范围内的敌方单位造成攻击力497%的伤害，基于能量充能阶段将伤害提升至1.5/2倍。发射后，能量充能清零"
+              },
+              {
+                "cost": 6,
+                "describe": "对直线范围内的敌方单位造成攻击力591%的伤害，基于能量充能阶段将伤害提升至1.5/2倍。发射后，能量充能清零"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/skill_icon/ROeAKyDmhVME4yVsfZXHQmA5xmpTbJ8e.png",
+            "title": "光啊！",
+            "title_cn": "光啊！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每25秒，暴击值提升17%(持续20秒)/能量充能提升1阶段(至多提升至2阶段)"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，暴击值提升17.8%(持续20秒)/能量充能提升1阶段(至多提升至2阶段)"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，暴击值提升18.7%(持续20秒)/能量充能提升1阶段(至多提升至2阶段)"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，暴击值提升22.1%(持续20秒)/能量充能提升1阶段(至多提升至2阶段)"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，暴击值提升23%(持续20秒)/能量充能提升1阶段(至多提升至2阶段)"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，暴击值提升23.8%(持续20秒)/能量充能提升1阶段(至多提升至2阶段)"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，暴击值提升27.2%(持续20秒)/能量充能提升1阶段(至多提升至2阶段)"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，暴击值提升28.1%(持续20秒)/能量充能提升1阶段(至多提升至2阶段)"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，暴击值提升28.9%(持续20秒)/能量充能提升1阶段(至多提升至2阶段)"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，暴击值提升32.3%(持续20秒)/能量充能提升1阶段(至多提升至2阶段)"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/skill_icon/XdFE2qK5qrR6RJMeMzjSZr7KliXfUJnH.png",
+            "title": "强化魔法！",
+            "title_cn": "强化魔法！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/skill_icon/WeCuSe6hWIco21wn5Gol1V5pvWIYcai1.png",
+            "title": "觉醒吧，超新星!",
+            "title_cn": "觉醒吧，超新星!",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，暴击值提升12.1%(持续20秒)。基于能量充能阶段，将该效果提升至1.5/2倍"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，暴击值提升12.7%(持续20秒)。基于能量充能阶段，将该效果提升至1.5/2倍"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，暴击值提升13.3%(持续20秒)。基于能量充能阶段，将该效果提升至1.5/2倍"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，暴击值提升15.7%(持续20秒)。基于能量充能阶段，将该效果提升至1.5/2倍"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，暴击值提升16.3%(持续20秒)。基于能量充能阶段，将该效果提升至1.5/2倍"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，暴击值提升16.9%(持续20秒)。基于能量充能阶段，将该效果提升至1.5/2倍"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，暴击值提升19.3%(持续20秒)。基于能量充能阶段，将该效果提升至1.5/2倍"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，暴击值提升19.9%(持续20秒)。基于能量充能阶段，将该效果提升至1.5/2倍"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，暴击值提升20.5%(持续20秒)。基于能量充能阶段，将该效果提升至1.5/2倍"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，暴击值提升22.9%(持续20秒)。基于能量充能阶段，将该效果提升至1.5/2倍"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2142,
+          "attack": 514,
+          "defense": 68,
+          "healing": 1892,
+          "accuracy": 690,
+          "evasion": 170,
+          "crit": 230,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1188,
+          "range": 850,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 10
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/weapons_icon.png",
+        "name": "光之剑：Supernova",
+        "name_cn": "光之剑：超新星",
+        "description": "爱丽丝获得工程师部让渡的巨型电磁炮。<br>重量及火力超乎凡响，对一般学生而言就连携带都很困难。",
+        "description_cn": "工程部转让给爱丽丝的巨型电磁炮。<br>重量和输出极为惊人，是普通女生携带起来都会非常困难的程度。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「强化魔法！」升级为「强化魔法！+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室内适应性 S -> SS",
+            "description": "在室内地形造成1.3倍伤害。 在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 神秘克制伤害增加",
+            "description": "攻击类型为神秘的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/skill_icon/OgSKXU39OJsDkLxixbnFvVENxJnIQzut.png",
+            "title": "强化魔法！+",
+            "title_cn": "强化魔法！+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": " 攻击力提升506/攻击力提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升531/攻击力提升14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升556/攻击力提升15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升657/攻击力提升18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升683/攻击力提升18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升708/攻击力提升19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升809/攻击力提升22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升834/攻击力提升23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升859/攻击力提升23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升960/攻击力提升26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "ff7778c1-b439-416a-a71c-4168efc0cde2",
+  "skill_declare_uuid": "c42aa19c-0cba-43d3-9309-e80aeba727e6",
+  "supplementary_uuid": "81a214d5-8075-4fb2-91c5-2c030c041e48",
+  "supplementary_declare_uuid": "21f5a062-49f9-4876-852a-6d71b12cae04",
+  "created_at": 1685299363,
+  "updated_at": 1783484450
+}

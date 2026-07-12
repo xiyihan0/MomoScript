@@ -1,0 +1,1849 @@
+{
+  "id": 94,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 94,
+      "avatar": "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 269,
+      "avatar": "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "剑先",
+  "given_name": "鹤城",
+  "family_name_jp": "剣先",
+  "given_name_jp": "ツルギ",
+  "family_name_kr": "켄자키",
+  "given_name_kr": "츠루기",
+  "family_name_en": "Kenzaki",
+  "given_name_en": "Tsurugi",
+  "family_name_zh_tw": "劍先",
+  "given_name_zh_tw": "弦生",
+  "family_name_cn": "剑先",
+  "given_name_cn": "鹤城",
+  "nick_name": "颜艺",
+  "introduction": "圣三一综合学园所属，正义实现委员会的委员长，同时也是三一的战略兵器。\n\n生性好战且暴力，一旦遇到不满的事物就会先破坏再说。\n\n幸亏有副委员长莲见而勉强带领着正义实现委员会。虽然鹤城就像无法控制的狂犬，但在老师面前却会表现出如同藏不住害羞的少女的一面。\n\n>来吧，到了狩猎的时间啦～！",
+  "introduction_cn": "崔尼蒂正义实现部的部长，也是崔尼蒂的官方战略武器。\n好战且狂躁的她，只要有什么东西不满意，就会靠武力解决。\n多亏了副部长莲见，正义实现部才勉强得以维持。虽然疯狂的鹤城通常都像烈犬一般无法控制，但在老师面前有时也会露出少女害羞的一面。\n\n>狩猎的时间到了！",
+  "momo_talk_signature": "……",
+  "main_relation": 8,
+  "relation": [
+    24
+  ],
+  "age": 17,
+  "grade": "三年生",
+  "height": 162,
+  "birthday": "06-24",
+  "hobby": "电影鉴赏、读书（恋爱小说）",
+  "designer": "Mx2J",
+  "illustrator": "Mx2J",
+  "character_voice": "小林优",
+  "character_voice_cn": "KKryu",
+  "release_date": "2021-02-04",
+  "release_date_cn": "2023-08-03",
+  "release_date_global": "2021-11-09",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/avatar.png",
+  "school": 2,
+  "weapon_type": "SG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Large",
+  "special_appearance": true,
+  "more": "# 官方图集\n\n## 卡池Banner\n\n|日服|简中服|繁中服|国际服|\n| :---: | :---: | :---: | :---: |\n|奮い立つグラジオラス | 暂无 |啊，嗚嗚......我還沒準備好......呀啊啊啊啊啊—！ |Oh. Ugh... I'm not really ready... Ahhh—! |\n|![ツルギ_jp_pickup.png](files/15978/55ymTVx3bVAwQCE9808UGQRL8ojG2Zs4.png =450x)| 暂无 |![tsurugi_in_pickup.jpg](files/15978/jWqz2hoMWnazgf4MFOxkjvJRQISQPWwK.jpg =450x)| ![tsurugi_en_pickup.jpg](files/15978/ClQS9Up7vH3ClgLb8GanYwV8fY7T5Cr0.jpg =450x)|\n\n## 官方介绍图\n\n|日服|简中服|繁中服|国际服|\n| :---: | :---: | :---: | :---: |\n| ![Tsurugi_intro_jp.jpg](files/15978/wJMEffDhaXsL0PiIzGa1uRGiBmuw03Ek.jpg =425x)|![tsurugi_intro_cn.jpg](files/15978/Qsrff48gprvoNBUNpv0Enoa5P2ufw9en.jpg =425x) | 暂无 | ![tsurugi_intro_en.jpg](files/15978/Aho6s6LsQGqbADuo6El2c0KDineJcfrM.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 |\n| :---: | :---: |\n| ![Tsurugi.gif](files/15978/xcIq49OgMSakPBaBLkB0dxeZcBfGyNS2.gif =450x) | 暂无 |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 鹤城 汉化\n![鹤城](files/1348/L9y28S87AVMELbO3pWNDSmDhoH4PWG9Q.png =450x)\n@tab 鹤城 原文\n![鹤城](files/2/m0aXzr1daflYPg7iD46msp4wnvPfacDG.jpg =450x)\n:::\n\n## 设定集\n\n:::: center\n\n![](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_015.png =450x)\n\n![](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_059.png =450x)\n\n![](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_159.png =450x)\n\n![](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_220.png =450x)\n\n![](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_242.png =450x)\n\n![](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_287.png =450x)\n\n\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[莲见](https://kivo.wiki/data/character/111)|ハスミ<br>あなた|\n|[一花](https://kivo.wiki/data/character/114)|イチカ|\n|[真白](https://kivo.wiki/data/character/79)|マシロ|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/Tsurugi_home_Idle_01_0.8171999999999994.jpg",
+  "spine": [
+    1423,
+    394,
+    1727,
+    846,
+    1051
+  ],
+  "model": [
+    141,
+    448
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/voice/play_icon.webp",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/voice/pause_icon.webp",
+  "voice": [
+    {
+      "description": "Tsurugi_Title",
+      "category": "lobby",
+      "text": "B~lue Ar~chi~ve~",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/aHakweCQWPsyw172mUmhrbHW5u57fBti.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_Damage_1.ogg",
+      "category": "battle",
+      "text": "咕嘿！",
+      "text_original": "ぐれ",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gPR1zM6O5ukiEOBcpXNNIfxHeWgdB16q.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_Damage_2.ogg",
+      "category": "battle",
+      "text": "呃啊，啊！",
+      "text_original": "りおう",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/Z2jPjZhMmwouPj9PQE4l5UKiuzhVUHcT.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_Damage_3.ogg",
+      "category": "battle",
+      "text": "呜欸！",
+      "text_original": "ごう",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/i4PUmMJrOp89ifhjnOCQG84x6LBTyEmJ.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "敌人就在面前！",
+      "text_original": "敵は目の前だ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/yDDTq7bqWWAZVySB4Cyg7tX7Pas66qdf.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "来！冲他个稀巴烂吧！",
+      "text_original": "さあ！暴れる時間だ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/Exkqwn126jrqXkdzWAPLBnViOfJmzyk1.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_Recovery_1.ogg",
+      "category": "battle",
+      "text": "有劲了哈哈！",
+      "text_original": "回復だァ……！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/mGSA2rAYNsfB2MLkyjkdNWeLcl8IkLey.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_Retire.ogg",
+      "category": "battle",
+      "text": "*难以名状的像是很痛的怪叫*",
+      "text_original": "う……うぁぅぅ……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/UH9kcyYE4lffLMLf4X2T8qQRlhSoainZ.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_Shout_1.ogg",
+      "category": "battle",
+      "text": "嗝哈哈！",
+      "text_original": "ギャハ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/9JMbPnezkIWgJvMXxPGC9cYYZSHNLA7q.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_Shout_2.ogg",
+      "category": "battle",
+      "text": "嗝哈！",
+      "text_original": "ヒャハ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/Y84tJfmjVnv5e5HeX42AI9FlgzCiRpm0.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_Shout_3.ogg",
+      "category": "battle",
+      "text": "呀！",
+      "text_original": "ヤオ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/M5CQRz66vhtD4kGKja5mILn7j9R3EAka.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_TSA_1.ogg",
+      "category": "battle",
+      "text": "噶哈哈哈哈哈哈哈！上啊！",
+      "text_original": "ギャハはハハハハハハハハハハ！行くぜ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/29CGe06p2BcJpleDI4H3nEEoPybzXlcd.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_TSA_2.ogg",
+      "category": "battle",
+      "text": "毁灭吧！毁掉它！",
+      "text_original": "破壊だ、破壊してやる！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/Aoe5IOxcuEFAxpESzerjhRvR0Nc20Dol.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_Victory_1.ogg",
+      "category": "battle",
+      "text": "呜~~~~~~呜呼。",
+      "text_original": "うぁぁぁ……ふひゃい……",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/hw6tABBFyzYfdRcNZBw2B1gy9wNFDx88.ogg"
+    },
+    {
+      "description": "Tsurugi_Battle_Victory_2.ogg",
+      "category": "battle",
+      "text": "呜~~~啊~~~捏哈！",
+      "text_original": "うぅぅえぁぁうぉぁ……ひゃはぁ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/jebJYzmoPfw0scav8dE2le6WBcjVMBG3.ogg"
+    },
+    {
+      "description": "Tsurugi_Cafe_Act_1.ogg",
+      "category": "cafe",
+      "text": "啊,呜啊啊啊..怎么办,怎么办...？",
+      "text_original": "ア、ウアアア…どうしよう…どうしよう…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/ZAdJYJKYHgNvcJ43g7zmfHZgGlq7itGz.ogg"
+    },
+    {
+      "description": "Tsurugi_Cafe_Act_2.ogg",
+      "category": "cafe",
+      "text": "请别…跟我说话…",
+      "text_original": "話しかけないでください。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/vDNE2KYdF1xx7PJHe1JvOkkjflSoa7Fy.ogg"
+    },
+    {
+      "description": "Tsurugi_Cafe_Act_3.ogg",
+      "category": "cafe",
+      "text": "我会呆在角落里…",
+      "text_original": "私は端っこにいます。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/4TsBvsoIVms6X7xAzUUQwTfSjDOLiweU.ogg"
+    },
+    {
+      "description": "Tsurugi_Cafe_Act_4.ogg",
+      "category": "cafe",
+      "text": "您，您好…",
+      "text_original": "こ、こんにちは。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/zYm0STmrLreG59sF1yFWjkepsrpGMJG5.ogg"
+    },
+    {
+      "description": "Tsurugi_Cafe_Act_5.ogg",
+      "category": "cafe",
+      "text": "呜，呜呜啊啊啊…",
+      "text_original": "ウ、ウアアハ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/laZWnBskmA3nP19FqKtpOITRIhKs0qPc.ogg"
+    },
+    {
+      "description": "Tsurugi_CommonSkill.ogg",
+      "category": "battle",
+      "text": "*难以名状的不知道在想什么的怪叫*",
+      "text_original": "うくえああえああえ",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/28uFrP58ZhUBjxAS1jcnPCMPro37IOZg.ogg"
+    },
+    {
+      "description": "Tsurugi_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "嗯哼哼哼…啊！",
+      "text_original": "いひひひひひひひ……あぁぉ！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/9puH4lAp2gCkDAyqqRTXxGDCvuWAGFi5.ogg"
+    },
+    {
+      "description": "Tsurugi_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "嗯哼哼哼哼…去死吧！",
+      "text_original": "ふっふっふっふっふ……死ねぇ！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/6vGrDup8yGro3Tcp2OLFyKpCzKVFQrPH.ogg"
+    },
+    {
+      "description": "Tsurugi_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "咕咕咕咕咕咕…啊！",
+      "text_original": "かか、かかかかか、しゃあ！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/VUoeI9W1etsDoqqM19A4fwGN1OQc9DMa.ogg"
+    },
+    {
+      "description": "Tsurugi_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "没用的！",
+      "text_original": "無駄だぁ！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/msIzH1f42rn8o5RnY96NHRFqzWhRfSg4.ogg"
+    },
+    {
+      "description": "Tsurugi_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "没用的！！！",
+      "text_original": "ぬぅはははははははは！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/dAQK0eaa9fNOpVDZk8kcAVbtpxaggUML.ogg"
+    },
+    {
+      "description": "Tsurugi_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "哇哈哈哈哈哈哈！",
+      "text_original": "かぁはははははは！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/FiHZqsyFkC022EmXodzH939SKCrj9E7K.ogg"
+    },
+    {
+      "description": "Tsurugi_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "*难以名状的像是获得了新东西的怪笑*",
+      "text_original": "フフ...フフフフフ...アフフフフフ...アハハハハハ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/6YTzhWgfk4TiE5XW7vHOQloBkg8W9r5E.ogg"
+    },
+    {
+      "description": "Tsurugi_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "库，库嘿嘿嘿嘿嘿嘿",
+      "text_original": "うふ、きぃへっへっへっへ……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/hXWCepr1iBWEMtkSJEFPO1wYx6KUKAO6.ogg"
+    },
+    {
+      "description": "Tsurugi_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "哼哼哼哼哼哼哼哼",
+      "text_original": "うふふふふふ……うふふ……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/kD3XetBo8R5KcdIwv6ZAsCUzgbIep4jJ.ogg"
+    },
+    {
+      "description": "Tsurugi_Formation_Select.ogg",
+      "category": "formation",
+      "text": "哼~？",
+      "text_original": "ふーん……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/HxOC8xxKcCkk8soOdzT6IcKuwZ5FO5eh.ogg"
+    },
+    {
+      "description": "Tsurugi_Gachaget.ogg",
+      "category": "growup",
+      "text": "呢嘿嘿嘿嘿，呜哈哈哈哈哈哈",
+      "text_original": "フフフフフハハハハハ...グハハハハハハハ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/pWLnSRLWglu1qkTPMjwFx5aEuTsWfJ4u.ogg"
+    },
+    {
+      "description": "Tsurugi_Growup_1.ogg",
+      "category": "growup",
+      "text": "咕嘿嘿，不够，还不够，不够！",
+      "text_original": "げっげっげっげっげっげっげ、まだ！まだだよう！まだ！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/35KH487nAzipizLCaZxUfoIdfOFg78cw.ogg"
+    },
+    {
+      "description": "Tsurugi_Growup_2.ogg",
+      "category": "growup",
+      "text": "呣嘿嘿嘿嘿~继续…继续！",
+      "text_original": "んん－ふはははは！もっと、もっとぉ！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/JV6KNXsXIcBc7QIiLVWYBcrTn8zuzqDi.ogg"
+    },
+    {
+      "description": "Tsurugi_Growup_3.ogg",
+      "category": "growup",
+      "text": "敌人呢？敌人在哪？让我用用这股力量哈哈哈~",
+      "text_original": "敵は、敵はどこだ！この力を、使わせろ！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/K2TonVowABVdJgfYXNS0QTRWxMuSNomf.ogg"
+    },
+    {
+      "description": "Tsurugi_Growup_4.ogg",
+      "category": "growup",
+      "text": "呣嘿嘿嘿，呣嘿嘿嘿嘿嘿嘿~",
+      "text_original": "ふふ、ふふふふふふ……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/eyDBn42OP9v1ozAvWu0qeOd1dOjdH2T8.ogg"
+    },
+    {
+      "description": "Tsurugi_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "今,今天也是愉快的一天啊啊啊!不,不对!不是这个!我应该说什么呢!",
+      "text_original": "今、今日もいい一日ですね、あ、違う、違う、これじゃない、何を喋ればいいの！？",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/vmjrsVsb3PG1Y5jmwn6wUR4zSZyulZSp.ogg"
+    },
+    {
+      "description": "Tsurugi_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "咦嘿嘿,咦嘿嘿嘿嘿嘿~.....啊,哎?您,您一直在看我?啊哇哇哇哇哇!?!?",
+      "text_original": "エへへ、エへへへへ。あ、あれ？見、見てたんですか？ アワワ！アワワワワワワ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/A2QAg0DEobK0ljl1jZRygC1zInkt0e8l.ogg"
+    },
+    {
+      "description": "Tsurugi_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "啊，请，请随便说句话吧。",
+      "text_original": "あ、な、何でも話してください。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/XMduEBsMQSCiaNjq602yjjEie15NPDkn.ogg"
+    },
+    {
+      "description": "Tsurugi_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "我,我不太懂大人的工作什么的.....!但,但是!请尽管吩咐！",
+      "text_original": "わ、私は、お、大人の仕事どか、よくわからないので。で、でも、是非遣らせてください。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/JensrAEofzEEMCz9pMPpiAz0GDAbm9Ir.ogg"
+    },
+    {
+      "description": "Tsurugi_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "(好想回家....虽然在一起很开心,但我不知道该说些什么....)",
+      "text_original": "家に帰りたい、一緒にで嬉しいけど、何を話せばいいのか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/nym3KQPnxW2Jc8Ad9RaTbo6jKqyeJjj9.ogg"
+    },
+    {
+      "description": "Tsurugi_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "您，您好，老师，我一直都在这里守着。",
+      "text_original": "こんにちは、先生。私がここで見張ってました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/jlx8wj2OKaAKWn7aMFT1zQ59TNq3vEYu.ogg"
+    },
+    {
+      "description": "Tsurugi_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "鹤，鹤城，正在待命…请，请多关照！",
+      "text_original": "ツルギ、待機中！よ、よろしくお願いいたします！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/DnI6DEzX7zsA3GiRGlQhK5bWzYqcvcCM.ogg"
+    },
+    {
+      "description": "Tsurugi_MemorialLobby_1.ogg",
+      "category": "lobby",
+      "text": "逃跑吧!现在直接往窗户外边跳下去吧!会死吧.….会死的吧...好想...干掉!啊,不行不行!",
+      "text_original": "逃げる？今すぐにでも、窓から飛び降りる？死ぬかな？死ぬよな？死にたい、殺す？あ、いや、違う違う。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/7psAC8R3BudRE0nc5oR6tv7ByX016Rvt.ogg"
+    },
+    {
+      "description": "Tsurugi_MemorialLobby_2.ogg",
+      "category": "lobby",
+      "text": "我要说...什么来着…?这种地方,根本就不适合我...!",
+      "text_original": "な、な、な、な、なにを、は…話そうと…。こ、こんなところは…。私には似合わないのに…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/GBWLtC27AIWav0LKwgZRlYQp8nJHQSpq.ogg"
+    },
+    {
+      "description": "Tsurugi_MemorialLobby_3.ogg",
+      "category": "lobby",
+      "text": "啊，我…还没…做好准备…！",
+      "text_original": "あ、うぅ…。まだ私は準備が…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/vQvBAkH6i8mDktfwDEg0QUaYJNxTH49s.ogg"
+    },
+    {
+      "description": "Tsurugi_MemorialLobby_4.ogg",
+      "category": "lobby",
+      "text": "啊啊啊啊~我到底为什么,会来这种地方啊啊啊啊~",
+      "text_original": "ぎぁあああああ～～!なんでこんなところに来ちゃったのおー!!",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/FjBRU2ObDgzftyCWbBB8uPjij5zmtdZg.ogg"
+    },
+    {
+      "description": "Tsurugi_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "哈啊啊，怎，怎么办？",
+      "text_original": "は、はあぁぁ…どどど、どうしよう～！？",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/RMmecbBRXZntLkx3GOW8pIfeV5kOY06d.ogg"
+    },
+    {
+      "description": "Tsurugi_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "这，这时候，应该说…说什么？",
+      "text_original": "こんな時は…なんて言えば良いん…ですか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/eaOp5LW6vMW9u3LYzbsZfgQwGbYApSR8.ogg"
+    },
+    {
+      "description": "Tsurugi_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "谢，谢谢…",
+      "text_original": "あ、ありがとう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/JPakZed5bWe2e2L7I1UA1RdiDJ5NWbM9.ogg"
+    },
+    {
+      "description": "Tsurugi_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "啊，呜…我，不太懂这些…",
+      "text_original": "あ、あぁ……私は…こういうの…よく分からなくて……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/qyZ0N8uZxhoSFzRlj98tL9pVGVU6LVMJ.ogg"
+    },
+    {
+      "description": "Tsurugi_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "生,生日?您是说我的生日?什么?约,约会是吗?约会…",
+      "text_original": "た、誕生日？私の誕生日ですか？はい？デ、デ、デ、デートですか？デート？",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/4cuDfUEc4UrhnfoGwzb88muTaKl8p4DB.ogg"
+    },
+    {
+      "description": "Tsurugi_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "生,生日?我应该做些什么才好?有什么事情是一定要做的吗？",
+      "text_original": "た、誕生日！？私は何をすればいいですか？何をしなきゃいけないですか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/iaA53g4j7sM2cztTd6DuYIRNftmzTPTx.ogg"
+    },
+    {
+      "description": "Tsurugi_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "万圣节...庆典...派对..啊!没事..",
+      "text_original": "ハロウィン、フェスティバル、パーティー。 はい？べ、別に何も！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/4GqGEiN2VJiSxItYn1wzbAmBDaLUroIC.ogg"
+    },
+    {
+      "description": "Tsurugi_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "今,今年也请多多关照!",
+      "text_original": "こ、今年もよろしくお願いします！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/WcAyfoadRyTxeQYGWbHih2zKHc265uvN.ogg"
+    },
+    {
+      "description": "Tsurugi_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "圣诞节...大人的约会...呜啊啊啊啊!我什么都没说。",
+      "text_original": "クリスマス、大人のデート... ああああああ！何でもありません！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/MugO0qAMzMzpPlYmioKZnquzTU7nrovU.ogg"
+    },
+    {
+      "description": "Tsurugi_Tactic_Defeat_1.ogg",
+      "category": "battle",
+      "text": "嗯？嗬啊啊啊啊啊！",
+      "text_original": "ぅぁぁぁぁぁぁ……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/Q7YCeaQKYDHibPTBXDOxDXWxUPxizpEp.ogg"
+    },
+    {
+      "description": "Tsurugi_Tactic_Defeat_2.ogg",
+      "category": "battle",
+      "text": "额呜呜，呜呜呜~~~~",
+      "text_original": "っは……ぐおおおおおぉっ！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/BiLEZZx8cJTpKvehYLf9IHqzLDtZaxF2.ogg"
+    },
+    {
+      "description": "Tsurugi_Tactic_In_1.ogg",
+      "category": "battle",
+      "text": "欸嘿嘿嘿，开打了！",
+      "text_original": "いーひひひひひひ！戦いだぁ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/DS9gAVDyn1j3qfqGAozVWKpzy66RNbH2.ogg"
+    },
+    {
+      "description": "Tsurugi_Tactic_In_2.ogg",
+      "category": "battle",
+      "text": "咕嘿，库嘿嘿哈哈哈！",
+      "text_original": "けっへっへ……げへへへへ……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/X4xr670wJesFtQO9nMxqqMj5TaSOGi6K.ogg"
+    },
+    {
+      "description": "Tsurugi_Tactic_Victory_1.ogg",
+      "category": "battle",
+      "text": "咕哈哈哈哈哈哈！应该的…应该的！",
+      "text_original": "ぬぅはははははは、当然、当然だ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/UIE43S7K14BKufrULNl4opF4V40uFhg9.ogg"
+    },
+    {
+      "description": "Tsurugi_Tactic_Victory_2.ogg",
+      "category": "battle",
+      "text": "嘿哈哈哈哈哈哈！赢了，赢了啊哈哈哈哈！",
+      "text_original": "きゃーはっはっはっはははは！勝った、勝ったぞ！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/1lUAQ7vzxoTeJCTP8Bnr1YKIFPjH0cmE.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "tsurugi_battle_damage_1.ogg",
+      "category": "battle",
+      "text": "咕嘿！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/wthX4Q4yQFIMnIAdjzRJDRs94PeZp11M.ogg"
+    },
+    {
+      "description": "tsurugi_battle_damage_2.ogg",
+      "category": "battle",
+      "text": "呃啊，啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/vBV9VlQAxz40JjeIGXXN6BRb2emnHVAx.ogg"
+    },
+    {
+      "description": "tsurugi_battle_damage_3.ogg",
+      "category": "battle",
+      "text": "呜欸！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/vrPCbOKsxiL0uR2jpzv4bdkatGGKBvaX.ogg"
+    },
+    {
+      "description": "tsurugi_battle_in_1.ogg",
+      "category": "battle",
+      "text": "敌人就在面前！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/tetsilOpe3LaXZ5RQ4Fv86VrId2cGCw1.ogg"
+    },
+    {
+      "description": "tsurugi_battle_in_2.ogg",
+      "category": "battle",
+      "text": "来！冲他个稀巴烂吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/hMkXscGADBvhJQJqfzpOzTi68q9ypj9b.ogg"
+    },
+    {
+      "description": "tsurugi_battle_recovery_1.ogg",
+      "category": "battle",
+      "text": "有劲了哈哈！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/B1uTDsm82J7BuWbJvXKzSXwpFbU6IMnv.ogg"
+    },
+    {
+      "description": "tsurugi_battle_retire.ogg",
+      "category": "battle",
+      "text": "*难以名状的像是很痛的怪叫*",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/efAHmE7yzt1puGsdVx0heMQrChRaGMol.ogg"
+    },
+    {
+      "description": "tsurugi_battle_shout_1.ogg",
+      "category": "battle",
+      "text": "嗝哈哈！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/eo4bunHzYiUg64zFga1ewk6DYs22JO2p.ogg"
+    },
+    {
+      "description": "tsurugi_battle_shout_2.ogg",
+      "category": "battle",
+      "text": "嗝哈！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/EG7CzI1IySsRyHAVvYLtUrmLT3GAkPeu.ogg"
+    },
+    {
+      "description": "tsurugi_battle_shout_3.ogg",
+      "category": "battle",
+      "text": "呀！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/a0fdM8WJJ3UMyws3yuzGZ0IPrv3OnllQ.ogg"
+    },
+    {
+      "description": "tsurugi_battle_tsa_1.ogg",
+      "category": "battle",
+      "text": "噶哈哈哈哈哈哈哈！上啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gX0rdX0ySwbDREEf6OpoRlvU4nmAogg5.ogg"
+    },
+    {
+      "description": "tsurugi_battle_tsa_2.ogg",
+      "category": "battle",
+      "text": "毁灭吧！毁掉它！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/XPyuPPo3yHVG6XbKOPUSRkYb2NwovIH0.ogg"
+    },
+    {
+      "description": "tsurugi_battle_victory_1.ogg",
+      "category": "battle",
+      "text": "呜~~~~~~呜呼。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/l8nHE78BHyrhetffStzOQLuepIbyOZ8Y.ogg"
+    },
+    {
+      "description": "tsurugi_battle_victory_2.ogg",
+      "category": "battle",
+      "text": "呜~~~啊~~~捏哈！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/HA54jIF8h92XipZMDAmfhBc3X6PSsm0r.ogg"
+    },
+    {
+      "description": "tsurugi_cafe_act_1.ogg",
+      "category": "cafe",
+      "text": "啊,呜啊啊啊..怎么办,怎么办...？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/pOAADHkHqMiH84p1zDxs2ok14q7Dz8h1.ogg"
+    },
+    {
+      "description": "tsurugi_cafe_act_2.ogg",
+      "category": "cafe",
+      "text": "请别…跟我说话…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/aBJeMIS4fqmCEXKQ1D3egESs5FiGHthV.ogg"
+    },
+    {
+      "description": "tsurugi_cafe_act_3.ogg",
+      "category": "cafe",
+      "text": "我会呆在角落里…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/9D86XBsNUcBqvHauX5ukeduCYRQCzgFB.ogg"
+    },
+    {
+      "description": "tsurugi_cafe_act_4.ogg",
+      "category": "cafe",
+      "text": "您，您好…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/2m4JYw0LNbXqvyWid2zJEXNir5yfg7Qn.ogg"
+    },
+    {
+      "description": "tsurugi_cafe_act_5.ogg",
+      "category": "cafe",
+      "text": "呜，呜呜啊啊啊…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/6YCAIfJV47DVjjrwy66aSKbT49iDTPu6.ogg"
+    },
+    {
+      "description": "tsurugi_commonskill.ogg",
+      "category": "battle",
+      "text": "*难以名状的不知道在想什么的怪叫*",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gSZmyd1431Xwztm8ydLcSNYeauluzYt2.ogg"
+    },
+    {
+      "description": "tsurugi_exskill_1.ogg",
+      "category": "battle",
+      "text": "嗯哼哼哼…啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/y6jbDGCvNfh0BvgppV9SjC1zdUv8Y6tx.ogg"
+    },
+    {
+      "description": "tsurugi_exskill_2.ogg",
+      "category": "battle",
+      "text": "嗯哼哼哼哼…去死吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/lNj9sIq7fIqLyJMyXaAgt1qIbYk5PyMP.ogg"
+    },
+    {
+      "description": "tsurugi_exskill_3.ogg",
+      "category": "battle",
+      "text": "咕咕咕咕咕咕…啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/z091uNBuCXuC8dOUfJ20h51LOWsZKko8.ogg"
+    },
+    {
+      "description": "tsurugi_exskill_level_1.ogg",
+      "category": "battle",
+      "text": "没用的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/xenSrFiPwWSk5u0RkVZVPphWBYGzZnO1.ogg"
+    },
+    {
+      "description": "tsurugi_exskill_level_2.ogg",
+      "category": "battle",
+      "text": "没用的！！！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/tGi2SSlk8ntK6tulhzVShEcImfMZZ9F1.ogg"
+    },
+    {
+      "description": "tsurugi_exskill_level_3.ogg",
+      "category": "battle",
+      "text": "哇哈哈哈哈哈哈！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/AQkJsLARoGCW3lcVpsp0wCYZuqRLgdqq.ogg"
+    },
+    {
+      "description": "tsurugi_exweapon_get.ogg",
+      "category": "growup",
+      "text": "*难以名状的像是获得了新东西的怪笑*",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/l1VgC7TRlIOdpkOMbOfckgwd5I0jraQl.ogg"
+    },
+    {
+      "description": "tsurugi_growup_1.ogg",
+      "category": "growup",
+      "text": "咕嘿嘿，不够，还不够，不够！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/D8w4MFRKYsEnBcy7owj8WZZHnFwLHvWB.ogg"
+    },
+    {
+      "description": "tsurugi_growup_2.ogg",
+      "category": "growup",
+      "text": "呣嘿嘿嘿嘿~继续…继续！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/TEhl3RGdhGRHF2yJF7DWTU7DKL4N8GA3.ogg"
+    },
+    {
+      "description": "tsurugi_growup_3.ogg",
+      "category": "growup",
+      "text": "敌人呢？敌人在哪？让我用用这股力量哈哈哈~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/lMsRVVwLqo6kjpEzUhHmXoVCPyFkE19p.ogg"
+    },
+    {
+      "description": "tsurugi_growup_4.ogg",
+      "category": "growup",
+      "text": "呣嘿嘿嘿，呣嘿嘿嘿嘿嘿嘿~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/UikRqSyF2jcYH1xYKnqL61Fc6AqjWtzf.ogg"
+    },
+    {
+      "description": "tsurugi_lobby_1.ogg",
+      "category": "lobby",
+      "text": "今,今天也是愉快的一天啊啊啊!不,不对!不是这个!我应该说什么呢!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/TQrAQUCaOwFmA0lbNj6FJQNVgQs4DYYJ.ogg"
+    },
+    {
+      "description": "tsurugi_lobby_2.ogg",
+      "category": "lobby",
+      "text": "咦嘿嘿,咦嘿嘿嘿嘿嘿~.....啊,哎?您,您一直在看我?啊哇哇哇哇哇!?!?",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/tREOO3BosAcSPWPtgmmKelBPjx25uP7s.ogg"
+    },
+    {
+      "description": "tsurugi_lobby_3.ogg",
+      "category": "lobby",
+      "text": "啊，请，请随便说句话吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/UUK6tdql1cHMeV2m97hS0aspTByriVEU.ogg"
+    },
+    {
+      "description": "tsurugi_lobby_4.ogg",
+      "category": "lobby",
+      "text": "我,我不太懂大人的工作什么的.....!但,但是!请尽管吩咐！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/f2yOYM39QybRkLzPiy5wCZceEUwdJa6Q.ogg"
+    },
+    {
+      "description": "tsurugi_lobby_5.ogg",
+      "category": "lobby",
+      "text": "(好想回家....虽然在一起很开心,但我不知道该说些什么....)",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/BSkfWPSAhiCFGpBcoGIFI9JtJ5z3a9xG.ogg"
+    },
+    {
+      "description": "tsurugi_login_1.ogg",
+      "category": "lobby",
+      "text": "您，您好，老师，我一直都在这里守着。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/wnDeRbqQigftoa6JJw2g1Pz2ksw0Of8W.ogg"
+    },
+    {
+      "description": "tsurugi_login_2.ogg",
+      "category": "lobby",
+      "text": "鹤，鹤城，正在待命…请，请多关照！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/OVY1rKKTT7BXVMo7zqa0vn2tjw3cqCeO.ogg"
+    },
+    {
+      "description": "tsurugi_memoriallobby_1.ogg",
+      "category": "lobby",
+      "text": "逃跑吧!现在直接往窗户外边跳下去吧!会死吧.….会死的吧...好想...干掉!啊,不行不行!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/2AWiMNJtx7va8Tx0DABNTT4nBzjt0tDR.ogg"
+    },
+    {
+      "description": "tsurugi_memoriallobby_2.ogg",
+      "category": "lobby",
+      "text": "我要说...什么来着…?这种地方,根本就不适合我...!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/Oa35WYWmhFrtFrD2afNJ7azQ9BoiDgvd.ogg"
+    },
+    {
+      "description": "tsurugi_memoriallobby_3.ogg",
+      "category": "lobby",
+      "text": "啊，我…还没…做好准备…！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/kXkoay8cqYzt8MG0P5DXLZXCMBAUgx09.ogg"
+    },
+    {
+      "description": "tsurugi_memoriallobby_4.ogg",
+      "category": "lobby",
+      "text": "啊啊啊啊~我到底为什么,会来这种地方啊啊啊啊~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/fa74IELT5wY7DtMk2K2mzd2gkhBVpAAa.ogg"
+    },
+    {
+      "description": "tsurugi_relationship_up_1.ogg",
+      "category": "growup",
+      "text": "哈啊啊，怎，怎么办？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/SmbLS8NLagC0Bl3DfWj4D4IPBMv7WUcp.ogg"
+    },
+    {
+      "description": "tsurugi_relationship_up_2.ogg",
+      "category": "growup",
+      "text": "这，这时候，应该说…说什么？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/S4LXTi3EISuJVKCknUunyPhqOz3jiCnX.ogg"
+    },
+    {
+      "description": "tsurugi_relationship_up_3.ogg",
+      "category": "growup",
+      "text": "谢，谢谢…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/mtFePs5Pq9gS4tcbJsLpYVALftwDTEHL.ogg"
+    },
+    {
+      "description": "tsurugi_relationship_up_4.ogg",
+      "category": "growup",
+      "text": "啊，呜…我，不太懂这些…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/hT4yNIS1i2qzeEtI2XqdOpdilMd5rl7r.ogg"
+    },
+    {
+      "description": "tsurugi_season_birthday.ogg",
+      "category": "lobby",
+      "text": "生,生日?您是说我的生日?什么?约,约会是吗?约会…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/Q1uDFy4ZShhmpFIVMpudWpduKt6NeDZS.ogg"
+    },
+    {
+      "description": "tsurugi_season_birthday_player.ogg",
+      "category": "lobby",
+      "text": "生,生日?我应该做些什么才好?有什么事情是一定要做的吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/yp7yeBJ5ZqvRyQ1DUoyuDJrWiRkkiVEh.ogg"
+    },
+    {
+      "description": "tsurugi_season_halloween.ogg",
+      "category": "lobby",
+      "text": "万圣节...庆典...派对..啊!没事..",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/xbOlEntslX7ZpEAxw72bgeaHycb8Dy2i.ogg"
+    },
+    {
+      "description": "tsurugi_season_newyear.ogg",
+      "category": "lobby",
+      "text": "今,今年也请多多关照!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/STDeYZ56Wt59NjoA53Ho39P21l9j2vB1.ogg"
+    },
+    {
+      "description": "tsurugi_season_xmas.ogg",
+      "category": "lobby",
+      "text": "圣诞节...大人的约会...呜啊啊啊啊!我什么都没说。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/eeneGXg0nTXNAMXKx4CBt1OXZpK7o2jQ.ogg"
+    },
+    {
+      "description": "tsurugi_tactic_defeat_1.ogg",
+      "category": "battle",
+      "text": "嗯？嗬啊啊啊啊啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/enw3yjVDn5eqjSmaygbZEzXdAPuWwfO5.ogg"
+    },
+    {
+      "description": "tsurugi_tactic_defeat_2.ogg",
+      "category": "battle",
+      "text": "额呜呜，呜呜呜~~~~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/XyrvVVHG1fsgDQMvd6fGT8AiQOGnzqwr.ogg"
+    },
+    {
+      "description": "tsurugi_tactic_in_1.ogg",
+      "category": "battle",
+      "text": "欸嘿嘿嘿，开打了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/ucbvgoNSZ00RN0OGDy0pu5aI3MCf0XvZ.ogg"
+    },
+    {
+      "description": "tsurugi_tactic_in_2.ogg",
+      "category": "battle",
+      "text": "咕嘿，库嘿嘿哈哈哈！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/WFvnA8qnJmCn1uKzqddfEze380g63rZe.ogg"
+    },
+    {
+      "description": "tsurugi_tactic_victory_1.ogg",
+      "category": "battle",
+      "text": "咕哈哈哈哈哈哈！应该的…应该的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/lqkrvMuUtvZoA7kT527BpBmJY0v7wMDR.ogg"
+    },
+    {
+      "description": "tsurugi_tactic_victory_2.ogg",
+      "category": "battle",
+      "text": "嘿哈哈哈哈哈哈！赢了，赢了啊哈哈哈哈！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/pPW6yyN9CMWRbIqj7Ti610OcoZ2wZK1B.ogg"
+    },
+    {
+      "description": "tsurugi_title.ogg",
+      "category": "lobby",
+      "text": "B~lue Ar~chi~ve~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/d3KuuL57FQGMUycOils10CU5dK6IZnGZ.ogg"
+    },
+    {
+      "description": "tsurugi_season_midautumn",
+      "category": "lobby",
+      "text": "这 这种 团圆的日子  和我在一起  约 约会  没 没什么 ",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/DwCRb2UmSrsv8xVhqygxBpkgYux3Qvc2.ogg"
+    },
+    {
+      "description": "tsurugi_formation_in_1",
+      "category": "formation",
+      "text": "库，库嘿嘿嘿嘿嘿嘿",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/Iv57QqSva4Oh0kXeX6XUUBefASXt8xCG.ogg"
+    },
+    {
+      "description": "tsurugi_formation_in_2",
+      "category": "formation",
+      "text": "哼哼哼哼哼哼哼哼",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/c0e7CUByKdLATVHinHzFkmLKkHnrON0W.ogg"
+    },
+    {
+      "description": "tsurugi_formation_select",
+      "category": "formation",
+      "text": "哼~？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/JUdnVw57iIUD9vkiQWJvUBROzY8xPIlN.ogg"
+    },
+    {
+      "description": "tsurugi_gachaget",
+      "category": "growup",
+      "text": "呢嘿嘿嘿嘿，呜哈哈哈哈哈哈",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/MBbA5sjIDgXxQ6U4OvcHxOuU8ejLbtLH.ogg"
+    },
+    {
+      "description": "tsurugi_season_chinesenewyear",
+      "category": "lobby",
+      "text": "新 新 新春快乐 是干什么说的吗 今 今年也请多 多多关照 ",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/G9rFyuDfiQGsSOXviJnuyW0jk0A6vdHU.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "tsurugi_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_in_1.ogg"
+    },
+    {
+      "description": "tsurugi_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_in_2.ogg"
+    },
+    {
+      "description": "tsurugi_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_move_1.ogg"
+    },
+    {
+      "description": "tsurugi_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_move_2.ogg"
+    },
+    {
+      "description": "tsurugi_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_recovery_1.ogg"
+    },
+    {
+      "description": "tsurugi_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_retire.ogg"
+    },
+    {
+      "description": "tsurugi_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_shout_1.ogg"
+    },
+    {
+      "description": "tsurugi_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_shout_2.ogg"
+    },
+    {
+      "description": "tsurugi_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_shout_3.ogg"
+    },
+    {
+      "description": "tsurugi_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "tsurugi_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_victory_1.ogg"
+    },
+    {
+      "description": "tsurugi_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_victory_2.ogg"
+    },
+    {
+      "description": "tsurugi_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_cafe_act_1.ogg"
+    },
+    {
+      "description": "tsurugi_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_cafe_act_2.ogg"
+    },
+    {
+      "description": "tsurugi_cafe_act_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_cafe_act_3.ogg"
+    },
+    {
+      "description": "tsurugi_cafe_act_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_cafe_act_4.ogg"
+    },
+    {
+      "description": "tsurugi_cafe_act_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_cafe_act_5.ogg"
+    },
+    {
+      "description": "tsurugi_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_commonskill.ogg"
+    },
+    {
+      "description": "tsurugi_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_exskill_1.ogg"
+    },
+    {
+      "description": "tsurugi_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_exskill_2.ogg"
+    },
+    {
+      "description": "tsurugi_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_exskill_3.ogg"
+    },
+    {
+      "description": "tsurugi_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_exskill_level_1.ogg"
+    },
+    {
+      "description": "tsurugi_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_exskill_level_2.ogg"
+    },
+    {
+      "description": "tsurugi_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_exskill_level_3.ogg"
+    },
+    {
+      "description": "tsurugi_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_exweapon_get.ogg"
+    },
+    {
+      "description": "tsurugi_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_formation_in_1.ogg"
+    },
+    {
+      "description": "tsurugi_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_formation_in_2.ogg"
+    },
+    {
+      "description": "tsurugi_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_formation_select.ogg"
+    },
+    {
+      "description": "tsurugi_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_gachaget.ogg"
+    },
+    {
+      "description": "tsurugi_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_growup_1.ogg"
+    },
+    {
+      "description": "tsurugi_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_growup_2.ogg"
+    },
+    {
+      "description": "tsurugi_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_growup_3.ogg"
+    },
+    {
+      "description": "tsurugi_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_growup_4.ogg"
+    },
+    {
+      "description": "tsurugi_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_lobby_1.ogg"
+    },
+    {
+      "description": "tsurugi_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_lobby_2.ogg"
+    },
+    {
+      "description": "tsurugi_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_lobby_3.ogg"
+    },
+    {
+      "description": "tsurugi_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_lobby_4.ogg"
+    },
+    {
+      "description": "tsurugi_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_lobby_5.ogg"
+    },
+    {
+      "description": "tsurugi_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_login_1.ogg"
+    },
+    {
+      "description": "tsurugi_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_login_2.ogg"
+    },
+    {
+      "description": "tsurugi_memoriallobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_memoriallobby_1.ogg"
+    },
+    {
+      "description": "tsurugi_memoriallobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_memoriallobby_2.ogg"
+    },
+    {
+      "description": "tsurugi_memoriallobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_memoriallobby_3.ogg"
+    },
+    {
+      "description": "tsurugi_memoriallobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_memoriallobby_4.ogg"
+    },
+    {
+      "description": "tsurugi_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_relationship_up_1.ogg"
+    },
+    {
+      "description": "tsurugi_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_relationship_up_2.ogg"
+    },
+    {
+      "description": "tsurugi_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_relationship_up_3.ogg"
+    },
+    {
+      "description": "tsurugi_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_relationship_up_4.ogg"
+    },
+    {
+      "description": "tsurugi_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_season_birthday.ogg"
+    },
+    {
+      "description": "tsurugi_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_season_birthday_player.ogg"
+    },
+    {
+      "description": "tsurugi_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_season_halloween.ogg"
+    },
+    {
+      "description": "tsurugi_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_season_newyear.ogg"
+    },
+    {
+      "description": "tsurugi_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_season_xmas.ogg"
+    },
+    {
+      "description": "tsurugi_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "tsurugi_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "tsurugi_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_tactic_in_1.ogg"
+    },
+    {
+      "description": "tsurugi_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_tactic_in_2.ogg"
+    },
+    {
+      "description": "tsurugi_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_tactic_victory_1.ogg"
+    },
+    {
+      "description": "tsurugi_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_tactic_victory_2.ogg"
+    },
+    {
+      "description": "Tsurugi_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/Tsurugi_Title.ogg"
+    },
+    {
+      "description": "tsurugi_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_buffed_1.ogg"
+    },
+    {
+      "description": "tsurugi_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_buffself_1.ogg"
+    },
+    {
+      "description": "tsurugi_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_damage_1.ogg"
+    },
+    {
+      "description": "tsurugi_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_damage_2.ogg"
+    },
+    {
+      "description": "tsurugi_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_damage_3.ogg"
+    },
+    {
+      "description": "tsurugi_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/tsurugi_battle_defense_1.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129190832.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129190821.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129190842.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129190857.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129190849.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129191047.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129190903.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129190911.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129190953.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129191000.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129191007.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129191022.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129191015.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129191035.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129191029.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211129191041.png"
+      ]
+    },
+    {
+      "title": "运动服立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_09.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_07.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_10.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_08.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_11.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_13.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_12.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_14.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_99.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0058_spr_Idle_01.png"
+      ]
+    },
+    {
+      "title": "演出服差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_07.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_08.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_09.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_10.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_11.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_12.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_13.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_14.png",
+        "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/original/gallery/%E6%BC%94%E5%87%BA%E6%9C%8D%E5%B7%AE%E5%88%86/NP0223_spr_99.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 131,
+      "favorability": 240
+    },
+    {
+      "id": 271,
+      "favorability": 60
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 10013,
+      "dev_name": "Tsurugi_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Piercing",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": false,
+      "team_position": "FRONT",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "S",
+      "street_adaptability": "D",
+      "equipment": [
+        8,
+        10,
+        2
+      ],
+      "cultivate_material": [
+        40,
+        46,
+        48,
+        51,
+        179,
+        182,
+        183,
+        185,
+        423,
+        424,
+        425,
+        426,
+        440,
+        441,
+        442,
+        19
+      ],
+      "favorite_equipment": 17,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/skill_icon/Kkh7iP83NwGXDuEGGlpm9Y56tR1u6vpB.png",
+            "title": "奇奇怪怪",
+            "title_cn": "诡异灭裂",
+            "preview": "//static.kivo.wiki/videos/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/skill_preview/uTLoHJ7mOOeTvRc3Qnlq539rdve141Kw.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "技能发动后马上重新装填弹药/将普通攻击变更为攻击力138%伤害的扇形范围攻击/攻击力增加25.8%（重装弹1次有效）"
+              },
+              {
+                "cost": 3,
+                "describe": "技能发动后马上重新装填弹药/将普通攻击变更为攻击力138%伤害的扇形范围攻击/攻击力增加29.7%（重装弹1次有效）"
+              },
+              {
+                "cost": 3,
+                "describe": "技能发动后马上重新装填弹药/将普通攻击变更为攻击力138%伤害的扇形范围攻击/攻击力增加37.5%（重装弹1次有效）"
+              },
+              {
+                "cost": 3,
+                "describe": "技能发动后马上重新装填弹药/将普通攻击变更为攻击力138%伤害的扇形范围攻击/攻击力增加41.4%（重装弹1次有效）"
+              },
+              {
+                "cost": 3,
+                "describe": "技能发动后马上重新装填弹药/将普通攻击变更为攻击力138%伤害的扇形范围攻击/攻击力增加45.2%（重装弹2次有效）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/skill_icon/v7LoCMZPvijTQnANwV5v4XC2sHhHmfAK.png",
+            "title": "激情",
+            "title_cn": "激情",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "打倒敌人时，恢复治愈力116%的生命值（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时，恢复治愈力122%的生命值（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时，恢复治愈力127%的生命值（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时，恢复治愈力151%的生命值（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时，恢复治愈力157%的生命值（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时，恢复治愈力162%的生命值（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时，恢复治愈力186%的生命值（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时，恢复治愈力191%的生命值（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时，恢复治愈力197%的生命值（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时，恢复治愈力221%的生命值（冷却时间10秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/skill_icon/GNGlcDZq0vioJ8fVcGIWnXptl9mZMMJp.png",
+            "title": "机敏",
+            "title_cn": "风驰电掣",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "移动速度增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "移动速度增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "移动速度增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "移动速度增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "移动速度增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "移动速度增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "移动速度增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "移动速度增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "移动速度增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "移动速度增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/skill_icon/Y7vCvR4uzUbLBe8ttDMMMjZMjWYlMC6j.png",
+            "title": "无法控制的力量",
+            "title_cn": "无法控制的力量",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "打倒敌人时以30%机率追加弹药数1"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时以33%机率追加弹药数1"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时以36%机率追加弹药数1"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时以39%机率追加弹药数1"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时以42%机率追加弹药数1"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时以45%机率追加弹药数1"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时以48%机率追加弹药数1"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时以51%机率追加弹药数1"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时以54%机率追加弹药数1"
+              },
+              {
+                "cost": 1,
+                "describe": "打倒敌人时以57%机率追加弹药数1"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2877,
+          "attack": 471,
+          "defense": 138,
+          "healing": 1600,
+          "accuracy": 642,
+          "evasion": 175,
+          "crit": 243,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 2052,
+          "range": 450,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 4
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/weapons_icon.png",
+        "name": "Blood & Gunpowder",
+        "name_cn": "血与火药",
+        "description": "鹤城所使用的二把霰弹枪。<br>虽然各自有着「Blood」和「Gunpowder」的名字，然而旁人几乎无法区分。",
+        "description_cn": "鹤城使用的两把霰弹枪。<br>一把叫“血”，另一把叫“火药”。 两把枪的威力都同样可怕，看起来没有什么太大的区别。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「机敏」升级为「机敏+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室内适应性 S -> SS",
+            "description": "在室内地形造成1.3倍伤害。在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 贯穿克制伤害增加",
+            "description": "攻击类型为贯穿的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%89%91%E5%85%88%20%E9%B9%A4%E5%9F%8E/skill_icon/IvlEsRiigfM42SrN9wjogD0jHDABb8Fp.png",
+            "title": "机敏+",
+            "title_cn": "风驰电掣+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "增加装弹数2/移动速度增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加装弹数2/移动速度增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加装弹数2/移动速度增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加装弹数3/移动速度增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加装弹数3/移动速度增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加装弹数3/移动速度增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加装弹数3/移动速度增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加装弹数3/移动速度增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加装弹数3/移动速度增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加装弹数4/移动速度增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "4acedbcb-85ac-4958-98a4-a715f6a1213f",
+  "skill_declare_uuid": "8ff09f2a-e5e4-45b2-9838-8c4ed88bb634",
+  "supplementary_uuid": "955998cf-55e3-4583-b90f-b2156021dad5",
+  "supplementary_declare_uuid": "b1b58d35-e658-4b27-a257-073ffc6d5501",
+  "created_at": 1685157811,
+  "updated_at": 1783336512
+}

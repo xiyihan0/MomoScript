@@ -1,0 +1,7 @@
+dist/
+bin/
+node_modules/
+wasm/
+*.vsix
+.vscode-test-web/
+.vscode-test/

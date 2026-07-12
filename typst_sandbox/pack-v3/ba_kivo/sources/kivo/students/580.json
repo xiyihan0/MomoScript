@@ -1,0 +1,490 @@
+{
+  "id": 580,
+  "skin": "临战",
+  "skin_jp": "臨戦",
+  "skin_cn": "武装",
+  "skin_zh_tw": "武裝",
+  "skin_list": [
+    {
+      "id": 27,
+      "avatar": "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%E7%BB%BF/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 31,
+      "avatar": "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E5%A5%B3%E4%BB%86/avatar.png",
+      "skin": "女仆",
+      "skin_cn": "女仆"
+    },
+    {
+      "id": 580,
+      "avatar": "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/NP0268.png",
+      "skin": "临战",
+      "skin_cn": "武装"
+    }
+  ],
+  "family_name": "才羽",
+  "given_name": "绿",
+  "family_name_jp": "才羽",
+  "given_name_jp": "ミドリ",
+  "family_name_kr": "사이바",
+  "given_name_kr": "미도리",
+  "family_name_en": "Saiba",
+  "given_name_en": "Midori",
+  "family_name_zh_tw": "才羽",
+  "given_name_zh_tw": "綠",
+  "family_name_cn": "才羽",
+  "given_name_cn": "绿",
+  "nick_name": "",
+  "introduction": "",
+  "introduction_cn": "",
+  "momo_talk_signature": "",
+  "main_relation": 37,
+  "relation": [
+    35,
+    34,
+    39
+  ],
+  "age": 15,
+  "grade": "一年生",
+  "height": 143,
+  "birthday": "12-08",
+  "hobby": "画图",
+  "designer": "",
+  "illustrator": "",
+  "character_voice": "高田忧希",
+  "character_voice_cn": "阎么么",
+  "release_date": null,
+  "release_date_cn": null,
+  "release_date_global": null,
+  "sd_model_image": "",
+  "avatar": "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/NP0268.png",
+  "school": 4,
+  "weapon_type": "",
+  "is_install": false,
+  "is_install_cn": false,
+  "is_install_global": false,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": false,
+  "more": "## 国际服直播内容\n::::center\n![Snipaste_2026-05-24_04-28-46.png](files/490/2p19WGB3643dxp4bTOL69zKXqv8YxNKi.png =450x)\n\n![Snipaste_2026-05-24_04-22-06.png](files/490/wdeQDFpkffLdrxTJZq9yFrVFimdXeDy1.png =450x)\n::::\n",
+  "recollection_lobby_image": "",
+  "spine": [
+    1383
+  ],
+  "model": [
+    105,
+    506
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [
+    {
+      "description": "np0268_carrier_monolog_1",
+      "category": "event",
+      "text": "",
+      "text_original": "お姉ちゃん……ちゃんと緊張感を持ってほしいんだけど。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_carrier_monolog_1.ogg"
+    },
+    {
+      "description": "np0268_carrier_monolog_2",
+      "category": "event",
+      "text": "",
+      "text_original": "す、すごかった……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_carrier_monolog_2.ogg"
+    },
+    {
+      "description": "np0268_carrier_monolog_3",
+      "category": "event",
+      "text": "",
+      "text_original": "もう終わってしまうのかと……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_carrier_monolog_3.ogg"
+    },
+    {
+      "description": "np0268_carrier_monolog_4",
+      "category": "event",
+      "text": "",
+      "text_original": "エイミさんですか？暑いーと言って外に出ちゃいました。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_carrier_monolog_4.ogg"
+    },
+    {
+      "description": "np0268_carrier_monolog_5",
+      "category": "event",
+      "text": "",
+      "text_original": "まさかこんなところまで来ることになるなんて……私たち、ただのゲーム開発部なのに。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_carrier_monolog_5.ogg"
+    },
+    {
+      "description": "np0268_carrier_select_1",
+      "category": "event",
+      "text": "",
+      "text_original": "ぶ、無事に帰れるんでしょうか……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_carrier_select_1.ogg"
+    },
+    {
+      "description": "np0268_carrier_select_2",
+      "category": "event",
+      "text": "",
+      "text_original": "私たち、ゲーム開発部なのに……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_carrier_select_2.ogg"
+    },
+    {
+      "description": "np0268_carrier_select_3",
+      "category": "event",
+      "text": "",
+      "text_original": "ですが、みんなのお役にたてるのなら……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_carrier_select_3.ogg"
+    },
+    {
+      "description": "np0268_carrier_select_4",
+      "category": "event",
+      "text": "",
+      "text_original": "さっきのゲーム、難易度が変だったような……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_carrier_select_4.ogg"
+    },
+    {
+      "description": "np0268_carrier_select_5",
+      "category": "event",
+      "text": "",
+      "text_original": "……大丈夫ですよね。先生が、いますから。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_carrier_select_5.ogg"
+    },
+    {
+      "description": "np0268_eventlobby_1",
+      "category": "event",
+      "text": "",
+      "text_original": "預言者のコアを何かに使うようですが……一体……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_eventlobby_1.ogg"
+    },
+    {
+      "description": "np0268_eventlobby_2",
+      "category": "event",
+      "text": "",
+      "text_original": "ケイちゃんと会長がちゃんと説明してくれたのに……すみません。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_eventlobby_2.ogg"
+    },
+    {
+      "description": "np0268_eventlobby_3",
+      "category": "event",
+      "text": "",
+      "text_original": "会長……どこに行ってしまったんですか……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_eventlobby_3.ogg"
+    },
+    {
+      "description": "np0268_eventlobby_4",
+      "category": "event",
+      "text": "",
+      "text_original": "どうか、みんな無事でいてくれますように……！",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_eventlobby_4.ogg"
+    },
+    {
+      "description": "np0268_eventlobby_5",
+      "category": "event",
+      "text": "",
+      "text_original": "最後まで最善を尽くします。あ、最後って言うとなんだか不吉な感じがしますね……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_eventlobby_5.ogg"
+    },
+    {
+      "description": "np0268_eventlogin_1",
+      "category": "event",
+      "text": "",
+      "text_original": "これは、なんでしょう……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_eventlogin_1.ogg"
+    },
+    {
+      "description": "np0268_eventlogin_2",
+      "category": "event",
+      "text": "",
+      "text_original": "おかえりなさい、先生。ここは……格納庫？みたいです。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_eventlogin_2.ogg"
+    },
+    {
+      "description": "np0268_eventlogin_3",
+      "category": "event",
+      "text": "",
+      "text_original": "アップグレードができますね！",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_eventlogin_3.ogg"
+    },
+    {
+      "description": "np0268_eventlogin_4",
+      "category": "event",
+      "text": "",
+      "text_original": "先生……みんな……！",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_eventlogin_4.ogg"
+    },
+    {
+      "description": "np0268_eventlogin_5",
+      "category": "event",
+      "text": "",
+      "text_original": "（私がちゃんとしっかりしないと……！しっかり！）",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_eventlogin_5.ogg"
+    },
+    {
+      "description": "np0268_eventlogin_6",
+      "category": "event",
+      "text": "",
+      "text_original": "まだ全然信じられないです……どうしてこんなことに。",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_eventlogin_6.ogg"
+    },
+    {
+      "description": "np0268_r89_mainscenario_battle_10",
+      "category": "battle",
+      "text": "",
+      "text_original": "つ、つまり……ネクロマンサー、みたいなものですか！？",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/jp/np0268_r89_mainscenario_battle_10.ogg"
+    }
+  ],
+  "voice_cn": [],
+  "voice_kr": [
+    {
+      "description": "NP0268_Carrier_monolog_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_Carrier_monolog_1.ogg"
+    },
+    {
+      "description": "NP0268_Carrier_monolog_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_Carrier_monolog_2.ogg"
+    },
+    {
+      "description": "NP0268_Carrier_monolog_3",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_Carrier_monolog_3.ogg"
+    },
+    {
+      "description": "NP0268_Carrier_monolog_4",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_Carrier_monolog_4.ogg"
+    },
+    {
+      "description": "NP0268_Carrier_monolog_5",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_Carrier_monolog_5.ogg"
+    },
+    {
+      "description": "NP0268_Carrier_select_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_Carrier_select_1.ogg"
+    },
+    {
+      "description": "NP0268_Carrier_select_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_Carrier_select_2.ogg"
+    },
+    {
+      "description": "NP0268_Carrier_select_3",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_Carrier_select_3.ogg"
+    },
+    {
+      "description": "NP0268_Carrier_select_4",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_Carrier_select_4.ogg"
+    },
+    {
+      "description": "NP0268_Carrier_select_5",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_Carrier_select_5.ogg"
+    },
+    {
+      "description": "NP0268_EventLobby_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_EventLobby_1.ogg"
+    },
+    {
+      "description": "NP0268_EventLobby_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_EventLobby_2.ogg"
+    },
+    {
+      "description": "NP0268_EventLobby_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_EventLobby_3.ogg"
+    },
+    {
+      "description": "NP0268_EventLobby_4",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_EventLobby_4.ogg"
+    },
+    {
+      "description": "NP0268_EventLobby_5",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_EventLobby_5.ogg"
+    },
+    {
+      "description": "NP0268_EventLogin_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_EventLogin_1.ogg"
+    },
+    {
+      "description": "NP0268_EventLogin_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_EventLogin_2.ogg"
+    },
+    {
+      "description": "NP0268_EventLogin_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_EventLogin_3.ogg"
+    },
+    {
+      "description": "NP0268_EventLogin_4",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_EventLogin_4.ogg"
+    },
+    {
+      "description": "NP0268_EventLogin_5",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_EventLogin_5.ogg"
+    },
+    {
+      "description": "NP0268_EventLogin_6",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_EventLogin_6.ogg"
+    },
+    {
+      "description": "NP0268_R89_MainScenario_battle_10",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/kr/NP0268_R89_MainScenario_battle_10.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_02.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_05.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_16.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_15.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_18.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_19.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_99.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_09.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_08.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_17.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_07.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_00.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_06.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_04.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_03.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_01.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_11.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_Idle_01.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_Eye_Close_01.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_10.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_12.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_13.png",
+        "//static.kivo.wiki/images/students/%E6%89%8D%E7%BE%BD%20%E7%BB%BF/%E4%B8%B4%E6%88%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0268_spr_14.png"
+      ]
+    }
+  ],
+  "gift_data": null,
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 0,
+      "dev_name": "",
+      "combat_style": "default",
+      "type": "",
+      "attack_attribute": "",
+      "defensive_attributes": "",
+      "is_groupc_control": false,
+      "team_position": "",
+      "battlefield_position": "",
+      "rarity": 0,
+      "limited": false,
+      "outdoor_adaptability": "",
+      "indoor_adaptability": "",
+      "street_adaptability": "",
+      "equipment": null,
+      "cultivate_material": [],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [],
+        "passive_skill": []
+      },
+      "basic": [
+        {
+          "max_hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "healing": 0,
+          "accuracy": 0,
+          "evasion": 0,
+          "crit": 0,
+          "crit_res": 0,
+          "crit_dmg": 0,
+          "crit_dmg_res": 0,
+          "stability": 0,
+          "range": 0,
+          "cc_power": 0,
+          "cc_res": 0,
+          "recovery_boost": 0,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "",
+        "name": "",
+        "name_cn": "",
+        "description": "",
+        "description_cn": "",
+        "info": [],
+        "skill": []
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "68098fcf-104a-4abd-8e4d-783ce88dbb2c",
+  "skill_declare_uuid": "56600240-5aa6-432b-991a-22bb81d60384",
+  "supplementary_uuid": "dc33016d-fe85-4b2d-89e3-1cd5c9b07fad",
+  "supplementary_declare_uuid": "4ce0c9cd-f31e-4ae4-a081-c1c00dd2fdb8",
+  "created_at": 1768907706,
+  "updated_at": 1782748385
+}

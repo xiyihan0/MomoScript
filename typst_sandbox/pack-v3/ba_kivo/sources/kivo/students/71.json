@@ -1,0 +1,2184 @@
+{
+  "id": 71,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 71,
+      "avatar": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 121,
+      "avatar": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    },
+    {
+      "id": 346,
+      "avatar": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/%E7%A4%BC%E6%9C%8D/avatar.png",
+      "skin": "礼服",
+      "skin_cn": "礼服"
+    }
+  ],
+  "family_name": "空崎",
+  "given_name": "日奈",
+  "family_name_jp": "空崎",
+  "given_name_jp": "ヒナ",
+  "family_name_kr": "소라사키",
+  "given_name_kr": "히나",
+  "family_name_en": "Sorasaki",
+  "given_name_en": "Hina",
+  "family_name_zh_tw": "空崎",
+  "given_name_zh_tw": "陽奈",
+  "family_name_cn": "空崎",
+  "given_name_cn": "日奈",
+  "nick_name": "委员长，魔王",
+  "introduction": "格赫娜学园所属，所有人都害怕的风纪委员长。\n\n虽然基本上是个怕麻烦少女，但是面对校规相关的问题时就会变得严格。\n嘴上说着「真麻烦」，在战场上却能毫不迷惘、冷静且迅速地判断情况并采取行动。\n战斗能力相当惊人，因此和格赫娜敌对的组织比什么都害怕她的登场。\n\n>虽然很麻烦，不过必须做该做的事，因为那就是我的义务",
+  "introduction_cn": "歌赫娜的风纪委员长。\n\n平时怕麻烦，总是把“好麻烦”挂嘴边，\n但在与风纪相关的问题上却会露出严厉的一面，\n在战场上也会毫不犹豫地对情况做出判断。\n因此，对歌赫娜抱有敌意的组织最害怕她的出现。\n\n>虽然很麻烦，但本职工作还是要做的。\n因为那是我的责任。",
+  "momo_talk_signature": "",
+  "main_relation": 25,
+  "relation": [
+    24,
+    33
+  ],
+  "age": 17,
+  "grade": "三年生",
+  "height": 142,
+  "birthday": "02-19",
+  "hobby": "睡眠、休息",
+  "designer": "DoReMi",
+  "illustrator": "DoReMi",
+  "character_voice": "广桥凉",
+  "character_voice_cn": "王雅欣",
+  "release_date": "2021-02-04",
+  "release_date_cn": "2023-08-03",
+  "release_date_global": "2021-11-09",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/avatar.png",
+  "school": 3,
+  "weapon_type": "MG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": true,
+  "more": "# 杂项趣闻\n\n:::: center\n!!! question <font size=\"4\">**荣 誉 勋 章**</font>\n![hanamaru_coconut.png](files/19083/lgj4cn7FML4efZeQXT3qrdc0b6jy61g0.png =100x)\n此角色曾在本站开设的投票活动『基沃托斯年度最佳大选』中取得前三名的成绩！\n[2024年](https://kivo.wiki/article/37)：【年度最佳剧情表现】**第1名**![rank1.png](files/19083/LMDEXyZBQ3zQXr1770iyoLWlXNkjTePK.png =50x)；【年度最佳爱用品】**第1名**![rank1.png](files/19083/LMDEXyZBQ3zQXr1770iyoLWlXNkjTePK.png =50x)\n!!!\n::::\n\n## 模型调整\n\n在vol1.3的part4剧情更新中，官方对日奈的模型进行了调整（图片来自网络）\n国际服在三周年活动「-ive aLive」的更新里提前实装了这一调整。\n国服在二周年小夜曲活动后的更新里提前实装了这一调整。\n::::center\n![QogPfIUjVgiBk6TwxQH3agIFpBp8YTxV.jpg](files/3/QogPfIUjVgiBk6TwxQH3agIFpBp8YTxV.jpg =450x)\n::::\n\n# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 積み上げる尽力の翼 | 聚积的尽力之翼 |我會盡全力協助老師想做的事。| I'll use all the power I possess to help you. |\n|![ヒナ.png](files/4954/wFm5PnDq64q44uLc1MBqD48CwP9lKsLN.png =450x)|![hina_banner_cn.png](files/4954/8iF8k5YyGkSuAbW2Ox0yWCLRAqNgTKt5.png =450x) |![hina_banner_tw.jpg](files/4954/OotqNAUaMmUSlXcPqPzt1IDWb0uRorQy.jpg =450x)| ![hina_banner_en.jpg](files/4954/7m2s0g3peOKzGqssJ7ZeTOqTpojPgkI9.jpg =450x)\n|\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![hina_jp.jpg](files/4954/kBjz38m6iNPQtPtTyEOZ70XU9BFU7Dsw.jpg =420x)|![hina_cn.jpg](files/4954/xvaTQnaRYcB6HnYIfEs5jr7mft9ja6D2.jpg =425x)|暂无|![hina_en.jpg](files/4954/555lO8LqaEBJIAazjTgs4ghurjJZUjUb.jpg =400x)\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 |\n| :---: | :---: |\n| ![hina_ex.gif](files/4954/LqdfHN1ZEnnawAxm2zpAUEZ9sdFa4F5v.gif =450x) | ![hina_cafe.gif](files/4954/BYi0DMXc5egc3f2qS5eBL51O9mq0ttki.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 日奈 汉化\n![日奈](files/2/Y1jCQvhWCUPDWi0QEbM3CcHmcgZO95sr.png =450x)\n@tab 日奈 原文\n![日奈](files/2/zKmNbA2pm4oRhVReTKFXY8qX7CtHUMjx.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n\n![Vol.1_页面_016.png](files/4954/N7EmsMIRtiaFkKdau4VfG34ngN1AT293.png =450x)![Vol.1_页面_031.png](files/4954/fPJBmlekdVoDYgKVd7UEW9TMQGnWSNww.png =450x)\n\n![Vol.1_页面_050.png](files/4954/3SYZcjQIrbpFDHMYws6CyJjmbANLKESr.png =450x)![Vol.1_页面_133.png](files/4954/VEUOnWErHQXi6yhYPe2WnLXQ7lPalaDA.png =450x)\n\n![Vol.1_页面_151.png](files/4954/PJ1NrDts5FtP7DVwUl9DcuUFaUZWR8Nj.png =450x)![Vol.1_页面_218.png](files/4954/Grp9IbmddYQLiPICoLZmpFiZEPyksTiv.png =450x)\n\n![Vol.1_页面_239.png](files/4954/nwBneu6iBxluqWLHqfnx4Ar2wYXaWmX8.png =450x)![Vol.1_页面_240.png](files/4954/CYGBqwQsc0GDWkSNzeRiugefC723j105.png =450x)\n\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 134.png](files/4954/K68zcg9X9fVavqJAg2BqHzTQ8TSJ2ZsZ.png =450x)\n\n\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生<br>あなた<br>あの人|\n|[亚子](https://kivo.wiki/data/character/39)|アコ|\n|[伊织](https://kivo.wiki/data/character/72)|イオリ|\n|[千夏](https://kivo.wiki/data/character/117)|チナツ|\n|[爱丽丝](https://kivo.wiki/data/character/108)|天童アリス<br>アリス|\n|[阿露](https://kivo.wiki/data/character/112)|陸八魔アル|\n|[伊吹](https://kivo.wiki/data/character/136)|イブキ|\n|[伊吕波](https://kivo.wiki/data/character/38)|イロハ|\n|[霞](https://kivo.wiki/data/character/116)|カスミ<br>温泉開発部の部長<br>鬼怒川カスミ|\n|[妃咲](https://kivo.wiki/data/character/61)|竜華キサキ|\n|[朱莉](https://kivo.wiki/data/character/186)|ジュリ|\n|[白子*恐怖](https://kivo.wiki/data/character/135)|もう一人の砂狼シロコ|\n|[周防](https://kivo.wiki/data/character/367)|朝霧スオウ|\n|[濑名](https://kivo.wiki/data/character/18)|セナ|\n|[空](https://kivo.wiki/data/character/105)|ソラ|\n|[渚](https://kivo.wiki/data/character/25)|ナギサ|\n|[晴奈](https://kivo.wiki/data/character/195)|ハルナ|\n|[枫香](https://kivo.wiki/data/character/97)|フウカ|\n|[星野](https://kivo.wiki/data/character/76)|小鳥遊ホシノ<br>アビドスの副会長|\n|[真琴](https://kivo.wiki/data/character/115)|マコト<br>マコト議長|\n|[南](https://kivo.wiki/data/character/131)|玄龍門の執行部長|\n|[宫子](https://kivo.wiki/data/character/6)|RABBIT小隊長|\n|[美游](https://kivo.wiki/data/character/9)|狙撃手|\n|[惠](https://kivo.wiki/data/character/229)|メグ|\n|[梦](https://kivo.wiki/data/character/288)|梔子ユメ|\n|[雷帝](https://kivo.wiki/data/character/374)|雷帝|\n|[留美](https://kivo.wiki/data/character/128)|玄武商会の会長|\n|[丽情](https://kivo.wiki/data/character/271)|マネージャー|\n|风纪委员会|風紀委員会|\n|正义实现委员会|正義実現委員会|\n|茶话会|ティーパーティー|\n|便利屋68|便利屋|\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/Hina_home_Idle_01_1.1921000000000022.jpg",
+  "spine": [
+    288,
+    470,
+    291,
+    1554,
+    1673,
+    725,
+    726,
+    732
+  ],
+  "model": [
+    32,
+    386
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/voice/play_icon.webp",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/voice/pause_icon.webp",
+  "voice": [
+    {
+      "description": "Hina_Title",
+      "category": "lobby",
+      "text": "Blue Archive。",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/VlgtbvPDcsOzovJAVgGKzrKIpEPKDr8Q.ogg"
+    },
+    {
+      "description": "Hina_Battle_Buffed_1",
+      "category": "battle",
+      "text": "支援已确认。",
+      "text_original": "支援を確認した。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/ipAqudpGLKAHstsJwTaUxsPKglIjHU9j.ogg"
+    },
+    {
+      "description": "Hina_Battle_BuffSelf_1",
+      "category": "battle",
+      "text": "受死吧。",
+      "text_original": "覚悟して。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/pih8Kth9cHYYRctSih9mNH9RzQOAWKo4.ogg"
+    },
+    {
+      "description": "Hina_Battle_Damage_1",
+      "category": "battle",
+      "text": "可恶…",
+      "text_original": "まったく…",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/boVcJhG4h2s6jjd6Gp0vj0albAoy7Lwr.ogg"
+    },
+    {
+      "description": "Hina_Battle_Damage_2",
+      "category": "battle",
+      "text": "有些不妙啊。",
+      "text_original": "良くないな…",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/nqNK5jgaPtAOVEDCEYpPOZV7VPVS2quk.ogg"
+    },
+    {
+      "description": "Hina_Battle_Damage_3",
+      "category": "battle",
+      "text": "呃！",
+      "text_original": "ん",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/HrvyU7pDmzBUV35OQJCaFQSNDfMUwikx.ogg"
+    },
+    {
+      "description": "Hina_Battle_In_1",
+      "category": "battle",
+      "text": "进入战场，争取迅速突破。",
+      "text_original": "戦闘突入。極力早く侵入する。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/vjnkYPmy3sSE9z9JjelJfjoApHtRkbaB.ogg"
+    },
+    {
+      "description": "Hina_Battle_In_2",
+      "category": "battle",
+      "text": "好，走吧。",
+      "text_original": "さあ行こう",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/QxZvVxT1DHFQANd88ClPEsypqwqnzxVa.ogg"
+    },
+    {
+      "description": "Hina_Battle_Move_1",
+      "category": "battle",
+      "text": "唉，好烦呐。",
+      "text_original": "ああ、面倒くさい…",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/P1pbk9yEagnlxpjcpyrf0xHQSsUcnAM4.ogg"
+    },
+    {
+      "description": "Hina_Battle_Move_2",
+      "category": "battle",
+      "text": "没完没了…没完没了…",
+      "text_original": "もうやってもやっても終わらない。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/WODoTAZ8zhhWXjmEFwiJfTuJqDAabEbN.ogg"
+    },
+    {
+      "description": "Hina_Battle_Recovery_1",
+      "category": "battle",
+      "text": "好，我恢复了。",
+      "text_original": "よし、回復した。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/XFgJUvrSMzdmjJbeSrxeCuCU7cz1pcYY.ogg"
+    },
+    {
+      "description": "Hina_Battle_Retire",
+      "category": "battle",
+      "text": "见鬼，到底是哪里出了错？",
+      "text_original": "まったく。どこで間違えたのか…",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/VL1UF8IYzwwZ56NbWtqQNSvduPZcYnMP.ogg"
+    },
+    {
+      "description": "Hina_Battle_Shout_1",
+      "category": "battle",
+      "text": "欸！",
+      "text_original": "へん",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/7pwUUfm4lXo5FoXJQwTZaiDQ7CINcShC.ogg"
+    },
+    {
+      "description": "Hina_Battle_Shout_2",
+      "category": "battle",
+      "text": "哈！",
+      "text_original": "は",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/5I0KhXVCUCNGa1lqHVhhYakIqycY0nwn.ogg"
+    },
+    {
+      "description": "Hina_Battle_Shout_3",
+      "category": "battle",
+      "text": "哈啊！",
+      "text_original": "は",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/nU908AtikE5bQL7t24OPczAQwGOqP2ZK.ogg"
+    },
+    {
+      "description": "Hina_Battle_Supply",
+      "category": "battle",
+      "text": "补给已确认。",
+      "text_original": "支援確認",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/lu8ByznucmuonLNNvEvCacpnDjqeypm1.ogg"
+    },
+    {
+      "description": "Hina_Battle_TacticalAction_1",
+      "category": "battle",
+      "text": "继续前进。",
+      "text_original": "移動する",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/M5iBcBGf5qTMrc2O0EbJM8oWzT8EZYJF.ogg"
+    },
+    {
+      "description": "Hina_Battle_TSA_1",
+      "category": "battle",
+      "text": "纪律部六号坦克，如今就是考验它威力的时候了。",
+      "text_original": "風紀委員会の六号戦車。この威力は今こそ試す時。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/4jV4MjOkQywD96RB54sh9IB2E6rkeubn.ogg"
+    },
+    {
+      "description": "Hina_Battle_TSA_2",
+      "category": "battle",
+      "text": "如此一来，战局就向我们这边倾斜了，放弃吧。",
+      "text_original": "これで戦況はこちに傾いた。もう諦めて。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/TnM67ACTH3kit9ERRpV4FQBGooiGgHZA.ogg"
+    },
+    {
+      "description": "Hina_Battle_Victory_1",
+      "category": "battle",
+      "text": "嗯，理所当然的结果。",
+      "text_original": "ええ、当然の結果でわけ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/pZtf1xjZCjIrzJxPooBmvtvyAwdQwk3P.ogg"
+    },
+    {
+      "description": "Hina_Battle_Victory_2",
+      "category": "battle",
+      "text": "赢了，接下来该做什么？",
+      "text_original": "勝利を。次は何をしたらいい？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/Cw4ygwEjaRmT4MFIT5i80a7KuzFaiyrW.ogg"
+    },
+    {
+      "description": "Hina_Cafe_Act_1",
+      "category": "cafe",
+      "text": "可爱的东西…",
+      "text_original": "可愛いもの...",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/2WxAxZPkCRxgQDEL23BMO9FiFdQLnnFt.ogg"
+    },
+    {
+      "description": "Hina_Cafe_Act_2",
+      "category": "cafe",
+      "text": "好想睡个午觉…",
+      "text_original": "昼寝したいけど…",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/nFiuNjbYVmCFIH0ZAMbao2nBlosRGCry.ogg"
+    },
+    {
+      "description": "Hina_Cafe_Act_3",
+      "category": "cafe",
+      "text": "还好没出什么大事，万幸。",
+      "text_original": "大きな問題はなさそうだね。幸い",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/eRXnd1O1gZNm9gFiAzqHNMXYbPp8v5Mh.ogg"
+    },
+    {
+      "description": "Hina_Cafe_Act_4",
+      "category": "cafe",
+      "text": "就这么悠闲地呆着没关系吗？",
+      "text_original": "ゆっくりしててもいいよね？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/yLATLAuDXxUX3rPyWWrCTpbBk8q2uc44.ogg"
+    },
+    {
+      "description": "Hina_Cafe_Act_5",
+      "category": "cafe",
+      "text": "有点不好意思…",
+      "text_original": "ちょっと恥ずかしいな…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/z8OWC4pJgPu97vkAkrcP8tRCJqxmG3dc.ogg"
+    },
+    {
+      "description": "Hina_CommonSkill",
+      "category": "battle",
+      "text": "上吧！",
+      "text_original": "行こう。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/kSfGSPcEaqaSYTL93SeRAc3LKe3Qsy0M.ogg"
+    },
+    {
+      "description": "Hina_ExSkill_1",
+      "category": "battle",
+      "text": "得拿出点实力来。",
+      "text_original": "実力行使ていく。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/prjdJvnTT7bk4QO3h70ksU9fSclAieLg.ogg"
+    },
+    {
+      "description": "Hina_ExSkill_2",
+      "category": "battle",
+      "text": "该它上场了。",
+      "text_original": "こいつの出番。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/3T9pT8csVV75NuhXbvLQjfKi6LmY5nev.ogg"
+    },
+    {
+      "description": "Hina_ExSkill_3",
+      "category": "battle",
+      "text": "目标已确认。",
+      "text_original": "ターゲットは確認した。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/kOcwlc8FfXUSdx3Jm8Pzos8rM9Bmn6Pw.ogg"
+    },
+    {
+      "description": "Hina_ExSkill_Level_1",
+      "category": "battle",
+      "text": "我倒要看看你还能撑多久。",
+      "text_original": "どれぐらい耐えならるか見物ね。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/AtA3Ttq2svyDEhHrFRKbMnup0lT747ck.ogg"
+    },
+    {
+      "description": "Hina_ExSkill_Level_2",
+      "category": "battle",
+      "text": "你逃不了的。",
+      "text_original": "逃げることはできない。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/Tk56CBKku43PKBLkiAS0QyoEbDEwNznY.ogg"
+    },
+    {
+      "description": "Hina_ExSkill_Level_3",
+      "category": "battle",
+      "text": "别想溜。",
+      "text_original": "逃がさない。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/SqHNZtv9izNHQ3ZHFSNqw0F8zXQF0bEj.ogg"
+    },
+    {
+      "description": "Hina_ExWeapon_Get",
+      "category": "growup",
+      "text": "每个故事都有结局，我会一直见证到最后。",
+      "text_original": "どんな物語でも終わりはある。私がその最後まで見届けてあげる。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/b7umeFPcAyA3lIJ1XXfiPG9ly5j7aijb.ogg"
+    },
+    {
+      "description": "Hina_Formation_In_1",
+      "category": "formation",
+      "text": "唉，没办法。",
+      "text_original": "ああ、しょうがない。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/GO0emz3gUBm7OcCA0tfWRLbOi0IQpORJ.ogg"
+    },
+    {
+      "description": "Hina_Formation_In_2",
+      "category": "formation",
+      "text": "我准备好了。",
+      "text_original": "準備は出来ている。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/A2axNFRLYQdDZtVvQ4YpgAVe0DDO6tmr.ogg"
+    },
+    {
+      "description": "Hina_Formation_Select",
+      "category": "formation",
+      "text": "行了。",
+      "text_original": "いいわ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/4RGWUBfuVIxupjhY0DP6GF4n8xDlyaWo.ogg"
+    },
+    {
+      "description": "Hina_Gachaget",
+      "category": "growup",
+      "text": "我是风纪委员长,日奈。你应该知道我的名字了吧….…多关照了。",
+      "text_original": "風紀委員長のヒナ。私の名前は知ってると思うけど…。よろしく。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/1WNMS5j9JxswHe0UQT33yOR5FS22JUK3.ogg"
+    },
+    {
+      "description": "Hina_Growup_1",
+      "category": "growup",
+      "text": "我变得更强了。",
+      "text_original": "より強くなった。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/6UQnAzCCffYRoq48gD45rz63uwbNxYgc.ogg"
+    },
+    {
+      "description": "Hina_Growup_2",
+      "category": "growup",
+      "text": "原来我还能成长。",
+      "text_original": "まだ成長できるんだ…",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/ihkvsKs2eqG5WFdO7Kd4Xqhetrpqus5A.ogg"
+    },
+    {
+      "description": "Hina_Growup_3",
+      "category": "growup",
+      "text": "这份力量，就为了老师去使用吧。",
+      "text_original": "この力は先生のために使おう。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/SfIen9FOMkn9b4VFWWFdzHyfw9mQh6tG.ogg"
+    },
+    {
+      "description": "Hina_Growup_4",
+      "category": "growup",
+      "text": "谢谢你的关心。",
+      "text_original": "気にしてくれてありがとう。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/AMDBj9iZhTmnPuSVkZGXytS9SaESNMh5.ogg"
+    },
+    {
+      "description": "Hina_Lobby_1",
+      "category": "lobby",
+      "text": "不用特意给我什么优待。",
+      "text_original": "別に特別な扱いをする必要はない。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/MXeHEE5obxM2bUrrtt9mOo3Cuda73Dst.ogg"
+    },
+    {
+      "description": "Hina_Lobby_2",
+      "category": "lobby",
+      "text": "我在这里，也只是普通的一员。",
+      "text_original": "ここではただの一人の部員にすぎないから。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/ZbUebvisSaVgwNiFgG62zUJIp5HmIKFX.ogg"
+    },
+    {
+      "description": "Hina_Lobby_3",
+      "category": "lobby",
+      "text": "……我说……能，能不能不要这么摸我的头？",
+      "text_original": "あのう…そ、そんなに撫でないでくれる？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/NWMffA9cqYo4KjE98TkNmHrxVyGysxEF.ogg"
+    },
+    {
+      "description": "Hina_Lobby_4",
+      "category": "lobby",
+      "text": "再怎么说我也是风纪委员长，要，要是让谁看见了……",
+      "text_original": "これでも一応風紀委員長だし…だ、誰かに見られるかもしれないし…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/6GoYoh0BReDsjF0r4LU55W2qbBZwA2ts.ogg"
+    },
+    {
+      "description": "Hina_Lobby_5",
+      "category": "lobby",
+      "text": "看见也没关系？！你，你说什么呢？！",
+      "text_original": "見られても関係ない？！な、何を言ってるの？！",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/kPeBkgQQnnhcapGFteqytaB7yD5PAL97.ogg"
+    },
+    {
+      "description": "Hina_Lobby_6",
+      "category": "lobby",
+      "text": "别净想着耍小聪明，好好干活。",
+      "text_original": "適当に済ませようとしないで！仕事はきちんとやって！",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/huWHkiydTtmFnTAvfmvnsV7HVPxsmAuM.ogg"
+    },
+    {
+      "description": "Hina_Lobby_7",
+      "category": "lobby",
+      "text": "老师想做什么我都会尽力帮忙，需要的时候跟我说就好。",
+      "text_original": "先生が望むことが全力で手伝うから、必要な時は言って。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/tqQTgxc7yIeZYOZdQyXIxgJWDXB58dm9.ogg"
+    },
+    {
+      "description": "Hina_Lobby_8",
+      "category": "lobby",
+      "text": "想要撒娇，想和老师说说笑笑，想要诉苦…",
+      "text_original": "甘えたい、じゃれ合いたい、泣き言だって言いたい…",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/SmD2Deh4pwBoSX87nJ1xdT4sMG0zOQ9L.ogg"
+    },
+    {
+      "description": "Hina_Lobby_9",
+      "category": "lobby",
+      "text": "（可要是真的这样，只会招人讨厌…）",
+      "text_original": "（でも…私がやったら気持ち悪いだけ）",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/8Q8z7gNHyarKbw5dCqrSZSoO4BcSeLVI.ogg"
+    },
+    {
+      "description": "Hina_Lobby_10",
+      "category": "lobby",
+      "text": "干嘛？你问我在想什么？我，我什么都没想。",
+      "text_original": "なに？！な、何を考えているかって。べ、別になにも…",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/9N6Z1C2kVtMPC8EnpEqFyjVuJVQxVrUe.ogg"
+    },
+    {
+      "description": "Hina_LogIn_1",
+      "category": "lobby",
+      "text": "啊，等你很久了，老师。",
+      "text_original": "ああ、待ってたよ。先生。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/ljtkKgMk4aSTrL9zkOKwN1suMnPeIz7c.ogg"
+    },
+    {
+      "description": "Hina_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "被你这么一直盯着看，",
+      "text_original": "そんなにじっと見られたら…",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/HrlqRvGm6H1rdzdEj14pgragddZ3ukCQ.ogg"
+    },
+    {
+      "description": "Hina_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "我也是会不好意思的。",
+      "text_original": "いくら私でも恥ずかしい。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/AOaeERmdDASb8FpkelLciAcvNZFuFo1r.ogg"
+    },
+    {
+      "description": "Hina_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "真的好神奇，",
+      "text_original": "不思議だね。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/13i57ISTIQjwHmkaulHNFEEWOGE40Jgo.ogg"
+    },
+    {
+      "description": "Hina_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "这样和老师在一起，",
+      "text_original": "先生と一緒にいると",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/Z5W7Kc12wgsOqShADS3jwwuYn3Bf9mND.ogg"
+    },
+    {
+      "description": "Hina_MemorialLobby_2_3",
+      "category": "lobby",
+      "text": "我就觉得很安心。",
+      "text_original": "なんだか安心する。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/I2eHxDOIwyrPh1jSYyzoiN5ZyzQqexLM.ogg"
+    },
+    {
+      "description": "Hina_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "其实，",
+      "text_original": "実は…",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/iMLipkYr3POdtwQLYmshkU9Vt5v48dGg.ogg"
+    },
+    {
+      "description": "Hina_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "我挺喜欢老师那个表情。",
+      "text_original": "先生のそういう顔が好き。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/Nt3Qn3l3ZMNHQERjiIIM9NAQ9SIF8qEE.ogg"
+    },
+    {
+      "description": "Hina_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "唉啊…",
+      "text_original": "はあ…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/0baYBW3zhnW2LtrtwZVZ8tnN5LZ5dNb2.ogg"
+    },
+    {
+      "description": "Hina_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "好想把大脑放空啊。",
+      "text_original": "何も考えたくない。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/R16akD2iZiup1Hw8YeVd4wsrgYiyM992.ogg"
+    },
+    {
+      "description": "Hina_Relationship_Up_1",
+      "category": "growup",
+      "text": "是不是对我太好了？",
+      "text_original": "こんな私でもいいの...",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/ZIpV6w3RwHhFGHqvCj8ITwv3V5KyiDBx.ogg"
+    },
+    {
+      "description": "Hina_Relationship_Up_2",
+      "category": "growup",
+      "text": "老师，谢谢您，和我在一起。",
+      "text_original": "一緒にいてくれて、ありがとう、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/0zKlYZrf4nZQjeWZIgzmFAf2Rlc6vBEz.ogg"
+    },
+    {
+      "description": "Hina_Relationship_Up_3",
+      "category": "growup",
+      "text": "我不知道这种时候应该怎么办，对不起。",
+      "text_original": "こんな時はどうすればいいのか、よく分からなくて、ごめん。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/rQtgQcxsgCC2vHZlpfF62xbtX1gBgL1p.ogg"
+    },
+    {
+      "description": "Hina_Relationship_Up_4",
+      "category": "growup",
+      "text": "好温暖，是老师的心意传达给我了。",
+      "text_original": "このぬくもり…先生の温かさが伝わってきてるのかな…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/RjHBGK7tdg49EKRk14ZKX6DSxj1dDOyt.ogg"
+    },
+    {
+      "description": "Hina_Season_Birthday",
+      "category": "lobby",
+      "text": "啊,啊~谢谢您,老师。今天原来是我生日啊,我都忘了...欸?想一起出门?",
+      "text_original": "あ、ああ。ありがとう、先生。私の誕生日か…。忘れてた。 うん？一緒に出かけようって？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/HkabWSHu6lp0UnrH79lSYEQA3zQ8ofTH.ogg"
+    },
+    {
+      "description": "Hina_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "老师,今天过生日啊,我也可以祝你生日快乐吗?你不会希望有更可爱的人来祝福你吗?不会吗?",
+      "text_original": "\t 先生…今日はお誕生日だね、お祝いを、私がしてもいいの？もうちょっと…可愛いヤツにお祝いしてもらいたいとか…。 ち、ちがうの？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/1pW8uEcYhCTUXaoGQZe3TOkrNgqYxPvs.ogg"
+    },
+    {
+      "description": "Hina_Season_Halloween",
+      "category": "lobby",
+      "text": "其实我不怎么了解万圣节,而且也从来没参加过万圣节庆典,不过,我完全可以感受到那种热烈的气氛。",
+      "text_original": "実はハロウィンのことはよく知らない。あまりお祭りに行ったこともないから。 でも賑やかな雰囲気はよく伝わってくる。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/Vl7FymsYxWb1NtrrBs7jPEt7LkNGJaTA.ogg"
+    },
+    {
+      "description": "Hina_Season_NewYear",
+      "category": "lobby",
+      "text": "新年到了,今年也请多关照。我也会努力一下的。",
+      "text_original": "年が明けたね。今年も一年よろしく。私も少しは頑張るから。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/xzLoQoauem8yLnTj3vZlaOdfMnl4ySkm.ogg"
+    },
+    {
+      "description": "Hina_Season_Xmas",
+      "category": "lobby",
+      "text": "圣诞节?这种日子,真的要和我一起过吗?不过,我还挺开心的。",
+      "text_original": "クリスマス…。こんな日に私と一緒でいいの？私は…嬉しいけど。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/AWy9soI4vBT9HNuN03VLOaRvuqeduOKx.ogg"
+    },
+    {
+      "description": "Hina_Tactic_Defeat_1",
+      "category": "battle",
+      "text": "是我…大意了？",
+      "text_original": "油断した、の…？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/weD0oGd7y95JDpQK66An6TO7Uw4HNuoG.ogg"
+    },
+    {
+      "description": "Hina_Tactic_Defeat_2",
+      "category": "battle",
+      "text": "我不该犯这种错误……抱歉，老师……",
+      "text_original": "私らしくないミスを…。ごめん、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/tr9bWcFKwYWrVfcK7lSTenjrafoDPfjd.ogg"
+    },
+    {
+      "description": "Hina_Tactic_In_1",
+      "category": "battle",
+      "text": "有点麻烦。算了，该做的事情还是得做。",
+      "text_original": "めんどくさいけど。まぁ、やらなきゃいけないことだから。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/VXscmrof5QEPMUAzCOrgZZ3q8tNGf1lQ.ogg"
+    },
+    {
+      "description": "Hina_Tactic_In_2",
+      "category": "battle",
+      "text": "听从老师的指示。",
+      "text_original": "先生の指示に従う。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/geIJhN68z6TpJJdZdvZlnVn2q6A2VnMY.ogg"
+    },
+    {
+      "description": "Hina_Tactic_Victory_1",
+      "category": "battle",
+      "text": "这种等级的任务，根本不算什么。",
+      "text_original": "これくらいの任務、別に何ともない。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/xDFiAKC5dP07pqb0YrrNyb92LavokdKj.ogg"
+    },
+    {
+      "description": "Hina_Tactic_Victory_2",
+      "category": "battle",
+      "text": "虽然是件轻松的工作，不过老师还是辛苦了。",
+      "text_original": "簡単な仕事だったけど、まぁお疲れ様、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/aGgvgjx9ut9n5Uyz7tq0IE8fH1EO2PYt.ogg"
+    },
+    {
+      "description": "Hina_Battle_Defense_1",
+      "category": "battle",
+      "text": "没用的。",
+      "text_original": "無駄",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/LKMwdegIbsObg54Kdz3SfyrcdnPLV4ON.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "hina_battle_buffed_1.ogg",
+      "category": "battle",
+      "text": "支援已确认。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/QdQxR0ka4xagmKCqq0mqdR5kwAVVBZqO.ogg"
+    },
+    {
+      "description": "hina_battle_buffself_1.ogg",
+      "category": "battle",
+      "text": "受死吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/NfnYBNwUGe1TdM4XO5NBxqwjtfbwagrE.ogg"
+    },
+    {
+      "description": "hina_battle_damage_1.ogg",
+      "category": "battle",
+      "text": "可恶…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/C9LzoAkYTdIBZWme1stEH3vzppbSftS7.ogg"
+    },
+    {
+      "description": "hina_battle_damage_2.ogg",
+      "category": "battle",
+      "text": "有些不妙啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/Qntsw8UTTITXSCDj6pIjvR0urXnGKKPw.ogg"
+    },
+    {
+      "description": "hina_battle_damage_3.ogg",
+      "category": "battle",
+      "text": "呃！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/55rqnkGsCceHcnhtQP1odFT0GVAzAiK0.ogg"
+    },
+    {
+      "description": "hina_battle_defense_1.ogg",
+      "category": "battle",
+      "text": "没用的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/fqC8h4fFMhGVJBPIngMgOJy5hoPIOq4g.ogg"
+    },
+    {
+      "description": "hina_battle_in_1.ogg",
+      "category": "battle",
+      "text": "进入战场，争取迅速突破。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/lX3gQhNctrRGJhXsyAGjlFg3gOe4Yj7i.ogg"
+    },
+    {
+      "description": "hina_battle_in_2.ogg",
+      "category": "battle",
+      "text": "好，走吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/IiAlahDk5tasDxKcWpQ75Qw6UppjxpCp.ogg"
+    },
+    {
+      "description": "hina_battle_move_1.ogg",
+      "category": "battle",
+      "text": "唉，好烦呐。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/QHhaq6IfSowlMUESTiQzUp37AamdPmfy.ogg"
+    },
+    {
+      "description": "hina_battle_move_2.ogg",
+      "category": "battle",
+      "text": "没完没了…没完没了…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/moEhK34Xp4BDbV0ET76yoc7H1aqxF3Qa.ogg"
+    },
+    {
+      "description": "hina_battle_recovery_1.ogg",
+      "category": "battle",
+      "text": "好，我恢复了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/NG3WyVNgphNFZdeXLE5r39vtvp7wK1hk.ogg"
+    },
+    {
+      "description": "hina_battle_retire.ogg",
+      "category": "battle",
+      "text": "见鬼，到底是哪里出了错？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/pbLCTLcN2K0fqWdwvYlNI4gHV2snJoDm.ogg"
+    },
+    {
+      "description": "hina_battle_shout_1.ogg",
+      "category": "battle",
+      "text": "欸！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/CH9RnqU68QrtUCukoMljAlBtkhbpbRmI.ogg"
+    },
+    {
+      "description": "hina_battle_shout_2.ogg",
+      "category": "battle",
+      "text": "哈！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/UHyChqRA2BTHCS9wYw7mulNEyJ3k8z5n.ogg"
+    },
+    {
+      "description": "hina_battle_shout_3.ogg",
+      "category": "battle",
+      "text": "哈啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/UMUYkXkf7FSsEnL5ku76s6paRmb7qBk0.ogg"
+    },
+    {
+      "description": "hina_battle_supply.ogg",
+      "category": "battle",
+      "text": "补给已确认。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/SHf82bJelFkACN8BUtABaXHzLNNVStO7.ogg"
+    },
+    {
+      "description": "hina_battle_tacticalaction_1.ogg",
+      "category": "battle",
+      "text": "继续前进。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/NSNIFXS42NjrlsJkFsUu5Wc5mfb0sDJb.ogg"
+    },
+    {
+      "description": "hina_battle_tsa_1.ogg",
+      "category": "battle",
+      "text": "纪律部六号坦克，如今就是考验它威力的时候了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/bxUxlnIGAILcS10r5L84UGDcCiZZnDmq.ogg"
+    },
+    {
+      "description": "hina_battle_tsa_2.ogg",
+      "category": "battle",
+      "text": "如此一来，战局就向我们这边倾斜了，放弃吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/vpOqhAhX01GivWHReh5KpmtzNBrMaoMa.ogg"
+    },
+    {
+      "description": "hina_battle_victory_1.ogg",
+      "category": "battle",
+      "text": "嗯，理所当然的结果。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/ftCRO0eV8chlEP2tJplqAXDzY9YCWFQn.ogg"
+    },
+    {
+      "description": "hina_battle_victory_2.ogg",
+      "category": "battle",
+      "text": "赢了，接下来该做什么？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/qIGcjy3UENdqQevk9qzKer8Ju6pxczxq.ogg"
+    },
+    {
+      "description": "hina_cafe_act_1.ogg",
+      "category": "cafe",
+      "text": "可爱的东西…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/5ueaySaR9RgsiQIrgynQltSn4GOjJmad.ogg"
+    },
+    {
+      "description": "hina_cafe_act_2.ogg",
+      "category": "cafe",
+      "text": "好想睡个午觉…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/elyeNObC5dsbG5e14QQUG8yaNTxfV4HX.ogg"
+    },
+    {
+      "description": "hina_cafe_act_3.ogg",
+      "category": "cafe",
+      "text": "还好没出什么大事，万幸。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/LwLDvywsqT20rjYpQuUO8tpcW2K45Ztl.ogg"
+    },
+    {
+      "description": "hina_cafe_act_4.ogg",
+      "category": "cafe",
+      "text": "就这么悠闲地呆着没关系吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/4mGZWzfjGH3u0YJCnjQ3109aCPewmalu.ogg"
+    },
+    {
+      "description": "hina_cafe_act_5.ogg",
+      "category": "cafe",
+      "text": "有点不好意思…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/I6tiepYIiBYVFGQ71RvHdG7Moihtavw2.ogg"
+    },
+    {
+      "description": "hina_commonskill.ogg",
+      "category": "battle",
+      "text": "上吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/5mun1vlKsFdPXpzyi14J0uuFKNRRqAOP.ogg"
+    },
+    {
+      "description": "hina_exskill_1.ogg",
+      "category": "battle",
+      "text": "得拿出点实力来。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/pMWt0U4tf19J6E2IgOuX7UIiiMPgDv2O.ogg"
+    },
+    {
+      "description": "hina_exskill_2.ogg",
+      "category": "battle",
+      "text": "该它上场了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/kKWHuwzpIRmBgXSLRMlA2SI7NK65OuPM.ogg"
+    },
+    {
+      "description": "hina_exskill_3.ogg",
+      "category": "battle",
+      "text": "目标已确认。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/BOe0AeU1Jc9CMXglsBXJp4bFKAXOdClT.ogg"
+    },
+    {
+      "description": "hina_exskill_level_1.ogg",
+      "category": "battle",
+      "text": "我倒要看看你还能撑多久。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/4VOaHaFfElR8q71AkdQTxmGk3W5chqUy.ogg"
+    },
+    {
+      "description": "hina_exskill_level_2.ogg",
+      "category": "battle",
+      "text": "你逃不了的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/tpjsgO7yQhFuWNlJTQyGST0IUGQavAIY.ogg"
+    },
+    {
+      "description": "hina_exskill_level_3.ogg",
+      "category": "battle",
+      "text": "别想溜。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/4Ql6gRR0Hk1NihUvgpqjMd74gUL98lXM.ogg"
+    },
+    {
+      "description": "hina_exweapon_get.ogg",
+      "category": "growup",
+      "text": "每个故事都有结局，我会一直见证到最后。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/vV2ZSJb9M0ybzTZD0Y7Lje5WyGGugRSv.ogg"
+    },
+    {
+      "description": "hina_formation_in_1.ogg",
+      "category": "formation",
+      "text": "唉，没办法。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/jgJ9y1yMavAuMhGE062sTquxioxSbefo.ogg"
+    },
+    {
+      "description": "hina_formation_in_2.ogg",
+      "category": "formation",
+      "text": "我准备好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/ljkLlcOeerOPpEwyEMGdKUypDmhggYv0.ogg"
+    },
+    {
+      "description": "hina_formation_select.ogg",
+      "category": "formation",
+      "text": "行了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/Q4vAzvzYwKEFNEhXSE7WFu2p2TkmAMJA.ogg"
+    },
+    {
+      "description": "hina_gachaget.ogg",
+      "category": "growup",
+      "text": "我是风纪委员长,日奈。你应该知道我的名字了吧….…多关照了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/yqwQV1tT2wipCtTNFs2x14eROQurYHlm.ogg"
+    },
+    {
+      "description": "hina_growup_1.ogg",
+      "category": "growup",
+      "text": "我变得更强了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/vLEXXSB1vWW3Czmt8L4Gc2jWlhjh20Ep.ogg"
+    },
+    {
+      "description": "hina_growup_2.ogg",
+      "category": "growup",
+      "text": "原来我还能成长。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/HU4T4v0gpnyz97XaplEQjYQVW2ZbAEDb.ogg"
+    },
+    {
+      "description": "hina_growup_3.ogg",
+      "category": "growup",
+      "text": "这份力量，就为了老师去使用吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/7lZFgKGfGsbZFeBHuFEvk62cAPWI4U41.ogg"
+    },
+    {
+      "description": "hina_growup_4.ogg",
+      "category": "growup",
+      "text": "谢谢你的关心。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/y2vpWq64UUQoCoxRoPMA516rah9OvMeA.ogg"
+    },
+    {
+      "description": "hina_lobby_1.ogg",
+      "category": "lobby",
+      "text": "不用特意给我什么优待。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/oKH41KvLj0MZCYF0n8nYKM5RkQaBiRuc.ogg"
+    },
+    {
+      "description": "hina_lobby_2.ogg",
+      "category": "lobby",
+      "text": "我在这里，也只是普通的一员。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/uXzPGVmVZRuQWnJXtHxAK8RWkFDsWWtF.ogg"
+    },
+    {
+      "description": "hina_lobby_3.ogg",
+      "category": "lobby",
+      "text": "……我说……能，能不能不要这么摸我的头？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/Zs5K2m7m3PQYavycd08L6PBEwlrdB4cE.ogg"
+    },
+    {
+      "description": "hina_lobby_4.ogg",
+      "category": "lobby",
+      "text": "再怎么说我也是风纪委员长，要，要是让谁看见了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/WNqdgvQdhDGjnKX7DwW3LANPHKR59YyH.ogg"
+    },
+    {
+      "description": "hina_lobby_5.ogg",
+      "category": "lobby",
+      "text": "看见也没关系？！你，你说什么呢？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/fYbHVr7Lq2bUjTkETkrx2VD6hnPxTU0m.ogg"
+    },
+    {
+      "description": "hina_lobby_6.ogg",
+      "category": "lobby",
+      "text": "别净想着耍小聪明，好好干活。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/xMNljJuvGZcbkG4fez9eMrhHaguYsDW2.ogg"
+    },
+    {
+      "description": "hina_lobby_7.ogg",
+      "category": "lobby",
+      "text": "老师想做什么我都会尽力帮忙，需要的时候跟我说就好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gP0QoT0JmKAQgFguwugyfGIj5aPqAbqc.ogg"
+    },
+    {
+      "description": "hina_lobby_8.ogg",
+      "category": "lobby",
+      "text": "想要撒娇，想和老师说说笑笑，想要诉苦…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/EJCvblvwn4w78Kpl9iotTzSktZngjugK.ogg"
+    },
+    {
+      "description": "hina_lobby_9.ogg",
+      "category": "lobby",
+      "text": "（可要是真的这样，只会招人讨厌…）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/4mBkfdy6g1TahjlOeRtDBqLYeEI3G4QU.ogg"
+    },
+    {
+      "description": "hina_lobby_10.ogg",
+      "category": "lobby",
+      "text": "干嘛？你问我在想什么？我，我什么都没想。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/N3WXxjjYR8C49CPZ24CpThXQQ39rX9Kk.ogg"
+    },
+    {
+      "description": "hina_login_1.ogg",
+      "category": "lobby",
+      "text": "啊，等你很久了，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/JQuaSfgkhYsRte9xvedFjeAzcoVgU00l.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_1_1.ogg",
+      "category": "lobby",
+      "text": "被你这么一直盯着看，",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/xrwgn6i5vxve0jtrhAESX0WpNhUKfcac.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_1_2.ogg",
+      "category": "lobby",
+      "text": "我也是会不好意思的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/G8Q01HeF41rZDteLrls4w88fkX5lJKm7.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_2_1.ogg",
+      "category": "lobby",
+      "text": "真的好神奇，",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/akzCQiLUJJakoa35Rxz4qlvDK35TyGj4.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_2_2.ogg",
+      "category": "lobby",
+      "text": "这样和老师在一起，",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/f4AZgmZkcLiwyBBlt9TLrhSSi2087Evh.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_2_3.ogg",
+      "category": "lobby",
+      "text": "我就觉得很安心。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/BtLu38D6HECFbGj6eNlHJTDtkXnMbw6N.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_3_1.ogg",
+      "category": "lobby",
+      "text": "其实，",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/sSCOKVPBi9K9bM93iObmvq54jL5SiWUl.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_3_2.ogg",
+      "category": "lobby",
+      "text": "我挺喜欢老师那个表情。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/qDJH422nw44PUvfVd983S2dB5iXUFvEC.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_4_1.ogg",
+      "category": "lobby",
+      "text": "唉啊…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/3z6fPVSP9nx6LNi8JBAHIO4EgQACeFxk.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_4_2.ogg",
+      "category": "lobby",
+      "text": "好想把大脑放空啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/vPoLogLiS0QlkMFjFgY0nv2TgzQ3bOM1.ogg"
+    },
+    {
+      "description": "hina_relationship_up_1.ogg",
+      "category": "growup",
+      "text": "是不是对我太好了？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/66QsfmUcX1ahbQZ9w1noGmqJX3bKFdjH.ogg"
+    },
+    {
+      "description": "hina_relationship_up_2.ogg",
+      "category": "growup",
+      "text": "老师，谢谢您，和我在一起。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/5xeBOT9DCCdg08O3YHQI6FzVl1UeX7w1.ogg"
+    },
+    {
+      "description": "hina_relationship_up_3.ogg",
+      "category": "growup",
+      "text": "我不知道这种时候应该怎么办，对不起。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/Wss2aRHHqrR6o3CMXX7lNdq4mBxAEzPJ.ogg"
+    },
+    {
+      "description": "hina_relationship_up_4.ogg",
+      "category": "growup",
+      "text": "好温暖，是老师的心意传达给我了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/Wej0VDzDx7CeOzuzIB022IEAMmS3RnRw.ogg"
+    },
+    {
+      "description": "hina_season_birthday.ogg",
+      "category": "lobby",
+      "text": "啊,啊~谢谢您,老师。今天原来是我生日啊,我都忘了...欸?想一起出门?",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/eIU1MYlnpTgGrdluJF8ObplMabNs38Vk.ogg"
+    },
+    {
+      "description": "hina_season_birthday_player.ogg",
+      "category": "lobby",
+      "text": "老师,今天过生日啊,我也可以祝你生日快乐吗?你不会希望有更可爱的人来祝福你吗?不会吗?",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/rjFhHUOtNN5qdQ85vs6JthXqWUhFZJfZ.ogg"
+    },
+    {
+      "description": "hina_season_halloween.ogg",
+      "category": "lobby",
+      "text": "其实我不怎么了解万圣节,而且也从来没参加过万圣节庆典,不过,我完全可以感受到那种热烈的气氛。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/btfCh3IM9ZCDB2d34KCoSTi0LaNNxk0H.ogg"
+    },
+    {
+      "description": "hina_season_newyear.ogg",
+      "category": "lobby",
+      "text": "新年到了,今年也请多关照。我也会努力一下的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/sqIPwn5mlw3EBlm3Q7GnuLDTF0BNOTWz.ogg"
+    },
+    {
+      "description": "hina_season_xmas.ogg",
+      "category": "lobby",
+      "text": "圣诞节?这种日子,真的要和我一起过吗?不过,我还挺开心的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/0TxaeVQ70E2uwz6Hl1cLUQnIYy5rz1kd.ogg"
+    },
+    {
+      "description": "hina_tactic_defeat_1.ogg",
+      "category": "battle",
+      "text": "是我…大意了？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/4XRs2KgxXMR5VLAkW1IpktqF0Coc2JPq.ogg"
+    },
+    {
+      "description": "hina_tactic_in_1.ogg",
+      "category": "battle",
+      "text": "有点麻烦。算了，该做的事情还是得做。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/zi0a6aBNbbLeCLPWRsPeLZ9FexHoLpxS.ogg"
+    },
+    {
+      "description": "hina_tactic_in_2.ogg",
+      "category": "battle",
+      "text": "听从老师的指示。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/uADSJbzAvR7I61C4RNqWHIQkdRLlSgu6.ogg"
+    },
+    {
+      "description": "hina_tactic_victory_1.ogg",
+      "category": "battle",
+      "text": "这种等级的任务，根本不算什么。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/t8l1B8aEJQkaR5OegK5PWZ3oQlD4JIyk.ogg"
+    },
+    {
+      "description": "hina_tactic_victory_2.ogg",
+      "category": "battle",
+      "text": "虽然是件轻松的工作，不过老师还是辛苦了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/XLnKvvIPrr66NXgqR24kz9tILw8tNPbl.ogg"
+    },
+    {
+      "description": "hina_title.ogg",
+      "category": "lobby",
+      "text": "Blue Archive。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/LQVYGfAFYyc22hKmuSMLH9hkBxn8oZhv.ogg"
+    },
+    {
+      "description": "hina_season_midautumn",
+      "category": "lobby",
+      "text": "老师,你来了?今天是团圆的日子吗?这样啊,我忙着工作都把这回事忘了。不过,老师能特地来看我,我很开心。 ",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/qhmNE12mls2P8nj3Us74tpkUZ6JRUpfG.ogg"
+    },
+    {
+      "description": "hina_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师,祝你新春快乐,不用担心,有你在,新的一年我也会,再努力看看的。 ",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/Jy6xTeNN8j74kxfuiisf9uIlLrLmRCe5.ogg"
+    },
+    {
+      "description": "hina_tactic_defeat_2",
+      "category": "battle",
+      "text": "我不该犯这种错误……抱歉，老师……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/VvNQly6bLGlpEjRitjWImexlo5mJkUrV.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "Hina_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/Hina_Title.ogg"
+    },
+    {
+      "description": "hina_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_buffed_1.ogg"
+    },
+    {
+      "description": "hina_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_buffself_1.ogg"
+    },
+    {
+      "description": "hina_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_damage_1.ogg"
+    },
+    {
+      "description": "hina_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_damage_2.ogg"
+    },
+    {
+      "description": "hina_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_damage_3.ogg"
+    },
+    {
+      "description": "hina_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_defense_1.ogg"
+    },
+    {
+      "description": "hina_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_in_1.ogg"
+    },
+    {
+      "description": "hina_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_in_2.ogg"
+    },
+    {
+      "description": "hina_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_move_1.ogg"
+    },
+    {
+      "description": "hina_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_move_2.ogg"
+    },
+    {
+      "description": "hina_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_recovery_1.ogg"
+    },
+    {
+      "description": "hina_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_retire.ogg"
+    },
+    {
+      "description": "hina_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_shout_1.ogg"
+    },
+    {
+      "description": "hina_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_shout_2.ogg"
+    },
+    {
+      "description": "hina_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_shout_3.ogg"
+    },
+    {
+      "description": "hina_battle_supply",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_supply.ogg"
+    },
+    {
+      "description": "hina_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "hina_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_victory_1.ogg"
+    },
+    {
+      "description": "hina_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_battle_victory_2.ogg"
+    },
+    {
+      "description": "hina_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_cafe_act_1.ogg"
+    },
+    {
+      "description": "hina_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_cafe_act_2.ogg"
+    },
+    {
+      "description": "hina_cafe_act_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_cafe_act_3.ogg"
+    },
+    {
+      "description": "hina_cafe_act_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_cafe_act_4.ogg"
+    },
+    {
+      "description": "hina_cafe_act_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_cafe_act_5.ogg"
+    },
+    {
+      "description": "hina_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_commonskill.ogg"
+    },
+    {
+      "description": "hina_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_exskill_1.ogg"
+    },
+    {
+      "description": "hina_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_exskill_2.ogg"
+    },
+    {
+      "description": "hina_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_exskill_3.ogg"
+    },
+    {
+      "description": "hina_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_exskill_level_1.ogg"
+    },
+    {
+      "description": "hina_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_exskill_level_2.ogg"
+    },
+    {
+      "description": "hina_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_exskill_level_3.ogg"
+    },
+    {
+      "description": "hina_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_exweapon_get.ogg"
+    },
+    {
+      "description": "hina_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_formation_in_1.ogg"
+    },
+    {
+      "description": "hina_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_formation_in_2.ogg"
+    },
+    {
+      "description": "hina_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_formation_select.ogg"
+    },
+    {
+      "description": "hina_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_gachaget.ogg"
+    },
+    {
+      "description": "hina_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_growup_1.ogg"
+    },
+    {
+      "description": "hina_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_growup_2.ogg"
+    },
+    {
+      "description": "hina_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_growup_3.ogg"
+    },
+    {
+      "description": "hina_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_growup_4.ogg"
+    },
+    {
+      "description": "hina_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_lobby_1.ogg"
+    },
+    {
+      "description": "hina_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_lobby_2.ogg"
+    },
+    {
+      "description": "hina_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_lobby_3.ogg"
+    },
+    {
+      "description": "hina_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_lobby_4.ogg"
+    },
+    {
+      "description": "hina_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_lobby_5.ogg"
+    },
+    {
+      "description": "hina_lobby_6",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_lobby_6.ogg"
+    },
+    {
+      "description": "hina_lobby_7",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_lobby_7.ogg"
+    },
+    {
+      "description": "hina_lobby_8",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_lobby_8.ogg"
+    },
+    {
+      "description": "hina_lobby_9",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_lobby_9.ogg"
+    },
+    {
+      "description": "hina_lobby_10",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_lobby_10.ogg"
+    },
+    {
+      "description": "hina_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_login_1.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_2_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_memoriallobby_2_3.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "hina_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "hina_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_relationship_up_1.ogg"
+    },
+    {
+      "description": "hina_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_relationship_up_2.ogg"
+    },
+    {
+      "description": "hina_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_relationship_up_3.ogg"
+    },
+    {
+      "description": "hina_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_relationship_up_4.ogg"
+    },
+    {
+      "description": "hina_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_season_birthday.ogg"
+    },
+    {
+      "description": "hina_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_season_birthday_player.ogg"
+    },
+    {
+      "description": "hina_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_season_halloween.ogg"
+    },
+    {
+      "description": "hina_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_season_newyear.ogg"
+    },
+    {
+      "description": "hina_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_season_xmas.ogg"
+    },
+    {
+      "description": "hina_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "hina_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "hina_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_tactic_in_1.ogg"
+    },
+    {
+      "description": "hina_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_tactic_in_2.ogg"
+    },
+    {
+      "description": "hina_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_tactic_victory_1.ogg"
+    },
+    {
+      "description": "hina_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/hina_tactic_victory_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011300.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011255.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011310.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011315.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011249.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011210.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011242.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011151.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011235.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011134.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011158.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011127.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011118.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011144.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011112.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011105.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011058.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011322.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011053.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011045.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011037.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211106011305.png"
+      ]
+    },
+    {
+      "title": "睡衣差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%E5%B7%AE%E5%88%86/NP0205_spr_03.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%E5%B7%AE%E5%88%86/NP0205_spr_99.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%E5%B7%AE%E5%88%86/NP0205_spr_04.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%E5%B7%AE%E5%88%86/NP0205_spr_05.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%E5%B7%AE%E5%88%86/NP0205_spr_00.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%E5%B7%AE%E5%88%86/NP0205_spr_02.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%E5%B7%AE%E5%88%86/NP0205_spr_06.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%E5%B7%AE%E5%88%86/NP0205_spr_01.png"
+      ]
+    },
+    {
+      "title": "睡衣（黑眼圈）差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%EF%BC%88%E9%BB%91%E7%9C%BC%E5%9C%88%EF%BC%89%E5%B7%AE%E5%88%86/NP0009_spr_01.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%EF%BC%88%E9%BB%91%E7%9C%BC%E5%9C%88%EF%BC%89%E5%B7%AE%E5%88%86/NP0009_spr_03.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%EF%BC%88%E9%BB%91%E7%9C%BC%E5%9C%88%EF%BC%89%E5%B7%AE%E5%88%86/NP0009_spr_02.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%EF%BC%88%E9%BB%91%E7%9C%BC%E5%9C%88%EF%BC%89%E5%B7%AE%E5%88%86/NP0009_spr_04.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%EF%BC%88%E9%BB%91%E7%9C%BC%E5%9C%88%EF%BC%89%E5%B7%AE%E5%88%86/NP0009_spr_05.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%EF%BC%88%E9%BB%91%E7%9C%BC%E5%9C%88%EF%BC%89%E5%B7%AE%E5%88%86/NP0009_spr_00.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%EF%BC%88%E9%BB%91%E7%9C%BC%E5%9C%88%EF%BC%89%E5%B7%AE%E5%88%86/NP0009_spr_06.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E7%9D%A1%E8%A1%A3%EF%BC%88%E9%BB%91%E7%9C%BC%E5%9C%88%EF%BC%89%E5%B7%AE%E5%88%86/NP0009_spr_99.png"
+      ]
+    },
+    {
+      "title": "战损差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211223132450.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211223132459.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211223132420.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211223132435.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211223132413.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211223132444.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211223132427.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/hina_cn.jpg",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/hina_en.jpg",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/hina_jp.jpg",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/hina_skill.jpg",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/hina_ex.gif",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/hina_cafe.gif",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/hina_banner_en.jpg",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/hina_banner_tw.jpg",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%92%E3%83%8A.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/hina_banner_cn.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_016.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_031.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_050.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_151.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_218.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_239.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_240.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20134.png",
+        "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_133.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 85,
+      "favorability": 240
+    },
+    {
+      "id": 76,
+      "favorability": 60
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 10004,
+      "dev_name": "Hina_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "C",
+      "indoor_adaptability": "C",
+      "street_adaptability": "S",
+      "equipment": [
+        7,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        77,
+        80,
+        81,
+        82,
+        158,
+        160,
+        163,
+        165,
+        435,
+        437,
+        438,
+        439,
+        19
+      ],
+      "favorite_equipment": 44,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/skill_icon/98NpdDj2qYpb6ljBi1YhMbVMvMCXG798.png",
+            "title": "终结：伊施波设",
+            "title_cn": "终幕：伊施波设",
+            "preview": "//static.kivo.wiki/videos/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/skill_preview/eDRxa84bUtoFBLhee4SEBLQUFLl8lxb0.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 7,
+                "describe": "对扇形范围内的敌人造成攻击力636%的伤害"
+              },
+              {
+                "cost": 7,
+                "describe": "对扇形范围内的敌人造成攻击力731%的伤害"
+              },
+              {
+                "cost": 7,
+                "describe": "对扇形范围内的敌人造成攻击力922%的伤害"
+              },
+              {
+                "cost": 7,
+                "describe": "对扇形范围内的敌人造成攻击力1017%的伤害"
+              },
+              {
+                "cost": 7,
+                "describe": "对扇形范围内的敌人造成攻击力1208%的伤害"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/skill_icon/eteiNJaeMEAXtdIQaPXTs7IOyakKaBAC.png",
+            "title": "重新装弹&毁灭",
+            "title_cn": "重装与毁灭",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "弹药全部耗尽时立即重新装填弹药/攻击力增加21%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "弹药全部耗尽时立即重新装填弹药/攻击力增加22.1%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "弹药全部耗尽时立即重新装填弹药/攻击力增加23.1%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "弹药全部耗尽时立即重新装填弹药/攻击力增加27.3%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "弹药全部耗尽时立即重新装填弹药/攻击力增加28.4%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "弹药全部耗尽时立即重新装填弹药/攻击力增加29.4%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "弹药全部耗尽时立即重新装填弹药/攻击力增加33.6%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "弹药全部耗尽时立即重新装填弹药/攻击力增加34.7%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "弹药全部耗尽时立即重新装填弹药/攻击力增加35.7%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "弹药全部耗尽时立即重新装填弹药/攻击力增加39.9%（持续16秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/skill_icon/msNb8rrd756PJ2rSlFsuphwz85Z0bw9s.png",
+            "title": "冷静的风纪委员会",
+            "title_cn": "冷静的风纪委员会",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击速度增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/skill_icon/FdWLnSIjmfCjblU9nXwXfPEtzUWAdUC8.png",
+            "title": "彻底轰炸",
+            "title_cn": "彻头彻尾",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击时对没有掩蔽的敌人造成攻击力2.7%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时对没有掩蔽的敌人造成攻击力2.8%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时对没有掩蔽的敌人造成攻击力3%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时对没有掩蔽的敌人造成攻击力3.5%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时对没有掩蔽的敌人造成攻击力3.6%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时对没有掩蔽的敌人造成攻击力3.8%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时对没有掩蔽的敌人造成攻击力4.3%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时对没有掩蔽的敌人造成攻击力4.4%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时对没有掩蔽的敌人造成攻击力4.6%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时对没有掩蔽的敌人造成攻击力5.2%的追加伤害"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2529,
+          "attack": 310,
+          "defense": 80,
+          "healing": 1638,
+          "accuracy": 99,
+          "evasion": 199,
+          "crit": 199,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1404,
+          "range": 750,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 49
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/weapons_icon.png",
+        "name": "终幕：Destroyer",
+        "name_cn": "终幕：毁灭者",
+        "description": "日奈视为自身手脚般的机枪。<br>只要看到违反校规、扰乱风纪的事物就会以无慈悲的破坏力将其铲除。",
+        "description_cn": "日奈得心应手的通用机枪。<br>如果谁胆敢违反规章、扰乱纪律，就会被它无情的破坏力打得落花流水。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「冷静的风纪委员会」升级为「冷静的风纪委员会+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 街道适应性 S -> SS",
+            "description": "在街道地形造成1.3倍伤害。在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 爆发克制伤害增加",
+            "description": "攻击类型为爆发的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/skill_icon/IaZy9ihOazNBr3hFj3Nd6uBZjO3iXDBx.png",
+            "title": "冷静的风纪委员会+",
+            "title_cn": "冷静的风纪委员会+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加305/攻击速度增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加321/攻击速度增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加336/攻击速度增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加397/攻击速度增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加412/攻击速度增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加427/攻击速度增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加488/攻击速度增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加503/攻击速度增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加519/攻击速度增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加580/攻击速度增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [
+    {
+      "name": "WakaTokiHakoYa - 语音纠错",
+      "url": ""
+    },
+    {
+      "name": "Kyousei - 查缺补漏",
+      "url": ""
+    }
+  ],
+  "info_declare_uuid": "1b5456ee-054e-47e2-b5ff-34a84a2a6c44",
+  "skill_declare_uuid": "3b782e97-1424-4c9c-a7fc-a8f92b41d7dd",
+  "supplementary_uuid": "233c4fa1-bb72-4a87-96de-7ae45d959243",
+  "supplementary_declare_uuid": "e0390a94-a5d2-460e-b43e-51fa42ba10ec",
+  "created_at": 1684917801,
+  "updated_at": 1783323726
+}

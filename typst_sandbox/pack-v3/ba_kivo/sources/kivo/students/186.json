@@ -1,0 +1,1533 @@
+{
+  "id": 186,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 186,
+      "avatar": "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 521,
+      "avatar": "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/%E6%89%93%E5%B7%A5/Student_Portrait_CH0286_Collection.png",
+      "skin": "打工",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "牛牧",
+  "given_name": "朱莉",
+  "family_name_jp": "牛牧",
+  "given_name_jp": "ジュリ",
+  "family_name_kr": "우시마키",
+  "given_name_kr": "주리",
+  "family_name_en": "Ushimaki",
+  "given_name_en": "Juri",
+  "family_name_zh_tw": "牛牧",
+  "given_name_zh_tw": "茱莉",
+  "family_name_cn": "牛牧",
+  "given_name_cn": "朱莉",
+  "nick_name": "毒锅",
+  "introduction": "格赫娜学园所属，负责管理格赫娜学园餐厅的供给部的成员。\n\n和枫香一样是为了学生们努力制作餐点的少女，但她的料理手艺已经超越糟糕的等级来到毁灭的境界，因此对供餐并没有什么帮助。\n\n然而在枫香的鼓励和指导下，她今天也为了做出更好的料理而努力着。",
+  "introduction_cn": "在歌赫娜负责管理食堂的供餐部成员。\n\n和风香一样，她也在努力为大家做菜。可是她的厨艺极具毁灭性，用“糟糕”已经不足以形容，因此对提高大家的伙食水准并没有什么帮助。\n\n不过，在风香的鼓励和指导下，她每天都在为了做出更好的料理而努力。",
+  "momo_talk_signature": "今天也要努力练习烹饪！",
+  "main_relation": 27,
+  "relation": [
+    29
+  ],
+  "age": 15,
+  "grade": "一年生",
+  "height": 170,
+  "birthday": "10-20",
+  "hobby": "研究料理",
+  "designer": "nino",
+  "illustrator": "nino",
+  "character_voice": "田边留依",
+  "character_voice_cn": "苗洋",
+  "release_date": "2021-02-04",
+  "release_date_cn": "2023-08-03",
+  "release_date_global": "2021-11-09",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/avatar.png",
+  "school": 3,
+  "weapon_type": "SG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": true,
+  "more": "# 官方图集\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![日介绍](images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Juri_Intro_jp.jpg =420x) | 暂无 | ![繁介绍](images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/juri_Intro_cht.jpg =700x) | ![EN介绍](images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/juri_Intro_en.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 |\n| :---: | :---: |\n| ![EX](images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/juri_ex.gif =450x) | ![触摸](images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/juri_cafe.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 朱莉 汉化\n![朱莉](files/2/RAyvNKaGEiouXtagRW8an7ZTxE0m2t6L.png =450x)\n@tab 朱莉 原文\n![朱莉](files/2/6zfJTJ3zPC5601e1sm3oPIgIbVtuT6wY.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_045.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_237.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_238.png =450x)\n\n![zsbd](images/gallery/36/Vol2-104.jpg =450x)\n\n![zsbd](images/gallery/36/Vol2-154.jpg =450x)\n\n![zsbd](images/gallery/36/Vol2-13.jpg =450x)\n\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生<br>せんせえ<br><details><summary><font color=\"448aff\">お客様</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">打工时的称呼</details></font></font></font></b>|\n|[枫香](https://kivo.wiki/data/character/97)|先輩<br>フウカ先輩|\n|饼酱|パンちゃん<br>あなた|\n|[伊织](https://kivo.wiki/data/character/72)|イオリさん|\n|[雀亭老板娘](https://kivo.wiki/data/character/241)|女将さん|\n|[濑名](https://kivo.wiki/data/character/18)|セナさん|\n|[千夏](https://kivo.wiki/data/character/117)|チナツさん|\n|[晴奈](https://kivo.wiki/data/character/195)|ハルナさん|\n|[日奈](https://kivo.wiki/data/character/71)|ヒナさん|\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_home_Idle_01_2.0874.jpg",
+  "spine": [
+    1398,
+    483,
+    1036
+  ],
+  "model": [
+    39,
+    396,
+    489
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "Juri_Title",
+      "category": "lobby",
+      "text": "Blue...Blue Archive",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/jccZf64NfTWBXuXh1zkMbv6fSKCkPeBX.ogg"
+    },
+    {
+      "description": "Juri_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "路上小心哦，慢走~",
+      "text_original": "気をつけて、いってらっしゃい！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/XXgPxDkvSbN6fGbeuAt4u6rqNsmCp9Tf.ogg"
+    },
+    {
+      "description": "Juri_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "补给的事情，请不用担心！",
+      "text_original": "気をつけて、いってらっしゃい！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/ZnhElqmqP1nS9BBDmAsqdzMLHZ9F8BVU.ogg"
+    },
+    {
+      "description": "Juri_Battle_TSA_1.ogg",
+      "category": "battle",
+      "text": "好啦，美味的饭菜送来咯！",
+      "text_original": "さあ、美味しいご飯が届きますよ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/0QToFnOBRs9o0DIxsDQ4U7hC3iPt6M2i.ogg"
+    },
+    {
+      "description": "Juri_Battle_TSA_2.ogg",
+      "category": "battle",
+      "text": "各位，吃饭的时间到了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/VVX8C5UB0tfL73AvK6ozchkfXqemeJJG.ogg"
+    },
+    {
+      "description": "Juri_Cafe_Act_1.ogg",
+      "category": "cafe",
+      "text": "嗯~甜甜的香味~",
+      "text_original": "う～ん、甘い香り…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/nn6R5GUgvLDlosmPBfgpSFSeZOwVXKBU.ogg"
+    },
+    {
+      "description": "Juri_Cafe_Act_2.ogg",
+      "category": "cafe",
+      "text": "这个也可以吃吧？",
+      "text_original": "これも食べられますかね？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/AUShpEGSsoolWew3BMB3ibTMg388GK8Q.ogg"
+    },
+    {
+      "description": "Juri_Cafe_Act_3.ogg",
+      "category": "cafe",
+      "text": "要不先试着炸一下吧……",
+      "text_original": "とりあえず一回、揚げてみようかな…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/6ocerSSlVQA6bkdiku0LZeDLRuDKHwS6.ogg"
+    },
+    {
+      "description": "Juri_Cafe_Act_4.ogg",
+      "category": "cafe",
+      "text": "哎呀，这里真是个好地方。",
+      "text_original": "あら。とても良いところですね。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/vvRgJC3Figbjk1vPfkv2gR8ESGgUy828.ogg"
+    },
+    {
+      "description": "Juri_Cafe_Act_5.ogg",
+      "category": "cafe",
+      "text": "感觉在这里可以做出美味的料理。",
+      "text_original": "ここなら、美味しいお料理が作れそうです。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/Lf4ug9dNifg6H66spx4ngQWX5l9iAhtY.ogg"
+    },
+    {
+      "description": "Juri_CommonSkill.ogg",
+      "category": "battle",
+      "text": "我也会帮忙的~",
+      "text_original": "私もお手伝いしますね！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/wL1V87eTQMx67D27YcLQPXjN8mgOAQdD.ogg"
+    },
+    {
+      "description": "Juri_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "1，2，哎呀……，",
+      "text_original": "せーのっ…あららっ！？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/aejBk7QdMccMA5qJbADCtOEHOdMl1shr.ogg"
+    },
+    {
+      "description": "Juri_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "只要再这样翻个面……啊？！",
+      "text_original": "このままひっくり返せば…あれっ？！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/dR6ZpU7SF8y3I2c1tgch7gyjR9EfCRpQ.ogg"
+    },
+    {
+      "description": "Juri_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "这样就完成了！……啊，等一下！",
+      "text_original": "これで完成です！…ちょっと待って！？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/xagKjbpfGXMyAi2qsCfB9KRcuQdd6CEC.ogg"
+    },
+    {
+      "description": "Juri_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "あ、あれっ？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/uSRw7XDt7V1AnAWZlXMnkkTkRxpfV49N.ogg"
+    },
+    {
+      "description": "Juri_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "大家，不可以吃啊！",
+      "text_original": "皆さんが食べちゃだめなのに～。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/xu2s3kEmBcr1nPrHDaYJFMr4vMA2QKFD.ogg"
+    },
+    {
+      "description": "Juri_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "这不是给你们吃的！",
+      "text_original": "皆さんの分ではありません～！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/VxuhltNSTWJZzDdRMDD7d7rjv4PhbZnC.ogg"
+    },
+    {
+      "description": "Juri_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "呵呵，如果用这把枪来做饭，肉的质地应该会柔软很多的！",
+      "text_original": "ふふ、この銃をお料理に使うと、お肉の食感がぐんと柔らかくなりますね！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/r193aB0DNG71TPFxNMVnHgD36HmgWbpu.ogg"
+    },
+    {
+      "description": "Juri_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "那么，就来发挥一下实力看看吧！",
+      "text_original": "では、実力を発揮してみましょうか。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/e09AYAwYhHrOEREVB9mkjG8kVVs8Mh43.ogg"
+    },
+    {
+      "description": "Juri_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "请交给我吧！",
+      "text_original": "私にお任せください～",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/BuT6Ja46JXdTPWjCbqd2Q7NHOazavzeQ.ogg"
+    },
+    {
+      "description": "Juri_Gachaget.ogg",
+      "category": "growup",
+      "text": "我是歌赫娜供餐部的朱莉。肚子饿了请随时告诉我哦？",
+      "text_original": "ゲヘナ学園、給食部のジュリといいます。 お腹が空いたら、いつでも私に言ってくださいね？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/rufaYfqbJ0XOE8IhAtjzNfvNJkarOLDN.ogg"
+    },
+    {
+      "description": "Juri_Growup_1.ogg",
+      "category": "growup",
+      "text": "这样，我是不是就可以做出更美味的饭菜了呢？",
+      "text_original": "これでもっと、美味しいご飯が作れるようになれますでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/F067okQn9udSph4udhIIeMzZzAUzL9Dm.ogg"
+    },
+    {
+      "description": "Juri_Growup_2.ogg",
+      "category": "growup",
+      "text": "为了烹饪出更可口的饭菜，体力是必不可少的！",
+      "text_original": "お料理上手になる為にも、体力は必須です！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/iOle8h5Ux9xIkCmfDCTGHQtiNuf6BDsr.ogg"
+    },
+    {
+      "description": "Juri_Growup_3.ogg",
+      "category": "growup",
+      "text": "呵呵，突然很想做饭了！",
+      "text_original": "なんだかお料理がしたくなりますね！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/vVlcRBQGZcHiIQSUL8UTTon56qlI5hlQ.ogg"
+    },
+    {
+      "description": "Juri_Growup_4.ogg",
+      "category": "growup",
+      "text": "我会尽全力做出美味的料理的！",
+      "text_original": "もっと美味しいお料理を作るために頑張ります！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/C8y14b8nmGdey01xyXDaOmFvqTAP1rJz.ogg"
+    },
+    {
+      "description": "Juri_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "想给饭菜里增加酸味的话，是放调味料好呢，还是放盐酸好呢……？",
+      "text_original": "料理に酸味を出すためには、香辛料を入れるのと、塩酸を入れるのと、どちらがいいのでしょうか…？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/UyAufgD3Ul7wjN0dQDJAqenIJnKTpop6.ogg"
+    },
+    {
+      "description": "Juri_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "食材还在活蹦乱跳，这说明我的用料很新鲜啊，这不是好事吗？",
+      "text_original": "食材が生きているというのはそれだけ新鮮ということですから良いことですよね？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/q5lOQX3DVgSYeRUws1tMnoewYhgNHmYl.ogg"
+    },
+    {
+      "description": "Juri_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "好像有股烧焦的味道……？",
+      "text_original": "なんか、焦げ臭いです…？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/ZsLsNf3RXpVI4439zLk2QZpBWMsoXZlb.ogg"
+    },
+    {
+      "description": "Juri_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "……哎呀，我可真是的！我忘了派还放在烤箱里呢！",
+      "text_original": " …あら、私ったら！パイをオーブンに入れっばなしだったことを忘れてました！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/K9br0Q3o26jNmM8apUMZHlcm6KfpOrlo.ogg"
+    },
+    {
+      "description": "Juri_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "欢迎回来，老师。您饿不饿呢？",
+      "text_original": "おかえりなさい、先生。お腹空いてないですか？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/QJ49gYBjWd9Bb6R7QPpmPrzflFf1oq3H.ogg"
+    },
+    {
+      "description": "Juri_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "欢迎回来，老师。需要用餐吗？ 还是来些……小·点·心？",
+      "text_original": "おかえりなさい、先生。ご飯にしますか？ それとも…お・や・つ？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/uepCi1UHg4t4mXgQqkqh7wWX5FEHzsAE.ogg"
+    },
+    {
+      "description": "Juri_MemorialLobby_1_1.ogg",
+      "category": "lobby",
+      "text": "啊， 请看看这个，老师！",
+      "text_original": "あっ、見てください先生！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/ljrJC5agrgfk8y53jWUBcxtSEPPylLmY.ogg"
+    },
+    {
+      "description": "Juri_MemorialLobby_1_2.ogg",
+      "category": "lobby",
+      "text": "这颗红彤彤熟透了的番茄，不觉得看起来就十分的美味吗？",
+      "text_original": "この真っ赤に実ったトマト、すっごく美味しそうだと思いませんか？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/ttUhzq9XECJPtnMVbmLk1SLCbwcYzKTt.ogg"
+    },
+    {
+      "description": "Juri_MemorialLobby_2_1.ogg",
+      "category": "lobby",
+      "text": "嘿嘿，这也是我身为供餐部一员的成果。用心努力去栽培果然是值得的！",
+      "text_original": "えへん、これも給食部としての成果です。 丹精込めて作った甲斐がありました！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/xJXmOJLcFPm4qQCIVznyIK3XXfWhiIEX.ogg"
+    },
+    {
+      "description": "Juri_MemorialLobby_2_2.ogg",
+      "category": "lobby",
+      "text": "啊，那边的番茄也长得很不错……",
+      "text_original": "あ、あっちのトマトもすごく良い感じに……",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/zFRA5carG0mkfWfhFhftlpKAbKOgmVXf.ogg"
+    },
+    {
+      "description": "Juri_MemorialLobby_3_1.ogg",
+      "category": "lobby",
+      "text": "唔，嗯……就，就在，那边……话说……距离是不是有点近……？",
+      "text_original": "えっと、あ、あれ、なのですが、その……何だかちょっと距離が……？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/zZMg6OvbntIbCUjp61Ne6j3RUWSsCBbt.ogg"
+    },
+    {
+      "description": "Juri_MemorialLobby_3_2.ogg",
+      "category": "lobby",
+      "text": "距离这么近的话，唔，我……",
+      "text_original": "この近さですと、あの、私……。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/p6WmJZDVySE8HHD9urVhi3usBzBhsnZL.ogg"
+    },
+    {
+      "description": "Juri_MemorialLobby_4_1.ogg",
+      "category": "lobby",
+      "text": "（啊，是老师的味道……）",
+      "text_original": "（あ、先生の香りが……）",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/ftoorKmsfsGICTn0gBaE77kC3MDCT1Us.ogg"
+    },
+    {
+      "description": "Juri_MemorialLobby_4_2.ogg",
+      "category": "lobby",
+      "text": "（总，总觉得心脏突然跳得好快呀……？！）",
+      "text_original": "（な、何だか急に、胸がドキドキしてきました……！？）",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/dUmfkR5IEJf3jBqbe61ujgn7TqcDQmSp.ogg"
+    },
+    {
+      "description": "Juri_MemorialLobby_5_1.ogg",
+      "category": "lobby",
+      "text": "没，没事的！对！不用担心我……！",
+      "text_original": "だっ、大丈夫です、はい！ご心配なく……！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/aOmgQvLpR1nhBDnn8jX7cy36j6CMaPFg.ogg"
+    },
+    {
+      "description": "Juri_MemorialLobby_5_2.ogg",
+      "category": "lobby",
+      "text": "只是这该怎么说呢？就是……",
+      "text_original": "ただその何と言いますか、えっと……。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/Uj9LWDhSSdqDCutlwCPM9wx1OZSNtxll.ogg"
+    },
+    {
+      "description": "Juri_MemorialLobby_5_3.ogg",
+      "category": "lobby",
+      "text": "不知道为什么，总觉得脸热得发烫，这……！",
+      "text_original": "何だか顔が熱くなってきて、その……！うぅ……！",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/JxzRV7iNCamYcciuqx7jqnXeMYf4eLJA.ogg"
+    },
+    {
+      "description": "Juri_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "和老师一起度过的时光，就和做饭的时候一样开心！",
+      "text_original": "先生と一緒に過ごす時間は、お料理をしてる時と同じくらい楽しいです",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/ZMhZwIbcL7VvVc8NxRci06vAMwSvfeWC.ogg"
+    },
+    {
+      "description": "Juri_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "最棒的调味料，就是爱！",
+      "text_original": "最高の香辛料は…まさしく愛です♡",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/lZRcgOPQCu3QjqtNf0SRz5F0TQCnjiyi.ogg"
+    },
+    {
+      "description": "Juri_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "如果要用味道来表达这份幸福，应该放入什么样的材料呢？好烦恼啊……",
+      "text_original": "この幸せを味で表現する為には、どんな食材入れればいいのか悩みますね。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/KFjzJEIHKLEGszjsfTL16a6d8Qx72UaP.ogg"
+    },
+    {
+      "description": "Juri_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "只要是和老师一起吃饭，无论是什么样的饭菜，都会很好吃！",
+      "text_original": "先生と一緒に食べるお料理なら、どのようなお料理でも美味しいです。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/kGxN4yPoP3kqyDCYi0RwZZg8KwX0rTGj.ogg"
+    },
+    {
+      "description": "Juri_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "我的生日礼物？ 嘻嘻……有您这句话我就已经很开心啦。",
+      "text_original": "私の誕生日プレゼントですか？ ふふ…。その言葉だけでも十分嬉しいですよ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/jrNj9fWFC8OUhJ4A6yXVscgMGM5CD9jg.ogg"
+    },
+    {
+      "description": "Juri_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "祝您生日快乐，老师！ 我本来烤了一个蛋糕，准备送给老师， 可是……蛋糕逃走了……",
+      "text_original": "お誕生日おめでとうございます、先生！ 先生に差し上げようとケーキを焼いたのですが、 それがその…。逃げちゃいました…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/T41xVv0PJZtgBLY54zB8TBpR3gWxNgZj.ogg"
+    },
+    {
+      "description": "Juri_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "不知道为什么，一到万圣节，我做的点心就很受欢迎。 他们说什么，很适合用来搞……恶作剧……？",
+      "text_original": "ハロウィーンになるとなぜか私の作ったお菓子が人気なんです。 いたずらにぴったり…？だとか。",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/OlzZEDtTn43pv8qXFPVzfoaogwUQOFmA.ogg"
+    },
+    {
+      "description": "Juri_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "快到正月了，我试着准备了一些年节菜。 不知道您可不可以帮我尝一下味道呢？",
+      "text_original": "お正月を迎えたのでおせち料理を作ってみました。 よろしければ味見していただいてもいいでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/VSxGafo2mUI2hPvqrxOXv1J41pXukS17.ogg"
+    },
+    {
+      "description": "Juri_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "嗯……那个……因为圣诞节到了，所以我烤了火鸡…… 可是火鸡烤熟了，应该是不会活蹦乱跳的吧……？",
+      "text_original": "えー、その、クリスマスだから七面鳥を焼いたのですけれど… 生きてて動くローストターキーはだめですよね…？",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/tKZoftKCiqvlouHt8aIJIsMJwKlGhtk0.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "juri_title.ogg",
+      "category": "lobby",
+      "text": "Blue...Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/6GmhFbiXFI22I2kmPz8AfTp7zjcaEs8h.ogg"
+    },
+    {
+      "description": "juri_battle_in_1.ogg",
+      "category": "battle",
+      "text": "路上小心哦，慢走~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/9WBNV6wqWhK9dRM0KNI99L89AeRbQP1t.ogg"
+    },
+    {
+      "description": "juri_battle_in_2.ogg",
+      "category": "battle",
+      "text": "补给的事情，请不用担心！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/daUqvfvmDjxR8CE1JNzW8rr904fkbjz9.ogg"
+    },
+    {
+      "description": "juri_battle_tsa_1.ogg",
+      "category": "battle",
+      "text": "好啦，美味的饭菜送来咯！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/4XpINYmIDXZY5BJHssaVkJmm2EgBchEd.ogg"
+    },
+    {
+      "description": "juri_battle_tsa_2.ogg",
+      "category": "battle",
+      "text": "各位，吃饭的时间到了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/E0HGvF1zCI05ftYat86KbKDDmsV9vM1s.ogg"
+    },
+    {
+      "description": "juri_cafe_act_1.ogg",
+      "category": "cafe",
+      "text": "嗯~甜甜的香味~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/14MdqRDFKvA2LKH0EkiExs6mp7KUt5OP.ogg"
+    },
+    {
+      "description": "juri_cafe_act_2.ogg",
+      "category": "cafe",
+      "text": "这个也可以吃吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/wR6dKCYQ1w2jhjvdBRFYY9e7ZtV4XqiV.ogg"
+    },
+    {
+      "description": "juri_cafe_act_3.ogg",
+      "category": "cafe",
+      "text": "要不先试着炸一下吧……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/En9ntxs6DVVmfu3OcL68Qis1A2egqVxj.ogg"
+    },
+    {
+      "description": "juri_cafe_act_4.ogg",
+      "category": "cafe",
+      "text": "哎呀，这里真是个好地方。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/vSeX6YkQ9aQLTBIGlgtZodM5WTe0ex1t.ogg"
+    },
+    {
+      "description": "juri_cafe_act_5.ogg",
+      "category": "cafe",
+      "text": "感觉在这里可以做出美味的料理。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/A8mCjKEi65HHXeLnsiF45rKHpRatPb2X.ogg"
+    },
+    {
+      "description": "juri_commonskill.ogg",
+      "category": "battle",
+      "text": "我也会帮忙的~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/b9tkjFsNthajyHkMBdGjkYgx3Y1nYWJq.ogg"
+    },
+    {
+      "description": "juri_exskill_1.ogg",
+      "category": "battle",
+      "text": "1，2，哎呀……，",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/xsW0bWFusR4D8aRiEp52cBZhSMBe4uXM.ogg"
+    },
+    {
+      "description": "juri_exskill_2.ogg",
+      "category": "battle",
+      "text": "只要再这样翻个面……啊？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/zJqHf8BMmk0biwLIQ6ALRvfwIQWCJT8y.ogg"
+    },
+    {
+      "description": "juri_exskill_3.ogg",
+      "category": "battle",
+      "text": "这样就完成了！……啊，等一下！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/s2SrFCzoP1q4T5DcoE2v4vIkFgk0WMfB.ogg"
+    },
+    {
+      "description": "juri_exskill_level_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/0tW2WoChJM5qSqpAWhoLcJexp1pJ9wBx.ogg"
+    },
+    {
+      "description": "juri_exskill_level_2.ogg",
+      "category": "battle",
+      "text": "大家，不可以吃啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/poUQLMhD6Ad0MlNnHLXR75vsEc0r48Fn.ogg"
+    },
+    {
+      "description": "juri_exskill_level_3.ogg",
+      "category": "battle",
+      "text": "这不是给你们吃的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/aUDKo5138xUGgCGL3jC0PKkLVCKJbz2a.ogg"
+    },
+    {
+      "description": "juri_exweapon_get.ogg",
+      "category": "growup",
+      "text": "呵呵，如果用这把枪来做饭，肉的质地应该会柔软很多的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/bZ7LdYrVK929kYo4gp2cVzLhHTU1fY6p.ogg"
+    },
+    {
+      "description": "juri_formation_in_1.ogg",
+      "category": "formation",
+      "text": "那么，就来发挥一下实力看看吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/3jSUuED3HMJ95ymzdDEuoMJJ7xyI6uWB.ogg"
+    },
+    {
+      "description": "juri_formation_in_2.ogg",
+      "category": "formation",
+      "text": "请交给我吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/7zZXHvuh0CXlyONNg3dB7PGYWB7bhjE2.ogg"
+    },
+    {
+      "description": "juri_gachaget.ogg",
+      "category": "growup",
+      "text": "我是歌赫娜供餐部的朱莉。肚子饿了请随时告诉我哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/FY4sKWDfPsdZNhv7Qb7WFLMSwAteUbSE.ogg"
+    },
+    {
+      "description": "juri_growup_1.ogg",
+      "category": "growup",
+      "text": "这样，我是不是就可以做出更美味的饭菜了呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/8aCbt8rRFbv6Mhd82nfZG3VqPu5fEBUy.ogg"
+    },
+    {
+      "description": "juri_growup_2.ogg",
+      "category": "growup",
+      "text": "为了烹饪出更可口的饭菜，体力是必不可少的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/TOiMNAJxz07XN5ZDCKsdGaYXYBWaiLMT.ogg"
+    },
+    {
+      "description": "juri_growup_3.ogg",
+      "category": "growup",
+      "text": "呵呵，突然很想做饭了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/lQIkoT4jybYQWKxlwILx4I6TlCf5F3vb.ogg"
+    },
+    {
+      "description": "juri_growup_4.ogg",
+      "category": "growup",
+      "text": "我会尽全力做出美味的料理的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/ERGJ8WpghnRAbBTdqaO9yaGA8MGZ3PoL.ogg"
+    },
+    {
+      "description": "juri_lobby_1.ogg",
+      "category": "lobby",
+      "text": "想给饭菜里增加酸味的话，是放调味料好呢，还是放盐酸好呢……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/dUjLVg2m7y6nOanyMVQ5ZmCima2Ru03L.ogg"
+    },
+    {
+      "description": "juri_lobby_2.ogg",
+      "category": "lobby",
+      "text": "食材还在活蹦乱跳，这说明我的用料很新鲜啊，这不是好事吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/HQh2mJULOViyMWnoZPWaMluG45fhq4yg.ogg"
+    },
+    {
+      "description": "juri_lobby_3.ogg",
+      "category": "lobby",
+      "text": "好像有股烧焦的味道……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/LruMOQ3iR4HVvQatggW4R7SLp0Lymxn0.ogg"
+    },
+    {
+      "description": "juri_lobby_4.ogg",
+      "category": "lobby",
+      "text": "……哎呀，我可真是的！我忘了派还放在烤箱里呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/3Zyapz3c50mYxh8OT45nCgrJ0l7yv6xR.ogg"
+    },
+    {
+      "description": "juri_lobby_5.ogg",
+      "category": "lobby",
+      "text": "唔…… 为什么我每次做饭都会失败呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/WzNH1H515hsbbps3e5Ph83mhu7WdA0UC.ogg"
+    },
+    {
+      "description": "juri_login_1.ogg",
+      "category": "lobby",
+      "text": "欢迎回来，老师。您饿不饿呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/G0t0HbqAEpBDRScbL0OJ7mrpGmXoyxCd.ogg"
+    },
+    {
+      "description": "juri_login_2.ogg",
+      "category": "lobby",
+      "text": "欢迎回来，老师。需要用餐吗？ 还是来些……小·点·心？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/CKfwjR96sAUGiUZZ5FTvqO3jOxPfHkDl.ogg"
+    },
+    {
+      "description": "juri_relationship_up_1.ogg",
+      "category": "growup",
+      "text": "和老师一起度过的时光，就和做饭的时候一样开心！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/LpWNRu5T9t58alHwyBcTbGEuOE6LfoJe.ogg"
+    },
+    {
+      "description": "juri_relationship_up_2.ogg",
+      "category": "growup",
+      "text": "最棒的调味料，就是爱！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/bgEOpvpdNX6dL8gld4tFi4rITKEjhcX4.ogg"
+    },
+    {
+      "description": "juri_relationship_up_3.ogg",
+      "category": "growup",
+      "text": "如果要用味道来表达这份幸福，应该放入什么样的材料呢？好烦恼啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/tOhjbbzN6Snqgw1sBJ1yhQgtdVzKCOxs.ogg"
+    },
+    {
+      "description": "juri_relationship_up_4.ogg",
+      "category": "growup",
+      "text": "只要是和老师一起吃饭，无论是什么样的饭菜，都会很好吃！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/1L0hJeBu71dw1DBTfoznnNYH7Zpcanjl.ogg"
+    },
+    {
+      "description": "juri_season_birthday.ogg",
+      "category": "lobby",
+      "text": "我的生日礼物？ 嘻嘻……有您这句话我就已经很开心啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/O3bYpwCLBbewwgnTR3kh7DdurA63r3gd.ogg"
+    },
+    {
+      "description": "juri_season_birthday_player.ogg",
+      "category": "lobby",
+      "text": "祝您生日快乐，老师！ 我本来烤了一个蛋糕，准备送给老师， 可是……蛋糕逃走了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/CvzRE7923md4bcCLoA3x6MZAu2NZWZbs.ogg"
+    },
+    {
+      "description": "juri_season_halloween.ogg",
+      "category": "lobby",
+      "text": "不知道为什么，一到万圣节，我做的点心就很受欢迎。 他们说什么，很适合用来搞……恶作剧……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/kUqpGeNuClNBdiLcem20BuH57GBEWmCO.ogg"
+    },
+    {
+      "description": "juri_season_newyear.ogg",
+      "category": "lobby",
+      "text": "快到正月了，我试着准备了一些年节菜。 不知道您可不可以帮我尝一下味道呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/IxlM7hfBRuAGm4cmrMv4ivjDt3yqUAtG.ogg"
+    },
+    {
+      "description": "juri_season_xmas.ogg",
+      "category": "lobby",
+      "text": "嗯……那个……因为圣诞节到了，所以我烤了火鸡…… 可是火鸡烤熟了，应该是不会活蹦乱跳的吧……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/2n0ZuWaKgmirv5kOFUq7qBtR7krM5i3m.ogg"
+    },
+    {
+      "description": "juri_season_chinesenewyear",
+      "category": "lobby",
+      "text": "我在年夜饭里加入了很多很多的爱！老师，趁它还没逃走，快来尝尝吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/oFaPHV5Ta3h35NEGTu4LU8iS4D61DFwx.ogg"
+    },
+    {
+      "description": "juri_season_midautumn",
+      "category": "lobby",
+      "text": "不知道为什么，歌赫娜的大家好像不怎么欢迎我做的月饼……老师，您会吃的吧？一定会的吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/CBfMWw8ZOcPGoJvQCRdilP6Q02J74asR.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "啊， 请看看这个，老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/i16dvwB0ICzNbj4JiGBzxH4EGwBCGq04.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "这颗红彤彤熟透了的番茄，不觉得看起来就十分的美味吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/Vy0tU7dbU0pgwnjYVtGVj0sYrEMYQ2Rc.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "嘿嘿，这也是我身为供餐部一员的成果。用心努力去栽培果然是值得的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/G2XNma0WYdFAgTOXaOSmxxNysLrlb440.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "啊，那边的番茄也长得很不错……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/KQYtN6RN9ld5k6T2HgiEJFjytsYd7Csu.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "唔，嗯……就，就在，那边……话说……距离是不是有点近……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/NEQux8gXZjPvVq45XGBR0jBgmtsHmZSo.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "距离这么近的话，唔，我……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/rgK4MkkIoiN29yM7nYUxUpbfjH9dbdW3.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "（啊，是老师的味道……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/vHGlYE8vDtJtmeyO9ySpMlZ1RagcgHl2.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "（总，总觉得心脏突然跳得好快呀……？！）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/in0CyL0COGOazK5d7IDc60iJYGLnNXQ0.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "没，没事的！对！不用担心我……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/bnXD8SMLL1z36E2sm1YvMaxuV6Qt6ORU.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "只是这该怎么说呢？就是……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/eBVpQm3zdPclYG7InFv8omDiwAMKNCvs.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "不知道为什么，总觉得脸热得发烫，这……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/CUWSrmJOmAsNqOmxlECUAZoGDLoEYlpx.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "juri_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_growup_4.ogg"
+    },
+    {
+      "description": "juri_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_lobby_1.ogg"
+    },
+    {
+      "description": "juri_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_lobby_2.ogg"
+    },
+    {
+      "description": "juri_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_lobby_3.ogg"
+    },
+    {
+      "description": "juri_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_lobby_4.ogg"
+    },
+    {
+      "description": "juri_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_lobby_5.ogg"
+    },
+    {
+      "description": "juri_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_login_1.ogg"
+    },
+    {
+      "description": "juri_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_login_2.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "juri_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_memoriallobby_5_3.ogg"
+    },
+    {
+      "description": "juri_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_relationship_up_1.ogg"
+    },
+    {
+      "description": "juri_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_relationship_up_2.ogg"
+    },
+    {
+      "description": "juri_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_relationship_up_3.ogg"
+    },
+    {
+      "description": "juri_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_relationship_up_4.ogg"
+    },
+    {
+      "description": "juri_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_season_birthday.ogg"
+    },
+    {
+      "description": "juri_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_season_birthday_player.ogg"
+    },
+    {
+      "description": "juri_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_season_halloween.ogg"
+    },
+    {
+      "description": "juri_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_season_newyear.ogg"
+    },
+    {
+      "description": "juri_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_season_xmas.ogg"
+    },
+    {
+      "description": "Juri_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/Juri_Title.ogg"
+    },
+    {
+      "description": "juri_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_cafe_act_1.ogg"
+    },
+    {
+      "description": "juri_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_cafe_act_2.ogg"
+    },
+    {
+      "description": "juri_cafe_act_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_cafe_act_3.ogg"
+    },
+    {
+      "description": "juri_cafe_act_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_cafe_act_4.ogg"
+    },
+    {
+      "description": "juri_cafe_act_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_cafe_act_5.ogg"
+    },
+    {
+      "description": "juri_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_commonskill.ogg"
+    },
+    {
+      "description": "juri_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_exskill_1.ogg"
+    },
+    {
+      "description": "juri_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_exskill_2.ogg"
+    },
+    {
+      "description": "juri_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_exskill_3.ogg"
+    },
+    {
+      "description": "juri_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_exskill_level_1.ogg"
+    },
+    {
+      "description": "juri_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_exskill_level_2.ogg"
+    },
+    {
+      "description": "juri_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_exskill_level_3.ogg"
+    },
+    {
+      "description": "juri_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_exweapon_get.ogg"
+    },
+    {
+      "description": "juri_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_gachaget.ogg"
+    },
+    {
+      "description": "juri_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_growup_1.ogg"
+    },
+    {
+      "description": "juri_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_growup_2.ogg"
+    },
+    {
+      "description": "juri_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/juri_growup_3.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_juri_spr-07_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_juri_spr-08_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_juri_spr-09_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_juri_spr-10_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_juri_spr-11_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_juri_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_juri_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_juri_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_juri_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_juri_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_juri_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_juri_spr-12_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_juri_spr-05_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/juri_ex.gif",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/juri_cafe.gif",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20242.png",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20272.png",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-154.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_238.png",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-104.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_237.png",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_045.png",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-13.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Juri_Intro_jp.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/juri_Intro_en.jpg",
+        "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E6%9C%B1%E8%8E%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/juri_Intro_cht.jpg"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 141,
+      "favorability": 240
+    },
+    {
+      "id": 84,
+      "favorability": 60
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 26002,
+      "dev_name": "Juri_default",
+      "combat_style": "default",
+      "type": "Support",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Light",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 1,
+      "limited": false,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "A",
+      "street_adaptability": "C",
+      "equipment": [
+        9,
+        6,
+        4
+      ],
+      "cultivate_material": [
+        77,
+        80,
+        81,
+        82,
+        158,
+        160,
+        163,
+        165,
+        435,
+        437,
+        438,
+        439,
+        403,
+        404,
+        405,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/skill_icon/o4IN8tGvnqSkBvKw94s5griHcDY17OjB.png",
+            "title": "朱莉的烹饪时间！",
+            "title_cn": "朱莉的烹饪时间！",
+            "preview": "//static.kivo.wiki/videos/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/skill_preview/rhplfgtSKwvBXEJNj2KLXHJKOWrQZZqc.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "将圆形范围内的4名敌人移动至指定位置，随后对范围内的敌人造成攻击力58.9%的中毒持续伤害（持续20秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "将圆形范围内的4名敌人移动至指定位置，随后对范围内的敌人造成攻击力67.8%的中毒持续伤害（持续20秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "将圆形范围内的4名敌人移动至指定位置，随后对范围内的敌人造成攻击力85.5%的中毒持续伤害（持续20秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "将圆形范围内的4名敌人移动至指定位置，随后对范围内的敌人造成攻击力94.4%的中毒持续伤害（持续20秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "将圆形范围内的4名敌人移动至指定位置，随后对范围内的敌人造成攻击力112%的中毒持续伤害（持续20秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/skill_icon/s0sJmoQ8wEnOCJFZfMmGpDIkkxsDYL0t.png",
+            "title": "最棒的菜肴",
+            "title_cn": "最棒的菜肴",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每20秒使攻击力最高的1名敌人的攻击速度减少18.1%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒使攻击力最高的1名敌人的攻击速度减少19%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒使攻击力最高的1名敌人的攻击速度减少19.9%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒使攻击力最高的1名敌人的攻击速度减少23.6%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒使攻击力最高的1名敌人的攻击速度减少24.5%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒使攻击力最高的1名敌人的攻击速度减少25.4%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒使攻击力最高的1名敌人的攻击速度减少29%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒使攻击力最高的1名敌人的攻击速度减少29.9%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒使攻击力最高的1名敌人的攻击速度减少30.8%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒使攻击力最高的1名敌人的攻击速度减少34.4%（持续16秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/skill_icon/wzKTepFTv5BFIXWaHWtsBehgt2IDTXMN.png",
+            "title": "干劲十足！",
+            "title_cn": "干劲十足！",
+            "preview": "",
+            "max_level": 1,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/skill_icon/uj1rccnUm3aU1xn4RHG9RvzUNDCpClFW.png",
+            "title": "用餐时间到！",
+            "title_cn": "用餐时间到！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方角色的生命值上限增加9.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的生命值上限增加9.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的生命值上限增加10%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的生命值上限增加11.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的生命值上限增加12.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的生命值上限增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的生命值上限增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的生命值上限增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的生命值上限增加15.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的生命值上限增加17.3%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2214,
+          "attack": 170,
+          "defense": 118,
+          "healing": 1634,
+          "accuracy": 609,
+          "evasion": 203,
+          "crit": 203,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 2263,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/weapons_icon.png",
+        "name": "供餐部护身用枪B型",
+        "name_cn": "供餐部护身用枪B型",
+        "description": "朱莉所持有的霰弹枪。<br>原本的用途是用来压制在供给部捣乱的问题儿童，不过不知从何时起茱莉开始用这把枪料理食物了。",
+        "description_cn": "朱莉携带的霰弹枪。<br>原本的用途是制伏在供餐部引起骚乱的问题儿童。 但不知为何，朱莉把它当成了烹饪工具。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「干劲十足！」升级为「干劲十足！+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 街道适应性 C -> B",
+            "description": "在街道地形造成1倍伤害。在掩体内时掩护成功率+30%。 攻击时绕过掩体概率增加30%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%89%9B%E7%89%A7%20%E8%8C%B1%E8%8E%89/skill_icon/Z557GEeSP9hL4Aom7zzSHtzoE4YOnxKN.png",
+            "title": "干劲十足！+",
+            "title_cn": "干劲十足！+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加204/攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加215/攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加225/攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加266/攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加276/攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加286/攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加327/攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加337/攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加347/攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加388/攻击力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "958e9a60-957b-45ef-aa07-740b200c0d93",
+  "skill_declare_uuid": "800aac58-b5ae-449a-b114-13513132da78",
+  "supplementary_uuid": "8e00bc3d-3f4b-4196-9473-47bbb03c7642",
+  "supplementary_declare_uuid": "ff14d6c3-bd92-4b0d-97a9-298fcc4a968b",
+  "created_at": 1685713483,
+  "updated_at": 1783323745
+}

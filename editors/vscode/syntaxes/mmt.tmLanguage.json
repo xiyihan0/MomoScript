@@ -1,0 +1,57 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "MomoScript",
+  "scopeName": "source.mmt",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#directives" },
+    { "include": "#statements" },
+    { "include": "#macros" },
+    { "include": "#strings" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        { "name": "comment.line.double-slash.mmt", "match": "//.*$" }
+      ]
+    },
+    "directives": {
+      "patterns": [
+        {
+          "name": "meta.directive.mmt",
+          "match": "^\\s*(@(?:actor|asset|typ|reply|bond|mode|end))\\b",
+          "captures": { "1": { "name": "keyword.control.directive.mmt" } }
+        }
+      ]
+    },
+    "statements": {
+      "patterns": [
+        {
+          "name": "meta.statement.chat.mmt",
+          "match": "^\\s*([><-])(?:\\s*(\\([^\\n]*\\)))?",
+          "captures": {
+            "1": { "name": "keyword.operator.statement.mmt" },
+            "2": { "name": "meta.parameters.mmt" }
+          }
+        }
+      ]
+    },
+    "macros": {
+      "patterns": [
+        {
+          "name": "meta.macro.sticker.mmt",
+          "begin": "\\[:",
+          "beginCaptures": { "0": { "name": "punctuation.definition.macro.begin.mmt" } },
+          "end": ":\\]",
+          "endCaptures": { "0": { "name": "punctuation.definition.macro.end.mmt" } }
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        { "name": "string.quoted.double.mmt", "begin": "\"", "end": "\"", "patterns": [{ "match": "\\\\.", "name": "constant.character.escape.mmt" }] },
+        { "name": "string.quoted.single.mmt", "begin": "'", "end": "'", "patterns": [{ "match": "\\\\.", "name": "constant.character.escape.mmt" }] }
+      ]
+    }
+  }
+}

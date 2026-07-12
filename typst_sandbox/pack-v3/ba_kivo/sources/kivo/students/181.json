@@ -1,0 +1,1994 @@
+{
+  "id": 181,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 181,
+      "avatar": "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 563,
+      "avatar": "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/%E9%AD%94%E6%B3%95/Student_Portrait_CH0325_Collection.png",
+      "skin": "魔法",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "守月",
+  "given_name": "铃美",
+  "family_name_jp": "守月",
+  "given_name_jp": "スズミ",
+  "family_name_kr": "모리즈키",
+  "given_name_kr": "스즈미",
+  "family_name_en": "Morizuki",
+  "given_name_en": "Suzumi",
+  "family_name_zh_tw": "守月",
+  "given_name_zh_tw": "鈴美",
+  "family_name_cn": "守月",
+  "given_name_cn": "铃美",
+  "nick_name": "闪光弹",
+  "introduction": "圣三一综合学园的保障安全的自警团成员。\n\n由于频繁发生圣三一学生被其它学校袭击的事件，所以时常在大街上巡逻。\n因为自身强烈的正义感而被人误解为十分冷酷且正经，可实际上也有非常喜欢可爱事物的年轻少女的地方。",
+  "introduction_cn": "负责崔尼蒂安全的自警团成员。\n\n因为崔尼蒂的学员频繁被其他人袭击，为阻止这种情况，她自愿进行街头巡逻。\n充满正义感，所以常被别人误会成是个不讲情面的人，其实她也有很温柔的一面。",
+  "momo_talk_signature": "愿今天也是平安的一天",
+  "main_relation": 11,
+  "relation": [
+    28
+  ],
+  "age": 16,
+  "grade": "二年生",
+  "height": 162,
+  "birthday": "08-31",
+  "hobby": "巡逻，散步",
+  "designer": "Empew",
+  "illustrator": "Empew",
+  "character_voice": "社本悠",
+  "character_voice_cn": "小瑾",
+  "release_date": "2021-02-04",
+  "release_date_cn": "2023-08-03",
+  "release_date_global": "2021-11-09",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/avatar.png",
+  "school": 2,
+  "weapon_type": "AR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": true,
+  "more": "\n[[toc]]\n\n# 一、外在形象\n与大多数崔尼蒂的学生不同，铃美只有一只白色小翅膀，位于头部左侧，和白色的长发搭配起来，有些像单边马尾。\n:::: center\n![wing.png](files/15949/voA6RmucBtFV96lNrlljDy5VbMcNYhLb.png =300x)\n铃美的单边小翅膀\n::::\n\n可能看起来不是很明显，铃美的右眼下方有一颗小小的泪痣。\n:::: center\n![eyes.png](files/15949/a5g1mMZspORgBvrUsc4FYKuF1DUbrPNH.png =300x)\n::::\n\n铃美上身为灰白色制服上衣和黑色腰封。胸前系着白色条纹的黑色领带，学校象征的校徽和自己的学生证分别整齐地挂在左肩和胸前。除开脖领处的红丝带外，身上没有其它多余装饰，显得十分干练。\n:::: center\n![tide.png](files/15949/8Vwsa3dVi2ZNHHlaRn4E6E7Ssunoespt.png =300x)\n系的整整齐齐的红丝带\n::::\n下身则为和上衣风格相同的灰白色短裙、黑色过膝袜和棕色皮鞋，同样没有多余的装饰，简单、朴素、整洁的穿着反映了铃美细心认真的性格。\n光环为单层，包含内侧的同心圆和外侧四个角度的箭头，末端和光环以及内部的同心圆相连。\n:::: center\n![image.png](files/15949/P9PlG4gVPYuAGLFQpqQuakvNgBMAr3Ck.png =300x)\n铃美的光环\n::::\n\n# 二、人物塑造\n铃美没有过大的表情起伏，平时的表情给人一种冷酷的感觉，实际上她只是性格认真，和其它同龄少女一样，有着自己独特的爱好，和独属于青春少女的青涩。\n作为自警团的一员，铃美对待自己的工作十分认真，不仅经常在街边巡逻，出面制止大大小小的不法行为，还会对需要帮助的路人施以援手。\n\n>不良A\n……嗯？这是什么？\n<br>不良B\n……闪光弹？\n<br>轰！哔——！\n<br>不良B\n呃？呃啊啊？！看不到前面了！\n<br>？？？\n以防万一，我特意出来巡逻，果然在这里遇到了你们。\n<br>——铃美个人剧情第一话“崔尼蒂自警团”\n\n>铃美（崔尼蒂自警团）\n看来人手不够啊。我们来帮忙了。\n<br>玲纱（崔尼蒂自警团）\n正是！崔尼蒂会走路的闪光弹和自警团的超级明星已经抵达现场！\n\n官方漫画中，老师为了阻止正义感爆棚的铃美在散步途中参与到其它琐碎事务中，特地拉着铃美到处躲避，让铃美度过了一段快乐轻松的时光。\n:::: center\n![g6nby4OVWT1yy47hs9DJAIkUQFApoIOf.png](files/15949/9WixCwkVbHJvAra6gOT4QjTywgXF2zOs.png =300x)\n被老师拉着到处跑的铃美\n::::\n\n铃美似乎不太擅长处理和老师间的感情，每次面对老师的直球发言都会变得不自然，说话磕磕绊绊，连走路的步伐都变得奇怪，显得有些不知所措。\n\n>铃美（崔尼蒂自警团）\n要我来保护你？那，那个……！\n当，当然，我会保护老师的，但是！所以，就是说……！\n……\n我知道了。其实从某些角度来说，这也算是身为自警团一员该做的事。\n那我先回去了，希望老师也能度过一个美好的夜晚。\n<br>（铃美快速转过身后，急匆匆地就消失了。）\n（而且不知道为什么，总感觉他的脚步和刚才不一样，看起来有点不太自然。）\n<br>——铃美个人剧情第一话“崔尼蒂自警团”\n\n>铃美（崔尼蒂自警团）\n如果老师需要的不是护送，只是普通的同行，那我也会用不同的方式来对待的……\n到那时的话……我肯定会做得比现在更好的。\n……好，我知道了。\n那我们……就这么约定好了……！\n<br>（就这样，铃美留下自己一个人，急匆匆地消失了。）\n（她飞奔而去的样子就像之前那样，总感觉有点不自然。）\n<br>——铃美个人剧情第二话“炫目的光辉”\n\n>铃美\n不过当然，老师如果忙的话就算了\n<br>老师\n既然是铃美叫我，那现在就可以\n<br>铃美\na1\\%\\$g3r#$%^\n……\n对不起\n刚才手机没抓稳\n谢谢老师\n<br>——铃美个人剧情第三话前的momotalk\n\n直到向老师表露心声后才变得正常一些。\n\n>铃美（崔尼蒂自警团）\n面对今天的那些情况，我没能忍住，是我的错，对不起……\n什么……？你觉得很……有趣？\n下次有机会一定要再……？你说的是真的……？\n……\n当然，我随时欢迎，老师。\n只要老师不介意的话，那我十分乐意。\n今天真的太感谢了。\n……我今天，真的很开心。\n<br>（之后，铃美慢慢往反方向的路走去。）\n（而她的脚步和前几次不一样，看起来非常自然从容。）\n<br>——铃美个人剧情第三话“闪光万能主义”\n\n铃美的听歌品味有些独特。一般情况下，制服不良少女们后，为了解除她们的武装，铃美会将她们绑在电线杆上，戴上耳机并以超大音量播放奥斯丁比伯的《Baby》。这首歌很明显neta的是现实歌手贾斯汀比伯的《Baby》，本歌曲发布于2010年，是首相当有年代感的歌曲。而铃美因为这首歌没少遭到吐槽。\n\n>铃美（崔尼蒂自警团）\n我就把你们两个绑到电线杆上，然后给你们放奥斯丁比伯的《Baby》吧。\n<br>不良A\n……？！\n<br>不良B\n什，什么？你选的歌也太老套了吧？！那都是什么年代的歌了！\n<br>不良A\n简直就是个大叔嘛，这里有个大叔啊！这里有个喜欢听老歌的大叔啊！\n----\n>铃美（崔尼蒂自警团）\n朝前方投闪光弹！\n<br>轰！哔——！\n<br>（……之后就是已经见了好几次的场景。恶棍们被闪光弹弄晕后被制服。）\n（然后被绑在电线杆上，在耳边播放着超大音量的奥斯丁比伯的《Baby》。）\n\n:::: center\n![wje2mw9zSvXgMVIpv13T9hdmThv3OTNC.png](files/15949/mRqcGgjrufPqrnlXrmCP3grsyCGkZ7Nx.png =300x)\n官方漫画中被和纱吐槽的铃美\n::::\n:::: center\n![LoadingImage_24_jp.png](files/15949/NnKHUXXYEebmIYsXLJWigBrD1aizAKHk.png =300x)\n过场加载图中被不良们忌惮的铃美\n::::\n\n\n# 三、人物经历\n## 主线剧情\n### 序章\n作为老师初次入职就指挥的四名学生之一，铃美因自警团成员被袭击的频率上升，去联邦理事会寻求帮助，在和代理会长凛的争执中相识了老师，并在后续的沙勒夺回作战中于老师的指挥下击退了不良学生们，在战斗中大放异彩。\n\n>铃美（崔尼蒂自警团）\n最近，我们的成员在路上被不良分子袭击的频率也急剧上升。治安越来越难维持了。\n----\n>铃美（崔尼蒂自警团）\n总觉得刚才的战斗好像比平时轻松很多\n\n### 主线剧情Vol3 第三章\n铃美遭遇了因伊甸条约闹事的人群，向人群中投掷闪光弹把闹事学生闪得头晕目眩，帮助救护骑士团平息了混乱。\n>铃美（崔尼蒂自警团）\n这里的治安竟然恶化到这个地步了……身为自警团，可不能放任不管。\n<br>花江（救护骑士团）\n自，自警团……？！\n<br>芹娜（救护骑士团）\n铃美小姐！\n<br>铃美（崔尼蒂自警团）\n我们自警团在活动时也欠了救护骑士团不少人情。\n而且，伤员就只是伤员，没有其他标签。属于哪里并不重要。\n\n### 主线剧情Vol6 第一章\n铃美和玲纱巡逻时，偶遇了跟着老师去圣三一学习下午茶的阿里乌斯众人。为了回答昴对玲纱天真话语的质疑，铃美讲述了自己对理想和现实的看法，并对阿里乌斯众人进行鼓励。\n>铃美（崔尼蒂自警团）\n昴同学。我们生活至今，也并非盲目地相信着不论何时、无论何事都能顺利解决。\n不如说，其实更多时候，事情往往无法称心如意。我觉得从某种层面上来说，这是无可奈何的。\n但即便如此，我们仍然坚信。\n因为我们的心中，有着这样的一份理想。\n<br>铃美（崔尼蒂自警团）\n当然我们也并不认为，这份理想马上就在此处开花结果。\n但我觉得……只要能往那份理想再多靠近一步……就已经足够了。\n像这样一步一步向前迈进，就更有可能……终有一天，大家能手牵手抵达那个地方。\n\n### 最终篇 第二章 第十三话：自管区防御作战-崔尼蒂 1\n基沃托斯陷入危机时，部分学生在老师的指挥下依次攻略各个圣所，其余学生则参与了各自自管区的防御作战。负责防守崔尼蒂正义实现部陷入苦战之时，作为自警团成员的铃美和玲纱出手相助，参与进崔尼蒂的防御作战中。\n\n>铃美（崔尼蒂自警团）\n看来人手不够啊。我们来帮忙了。\n<br>玲纱（崔尼蒂自警团）\n正是！崔尼蒂会走路的闪光弹和自警团的超级明星已经抵达现场！\n<br>莲见（正义实现部）\n是自警团的各位……！\n----\n>铃美（崔尼蒂自警团）\n走，玲纱小姐，我们去那边防守吧。\n<br>玲纱（崔尼蒂自警团）\n好的！铃美小姐！你要在这里给大家展示会走路的闪光弹的真本领了吗？嗯？\n啊，啊啊！铃美小姐！你等等我嘛！\n\n## 活动剧情\n### 活动“冒失修女与古书馆的魔法师”\n被不良少女们纠缠并发生战斗的铃美遇到了正在寻找某种物品的老师和日向。战胜不良少女们后，因为经常巡逻而对大街小巷了如指掌的铃美为老师和日向提供了物品的关键线索。\n\n>铃美（崔尼蒂自警团）\n……什么？您在找一样东西？\n……看来是又在帮助某个陷入困境的人吧。\n真是的。如果这世界都是像老师这样的人，我应该能活得更轻松些吧。\n既然我得到了老师的帮助，作为报答，我也帮您做点什么吧……请问您在找什么东西？\n……嗯？水苔胶……？\n唔……从没听说过。\n啊，但是您说的“古老的废弃建筑”，我倒是知道一处。\n通常在大街上很难找到，但在建筑和建筑之间，偶尔会夹着一些废墟。\n巡逻的时候偶尔会看到一两处。这附近也有……\n\n## 个人剧情&情人节剧情\n### 崔尼蒂自警团\n深夜在便利店购物的老师遭遇了抢劫事件，被恰好赶到的铃美化解后，老师请求铃美将自己护送回家。到家的老师拒绝了铃美作为礼物的闪光弹，并请求铃美一直护卫自己，从未接受过如此请求的铃美不知所措地答应下来并迈着别扭的步伐离开。\n\n### 炫目的光辉\n老师主动要求铃美进行护送，但反应过度的铃美多次对路人投出了闪光弹。得到下次一起散步的约定后，铃美又一次迈着别扭的步伐离开了。\n\n### 闪光万能主义\n原打算和老师一起散步的铃美接连遭遇事件，纠结的铃美在老师的鼓励下出手相助。事后铃美为破坏了散步计划道歉，但因收到老师的鼓励和邀请而释怀。\n\n### 少女追逐光芒\n受到铃美邀请的老师来到一处宁静的游乐园。得知要一起看星星，老师邀请铃美一起乘坐摩天轮。摩天轮内的铃美欣赏着夜景，吐露了自己的心声。\n\n### 重要的伙伴\n赶到约定地点的铃美慌忙摘下耳机，不安地认为老师会觉得她做事敷衍。在得到否定的回答后铃美向老师介绍了陪伴已久的巡逻耳机，并做出了从今往后也要一起散步的约定。\n\n### 熟悉的形状\n在便利店和老师偶遇的铃美得知当天是情人节时，顺势挑选了星星形状的巧克力给老师，并将老师护送回家。\n\n# 四、杂项趣闻\n## 崔尼蒂会跑的闪光弹\n\n来自于活动：“冒失修女与古书馆的魔法师”中，不良少女们提到的，铃美的模仿者们根据铃美的行事风格起的绰号。\n\n>不良少女A（不倒翁团）\n嗯，你想的没错。我们今天的目标就是你。\n<br>铃美（崔尼蒂自警团）\n……诶？\n目标是我？为什么……？\n<br>不良少女B（不倒翁团）\n还问为什么？！你是真不知道还是假不知道？！好好想想你对我们都做过什么！\n难道说，你平日那么猖狂，就没想到会有这一天吗？！\n今天做好觉悟吧，“崔尼蒂会跑的闪光弹”！\n<br>铃美（崔尼蒂自警团）\n又给我编造奇怪的外号……\n----\n>不良少女B（不倒翁团）\n再说了，什么编造外号？你的外号又不是我们起的！\n----\n>不良少女A（不倒翁团）\n不只是一两个人。应该是在社交平台看到后，开始模仿你的……\n<br>不良少女B（不倒翁团）\n有人自称崔尼蒂的烟雾弹，还有人自称崔尼蒂的罗网……！\n出现了很多有着奇怪外号的冒牌货！\n所以我们决定斩草除根！！也就是把你这个祸根彻底拔除！！\n<br>——活动“冒失修女与古书馆的魔法师” 第五话\n\n作为自警团的一员，铃美需要经常在圣三一的大街小巷巡逻，打击大大小小的不法行为，而铃美最常使用的方式就是投掷闪光弹。当老师问到使用闪光弹的原因时，铃美的回答是：这是最有效且不会伤到任何人的方式，即使对面是十恶不赦的坏蛋。\n\n>铃美（崔尼蒂自警团）\n你问……为什么每次都是扔闪光弹？\n因，因为……\n只有这样，才不会有人受伤啊。\n因为闪光弹是能安全地制止行凶，而且还可以制服对方的道具。\n就算她们是十恶不赦的坏蛋……但是我也不希望她们受伤。\n只要能制服就可以了，我再怎么说，也只是自警团的人。\n<br>——铃美个人剧情第三话：闪光万能主义\n\n而铃美使用闪光弹的次数频繁到了一定程度，不管是商店抢劫，还是路人学生的可疑的行为，铃美都会选择使用闪光弹来解决，也因此闪到了很多无辜路人。\n\n>铃美（崔尼蒂自警团）\n……！！那边有举止可疑的人物！\n朝前方投闪光弹！\n<br>轰！哔——\n<br>店员\n呃啊！吓死了！\n<br>学员C\n这是什么！我眼睛要瞎了！\n<br>——铃美个人剧情第二话“炫目的光辉”\n\n一次和老师的散步中，铃美当天使用的闪光弹更是达到了两位数之多\n\n>铃美（崔尼蒂自警团）\n朝前方投闪光弹！\n<br>轰！哔——\n<br>（之后就是已经见了好几次的场景。恶棍们被闪光弹弄晕后被制服。）\n----\n>（但是之后我们取得每个地方都接连发生了问题，而铃美每次都投掷了闪光弹。）\n（结果最后，当天铃美扔的闪光弹数量达到了两位数。）\n<br>——铃美个人剧情第三话“闪光万能主义”\n\n虽然这个绰号流传得十分广泛，但铃美本人似乎并不喜欢这个绰号。\n\n>玲纱（崔尼蒂自警团）\n正是！崔尼蒂会走路的闪光弹和自警团的超级明星已经抵达现场！\n<br>莲见（正义实现部）\n是自警团的各位……！\n<br>铃美（崔尼蒂自警团）\n玲纱小姐……求你了，那个外号……\n----\n>铃美（崔尼蒂自警团）\n走，玲纱小姐，我们去那边防守吧。\n<br>玲纱（崔尼蒂自警团）\n好的！铃美小姐！你要在这里给大家展示会走路的闪光弹的真本领了吗？嗯？\n啊，啊啊！铃美小姐！你等等我嘛！\n<br>——主线剧情最终章第十三话\n\n\n## 枪上的字\n早期版本中，铃美立绘的武器上写着一行小字：“vanitas vanitatum et omnia vanitas”\n:::: center\n![suzumi_spr_Idle_01_3.2508000000000177.png](files/15949/9pnSkhzJq98q2zJHQbKGyAaCHnL07gDe.png =300x)\n::::\n这句话正是阿里乌斯的校训，再加上铃美是崔尼蒂的学生，有人推断早期铃美扮演的应该是小梓的角色，也就是崔尼蒂的“叛徒”。不过现在这行字已经被去除，设定集中也未包含这行字。实际铃美的角色是什么样，小梓究竟是不是半途加入的，则无从考证。\n:::: center\n![image.png](files/15949/nA0CByQPHCOcS0EOfrQEVhwE6WGjbIA9.png =300x)\n::::\n但是，steam版蔚蓝档案上线后，玩家们发现铃美立绘中枪上的字并未去除。而且所有服务器中铃美的模型上，枪上也有这行字的痕迹，似乎官方并没有完全去除这些痕迹。\n:::: center\n![gun.png](files/15949/pN6tPWT5znlNFX4W2Zq7m0ZNaMIOO0jN.png =300x)\n::::\n\n\n\n# 五、官方图集\n\n## 人物介绍图\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![1.jfif](files/15949/IyxQHJCtwYzI61kn8oMFdpSS5fxFkou2.jpg =425x) | 暂无 | 暂无 | ![suzumi.jfif](files/15949/qhsDzjh0YwSLnC3q8Y0woTUGnDGl6Gxl.jpg =400x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 铃美 汉化\n![铃美](files/2/VkEX97fuphvGYJnlSzZJtqsxYmS4LQi4.png =450x)\n@tab 铃美 原文\n![铃美](files/2/YEDhGXn6pkoYQUA1tV6Y72espiKRv48w.jpg =450x)\n:::\n\n\n## 设定集\n\n:::: center\n\n![Vol.1_页面_067.png](files/15949/l7ijfpjx45cEXXmF6tOSVGg0EanT7FcF.png =450x)\n\n![Vol2-108.jpg](files/15949/GM9wA9W9ZZy9UFeue0XhIGwewKCPWqqu.jpg =450x)\n\n::::\n\n# 六、人物关系链\n\n```mermaid\nflowchart TB\n    %% 主角\n    \n\n    %% 组织分支\n    subgraph \"【崔尼蒂自警团】\"\n        A([守月 铃美]):::main\n        B[宇泽 玲纱]:::friend\n    end\n\n    subgraph \"【救护骑士团】\"\n        C[鹭见 芹娜]:::friend\n        N[朝颜 花江]:::friend\n    end\n\n    subgraph \"【修女会】\"\n        D[若叶 日向]:::friend\n    end\n\n    subgraph \"【正义实现委员会】\"\n        E[羽川 莲见]:::friend\n        M[静山 真白]:::friend\n    end\n\n    subgraph \"【阿里乌斯分校】\"\n        F[梯 昴]:::special\n    end\n\n    %% 主要关系\n    A --->|曾帮助\n            （主线Vol3第三章）| C\n    A --->|曾被帮助\n            （活动“冒失修女与古书馆的魔法师”）| D\n    A --->|曾帮助\n            （最终篇第二章）| E\n    A ---|曾共同交流\n            （主线Vol6第一章）| F\n\n    %% 样式定义\n    classDef main fill:#cce5ff,stroke:#004085,stroke-width:4px,color:#000\n    classDef friend fill:#98fb98,stroke:#228b22,stroke-width:2px\n    classDef special fill:#ffd700,stroke:#daa520,stroke-width:2px,color:#8b4513\n```\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[玲纱](https://kivo.wiki/data/character/142)|レイサさん<br><details><summary><font color=\"448aff\">テルミットピンク</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">变身魔法少女时的称呼</details></font></font></font></b><details><summary><font color=\"448aff\">ピンク</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">变身魔法少女时的称呼</details></font></font></font></b>|\n|[志美子](https://kivo.wiki/data/character/194)|シミコさん<br><details><summary><font color=\"448aff\">エラ</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">变身魔法少女时的称呼</details></font></font></font></b>|\n|[昴](https://kivo.wiki/data/character/559)|スバルさん|\n|[真白](https://kivo.wiki/data/character/79)|マシロさん|\n|[未来](https://kivo.wiki/data/character/515)|ターゲット<br>あなた|\n|[兰舞](https://kivo.wiki/data/character/134)|ラブさん<br>河駒風ラブさん<br>河駒風ラブ<br>ヘルメット団のリーダー|\n|圣三一自警团|自警団<br>私たち|\n|[夏莱](https://kivo.wiki/data/organize/6)|シャーレ|\n|哗啦哗啦钢盔团|ジャブジャブヘルメット団<br>ヘルメット団の皆さん<br>皆さん|\n|正义实现委员会|正義実現委員会<br>委員会|\n|图书委员会|図書委員会|\n|钢盔团|ヘルメット団|\n|[圣三一综合学园](https://kivo.wiki/data/organize/2)|トリニティ|\n|[阿里乌斯分校](https://kivo.wiki/data/organize/10)|アリウスの方々|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n\n\n\n",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/Suzumi_home_Idle_01_0.9414999999999997.jpg",
+  "spine": [
+    1420,
+    459,
+    722,
+    1017
+  ],
+  "model": [
+    83,
+    445
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/voice/play_icon.png",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/voice/pause_icon.png",
+  "voice": [
+    {
+      "description": "Suzumi_Title",
+      "category": "lobby",
+      "text": "Blue Archive.",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/HycxejYraAGyO0G0UyKNrK0JdgIzAB0W.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Buffed_1",
+      "category": "battle",
+      "text": "轮到我了。",
+      "text_original": "私の番ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/jOTLRwActdP62LTq4iMWDu1yxieTVA5F.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_BuffSelf_1",
+      "category": "battle",
+      "text": "我要上了。",
+      "text_original": "行きます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/zCZVjAQS7nKec8O7tZ6u6PJSC07YXZXG.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Covered_1",
+      "category": "battle",
+      "text": "有掩体。",
+      "text_original": "隠れます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/FLphM7Luxn7HLZ80SuefFMG8zc1ciXFu.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Damage_1",
+      "category": "battle",
+      "text": "呃——！",
+      "text_original": "うっ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/mTDqbkdfyzwIcVm18P6bieA1Pdh0Sxur.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Damage_2",
+      "category": "battle",
+      "text": "怎么会……",
+      "text_original": "そんな…",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/fkIgLPqY9MVduw4ojBNZwC39VRVpK8vi.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "ぐっ…",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/ChC0xTazVnhL1pUvvZcyRABUU9M8IeSt.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Defense_1",
+      "category": "battle",
+      "text": "白费工夫。",
+      "text_original": "無駄です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/5g5F5C6irs77NXEkEfHCxn7mzuCqXGHn.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_In_1",
+      "category": "battle",
+      "text": "现在进入作战区域。",
+      "text_original": "これより作戦区域に入ります。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/GOlNdJNdqGSQdAsLckpEiaBJcM2eYxmW.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_In_2",
+      "category": "battle",
+      "text": "全员提高警惕,不要懈怠。突击。",
+      "text_original": "みなさん警戒しつつ注意を怠らないように。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/G2Hbq331Ib3YrEwfgawHYccF9sl178ys.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Move_1",
+      "category": "battle",
+      "text": "这里已经安全了。",
+      "text_original": "ここはもう安全です。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/8GeXzeYq8L7qU7oicanz8mZgdAFJBo5W.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Move_2",
+      "category": "battle",
+      "text": "移动到下一个目标地点吧。",
+      "text_original": "次の目標地点へ移動しましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/PKYTdqFbZJ1SABl0F9BqeApQpOuxkNpi.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Recovery_1",
+      "category": "battle",
+      "text": "帮大忙了,感谢。",
+      "text_original": "助かりました。感謝を。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/NQ2dZCvgdfjcGhXiMUknV5O6dbv4U5Ds.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Retire",
+      "category": "battle",
+      "text": "太晚了吗......",
+      "text_original": "遅すぎたか……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/4gbZRLiRQbYjPUpS5ct3uFoAzZVKIsYG.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Shout_1",
+      "category": "battle",
+      "text": "哈啊——",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/Ptb5XGmo9hgxq3VOb87v3MTBt2YtEHEx.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Shout_2",
+      "category": "battle",
+      "text": "呀——",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/QQiTjlwg69ic1uPXnJy1Ud9nJSfLlKSu.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Shout_3",
+      "category": "battle",
+      "text": "哈！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/OJdyCQraBfqNSh5W6Fyo88nZIuWwrMZN.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_TacticalAction_1",
+      "category": "battle",
+      "text": "前进。",
+      "text_original": "移動します。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/LQv4d1oEb4a4OvDyjgWMFwG3ihXPh0Yq.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Victory_1",
+      "category": "battle",
+      "text": "结束巡逻。",
+      "text_original": "パトロールを終了します。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/IVR31OoKZXJBfKB2uZRimEoUUvoE3wp6.ogg"
+    },
+    {
+      "description": "Suzumi_Battle_Victory_2",
+      "category": "battle",
+      "text": "简单的任务。",
+      "text_original": "簡単な任務でした。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/8hFCzjWVhm6mDNWGidsaI5ydv2pS0LLh.ogg"
+    },
+    {
+      "description": "Suzumi_Cafe_Act_1",
+      "category": "cafe",
+      "text": "休息也是任务的一部分。",
+      "text_original": "休憩も任務の一部です。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/vMAG0fjtH5i0ftPBNPr4dS1cgyahJL5q.ogg"
+    },
+    {
+      "description": "Suzumi_Cafe_Act_2",
+      "category": "cafe",
+      "text": "这里的安保……真的很棒，无可挑剔。",
+      "text_original": "ここのセキュリティは…素晴らしいですね。非の打ち所がありません。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/csLXUfXLOkJjQfd685CPvEoSOg2RTB6I.ogg"
+    },
+    {
+      "description": "Suzumi_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "（这里很和平啊。）",
+      "text_original": "（ここは平和ですね）",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/451XfnwWuB7yEk9hWXUeVDXFaXNwyuBb.ogg"
+    },
+    {
+      "description": "Suzumi_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "（啊……这个装饰真的好可爱……）",
+      "text_original": "（あ…この飾り、可愛い）",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/n7gHQv2PlpKPwnAW2x84UVDTFjgR1TR0.ogg"
+    },
+    {
+      "description": "Suzumi_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "（这种可爱的东西和我很不搭吧……）",
+      "text_original": "（多分、こんな可愛い物は私には似合わない…）",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/JzrhxrytIMJlVuuk9MMhdImbHURE53mK.ogg"
+    },
+    {
+      "description": "Suzumi_CommonSkill",
+      "category": "battle",
+      "text": "别想逃!",
+      "text_original": "逃しません！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/JC7KbPyALjHjJwcHZIKZSo8Mss0cvYs1.ogg"
+    },
+    {
+      "description": "Suzumi_ExSkill_1",
+      "category": "battle",
+      "text": "给你一个小小的惊喜吧。",
+      "text_original": "腰を抜かさせてあげましょう！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/8byWyUaQ55MDRfWRwPapkUmfGuVMbSxk.ogg"
+    },
+    {
+      "description": "Suzumi_ExSkill_2",
+      "category": "battle",
+      "text": "天罚之光！",
+      "text_original": "天罰の光を！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/nXJiGHVCRUZgDeSFRWg8vxzgacOasoDS.ogg"
+    },
+    {
+      "description": "Suzumi_ExSkill_3",
+      "category": "battle",
+      "text": "这可是很痛的!",
+      "text_original": "これは痛いですよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/ojAIldOG9scAopvP0uiIv70l1iy1pX8J.ogg"
+    },
+    {
+      "description": "Suzumi_ExSkill_Level_1",
+      "category": "battle",
+      "text": "就是现在！",
+      "text_original": "今です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/h6uT93PUADaYR8gpjIkep8knBDD1R7TU.ogg"
+    },
+    {
+      "description": "Suzumi_ExSkill_Level_2",
+      "category": "battle",
+      "text": "闪光弹,投掷!",
+      "text_original": "閃光弾、投擲！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/VJKso29oiYkQRm49Rl6OQw4XxCpCyHwT.ogg"
+    },
+    {
+      "description": "Suzumi_ExSkill_Level_3",
+      "category": "battle",
+      "text": "朝前方投闪光弹！",
+      "text_original": "前方へ閃光弾を！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/rqpuf9FT576lUy2VnpxuOd4vSWfWrFKw.ogg"
+    },
+    {
+      "description": "Suzumi_ExWeapon_Get",
+      "category": "growup",
+      "text": "毕竟还是趁手的武器最好。",
+      "text_original": "やはり手慣れた武器を使うのが一番ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/eUJzmSzud8ivDp4o77aljBfEoWZJk51w.ogg"
+    },
+    {
+      "description": "Suzumi_Formation_In_1",
+      "category": "formation",
+      "text": "又该执行巡逻任务了吗?",
+      "text_original": "次のパトロール任務ですか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/srJt21R84j3tbR9ip3MFIkFfhSGT3zZF.ogg"
+    },
+    {
+      "description": "Suzumi_Formation_In_2",
+      "category": "formation",
+      "text": "请您多多指教。",
+      "text_original": "よろしくお願いします。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/ISebOaRZJurx28eq1N3dlCTC9TcZ5CM0.ogg"
+    },
+    {
+      "description": "Suzumi_Formation_Select",
+      "category": "formation",
+      "text": "是有什么问题吗?",
+      "text_original": "問題でもありましたか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/xaArtrEmjkk1rGmjIt5iAqOLyFemwLoU.ogg"
+    },
+    {
+      "description": "Suzumi_Gachaget",
+      "category": "growup",
+      "text": "这算自警团任务的拓展吗……如果是为了崔尼蒂的安全，那我会全力配合的。",
+      "text_original": "自警団任務の延長ですね。トリニティの安全のためなら、いくらでも協力します。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/TD6bILI8PAbWFupyKtPyswuU54TpDTvJ.ogg"
+    },
+    {
+      "description": "Suzumi_Growup_1",
+      "category": "growup",
+      "text": "这样的话,对巡逻应该会有所帮助。",
+      "text_original": "これなら、パトロールの役に立てそうです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/zN3vWV3PJR6dtp4lZOmNfwF96sPqXbBr.ogg"
+    },
+    {
+      "description": "Suzumi_Growup_2",
+      "category": "growup",
+      "text": "嗯,还不错。",
+      "text_original": "ふむ……悪くないですね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/42x1sqiwiolUgUl4gvclZdx4zk05MDgv.ogg"
+    },
+    {
+      "description": "Suzumi_Growup_3",
+      "category": "growup",
+      "text": "感觉很好。",
+      "text_original": "いい感じです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/RQCLCD1cloUOuZ5d9c0VMStkgcJ3OVGR.ogg"
+    },
+    {
+      "description": "Suzumi_Growup_4",
+      "category": "growup",
+      "text": "今后也请您多多关照了。",
+      "text_original": "これからもよろしくお願いします。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/APdNqD59vEN7j5Od0K97rPJy67JwDSh8.ogg"
+    },
+    {
+      "description": "Suzumi_Lobby_1",
+      "category": "lobby",
+      "text": "我看起来有那么冷冰冰的吗……？",
+      "text_original": "私ってそんなに冷たい印象ですか…？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/ynnO7JpUqquYG5zCM9uvNsgOIyuzP0bE.ogg"
+    },
+    {
+      "description": "Suzumi_Lobby_2",
+      "category": "lobby",
+      "text": "自警团的活动？虽然确实很累……但总要有人去做的。",
+      "text_original": "自警団の活動ですか？もちろん大変ですが…誰かがやらないといけないことですから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/W33c7NPS8Y8HMVv4b2wA6FCVvNKQcWFJ.ogg"
+    },
+    {
+      "description": "Suzumi_Lobby_3",
+      "category": "lobby",
+      "text": "现在还不能休息哦。",
+      "text_original": "休んでいる暇はありません。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/6uRNYvzfvUJhOIBY56j7zH7U7rqgqCcN.ogg"
+    },
+    {
+      "description": "Suzumi_Lobby_4",
+      "category": "lobby",
+      "text": "所谓正义，就是勿以恶小而为之，勿以善小而不为。",
+      "text_original": "正義というものは、一つの小さなことから正すのが大事なのです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/DmLsXksgZRCYOhsxSqbD3YtddqsMrj08.ogg"
+    },
+    {
+      "description": "Suzumi_Lobby_5",
+      "category": "lobby",
+      "text": "我……有没有失礼之处？",
+      "text_original": "何か…私、失礼なことでも…？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/XIb3VHTMX81SzWet0N9IS88gHXgB4UPq.ogg"
+    },
+    {
+      "description": "Suzumi_LogIn_1",
+      "category": "lobby",
+      "text": "您来了，老师。我想您应该很忙，但还是希望能尽量跟您多见几面。",
+      "text_original": "ようこそ、先生。お忙しいとは思いますが、それでも、できるだけお会いしたいです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/2EpHeBX6e81ZxreiVbAZDLuCezDa5QMK.ogg"
+    },
+    {
+      "description": "Suzumi_LogIn_2",
+      "category": "lobby",
+      "text": "老师，我等您很久了。快一起出去巡逻吧。",
+      "text_original": "先生、お待ちしておりました。早く一緒にパトロールに行きましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/7CC4oz1jq69ygS2diZgiMzPMZC8pIzoC.ogg"
+    },
+    {
+      "description": "Suzumi_Relationship_Up_1",
+      "category": "growup",
+      "text": "您总是这么可靠,非常感谢您,老师。",
+      "text_original": "いつも頼りになります。ありがとうございます、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/jGiORpctIEK4bbnuGOox4g0ajHrIUiLA.ogg"
+    },
+    {
+      "description": "Suzumi_Relationship_Up_2",
+      "category": "growup",
+      "text": "和老师一起巡逻会感觉时间比平时过得要快  这是为什么呢？",
+      "text_original": "先生と一緒のパトロールはいつもよりも短く感じます。何ででしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/A0NPAWRYZwQWMNTaPTAjsoBlgSlvCSVS.ogg"
+    },
+    {
+      "description": "Suzumi_Relationship_Up_3",
+      "category": "growup",
+      "text": "这就是所谓的幸福吗?和结束巡逻的时候那种爽快的感觉,并不一样。",
+      "text_original": "こういうのを幸せというんでしょうか。パトロールを終えたときの高揚感とはまた違いますね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/CBE74RyyxZlHrsvtuAWf1EZrSSgEPfAn.ogg"
+    },
+    {
+      "description": "Suzumi_Relationship_Up_4",
+      "category": "growup",
+      "text": "老师,我希望您以后也可以,一直在我身边。",
+      "text_original": "先生。これからもずっと…私と一緒にいてほしいです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/t7qKhbL0aqHRVldxGWbpC8NKOl6EPOop.ogg"
+    },
+    {
+      "description": "Suzumi_Season_Birthday",
+      "category": "lobby",
+      "text": "虽然庆祝自己出生的日子这件事意义不是很大，但是能收到老师的祝福…… 总感觉还挺赚的。",
+      "text_original": "生まれた日を記念することに大きな意味はないと言いますが、先生に祝っていただけるなんて… なんだかとっても得をした気分ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/S0RmuJ6mRvZNQj2Z8GKUgRsDZi9SmmbQ.ogg"
+    },
+    {
+      "description": "Suzumi_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "祝您生日快乐，老师。 既然今天是老师的生日，就不要巡逻了，我们轻轻松松地散个步怎么样？",
+      "text_original": "お誕生日おめでとうございます、先生。 今日は先生のお誕生日ですし、パトロールの代わりにのんびりお散歩でもいかがですか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/7SOlQrF24LvhbvQ455x0TTNXK4trTbZ6.ogg"
+    },
+    {
+      "description": "Suzumi_Season_Halloween",
+      "category": "lobby",
+      "text": "街上到处都是奇怪的人……万圣节，原来就是这样的节日啊？",
+      "text_original": "変な人たちが街にたくさん…。ハロウィンって、こういうお祭りなんですか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/qHgrCq8VKDlgVZ7sXnnK291IdYaDzgBt.ogg"
+    },
+    {
+      "description": "Suzumi_Season_NewYear",
+      "category": "lobby",
+      "text": "老师，您的新年目标是什么？我的目标……和以前一样，就是努力巡逻。",
+      "text_original": "先生の、新年の目標はなんですか？私は…いつも通り、頑張ってパトロールをすることです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/19V6mQRiO0GVU355DW9RzjsyAS9JoyrG.ogg"
+    },
+    {
+      "description": "Suzumi_Season_Xmas",
+      "category": "lobby",
+      "text": "长假马上就要来了，这段时间大家都有些松懈。 越是这种时候，就越要加强巡逻！",
+      "text_original": "連休を目前にして、皆さんの気が緩む時期ですね。 こういう時こそ、もっと厳しくパトロールしましょう！",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/B2cHJrBIVe4sN7LyqiZF6hyN1h88Zm0d.ogg"
+    },
+    {
+      "description": "Suzumi_Tactic_Defeat_1",
+      "category": "battle",
+      "text": "...我太大意了......",
+      "text_original": "うっ…、油断しました…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/lV73860o6p495SzUv359mHh7Dd01BOWD.ogg"
+    },
+    {
+      "description": "Suzumi_Tactic_Defeat_2",
+      "category": "battle",
+      "text": "请求...撤退...",
+      "text_original": "退却を…要請します…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/zhqFvMNEBZo5umisjFm7y5Q05QOhWTiZ.ogg"
+    },
+    {
+      "description": "Suzumi_Tactic_In_1",
+      "category": "battle",
+      "text": "开始在本地区进行巡逻。",
+      "text_original": "この地域のパトロールを開始します。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/EerQqB7DYgmET9jpwWpmIqWNqKD8TBGw.ogg"
+    },
+    {
+      "description": "Suzumi_Tactic_In_2",
+      "category": "battle",
+      "text": "嗯,这种巡逻活动,什么时候能够结束呢?",
+      "text_original": "はぁ、いつになったらこの活動も終わるのやら…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/F1tZnxrSWdSRi60HHLSRzRRSR7aC8wlq.ogg"
+    },
+    {
+      "description": "Suzumi_Tactic_Victory_1",
+      "category": "battle",
+      "text": "本地区的整顿已经完成。",
+      "text_original": "本区域の整理を完了しました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/k1O5gt7tZMyQmsj5CYMqHLsbcDAaM5pc.ogg"
+    },
+    {
+      "description": "Suzumi_Tactic_Victory_2",
+      "category": "battle",
+      "text": "这个地区已经安全了。各位,都辛苦了。",
+      "text_original": "この地域はもう安全です。みなさん、お疲れ様でした。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/RHO2NgenHjRmAYnD1Zb4QEUr4OmJFweN.ogg"
+    },
+    {
+      "description": "Suzumi_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "……好漂亮啊。",
+      "text_original": "……綺麗ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/OY47Ued0hlOumgDRQNxe7LRbOWvCQbUG.ogg"
+    },
+    {
+      "description": "Suzumi_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "在这里，星星好像 一伸手就能抓到。",
+      "text_original": "ここからなら、星が掴めてしまいそうです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/dWWl3uIAOknXGGlcCMVaJlLbAANuduYu.ogg"
+    },
+    {
+      "description": "Suzumi_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "最近开始能享受一些 像这样悠闲安静的日子了……",
+      "text_original": "ここ最近はこうしてゆっくりと、落ち着いた時間も過ごすことができて……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/5CmnDRLH5zcd2zASQSwN8fJeDASTxs28.ogg"
+    },
+    {
+      "description": "Suzumi_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "好像，就是从 和老师见面开始的。",
+      "text_original": "……先生と出会った頃から、かもしれません。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/tVDxjRASISy87TD4gjny0LNVQZkT5Sep.ogg"
+    },
+    {
+      "description": "Suzumi_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "……老师。",
+      "text_original": "……先生。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/qvrk8uJPRGC6TxRw5dDK6tmXx6pPjcX2.ogg"
+    },
+    {
+      "description": "Suzumi_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "方便的话， 以后也能一直陪在我身边吗？",
+      "text_original": "よろしければこれからも、一緒に居ていただけますでしょうか。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/wkoaTpIJl3zbNLYJimvtDagXdCGaw65e.ogg"
+    },
+    {
+      "description": "Suzumi_MemorialLobby_4",
+      "category": "lobby",
+      "text": "虽然我可能总是 说一些很无聊的事情……",
+      "text_original": "私はいつも、つまらないことばかり口にしてしまうかもしれませんが……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/DPKq0BlYxCsy5IjvtKw0LaIEAB9Y2bQr.ogg"
+    },
+    {
+      "description": "Suzumi_MemorialLobby_5_1",
+      "category": "lobby",
+      "text": "但总有一天我也会……",
+      "text_original": "それでもいつかは、私も……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/9RTaRBlfgKPp19X4H7FYO9wNxbIn6Zse.ogg"
+    },
+    {
+      "description": "Suzumi_MemorialLobby_5_2",
+      "category": "lobby",
+      "text": "……嗯。 总有一天，一定会。",
+      "text_original": "……はい。いつか、きっと。",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/rrHl1uGJrMZfu08fJ0MGjkNzL5xIFbC1.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "suzumi_title.ogg",
+      "category": "lobby",
+      "text": "Blue Archive.",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/GhviKP7RFxW4117S0sUq029sktAP9FMf.ogg"
+    },
+    {
+      "description": "suzumi_title_b.ogg",
+      "category": "lobby",
+      "text": "Blue Archive.",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/DjyIL5dsGksb7Rz6SkkiM3HOvZug4cKO.ogg"
+    },
+    {
+      "description": "suzumi_battle_buffed_1.ogg",
+      "category": "battle",
+      "text": "轮到我了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/xlIUfth8bPAHGcsWNxSafFZATLYZalVE.ogg"
+    },
+    {
+      "description": "suzumi_battle_buffself_1.ogg",
+      "category": "battle",
+      "text": "我要上了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/EyKcGZUi0c9ZVg4EUmGNCET3PjBmHAy4.ogg"
+    },
+    {
+      "description": "suzumi_battle_covered_1.ogg",
+      "category": "battle",
+      "text": "有掩体。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/HL5BGlR7O7n9sDmHcsvzgCmqqSLAjLpy.ogg"
+    },
+    {
+      "description": "suzumi_battle_damage_1.ogg",
+      "category": "battle",
+      "text": "呃——！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/1BqdTns43zevA8ul1TmfSfJfdS7X9q3N.ogg"
+    },
+    {
+      "description": "suzumi_battle_damage_2.ogg",
+      "category": "battle",
+      "text": "怎么会……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/EySJbg8341Ymc1VjaN8SwLCFKUq8zgme.ogg"
+    },
+    {
+      "description": "suzumi_battle_damage_3.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/pvHQAkOR1QMoojZE4YxlwZ5AHerDMqp5.ogg"
+    },
+    {
+      "description": "suzumi_battle_defense_1.ogg",
+      "category": "battle",
+      "text": "白费工夫。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/5dOJJhXDFkarkqOO4fQ4VLx14kf0pn1m.ogg"
+    },
+    {
+      "description": "suzumi_battle_in_1.ogg",
+      "category": "battle",
+      "text": "现在进入作战区域。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/5PQI2LOLwAJ1fCmyTNPRLzHUena80OAF.ogg"
+    },
+    {
+      "description": "suzumi_battle_in_2.ogg",
+      "category": "battle",
+      "text": "全员提高警惕,不要懈怠。突击。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/F7sN5MhTPHVL1kdxSMklR8prL9Z2lffK.ogg"
+    },
+    {
+      "description": "suzumi_battle_move_1.ogg",
+      "category": "battle",
+      "text": "这里已经安全了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/5Oet8LNkLXZSkulr9UUnjFUfy9LyU91Z.ogg"
+    },
+    {
+      "description": "suzumi_battle_move_2.ogg",
+      "category": "battle",
+      "text": "移动到下一个目标地点吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/tcLuo31oFdzhoAx17pT8mUoHWx0hai3l.ogg"
+    },
+    {
+      "description": "suzumi_battle_recovery_1.ogg",
+      "category": "battle",
+      "text": "帮大忙了,感谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/2K4LvvUsDg9hpkVWrnELlLG2vUEKbNzc.ogg"
+    },
+    {
+      "description": "suzumi_battle_retire.ogg",
+      "category": "battle",
+      "text": "太晚了吗......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/6cadS1BSUhQ9v9jr5Kay9XU8wnimRvAi.ogg"
+    },
+    {
+      "description": "suzumi_battle_shout_1.ogg",
+      "category": "battle",
+      "text": "哈啊——",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/5vGpB4f3gpaDPZW9X1v9KWIesesXoqpR.ogg"
+    },
+    {
+      "description": "suzumi_battle_shout_2.ogg",
+      "category": "battle",
+      "text": "呀——",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/NXbjM8WZo8jjXn9C1TXqq0CbKo3l1zSU.ogg"
+    },
+    {
+      "description": "suzumi_battle_shout_3.ogg",
+      "category": "battle",
+      "text": "哈！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/gEo62Y0NplydiZxGvfEi5qS1adtv4AeH.ogg"
+    },
+    {
+      "description": "suzumi_battle_tacticalaction_1.ogg",
+      "category": "battle",
+      "text": "前进。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/rukx9nCrUNXpQpjY9Qv9XkATybA1FStr.ogg"
+    },
+    {
+      "description": "suzumi_battle_victory_1.ogg",
+      "category": "battle",
+      "text": "结束巡逻。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/KAzlvpTOU7WORniOrdeeyHkbJ20BjMSD.ogg"
+    },
+    {
+      "description": "suzumi_battle_victory_2.ogg",
+      "category": "battle",
+      "text": "简单的任务。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/niUNiF8FOG47WrEPuy4MQTqHSc5INNUr.ogg"
+    },
+    {
+      "description": "suzumi_cafe_act_1.ogg",
+      "category": "cafe",
+      "text": "休息也是任务的一部分。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/nL6aakbDq4iYdx79Z0Y5gXcXx0HIb0Ft.ogg"
+    },
+    {
+      "description": "suzumi_cafe_act_2.ogg",
+      "category": "cafe",
+      "text": "这里的安保……真的很棒，无可挑剔。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/iYQWhKQTVxZrPxHpgSJ1kIOaypiNC12G.ogg"
+    },
+    {
+      "description": "suzumi_cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "（这里很和平啊。）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/lKuD3P69kM8DoPGddofmoU0xQesCHz80.ogg"
+    },
+    {
+      "description": "suzumi_cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "（啊……这个装饰真的好可爱……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/qCQrHxMW5CRTwiN0lQw8abHREc7x3f38.ogg"
+    },
+    {
+      "description": "suzumi_cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "（这种可爱的东西和我很不搭吧……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/TabXGlCx8pXZRtqJc6V6o8HEib8wFLqK.ogg"
+    },
+    {
+      "description": "suzumi_commonskill.ogg",
+      "category": "battle",
+      "text": "别想逃!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/2buZRQNJwoVkRgAUpXASmdpridgrsY3u.ogg"
+    },
+    {
+      "description": "suzumi_exskill_1.ogg",
+      "category": "battle",
+      "text": "给你一个小小的惊喜吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/skxs8TCkqSF80xRlIEgSHxGxI4gQjMyb.ogg"
+    },
+    {
+      "description": "suzumi_exskill_2.ogg",
+      "category": "battle",
+      "text": "天罚之光！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/8YI4XkBehCHT8D0PZ4jyJCmE8q5f9WGN.ogg"
+    },
+    {
+      "description": "suzumi_exskill_3.ogg",
+      "category": "battle",
+      "text": "这可是很痛的!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/1ydlsyK5PYXYThERCfgADmgP3Qbq7U8u.ogg"
+    },
+    {
+      "description": "suzumi_exskill_level_1.ogg",
+      "category": "battle",
+      "text": "就是现在！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/im6o2UqywW1TzwzamdHBIevmCbayFmgC.ogg"
+    },
+    {
+      "description": "suzumi_exskill_level_2.ogg",
+      "category": "battle",
+      "text": "闪光弹,投掷!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/k1HtJnyjIgrkVbafkvxDIfddsngRSqAO.ogg"
+    },
+    {
+      "description": "suzumi_exskill_level_3.ogg",
+      "category": "battle",
+      "text": "朝前方投闪光弹！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/0B4MCbcREkkd0Tyt23AeN4oHNqDtz9mS.ogg"
+    },
+    {
+      "description": "suzumi_exweapon_get.ogg",
+      "category": "growup",
+      "text": "毕竟还是趁手的武器最好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/kz9Xqbjb6ui7sGlmlfSrRt8j14XqRD0B.ogg"
+    },
+    {
+      "description": "suzumi_formation_in_1.ogg",
+      "category": "formation",
+      "text": "又该执行巡逻任务了吗?",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/CqWOdFBdywcqFVfIkquCwnfoiRcq4k3E.ogg"
+    },
+    {
+      "description": "suzumi_formation_in_2.ogg",
+      "category": "formation",
+      "text": "请您多多指教。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/6cIBJ2EG4O1usAfI7heIRsfCwB4Kvfgh.ogg"
+    },
+    {
+      "description": "suzumi_formation_select.ogg",
+      "category": "formation",
+      "text": "是有什么问题吗?",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/cDLMf4k501uR0BLeTcbuLUVRKYOYCDEb.ogg"
+    },
+    {
+      "description": "suzumi_gachaget.ogg",
+      "category": "growup",
+      "text": "这算自警团任务的拓展吗……如果是为了崔尼蒂的安全，那我会全力配合的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/UztuZkQVESMS0KOwpUU2KMTJXoeKcO7s.ogg"
+    },
+    {
+      "description": "suzumi_growup_1.ogg",
+      "category": "growup",
+      "text": "这样的话,对巡逻应该会有所帮助。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/ZO5HDVwUiwi5S099sJQn1jMuxRNXPGDl.ogg"
+    },
+    {
+      "description": "suzumi_growup_2.ogg",
+      "category": "growup",
+      "text": "嗯,还不错。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/marGQcaPes8pyybI3NbkB35TMSx1qR1K.ogg"
+    },
+    {
+      "description": "suzumi_growup_3.ogg",
+      "category": "growup",
+      "text": "感觉很好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/b1lAPfzdN7XOoydHys8iuaQQjduxosp1.ogg"
+    },
+    {
+      "description": "suzumi_growup_4.ogg",
+      "category": "growup",
+      "text": "今后也请您多多关照了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/rNVXsKauq6a4A6O1P4PgM0G82unOdEXi.ogg"
+    },
+    {
+      "description": "suzumi_lobby_1.ogg",
+      "category": "lobby",
+      "text": "我看起来有那么冷冰冰的吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/Er13UQ9ko66huP9sw8RjEy22pGrFqhqO.ogg"
+    },
+    {
+      "description": "suzumi_lobby_2.ogg",
+      "category": "lobby",
+      "text": "自警团的活动？虽然确实很累……但总要有人去做的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/kuKZExejhBf5L6slDQY6eKnNuZSj4RZd.ogg"
+    },
+    {
+      "description": "suzumi_lobby_3.ogg",
+      "category": "lobby",
+      "text": "现在还不能休息哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/qXBULK25tPNCdW8NRjQLw60BEintVKNF.ogg"
+    },
+    {
+      "description": "suzumi_lobby_4.ogg",
+      "category": "lobby",
+      "text": "所谓正义，就是勿以恶小而为之，勿以善小而不为。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/Z7LAg6bKBVkb62BL5iDqTpOaBeDUTTxE.ogg"
+    },
+    {
+      "description": "suzumi_lobby_5.ogg",
+      "category": "lobby",
+      "text": "我……有没有失礼之处？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/IS9s0g7ElCGYWZJw8TDCL0PJXsHjWqKx.ogg"
+    },
+    {
+      "description": "suzumi_login_1.ogg",
+      "category": "lobby",
+      "text": "您来了，老师。我想您应该很忙，但还是希望能尽量跟您多见几面。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/63NEJOI6SYfOM0qHMMzVTL6L1a5cLqZa.ogg"
+    },
+    {
+      "description": "suzumi_login_2.ogg",
+      "category": "lobby",
+      "text": "老师，我等您很久了。快一起出去巡逻吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/fxdJUrJ26BWgZ3OzYNLE6pFFzgvgzq8Y.ogg"
+    },
+    {
+      "description": "suzumi_relationship_up_1.ogg",
+      "category": "growup",
+      "text": "您总是这么可靠,非常感谢您,老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/FQ4l22EGin3zAp1qutBKmtf3tkfeqE1o.ogg"
+    },
+    {
+      "description": "suzumi_relationship_up_2.ogg",
+      "category": "growup",
+      "text": "和老师一起巡逻会感觉时间比平时过得要快  这是为什么呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/KWIJW5GuHOTi6KKOfbaZSF8BQryM7Ztu.ogg"
+    },
+    {
+      "description": "suzumi_relationship_up_3.ogg",
+      "category": "growup",
+      "text": "这就是所谓的幸福吗?和结束巡逻的时候那种爽快的感觉,并不一样。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/8fVIuQczFops0I7Jaa3EsCvKBniqS9XP.ogg"
+    },
+    {
+      "description": "suzumi_relationship_up_4.ogg",
+      "category": "growup",
+      "text": "老师,我希望您以后也可以,一直在我身边。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/vwUWlR1ZS5yi1srwdUBM499xSGCW2AUE.ogg"
+    },
+    {
+      "description": "suzumi_season_birthday.ogg",
+      "category": "lobby",
+      "text": "虽然庆祝自己出生的日子这件事意义不是很大，但是能收到老师的祝福…… 总感觉还挺赚的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/ft88MIYnToQuq8PAu5DBJnv6p9JK9wNu.ogg"
+    },
+    {
+      "description": "suzumi_season_birthday_player.ogg",
+      "category": "lobby",
+      "text": "祝您生日快乐，老师。 既然今天是老师的生日，就不要巡逻了，我们轻轻松松地散个步怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/0vW8Ek0B2fCGSQaS26WWH2ybjpXyfIIR.ogg"
+    },
+    {
+      "description": "suzumi_season_halloween.ogg",
+      "category": "lobby",
+      "text": "街上到处都是奇怪的人……万圣节，原来就是这样的节日啊？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/mdSGv8Z7xHpAt6oUSOd3yuQ9BBHAMlqo.ogg"
+    },
+    {
+      "description": "suzumi_season_newyear.ogg",
+      "category": "lobby",
+      "text": "老师，您的新年目标是什么？我的目标……和以前一样，就是努力巡逻。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/zYzVia7uOWMsF2db3aLTPBEZ3PGQ6Ins.ogg"
+    },
+    {
+      "description": "suzumi_season_xmas.ogg",
+      "category": "lobby",
+      "text": "长假马上就要来了，这段时间大家都有些松懈。 越是这种时候，就越要加强巡逻！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/uCTfdClFLIqqJ0WAH9c58gNu74tXZ9m5.ogg"
+    },
+    {
+      "description": "suzumi_tactic_defeat_1.ogg",
+      "category": "battle",
+      "text": "...我太大意了......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/7ZZM4xTilHdK3U2CSFZV9Y0OPz6pXxnu.ogg"
+    },
+    {
+      "description": "suzumi_tactic_defeat_2.ogg",
+      "category": "battle",
+      "text": "请求...撤退...",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/Wk97s6SMY9oJtt5xbtxjcHngnZiBI5FM.ogg"
+    },
+    {
+      "description": "suzumi_tactic_in_1.ogg",
+      "category": "battle",
+      "text": "开始在本地区进行巡逻。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/KunPbbeGGeo3IywijnkKjwOCxDD2tyNo.ogg"
+    },
+    {
+      "description": "suzumi_tactic_in_2.ogg",
+      "category": "battle",
+      "text": "嗯,这种巡逻活动,什么时候能够结束呢?",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/r90nGqw4JBkIdw6YjCskUgFEYICNB91W.ogg"
+    },
+    {
+      "description": "suzumi_tactic_victory_1.ogg",
+      "category": "battle",
+      "text": "本地区的整顿已经完成。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/xpN7LnryotHnKdjT0TJJ4SNFHOLP3BNN.ogg"
+    },
+    {
+      "description": "suzumi_tactic_victory_2.ogg",
+      "category": "battle",
+      "text": "这个地区已经安全了。各位,都辛苦了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/3widXTlAnqQOpEm8sZyVAPeZUVt6kmOB.ogg"
+    },
+    {
+      "description": "suzumi_season_midautumn",
+      "category": "lobby",
+      "text": "今天街上没什么人呢,我也可以暂时休息一下,不急着去巡逻了。老师,您要一起看看月亮吗?",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/hSpb7cAlgDzRYY5VQRsBllBq5JAHtDu1.ogg"
+    },
+    {
+      "description": "suzumi_season_chinesenewyear",
+      "category": "lobby",
+      "text": "到处都好热闹啊。不过,越是这种时候,就越不能放松警惕。老师,我们一起去巡逻吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/Qkjggb7GL5Rt49SC87WHFkUJKiutn7Tr.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "……好漂亮啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/cn/suzumi_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "在这里，星星好像 一伸手就能抓到。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/cn/suzumi_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "最近开始能享受一些 像这样悠闲安静的日子了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/cn/suzumi_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "好像，就是从 和老师见面开始的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/cn/suzumi_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "……老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/cn/suzumi_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "方便的话， 以后也能一直陪在我身边吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/cn/suzumi_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_4",
+      "category": "lobby",
+      "text": "虽然我可能总是 说一些很无聊的事情……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/cn/suzumi_memoriallobby_4.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "但总有一天我也会……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/cn/suzumi_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "……嗯。 总有一天，一定会。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/cn/suzumi_memoriallobby_5_2.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "suzumi_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_in_2.ogg"
+    },
+    {
+      "description": "suzumi_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_move_1.ogg"
+    },
+    {
+      "description": "suzumi_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_move_2.ogg"
+    },
+    {
+      "description": "suzumi_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_recovery_1.ogg"
+    },
+    {
+      "description": "suzumi_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_retire.ogg"
+    },
+    {
+      "description": "suzumi_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_shout_1.ogg"
+    },
+    {
+      "description": "suzumi_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_shout_2.ogg"
+    },
+    {
+      "description": "suzumi_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_shout_3.ogg"
+    },
+    {
+      "description": "suzumi_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "suzumi_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_victory_1.ogg"
+    },
+    {
+      "description": "suzumi_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_victory_2.ogg"
+    },
+    {
+      "description": "suzumi_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_cafe_act_1.ogg"
+    },
+    {
+      "description": "suzumi_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_cafe_act_2.ogg"
+    },
+    {
+      "description": "suzumi_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "suzumi_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "suzumi_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "suzumi_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_commonskill.ogg"
+    },
+    {
+      "description": "suzumi_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_exskill_1.ogg"
+    },
+    {
+      "description": "suzumi_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_exskill_2.ogg"
+    },
+    {
+      "description": "suzumi_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_exskill_3.ogg"
+    },
+    {
+      "description": "suzumi_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_exskill_level_1.ogg"
+    },
+    {
+      "description": "suzumi_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_exskill_level_2.ogg"
+    },
+    {
+      "description": "suzumi_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_exskill_level_3.ogg"
+    },
+    {
+      "description": "suzumi_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_exweapon_get.ogg"
+    },
+    {
+      "description": "suzumi_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_formation_in_1.ogg"
+    },
+    {
+      "description": "suzumi_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_formation_in_2.ogg"
+    },
+    {
+      "description": "suzumi_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_formation_select.ogg"
+    },
+    {
+      "description": "suzumi_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_gachaget.ogg"
+    },
+    {
+      "description": "suzumi_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_growup_1.ogg"
+    },
+    {
+      "description": "suzumi_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_growup_2.ogg"
+    },
+    {
+      "description": "suzumi_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_growup_3.ogg"
+    },
+    {
+      "description": "suzumi_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_growup_4.ogg"
+    },
+    {
+      "description": "suzumi_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_lobby_1.ogg"
+    },
+    {
+      "description": "suzumi_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_lobby_2.ogg"
+    },
+    {
+      "description": "suzumi_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_lobby_3.ogg"
+    },
+    {
+      "description": "suzumi_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_lobby_4.ogg"
+    },
+    {
+      "description": "suzumi_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_lobby_5.ogg"
+    },
+    {
+      "description": "suzumi_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_login_1.ogg"
+    },
+    {
+      "description": "suzumi_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_login_2.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_memoriallobby_4.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "suzumi_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "suzumi_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_relationship_up_1.ogg"
+    },
+    {
+      "description": "suzumi_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_relationship_up_2.ogg"
+    },
+    {
+      "description": "suzumi_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_relationship_up_3.ogg"
+    },
+    {
+      "description": "suzumi_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_relationship_up_4.ogg"
+    },
+    {
+      "description": "suzumi_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_season_birthday.ogg"
+    },
+    {
+      "description": "suzumi_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_season_birthday_player.ogg"
+    },
+    {
+      "description": "suzumi_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_season_halloween.ogg"
+    },
+    {
+      "description": "suzumi_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_season_newyear.ogg"
+    },
+    {
+      "description": "suzumi_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_season_xmas.ogg"
+    },
+    {
+      "description": "suzumi_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "suzumi_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "suzumi_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_tactic_in_1.ogg"
+    },
+    {
+      "description": "suzumi_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_tactic_in_2.ogg"
+    },
+    {
+      "description": "suzumi_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_tactic_victory_1.ogg"
+    },
+    {
+      "description": "suzumi_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_tactic_victory_2.ogg"
+    },
+    {
+      "description": "Suzumi_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/Suzumi_Title.ogg"
+    },
+    {
+      "description": "suzumi_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_buffed_1.ogg"
+    },
+    {
+      "description": "suzumi_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_buffself_1.ogg"
+    },
+    {
+      "description": "suzumi_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_covered_1.ogg"
+    },
+    {
+      "description": "suzumi_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_damage_1.ogg"
+    },
+    {
+      "description": "suzumi_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_damage_2.ogg"
+    },
+    {
+      "description": "suzumi_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_damage_3.ogg"
+    },
+    {
+      "description": "suzumi_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_defense_1.ogg"
+    },
+    {
+      "description": "suzumi_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/suzumi_battle_in_1.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_suzumi_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_suzumi_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_suzumi_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_suzumi_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_suzumi_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_suzumi_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_suzumi_spr-02_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/1.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/suzumi.jpg",
+        "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_067.png",
+        "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-108.jpg"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 150,
+      "favorability": 240
+    },
+    {
+      "id": 78,
+      "favorability": 60
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 16003,
+      "dev_name": "Suzumi_default",
+      "combat_style": "default",
+      "type": "Support",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": true,
+      "team_position": "MIDDLE",
+      "battlefield_position": "STRIKER",
+      "rarity": 1,
+      "limited": false,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "B",
+      "street_adaptability": "B",
+      "equipment": [
+        4,
+        6,
+        9
+      ],
+      "cultivate_material": [
+        40,
+        46,
+        48,
+        51,
+        179,
+        182,
+        183,
+        185,
+        19,
+        423,
+        425,
+        424,
+        426,
+        403,
+        404,
+        405
+      ],
+      "favorite_equipment": 24,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/skill_icon/xex33ywUnoujhEkhFhUKqpstYOfFQYJU.png",
+            "title": "自制闪光弹",
+            "title_cn": "自制闪光弹",
+            "preview": "//static.kivo.wiki/videos/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/skill_preview/FV7tR4Ooo4p4apkTy8xU9rhb7x1UcP0s.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力389%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力410%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力442%的伤害/ 并使其陷入晕厥状态(持续3.6秒)"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力470%的伤害/ 并使其陷入晕厥状态(持续3.6秒)"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力518%的伤害/ 并使其陷入晕厥状态(持续4.1秒)"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/skill_icon/eQsijgBAQEBRtkNiDp09Ve62Ib59djri.png",
+            "title": "巡逻者的潜能",
+            "title_cn": "巡逻者的潜能",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力233%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力244%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力256%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力303%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力303%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力326%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力373%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力384%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力396%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力443%的伤害"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/skill_icon/9H0k18cMUPlOsI7I49NeoWDfFaOmoKYH.png",
+            "title": "紧急闪避",
+            "title_cn": "紧急闪避",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "闪避值增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/skill_icon/wR21MuRSD5wF4FlDteLeYa69rl65PiJ6.png",
+            "title": "巡逻者的强袭",
+            "title_cn": "巡逻者的强袭",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击受到群体控制状态的敌人时，造成攻击力27.5%的额外伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击受到群体控制状态的敌人时，造成攻击力28.9%的额外伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击受到群体控制状态的敌人时，造成攻击力30.3%的额外伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击受到群体控制状态的敌人时，造成攻击力35.8%的额外伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击受到群体控制状态的敌人时，造成攻击力37.2%的额外伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击受到群体控制状态的敌人时，造成攻击力38.6%的额外伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击受到群体控制状态的敌人时，造成攻击力44.1%的额外伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击受到群体控制状态的敌人时，造成攻击力45.5%的额外伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击受到群体控制状态的敌人时，造成攻击力46.8%的额外伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击受到群体控制状态的敌人时，造成攻击力52.3%的额外伤害"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2281,
+          "attack": 292,
+          "defense": 20,
+          "healing": 1380,
+          "accuracy": 690,
+          "evasion": 788,
+          "crit": 197,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1416,
+          "range": 650,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 15
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/weapons_icon.png",
+        "name": "Safety",
+        "name_cn": "安全守卫者",
+        "description": "铃美的突击步枪。<br>对总是独自巡查社区的铃美来说，是很珍贵的巡查伙伴。",
+        "description_cn": "铃美的突击步枪。<br>对总是独自巡逻的铃美而言，这是她十分珍视的伙伴。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「紧急闪避」升级为「紧急闪避+」"
+          },
+          {
+            "title": "固有武器最大等級 Lv.40 → Lv.50 / 地形适应性强化 街道地形适应性 B → A ",
+            "description": "在街道地形造成1.1倍伤害。处于掩体掩护状态时掩护成功率增加45%，攻击时无视掩体概率增加45%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 爆发克制伤害增加",
+            "description": "攻击类型为爆发的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "",
+            "title": "紧急闪避+",
+            "title_cn": "紧急闪避+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "闪避值 提升160/ 闪避值 提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升168/ 闪避值 提升14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升176/ 闪避值 提升15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升208/ 闪避值 提升18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升216/ 闪避值 提升18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升224/ 闪避值 提升19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升256/ 闪避值 提升22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升264/ 闪避值 提升23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升272/ 闪避值 提升23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升304/ 闪避值 提升26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "35e177af-074b-4d04-a0c8-97028ae63de3",
+  "skill_declare_uuid": "4d78469a-0699-48cf-a564-2b1915a482a4",
+  "supplementary_uuid": "d7fc7198-ddbf-4c14-84c8-8e46a16c7cfa",
+  "supplementary_declare_uuid": "c7c721a5-487a-4c46-bc5f-a45eeae49523",
+  "created_at": 1685711655,
+  "updated_at": 1783323138
+}

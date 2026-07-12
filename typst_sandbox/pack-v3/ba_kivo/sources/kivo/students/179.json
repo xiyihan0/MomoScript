@@ -1,0 +1,2978 @@
+{
+  "id": 179,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 179,
+      "avatar": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 141,
+      "avatar": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E5%88%A9%E8%AF%BA/%E6%B8%A9%E6%B3%89/avatar.png",
+      "skin": "温泉",
+      "skin_cn": "温泉"
+    },
+    {
+      "id": 391,
+      "avatar": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/avatar.png",
+      "skin": "旗袍",
+      "skin_cn": "旗袍"
+    }
+  ],
+  "family_name": "连河",
+  "given_name": "切里诺",
+  "family_name_jp": "連河",
+  "given_name_jp": "チェリノ",
+  "family_name_kr": "렌카와",
+  "given_name_kr": "체리노",
+  "family_name_en": "Renkawa",
+  "given_name_en": "Cherino",
+  "family_name_zh_tw": "連河",
+  "given_name_zh_tw": "潔莉諾",
+  "family_name_cn": "连河",
+  "given_name_cn": "切里诺",
+  "nick_name": "斯大萝",
+  "introduction": "红冬联邦学园所属，蛮横又孩子气的学生会长。\n\n对权力的执着与欲望十分惊人，即使每周都因为革命而失势，却能不断设法回到学生会长的宝座。\n贴在鼻子下面的胡子据切里诺所说是「权威的象征」、以及「所谓的权威就是由胡子而来的」。\n\n>为与我这个最高权力者相遇，感到幸运吧！",
+  "introduction_cn": "红冬学院的理事会长。\n\n对权力有着很强的执念和野心，哪怕每周都因革命下台，也总是会想办法回到自己的位置上。\n鼻子下面挂着的假胡子象征着威严，切里诺相信自己的权力都来自于此。\n\n>能与至高无上的本人相遇可是你的荣幸！",
+  "momo_talk_signature": "胡须！胡须！！是胡须！！",
+  "main_relation": 54,
+  "relation": [
+    57
+  ],
+  "age": 1,
+  "grade": "三年生",
+  "height": 128,
+  "birthday": "10-27",
+  "hobby": "整顿、打雪仗",
+  "designer": "Hwansang",
+  "illustrator": "Hwansang",
+  "character_voice": "矢野妃菜喜 *",
+  "character_voice_cn": "阿妄",
+  "release_date": "2021-04-29",
+  "release_date_cn": "2023-09-14",
+  "release_date_global": "2022-01-11",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/avatar.png",
+  "school": 5,
+  "weapon_type": "HG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": false,
+  "more": "# 衍生阅读\n\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|おいら<br>この私|\n|[老师](https://kivo.wiki/data/character/16)|カムラッド|\n|[玛丽娜](https://kivo.wiki/data/character/45)|マリナ<br>マリナ委員長<br>お前|\n|[智惠](https://kivo.wiki/data/character/95)|トモエ<br>トモエ秘書室長|\n|[辉夜](https://kivo.wiki/data/character/390)|カグヤ|\n|[花耶](https://kivo.wiki/data/character/169)|防衛室長<br>なんちゃら連邦生徒会長代行|\n|[妃咲](https://kivo.wiki/data/character/61)|キサキ門主|\n|[心奈](https://kivo.wiki/data/character/4)|ココナ教官|\n|[和香](https://kivo.wiki/data/character/119)|エロガキ|\n|[佩洛洛](https://kivo.wiki/data/character/202)|ペロロ|\n|[真琴](https://kivo.wiki/data/character/115)|マコト議長<br>議長|\n|レッドウィンター事務局|事務局|\n|出版部|出版部|\n|[红冬联邦学园](https://kivo.wiki/data/organize/5)|レッドウィンター<br>レッドウィンター連邦学園<br>我がレッドウィンター連邦学園<br>偉大なるレッドウィンター連邦学園<br>我々|\n|[夏莱](https://kivo.wiki/data/organize/6)|シャーレ|\n|[千禧科学学院](https://kivo.wiki/data/organize/4)|ミレニアム|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n\n## 角色配音\n\n- 2024年12月12日，官方宣布**丹下樱**卸任连河切里诺配音。\n\n:::: center\n![image.png](files/5579/SXw59Gv21umrEgKhoMrqOsXI6ebfzFhd.png =200x)\n::::\n\n- 2025年7月22日，官方宣布连河切里诺配音变更为**矢野妃菜喜**。\n\n# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 晴れのち失脚、所により大荒れ | 今日晴转垮台&emsp;部分地区有骚乱 | 來了啊！同志！今天也要和我一起！認真參加革命！ | You're here, Comrade! You're with me today. It's time to partake in revolution, Comrade! |\n| ![チェリノ.jpg](images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%81%E3%82%A7%E3%83%AA%E3%83%8E.jpg =450x) | ![cherino.png](images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_banner_chs.png =450x) | ![cherino_re.jpg](images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_banner_re_cht.jpg =450x) | ![cherino.jpg](images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_banner_en.jpg =450x) |\n|  |  | 不可原諒！肅清！給我肅清！ | UNFORGIVABLE! YOU WILL BE PURGED! |\n|  |  | ![cherino.png](images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_banner_cht.png =450x) | ![cherino_0.jpg](images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino__banner_en_0.jpg =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|![Cherino.jpg](images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_Intro_jp.jpg =420x)  | ![cherino.jpg](images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_Intro_chs.jpg =425x) | 暂无 | ![cherino.jpg](images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_Intro_en.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 |\n| :---: | :---: |\n| ![cherino_ex.gif](images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_ex.gif =450x) | ![cherino_cafe.gif](images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_cafe.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 切里诺 汉化\n![切里诺](files/2/xBtsENx9T0Yzi2fWitF76ntXPuNbqX0c.png =450x)\n@tab 切里诺 原文\n![切里诺](files/2/BhnNV0Q3CD2B9pFU3QxM83LqtFICmKbJ.jpg =450x)\n:::\n\n\n## 设定集\n\n::::center\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_097.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_266.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_192.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_227.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_021.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_033.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_032.png =450x)\n\n::::",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/Cherino_home_Idle_01_0.8958000000000014.jpg",
+  "spine": [
+    1389,
+    438
+  ],
+  "model": [
+    114,
+    373
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/voice/play_icon.webp",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/voice/pause_icon.webp",
+  "voice": [
+    {
+      "description": "Cherino_Battle_Buffed_1（丹下樱）",
+      "category": "battle",
+      "text": "同志,你的支援不错嘛.",
+      "text_original": "悪くないサポートだな、カムラッド。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/qbjFgBzIpHTFYTfQxOjIEBu4qifyeg9H.ogg"
+    },
+    {
+      "description": "Cherino_Battle_BuffSelf_1（丹下樱）",
+      "category": "battle",
+      "text": "让你见识一下，红冬的力量！",
+      "text_original": "レッドウィンターの力、見せてやる！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/f7DxHOE1nrikLnsV2OF2kmJuDCD31g9K.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Covered_1（丹下樱）",
+      "category": "battle",
+      "text": "有叛徒，快隐蔽！",
+      "text_original": "反逆だ。カムラッド。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Jhz9pNheluQjPU7v1zHDsH2NBbaYsIdz.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Damage_1（丹下樱）",
+      "category": "battle",
+      "text": "好疼！",
+      "text_original": "痛！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/roR51BgnL1MqbY8ZejB178ql1tJskfps.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Damage_2（丹下樱）",
+      "category": "battle",
+      "text": "",
+      "text_original": "ああ",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/LTVDrcZmiXmYprC7jHpEjxaemvYDwxKD.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Damage_3（丹下樱）",
+      "category": "battle",
+      "text": "",
+      "text_original": "うう",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/9hYXsugq2YoO8DebYLPGdYlr8fFvw2HJ.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Defense_1（丹下樱）",
+      "category": "battle",
+      "text": "没用。",
+      "text_original": "ふふん、無駄だ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/pV9iBBSWeYFRJo4GKy9Z3ReDYGdsCK4h.ogg"
+    },
+    {
+      "description": "Cherino_Battle_In_1（丹下樱）",
+      "category": "battle",
+      "text": "出发。",
+      "text_original": "出発だ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/CZHY8kN3SVdjxDXKwAt2EL6NLnNtvS5g.ogg"
+    },
+    {
+      "description": "Cherino_Battle_In_2（丹下樱）",
+      "category": "battle",
+      "text": "好，上吧！",
+      "text_original": "さぁ行こう。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/ZHjtBkSs9u3OrHlXRSNy8R2CBIQt5sML.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Move_1（丹下樱）",
+      "category": "battle",
+      "text": "可没时间让你们休息！",
+      "text_original": "休んでいる暇などないぞ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/EaVBVmZed6x9ZmOHxK106E0UiUbqAmOv.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Move_2（丹下樱）",
+      "category": "battle",
+      "text": "一鼓作气，歼灭敌人！",
+      "text_original": "この勢いで、全部やっつけるのだ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/TugsR4W0Y3MpXAVRkzzuN2vnsZLHB5ZL.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Recovery_1（丹下樱）",
+      "category": "battle",
+      "text": "不错，不错！",
+      "text_original": "よしよし",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/ioDfnoOsiS4S6RG4IOrJzZeIkf4eXvzl.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Retire（丹下樱）",
+      "category": "battle",
+      "text": "啊……啊……好想回家……",
+      "text_original": "ぅ……うぅぅぅ……お家に帰りたい……",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/57VwSziZfSUPqdqz6JL6Y5vVx2LJiAsK.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Shout_1（丹下樱）",
+      "category": "battle",
+      "text": "",
+      "text_original": "や",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/HAKbo6LNeIAiiFtdk6KB2biRo04sf9Ug.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Shout_2（丹下樱）",
+      "category": "battle",
+      "text": "",
+      "text_original": "は",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/NdbdjpcjJK9oTIc2wSXMMDHxBq4rAGGM.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Shout_3（丹下樱）",
+      "category": "battle",
+      "text": "",
+      "text_original": "えい",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Rj545aNLVJyIqWjMbs8g1J0arp9l3Uew.ogg"
+    },
+    {
+      "description": "Cherino_Battle_TacticalAction_1（丹下樱）",
+      "category": "battle",
+      "text": "前进前进！",
+      "text_original": "進め進めー！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Y614ivUdy5Nv0U5r7tGSgfVvWwu3LAC0.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Victory_1（丹下樱）",
+      "category": "battle",
+      "text": "嗯，如何？知道秘书长的厉害了吧……诶，嘿，我胡子！？",
+      "text_original": "うむ、どうだ？書記長の力、思い知ったか！……んん？うぁ、ひげが……",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/646WKj1Ni7aE6D7PvjDpdxpqelRoQCt4.ogg"
+    },
+    {
+      "description": "Cherino_Battle_Victory_2（丹下樱）",
+      "category": "battle",
+      "text": "就这点本事啊，哈哈哈哈！诶，啊，啊啊啊！？",
+      "text_original": "所詮この程度か、はーはっはっはっ！……え？わあぁ！？ううぅ……",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/dyLLciKoKah3daIcPlFzkTYDvWDiFgze.ogg"
+    },
+    {
+      "description": "Cherino_Cafe_Act_1（丹下樱）",
+      "category": "cafe",
+      "text": "嗯，不错不错。秘书长很满意。",
+      "text_original": "うむ、よしよし。書記長は満足だ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Y9eC3ev7uxYmB37VvZait027qdqaeJHR.ogg"
+    },
+    {
+      "description": "Cherino_Cafe_Act_2（丹下樱）",
+      "category": "cafe",
+      "text": "嗯，没有异常。",
+      "text_original": "うむ、異常なし。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/TvAcfVZkUDYUOR7UbxhKMTd8CEIFTyPL.ogg"
+    },
+    {
+      "description": "Cherino_Cafe_Act_3（丹下樱）",
+      "category": "cafe",
+      "text": "嗯哼。秘书长大驾光临了。",
+      "text_original": "えっへん、書記長のお出ましだぞ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Aj62XLX3aI1pIyimxhHoQ4GP02XX0MXl.ogg"
+    },
+    {
+      "description": "Cherino_Cafe_Act_4（丹下樱）",
+      "category": "cafe",
+      "text": "今天也一派祥和啊。很好！这全都是本人的功劳！",
+      "text_original": "今日は平和だな、よし！これもすべて、おいらのおかげだ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/J78FIY8peIYCzmDiGWGcwL5O2URxYNSP.ogg"
+    },
+    {
+      "description": "Cherino_Cafe_Act_5（丹下樱）",
+      "category": "cafe",
+      "text": "（胡子……应该没掉吧？）",
+      "text_original": "(髭……取れてないよな？)",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/c6trcITXM1WZANysYgYf3EDLjBfUyHBB.ogg"
+    },
+    {
+      "description": "Cherino_Cafe_Act_5_NoRvb（丹下樱）",
+      "category": "cafe",
+      "text": "胡子……应该没掉吧？",
+      "text_original": "(髭……取れてないよな？)",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/siIEzRIV9fPfSaeaUqQqzBFHdHbH0zoD.ogg"
+    },
+    {
+      "description": "Cherino_CommonSkill（丹下樱）",
+      "category": "battle",
+      "text": "铲除！",
+      "text_original": "粛清してやる！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/UNZNDcjs6AXxWuZQQQTpv6lpyxMUZxjo.ogg"
+    },
+    {
+      "description": "Cherino_EventLobby_1（丹下樱）",
+      "category": "event",
+      "text": "这次的伊万库帕拉，本人也很期待呀！",
+      "text_original": "今回のイワン・クパーラも楽しみだな！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/mE7hSsHuEczONKRlgXufmph4YpgXBlQO.ogg"
+    },
+    {
+      "description": "Cherino_EventLobby_2（丹下樱）",
+      "category": "event",
+      "text": "需要我帮忙吗，同志？",
+      "text_original": "私の助けが必要か、カムラッド？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/WH6pHCIfQej75H5bIPpfCduqLkyMKOvp.ogg"
+    },
+    {
+      "description": "Cherino_EventLobby_3_1（丹下樱）",
+      "category": "event",
+      "text": "竟然还有人怀疑这个胡子的权威……",
+      "text_original": "この髭の権威を疑うような生徒が、まだ残っていたとはな……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/5SXmm1dmR9rJxBc6fmh6hoJj2MnqC2NY.ogg"
+    },
+    {
+      "description": "Cherino_EventLobby_3_2（丹下樱）",
+      "category": "event",
+      "text": "全都给我铲除，铲除！",
+      "text_original": "どいつもこいつも粛清だ、粛清！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/n7PVS0ehdmspdEnS9AazxzJnxV8VOFtx.ogg"
+    },
+    {
+      "description": "Cherino_EventLobby_4_1（丹下樱）",
+      "category": "event",
+      "text": "为了这次的伊万库帕拉，本人准备了一个又大、又…… 超~级大的布丁！",
+      "text_original": "今回のイワン・クパーラのために大きくて、えーっとそれから…………すっごく大きいプリンを用意したぞ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/LkZgQi8POn7Ib9L6OuJtGQraCnBUMUXX.ogg"
+    },
+    {
+      "description": "Cherino_EventLobby_4_2（丹下樱）",
+      "category": "event",
+      "text": "等铲除完了，大家分着吃了吧。",
+      "text_original": "粛清が終わったら、皆で分けて食べるとしよう。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/ONpmMeLrQw6TnLlXvJ1EqP8T3RcSaKMV.ogg"
+    },
+    {
+      "description": "Cherino_EventLogin_1（丹下樱）",
+      "category": "event",
+      "text": "现在，开始铲除！",
+      "text_original": "これより、粛清を始める！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/znSJ5FwXNihLSGNfYvmt9mhgu2Abxed4.ogg"
+    },
+    {
+      "description": "Cherino_EventLogin_2（丹下樱）",
+      "category": "event",
+      "text": "哼哼哼，革命的时间到了！",
+      "text_original": "ふふふ、革命の時間だ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/o1wCrWyrmFUhW4ChyshE2LyK0NUgt5WE.ogg"
+    },
+    {
+      "description": "Cherino_ExSkill_1（丹下樱）",
+      "category": "battle",
+      "text": "亲卫队出动！瞄准，开火！",
+      "text_original": "さあ来い親衛隊、あそこだ、撃てぇー！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/NEZ72GTb7q1o5sEVsh19pwVJaWnXKuKz.ogg"
+    },
+    {
+      "description": "Cherino_ExSkill_2（丹下樱）",
+      "category": "battle",
+      "text": "亲卫队出动！铲除对象就在那边。",
+      "text_original": "行け、我が親衛隊！粛清対象は、あそこだ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/dPtkX7yWg4xZT6VNRxYYtRVSNX9ZRA28.ogg"
+    },
+    {
+      "description": "Cherino_ExSkill_3（丹下樱）",
+      "category": "battle",
+      "text": "亲卫队出动，全体都要，攻击！",
+      "text_original": "親衛隊、総員、攻撃！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/OImvq2DLt6zsg07SACpDpTxEpXcqwOJz.ogg"
+    },
+    {
+      "description": "Cherino_ExSkill_Level_1（丹下樱）",
+      "category": "battle",
+      "text": "全都给我干掉！",
+      "text_original": "全部やっつけてしまえ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Jk6ZHar1IUywzXXL0aLU6D9D6V7MaCnT.ogg"
+    },
+    {
+      "description": "Cherino_ExSkill_Level_2（丹下樱）",
+      "category": "battle",
+      "text": "很好，攻击！",
+      "text_original": "よーし、攻撃だぁ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/e1KmEAwphu144c9HmIetjL6o7Oup6btR.ogg"
+    },
+    {
+      "description": "Cherino_ExSkill_Level_3（丹下樱）",
+      "category": "battle",
+      "text": "粛清、粛清、粛清だぁ！",
+      "text_original": "粛清、粛清、粛清だぁ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/nxxB8wSyWXmIpvAMnaV4pL7ywWUg9PaL.ogg"
+    },
+    {
+      "description": "Cherino_ExWeapon_Get（丹下樱）",
+      "category": "growup",
+      "text": "嗯，本人非常满意……这才是本人的权威！本人的力量！还有本人的胡子！简直强得可怕呀……不过同志，你别担心。本人永远站在你这边！",
+      "text_original": "気に入ったぞ……これぞおいらの権威！おいらの力！そしておいらの髭！いっそ恐ろしいくらいだな……だが心配するな、カムラッド。おいらはいつも、お前の味方だ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Ozgwy9xh8rRXNslnjZOauaMBrJRh41u8.ogg"
+    },
+    {
+      "description": "Cherino_Formation_In_1（丹下樱）",
+      "category": "formation",
+      "text": "嗯，明智的选择。",
+      "text_original": "うむ、良い選択だ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/kUtGSK3dyFdINjidPaMpWrfDtnCWCU9U.ogg"
+    },
+    {
+      "description": "Cherino_Formation_In_2（丹下樱）",
+      "category": "formation",
+      "text": "彰显本人权威的时候到了。",
+      "text_original": "おいらの権威を示す時が来たか。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/l50O7UAur7J9L2VKXYnjHhzFb2kfvoMO.ogg"
+    },
+    {
+      "description": "Cherino_Formation_Select（丹下樱）",
+      "category": "formation",
+      "text": "呃，诶？诶！快放开！",
+      "text_original": "あ、あれ？は、離せ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/fIBb5md0NjnuN6txP76YORqhdCkIP6YM.ogg"
+    },
+    {
+      "description": "Cherino_Gachaget（丹下樱）",
+      "category": "growup",
+      "text": "红冬秘书长大驾光临！同志，你要为此感到荣幸！",
+      "text_original": "レッドウィンター連邦学園、書記長のお出ましだ！ 光栄に思うがいい、カムラッド！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/IaBgDl53tBIYByVXodP7SRyuxsUm3wXN.ogg"
+    },
+    {
+      "description": "Cherino_Growup_1（丹下樱）",
+      "category": "growup",
+      "text": "同志，你看到了吗，这股奔涌而出的力量！",
+      "text_original": "この溢れ出る力……見ているか？カムラッド。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/TZklXrgWjwYmBfRXPtSTTO8WDoRyAI4j.ogg"
+    },
+    {
+      "description": "Cherino_Growup_2（丹下樱）",
+      "category": "growup",
+      "text": "不错，非常不错！本人的成长是没有极限的！",
+      "text_original": "悪くない……悪くないぞ。おいらの成長に限界は無い！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/yM5Fmj0SoyA23MVA4IEn7AEdjRg2Bmxg.ogg"
+    },
+    {
+      "description": "Cherino_Growup_3（丹下樱）",
+      "category": "growup",
+      "text": "这就是我们红冬的力量！",
+      "text_original": "これぞまさにレッドウィンターの力だ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/SwoYNMtMf3gRxE9tYUqEZE53GTqmN991.ogg"
+    },
+    {
+      "description": "Cherino_Growup_4（丹下樱）",
+      "category": "growup",
+      "text": "同志，有两把刷子！",
+      "text_original": "やるではないか、カムラッド！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/P1Y0hNLFfIlfgNly47V5KM9c4l22CiZu.ogg"
+    },
+    {
+      "description": "Cherino_Lobby_1（丹下樱）",
+      "category": "lobby",
+      "text": "是你在呼唤本人吗？同志！",
+      "text_original": "おいらの呼んだか、カムラッド？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/vEZbnlfaLe4KWRrGjyyGJ53LTvYxE4C7.ogg"
+    },
+    {
+      "description": "Cherino_Lobby_2（丹下樱）",
+      "category": "lobby",
+      "text": "怎么样，今天也和本人一起，投身革命吧！",
+      "text_original": "今日もおいらと共に革命を起こそうではないか！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/D0RT1nzFMVKJMQxciPWeG96uX9lDsPki.ogg"
+    },
+    {
+      "description": "Cherino_Lobby_3（丹下樱）",
+      "category": "lobby",
+      "text": "终于感受到本人的权威了吗？ 哎，你不用害怕。本人很宽厚的！",
+      "text_original": "ようやくおいらの権威を理解できたか？なに、恐れることはない。おいらは寛大だからな！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/8rFRH755Jeu7JCS5cExJQ4zXBa8Vo7E4.ogg"
+    },
+    {
+      "description": "Cherino_Lobby_4（丹下樱）",
+      "category": "lobby",
+      "text": "嗯？你说胡子掉了……？ 呀啊啊？！不，不行，本人的权威要……？！ ……诶，这不贴得好好的嘛！再敢戏弄本人，小心铲除你哦？！",
+      "text_original": "ん、髭が取れてる……？ ひゃぁぁぁぁっ！？だ、だめっ、おいらの権威が……！？ 取れていないじゃん！そうやって何度もからかうと、粛正するぞ！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/wCkVkYaQDI9SvYZhdDUcCU8FUBMJuwkL.ogg"
+    },
+    {
+      "description": "Cherino_Lobby_5（丹下樱）",
+      "category": "lobby",
+      "text": "嘿嘿……嘿嘿嘿……嘿嘿嘿……今天也可以和同志在一起，真好啊。",
+      "text_original": " ふふふ、ふふふふっ……今日も一日、カムラッドと一緒にいられるなんてな。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/vXMiV3NG7DtURniFk7ku2xTGCY8s8VCD.ogg"
+    },
+    {
+      "description": "Cherino_Lobby_6（丹下樱）",
+      "category": "lobby",
+      "text": "呃，只有在通知面前，本人…… 才会以真容相见！ 不，不许戏弄本人！ 小心铲除你哦？！",
+      "text_original": "こうしてリラクスした状態でいるのは、こむれどの前だけだ。 からかうな！粛清するぞ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/BZvQKQNqZdhMoyvrqivOky2rlVV5fgTl.ogg"
+    },
+    {
+      "description": "Cherino_Lobby_7（丹下樱）",
+      "category": "lobby",
+      "text": "唔，差不多也该让我把胡子贴上了吧…… 一直这样，总觉得很不好意思……",
+      "text_original": "そ、そろそろ髭、つけさせて…… このままは何だか、恥ずかしい……",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/iTPLyWc4GKhjbU874oaIPFKmakC0Oiyl.ogg"
+    },
+    {
+      "description": "Cherino_LogIn_1（丹下樱）",
+      "category": "lobby",
+      "text": "同志！一直在等你呢！要处理的工作都堆成山了！偷懒可不行！",
+      "text_original": "待っていたぞ、カムラッド！やることが沢山ある！怠ける事は許さん！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/jXZ7FJ5rIa2f9mod5ZT2ZKsg65CvtozH.ogg"
+    },
+    {
+      "description": "Cherino_LogIn_2（丹下樱）",
+      "category": "lobby",
+      "text": "同志，你来了！需要一起解决的任务都已经堆积如山了，你要做好心理准备哦！",
+      "text_original": "\t 来たか、カムラッド！一緒に片付けなきゃいけない任務がいっぱいあるんだから、覚悟しとけよ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/qWM3PUuoxyIAY5Mlpzdk8dNvh0ABYXoe.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_0_1（丹下樱）",
+      "category": "lobby",
+      "text": "来一起做个长胡子的雪人吧！ 把它做成全世界最大，最大的雪人如何？同志！",
+      "text_original": " 髭のついた雪だるまを作ろう！世界で一番大きい雪だるましようじゃないか、カムラッド",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/EeWI92U13njTzTZOPXxJU5vIRCEDwFQi.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_0_2（丹下樱）",
+      "category": "lobby",
+      "text": "哎呦？！",
+      "text_original": "痛…",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/fZb37pBh6yIVYeCt6kEI2UKUKrNNX4a5.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_0_3（丹下樱）",
+      "category": "lobby",
+      "text": "呜，好家伙，好——那我正式接受你的挑战，同志！",
+      "text_original": "やったなぁ！よし、その挑戦、受けて立つぞ、カムラッド。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Qur5akCfW5DTitFqPjGcCm41GsxqAI2A.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_1（丹下樱）",
+      "category": "lobby",
+      "text": "啊哈哈哈哈！……唔，还不够大！还要再大，再大一点！",
+      "text_original": "あはははは！……うん、まだ足りないな!もっともーっと大きくしよう!",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/RD48OtzxhO8y7UE7QTcjYDFOzU6AWt9B.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_2_1（丹下樱）",
+      "category": "lobby",
+      "text": "阿，阿……阿嚏！",
+      "text_original": "は、は……はっくしょん!……",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/FKhmmO3XOYZ4AaE8hpxLz9z7b4QHTqwU.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_2_2（丹下樱）",
+      "category": "lobby",
+      "text": "……吸溜。",
+      "text_original": "くすん。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Z9Sqp6C5xf6wwe5Ve4550Ade4tqZaNsb.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_3（丹下樱）",
+      "category": "lobby",
+      "text": "嗳，不妨事！本人正在集中精神呢！",
+      "text_original": "ええいっ、構うな！今は集中しているんだ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/PXiC3A2uX3D4a8ijJ4ZoV7ngOVsrZxFZ.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_4_1（丹下樱）",
+      "category": "lobby",
+      "text": "本人冷不冷……？同志，你的身体很虚弱啊！",
+      "text_original": "寒くないか……って？ひ弱だな、カムラッド！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/pBMzu4nN1PwxJqGuQ6HPbpt4HIgJ2Xhw.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_4_2（丹下樱）",
+      "category": "lobby",
+      "text": "这对本人来说根本无所谓！",
+      "text_original": "おいらはこれぐらいなんともない！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/LAlBwwapFcPa6XCjh4qnOM5IR3M87aa6.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_4_3（丹下樱）",
+      "category": "lobby",
+      "text": "再玩三个小时都没问题！",
+      "text_original": "まだまだ、あと3時間は遊べるぞ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/3XGAOR00RcvjpPhRfPLkijhb9ACdpR3d.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_5_1（丹下樱）",
+      "category": "lobby",
+      "text": "本人想到一个好主意，同志，你就在那边堆雪人吧！",
+      "text_original": "良いことを思いついたぞ、カムラッドはそこに雪だるまを作れ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/ojz5l3yT7mIC3Lyq25G4rIfIskU8mkzB.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_5_2（丹下樱）",
+      "category": "lobby",
+      "text": "然后把本人堆的这个放到旁边！",
+      "text_original": "っちでおいらが作ったのを、その横に添えよう！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/czokGhekxFPcZpubbDbgyo8r2gWu5gPW.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_5_3（丹下樱）",
+      "category": "lobby",
+      "text": "嗯？怎么了？你觉得不好吗？",
+      "text_original": "ん？何でって？良いと思わないか？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/EknC5MJ5U8DVrQs2JBmGxs9gzsoWWpJZ.ogg"
+    },
+    {
+      "description": "Cherino_MemorialLobby_5_4（丹下樱）",
+      "category": "lobby",
+      "text": "……要不要在这两个中间，再堆个小雪人？啊，当，当然，要是你愿意的话，那，那就做吧",
+      "text_original": "……その二つの間に、小さい雪だるまも作ろうか……あっ、も、もちろんそれでカムラッドが良いならね！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/sivP520NWzhSP1xx959zAzKCEQnPuYEJ.ogg"
+    },
+    {
+      "description": "Cherino_Relationship_Up_1（丹下樱）",
+      "category": "growup",
+      "text": "啊，敢让本人丢脸，小心，铲除你。",
+      "text_original": "おいらに恥をかかせたら粛正だからな？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/LEw97OFe9DZctofAHUecRFXD7ykhPZnv.ogg"
+    },
+    {
+      "description": "Cherino_Relationship_Up_2（丹下樱）",
+      "category": "growup",
+      "text": "啊，同志，谢谢你。",
+      "text_original": "あ、ありがとう……カムラッド。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/DocgGSeR5Y6OVFoOhI5hQPevGNtfRv5k.ogg"
+    },
+    {
+      "description": "Cherino_Relationship_Up_3（丹下樱）",
+      "category": "growup",
+      "text": "干，干嘛啦。",
+      "text_original": "な、なんだよお…",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/fox5ILSm4ET8BX55iL0OoeXKPLyqTu43.ogg"
+    },
+    {
+      "description": "Cherino_Relationship_Up_4（丹下樱）",
+      "category": "growup",
+      "text": "",
+      "text_original": "ふふっ、ふふふ",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/xwshlIWZK4w5bs3hw1kQ2RQYUaduX5g4.ogg"
+    },
+    {
+      "description": "Cherino_Season_Birthday（丹下樱）",
+      "category": "lobby",
+      "text": "啊，嘿嘿……怪难为情的， 被人送上生日祝福，感觉有损权威呢…… 呃，没有，本人当然很高兴！谢谢你，同志！",
+      "text_original": "あ、うう……何だか恥ずかしいな、 お祝いなんてされると、権威が…… い、いや、もちろん嬉しい！ありがとう、カムラッド！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/UtZhb7fRJKx4h5XIrbN9iEZhcxUMK5yA.ogg"
+    },
+    {
+      "description": "Cherino_Season_Birthday_Player（丹下樱）",
+      "category": "lobby",
+      "text": "同志，原来今天是你的生日啊？ 好，那本人决定今天就是红冬的纪念日了！",
+      "text_original": "お誕生日？そうだったのか？ よし、ではカムラッドの誕生日である今日を、レッドウィンターの記念日とする！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/EtoEE2yKGigZzG3uSKNZYZROJTkuTDrM.ogg"
+    },
+    {
+      "description": "Cherino_Season_Halloween（丹下樱）",
+      "category": "lobby",
+      "text": "大家怎么都穿得花里胡哨的。 原来如此，是万圣节啊。嗯？这个胡子才不是万圣节的装扮！ 再，再戏弄本人就铲除你哦！",
+      "text_original": "皆が派手な仮装を……なるほど、ハロウィンか。 ん？いや、この髭はハロウィンの仮装なんかじゃない！ そ、それ以上からかうと粛清するぞ！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/4ZXEbu1B5Od7m6QbsDQb15puPFn0aqUp.ogg"
+    },
+    {
+      "description": "Cherino_Season_NewYear（丹下樱）",
+      "category": "lobby",
+      "text": "同志，新年快乐。制定好今年的计划了吗？ 如果还没有，本人可以和你讨论一下！",
+      "text_original": "明けましておめでとう。カムラッド、この一年の計画はたてだが、もしまだなら",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/217ohVONUVNYsZwwcSDmqoMAsnjv9PAI.ogg"
+    },
+    {
+      "description": "Cherino_Season_Xmas（丹下樱）",
+      "category": "lobby",
+      "text": "今天是圣诞节！据说有个大胡子的胖爷爷会穿得红彤彤的，给民众发礼物…… 好棒！本人也想收到礼物！",
+      "text_original": "今日はクリスマスだ！大きな髭の真っ赤な老人がプレゼントを配ると聞いたが…… 良いな！おいらもプレゼントほしい！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Tb9q0ll4RfBtIQHS0q6EMsPZ0q3k18px.ogg"
+    },
+    {
+      "description": "Cherino_Tactic_Defeat_1（丹下樱）",
+      "category": "battle",
+      "text": "啊……输了……",
+      "text_original": "あ、ああぁぁ……負けちゃった……",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/i0tF5d0yrltJDPVxo8OI78RH6Z9AvhHM.ogg"
+    },
+    {
+      "description": "Cherino_Tactic_Defeat_2（丹下樱）",
+      "category": "battle",
+      "text": "这肯定是什么地方搞错了！",
+      "text_original": "こ、こんなの、何かの間違いだ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/V3DscMtIpEny0AC88N2fpGtURDyO8xSt.ogg"
+    },
+    {
+      "description": "Cherino_Tactic_In_1（丹下樱）",
+      "category": "battle",
+      "text": "听令，各就各位！",
+      "text_original": "諸君、準備せよ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/UgktK8OMwXyfcJH5Csbekr3jVhyaLTAJ.ogg"
+    },
+    {
+      "description": "Cherino_Tactic_In_2（丹下樱）",
+      "category": "battle",
+      "text": "各位，履行义务的时候到了！",
+      "text_original": "皆のもの、義務を果たす時が来たぞ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/lKMseGIf3s1JXFrbTVKNjKyEpPOR393K.ogg"
+    },
+    {
+      "description": "Cherino_Tactic_Victory_1（丹下樱）",
+      "category": "battle",
+      "text": "这就是红冬的力量！",
+      "text_original": "これがレッドウィンターの力だ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/py1OCRLTEHpBSQomTt1jMCxK8WHDBouS.ogg"
+    },
+    {
+      "description": "Cherino_Tactic_Victory_2（丹下樱）",
+      "category": "battle",
+      "text": "同志，你可有看清楚本人的雄资！",
+      "text_original": "おいらの雄姿、ちゃんと見ていたか、カムラッド？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/jVN7S8M6ARoGjFGEEK1UoUt2arBMehfr.ogg"
+    },
+    {
+      "description": "Cherino_Title（丹下樱）",
+      "category": "lobby",
+      "text": "Blue Archive!",
+      "text_original": "ブルーアーカイブ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/YgUyNtXzQs2F1ghl7UsgmxSLwnAMdIQb.ogg"
+    },
+    {
+      "description": "cherino_battle_buffed_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "同志,你的支援不错嘛.",
+      "text_original": "悪くないサポートだな、カムラッド！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_buffed_1.ogg"
+    },
+    {
+      "description": "cherino_battle_buffself_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "让你见识一下，红冬的力量！",
+      "text_original": "レッドウィンターの力、見せてやる！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_buffself_1.ogg"
+    },
+    {
+      "description": "cherino_battle_covered_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "有叛徒，快隐蔽！",
+      "text_original": "反逆だ！隠れろ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_covered_1.ogg"
+    },
+    {
+      "description": "cherino_battle_damage_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "好疼！",
+      "text_original": "痛！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_damage_1.ogg"
+    },
+    {
+      "description": "cherino_battle_damage_2（矢野妃菜喜）",
+      "category": "battle",
+      "text": "",
+      "text_original": "ああ",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_damage_2.ogg"
+    },
+    {
+      "description": "cherino_battle_damage_3（矢野妃菜喜）",
+      "category": "battle",
+      "text": "",
+      "text_original": "うう",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_damage_3.ogg"
+    },
+    {
+      "description": "cherino_battle_defense_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "没用。",
+      "text_original": "ふふん、無駄だ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_defense_1.ogg"
+    },
+    {
+      "description": "cherino_battle_in_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "出发。",
+      "text_original": "出発だ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_in_1.ogg"
+    },
+    {
+      "description": "cherino_battle_in_2（矢野妃菜喜）",
+      "category": "battle",
+      "text": "好，上吧！",
+      "text_original": "さあ、行こう！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_in_2.ogg"
+    },
+    {
+      "description": "cherino_battle_move_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "可没时间让你们休息！",
+      "text_original": "休んでいる暇などないぞ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_move_1.ogg"
+    },
+    {
+      "description": "cherino_battle_move_2（矢野妃菜喜）",
+      "category": "battle",
+      "text": "一鼓作气，歼灭敌人！",
+      "text_original": "この勢いで、全部やっつけるのだ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_move_2.ogg"
+    },
+    {
+      "description": "cherino_battle_recovery_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "不错，不错！",
+      "text_original": "よし、よし。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_recovery_1.ogg"
+    },
+    {
+      "description": "cherino_battle_retire（矢野妃菜喜）",
+      "category": "battle",
+      "text": "啊……啊……好想回家……",
+      "text_original": "ぅ……うぅぅぅ……お家に帰りたい……",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_retire.ogg"
+    },
+    {
+      "description": "cherino_battle_shout_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "",
+      "text_original": "や",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_shout_1.ogg"
+    },
+    {
+      "description": "cherino_battle_shout_2（矢野妃菜喜）",
+      "category": "battle",
+      "text": "",
+      "text_original": "は",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_shout_2.ogg"
+    },
+    {
+      "description": "cherino_battle_shout_3（矢野妃菜喜）",
+      "category": "battle",
+      "text": "",
+      "text_original": "えい",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_shout_3.ogg"
+    },
+    {
+      "description": "cherino_battle_tacticalaction_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "前进前进！",
+      "text_original": "進め進めー！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "cherino_battle_victory_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "嗯，如何？知道秘书长的厉害了吧……诶，嘿，我胡子！？",
+      "text_original": "うむ、どうだ。書記長の力、思い知ったか？……？あ、髭が……！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_victory_1.ogg"
+    },
+    {
+      "description": "cherino_battle_victory_2（矢野妃菜喜）",
+      "category": "battle",
+      "text": "就这点本事啊，哈哈哈哈！诶，啊，啊啊啊！？",
+      "text_original": "所詮この程度か、ふははははは！……ん？あ、うあぁ！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_battle_victory_2.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_1（矢野妃菜喜）",
+      "category": "cafe",
+      "text": "嗯，不错不错。秘书长很满意。",
+      "text_original": "うむ、よしよし。書記長は満足だ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_cafe_act_1.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_2（矢野妃菜喜）",
+      "category": "cafe",
+      "text": "嗯，没有异常。",
+      "text_original": "うむ、異常なし",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_cafe_act_2.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_3（矢野妃菜喜）",
+      "category": "cafe",
+      "text": "嗯哼。秘书长大驾光临了。",
+      "text_original": "えっへん、書記長のお出ましだぞ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_cafe_act_3.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_4（矢野妃菜喜）",
+      "category": "cafe",
+      "text": "今天也一派祥和啊。很好！这全都是本人的功劳！",
+      "text_original": "今日も平和だな、よし！これも全て、おいらのおかげだ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_cafe_act_4.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_5（矢野妃菜喜）",
+      "category": "cafe",
+      "text": "（胡子……应该没掉吧？）",
+      "text_original": "（髭……取れてないよな？）",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_cafe_act_5.ogg"
+    },
+    {
+      "description": "cherino_commonskill（矢野妃菜喜）",
+      "category": "battle",
+      "text": "铲除！",
+      "text_original": "粛清してやる！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_commonskill.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_1（矢野妃菜喜）",
+      "category": "event",
+      "text": "这次的伊万库帕拉，本人也很期待呀！",
+      "text_original": "今回のイワン・クパーラも楽しみだな！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_eventlobby_1.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_2（矢野妃菜喜）",
+      "category": "event",
+      "text": "需要我帮忙吗，同志？",
+      "text_original": "私の助けが必要か、カムラッド？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_eventlobby_2.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_3_1（矢野妃菜喜）",
+      "category": "event",
+      "text": "竟然还有人怀疑这个胡子的权威……",
+      "text_original": "この髭の権威を疑うような生徒が、まだ残っていたとはな……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_eventlobby_3_1.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_3_2（矢野妃菜喜）",
+      "category": "event",
+      "text": "全都给我铲除，铲除！",
+      "text_original": "どいつもこいつも粛清だ、粛清！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_eventlobby_3_2.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_4_1（矢野妃菜喜）",
+      "category": "event",
+      "text": "为了这次的伊万库帕拉，本人准备了一个又大、又…… 超~级大的布丁！",
+      "text_original": "今回のイワン・クパーラのために大きくて、えーっとそれから…………すっごく大きいプリンを用意したぞ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_eventlobby_4_1.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_4_2（矢野妃菜喜）",
+      "category": "event",
+      "text": "等铲除完了，大家分着吃了吧。",
+      "text_original": "粛清が終わったら、皆で分けて食べるとしよう。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_eventlobby_4_2.ogg"
+    },
+    {
+      "description": "cherino_eventlogin_1（矢野妃菜喜）",
+      "category": "event",
+      "text": "现在，开始铲除！",
+      "text_original": "これより、粛清を始める！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_eventlogin_1.ogg"
+    },
+    {
+      "description": "cherino_eventlogin_2（矢野妃菜喜）",
+      "category": "event",
+      "text": "哼哼哼，革命的时间到了！",
+      "text_original": "ふふふ、革命の時間だ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_eventlogin_2.ogg"
+    },
+    {
+      "description": "cherino_exskill_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "亲卫队出动！瞄准，开火！",
+      "text_original": "さあ来い、親衛隊！あそこだ！撃て―！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_exskill_1.ogg"
+    },
+    {
+      "description": "cherino_exskill_2（矢野妃菜喜）",
+      "category": "battle",
+      "text": "亲卫队出动！铲除对象就在那边。",
+      "text_original": "行け、我が親衛隊！粛清対象はあそこだ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_exskill_2.ogg"
+    },
+    {
+      "description": "cherino_exskill_3（矢野妃菜喜）",
+      "category": "battle",
+      "text": "亲卫队出动，全体都要，攻击！",
+      "text_original": "親衛隊！総員、攻撃！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_exskill_3.ogg"
+    },
+    {
+      "description": "cherino_exskill_level_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "全都给我干掉！",
+      "text_original": "全部やっつけてしまえ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_exskill_level_1.ogg"
+    },
+    {
+      "description": "cherino_exskill_level_2（矢野妃菜喜）",
+      "category": "battle",
+      "text": "很好，攻击！",
+      "text_original": "よし！攻撃だ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_exskill_level_2.ogg"
+    },
+    {
+      "description": "cherino_exskill_level_3（矢野妃菜喜）",
+      "category": "battle",
+      "text": "铲除！铲除！铲除！",
+      "text_original": "粛清、粛清、粛清だ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_exskill_level_3.ogg"
+    },
+    {
+      "description": "cherino_exweapon_get（矢野妃菜喜）",
+      "category": "growup",
+      "text": "嗯，本人非常满意……这才是本人的权威！本人的力量！还有本人的胡子！简直强得可怕呀……不过同志，你别担心。本人永远站在你这边！",
+      "text_original": "気に入ったぞ……これぞおいらの権威！おいらの力！そしておいらの髭！いっそ恐ろしいくらいだな……だが心配するな、カムラッド。おいらはいつも、お前の味方だ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_exweapon_get.ogg"
+    },
+    {
+      "description": "cherino_formation_in_1（矢野妃菜喜）",
+      "category": "formation",
+      "text": "嗯，明智的选择。",
+      "text_original": "うむ、良い選択だ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_formation_in_1.ogg"
+    },
+    {
+      "description": "cherino_formation_in_2（矢野妃菜喜）",
+      "category": "formation",
+      "text": "彰显本人权威的时候到了。",
+      "text_original": "おいらの権威を示す時が来たか。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_formation_in_2.ogg"
+    },
+    {
+      "description": "cherino_formation_select（矢野妃菜喜）",
+      "category": "formation",
+      "text": "呃，诶？诶！快放开！",
+      "text_original": "あ、あれっ！？は、離せ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_formation_select.ogg"
+    },
+    {
+      "description": "cherino_gachaget（矢野妃菜喜）",
+      "category": "growup",
+      "text": "红冬秘书长大驾光临！同志，你要为此感到荣幸！",
+      "text_original": "レッドウィンター連邦学園、書記長のお出ましだ！光栄に思うがいい、カムラッド！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_gachaget.ogg"
+    },
+    {
+      "description": "cherino_growup_1（矢野妃菜喜）",
+      "category": "growup",
+      "text": "同志，你看到了吗，这股奔涌而出的力量！",
+      "text_original": "この溢れ出る力……見ているか、カムラッド！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_growup_1.ogg"
+    },
+    {
+      "description": "cherino_growup_2（矢野妃菜喜）",
+      "category": "growup",
+      "text": "不错，非常不错！本人的成长是没有极限的！",
+      "text_original": "悪くない、悪くないぞ……おいらの成長に限界はない！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_growup_2.ogg"
+    },
+    {
+      "description": "cherino_growup_3（矢野妃菜喜）",
+      "category": "growup",
+      "text": "这就是我们红冬的力量！",
+      "text_original": "これぞまさに、レッドウィンターの力だ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_growup_3.ogg"
+    },
+    {
+      "description": "cherino_growup_4（矢野妃菜喜）",
+      "category": "growup",
+      "text": "同志，有两把刷子！",
+      "text_original": "やるではないか、カムラッド！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_growup_4.ogg"
+    },
+    {
+      "description": "cherino_lobby_1（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "是你在呼唤本人吗？同志！",
+      "text_original": "おいらを呼んだか、カムラッド？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_lobby_1.ogg"
+    },
+    {
+      "description": "cherino_lobby_2（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "怎么样，今天也和本人一起，投身革命吧！",
+      "text_original": "今日もおいらと共に、革命を起こそうではないか！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_lobby_2.ogg"
+    },
+    {
+      "description": "cherino_lobby_3（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "终于感受到本人的权威了吗？ 哎，你不用害怕。本人很宽厚的！",
+      "text_original": "ようやくおいらの権威を理解できたか？なに、恐れることは無い。おいらは寛大だからな！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_lobby_3.ogg"
+    },
+    {
+      "description": "cherino_lobby_4（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "嗯？你说胡子掉了……？ 呀啊啊？！不，不行，本人的权威要……？！ ……诶，这不贴得好好的嘛！再敢戏弄本人，小心铲除你哦？！",
+      "text_original": "ん、髭が取れてる……？ひゃぁぁっ！？だ、だめっ、おいらの権威が……！？……って、取れてないじゃん！そうやって何度もからかうと、粛清するぞ！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_lobby_4.ogg"
+    },
+    {
+      "description": "cherino_lobby_5（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "嘿嘿……嘿嘿嘿……嘿嘿嘿……今天也可以和同志在一起，真好啊。",
+      "text_original": "ふふふ、ふふふふっ……今日も一日、カムラッドと一緒にいられるなんてな。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_lobby_5.ogg"
+    },
+    {
+      "description": "cherino_lobby_6（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "呃，只有在通知面前，本人…… 才会以真容相见！ 不，不许戏弄本人！ 小心铲除你哦？！",
+      "text_original": "こ、こうしてリラックスした状態でいるのは、カムラッドの前でだけだ！か、からかうな！粛清するぞ！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_lobby_6.ogg"
+    },
+    {
+      "description": "cherino_lobby_7（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "唔，差不多也该让我把胡子贴上了吧…… 一直这样，总觉得很不好意思……",
+      "text_original": "そ、そろそろ髭、つけさせて……このままは何だか、恥ずかしい……",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_lobby_7.ogg"
+    },
+    {
+      "description": "cherino_login_1（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "同志！一直在等你呢！要处理的工作都堆成山了！偷懒可不行！",
+      "text_original": "待っていたぞ、カムラッド！やることがたくさんある！怠けることは許さん！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_login_1.ogg"
+    },
+    {
+      "description": "cherino_login_2（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "同志，你来了！需要一起解决的任务都已经堆积如山了，你要做好心理准备哦！",
+      "text_original": "来たか、カムラッド！一緒に片づけなきゃいけない任務がいっぱいあるんだから、覚悟しとけよ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_login_2.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_0_1（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "来一起做个长胡子的雪人吧！ 把它做成全世界最大，最大的雪人如何？同志！",
+      "text_original": "髭のついた雪だるまを作ろう！世界で一番大きい雪だるましようじゃないか、カムラッド",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_0_1.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_0_2（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "哎呦？！",
+      "text_original": "痛…",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_0_2.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_0_3（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "呜，好家伙，好——那我正式接受你的挑战，同志！",
+      "text_original": "やったなぁ！よし、その挑戦、受けて立つぞ、カムラッド。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_0_3.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_1（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "啊哈哈哈哈！……唔，还不够大！还要再大，再大一点！",
+      "text_original": "あはははは！……うん、まだ足りないな!もっともーっと大きくしよう!",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_1.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_2_1（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "阿，阿……阿嚏！",
+      "text_original": "は、は……はっくしょん!……",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_2_2（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "……吸溜。",
+      "text_original": "くすん。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_3（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "嗳，不妨事！本人正在集中精神呢！",
+      "text_original": "ええいっ、構うな！今は集中しているんだ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_3.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_4_1（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "本人冷不冷……？同志，你的身体很虚弱啊！",
+      "text_original": "寒くないか……って？ひ弱だな、カムラッド！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_4_2（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "这对本人来说根本无所谓！",
+      "text_original": "おいらはこれぐらいなんともない！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_4_3（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "再玩三个小时都没问题！",
+      "text_original": "まだまだ、あと3時間は遊べるぞ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_4_3.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_5_1（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "本人想到一个好主意，同志，你就在那边堆雪人吧！",
+      "text_original": "良いことを思いついたぞ、カムラッドはそこに雪だるまを作れ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_5_2（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "然后把本人堆的这个放到旁边！",
+      "text_original": "っちでおいらが作ったのを、その横に添えよう！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_5_3（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "嗯？怎么了？你觉得不好吗？",
+      "text_original": "ん？何でって？良いと思わないか？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_5_3.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_5_4（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "……要不要在这两个中间，再堆个小雪人？啊，当，当然，要是你愿意的话，那，那就做吧！",
+      "text_original": "……その二つの間に、小さい雪だるまも作ろうか……あっ、も、もちろんそれでカムラッドが良いならね！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_memoriallobby_5_4.ogg"
+    },
+    {
+      "description": "cherino_relationship_up_1（矢野妃菜喜）",
+      "category": "growup",
+      "text": "啊，敢让本人丢脸，小心，铲除你。",
+      "text_original": "お、おいらに恥をかかせたら、粛清だからな！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_relationship_up_1.ogg"
+    },
+    {
+      "description": "cherino_relationship_up_2（矢野妃菜喜）",
+      "category": "growup",
+      "text": "啊，同志，谢谢你。",
+      "text_original": "あ……ありがと、カムラッド。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_relationship_up_2.ogg"
+    },
+    {
+      "description": "cherino_relationship_up_3（矢野妃菜喜）",
+      "category": "growup",
+      "text": "干，干嘛啦。",
+      "text_original": "な、なんだよ～？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_relationship_up_3.ogg"
+    },
+    {
+      "description": "cherino_relationship_up_4（矢野妃菜喜）",
+      "category": "growup",
+      "text": "",
+      "text_original": "エヘ、エヘヘヘ……。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_relationship_up_4.ogg"
+    },
+    {
+      "description": "cherino_season_birthday（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "啊，嘿嘿……怪难为情的， 被人送上生日祝福，感觉有损权威呢…… 呃，没有，本人当然很高兴！谢谢你，同志！",
+      "text_original": "あ、うう……何だか恥ずかしいな、お祝いなんてされると、権威が……い、いや、もちろん嬉しい！ありがとう、カムラッド！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_season_birthday.ogg"
+    },
+    {
+      "description": "cherino_season_birthday_player（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "同志，原来今天是你的生日啊？ 好，那本人决定今天就是红冬的纪念日了！",
+      "text_original": "お誕生日？そうだったのか？よし、ではカムラッドの誕生日である今日を、レッドウィンターの記念日とする！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_season_birthday_player.ogg"
+    },
+    {
+      "description": "cherino_season_halloween（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "大家怎么都穿得花里胡哨的。 原来如此，是万圣节啊。嗯？这个胡子才不是万圣节的装扮！ 再，再戏弄本人就铲除你哦！",
+      "text_original": "皆が派手な仮装を……なるほど、ハロウィンか。ん？いや、この髭はハロウィンの仮装なんかじゃない！そ、それ以上からかうと粛清するぞ！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_season_halloween.ogg"
+    },
+    {
+      "description": "cherino_season_newyear（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "同志，新年快乐。制定好今年的计划了吗？ 如果还没有，本人可以和你讨论一下！",
+      "text_original": "あけましておめでとう、カムラッド。この一年の計画は立てたか？もしまだなら、おいらと一緒に決めるとしよう！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_season_newyear.ogg"
+    },
+    {
+      "description": "cherino_season_xmas（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "今天是圣诞节！据说有个大胡子的胖爷爷会穿得红彤彤的，给民众发礼物…… 好棒！本人也想收到礼物！",
+      "text_original": "今日はクリスマスだ！大きな髭の真っ赤な老人がプレゼントを配ると聞いたが……良いな！おいらもプレゼントほしい！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_season_xmas.ogg"
+    },
+    {
+      "description": "cherino_tactic_defeat_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "啊……输了……",
+      "text_original": "あ、ああぁぁ……負けちゃった……",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "cherino_tactic_defeat_2（矢野妃菜喜）",
+      "category": "battle",
+      "text": "这肯定是什么地方搞错了！",
+      "text_original": "こ、こんなの、何かの間違いだ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "cherino_tactic_in_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "听令，各就各位！",
+      "text_original": "諸君、準備せよ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_tactic_in_1.ogg"
+    },
+    {
+      "description": "cherino_tactic_in_2（矢野妃菜喜）",
+      "category": "battle",
+      "text": "各位，履行义务的时候到了！",
+      "text_original": "皆の者、義務を果たす時が来たぞ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_tactic_in_2.ogg"
+    },
+    {
+      "description": "cherino_tactic_victory_1（矢野妃菜喜）",
+      "category": "battle",
+      "text": "这就是红冬的力量！",
+      "text_original": "これがレッドウィンターの力だ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_tactic_victory_1.ogg"
+    },
+    {
+      "description": "cherino_tactic_victory_2（矢野妃菜喜）",
+      "category": "battle",
+      "text": "同志，你可有看清楚本人的雄资！",
+      "text_original": "おいらの雄姿、ちゃんと見ていたか、カムラッド？",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/cherino_tactic_victory_2.ogg"
+    },
+    {
+      "description": "Cherino_Title（矢野妃菜喜）",
+      "category": "lobby",
+      "text": "Blue Archive!",
+      "text_original": "ブルーアーカイブ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/jp/Cherino_Title.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "cherino_battle_damage_1",
+      "category": "battle",
+      "text": "好疼！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/AKBNT5GL56x8v9AYIiib6nZt0s2m6VJn.ogg"
+    },
+    {
+      "description": "cherino_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/KsvBKwvAiTp8FNU2xAJLMzYXTDkfpQm3.ogg"
+    },
+    {
+      "description": "cherino_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/hgYP6Mk85SQCw0DO1zHu7w18ZF2BL2qE.ogg"
+    },
+    {
+      "description": "cherino_battle_defense_1",
+      "category": "battle",
+      "text": "没用。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/S5t8gZiZIWWmThVrlBtClLIlHn1VvDsB.ogg"
+    },
+    {
+      "description": "cherino_battle_in_1",
+      "category": "battle",
+      "text": "出发。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/8ILl3NL6c19jJEkcvPEVZTli1qUnSiB1.ogg"
+    },
+    {
+      "description": "cherino_battle_in_2",
+      "category": "battle",
+      "text": "好，上吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/zh1B55swk9Wni9BjOxnQViWtW43USK3A.ogg"
+    },
+    {
+      "description": "cherino_battle_move_1",
+      "category": "battle",
+      "text": "可没时间让你们休息！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/03z2t8wKJ6UtW3NTbZSPkrF5ZJzvMHgD.ogg"
+    },
+    {
+      "description": "cherino_battle_move_2",
+      "category": "battle",
+      "text": "一鼓作气，歼灭敌人！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/uywBIke9j9CuBOFt56o4yUGQAjx63gVl.ogg"
+    },
+    {
+      "description": "cherino_battle_recovery_1",
+      "category": "battle",
+      "text": "不错，不错！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/K14Q3e8qMqn6Epu2e8WNMdWTQn47HTeZ.ogg"
+    },
+    {
+      "description": "cherino_battle_retire",
+      "category": "battle",
+      "text": "啊……啊……好想回家……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/3jmLzV1YILMrP10Zu3XrpS5siiRQ2YgB.ogg"
+    },
+    {
+      "description": "cherino_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/xHELrL7PjAqcIZyuaZvytrLrTgeyI1rL.ogg"
+    },
+    {
+      "description": "cherino_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/6XcPgZDkWDYaQ2okl7wBpoaAi0evzGOM.ogg"
+    },
+    {
+      "description": "cherino_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/bKEiaIdeVallczJgCfjzAI6xC6Wdh982.ogg"
+    },
+    {
+      "description": "cherino_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "前进前进！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/9tGgVXBIPfQQW8QIQQXMF3B6SVgxpl0T.ogg"
+    },
+    {
+      "description": "cherino_battle_victory_1",
+      "category": "battle",
+      "text": "嗯，如何？知道秘书长的厉害了吧……诶，嘿，我胡子！？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/hlYA5BIQ9Ak2CiaWAbfbUGelS893t3jD.ogg"
+    },
+    {
+      "description": "cherino_battle_victory_2",
+      "category": "battle",
+      "text": "就这点本事啊，哈哈哈哈！诶，啊，啊啊啊！？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/6o3PGvoSnaHPV2dFhk0N0k88CoFXYSCK.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_1",
+      "category": "cafe",
+      "text": "嗯，不错不错。秘书长很满意。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/cdXpDk96Kkc405fn4kBdbjY8WFYpkRdb.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_2",
+      "category": "cafe",
+      "text": "嗯，没有异常。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/sLUrxCsFUvfq75j2uiAXAh0agddNACTt.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_3",
+      "category": "cafe",
+      "text": "嗯哼。秘书长大驾光临了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/m8QRoMLaevx56xaxayly3AUEKQNpx2GZ.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_4",
+      "category": "cafe",
+      "text": "今天也一派祥和啊。很好！这全都是本人的功劳！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/ktfNXOJj9Dmzn8htgdmAmU0g6dFumBk5.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_5",
+      "category": "cafe",
+      "text": "（胡子……应该没掉吧？）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/RPQgWsVFrHpFz8KIvnJQJAknnd8fKEnJ.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_5_norvb",
+      "category": "cafe",
+      "text": "胡子……应该没掉吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/p121GggvirpDpoiiLOKIyVLF7h2NL5gr.ogg"
+    },
+    {
+      "description": "cherino_commonskill",
+      "category": "battle",
+      "text": "铲除！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/EeQkyyva4kgEw5jPEIAU4HNA4kN1pecJ.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_1",
+      "category": "event",
+      "text": "这次的伊万库帕拉，本人也很期待呀！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/kDjKPWPsmgROd7BCIJWfz2nJoM6aJw6K.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_2",
+      "category": "event",
+      "text": "需要我帮忙吗，同志？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Xcy9LCc8sDx2DsOP1AAsf0w90TMQiV5a.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_3_1",
+      "category": "event",
+      "text": "竟然还有人怀疑这个胡子的权威……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/SdhWjVhk7IFsL7baBFuQcrzuP1vwk873.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_3_2",
+      "category": "event",
+      "text": "全都给我铲除，铲除！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/HIDO0fMGygfu8OttTDDnfHCQTHchusTG.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_4_1",
+      "category": "event",
+      "text": "为了这次的伊万库帕拉，本人准备了一个又大、又…… 超~级大的布丁！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/heqG25CteWnG0qyThUBbdudIbpzKkJ8r.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_4_2",
+      "category": "event",
+      "text": "等铲除完了，大家分着吃了吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/aVDTqkn82OHK1GDIV38AEbDTuqiXgRfF.ogg"
+    },
+    {
+      "description": "cherino_eventlogin_1",
+      "category": "event",
+      "text": "现在，开始铲除！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/ZCUqZEX8PkWkn4pqXCGxNDLiWZwtpvwF.ogg"
+    },
+    {
+      "description": "cherino_eventlogin_2",
+      "category": "event",
+      "text": "哼哼哼，革命的时间到了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/fJFDSnySxyEzvfJOweUO629QsRAbDser.ogg"
+    },
+    {
+      "description": "cherino_exskill_1",
+      "category": "battle",
+      "text": "亲卫队出动！瞄准，开火！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/HXk2dK81k28I82pviHB2p4W5x7FZnjBU.ogg"
+    },
+    {
+      "description": "cherino_exskill_2",
+      "category": "battle",
+      "text": "亲卫队出动！铲除对象就在那边。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Pg5klBF2XReKq635swVSrQYNtqfjPzgL.ogg"
+    },
+    {
+      "description": "cherino_exskill_3",
+      "category": "battle",
+      "text": "亲卫队出动，全体都要，攻击！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/yYbKdUkW8lp3ylhR0fbgniWRyIuhTVuv.ogg"
+    },
+    {
+      "description": "cherino_exskill_level_1",
+      "category": "battle",
+      "text": "全都给我干掉！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/kluxin039KDEJ56oVJL8wPnaKEMWvL5K.ogg"
+    },
+    {
+      "description": "cherino_exskill_level_2",
+      "category": "battle",
+      "text": "很好，攻击！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/bNjDB5MWVuGYoUse2Sw6EKNdq0h7HCDo.ogg"
+    },
+    {
+      "description": "cherino_exskill_level_3",
+      "category": "battle",
+      "text": "铲除！铲除！铲除！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/oY7qj6mb3UWz2zrEfIJ9hECVTY1T0LlX.ogg"
+    },
+    {
+      "description": "cherino_exweapon_get",
+      "category": "growup",
+      "text": "嗯，本人非常满意……这才是本人的权威！本人的力量！还有本人的胡子！简直强得可怕呀……不过同志，你别担心。本人永远站在你这边！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Jmfr05YQClEoFq1tjRZsWOQQbG2oSutA.ogg"
+    },
+    {
+      "description": "cherino_formation_in_1",
+      "category": "formation",
+      "text": "嗯，明智的选择。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/2K0OJuimbDGGKDA57kJweT0p0Gn2HhHU.ogg"
+    },
+    {
+      "description": "cherino_formation_in_2",
+      "category": "formation",
+      "text": "彰显本人权威的时候到了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/INwCpAXWE9qVKN9xIJ1ShMmS8t5Z4LaL.ogg"
+    },
+    {
+      "description": "cherino_formation_select",
+      "category": "formation",
+      "text": "呃，诶？诶！快放开！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/tyPZozywFjoxq6N4vug1UiCzjS2Bfx8S.ogg"
+    },
+    {
+      "description": "cherino_gachaget",
+      "category": "growup",
+      "text": "红冬秘书长大驾光临！同志，你要为此感到荣幸！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/4QJtuEOGZRTcUVdwXhZKwSxHplXEhWyE.ogg"
+    },
+    {
+      "description": "cherino_growup_1",
+      "category": "growup",
+      "text": "同志，你看到了吗，这股奔涌而出的力量！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/OMPOBlbdIdcJPkVNIEm99jJ0i73V9vpU.ogg"
+    },
+    {
+      "description": "cherino_growup_2",
+      "category": "growup",
+      "text": "不错，非常不错！本人的成长是没有极限的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/AaXfzNmphzkXF0NdxdXqXNgIWdevWsgy.ogg"
+    },
+    {
+      "description": "cherino_growup_3",
+      "category": "growup",
+      "text": "这就是我们红冬的力量！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/xh3oC69io0Hc0qQgWfSFfHMvfc1hgDIt.ogg"
+    },
+    {
+      "description": "cherino_growup_4",
+      "category": "growup",
+      "text": "同志，有两把刷子！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/TS1TjpTioEPlGIRNIOjtPkMWqGhh8WRl.ogg"
+    },
+    {
+      "description": "cherino_lobby_1",
+      "category": "lobby",
+      "text": "是你在呼唤本人吗？同志！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/N9qVhrruyTimxBBnYACQYGrb5ztXkFLg.ogg"
+    },
+    {
+      "description": "cherino_lobby_2",
+      "category": "lobby",
+      "text": "怎么样，今天也和本人一起，投身革命吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/YA3BnrVYPXWtaG3kXrBjUaT1hGedfXBN.ogg"
+    },
+    {
+      "description": "cherino_lobby_3",
+      "category": "lobby",
+      "text": "终于感受到本人的权威了吗？ 哎，你不用害怕。本人很宽厚的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/hkn9JcvERn1LjGVWEEP4NU5CbovgHGKG.ogg"
+    },
+    {
+      "description": "cherino_lobby_4",
+      "category": "lobby",
+      "text": "嗯？你说胡子掉了……？ 呀啊啊？！不，不行，本人的权威要……？！ ……诶，这不贴得好好的嘛！再敢戏弄本人，小心铲除你哦？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/aTxRQ5o2HIGDJlBbYSkzD8HIjwWZlMJb.ogg"
+    },
+    {
+      "description": "cherino_lobby_5",
+      "category": "lobby",
+      "text": "嘿嘿……嘿嘿嘿……嘿嘿嘿……今天也可以和同志在一起，真好啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/14Eqr7CXRhvilk1SNRRAfT39OaOSDcqd.ogg"
+    },
+    {
+      "description": "cherino_lobby_6",
+      "category": "lobby",
+      "text": "呃，只有在通知面前，本人…… 才会以真容相见！ 不，不许戏弄本人！ 小心铲除你哦？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/YEPA0v7VQNf8HVobwZnR3H5QyF2OojIp.ogg"
+    },
+    {
+      "description": "cherino_lobby_7",
+      "category": "lobby",
+      "text": "唔，差不多也该让我把胡子贴上了吧…… 一直这样，总觉得很不好意思……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/ONl36CAwUPqAFgXH97ruiAG0USk9PlRl.ogg"
+    },
+    {
+      "description": "cherino_login_1",
+      "category": "lobby",
+      "text": "同志！一直在等你呢！要处理的工作都堆成山了！偷懒可不行！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/af6qxyLDNZprTXgPD3Ji3V3sW9gjn3oZ.ogg"
+    },
+    {
+      "description": "cherino_login_2",
+      "category": "lobby",
+      "text": "同志，你来了！需要一起解决的任务都已经堆积如山了，你要做好心理准备哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/q8ri3d5rh43pQAlTSiENhAixxh3ng74B.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_0_1",
+      "category": "lobby",
+      "text": "来一起做个长胡子的雪人吧！ 把它做成全世界最大，最大的雪人如何？同志！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/B2hpLsTwuQ9CjLBw2aDR4frCDu8doxJQ.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_0_2",
+      "category": "lobby",
+      "text": "哎呦？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/1yAaxNGafoIC7ZaDkesP1KkrRoOJXQrY.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_0_3",
+      "category": "lobby",
+      "text": "呜，好家伙，好——那我正式接受你的挑战，同志！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/dioPYAG3scZWSaJ1p4b1HTwEBYyQO5Iv.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_1",
+      "category": "lobby",
+      "text": "啊哈哈哈哈！……唔，还不够大！还要再大，再大一点！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/JZ5DPFr8uyO9x0qfshZE435zu072eyXs.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "阿，阿……阿嚏！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/tZwvOA2ubFL1IbpZl0pFqEuzf3RJwnMa.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "……吸溜。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Mamm8CYu7kEqdAqy8iBClGSV3crTscQP.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_3",
+      "category": "lobby",
+      "text": "嗳，不妨事！本人正在集中精神呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/0D9iRW4MiYdGWK9CcOS1pALis8lrXqDT.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "本人冷不冷……？同志，你的身体很虚弱啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/iT0IptRi0m6lhESVK3B9EoZEKgbmGk5n.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "这对本人来说根本无所谓！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/6XNpjg4hfxKOCoBOdG4D8HgPXt6nO4ex.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "再玩三个小时都没问题！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/ZrwtrxJaln1ybazCB9Ae8HFSx6XvVPi6.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "本人想到一个好主意，同志，你就在那边堆雪人吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/ro12uq3Js3iy4Dy9DgXuBd1snpRuU9YZ.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "然后把本人堆的这个放到旁边！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/23Huo3un70cNwV0SklZtuVEGifr5akaF.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "嗯？怎么了？你觉得不好吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/V6GRDwVLz9K8lPi2p8WxrYmwBbNrQm9X.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_5_4",
+      "category": "lobby",
+      "text": "……要不要在这两个中间，再堆个小雪人？啊，当，当然，要是你愿意的话，那，那就做吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/tzBOlzkxfoCJ018AW4C6QP7m4uKiDDgd.ogg"
+    },
+    {
+      "description": "cherino_relationship_up_1",
+      "category": "growup",
+      "text": "啊，敢让本人丢脸，小心，铲除你。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/WQW0AuMTnBHKNHWnx4hFM928rAQH8IJC.ogg"
+    },
+    {
+      "description": "cherino_relationship_up_2",
+      "category": "growup",
+      "text": "啊，同志，谢谢你。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/cJ39q6ThDY6sSZrVrCEmLdDiexNsovRp.ogg"
+    },
+    {
+      "description": "cherino_relationship_up_3",
+      "category": "growup",
+      "text": "干，干嘛啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/m3BGYT9yM7OaqTsabCGsU9On1qCzE7DK.ogg"
+    },
+    {
+      "description": "cherino_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/ANNQHQP900ugsti2Qbg83YpziaoR3I5F.ogg"
+    },
+    {
+      "description": "cherino_season_birthday",
+      "category": "lobby",
+      "text": "啊，嘿嘿……怪难为情的， 被人送上生日祝福，感觉有损权威呢…… 呃，没有，本人当然很高兴！谢谢你，同志！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/QTvQBCt7Cv1WDD6fG7DVW0V4WrsGtQjc.ogg"
+    },
+    {
+      "description": "cherino_season_birthday_player",
+      "category": "lobby",
+      "text": "同志，原来今天是你的生日啊？ 好，那本人决定今天就是红冬的纪念日了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Kh1e9B3zlcS89eiZddZpn92BtFsjWCH2.ogg"
+    },
+    {
+      "description": "cherino_season_chinesenewyear",
+      "category": "lobby",
+      "text": "同志，新春快乐！今年的伊万库帕拉，本人也等着你！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/RHDyTuryZ4hY11a1JQ5AERUMyXe1mOX5.ogg"
+    },
+    {
+      "description": "cherino_season_halloween",
+      "category": "lobby",
+      "text": "大家怎么都穿得花里胡哨的。 原来如此，是万圣节啊。嗯？这个胡子才不是万圣节的装扮！ 再，再戏弄本人就铲除你哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/OjjYolEDEMM0UcBjpKLVrqHIf1waKWUE.ogg"
+    },
+    {
+      "description": "cherino_season_midautumn",
+      "category": "lobby",
+      "text": "诶？月饼？同志，这个和布丁比，哪个更好吃？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/GRxWssVlMVHmQKCNxh4UDN7EkcOrgquW.ogg"
+    },
+    {
+      "description": "cherino_season_newyear",
+      "category": "lobby",
+      "text": "同志，新年快乐。制定好今年的计划了吗？ 如果还没有，本人可以和你讨论一下！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/ALD8TfwXvBSG8dY6MwcY6sO1BCwQ2Rxh.ogg"
+    },
+    {
+      "description": "cherino_season_xmas",
+      "category": "lobby",
+      "text": "今天是圣诞节！据说有个大胡子的胖爷爷会穿得红彤彤的，给民众发礼物…… 好棒！本人也想收到礼物！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/UQEDsw8KJpO2FGtUrsJES5yexLtloa0W.ogg"
+    },
+    {
+      "description": "cherino_tactic_defeat_1",
+      "category": "battle",
+      "text": "啊……输了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/D0xBwwShjweke1JznL7FH0S04gJUgIED.ogg"
+    },
+    {
+      "description": "cherino_tactic_defeat_2",
+      "category": "battle",
+      "text": "这肯定是什么地方搞错了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Y4KcrAHK8d5XILsFcPLLVn1D8Lnf2iwE.ogg"
+    },
+    {
+      "description": "cherino_tactic_in_1",
+      "category": "battle",
+      "text": "听令，各就各位！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/2HPcWcJRvQYo6SQLLgFWtmjg5Y4HR7J4.ogg"
+    },
+    {
+      "description": "cherino_tactic_in_2",
+      "category": "battle",
+      "text": "各位，履行义务的时候到了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/1bGMPbfLhNWxe5XjPe3LuLoLQOn3Pr29.ogg"
+    },
+    {
+      "description": "cherino_tactic_victory_1",
+      "category": "battle",
+      "text": "这就是红冬的力量！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/cQVCxup1ynsO2M0tx1opEyn0i6dF3f98.ogg"
+    },
+    {
+      "description": "cherino_tactic_victory_2",
+      "category": "battle",
+      "text": "同志，你可有看清楚本人的雄资！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/6L46Z8huUmDRSQgiQGlhkW7TJRZu7PbI.ogg"
+    },
+    {
+      "description": "cherino_title",
+      "category": "lobby",
+      "text": "Blue Archive!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/PcDgPyvUQ2tlmVrQb0lv4g6Dz1Qwv4mT.ogg"
+    },
+    {
+      "description": "cherino_battle_buffed_1",
+      "category": "battle",
+      "text": "同志,你的支援不错嘛.",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/2VR6BQ1fqa2Oz3QqcVN81173qLeXbXpG.ogg"
+    },
+    {
+      "description": "cherino_battle_buffself_1",
+      "category": "battle",
+      "text": "让你见识一下，红冬的力量！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/Jan3tOREEU1WM5jsIjDkVoS2VOusHGTi.ogg"
+    },
+    {
+      "description": "cherino_battle_covered_1",
+      "category": "battle",
+      "text": "有叛徒，快隐蔽！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/fJYaoNYL1jERt1Yr00V124gmPdrDxM8R.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "cherino_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_damage_1.ogg"
+    },
+    {
+      "description": "cherino_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_damage_2.ogg"
+    },
+    {
+      "description": "cherino_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_damage_3.ogg"
+    },
+    {
+      "description": "cherino_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_defense_1.ogg"
+    },
+    {
+      "description": "cherino_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_in_1.ogg"
+    },
+    {
+      "description": "cherino_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_in_2.ogg"
+    },
+    {
+      "description": "cherino_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_move_1.ogg"
+    },
+    {
+      "description": "cherino_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_move_2.ogg"
+    },
+    {
+      "description": "cherino_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_recovery_1.ogg"
+    },
+    {
+      "description": "cherino_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_retire.ogg"
+    },
+    {
+      "description": "cherino_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_shout_1.ogg"
+    },
+    {
+      "description": "cherino_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_shout_2.ogg"
+    },
+    {
+      "description": "cherino_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_shout_3.ogg"
+    },
+    {
+      "description": "cherino_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "cherino_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_victory_1.ogg"
+    },
+    {
+      "description": "cherino_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_victory_2.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_cafe_act_1.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_cafe_act_2.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_cafe_act_3.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_cafe_act_4.ogg"
+    },
+    {
+      "description": "cherino_cafe_act_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_cafe_act_5.ogg"
+    },
+    {
+      "description": "cherino_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_commonskill.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_eventlobby_1.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_eventlobby_2.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_3_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_eventlobby_3_1.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_3_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_eventlobby_3_2.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_4_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_eventlobby_4_1.ogg"
+    },
+    {
+      "description": "cherino_eventlobby_4_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_eventlobby_4_2.ogg"
+    },
+    {
+      "description": "cherino_eventlogin_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_eventlogin_1.ogg"
+    },
+    {
+      "description": "cherino_eventlogin_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_eventlogin_2.ogg"
+    },
+    {
+      "description": "cherino_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_exskill_1.ogg"
+    },
+    {
+      "description": "cherino_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_exskill_2.ogg"
+    },
+    {
+      "description": "cherino_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_exskill_3.ogg"
+    },
+    {
+      "description": "cherino_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_exskill_level_1.ogg"
+    },
+    {
+      "description": "cherino_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_exskill_level_2.ogg"
+    },
+    {
+      "description": "cherino_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_exskill_level_3.ogg"
+    },
+    {
+      "description": "cherino_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_exweapon_get.ogg"
+    },
+    {
+      "description": "cherino_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_formation_in_1.ogg"
+    },
+    {
+      "description": "cherino_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_formation_in_2.ogg"
+    },
+    {
+      "description": "cherino_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_formation_select.ogg"
+    },
+    {
+      "description": "cherino_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_gachaget.ogg"
+    },
+    {
+      "description": "cherino_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_growup_1.ogg"
+    },
+    {
+      "description": "cherino_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_growup_2.ogg"
+    },
+    {
+      "description": "cherino_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_growup_3.ogg"
+    },
+    {
+      "description": "cherino_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_growup_4.ogg"
+    },
+    {
+      "description": "cherino_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_lobby_1.ogg"
+    },
+    {
+      "description": "cherino_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_lobby_2.ogg"
+    },
+    {
+      "description": "cherino_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_lobby_3.ogg"
+    },
+    {
+      "description": "cherino_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_lobby_4.ogg"
+    },
+    {
+      "description": "cherino_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_lobby_5.ogg"
+    },
+    {
+      "description": "cherino_lobby_6",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_lobby_6.ogg"
+    },
+    {
+      "description": "cherino_lobby_7",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_lobby_7.ogg"
+    },
+    {
+      "description": "cherino_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_login_1.ogg"
+    },
+    {
+      "description": "cherino_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_login_2.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_0_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_0_1.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_0_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_0_2.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_0_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_0_3.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_1.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_3.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_4_3.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_5_3.ogg"
+    },
+    {
+      "description": "cherino_memoriallobby_5_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_memoriallobby_5_4.ogg"
+    },
+    {
+      "description": "cherino_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_relationship_up_1.ogg"
+    },
+    {
+      "description": "cherino_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_relationship_up_2.ogg"
+    },
+    {
+      "description": "cherino_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_relationship_up_3.ogg"
+    },
+    {
+      "description": "cherino_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_relationship_up_4.ogg"
+    },
+    {
+      "description": "cherino_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_season_birthday.ogg"
+    },
+    {
+      "description": "cherino_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_season_birthday_player.ogg"
+    },
+    {
+      "description": "cherino_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_season_halloween.ogg"
+    },
+    {
+      "description": "cherino_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_season_newyear.ogg"
+    },
+    {
+      "description": "cherino_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_season_xmas.ogg"
+    },
+    {
+      "description": "cherino_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "cherino_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "cherino_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_tactic_in_1.ogg"
+    },
+    {
+      "description": "cherino_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_tactic_in_2.ogg"
+    },
+    {
+      "description": "cherino_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_tactic_victory_1.ogg"
+    },
+    {
+      "description": "cherino_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_tactic_victory_2.ogg"
+    },
+    {
+      "description": "Cherino_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/Cherino_Title.ogg"
+    },
+    {
+      "description": "cherino_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_buffed_1.ogg"
+    },
+    {
+      "description": "cherino_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_buffself_1.ogg"
+    },
+    {
+      "description": "cherino_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/cherino_battle_covered_1.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192407.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192349.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192337.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192423.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192321.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192417.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192430.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192258.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192314.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192412.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192307.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192327.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192355.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192343.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211123192401.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%81%E3%82%A7%E3%83%AA%E3%83%8E.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino__banner_en_0.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_banner_en.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_banner_chs.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_banner_cht.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_banner_re_cht.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_cafe.gif",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_ex.gif",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_Intro_chs.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_Intro_en.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_Intro_jp.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/cherino_skill.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_097.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_192.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_227.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_266.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_033.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_021.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20282.png",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-264.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_032.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 87,
+      "favorability": 180
+    },
+    {
+      "id": 96,
+      "favorability": 60
+    },
+    {
+      "id": 70,
+      "favorability": 40
+    },
+    {
+      "id": 74,
+      "favorability": 40
+    },
+    {
+      "id": 76,
+      "favorability": 40
+    },
+    {
+      "id": 92,
+      "favorability": 40
+    },
+    {
+      "id": 95,
+      "favorability": 40
+    },
+    {
+      "id": 43,
+      "favorability": 40
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 10017,
+      "dev_name": "Cherino_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Piercing",
+      "defensive_attributes": "Light",
+      "is_groupc_control": false,
+      "team_position": "MIDDLE",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "S",
+      "indoor_adaptability": "D",
+      "street_adaptability": "B",
+      "equipment": [
+        9,
+        5,
+        3
+      ],
+      "cultivate_material": [
+        62,
+        64,
+        65,
+        66,
+        189,
+        190,
+        192,
+        193,
+        423,
+        424,
+        425,
+        426,
+        440,
+        441,
+        442,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/skill_icon/WEUvstLuAJkgB3F8MZxcmdJYJkPANeiZ.png",
+            "title": "亲卫队，集合！",
+            "title_cn": "召唤亲卫队！",
+            "preview": "//static.kivo.wiki/videos/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/skill_preview/28D3NPxBebPxHR3j7UTJKy8ZUCbmRhFf.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 7,
+                "describe": "对圆形范围内的敌人造成攻击力515%伤害"
+              },
+              {
+                "cost": 7,
+                "describe": "对圆形范围内的敌人造成攻击力541%伤害"
+              },
+              {
+                "cost": 6,
+                "describe": "对圆形范围内的敌人造成攻击力563%伤害"
+              },
+              {
+                "cost": 6,
+                "describe": "对圆形范围内的敌人造成攻击力588%伤害"
+              },
+              {
+                "cost": 5,
+                "describe": "对圆形范围内的敌人造成攻击力605%伤害"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/skill_icon/bFBf763VDFGCoAny5f7voQecnT47tOTB.png",
+            "title": "肃清那家伙！",
+            "title_cn": "铲除那家伙！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每40秒 集中攻击 攻击力最高的敌人， 暴击伤害抵抗力 减少18.7%(15秒内)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒 集中攻击 攻击力最高的敌人， 暴击伤害抵抗力 减少19.6%(15秒内)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒 集中攻击 攻击力最高的敌人， 暴击伤害抵抗力减少20.6%(15秒内)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒 集中攻击 攻击力最高的敌人， 暴击伤害抵抗力 减少24.3%(15秒内)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒 集中攻击 攻击力最高的敌人， 暴击伤害抵抗力 减少25.3%(15秒内)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒 集中攻击 攻击力最高的敌人， 暴击伤害抵抗力 减少26.2%(15秒内)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒 集中攻击 攻击力最高的敌人， 暴击伤害抵抗力 减少29.9%(15秒内)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒 集中攻击 攻击力最高的敌人， 暴击伤害抵抗力 减少30.9%(15秒内)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒 集中攻击 攻击力最高的敌人， 暴击伤害抵抗力 减少31.8%(15秒内)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒 集中攻击 攻击力最高的敌人， 暴击伤害抵抗力 减少35.6%(15秒内)"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/skill_icon/7lX10SxUCBj6KYHkBlxR4l2PwX8ADj6B.png",
+            "title": "这就是胡子的力量！",
+            "title_cn": "胡须的力量！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力 增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/skill_icon/L7nPCYSAOKjrhQmZWNGlVjRjVQLGKJPv.png",
+            "title": "臣服于胡子的权威吧！",
+            "title_cn": "向胡须的权威俯首吧！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加269/ 部队中每1名赤冬学园学生额外增加77(自身除外)(最多3人)"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加283/ 部队中每1名赤冬学园学生额外增加80(自身除外)(最多3人)"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加296/ 部队中每1名赤冬学园学生额外增加85(自身除外)(最多3人)"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加350/ 部队中每1名赤冬学园学生额外增加100(自身除外)(最多3人)"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加363/ 部队中每1名赤冬学园学生额外增加104(自身除外)(最多3人)"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加377/ 部队中每1名赤冬学园学生额外增加107(自身除外)(最多3人)"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加431/ 部队中每1名赤冬学园学生额外增加122(自身除外)(最多3人)"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加444/ 部队中每1名赤冬学园学生额外增加127(自身除外)(最多3人)"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加457/ 部队中每1名赤冬学园学生额外增加131(自身除外)(最多3人)"
+              },
+              {
+                "cost": 1,
+                "describe": "COST恢复力增加511/ 部队中每1名赤冬学园学生额外增加146(自身除外)(最多3人)"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2477,
+          "attack": 210,
+          "defense": 19,
+          "healing": 1673,
+          "accuracy": 101,
+          "evasion": 1081,
+          "crit": 203,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 980,
+          "range": 550,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 6
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/weapons_icon.png",
+        "name": "肃清",
+        "name_cn": "铲除者",
+        "description": "洁莉诺肃清某人时所使用的手枪。<br>不需要扣动扳机，只要用枪口瞄准对方大喊「肃清！」就会成为赤冬的肃清对象。",
+        "description_cn": "切里诺铲除他人时使用的手枪。<br>不用扣动扳机，只需将枪口对准目标并大喊“铲除！”，目标就会成为被铲除的对象。",
+        "info": [
+          {
+            "title": "",
+            "description": ""
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「这就是胡子的力量」升级为「这就是胡子的力量+」"
+          },
+          {
+            "title": "固有武器最大等級 Lv.40 → Lv.50 / 地形适应性强化 室外地形适应性 S → SS",
+            "description": "在室外地形造成1.3倍伤害。处于掩体掩护状态时掩护成功率增加75%，攻击时无视掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 贯穿克制伤害增加",
+            "description": "攻击类型为贯穿的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/skill_icon/tC5Bv0O08K0FfCBTcPlL8rNNnC7NdTbR.png",
+            "title": "这就是胡子的力量+",
+            "title_cn": "胡须的力量！+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力 提升207/ 攻击力 提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升217/ 攻击力 提升14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升228/ 攻击力 提升15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升269/ 攻击力 提升18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升279/ 攻击力 提升18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升289/ 攻击力 提升19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升331/ 攻击力 提升22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升341/ 攻击力 提升23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升351/ 攻击力 提升23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升393/ 攻击力 提升26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "89d741ed-d1d6-4ed2-a79d-e930b4a5287c",
+  "skill_declare_uuid": "95477a09-4535-4261-98db-f8c562f59b35",
+  "supplementary_uuid": "d22f6eed-c72b-4bcb-b998-b6ba0254c909",
+  "supplementary_declare_uuid": "a262c5ac-3a5f-4a7e-b8bf-cc0c5a07d089",
+  "created_at": 1685697964,
+  "updated_at": 1783656080
+}

@@ -1,0 +1,2122 @@
+{
+  "id": 110,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 110,
+      "avatar": "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 155,
+      "avatar": "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/%E6%AD%A3%E6%9C%88/avatar.png",
+      "skin": "正月",
+      "skin_cn": "新年"
+    }
+  ],
+  "family_name": "鳄渊",
+  "given_name": "明里",
+  "family_name_jp": "鰐渕",
+  "given_name_jp": "アカリ",
+  "family_name_kr": "와니부치",
+  "given_name_kr": "아카리",
+  "family_name_en": "Wanibuchi",
+  "given_name_en": "Akari",
+  "family_name_zh_tw": "鰐渕",
+  "given_name_zh_tw": "亞伽里",
+  "family_name_cn": "鳄渊",
+  "given_name_cn": "明里",
+  "nick_name": "",
+  "introduction": "格黑娜学园所属，美食研究会的部员。\n与看似年幼的外表不同，却是在基沃托斯的大胃王比赛稳坐第一的常胜将军。\n平日里性格基本温和善良，但她毕竟是坏孩子众多的格黑娜学园的学生，对于整人的歹毒恶作剧也很有一套。",
+  "introduction_cn": "歌赫娜美食研究会的部员。\n\n虽然看起来很柔弱，但却是个十足的大胃王，从未错失过基沃托斯举办的美食大赛的冠军，是个非常优秀的美食斗士。\n平时都很温和善良，不过毕竟是来自盛产淘气鬼的歌赫娜，她也非常喜欢恶作剧整蛊别人。",
+  "momo_talk_signature": "求推荐好吃的自助餐厅",
+  "main_relation": 29,
+  "relation": [
+    27
+  ],
+  "age": 17,
+  "grade": "三年生",
+  "height": 167,
+  "birthday": "12-09",
+  "hobby": "胡吃海喝",
+  "designer": "9ml",
+  "illustrator": "9ml",
+  "character_voice": "森岛优花",
+  "character_voice_cn": "闲踏梧桐",
+  "release_date": "2021-02-04",
+  "release_date_cn": "2023-08-03",
+  "release_date_global": "2021-11-09",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/avatar.png",
+  "school": 3,
+  "weapon_type": "AR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Large",
+  "special_appearance": false,
+  "more": "# 官方图集\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![日介绍](images/students/鳄渊%20明里/original/gallery/官方图集/Akari_Intro_jp.jpg =420x) | 暂无 | ![繁介绍](images/students/鳄渊%20明里/original/gallery/官方图集/akari_Intro_cht.jpg =700x) | ![EN介绍](images/students/鳄渊%20明里/original/gallery/官方图集/akari_Intro_en.jpg =400x) |\n\n## SD动画\n\n| 编队提起 | EX技能 | 咖啡厅触摸 |\n| :---: | :---: | :---: |\n| ![提起](images/students/鳄渊%20明里/original/gallery/官方图集/akari_pickup.gif =450x) | ![EX](images/students/鳄渊%20明里/original/gallery/官方图集/akari_ex.gif =450x) | ![触摸](images/students/鳄渊%20明里/original/gallery/官方图集/akari_cafe.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 明里 汉化\n![明里](files/2/y58hMuehmeaIMvGX2RkolEZoFGnRwD91.png =450x)\n@tab 明里 原文\n![明里](files/2/xIKvLHnzhGl7YzzUB3rgilMufP4XwGfc.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n\n![zsbd](images/gallery/34/Vol.1_页面_046.png =450x)\n\n![zsbd](images/gallery/36/Vol2-74.jpg =450x)\n\n![zsbd](images/gallery/34/Vol.1_页面_238.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_页面_147.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_页面_218.png =450x)\n\n![zsbd](images/gallery/34/Vol.1_页面_008.png =450x)\n\n![zsbd](images/gallery/36/Vol2-14.jpg =450x)\n\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[晴奈](https://kivo.wiki/data/character/195)|ハルナ<br>ハルナさん|\n|[泉](https://kivo.wiki/data/character/73)|イズミさん|\n|[纯子](https://kivo.wiki/data/character/103)|ジュンコさん|\n|[朱莉](https://kivo.wiki/data/character/186)|ジュリさん|\n|[濑名](https://kivo.wiki/data/character/18)|セナさん|\n|[日奈](https://kivo.wiki/data/character/71)|ヒナさん|\n|[枫香](https://kivo.wiki/data/character/97)|フウカさん|\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_home_Idle_01_0.7248000000000002.jpg",
+  "spine": [
+    1233,
+    1737,
+    1020,
+    1058,
+    382,
+    381,
+    1429
+  ],
+  "model": [
+    3,
+    210
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/voice/play_icon.png",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/voice/pause_icon.png",
+  "voice": [
+    {
+      "description": "Akari_Title.ogg",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/Bv1ARZkK8cok7Nn59crutQM5qnLrQzpU.ogg"
+    },
+    {
+      "description": "Akari_Battle_Buffed_1.ogg",
+      "category": "battle",
+      "text": "非常感谢。",
+      "text_original": "ありがとうございます。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/iWC4RSdJ9RVPjuIQGkY8ZapTW9UDg2hC.ogg"
+    },
+    {
+      "description": "Akari_Battle_BuffSelf_1.ogg",
+      "category": "battle",
+      "text": "该我了。",
+      "text_original": "さてと～",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/7AhUvcNtvZuAyQjOWslG8mEjS5be6kVs.ogg"
+    },
+    {
+      "description": "Akari_Battle_Covered_1.ogg",
+      "category": "battle",
+      "text": "这个看起来很结实啊。",
+      "text_original": "これは頑丈そうですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/oiGPANm60qlXfEIbJ1npQlgBAXodyhBp.ogg"
+    },
+    {
+      "description": "Akari_Battle_Damage_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "くっ",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/y6fBjjDc1i07dCn9fXy4B8RbXhoVoIX1.ogg"
+    },
+    {
+      "description": "Akari_Battle_Damage_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "はあ",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/ku0AcXLnGVCrW6qE09gN1ekObqXnIs8r.ogg"
+    },
+    {
+      "description": "Akari_Battle_Damage_3.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "いた",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/d4r0ULk7TH5mIp88AkYgr13LDAoZe2Qn.ogg"
+    },
+    {
+      "description": "Akari_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "开始战斗吧。",
+      "text_original": "戦闘を始めましょうか～",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/XHCnsI7vy8Yy7Ov70wGsd9FjXynkuNg9.ogg"
+    },
+    {
+      "description": "Akari_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "不尽全力的话，会受罚的，无论是敌还是友。",
+      "text_original": "一生懸命やらないとお仕置きですよ～。敵も、味方も。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/5AUVn94k6VZT76CG6tN2kPiIKfxXxRMX.ogg"
+    },
+    {
+      "description": "Akari_Battle_Move_1.ogg",
+      "category": "battle",
+      "text": "这边好像有一些好玩的东西诶。",
+      "text_original": "こちらに面白いものがありそうですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/Q2E4jKCHHt0gWYitVuPQdtta8OUoTkXz.ogg"
+    },
+    {
+      "description": "Akari_Battle_Move_2.ogg",
+      "category": "battle",
+      "text": "好期待呀。",
+      "text_original": "楽しみですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/gkKvX3u2LXu9QKEOugV4Jz2O9ENAy1JY.ogg"
+    },
+    {
+      "description": "Akari_Battle_Recovery_1.ogg",
+      "category": "battle",
+      "text": "呜……感觉有点不够啊……",
+      "text_original": "ふーん、ちょっと物足りませんね……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/7SlrMoIlhnPy9MQULuKK9KsMyAg0n2D8.ogg"
+    },
+    {
+      "description": "Akari_Battle_Retire.ogg",
+      "category": "battle",
+      "text": "……饶不了你！",
+      "text_original": "くっ……許しません……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/59NowleWmJB6kYitZJDrHuOgOpRZ0hRe.ogg"
+    },
+    {
+      "description": "Akari_Battle_Shout_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "えい",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/UfrBRMxvErJnY0ScINkIYPQYrl6yLH98.ogg"
+    },
+    {
+      "description": "Akari_Battle_Shout_2.ogg",
+      "category": "battle",
+      "text": "上了！",
+      "text_original": "行きます",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/Lnbl9afJQcPaJn4CqhdnS8tEZgl5F3IX.ogg"
+    },
+    {
+      "description": "Akari_Battle_Shout_3.ogg",
+      "category": "battle",
+      "text": "呀~",
+      "text_original": "やぁあ",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/1RMRfkK8EvbyPaVlBGHFEf0OSMO4KaR9.ogg"
+    },
+    {
+      "description": "Akari_Battle_TacticalAction_1.ogg",
+      "category": "battle",
+      "text": "哼~？",
+      "text_original": "へー。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/gfpmE2qhBHiymazs5Gd8iW8UuzwmQjhM.ogg"
+    },
+    {
+      "description": "Akari_Battle_Victory_1.ogg",
+      "category": "battle",
+      "text": "胜利的秘诀只有一个，不能挑食。",
+      "text_original": "勝利の秘訣はただ一つ、偏食をしないことですよぉ～！ふふっ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/qrdKa4zP9imagwJhRrjQtwP2nUQLPSKE.ogg"
+    },
+    {
+      "description": "Akari_Battle_Victory_2.ogg",
+      "category": "battle",
+      "text": "胜利的味道好甜蜜，我还想多吃一点。不对，是吃好多好多了！",
+      "text_original": " 勝利って甘い味がしますね！もっと食べたいです！もっとも～っと、たくさん！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/JQPsXgodjJGugF05UF53Je7TFGSFbUtm.ogg"
+    },
+    {
+      "description": "Akari_Battle_Victory_3.ogg",
+      "category": "battle",
+      "text": "真是一场精彩的胜利啊，就保持这个状态在……哼哼，我们先去吃个饭好不好？",
+      "text_original": "素晴らしい勝利ですね。このままもう一回。 あれ？……えへへ、ご飯を食べからにしましょうか…",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/o1qw5l2SzKA0DBaoYe8CYlvvaBNZNH93.ogg"
+    },
+    {
+      "description": "Akari_Cafe_Act_1.ogg",
+      "category": "cafe",
+      "text": "今天我们也要一起～去吃好吃的东西！",
+      "text_original": "今日もみんなで一緒に～、美味しいものを食べに行くのです！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/ITRqeeGCHW3B7AhPcGQFovqe51IOB6q0.ogg"
+    },
+    {
+      "description": "Akari_Cafe_Act_2.ogg",
+      "category": "cafe",
+      "text": "哇啊～听说今天的菜单有牛排诶！赶紧去食堂吧！",
+      "text_original": "わあ～、今日のメニューはステーキですって！早く食堂に行きましょう！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/HP9YJfAVgo5jgNVRGfEGWyk23WhYbJ6X.ogg"
+    },
+    {
+      "description": "Akari_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "唔——没有什么可以吃的东西吗。",
+      "text_original": "わあ～、今日のメニューはステーキですって！早く食堂に行きましょう！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/LwQHhyxuMddaxu1jb20mSCEBMLgPWR3E.ogg"
+    },
+    {
+      "description": "Akari_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "唔……想来想去还是觉得……老师身边的女孩子也太多了……",
+      "text_original": "うーん…どう考えても…先生の周りには女の子が多すぎます…。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/8kuVXQeqxJ3gyEapL4BRtLgnJdebLtNC.ogg"
+    },
+    {
+      "description": "Akari_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "呵呵呵呵……",
+      "text_original": "フフフフ…。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/Zdyr9ukvfZzC8TmwRM8uIywkcbl0xeG4.ogg"
+    },
+    {
+      "description": "Akari_CommonSkill.ogg",
+      "category": "battle",
+      "text": "做好觉悟了吗？",
+      "text_original": "覚悟しなさーい？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/oBoDachEUeID81HJOAPFKwARYEujXMAi.ogg"
+    },
+    {
+      "description": "Akari_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "装弹完毕。瞄准目标！",
+      "text_original": "装填完了！照準合わせます！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/YMK9ipCRvmrV3qz5xKfETFrcmUSX0Oi3.ogg"
+    },
+    {
+      "description": "Akari_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "来一发不一样的吧！",
+      "text_original": "スペシャルな一発、行きます！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/TKQJQueoSMazdwL3dFb8aUHVJ8HKuflH.ogg"
+    },
+    {
+      "description": "Akari_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "我有一点点生气了。",
+      "text_original": "少～しだけ、怒ってますよ～",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/zvPVXkzXlXIO8gpJsNJ5RhQ11oQBtPXZ.ogg"
+    },
+    {
+      "description": "Akari_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "拜托烤个全熟。",
+      "text_original": "ウェルダンでお願いします～！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/ZxTXQ7MTcJWNFUaor2Lq933zWZkDWb8Q.ogg"
+    },
+    {
+      "description": "Akari_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "趁热吃哦。",
+      "text_original": "熱いうちに召し上がれ～。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/2gFSBqCEYuvV7BR5Us3hva7TKfGrdiHM.ogg"
+    },
+    {
+      "description": "Akari_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "热气腾腾的榴弹，发射！",
+      "text_original": "ほっかほかの榴弾、行きます！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/Y6V7choHowsbvFUxwbCByX4cxbH1tg0p.ogg"
+    },
+    {
+      "description": "Akari_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "大家要是都能用大胃王比赛的方式来决胜负就好了。我不喜欢用暴力解决争端。不过我已经准备好了！",
+      "text_original": "みんな、大食い大会で勝負を決めればいいのに。 力で解決するのは嫌なんですが、私もこれで、準備完了です！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/0SnJNMslHAygyByAHAsMOZJWmwmG8CIf.ogg"
+    },
+    {
+      "description": "Akari_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "好的，请交给我吧。",
+      "text_original": "はい！任せてください！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/lKXn7hz8P1bNI0X1Uw9RYPSEAHA6CK5L.ogg"
+    },
+    {
+      "description": "Akari_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "那我们走吧。",
+      "text_original": "ふふっ、いってみましょうか～。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/qKLt04vClkCXCLvgR69JPksgY0QTHNHC.ogg"
+    },
+    {
+      "description": "Akari_Formation_Select.ogg",
+      "category": "formation",
+      "text": "",
+      "text_original": "うふふ……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/1MWvrOif3Rxbjq47EXj85uOu6NYJBFX9.ogg"
+    },
+    {
+      "description": "Akari_Gachaget.ogg",
+      "category": "growup",
+      "text": "我是美食研究会的明里。一起去吃好吃的东西吧？",
+      "text_original": "美食研究会のアカリです。これから一緒に美味しい物を食べに行きましょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/hlg8EqvmDa2pzrk1CnU6JY1OJf7xitwY.ogg"
+    },
+    {
+      "description": "Akari_Growup_1.ogg",
+      "category": "growup",
+      "text": "看来老师对我，抱有很多的期待啊。",
+      "text_original": "先生は私にとっても期待してくれるんですね。うふふ……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/aoYEJAPrTVRmX0KapTaaM4lztQVJ7Jh2.ogg"
+    },
+    {
+      "description": "Akari_Growup_2.ogg",
+      "category": "growup",
+      "text": "变强是一件好事，这意味着有能力去做更多的事情了。",
+      "text_original": "強くなるのはいいことです。もっと色んなことができるようになるって意味ですから～！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/iXVoJwfdC9AhqSRG2FR3Dg2GQfeDTh2o.ogg"
+    },
+    {
+      "description": "Akari_Growup_3.ogg",
+      "category": "growup",
+      "text": "吃得越多就会变得越强，这对女孩子来说是常识。",
+      "text_original": "食べれば食べるほど強くなる、女子高生の基本的な心得です！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/y4Hdt64xwxAmLD4JgXmlORiHI3C8ry2M.ogg"
+    },
+    {
+      "description": "Akari_Growup_4.ogg",
+      "category": "growup",
+      "text": "哎呀，我毕竟还在发育嘛。无论是个子还是内心，全都会变得更加成熟的！",
+      "text_original": "あら？私もまだ成長期なんですよ～？背も心も、全てが大きくなってますから～！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/fAsuTCgw1QnU4HZM1S4ckGyFHp6E5Pp6.ogg"
+    },
+    {
+      "description": "Akari_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "您问放在这里的零食去哪儿了？ 唔，我不知道呢~",
+      "text_original": "ここにあったお菓子ですか？ うーん、わかりませんね～。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/QwrvAazTqmFIi88dmaGWe7kgmuVU3FKO.ogg"
+    },
+    {
+      "description": "Akari_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "把老师……呵呵呵。想想都觉得很开心呢。",
+      "text_original": "先生のことを…フフフ。想像だけでも楽しいですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/g8C1Mqlr6jWA57pzu678Bua4CRHFM0qR.ogg"
+    },
+    {
+      "description": "Akari_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "有什么可以帮忙的吗？",
+      "text_original": "何かお手伝いしましょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/ejVsYPFylTckZ92fo5iOFlOls7KEEYsD.ogg"
+    },
+    {
+      "description": "Akari_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "有人认为，吃得太多就不能叫美食家。但并不是这样的。 因为我就是一个吃得“很多”的美食家。",
+      "text_original": "いっぱい食べるからって、美食家じゃない、というわけではありません。 私は美味しい物を「いっぱい」食べる美食家ですから。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/jaJnJBtSMU7MZVRY647uwroAAzYsfDxP.ogg"
+    },
+    {
+      "description": "Akari_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "减肥……？ 怎么说呢。我天生就是怎么吃都不会胖啦～",
+      "text_original": "ダイエットですか… そうですね。私はどれだけ食べても太らない体質なので～",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/TWiNcKDEWjccEwa94laS6OmnfWJHV5MR.ogg"
+    },
+    {
+      "description": "Akari_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "早上好，老师。 今天去吃点什么呢？",
+      "text_original": "おはようございます、先生。 今日はどんな料理を食べに行きますか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/GaOpL8LvSxUgjsKnbPecM8lNVbou8c8I.ogg"
+    },
+    {
+      "description": "Akari_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "呵呵。早上好。",
+      "text_original": "フフッ。おはようございます。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/R00lqm62S7Xbk1SRyC7odaZGEIeGDo0k.ogg"
+    },
+    {
+      "description": "Akari_MemorialLobby_1_1.ogg",
+      "category": "lobby",
+      "text": "嗯，真好吃~！",
+      "text_original": "んんっ、美味しい～！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/8EAks7GwXmlxWpjkfFCs9izYTzjpz3dI.ogg"
+    },
+    {
+      "description": "Akari_MemorialLobby_1_2.ogg",
+      "category": "lobby",
+      "text": "这么美味的寿司，不管有多少，我都可以吃掉！",
+      "text_original": "こんなに美味しいお寿司なら、いくらでも食べられそうです！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/KjEOsnq9RB1DSQtaFjBHPceOOjtRdB3e.ogg"
+    },
+    {
+      "description": "Akari_MemorialLobby_2_1.ogg",
+      "category": "lobby",
+      "text": "您问我记不记得……自己已经吃了多少寿司了？",
+      "text_original": "今のところ何皿くらい食べたのか、ですか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/ElMbPsBrkkfeer5QETR4ojrES6XwNcrX.ogg"
+    },
+    {
+      "description": "Akari_MemorialLobby_2_2.ogg",
+      "category": "lobby",
+      "text": "嗯哼哼，难道老师能记得自己至今为止一共吃过多少寿司吗？",
+      "text_original": "フフッ、先生は今まで食べたお寿司の数を覚えているのですか？…なんて。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/NLzxchEp09Q8uWX3A0d1qFjHKWwhqixR.ogg"
+    },
+    {
+      "description": "Akari_MemorialLobby_3_1.ogg",
+      "category": "lobby",
+      "text": "嗯，我觉得大概有一百碟左右吧……",
+      "text_original": "うーん、大体100皿ぐらいでしょうか…。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/7iXKYj4dSzsXx2aeWMThK0igOVtvP7mD.ogg"
+    },
+    {
+      "description": "Akari_MemorialLobby_3_2.ogg",
+      "category": "lobby",
+      "text": "不过跟平时比起来我今天已经算是很克制啦。",
+      "text_original": "でも、普段に比べたらだいぶ抑えている方ですよ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/elosm9c8MzSL1IaIcQhdv18BTX7g1yoG.ogg"
+    },
+    {
+      "description": "Akari_MemorialLobby_3_3.ogg",
+      "category": "lobby",
+      "text": "现在我的肚子呀，可是连一半都还没有填饱呢！",
+      "text_original": "まだ私のお腹は半分も満たされていませんから！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/wvPeaGX6Y38A3d7zNmr5bEh6BUflZA15.ogg"
+    },
+    {
+      "description": "Akari_MemorialLobby_4_1.ogg",
+      "category": "lobby",
+      "text": "继续这么吃下去，真的真的没问题吗？",
+      "text_original": "これ以上食べて、本当に良いんですか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/RjJvgNqddSiMnJ9zUIdZpSKsTXXxAFzN.ogg"
+    },
+    {
+      "description": "Akari_MemorialLobby_4_2.ogg",
+      "category": "lobby",
+      "text": "老师的额头是不是从刚才开始，就一直在冒冷汗啊？",
+      "text_original": "先程から先生の額に、冷や汗が流れてません？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/cmMBulKvXvcm99EHG4lEvIUzSnTMnZNh.ogg"
+    },
+    {
+      "description": "Akari_MemorialLobby_5_1.ogg",
+      "category": "lobby",
+      "text": "啊，装在这个金色的碟子里的寿司一看就很好吃的样子诶~",
+      "text_original": "あっ、この金のお皿に乗ったお寿司、 きっと美味しいんでしょうね～。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/cHnABtkSmxdmrSaEOZ2H0nS4gCQKZufo.ogg"
+    },
+    {
+      "description": "Akari_MemorialLobby_5_2.ogg",
+      "category": "lobby",
+      "text": "老师，这盘寿司我也可以拿吗？",
+      "text_original": "先生、これ食べても良いですか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/uRnTk3PZTqYi4v3GV7xhqMqhekrB9jWH.ogg"
+    },
+    {
+      "description": "Akari_MemorialLobby_5_3.ogg",
+      "category": "lobby",
+      "text": "那我就把这盘价值1000联合币的寿司吃掉了哦？",
+      "text_original": "この一皿1,000円するお寿司、食べちゃいますよ？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/zaRfpzLHBZYLK9crFW1suZ8u2eD9UfK8.ogg"
+    },
+    {
+      "description": "Akari_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "不能吃得太多这样的想法，我以前可是从来没有过。可是，和老师在一起的时候，呵呵~",
+      "text_original": "一度も食べ過ぎちゃダメ、とか思ったことなかったのに…。先生と一緒にいると…フフフ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/YXyDAQktIT1V0LHG5L9kPRtu7pYgxAqD.ogg"
+    },
+    {
+      "description": "Akari_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "呵呵呵，虽然和老师在一起的时候会有一种紧张感，但是，我并不讨厌这种感觉。",
+      "text_original": "あっははは！先生と一緒にいる時のこの緊張感、嫌いじゃないです！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/22uLT31yis81vumxvjp5M7ib2tbScq5y.ogg"
+    },
+    {
+      "description": "Akari_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "啊，怎么办呢？和老师在一起的时候，会有一·点·点危险的想法。",
+      "text_original": "どうしようかなー。先生と一緒にいると、すこーし危険な気持ちになりますねー。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/dEpcmwAcb8cm60RHbJjyZQMfSbpAshsQ.ogg"
+    },
+    {
+      "description": "Akari_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "感谢老师对我的照顾，需要我的时候，请您随时吩咐。",
+      "text_original": "先生のご配慮、感謝します。私が必要な時はいつでも言ってください。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/sjaFtrW85ybU2UWlq1vIXr4eXH4M806D.ogg"
+    },
+    {
+      "description": "Akari_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "非常感谢您送上的祝福。 您会请我吃蛋糕是吗？ 嚯……吃两位数的蛋糕也可以吗？",
+      "text_original": "祝ってくださって、ありがとうございます。 ケーキをご馳走してくれるんですか？ へえ…二桁ぐらいは食べても大丈夫でしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/Q7vaLY9a2l32JQLNLRTwWC1OkfoifzbX.ogg"
+    },
+    {
+      "description": "Akari_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "祝您生日快乐，老师。 今天就让我亲自给您露一手，做一顿饭吧。",
+      "text_original": "お誕生日おめでとうございます。先生。 今日だけは特別に、私が腕を振るって料理を作りますよ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/FNVIFLg3FsYXUCnPuMGKqwFtdCF1H4oR.ogg"
+    },
+    {
+      "description": "Akari_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "不给我糖果的话，我就要捣蛋了哦。 唔……拿了糖果，还是想捣蛋呢，怎么办啊？",
+      "text_original": " 飴をくれないといたずらしますよ～。 うーん…私、飴ももらって、いたずらもしたいんですけど、どうしましょう？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/d1XLsdAQn0N54Qs13LYifh4zfh8WT7lh.ogg"
+    },
+    {
+      "description": "Akari_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "恭祝您新春快乐~ 希望今年也能吃到好多美食~",
+      "text_original": "明けましておめでとうございます～。 今年もたくさん食べる一年になるといいですね～。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/Bq7kD2JGQI6LQu87vJzwFEdTQgmyF6ye.ogg"
+    },
+    {
+      "description": "Akari_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "圣诞快乐~ 老师～赶快赶快~烤火鸡，蛋糕，还有好多好吃的在等着我们呢~",
+      "text_original": "メリークリスマス～。 先生～ 急いで～、七面鳥にケーキに、たくさんの料理が待ってるんですから～。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/GXPBJMeom6aiZZ6cFuzpUkbjgR2L4rOr.ogg"
+    },
+    {
+      "description": "Akari_Tactic_Defeat_1.ogg",
+      "category": "battle",
+      "text": "……哈，有点上头啊。",
+      "text_original": "ふぅ……ちょっと頭にきますね……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/pbmt4nlFGPtdAIQ94JdirmJri0AP9uSq.ogg"
+    },
+    {
+      "description": "Akari_Tactic_Defeat_2.ogg",
+      "category": "battle",
+      "text": "下次，我们可以，稍微重口味一点吧。",
+      "text_original": "次回は、ほんの少しだけ、グロテスクにやりましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/kqEglBFwvAsqb3Z2w2HKYEt0HIr906sS.ogg"
+    },
+    {
+      "description": "Akari_Tactic_In_1.ogg",
+      "category": "battle",
+      "text": "我们不会让老师失望的。",
+      "text_original": "先生の期待に、お答えしますねー！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/4ODtxTNtDYm2dsXlw2WMKAkyATSqGFgh.ogg"
+    },
+    {
+      "description": "Akari_Tactic_In_2.ogg",
+      "category": "battle",
+      "text": "呵呵呵，来搞破坏吧。",
+      "text_original": "うふふ、ぶっ壊してみましょうか～",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/5jlswpDUFXDLD8OPveMeFIToEq2bHUfP.ogg"
+    },
+    {
+      "description": "Akari_Tactic_Victory_1.ogg",
+      "category": "battle",
+      "text": "一场完美的胜利。",
+      "text_original": "完璧な勝利ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/XopYfgfLyfwIz0SJrss5ujlr2XXy2bz9.ogg"
+    },
+    {
+      "description": "Akari_Tactic_Victory_2.ogg",
+      "category": "battle",
+      "text": "那现在要不要去吃饭？吃什么？我·全·都·要。",
+      "text_original": "それじゃあ、食べに行きますか？何をって……な・ん・で・も。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/EVOq0Xf9CPZRsjgXq2bNyqRQpw6dxFn3.ogg"
+    },
+    {
+      "description": "akari_cardgame_act_2",
+      "category": "event",
+      "text": "あらあら～★",
+      "text_original": "あらあら～★",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/jp/akari_cardgame_act_2.ogg"
+    },
+    {
+      "description": "akari_cardgame_act_1",
+      "category": "event",
+      "text": "いえ、むしろ足りないくらいです。それに…私、食べても太らないので★",
+      "text_original": "いえ、むしろ足りないくらいです。それに…私、食べても太らないので★",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/jp/akari_cardgame_act_1.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "akari_battle_buffed_1",
+      "category": "battle",
+      "text": "非常感谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/JgyVQPnwjwOPDjviMv45LH40waYkX59X.ogg"
+    },
+    {
+      "description": "akari_battle_buffself_1",
+      "category": "battle",
+      "text": "该我了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/DclRbliczFZJRQRTWvTkFlkcMM1GFSBL.ogg"
+    },
+    {
+      "description": "akari_battle_covered_1",
+      "category": "battle",
+      "text": "这个看起来很结实啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/DBBgonoMkZ5lBAYiC0XFE5lZ6DeQD08W.ogg"
+    },
+    {
+      "description": "akari_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/5JkIOjFBqXpmsNNVF2KAk2jPbmhS9u96.ogg"
+    },
+    {
+      "description": "akari_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/E3V7372XDjkJPOhLEBZDbVRg8EUNo3MD.ogg"
+    },
+    {
+      "description": "akari_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/jFrk7lp0dzSfmisQVTaw1zeQWbYk9O6t.ogg"
+    },
+    {
+      "description": "akari_battle_defense_1",
+      "category": "battle",
+      "text": "没用的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/a5WtNBTgFI6pzqq4yqv3nX3KO8S6WbuB.ogg"
+    },
+    {
+      "description": "akari_battle_in_1",
+      "category": "battle",
+      "text": "开始战斗吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/1PBKRueDJpEluuXJmu3hAPuR7UxnnO13.ogg"
+    },
+    {
+      "description": "akari_battle_in_2",
+      "category": "battle",
+      "text": "不尽全力的话，会受罚的，无论是敌还是友。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/BTJycbus7K0oa3Ad2or2ybRYOeZhETwa.ogg"
+    },
+    {
+      "description": "akari_battle_move_1",
+      "category": "battle",
+      "text": "这边好像有一些好玩的东西诶。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/gpSNuftiA7lXMvO0cB07CkPy2LWsngil.ogg"
+    },
+    {
+      "description": "akari_battle_move_2",
+      "category": "battle",
+      "text": "好期待呀。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/rBxU0mXFpKh0FP3dwAIEv9JcPy8XR9nK.ogg"
+    },
+    {
+      "description": "akari_battle_recovery_1",
+      "category": "battle",
+      "text": "呜……感觉有点不够啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/VQSH2wyY4t2QHvMrJiiT5t2neCQXgwP5.ogg"
+    },
+    {
+      "description": "akari_battle_retire",
+      "category": "battle",
+      "text": "……饶不了你！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/e0sRNHyn4UizUTEOOq6lFbgwVDxicC1G.ogg"
+    },
+    {
+      "description": "akari_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/XmcPeb8g1jG2m7eO7u2hZuX4GT83gXuR.ogg"
+    },
+    {
+      "description": "akari_battle_shout_2",
+      "category": "battle",
+      "text": "上了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/XUfCoS5Sh2vO57p7LMs3FHXz7D7HqdIj.ogg"
+    },
+    {
+      "description": "akari_battle_shout_3",
+      "category": "battle",
+      "text": "呀~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/HSdDsiettj43SiSfNsPndnWwMRwxbbNu.ogg"
+    },
+    {
+      "description": "akari_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "哼~？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/6dlcBeEARKPn8Z36RYPU5vP6F60oS5P0.ogg"
+    },
+    {
+      "description": "akari_battle_victory_1",
+      "category": "battle",
+      "text": "胜利的秘诀只有一个，不能挑食。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/CE0pbPKQ8WAKbDDfaVr0l6ekXkcEAj7g.ogg"
+    },
+    {
+      "description": "akari_battle_victory_2",
+      "category": "battle",
+      "text": "胜利的味道好甜蜜，我还想多吃一点。不对，是吃好多好多了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/1ydb4EM0h45jzzppDm2qwhOs3szkDWL0.ogg"
+    },
+    {
+      "description": "akari_battle_victory_3",
+      "category": "battle",
+      "text": "真是一场精彩的胜利啊，就保持这个状态在……哼哼，我们先去吃个饭好不好？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/1W2buhjBm1MYF0aNJxEXOQKGnMDbxDYK.ogg"
+    },
+    {
+      "description": "akari_cafe_act_1",
+      "category": "cafe",
+      "text": "今天我们也要一起～去吃好吃的东西！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/fFoQDS934c12sfX5wNwcCNc0xtRD8Ooa.ogg"
+    },
+    {
+      "description": "akari_cafe_act_2",
+      "category": "cafe",
+      "text": "哇啊～听说今天的菜单有牛排诶！赶紧去食堂吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/B3WVn8X44joeXFfD8C8RhmeUzEdkiTQR.ogg"
+    },
+    {
+      "description": "akari_cafe_monolog_1",
+      "category": "cafe",
+      "text": "唔——没有什么可以吃的东西吗。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/w9gwsW7avMk9K6ZNcwIxvgWh08CRREgH.ogg"
+    },
+    {
+      "description": "akari_cafe_monolog_2",
+      "category": "cafe",
+      "text": "唔……想来想去还是觉得……老师身边的女孩子也太多了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/LWkcUh3bUNLgseMfZaMa7nJ6NCHsbeim.ogg"
+    },
+    {
+      "description": "akari_cafe_monolog_3",
+      "category": "cafe",
+      "text": "呵呵呵呵……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/A9ylY2e7X0H7AogYHTyAkovKUUPdQASg.ogg"
+    },
+    {
+      "description": "akari_commonskill",
+      "category": "battle",
+      "text": "做好觉悟了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/eWVzHOId17nNVKzv9fHv7ttZ3FpBHS5M.ogg"
+    },
+    {
+      "description": "akari_exskill_1",
+      "category": "battle",
+      "text": "装弹完毕。瞄准目标！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/w2U63RKgNBOTvAkwcp2Bjkwwu2PZErTM.ogg"
+    },
+    {
+      "description": "akari_exskill_2",
+      "category": "battle",
+      "text": "来一发不一样的吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/MPU6D7g9Ocucg5BbcXuI3nFDRQ7sqULc.ogg"
+    },
+    {
+      "description": "akari_exskill_3",
+      "category": "battle",
+      "text": "我有一点点生气了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/veZIZ54rip0IZIj1zrOWbWFqofbMlpMT.ogg"
+    },
+    {
+      "description": "akari_exskill_level_1",
+      "category": "battle",
+      "text": "拜托烤个全熟。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/zyCZI03WROqmMxLl1t4kxEkde4rY0U5D.ogg"
+    },
+    {
+      "description": "akari_exskill_level_2",
+      "category": "battle",
+      "text": "趁热吃哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/8Pcm1IK9CLeZlFdwcyXoQt6Qf8rHcdx5.ogg"
+    },
+    {
+      "description": "akari_exskill_level_3",
+      "category": "battle",
+      "text": "热气腾腾的榴弹，发射！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/MA54JoiduGKzkvz9dr98iqBeYJUlFBJC.ogg"
+    },
+    {
+      "description": "akari_exweapon_get",
+      "category": "growup",
+      "text": "大家要是都能用大胃王比赛的方式来决胜负就好了。我不喜欢用暴力解决争端。不过我已经准备好了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/bGAUYugetDE5UGtEP7PqdiScLes529SG.ogg"
+    },
+    {
+      "description": "akari_formation_in_1",
+      "category": "formation",
+      "text": "好的，请交给我吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/wapnbmsmJwdsRdSGoJKZSKqATgNESPab.ogg"
+    },
+    {
+      "description": "akari_formation_in_2",
+      "category": "formation",
+      "text": "那我们走吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/mwGCGGstP0pnhQYXLx9K5iIkoWC5eVYZ.ogg"
+    },
+    {
+      "description": "akari_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/sFl8EkbraWE1440YJVp0y9Ir3MZCO9G8.ogg"
+    },
+    {
+      "description": "akari_gachaget",
+      "category": "growup",
+      "text": "我是美食研究会的明里。一起去吃好吃的东西吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/EmlPx4dokkGryCn2QRdZWYHRn0bOobJK.ogg"
+    },
+    {
+      "description": "akari_growup_1",
+      "category": "growup",
+      "text": "看来老师对我，抱有很多的期待啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/b7ePG3Z8UrGp3dLdxExzNBRdyUKLl9Bx.ogg"
+    },
+    {
+      "description": "akari_growup_2",
+      "category": "growup",
+      "text": "变强是一件好事，这意味着有能力去做更多的事情了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/ZSD2u2aFxIb76bdoPE4JZcPQSjeUQlWK.ogg"
+    },
+    {
+      "description": "akari_growup_3",
+      "category": "growup",
+      "text": "吃得越多就会变得越强，这对女孩子来说是常识。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/N1IDysG6njjSQlnmkIBTFvcV5C6wKnSf.ogg"
+    },
+    {
+      "description": "akari_growup_4",
+      "category": "growup",
+      "text": "哎呀，我毕竟还在发育嘛。无论是个子还是内心，全都会变得更加成熟的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/jda5wQ52NUbNvLmRalE9bX5Fl8F90phI.ogg"
+    },
+    {
+      "description": "akari_lobby_1",
+      "category": "lobby",
+      "text": "您问放在这里的零食去哪儿了？ 唔，我不知道呢~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/iLx2HldDbQuBUr19CwXkgdJTjbU6RVC7.ogg"
+    },
+    {
+      "description": "akari_lobby_2",
+      "category": "lobby",
+      "text": "把老师……呵呵呵。想想都觉得很开心呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/ntUM4dlqn3CrqYtFBidT7xW5BJ5ifJWa.ogg"
+    },
+    {
+      "description": "akari_lobby_3",
+      "category": "lobby",
+      "text": "有什么可以帮忙的吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/KS6DkDX5XJuWPcg9GuPyJjCel7fk0Dug.ogg"
+    },
+    {
+      "description": "akari_lobby_4",
+      "category": "lobby",
+      "text": "有人认为，吃得太多就不能叫美食家。但并不是这样的。 因为我就是一个吃得“很多”的美食家。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/0MOuYYKyETcxd6IM3TKrwfsYvkEEFxET.ogg"
+    },
+    {
+      "description": "akari_lobby_5",
+      "category": "lobby",
+      "text": "减肥……？ 怎么说呢。我天生就是怎么吃都不会胖啦～",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/jsi1pr0gLXkLl7VqVggs0FOrKV410iOA.ogg"
+    },
+    {
+      "description": "akari_login_1",
+      "category": "lobby",
+      "text": "早上好，老师。 今天去吃点什么呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/4SBysenVwfmGCdGo3X3lZppzoYRJmQeg.ogg"
+    },
+    {
+      "description": "akari_login_2",
+      "category": "lobby",
+      "text": "呵呵。早上好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/iWa80G0cfYTGp4dKKqqa01aL7k2RY9Nj.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "嗯，真好吃~！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/PTq8VNzQUxidRPDiHvmczbzeqM9wwHWc.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "这么美味的寿司，不管有多少，我都可以吃掉！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/W80xXQ7mhuRiA5Myb32sK80qI1iotsFS.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "您问我记不记得……自己已经吃了多少寿司了？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/kYE9N7206nFQhFrK3LlPoz3hZCWyF5HE.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "嗯哼哼，难道老师能记得自己至今为止一共吃过多少寿司吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/99ymoCSXIXOssQLNtnU87keolW5YTZRE.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "嗯，我觉得大概有一百碟左右吧……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/zbTjg4ZOZPYaiw6qcvKAdmiMA8e2lOes.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "不过跟平时比起来我今天已经算是很克制啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/aFGbSndvsgcTLvZ2p7LxBgQUz3YKEZme.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "现在我的肚子呀，可是连一半都还没有填饱呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/fUqWISvLC9TxgGNVLnHK1vkQdvOvH3iZ.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "继续这么吃下去，真的真的没问题吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/pG38SaCfNAfUOrNBt5pFj7AjE3BLnn2U.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "老师的额头是不是从刚才开始，就一直在冒冷汗啊？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/gFTKxmW4WRlWKkQ43wCO8okPfwnqN00H.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "啊，装在这个金色的碟子里的寿司一看就很好吃的样子诶~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/RT0uBT2dBfDvqpDv7eaWI4WQuJfBc7qa.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "老师，这盘寿司我也可以拿吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/e96rRVpsynwO2X5djB9BUWuWJxQUNvba.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "那我就把这盘价值1000联合币的寿司吃掉了哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/0zogorXaUnd03wtgsZoyTJ7FDmlhE9Z2.ogg"
+    },
+    {
+      "description": "akari_relationship_up_1",
+      "category": "growup",
+      "text": "不能吃得太多这样的想法，我以前可是从来没有过。可是，和老师在一起的时候，呵呵~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/R0kYrKIHMTqnrNTwzDa1AL4pkCiRXSqC.ogg"
+    },
+    {
+      "description": "akari_relationship_up_2",
+      "category": "growup",
+      "text": "呵呵呵，虽然和老师在一起的时候会有一种紧张感，但是，我并不讨厌这种感觉。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/Y8buteqO2FgCf8Be3EalB8P3r3VECn6M.ogg"
+    },
+    {
+      "description": "akari_relationship_up_3",
+      "category": "growup",
+      "text": "啊，怎么办呢？和老师在一起的时候，会有一·点·点危险的想法。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/NWZCFkP8Z59j8Hpg8KtBstxkJo9ALjaZ.ogg"
+    },
+    {
+      "description": "akari_relationship_up_4",
+      "category": "growup",
+      "text": "感谢老师对我的照顾，需要我的时候，请您随时吩咐。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/Ddv2Xx2VIfD6kNuvurskfh9NXBPenkAn.ogg"
+    },
+    {
+      "description": "akari_season_birthday",
+      "category": "lobby",
+      "text": "非常感谢您送上的祝福。 您会请我吃蛋糕是吗？ 嚯……吃两位数的蛋糕也可以吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/h6B4ZjqMaxZOx13y4cGLfmJqreWGnSIG.ogg"
+    },
+    {
+      "description": "akari_season_birthday_player",
+      "category": "lobby",
+      "text": "祝您生日快乐，老师。 今天就让我亲自给您露一手，做一顿饭吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/PR45Ijq5gOdbt2BYGp7zCE4Cv9FVsWw2.ogg"
+    },
+    {
+      "description": "akari_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师有没有吃到丰盛的年夜饭呢？呵呵，新的一年，还请和我一起品尝更多美食哦~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/QJSkhSDzhN00lQNXR757kvBFsI0cdyjl.ogg"
+    },
+    {
+      "description": "akari_season_halloween",
+      "category": "lobby",
+      "text": "不给我糖果的话，我就要捣蛋了哦。 唔……拿了糖果，还是想捣蛋呢，怎么办啊？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/2iar5fjr4qyJmgi6U6NSiij7KXBH9pEO.ogg"
+    },
+    {
+      "description": "akari_season_midautumn",
+      "category": "lobby",
+      "text": "老师，我准备了很多很多月饼呢，您要来一块儿吗？哦？您问吃这么多会不会热量太高？呵呵，那种事情就不要问了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/QvV6YzVMj8UNZ0wsvRRiei9Au3AyK5NF.ogg"
+    },
+    {
+      "description": "akari_season_newyear",
+      "category": "lobby",
+      "text": "恭祝您新春快乐~ 希望今年也能吃到好多美食~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/aNgGCzjtwqkbxNvHJb9Pd7uEtolf8EvE.ogg"
+    },
+    {
+      "description": "akari_season_xmas",
+      "category": "lobby",
+      "text": "圣诞快乐~ 老师～赶快赶快~烤火鸡，蛋糕，还有好多好吃的在等着我们呢~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/zShNmW7bknjsg3A1cEbei7qD9EBVhGal.ogg"
+    },
+    {
+      "description": "akari_tactic_defeat_1",
+      "category": "battle",
+      "text": "……哈，有点上头啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/qFZnBVRXOmoM7hYVswTkfUFbn4zZEiwl.ogg"
+    },
+    {
+      "description": "akari_tactic_defeat_2",
+      "category": "battle",
+      "text": "下次，我们可以，稍微重口味一点吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/UDds6PC8UsiwhvBLZ1Bq0O33gMZYV2vP.ogg"
+    },
+    {
+      "description": "akari_tactic_in_1",
+      "category": "battle",
+      "text": "我们不会让老师失望的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/F2iEg2ISTIDWuXegPQkivRDJX6Lp5jmZ.ogg"
+    },
+    {
+      "description": "akari_tactic_in_2",
+      "category": "battle",
+      "text": "呵呵呵，来搞破坏吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/DjhvvWdYkJd1IF5NnGyygeAx1ksgR382.ogg"
+    },
+    {
+      "description": "akari_tactic_victory_1",
+      "category": "battle",
+      "text": "一场完美的胜利。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/grlJBWO2xjgYVeVj0bFFG3SfvsVcMziK.ogg"
+    },
+    {
+      "description": "akari_tactic_victory_2",
+      "category": "battle",
+      "text": "那现在要不要去吃饭？吃什么？我·全·都·要。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/ieGwiGMoVn5ZfBfTXkvCn5ghkgoFFTJP.ogg"
+    },
+    {
+      "description": "akari_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/hvJtbtJtTNPnfpAvGQ5PvuytYyGj4Mea.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "akari_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_shout_1.ogg"
+    },
+    {
+      "description": "akari_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_shout_2.ogg"
+    },
+    {
+      "description": "akari_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_shout_3.ogg"
+    },
+    {
+      "description": "akari_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "akari_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_victory_1.ogg"
+    },
+    {
+      "description": "akari_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_victory_2.ogg"
+    },
+    {
+      "description": "akari_battle_victory_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_victory_3.ogg"
+    },
+    {
+      "description": "akari_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_cafe_act_1.ogg"
+    },
+    {
+      "description": "akari_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_cafe_act_2.ogg"
+    },
+    {
+      "description": "akari_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "akari_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "akari_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "akari_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_commonskill.ogg"
+    },
+    {
+      "description": "akari_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_exskill_1.ogg"
+    },
+    {
+      "description": "akari_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_exskill_2.ogg"
+    },
+    {
+      "description": "akari_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_exskill_3.ogg"
+    },
+    {
+      "description": "akari_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_exskill_level_1.ogg"
+    },
+    {
+      "description": "akari_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_exskill_level_2.ogg"
+    },
+    {
+      "description": "akari_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_exskill_level_3.ogg"
+    },
+    {
+      "description": "akari_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_exweapon_get.ogg"
+    },
+    {
+      "description": "akari_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_formation_in_1.ogg"
+    },
+    {
+      "description": "akari_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_formation_in_2.ogg"
+    },
+    {
+      "description": "akari_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_formation_select.ogg"
+    },
+    {
+      "description": "akari_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_gachaget.ogg"
+    },
+    {
+      "description": "akari_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_growup_1.ogg"
+    },
+    {
+      "description": "akari_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_growup_2.ogg"
+    },
+    {
+      "description": "akari_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_growup_3.ogg"
+    },
+    {
+      "description": "akari_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_growup_4.ogg"
+    },
+    {
+      "description": "akari_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_lobby_1.ogg"
+    },
+    {
+      "description": "akari_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_lobby_2.ogg"
+    },
+    {
+      "description": "akari_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_lobby_3.ogg"
+    },
+    {
+      "description": "akari_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_lobby_4.ogg"
+    },
+    {
+      "description": "akari_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_lobby_5.ogg"
+    },
+    {
+      "description": "akari_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_login_1.ogg"
+    },
+    {
+      "description": "akari_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_login_2.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_memoriallobby_3_3.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "akari_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_memoriallobby_5_3.ogg"
+    },
+    {
+      "description": "akari_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_relationship_up_1.ogg"
+    },
+    {
+      "description": "akari_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_relationship_up_2.ogg"
+    },
+    {
+      "description": "akari_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_relationship_up_3.ogg"
+    },
+    {
+      "description": "akari_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_relationship_up_4.ogg"
+    },
+    {
+      "description": "akari_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_season_birthday.ogg"
+    },
+    {
+      "description": "akari_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_season_birthday_player.ogg"
+    },
+    {
+      "description": "akari_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_season_halloween.ogg"
+    },
+    {
+      "description": "akari_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_season_newyear.ogg"
+    },
+    {
+      "description": "akari_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_season_xmas.ogg"
+    },
+    {
+      "description": "akari_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "akari_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "akari_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_tactic_in_1.ogg"
+    },
+    {
+      "description": "akari_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_tactic_in_2.ogg"
+    },
+    {
+      "description": "akari_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_tactic_victory_1.ogg"
+    },
+    {
+      "description": "akari_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_tactic_victory_2.ogg"
+    },
+    {
+      "description": "Akari_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/Akari_Title.ogg"
+    },
+    {
+      "description": "akari_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_buffed_1.ogg"
+    },
+    {
+      "description": "akari_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_buffself_1.ogg"
+    },
+    {
+      "description": "akari_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_covered_1.ogg"
+    },
+    {
+      "description": "akari_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_damage_1.ogg"
+    },
+    {
+      "description": "akari_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_damage_2.ogg"
+    },
+    {
+      "description": "akari_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_damage_3.ogg"
+    },
+    {
+      "description": "akari_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_defense_1.ogg"
+    },
+    {
+      "description": "akari_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_in_1.ogg"
+    },
+    {
+      "description": "akari_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_in_2.ogg"
+    },
+    {
+      "description": "akari_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_move_1.ogg"
+    },
+    {
+      "description": "akari_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_move_2.ogg"
+    },
+    {
+      "description": "akari_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_recovery_1.ogg"
+    },
+    {
+      "description": "akari_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/akari_battle_retire.ogg"
+    },
+    {
+      "description": "akari_cardgame_act_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/kr/akari_cardgame_act_1.ogg"
+    },
+    {
+      "description": "akari_cardgame_act_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/kr/akari_cardgame_act_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_akari_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_akari_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_akari_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_akari_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_akari_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_akari_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_akari_spr-99_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "运动服立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0068_spr_05.png",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0068_spr_00.png",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0068_spr_02.png",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0068_spr_03.png",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0068_spr_04.png",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0068_spr_Idle_01.png",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0068_spr_99.png",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0068_spr_06.png",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0068_spr_01.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_008.png",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_238.png",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-14.jpg",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-74.jpg",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_046.png",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_147.png",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_218.png",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Akari_Intro_jp.jpg",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/akari_Intro_en.jpg",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/akari_Intro_cht.jpg",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/akari_pickup.gif",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/akari_cafe.gif",
+        "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/akari_ex.gif"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 107,
+      "favorability": 240
+    },
+    {
+      "id": 93,
+      "favorability": 60
+    },
+    {
+      "id": 92,
+      "favorability": 40
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 13002,
+      "dev_name": "Akari_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": false,
+      "team_position": "MIDDLE",
+      "battlefield_position": "STRIKER",
+      "rarity": 2,
+      "limited": false,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "B",
+      "street_adaptability": "A",
+      "equipment": [
+        3,
+        6,
+        7
+      ],
+      "cultivate_material": [
+        77,
+        80,
+        81,
+        82,
+        158,
+        160,
+        163,
+        165,
+        19,
+        419,
+        420,
+        421,
+        422,
+        411,
+        412,
+        413
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/skill_icon/TKCEiI10i8oKluvhdGhVtbUnNX2YmrIR.png",
+            "title": "大份榴弹！",
+            "title_cn": "一发榴弹，分量满满！",
+            "preview": "//static.kivo.wiki/videos/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/skill_preview/6QFT6b8tQTYaac2ivEAphj0ZQwZHwWhv.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌方单位造成攻击力392%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌方单位造成攻击力450%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌方单位造成攻击力568%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌方单位造成攻击力627%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌方单位造成攻击力744%的伤害"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/skill_icon/NdWWAsKCLGIl831kIJ8bwmDwFr2Opc7V.png",
+            "title": "再一碗微辣！",
+            "title_cn": "再来一碗辣的！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升38.7% (持续20秒)(冷却15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升40.7% (持续20秒)(冷却15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升42.6% (持续20秒)(冷却15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升50.4% (持续20秒)(冷却15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升52.3% (持续20秒)(冷却15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升54.2% (持续20秒)(冷却15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升62% (持续20秒)(冷却15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升63.9% (持续20秒)(冷却15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升65.9% (持续20秒)(冷却15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升73.6% (持续20秒)(冷却15秒)"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/skill_icon/E3Nd1M0XltA26TR8d0N2sRH23FDKw7Cr.png",
+            "title": "多谢款待！",
+            "title_cn": "我吃饱了！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "生命值 提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/skill_icon/DQDb2ad9W5LtvVpxeQEaYYYWIEjmvXvh.png",
+            "title": "我还吃得下！",
+            "title_cn": "我还可以继续吃！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升34.4% (持续26秒)(冷却18秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升36.2% (持续26秒)(冷却18秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升37.9% (持续26秒)(冷却18秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升44.8% (持续26秒)(冷却18秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升46.5% (持续26秒)(冷却18秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升48.2% (持续26秒)(冷却18秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升55.1% (持续26秒)(冷却18秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升56.8% (持续26秒)(冷却18秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升58.6% (持续26秒)(冷却18秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，10%概率 攻击力 提升65.5% (持续26秒)(冷却18秒)"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2365,
+          "attack": 303,
+          "defense": 20,
+          "healing": 1502,
+          "accuracy": 698,
+          "evasion": 798,
+          "crit": 199,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1400,
+          "range": 650,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 15
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/weapons_icon.png",
+        "name": "贪食的标志",
+        "name_cn": "贪食之证",
+        "description": "明里爱用的突击步枪。<br>作为野心十足的大胃王明里的主要武器，上面挂有榴弹发射器等各式各样的武器吊饰。",
+        "description_cn": "明里喜欢用的突击步枪。<br>不愧是大胃王明里的主武器，配备榴弹发射器的同时，还挂满了枪械配件。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「多谢款待！」升级为「多谢款待！+」"
+          },
+          {
+            "title": "固有武器最大等級 Lv.40 → Lv.50 / 地形适应性强化 室外适应性 B → A",
+            "description": "在室外地形造成1.1倍伤害。处于掩体掩护状态时掩护成功率增加45%，攻击时无视掩体概率增加45%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 爆发克制伤害增加",
+            "description": "攻击类型为爆发的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B3%84%E6%B8%8A%20%E6%98%8E%E9%87%8C/skill_icon/9DDuJfNZ5KjPC7HdwRJnap86cO6x4jNs.png",
+            "title": "多谢款待！+",
+            "title_cn": "我吃饱了！+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "生命值 提升3604/ 生命值 提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升3784/ 生命值 提升14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升3964/ 生命值 提升15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升4685/ 生命值 提升18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升4865/ 生命值 提升18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升5045/ 生命值 提升19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升5766/ 生命值 提升22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升5946/ 生命值 提升23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升6126/ 生命值 提升23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值 提升6847/ 生命值 提升26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "5500a963-8793-40b9-9fbd-ad34603191cc",
+  "skill_declare_uuid": "770c3736-8982-4fb4-b9ed-f6468f165232",
+  "supplementary_uuid": "8d38b352-13d0-4ec1-a9df-ce3357c2306f",
+  "supplementary_declare_uuid": "256daa3d-87f6-4ef2-bfe3-f1b283cf96fe",
+  "created_at": 1685369000,
+  "updated_at": 1783336108
+}

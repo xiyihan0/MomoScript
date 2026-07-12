@@ -1,0 +1,59 @@
+## 1. Shared Language Service
+
+- [x] 1.1 实现 versioned document store 与 full-sync snapshots
+- [x] 1.2 实现 UTF-8/UTF-16 position codec 和中文/surrogate tests
+- [x] 1.3 实现 syntax diagnostics、document symbols 和 folding ranges
+- [x] 1.4 定义 revision-bound preview scheduler interface，不阻塞语言查询
+
+## 2. LSP Transports
+
+- [x] 2.1 实现 initialize/shutdown、didOpen/didChange/didClose 和基础 request dispatch
+- [x] 2.2 实现 native stdio binary
+- [x] 2.3 实现 WASM request/notification bridge
+- [x] 2.4 用同一 transcript fixture 对比 native/shared behavior
+
+## 3. VS Code
+
+- [x] 3.1 建立 Desktop/Web 双入口和共享 language client 配置
+- [x] 3.2 建立 browser Worker bridge
+- [x] 3.3 添加 `.mmt` language configuration 与 TextMate grammar
+- [x] 3.4 Desktop/Web build 均通过且不在 Web bundle 引入 Node API
+
+## 4. Reliability And Runtime
+
+- [x] 4.1 统一 native/WASM notification error、bridge parse error 与 snapshot preservation
+- [x] 4.2 将 diagnostic labels 映射为 LSP related information
+- [x] 4.3 实现顶层 directive、mode 和 actor/asset field completion
+- [x] 4.4 增加真实 Chrome Worker/WASM transcript 并修复 initialize startup race
+- [x] 4.5 增加 VS Code Web Extension Host runtime transcript
+- [x] 4.6 固化跨平台 binary layout 并移除 Bash-only 构建入口
+
+## 5. Next Milestone
+
+- [x] 5.1 实现 no-I/O Typst projection 与双向 `ProjectionSegment`
+- [x] 5.2 原型验证固定 Tinymist native/WASM sidecar
+- [x] 5.3 接入 Typst diagnostics/completion/hover/signature help
+- [x] 5.4 使用 Desktop/Web 恢复性 fixture 验证 full emission，并固化触发 region A/B 的失败门槛
+
+## 6. Backend Recovery
+
+- [x] 6.1 实现 Tinymist Web Worker 运行时重启与最新虚拟工程 replay
+- [x] 6.2 增加真实浏览器 restart transcript，验证重启前后 completion 一致
+
+## 7. Host Backend Hardening
+
+- [x] 7.1 明确 VS Code host coordinator 边界并删除未使用的 Rust backend transport façade
+- [x] 7.2 校验 host protocol、Tinymist `0.15.2` 与 completion/hover/signature capabilities
+- [x] 7.3 projection 构建失败时关闭旧 virtual project 并清除 host diagnostics
+- [x] 7.4 按 JSON-RPC 方法响应 Tinymist server request，未知方法返回 `-32601`
+- [x] 7.5 将 VS Code cancellation 转换为 Tinymist `$/cancelRequest`
+- [x] 7.6 实现 native process restart、initialize 与最新 virtual project replay
+- [x] 7.7 增加 native/Web transcript 与 Desktop/Web Extension Host 回归验证
+
+## 8. Remote Pack Completion
+
+- [x] 8.1 定义 host 加载原始 pack-v3 manifest、Rust 原子安装 registry 的传输合同
+- [x] 8.2 实现 `mmt/updatePackManifests` 与失败时保留最后有效 registry
+- [x] 8.3 实现 actor block `preset:` 字段的 canonical entity completion
+- [x] 8.4 Desktop/Web 加载默认 BA Kivo manifest 并保留有效缓存
+- [x] 8.5 增加 native/WASM transcript 和 Web Extension Host 回归验证

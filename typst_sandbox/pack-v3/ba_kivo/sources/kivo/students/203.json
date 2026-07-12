@@ -1,0 +1,2081 @@
+{
+  "id": 203,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 203,
+      "avatar": "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 499,
+      "avatar": "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/%E5%81%B6%E5%83%8F/Student_Portrait_CH0274_Collection.png",
+      "skin": "偶像",
+      "skin_cn": "偶像"
+    }
+  ],
+  "family_name": "歌住",
+  "given_name": "樱子",
+  "family_name_jp": "歌住",
+  "given_name_jp": "サクラコ",
+  "family_name_kr": "우타즈미",
+  "given_name_kr": "사쿠라코",
+  "family_name_en": "Utazumi",
+  "given_name_en": "Sakurako",
+  "family_name_zh_tw": "歌住",
+  "given_name_zh_tw": "櫻子",
+  "family_name_cn": "歌住",
+  "given_name_cn": "樱子",
+  "nick_name": "觉悟",
+  "introduction": "圣三一综合学园所属，修女会的虔诚学生。\n\n不论什么事都认真对待，深受众多学生的信任。\n但过分认真导致有时会做出与流行跟常识有所偏差的事。\n\n>您的一言一行……。\n我一直都在注视着。",
+  "introduction_cn": "崔尼蒂综合学院所属，来自姐妹会的虔诚学员。\n\n对待每件事情都很认真，深受大家的信任。\n她总是以虔诚的心态履行自己的职责，但是有时会过于死板，有着与流行和常识脱节的一面。\n\n>我一直关注着您的一举一动。",
+  "momo_talk_signature": "一直都在注视着",
+  "main_relation": 9,
+  "relation": [
+    7
+  ],
+  "age": 17,
+  "grade": "三年生",
+  "height": 160,
+  "birthday": "10-04",
+  "hobby": "祈祷",
+  "designer": "Crab D",
+  "illustrator": "Mx2J",
+  "character_voice": "加隈亚衣",
+  "character_voice_cn": "唐雅菁",
+  "release_date": "2023-02-10",
+  "release_date_cn": "2024-11-24",
+  "release_date_global": "2023-08-11",
+  "sd_model_image": "",
+  "avatar": "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/avatar.png",
+  "school": 2,
+  "weapon_type": "AR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Large",
+  "special_appearance": false,
+  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 偽りなき信仰の甘果 | 无伪信仰 甘甜果实 | 老師，我會在醒著的每一刻為您祈禱… | Allow me to pray For every hour, minute, and second I am awake... I'll pray for you Sensei. |\n| ![日Banner](images/students/歌住%20樱子/original/gallery/官方图集/サクラコ.png =450x) | ![简中Banner](images/students/歌住%20樱子/original/gallery/官方图集/sakurako_banner_chs.jpg =450x) | ![繁中Banner](images/students/歌住%20樱子/original/gallery/官方图集/sakurako_banner_cht.png =450x) | ![国际Banner](images/students/歌住%20樱子/original/gallery/官方图集/sakurako_banner_en.jpg =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![日介绍](images/students/歌住%20樱子/original/gallery/官方图集/sakurako_Intro_jp.jpg =525x) | ![简介绍](images/students/歌住%20樱子/original/gallery/官方图集/sakurako_Intro_chs.jpg =425x) | ![繁介绍](images/students/歌住%20樱子/original/gallery/官方图集/sakurako_Intro_cht.jpg =525x) | ![EN介绍](images/students/歌住%20樱子/original/gallery/官方图集/sakurako_Intro_en.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[祈祷椅](https://kivo.wiki/data/item/935) | 家具互动：[祈祷椅](https://kivo.wiki/data/item/935) |\n| :---: | :---: | :---: | :---: |\n| ![EX](images/students/歌住%20樱子/original/gallery/官方图集/sakurako_ex.gif =450x) | ![触摸](images/students/歌住%20樱子/original/gallery/官方图集/sakurako_cafe.gif =450x) | ![家具](images/students/歌住%20樱子/original/gallery/官方图集/sakurako_interaction.gif =450x) | ![家具](images/students/歌住%20樱子/original/gallery/官方图集/sakurako_mari_hinata_interaction.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 樱子 汉化\n![樱子](files/2/BRpDxnvzwG15wjsAOqujLjovFA4u7FBw.png =450x)\n@tab 樱子 原文\n![樱子](files/2/KzRwFCASx3TfdsYofx15d2k99QSbCqn1.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n\n![zsbd](images/gallery/36/Vol2-25.jpg =450x)\n\n![zsbd](images/gallery/34/Vol.1_页面_123.png =450x)\n\n![zsbd](images/gallery/36/Vol2-68.jpg =450x)\n\n![zsbd](images/gallery/36/Vol2-173.jpg =450x)\n\n![zsbd](images/gallery/36/Vol2-174.jpg =450x)\n\n![zsbd](images/gallery/36/Vol2-115.jpg =450x)\n\n![zsbd](images/gallery/36/Vol2-157.jpg =450x)\n\n![zsbd](images/gallery/4.官方-设定集V3/ブルーアーカイブ%20オフィシャルアートワークス_%203%20-%20013.png =450x)\n\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[日向](https://kivo.wiki/data/character/26)|シスターヒナタ<br>ヒナタさん<br>ヒナタ|\n|[玛丽](https://kivo.wiki/data/character/99)|マリー|\n|[梓](https://kivo.wiki/data/character/3)|アズサさん<br>白洲アズサさん<br>アズサ|\n|[忧](https://kivo.wiki/data/character/23)|ウイさん<br>古関ウイさん|\n|[纱织](https://kivo.wiki/data/character/36)|錠前サオリ|\n|[圣娅](https://kivo.wiki/data/character/43)|セイアさん<br>百合園セイアさん|\n|[渚](https://kivo.wiki/data/character/25)|ナギサさん|\n|[花子](https://kivo.wiki/data/character/92)|ハナコさん|\n|[未花](https://kivo.wiki/data/character/1)|ミカさん<br>聖園ミカさん|\n|[美弥](https://kivo.wiki/data/character/129)|ミネ団長<br>団長|\n|修女会|シスターフッド<br>シスターの皆様|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/Sakurako_home_Idle_01_1.1457000000000002.jpg",
+  "spine": [
+    56,
+    492,
+    1757,
+    542
+  ],
+  "model": [
+    94,
+    431
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/%20/voice/play_icon.png",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/%20/voice/pause_icon.png",
+  "voice": [
+    {
+      "description": "Sakurako_Title",
+      "category": "lobby",
+      "text": "Blue Archive.",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/y6sHvZGI3H7Zj7nAxTMN0BNyN0ZYfSMb.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Buffed_1.ogg",
+      "category": "battle",
+      "text": "多谢。",
+      "text_original": "助かります。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/54glw3dYPGcTv9BwHC7aQvsqro5plZJl.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_BuffSelf_1.ogg",
+      "category": "battle",
+      "text": "赐予我力量吧。",
+      "text_original": "私に力を！",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/YNsYT51svxZbq1HDCwNIqmtz6tRpP95K.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Covered_1.ogg",
+      "category": "battle",
+      "text": "没用的。",
+      "text_original": "無駄です。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/pNmrBshzUd0GGJ2vm5jynSXtURsZ1bE8.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Damage_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "くっ…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/RFqIQPLfD4ot9PcFUrDzW4SUXb5qIlmL.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Damage_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "うっ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/CcOyn8xNjFsoDBCUnlsBLFlbmGPDAstX.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Damage_3.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "うっ…",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/iK1PyAmkDCVqwv602Ke9yBZiTGpZmICa.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Defense_1.ogg",
+      "category": "battle",
+      "text": "你们的信仰还不够虔诚。",
+      "text_original": " 回避\t",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/tGycpBm9PDwOWSn5MLlBLvPU9WAM1QBT.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "一起前进吧。",
+      "text_original": "共に参りましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/wkWMQ4YIoCop2BbBz1gpC02KXLv1STeu.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "这也是一种试炼。",
+      "text_original": "これも一つの試練なのですね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/nq6uyxxB2d7Pz77XtNAa08I8nWRy5XbC.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Move_1.ogg",
+      "category": "battle",
+      "text": "继续前进吧。",
+      "text_original": "続けて参ります。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/wBV1SjXpff6VZeZUvknR9wx2X5sufwUv.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Move_2.ogg",
+      "category": "battle",
+      "text": "还没有结束。",
+      "text_original": "まだ終わっておりません！",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/h4fBbkJ9b1QkrhiEUYFOqY86bXtKUe2C.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Recovery_1.ogg",
+      "category": "battle",
+      "text": "十分感谢。",
+      "text_original": "感謝します。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/7YHM5Ta4ldSQ0kLznOM29HGXaqgaWnKo.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Retire.ogg",
+      "category": "battle",
+      "text": "都怪我实力不足……",
+      "text_original": "私が至らないばかりに…",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/DRwi3D4wtbUb8kB61jqNlOtK3dTJ563a.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Shout_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/W6D5xrD0WTtuk9xIJfb7FREOiy2on9i7.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Shout_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/QtTWLip9JZlucnYn3irUueNgJ41alXUL.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Shout_3.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/AGCjmG9OoEw4El1wJV3kDy1Edc1YRnz6.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_TacticalAction_1.ogg",
+      "category": "battle",
+      "text": "哼！",
+      "text_original": "ふっ…！",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/Zk39jiy0Y1rxYkm5cFwE2WYPj1PEiHDg.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Victory_1.ogg",
+      "category": "battle",
+      "text": "感谢各位。",
+      "text_original": "皆様に感謝を。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/M2oaabRmu2UJQvKajdkTZ82ZdJ6bjPzu.ogg"
+    },
+    {
+      "description": "Sakurako_Battle_Victory_2.ogg",
+      "category": "battle",
+      "text": "能顺利解决就好。",
+      "text_original": "解決できて何よりです。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/oR6njX2ujWVnsoY3hmldGbAVnQI4dQNt.ogg"
+    },
+    {
+      "description": "Sakurako_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "听说这里都是 老师亲手布置的……",
+      "text_original": "ここが、先生が飾りつけているという…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/mC9EPhxCpFhVbLuSA0Gp5Vamjbj31iru.ogg"
+    },
+    {
+      "description": "Sakurako_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "这里有形形色色的人呢。",
+      "text_original": "いろんな方がいらしていますね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/6yqJb5QyHQEjIrdauCSDhChFC87feScf.ogg"
+    },
+    {
+      "description": "Sakurako_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "和圣堂的氛围 完全不一样啊。",
+      "text_original": "聖堂とは雰囲気が随分と違いますね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/9L8TRRMbCDMCjlkjNukV1cGGGbU5Gxwm.ogg"
+    },
+    {
+      "description": "Sakurako_Cafe_monolog_4.ogg",
+      "category": "cafe",
+      "text": "偶尔…… 待在这种地方也不错。",
+      "text_original": "たまには…こういう場所にいるのも良いものです。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/vJnax63iEwilAFzP9Yei9CPyFaa6jIiy.ogg"
+    },
+    {
+      "description": "Sakurako_Cafe_monolog_5.ogg",
+      "category": "cafe",
+      "text": "这里能让我感到 另一种平静。",
+      "text_original": "形は違いますが、穏やかな気持ちになります。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/NsKcHFP2FMM46yryqcAhr1N9JUmeNsIy.ogg"
+    },
+    {
+      "description": "Sakurako_CommonSkill.ogg",
+      "category": "battle",
+      "text": "结果，还是变成这样了。",
+      "text_original": "結局、こうなってしまうのですね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/5v4kRlUaKLITok3cZq3gwddPqMFNYHnO.ogg"
+    },
+    {
+      "description": "Sakurako_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "为这枚子弹，献上祝福。",
+      "text_original": "この弾丸に祝福を。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/E2IJ42FwonZxK1jnS56FysFwZavD3v0k.ogg"
+    },
+    {
+      "description": "Sakurako_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "请赐予我们恩惠。",
+      "text_original": "我らに恵みを与えたまえ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/LUwA0OQ9CjeNtnpAXxY6snHL88AZyu14.ogg"
+    },
+    {
+      "description": "Sakurako_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "感谢您的恩宠。",
+      "text_original": "恩寵に感謝を。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/S0griZ9Hv9JqVzjf3enjjM2EGjFRna4f.ogg"
+    },
+    {
+      "description": "Sakurako_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "忏悔吧！",
+      "text_original": "悔い改めてください！",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/q1R3z4wgAKJykyXbQ0TIEL6RE6nX6MIw.ogg"
+    },
+    {
+      "description": "Sakurako_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "这发子弹是送给你的！",
+      "text_original": "貴方のためなのです！",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/SKBvbgrL7i64Y9nySLc8j3IRJmNiHg3f.ogg"
+    },
+    {
+      "description": "Sakurako_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "收下吧！",
+      "text_original": "受け止めてください！",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/ZPqb6QTgtcKRsXzREuOWVmChXF7Rt5EA.ogg"
+    },
+    {
+      "description": "Sakurako_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "感谢您的慈悲。 总有一天，我会报答您的恩情。",
+      "text_original": "私に慈悲を与えてくださるのですね。有難く頂戴いたします。 いつか、このご恩をお返しできる日が訪れますように。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/dJaXWgiizSyXAjAmLnbUv0omPZj5KcMY.ogg"
+    },
+    {
+      "description": "Sakurako_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "明白了。",
+      "text_original": "かしこまりました。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/NMa4yYebHn00BLdDd5WeqWQpJZgdEcQg.ogg"
+    },
+    {
+      "description": "Sakurako_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "您叫我吗？",
+      "text_original": "お呼びでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/hChUnRdHGstUua8omDuvEpHKp86CrGFN.ogg"
+    },
+    {
+      "description": "Sakurako_Formation_Select.ogg",
+      "category": "formation",
+      "text": "哎，哎呀……？您这是……？",
+      "text_original": "あ、あら…？これは…？",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/aYyxrVko9WSyE6SEB8J8glkFF3CNOXfI.ogg"
+    },
+    {
+      "description": "Sakurako_Gachaget.ogg",
+      "category": "growup",
+      "text": "我是圣三一综合学院修女会的成员，歌住樱子。 愿安宁常伴您左右。",
+      "text_original": "トリニティ総合学園、 シスターフッド所属の歌住サクラコです。 日々に安寧があらんことを。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/uHjM6YEkxaMvMCn3nkTlYd2T7vtkTZP2.ogg"
+    },
+    {
+      "description": "Sakurako_Growup_1.ogg",
+      "category": "growup",
+      "text": "啊，谢谢您。像这样被人关心……我还有些不习惯呢。",
+      "text_original": "あっ、ありがとうございます。こうして目をかけていただくのは、あまり…慣れませんね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/6MFhZmgWwaMfetKKQnz0r0EB3NtmWk37.ogg"
+    },
+    {
+      "description": "Sakurako_Growup_2.ogg",
+      "category": "growup",
+      "text": "真不知，该如何报答您的恩情……",
+      "text_original": "このご恩をどう返していけばよいのでしょう？",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/vrvfd3JMaFP8Zp8T3WIaRRPU0hjSBwms.ogg"
+    },
+    {
+      "description": "Sakurako_Growup_3.ogg",
+      "category": "growup",
+      "text": "愿祝福与您的善行同在。",
+      "text_original": "その行いに、祝福があらんことを。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/vdRY3QY1j2SiN2h3T1YV5DMGg9YZRo8Z.ogg"
+    },
+    {
+      "description": "Sakurako_Growup_4.ogg",
+      "category": "growup",
+      "text": "我不会拒绝您的好意，谢谢。",
+      "text_original": "施しを遠慮するものではありませんね。ありがとうございます。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/S4OEijhj0xy7DN7X2QKXR5Uz1ht6PCIh.ogg"
+    },
+    {
+      "description": "Sakurako_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "在夏莱辅佐老师……和平时的工作不太一样， 稍微有些紧张呢。",
+      "text_original": "シャーレで先生の補佐を… 普段の仕事と違うので、少し緊張します。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/NibC6q7vaGlRlLmdBL4QpywrWru1VXUz.ogg"
+    },
+    {
+      "description": "Sakurako_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "您是说……圣堂的工作吗？没关系的，我把日程都安排好了。",
+      "text_original": "聖堂の仕事…ですか？ 大丈夫ですよ。日程の調整は済ませております。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/DVOjdpNSxt2oMfuSVqn7mU6khqJi9meJ.ogg"
+    },
+    {
+      "description": "Sakurako_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "嗯，老师。 如果有什么我能做的， 请您尽管吩咐……",
+      "text_original": "はい、先生。私にできることがありましたら、なんなりと…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/C74hABOzMBBEnubuZQvylwNghHoilMcn.ogg"
+    },
+    {
+      "description": "Sakurako_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "不管是和圣堂有关的工作， 还是普通的工作，或者其他工作…… 您都可以吩咐我。",
+      "text_original": "聖堂に関することも、一般的な業務も、それ以外でも…なんなりとお申し付けくださいね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/LtcrwQhlFG24otgmU0GnurcF2cd0QbrM.ogg"
+    },
+    {
+      "description": "Sakurako_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "您看起来很累呢。 有什么我能帮上忙的吗？",
+      "text_original": "お疲れのご様子ですね。私にお手伝いできることはありますか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/3OyRmGHGGTLyX1MBHvFlwPK52mwIRa0r.ogg"
+    },
+    {
+      "description": "Sakurako_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "我正等着您呢，老师。 愿今日祝福也与您同在。",
+      "text_original": "お待ちしておりました、先生。今日も祝福があらんことを。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/IwpDhaOY9nP3vxEdTA1iawTzr6RsqPU9.ogg"
+    },
+    {
+      "description": "Sakurako_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "啊，老师…… 我正好在为您祈祷呢。",
+      "text_original": "あ、先生…。ちょうど、先生のために祈りを捧げていたところです。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/wMDeslITpsNYsiVakDEo6MYRJx05Moln.ogg"
+    },
+    {
+      "description": "Sakurako_MemorialLobby_1_1.ogg",
+      "category": "lobby",
+      "text": "……虽然我原本 不想对老师有所隐瞒。",
+      "text_original": "先生に対して、あまり隠し事をしたくはないのですが…",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/OwYhkxATm0bTGwYqEfFTeNkW5KHyfScl.ogg"
+    },
+    {
+      "description": "Sakurako_MemorialLobby_1_2.ogg",
+      "category": "lobby",
+      "text": "但站在我的立场上， 很难去把这一切 说得明明白白……",
+      "text_original": "私の立場上、全てを明かすことは難しく――",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/K0LoTXdJAUT678wr5b3vBawO06JC1tg3.ogg"
+    },
+    {
+      "description": "Sakurako_MemorialLobby_2_1.ogg",
+      "category": "lobby",
+      "text": "可是， 只要能把“我怀揣着秘密” 这件事告诉老师……",
+      "text_original": "ですが、私に「秘密があるという事実」だけでも…",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/8NkGaeC8sNY3gEVucZOW3Q2jK4xNtgtX.ogg"
+    },
+    {
+      "description": "Sakurako_MemorialLobby_2_2.ogg",
+      "category": "lobby",
+      "text": "……我就，很满足了。",
+      "text_original": "お伝えすることができて、良かったです。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/Z6HbDqFoEDHiIHBfArWX7UKFYMRIphbT.ogg"
+    },
+    {
+      "description": "Sakurako_MemorialLobby_3_1.ogg",
+      "category": "lobby",
+      "text": "我很清楚， 您恐怕无法理解我，我也没有对此抱有奢望……",
+      "text_original": "理解を得られるとは思っておりません。 それを望むことも…",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/VmNWRgjfFTjeeu2rkK3U6PFhjb9Ha0DI.ogg"
+    },
+    {
+      "description": "Sakurako_MemorialLobby_3_2.ogg",
+      "category": "lobby",
+      "text": "但就算如此， 我也想向您展现出…… 自己真实的一面。",
+      "text_original": "それでも、私の素顔をお見せしたいという気持ちは…あるのです。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/LCBCIiADpolHYaRheNpE6MlHfecCCmOz.ogg"
+    },
+    {
+      "description": "Sakurako_MemorialLobby_4_1.ogg",
+      "category": "lobby",
+      "text": "其实……",
+      "text_original": "その…",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/N6r3oD3MLMolY92FBsjgKcrvlrBCDs0T.ogg"
+    },
+    {
+      "description": "Sakurako_MemorialLobby_4_2.ogg",
+      "category": "lobby",
+      "text": "我一直很不安， 让您看见这样的我…… 这真的好吗？",
+      "text_original": "そのような私でも良いのか、不安ではあったのですが。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/u7akcbTWgAsFMP53ez59UwKyOcq0Vh7k.ogg"
+    },
+    {
+      "description": "Sakurako_MemorialLobby_5_1.ogg",
+      "category": "lobby",
+      "text": "但没想到，您这么快， 就给出了答案。",
+      "text_original": "思っていたよりも早く、答えを頂いてしまいましたね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/r4lCDV0cNXtM00hfQNtsCCw3JepAeMEN.ogg"
+    },
+    {
+      "description": "Sakurako_MemorialLobby_5_2.ogg",
+      "category": "lobby",
+      "text": "真的……非常感谢您，老师。",
+      "text_original": "本当に…ありがとうございます、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/QUsls4dmiBFxz8sQI4qHJug3K78Kewfb.ogg"
+    },
+    {
+      "description": "Sakurako_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "老师，您……不，没什么……",
+      "text_original": "先生！その……あっ、何でもありません。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/fdeo23JWL4oNQXYjoPpNsjipGY4pfC9t.ogg"
+    },
+    {
+      "description": "Sakurako_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "每次想对老师说些什么的时候……我都会苦恼那些话，是否合适。",
+      "text_original": "先生に何かをお伝えするたびに、このような言葉で良いのだろうかと悩んでしまいます。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/MktGjoeJ7zgvTewUsl0uyBstoJCLt8u8.ogg"
+    },
+    {
+      "description": "Sakurako_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "能像老师这样理解我的人，很少。",
+      "text_original": "先生ほど私を理解して下さる方も、あまりおりませんでしたので…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/qYakbsaQBAiA4gKedDjVD5pA5xNBhZw6.ogg"
+    },
+    {
+      "description": "Sakurako_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "我首先是一名为大家服务的修女……可是……",
+      "text_original": "一応皆のためのシスター…ですから。……ですが…その…",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/9OSwv2FqGuy0DAkTeV00fULrv9PxgxdU.ogg"
+    },
+    {
+      "description": "Sakurako_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "谢谢您，老师。能在生日得到祝福， 果然是一件幸福的事。",
+      "text_original": "ありがとうございます、先生。 誕生日を祝ってもらうのは…やはり幸せなことですね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/9V8xVtuqFS4cdsIULTT6JpjFk5bTeKtR.ogg"
+    },
+    {
+      "description": "Sakurako_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "对我来说……今天也是一个值得感恩的特别日子。",
+      "text_original": "感謝に満ちた特別な日ですね。 私にとっても…そう。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/bxU6mOGDYQZo8VIPBwvVJx2wbTz4rgBu.ogg"
+    },
+    {
+      "description": "Sakurako_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "万圣节的前夜， 总是最热闹的时候。不，我并不讨厌它， 因为越是分享，快乐就会变得越多。",
+      "text_original": "祝祭の日の前日…一番騒がしい日ですね。 いいえ、嫌いなわけではありません。喜びは分け合うほど大きくなりますから。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/jU619uBc2D0zMB2MXYdmgrBNYyXp4OMe.ogg"
+    },
+    {
+      "description": "Sakurako_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "今天是辞旧迎新的日子。愿老师今年也度过幸福的一年。",
+      "text_original": "一年が過ぎ、新たな年を迎えることができました。 今年も先生にとって幸せな年でありますよう。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/tx10y474NEQnkEMIUiCKISrTe41lGnJJ.ogg"
+    },
+    {
+      "description": "Sakurako_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "嗯，今天的确是个特殊的日子。希望老师也能感受到……",
+      "text_original": "はい。今日は間違いなく特別な日です。 先生にも、伝わると良いのですが。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/rTwnBYBV3I4EGpGkHGBepOtiO4HrxKMc.ogg"
+    },
+    {
+      "description": "Sakurako_Tactic_Defeat_1.ogg",
+      "category": "battle",
+      "text": "是我疏忽了……",
+      "text_original": "私の、失態です。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/ycJw6Nm391vWdoC8Sc6mU5YICUSn57SE.ogg"
+    },
+    {
+      "description": "Sakurako_Tactic_Defeat_2.ogg",
+      "category": "battle",
+      "text": "我很惭愧……",
+      "text_original": "面目ありません……",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/pCRNRlrmiJwP3nOXYm5uUUmINdDUsMmJ.ogg"
+    },
+    {
+      "description": "Sakurako_Tactic_In_1.ogg",
+      "category": "battle",
+      "text": "愿幸运与我们同在。",
+      "text_original": "幸いがあらんことを。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/Nl2KeyRErawNvlG7tJJsm5K2S6Jirzjp.ogg"
+    },
+    {
+      "description": "Sakurako_Tactic_In_2.ogg",
+      "category": "battle",
+      "text": "诸位，拜托你们了。",
+      "text_original": "皆様、何卒よろしくお願いいたします。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/plMOLLhxKLkqANh8ZIcBSZlpWuKsUXGb.ogg"
+    },
+    {
+      "description": "Sakurako_Tactic_Victory_1.ogg",
+      "category": "battle",
+      "text": "愿恩宠与诸位同在。",
+      "text_original": "皆様に恩寵があらんこと。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/SHRivoxmUleDIKdvJbLIGYBEbDQZQKAt.ogg"
+    },
+    {
+      "description": "Sakurako_Tactic_Victory_2.ogg",
+      "category": "battle",
+      "text": "愿和平永在。",
+      "text_original": "平和でありますように。",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/DwX2dwpvrDcXw9di3Rv1fIDQQPY9T07K.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "sakurako_battle_buffed_1",
+      "category": "battle",
+      "text": "多谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_buffed_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_buffself_1",
+      "category": "battle",
+      "text": "赐予我力量吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_buffself_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_covered_1",
+      "category": "battle",
+      "text": "没用的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_covered_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_damage_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_damage_2.ogg"
+    },
+    {
+      "description": "sakurako_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_damage_3.ogg"
+    },
+    {
+      "description": "sakurako_battle_defense_1",
+      "category": "battle",
+      "text": "你们的信仰还不够虔诚。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_defense_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_in_1",
+      "category": "battle",
+      "text": "一起前进吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_in_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_in_2",
+      "category": "battle",
+      "text": "这也是一种试炼。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_in_2.ogg"
+    },
+    {
+      "description": "sakurako_battle_move_1",
+      "category": "battle",
+      "text": "继续前进吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_move_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_move_2",
+      "category": "battle",
+      "text": "还没有结束。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_move_2.ogg"
+    },
+    {
+      "description": "sakurako_battle_recovery_1",
+      "category": "battle",
+      "text": "十分感谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_recovery_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_retire",
+      "category": "battle",
+      "text": "都怪我实力不足……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_retire.ogg"
+    },
+    {
+      "description": "sakurako_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_shout_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_shout_2.ogg"
+    },
+    {
+      "description": "sakurako_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_shout_3.ogg"
+    },
+    {
+      "description": "sakurako_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "哼！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_victory_1",
+      "category": "battle",
+      "text": "感谢各位。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_victory_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_victory_2",
+      "category": "battle",
+      "text": "能顺利解决就好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_battle_victory_2.ogg"
+    },
+    {
+      "description": "sakurako_cafe_monolog_1",
+      "category": "cafe",
+      "text": "听说这里都是 老师亲手布置的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "sakurako_cafe_monolog_2",
+      "category": "cafe",
+      "text": "这里有形形色色的人呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "sakurako_cafe_monolog_3",
+      "category": "cafe",
+      "text": "和圣堂的氛围 完全不一样啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "sakurako_cafe_monolog_4",
+      "category": "cafe",
+      "text": "偶尔…… 待在这种地方也不错。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "sakurako_cafe_monolog_5",
+      "category": "cafe",
+      "text": "这里能让我感到 另一种平静。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "sakurako_commonskill",
+      "category": "battle",
+      "text": "结果，还是变成这样了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_commonskill.ogg"
+    },
+    {
+      "description": "sakurako_exskill_1",
+      "category": "battle",
+      "text": "为这枚子弹，献上祝福。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_exskill_1.ogg"
+    },
+    {
+      "description": "sakurako_exskill_2",
+      "category": "battle",
+      "text": "请赐予我们恩惠。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_exskill_2.ogg"
+    },
+    {
+      "description": "sakurako_exskill_3",
+      "category": "battle",
+      "text": "感谢您的恩宠。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_exskill_3.ogg"
+    },
+    {
+      "description": "sakurako_exskill_level_1",
+      "category": "battle",
+      "text": "忏悔吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_exskill_level_1.ogg"
+    },
+    {
+      "description": "sakurako_exskill_level_2",
+      "category": "battle",
+      "text": "这发子弹是送给你的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_exskill_level_2.ogg"
+    },
+    {
+      "description": "sakurako_exskill_level_3",
+      "category": "battle",
+      "text": "收下吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_exskill_level_3.ogg"
+    },
+    {
+      "description": "sakurako_exweapon_get",
+      "category": "growup",
+      "text": "感谢您的慈悲。 总有一天，我会报答您的恩情。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_exweapon_get.ogg"
+    },
+    {
+      "description": "sakurako_formation_in_1",
+      "category": "formation",
+      "text": "明白了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_formation_in_1.ogg"
+    },
+    {
+      "description": "sakurako_formation_in_2",
+      "category": "formation",
+      "text": "您叫我吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_formation_in_2.ogg"
+    },
+    {
+      "description": "sakurako_formation_select",
+      "category": "formation",
+      "text": "哎，哎呀……？您这是……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_formation_select.ogg"
+    },
+    {
+      "description": "sakurako_gachaget",
+      "category": "growup",
+      "text": "我是崔尼蒂综合学院姐妹会的成员，歌住樱子。 愿安宁常伴您左右。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_gachaget.ogg"
+    },
+    {
+      "description": "sakurako_growup_1",
+      "category": "growup",
+      "text": "啊，谢谢您。像这样被人关心……我还有些不习惯呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_growup_1.ogg"
+    },
+    {
+      "description": "sakurako_growup_2",
+      "category": "growup",
+      "text": "真不知，该如何报答您的恩情……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_growup_2.ogg"
+    },
+    {
+      "description": "sakurako_growup_3",
+      "category": "growup",
+      "text": "愿祝福与您的善行同在。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_growup_3.ogg"
+    },
+    {
+      "description": "sakurako_growup_4",
+      "category": "growup",
+      "text": "我不会拒绝您的好意，谢谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_growup_4.ogg"
+    },
+    {
+      "description": "sakurako_lobby_1",
+      "category": "lobby",
+      "text": "在沙勒辅佐老师……和平时的工作不太一样， 稍微有些紧张呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_lobby_1.ogg"
+    },
+    {
+      "description": "sakurako_lobby_2",
+      "category": "lobby",
+      "text": "您是说……圣堂的工作吗？没关系的，我把日程都安排好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_lobby_2.ogg"
+    },
+    {
+      "description": "sakurako_lobby_3",
+      "category": "lobby",
+      "text": "嗯，老师。 如果有什么我能做的， 请您尽管吩咐……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_lobby_3.ogg"
+    },
+    {
+      "description": "sakurako_lobby_4",
+      "category": "lobby",
+      "text": "不管是和圣堂有关的工作， 还是普通的工作，或者其他工作…… 您都可以吩咐我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_lobby_4.ogg"
+    },
+    {
+      "description": "sakurako_lobby_5",
+      "category": "lobby",
+      "text": "您看起来很累呢。 有什么我能帮上忙的吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_lobby_5.ogg"
+    },
+    {
+      "description": "sakurako_login_1",
+      "category": "lobby",
+      "text": "我正等着您呢，老师。 愿今日祝福也与您同在。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_login_1.ogg"
+    },
+    {
+      "description": "sakurako_login_2",
+      "category": "lobby",
+      "text": "啊，老师…… 我正好在为您祈祷呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_login_2.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "……虽然我原本 不想对老师有所隐瞒。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "但站在我的立场上， 很难去把这一切 说得明明白白……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "可是， 只要能把“我怀揣着秘密” 这件事告诉老师……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "……我就，很满足了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "我很清楚， 您恐怕无法理解我，我也没有对此抱有奢望……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "但就算如此， 我也想向您展现出…… 自己真实的一面。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "其实……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "我一直很不安， 让您看见这样的我…… 这真的好吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "但没想到，您这么快， 就给出了答案。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "真的……非常感谢您，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "sakurako_relationship_up_1",
+      "category": "growup",
+      "text": "老师，您……不，没什么……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_relationship_up_1.ogg"
+    },
+    {
+      "description": "sakurako_relationship_up_2",
+      "category": "growup",
+      "text": "每次想对老师说些什么的时候……我都会苦恼那些话，是否合适。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_relationship_up_2.ogg"
+    },
+    {
+      "description": "sakurako_relationship_up_3",
+      "category": "growup",
+      "text": "能像老师这样理解我的人，很少。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_relationship_up_3.ogg"
+    },
+    {
+      "description": "sakurako_relationship_up_4",
+      "category": "growup",
+      "text": "我首先是一名为大家服务的修女……可是……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_relationship_up_4.ogg"
+    },
+    {
+      "description": "sakurako_season_birthday",
+      "category": "lobby",
+      "text": "谢谢您，老师。能在生日得到祝福， 果然是一件幸福的事。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_season_birthday.ogg"
+    },
+    {
+      "description": "sakurako_season_birthday_player",
+      "category": "lobby",
+      "text": "对我来说……今天也是一个值得感恩的特别日子。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_season_birthday_player.ogg"
+    },
+    {
+      "description": "sakurako_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，祝您新春快乐。 我会一直为您祈祷，愿祝福与您同在。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "sakurako_season_halloween",
+      "category": "lobby",
+      "text": "万圣节的前夜， 总是最热闹的时候。不，我并不讨厌它， 因为越是分享，快乐就会变得越多。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_season_halloween.ogg"
+    },
+    {
+      "description": "sakurako_season_midautumn",
+      "category": "lobby",
+      "text": "愿所有漂泊的人都能团圆。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_season_midautumn.ogg"
+    },
+    {
+      "description": "sakurako_season_newyear",
+      "category": "lobby",
+      "text": "今天是辞旧迎新的日子。愿老师今年也度过幸福的一年。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_season_newyear.ogg"
+    },
+    {
+      "description": "sakurako_season_xmas",
+      "category": "lobby",
+      "text": "嗯，今天的确是个特殊的日子。希望老师也能感受到……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_season_xmas.ogg"
+    },
+    {
+      "description": "sakurako_tactic_defeat_1",
+      "category": "battle",
+      "text": "是我疏忽了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "sakurako_tactic_defeat_2",
+      "category": "battle",
+      "text": "我很惭愧……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "sakurako_tactic_in_1",
+      "category": "battle",
+      "text": "愿幸运与我们同在。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_tactic_in_1.ogg"
+    },
+    {
+      "description": "sakurako_tactic_in_2",
+      "category": "battle",
+      "text": "诸位，拜托你们了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_tactic_in_2.ogg"
+    },
+    {
+      "description": "sakurako_tactic_victory_1",
+      "category": "battle",
+      "text": "愿恩宠与诸位同在。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_tactic_victory_1.ogg"
+    },
+    {
+      "description": "sakurako_tactic_victory_2",
+      "category": "battle",
+      "text": "愿和平永在。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_tactic_victory_2.ogg"
+    },
+    {
+      "description": "sakurako_title",
+      "category": "lobby",
+      "text": "Blue Archive.",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/cn/sakurako_title.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "sakurako_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_defense_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_in_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_in_2.ogg"
+    },
+    {
+      "description": "sakurako_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_move_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_move_2.ogg"
+    },
+    {
+      "description": "sakurako_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_recovery_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_retire.ogg"
+    },
+    {
+      "description": "sakurako_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_shout_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_shout_2.ogg"
+    },
+    {
+      "description": "sakurako_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_shout_3.ogg"
+    },
+    {
+      "description": "sakurako_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_victory_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_victory_2.ogg"
+    },
+    {
+      "description": "sakurako_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "sakurako_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "sakurako_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "sakurako_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "sakurako_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "sakurako_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_commonskill.ogg"
+    },
+    {
+      "description": "sakurako_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_exskill_1.ogg"
+    },
+    {
+      "description": "sakurako_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_exskill_2.ogg"
+    },
+    {
+      "description": "sakurako_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_exskill_3.ogg"
+    },
+    {
+      "description": "sakurako_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_exskill_level_1.ogg"
+    },
+    {
+      "description": "sakurako_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_exskill_level_2.ogg"
+    },
+    {
+      "description": "sakurako_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_exskill_level_3.ogg"
+    },
+    {
+      "description": "sakurako_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_exweapon_get.ogg"
+    },
+    {
+      "description": "sakurako_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_formation_in_1.ogg"
+    },
+    {
+      "description": "sakurako_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_formation_in_2.ogg"
+    },
+    {
+      "description": "sakurako_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_formation_select.ogg"
+    },
+    {
+      "description": "sakurako_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_gachaget.ogg"
+    },
+    {
+      "description": "sakurako_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_growup_1.ogg"
+    },
+    {
+      "description": "sakurako_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_growup_2.ogg"
+    },
+    {
+      "description": "sakurako_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_growup_3.ogg"
+    },
+    {
+      "description": "sakurako_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_growup_4.ogg"
+    },
+    {
+      "description": "sakurako_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_lobby_1.ogg"
+    },
+    {
+      "description": "sakurako_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_lobby_2.ogg"
+    },
+    {
+      "description": "sakurako_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_lobby_3.ogg"
+    },
+    {
+      "description": "sakurako_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_lobby_4.ogg"
+    },
+    {
+      "description": "sakurako_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_lobby_5.ogg"
+    },
+    {
+      "description": "sakurako_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_login_1.ogg"
+    },
+    {
+      "description": "sakurako_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_login_2.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "sakurako_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "sakurako_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_relationship_up_1.ogg"
+    },
+    {
+      "description": "sakurako_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_relationship_up_2.ogg"
+    },
+    {
+      "description": "sakurako_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_relationship_up_3.ogg"
+    },
+    {
+      "description": "sakurako_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_relationship_up_4.ogg"
+    },
+    {
+      "description": "sakurako_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_season_birthday.ogg"
+    },
+    {
+      "description": "sakurako_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_season_birthday_player.ogg"
+    },
+    {
+      "description": "sakurako_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_season_halloween.ogg"
+    },
+    {
+      "description": "sakurako_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_season_newyear.ogg"
+    },
+    {
+      "description": "sakurako_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_season_xmas.ogg"
+    },
+    {
+      "description": "sakurako_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "sakurako_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "sakurako_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_tactic_in_1.ogg"
+    },
+    {
+      "description": "sakurako_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_tactic_in_2.ogg"
+    },
+    {
+      "description": "sakurako_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_tactic_victory_1.ogg"
+    },
+    {
+      "description": "sakurako_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_tactic_victory_2.ogg"
+    },
+    {
+      "description": "Sakurako_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/Sakurako_Title.ogg"
+    },
+    {
+      "description": "sakurako_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_buffed_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_buffself_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_covered_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_damage_1.ogg"
+    },
+    {
+      "description": "sakurako_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_damage_2.ogg"
+    },
+    {
+      "description": "sakurako_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/sakurako_battle_damage_3.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "旧立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr-07_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr-06_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_02.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_01.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_07.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_03.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_06.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_08.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_05.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_11.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_09.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_04.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_10.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_13.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_00.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_12.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/sakurako_spr_99.png"
+      ]
+    },
+    {
+      "title": "圣徒会制服立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_03.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_04.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_02.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_01.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_00.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_07.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_06.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_08.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_09.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_12.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_11.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_10.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_99.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_05.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_13.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%9C%A3%E5%BE%92%E4%BC%9A%E5%88%B6%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0090_spr_Idle_01.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_123.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-25.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-68.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20013.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-174.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-173.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-115.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-157.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%82%B5%E3%82%AF%E3%83%A9%E3%82%B3.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sakurako_banner_en.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sakurako_cafe.gif",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sakurako_Intro_chs.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sakurako_skill.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sakurako_Intro_jp.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sakurako_banner_chs.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sakurako_Intro_en.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sakurako_banner_cht.png",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sakurako_Intro_cht.jpg",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sakurako_ex.gif",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sakurako_interaction.gif",
+        "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sakurako_mari_hinata_interaction.gif"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 107,
+      "favorability": 240
+    },
+    {
+      "id": 92,
+      "favorability": 60
+    },
+    {
+      "id": 38,
+      "favorability": 40
+    },
+    {
+      "id": 58,
+      "favorability": 40
+    },
+    {
+      "id": 59,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    935
+  ],
+  "character_datas": [
+    {
+      "character_id": 10061,
+      "dev_name": "Sakurako_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Mystic",
+      "defensive_attributes": "Special",
+      "is_groupc_control": false,
+      "team_position": "MIDDLE",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "S",
+      "indoor_adaptability": "B",
+      "street_adaptability": "D",
+      "equipment": [
+        7,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        40,
+        46,
+        48,
+        51,
+        179,
+        182,
+        183,
+        185,
+        440,
+        441,
+        442,
+        443,
+        415,
+        416,
+        417,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/skill_icon/yf79gdQE6sK28WxbNBbT9ugyXJSsnykN.png",
+            "title": "洗礼之印",
+            "title_cn": "洗礼之印",
+            "preview": "//static.kivo.wiki/videos/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/skill_preview/ozB8pfTGCfxLd4h8T5oCI73UojhO0rQj.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成390%攻击力的伤害/ 对目标敌人施加集中攻击（持续30秒）/ 普通攻击时，造成9.4%攻击力的追加伤害（持续30秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成449%攻击力的伤害/ 对目标敌人施加集中攻击（持续30秒）/ 普通攻击时，造成10.8%攻击力的追加伤害（持续30秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成508%攻击力的伤害/ 对目标敌人施加集中攻击（持续30秒）/ 普通攻击时，造成13.6%攻击力的追加伤害（持续30秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成566%攻击力的伤害/ 对目标敌人施加集中攻击（持续30秒）/ 普通攻击时，造成15%攻击力的追加伤害（持续30秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成625%攻击力的伤害/ 对目标敌人施加集中攻击（持续30秒）/ 普通攻击时，造成17.9%攻击力的追加伤害（持续30秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/skill_icon/1Aq6x4I7V1LVTQ1P0BLLFnLygmpeqSH4.png",
+            "title": "修女的装束",
+            "title_cn": "修女的举止",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每40秒，增加12.3%攻击速度（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒，增加12.9%攻击速度（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒，增加13.5%攻击速度（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒，增加16%攻击速度（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒，增加16.6%攻击速度（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒，增加17.2%攻击速度（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒，增加19.7%攻击速度（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒，增加20.3%攻击速度（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒，增加20.9%攻击速度（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒，增加23.4%攻击速度（持续30秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/skill_icon/Ae7xUouVedZi4CTkzKiZ416UmjvQIOFY.png",
+            "title": "裁决罪恶之人",
+            "title_cn": "审判罪恶之人",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击速度增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/skill_icon/vn7XEjnpzKNyPnri2TWsE9s4ocRtif0W.png",
+            "title": "愿光与你同在",
+            "title_cn": "愿光与你同在",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击防御类型为特殊装甲的敌人时，造成攻击力4.8%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击防御类型为特殊装甲的敌人时，造成攻击力5.1%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击防御类型为特殊装甲的敌人时，造成攻击力5.3%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击防御类型为特殊装甲的敌人时，造成攻击力6.2%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击防御类型为特殊装甲的敌人时，造成攻击力6.4%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击防御类型为特殊装甲的敌人时，造成攻击力6.7%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击防御类型为特殊装甲的敌人时，造成攻击力7.7%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击防御类型为特殊装甲的敌人时，造成攻击力7.9%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击防御类型为特殊装甲的敌人时，造成攻击力8.1%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击防御类型为特殊装甲的敌人时，造成攻击力9.1%的追加伤害"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2517,
+          "attack": 327,
+          "defense": 19,
+          "healing": 1647,
+          "accuracy": 700,
+          "evasion": 799,
+          "crit": 200,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1396,
+          "range": 650,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 20
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/weapons_icon.png",
+        "name": "净化的编织者",
+        "name_cn": "净化之手",
+        "description": "与樱子本人一般经由彻底而虔诚的维护的枪械。<br>其他人光是想要触碰都稍显困难。",
+        "description_cn": "被彻底且虔诚地保养过的枪，就像樱子本人一样。<br>其他人想要碰到它都很困难。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「裁决罪恶之人」升级为「裁决罪恶之人+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室外适应性 S -> SS",
+            "description": "在室外地形造成1.3倍伤害。在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 神秘克制伤害增加",
+            "description": "攻击类型为神秘的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/skill_icon/fIPy8bUQaycCyfK81uok5FFASHh9uUOf.png",
+            "title": "裁决罪恶之人+",
+            "title_cn": "审判罪恶之人+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "增加26%神秘伤害特效/攻击速度增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加27.3%神秘伤害特效/攻击速度增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加28.6%神秘伤害特效/攻击速度增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加33.8%神秘伤害特效/攻击速度增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加35.1%神秘伤害特效/攻击速度增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加36.4%神秘伤害特效/攻击速度增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加41.6%神秘伤害特效/攻击速度增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加42.9%神秘伤害特效/攻击速度增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加44.2%神秘伤害特效/攻击速度增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "增加49.4%神秘伤害特效/攻击速度增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "85897aa0-f459-4264-8ae8-1ccc960a85cb",
+  "skill_declare_uuid": "6bc21e39-ed4f-4466-b05e-1cbfe576bbef",
+  "supplementary_uuid": "d538ffc6-3dd5-4a91-b069-881855069d2e",
+  "supplementary_declare_uuid": "9c07f0e8-d235-403a-8a33-779f2611668b",
+  "created_at": 1685718896,
+  "updated_at": 1783335469
+}

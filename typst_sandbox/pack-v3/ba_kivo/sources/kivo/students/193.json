@@ -1,0 +1,535 @@
+{
+  "id": 193,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 193,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "川流",
+  "given_name": "诗乃",
+  "family_name_jp": "川流",
+  "given_name_jp": "シノン",
+  "family_name_kr": "카와루",
+  "given_name_kr": "시논",
+  "family_name_en": "Kawaru",
+  "given_name_en": "shinon",
+  "family_name_zh_tw": "川流",
+  "given_name_zh_tw": "詩音",
+  "family_name_cn": "川流",
+  "given_name_cn": "诗音",
+  "nick_name": "",
+  "introduction": "克洛诺斯报道部，自称偶像记者。\n除了转播各地的事件和活动外，还负责战术对抗赛的实况解说。",
+  "introduction_cn": "",
+  "momo_talk_signature": "",
+  "main_relation": 71,
+  "relation": null,
+  "age": 1,
+  "grade": "",
+  "height": 1,
+  "birthday": null,
+  "hobby": "直播、转播",
+  "designer": "ポップキュン",
+  "illustrator": "ポップキュン",
+  "character_voice": "",
+  "character_voice_cn": "沈玥",
+  "release_date": null,
+  "release_date_cn": null,
+  "release_date_global": null,
+  "sd_model_image": "",
+  "avatar": "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/avatar.png",
+  "school": 13,
+  "weapon_type": "",
+  "is_install": false,
+  "is_install_cn": false,
+  "is_install_global": false,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": false,
+  "more": "# 延伸阅读\n\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n| 自己 | 私 |\n|[老师](https://kivo.wiki/data/character/16)|シャーレの先生|\n|[舞](https://kivo.wiki/data/character/165)|マイ先輩|\n|[葵](https://kivo.wiki/data/character/171)|扇喜アオイ氏|\n|[叶渚](https://kivo.wiki/data/character/144)|カンナ公安局長|\n|[圣娅](https://kivo.wiki/data/character/43)|セイアさん|\n|[渚](https://kivo.wiki/data/character/25)|桐藤ナギサ|\n|[日奈](https://kivo.wiki/data/character/71)|風紀委員長|\n|[真琴](https://kivo.wiki/data/character/115)|羽沼マコト|\n|[凛](https://kivo.wiki/data/character/183)|統括室の行政官<br>七神リン氏|\n|[夏莱](https://kivo.wiki/data/organize/6)|シャーレ|\n|[联邦学生会](https://kivo.wiki/data/organize/12)|連邦生徒会|\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n\n## 通行证新闻合集\n\n### 通行证赛季一\n\n1. 海兰德铁道学院一列车为【准点到达】切离客车车厢，正以最高速度运行。\n2. 羽沼议长在动物园视察时与鹦鹉争吵，判定落败。\n3. 枪械保养用洗涤机开售，预约开始20分钟即售罄。\n4. 瓦尔基里警察学校因订购新型手铐却忘记订钥匙……现已启动内部调查\n5. 柯基勇士队连败不止……是粉丝的责任吗？\n6. 万魔殿发表新公约，风纪委员会动向引发关注。\n7. D.U.某咖啡店被曝一整年间把普通咖啡与低因咖啡反着售卖，店主回应：“啊！”\n8. 因今年再次向公共机构捐赠5万发空尖弹，被戏称为【基沃托斯版热心慈善家】。\n9. 百鬼夜行联合学院制定人力车禁止驶入高速公路条例。\n10. 圣三一综合学院承认保健体育出题错误……由考生指出后曝光。\n11. 格赫娜图书委员会表彰5名还书规范的优秀学生。\n12. 号称有益健康的手镯，重量达40公斤！购买者称：“顺便练了力量”。\n13. 惊险……！沿海岸线疾驰的跑车——传说中的车手再度现身！？\n14. 茶话会的超豪华【绝密度假】！？克洛诺斯将独家跟进取材。\n15. 今夏潮流在此！幻之乐园【茶话会私人海滩】对公众开放。\n16. 圣三一综合学园郊外发现【温泉】招牌……或为新型恐怖预告？\n17. 十字军坦克维修厂大混乱……修理排队爆满：“春天送去，秋天才回”。\n18. 千禧科学学院研究团队发表：户外躺椅的颈部支撑效果极佳。\n19. “床越大疲劳恢复效果越快？”……用实验郑重证明的废话。\n20. 睡姿暴露【本性】？专家警告：“这种睡姿的人要小心”\n21. 【5星好评】不断，茶话会出品床铺预约爆满售罄。\n22.  “真的有效吗？”锗×负离子寝具真实性引起争议。\n\n### 通行证赛季二\n\n1. 【想再当一次幼儿】……山海经梅花园咨询热线被打爆。\n2. 狂猎艺术学院某社团把打鼾声做成乐谱，并主张音源著作权。\n3. 《传说·传奇·编年史2》导演剪辑版发售，制作人员名单长达3小时50分钟。\n4. 阿里乌斯分校学生首次在全基沃托斯数学大赛中获奖。\n5. 千禧科学学院冬季名物「托卡马克型年糕」，下周二起开售。\n6. 《魔法少女的重火力·猎杀者篇》连续三周票房第一。\n7. 全基沃托斯小球藻生态观察大会成功举办，约3000人到场。\n8. 千禧科技学院农业技术研究部发布新品种“右撇子专用香蕉”。\n9. 风山公司发布厨房清洁用新型弹药。\n10. 格赫娜图书委员会启动图书集中回收行动：负伤者53人，回收率399%，目前仍在追加统计。\n11. 切掉面包边的吐司因大受欢迎，一度缺货。\n12. 掏空白色部分的吐司在发烧友间爆红，门店持续断货。\n13. 追踪克罗诺斯新闻部之谜！极地沿岸出现的神秘机械蜘蛛究竟是什么？！\n14. 联邦学生会公告：已确认极地无人探测机发生金属化现象。计划前往者请注意。\n15. 红冬联邦学院事务局就极地异常现象发表声明：“将追加制造切里诺会长铜像”。\n16. 机械蜘蛛是机器还是生命体？SNS上讨论持续升温。\n17. 某工程师发布“万能机器”，声称从按摩到填写期末考试答题卡无所不能。\n18. 要求匿名的修女会学生吐槽万能机器：“按摩器会自己动，太吓人了”。\n19. 阿里乌斯分校某学生抗议万能机器：“填的答案全错”。\n20. 万魔殿真琴议长购入万能机器10台，并指示账单寄给风纪委员会。\n21. 格赫娜风纪委员长就不明账单向万魔殿抗议，目前议长室半毁。\n\n# 官方图集\n\n## 官方介绍图\n\n| 日服 |\n| :---: |\n| ![日介绍](images/students/川流%20诗乃/original/gallery/官方图集/Shinon_Intro_jp.jpg =700x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 诗乃 汉化\n![诗乃](files/2/TTI02P9wp6teVpbyF2QaGw3B0xMuOAci.png =450x)\n@tab 诗乃 原文\n![诗乃](files/2/LZNrjPKb6bA1MoJchLvl1BuXmTziORHm.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n\n![zsbd](images/gallery/34/Vol.1_页面_126.png =450x)\n\n::::",
+  "recollection_lobby_image": "",
+  "spine": [
+    35
+  ],
+  "model": null,
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [
+    {
+      "description": "ch0131_uibattlepass_level_1",
+      "category": "other",
+      "text": "",
+      "text_original": "完売間近！現品限りのこれっきりですよ～！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepass_level_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepass_level_2",
+      "category": "other",
+      "text": "",
+      "text_original": "完売御礼です！再入荷をお待ちください！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepass_level_2.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepass_purchase_1",
+      "category": "other",
+      "text": "",
+      "text_original": "このスピード、カメラが追いつきません！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepass_purchase_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepass_reward_1",
+      "category": "other",
+      "text": "",
+      "text_original": "それ、おいしいですよね！……あれっ？台本、なんか変じゃないですか！？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepass_reward_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepass_unlock_1",
+      "category": "other",
+      "text": "",
+      "text_original": "これが大人の貫禄ってやつですね！お買い上げありがとうございます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepass_unlock_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslobby_1",
+      "category": "other",
+      "text": "",
+      "text_original": "スペシャル生放送へようこそ！本番組は報道部のアイドルこと川流シノンがお送りしております！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepasslobby_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslobby_2",
+      "category": "other",
+      "text": "",
+      "text_original": "見逃さないよう、ご注意ください！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepasslobby_2.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslogin_1",
+      "category": "other",
+      "text": "",
+      "text_original": "テレビ限定の特別キャンペーン開催中ですよ～！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepasslogin_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslogin_2",
+      "category": "other",
+      "text": "",
+      "text_original": "赤字覚悟の大セールですよ～！見ていってください！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepasslogin_2.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslogin_season_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "開店セールですよー！お買い得です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepasslogin_season_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslogin_season_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "毎度ご愛顧ありがとうございます！おかげさまで大盛況です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepasslogin_season_2.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslogin_season_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "完売しても番組は続くんですよね！契約上、そういう決まりでして！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepasslogin_season_3.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslogin_season_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "ついにエンディングのお時間となってまいりました！お買い逃がしはございませんか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepasslogin_season_4.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepassmission_1",
+      "category": "other",
+      "text": "",
+      "text_original": "誠に残念ながら、お手伝いはできないんです！報道は中立ですので！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepassmission_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepassmission_2",
+      "category": "other",
+      "text": "",
+      "text_original": "あーっ！「やったことにする」はズルですよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepassmission_2.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepassmission_get_1",
+      "category": "other",
+      "text": "",
+      "text_original": "大活躍でしたね！視聴率更新間違いなしです！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepassmission_get_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepassmission_levelup_1",
+      "category": "other",
+      "text": "",
+      "text_original": "おめでとうございます！何か一言、お願いします！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepassmission_levelup_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepassmission_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "この試練、果たして先生は乗り越えられるのか！？チャンネルはそのままでお願いしますよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepassmission_login_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepassmission_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "あれ、どうしてこちらに？えっ……もう放送は終わりましたよ……？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_uibattlepassmission_login_2.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatdefeat_01_01",
+      "category": "other",
+      "text": "请掌声鼓励竭尽全力的选手们！",
+      "text_original": "最後まで頑張った選手に拍手を！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatdefeat_01_01.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatdefeat_01_02",
+      "category": "other",
+      "text": "呃！就差那么一点点！",
+      "text_original": "くうっ！紙一重だったか！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatdefeat_01_02.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatdefeat_01_03",
+      "category": "other",
+      "text": "虽然很可惜，但胜负是无情的……",
+      "text_original": "ちょっと残念ですが、勝負は非情なもの……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatdefeat_01_03.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatdefeat_01_04",
+      "category": "other",
+      "text": "胜负已定！辛苦了……",
+      "text_original": "勝負ありです！お疲れ様でした……！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatdefeat_01_04.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatdefeat_01_05",
+      "category": "other",
+      "text": "太可惜了！只差一步！",
+      "text_original": "残念です！あと一歩届かず！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatdefeat_01_05.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatstart_01_01",
+      "category": "other",
+      "text": "竞技场的气氛火热起来了！究竟胜负会如何呢？！",
+      "text_original": "競技場全体が燃えるように盛り上がってきました！勝敗の行方はいかに！？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatstart_01_01.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatstart_01_02",
+      "category": "other",
+      "text": "好！比赛开始！",
+      "text_original": "さあ！試合が始まりました！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatstart_01_02.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatstart_01_03",
+      "category": "other",
+      "text": "堂堂正正！决一胜负！",
+      "text_original": "いざ尋常に！勝負！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatstart_01_03.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatstart_01_04",
+      "category": "other",
+      "text": "选手入场~！",
+      "text_original": "選手、入場ー！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatstart_01_04.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatstart_01_05",
+      "category": "other",
+      "text": "比赛开始！",
+      "text_original": "試合を開始します！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatstart_01_05.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatstart_01_06",
+      "category": "other",
+      "text": "胜利的荣光究竟将属于哪支队伍呢！",
+      "text_original": "勝利の栄光は果たして、どのチームが掴むのでしょうか！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatstart_01_06.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatvictory_01_01",
+      "category": "other",
+      "text": "恭喜您！",
+      "text_original": "おめでとうございます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatvictory_01_01.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatvictory_01_02",
+      "category": "other",
+      "text": "胜利了！",
+      "text_original": "勝利です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatvictory_01_02.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatvictory_02_01",
+      "category": "other",
+      "text": "沙勒简直无人能挡！",
+      "text_original": "誰もシャーレを止められません！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatvictory_02_01.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatvictory_02_02",
+      "category": "other",
+      "text": "胜利！！我们赢了，太精彩了！！",
+      "text_original": "勝利！！大勝利です、これはすごい！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatvictory_02_02.ogg"
+    },
+    {
+      "description": "ch0131_arenacombatvictory_02_03",
+      "category": "other",
+      "text": "胜负已定！",
+      "text_original": "勝負、ありです！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/jp/ch0131_arenacombatvictory_02_03.ogg"
+    }
+  ],
+  "voice_cn": [],
+  "voice_kr": [
+    {
+      "description": "ch0131_uibattlepass_level_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepass_level_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepass_level_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepass_level_2.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepass_purchase_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepass_purchase_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepass_reward_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepass_reward_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepass_unlock_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepass_unlock_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslobby_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepasslobby_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslobby_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepasslobby_2.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslogin_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepasslogin_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslogin_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepasslogin_2.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslogin_season_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepasslogin_season_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslogin_season_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepasslogin_season_2.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslogin_season_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepasslogin_season_3.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepasslogin_season_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepasslogin_season_4.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepassmission_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepassmission_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepassmission_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepassmission_2.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepassmission_get_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepassmission_get_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepassmission_levelup_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepassmission_levelup_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepassmission_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepassmission_login_1.ogg"
+    },
+    {
+      "description": "ch0131_uibattlepassmission_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/kr/ch0131_uibattlepassmission_login_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/%E8%9C%82%E8%9C%9C%E6%B5%8F%E8%A7%88%E5%99%A8_shinon_spr-07_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/%E8%9C%82%E8%9C%9C%E6%B5%8F%E8%A7%88%E5%99%A8_shinon_spr-08_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/%E8%9C%82%E8%9C%9C%E6%B5%8F%E8%A7%88%E5%99%A8_shinon_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/%E8%9C%82%E8%9C%9C%E6%B5%8F%E8%A7%88%E5%99%A8_shinon_spr-00_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/%E8%9C%82%E8%9C%9C%E6%B5%8F%E8%A7%88%E5%99%A8_shinon_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/%E8%9C%82%E8%9C%9C%E6%B5%8F%E8%A7%88%E5%99%A8_shinon_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/%E8%9C%82%E8%9C%9C%E6%B5%8F%E8%A7%88%E5%99%A8_shinon_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/%E8%9C%82%E8%9C%9C%E6%B5%8F%E8%A7%88%E5%99%A8_shinon_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/%E8%9C%82%E8%9C%9C%E6%B5%8F%E8%A7%88%E5%99%A8_shinon_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/%E8%9C%82%E8%9C%9C%E6%B5%8F%E8%A7%88%E5%99%A8_shinon_spr-03_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_126.png",
+        "//static.kivo.wiki/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Shinon_Intro_jp.jpg"
+      ]
+    }
+  ],
+  "gift_data": null,
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 0,
+      "dev_name": "",
+      "combat_style": "default",
+      "type": "",
+      "attack_attribute": "",
+      "defensive_attributes": "",
+      "is_groupc_control": false,
+      "team_position": "",
+      "battlefield_position": "",
+      "rarity": 0,
+      "limited": false,
+      "outdoor_adaptability": "",
+      "indoor_adaptability": "",
+      "street_adaptability": "",
+      "equipment": null,
+      "cultivate_material": [],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [],
+        "passive_skill": []
+      },
+      "basic": [
+        {
+          "max_hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "healing": 0,
+          "accuracy": 0,
+          "evasion": 0,
+          "crit": 0,
+          "crit_res": 0,
+          "crit_dmg": 0,
+          "crit_dmg_res": 0,
+          "stability": 0,
+          "range": 0,
+          "cc_power": 0,
+          "cc_res": 0,
+          "recovery_boost": 0,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "",
+        "name": "",
+        "name_cn": "",
+        "description": "",
+        "description_cn": "",
+        "info": [],
+        "skill": []
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "2c3f063a-5417-4269-9bdc-eb0034d56205",
+  "skill_declare_uuid": "24e165cb-b151-4482-bbb3-5787e7da31c6",
+  "supplementary_uuid": "14a77c56-cb86-4f96-950d-4753e8ce7bff",
+  "supplementary_declare_uuid": "c4de7f11-664c-4302-9b7c-334c5712d5f3",
+  "created_at": 1685716004,
+  "updated_at": 1783662141
+}

@@ -1,0 +1,3095 @@
+{
+  "id": 271,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 271,
+      "avatar": "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "鹿山",
+  "given_name": "丽情",
+  "family_name_jp": "鹿山",
+  "given_name_jp": "レイジョ",
+  "family_name_kr": "카야마",
+  "given_name_kr": "레이죠",
+  "family_name_en": "Kayama",
+  "given_name_en": "Reijo",
+  "family_name_zh_tw": "鹿山",
+  "given_name_zh_tw": "令女",
+  "family_name_cn": "鹿山",
+  "given_name_cn": "丽情",
+  "nick_name": "李青",
+  "introduction": "山海经高级中学所属，「玄武商会」总店经理兼辅佐留美的护卫。\n\n一名狂热功夫爱好者，时常不分场合地模仿某知名武术家的言行举止。\n尽管她外表看上去沉稳冷静，其内心却偶尔会燃起熊熊热情。\n\n>你对功夫和武术有兴趣吗？",
+  "introduction_cn": "山海经商人联合社团【玄武商会】总店的经理，也是护卫该商会会长的直属警卫员。\n\n身为狂热的功夫爱好者，常会不分场合地模仿某位著名武术家的语录和行为。外表看似冷静沉着，但是在某些情况下，也会毫不掩饰地流露出热血少女的一面。\n\n> 您对功夫或者武术有兴趣吗？",
+  "momo_talk_signature": "要修行随时奉陪",
+  "main_relation": 52,
+  "relation": [
+    49
+  ],
+  "age": 17,
+  "grade": "三年生",
+  "height": 169,
+  "birthday": "03-03",
+  "hobby": "练习功夫、美食",
+  "designer": "MISOM150",
+  "illustrator": "MISOM150",
+  "character_voice": "菅沼千纱",
+  "character_voice_cn": "金喵儿",
+  "release_date": "2024-09-25",
+  "release_date_cn": "2026-02-14",
+  "release_date_global": "2025-03-18",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/avatar.png",
+  "school": 7,
+  "weapon_type": "AR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Large",
+  "special_appearance": false,
+  "more": "# 延伸阅读\n\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[留美](https://kivo.wiki/data/character/128)|ルミ会長<br>会長|\n|[亚子](https://kivo.wiki/data/character/39)|アコさん|\n|[海](https://kivo.wiki/data/character/270)|申谷カイ|\n|[辉夜](https://kivo.wiki/data/character/390)|カグヤ部長|\n|[妃咲](https://kivo.wiki/data/character/61)|門主様<br>キサキ門主様|\n|[心奈](https://kivo.wiki/data/character/4)|ココナ教官|\n|[南](https://kivo.wiki/data/character/131)|ミナ執行部長<br>あなた|\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n\n## 卡池名称考据\n\n日服&国服：**行は是れ武のカンフー！** / **行是武的功夫！**\n化用了明代著名思想家**王守仁**阐述“**知行合一**”概念的名句。\n>**原文：**\n>某尝说知是行的主意。行是知的功夫。知是行之始。行是知之成。\n>**日文：**\n>知は是れ行の主意、行は是れ知の功夫、知は是れ行の始にして、行は是れ知の成なり。\n>::::right\n>—— 王守仁. 传习录 · 徐爱录.\n\n国际服：**別嘗試理解。去感受它。** / **Don't Think It.Feel It.**\n化用了武打电影《**龙争虎斗**》中的著名台词：**\"Don't think, feel. \"**\n\n>**李小龙：**\n>好，你放松了。\n>Relax, that's it.\n>你现在觉得怎么样？\n>How did it feel to you?<br>\n>**徒弟：**\n>让我想一想。\n>Let me think.<br>\n>**李小龙：**\n>别想！快一点。\n>Don't think, feel.\n>反应要快，就像是直觉地把手指向月亮。\n>It is like a finger pointing away to the moon. \n>记住！假如反应慢了，只能够看到手指，绝不能让你再看到月亮的光华了。\n>Don't concentrate on the finger, or you will miss all that heavenly glory.\n\n该片由**李小龙**主演，于1973年上映。该影片一经上映便轰动全球，豪斩四亿美元票房。先后被美国国会图书馆评为美国影史上25部重要影片之一，入围英国电影杂志《Empire》史上500部最伟大电影，入围美国《Total Film》杂志选出的67部改变世界的电影。\n像丽情这样的功夫娘，用武打电影的典故是很合适的。\n::::center\n ![d3f739f356cb01c4e64deaf455f0a1cc.jpg](files/5579/encwqR200ehivwc3EJNvp2qJ4x6swjem.jpg \"龙争虎斗的宣传海报\" =200x)\n::::\n\n## 武器原型\n\n丽情的专属武器的原型应为QBZ-95B短突击步枪。\n::: center\n![250px-QBZ95B_short_assault_rifles_20170902..jpeg](files/18651/nNqNHLKdIir2bmiaMRREpcrSukHbhKyD.jpg)\n:::\n\n!!!attention  引用声明\n[1]: 该图片引用自[Wikimedia Commons](https://commons.wikimedia.org/wiki/File:QBZ95_automatic_rifle_20170902.jpg)，基于[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)。\n!!!\n\n# 官方图集\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 行は是れ武のカンフー！ | 行是武的功夫！ | 別嘗試理解。去感受它。 | Don't Think It.Feel It. |\n| ![reijo_2.jpg](files/153/srkAvLdJnHc0bWiK3XCebvsVRfaJ1Lsk.jpg =450x) | ![image.png](files/18613/Befus39zEObyRPcLZA9mr7F28349gWJ3.png)| ![reijo_2.jpg](files/17010/LDdqYCSUPTtQXS9Zf1SpuT0y4IPNCxmC.jpg =450x) | ![reijo.jpg](files/17010/sVp3zSnnaaVdsRk732DBKq5XAvAwyQED.jpg =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Reijo.jpg](files/17010/J0gfdV8MKHNN9tOERao3LLvgGAklChMR.jpg =525x) | ![image.png](files/18613/6pOZjSdWetPJP2dx5HcEeIoKgMcGu406.png) | ![reijo_2.jpg](files/17010/IujVruRh50dZs8N8tAOExUTrBzeR47S7.jpg =525x) | ![Glw0eFMaAAAPhWT.jpg](files/19083/C7ZlDcEvttj2DZVcVYLZwyzM8Iyg0zaI.jpg =400x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 丽情 汉化\n![丽情](files/2/ekO4YpJVxCCGiMptBVZI887R0BkF9ros.png =450x)\n@tab 丽情 原文\n![丽情](files/2/tn02HSiZKRZlygLZZ4lJWG3aJjxUzNH4.jpg =450x)\n:::\n\n\n\n## 设定集\n\n::::center\n\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 006.png](files/17010/4eRmi8dWDLS2GTxhbkXuR38XKqXPYE9Z.png =450x)\n\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 064.png](files/17010/9X9Mz88V1Osa9xCnUn2Z8U5xwWuJKO92.png =450x)\n\n::::\n\n# CBT时期立绘\n:::: center\n![Reizyo_waifu2x_2x_2n_png.png](files/3/Reizyo_waifu2x_2x_2n_png.png =450x)\n::::",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/reizyo_home_Idle_01_1.0666000000000002.jpg",
+  "spine": [
+    1410,
+    830,
+    827,
+    603
+  ],
+  "model": [
+    184,
+    430
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [
+    {
+      "description": "CBT_Reizyo_Cafe_Act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/MkIchqIogJ085CWrRLkWduDwav0VIkDW.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Cafe_Act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/zSad3DWWfTzgBU5MAea1yYtWyT4qGng8.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Cafe_Act_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/QZQ7uH9NTclJ9dqutdsSipWAvOKtKb8v.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Cafe_Act_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/agKMKCojVdNQRU7j0V3lPCB9FOTkqRmY.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Cafe_Act_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/cnQIRpr4uhS46DZH44S2td6I0Tfh9mR3.wav"
+    },
+    {
+      "description": "CBT_Reizyo_ExSkill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/34gG1sZ2nq3YHOGxSM1Vw9eMrmmXxYPH.wav"
+    },
+    {
+      "description": "CBT_Reizyo_ExSkill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/BdQANUHddmQyV0EFJiTxODtsPvpTTNxS.wav"
+    },
+    {
+      "description": "CBT_Reizyo_ExSkill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/WCuIZqzqKtnVqP8pembmQac3FBcZXIHa.wav"
+    },
+    {
+      "description": "CBT_Reizyo_ExSkill_Level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/kxA3eUYBzbPVVd9Xtjonefyq5ijdu6HA.wav"
+    },
+    {
+      "description": "CBT_Reizyo_ExSkill_Level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/dfAQl3TTHtMHyDRKKW8otnt47wdRHiBz.wav"
+    },
+    {
+      "description": "CBT_Reizyo_ExSkill_Level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/z3cvQczPDzMzGCSlgMoy0KCPGazdjieX.wav"
+    },
+    {
+      "description": "CBT_Reizyo_ExWeapon_Get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/pbmuaBkURa3z4nm9Fa0vEXLpGu6rRP0v.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/9gESat74Hki8YWdqQ1V3oTLorwBgclTo.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/OuzZWL6IV3Xd5c0jAZYWf52fx1wvbMWT.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/3T6cryCmOGcB9jlmd7VCAgjurgokhR34.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/zKz5nFvfK2wtVdTQ8QFzcz8ZSh7SWqwM.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/ydpDDsv6XFnLlOM3I7mdGfyIEkpC3Bsb.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/AQQ3L2vFbevfuD3Qe2A9c43rMWwznwGJ.wav"
+    },
+    {
+      "description": "CBT_Reizyo_LogIn_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/wHvkKEU1vySxvmWJ3my2nQZNGZ3Up8k0.wav"
+    },
+    {
+      "description": "CBT_Reizyo_LogIn_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/A9gdfMnO0c06dl9PLaljN8GlHSZpVZeo.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Season_Birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/HAwPbccMoneOstI2NbhloVM7RJk4eTI0.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/1WK9RzW3SZfhuwPfGxO8sm1sPePWW6Pl.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Season_Halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/yw5QJpfro8wE7FqIFAJ3zqZjORvRStSZ.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Season_NewYear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/qTAZzavIzEUyVlDUyX8Aj79vb2m3dTbf.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Season_Xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/IBJFltLD4Gn8Lpl4LkoGtiguOnD4IcNd.wav"
+    },
+    {
+      "description": "CBT_Reizyo_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/M5QJUaJbgMuRIFDJcMQhK9nktNX52msv.wav"
+    },
+    {
+      "description": "reizyo_Battle_Buffed_1",
+      "category": "battle",
+      "text": "我感到全身充满了力量！",
+      "text_original": "漲る力を感じます！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Buffed_1.ogg"
+    },
+    {
+      "description": "reizyo_Battle_BuffSelf_1",
+      "category": "battle",
+      "text": "胜负从此开始！",
+      "text_original": "勝負はここからです！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_BuffSelf_1.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Covered_1",
+      "category": "battle",
+      "text": "隐蔽。",
+      "text_original": "隠れます。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Covered_1.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Damage_1.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Damage_2",
+      "category": "battle",
+      "text": "挺行嘛。",
+      "text_original": "やりますね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Damage_2.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Damage_3.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Defense_1",
+      "category": "battle",
+      "text": "太松懈了！",
+      "text_original": "ぬるい！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Defense_1.ogg"
+    },
+    {
+      "description": "reizyo_Battle_In_1",
+      "category": "battle",
+      "text": "打起精神来！",
+      "text_original": "気を引き締めていきましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_In_1.ogg"
+    },
+    {
+      "description": "reizyo_Battle_In_2",
+      "category": "battle",
+      "text": "相信自己，只管前进！",
+      "text_original": "己を信じて、進むのみです。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_In_2.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Move_1",
+      "category": "battle",
+      "text": "继续前进！",
+      "text_original": "次へ参ります！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Move_1.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Move_2",
+      "category": "battle",
+      "text": "冷静，别慌张。",
+      "text_original": "落ち着いて、動じずに。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Move_2.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Recovery_1",
+      "category": "battle",
+      "text": "感谢。",
+      "text_original": "ありがとうございます！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Recovery_1.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Retire",
+      "category": "battle",
+      "text": "不过是这种程度……",
+      "text_original": "この程度のこと…",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Retire.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Shout_1.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Shout_2.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Shout_3.ogg"
+    },
+    {
+      "description": "reizyo_Battle_TacticalAction_1",
+      "category": "battle",
+      "text": "换个地方！",
+      "text_original": "場所を変えましょう！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_TacticalAction_1.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Victory_1",
+      "category": "battle",
+      "text": "这就是，锻练的成果。",
+      "text_original": "鍛錬の成果、ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Victory_1.ogg"
+    },
+    {
+      "description": "reizyo_Battle_Victory_2",
+      "category": "battle",
+      "text": "哼，出了不少汗！",
+      "text_original": "ふぅ、いい汗をかきました！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Battle_Victory_2.ogg"
+    },
+    {
+      "description": "reizyo_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "这儿是怎么做物流管理的？",
+      "text_original": "ここの物流管理は、どうなっているのでしょう?",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Cafe_monolog_1.ogg"
+    },
+    {
+      "description": "reizyo_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "能从这与玄武商会的不同之处中学习。",
+      "text_original": "玄武商会との相違点勉強になります。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Cafe_monolog_2.ogg"
+    },
+    {
+      "description": "reizyo_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "去做市场调查吧。",
+      "text_original": "市場調査といきましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Cafe_monolog_3.ogg"
+    },
+    {
+      "description": "reizyo_Cafe_monolog_4",
+      "category": "cafe",
+      "text": "（要在这拓展玄武商会的销售渠道……）",
+      "text_original": "（ここで玄武商会の販路を広げるには…）",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Cafe_monolog_4.ogg"
+    },
+    {
+      "description": "reizyo_Cafe_monolog_5",
+      "category": "cafe",
+      "text": "想找个能做拉伸的地方……",
+      "text_original": "ストレッチできる場所を、確保したいのですが…",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Cafe_monolog_5.ogg"
+    },
+    {
+      "description": "reizyo_CommonSkill",
+      "category": "battle",
+      "text": "呵啊！……我会自重的。",
+      "text_original": "いやあっ！……自重します。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_CommonSkill.ogg"
+    },
+    {
+      "description": "reizyo_EventLobby_1",
+      "category": "event",
+      "text": "月影祭正是展示玄武商会实力的大好时机。老师您请慢慢享受。",
+      "text_original": "月影祭こそ、玄武商会の腕の見せ所です。先生はゆっくりなさってください。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLobby_1.ogg"
+    },
+    {
+      "description": "reizyo_EventLobby_2_1",
+      "category": "event",
+      "text": "……对我恶作剧的话，我会用武力回应哦。",
+      "text_original": "…イタズラには、肉体言語でお返ししますよ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLobby_2_1.ogg"
+    },
+    {
+      "description": "reizyo_EventLobby_2_2",
+      "category": "event",
+      "text": "开玩笑的，老师。恶作剧什么的尽管来吧。",
+      "text_original": "冗談です、先生。イタズラでしたら、いくらでも。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLobby_2_2.ogg"
+    },
+    {
+      "description": "reizyo_EventLobby_2_3",
+      "category": "event",
+      "text": "……太频繁的话我还是会困扰的。别太过分哦。",
+      "text_original": "…あまり頻繁だと困りますので。ほどほどに。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLobby_2_3.ogg"
+    },
+    {
+      "description": "reizyo_EventLobby_3_1",
+      "category": "event",
+      "text": "什么事，老师？……嗯？只是想叫叫我……？",
+      "text_original": "なんでしょうか、先生？…え？呼んでみただけ…？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLobby_3_1.ogg"
+    },
+    {
+      "description": "reizyo_EventLobby_3_2",
+      "category": "event",
+      "text": "……老是这样吸引别人注意的话，迟早有一天没人会相信你的哦？",
+      "text_original": "…何度も気を引き続けたら、そのうち、誰にも信じてもらえなくなりますよ？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLobby_3_2.ogg"
+    },
+    {
+      "description": "reizyo_EventLobby_3_3",
+      "category": "event",
+      "text": "……但我会一直相信老师的。",
+      "text_original": "…私はいつまでも、先生を信じますが。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLobby_3_3.ogg"
+    },
+    {
+      "description": "reizyo_EventLobby_4_1",
+      "category": "event",
+      "text": "我，我不怕痒的。",
+      "text_original": "わ、私は、くすぐっても効かない体質ですので。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLobby_4_1.ogg"
+    },
+    {
+      "description": "reizyo_EventLobby_4_2",
+      "category": "event",
+      "text": "真，真的。挠我痒也没用的。所以，别……！",
+      "text_original": "ほ、本当です。やっても無駄ですから、だから、やめ…！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLobby_4_2.ogg"
+    },
+    {
+      "description": "reizyo_EventLobby_4_3",
+      "category": "event",
+      "text": "哈，哈哈哈哈哈！",
+      "text_original": "あ、ははははは！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLobby_4_3.ogg"
+    },
+    {
+      "description": "reizyo_EventLobby_4_4",
+      "category": "event",
+      "text": "…………求，求您别挠了。",
+      "text_original": "…もう、やめてくださいってば。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLobby_4_4.ogg"
+    },
+    {
+      "description": "reizyo_EventLogin_1",
+      "category": "event",
+      "text": "欢迎光临，老师。月影祭即将开始。",
+      "text_original": "ようこそ、先生。まもなく、月影祭が開催されます。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLogin_1.ogg"
+    },
+    {
+      "description": "reizyo_EventLogin_2",
+      "category": "event",
+      "text": "感谢您的光临。请尽情享受山海经引以为傲的月影祭。",
+      "text_original": "来てくださってありがとうございます。山海経が誇る月影祭をご堪能ください。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLogin_2.ogg"
+    },
+    {
+      "description": "reizyo_EventLogin_Season_1",
+      "category": "event",
+      "text": "虽然发生了点意外……但对玄龙门、玄武商会还有山海经来说……老师在场便是莫大的鼓舞。",
+      "text_original": "予想外の状況ですが…玄龍門、玄武商会、そして山海経にとって…先生の存在はとても励みになります。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLogin_Season_1.ogg"
+    },
+    {
+      "description": "reizyo_EventLogin_Season_2",
+      "category": "event",
+      "text": "月影祭顺利举办了。……那场暴乱暂且不提吧。",
+      "text_original": "無事、月影祭を開催することができました。…あの騒動は、一旦、気にしないでおきましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLogin_Season_2.ogg"
+    },
+    {
+      "description": "reizyo_EventLogin_Season_End",
+      "category": "event",
+      "text": "庆典如何？山海经和玄武商会随时欢迎老师的光临。",
+      "text_original": "お祭りはいかがでしたか？山海経と玄武商会は、いつでも先生のお越しをお待ちしております。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventLogin_Season_End.ogg"
+    },
+    {
+      "description": "reizyo_EventShop_1_1",
+      "category": "event",
+      "text": "玄武商会的秘藏品？隐藏菜单……？那个……我们没有这种东西的……",
+      "text_original": "玄武商会の秘蔵品？隠しメニュー…？えっと…そんなものはないのですが…",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventShop_1_1.ogg"
+    },
+    {
+      "description": "reizyo_EventShop_1_2",
+      "category": "event",
+      "text": "就算露出那样的表情也……",
+      "text_original": "そんな顔をされましても…",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventShop_1_2.ogg"
+    },
+    {
+      "description": "reizyo_EventShop_2",
+      "category": "event",
+      "text": "缺什么东西的话请随时告诉我。……不过售罄的我就无能为力。",
+      "text_original": "足りないものがありましたら、おっしゃってください。…売り切れてしまったものはどうしようもないのですが。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventShop_2.ogg"
+    },
+    {
+      "description": "reizyo_EventShop_Buy_1",
+      "category": "event",
+      "text": "对，我推荐这个商品。",
+      "text_original": "はい、私のオススメの品ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventShop_Buy_1.ogg"
+    },
+    {
+      "description": "reizyo_EventShop_Buy_2",
+      "category": "event",
+      "text": "这是自用还是送礼？",
+      "text_original": "こちら、ご自宅用ですか？プレゼント用ですか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventShop_Buy_2.ogg"
+    },
+    {
+      "description": "reizyo_EventShop_Buy_3",
+      "category": "event",
+      "text": "多谢惠顾。……虽然我常说这话，但对老师这么一说感觉还挺新鲜的。",
+      "text_original": "毎度ありがとうございます！…いつも口にしている言葉なのに先生相手だとなんだか新鮮ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventShop_Buy_3.ogg"
+    },
+    {
+      "description": "reizyo_EventShop_Buy_4",
+      "category": "event",
+      "text": "会长说过，如果你被免费赠与了什么东西，那其实说明你自己才是真正的商品。不过，如果老师是商品的话……啊，不，没什么。",
+      "text_original": "会長はおっしゃっていました。何かが無償で与えられたのなら、 それはすなわち、自身が商品になっていることを意味すると。ですがもし先生が商品なのでしたら…あ、いえ、なんでもありません。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventShop_Buy_4.ogg"
+    },
+    {
+      "description": "reizyo_EventShop_End",
+      "category": "event",
+      "text": "有没有落下的商品？还请慢慢逛，别留遗憾。",
+      "text_original": "買い逃しはありませんか？後悔のないよう、どうぞ最後までゆっくりとご覧ください。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventShop_End.ogg"
+    },
+    {
+      "description": "reizyo_EventShop_Login_1",
+      "category": "event",
+      "text": "我很擅长看店。那么……今天您要找什么呢？",
+      "text_original": "店番は得意な方です。さて…今日は何をお探しですか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventShop_Login_1.ogg"
+    },
+    {
+      "description": "reizyo_EventShop_Login_2",
+      "category": "event",
+      "text": "若您呼唤，无论何处，玄武商会都会前来。……总有一天，哪怕是基沃托斯的尽头！",
+      "text_original": "お声掛けいただければどこでも、玄武商会は参ります。…いつかは、キヴォトスの果てまでも！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_EventShop_Login_2.ogg"
+    },
+    {
+      "description": "reizyo_ExSkill_1",
+      "category": "battle",
+      "text": "喝！哈！一击必杀！",
+      "text_original": "ふっ！はっ！一撃必殺！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_ExSkill_1.ogg"
+    },
+    {
+      "description": "reizyo_ExSkill_2",
+      "category": "battle",
+      "text": "喝！欸！一击必中！",
+      "text_original": "ふっ！えいっ！一点必中！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_ExSkill_2.ogg"
+    },
+    {
+      "description": "reizyo_ExSkill_3",
+      "category": "battle",
+      "text": "哈！呵啊！摧枯拉朽！",
+      "text_original": "はっ！いやっ！鎧袖一触！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_ExSkill_3.ogg"
+    },
+    {
+      "description": "reizyo_ExSkill_Level_1",
+      "category": "battle",
+      "text": "看招！",
+      "text_original": "くらえ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_ExSkill_Level_1.ogg"
+    },
+    {
+      "description": "reizyo_ExSkill_Level_2",
+      "category": "battle",
+      "text": "如何！",
+      "text_original": "どうだ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_ExSkill_Level_2.ogg"
+    },
+    {
+      "description": "reizyo_ExSkill_Level_3",
+      "category": "battle",
+      "text": "拔本塞源！",
+      "text_original": "抜本塞源！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_ExSkill_Level_3.ogg"
+    },
+    {
+      "description": "reizyo_ExWeapon_Get",
+      "category": "growup",
+      "text": "都说大多事情只靠枪和火药就能解决……但为了支持我的老师！终有一天，我要达成枪与拳完美融合！",
+      "text_original": "大半は銃と火薬で解決できる、といいますが……背中を押してくださった先生のためにも！銃と拳の融合を……いつか成し遂げてみせます！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_ExWeapon_Get.ogg"
+    },
+    {
+      "description": "reizyo_Formation_In_1",
+      "category": "formation",
+      "text": "谨受命。",
+      "text_original": "謹んでお受けいたします。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Formation_In_1.ogg"
+    },
+    {
+      "description": "reizyo_Formation_In_2",
+      "category": "formation",
+      "text": "粉身碎骨。全力以赴。",
+      "text_original": "粉骨砕身。全力で取り組みます。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Formation_In_2.ogg"
+    },
+    {
+      "description": "reizyo_Formation_Select",
+      "category": "formation",
+      "text": "如流水一般。",
+      "text_original": "流れる水のごとく。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Formation_Select.ogg"
+    },
+    {
+      "description": "reizyo_Gachaget",
+      "category": "growup",
+      "text": "我是山海经高级中学玄武商会的总店经理兼护卫，鹿山丽情。再次请多关照，老师。",
+      "text_original": "山海経高級中学校、玄武商会本店のマネージャー兼、護衛の鹿山レイジョです。改めまして、よろしくお願いします。先生。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Gachaget.ogg"
+    },
+    {
+      "description": "reizyo_Growup_1",
+      "category": "growup",
+      "text": "因为有老师在……我才能不忘初心，精进向前。",
+      "text_original": "先生がいてくださったから……初心を忘れず、精進することができています。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Growup_1.ogg"
+    },
+    {
+      "description": "reizyo_Growup_2",
+      "category": "growup",
+      "text": "经理的工作与锻炼有共同之处。二者都需要坚定的自信心。",
+      "text_original": "マネージャーの仕事と鍛錬には、共通点があります。両方とも、己を信じる力が求められるのです。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Growup_2.ogg"
+    },
+    {
+      "description": "reizyo_Growup_3",
+      "category": "growup",
+      "text": "多亏老师的关照，今天我又能向前迈出了一步。",
+      "text_original": "先生が見守ってくださったおかげで、今日も一歩前進、できたように思います。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Growup_3.ogg"
+    },
+    {
+      "description": "reizyo_Growup_4",
+      "category": "growup",
+      "text": "不折不挠。随遇而安。关键在于达成二者间平衡。",
+      "text_original": "折れることなく真っすぐに。受け入れて柔軟に。肝心なのは、バランスです。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Growup_4.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_1_1",
+      "category": "lobby",
+      "text": "商流和交易管理我都很熟悉。护卫和警备任务我也能胜任。",
+      "text_original": "商流や取引の管理でしたら慣れております。護衛や警備の任務も、それなりにこなせます。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_1_1.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_1_2",
+      "category": "lobby",
+      "text": "……我最有自信的事？那当然是功夫！",
+      "text_original": "……一番自信があるもの？もちろん、カンフーです！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_1_2.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_2_1",
+      "category": "lobby",
+      "text": "我想稍微活动下身体。我要去练功……",
+      "text_original": "少し、身体を動かしたい気分です。私はこれからカンフーの修練に……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_2_1.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_2_2",
+      "category": "lobby",
+      "text": "……散步？……但是，只是散步的话……",
+      "text_original": "……散歩？……ですが、散歩程度では……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_2_2.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_2_3",
+      "category": "lobby",
+      "text": "啊！不！我要去！和老师一起的话就行！",
+      "text_original": "あ！いえ！行きます！先生と一緒でしたら！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_2_3.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_3_1",
+      "category": "lobby",
+      "text": "其实，我不擅长射击。一直都有人说我更适合用拳头战斗……",
+      "text_original": "実は、射撃は少々苦手です。拳で戦ったほうが良いのでは、と言われたことがある程度には……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_3_1.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_3_2",
+      "category": "lobby",
+      "text": "不过，我也有认真训练过的……！",
+      "text_original": "ですが、しっかり訓練はしておりますので…！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_3_2.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_3_3",
+      "category": "lobby",
+      "text": "……我觉得，多少有正常射击水平了……",
+      "text_original": "…人並みには、撃てるようになったと、思います…",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_3_3.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_4_1",
+      "category": "lobby",
+      "text": "偶尔偷个懒，也行吗……？",
+      "text_original": "たまにはサボっても大丈夫、ですか……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_4_1.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_4_2",
+      "category": "lobby",
+      "text": "不行，老师！光阴有限！时间可是一分一秒地不断减少呢！？",
+      "text_original": "いけません、先生！時間は有限です！刻一刻と減っていくのですよ！？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_4_2.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_4_3",
+      "category": "lobby",
+      "text": "……为了有效利用时间，休息也是必要的……？",
+      "text_original": "……時間を有効に使うためにも、休息は必要……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_4_3.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_4_4",
+      "category": "lobby",
+      "text": "确实如此……您说得对……",
+      "text_original": "たしかにそれは……おっしゃる通りですが……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_4_4.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_5_1",
+      "category": "lobby",
+      "text": "两人独处的时间……还是和老师在一起……感觉有些奇怪。",
+      "text_original": "二人きりの時間……それも先生と、というのは……妙な感じがします。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_5_1.ogg"
+    },
+    {
+      "description": "reizyo_Lobby_5_2",
+      "category": "lobby",
+      "text": "那个，老师……坐您旁边……可以吗……？",
+      "text_original": "あの、先生……お隣……よろしいでしょうか……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Lobby_5_2.ogg"
+    },
+    {
+      "description": "reizyo_LogIn_1",
+      "category": "lobby",
+      "text": "有什么需求的话尽管说……请，请别要求太难的事情。",
+      "text_original": "ご要望がありましたら、なんなりと。…む、難しいこと以外で、お願いします。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_LogIn_1.ogg"
+    },
+    {
+      "description": "reizyo_LogIn_2",
+      "category": "lobby",
+      "text": "我等您很久了，老师。不，不用担心。倒也没有等那么久。……大概吧。",
+      "text_original": "お待ちしておりました、先生。いえ、心配無用です。それほど待っていませんので。……おそらく。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_LogIn_2.ogg"
+    },
+    {
+      "description": "reizyo_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "啊，您来了。",
+      "text_original": "あ、来てくださったのですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_MemorialLobby_1_1.ogg"
+    },
+    {
+      "description": "reizyo_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "再过一会晨练就结束了，请稍等片刻。",
+      "text_original": "あと少しで朝練が終わりますので、少々お待ちいただけますか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_MemorialLobby_1_2.ogg"
+    },
+    {
+      "description": "reizyo_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "其实这也是连续动作的一部分。",
+      "text_original": "実はこれも、連続した動作の一部なんですよ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_MemorialLobby_2_1.ogg"
+    },
+    {
+      "description": "reizyo_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "停止动作、维持姿势",
+      "text_original": "流れを止め、姿勢を維持することも",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_MemorialLobby_2_2.ogg"
+    },
+    {
+      "description": "reizyo_MemorialLobby_2_3",
+      "category": "lobby",
+      "text": "也有助于锻炼精神……",
+      "text_original": "精神を鍛えるのに役立つのでは、と思い……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_MemorialLobby_2_3.ogg"
+    },
+    {
+      "description": "reizyo_MemorialLobby_3",
+      "category": "lobby",
+      "text": "……话说，老师您待在那里干什么……？",
+      "text_original": "……って、先生はどうしてそんなところに……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_MemorialLobby_3.ogg"
+    },
+    {
+      "description": "reizyo_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "诶？修行的时候……",
+      "text_original": "え？修行中なら――",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_MemorialLobby_4_1.ogg"
+    },
+    {
+      "description": "reizyo_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "别在意周围的视线，保持平常心……？",
+      "text_original": "周りの視線に動じず、平常心を保つべき……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_MemorialLobby_4_2.ogg"
+    },
+    {
+      "description": "reizyo_MemorialLobby_4_3",
+      "category": "lobby",
+      "text": "说是……这么说没错……",
+      "text_original": "それは、そう……なのですが……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_MemorialLobby_4_3.ogg"
+    },
+    {
+      "description": "reizyo_MemorialLobby_5",
+      "category": "lobby",
+      "text": "……唔，果，果然还是做不到……！",
+      "text_original": "……うっ、や、やはりこれは、無理です……！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_MemorialLobby_5.ogg"
+    },
+    {
+      "description": "reizyo_Relationship_Up_1",
+      "category": "growup",
+      "text": "我、我，那个……不是很擅长那种可爱的回应……感，感谢您的理解，老师。",
+      "text_original": "わ、私は、その……可愛らしい返事とかは、あまり得意ではなく……ご、ご理解いただき、ありがとうございます、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Relationship_Up_1.ogg"
+    },
+    {
+      "description": "reizyo_Relationship_Up_2",
+      "category": "growup",
+      "text": "老师陪在身边时，我总是感觉心波荡漾……其他的事，那个，请别问了……。",
+      "text_original": "先生のそばにいると、私の心が波立つというか…………これ以上は、その、聞かないでください……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Relationship_Up_2.ogg"
+    },
+    {
+      "description": "reizyo_Relationship_Up_3",
+      "category": "growup",
+      "text": "这种时候，我总是在想，能为老师做些什么。……果然我们还是来一起修炼功夫吧！",
+      "text_original": "こういうとき、先生のために何ができるのだろうと、考えてしまいます。……やはりここは、私と共にカンフーの修練を！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Relationship_Up_3.ogg"
+    },
+    {
+      "description": "reizyo_Relationship_Up_4",
+      "category": "growup",
+      "text": "如果需要护卫的话，随身联系我。我会全力保护老师的！……不需要那么尽全力也行……？但，但是……",
+      "text_original": "護衛が必要でしたら、いつでもお申し付けください。全身全霊で先生をお守りします！……そんなに全力じゃなくて大丈夫……？で、ですが……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Relationship_Up_4.ogg"
+    },
+    {
+      "description": "reizyo_Season_Birthday_1",
+      "category": "lobby",
+      "text": "啊，是！？我的生日……？您记得吗……？",
+      "text_original": "は、はい！？私の誕生日……？お、覚えててくださったんですか……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Season_Birthday_1.ogg"
+    },
+    {
+      "description": "reizyo_Season_Birthday_2",
+      "category": "lobby",
+      "text": "那个……您能记得我是很高兴……",
+      "text_original": "その……覚えてくださっていたら嬉しいな、とは思っていましたが……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Season_Birthday_2.ogg"
+    },
+    {
+      "description": "reizyo_Season_Birthday_3",
+      "category": "lobby",
+      "text": "……非常感谢，老师。我真是有福气呢。",
+      "text_original": "……ありがとうございます、先生。私は果報者です……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Season_Birthday_3.ogg"
+    },
+    {
+      "description": "reizyo_Season_Birthday_Player_1",
+      "category": "lobby",
+      "text": "生日快乐，老师！",
+      "text_original": "お誕生日おめでとうございます、先生！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Season_Birthday_Player_1.ogg"
+    },
+    {
+      "description": "reizyo_Season_Birthday_Player_2",
+      "category": "lobby",
+      "text": "其实，今天早上我做了个奇怪的梦。梦见我在做老师出生时的护卫……",
+      "text_original": "実は今朝、少し変わった夢をみました。先生が生まれる瞬間の護衛をするという、内容だったのですが……",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Season_Birthday_Player_2.ogg"
+    },
+    {
+      "description": "reizyo_Season_Birthday_Player_3",
+      "category": "lobby",
+      "text": "……但老师那个时候还没来基沃托斯。真是奇怪的梦呢。",
+      "text_original": "……そのとき先生はキヴォトスにいらっしゃらなかったのに。なんだか不思議ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Season_Birthday_Player_3.ogg"
+    },
+    {
+      "description": "reizyo_Season_Halloween",
+      "category": "lobby",
+      "text": "我知道今天是什么日子。商人必须得知识广博。万圣节……是靠南瓜赚钱的大好时机，对吧？",
+      "text_original": "今日が何の日なのか、把握していますとも。商売人たるもの、幅広い知識を身につけなければなりませんので。ハロウィーン……つまりはガボチャの稼ぎ時、ですよね？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Season_Halloween.ogg"
+    },
+    {
+      "description": "reizyo_Season_NewYear_1",
+      "category": "lobby",
+      "text": "新年快乐，老师。我从玄武商会拿来了年菜。",
+      "text_original": "明けましておめでとうございます、先生。玄武商会からお節を持ってまいりました。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Season_NewYear_1.ogg"
+    },
+    {
+      "description": "reizyo_Season_NewYear_2",
+      "category": "lobby",
+      "text": "我也帮忙做了哦。呵呵……能猜出哪道是我做的吗？",
+      "text_original": "私も作るのを手伝ったのですよ。ふふ……どれだか分かりますか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Season_NewYear_2.ogg"
+    },
+    {
+      "description": "reizyo_Season_Xmas_1",
+      "category": "lobby",
+      "text": "圣诞节的详情我都了解。前几天刚学的。",
+      "text_original": "クリスマスの詳細なら熟知しています。先日、勉強しましたので。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Season_Xmas_1.ogg"
+    },
+    {
+      "description": "reizyo_Season_Xmas_2",
+      "category": "lobby",
+      "text": "……那么，该去消灭那个乱发免费礼物、扰乱市场价格的经济犯圣诞老人了！",
+      "text_original": "…では、無償のプレゼントを配り物価を乱す、サンタクロースという経済犯を倒してきます！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Season_Xmas_2.ogg"
+    },
+    {
+      "description": "reizyo_Tactic_Defeat_1",
+      "category": "battle",
+      "text": "修行……不足。",
+      "text_original": "修行が...たりませんでした。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Tactic_Defeat_1.ogg"
+    },
+    {
+      "description": "reizyo_Tactic_Defeat_2",
+      "category": "battle",
+      "text": "咕……真不争气。",
+      "text_original": "ぐぅ...不甲斐ない。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Tactic_Defeat_2.ogg"
+    },
+    {
+      "description": "reizyo_Tactic_In_1",
+      "category": "battle",
+      "text": "见识下功夫的真髓吧。",
+      "text_original": "カンフーの極意、お見せしましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Tactic_In_1.ogg"
+    },
+    {
+      "description": "reizyo_Tactic_In_2",
+      "category": "battle",
+      "text": "上吧。",
+      "text_original": "さあ、参ります！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Tactic_In_2.ogg"
+    },
+    {
+      "description": "reizyo_Tactic_Victory_1",
+      "category": "battle",
+      "text": "直到最后也不能松懈。",
+      "text_original": "最後まで、気を抜かずに。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Tactic_Victory_1.ogg"
+    },
+    {
+      "description": "reizyo_Tactic_Victory_2",
+      "category": "battle",
+      "text": "专心致志……努力精进。",
+      "text_original": "一意専心……精進します。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Tactic_Victory_2.ogg"
+    },
+    {
+      "description": "reizyo_Title",
+      "category": "lobby",
+      "text": "蔚蓝档案，呢。",
+      "text_original": "ブルーアーカイブ、ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/jp/reizyo_Title.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "reizyo_battle_buffed_1",
+      "category": "battle",
+      "text": "感觉浑身都是劲儿！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_buffed_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_buffself_1",
+      "category": "battle",
+      "text": "真正的较量，才刚刚开始！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_buffself_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_covered_1",
+      "category": "battle",
+      "text": "我躲起来啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_covered_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_damage_1",
+      "category": "battle",
+      "text": "可恶！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_damage_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_damage_2",
+      "category": "battle",
+      "text": "有两下子嘛。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_damage_2.ogg"
+    },
+    {
+      "description": "reizyo_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_damage_3.ogg"
+    },
+    {
+      "description": "reizyo_battle_defense_1",
+      "category": "battle",
+      "text": "软弱无力！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_defense_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_in_1",
+      "category": "battle",
+      "text": "打起精神，咱们上。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_in_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_in_2",
+      "category": "battle",
+      "text": "相信自己，放手一搏吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_in_2.ogg"
+    },
+    {
+      "description": "reizyo_battle_move_1",
+      "category": "battle",
+      "text": "下一个目标，走起！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_move_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_move_2",
+      "category": "battle",
+      "text": "稳住，别慌。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_move_2.ogg"
+    },
+    {
+      "description": "reizyo_battle_recovery_1",
+      "category": "battle",
+      "text": "多谢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_recovery_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_retire",
+      "category": "battle",
+      "text": "就这点程度，还差得远呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_retire.ogg"
+    },
+    {
+      "description": "reizyo_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_shout_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_shout_2.ogg"
+    },
+    {
+      "description": "reizyo_battle_shout_3",
+      "category": "battle",
+      "text": "看招！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_shout_3.ogg"
+    },
+    {
+      "description": "reizyo_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "咱们换个位置！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_victory_1",
+      "category": "battle",
+      "text": "这是平时锻炼的成果。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_victory_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_victory_2",
+      "category": "battle",
+      "text": "呼，这汗流得真痛快！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_battle_victory_2.ogg"
+    },
+    {
+      "description": "reizyo_cafe_monolog_1",
+      "category": "cafe",
+      "text": "这里的物流管理到底是怎么运作的呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "reizyo_cafe_monolog_2",
+      "category": "cafe",
+      "text": "和玄武商会对比着看，倒是挺长见识的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "reizyo_cafe_monolog_3",
+      "category": "cafe",
+      "text": "要不搞点市场调研之类的？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "reizyo_cafe_monolog_4",
+      "category": "cafe",
+      "text": "（要是想在这儿给玄武商会开辟市场的话……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "reizyo_cafe_monolog_5",
+      "category": "cafe",
+      "text": "这附近有没有能拉筋伸展的地方啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "reizyo_commonskill",
+      "category": "battle",
+      "text": "咿呀啊！……还是悠着点儿吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_commonskill.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_1",
+      "category": "event",
+      "text": "月影节正是玄武商会大显身手的时候。老师您就安心歇着吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlobby_1.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_2_1",
+      "category": "event",
+      "text": "敢跟我耍花样？那我就用拳头说话吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlobby_2_1.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_2_2",
+      "category": "event",
+      "text": "跟您开玩笑呢，老师。要是真想闹着玩，我随时奉陪哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlobby_2_2.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_2_3",
+      "category": "event",
+      "text": "您也别老这么闹啦……适可而止好不好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlobby_2_3.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_3_1",
+      "category": "event",
+      "text": "老师，怎么了？……啊？只是随口叫我一下……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlobby_3_1.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_3_2",
+      "category": "event",
+      "text": "……您要是次次都这样没正形地刷存在感，迟早会变成喊“狼来了”的小孩哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlobby_3_2.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_3_3",
+      "category": "event",
+      "text": "……不过嘛，我永远都会相信老师的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlobby_3_3.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_4_1",
+      "category": "event",
+      "text": "我，我其实天生就不怕痒。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlobby_4_1.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_4_2",
+      "category": "event",
+      "text": "真，真的。挠痒痒对我没用的，所以快别挠了……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlobby_4_2.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_4_3",
+      "category": "event",
+      "text": "啊哈哈哈哈！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlobby_4_3.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_4_4",
+      "category": "event",
+      "text": "……不行了，饶了我吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlobby_4_4.ogg"
+    },
+    {
+      "description": "reizyo_eventlogin_1",
+      "category": "event",
+      "text": "欢迎您，老师。月影节马上就要开幕了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlogin_1.ogg"
+    },
+    {
+      "description": "reizyo_eventlogin_2",
+      "category": "event",
+      "text": "感谢您的光临。请尽情享受山海经引以为傲的月影节吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlogin_2.ogg"
+    },
+    {
+      "description": "reizyo_eventlogin_season_1",
+      "category": "event",
+      "text": "虽然情况有些出乎预料……但是对玄龙门、玄武商会，还有山海经来说……老师您的存在本身就是莫大的鼓舞。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "reizyo_eventlogin_season_2",
+      "category": "event",
+      "text": "月影节能顺利举办真是太好了。……至于那场风波嘛，咱们就先别管了吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "reizyo_eventlogin_season_end",
+      "category": "event",
+      "text": "您觉得这次的庆典怎么样？山海经和玄武商会随时都欢迎老师再来做客。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_1_1",
+      "category": "event",
+      "text": "玄武商会的秘密藏品？隐藏菜单……？呃……没有那种东西啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventshop_1_1.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_1_2",
+      "category": "event",
+      "text": "您就算摆出这种表情也没用啦……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventshop_1_2.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_2",
+      "category": "event",
+      "text": "缺什么您随时跟我说。……不过卖断货的东西可就真没法子啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventshop_2.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_buy_1",
+      "category": "event",
+      "text": "对，这个我特别推荐。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventshop_buy_1.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_buy_2",
+      "category": "event",
+      "text": "这个您是自用，还是用来送礼呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventshop_buy_2.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_buy_3",
+      "category": "event",
+      "text": "感谢惠顾！……虽然这话我对每位客人都说，但是对老师说的时候总觉得特别新鲜。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventshop_buy_3.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_buy_4",
+      "category": "event",
+      "text": "会长常常说，天下没有免费的午餐，别人要真白给了你什么，那就是把你当成商品了。不过要是老师变成商品的话……没，没什么。我什么都没说。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventshop_buy_4.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_end",
+      "category": "event",
+      "text": "您没错过什么东西吧？为了不后悔，还请您仔细看到最后哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventshop_end.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_login_1",
+      "category": "event",
+      "text": "看店这事我在行。那……您今天想买点什么呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventshop_login_1.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_login_2",
+      "category": "event",
+      "text": "只要您开口，玄武商会哪儿都去得了。……总有一天，就连基沃托斯的尽头也给您闯闯看！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_eventshop_login_2.ogg"
+    },
+    {
+      "description": "reizyo_exskill_1",
+      "category": "battle",
+      "text": "呼！哈！一击毙命！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_exskill_1.ogg"
+    },
+    {
+      "description": "reizyo_exskill_2",
+      "category": "battle",
+      "text": "嘿！诶咿！一发必中！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_exskill_2.ogg"
+    },
+    {
+      "description": "reizyo_exskill_3",
+      "category": "battle",
+      "text": "哈！咿呀！一触即破！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_exskill_3.ogg"
+    },
+    {
+      "description": "reizyo_exskill_level_1",
+      "category": "battle",
+      "text": "接招！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_exskill_level_1.ogg"
+    },
+    {
+      "description": "reizyo_exskill_level_2",
+      "category": "battle",
+      "text": "怎么样！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_exskill_level_2.ogg"
+    },
+    {
+      "description": "reizyo_exskill_level_3",
+      "category": "battle",
+      "text": "拔本塞源！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_exskill_level_3.ogg"
+    },
+    {
+      "description": "reizyo_exweapon_get",
+      "category": "growup",
+      "text": "虽说多数时候靠枪炮就能摆平……但是为了不辜负老师支持我！我早晚要练出……让枪法和拳法完美融合的本事！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_exweapon_get.ogg"
+    },
+    {
+      "description": "reizyo_formation_in_1",
+      "category": "formation",
+      "text": "交给我吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_formation_in_1.ogg"
+    },
+    {
+      "description": "reizyo_formation_in_2",
+      "category": "formation",
+      "text": "即使粉身碎骨，也在所不辞。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_formation_in_2.ogg"
+    },
+    {
+      "description": "reizyo_formation_select",
+      "category": "formation",
+      "text": "行云流水。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_formation_select.ogg"
+    },
+    {
+      "description": "reizyo_gachaget",
+      "category": "growup",
+      "text": "我是山海经高等学院玄武商会总店的经理兼护卫鹿山丽情。往后还请您多多指教了，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_gachaget.ogg"
+    },
+    {
+      "description": "reizyo_growup_1",
+      "category": "growup",
+      "text": "多亏一直有老师在……我才能守住本心，坚持精进。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_growup_1.ogg"
+    },
+    {
+      "description": "reizyo_growup_2",
+      "category": "growup",
+      "text": "当经理和练功夫其实是一个道理——都得有那股子信得过自己的劲儿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_growup_2.ogg"
+    },
+    {
+      "description": "reizyo_growup_3",
+      "category": "growup",
+      "text": "多亏有老师盯着我进步，今天又能比昨天再强一点儿了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_growup_3.ogg"
+    },
+    {
+      "description": "reizyo_growup_4",
+      "category": "growup",
+      "text": "刚柔并济，能屈能伸——关键是讲究一个平衡之道。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_growup_4.ogg"
+    },
+    {
+      "description": "reizyo_lobby_1_1",
+      "category": "lobby",
+      "text": "打理商品流通和交易这类事儿我熟，保镖和警卫任务也都能应付得来。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_1_1.ogg"
+    },
+    {
+      "description": "reizyo_lobby_1_2",
+      "category": "lobby",
+      "text": "……您问我最拿手的是什么？那必须是功夫啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_1_2.ogg"
+    },
+    {
+      "description": "reizyo_lobby_2_1",
+      "category": "lobby",
+      "text": "有点想活动一下筋骨了。我先去练会儿功夫……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_2_1.ogg"
+    },
+    {
+      "description": "reizyo_lobby_2_2",
+      "category": "lobby",
+      "text": "……您说去散步？光散步哪儿够啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_2_2.ogg"
+    },
+    {
+      "description": "reizyo_lobby_2_3",
+      "category": "lobby",
+      "text": "啊不，好！我去！只要是和老师一起的话！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_2_3.ogg"
+    },
+    {
+      "description": "reizyo_lobby_3_1",
+      "category": "lobby",
+      "text": "其实我枪法不太行。甚至有人说我还不如直接动拳头……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_3_1.ogg"
+    },
+    {
+      "description": "reizyo_lobby_3_2",
+      "category": "lobby",
+      "text": "但是，我已经在好好练习了……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_3_2.ogg"
+    },
+    {
+      "description": "reizyo_lobby_3_3",
+      "category": "lobby",
+      "text": "……我觉得，现在准头已经不比别人差了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_3_3.ogg"
+    },
+    {
+      "description": "reizyo_lobby_4_1",
+      "category": "lobby",
+      "text": "您说偶尔摸摸鱼也没关系？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_4_1.ogg"
+    },
+    {
+      "description": "reizyo_lobby_4_2",
+      "category": "lobby",
+      "text": "这可不行啊，老师！时间是有限的！每分每秒都在流逝啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_4_2.ogg"
+    },
+    {
+      "description": "reizyo_lobby_4_3",
+      "category": "lobby",
+      "text": "……休息也是为了更高效地利用时间……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_4_3.ogg"
+    },
+    {
+      "description": "reizyo_lobby_4_4",
+      "category": "lobby",
+      "text": "这么一想好像也有道理……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_4_4.ogg"
+    },
+    {
+      "description": "reizyo_lobby_5_1",
+      "category": "lobby",
+      "text": "两个人独处的时间……而且还是和老师一起，总觉得……有点奇妙呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_5_1.ogg"
+    },
+    {
+      "description": "reizyo_lobby_5_2",
+      "category": "lobby",
+      "text": "那个，我……坐老师旁边……可以吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_lobby_5_2.ogg"
+    },
+    {
+      "description": "reizyo_login_1",
+      "category": "lobby",
+      "text": "有什么需要帮忙的尽管说。……唔，太麻烦的事儿就算了，拜托了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_login_1.ogg"
+    },
+    {
+      "description": "reizyo_login_2",
+      "category": "lobby",
+      "text": "老师，我正等您呢。啊，不用过意不去……其实也没有等很久……大概吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_login_2.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "您来了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "晨练马上就结束，可以请您稍等一下吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "其实这套动作，是连贯的招式。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "中途停下保持姿势不泄劲，也是很重要的一环。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_2_3",
+      "category": "lobby",
+      "text": "应该也能，有助于磨练心性吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_memoriallobby_2_3.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_3",
+      "category": "lobby",
+      "text": "不过......老师您为什么要站在那里呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_memoriallobby_3.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "额？您说要修炼？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "就不能受旁人目光影响，要保持一份平常心。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "嗯，您说的确实在理。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_memoriallobby_4_3.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_5",
+      "category": "lobby",
+      "text": "不行~这样我还是有点吃不消。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_memoriallobby_5.ogg"
+    },
+    {
+      "description": "reizyo_relationship_up_1",
+      "category": "growup",
+      "text": "嗯，我，那个……实在是不太擅长卖萌撒娇这种事……老，老师您能理解就太好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_relationship_up_1.ogg"
+    },
+    {
+      "description": "reizyo_relationship_up_2",
+      "category": "growup",
+      "text": "待在老师身边的时候，怎么说呢……总觉得心潮澎湃的…………那个，请您别再问下去了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_relationship_up_2.ogg"
+    },
+    {
+      "description": "reizyo_relationship_up_3",
+      "category": "growup",
+      "text": "这种时候啊，我就忍不住琢磨——能为老师做点什么呢。……这种时候，就该陪我练功夫吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_relationship_up_3.ogg"
+    },
+    {
+      "description": "reizyo_relationship_up_4",
+      "category": "growup",
+      "text": "如果需要保镖，您随时开口。就算要赌上一切，我也绝对会护您周全！不，不用赌上一切？那至少赌上一半吧……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_relationship_up_4.ogg"
+    },
+    {
+      "description": "reizyo_season_birthday_1",
+      "category": "lobby",
+      "text": "诶，诶？！我的生日……？您，您居然记得……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_season_birthday_1.ogg"
+    },
+    {
+      "description": "reizyo_season_birthday_2",
+      "category": "lobby",
+      "text": "那个……虽然我确实希望您能记得……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_season_birthday_2.ogg"
+    },
+    {
+      "description": "reizyo_season_birthday_3",
+      "category": "lobby",
+      "text": "……谢谢老师。我还真是挺走运的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_season_birthday_3.ogg"
+    },
+    {
+      "description": "reizyo_season_birthday_player_1",
+      "category": "lobby",
+      "text": "老师，祝您生日快乐！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "reizyo_season_birthday_player_2",
+      "category": "lobby",
+      "text": "其实我今天早上做了个挺怪的梦。梦里我居然在老师出生那会儿给您当保镖……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "reizyo_season_birthday_player_3",
+      "category": "lobby",
+      "text": "……明明那时候老师还不在基沃托斯呢。想想还挺神奇的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_season_birthday_player_3.ogg"
+    },
+    {
+      "description": "reizyo_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，新年好啊！玄武商会特意给您备了年礼——压岁钱？这，这怎么好意思……不收就是不给老师面子？……那好吧。嘿嘿，谢谢老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "reizyo_season_halloween",
+      "category": "lobby",
+      "text": "今天是什么日子我可清楚得很。商会的成员必须掌握各种知识嘛。万圣节……说白了就是南瓜的销售旺季，对吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_season_halloween.ogg"
+    },
+    {
+      "description": "reizyo_season_midautumn",
+      "category": "lobby",
+      "text": "中秋团圆夜，我来为老师沏壶桂花茶吧。虽然商会事情挺多，但是和老师一起赏月这种事儿……我说什么都要空出时间来的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_season_midautumn.ogg"
+    },
+    {
+      "description": "reizyo_season_newyear_1",
+      "category": "lobby",
+      "text": "老师新年好！玄武商会给您带了年节点心。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_season_newyear_1.ogg"
+    },
+    {
+      "description": "reizyo_season_newyear_2",
+      "category": "lobby",
+      "text": "我也帮忙做了哦。呵呵……您猜猜看是哪个？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_season_newyear_2.ogg"
+    },
+    {
+      "description": "reizyo_season_xmas_1",
+      "category": "lobby",
+      "text": "圣诞节的规矩我都提前做过功课了。前阵子刚专门研究过呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_season_xmas_1.ogg"
+    },
+    {
+      "description": "reizyo_season_xmas_2",
+      "category": "lobby",
+      "text": "……那我现在就去收拾那个叫圣诞老人的经济犯——这家伙到处发免费礼物扰乱市场！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_season_xmas_2.ogg"
+    },
+    {
+      "description": "reizyo_tactic_defeat_1",
+      "category": "battle",
+      "text": "休息......还差得远。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "reizyo_tactic_defeat_2",
+      "category": "battle",
+      "text": "太丢人了!!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "reizyo_tactic_in_1",
+      "category": "battle",
+      "text": "就让你们见识一下功夫的境界吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_tactic_in_1.ogg"
+    },
+    {
+      "description": "reizyo_tactic_in_2",
+      "category": "battle",
+      "text": "好嘞！走着！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_tactic_in_2.ogg"
+    },
+    {
+      "description": "reizyo_tactic_victory_1",
+      "category": "battle",
+      "text": "坚持到底，绝不松懈。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_tactic_victory_1.ogg"
+    },
+    {
+      "description": "reizyo_tactic_victory_2",
+      "category": "battle",
+      "text": "心无旁骛，一心精进！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_tactic_victory_2.ogg"
+    },
+    {
+      "description": "reizyo_title",
+      "category": "lobby",
+      "text": "Blue Archive…是吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/cn/reizyo_title.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "reizyo_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_buffed_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_buffself_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_covered_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_damage_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_damage_2.ogg"
+    },
+    {
+      "description": "reizyo_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_damage_3.ogg"
+    },
+    {
+      "description": "reizyo_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_defense_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_in_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_in_2.ogg"
+    },
+    {
+      "description": "reizyo_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_move_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_move_2.ogg"
+    },
+    {
+      "description": "reizyo_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_recovery_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_retire.ogg"
+    },
+    {
+      "description": "reizyo_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_shout_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_shout_2.ogg"
+    },
+    {
+      "description": "reizyo_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_shout_3.ogg"
+    },
+    {
+      "description": "reizyo_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_victory_1.ogg"
+    },
+    {
+      "description": "reizyo_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_battle_victory_2.ogg"
+    },
+    {
+      "description": "reizyo_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "reizyo_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "reizyo_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "reizyo_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "reizyo_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "reizyo_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_commonskill.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlobby_1.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_2_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlobby_2_1.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_2_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlobby_2_2.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_2_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlobby_2_3.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_3_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlobby_3_1.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_3_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlobby_3_2.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_3_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlobby_3_3.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_4_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlobby_4_1.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_4_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlobby_4_2.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_4_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlobby_4_3.ogg"
+    },
+    {
+      "description": "reizyo_eventlobby_4_4",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlobby_4_4.ogg"
+    },
+    {
+      "description": "reizyo_eventlogin_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlogin_1.ogg"
+    },
+    {
+      "description": "reizyo_eventlogin_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlogin_2.ogg"
+    },
+    {
+      "description": "reizyo_eventlogin_season_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "reizyo_eventlogin_season_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "reizyo_eventlogin_season_end",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_1_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventshop_1_1.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_1_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventshop_1_2.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventshop_2.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_buy_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventshop_buy_1.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_buy_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventshop_buy_2.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_buy_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventshop_buy_3.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_buy_4",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventshop_buy_4.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_end",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventshop_end.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_login_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventshop_login_1.ogg"
+    },
+    {
+      "description": "reizyo_eventshop_login_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_eventshop_login_2.ogg"
+    },
+    {
+      "description": "reizyo_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_exskill_1.ogg"
+    },
+    {
+      "description": "reizyo_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_exskill_2.ogg"
+    },
+    {
+      "description": "reizyo_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_exskill_3.ogg"
+    },
+    {
+      "description": "reizyo_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_exskill_level_1.ogg"
+    },
+    {
+      "description": "reizyo_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_exskill_level_2.ogg"
+    },
+    {
+      "description": "reizyo_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_exskill_level_3.ogg"
+    },
+    {
+      "description": "reizyo_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_exweapon_get.ogg"
+    },
+    {
+      "description": "reizyo_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_formation_in_1.ogg"
+    },
+    {
+      "description": "reizyo_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_formation_in_2.ogg"
+    },
+    {
+      "description": "reizyo_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_formation_select.ogg"
+    },
+    {
+      "description": "reizyo_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_gachaget.ogg"
+    },
+    {
+      "description": "reizyo_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_growup_1.ogg"
+    },
+    {
+      "description": "reizyo_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_growup_2.ogg"
+    },
+    {
+      "description": "reizyo_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_growup_3.ogg"
+    },
+    {
+      "description": "reizyo_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_growup_4.ogg"
+    },
+    {
+      "description": "reizyo_lobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_1_1.ogg"
+    },
+    {
+      "description": "reizyo_lobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_1_2.ogg"
+    },
+    {
+      "description": "reizyo_lobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_2_1.ogg"
+    },
+    {
+      "description": "reizyo_lobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_2_2.ogg"
+    },
+    {
+      "description": "reizyo_lobby_2_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_2_3.ogg"
+    },
+    {
+      "description": "reizyo_lobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_3_1.ogg"
+    },
+    {
+      "description": "reizyo_lobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_3_2.ogg"
+    },
+    {
+      "description": "reizyo_lobby_3_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_3_3.ogg"
+    },
+    {
+      "description": "reizyo_lobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_4_1.ogg"
+    },
+    {
+      "description": "reizyo_lobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_4_2.ogg"
+    },
+    {
+      "description": "reizyo_lobby_4_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_4_3.ogg"
+    },
+    {
+      "description": "reizyo_lobby_4_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_4_4.ogg"
+    },
+    {
+      "description": "reizyo_lobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_5_1.ogg"
+    },
+    {
+      "description": "reizyo_lobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_lobby_5_2.ogg"
+    },
+    {
+      "description": "reizyo_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_login_1.ogg"
+    },
+    {
+      "description": "reizyo_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_login_2.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_2_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_memoriallobby_2_3.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_memoriallobby_3.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_memoriallobby_4_3.ogg"
+    },
+    {
+      "description": "reizyo_memoriallobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_memoriallobby_5.ogg"
+    },
+    {
+      "description": "reizyo_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_relationship_up_1.ogg"
+    },
+    {
+      "description": "reizyo_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_relationship_up_2.ogg"
+    },
+    {
+      "description": "reizyo_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_relationship_up_3.ogg"
+    },
+    {
+      "description": "reizyo_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_relationship_up_4.ogg"
+    },
+    {
+      "description": "reizyo_season_birthday_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_season_birthday_1.ogg"
+    },
+    {
+      "description": "reizyo_season_birthday_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_season_birthday_2.ogg"
+    },
+    {
+      "description": "reizyo_season_birthday_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_season_birthday_3.ogg"
+    },
+    {
+      "description": "reizyo_season_birthday_player_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "reizyo_season_birthday_player_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "reizyo_season_birthday_player_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_season_birthday_player_3.ogg"
+    },
+    {
+      "description": "reizyo_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_season_halloween.ogg"
+    },
+    {
+      "description": "reizyo_season_newyear_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_season_newyear_1.ogg"
+    },
+    {
+      "description": "reizyo_season_newyear_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_season_newyear_2.ogg"
+    },
+    {
+      "description": "reizyo_season_xmas_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_season_xmas_1.ogg"
+    },
+    {
+      "description": "reizyo_season_xmas_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_season_xmas_2.ogg"
+    },
+    {
+      "description": "reizyo_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "reizyo_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "reizyo_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_tactic_in_1.ogg"
+    },
+    {
+      "description": "reizyo_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_tactic_in_2.ogg"
+    },
+    {
+      "description": "reizyo_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_tactic_victory_1.ogg"
+    },
+    {
+      "description": "reizyo_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_tactic_victory_2.ogg"
+    },
+    {
+      "description": "reizyo_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/kr/reizyo_Title.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_05.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_07.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_09.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_03.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_04.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_08.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_11.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_10.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_06.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_14.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_16.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_99.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_12.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_15.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_17.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_13.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_02.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_01.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_18.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/reizyo_spr_00.png"
+      ]
+    },
+    {
+      "title": "CBT旧绘废案差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/reizyo_cbt_02.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/reizyo_cbt_04.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/reizyo_cbt_06.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/reizyo_cbt_03.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/reizyo_cbt_01.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/reizyo_cbt_00.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/reizyo_cbt_05.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/reizyo_cbt_07.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/reizyo_cbt_08.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/reizyo_cbt_09.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/gallery/CBT%E6%97%A7%E7%BB%98%E5%BA%9F%E6%A1%88%E5%B7%AE%E5%88%86/reizyo_cbt_99.png"
+      ]
+    },
+    {
+      "title": "官方图像",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E5%83%8F/srkAvLdJnHc0bWiK3XCebvsVRfaJ1Lsk.jpg",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E5%83%8F/J0gfdV8MKHNN9tOERao3LLvgGAklChMR.jpg",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E5%83%8F/C7ZlDcEvttj2DZVcVYLZwyzM8Iyg0zaI.jpg",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E5%83%8F/IujVruRh50dZs8N8tAOExUTrBzeR47S7.jpg",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E5%83%8F/9X9Mz88V1Osa9xCnUn2Z8U5xwWuJKO92.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E5%83%8F/Reizyo_waifu2x_2x_2n_png.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E5%83%8F/LDdqYCSUPTtQXS9Zf1SpuT0y4IPNCxmC.jpg",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E5%83%8F/sVp3zSnnaaVdsRk732DBKq5XAvAwyQED.jpg",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E5%83%8F/4eRmi8dWDLS2GTxhbkXuR38XKqXPYE9Z.png",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E5%83%8F/006yPoYygy1ia0n7v1c0xj30xca8lkjv.jpg",
+        "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E5%83%8F/006yPoYygy1ia0okxulixj30xc1jk1kx.jpg"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 156,
+      "favorability": 240
+    },
+    {
+      "id": 268,
+      "favorability": 40
+    },
+    {
+      "id": 67,
+      "favorability": 40
+    },
+    {
+      "id": 70,
+      "favorability": 40
+    },
+    {
+      "id": 63,
+      "favorability": 60
+    }
+  ],
+  "furniture": [
+    1441
+  ],
+  "character_datas": [
+    {
+      "character_id": 10104,
+      "dev_name": "reizyo",
+      "combat_style": "default",
+      "type": "Support",
+      "attack_attribute": "Mystic",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": false,
+      "team_position": "MIDDLE",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "S",
+      "indoor_adaptability": "B",
+      "street_adaptability": "D",
+      "equipment": [
+        8,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        13,
+        14,
+        16,
+        18,
+        21,
+        23,
+        24,
+        26,
+        19,
+        435,
+        437,
+        438,
+        439,
+        376,
+        377,
+        378
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/skill_icon/1zMkSsjpwlKPuasifUXFMFyBhWUI5SSP.png",
+            "title": "腿法：破蹴手榴弹",
+            "title_cn": "腿法：破片手榴弹",
+            "preview": "//static.kivo.wiki/videos/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/skill_preview/fYU8t3oRsDDr855shAMZVSpBX0kPzXSS.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "对一名敌方单位造成攻击力89.8%的伤害<br>且施加持续伤害（恶寒、中毒）强化效果（持续15秒）<br>被施加持续伤害（恶寒、中毒）强化效果的敌方单位受到持续伤害（恶寒、中毒）时，将得到下述的强化<br>恶寒：恶寒持续伤害的发生周期减少19.9%<br>中毒：对于目标受到的中毒效果的每周期伤害，每2秒造成33.1%追加伤害（最多4次）"
+              },
+              {
+                "cost": 3,
+                "describe": "对一名敌方单位造成攻击力89.8%的伤害<br>且施加持续伤害（恶寒、中毒）强化效果（持续15秒）<br>被施加持续伤害（恶寒、中毒）强化效果的敌方单位受到持续伤害（恶寒、中毒）时，将得到下述的强化<br>恶寒：恶寒持续伤害的发生周期减少22.8%<br>中毒：对于目标受到的中毒效果的每周期伤害，每2秒造成38.1%追加伤害（最多4次）"
+              },
+              {
+                "cost": 3,
+                "describe": "对一名敌方单位造成攻击力103%的伤害<br>且施加持续伤害（恶寒、中毒）强化效果（持续15秒）<br>被施加持续伤害（恶寒、中毒）强化效果的敌方单位受到持续伤害（恶寒、中毒）时，将得到下述的强化<br>恶寒：恶寒持续伤害的发生周期减少25.8%<br>中毒：目标受到的中毒效果的每周期伤害，每2秒造成43.1%追加伤害（最多5次）"
+              },
+              {
+                "cost": 3,
+                "describe": "对一名敌方单位造成攻击力103%的伤害<br>且施加持续伤害（恶寒、中毒）强化效果（持续15秒）<br>被施加持续伤害（恶寒、中毒）强化效果的敌方单位受到持续伤害（恶寒、中毒）时，将得到下述的强化<br>恶寒：恶寒持续伤害的发生周期减少28.8%<br>中毒：目标受到的中毒效果的每周期伤害，每2秒造成48.1%追加伤害（最多5次）"
+              },
+              {
+                "cost": 3,
+                "describe": "对一名敌方单位造成攻击力116%的伤害<br>且施加持续伤害（恶寒、中毒）强化效果（持续15秒）<br>被施加持续伤害（恶寒、中毒）强化效果的敌方单位受到持续伤害（恶寒、中毒）时，将得到下述的强化<br>恶寒：恶寒持续伤害的发生周期减少31.8%<br>中毒：目标受到的中毒效果的每周期伤害，每2秒造成53%追加伤害（最多6次）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/skill_icon/UzLnjDBMNZ9Qy6ocTDSSAVLHTF5YvKSA.png",
+            "title": "招式：升龙之形",
+            "title_cn": "招式：猛龙过江",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加23.7%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加24.9%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加26.1%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加30.8%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加32%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加33.2%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加37.9%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加39.1%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加40.3%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，攻击力增加45%（持续20秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/skill_icon/snjVUhv8czIEKae1h39EeykMfxK4J0G1.png",
+            "title": "气功：蛋白质奶昔",
+            "title_cn": "气功：蛋白奶昔",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/skill_icon/GEWa734BYr0S4dRwLBDBGpkAiGvFd5Fp.png",
+            "title": "心法：负重训练",
+            "title_cn": "心法：负重训练",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，COST回复力增加980（持续5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，COST回复力增加1029（持续5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，COST回复力增加1078（持续5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，COST回复力增加1273（持续5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，COST回复力增加1322（持续5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，COST回复力增加1371（持续5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，COST回复力增加1567（持续5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，COST回复力增加1616（持续5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，COST回复力增加1665（持续5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能时，COST回复力增加1861（持续5秒）"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2405,
+          "attack": 380,
+          "defense": 19,
+          "healing": 1720,
+          "accuracy": 731,
+          "evasion": 763,
+          "crit": 209,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1336,
+          "range": 650,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/%E6%98%8E%E9%95%9C%E6%AD%A2%E6%B0%B4_icon.png",
+        "name": "明镜止水",
+        "name_cn": "明镜止水",
+        "description": "丽情使用的突击步枪。<br>为实现拳法与枪术的调和，这把枪经过了她的独特改良。至于她的射击水平……在不懈训练下，多多少少有所改善。",
+        "description_cn": "丽情使用的自动步枪。<br>为了实现枪与拳的配合，她进行了自己的改良。射击技术……据说通过不断的训练得到了提升。",
+        "info": [
+          {
+            "title": "",
+            "description": ""
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「气功：蛋白质奶昔」升级为「气功：蛋白质奶昔+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室外适应性 S -> SS",
+            "description": "在室外地形造成1.3倍伤害。 在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 神秘克制伤害增加",
+            "description": "攻击类型为神秘的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B9%BF%E5%B1%B1%20%E4%B8%BD%E6%83%85/original/skill_icon/0HkuL3fMJuiWxnSO4pmrTJ6I0R1Om5xa.png",
+            "title": "气功：蛋白质奶昔+",
+            "title_cn": "气功：蛋白奶昔+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加466 / 攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加489 / 攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加513 / 攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加606 / 攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加629 / 攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加652 / 攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加745 / 攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加769 / 攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加792 / 攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加885 / 攻击力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "b2833930-84aa-46e2-8b8f-4c4bc4579ce7",
+  "skill_declare_uuid": "4049bf93-ec4a-4449-93ea-51684aa46c6b",
+  "supplementary_uuid": "f90d6402-eacc-4212-91c5-f550a37e4079",
+  "supplementary_declare_uuid": "f8bc72ad-5905-423c-a980-575696709a69",
+  "created_at": 1685855872,
+  "updated_at": 1783658380
+}

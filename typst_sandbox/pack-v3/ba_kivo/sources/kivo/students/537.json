@@ -1,0 +1,1205 @@
+{
+  "id": 537,
+  "skin": "泳装",
+  "skin_jp": "水着",
+  "skin_cn": "泳装",
+  "skin_zh_tw": "泳裝",
+  "skin_list": [
+    {
+      "id": 254,
+      "avatar": "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/original/Student_Portrait_CH0222_Collection.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 537,
+      "avatar": "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/Student_Portrait_CH0303_Collection.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "御稜",
+  "given_name": "名草",
+  "family_name_jp": "御稜",
+  "given_name_jp": "ナグサ",
+  "family_name_kr": "고료",
+  "given_name_kr": "나구사",
+  "family_name_en": "Goryou",
+  "given_name_en": "Nagusa",
+  "family_name_zh_tw": "御棱",
+  "given_name_zh_tw": "名草",
+  "family_name_cn": "御稜",
+  "given_name_cn": "名草",
+  "nick_name": "",
+  "introduction": "百鬼夜行联合学园所属，百花缭乱纷争调停委员会委员长，迎接夏日，换上了泳装。\n\n为了促进大家加强团结，决定参加百夜水上祭。如同展开的花朵般楚楚可怜的她所展现出的领导力，也是百花缭乱复活的象征。\n\n> 右手的封印，已经解开了……开个玩笑。\n",
+  "introduction_cn": "",
+  "momo_talk_signature": "等待着，鲜花绚烂盛开",
+  "main_relation": 72,
+  "relation": null,
+  "age": 17,
+  "grade": "三年生",
+  "height": 161,
+  "birthday": "12-07",
+  "hobby": "冥想、读书",
+  "designer": "Jehyun",
+  "illustrator": "Jehyun",
+  "character_voice": "佐仓薰",
+  "character_voice_cn": "",
+  "release_date": "2026-06-10",
+  "release_date_cn": null,
+  "release_date_global": null,
+  "sd_model_image": "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/EnemyInfo_CH0303.png",
+  "avatar": "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/Student_Portrait_CH0303_Collection.png",
+  "school": 9,
+  "weapon_type": "SR",
+  "is_install": true,
+  "is_install_cn": false,
+  "is_install_global": false,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": false,
+  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 夏恋し 百の思い出 花きらり | 暂无 | 暂无 | 暂无 |\n| ![LQAsCW3O.png](files/18651/JcyPMsHV8RyAn1BQmvE3SMz6f6uwrVGY.png =450x) | 暂无 | 暂无 | 暂无 |\n\n## 官方介绍图\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![1781092330743_Aicy..png](files/18651/b8UxudeZY1uc7E4xWW7SHcqsOARpn43P.jpg =425x) | 暂无 | 暂无 | 暂无 |\n\n## SD动画\n| EX技能动画 | 咖啡厅触摸 | 家具互动:[藏有冰川的冰箱](https://kivo.wiki/data/item/1981) |\n| :---: | :---: | :---: |\n| 暂无 | 暂无 | 暂无 |",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/2f17de7230af44d384c823e2876cd429..jpg",
+  "spine": [
+    1304,
+    1698
+  ],
+  "model": [
+    203,
+    534
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [
+    {
+      "description": "ch0303_battle_buffed_1",
+      "category": "battle",
+      "text": "多谢关照。",
+      "text_original": "気遣ってくれてありがとう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_buffed_1.ogg"
+    },
+    {
+      "description": "ch0303_battle_buffself_1",
+      "category": "battle",
+      "text": "得回应大家的期待呢。",
+      "text_original": "期待に応えないとね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_buffself_1.ogg"
+    },
+    {
+      "description": "ch0303_battle_covered_1",
+      "category": "battle",
+      "text": "稍微歇息一下再走吧。",
+      "text_original": "少し休んでから行こうか。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_covered_1.ogg"
+    },
+    {
+      "description": "ch0303_battle_damage_1",
+      "category": "battle",
+      "text": "唔……",
+      "text_original": "くっ……",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_damage_1.ogg"
+    },
+    {
+      "description": "ch0303_battle_damage_2",
+      "category": "battle",
+      "text": "这是……",
+      "text_original": "これは……",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_damage_2.ogg"
+    },
+    {
+      "description": "ch0303_battle_damage_3",
+      "category": "battle",
+      "text": "大意了……",
+      "text_original": "うっかり……",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_damage_3.ogg"
+    },
+    {
+      "description": "ch0303_battle_defense_1",
+      "category": "battle",
+      "text": "知道了哟。",
+      "text_original": "分かってたよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_defense_1.ogg"
+    },
+    {
+      "description": "ch0303_battle_in_1",
+      "category": "battle",
+      "text": "虽然不擅长应付炎热……但我会加油的。",
+      "text_original": "暑いのは苦手だけど……頑張るね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_in_1.ogg"
+    },
+    {
+      "description": "ch0303_battle_in_2",
+      "category": "battle",
+      "text": "请注视我的表现吧，老师。",
+      "text_original": "私の活躍を、見ていて、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_in_2.ogg"
+    },
+    {
+      "description": "ch0303_battle_move_1",
+      "category": "battle",
+      "text": "谨慎前进吧。",
+      "text_original": "慎重に進もう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_move_1.ogg"
+    },
+    {
+      "description": "ch0303_battle_move_2",
+      "category": "battle",
+      "text": "大家，都跟上了吗？",
+      "text_original": "みんな、ついてきてる？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_move_2.ogg"
+    },
+    {
+      "description": "ch0303_battle_recovery_1",
+      "category": "battle",
+      "text": "这就是……朋友。",
+      "text_original": "これが……友達。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_recovery_1.ogg"
+    },
+    {
+      "description": "ch0303_battle_retire",
+      "category": "battle",
+      "text": "偏偏这种时候手臂却……唔……",
+      "text_original": "こんな時に限って、腕が……くっ……",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_retire.ogg"
+    },
+    {
+      "description": "ch0303_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_shout_1.ogg"
+    },
+    {
+      "description": "ch0303_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_shout_2.ogg"
+    },
+    {
+      "description": "ch0303_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_shout_3.ogg"
+    },
+    {
+      "description": "ch0303_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "要上了。",
+      "text_original": "行くよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "ch0303_battle_victory_1",
+      "category": "battle",
+      "text": "嗯，属于我们的胜利。",
+      "text_original": "うん、私たちの勝ち。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_victory_1.ogg"
+    },
+    {
+      "description": "ch0303_battle_victory_2",
+      "category": "battle",
+      "text": "这就是，百花缭乱的力量。",
+      "text_original": "これが、百花繚乱の力。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_battle_victory_2.ogg"
+    },
+    {
+      "description": "ch0303_cafe_monolog_1",
+      "category": "cafe",
+      "text": "最凉快的地方是哪里呢……",
+      "text_original": "一番涼しいのはどこだろう……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0303_cafe_monolog_2",
+      "category": "cafe",
+      "text": "亲睦会……好期待。",
+      "text_original": "親睦会……楽しみ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0303_cafe_monolog_3",
+      "category": "cafe",
+      "text": "想拿出些委员长该有的样子呢……",
+      "text_original": "委員長らしいところを……見せたいな。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0303_cafe_monolog_4",
+      "category": "cafe",
+      "text": "不是太想引人注目呢……",
+      "text_original": "あんまり、目立ちたくないな……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0303_cafe_monolog_5",
+      "category": "cafe",
+      "text": "今天的回忆，希望能一直留在心里。",
+      "text_original": "今日の思い出、大切にしたい。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0303_commonskill",
+      "category": "battle",
+      "text": "一决胜负。",
+      "text_original": "真剣勝負。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_commonskill.ogg"
+    },
+    {
+      "description": "ch0303_eventlobby_1",
+      "category": "event",
+      "text": "祭典，真热闹呢。连我都要兴奋起来了",
+      "text_original": "お祭り、大盛り上がりだね。こっちまで熱くなってくる。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_eventlobby_1.ogg"
+    },
+    {
+      "description": "ch0303_eventlobby_2",
+      "category": "event",
+      "text": "阳照好强……得好好做好防晒才行。听说晒伤其实就是烧伤。",
+      "text_original": "日差しが強い……ちゃんと紫外線対策しないと。日焼けって火傷なんだって。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_eventlobby_2.ogg"
+    },
+    {
+      "description": "ch0303_eventlobby_3",
+      "category": "event",
+      "text": "您……很在意我吗？抱歉，我太引人注目了。",
+      "text_original": "私が……気になるの？ごめんなさい、目立ってしまって……",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_eventlobby_3.ogg"
+    },
+    {
+      "description": "ch0303_eventlobby_4",
+      "category": "event",
+      "text": "在祭典上吃的烤鸡串，总觉得有种特别的感觉。老师您不这么觉得吗？",
+      "text_original": "お祭りで食べる焼き鳥って、特別な感じがする……先生もそう思わない？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_eventlobby_4.ogg"
+    },
+    {
+      "description": "ch0303_eventlogin_1",
+      "category": "event",
+      "text": "老师会一直看着我们大显身手直到最后的，对吧？",
+      "text_original": "先生、私たちの活躍を見届けてくれる？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_eventlogin_1.ogg"
+    },
+    {
+      "description": "ch0303_eventlogin_2",
+      "category": "event",
+      "text": "呵呵，迄今为止一直封印着的力量。现在展示给你看。",
+      "text_original": "ふふっ、今まで封じてた力、見せてあげる。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_eventlogin_2.ogg"
+    },
+    {
+      "description": "ch0303_eventlogin_season_1",
+      "category": "event",
+      "text": "虽然还有余力，但也不能松懈哦。",
+      "text_original": "まだ余裕はあるけど、気を抜かずにいこう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "ch0303_eventlogin_season_2",
+      "category": "event",
+      "text": "到最后冲刺阶段了呢，大家加油。",
+      "text_original": "ラストスパートだね。みんな頑張ろう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "ch0303_eventlogin_season_end",
+      "category": "event",
+      "text": "老师，谢谢你陪我们到最后。下次也一起度过吧。",
+      "text_original": "先生、最後までありがとう。次も一緒に楽しもうね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "ch0303_exskill_1",
+      "category": "battle",
+      "text": "这就是夏日的大海……",
+      "text_original": "これが夏の海……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_exskill_1.ogg"
+    },
+    {
+      "description": "ch0303_exskill_2",
+      "category": "battle",
+      "text": "海风真舒服……",
+      "text_original": "風が気持ちいい……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_exskill_2.ogg"
+    },
+    {
+      "description": "ch0303_exskill_3",
+      "category": "battle",
+      "text": "洁白的浪花……真美。",
+      "text_original": "白い波……綺麗。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_exskill_3.ogg"
+    },
+    {
+      "description": "ch0303_exskill_level_1",
+      "category": "battle",
+      "text": "是不是有点太耀眼了？",
+      "text_original": "眩しかったかな？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0303_exskill_level_2",
+      "category": "battle",
+      "text": "有点闪耀过头了呢。",
+      "text_original": "輝きすぎちゃったかな。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0303_exskill_level_3",
+      "category": "battle",
+      "text": "我没有刻意这么做的啦……",
+      "text_original": "狙ったわけじゃないんだけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0303_exweapon_get",
+      "category": "growup",
+      "text": "我还有许多不足之处。即便如此，我还是想继续握着百莲。这并不是为了扮演百花缭乱的委员长，而是为了直面自己的内心。",
+      "text_original": "私はまだまだ足りないことだらけ。それでも、この百蓮を持ち続けたいと思う。それは……百花繚乱の委員長を演じるためじゃない。――自分自身の心と向き合うために。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0303_formation_in_1",
+      "category": "formation",
+      "text": "嗯，百莲也带上了哟。",
+      "text_original": "うん、百蓮も持ったよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0303_formation_in_2",
+      "category": "formation",
+      "text": "右手，已经没问题了。交给我吧。",
+      "text_original": "右腕、今なら大丈夫。任せて。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0303_formation_select",
+      "category": "formation",
+      "text": "如果老师想这么做的话……我会遵从。",
+      "text_original": "先生がそうしたいなら……従うよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_formation_select.ogg"
+    },
+    {
+      "description": "ch0303_gachaget",
+      "category": "growup",
+      "text": "难得来到海边……我想和大家一起留下难忘的回忆。老师也愿意……陪我一起吗？",
+      "text_original": "こうして海に来たんだもの……みんなと忘れられない思い出を作りたいんだ。先生も、一緒に……付き合ってくれる？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_gachaget.ogg"
+    },
+    {
+      "description": "ch0303_growup_1",
+      "category": "growup",
+      "text": "这样一来……右臂的封印又解开了一层。",
+      "text_original": "これで……右腕の封印が1つ解けた。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_growup_1.ogg"
+    },
+    {
+      "description": "ch0303_growup_2",
+      "category": "growup",
+      "text": "原来如此。我也还有成长的空间呢。",
+      "text_original": "そっか。私にもまだ伸びしろがあったんだね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_growup_2.ogg"
+    },
+    {
+      "description": "ch0303_growup_3",
+      "category": "growup",
+      "text": "让你见识一下……我从黄昏之中夺回的力量。",
+      "text_original": "黄昏から取り戻した、私の力……見せてあげる。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_growup_3.ogg"
+    },
+    {
+      "description": "ch0303_growup_4",
+      "category": "growup",
+      "text": "感觉就像花苞绽放了一样。谢谢你，这都是老师的功劳。",
+      "text_original": "つぼみが開いたような感じがする。ありがとう、先生のおかげだよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_growup_4.ogg"
+    },
+    {
+      "description": "ch0303_lobby_1_1",
+      "category": "lobby",
+      "text": "这个……怎样？",
+      "text_original": "これ……どう、かな？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_1_1.ogg"
+    },
+    {
+      "description": "ch0303_lobby_1_2",
+      "category": "lobby",
+      "text": "适合我的泳装比想象中还难找到呢……",
+      "text_original": "思ったより似合う水着が見つからなくて……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_1_2.ogg"
+    },
+    {
+      "description": "ch0303_lobby_2_1",
+      "category": "lobby",
+      "text": "选择白色的理由吗……？",
+      "text_original": "白を選んだ理由……？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_2_1.ogg"
+    },
+    {
+      "description": "ch0303_lobby_2_2",
+      "category": "lobby",
+      "text": "因为大家都说这一套比较好看……",
+      "text_original": "これが良いって、みんなに言われたから……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_2_2.ogg"
+    },
+    {
+      "description": "ch0303_lobby_3_1",
+      "category": "lobby",
+      "text": "护肤的秘诀？",
+      "text_original": "スキンケアの秘訣？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_3_1.ogg"
+    },
+    {
+      "description": "ch0303_lobby_3_2",
+      "category": "lobby",
+      "text": "倒也没做什么特别的事情……",
+      "text_original": "別に特別なことをしているわけじゃないんだけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_3_2.ogg"
+    },
+    {
+      "description": "ch0303_lobby_3_3",
+      "category": "lobby",
+      "text": "啊，说不定是烤鸟串的功劳？",
+      "text_original": "あ。もしかしたら焼き鳥のおかげかも？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_3_3.ogg"
+    },
+    {
+      "description": "ch0303_lobby_4_1",
+      "category": "lobby",
+      "text": "人们常说，失去了才知道珍惜。",
+      "text_original": "大切なものは失ってから気づくって、よく言うよね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_4_1.ogg"
+    },
+    {
+      "description": "ch0303_lobby_4_2",
+      "category": "lobby",
+      "text": "我也是这样。所以——",
+      "text_original": "私もそうだった。だから――",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_4_2.ogg"
+    },
+    {
+      "description": "ch0303_lobby_4_3",
+      "category": "lobby",
+      "text": "我不会再放手了。绝对。",
+      "text_original": "もう手放さない。絶対に。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_4_3.ogg"
+    },
+    {
+      "description": "ch0303_lobby_5_1",
+      "category": "lobby",
+      "text": "自从右臂被黄昏吞噬之后，我便忘记了依靠他人的方法。",
+      "text_original": "右腕が黄昏に呑まれてから、私は誰かの手にすがることを忘れてしまった。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_5_1.ogg"
+    },
+    {
+      "description": "ch0303_lobby_5_2",
+      "category": "lobby",
+      "text": "所以总是一个人思考，试图只靠自己解决一切。",
+      "text_original": "だからいつも一人で考えて、全部自分で解決しようとしてた。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_5_2.ogg"
+    },
+    {
+      "description": "ch0303_lobby_5_3",
+      "category": "lobby",
+      "text": "……但是，现在不一样了。因为有老师和大家在。",
+      "text_original": "……だけど、今は違う。先生とみんながいるから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_5_3.ogg"
+    },
+    {
+      "description": "ch0303_lobby_5_4",
+      "category": "lobby",
+      "text": "今后也……请多关照。",
+      "text_original": "これからも……よろしくね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_lobby_5_4.ogg"
+    },
+    {
+      "description": "ch0303_login_1",
+      "category": "lobby",
+      "text": "欢迎回来，老师。希望今天也能帮上你的忙。",
+      "text_original": "おかえり、先生。今日もお役に立てたらいいな。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_login_1.ogg"
+    },
+    {
+      "description": "ch0303_login_2",
+      "category": "lobby",
+      "text": "啊……我一直在等您。要去海边对吧？我已经换好衣服了。",
+      "text_original": "あ……待ってたよ。海に行くんだよね？もう着替えておいたよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_login_2.ogg"
+    },
+    {
+      "description": "ch0303_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "一开始先按这个战术来吧。",
+      "text_original": "最初はこの作戦でいこう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "ch0303_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "对方应该从开局就会全力进攻。",
+      "text_original": "向こうは序盤から全力で来るだろうから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "ch0303_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "……老师？有好好看我的手势吗？",
+      "text_original": "……先生？私のサイン、ちゃんと見てる？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0303_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "一开始就分心，可真不像老师呢。",
+      "text_original": "最初からよそ見をするなんて、らしくないね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0303_memoriallobby_2_3",
+      "category": "lobby",
+      "text": "到底是在看什……",
+      "text_original": "一体何を見て……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_memoriallobby_2_3.ogg"
+    },
+    {
+      "description": "ch0303_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "啊……原来如此。对不起。",
+      "text_original": "あ……そっか。ごめんなさい。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "ch0303_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "这样反而没办法集中注意力呢。毕竟我……是个充满神秘感的美少女嘛。",
+      "text_original": "逆に集中できないよね。私が……ミステリアスな美少女だから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "ch0303_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "但是沙滩排球就是要这样打手势的……",
+      "text_original": "ビーチバレーはこうやってサインを出すんだけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "ch0303_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "现在开始换个方式会不会比较好呢？",
+      "text_original": "今からでも、やり方を変えたほうがいいかな？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "ch0303_memoriallobby_5",
+      "category": "lobby",
+      "text": "……不行吗，果然临时还是太晚了呢。",
+      "text_original": "……ダメか、流石に遅いよね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_memoriallobby_5.ogg"
+    },
+    {
+      "description": "ch0303_memoriallobby_6_1",
+      "category": "lobby",
+      "text": "就这样继续吧，老师。",
+      "text_original": "このままいこう、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_memoriallobby_6_1.ogg"
+    },
+    {
+      "description": "ch0303_memoriallobby_6_2",
+      "category": "lobby",
+      "text": "只要是我们的话……一定没问题。",
+      "text_original": "私たちなら……大丈夫。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_memoriallobby_6_2.ogg"
+    },
+    {
+      "description": "ch0303_relationship_up_1",
+      "category": "growup",
+      "text": "就像冰雪消融后，春天终会到来一样……我那荒芜的内心，似乎也迎来了萌芽的时刻。",
+      "text_original": "雪が解けたら、春が訪れるように……。荒れ果てた私の心にも、芽吹きの時が来たみたい。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0303_relationship_up_2",
+      "category": "growup",
+      "text": "老师果然很温柔呢。我也希望有一天，能成为和老师一样的人。",
+      "text_original": "やっぱり優しいね。私も、いつか先生みたいになりたいな。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0303_relationship_up_3",
+      "category": "growup",
+      "text": "感谢您一直相信着我。……我很依赖老师哦",
+      "text_original": "いつも信じてくれてありがとう。……先生のこと、頼りにしてるよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0303_relationship_up_4",
+      "category": "growup",
+      "text": "除了长得漂亮之外，我好像也没什么长处……这样的我，也可以待在老师身边吗……？",
+      "text_original": "美人なこと以外、特に取り柄がないんだけど……先生のそばにいても……いいかな？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0303_season_birthday_1",
+      "category": "lobby",
+      "text": "我觉得，自己生于冬天这件事一定有它的意义。",
+      "text_original": "私が冬に生まれたのには意味があるんだと思う。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_season_birthday_1.ogg"
+    },
+    {
+      "description": "ch0303_season_birthday_2",
+      "category": "lobby",
+      "text": "就像跨越严寒，在和煦阳光下绽放的花朵一样……",
+      "text_original": "冬の厳しさを越えて、麗らかな日の下に咲く花のように……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_season_birthday_2.ogg"
+    },
+    {
+      "description": "ch0303_season_birthday_3",
+      "category": "lobby",
+      "text": "希望有一天，我终能盛开绽放。",
+      "text_original": "私もいつか、咲き誇りたいんだ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_season_birthday_3.ogg"
+    },
+    {
+      "description": "ch0303_season_birthday_player_1",
+      "category": "lobby",
+      "text": "有这样一个人，只要待在他身边就会感到安心。",
+      "text_original": "そばにいるだけで安心できる人がいるんだ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "ch0303_season_birthday_player_2",
+      "category": "lobby",
+      "text": "听说今天正是那个人的生日。所以为了能成为难忘的回忆，我特意打扮成这样来为他庆祝。",
+      "text_original": "今日はその人の誕生日なんだって。だから思い出に残るように、この格好でお祝いするね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "ch0303_season_birthday_player_3",
+      "category": "lobby",
+      "text": "生日快乐，老师。",
+      "text_original": "お誕生日おめでとう、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_season_birthday_player_3.ogg"
+    },
+    {
+      "description": "ch0303_season_halloween_1",
+      "category": "lobby",
+      "text": "在今天这样的日子穿泳装……我这样只是穿了泳装而已吧？。这也算Cosplay吗？",
+      "text_original": "今日みたいな日に水着……。私はただ水着を着ただけなのかな？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_season_halloween_1.ogg"
+    },
+    {
+      "description": "ch0303_season_halloween_2",
+      "category": "lobby",
+      "text": "诶，不是吗？Cosplay的世界还真是深奥呢……",
+      "text_original": "え、違う？コスプレの世界って奥深いんだね……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_season_halloween_2.ogg"
+    },
+    {
+      "description": "ch0303_season_newyear_1",
+      "category": "lobby",
+      "text": "新年快乐，老师。难得是新年，还是聊些积极阳光的话题比较好呢。",
+      "text_original": "あけましておめでとう、先生。お正月くらいは明るい話がいいよね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_season_newyear_1.ogg"
+    },
+    {
+      "description": "ch0303_season_newyear_2",
+      "category": "lobby",
+      "text": "所以虽然只是从外表开始……但我还是试着换上了更有朝气的打扮……",
+      "text_original": "だから形からではあるんだけど……明るい気分になれる格好にしてみたんだ……",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_season_newyear_2.ogg"
+    },
+    {
+      "description": "ch0303_season_xmas_1",
+      "category": "lobby",
+      "text": "我还挺耐寒的哦。你看，就算穿着泳装也完全没问题。",
+      "text_original": "寒さには強いほうだよ。ほら、今も水着だけど平気。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_season_xmas_1.ogg"
+    },
+    {
+      "description": "ch0303_season_xmas_2",
+      "category": "lobby",
+      "text": "啊……今天是不是穿红色的衣服……会更好一些……？",
+      "text_original": "あ……今日は赤い服の方が……良かった……？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_season_xmas_2.ogg"
+    },
+    {
+      "description": "ch0303_tactic_defeat_1",
+      "category": "battle",
+      "text": "果然，我根本不配当委员长……",
+      "text_original": "やはり私に委員長なんて無理だったんだ……",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "ch0303_tactic_defeat_2",
+      "category": "battle",
+      "text": "对不起，我…… 真一无是处……",
+      "text_original": "ごめんなさい、私…本当に取り柄が少なくて……",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "ch0303_tactic_in_1",
+      "category": "battle",
+      "text": "我要让大家知道，我究竟是谁。",
+      "text_original": "私が誰なのか、みんなに伝えるの。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_tactic_in_1.ogg"
+    },
+    {
+      "description": "ch0303_tactic_in_2",
+      "category": "battle",
+      "text": "由我带领大家走向胜利。",
+      "text_original": "勝利へ導くね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_tactic_in_2.ogg"
+    },
+    {
+      "description": "ch0303_tactic_victory_1",
+      "category": "battle",
+      "text": "如果能回应老师的期待，那就太好了。",
+      "text_original": "先生の期待に応えられたなら、良かった。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_tactic_victory_1.ogg"
+    },
+    {
+      "description": "ch0303_tactic_victory_2",
+      "category": "battle",
+      "text": "我已经……不再是谁的“替代品”了。",
+      "text_original": "私はもう……誰かの「代わり」じゃない。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/ch0303_tactic_victory_2.ogg"
+    },
+    {
+      "description": "CH0303_Title",
+      "category": "lobby",
+      "text": "蔚蓝……档案。",
+      "text_original": "ブルー……アーカイブ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/jp/CH0303_Title.ogg"
+    }
+  ],
+  "voice_cn": [],
+  "voice_kr": [],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_07.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_08.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_12.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_09.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_10.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_99.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_11.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_14.png",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0303_spr_13.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/HKLeiJ6bYAAkSa1.jpg",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/HKW2bwta4AASQao.jpg",
+        "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/HKWM7HRboAAhIZF.jpg"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 38,
+      "favorability": 40
+    },
+    {
+      "id": 58,
+      "favorability": 40
+    },
+    {
+      "id": 92,
+      "favorability": 40
+    },
+    {
+      "id": 59,
+      "favorability": 40
+    },
+    {
+      "id": 17,
+      "favorability": 40
+    },
+    {
+      "id": 27,
+      "favorability": 40
+    },
+    {
+      "id": 31,
+      "favorability": 40
+    },
+    {
+      "id": 68,
+      "favorability": 60
+    },
+    {
+      "id": 86,
+      "favorability": 60
+    },
+    {
+      "id": 107,
+      "favorability": 180
+    },
+    {
+      "id": 85,
+      "favorability": 180
+    },
+    {
+      "id": 131,
+      "favorability": 240
+    }
+  ],
+  "furniture": [
+    1981
+  ],
+  "character_datas": [
+    {
+      "character_id": 10142,
+      "dev_name": "CH0303",
+      "combat_style": "default",
+      "type": "Support",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "S",
+      "indoor_adaptability": "B",
+      "street_adaptability": "D",
+      "equipment": [
+        3,
+        8,
+        6
+      ],
+      "cultivate_material": [
+        69,
+        71,
+        72,
+        75,
+        196,
+        198,
+        200,
+        201,
+        372,
+        373,
+        374,
+        375,
+        411,
+        412,
+        413,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/skill_icon/wtEEbwhdhfcj7MYLYNLOSud6cgOzH7w2.png",
+            "title": "如花一般美丽",
+            "title_cn": "",
+            "preview": "//static.kivo.wiki/videos/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/skill_preview/W3nRwcws3s36O2N2ATjxczz4p2tDpBq0.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "自身与SPECIAL（支援）学生的爆发克制倍率增加53.6%（持续20秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "自身与SPECIAL（支援）学生的爆发克制倍率增加61.6%（持续20秒）"
+              },
+              {
+                "cost": 3,
+                "describe": " 自身与SPECIAL（支援）学生的爆发克制倍率增加77.7%（持续20秒）"
+              },
+              {
+                "cost": 3,
+                "describe": " 自身与SPECIAL（支援）学生的爆发克制倍率增加85.7%（持续20秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "自身与SPECIAL（支援）学生的爆发克制倍率增加101%（持续20秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/skill_icon/gwDK4xv9wlcJiEQFW66zXrVAwl1en0MX.png",
+            "title": "封印解除速度球",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每经过25秒，对最大生命值最高的一名敌方，减少暴击伤害抵抗率15.8%（持续18秒）<br>造成攻击力145%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过25秒，对最大生命值最高的一名敌方，减少暴击伤害抵抗率16.6%（持续18秒）<br>造成攻击力152%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过25秒，对最大生命值最高的一名敌方，减少暴击伤害抵抗率17.4%（持续18秒）<br>造成攻击力160%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过25秒，对最大生命值最高的一名敌方，减少暴击伤害抵抗率20.6%（持续18秒）<br>造成攻击力189%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过25秒，对最大生命值最高的一名敌方，减少暴击伤害抵抗率21.4%（持续18秒）<br>造成攻击力196%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过25秒，对最大生命值最高的一名敌方，减少暴击伤害抵抗率22.2%（持续18秒）<br>造成攻击力203%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过25秒，对最大生命值最高的一名敌方，减少暴击伤害抵抗率25.3%（持续18秒）<br>造成攻击力233%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过25秒，对最大生命值最高的一名敌方，减少暴击伤害抵抗率26.1%（持续18秒）<br>造成攻击力240%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过25秒，对最大生命值最高的一名敌方，减少暴击伤害抵抗率26.9%（持续18秒）<br>造成攻击力247%的伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每经过25秒，对最大生命值最高的一名敌方，减少暴击伤害抵抗率30.1%（持续18秒）<br>造成攻击力276%的伤害"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/skill_icon/KQQhMG3MMVy4Hjsc2mExHT3JV1nbCvKr.png",
+            "title": "战胜黄昏的花",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/skill_icon/9T1LARcrPGn71ZdhpW6FlnYpFLXBPqvv.png",
+            "title": "百莲的继承者",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "自身与SPECIAL（支援）学生的爆发克制倍率增加26.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身与SPECIAL（支援）学生的爆发克制倍率增加27.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身与SPECIAL（支援）学生的爆发克制倍率增加28.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身与SPECIAL（支援）学生的爆发克制倍率增加33.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身与SPECIAL（支援）学生的爆发克制倍率增加35.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身与SPECIAL（支援）学生的爆发克制倍率增加36.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身与SPECIAL（支援）学生的爆发克制倍率增加41.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身与SPECIAL（支援）学生的爆发克制倍率增加43.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身与SPECIAL（支援）学生的爆发克制倍率增加44.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "自身与SPECIAL（支援）学生的爆发克制倍率增加49.6%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2542,
+          "attack": 270,
+          "defense": 20,
+          "healing": 1630,
+          "accuracy": 891,
+          "evasion": 201,
+          "crit": 198,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 2016,
+          "range": 750,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 5
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/Weapon_Icon_CH0222.png",
+        "name": "百莲",
+        "name_cn": "",
+        "description": "古老的步枪散发着某种神秘气息 。<br>是百花缭乱部部长继承自大预言家葛叶的证明，在青色海洋中静静地散发着光芒。",
+        "description_cn": "",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「战胜黄昏的花」升级为「战胜黄昏的花+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室外适应性 S -> SS",
+            "description": "在室外地形造成1.3倍伤害。 在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 爆破克制伤害增加",
+            "description": "攻击类型为爆破的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%BE%A1%E7%A8%9C%20%E5%90%8D%E8%8D%89/%E6%B3%B3%E8%A3%85/skill_icon/NYeoE9G3g71DFNrDp1ICai8CCWs62LdQ.png",
+            "title": "战胜黄昏的花+",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1000/攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1050/攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1100/攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1300/攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1350/攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1400/攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1600/攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1650/攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1700/攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "增益效果持续力增加1900/攻击力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "a7ac3553-14c4-4dc0-93a4-ec0532be494a",
+  "skill_declare_uuid": "91c77341-db9a-4aaf-a2bd-cf9d68251885",
+  "supplementary_uuid": "9ebf6495-22d8-415a-ac11-d580ce3c0ba5",
+  "supplementary_declare_uuid": "7aa49017-c7fb-4793-af0a-0380b31c75d4",
+  "created_at": 1750858515,
+  "updated_at": 1782870072
+}

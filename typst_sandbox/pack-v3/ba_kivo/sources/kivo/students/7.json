@@ -1,0 +1,1513 @@
+{
+  "id": 7,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 7,
+      "avatar": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%E8%90%8C%E7%BB%98/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 286,
+      "avatar": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "风仓",
+  "given_name": "萌绘",
+  "family_name_jp": "風倉",
+  "given_name_jp": "モエ",
+  "family_name_kr": "카제쿠라",
+  "given_name_kr": "모에",
+  "family_name_en": "Kazekura",
+  "given_name_en": "Moe",
+  "family_name_zh_tw": "風倉",
+  "given_name_zh_tw": "萌",
+  "family_name_cn": "风仓",
+  "given_name_cn": "萌绘",
+  "nick_name": "",
+  "introduction": "SRT特殊学园所属，Rabbit小队的报务员。代号「Rabbit 3」。\n\n因为憧憬强大火力的SRT特殊学园武器而入学就读，但学园却突然关闭，现在和其他小队员一起露宿公园。拥着奇特的癖好，对于爆破或让事情功亏一篑感到愉悦，但身为报务员的能力无可置疑。重度爱好甜食，随时都会咬着棒棒糖。\n\n\"这里是RABBIT3。下一个爆破地点在哪？\"",
+  "introduction_cn": "SRT特殊学院所属，RABBIT小队通信员，呼号【RABBIT 3】。\n\n憧憬着火力强大的武器，萌绘加入了SRT特种学院。但学院突然关闭后，她只好与小队成员一起在公园里风餐露宿。对爆炸与毁灭有着奇怪的兴趣，但支援能力却是毋庸置疑地优秀。重度依赖糖分，嘴里总是叼着棒棒糖。\n\n\"这里是RABBIT 3。\n下一个轰炸地点在哪里？\"",
+  "momo_talk_signature": "回收闲置导弹炮弹，有意联系！",
+  "main_relation": 44,
+  "relation": [
+    43,
+    70
+  ],
+  "age": 15,
+  "grade": "一年生",
+  "height": 163,
+  "birthday": "09-13",
+  "hobby": "燃放烟花",
+  "designer": "Mx2J",
+  "illustrator": "Mx2J",
+  "character_voice": "井泽诗织",
+  "character_voice_cn": "杨晨曦",
+  "release_date": "2022-08-24",
+  "release_date_cn": "2024-04-04",
+  "release_date_global": "2023-02-28",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%E8%90%8C%E7%BB%98/avatar.png",
+  "school": 11,
+  "weapon_type": "HG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Large",
+  "special_appearance": false,
+  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| こちらRABBIT3、計算をこの胸に | 这里是RABBIT3、在胸中执行计算 | 隻要能獲得一時的痛快，任何事都讚成！| As long as only one thing is on fire, we'll be fine! |\n| ![モエ_banner_jp.png](files/11021/E9xIGG3jw1F8hthTdVinn6jCnrhJXbfT.png =450x) | ![moe_banner_cn.jpg](files/11021/WKAzkPVtdZYs7Qnyc0TT3yo9jKzU9RRw.jpg =450x) | ![moe_banner_tw.jpg](files/11021/80DnY15FG6UJMVOsP8WP0dpbnExny3nS.jpg =450x) | ![moe_banner_en.jpg](files/11021/QMk2d4kxeHi7FNaGj4ql4Wa6wv2Clc43.jpg =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Moe_intro_jp.jpg](files/11021/MbGt98dJzc0uXXjQYROOIRwoK8ovTNrV.jpg =525x) | ![moe.jpg](files/11021/yoNVn2zNpkoDNfKCgeP171CA3CWwYRBg.jpg =425x) | ![moe_intro_tw.jpg](files/11021/BbghxbFGMlBgDyT9o5Mv7EXaHu3EWUpc.jpg =400x) | ![moe_intro_en.jpg](files/11021/vmMlfNuDQUqlEwBdUs30mywlXB8VlaVD.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[蓝色折叠式露营椅](https://kivo.wiki/data/item/665) | 家具互动：[蓝色折叠式露营椅](https://kivo.wiki/data/item/665) |\n| :---: | :---: | :---: | :---: |\n| ![moe_ex.gif](files/11021/P7De4xMx6UNzx3FzG31llNIrX62UYXJx.gif =450x) | ![moe_interaction.gif](files/443/OQUVHjlyZsZVY88A1Ge3Jb8hNeY4eW0Y.gif =450x) | ![moe_interaction.gif](files/11021/bQBBAlozioOWTTgmm7OaT8bjXOnKXAuE.gif =450x) | ![moe_cafe_conbine.gif](files/11021/eV8nT3Z4a7TsvE79uHh59vSHnf080KDv.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 萌绘 汉化\n![萌绘](files/2/PrqEJRBlGJaBPzfk0aBiJNB50pzs1Dl7.png =450x)\n@tab 萌绘 原文\n![萌绘](files/2/Ynj0ie1Hwdy6U7SoL3ewko5bE3uTAG8W.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n\n![BLUE ARCHIVE OFFICIAL ARTWORKS 蔚藍檔案美術設定集Vol.2 - 042.png](files/11021/x0EXB3hHr9MkUuODbsGAge32bnqA2I4N.png =450x)\n\n![BLUE ARCHIVE OFFICIAL ARTWORKS 蔚藍檔案美術設定集Vol.2 - 191.png](files/11021/WNL8uaKJaQH6zGOC6PMpFigjTrqiZnjC.png =450x)\n\n![BLUE ARCHIVE OFFICIAL ARTWORKS 蔚藍檔案美術設定集Vol.2 - 135.png](files/11021/tYyDZ1IxtZ8NZze3xHAk4bFEusopG7IA.png =450x)\n\n![BLUE ARCHIVE OFFICIAL ARTWORKS 蔚藍檔案美術設定集Vol.2 - 160.png](files/11021/cMtq9TjfuYh23Cla1c3vKZMRakPO5MhU.png =450x)\n\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私<br><details><summary><font color=\"448aff\">RABBIT3</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">作战行动中的称呼</details></font></font></font></b><details><summary><font color=\"448aff\">キャンプRABBIT</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">露营作战行动中的称呼。准确来说“キャンプRABBIT”是公园露营地的代号。</details></font></font></font></b>|\n|[宫子](https://kivo.wiki/data/character/6)|ミヤコ|\n|[咲](https://kivo.wiki/data/character/8)|サキ<br><details><summary><font color=\"448aff\">RABBIT2</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">作战行动中的称呼</details></font></font></font></b>|\n|[美游](https://kivo.wiki/data/character/9)|ミユ<br><details><summary><font color=\"448aff\">RABBIT4</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">作战行动中的称呼</details></font></font></font></b>あんた|\n|[花耶](https://kivo.wiki/data/character/169)|防衛室長|\n|[叶渚](https://kivo.wiki/data/character/144)|公安局長|\n|[胡桃](https://kivo.wiki/data/character/66)|クルミ先輩|\n|[千寻](https://kivo.wiki/data/character/20)|ヴェリタスの副部長|\n|[妮可](https://kivo.wiki/data/character/65)|ニコ先輩|\n|[凛](https://kivo.wiki/data/character/183)|行政官|\n\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/Moe_home_Idle_01_2.3420000000000027.jpg",
+  "spine": [
+    507,
+    343,
+    1742
+  ],
+  "model": [
+    102,
+    419
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "moe_title",
+      "category": "lobby",
+      "text": "蔚蓝档案",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/J2m2XuC3lv0iV0v0lnyNNxTJHaXhgVPi.ogg"
+    },
+    {
+      "description": "Moe_Cafe_Act_1",
+      "category": "cafe",
+      "text": "这里……是不是少了什么重要的发射按钮？",
+      "text_original": "何かこう、大事な発射ボタンとか落ちてないもんかねー……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/xDBGa93IPRkJ2vnMw8SxcVlsPYTPwiT1.ogg"
+    },
+    {
+      "description": "Moe_Cafe_Act_2",
+      "category": "cafe",
+      "text": "嘻嘻嘻……",
+      "text_original": "くひひ……",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/AIENomPEw7VZNm9vyLaBz2mNiIvmzfAF.ogg"
+    },
+    {
+      "description": "Moe_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "要不要把这里当成新的据点呢？",
+      "text_original": "ここ、新しい拠点にしちゃって良い？",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/F7j2I1xeQyseYiqfeoqMEDPF5fCuKn2i.ogg"
+    },
+    {
+      "description": "Moe_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "……啊，总觉得很安心。",
+      "text_original": "……まあ、割と落ち着くかも。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/EPHZO0Uux1bln0oQn90a21u9z8kJNp2t.ogg"
+    },
+    {
+      "description": "Moe_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "糖分要不足了……",
+      "text_original": "飴が足りない……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/1qXwEp581m3OHho9dJ82wMy4D4r4UBJ1.ogg"
+    },
+    {
+      "description": "Moe_CommonSkill",
+      "category": "battle",
+      "text": "开火~！",
+      "text_original": "Fire！",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/GpGTkT8BFPoNSVGUvFiQFESjdxtLJ55v.ogg"
+    },
+    {
+      "description": "Moe_ExSkill_1",
+      "category": "battle",
+      "text": "嘻嘻，全弹发射！",
+      "text_original": "くひひっ、全弾発射～！",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/Cypiw2N0TCoYX31zujXetbOHEBONMsUy.ogg"
+    },
+    {
+      "description": "Moe_ExSkill_2",
+      "category": "battle",
+      "text": "哼——呵啊——我要忍不住啦！",
+      "text_original": "ふう、ふう、もう我慢できない！",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/ktVPx78OtqVyJxml73p0PGmAn6jMz1KC.ogg"
+    },
+    {
+      "description": "Moe_ExSkill_3",
+      "category": "battle",
+      "text": "咿呀，这种毛骨悚然的快感！",
+      "text_original": "いやー、ゾクゾクするね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/XBVbMp8mIcvc12uDIfwH4nKnkCRXPz49.ogg"
+    },
+    {
+      "description": "Moe_ExSkill_Level_1",
+      "category": "battle",
+      "text": "好啦，华丽地绽放吧！",
+      "text_original": "さあ、派手に行こうか！",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/uHvbsUOumeAQ1XAzlxaxp984UEQnF3Tz.ogg"
+    },
+    {
+      "description": "Moe_ExSkill_Level_2",
+      "category": "battle",
+      "text": "嘻嘻嘻，就是这个最上瘾！",
+      "text_original": "くひひっ、これだからやめられな～い。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/IFLXCROW2YLWxVzKPRIdHHwPUZJF6TvW.ogg"
+    },
+    {
+      "description": "Moe_ExSkill_Level_3",
+      "category": "battle",
+      "text": "哈啊~哈啊~好美啊！",
+      "text_original": "はぁ、はぁ、綺麗……",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/ZwXNwymVmTPMUVGQGQOPNZRyNZq5HreF.ogg"
+    },
+    {
+      "description": "Moe_ExWeapon_Get",
+      "category": "growup",
+      "text": "RABBIT-224式手枪，收到……呃，怎么这么小，火力够吗？",
+      "text_original": "RABBIT-224式拳銃、確かに受け取った。 ……ねぇ、これ結構小さいけど、ちゃんと火力出る？",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/cdJF8VnMwTqgMLhri7cH5eITdwE7nMbz.ogg"
+    },
+    {
+      "description": "Moe_Formation_In_1",
+      "category": "formation",
+      "text": "怎么啦？怎么啦？我好像闻到了危险的味道！",
+      "text_original": "なになに、どこかから危険な匂いがするね",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/T1GxI1h9XvwbWvJeF1UbRKDIwIEpRC3j.ogg"
+    },
+    {
+      "description": "Moe_Formation_In_2",
+      "category": "formation",
+      "text": "是不是需要我的帮助呀~？",
+      "text_original": "私のてつだいが必要って感じ",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gMG4EYN21TcYKF9isCewvS2rsG8pWJVG.ogg"
+    },
+    {
+      "description": "Moe_Gachaget",
+      "category": "growup",
+      "text": "SRT特种学院，RABBIT小队所属，风仓萌绘前来报到。嘻嘻嘻……后方的支援工作就都交给我吧。",
+      "text_original": "SRT特殊学園、RABBIT小隊の風倉モエ。くひひ……支援なら、私に任せて。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/nP7utxfNDbiwiAIw06YYjidv6mkMCR4z.ogg"
+    },
+    {
+      "description": "Moe_Growup_1",
+      "category": "growup",
+      "text": "欸嘿嘿，老师，谢谢你呀~",
+      "text_original": "くひひ……サンキュー、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/ogc4tU6yxoH5fkMBBxCdBOHiKczdtVgO.ogg"
+    },
+    {
+      "description": "Moe_Growup_2",
+      "category": "growup",
+      "text": "还不够，还能继续！",
+      "text_original": "もっと、もっとやれるはず…！",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/LaeMiVLm8DMLMVknBePx5libh1qzQkXY.ogg"
+    },
+    {
+      "description": "Moe_Growup_3",
+      "category": "growup",
+      "text": "老师，给了我这么多，肚子都撑圆了。",
+      "text_original": "先生が色々くれるから、もうお腹一杯だよ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/wVR2yX7EIIsOynUIfT6FY21ebmdRReid.ogg"
+    },
+    {
+      "description": "Moe_Growup_4",
+      "category": "growup",
+      "text": "好兴奋啊，不错，感觉有意思起来了！",
+      "text_original": "昂ぶってきた。良いね、楽しくなってきたよ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/DzPcOGP5KjK7VzcFPzjc0dPPxtnYRYPS.ogg"
+    },
+    {
+      "description": "Moe_Lobby_1",
+      "category": "lobby",
+      "text": "差不多要补充RABBIT小队的备用库存了……",
+      "text_original": "そろそろRABBIT小隊の備品でも補充しておくか……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/LzV8f6pz1G5Guu6U6NSP57pthqLzIfIP.ogg"
+    },
+    {
+      "description": "Moe_Lobby_2",
+      "category": "lobby",
+      "text": "啊唔……糖分补给可是很重要的，这个我不能让步！",
+      "text_original": "はむ……糖分補給は大事っしょ。これは譲ってたまるか！",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/dw0cHr0z7MX6PyfaFoDo3BLwpNgOUVtt.ogg"
+    },
+    {
+      "description": "Moe_Lobby_3",
+      "category": "lobby",
+      "text": "啊……好想吃以前前辈给我做过的稻荷寿司啊。",
+      "text_original": "あー……前に先輩が作ってくれた、あのいなり寿司が食べたい気分。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/jkQI0F1inREuA4dLNvhN1DesHGqqlQQR.ogg"
+    },
+    {
+      "description": "Moe_Lobby_4",
+      "category": "lobby",
+      "text": "真是的，为什么糖果不算最基本的补给品呢？ 对于我们通信员来说，糖分就是燃料啊！",
+      "text_original": "全く、どうして基本的な補給品として飴をカウントしちゃいけないんだ？ 糖分はオペレーターにとって、燃料みたいなもんなのに",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/eRI3wRhdBy0q9wNgcSI94AXyxiE7fxyU.ogg"
+    },
+    {
+      "description": "Moe_Lobby_5",
+      "category": "lobby",
+      "text": "工作看起来很忙嘛，需要我帮把手吗？ 哎呀，就交给我试试吧。嘻嘻嘻……",
+      "text_original": "仕事、忙しそうじゃん。手伝ってあげようか？ まぁ、任せてみなって。くひひ……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/HDJL0h7eLgExw68yRfQb088Dwrqpretp.ogg"
+    },
+    {
+      "description": "Moe_LogIn_1",
+      "category": "lobby",
+      "text": "啊，老师欢迎回来。你今天也是老样子啊，还是那么忙，嘻嘻嘻……",
+      "text_original": "ああ、お帰り先生。今日も相変わらず忙しそうだね、くひひ……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/xwsH1DVetx9AQBbhMvU6m3Gl2kdWi6D3.ogg"
+    },
+    {
+      "description": "Moe_LogIn_2",
+      "category": "lobby",
+      "text": "噢，这不是老师吗？最近一直很忙的样子嘛。",
+      "text_original": "お、先生じゃん。なーんかずっと忙しそうだね？",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/YARvIHlHVlBiAPywyuRJFRY0V9qQIiXD.ogg"
+    },
+    {
+      "description": "Moe_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "老师啊……这个世界上有着各种各样的禁忌。比如不能按下的按钮，比如不能越过的那条线……",
+      "text_original": "先生……世の中には色んなものがあるでしょ。 押しちゃいけないボタンとか、超えちゃダメな一線とか。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/ynYdVGUnwt0MjqAyITduNhzxD8lxL3w9.ogg"
+    },
+    {
+      "description": "Moe_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "在这些禁忌里，有些一旦被打破，就会导致毁灭，再也无法回头。",
+      "text_original": "中には、一度選んだら取り返しのつかない、破滅に繋がるようなものもある。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/PKbpv99XOkqxIx4TwRJvdrnFijPlEUJ4.ogg"
+    },
+    {
+      "description": "Moe_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "只要走错一步就会坠入深渊 。但如果，你能因此满足自己内心的欲望……",
+      "text_original": "一歩間違えたら終わり、それでも自分の心を満足させられるかもしれない……",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/zFkYHLLnHwLYV0upEH9gGOYRmC3ih9Lw.ogg"
+    },
+    {
+      "description": "Moe_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "这种时候……老师会怎么做？",
+      "text_original": "そんな時、先生はどうする？",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/IqdFLt3WiqNwH6wtRPOxZkv7UdD0Hjki.ogg"
+    },
+    {
+      "description": "Moe_MemorialLobby_3",
+      "category": "lobby",
+      "text": "我也知道这个问题没什么意义。毕竟老师是个规矩人嘛。",
+      "text_original": "無意味な質問だってことは分かってるよ。先生は真面目だしね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/brgsjTZ6OXNTM3VLCvsTbhQcAyIFuVxF.ogg"
+    },
+    {
+      "description": "Moe_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "可是我就不一样了，我可能会越过那条线。",
+      "text_original": "でも私は……その一線を、超えちゃうかもしれない。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/UAAAcmpHob2UfAdBAv9p2AYnHsS74KaQ.ogg"
+    },
+    {
+      "description": "Moe_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "因为迎来毁灭的那个瞬间，正是我证明自己的机会。",
+      "text_original": "だってその破滅の瞬間は、私自身を証明できる機会でもある。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gx4qyu5e1Fo2EQjq1J9Edw5S9Dr6goW2.ogg"
+    },
+    {
+      "description": "Moe_MemorialLobby_5_1",
+      "category": "lobby",
+      "text": "所以，老师……",
+      "text_original": "だから、先生……",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/mH5idfUXPdAifyB6L8GQbmtC9JsoQXxA.ogg"
+    },
+    {
+      "description": "Moe_MemorialLobby_5_2",
+      "category": "lobby",
+      "text": "你愿意……和我一起，越过那条线吗？",
+      "text_original": "その一線……私と一緒に、超えてみない？",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/ZUniFnCWRWGCGYuEdCgtRE2XPmJJjw5W.ogg"
+    },
+    {
+      "description": "Moe_Relationship_Up_1",
+      "category": "growup",
+      "text": "感觉老师一直在帮助我呢，欸嘿嘿~",
+      "text_original": "なんだか先生には、いっつも助けてもらってばかりな気がするね。くひひ…。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/bsObtOrwKRP9GI3gQoSlMmck7vzUCZ56.ogg"
+    },
+    {
+      "description": "Moe_Relationship_Up_2",
+      "category": "growup",
+      "text": "总觉得……好像要越界了。",
+      "text_original": "な～んかこう、一線を超えそうな感じ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/YCLtFEyFCELzZQtL4UKtAksDmy5RDgPw.ogg"
+    },
+    {
+      "description": "Moe_Relationship_Up_3",
+      "category": "growup",
+      "text": "要吃糖吗？虽然我全都舔过了。",
+      "text_original": "飴、いる？私の食べかけしかないけど。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/dLAxRDv52Qij3HkLU706D3Q1nMLnRuLd.ogg"
+    },
+    {
+      "description": "Moe_Relationship_Up_4",
+      "category": "growup",
+      "text": "只要和老师在一起，就算迎来华丽的毁灭也……呼嘿嘿~",
+      "text_original": "先生と一緒なら、ド派手な破滅を迎えるのも……くひひ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/I2CVZPwecENUBmK4XqL8joLNm60RuzOf.ogg"
+    },
+    {
+      "description": "Moe_Season_Birthday",
+      "category": "lobby",
+      "text": "生日蛋糕？啊不用，给我一发盛大的烟花就好了…… 嗯，难得有机会，就找老师要一个超级华丽的……嘻嘻嘻。",
+      "text_original": "誕生日ケーキ？いや別に、私には花火さえあればそれで……。 そうだね、どうせならド派手で強烈なのを……くひひ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/1O8jnXkVPCtg9h260AOxi3BB5U607J6S.ogg"
+    },
+    {
+      "description": "Moe_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "老师，生日快乐。那么…… 要来一发华丽的生日烟花吗？",
+      "text_original": "誕生日おめでと、先生。ってことで…… 一発派手に、お祝いの花火とかどう？",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/HjuUXmSixVV3h8hdvIT6WFRmfjnZffzP.ogg"
+    },
+    {
+      "description": "Moe_Season_Halloween",
+      "category": "lobby",
+      "text": "这个南瓜灯……要是给它撒上白磷粉，一定会燃烧得更漂亮吧…… 哈啊，哈啊……",
+      "text_original": "このカボチャのランタン……あの粉をかけたらもっと綺麗に燃えそうじゃん…… はあ、はあ……",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/vUALIIAC23oRnLFU168dVfHH2mvBNryJ.ogg"
+    },
+    {
+      "description": "Moe_Season_NewYear",
+      "category": "lobby",
+      "text": "听说山海经新年有放烟花除旧迎新的风俗…… 这可真是个好风俗呀……嘻嘻嘻。",
+      "text_original": "山海経では新年に花火を打ち上げて厄除けをする風習があるらしいよ。 ほんっと、良い文化だねぇ……くひひ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/wDJXp37txwRWnzKGN8Oxq6Qe0yU85ofM.ogg"
+    },
+    {
+      "description": "Moe_Season_Xmas_1",
+      "category": "lobby",
+      "text": "今年圣诞节，我们RABBIT小队的队员要一起吃火鸡。 嗯？当然是在我们一直待的那个公园里吃呀。",
+      "text_original": "今年のクリスマスは、RABBIT小隊全員で七面鳥を食べることになってさ。 ん？もちろんいつもの公園でだよ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/i2zoRa3Y9sQsDyWTclr5fJLhl2vkkacI.ogg"
+    },
+    {
+      "description": "Moe_Season_Xmas_2",
+      "category": "lobby",
+      "text": "嗯？消防安全法……？那是什么？",
+      "text_original": "ん？消防法……？なにそれ？",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/vZZjeVme8LJz1xmunnboEJr4nkO4z3te.ogg"
+    },
+    {
+      "description": "moe_formation_select",
+      "category": "formation",
+      "text": "咕嘿嘿，要华丽的地炸上天咯~",
+      "text_original": "くひひ……派手に吹き飛ばしちゃおうよ～",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/jp/moe_formation_select.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "moe_cafe_monolog_2",
+      "category": "cafe",
+      "text": "……啊，总觉得很安心。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/ADruUmbxRE8kaTDXXZjvPp2opUwg7pn9.ogg"
+    },
+    {
+      "description": "moe_cafe_monolog_3",
+      "category": "cafe",
+      "text": "糖分要不足了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/xUMz6JiyXKunqjwwa9K2JMsIR0eWJnrg.ogg"
+    },
+    {
+      "description": "moe_commonskill",
+      "category": "battle",
+      "text": "开火~！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/eAiOFRICeW8CnMKvoRtuC1cZAp2NU5W1.ogg"
+    },
+    {
+      "description": "moe_exskill_1",
+      "category": "battle",
+      "text": "嘻嘻，全弹发射！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/WIH9WWSpTRGRrFOMMCyvVHn3GcZwPiPT.ogg"
+    },
+    {
+      "description": "moe_exskill_2",
+      "category": "battle",
+      "text": "哼——呵啊——我要忍不住啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/HceFqcUBdejmnX9RKyUUWuLWj6w6WHLd.ogg"
+    },
+    {
+      "description": "moe_exskill_3",
+      "category": "battle",
+      "text": "咿呀，这种毛骨悚然的快感！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/bUdfFiZD6IKtJqtCmJ7o9zuRB2dcEzII.ogg"
+    },
+    {
+      "description": "moe_exskill_level_1",
+      "category": "battle",
+      "text": "好啦，华丽地绽放吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/DylylIN80OBpSd1LjHcw0A3zYATndpa9.ogg"
+    },
+    {
+      "description": "moe_exskill_level_2",
+      "category": "battle",
+      "text": "嘻嘻嘻，就是这个最上瘾！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/3lWFFRkXX9GM9qqdX3SvuoYi5ez1R7yK.ogg"
+    },
+    {
+      "description": "moe_exskill_level_3",
+      "category": "battle",
+      "text": "哈啊~哈啊~好美啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/XOmaRzPfq3sa0l1Tem675arWHvsMCTqQ.ogg"
+    },
+    {
+      "description": "moe_exweapon_get",
+      "category": "growup",
+      "text": "RABBIT-224式手枪，收到……呃，怎么这么小，火力够吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/FkAdiGZacZPjcHGnupwZOU2f2ZzJgqFt.ogg"
+    },
+    {
+      "description": "moe_formation_in_1",
+      "category": "formation",
+      "text": "怎么啦？怎么啦？我好像闻到了危险的味道！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/PeXic8sxrbuHirlJG2dZzAvhqvoB3F84.ogg"
+    },
+    {
+      "description": "moe_formation_in_2",
+      "category": "formation",
+      "text": "是不是需要我的帮助呀~？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/FmiV0x91Wd4GbPZZe0FR392gy5eClXSz.ogg"
+    },
+    {
+      "description": "moe_gachaget",
+      "category": "growup",
+      "text": "SRT特种学院，RABBIT小队所属，风仓萌绘前来报到。嘻嘻嘻……后方的支援工作就都交给我吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/LVtu48x1nrndvMUvxkUvMiMmiH6aklJc.ogg"
+    },
+    {
+      "description": "moe_growup_1",
+      "category": "growup",
+      "text": "欸嘿嘿，老师，谢谢你呀~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/THbhSisUDgaduEHPwXL7gSj9Jn2VAYmx.ogg"
+    },
+    {
+      "description": "moe_growup_2",
+      "category": "growup",
+      "text": "还不够，还能继续！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/FuxvghTPdGRoOZQP8qilSdbVWPyBe2II.ogg"
+    },
+    {
+      "description": "moe_growup_3",
+      "category": "growup",
+      "text": "老师，给了我这么多，肚子都撑圆了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/yeX5UT1fN54yBGguKcDGniTyrJDwpMVA.ogg"
+    },
+    {
+      "description": "moe_growup_4",
+      "category": "growup",
+      "text": "好兴奋啊，不错，感觉有意思起来了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/LBX9M5QNUT4XFBJIn3gGRCyJ1risb89v.ogg"
+    },
+    {
+      "description": "moe_lobby_1",
+      "category": "lobby",
+      "text": "差不多要补充RABBIT小队的备用库存了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/2IpKh1BClOKFpUd7jNfj9OqOcztNQYyI.ogg"
+    },
+    {
+      "description": "moe_lobby_2",
+      "category": "lobby",
+      "text": "啊唔……糖分补给可是很重要的，这个我不能让步！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/OUDSBORXFJCNjGJTyHqLwUtyKX8oeyGT.ogg"
+    },
+    {
+      "description": "moe_lobby_3",
+      "category": "lobby",
+      "text": "啊……好想吃以前前辈给我做过的稻荷寿司啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/rC0jMvX1uWOxfoZuo2RDEUiFvpGxTMll.ogg"
+    },
+    {
+      "description": "moe_lobby_4",
+      "category": "lobby",
+      "text": "真是的，为什么糖果不算最基本的补给品呢？ 对于我们通信员来说，糖分就是燃料啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/yPArxp6HNqUKgYrH1k68amiH458L6O4q.ogg"
+    },
+    {
+      "description": "moe_lobby_5",
+      "category": "lobby",
+      "text": "工作看起来很忙嘛，需要我帮把手吗？ 哎呀，就交给我试试吧。嘻嘻嘻……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/Y5M57xMr9KSz2jqujpNHwKJw6LsNTFzO.ogg"
+    },
+    {
+      "description": "moe_login_1",
+      "category": "lobby",
+      "text": "啊，老师欢迎回来。你今天也是老样子啊，还是那么忙，嘻嘻嘻……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/iSdboHdBgbZ89w00UpiXudwebvfTjgVG.ogg"
+    },
+    {
+      "description": "moe_login_2",
+      "category": "lobby",
+      "text": "噢，这不是老师吗？最近一直很忙的样子嘛。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/R5hSaEQwt7Vp4WTijpKNv53qJLNoh4tc.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "老师啊……这个世界上有着各种各样的禁忌。比如不能按下的按钮，比如不能越过的那条线……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/pU54W7lu86XKkOiICbi01PiVqOa0WDKR.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "在这些禁忌里，有些一旦被打破，就会导致毁灭，再也无法回头。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/n6dXcLiGhkJZYgwX32sQtPztKjnn2c1j.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "只要走错一步就会坠入深渊 。但如果，你能因此满足自己内心的欲望……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/nyz03jUk7XQGDU1LhtIo55KQx4cwkJPk.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "这种时候……老师会怎么做？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/ZostfrkqEK6S8z0yJvL2au7CdKFsqeBi.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_3",
+      "category": "lobby",
+      "text": "我也知道这个问题没什么意义。毕竟老师是个规矩人嘛。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/C647oXirsFUmnLKVPGDPbg03Vf71mK4L.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "可是我就不一样了，我可能会越过那条线。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/UmMJnxXK4QhD8xER6XN5Gs5nrt7VlJzU.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "因为迎来毁灭的那个瞬间，正是我证明自己的机会。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/G9gWqKY0oSjKPsLGufeJ2Y6lYADu7yEG.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "所以，老师……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/uW19EiNIZgGY8rbJYBYrDfIYMfgMn0yQ.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "你愿意……和我一起，越过那条线吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/SmZr2APll8XTeVWlbSuq1EpxbHlsaUbY.ogg"
+    },
+    {
+      "description": "moe_relationship_up_1",
+      "category": "growup",
+      "text": "感觉老师一直在帮助我呢，欸嘿嘿~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/RozEYnizfcYXNBg5QFVKNouOgJwsFfuS.ogg"
+    },
+    {
+      "description": "moe_relationship_up_2",
+      "category": "growup",
+      "text": "总觉得……好像要越界了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/G5R1hWKrNiBMcHY3sgzlA0s9R8uNculC.ogg"
+    },
+    {
+      "description": "moe_relationship_up_3",
+      "category": "growup",
+      "text": "要吃糖吗？虽然我全都舔过了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/ZQgdjpjr5VZgXVer6hrMxTDGYYSdhKA3.ogg"
+    },
+    {
+      "description": "moe_relationship_up_4",
+      "category": "growup",
+      "text": "只要和老师在一起，就算迎来华丽的毁灭也……呼嘿嘿~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/WGM1p2NPkLvDPY4gsWX6bv9EFiIa2nGA.ogg"
+    },
+    {
+      "description": "moe_season_birthday",
+      "category": "lobby",
+      "text": "生日蛋糕？啊不用，给我一发盛大的烟花就好了…… 嗯，难得有机会，就找老师要一个超级华丽的……嘻嘻嘻。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/ruWFJZbDrl7aQ8XWkOfgT1iUuoBayHnI.ogg"
+    },
+    {
+      "description": "moe_season_birthday_player",
+      "category": "lobby",
+      "text": "老师，生日快乐。那么…… 要来一发华丽的生日烟花吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gQODD0mM4rDRwulxyjPY81BYpqzX0XLi.ogg"
+    },
+    {
+      "description": "moe_season_chinesenewyear",
+      "category": "lobby",
+      "text": "咕嘻嘻……老师，既然新春到了，那想不想看一场灿烂的烟花秀呢~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/jrv41JFiCZKSDC7oezQBVlDsZ7y8vrZg.ogg"
+    },
+    {
+      "description": "moe_season_halloween",
+      "category": "lobby",
+      "text": "这个南瓜灯……要是给它撒上白磷粉，一定会燃烧得更漂亮吧…… 哈啊，哈啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/08poHPw3o0nxy8bJVe6luXXczdnrTdxs.ogg"
+    },
+    {
+      "description": "moe_season_midautumn",
+      "category": "lobby",
+      "text": "飞到月亮上，再也回不来~？这也是一种自寻毁灭吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/ZCwB7xGywgJaaQdpG2zxP08d2hqwZ9JS.ogg"
+    },
+    {
+      "description": "moe_season_newyear",
+      "category": "lobby",
+      "text": "听说山海经新年有放烟花除旧迎新的风俗…… 这可真是个好风俗呀……嘻嘻嘻。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/JRGAvd4SsuqtACqSbsBqMqrXsCMHwkhj.ogg"
+    },
+    {
+      "description": "moe_season_xmas_1",
+      "category": "lobby",
+      "text": "今年圣诞节，我们RABBIT小队的队员要一起吃火鸡。 嗯？当然是在我们一直待的那个公园里吃呀。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/S0EOeFkJyMRdEzK6jrVWEpRUv7xytFmf.ogg"
+    },
+    {
+      "description": "moe_season_xmas_2",
+      "category": "lobby",
+      "text": "嗯？消防安全法……？那是什么？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/pNjQNB0065kjopSarqtNI9MLQW1BA2nv.ogg"
+    },
+    {
+      "description": "moe_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/pywoJu9rAkjRNS2IxmC8jvQKTayOqxVU.ogg"
+    },
+    {
+      "description": "moe_cafe_act_1",
+      "category": "cafe",
+      "text": "这里……是不是少了什么重要的发射按钮？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/BtBJ179I9HU92n6Hdg79MqaIfEYtveyv.ogg"
+    },
+    {
+      "description": "moe_cafe_act_2",
+      "category": "cafe",
+      "text": "嘻嘻嘻……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/AalxyT38uCM7WtunLp9CAyUwPAyNQXdo.ogg"
+    },
+    {
+      "description": "moe_cafe_monolog_1",
+      "category": "cafe",
+      "text": "要不要把这里当成新的据点呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/xzSYXiudn3UbmOCK2lLvvs2Rxakr8Zl6.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "moe_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_growup_4.ogg"
+    },
+    {
+      "description": "moe_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_lobby_1.ogg"
+    },
+    {
+      "description": "moe_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_lobby_2.ogg"
+    },
+    {
+      "description": "moe_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_lobby_3.ogg"
+    },
+    {
+      "description": "moe_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_lobby_4.ogg"
+    },
+    {
+      "description": "moe_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_lobby_5.ogg"
+    },
+    {
+      "description": "moe_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_login_1.ogg"
+    },
+    {
+      "description": "moe_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_login_2.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_memoriallobby_3.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "moe_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "moe_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_relationship_up_1.ogg"
+    },
+    {
+      "description": "moe_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_relationship_up_2.ogg"
+    },
+    {
+      "description": "moe_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_relationship_up_3.ogg"
+    },
+    {
+      "description": "moe_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_relationship_up_4.ogg"
+    },
+    {
+      "description": "moe_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_season_birthday.ogg"
+    },
+    {
+      "description": "moe_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_season_birthday_player.ogg"
+    },
+    {
+      "description": "moe_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_season_halloween.ogg"
+    },
+    {
+      "description": "moe_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_season_newyear.ogg"
+    },
+    {
+      "description": "moe_season_xmas_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_season_xmas_1.ogg"
+    },
+    {
+      "description": "moe_season_xmas_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_season_xmas_2.ogg"
+    },
+    {
+      "description": "Moe_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/Moe_Title.ogg"
+    },
+    {
+      "description": "moe_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_cafe_act_1.ogg"
+    },
+    {
+      "description": "moe_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_cafe_act_2.ogg"
+    },
+    {
+      "description": "moe_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "moe_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "moe_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "moe_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_commonskill.ogg"
+    },
+    {
+      "description": "moe_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_exskill_1.ogg"
+    },
+    {
+      "description": "moe_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_exskill_2.ogg"
+    },
+    {
+      "description": "moe_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_exskill_3.ogg"
+    },
+    {
+      "description": "moe_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_exskill_level_1.ogg"
+    },
+    {
+      "description": "moe_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_exskill_level_2.ogg"
+    },
+    {
+      "description": "moe_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_exskill_level_3.ogg"
+    },
+    {
+      "description": "moe_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_exweapon_get.ogg"
+    },
+    {
+      "description": "moe_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_gachaget.ogg"
+    },
+    {
+      "description": "moe_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_growup_1.ogg"
+    },
+    {
+      "description": "moe_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_growup_2.ogg"
+    },
+    {
+      "description": "moe_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/moe_growup_3.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/moe_spr-06_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/moe_spr-07_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/moe_spr-08_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/moe_spr-09_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/moe_spr-05_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/moe_spr-10_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/moe_spr-11_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/moe_spr-99_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/moe_spr-02_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/moe_spr-04_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/moe_spr-03_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/moe_spr-01_0_waifu2x_2x_2n_png.jpg"
+      ]
+    },
+    {
+      "title": "运动服立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_01.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_02.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_04.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_03.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_06.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_07.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_08.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_00.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_05.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_09.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_14.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_11.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_17.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_16.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_13.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_12.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_18.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_15.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_99.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_10.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0073_spr_Idle_01.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Moe_intro_jp.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%A2%E3%82%A8_banner_jp.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/moe_intro_tw.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/moe_intro_en.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/moe_banner_cn.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/BLUE%20ARCHIVE%20OFFICIAL%20ARTWORKS%20%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%E7%BE%8E%E8%A1%93%E8%A8%AD%E5%AE%9A%E9%9B%86Vol.2%20-%20042.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/BLUE%20ARCHIVE%20OFFICIAL%20ARTWORKS%20%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%E7%BE%8E%E8%A1%93%E8%A8%AD%E5%AE%9A%E9%9B%86Vol.2%20-%20135.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/BLUE%20ARCHIVE%20OFFICIAL%20ARTWORKS%20%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%E7%BE%8E%E8%A1%93%E8%A8%AD%E5%AE%9A%E9%9B%86Vol.2%20-%20160.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/moe_banner_en.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/moe_interaction.gif",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/moe_skill.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/moe_banner_tw.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/moe_cafe.gif",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/moe_ex.gif",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/moe.jpg",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/BLUE%20ARCHIVE%20OFFICIAL%20ARTWORKS%20%E8%94%9A%E8%97%8D%E6%AA%94%E6%A1%88%E7%BE%8E%E8%A1%93%E8%A8%AD%E5%AE%9A%E9%9B%86Vol.2%20-%20191.png",
+        "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/moe_cafe_conbine.gif"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 128,
+      "favorability": 180
+    },
+    {
+      "id": 270,
+      "favorability": 60
+    },
+    {
+      "id": 31,
+      "favorability": 40
+    },
+    {
+      "id": 57,
+      "favorability": 40
+    },
+    {
+      "id": 58,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    665
+  ],
+  "character_datas": [
+    {
+      "character_id": 20018,
+      "dev_name": "Moe_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Piercing",
+      "defensive_attributes": "Light",
+      "is_groupc_control": true,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "S",
+      "street_adaptability": "D",
+      "equipment": [
+        7,
+        10,
+        3
+      ],
+      "cultivate_material": [
+        120,
+        121,
+        123,
+        124,
+        133,
+        135,
+        136,
+        138,
+        423,
+        424,
+        425,
+        426,
+        411,
+        412,
+        413,
+        19
+      ],
+      "favorite_equipment": 79,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%E8%90%8C%E7%BB%98/skill_icon/st3cWgqYrA9xHi1goaxleoJU0gxWGLor.png",
+            "title": "钢铁之雨",
+            "title_cn": "铁雨",
+            "preview": "//static.kivo.wiki/videos/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/skill_preview/a2L46FKT1L6j81R6mZD47VG0LEuwgLpx.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 4,
+                "describe": "对直线范围内的敌方单位造成攻击力306%的伤害/并赋予攻击力50.9%的烧伤状态(持续20秒)"
+              },
+              {
+                "cost": 4,
+                "describe": "对直线范围内的敌方单位造成攻击力352%的伤害/并赋予攻击力50.9%的烧伤状态(持续20秒)"
+              },
+              {
+                "cost": 4,
+                "describe": "对直线范围内的敌方单位造成攻击力398%的伤害/并赋予攻击力58.5%的烧伤状态(持续20秒)"
+              },
+              {
+                "cost": 4,
+                "describe": "对直线范围内的敌方单位造成攻击力443%的伤害/并赋予攻击力58.5%的烧伤状态(持续20秒)"
+              },
+              {
+                "cost": 4,
+                "describe": "对直线范围内的敌方单位造成攻击力489%的伤害/并赋予攻击力66.2%的烧伤状态(持续20秒)"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%E8%90%8C%E7%BB%98/skill_icon/qbm8Y3antVF2wVip6cHqO47tLaJPh3rh.png",
+            "title": "集中炮火",
+            "title_cn": "集中轰炸",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每40秒对5名敌人造成100%攻击力的伤害/附加昏厥(1.2秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对5名敌人造成105%攻击力的伤害/附加昏厥(1.2秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对5名敌人造成110%攻击力的伤害/附加昏厥(1.2秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对5名敌人造成120%攻击力的伤害/附加昏厥(1.4秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对5名敌人造成125%攻击力的伤害/附加昏厥(1.4秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对5名敌人造成130%攻击力的伤害/附加昏厥(1.4秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对5名敌人造成140%攻击力的伤害/附加昏厥(1.5秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对5名敌人造成145%攻击力的伤害/附加昏厥(1.5秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对5名敌人造成150%攻击力的伤害/附加昏厥(1.5秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒对5名敌人造成160%攻击力的伤害/附加昏厥(1.6秒)"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%E8%90%8C%E7%BB%98/skill_icon/EFrzJTO971KFc2ISayqQKne3nmD46Lfi.png",
+            "title": "毁灭的快感",
+            "title_cn": "毁灭的快感",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%E8%90%8C%E7%BB%98/skill_icon/aYM8sNV6MRqMGBWWxQMIK4nJwPxA70L5.png",
+            "title": "作战支援",
+            "title_cn": "作战支援",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方学生的攻击力增加9.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的攻击力增加9.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的攻击力增加10%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的攻击力增加11.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的攻击力增加12.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的攻击力增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的攻击力增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的攻击力增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的攻击力增加15.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的攻击力增加17.3%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2491,
+          "attack": 243,
+          "defense": 19,
+          "healing": 1912,
+          "accuracy": 404,
+          "evasion": 791,
+          "crit": 202,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1136,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%E8%90%8C%E7%BB%98/weapons_icon.png",
+        "name": "RABBIT-224式手枪",
+        "name_cn": "RABBIT-224式手枪",
+        "description": "SRT特殊学园配给给萌绘的制式手枪。 虽然是手枪却拥有很高的射速，可以瞬间清空弹匣。",
+        "description_cn": "SRT特种学院配备给萌绘的制式手枪。 射速远超一般手枪，能在一瞬间清空弹夹。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁强化技能+",
+            "description": "「毁灭的快感」升级为「毁灭的快感+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形战力强化 室内适应性 S -> SS",
+            "description": "在室内地形造成1.3倍伤害。 在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%E8%90%8C%E7%BB%98/skill_icon/2op8UPTw3VVNanMJnJkCjIb76dbqoQyr.png",
+            "title": "毁灭的快感+",
+            "title_cn": "毁灭的快感+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加239/攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加251/攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加263/攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加311/攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加323/攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加335/攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加383/攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加395/攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加406/攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加454/攻击力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "ff7614e2-03ec-45c6-85ae-049aaabf1418",
+  "skill_declare_uuid": "b0d7aefa-5b6d-4d64-ae09-962c42c811c0",
+  "supplementary_uuid": "75dbdb86-2ebf-410c-82ce-68270631b689",
+  "supplementary_declare_uuid": "f6af546e-64e2-45de-8509-d65d15f020e8",
+  "created_at": 1684346329,
+  "updated_at": 1783661364
+}

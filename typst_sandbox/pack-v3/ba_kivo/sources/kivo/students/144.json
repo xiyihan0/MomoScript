@@ -1,0 +1,1578 @@
+{
+  "id": 144,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 144,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 375,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "尾刃",
+  "given_name": "叶渚",
+  "family_name_jp": "尾刃",
+  "given_name_jp": "カンナ",
+  "family_name_kr": "오가타",
+  "given_name_kr": "칸나",
+  "family_name_en": "Ogata",
+  "given_name_en": "Kanna",
+  "family_name_zh_tw": "尾刃",
+  "given_name_zh_tw": "環奈",
+  "family_name_cn": "尾刃",
+  "given_name_cn": "康娜",
+  "nick_name": "局长，狂犬",
+  "introduction": "瓦尔基里警察学校所属，担任公安局局长一职的学生。\n在确定的犯罪面前，在她的字典中没有「放弃」一词，她这样的执拗深入人心。\n为了查明真相被世人冠上了「狂犬」这一绰号，并广泛地被人知晓。\n由于其冷硬的气质和绰号经常被误以为是激情类型的人，但实际上她十分冷静、理性。\n\n>诚心诚意为市民服务。",
+  "introduction_cn": "瓦尔基丽警员学院所属，担任公共安全局局长。\n\n一旦锁定了犯罪目标，她就会紧追不舍，直到调查出真相。因此也被人称为“疯狗”。由于给人的凶猛印象与独特绰号，常被人误以为脾气暴躁，性格冲动。但事实上，她处事沉着冷静，并且有着务实的价值观。\"\n\n\n>我会全心全意为市民们服务。",
+  "momo_talk_signature": "确保基沃托斯的安全，请交给瓦尔基里",
+  "main_relation": 60,
+  "relation": [
+    61
+  ],
+  "age": 17,
+  "grade": "三年生",
+  "height": 166,
+  "birthday": "09-07",
+  "hobby": "阅读、电影鉴赏（推理类）",
+  "designer": "kokosando",
+  "illustrator": "kokosando",
+  "character_voice": "松冈美里",
+  "character_voice_cn": "卢晓彤",
+  "release_date": "2023-01-31",
+  "release_date_cn": "2024-11-14",
+  "release_date_global": "2023-08-01",
+  "sd_model_image": "",
+  "avatar": "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/avatar.png",
+  "school": 8,
+  "weapon_type": "HG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Large",
+  "special_appearance": true,
+  "more": "# 官方图集\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|正義は珈琲のように甘く|正义如咖啡般醇香|...是事件嗎？如果你需要公安局的力量可隨時開口。|...Was there an incident? Whenever or wherever you need us, the Public Peace Bureau will be there.|\n|![カンナ-1.png](files/23/FNCGGbAEoA0b6D6qxWbPzGFdJhSMmPJq.png =450x)|![kanna.png](files/23/cdUNUFq40EUZrwb9pNGeqGGUpGJNk8Hw.png =450x)|![kanna (1).png](files/23/Vs9mmNizC50liREOUHgT0t1XXnBy96De.png =450x)|![kanna.jpg](files/23/4tc9G7MzW2fJrAPME8wJep3JQN4efu1e.jpg =450x)|\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|![Kanna (1).jpg](files/23/pc4CB6a0FnoDxatw9BS5yVNfiCZ3kaHF.jpg =525x)|![kanna.jpg](files/23/DgT80KHjzzqCBFduVHpSGSm4xOszg48P.jpg =425x)|![kanna (3).jpg](files/23/TqnDJzVfn76crjShDN99ONkMYtK1rui5.jpg =355x)|![kanna (2).jpg](files/23/ZEeJ8ikj92bZyrS5Er7mc96tNUCi5MTj.jpg =400x)|\n\n## SD动画\n\n| EX技能动画 | 咖啡厅触摸 | 咖啡厅家具互动：[审讯室的桌子](https://kivo.wiki/data/item/930) |\n| :---: | :---: | :---: |\n|![kanna_ex.gif](files/23/9SE6aW0wXgwQsahByxgTsFGsjfoTqPkz.gif =450x)|![kanna_cafe.gif](files/23/UERATIP98cmYaFfjck01sAv9IEfqCMYe.gif =450x)|![kanna_cafe2.gif](files/23/HfEPhAvuWUPGrOqT4L9I4sWgo0XupEk7.gif =450x)|\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 叶渚 汉化\n![叶渚](files/2/KH4i5oyEXJSRr9aRsrpgZeSjUXjkesDE.png =450x)\n@tab 叶渚 原文\n![叶渚](files/2/uOL8gpni7xXEOyzCDnkhGFugeoNiq6Wy.jpg =450x)\n:::\n\n\n## 设定集\n\n::: center\n\n![Vol2-34.jpg](files/23/bAyhsB6LkXjGfP0M3nYMLUFvOgvjWehH.jpg =450x)\n\n![Vol2-127.jpg](files/23/QGab6I6fyNrJcddkofwtjz45VENXKkS5.jpg =450x)\n\n![Vol2-159.jpg](files/23/GBpi3C2FrXSVwPhO5Ixqc8WrEbbKnXA8.jpg =450x)\n\n![Vol2-184.jpg](files/23/Xp0yJwUOvzn4kpDaxUlYElTIlU1x5sZa.jpg =450x)\n\n:::\n\n#延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n| 自己 | 私 |\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[心华](https://kivo.wiki/data/character/378)|副局長<br>コノカ<br>お前|\n|[阿露](https://kivo.wiki/data/character/112)|陸八魔<br>陸八魔アル|\n|[花耶](https://kivo.wiki/data/character/169)|防衛室長<br>カヤ代行|\n|[桐乃](https://kivo.wiki/data/character/100)|キリノ<br>中務キリノ|\n|[将军](https://kivo.wiki/data/character/239)|ジェネラル|\n|[吹雪](https://kivo.wiki/data/character/63)|フブキ|\n|[美铃](https://kivo.wiki/data/character/588)|矯正局長殿|\n|机械鳄鱼|メカワニ<br>メタル・ウェポン・スピード・クロコダイル|\n|[萌绘](https://kivo.wiki/data/character/7)|風倉|\n|[兰舞](https://kivo.wiki/data/character/134)|河駒風ラブ|\n|[凛](https://kivo.wiki/data/character/183)|行政官|\n|便利屋68|便利屋68|\n|[瓦尔基里警察学校](https://kivo.wiki/data/organize/8)|ヴァルキューレ警察学校<br>ヴァルキューレ|\n|[夏莱](https://kivo.wiki/data/organize/6)|シャーレ|\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/CH0170_home_Idle_01_1.0586000000000004.jpg",
+  "spine": [
+    1608,
+    426,
+    104,
+    866
+  ],
+  "model": [
+    60,
+    270
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/voice/play_icon.png",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/voice/pause_icon.png",
+  "voice": [
+    {
+      "description": "CH0170_Title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/ndyISDMpn8RDnp1J35coG6SZChesCYj9.ogg"
+    },
+    {
+      "description": "CH0170_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "这里的咖啡…… 闻着挺香的。",
+      "text_original": "ここのコーヒー…なかなかいい香りだ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/JmaQJ7Gcr3pmwfCU9qNTGkwwBv5RpNHL.ogg"
+    },
+    {
+      "description": "CH0170_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "好累啊……",
+      "text_original": "疲れた…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/gPOEmwDU3oxDCjOADSQwG39vK0UQLGh2.ogg"
+    },
+    {
+      "description": "CH0170_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "居然在这里找到了 兔子侦探系列的新作……？",
+      "text_original": "こんなところに探偵ウサギシリーズの新作が...？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/QR4bF5MTuyRhcZujGQfWAvPastSZ54KS.ogg"
+    },
+    {
+      "description": "CH0170_Cafe_monolog_4",
+      "category": "cafe",
+      "text": "呃，防卫室 打过来的电话……",
+      "text_original": "うっ、防衛室から連絡が…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/gHEDIfKgen0e8Oqw9ESCjA7xvUm5TSo3.ogg"
+    },
+    {
+      "description": "CH0170_Cafe_monolog_5",
+      "category": "cafe",
+      "text": "希望基沃托斯 今天也一片和平。",
+      "text_original": "今日もキヴォトスが平和でありますよう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/FA4zRELattT8CKML2vmQQYkdjJa1Dzro.ogg"
+    },
+    {
+      "description": "CH0170_CommonSkill",
+      "category": "battle",
+      "text": "已逮捕嫌疑人。",
+      "text_original": "容疑者、確保。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/KnIqtJ6QmQFT2fRH90tDwe4Tv68ecbJr.ogg"
+    },
+    {
+      "description": "CH0170_ExSkill_1",
+      "category": "battle",
+      "text": "哼，开始审讯吧。",
+      "text_original": "さぁ…尋問を始めよう…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/hxbRYBNLLJmXQazjlO8uSJTTFGIoWIyv.ogg"
+    },
+    {
+      "description": "CH0170_ExSkill_2",
+      "category": "battle",
+      "text": "撒谎是没有用的！",
+      "text_original": "私をだまそうとしても無駄だ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/XxjrLLAwQAJGcPmHnAA9KXeiEb0B4Ayy.ogg"
+    },
+    {
+      "description": "CH0170_ExSkill_3",
+      "category": "battle",
+      "text": "你应该听说过“疯狗”这个名字吧？",
+      "text_original": "狂犬の名を、一度は聞いたことがあるだろう？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/CTlEF5SZRIYojOdxuUvmlgVi5W7oGxsm.ogg"
+    },
+    {
+      "description": "CH0170_ExSkill_Level_1",
+      "category": "battle",
+      "text": "瓦尔基丽公共安全局，不准动！",
+      "text_original": "ヴァルキューレ公安局だ。止まれ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/yoc364LcduvY6Wt6tqveipCaw7mkVmQ3.ogg"
+    },
+    {
+      "description": "CH0170_ExSkill_Level_2",
+      "category": "battle",
+      "text": "别动！再动就以犯人论处！",
+      "text_original": "動くな！ 動いたら犯人とみなす！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/ZlLYsXyyhJrgVTAbTHWMNLlia5BGUBIo.ogg"
+    },
+    {
+      "description": "CH0170_ExSkill_Level_3",
+      "category": "battle",
+      "text": "还好赶上了。",
+      "text_original": "間に合ったか…！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/0RCvkThaoZm0pEkrXhWNAQqALN94e4mH.ogg"
+    },
+    {
+      "description": "CH0170_ExWeapon_Get",
+      "category": "growup",
+      "text": "说起来， 曾经也因为不习惯这把枪而吃尽了苦头。 可在我熟悉了这把枪后， 却再也没有多少使用它的机会， 真是遗憾哪……",
+      "text_original": "そういえば、この銃が扱えず苦労をしていた時もありました。銃に慣れてきた今はほとんど使う機会がなくなって残念ですが…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/uJEbEmxdfjs10yTZ5dNi8MdRhuOXi77m.ogg"
+    },
+    {
+      "description": "CH0170_Formation_In_1",
+      "category": "formation",
+      "text": "轮到公共安全局出场了吗。",
+      "text_original": "公安局の出番ですか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/xHck189S8swyPaSplChaXDFET53OMjMl.ogg"
+    },
+    {
+      "description": "CH0170_Formation_In_2",
+      "category": "formation",
+      "text": "如果这是命令的话。",
+      "text_original": "ご命令とあれば。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/Yv8pLzGfxOBAyl2MAIPJhaSAPB3dmXkP.ogg"
+    },
+    {
+      "description": "CH0170_Gachaget",
+      "category": "growup",
+      "text": "我是瓦尔基丽警员学院，公共安全局局长，尾刃康娜。 如果要审讯犯人的话，那就交给我吧。",
+      "text_original": "ヴァルキューレ警察学校、公安局局長の尾刃カンナです。 犯罪者の尋問なら、お任せを。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/351MmjTk8AWvjZUASl1bz6fXw9uCqu1e.ogg"
+    },
+    {
+      "description": "CH0170_Growup_1",
+      "category": "growup",
+      "text": "原来还有这种方法……嗯，我学到了。",
+      "text_original": "なるほど、そんな方法が。いい勉強になりました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/ZzFauFnHyTrSIcuXQZvRtjKw7SNWw4Gh.ogg"
+    },
+    {
+      "description": "CH0170_Growup_2",
+      "category": "growup",
+      "text": "这样的话……今天的的训练就足够了吧。",
+      "text_original": "今日の訓練は、これで十分でしょう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/BNDcYdEx24NzmiXU9W7XHgy0fWISSrN9.ogg"
+    },
+    {
+      "description": "CH0170_Growup_3",
+      "category": "growup",
+      "text": "为了市民们，我每天都会认真工作。",
+      "text_original": "市民の為に、日々精進します。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/l2sJsPgjmCm8obv6oHBDsnwbRNMtNhMR.ogg"
+    },
+    {
+      "description": "CH0170_Growup_4",
+      "category": "growup",
+      "text": "虽然我是局长，但如果我疏于锻炼，也无法成为下属们的榜样。",
+      "text_original": "局長といえど、鍛錬を怠っては、部下の模範になれません。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/9i0srehQl84fY1Q5AlvQaDuoAYxJsQJ5.ogg"
+    },
+    {
+      "description": "CH0170_Lobby_1_1",
+      "category": "lobby",
+      "text": "公共安全局出动时需要提交很多文件……所以有时我很羡慕沙勒能迅速采取行动。",
+      "text_original": "公安局が出動するためには、必要な書類が多くて… シャーレの迅速な対応がうらやましくなる時があります。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/rJlbMkBbx1du14fWZr2424h0Pu4BSTHq.ogg"
+    },
+    {
+      "description": "CH0170_Lobby_1_2",
+      "category": "lobby",
+      "text": "当然， 我也没有担起这种责任的权限， 也没有这样的能力……",
+      "text_original": "もちろん私には、これらの責任を負う能力も権限もありませんが…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/osPBOJqvJEzL0hkx7Z0N1kO5NlyORbJc.ogg"
+    },
+    {
+      "description": "CH0170_Lobby_2",
+      "category": "lobby",
+      "text": "我正打算去煮杯咖啡…… 老师也要来一杯吗？",
+      "text_original": "コーヒーを淹れてこようと思うのですが… 先生も飲みますか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/bxtAdbVdHZ1NKCNIkSlUFZagrTQKiuxl.ogg"
+    },
+    {
+      "description": "CH0170_Lobby_3",
+      "category": "lobby",
+      "text": "生活安全局的孩子们都是好警员……只是让她们去负责重案还是太早了……",
+      "text_original": "生活安全局の子たちはいい警察ではあります… ですが重犯罪を担当するにはまだ早いです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/2sRARsZG3bFbQ6pAv8r2GXLV9FKK4emy.ogg"
+    },
+    {
+      "description": "CH0170_Lobby_4",
+      "category": "lobby",
+      "text": "吃甜甜圈很容易弄脏手， 所以我不喜欢。",
+      "text_original": "ドーナッツは好きではありません。手が汚れますから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/VdCGb7Ly4sFybESIiFer7IUHDRNMSPKC.ogg"
+    },
+    {
+      "description": "CH0170_Lobby_5",
+      "category": "lobby",
+      "text": "疯狗的外号……呃……我觉得有些尴尬， 所以请尽量不要在别人面前这么叫我。",
+      "text_original": "狂犬のあだ名は… その…恥ずかしいですから、あまり人前では呼ばないでください。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/WiGDHunEiE5ZyhWNnxAOlHw8Mug7BwoX.ogg"
+    },
+    {
+      "description": "CH0170_LogIn_1",
+      "category": "lobby",
+      "text": "我正等你呢，老师。如果需要公共安全局的力量，请随时告诉我。",
+      "text_original": "お待ちしておりました、先生。 公安局の力が必要でしたら、いつでも。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/dTCqnKO4aDuEIAgPTePBs7PljtV2f05B.ogg"
+    },
+    {
+      "description": "CH0170_LogIn_2",
+      "category": "lobby",
+      "text": "……发生案件了吗？请稍等，我这就去申请搜查令。",
+      "text_original": "…事件ですか？ 少々お待ちを。令状を発行してきます。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/sK2Y7ptei18Gq0EBPZHyWtIbUp1WCPQ5.ogg"
+    },
+    {
+      "description": "CH0170_MemorialLobby_1",
+      "category": "lobby",
+      "text": "我完全没想到，老师竟然会来这种 路边摊吃饭……",
+      "text_original": "先生がこのような屋台にいらっしゃるとは… 予想外でした…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/E7K6sHG89jdq2TMSijtVS3wwPMKi7NR5.ogg"
+    },
+    {
+      "description": "CH0170_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "是吗？",
+      "text_original": "そうですか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/hMJPITGIsCQtPk9xkrqPj9jiF6wveSna.ogg"
+    },
+    {
+      "description": "CH0170_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "我只有待在这里， 才能彻底放松下来。",
+      "text_original": "私はここが、一番落ち着くんです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/Hff3Ch9Z09JCMAPLwDfP74YHghj7xQDH.ogg"
+    },
+    {
+      "description": "CH0170_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "即使是让大家闻风丧胆， 从不休息的公共安全局局长……",
+      "text_original": "皆が恐れる普及の公安局の局長であっても…",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/AkpYWce4EILZWV539W9RshBb6khVz3Pk.ogg"
+    },
+    {
+      "description": "CH0170_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "……也需要一个能卸下铠甲， 好好休息的地方。",
+      "text_original": "…鎧を外せる場所ぐらい、必要ですから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/eKdF3LBddPSzwBVgvU7vXC4qNf16i2ji.ogg"
+    },
+    {
+      "description": "CH0170_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "咳，所以今天……",
+      "text_original": "ですので今日は、",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/vI1wKDYOPiHmAJ71UtRk0iYeVylTM9Ya.ogg"
+    },
+    {
+      "description": "CH0170_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "如果老师能当作 没有见过我的话， 那就再好不过了。",
+      "text_original": "見なかったことにしていただけると、幸いです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/Tw5Ulk4xZXkuWoRq4osJH9zYWmUA5nbR.ogg"
+    },
+    {
+      "description": "CH0170_Relationship_Up_1",
+      "category": "growup",
+      "text": "如果世界上所有大人都和老师一样，我们就没必要工作了……只是自言自语而已，请不要在意。",
+      "text_original": "世の大人が皆、先生の様な方であれば、私たちが仕事をすることもないのに…。……はぁ、独り言です。気にしないでください。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/JUWOeAzrMM8t50us381rYDlQqmMXXTp9.ogg"
+    },
+    {
+      "description": "CH0170_Relationship_Up_2",
+      "category": "growup",
+      "text": "就算是我，也不能从老师口中盘问出情报吧，呵呵。",
+      "text_original": "いくら私でも、先生を尋問して情報を引き出すのは不可能でしょうね。ふふっ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/DFrY39uXczqCHuh4qh2l7DIiCg9N4JiT.ogg"
+    },
+    {
+      "description": "CH0170_Relationship_Up_3",
+      "category": "growup",
+      "text": "老师和学生的感情……？啊！你，你在说什么胡话！",
+      "text_original": "先生と生徒の恋愛…？ハッ？な、なにを仰って！？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/FYRHiE6BGnqr9r1kIgPTlUVBIwTB4HS4.ogg"
+    },
+    {
+      "description": "CH0170_Relationship_Up_4",
+      "category": "growup",
+      "text": "有时，我也会依赖夏莱。",
+      "text_original": "たまには、シャーレを頼るとします。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/TLYZ2qcDl0ts2WunGBF2LdS6BXbUBuLM.ogg"
+    },
+    {
+      "description": "CH0170_Season_Birthday_1",
+      "category": "lobby",
+      "text": "啊……啊， 原来今天是我的生日啊。",
+      "text_original": "あ…今日は私の誕生日でしたか。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/krfkYaH1923OjUNmSkCalikm1dGTDTRz.ogg"
+    },
+    {
+      "description": "CH0170_Season_Birthday_2",
+      "category": "lobby",
+      "text": "我就说局里的人 怎么一大早就在祝贺我，我还以为是庆祝 昨天顺利逮捕罪犯的事情。",
+      "text_original": "朝から局員たちに祝われはしましたが…昨日、無事逮捕できた事を言われているのかと勘違いしておりました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/m1hgsIA7SpAZ1tgYRbCB9GBBwXv36vrx.ogg"
+    },
+    {
+      "description": "CH0170_Season_Birthday_Player_1",
+      "category": "lobby",
+      "text": "今天是你的生日啊， 祝你生日快乐。",
+      "text_original": "今日は誕生日でしたか。おめでとうございます。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/0t5qsk20z1d30xqIUzFSvRLm8nzM3UlR.ogg"
+    },
+    {
+      "description": "CH0170_Season_Birthday_Player_2",
+      "category": "lobby",
+      "text": "虽然身为瓦尔基丽的一员，我不能直接送你礼物……",
+      "text_original": "ヴァルキューレ警察学校に籍を置く身として、 直接贈り物をすることはできませんが…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/FzEnOyYUJV7wBeCnfJQrwm3L1zDU9b3D.ogg"
+    },
+    {
+      "description": "CH0170_Season_Birthday_Player_3",
+      "category": "lobby",
+      "text": "但方便的话， 我可以在自己常去的店请你吃饭。",
+      "text_original": "もしよろしければ、行きつけのお店でご馳走します。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/LpRBwTelglWyxg3UsmclwSnL5vWfVVWY.ogg"
+    },
+    {
+      "description": "CH0170_Season_Halloween_1",
+      "category": "lobby",
+      "text": "万圣节呀……又到了会影响搜查的时候了。",
+      "text_original": "ハロウィーン…。捜査を遅延させる厄介な時期が戻ってきましたね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/emDALluIjrYMulEf36VUbhRbawCWzZKy.ogg"
+    },
+    {
+      "description": "CH0170_Season_Halloween_2",
+      "category": "lobby",
+      "text": "如果罪犯混进 变装游行的队伍里，就很难对比模拟画像了……真让人头疼。",
+      "text_original": "仮装集団の中に犯罪者が紛れてしまうと、モンタージュ照合が難しくなりますので…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/DogThge2wxhwTjpuaROtsAcwbfrsKxQj.ogg"
+    },
+    {
+      "description": "CH0170_Season_NewYear",
+      "category": "lobby",
+      "text": "祝你新年快乐。希望今年 能少在搜查中与你见面。",
+      "text_original": "明けましておめでとうございます。 今年は捜査中に顔を合わせることが少ないといいですね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/Qy92Hciyw85odiDf66pXsmiDD0vcCFvv.ogg"
+    },
+    {
+      "description": "CH0170_Season_Xmas_1",
+      "category": "lobby",
+      "text": "……难道今天你也要加班？",
+      "text_original": "…もしかして、今日も夜勤を？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/5k4oXc4tgglT3yjqKIPokjuyECCPruqJ.ogg"
+    },
+    {
+      "description": "CH0170_Season_Xmas_2",
+      "category": "lobby",
+      "text": "不幸的是，今天我也要值班。",
+      "text_original": "残念ながら、私も今日は当直です。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/23nGr5ILPCyQeW0Wi7JlR6m1VkC3dVoP.ogg"
+    },
+    {
+      "description": "CH0170_Season_Xmas_3",
+      "category": "lobby",
+      "text": "……难得过圣诞节，把平时的黑咖啡 换成甜的拿铁怎么样？我现在去准备。",
+      "text_original": "…せっかくのクリスマスです。 ブラックコーヒーの代わりに、甘いラテはいかがですか？ すぐにお持ちします。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/czshmUSROmAKT6mKfQ30pz4MxD34aXBn.ogg"
+    },
+    {
+      "description": "ch0170_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "書類になにか不備でも？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/jp/ch0170_formation_select.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "ch0170_cafe_monolog_1",
+      "category": "cafe",
+      "text": "这里的咖啡…… 闻着挺香的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0170_cafe_monolog_2",
+      "category": "cafe",
+      "text": "好累啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0170_cafe_monolog_3",
+      "category": "cafe",
+      "text": "居然在这里找到了 兔子侦探系列的新作……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0170_cafe_monolog_4",
+      "category": "cafe",
+      "text": "呃，防卫室 打过来的电话……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0170_cafe_monolog_5",
+      "category": "cafe",
+      "text": "希望基沃托斯 今天也一片和平。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0170_commonskill",
+      "category": "battle",
+      "text": "已逮捕嫌疑人。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_commonskill.ogg"
+    },
+    {
+      "description": "ch0170_exskill_1",
+      "category": "battle",
+      "text": "哼，开始审讯吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_exskill_1.ogg"
+    },
+    {
+      "description": "ch0170_exskill_2",
+      "category": "battle",
+      "text": "撒谎是没有用的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_exskill_2.ogg"
+    },
+    {
+      "description": "ch0170_exskill_3",
+      "category": "battle",
+      "text": "你应该听说过“疯狗”这个名字吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_exskill_3.ogg"
+    },
+    {
+      "description": "ch0170_exskill_level_1",
+      "category": "battle",
+      "text": "瓦尔基丽公共安全局，不准动！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0170_exskill_level_2",
+      "category": "battle",
+      "text": "别动！再动就以犯人论处！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0170_exskill_level_3",
+      "category": "battle",
+      "text": "还好赶上了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0170_exweapon_get",
+      "category": "growup",
+      "text": "说起来， 曾经也因为不习惯这把枪而吃尽了苦头。 可在我熟悉了这把枪后， 却再也没有多少使用它的机会， 真是遗憾哪……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0170_formation_in_1",
+      "category": "formation",
+      "text": "轮到公共安全局出场了吗。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0170_formation_in_2",
+      "category": "formation",
+      "text": "如果这是命令的话。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0170_gachaget",
+      "category": "growup",
+      "text": "我是瓦尔基丽警员学院，公共安全局局长，尾刃康娜。 如果要审讯犯人的话，那就交给我吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_gachaget.ogg"
+    },
+    {
+      "description": "ch0170_growup_1",
+      "category": "growup",
+      "text": "原来还有这种方法……嗯，我学到了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_growup_1.ogg"
+    },
+    {
+      "description": "ch0170_growup_2",
+      "category": "growup",
+      "text": "这样的话……今天的的训练就足够了吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_growup_2.ogg"
+    },
+    {
+      "description": "ch0170_growup_3",
+      "category": "growup",
+      "text": "为了市民们，我每天都会认真工作。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_growup_3.ogg"
+    },
+    {
+      "description": "ch0170_growup_4",
+      "category": "growup",
+      "text": "虽然我是局长，但如果我疏于锻炼，也无法成为下属们的榜样。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_growup_4.ogg"
+    },
+    {
+      "description": "ch0170_lobby_1_1",
+      "category": "lobby",
+      "text": "公共安全局出动时需要提交很多文件……所以有时我很羡慕沙勒能迅速采取行动。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_lobby_1_1.ogg"
+    },
+    {
+      "description": "ch0170_lobby_1_2",
+      "category": "lobby",
+      "text": "当然， 我也没有担起这种责任的权限， 也没有这样的能力……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_lobby_1_2.ogg"
+    },
+    {
+      "description": "ch0170_lobby_2",
+      "category": "lobby",
+      "text": "我正打算去煮杯咖啡…… 老师也要来一杯吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_lobby_2.ogg"
+    },
+    {
+      "description": "ch0170_lobby_3",
+      "category": "lobby",
+      "text": "生活安全局的孩子们都是好警员……只是让她们去负责重案还是太早了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_lobby_3.ogg"
+    },
+    {
+      "description": "ch0170_lobby_4",
+      "category": "lobby",
+      "text": "吃甜甜圈很容易弄脏手， 所以我不喜欢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_lobby_4.ogg"
+    },
+    {
+      "description": "ch0170_lobby_5",
+      "category": "lobby",
+      "text": "疯狗的外号……呃……我觉得有些尴尬， 所以请尽量不要在别人面前这么叫我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_lobby_5.ogg"
+    },
+    {
+      "description": "ch0170_login_1",
+      "category": "lobby",
+      "text": "我正等你呢，老师。如果需要公共安全局的力量，请随时告诉我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_login_1.ogg"
+    },
+    {
+      "description": "ch0170_login_2",
+      "category": "lobby",
+      "text": "……发生案件了吗？请稍等，我这就去申请搜查令。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_login_2.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_1",
+      "category": "lobby",
+      "text": "我完全没想到，老师竟然会来这种 路边摊吃饭……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_memoriallobby_1.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "是吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "我只有待在这里， 才能彻底放松下来。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "即使是让大家闻风丧胆， 从不休息的公共安全局局长……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "……也需要一个能卸下铠甲， 好好休息的地方。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "咳，所以今天……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "如果老师能当作 没有见过我的话， 那就再好不过了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "ch0170_relationship_up_1",
+      "category": "growup",
+      "text": "如果世界上所有大人都和老师一样，我们就没必要工作了……只是自言自语而已，请不要在意。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0170_relationship_up_2",
+      "category": "growup",
+      "text": "就算是我，也不能从老师口中盘问出情报吧，呵呵。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0170_relationship_up_3",
+      "category": "growup",
+      "text": "老师和学员的感情……？啊！你，你在说什么胡话！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0170_relationship_up_4",
+      "category": "growup",
+      "text": "有时，我也会依赖沙勒。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0170_season_birthday_1",
+      "category": "lobby",
+      "text": "啊……啊， 原来今天是我的生日啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_season_birthday_1.ogg"
+    },
+    {
+      "description": "ch0170_season_birthday_2",
+      "category": "lobby",
+      "text": "我就说局里的人 怎么一大早就在祝贺我，我还以为是庆祝 昨天顺利逮捕罪犯的事情。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_season_birthday_2.ogg"
+    },
+    {
+      "description": "ch0170_season_birthday_player_1",
+      "category": "lobby",
+      "text": "今天是你的生日啊， 祝你生日快乐。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "ch0170_season_birthday_player_2",
+      "category": "lobby",
+      "text": "虽然身为瓦尔基丽的一员，我不能直接送你礼物……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "ch0170_season_birthday_player_3",
+      "category": "lobby",
+      "text": "但方便的话， 我可以在自己常去的店请你吃饭。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_season_birthday_player_3.ogg"
+    },
+    {
+      "description": "ch0170_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，新春快乐。 接下来我要去巡逻， 恕我失陪…… 诶？想和我一起去？ 可以是可以， 但是既枯燥又辛苦…… 你说这都是为了市民和我？ 谢，谢谢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "ch0170_season_halloween_1",
+      "category": "lobby",
+      "text": "万圣节呀……又到了会影响搜查的时候了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_season_halloween_1.ogg"
+    },
+    {
+      "description": "ch0170_season_halloween_2",
+      "category": "lobby",
+      "text": "如果罪犯混进 变装游行的队伍里，就很难对比模拟画像了……真让人头疼。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_season_halloween_2.ogg"
+    },
+    {
+      "description": "ch0170_season_midautumn",
+      "category": "lobby",
+      "text": "老师，中秋快乐。 公共安全局收到了一些月饼， 要是感兴趣就尝尝吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_season_midautumn.ogg"
+    },
+    {
+      "description": "ch0170_season_newyear",
+      "category": "lobby",
+      "text": "祝你新年快乐。希望今年 能少在搜查中与你见面。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_season_newyear.ogg"
+    },
+    {
+      "description": "ch0170_season_xmas_1",
+      "category": "lobby",
+      "text": "……难道今天你也要加班？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_season_xmas_1.ogg"
+    },
+    {
+      "description": "ch0170_season_xmas_2",
+      "category": "lobby",
+      "text": "不幸的是，今天我也要值班。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_season_xmas_2.ogg"
+    },
+    {
+      "description": "ch0170_season_xmas_3",
+      "category": "lobby",
+      "text": "……难得过圣诞节，把平时的黑咖啡 换成甜的拿铁怎么样？我现在去准备。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_season_xmas_3.ogg"
+    },
+    {
+      "description": "ch0170_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/cn/ch0170_title.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "CH0170_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/CH0170_Title.ogg"
+    },
+    {
+      "description": "ch0170_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0170_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0170_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0170_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0170_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0170_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_commonskill.ogg"
+    },
+    {
+      "description": "ch0170_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_exskill_1.ogg"
+    },
+    {
+      "description": "ch0170_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_exskill_2.ogg"
+    },
+    {
+      "description": "ch0170_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_exskill_3.ogg"
+    },
+    {
+      "description": "ch0170_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0170_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0170_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0170_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0170_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_gachaget.ogg"
+    },
+    {
+      "description": "ch0170_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_growup_1.ogg"
+    },
+    {
+      "description": "ch0170_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_growup_2.ogg"
+    },
+    {
+      "description": "ch0170_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_growup_3.ogg"
+    },
+    {
+      "description": "ch0170_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_growup_4.ogg"
+    },
+    {
+      "description": "ch0170_lobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_lobby_1_1.ogg"
+    },
+    {
+      "description": "ch0170_lobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_lobby_1_2.ogg"
+    },
+    {
+      "description": "ch0170_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_lobby_2.ogg"
+    },
+    {
+      "description": "ch0170_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_lobby_3.ogg"
+    },
+    {
+      "description": "ch0170_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_lobby_4.ogg"
+    },
+    {
+      "description": "ch0170_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_lobby_5.ogg"
+    },
+    {
+      "description": "ch0170_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_login_1.ogg"
+    },
+    {
+      "description": "ch0170_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_login_2.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_memoriallobby_1.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "ch0170_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "ch0170_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0170_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0170_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0170_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0170_season_birthday_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_season_birthday_1.ogg"
+    },
+    {
+      "description": "ch0170_season_birthday_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_season_birthday_2.ogg"
+    },
+    {
+      "description": "ch0170_season_birthday_player_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "ch0170_season_birthday_player_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "ch0170_season_birthday_player_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_season_birthday_player_3.ogg"
+    },
+    {
+      "description": "ch0170_season_halloween_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_season_halloween_1.ogg"
+    },
+    {
+      "description": "ch0170_season_halloween_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_season_halloween_2.ogg"
+    },
+    {
+      "description": "ch0170_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_season_newyear.ogg"
+    },
+    {
+      "description": "ch0170_season_xmas_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_season_xmas_1.ogg"
+    },
+    {
+      "description": "ch0170_season_xmas_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_season_xmas_2.ogg"
+    },
+    {
+      "description": "ch0170_season_xmas_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/ch0170_season_xmas_3.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0170_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0170_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0170_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0170_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0170_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0170_spr_07.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0170_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0170_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0170_spr_08.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0170_spr_99.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0170_spr_Idle_01.png"
+      ]
+    },
+    {
+      "title": "战损立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/gallery/%E6%88%98%E6%8D%9F%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0105_spr_99.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/gallery/%E6%88%98%E6%8D%9F%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0105_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/gallery/%E6%88%98%E6%8D%9F%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0105_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/gallery/%E6%88%98%E6%8D%9F%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0105_spr_09.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/gallery/%E6%88%98%E6%8D%9F%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0105_spr_08.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/gallery/%E6%88%98%E6%8D%9F%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0105_spr_07.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/gallery/%E6%88%98%E6%8D%9F%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0105_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/gallery/%E6%88%98%E6%8D%9F%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0105_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/gallery/%E6%88%98%E6%8D%9F%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0105_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/gallery/%E6%88%98%E6%8D%9F%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0105_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/gallery/%E6%88%98%E6%8D%9F%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0105_spr_04.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%82%AB%E3%83%B3%E3%83%8A-1.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/kanna.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/kanna%20%281%29.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/kanna.png",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Kanna%20%281%29.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Kanna-0.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/kanna%20%282%29.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/kanna%20%283%29.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/kanna.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/kanna_cafe.gif",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/kanna_ex.gif",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/kanna_skill.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/kanna_cafe2.gif",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-34.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-127.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-159.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-184.jpg"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 141,
+      "favorability": 240
+    },
+    {
+      "id": 63,
+      "favorability": 60
+    },
+    {
+      "id": 55,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    930
+  ],
+  "character_datas": [
+    {
+      "character_id": 20023,
+      "dev_name": "CH0170",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Piercing",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "B",
+      "street_adaptability": "S",
+      "equipment": [
+        3,
+        8,
+        5
+      ],
+      "cultivate_material": [
+        120,
+        121,
+        123,
+        124,
+        133,
+        135,
+        136,
+        138,
+        19,
+        419,
+        420,
+        421,
+        422,
+        407,
+        408,
+        409
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/skill_icon/bJD61jlWVgapBj5ZxhtwPHfT8N64UqOK.png",
+            "title": " 公安局长的手腕",
+            "title_cn": "公共安全局局长的手腕",
+            "preview": "//static.kivo.wiki/videos/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/skill_preview/e1gpXIOzI8j1lD1ndl8woF4IjN7uBjyy.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "对1名敌方单位造成攻击力52.9%的伤害，并施加 蓄积 状态(持续15秒)/ 该状态持续期间，我方对其造成的伤害量将以30%倍率蓄积并在该状态结束后对该目标造成蓄积伤害量的贯通伤害 (伤害蓄积最大值为叶渚2070%的攻击力) (蓄积伤害无法暴击)"
+              },
+              {
+                "cost": 3,
+                "describe": "对1名敌方单位造成攻击力60.9%的伤害，并施加 蓄积 状态(持续15秒)/ 该状态持续期间，我方对其造成的伤害量将以30%倍率蓄积并在该状态结束后对该目标造成蓄积伤害量的贯通伤害 (伤害蓄积最大值为叶渚2070%的攻击力) (蓄积伤害无法暴击)"
+              },
+              {
+                "cost": 3,
+                "describe": "对1名敌方单位造成攻击力68.8%的伤害，并施加 蓄积 状态(持续15秒)/ 该状态持续期间，我方对其造成的伤害量将以40%倍率蓄积并在该状态结束后对该目标造成蓄积伤害量的贯通伤害 (伤害蓄积最大值为叶渚2380%的攻击力) (蓄积伤害无法暴击)"
+              },
+              {
+                "cost": 3,
+                "describe": "对1名敌方单位造成攻击力76.7%的伤害，并施加 蓄积 状态(持续15秒)/ 该状态持续期间，我方对其造成的伤害量将以40%倍率蓄积并在该状态结束后对该目标造成蓄积伤害量的贯通伤害 (伤害蓄积最大值为叶渚2380%的攻击力) (蓄积伤害无法暴击)"
+              },
+              {
+                "cost": 3,
+                "describe": "对1名敌方单位造成攻击力84.7%的伤害，并施加 蓄积 状态(持续15秒)/ 该状态持续期间，我方对其造成的伤害量将以50%倍率蓄积并在该状态结束后对该目标造成蓄积伤害量的贯通伤害 (伤害蓄积最大值为叶渚2691%的攻击力) (蓄积伤害无法暴击)"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/skill_icon/QZfYu7RM4HSAmfcPgOfqi6S4xAoQTsZO.png",
+            "title": "严刑逼供",
+            "title_cn": "严格的审讯",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每30秒对1名敌方单位造成攻击力197%的伤害/ 防御力 降低7.6%(持续20秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒对1名敌方单位造成攻击力207%的伤害/ 防御力 降低7.9%(持续20秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒对1名敌方单位造成攻击力217%的伤害/ 防御力 降低8.3%(持续20秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒对1名敌方单位造成攻击力257%的伤害/ 防御力 降低9.8%(持续20秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒对1名敌方单位造成攻击力266%的伤害/ 防御力 降低10.2%(持续20秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒对1名敌方单位造成攻击力276%的伤害/ 防御力 降低10.6%(持续20秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒对1名敌方单位造成攻击力316%的伤害/ 防御力 降低12.1%(持续20秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒对1名敌方单位造成攻击力326%的伤害/ 防御力 降低12.5%(持续20秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒对1名敌方单位造成攻击力336%的伤害/ 防御力 降低12.9%(持续20秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒对1名敌方单位造成攻击力375%的伤害/ 防御力 降低14.4%(持续20秒)"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/skill_icon/WnmSGWln7yiGAj8TsjSe00J0gI1YudQO.png",
+            "title": "狂犬的执念",
+            "title_cn": "疯狗的执念",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力 提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/skill_icon/Xfra6xrFIYS6B615pcd7FPDl7GgWSNPn.png",
+            "title": "公安局特制弹药",
+            "title_cn": "公共安全局特制子弹",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "编队内所有贯通攻击属性的学生 攻击力 提升12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "编队内所有贯通攻击属性的学生 攻击力 提升13.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "编队内所有贯通攻击属性的学生 攻击力 提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "编队内所有贯通攻击属性的学生 攻击力 提升16.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "编队内所有贯通攻击属性的学生 攻击力 提升17.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "编队内所有贯通攻击属性的学生 攻击力 提升17.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "编队内所有贯通攻击属性的学生 攻击力 提升20.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "编队内所有贯通攻击属性的学生 攻击力 提升21%"
+              },
+              {
+                "cost": 1,
+                "describe": "编队内所有贯通攻击属性的学生 攻击力 提升21.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "编队内所有贯通攻击属性的学生 攻击力 提升24.2%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2375,
+          "attack": 253,
+          "defense": 62,
+          "healing": 2000,
+          "accuracy": 792,
+          "evasion": 1036,
+          "crit": 211,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1081,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/weapons_icon.png",
+        "name": "第17号瓦尔基里制式手枪",
+        "name_cn": "瓦尔基丽17号制式手枪",
+        "description": "瓦尔基里警察学校配给的制式手枪。<br>因其朴素的设计与轻便简易的操作，对于比起去现场出动更多忙于文书工作的叶渚相当偏好这把手枪。",
+        "description_cn": "瓦尔基丽警员学院发放的制式手枪。<br>虽然设计简单，但枪身轻便，易于操作。对于文件工作多于现场工作的康娜来说，是个不错的选择。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「狂犬的执念」升级为「狂犬的执念+」"
+          },
+          {
+            "title": "固有武器最大等級 Lv.40 → Lv.50 / 地形适应性强化  街道地形适应性 S → SS",
+            "description": "在街道地形造成1.3倍伤害。处于掩体掩护状态时掩护成功率增加75%，攻击时无视掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%BE%E5%88%83%20%E5%8F%B6%E6%B8%9A/skill_icon/9vEpLWuMbESbxsRSVKgGuH5jtOMujiCT.png",
+            "title": "狂犬的执念+",
+            "title_cn": "疯狗的执念+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力 提升249/ 攻击力 提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升261/ 攻击力 提升14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升274/ 攻击力 提升15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升323/ 攻击力 提升18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升336/ 攻击力 提升18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升348/ 攻击力 提升19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升398/ 攻击力 提升22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升410/ 攻击力 提升23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升423/ 攻击力 提升23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力 提升472/ 攻击力 提升26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "479412ae-1e90-4c38-8b70-33dc9a79253f",
+  "skill_declare_uuid": "aca0f625-37d7-4bc1-8620-8168da3d1b76",
+  "supplementary_uuid": "c50de1d6-4ecb-4056-928d-51a3bfc29178",
+  "supplementary_declare_uuid": "ed3d2865-3d3f-4b27-9957-6948767b2654",
+  "created_at": 1685542523,
+  "updated_at": 1783658925
+}

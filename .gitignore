@@ -113,4 +113,5 @@ result.json
 examples/
 
 mmt_rs/target/
+mmt_lsp/target/
 web/.vite/

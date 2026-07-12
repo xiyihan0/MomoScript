@@ -1,0 +1,947 @@
+{
+  "id": 317,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 317,
+      "avatar": "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "佐天",
+  "given_name": "泪子",
+  "family_name_jp": "佐天",
+  "given_name_jp": "涙子",
+  "family_name_kr": "사텐",
+  "given_name_kr": "루이코",
+  "family_name_en": "Saten",
+  "given_name_en": "Ruiko",
+  "family_name_zh_tw": "佐天",
+  "given_name_zh_tw": "淚子",
+  "family_name_cn": "佐天",
+  "given_name_cn": "泪子",
+  "nick_name": "泪爷",
+  "introduction": "栅川中学所属的阳光女子高中生。\n和同年级的初春饰利是亲友、请她帮忙介绍了身为前辈的常盘台中学的御坂美琴。虽是Level 0的无能力者，但有着很强的直觉，经常可以察觉到决定性的线索。喜欢的事物是都市传说与点心。一到休息日便经常会去调查有关点心的事情。",
+  "introduction_cn": "栅川中学的开朗女生。\n因同年级的好友初春饰利介绍，认识了常盘台中学的前辈御坂美琴。\n虽然她是LEVEL0的无能力者，但有敏锐的直觉，经常能够发现决定性的线索。\n她喜欢都市传说与甜点，据说一到休息日，就会出去做甜点调查。\n\n> “我会尽我所能的！”",
+  "momo_talk_signature": "如果看到了不可思议的东西，请联系我！",
+  "main_relation": 88,
+  "relation": null,
+  "age": 12,
+  "grade": "一年生",
+  "height": 160,
+  "birthday": null,
+  "hobby": "网上麻将、甜点调查",
+  "designer": "",
+  "illustrator": "ミミトケ",
+  "character_voice": "伊藤加奈惠",
+  "character_voice_cn": "",
+  "release_date": "2023-10-24",
+  "release_date_cn": "2025-11-20",
+  "release_date_global": "2024-04-30",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/avatar.png",
+  "school": 26,
+  "weapon_type": "SMG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": false,
+  "more": "# 杂项趣闻\n\n## 关于生日\n魔禁官方其实未曾给出佐天泪子的生日。\n网络上有人因为「佐(さ)」的读音接近３,「天(てん)」的读音接近10(ten)而将3月10日称为佐天之日（佐天さんの日），从而导致许多网友误认为佐天的生日是3月10日，但事实上3月10日并非佐天的生日。\n\n!!! note 引用说明\n这段文字引用并修改自[佐天泪子 - 魔禁中文维基](https://toaru.huijiwiki.com/wiki/佐天泪子)，遵循[CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/)协议。\n!!!\n\n# 官方图集\n\n## 官方介绍图\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![2.jfif](files/15949/kQ4labEAYVV1OeSMrCHZt5iIOQqc5Xar.jpg =x700) | ![ruikoCN.png](files/10355/R06spD4YyVpEnY8zFyF1vIa5oODKUaBC.png =x700) | ![ruiko.jpg](files/1348/3umtccbNqeR6gl1L0hpGsV0a7SBTYLV7.jpg =x700) | ![1.jfif](files/15949/JmwZ8nkJGR7hO9WoJHuKhAlsquppvxrI.jpg =x700) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[塔罗牌桌](https://kivo.wiki/data/item/1054) |\n| :---: | :---: | :---: |\n| ![ruiko_ex.gif](files/10355/wUxEz9gn9qfNGVhihGag4KIk9YNaZPYL.gif =450x)  | ![ruiko_cafe.gif](files/10355/r6WP1Fc7tVKP6QwPc1IH1CaaP4D9Ag6s.gif =450x) | ![ruiko_interaction.gif](files/10355/ojpgi0dAwRMumgWyAmlAN8UyyD0bULMo.gif =450x) |\n\n## 设定集\n:::: center\n\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 016.png](files/15949/ZBWWqB1pcLeY0Qa8eDOrYS1jizc2WDep.png =450x)\n\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 060.png](files/15949/SfSA61dmBIFTl09c2yyJOYdWjDv6L5rR.png =450x)\n\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 122.png](files/15949/ebMHsleHIPkXV7ju2XOnk8Y9JOtratQ0.png =450x)\n\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 172.png](files/15949/aG5YnoDypXSmQquBPWbOp7JdiGbgYpyV.png =450x)\n\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[御坂美琴](https://kivo.wiki/data/character/315)|御坂さん|\n|[食蜂操祈](https://kivo.wiki/data/character/316)|食蜂さん|\n|白井黒子|白井さん|\n|[艾米](https://kivo.wiki/data/character/158)|和泉元さん|\n|[日鞠](https://kivo.wiki/data/character/62)|明星さん|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/CH9996_home_Idle_01_0.8417000000000018.jpg",
+  "spine": [
+    1504,
+    577,
+    1536
+  ],
+  "model": [
+    151,
+    369
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [
+    {
+      "description": "CH9996_Cafe_monolog_1",
+      "category": "cafe",
+      "text": " 咦，那个人……",
+      "text_original": "あれ?あの人は!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/j4HqWrsEaeqJtG9stw85odet54SwzwCh.ogg"
+    },
+    {
+      "description": "CH9996_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "噢噢！！感觉这里好厉害！",
+      "text_original": "おー!なんかここすごいですね!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/wbkRf8QOs0OGhhbiXVkWm9VOoYFlTgzD.ogg"
+    },
+    {
+      "description": "CH9996_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "乍看之下很普通，但仔细一看就会发现有些独特之处……嗯~！真有意思！",
+      "text_original": "一見普通っぽいんですけど、よくよく見るとちょっと変わってる！うーん楽しい!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/YCpTCHWNKuX9upvfMqyj3snkRdP7Cpnd.ogg"
+    },
+    {
+      "description": "CH9996_Cafe_monolog_4",
+      "category": "cafe",
+      "text": "这里就是传说中的异世界咖啡厅……",
+      "text_original": "ここが噂に聞く異世界のカフェ",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/YV3kpN37iWhQmf5sNJlTIcDIxzlwGtjW.ogg"
+    },
+    {
+      "description": "CH9996_Cafe_monolog_5",
+      "category": "cafe",
+      "text": "感觉让人很安心呢，嘿嘿。",
+      "text_original": "なんだか落ち着きますねー",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/M5PZABCtfGglevYlmN7A8iqr4hpRX85K.ogg"
+    },
+    {
+      "description": "CH9996_CommonSkill",
+      "category": "battle",
+      "text": "味，味道怎么样？",
+      "text_original": "お味はどうでしょう?",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/3CbaeoiqSJ94oDU1cXGKcu6rUjgKQNPD.ogg"
+    },
+    {
+      "description": "CH9996_EventLobby_1",
+      "category": "event",
+      "text": "咦？老师？有什么事吗？",
+      "text_original": "あれ?先生、どうかしました?",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/h97lkMo4tZlgLb2jsj2rR0NdxzTrpmo7.ogg"
+    },
+    {
+      "description": "CH9996_EventLobby_2",
+      "category": "event",
+      "text": "要不要我来帮忙？",
+      "text_original": "何かお手伝いしましょうか?",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/n1zvkuLWvR1uejxFnJWzQvuRnepezXpo.ogg"
+    },
+    {
+      "description": "CH9996_EventLobby_3",
+      "category": "event",
+      "text": "……唔，老师，现在不是闹着玩的时候啦。",
+      "text_original": "まあまあ…先生、今は遊んでる場合じゃないですよ。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/jJKSYvCYvXtGswB9eFV3mcBOtLmunrCj.ogg"
+    },
+    {
+      "description": "CH9996_EventLobby_4",
+      "category": "event",
+      "text": "好啦！老师！专心，专心点！",
+      "text_original": "もう先生集中集中ですよ",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/AEu2vmzrgeUgG2Gs9wYz3UvfwG1pDPcD.ogg"
+    },
+    {
+      "description": "CH9996_EventLogin_1",
+      "category": "event",
+      "text": "老师，您来啦！那我们就马上出发吧！",
+      "text_original": "来てくれたんですね先生では早速行きましょう",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/QfGOkz8YpP3zLCcUbeAtsbX6m9xsiqnv.ogg"
+    },
+    {
+      "description": "CH9996_EventLogin_2",
+      "category": "event",
+      "text": "老师，等您好久啦！",
+      "text_original": "待ってましたよ先生",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/ZVvfXkdJBThTpzU0wYAtyRYaR8CeVZx1.ogg"
+    },
+    {
+      "description": "CH9996_EventLogin_Season_1",
+      "category": "event",
+      "text": "已经只剩下一半了？！我们一起努力到最后吧！",
+      "text_original": "もう残り半分?最後まで頑張りましょう!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/wsefde8cCbLRBuXKbe2e8Twfbye5ZRw5.ogg"
+    },
+    {
+      "description": "CH9996_EventLogin_Season_2",
+      "category": "event",
+      "text": "终点已经近在眼前了……！",
+      "text_original": "そろそろ終わりが見えてきましたね？",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/wimGyzPGScDY3bZHcl9YYMOnH8uGYUWB.ogg"
+    },
+    {
+      "description": "CH9996_EventLogin_Season_End",
+      "category": "event",
+      "text": "那么！最后再来确认一遍吧？",
+      "text_original": "最後にもう一度見ていきませんか",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/Qeq3cE0biTgLLPEeC2ww8Y753eHuMRdi.ogg"
+    },
+    {
+      "description": "CH9996_EventShop_1",
+      "category": "event",
+      "text": "咦？您在找什么吗？",
+      "text_original": "あれ?何かお探しですか?",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/U5e9qa5fhJIGO11UtK556pKM6HK2R7XX.ogg"
+    },
+    {
+      "description": "CH9996_EventShop_2",
+      "category": "event",
+      "text": "呃，您多看看这里的东西，别一直看我呀……",
+      "text_original": "えっと、見てもらいたいのは、あたしじゃなくて、あっちなんですけど。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/ePAc6kcWO3nUH0ETngEQDmQnyXbqQALU.ogg"
+    },
+    {
+      "description": "CH9996_EventShop_Buy_1",
+      "category": "event",
+      "text": "啊，这个？很不错呢！",
+      "text_original": "あ!それいいですね!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/yCrTroHW0JPYU542EM5N4vioQ8BrQimv.ogg"
+    },
+    {
+      "description": "CH9996_EventShop_Buy_2",
+      "category": "event",
+      "text": "嗯！您眼光不错嘛~……开玩笑的！",
+      "text_original": "ふむ、お目が高いですねーなんちゃってー",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/OfZ6lEHHeviDclDiZQ4bUewB0sxSsyzL.ogg"
+    },
+    {
+      "description": "CH9996_EventShop_Buy_3",
+      "category": "event",
+      "text": "您要找的就是这个吗！确实很不错！",
+      "text_original": "お探しのものはそれだったんですね納得です",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/pOLT0vVOPhIVNexRLGc56NcqTQdvhsCu.ogg"
+    },
+    {
+      "description": "CH9996_EventShop_Buy_4",
+      "category": "event",
+      "text": "噢噢~我就知道！我也觉得这个不错！",
+      "text_original": "おー!やっぱり!私もそれがいいと思ってました!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/fYWERznbS50nAKWPti8dKcDsLt141ntK.ogg"
+    },
+    {
+      "description": "CH9996_EventShop_End",
+      "category": "event",
+      "text": "还有事情没做完吗？记得好好检查呀，老师~！",
+      "text_original": "やり残しはないかチェックチェックですよ",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/1SILVAAp8ojzzBJ8G7VaLrM4jpb5SsCh.ogg"
+    },
+    {
+      "description": "CH9996_EventShop_Login_1",
+      "category": "event",
+      "text": "锵锵~！我准备了很多东西！",
+      "text_original": "ジャーン!いろいろ用意してみました!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/DhGz60jrXy0SrSMfMCsuo1RktXBF1bqQ.ogg"
+    },
+    {
+      "description": "CH9996_EventShop_Login_2",
+      "category": "event",
+      "text": "看这里，老师！您喜欢什么尽管挑！",
+      "text_original": "こちらです先生好きなものを選んじゃってください",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/kxDYV9EZ2GnPs2gd312siMCtZa0iCLN6.ogg"
+    },
+    {
+      "description": "CH9996_ExSkill_1",
+      "category": "battle",
+      "text": "哇，哇？！怎么回事？！",
+      "text_original": "う、うぅわぁ!?な、なに!?",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/AmwZMC0eQGsLZcyNdEfpzzefkXimqUOK.ogg"
+    },
+    {
+      "description": "CH9996_ExSkill_2",
+      "category": "battle",
+      "text": "……！！来了！",
+      "text_original": "キタッ!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/bnS6Fzj6GHDZJW6kNITzaXt82687WCHf.ogg"
+    },
+    {
+      "description": "CH9996_ExSkill_3",
+      "category": "battle",
+      "text": "……！！我就知道会来的！",
+      "text_original": "来ると思った!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/3W2kbnOD8G2BJWHYuyB2USpUYc3vc2sj.ogg"
+    },
+    {
+      "description": "CH9996_ExSkill_Level_1",
+      "category": "battle",
+      "text": "对付这个……就要这样！",
+      "text_original": "ここは…よいしょ!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/h1vPjIoSV28MaQf9VcmLSvebTFPjvEnz.ogg"
+    },
+    {
+      "description": "CH9996_ExSkill_Level_2",
+      "category": "battle",
+      "text": "哈啊啊啊——！！",
+      "text_original": "はぁぁぁぁぁぁあああああ",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/9vdgXCCIcLXgCTMCML2gcxhJp8v645zh.ogg"
+    },
+    {
+      "description": "CH9996_ExSkill_Level_3",
+      "category": "battle",
+      "text": "没门儿！哈啊！！",
+      "text_original": "させない!やぁっ!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/uWHYXfetGfJt5nKHXAFPlAqxNaYz2dwO.ogg"
+    },
+    {
+      "description": "CH9996_ExWeapon_Get",
+      "category": "growup",
+      "text": "诶？这个……是给我的？感，感觉真奇妙……谢谢您。总，总之，我会加油的！……对不起，我只能想出这么一句话。哈哈……",
+      "text_original": "えっ?これを私に?へ、変な感じですね。ありがとうございます。と、とりあえず頑張りますね!それしか言えなくてすみません。はは。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/1UsTiVjVcCtciWZx3NdgPaUA1fwNQDFJ.ogg"
+    },
+    {
+      "description": "CH9996_Gachaget",
+      "category": "growup",
+      "text": "您好，老师！我是栅川中学1年级的佐天泪子！请多关照啦！",
+      "text_original": "こんにちは先生。佐久川中学1年佐典瑠璃子ですよろしくお願いします。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/FHmtCbEOogijsdGPjLSHCXyOfcKlpuFy.ogg"
+    },
+    {
+      "description": "CH9996_Growup_1",
+      "category": "growup",
+      "text": "这，这是给我的吗？！……太感谢了！我会加油的！",
+      "text_original": "く、くれるんですか?ありがとうございます!頑張ります!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/mV3tuemARbj4JAlBv8P5bPgzGUIoW8OS.ogg"
+    },
+    {
+      "description": "CH9996_Growup_2",
+      "category": "growup",
+      "text": "我也说不清这种感觉，但总觉得自己好像变强了……",
+      "text_original": "よくわからないけど、なんだか強くなったような気が",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/zdJaNSgqnz5tM1xn5OiH5QtUc5whyfn9.ogg"
+    },
+    {
+      "description": "CH9996_Growup_3",
+      "category": "growup",
+      "text": "哇！感觉全身充满了力量！这样算正常吗？！",
+      "text_original": "うわぁ!体中から力が湧いてくる!こういうものなんですか?",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/JQ65tdD9Ib9Sg0h5z6ylvIIgRTBL4awf.ogg"
+    },
+    {
+      "description": "CH9996_Growup_4",
+      "category": "growup",
+      "text": "老师！我，我感觉自己现在无所不能！",
+      "text_original": "先生!あたし今ならなんでもできそうな気がします!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/RZ8QQFxbBKsAdcmBppCobJ4GyLu9LuML.ogg"
+    },
+    {
+      "description": "CH9996_Lobby_1",
+      "category": "lobby",
+      "text": "这里和我们的世界乍看之下相似，但又完全不同……真有趣呢。",
+      "text_original": "ここって私たちの世界に似ているようで全然違って面白いんですよね",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/YS9iOsIBPV1MrGn3CYgXl0G7Vud5Obd6.ogg"
+    },
+    {
+      "description": "CH9996_Lobby_2",
+      "category": "lobby",
+      "text": "诶？接下来要去散步？……我也想去！老师，拜托您带上我吧！",
+      "text_original": "えっ?今から散歩?私も行きたいです!連れて行ってください!先生!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/nqyA2yyozauzMDl351OrlknriGFp2N7N.ogg"
+    },
+    {
+      "description": "CH9996_Lobby_3",
+      "category": "lobby",
+      "text": "这个世界真有意思！不管什么都是！",
+      "text_original": "何から何まで面白い世界ですねここ",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/oiHQSjprylUFz3m9CN0XSWRAO4zGscNJ.ogg"
+    },
+    {
+      "description": "CH9996_Lobby_4",
+      "category": "lobby",
+      "text": "虽然只是因为偶然才来到这里，但我真的觉得很幸运！",
+      "text_original": "偶然ではありましたけどここに来てよかったです",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/eBEQwvqUw880huv2sJDr5S1vLSadjYXv.ogg"
+    },
+    {
+      "description": "CH9996_Lobby_5",
+      "category": "lobby",
+      "text": "老师您呢？我们来了以后……您的每一天有没有也变得有趣一些呢？",
+      "text_original": "先生はどうですか?私たちが来てから毎日がちょっとは楽しくなりました?",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/ZnYYOkiNOgnk88RwYqN7nufhJF2eH7W1.ogg"
+    },
+    {
+      "description": "CH9996_LogIn_1",
+      "category": "lobby",
+      "text": "啊！老师！等您好久啦！今天要做些什么？",
+      "text_original": "先生、お待ちしてました。今日は何をするんですか?",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/UjZ2KE5CwY4RIdIbLIUwzybtptFHuvgg.ogg"
+    },
+    {
+      "description": "CH9996_LogIn_2",
+      "category": "lobby",
+      "text": "老师，欢迎您！有什么我能帮忙做的事情吗？",
+      "text_original": "おかえりなさい先生私にできること何かありますか",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/iK4yIIeeHQAGWkakNQ1eTgKwg3LJ45WH.ogg"
+    },
+    {
+      "description": "CH9996_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "唔……感觉应该没什么不同……",
+      "text_original": "うーんー特に変わったところは、なさそうかな。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/A8ptHTltuOj7kx1NucmZRgpc3G0285r7.ogg"
+    },
+    {
+      "description": "CH9996_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "……老师，您的表情为什么这么紧张？ 不就是台发球机而已嘛。",
+      "text_original": "先生?顔がこわばってません?ただのバッティングマシーンですって",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/GCDbsoXow8WRm9YdYh2f9fu0xnZHSqhS.ogg"
+    },
+    {
+      "description": "CH9996_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "好的！但我想应该没问题的。",
+      "text_original": "はい!でも多分大丈夫です!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/H2OOfBJ816FCEEvdPN3rx95xJ58xSZUN.ogg"
+    },
+    {
+      "description": "CH9996_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "打棒球这件事，我还是很有自信的。",
+      "text_original": "バッティングにはそれなりに自信がありますから",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/0BWyUCcJjFIZoqZ0KdhNDMlrJ4du8Nnn.ogg"
+    },
+    {
+      "description": "CH9996_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "……怎么了？您干嘛一副怀疑的样子。",
+      "text_original": "何ですか?その疑いの眼差しは",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/UL8WQpClyLpaUDbsa0dzWkSnTRVSMnAI.ogg"
+    },
+    {
+      "description": "CH9996_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "那我们就来打个赌吧？",
+      "text_original": "じゃあ、賭けでもします?",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/WHu43S0G4bDYjy3CrXYJwxMnewH0eW4b.ogg"
+    },
+    {
+      "description": "CH9996_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "如果我没有在3球以内打中，就老老实实下场。",
+      "text_original": "3球以内に打てなかったら、おとなしく打席を離れます",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/jaDU6JEcjrLWaN15tvDoFlD0BSSQrO1M.ogg"
+    },
+    {
+      "description": "CH9996_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "但只要我打中了1个球，您就在那边的自动贩卖机买罐饮料请我喝！",
+      "text_original": "その代わり、もし一球でも打てたら、そこの自販機で飲み物をおごってください",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/3yw0DiU8Gy2IczXPdeyv8rG0kSOPRNLz.ogg"
+    },
+    {
+      "description": "CH9996_MemorialLobby_5_1",
+      "category": "lobby",
+      "text": "怎么样？ 老师也觉得这样不错吧？",
+      "text_original": "どうですか?先生にとっても悪い話じゃないですよね?",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/oljUnEaJaoOqcWd7qnehnJqkDk6P6xwz.ogg"
+    },
+    {
+      "description": "CH9996_MemorialLobby_5_2",
+      "category": "lobby",
+      "text": "……嘿嘿。",
+      "text_original": "へへー",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/ADFPsdJVG8O5SCLGTcsgXREtNIiGAKip.ogg"
+    },
+    {
+      "description": "CH9996_Relationship_Up_1",
+      "category": "growup",
+      "text": "该怎么说才好呢……总觉得只说句谢谢似乎远远不够呢……",
+      "text_original": "なんて言ったらいいんですかね?ありがとうございます!じゃあ全然足りない気がします",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/NFoxeKyYPLx2wdMusrFvRUrNE8272XpH.ogg"
+    },
+    {
+      "description": "CH9996_Relationship_Up_2",
+      "category": "growup",
+      "text": "诶，诶？是给我的吗？真的要送给我吗……？",
+      "text_original": "え?えぇ?あたしにですか?ほんとにいいんですか?",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/LPbwhCdebtUqKtLMWbRqRkcJ5ox2XDCE.ogg"
+    },
+    {
+      "description": "CH9996_Relationship_Up_3",
+      "category": "growup",
+      "text": "感觉自己一直都在受老师照顾呢，哈哈……",
+      "text_original": "先生には助けられてばかりですね",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/rDApjhawBGEtPkMixCVzdiYszWwq8qAP.ogg"
+    },
+    {
+      "description": "CH9996_Relationship_Up_4",
+      "category": "growup",
+      "text": "自从来到这里，每一天都过得很开心……这一定都多亏了老师。",
+      "text_original": "ここに来てから楽しいことばかりなのは、きっと先生のおかげなんだと思います。",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/DNquXzwILVS8RfnQYRmsBfVH7fXlLtjH.ogg"
+    },
+    {
+      "description": "CH9996_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "Happy birthday！祝您生日快乐，老师！您有什么想要的东西吗？",
+      "text_original": "ハッピーバースデー!お誕生日おめでとうございます先生!何か欲しいものはありますか?",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/XPGRSocN8BFPZI3cSPKJ4nSXyDRqnqVc.ogg"
+    },
+    {
+      "description": "CH9996_Season_Halloween",
+      "category": "lobby",
+      "text": "万圣节到了……！老师！我们也换身衣服出去玩吧！",
+      "text_original": "ハロウィーン!先生、あたしたちも何かかぶりに行きましょう!",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/FaqEtjXBZDIKY8d0wVaEqttzHq1wWuvh.ogg"
+    },
+    {
+      "description": "CH9996_Season_NewYear",
+      "category": "lobby",
+      "text": "新年快乐，老师！时间过得可真快呀……今年也请您多多关照了！老师！",
+      "text_original": "あけましておめでとうございます先生！今年もよろしくお願いします先生",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/HfSVIlfno6s0e8gw2J6bD65MSYfLv5kf.ogg"
+    },
+    {
+      "description": "CH9996_Season_Xmas",
+      "category": "lobby",
+      "text": "这里也有圣诞节吗？！那，是不是能看到飞翔的圣诞老人？！",
+      "text_original": "ここにもクリスマスがあるんですか?じゃあじゃあサンタさんが飛んでるところ見れますかね?",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/7d6NDyU9DhytWdEE3bHpBu3d0eHiMUxg.ogg"
+    },
+    {
+      "description": "CH9996_Title",
+      "category": "lobby",
+      "text": "Blue Archive！",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/j9f9lwKbxZPjaFQjLhIE2jR6hnaxtm9j.ogg"
+    },
+    {
+      "description": "ch9996_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "できる限り頑張ります！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/jp/ch9996_formation_in_2.ogg"
+    },
+    {
+      "description": "ch9996_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "わ、私も行っていいんですか！？やったー！",
+      "file": "//static.kivo.wiki/voices/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/jp/ch9996_formation_in_1.ogg"
+    }
+  ],
+  "voice_cn": [],
+  "voice_kr": [],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_05.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_08.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_06.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_07.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_10.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_09.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_13.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_99.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_12.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_03.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_14.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_01.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_11.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_00.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_02.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH9996_spr_04.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/2.jpg",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/1.jpg",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/3.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20060.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20172.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20122.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20016.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/ruiko.jpg",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/ruikoSkill.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/ruiko.png",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/ruikoEx.gif",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/ruikoInteraction.gif",
+        "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/ruikoCafe.gif"
+      ]
+    }
+  ],
+  "gift_data": null,
+  "furniture": [
+    1054
+  ],
+  "character_datas": [
+    {
+      "character_id": 26011,
+      "dev_name": "CH9996",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Piercing",
+      "defensive_attributes": "Special",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 1,
+      "limited": true,
+      "outdoor_adaptability": "A",
+      "indoor_adaptability": "B",
+      "street_adaptability": "C",
+      "equipment": [
+        7,
+        10,
+        4
+      ],
+      "cultivate_material": [
+        23,
+        26,
+        135,
+        138,
+        144,
+        146,
+        149,
+        153,
+        158,
+        163,
+        179,
+        183,
+        190,
+        193,
+        196,
+        200,
+        13,
+        14,
+        16,
+        18,
+        40,
+        46,
+        48,
+        51,
+        62,
+        64,
+        65,
+        66,
+        69,
+        71,
+        72,
+        75,
+        77,
+        80,
+        81,
+        82,
+        99,
+        101,
+        102,
+        103,
+        106,
+        108,
+        109,
+        110,
+        120,
+        121,
+        123,
+        124,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/skill_icon/RFApAOLR3DaTKPxxw44ncbaIJhEbiMl0.png",
+            "title": "全力一击",
+            "title_cn": "全力挥棒",
+            "preview": "//static.kivo.wiki/videos/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/skill_preview/mSzL5uRysZrO90sRUfpmMCxCh2r1O6Od.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "对圆形范围内敌人造成446%攻击力的伤害。"
+              },
+              {
+                "cost": 3,
+                "describe": "对圆形范围内敌人造成513%攻击力的伤害。"
+              },
+              {
+                "cost": 3,
+                "describe": "对圆形范围内敌人造成646%攻击力的伤害。"
+              },
+              {
+                "cost": 3,
+                "describe": "对圆形范围内敌人造成713%攻击力的伤害。"
+              },
+              {
+                "cost": 3,
+                "describe": "对圆形范围内敌人造成847%攻击力的伤害。"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/skill_icon/Ap144E97HrXRGYEdoktW97378HH0aEDh.png",
+            "title": "秘传的鲭鱼咖喱",
+            "title_cn": "秘传鲭鱼咖喱",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每过45秒，增加20秒内一名友方的攻击力10.9%。普通技能每使用一次可增益的对象便增加一名。（最大三人）"
+              },
+              {
+                "cost": 1,
+                "describe": "每过45秒，增加20秒内一名友方的攻击力11.4%。普通技能每使用一次可增益的对象便增加一名。（最大三人）"
+              },
+              {
+                "cost": 1,
+                "describe": "每过45秒，增加20秒内一名友方的攻击力11.9%。普通技能每使用一次可增益的对象便增加一名。（最大三人）"
+              },
+              {
+                "cost": 1,
+                "describe": "每过45秒，增加20秒内一名友方的攻击力14.1%。普通技能每使用一次可增益的对象便增加一名。（最大三人）"
+              },
+              {
+                "cost": 1,
+                "describe": "每过45秒，增加20秒内一名友方的攻击力14.7%。普通技能每使用一次可增益的对象便增加一名。（最大三人）"
+              },
+              {
+                "cost": 1,
+                "describe": "每过45秒，增加20秒内一名友方的攻击力15.2%。普通技能每使用一次可增益的对象便增加一名。（最大三人）"
+              },
+              {
+                "cost": 1,
+                "describe": "每过45秒，增加20秒内一名友方的攻击力17.4%。普通技能每使用一次可增益的对象便增加一名。（最大三人）"
+              },
+              {
+                "cost": 1,
+                "describe": "每过45秒，增加20秒内一名友方的攻击力17.9%。普通技能每使用一次可增益的对象便增加一名。（最大三人）"
+              },
+              {
+                "cost": 1,
+                "describe": "每过45秒，增加20秒内一名友方的攻击力18.5%。普通技能每使用一次可增益的对象便增加一名。（最大三人）"
+              },
+              {
+                "cost": 1,
+                "describe": "每过45秒，增加20秒内一名友方的攻击力20.6%。普通技能每使用一次可增益的对象便增加一名。（最大三人）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/skill_icon/hsSC6f2fR9N9EqjwBugPc3TJpkkkoxbi.png",
+            "title": "拼尽全力",
+            "title_cn": "放手一搏！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加14.7%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加15.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.2%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.9%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加19.6%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加22.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.1%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.8%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加26.6%。"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/skill_icon/Obpl0Olz6p0z3j9qbxgNksIeyao1PtWV.png",
+            "title": "就算是我也可以！",
+            "title_cn": "我也做得到……！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "友方攻击力增加9.1%。"
+              },
+              {
+                "cost": 1,
+                "describe": "友方攻击力增加9.5%。"
+              },
+              {
+                "cost": 1,
+                "describe": "友方攻击力增加10%。"
+              },
+              {
+                "cost": 1,
+                "describe": "友方攻击力增加11.8%。"
+              },
+              {
+                "cost": 1,
+                "describe": "友方攻击力增加12.3%。"
+              },
+              {
+                "cost": 1,
+                "describe": "友方攻击力增加12.7%。"
+              },
+              {
+                "cost": 1,
+                "describe": "友方攻击力增加14.5%。"
+              },
+              {
+                "cost": 1,
+                "describe": "友方攻击力增加15%。"
+              },
+              {
+                "cost": 1,
+                "describe": "友方攻击力增加15.5%。"
+              },
+              {
+                "cost": 1,
+                "describe": "友方攻击力增加17.3%。"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "healing": 0,
+          "accuracy": 0,
+          "evasion": 0,
+          "crit": 0,
+          "crit_res": 0,
+          "crit_dmg": 0,
+          "crit_dmg_res": 0,
+          "stability": 0,
+          "range": 0,
+          "cc_power": 0,
+          "cc_res": 0,
+          "recovery_boost": 0,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/weapons_icon.png",
+        "name": "Barrett·Swinger",
+        "name_cn": "Bullet Swinger",
+        "description": "工程部为佐天涙子制作的专用枪械。 直接用手拿来击球也不会坏掉。",
+        "description_cn": "工程部为佐天泪子制造的专用枪械。 枪身结实，用来直接挥砸也不会损坏。",
+        "info": [
+          {
+            "title": "",
+            "description": ""
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「拼尽全力+」升级为「拼尽全力+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室内适应性 B -> A",
+            "description": "在室内地形造成1.1倍伤害。在掩体内时掩护成功率+45%。 攻击时绕过掩体概率增加45%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%BD%90%E5%A4%A9%20%E6%B3%AA%E5%AD%90/skill_icon/Li3mBeLChf5VNGbZMzmiHGxNJvTnzYHC.png",
+            "title": "拼尽全力+",
+            "title_cn": "放手一搏！+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加279，攻击力增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加293，攻击力增加14.7%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加307，攻击力增加15.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加362，攻击力增加18.2%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加376，攻击力增加18.9%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加390，攻击力增加19.6%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加446，攻击力增加22.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加460，攻击力增加23.1%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加474，攻击力增加23.8%。"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加529，攻击力增加26.6%。"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [
+    {
+      "text": "佐天泪子 - 魔禁中文维基 2025-07-10",
+      "url": "https://toaru.huijiwiki.com/wiki/佐天泪子"
+    }
+  ],
+  "contributor": [],
+  "info_declare_uuid": "9a441e09-015a-4005-9aa0-8c6c0461eea4",
+  "skill_declare_uuid": "b78472d8-3bb0-4220-8fa9-e5211fc76cd0",
+  "supplementary_uuid": "799470f1-55ba-4f98-895f-f13dc2a71931",
+  "supplementary_declare_uuid": "a02c2be1-eafc-40f7-b8b4-26fdbc247beb",
+  "created_at": 1697812832,
+  "updated_at": 1783752948
+}

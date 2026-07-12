@@ -1,0 +1,2094 @@
+{
+  "id": 103,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 103,
+      "avatar": "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 146,
+      "avatar": "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/%E6%AD%A3%E6%9C%88/avatar.png",
+      "skin": "正月",
+      "skin_cn": "新年"
+    }
+  ],
+  "family_name": "赤司",
+  "given_name": "纯子",
+  "family_name_jp": "赤司",
+  "given_name_jp": "ジュンコ",
+  "family_name_kr": "아카시",
+  "given_name_kr": "준코",
+  "family_name_en": "Akashi",
+  "given_name_en": "Junko",
+  "family_name_zh_tw": "赤司",
+  "given_name_zh_tw": "淳子",
+  "family_name_cn": "赤司",
+  "given_name_cn": "纯子",
+  "nick_name": "小火龙,淳子",
+  "introduction": "格黑娜学园的美食研究会的挑剔暴食家。\n\n与其他食奇品异的研究会成员不同的是，她还算是一名普通的美食爱好者，可有时面对美食，也难免失去理性。",
+  "introduction_cn": "歌赫娜美食研究会成员，是个挑剔的大胃王。\n\n研究会的其他成员大多喜欢吃黑暗料理或者暴饮暴食，但她更喜欢享受正常的美食。不过，一旦眼前有非常美味的食物，就会失去理智。",
+  "momo_talk_signature": "拒绝垃圾信息（╬⊙益⊙）",
+  "main_relation": 29,
+  "relation": [
+    27
+  ],
+  "age": 15,
+  "grade": "一年生",
+  "height": 149,
+  "birthday": "12-27",
+  "hobby": "美食巡游",
+  "designer": "DoReMi",
+  "illustrator": "DoReMi",
+  "character_voice": "金元寿子",
+  "character_voice_cn": "伍凯立",
+  "release_date": "2021-02-04",
+  "release_date_cn": "2023-08-03",
+  "release_date_global": "2021-11-09",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/avatar.png",
+  "school": 3,
+  "weapon_type": "AR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": true,
+  "more": "# 官方图集\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Junko_jp.jpg](files/17010/GsKgZDNvLVb30s5AaZuvubCkzn02jPc2.jpg =425x) | 暂无 | ![junko_tw.jpg](files/17010/0F7OOZ0yjL4a2bpSHnN8bA5vQ63P8o4V.jpg =700x) | ![junko_en.jpg](files/17010/cmYsMoeOuZDRpSIBsKuCcKLeQovaKjPX.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[万圣节南瓜甜点桌子](https://kivo.wiki/data/item/740) |\n| :---: | :---: | :---: |\n| 暂无 | 暂无 | ![006yPoYygy1hj6ibqbpdfg30k00etkjm.gif](files/443/gLSncMphEUzFCW0ty1zPmFIMyx0PaeQD.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 纯子 汉化\n![纯子](files/2/HkcQtmJBULdiaxPoa5eHIbW2feXdMu4r.png =450x)\n@tab 纯子 原文\n![纯子](files/2/sW6d3ox4m454OAdKP8O4P9SwPamYXJav.jpg =450x)\n:::\n\n## 设定集\n\n:::: center\n\n![Vol.1_页面_008.png](images/gallery/34/Vol.1_页面_008.png =450x)\n\n![Vol.1_页面_048.png](images/gallery/34/Vol.1_页面_048.png =450x)\n\n![Vol.1_页面_149.png](images/gallery/34/Vol.1_页面_149.png =450x)\n\n![Vol.1_页面_218.png](images/gallery/34/Vol.1_页面_218.png =450x)\n\n![Vol.1_页面_239.png](images/gallery/34/Vol.1_页面_239.png =450x)\n\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[晴奈](https://kivo.wiki/data/character/195)|会長<br>ハルナ|\n|[明里](https://kivo.wiki/data/character/110)|アカリ<br>あんた|\n|[泉](https://kivo.wiki/data/character/73)|イズミ<br>あんた|\n|[伊织](https://kivo.wiki/data/character/72)|イオリ|\n|[晴](https://kivo.wiki/data/character/160)|ハレ|\n|[日奈](https://kivo.wiki/data/character/71)|風紀委員長<br>ヒナ|\n|[枫香](https://kivo.wiki/data/character/97)|フウカ|\n|[真纪](https://kivo.wiki/data/character/182)|マキ|\n|[惠](https://kivo.wiki/data/character/229)|温泉開発部の副部長|\n|茶话会|ティーパーティー|\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/Zunko_home_Idle_01_0.841399999999999.jpg",
+  "spine": [
+    10,
+    390,
+    1719
+  ],
+  "model": [
+    72,
+    456
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/voice/play_icon.png",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/voice/pause_icon.png",
+  "voice": [
+    {
+      "description": "Zunko_Battle_Buffed_1",
+      "category": "battle",
+      "text": "嗯，很好！",
+      "text_original": "うん、よし！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/GEJzWYMKqqCE4XFtBmpv1jOfL20uTaXF.ogg"
+    },
+    {
+      "description": "Zunko_Battle_BuffSelf_1",
+      "category": "battle",
+      "text": "好嘞！",
+      "text_original": "よし！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/lY2RWepZs4X0E9CcWF6CHpQaqqv9UWDh.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Covered_1",
+      "category": "battle",
+      "text": "有地方能躲！",
+      "text_original": "隠れるね！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/6KMNuYe6viVw54VR0FwNlhJNVBLRgXHP.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Damage_1",
+      "category": "battle",
+      "text": "好疼……",
+      "text_original": "いたい…",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/tlxL9wuMQnyK1l09N8YOpN6oEKAKLhCm.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "うわ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/2LRbxhF7KfR2HKyEsP1yKn2Obk42HzOk.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Damage_3",
+      "category": "battle",
+      "text": "疼！",
+      "text_original": "イタッ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/xBWqSsLZY3ZDkenPpTfosqhzhmk6BuaI.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Defense_1",
+      "category": "battle",
+      "text": "就这！",
+      "text_original": "この程度？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/Sq2LuFRfWJjMOffz1cjshrosAiMJYoZN.ogg"
+    },
+    {
+      "description": "Zunko_Battle_In_1",
+      "category": "battle",
+      "text": "我们走吧！",
+      "text_original": "さぁ、行くよ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/reiJevfVWv6mHBtTbyROeMo8NQFO0rS1.ogg"
+    },
+    {
+      "description": "Zunko_Battle_In_2",
+      "category": "battle",
+      "text": "我们早点结束去吃饭吧！",
+      "text_original": "早く終わらせてご飯食べに行こう！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/axKCrrP6TXkeedANSDYTFSdVV7JVzncP.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Move_1",
+      "category": "battle",
+      "text": "啊，我饿了……",
+      "text_original": "はぁ、お腹すいてきたぁ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/xVemvGLMPX57sRbwuI7ImI1Blfws4eJG.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Move_2",
+      "category": "battle",
+      "text": "我应该带点零食来的。",
+      "text_original": "おやつでも持ってくればよかった。",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/wQuqyKt94BJ38hBqvd2QPYRMTSdQNuYo.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Recovery_1",
+      "category": "battle",
+      "text": "Thank you！我会报答你的！",
+      "text_original": "サンキュー、この恩は返すよ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/xwlO6i68VimlF2SHTYNOQVvtHmnpYeng.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Retire",
+      "category": "battle",
+      "text": "我饿了嘛……对不起。",
+      "text_original": "お腹がすいてたから…ごめん。",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/p5JQ03j65tJN2w7HSCYfLM5SPJMrKTvN.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Shout_1",
+      "category": "battle",
+      "text": "诶！",
+      "text_original": "えい！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/y7hTCtc5BBWitRMmVxesKLwdvSwGYh5Z.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Shout_2",
+      "category": "battle",
+      "text": "看招！",
+      "text_original": "くらえ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/S6h4y8B8LBT1lLFKItiWQzSr1bKTIvKp.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Shout_3",
+      "category": "battle",
+      "text": "呀！",
+      "text_original": "やぁ!",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/bI8lKYRNWEChVwiDu9I3cAgMGTY5Stfu.ogg"
+    },
+    {
+      "description": "Zunko_Battle_TacticalAction_1",
+      "category": "battle",
+      "text": "继续前进吧！",
+      "text_original": "移動しよう！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/KY2MGUKGIKBP21bXcblS9FTehaeMPtzc.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Victory_1",
+      "category": "battle",
+      "text": "嘿嘿，那现在就来尝……啊！为什么？！",
+      "text_original": "へへ…それじゃあ食べてみ…うわぁ…な、なんで！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/0BfmqO6mgpUDZfNSHKc30cwUyR4fnrEV.ogg"
+    },
+    {
+      "description": "Zunko_Battle_Victory_2",
+      "category": "battle",
+      "text": "锵！我最后的……诶，唔诶？！",
+      "text_original": "じゃーん！私の最後の…う、えぇっ！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/3fGJZVA8LS83aiGyj9xJbMLycuUom6WU.ogg"
+    },
+    {
+      "description": "Zunko_Cafe_Act_1",
+      "category": "cafe",
+      "text": "嗅嗅。嗯……？这个味道……？是什么好吃的东西！",
+      "text_original": "クンクン。うん…？ この匂いは…？ 何か美味しそうな 匂いがする！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/jQdEZevH7U5cGQAwQU6UDVAWqpRU5Hsb.ogg"
+    },
+    {
+      "description": "Zunko_Cafe_Act_2",
+      "category": "cafe",
+      "text": "闻着香味儿，不知不觉就过来了。会有什么好吃的——在等着我呢～",
+      "text_original": "美味しそうな匂いにつられて、 ここまで来ちゃった。 ここで私を待っているのはー… 何かな～",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/crdP6Y5dujoBsOgM4L9A269VetWcRlYW.ogg"
+    },
+    {
+      "description": "Zunko_Cafe_Interaction_1",
+      "category": "cafe",
+      "text": "嘶溜。好好吃的样子啊，那就来一口……诶，呜诶？！",
+      "text_original": "ゆる...美味しそう！じゃひとこじ...どわ？え？うわあああ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gtgZQRxvoYFXoo2bOXFJH3Deq8eWBPC9.ogg"
+    },
+    {
+      "description": "Zunko_Cafe_Interaction_2",
+      "category": "cafe",
+      "text": "好好吃的样子，那我就不客气，怎，怎么，呃啊！",
+      "text_original": "美味しそう、じゃさっそくいただきま～ぐわ！じょ？うあああ！あ...",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/DD9XQWSDDR62IsRFluVLwc2J31J2eA5j.ogg"
+    },
+    {
+      "description": "Zunko_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "哪，哪里有好吃的呀……",
+      "text_original": "ど、どこかに食べ物… ないの？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/nxJII7rKPgDDkQjDkQNEik9iydhghz8b.ogg"
+    },
+    {
+      "description": "Zunko_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "说起来，之前和老师一起去咖啡厅的时候吃的那些……真好吃啊……嘿嘿。",
+      "text_original": "そういえば前に、 先生とカフェに行った ときの…美味しかったな…。 へへ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/so291OSypVtbTCHhNgoCSx5a1f9gSEnK.ogg"
+    },
+    {
+      "description": "Zunko_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "听说百鬼夜行庆典上卖的那个糯米团子，超级好吃……",
+      "text_original": "百鬼夜行のお祭りで 売ってるお団子が、 すごく美味しいって 噂なんだけど…。",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/VPIjRo39XVnCu4ztF2AlRmfy4cVlsySS.ogg"
+    },
+    {
+      "description": "Zunko_CommonSkill",
+      "category": "battle",
+      "text": "饶不了你！",
+      "text_original": "許さない！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/ajiNSigN043HGU1ahFD3gSlqxptp0Hc8.ogg"
+    },
+    {
+      "description": "Zunko_ExSkill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "ふふーん、えぇっ！？あーん",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/adBAJuj6M86uRDGTiCjr8medsspTs9bK.ogg"
+    },
+    {
+      "description": "Zunko_ExSkill_2",
+      "category": "battle",
+      "text": "团子团子……唔诶？！",
+      "text_original": "お団子お団子～♪うぇっ！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/TcxfxBmQRqkHUqFgOr9fs4uZrlHTd2ct.ogg"
+    },
+    {
+      "description": "Zunko_ExSkill_3",
+      "category": "battle",
+      "text": "嘻嘻嘻~哇！哼讨厌！",
+      "text_original": "えへへ～、うわっ！あぁもう！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/koWK5t0R9bxxXZNLiQz2ZRCTnyc03ZbM.ogg"
+    },
+    {
+      "description": "Zunko_ExSkill_Level_1",
+      "category": "battle",
+      "text": "我还没尝过呢！",
+      "text_original": "まだ味見もしてないのに！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/Uq5n3UZoLeeUnEPm9hC2i3JyKPZD0qnA.ogg"
+    },
+    {
+      "description": "Zunko_ExSkill_Level_2",
+      "category": "battle",
+      "text": "你这家伙！",
+      "text_original": "この野郎！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/jm3y4XXHaozHcttWfrlZ2eQLtFGZCz0i.ogg"
+    },
+    {
+      "description": "Zunko_ExSkill_Level_3",
+      "category": "battle",
+      "text": "把你们都打烂！",
+      "text_original": "ブッ壊してやるっ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/DcwBGd47isZ4GpoWG1arUUh99o58Hif1.ogg"
+    },
+    {
+      "description": "Zunko_ExWeapon_Get",
+      "category": "growup",
+      "text": "谢，谢谢老师……那个……我会好好珍惜的！绝对！",
+      "text_original": "あ、ありがとう、先生……。 その……だ、大事にする！絶対！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/ogrzGeS5XSwsyBU2wONPyQPvPYJGQx8M.ogg"
+    },
+    {
+      "description": "Zunko_Formation_In_1",
+      "category": "formation",
+      "text": "来大干一场吧！",
+      "text_original": "やってやろうじゃないの！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/metRCKFvJUGiEncpK70VAgLimUyXBWrC.ogg"
+    },
+    {
+      "description": "Zunko_Formation_In_2",
+      "category": "formation",
+      "text": "交给我吧！",
+      "text_original": "任せといて！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/ZiH4wBWBtKijhLAFBljMWU5NXmho0vd3.ogg"
+    },
+    {
+      "description": "Zunko_Formation_Select",
+      "category": "formation",
+      "text": "呃，放开我！",
+      "text_original": "はっ、放して～！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/WLOkRxxZG21Wleg01ecQx9khRcuDCaHf.ogg"
+    },
+    {
+      "description": "Zunko_Gachaget",
+      "category": "growup",
+      "text": "我可没想要帮你。……嗯？要给我吃的吗？什么吃的？什么好吃的？",
+      "text_original": "別に協力するつもりはないんだけど。 …うん？食べ物くれるの？ どんなの？どんなやつ？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/ykl6wuH5NLiS0F0kgoyPD5OdpQplHhaa.ogg"
+    },
+    {
+      "description": "Zunko_Growup_1",
+      "category": "growup",
+      "text": "才，才不小好不好，我还在发育呢，以后还会长的！",
+      "text_original": "ち、小さくないから！また成長期で！これから大きくなるの！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/cEGGGldOF6SXWWjfHxXOitNXV6A31rPS.ogg"
+    },
+    {
+      "description": "Zunko_Growup_2",
+      "category": "growup",
+      "text": "不知道怎么回事，好像变强了一点！",
+      "text_original": "よくわがらないけど、ちょっと強くなっだ予感する！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/LMQEh9MYEQbU9HBN9zBk0iOCo7LLtg2y.ogg"
+    },
+    {
+      "description": "Zunko_Growup_3",
+      "category": "growup",
+      "text": "老师，我们一起去吃好多好多东西，变得好强好强，然后去好多好多的地方吧！",
+      "text_original": "いっぱい食べて、 いっぱい強くなって、 それでいっぱいいろんな所に行こうね、先生！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/fyuRM3ckcaH10R237E7yAqeG4hDf4hQf.ogg"
+    },
+    {
+      "description": "Zunko_Growup_4",
+      "category": "growup",
+      "text": "没事没事，再多我都吃得下！",
+      "text_original": "まだまだ大丈夫。いくらでも食べられそう。",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/4Ll7oUnfbRAbBwLIvmL8WABkr6RJoWS7.ogg"
+    },
+    {
+      "description": "Zunko_Lobby_1",
+      "category": "lobby",
+      "text": "我的爱好？读书啊。读书。 ……干嘛啊，你那什么表情啊！！",
+      "text_original": "趣味？ 読書よ。読書。 …なによ、その顔！！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/B2F85YFgfaq6MAPodJzWPwTIxWgJg8fg.ogg"
+    },
+    {
+      "description": "Zunko_Lobby_2",
+      "category": "lobby",
+      "text": "你不会觉得我只是个贪吃的小鬼吧？ 有什么事情尽管交给我就好啦。",
+      "text_original": "私を食べるの 大好きな子供だなんて 思ってないわよね？ もっと頼ってもいいのよ？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/EieN970xEgG8OFdclvWKgo8vf6BMLqbJ.ogg"
+    },
+    {
+      "description": "Zunko_Lobby_3",
+      "category": "lobby",
+      "text": "喜不喜欢糯米团子？ 也没有很喜欢啦。只是因为比较便宜才吃的啊。",
+      "text_original": "お団子が好きなのかって？ 別に？安いから  食べてるだけだけど？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/YBYZ07hzRzhKaZG2eiUgbwZ5P8kcFwKd.ogg"
+    },
+    {
+      "description": "Zunko_Lobby_4",
+      "category": "lobby",
+      "text": "（只有我和老师两个人……？啊，这……）",
+      "text_original": "（先生と 二人っきりで…？ へ、へえ…）",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/fnPPWfZzGAjnkckqymFE9C5nPNDrwWqr.ogg"
+    },
+    {
+      "description": "Zunko_Lobby_5",
+      "category": "lobby",
+      "text": "什，什么？！有家蛋糕和馅饼畅吃的店？！ 老师！快准备下！我们马上出发！",
+      "text_original": "な、なにい？！ ケーキとパイが無制限に 食べられるお店があるの？！ 先生！準備して！ 今すぐ出動するよ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/ZP6Htcd4PxnfrhvqVJIgPlBlFNKBCK3H.ogg"
+    },
+    {
+      "description": "Zunko_LogIn_1",
+      "category": "lobby",
+      "text": "老师，你来啦~ 今天也要努力工作，然后去吃好吃的！",
+      "text_original": "な、なにい？！ ケーキとパイが無制限に 食べられるお店があるの？！ 先生！準備して！ 今すぐ出動するよ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/Wes8XARsoCT0lG57M6Lp9aVuiAZmaYhY.ogg"
+    },
+    {
+      "description": "Zunko_LogIn_2",
+      "category": "lobby",
+      "text": "啊，来了来了！老师！今天要去做什么任务啊？",
+      "text_original": "あ、来た来た！ 先生！今日はどんな 任務をしに行くの?",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/ijAnd5MUfScWUI8X5qsOryvgxiJR9nLv.ogg"
+    },
+    {
+      "description": "Zunko_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "诶，干，干什么。你这个眼神是什么意思？",
+      "text_original": "え、な、なに。 なんでそんな目で見るの？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/UTHgmhoI7WeUwmYFBw5PKeGXwtPySxQF.ogg"
+    },
+    {
+      "description": "Zunko_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "（……唉，真是……）",
+      "text_original": "（…もう、本当に…）",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/SUTukEExDYEDzoGwrifKPnakEHi9yf2Q.ogg"
+    },
+    {
+      "description": "Zunko_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "稍微休息一下，然后咱们继续去吃吧？",
+      "text_original": "ちょっと休んで、 また食べに行くんでしょ？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/1xsJuAFVttYsGdCMBHZ6WESYIR2jtK6y.ogg"
+    },
+    {
+      "description": "Zunko_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "下一个吃什么去？",
+      "text_original": "次は何食べる？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/Uugwi2IbhXJQ4WnKoixwhJ2wDvLZyGJZ.ogg"
+    },
+    {
+      "description": "Zunko_MemorialLobby_3",
+      "category": "lobby",
+      "text": "好好喝~！",
+      "text_original": "おいしー。",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/BxNjQu1AiA5ajYsIIirxzVOvccou4axs.ogg"
+    },
+    {
+      "description": "Zunko_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "什么？想和我喝同一杯？！你这家伙瞎说什么呢！干掉你哦？！",
+      "text_original": "なに？一緒に飲もうって！？ 変なこと言わないで！殺すよ！？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/kseRXMKEiKJSSInpFKsSjzgN5vDyF43K.ogg"
+    },
+    {
+      "description": "Zunko_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "（是开玩笑的吧，刚才？肯定是，吸管可只有一根啊……）",
+      "text_original": "（からかってるよね、これ？  そうだよね？ストロー、 一本しかないのに…）",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/00iCcPrxdnNu9dtMVj4oGtB9acCV1K2T.ogg"
+    },
+    {
+      "description": "Zunko_MemorialLobby_4_3",
+      "category": "lobby",
+      "text": "（……但如果是老师的话……也可以……）",
+      "text_original": "（…でも先生なら…大丈…） ",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/rnTS2OFVVUXbzGhYRcTGsxcQkcpGxSyU.ogg"
+    },
+    {
+      "description": "Zunko_MemorialLobby_4_4",
+      "category": "lobby",
+      "text": "……唔！！还是不行！！",
+      "text_original": "…やっ！！  やっぱだめ！！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/SQGOtEs6lcoiyp9vItDnPG3SghoQsOsl.ogg"
+    },
+    {
+      "description": "Zunko_Relationship_Up_1",
+      "category": "growup",
+      "text": "就算你请我吃饭，我也不会喜欢你……是，是真的啦！",
+      "text_original": "食べ物を奢ってくれるからって別に好きになるとかじゃ……ほ、本当だって！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/1UUH93HzZiefORF2VTspxYyDf5qDmfaK.ogg"
+    },
+    {
+      "description": "Zunko_Relationship_Up_2",
+      "category": "growup",
+      "text": "居然又请我吃好吃的了，老师你真是个好人呐！",
+      "text_original": "また美味しいものを奢ってくれるなんて、先生はいい人だね！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/jeXjap7cnRyzTAE9poZHn0qvqAXu3P39.ogg"
+    },
+    {
+      "description": "Zunko_Relationship_Up_3",
+      "category": "growup",
+      "text": "夸我可爱我倒是不讨厌……我，我什么都没说！",
+      "text_original": "可愛いって言われるのも嫌いじゃないけど……な、なんでもない！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/ztW7uIoexX3ECMkU5yeBvtVQ3aiITJLZ.ogg"
+    },
+    {
+      "description": "Zunko_Season_Birthday",
+      "category": "lobby",
+      "text": "今天是我的生日诶！你知道的吧？ 过生日，肯定得去吃肉嘛！ 或者自助也行啊！哎呀，其实吃什么都成，快走啦，老师！",
+      "text_original": "えっと…、必要な時は私を呼んでね！せ、先生のことならいつでも手伝うから！今日は私の誕生日なの！ 分かってるよね？ やっぱり誕生日にはお  肉がいいかな！ それかビュッフェでもいいよ！  なんでもいいから 食べに行こ、先生！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/s97YKHcvTOllIMjuAdAefyvBCU8VZTEU.ogg"
+    },
+    {
+      "description": "Zunko_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "生日快乐，老师！ 我今天可是特意来陪你玩的！ 那去吃什么好呢？吃肉？吃鱼？还是吃鸡？？",
+      "text_original": "お誕生日おめでとう先生！ 今日は特別に  私が遊んであげる！ それじゃあ何食べに行く？  お肉？お魚？ それともチキン？？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/zdzPJX7NkC48pwjuDNcpOc7DB1ZQp9EY.ogg"
+    },
+    {
+      "description": "Zunko_Season_Halloween",
+      "category": "lobby",
+      "text": "嗯？啊，这个糖是我的。 ……不，不过老师想吃的话，分，分你一点也可以哦。",
+      "text_original": "うん？ あ、飴は私のものだよ。 …で、でも先生にだったら、  す、少しなら分けて あげてもいいよ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/0NYOuPoxeaXjJgW41CE6EGWbk1JQ6e4V.ogg"
+    },
+    {
+      "description": "Zunko_Season_NewYear",
+      "category": "lobby",
+      "text": "新年快乐啊，老师！去吃新年的第一口零食吧！ 甜酒和打糕在等着我呢！",
+      "text_original": "明けましておめでとう、 先生！ 早く新年最初の 買い食いに行こう！ 甘酒とお餅が  待ってるよ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/btyCS4L6Im28DySqjxY8Oai2r3CcJAgu.ogg"
+    },
+    {
+      "description": "Zunko_Season_Xmas",
+      "category": "lobby",
+      "text": "圣诞快乐！不去街上看看吗，老师？有好多好多灯！闪闪发光的好好看啊！",
+      "text_original": "メリークリスマス！ 街に行かない？先生！ イルミネーションで キラキラしてるよ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/axcQ0E2nG2GVSY4GFqk2h706ZzjcnUKz.ogg"
+    },
+    {
+      "description": "Zunko_Tactic_Defeat_1",
+      "category": "battle",
+      "text": "呜哼哼，我好气！",
+      "text_original": "びえぇーん！悔しいっ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/RakC1VnjjwAaLDlH5fCkiWnM5Kmul4jN.ogg"
+    },
+    {
+      "description": "Zunko_Tactic_Defeat_2",
+      "category": "battle",
+      "text": "这是因为——我突然饿了……",
+      "text_original": "これは…急にお腹がすくから…",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/ERAWwMOvrYsPituV5u5sL7VOllnrd57q.ogg"
+    },
+    {
+      "description": "Zunko_Tactic_In_1",
+      "category": "battle",
+      "text": "我来带头！",
+      "text_original": "私が先頭に立つ！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/yrSil7FMeT4OKmlJkEXRarYjuPfDYfpL.ogg"
+    },
+    {
+      "description": "Zunko_Tactic_In_2",
+      "category": "battle",
+      "text": "赢了就能吃好吃的！",
+      "text_original": "勝てば美味しい物が食べられる！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/OiwNW2NJnw3Sv8mRUHS2zLjF4UrN1sOc.ogg"
+    },
+    {
+      "description": "Zunko_Tactic_Victory_1",
+      "category": "battle",
+      "text": "怎么样？完美的胜利吧！",
+      "text_original": "どお！完璧な勝利でしょ？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/4R0nQ2AWIb4Jk38N4JhHY6BtSfDJ2dox.ogg"
+    },
+    {
+      "description": "Zunko_Tactic_Victory_2",
+      "category": "battle",
+      "text": "老师，你真的会请我吃饭对吧！",
+      "text_original": "先生！本当にご飯奢ってくれるんだよね？",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/N3ZtfUYoinvw88aSZDP9evLmNsXB013j.ogg"
+    },
+    {
+      "description": "Zunko_Title.ogg",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ。",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/TVJ5udnp6yyJ90POjKeT8YP1HIwiq6Iq.ogg"
+    },
+    {
+      "description": "Zunko_Relationship_Up_4",
+      "category": "growup",
+      "text": "那个，需要帮忙的话，要叫我哦！老师的忙，我，我随时都会帮的！",
+      "text_original": " えっと…、必要な時は私を呼んでね！せ、先生のことならいつでも手伝うから！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/wnMTREfNHeijUEFX6tja2fAB0IazFjie.ogg"
+    },
+    {
+      "description": "zunko_cardgame_act_2",
+      "category": "event",
+      "text": "うわあああっ！！アカリ！あんたのこと忘れないから！！",
+      "text_original": "うわあああっ！！アカリ！あんたのこと忘れないから！！",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/jp/zunko_cardgame_act_2.ogg"
+    },
+    {
+      "description": "zunko_cardgame_act_1",
+      "category": "event",
+      "text": "お茶が冷めちゃった…ぬるい…。",
+      "text_original": "お茶が冷めちゃった…ぬるい…。",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/jp/zunko_cardgame_act_1.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "zunko_battle_buffed_1.ogg",
+      "category": "battle",
+      "text": "嗯，很好！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/tkRwizyE16x8uhAWxijXM1jaSdwduNNe.ogg"
+    },
+    {
+      "description": "zunko_battle_buffself_1.ogg",
+      "category": "battle",
+      "text": "好嘞！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/lxSs9PIPqV0KL2ybe1OVPUUCgIcQVxvT.ogg"
+    },
+    {
+      "description": "zunko_battle_covered_1.ogg",
+      "category": "battle",
+      "text": "有地方能躲！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/J8WCEQgqxWxGbQB7g2b4vEBp4tidoVzN.ogg"
+    },
+    {
+      "description": "zunko_battle_damage_1.ogg",
+      "category": "battle",
+      "text": "好疼……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/i1OanEAKTEHI52vEf0evsI7kduD8TUZy.ogg"
+    },
+    {
+      "description": "zunko_battle_damage_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/QQJX8HUBitjDVuCk9KIuPeujEfDmAbKp.ogg"
+    },
+    {
+      "description": "zunko_battle_damage_3.ogg",
+      "category": "battle",
+      "text": "疼！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/XjzNInXNjgs4JFeOV5BCIHFIXi03l4Mm.ogg"
+    },
+    {
+      "description": "zunko_battle_defense_1.ogg",
+      "category": "battle",
+      "text": "就这！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/bHXXbrrSTahHPxdOgKNzEc4Qwqg5rdLS.ogg"
+    },
+    {
+      "description": "zunko_battle_in_1.ogg",
+      "category": "battle",
+      "text": "我们走吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/PdK8bOfpGJwHQQ4aHtQrz1D5hjBQDXSx.ogg"
+    },
+    {
+      "description": "zunko_battle_in_2.ogg",
+      "category": "battle",
+      "text": "我们早点结束去吃饭吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/Cczan0dMegWtle1tW8U8tR2YitzBZrNW.ogg"
+    },
+    {
+      "description": "zunko_battle_move_1.ogg",
+      "category": "battle",
+      "text": "啊，我饿了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/Vj77RGnqJqOVv1AHPHCOXhjnXrTVNyax.ogg"
+    },
+    {
+      "description": "zunko_battle_move_2.ogg",
+      "category": "battle",
+      "text": "我应该带点零食来的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/UWLpShr6PwYDy64vSrbDOJH1sr2tWIy8.ogg"
+    },
+    {
+      "description": "zunko_battle_recovery_1.ogg",
+      "category": "battle",
+      "text": "Thank you！我会报答你的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/a62IvMuMbNl5fwqTD0yMT8VB3sjniqjc.ogg"
+    },
+    {
+      "description": "zunko_battle_retire.ogg",
+      "category": "battle",
+      "text": "我饿了嘛……对不起。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/N9CRAtHgNovPjhVnP5rTSNivovbziU9v.ogg"
+    },
+    {
+      "description": "zunko_battle_shout_1.ogg",
+      "category": "battle",
+      "text": "诶！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/XLRqyNYpzpGTxKUPNmmOKSSKN0nfPvoQ.ogg"
+    },
+    {
+      "description": "zunko_battle_shout_2.ogg",
+      "category": "battle",
+      "text": "看招！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/nA14poCF8dSC8pF23S7uS7776q7Yz6wt.ogg"
+    },
+    {
+      "description": "zunko_battle_shout_3.ogg",
+      "category": "battle",
+      "text": "呀！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/hAFsBYArF7YFzk0sHOEupjYGz6YcxBEA.ogg"
+    },
+    {
+      "description": "zunko_battle_tacticalaction_1.ogg",
+      "category": "battle",
+      "text": "继续前进吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/UWmoHNjwnvaiYDpFBpevCTuD2HrJ8nzn.ogg"
+    },
+    {
+      "description": "zunko_battle_victory_1.ogg",
+      "category": "battle",
+      "text": "嘿嘿，那现在就来尝……啊！为什么？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/Tiv8DtTN5EpO3c6DbITHDuBFYZVm55Lm.ogg"
+    },
+    {
+      "description": "zunko_battle_victory_2.ogg",
+      "category": "battle",
+      "text": "锵！我最后的……诶，唔诶？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/3hZySCqh315ZRZZ0B3giHHue4LVFO75E.ogg"
+    },
+    {
+      "description": "zunko_cafe_act_1.ogg",
+      "category": "cafe",
+      "text": "嗅嗅。嗯……？这个味道……？是什么好吃的东西！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/3fqruHt7uTnWBmWwZvJGQPwcVpx2sefc.ogg"
+    },
+    {
+      "description": "zunko_cafe_act_2.ogg",
+      "category": "cafe",
+      "text": "闻着香味儿，不知不觉就过来了。会有什么好吃的——在等着我呢～",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gEuKZfLefC8xnq69cxuOlHnsWXvHXinw.ogg"
+    },
+    {
+      "description": "zunko_cafe_interaction_1.ogg",
+      "category": "cafe",
+      "text": "嘶溜。好好吃的样子啊，那就来一口……诶，呜诶？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/48kYBJGinxKaRGA7ym9LYt5r1T3FHSkh.ogg"
+    },
+    {
+      "description": "zunko_cafe_interaction_2.ogg",
+      "category": "cafe",
+      "text": "好好吃的样子，那我就不客气，怎，怎么，呃啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/puw3sc165616lubpNZxOAIpOVdjV922c.ogg"
+    },
+    {
+      "description": "zunko_cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "哪，哪里有好吃的呀……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/bdWzPD27cYfPC0ubPibnKE3yJKSZt9mM.ogg"
+    },
+    {
+      "description": "zunko_cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "说起来，之前和老师一起去咖啡厅的时候吃的那些……真好吃啊……嘿嘿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/Yh0QzFn8BHUE3danaEdZfvv2qvfwlQ1B.ogg"
+    },
+    {
+      "description": "zunko_cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "听说百鬼夜行庆典上卖的那个糯米团子，超级好吃……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/M3u2iGv0Cj1fQEvB5qwYVHnXpMhvOGcI.ogg"
+    },
+    {
+      "description": "zunko_commonskill.ogg",
+      "category": "battle",
+      "text": "饶不了你！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/5kFoylTD1GJWo6DyUPebLR6KqAZkHWm8.ogg"
+    },
+    {
+      "description": "zunko_exskill_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/G72Cwx2f9ubaiD9j9BnXGO0MXBTuRkrf.ogg"
+    },
+    {
+      "description": "zunko_exskill_2.ogg",
+      "category": "battle",
+      "text": "团子团子……唔诶？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/vFTIjTpdaX8uO4p8RoyYakEtJNejTjjS.ogg"
+    },
+    {
+      "description": "zunko_exskill_3.ogg",
+      "category": "battle",
+      "text": "嘻嘻嘻~哇！哼讨厌！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/dJbE9wsd0LswAaOuU2Rvb8QTsqCCVvzJ.ogg"
+    },
+    {
+      "description": "zunko_exskill_level_1.ogg",
+      "category": "battle",
+      "text": "我还没尝过呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/sepVSMtIlv5atTfRJY1ynMMk4Pt9vT5c.ogg"
+    },
+    {
+      "description": "zunko_exskill_level_2.ogg",
+      "category": "battle",
+      "text": "你这家伙！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/egcnaNmzzdfNNjWbBR9MTJYEWnv1mt1P.ogg"
+    },
+    {
+      "description": "zunko_exskill_level_3.ogg",
+      "category": "battle",
+      "text": "把你们都打烂！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/CSt6zUpuTClrEMESPDX98iyVDQWQ1LvM.ogg"
+    },
+    {
+      "description": "zunko_exweapon_get.ogg",
+      "category": "growup",
+      "text": "谢，谢谢老师……那个……我会好好珍惜的！绝对！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/zRpM2WFcVwERtsr5BWa2ZHiAvdUcTF77.ogg"
+    },
+    {
+      "description": "zunko_formation_in_1.ogg",
+      "category": "formation",
+      "text": "来大干一场吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/iOXCN0PfHdbaa7hMPrCcNdudVksudRIF.ogg"
+    },
+    {
+      "description": "zunko_formation_in_2.ogg",
+      "category": "formation",
+      "text": "交给我吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/RQYTb9EArm4pQbnbu6sYNIv9SBaHkvyb.ogg"
+    },
+    {
+      "description": "zunko_formation_select.ogg",
+      "category": "formation",
+      "text": "呃，放开我！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/b4nkqfKR9r6a87tdKkP9mYRPEUulzihW.ogg"
+    },
+    {
+      "description": "zunko_gachaget.ogg",
+      "category": "growup",
+      "text": "我可没想要帮你。……嗯？要给我吃的吗？什么吃的？什么好吃的？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/Pw0BDKBOPupKHomL6EIBRALUKC1V59uU.ogg"
+    },
+    {
+      "description": "zunko_growup_1.ogg",
+      "category": "growup",
+      "text": "才，才不小好不好，我还在发育呢，以后还会长的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/kvHiz46tpIVbT8jOvvGvYfb33Y1b1HCH.ogg"
+    },
+    {
+      "description": "zunko_growup_2.ogg",
+      "category": "growup",
+      "text": "不知道怎么回事，好像变强了一点！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/V4wQLndxOyB9ijtkItG5gmqgTcvzJ5Dy.ogg"
+    },
+    {
+      "description": "zunko_growup_3.ogg",
+      "category": "growup",
+      "text": "老师，我们一起去吃好多好多东西，变得好强好强，然后去好多好多的地方吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/VBiSFpkqZei1TOBwfZI2uDm2AWlrab6B.ogg"
+    },
+    {
+      "description": "zunko_growup_4.ogg",
+      "category": "growup",
+      "text": "没事没事，再多我都吃得下！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/qu3n4mCuvHHmMRj94qtMYhydSxbjZu5b.ogg"
+    },
+    {
+      "description": "zunko_lobby_1.ogg",
+      "category": "lobby",
+      "text": "我的爱好？读书啊。读书。 ……干嘛啊，你那什么表情啊！！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/GPLRph3GDk74FsJP4dehNljNv3bemcRp.ogg"
+    },
+    {
+      "description": "zunko_lobby_2.ogg",
+      "category": "lobby",
+      "text": "你不会觉得我只是个贪吃的小鬼吧？ 有什么事情尽管交给我就好啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/3cF1SKBdFINRhjKBRLQOR8MVmt76klyC.ogg"
+    },
+    {
+      "description": "zunko_lobby_3.ogg",
+      "category": "lobby",
+      "text": "喜不喜欢糯米团子？ 也没有很喜欢啦。只是因为比较便宜才吃的啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/XFBlFD8HgHuUp069yv8ZEzBPJTfG3oKH.ogg"
+    },
+    {
+      "description": "zunko_lobby_4.ogg",
+      "category": "lobby",
+      "text": "（只有我和老师两个人……？啊，这……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/lVRSlQA5Ns0O1AP7AAuzxllSr3VZKsKo.ogg"
+    },
+    {
+      "description": "zunko_lobby_5.ogg",
+      "category": "lobby",
+      "text": "什，什么？！有家蛋糕和馅饼畅吃的店？！ 老师！快准备下！我们马上出发！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/Itmfs6DMioLHupijuDTlZJDgO7HBlVnW.ogg"
+    },
+    {
+      "description": "zunko_login_1.ogg",
+      "category": "lobby",
+      "text": "老师，你来啦~ 今天也要努力工作，然后去吃好吃的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/J0gQKrBimr8Aoagb7jVgmoYfCz6CpECQ.ogg"
+    },
+    {
+      "description": "zunko_login_2.ogg",
+      "category": "lobby",
+      "text": "啊，来了来了！老师！今天要去做什么任务啊？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/U4ivuCDxrL80QDk9izFluP8H8nUABHlr.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_1_1.ogg",
+      "category": "lobby",
+      "text": "诶，干，干什么。你这个眼神是什么意思？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/vi8U1jhnmPIFv3f4TO0iBx9SD3LXEi5i.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_1_2.ogg",
+      "category": "lobby",
+      "text": "（……唉，真是……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/APORETVzjpda60OH47fzjUOahx273PUY.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_2_1.ogg",
+      "category": "lobby",
+      "text": "稍微休息一下，然后咱们继续去吃吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/LiOhlihtCUZ1OorFYzy0KPAcXW4Ikkn2.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_2_2.ogg",
+      "category": "lobby",
+      "text": "下一个吃什么去？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/fjYDKaulAXRkU0Ko4WtUfIiUQ2RKzjct.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_3.ogg",
+      "category": "lobby",
+      "text": "好好喝~！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/cnLhifAz3eqI6jWKyPJnAp2qIpxkEyM5.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_4_1.ogg",
+      "category": "lobby",
+      "text": "什么？想和我喝同一杯？！你这家伙瞎说什么呢！干掉你哦？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/UEgYa1pKJcvEzyerLw04Pk9IsRxRpjCm.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_4_2.ogg",
+      "category": "lobby",
+      "text": "（是开玩笑的吧，刚才？肯定是，吸管可只有一根啊……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/jaLuB95zim23BkGWbLLX4BoMYjaFz1N4.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_4_3.ogg",
+      "category": "lobby",
+      "text": "（……但如果是老师的话……也可以……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/GSN9hpH0Y5EHA2IvglrGy9W6AMKaRuZr.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_4_4.ogg",
+      "category": "lobby",
+      "text": "……唔！！还是不行！！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/lMlc5c1rZXBLScGIQrdrHbosMSbH7um6.ogg"
+    },
+    {
+      "description": "zunko_relationship_up_1.ogg",
+      "category": "growup",
+      "text": "就算你请我吃饭，我也不会喜欢你……是，是真的啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/tipfTNZKNLojEarheIoDxQYqCvKR2Mbu.ogg"
+    },
+    {
+      "description": "zunko_relationship_up_2.ogg",
+      "category": "growup",
+      "text": "居然又请我吃好吃的了，老师你真是个好人呐！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/HGeoDrD2piJ1M9iKeP7c2LHFoTNSbyjS.ogg"
+    },
+    {
+      "description": "zunko_relationship_up_3.ogg",
+      "category": "growup",
+      "text": "夸我可爱我倒是不讨厌……我，我什么都没说！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/qmX80CgE2fREK6HSlXuN4hHYi568Ezmz.ogg"
+    },
+    {
+      "description": "zunko_relationship_up_4.ogg",
+      "category": "growup",
+      "text": "那个，需要帮忙的话，要叫我哦！老师的忙，我，我随时都会帮的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/w42XoMDJZoWC4DBj726cam2XluFoKI5S.ogg"
+    },
+    {
+      "description": "zunko_season_birthday.ogg",
+      "category": "lobby",
+      "text": "今天是我的生日诶！你知道的吧？ 过生日，肯定得去吃肉嘛！ 或者自助也行啊！哎呀，其实吃什么都成，快走啦，老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/cyc7hulKndxXzvxTMFUEaBafzHPowrLT.ogg"
+    },
+    {
+      "description": "zunko_season_birthday_player.ogg",
+      "category": "lobby",
+      "text": "生日快乐，老师！ 我今天可是特意来陪你玩的！ 那去吃什么好呢？吃肉？吃鱼？还是吃鸡？？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/Yd9TCa1FlLlGAJIfHj9T5VxLjwNBJsst.ogg"
+    },
+    {
+      "description": "zunko_season_halloween.ogg",
+      "category": "lobby",
+      "text": "嗯？啊，这个糖是我的。 ……不，不过老师想吃的话，分，分你一点也可以哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/UH8WWZNEJlBvkg4O8sBMAvRjoHMCD1AX.ogg"
+    },
+    {
+      "description": "zunko_season_newyear.ogg",
+      "category": "lobby",
+      "text": "新年快乐啊，老师！去吃新年的第一口零食吧！ 甜酒和打糕在等着我呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/pygtYCpWZcA8ST9fjZjYEzTFziT4k1vt.ogg"
+    },
+    {
+      "description": "zunko_season_xmas.ogg",
+      "category": "lobby",
+      "text": "圣诞快乐！不去街上看看吗，老师？有好多好多灯！闪闪发光的好好看啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/iqjmchv7zcfUbOOf8GUeFacgMmEGfVGI.ogg"
+    },
+    {
+      "description": "zunko_tactic_defeat_1.ogg",
+      "category": "battle",
+      "text": "呜哼哼，我好气！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/zlog9XI9PFsAwbBtgSPHCJ3A1mo7Gdga.ogg"
+    },
+    {
+      "description": "zunko_tactic_defeat_2.ogg",
+      "category": "battle",
+      "text": "这是因为——我突然饿了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/OpFCyLwSgPYbDs3FeUSFOkvIJbwYtz2u.ogg"
+    },
+    {
+      "description": "zunko_tactic_in_1.ogg",
+      "category": "battle",
+      "text": "我来带头！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/KzISjnCJ536Id7ZnWAgvHBfR2JjpXr4Y.ogg"
+    },
+    {
+      "description": "zunko_tactic_in_2.ogg",
+      "category": "battle",
+      "text": "赢了就能吃好吃的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/Oer6DksJT9DahVp52EuH6aGKTPpxpSoY.ogg"
+    },
+    {
+      "description": "zunko_tactic_victory_1.ogg",
+      "category": "battle",
+      "text": "怎么样？完美的胜利吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/58iaEgbg22AzEfPVTLV6yLTpB1V1oG7F.ogg"
+    },
+    {
+      "description": "zunko_tactic_victory_2.ogg",
+      "category": "battle",
+      "text": "老师，你真的会请我吃饭对吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/ZVq8BnQdtE3KWFGYPWOUwpOwJUCIvSel.ogg"
+    },
+    {
+      "description": "zunko_title.ogg",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/uDDc7XCOYJr46KSAXD2ySLzTjfAoCsso.ogg"
+    },
+    {
+      "description": "zunko_season_chinesenewyear",
+      "category": "lobby",
+      "text": "新春快乐啊，老师！快一起去吃好吃的吧，老师喜欢什么馅儿的饺子？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/kjSZ06FrqHNwPsGLekQX0eFREvuwqN8s.ogg"
+    },
+    {
+      "description": "zunko_season_midautumn",
+      "category": "lobby",
+      "text": "中秋节当然要吃月饼啦，听说这是山海经的传统。来，分你一块！老师，一起看着月亮吃月饼吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/wC0r8equnvDIklJ9Hru39PxFjQEHY1ft.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "Zunko_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/Zunko_Title.ogg"
+    },
+    {
+      "description": "zunko_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_buffed_1.ogg"
+    },
+    {
+      "description": "zunko_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_buffself_1.ogg"
+    },
+    {
+      "description": "zunko_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_covered_1.ogg"
+    },
+    {
+      "description": "zunko_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_damage_1.ogg"
+    },
+    {
+      "description": "zunko_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_damage_2.ogg"
+    },
+    {
+      "description": "zunko_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_damage_3.ogg"
+    },
+    {
+      "description": "zunko_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_defense_1.ogg"
+    },
+    {
+      "description": "zunko_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_in_1.ogg"
+    },
+    {
+      "description": "zunko_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_in_2.ogg"
+    },
+    {
+      "description": "zunko_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_move_1.ogg"
+    },
+    {
+      "description": "zunko_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_move_2.ogg"
+    },
+    {
+      "description": "zunko_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_recovery_1.ogg"
+    },
+    {
+      "description": "zunko_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_retire.ogg"
+    },
+    {
+      "description": "zunko_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_shout_1.ogg"
+    },
+    {
+      "description": "zunko_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_shout_2.ogg"
+    },
+    {
+      "description": "zunko_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_shout_3.ogg"
+    },
+    {
+      "description": "zunko_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "zunko_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_victory_1.ogg"
+    },
+    {
+      "description": "zunko_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_battle_victory_2.ogg"
+    },
+    {
+      "description": "zunko_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_cafe_act_1.ogg"
+    },
+    {
+      "description": "zunko_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_cafe_act_2.ogg"
+    },
+    {
+      "description": "zunko_cafe_interaction_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_cafe_interaction_1.ogg"
+    },
+    {
+      "description": "zunko_cafe_interaction_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_cafe_interaction_2.ogg"
+    },
+    {
+      "description": "zunko_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "zunko_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "zunko_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "zunko_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_commonskill.ogg"
+    },
+    {
+      "description": "zunko_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_exskill_1.ogg"
+    },
+    {
+      "description": "zunko_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_exskill_2.ogg"
+    },
+    {
+      "description": "zunko_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_exskill_3.ogg"
+    },
+    {
+      "description": "zunko_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_exskill_level_1.ogg"
+    },
+    {
+      "description": "zunko_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_exskill_level_2.ogg"
+    },
+    {
+      "description": "zunko_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_exskill_level_3.ogg"
+    },
+    {
+      "description": "zunko_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_exweapon_get.ogg"
+    },
+    {
+      "description": "zunko_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_formation_in_1.ogg"
+    },
+    {
+      "description": "zunko_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_formation_in_2.ogg"
+    },
+    {
+      "description": "zunko_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_formation_select.ogg"
+    },
+    {
+      "description": "zunko_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_gachaget.ogg"
+    },
+    {
+      "description": "zunko_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_growup_1.ogg"
+    },
+    {
+      "description": "zunko_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_growup_2.ogg"
+    },
+    {
+      "description": "zunko_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_growup_3.ogg"
+    },
+    {
+      "description": "zunko_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_growup_4.ogg"
+    },
+    {
+      "description": "zunko_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_lobby_1.ogg"
+    },
+    {
+      "description": "zunko_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_lobby_2.ogg"
+    },
+    {
+      "description": "zunko_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_lobby_3.ogg"
+    },
+    {
+      "description": "zunko_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_lobby_4.ogg"
+    },
+    {
+      "description": "zunko_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_lobby_5.ogg"
+    },
+    {
+      "description": "zunko_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_login_1.ogg"
+    },
+    {
+      "description": "zunko_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_login_2.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_memoriallobby_3.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_memoriallobby_4_3.ogg"
+    },
+    {
+      "description": "zunko_memoriallobby_4_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_memoriallobby_4_4.ogg"
+    },
+    {
+      "description": "zunko_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_relationship_up_1.ogg"
+    },
+    {
+      "description": "zunko_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_relationship_up_2.ogg"
+    },
+    {
+      "description": "zunko_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_relationship_up_3.ogg"
+    },
+    {
+      "description": "zunko_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_relationship_up_4.ogg"
+    },
+    {
+      "description": "zunko_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_season_birthday.ogg"
+    },
+    {
+      "description": "zunko_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_season_birthday_player.ogg"
+    },
+    {
+      "description": "zunko_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_season_halloween.ogg"
+    },
+    {
+      "description": "zunko_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_season_newyear.ogg"
+    },
+    {
+      "description": "zunko_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_season_xmas.ogg"
+    },
+    {
+      "description": "zunko_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "zunko_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "zunko_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_tactic_in_1.ogg"
+    },
+    {
+      "description": "zunko_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_tactic_in_2.ogg"
+    },
+    {
+      "description": "zunko_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_tactic_victory_1.ogg"
+    },
+    {
+      "description": "zunko_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/zunko_tactic_victory_2.ogg"
+    },
+    {
+      "description": "zunko_cardgame_act_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/kr/zunko_cardgame_act_1.ogg"
+    },
+    {
+      "description": "zunko_cardgame_act_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/kr/zunko_cardgame_act_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-07_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-11_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-99_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-12_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-15_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-10_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-08_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-09_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-04_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-00_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-03_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-01_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-02_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-13_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-05_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-06_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/zunko_spr-14_0_waifu2x_2x_2n_png.jpg"
+      ]
+    },
+    {
+      "title": "运动服立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_05.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_06.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_04.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_00.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_01.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_09.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_08.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_07.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_11.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_02.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_12.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_10.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_03.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_14.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_13.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_99.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_15.png",
+        "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0049_spr_Idle_01.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 107,
+      "favorability": 180
+    },
+    {
+      "id": 38,
+      "favorability": 60
+    },
+    {
+      "id": 58,
+      "favorability": 40
+    },
+    {
+      "id": 59,
+      "favorability": 40
+    },
+    {
+      "id": 92,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    740
+  ],
+  "character_datas": [
+    {
+      "character_id": 13007,
+      "dev_name": "Zunko_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Piercing",
+      "defensive_attributes": "Light",
+      "is_groupc_control": false,
+      "team_position": "MIDDLE",
+      "battlefield_position": "STRIKER",
+      "rarity": 2,
+      "limited": false,
+      "outdoor_adaptability": "A",
+      "indoor_adaptability": "A",
+      "street_adaptability": "B",
+      "equipment": [
+        7,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        77,
+        80,
+        81,
+        82,
+        158,
+        160,
+        163,
+        165,
+        415,
+        416,
+        417,
+        418,
+        407,
+        408,
+        409,
+        19
+      ],
+      "favorite_equipment": 12,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/skill_icon/DED4JoX4X5K859ag2DIIeaN0IB8cbOy1.png",
+            "title": "饥饿之怒",
+            "title_cn": "空腹的愤怒",
+            "preview": "//static.kivo.wiki/videos/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/skill_preview/dSaIWDPliinUwLI3yypYPYjyu9ldvBhB.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 5,
+                "describe": "对直线范围内的敌方单位造成攻击力746%的伤害/ 自身当前生命值降低25.7%"
+              },
+              {
+                "cost": 5,
+                "describe": "对直线范围内的敌方单位造成攻击力857%的伤害/ 自身当前生命值降低25.7%"
+              },
+              {
+                "cost": 5,
+                "describe": "对直线范围内的敌方单位造成攻击力1081%的伤害/ 自身当前生命值降低25.7%"
+              },
+              {
+                "cost": 5,
+                "describe": "对直线范围内的敌方单位造成攻击力1193%的伤害/ 自身当前生命值降低25.7%"
+              },
+              {
+                "cost": 5,
+                "describe": "对直线范围内的敌方单位造成攻击力1417%的伤害/ 自身当前生命值降低25.7%"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/skill_icon/aFL6XE3xPYCFuVKpQQT4ApW29qcmlK42.png",
+            "title": "肚子饿的时候别跟我说话！",
+            "title_cn": "别在我肚子饿的时候搭话！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "生命值低于20%时，赋予自身 不死 状态(持续12.8秒) (每场战斗仅触发1次)"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于20%时，赋予自身 不死 状态(持续13.5秒) (每场战斗仅触发1次)"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于20%时，赋予自身 不死 状态(持续14.1秒) (每场战斗仅触发1次)"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于20%时，赋予自身 不死 状态(持续16.7秒) (每场战斗仅触发1次)"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于20%时，赋予自身 不死 状态(持续17.3秒) (每场战斗仅触发1次)"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于20%时，赋予自身 不死 状态(持续17.9秒) (每场战斗仅触发1次)"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于20%时，赋予自身 不死 状态(持续20.5秒) (每场战斗仅触发1次)"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于20%时，赋予自身 不死 状态(持续21.1秒) (每场战斗仅触发1次)"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于20%时，赋予自身 不死 状态(持续21.8秒) (每场战斗仅触发1次)"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于20%时，赋予自身 不死 状态(持续24.3秒) (每场战斗仅触发1次)"
+              }
+            ]
+          },
+          {
+            "icon": "",
+            "title": "娇小的优势",
+            "title_cn": "小矮子的优点",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "闪避值 提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/skill_icon/mnapmiKLlt9TCmB0MWjnA3kNQkfoZmFL.png",
+            "title": "饥饿美食家",
+            "title_cn": "饥饿的美食家",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击时，基于自身已损生命值百分比造成攻击力0.9%至4.9%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时，基于自身已损生命值百分比造成攻击力0.9%至5.2%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时，基于自身已损生命值百分比造成攻击力1%至5.4%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时，基于自身已损生命值百分比造成攻击力1.2%至6.4%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时，基于自身已损生命值百分比造成攻击力1.2%至6.6%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时，基于自身已损生命值百分比造成攻击力1.2%至6.9%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时，基于自身已损生命值百分比造成攻击力1.4%至7.9%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时，基于自身已损生命值百分比造成攻击力1.5%至8.1%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时，基于自身已损生命值百分比造成攻击力1.5%至8.4%的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时，基于自身已损生命值百分比造成攻击力1.7%至9.4%的追加伤害"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2378,
+          "attack": 302,
+          "defense": 20,
+          "healing": 1496,
+          "accuracy": 695,
+          "evasion": 794,
+          "crit": 198,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1408,
+          "range": 650,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 15
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/weapons_icon.png",
+        "name": "餐桌上的法外之徒",
+        "name_cn": "餐桌上的法外狂徒",
+        "description": "纯子所使用的二挺机关枪。<br>拥有强劲的连发能力，只要握有这把机关枪，无论身处什么状况都能成为餐桌上的支配者。",
+        "description_cn": "纯子使用的两把突击步枪。<br>只要有了这两把连射力超强的枪，不管在什么情况下，都能称霸饭桌。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「娇小的优势」升级为「娇小的优势+」"
+          },
+          {
+            "title": "固有武器最大等級 Lv.40 → Lv.50 / 地形适应性强化 室内适应性 B → A",
+            "description": "在室内地形造成1.1倍伤害。处于掩体掩护状态时掩护成功率增加45%，攻击时无视掩体概率增加45%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 贯穿克制伤害增加",
+            "description": "攻击类型为贯穿的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E8%B5%A4%E5%8F%B8%20%E7%BA%AF%E5%AD%90/skill_icon/vR5gzMlNCpfQDY6XR0sJYS2p4Vk9w4i0.png",
+            "title": "娇小的优势+",
+            "title_cn": "小矮子的优点",
+            "preview": "",
+            "max_level": 1,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "闪避值 提升160/ 闪避值 提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升168/ 闪避值 提升14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升176/ 闪避值 提升15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升208/ 闪避值 提升18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升216/ 闪避值 提升18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升224/ 闪避值 提升19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升256/ 闪避值 提升22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": " 闪避值 提升264/ 闪避值 提升23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升272/ 闪避值 提升23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值 提升304/ 闪避值 提升26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "cd647dfd-afef-4444-9614-5f80064f5153",
+  "skill_declare_uuid": "4a4ce628-aafc-4856-a0f3-a2ac08c32ff3",
+  "supplementary_uuid": "087eb6f8-eeeb-4f65-96ad-d343699d9389",
+  "supplementary_declare_uuid": "33aaf697-1a4f-45cc-9580-f9fdbe0a2ec1",
+  "created_at": 1685275887,
+  "updated_at": 1783336878
+}

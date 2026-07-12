@@ -1,0 +1,2210 @@
+{
+  "id": 36,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 36,
+      "avatar": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 356,
+      "avatar": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E7%A4%BC%E6%9C%8D/Student_Portrait_CH0259_Collection.png",
+      "skin": "礼服",
+      "skin_cn": "礼服"
+    },
+    {
+      "id": 381,
+      "avatar": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "锭前",
+  "given_name": "纱织",
+  "family_name_jp": "錠前",
+  "given_name_jp": "サオリ",
+  "family_name_kr": "조마에",
+  "given_name_kr": "사오리",
+  "family_name_en": "Jomae",
+  "given_name_en": "Saori",
+  "family_name_zh_tw": "錠前",
+  "given_name_zh_tw": "沙織",
+  "family_name_cn": "锭前",
+  "given_name_cn": "纱织",
+  "nick_name": "家人侠",
+  "introduction": "阿里乌斯分校所属，学园内被视为精英特殊部队的阿里乌斯小队队长。\n\n同时具有为达目的不择手段的冷静，以及时而表现出的激情。\n在游击战术上是他人无法匹敌的专家，但日常生活方面可见到她不谙世事的一面。\n据说阿里乌斯小队的战斗力，正是她所训练出来的结果。\n\n>还在，中途上迷惘──\n即使如此，总有一天……",
+  "introduction_cn": "阿里乌斯分院所属，学院内被视为精锐的特殊部队“战术小队”的队长。\n\n同时具有为达目的不择手段的冷静，与能直率表达自身感情的热忱。在游击战上是无人能出其右的专家，但也能看到她缺乏生活常识的一面。据说阿里乌斯战术小队的战斗力，从头到尾都是她一人训练出来的。\n\n>我还在人生的道路上徘徊，\n但是，总有一天……",
+  "momo_talk_signature": "必须努力",
+  "main_relation": 42,
+  "relation": [
+    5,
+    14
+  ],
+  "age": 17,
+  "grade": "二年生",
+  "height": 167,
+  "birthday": "09-03",
+  "hobby": "无",
+  "designer": "9ml",
+  "illustrator": "9ml",
+  "character_voice": "石上静香",
+  "character_voice_cn": "汪滢滢",
+  "release_date": "2022-08-09",
+  "release_date_cn": "2024-05-16",
+  "release_date_global": "2023-02-14",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/avatar.png",
+  "school": 10,
+  "weapon_type": "AR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Large",
+  "special_appearance": false,
+  "more": "# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n| 自己 | 私 |\n| 老师 | 先生<br>お前 |\n|[美咲](https://kivo.wiki/data/character/33)|ミサキ<br>お前|\n|[日和](https://kivo.wiki/data/character/34)|ヒヨリ|\n|[亚津子](https://kivo.wiki/data/character/35)|アツコ<br>姫|\n|[梓](https://kivo.wiki/data/character/3)|アズサ<br>白洲アズサ|\n|[明美](https://kivo.wiki/data/character/385)|伝説のスケバン|\n|[心华](https://kivo.wiki/data/character/378)|コノカ<br>コノカ副局長|\n|[昴](https://kivo.wiki/data/character/559)|スバル<br>梯スバル<br>お前<br>あいつ|\n|[圣娅](https://kivo.wiki/data/character/43)|セイア<br>百合園セイア|\n|[鹤城](https://kivo.wiki/data/character/94)|ツルギ|\n|[DJ B.o.B](https://kivo.wiki/data/character/387)|DJ<br>DJ B.o.B|\n|[渚](https://kivo.wiki/data/character/25)|ナギサ<br>桐藤ナギサ|\n|[花子](https://kivo.wiki/data/character/92)|浦和ハナコ|\n|[日奈](https://kivo.wiki/data/character/71)|ヒナ<br>空崎ヒナ|\n|[日富美](https://kivo.wiki/data/character/74)|ヒフミ|\n|[贝阿朵莉切](https://kivo.wiki/data/character/170)|ベアトリーチェ<br>マダム<br>彼女|\n|[迈亚](https://kivo.wiki/data/character/558)|マイア|\n|[巨匠](https://kivo.wiki/data/character/164)|あの人形|\n|[未花](https://kivo.wiki/data/character/1)|ミカ|\n|阿里乌斯小队|アリウススクワッド<br>スクワッド<br>私たち<br>みんな|\n|[尤斯蒂娜圣徒会](https://kivo.wiki/data/character/232)|ユスティナ聖徒会|\n|[阿里乌斯分校](https://kivo.wiki/data/organize/10)|アリウス<br>アリウス分校<br>私たち<br>アリウスのみんな|\n|[圣三一](https://kivo.wiki/data/organize/2)|トリニティ|\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n\n# 杂项趣闻\n\n## 田中角荣（meme）\n\n起初是在23年2月的时候，一位游戏ID名为田中角荣的玩家在推文上发了一张纱织跪地的剧情截图，由于在ba的剧情里，玩家id会直接显示在对白文本中，于是便显示为了「だから、頼れるのはもう、田中角栄先生しか…」，随后日本网友们觉得这样的场面莫名合理，并且很有趣，这个梗就这么流传开来了。\n\n:::: center\n![g2UGUZ89LdKwjjtj8FDLQY5vcZlXM5Ib.jpeg](files/3/g2UGUZ89LdKwjjtj8FDLQY5vcZlXM5Ib.jpeg =200x)\n\n![ABHyYlTmXuiBUK5I7eQzw5EHbQ9aKcyK.png](files/3/ABHyYlTmXuiBUK5I7eQzw5EHbQ9aKcyK.png =450x)\n::::\n\n之后又有人认为，田中角荣的脸与阿罗娜的老师画像有异曲同工之妙，于是这个梗又迎来了一波奇妙的二创热潮。\n\n:::: center\n![SOC5Lf6rywHds2WAUQNXrvxRvzHQ8cFP.jpeg](files/3/SOC5Lf6rywHds2WAUQNXrvxRvzHQ8cFP.jpeg =400x)\n\n![RSg3jyxLr9PgPk1vUshbJJo2YHNmzb2S.png](files/3/RSg3jyxLr9PgPk1vUshbJJo2YHNmzb2S.png =250x)\n::::\n\n到现在，田中角荣甚至成为了一个专门的蔚蓝档案tag\n\n:::: center\n![i8AMRMRqDUojS15FNpNb54sCtwS1mMLF.png](files/3/i8AMRMRqDUojS15FNpNb54sCtwS1mMLF.png =250x)\n::::\n\n\n网友整理的梗发展史\n:::: center\n![wF974edF15tkNjNqFw57Q8kSDJsHijRw.png](files/3/wF974edF15tkNjNqFw57Q8kSDJsHijRw.png =250x)\n::::\n\n\n\n# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 雪代水は廻り行く | 雪融化水 曲流前行 | 如果能在苦難的盡頭再次相伴...| As long as this road of pain leads to a future where we're together again... |\n| ![saori-日服Banner.png](files/10355/6oXSyevfIGusZhg9gNib4vQoAaKFKfEe.png =450x) | ![saori-国服Banner.jpg](files/10355/wQNJuTFdvUeRw4xmsOvQ2m6e4yJ4rD7I.jpg =450x) | ![saori-繁中Banner-繁中Banner.jpg](files/10355/5CxswsWwgNfuIv4NAikh15VtqTd1LM7F.jpg =450x) | ![saori-enBanner.jpg](files/10355/C5pYK394OsW7biI1aq3QIgXv84DV7vf7.jpg =450x) |\n\n同系列卡池：\n[日和](https://kivo.wiki/data/character/34)「木枯らしに目を引かれ」\n[亚津子](https://kivo.wiki/data/character/35)「徒桜を拾い集めて」\n[美咲](https://kivo.wiki/data/character/33)「逃げ水を夢に見て」\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Saori-日服Intro-日服Intro.jpg](files/10355/51yWmoVBvHMCfmqwK9FgmcYgGHQI5WQC.jpg =525x) | ![saori-国服Intro-国服Intro.jpg](files/10355/fgLeI3JAVxuaNgCLjFEumipWZCZhYaxT.jpg =425x) | ![saori-繁中Intro.jpg](files/10355/pjExLlIWUsOzkJD0FAtJWsF6K8IXlBwY.jpg =530x) | ![saori-enIntro-enIntro.jpg](files/10355/dzVJS8A7MVMx2HeTkT62su4mZAkKHc7n.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[落地窗](https://kivo.wiki/data/item/565) | 家具互动：[落地窗](https://kivo.wiki/data/item/565) |\n| :---: | :---: | :---: | :---: |\n| ![saori_ex.gif](files/10355/RKwHkinmo6TjtiwRK0JueDMw0geW4s3b.gif =450x) | ![saori_cafe.gif](files/10355/rW24y6rQnwsBLu44POa6hsXHCu8A72sH.gif =450x) | ![saori_interaction.gif](files/10355/8zJrpN3ApR5Pg1VkzX8MBTXiM7eFCH6V.gif =450x) | ![saori_misaki_interaction.gif](files/10355/JCmljHAeTTposiFjbM0RmNw42chXKnC4.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 纱织 汉化\n![纱织](files/2/klWW4uYQRrCvcuwfPacIIoLA0WhSBDoU.png =450x)\n@tab 纱织 原文\n![纱织](files/2/cr6q0R4Al4m5XuBM83AxukJSuFFfUDfI.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n![Vol.1_页面_127.png](files/10355/bDBUr57hW211ooFxCnB5BRym0m4wNL1m.png =450x)\n\n![Vol2-38.jpg](files/10355/BB9PfC4nGg8ibrHE2KSAIBD9diuGjj2S.jpg =450x)\n\n![Vol2-67.jpg](files/10355/yn7Qd9K1v2w1jlVFwj5pLo6XIhl2Ze1p.jpg =450x)\n\n![Vol2-131.jpg](files/10355/aNXVkSiZW4PglUhkmo9EIx8LRuEZ9Idx.jpg =450x)\n\n![Vol2-160.jpg](files/10355/40k0ImGT9zizgVIGPP0bX0YBCS6mDrIL.jpg =450x)\n\n![Vol2-187.jpg](files/10355/XHaY5Q5G6TZXXKlhUrUbCXseiioOLD4q.jpg =450x)\n\n![Vol2-188.jpg](files/10355/t8fxh6lRUYo3M92EuUHYs1Wcd8GBNrpC.jpg =450x)\n::::",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/Saori_home_Idle_01_1.1581000000000004.jpg",
+  "spine": [
+    1412,
+    489,
+    111,
+    1676
+  ],
+  "model": [
+    93,
+    432
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "Saori_Title",
+      "category": "lobby",
+      "text": "Blue Archive.",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/4ON8a6LYffBdSfSsxgEpHjztq2FRDNIc.ogg"
+    },
+    {
+      "description": "Saori_Battle_Buffed_1.ogg",
+      "category": "battle",
+      "text": "支援已就位。",
+      "text_original": "支援を確認。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/F9xLfsWQ9N2D38SAKSIf5uALiljZvXT1.ogg"
+    },
+    {
+      "description": "Saori_Battle_BuffSelf_1.ogg",
+      "category": "battle",
+      "text": "哈——！",
+      "text_original": "はっ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/XRZP5cupco8uva22YjTiSccmBdApVNoM.ogg"
+    },
+    {
+      "description": "Saori_Battle_Covered_1.ogg",
+      "category": "battle",
+      "text": "确保掩体。",
+      "text_original": "遮蔽物、確保。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/nYxBEXVvoQ6VdT5HbFuUyFO37zgZPXXV.ogg"
+    },
+    {
+      "description": "Saori_Battle_Damage_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "くっ…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/6wPh3C2QR0r7Ix5VatXYaHysokt0holW.ogg"
+    },
+    {
+      "description": "Saori_Battle_Damage_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "ぐぅっ…！",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gicCZ5sDbodgmUsS6v2DrpKs24NJeUUV.ogg"
+    },
+    {
+      "description": "Saori_Battle_Damage_3.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "ん",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/KVD1smEzGOeeyyItiT63XIcAWO0Hw9OR.ogg"
+    },
+    {
+      "description": "Saori_Battle_Defense_1.ogg",
+      "category": "battle",
+      "text": "毫无意义。",
+      "text_original": "無意味だ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/odBiZ8Co4YFzXX0iKCOIOjN1HvE4sW4y.ogg"
+    },
+    {
+      "description": "Saori_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "原来如此，是这里啊。",
+      "text_original": "成程、ここか…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/CUR8yoHzL50TJt2ZorCswcVuQd1Th7NJ.ogg"
+    },
+    {
+      "description": "Saori_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "完成战斗准备。",
+      "text_original": "戦闘準備完了。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/ki8pRvJqRijqExBvKm8FIgxkY0USy3CB.ogg"
+    },
+    {
+      "description": "Saori_Battle_Move_1.ogg",
+      "category": "battle",
+      "text": "快速前进。",
+      "text_original": "急ぐぞ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/lirrQqKuLpA5b18qaUuLDikd6pTN2v1g.ogg"
+    },
+    {
+      "description": "Saori_Battle_Move_2.ogg",
+      "category": "battle",
+      "text": "前往下一个地点。",
+      "text_original": "次の場所へ移動する。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/Dn0xhfQuyIm1RgNwJc5nbwMZ3k72hOoh.ogg"
+    },
+    {
+      "description": "Saori_Battle_Recovery_1.ogg",
+      "category": "battle",
+      "text": "多谢支援。",
+      "text_original": "支援、感謝しよう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/CaifoklRtL9WRodIj1fDxzrqecpUDZz1.ogg"
+    },
+    {
+      "description": "Saori_Battle_Retire.ogg",
+      "category": "battle",
+      "text": "居然又在最后关头掉链子……",
+      "text_original": "またこうなるとは、詰めが甘いなぁ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/PgNYB0h5z2FcXJESHzv0y7drz1UK7DMS.ogg"
+    },
+    {
+      "description": "Saori_Battle_Shout_1.ogg",
+      "category": "battle",
+      "text": "哼——",
+      "text_original": "へい",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/xXIXAYS9xE1e8eaXwhMWOvurlBI34gOQ.ogg"
+    },
+    {
+      "description": "Saori_Battle_Shout_2.ogg",
+      "category": "battle",
+      "text": "哈——",
+      "text_original": "は↓",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/GrNMtstucac69fZlAuK9qXaSRpOp0TGL.ogg"
+    },
+    {
+      "description": "Saori_Battle_Shout_3.ogg",
+      "category": "battle",
+      "text": "哼!",
+      "text_original": "はあ↑",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/dfCJh2qlCxTMldU6RxhnLDbwF8Iv1TcK.ogg"
+    },
+    {
+      "description": "Saori_Battle_TacticalAction_1.ogg",
+      "category": "battle",
+      "text": "有点意思。",
+      "text_original": "面白い。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/pgLq6tBslaasn3rx9QCChiMrVHPf39hV.ogg"
+    },
+    {
+      "description": "Saori_Battle_Victory_1.ogg",
+      "category": "battle",
+      "text": "小菜一碟。下个任务呢？",
+      "text_original": "簡単だったな。次の任務は？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/QZ8UAWgBZTvQIxJLTruQSjR1Pek1oIik.ogg"
+    },
+    {
+      "description": "Saori_Battle_Victory_2.ogg",
+      "category": "battle",
+      "text": "下一步是？",
+      "text_original": "次はどうする？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/My7qA72IKYXN3IQhPNeeV7N6dEOjFagA.ogg"
+    },
+    {
+      "description": "Saori_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "哼……",
+      "text_original": "ふむ…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/DbzC6MkxSbBZc05q2V5dIKRBNEuCb1PZ.ogg"
+    },
+    {
+      "description": "Saori_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "真不习惯这种地方……",
+      "text_original": "こういう場所は慣れないな…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/3PhCKMNbAWp92dniMkpB4l1WC2CXICy0.ogg"
+    },
+    {
+      "description": "Saori_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "这个，是什么……？",
+      "text_original": "これは…なんだ…？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/juFbjARRN18GKmyOZcV245pxFvrq34EL.ogg"
+    },
+    {
+      "description": "Saori_Cafe_monolog_4.ogg",
+      "category": "cafe",
+      "text": "无法理解……",
+      "text_original": "理解はできない…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/EqgRIbU1w0SFzFc8QOSazV5LuapEL9S5.ogg"
+    },
+    {
+      "description": "Saori_Cafe_monolog_5.ogg",
+      "category": "cafe",
+      "text": "原来如此，是这样吗.....?",
+      "text_original": "なるほど、これはそういう物なのか…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/zHBcYeV1qn3xMJdrw5nX8t55zV9xcSCZ.ogg"
+    },
+    {
+      "description": "Saori_CommonSkill",
+      "category": "battle",
+      "text": "虚空罢了。",
+      "text_original": "無駄だ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/sVVyCpta1HjPYqX4RkXKEOjPIfTYyF9j.ogg"
+    },
+    {
+      "description": "Saori_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "Vanitas Vanitatum, et Omnia Vanitas.",
+      "text_original": "Vanitas vanitatum...et omnia vanitas!",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/8NESgeyWUAJJBrjmMGosc1e6aS9sEQia.ogg"
+    },
+    {
+      "description": "Saori_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "Vanitas Vanitatum.",
+      "text_original": "Vanitas vanitatum!",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/9wqAK1aJuzd5LM69uIPjZShByXoDvsQz.ogg"
+    },
+    {
+      "description": "Saori_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "虚空，凡事都是虚空。",
+      "text_original": "虚しい……全てはただ、虚しいだけだ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/zZxX3V2IxJ8ldrOGCWGaXxSvVdY0CfXC.ogg"
+    },
+    {
+      "description": "Saori_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "谁也别想逃！",
+      "text_original": "誰もそこからは逃れられない！",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/X6veVy7Yhghfm3jw8TtomcJeiLhOGN77.ogg"
+    },
+    {
+      "description": "Saori_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "喝！",
+      "text_original": "はぁっ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/ihLG8wccI3EqE3oCHezrVukhVqlzSZID.ogg"
+    },
+    {
+      "description": "Saori_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "给我记好了！",
+      "text_original": "その事を思い知れ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/G4cDt3T7ylC6JQYy6BWQUHFkiRYNRax5.ogg"
+    },
+    {
+      "description": "Saori_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "你……为什么这么信任我？明明有过那种事……难道被别人背叛你也无所谓吗？我虽然还有很多不懂的东西，但是……我会尽力去做的。",
+      "text_original": "お前は、どうして私のことを信頼できる。 あんなことがあったというのに、裏切られても、構わないというのか。 まだ私には分からないことだらけだが、それでも、私は最善を尽くそう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/QAdBkRjqZ1zEPXt3DCtHkmNQRtVougij.ogg"
+    },
+    {
+      "description": "Saori_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "了解。",
+      "text_original": "了解",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/Mi0I8TTtcbk9vU3atoPQ52jWQJ5G9IIs.ogg"
+    },
+    {
+      "description": "Saori_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "哼。",
+      "text_original": "ああ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/0oUTT6dFBQtq98agrPjDWTvo2h5c6oI6.ogg"
+    },
+    {
+      "description": "Saori_Formation_Select.ogg",
+      "category": "formation",
+      "text": "你这是要干什么？",
+      "text_original": "何をする気だ…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/wHRLyzuD26eMruFaa8iIPSymCPC1Zteu.ogg"
+    },
+    {
+      "description": "Saori_Gachaget.ogg",
+      "category": "growup",
+      "text": "我是阿里乌斯战术小队的纱织。……我受了老师太多的照顾，所以最少会将受到照顾的那部分好好做出回报。请多关照。",
+      "text_original": "アリウススクワットのサオリだ。 …先生には色々と、世話になった。 せめてその分の働きはしよう。よろしく頼む。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/N9Bwohc7LPr9njHQuHwh5p5MblCv2sl7.ogg"
+    },
+    {
+      "description": "Saori_Growup_1.ogg",
+      "category": "growup",
+      "text": "能力提高了。",
+      "text_original": "能力は向上した。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/98XCMLiO2ov7s52CuKLdQwuS52EAQJDV.ogg"
+    },
+    {
+      "description": "Saori_Growup_2.ogg",
+      "category": "growup",
+      "text": "变强了。",
+      "text_original": "強くなったのか…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/PQLbMkNGbL0IbJ1sNQM5EDUrXg1Mv1GQ.ogg"
+    },
+    {
+      "description": "Saori_Growup_3.ogg",
+      "category": "growup",
+      "text": "必须要变强。因为如果不变得更强，就不能保护任何人。",
+      "text_original": "もっと強くならないと……強さはなければ、何も守れない。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/LWJzHlPGmPeAXNhXrpvLwMRKePeTvFsO.ogg"
+    },
+    {
+      "description": "Saori_Growup_4.ogg",
+      "category": "growup",
+      "text": "还不够……只有变得更强，才能……",
+      "text_original": "まだ足りない。もっと、もっと強くならなければ......",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/8pOZVJDHw4xgX6YLGEm9h6LLf3UVEvq7.ogg"
+    },
+    {
+      "description": "Saori_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "我能派上用场吗？那就好。能派上用场，我就能留在这里。",
+      "text_original": "私は、役に立てているか。…ならいい。それだけで、私はここにいられる。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/34ZzzQwGzw8n87mPnzUxYlLwjBjZW4Hb.ogg"
+    },
+    {
+      "description": "Saori_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "既然凡事都是虚空，我们又为什么活着呢？我现在还没找到这个问题的答案。",
+      "text_original": "全ては虚しいのに、どうして私たちは生きているか。 私はまだ、その答えは知らない。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/I7rMS2BD5wFU77wsmtktPdXYaJDM6o0N.ogg"
+    },
+    {
+      "description": "Saori_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "我以后……只能继续挣扎下去。",
+      "text_original": "私は…これからも、足掻くしかない。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/5c06UXe0RwIF4vDVd9az8r2g69HcRheR.ogg"
+    },
+    {
+      "description": "Saori_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "下令吧，老师。我就是为了这个才留在这里的。",
+      "text_original": "命令してくれ、先生。私はそのために、ここにいるから",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/htyM5rWgJUZ6ISqjAnofsOUSLpWcdGi0.ogg"
+    },
+    {
+      "description": "Saori_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "我还应该……继续活下去吗？",
+      "text_original": "私はまだ、生きていってもいいのだろうか...",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/OHaJspvNsBOPuYw3xmpOFDqVlt1iNNhU.ogg"
+    },
+    {
+      "description": "Saori_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "准备完成。有什么事你尽管说，老师。",
+      "text_original": "準備ならできている。何かあれば言うがいい、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/FuSxQgDGG4biL29KrKlrjRUDBTGpEhqK.ogg"
+    },
+    {
+      "description": "Saori_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "我在等你，老师。——你这是什么反应？",
+      "text_original": "待っていたぞ、先生。なんだ、その反応は。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/90YKgGuPBvMxKjjXfQiBNjxKZ8Pk3I7a.ogg"
+    },
+    {
+      "description": "Saori_MemorialLobby_1.ogg",
+      "category": "lobby",
+      "text": "老师……你怎么会在这儿？",
+      "text_original": "先生、どうしてここに……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/OOWEwFRGrVJwwNnIY5xuqDPBv3KECTSX.ogg"
+    },
+    {
+      "description": "Saori_MemorialLobby_2_1.ogg",
+      "category": "lobby",
+      "text": "呃……哈啊……",
+      "text_original": "ぐっ……はぁ……",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/ZvKWikRY0TIbsaafD3YUh211gzah7ZUE.ogg"
+    },
+    {
+      "description": "Saori_MemorialLobby_2_2.ogg",
+      "category": "lobby",
+      "text": "……不用担心。这是常有的事。",
+      "text_original": "……気にするな、よくあることだ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/lgqQKSbW094UTP6C8F3tgReSBYV0neFs.ogg"
+    },
+    {
+      "description": "Saori_MemorialLobby_3_1.ogg",
+      "category": "lobby",
+      "text": "居然又在最后关头，掉链子……",
+      "text_original": "ただ私の詰めが、甘かっただけで……",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/Vqcm1ojc5Kj1B6hnsQhfhr0eOKxStLic.ogg"
+    },
+    {
+      "description": "Saori_MemorialLobby_3_2.ogg",
+      "category": "lobby",
+      "text": "还以为我多少有点长进……但看来是自作多情了。",
+      "text_original": "何も変わってないというのに…勘違いをしてしまった。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/fBnbBmMDEpzEBFvQoLUmcCo3DPhmZrAy.ogg"
+    },
+    {
+      "description": "Saori_MemorialLobby_4_1.ogg",
+      "category": "lobby",
+      "text": "咳，咳咳……",
+      "text_original": "げほっ、げほっ……",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/YE5QMbKVHAxyxkn5t0hkLwuhwA3OlSXE.ogg"
+    },
+    {
+      "description": "Saori_MemorialLobby_4_2.ogg",
+      "category": "lobby",
+      "text": "别这副表情啊。这点伤我早就习惯了。",
+      "text_original": "そんな顔をするな、痛みに慣れている。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/cOb2v9Ta2HqS8E62UJyvBkOHQrmojphV.ogg"
+    },
+    {
+      "description": "Saori_MemorialLobby_4_3.ogg",
+      "category": "lobby",
+      "text": "跟之前没什么不一样，也没什么好稀奇的。",
+      "text_original": "今まで何も変わらない。 今さらの話だ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/t77mEVRmHV2pdI1kr2TF6PqGiNm0XAAz.ogg"
+    },
+    {
+      "description": "Saori_MemorialLobby_5.ogg",
+      "category": "lobby",
+      "text": "现在这样就行了……只要再，稍微歇上一会儿……",
+      "text_original": "今はこれで良い…… もう少し、このままで……",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/lgDCn7dd6IWVi2Unzw4w0A42a4qgVTGl.ogg"
+    },
+    {
+      "description": "Saori_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "你……信任我吗？",
+      "text_original": "お前は、私のことを信じているのか。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/L5eXwHQM1WKHeawJk5wGAnW5AI3jZujU.ogg"
+    },
+    {
+      "description": "Saori_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "怎么说呢，我很感激你，但是我……算了，当我没说。忘掉吧。",
+      "text_original": "その、感謝はしている。だが私は......いや、何でもない。忘れてくれ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/1kiRSMLb4A67MLvl7zkIsrtqRtQrGDAb.ogg"
+    },
+    {
+      "description": "Saori_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "你以为……我会对你说谢谢？",
+      "text_original": "私がお前に、感謝をするとでも…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/ztBaH2IuBcdYCiYPe7HkxaQ81qkkJhdt.ogg"
+    },
+    {
+      "description": "Saori_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "你的意思是，你不会抛弃我？",
+      "text_original": "私を見捨てる気はない、ということか。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/3MorhqQY4hQMZh1WfpbY6nmdjLTCunMV.ogg"
+    },
+    {
+      "description": "Saori_Season_Birthday_1.ogg",
+      "category": "lobby",
+      "text": "我从来没有庆祝过生日，所以，也不知道该怎么理解这个词。我甚至不知道自己有没有这个资格。",
+      "text_original": "私はこれまで誕生日など、ほとんど祝ったことはなかった。 だから、その言葉の受け取り方もまだ分からない。その資格があるかも。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/zV2X48ItkujRdIMKbGCgUx2KyuKGyDIy.ogg"
+    },
+    {
+      "description": "Saori_Season_Birthday_2.ogg",
+      "category": "lobby",
+      "text": "未来会有那么一天，我能发自内心去祝自己生日快乐吗？",
+      "text_original": "いつかこの日を、心から祝うことができるだろうか…。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/8C4DnfEcnWQ6wxr1vWU7HXHOqZ20W3fB.ogg"
+    },
+    {
+      "description": "Saori_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "我听说，今天是老师的生日。很抱歉，我不知道这时候自己应该做些什么……但是，如果没有你，也不会有现在的我。所以老师，我要再次感谢你。",
+      "text_original": "先生の誕生日だと聞いた。すまないが、こういう時に何をすべきが私は知らない。だた、お前がいなければ、私もここにいなかった。 だから先生、改めて感謝しよう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/GxltgsjVThpCQu6kfoVfbrRGtH5QsaH7.ogg"
+    },
+    {
+      "description": "Saori_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "今天好像是个节日，不过我没什么兴趣。凡事都是虚空罢了。",
+      "text_original": "どうやらお祭りらしいが…特に興味はないな。だた虚しいだけだ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/HRZAETyJ8ULlgxPVQR3fllHZveQtdI3L.ogg"
+    },
+    {
+      "description": "Saori_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "又到年底了吗?怎么说呢，虽然在这个世界上度过的每一天，还是冰冷又痛苦……但是，时间还是会继续前进呢。",
+      "text_original": "一年の終わりか。そうだな。 この世界の日々は、相変わらず冷たくて苦痛だが。 それでも、時は流れていくのか。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/c3zwmDDs6fn2QQLSh04eNsWeMpOfBQG5.ogg"
+    },
+    {
+      "description": "Saori_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "平安夜，我没什么特别的感觉。我不觉得区区一个节日，就能让世界上的痛苦减少。毕竟，凡事都是虚空啊。",
+      "text_original": "聖夜......別に何の感想もない。この世界の苦痛が、それによって減ると思えない。 全ては虚しいだけだ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/t3o6xM36Fj7uKljLqY1KeluXCKNe9ERH.ogg"
+    },
+    {
+      "description": "Saori_Tactic_Defeat_1.ogg",
+      "category": "battle",
+      "text": "呃……又变成这样了……",
+      "text_original": "また…こうなるのか…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/RyOuDDuGAii0zCyKZr2nkCGF5yDjvuy2.ogg"
+    },
+    {
+      "description": "Saori_Tactic_Defeat_2.ogg",
+      "category": "battle",
+      "text": "……撤退。",
+      "text_original": "くっ…！ 後退する…",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/ai1a43meq7kxWnRcmFX1YAkca4mcg1U5.ogg"
+    },
+    {
+      "description": "Saori_Tactic_In_1.ogg",
+      "category": "battle",
+      "text": "情况我明白了。",
+      "text_original": "内容は把握した。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/hzAQ2rVUZnh9PE3Tdph1vAIpqrePtb9c.ogg"
+    },
+    {
+      "description": "Saori_Tactic_In_2.ogg",
+      "category": "battle",
+      "text": "了解。我马上着手处理。",
+      "text_original": "了解、対処は始める。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/SsNwwIyzSPySFMYf0k9yHhtDO6HsjZt4.ogg"
+    },
+    {
+      "description": "Saori_Tactic_Victory_1.ogg",
+      "category": "battle",
+      "text": "任务很简单。",
+      "text_original": "簡単の任務だった。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/3YArcq0ctQGYW41n4vwNy0nyjHveWpSp.ogg"
+    },
+    {
+      "description": "Saori_Tactic_Victory_2.ogg",
+      "category": "battle",
+      "text": "任务完成。",
+      "text_original": "任務完了。",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/I0vhcTU4JhUSNkvrAmzwPwVlw8BxYwJ6.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "saori_battle_buffed_1",
+      "category": "battle",
+      "text": "支援已就位。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_buffed_1.ogg"
+    },
+    {
+      "description": "saori_battle_buffself_1",
+      "category": "battle",
+      "text": "哈——",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_buffself_1.ogg"
+    },
+    {
+      "description": "saori_battle_covered_1",
+      "category": "battle",
+      "text": "确保掩体。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_covered_1.ogg"
+    },
+    {
+      "description": "saori_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_damage_1.ogg"
+    },
+    {
+      "description": "saori_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_damage_2.ogg"
+    },
+    {
+      "description": "saori_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_damage_3.ogg"
+    },
+    {
+      "description": "saori_battle_defense_1",
+      "category": "battle",
+      "text": "毫无意义。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_defense_1.ogg"
+    },
+    {
+      "description": "saori_battle_in_1",
+      "category": "battle",
+      "text": "原来如此，是这里啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_in_1.ogg"
+    },
+    {
+      "description": "saori_battle_in_2",
+      "category": "battle",
+      "text": "完成战斗准备。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_in_2.ogg"
+    },
+    {
+      "description": "saori_battle_move_1",
+      "category": "battle",
+      "text": "快速前进。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_move_1.ogg"
+    },
+    {
+      "description": "saori_battle_move_2",
+      "category": "battle",
+      "text": "前往下一个地点。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_move_2.ogg"
+    },
+    {
+      "description": "saori_battle_recovery_1",
+      "category": "battle",
+      "text": "多谢支援。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_recovery_1.ogg"
+    },
+    {
+      "description": "saori_battle_retire",
+      "category": "battle",
+      "text": "居然又在最后关头掉链子……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_retire.ogg"
+    },
+    {
+      "description": "saori_battle_shout_1",
+      "category": "battle",
+      "text": "哼——",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_shout_1.ogg"
+    },
+    {
+      "description": "saori_battle_shout_2",
+      "category": "battle",
+      "text": "哈——",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_shout_2.ogg"
+    },
+    {
+      "description": "saori_battle_shout_3",
+      "category": "battle",
+      "text": "哼!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_shout_3.ogg"
+    },
+    {
+      "description": "saori_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "有点意思。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "saori_battle_victory_1",
+      "category": "battle",
+      "text": "小菜一碟。下个任务呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_victory_1.ogg"
+    },
+    {
+      "description": "saori_battle_victory_2",
+      "category": "battle",
+      "text": "下一步是？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_battle_victory_2.ogg"
+    },
+    {
+      "description": "saori_cafe_monolog_1",
+      "category": "cafe",
+      "text": "哼……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "saori_cafe_monolog_2",
+      "category": "cafe",
+      "text": "真不习惯这种地方……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "saori_cafe_monolog_3",
+      "category": "cafe",
+      "text": "这个，是什么……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "saori_cafe_monolog_4",
+      "category": "cafe",
+      "text": "无法理解……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "saori_cafe_monolog_5",
+      "category": "cafe",
+      "text": "原来如此，是这样吗.....?",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "saori_commonskill",
+      "category": "battle",
+      "text": "虚空罢了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_commonskill.ogg"
+    },
+    {
+      "description": "saori_exskill_1",
+      "category": "battle",
+      "text": "Vanitas Vanitatum, et Omnia Vanitas.",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_exskill_1.ogg"
+    },
+    {
+      "description": "saori_exskill_2",
+      "category": "battle",
+      "text": "Vanitas Vanitatum.",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_exskill_2.ogg"
+    },
+    {
+      "description": "saori_exskill_3",
+      "category": "battle",
+      "text": "虚空，凡事都是虚空。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_exskill_3.ogg"
+    },
+    {
+      "description": "saori_exskill_level_1",
+      "category": "battle",
+      "text": "谁也别想逃！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_exskill_level_1.ogg"
+    },
+    {
+      "description": "saori_exskill_level_2",
+      "category": "battle",
+      "text": "喝！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_exskill_level_2.ogg"
+    },
+    {
+      "description": "saori_exskill_level_3",
+      "category": "battle",
+      "text": "给我记好了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_exskill_level_3.ogg"
+    },
+    {
+      "description": "saori_exweapon_get",
+      "category": "growup",
+      "text": "你……为什么这么信任我？明明有过那种事……难道被别人背叛你也无所谓吗？我虽然还有很多不懂的东西，但是……我会尽力去做的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_exweapon_get.ogg"
+    },
+    {
+      "description": "saori_formation_in_1",
+      "category": "formation",
+      "text": "了解。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_formation_in_1.ogg"
+    },
+    {
+      "description": "saori_formation_in_2",
+      "category": "formation",
+      "text": "哼。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_formation_in_2.ogg"
+    },
+    {
+      "description": "saori_formation_select",
+      "category": "formation",
+      "text": "你这是要干什么？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_formation_select.ogg"
+    },
+    {
+      "description": "saori_gachaget",
+      "category": "growup",
+      "text": "我是阿里乌斯战术小队的纱织。……我受了老师太多的照顾，所以最少会将受到照顾的那部分好好做出回报。请多关照。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_gachaget.ogg"
+    },
+    {
+      "description": "saori_growup_1",
+      "category": "growup",
+      "text": "能力提高了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_growup_1.ogg"
+    },
+    {
+      "description": "saori_growup_2",
+      "category": "growup",
+      "text": "变强了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_growup_2.ogg"
+    },
+    {
+      "description": "saori_growup_3",
+      "category": "growup",
+      "text": "必须要变强。因为如果不变得更强，就不能保护任何人。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_growup_3.ogg"
+    },
+    {
+      "description": "saori_growup_4",
+      "category": "growup",
+      "text": "还不够……只有变得更强，才能……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_growup_4.ogg"
+    },
+    {
+      "description": "saori_lobby_1",
+      "category": "lobby",
+      "text": "我能派上用场吗？那就好。能派上用场，我就能留在这里。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_lobby_1.ogg"
+    },
+    {
+      "description": "saori_lobby_1_maskeffect",
+      "category": "lobby",
+      "text": "我能派上用场吗？那就好。能派上用场，我就能留在这里。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_lobby_1_maskeffect.ogg"
+    },
+    {
+      "description": "saori_lobby_2",
+      "category": "lobby",
+      "text": "既然凡事都是虚空，我们又为什么活着呢？我现在还没找到这个问题的答案。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_lobby_2.ogg"
+    },
+    {
+      "description": "saori_lobby_2_maskeffect",
+      "category": "lobby",
+      "text": "既然凡事都是虚空，我们又为什么活着呢？我现在还没找到这个问题的答案。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_lobby_2_maskeffect.ogg"
+    },
+    {
+      "description": "saori_lobby_3",
+      "category": "lobby",
+      "text": "我以后……只能继续挣扎下去。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_lobby_3.ogg"
+    },
+    {
+      "description": "saori_lobby_3_maskeffect",
+      "category": "lobby",
+      "text": "我以后……只能继续挣扎下去。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_lobby_3_maskeffect.ogg"
+    },
+    {
+      "description": "saori_lobby_4",
+      "category": "lobby",
+      "text": "下令吧，老师。我就是为了这个才留在这里的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_lobby_4.ogg"
+    },
+    {
+      "description": "saori_lobby_4_maskeffect",
+      "category": "lobby",
+      "text": "下令吧，老师。我就是为了这个才留在这里的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_lobby_4_maskeffect.ogg"
+    },
+    {
+      "description": "saori_lobby_5",
+      "category": "lobby",
+      "text": "我还应该……继续活下去吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_lobby_5.ogg"
+    },
+    {
+      "description": "saori_lobby_5_maskeffect",
+      "category": "lobby",
+      "text": "我还应该……继续活下去吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_lobby_5_maskeffect.ogg"
+    },
+    {
+      "description": "saori_login_1",
+      "category": "lobby",
+      "text": "准备完成。有什么事你尽管说，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_login_1.ogg"
+    },
+    {
+      "description": "saori_login_1_maskeffect",
+      "category": "lobby",
+      "text": "准备完成。有什么事你尽管说，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_login_1_maskeffect.ogg"
+    },
+    {
+      "description": "saori_login_2",
+      "category": "lobby",
+      "text": "我在等你，老师。——你这是什么反应？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_login_2.ogg"
+    },
+    {
+      "description": "saori_login_2_maskeffect",
+      "category": "lobby",
+      "text": "我在等你，老师。——你这是什么反应？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_login_2_maskeffect.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_1",
+      "category": "lobby",
+      "text": "老师……你怎么会在这儿？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_memoriallobby_1.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "呃……哈啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "……不用担心。这是常有的事。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "居然又在最后关头，掉链子……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "还以为我多少有点长进……但看来是自作多情了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "咳，咳咳……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "别这副表情啊。这点伤我早就习惯了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "跟之前没什么不一样，也没什么好稀奇的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_memoriallobby_4_3.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_5",
+      "category": "lobby",
+      "text": "现在这样就行了……只要再，稍微歇上一会儿……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_memoriallobby_5.ogg"
+    },
+    {
+      "description": "saori_relationship_up_1",
+      "category": "growup",
+      "text": "你……信任我吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_relationship_up_1.ogg"
+    },
+    {
+      "description": "saori_relationship_up_2",
+      "category": "growup",
+      "text": "怎么说呢，我很感激你，但是我……算了，当我没说。忘掉吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_relationship_up_2.ogg"
+    },
+    {
+      "description": "saori_relationship_up_3",
+      "category": "growup",
+      "text": "你以为……我会对你说谢谢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_relationship_up_3.ogg"
+    },
+    {
+      "description": "saori_relationship_up_4",
+      "category": "growup",
+      "text": "你的意思是，你不会抛弃我？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_relationship_up_4.ogg"
+    },
+    {
+      "description": "saori_season_birthday_1",
+      "category": "lobby",
+      "text": "我从来没有庆祝过生日，所以，也不知道该怎么理解这个词。我甚至不知道自己有没有这个资格。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_birthday_1.ogg"
+    },
+    {
+      "description": "saori_season_birthday_1_maskeffect",
+      "category": "lobby",
+      "text": "我从来没有庆祝过生日，所以，也不知道该怎么理解这个词。我甚至不知道自己有没有这个资格。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_birthday_1_maskeffect.ogg"
+    },
+    {
+      "description": "saori_season_birthday_2",
+      "category": "lobby",
+      "text": "未来会有那么一天，我能发自内心去祝自己生日快乐吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_birthday_2.ogg"
+    },
+    {
+      "description": "saori_season_birthday_2_maskeffect",
+      "category": "lobby",
+      "text": "未来会有那么一天，我能发自内心去祝自己生日快乐吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_birthday_2_maskeffect.ogg"
+    },
+    {
+      "description": "saori_season_birthday_player",
+      "category": "lobby",
+      "text": "我听说，今天是老师的生日。很抱歉，我不知道这时候自己应该做些什么……但是，如果没有你，也不会有现在的我。所以老师，我要再次感谢你。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_birthday_player.ogg"
+    },
+    {
+      "description": "saori_season_birthday_player_maskeffect",
+      "category": "lobby",
+      "text": "我听说，今天是老师的生日。很抱歉，我不知道这时候自己应该做些什么……但是，如果没有你，也不会有现在的我。所以老师，我要再次感谢你。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_birthday_player_maskeffect.ogg"
+    },
+    {
+      "description": "saori_season_chinesenewyear",
+      "category": "lobby",
+      "text": "新春……无论是季节还是花朵，我过去都没有兴趣，毕竟凡事都是虚空。但现在或许……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "saori_season_chinesenewyear_maskeffect",
+      "category": "lobby",
+      "text": "新春……无论是季节还是花朵，我过去都没有兴趣，毕竟凡事都是虚空。但现在或许……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_chinesenewyear_maskeffect.ogg"
+    },
+    {
+      "description": "saori_season_halloween",
+      "category": "lobby",
+      "text": "今天好像是个节日，不过我没什么兴趣。凡事都是虚空罢了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_halloween.ogg"
+    },
+    {
+      "description": "saori_season_halloween_maskeffect",
+      "category": "lobby",
+      "text": "今天好像是个节日，不过我没什么兴趣。凡事都是虚空罢了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_halloween_maskeffect.ogg"
+    },
+    {
+      "description": "saori_season_midautumn",
+      "category": "lobby",
+      "text": "秋天……团圆……说来，有阵子没见过战术小队的大家了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_midautumn.ogg"
+    },
+    {
+      "description": "saori_season_midautumn_maskeffect",
+      "category": "lobby",
+      "text": "秋天……团圆……说来，有阵子没见过战术小队的大家了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_midautumn_maskeffect.ogg"
+    },
+    {
+      "description": "saori_season_newyear",
+      "category": "lobby",
+      "text": "又到年底了吗?怎么说呢，虽然在这个世界上度过的每一天，还是冰冷又痛苦……但是，时间还是会继续前进呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_newyear.ogg"
+    },
+    {
+      "description": "saori_season_newyear_maskeffect",
+      "category": "lobby",
+      "text": "又到年底了吗?怎么说呢，虽然在这个世界上度过的每一天，还是冰冷又痛苦……但是，时间还是会继续前进呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_newyear_maskeffect.ogg"
+    },
+    {
+      "description": "saori_season_xmas",
+      "category": "lobby",
+      "text": "平安夜，我没什么特别的感觉。我不觉得区区一个节日，就能让世界上的痛苦减少。毕竟，凡事都是虚空啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_xmas.ogg"
+    },
+    {
+      "description": "saori_season_xmas_maskeffect",
+      "category": "lobby",
+      "text": "平安夜，我没什么特别的感觉。我不觉得区区一个节日，就能让世界上的痛苦减少。毕竟，凡事都是虚空啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_season_xmas_maskeffect.ogg"
+    },
+    {
+      "description": "saori_tactic_defeat_1",
+      "category": "battle",
+      "text": "——呃……又变成这样了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "saori_tactic_defeat_2",
+      "category": "battle",
+      "text": "……撤退。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "saori_tactic_in_1",
+      "category": "battle",
+      "text": "情况我明白了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_tactic_in_1.ogg"
+    },
+    {
+      "description": "saori_tactic_in_2",
+      "category": "battle",
+      "text": "了解。我马上着手处理。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_tactic_in_2.ogg"
+    },
+    {
+      "description": "saori_tactic_victory_1",
+      "category": "battle",
+      "text": "任务很简单。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_tactic_victory_1.ogg"
+    },
+    {
+      "description": "saori_tactic_victory_2",
+      "category": "battle",
+      "text": "任务完成。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_tactic_victory_2.ogg"
+    },
+    {
+      "description": "saori_title",
+      "category": "lobby",
+      "text": "Blue Archive.",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/cn/saori_title.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "saori_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_damage_3.ogg"
+    },
+    {
+      "description": "saori_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_defense_1.ogg"
+    },
+    {
+      "description": "saori_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_in_1.ogg"
+    },
+    {
+      "description": "saori_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_in_2.ogg"
+    },
+    {
+      "description": "saori_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_move_1.ogg"
+    },
+    {
+      "description": "saori_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_move_2.ogg"
+    },
+    {
+      "description": "saori_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_recovery_1.ogg"
+    },
+    {
+      "description": "saori_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_retire.ogg"
+    },
+    {
+      "description": "saori_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_shout_1.ogg"
+    },
+    {
+      "description": "saori_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_shout_2.ogg"
+    },
+    {
+      "description": "saori_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_shout_3.ogg"
+    },
+    {
+      "description": "saori_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "saori_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_victory_1.ogg"
+    },
+    {
+      "description": "saori_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_victory_2.ogg"
+    },
+    {
+      "description": "saori_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "saori_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "saori_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "saori_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "saori_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "saori_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_commonskill.ogg"
+    },
+    {
+      "description": "saori_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_exskill_1.ogg"
+    },
+    {
+      "description": "saori_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_exskill_2.ogg"
+    },
+    {
+      "description": "saori_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_exskill_3.ogg"
+    },
+    {
+      "description": "saori_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_exskill_level_1.ogg"
+    },
+    {
+      "description": "saori_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_exskill_level_2.ogg"
+    },
+    {
+      "description": "saori_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_exskill_level_3.ogg"
+    },
+    {
+      "description": "saori_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_exweapon_get.ogg"
+    },
+    {
+      "description": "saori_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_formation_in_1.ogg"
+    },
+    {
+      "description": "saori_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_formation_in_2.ogg"
+    },
+    {
+      "description": "saori_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_formation_select.ogg"
+    },
+    {
+      "description": "saori_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_gachaget.ogg"
+    },
+    {
+      "description": "saori_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_growup_1.ogg"
+    },
+    {
+      "description": "saori_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_growup_2.ogg"
+    },
+    {
+      "description": "saori_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_growup_3.ogg"
+    },
+    {
+      "description": "saori_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_growup_4.ogg"
+    },
+    {
+      "description": "saori_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_lobby_1.ogg"
+    },
+    {
+      "description": "saori_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_lobby_2.ogg"
+    },
+    {
+      "description": "saori_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_lobby_3.ogg"
+    },
+    {
+      "description": "saori_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_lobby_4.ogg"
+    },
+    {
+      "description": "saori_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_lobby_5.ogg"
+    },
+    {
+      "description": "saori_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_login_1.ogg"
+    },
+    {
+      "description": "saori_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_login_2.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_memoriallobby_1.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_memoriallobby_4_3.ogg"
+    },
+    {
+      "description": "saori_memoriallobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_memoriallobby_5.ogg"
+    },
+    {
+      "description": "saori_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_relationship_up_1.ogg"
+    },
+    {
+      "description": "saori_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_relationship_up_2.ogg"
+    },
+    {
+      "description": "saori_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_relationship_up_3.ogg"
+    },
+    {
+      "description": "saori_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_relationship_up_4.ogg"
+    },
+    {
+      "description": "saori_season_birthday_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_season_birthday_1.ogg"
+    },
+    {
+      "description": "saori_season_birthday_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_season_birthday_2.ogg"
+    },
+    {
+      "description": "saori_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_season_birthday_player.ogg"
+    },
+    {
+      "description": "saori_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_season_halloween.ogg"
+    },
+    {
+      "description": "saori_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_season_newyear.ogg"
+    },
+    {
+      "description": "saori_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_season_xmas.ogg"
+    },
+    {
+      "description": "saori_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "saori_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "saori_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_tactic_in_1.ogg"
+    },
+    {
+      "description": "saori_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_tactic_in_2.ogg"
+    },
+    {
+      "description": "saori_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_tactic_victory_1.ogg"
+    },
+    {
+      "description": "saori_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_tactic_victory_2.ogg"
+    },
+    {
+      "description": "Saori_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/Saori_Title.ogg"
+    },
+    {
+      "description": "saori_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_buffed_1.ogg"
+    },
+    {
+      "description": "saori_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_buffself_1.ogg"
+    },
+    {
+      "description": "saori_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_covered_1.ogg"
+    },
+    {
+      "description": "saori_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_damage_1.ogg"
+    },
+    {
+      "description": "saori_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/saori_battle_damage_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173453.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173439.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173447.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173500.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125172133.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125172912.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125172120.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173638.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173433.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173427.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173650.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173643.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173606.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173632.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173621.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173626.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173612.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173600.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173532.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173553.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173547.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173512.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173539.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173525.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173519.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211125173506.png"
+      ]
+    },
+    {
+      "title": "战损差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-11_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-13_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_00_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-10_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-12_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_09_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-14_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_08_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_10_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_11_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_12_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_13_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_14_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-S2_07_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-07_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-08_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0012_spr-09_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "角色画廊 ",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/Vol.1_%E9%A1%B5%E9%9D%A2_127.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/Vol2-38.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/Vol2-67.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/Vol2-131.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/Vol2-160.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/Vol2-187.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/Vol2-188.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/saori-%E7%B9%81%E4%B8%ADBanner.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/saori-%E5%9B%BD%E6%9C%8DBanner.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/saori-enBanner.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/saori-%E6%97%A5%E6%9C%8DBanner.png",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/saori-%E7%B9%81%E4%B8%ADBanner.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/saori-%E5%9B%BD%E6%9C%8DIntro.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/saori_%E5%9B%BD%E6%9C%8Dskill.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/saori_%E5%9B%BD%E6%9C%8Dex.gif",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/saori_%E5%9B%BD%E6%9C%8Dcafe.gif",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/saori-enIntro.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/Saori-%E6%97%A5%E6%9C%8DIntro.jpg",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/saori_misaki_%E5%9B%BD%E6%9C%8Dinteraction.gif",
+        "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A%20/saori_%E5%9B%BD%E6%9C%8Dinteraction.gif"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 85,
+      "favorability": 180
+    },
+    {
+      "id": 17,
+      "favorability": 60
+    },
+    {
+      "id": 27,
+      "favorability": 60
+    },
+    {
+      "id": 31,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    565
+  ],
+  "character_datas": [
+    {
+      "character_id": 10048,
+      "dev_name": "Saori",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Special",
+      "is_groupc_control": false,
+      "team_position": "MIDDLE",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "S",
+      "street_adaptability": "B",
+      "equipment": [
+        7,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        106,
+        108,
+        109,
+        110,
+        143,
+        144,
+        145,
+        146,
+        448,
+        449,
+        450,
+        451,
+        407,
+        408,
+        409,
+        19
+      ],
+      "favorite_equipment": 60,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/skill_icon/LyhdGl3Pjwxx8wzDSYCafFC8nCQHVQho.png",
+            "title": "et omnia vanitas！",
+            "title_cn": "Et Omnia Vanitas！",
+            "preview": "//static.kivo.wiki/videos/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/skill_preview/FCefzDvWlFpYkm7r6iS6U5g8asGTmmWM.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成671%攻击力的必定暴击伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成772%攻击力的必定暴击伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成973%攻击力的必定暴击伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成1074%攻击力的必定暴击伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成1275%攻击力的必定暴击伤害"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/skill_icon/PdZ4QiXuICE35UxpRfQzaK7DdI4iGbeC.png",
+            "title": "即时射击",
+            "title_cn": "快反射击",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每25秒，增加19.1%暴击伤害（持续16秒）/对敌人1人造成攻击力208%的必定暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，增加19.1%暴击伤害（持续16秒） /对敌人1人造成攻击力219%的必定暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，增加19.1%暴击伤害（持续16秒） /对敌人1人造成攻击力229%的必定暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，增加21%暴击伤害（持续16秒） /对敌人1人造成攻击力250%的必定暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，增加21%暴击伤害（持续16秒） /对敌人1人造成攻击力260%的必定暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，增加21%暴击伤害（持续16秒） /对敌人1人造成攻击力271%的必定暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，增加22.9%暴击伤害（持续16秒） /对敌人1人造成攻击力292%的必定暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，增加22.9%暴击伤害（持续16秒） /对敌人1人造成攻击力302%的必定暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，增加22.9%暴击伤害（持续16秒） /对敌人1人造成攻击力313%的必定暴击伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒，增加24.8%暴击伤害（持续16秒） /对敌人1人造成攻击力334%的必定暴击伤害"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/skill_icon/LRx7Bu7deB9crh5pcVMjdTfjQJO6vVAs.png",
+            "title": "训练的成果",
+            "title_cn": "训练的成果",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/skill_icon/ugMGhhMPc15rg9Siu56AiEDFXdDLCGvd.png",
+            "title": "队长的责任感",
+            "title_cn": "队长的责任感",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "当前队伍中包含阿里乌斯小队出身的学生达2人/3人/4人时，攻击力分别增加19.3%/28.9%/38.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "当前队伍中包含阿里乌斯小队出身的学生达2人/3人/4人时，攻击力分别增加20.2%/30.4%/40.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "当前队伍中包含阿里乌斯小队出身的学生达2人/3人/4人时，攻击力分别增加21.2%/31.8%/42.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "当前队伍中包含阿里乌斯小队出身的学生达2人/3人/4人时，攻击力分别增加25.1%/37.6%/50.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "当前队伍中包含阿里乌斯小队出身的学生达2人/3人/4人时，攻击力分别增加26%/39.1%/52.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "当前队伍中包含阿里乌斯小队出身的学生达2人/3人/4人时，攻击力分别增加27%/40.5%/54.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "当前队伍中包含阿里乌斯小队出身的学生达2人/3人/4人时，攻击力分别增加30.9%/46.3%/61.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "当前队伍中包含阿里乌斯小队出身的学生达2人/3人/4人时，攻击力分别增加31.8%/47.8%/63.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "当前队伍中包含阿里乌斯小队出身的学生达2人/3人/4人时，攻击力分别增加32.8%/49.2%/65.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "当前队伍中包含阿里乌斯小队出身的学生达2人/3人/4人时，攻击力分别增加36.7%/55%/73.4%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2473,
+          "attack": 264,
+          "defense": 19,
+          "healing": 1675,
+          "accuracy": 712,
+          "evasion": 785,
+          "crit": 203,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1372,
+          "range": 650,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 15
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/weapons_icon.png",
+        "name": "阿里乌斯制突击步枪",
+        "name_cn": "阿里乌斯制式突击步枪",
+        "description": "纱织使用的突击步枪。<br/>由纱织独力改造，彻底追求效率的枪械。只要锁定了猎物，直到目标倒下之前就绝对逃不了。",
+        "description_cn": "纱织使用的突击步枪。<br/>由纱织亲手改造，彻底追求作战效率的一把枪。只要锁定了猎物就绝不会让对方逃掉，直到目标彻底倒下。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「训练的成果」升级为「训练的成果+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室內适应性 S -> SS",
+            "description": "在室內地形造成1.3倍伤害。 在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 爆发克制伤害增加",
+            "description": "攻击类型为爆发的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%94%AD%E5%89%8D%20%E7%BA%B1%E7%BB%87/skill_icon/OUIMVuKFIBWuV5pVB9A40LbSkPjxGl74.png",
+            "title": "训练的成果+",
+            "title_cn": "训练的成果+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1400/暴击伤害增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1470/暴击伤害增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1540/暴击伤害增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1820/暴击伤害增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1890/暴击伤害增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1960/暴击伤害增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加2240/暴击伤害增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加2310/暴击伤害增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加2380/暴击伤害增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加2660/暴击伤害增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [
+    {
+      "name": "2026/04/06 - mYmshyuu - 查缺补漏",
+      "url": ""
+    },
+    {
+      "name": "2026/04/07 - mYmshyuu - 查缺补漏",
+      "url": ""
+    }
+  ],
+  "info_declare_uuid": "f0f3208a-947d-4573-889a-d12a5945bf73",
+  "skill_declare_uuid": "f7934923-c820-4a60-9936-8c6b91a2ce9b",
+  "supplementary_uuid": "e18535b6-29ff-462e-b07c-d05cd721cc20",
+  "supplementary_declare_uuid": "e9c032ed-cb68-4c67-b678-2b683f46eb13",
+  "created_at": 1684637978,
+  "updated_at": 1783660637
+}

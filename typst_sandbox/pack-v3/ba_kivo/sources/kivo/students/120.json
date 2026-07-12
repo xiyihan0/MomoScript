@@ -1,0 +1,2302 @@
+{
+  "id": 120,
+  "skin": "温泉",
+  "skin_jp": "温泉",
+  "skin_cn": "温泉",
+  "skin_zh_tw": "溫泉",
+  "skin_list": [
+    {
+      "id": 119,
+      "avatar": "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 120,
+      "avatar": "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/avatar.png",
+      "skin": "温泉",
+      "skin_cn": "温泉"
+    }
+  ],
+  "family_name": "天见",
+  "given_name": "和香",
+  "family_name_jp": "天見",
+  "given_name_jp": "ノドカ",
+  "family_name_kr": "아마미",
+  "given_name_kr": "노도카",
+  "family_name_en": "Amami",
+  "given_name_en": "Nodoka",
+  "family_name_zh_tw": "天見",
+  "given_name_zh_tw": "和香",
+  "family_name_cn": "天见",
+  "given_name_cn": "和香",
+  "nick_name": "温泉望远镜，温泉和香",
+  "introduction": "红冬联邦学园所属，受到停学处分而被禁闭于旧校舍227号特别班级中，碰巧成为了「227号温泉浴场」女老板的学生。突然于旧校舍涌出的温泉，使她一口气变成了有钱人。但也因此，以红冬为首，开始有许多形形色色的学生来访，或者是以各种理由来妨碍营业，使她依旧备尝辛苦。\n\n>注入真情，前往迎接客人！",
+  "introduction_cn": "227号温泉乡的老板娘，和特别班的成员们一起经营着规模巨大的温泉浴场。\n\n虽然被红冬事务局处分的处境没有改变，但旧楼突然喷出的温泉使她一夜暴富。可是这时，很多个性鲜明的红冬学员开始妨碍温泉乡的营业，让她疲于应对，叫苦不迭。\n\n\"诚心诚意招待好每一位顾客！\"",
+  "momo_talk_signature": "227号温泉乡，随时为您准备住宿！",
+  "main_relation": 55,
+  "relation": [
+    30
+  ],
+  "age": 16,
+  "grade": "二年生",
+  "height": 147,
+  "birthday": "02-20",
+  "hobby": "天体观测",
+  "designer": "9ml",
+  "illustrator": "9ml",
+  "character_voice": "佐藤聪美",
+  "character_voice_cn": "晨宁溪",
+  "release_date": "2021-12-15",
+  "release_date_cn": "2024-01-04",
+  "release_date_global": "2022-07-26",
+  "sd_model_image": "",
+  "avatar": "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/avatar.png",
+  "school": 5,
+  "weapon_type": "SMG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": false,
+  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 湯けむりは　星月夜に溶けて | 氤氲水汽 融于星月夜中 | 我，溫泉浴場的女將和香，將竭誠爲各位老師服務。 | I, Nodoka, am ready to serve you with all my heart! |\n| ![ノドカ(温泉).png](files/526/0tQ25ywch0IKBQWL0DAWq92v3kzvzWGb.png =450x) | ![nodoka_hotspring.png](files/526/fUJ91ppv4c3cHxFsYjIN3M1fcIcUqNFH.png =450x) | ![nodoka_hotspring ZH.png](files/526/66BdVOhiLMuHKQlbyRMpHiVWZCP5oDW7.png =450x) | ![nodoka_hotspring EX.jpg](files/526/DxRcAYHwNYrYFUsqX4gkbU5JwJ36dRDv.jpg =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Nodoka-newyear.jpg](files/526/2AMsT5CgZuSzdfRiuowYe241X0BhDj6p.jpg =525x) | ![nodoka_hotspring.jpg](files/526/mnoDPDvk3EP7U0PVka5DTWFrp3QF5QLA.jpg =425x) | ![nodoka_hotspring ZH.jpg](files/526/1WqkExNHnBbgoeMr5rjbm0J2osza6EqD.jpg =400x) | ![nodoka_hotspring EN.jpg](files/526/KU8otkwKeAjim6UxrzQUNUT2ilL81OJL.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[抹茶组合和室桌子](https://kivo.wiki/data/item/762) |\n| :---: | :---: | :---: |\n| ![nodoka_hotspring_ex.gif](files/526/kfEfJmA8uI1PAwK7FKrwvEC1jXCT1VAo.gif =450x) | ![nodoka_hotspring_cafe.gif](files/526/1aBop3LbgjkcTsDJ8us2LDha323Bud8k.gif =450x) | ![nodoka_hotspring_interaction.gif](files/526/P2rrGtGb9duenJI3iq4CIk0Y92oP0YgH.gif =450x) |\n\n## 设定集\n\n:::: center\n![Vol.1_页面_026.png](files/526/wTXOQusF2fp4TfYkrCOEwqmTVs9Zq04N.png =450x)\n\n![Vol.1_页面_117.png](files/526/E8W17IiSSHgonFNKwoNkkCy5hDV6YFnb.png =450x)\n\n![Vol.1_页面_212.png](files/526/e7Np6r7sgTuoajoxrZ44bfCO9pTAZuBj.png =450x)\n\n![Vol.1_页面_231.png](files/526/XlThHnAAknSoFwOZYDD8ogiDElWTij7G.png =450x)\n\n![Vol.1_页面_276.png](files/526/IGMtCX1aWtH1kprwZ5wAUE6DJyD3SpmT.png =450x)\n::::\n\n# 页面贡献者\n## 外部贡献者\n!!! note 提示\n说明\n外部贡献者是指在本站的[反馈收集表](https://www.wjx.cn/vm/O3KsQNO.aspx#)中，对该页面提供了纠错、补充等建设性意见，经审核后被本站采纳，并在[收集表](https://www.wjx.cn/vm/O3KsQNO.aspx#)选项留下了自己的ID，希望能够在页面中标注其贡献的一部分贡献者用户。\n!!!\n\n1. 2024/9/21 - **SSAALER** - 资料纠错",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/CH0165_home_Idle_01_0.7788000000000013.jpg",
+  "spine": [
+    1605,
+    862,
+    963,
+    424
+  ],
+  "model": [
+    97,
+    267
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/voice/play_icon.webp",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/voice/pause_icon.webp",
+  "voice": [
+    {
+      "description": "CH0165_Title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/xYCOOUovcocCk58jWSRoPsNur4lmEsMf.ogg"
+    },
+    {
+      "description": "CH0165_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "要是我们227号温泉乡也有这样的家具就好了。",
+      "text_original": "227号温泉郷にも、こういった家具があると良さそうですね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/FeEJzgTA6TlLERtLMSQb0Hmt8ybd8PwT.ogg"
+    },
+    {
+      "description": "CH0165_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "这家咖啡厅总是挤满了人……它有什么秘诀呢？",
+      "text_original": "このカフェはいつもにぎやかで……秘訣は何なのでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/XBWmvry3xqUbvLkUfmUpIO5WogzGS3d2.ogg"
+    },
+    {
+      "description": "CH0165_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "哇……这个看起来很贵啊……",
+      "text_original": "うぉぉ……高そうな物が……",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/FQWu8zQF8sNmnGQGIB4J9LVJBt7Rj6W2.ogg"
+    },
+    {
+      "description": "CH0165_Cafe_monolog_4",
+      "category": "cafe",
+      "text": "（诶，明明老师刚刚还在这附近……）",
+      "text_original": "(あれ、たしかこの辺りにさっきまで先生が……)",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/4GOpO0Bkw6sTHooPuLLYuezIm190S1ov.ogg"
+    },
+    {
+      "description": "CH0165_Cafe_monolog_5",
+      "category": "cafe",
+      "text": "（……我还不想回旧楼。）",
+      "text_original": "(旧校舎……まだ戻りたくないな……)",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/03CQecv9PtMQKGdfMQIqrIxxeV3fmdVA.ogg"
+    },
+    {
+      "description": "CH0165_CommonSkill",
+      "category": "battle",
+      "text": "客人，有什么困扰着您吗？",
+      "text_original": "お客様、何かお困りのことはございませんか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/EFWGTM2tsQ0PLDMnLEKPyPIxUi0hOD1b.ogg"
+    },
+    {
+      "description": "CH0165_EventLobby_1",
+      "category": "event",
+      "text": "既能赚钱，又能看到很多美丽的风景…… 温泉浴场真是太棒啦！",
+      "text_original": "お金も稼げて、綺麗な景色もたくさん見られて、温泉郷、最高ですね！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/CByje9rQ0cWwJF31xWqVVR57DvEdUiyS.ogg"
+    },
+    {
+      "description": "CH0165_EventLobby_2",
+      "category": "event",
+      "text": "老师，怎么了？是备用品不够了吗？",
+      "text_original": "どうかしましたか、先生。何か足りない備品とかありました？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ZmSGjs2lVGvAw3fGQSEHbCnCwTm4oyBa.ogg"
+    },
+    {
+      "description": "CH0165_EventLobby_3",
+      "category": "event",
+      "text": "嘿嘿……现在的我，和从前已经不可同日而语了！",
+      "text_original": "えへへん、今の私は、これまでとは一味も二味も違いますよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/hUCOaxgYfqED2XmoKKelcyXcrUwKPTfm.ogg"
+    },
+    {
+      "description": "CH0165_EventLobby_4",
+      "category": "event",
+      "text": "嘿嘿，我现在已经游刃有余了…… 饭后我打算吃两个布丁！",
+      "text_original": "えへん、今の私は余裕があるので、何とー？食後にプティン二つも食べちゃいます",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/Feh7nSNzPd6p3VH0ii5jVhikTlIDQFOl.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_1",
+      "category": "other",
+      "text": "欢迎来到227号温泉乡，我们现在开始营业啦！",
+      "text_original": "227号温泉郷へ、ようこそ！これで、営業が開始します！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/btb0M9ibSfp5VXApvzfa1tVo68Hd5SOj.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_2",
+      "category": "other",
+      "text": "房间已经收拾好了，请好好享受休息吧。",
+      "text_original": "お部屋のご準備が出来ましたので、どうぞごゆるりとお住ましてくださいまして",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/8gih8ddKwcXga4aLrzcSRyO5LukpYcAw.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_3",
+      "category": "other",
+      "text": "料理都准备好啦，肚子饿的客人请到宴会厅来。",
+      "text_original": "お料理の準備ができました。お腹が空かれた方は宴会場までお越しくださいま",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/xPCXDZ7nnyEU6JEJVLqcZcLqH65UCoAS.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_4",
+      "category": "other",
+      "text": "露天温泉已经整修完毕，如果您想享受沐浴，那务必请您光临。",
+      "text_original": "露天風呂の準備ができました。どうぞお楽しみください！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/IHtcX60EnXUaBWjqidQz9fGXnOdQan1M.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_5",
+      "category": "other",
+      "text": "我们227号温泉乡还有漂亮的庭院呢，洗完澡以后，要不要在庭院里悠闲地散散步呢？",
+      "text_original": "この227号温泉郷には、素敵な庭園もあるんです。お風呂なりに庭園でお散歩などいかがですか",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/m0JwBKfdRyU2GPXsJ6IelFnA9rmLeygO.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_Act_1",
+      "category": "other",
+      "text": "有什么不方便的地方吗？",
+      "text_original": "何かお困りの点などはございませんか",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/mHkUgO7Ftkbw5evxDjQg7KIMac6QnWDd.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_Act_2",
+      "category": "other",
+      "text": "你需要什么，请随时告诉老板娘我哦。",
+      "text_original": "何がありましたら、女将であるこの私にいつでもお申し付けください！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/lY3jalp5Bio6pMv4JWhTILGvzFODtytI.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_Act_3",
+      "category": "other",
+      "text": "小雨，请不要随意向客人推荐饮料！",
+      "text_original": "時雨ちゃん…勝手にお客様に飲み物を勧めないように",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/Nw7HgsRACCh6gkZVNiuxepPeIcdeP1CR.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_Act_4",
+      "category": "other",
+      "text": "客人，水温还满意吗？",
+      "text_original": "床芸はいかがですか、お客様",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/FWobpdrtH9rt2DT7KHDQ2x10Up8x1ijQ.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_Act_5",
+      "category": "other",
+      "text": "我马上就收拾好，请稍等一会儿！",
+      "text_original": "すまにお片付き致しますので、少々お待ちください！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/tZX9xJsbauG7uADShjjiwFB9NtnMxQPy.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_Act_6",
+      "category": "other",
+      "text": "每个角落都要彻底打扫干净，不留一点灰尘。",
+      "text_original": "埃一つ残さないよう、隅々まできれいに…",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/JoGdvt4gSxoyuedMmTfzL410CCECRBh3.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_Act_7",
+      "category": "other",
+      "text": "我们温泉浴场有顶级的床上用品，和旧楼完全不一样哦！",
+      "text_original": "この227号温泉郷では、最高級の信号が揃えております。旧校舎とは、全—然違うんですよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/10PJrooEErdlxLz3RNYynSwgLPAr0vUx.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_Act_8",
+      "category": "other",
+      "text": "我们准备了顶级的会席料理，请尽情地享用吧！",
+      "text_original": "最高級の懐石料理をご用意致しましたので、思う存分ご堪能下さい！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/hhUiRyIhaoqgcviXatfzpt5pdWr8qETK.ogg"
+    },
+    {
+      "description": "CH0165_EventLocation_Act_9",
+      "category": "other",
+      "text": "请不要随意触碰花花草草哦。",
+      "text_original": "危ないですので、草花にお手は触れぬよう。 ご注意いただきつつ、ごゆっくりとお楽しみください。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/AShbeNSBuI7j7iZztw4SusRJ0FJXBJXY.ogg"
+    },
+    {
+      "description": "CH0165_EventLogin_1",
+      "category": "event",
+      "text": "欢迎光临227号温泉乡！",
+      "text_original": "いらっしゃいませ。227号温泉郷へ、ようこそ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/5hm3kgRa2geHAYxVgOi3J9WmtVaAMxk7.ogg"
+    },
+    {
+      "description": "CH0165_EventLogin_2",
+      "category": "event",
+      "text": "哇！老老，老师？！什么，您今天已经预约过了……？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/FALJ4dczlW7hLaQQlj6q2qGvaPrHlhaK.ogg"
+    },
+    {
+      "description": "CH0165_EventLogin_Season_1",
+      "category": "lobby",
+      "text": "温泉浴场已经运营快一周了。 这么看来，我也算是一位优秀的老板娘了吧？",
+      "text_original": "この温泉郷を運営にし始めてから、はや一週間。 そろそろ私も、女将としての風格が出てきたのではないでしょうか",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/rtQ4fGbDKIcsZ0FTOgTocXINzPwAGF2a.ogg"
+    },
+    {
+      "description": "CH0165_EventLogin_Season_2",
+      "category": "lobby",
+      "text": "原来经营温泉浴场这么困难…… 我以前都不知道。",
+      "text_original": "温泉の運営がこんなに難しいことだったなんで…想像していませんでした......",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/XTUeJO5LQRDphVzI7VeMxBRJPckdRf7c.ogg"
+    },
+    {
+      "description": "CH0165_EventLogin_Season_End",
+      "category": "lobby",
+      "text": "虽然温泉浴场已经消失了……但我不会因为这种事情就垂头丧气！",
+      "text_original": "温泉郷は無くなってしまいましたが… これしきのことでめげる私ではありません！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/a1Wa2C4RH1zxUjN4zmUW2kTTUJ9rgRAi.ogg"
+    },
+    {
+      "description": "CH0165_EventShop_1",
+      "category": "event",
+      "text": "老师？有什么事吗？",
+      "text_original": "先生、どうされましたか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/dpdLYfmKyrFNHrzz423tF1PaCdwFWh0g.ogg"
+    },
+    {
+      "description": "CH0165_EventShop_2",
+      "category": "event",
+      "text": "就，就算是老师也不能免费拿啦！",
+      "text_original": "い、いくら先生でも、ただでお渡しするわけには",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/eSPAx4KdU3jRk6sd8n8QxJ3gQ5bGadC3.ogg"
+    },
+    {
+      "description": "CH0165_EventShop_Buy_1",
+      "category": "event",
+      "text": "谢谢惠顾。",
+      "text_original": "おかんようげ、ありがとうございます。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/aplCQBEC2qzQ9WvOpW6XVW4nOP4HkU9g.ogg"
+    },
+    {
+      "description": "CH0165_EventShop_Buy_2",
+      "category": "event",
+      "text": "老师，多谢您一直这么照顾。",
+      "text_original": "いつもありがとうございます、先生",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/NU2MP5QUShDVf8nvm57y9qejWrjwq9fj.ogg"
+    },
+    {
+      "description": "CH0165_EventShop_Buy_3",
+      "category": "event",
+      "text": "今天也谢谢您的惠顾！",
+      "text_original": "本日のご利用いただき、ありがとうございます",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/VZzxsYE9IhdemYySx73AYc5SmeSYFwd4.ogg"
+    },
+    {
+      "description": "CH0165_EventShop_Buy_4",
+      "category": "event",
+      "text": "这，这么好的东西，我真的可以收下吗？",
+      "text_original": "こ、こんなにいいものをいただいてしまって、用意のでしょうか…",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/GqFc3RhRmRMQzewa4YNjQOoxdBvo1z3T.ogg"
+    },
+    {
+      "description": "CH0165_EventShop_End",
+      "category": "event",
+      "text": "非常遗憾，227号温泉乡结束营业了……",
+      "text_original": "無念ではありますが、227号温泉郷の営業は終了致しました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/wdI300WvoFql6LKlFHUsSSj4tc4SJbS1.ogg"
+    },
+    {
+      "description": "CH0165_EventShop_Login_1",
+      "category": "event",
+      "text": "老师？有什么事吗？",
+      "text_original": "温泉グッズなともたくさん準備していますよ",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/tIPvNfT94JwrvweG6SdBSMgRauxMWSJC.ogg"
+    },
+    {
+      "description": "CH0165_EventShop_Login_2",
+      "category": "event",
+      "text": "就，就算是老师也不能免费拿啦！",
+      "text_original": "もし使っていないものなどがありましたら、こちらで別の商品をこうかんさせていただけます！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/T00In4Y13gZJdJ2LVfLwK8M7E4lQvltf.ogg"
+    },
+    {
+      "description": "CH0165_ExSkill_1",
+      "category": "battle",
+      "text": "这是227号温泉乡的会席料理！",
+      "text_original": "227号温泉郷の懐石料理です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/tGfoS0sBfBM0vDq0Q0nV2KPSXMJtGmCI.ogg"
+    },
+    {
+      "description": "CH0165_ExSkill_2",
+      "category": "battle",
+      "text": "这是本店的拿手好菜！",
+      "text_original": "自慢のお料理です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/z0662R8G59gVPHtgAv8vOpJsGi07YPSm.ogg"
+    },
+    {
+      "description": "CH0165_ExSkill_3",
+      "category": "battle",
+      "text": "我可是用了很多珍贵的食材！",
+      "text_original": "豪華な素材がたっぷりです！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/B61AhUSX1p6ZZ8Rk6tUoSB659zaJqxtY.ogg"
+    },
+    {
+      "description": "CH0165_ExSkill_Level_1",
+      "category": "battle",
+      "text": "肚子饿了的客人们，请按顺序来领取。",
+      "text_original": "お腹が空いてる方から、順番にお渡しいたします！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/H9mSyXDLLHyc8b2yU7GD7T5mdGRX7WoH.ogg"
+    },
+    {
+      "description": "CH0165_ExSkill_Level_2",
+      "category": "battle",
+      "text": "饭菜管够！",
+      "text_original": "料理はたっぷりありますので！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/9nrjXurm5dBo53C8PvIKwdNdTrwdrjfF.ogg"
+    },
+    {
+      "description": "CH0165_ExSkill_Level_3",
+      "category": "battle",
+      "text": "请大家放轻松，慢慢享受哦。",
+      "text_original": "どうぞ、ごゆるりとお楽しみください！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/rsqoWye25hI9t49gjD3wWnNp2BOkEZxI.ogg"
+    },
+    {
+      "description": "CH0165_ExWeapon_Get",
+      "category": "growup",
+      "text": "其实，我希望这把武器在温泉浴场不要有用武之地……但如果有必要的话，也不得不用了！",
+      "text_original": "逆にあまり温泉郷でこの武器を使う機会が少ないといいのですが… いざという時は、はい！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/kXLzNkjVeYYDNSkbJswKQSsi8Ok5m2YG.ogg"
+    },
+    {
+      "description": "CH0165_Formation_In_1",
+      "category": "formation",
+      "text": "我将为您展现老板娘的精髓。",
+      "text_original": "女将の真髄、お見せします",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/zhmOXzQjKWkA4FJUhKYf6aCX1fWjYDXz.ogg"
+    },
+    {
+      "description": "CH0165_Formation_In_2",
+      "category": "formation",
+      "text": "我会竭尽全力为您服务的！",
+      "text_original": "ぜ、全力でおもてなしします！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/120tQroULnmjKNR0vdEz01VoZSSSYbny.ogg"
+    },
+    {
+      "description": "CH0165_Gachaget",
+      "category": "growup",
+      "text": "欢迎光临227号温泉乡，老师。和香身为温泉乡的老板娘，将竭诚为您服务！",
+      "text_original": "227号温泉郷へようこそおいでくださいました、先生。 このノドカ、温泉郷の女将として真心を込めておもてなしさせていただきます。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/pzrDh3vAr6xA5o2E309xtOj6WFL3c0E6.ogg"
+    },
+    {
+      "description": "CH0165_Growup_1",
+      "category": "growup",
+      "text": "老师觉得我这身怎么样，派头十足吧！",
+      "text_original": "ふふーん、先生どうですか？私のこの貫禄！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/xhXROjZjFAIWOvxRPhNYszajlrVsWixG.ogg"
+    },
+    {
+      "description": "CH0165_Growup_2",
+      "category": "growup",
+      "text": "这样我就能成为一名优秀的老板娘了吧。",
+      "text_original": "これで私も、立派な女将になれたでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/zVZq7oEyO1uJDndKDLT81YDXFZTDW7DV.ogg"
+    },
+    {
+      "description": "CH0165_Growup_3",
+      "category": "growup",
+      "text": "为了温泉乡，我要再加把劲！",
+      "text_original": "温泉郷のために、もっと頑張らないと…",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/Ey6KykG2ISHiipAsCSHMapnumw6EliRJ.ogg"
+    },
+    {
+      "description": "CH0165_Growup_4",
+      "category": "growup",
+      "text": "谢谢您，一直支持我们227号特别办……我，我是说，227号温泉乡。",
+      "text_original": "いつも、私たち227号特別クラ、いえ！227号温泉郷を支援していただき、ありがとうございます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ewTVd5zFqBL11MT1akPdutMDmk423m2j.ogg"
+    },
+    {
+      "description": "CH0165_Lobby_1_1",
+      "category": "lobby",
+      "text": "这件和服，老师觉得好看吗？ 难得我费了好大劲租来的……",
+      "text_original": "先生、この着物……どうでしょうか？その、頑張って借りてみたのですが……",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/NyHZiSB6VfSFqPGLQsUHAyTCuLgfWAlU.ogg"
+    },
+    {
+      "description": "CH0165_Lobby_1_2",
+      "category": "lobby",
+      "text": "……我穿着好看？诶嘿，嘿嘿……",
+      "text_original": "似合ってますか？えへ、えへへ……",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/JVM1KAamp5Tkrd3wEwCBTECoGhAWQ2Iv.ogg"
+    },
+    {
+      "description": "CH0165_Lobby_2",
+      "category": "lobby",
+      "text": "为了不丢红冬唯一温泉浴场的脸，我一定会尽我所能地经营这里！",
+      "text_original": "レッドウィンター連邦学園唯一の温泉郷として、その名に恥じないように頑張ります！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/buaaS7aYRL4uVzonqvDLMJqIw1h0FOuu.ogg"
+    },
+    {
+      "description": "CH0165_Lobby_3_1",
+      "category": "lobby",
+      "text": "诶嘿，诶嘿嘿……",
+      "text_original": "うへ、うぇへへ……",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/xLpLKn2zBaYin2jHl3eCDEGZtO8dfXHl.ogg"
+    },
+    {
+      "description": "CH0165_Lobby_3_2",
+      "category": "lobby",
+      "text": "啊！我，我没有在盯着老师看哦……？",
+      "text_original": "あ、や、み、見てないですよ……？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gK8qvUpZjLxLbrzejjGnERWgxSMpHwAR.ogg"
+    },
+    {
+      "description": "CH0165_Lobby_4",
+      "category": "lobby",
+      "text": "老师，如果您想泡澡，请务必来我们温泉浴场。绝对要来哦！您明白了吗？！",
+      "text_original": "先生、お風呂に入りたくなったらぜひ私たちのところに来てくださいね。絶対ですよ！分かりましたか！？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/udGE0kteKLRUoOkoLk60n3Kl8oZ163N8.ogg"
+    },
+    {
+      "description": "CH0165_Lobby_5",
+      "category": "lobby",
+      "text": "温泉开发部的人也是……不知道为什么，总感觉歌赫娜有很多奇怪的人。",
+      "text_original": "温泉開発部の方々もですが……なんだかゲヘナには、変わった生徒が多いですね？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/UxrCx4Ea0VPAKMq4knIUGKKMpsk7jinl.ogg"
+    },
+    {
+      "description": "CH0165_LogIn_1",
+      "category": "lobby",
+      "text": "227号温泉乡，现在开始营业！",
+      "text_original": "227号温泉郷、これより営業開始です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/XaTBsAuebzsfMJFGlGVQsoFIL0lJritM.ogg"
+    },
+    {
+      "description": "CH0165_LogIn_2_1",
+      "category": "lobby",
+      "text": "老师，欢迎光临！您是先用餐，还是先洗澡？",
+      "text_original": "おかえりなさいませ、先生。お食事になさいますか？それともお風呂になさいますか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/bAKOr7VF2pKYvRWm9mpt08GaJhjG97jU.ogg"
+    },
+    {
+      "description": "CH0165_LogIn_2_2",
+      "category": "lobby",
+      "text": "……嗯？啊，那，那个！ 在我们温泉浴场，没，没有那种服务的……！",
+      "text_original": "……？あ、やっ、その！私たちの温泉郷では、そのようなサービスは、えっと……！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/eI7hRcvZM1LtB7qVxGq58IKjbc1ccCQ3.ogg"
+    },
+    {
+      "description": "CH0165_MemorialLobby_1",
+      "category": "lobby",
+      "text": "哈啊，这温泉真不错。才泡了一会儿脚就不痛了呢。",
+      "text_original": "はぁ……良いお湯ですね。もう入っただけで痛みが無くなったような気分です。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/0BE94tLH192KJtufCmSOh2EUKW7MbdhF.ogg"
+    },
+    {
+      "description": "CH0165_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "这里的风景也好美……",
+      "text_original": "辺りの風景も、すごくきれいで……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/VHFFm5aTehBZ5dNaUucYBvMhbK6X91p9.ogg"
+    },
+    {
+      "description": "CH0165_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "精心修整的庭院，真的是个很美的地方呢。",
+      "text_original": "庭園も素晴らしいですし、本当に素敵な場所ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/SD0iplNDg7qahdgIAjtwI4KVXphWzQe5.ogg"
+    },
+    {
+      "description": "CH0165_MemorialLobby_3",
+      "category": "lobby",
+      "text": "……虽然被屋顶挡住看不到夜空有点可惜。",
+      "text_original": "屋根があって、星空が見えないのは少し残念ですが……",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/y4N2o1eiPXWH9DYySXnDwlfeRZM9QEWj.ogg"
+    },
+    {
+      "description": "CH0165_MemorialLobby_4",
+      "category": "lobby",
+      "text": "……没事，也许现在这样才更好。",
+      "text_original": "……いえ、これで良かったのかもしれません。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/8SeKkhKh2Ma7NARbQFDNXprTqhVwahnY.ogg"
+    },
+    {
+      "description": "CH0165_MemorialLobby_5_1",
+      "category": "lobby",
+      "text": "因为和老师两个人一起泡温泉这种奢侈的瞬间……",
+      "text_original": "先生とふたりっきりで温泉を楽しめるだなんて、こんな幸せ……",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/c4Q6MBdVDmjHqovIHXlGphG49stsrdbE.ogg"
+    },
+    {
+      "description": "CH0165_MemorialLobby_5_2",
+      "category": "lobby",
+      "text": "我想对天上的星星保密。",
+      "text_original": "お星様には、秘密にしておかないと。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/CfLoUW53jgR1aLlWUEMGgZqO3srPjJeZ.ogg"
+    },
+    {
+      "description": "CH0165_Relationship_Up_1",
+      "category": "growup",
+      "text": "我一直都在关注着老师哟，是的，一直都在！",
+      "text_original": "いつも、先生のことを見守っていますよ。はい、いつも～",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/bNlr0qqH5OnVezpdBAZYgS6YbsWvKeWD.ogg"
+    },
+    {
+      "description": "CH0165_Relationship_Up_2",
+      "category": "growup",
+      "text": "诶嘿嘿，今天老师的脸也闪闪发光的呢！",
+      "text_original": "うぇへへ……今日も先生のお顔は輝いてますねぇ……",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/SoXOaa3RSstj20uKXlac8eLkWCLRgTF4.ogg"
+    },
+    {
+      "description": "CH0165_Relationship_Up_3",
+      "category": "growup",
+      "text": "最好的房间永远都是留给老师的。",
+      "text_original": "先生のために、いつも1番いいお部屋を空けてますので！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/1zYKZtxa7sfDI25YiFA9TOMD060W0UHy.ogg"
+    },
+    {
+      "description": "CH0165_Relationship_Up_4",
+      "category": "growup",
+      "text": "因为老师是我们温泉乡的VVIP客人！",
+      "text_original": "先生は、私たちの温泉郷におけるVIPのお客様ですから！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/Q3BpjScnSRLk5WogMsmg10AGqleizlO4.ogg"
+    },
+    {
+      "description": "CH0165_Season_Birthday",
+      "category": "lobby",
+      "text": "啊，今天确实是我的生日…… 那个，就是说，嗯…… 今天的我，是不是可以稍微任性一下呢？",
+      "text_original": "あ、そういえば私の誕生日…… えっと、でしたら、その……今日はほんの少しだけ、甘えてもいいですか……？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/m8UflNZDnhvZSlwygtFi6oXUuU0nMENi.ogg"
+    },
+    {
+      "description": "CH0165_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "老师，生日快乐！ 今天一整天都在我们温泉浴场休息吧，怎么样？",
+      "text_original": "お誕生日、おめでとうございます、先生 今日は一日、私たちの温泉郷でのんびり休まれて行きませんか",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/6q2sXP7Qn65p7thcQyu06JchP8aTV4jz.ogg"
+    },
+    {
+      "description": "CH0165_Season_Halloween",
+      "category": "lobby",
+      "text": "为了纪念万圣节，我们227号温泉乡会特别赠送南瓜味美味棒！",
+      "text_original": "ハロウィンを記念して、私たち227号温泉郷では現在 カボチャ味の「うんめえ棒」をプレゼント中です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/M6qfJJktr5mfjqWb8EEm566yIQQmMDXK.ogg"
+    },
+    {
+      "description": "CH0165_Season_NewYear",
+      "category": "lobby",
+      "text": "希望今年也能吃到很多好吃的……！",
+      "text_original": "今年も美味しくて良さげなものがいっぱい食べられますように……！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/HygDEX36QA1fohuI7kLHrtZ4k9eWmox5.ogg"
+    },
+    {
+      "description": "CH0165_Season_Xmas",
+      "category": "lobby",
+      "text": "把圣诞蛋糕加入会席料理套餐里，真的很奇怪吗……？",
+      "text_original": "懐石料理にクリスマスケーキってやはり変でしょうか…？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/oLy1puh2Omi0Ng46SArBeCdmuxC36nOi.ogg"
+    },
+    {
+      "description": "SM016501_Summon_Hit",
+      "category": "battle",
+      "text": "あっ！",
+      "text_original": "あっ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/SM016501_Summon_Hit.ogg"
+    },
+    {
+      "description": "SM016501_Summon_Retreat_01",
+      "category": "battle",
+      "text": "本日の営業は、これにて終了です…。",
+      "text_original": "本日の営業は、これにて終了です…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/SM016501_Summon_Retreat_01.ogg"
+    },
+    {
+      "description": "SM016501_Summon_Retreat_02",
+      "category": "battle",
+      "text": "す、すみませんっ！材料切れです…。",
+      "text_original": "す、すみませんっ！材料切れです…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/SM016501_Summon_Retreat_02.ogg"
+    },
+    {
+      "description": "ch0165_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/jp/ch0165_formation_select.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "ch0165_season_birthday",
+      "category": "lobby",
+      "text": "啊，今天确实是我的生日…… 那个，就是说，嗯…… 今天的我，是不是可以稍微任性一下呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/Fofrng6BlM724CpbAyYRLqlJWkPUyfN8.ogg"
+    },
+    {
+      "description": "ch0165_season_birthday_player",
+      "category": "lobby",
+      "text": "老师，生日快乐！ 今天一整天都在我们温泉浴场休息吧，怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/oZkf773fHfn3XYhYQL4XLvzWOXlHNure.ogg"
+    },
+    {
+      "description": "ch0165_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，新的一年里，也让身为温泉乡老板娘的我，好好照顾您吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/STJuLlZKJlfbGlPTjc1gFHXGLKoQpUPz.ogg"
+    },
+    {
+      "description": "ch0165_season_halloween",
+      "category": "lobby",
+      "text": "为了纪念万圣节，我们227号温泉乡会特别赠送南瓜味美味棒！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/g1fgSsM5ylxFvfQ8YcwOcW755pJpAQbJ.ogg"
+    },
+    {
+      "description": "ch0165_season_midautumn",
+      "category": "lobby",
+      "text": "泡在热腾腾的温泉里，一边吃着甜甜的月饼，一边和老师欣赏圆圆的月亮……嘿嘿，嘿嘿嘿，我已经迫不及待了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/QPVZc9atQyCVA8minBys8NMSSghXmKL4.ogg"
+    },
+    {
+      "description": "ch0165_season_newyear",
+      "category": "lobby",
+      "text": "希望今年也能吃到很多好吃的……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/AU1ke0yjpbZFm0NBhzTr0Su1kXRmu6HB.ogg"
+    },
+    {
+      "description": "ch0165_season_xmas",
+      "category": "lobby",
+      "text": "把圣诞蛋糕加入会席料理套餐里，真的很奇怪吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ThyoS03U7SVZkGMxH6RmMuDeD4N885LN.ogg"
+    },
+    {
+      "description": "ch0165_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/hcwg3hbrKvDaVTd5Hqqf5HzpOYTXHJFX.ogg"
+    },
+    {
+      "description": "ch0165_cafe_monolog_1",
+      "category": "cafe",
+      "text": "要是我们227号温泉乡也有这样的家具就好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/0BK3sQaWkbyUVmusqtmlKAuKEY53siDV.ogg"
+    },
+    {
+      "description": "ch0165_cafe_monolog_2",
+      "category": "cafe",
+      "text": "这家咖啡厅总是挤满了人……它有什么秘诀呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/uk9dulx0tmeXz8OvMbIGnmbyWvezwbrW.ogg"
+    },
+    {
+      "description": "ch0165_cafe_monolog_3",
+      "category": "cafe",
+      "text": "哇……这个看起来很贵啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/IAbzgxaViE5VKliulGbufLEGA0kdj05l.ogg"
+    },
+    {
+      "description": "ch0165_cafe_monolog_4",
+      "category": "cafe",
+      "text": "（诶，明明老师刚刚还在这附近……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/kZhxK16ZpsRSOWIGiJd9VXojZWO8Dknp.ogg"
+    },
+    {
+      "description": "ch0165_cafe_monolog_5",
+      "category": "cafe",
+      "text": "（……我还不想回旧楼。）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/rLnvtKQHrj5iAZddoG3gaK3D1aO7qFuj.ogg"
+    },
+    {
+      "description": "ch0165_commonskill",
+      "category": "battle",
+      "text": "客人，有什么困扰着您吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/P05yNCe2tnlxH5EnMIBMOKSeAwQ7WqQd.ogg"
+    },
+    {
+      "description": "ch0165_commonskill_1",
+      "category": "battle",
+      "text": "今天的营业，到此为止啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/1Sc4vDE17HP0lqlnOiPQJ1SkC7jd8tVM.ogg"
+    },
+    {
+      "description": "ch0165_commonskill_2",
+      "category": "battle",
+      "text": "对，对不起！食材全都用完啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/4WoX28j1DNIM35Ulmvizph6mhpb1eZra.ogg"
+    },
+    {
+      "description": "ch0165_commonskill_3",
+      "category": "battle",
+      "text": "啊？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/iuLtzqfCq1iHS2VRmKomvsi3OqIl4ZUx.ogg"
+    },
+    {
+      "description": "ch0165_eventlobby_1",
+      "category": "event",
+      "text": "既能赚钱，又能看到很多美丽的风景…… 温泉浴场真是太棒啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/r6RGPN67WIvm7GXNMXBChM7uzlQWI2jT.ogg"
+    },
+    {
+      "description": "ch0165_eventlobby_2",
+      "category": "event",
+      "text": "老师，怎么了？是备用品不够了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/IB6ulEMBBE3FznpBGAsBva0bo6FTujlC.ogg"
+    },
+    {
+      "description": "ch0165_eventlobby_3",
+      "category": "event",
+      "text": "嘿嘿……现在的我，和从前已经不可同日而语了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/aakVGpBW1eRCaYYSGMMVCmhNmW3yQU8V.ogg"
+    },
+    {
+      "description": "ch0165_eventlobby_4",
+      "category": "event",
+      "text": "嘿嘿，我现在已经游刃有余了…… 饭后我打算吃两个布丁！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ngsuWqDOor794yQjyYUS966oWaWw4H3j.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_1",
+      "category": "event",
+      "text": "欢迎来到227号温泉乡，我们现在开始营业啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/4Mo6AqTTwg45J9Ull1wCdymCBFisClvy.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_2",
+      "category": "event",
+      "text": "房间已经收拾好了，请好好享受休息吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/yDudT6DZG9qobI6lNN7sDzUSHiKKInb9.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_3",
+      "category": "event",
+      "text": "料理都准备好啦，肚子饿的客人请到宴会厅来。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/UjfUVy4gkd6sKm9gbzXeM3Nkt798wR2a.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_4",
+      "category": "event",
+      "text": "露天温泉已经整修完毕，如果您想享受沐浴，那务必请您光临。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/0iTD4hG1HNU4CYXGkd1nwMVRhmz084a4.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_5",
+      "category": "event",
+      "text": "我们227号温泉乡还有漂亮的庭院呢，洗完澡以后，要不要在庭院里悠闲地散散步呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/L14M1PoBka4wyZNiZqhGxakYRgMllBzA.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_1",
+      "category": "event",
+      "text": "有什么不方便的地方吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/zuDxeht9A5paMVVoFVlXF2GH5u29jNBV.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_2",
+      "category": "event",
+      "text": "你需要什么，请随时告诉老板娘我哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/lLk68bs6PPHsLoAq1LYlIdpW0yFvouyV.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_3",
+      "category": "event",
+      "text": "小雨，请不要随意向客人推荐饮料！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/CKwAxmx84DPJnNzm42jftMqLOzRS0DFJ.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_4",
+      "category": "event",
+      "text": "客人，水温还满意吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/Nwa2i1XEoQwGuPcs66YwaYROtfX5O4Jh.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_5",
+      "category": "event",
+      "text": "我马上就收拾好，请稍等一会儿！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/OeHvlTgE5gElMVdyCSTVnDUTVjIv4SZ2.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_6",
+      "category": "event",
+      "text": "每个角落都要彻底打扫干净，不留一点灰尘。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/7eolqG20UEhMdMBqwMzShAg0J938wl5B.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_7",
+      "category": "event",
+      "text": "我们温泉浴场有顶级的床上用品，和旧楼完全不一样哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/8LgkXivTV2AhDqOl3zOiiepzaYHNt0mB.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_8",
+      "category": "event",
+      "text": "我们准备了顶级的会席料理，请尽情地享用吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/Y91fnxTPgz4KhQRL2MSFx7ARKcumhjgc.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_9",
+      "category": "event",
+      "text": "请不要随意触碰花花草草哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/QtO1XtDL77As0ThNyH1Gj45zKJbj9XLU.ogg"
+    },
+    {
+      "description": "ch0165_eventlogin_1",
+      "category": "event",
+      "text": "欢迎光临227号温泉乡！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/yUQ7rHmT0bDeuZvFL3ktzrA5vHZeaVrE.ogg"
+    },
+    {
+      "description": "ch0165_eventlogin_2",
+      "category": "event",
+      "text": "哇！老老，老师？！什么，您今天已经预约过了……？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/mnegKm9Pt1WhizlMGUebFfuovP1I4vyF.ogg"
+    },
+    {
+      "description": "ch0165_eventlogin_season_1",
+      "category": "event",
+      "text": "温泉浴场已经运营快一周了。 这么看来，我也算是一位优秀的老板娘了吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/PhvGaYnQkITOJGEIRZ3m6SasQcvMiqif.ogg"
+    },
+    {
+      "description": "ch0165_eventlogin_season_2",
+      "category": "event",
+      "text": "原来经营温泉浴场这么困难…… 我以前都不知道。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/VM5pQfwPxvm3ZN6LppiD2NaYgwjZOaTI.ogg"
+    },
+    {
+      "description": "ch0165_eventlogin_season_end",
+      "category": "event",
+      "text": "虽然温泉浴场已经消失了……但我不会因为这种事情就垂头丧气！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gLF4EAYV0qTqQ1dJt0yJwk4qPxJ4Lvry.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_1",
+      "category": "event",
+      "text": "老师？有什么事吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/bLVAHJ3X2Zfbj8hdL4hmVTgYckxCCjID.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_2",
+      "category": "event",
+      "text": "就，就算是老师也不能免费拿啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/c4glJhHZFhG6Y2LT9mqQdbOOhc6DZd5W.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_buy_1",
+      "category": "event",
+      "text": "谢谢惠顾。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/EZcStqESBDAKB1eUNGhvcSvYoS6jmtE5.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_buy_2",
+      "category": "event",
+      "text": "老师，多谢您一直这么照顾。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/Bme7LqDIER7e9cFHe9vE8z4BB1IPOox9.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_buy_3",
+      "category": "event",
+      "text": "今天也谢谢您的惠顾！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/6NPHFISMihp1EQih904ocX7BsJdm4EoH.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_buy_4",
+      "category": "event",
+      "text": "这，这么好的东西，我真的可以收下吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/rLB5sjB6eRqHq9FjjmyPII1z71Mvsihx.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_end",
+      "category": "event",
+      "text": "非常遗憾，227号温泉乡结束营业了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/Qlm0pkF5Hqj9NMCIkuILc4PhP6TXeTZ3.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_login_1",
+      "category": "event",
+      "text": "老师？有什么事吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/fIB1idjifMy0dyJMxZNDDuneIFfB4mJY.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_login_2",
+      "category": "event",
+      "text": "就，就算是老师也不能免费拿啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/aFQknebKKwl1fydacfTXCJuZsOPALgab.ogg"
+    },
+    {
+      "description": "ch0165_exskill_1",
+      "category": "battle",
+      "text": "这是227号温泉乡的会席料理！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/4cuPJ50kTqS4tluc7XhMsLD544TUjHUD.ogg"
+    },
+    {
+      "description": "ch0165_exskill_2",
+      "category": "battle",
+      "text": "这是本店的拿手好菜！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/dWAKRt3rCUNBqiGkEcclfikfrmo659q4.ogg"
+    },
+    {
+      "description": "ch0165_exskill_3",
+      "category": "battle",
+      "text": "我可是用了很多珍贵的食材！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/0DxtbzLhrTYbU6XgX9yLOsdHhI9r4yW8.ogg"
+    },
+    {
+      "description": "ch0165_exskill_level_1",
+      "category": "battle",
+      "text": "肚子饿了的客人们，请按顺序来领取。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/upyFNmzxdPdG7HGXnobLlk6teqmXIszt.ogg"
+    },
+    {
+      "description": "ch0165_exskill_level_2",
+      "category": "battle",
+      "text": "饭菜管够！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/tPRF55Wju5VAJkVWexkYPHGi9Dhkoi8B.ogg"
+    },
+    {
+      "description": "ch0165_exskill_level_3",
+      "category": "battle",
+      "text": "请大家放轻松，慢慢享受哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/H4Hi25QNTFVTKeBrIXmCwV8awTxKAj9o.ogg"
+    },
+    {
+      "description": "ch0165_exweapon_get",
+      "category": "growup",
+      "text": "其实，我希望这把武器在温泉浴场不要有用武之地……但如果有必要的话，也不得不用了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/vsFrI91GKhreESm9H2y5sPsGpEJP0jhc.ogg"
+    },
+    {
+      "description": "ch0165_formation_in_1",
+      "category": "formation",
+      "text": "我将为您展现老板娘的精髓。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/1xBnToDuGRwKeFr2iP6zWk3nxPJhyARu.ogg"
+    },
+    {
+      "description": "ch0165_formation_in_2",
+      "category": "formation",
+      "text": "我会竭尽全力为您服务的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/Mt33sEbJLE9wiFjEN9koeDU45slW2VJ6.ogg"
+    },
+    {
+      "description": "ch0165_gachaget",
+      "category": "growup",
+      "text": "欢迎光临227号温泉乡，老师。和香身为温泉乡的老板娘，将竭诚为您服务！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/EGlxagI6bk140GgIBsgLxPUeHeW2R6Za.ogg"
+    },
+    {
+      "description": "ch0165_growup_1",
+      "category": "growup",
+      "text": "老师觉得我这身怎么样，派头十足吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/6zeIQnRCxyw04Q8KCZj7qqqjFc7bxj7F.ogg"
+    },
+    {
+      "description": "ch0165_growup_2",
+      "category": "growup",
+      "text": "这样我就能成为一名优秀的老板娘了吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/Yo9cDlPMOqcYOigbSOHJDWwK0FStORMU.ogg"
+    },
+    {
+      "description": "ch0165_growup_3",
+      "category": "growup",
+      "text": "为了温泉乡，我要再加把劲！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/DPOtO3GJgN8bf29TywnFou1EeIvz496m.ogg"
+    },
+    {
+      "description": "ch0165_growup_4",
+      "category": "growup",
+      "text": "谢谢您，一直支持我们227号特别办……我，我是说，227号温泉乡。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/2HLZgik3u2tfhD1kz6KtR5zdR8skatT8.ogg"
+    },
+    {
+      "description": "ch0165_lobby_1_1",
+      "category": "lobby",
+      "text": "这件和服，老师觉得好看吗？ 难得我费了好大劲租来的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/mSZqOhV3RHFAnKJjyCyl8huo2rVXnCtL.ogg"
+    },
+    {
+      "description": "ch0165_lobby_1_2",
+      "category": "lobby",
+      "text": "……我穿着好看？诶嘿，嘿嘿……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gjDBijEpx0iGKJK99GzwnTsmFmtzbRzK.ogg"
+    },
+    {
+      "description": "ch0165_lobby_2",
+      "category": "lobby",
+      "text": "为了不丢红冬唯一温泉浴场的脸，我一定会尽我所能地经营这里！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/iXc45pnDnlxsFEzuNSoZKrZNGahEGmWo.ogg"
+    },
+    {
+      "description": "ch0165_lobby_3_1",
+      "category": "lobby",
+      "text": "诶嘿，诶嘿嘿……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/LcCc19ha7JBxXtUgGXf08aEdNfDSETqe.ogg"
+    },
+    {
+      "description": "ch0165_lobby_3_2",
+      "category": "lobby",
+      "text": "啊！我，我没有在盯着老师看哦……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/PW9LGbmARtJiXII4hp8fKwwpTfmX8IFW.ogg"
+    },
+    {
+      "description": "ch0165_lobby_4",
+      "category": "lobby",
+      "text": "老师，如果您想泡澡，请务必来我们温泉浴场。绝对要来哦！您明白了吗？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/dLC6qrc5ygGBXyno5KZGz5WctMMTf0Lq.ogg"
+    },
+    {
+      "description": "ch0165_lobby_5",
+      "category": "lobby",
+      "text": "温泉开发部的人也是……不知道为什么，总感觉歌赫娜有很多奇怪的人。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/CpFsjlWu18WSsf6DtTtUddyosftxhtyo.ogg"
+    },
+    {
+      "description": "ch0165_login_1",
+      "category": "lobby",
+      "text": "227号温泉乡，现在开始营业！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/LCqvEVAniZBl6XftYuEalhFJqEyPbelF.ogg"
+    },
+    {
+      "description": "ch0165_login_2_1",
+      "category": "lobby",
+      "text": "老师，欢迎光临！您是先用餐，还是先洗澡？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/8XHg9gbVpuWPksohEAhvhwmBlhynAV3m.ogg"
+    },
+    {
+      "description": "ch0165_login_2_2",
+      "category": "lobby",
+      "text": "……嗯？啊，那，那个！ 在我们温泉浴场，没，没有那种服务的……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/kN4UPVBbD1Nu6JTPU945LrWdYMj276lG.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_1",
+      "category": "lobby",
+      "text": "哈啊，这温泉真不错。才泡了一会儿脚就不痛了呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/xoFuiJhUTjD4ACcf6lrkDjAnUSVntatv.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "这里的风景也好美……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/XtkBSqV04q70Et5iy0vZEGVw74nprCt4.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "精心修整的庭院，真的是个很美的地方呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/GHimZ7NaCbwbhw20CJQ12GRFIXCaAOJF.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_3",
+      "category": "lobby",
+      "text": "……虽然被屋顶挡住看不到夜空有点可惜。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/abiqXCiENcmsbeynw3GrkXgZiR8EsjjR.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_4",
+      "category": "lobby",
+      "text": "……没事，也许现在这样才更好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/vXZZc1gh6Qm7BsCmJTqjNdJCfgmfDoJv.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "因为和老师两个人一起泡温泉这种奢侈的瞬间……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/oWzKxpg9naRZLppq6jtHe9QCV1RUW7U2.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "我想对天上的星星保密。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/FsCDT5E1eZLkyQRRFqPvXJ0KP6cw0t6b.ogg"
+    },
+    {
+      "description": "ch0165_relationship_up_1",
+      "category": "growup",
+      "text": "我一直都在关注着老师哟，是的，一直都在！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/maYh1oHcFULr0lWLFAmEmXjqFbXc37fa.ogg"
+    },
+    {
+      "description": "ch0165_relationship_up_2",
+      "category": "growup",
+      "text": "诶嘿嘿，今天老师的脸也闪闪发光的呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/hDtBfequqFLLRAjq34IVrInUuTxnUlLQ.ogg"
+    },
+    {
+      "description": "ch0165_relationship_up_3",
+      "category": "growup",
+      "text": "最好的房间永远都是留给老师的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/6Gvy2RvJQFLaWf3aalmHeVm9mRECWZ0J.ogg"
+    },
+    {
+      "description": "ch0165_relationship_up_4",
+      "category": "growup",
+      "text": "因为老师是我们温泉乡的VVIP客人！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ExCkx9wDT1UlAottd6PAUKKvdigcYfV4.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "ch0165_eventlocation_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_2.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_3",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_3.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_4",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_4.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_5",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_5.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_act_1.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_act_2.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_3",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_act_3.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_4",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_act_4.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_5",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_act_5.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_6",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_act_6.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_7",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_act_7.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_8",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_act_8.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_act_9",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_act_9.ogg"
+    },
+    {
+      "description": "ch0165_eventlogin_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlogin_1.ogg"
+    },
+    {
+      "description": "ch0165_eventlogin_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlogin_2.ogg"
+    },
+    {
+      "description": "ch0165_eventlogin_season_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "ch0165_eventlogin_season_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "ch0165_eventlogin_season_end",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventshop_1.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventshop_2.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_buy_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventshop_buy_1.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_buy_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventshop_buy_2.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_buy_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventshop_buy_3.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_buy_4",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventshop_buy_4.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_end",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventshop_end.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_login_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventshop_login_1.ogg"
+    },
+    {
+      "description": "ch0165_eventshop_login_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventshop_login_2.ogg"
+    },
+    {
+      "description": "ch0165_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_exskill_1.ogg"
+    },
+    {
+      "description": "ch0165_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_exskill_2.ogg"
+    },
+    {
+      "description": "ch0165_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_exskill_3.ogg"
+    },
+    {
+      "description": "ch0165_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0165_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0165_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0165_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0165_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_gachaget.ogg"
+    },
+    {
+      "description": "ch0165_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_growup_1.ogg"
+    },
+    {
+      "description": "ch0165_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_growup_2.ogg"
+    },
+    {
+      "description": "ch0165_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_growup_3.ogg"
+    },
+    {
+      "description": "ch0165_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_growup_4.ogg"
+    },
+    {
+      "description": "ch0165_lobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_lobby_1_1.ogg"
+    },
+    {
+      "description": "ch0165_lobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_lobby_1_2.ogg"
+    },
+    {
+      "description": "ch0165_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_lobby_2.ogg"
+    },
+    {
+      "description": "ch0165_lobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_lobby_3_1.ogg"
+    },
+    {
+      "description": "ch0165_lobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_lobby_3_2.ogg"
+    },
+    {
+      "description": "ch0165_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_lobby_4.ogg"
+    },
+    {
+      "description": "ch0165_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_lobby_5.ogg"
+    },
+    {
+      "description": "ch0165_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_login_1.ogg"
+    },
+    {
+      "description": "ch0165_login_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_login_2_1.ogg"
+    },
+    {
+      "description": "ch0165_login_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_login_2_2.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_memoriallobby_1.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_memoriallobby_3.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_memoriallobby_4.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "ch0165_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "ch0165_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0165_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0165_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0165_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0165_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_season_birthday.ogg"
+    },
+    {
+      "description": "ch0165_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_season_birthday_player.ogg"
+    },
+    {
+      "description": "ch0165_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_season_halloween.ogg"
+    },
+    {
+      "description": "ch0165_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_season_newyear.ogg"
+    },
+    {
+      "description": "ch0165_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_season_xmas.ogg"
+    },
+    {
+      "description": "CH0165_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/CH0165_Title.ogg"
+    },
+    {
+      "description": "ch0165_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0165_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0165_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0165_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0165_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0165_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_commonskill.ogg"
+    },
+    {
+      "description": "ch0165_eventlobby_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlobby_1.ogg"
+    },
+    {
+      "description": "ch0165_eventlobby_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlobby_2.ogg"
+    },
+    {
+      "description": "ch0165_eventlobby_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlobby_3.ogg"
+    },
+    {
+      "description": "ch0165_eventlobby_4",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlobby_4.ogg"
+    },
+    {
+      "description": "ch0165_eventlocation_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/ch0165_eventlocation_1.ogg"
+    },
+    {
+      "description": "sm016501_summon_hit",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/sm016501_summon_hit.ogg"
+    },
+    {
+      "description": "sm016501_summon_retreat_01",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/sm016501_summon_retreat_01.ogg"
+    },
+    {
+      "description": "sm016501_summon_retreat_02",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/sm016501_summon_retreat_02.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_07.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_08.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_09.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_10.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_11.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_12.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_13.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_14.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_16.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_15.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_17.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_18.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_19.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_20.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_21.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_22.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_23.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_24.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_25.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_26.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_27.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_28.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_29.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_30.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_31.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_32.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_33.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_34.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_Idle_01.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_36.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0165_spr_35.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/nodoka_hotspring%20EX.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/nodoka_hotspring%20EN.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/nodoka_hotspring%20ZH.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/nodoka_hotspring%20ZH.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/nodoka_hotspring.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/nodoka_hotspring.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/nodoka_hotspring_skill.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/nodoka_hotspring_interaction.gif",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Nodoka-newyear.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_117.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/nodoka_hotspring_cafe.gif",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%8E%E3%83%89%E3%82%AB%28%E6%B8%A9%E6%B3%89%29.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/nodoka_hotspring_ex.gif",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_276.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_231.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_026.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_212.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 107,
+      "favorability": 180
+    },
+    {
+      "id": 150,
+      "favorability": 180
+    },
+    {
+      "id": 93,
+      "favorability": 60
+    },
+    {
+      "id": 38,
+      "favorability": 40
+    },
+    {
+      "id": 56,
+      "favorability": 40
+    },
+    {
+      "id": 58,
+      "favorability": 40
+    },
+    {
+      "id": 59,
+      "favorability": 40
+    },
+    {
+      "id": 83,
+      "favorability": 40
+    },
+    {
+      "id": 92,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    762
+  ],
+  "character_datas": [
+    {
+      "character_id": 20010,
+      "dev_name": "CH0165",
+      "combat_style": "default",
+      "type": "Healer",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Special",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "S",
+      "street_adaptability": "B",
+      "equipment": [
+        6,
+        4,
+        9
+      ],
+      "cultivate_material": [
+        62,
+        64,
+        65,
+        66,
+        189,
+        190,
+        192,
+        193,
+        411,
+        412,
+        413,
+        414,
+        403,
+        404,
+        405,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/skill_icon/mhbgu9R74XTKYb6fzQs4g7tlAX7thpJH.png",
+            "title": "227号温泉乡，开始营业！",
+            "title_cn": "227号温泉乡，开业啦！",
+            "preview": "//static.kivo.wiki/videos/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/skill_preview/VpJB6zGGh9WESPh3sHG1D2Ja0NOggXt1.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [
+              {
+                "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/skill_icon/eDbC9oNNOGFKFIgRlfF9GqfchRmBc944.png",
+                "title": "给您上菜！",
+                "title_cn": "",
+                "preview": "",
+                "max_level": 5,
+                "link_student_id": 0,
+                "is_passive_skill": true,
+                "derived_skills": [],
+                "info": [
+                  {
+                    "cost": 0,
+                    "describe": "和香（温泉）每3秒将以自己为中心，对圆形范围内体力值最低的1名我方投掷零食（持续32秒）<br/>温泉馒头：恢复等同20.3%治疗力的生命值<br/>好粗棒：恢复等同24.8%治疗力的生命值<br/>牛奶：恢复等同29.3%治疗力的生命值"
+                  },
+                  {
+                    "cost": 0,
+                    "describe": "和香（温泉）每3秒将以自己为中心，对圆形范围内体力值最低的1名我方投掷零食（持续32秒）<br/>温泉馒头：恢复等同23.3%治疗力的生命值<br/>好粗棒：恢复等同28.5%治疗力的生命值<br/>牛奶：恢复等同33.7%治疗力的生命值"
+                  },
+                  {
+                    "cost": 0,
+                    "describe": "和香（温泉）每3秒将以自己为中心，对圆形范围内体力值最低的1名我方投掷零食（持续32秒）<br/>温泉馒头：恢复等同29.4%治疗力的生命值<br/>好粗棒：恢复等同36%治疗力的生命值<br/>牛奶：恢复等同42.5%治疗力的生命值"
+                  },
+                  {
+                    "cost": 0,
+                    "describe": "和香（温泉）每3秒将以自己为中心，对圆形范围内体力值最低的1名我方投掷零食（持续32秒）<br/>温泉馒头：恢复等同32.5%治疗力的生命值<br/>好粗棒：恢复等同39.7%治疗力的生命值<br/>牛奶：恢复等同46.9%治疗力的生命值"
+                  },
+                  {
+                    "cost": 0,
+                    "describe": "和香（温泉）每3秒将以自己为中心，对圆形范围内体力值最低的1名我方投掷零食（持续32秒）<br/>温泉馒头：恢复等同38.6%治疗力的生命值<br/>好粗棒：恢复等同47.1%治疗力的生命值<br/>牛奶：恢复等同55.7%治疗力的生命值"
+                  }
+                ]
+              }
+            ],
+            "info": [
+              {
+                "cost": 4,
+                "describe": "和香（温泉）登场。和香（温泉）每3秒将以自己为中心，对圆形范围内体力值最低的1名我方投掷零食（持续32秒） "
+              },
+              {
+                "cost": 4,
+                "describe": "和香（温泉）登场。和香（温泉）每3秒将以自己为中心，对圆形范围内体力值最低的1名我方投掷零食（持续32秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "和香（温泉）登场。和香（温泉）每3秒将以自己为中心，对圆形范围内体力值最低的1名我方投掷零食（持续32秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "和香（温泉）登场。和香（温泉）每3秒将以自己为中心，对圆形范围内体力值最低的1名我方投掷零食（持续32秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "和香（温泉）登场。和香（温泉）每3秒将以自己为中心，对圆形范围内体力值最低的1名我方投掷零食（持续32秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/skill_icon/dtoVI8Acd9mGScvHMx0ONipqTmGSmpJd.png",
+            "title": "女老板的待客之道",
+            "title_cn": "老板娘的待客之道",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每25秒使1名体力最低的我方所受恢复效果强化率增加16.6%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒使1名体力最低的我方所受恢复效果强化率增加17.5%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒使1名体力最低的我方所受恢复效果强化率增加18.3%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒使1名体力最低的我方所受恢复效果强化率增加21.6%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒使1名体力最低的我方所受恢复效果强化率增加22.5%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒使1名体力最低的我方所受恢复效果强化率增加23.3%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒使1名体力最低的我方所受恢复效果强化率增加26.6%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒使1名体力最低的我方所受恢复效果强化率增加27.5%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒使1名体力最低的我方所受恢复效果强化率增加28.3%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒使1名体力最低的我方所受恢复效果强化率增加31.6%（持续20秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/skill_icon/1dv7okgTCfj9XwPByRyYsPX7ICVa6yrn.png",
+            "title": "温泉治疗的功效",
+            "title_cn": "水疗的功效",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "治疗力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/skill_icon/0Zwt7jLiE3dcVpQGZ6wNYw56xtM5CiYT.png",
+            "title": "温泉胜地的氛围",
+            "title_cn": "温泉的热气",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加9.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加9.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加10%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加11.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加12.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加15.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的攻击力增加17.3%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2289,
+          "attack": 160,
+          "defense": 22,
+          "healing": 2617,
+          "accuracy": 108,
+          "evasion": 1099,
+          "crit": 216,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1472,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/weapons_icon.png",
+        "name": "Sagittarius Night",
+        "name_cn": "射手座之夜",
+        "description": "和香经常携带的冲锋枪。<br>主要用于导览温泉浴场周边昏暗的夜路，不过似乎在请扰人的客人回去时也会使用。",
+        "description_cn": "和香随身携带的冲锋枪。<br>通常会在晚上用它给温泉浴场的客人们指路，但有时也会用来对付一些不守规矩的客人。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「温泉治疗的功效」升级为「温泉治疗的功效+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室内适应性 S -> SS",
+            "description": "在室内地形造成1.3倍伤害。在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E8%A7%81%20%E5%92%8C%E9%A6%99/%E6%B8%A9%E6%B3%89/skill_icon/F8nPlEA9yC8xV7azVT4KxAnPWAXeKYlQ.png",
+            "title": "温泉治疗的功效+",
+            "title_cn": "水疗的功效+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "治疗力增加1047/治疗力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1100/治疗力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1152/治疗力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1361/治疗力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1414/治疗力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1466/治疗力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1676/治疗力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1728/治疗力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1780/治疗力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1989/治疗力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [
+    {
+      "name": "2024/9/21 - SSAALER - 资料纠错",
+      "url": ""
+    }
+  ],
+  "info_declare_uuid": "eec08d51-fcf1-4eb1-be1f-6595cf315f71",
+  "skill_declare_uuid": "b16d00a9-4558-49c4-8e8c-aaa60afa9617",
+  "supplementary_uuid": "fb7b761f-517f-4b92-b5da-bb732936e7dc",
+  "supplementary_declare_uuid": "e48ba05a-bba2-4f82-9f6c-7c38811794b6",
+  "created_at": 1685380670,
+  "updated_at": 1777311160
+}

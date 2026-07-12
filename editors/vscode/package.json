@@ -1,0 +1,96 @@
+{
+  "name": "momoscript-vscode",
+  "displayName": "MomoScript",
+  "description": "Language support for the MomoScript visual storytelling DSL.",
+  "version": "0.1.0",
+  "publisher": "momoscript",
+  "license": "MPL-2.0",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:mmt"
+  ],
+  "main": "./dist/extension.js",
+  "browser": "./dist/extension.web.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "mmt",
+        "aliases": [
+          "MomoScript",
+          "mmt"
+        ],
+        "extensions": [
+          ".mmt"
+        ],
+        "filenamePatterns": [
+          "*.mmt.txt"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "mmt",
+        "scopeName": "source.mmt",
+        "path": "./syntaxes/mmt.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "title": "MomoScript",
+      "properties": {
+        "mmt.server.path": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "Path to mmt-lsp. Empty uses the binary bundled with the extension."
+        },
+        "mmt.typst.server.path": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "Path to Tinymist. Empty uses a bundled Tinymist binary when available."
+        },
+        "mmt.resourcePacks.manifestUrls": {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" },
+          "default": ["https://mms-pack.xiyihan.cn/ba_kivo/manifest.json"],
+          "scope": "window",
+          "description": "HTTPS pack-v3 manifest URLs loaded for resource-aware language features."
+        },
+        "mmt.preview.onChange": {
+          "type": "boolean",
+          "default": true,
+          "description": "Schedule a revision-bound preview after document changes."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build:native": "node ./scripts/build-native.mjs",
+    "build:wasm": "node ./scripts/build-wasm.mjs",
+    "build": "npm run build:native && npm run build:wasm && node ./scripts/build.mjs",
+    "check": "tsc --noEmit",
+    "test:worker": "npm run build:wasm && node ./scripts/build.mjs && node ./scripts/test-worker.mjs",
+    "test:tinymist-worker": "node ./scripts/build.mjs && node ./scripts/test-tinymist-worker.mjs",
+    "test:tinymist-process": "node ./scripts/build.mjs && node ./dist/test/processClient.js",
+    "test:desktop": "npm run build && xvfb-run -a node ./scripts/test-desktop.mjs",
+    "test:web": "node ./scripts/require-tinymist-web.mjs && npm run build && vscode-test-web --browser=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/test/suite/index.js --headless=true --esm=true"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1",
+    "vscode-languageserver": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/vscode": "^1.95.0",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/test-web": "^0.0.81",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.7.0"
+  }
+}

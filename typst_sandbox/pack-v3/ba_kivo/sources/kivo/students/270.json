@@ -1,0 +1,186 @@
+{
+  "id": 270,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 270,
+      "avatar": "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E5%BB%BB/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "申谷",
+  "given_name": "海",
+  "family_name_jp": "申谷",
+  "given_name_jp": "カイ",
+  "family_name_kr": "신타니",
+  "given_name_kr": "카이",
+  "family_name_en": "Shintani",
+  "given_name_en": "Kai",
+  "family_name_zh_tw": "申谷",
+  "given_name_zh_tw": "誡",
+  "family_name_cn": "",
+  "given_name_cn": "",
+  "nick_name": "申谷陆",
+  "introduction": "炼丹研究会前任会长，七囚人之一，申谷海。在龙武同舟剧情中向外走私千年参，后以“陆”这个名字在基沃托斯四处游历治病。",
+  "introduction_cn": "",
+  "momo_talk_signature": "",
+  "main_relation": 66,
+  "relation": [
+    50
+  ],
+  "age": 1,
+  "grade": "",
+  "height": 1,
+  "birthday": null,
+  "hobby": "",
+  "designer": "kokosando",
+  "illustrator": "kokosando",
+  "character_voice": "",
+  "character_voice_cn": "",
+  "release_date": null,
+  "release_date_cn": null,
+  "release_date_global": null,
+  "sd_model_image": "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E5%BB%BB/avatar.png",
+  "school": 7,
+  "weapon_type": "",
+  "is_install": false,
+  "is_install_cn": false,
+  "is_install_global": false,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Large",
+  "special_appearance": false,
+  "more": "炼丹研究会前任会长，七囚人之一，申谷海。在龙武同舟剧情中向外走私千年参。\n\n:::: center\n![PixPin_2025-02-26_11-47-07.png](files/3/RlvBvtIi15wThdt0wpKLmXYtT1ZPVKk0.png =450x)\n![PixPin_2025-02-26_11-47-18.png](files/3/coLRmSNt0NSZ4W9YaC8IgI6ohN2YWyaf.png =450x)\n![PixPin_2025-02-26_11-47-26.png](files/3/6BkhDDT3zsLAs9Li8hXyfDbUdOYjBVOq.png =450x)\n![PixPin_2025-02-26_11-47-34.png](files/3/XjYrJfQNhNEOnTPqn6bUNO639FxlziGm.png =450x)\n::::\n\n# 官方图集\n\n## 设定集\n\n::::center\n\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 064.png](files/17010/b6Scgoue3IvLZe2aknyiNGoaFTqNpMSx.png =450x)\n\n::::\n\n## 国际服直播内容\n::::center\n![Snipaste_2026-05-25_21-19-21.png](files/4954/jPAxvtnjYNXBKnEKj8n3qrl5TC9IRDYZ.png =450x)\n\n![Snipaste_2026-05-25_21-19-38.png](files/4954/CwzJo11tWIaEINBbw0iJdPgQyGXP3N6I.png =450x)\n\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[纱绫](https://kivo.wiki/data/character/88)|サヤ<br>後輩さん<br>薬子サヤ|\n|[辉夜](https://kivo.wiki/data/character/390)|カグヤ<br>京劇部長|\n|[妃咲](https://kivo.wiki/data/character/61)|キサキ<br>キサキ門主<br>門主|\n|[名草](https://kivo.wiki/data/character/254)|あなた|\n|百花繚乱|百花繚乱の皆さん|\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "",
+  "spine": [
+    1471,
+    1373
+  ],
+  "model": [
+    137,
+    307
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [],
+  "voice_cn": [],
+  "voice_kr": [],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_08.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_10.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_07.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_05.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_06.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_09.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_11.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_13.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_12.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_00.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_04.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_02.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_99.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_01.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0213_spr_03.png"
+      ]
+    },
+    {
+      "title": "墨镜立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_01.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_02.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_03.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_00.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_05.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_04.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_09.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_10.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_08.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_07.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_06.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_11.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_13.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_12.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_99.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_Eye_Close_01.png",
+        "//static.kivo.wiki/images/students/%E7%94%B3%E8%B0%B7%20%E6%B5%B7/original/gallery/%E5%A2%A8%E9%95%9C%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0251_spr_Idle_01.png"
+      ]
+    }
+  ],
+  "gift_data": null,
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 0,
+      "dev_name": "",
+      "combat_style": "default",
+      "type": "",
+      "attack_attribute": "",
+      "defensive_attributes": "",
+      "is_groupc_control": false,
+      "team_position": "",
+      "battlefield_position": "",
+      "rarity": 0,
+      "limited": false,
+      "outdoor_adaptability": "",
+      "indoor_adaptability": "",
+      "street_adaptability": "",
+      "equipment": null,
+      "cultivate_material": [],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [],
+        "passive_skill": []
+      },
+      "basic": [
+        {
+          "max_hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "healing": 0,
+          "accuracy": 0,
+          "evasion": 0,
+          "crit": 0,
+          "crit_res": 0,
+          "crit_dmg": 0,
+          "crit_dmg_res": 0,
+          "stability": 0,
+          "range": 0,
+          "cc_power": 0,
+          "cc_res": 0,
+          "recovery_boost": 0,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "",
+        "name": "",
+        "name_cn": "",
+        "description": "",
+        "description_cn": "",
+        "info": [],
+        "skill": []
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [
+    {
+      "name": "george114514 - 资料补充",
+      "url": ""
+    }
+  ],
+  "info_declare_uuid": "80c1d474-d62c-4bc5-8040-b2a2ade22941",
+  "skill_declare_uuid": "305982a1-54a3-43d7-9280-18104dd2cfb5",
+  "supplementary_uuid": "35a583d5-861f-4428-8b41-474ed34f6348",
+  "supplementary_declare_uuid": "ca889714-0012-40f6-8f22-233febd30372",
+  "created_at": 1685855765,
+  "updated_at": 1783657935
+}

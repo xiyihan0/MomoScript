@@ -1,0 +1,1505 @@
+{
+  "id": 20,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 20,
+      "avatar": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%E5%8D%83%E5%AF%BB/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 344,
+      "avatar": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/%E9%9C%B2%E8%90%A5/avatar.png",
+      "skin": "露营",
+      "skin_cn": ""
+    },
+    {
+      "id": 510,
+      "avatar": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/%E7%9D%A1%E8%A1%A3/chihiro.png",
+      "skin": "睡衣",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "各务",
+  "given_name": "千寻",
+  "family_name_jp": "各務",
+  "given_name_jp": "チヒロ",
+  "family_name_kr": "카가미",
+  "given_name_kr": "치히로",
+  "family_name_en": "Kagami",
+  "given_name_en": "Chihiro",
+  "family_name_zh_tw": "各務",
+  "given_name_zh_tw": "千尋",
+  "family_name_cn": "各务",
+  "given_name_cn": "千寻",
+  "nick_name": "",
+  "introduction": "千禧科学学园所属，黑客集团「真理部」的副部长。\n\n是拥有卓越程序设计能力的黑客，同时也具有「不可滥用这项能力」的常识。是聚集了众多捣蛋鬼的真理部中有如良心的存在，平时就和部员们争辩「正确的黑客伦理」，但也是积极主动的类型，必要时会毫不犹豫地渗透进现场。\n\n\"似乎发现了一个新的安全漏洞。\"",
+  "introduction_cn": "千禧年科技学院黑客集团，真理社的副社长。\n\n是一名具有优秀黑客实力的天才程序员，同时还是一个行动派黑客，如果业务需要，无论是潜伏还是追击都在所不辞。在怪咖众多的真理社中，是少有的有常识的正常人，一直向社员们强调着黑客的职业道德。\n\n\"似乎发现了一个新的安全漏洞。\"",
+  "momo_talk_signature": "安全检查要从日常做起",
+  "main_relation": 36,
+  "relation": [
+    39
+  ],
+  "age": 17,
+  "grade": "三年生",
+  "height": 160,
+  "birthday": "04-26",
+  "hobby": "选购电子产品",
+  "designer": "ni02",
+  "illustrator": "ni02",
+  "character_voice": "山村响",
+  "character_voice_cn": "烤梨",
+  "release_date": "2022-01-30",
+  "release_date_cn": "2024-02-13",
+  "release_date_global": "2022-09-10",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%E5%8D%83%E5%AF%BB/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%E5%8D%83%E5%AF%BB/avatar.png",
+  "school": 4,
+  "weapon_type": "AR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Large",
+  "special_appearance": false,
+  "more": "# 杂项趣闻\n\n## 卡池名称\n千寻的日服与国服卡池名称分别是「大聖堂からバザールにかけて」和「从大教堂到市集」，单看字面，很难将这两个词与身为真理部部长的千寻联系起来。实际上，卡池名neta了美国著名计算机程序员埃里克·史蒂文·雷蒙德撰写的软件工程方法论《大教堂与市集》（*The Cathedral and the Bazaar*）。该书围绕两种不同的自由软件开发模式展开讨论，作者将这两种开发模式分别命名为大教堂模式与市集模式。此书被誉为“开源运动的圣经”，正与千寻高超的计算机技术相切合。\n\n# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 大聖堂からバザールにかけて | 从大教堂到市集 | 老師，今天晚上前往進行深夜安全檢查也沒問题嗎? |Sensei, would you like to go on a patrol with me this evening?| \n| ![chihiro_banner.png](files/10/chihiro_banner.png =450x) |![image.png](files/2824/xWR7SVTeH7NNnOT3UG87VnY3B5ULd8xo.png =450x)| ![chihiro.png](files/2824/mpJGmmIEqUAIv7KAS7mJSrT6TExiFBP6.png =450x)|![chihiro (2).jpg](files/2824/QIDfnskXNHpVFGRXOWJqxa1DJ2qSfHNm.jpg =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![image.png](files/2824/7DaelPjB1inSLKpgDGrJbvE8vVqR2unn.png =525x)|![image.png](files/2824/oUy53ENuDkld6Kz1ETIHmuRRbOy1R1IP.png =425x)| ![chihiro.jpg](files/2824/tK3lDkdlbAq9YUwwoOUmJ7xa6F9mLkCx.jpg =400x)| ![chihiro (1).jpg](files/2824/0CWJzMiAodyOTc2rcHnwXVM5NmvpTlY4.jpg =400x)|\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[多功能彩电](https://kivo.wiki/data/item/921) |\n| :---: | :---: | :---: |\n| ![006yPoYygy1hml1qhhb3dg30k00ete85.gif](files/443/fAHIyo92oGcThW7PRdlKv2D2826CKqei.gif =450x) | ![006yPoYygy1hml1qevpo6g30k00etqv6.gif](files/443/XUT001BfajmNExJvaB7OGiWHksMLTIX1.gif =450x) | ![chihiro_interaction.gif](files/10355/cLD6gHysMhynAAqWt2VAIdbCOrLoWLLl.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 千寻 汉化\n![千寻](files/2/oh8J9K3sPDW8p4aLBkHeOTzdg0GT4M66.png =450x)\n@tab 千寻 原文\n![千寻](files/2/JOFnV43leWxjmToJNg5rfdoFmrxUE7Zn.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n![image.png](files/2824/FrmChOPGroQAKlAf9MR6Oq3yghXdxdvq.png =450x)\n\n![image.png](files/2824/c6YKEribw5KiK7qv407Nux56ExEuYHse.png =450x)\n\n![image.png](files/2824/sjXn8R6tkd7H4cFzmmz6M4TAKRaBekQQ.png =450x)\n\n![image.png](files/2824/juHgHgD26xdDhopsZ2qgftNQ8O2ghouI.png =450x)\n\n\n\n# CBT时期\n![千寻_waifu2x_2x_2n_jpg.png](files/3/千寻_waifu2x_2x_2n_jpg.png =450x)\n::::\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[小玉](https://kivo.wiki/data/character/212)|コタマ|\n|[晴](https://kivo.wiki/data/character/160)|ハレ|\n|[真纪](https://kivo.wiki/data/character/182)|マキ|\n|[日鞠](https://kivo.wiki/data/character/62)|ヒマリ<br>部長|\n|[爱丽丝](https://kivo.wiki/data/character/108)|アリス|\n|[歌原](https://kivo.wiki/data/character/185)|ウタハ<br>ウタハ部長|\n|[堇](https://kivo.wiki/data/character/187)|スミレ部長|\n|[日奈](https://kivo.wiki/data/character/71)|ゲヘナの風紀委員長|\n|机械鳄鱼|ワニ|\n|[优香](https://kivo.wiki/data/character/52)|ユウカ|\n|[莉音](https://kivo.wiki/data/character/133)|リオ会長<br>会長<br>リオ|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/CH0160_home_Idle_01_1.5997999999999997.jpg",
+  "spine": [
+    1602,
+    421,
+    720
+  ],
+  "model": [
+    57,
+    263
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/voice/play_icon.webp",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/voice/pause_icon.webp",
+  "voice": [
+    {
+      "description": "CH0160_Title",
+      "category": "lobby",
+      "text": "蔚蓝档案",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/ICj2NwnEoQ7aFqGATqRkDOHxI4jEuuRe.ogg"
+    },
+    {
+      "description": "CH0160_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "这……看来又是我们真理社的孩子捅出的篓子。",
+      "text_original": "何だか、またうちの子たちがやらかしたらしいね……",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/DHraFiMijRcAmOAraK6hhefenC7dRPkI.ogg"
+    },
+    {
+      "description": "CH0160_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "嗯……嗯，熬了一夜，确实有点累了。",
+      "text_original": "んっ……流石に、徹夜をすると少し疲れる。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/1mS3zW52AWZkrIgwK3pIuclPl2rMjBeG.ogg"
+    },
+    {
+      "description": "CH0160_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "咦……难道，服务器又崩溃了……？",
+      "text_original": "あれ……もしかしてこれ、またサーバーが爆発した……？",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/le4h4snsIvXRSFVgEnUD2BqI2V4zP7jD.ogg"
+    },
+    {
+      "description": "CH0160_Cafe_monolog_4",
+      "category": "cafe",
+      "text": "（这家咖啡厅不卖咖啡吗？）",
+      "text_original": "（ここ、コーヒーとか売ってないのかな）",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/MdSMU0sUuoTpOvEvT8YqGpAKMQgsfiRo.ogg"
+    },
+    {
+      "description": "CH0160_Cafe_monolog_5",
+      "category": "cafe",
+      "text": "（这种程度的安保防护……10秒就足够了。）",
+      "text_original": "（このセキュリティレベルだと……まあ10秒あれば十分かな）",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/Fb5tLBpYraqKMiY8MAZuR1YTkH8lnWpG.ogg"
+    },
+    {
+      "description": "CH0160_CommonSkill",
+      "category": "battle",
+      "text": "我会修复安全漏洞的。",
+      "text_original": "セキュリティ上の弱点、修復するね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/k3QnkwyCIysSmnKCp3oR7qhhc0KXwtLj.ogg"
+    },
+    {
+      "description": "CH0160_ExSkill_1",
+      "category": "battle",
+      "text": "其实我不太喜欢这种破解方法。",
+      "text_original": "こういうクラッキングは好みじゃないけど。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/1YZhCTAjNqPh5AkMM69ATIv32dATEBkI.ogg"
+    },
+    {
+      "description": "CH0160_ExSkill_2",
+      "category": "battle",
+      "text": "不过为了可爱的后辈们，没办法了。",
+      "text_original": "かわいい後輩たちのためなら仕方ない。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/f5VyJiTDrxRdv46AaNdvKUoJxQ7ngToR.ogg"
+    },
+    {
+      "description": "CH0160_ExSkill_3",
+      "category": "battle",
+      "text": "哼，下不为例啊。",
+      "text_original": "はぁ…こういうのは今回だけだよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/1sXuMSD3g9xw9g6EEDdbJxDlmwjTkKN9.ogg"
+    },
+    {
+      "description": "CH0160_ExSkill_Level_1",
+      "category": "battle",
+      "text": "你最好提高一下安全意识。",
+      "text_original": "もう少しセキュリティ意識を持った方がいい。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/PZHoEH22XAXpLiyQoj4s2RCgubX7UPJY.ogg"
+    },
+    {
+      "description": "CH0160_ExSkill_Level_2",
+      "category": "battle",
+      "text": "嗯，我全都看见了。",
+      "text_original": "うん…全部見えた。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/sOa5IAW0Y55xVPGeO0LpGDBwkkPOUeH5.ogg"
+    },
+    {
+      "description": "CH0160_ExSkill_Level_3",
+      "category": "battle",
+      "text": "砰！",
+      "text_original": "BOOM！",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/dLS0Rasg4Ko4Yhag4jonaYZe81xK7tYV.ogg"
+    },
+    {
+      "description": "CH0160_ExWeapon_Get",
+      "category": "growup",
+      "text": "枪械对白帽黑客来说也是必不可少的。比如说，嗯……用来对付蛮不讲理的客户……",
+      "text_original": "ホワイトハッカーにとっても、銃は必需品。例えば、そうだね……失礼なクライアントがいた時とか……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/2swdsW8ItNCLOYCUkSFZVn2z3JFcMXey.ogg"
+    },
+    {
+      "description": "CH0160_Formation_In_1",
+      "category": "formation",
+      "text": "嗯？是发现新的安全漏洞了吗？",
+      "text_original": "うん？新しいセキュリティホールにも見つかった",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/j2OSvsZSpmCcsUOW1KQo2lHj2THblr5k.ogg"
+    },
+    {
+      "description": "CH0160_Formation_In_2",
+      "category": "formation",
+      "text": "知道了，我马上到。",
+      "text_original": "了解。すぐに行く。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/Uf70pwjFfkIfKhsRvDf39RvLnkQPtZCs.ogg"
+    },
+    {
+      "description": "CH0160_Gachaget",
+      "category": "growup",
+      "text": "我是真理社的副社长，各务千寻。要是我们真理社的孩子捅了篓子，请马上通知我。",
+      "text_original": "ヴェリタスの副部長、各務チヒロ。 もしうちの子たちが問題を起こしたら、すぐに私に知らせて。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/GQ2GbIdo5LBHetnDMl6Qq7KPHX9LOGt5.ogg"
+    },
+    {
+      "description": "CH0160_Growup_1",
+      "category": "growup",
+      "text": "嗯，果然学无止境。",
+      "text_original": "うん。やっぱり、学びに限界は存在しないものだ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/zdMeJmiwwVtQRMVuOzPiGtaZPehAaGey.ogg"
+    },
+    {
+      "description": "CH0160_Growup_2",
+      "category": "growup",
+      "text": "老师教的知识，总是很新鲜。",
+      "text_original": "先生がくれる知識は、いつも目新しいものばかりだね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/4tyad0ijwVsz11wJTivJegqn1fOHhl3C.ogg"
+    },
+    {
+      "description": "CH0160_Growup_3",
+      "category": "growup",
+      "text": "谢谢老师，我的理解更深入了。",
+      "text_original": "ありがとう先生。また少し、賢くなれた。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/ec1x18qo5qSXvJwyt3cEVX72Tl05o3QU.ogg"
+    },
+    {
+      "description": "CH0160_Growup_4",
+      "category": "growup",
+      "text": "哦，这些数据挺有用嘛。",
+      "text_original": "へぇー、いいデータだね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/YnNdw2kVy4gk9ctLHVQQRCuIbSMcA8n0.ogg"
+    },
+    {
+      "description": "CH0160_Lobby_1",
+      "category": "lobby",
+      "text": "知识应该是自由的……这是一句美好却很沉重的宣言。",
+      "text_original": "知識は自由であるべき……。良い言葉だけど、重みのある言葉だよね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/6xD1VrG1TKf04CcmtPgYlSZCN41PPamK.ogg"
+    },
+    {
+      "description": "CH0160_Lobby_2_1",
+      "category": "lobby",
+      "text": "真理社不止是怪咖们的乐园。 还要避免被研讨会垄断信息……这个组织就是为此而成立的。",
+      "text_original": "ヴェリタスは、ただの変わり者たちの遊び場じゃない。 セミナーとかに情報を独占されないように…… それを目的にして設立された組織なんだ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/ClcuTo5Q3lBTAh9rX1tDzHYiJIkgQ48G.ogg"
+    },
+    {
+      "description": "CH0160_Lobby_2_2",
+      "category": "lobby",
+      "text": "虽然不可否认，因为这个而聚集在一起的社员们大多都是些怪咖……",
+      "text_original": "まあ、その結果集まったメンバーが変わり者ばっかりなのは、 否定しないけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/UFvhROEYsbEk8uoBsxAF3lcT7gZYYnb8.ogg"
+    },
+    {
+      "description": "CH0160_Lobby_3",
+      "category": "lobby",
+      "text": "如果可以的话，请不要在我面前把真理社叫做“情报爬虫”。",
+      "text_original": "できれば、私の前でヴェリタスのことを「トラッカーズ」って呼ぶのは、やめてほしい……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/OeHYpaNXVop5QLGffRtrGwsAUPND1eQV.ogg"
+    },
+    {
+      "description": "CH0160_Lobby_4",
+      "category": "lobby",
+      "text": "日鞠社长的想法连我都猜不透。",
+      "text_original": "ヒマリの考えてることは、私にも全部は分からないよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/wFvmgDXfmj4je6a1sJ2kY1fwSVeI6cB1.ogg"
+    },
+    {
+      "description": "CH0160_Lobby_5_1",
+      "category": "lobby",
+      "text": "沙勒好像有些人在反复尝试入侵，想要获取老师的信息。",
+      "text_original": "先生の情報を手に入れようと、 色々とハッキングしてくる生徒たちがいるみたいだね……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/mqmpmQpou9O93KNrSz0z94ztrt78Xrtq.ogg"
+    },
+    {
+      "description": "CH0160_Lobby_5_2",
+      "category": "lobby",
+      "text": "有两个……不，是三个？或许还有更多……",
+      "text_original": "二人……いや、三人？もしかしたらもっといるかも……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/Kh1ziygneOBVDR0Wj9RM2gFWV9nTbIAS.ogg"
+    },
+    {
+      "description": "CH0160_LogIn_1",
+      "category": "lobby",
+      "text": "你好啊，老师。看来今天也很忙啊。",
+      "text_original": "おはよ、先生。今日も忙しそうだね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/to9nusxdzYgQ4FwcSJ7jymMY70ePtFUI.ogg"
+    },
+    {
+      "description": "CH0160_LogIn_2_1",
+      "category": "lobby",
+      "text": "老师，我不是告诉过你外出之前一定要锁屏吗？",
+      "text_original": "先生、離席する時はスクリーンセーバーを忘れないように。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/qXmMgKZEcEWZZxs1AssXwXrwU90MtbN4.ogg"
+    },
+    {
+      "description": "CH0160_LogIn_2_2",
+      "category": "lobby",
+      "text": "万一有人不怀好意，调取老师的个人信息该怎么办？",
+      "text_original": "誰かが悪意をもって、先生の個人情報を奪おうとしたらどうするの？",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/GvacxCyVNkE4CQXaQRzWHqknUikZgnQr.ogg"
+    },
+    {
+      "description": "CH0160_MemorialLobby_1",
+      "category": "lobby",
+      "text": "呵呵，哎……工作结束后来罐咖啡，味道就是不一样。",
+      "text_original": "ふふっ、やっぱりひと仕事終えた後のコーヒーは格別だね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/lyCqmQoVdunZ65Df32adPethXdthmtlY.ogg"
+    },
+    {
+      "description": "CH0160_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "……嗯? 你以为要去咖啡厅吗？",
+      "text_original": "……ん？カフェとかだと思った？",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/qTD5tiFkddQZ4PZQ1OxEWFz9OcxVRTyb.ogg"
+    },
+    {
+      "description": "CH0160_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "抱歉啊。这个时间咖啡店都打烊了，只有这里能喝到咖啡了。",
+      "text_original": "ごめんね。こんな時間だからもうどこもやってないし、 ここぐらいしか飲めるところが無くってさ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/StfWEYjHzXq2lNBj7FaucxahjD1fri1w.ogg"
+    },
+    {
+      "description": "CH0160_MemorialLobby_3",
+      "category": "lobby",
+      "text": "我……需要通宵的时候总是会来这里喝咖啡。",
+      "text_original": "私、いつも徹夜明けはここで、コーヒーを飲むことにしてて。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/c8PL5gt9HKMwDJaqk1sHFaRK14nGFkki.ogg"
+    },
+    {
+      "description": "CH0160_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "这台自动售货机就算在这个时间，就算没人看着，也还是安安静静地，干着自己的活,是吧？",
+      "text_original": "この自販機はこんな時間でも、誰にも見られてなくても、 淡々ときちんと自分の役目を果たしてる。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/m6RWa2xfK1YadfLLJBDcJDtZGXfEdMce.ogg"
+    },
+    {
+      "description": "CH0160_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "不知道为什么总感觉和我的工作有点像……",
+      "text_original": "何だかそういうところが、自分の役目に重なってるような気がして……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/DeghaZmIr6j6bMOTRBeTyh7HtxtArgYa.ogg"
+    },
+    {
+      "description": "CH0160_MemorialLobby_5",
+      "category": "lobby",
+      "text": "如果老师也能品出这罐咖啡的独特滋味，我会很开心的。",
+      "text_original": "……先生も、このコーヒーの味が分かってくれたら、嬉しいな。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/BBLOqfnWzA0VNvJoACOX8zIV7fW4FpgV.ogg"
+    },
+    {
+      "description": "CH0160_Relationship_Up_1",
+      "category": "growup",
+      "text": "我不想黑进老师的思维里，你有什么想法就都告诉我吧。",
+      "text_original": "先生に対してハッキングとかはしたくないから…思ってることを、素直に教えてほしい。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/kYLoFoEcPKBmepfk2PQcgcAsQqgPxisG.ogg"
+    },
+    {
+      "description": "CH0160_Relationship_Up_2",
+      "category": "growup",
+      "text": "我会一直，在这里支持老师的。",
+      "text_original": "わたしは、いつもここから先生のことを支援しているから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/wQ27WO20cTZyyjzZKp2DwoyHUvF48UBZ.ogg"
+    },
+    {
+      "description": "CH0160_Relationship_Up_3",
+      "category": "growup",
+      "text": "老师实在是让人放心不下，可不能留下不管。我指的是，安全方面。",
+      "text_original": " 先生みたいの甘ちょろいのはどうにも放っておけなくて。あくまでセキュリティの話。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/nlV0oRAfkYNNfG29mg8jgJNUUhr77pJS.ogg"
+    },
+    {
+      "description": "CH0160_Relationship_Up_4",
+      "category": "growup",
+      "text": "老师，今天深夜……我可以过去做安全维护吗？",
+      "text_original": " 先生。その…今夜、深夜のセキュリティチェックに行ってもいい？",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/AVVyxOG9BEpj7rR80vYNAgbgZGy3YczV.ogg"
+    },
+    {
+      "description": "CH0160_Season_Birthday_1",
+      "category": "lobby",
+      "text": "……我的生日？啊，原来今天是我的生日啊。",
+      "text_original": "……え？あっ……今日、私の誕生日か。 ",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/4RFweRXN3wdtOUpAGMsMkemj0h27Q81m.ogg"
+    },
+    {
+      "description": "CH0160_Season_Birthday_2",
+      "category": "lobby",
+      "text": "平时尽忙着关注别人的信息……反而错过了自己的事情，有点不好意思呢。",
+      "text_original": "どうも普段から、誰かの情報を気にしてばっかりでね…… 自分の情報が抜けてたのはちょっと恥ずかしいな。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/ZiVJwjM35B476KeMPAU99GYV3LqtHPdj.ogg"
+    },
+    {
+      "description": "CH0160_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "老师，生日快乐。无论是今天还是明天，祝老师的生活一直这么幸福。",
+      "text_original": "誕生日おめでとう、先生。 今日も明日も、先生の幸せな日常が守られますように。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/EvI9H4FfOmOW4VDYCCeZfmXwdV2FIaPS.ogg"
+    },
+    {
+      "description": "CH0160_Season_Halloween_1",
+      "category": "lobby",
+      "text": "虽然我不喜欢在万圣节涂鸦…… 不过就算放着不动，真纪也会过来画的。",
+      "text_original": "ハロウィンだからって、別に自分でペイントとかはしないけど…… まあ、放っておいてもマキが勝手に描きに来るから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/sXGxAahArOFu8hXuauUgvWYOxSdYN19b.ogg"
+    },
+    {
+      "description": "CH0160_Season_Halloween_2",
+      "category": "lobby",
+      "text": "……呵呵，很可爱吧？",
+      "text_original": "……ふふっ、可愛いよね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/W1FWNTop9uC6IluUvgqZhE25h6lJqYCh.ogg"
+    },
+    {
+      "description": "CH0160_Season_NewYear",
+      "category": "lobby",
+      "text": "老师，新年快乐。趁着新年，一起整理一下积压的数据怎么样？",
+      "text_original": "明けましておめでとう、先生。 新年を迎えたことだし、溜まったデータの整理でも一緒にどう？",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/9DWpaSSDgEINI2znCM7avXAN3QUXIV7X.ogg"
+    },
+    {
+      "description": "CH0160_Season_Xmas",
+      "category": "lobby",
+      "text": "平安夜的咖啡厅很安静，非常适合熬夜工作。",
+      "text_original": "クリスマスイブのカフェはのんびりしてて、徹夜作業にピッタリ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/9nvzafQGrAx1zEPE8MLuS06edPewI4Rf.ogg"
+    },
+    {
+      "description": "ch0160_formation_select",
+      "category": "formation",
+      "text": "哈......啊，老师。要不要来杯咖啡？",
+      "text_original": "ふぁ……っ、先生、コーヒー飲まない……？",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/jp/ch0160_formation_select.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "ch0160_exskill_level_2",
+      "category": "battle",
+      "text": "嗯，我全都看见了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/GPA72begEWDac0BA1TJdakbnDpvfgRTN.ogg"
+    },
+    {
+      "description": "ch0160_exskill_level_3",
+      "category": "battle",
+      "text": "砰~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/HyU1pcXNZsxEWtkEysDQCPlVz6sSehHj.ogg"
+    },
+    {
+      "description": "ch0160_exweapon_get",
+      "category": "growup",
+      "text": "枪械对白帽黑客来说也是必不可少的。比如说，嗯……用来对付蛮不讲理的客户……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/MQhVfIvDYPRmboB3UdluAYQvUgPZUbrg.ogg"
+    },
+    {
+      "description": "ch0160_formation_in_1",
+      "category": "formation",
+      "text": "嗯？是发现新的安全漏洞了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/UoJjPBw8G4dBAFi4OYgeZ3fxPswGI7VX.ogg"
+    },
+    {
+      "description": "ch0160_formation_in_2",
+      "category": "formation",
+      "text": "知道了，我马上到。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/K1g6dRKe51n4gdVrF9HgeTgbMbgYr09K.ogg"
+    },
+    {
+      "description": "ch0160_gachaget",
+      "category": "growup",
+      "text": "我是真理社的副社长，各务千寻。要是我们真理社的孩子捅了篓子，请马上通知我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/KdK1pOKFzipSun69W3fqPL79eWbFr8QM.ogg"
+    },
+    {
+      "description": "ch0160_growup_1",
+      "category": "growup",
+      "text": "嗯，果然学无止境。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/cOVWQTjb0axr5j4sBqmpzMpYYBR9yWWJ.ogg"
+    },
+    {
+      "description": "ch0160_growup_2",
+      "category": "growup",
+      "text": "老师教的知识，总是很新鲜。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/6eqEbNB1vEDiVs1PCOnEnuY2k5z3vqhs.ogg"
+    },
+    {
+      "description": "ch0160_growup_3",
+      "category": "growup",
+      "text": "谢谢老师，我的理解更深入了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/9cj80N9vE4M7mzfkoy2GGJw9HQcCYULd.ogg"
+    },
+    {
+      "description": "ch0160_growup_4",
+      "category": "growup",
+      "text": "哦，这些数据挺有用嘛。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/okB2uAmY0pmkql9xmq1aEzvKH6WgMgtS.ogg"
+    },
+    {
+      "description": "ch0160_lobby_1",
+      "category": "lobby",
+      "text": "知识应该是自由的……这是一句美好却很沉重的宣言。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/wnlRhCySzat5qMCMEeSLBy9KIzuc9ghK.ogg"
+    },
+    {
+      "description": "ch0160_lobby_2_1",
+      "category": "lobby",
+      "text": "真理社不止是怪咖们的乐园。 还要避免被研讨会垄断信息……这个组织就是为此而成立的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/IDakU8whI0rm7nUtiJVzix86YIhRJzt5.ogg"
+    },
+    {
+      "description": "ch0160_lobby_2_2",
+      "category": "lobby",
+      "text": "虽然不可否认，因为这个而聚集在一起的社员们大多都是些怪咖……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/opSq8PsQmYhKRx4pO0eKI02dt0Xo1oNm.ogg"
+    },
+    {
+      "description": "ch0160_lobby_3",
+      "category": "lobby",
+      "text": "如果可以的话，请不要在我面前把真理社叫做“情报爬虫”。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/lE1km9fDiziCVezaVFaKEkONf1Wyd4Z0.ogg"
+    },
+    {
+      "description": "ch0160_lobby_4",
+      "category": "lobby",
+      "text": "日鞠社长的想法连我都猜不透。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/h5drkAeTW5MNiA3ePFQbHxnPHMyjSisV.ogg"
+    },
+    {
+      "description": "ch0160_lobby_5_1",
+      "category": "lobby",
+      "text": "沙勒好像有些人在反复尝试入侵，想要获取老师的信息。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/gVxHheN9i9aiOMB4Tcns0gkxVRAAfGqr.ogg"
+    },
+    {
+      "description": "ch0160_lobby_5_2",
+      "category": "lobby",
+      "text": "有两个……不，是三个？或许还有更多……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/zkE1gPSrEwic6kC7OIRPWeQ7pdDb43PB.ogg"
+    },
+    {
+      "description": "ch0160_login_1",
+      "category": "lobby",
+      "text": "你好啊，老师。看来今天也很忙啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/fHkMdZVOY7UoGTZsHfYyeKq8WkviglLH.ogg"
+    },
+    {
+      "description": "ch0160_login_2_1",
+      "category": "lobby",
+      "text": "老师，我不是告诉过你外出之前一定要锁屏吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/OlL65ii86CvoEgJptWtlnet8zjZk4kVj.ogg"
+    },
+    {
+      "description": "ch0160_login_2_2",
+      "category": "lobby",
+      "text": "万一有人不怀好意，调取老师的个人信息该怎么办？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/0amfFrTBgMke7iOgTpu1GZoRMELjccEA.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_1",
+      "category": "lobby",
+      "text": "呵呵，哎……工作结束后来罐咖啡，味道就是不一样。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/0EkvMKv9cxKfH5L9oQaOmzoPhMRy42E1.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "……嗯? 你以为要去咖啡厅吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/dZSVbGpRd3h9xiHpAJxcr0DYBpy7eaRE.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "抱歉啊。这个时间咖啡店都打烊了，只有这里能喝到咖啡了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/dl14U1EmQxnLkESnR8R6ipo3g8MHzKWH.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_3",
+      "category": "lobby",
+      "text": "我……需要通宵的时候总是会来这里喝咖啡。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/ZXHKqih6wqE0Oc9YmA9CBdraBKiDe9Lr.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "这台自动售货机就算在这个时间，就算没人看着，也还是安安静静地，干着自己的活,是吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/KsB5ljIJyrhGKGSx7ZwAN1bU8UFKpDAA.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "不知道为什么总感觉和我的工作有点像……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/wPajU8D9CMDAcyDhMYC3hsZrmD1OpiqO.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_5",
+      "category": "lobby",
+      "text": "如果老师也能品出这罐咖啡的独特滋味，我会很开心的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/sVUNWZccmKbogf953UV2HdJ6ZowQXJun.ogg"
+    },
+    {
+      "description": "ch0160_relationship_up_1",
+      "category": "growup",
+      "text": "我不想黑进老师的思维里，你有什么想法就都告诉我吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/cHgkQFqhhe3F0GhX3aoW4MOn79VGcfXc.ogg"
+    },
+    {
+      "description": "ch0160_relationship_up_2",
+      "category": "growup",
+      "text": "我会一直，在这里支持老师的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/edacwMESvFbW9qs40UsimkBz9cMndlLu.ogg"
+    },
+    {
+      "description": "ch0160_relationship_up_3",
+      "category": "growup",
+      "text": "老师实在是让人放心不下，可不能留下不管。我指的是，安全方面。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/iqVt6xrBj7z2lbgU733K4ic3SZgposk3.ogg"
+    },
+    {
+      "description": "ch0160_relationship_up_4",
+      "category": "growup",
+      "text": "老师，今天深夜……我可以过去做安全维护吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/ujxmiXnCmsO2wNE2I4qIAYYC3iwghlxn.ogg"
+    },
+    {
+      "description": "ch0160_season_birthday_1",
+      "category": "lobby",
+      "text": "……我的生日？啊，原来今天是我的生日啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/4hhrozMtKNawAfHaJMQnOd0GxilxUb9Z.ogg"
+    },
+    {
+      "description": "ch0160_season_birthday_2",
+      "category": "lobby",
+      "text": "平时尽忙着关注别人的信息……反而错过了自己的事情，有点不好意思呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/vgERvAhAAtuE9yPWpVhkTOfVvC9iRiEb.ogg"
+    },
+    {
+      "description": "ch0160_season_birthday_player",
+      "category": "lobby",
+      "text": "老师，生日快乐。无论是今天还是明天，祝老师的生活一直这么幸福。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/PFeUhflRezka9qrGDTidpyM5jbjvldYe.ogg"
+    },
+    {
+      "description": "ch0160_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，新春快乐。今天就暂时丢下那些积压的数据，和我一起放松一下吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/utK0XgUdPjTmZBl83akQZ3681aZWT4hW.ogg"
+    },
+    {
+      "description": "ch0160_season_halloween_1",
+      "category": "lobby",
+      "text": "虽然我不喜欢在万圣节涂鸦…… 不过就算放着不动，真纪也会过来画的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/sf1UHYB0fsfkzHEBILgzhM97YUtjQQnO.ogg"
+    },
+    {
+      "description": "ch0160_season_halloween_2",
+      "category": "lobby",
+      "text": "……呵呵，很可爱吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/3NkoJrZF8lMwU478fb1z3PfTJ4u4pdGq.ogg"
+    },
+    {
+      "description": "ch0160_season_midautumn",
+      "category": "lobby",
+      "text": "中秋节啊，我给真理社的社员们发了月饼。不过，这里还有些剩下的，老师要一起分享吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/DzJSqlNh1uXf0Swv1qKtuM76gW0NFwLe.ogg"
+    },
+    {
+      "description": "ch0160_season_newyear",
+      "category": "lobby",
+      "text": "老师，新年快乐。趁着新年，一起整理一下积压的数据怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/pJA8QXEI7IGy6F0igz5BOG1wFJVchYpL.ogg"
+    },
+    {
+      "description": "ch0160_season_xmas",
+      "category": "lobby",
+      "text": "平安夜的咖啡厅很安静，非常适合熬夜工作。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/WEotyahDRqeEDyIBh0N8JjRFX8cb2kL0.ogg"
+    },
+    {
+      "description": "ch0160_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/EjhlWqXAHatAXclE3PkT6zVEviRm0Vnp.ogg"
+    },
+    {
+      "description": "ch0160_cafe_monolog_1",
+      "category": "cafe",
+      "text": "这……看来又是我们真理社的孩子捅出的篓子。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/6c8z2ULt6PAxxTTC0WfcXjG4wcyLegiJ.ogg"
+    },
+    {
+      "description": "ch0160_cafe_monolog_2",
+      "category": "cafe",
+      "text": "嗯……嗯，熬了一夜，确实有点累了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/5Ntyhalhh1twvYuGh3CzMpxgRw4KzbHv.ogg"
+    },
+    {
+      "description": "ch0160_cafe_monolog_3",
+      "category": "cafe",
+      "text": "咦……难道，服务器又崩溃了……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/DViKJucB6tOlHGfSZFNBy4sYvMIXZwEz.ogg"
+    },
+    {
+      "description": "ch0160_cafe_monolog_4",
+      "category": "cafe",
+      "text": "（这家咖啡厅不卖咖啡吗？）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/KouIxHRssiBMvXyNvZXDMHr1c2vAcIHf.ogg"
+    },
+    {
+      "description": "ch0160_cafe_monolog_5",
+      "category": "cafe",
+      "text": "（这种程度的安保防护……10秒就足够了。）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/LAAbxMAAMRFd0UuuSotzeVItLZj5H4qI.ogg"
+    },
+    {
+      "description": "ch0160_commonskill",
+      "category": "battle",
+      "text": "我会修复安全漏洞的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/nTpcTMHaGjGYUpwgjtBz1M1kbmliywh8.ogg"
+    },
+    {
+      "description": "ch0160_exskill_1",
+      "category": "battle",
+      "text": "其实我不太喜欢这种破解方法。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/fJTllKfJdzBu690mc1xVfMcjpaDbX4Ha.ogg"
+    },
+    {
+      "description": "ch0160_exskill_2",
+      "category": "battle",
+      "text": "不过为了可爱的后辈们，没办法了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/vq4SaY2XAIOef98tVOvZA9G7ZciYOXa8.ogg"
+    },
+    {
+      "description": "ch0160_exskill_3",
+      "category": "battle",
+      "text": "哼，下不为例啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/0VRGDHHuau5ytsdw0PZLOUajQlN8vEOU.ogg"
+    },
+    {
+      "description": "ch0160_exskill_level_1",
+      "category": "battle",
+      "text": "你最好提高一下安全意识。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/1vSxSU5dx5OYZHFuDTBoProRR5mQbtoK.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "ch0160_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0160_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0160_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0160_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_commonskill.ogg"
+    },
+    {
+      "description": "ch0160_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_exskill_1.ogg"
+    },
+    {
+      "description": "ch0160_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_exskill_2.ogg"
+    },
+    {
+      "description": "ch0160_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_exskill_3.ogg"
+    },
+    {
+      "description": "ch0160_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0160_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0160_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0160_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0160_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_gachaget.ogg"
+    },
+    {
+      "description": "ch0160_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_growup_1.ogg"
+    },
+    {
+      "description": "ch0160_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_growup_2.ogg"
+    },
+    {
+      "description": "ch0160_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_growup_3.ogg"
+    },
+    {
+      "description": "ch0160_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_growup_4.ogg"
+    },
+    {
+      "description": "ch0160_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_lobby_1.ogg"
+    },
+    {
+      "description": "ch0160_lobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_lobby_2_1.ogg"
+    },
+    {
+      "description": "ch0160_lobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_lobby_2_2.ogg"
+    },
+    {
+      "description": "ch0160_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_lobby_3.ogg"
+    },
+    {
+      "description": "ch0160_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_lobby_4.ogg"
+    },
+    {
+      "description": "ch0160_lobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_lobby_5_1.ogg"
+    },
+    {
+      "description": "ch0160_lobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_lobby_5_2.ogg"
+    },
+    {
+      "description": "ch0160_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_login_1.ogg"
+    },
+    {
+      "description": "ch0160_login_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_login_2_1.ogg"
+    },
+    {
+      "description": "ch0160_login_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_login_2_2.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_memoriallobby_1.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_memoriallobby_3.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "ch0160_memoriallobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_memoriallobby_5.ogg"
+    },
+    {
+      "description": "ch0160_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0160_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0160_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0160_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0160_season_birthday_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_season_birthday_1.ogg"
+    },
+    {
+      "description": "ch0160_season_birthday_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_season_birthday_2.ogg"
+    },
+    {
+      "description": "ch0160_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_season_birthday_player.ogg"
+    },
+    {
+      "description": "ch0160_season_halloween_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_season_halloween_1.ogg"
+    },
+    {
+      "description": "ch0160_season_halloween_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_season_halloween_2.ogg"
+    },
+    {
+      "description": "ch0160_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_season_newyear.ogg"
+    },
+    {
+      "description": "ch0160_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_season_xmas.ogg"
+    },
+    {
+      "description": "CH0160_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/CH0160_Title.ogg"
+    },
+    {
+      "description": "ch0160_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0160_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/ch0160_cafe_monolog_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0160_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0160_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0160_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0160_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0160_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0160_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0160_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0160_spr_99.png",
+        "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0160_spr_Idle_01.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 128,
+      "favorability": 180
+    },
+    {
+      "id": 270,
+      "favorability": 60
+    },
+    {
+      "id": 57,
+      "favorability": 40
+    },
+    {
+      "id": 43,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    921
+  ],
+  "character_datas": [
+    {
+      "character_id": 20013,
+      "dev_name": "CH0160",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Piercing",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": true,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "B",
+      "street_adaptability": "S",
+      "equipment": [
+        7,
+        6,
+        4
+      ],
+      "cultivate_material": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        399,
+        400,
+        401,
+        402,
+        427,
+        428,
+        429,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%E5%8D%83%E5%AF%BB/skill_icon/VJ2Xt1X7TezE9mMUJZc38HXkcSp7PTtp.png",
+            "title": "覆写",
+            "title_cn": " 覆写",
+            "preview": "//static.kivo.wiki/videos/students/%E5%90%84%E5%8A%A1%20%E5%8D%83%E5%AF%BB/skill_preview/KeSAc7ZpzZScvM6ojaMKwDABTw9NRph1.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "对1名敌人造成攻击力257%的伤害，如果目标防御类型为重装甲则附加昏厥(5.7秒)"
+              },
+              {
+                "cost": 3,
+                "describe": "对1名敌人造成攻击力296%的伤害，如果目标防御类型为重装甲则附加昏厥(5.7秒)"
+              },
+              {
+                "cost": 3,
+                "describe": "对1名敌人造成攻击力335%的伤害，如果目标防御类型为重装甲则附加昏厥(6.6秒)"
+              },
+              {
+                "cost": 3,
+                "describe": "对1名敌人造成攻击力374%的伤害，如果目标防御类型为重装甲则附加昏厥(6.6秒)"
+              },
+              {
+                "cost": 3,
+                "describe": "对1名敌人造成攻击力412%的伤害，如果目标防御类型为重装甲则附加昏厥(7.5秒)"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%E5%8D%83%E5%AF%BB/skill_icon/MmoKtUz8S4kqHNWflxzYbF5zFIyFayD0.png",
+            "title": "后门渗透",
+            "title_cn": "潜入后门",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每30秒使攻击力最高的1名敌人降低攻击力16.9%(持续23秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒使攻击力最高的1名敌人降低攻击力17.8%(持续23秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒使攻击力最高的1名敌人降低攻击力18.6%(持续23秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒使攻击力最高的1名敌人降低攻击力22%(持续23秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒使攻击力最高的1名敌人降低攻击力22.8%(持续23秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒使攻击力最高的1名敌人降低攻击力23.7%(持续23秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒使攻击力最高的1名敌人降低攻击力27.1%(持续23秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒使攻击力最高的1名敌人降低攻击力27.9%(持续23秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒使攻击力最高的1名敌人降低攻击力28.8%(持续23秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒使攻击力最高的1名敌人降低攻击力32.2%(持续23秒)"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%E5%8D%83%E5%AF%BB/skill_icon/rqteQz0Jwu4g6icJpPR5Uy44vhaF0tDp.png",
+            "title": "漏洞攻击",
+            "title_cn": "利用漏洞",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%E5%8D%83%E5%AF%BB/skill_icon/Z3YB6jey64dOp8O9vQpyBUH3fr6SVZKB.png",
+            "title": "构筑防火墙",
+            "title_cn": "构筑防火墙",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方学生的群控强化增加9.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的群控强化增加9.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的群控强化增加10%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的群控强化增加11.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的群控强化增加12.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的群控强化增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的群控强化增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的群控强化增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的群控强化增加15.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方学生的群控强化增加17.3%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2488,
+          "attack": 330,
+          "defense": 19,
+          "healing": 1916,
+          "accuracy": 708,
+          "evasion": 789,
+          "crit": 202,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1587,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%E5%8D%83%E5%AF%BB/weapons_icon.png",
+        "name": "Backdoor",
+        "name_cn": "后门",
+        "description": "千寻所使用的突击步枪。 据她所说，这是破解密码的最快手段。",
+        "description_cn": "千寻使用的自动步枪。 据本人说，这是破译密码的最快手段。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「漏洞攻击」升级为「漏洞攻击+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 街道适应性 S -> SS",
+            "description": "在街道地形造成1.3倍伤害。 在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%90%84%E5%8A%A1%E5%8D%83%E5%AF%BB/skill_icon/DwU0xOGQol5MlFvDRf8GM3Rtx8DgZ3l9.png",
+            "title": "漏洞攻击+",
+            "title_cn": "利用漏洞+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2000，暴击伤害增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2100，暴击伤害增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2200，暴击伤害增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2600，暴击伤害增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2700，暴击伤害增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加2800，暴击伤害增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加3200，暴击伤害增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加3300，暴击伤害增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加3400，暴击伤害增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害增加3800，暴击伤害增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "2dda3119-8ebe-456a-b9ac-13d5ec0dc839",
+  "skill_declare_uuid": "97e3ea08-a6d7-4c54-8a34-b0730d1e133b",
+  "supplementary_uuid": "7ae7db0f-d69f-4fdf-a20d-b6441ae5043a",
+  "supplementary_declare_uuid": "2a429da0-1e62-4640-bbd9-f329a3eef109",
+  "created_at": 1684421685,
+  "updated_at": 1783484646
+}

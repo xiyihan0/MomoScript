@@ -1,0 +1,2645 @@
+{
+  "id": 152,
+  "skin": "女仆",
+  "skin_jp": "メイド",
+  "skin_cn": "女仆",
+  "skin_zh_tw": "女僕",
+  "skin_list": [
+    {
+      "id": 108,
+      "avatar": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 152,
+      "avatar": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/avatar.png",
+      "skin": "女仆",
+      "skin_cn": "女仆"
+    },
+    {
+      "id": 574,
+      "avatar": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E4%B8%B4%E6%88%98/Student_Portrait_CH0334_Collection.png",
+      "skin": "临战",
+      "skin_cn": "武装"
+    }
+  ],
+  "family_name": "天童",
+  "given_name": "爱丽丝",
+  "family_name_jp": "天童",
+  "given_name_jp": "アリス",
+  "family_name_kr": "텐도",
+  "given_name_kr": "아리스",
+  "family_name_en": "Tendou",
+  "given_name_en": "Aris",
+  "family_name_zh_tw": "天童",
+  "given_name_zh_tw": "愛麗絲",
+  "family_name_cn": "天童",
+  "given_name_cn": "爱丽丝",
+  "nick_name": "女仆爱,扫地机器人",
+  "introduction": "由于种种原因穿上女仆装的千禧科学学院所属，游戏开发部的部员。\n\n还是老样子不太习惯女仆装，为了克服这一苦难成为独当一面的女仆勇者而日益修行中。\n\n>邦邦咔邦！\n爱丽丝转职成女仆勇者了！",
+  "introduction_cn": "被误认为C&C成员而穿上女仆装的千禧年游戏开发部成员。\n\n虽然还不太习惯女仆装，但她正在努力克服这一点。她带着开朗阳光的心情，努力完成自己接到的任务。\n\n>邦吧咔邦——！\n爱丽丝转职成女仆勇者了！",
+  "momo_talk_signature": "我是女仆勇者爱丽丝！",
+  "main_relation": 37,
+  "relation": [
+    35,
+    38,
+    34,
+    66,
+    39
+  ],
+  "age": 1,
+  "grade": "一年生",
+  "height": 152,
+  "birthday": "03-25",
+  "hobby": "游戏（特别是RPG）",
+  "designer": "DoReMi",
+  "illustrator": "DoReMi",
+  "character_voice": "田中美海",
+  "character_voice_cn": "四白",
+  "release_date": "2023-04-26",
+  "release_date_cn": "2025-01-23",
+  "release_date_global": "2023-10-31",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/avatar.png",
+  "school": 4,
+  "weapon_type": "RG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": false,
+  "more": "# 杂项趣闻\n\n:::: center\n!!! question <font size=\"4\">**荣 誉 勋 章**</font>\n![hanamaru_coconut.png](files/19083/lgj4cn7FML4efZeQXT3qrdc0b6jy61g0.png =100x)\n本角色曾在本站开设的投票活动『基沃托斯年度最佳大选』中取得前三名的成绩！\n[2023年](https://www.bilibili.com/opus/872988000253902882)：【年度最佳小小小】**第1名**![rank1.png](files/19083/LMDEXyZBQ3zQXr1770iyoLWlXNkjTePK.png =50x)；【年度最佳学生】**第2名**![rank2.png](files/19083/MH1lPJFie8xHWAjDEi8IWsqLBYLni61W.png =50x)；【年度最佳战斗表现】**第2名**![rank2.png](files/19083/MH1lPJFie8xHWAjDEi8IWsqLBYLni61W.png =50x)\n[2024年](https://kivo.wiki/article/37)：【年度最佳爱用品】**第2名**![rank2.png](files/19083/MH1lPJFie8xHWAjDEi8IWsqLBYLni61W.png =50x)\n!!!\n::::\n\n# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :-: | :-: | :-: | :-: |\n| メイド勇者は不思議な世界の夢を見る | 女仆勇者会梦见仙境 | 轉職為女僕勇者的愛麗絲將與主人同在! | Aris the hero, maid edition is here to be with you, Master! |\n| ![アリス(メイド)-1.png](files/16727/PCPf1Me2nhiosI8wep42Z9Mz6hcupSVf.png =450x)| ![8822a0fff12f80015fa3c2259aaf5e42.png](files/16727/mi6PFaATdMuTFH1NhdeRIonqh1uSItmp.png =450x) | ![aris_maid.png](files/16727/psi2NiOp2Mw2WDeZ3rpY0LbOPEHmdfdo.png =450x) | ![arisu_maid.jpg](files/16727/e5EZdMvfwHZRbhY6Ra6OcxrF9rt8h0xm.jpg =450x)|\n\n## 官方介绍图\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :-: | :-: | :-: | :-: |\n| ![arisu_maid_jp.jpg](files/16727/KkucwMEUTtxQ4bCoGYmBDt5n7DU1EaK0.jpg =525x)| ![aris_maid_hans.jpg](files/16727/jsPSFAvcIMPFCtTYoylLKvKEK7xiLud7.jpg =425x) | ![aris_maid_hant.jpg](files/16727/OjFCRt6OANl5B6pylXHrvpkc8K00KOf4.jpg =530x) | ![aris_maid.jpg](files/16727/vGNrJNrNTK0ix1A9Oev7Te0ipOaDxBMd.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[水色单人沙发](https://kivo.wiki/data/item/936) |\n| :---: | :---: | :---: |\n| ![c46aa842b261c2cce355739f652466d43493265644980448.gif](files/16727/6QTuH8i6Z67dOLQbERf5O4nSXUWhgXuj.gif =450x) | ![8322562dc47f5aec8c363933acfb523c3493265644980448.gif](files/16727/Lz1yjEC1c9LwPEcCWjJFkHzmi7UkmjZG.gif  =450x) | ![9900e8dfa95b93ece986a77d47c1148d3493265644980448.gif](files/16727/4IVFFkfjRuSolUtnmgTkjen00PxR6TeT.gif  =450x) |\n\n## 设定集\n\n::::center\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20005.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20038.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20100.png =450x)\n\n![zsbd](images/gallery/E1.%E6%97%A5%E7%89%88%E8%AE%BE%E5%AE%9A%E9%9B%86/Vol.3/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20127.png =450x)\n\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 153.png](files/16727/uS14ZjAKR9mesGbxiA89qcPuds9Mywaz.png  =450x)\n\n::::",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/CH0200_home_Idle_01_0.8374999999999998.jpg",
+  "spine": [
+    1652,
+    369,
+    903
+  ],
+  "model": [
+    5,
+    299
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [
+    {
+      "description": "CH0200_Title",
+      "category": "lobby",
+      "text": "Blue Archive!",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/jp/CH0200_Title.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Buffed_1.ogg",
+      "category": "battle",
+      "text": "吃到BUFF啦！",
+      "text_original": "バフを貰いました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/QvQf9GqQdvMzIm87LXQ8AEO1SqyFBMPS.ogg"
+    },
+    {
+      "description": "CH0200_Battle_BuffSelf_1.ogg",
+      "category": "battle",
+      "text": "力量提升啦！",
+      "text_original": "パワーアップです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/K58TrsSSAeM7EC3gIJ0S80tNFL74W3P5.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Covered_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "アリス、隠れます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/lV64V9vAZSRGOsUGCSWTvTPh4jphRY9n.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Damage_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "はぁぅ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/tBAj4nLr8A9uUvrxdpmoYBgRPBK2zo7x.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Damage_2.ogg",
+      "category": "battle",
+      "text": "痛痛！",
+      "text_original": "いたたっ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/5Zuprs8a6TgHFzp2tUIQ1u3vrbyHM1WE.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Damage_3.ogg",
+      "category": "battle",
+      "text": "好痛……",
+      "text_original": "痛いです…！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/UJly74DqOC7wEB179sx7pUeSnZnJd4Lb.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Defense_1.ogg",
+      "category": "battle",
+      "text": "回避！",
+      "text_original": "回避します！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/HZGD9l0LrIto7B228hBe6VYZdN0MQmYe.ogg"
+    },
+    {
+      "description": "CH0200_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "使用女仆力量开始扫除！",
+      "text_original": "メイドパワーでお掃除していきます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/KWj8IAS14nTj7Mgk7kMR42ShAxYWjcLQ.ogg"
+    },
+    {
+      "description": "CH0200_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "即使转职了，爱丽丝也不会改变！",
+      "text_original": "ジョブチェンジしても、アリスに変わりはありません！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/SbRUIomVt0zcBFLIkMfe3eEsNABC1Sto.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Move_1.ogg",
+      "category": "battle",
+      "text": "爱丽丝，继续打扫。",
+      "text_original": "アリス、お掃除を続けます。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/O2lqQvC22M9peXFq60OeC1l5DcP3VpP9.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Move_2.ogg",
+      "category": "battle",
+      "text": "移动！",
+      "text_original": "移動します！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/zH0V3Wn7eFGqYbc0CUNVTVlbJtkbTg3t.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Recovery_1.ogg",
+      "category": "battle",
+      "text": "回复HP啦！",
+      "text_original": "HPが回復しました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/JfzB9ukgkFrqbzySQGcC3CF6kS1fyeA6.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Retire.ogg",
+      "category": "battle",
+      "text": "HP条变红啦！",
+      "text_original": "HPバーが赤いです…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/Ce3ICskUTAHycWQt3WBiy6zO2PHnOrxp.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Shout_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/FMveY5X9IP1i73PeelBdRGQlXqJMhkb9.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Shout_2.ogg",
+      "category": "battle",
+      "text": "开始狙击！",
+      "text_original": "狙撃開始します！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/n5UQCnFM9Y8dTNoeh6xKbYKaa2EzrODF.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Shout_3.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/mA8Jws7yZT4VBTNLvS1jk2AoNnddzUdW.ogg"
+    },
+    {
+      "description": "CH0200_Battle_TacticalAction_1.ogg",
+      "category": "battle",
+      "text": "向目标移动！",
+      "text_original": "目標に向かいます。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/7aP8nBkXK16iZ4OAmJTLXWnNGP0oUyVU.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Victory_1.ogg",
+      "category": "battle",
+      "text": "作战成功，不愧是老师！",
+      "text_original": "作戦成功！さすがです、先生！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/xHvgXTNwSLFSQdwnPL0JTgJiXD6oqjaA.ogg"
+    },
+    {
+      "description": "CH0200_Battle_Victory_2.ogg",
+      "category": "battle",
+      "text": "任务完成！这是爱丽丝最喜欢的台词！",
+      "text_original": "ミッションコンプリート！アリスの好きなセリフです！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/KvVCJcNrRJYwrJwVeuOzkTfVFfr1PY4G.ogg"
+    },
+    {
+      "description": "CH0200_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "……从哪里 开始打扫呢？",
+      "text_original": "……どこからお掃除しましょう？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/MvaOqeEBncl7DLktIWRwFy8ZqOJNiA6t.ogg"
+    },
+    {
+      "description": "CH0200_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "感觉在这里 能接到支线 任务……！",
+      "text_original": "サブクエストが発生しそうな場所です……！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ZHflsj6GRoJhAnCG0fegMmZ7O9cYrKqD.ogg"
+    },
+    {
+      "description": "CH0200_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "爱丽丝知道的。 世界上有种叫 女仆咖啡厅的东西！",
+      "text_original": "アリス、知ってます。 世の中にはメイドカフェというものがあるらしいです！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/TjHNuhJI4tTf6sR8BhMkQXmgh599LynP.ogg"
+    },
+    {
+      "description": "CH0200_Cafe_monolog_4.ogg",
+      "category": "cafe",
+      "text": "女仆必须要有主人。 爱丽丝的主人…… 当然就是老师！",
+      "text_original": "メイドにはご主人様が必要です。 アリスのご主人様は……もちろん先生です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/EkROEGR75TGGbvayTVQAKPy9D6Q9nziP.ogg"
+    },
+    {
+      "description": "CH0200_Cafe_monolog_5.ogg",
+      "category": "cafe",
+      "text": "女仆等级提升了！ 爱丽丝和女仆装 的契合度变高了！",
+      "text_original": "メイドレベルが上がりました！ アリスとメイド服の相性は、少し良くなってきました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ZRCDerGfhVU3WsXL9CEsjnu8mhBnozI3.ogg"
+    },
+    {
+      "description": "CH0200_CommonSkill.ogg",
+      "category": "battle",
+      "text": "ZING、ZING……好了！",
+      "text_original": "キュッ、キュッ。よし！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/x8XMGJ6wnhYRiRWDQcMzorMpn9UVsbGi.ogg"
+    },
+    {
+      "description": "CH0200_EventLobby_1.ogg",
+      "category": "event",
+      "text": "虽然女仆技能 还不够高……但爱丽丝会加油的！",
+      "text_original": "まだメイド克服レベルは高くないですが… アリス！頑張ります！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/sEySIQJ2XNx8OzZ6onr70UG0XMiGczrr.ogg"
+    },
+    {
+      "description": "CH0200_EventLobby_2.ogg",
+      "category": "event",
+      "text": "老师， 如果您发现了妮露前辈， 要马上告诉我哦！一定要哦？ 和爱丽丝约好了哦！",
+      "text_original": "先生、どこかでネル先輩を発見したら、すぐに教えてくださいね。 絶対ですよ？アリスとの約束です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/J1gXCfoZhMjQK9UkJOmMYTKNJykvlrjc.ogg"
+    },
+    {
+      "description": "CH0200_EventLobby_3.ogg",
+      "category": "event",
+      "text": "做饭，打扫，洗衣服！ 这些都是女仆的基础！老师也要参加任务吗？",
+      "text_original": "お料理、お掃除、お洗濯！どれもメイドの基本です！ 先生もクエストに参加しますか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/kfHHfE4vsGtqHilWpgMY4ANzW5hzlhvh.ogg"
+    },
+    {
+      "description": "CH0200_EventLobby_4.ogg",
+      "category": "event",
+      "text": "就，就算这样戳我， 也不会掉落道具哦……？爱丽丝又不是怪物！",
+      "text_original": "そ、そんなに突っついても何もドロップしませんよ…？ アリスはモンスターではありません！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/C17tcL0AIOKjkoS0c1FB33WQhpmLmzDg.ogg"
+    },
+    {
+      "description": "CH0200_EventLogin_1.ogg",
+      "category": "event",
+      "text": "老师，请快一点！ 这可是活动哦，活动！",
+      "text_original": "先生、急いでください！イベントですよ、イベント！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/7EOXK1tE2hUp0EBnDLxssnNVNvPrjYdO.ogg"
+    },
+    {
+      "description": "CH0200_EventLogin_2.ogg",
+      "category": "event",
+      "text": "爱丽丝什么时候都OK！ 老师做好准备了吗？",
+      "text_original": "アリスなら、いつでもOKです！先生の準備は終わりましたか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/9r2GbSwm6bFgbfSfIDu0iX5SMsgbjJSp.ogg"
+    },
+    {
+      "description": "CH0200_EventLogin_Season_1.ogg",
+      "category": "event",
+      "text": "打扫和警备， 爱丽丝都努力完成了！ 请夸夸我！",
+      "text_original": "アリス、掃除も警備も頑張りました。褒めてください！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/9ZH3x9V39h2ybXALjbxVehf7ITzZPsy9.ogg"
+    },
+    {
+      "description": "CH0200_EventLogin_Season_2.ogg",
+      "category": "event",
+      "text": "呜呜…… 发生了严重的事故。不过爱丽丝没关系的， 因为爱丽丝是女仆勇者！",
+      "text_original": "うぅ…大変なことになってしまいました。 でもアリスは大丈夫です。メイド勇者ですから！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/50P7FQkMVxZiFnh2nx9Nn5Uy4HOyC8NB.ogg"
+    },
+    {
+      "description": "CH0200_EventLogin_Season_End.ogg",
+      "category": "event",
+      "text": "好厉害的冒险！只要和老师在一起， 爱丽丝就没有什么好怕的！",
+      "text_original": "すごい冒険でした！ 先生と一緒なら、アリスは何も怖くありません！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/TbEndFRZhgjonj8IKJQi9UERbQeRCD3p.ogg"
+    },
+    {
+      "description": "CH0200_EventShop_1.ogg",
+      "category": "event",
+      "text": "欢迎来到爱丽丝的道具店！这里有能在冒险中 派上用场的道具和药水哦！",
+      "text_original": "ようこそ、アリスの道具屋へ！ ここでは冒険に役立つアイテムやポーションが買えますよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ur2DHFxel8JIbXFVWb07P8rJJBIs9itX.ogg"
+    },
+    {
+      "description": "CH0200_EventShop_2.ogg",
+      "category": "event",
+      "text": "嗯？老师， 想要一份微笑吗？我明白了。 小桃说过，微笑是免费的！",
+      "text_original": "ん…先生、スマイルですか？ 分かりました。スマイルは0クレジットだと、モモイが言ってました！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/wxTdtoyYqMK0JNCc3gqWsy8ZBlK2TuGH.ogg"
+    },
+    {
+      "description": "CH0200_EventShop_Buy_1.ogg",
+      "category": "event",
+      "text": "邦吧咔邦！ 老师购买了道具！附赠的微笑也请您收下吧！",
+      "text_original": "パンパカパーン！先生がアイテムを購入しました！ プレミアムスマイルをおまけしておきます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cbQnyPAKEtxrtoeEPzmCv0i3wQd1uWja.ogg"
+    },
+    {
+      "description": "CH0200_EventShop_Buy_2.ogg",
+      "category": "event",
+      "text": "哦吼…… 这位客人，眼光真不错呢。这种时候就要说这句台词， 爱丽丝记着的！",
+      "text_original": "ほほう…お客さん、お目が高いですね。 こういう時に言うセリフです！アリス、覚えました！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/yxJzs2LEOEBrqHDKRZXfC5sieYfoP2MS.ogg"
+    },
+    {
+      "description": "CH0200_EventShop_Buy_3.ogg",
+      "category": "event",
+      "text": "旅者呀， 这就是汝的选择吗……？老师，怎么样呀？ 爱丽丝一直想说这句台词！",
+      "text_original": "旅人よ、それが汝の選択か…？ 先生、どうですか？このセリフ、言ってみたかったんです！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/Qaw8uoG3At4wUbhqHRtK35SfYToMnzq0.ogg"
+    },
+    {
+      "description": "CH0200_EventShop_Buy_4.ogg",
+      "category": "event",
+      "text": "道具仓库的管理 也是女仆的工作！爱丽丝， 今天也会努力的！",
+      "text_original": "アイテム倉庫の管理もメイドのお仕事です！ アリス、今日も頑張ります！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/KSIH6IIwhCsYH5uRHEP1reyxIGbCe8ih.ogg"
+    },
+    {
+      "description": "CH0200_EventShop_End.ogg",
+      "category": "event",
+      "text": "虽然活动已经结束了， 但店铺还在营业哦。店铺营业是有时间限制的， 所以请不要忘了。 和爱丽丝约好了哦？",
+      "text_original": "イベントは終了しましたが、まだ営業中です。 期間限定なので忘れないでください。アリスとの約束ですよ？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/OfR0BF08NCAGNawfGkqKOr9YydoHjvmO.ogg"
+    },
+    {
+      "description": "CH0200_EventShop_Login_1.ogg",
+      "category": "event",
+      "text": "老师，欢迎光临！女仆勇者 连看店也不在话下哦！",
+      "text_original": "いらっしゃいませ、先生！ メイド勇者はお店番も出来ます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/1deJY3KZhvzjoByjV5PveyPj63vMAfsS.ogg"
+    },
+    {
+      "description": "CH0200_EventShop_Login_2.ogg",
+      "category": "event",
+      "text": "可交换道具的库存 还有很多哦！但如果是老师的话， 也许能全部带走！",
+      "text_original": "交換アイテムの在庫は、たっぷりあります！ でも先生だったら全部ゲット出来ちゃうかもしれません。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/qYAcNxmJCsbvixfW0szwutu9f8lipmLF.ogg"
+    },
+    {
+      "description": "CH0200_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "拖地，拖地～♪哈，准备好了！",
+      "text_original": "お掃除お掃除ー。あっ！準備完了です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/uWVckHw7QEcmVJLu4WhteYEDugVtEzel.ogg"
+    },
+    {
+      "description": "CH0200_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "打扫时间～♪嗯？出发了！",
+      "text_original": "お掃除タイムー。ん？行けます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/S4ygm7Wp2dP3vM3Wfnbo51jXCBzQSYk8.ogg"
+    },
+    {
+      "description": "CH0200_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "嘿咻嘿咻！啊？我会加油的！",
+      "text_original": "よいしょ、よいしょ！あれ？頑張ります！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gEryeWHNIlgh273RP5DiKMPctDT3akSR.ogg"
+    },
+    {
+      "description": "CH0200_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "目标锁定……光啊！",
+      "text_original": "ターゲット、ロックオン！光よ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/LCBiulFJivbzvLmYuuTYavr2kQlXc2r3.ogg"
+    },
+    {
+      "description": "CH0200_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "逃不出爱丽丝的眼睛！",
+      "text_original": "アリスの目からは逃げられません！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/Xtkd3Pj87gzXGljll6lmPLOGXPvs3xEL.ogg"
+    },
+    {
+      "description": "CH0200_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "以这不可动摇的意志……光啊！",
+      "text_original": "揺るがぬ意志で…光よ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/zqr4ZJvpnLKpWKLw1Sk1ngYUfSDeT4UB.ogg"
+    },
+    {
+      "description": "CH0200_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "这是……集爱丽丝与老师之力， 强化出的传说中的圣剑……！ 老师，谢谢您！ 爱丽丝会继续提高女仆等级， 成为女仆勇者的！",
+      "text_original": "これは……アリスと先生の力で強化した伝説の聖剣……！ ありがとうございます、先生！ アリス、もっとメイドレベルを上げて、メイド勇者になります！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/HRUqfP2QnLHAbxagjYiybLvHY59xVrXK.ogg"
+    },
+    {
+      "description": "CH0200_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "我是女仆爱丽丝，请多指教！",
+      "text_original": "メイドのアリスです！よろしくお願いします！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/v9PSpJsINWGnkhWADpOqFtVeso361q6Q.ogg"
+    },
+    {
+      "description": "CH0200_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "今天爱丽丝的定位是……光属性单体输出！",
+      "text_original": "今日のアリスの役割は光属性の単体アタッカーです！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/5EIcSEfd3XwoNfUv1j2WltavtesOWCCG.ogg"
+    },
+    {
+      "description": "CH0200_Formation_Select.ogg",
+      "category": "formation",
+      "text": "呜……爱丽丝还没有习惯这身新皮肤……",
+      "text_original": "うぅ……この新スキン、まだ慣れません……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/pCR9aCdfcmw43n2nOO7UekQ4DDrhbHH9.ogg"
+    },
+    {
+      "description": "CH0200_Gachaget.ogg",
+      "category": "growup",
+      "text": "即使转职成了女仆， 爱丽丝也还是爱丽丝！ 请好好看着吧，老师！",
+      "text_original": "メイドにジョブチェンジしても、アリスはアリスです。 見ていてください、先生！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/htRpyeu8G8cTgWGfMkaOZcBrvaKlwoA7.ogg"
+    },
+    {
+      "description": "CH0200_Growup_1.ogg",
+      "category": "growup",
+      "text": "女仆等级上升啦！爱丽丝的状态提升了！",
+      "text_original": "メイドレベルアーップ！アリスのステータスが上昇しました！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/MJi64eaJGvKoTaDVJS6YLpUG2fWJpRDI.ogg"
+    },
+    {
+      "description": "CH0200_Growup_2.ogg",
+      "category": "growup",
+      "text": "不管是身为女仆，还是身为勇者，爱丽丝都没有等级上限！",
+      "text_original": "メイドとしても、勇者としても、アリスにレベルキャップはありません！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/aTWc78YiFKc9xaaEoh8OfFBiwQkZH3qz.ogg"
+    },
+    {
+      "description": "CH0200_Growup_3.ogg",
+      "category": "growup",
+      "text": "我曾经想过，要怎样才能成为一名合格的女仆勇者。只要把女仆和勇者的等级都升高就好了！老师，请帮帮我！",
+      "text_original": "メイド勇者になるには、どうしたらいいのか考えました。 メイドと勇者のレベルを両方上げればいいのです！先生、手伝ってください！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/foFrtXb9R9kNdjD3lPZWjpaiwJDcnQgd.ogg"
+    },
+    {
+      "description": "CH0200_Growup_4.ogg",
+      "category": "growup",
+      "text": "和老师在一起的话，一定能成为优秀的女仆勇者。从今以后，请老师一直待在爱丽丝的身边吧！",
+      "text_original": "先生と一緒なら、立派なメイド勇者になれるはずです！ これからもずっとアリスの側にいてください……！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/WtKoXc8fBv6X2s8e2blt7LWP7w7GtgmI.ogg"
+    },
+    {
+      "description": "CH0200_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "今天的爱丽丝是身为女仆的勇者！也就是女仆勇者！所谓女仆勇者， 就是把女仆和勇者都做到了极致。就像是RPG里面的高级职业一样呢！",
+      "text_original": "今日のアリスはメイドであり勇者！ つまりメイド勇者です！ メイド勇者とは、メイドと勇者を極めた先にあります。 RPGで例えるなら上級職です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/Sga88jhHopKqM7iUoE3cUY5eKiDy4O3D.ogg"
+    },
+    {
+      "description": "CH0200_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "换上女仆装后， 感觉打扫技能提高了！老师，有哪里需要打扫吗？",
+      "text_original": "メイド服に着替えると、お掃除スキルが上がった気がします！ 先生、どこかお掃除するところはありますか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/VYX4bfc0krcvHtAUUuQ2UklkXNFfm5bF.ogg"
+    },
+    {
+      "description": "CH0200_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "听说女仆要做很多很多事情！比如做饭，打扫，洗衣服♪ 还有破坏，突袭，以及保卫世界和平！",
+      "text_original": "メイドは様々なお仕事をこなすと聞きました！ お料理、お掃除、お洗濯♪ 破壊に強襲、警備に世界平和まで！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/EtznkIRwRJOWCqr0znVmPtQNO7MRGxZN.ogg"
+    },
+    {
+      "description": "CH0200_Lobby_4_1.ogg",
+      "category": "lobby",
+      "text": "听说对狙击手来说， 平常心是很重要的。老，老师？ 如果您这样摸我的头的话……",
+      "text_original": "狙撃手にとって、平常心が大事だと聞きました。 せ、先生？そんなに頭を撫でられると……",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/MQTsk0rb9UMVJefrAmDh0JHXQ58ElTee.ogg"
+    },
+    {
+      "description": "CH0200_Lobby_4_2.ogg",
+      "category": "lobby",
+      "text": "……呜哇。 爱丽丝，要失去平常心了……",
+      "text_original": "……ふわぁ。アリスは平常心を失ってしまいました……",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/eXlfRdQ3HVCAZMQG1cMqrURSPmR2vvY2.ogg"
+    },
+    {
+      "description": "CH0200_Lobby_5_1.ogg",
+      "category": "lobby",
+      "text": "老师，请把今天的 日常安排告诉我吧！",
+      "text_original": "先生、今日のスケジュールを教えてください！ 一日中、ゴロゴロするんですか……？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/fGkq60xcJYwdL4yVsmwI6Y7YQsbthOQC.ogg"
+    },
+    {
+      "description": "CH0200_Lobby_5_2.ogg",
+      "category": "lobby",
+      "text": "准备闲着发呆一整天……？ 诶，爱丽丝也要这么做吗？",
+      "text_original": "え、アリスも……？ はい！アリスもゴロゴロします！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/TX86huSqIqCkyBRtGu0FmYq801L3t9UH.ogg"
+    },
+    {
+      "description": "CH0200_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "主人，欢迎回来！女仆爱丽丝可以 为您做任何事情！",
+      "text_original": "おかえりなさいませ、ご主人様！ メイドのアリスに何でもお任せください。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/k5GJVmx5RRUCBNsD9KdOqPTmqGcG1Sab.ogg"
+    },
+    {
+      "description": "CH0200_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "老师可以吩咐任何事。因为现在的爱丽丝， 可是老师的女仆！",
+      "text_original": "何でも言ってください。 今のアリスは先生のメイドなので！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/huiCcTIfV6ggycvTFgJswsvJa6E3ac37.ogg"
+    },
+    {
+      "description": "CH0200_MemorialLobby_1_1.ogg",
+      "category": "lobby",
+      "text": "老，老师？！",
+      "text_original": "せ、先生！？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/eVlm2fzxPPLCFXED5CWfIXH7GChNt1XI.ogg"
+    },
+    {
+      "description": "CH0200_MemorialLobby_1_2.ogg",
+      "category": "lobby",
+      "text": "爱丽丝， 还没准备好呢……",
+      "text_original": "アリス、まだ準備中なので……",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/oO7CALlAiENQivTRkhULlVaVW5HKdZ38.ogg"
+    },
+    {
+      "description": "CH0200_MemorialLobby_2_1.ogg",
+      "category": "lobby",
+      "text": "本来想让老师看看…… 克服了女仆身份，转职后的爱丽丝的样子……",
+      "text_original": "メイドを克服し、ジョブチェンジしたアリスの姿…… 先生に見せようと思ったのですが……",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/XuTpJoWtjST24thkwAZEarOqICAEt1NR.ogg"
+    },
+    {
+      "description": "CH0200_MemorialLobby_2_2.ogg",
+      "category": "lobby",
+      "text": "在爱丽丝准备好之前， 请您再稍等一会儿。",
+      "text_original": "アリスの支度が整うまで、 もう少しだけ待っていてください。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/jiYs8XiNcqGnF8t5rTn6myiFr1g3pxDr.ogg"
+    },
+    {
+      "description": "CH0200_MemorialLobby_3_1.ogg",
+      "category": "lobby",
+      "text": "没错！女仆已经 没有什么好怕的了！",
+      "text_original": "その通りです！もうメイドは怖くありません！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/deFuFH6dH6JL2e9BwtjItJkJOSBm9vIM.ogg"
+    },
+    {
+      "description": "CH0200_MemorialLobby_3_2.ogg",
+      "category": "lobby",
+      "text": "这都是多亏了老师的帮忙。",
+      "text_original": "これも全部、先生が居てくれたおかげです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/sCDhD38h621tOhtYiUJWaINfV3HHNJid.ogg"
+    },
+    {
+      "description": "CH0200_MemorialLobby_4_1.ogg",
+      "category": "lobby",
+      "text": "只要和老师待在一起……",
+      "text_original": "先生と一緒なら……",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/9QrMTVzpASLJ8z0BRpunsqZPijmxohz5.ogg"
+    },
+    {
+      "description": "CH0200_MemorialLobby_4_2.ogg",
+      "category": "lobby",
+      "text": "爱丽丝就可以 攻略任何地下城。",
+      "text_original": "アリスはどんなダンジョンでも攻略できますから。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/nbTIAIFgldP0meHecVxXL1gccU49lDFJ.ogg"
+    },
+    {
+      "description": "CH0200_MemorialLobby_5.ogg",
+      "category": "lobby",
+      "text": "是！爱丽丝， 冒险准备完毕！",
+      "text_original": "はいっ！アリス、冒険の準備が整いました！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/n4UnD6WaIQAIiH0ey61lyGpSJKXOmOLa.ogg"
+    },
+    {
+      "description": "CH0200_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "老师，女仆装适合我吗？",
+      "text_original": "先生！メイド服は似合ってますか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/85UQJcqvCXAwSsw7gvOZ3doIzxt9Dmh6.ogg"
+    },
+    {
+      "description": "CH0200_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "欸嘿嘿，只要能和老师在一起，爱丽丝就会很开心！请多摸摸爱丽丝吧！",
+      "text_original": "えへへ。先生と一緒に居られて、アリスは嬉しいです！もっとナデナデしてください……！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/fnJ2ogNfu3WP58H5gzlGr7Lrlf56LtnC.ogg"
+    },
+    {
+      "description": "CH0200_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "爱丽丝今天是女仆哦，所以，让爱丽丝给老师锤锤肩吧！咚咚！",
+      "text_original": "今日のアリスはメイドです……！なので、先生の肩を叩きます！トントン♪",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/NBIQLi3C406tjVw8qd7QZX2MgpOahODx.ogg"
+    },
+    {
+      "description": "CH0200_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "和爱丽丝的好感等级上升了！爱丽丝……可以多对老师撒撒娇吗？",
+      "text_original": "アリスの親愛度が上昇しました！……もう少し、甘えてもいいですか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/XtmSLDmqGYiNEacIOnOzO49Dm9fEdKN3.ogg"
+    },
+    {
+      "description": "CH0200_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "游戏开发部的大家， 还有和老师相遇的那一天……那天发生的事情， 爱丽丝永远不会忘记。老师，以后也请多多关照了！",
+      "text_original": "ゲーム開発部のみんな、そして先生と出会った日…… あの日の出来事を、アリスは忘れません。 先生、これからもよろしくお願いします！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/RwExteTM6yZ3djIkpeO6By1uyIHFgjsV.ogg"
+    },
+    {
+      "description": "CH0200_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "老师，祝您生日快乐！您想要什么样的纪念道具呢？",
+      "text_original": "お誕生日おめでとうございます、先生！ 記念アイテムは何が良いですか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/Eeaz6Jwuts35gd8556cr6YIgZkhynsZH.ogg"
+    },
+    {
+      "description": "CH0200_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "万圣节快乐！今天是大家打扮得 像是游戏角色的日子呢！还是说…… 今天是游戏变成现实的日子呢？",
+      "text_original": "ハッピーハロウィーン！みんなでゲームのキャラクターみたいに仮装する日ですね！ それとも……ゲームが現実になる日なのでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/bvKq7gttLi8S8gWBQDfTiUzaEd3ObqCd.ogg"
+    },
+    {
+      "description": "CH0200_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "老师，祝您新年快乐！女仆爱丽丝在 新年的第一个任务， 要做什么比较好呢？啊…… 只要待在老师身边就可以了吗？",
+      "text_original": "あけましておめでとうございます、先生！ メイドアリスの初仕事、何が良いですか？ ……そばに居るだけで良いんですか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/sCsPW0WobLhSOg22JvCgD03me3jcMUtS.ogg"
+    },
+    {
+      "description": "CH0200_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "爱丽丝知道！不管在游戏还是在现实里， 圣诞节都是举办活动的时间！",
+      "text_original": "アリス、知っています。 ゲームでも現実でも、クリスマスはイベントの時間です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/T1xOHGLWxC08jsjsGIkVlTKM56dY5P4U.ogg"
+    },
+    {
+      "description": "CH0200_Tactic_Defeat_1.ogg",
+      "category": "battle",
+      "text": "女仆的等级还不够……",
+      "text_original": "メイドレベルが足りませんでした…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/4xzovBpPZXQOqelrm5ULB6b1nOeG3DvA.ogg"
+    },
+    {
+      "description": "CH0200_Tactic_Defeat_2.ogg",
+      "category": "battle",
+      "text": "爱丽丝是不会放弃的！",
+      "text_original": "アリスは諦めません…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/qV6GLJCyywwGnSF7B6DUb1hmo5r94KmS.ogg"
+    },
+    {
+      "description": "CH0200_Tactic_In_1.ogg",
+      "category": "battle",
+      "text": "任务开始！爱丽丝，出发！",
+      "text_original": "クエスト開始。アリス、行きます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/kG8Uirqtyakw7ihCiAAWgnLJfnjXDATD.ogg"
+    },
+    {
+      "description": "CH0200_Tactic_In_2.ogg",
+      "category": "battle",
+      "text": "爱丽丝，要成为女仆勇者！",
+      "text_original": "アリスはメイド勇者になります！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/uOpckMTrU3P5GJfNqhBM84aDGfAwE1Bd.ogg"
+    },
+    {
+      "description": "CH0200_Tactic_Victory_1.ogg",
+      "category": "battle",
+      "text": "成功啦！老师，快夸我！",
+      "text_original": "やりました！先生、褒めてください！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ZWsIyWGNOVr8nXSbRkLaW5qRYLZSRTyo.ogg"
+    },
+    {
+      "description": "CH0200_Tactic_Victory_2.ogg",
+      "category": "battle",
+      "text": "扫除任务结束！",
+      "text_original": "お掃除クエスト、完了です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/BbE2aj3YM0t0W1Bo7SLGIAleVpyXa8C7.ogg"
+    },
+    {
+      "description": "ST0001_MiniGame_GeasGet_1",
+      "category": "other",
+      "text": "老师，你马上就能刷新纪录了！爱丽丝会在旁边给您加油的！",
+      "text_original": "先生、スコア更新を目指しましょう！アリスが隣で応援してます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ST0001_MiniGame_GeasGet_1.ogg"
+    },
+    {
+      "description": "ST0001_MiniGame_Select_1",
+      "category": "other",
+      "text": "邦吧咔邦——！老师开始玩爱丽丝和大家一起做的游戏了！",
+      "text_original": "パンパカパーン！先生がアリス達のゲームを遊びに来ました！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ST0001_MiniGame_Select_1.ogg"
+    },
+    {
+      "description": "ST0001_MiniGame_Select_2",
+      "category": "other",
+      "text": "老师，欢迎！玩游戏的时候，请坐在爱丽丝的身边！",
+      "text_original": "ようこそ、先生！ゲームを開始するには、アリスの隣に座ってください！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ST0001_MiniGame_Select_2.ogg"
+    },
+    {
+      "description": "ST0001_MiniGame_Select_3",
+      "category": "other",
+      "text": "这一部分是爱丽丝做的！嗯！是爱丽丝的得意作品！",
+      "text_original": "ここはアリスが作った部分です！はい！アリスの自信作です！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ST0001_MiniGame_Select_3.ogg"
+    },
+    {
+      "description": "ST0001_MiniGame_Shout_1",
+      "category": "other",
+      "text": "",
+      "text_original": "やあっ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ST0001_MiniGame_Shout_1.ogg"
+    },
+    {
+      "description": "ST0001_MiniGame_Shout_2",
+      "category": "other",
+      "text": "爱丽丝，开始攻击！",
+      "text_original": "アリス、攻撃します！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ST0001_MiniGame_Shout_2.ogg"
+    },
+    {
+      "description": "ST0001_MiniGame_Shout_3",
+      "category": "other",
+      "text": "",
+      "text_original": "はあっ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ST0001_MiniGame_Shout_3.ogg"
+    },
+    {
+      "description": "ST0001_MiniGame_Start_1",
+      "category": "other",
+      "text": "邦吧咔邦——！爱丽丝，出发了！",
+      "text_original": "パンパカパーン！アリス、行きます！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ST0001_MiniGame_Start_1.ogg"
+    },
+    {
+      "description": "ST0001_MiniGame_Start_2",
+      "category": "other",
+      "text": "好！女仆勇者，出击！",
+      "text_original": "はい！メイド勇者、出撃します！",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ST0001_MiniGame_Start_2.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "ch0200_battle_buffed_1",
+      "category": "battle",
+      "text": "吃到BUFF啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_buffed_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_buffself_1",
+      "category": "battle",
+      "text": "力量提升啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_buffself_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_damage_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_damage_2",
+      "category": "battle",
+      "text": "痛痛！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_damage_2.ogg"
+    },
+    {
+      "description": "ch0200_battle_damage_3",
+      "category": "battle",
+      "text": "好痛……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_damage_3.ogg"
+    },
+    {
+      "description": "ch0200_battle_defense_1",
+      "category": "battle",
+      "text": "回避！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_defense_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_in_1",
+      "category": "battle",
+      "text": "使用女仆力量开始扫除！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_in_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_in_2",
+      "category": "battle",
+      "text": "即使转职了，爱丽丝也不会改变！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_in_2.ogg"
+    },
+    {
+      "description": "ch0200_battle_move_1",
+      "category": "battle",
+      "text": "爱丽丝，继续打扫。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_move_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_move_2",
+      "category": "battle",
+      "text": "移动！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_move_2.ogg"
+    },
+    {
+      "description": "ch0200_battle_recovery_1",
+      "category": "battle",
+      "text": "回复HP啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_recovery_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_retire",
+      "category": "battle",
+      "text": "HP条变红啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_retire.ogg"
+    },
+    {
+      "description": "ch0200_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_shout_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_shout_2",
+      "category": "battle",
+      "text": "开始狙击！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_shout_2.ogg"
+    },
+    {
+      "description": "ch0200_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_shout_3.ogg"
+    },
+    {
+      "description": "ch0200_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "向目标移动！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_victory_1",
+      "category": "battle",
+      "text": "作战成功，不愧是老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_victory_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_victory_2",
+      "category": "battle",
+      "text": "任务完成！这是爱丽丝最喜欢的台词！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_battle_victory_2.ogg"
+    },
+    {
+      "description": "ch0200_cafe_monolog_1",
+      "category": "cafe",
+      "text": "……从哪里 开始打扫呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0200_cafe_monolog_2",
+      "category": "cafe",
+      "text": "感觉在这里 能接到支线 任务……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0200_cafe_monolog_3",
+      "category": "cafe",
+      "text": "爱丽丝知道的。 世界上有种叫 女仆咖啡厅的东西！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0200_cafe_monolog_4",
+      "category": "cafe",
+      "text": "女仆必须要有主人。 爱丽丝的主人…… 当然就是老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0200_cafe_monolog_5",
+      "category": "cafe",
+      "text": "女仆等级提升了！ 爱丽丝和女仆装 的契合度变高了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0200_commonskill",
+      "category": "battle",
+      "text": "ZING、ZING……好了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_commonskill.ogg"
+    },
+    {
+      "description": "ch0200_eventlobby_1",
+      "category": "event",
+      "text": "虽然女仆技能 还不够高……但爱丽丝会加油的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventlobby_1.ogg"
+    },
+    {
+      "description": "ch0200_eventlobby_2",
+      "category": "event",
+      "text": "老师， 如果您发现了妮露前辈， 要马上告诉我哦！一定要哦？ 和爱丽丝约好了哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventlobby_2.ogg"
+    },
+    {
+      "description": "ch0200_eventlobby_3",
+      "category": "event",
+      "text": "做饭，打扫，洗衣服！ 这些都是女仆的基础！老师也要参加任务吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventlobby_3.ogg"
+    },
+    {
+      "description": "ch0200_eventlobby_4",
+      "category": "event",
+      "text": "就，就算这样戳我， 也不会掉落道具哦……？爱丽丝又不是怪物！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventlobby_4.ogg"
+    },
+    {
+      "description": "ch0200_eventlogin_1",
+      "category": "event",
+      "text": "老师，请快一点！ 这可是活动哦，活动！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventlogin_1.ogg"
+    },
+    {
+      "description": "ch0200_eventlogin_2",
+      "category": "event",
+      "text": "爱丽丝什么时候都OK！ 老师做好准备了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventlogin_2.ogg"
+    },
+    {
+      "description": "ch0200_eventlogin_season_1",
+      "category": "event",
+      "text": "打扫和警备， 爱丽丝都努力完成了！ 请夸夸我！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "ch0200_eventlogin_season_2",
+      "category": "event",
+      "text": "呜呜…… 发生了严重的事故。不过爱丽丝没关系的， 因为爱丽丝是女仆勇者！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "ch0200_eventlogin_season_end",
+      "category": "event",
+      "text": "好厉害的冒险！只要和老师在一起， 爱丽丝就没有什么好怕的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_1",
+      "category": "event",
+      "text": "欢迎来到爱丽丝的道具店！这里有能在冒险中 派上用场的道具和药水哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventshop_1.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_2",
+      "category": "event",
+      "text": "嗯？老师， 想要一份微笑吗？我明白了。 小桃说过，微笑是免费的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventshop_2.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_buy_1",
+      "category": "event",
+      "text": "邦吧咔邦！ 老师购买了道具！附赠的微笑也请您收下吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventshop_buy_1.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_buy_2",
+      "category": "event",
+      "text": "哦吼…… 这位客人，眼光真不错呢。这种时候就要说这句台词， 爱丽丝记着的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventshop_buy_2.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_buy_3",
+      "category": "event",
+      "text": "旅者呀， 这就是汝的选择吗……？老师，怎么样呀？ 爱丽丝一直想说这句台词！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventshop_buy_3.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_buy_4",
+      "category": "event",
+      "text": "道具仓库的管理 也是女仆的工作！爱丽丝， 今天也会努力的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventshop_buy_4.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_end",
+      "category": "event",
+      "text": "虽然活动已经结束了， 但店铺还在营业哦。店铺营业是有时间限制的， 所以请不要忘了。 和爱丽丝约好了哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventshop_end.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_login_1",
+      "category": "event",
+      "text": "老师，欢迎光临！女仆勇者 连看店也不在话下哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventshop_login_1.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_login_2",
+      "category": "event",
+      "text": "可交换道具的库存 还有很多哦！但如果是老师的话， 也许能全部带走！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_eventshop_login_2.ogg"
+    },
+    {
+      "description": "ch0200_exskill_1",
+      "category": "battle",
+      "text": "拖地，拖地～♪哈，准备好了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_exskill_1.ogg"
+    },
+    {
+      "description": "ch0200_exskill_2",
+      "category": "battle",
+      "text": "打扫时间～♪嗯？出发了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_exskill_2.ogg"
+    },
+    {
+      "description": "ch0200_exskill_3",
+      "category": "battle",
+      "text": "嘿咻嘿咻！啊？我会加油的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_exskill_3.ogg"
+    },
+    {
+      "description": "ch0200_exskill_level_1",
+      "category": "battle",
+      "text": "目标锁定……光啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0200_exskill_level_2",
+      "category": "battle",
+      "text": "逃不出爱丽丝的眼睛！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0200_exskill_level_3",
+      "category": "battle",
+      "text": "以这不可动摇的意志……光啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0200_exweapon_get",
+      "category": "growup",
+      "text": "这是……集爱丽丝与老师之力， 强化出的传说中的圣剑……！ 老师，谢谢您！ 爱丽丝会继续提高女仆等级， 成为女仆勇者的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0200_formation_in_1",
+      "category": "formation",
+      "text": "我是女仆爱丽丝，请多指教！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0200_formation_in_2",
+      "category": "formation",
+      "text": "今天爱丽丝的定位是……光属性单体输出！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0200_formation_select",
+      "category": "formation",
+      "text": "呜……爱丽丝还没有习惯这身新皮肤……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_formation_select.ogg"
+    },
+    {
+      "description": "ch0200_gachaget",
+      "category": "growup",
+      "text": "即使转职成了女仆， 爱丽丝也还是爱丽丝！ 请好好看着吧，老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_gachaget.ogg"
+    },
+    {
+      "description": "ch0200_growup_1",
+      "category": "growup",
+      "text": "女仆等级上升啦！爱丽丝的状态提升了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_growup_1.ogg"
+    },
+    {
+      "description": "ch0200_growup_2",
+      "category": "growup",
+      "text": "不管是身为女仆，还是身为勇者，爱丽丝都没有等级上限！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_growup_2.ogg"
+    },
+    {
+      "description": "ch0200_growup_3",
+      "category": "growup",
+      "text": "我曾经想过，要怎样才能成为一名合格的女仆勇者。只要把女仆和勇者的等级都升高就好了！老师，请帮帮我！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_growup_3.ogg"
+    },
+    {
+      "description": "ch0200_growup_4",
+      "category": "growup",
+      "text": "和老师在一起的话，一定能成为优秀的女仆勇者。从今以后，请老师一直待在爱丽丝的身边吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_growup_4.ogg"
+    },
+    {
+      "description": "ch0200_lobby_1",
+      "category": "lobby",
+      "text": "今天的爱丽丝是身为女仆的勇者！也就是女仆勇者！所谓女仆勇者， 就是把女仆和勇者都做到了极致。就像是RPG里面的高级职业一样呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_lobby_1.ogg"
+    },
+    {
+      "description": "ch0200_lobby_2",
+      "category": "lobby",
+      "text": "换上女仆装后， 感觉打扫技能提高了！老师，有哪里需要打扫吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_lobby_2.ogg"
+    },
+    {
+      "description": "ch0200_lobby_3",
+      "category": "lobby",
+      "text": "听说女仆要做很多很多事情！比如做饭，打扫，洗衣服♪ 还有破坏，突袭，以及保卫世界和平！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_lobby_3.ogg"
+    },
+    {
+      "description": "ch0200_lobby_4_1",
+      "category": "lobby",
+      "text": "听说对狙击手来说， 平常心是很重要的。老，老师？ 如果您这样摸我的头的话……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_lobby_4_1.ogg"
+    },
+    {
+      "description": "ch0200_lobby_4_2",
+      "category": "lobby",
+      "text": "……呜哇。 爱丽丝，要失去平常心了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_lobby_4_2.ogg"
+    },
+    {
+      "description": "ch0200_lobby_5_1",
+      "category": "lobby",
+      "text": "老师，请把今天的 日常安排告诉我吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_lobby_5_1.ogg"
+    },
+    {
+      "description": "ch0200_lobby_5_2",
+      "category": "lobby",
+      "text": "准备闲着发呆一整天……？ 诶，爱丽丝也要这么做吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_lobby_5_2.ogg"
+    },
+    {
+      "description": "ch0200_login_1",
+      "category": "lobby",
+      "text": "主人，欢迎回来！女仆爱丽丝可以 为您做任何事情！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_login_1.ogg"
+    },
+    {
+      "description": "ch0200_login_2",
+      "category": "lobby",
+      "text": "老师可以吩咐任何事。因为现在的爱丽丝， 可是老师的女仆！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_login_2.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "老，老师？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "爱丽丝， 还没准备好呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "本来想让老师看看…… 克服了女仆身份，转职后的爱丽丝的样子……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "在爱丽丝准备好之前， 请您再稍等一会儿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "没错！女仆已经 没有什么好怕的了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "这都是多亏了老师的帮忙。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "只要和老师待在一起……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "爱丽丝就可以 攻略任何地下城。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_5",
+      "category": "lobby",
+      "text": "是！爱丽丝， 冒险准备完毕！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_memoriallobby_5.ogg"
+    },
+    {
+      "description": "ch0200_relationship_up_1",
+      "category": "growup",
+      "text": "老师，女仆装适合我吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0200_relationship_up_2",
+      "category": "growup",
+      "text": "欸嘿嘿，只要能和老师在一起，爱丽丝就会很开心！请多摸摸爱丽丝吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0200_relationship_up_3",
+      "category": "growup",
+      "text": "爱丽丝今天是女仆哦，所以，让爱丽丝给老师锤锤肩吧！咚咚！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0200_relationship_up_4",
+      "category": "growup",
+      "text": "和爱丽丝的好感等级上升了！爱丽丝……可以多对老师撒撒娇吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0200_season_birthday",
+      "category": "lobby",
+      "text": "游戏开发部的大家， 还有和老师相遇的那一天……那天发生的事情， 爱丽丝永远不会忘记。老师，以后也请多多关照了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_season_birthday.ogg"
+    },
+    {
+      "description": "ch0200_season_birthday_player",
+      "category": "lobby",
+      "text": "老师，祝您生日快乐！您想要什么样的纪念道具呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_season_birthday_player.ogg"
+    },
+    {
+      "description": "ch0200_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师！新春快乐！ 新的一年里， 也要和爱丽丝一起， 继续提高女仆勇者的等级哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "ch0200_season_halloween",
+      "category": "lobby",
+      "text": "万圣节快乐！今天是大家打扮得 像是游戏角色的日子呢！还是说…… 今天是游戏变成现实的日子呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_season_halloween.ogg"
+    },
+    {
+      "description": "ch0200_season_midautumn",
+      "category": "lobby",
+      "text": "老师，中秋快乐！ 爱丽丝知道，中秋节就要吃月饼！ 那么，爱丽丝想转职为厨师勇者！ 请老师和爱丽丝一起努力吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_season_midautumn.ogg"
+    },
+    {
+      "description": "ch0200_season_newyear",
+      "category": "lobby",
+      "text": "老师，祝您新年快乐！女仆爱丽丝在 新年的第一个任务， 要做什么比较好呢？啊…… 只要待在老师身边就可以了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_season_newyear.ogg"
+    },
+    {
+      "description": "ch0200_season_xmas",
+      "category": "lobby",
+      "text": "爱丽丝知道！不管在游戏还是在现实里， 圣诞节都是举办活动的时间！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_season_xmas.ogg"
+    },
+    {
+      "description": "ch0200_tactic_defeat_1",
+      "category": "battle",
+      "text": "女仆的等级还不够……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "ch0200_tactic_defeat_2",
+      "category": "battle",
+      "text": "爱丽丝是不会放弃的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "ch0200_tactic_in_1",
+      "category": "battle",
+      "text": "任务开始！爱丽丝，出发！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_tactic_in_1.ogg"
+    },
+    {
+      "description": "ch0200_tactic_in_2",
+      "category": "battle",
+      "text": "爱丽丝，要成为女仆勇者！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_tactic_in_2.ogg"
+    },
+    {
+      "description": "ch0200_tactic_victory_1",
+      "category": "battle",
+      "text": "成功啦！老师，快夸我！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_tactic_victory_1.ogg"
+    },
+    {
+      "description": "ch0200_tactic_victory_2",
+      "category": "battle",
+      "text": "扫除任务结束！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_tactic_victory_2.ogg"
+    },
+    {
+      "description": "ch0200_title",
+      "category": "lobby",
+      "text": "Blue Archive!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/ch0200_title.ogg"
+    },
+    {
+      "description": "st0001_minigame_geasget_1",
+      "category": "other",
+      "text": "老师，你马上就能刷新纪录了！爱丽丝会在旁边给您加油的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/st0001_minigame_geasget_1.ogg"
+    },
+    {
+      "description": "st0001_minigame_select_1",
+      "category": "other",
+      "text": "邦吧咔邦——！老师开始玩爱丽丝和大家一起做的游戏了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/st0001_minigame_select_1.ogg"
+    },
+    {
+      "description": "st0001_minigame_select_2",
+      "category": "other",
+      "text": "老师，欢迎！玩游戏的时候，请坐在爱丽丝的身边！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/st0001_minigame_select_2.ogg"
+    },
+    {
+      "description": "st0001_minigame_select_3",
+      "category": "other",
+      "text": "这一部分是爱丽丝做的！嗯！是爱丽丝的得意作品！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/st0001_minigame_select_3.ogg"
+    },
+    {
+      "description": "st0001_minigame_shout_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/st0001_minigame_shout_1.ogg"
+    },
+    {
+      "description": "st0001_minigame_shout_2",
+      "category": "other",
+      "text": "爱丽丝，开始攻击！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/st0001_minigame_shout_2.ogg"
+    },
+    {
+      "description": "st0001_minigame_shout_3",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/st0001_minigame_shout_3.ogg"
+    },
+    {
+      "description": "st0001_minigame_start_1",
+      "category": "other",
+      "text": "邦吧咔邦——！爱丽丝，出发了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/st0001_minigame_start_1.ogg"
+    },
+    {
+      "description": "st0001_minigame_start_2",
+      "category": "other",
+      "text": "好！女仆勇者，出击！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/cn/st0001_minigame_start_2.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "CH0200_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/kr/CH0200_Title.ogg"
+    },
+    {
+      "description": "ch0200_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_buffed_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_buffself_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_damage_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_damage_2.ogg"
+    },
+    {
+      "description": "ch0200_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_damage_3.ogg"
+    },
+    {
+      "description": "ch0200_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_defense_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_in_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_in_2.ogg"
+    },
+    {
+      "description": "ch0200_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_move_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_move_2.ogg"
+    },
+    {
+      "description": "ch0200_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_recovery_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_retire.ogg"
+    },
+    {
+      "description": "ch0200_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_shout_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_shout_2.ogg"
+    },
+    {
+      "description": "ch0200_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_shout_3.ogg"
+    },
+    {
+      "description": "ch0200_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_victory_1.ogg"
+    },
+    {
+      "description": "ch0200_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_battle_victory_2.ogg"
+    },
+    {
+      "description": "ch0200_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0200_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0200_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0200_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0200_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0200_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_commonskill.ogg"
+    },
+    {
+      "description": "ch0200_eventlobby_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventlobby_1.ogg"
+    },
+    {
+      "description": "ch0200_eventlobby_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventlobby_2.ogg"
+    },
+    {
+      "description": "ch0200_eventlobby_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventlobby_3.ogg"
+    },
+    {
+      "description": "ch0200_eventlobby_4",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventlobby_4.ogg"
+    },
+    {
+      "description": "ch0200_eventlogin_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventlogin_1.ogg"
+    },
+    {
+      "description": "ch0200_eventlogin_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventlogin_2.ogg"
+    },
+    {
+      "description": "ch0200_eventlogin_season_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "ch0200_eventlogin_season_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "ch0200_eventlogin_season_end",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventshop_1.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventshop_2.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_buy_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventshop_buy_1.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_buy_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventshop_buy_2.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_buy_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventshop_buy_3.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_buy_4",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventshop_buy_4.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_end",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventshop_end.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_login_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventshop_login_1.ogg"
+    },
+    {
+      "description": "ch0200_eventshop_login_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_eventshop_login_2.ogg"
+    },
+    {
+      "description": "ch0200_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_exskill_1.ogg"
+    },
+    {
+      "description": "ch0200_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_exskill_2.ogg"
+    },
+    {
+      "description": "ch0200_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_exskill_3.ogg"
+    },
+    {
+      "description": "ch0200_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0200_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0200_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0200_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0200_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0200_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0200_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_formation_select.ogg"
+    },
+    {
+      "description": "ch0200_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_gachaget.ogg"
+    },
+    {
+      "description": "ch0200_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_growup_1.ogg"
+    },
+    {
+      "description": "ch0200_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_growup_2.ogg"
+    },
+    {
+      "description": "ch0200_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_growup_3.ogg"
+    },
+    {
+      "description": "ch0200_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_growup_4.ogg"
+    },
+    {
+      "description": "ch0200_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_lobby_1.ogg"
+    },
+    {
+      "description": "ch0200_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_lobby_2.ogg"
+    },
+    {
+      "description": "ch0200_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_lobby_3.ogg"
+    },
+    {
+      "description": "ch0200_lobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_lobby_4_1.ogg"
+    },
+    {
+      "description": "ch0200_lobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_lobby_4_2.ogg"
+    },
+    {
+      "description": "ch0200_lobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_lobby_5_1.ogg"
+    },
+    {
+      "description": "ch0200_lobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_lobby_5_2.ogg"
+    },
+    {
+      "description": "ch0200_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_login_1.ogg"
+    },
+    {
+      "description": "ch0200_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_login_2.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "ch0200_memoriallobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_memoriallobby_5.ogg"
+    },
+    {
+      "description": "ch0200_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0200_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0200_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0200_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0200_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_season_birthday.ogg"
+    },
+    {
+      "description": "ch0200_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_season_birthday_player.ogg"
+    },
+    {
+      "description": "ch0200_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_season_halloween.ogg"
+    },
+    {
+      "description": "ch0200_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_season_newyear.ogg"
+    },
+    {
+      "description": "ch0200_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_season_xmas.ogg"
+    },
+    {
+      "description": "ch0200_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "ch0200_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "ch0200_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_tactic_in_1.ogg"
+    },
+    {
+      "description": "ch0200_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_tactic_in_2.ogg"
+    },
+    {
+      "description": "ch0200_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_tactic_victory_1.ogg"
+    },
+    {
+      "description": "ch0200_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/ch0200_tactic_victory_2.ogg"
+    },
+    {
+      "description": "st0001_minigame_geasget_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/st0001_minigame_geasget_1.ogg"
+    },
+    {
+      "description": "st0001_minigame_select_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/st0001_minigame_select_1.ogg"
+    },
+    {
+      "description": "st0001_minigame_select_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/st0001_minigame_select_2.ogg"
+    },
+    {
+      "description": "st0001_minigame_select_3",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/st0001_minigame_select_3.ogg"
+    },
+    {
+      "description": "st0001_minigame_shout_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/st0001_minigame_shout_1.ogg"
+    },
+    {
+      "description": "st0001_minigame_shout_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/st0001_minigame_shout_2.ogg"
+    },
+    {
+      "description": "st0001_minigame_shout_3",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/st0001_minigame_shout_3.ogg"
+    },
+    {
+      "description": "st0001_minigame_start_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/st0001_minigame_start_1.ogg"
+    },
+    {
+      "description": "st0001_minigame_start_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/st0001_minigame_start_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0200_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0200_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0200_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0200_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0200_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0200_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0200_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0200_spr_07.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0200_spr_08.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0200_spr_09.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0200_spr_99.png"
+      ]
+    },
+    {
+      "title": "角色图像",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/aris_maid_hant.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/arisu_maid_jp.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/aris_maid.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20100.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20038.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/aris_maid_hans.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/16afa83ed1cfbb0784e44749e5cd0ca33493265644980448.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/8822a0fff12f80015fa3c2259aaf5e42.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20153.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/9900e8dfa95b93ece986a77d47c1148d3493265644980448.gif",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20127.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/8322562dc47f5aec8c363933acfb523c3493265644980448.gif",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/c46aa842b261c2cce355739f652466d43493265644980448.gif",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/%E3%82%A2%E3%83%AA%E3%82%B9%28%E3%83%A1%E3%82%A4%E3%83%89%29-1.png",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/arisu_maid_1.jpg",
+        "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/gallery/%E8%A7%92%E8%89%B2%E5%9B%BE%E5%83%8F/aris_maid_traditionalChinese.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 131,
+      "favorability": 240
+    },
+    {
+      "id": 162,
+      "favorability": 240
+    },
+    {
+      "id": 272,
+      "favorability": 60
+    },
+    {
+      "id": 91,
+      "favorability": 60
+    },
+    {
+      "id": 56,
+      "favorability": 40
+    },
+    {
+      "id": 57,
+      "favorability": 40
+    },
+    {
+      "id": 67,
+      "favorability": 40
+    },
+    {
+      "id": 74,
+      "favorability": 40
+    },
+    {
+      "id": 78,
+      "favorability": 40
+    },
+    {
+      "id": 84,
+      "favorability": 40
+    },
+    {
+      "id": 52,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    936
+  ],
+  "character_datas": [
+    {
+      "character_id": 10066,
+      "dev_name": "CH0200",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Mystic",
+      "defensive_attributes": "Light",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "D",
+      "street_adaptability": "S",
+      "equipment": [
+        7,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        19,
+        411,
+        412,
+        413,
+        414,
+        448,
+        449,
+        450
+      ],
+      "favorite_equipment": 43,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/skill_icon/mJACsmSgmBfTu3EAArRH8CxVd4RCWdaB.png",
+            "title": "爱丽丝，来打扫啦！",
+            "title_cn": "爱丽丝，开始扫除！",
+            "preview": "//static.kivo.wiki/videos/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/skill_preview/reGmlmbrRdaeajYi1RFQ7LBgJFciB8jp.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成594%攻击力的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成683%攻击力的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成861%攻击力的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成950%攻击力的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "对1名敌人造成1128%攻击力的伤害"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/skill_icon/Jk71QRZOjhAj1v4uVDEEq6n1PUbQSKQY.png",
+            "title": "精心维护",
+            "title_cn": "精细保养",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每进行15次普通攻击，增加21.8%神秘伤害特效，增加18.3%攻击力（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行15次普通攻击，增加22.9%神秘伤害特效，增加19.2%攻击力（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行15次普通攻击，增加24%神秘伤害特效，增加20.1%攻击力（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行15次普通攻击，增加27%神秘伤害特效，增加24.9%攻击力（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行15次普通攻击，增加28.1%神秘伤害特效，增加25.8%攻击力（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行15次普通攻击，增加29.2%神秘伤害特效，增加26.7%攻击力（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行15次普通攻击，增加34.9%神秘伤害特效，增加29.3%攻击力（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行15次普通攻击，增加36%神秘伤害特效，增加30.2%攻击力（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行15次普通攻击，增加37%神秘伤害特效，增加31.1%攻击力（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每进行15次普通攻击，增加38.1%神秘伤害特效，增加32%攻击力（持续40秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/skill_icon/5hxL6OEqmBy3drnQg3a2zmiIwC8cbqPn.png",
+            "title": "这是职业加成！",
+            "title_cn": "职业加成！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "暴击伤害提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害提升14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害提升15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害提升18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害提升18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害提升19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害提升22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害提升23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害提升23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击伤害提升26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/skill_icon/EP286N9xdTPKFXqQdsrXM5HqOXjGiyIt.png",
+            "title": "职业特性：女仆勇者！",
+            "title_cn": "职业特性：女仆勇者！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "普通攻击变为只攻击1名敌人/普通攻击时，造成15.8%攻击力的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击变为只攻击1名敌人/普通攻击时，造成16.6%攻击力的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击变为只攻击1名敌人/普通攻击时，造成17.4%攻击力的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击变为只攻击1名敌人/普通攻击时，造成20.6%攻击力的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击变为只攻击1名敌人/普通攻击时，造成21.4%攻击力的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击变为只攻击1名敌人/普通攻击时，造成22.2%攻击力的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击变为只攻击1名敌人/普通攻击时，造成25.3%攻击力的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击变为只攻击1名敌人/普通攻击时，造成26.1%攻击力的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击变为只攻击1名敌人/普通攻击时，造成26.9%攻击力的追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击变为只攻击1名敌人/普通攻击时，造成30.1%攻击力的追加伤害"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2491,
+          "attack": 485,
+          "defense": 79,
+          "healing": 1663,
+          "accuracy": 606,
+          "evasion": 197,
+          "crit": 202,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1384,
+          "range": 850,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 5
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/weapons_icon.png",
+        "name": "光之剑：Supernova",
+        "name_cn": "光之剑：超新星",
+        "description": "爱丽丝的电磁炮。<br>活用那份输出与火力，这次将其用于狙击。用电磁炮狙击很难？总之把目标粉碎就可以了吧。",
+        "description_cn": "爱丽丝的电磁炮。<br>这次将电磁炮的输出与火力用作狙击。只要粉碎了目标，那就能算是狙击。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「这是职业加成！」升级为「这是职业加成！+」"
+          },
+          {
+            "title": "固有武器最大等級 Lv.40 → Lv.50 / 地形适应性强化 街道适应性 S → SS",
+            "description": "在街道地形造成1.3倍伤害。寻找掩体时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 神秘克制伤害增加",
+            "description": "攻击类型为神秘的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%A4%A9%E7%AB%A5%20%E7%88%B1%E4%B8%BD%E4%B8%9D/%E5%A5%B3%E4%BB%86/skill_icon/R0eonPutdsJ9xxG1ihQUGeUcSBUv2exj.png",
+            "title": "这是职业加成！+",
+            "title_cn": "职业加成！+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力提升477/暴击伤害提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升501/暴击伤害提升14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升525/暴击伤害提升15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升620/暴击伤害提升18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升644/暴击伤害提升18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升667/暴击伤害提升19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升763/暴击伤害提升22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升787/ 暴击伤害提升23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升810/ 暴击伤害提升23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力提升906/ 暴击伤害提升26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "02e4eb90-7224-4c5b-b576-422adb6b23ae",
+  "skill_declare_uuid": "16e86c92-c2a1-470e-93c6-31aaaba1ffdd",
+  "supplementary_uuid": "cb4cd6f3-416d-4345-b782-feb5782bfa33",
+  "supplementary_declare_uuid": "a583a216-438d-40c3-b7d9-ffddb34ac07c",
+  "created_at": 1685556808,
+  "updated_at": 1780157962
+}

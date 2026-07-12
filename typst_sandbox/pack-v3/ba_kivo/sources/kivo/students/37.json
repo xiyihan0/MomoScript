@@ -1,0 +1,2474 @@
+{
+  "id": 37,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 37,
+      "avatar": "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 368,
+      "avatar": "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/%E4%B9%90%E9%98%9F/avatar.png",
+      "skin": "乐队",
+      "skin_cn": "乐队"
+    }
+  ],
+  "family_name": "杏山",
+  "given_name": "和纱",
+  "family_name_jp": "杏山",
+  "given_name_jp": "カズサ",
+  "family_name_kr": "쿄야마",
+  "given_name_kr": "카즈사",
+  "family_name_en": "Kyoyama",
+  "given_name_en": "Kazusa",
+  "family_name_zh_tw": "杏山",
+  "given_name_zh_tw": "千紗",
+  "family_name_cn": "杏山",
+  "given_name_cn": "和纱",
+  "nick_name": "肥猫,甜点猫,凯茜帕鲁格",
+  "introduction": "圣三一综合学园所属，个性温和安静的「放学后甜点部」成员。\n\n不常表现自己，大多时间都只会默默跟在其他成员后面。\n虽然总是被周遭的怪异行为牵累，但同时也认为这些时光很珍贵。\n\n>啊，老师。\n竟然在这种地方见到真巧呢。",
+  "introduction_cn": "甜点部的一员，性格悠闲。\n\n不太爱表现自己，总是安静地跟在其他成员的身后。虽然为经常被卷入各种事件而头疼，但她自己也相当重视这些宝贵的经历。\n\n>啊，老师。\n居然在这里遇见了。",
+  "momo_talk_signature": "放学后甜品部的成员",
+  "main_relation": 13,
+  "relation": [
+    11
+  ],
+  "age": 15,
+  "grade": "一年生",
+  "height": 155,
+  "birthday": "08-05",
+  "hobby": "「平凡地」吃甜点",
+  "designer": "ミモザ",
+  "illustrator": "Mx2J",
+  "character_voice": "夏吉优子",
+  "character_voice_cn": "星狸",
+  "release_date": "2022-08-24",
+  "release_date_cn": "2024-07-04",
+  "release_date_global": "2023-02-28",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/avatar.png",
+  "school": 2,
+  "weapon_type": "MG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": true,
+  "more": "# 延伸阅读\n\n## 武器\n\n和纱使用的武器为布伦轻机枪Mk Ⅱ（Bren light machine gun Mk Ⅱ），它是二战中英军主要使用的轻机枪，MkⅡ型于1941年基于原版改进而来，外观与和纱的样式更贴近。\n\n::::center\n![68C9C78382CCB3A18B7F24FEFBF6FBCF.jpg](files/5579/TM7T8rBKiucYSuKi8AzLqVacpJvGQcDN.jpg \"布伦轻机枪Mk II\" =400x)\n::::\n\n## 角色考据\n\n和纱是少有的在游戏内直接点出了原型信息的角色。\n\n### 凯茜·帕鲁格\n在活动「课后甜点故事 ~ 甜秘枪战 ~」中，玲纱说出了和纱曾经的外号「凯茜·帕鲁格」。\n\n>**玲纱（圣三一自警团）**<br>那个人……杏山和纱……<br>她可是曾经让不良学生们战栗不已的神话！！<br>是让混混们闻风丧胆的恐怖怪猫「凯茜·帕鲁格」！！\n>:::: right\n>——「课后甜点故事 ~ 甜秘枪战 ~」，第2话「任谁都有些难言之隐吧」\n>::::\n\n凯茜·帕鲁格（Cath Palug）是最早出现在威尔士神话中与亚瑟王传说相关的一头怪物猫，也在法国等其他地区的文学作品中出现。在威尔士语中，“Cath Palug”可能意为“抓挠的猫”。在早期的威尔士文献记载中，这只猫由康沃尔的一头母猪赫尼文（Henwen）在圭内斯生下，此后盘踞在安格尔西岛作祟，直至圆桌骑士凯（Kay）前往该岛将其猎杀。\n\n在不列颠地区的传说故事中，凯茜·帕鲁格多以凶残暴戾的猫妖形象出现。这个绰号对有着猫耳的外观、曾为不良少女的过去以及火爆性格的和纱来说是十分契合的。\n\n但在其他地区，凯茜·帕鲁格的形象则更加复杂。在法国的一首武功歌《La Bataille Loquifer》的一个晚期版本中，凯茜·帕鲁格的本体是一位英俊男子，却遭他母亲诅咒化身可怖的猫怪。而要想解咒，必须吸食一位名叫Rainouart的骑士的血液才能恢复。这个故事里的凯茜·帕鲁格最终在亚瑟王与Rainouart骑士的帮助下恢复人身。而在丹麦的一本编年史《Ly Myreur des Histors》中，凯茜·帕鲁格原是骑士Ogier的随从Benoit，只是被施了魔法困在怪物的形态中。这个魔法最后被Ogier解除，Benoit成功获救。这些从怪物变成人的情节，或许也和剧情中和纱改邪归正的经历有几分相似。\n\n### 马比诺吉昂\n\n《马比诺吉昂》（Mabinogion）是一个来自中世纪威尔士手稿的散文集，同时也是现存最早的中世纪威尔士散文故事集。在这个故事集中，共有十一篇故事，但是实际上“马比诺吉昂”仅单指这十一个故事中最具神话性的四个故事，它们被称为“马比诺吉昂的四个分支”，由于最初英文译者的误解，这个名字随之被视为整本故事集的代称。该文集中虽并未直接提及凯茜·帕鲁格，但其成书时间与凯茜·帕鲁格的传说出现的时间大致都是在12至13世纪，同属早期威尔士神话的范畴。\n\n考虑到这一点，游戏中对和纱专武的描述就显得很有趣了：\n\n>与和纱度过许多岁月的机关枪。\n>若是询问名字的由来，和纱就会露出苦闷的表情。\n\n想必每次听到“Mabinogion”这个中二的名字，都会让和纱记起自己那不堪回首的黑历史吧。\n\n!!! note 参考文献\n[Cath Palug - 维基百科](https://en.wikipedia.org/wiki/Cath_Palug);\n[Mabinogion - 维基百科](https://en.wikipedia.org/wiki/Mabinogion).\n!!!\n\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生<br><details><summary><font color=\"448aff\">あの人</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">在活动故事-ive aLIVE! 06，在说出“先生”之后改口为“あの人”</details></font></font></font></b>|\n|[爱莉](https://kivo.wiki/data/character/10)|アイリ|\n|[夏](https://kivo.wiki/data/character/139)|ナツ<br>あの子|\n|[好美](https://kivo.wiki/data/character/118)|ヨシミ|\n|[忧](https://kivo.wiki/data/character/23)|ウイさん|\n|[空](https://kivo.wiki/data/character/105)|ソラ|\n|[月咏](https://kivo.wiki/data/character/32)|ツクヨさん|\n|[未花](https://kivo.wiki/data/character/1)|ミカさん|\n|[玲纱](https://kivo.wiki/data/character/142)|宇沢<br>あんた|\n|放学后甜品部|みんな|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n\n# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 黒猫は甘い夢の中で | 黑猫沉入甜蜜梦乡 | 先聲明 我很討厭貓咪 | It's important I get this out there: I don't like cats. |\n| ![kazusa-日服Banner.png](files/10355/5TqspK41O9S81VQWzQbax3Si3Wrjx8d1.png =450x) | ![kazusa-国服Banner.jpg](files/10355/5jbbtfgFURJcaMPfwovCilJXXJwKmvDt.jpg =450x) | ![kazusa-繁中Banner.jpg](files/10355/ORCNV2TWp9HaLKhSe14lNe2dAl2zwoZL.jpg =450x) | ![kazusa-enBanner.jpg](files/10355/6IzII3FYweCsmVDkz635SPA8TXkSi2CQ.jpg =450x) |\n\n同系列卡池：[玲纱](https://kivo.wiki/data/character/142)「挑戦は甘い夢の外で！」\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Kazusa-日服Intro.jpg](files/10355/G8Kg0iwPDBRgNO67r0akdMVeGcQFua59.jpg =525x) | ![kazusa-国服Intro.jpg](files/10355/FkAxB4J2Mn5vKEakZ4dY30mxi0pmWgZk.jpg =425x) | ![kazusa-繁中Intro.jpg](files/10355/F2iOTw0uEPns0SelJZECegVNg8Qn086x.jpg =525x) | ![kazusa-enIntro.jpg](files/10355/JgSzc4Loqw6cNzTzRQUFM6pf2Yiaed7C.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[情人节甜蜜收纳台](https://kivo.wiki/data/item/932) |\n| :---: | :---: | :---: |\n| ![kazusa_ex.gif](files/10355/q0yarl4SXjIjtVXPL2xumeECB7MCUIGf.gif =450x) | ![kazusa_国服cafe.gif](files/10355/dk338g281pQf5S05xI3IhL9DPep3HG3D.gif =450x) | ![kazusa_interaction.gif](files/10355/t25wrYeCXNKNo4AKsxVuMxzUmGNfPbGO.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 和纱 汉化\n![和纱](files/2/o9LOpdnvdld4x5GGDaOkKmI9lqiBfCVh.png =450x)\n@tab 和纱 原文\n![和纱](files/2/v0SbzLi5s66nqxIg5aqQq9oQD4OYfyL3.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n![Vol.1_页面_135.png](files/10355/VPBli3adzzqXU2KP61elufjJi06iVNGC.png =450x)\n\n![Vol2-15.jpg](files/10355/urbooVdt7tGWFaPkxXyRgruHbUVY6ZNM.jpg =450x)\n\n![Vol2-22.jpg](files/10355/ZJiPR3KciupKcOiFgBO3AagkiEE5BAuf.jpg =450x)\n\n![Vol2-112.jpg](files/10355/WicArPipVztJgbqEjn5kWEHwjMkb1atR.jpg =450x)\n\n![Vol2-156.jpg](files/10355/9XYAfa5MvmuBdi2Hb3cCstnyFOcz7PsT.jpg =450x)\n\n![Vol2-170.jpg](files/10355/lkXKtPnzelR600S6zXFrINfIPVRiuilw.jpg =450x)\n::::",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_home_Idle_01_1.2665000000000004.jpg",
+  "spine": [
+    330,
+    374,
+    541,
+    773,
+    1354
+  ],
+  "model": [
+    43,
+    405
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/voice/play_icon.png",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/voice/pause_icon.png",
+  "voice": [
+    {
+      "description": "Kazusa_Title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/ryzqksHb5M8dEvuY50qGKf13hEPL82vy.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Buffed_1",
+      "category": "battle",
+      "text": "好，努力试试吧！",
+      "text_original": "さあ、頑張るとしようか",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/W7iYz4zpkBLUgXA9xxO09MosMQy2Qrut.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_BuffSelf_1",
+      "category": "battle",
+      "text": "好，要上了！",
+      "text_original": "よし、行こう",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/0O4m6uAZqOLlRaT4SWQEcZ6GJEy2Oanc.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Covered_1",
+      "category": "battle",
+      "text": "好险好险……",
+      "text_original": "へん危ない危ない",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/soJH3M7yMqQtkFUvaVUB6buplU5Vlgg3.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "くっ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/2h1Iky60x4w1CgVTyYwNF4umvJQcqO8e.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "うっ…！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/WbKYij54r91XvRYnp8CuT4YXRKIWFYTR.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "ちっ…！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/hnr8n8twv16Uwdg76glJOBenDzrasN24.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Defense_1",
+      "category": "battle",
+      "text": "抱歉哦！",
+      "text_original": "悪いね",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/4nD5qZJE9YgBH7lep3KbAIJa272q48LT.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_In_1",
+      "category": "battle",
+      "text": "要做就做好。",
+      "text_original": "やるからには、とごっとんにやろう",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/L0lXS9jhMnc8gv1RyowY3Ws9uk1veKRU.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_In_2",
+      "category": "battle",
+      "text": "要上了、跟紧我！",
+      "text_original": "行くよ。ついてきて",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/NFzM4J78ZBjo53IEJZe25pc7TWiTpHvd.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Move_1",
+      "category": "battle",
+      "text": "还有剩下的吗？",
+      "text_original": "まだ残ってる？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/t6FiUzghVuKENQ3S0wuu3HpnueX9bLNz.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Move_2",
+      "category": "battle",
+      "text": "没有了？呃……还有啊。",
+      "text_original": "終わり…じゃないよね",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/oc0Q4cPHjHfTAQbwQGHsu7jlPdqNNEnJ.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Recovery_1",
+      "category": "battle",
+      "text": "呃，谢谢您。",
+      "text_original": "あ、ありがとう",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/16CwdLUrxvmSr0Gla82P7NQcJTshX5DB.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "えん",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/G0DcayvnvxkRrYa0EYgF5hvigcfPfEP0.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "よっ",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/xDab2cUHcbuh8mGAy3gZqY582g7TfQ4k.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "へん",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/k1C8ftgurU2vYnUqa8Hpm7Iw9AD0K3o7.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "はぁー！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/cuIKvTXb5xFvoIvhvCTZWaOka6rxEfVe.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_TacticalAction_1",
+      "category": "battle",
+      "text": "然后是……",
+      "text_original": "さてと…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/0ahogibdMdl4S9hRSJ4FDJjzqB9jZBuB.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Victory_1",
+      "category": "battle",
+      "text": "哼，OK~",
+      "text_original": "うん。おっけ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/Al1eUL5FnjQl1eXnSaOVw842pnyjryS7.ogg"
+    },
+    {
+      "description": "Kazusa_Battle_Victory_2",
+      "category": "battle",
+      "text": "嗯，偶尔这样也不错。",
+      "text_original": "うん、たまにはこういうのも悪くない",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/DTDCWiADKpnCVBGqMC2DTiSF6OUywg9e.ogg"
+    },
+    {
+      "description": "Kazusa_BoxShop_1",
+      "category": "event",
+      "text": "诶？让我来帮你抽？合适吗？",
+      "text_original": "えっ、私が代わりに回していいの？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/smM0SZE8O9GhOGuXNoPVHnTkVBwEz3vV.ogg"
+    },
+    {
+      "description": "Kazusa_BoxShop_2",
+      "category": "event",
+      "text": "老师，看我干嘛，看这里呀。",
+      "text_original": "先生、私じゃなくてこっちを見てよ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/rHpAZg9fX2jzjvuv0z5RO2cNcnlDUqCD.ogg"
+    },
+    {
+      "description": "Kazusa_BoxShop_End",
+      "category": "event",
+      "text": "再多看看哦，还有没有可以换的。",
+      "text_original": "まだ交換できるものがないか、ちゃんと見ておいてね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/HkHOEGKQrLNmj2azoeaouI3Std4sB0Ze.ogg"
+    },
+    {
+      "description": "Kazusa_BoxShop_Login_1",
+      "category": "event",
+      "text": "kazusa_boxshop_login_1",
+      "text_original": "さて、何が出てくるのかな？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/fgpZrtXRvHna1RvVHEOolffphAAm8UhL.ogg"
+    },
+    {
+      "description": "Kazusa_BoxShop_Login_2",
+      "category": "event",
+      "text": "kazusa_boxshop_login_2",
+      "text_original": "さあ、たくさん回そっか。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/DSRVXBy8954E11IH0XqBOHhmTyRXJdPy.ogg"
+    },
+    {
+      "description": "Kazusa_Boxshop_SPBuy_1",
+      "category": "event",
+      "text": "kazusa_boxshop_spbuy_1",
+      "text_original": "お……すごいね、おめでとう",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gzcIfPN2Ac516zCeV1AVxPkymoGuF3Fm.ogg"
+    },
+    {
+      "description": "Kazusa_Boxshop_SPBuy_2",
+      "category": "event",
+      "text": "kazusa_boxshop_spbuy_2",
+      "text_original": "かなり良さそうだね、うん",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/WJaByZyjiiAtf0Q4HrFQab7PlxJjkoYC.ogg"
+    },
+    {
+      "description": "Kazusa_Boxshop_SPBuy_3",
+      "category": "event",
+      "text": "kazusa_boxshop_spbuy_3",
+      "text_original": "あ、何かすごそうなものが……",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/uSplo5DTjXYcG5PqjvaIqHr1hhT98JVK.ogg"
+    },
+    {
+      "description": "Kazusa_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "好可爱啊！不错。",
+      "text_original": "……可愛いね。悪くない。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/k6axpScUQSve6IsQ2X7yH2EY9cMat7tV.ogg"
+    },
+    {
+      "description": "Kazusa_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "这个，能坐吗……",
+      "text_original": "これ、座っても良いのかな……",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/tHn4d3FMp2DoHwIMHGPyu9uWMQBa4H5e.ogg"
+    },
+    {
+      "description": "Kazusa_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "看起来好好吃……",
+      "text_original": "何か美味しそうなものが……",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/hI2huOEFRlXGmhpBKgJYf2vTB1JSPDMP.ogg"
+    },
+    {
+      "description": "Kazusa_Cafe_monolog_4",
+      "category": "cafe",
+      "text": "这种悠闲的日子，也不坏嘛。",
+      "text_original": "のんびりした時間……悪くないね",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/73UVkVXEVraS5SRxDrQF03sVqTHkNkbU.ogg"
+    },
+    {
+      "description": "Kazusa_Cafe_monolog_5",
+      "category": "cafe",
+      "text": "这……就是老师的品味？",
+      "text_original": "これ、先生のセンス……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/oMFNmKllzaQt2I0dned0VOgoAnPNoOzx.ogg"
+    },
+    {
+      "description": "Kazusa_CommonSkill",
+      "category": "battle",
+      "text": "嗯~好好吃~",
+      "text_original": "ん～、美味しい♪",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/BRVWMHFcuwlRt7dTbGA4hwfjOGI89jcI.ogg"
+    },
+    {
+      "description": "Kazusa_EventLobby_1",
+      "category": "event",
+      "text": "嗯？怎么了？",
+      "text_original": "ん、どうしたの？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/YPghvBbl2s54Yo3EDTxRTFfYMCZxnDuf.ogg"
+    },
+    {
+      "description": "Kazusa_EventLobby_2",
+      "category": "event",
+      "text": "别担心，我就在这儿，不会走的。",
+      "text_original": "心配しなくても、どっか行ったりしないよ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/CxSXbhqHpRhuoPeSCsMYGuW9CV6RwhxN.ogg"
+    },
+    {
+      "description": "Kazusa_EventLobby_3",
+      "category": "event",
+      "text": "哎呀，痒！",
+      "text_original": "……くすぐったいってば。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/vYtAGa73gDllBy5kLN2UgDoiipikMsLK.ogg"
+    },
+    {
+      "description": "Kazusa_EventLobby_4",
+      "category": "event",
+      "text": "行了行了！快干正事去！",
+      "text_original": "ああもう、ほら！やる事やって！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/xxULol5K3QLsP3BBlP0O0M02ZKhl9oGC.ogg"
+    },
+    {
+      "description": "Kazusa_EventLogin_1",
+      "category": "event",
+      "text": "老师，欢迎回来。今天也多关照了。",
+      "text_original": "おかえり、先生。今日もよろしくね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/OZcBpIAtgwrHJWUpbw7IX3JTHrLEkEPf.ogg"
+    },
+    {
+      "description": "Kazusa_EventLogin_2",
+      "category": "event",
+      "text": "好了，快点出发吧。还有好多事呢。",
+      "text_original": "ほら、早く行こう。やることが山積みだよ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/hh8bSO1F4BcVgu3T222iuTO27nSzu5gZ.ogg"
+    },
+    {
+      "description": "Kazusa_EventLogin_Season_1",
+      "category": "event",
+      "text": "还顺利吗？……顺利就好。",
+      "text_original": "調子はどう？……なら良いんだけど。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/nUoS7HwI9ig7twpE72yzrbwrfv6w88EJ.ogg"
+    },
+    {
+      "description": "Kazusa_EventLogin_Season_2",
+      "category": "event",
+      "text": "时间不多了。不要紧吧？",
+      "text_original": "そろそろラストスパートかな、行けそう？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/VMXt4sXw2t4xfOqMHR4rZ1aGwGvhIgk1.ogg"
+    },
+    {
+      "description": "Kazusa_EventLogin_Season_End",
+      "category": "event",
+      "text": "收尾也很重要。还有活没干完吗？",
+      "text_original": "後片付けも大事。何かやり残したことはある？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/Fc2dAsSl95M6k87SpCFxsOA6r1bdYGFL.ogg"
+    },
+    {
+      "description": "Kazusa_ExSkill_1",
+      "category": "battle",
+      "text": "连好好吃东西的时间都没有。",
+      "text_original": "ゆっくり食べる暇もない",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/O5oJ8XCX4mATOZ9f5E2S2lByXlMHMbeS.ogg"
+    },
+    {
+      "description": "Kazusa_ExSkill_2",
+      "category": "battle",
+      "text": "嗯? 在那边！",
+      "text_original": "んあっ？そっち？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/kvMf4bSotksF2I9fG3oyYUVBM4MpyJpO.ogg"
+    },
+    {
+      "description": "Kazusa_ExSkill_3",
+      "category": "battle",
+      "text": "嗯，我赶上了吧！",
+      "text_original": "うん、間に合ったかな",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/EnWfGlXgNuqHucL4kRlMS3rNr1q2bpTy.ogg"
+    },
+    {
+      "description": "Kazusa_ExSkill_Level_1",
+      "category": "battle",
+      "text": "好了，上吧！",
+      "text_original": "ほら行くよ",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/MwZfb5bg8CilwcpNTut7Kvb1yhRLZyvf.ogg"
+    },
+    {
+      "description": "Kazusa_ExSkill_Level_2",
+      "category": "battle",
+      "text": "别往坏处想啊！",
+      "text_original": "悪く思わないでね",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/tSF6bJIIsHyOtOpEcbRFNPGpRi6CSVkG.ogg"
+    },
+    {
+      "description": "Kazusa_ExSkill_Level_3",
+      "category": "battle",
+      "text": "接招吧！",
+      "text_original": "くらえ…！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/f1WtzhEbCj5JieeigUcGOqpT6vyI8ELy.ogg"
+    },
+    {
+      "description": "Kazusa_ExWeapon_Get",
+      "category": "growup",
+      "text": "……啊，抱歉。不是，我是在想为什么要给我这个……以后应该还有机会帮老师吧？那希望到时候能派上用场吧。",
+      "text_original": " ……あ、ごめん。いや、どうしてこんなものまでくれたのかなって思って…… 先生を手伝える機会が、これからもあるってことかな？役に立てるなら良いけど",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/1A8HCm3qt0agM9GMbJfq3NX8FqXKMybx.ogg"
+    },
+    {
+      "description": "Kazusa_Formation_In_1",
+      "category": "formation",
+      "text": "嗯……我也要上场吗？",
+      "text_original": "ん…、私も？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/vgTscCoj0j17lsPAA1S5wwqnPjot8VN1.ogg"
+    },
+    {
+      "description": "Kazusa_Formation_In_2",
+      "category": "formation",
+      "text": "呃，那……总之我先试试吧。",
+      "text_original": "えーっと……まぁ、とりあえずやってみるけど……",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/i7inPULe0SqItKUFesXKLUiOBVeuHIie.ogg"
+    },
+    {
+      "description": "Kazusa_Formation_Select",
+      "category": "formation",
+      "text": "老师，干嘛？",
+      "text_original": "先生、なに？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/aDIhKaYWMcpWVXsXE7HYuGIMxseaORii.ogg"
+    },
+    {
+      "description": "Kazusa_Gachaget",
+      "category": "growup",
+      "text": "崔尼蒂综合学院甜点部，杏山和纱。嗯，就……请多多关照。",
+      "text_original": "トリニティ総合学園、放課後スイーツ部の杏山カズサ。 えっと、よろしく……お願い、します。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/PhUr1e6bp6g3QPP3u2kRrNzlrwCMDukl.ogg"
+    },
+    {
+      "description": "Kazusa_Growup_1",
+      "category": "growup",
+      "text": "啊？……谢谢你，老师。",
+      "text_original": "えーっと、あ…ありがとう、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/nGRkCvG2HmypN9YAdeEAA8S08yoJkI6w.ogg"
+    },
+    {
+      "description": "Kazusa_Growup_2",
+      "category": "growup",
+      "text": "不是还有其他人吗？为什么非要给我？",
+      "text_original": "他の子だっているのに、何で私に？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/TKOhgwZiUHqYgU11UocUB8Ey2Knv2pkV.ogg"
+    },
+    {
+      "description": "Kazusa_Growup_3",
+      "category": "growup",
+      "text": "让我再接再厉？行，那我就心怀感激地收下了。",
+      "text_original": "これからも頑張って、って意味？ま、ありがたく貰うね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/rEj9tT0DJrVSoBKk2P7Fz7qF0AyHHjlI.ogg"
+    },
+    {
+      "description": "Kazusa_Growup_4",
+      "category": "growup",
+      "text": "还真是不太习惯啊……不过，我也不讨厌。",
+      "text_original": "こういうのは慣れないなぁ。別に、嫌って訳じゃないけど…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/HdSwNkQSR6SljffoxbasWnx7DeLSJRFV.ogg"
+    },
+    {
+      "description": "Kazusa_Lobby_1",
+      "category": "lobby",
+      "text": "有事的话就来找我吧。 啊，不过，我不擅长做阅读理解……这个就pass吧。",
+      "text_original": "何かあったら、いつでも言って。 あー、でも、小難しい文章を読んだりするのは苦手だから…… そういうのはパスで",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/to8krC4fydnSAjSK5VzoNx7XtIoBQFQb.ogg"
+    },
+    {
+      "description": "Kazusa_Lobby_2",
+      "category": "lobby",
+      "text": "待在这里就会很平静……好像……还会变困……",
+      "text_original": "ここにいると、何だか落ち着く……ちょっと、眠くなってきたかも",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/7agtH3plDJ1FXvf0lWy83C5ZVnPkJ1VN.ogg"
+    },
+    {
+      "description": "Kazusa_Lobby_3",
+      "category": "lobby",
+      "text": "老师，你要吃点什么吗？我去外面帮你买？",
+      "text_original": "先生、そろそろ何か食べたら？……外で何か買ってこようか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/pl71Wm9mmHNqwtqSL1Z7kRDKXHFzHzt3.ogg"
+    },
+    {
+      "description": "Kazusa_Lobby_4",
+      "category": "lobby",
+      "text": "……嗯？啊，别在意我，我只是在看老师工作的样子。",
+      "text_original": "……ん？ああ、気にしないで先生が仕事してるのを見てただけ",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/lRK9b9SxvmEk4IJR9OS1ocbVXJ4FDx2T.ogg"
+    },
+    {
+      "description": "Kazusa_Lobby_5",
+      "category": "lobby",
+      "text": "诶？初中时的事情……？老师还是不知道比较好。",
+      "text_original": "え、中学の頃の話……？……知らない方が良いと思うけど。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/Ffc2F2Mo0mREdmSIUKz7bzNpcVhkJTLe.ogg"
+    },
+    {
+      "description": "Kazusa_LogIn_1",
+      "category": "lobby",
+      "text": "啊，老师，欢迎回来。今天要做什么？",
+      "text_original": "ああ。おかえりなさい、先生。今日は何をするの？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/Jbje23OTNoHEX0AUz8eNFTKtz0t2r5h4.ogg"
+    },
+    {
+      "description": "Kazusa_LogIn_2",
+      "category": "lobby",
+      "text": "老师，我等你呢。有需要我帮忙的，就尽管告诉我吧。",
+      "text_original": "待ってたよ、先生。手伝える事があったら、何でも言って。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/oEHkRFMfXsXmF2vzJPZgl8X8r1rqeycg.ogg"
+    },
+    {
+      "description": "Kazusa_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "不，不会吧，难道老师从一开始就看见我了……？",
+      "text_original": "も、もしかして、最初から気づいてた……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/uiBrQaBuLtRzQPlsQ8jXNwGqvVFFbT8B.ogg"
+    },
+    {
+      "description": "Kazusa_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "呃，确实……想注意不到也挺难的……",
+      "text_original": "そっか……まあ気づいてないわけが無いよね……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/zM0k8Ej3IqsfQgRPxADHq4G3IfLS2ETE.ogg"
+    },
+    {
+      "description": "Kazusa_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "其实，我也不是故意要躲着老师……",
+      "text_original": "いや別に、避けてたわけじゃないんだけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/IJKhDW4D6hfuQB3UuMcExj1ZM5YAsia3.ogg"
+    },
+    {
+      "description": "Kazusa_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "只是……呃……我现在……没化妆……",
+      "text_original": "ただちょっと……その……今……すっぴん、だから……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/afBjspFfP3Y47frgSxi9k6bPKmyI2Xb2.ogg"
+    },
+    {
+      "description": "Kazusa_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "如果离老师太近的话，有点……",
+      "text_original": "あんまり、近づくのはちょっと……！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/AhalfuaII9XloNpkkInv8PmkpjWRJSs2.ogg"
+    },
+    {
+      "description": "Kazusa_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "老师你怎么还往前走啊，没听到我说的话吗！",
+      "text_original": "っていうか先生、そう言ってるのに近づかないで。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/BnUZCk9GEhXlhOsJZ2ZqHJlj15itoL2t.ogg"
+    },
+    {
+      "description": "Kazusa_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "真，真的……真的吗？",
+      "text_original": "……そ、そう？……そうかな？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/uHsaO0APzX8xmQkFmCXXixrGW2eFpO4g.ogg"
+    },
+    {
+      "description": "Kazusa_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "唔……老师能这样想也挺好的……",
+      "text_original": "まあ……それなら良いんだけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/86OCvPdgZmOOvmIwqI743ngVtBNDOvuR.ogg"
+    },
+    {
+      "description": "Kazusa_MemorialLobby_5_1",
+      "category": "lobby",
+      "text": "……你，你那是什么反应啊。",
+      "text_original": "……何、その反応。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/EYo2Da0co9PUS3kvmaA9RVmfaT219Z2T.ogg"
+    },
+    {
+      "description": "Kazusa_MemorialLobby_5_2",
+      "category": "lobby",
+      "text": "干，干嘛？！为什么要笑成这样？！",
+      "text_original": "なっ、何！？何でそんなに笑うのさ！？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/r920VzhjWSlcAXG2e1yW3IarZG2QH57F.ogg"
+    },
+    {
+      "description": "Kazusa_MemorialLobby_5_3",
+      "category": "lobby",
+      "text": "别笑了！！！",
+      "text_original": "ちょっと！！！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/2s8eJErwMGPkEf8Pxbzh7gQEHxJqYhqn.ogg"
+    },
+    {
+      "description": "Kazusa_Relationship_Up_1",
+      "category": "growup",
+      "text": "这种感觉，该怎么形容呢？",
+      "text_original": "こういうのって、なんて表現したら良いのかな……",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/8ndnGmfyq6Rrd7cWeiQGCdUZpuqGrBy1.ogg"
+    },
+    {
+      "description": "Kazusa_Relationship_Up_2",
+      "category": "growup",
+      "text": "老师……呃，嗯，算了，抱歉啊，当我没说。",
+      "text_original": "先生、その…。いや、ごめん。何でもない…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/tznXKze6946RsU7O7LIwmxCAD8UXGmyZ.ogg"
+    },
+    {
+      "description": "Kazusa_Relationship_Up_3",
+      "category": "growup",
+      "text": "说句谢谢而已，怎么会这么难呢？",
+      "text_original": "ありがとうって伝えるのが、どうしてこんなに難しいんだろうね…？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/5l71zqdBgAvVDqVGs0ysXdzOj9LGZ2ap.ogg"
+    },
+    {
+      "description": "Kazusa_Relationship_Up_4",
+      "category": "growup",
+      "text": "该怎么说呢，就……一直以来谢谢你了。",
+      "text_original": "何て言うか、その……いつもありがとう。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/FK0Xg4uK8KcKbgla0pWH5iyeajYCDIfN.ogg"
+    },
+    {
+      "description": "Kazusa_Season_Birthday",
+      "category": "lobby",
+      "text": "对哦，今天是我的生日啊。……嗯，谢谢你，老师，我很开心。",
+      "text_original": "そっか、私の誕生日だったね ……うん。ありがとう、先生。嬉しいよ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/GBqEtfo5KaaT3EPGmrlp6uu3qDi8Sw6l.ogg"
+    },
+    {
+      "description": "Kazusa_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "老师，生日快乐。虽然没特地准备什么生日礼物…… 不过，一起散散步怎么样？",
+      "text_original": "お誕生日おめでとう、先生。 プレゼントとかは特に無いんだけど…… えっと、一緒に散歩でもどう？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/lubqoUpjqDu6zmTrsUxDQWKppbiOHdCC.ogg"
+    },
+    {
+      "description": "Kazusa_Season_Halloween",
+      "category": "lobby",
+      "text": "万圣节……真热闹啊。虽然我不是很喜欢吵吵闹闹的……",
+      "text_original": "ハロウィン……にぎやかだね。 騒がしいのはあんまり好きじゃないんだけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/8VWc740Jifdj4GAhrjiYDTByHOQNiVqm.ogg"
+    },
+    {
+      "description": "Kazusa_Season_NewYear",
+      "category": "lobby",
+      "text": "新年快乐，老师。今年也请你多多关照。 虽然到了新年也不会有什么大的变化…… ……但这种感觉也不错。",
+      "text_original": "あけましておめでとう、先生。今年もよろしくね。 年が明けても、何かが大きく変わった感じはしないけど ……それも悪くはないかな。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/4wmV64qKqUk1E9DD68NW4Bxeof6ZOBX8.ogg"
+    },
+    {
+      "description": "Kazusa_Season_Xmas",
+      "category": "lobby",
+      "text": "今天是……圣诞节啊。 老师有什么安排吗？其实，我算是做了些准备……",
+      "text_original": "クリスマス……か。この後、予定とかある？ 実はその、一応用意してあって……",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/JpiKG8OWDY8z83pR2P9EXRVqfmMReR5M.ogg"
+    },
+    {
+      "description": "Kazusa_Tactic_Defeat_1",
+      "category": "battle",
+      "text": "嗯……手生了……",
+      "text_original": "あぁー…腕鈍ったなぁ…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/mpToXSUfeqrNp2hXylcoKpYuUtpPsxjI.ogg"
+    },
+    {
+      "description": "Kazusa_Tactic_Defeat_2",
+      "category": "battle",
+      "text": "对不起，老师。",
+      "text_original": "ごめん先生……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/msFRjlaUOZEv0COiUmjTo0whs2Gzm4XH.ogg"
+    },
+    {
+      "description": "Kazusa_Tactic_In_1",
+      "category": "battle",
+      "text": "很久没做过这个了。",
+      "text_original": "何だか久しぶりだな…。こういうの。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/kPwHiRX1XYfruynQKdjlLB0raCkA6bFJ.ogg"
+    },
+    {
+      "description": "Kazusa_Tactic_In_2",
+      "category": "battle",
+      "text": "这下得认真点了，我们走吧。",
+      "text_original": "本腰、入れないとね。じゃあ、行こうか！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/Pf5AWLBPOAF91aIRpzBKZljJF26MCWzs.ogg"
+    },
+    {
+      "description": "Kazusa_Tactic_Victory_1",
+      "category": "battle",
+      "text": "诶，挺厉害的嘛。",
+      "text_original": "へえ、やるじゃん",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/4yXA8wbB5OrC98NHkz4Vcezek8ft8ffj.ogg"
+    },
+    {
+      "description": "Kazusa_Tactic_Victory_2",
+      "category": "battle",
+      "text": "轻轻松松嘛，老师辛苦了。",
+      "text_original": "楽勝かな。お疲れ、先生",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/CFlPNOZSAnzVWas3z9BXPACrUGwQYODQ.ogg"
+    },
+    {
+      "description": "DyDo联动语音",
+      "category": "other",
+      "text": "谢谢转发。下次也要拜托你了呢，老师。",
+      "text_original": "りポストありがと。次回もよろしくね、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/DyDo_ef8pQ50PQlJYOTf1.wav"
+    },
+    {
+      "description": "DyDo联动语音2",
+      "category": "other",
+      "text": "非常感谢。多谢了你，这真是最棒的一个夏天。",
+      "text_original": "ありがとね。おかけでなんだか、最高の夏になりさ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_dydo2.wav"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "kazusa_battle_buffed_1",
+      "category": "battle",
+      "text": "好，努力试试吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_buffed_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_buffself_1",
+      "category": "battle",
+      "text": "好，要上了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_buffself_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_covered_1",
+      "category": "battle",
+      "text": "好险好险……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_covered_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_damage_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_damage_2.ogg"
+    },
+    {
+      "description": "kazusa_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_damage_3.ogg"
+    },
+    {
+      "description": "kazusa_battle_in_1",
+      "category": "battle",
+      "text": "要做就做好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_in_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_in_2",
+      "category": "battle",
+      "text": "要上了、跟紧我！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_in_2.ogg"
+    },
+    {
+      "description": "kazusa_battle_move_1",
+      "category": "battle",
+      "text": "还有剩下的吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_move_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_move_2",
+      "category": "battle",
+      "text": "没有了？呃……还有啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_move_2.ogg"
+    },
+    {
+      "description": "kazusa_battle_recovery_1",
+      "category": "battle",
+      "text": "呃，谢谢您。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_recovery_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_retire.ogg"
+    },
+    {
+      "description": "kazusa_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_shout_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_shout_2.ogg"
+    },
+    {
+      "description": "kazusa_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_shout_3.ogg"
+    },
+    {
+      "description": "kazusa_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "然后是……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_victory_1",
+      "category": "battle",
+      "text": "哼，OK~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_victory_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_victory_2",
+      "category": "battle",
+      "text": "嗯，偶尔这样也不错。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_victory_2.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_1",
+      "category": "event",
+      "text": "诶？让我来帮你抽？合适吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_boxshop_1.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_2",
+      "category": "event",
+      "text": "老师，看我干嘛，看这里呀。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_boxshop_2.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_end",
+      "category": "event",
+      "text": "再多看看哦，还有没有可以换的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_boxshop_end.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_login_1",
+      "category": "event",
+      "text": "来看看，会抽到什么呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_boxshop_login_1.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_login_2",
+      "category": "event",
+      "text": "来，抽个痛快吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_boxshop_login_2.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_spbuy_1",
+      "category": "event",
+      "text": "噢……好厉害呀，恭喜恭喜。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_boxshop_spbuy_1.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_spbuy_2",
+      "category": "event",
+      "text": "看起来还不错嘛。嗯。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_boxshop_spbuy_2.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_spbuy_3",
+      "category": "event",
+      "text": "啊，好像抽到厉害的了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_boxshop_spbuy_3.ogg"
+    },
+    {
+      "description": "kazusa_cafe_monolog_1",
+      "category": "cafe",
+      "text": "好可爱啊！不错。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "kazusa_cafe_monolog_2",
+      "category": "cafe",
+      "text": "这个，能坐吗……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "kazusa_cafe_monolog_3",
+      "category": "cafe",
+      "text": "看起来好好吃……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "kazusa_cafe_monolog_4",
+      "category": "cafe",
+      "text": "这种悠闲的日子，也不坏嘛。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "kazusa_cafe_monolog_5",
+      "category": "cafe",
+      "text": "这……就是老师的品味？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "kazusa_commonskill",
+      "category": "battle",
+      "text": "嗯~好好吃~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_commonskill.ogg"
+    },
+    {
+      "description": "kazusa_eventlobby_1",
+      "category": "event",
+      "text": "嗯？怎么了？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_eventlobby_1.ogg"
+    },
+    {
+      "description": "kazusa_eventlobby_2",
+      "category": "event",
+      "text": "别担心，我就在这儿，不会走的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_eventlobby_2.ogg"
+    },
+    {
+      "description": "kazusa_eventlobby_3",
+      "category": "event",
+      "text": "哎呀，痒！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_eventlobby_3.ogg"
+    },
+    {
+      "description": "kazusa_eventlobby_4",
+      "category": "event",
+      "text": "行了行了！快干正事去！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_eventlobby_4.ogg"
+    },
+    {
+      "description": "kazusa_eventlogin_1",
+      "category": "event",
+      "text": "老师，欢迎回来。今天也多关照了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_eventlogin_1.ogg"
+    },
+    {
+      "description": "kazusa_eventlogin_2",
+      "category": "event",
+      "text": "好了，快点出发吧。还有好多事呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_eventlogin_2.ogg"
+    },
+    {
+      "description": "kazusa_eventlogin_season_1",
+      "category": "event",
+      "text": "还顺利吗？……顺利就好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "kazusa_eventlogin_season_2",
+      "category": "event",
+      "text": "时间不多了。不要紧吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "kazusa_eventlogin_season_end",
+      "category": "event",
+      "text": "收尾也很重要。还有活没干完吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "kazusa_exskill_1",
+      "category": "battle",
+      "text": "连好好吃东西的时间都没有。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_exskill_1.ogg"
+    },
+    {
+      "description": "kazusa_exskill_2",
+      "category": "battle",
+      "text": "嗯? 在那边！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_exskill_2.ogg"
+    },
+    {
+      "description": "kazusa_exskill_3",
+      "category": "battle",
+      "text": "嗯，我赶上了吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_exskill_3.ogg"
+    },
+    {
+      "description": "kazusa_exskill_level_1",
+      "category": "battle",
+      "text": "好了，上吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_exskill_level_1.ogg"
+    },
+    {
+      "description": "kazusa_exskill_level_2",
+      "category": "battle",
+      "text": "别往坏处想啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_exskill_level_2.ogg"
+    },
+    {
+      "description": "kazusa_exskill_level_3",
+      "category": "battle",
+      "text": "接招吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_exskill_level_3.ogg"
+    },
+    {
+      "description": "kazusa_exweapon_get",
+      "category": "growup",
+      "text": "……啊，抱歉。不是，我是在想为什么要给我这个……以后应该还有机会帮老师吧？那希望到时候能派上用场吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_exweapon_get.ogg"
+    },
+    {
+      "description": "kazusa_formation_in_1",
+      "category": "formation",
+      "text": "嗯……我也要上场吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_formation_in_1.ogg"
+    },
+    {
+      "description": "kazusa_formation_in_2",
+      "category": "formation",
+      "text": "呃，那……总之我先试试吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_formation_in_2.ogg"
+    },
+    {
+      "description": "kazusa_formation_select",
+      "category": "formation",
+      "text": "老师，干嘛？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_formation_select.ogg"
+    },
+    {
+      "description": "kazusa_gachaget",
+      "category": "growup",
+      "text": "崔尼蒂综合学院甜点部，杏山和纱。嗯，就……请多多关照。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_gachaget.ogg"
+    },
+    {
+      "description": "kazusa_growup_1",
+      "category": "growup",
+      "text": "啊？……谢谢你，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_growup_1.ogg"
+    },
+    {
+      "description": "kazusa_growup_2",
+      "category": "growup",
+      "text": "不是还有其他人吗？为什么非要给我？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_growup_2.ogg"
+    },
+    {
+      "description": "kazusa_growup_3",
+      "category": "growup",
+      "text": "让我再接再厉？行，那我就心怀感激地收下了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_growup_3.ogg"
+    },
+    {
+      "description": "kazusa_growup_4",
+      "category": "growup",
+      "text": "还真是不太习惯啊……不过，我也不讨厌。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_growup_4.ogg"
+    },
+    {
+      "description": "kazusa_lobby_1",
+      "category": "lobby",
+      "text": "有事的话就来找我吧。 啊，不过，我不擅长做阅读理解……这个就pass吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_lobby_1.ogg"
+    },
+    {
+      "description": "kazusa_lobby_2",
+      "category": "lobby",
+      "text": "待在这里就会很平静……好像……还会变困……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_lobby_2.ogg"
+    },
+    {
+      "description": "kazusa_lobby_3",
+      "category": "lobby",
+      "text": "老师，你要吃点什么吗？我去外面帮你买？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_lobby_3.ogg"
+    },
+    {
+      "description": "kazusa_lobby_4",
+      "category": "lobby",
+      "text": "……嗯？啊，别在意我，我只是在看老师工作的样子。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_lobby_4.ogg"
+    },
+    {
+      "description": "kazusa_lobby_5",
+      "category": "lobby",
+      "text": "诶？初中时的事情……？老师还是不知道比较好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_lobby_5.ogg"
+    },
+    {
+      "description": "kazusa_login_1",
+      "category": "lobby",
+      "text": "啊，老师，欢迎回来。今天要做什么？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_login_1.ogg"
+    },
+    {
+      "description": "kazusa_login_2",
+      "category": "lobby",
+      "text": "老师，我等你呢。有需要我帮忙的，就尽管告诉我吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_login_2.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "不，不会吧，难道老师从一开始就看见我了……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "呃，确实……想注意不到也挺难的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "其实，我也不是故意要躲着老师……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "只是……呃……我现在……没化妆……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "如果离老师太近的话，有点……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "老师你怎么还往前走啊，没听到我说的话吗！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "真，真的……真的吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "唔……老师能这样想也挺好的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "……你，你那是什么反应啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "干，干嘛？！为什么要笑成这样？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "别笑了！！！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_memoriallobby_5_3.ogg"
+    },
+    {
+      "description": "kazusa_relationship_up_1",
+      "category": "growup",
+      "text": "这种感觉，该怎么形容呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_relationship_up_1.ogg"
+    },
+    {
+      "description": "kazusa_relationship_up_2",
+      "category": "growup",
+      "text": "老师……呃，嗯，算了，抱歉啊，当我没说。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_relationship_up_2.ogg"
+    },
+    {
+      "description": "kazusa_relationship_up_3",
+      "category": "growup",
+      "text": "说句谢谢而已，怎么会这么难呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_relationship_up_3.ogg"
+    },
+    {
+      "description": "kazusa_relationship_up_4",
+      "category": "growup",
+      "text": "该怎么说呢，就……一直以来谢谢你了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_relationship_up_4.ogg"
+    },
+    {
+      "description": "kazusa_season_birthday",
+      "category": "lobby",
+      "text": "对哦，今天是我的生日啊。……嗯，谢谢你，老师，我很开心。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_season_birthday.ogg"
+    },
+    {
+      "description": "kazusa_season_birthday_player",
+      "category": "lobby",
+      "text": "老师，生日快乐。虽然没特地准备什么生日礼物…… 不过，一起散散步怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_season_birthday_player.ogg"
+    },
+    {
+      "description": "kazusa_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，新春快乐！我是第一个祝贺你的吗？随，随便问问，没别的意思！当我没问过……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "kazusa_season_halloween",
+      "category": "lobby",
+      "text": "万圣节……真热闹啊。虽然我不是很喜欢吵吵闹闹的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_season_halloween.ogg"
+    },
+    {
+      "description": "kazusa_season_midautumn",
+      "category": "lobby",
+      "text": "诶？中秋节就要吃月饼吗？我还是第一次吃呢。嗯……还挺好吃，老师，要不要分您半个？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_season_midautumn.ogg"
+    },
+    {
+      "description": "kazusa_season_newyear",
+      "category": "lobby",
+      "text": "新年快乐，老师。今年也请你多多关照。 虽然到了新年也不会有什么大的变化…… ……但这种感觉也不错。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_season_newyear.ogg"
+    },
+    {
+      "description": "kazusa_season_xmas",
+      "category": "lobby",
+      "text": "今天是……圣诞节啊。 老师有什么安排吗？其实，我算是做了些准备……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_season_xmas.ogg"
+    },
+    {
+      "description": "kazusa_tactic_defeat_1",
+      "category": "battle",
+      "text": "嗯……手生了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "kazusa_tactic_defeat_2",
+      "category": "battle",
+      "text": "对不起，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "kazusa_tactic_in_1",
+      "category": "battle",
+      "text": "很久没做过这个了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_tactic_in_1.ogg"
+    },
+    {
+      "description": "kazusa_tactic_in_2",
+      "category": "battle",
+      "text": "这下得认真点了，我们走吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_tactic_in_2.ogg"
+    },
+    {
+      "description": "kazusa_tactic_victory_1",
+      "category": "battle",
+      "text": "诶，挺厉害的嘛。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_tactic_victory_1.ogg"
+    },
+    {
+      "description": "kazusa_tactic_victory_2",
+      "category": "battle",
+      "text": "轻轻松松嘛，老师辛苦了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_tactic_victory_2.ogg"
+    },
+    {
+      "description": "kazusa_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_title.ogg"
+    },
+    {
+      "description": "kazusa_battle_defense_1",
+      "category": "battle",
+      "text": "抱歉哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/cn/kazusa_battle_defense_1.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "kazusa_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_in_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_in_2.ogg"
+    },
+    {
+      "description": "kazusa_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_move_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_move_2.ogg"
+    },
+    {
+      "description": "kazusa_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_recovery_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_retire.ogg"
+    },
+    {
+      "description": "kazusa_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_shout_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_shout_2.ogg"
+    },
+    {
+      "description": "kazusa_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_shout_3.ogg"
+    },
+    {
+      "description": "kazusa_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_victory_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_victory_2.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_boxshop_1.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_boxshop_2.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_end",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_boxshop_end.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_boxshop_login_1.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_boxshop_login_2.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_spbuy_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_boxshop_spbuy_1.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_spbuy_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_boxshop_spbuy_2.ogg"
+    },
+    {
+      "description": "kazusa_boxshop_spbuy_3",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_boxshop_spbuy_3.ogg"
+    },
+    {
+      "description": "kazusa_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "kazusa_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "kazusa_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "kazusa_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "kazusa_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "kazusa_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_commonskill.ogg"
+    },
+    {
+      "description": "kazusa_eventlobby_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_eventlobby_1.ogg"
+    },
+    {
+      "description": "kazusa_eventlobby_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_eventlobby_2.ogg"
+    },
+    {
+      "description": "kazusa_eventlobby_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_eventlobby_3.ogg"
+    },
+    {
+      "description": "kazusa_eventlobby_4",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_eventlobby_4.ogg"
+    },
+    {
+      "description": "kazusa_eventlogin_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_eventlogin_1.ogg"
+    },
+    {
+      "description": "kazusa_eventlogin_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_eventlogin_2.ogg"
+    },
+    {
+      "description": "kazusa_eventlogin_season_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "kazusa_eventlogin_season_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "kazusa_eventlogin_season_end",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "kazusa_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_exskill_1.ogg"
+    },
+    {
+      "description": "kazusa_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_exskill_2.ogg"
+    },
+    {
+      "description": "kazusa_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_exskill_3.ogg"
+    },
+    {
+      "description": "kazusa_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_exskill_level_1.ogg"
+    },
+    {
+      "description": "kazusa_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_exskill_level_2.ogg"
+    },
+    {
+      "description": "kazusa_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_exskill_level_3.ogg"
+    },
+    {
+      "description": "kazusa_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_exweapon_get.ogg"
+    },
+    {
+      "description": "kazusa_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_formation_in_1.ogg"
+    },
+    {
+      "description": "kazusa_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_formation_in_2.ogg"
+    },
+    {
+      "description": "kazusa_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_formation_select.ogg"
+    },
+    {
+      "description": "kazusa_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_gachaget.ogg"
+    },
+    {
+      "description": "kazusa_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_growup_1.ogg"
+    },
+    {
+      "description": "kazusa_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_growup_2.ogg"
+    },
+    {
+      "description": "kazusa_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_growup_3.ogg"
+    },
+    {
+      "description": "kazusa_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_growup_4.ogg"
+    },
+    {
+      "description": "kazusa_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_lobby_1.ogg"
+    },
+    {
+      "description": "kazusa_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_lobby_2.ogg"
+    },
+    {
+      "description": "kazusa_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_lobby_3.ogg"
+    },
+    {
+      "description": "kazusa_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_lobby_4.ogg"
+    },
+    {
+      "description": "kazusa_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_lobby_5.ogg"
+    },
+    {
+      "description": "kazusa_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_login_1.ogg"
+    },
+    {
+      "description": "kazusa_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_login_2.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "kazusa_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_memoriallobby_5_3.ogg"
+    },
+    {
+      "description": "kazusa_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_relationship_up_1.ogg"
+    },
+    {
+      "description": "kazusa_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_relationship_up_2.ogg"
+    },
+    {
+      "description": "kazusa_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_relationship_up_3.ogg"
+    },
+    {
+      "description": "kazusa_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_relationship_up_4.ogg"
+    },
+    {
+      "description": "kazusa_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_season_birthday.ogg"
+    },
+    {
+      "description": "kazusa_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_season_birthday_player.ogg"
+    },
+    {
+      "description": "kazusa_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_season_halloween.ogg"
+    },
+    {
+      "description": "kazusa_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_season_newyear.ogg"
+    },
+    {
+      "description": "kazusa_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_season_xmas.ogg"
+    },
+    {
+      "description": "kazusa_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "kazusa_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "kazusa_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_tactic_in_1.ogg"
+    },
+    {
+      "description": "kazusa_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_tactic_in_2.ogg"
+    },
+    {
+      "description": "kazusa_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_tactic_victory_1.ogg"
+    },
+    {
+      "description": "kazusa_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_tactic_victory_2.ogg"
+    },
+    {
+      "description": "Kazusa_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/Kazusa_Title.ogg"
+    },
+    {
+      "description": "kazusa_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_buffed_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_buffself_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kazusa_battle_defense_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kr/kazusa_battle_damage_1.ogg"
+    },
+    {
+      "description": "kazusa_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kr/kazusa_battle_damage_2.ogg"
+    },
+    {
+      "description": "kazusa_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/kr/kazusa_battle_damage_3.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-12_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-09_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-10_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-13_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-11_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-07_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_kazusa_spr-08_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "旧立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kazusa_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kazusa_spr-00_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kazusa_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kazusa_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kazusa_spr-07_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kazusa_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kazusa_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kazusa_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/gallery/%E6%97%A7%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kazusa_spr-01_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "鬼屋装扮差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_00.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_01.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_02.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_03.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_04.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_07.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_06.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_05.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_08.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_09.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_14.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_10.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_11.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_12.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_13.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_16.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_15.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_17.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_18.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_19.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E9%AC%BC%E5%B1%8B%E8%A3%85%E6%89%AE%E5%B7%AE%E5%88%86/NP0226_spr_99.png"
+      ]
+    },
+    {
+      "title": "角色画廊",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol.1_%E9%A1%B5%E9%9D%A2_135.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-9.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-15.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-22.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-112.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-156.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-170.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/kazusa-%E7%B9%81%E4%B8%ADBanner.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/kazusa-%E5%9B%BD%E6%9C%8DBanner.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/kazusa-enBanner.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/kazusa-%E6%97%A5%E6%9C%8DBanner.png",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/kazusa-%E7%B9%81%E4%B8%ADIntro.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/kazusa-%E5%9B%BD%E6%9C%8DIntro.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/kazusa_%E5%9B%BD%E6%9C%8Dskill.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/kazusa_%E5%9B%BD%E6%9C%8Dcafe.gif",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/kazusa_%E5%9B%BD%E6%9C%8Dex.gif",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/kazusa-enIntro.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Kazusa-%E6%97%A5%E6%9C%8DIntro.jpg",
+        "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/kazusa_%E5%9B%BD%E6%9C%8Dinteraction.gif"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 107,
+      "favorability": 180
+    },
+    {
+      "id": 38,
+      "favorability": 60
+    },
+    {
+      "id": 17,
+      "favorability": 40
+    },
+    {
+      "id": 58,
+      "favorability": 40
+    },
+    {
+      "id": 59,
+      "favorability": 40
+    },
+    {
+      "id": 92,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    932
+  ],
+  "character_datas": [
+    {
+      "character_id": 10049,
+      "dev_name": "Kazusa_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Piercing",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "B",
+      "street_adaptability": "S",
+      "equipment": [
+        8,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        40,
+        46,
+        48,
+        51,
+        179,
+        182,
+        183,
+        185,
+        368,
+        369,
+        370,
+        371,
+        415,
+        416,
+        417,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/skill_icon/lu3HQ6Y8sfnovz5U0B8hLOWd8j9qZHFA.png",
+            "title": "甜蜜的炮火",
+            "title_cn": "甜蜜炮火",
+            "preview": "//static.kivo.wiki/videos/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/skill_preview/9CLZy9JiMxHpCz07LWixH66M6jD9temv.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 4,
+                "describe": "技能发动时立即重新装弹/对敌人一人造成攻击力933%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "技能发动时立即重新装弹/对敌人一人造成攻击力1073%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "技能发动时立即重新装弹/对敌人一人造成攻击力1353%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "技能发动时立即重新装弹/对敌人一人造成攻击力1493%的伤害"
+              },
+              {
+                "cost": 4,
+                "describe": "技能发动时立即重新装弹/对敌人一人造成攻击力1773%的伤害"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/skill_icon/4xihgmYJScUJFhUTyk3Jk7gpOFcwtq7F.png",
+            "title": "旧习惯",
+            "title_cn": "老习惯",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每30秒增加攻击力23%（持续25秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒增加攻击力24.2%（持续25秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒增加攻击力25.3%（持续25秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒增加攻击力29.9%（持续25秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒增加攻击力31.1%（持续25秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒增加攻击力32.2%（持续25秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒增加攻击力36.8%（持续25秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒增加攻击力38%（持续25秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒增加攻击力39.2%（持续25秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒增加攻击力43.8%（持续25秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/skill_icon/pP3jTqdcGD0IgBafsLKrpJX1SJUF7ob9.png",
+            "title": "高糖效应",
+            "title_cn": "高糖效应",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/skill_icon/zR2ErIZnGoRrtKbR8PTMISX4ZX92y72G.png",
+            "title": "偷吃",
+            "title_cn": "初次品尝",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "重新装弹时，攻击速度减少16.3%，但攻击力增加26.1%（持续15秒）（最多叠加2次）"
+              },
+              {
+                "cost": 1,
+                "describe": "重新装弹时，攻击速度减少16.3%，但攻击力增加27.4%（持续15秒）（最多叠加2次）"
+              },
+              {
+                "cost": 1,
+                "describe": "重新装弹时，攻击速度减少16.3%，但攻击力增加28.7%（持续15秒）（最多叠加2次）"
+              },
+              {
+                "cost": 1,
+                "describe": "重新装弹时，攻击速度减少16.3%，但攻击力增加33.9%（持续15秒）（最多叠加2次）"
+              },
+              {
+                "cost": 1,
+                "describe": "重新装弹时，攻击速度减少16.3%，但攻击力增加35.2%（持续15秒）（最多叠加2次）"
+              },
+              {
+                "cost": 1,
+                "describe": "重新装弹时，攻击速度减少16.3%，但攻击力增加36.5%（持续15秒）（最多叠加2次）"
+              },
+              {
+                "cost": 1,
+                "describe": "重新装弹时，攻击速度减少16.3%，但攻击力增加41.8%（持续15秒）（最多叠加2次）"
+              },
+              {
+                "cost": 1,
+                "describe": "重新装弹时，攻击速度减少16.3%，但攻击力增加43.1%（持续15秒）（最多叠加2次）"
+              },
+              {
+                "cost": 1,
+                "describe": "重新装弹时，攻击速度减少16.3%，但攻击力增加44.4%（持续15秒）（最多叠加2次）"
+              },
+              {
+                "cost": 1,
+                "describe": "重新装弹时，攻击速度减少16.3%，但攻击力增加49.6%（持续15秒）（最多叠加2次）"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2499,
+          "attack": 295,
+          "defense": 79,
+          "healing": 1658,
+          "accuracy": 100,
+          "evasion": 198,
+          "crit": 201,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1388,
+          "range": 750,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 40
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/weapons_icon.png",
+        "name": "马比诺吉昂",
+        "name_cn": "马比诺吉昂",
+        "description": "与和纱度过许多岁月的机关枪。<br/>若是询问名字的由来，和纱就会露出苦闷的表情。",
+        "description_cn": "和纱用了很久的重机枪。<br/>只要向她打听名字的由来，就能看见和纱慌张地岔开话题的样子。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「高糖效应」升级为「高糖效应+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 街道适应性 S -> SS",
+            "description": "在街道地形造成1.3倍伤害。在掩体内时掩护成功率+75%。攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 贯穿克制伤害增加",
+            "description": "攻击类型为贯穿的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%9D%8F%E5%B1%B1%20%E5%92%8C%E7%BA%B1/skill_icon/fF7kpCLPR34OqoPu2u0a1nG8QOsEFznZ.png",
+            "title": "高糖效应+",
+            "title_cn": "高糖效应+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加290/攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加304/攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加319/攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加376/攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加391/攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加405/攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加463/攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加478/攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加492/攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加550/攻击力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "4762496c-a164-42a7-96c6-c527fb180707",
+  "skill_declare_uuid": "bae599e1-baa1-42ee-b342-5c3f63d1cdb4",
+  "supplementary_uuid": "402f52f2-61b1-4b33-ba1c-95c9b953c08e",
+  "supplementary_declare_uuid": "95a258f3-325e-439e-a2e8-62473e8fa2e3",
+  "created_at": 1684639990,
+  "updated_at": 1783322329
+}

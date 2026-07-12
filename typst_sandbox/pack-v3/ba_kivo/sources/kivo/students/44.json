@@ -1,0 +1,2402 @@
+{
+  "id": 44,
+  "skin": "正月",
+  "skin_jp": "正月",
+  "skin_cn": "新年",
+  "skin_zh_tw": "正月",
+  "skin_list": [
+    {
+      "id": 83,
+      "avatar": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 44,
+      "avatar": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/avatar.png",
+      "skin": "正月",
+      "skin_cn": "新年"
+    },
+    {
+      "id": 59,
+      "avatar": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "黑见",
+  "given_name": "芹香",
+  "family_name_jp": "黒見",
+  "given_name_jp": "セリカ",
+  "family_name_kr": "쿠로미",
+  "given_name_kr": "세리카",
+  "family_name_en": "Kuromi",
+  "given_name_en": "Serika",
+  "family_name_zh_tw": "黒見",
+  "given_name_zh_tw": "茜香",
+  "family_name_cn": "黑见",
+  "given_name_cn": "芹香",
+  "nick_name": "春黑猫，春黑",
+  "introduction": "阿比多斯对策委员会所属，身穿巫女服装的可靠（？）会计担当。\n\n为了尽可能地帮上对策委员会的忙，一直从事着各式各样的兼职打工，认真且努力。迎接新年的她，选择了当巫女的兼职。即便不是特别喜欢巫女，对其也没有深厚的认识，但因为具备了「被交付了就会好好完成」的性格，所以这次仍是全力以赴（但背后也有「如果更像巫女的话，时薪会上升」的原因）。\n\n>祈祷而已，如果是为了老师的话不管几次都……",
+  "introduction_cn": "阿拜多斯对策委员会的细心会计。\n\n为了尽可能帮上对策委员会的忙，一直努力做着各种兼职。准备迎接新年的她，这次接到了成为巫女的工作。听说如果能扮演“更完美的巫女”，就会拿到很高的工资，因此在全力以赴地研究巫女知识。\n\n>如果是为了老师的话，我愿意祈祷，不管几次都……",
+  "momo_talk_signature": "祝大家新年快乐",
+  "main_relation": 19,
+  "relation": [
+    20,
+    70,
+    14
+  ],
+  "age": 15,
+  "grade": "一年生",
+  "height": 153,
+  "birthday": "06-25",
+  "hobby": "存钱、打工",
+  "designer": "YutokaMizu",
+  "illustrator": "YutokaMizu",
+  "character_voice": "大桥彩香",
+  "character_voice_cn": "宴宁",
+  "release_date": "2022-01-12",
+  "release_date_cn": "2024-02-01",
+  "release_date_global": "2022-08-23",
+  "sd_model_image": "",
+  "avatar": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/avatar.png",
+  "school": 1,
+  "weapon_type": "AR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": true,
+  "more": "# 官方图集\n\n## 卡池Banner\n\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 巫女は隣で丸くなる | 身边的巫女团成团 | 巫女巫女喵喵 巫女巫女喵喵 ...等，等等？！你一直都在那裡嗎？把剛剛看到的全部忘掉！馬上！ | Miko miko nyan nyan...! Miko miko nyan nyan...! What the ...?! How long have you been there? Forget what you just saw! |\n| ![serika(正月)-日服Banner.png](files/10355/0bZwho5N74ZrF4z0CY1BeoQnpgALLQoy.png =450x) | ![serika_newyear-国服Banner.png](files/10355/qM09REgfifB7biKnQEZ3SGAOqkBUEOfM.png =450x) | ![serika_newyear-繁中Banner.jpg](files/10355/MKXivjQPo718aiLrl96fs9KA6jBuJqZ1.jpg =450x) | ![serika_newyear-enBanner.jpg](files/10355/C8AzQ5YHgKfemsQrqSrfneqbpbw2OhkI.jpg =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Serika-newyear-日服Intro.jpg](files/10355/SCKop5nY4tJbmTDtDoJ8bNPEtj7Cohyd.jpg =525x) | ![serika_newyear-国服Intro.jpg](files/10355/bw5tLmnuRbGQUkpMrnPoCix4J4YYRz9N.jpg =425x) | ![serika_newyear-繁中Intro.jpg](files/10355/9K37rDECLMpespivPid4DwGSKOACfP6W.jpg =525x) | ![serika_newyear-enIntro.jpg](files/10355/hqzS1J2Ms72imnv9KhrmH4XHSgtozuLb.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[新年休闲被炉](https://kivo.wiki/data/item/781) |\n| :---: | :---: | :---: |\n| ![serika_newyear_ex.gif](files/10355/vLBoWMDnfQ94vMr46Oxhu0lQoHcPKDh5.gif =450x) | ![serika_newyear_国服cafe.gif](files/10355/RXXBL4IghitN7liWW6FgYSMSKQfddhFJ.gif =450x) | ![serika_newyear_interaction.gif](files/10355/16f0hAKY3WQsbivQ7Pfz5V4rpXFB63fO.gif =450x) |\n\n## 设定集\n\n::::center\n![Vol.1_页面_027.png](files/10355/BSc83RIwi4Lpb7ndQ4XdgSc6CvLQ4rUb.png =450x)\n\n![Vol.1_页面_033.png](files/10355/PpgLZ6YgN8CV2WYFHiCDTpoZRYjB0dHT.png =450x)\n\n![Vol.1_页面_120.png](files/10355/DwISESVUgx16r2wrU5mz1Fs58x7U2wh5.png =450x)\n\n![Vol.1_页面_215.png](files/10355/MKsRBqTpfnTr952Ybsz3tXbw8VbITZXj.png =450x)\n\n![Vol.1_页面_277.png](files/10355/jFhcLwitoWNDw63B2ECbUoZirzyge4t7.png =450x)\n::::\n\n\n\n",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/Serika_Newyear_home_Idle_01_1.3073000000000023.jpg",
+  "spine": [
+    48,
+    607,
+    1064,
+    487
+  ],
+  "model": [
+    91,
+    435
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "SerikaNewyear_Title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/a2BadNqxcCz2dIo4NDvK9efzH2bzjcNA.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Buffed_1",
+      "category": "battle",
+      "text": "嘿，谢谢你！",
+      "text_original": "えへ、ありがとう！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/72xVcnxUPx9V1UaxLhmdKg7nu6k2SJGJ.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_BuffSelf_1",
+      "category": "battle",
+      "text": "好了，走吧！",
+      "text_original": "さあ、行こうか！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/krT3GjPkrzQZsFWHR9mR8hcja04rN3x2.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Covered_1",
+      "category": "battle",
+      "text": "我藏好了。",
+      "text_original": "隠れたわ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/9UQLrRNBAsEP0qclxG41BnltrtA2qnHU.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "へえ",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/w3FjFAA6fyw7CgrbmNDkKtmjvU7p4wOX.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "はあ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/g2ZZHmVwu38xa1lebq7DIUdLHC2T1cjW.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "んうう..",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/bwJNdRqDNcOu0mNxs5nhci7HC0a4j4uU.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Defense_1",
+      "category": "battle",
+      "text": "没用的！",
+      "text_original": "効かないよ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/6Oilw5JA0KZgGkA4ECsywXfKzehAZOZ9.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_In_1",
+      "category": "battle",
+      "text": "千里之行，始于足下。",
+      "text_original": "千里の道も一歩から。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/daYgoew9LvBywP2uNCfeoBeCAZ1CTaRY.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_In_2",
+      "category": "battle",
+      "text": "好了，开始吧。",
+      "text_original": "さあ、始めるはよ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/5HwTbZA0NbaiqAznzasbNQyf4aA6AJXi.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Move_1",
+      "category": "battle",
+      "text": "继续保持哦。",
+      "text_original": "この調子で行くわよ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/of8Mw73QP0hCqRhpYV4f1miqKigKC48e.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Move_2",
+      "category": "battle",
+      "text": "这里没问题，那继续前进吧。",
+      "text_original": "ここわオーケー、じあ次！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/y9CZI3Udvkc8mjjAkQfuQoOtE2A2k9d0.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Recovery_1",
+      "category": "battle",
+      "text": "时机真好，谢谢！",
+      "text_original": "ナイスタイミング、ありがとう！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/6vBfDK9WZW1bDZUrdUqkE09LLQWmftqh.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Retire",
+      "category": "battle",
+      "text": "我还……不能……倒下……",
+      "text_original": "まだ...倒れちゃダメ...なのに...",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/N6Ah0OHCXToGD0Q5J3x4dcNDHem8z3cf.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "やあ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/R8x5SmQKRWAHLnnUwzOun3VsRMcHXMnN.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "は！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/Yb4BiV8pHqI12wab8X3FVo1UvLBkcRRI.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "はあ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/ZLVR1O81GNMMaMRFL02OujDPfUjpMKYD.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_TacticalAction_1",
+      "category": "battle",
+      "text": "我要换个位置。",
+      "text_original": "位置を変えるわ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/TK8r5JdSicdZXtP7JpxbOI6nqKfPn7H7.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Victory_1",
+      "category": "battle",
+      "text": "哼~小意思。",
+      "text_original": "ん～こんなものね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gYr6UvYsJ8NZzSRSlWWATIW6dbueEiWk.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Battle_Victory_2",
+      "category": "battle",
+      "text": "胜利的巫女，呃，有这种说法吗？",
+      "text_original": "勝利の巫女、で言葉、あるのかな？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/8X4cPBSnpC9WufelqI0nHjVUOj7ZC0Pa.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Cafe_interaction_1",
+      "category": "cafe",
+      "text": "啊~被炉……也太棒了……诶——？！等等，刚才是……做梦？",
+      "text_original": "ふああはあ～炬燵、最高！ええ！？って、あれ？今の、夢？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/jTUrzsvpRFZvekxBe568BMPiNkhv2APg.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Cafe_interaction_2",
+      "category": "cafe",
+      "text": "嘿嘿嘿……打工赚了这么多……诶？我，我的工钱！",
+      "text_original": "えへへ、バイト代がこんなに～　はあ、あ、あれ？私のバイト代は？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/Wl9mQm0BGbtcfLRpk49VdLRQl3wPVM9H.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "祓除吧，洗净吧~！……嘿嘿，我开玩笑的。",
+      "text_original": "祓いたまえ、清めたまえ～！ ……なんちゃって。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/8nYbFC7Vo7kDeNR7cKACUbPqBrXJ6bJ6.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "怎么经常有人找我除灵呢……其实，除灵应该怎么做啊？",
+      "text_original": "なんか、頻繁に除霊を頼まれるんだけど…… 除霊って実際、どうすればいいんだろ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/r0dedTApCfMaufoAT84B8R3qtp7cSZi6.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "巫女喵喵♪巫女喵喵♪……哇啊？！你是什么时候来的？忘掉！马上给我忘掉！",
+      "text_original": "巫女巫女にゃんにゃん。巫女巫女にゃんにゃん。ってちょお！いつからそこにぃ！？ 忘れて！今すぐ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/VKNXub1DUzpTkXaKULHMd77yKrObINl4.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Cafe_monolog_4",
+      "category": "cafe",
+      "text": "啊，这个月加班好多。工资肯定也很多，嘿嘿♪",
+      "text_original": "あ、今月結構残業したし、バイト代期待できるかも。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/kGd3tFRaNfxuiSznnUl5TCalx7ptiqOl.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Cafe_monolog_5",
+      "category": "cafe",
+      "text": "等这次的兼职结束了，要不要叫大家一起来这里呢~",
+      "text_original": "バイトが終わたら、みんなをここに誘って見よかな？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/ETfL7LUstvt4xb5EiG3kVSvW4iEbTEFF.ogg"
+    },
+    {
+      "description": "SerikaNewyear_CommonSkill",
+      "category": "battle",
+      "text": "让开让开！",
+      "text_original": "退いた退いた！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/fRwWghkqXfTZAUx3gBags6zYyDEN2tit.ogg"
+    },
+    {
+      "description": "SerikaNewyear_EventLobby_1",
+      "category": "event",
+      "text": "我，我都说了很多次了，这不是cosplay！ 这是正经的兼职工作服！",
+      "text_original": "な、何度も言ってるけど、これコスプレじゃないから！ バイト用のちゃんとした格好だから！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/DbnNGkoJFp9M7ZYwnPduevDZNb27IXu5.ogg"
+    },
+    {
+      "description": "SerikaNewyear_EventLobby_2",
+      "category": "event",
+      "text": "干，干嘛啊老师？直勾勾地看着我…… 哼，我只是在认真工作嘛。",
+      "text_original": "な、なに、先生？そんなにじっと見て…… ま、真面目に働いてるだけじゃん。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/OXpfwbq6rEh7XpKgcJUpFOTdPAfPaj5n.ogg"
+    },
+    {
+      "description": "SerikaNewyear_EventLobby_3",
+      "category": "event",
+      "text": "等打完这份工，我想把小绫和前辈们都叫出来，一起去吃点东西庆祝一下~",
+      "text_original": "バイトが終わったら、アヤネちゃんとか先輩たちを呼んで食べ歩きとかしたいなー……",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/BHxDo7iEHWLiPv9pfvKZwLFwxYj1hfMk.ogg"
+    },
+    {
+      "description": "SerikaNewyear_EventLobby_4",
+      "category": "event",
+      "text": "诶？还要让我说？还说？ 唔唔……行行行！我说还不行吗！ ……恶，恶灵退散——！行了，这下可以了吧？！",
+      "text_original": "え、もう一回やってほしい？また？ うっ……分かった、分かったわよ！やればいいんでしょ！ ……あ、悪霊退散ー！ほら、これで満足！？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/VJA3zmYNcD7oLlz20H7hPHS3tdulFxy3.ogg"
+    },
+    {
+      "description": "SerikaNewyear_EventLogin_1",
+      "category": "event",
+      "text": "啊，老师，你来了。怎么样？新年的愿望许好了吗？",
+      "text_original": "あっ、いらっしゃい。先生。もう新年のお願いごとはしてきた？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/mrmPMeZoAvpe3XhUlIWIHy4ayCrcLxoX.ogg"
+    },
+    {
+      "description": "SerikaNewyear_EventLogin_2",
+      "category": "event",
+      "text": "老，老师，你怎么来了？！你，你该不会是特意来找我的吧……？！ 啊，对不起，当我没说……",
+      "text_original": "せ、先生、どうしてここに！？も、もしかしてわざわざ私に……！？ やっ、ごめん、今の無し……",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/kUBjjhxiZ1FjAJZ6niOPOFl0ljpntOM8.ogg"
+    },
+    {
+      "description": "SerikaNewyear_EventLogin_Season_1",
+      "category": "lobby",
+      "text": "虽说是新年，可这也太吵了吧。算了，精力充沛是好事。",
+      "text_original": "新年とはいえ、騒がしいわね～ まあ、活気があって良いと思うけど。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/8yN0io8m92oU26vG04I9fFdD9zVfhinl.ogg"
+    },
+    {
+      "description": "SerikaNewyear_EventLogin_Season_2",
+      "category": "lobby",
+      "text": "唉，又是黑龟族，又是回转者的，怎么一个接着一个啊，我的工钱还能顺利拿到手吗？",
+      "text_original": "はぁ……黒亀組とか、カイテンジャーとか……どうしてこう次から次へと…… バイト代、ちゃんともらえるのかな……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/IM6tOGi46F2E3FYiKVA7eIZ7LWEZzKnw.ogg"
+    },
+    {
+      "description": "SerikaNewyear_EventLogin_Season_End",
+      "category": "lobby",
+      "text": "唉，刚开始过新年就忙得不可开交，还好现在慢慢消停下来了。老师辛苦了！要不要一起回去吃年节菜啊？",
+      "text_original": "新年早々バタバタだったけど、そろそろ落ち着いてきたかな お疲れ様、先生。一緒に帰って、おせちでも食べる？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/GuaNYhDiKCEx9dVT9Y5fuMjwdpwdiGC8.ogg"
+    },
+    {
+      "description": "SerikaNewyear_ExSkill_1",
+      "category": "battle",
+      "text": "哼哼~啊！？你们干什么！",
+      "text_original": "ふんふん～。ってあー！？なんなのよ！？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/83FcVq3Rg82Ho924upH6xaASsfwLupjx.ogg"
+    },
+    {
+      "description": "SerikaNewyear_ExSkill_2",
+      "category": "battle",
+      "text": "嗯，这样就行了吧。唔，唔噢？！",
+      "text_original": "うん、こんなもんかな。ってあーー！？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/MakqGRveLT91mnS4xYqOD9qldNEOfk0B.ogg"
+    },
+    {
+      "description": "SerikaNewyear_ExSkill_3",
+      "category": "battle",
+      "text": "嗯！感觉不错……唔？！怎么回事？",
+      "text_original": "うん、いい感じ？ってあー！？どうしてー！？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/vgZiWi38nxA3imrcfyblYwrJAFk7VJM5.ogg"
+    },
+    {
+      "description": "SerikaNewyear_ExSkill_Level_1",
+      "category": "battle",
+      "text": "饶不了你！",
+      "text_original": "許さないんだからぁ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/1nF8NQpgr8aJrb0BvvnCevQhEqKQcYS8.ogg"
+    },
+    {
+      "description": "SerikaNewyear_ExSkill_Level_2",
+      "category": "battle",
+      "text": "以为我会这样就算了吗！",
+      "text_original": "ただじゃ置かないんだからぁ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/3EL6QsQxoV0Jf6QsaJS5y8Khgker0kW7.ogg"
+    },
+    {
+      "description": "SerikaNewyear_ExSkill_Level_3",
+      "category": "battle",
+      "text": "咿呀——！！！",
+      "text_original": "こんのぉ～！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/tdNJiILTbwzkCsslwmZVAA1wdnAriKZJ.ogg"
+    },
+    {
+      "description": "SerikaNewyear_ExWeapon_Get",
+      "category": "growup",
+      "text": "真没想到你还准备了这个……真是拿你没办法，唔……嗯，我会更加努力来回报你的，老师。",
+      "text_original": "まったく、こんなものまで用意してくれちゃって……しょうがないから、その……うん。もっと頑張って、恩返しするからね。先生。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/bW4ZVdpNztER6pNeqTIXvAhsp6dZAhuD.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Formation_In_1",
+      "category": "formation",
+      "text": "需要我帮忙？真拿你没办法。",
+      "text_original": "私の助けが必要？しょうがないな。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/K5iG2ytju6hf9CIoMldyxZp9zNpCgYl7.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Formation_In_2",
+      "category": "formation",
+      "text": "我在做兼职呢……算了，还是稍微帮你一下吧。",
+      "text_original": "バイト中なんだけど、まあ、ちょっとくらい手伝ってあげるわよ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/zVk4aofa3obCyllK3x3xI9w8GRNgIFxA.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Formation_Select",
+      "category": "formation",
+      "text": "干嘛呀，你想干什么啊？！",
+      "text_original": "何よ、何のつもり？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/4DQhrvUO41AuoIEFzzuQdhQSuPshyZft.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Gachaget",
+      "category": "growup",
+      "text": "这个？是巫女服哦。嗯？……是不是cosplay？才，才不是呢！严格来说，这是兼职的工作服！",
+      "text_original": "これ？巫女さんの格好だよ。 えっ……コスプレ？ち、違うってば！ れっきとしたアルバイト！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/6sr0lAHRVbuBwCRqZ3FbQTveUcGbzFej.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Growup_1",
+      "category": "growup",
+      "text": "我，我才没有特别开心……好吧，就有一丢丢……",
+      "text_original": "べ、別に嬉しくなんかぁ！……まぁ、……ちょっとだけ",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/jhJjPoHhG7x4Tp6Ny68Fe3YmfoQeyD8j.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Growup_2",
+      "category": "growup",
+      "text": "这样，我应该就能帮上更多……哦没，没什么！",
+      "text_original": "これで…もっと役に…な、なんでもない！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/nyhZpzPWkDWwf8rrE1BwlxNUGhh0AAbL.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Growup_3",
+      "category": "growup",
+      "text": "（我想变得更强，然后帮助老师，帮助大家。）",
+      "text_original": "（もっと強くなって…先生やみんなの力になりたい）",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/sRqDfOwKFoyMGcj5Iaycn6Kiic65vyRf.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Growup_4",
+      "category": "growup",
+      "text": "以后我也会继续努力的。你看着吧，老师！",
+      "text_original": "これからも頑張るから、私のこと見守っててよね先生！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/6SegitM42og2frwfqaDY6g8D2RrFDElb.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Lobby_1",
+      "category": "lobby",
+      "text": "既然我是巫女，又是帮助老师的人…… 那也就是说，老师就是神主咯？",
+      "text_original": "私が巫女さんで、先生の ことを手伝うってことは…… 先生が神主さんってこと？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/osKtmMfDSGiYr2eyYjjeqGJoOMWMTNDk.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Lobby_2",
+      "category": "lobby",
+      "text": "好了，别干坐着发呆了，老师。赶快开始工作吧。",
+      "text_original": "ほら、ボーっとしてないで、先生 お仕事始めるよ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/cDslSLXi0aKReUMDtrXpkCyJTYzoANGE.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Lobby_3",
+      "category": "lobby",
+      "text": "老~师~！ 不许偷懒，听到没有！",
+      "text_original": "せ～ん～せ～い～！ サボっちゃダメだってば！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/j0JMGvM83FMNn5QdyrVOer7V5VLrwmNA.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Lobby_4",
+      "category": "lobby",
+      "text": "嗯好了，干劲儿啊，出来吧，出来吧~ 怎么样，感觉有效果吗？ 来，加油吧，老师。",
+      "text_original": "やる気よ出てこい、出てこい～ どう、効果ありそう？ ほ　ら、頑張ろ。先生。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/M0ucWbOnDIwpf64WlQJFpSnKTJU2dajA.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Lobby_5",
+      "category": "lobby",
+      "text": "巫女服，我穿很好看……？ 唔，嗯……还行吧！ ……老师，老师夸我了。",
+      "text_original": "巫女さんの格好、 似合ってる……？ ふ、ふーん！まあね！ ……ほ、褒められた。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/Ow0P5ggby4G12VJr5XUWXNm8AzatjjNQ.ogg"
+    },
+    {
+      "description": "SerikaNewyear_LogIn_1",
+      "category": "lobby",
+      "text": "啊，老师。好了，我们快点工作吧。 好不容易能来给你帮忙，等了好久呢。",
+      "text_original": "あ、先生。 ほら、お仕事始めるよ。 せっかく手伝ってあげようと 思って待ってたんだから。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/dpfV4u84EbwPVVJMClx7uTJNGY0cX4ns.ogg"
+    },
+    {
+      "description": "SerikaNewyear_LogIn_2",
+      "category": "lobby",
+      "text": "一回到沙勒，不知为何，竟然看到了一位巫女！ ……自己说出来突然感觉好羞耻啊。",
+      "text_original": "シャーレに戻ると、 そこには何と巫女さんが！ ……自分で言ってて 恥ずかしくなってきた。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gIsVhISrwb7WQMEj81XgYvBDCLJ4LAN5.ogg"
+    },
+    {
+      "description": "SerikaNewyear_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "对，对不起，老师……",
+      "text_original": "ご、ごめん、先生…。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/jzpaFKZuU56XuBA6ZZ42928HbrxnEA5o.ogg"
+    },
+    {
+      "description": "SerikaNewyear_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "你看到了吧，我不能动了……",
+      "text_original": "この通り、ちょっと動けなくって……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/dqxpxvcBt8T1RIHGl32dJY49c5lCgQIV.ogg"
+    },
+    {
+      "description": "SerikaNewyear_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "诶？你，你这是什么意思？！",
+      "text_original": "え、そ、それってどういう意味！？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/lnGOPASoPCYhNq8772VfrS98xxzpsMYO.ogg"
+    },
+    {
+      "description": "SerikaNewyear_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "话说回来，你这是，在夸我吗……？",
+      "text_original": "っていうかそれ、褒めてるの……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/mam1QnH4945VVbDn6bi2qMzudqjU65Ku.ogg"
+    },
+    {
+      "description": "SerikaNewyear_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "啊，对了，之前放你鸽子了，很抱歉……",
+      "text_original": "あ、そういえばその、 約束破ってごめんなさい……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/VbS1Pm2x9Xa1rGHljfG5KnuBLcbs5pkQ.ogg"
+    },
+    {
+      "description": "SerikaNewyear_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "诶？就在这里一起休息也很好……？",
+      "text_original": "え、ここで一緒に休む……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/xjSs3YDoDvL8D2BEBJ8vxb4uoxxHQfYf.ogg"
+    },
+    {
+      "description": "SerikaNewyear_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "这段时间我做兼职已经很辛苦了，",
+      "text_original": "ずっとアルバイト頑張ってたんだから、",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/IURYxgl8T7aazTngQR9mgq1Yop3s2VsV.ogg"
+    },
+    {
+      "description": "SerikaNewyear_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "现在可以好好休息一下……？",
+      "text_original": "今くらいゆっくりしてほしい、って……？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/YoOHn69pQMxKkG6SSndhunOItg1X5QL5.ogg"
+    },
+    {
+      "description": "SerikaNewyear_MemorialLobby_5_1",
+      "category": "lobby",
+      "text": "啊哈哈，这话说的……！",
+      "text_original": "あはっ、何それ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/SqwH9MwwB7TjjLvyR7IOBUoWZjleLPrN.ogg"
+    },
+    {
+      "description": "SerikaNewyear_MemorialLobby_5_2",
+      "category": "lobby",
+      "text": "真是，老师总是说这种……",
+      "text_original": "ほんと、先生はいつもそうやって……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/K0FFeXooZK38PChOE95sAjKl6eePc3WH.ogg"
+    },
+    {
+      "description": "SerikaNewyear_MemorialLobby_5_3",
+      "category": "lobby",
+      "text": "嗯，好吧，那今天，我们就一起好好休息吧，老师。",
+      "text_original": "でも、うん。 じゃあちょっとだけ、 こうして一緒にゆっくりしよっか。先生。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/QRSQY2YJSFGUiYPxfDNlaVdkTLov0zNY.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Omikuji_1",
+      "category": "other",
+      "text": "老师，快快快，来试试新年的运气吧！ 唔唔，突然感觉好紧张……！",
+      "text_original": "新年の運試しだよ、決まっちゃうんだよ、先生！ 何だかドキドキしてきた……！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/lyAXo6mr90rioaRlxZVoHrwFFOFeqgHE.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Omikuji_2",
+      "category": "other",
+      "text": "没事，抽到坏签也没关系。这不有本巫女在嘛……！ ……你，你笑什么啊！我好不容易才说出口的！",
+      "text_original": "まあ、悪い結果が出ても大丈夫よ。ほら、巫女さんの私がいるんだし……！ ……そ、そんなに笑わないで！頑張って言ったのに！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/wH1plB1IQzYv4QmM19Ztw0ho7KzYOME6.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Omikuji_End",
+      "category": "other",
+      "text": "啊，虽然迎新春活动已经结束了，但还可以继续求签。 来吧，老师！",
+      "text_original": "あ、新年のイベントはもう終わっちゃったけど、まだおみくじは引けるよ はい、先生！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/kfhuEwR95yaVpFdGdHKQzX6p6PeSmNW1.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Omikuji_Login_1",
+      "category": "other",
+      "text": "啊，老师。你是来求签的吗？求签的话在这边。",
+      "text_original": "あっ、先生。おみくじ引きに来たの？おみくじならここだよ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/Cxm7SpVY9k1hhu29blQH6lnxlOFkQokQ.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Omikuji_Login_2",
+      "category": "other",
+      "text": "求一次签怎么样——！ 呃……求签，可以这么吆喝吗？",
+      "text_original": "おみくじはいかがですかー！ ……おみくじって、こうやって宣伝して良いものなのかな？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/Ep3Bu8PBccCTXsYCTadm6BV845IV3NUK.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Omikujipickup_1",
+      "category": "other",
+      "text": "噢，大吉？！你好厉害啊！老师！ 抽中大吉的话，可以领取特别的奖品哦！给你！",
+      "text_original": "え、大吉！？すごいじゃん先生！ 大吉を引くと、特別な商品が貰えるんだよ！はい！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/2GVKiZ1rqEGUiPUtGCSVsmvcc5duUHLV.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Omikujipickup_2",
+      "category": "other",
+      "text": "是吉诶！恭喜老师！ 来，这是代表幸运的巫女送给你的奖品~！",
+      "text_original": "中吉かー、うん、良いんじゃない？ じゃあ中吉を当てた先生には、これをあげる！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/MLxXxEO6PXJnWsbZGwGX8GJGtfHPDIRy.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Omikujipickup_3",
+      "category": "other",
+      "text": "中吉啊——嗯，也还不错吧？ 老师，给，这是中吉的奖品！",
+      "text_original": "うん？小吉？ ガッカリしないで、先生。ほら、先生にこれあげるから。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/KkuSAushS8IKNrxszAbrHDVXnSOMr8ZY.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Omikujipickup_4",
+      "category": "other",
+      "text": "嗯？小吉？ 没事，老师，别失望。来，这个给你。",
+      "text_original": "吉だって！先生、おめでと！ というわけでここで、幸運の巫女から商品の贈呈～！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/UoJeJ6QX3XtRANq2g2fMsb0sVzeqqVIT.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Omikujipickup_5",
+      "category": "other",
+      "text": "居然是末吉啊……呃，感觉挺符合老师的形象诶…… 啊，没有没有，我没别的意思！来来，这个给你，抽中末吉的奖品。",
+      "text_original": "末吉かぁ……なんとなく先生っぽいっていうか…… あ、いや、悪口じゃなくて！とにかくはいこれ、末吉の商品ね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/dcc7ZMYIHrOXSaoxM4mcrSiGvU3N0szJ.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Omikujipickup_6",
+      "category": "other",
+      "text": "凶，凶？！啊，啊哈哈……这，没，没关系的！ 来！给你这个！别放在心上哦？",
+      "text_original": "きょ、凶！？あ、あはは…その、だ、大丈夫！ ほら、これあげるから！気にしないで、ね？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/i1PuErYp70DGFcJHKmx8twJ00QCVYDqu.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Relationship_Up_1",
+      "category": "growup",
+      "text": "总感觉我和老师的距离……",
+      "text_original": "何だか、先生との距離が、その…",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/iUMZkeozVgWEWOoNBGRc7ei6xHlBzd8S.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Relationship_Up_2",
+      "category": "growup",
+      "text": "（这是怎么回事？感觉心跳的好快。怎么办，怎，怎么办？）",
+      "text_original": "（な、なにこれ？ドキドキする！なんで？どうして？!）",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gtjEkfwSshRcKPCsWfpx4tSPoOx9S43T.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Relationship_Up_3",
+      "category": "growup",
+      "text": "为什么你总是对我这么好……？",
+      "text_original": "どうしていつも、そんなに優しくしてくれるの？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/nCfecw6mGlE1hxnrFzSW8jbvZ8CydbP8.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Relationship_Up_4",
+      "category": "growup",
+      "text": "有老师看着，我就能更努力。所以，请……请继续陪在我身边吧，老师！",
+      "text_original": "先生が見守っててくれるから、私は頑張れるの。だから、その…ずっとそばにいてね、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/XXnicskywyb4MbJMBVeZLUlY9uthPTk9.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Season_Birthday",
+      "category": "lobby",
+      "text": "你问我过生日有没有想要的东西……？ 嗯……今天……唔……我们就这样在一起就好了……嗯。",
+      "text_original": "誕生日だし、欲しいもの……？ うーん……今日はその、とりあえずこうして一緒にいられれば……うん。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/Dd1rtFMq2oku2KBiK3hAjOt0cmZJBanK.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "生日快乐，老师。呃，我兼职的工资也发了。要不，我请客，一起吃个饭？ 今，今天一天我都没别的安排！因为今天是重要的日子嘛……",
+      "text_original": "お誕生日おめでとう、先生 その、バイト代が入ったし、 私が奢るからご飯行かない？ きょ、今日くらいいいってば！ 大切な日なんだから……",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/oYjkDp3QX3MC9iu3hcddtTCb0eaBGvrK.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Season_Halloween",
+      "category": "lobby",
+      "text": "穿，穿成这样，应该可以把万圣节的鬼怪都赶跑了吧……？！ ……只是cosplay估计不行？ 都，都说了不是cos了！",
+      "text_original": "こ、この格好なら、ハロウィーンのお化けも退治できるかな……！？ ……コスプレだと多分無理？ こ、コスプレじゃないってば！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/mhYyJov1TLFehBo6S1Gk6ylY3lzL5htl.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Season_Newyear",
+      "category": "lobby",
+      "text": "新年快乐，老师。 既，既然我都穿成这样了。要不……你就许个愿，我可以配合你哦？",
+      "text_original": "あけましておめでとう。先生。 せ、せっかくこの格好なわけだし、その……お参りとか、付き合ってあげようか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/kmno3E7u19MumQ4nDXBuEBXL52Tp1uD5.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Season_Xmas",
+      "category": "lobby",
+      "text": "圣诞快乐~！反正老师今天也没安排吧？我穿得可爱一点给你看哦。 ……虽然很开心，但是既然要换装，也想看看圣诞装？ 那，那个等以后的！",
+      "text_original": "メリークリスマ～ス！どうせ先生は今日暇だと思って、可愛い恰好で来てあげたよ。 ……嬉しいけどせっかくだし、サンタ服も見たい？ そ、それは後で！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/LDkMm6D62y2q90op7XCzMTIbDxQYKwOD.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Tactic_Defeat_1",
+      "category": "battle",
+      "text": "到底是哪儿失误了呢……",
+      "text_original": "何処で、間違いっちゃったのかな？",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/wUBtxenuy6TaCzIWFVMrBANO5DygWCKm.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Tactic_Defeat_2",
+      "category": "battle",
+      "text": "都怪我，对不起……",
+      "text_original": "私のせいだ、ごめん...",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/DvYJnuW5XeU2PndVlxzDAksMSAYssaiO.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Tactic_In_1",
+      "category": "battle",
+      "text": "既然接了这个工作，我就会全力以赴。",
+      "text_original": "引き受けた以上、ベストを尽くすわ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/Icg495IdASHdaf9uHoPP7WepW1ULgbFf.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Tactic_In_2",
+      "category": "battle",
+      "text": "巫女神力！我，我开玩笑的。",
+      "text_original": "巫女さんパワー！冗、冗談よ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/9igRfz2GJcMiy7GeSI6OF0AxZczNrPwi.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Tactic_Victory_1",
+      "category": "battle",
+      "text": "大家都没事吧？没受伤吧？好的。",
+      "text_original": "皆大丈夫？怪我とかしてない？そう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/FNOYk3m8x7ne7CpYMoaFM4w1M7O4GPtc.ogg"
+    },
+    {
+      "description": "SerikaNewyear_Tactic_Victory_2",
+      "category": "battle",
+      "text": "哼，哼哼！轻轻松松！",
+      "text_original": "ふん、ふんふん～こんなもんよ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/zOrOOGbSInGE5pAnTUDTPCWODsobzHP2.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "serikanewyear_battle_in_2",
+      "category": "battle",
+      "text": "好了，开始吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/KmAxTOM7WQ6MWUmQvgQ9o96Mjic33hLI.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_move_1",
+      "category": "battle",
+      "text": "继续保持哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/usiuOKApuoOzflykrKpgTAyEQHbUKrVm.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_move_2",
+      "category": "battle",
+      "text": "这里没问题，那继续前进吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gw2aw8nWCFrJN56fJ7Yhd2GZ132VC9Sz.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_recovery_1",
+      "category": "battle",
+      "text": "时机真好，谢谢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/IYAWAYgxaiQYl16LcFb06f4Rsjf98vpl.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_retire",
+      "category": "battle",
+      "text": "我还……不能……倒下……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/qgJ3NhEW895Fsa3whZlu1kBXkm4GVaPV.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/frgq2myALngaHMZgFC9SrwdETkFnY9cX.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/5n31fC2rB736NmZn83SvXcSangdIAcRy.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/hxRDGESOen7hF5z4odjb72qNINVX7Q87.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "我要换个位置。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/slJaothDWNwQGjyp8etfSdtqQpfxjNLZ.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_victory_1",
+      "category": "battle",
+      "text": "哼~小意思。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/ync2ChUOQLCTkrRQAHWBGgMfIsOSXgTI.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_victory_2",
+      "category": "battle",
+      "text": "胜利的巫女，呃，有这种说法吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/O83sjuYp0XRovtTYe1SxTZlMC2Zwu4MG.ogg"
+    },
+    {
+      "description": "serikanewyear_cafe_interaction_1",
+      "category": "cafe",
+      "text": "啊~被炉……也太棒了……诶——？！等等，刚才是……做梦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/k6NvTRAxi1IGII3zc8i2tknGZEXioxJl.ogg"
+    },
+    {
+      "description": "serikanewyear_cafe_interaction_2",
+      "category": "cafe",
+      "text": "嘿嘿嘿……打工赚了这么多……诶？我，我的工钱！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/PnlgomT7KLrPruMPbiI6MetgGKQmYYcV.ogg"
+    },
+    {
+      "description": "serikanewyear_cafe_monolog_1",
+      "category": "cafe",
+      "text": "祓除吧，洗净吧~！……嘿嘿，我开玩笑的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gUq5rVDhbLP72Eekglg1VpmjZx0iwKX1.ogg"
+    },
+    {
+      "description": "serikanewyear_cafe_monolog_2",
+      "category": "cafe",
+      "text": "怎么经常有人找我除灵呢……其实，除灵应该怎么做啊？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/N76W9EuE32Abom7D3ktF34lbXjRc1Zu9.ogg"
+    },
+    {
+      "description": "serikanewyear_cafe_monolog_3",
+      "category": "cafe",
+      "text": "巫女喵喵♪巫女喵喵♪……哇啊？！你是什么时候来的？忘掉！马上给我忘掉！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gfkXMoqWLhJkYaVHsAggbCb0vg47zvoj.ogg"
+    },
+    {
+      "description": "serikanewyear_cafe_monolog_4",
+      "category": "cafe",
+      "text": "啊，这个月加班好多。工资肯定也很多，嘿嘿♪",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/CI7S92SjZLNzbgKBJiXCqyhv5pq4JIbE.ogg"
+    },
+    {
+      "description": "serikanewyear_cafe_monolog_5",
+      "category": "cafe",
+      "text": "等这次的兼职结束了，要不要叫大家一起来这里呢~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/35VoJn3jq0JDmWNnSxDm1LAXNWpoyFLp.ogg"
+    },
+    {
+      "description": "serikanewyear_commonskill",
+      "category": "battle",
+      "text": "让开让开！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/ManEiAiUKq2pc5xvpzmdLwnM3CbfERLB.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlobby_1",
+      "category": "event",
+      "text": "我，我都说了很多次了，这不是cosplay！ 这是正经的兼职工作服！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/Htq1fea4BhEbk8kgAWiXs7eIHeVHmnTU.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlobby_2",
+      "category": "event",
+      "text": "干，干嘛啊老师？直勾勾地看着我…… 哼，我只是在认真工作嘛。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/VglPqXM22UzoxcTGB7GFXLKrNfQ1CxVM.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlobby_3",
+      "category": "event",
+      "text": "等打完这份工，我想把小绫和前辈们都叫出来，一起去吃点东西庆祝一下~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/zNzOQloWEvL4XCH2Qyr7LhfmP75su9Vf.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlobby_4",
+      "category": "event",
+      "text": "诶？还要让我说？还说？ 唔唔……行行行！我说还不行吗！ ……恶，恶灵退散——！行了，这下可以了吧？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/DZCeDnX8Z0JsFB98dAaRk78WSpEbG7lr.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlogin_1",
+      "category": "event",
+      "text": "啊，老师，你来了。怎么样？新年的愿望许好了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/i5leQUlXJxxoTw3ux7jIrArXefRkNdsz.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlogin_2",
+      "category": "event",
+      "text": "老，老师，你怎么来了？！你，你该不会是特意来找我的吧……？！ 啊，对不起，当我没说……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/mR6JqJLcQHIkDGKgahLKurQtY4DD7bbT.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlogin_season_1",
+      "category": "event",
+      "text": "虽说是新年，可这也太吵了吧。算了，精力充沛是好事。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/yf8owooTLXWawtrcwohiiV9A7sOFYrEP.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlogin_season_2",
+      "category": "event",
+      "text": "唉，又是黑龟族，又是回转者的，怎么一个接着一个啊，我的工钱还能顺利拿到手吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/XFj5bMLoHmNtse7WkBCD0ddSp0VwAXHh.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlogin_season_end",
+      "category": "event",
+      "text": "唉，刚开始过新年就忙得不可开交，还好现在慢慢消停下来了。老师辛苦了！要不要一起回去吃年节菜啊？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/OdAGWO1wd7cMK9a9uNfD46SsLRT0hUhO.ogg"
+    },
+    {
+      "description": "serikanewyear_exskill_1",
+      "category": "battle",
+      "text": "哼哼~啊！？你们干什么！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/vNnXSMKymgVBvOQrUCIS4G51CTqyTjmg.ogg"
+    },
+    {
+      "description": "serikanewyear_exskill_2",
+      "category": "battle",
+      "text": "嗯，这样就行了吧。唔，唔噢？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/IKP2nw1o5JQjlBvbaXvdaXBhVCL98AY2.ogg"
+    },
+    {
+      "description": "serikanewyear_exskill_3",
+      "category": "battle",
+      "text": "嗯！感觉不错……唔？！怎么回事？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/HpIu5ZKIc0zsG8yuW0nfTDnRFG8lCzhc.ogg"
+    },
+    {
+      "description": "serikanewyear_exskill_level_1",
+      "category": "battle",
+      "text": "饶不了你！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/XmjNeZVvUPqK4tQCkGURYPkL0ieg4Ji1.ogg"
+    },
+    {
+      "description": "serikanewyear_exskill_level_2",
+      "category": "battle",
+      "text": "以为我会这样就算了吗！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/qav7KVJGWluHCPq6JGoCcsvu7IKRTOOo.ogg"
+    },
+    {
+      "description": "serikanewyear_exskill_level_3",
+      "category": "battle",
+      "text": "咿呀——！！！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/SoWdMS8h2j9y1LjxP92r9c6vJa0l5gZ5.ogg"
+    },
+    {
+      "description": "serikanewyear_exweapon_get",
+      "category": "growup",
+      "text": "真没想到你还准备了这个……真是拿你没办法，唔……嗯，我会更加努力来回报你的，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/QTRvEci7FeFObRsFFH8ZiDAxuTXcSKPn.ogg"
+    },
+    {
+      "description": "serikanewyear_formation_in_1",
+      "category": "formation",
+      "text": "需要我帮忙？真拿你没办法。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/yC9nlAFGFUS8HfgoASNuZctR6NVI37Md.ogg"
+    },
+    {
+      "description": "serikanewyear_formation_in_2",
+      "category": "formation",
+      "text": "我在做兼职呢……算了，还是稍微帮你一下吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/g9EYsifklDdCzoVAol4sCYf3I9DewmmD.ogg"
+    },
+    {
+      "description": "serikanewyear_formation_select",
+      "category": "formation",
+      "text": "干嘛呀，你想干什么啊？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/3V4lP0T85lg5VTWic2NyfegrBojuaozh.ogg"
+    },
+    {
+      "description": "serikanewyear_gachaget",
+      "category": "growup",
+      "text": "这个？是巫女服哦。嗯？……是不是cosplay？才，才不是呢！严格来说，这是兼职的工作服！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/GePQK38Un61LSmRfFCstYVhvceubpVzt.ogg"
+    },
+    {
+      "description": "serikanewyear_growup_1",
+      "category": "growup",
+      "text": "我，我才没有特别开心……好吧，就有一丢丢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/rYbiP8JY5VHwcqhB1MiS5IhuUscqF2P2.ogg"
+    },
+    {
+      "description": "serikanewyear_growup_2",
+      "category": "growup",
+      "text": "这样，我应该就能帮上更多……哦没，没什么！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/J7qnZuEXYytMH4VV8qefsSI847z5lPRm.ogg"
+    },
+    {
+      "description": "serikanewyear_growup_3",
+      "category": "growup",
+      "text": "（我想变得更强，然后帮助老师，帮助大家。）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/0HhREcedy375GkijQpzWjCkdXxj6Ae9A.ogg"
+    },
+    {
+      "description": "serikanewyear_growup_4",
+      "category": "growup",
+      "text": "以后我也会继续努力的。你看着吧，老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/zI9BfJxigTv4DjVT0Xoj9R1DfHmiIAmF.ogg"
+    },
+    {
+      "description": "serikanewyear_lobby_1",
+      "category": "lobby",
+      "text": "既然我是巫女，又是帮助老师的人…… 那也就是说，老师就是神主咯？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/2trjwj1KOdCRrMszSuJYaGAxqpTQE2yQ.ogg"
+    },
+    {
+      "description": "serikanewyear_lobby_2",
+      "category": "lobby",
+      "text": "好了，别干坐着发呆了，老师。赶快开始工作吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/YcqId0ATQ606GXKR5iQ5tE1DdCHuQ2KN.ogg"
+    },
+    {
+      "description": "serikanewyear_lobby_3",
+      "category": "lobby",
+      "text": "老~师~！ 不许偷懒，听到没有！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/XnSNm2kvBI4aU9VBR4ENIiyRgTGsbXRN.ogg"
+    },
+    {
+      "description": "serikanewyear_lobby_4",
+      "category": "lobby",
+      "text": "嗯好了，干劲儿啊，出来吧，出来吧~ 怎么样，感觉有效果吗？ 来，加油吧，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/KnmVopcVHIZ4ExRWz5LO48cZLYSDROmm.ogg"
+    },
+    {
+      "description": "serikanewyear_lobby_5",
+      "category": "lobby",
+      "text": "巫女服，我穿很好看……？ 唔，嗯……还行吧！ ……老师，老师夸我了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/W4Q1Gpi7r5tqCCT49eJwL6O71CiWOxKc.ogg"
+    },
+    {
+      "description": "serikanewyear_login_1",
+      "category": "lobby",
+      "text": "啊，老师。好了，我们快点工作吧。 好不容易能来给你帮忙，等了好久呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/0CEUGNjt8bydQS5OFYbLUmusDwQG1baj.ogg"
+    },
+    {
+      "description": "serikanewyear_login_2",
+      "category": "lobby",
+      "text": "一回到沙勒，不知为何，竟然看到了一位巫女！ ……自己说出来突然感觉好羞耻啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/y8fkRNyDo7VqNvqORM6FHSmNQHjKgo1J.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "对，对不起，老师……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/aXBmFarf7JO2srOoLzULx4zrUtsHRA0d.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "你看到了吧，我不能动了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gqhJIDaRYyKpm0Mgrsf84uvvhux0h3nV.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "诶？你，你这是什么意思？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/pHg9Y9nTkX0xJAzlY2q1874UGdxzjIkX.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "话说回来，你这是，在夸我吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/VHqCOPgBC43IKeVDXSqRPyY7KbtlwdQ9.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "啊，对了，之前放你鸽子了，很抱歉……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/BGAWrxezW8xpUnUrm3fH3KtS41g2lQAh.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "诶？就在这里一起休息也很好……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/W0SH5vLxHRVTl5CPVkhcP7L9zG5QxGlR.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "这段时间我做兼职已经很辛苦了，",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/g3jaHy8OlTDHh2ivXLpIOqP8ie9sbGcq.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "现在可以好好休息一下……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/jM074ayZhXeM7si1QRt5a3ZhyrLCuL5E.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "啊哈哈，这话说的……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/xD6Yq6WSiWbj0MLWMXNW3thbygbD3jmm.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "真是，老师总是说这种……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/iXCrFx8nqlgMiorw5Ty0AKlxPZzshev9.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "嗯，好吧，那今天，我们就一起好好休息吧，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/M52wiAEqdGQMi8GEbySp1bsoc3TguhXI.ogg"
+    },
+    {
+      "description": "serikanewyear_omikuji_1",
+      "category": "event",
+      "text": "老师，快快快，来试试新年的运气吧！ 唔唔，突然感觉好紧张……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/hkosGFLTovQGGoa7FfmXmjMPFTvGVIDp.ogg"
+    },
+    {
+      "description": "serikanewyear_omikuji_2",
+      "category": "event",
+      "text": "没事，抽到坏签也没关系。这不有本巫女在嘛……！ ……你，你笑什么啊！我好不容易才说出口的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/GFxOiDto9IZrqTHLd6WD1v6sm3O7FEWt.ogg"
+    },
+    {
+      "description": "serikanewyear_omikuji_end",
+      "category": "event",
+      "text": "啊，虽然迎新春活动已经结束了，但还可以继续求签。 来吧，老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/vymYUBeknoUDwz041jXfPYBx0FEqPYjq.ogg"
+    },
+    {
+      "description": "serikanewyear_omikuji_login_1",
+      "category": "event",
+      "text": "啊，老师。你是来求签的吗？求签的话在这边。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/Bdk7Kr7AyaskpHGDqNPgkdZtgRGDqS3h.ogg"
+    },
+    {
+      "description": "serikanewyear_omikuji_login_2",
+      "category": "event",
+      "text": "求一次签怎么样——！ 呃……求签，可以这么吆喝吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/wTmMY9Jdz5LFRG8f6cM4k0GSaE9JWPmd.ogg"
+    },
+    {
+      "description": "serikanewyear_omikujipickup_1",
+      "category": "event",
+      "text": "噢，大吉？！你好厉害啊！老师！ 抽中大吉的话，可以领取特别的奖品哦！给你！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/knS4x6qKPgMgA1bjYc5hOx4UBtbvN7mS.ogg"
+    },
+    {
+      "description": "serikanewyear_omikujipickup_2",
+      "category": "event",
+      "text": "是吉诶！恭喜老师！ 来，这是代表幸运的巫女送给你的奖品~！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/N24UNEN4Ci2alKOpuJJaMXaMPZv15YGs.ogg"
+    },
+    {
+      "description": "serikanewyear_omikujipickup_3",
+      "category": "event",
+      "text": "中吉啊——嗯，也还不错吧？ 老师，给，这是中吉的奖品！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/U0QRein78XawgxTm0CHsbptckHzof9Z1.ogg"
+    },
+    {
+      "description": "serikanewyear_omikujipickup_4",
+      "category": "event",
+      "text": "嗯？小吉？ 没事，老师，别失望。来，这个给你。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/W19JHpYpLXxUwzfd3oJFW2nozYlJfVk2.ogg"
+    },
+    {
+      "description": "serikanewyear_omikujipickup_5",
+      "category": "event",
+      "text": "居然是末吉啊……呃，感觉挺符合老师的形象诶…… 啊，没有没有，我没别的意思！来来，这个给你，抽中末吉的奖品。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/EgbGSoVbZBL7NfYZU7diDpqkqM6dvPQ1.ogg"
+    },
+    {
+      "description": "serikanewyear_omikujipickup_6",
+      "category": "event",
+      "text": "凶，凶？！啊，啊哈哈……这，没，没关系的！ 来！给你这个！别放在心上哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/lCMYB5Clz2avujLGWLql05Qu5MG46yYz.ogg"
+    },
+    {
+      "description": "serikanewyear_relationship_up_1",
+      "category": "growup",
+      "text": "总感觉我和老师的距离……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/74Rw4Vtm2iDBPmXaoFaWlmPfpin6eyI5.ogg"
+    },
+    {
+      "description": "serikanewyear_relationship_up_2",
+      "category": "growup",
+      "text": "（这是怎么回事？感觉心跳的好快。怎么办，怎，怎么办？）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/iPV9LUwiXlKewi4xpYTRlnr7MjYekkpE.ogg"
+    },
+    {
+      "description": "serikanewyear_relationship_up_3",
+      "category": "growup",
+      "text": "为什么你总是对我这么好……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/S57JAtZMGebsl1mSWACmxFue8TmSHEhS.ogg"
+    },
+    {
+      "description": "serikanewyear_relationship_up_4",
+      "category": "growup",
+      "text": "有老师看着，我就能更努力。所以，请……请继续陪在我身边吧，老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/bscVawtDJRVv2GjRx27qxoQcfAdLv2z8.ogg"
+    },
+    {
+      "description": "serikanewyear_season_birthday",
+      "category": "lobby",
+      "text": "你问我过生日有没有想要的东西……？ 嗯……今天……唔……我们就这样在一起就好了……嗯。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/obpWRhM3JoMfJ2TK9BUmKCw1WX4xbPUF.ogg"
+    },
+    {
+      "description": "serikanewyear_season_birthday_player",
+      "category": "lobby",
+      "text": "生日快乐，老师。呃，我兼职的工资也发了。要不，我请客，一起吃个饭？ 今，今天一天我都没别的安排！因为今天是重要的日子嘛……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/AW6UORPWyKLtAUx5tGKu770xVn9SUwrf.ogg"
+    },
+    {
+      "description": "serikanewyear_season_chinesenewyear",
+      "category": "lobby",
+      "text": "新春快乐老师！这身衣服好像有点不搭配？这，这本来就是打工的衣服啊！又不是专门为了节日穿的。要不，明年我去找找山海经的兼职好了？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/OD4nueQxEp2Pa2GdTIvSWjRHBG4EvhnF.ogg"
+    },
+    {
+      "description": "serikanewyear_season_halloween",
+      "category": "lobby",
+      "text": "穿，穿成这样，应该可以把万圣节的鬼怪都赶跑了吧……？！ ……只是cosplay估计不行？ 都，都说了不是cos了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/MlOMfZYtue752kFEIxweCCKyDKiERXeE.ogg"
+    },
+    {
+      "description": "serikanewyear_season_midautumn",
+      "category": "lobby",
+      "text": "今晚的月亮好圆啊！我要赶快下班，回去和对策委员会的大家一起赏月，老师也一起来阿拜多斯吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/hvN0W265kjyaxnWVgkT5iFkK6TZJSHCI.ogg"
+    },
+    {
+      "description": "serikanewyear_season_newyear",
+      "category": "lobby",
+      "text": "新年快乐，老师。 既，既然我都穿成这样了。要不……你就许个愿，我可以配合你哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/OlspPHIWjFULll79lzGBop9AuDTqO4WY.ogg"
+    },
+    {
+      "description": "serikanewyear_season_xmas",
+      "category": "lobby",
+      "text": "圣诞快乐~！反正老师今天也没安排吧？我穿得可爱一点给你看哦。 ……虽然很开心，但是既然要换装，也想看看圣诞装？ 那，那个等以后的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/EOt9wpQFMhkFkvLaLSXa8Q4EV4x7XQNS.ogg"
+    },
+    {
+      "description": "serikanewyear_tactic_defeat_1",
+      "category": "battle",
+      "text": "到底是哪儿失误了呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/SLkHSLYnTrqxHr2MWj6KZCWb95gqUwrE.ogg"
+    },
+    {
+      "description": "serikanewyear_tactic_defeat_2",
+      "category": "battle",
+      "text": "都怪我，对不起……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/cqKcXnw92vfLvvSSzfcISIWxLXpIOAca.ogg"
+    },
+    {
+      "description": "serikanewyear_tactic_in_1",
+      "category": "battle",
+      "text": "既然接了这个工作，我就会全力以赴。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/KVcy5ZyLfwlcM68I0Mm9P9zApLgHxVQf.ogg"
+    },
+    {
+      "description": "serikanewyear_tactic_in_2",
+      "category": "battle",
+      "text": "巫女神力！我，我开玩笑的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/c0wdSfznVwo9rrIYXN2PzTsX3SCILTNS.ogg"
+    },
+    {
+      "description": "serikanewyear_tactic_victory_1",
+      "category": "battle",
+      "text": "大家都没事吧？没受伤吧？好的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/EdcAtEIz3UmPzVoJQM9PM1KMhmj8mxq5.ogg"
+    },
+    {
+      "description": "serikanewyear_tactic_victory_2",
+      "category": "battle",
+      "text": "哼，哼哼！轻轻松松！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/xYm2etRYFw1Y6oDsqA53DUQfWPiMd17D.ogg"
+    },
+    {
+      "description": "serikanewyear_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/i1VVUUmIbnamqmcGgINIvthIURk3UbAT.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_buffed_1",
+      "category": "battle",
+      "text": "嘿，谢谢你！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/0h5Tg5WbBJ0sYsB1iHwbCn88dNXer390.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_buffself_1",
+      "category": "battle",
+      "text": "好了，走吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/jqTdlDk2QH0wdEtFVbtV5QFjmL87MEvA.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_covered_1",
+      "category": "battle",
+      "text": "我藏好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/s7bV6KBvbJlJvylx1BepLE2kO79Fa7AY.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/iKb4D1mYcXHnYehn5nHev9phgTBrDQrU.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/jBoXo3v4iMJgr3V0yiv49IFelSNUk8a4.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/KLs0OJOpU85rKRzxkNNa6JuSvEOkcLae.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_defense_1",
+      "category": "battle",
+      "text": "没用的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/RhUx8Nmb5JITohK2CWTKhAvyigutGAaa.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_in_1",
+      "category": "battle",
+      "text": "千里之行，始于足下。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/VS1xKTcNdzc8Gpgxn2ff8mNLg0fIBikL.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "SerikaNewyear_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/SerikaNewyear_Title.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_battle_covered_1.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_battle_damage_1.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_battle_damage_2.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_battle_damage_3.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_battle_defense_1.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_battle_retire.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_battle_shout_1.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_battle_shout_2.ogg"
+    },
+    {
+      "description": "serikanewyear_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_battle_shout_3.ogg"
+    },
+    {
+      "description": "serikanewyear_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "serikanewyear_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "serikanewyear_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "serikanewyear_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "serikanewyear_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "serikanewyear_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_commonskill.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlobby_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_eventlobby_1.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlobby_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_eventlobby_2.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlobby_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_eventlobby_3.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlobby_4",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_eventlobby_4.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlogin_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_eventlogin_1.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlogin_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_eventlogin_2.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlogin_season_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlogin_season_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "serikanewyear_eventlogin_season_end",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "serikanewyear_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_exskill_1.ogg"
+    },
+    {
+      "description": "serikanewyear_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_exskill_2.ogg"
+    },
+    {
+      "description": "serikanewyear_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_exskill_3.ogg"
+    },
+    {
+      "description": "serikanewyear_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_exskill_level_1.ogg"
+    },
+    {
+      "description": "serikanewyear_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_exskill_level_2.ogg"
+    },
+    {
+      "description": "serikanewyear_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_exskill_level_3.ogg"
+    },
+    {
+      "description": "serikanewyear_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_exweapon_get.ogg"
+    },
+    {
+      "description": "serikanewyear_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_gachaget.ogg"
+    },
+    {
+      "description": "serikanewyear_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_growup_1.ogg"
+    },
+    {
+      "description": "serikanewyear_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_growup_2.ogg"
+    },
+    {
+      "description": "serikanewyear_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_growup_3.ogg"
+    },
+    {
+      "description": "serikanewyear_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_growup_4.ogg"
+    },
+    {
+      "description": "serikanewyear_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_lobby_1.ogg"
+    },
+    {
+      "description": "serikanewyear_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_lobby_2.ogg"
+    },
+    {
+      "description": "serikanewyear_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_lobby_3.ogg"
+    },
+    {
+      "description": "serikanewyear_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_lobby_4.ogg"
+    },
+    {
+      "description": "serikanewyear_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_lobby_5.ogg"
+    },
+    {
+      "description": "serikanewyear_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_login_1.ogg"
+    },
+    {
+      "description": "serikanewyear_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_login_2.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "serikanewyear_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_memoriallobby_5_3.ogg"
+    },
+    {
+      "description": "serikanewyear_omikuji_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_omikuji_1.ogg"
+    },
+    {
+      "description": "serikanewyear_omikuji_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_omikuji_2.ogg"
+    },
+    {
+      "description": "serikanewyear_omikuji_end",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_omikuji_end.ogg"
+    },
+    {
+      "description": "serikanewyear_omikuji_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_omikuji_login_1.ogg"
+    },
+    {
+      "description": "serikanewyear_omikuji_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_omikuji_login_2.ogg"
+    },
+    {
+      "description": "serikanewyear_omikujipickup_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_omikujipickup_1.ogg"
+    },
+    {
+      "description": "serikanewyear_omikujipickup_2",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_omikujipickup_2.ogg"
+    },
+    {
+      "description": "serikanewyear_omikujipickup_3",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_omikujipickup_3.ogg"
+    },
+    {
+      "description": "serikanewyear_omikujipickup_4",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_omikujipickup_4.ogg"
+    },
+    {
+      "description": "serikanewyear_omikujipickup_5",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_omikujipickup_5.ogg"
+    },
+    {
+      "description": "serikanewyear_omikujipickup_6",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_omikujipickup_6.ogg"
+    },
+    {
+      "description": "serikanewyear_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_relationship_up_1.ogg"
+    },
+    {
+      "description": "serikanewyear_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_relationship_up_2.ogg"
+    },
+    {
+      "description": "serikanewyear_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_relationship_up_3.ogg"
+    },
+    {
+      "description": "serikanewyear_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_relationship_up_4.ogg"
+    },
+    {
+      "description": "serikanewyear_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_season_birthday.ogg"
+    },
+    {
+      "description": "serikanewyear_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_season_birthday_player.ogg"
+    },
+    {
+      "description": "serikanewyear_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_season_halloween.ogg"
+    },
+    {
+      "description": "serikanewyear_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_season_newyear.ogg"
+    },
+    {
+      "description": "serikanewyear_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_season_xmas.ogg"
+    },
+    {
+      "description": "serikanewyear_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "serikanewyear_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/serikanewyear_tactic_defeat_2.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-11_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-12_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-13_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-10_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-00_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-14_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-07_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-08_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serika_newyear_spr-09_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "角色画廊",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol.1_%E9%A1%B5%E9%9D%A2_027.png",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol.1_%E9%A1%B5%E9%9D%A2_033.png",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol.1_%E9%A1%B5%E9%9D%A2_120.png",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol.1_%E9%A1%B5%E9%9D%A2_215.png",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol.1_%E9%A1%B5%E9%9D%A2_277.png",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/serika_newyear-%E7%B9%81%E4%B8%ADBanner.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/serika_newyear-%E5%9B%BD%E6%9C%8DBanner.png",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/serika_newyear-enBanner.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/serika%28%E6%AD%A3%E6%9C%88%29-%E6%97%A5%E6%9C%8DBanner.png",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/serika_newyear-%E7%B9%81%E4%B8%ADIntro.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/serika_newyear-%E5%9B%BD%E6%9C%8DIntro.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/serika_newyear_%E5%9B%BD%E6%9C%8Dskill.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/serika_newyear_%E5%9B%BD%E6%9C%8Dex.gif",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/serika_newyear_%E5%9B%BD%E6%9C%8Dcafe.gif",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/serika_newyear-enIntro.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Serika-newyear-%E6%97%A5%E6%9C%8DIntro.jpg",
+        "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/serika_newyear_%E5%9B%BD%E6%9C%8Dinteraction.gif"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 87,
+      "favorability": 180
+    },
+    {
+      "id": 96,
+      "favorability": 60
+    },
+    {
+      "id": 70,
+      "favorability": 40
+    },
+    {
+      "id": 76,
+      "favorability": 40
+    },
+    {
+      "id": 43,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    781
+  ],
+  "character_datas": [
+    {
+      "character_id": 20011,
+      "dev_name": "Serika_Newyear",
+      "combat_style": "default",
+      "type": "Support",
+      "attack_attribute": "Piercing",
+      "defensive_attributes": "Special",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "C",
+      "indoor_adaptability": "S",
+      "street_adaptability": "C",
+      "equipment": [
+        9,
+        10,
+        3
+      ],
+      "cultivate_material": [
+        99,
+        101,
+        102,
+        103,
+        149,
+        151,
+        153,
+        154,
+        403,
+        404,
+        405,
+        406,
+        399,
+        400,
+        401,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/skill_icon/cdR8CaFPwrCQjdsX8c6McvsOF43dkYI8.png",
+            "title": "你妨礙到我打工了！",
+            "title_cn": "别妨碍我兼职！",
+            "preview": "//static.kivo.wiki/videos/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/%E6%AD%A3%E6%9C%88/skill_preview/2y9NnIaUjqRCeyJm8hpNcneiejwmkeUn.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "对弧形范围内的敌人造成攻击力247%的伤害，使其暴击伤害减少21.3%（持续30秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "对弧形范围内的敌人造成攻击力284%的伤害，使其暴击伤害减少21.3%（持续30秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "对弧形范围内的敌人造成攻击力321%的伤害，使其暴击伤害减少24.5%（持续30秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "对弧形范围内的敌人造成攻击力358%的伤害，使其暴击伤害减少24.5%（持续30秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "对弧形范围内的敌人造成攻击力395%的伤害，使其暴击伤害减少27.7%（持续30秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/skill_icon/Jt8KUR1J433esh6WPKdbo6YM5AL3mUMl.png",
+            "title": "作为巫女为你们祈祷！",
+            "title_cn": "作为巫女而祈祷！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每40秒使圆形范围内的我方攻击力增加8.6%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒使圆形范围内的我方攻击力增加9%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒使圆形范围内的我方攻击力增加9.5%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒使圆形范围内的我方攻击力增加11.2%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒使圆形范围内的我方攻击力增加11.6%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒使圆形范围内的我方攻击力增加12%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒使圆形范围内的我方攻击力增加13.8%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒使圆形范围内的我方攻击力增加14.2%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒使圆形范围内的我方攻击力增加14.6%（持续30秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒使圆形范围内的我方攻击力增加16.4%（持续30秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/skill_icon/GY9BHZiOX5z8cd6QMStQQ7XOTRweOj1l.png",
+            "title": "打工巫女的坚持",
+            "title_cn": "兼职巫女的倔强",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/skill_icon/WC84mBffXE5JtmGW36GUZb3f7XPnOqo6.png",
+            "title": "打工巫女的执念",
+            "title_cn": "兼职巫女的执念",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害减免增加9.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害减免增加9.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害减免增加10%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害减免增加11.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害减免增加12.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害减免增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害减免增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害减免增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害减免增加15.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击伤害减免增加17.3%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2290,
+          "attack": 252,
+          "defense": 18,
+          "healing": 2064,
+          "accuracy": 763,
+          "evasion": 727,
+          "crit": 218,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1463,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/weapons_icon.png",
+        "name": "Sincerity",
+        "name_cn": "诚意",
+        "description": "芹香打工时也随身携带的突击步枪。<br>即使是巫女的打工也不例外。因为是新年，所以也使用于平静对他人造成困扰的问题儿童上。",
+        "description_cn": "芹香兼职时经常携带的突击步枪。<br>即使扮演巫女时也不例外。因为在新年期间，所以也用于惩戒那些聚众闹事的问题儿童。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「打工巫女的坚持」升级为「打工巫女的坚持+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室内适应性 S -> SS",
+            "description": "在室内地形造成1.3倍伤害。在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/skill_icon/qy2uzcptt7hQ2EuATEEDKqNp2U6I98JV.png",
+            "title": "打工巫女的坚持+",
+            "title_cn": "兼职巫女的倔强+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击力增加248/攻击力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加260/攻击力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加272/攻击力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加322/攻击力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加334/攻击力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加347/攻击力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加396/攻击力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加408/攻击力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加421/攻击力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击力增加470/攻击力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "5f36d8d5-8e62-4468-bcf0-32e32c20e2c0",
+  "skill_declare_uuid": "cbe83f37-99f1-45c5-8043-0fa25e763895",
+  "supplementary_uuid": "e25907fe-a6a1-41c8-8cc6-21566771e263",
+  "supplementary_declare_uuid": "c094f4b9-32c4-44f9-8738-5e001b9ebe86",
+  "created_at": 1684757897,
+  "updated_at": 1774934401
+}

@@ -1,0 +1,2123 @@
+{
+  "id": 35,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 35,
+      "avatar": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 382,
+      "avatar": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "秤",
+  "given_name": "亚津子",
+  "family_name_jp": "秤",
+  "given_name_jp": "アツコ",
+  "family_name_kr": "하카리",
+  "given_name_kr": "아츠코",
+  "family_name_en": "Hakari",
+  "given_name_en": "Atsuko",
+  "family_name_zh_tw": "秤",
+  "given_name_zh_tw": "敦子",
+  "family_name_cn": "秤",
+  "given_name_cn": "亚津子",
+  "nick_name": "公主,墩子,秤砣,龇牙笑",
+  "introduction": "阿里乌斯分校所属，总是戴着防毒面具无法看到她的表情，有点神秘的阿里乌斯小队成员。\n\n虽然也不是要刻意要遮住脸，但依然除了吃饭睡觉，几乎总是戴着防毒面具。\n被阿里乌斯小队队长的纱织称为「公主」，但本人不会多谈自己的私事，充满了谜团。\n\n>这里也能，开满很多花就好了呢",
+  "introduction_cn": "阿里乌斯分院所属，一直戴着防毒面具，散发着神秘氛围的战术小队成员。\n\n虽然并不是特意遮住脸，但除了吃饭睡觉之外，基本都戴着防毒面具。被战术小队的队长纱织称呼为公主，有关她的真相大部分还隐藏于谜团中。\n\n>这里也能开满鲜花就好了。",
+  "momo_talk_signature": "最近在学习花语",
+  "main_relation": 42,
+  "relation": [
+    5,
+    14,
+    7
+  ],
+  "age": 15,
+  "grade": "一年生",
+  "height": 158,
+  "birthday": "01-20",
+  "hobby": "栽培花朵",
+  "designer": "9ml",
+  "illustrator": "9ml",
+  "character_voice": "花泽香菜",
+  "character_voice_cn": "刘一蕾",
+  "release_date": "2022-06-08",
+  "release_date_cn": "2024-05-16",
+  "release_date_global": "2023-01-03",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/avatar.png",
+  "school": 10,
+  "weapon_type": "SMG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": false,
+  "more": "# 杂项趣闻\n\n:::: center\n!!! question <font size=\"4\">**荣 誉 勋 章**</font>\n![hanamaru_coconut.png](files/19083/lgj4cn7FML4efZeQXT3qrdc0b6jy61g0.png =100x)\n此角色曾在本站开设的投票活动『基沃托斯年度最佳大选』中取得前三名的成绩！\n[2024年](https://kivo.wiki/article/37)：【年度最佳国服角色PV（独家记忆）】**第2名**![rank2.png](files/19083/MH1lPJFie8xHWAjDEi8IWsqLBYLni61W.png =50x)\n!!!\n::::\n\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n| 自己 | 私 |\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[纱织](https://kivo.wiki/data/character/36)|サッちゃん<br>サオリ<br>サオリちゃん<br>サオリ先生|\n|[美咲](https://kivo.wiki/data/character/33)|ミサキ|\n|[日和](https://kivo.wiki/data/character/34)|ヒヨリ|\n|[梓](https://kivo.wiki/data/character/3)|アズサ|\n|[忧](https://kivo.wiki/data/character/23)|ウイさん<br>委員長さん<br>噂通りの子|\n|[志美子](https://kivo.wiki/data/character/194)|シミコさん|\n|[昴](https://kivo.wiki/data/character/559)|スバル<br>スバル先輩<br>先輩<br>あなた|\n|[DJ B.o.B](https://kivo.wiki/data/character/387)|DJさん|\n|[渚](https://kivo.wiki/data/character/25)|ナギサさん<br>あなた|\n|[花江](https://kivo.wiki/data/character/98)|ハナエちゃん<br>ハナエさん|\n|[花子](https://kivo.wiki/data/character/92)|ハナコちゃん|\n|[ 芭尔芭拉](https://kivo.wiki/data/character/245)|バルバラ|\n|[贝阿朵莉切](https://kivo.wiki/data/character/170)|彼女<br>マダム<br>ベアトリーチェ|\n|[迈亚](https://kivo.wiki/data/character/558)|マイア<br>あなた<br>この子|\n|[美弥](https://kivo.wiki/data/character/129)|ミネさん|\n|阿里乌斯小队|アリウススクワッド<br>私たち<br>みんな|\n|救护骑士团|救護騎士団<br>救護騎士団のみんな<br>救護騎士団の人たち|\n|图书委员会|図書委員会|\n|尼科米底亚分队|ニコメディアトゥループ|\n|[尤斯蒂娜圣徒会](https://kivo.wiki/data/character/232)|ユスティナ聖徒会|\n|[阿里乌斯分校](https://kivo.wiki/data/organize/10)|アリウス<br>アリウス分校|\n|[圣三一综合学园](https://kivo.wiki/data/organize/2)|トリニティ|\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n\n## 武器\n\n亚津子所使用的主武器原型应为CZ Scorpion EVO 3 A1。游戏内将其命名为 “スコルピウス” (Scorpius)，这正是“天蝎座”的拉丁语，直接点明了武器的原型。\n\nCZ Scorpion EVO 3 A1是一款诞生于21世纪（2009年）的现代化冲锋枪。它大量采用聚合物材料（工程塑料）以减轻重量，空枪重量仅约 2.5 公斤，设计初衷就是为了CQB（室内近距离战斗）、警用、反恐等。EVO 3 A1作为一把 PDW（个人防卫武器）/ SMG，其战术意义在于近距离爆发和压制：它的理论射速高达1150 发/分钟，这是一个惊人的数字。当敌人试图侵犯“公主”的领域时，这把武器会像受惊的蝎子一样，瞬间倾泻出9mm子弹构成的毒液。长步枪在狭窄空间会发生碰撞（所谓“施展不开”），而短小的冲锋枪允许她在释放烟雾弹后，在极近的距离内进行战术机动。\n\n| CZ Scorpion EVO 3 A1 |\n|----------------------|\n|![CZ_SCORPION_EVO_3_A1.jpg](files/18728/ke4ZaNjrJFANvvlINaz8PDZFb9K9hFbR.jpg =300x)|\n\n## 别称相关\n### 墩子/秤砣\n国际服翻译梗，国际服将“アツコ”翻译成“敦子”，结合亚津子的姓“秤”莫名其妙地有喜感，因而成梗\n\n### 龇牙笑\n源自日服官方漫画「ぶるーあーかいぶっ！」第67话。原图并没有嘴巴，但是被好事者P成了龇牙的表情，并很快在ba圈传开，成为了ba圈的经典表情之一\n::: center\n![fxgV8RjMioE0siFpMNO3QTwKgzB64I2p.png](files/1279/fxgV8RjMioE0siFpMNO3QTwKgzB64I2p.png \"原图\" =200x)\n\n![Q82QqUWqyG3PeAn7R1Yb1UVrjYmGSa6g.jpg](files/1279/Q82QqUWqyG3PeAn7R1Yb1UVrjYmGSa6g.jpg \" 被P过后的梗图\" =170x)\n:::\n\n# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 徒桜を拾い集めて | 俯身一揽 拾取晚樱 | 不是飞舞的花瓣 而是绽放的花朵 | I'm more of a blooming flower not petals that flutter away on the breeze |\n| ![atsuko-日服Banner.png](files/10355/8YBoAtkFkirdGRaUKfGMbkGj3RlvVBWl.png =450x) | ![atsuko-国服Banner-国服Banner.jpg](files/10355/UD5k6fIcmMuji8seS1a8AIqPFqh7tOZs.jpg =450x) | ![atsuko-繁中Banner-繁中Banner.png](files/10355/jmpDJG7Mjta8Rfo59UjNOlLoCWoAHkFw.png =450x) | ![atsuko-enBanner.jpg](files/10355/Thb7UtRQpa60ZDsrS4UJKmkN85oimqY0.jpg =450x) | \n\n同系列卡池：\n[纱织](https://kivo.wiki/data/character/36)「雪代水は廻り行く」\n[日和](https://kivo.wiki/data/character/34)「木枯らしに目を引かれ」\n[美咲](https://kivo.wiki/data/character/33)「逃げ水を夢に見て」\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Atsuko-日服Intro-日服Intro.jpg](files/10355/Cuq5YobaZfwEP4b1JqQHWCpNQ3tvrCj1.jpg =525x) | ![atsuko-国服Intro-国服Intro.jpg](files/10355/EOsPsaVn03px0YfzYdjb1lF2usj4fAMS.jpg =425x) |  ![atsuko-繁中Intro.jpg](files/10355/wl40lcqBFQZRz8xWarLx15whsEM83QtE.jpg =530x) | ![atsuko-enIntro-enIntro.jpg](files/10355/rC1BPeA31lITuJNw1biWD6G5y1GI37TL.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[皇家钻石软垫椅](https://kivo.wiki/data/item/829) |\n| :---: | :---: | :---: |\n| ![atsuko_国服国服ex.gif](files/10355/mXHrnOLIh4ywIpahusatF1LfThkYZO22.gif =450x) | ![atsuko_国服国服cafe.gif](files/10355/7AsaPiN5EmXV24Eqc36mGyRdRqBDFaqI.gif =450x) | ![atsuko_interaction.gif](files/10355/CwIgNo5mmeiiatIAG86lRrDbywt8REPf.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 亚津子 汉化\n![亚津子](files/2/UmuDN6YvgF1lSCJ06j0Xf14GhbtGL344.png =450x)\n@tab 亚津子 原文\n![亚津子](files/2/kjyb1HPFXEw3CcB3RweJTpkrdpP9LHf6.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n\n![Vol.1_页面_127.png](files/10355/X0TaDYZt2o4FpDgVUbtICTdFW8MRnKvh.png =450x)\n\n![Vol2-16.jpg](files/10355/EYmdNfaW21hxvRlThypIFz9vV8JzegXR.jpg =450x)\n\n![Vol2-37.jpg](files/10355/4gboFQzH4TkJGdfE7wSwgT5XL3pQmA1O.jpg =450x)\n\n![Vol2-69.jpg](files/10355/a5u4rvTe8PZlMMvW4AOVyQUhrXPnw1Iz.jpg =450x)\n\n![Vol2-130.jpg](files/10355/fpGXpljxFjfw7Nn8TASDHNZHHnG7CpOp.jpg =450x)\n\n![Vol2-160.jpg](files/10355/cAKEicYrMtquV8p5oIOW5doHm1gcDsQm.jpg =450x)\n\n![Vol2-186.jpg](files/10355/aP64CnTZ8qgMgHRpvN0JNqMMiOT1t5Ln.jpg =450x)\n\n![Vol2-187.jpg](files/10355/5CqGIyieNpDWXSuJYXeeXurJIqyrmDEs.jpg =450x)\n::::",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/Atsuko_home_Idle_01_1.1582000000000001.jpg",
+  "spine": [
+    64,
+    1681,
+    1745,
+    1068,
+    387
+  ],
+  "model": [
+    8,
+    216
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/voice/play_icon.webp",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/voice/pause_icon.webp",
+  "voice": [
+    {
+      "description": "Atsuko_Title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/uzaAPHOJvVtcdhIiJpYgsyQEVhF7Ep8g.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Buffed_1.ogg",
+      "category": "battle",
+      "text": "已收到支援,谢谢。",
+      "text_original": "支援を確認。ありがとう。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/k6q0Gjm2FAs1HvMSPh0eg6X5fPeR0SjB.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_BuffSelf_1.ogg",
+      "category": "battle",
+      "text": "没关系,我还能坚持。",
+      "text_original": "大丈夫、まだいける。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/OIxYteacv7XuxvQNGPFWf6QbzEbB250z.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Covered_1.ogg",
+      "category": "battle",
+      "text": "掩蔽中。",
+      "text_original": "隠れてる。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/3uJM2PDUAArW0qfSyfukmokUme7Sn0w7.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Damage_1.ogg",
+      "category": "battle",
+      "text": "唔……",
+      "text_original": "うっ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/boimv0D5FNhyKJwD49YmG1PkcMSDbvVf.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Damage_2.ogg",
+      "category": "battle",
+      "text": "呃……",
+      "text_original": "うぅっ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/UG19knEfA2kGBrQZEwpz7AprUtyisuYw.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Damage_3.ogg",
+      "category": "battle",
+      "text": "原来,我也有被瞄准的价值啊……",
+      "text_original": "私…　狙われる価値があるんだ……？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/JmoJqwK4TcK131z1pgKCFRAHyJRnuix4.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Defense_1.ogg",
+      "category": "battle",
+      "text": "没用的。",
+      "text_original": "無駄",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/zM1oRYcmPg2zq0hxZZbuX4epQqHnyGqb.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "嗯。",
+      "text_original": "うん",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/DM0iQLiQCoDXYbY0BKdwJ5gQalEaKLV7.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "嗯,上吧。",
+      "text_original": "行こう",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/qRSHLHXKqHCqRqd9ffLAaiGNFIwlRVci.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Move_1.ogg",
+      "category": "battle",
+      "text": "开始移动。",
+      "text_original": "移動する",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/rqNGf7pRzVGBFaDu4sej6qXd8iMUvqnb.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Move_2.ogg",
+      "category": "battle",
+      "text": "前进。",
+      "text_original": "前進",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/00bIlUjc0rzasfh03vBTz0ZvRHydZsOi.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Recovery_1.ogg",
+      "category": "battle",
+      "text": "谢谢你。",
+      "text_original": "ありがとう。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/OClNbdZcUbrB7GwU5lHnMKgUsIvcIVh0.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Retire.ogg",
+      "category": "battle",
+      "text": "抱歉……",
+      "text_original": "ごめん",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/rbJwb1poDqUB9fCWkd0P1lF5lyuBTnwC.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Shout_1.ogg",
+      "category": "battle",
+      "text": "嗯——",
+      "text_original": "ん",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/iihNIXsEe0uuwIJqv2mIn9bdyBUrWniE.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Shout_2.ogg",
+      "category": "battle",
+      "text": "哼——",
+      "text_original": "ん",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/uTuNQWuAlITFWtyrlbeyV5MY2EmvdTXF.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Shout_3.ogg",
+      "category": "battle",
+      "text": "哈——",
+      "text_original": "は",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/lmPhLXeqQncCJUdgL3RMDF5vYrm6wqwh.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_TacticalAction_1.ogg",
+      "category": "battle",
+      "text": "我去那边。",
+      "text_original": "そっちに行くね。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/DmPSDQLR2k7EFSXPVkNUNEuMAlWWxxgZ.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Victory_1.ogg",
+      "category": "battle",
+      "text": "嗯。",
+      "text_original": "ん",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/m48FbuaBD1Dy2g7jM5IX0YIL4zWvG0Dw.ogg"
+    },
+    {
+      "description": "Atsuko_Battle_Victory_2.ogg",
+      "category": "battle",
+      "text": "赢了。",
+      "text_original": "勝った。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/hDcrVgkoY5YmT3FOO9xWnPr4WWmtAKwd.ogg"
+    },
+    {
+      "description": "Atsuko_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "（沙……沙）",
+      "text_original": "（ススッ、スッ……）",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/MOiayrxXU12J5jY4sYb8fio4soHx7n5d.ogg"
+    },
+    {
+      "description": "Atsuko_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "嗯？",
+      "text_original": "ふーん？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/0z7L2FGhLAIxAIFuQMLto7K2nDBo4E31.ogg"
+    },
+    {
+      "description": "Atsuko_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "虽然有点乱七八糟的……嗯，不过也不赖。",
+      "text_original": "少し落ち着かないけど……うん、嫌じゃない",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/iTpIUM8KY5AXxJcZxHPuKL89EOhBpFfd.ogg"
+    },
+    {
+      "description": "Atsuko_Cafe_monolog_4.ogg",
+      "category": "cafe",
+      "text": "这就是，普通的聊天吗……？",
+      "text_original": "これが、普通の会話……？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/koD9FBWLwf0LBr1V8c1xyYuZ0tatuA73.ogg"
+    },
+    {
+      "description": "Atsuko_Cafe_monolog_5.ogg",
+      "category": "cafe",
+      "text": "在这里……放一瓶花也很不错啊。",
+      "text_original": "ここ……花を置いたら良さそう。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/25HzL9U6sWGLDZyvph9bMYPi8jebMPMZ.ogg"
+    },
+    {
+      "description": "Atsuko_CommonSkill.ogg",
+      "category": "battle",
+      "text": "你在瞄准我。",
+      "text_original": "狙われている。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/8mmvzvhYusKlxdsLi7nSmTVxZjUnUpTN.ogg"
+    },
+    {
+      "description": "Atsuko_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "原来如此,又是这样……",
+      "text_original": "そっか、なるほど。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/qiRQ4kMu4jPndT93GoCkJHL7EI7ZHE08.ogg"
+    },
+    {
+      "description": "Atsuko_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "这是，为了我吗?",
+      "text_original": "これは、わたしを？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/yV94DAKyCl9uZUtHs12ZRttpVxQHTmUC.ogg"
+    },
+    {
+      "description": "Atsuko_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "原来是这样。",
+      "text_original": "こうなっているんだね。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/9owRFIGUgWikiHc8nMaYt8MfRSRECIqI.ogg"
+    },
+    {
+      "description": "Atsuko_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "那,我就不客气了。",
+      "text_original": "なら、遠慮しない。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/iWvtmC3kSWUnAVZWWhYhSsUpVwsiVDiX.ogg"
+    },
+    {
+      "description": "Atsuko_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "那就拜托了。",
+      "text_original": "じゃあ、お願い。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/Ui50ylwdWbaR8Gg6Pb5z5hS1YlQRsenK.ogg"
+    },
+    {
+      "description": "Atsuko_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "希望这样能帮上忙。",
+      "text_original": "これで役に立てるなら。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/fDcEOV8z2mVWbcTqscPWjf1zzTs93pMy.ogg"
+    },
+    {
+      "description": "Atsuko_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "我曾放弃思考，放弃做决定，任凭命运的安排过着随波逐流的生活。但从现在开始……嗯，谢谢你，老师。",
+      "text_original": "考えることを諦めて、 決めることを諦めて…… ただ、決まった運命をなぞって生きてきた。 でも、これからは…… うん。ありがとう、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/zRjcwu59dJ9Wjsv83xRHCsUH5dMeF0kJ.ogg"
+    },
+    {
+      "description": "Atsuko_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "明白了。",
+      "text_original": "理解した。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/sDaEAzPzQx9IMWazfJl0S90uN0DTLVyT.ogg"
+    },
+    {
+      "description": "Atsuko_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "确认完毕。",
+      "text_original": "確認完了。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/XdZ9q9thjuniqvVp5rfy5MEu3BQX5Wkr.ogg"
+    },
+    {
+      "description": "Atsuko_Formation_Select.ogg",
+      "category": "formation",
+      "text": "嗯？",
+      "text_original": "んっ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/AbPImPBLDQUyfZNjhNlO56C9MjnuK3tN.ogg"
+    },
+    {
+      "description": "Atsuko_Gachaget.ogg",
+      "category": "growup",
+      "text": "我的名字叫秤亚津子。老师，你想让我做什么事呢？要是我能办到就好了。",
+      "text_original": "……私の名前は秤アツコ。 先生は、私に何を望むの？ それが私にできることなら良いけど。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/NCVp6ad6JEMLENZGx2uTHAO4veM0inNs.ogg"
+    },
+    {
+      "description": "Atsuko_Growup_1.ogg",
+      "category": "growup",
+      "text": "你这么重视我,这份心意,我会好好珍惜的。",
+      "text_original": "私を大事にしてくれるその気持ちを…私も、大切に思うね",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/mMOoFXV7YlGXgFR4jN44QiTq2n1MNlsD.ogg"
+    },
+    {
+      "description": "Atsuko_Growup_2.ogg",
+      "category": "growup",
+      "text": "我还以为自己没有让你做这么多事的价值……",
+      "text_original": "こんな事をしてもらえる価値なんて…私には無いと思ってた。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/wVQKUhQC69ohyYdPFVBtNEqiKw3IzK6X.ogg"
+    },
+    {
+      "description": "Atsuko_Growup_3.ogg",
+      "category": "growup",
+      "text": "你教给我的,我一直都记在心里。",
+      "text_original": "教えてくれたことは、ずっと覚えてるから。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/VRbGZUsAx9ldNuoHalMNemWGwnXcrnCk.ogg"
+    },
+    {
+      "description": "Atsuko_Growup_4.ogg",
+      "category": "growup",
+      "text": "又学到了……一件事。",
+      "text_original": "また一つ、学べた。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/AjW35hfmhPAf9jl4xeSmme2JVnQOCTR6.ogg"
+    },
+    {
+      "description": "Atsuko_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "如果有什么事情要做，可以随时告诉我。",
+      "text_original": "何か、頼みたいことがあったら言って。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/p0TnPSxGvA3BIbk41W8lF9ElHwDlhdYx.ogg"
+    },
+    {
+      "description": "Atsuko_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "我可以用花装饰一下这里吗？",
+      "text_original": "ここにも、花を飾って良い？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/DvsGpxD0UKOF8kQ86P5xnUs1Z3sRouXq.ogg"
+    },
+    {
+      "description": "Atsuko_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "有什么需要，就尽管告诉我吧。",
+      "text_original": "望みがあったら、何でも言って。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/YKnl4Mm8N213zqPU7MCDDWO9EQKR87Al.ogg"
+    },
+    {
+      "description": "Atsuko_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "嗯？我的脸上有什么东西吗？",
+      "text_original": "……？　私の顔に、何かついてる？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/XeXSYzribhEVwFT7KqzJIhDHN4TM5UCD.ogg"
+    },
+    {
+      "description": "Atsuko_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "这就是值日啊……有点想试试了。",
+      "text_original": "これが当番……ちょっとやってみたかった。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/LYPn9ZD8RxS3zy2mj5TXsw6ptWX72pvo.ogg"
+    },
+    {
+      "description": "Atsuko_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "老师，辛苦了。",
+      "text_original": "先生、お疲れ様。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/pIlnF9LRWBtusw8Aht5etDCxUv2lSVlw.ogg"
+    },
+    {
+      "description": "Atsuko_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "欢迎回来。",
+      "text_original": "おかえり、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/su1EvnsLBunY7ybYjcwQrTI5MmVnLP2K.ogg"
+    },
+    {
+      "description": "Atsuko_MemorialLobby_1_1.ogg",
+      "category": "lobby",
+      "text": "这朵花，难道说……",
+      "text_original": "この花、もしかして…",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/meYih92gZ9pNHsnOe8wf1bJr8q7pV3ZS.ogg"
+    },
+    {
+      "description": "Atsuko_MemorialLobby_1_2.ogg",
+      "category": "lobby",
+      "text": "是为了我……",
+      "text_original": "……持ってきて、くれたんだ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/dAuuoTlaexcien8X63hjJx4HnNRbstp5.ogg"
+    },
+    {
+      "description": "Atsuko_MemorialLobby_2_1.ogg",
+      "category": "lobby",
+      "text": "带过来的吗……？",
+      "text_original": "私のために……？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/zQwbUzuHLjk9Y3XORmAi99OqD74w3UHB.ogg"
+    },
+    {
+      "description": "Atsuko_MemorialLobby_2_2.ogg",
+      "category": "lobby",
+      "text": "……原来如此。",
+      "text_original": "……そっか。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/49cIvIzGJcxlR4YhcaNkZ6W315unaBES.ogg"
+    },
+    {
+      "description": "Atsuko_MemorialLobby_3.ogg",
+      "category": "lobby",
+      "text": "我会好好珍惜的。",
+      "text_original": "……大切にするね、ずっと。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/I3XWVB6n0T33OBdIsfvSdhAH1SMW82qZ.ogg"
+    },
+    {
+      "description": "Atsuko_MemorialLobby_4.ogg",
+      "category": "lobby",
+      "text": "……好开心啊，谢谢你。",
+      "text_original": "……すごく嬉しい。ありがとう。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/dXYGWgywdtGZ09xX26fao8pOlB57Y6HX.ogg"
+    },
+    {
+      "description": "Atsuko_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "你对我……很亲切。",
+      "text_original": "優しく、してくれるんだ。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/jNWMiZtRMKDqhBnqOWNuGGnQaw0rS3Oy.ogg"
+    },
+    {
+      "description": "Atsuko_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "你给我这么多,不知道什么时候,我才能回报呢？",
+      "text_original": "こうしてもらったものを、いつか返せる日がくるのかな？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/NVYQh8Jc7NgF90bqNcT1AWeyOq6QoloM.ogg"
+    },
+    {
+      "description": "Atsuko_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "要是能在……啊……嗯……没什么……",
+      "text_original": "こうして、もっと…　あ、ううん、何でもない",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/EvBO7zRe2zjUIGxFwldhEQhcW3xPKbMJ.ogg"
+    },
+    {
+      "description": "Atsuko_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "多亏了老师。啊……嗯……从各种方面来说，都是……",
+      "text_original": "先生のおかげだよ。…えっと、……その……いろいろ…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/KFp3aENMUNdlBpgAEQ4EkbM9jSRVbKRn.ogg"
+    },
+    {
+      "description": "Atsuko_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "祝你生日快乐♪……我是好好学过再唱的。可你的表情……是我唱错了吗？",
+      "text_original": "♪Happy brithday to you~♪ 習った通りにやったんだけど、その表情、もしかして間違ってた？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/JLnxVFZawi0siQwYNXV83uzuBYxF64GH.ogg"
+    },
+    {
+      "description": "Atsuko_Season_Birthday1_1.ogg",
+      "category": "lobby",
+      "text": "生日？……嗯,我知道它的意义，因为我学过。",
+      "text_original": "誕生日……？……うん。どんな意味かは知ってる。最近習ったから。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/d5w8IxnEDSWf3RGk1ho5OPosIUArNfyK.ogg"
+    },
+    {
+      "description": "Atsuko_Season_Birthday1_2.ogg",
+      "category": "lobby",
+      "text": "如果收到了祝贺，那么也要表示感谢……所以……谢谢你……",
+      "text_original": "お祝いをしてもらったら、お礼を言うってことも。えっと、ありがとうございます",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/1j3tVdDtme28bk10PgqKwW7VqhUhmtr7.ogg"
+    },
+    {
+      "description": "Atsuko_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "糖果？送给我的吗……谢谢你……可是……为什么……？",
+      "text_original": "飴？私にくれるの？ありがとう……ところで、どうして？",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/wjmaM08qiWoa12sChUN6miFL7hZ3d0DE.ogg"
+    },
+    {
+      "description": "Atsuko_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "新年……是啊，这样又过去了一年。因为是与平常不同的日子，这次的新年，又会是什么样的呢？",
+      "text_original": "新年……こうしてまた、一年間が過ぎていくんだね。 普段とは違う日々ばっかりで……今度の新しい年は、どうなるのかな。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/vsHl4EPbZFSfn73KqMcxEOgZfM1rbs4R.ogg"
+    },
+    {
+      "description": "Atsuko_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "平安夜……嗯,学到了,如果有适合这种日子的话就好了。下次，我会去找找看的。",
+      "text_original": "聖夜……習った。うん。 こういう日に相応しい花があれば良かったんだけど……後で調べて来るね。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/vt6fM79ljaxcC80NdO9Bn9i7pgoM0451.ogg"
+    },
+    {
+      "description": "Atsuko_Tactic_Defeat_1.ogg",
+      "category": "battle",
+      "text": "嗯……",
+      "text_original": "うーん……。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/GtNKg1TPr1TZnnywzwAQNqEQAiaouZOg.ogg"
+    },
+    {
+      "description": "Atsuko_Tactic_Defeat_2.ogg",
+      "category": "battle",
+      "text": "输了……",
+      "text_original": "負けちゃった。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/3cHMqbzuNL7g4xb9MBiWqqac2UJY6jbk.ogg"
+    },
+    {
+      "description": "Atsuko_Tactic_In_1.ogg",
+      "category": "battle",
+      "text": "开始攻击。",
+      "text_original": "攻撃開始。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/PrhFRpSnKLtkqxO0IzPppowScqE8Wybx.ogg"
+    },
+    {
+      "description": "Atsuko_Tactic_In_2.ogg",
+      "category": "battle",
+      "text": "作战开始。",
+      "text_original": "作戦開始。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/6A62ZM2LaPZKtT4XBVxDshxVT0jZx1Wz.ogg"
+    },
+    {
+      "description": "Atsuko_Tactic_Victory_1.ogg",
+      "category": "battle",
+      "text": "嗯，胜利了。",
+      "text_original": "うん、勝利。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/aCkkaPBk92GIyTxBRTb6Ick1twLglQLR.ogg"
+    },
+    {
+      "description": "Atsuko_Tactic_Victory_2.ogg",
+      "category": "battle",
+      "text": "我们赢了。",
+      "text_original": "勝ったね。",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/nmW0ijB8CfknZKTQBlDDJm5rhPd8R40g.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "atsuko_battle_buffed_1",
+      "category": "battle",
+      "text": "已收到支援,谢谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_buffed_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_buffself_1",
+      "category": "battle",
+      "text": "没关系,我还能坚持。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_buffself_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_covered_1",
+      "category": "battle",
+      "text": "掩蔽中。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_covered_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_damage_1",
+      "category": "battle",
+      "text": "唔……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_damage_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_damage_2",
+      "category": "battle",
+      "text": "呃……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_damage_2.ogg"
+    },
+    {
+      "description": "atsuko_battle_damage_3",
+      "category": "battle",
+      "text": "原来,我也有被瞄准的价值啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_damage_3.ogg"
+    },
+    {
+      "description": "atsuko_battle_defense_1",
+      "category": "battle",
+      "text": "没用的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_defense_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_in_1",
+      "category": "battle",
+      "text": "嗯。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_in_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_in_2",
+      "category": "battle",
+      "text": "嗯,上吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_in_2.ogg"
+    },
+    {
+      "description": "atsuko_battle_move_1",
+      "category": "battle",
+      "text": "开始移动。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_move_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_move_2",
+      "category": "battle",
+      "text": "前进。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_move_2.ogg"
+    },
+    {
+      "description": "atsuko_battle_recovery_1",
+      "category": "battle",
+      "text": "谢谢你。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_recovery_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_retire",
+      "category": "battle",
+      "text": "抱歉……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_retire.ogg"
+    },
+    {
+      "description": "atsuko_battle_shout_1",
+      "category": "battle",
+      "text": "嗯——",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_shout_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_shout_2",
+      "category": "battle",
+      "text": "哼——",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_shout_2.ogg"
+    },
+    {
+      "description": "atsuko_battle_shout_3",
+      "category": "battle",
+      "text": "哈——",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_shout_3.ogg"
+    },
+    {
+      "description": "atsuko_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "我去那边。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_victory_1",
+      "category": "battle",
+      "text": "嗯。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_victory_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_victory_2",
+      "category": "battle",
+      "text": "赢了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_battle_victory_2.ogg"
+    },
+    {
+      "description": "atsuko_cafe_monolog_1",
+      "category": "cafe",
+      "text": "（沙……沙）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "atsuko_cafe_monolog_2",
+      "category": "cafe",
+      "text": "嗯？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "atsuko_cafe_monolog_3",
+      "category": "cafe",
+      "text": "虽然有点乱七八糟的……嗯，不过也不赖。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "atsuko_cafe_monolog_4",
+      "category": "cafe",
+      "text": "这就是，普通的聊天吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "atsuko_cafe_monolog_5",
+      "category": "cafe",
+      "text": "在这里……放一瓶花也很不错啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "atsuko_commonskill",
+      "category": "battle",
+      "text": "你在瞄准我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_commonskill.ogg"
+    },
+    {
+      "description": "atsuko_exskill_1",
+      "category": "battle",
+      "text": "原来如此,又是这样……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_exskill_1.ogg"
+    },
+    {
+      "description": "atsuko_exskill_2",
+      "category": "battle",
+      "text": "这是，为了我吗?",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_exskill_2.ogg"
+    },
+    {
+      "description": "atsuko_exskill_3",
+      "category": "battle",
+      "text": "原来是这样。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_exskill_3.ogg"
+    },
+    {
+      "description": "atsuko_exskill_level_1",
+      "category": "battle",
+      "text": "那,我就不客气了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_exskill_level_1.ogg"
+    },
+    {
+      "description": "atsuko_exskill_level_2",
+      "category": "battle",
+      "text": "那就拜托了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_exskill_level_2.ogg"
+    },
+    {
+      "description": "atsuko_exskill_level_3",
+      "category": "battle",
+      "text": "希望这样能帮上忙。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_exskill_level_3.ogg"
+    },
+    {
+      "description": "atsuko_exweapon_get",
+      "category": "growup",
+      "text": "我曾放弃思考，放弃做决定，任凭命运的安排过着随波逐流的生活。但从现在开始……嗯，谢谢你，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_exweapon_get.ogg"
+    },
+    {
+      "description": "atsuko_formation_in_1",
+      "category": "formation",
+      "text": "明白了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_formation_in_1.ogg"
+    },
+    {
+      "description": "atsuko_formation_in_2",
+      "category": "formation",
+      "text": "确认完毕。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_formation_in_2.ogg"
+    },
+    {
+      "description": "atsuko_formation_select",
+      "category": "formation",
+      "text": "嗯？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_formation_select.ogg"
+    },
+    {
+      "description": "atsuko_gachaget",
+      "category": "growup",
+      "text": "我的名字叫秤亚津子。老师，你想让我做什么事呢？要是我能办到就好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_gachaget.ogg"
+    },
+    {
+      "description": "atsuko_growup_1",
+      "category": "growup",
+      "text": "你这么重视我,这份心意,我会好好珍惜的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_growup_1.ogg"
+    },
+    {
+      "description": "atsuko_growup_2",
+      "category": "growup",
+      "text": "我还以为自己没有让你做这么多事的价值……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_growup_2.ogg"
+    },
+    {
+      "description": "atsuko_growup_3",
+      "category": "growup",
+      "text": "你教给我的,我一直都记在心里。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_growup_3.ogg"
+    },
+    {
+      "description": "atsuko_growup_4",
+      "category": "growup",
+      "text": "又学到了……一件事。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_growup_4.ogg"
+    },
+    {
+      "description": "atsuko_lobby_1",
+      "category": "lobby",
+      "text": "如果有什么事情要做，可以随时告诉我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_lobby_1.ogg"
+    },
+    {
+      "description": "atsuko_lobby_1_maskeffect",
+      "category": "lobby",
+      "text": "如果有什么事情要做，可以随时告诉我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_lobby_1_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_lobby_2",
+      "category": "lobby",
+      "text": "我可以用花装饰一下这里吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_lobby_2.ogg"
+    },
+    {
+      "description": "atsuko_lobby_2_maskeffect",
+      "category": "lobby",
+      "text": "我可以用花装饰一下这里吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_lobby_2_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_lobby_3",
+      "category": "lobby",
+      "text": "有什么需要，就尽管告诉我吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_lobby_3.ogg"
+    },
+    {
+      "description": "atsuko_lobby_3_maskeffect",
+      "category": "lobby",
+      "text": "有什么需要，就尽管告诉我吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_lobby_3_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_lobby_4",
+      "category": "lobby",
+      "text": "嗯？我的脸上有什么东西吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_lobby_4.ogg"
+    },
+    {
+      "description": "atsuko_lobby_5",
+      "category": "lobby",
+      "text": "这就是值日啊……有点想试试了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_lobby_5.ogg"
+    },
+    {
+      "description": "atsuko_lobby_5_maskeffect",
+      "category": "lobby",
+      "text": "这就是值日啊……有点想试试了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_lobby_5_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_login_1",
+      "category": "lobby",
+      "text": "老师，辛苦了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_login_1.ogg"
+    },
+    {
+      "description": "atsuko_login_1_maskeffect",
+      "category": "lobby",
+      "text": "老师，辛苦了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_login_1_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_login_2",
+      "category": "lobby",
+      "text": "欢迎回来。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_login_2.ogg"
+    },
+    {
+      "description": "atsuko_login_2_maskeffect",
+      "category": "lobby",
+      "text": "欢迎回来。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_login_2_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "这朵花，难道说……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "atsuko_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "是为了我……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "atsuko_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "带过来的吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "atsuko_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "……原来如此。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "atsuko_memoriallobby_3",
+      "category": "lobby",
+      "text": "我会好好珍惜的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_memoriallobby_3.ogg"
+    },
+    {
+      "description": "atsuko_memoriallobby_4",
+      "category": "lobby",
+      "text": "……好开心啊，谢谢你。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_memoriallobby_4.ogg"
+    },
+    {
+      "description": "atsuko_relationship_up_1",
+      "category": "growup",
+      "text": "你对我……很亲切。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_relationship_up_1.ogg"
+    },
+    {
+      "description": "atsuko_relationship_up_2",
+      "category": "growup",
+      "text": "你给我这么多,不知道什么时候,我才能回报呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_relationship_up_2.ogg"
+    },
+    {
+      "description": "atsuko_relationship_up_3",
+      "category": "growup",
+      "text": "要是能在……啊……嗯……没什么……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_relationship_up_3.ogg"
+    },
+    {
+      "description": "atsuko_relationship_up_4",
+      "category": "growup",
+      "text": "多亏了老师。啊……嗯……从各种方面来说，都是……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_relationship_up_4.ogg"
+    },
+    {
+      "description": "atsuko_season_birthday_player",
+      "category": "lobby",
+      "text": "祝你生日快乐♪……我是好好学过再唱的。可你的表情……是我唱错了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_birthday_player.ogg"
+    },
+    {
+      "description": "atsuko_season_birthday_player_maskeffect",
+      "category": "lobby",
+      "text": "祝你生日快乐♪……我是好好学过再唱的。可你的表情……是我唱错了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_birthday_player_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_season_birthday1_1",
+      "category": "lobby",
+      "text": "生日？……嗯，我知道它的意义，因为我学过。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_birthday1_1.ogg"
+    },
+    {
+      "description": "atsuko_season_birthday1_1_maskeffect",
+      "category": "lobby",
+      "text": "生日？……嗯，我知道它的意义，因为我学过。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_birthday1_1_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_season_birthday1_2",
+      "category": "lobby",
+      "text": "如果收到了祝贺，那么也要表示感谢……所以，谢谢你……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_birthday1_2.ogg"
+    },
+    {
+      "description": "atsuko_season_birthday1_2_maskeffect",
+      "category": "lobby",
+      "text": "如果收到了祝贺，那么也要表示感谢……所以，谢谢你……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_birthday1_2_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_season_chinesenewyear",
+      "category": "lobby",
+      "text": "新春？嗯，我很开心，因为春天来了，就会有更多的花绽放了吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "atsuko_season_chinesenewyear_maskeffect",
+      "category": "lobby",
+      "text": "新春？嗯，我很开心，因为春天来了，就会有更多的花绽放了吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_chinesenewyear_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_season_halloween",
+      "category": "lobby",
+      "text": "糖果？送给我的吗……谢谢你……可是……为什么……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_halloween.ogg"
+    },
+    {
+      "description": "atsuko_season_halloween_maskeffect",
+      "category": "lobby",
+      "text": "糖果？送给我的吗……谢谢你……可是……为什么……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_halloween_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_season_midautumn",
+      "category": "lobby",
+      "text": "今天的月亮,会不会特别圆呢？嗯，用哪种花来点缀赏月现场最合适呢?，",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_midautumn.ogg"
+    },
+    {
+      "description": "atsuko_season_midautumn_maskeffect",
+      "category": "lobby",
+      "text": "今天的月亮,会不会特别圆呢？嗯，用哪种花来点缀赏月现场最合适呢?，",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_midautumn_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_season_newyear",
+      "category": "lobby",
+      "text": "新年……是啊，这样又过去了一年。因为是与平常不同的日子，这次的新年，又会是什么样的呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_newyear.ogg"
+    },
+    {
+      "description": "atsuko_season_newyear_maskeffect",
+      "category": "lobby",
+      "text": "新年……是啊，这样又过去了一年。因为是与平常不同的日子，这次的新年，又会是什么样的呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_newyear_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_season_xmas",
+      "category": "lobby",
+      "text": "平安夜……嗯,学到了,如果有适合这种日子的话就好了。下次，我会去找找看的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_xmas.ogg"
+    },
+    {
+      "description": "atsuko_season_xmas_maskeffect",
+      "category": "lobby",
+      "text": "平安夜……嗯,学到了,如果有适合这种日子的话就好了。下次，我会去找找看的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_season_xmas_maskeffect.ogg"
+    },
+    {
+      "description": "atsuko_tactic_defeat_1",
+      "category": "battle",
+      "text": "嗯……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "atsuko_tactic_defeat_2",
+      "category": "battle",
+      "text": "输了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "atsuko_tactic_in_1",
+      "category": "battle",
+      "text": "开始攻击。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_tactic_in_1.ogg"
+    },
+    {
+      "description": "atsuko_tactic_in_2",
+      "category": "battle",
+      "text": "作战开始。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_tactic_in_2.ogg"
+    },
+    {
+      "description": "atsuko_tactic_victory_1",
+      "category": "battle",
+      "text": "嗯，胜利了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_tactic_victory_1.ogg"
+    },
+    {
+      "description": "atsuko_tactic_victory_2",
+      "category": "battle",
+      "text": "我们赢了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_tactic_victory_2.ogg"
+    },
+    {
+      "description": "atsuko_title",
+      "category": "lobby",
+      "text": "Blue Archive.",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/cn/atsuko_title.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "atsuko_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_buffed_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_buffself_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_covered_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_damage_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_damage_2.ogg"
+    },
+    {
+      "description": "atsuko_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_damage_3.ogg"
+    },
+    {
+      "description": "atsuko_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_defense_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_in_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_in_2.ogg"
+    },
+    {
+      "description": "atsuko_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_move_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_move_2.ogg"
+    },
+    {
+      "description": "atsuko_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_recovery_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_retire.ogg"
+    },
+    {
+      "description": "atsuko_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_shout_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_shout_2.ogg"
+    },
+    {
+      "description": "atsuko_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_shout_3.ogg"
+    },
+    {
+      "description": "atsuko_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_victory_1.ogg"
+    },
+    {
+      "description": "atsuko_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_battle_victory_2.ogg"
+    },
+    {
+      "description": "atsuko_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "atsuko_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "atsuko_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "atsuko_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "atsuko_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "atsuko_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_commonskill.ogg"
+    },
+    {
+      "description": "atsuko_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_exskill_1.ogg"
+    },
+    {
+      "description": "atsuko_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_exskill_2.ogg"
+    },
+    {
+      "description": "atsuko_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_exskill_3.ogg"
+    },
+    {
+      "description": "atsuko_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_exskill_level_1.ogg"
+    },
+    {
+      "description": "atsuko_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_exskill_level_2.ogg"
+    },
+    {
+      "description": "atsuko_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_exskill_level_3.ogg"
+    },
+    {
+      "description": "atsuko_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_exweapon_get.ogg"
+    },
+    {
+      "description": "atsuko_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_formation_in_1.ogg"
+    },
+    {
+      "description": "atsuko_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_formation_in_2.ogg"
+    },
+    {
+      "description": "atsuko_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_formation_select.ogg"
+    },
+    {
+      "description": "atsuko_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_gachaget.ogg"
+    },
+    {
+      "description": "atsuko_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_growup_1.ogg"
+    },
+    {
+      "description": "atsuko_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_growup_2.ogg"
+    },
+    {
+      "description": "atsuko_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_growup_3.ogg"
+    },
+    {
+      "description": "atsuko_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_growup_4.ogg"
+    },
+    {
+      "description": "atsuko_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_lobby_1.ogg"
+    },
+    {
+      "description": "atsuko_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_lobby_2.ogg"
+    },
+    {
+      "description": "atsuko_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_lobby_3.ogg"
+    },
+    {
+      "description": "atsuko_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_lobby_4.ogg"
+    },
+    {
+      "description": "atsuko_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_lobby_5.ogg"
+    },
+    {
+      "description": "atsuko_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_login_1.ogg"
+    },
+    {
+      "description": "atsuko_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_login_2.ogg"
+    },
+    {
+      "description": "atsuko_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "atsuko_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "atsuko_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "atsuko_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "atsuko_memoriallobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_memoriallobby_3.ogg"
+    },
+    {
+      "description": "atsuko_memoriallobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_memoriallobby_4.ogg"
+    },
+    {
+      "description": "atsuko_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_relationship_up_1.ogg"
+    },
+    {
+      "description": "atsuko_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_relationship_up_2.ogg"
+    },
+    {
+      "description": "atsuko_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_relationship_up_3.ogg"
+    },
+    {
+      "description": "atsuko_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_relationship_up_4.ogg"
+    },
+    {
+      "description": "atsuko_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_season_birthday_player.ogg"
+    },
+    {
+      "description": "atsuko_season_birthday1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_season_birthday1_1.ogg"
+    },
+    {
+      "description": "atsuko_season_birthday1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_season_birthday1_2.ogg"
+    },
+    {
+      "description": "atsuko_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_season_halloween.ogg"
+    },
+    {
+      "description": "atsuko_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_season_newyear.ogg"
+    },
+    {
+      "description": "atsuko_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_season_xmas.ogg"
+    },
+    {
+      "description": "atsuko_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "atsuko_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "atsuko_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_tactic_in_1.ogg"
+    },
+    {
+      "description": "atsuko_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_tactic_in_2.ogg"
+    },
+    {
+      "description": "atsuko_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_tactic_victory_1.ogg"
+    },
+    {
+      "description": "atsuko_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/atsuko_tactic_victory_2.ogg"
+    },
+    {
+      "description": "Atsuko_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/Atsuko_Title.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211126120451.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211126120405.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211126120508.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211126120440.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211126120446.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211126120502.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211126120419.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211126120517.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/QQ%E6%88%AA%E5%9B%BE20211126120413.png"
+      ]
+    },
+    {
+      "title": "战损差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/8_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/3_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/6_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/5_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0021_spr-04_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0021_spr-03_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0021_spr-06_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0021_spr-99_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/4_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/2_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0021_spr-01_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0021_spr-02_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0021_spr-05_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/1_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/NP0021_spr-07_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/gallery/%E6%88%98%E6%8D%9F%E5%B7%AE%E5%88%86/7_waifu2x_2x_2n_png.jpg"
+      ]
+    },
+    {
+      "title": "紧身衣差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E7%B4%A7%E8%BA%AB%E8%A1%A3%E5%B7%AE%E5%88%86/NP0077_spr_05.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E7%B4%A7%E8%BA%AB%E8%A1%A3%E5%B7%AE%E5%88%86/NP0077_spr_04.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E7%B4%A7%E8%BA%AB%E8%A1%A3%E5%B7%AE%E5%88%86/NP0077_spr_00.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E7%B4%A7%E8%BA%AB%E8%A1%A3%E5%B7%AE%E5%88%86/NP0077_spr_01.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E7%B4%A7%E8%BA%AB%E8%A1%A3%E5%B7%AE%E5%88%86/NP0077_spr_03.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E7%B4%A7%E8%BA%AB%E8%A1%A3%E5%B7%AE%E5%88%86/NP0077_spr_02.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E7%B4%A7%E8%BA%AB%E8%A1%A3%E5%B7%AE%E5%88%86/NP0077_spr_07.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E7%B4%A7%E8%BA%AB%E8%A1%A3%E5%B7%AE%E5%88%86/NP0077_spr_06.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E7%B4%A7%E8%BA%AB%E8%A1%A3%E5%B7%AE%E5%88%86/NP0077_spr_98.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E7%B4%A7%E8%BA%AB%E8%A1%A3%E5%B7%AE%E5%88%86/NP0077_spr_99.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E7%B4%A7%E8%BA%AB%E8%A1%A3%E5%B7%AE%E5%88%86/NP0077_spr_Idle_01.png"
+      ]
+    },
+    {
+      "title": "角色画廊",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol.1_%E9%A1%B5%E9%9D%A2_127.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-16.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-37.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-69.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-130.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-160.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-186.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Vol2-187.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/atsuko-%E7%B9%81%E4%B8%ADBanner.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/atsuko-%E5%9B%BD%E6%9C%8DBanner.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/atsuko-enBanner.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/atsuko-%E6%97%A5%E6%9C%8DBanner.png",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/atsuko-%E7%B9%81%E4%B8%ADIntro.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/atsuko-%E5%9B%BD%E6%9C%8DIntro.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/atsuko_%E5%9B%BD%E6%9C%8Dskill.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/atsuko_%E5%9B%BD%E6%9C%8Dex.gif",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/atsuko_%E5%9B%BD%E6%9C%8Dcafe.gif",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/atsuko-enIntro.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/Atsuko-%E6%97%A5%E6%9C%8DIntro.jpg",
+        "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/gallery/%E8%A7%92%E8%89%B2%E7%94%BB%E5%BB%8A/atsuko_%E5%9B%BD%E6%9C%8Dinteraction.gif"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 162,
+      "favorability": 240
+    },
+    {
+      "id": 55,
+      "favorability": 60
+    },
+    {
+      "id": 63,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    829
+  ],
+  "character_datas": [
+    {
+      "character_id": 10042,
+      "dev_name": "Atsuko_default",
+      "combat_style": "default",
+      "type": "Tank",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Special",
+      "is_groupc_control": false,
+      "team_position": "FRONT",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "S",
+      "street_adaptability": "B",
+      "equipment": [
+        9,
+        5,
+        4
+      ],
+      "cultivate_material": [
+        106,
+        108,
+        109,
+        110,
+        143,
+        144,
+        145,
+        146,
+        423,
+        424,
+        425,
+        426,
+        411,
+        412,
+        413,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/skill_icon/kakkfUzC8mdGRq9WppmrUOqt5EdiJo29.png",
+            "title": "这也是我的力量吗...？",
+            "title_cn": "这也是我的力量...？",
+            "preview": "//static.kivo.wiki/videos/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/skill_preview/UHxFPnsDyG8GqNuLrdAVBTQDJprC3Ecq.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 4,
+                "describe": "以自身为中心的圆形范围内的我方每5秒恢复28.4%治疗力的生命值（持续30秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "以自身为中心的圆形范围内的我方每5秒恢复32.6%治疗力的生命值（持续30秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "以自身为中心的圆形范围内的我方每5秒恢复41.1%治疗力的生命值（持续30秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "以自身为中心的圆形范围内的我方每5秒恢复45.4%治疗力的生命值（持续30秒）"
+              },
+              {
+                "cost": 4,
+                "describe": "以自身为中心的圆形范围内的我方每5秒恢复53.9%治疗力的生命值（持续30秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/skill_icon/Af2aXpQzjWanDYJ8kXuhRwPAJpeb5FZk.png",
+            "title": "旧版EX技能（废案）",
+            "title_cn": "",
+            "preview": "//static.kivo.wiki/videos/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/original/skill_preview/LkWy9S2QsAUGn2xeVgUhXuRlSfhPj01d.mp4",
+            "max_level": 1,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "主动攻击技能，具体描述不明，技能动画见右侧视频"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/skill_icon/qOTFm19lRJiiX7IVxcvuVEtPeKa2wVSy.png",
+            "title": "隐匿",
+            "title_cn": "躲起来吧",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每隔30秒，在自身位置释放烟雾弹，使烟雾范围内的我方闪避值增加20.5%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每隔30秒，在自身位置释放烟雾弹，使烟雾范围内的我方闪避值增加21.6%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每隔30秒，在自身位置释放烟雾弹，使烟雾范围内的我方闪避值增加22.6%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每隔30秒，在自身位置释放烟雾弹，使烟雾范围内的我方闪避值增加26.7%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每隔30秒，在自身位置释放烟雾弹，使烟雾范围内的我方闪避值增加27.7%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每隔30秒，在自身位置释放烟雾弹，使烟雾范围内的我方闪避值增加28.8%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每隔30秒，在自身位置释放烟雾弹，使烟雾范围内的我方闪避值增加32.9%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每隔30秒，在自身位置释放烟雾弹，使烟雾范围内的我方闪避值增加33.9%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每隔30秒，在自身位置释放烟雾弹，使烟雾范围内的我方闪避值增加34.9%（持续20秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每隔30秒，在自身位置释放烟雾弹，使烟雾范围内的我方闪避值增加39.1%（持续20秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/skill_icon/MWP2oWUbstVOSleiW0E7UyljUt9aGfEX.png",
+            "title": "从教诲中学习",
+            "title_cn": "被教会的事情",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "闪避值增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "闪避值增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/skill_icon/vWowOqCpKVRvZGaavxkqUj6hkv03dwpU.png",
+            "title": "习惯的痛楚",
+            "title_cn": "已经习惯了疼痛",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "生命值低于30%时，增加闪避值24.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于30%时，增加闪避值25.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于30%时，增加闪避值26.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于30%时，增加闪避值31.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于30%时，增加闪避值32.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于30%时，增加闪避值33.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于30%时，增加闪避值38.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于30%时，增加闪避值39.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于30%时，增加闪避值41.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值低于30%时，增加闪避值45.9%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 3082,
+          "attack": 166,
+          "defense": 27,
+          "healing": 1781,
+          "accuracy": 108,
+          "evasion": 1321,
+          "crit": 216,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1284,
+          "range": 350,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 15
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/weapons_icon.png",
+        "name": "天蝎座",
+        "name_cn": "天蝎座",
+        "description": "亚津子使用的冲锋枪。<br/>枪身短小但拥有强大火力，特别适合近距离战斗。",
+        "description_cn": "亚津子使用的冲锋枪。<br/>虽然枪身较短，但是火力强大，特别适合近距离战斗。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「从教诲中学习」升级为「从教诲中学习+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室内适应性 S -> SS",
+            "description": "在室内地形造成1.3倍伤害。 在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 爆发克制伤害增加",
+            "description": "攻击类型为爆发的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%A7%A4%20%E4%BA%9A%E6%B4%A5%E5%AD%90/skill_icon/jS1eT3qWtXhMwD2js5nf82hEMN9g0TSg.png",
+            "title": "从教诲中学习+",
+            "title_cn": "被教会的事情+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "治疗力增加606/闪避值增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加637/闪避值增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加667/闪避值增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加788/闪避值增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加819/闪避值增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加849/闪避值增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加970/闪避值增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1000/闪避值增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1031/闪避值增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1152/闪避值增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "96c6bde5-4fec-482e-8a60-f87e746a7cae",
+  "skill_declare_uuid": "1b23999b-fa7d-4cc7-a4eb-44c1bfdd144f",
+  "supplementary_uuid": "0247a484-4708-499c-a365-2ddb85d08ce1",
+  "supplementary_declare_uuid": "f8f1730d-4bda-42bb-8d11-231b15609f38",
+  "created_at": 1684637385,
+  "updated_at": 1783660355
+}

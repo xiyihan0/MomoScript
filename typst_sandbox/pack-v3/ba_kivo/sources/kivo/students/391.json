@@ -1,0 +1,182 @@
+{
+  "id": 391,
+  "skin": "旗袍",
+  "skin_jp": "チーパオ",
+  "skin_cn": "旗袍",
+  "skin_zh_tw": "旗袍",
+  "skin_list": [
+    {
+      "id": 179,
+      "avatar": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 141,
+      "avatar": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E5%88%A9%E8%AF%BA/%E6%B8%A9%E6%B3%89/avatar.png",
+      "skin": "温泉",
+      "skin_cn": "温泉"
+    },
+    {
+      "id": 391,
+      "avatar": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/avatar.png",
+      "skin": "旗袍",
+      "skin_cn": "旗袍"
+    }
+  ],
+  "family_name": "连河",
+  "given_name": "切里诺",
+  "family_name_jp": "連河",
+  "given_name_jp": "チェリノ",
+  "family_name_kr": "렌카와",
+  "given_name_kr": "체리노",
+  "family_name_en": "Renkawa",
+  "given_name_en": "Cherino",
+  "family_name_zh_tw": "連河",
+  "given_name_zh_tw": "潔莉諾",
+  "family_name_cn": "连河",
+  "given_name_cn": "切里诺",
+  "nick_name": "",
+  "introduction": "",
+  "introduction_cn": "",
+  "momo_talk_signature": "",
+  "main_relation": 54,
+  "relation": [
+    57
+  ],
+  "age": 1,
+  "grade": "三年生",
+  "height": 128,
+  "birthday": "10-27",
+  "hobby": "整顿、打雪仗",
+  "designer": "",
+  "illustrator": "",
+  "character_voice": "矢野妃菜喜 *",
+  "character_voice_cn": "阿妄",
+  "release_date": null,
+  "release_date_cn": null,
+  "release_date_global": null,
+  "sd_model_image": "",
+  "avatar": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/original/avatar.png",
+  "school": 5,
+  "weapon_type": "HG",
+  "is_install": false,
+  "is_install_cn": false,
+  "is_install_global": false,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": false,
+  "more": "",
+  "recollection_lobby_image": "",
+  "spine": [
+    1280
+  ],
+  "model": [
+    114
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [],
+  "voice_cn": [],
+  "voice_kr": [],
+  "gallery": [
+    {
+      "title": "脸图差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_01_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_06_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_05_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_07_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_02_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_04_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_08_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_03_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_09_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_13_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_12_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_10_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_11_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_99_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_01_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_02_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_03_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_06_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_09_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_04_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_08_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_05_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_07_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_11_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_13_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_12_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_99_W2xEX_1x_3n.jpg",
+        "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%97%97%E8%A2%8D/gallery/%E8%84%B8%E5%9B%BE%E5%B7%AE%E5%88%86/J_CH0278_spr_S2_10_W2xEX_1x_3n.jpg"
+      ]
+    }
+  ],
+  "gift_data": null,
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 0,
+      "dev_name": "CH0278",
+      "combat_style": "default",
+      "type": "",
+      "attack_attribute": "",
+      "defensive_attributes": "",
+      "is_groupc_control": false,
+      "team_position": "",
+      "battlefield_position": "",
+      "rarity": 0,
+      "limited": false,
+      "outdoor_adaptability": "",
+      "indoor_adaptability": "",
+      "street_adaptability": "",
+      "equipment": null,
+      "cultivate_material": [],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [],
+        "passive_skill": []
+      },
+      "basic": [
+        {
+          "max_hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "healing": 0,
+          "accuracy": 0,
+          "evasion": 0,
+          "crit": 0,
+          "crit_res": 0,
+          "crit_dmg": 0,
+          "crit_dmg_res": 0,
+          "stability": 0,
+          "range": 0,
+          "cc_power": 0,
+          "cc_res": 0,
+          "recovery_boost": 0,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "",
+        "name": "",
+        "name_cn": "",
+        "description": "",
+        "description_cn": "",
+        "info": [],
+        "skill": []
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "2135256b-afc6-4f2b-9360-fc1afa1f47d0",
+  "skill_declare_uuid": "0f847de2-6e85-4cb9-b6c6-7d52bd0952f4",
+  "supplementary_uuid": "4f283eb5-f3a8-4e1e-a538-116272aa9f41",
+  "supplementary_declare_uuid": "5c1f1b3a-a974-4648-bfcc-47b5bc161460",
+  "created_at": 1724241898,
+  "updated_at": 1769514469
+}

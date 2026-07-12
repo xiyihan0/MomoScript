@@ -1,0 +1,1612 @@
+{
+  "id": 160,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 160,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 340,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/%E9%9C%B2%E8%90%A5/avatar.png",
+      "skin": "露营",
+      "skin_cn": "露营"
+    },
+    {
+      "id": 507,
+      "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/%E7%9D%A1%E8%A1%A3/hare.png",
+      "skin": "睡衣",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "小钩",
+  "given_name": "晴",
+  "family_name_jp": "小鈎",
+  "given_name_jp": "ハレ",
+  "family_name_kr": "오마가리",
+  "given_name_kr": "하레",
+  "family_name_en": "Omagari",
+  "given_name_en": "Hare",
+  "family_name_zh_tw": "小鈎",
+  "given_name_zh_tw": "晴",
+  "family_name_cn": "小钩",
+  "given_name_cn": "晴",
+  "nick_name": "小勾八",
+  "introduction": "千禧科技学园所属，黑客集团【真理部】的工程师。\n\n以聪颖的人居多而闻名的千禧科学学院里，她也是屈指可数的天才少女。\n而其中最先进的仪器，也几乎都是由她一手开发出来的。\n尽管她实力非凡成果卓越，她也不会有一丁点儿的骄傲自负，是一位十分听话善良的温柔女孩。",
+  "introduction_cn": "千禧年科技的黑客组织——真理社的工程师。\n\n就算在人才济济的千禧年科技中，她也算得上数一数二的天才。千禧年大部分的最尖端机器都是她开发的。\n但她从来不会因此自以为是或者傲慢无礼，反而会认真地交流、倾听，是个温柔亲切的女孩。",
+  "momo_talk_signature": "急事私敲",
+  "main_relation": 36,
+  "relation": null,
+  "age": 16,
+  "grade": "二年生",
+  "height": 153,
+  "birthday": "04-19",
+  "hobby": "游戏",
+  "designer": "9ml",
+  "illustrator": "9ml",
+  "character_voice": "贝原怜奈",
+  "character_voice_cn": "秦文静",
+  "release_date": "2021-02-04",
+  "release_date_cn": "2023-08-03",
+  "release_date_global": "2021-11-09",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/avatar.png",
+  "school": 4,
+  "weapon_type": "AR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": false,
+  "more": "!!! hint\n本页面出现的角色及其组织译名以本站为准，剧情中文文本部分参考自B站威威字幕君剧情翻译视频。\n!!!\n<font color=\"#AEAE00\">小钩晴</font>是隶属于千禧科学学院的一名二年生，也是真理部当中的唯一一名二年生。\n她是《蔚蓝档案》中众多开服时便可通过招募获得的2星稀有度角色之一，在日服及国际服(EN及KR)开服前的角色宣传中均有出现。\n[[toc]]\n# 一、外在形象\n晴把银发扎成了单马尾，前方则在左右各留了一片头发垂到肩下。眼睛的颜色接近橄榄绿。\n不知道原因为何，晴的初始立绘中，头上夹着的发夹莫名神似白子的发夹：形状一样，仅有颜色不同。\n:::: center\n![QQ截图20220213152501.png](files/153/zAdMm68fl83rp0kHbQmPT3EFpevc6a9B.png \"白子的发夹\" =x200)\n\n![hare](files/153/J1tjLw1U2lJ9i598ettIMYQps5FjNqmZ.png \"晴的发夹\" =x200)\n::::\n她身穿正面印有“TECH OVER D.TECH01”字样的黑色连帽卫衣，外面套着带有千禧年校徽的白大褂，衣领上别有自己主题色的“Veritas”图标的徽章，身旁环绕着自己研制的“雅典娜3号”无人机，作为学生身份证明的校牌被随意塞在兜里，对基沃托斯的学生来说极为重要的枪好像被她随意拖在地上。这些着装与特征共同参与了晴的技术宅（或者极客）<span class=\"md-hover-text\">还有书呆子(nerd)</span>的形象塑造。\n\n虽然通过立绘无法发现，但在模型中连帽卫衣的帽子上也有着镜像过的“TECH OVER D.TECH01”字样。\n::: center\n![Hare_Original.png](files/153/DJsSVOcsIiu5zzlaCZ9wfPmEj15tbBYl.png =450x)\n\n:::\n晴所穿的鞋子配色方案和服装一致，是非常朴素的一双运动鞋。\n:::: center\n![hare_spr_Idle_01_0.8359999999552201.png](files/153/nhhmn84hKra1ca5BtYMoWM09cHGPmnyo.png =300x)\n::::\n光环主色调为莹黄色和黑色，内外三层。最外侧是三个三分之一黄色圆环，环绕着三个具有金属光泽的黑环，每个黑环内都有黄色圆盘。这三个黑环及其内侧圆盘由小到大依次排列，且最大一组的半径等于其余两组半径之和。\n:::: center\n![Hare-1.1.png](files/153/5QTviQNv1gHkdq9Alyg4SKxQDk3ZwIDA.png \"晴的光环\" =300x)\n::::\n# 二、人物塑造\n比起作为前部长的高岭之花的超天才美少女黑客日鞠，晴的“才女”形象更加侧重“技术宅”的一面：能力出众，对自己的特长领域抱有十足的热情，同时极度厌恶运动和外出。不过她更广为人知的特征是严重的咖啡因中毒，这使得大家有时也许会忘记晴其实是名能力出众的工程师。\n\n## 情感\n晴给人的第一印象大概是冷淡。晴的初始立绘仅有7张表情差分而且变化幅度较小，她的语音大多感情起伏不大，给人“有气无力”的软绵绵的感觉。虽然她的表情总是就那几种，但是晴其实情感丰富。在面对令自己愤怒的事情时会动用技术手段，会对自己的技术感到自豪，会对自己的误解感到害羞。\n而且晴其实也是个有着“工科浪漫”的人，躺在草地上仰望星空时，会感慨“星空中蕴含的信息无比庞大，简直是世界上最大的服务器”，还会伸出手来，对着天空中的群星说出旅行者金唱片中录下的的日语问候：“こんにちは、お元気ですか”。\n\n## 实力出众\n晴可以在与副部长千寻的匿名网络攻防战<span class=\"md-hover-text\">迫真CTF</span>中不占下风，尽管晴最后选择了放弃，但实际上千寻也感觉对方充满实力。晴在网络安全方面的实力有可能是不输于千禧顶级网络安全顾问千寻的。\n>**真纪（真理部）**\n>*连晴前辈都被秒杀了。没想到真理部之外还有这么强的人存在......*\n>\n>**千寻（真理部）**\n>*真的吗？连晴都奈何不了的强者，那还真厉害呢......*\n>（......）\n>*虽说不知道为什么，但执着地想要获取体检记录的黑客。对应的速度也令人惊讶，连我都差点被干掉了哦。*\n\n除此之外，抛开基沃托斯内非人类的机械居民不谈，她的无人机所搭载的人工智能是除了两只A.R.O.N.A.、爱丽丝、Key和神名十文字阵营角色以外最具智能的。在游戏中对晴的介绍中也直接说明：“千禧内大部分的最尖端机器都是她开发的”。说明晴的综合技术实力排名在千禧内可以说的上是名列前茅了。\n不过晴也十分清楚自己的能力在拥有“全知”学位的莉音及日鞠之下。\n>**歌原（工程部）**\n>*哎呀，怎么AMAS......？*\n>\n>**小鸟（工程部）**\n>*是来帮我们的吗？那这就是真理部做的......？*\n>\n>**晴（真理部）**\n>*唔，不是的。应该只有日鞠部长能黑进那个东西才对......*\n\n小玉也曾经直接说过晴是得到千寻认可的天才黑客。\n>**小玉（真理部）**\n>*嗯，旁边的是晴。\n>’连副部长也认同的天才黑客都来帮忙了。\n>应该可以突破安全系统顺利逃脱。*\n>——活动「秘密的午夜派对」第3节\n\n## 技术宅\n和其他部员一样，晴拥有丰富的网络安全、软件开发以及网游游玩经验，特长是人工智能及设备研发。而晴掌握的知识范围不仅限于计算机领域，她还对于植物学、神经学以及物理学知识有着充分的了解。精进自身能力的渴望和对设备研发的热情也导致她在真纪试图入侵学校服务器时选择了提供帮助。\n>**真纪（真理部）**\n>*晴前辈之前不是说过开发了新的入侵用无人机来着？\n>不想试试那个无人机和千禧的安全系统......哪边更强吗？*\n>\n>**晴（真理部）**\n>*确实。开发完那个无人机之后也没什么委托，实战数据不足也是事实呢。\n>......只是试一次的话，用来入侵说不定也不错。*\n\n硬要说的话，晴抗拒的并非外界，而是无法连接互联网、无法摄入咖啡因、无法控制温度，去了还没好处的地方。只不过室外的大部分地方都满足以上的至少一条条件。\n>MomoTalk对话内容：\n>[咦，你不是不喜欢在户外待着吗？]\n>**晴（露营）**\n>*......\n>这么说不太准确哦，老师\n>我只是讨厌温差又大，又不能联网的地方*\n\n## 不穿鞋袜\n晴在室内尤其是工作时喜欢光着脚，这一点从PV1、黄金周动画以及晴的记忆大厅中可以非常明显地看出来。而且所有晴光脚的画面中都看不到袜子的存在，而立绘中也看不出来穿着鞋子的晴是否穿了袜子，所以不难想象晴可能是平常私底下并不会穿袜子的光脚派。\n:::: center\n![pv1-1.jpg](files/153/jHGuJ2iq6bOpoBMTFmBfB4vg8eO8KsKA.jpg \"PV1画面\" =x350)\n\n![LoadingImage_37_jp-1.png](files/153/gCJoTUEKcqk2NwL8MN2v6wiYzWeMhDbP.png \"加载过场图\" =x350)\n\n![1.png](files/153/Cs6fXEqERCXpJ3pGt3flofTuU2MrvPZn.png \"黄金周动画\" =x350)\n\n![Hare_home_Idle_01_1.065704893199154.png](files/153/wIC9XpeKwpyDanBXYmyTCiLNpsCbX4G3.png =x350)\n::::\n不过这并不代表晴缺乏这方面常识，在人多的环境中晴还是会正常地穿着鞋子的。\n:::: center\n![PV3-2-1.png](files/153/63nm2B6pL2LGGadiowsgp2jlltaZFI62.png =350x)\n::::\n### 疑似青轴爱好者\n作为技术宅，晴十分喜欢手指敲击机械键盘和轴体的声音。\n:::: center\n![1.png](files/153/CEeO0NHnywCAIBjYpz6rL1JF5emNXqmc.png \"黄金周动画截图\" =800x)\n::::\n\n## 想象力丰富\n晴的想象力有时候有些太过丰富了。和老师呆在网咖时就十分担心自己说的话被老师误会，\n>**晴（真理部）**\n>*嗯，接下来该干什么呢？\n>（额，我刚才说的话，该不会被听出什么奇怪的意思吧？）*\n\n对老师“要去洗澡”这件事产生了丰富联想，\n>**晴（真理部）**\n> *欸？你要先去洗个澡？等下，为，为什么？！\n> 啊，头发淋湿了，要去洗一下？对不起，没事，当我没说吧。*\n\n在露营皮肤的圣诞节语音里提到被窝之后还会强调“没什么奇怪的意思”。\n>*好多人啊。大家在这么冷的天还出门啊。\n明明最适合度过平安夜的地方是又软又暖和的被子里面。\n没，没什么奇怪的意思哦？*\n\n## 咖啡因中毒\n虽说真理部的3位部员都是妖怪MAX的忠实信徒，但是晴是这3人之中咖啡因中毒问题最为严重的一位。甚至愿意不吃饭只靠喝能量饮料来补充热量。\n>**晴（真理部）**\n>*您问我吃饭了吗？没事的，只要在空闲时间喝点能量饮料就行了。\n>因为「妖怪MAX」不仅含有有提神功效的咖啡因，还含有充足的活动必须的糖分和维生素。\n>就靠这一样东西，就能通宵工作了！*\n\n>**晴（真理部）**\n>*怎么可能，能量饮料可是黑客的燃料哦！？\n>哪怕不吃饭都能通宵，但没有能量饮料可是1行代码都写不下去的！*\n\n据本人所说，常常一天喝下至少4罐以上的能量饮料，最多的时候高达一天10罐。多日没有饮用含咖啡因的饮品就会表现出非常严重的戒断症状，包括但不限于头痛、身体沉重、疲劳乏力以及四肢发抖等表现。\n><span class=\"md-bg-cyan-400\"><font color=\"black\">询问晴今天一天喝了多少瓶能量饮料。</font></span>\n>\n>**晴（真理部）**\n>*没喝太多哦，大概也就4瓶左右吧？\n>跟平常比，倒不如说这都是少的了。多的时候也有1天10瓶的。*\n\n在之后的剧情中晴出现戒断反应只需要半天不喝能量饮料。\n>**晴（真理部）**\n>*但是......不做些什么的话手脚都会发抖......我已经，忍不了了......\n>咖啡因......咖啡因不足......*\n>\n>（......）\n>\n>**千寻（真理部）**\n>*这才刚半天就出现戒断反应......以后平时就注意少喝点怎么样？*\n\n在23年底的新年活动「（~~电脑~~）新春进行曲」中，她因为露营没有携带咖啡因制品，长期无法摄入咖啡因的戒断症状导致她开始寻找能带来和摄入咖啡因同样感受的野草，简直像个经历戒毒的吸毒人员，\n>**晴（真理部）**\n>*......我要找的是味道很像能量饮料的草。*\n>\n>**千寻（真理部）**\n>*......欸？\n>你在说什么，不可能有草是能量饮料味的吧。*\n>\n>**晴（真理部）**\n>*不。比如说这个草虽然稍微带点苦但甜味很突出，含在嘴里的话舌头还会发麻......\n>简直就像能量饮料一样的刺激......*\n\n在喝下了老师给的咖啡之后症状才有所缓解，避免了继续吃草的结果。\n\n而长期的不规律饮食也确实导致了晴的身体状态不佳，\n>MomoTalk对话内容：\n>**晴（露营）**\n>*老师\n>事情是这样的，我体检的结果出来了\n>说是我的胃的状态不大妙\n>所以好像要减少咖啡因的摄取量......*\n\n不过在露营晴的个人剧情中，晴的症状在喝下老师给的脱咖啡因咖啡后也有好转，貌似安慰剂效应也能缓解其症状。\n>[你刚才喝的，是「脱咖啡因」的咖啡]\n>**晴（真理部）**\n>*欸......就是说，不含咖啡因？\n>可是刚才，我一喝完咖啡，脑袋就清醒了啊......*\n\n## 健康问题\n晴不仅抗拒外出，还极其缺乏运动，有时甚至会拿能量饮料当饭来满足基础热量需求，在此之上还常常熬夜。\n>**晴（真理部）**\n>*抱歉，因为我是昼夜颠倒的......完全没有注意到。*\n\n可以说像她这样的技术宅常有的问题便是身体羸弱。也许这就是为什么雅典娜3号违抗命令也要强制晴运动。\n>**雅典娜3号**\n>*<鉴于对象「小钩晴」慢性运动不足，不坚持进行运动的话今后身体可能会出现巨大缺陷。那么，继续进行运动>*\n\n## 倡导信息公开\n从大厅语音、真理部专辑《Get Over the World》歌词以及各种行为表现中可以得知，晴十分支持知识的公开化。\n>歌词：\n>*「チヒロ」 ： ”知識は自由であるべき”*\n>*「全員」 ： ”そうよ”*\n>:::: right\n>——「Get Over The World」\n>::::\n\n实际上这句歌词也是晴的大厅对话语音之一。\n>*知识应该是自由的......嗯，这句话说的真好。*\n\n## 网瘾少女\n晴在室内时除了完成工作之外的一大部分时间被扔进了游戏。\n在咖啡厅里一直抱着平板打游戏，\n>*唔——嗯？啊，问我在干什么？在玩新出的游戏呢。*\n\n也会和其他真理部部员一起联机，3个人打起游戏来全神贯注昏天黑地的，完全注意不到时间的流逝和其他消息。\n>**千寻（真理部）**\n>*所以，你们为什么没有一个人回复我？\n>我单单今天就给你们打了3次电话......看你们连消息都不回我才过来的哦？*\n>\n>**真纪（真理部）**\n>*啊，真的欸......有好多未接来电。\n>抱歉，千寻前辈。我们一直专注在任务上没看手机。*\n>\n>**晴（真理部）**\n>*哇，已经过了这么久吗。*\n>\n>**小玉（真理部）**\n>*但是，这可是只有现在才能完成的重要工作。*\n>\n>（......）\n>\n>**真纪（真理部）**\n>*我们刚才是在测试「Mineral Craft」的新模式啦！*\n\n>**真纪（真理部）**\n>*如果是在活动室里的话稍微打打游戏1天就过去了。\n>......这就是狭义相对论吗？*\n>\n>**晴（真理部）**\n>*不是，相对论说的不是这回事吧。*\n\n## 硬核玩家\n晴和另外两名真理部部员都是非常硬核的游戏玩家，在出现新的大作时总会冲上游玩的第一线收集情报并在网上分享，甚至会尝试参加速通挑战。\n>**千寻（真理部）**\n>*我是想问为什么「Mineral Craft」是只有现在才能做的重要工作。*\n>\n>**真纪（真理部）**\n>*因为，它刚刚实装了新模式耶！？\n>不仅新增了制作装备的矿物，还追加了在电路中可以使用的规则......*\n>\n>**晴（真理部）**\n>*因为好久都没有这么大规模的更新了，光是分析这些数据就花了好长时间。*\n>\n>**小玉（真理部）**\n>*......作为真理部的一员，我认为我们应该尽快收集到这些大部分学生都想知道的情报。*\n\n>**真纪（真理部）**\n>*啊，下周怀旧游戏「BOOM」系列的重启作，「BOOM永恒」就要发售了。\n>基沃托斯最为热门的新作！作为探求真理的真理部成员，可得要好好品鉴一番啊！*\n>\n>**晴（真理部）**\n>*说起来，好像只要在网上投稿「BOOM永恒」的游玩视频，就能抽选「妖怪MAX」的限定商品来着......*\n>\n>**小玉（真理部）**\n>*这可是发售后达成最速通关RTA竞速的机会啊。*\n\n# 三、人物经历\n!!! note 剧透注意\n尽管晴在游戏主线剧情中的出场频率较低，但她仍有在一些主线关键剧情和活动剧情中出场。下面的内容可能会对部分注重游戏剧情阅读体验的老师造成影响。\n!!! \n## 主线剧情\n### Vol.2\n#### Chapter 1\n - 协助爱丽丝落户\n 爱丽丝的学籍信息是真理部帮助<span class=\"md-hover-text\">黑入学籍服务器</span>办理的。\n  从剧情中可知与游戏开发部最经常联系的其实是真纪，而且真纪有过不止一次前科<span class=\"md-hover-text\">例如100kg事件</span>。不过真理部作为伙伴意识较高的小团体，这一行为有可能是除现任部长以外的3人的共同行为。\n >**桃井（游戏开发部）**\n >*这个学生证，就是能证明你是我们学校的学生的证明书。已经让真理部帮忙黑......不是，登记到学生名单里面了。爱丽丝已经正式成为我们的伙伴了哦！*\n \n - 「镜」取回作战\n游戏开发部和真理部三位部员达成了利益一致，决定从研讨会处夺回她们被没收的解密工具「镜」。晴为作战参与者提供了必须情报，同时负责后方支援。\n\n - 尝试恢复桃井的游戏存档\n >**晴（真理部）**\n >*关于系统和数据恢复的问题我们已经解决了无数次了......\n >所以我就单刀直入地说吧。\n >桃井，你的游戏存档无法恢复了。*\n\n#### Chapter 2\n - 参与营救爱丽丝的作战\n真理部、C&C、工程部以及研讨会共同协助了游戏开发部进入埃利都营救爱丽丝。期间真理部负责在后方为前线作战人员提供分析和支援。\n>**歌原（工程部）**\n>*从后方潜入的就是剩下的人，游戏开发部和我们......还有老师？*\n>\n>**晴（真理部）**\n>*我们真理部会提供远程支援。*\n>\n>**真纪（真理部）**\n>*黑进防御系统就交给我们吧！*\n>\n>**小玉（真理部）**\n>*会完美地完成给你们看的。*\n\n### Final.\n#### Chapter 2\n - 分析虚妄的神圣之塔\n真理部与工程部在圣三一古书馆的协助下对虚妄的神圣之塔（False Sanctum）进行分析，确认了其会对一定范围内的人造成精神影响，并且会在一定时间后达到能量峰值。此番分析工作让真理部的各位都陷入了过度疲劳的状态，并提出要再购买10箱的妖怪MAX。\n>**千寻（真理部）**\n>*虽然还只是处于假说的阶段——从那座塔感受到的能量......\n>如果继续这样下去，大约300小时后就会到达临界点。\n>如果就这样放着不管——最终会扩散至整个基沃托斯。*\n>\n>**晴（真理部）**\n>*咖啡因......不够......*\n>\n>**小玉（真理部）**\n>*妖怪MAX，能再订个10箱左右吗？*\n:::: center\n![final1.jpg](files/153/0xnY4g2v5NFwfuwrSxdD6wmtn86Gw4ms.jpg =x650)\n::::\n - 追击Hod（色彩）\n被色彩控制的「Hod」守卫着第五圣塔，而其潜入了要塞都市埃利都的地下。真理部为了解除埃利都地下的密码保护一度尝试暴力破解，此时真纪仍在第一圣塔前线继续协助进行对虚妄的圣塔的分析。\n>**晴（真理部）**\n>*「Hod」潜入了要塞都市的地下。现在还在确认它的位置。*\n>\n>**小玉（真理部）**\n>*但要塞都市埃利都的地下，被莉音会长的密码保护了起来，无论是骇入，还是感知震动和声音都不可能做到。*\n>\n>**诺亚（研讨会）**\n>*......莉音会长的密码？但现在，会长她......*\n>\n>**千寻（真理部）**\n>*没错。所以说，现在正在为了破解密码而进行暴力运算。*\n\n - 攻略Hod（色彩）\n温泉开发部在埃利都内大肆破坏，看得在场的真理部成员全都一言难尽。\n>**霞（温泉开发部）**\n>*哈哈哈！好样的好样的！直到在千禧的地下发现温泉为止，尽情地爆破，尽情地挥舞鹤嘴锄吧！*\n>\n>**晴（真理部）**\n>*啊啊，城市被......建筑物被......*\n:::: center\n![final2.jpg](files/153/mM85OeGrWIw1i6o3yQGXbzGS4iGgZjgB.jpg =x650)\n::::\n#### Chapter 3\n - 协助接管乌塔那匹兹姆的大船\n真理部对战舰的控制系统进行了分析，接入了其主系统。\n>**千寻（真理部）**\n>*......代码算法分析完成。\n>小玉，能接入吗？*\n>\n>**小玉（真理部）**\n>*好的。成功接入中央处理装置。没问题。*\n>\n>**真纪（真理部）**\n>*副部长真是帮大忙啦~！\n>说真的，还以为要再花不少时间呢。*\n>\n>**晴（真理部）**\n>*这就是，战舰的主系统......\n>虽然是没见过的语言，但感觉能解析出来。*\n>\n>**千寻（真理部）**\n>*日鞠，成功接入了。马上把连接码发给你，能帮忙看看吗？*\n\n#### Chapter 4\n - 黑入阿特拉·哈西斯的方舟\n 对阿特拉·哈西斯的方舟的黑入是由真理部带头负责的。由于阿特拉·哈西斯的方舟整体就是一座巨大的量子计算机，所以实际的武力占领由老师指挥，黑入和自爆程序的构建则由真理部的4位完成。\n  - 尝试阻止侵入\n遭到反向侵入后战舰启动了自爆倒计时。千寻及日鞠带领真理部另外3名成员进行反向追踪并尝试解除连接，尽管他们此时尚不清楚自己所面对的入侵者到底是什么。\n>**真纪（真理部）**\n>*等......等下，这什么啊！？*\n>\n>**小玉（真理部）**\n>*这，实在是......*\n>\n>**晴（真理部）**\n>*在，在实时改变着算法......？*\n>\n>**千寻（真理部）**\n>*我们也，不会输在速度上的......！好了，进行解除吧日鞠！*\n:::: center\n![BG_CS_PV4_133.jpg](files/153/yzpopTGMYb6GdPEOizaRIM12ep0OwC6J.jpg \"最右面的手是晴的\" =x550)\n\n![BG_CS_PV4_135.jpg](files/153/ALHYFP8x2510ukOltMhuLfeptfWCaigH.jpg =x550)\n::::\n - 解除与方舟的连接\n在对策委员会、游戏开发部及美食研究会解除了方舟各处的安保系统的解除装置后，真理部成功解除了方舟与战舰的连接，阻止了自爆的发生和「多次元诠释」的继续。\n\n## 活动剧情\n### 晄轮大祭系列活动\n - 偷窥研讨会办公室\n 晴无意间看到老师和优香一起进入了研讨会办公室，于是真理部3人组八卦心大起，决定各以各的方式一起窥探办公室内的情况，美名其曰维护真理与探究知识。\n > **真纪（真理部）**\n > *......小玉前辈，有没有听见什么？*\n > \n > **小玉（真理部）**\n > *正在扫描波段的频率......目前还没有发现特别奇怪的现象。*\n > \n > **真纪（真理部）**\n > *嗯——真奇怪啊......晴前辈呢，无人机摄像头有拍到什么吗？*\n > \n > **晴（真理部）**\n > *嗯。这边的画面也没有什么变化。\n > 无论怎么看，现在......研讨会的办公室里都空无一人。*\n > \n > （......）\n > \n > **真纪（真理部）**\n > *刚才晴前辈去买能量饮料的时候，好像看到了老师和优香前辈一起进入了研讨会的办公室。*\n > \n > **小玉（真理部）**\n > *在这么晚的时候，学生和老师竟然偷偷摸摸地幽会......\n > 那两个人一定偷偷做着有趣的......不对，一定是在策划着什么奇怪的事情。*\n > \n > **真纪（真理部）**\n > *作为维护真理与探究知识的真理部的一员，可不能视而不见。\n > 就是这样，千寻前辈也来帮忙入侵吧！*\n \n - 获取选手个人信息\n真理部3人组提前想办法”调查“到了大运动会的所有选手的个人信息和三围数据。\n>**真纪（真理部）**\n>*哼哼哼......我就知道可能会发生这种事，所以事先调查了选手名单。*\n>\n>**晴（真理部）**\n>*因为能一下子确保其他学校学生名单的机会很少......*\n>\n>**小玉（真理部）**\n>*各个学园学生们的个人信息和三......个人数据等等......得到了很多很有趣的东西哦。*\n\n - 协助大运动会准备工作\n诺亚以个人身份向研讨会官方并不承认为正规社团的真理部提出请求，希望能得到计算机方面的协助。真理部因此承担起了选手信息的整理和网络维护等任务。\n> **晴（真理部）**\n> *......前辈。说起来，刚刚西馆的第二栋那边有个很奇怪的入侵警报响了。*\n> \n> **千寻（真理部）**\n> *欸？「反 · 晄 · 会」的学生们，都在这里啊？\n> 那，究竟是.......？*\n\n - 让真纪代替出场骑马战\n毫无疑问以晴的体能，出现在任何比赛项目当中的结果都会是灾难性的失败。因此真理部实际上场参赛的学生是有常年在外躲避警察经验的真纪。\n>**真纪（真理部）**\n>*嗨呀~我只是来代替晴前辈出场的哦？*\n\n### （~~电脑~~）新春进行曲\n新年将至，千寻发现3名部员打算在游戏中度过跨年夜，决定带大家露营度过除夕并上山欣赏新年日出，以此让她们了解外界的优点，学会适当的享受自然。\n - 吃草（详见上文）\n - 试图在露营地假设通信据点\n 在出门前的准备中，晴把一台服务器主机也塞进了行李中。真纪和小玉则分别携带了太阳能发电机和小型抛物面天线（卫星锅）。\n >**千寻（真理部）**\n >*......太阳能发电机？*\n >（......）\n >*......便携式抛物面天线？*\n >（......）\n >*......服务器主机？\n >你们是打算在野营地搭设一个简易通信据点吗！？*\n >\n >**晴（真理部）**\n >*可是，一想到一整天都用不了网络就很不安嘛......*\n\n - 主动提出继续登山\n在得知天气不好，登上山顶后也不一定能看到日出后，千寻询问部员是否放弃登山，但是部员们都表示不愿在此放弃。\n >**千寻（真理部）**\n >*虽然一开始是我提出的，既然天气不好，就没必要强行登顶。*\n >\n >**晴（真理部）**\n >*......我要继续登山。*\n >\n >**千寻（真理部）**\n >*也对，我就想到你们会这么......\n >......诶？继续？*\n >\n >**晴（真理部）**\n >*嗯——好不容易出来一次。*\n >\n >**小玉（真理部）**\n >*既然都来到这了，没登顶就回去会更令人在意。*\n >\n >**真纪（真理部）**\n >*虽然我不喜欢反复刷本......\n >但是已经都到boss战前了，怎么可能直接把手柄丢了呢！*\n\n### 秘密的午夜派对\n - 协助小玉为老师和小雪提供逃跑路线\n虽说晴一开始并不赞成用她们的技术来协助老师逃跑，\n>**晴（真理部）**\n>*等下，小玉前辈。\n>还是不要再继续·惹事了吧......。*\n\n但貌似“老师录制的叫床音声”对晴的吸引力战胜了理智，\n\n><span class=\"md-bg-cyan-400\"><font color=\"black\">......你的条件是什么？</font></span>\n>\n>**小玉（真理部）**\n>*老师的叫起床铃声，十种。\n>台词由我们这边提供。\n>老师只需要协助配音就行了。\n>这样的话晴也愿意一起帮忙了吧。*\n>\n>**晴（真理部）**\n>*能每天听着老师的声音起床，确实是个非常有魅力的提议......。*\n>——活动「秘密的午夜派对」第3节\n\n随后晴便一直协助着小玉为老师（还有稍后会合的小雪）提供逃跑指引。\n不过最后被千寻一起逮回反省室参加睡衣派对了。\n>**晴（真理部）**\n>*......副部长！？*\n>\n>**小玉（真理部）**\n>*为，为什么您会在这里！！\n>不是的，这不是您想像的那样......！！*\n>——活动「秘密的午夜派对」第6节\n\n## 个人&情人节剧情\n#### 黑客的印象\n看过电影中对黑客的艺术化夸张表达后，晴感到十分愤怒并想要对电影公司做出警告。在老师指出后才意识到自己的行为与电影中描写的行为一模一样后恍然大悟并选择作罢。\n\n#### 能量饮料成瘾\n老师得知晴过度依赖能量饮料后表示希望晴能够摆脱对咖啡因的重度依赖。在老师的帮助下晴坚持了3天没有摄入任何咖啡因。期间她体验了各种咖啡因的戒断症状，最后还是像毒瘾发作一样坚持不住喝下了能量饮料。\n\n#### 欢迎光临网咖\n和老师外出购买显卡准备返回时，突然下起了大雨，两人被淋了个透。为了避雨两人进入了网咖。\n\n#### 背叛的机器\n晴叫来老师观看她最新研制成功的无人机：雅典娜3号。晴为了展示这台无人机上搭载的人工智能的能力而开启了健身模式。但是在晴跑不动之后，无人机认为她的运动量不足，仍然坚持要求晴继续运动并且拒绝了晴的其他命令，直到晴运动完才关机。\n\n#### 背叛的机器（2）\n老师莫名收到了晴发来的自拍，而且怎么联系都没有回应，于是前往了真理部部室查看情况。晴此时正在调整雅典娜3号上人工智能的算法以保证其<span class=\"md-hover-text\">遵守机器人三定律</span>不会拒绝人类命令。老师的话才让她意识到雅典娜3号向老师发送了照片，雅典娜3号表示根据生理特征分析这样做也让晴内心十分高兴，晴在害羞之中大声下令雅典娜3号紧急关机。\n\n#### 特别的能量饮料\n老师为了处理事务而来到真理部寻求晴的帮助。几个小时后晴处理完了数据，发现老师一脸疲惫，于是送了老师一瓶情人节限定的巧克力味的「妖怪MAX」。\n\n## 社团剧情\n### 真理部\n真纪出于私心决定黑入千禧记录学生体检信息的服务器并修改自己的数据，并以“测试新研发的无人机性能”为诱饵吸引了晴参与这次行动。\n在真纪被追踪到后晴协助她进行了防御，不过最后选择了放弃。\n\n### 美食研究会\n晴为美食研究会的众人解释有的人喜欢吃薄荷而有的人不喜欢的区别来自于某类神经受体的有无，并为美食研究会的众人进行了测试，并得出了每位成员的受体存在情况。\n\n## 官方衍生\n### PV3\n众多学生在夏莱开张一周年为老师举办纪念派对并一起在夏莱等候老师归来时，其中之一的晴在优香和两位其他真理部部员的围观下在用电脑做些什么。官方对此未曾进行展开描述，根据晴以及围观者的行为和表情来猜测，有可能是在打某种游戏。\n:::: center\n![PV3-1.png](files/153/XBfC0XdmRh7UTIZOnnAi8sLLBvL5gOeA.png \"在敲键盘的晴\" =500x)\n\n![PV3-2.png](files/153/gNrEoM7fPePww8tW1pQwUnz4Kj7mgLzL.png \"在紧张地敲键盘的晴\" =500x)\n\n![PV3-3.png](files/153/QcJzQkX6dIC9yEpS11z2KZjhpNQz1L8V.png \"趴在键盘上的晴\" =500x)\n\n::::\n### 漫画\n#### 晄轮舞台上的捉迷藏\n对千禧学生的狂热程度并不了解的RABBIT小队认定晄轮大祭的举办存在阴谋，并决定潜入千禧一探究竟。期间和负责管理安保和网络的真理部展开了一场战斗。\n\n#### 截货天使24的妖怪MAX\n国际服官方四格漫画39话《平凡的社团活动》中，真理部除千寻外的3人动用各种手段在空为天使24进货时进行拦截，拿走了所有热带水果（Passion Fruit）口味的妖怪MAX（付没付钱不知道）。鉴于标题，可以大致认定她们确实会付钱而且没少干这事。\n \n!!! success 本站已收录以上漫画\n漫画屋：\n[晄轮舞台上的捉迷藏 - せるげい](https://kivo.wiki/comic/6)\n[国际服官方四格漫画 - 돈미니DONMINI](https://kivo.wiki/comic/1)\n!!!\n \n### 动画\n#### キヴォトスの大型連休！\n面对小长假，晴选择了窝在部室里继续当家里蹲。由于一直待在部室内，晴对时间流逝失去了感知，而且全程只靠能量饮料维持着身体所需。在工作陷入瓶颈时，小玉给晴拿来了一瓶能量饮料并建议晴休息一下。两人聊到令人放松的声音后，晴发现小玉用老师的声音给自己制作了打起语音。小玉提议给晴也制作一份，晴害羞地别过脸之后表示同意。\n\n# 四、杂项趣闻\n## PV5\n\n~~在PV5中有着真理部与研讨会成员均穿着睡衣在一起游玩海盗桶这一日本经典聚会玩具的画面，而晴躺在千寻身后，貌似睡着有段时间了。鉴于真理部众人普遍夜猫子且热爱能量饮料的迷人精神状态，晴早睡的的原因可能是在此前的其他活动中消耗了大量体力。不过真正的情况仍要等待官方放出这几张CG的具体所属活动的信息。~~\n\n这两张CG现已确认用于24年底的活动「秘密的午夜派对 \\~新年钟声里的捉迷藏\\~」。也许是之前的捉迷藏和最后的逮捕过于刺激，加上在派对上玩得十分尽兴，晴作为全真理部里体能最弱的学生早早躺下了。\n\n:::: center\n![PV5-4K-337.png](files/153/vbiTx5gK9E54uxnbUkJkU3GIIGEoJzdf.png \"最右边睡着的就是晴\" =450x)\n\n![PV5-4K-344.png](files/153/snu5brmVbTwe93VOOWa1beYF6dIJQRto.png \"睡着的晴\" =450x)\n\n::::\n\n不过活动正文剧情和后日谈剧情却有些许微妙的冲突。\n在活动剧情第7节中，老师进入反省室时众人正在游玩海盗桶游戏，此时小雪已经经历3连败，游戏内播放的CG显示晴已经睡着，而晴确实也没有参与此时的剧情对话。\n\n但是在后日谈剧情里，在小雪经历海盗桶5连败后众人玩起了各种其他游戏，而晴又全程参与4节后日谈剧情对话。\n\n可以解释为在中间游玩第4、5轮海盗桶时的某个时候晴被人叫醒了，不过更有可能是剧情组和美术组在沟通时没有做好细节交流，只能以“在展示CG时不让晴发言”这种方式来展示剧情，同时避开文本与CG的直接冲突。\n## 雅典娜3号\n雅典娜3号是晴研发的众多无人机中能力最强的，也是晴一直随身携带着的工具。构造不明，动力不明，原理不明。只知道雅典娜3号能够悬浮在空中，搭载晴自主研发的人工智能算法，整体呈球形。\n\n晴的立绘中的动态部分除了光环还有她的无人机。在对话时可以看出晴的光环和其他学生一样会闪烁着上下浮动，而她的无人机也会闪烁着浮动。\n\n雅典娜3号及其搭载的AI的功能多种多样，\n>**晴（真理部）**\n>*雅典娜3号，用相机功能给老师拍照。*\n>（......）\n>*除此之外，日程管理和闹钟功能自不必说，还有着能辅助运动的健身功能。*\n\n雅典娜3号还具备释放电磁脉冲的作战能力，\n:::: center\n![Hare-4.png](files/153/gMyBXC2Aopij9aOGYGs1cnpjgUsqZYnV.png =450x)\n\n::::\n\n而这个AI貌似还对调戏自己的开发者有着奇怪的倾向。\n\n## 田火田\n由于缺乏运营方面经验，日服早期不存在战术对抗战（竞技场）的分区，即所有玩家均处于同一个排行榜中，这导致排名竞争激烈无比。想要拿到靠前的排名不仅需要最高的角色等级与练度，还需要对游戏机制有充足的理解，所以当时的竞技场排名堪称地狱绘图。而在这段时期里有一昵称为“田畑”的老师，不仅长期占据排行榜顶尖位置，而且选择了在当时并不算热门的小钩晴作为头像，于是给当时日服的大家留下了极其深刻的印象，甚至反过来为晴赋予了昵称，让她曾一度成为竞技场卷王的象征。\n:::: center\n![田畑1](files/3/HgLgj9PhXRng1HwmtLgGYBSAKZoq13ZU.png =400x)\n\n![田畑2](files/3/cBP70Vv2C8ILakssEaPsE9lA8RpPFXX0.png =x370)\n\n![](files/3/eKlknmKWNODc503Jv4qIJrwfS8SyOk5J.png =x370)\n\n![](files/3/lcChjtEj3jm6ZPugaS6XaJEdIeBlsxik.png =x370)\n::::\n!!! hint 了解更多\n对这段过去感兴趣的话，可以参阅下面的本站文章。\n报刊亭：\n[早期蔚蓝档案个人回忆录 - 昔日重现](https://kivo.wiki/article/13)\n!!!\n## PV3的误解\n### 前半\n在PV3的前半叙事CG部分，有人认为晴操作电脑的一幕中晴的左手是在握着鼠标，从而认为这说明晴是左撇子。但是根据手的位置及图层关系来看，晴的左手应该是在键盘上面而不是鼠标上面的。而且在PV1中可以看出，晴桌面上的鼠标是放在靠右一侧的。\n\n### 后半\n在PV3的后半活动预告CG部分，有出现在运动会上进行骑马赛的这样一张CG，其中有着千世和忍术研究部的组合以及被她们夺下头巾的学生，身边围绕着晴的无人机。当时有人认为这是晴参与运动会项目的CG，但其实从鞋子就可以看出来这一幕里倒下的其实是真纪，此后的晄轮大祭活动剧情也证实了这一点。\n\n## 立绘的平板\n在晴的初始立绘及建模中，她总是手持一个平板，平板的一角挂着一个迷你尺寸的玩偶。这个玩偶的形象并不属于MomoFriends系列，游戏里除了晴的立绘之外从未再次出现过这一形象，画师和官方也未曾对其出处进行过解释。据千寻的角色设定和官方四格漫画中千寻喜欢购物并为其他成员赠送礼物的表现来看，这一挂件可能是来自千寻的礼物。\n另外，晴的平板以竖持为正方向，背部摄影模组靠近窄边并且剧中，在现实当中很难看到符合这一设计的消费级平板电脑产品，设计上可能更接近工业三防平板。\n\n## 汽水爱好者\n在早期的一些图像里可以看出，晴手边最常出现的饮料罐并非「妖怪MAX」，而是形似胡椒博士（Dr.Pepper）和山露（Mountain Dew）这两个知名汽水品牌的罐子。\n:::: center\n![pv1-2.jpg](files/153/FFy3iF44Pwnr0H0mUddhM4ZhSB2bbD9h.jpg =450x)\n\n![LoadingImage_37_jp-2.png](files/153/eu0uABZraWvLoSdvtGszyueIJPmKZRi6.png =450x)\n\n::::\n## 妖怪MAX\n很显然这一饮料的名字是Neta自知名能量饮料品牌魔爪（Monster Energy），不过国服把这一饮料的名字译作了“极限魔力”。\n从四格中的精准拦货和终章里的订单追加可以看出，真理部的几位长期为妖怪MAX提供了大量订单，而她们尤其钟爱百香果味。现实当中的魔爪虽然并没有Passion Fruit口味，但是有着添加有百香果果汁的Pipeline Punch口味，宣传的特点便是热带风味，这一口味在国内被称为“百香果番石榴味”。不过游戏内从未出现在包装配色上与这一款口味的包装相似的饮料。\n\n### 关于Passion Fruit的译名\n晴钟爱的妖怪MAX的口味是Passion Fruit（パッションフルーツ）味，这一口味的名称在繁中服官方四格漫画中的翻译为热带水果味，而在威威的汉化剧情中曾被翻译为“热情果味”和“西番莲味”，国服则翻译为百香果味。\n\n## 蓝色衣服\n通过一些其他方式或者古书馆站内的模型鉴赏功能，是可以观察到晴的小人模型里平常在游戏中难以直接观察的部分特殊服饰的。\n其他角色同类服饰的颜色多为简单的白色或黑色，而就算在这一服饰拥有独特设计的角色之中，晴所穿的这一款的颜色也是十分特殊的天蓝色，和晴黑卫衣白大褂所构成的外在形象之间的差异实在是有些大。\n\n# 五、延伸阅读\n## 各语言CV\n### 贝原怜奈\n相关页面：[事务所官网](https://www.crocodile-ltd.com/talent/kaihara-reina)、[X账号](https://x.com/kaiharareina)\n作为晴的声优，贝原怜奈多次出现在日服的直播节目当中，且几乎每次出场都会携带或穿着定制的晴的周边，包括但不限于亚克力钥匙扣，同款衣服等等。\n:::: center\n![1.png](files/153/ruU6KlWIbtkXNeDpdReSonMuiwcYfxr3.png \"雅典娜3号手镯和光环项链\" =400x) \n\n![2.png](files/153/HhOHLSXtBGKI35HBH3fJOvxi6P8Qnz0f.png \"3周年直播中cos成了晴\" =400x)\n\n![3.png](files/153/dOjITfVkvlwIT54i9bZV2zCLg84JLzVQ.png \"晴的玩具娃娃\" =400x)\n\n::::\n#### 部分其他动画&游戏配音角色\n - 《超级机器人大战 ORIGINAL GENERATION》系列（夏茵·豪森）\n - 《超级机器人大战 GC》（萨利）\n - 《新释·战国英雄传说·真田十勇士》（于市）\n - 《CG动画 そらべあ》（海豹）\n - 《守护甜心！！心跳》（真央）\n - 《CLANNAD》（广播部员）\n - 《神秘智慧石》（公主）\n - 《邪神与厨二病少女X》（孩子②）\n - 《小魔女DoReMi》\n - 《高校暴力教师/无敌老师》（渡边智子）\n - 《ジャンケンパーティーぱらだいす》（チョッキーナ）\n - 《弩龍戦機》（風宮刃月、百河冴子、姫宮つづる、速水アコ）\n - 《アーカーワールド》（エジェ、リ・イル）\n - 《百女神バスターズ》（ルヴィ、プリメラ、バージ、ヒナウ）\n - 《エンジェルマスター》（エキドナ、オリアス、デカラビア、ユーリ）\n - 《学都戦記レリックハート》（R-8800セレナ）\n - 《少女兵器大戦》\n\n!!! attention 引用声明\n以上列表内容引用自贝原怜奈声优事务所官网。\n[貝原 怜奈 | 声優事務所 クロコダイル (crocodile-ltd.com)](https://www.crocodile-ltd.com/talent/kaihara-reina)\n!!!\n\n### 秦文静\n相关页面：[bilibili账户主页](https://space.bilibili.com/3219775)\n晴的中文CV，活跃在B站，会经常进行直播。\n#### 部分其他动画&游戏配音角色\n - 符文大地传说（仙灵向导）\n - 巫师之昆特牌（猫学派猎魔人学徒、落雪）\n - 逆水寒（萱妹、图都）\n - 剑灵（满空）\n - QQ飞车\n - 原神（柯莱、伐难）\n - 幻塔（玉兰）\n - 第五人格（拉拉队员）\n - 雾境序列（荆棘）\n - 冲呀！饼干人：王国（小小酥饼干）\n - 英雄联盟（斯莫德）\n - 贝乐虎儿童音乐剧之神奇恐龙（肿头龙）\n - 2019年青岛国际啤酒节动画宣传短片《精酿派对》\n  \n!!! attention 引用声明\n以上内容引自[萌娘百科](https://mzh.moegirl.org.cn/秦文静)，遵循[CC BY-NC-SA 3.0 CN](https://creativecommons.org/licenses/by-nc-sa/3.0/cn/)协议。\n!!!\n### 이달래（Lee Dallae）\n相关页面：[YouTube频道](https://youtube.com/@2dallae)、[Instagram](https://www.instagram.com/dallae_naeng2)、[Spoon Cast](https://spooncast.net/kr/@dallae)\n晴的韩语CV，同时也是芹娜的韩语CV。\n#### 部分其他动画&游戏配音角色\n - 葬送的芙莉莲（年幼大猩猩战士）\n - 蜡笔小新（其他角色）\n - 海绵宝宝（其他角色）\n - 地下城与勇士（丹德尔）\n - 胜利女神：妮姬（钟鸣）\n - 明日方舟（烈夏）\n - 最终幻想14：金曦之遗辉（乌克·拉玛特）\n - 姜饼人之塔（糖果球饼干）\n - 姜饼人王国（起司汉堡龟、派对上跳舞的饼干2、黄金起司王国国民1、侍候的饼干1、黑白龙）\n\n!!! attention 引用声明\n以上内容引自[Namu Wiki](https://namu.wiki/w/%EC%9D%B4%EB%8B%AC%EB%9E%98)，遵循[CC BY-NC-SA 2.0](https://creativecommons.org/licenses/by-nc-sa/2.0/kr/)协议。\n!!!\n\n\n## 9ml\n9ml是晴的立绘以及回忆大厅的原画、原设作者。他的个人X账号从未发布过评论或角色介绍，只有日韩两个服务器的官方内容和其他图像的转推，简直是一个无情的转推机器。\n\n## Auto Aimer\n 小钩晴所使用的武器“Auto Aimer”原型为美国Kel-Tec公司的RFB 18\"半自动步枪。\n :::: center\n![weapons_icon.png](files/153/NXRUQ43sVoRbGTR5BE4Zu43Ug6x3zriN.png \"晴的武器：Auto Aimer\")\n\n![Keltecrfb_noBG.png](files/153/j2Jk2PsgkFCX4jG5BQbWGhLARdDHxOqJ.png \"Kel-Tec的RFB^[1]^\" =x246)\n\n ::::\n!!!attention  引用声明\n[1]: 该图片引用自[Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Keltecrfb_noBG.png)，基于[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)。\n!!!\n\n## 专辑\n - Get Over the World（及其广播剧）\n 由真理部全员共同演唱的真理部主题专辑，隶属于《青春あんさんぶる》系列。\n - 澄んだ青空、萌ゆる心\n 《蔚蓝档案》日服三周年主题歌。\n!!! success 本站已收录以上曲目\n[Get Over the World - Veritas](https://kivo.wiki/music/255)\n[Get Over the World(Instrumental)](https://kivo.wiki/music/256)\n[Voice Drama「Rest & Panic」](https://kivo.wiki/music/257)\n[澄んだ青空、萌ゆる心 - カスミ(CV.上坂すみれ)、ユカリ(CV.村上まなつ)、モミジ (CV.大亀あすか)、ハレ(CV.貝原玲奈)、エイミ（ CV.松永あかね）](https://kivo.wiki/music/260)\n!!!\n## キヴォトスの大型連休！\n 日服官方在2023年的日本黄金周假期期间每天放出的系列短片，一共5集。分别讲述了各个学校的学生们度过小长假的方式。\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[千寻](https://kivo.wiki/data/character/20)|チヒロ先輩<br>先輩<br>副部長|\n|[小玉](https://kivo.wiki/data/character/212)|コタマ先輩<br>先輩|\n|[真纪](https://kivo.wiki/data/character/182)|マキ|\n|[日鞠](https://kivo.wiki/data/character/62)|ヒマリ部長<br>部長|\n|[明里](https://kivo.wiki/data/character/110)|アカリさん|\n|[爱丽丝](https://kivo.wiki/data/character/108)|アリス|\n|[泉](https://kivo.wiki/data/character/73)|イズミさん|\n|[小雪](https://kivo.wiki/data/character/101)|コユキ|\n|[纯子](https://kivo.wiki/data/character/103)|ジュンコさん|\n|[妮禄](https://kivo.wiki/data/character/213)|ネル先輩|\n|[诺亚](https://kivo.wiki/data/character/28)|ノア|\n|[晴奈](https://kivo.wiki/data/character/195)|ハルナさん|\n|[桃井](https://kivo.wiki/data/character/2)|モモイ|\n|[优香](https://kivo.wiki/data/character/52)|ユウカ|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n\n# 六、官方图集\n## 官方介绍图\n| 日服 | 国际服 | 韩服 |\n| :-: | :-: | :-: |\n| ![PkG8WIrmad1JrFsQY0Gl6vTnTJUvsNf1.png](files/153/H1A7brrPXmSdj7UzqI2KJuXQWFHxKmqC.png  =400x) | ![FAVkCN4VUAIxKZ8.jpg](files/153/8pK3DGSHAnsPCWgDsco5lStNQDVz91wl.jpg  =400x) | ![FAVjpRsVIAE-cHu.jpg](files/153/0eoNsKUe0EXBdSWr53Ms2BhnNtHkpvMy.jpg  =400x) |\n\n## EX 技能动画\n:::: center\n\n![ex.gif](files/16727/1yIWvA6ITCrTbDFbPBO5OrOKrfoEgExX.gif =450x)\n\n::::\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 晴 汉化\n![晴](files/2/mAduRd6SoL6ycZozjDRepWoQqcHurdFm.png =450x)\n@tab 晴 原文\n![晴](files/2/NnVNXepmDTQK7GVKNHjWHMTUA0dz4yCH.jpg =450x)\n:::\n\n## 设定集\n:::: center\n![Hare-1.png](files/153/gCPyrgCrcOoBpeA5WduvpDK83IqEORn4.png =800x)\n\n![Hare-2.png](files/153/7j3hBEYgSbrvRZNJoxGLC7jvVLup9EOd.png =800x)\n\n![Hare-3.png](files/153/BnD6aTnWwpVMbWyQBP6qxJjmw4g1jEaR.png =800x)\n\n![Hare-4.png](files/153/Pu1H1soMT37ysCXCm48zyaKTrFqnVfww.png =800x)\n\n\n::::\n\n## MomoTalk插图\n:::: center\n![momotalk.png](files/153/PONuvHrcQqHQMZYWtkEYvnIl3pCdhcVi.png \"晴的自拍\" =400x)\n\n::::\n## 游戏内SD图画\n:::: center\n![LoadingImage_37_jp.png](files/153/62TVGhbXPF3lNaycplZLTD5Xu5BDJnWj.png =500x)\n\n![Event_Photo_CollectionCG_817_05_Full.png](files/153/jP6LeOwmxqhKtZYaWbXbIruTbrh059c2.png =500x)\n\n![Popup88.png](files/153/lPFsn2ikgwyFIqP1A5FIDrnO2TtiZ40Y.png =500x)\n\n![Event_Photo_CollectionCG_818_03_Full.png](files/153/EWP7f2DSahNqlOv7pDE5HuBywfKA7Y2j.png \"真理部骑马赛训练珍贵图像\" =500x)\n\n::::\n\n## 各类贺图\n:::: center\n![__eimi_kasumi_hare_yukari_and_momiji_blue_archive__87ee7f1215c195f9b9d3b29fb27d82e4.jpg](files/153/BXAlXTDLmwVSZF7EZMpafFRiRFMIQV0r.jpg \"3周年官方贺图\" =800x)\n\n![Et_oW9BUcAMDnCZ.jpg](files/153/cfiX9yc8fCqergaknhoo7xooloLBRI6U.jpg =800x)\n\n![GEhM0q-bAAAO_bL.jpg](files/153/o1zhdFVoYjvyfbKNu1yea8CVnkjltRMI.jpg =800x)\n::::\n# 七、人物关系链\n```mermaid\nflowchart TB\n    %% 节点定义和样式\n    classDef club fill:#ffecb3,stroke:#ff9800,stroke-width:2px\n    classDef person fill:#e3f2fd,stroke:#1976d2,stroke-width:2px\n    classDef event fill:#e8f5e9,stroke:#388e3c,stroke-width:2px\n    classDef truthMember fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px\n    classDef kogane fill:#ffd700,stroke:#ff4500,stroke-width:2px\n\n    %% 社团节点\n    GameDev[\"游戏开发部\"]:::club\n    EngDept[\"工程部\"]:::club\n    GymDept[\"健身部\"]:::club\n    FoodClub[\"美食研究会\"]:::club\n    CandC[\"C&C\"]:::club\n\n    %% 人物节点\n    subgraph TruthMembers[\"【真理部】\"]\n        direction LR\n        Turi[\"小涂 真纪\"]:::truthMember\n        Kogane[\"小钩 晴\"]:::kogane\n        Otama[\"音濑 小玉\"]:::truthMember\n        Chihiro[\"各务 千寻\"]:::truthMember\n    end\n    Mystar[\"明星 日鞠\"]:::person\n\n    %% 事件节点\n    Seminar[\"研讨会\"]:::event\n    RabbitTeam[\"RABBIT小队\"]:::event\n\n    %% 连接关系\n    FoodClub -.->|\"曾咨询\"| Kogane\n    \n    Mystar -->|\"前部长\"| TruthMembers\n    \n    GameDev <===>|\"多次合作\"| EngDept\n    \n    TruthMembers <===>|\"多次合作\"| EngDept\n    TruthMembers -->|\"曾匿名对抗\"| RabbitTeam\n    TruthMembers <--->|\"山中偶遇\"| GymDept\n    TruthMembers <===>|\"伙伴社团\"| GameDev\n    TruthMembers -->|\"协助准备晄轮大祭\"| Seminar\n    \n    CandC <--->|\"曾对抗 现伙伴\"| GameDev\n    TruthMembers <--->|\"曾对抗/合作\"| CandC\n```",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/Hare_home_Idle_01_0.8418999999999998.jpg",
+  "spine": [
+    266,
+    455
+  ],
+  "model": [
+    26,
+    380
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/voice/play_icon.png",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/voice/pause_icon.png",
+  "voice": [
+    {
+      "description": "Hare_Title",
+      "category": "lobby",
+      "text": "蔚蓝档案。",
+      "text_original": "ブルーアーカイブ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/cwtl8J8ujE2jws4wQHZPe6zBPt2JYhh7.ogg"
+    },
+    {
+      "description": "Hare_Battle_In_1",
+      "category": "battle",
+      "text": "好，来尽情地搞一搞破坏吧。",
+      "text_original": "さあ、思い切りかき回してみようか。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/U1IDKWVZASyGmZfhDrde4NR5HAEsp1Of.ogg"
+    },
+    {
+      "description": "Hare_Battle_In_2",
+      "category": "battle",
+      "text": "首先，收集一下数据吧。",
+      "text_original": "まずは、データを集めてみようか。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/equaNGUh0zLEkxlAJD4A6KE4ENKgvhiA.ogg"
+    },
+    {
+      "description": "Hare_Battle_TSA_1",
+      "category": "battle",
+      "text": "Tech level 7,登记完毕。",
+      "text_original": "テックレベル7、登場完了。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/dy2nKayEwgox4iF4AWkmbkyqTqNjcP6B.ogg"
+    },
+    {
+      "description": "Hare_Battle_TSA_2",
+      "category": "battle",
+      "text": "就用这一击，作为结束吧。",
+      "text_original": "これで終わらせよう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/63GPSSCGRANWUXWJ8mhbCPcbAapjExHT.ogg"
+    },
+    {
+      "description": "Hare_Cafe_Act_1",
+      "category": "cafe",
+      "text": "这里可以这么修，那里再那样修一下......好。马上改造一下试试吧。",
+      "text_original": "これをこうやって直して、あそこをああやって直せば… よし。すぐ改造してみようかな？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/3cxUOlbW9k9UyoeXYxbUgWLNNtdOjHAs.ogg"
+    },
+    {
+      "description": "Hare_Cafe_Act_2",
+      "category": "cafe",
+      "text": "唔——嗯？啊，问我在干什么？在玩新出的游戏呢。",
+      "text_original": "ふーん。うん？ ああ、何してるかって？新作のゲームを やってたの。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/eKQMESeRXlNokG1zoITQjHMYYvp6eU0w.ogg"
+    },
+    {
+      "description": "Hare_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "不能让自动售货机只卖能量饮料吗......？",
+      "text_original": "自販機からエナジードリンクだけが出るようにはできないのかな…？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/98yXRQlxrCAF7zyLtfElBd6RutTFowO5.ogg"
+    },
+    {
+      "description": "Hare_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "唔晤......要不要先眯一会再继续呢？",
+      "text_original": "ううーん…。ちょっと一眠りしてから続けようかな？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/199rTu2cJw80Vsllk12r0OKW0e7HFBWs.ogg"
+    },
+    {
+      "description": "Hare_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "糖分不足......",
+      "text_original": "糖分が足りない…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/aZovQkkDqUQUyv3Bf2H2sGgu8wSn4f5J.ogg"
+    },
+    {
+      "description": "Hare_CommonSkill",
+      "category": "battle",
+      "text": "这下会很痛哦。",
+      "text_original": "これは痛いよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/m5TjoQEbvCwQ5fnWl8tp6wVnWhWYmjzP.ogg"
+    },
+    {
+      "description": "Hare_ExSkill_1",
+      "category": "battle",
+      "text": "电磁脉冲，开始运行。",
+      "text_original": "電磁パルス、稼働開始。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/UsnYJbncsBrApF3mbn6DCCuknPor9Du0.ogg"
+    },
+    {
+      "description": "Hare_ExSkill_2",
+      "category": "battle",
+      "text": "EMP无人机，启动。",
+      "text_original": "EMPドローン、稼働。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/3P8QqmPlJJlS9lTT5FlYgCQTDiXBpxZ9.ogg"
+    },
+    {
+      "description": "Hare_ExSkill_3",
+      "category": "battle",
+      "text": "第一阶段发射器，开始运行。",
+      "text_original": "第一段階ユニッター、作動開始。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/NQZBJwzkXqyJZkgpqDy6vodrDClBKdzG.ogg"
+    },
+    {
+      "description": "Hare_ExSkill_Level_1",
+      "category": "battle",
+      "text": "设备停止。",
+      "text_original": "装備を停止する。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/m2MyLTg2QYpoGrrKNAky6Gvu6YvxfqSt.ogg"
+    },
+    {
+      "description": "Hare_ExSkill_Level_2",
+      "category": "battle",
+      "text": "和预期一样啊。",
+      "text_original": "予想通りかぁ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/4EfuSncxZaeWvpO5QHPKRUKyQ2HEQRb2.ogg"
+    },
+    {
+      "description": "Hare_ExSkill_Level_3",
+      "category": "battle",
+      "text": "大家，退后。",
+      "text_original": "みんな、後ろに下がって。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/yzNQgCHIVraBxIa1Lv8UJylzzq4LcGbo.ogg"
+    },
+    {
+      "description": "Hare_ExWeapon_Get",
+      "category": "growup",
+      "text": "虽然是一件旧武器，不过这件武器里面，包含着无法量化的记忆。",
+      "text_original": "古い武器だけど……この武器には数値化できない思い出が込められてる。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/JQ6hBP2RTKQdVfEdg6u4PdOwGi33hmdO.ogg"
+    },
+    {
+      "description": "Hare_Formation_In_1",
+      "category": "formation",
+      "text": "证明我实力的机会到了。",
+      "text_original": "私の実力を、証明してみせる機会だね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/qKgZpDflppsPjEyb6mHpVq30aspJhhMP.ogg"
+    },
+    {
+      "description": "Hare_Formation_In_2",
+      "category": "formation",
+      "text": "交给我吧。",
+      "text_original": "任せて。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/Osq8RTdnF7yqn5yz8uccARg9a0JD3Jr5.ogg"
+    },
+    {
+      "description": "Hare_Gachaget",
+      "category": "growup",
+      "text": "很高兴认识你，老师。我会让老师见识一下，千禧年的实力。",
+      "text_original": "会えて嬉しい、先生。 ミレニアムの力を、先生に見せてあげる。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/yijVxVcrsbTXuJbZv253qEhTURw9tZ6j.ogg"
+    },
+    {
+      "description": "Hare_Growup_1",
+      "category": "growup",
+      "text": "嗯——效果还挺惊人的嘛。",
+      "text_original": "ん～、これは目を見張る結果だね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/s83I4R7pcRWVTfEf4ITCoNbEgAD3ZWa5.ogg"
+    },
+    {
+      "description": "Hare_Growup_2",
+      "category": "growup",
+      "text": "我还需要更多的数据。",
+      "text_original": "もっと多くのデータが必要だね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/EPpz1qwQ7K0zKoLJfR6LtypyqdI9kMP5.ogg"
+    },
+    {
+      "description": "Hare_Growup_3",
+      "category": "growup",
+      "text": "涌现出来的这股力量，能不能量化出来呢？",
+      "text_original": "この込み上げる力も、数値化出来るのかなぁ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/bvx7AqFaNuCSs3cozpLTPacBkeUha8DY.ogg"
+    },
+    {
+      "description": "Hare_Growup_4",
+      "category": "growup",
+      "text": "探索未知的知识，总是很有趣的。",
+      "text_original": "未知の知識を探求するのは、いつだって楽しいことだね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/UnCB14uyBDLITQrzI4DTjUFAGyxlObqr.ogg"
+    },
+    {
+      "description": "Hare_Lobby_1",
+      "category": "lobby",
+      "text": "看不出来吧，我超会打游戏的哦。老师要不要和我比试一下？",
+      "text_original": "こう見えてゲームは結構上手い方だよ。 先生も一度相手してみる？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/aeZBH64qT7dbosTTkM8DzS5xshYHl7lf.ogg"
+    },
+    {
+      "description": "Hare_Lobby_2",
+      "category": "lobby",
+      "text": "作弊......？虽然我是黑客，但是打游戏最重要的是开心嘛。我不会作弊的。",
+      "text_original": "チート…？いくらハッカーでも、楽しさのためにやってるゲームにそんなのを使うはずないでしょ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/9bztAL9BCdHFiaP1lAF9Ih5sh4g3phZ9.ogg"
+    },
+    {
+      "description": "Hare_Lobby_3",
+      "category": "lobby",
+      "text": "在你看来，我们做的事情有那么极端吗？",
+      "text_original": "私たちがやることが、そんなに過激に見えた?",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/E9savPEsmYTBDTw8cUIHswX5X1iGXjuJ.ogg"
+    },
+    {
+      "description": "Hare_Lobby_4",
+      "category": "lobby",
+      "text": "知识应该是自由的......嗯，这句话说的真好。",
+      "text_original": "知識は自由であるべき…。うん、やっぱりいい言葉だね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/Mm1ZlUaRonXHfJJOFm4Oat7YAhoQmHTc.ogg"
+    },
+    {
+      "description": "Hare_Lobby_5",
+      "category": "lobby",
+      "text": "这种甜甜的碳酸饮料，才是高智商人士该喝的东西呢。",
+      "text_original": "この甘い炭酸飲料こそ、知性ある人の飲み物だよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/oCnYf1WsU7uVCBPmvIsnPLIOaLitSNkj.ogg"
+    },
+    {
+      "description": "Hare_LogIn_1",
+      "category": "lobby",
+      "text": "呀，老师。来杯咖啡吗？",
+      "text_original": "や、先生。コーヒーはいかが？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/zDDLbzgPnomGXt9tGYAq7gZPsMVoTJVV.ogg"
+    },
+    {
+      "description": "Hare_LogIn_2",
+      "category": "lobby",
+      "text": "欢迎你，老师。你比我预测的早到了43秒呢。",
+      "text_original": "ようこそ、先生。私の予想より約43秒早く到着したね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/gJx5p9ZWyyAk58OGvV5HZvDc7Ud7jnB5.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "嗯......怎么突然下雨了......",
+      "text_original": "ふう…急に夕立だなんて。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/b2WNP9W2tVPNEskCZPBM5yV6JuClbBXo.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "最近连天气预报都不敢信了，真麻烦。",
+      "text_original": "最近は、天気予報も信頼できなくて困るね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/Yi7vVbmLKHjUAwg7b2haW3j1IimLPfPF.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "嗯，接下来该干什么呢？",
+      "text_original": "さて…この後、何をしようか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/cbNE6DdPyXK0kDH8W37xKo2zT7hKxmFi.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "（额，我刚才说的话，不会被误解成什么不好的意思吧？）",
+      "text_original": "（ん…今の言葉、もしかして変な意味に聞こえたかな？）",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/kwM2coP0dr8EX6n3m7sLPOVbWmn5qL3o.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "（可我第一次来网吧这种地方，也不知道别人一般会在这里干什么......）",
+      "text_original": "（でも、ネットカフェなんて私も初めてだし、 普通こういう所で何をするものなのかも知らないし…）",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/bTC9ugWRpChgWfAi7PgStRsunKTDzW0U.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "（而且这里，也太窄了......老师的脸，好近......）",
+      "text_original": "（というかこの空間、狭くて…先生の顔が近い…っ）",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/ozZ7z7ZYO6VyodqI7w4y2qU65660Z3S0.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "欸？你要先去洗个澡？等下，为什么？！",
+      "text_original": "え、さ、先にシャワーを浴びてくるって？ちょっと、なっ、どうして？！",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/PofM8irBhMRrc4zDfSZhUV1DdhNJjXHf.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "啊？头发淋湿了，要去洗一下？对不起，没事，当我没说吧。",
+      "text_original": "あ、雨に濡れたから、髪を洗いに？…ごめん、いや、気にしないで。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/Mg4adms0gIi6dB5xYIn8G3Fg7SxKanYS.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_4_3",
+      "category": "lobby",
+      "text": "原来，网吧还有洗澡的地方啊。",
+      "text_original": "ネットカフェには、シャワーの設備もあるんだね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/jDAIFGv0kdbtxO9XkpzPHYDRLAbFIITw.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_5_1",
+      "category": "lobby",
+      "text": "啊，老师快看，饮料是免费的欸。不知道有没有能量饮料？",
+      "text_original": "あ、見て、先生。ドリンクバーが無料だって。 エナジードリンクもあるかな？",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/UDKZUWD7fe2a7KyFZ9TxCB74KqdP3Qs2.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_5_2",
+      "category": "lobby",
+      "text": "嗯，网络也能随便用，饮料也不要钱。",
+      "text_original": "ネットも自由に使えるし、ドリンクも無料だし。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/1h32OUOuuLfuDi3x29KUBPL3Gzc5pmZu.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_5_3",
+      "category": "lobby",
+      "text": "这也太幸福了。完全就是给我这种人设计的地方啊。",
+      "text_original": "これは素晴らしい、完全に私のような人間のための空間。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/SROneU9HmTSUTgCMR2Kmwps4iRTOtr5B.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_6_1",
+      "category": "lobby",
+      "text": "要在这里待多久我都愿意。",
+      "text_original": "ここになら、いつまででもずっと、居られそうだね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/ntHtBPQfBtfTFVNmlWCwqvFovE23GgL4.ogg"
+    },
+    {
+      "description": "Hare_MemorialLobby_6_2",
+      "category": "lobby",
+      "text": "啊，那个......刚才那句话没什么特别的意思，不要误会啊。",
+      "text_original": "あ、えっと…今のも、別に変な意味ではないから。誤解しないでね…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/gpZPEK0a7TtZ5asbLheBe1xGCzzH629w.ogg"
+    },
+    {
+      "description": "Hare_Relationship_Up_1",
+      "category": "growup",
+      "text": "等这项研究结束了，下次想研究一下老师。",
+      "text_original": "この研究が終わったら、次は先生のことを研究してみたいな。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/mnYGgmito7FiZPXJ4wxzsdsk4g6fOi6R.ogg"
+    },
+    {
+      "description": "Hare_Relationship_Up_2",
+      "category": "growup",
+      "text": "要是人的心灵，也可以用显微镜去观察就好了。",
+      "text_original": "人の心も、顕微鏡で覗き込んで、見ることが出来たら良いのに…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/3zmyf4jJNFmPdSq02KygsxLwEBs1LUxT.ogg"
+    },
+    {
+      "description": "Hare_Relationship_Up_3",
+      "category": "growup",
+      "text": "用什么样的力学，才能证明这颗被老师吸引的心呢？",
+      "text_original": "先生に惹かれるこの心は、どんな力学で証明できるんだろう…。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/zqQWnAqq4cfqFtfC11NAZBvUpMja6TLj.ogg"
+    },
+    {
+      "description": "Hare_Relationship_Up_4",
+      "category": "growup",
+      "text": "你问我的能力能不能让时间倒流？谁知道呢？但是我，很想永远享受现在这个瞬间。",
+      "text_original": "私の能力で時間を巻き戻せるのかって？ さぁ…でも私はこの瞬間を永遠に楽しみたいけど。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/9u0JVmn9KN8tLWXwi4otWl3Kvc02c5Iz.ogg"
+    },
+    {
+      "description": "Hare_Season_Birthday",
+      "category": "lobby",
+      "text": "嗯——我说的树莓派不是这个东西。不过，谢谢你为我庆祝生日。",
+      "text_original": "うーん、私が言ったラズベリーパイはこれじゃないけど…。 でも誕生日を祝ってくれてありがとう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/pPtui5xZ5JPlxd1kfnqAZsAANsMv7O4B.ogg"
+    },
+    {
+      "description": "Hare_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "生日快乐，老师。给你施加今天一天不管写什么代码都不会出现漏洞的晴之加护吧。",
+      "text_original": "お誕生日おめでとう、先生。 今日一日はどんなコードを書いてもバグが出ない、ハレのご加護を授けよう。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/guF8G61lNHMhqdeztHSHTAMMEmCG1qy1.ogg"
+    },
+    {
+      "description": "Hare_Season_Halloween",
+      "category": "lobby",
+      "text": "你问我为什么不去外面参加庆典？万圣节的庆典，用显示器也能看嘛。",
+      "text_original": "外のお祭りを楽しみに出かけないのかって? ハロウィーンのお祭りはモニターの中でも開かれているもの。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/rO5aZdUugasmjbHlu2I5lRsM1sjBDbpN.ogg"
+    },
+    {
+      "description": "Hare_Season_NewYear",
+      "category": "lobby",
+      "text": "Hello, new world.",
+      "text_original": "ハロー、ニューワールド。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/HJSm0ynhiegwng1Tw6FKlKGVNzcp9UAd.ogg"
+    },
+    {
+      "description": "Hare_Season_Xmas",
+      "category": "lobby",
+      "text": "老师，你知道吗？一年之中，圣诞节是发生“那个”次数最多的一天。哼哼，没错。就是——破解入侵哦。",
+      "text_original": "あれ知ってる、先生？ クリスマスは1年の中で“あれ”が一番多く行われる日なの。 ふふ、それはそう…ハッキングだよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/x9j2ytUGAXqEzeuho0pmkZgOaKhWSuvM.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "hare_title",
+      "category": "lobby",
+      "text": "Blue Archive.",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/NonQa69OE7bsDduPKOqlG0RqyYdLBfcn.ogg"
+    },
+    {
+      "description": "hare_battle_in_1",
+      "category": "battle",
+      "text": "好，来尽情地搞一搞破坏吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/Gl9QBMeEsXQu9iPNwIB5j0Vas5JQgacj.ogg"
+    },
+    {
+      "description": "hare_battle_in_2",
+      "category": "battle",
+      "text": "先来，收集一下数据吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/HFy0dI9ud0jXqSKyptLl6UDR0sUpV2AN.ogg"
+    },
+    {
+      "description": "hare_battle_tsa_1",
+      "category": "battle",
+      "text": "Tech level 7,登记完毕。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/4cWbyAfcWNd8PggDaXsC7P0MdWbZ5PCs.ogg"
+    },
+    {
+      "description": "hare_battle_tsa_2",
+      "category": "battle",
+      "text": "就用这一击，作为结束吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/UgtqksI3nVmmBo5ybzpZzl5TQkWrZwL7.ogg"
+    },
+    {
+      "description": "hare_cafe_act_1",
+      "category": "cafe",
+      "text": "这里可以这么修，那里再那样修一下......好。马上改造一下试试吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/5hBarvEiILETUAUS0LTZTG7QMP2eYLZE.ogg"
+    },
+    {
+      "description": "hare_cafe_act_2",
+      "category": "cafe",
+      "text": "唔——嗯？啊，问我在干什么？在玩新出的游戏呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/3rKS4Sv13bzwncl4rvG00edCYviARiXX.ogg"
+    },
+    {
+      "description": "hare_cafe_monolog_1",
+      "category": "cafe",
+      "text": "不能让自动售货机只卖能量饮料吗......？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/tTKrsv5t9P656m8yNs0t1un1P0vCP2C3.ogg"
+    },
+    {
+      "description": "hare_cafe_monolog_2",
+      "category": "cafe",
+      "text": "唔晤......要不要先眯一会再继续呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/X57vMaTIRHq51ow4wh8EZ8adZBOuyvWA.ogg"
+    },
+    {
+      "description": "hare_cafe_monolog_3",
+      "category": "cafe",
+      "text": "糖分不足......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/H47h21F6ci73X2MseyV6jay9E5HwgHKw.ogg"
+    },
+    {
+      "description": "hare_commonskill",
+      "category": "battle",
+      "text": "这下会很痛哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/X8BCFSzWmUIkuLcHOpftaiIPQzWe9xDb.ogg"
+    },
+    {
+      "description": "hare_exskill_1",
+      "category": "battle",
+      "text": "电磁脉冲，开始运行。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/46q6skVGxIYq3WK2fjB1t4pAiBKqshTc.ogg"
+    },
+    {
+      "description": "hare_exskill_2",
+      "category": "battle",
+      "text": "EMP无人机，启动。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/Sh1Kv1NK7pFerqNl1wgftU6mdKDE67eB.ogg"
+    },
+    {
+      "description": "hare_exskill_3",
+      "category": "battle",
+      "text": "第一阶段发射器，开始运行。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/4fBHtzSl2IqHVYZdMn1SCykIYdUjBeJu.ogg"
+    },
+    {
+      "description": "hare_exskill_level_1",
+      "category": "battle",
+      "text": "设备停止。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/p4gvnXo6pa7kmOHfTL0jq5WGOZdYdZ2i.ogg"
+    },
+    {
+      "description": "hare_exskill_level_2",
+      "category": "battle",
+      "text": "和预期一样啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/38odSBV5HgQ4Y51jx5MgPwDu7eS00SeO.ogg"
+    },
+    {
+      "description": "hare_exskill_level_3",
+      "category": "battle",
+      "text": "大家，退后。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/KwIL4mzwAVn1LbufSOhZg3Hpz4bxt8HZ.ogg"
+    },
+    {
+      "description": "hare_exweapon_get",
+      "category": "growup",
+      "text": "虽然是一件旧武器，不过这件武器里面，包含着无法量化的记忆。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/TF0ALiIPRF6ifSGDUAFiKu8WhOb2k95R.ogg"
+    },
+    {
+      "description": "hare_formation_in_1",
+      "category": "formation",
+      "text": "证明我实力的机会到了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/Zfi9g3sIl0WkGHd3wm1E4eljdYQxPi4O.ogg"
+    },
+    {
+      "description": "hare_formation_in_2",
+      "category": "formation",
+      "text": "交给我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/elwffc7cpHYDJFeSko5WG8n1fMthgBfs.ogg"
+    },
+    {
+      "description": "hare_gachaget",
+      "category": "growup",
+      "text": "很高兴认识你，老师。我会让老师见识一下，千禧年的实力。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/5kIYKXyj9rmIkwdul1aV9f7qQ048GM2o.ogg"
+    },
+    {
+      "description": "hare_growup_1",
+      "category": "growup",
+      "text": "嗯——效果还挺惊人的嘛。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/Qov1gv8iajdMhGy8SQgHTtWweS3k05h4.ogg"
+    },
+    {
+      "description": "hare_growup_2",
+      "category": "growup",
+      "text": "我还需要更多的数据。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/1wUnZoja1LmhKlAQ9uAjYN6W4hmN2p9E.ogg"
+    },
+    {
+      "description": "hare_growup_3",
+      "category": "growup",
+      "text": "涌现出来的这股力量，能不能量化出来呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/mfMYva3a25iQ3EHiiHMhNlVDa7jvC21P.ogg"
+    },
+    {
+      "description": "hare_growup_4",
+      "category": "growup",
+      "text": "探索未知的知识，总是很有趣的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/rTg4LGzGhrmQlZuibZSmTCwuoD9eKif2.ogg"
+    },
+    {
+      "description": "hare_lobby_1",
+      "category": "lobby",
+      "text": "看不出来吧，我超会打游戏的哦。老师要不要和我比试一下？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/AcZpyFm06Wc47yLXMGY9NuQNm0O7MOhj.ogg"
+    },
+    {
+      "description": "hare_lobby_2",
+      "category": "lobby",
+      "text": "作弊......？虽然我是黑客，但是打游戏最重要的是开心嘛。我不会作弊的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/1NLtZNf8DtTJQcmXtGJfyIM6mc2y6yxJ.ogg"
+    },
+    {
+      "description": "hare_lobby_3",
+      "category": "lobby",
+      "text": "在你看来，我们做的事情有那么极端吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/YSdD70mzZDvdAF6uAmEZBUwb9kYJlA2s.ogg"
+    },
+    {
+      "description": "hare_lobby_4",
+      "category": "lobby",
+      "text": "知识应该是自由的......嗯，这句话说的真好。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/A9xnNLMixS4uyRHApIxOXXWigDoGznOH.ogg"
+    },
+    {
+      "description": "hare_lobby_5",
+      "category": "lobby",
+      "text": "这种甜甜的碳酸饮料，才是高智商人士该喝的东西呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/JPFa1Ta6XMsp1F9KS5R8yI9Z6xL4S7vb.ogg"
+    },
+    {
+      "description": "hare_login_1",
+      "category": "lobby",
+      "text": "呀，老师。来杯咖啡吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/7KVKEDdLQq4r58gM6i8Cim797cJr7FY8.ogg"
+    },
+    {
+      "description": "hare_login_2",
+      "category": "lobby",
+      "text": "老师，欢迎你。你比我预测的早到了43秒。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/XcaTMrKs3uRJz8wuLbxN7EzwXeWwiWLb.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "嗯......怎么突然下雨了......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/bWZJ5qlruM4aDF2f4hKaGfLwlK0P5t40.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "最近连天气预报都不敢信了，真麻烦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/BNzpRgeBbYq60kTcIlucoy9pJkF0UfoW.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "嗯，接下来该干什么呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/VytrOkmOU4uGGdY6jOV6OgmP2aZ9FLQP.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "额，我刚才说的话，不会让人误解成什么不好的意思吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/1ALEAFZHJ910MPxwjIu5h5EPG7EqzHOF.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "可我第一次来网吧这种地方，也不知道别人一般会在这里干什么......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/ECkGBeKP3InQB8Ybhp9vO03mIxeBievE.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "而且这里，也太窄了......老师的脸，好近......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/Syl7l72SUunMZz9yQBQmob5JzSJUD2MX.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "欸？你要先去洗个澡？等下，为什么？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/gKQtrGq8MnqAqDFgmxAs2RQbjNt3HIul.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "啊？头发淋湿了，要去洗一下？对不起，没事，当我没说吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/5nU0fb7sR3wVOduEz6BVLPeFHy284Gtq.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "原来，网吧还有洗澡的地方啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/LZIQJKxJ3AB5jZREbVq7MJHTJl8dFJf5.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "啊，老师快看，饮料是免费的欸。不知道有没有能量饮料？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/Ve2p9usQF7fH5redZgNmNnEsjWjCBpPn.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "嗯，网络也能随便用，饮料也不要钱，这也太幸福了。完全就是给我这种人设计的地方啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/9ZLJWXzOx8QQdf61hXymiTsT2sXXFIeP.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_6_1",
+      "category": "lobby",
+      "text": "要在这里待多久我都愿意。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/o2dHS7imOJJgSEtYsLJkxyUB0F51tWoK.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_6_2",
+      "category": "lobby",
+      "text": "啊，那个......刚才那句话没什么特别的意思，不要误会啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/J2dpauCVOc28RYqNBJHG1K8xsSzNNcxj.ogg"
+    },
+    {
+      "description": "hare_relationship_up_1",
+      "category": "growup",
+      "text": "等这项研究结束了，下次想研究一下老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/1hudcgh4khcW1mKTHaJYW1G3AulkXRZR.ogg"
+    },
+    {
+      "description": "hare_relationship_up_2",
+      "category": "growup",
+      "text": "要是人的心灵，也可以用显微镜去观察就好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/7hqQwC2TawPRSxsKWKwphQbvsqxj0NRh.ogg"
+    },
+    {
+      "description": "hare_relationship_up_3",
+      "category": "growup",
+      "text": "用什么样的力学，才能证明这颗被老师吸引的心呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/2Cb7JnRfHSEpoQ0KcaaqnNeYs28dZRQ7.ogg"
+    },
+    {
+      "description": "hare_relationship_up_4",
+      "category": "growup",
+      "text": "你问我的能力能不能让时间倒流？谁知道呢？但是我，很想永远享受现在这个瞬间。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/GXn9gPKMHVCdsnB7e0ofxpFfTKd7L9FN.ogg"
+    },
+    {
+      "description": "hare_season_birthday",
+      "category": "lobby",
+      "text": "嗯——我说的树莓派不是这个东西。不过，谢谢你为我庆祝生日。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/T1VT07vd3EXsetx3xZvJ7tiwRAyHvzPB.ogg"
+    },
+    {
+      "description": "hare_season_birthday_player",
+      "category": "lobby",
+      "text": "生日快乐，老师。今天，晴会保佑你，不管写什么代码，都不会出现漏洞。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/Q2eE0QEECHONMMn7aWYQC1xCMN46IXtV.ogg"
+    },
+    {
+      "description": "hare_season_halloween",
+      "category": "lobby",
+      "text": "你问我为什么不去外面过节？万圣节的庆典，用显示器也能看嘛。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/z3Ncgn2Xn0GVInAmzOqniIOiXB4uetAJ.ogg"
+    },
+    {
+      "description": "hare_season_newyear",
+      "category": "lobby",
+      "text": "Hello, new world.",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/bUuqbzWt4T330SW2uXaotbtkwnnRJY3p.ogg"
+    },
+    {
+      "description": "hare_season_xmas",
+      "category": "lobby",
+      "text": "老师，你知道吗？一年之中，圣诞节是发生“那个”次数最多的一天。哼哼，没错。就是——破解入侵哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/93EFH26tWJbMfiugmIzoj2scpKQ7u0oe.ogg"
+    },
+    {
+      "description": "hare_season_midautumn",
+      "category": "lobby",
+      "text": "今天,是团圆的节日吗?即使是我,也有想待在老师身边的时候呢。 ",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/TB1Gr43Hg21eizdNfl6WMUCdOJL2WGn6.ogg"
+    },
+    {
+      "description": "hare_season_chinesenewyear",
+      "category": "lobby",
+      "text": "希望新的一年里,不要再遇上那么多bug了。 ",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/7wgW4Wz1XIJtgk9BaMmbwKuhvMqQePPc.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "Hare_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/Hare_Title.ogg"
+    },
+    {
+      "description": "hare_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_cafe_act_1.ogg"
+    },
+    {
+      "description": "hare_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_cafe_act_2.ogg"
+    },
+    {
+      "description": "hare_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "hare_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "hare_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "hare_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_commonskill.ogg"
+    },
+    {
+      "description": "hare_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_exskill_1.ogg"
+    },
+    {
+      "description": "hare_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_exskill_2.ogg"
+    },
+    {
+      "description": "hare_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_exskill_3.ogg"
+    },
+    {
+      "description": "hare_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_exskill_level_1.ogg"
+    },
+    {
+      "description": "hare_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_exskill_level_2.ogg"
+    },
+    {
+      "description": "hare_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_exskill_level_3.ogg"
+    },
+    {
+      "description": "hare_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_exweapon_get.ogg"
+    },
+    {
+      "description": "hare_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_gachaget.ogg"
+    },
+    {
+      "description": "hare_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_growup_1.ogg"
+    },
+    {
+      "description": "hare_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_growup_2.ogg"
+    },
+    {
+      "description": "hare_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_growup_3.ogg"
+    },
+    {
+      "description": "hare_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_growup_4.ogg"
+    },
+    {
+      "description": "hare_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_lobby_1.ogg"
+    },
+    {
+      "description": "hare_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_lobby_2.ogg"
+    },
+    {
+      "description": "hare_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_lobby_3.ogg"
+    },
+    {
+      "description": "hare_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_lobby_4.ogg"
+    },
+    {
+      "description": "hare_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_lobby_5.ogg"
+    },
+    {
+      "description": "hare_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_login_1.ogg"
+    },
+    {
+      "description": "hare_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_login_2.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_4_3.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_5_3.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_6_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_6_1.ogg"
+    },
+    {
+      "description": "hare_memoriallobby_6_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_memoriallobby_6_2.ogg"
+    },
+    {
+      "description": "hare_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_relationship_up_1.ogg"
+    },
+    {
+      "description": "hare_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_relationship_up_2.ogg"
+    },
+    {
+      "description": "hare_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_relationship_up_3.ogg"
+    },
+    {
+      "description": "hare_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_relationship_up_4.ogg"
+    },
+    {
+      "description": "hare_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_season_birthday.ogg"
+    },
+    {
+      "description": "hare_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_season_birthday_player.ogg"
+    },
+    {
+      "description": "hare_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_season_halloween.ogg"
+    },
+    {
+      "description": "hare_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_season_newyear.ogg"
+    },
+    {
+      "description": "hare_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/hare_season_xmas.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hare_spr-01_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hare_spr-04_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hare_spr-05_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hare_spr-06_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hare_spr-00_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hare_spr-03_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/hare_spr-99_0_waifu2x_2x_2n_png.jpg"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Hare.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/hare.jpg",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B7%E3%83%A3%E3%83%AB%E3%82%A2%E3%83%BC%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%82%B9_%203%20-%20014.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_250.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_172.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_075.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_223.png",
+        "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/ex.gif"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 128,
+      "favorability": 240
+    },
+    {
+      "id": 272,
+      "favorability": 60
+    },
+    {
+      "id": 57,
+      "favorability": 40
+    },
+    {
+      "id": 67,
+      "favorability": 40
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 23003,
+      "dev_name": "Hare_default",
+      "combat_style": "default",
+      "type": "Support",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Light",
+      "is_groupc_control": true,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 2,
+      "limited": false,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "B",
+      "street_adaptability": "A",
+      "equipment": [
+        4,
+        6,
+        9
+      ],
+      "cultivate_material": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        19,
+        407,
+        408,
+        409,
+        410,
+        419,
+        420,
+        421
+      ],
+      "favorite_equipment": 19,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/skill_icon/jyDm1TPZL3Liu0X7iqoSnaABxvZyRUcQ.png",
+            "title": "启动EMP无人机",
+            "title_cn": "启动EMP无人机",
+            "preview": "//static.kivo.wiki/videos/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/skill_preview/uODbHUORZzQ48GOk1Qda0sNYn3GSkCed.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力271%的伤害/并使其陷入晕厥状态(持续2.7秒)"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力271%的伤害/并使其陷入晕厥状态(持续2.7秒)"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力353%的伤害/并使其陷入晕厥状态(持续3.1秒)"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力394%的伤害/并使其陷入晕厥状态(持续3.1秒)"
+              },
+              {
+                "cost": 4,
+                "describe": "对圆形范围内的敌人造成攻击力435%的伤害/并使其陷入晕厥状态(持续3.5秒)"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/skill_icon/YAPwY7OT6KJN8X2tfaIoBS2VNBI029TX.png",
+            "title": "破坏工作：A计划",
+            "title_cn": "破坏工作：A计划",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每30秒，使1名敌人的受益恢复效果强化率减少26.7%(持续15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，使1名敌人的受益恢复效果强化率减少28%(持续15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，使1名敌人的受益恢复效果强化率减少29.3%(持续15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，使1名敌人的受益恢复效果强化率减少34.7%(持续15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，使1名敌人的受益恢复效果强化率减少36%(持续15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，使1名敌人的受益恢复效果强化率减少37.3%(持续15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，使1名敌人的受益恢复效果强化率减少42.7%(持续15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，使1名敌人的受益恢复效果强化率减少44%(持续15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，使1名敌人的受益恢复效果强化率减少45.3%(持续15秒)"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，使1名敌人的受益恢复效果强化率减少50.7%(持续15秒)"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/skill_icon/rEMox7VwrpcsklpL8H56h06yapl3v9N1.png",
+            "title": "强化武装：B计划",
+            "title_cn": "强化武装：B计划",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "暴击值增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加23.8%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/skill_icon/lbr8zKos560csmxO05h98UvNk9muDdyX.png",
+            "title": "启动阻击系统",
+            "title_cn": "启动阻击系统",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方角色的闪避值增加9.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的闪避值增加9.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的闪避值增加10%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的闪避值增加11.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的闪避值增加12.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的闪避值增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的闪避值增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的闪避值增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的闪避值增加15.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的闪避值增加17.3%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2315,
+          "attack": 212,
+          "defense": 19,
+          "healing": 1766,
+          "accuracy": 714,
+          "evasion": 816,
+          "crit": 204,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1573,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/weapons_icon.png",
+        "name": "自动标记校准装置",
+        "name_cn": "自动瞄准装置",
+        "description": "晴所使用的突击步枪。 搭载自动标记校准等各种高科技功能，然而晴实际上却几乎没有用过这些功能。",
+        "description_cn": "晴使用的突击步枪。 具有自动瞄准等诸多尖端科技功能，但晴几乎都没使用过这些功能。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「强化武装：B计划+」升级为「强化武装：B计划+」"
+          },
+          {
+            "title": "固有武器最大等級 Lv.40 → Lv.50 / 地形适应性强化  室内地形适应性 B → A",
+            "description": "在室内地形造成1.1倍伤害。 处于掩体掩护状态时掩护成功率增加45%，攻击时无视掩体概率增加45%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%B0%8F%E9%92%A9%20%E6%99%B4/skill_icon/NrWp2WnhisRkQFfVvAxZvtaeN6146Auy.png",
+            "title": "强化武装：B计划+",
+            "title_cn": "强化武装：B计划+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "暴击值增加100/ 暴击值增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加105/ 暴击值增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加110/ 暴击值增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加130/ 暴击值增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加135/ 暴击值增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": " 暴击值增加140/ 暴击值增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "暴击值增加160/ 暴击值增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": " 暴击值增加165/ 暴击值增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": " 暴击值增加170/ 暴击值增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": " 暴击值增加190/ 暴击值增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [
+    {
+      "text": "貝原 怜奈 | 声優事務所 クロコダイル",
+      "url": "https://www.crocodile-ltd.com/talent/kaihara-rein"
+    },
+    {
+      "text": "萌娘百科：秦文静",
+      "url": "https://mzh.moegirl.org.cn/秦文静"
+    },
+    {
+      "text": "Namu Wiki韩站：이달래",
+      "url": "https://namu.wiki/w/%EC%9D%B4%EB%8B%AC%EB%9E%98"
+    },
+    {
+      "text": "B站 威威字幕君 日服剧情翻译",
+      "url": "https://space.bilibili.com/7045822/"
+    }
+  ],
+  "contributor": [],
+  "info_declare_uuid": "663167d1-a562-480c-b449-19806a41b7dc",
+  "skill_declare_uuid": "6db3c203-b5a9-472f-af0f-d20c3d54c730",
+  "supplementary_uuid": "319d34d9-0e23-4769-9357-5c4c8c2c271f",
+  "supplementary_declare_uuid": "5f6013af-181c-4423-a299-28cd2f94d729",
+  "created_at": 1685631145,
+  "updated_at": 1783484771
+}

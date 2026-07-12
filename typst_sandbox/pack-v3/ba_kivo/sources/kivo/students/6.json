@@ -1,0 +1,2157 @@
+{
+  "id": 6,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 6,
+      "avatar": "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%E5%AE%AB%E5%AD%90/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 280,
+      "avatar": "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "月雪",
+  "given_name": "宫子",
+  "family_name_jp": "月雪",
+  "given_name_jp": "ミヤコ",
+  "family_name_kr": "츠키유키",
+  "given_name_kr": "미야코",
+  "family_name_en": "Tsukiyuki",
+  "given_name_en": "Miyako",
+  "family_name_zh_tw": "月雪",
+  "given_name_zh_tw": "都子",
+  "family_name_cn": "月雪",
+  "given_name_cn": "宫子",
+  "nick_name": ",",
+  "introduction": "SRT特殊学园所属，RABBIT小队的小队长。\n\n因为憧憬着前辈们的活跃而进入SRT特殊学园就读，然而学园却突然被关闭。\n现在过着和小队成员们一起在公园露宿的生活。因为表情的变化很少，也几乎不曾表露感情，身边的人都觉得她很木讷。不过其实时常在心里关心着队员们，拥有一颗温柔的心。\n代号为「RABBIT 1」。\n\n\"这里是RABBIT1，即刻开始作战\"",
+  "introduction_cn": "SRT特种学院所属，RABBIT小队的队长，呼号【RABBIT 1】。\n\n憧憬着心怀正义作战的前辈们，宫子加入了SRT特种学院。但学院突然关闭后，她只好与小队队员一起在公园里风餐露宿。因为总是冷着一张脸也很少表达自己的感情，所以会被其他人误以为生性冷漠。但事实上，她一直温柔地关心着小队中的每一位成员。\n\n\"这里是RABBIT 1，\n作战开始。\"",
+  "momo_talk_signature": "为了基沃托斯的和平",
+  "main_relation": 44,
+  "relation": [
+    43,
+    70
+  ],
+  "age": 15,
+  "grade": "一年生",
+  "height": 156,
+  "birthday": "01-07",
+  "hobby": "动物视频鉴赏",
+  "designer": "日下雲",
+  "illustrator": "YutokaMizu",
+  "character_voice": "藤田茜",
+  "character_voice_cn": "田格林",
+  "release_date": "2022-03-24",
+  "release_date_cn": "2024-04-04",
+  "release_date_global": "2022-11-08",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%E5%AE%AB%E5%AD%90/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%E5%AE%AB%E5%AD%90/avatar.png",
+  "school": 11,
+  "weapon_type": "SMG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": false,
+  "more": "# 官方图集\n\n## 卡池Banner\n\n同系列卡池：\n[咲](https://kivo.wiki/data/character/8)「こちらRABBIT2、規範はこの脚に」\n[萌绘](https://kivo.wiki/data/character/7)「こちらRABBIT3、計算をこの胸に」\n[美游](https://kivo.wiki/data/character/9)「こちらRABBIT4、証明をこの手に」\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| こちらRABBIT1、理想をこの眼に | RABBIT1、用眼眸坚守理想 |RABBIT1，隨時可以出擊 | RABBIT1, Prepare to Move out. |\n| ![image.png](files/5579/fOK7uic78GpPqSjaQAz6UsdA7ATpEK66.png =450x)| ![rabbit.jpg](files/5579/QZ9pH0Pa3w26bwUIw7dkosl7d3eJkD8R.jpg =450x)| ![miyako4.jpg](files/5579/eVOvK2IAzPOX5GXdk1PHWKuWFdYd0O8X.jpg =450x) | ![WpJPmC2SHbWfNNtAJEFsxUvlPxBP8DSZ.jpg](files/5579/63bFANw1ifvG50YxGQHYu2YPX8YFHGDJ.jpg =450x)|\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Miyako3.jpg](files/5579/zGturM1GCdxbXmhoGOSzEdSMVodCNCav.jpg =525x) | ![miyako2.jpg](files/5579/MhlSTqNbQMvXGPwkBaBRLd4KPzgrNQ4V.jpg =425x) | ![miyako.jpg](files/5579/SKnN1PyJeoIzOosR12Yr9gelcxSOH9jI.jpg =400x) | ![miyako1.jpg](files/5579/eDltvz6IQERVFHGyHwHSj9VC3xU1kME6.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[粉红色折叠式露营椅](https://kivo.wiki/data/item/663) | 家具互动：[粉红色折叠式露营椅](https://kivo.wiki/data/item/663) |\n| :---: | :---: | :---: | :---: |\n| ![miyako_ex.gif](files/5579/bhPPzYreeRyBNc72evlSOmDnGoHXW4Aw.gif =450x) | ![miyako_cafe.gif](files/5579/mIxddf2jo65RJuNYDVVtUuY4flxELkUX.gif =450x) | ![miyako_interaction.gif](files/10355/QfDTdJHYPwGXKeoq1Ba862cuj1gmZS4I.gif =450x) | ![srt_interaction.gif](files/10355/D8FWyAIXJlri26FWgISoBnR0ZILWKvBb.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 宫子 汉化\n![宫子](files/2/63PhJFfqrzx8RbWnF5tqr4gLst8e6McI.png =450x)\n@tab 宫子 原文\n![宫子](files/2/kxb5LF6YWyDAOuRPs24oVqIg9t2xVkzD.jpg =450x)\n:::\n\n## 设定集\n\n:::: center\n\n![Vol2-16.jpg](files/5579/NBNNAoFWvFGVeBYPdZz1RONyD2XC5JhI.jpg =450x)\n\n![Vol2-39.jpg](files/5579/W7saP2zN0tJFM63qs8jyFURFg2Nkihvb.jpg =450x)\n\n![Vol2-79.jpg](files/5579/OuJgqB5O3mfMn9CqzsTgbGCMnycM4rBk.jpg =450x)\n\n![Vol2-132.jpg](files/5579/lBpOl5xXfGjUwvztIF0RRf9Rbb0xYD6z.jpg =450x)\n\n![Vol2-160.jpg](files/5579/4fZvuj1IPmeofr9U9j4MXhxYaUrRxkM6.jpg =450x)\n\n![Vol2-188.jpg](files/5579/Bn6vmMIBgUWU3v2U6d7oW9vVfdvxGFsV.jpg =450x)\n\n![Vol2-189.jpg](files/5579/1rjc17ouv5ggZFRpziKR7Kz2rRYCxzzj.jpg =450x)\n\n::::\n\n## CBT时期立绘\n\n![宫子_waifu2x_2x_2n_png.png](files/3/宫子_waifu2x_2x_2n_png.png =450x)\n\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私<br><details><summary><font color=\"448aff\">RABBIT1</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">作战行动中的称呼</details></font></font></font></b>|\n|[咲](https://kivo.wiki/data/character/8)|サキ<br><details><summary><font color=\"448aff\">RABBIT2</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">作战行动中的称呼</details></font></font></font></b>|\n|[萌绘](https://kivo.wiki/data/character/7)|モエ<br><details><summary><font color=\"448aff\">キャンプRABBIT</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">作战行动中的称呼</details></font></font></font></b><details><summary><font color=\"448aff\">RABBIT3</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">赶赴现场执行作战时的称呼</details></font></font></font></b>|\n|[美游](https://kivo.wiki/data/character/9)|ミユ<br><details><summary><font color=\"448aff\">RABBIT4</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">作战行动中的称呼</details></font></font></font></b>|\n|[音葵](https://kivo.wiki/data/character/67)|オトギ先輩|\n|[花耶](https://kivo.wiki/data/character/169)|カヤ防衛室長<br>カヤ室長<br>不知火カヤ|\n|[叶渚](https://kivo.wiki/data/character/144)|カンナ局長<br>局長<br>公安局長|\n|[桐乃](https://kivo.wiki/data/character/100)|キリノさん|\n|[胡桃](https://kivo.wiki/data/character/66)|クルミ先輩|\n|[空](https://kivo.wiki/data/character/105)|ソラさん|\n|[笛卡尔](https://kivo.wiki/data/character/249)|デカルトさん|\n|[妮可](https://kivo.wiki/data/character/65)|先輩|\n|[雪乃](https://kivo.wiki/data/character/64)|ユキノ先輩<br>七度ユキノ隊長<br>七度ユキノ|\n|[柚子](https://kivo.wiki/data/character/81)|ユズさん|\n|[凛](https://kivo.wiki/data/character/183)|リン行政官<br>リン首席行政官|\n\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/Miyako_home_Idle_01_2.7669000000000024.jpg",
+  "spine": [
+    1627,
+    598,
+    506,
+    1678,
+    1739
+  ],
+  "model": [
+    108,
+    418
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "miyako_title",
+      "category": "lobby",
+      "text": "蔚蓝档案",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/JlRUTPXfn5NGG9z7qvA8CCeIIHwxNu3D.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Buffed_1",
+      "category": "battle",
+      "text": "嗯，还不错！",
+      "text_original": "はい、悪くないですね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/vnmp7yaq8ZcovuXibf6ivQshTknkBuWq.ogg"
+    },
+    {
+      "description": "Miyako_Battle_BuffSelf_1",
+      "category": "battle",
+      "text": "开始突击！",
+      "text_original": "突入、開始します。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/SBhPHMpHfIFr5tcf9ahoHrT6SfVmviDf.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Covered_1",
+      "category": "battle",
+      "text": "掩蔽！",
+      "text_original": "隠れます。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/F6DFdOKGg9xqv3hhFPyVoAY66FzvMPe0.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "ふぅっ…！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/Ieq4L1BN4s2k5jyhEr03kaVB5ixVzyxE.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "うっ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/IV1ixpdEK94LOvJXm5dn4bFUN8Ve3xI7.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "なぁああっ……！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/UbkPGl3dTkiY7S1Heu4RoK6cO5FPagUm.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Defense_1",
+      "category": "battle",
+      "text": "抵抗是毫无意义的。",
+      "text_original": "無意味な抵抗です。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/fzlGNLNOnespKL7LkQFdJgVol18e8zPs.ogg"
+    },
+    {
+      "description": "Miyako_Battle_In_1",
+      "category": "battle",
+      "text": "大家不要放松警惕。老师，请指示。",
+      "text_original": "皆さん、警戒は怠らない様に。先生、ご指示を。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/7STcL7rEiVah2tqzUroadztDuo3smCvW.ogg"
+    },
+    {
+      "description": "Miyako_Battle_In_2",
+      "category": "battle",
+      "text": "作战开始。",
+      "text_original": "作戦開始！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/J6QhoJKnJph80N35jrMZynZZgub9Yjcu.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Move_1",
+      "category": "battle",
+      "text": "Clear，继续前进。",
+      "text_original": "クリア。前進します。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/DKPSmg03mQ4bAJQJxxjABPhuNShUeUE5.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Move_2",
+      "category": "battle",
+      "text": "下个敌人在哪里？",
+      "text_original": "次の敵はどこですか。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/EBWbujHumVID5u1QC8XRsSzchOnWGj3m.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Recovery_1",
+      "category": "battle",
+      "text": "多谢支援。",
+      "text_original": "援護、ありがとうございます。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/QinTU0WvVh1Mw2yFQvhDANvpkiPMTKxI.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Retire",
+      "category": "battle",
+      "text": "后面就拜托了。",
+      "text_original": "後は……、頼みます……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/lpCFJkwQPJOeqSamlnDoYDqGfi80ZkoU.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "やぁ",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/wCU3Bp2Ai0ThgtXQk22Ic4wCP6jjsAOw.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "はぁ",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/apSx7RhmNPYR9Arv6LMVUPBuOKWKWeRQ.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Shout_3",
+      "category": "battle",
+      "text": "开火。",
+      "text_original": "ファイアー",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/h6Zd3t3BVsjUmvMw2EQazZ8NzO6JhTLz.ogg"
+    },
+    {
+      "description": "Miyako_Battle_TacticalAction_1",
+      "category": "battle",
+      "text": "移动位置。",
+      "text_original": "ポジションを変更します。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/U4BmaXdzXitu5G9WVLzQqci7ZKOhvCKq.ogg"
+    },
+    {
+      "description": "Miyako_Battle_TSA_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "特務支援機体第1号、行きます。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/vyYh6o2xwlvocPhstX3OCSn7hUzBIrPF.ogg"
+    },
+    {
+      "description": "Miyako_Battle_TSA_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "戦術支援兵器の使用を許可します。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/75zrOGIwUoGuf6ejS0p90GkbHmfH2e6i.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Victory_1",
+      "category": "battle",
+      "text": "作战成功。",
+      "text_original": "やりました！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/k59fVLuDDIKETfjAjvl0r0eQFblJWXbj.ogg"
+    },
+    {
+      "description": "Miyako_Battle_Victory_2",
+      "category": "battle",
+      "text": "CLEAR。",
+      "text_original": "クリア！",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/lZOUG7XrzDoeFlgGhpwFzj5YsUqFpSvD.ogg"
+    },
+    {
+      "description": "Miyako_Cafe_Act_1",
+      "category": "cafe",
+      "text": "……信号良好，正在接收。",
+      "text_original": "……受信中、感度良好。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/KeqKkLGjsInV2wMC0lVyZFT4RWTyoNqy.ogg"
+    },
+    {
+      "description": "Miyako_Cafe_Act_2",
+      "category": "cafe",
+      "text": "有什么问题吗？",
+      "text_original": "何か問題でもありましたか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/B8q9CFdg0bkgIxp7cpjsolDZ8hAlAn3z.ogg"
+    },
+    {
+      "description": "Miyako_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "……发现一个可爱的装饰品。",
+      "text_original": "……可愛い飾りを発見しました。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/x2yQMLKAvT1MQDrPGvkoilRrs534k253.ogg"
+    },
+    {
+      "description": "Miyako_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "这种大小的空间，我一个人就足以压制……",
+      "text_original": "これぐらいの空間なら、私一人でも制圧できそうな……",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/F9FkldE5t0U8FWojo13k7oygRsM3NpPl.ogg"
+    },
+    {
+      "description": "Miyako_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "这里居然有狙击点……",
+      "text_original": "こんなところに狙撃ポイントが……",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/0UeVhLdjelfsjIabiEsWTSLrGgq1RHaa.ogg"
+    },
+    {
+      "description": "Miyako_CommonSkill",
+      "category": "battle",
+      "text": "",
+      "text_original": "皆さん、下がってください。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/7jgGsSAOApj0QsAsibkMTkhFjVBUtPYo.ogg"
+    },
+    {
+      "description": "Miyako_ExSkill_1",
+      "category": "battle",
+      "text": "发现多名敌人，准备应对。",
+      "text_original": "前方に多数の敵を確認、対処します。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/6tt0L4c00IBsG0UNJosO2wW7IWAMY5g0.ogg"
+    },
+    {
+      "description": "Miyako_ExSkill_2",
+      "category": "battle",
+      "text": "信号良好，开始突击。",
+      "text_original": "感度良好、突入を開始します。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/xUCZTYdLPj845gIYbSIEZ1s4v6PRvLuC.ogg"
+    },
+    {
+      "description": "Miyako_ExSkill_3",
+      "category": "battle",
+      "text": "确认友军已到达，立刻突击。",
+      "text_original": "到着を確認、すぐに侵入します。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/fsdLPi0TsuMSnAPsnusfWUFsiNIPGS36.ogg"
+    },
+    {
+      "description": "Miyako_ExSkill_Level_1",
+      "category": "battle",
+      "text": "无人机启动，请掩护。",
+      "text_original": "ドローン稼働、援護をお願いします。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/nFCu3XkIDOBZ6PuUuZfwFuvs5ZLc0Sjr.ogg"
+    },
+    {
+      "description": "Miyako_ExSkill_Level_2",
+      "category": "battle",
+      "text": "全员，注意冲击。",
+      "text_original": "総員、衝撃に注意してください。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/7A24ZW1IJWRazQlRXmdWbyUzBns0BW1E.ogg"
+    },
+    {
+      "description": "Miyako_ExSkill_Level_3",
+      "category": "battle",
+      "text": "投掷闪光弹。",
+      "text_original": "閃光弾、投下します。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/PGCGujvj3qxVkXd92uy80NpjhxZtmDEn.ogg"
+    },
+    {
+      "description": "Miyako_ExWeapon_Get",
+      "category": "growup",
+      "text": "RABBIT-31式冲锋枪，我收到了。好可爱……",
+      "text_original": "RABBIT31式短機関銃、確かに受け取りました。……可愛い。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/PsSJJwOblV10j2VwZsfXsvpDxlhbolHG.ogg"
+    },
+    {
+      "description": "Miyako_Formation_In_1",
+      "category": "formation",
+      "text": "部署完毕。",
+      "text_original": "配置につきました",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/9aJPEpoZOeEoFYRJMFgq9QjLeS9KibrW.ogg"
+    },
+    {
+      "description": "Miyako_Formation_In_2",
+      "category": "formation",
+      "text": "明白。",
+      "text_original": "わかりました",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/Uw08mRyug6n9JYMzgVfezdtCy4wPz7vd.ogg"
+    },
+    {
+      "description": "Miyako_Formation_Select",
+      "category": "formation",
+      "text": "我，站错位置了吗？",
+      "text_original": "場所、間違っていましたか?",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/ybTOuGeaopNZKCdAx3irGyH4ZFzFQSnX.ogg"
+    },
+    {
+      "description": "Miyako_Gachaget",
+      "category": "growup",
+      "text": "SRT特种学院，RABBIT小队所属，月雪宫子，前来报到。老师，请指示。",
+      "text_original": "SRT特殊学園、RABBIT小隊の月雪ミヤコです。先生、ご指示を。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/W10as46zj4Mn9Yqks9oJ51u1l56CRrsT.ogg"
+    },
+    {
+      "description": "Miyako_Growup_1",
+      "category": "growup",
+      "text": "我感觉自己，变得更强了。",
+      "text_original": "更に強くなった気がします。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/djRuUyPmbl1lBiTAQJ4vUfUZCfYHgV4k.ogg"
+    },
+    {
+      "description": "Miyako_Growup_2",
+      "category": "growup",
+      "text": "这就是……成长？",
+      "text_original": "これが、成長…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/2VVlv551i6GgSrQMegeAV6fEl6SBuVRS.ogg"
+    },
+    {
+      "description": "Miyako_Growup_3",
+      "category": "growup",
+      "text": "原来，成长是这么愉快的事啊。",
+      "text_original": "「成長」というのは、こんなにも気持ちの良いことだったんですね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/qQymGawc0hcgVDEzjsRW6O31Jy56awV7.ogg"
+    },
+    {
+      "description": "Miyako_Growup_4",
+      "category": "growup",
+      "text": "为了不辜负您的期待，我会更加努力的。",
+      "text_original": "ご期待に沿えるように…もっと頑張ります。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/l2HuVoAlRxUsxcVFzLaFHObmewgGNld9.ogg"
+    },
+    {
+      "description": "Miyako_Lobby_1",
+      "category": "lobby",
+      "text": "RABBIT小队，随时可以出击。",
+      "text_original": "RABBIT小隊、いつでも出撃可能です。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/pa1WtgBP7l89ziXsqDFKZt4ninfNIwCL.ogg"
+    },
+    {
+      "description": "Miyako_Lobby_2",
+      "category": "lobby",
+      "text": "我突然有个疑问…… 兔子是怎么叫的呢？",
+      "text_original": "急に気になったのですが……ウサギはどうやって鳴くんでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/5Td0mkAQljJUqNpyR5cWIB7ir9WkbtCB.ogg"
+    },
+    {
+      "description": "Miyako_Lobby_3",
+      "category": "lobby",
+      "text": "蹦蹦，蹦蹦……？是这样吗？",
+      "text_original": "ぴょん、ぴょん……とか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/WyBDrMFwSO5t9QaD2VZGOvyFVwN09bIM.ogg"
+    },
+    {
+      "description": "Miyako_Lobby_4",
+      "category": "lobby",
+      "text": "如果遇到了棘手的敌人，请一定要呼叫我们。",
+      "text_original": "手強い敵に出会ったら、ぜひ私達を呼んでください。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/WUngIuGUgBVJ7xPQg59o7zfKwNmKmiUO.ogg"
+    },
+    {
+      "description": "Miyako_Lobby_5",
+      "category": "lobby",
+      "text": "RABBIT小队的徽章…… 是不是很可爱呀？",
+      "text_original": "RABBIT小隊のエンブレム……可愛いと思いませんか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/25EtvMGLbS8AeS9u37PbHbE1N1uoDypz.ogg"
+    },
+    {
+      "description": "Miyako_LogIn_1",
+      "category": "lobby",
+      "text": "老师，欢迎回来。 我一直在这里等着您的下一道命令呢。",
+      "text_original": "お帰りなさい、先生。ここでずっと、次の命令をお待ちしておりました。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/uAltzwGfpEKqxxi2zQotuX3qL9vAtvwQ.ogg"
+    },
+    {
+      "description": "Miyako_LogIn_2",
+      "category": "lobby",
+      "text": "老师，很高兴再次见到您。您有什么吩咐吗……？",
+      "text_original": "またお会いできて嬉しいです、先生。何かやることは……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/rXhPtWNWASjytjhj5W6WMw9lqrmcGFT4.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_1_1",
+      "category": "lobby",
+      "text": "真美啊……",
+      "text_original": "綺麗……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/GLHdGVUE2oEtqdvgl2GK1usKfyVzyQ51.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_1_2",
+      "category": "lobby",
+      "text": "这里的夜景太美了，我，我差点就忘记了自己的目的。",
+      "text_original": "夜景があまりに美しくて、危うく目的を忘れるところでした。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/0rOBjPhOir0eMqHakdlWlYcrFVGAJwpj.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_2",
+      "category": "lobby",
+      "text": "呵呵，作战的时候可千万不能掉以轻心……",
+      "text_original": "ふふっ、作戦中に油断なんてダメなのですけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/t9ybYvrL8NVuWryELbtCeai6rkY7rYcT.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "啊……虽然很突然，不过……",
+      "text_original": "……えっと ……急なのですが、先生……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/iMRI6MB3L43TyqwEoBkGjXV1lzRtgb49.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "怎么说呢……谢谢您一直陪着我，老师。",
+      "text_original": "その……いつも一緒にいてくださって、ありがとうございます。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/jO8v1g9ylWCQDXOhQCv5Kumuabn9pvld.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_3_3",
+      "category": "lobby",
+      "text": "如果没有老师的话……我，还有RABBIT小队，都不可能成长到现在的地步。",
+      "text_original": "先生がいらっしゃらなかったら…… 私も、RABBIT小隊も、ここまで成長できなかったと思います。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/jNV1JSq3TiTirFLUyUGQIh5z3HvcGu6S.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_3_4",
+      "category": "lobby",
+      "text": "所以下次，如果可以的话……",
+      "text_original": "なので今度、よろしければ、その――",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/8ALyfTjsA6eXw3tde102QNnf2bNpw3aI.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "啊……？收到呼叫……",
+      "text_original": "……？連絡が……",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/mkbqj1iS7wAgl6F5CWbM4nHgTPdR2S9T.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "嗯，了解……前方500米处……",
+      "text_original": "なるほど、 ここから500mの地点に……",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/DWvhOw41iCoV4OY34OGxwrnYix3ZNveL.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_4_3",
+      "category": "lobby",
+      "text": "嗯，前方通讯让我们做好突击准备。",
+      "text_original": "はい。すぐに突入の準備を、とのことです。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/TyHiEBsKKcJVvrr5dYgWyppOt1ooukek.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_4_4",
+      "category": "lobby",
+      "text": "老师，请佩戴好绳索和背带。",
+      "text_original": "先生、ラペルリングとハーネスを装着してください。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/mGXpRKnwkPgpMocAJC1gsrbURLKrcW0H.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_5",
+      "category": "lobby",
+      "text": "啊？您不会用吗……？这，这样啊……",
+      "text_original": "え？使い方がわからない……ですか？そ、そうでしたか……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/FxnZtAfj6A65PJRNSYKDgRHgr6ZOtfJx.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_6_1",
+      "category": "lobby",
+      "text": "没关系。请在这里稍等一下。我完成任务后马上就回来。",
+      "text_original": "……大丈夫です。 では、ここで待っててください。すぐに終えて戻ってきます。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/qSELkZE9P7ytcApngIoQNfqd2dwn4zmx.ogg"
+    },
+    {
+      "description": "Miyako_MemorialLobby_6_2",
+      "category": "lobby",
+      "text": "等我回来，我想和老师，一起欣赏这片夜景。",
+      "text_original": "それでまた先生と、ゆっくりこの夜景が見たいので。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/E4jLUXH93Bw6DHuaflNXzEPIG6PQfuUT.ogg"
+    },
+    {
+      "description": "Miyako_Relationship_Up_1",
+      "category": "growup",
+      "text": "您能……一直陪在我身边吗……？",
+      "text_original": "私と……、ずっと、一緒にいてくれますか…？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/gT4RijWs3g2iTSUB2hhtTc6B9v86kJWG.ogg"
+    },
+    {
+      "description": "Miyako_Relationship_Up_2",
+      "category": "growup",
+      "text": "只要是老师的指示，不管是什么，我都会服从。嗯，不管是什么。",
+      "text_original": "先生の指示なら何でも従います。……何でも、です。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/0nVuQa6CG3AVzKCp444sdCx1cbknw7je.ogg"
+    },
+    {
+      "description": "Miyako_Relationship_Up_3",
+      "category": "growup",
+      "text": "请再……多陪我一会吧……",
+      "text_original": "もう少し、そばにいてください。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/8WCqvObtBnWdmswNV6HZOkqMU2vquw4l.ogg"
+    },
+    {
+      "description": "Miyako_Relationship_Up_4",
+      "category": "growup",
+      "text": "据说兔子是会因为孤独而死去的动物。RABBIT小队也是这样……嗯，一定是。",
+      "text_original": "ウサギは寂しいと死んでしまう生き物だそうです。RABBIT小隊も同じです。きっと…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/6wq7y2Ejh7PZzns5y3mwsRFFNv7XxGMi.ogg"
+    },
+    {
+      "description": "Miyako_Season_Birthday",
+      "category": "lobby",
+      "text": "说起来，今天是我的生日…… 不过礼物就不用了。 只要老师能够安全，我就很开心了。",
+      "text_original": "そういえば、今日は私の誕生日でしたね……。 いえ、プレゼントは大丈夫です。 先生の安全こそが、私の喜びですから。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/uSypAhlkofonwXUrAvWrDhdB0hv2rdJp.ogg"
+    },
+    {
+      "description": "Miyako_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "老师，生日快乐。 为了让老师度过一个完美的生日， 今天一整天我都会贴身保护您。",
+      "text_original": "お誕生日おめでとうございます、先生。先生のお誕生日が十全なものになるよう、今日は一日、 密着警護していますね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/f5p54R8TacJddKSea0AcKZUgKBB06Gic.ogg"
+    },
+    {
+      "description": "Miyako_Season_Halloween",
+      "category": "lobby",
+      "text": "如果子弹能打得到鬼怪，我就不会害怕了……",
+      "text_original": "お化けであっても、銃弾が通じるなら怖くないのですが……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/5q8EkP1kDulhSH2BIb8WHi7F3XQgrR6R.ogg"
+    },
+    {
+      "description": "Miyako_Season_NewYear",
+      "category": "lobby",
+      "text": "新的一年，SRT特种学院能重建吗……？",
+      "text_original": "今年こそは、SRTを復活させられるでしょうか……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/3j2JNxXoYiigCusPH9M7SeuGCgsm8gQV.ogg"
+    },
+    {
+      "description": "Miyako_Season_Xmas",
+      "category": "lobby",
+      "text": "圣诞老人…… 总有一天，我想和他较量一番。",
+      "text_original": "サンタクロース…… ぜひいつか、一度お手合わせ願いたい相手です。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/nDpsoaIOMSWtrQWC76rclaf0kJd0B2Kr.ogg"
+    },
+    {
+      "description": "Miyako_Tactic_Defeat_1",
+      "category": "battle",
+      "text": "撤退，也是战略的一部分。",
+      "text_original": "撤退も戦略の一部です…。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/2PphV2n4Vb1ld15qA7FuzH1WaxqwrQTI.ogg"
+    },
+    {
+      "description": "Miyako_Tactic_Defeat_2",
+      "category": "battle",
+      "text": "下次……下次再挑战吧。",
+      "text_original": "次…、また次…、もう一度挑戦しましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/51su0DVEWTfT7vUWqRhbmyISU5SWXejD.ogg"
+    },
+    {
+      "description": "Miyako_Tactic_In_1",
+      "category": "battle",
+      "text": "进入作战区域，展开阵型。",
+      "text_original": "作戦区域に突入。展開します。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/TychDvxZJSm2jGsCJkkufsp0X0Yah8tp.ogg"
+    },
+    {
+      "description": "Miyako_Tactic_In_2",
+      "category": "battle",
+      "text": "接下来，该执行什么任务了？",
+      "text_original": "ここからどうすればよいでしょうか。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/XbmsTEtcHV76svqWuzcYqQXiXCs0Demt.ogg"
+    },
+    {
+      "description": "Miyako_Tactic_Victory_1",
+      "category": "battle",
+      "text": "大家都辛苦了。",
+      "text_original": "皆さん、お疲れ様でした。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/yQe7edFd4O732zUPYq8dGNVRUi90QSTy.ogg"
+    },
+    {
+      "description": "Miyako_Tactic_Victory_2",
+      "category": "battle",
+      "text": "老师，我们赢了！",
+      "text_original": "勝利…ですね！先生。",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/l6erz7bOGTFr4xOTImKMRQrmvPS3T3r6.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "miyako_battle_in_2",
+      "category": "battle",
+      "text": "作战开始。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/joSIA6IdhDtuzkk2XdiJIyVAQgE59iOv.ogg"
+    },
+    {
+      "description": "miyako_battle_move_1",
+      "category": "battle",
+      "text": "Clear，继续前进。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/K9HcPzIAJWlBjaIbiVRoAOKhOOGqQX8R.ogg"
+    },
+    {
+      "description": "miyako_battle_move_2",
+      "category": "battle",
+      "text": "下个敌人在哪里？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/iGasY15lvFPuMcYWUtqhGjTNM8f9MBgP.ogg"
+    },
+    {
+      "description": "miyako_battle_recovery_1",
+      "category": "battle",
+      "text": "多谢支援。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/wY80OAEDNmysg8Fk48kLnzy9AnNBqQ7z.ogg"
+    },
+    {
+      "description": "miyako_battle_retire",
+      "category": "battle",
+      "text": "后面就拜托了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/Mnoh2M13mcYFjH4AJ8g6klmJKBRHXyD6.ogg"
+    },
+    {
+      "description": "miyako_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/a3xxdQGblRfbDC7zGZfB8iokMxHuzwMS.ogg"
+    },
+    {
+      "description": "miyako_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/zLgx9LMrdMP0fpTTOA6vDZussTD59VLN.ogg"
+    },
+    {
+      "description": "miyako_battle_shout_3",
+      "category": "battle",
+      "text": "开火。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/bAurBAaFADlKhnWaqBT5lEqrFRnSs4cg.ogg"
+    },
+    {
+      "description": "miyako_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "移动位置。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/c3UyZoiUKkM2THZ72LejXAzYV0uArfIg.ogg"
+    },
+    {
+      "description": "miyako_battle_victory_1",
+      "category": "battle",
+      "text": "作战成功。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/J8YhllTMadfmP1T8gccx18rQgWCie0YE.ogg"
+    },
+    {
+      "description": "miyako_battle_victory_2",
+      "category": "battle",
+      "text": "CLEAR。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/1Ix9RkFJps7ymNNWMgQAQNQUdnGyJuq8.ogg"
+    },
+    {
+      "description": "miyako_cafe_act_1",
+      "category": "cafe",
+      "text": "……信号良好，正在接收。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/g8ko470mnKxdRn9fzYVFRFitfv4BQjl6.ogg"
+    },
+    {
+      "description": "miyako_cafe_act_2",
+      "category": "cafe",
+      "text": "有什么问题吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/YAmRie1vvHx1UB4AYLwLVQxo8snrvfX9.ogg"
+    },
+    {
+      "description": "miyako_cafe_monolog_1",
+      "category": "cafe",
+      "text": "……发现一个可爱的装饰品。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/7Y5iLs53YwdHLASy0FQYcXuKBxmhisJj.ogg"
+    },
+    {
+      "description": "miyako_cafe_monolog_2",
+      "category": "cafe",
+      "text": "这种大小的空间，我一个人就足以压制……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/3HvH1vkxdZSScMumzWAIJRNDSb5HGdB1.ogg"
+    },
+    {
+      "description": "miyako_cafe_monolog_3",
+      "category": "cafe",
+      "text": "这里居然有狙击点……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/rvHFGrjUM60fFkJEw7NBXry0EWwZesp7.ogg"
+    },
+    {
+      "description": "miyako_commonskill",
+      "category": "battle",
+      "text": "Fire in the hole！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/KdmcjihA8dpx7oW1wQTPBhGuIRLGTjEL.ogg"
+    },
+    {
+      "description": "miyako_exskill_1",
+      "category": "battle",
+      "text": "发现多名敌人，准备应对。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/2dnGfYcncnWMCgtuQqlcTvYpQZPRO0fK.ogg"
+    },
+    {
+      "description": "miyako_exskill_2",
+      "category": "battle",
+      "text": "信号良好，开始突击。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/T4dRPbbHYI12V0X8O6d420tzDkWmx0vw.ogg"
+    },
+    {
+      "description": "miyako_exskill_3",
+      "category": "battle",
+      "text": "确认友军已到达，立刻突击。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/MZ9F3CVrW516ZomvleUl9uhQufGt0iSt.ogg"
+    },
+    {
+      "description": "miyako_exskill_level_1",
+      "category": "battle",
+      "text": "无人机启动，请掩护。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/eclpAtoIhzd8cQH35vpFkFfspPrZyEWr.ogg"
+    },
+    {
+      "description": "miyako_exskill_level_2",
+      "category": "battle",
+      "text": "全员，注意冲击。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/NKMJuUAxLPUoUwlu5Ncec9SLwZwm6Mmp.ogg"
+    },
+    {
+      "description": "miyako_exskill_level_3",
+      "category": "battle",
+      "text": "投掷闪光弹。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/UgUirEH2dvFqSVfjqPvDeN6z1qqx0S5Y.ogg"
+    },
+    {
+      "description": "miyako_exweapon_get",
+      "category": "growup",
+      "text": "RABBIT-31式冲锋枪，我收到了。好可爱……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/ggFptAMswPf4v6IBTjvPKCXyp2IoogvR.ogg"
+    },
+    {
+      "description": "miyako_formation_in_1",
+      "category": "formation",
+      "text": "部署完毕。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/kn81qdtwH45JnnjeabDpqs8DlQS5pcOl.ogg"
+    },
+    {
+      "description": "miyako_formation_in_2",
+      "category": "formation",
+      "text": "明白。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/J1m0zAGY87sv9Dn6NKTWJRWdlNq4Chri.ogg"
+    },
+    {
+      "description": "miyako_formation_select",
+      "category": "formation",
+      "text": "我，站错位置了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/ZhhAF2of2sqURoBoYyzPreabjvqOnXVa.ogg"
+    },
+    {
+      "description": "miyako_gachaget",
+      "category": "growup",
+      "text": "SRT特种学院，RABBIT小队所属，月雪宫子，前来报到。老师，请指示。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/mNXuuxuJie5kjC7wwgZqXWTaRp00m9oi.ogg"
+    },
+    {
+      "description": "miyako_growup_1",
+      "category": "growup",
+      "text": "我感觉自己，变得更强了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/XldtsZL544kBbPhqdSZCXAZRqDrnps9D.ogg"
+    },
+    {
+      "description": "miyako_growup_2",
+      "category": "growup",
+      "text": "这就是……成长？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/pxfUCxebDU2TTTaDBVoLSYvaUEUNQZMP.ogg"
+    },
+    {
+      "description": "miyako_growup_3",
+      "category": "growup",
+      "text": "原来，成长是这么愉快的事啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/EaHAxaMeEZcn9WEd0JnmGv9aZx16pRQ9.ogg"
+    },
+    {
+      "description": "miyako_growup_4",
+      "category": "growup",
+      "text": "为了不辜负您的期待，我会更加努力的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/3QpVgX7IT7RFxtTKV7jPjB9gH5hhg8yV.ogg"
+    },
+    {
+      "description": "miyako_lobby_1",
+      "category": "lobby",
+      "text": "RABBIT小队，随时可以出击。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/tKWm5GHrO04zphwgZYVikr5Xll8IZm8p.ogg"
+    },
+    {
+      "description": "miyako_lobby_2",
+      "category": "lobby",
+      "text": "我突然有个疑问…… 兔子是怎么叫的呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/rJjqJGUWbHOaWAqeG7PUskyELeQoaD1J.ogg"
+    },
+    {
+      "description": "miyako_lobby_3",
+      "category": "lobby",
+      "text": "蹦蹦，蹦蹦……？是这样吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/kTcJ0oCqSCPNO8vYpyIPDm7iqrZxsCsP.ogg"
+    },
+    {
+      "description": "miyako_lobby_4",
+      "category": "lobby",
+      "text": "如果遇到了棘手的敌人，请一定要呼叫我们。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/pEcljrNXyAVcayV2Xr85PXp0GHVHpFrJ.ogg"
+    },
+    {
+      "description": "miyako_lobby_5",
+      "category": "lobby",
+      "text": "RABBIT小队的徽章…… 是不是很可爱呀？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/ta6lVyaCBcVt3n83QoQM4rWkm107u7Kz.ogg"
+    },
+    {
+      "description": "miyako_login_1",
+      "category": "lobby",
+      "text": "老师，欢迎回来。 我一直在这里等着您的下一道命令呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/ZK4aCD1j7poVAKfhMp49Ho6fx80g2XvJ.ogg"
+    },
+    {
+      "description": "miyako_login_2",
+      "category": "lobby",
+      "text": "老师，很高兴再次见到您。您有什么吩咐吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/aFcrl3DCrWKWjEMqloITgZErn7gZDa7f.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "真美啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/TBjvwTEL6I2siFdQ6me3fyUMWvKwvLbl.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "这里的夜景太美了，我，我差点就忘记了自己的目的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/ao4SU6pfV7NkeQlxOZzkx9UfkccyickM.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_2",
+      "category": "lobby",
+      "text": "呵呵，作战的时候可千万不能掉以轻心……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/wnRvwByUqhShdFMc7iV5kkLGCSpU7TpM.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "啊……虽然很突然，不过……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/Vf0HxSK4PIVud1BTco5p6KjIX6OHPW4G.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "怎么说呢……谢谢您一直陪着我，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/d4Zcj2NQQ7RtXe5PyuizXRIIcX3jWEL2.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "如果没有老师的话……我，还有RABBIT小队，都不可能成长到现在的地步。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/GIzRcbHJg84qtHogCFbp6hc1vqBBqoLx.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_3_4",
+      "category": "lobby",
+      "text": "所以下次，如果可以的话……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/c90qBkxTXub8XLc8qdNox8WYecy1HZk3.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "啊……？收到呼叫……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/NIlL0pfRPhlWk5VMrkd10acv81veNfBg.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "嗯，了解……前方500米处……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/haZLkjg7rZptUFxVynnXHmEDe5Ky9Fjs.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "嗯，前方通讯让我们做好突击准备。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/z1Jmev1J47YnrkBUFmhcMkeyu0oDv51L.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_4_4",
+      "category": "lobby",
+      "text": "老师，请佩戴好绳索和背带。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/c6hjQuVXCXWe3y7u4g7Khs5mS2YauBkA.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_5",
+      "category": "lobby",
+      "text": "啊？您不会用吗……？这，这样啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/KqR80gvi8nJMVwBNU2ggyK9vufpEL1HJ.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_6_1",
+      "category": "lobby",
+      "text": "没关系。请在这里稍等一下。我完成任务后马上就回来。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/6MHI7v6L14X9cAl8FihpHbIVtt8P1J9w.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_6_2",
+      "category": "lobby",
+      "text": "等我回来，我想和老师，一起欣赏这片夜景。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/hI3iekMMJi5kyanipxM475YCxsZmIoWM.ogg"
+    },
+    {
+      "description": "miyako_relationship_up_1",
+      "category": "growup",
+      "text": "您能……一直陪在我身边吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/iblDPxsCM8VGYYjJBeuTOfkR1lUtGmlf.ogg"
+    },
+    {
+      "description": "miyako_relationship_up_2",
+      "category": "growup",
+      "text": "只要是老师的指示，不管是什么，我都会服从。嗯，不管是什么。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/jF1LMmCzgow8hyOahVtLrHnTyxzVrfgP.ogg"
+    },
+    {
+      "description": "miyako_relationship_up_3",
+      "category": "growup",
+      "text": "请再……多陪我一会吧……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/NojdgvbXEhVq8XJfQHus3X5PKiC9CO0Q.ogg"
+    },
+    {
+      "description": "miyako_relationship_up_4",
+      "category": "growup",
+      "text": "据说兔子是会因为孤独而死去的动物。RABBIT小队也是这样……嗯，一定是。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/VzJCniUZbrkN4go7ME8jvh7Z7PBcNJS4.ogg"
+    },
+    {
+      "description": "miyako_season_birthday",
+      "category": "lobby",
+      "text": "说起来，今天是我的生日…… 不过礼物就不用了。 只要老师能够安全，我就很开心了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/sKGhS1SQj6aj9GSzbbdgYnfkl0izOwCm.ogg"
+    },
+    {
+      "description": "miyako_season_birthday_player",
+      "category": "lobby",
+      "text": "老师，生日快乐。 为了让老师度过一个完美的生日， 今天一整天我都会贴身保护您。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/Z8lwrseAjDFcyYEzkBwY72dLr0QBSNfh.ogg"
+    },
+    {
+      "description": "miyako_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，新春快乐！希望新的一年里，您在规划日程的时候，不要忘了……还有怕寂寞的兔子等着您……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/PQrxpRbVS6b6YOSjaJN0eGZuC5VY0UzB.ogg"
+    },
+    {
+      "description": "miyako_season_halloween",
+      "category": "lobby",
+      "text": "如果子弹能打得到鬼怪，我就不会害怕了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/kWs86803ATlhjbeCzwUIDfjDcZJv1CTV.ogg"
+    },
+    {
+      "description": "miyako_season_midautumn",
+      "category": "lobby",
+      "text": "虽然不是来自月亮上，但既然是中秋节，那就让我这只兔子，多陪您一会儿吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/yw58Jnhui1uPB6zh3E3dteahN01WJGcm.ogg"
+    },
+    {
+      "description": "miyako_season_newyear",
+      "category": "lobby",
+      "text": "新的一年，SRT特种学院能重建吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/Tnx0y82DMMv88iV1Vn4PLSVbiwQTIXMI.ogg"
+    },
+    {
+      "description": "miyako_season_xmas",
+      "category": "lobby",
+      "text": "圣诞老人…… 总有一天，我想和他较量一番。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/xU5q3LSNXm5PNMtrYjfRfeqWL2TyxZGt.ogg"
+    },
+    {
+      "description": "miyako_tactic_defeat_1",
+      "category": "battle",
+      "text": "撤退，也是战略的一部分。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/w0R4IBRV5WfjUNneob25wcDRLU71ZvrR.ogg"
+    },
+    {
+      "description": "miyako_tactic_defeat_2",
+      "category": "battle",
+      "text": "下次……下次再挑战吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/y0g5gYaH7cLltnDWqAOeVFhSfWOY0Xa4.ogg"
+    },
+    {
+      "description": "miyako_tactic_in_1",
+      "category": "battle",
+      "text": "进入作战区域，展开阵型。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/BOhGt6zczvVWP9uyiBD2ppEYBjRJGyQg.ogg"
+    },
+    {
+      "description": "miyako_tactic_in_2",
+      "category": "battle",
+      "text": "接下来，该执行什么任务了？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/vdsrWjnBmhrZ89qQdWBCpt2iMGhGemRh.ogg"
+    },
+    {
+      "description": "miyako_tactic_victory_1",
+      "category": "battle",
+      "text": "大家都辛苦了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/z5KW8iXcsO1DUkPyNv6F0iDVfxyAzYk4.ogg"
+    },
+    {
+      "description": "miyako_tactic_victory_2",
+      "category": "battle",
+      "text": "老师，我们赢了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/c4zm33qs6F02F9XUQkyePQx9yePDYHmy.ogg"
+    },
+    {
+      "description": "miyako_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/diWRhCg8fdfOvW2qvmg4PwTWF67h6s3X.ogg"
+    },
+    {
+      "description": "miyako_battle_buffed_1",
+      "category": "battle",
+      "text": "嗯，还不错！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/KZyStIOG9KRg8lSlbOwlFSuSLxOQWVeV.ogg"
+    },
+    {
+      "description": "miyako_battle_buffself_1",
+      "category": "battle",
+      "text": "开始突击！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/VI2tlw1tKxymLRF2krZFawWFN89BdHSs.ogg"
+    },
+    {
+      "description": "miyako_battle_covered_1",
+      "category": "battle",
+      "text": "掩蔽！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/3Ugd0ZMeSCxGa7qK1O2J02BrZUzdCxVB.ogg"
+    },
+    {
+      "description": "miyako_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/vqi1P7XnSX4zOfjDKpnhuMDZBhyHrkGt.ogg"
+    },
+    {
+      "description": "miyako_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/OxyalAne21dJ9E2xKEONOoxdYZmI3YJm.ogg"
+    },
+    {
+      "description": "miyako_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/5OjrABhJjVJeAGtKfLFRSVXdeiIzqoWp.ogg"
+    },
+    {
+      "description": "miyako_battle_defense_1",
+      "category": "battle",
+      "text": "抵抗是毫无意义的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/Z7rRLjkJtgFZ6aE6gHGmVozracjfxbuD.ogg"
+    },
+    {
+      "description": "miyako_battle_in_1",
+      "category": "battle",
+      "text": "大家不要放松警惕。老师，请指示。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/b0oIdeHDfSsVXCY6MVJvSEomP59SCuxU.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "miyako_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_victory_2.ogg"
+    },
+    {
+      "description": "miyako_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_cafe_act_1.ogg"
+    },
+    {
+      "description": "miyako_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_cafe_act_2.ogg"
+    },
+    {
+      "description": "miyako_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "miyako_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "miyako_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "miyako_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_commonskill.ogg"
+    },
+    {
+      "description": "miyako_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_exskill_1.ogg"
+    },
+    {
+      "description": "miyako_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_exskill_2.ogg"
+    },
+    {
+      "description": "miyako_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_exskill_3.ogg"
+    },
+    {
+      "description": "miyako_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_exskill_level_1.ogg"
+    },
+    {
+      "description": "miyako_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_exskill_level_2.ogg"
+    },
+    {
+      "description": "miyako_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_exskill_level_3.ogg"
+    },
+    {
+      "description": "miyako_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_exweapon_get.ogg"
+    },
+    {
+      "description": "miyako_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_formation_in_1.ogg"
+    },
+    {
+      "description": "miyako_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_formation_in_2.ogg"
+    },
+    {
+      "description": "miyako_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_formation_select.ogg"
+    },
+    {
+      "description": "miyako_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_gachaget.ogg"
+    },
+    {
+      "description": "miyako_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_growup_1.ogg"
+    },
+    {
+      "description": "miyako_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_growup_2.ogg"
+    },
+    {
+      "description": "miyako_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_growup_3.ogg"
+    },
+    {
+      "description": "miyako_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_growup_4.ogg"
+    },
+    {
+      "description": "miyako_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_lobby_1.ogg"
+    },
+    {
+      "description": "miyako_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_lobby_2.ogg"
+    },
+    {
+      "description": "miyako_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_lobby_3.ogg"
+    },
+    {
+      "description": "miyako_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_lobby_4.ogg"
+    },
+    {
+      "description": "miyako_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_lobby_5.ogg"
+    },
+    {
+      "description": "miyako_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_login_1.ogg"
+    },
+    {
+      "description": "miyako_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_login_2.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_2.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_3_3.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_3_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_3_4.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_4_3.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_4_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_4_4.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_5.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_6_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_6_1.ogg"
+    },
+    {
+      "description": "miyako_memoriallobby_6_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_memoriallobby_6_2.ogg"
+    },
+    {
+      "description": "miyako_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_relationship_up_1.ogg"
+    },
+    {
+      "description": "miyako_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_relationship_up_2.ogg"
+    },
+    {
+      "description": "miyako_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_relationship_up_3.ogg"
+    },
+    {
+      "description": "miyako_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_relationship_up_4.ogg"
+    },
+    {
+      "description": "miyako_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_season_birthday.ogg"
+    },
+    {
+      "description": "miyako_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_season_birthday_player.ogg"
+    },
+    {
+      "description": "miyako_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_season_halloween.ogg"
+    },
+    {
+      "description": "miyako_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_season_newyear.ogg"
+    },
+    {
+      "description": "miyako_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_season_xmas.ogg"
+    },
+    {
+      "description": "miyako_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "miyako_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "miyako_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_tactic_in_1.ogg"
+    },
+    {
+      "description": "miyako_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_tactic_in_2.ogg"
+    },
+    {
+      "description": "miyako_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_tactic_victory_1.ogg"
+    },
+    {
+      "description": "miyako_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_tactic_victory_2.ogg"
+    },
+    {
+      "description": "Miyako_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/Miyako_Title.ogg"
+    },
+    {
+      "description": "miyako_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_buffed_1.ogg"
+    },
+    {
+      "description": "miyako_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_buffself_1.ogg"
+    },
+    {
+      "description": "miyako_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_covered_1.ogg"
+    },
+    {
+      "description": "miyako_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_damage_1.ogg"
+    },
+    {
+      "description": "miyako_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_damage_2.ogg"
+    },
+    {
+      "description": "miyako_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_damage_3.ogg"
+    },
+    {
+      "description": "miyako_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_defense_1.ogg"
+    },
+    {
+      "description": "miyako_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_in_1.ogg"
+    },
+    {
+      "description": "miyako_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_in_2.ogg"
+    },
+    {
+      "description": "miyako_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_move_1.ogg"
+    },
+    {
+      "description": "miyako_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_move_2.ogg"
+    },
+    {
+      "description": "miyako_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_recovery_1.ogg"
+    },
+    {
+      "description": "miyako_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_retire.ogg"
+    },
+    {
+      "description": "miyako_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_shout_1.ogg"
+    },
+    {
+      "description": "miyako_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_shout_2.ogg"
+    },
+    {
+      "description": "miyako_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_shout_3.ogg"
+    },
+    {
+      "description": "miyako_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "miyako_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/miyako_battle_victory_1.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_02.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_04.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_00.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_01.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_03.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_05.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_06.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_07.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_09.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_08.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_10.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_11.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_12.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_99.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/miyako_spr_Idle_01.png"
+      ]
+    },
+    {
+      "title": "运动服立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0070_spr_02.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0070_spr_01.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0070_spr_03.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0070_spr_04.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0070_spr_08.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0070_spr_07.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0070_spr_05.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0070_spr_06.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0070_spr_09.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0070_spr_00.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0070_spr_99.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0070_spr_Idle_01.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0070_spr_10.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/fOK7uic78GpPqSjaQAz6UsdA7ATpEK66.png",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/miyako.jpg",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/miyako_ex.gif",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/miyako1.jpg",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/miyako2.jpg",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Miyako3.jpg",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/miyako4.jpg",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-39.jpg",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-79.jpg",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-132.jpg",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-160.jpg",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-188.jpg",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-189.jpg",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/WpJPmC2SHbWfNNtAJEFsxUvlPxBP8DSZ.jpg",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/QZ9pH0Pa3w26bwUIw7dkosl7d3eJkD8R.jpg",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/miyako_cafe.gif",
+        "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-16.jpg"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 128,
+      "favorability": 240
+    },
+    {
+      "id": 54,
+      "favorability": 60
+    },
+    {
+      "id": 31,
+      "favorability": 40
+    },
+    {
+      "id": 58,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    663
+  ],
+  "character_datas": [
+    {
+      "character_id": 10038,
+      "dev_name": "miyako_default",
+      "combat_style": "default",
+      "type": "Tank",
+      "attack_attribute": "Piercing",
+      "defensive_attributes": "Heavy",
+      "is_groupc_control": true,
+      "team_position": "FRONT",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "B",
+      "street_adaptability": "S",
+      "equipment": [
+        9,
+        5,
+        2
+      ],
+      "cultivate_material": [
+        120,
+        121,
+        123,
+        124,
+        133,
+        135,
+        136,
+        138,
+        427,
+        428,
+        429,
+        430,
+        411,
+        412,
+        413,
+        19
+      ],
+      "favorite_equipment": 35,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%E5%AE%AB%E5%AD%90/skill_icon/jnukoEtcx2D6Td2i615J2IPdMqFzkzFP.png",
+            "title": "闪光无人机启动",
+            "title_cn": "启动闪光无人机",
+            "preview": "//static.kivo.wiki/videos/students/%E6%9C%88%E9%9B%AA%20%E5%AE%AB%E5%AD%90/skill_preview/XzlFiNsqgkezqYCNCCclffv6NHYXkrLI.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "对1名敌人造成攻击力340%的伤害/附加昏厥（4.2秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "对1名敌人造成攻击力392%的伤害/附加昏厥（4.2秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "对1名敌人造成攻击力443%的伤害/附加昏厥（4.9秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "对1名敌人造成攻击力494%的伤害/附加昏厥（4.9秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "对1名敌人造成攻击力545%的伤害/附加昏厥（5.5秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%E5%AE%AB%E5%AD%90/skill_icon/unyK9U2MfeUEeM7ulfbah1OzqkmqUih8.png",
+            "title": "阔剑地雷",
+            "title_cn": "设置阔剑地雷",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每40秒引爆小型阔剑地雷向前方扇形区域扩散5枚破片，对命中的敌人造成攻击力84%伤害。"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒引爆小型阔剑地雷向前方扇形区域扩散5枚破片，对命中的敌人造成攻击力88%伤害。"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒引爆小型阔剑地雷向前方扇形区域扩散5枚破片，对命中的敌人造成攻击力93%伤害。"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒引爆小型阔剑地雷向前方扇形区域扩散5枚破片，对命中的敌人造成攻击力109%伤害。"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒引爆小型阔剑地雷向前方扇形区域扩散5枚破片，对命中的敌人造成攻击力114%伤害。"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒引爆小型阔剑地雷向前方扇形区域扩散5枚破片，对命中的敌人造成攻击力118%伤害。"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒引爆小型阔剑地雷向前方扇形区域扩散5枚破片，对命中的敌人造成攻击力135%伤害。"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒引爆小型阔剑地雷向前方扇形区域扩散5枚破片，对命中的敌人造成攻击力139%伤害。"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒引爆小型阔剑地雷向前方扇形区域扩散5枚破片，对命中的敌人造成攻击力143%伤害。"
+              },
+              {
+                "cost": 1,
+                "describe": "每40秒引爆小型阔剑地雷向前方扇形区域扩散5枚破片，对命中的敌人造成攻击力160%伤害。"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%E5%AE%AB%E5%AD%90/skill_icon/ST111SUJhzVsEaMlyafJjutZXQBsAzjJ.png",
+            "title": "特殊防弹护板",
+            "title_cn": "特制防弹衣",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "生命值提升14%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值提升14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值提升15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值提升18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值提升18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值提升19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值提升22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值提升23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值提升23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "生命值提升26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%E5%AE%AB%E5%AD%90/skill_icon/FAKYKYLaXFYoc9sbrrvLYcNLTxUr36O8.png",
+            "title": "扰乱作战",
+            "title_cn": "干扰作战",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "使用EX技能后，受到的伤害量降低19%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能后，受到的伤害量降低19.9%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能后，受到的伤害量降低20.9%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能后，受到的伤害量降低24.7%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能后，受到的伤害量降低25.6%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能后，受到的伤害量降低26.6%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能后，受到的伤害量降低30.4%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能后，受到的伤害量降低31.3%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能后，承受的伤害量降低32.3%（持续16秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能后，承受的伤害量降低36.1%（持续16秒）"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 3061,
+          "attack": 158,
+          "defense": 27,
+          "healing": 1791,
+          "accuracy": 108,
+          "evasion": 1312,
+          "crit": 217,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1272,
+          "range": 350,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 40
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%E5%AE%AB%E5%AD%90/weapons_icon.png",
+        "name": "RABBIT-31式冲锋枪",
+        "name_cn": "RABBIT-31式冲锋枪",
+        "description": "宫子被SRT特殊学园配给的制式冲锋枪。 是把以高可靠度闻名的枪，就算在极端情况下也能有效地击退敌人。",
+        "description_cn": "SRT特种学院配备给宫子的制式冲锋枪。 性能值得信赖，即使在极端情况下也能有效击退敌人。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「特殊防弹护板」升级为「特殊防弹护板+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 街道适应性 S -> SS",
+            "description": "在街道地形造成1.3倍伤害。 在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 贯穿克制伤害增加",
+            "description": "攻击类型为贯穿的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%9C%88%E9%9B%AA%E5%AE%AB%E5%AD%90/skill_icon/Cmh9NI8Y4iEEIwtYaKd2NfT1uWJs8ppM.png",
+            "title": "特殊防弹护板+",
+            "title_cn": "特制防弹衣+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "防御力增加200/生命值增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加210/生命值增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加220/生命值增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加260/生命值增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加270/生命值增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加280/生命值增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加320/生命值增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加330/生命值增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加340/生命值增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "防御力增加380/生命值增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "7dcafa27-336a-43b9-aa45-79c656cb0e6f",
+  "skill_declare_uuid": "41fc970a-64ae-4539-b86f-0f9c26082f65",
+  "supplementary_uuid": "e8b840eb-f5d4-4dba-a991-ac9f6ec05580",
+  "supplementary_declare_uuid": "63d097ac-92d9-4faf-83e8-acf8d972988f",
+  "created_at": 1684341419,
+  "updated_at": 1783661313
+}

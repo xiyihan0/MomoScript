@@ -1,0 +1,2003 @@
+{
+  "id": 100,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 100,
+      "avatar": "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 377,
+      "avatar": "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "中务",
+  "given_name": "桐乃",
+  "family_name_jp": "中務",
+  "given_name_jp": "キリノ",
+  "family_name_kr": "나카츠카사",
+  "given_name_kr": "키리노",
+  "family_name_en": "Nakatsukasa",
+  "given_name_en": "Kirino",
+  "family_name_zh_tw": "中務",
+  "given_name_zh_tw": "桐乃",
+  "family_name_cn": "中务",
+  "given_name_cn": "桐乃",
+  "nick_name": "",
+  "introduction": "女武神警察学园所属，生活安全局的热血系学生。\n\n\n\n因为憧憬警察维持学园都市治安的英姿而就读女武神警察学园，但由于枪法上的致命伤，所以被安插在生活安全局。\n\n即使如此，她仍为了当上能华丽压制犯人的警察的梦想而不放弃，每天都在努力着。",
+  "introduction_cn": "瓦尔基丽生活安全局的热血警校生。\n\n憧憬着维持联合都市治安的前辈们的英姿，进入了瓦尔基丽，但因枪法太差，又被迫调到了生活安全局的闲职。\n不过她仍然没有放弃成为警员，帅气地制服罪犯的梦想，仍在各个方面坚持努力。",
+  "momo_talk_signature": "瓦尔基丽，正在招募学员！",
+  "main_relation": 61,
+  "relation": [
+    60,
+    66
+  ],
+  "age": 15,
+  "grade": "一年生",
+  "height": 161,
+  "birthday": "10-22",
+  "hobby": "边走边吃",
+  "designer": "日下雲",
+  "illustrator": "DoReMi",
+  "character_voice": "中岛优衣",
+  "character_voice_cn": "Kiyo",
+  "release_date": "2021-08-26",
+  "release_date_cn": "2023-11-23",
+  "release_date_global": "2022-04-19",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/avatar.png",
+  "school": 8,
+  "weapon_type": "HG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": false,
+  "more": "## 卡池banner\n\n| 日服  | 简中服 | 繁中服 | 国际服 |\n| :-----: | :-----: | :-----: | :-----: |\n|やがて未来に変わる庇護|守护，终将化作未来|小孩子天真浪漫的笑容由本官來守護！|The children's innocent smiles I will protect!|\n|![シュン(幼女)&キリノ.jpg](files/17010/aHcUZSgSFqfaZ5komodCiueXdkveroFM.jpg =450x)|![shun_kirino_cn.png](files/17010/WQJYNfkCpAAEhqAJhqNvc4HVk2wO56lf.png =450x)|![shun_kid_kirino_tw.jpg](files/17010/9a6Mpm9a7iNt51llM88nSqT1IWMqw7ZZ.jpg =450x)|![shun_kid_kirino_en.jpg](files/17010/sQbs5pVq8JXxyY0GvJo4oyfLzUalCBsT.jpg =450x)\n\n## 官方介绍图\n\n|  日服  | 简中服 |  繁中服  | 国际服 |\n| :-----: | :-----: | :-----: | :-----: |\n|![Kirino_jp.jpg](files/17010/wZBb0HMaZlepnjXjYU8bfGXpEOCQ5eDB.jpg =525x)|![kirino_cn.jpg](files/17010/AIQwBuWS3NxHF5OwBDeTN6CAO3tokTbq.jpg =425x)|![kirino_tw.jpg](files/17010/M9gOrGO7c3R6Dlje6iY2uYdqXLUitysA.jpg =400x)|![kirino_en.jpg](files/17010/9hxcv0pmV5Qgnx2bo3qyWf59rY6ylmRz.jpg =400x)|\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 |\n| :---: | :---: |\n| ![006yPoYygy1hjy94i5l3kg30k00ethdz.gif](files/443/70XYRaQmrvBnVpnRfQTttpukQzJEXsqP.gif =450x) | ![kirino_cafe.gif](files/17010/KLVV6bnnyq3jvGwqAtm18iBrfuKBkbJo.gif =450x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 桐乃 汉化\n![桐乃](files/2/GAT50jXMJ9kviqfNu8efnFqW0GjQudqt.png =450x)\n@tab 桐乃 原文\n![桐乃](files/2/J70PWAXaTwowqjaLOQwbXBdglklctCVE.jpg =450x)\n:::\n\n## 设定集\n\n:::: center\n\n![Vol.1_页面_100.png](images/gallery/34/Vol.1_页面_100.png =450x)\n\n![Vol.1_页面_195.png](images/gallery/34/Vol.1_页面_195.png =450x)\n\n![Vol.1_页面_228.png](images/gallery/34/Vol.1_页面_228.png =450x)\n\n![Vol.1_页面_268.png](images/gallery/34/Vol.1_页面_268.png =450x)\n\n::::\n\n# CBT时期立绘\n:::: center\n![Kirino_CBT](files/3/条子_W2xEX_webp_waifu2x_2x_2n_png.png =450x)\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n| 自己 | 本官<br>私 |\n|[吹雪](https://kivo.wiki/data/character/63)|フブキ|\n|[叶渚](https://kivo.wiki/data/character/144)|カンナ公安局長<br>カンナ局長<br>局長|\n|[心华](https://kivo.wiki/data/character/378)|副局長|\n|[玛丽](https://kivo.wiki/data/character/99)|シスターさん|\n|机械鳄鱼|メカワニ|\n|[萌绘](https://kivo.wiki/data/character/7)|風倉さん|\n|[兰舞](https://kivo.wiki/data/character/134)|河駒風ラブ<br>テロリストさん|\n|[若藻](https://kivo.wiki/data/character/11)|災厄の狐さん|\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_home_Idle_01_0.8248000000000001.jpg",
+  "spine": [
+    333,
+    490,
+    593,
+    1350
+  ],
+  "model": [
+    44,
+    407
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "Kirino_Title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/3OMfbnvqGgx3YuQPSyxfFSbKiHUU2rGz.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Buffed_1.ogg",
+      "category": "battle",
+      "text": "感谢您的支援。",
+      "text_original": "ご支援、感謝します！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/aguC3PmS5RPJ15k5MRIOvyAvSmdW2RZ8.ogg"
+    },
+    {
+      "description": "Kirino_Battle_BuffSelf_1.ogg",
+      "category": "battle",
+      "text": "本警员将带头冲锋！",
+      "text_original": "本官が戦陣を切ります！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/aP4Tnpq9uYqDjHVKAulsvFU90PZmBir0.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Covered_1.ogg",
+      "category": "battle",
+      "text": "寻找掩体。",
+      "text_original": "隠れます！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/KTpTcaDvbYA0sI51EpaZuDH3xRemvP7U.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Damage_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "きゃあ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/DQocZxT606gjeP0FS3v3ozdmxbahoV89.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Damage_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "うわぁ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/JaJlDEppBTxf9kWMxgKBgpwqhqs1s31o.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Damage_3.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "あうぅ……",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/OyanvVXnetRX9AwhCuvhucGQCozZ1U0M.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Defense_1.ogg",
+      "category": "battle",
+      "text": "无谓的抵抗！",
+      "text_original": "抵抗しても無駄です！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/TPCVNq3d3TyfUMoJAlWn6GKy1n3tc5g9.ogg"
+    },
+    {
+      "description": "Kirino_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "迅速镇压！",
+      "text_original": "迅速に制圧します！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/XhfzOP6Bdn9KaoL7e8XdZRBKu54WU7OU.ogg"
+    },
+    {
+      "description": "Kirino_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "绝不姑息罪犯！",
+      "text_original": "犯罪者は許しません！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/rylAf8l6xANdAVAIl1fVdyyWf9UQqdDx.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Move_1.ogg",
+      "category": "battle",
+      "text": "已确保安全。",
+      "text_original": "ここはもう、安全地帯になりました。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/7x5wlwfkO85ro6tCCxA8V8oBS636s6a4.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Move_2.ogg",
+      "category": "battle",
+      "text": "向下个区域移动。",
+      "text_original": "次の区域へ移動しましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/L2oDpCVKy6DterUKQqYGT6kMG4uOjGjP.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Recovery_1.ogg",
+      "category": "battle",
+      "text": "啊，谢谢。",
+      "text_original": "あ、ありがとうございます。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/NORmBxaiVvbU4wV9GBsbmv2bUYbYakSN.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Retire.ogg",
+      "category": "battle",
+      "text": "请求……支援……",
+      "text_original": "追加支援を……要請します……",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/8EYDvkacgBRVJ1rLdEdE9WazysBNIsME.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Shout_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "やぁあ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/CjfayRgbbl3APjWaAWjQJzNermPEwMzg.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Shout_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "はぁあ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/G7Cmnctlnd2O0m85EQG6tD001LlZSNlC.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Shout_3.ogg",
+      "category": "battle",
+      "text": "不许动！",
+      "text_original": "動くな",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/Reh7hG2Pr5KDFTfCW1hixImIGd3gdDej.ogg"
+    },
+    {
+      "description": "Kirino_Battle_TacticalAction_1.ogg",
+      "category": "battle",
+      "text": "移动！",
+      "text_original": "移動します！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/ydtlDlXcaKGs13It4sxMmLyDTH2idjiy.ogg"
+    },
+    {
+      "description": "Kirino_Battle_TSA_1.ogg",
+      "category": "battle",
+      "text": "ポーピ君一号、出動します！",
+      "text_original": "ポーピ君一号、出動します！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/l9r6eyKOJM6vKkyPZUPfTxfh9r2zK3NF.ogg"
+    },
+    {
+      "description": "Kirino_Battle_TSA_2.ogg",
+      "category": "battle",
+      "text": "警察です。後ろに下がってください！",
+      "text_original": "警察です。後ろに下がってください！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/ZRtcV9tseUHRTcqMyT0PpLgdUWsSN70m.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Victory_1.ogg",
+      "category": "battle",
+      "text": "任务完成！",
+      "text_original": "任務、完了しました！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/X8XqjnPGTRft9I0A5fBRdVAmpKsl9Jek.ogg"
+    },
+    {
+      "description": "Kirino_Battle_Victory_2.ogg",
+      "category": "battle",
+      "text": "左侧确认，右侧确认！啊，这里已经安全了！",
+      "text_original": "右、左……ふぅ、ここはもう安全です。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/3GWrCwUYrKCuTrGUOCebmlkHL1B4Iih2.ogg"
+    },
+    {
+      "description": "Kirino_Cafe_Act_1.ogg",
+      "category": "cafe",
+      "text": "正在执勤，没有异常！",
+      "text_original": "本日も異常なし！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/tTQSIG6G9MwA2OOHZqy9gXLRZbPz8QdJ.ogg"
+    },
+    {
+      "description": "Kirino_Cafe_Act_2.ogg",
+      "category": "cafe",
+      "text": "基沃托斯今天也很和平啊！",
+      "text_original": "今日もキヴォトスは平和ですね！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/M2KWeN4DEbkMp1fVIYskLwmBW9UO14xd.ogg"
+    },
+    {
+      "description": "Kirino_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "我看看，这里应该不会躲着犯罪分子吧？",
+      "text_original": "どれどれ、ここに隠れてる犯罪者はいませんよね？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/eo3Ukee0lNSdhgPRL4bUdQZQnO7xo64B.ogg"
+    },
+    {
+      "description": "Kirino_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "把这种东西带进来合法吗……？",
+      "text_original": "こういうのは、ルール的にセーフなのでしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/QyNlsi07d78fwzz50ekb9zjE38XU0Dcf.ogg"
+    },
+    {
+      "description": "Kirino_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "那个人，怎么感觉有点眼熟呢……难道是悬赏通缉犯？",
+      "text_original": "あの人、なんだか見たことあるような……もしかして指名手配犯？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/RbmLcazSP55x1uTxUrlH5mnepLnNoe3m.ogg"
+    },
+    {
+      "description": "Kirino_CommonSkill.ogg",
+      "category": "battle",
+      "text": "看招！",
+      "text_original": "くらえ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/ReslbyNPxCF9bi2G5kZ2ZpZhlThHLrdV.ogg"
+    },
+    {
+      "description": "Kirino_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "你有权保持沉默！呃，呃啊——",
+      "text_original": "あなたには黙秘権があります。う、うわぁ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/l2DlHGvcpnwxQjjEBNfIjkFnDZUYAMxv.ogg"
+    },
+    {
+      "description": "Kirino_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "在基沃托斯任何罪行，终将绳之以，呃，呃啊！",
+      "text_original": "このキヴォトスでの犯罪は許されな……うわぁー！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/5qolsbzlRffGagtQody9Nbm1kYt3BXnA.ogg"
+    },
+    {
+      "description": "Kirino_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "警告！不投降的话……呃呃啊！",
+      "text_original": "警告します！投降しなければ……うわぁ！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/9yfonvHoAohgzFnaEoWTll0XK0r6ai4l.ogg"
+    },
+    {
+      "description": "Kirino_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "怎么办怎么办，呃呃啊！",
+      "text_original": "どうしようどうしよう……えいや！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/JI3AFUw2vGmlROiZICxEP7Se69qtcoiO.ogg"
+    },
+    {
+      "description": "Kirino_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "刑，刑事执法权！",
+      "text_original": "こ、公権力を投入します！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/axEmPkjwkMDDln6YxYaGh7pp969FR6Qm.ogg"
+    },
+    {
+      "description": "Kirino_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "吃我这招！",
+      "text_original": "こ、こ、これでも食らっちゃってください！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/ynFTJr2vFpVctfmHZAFMzRM3iX3r1bam.ogg"
+    },
+    {
+      "description": "Kirino_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "为了配得上这把枪我会努力练习射击的！",
+      "text_original": "この銃にふさわしいくらい、扱いが上手なれるよう精進しますね……！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/pSKcGCjzrYw7JyL8nHSLZxycvrdfokXI.ogg"
+    },
+    {
+      "description": "Kirino_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "要出动了吗！",
+      "text_original": "出動ですか！？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/xKVBh8csPeDKvv6pN443a6J5z9S32fIl.ogg"
+    },
+    {
+      "description": "Kirino_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "准备完毕！",
+      "text_original": "準備完了です！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/qXDYDPeGim7t7BcRmPCQtRJ1c9zJsHaT.ogg"
+    },
+    {
+      "description": "Kirino_Formation_Select.ogg",
+      "category": "formation",
+      "text": "等，等，等一下！",
+      "text_original": "ちょちょ、ちょっと待ってください！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/8YYrF36zqpSKkZUnBAXxgXqJAPgIaU0Z.ogg"
+    },
+    {
+      "description": "Kirino_Gachaget.ogg",
+      "category": "growup",
+      "text": "我是瓦尔基丽的桐乃！全都举起手来，听我指示！",
+      "text_original": "ヴァルキューレ警察学校のキリノです！ みなさん、手を上にあげて本官の指示に従ってください！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/g5C2BhhrnL2Kn7r5ROSuOWPO14pLrtXL.ogg"
+    },
+    {
+      "description": "Kirino_Growup_1.ogg",
+      "category": "growup",
+      "text": "继续这样努力的话，我会不会，被调到警备局呢？",
+      "text_original": "ずっとこうやって努力していれば、いつか警備部への発令をいただけるのでしょうか……？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/1rYAh84DtSzTkqIai0fYzUvpWa8aYieK.ogg"
+    },
+    {
+      "description": "Kirino_Growup_2.ogg",
+      "category": "growup",
+      "text": "为了基沃托斯的安全，我会全力以赴！",
+      "text_original": "キヴォトスの安全のために精進します！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/INqbs6a96tNVph8ubyEILbeRbeohtY0X.ogg"
+    },
+    {
+      "description": "Kirino_Growup_3.ogg",
+      "category": "growup",
+      "text": "呵呵，今天的训练成果很不错！",
+      "text_original": "えへへ、今日は良い成果ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/LSfyVktMNvhSzJ0T5eEf4BvGJZHatmHJ.ogg"
+    },
+    {
+      "description": "Kirino_Growup_4.ogg",
+      "category": "growup",
+      "text": "感谢您的协助。",
+      "text_original": "本官のために力を貸してくださってありがとうございます。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/6gYgedXpkWNpnSjUzdsNUMuSRkwvYR1n.ogg"
+    },
+    {
+      "description": "Kirino_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "嗯？有什么要问本警员的吗？",
+      "text_original": "……？本官に、何か問題でもありましたか……？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/nDEXCKBJ7rvXUoqrKemygLwb9j6Mban2.ogg"
+    },
+    {
+      "description": "Kirino_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "我想……帮助基沃托斯的人们。",
+      "text_original": "もっと……キヴォトスの生徒たちの力になりたいです。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/CPFTRNcZE17esJ4exa6rXUvwYbJpi7Bq.ogg"
+    },
+    {
+      "description": "Kirino_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "这附近好吃的可多了，每次巡逻或值班都盼着能来这儿。",
+      "text_original": "この辺りは美味しいお店が多くて、 パトロールや当番で来るのが毎回楽しみです。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/r2FxwQ86FnGYFOzaC9ixVIjphnaHHXtE.ogg"
+    },
+    {
+      "description": "Kirino_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "啊，但我巡逻的时候可没有偷懒啊！",
+      "text_original": "も、もちろんパトロールをサボるわけではありません！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/x0Ey3pLchAPEKBghaQanFMF1oexoZsGX.ogg"
+    },
+    {
+      "description": "Kirino_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "米兰达警告的第三条……是什么来着？",
+      "text_original": "ミランダ警告の3つ目って……なんでしたっけ？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/lBJzyyxSUp8zWPjHYZ301A4iP086Zi3S.ogg"
+    },
+    {
+      "description": "Kirino_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "您回来了，老师。不介意的话，现在马上出去巡逻怎么样？",
+      "text_original": "お帰りなさい、先生。 よろしければ、すぐにパトロールに出ようと思うのですが ご一緒にいかがですか？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/Up1JoaYh1FBEEMAkzkZA3ys6KKvbPpg2.ogg"
+    },
+    {
+      "description": "Kirino_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "您回来了，老师。来的路上有没有看到可疑的人呢？",
+      "text_original": "お帰りなさい、先生。 ここに来るまでに怪しい人はいませんでしたか？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/c9qjaQbdxGGXp0wFLgAjLciqDJcyNzc9.ogg"
+    },
+    {
+      "description": "Kirino_MemorialLobby_1.ogg",
+      "category": "lobby",
+      "text": "（呜呜，怎么办……？这，这个手铐……！解，解不开啊……！）",
+      "text_original": "（ど、どうしましょう……！ ふんっ、んっ……！は、外れない……！）",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/w28Y2aut28Ue9EWGBKRqAsunDx4GAsLH.ogg"
+    },
+    {
+      "description": "Kirino_MemorialLobby_2.ogg",
+      "category": "lobby",
+      "text": "……啊？不，不会的！身为警员，怎么可能把钥匙弄丢呢！",
+      "text_original": "……え？い、いやいや！ 仮にも警察に属する本官が、鍵を失くすわけがないではありませんか！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/XZVgYYgjCcU9jFw5mm68283SZEv2p3Br.ogg"
+    },
+    {
+      "description": "Kirino_MemorialLobby_3_1.ogg",
+      "category": "lobby",
+      "text": "这，这是，是……",
+      "text_original": "で、ですから、これは……。 だ、脱出訓練の予行演習です！ ",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/aqrcdmcJiTehfZIOtOIoWZFChaR5NjB2.ogg"
+    },
+    {
+      "description": "Kirino_MemorialLobby_3_2.ogg",
+      "category": "lobby",
+      "text": "是在演示逃生方法！本警员在亲自演示意外情况下，双手被铐住时，该如何逃生！",
+      "text_original": "想定外の事態が起きて、万が一拘束されてしまった時のために…… これより本官が、 脱出の仕方をお見せします！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/CHfeP8nh9BhvcRVWyslT9tvgjjv8OmGn.ogg"
+    },
+    {
+      "description": "Kirino_MemorialLobby_4.ogg",
+      "category": "lobby",
+      "text": "请放心！对我这种训练有素的警员来说，这种情况是小菜一碟！",
+      "text_original": "ご安心ください！ 本官のようにしっかり訓練を積んだ者であれば、 これくらい簡単ですから！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/scFxaWdFbvLVPjxdVdOTnGrUpJJU2pB2.ogg"
+    },
+    {
+      "description": "Kirino_MemorialLobby_5_1.ogg",
+      "category": "lobby",
+      "text": "呃呃啊……！呃呃呃啊……！",
+      "text_original": "くうううっ……！ふぬぬぬぬぬぬっ……！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/RvJ2AaljmjDbAEjeLYypXuEeVHItr5LZ.ogg"
+    },
+    {
+      "description": "Kirino_MemorialLobby_5_2.ogg",
+      "category": "lobby",
+      "text": "……对不起。请帮帮我，老师……",
+      "text_original": "……ごめんなさい。 助けてください、先生ぇ……。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/B9p0pwTJT4fIUFpk0V3OUiDHrjeoeLuB.ogg"
+    },
+    {
+      "description": "Kirino_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "不愧是老师啊！",
+      "text_original": "さすが先生ですね！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/vWLLUucjZCxkMI0k2xbd05ux9KgoE9Ea.ogg"
+    },
+    {
+      "description": "Kirino_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "本警员，总有一天也要成为老师这样优秀的大人！",
+      "text_original": "本官もいつか先生のような立派な大人になりたいです！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/ImhFnro61CxtBUL5o4XlRSFzmkND1Ruf.ogg"
+    },
+    {
+      "description": "Kirino_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "这只是工作而已，本警员差点就误会了……",
+      "text_original": " （本官はまったく、これが業務に過ぎないのに、勘違いをするところでした）",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/nZB8B4BU5FxSfafMY471BUN5pD3YxgkT.ogg"
+    },
+    {
+      "description": "Kirino_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "在基沃托斯，跨越身份的恋爱并不算犯罪。我，我想说的就是这个……",
+      "text_original": "先生と生徒が恋愛をするというのは、キヴォトスでは犯罪ではありません！ い、言いたいことはそれだけです……。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/rutMvV9rxdBNuAYoTLduEiBE1Nv7XPG8.ogg"
+    },
+    {
+      "description": "Kirino_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "居然还记得我的生日……我太感动了，老师。",
+      "text_original": "私の誕生日を覚えていてくださったなんて…… 感激しました、先生！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/QjaTIO5yQKzs7euBIEHqI1wtc9zz5OzM.ogg"
+    },
+    {
+      "description": "Kirino_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "老师，生日快乐！不过，就算是生日，违规也要受罚的哦！",
+      "text_original": "お誕生日おめでとうございます、先生。 ただし、いくら誕生日だからってルール違反はダメですよ？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/xp7Ny9qkvEwOwVo3u74lqc11ajDddP7U.ogg"
+    },
+    {
+      "description": "Kirino_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "诶，又有人衣衫不整地在街上走来走去了……！",
+      "text_original": "あっ、またみだらな格好で街を歩く生徒たちが……！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/3IOItt7Js5KhDOsXeTGQDeBk4fnbkslo.ogg"
+    },
+    {
+      "description": "Kirino_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "新的一年开始了，老师。今年，也为了基沃托斯的安全一起努力吧！",
+      "text_original": "明けましておめでとうございます、先生。 今年もキヴォトスの治安のために一緒に頑張りましょう！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/9q7YZMURqpmZi0h9ZY9uqkjiq6dux7PY.ogg"
+    },
+    {
+      "description": "Kirino_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "保卫市民安全的工作全年无休！ 圣诞节也不能松懈！",
+      "text_original": "市民の安全を守ることは年中無休！ クリスマスでも 油断できません！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/ujmPJtIeBdCQvU15mPhIl8fPIyBtc7MP.ogg"
+    },
+    {
+      "description": "Kirino_Tactic_Defeat_1.ogg",
+      "category": "battle",
+      "text": "正义是不会失败的……",
+      "text_original": "正義は敗北……しません……！うぅ。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/Eup9UURtbu3ZbG9wGedoRhrUCbMc8Jyn.ogg"
+    },
+    {
+      "description": "Kirino_Tactic_Defeat_2.ogg",
+      "category": "battle",
+      "text": "是本警员的失误……",
+      "text_original": "本官のミスです……",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/ATGllWbwOFPhHOChC3O0Ir6zvH1o8sIh.ogg"
+    },
+    {
+      "description": "Kirino_Tactic_In_1.ogg",
+      "category": "battle",
+      "text": "始终把市民的安全放在第一位！",
+      "text_original": "市民の安全を最優先で行きましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/DjxKTJG7HFFjUmyfU5Ltc310gDCQbXeZ.ogg"
+    },
+    {
+      "description": "Kirino_Tactic_In_2.ogg",
+      "category": "battle",
+      "text": "犯人在哪！",
+      "text_original": "犯罪者はどこですか？",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/FaSeznW8qMhCazHpCq1tw6FdrDY8NMuI.ogg"
+    },
+    {
+      "description": "Kirino_Tactic_Victory_1.ogg",
+      "category": "battle",
+      "text": "各位市民，今天的基沃托斯也很安全！",
+      "text_original": "任務、完了しました！",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/mizZleHg1gu2MP4h5wx4lgqbPfOlIgdK.ogg"
+    },
+    {
+      "description": "Kirino_Tactic_Victory_2.ogg",
+      "category": "battle",
+      "text": "感谢您今天对巡逻的协助！",
+      "text_original": "右、左……ふぅ、ここはもう安全です。",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/mX9MXFkT3uKPLTQt3uEWq46Kp7GbCPth.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "kirino_battle_in_2",
+      "category": "battle",
+      "text": "绝不姑息罪犯！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/3bCsTs5H2Hyb4QsjtGG0HJt3cK4zdmEl.ogg"
+    },
+    {
+      "description": "kirino_battle_move_1",
+      "category": "battle",
+      "text": "已确保安全。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/jEOQ9ZW0MRmdeIufAA97fXY6ohtQABVg.ogg"
+    },
+    {
+      "description": "kirino_battle_move_2",
+      "category": "battle",
+      "text": "向下个区域移动。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/KhcuUljwEofMUoXtjgSqwFwAhA8QXVed.ogg"
+    },
+    {
+      "description": "kirino_battle_recovery_1",
+      "category": "battle",
+      "text": "啊，谢谢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/ejiprhQBmyDvnGwMyDpcC9VdFtNxAQ1C.ogg"
+    },
+    {
+      "description": "kirino_battle_retire",
+      "category": "battle",
+      "text": "请求……支援……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/IBdDPwWzRfWJsu0FzfEnkZTZnQEOkh8t.ogg"
+    },
+    {
+      "description": "kirino_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/odDUR967umwP47y8qtOBxeAtFeQt31zb.ogg"
+    },
+    {
+      "description": "kirino_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/Bm3pe0z71At47qUKkA70niwVyQ9A9qfY.ogg"
+    },
+    {
+      "description": "kirino_battle_shout_3",
+      "category": "battle",
+      "text": "不许动！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/RdL5BrYjs2J0Sb9hCm5UOwwMwoHa1V1b.ogg"
+    },
+    {
+      "description": "kirino_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "移动！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/3gNNFPFCNAOB2PglGcYVL3Lr5ULgjwkm.ogg"
+    },
+    {
+      "description": "kirino_battle_victory_1",
+      "category": "battle",
+      "text": "任务完成！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/X18S0ENpLc0vBB22NJqUGZMmDW78g8kb.ogg"
+    },
+    {
+      "description": "kirino_battle_victory_2",
+      "category": "battle",
+      "text": "左侧确认，右侧确认！啊，这里已经安全了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/hptcp5Qz42RtgdvMj7I7qLb7HMVxaN51.ogg"
+    },
+    {
+      "description": "kirino_cafe_act_1",
+      "category": "cafe",
+      "text": "正在执勤，没有异常！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/U2iQFbLPmEDDjn7oEosm82xLZCpCdZ4k.ogg"
+    },
+    {
+      "description": "kirino_cafe_act_2",
+      "category": "cafe",
+      "text": "基沃托斯今天也很和平啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/KmyoCuY54ejqHVzfyh5s99MlDwz3Eeju.ogg"
+    },
+    {
+      "description": "kirino_cafe_monolog_1",
+      "category": "cafe",
+      "text": "我看看，这里应该不会躲着犯罪分子吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/2OEv2hrXY7N4usiu6naKgEw3MadSmM91.ogg"
+    },
+    {
+      "description": "kirino_cafe_monolog_2",
+      "category": "cafe",
+      "text": "把这种东西带进来合法吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/IHjrF8ns9LLyyCO0iXpXFKgFM837xTDt.ogg"
+    },
+    {
+      "description": "kirino_cafe_monolog_3",
+      "category": "cafe",
+      "text": "那个人，怎么感觉有点眼熟呢……难道是悬赏通缉犯？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/xXi9qgVk3hQxrwqMej6hfMue3NxtMeDy.ogg"
+    },
+    {
+      "description": "kirino_commonskill",
+      "category": "battle",
+      "text": "看招！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/fENKKxUdJD6y0F4WGlsY6g27y6SfmMq5.ogg"
+    },
+    {
+      "description": "kirino_exskill_1",
+      "category": "battle",
+      "text": "你有权保持沉默！呃，呃啊——",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/UjEqxcgeut0HFH9jTa7NyNiAYGO9ypnf.ogg"
+    },
+    {
+      "description": "kirino_exskill_2",
+      "category": "battle",
+      "text": "在基沃托斯任何罪行，终将绳之以，呃，呃啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/qqNIsFjryrAPcSUO8yyM7Z6gFYX5M8UI.ogg"
+    },
+    {
+      "description": "kirino_exskill_3",
+      "category": "battle",
+      "text": "警告！不投降的话……呃呃啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/d359vmjgaRcEybHvPg8aTyYf7mmX1OPp.ogg"
+    },
+    {
+      "description": "kirino_exskill_level_1",
+      "category": "battle",
+      "text": "怎么办怎么办，呃呃啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/Usr4A1EAwP90DxZPF4f1Jqtxf7HLXm8S.ogg"
+    },
+    {
+      "description": "kirino_exskill_level_2",
+      "category": "battle",
+      "text": "刑，刑事执法权！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/MqGYAkGz3LNFLQK6GJTaMfvCQEVEn3Ti.ogg"
+    },
+    {
+      "description": "kirino_exskill_level_3",
+      "category": "battle",
+      "text": "吃我这招！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/X5tQBhN8w0RufwfjXuUQzKrgZhrJS86K.ogg"
+    },
+    {
+      "description": "kirino_exweapon_get",
+      "category": "growup",
+      "text": "为了配得上这把枪我会努力练习射击的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/LWM3XzsDr1TPWcz5QfKVY1jkJ10gsQDP.ogg"
+    },
+    {
+      "description": "kirino_formation_in_1",
+      "category": "formation",
+      "text": "要出动了吗！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/shqNndUQRFJ8GpHL4WzaHoFINW1amo6E.ogg"
+    },
+    {
+      "description": "kirino_formation_in_2",
+      "category": "formation",
+      "text": "准备完毕！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/w5QEGbwSKi3bM0VMugfHJ2StSm9XE8TA.ogg"
+    },
+    {
+      "description": "kirino_formation_select",
+      "category": "formation",
+      "text": "等，等，等一下！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/UMzL1bHIO87dhB2iagkGfXJmjovQUm5G.ogg"
+    },
+    {
+      "description": "kirino_gachaget",
+      "category": "growup",
+      "text": "我是瓦尔基丽的桐乃！全都举起手来，听我指示！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/aiK6fRebSAB0fEjH7rQKLToqkhNtjzGe.ogg"
+    },
+    {
+      "description": "kirino_growup_1",
+      "category": "growup",
+      "text": "继续这样努力的话，我会不会，被调到警备局呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/kSK7BlMMQg6cBQ5aW55gEKbgMXIyyIp9.ogg"
+    },
+    {
+      "description": "kirino_growup_2",
+      "category": "growup",
+      "text": "为了基沃托斯的安全，我会全力以赴！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/OWkm8YYP5xoc31UbXZeH7kgfHfsOAlQj.ogg"
+    },
+    {
+      "description": "kirino_growup_3",
+      "category": "growup",
+      "text": "呵呵，今天的训练成果很不错！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/uPLeRz3iCNyG1hwXrquP94xBcK3rR0vi.ogg"
+    },
+    {
+      "description": "kirino_growup_4",
+      "category": "growup",
+      "text": "感谢您的协助。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/JSgWkNrs6cVczI10OjJ0urX1Fl8epNeF.ogg"
+    },
+    {
+      "description": "kirino_lobby_1",
+      "category": "lobby",
+      "text": "嗯？有什么要问本警员的吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/7PrbO9vybEMfZkjLtJZt4Mm2YZYW4N9m.ogg"
+    },
+    {
+      "description": "kirino_lobby_2",
+      "category": "lobby",
+      "text": "我想……帮助基沃托斯的人们。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/qJKhNH7kfBkx2s5D6xVeip8MAOqxxmhF.ogg"
+    },
+    {
+      "description": "kirino_lobby_3",
+      "category": "lobby",
+      "text": "这附近好吃的可多了，每次巡逻或值班都盼着能来这儿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/7RcCK06fPdKg00WdKydFzX7In1VO6qsX.ogg"
+    },
+    {
+      "description": "kirino_lobby_4",
+      "category": "lobby",
+      "text": "啊，但我巡逻的时候可没有偷懒啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/dc7IuozJQA6SPbYE2jEldVIvbo0wlSr0.ogg"
+    },
+    {
+      "description": "kirino_lobby_5",
+      "category": "lobby",
+      "text": "米兰达警告的第三条……是什么来着？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/KfStijpwsirhswJW0T3a2pJ75Rr7wQ3L.ogg"
+    },
+    {
+      "description": "kirino_login_1",
+      "category": "lobby",
+      "text": "您回来了，老师。不介意的话，现在马上出去巡逻怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/fCslH6u1AGI70FVJv0wLy6JdB3da8SCx.ogg"
+    },
+    {
+      "description": "kirino_login_2",
+      "category": "lobby",
+      "text": "您回来了，老师。来的路上有没有看到可疑的人呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/dzp2LCm0VRNsQofMhumoCCOR4tZH2neN.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_1",
+      "category": "lobby",
+      "text": "（呜呜，怎么办……？这，这个手铐……！解，解不开啊……！）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/xFZqn8pyufJPUtoEzUhWAZXjflFRm4rj.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_2",
+      "category": "lobby",
+      "text": "……啊？不，不会的！身为警员，怎么可能把钥匙弄丢呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/dslsJdjK0R2eFuVlCSdQL7IbTNwikoSr.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "这，这是，是……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/G3TuG2omtaMbuLAHn4PIeDBghGMB982J.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "是在演示逃生方法！本警员在亲自演示意外情况下，双手被铐住时，该如何逃生！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/YGI5EoFwmlYJCOFEf74YysnitAqCgDoQ.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_4",
+      "category": "lobby",
+      "text": "请放心！对我这种训练有素的警员来说，这种情况是小菜一碟！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/741KIFTJ9e6T2qqS1ioCVTg5KdCjIhU2.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "呃呃啊……！呃呃呃啊……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/tIKQ6V3AdZsL0bZvVAqB5DF0jpIPfJmX.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "……对不起。请帮帮我，老师……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/WngUQcdmiJZZIVK4mpsc5Tu6R1ULt1RM.ogg"
+    },
+    {
+      "description": "kirino_relationship_up_1",
+      "category": "growup",
+      "text": "不愧是老师啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/NxCywPfwNefmBxvghnHzPdyyOlwZkU0K.ogg"
+    },
+    {
+      "description": "kirino_relationship_up_2",
+      "category": "growup",
+      "text": "本警员，总有一天也要成为老师这样优秀的大人！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/8AG2aZZalrH9L7fgTnbOITSuzQrYSArG.ogg"
+    },
+    {
+      "description": "kirino_relationship_up_3",
+      "category": "growup",
+      "text": "这只是工作而已，本警员差点就误会了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/oyI8vlmBhf7ruEGAXE1GAfzBo352hI3F.ogg"
+    },
+    {
+      "description": "kirino_relationship_up_4",
+      "category": "growup",
+      "text": "在基沃托斯，跨越身份的恋爱并不算犯罪。我，我想说的就是这个……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/4MU9NDTLA5yrFYCfivNqAoAQbtVRRYZG.ogg"
+    },
+    {
+      "description": "kirino_season_birthday",
+      "category": "lobby",
+      "text": "居然还记得我的生日……我太感动了，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/2KPC3sUIzE5IV27FaY4BPCEAcZBrsBpg.ogg"
+    },
+    {
+      "description": "kirino_season_birthday_player",
+      "category": "lobby",
+      "text": "老师，生日快乐！不过，就算是生日，违规也要受罚的哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/XkiIVLmrka0EIK5J3mVcxX7cZV61ZdN7.ogg"
+    },
+    {
+      "description": "kirino_season_chinesenewyear",
+      "category": "lobby",
+      "text": "好热闹啊！嗯！新年也不能放松对市民安全的维护，老师，和本警员一起巡逻吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/x4hecc496v0wHVsE9AlakYkP4NuNfil8.ogg"
+    },
+    {
+      "description": "kirino_season_halloween",
+      "category": "lobby",
+      "text": "诶，又有人衣衫不整地在街上走来走去了……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/gyhdHQRCLGwg7TiEBrji1czSsGAzrikA.ogg"
+    },
+    {
+      "description": "kirino_season_midautumn",
+      "category": "lobby",
+      "text": "今晚巡逻的时候抬起头，可以看到月亮哎！哎，老师您看，月亮是不是很圆？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/O9OdBBpAidJGjsSvWnSC3AGBxuj9n0lg.ogg"
+    },
+    {
+      "description": "kirino_season_newyear",
+      "category": "lobby",
+      "text": "新的一年开始了，老师。今年，也为了基沃托斯的安全一起努力吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/DCmAAJQCyNO41U98dtVrKcjBSQsoIwCL.ogg"
+    },
+    {
+      "description": "kirino_season_xmas",
+      "category": "lobby",
+      "text": "保卫市民安全的工作全年无休！ 圣诞节也不能松懈！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/o1weXktpdI5Q7DECgJhNIPCm8lJcvWhA.ogg"
+    },
+    {
+      "description": "kirino_tactic_defeat_1",
+      "category": "battle",
+      "text": "正义是不会失败的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/esZsjVHhaommH99gD7yB3VYbdIoxea69.ogg"
+    },
+    {
+      "description": "kirino_tactic_defeat_2",
+      "category": "battle",
+      "text": "是本警员的失误……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/bRpEmf5pTB3B3MldkYpp6DcruAmAOXA4.ogg"
+    },
+    {
+      "description": "kirino_tactic_in_1",
+      "category": "battle",
+      "text": "始终把市民的安全放在第一位！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/K8H813eXNTfpG1FettUo62QRVBqz8qI4.ogg"
+    },
+    {
+      "description": "kirino_tactic_in_2",
+      "category": "battle",
+      "text": "犯人在哪！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/EZ8gZjL5LmKcrCns2WzAOjngRw4eYmwh.ogg"
+    },
+    {
+      "description": "kirino_tactic_victory_1",
+      "category": "battle",
+      "text": "各位市民，今天的基沃托斯也很安全！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/q8sXEwCmAqrsgdjOXYXIXgnALkzuYFid.ogg"
+    },
+    {
+      "description": "kirino_tactic_victory_2",
+      "category": "battle",
+      "text": "感谢您今天对巡逻的协助！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/SekbhKFTA12HV7ZBt1NgTxbtfoExupEG.ogg"
+    },
+    {
+      "description": "kirino_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/V75szc9nB45OY8PHCw1rwzP67rnOeaEN.ogg"
+    },
+    {
+      "description": "kirino_battle_buffed_1",
+      "category": "battle",
+      "text": "感谢您的支援。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/8zOqSvUnBox04jVKc4nJUy4e4bwET3S3.ogg"
+    },
+    {
+      "description": "kirino_battle_buffself_1",
+      "category": "battle",
+      "text": "本警员将带头冲锋！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/iX3RzN50LOvHL6VAHoPCscSwbi12NGYe.ogg"
+    },
+    {
+      "description": "kirino_battle_covered_1",
+      "category": "battle",
+      "text": "寻找掩体。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/6ERjggJVHBT3ic2JJldQQLYZBKJMAJYj.ogg"
+    },
+    {
+      "description": "kirino_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/f8JP1BxdgMUteVAoV18xlvaC6uoYFwwP.ogg"
+    },
+    {
+      "description": "kirino_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/2tXUXY7YSyopDRJlNEyYLskFVWnaDdbu.ogg"
+    },
+    {
+      "description": "kirino_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/tXQwYMuVURx0kjJC6yN08uCArtgSZINB.ogg"
+    },
+    {
+      "description": "kirino_battle_defense_1",
+      "category": "battle",
+      "text": "无谓的抵抗！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/016jJAco0kse8SAv3QxsXy4Y4Es0fHBM.ogg"
+    },
+    {
+      "description": "kirino_battle_in_1",
+      "category": "battle",
+      "text": "迅速镇压！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/YGv7FnEQM66mCdZVcIe4V6UDiiDyjqYY.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "kirino_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_buffed_1.ogg"
+    },
+    {
+      "description": "kirino_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_buffself_1.ogg"
+    },
+    {
+      "description": "kirino_battle_covered_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_covered_1.ogg"
+    },
+    {
+      "description": "kirino_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_damage_1.ogg"
+    },
+    {
+      "description": "kirino_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_damage_2.ogg"
+    },
+    {
+      "description": "kirino_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_damage_3.ogg"
+    },
+    {
+      "description": "kirino_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_defense_1.ogg"
+    },
+    {
+      "description": "kirino_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_in_1.ogg"
+    },
+    {
+      "description": "kirino_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_in_2.ogg"
+    },
+    {
+      "description": "kirino_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_move_1.ogg"
+    },
+    {
+      "description": "kirino_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_move_2.ogg"
+    },
+    {
+      "description": "kirino_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_recovery_1.ogg"
+    },
+    {
+      "description": "kirino_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_retire.ogg"
+    },
+    {
+      "description": "kirino_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_shout_1.ogg"
+    },
+    {
+      "description": "kirino_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_shout_2.ogg"
+    },
+    {
+      "description": "kirino_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_shout_3.ogg"
+    },
+    {
+      "description": "kirino_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "kirino_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_victory_1.ogg"
+    },
+    {
+      "description": "kirino_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_battle_victory_2.ogg"
+    },
+    {
+      "description": "kirino_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_cafe_act_1.ogg"
+    },
+    {
+      "description": "kirino_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_cafe_act_2.ogg"
+    },
+    {
+      "description": "kirino_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "kirino_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "kirino_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "kirino_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_commonskill.ogg"
+    },
+    {
+      "description": "kirino_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_exskill_1.ogg"
+    },
+    {
+      "description": "kirino_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_exskill_2.ogg"
+    },
+    {
+      "description": "kirino_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_exskill_3.ogg"
+    },
+    {
+      "description": "kirino_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_exskill_level_1.ogg"
+    },
+    {
+      "description": "kirino_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_exskill_level_2.ogg"
+    },
+    {
+      "description": "kirino_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_exskill_level_3.ogg"
+    },
+    {
+      "description": "kirino_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_exweapon_get.ogg"
+    },
+    {
+      "description": "kirino_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_formation_in_1.ogg"
+    },
+    {
+      "description": "kirino_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_formation_in_2.ogg"
+    },
+    {
+      "description": "kirino_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_formation_select.ogg"
+    },
+    {
+      "description": "kirino_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_gachaget.ogg"
+    },
+    {
+      "description": "kirino_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_growup_1.ogg"
+    },
+    {
+      "description": "kirino_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_growup_2.ogg"
+    },
+    {
+      "description": "kirino_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_growup_3.ogg"
+    },
+    {
+      "description": "kirino_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_growup_4.ogg"
+    },
+    {
+      "description": "kirino_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_lobby_1.ogg"
+    },
+    {
+      "description": "kirino_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_lobby_2.ogg"
+    },
+    {
+      "description": "kirino_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_lobby_3.ogg"
+    },
+    {
+      "description": "kirino_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_lobby_4.ogg"
+    },
+    {
+      "description": "kirino_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_lobby_5.ogg"
+    },
+    {
+      "description": "kirino_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_login_1.ogg"
+    },
+    {
+      "description": "kirino_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_login_2.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_memoriallobby_1.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_memoriallobby_2.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_memoriallobby_4.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "kirino_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "kirino_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_relationship_up_1.ogg"
+    },
+    {
+      "description": "kirino_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_relationship_up_2.ogg"
+    },
+    {
+      "description": "kirino_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_relationship_up_3.ogg"
+    },
+    {
+      "description": "kirino_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_relationship_up_4.ogg"
+    },
+    {
+      "description": "kirino_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_season_birthday.ogg"
+    },
+    {
+      "description": "kirino_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_season_birthday_player.ogg"
+    },
+    {
+      "description": "kirino_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_season_halloween.ogg"
+    },
+    {
+      "description": "kirino_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_season_newyear.ogg"
+    },
+    {
+      "description": "kirino_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_season_xmas.ogg"
+    },
+    {
+      "description": "kirino_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "kirino_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "kirino_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_tactic_in_1.ogg"
+    },
+    {
+      "description": "kirino_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_tactic_in_2.ogg"
+    },
+    {
+      "description": "kirino_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_tactic_victory_1.ogg"
+    },
+    {
+      "description": "kirino_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/kirino_tactic_victory_2.ogg"
+    },
+    {
+      "description": "Kirino_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/Kirino_Title.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kirino_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kirino_spr-09_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kirino_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kirino_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kirino_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kirino_spr-08_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kirino_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kirino_spr-00_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kirino_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kirino_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/kirino_spr-07_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "偶像服",
+      "images": [
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_01.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_06.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_03.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_00.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_02.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_07.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_09.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_11.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_04.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_13.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_05.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_99.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_Idle_01.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_08.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_Eye_Close_01.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_10.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D/NP0220_spr_12.png"
+      ]
+    },
+    {
+      "title": "偶像服差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_02.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_05.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_04.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_03.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_08.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_00.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_01.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_06.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_09.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_07.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_10.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_11.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_13.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_12.png",
+        "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/original/gallery/%E5%81%B6%E5%83%8F%E6%9C%8D%E5%B7%AE%E5%88%86/NP0220_spr_99.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 107,
+      "favorability": 240
+    },
+    {
+      "id": 52,
+      "favorability": 60
+    },
+    {
+      "id": 38,
+      "favorability": 40
+    }
+  ],
+  "furniture": [
+    1931
+  ],
+  "character_datas": [
+    {
+      "character_id": 13012,
+      "dev_name": "Kirino_default",
+      "combat_style": "default",
+      "type": "Support",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Special",
+      "is_groupc_control": false,
+      "team_position": "MIDDLE",
+      "battlefield_position": "STRIKER",
+      "rarity": 2,
+      "limited": false,
+      "outdoor_adaptability": "A",
+      "indoor_adaptability": "A",
+      "street_adaptability": "D",
+      "equipment": [
+        9,
+        5,
+        2
+      ],
+      "cultivate_material": [
+        120,
+        121,
+        123,
+        124,
+        133,
+        135,
+        136,
+        138,
+        419,
+        420,
+        421,
+        422,
+        440,
+        441,
+        442,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/skill_icon/iVMOqUlEOdeHtUpceKmFmHARdC4kwXwX.png",
+            "title": "交涉到此为止了......！",
+            "title_cn": "谈判到此为止！",
+            "preview": "//static.kivo.wiki/videos/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/skill_preview/3fsUIrtpDTV37QvSLEruckGqu2YtX8YQ.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "对圆形范围内的敌人造成攻击力337%伤害/烟雾（持续20秒）范围内敌人命中值减少26.1%"
+              },
+              {
+                "cost": 3,
+                "describe": "对圆形范围内的敌人造成攻击力388%伤害/烟雾（持续20秒）范围内敌人命中值减少26.1%"
+              },
+              {
+                "cost": 3,
+                "describe": "对圆形范围内的敌人造成攻击力439%伤害/烟雾（持续20秒）范围内敌人命中值减少30%"
+              },
+              {
+                "cost": 3,
+                "describe": "对圆形范围内的敌人造成攻击力489%伤害/烟雾（持续20秒）范围内敌人命中值减少30%"
+              },
+              {
+                "cost": 3,
+                "describe": "对圆形范围内的敌人造成攻击力540%伤害/烟雾（持续20秒）范围内敌人命中值减少30%"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/skill_icon/11TIXg7c93UGsAoJK8boWDo0X25tUWSP.png",
+            "title": "压制！",
+            "title_cn": "制止暴力！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每20秒对最远的1个敌人造成攻击力199%伤害/使其减少19.4%命中值（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒对最远的1个敌人造成攻击力204%伤害/使其减少19.9%命中值（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒对最远的1个敌人造成攻击力209%伤害/使其减少20.3%命中值（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒对最远的1个敌人造成攻击力229%伤害/使其减少22.3%命中值（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒对最远的1个敌人造成攻击力234%伤害/使其减少22.8%命中值（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒对最远的1个敌人造成攻击力239%伤害/使其减少23.2%命中值（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒对最远的1个敌人造成攻击力259%伤害/使其减少25.2%命中值（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒对最远的1个敌人造成攻击力264%伤害/使其减少25.7%命中值（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒对最远的1个敌人造成攻击力269%伤害/使其减少26.2%命中值（持续13秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每20秒对最远的1个敌人造成攻击力289%伤害/使其减少28.1%命中值（持续13秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/skill_icon/yBh3AiFl74jKmS0AXk1MDizxtEwokZc9.png",
+            "title": "迅速的处置！",
+            "title_cn": "治疗要迅速！",
+            "preview": "",
+            "max_level": 1,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "最大生命值增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "最大生命值增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "最大生命值增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "最大生命值增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "最大生命值增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "最大生命值增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "最大生命值增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "最大生命值增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "最大生命值增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "最大生命值增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/skill_icon/geCi5o0p2zhvBUKmab27vIXPWM0UdcZm.png",
+            "title": "不能休息！",
+            "title_cn": "没时间休息了！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "普通攻击时有30%机率使攻击目标的受恢复效果强化率减少22.7%（持续13秒）（冷却时间5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时有30%机率使攻击目标的受恢复效果强化率减少23.8%（持续13秒）（冷却时间5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时有30%机率使攻击目标的受恢复效果强化率减少25%（持续13秒）（冷却时间5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时有30%机率使攻击目标的受恢复效果强化率减少29.5%（持续13秒）（冷却时间5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时有30%机率使攻击目标的受恢复效果强化率减少30.7%（持续13秒）（冷却时间5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时有30%机率使攻击目标的受恢复效果强化率减少31.8%（持续13秒）（冷却时间5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时有30%机率使攻击目标的受恢复效果强化率减少36.3%（持续13秒）（冷却时间5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时有30%机率使攻击目标的受恢复效果强化率减少37.5%（持续13秒）（冷却时间5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时有30%机率使攻击目标的受恢复效果强化率减少38.6%（持续13秒）（冷却时间5秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时有30%机率使攻击目标的受恢复效果强化率减少43.2%（持续13秒）（冷却时间5秒）"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2137,
+          "attack": 124,
+          "defense": 18,
+          "healing": 1648,
+          "accuracy": 109,
+          "evasion": 995,
+          "crit": 219,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 904,
+          "range": 550,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 5
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/weapons_icon.png",
+        "name": "第3号瓦尔基里制式手枪",
+        "name_cn": "瓦尔基丽制式手枪3号",
+        "description": "女武神警察学园配发给桐乃的制式手枪。<br>虽然桐乃认为自己的枪法古怪是因为这把枪有问题，但枪没有任何异常。",
+        "description_cn": "瓦尔基丽配发给桐乃的制式手枪。<br>桐乃总是把自己糟糕的射击实力归咎于这把手枪。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「迅速的处置」升级为「迅速的处置+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 街道适应性 D -> B",
+            "description": "在街道地形造成1倍伤害。在掩体内时掩护成功率+30%。 攻击时绕过掩体概率增加30%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 爆发克制伤害增加",
+            "description": "攻击类型为爆发的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E4%B8%AD%E5%8A%A1%20%E6%A1%90%E4%B9%83/skill_icon/5FuJEwKMw8Rzwf8mfmOjPNW2ZsKBjr6i.png",
+            "title": "迅速的处置+",
+            "title_cn": "治疗要迅速！+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1400/最大生命值增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1470/最大生命值增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1540/最大生命值增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1820/最大生命值增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1890/最大生命值增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加1960/最大生命值增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加2240/最大生命值增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加2310/最大生命值增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加2380/最大生命值增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击速度增加2660/最大生命值增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "e24d6179-9c76-455d-b88c-82d7910a9e81",
+  "skill_declare_uuid": "bb79d5e0-c8a3-4f3c-b0be-c1a1e5f8e17e",
+  "supplementary_uuid": "7a0d1b54-79db-4ef1-b32f-6eee88a0210e",
+  "supplementary_declare_uuid": "52556476-8b06-422f-8930-5bd2e07e8b60",
+  "created_at": 1685186083,
+  "updated_at": 1783659069
+}

@@ -1,0 +1,1709 @@
+{
+  "id": 91,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 91,
+      "avatar": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 153,
+      "avatar": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/%E5%9C%A3%E8%AF%9E%E8%8A%82/avatar.png",
+      "skin": "圣诞节",
+      "skin_cn": "圣诞"
+    }
+  ],
+  "family_name": "鹫见",
+  "given_name": "芹娜",
+  "family_name_jp": "鷲見",
+  "given_name_jp": "セリナ",
+  "family_name_kr": "스미",
+  "given_name_kr": "세리나",
+  "family_name_en": "Sumi",
+  "given_name_en": "Serina",
+  "family_name_zh_tw": "鷲見",
+  "given_name_zh_tw": "芹奈",
+  "family_name_cn": "鹫见",
+  "given_name_cn": "芹娜",
+  "nick_name": "小护士",
+  "introduction": "圣三一综合学园所属，为救护骑士团献身的善良少女。\n\n热爱公益服务且品性善良，由于对健康问题时常过度担心，周围的同学经常说「她像妈妈一样」。\n\n尽管讨厌纷争，但面对威胁和平的敌人，她也会毅然决然与之对抗。",
+  "introduction_cn": "隶属于崔尼蒂的救护骑士团，是个亲切的少女。\n她具有善良的品性，喜欢参加爱心志愿者服务，但因过度担心关于健康的问题，周围的女生常说她像妈妈。\n虽然她不喜欢争吵和纠纷，是个容易心软的人，但对于威胁和平的敌人就会坚决对抗，随时做好战斗到底的准备。\n\n「等您很久了，老师。 \n今天也要为了世界和平 一起加油哦！」",
+  "momo_talk_signature": "身体不舒服的话，请随时联系我",
+  "main_relation": 10,
+  "relation": [
+    26
+  ],
+  "age": 16,
+  "grade": "二年生",
+  "height": 156,
+  "birthday": "01-06",
+  "hobby": "医院志工",
+  "designer": "RONOPU",
+  "illustrator": "RONOPU",
+  "character_voice": "凉本秋穗",
+  "character_voice_cn": "多多poi",
+  "release_date": "2021-02-04",
+  "release_date_cn": "2023-08-03",
+  "release_date_global": "2021-11-09",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/avatar.png",
+  "school": 2,
+  "weapon_type": "AR",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": true,
+  "more": "# 官方图集\n\n## 官方介绍图\n\n|日服|简中服|繁中服|国际服|\n| :---: | :---: | :---: | :---: |\n|![Serina_intro_jp.jpg](files/15978/VFSRlg91d7ATvE69ibwgykzSf3xyOQKF.jpg =425x)|![serina_intro_cn.jpg](files/15978/CRBCneT5OKs7M5OgFl09dgvH4EcyHvZK.jpg =425x)|暂无|![serina_intro_en.jpg](files/15978/hpteiEBcmPvip0FPsuFaPGhGio3YC5J2.jpg =400x)|\n\n| EX技能 | 咖啡厅触摸 |\n| :---: | :---: |\n| ![serina_ex.gif](files/15978/BZo70ei1dAlyeInlW02Cq4tC8JXI8NOX.gif =450x) | 暂无 |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 芹娜 汉化\n![芹娜](files/2/6jJDwGuDQxTQ4B4ywfRNEJsDAflz8QIu.png =450x)\n@tab 芹娜 原文\n![芹娜](files/2/jFnhadZ7CpYntgWD8AnJ1Wjv6OD7wXDN.jpg =450x)\n:::\n\n## 设定集\n\n:::: center\n\n![](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_066.png =450x)\n\n![](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_166.png =450x)\n\n![](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_221.png =450x)\n\n![](images/gallery/34/Vol.1_%E9%A1%B5%E9%9D%A2_246.png =450x)\n\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[美弥](https://kivo.wiki/data/character/129)|団長<br>ミネ団長<br>ミネ先輩<br>先輩|\n|[花江](https://kivo.wiki/data/character/98)|ハナエちゃん|\n|[纯子](https://kivo.wiki/data/character/103)|ジュンコさん|\n|[铃美](https://kivo.wiki/data/character/181)|スズミさん|\n|[昴](https://kivo.wiki/data/character/559)|スバルさん<br>あなた|\n|[圣娅](https://kivo.wiki/data/character/43)|セイア様|\n|[濑名](https://kivo.wiki/data/character/18)|セナさん|\n|[千夏](https://kivo.wiki/data/character/117)|チナツさん|\n|[千寻](https://kivo.wiki/data/character/20)|チヒロさん|\n|[鹤城](https://kivo.wiki/data/character/94)|ツルギさん|\n|[渚](https://kivo.wiki/data/character/25)|ナギサ様|\n|[莲见](https://kivo.wiki/data/character/111)|ハスミさん|\n|[日奈](https://kivo.wiki/data/character/71)|ヒナさん|\n|[日向](https://kivo.wiki/data/character/26)|ヒナタさん|\n|[真白](https://kivo.wiki/data/character/79)|マシロさん|\n|[若藻](https://kivo.wiki/data/character/11)|災厄の狐|\n|救护骑士团|救護騎士団<br>私たち<br><details><summary><font color=\"448aff\">名もなき奉仕活動部</font></summary><font size=\"2\"><font color=\"18a058\"><b><font color=\"18a058\">在阿里乌斯行动时的称呼</details></font></font></font></b>|\n|阿里乌斯小队|スクワッドの皆さん|\n|[阿里乌斯分校](https://kivo.wiki/data/organize/10)|アリウス|\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_home_Idle_01_0.804.jpg",
+  "spine": [
+    42,
+    477,
+    1743
+  ],
+  "model": [
+    89,
+    437
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "Serina_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/sbQ7023RGIpl0FrMuYugz0S3uNv0jvRE.ogg"
+    },
+    {
+      "description": "Serina_Battle_In_1.ogg",
+      "category": "battle",
+      "text": "请大家小心！",
+      "text_original": "皆さん、きをつけてくたさぃ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/Mn1VIiUoWzt3YbaRiaRFAu3HfQak1SnL.ogg"
+    },
+    {
+      "description": "Serina_Battle_In_2.ogg",
+      "category": "battle",
+      "text": "请注意不要受伤啊！",
+      "text_original": "ケガしないように、きをつけてよぃね！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/aU8sjKTgqTPzkVqGynsb4qdihcp0Lj0e.ogg"
+    },
+    {
+      "description": "Serina_Battle_TSA_1.ogg",
+      "category": "battle",
+      "text": "我现在就出发！",
+      "text_original": "今すぐ向かいます！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/9exEfXpcp6PmJOfuFFx9YbM5jU9ob7Vr.ogg"
+    },
+    {
+      "description": "Serina_Battle_TSA_2.ogg",
+      "category": "battle",
+      "text": "我们是，救护骑士团！",
+      "text_original": "救護騎士団です！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/1SLeErARZefQLoDfOQFxWLa42umztekP.ogg"
+    },
+    {
+      "description": "Serina_Cafe_Act_1.ogg",
+      "category": "cafe",
+      "text": "偶尔享受一下这种悠闲时光，也挺好的。",
+      "text_original": "たまにはこうして、余裕を楽しむのも悪くないですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/rSyvHqGlQJqbwA8Aj6WYaCnvgGCmYc5o.ogg"
+    },
+    {
+      "description": "Serina_Cafe_Act_2.ogg",
+      "category": "cafe",
+      "text": "啊，好看的粉红色......",
+      "text_original": "あ…綺麗なピンク色…。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/ZmERTqLorbBhYsX0UJMVemzOKgpEcBM9.ogg"
+    },
+    {
+      "description": "Serina_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "这里有人身体不舒服吗？",
+      "text_original": "ここに、体調が悪い人はいませんか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/scsVNIE5OanOI1sX9vELNaLOXqNmpY7f.ogg"
+    },
+    {
+      "description": "Serina_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "我只是看着这个地方，就感觉心里暖暖的。",
+      "text_original": "見ているだけで心が温かくなる空間ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/B2gw8poBMb7nO6nt2hO6jDlcys6TRgmR.ogg"
+    },
+    {
+      "description": "Serina_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "在这种地方，患者应该也能更快痊愈吧。",
+      "text_original": "こういうところなら、患者さんたちも早く完治できると思います。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/0nI1eL5yd3aObttBqOIx7hj8CBzIgpXe.ogg"
+    },
+    {
+      "description": "Serina_CommonSkill.ogg",
+      "category": "battle",
+      "text": "痛痛，痛痛，飞走啦~",
+      "text_original": "痛いの痛いの～飛んでけ～。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/PV6FLsXo14bo1Y4BDMRZVbyzVXuHS2FU.ogg"
+    },
+    {
+      "description": "Serina_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "哈...我已经为大家准备好啦。",
+      "text_original": "ふぅ…。皆さんのために準備しました。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/v95bAiXsQMvnHo0i1WBkZEY3zK4zHj1B.ogg"
+    },
+    {
+      "description": "Serina_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "好嘞，补给送到啦。",
+      "text_original": "よいしょ…補給品が届きましたよ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/I1UGeFHBR95ZJavUSyFEkrucSwyqOLdz.ogg"
+    },
+    {
+      "description": "Serina_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "这是给大家的补给品！",
+      "text_original": "皆さんのための補給品です。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/xRjoQ5Kkr0j1WgcnnRqyFcx9BKKk1gHW.ogg"
+    },
+    {
+      "description": "Serina_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "请领取补给！",
+      "text_original": "補給品を受け取ってください！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/mjLKDjyyFQzrc8kUPE7wyXDxyQVx8UeV.ogg"
+    },
+    {
+      "description": "Serina_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "请负伤的人先领！",
+      "text_original": "具合の悪い方から順番に。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/GsyXwt5YtplRXyFzqSdEPiQMcyxtv14j.ogg"
+    },
+    {
+      "description": "Serina_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "请谨慎使用哦！",
+      "text_original": "大事に使ってくださいね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/BqcMJTyz1WCLGshCLazQuIr3lcM6Dd7t.ogg"
+    },
+    {
+      "description": "Serina_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "因为打针会疼就逃跑可不行哦。",
+      "text_original": "注射が痛いからって逃げたらだめですよ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/izVfeMhkuDQkK6luPAFEnWwIJjC9Kpk6.ogg"
+    },
+    {
+      "description": "Serina_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "请，请交给我吧！",
+      "text_original": "ま、任せてください！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/7yzk4YValgdqEWkaU4eJFZkgA8ZkycI4.ogg"
+    },
+    {
+      "description": "Serina_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "我会尽全力的！",
+      "text_original": "頑張ります！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/ojxQK6Axafb7YVTd9sGJ0QxCnTeINSn2.ogg"
+    },
+    {
+      "description": "Serina_Gachaget.ogg",
+      "category": "growup",
+      "text": "有没有哪位受伤了呢？我会马上赶过去的。",
+      "text_original": "ケガをされた方はいらっしゃいますか？私がすぐに駆け付けますよ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/mbbSSGyMepxx4WWQAr1As0PLTa8w1qlK.ogg"
+    },
+    {
+      "description": "Serina_Growup_1.ogg",
+      "category": "growup",
+      "text": "我感觉，自己更健康了！",
+      "text_original": "もっと健康になった感じです！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/ri4BNzdPcAjRgDewMwNSCUk4yPsDFJnL.ogg"
+    },
+    {
+      "description": "Serina_Growup_2.ogg",
+      "category": "growup",
+      "text": "真希望能和受病痛折磨的人分享这种力量。",
+      "text_original": "この力は……体調が悪い人たちに分けてあげられたら良いのに。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/ZhJvPzahiA8KgLPjoKFatyBAPt8HrEli.ogg"
+    },
+    {
+      "description": "Serina_Growup_3.ogg",
+      "category": "growup",
+      "text": "为了受病痛折磨的人们，我要继续努力！",
+      "text_original": "体調が悪い人たちのために、もっと努力します！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/J5z9A4n4JQZ5flhR9Hn43VynYlLH3C7R.ogg"
+    },
+    {
+      "description": "Serina_Growup_4.ogg",
+      "category": "growup",
+      "text": "我是不是也成长了一点点，嗯哼哼~",
+      "text_original": "私も少しは成長したんでしょうか。えへへへ。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/rJKEmRtFWw4HcXMUzLT0mq1jIfBvzMjV.ogg"
+    },
+    {
+      "description": "Serina_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "啊，您是新来的患者吗？",
+      "text_original": "あっ、新たな患者さんですか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/epPojPzhSJsc3J0lnXFpkzVkcSrSvyW2.ogg"
+    },
+    {
+      "description": "Serina_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "您好像很累啊......我给您按摩一下肩膀吧。",
+      "text_original": "お疲れのようですね…肩でも揉んでさしあげましょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/igLiea4mHmO64cW4H5hJlusazTPV2E0x.ogg"
+    },
+    {
+      "description": "Serina_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "劳累是百病的根源！千万不要太勉强自己哦。",
+      "text_original": "疲れは万病の元！あまり無理しないでくださいね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/YfKpJfY28TfWCKSURDi82CGE9c4UCeiW.ogg"
+    },
+    {
+      "description": "Serina_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "一想到患者，我就会觉得心痛......",
+      "text_original": "患者さんたちのことを思うと、いつも胸が痛みます。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/r66oXF39JXvAHohvCzfUidciQSUyctvs.ogg"
+    },
+    {
+      "description": "Serina_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "不能饶了那些碰坏和平的坏蛋！",
+      "text_original": "平和を乱す悪党は許せません！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/hdM7PaGFSYB3t9dlskOwqwXXVWmz7mnp.ogg"
+    },
+    {
+      "description": "Serina_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "欢迎您，老师。您今天身体感觉还好吗？",
+      "text_original": "ようこそ、先生。今日のご体調はいかがですか？",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/jrSzLxFbF3w9S70rKc0pHFXL6HH9UkAL.ogg"
+    },
+    {
+      "description": "Serina_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "等您很久了，老师。 今天也要为了世界和平 一起加油哦！",
+      "text_original": "お待ちしておりました、先生。今日も平和な世界のために一緒に頑張りましょう！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/J2YkRl8jWE6OwrXrS0hrnUgUiHP8C8Od.ogg"
+    },
+    {
+      "description": "Serina_MemorialLobby_1_1.ogg",
+      "category": "lobby",
+      "text": "唉……老师你也真是的。",
+      "text_original": "全く、先生ったら……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/J2WRfGf7MgqWaoDKnsf7cSTFyxGxzRSQ.ogg"
+    },
+    {
+      "description": "Serina_MemorialLobby_1_2.ogg",
+      "category": "lobby",
+      "text": "吓了我一跳……",
+      "text_original": "本当に、びっくりしました……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/qPU9mkQrz2yjucWurZ24T6xXEbprZ0sj.ogg"
+    },
+    {
+      "description": "Serina_MemorialLobby_2_1.ogg",
+      "category": "lobby",
+      "text": "……感觉好不可思议啊。",
+      "text_original": "……不思議な感じがします。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/dpyZAv0nGoPyayAoepMwpBWrE3UYvqKA.ogg"
+    },
+    {
+      "description": "Serina_MemorialLobby_2_2.ogg",
+      "category": "lobby",
+      "text": "这时候应该怎么做呢？我没遇到过这种情况……",
+      "text_original": "こういうことをしてもらったのは初めてで、何だかちょっと戸惑ってしまって……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/Ok3R8XfsICp6dxb6TxEkqUU9CG2c4U3l.ogg"
+    },
+    {
+      "description": "Serina_MemorialLobby_3_1.ogg",
+      "category": "lobby",
+      "text": "真的是……",
+      "text_original": "本当に……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/qf4ASwPvVcIDxDk8Lm6fFB69T2xTYLdx.ogg"
+    },
+    {
+      "description": "Serina_MemorialLobby_3_2.ogg",
+      "category": "lobby",
+      "text": "呵呵……老师还是第一个……",
+      "text_original": "……こんな方に出会ったのは、初めてです。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/kXvTEqjRx9L7AjNJOKfesl2fwovwylA4.ogg"
+    },
+    {
+      "description": "Serina_MemorialLobby_4_1.ogg",
+      "category": "lobby",
+      "text": "不管那么多了，重要的是此刻的心情。",
+      "text_original": "すみません、ちょっと混乱してしまったのですが……。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/tKCVxrKohqhee5oPIf1ztNRVO4hBbQz0.ogg"
+    },
+    {
+      "description": "Serina_MemorialLobby_4_2.ogg",
+      "category": "lobby",
+      "text": "托老师的福，芹娜现在实在是太开心了！",
+      "text_original": "ありがとうございます、とっても嬉しいです……！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/w10PuLHmWbp6MK5PV1ky1pf4TUnsx8Vb.ogg"
+    },
+    {
+      "description": "Serina_MemorialLobby_5_1.ogg",
+      "category": "lobby",
+      "text": "……谢谢您，老师。",
+      "text_original": "……先生のおかげです。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/SJG32luh9jfsWgrPTRYoJb8R02b5XCgD.ogg"
+    },
+    {
+      "description": "Serina_MemorialLobby_5_2.ogg",
+      "category": "lobby",
+      "text": "……在各方面都是，呵呵。",
+      "text_original": "……先生のおかげなんです、この気持ちは。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/B2qUsHK5m7cScfwPZABJVAMKJVdT7R8M.ogg"
+    },
+    {
+      "description": "Serina_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "和老师在一起，就会感觉心灵得到了治愈......",
+      "text_original": "先生と一緒にいると、私の心が癒されるようです。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/96ObSMrM4HtpY9kYYJacIHCJX0OuFvjv.ogg"
+    },
+    {
+      "description": "Serina_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "嗯哼哼~好幸福啊~",
+      "text_original": "ふふふ。幸せですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/Z9LO1FGSLveOwlDDNqZdu0hfP431c4BA.ogg"
+    },
+    {
+      "description": "Serina_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "我不能只当老师一个人的主治医师......不过，我会一直想着老师的。",
+      "text_original": "先生だけの主治医にはなれないですけど。いつでも先生のことを考えています！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/wZ5JOeTC98ZnA9XuVsIE35r7NOPvJGY3.ogg"
+    },
+    {
+      "description": "Serina_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "让我们创造一个和平的世界吧。",
+      "text_original": "私たちで、平和な世界を作っていきましょう。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/GJGQieA3iTEZOlJriE0RcBQMYgjrTvDw.ogg"
+    },
+    {
+      "description": "Serina_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "谢谢您祝我生日快乐。您问我想要什么生日礼物是吗？嗯哼哼~只要能看到老师的笑容，就已经足够了。",
+      "text_original": "祝ってくださってありがとうございます。誕生日プレゼント、ですか？ 先生の笑顔だけでも十分ですよ！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/FlP4hyesIhimjYHemKzjiF1SYi9runlX.ogg"
+    },
+    {
+      "description": "Serina_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "老师，生日快乐！祝愿您今天一整天都充满幸福。",
+      "text_original": "お誕生日おめでとうございます、先生！今日一日が、幸せでいっぱいであることを願っています！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/WlR1M3MSlPJnZ4wMZgJ4K6sIjMjxCqRj.ogg"
+    },
+    {
+      "description": "Serina_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "我收到了万圣节的糖果。糖果虽然甜甜的很好吃，但是吃太多，肯定会蛀牙的......",
+      "text_original": "ハロウィンの飴をいただきました！ 飴は甘くて美味しいけど食べ過ぎるときっと虫歯になっちゃいます…。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/pzoC04GrSPNubkVAuMntDeEJzjl29DTT.ogg"
+    },
+    {
+      "description": "Serina_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "恭祝新春快乐！请一定要注意新年不要感冒，记得多穿点衣服哦。",
+      "text_original": "明けましておめでとうございます！新年から風邪ひかないように、しっかり暖かく着込んでくださいね！",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/emQqtovnlGyVJwxprk7tBqMBFzE3g3pZ.ogg"
+    },
+    {
+      "description": "Serina_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "老师，圣诞快乐！今天是大好的日子，希望大家不要打架，可以度过和平的一天。",
+      "text_original": "メリークリスマス、先生。今日ぐらいは皆さんケンカしないで、平和な一日になるといいですね。",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/zg1Kx7lEgE3qciNHRL3uklRKgUsemQdr.ogg"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Cafe_Act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/f3yk7FYy7cFJUcsRKShUTavFa0mirCKe.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Cafe_Act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/fxTljb8Bfm0sYHL2njRuCrPBgq3segCt.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/YojVbZMg8i0R44oJq2i1fJlJgJpFC6zx.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/r10ylVo3hcvcT8MTaaNJJVPdOy2sA6En.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/UBmbuNVtxPrpAuLUJydoIuSCQ9mHthIS.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_ExSkill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/wEGHIYW3HdQ68NZusm4DIpSX3lNd5PQo.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_ExSkill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/zZVizksoRfWbDQ509GPAJQY1nSTjw4TV.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_ExSkill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/QsVNYYFdallpECmmc6saJzC5roc29DO9.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_ExSkill_Level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/oomeI0NN7GbS43ZWCtnpWRUrmls2nLa0.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_ExSkill_Level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/AUBXVJ9oGycIt17AbWN7UeO3SQBlcqOm.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_ExSkill_Level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/hlgQrRphltGMwocZhnng2aWhv3OxSWVd.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_ExWeapon_Get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/wTH9K7urJdKSdfJnbb4PVcNUvJUw8JgR.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/xSZUGfJyG1UkWmAkULjYWdlNDvCiRaOy.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/YSpU6BJhi5vNX8ebz3HPG9X3W47sczE2.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/x050UesWavEyfd7AY702d2Vr6cPOjzhE.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/peShLrfM7wfMREgrO4v46oUewgVKhKRx.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/kV3PeuIBGXQ5h2owJvvuWiTaX8XkmcCe.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/YOyEqHpf9nJqKlq8i1bx8PlGXDhXAXL1.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_LogIn_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/ucMQKqWIpu8rQTkAnvdOaX1NLa7GWnYG.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_LogIn_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/ampZuuyeJWyG6JO6c9fUAIECQyB0oDH1.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Season_Birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/WSYpN6WVTjJAV5bn8Vo21i1eJsfk55eA.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/QkhWBHnXVNUnL9lZESteKUAoo5iU7js2.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Season_Halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/U90JzGFeqAyJDJzSyxWaqAm4kHJljNCr.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Season_NewYear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/9dPyeOMQhBYQghD258eO10YFjqaCDsZd.wav"
+    },
+    {
+      "description": "CBT_Serina_Nurse_Season_Xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/6z9p5f6oh9PWPAiEUciA63vAfNmCO2Xd.wav"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "serina_battle_in_1.ogg",
+      "category": "battle",
+      "text": "请大家小心！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/ZWdfc1GBqGZXUVWNYKLvWWKpWE3I1Q2z.ogg"
+    },
+    {
+      "description": "serina_battle_in_2.ogg",
+      "category": "battle",
+      "text": "请注意不要受伤啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/MdQZF44yMczJAsP0IhvGtbel4q4JiTHS.ogg"
+    },
+    {
+      "description": "serina_battle_tsa_1.ogg",
+      "category": "battle",
+      "text": "我现在就出发！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/WxeSZl3hot3sNO5NlKLFoHjJjne42Kb2.ogg"
+    },
+    {
+      "description": "serina_battle_tsa_2.ogg",
+      "category": "battle",
+      "text": "我们是，救护骑士团！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/L8neIPG9VkpFDRP6mESZZDpXp4SIMTWj.ogg"
+    },
+    {
+      "description": "serina_cafe_act_1.ogg",
+      "category": "cafe",
+      "text": "偶尔享受一下这种悠闲时光，也挺好的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/Jcxc2OT6widlOdziMO2e1cEVoR3gpRTD.ogg"
+    },
+    {
+      "description": "serina_cafe_act_2.ogg",
+      "category": "cafe",
+      "text": "啊，好看的粉红色......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/OSi51gmHzVdmW3QNS6cPvD4mtdN34zIG.ogg"
+    },
+    {
+      "description": "serina_cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "这里有人身体不舒服吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/wLrblAr2RRNaHJXJ6Gt1utNwyQAgpEUz.ogg"
+    },
+    {
+      "description": "serina_cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "我只是看着这个地方，就感觉心里暖暖的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/0yo9H3Q3xpwNQd0VrSV2zhN4aNFz5lLj.ogg"
+    },
+    {
+      "description": "serina_cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "在这种地方，患者应该也能更快痊愈吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/vb6JNILFu5QL39dUuXFKmHcCvHdgHsvX.ogg"
+    },
+    {
+      "description": "serina_commonskill_b.ogg",
+      "category": "battle",
+      "text": "痛痛，痛痛，飞走啦~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/U3lAcg7bTeQgYOlaOAresT79v8PcpzUZ.ogg"
+    },
+    {
+      "description": "serina_exskill_1.ogg",
+      "category": "battle",
+      "text": "哈...我已经为大家准备好啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/oIC4mNXJRAaazMWw91cAhgpn9f7bKHsT.ogg"
+    },
+    {
+      "description": "serina_exskill_2.ogg",
+      "category": "battle",
+      "text": "好嘞，补给送到啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/6cDyPKC9yhdhUO0snMQ96vwO68fGEpC7.ogg"
+    },
+    {
+      "description": "serina_exskill_3.ogg",
+      "category": "battle",
+      "text": "这是给大家的补给品！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/64go3w3rteHJIcltjHe0qPruxDK10gLc.ogg"
+    },
+    {
+      "description": "serina_exskill_level_1.ogg",
+      "category": "battle",
+      "text": "请领取补给！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/Ld0wePbgDpU7Sn7j7zIU8bYYBLWQq5rI.ogg"
+    },
+    {
+      "description": "serina_exskill_level_2.ogg",
+      "category": "battle",
+      "text": "请负伤的人先领！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/xJ7I72yxGKXLnfl6GfGgnV1elOSrywe1.ogg"
+    },
+    {
+      "description": "serina_exskill_level_3.ogg",
+      "category": "battle",
+      "text": "请谨慎使用哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/4Sel8QjcF5MJ7tV6TTJT6TueagV6brDW.ogg"
+    },
+    {
+      "description": "serina_exweapon_get.ogg",
+      "category": "growup",
+      "text": "因为打针会疼就逃跑可不行哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/1GCrHuUsHx9gPNs65vzVdIpiEpr6HNzg.ogg"
+    },
+    {
+      "description": "serina_formation_in_1.ogg",
+      "category": "formation",
+      "text": "请，请交给我吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/wSKppNCrnk8kzBqvpWjr371L96sauN8U.ogg"
+    },
+    {
+      "description": "serina_formation_in_2.ogg",
+      "category": "formation",
+      "text": "我会尽全力的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/gdzRmst4ZtQcGVyYS3ZZNxLZfUGYON8T.ogg"
+    },
+    {
+      "description": "serina_gachaget.ogg",
+      "category": "growup",
+      "text": "有没有哪位受伤了呢？我会马上赶过去的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/jaIm6b4TAa5yvzc89QVkg6IBGv9uKOI9.ogg"
+    },
+    {
+      "description": "serina_growup_1.ogg",
+      "category": "growup",
+      "text": "我感觉，自己更健康了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/D2Lsii8pGUf06HiznqQn8F9uiVjS3Q1L.ogg"
+    },
+    {
+      "description": "serina_growup_2.ogg",
+      "category": "growup",
+      "text": "真希望能和受病痛折磨的人分享这种力量。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/FnaKtkQDlpjRAKhGdnY6Kt7yqLLSyUIK.ogg"
+    },
+    {
+      "description": "serina_growup_3.ogg",
+      "category": "growup",
+      "text": "为了受病痛折磨的人们，我要继续努力！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/ecGkh5mgurNOGDkggj0LJHoRJnTLVFz2.ogg"
+    },
+    {
+      "description": "serina_growup_4.ogg",
+      "category": "growup",
+      "text": "我是不是也成长了一点点，嗯哼哼~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/sRDxZ8gg8cc5jEEpxuzkHA6uRuDcCQVU.ogg"
+    },
+    {
+      "description": "serina_lobby_1.ogg",
+      "category": "lobby",
+      "text": "啊，您是新来的患者吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/04lsesXB4297tWRToF1beGYtoFp1IicZ.ogg"
+    },
+    {
+      "description": "serina_lobby_2.ogg",
+      "category": "lobby",
+      "text": "您好像很累啊......我给您按摩一下肩膀吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/MbiijTG6WxFYrfUx8gpsDMgtLX08TJD3.ogg"
+    },
+    {
+      "description": "serina_lobby_3.ogg",
+      "category": "lobby",
+      "text": "劳累是百病的根源！千万不要太勉强自己哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/NeZDW52cihWuVvwrryzAETXvDd0rB8HL.ogg"
+    },
+    {
+      "description": "serina_lobby_4.ogg",
+      "category": "lobby",
+      "text": "一想到患者，我就会觉得心痛......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/K2wqRLJCsnFESpntC0wx7ZM4ri0B9NsU.ogg"
+    },
+    {
+      "description": "serina_lobby_5.ogg",
+      "category": "lobby",
+      "text": "不能饶了那些碰坏和平的坏蛋！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/9TwxQbxf2hXNOPXdEEglm94ZgDTWLKBS.ogg"
+    },
+    {
+      "description": "serina_login_1.ogg",
+      "category": "lobby",
+      "text": "欢迎您，老师。您今天身体感觉还好吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/6wDJJMpO73jwFTVkbCXBcwpJ4kYd5lZE.ogg"
+    },
+    {
+      "description": "serina_login_2.ogg",
+      "category": "lobby",
+      "text": "等您很久了，老师。 今天也要为了世界和平 一起加油哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/irP7LZinawaIfZ1kq9rJRNCLsze3wscX.ogg"
+    },
+    {
+      "description": "serina_relationship_up_1.ogg",
+      "category": "growup",
+      "text": "和老师在一起，就会感觉心灵得到了治愈......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/uGNc3Z1ZJ9nMLG3OgHNpeqAgwSHTVxKO.ogg"
+    },
+    {
+      "description": "serina_relationship_up_2.ogg",
+      "category": "growup",
+      "text": "嗯哼哼~好幸福啊~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/dGGXXKDA6lne01qEQTqIXlxKYpXB4u9T.ogg"
+    },
+    {
+      "description": "serina_relationship_up_3.ogg",
+      "category": "growup",
+      "text": "我不能只当老师一个人的主治医师......不过，我会一直想着老师的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/GAbjZbCZzTa5LYHyIUKW03yp6lHwOKnf.ogg"
+    },
+    {
+      "description": "serina_relationship_up_4.ogg",
+      "category": "growup",
+      "text": "让我们创造一个和平的世界吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/8nmh2ncDeOrCOTwRjXK41VNLGxoiG75d.ogg"
+    },
+    {
+      "description": "serina_season_birthday.ogg",
+      "category": "lobby",
+      "text": "谢谢您祝我生日快乐。您问我想要什么生日礼物是吗？嗯哼哼~只要能看到老师的笑容，就已经足够了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/vidxoC3t2XbU17VNCYhS3jN81nEZA3r1.ogg"
+    },
+    {
+      "description": "serina_season_birthday_player.ogg",
+      "category": "lobby",
+      "text": "老师，生日快乐！祝愿您今天一整天都充满幸福。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/gECMEnFt0aPVuMmn1D7QWvJSr0wMOnnu.ogg"
+    },
+    {
+      "description": "serina_season_halloween.ogg",
+      "category": "lobby",
+      "text": "我收到了万圣节的糖果。糖果虽然甜甜的很好吃，但是吃太多，肯定会蛀牙的......",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/i6x5PSIfYuowEcC8zdFmoleTl84cWJuS.ogg"
+    },
+    {
+      "description": "serina_season_newyear.ogg",
+      "category": "lobby",
+      "text": "恭祝新春快乐！请一定要注意新年不要感冒，记得多穿点衣服哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/wZjHb3qeqlR4hEdyHYKux0BAVOfA0Rta.ogg"
+    },
+    {
+      "description": "serina_season_xmas.ogg",
+      "category": "lobby",
+      "text": "老师，圣诞快乐！今天是大好的日子，希望大家不要打架，可以度过和平的一天。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/J6XUnloE9r012gsnkAKtq9qBPpAJctiX.ogg"
+    },
+    {
+      "description": "serina_title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/bczoAlp7qFwOqYNErttdR3wg1MATuEi7.ogg"
+    },
+    {
+      "description": "serina_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，新春快乐！今天是大家尽情玩耍的日子，但也要注意安全，不要受伤哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/rVj2K8FTpNSLM0F4c4P8HS5aUwjC9xWG.ogg"
+    },
+    {
+      "description": "serina_season_midautumn",
+      "category": "lobby",
+      "text": "在这个团圆的日子里，我衷心地希望不再有人遭受病痛……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/QWDGhDE2V1HiRbLvBMu9WEcYOkgDroMV.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "唉……老师你也真是的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/cn/serina_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "吓了我一跳……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/cn/serina_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "……感觉好不可思议啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/cn/serina_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "这时候应该怎么做呢？我没遇到过这种情况……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/cn/serina_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "真的是……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/cn/serina_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "呵呵……老师还是第一个……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/cn/serina_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "不管那么多了，重要的是此刻的心情。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/cn/serina_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "托老师的福，芹娜现在实在是太开心了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/cn/serina_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "……谢谢您，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/cn/serina_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "……在各方面都是，呵呵。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/cn/serina_memoriallobby_5_2.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "Serina_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/Serina_Title.ogg"
+    },
+    {
+      "description": "serina_battle_tsa_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_battle_tsa_1.ogg"
+    },
+    {
+      "description": "serina_battle_tsa_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_battle_tsa_2.ogg"
+    },
+    {
+      "description": "serina_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_cafe_act_1.ogg"
+    },
+    {
+      "description": "serina_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_cafe_act_2.ogg"
+    },
+    {
+      "description": "serina_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "serina_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "serina_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "serina_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_commonskill.ogg"
+    },
+    {
+      "description": "serina_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_exskill_1.ogg"
+    },
+    {
+      "description": "serina_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_exskill_2.ogg"
+    },
+    {
+      "description": "serina_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_exskill_3.ogg"
+    },
+    {
+      "description": "serina_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_exskill_level_1.ogg"
+    },
+    {
+      "description": "serina_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_exskill_level_2.ogg"
+    },
+    {
+      "description": "serina_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_exskill_level_3.ogg"
+    },
+    {
+      "description": "serina_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_exweapon_get.ogg"
+    },
+    {
+      "description": "serina_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_gachaget.ogg"
+    },
+    {
+      "description": "serina_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_growup_1.ogg"
+    },
+    {
+      "description": "serina_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_growup_2.ogg"
+    },
+    {
+      "description": "serina_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_growup_3.ogg"
+    },
+    {
+      "description": "serina_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_growup_4.ogg"
+    },
+    {
+      "description": "serina_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_lobby_1.ogg"
+    },
+    {
+      "description": "serina_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_lobby_2.ogg"
+    },
+    {
+      "description": "serina_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_lobby_3.ogg"
+    },
+    {
+      "description": "serina_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_lobby_4.ogg"
+    },
+    {
+      "description": "serina_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_lobby_5.ogg"
+    },
+    {
+      "description": "serina_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_login_1.ogg"
+    },
+    {
+      "description": "serina_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_login_2.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "serina_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "serina_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_relationship_up_1.ogg"
+    },
+    {
+      "description": "serina_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_relationship_up_2.ogg"
+    },
+    {
+      "description": "serina_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_relationship_up_3.ogg"
+    },
+    {
+      "description": "serina_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_relationship_up_4.ogg"
+    },
+    {
+      "description": "serina_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_season_birthday.ogg"
+    },
+    {
+      "description": "serina_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_season_birthday_player.ogg"
+    },
+    {
+      "description": "serina_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_season_halloween.ogg"
+    },
+    {
+      "description": "serina_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_season_newyear.ogg"
+    },
+    {
+      "description": "serina_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/serina_season_xmas.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serina_spr-04_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serina_spr-99_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serina_spr-06_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serina_spr-02_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serina_spr-03_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serina_spr-01_0_waifu2x_2x_2n_png.jpg",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/serina_spr-05_0_waifu2x_2x_2n_png.jpg"
+      ]
+    },
+    {
+      "title": "护士服立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/gallery/%E6%8A%A4%E5%A3%AB%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0075_spr_00.png",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/gallery/%E6%8A%A4%E5%A3%AB%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0075_spr_03.png",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/gallery/%E6%8A%A4%E5%A3%AB%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0075_spr_04.png",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/gallery/%E6%8A%A4%E5%A3%AB%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0075_spr_02.png",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/gallery/%E6%8A%A4%E5%A3%AB%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0075_spr_01.png",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/gallery/%E6%8A%A4%E5%A3%AB%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0075_spr_05.png",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/gallery/%E6%8A%A4%E5%A3%AB%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0075_spr_99.png",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/gallery/%E6%8A%A4%E5%A3%AB%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0075_spr_Idle_01.png",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/gallery/%E6%8A%A4%E5%A3%AB%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0075_spr_06.png",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/gallery/%E6%8A%A4%E5%A3%AB%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0075_spr_07.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Serina_RedCross.png",
+        "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Serina_RedCross_SD.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 85,
+      "favorability": 240
+    },
+    {
+      "id": 141,
+      "favorability": 240
+    },
+    {
+      "id": 60,
+      "favorability": 60
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 26003,
+      "dev_name": "Serina_default",
+      "combat_style": "default",
+      "type": "Healer",
+      "attack_attribute": "Mystic",
+      "defensive_attributes": "Light",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 1,
+      "limited": false,
+      "outdoor_adaptability": "C",
+      "indoor_adaptability": "B",
+      "street_adaptability": "A",
+      "equipment": [
+        9,
+        6,
+        4
+      ],
+      "cultivate_material": [
+        40,
+        46,
+        48,
+        51,
+        179,
+        182,
+        183,
+        185,
+        435,
+        437,
+        438,
+        439,
+        415,
+        416,
+        417,
+        19
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/skill_icon/WIwhhLInlsyFHIWHSvXT6rvQH6VO0bQT.png",
+            "title": "集中治疗方案A",
+            "title_cn": "集中治疗方案A",
+            "preview": "//static.kivo.wiki/videos/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/skill_preview/pSbSwFSn7DbsczWW6IPLqK7Ag8nrU5se.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 2,
+                "describe": "将1名我方角色移动至指定位置后施加治疗力120%的体力恢复"
+              },
+              {
+                "cost": 2,
+                "describe": "将1名我方角色移动至指定位置后施加治疗力138%的体力恢复"
+              },
+              {
+                "cost": 2,
+                "describe": "将1名我方角色移动至指定位置后施加治疗力174%的体力恢复"
+              },
+              {
+                "cost": 2,
+                "describe": "将1名我方角色移动至指定位置后施加治疗力192%的体力恢复"
+              },
+              {
+                "cost": 2,
+                "describe": "将1名我方角色移动至指定位置后施加治疗力228%的体力恢复"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/skill_icon/RD5bDtL6CQH5v1fGeIvamLmb0k6d1c9Q.png",
+            "title": "紧急救护方案B",
+            "title_cn": "紧急救护方案B",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每35秒为1名我方角色施加治疗力94%的体力恢复"
+              },
+              {
+                "cost": 1,
+                "describe": "每35秒为1名我方角色施加治疗力98.7%的体力恢复"
+              },
+              {
+                "cost": 1,
+                "describe": "每35秒为1名我方角色施加治疗力103%的体力恢复"
+              },
+              {
+                "cost": 1,
+                "describe": "每35秒为1名我方角色施加治疗力122%的体力恢复"
+              },
+              {
+                "cost": 1,
+                "describe": "每35秒为1名我方角色施加治疗力126%的体力恢复"
+              },
+              {
+                "cost": 1,
+                "describe": "每35秒为1名我方角色施加治疗力131%的体力恢复"
+              },
+              {
+                "cost": 1,
+                "describe": "每35秒为1名我方角色施加治疗力150%的体力恢复"
+              },
+              {
+                "cost": 1,
+                "describe": "每35秒为1名我方角色施加治疗力155%的体力恢复"
+              },
+              {
+                "cost": 1,
+                "describe": "每35秒为1名我方角色施加治疗力159%的体力恢复"
+              },
+              {
+                "cost": 1,
+                "describe": "每35秒为1名我方角色施加治疗力178%的体力恢复"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/skill_icon/5s2rcycldcdRjqZPjQ6dqYB0xuGsmypW.png",
+            "title": "白衣天使",
+            "title_cn": "白衣天使",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "治疗力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/skill_icon/L57N3rtveorrfTHZZJSroBVuG3VzIIsM.png",
+            "title": "守护天使的笑容",
+            "title_cn": "守护天使的笑容",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制抵抗增加9.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制抵抗增加9.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制抵抗增加10%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制抵抗增加11.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制抵抗增加12.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制抵抗增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制抵抗增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制抵抗增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制抵抗增加15.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方角色的群体控制抵抗增加17.3%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2482,
+          "attack": 167,
+          "defense": 24,
+          "healing": 2431,
+          "accuracy": 704,
+          "evasion": 805,
+          "crit": 201,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1596,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/weapons_icon.png",
+        "name": "战术疗法",
+        "name_cn": "战术疗法",
+        "description": "芹娜的特制突击步枪。<br>扣动扳机也不会启动注射功能。",
+        "description_cn": "芹娜的特制突击步枪。<br>扣动扳机也不会启动注射功能。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「白衣天使」升级为「白衣天使+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室外适应性 C -> B",
+            "description": "在室外地形造成1倍伤害。在掩体内时掩护成功率+30%。 攻击时绕过掩体概率增加30%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/skill_icon/wPI7gIqsEvrv4jEu5ImoMC5VFR4X2n8Z.png",
+            "title": "白衣天使+",
+            "title_cn": "白衣天使+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "治疗力增加973/治疗力增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1022/治疗力增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1070/治疗力增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1265/治疗力增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1313/治疗力增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1362/治疗力增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1556/治疗力增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1605/治疗力增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1654/治疗力增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "治疗力增加1848/治疗力增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "7ce0d569-4381-484d-a6b0-0a03a61627c0",
+  "skill_declare_uuid": "c588437f-9e60-4686-bb5e-21d06f8592c1",
+  "supplementary_uuid": "97bcc0ef-aa74-46b4-ba48-578ee77e71e3",
+  "supplementary_declare_uuid": "81dd99da-1cab-4b53-96e9-ec98fc6b485f",
+  "created_at": 1685126373,
+  "updated_at": 1783335981
+}

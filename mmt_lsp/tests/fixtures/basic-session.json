@@ -1,0 +1,34 @@
+{
+  "initialize": {
+    "capabilities": {
+      "general": {
+        "positionEncodings": ["utf-8", "utf-16"]
+      }
+    },
+    "initializationOptions": {
+      "previewOnChange": false
+    }
+  },
+  "open": {
+    "textDocument": {
+      "uri": "file:///workspace/session.mmt",
+      "languageId": "mmt",
+      "version": 1,
+      "text": "@reply\n- 选项 A\n- 选项 B\n@end"
+    }
+  },
+  "query": {
+    "textDocument": {
+      "uri": "file:///workspace/session.mmt"
+    }
+  },
+  "completion": {
+    "textDocument": {
+      "uri": "file:///workspace/session.mmt"
+    },
+    "position": {
+      "line": 0,
+      "character": 1
+    }
+  }
+}

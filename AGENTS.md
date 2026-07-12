@@ -11,7 +11,9 @@ MomoScript (MMT) is a DSL for scripted visual storytelling (MoeTalk style), feat
 .
 ├── mmt_core/             # Core DSL parser, compiler, and resolver
 ├── mmt_rs/               # Rust DSL v2 core, CLI, pack resolver, and WASM analysis
+├── mmt_lsp/              # Shared Rust LSP core, native stdio server, and WASM bridge
 ├── mmt_nonebot_plugin/   # NoneBot adapter using the Rust v2 project pipeline
+├── editors/vscode/       # VS Code Desktop/Web extension and browser Worker
 ├── typst_sandbox/        # Rendering engine (Typst) and asset packs
 ├── tools/                # Build pipelines, validation, and refactor checks
 ├── web/                  # Vite/React editor and WASM integration
@@ -29,7 +31,10 @@ MomoScript (MMT) is a DSL for scripted visual storytelling (MoeTalk style), feat
 | **Legacy Python DSL** | `mmt_core/dsl_parser.py`, `mmt_core/dsl_compiler.py` | Historical v1 behavior only |
 | **DSL v2 Syntax** | `openspec/changes/redesign-dsl-syntax-v2/` | Active Rust v2 spec delta and architecture |
 | **Rust/WASM Core** | `mmt_rs/` | Main language core, native CLI, fixtures, and WASM analysis |
+| **Language Server** | `mmt_lsp/` | Versioned snapshots, diagnostics, symbols, folding, stdio/WASM transports |
+| **VS Code Extension** | `editors/vscode/` | Desktop/Web language clients, Worker, grammar, and build scripts |
 | **LSP/VS Code Research** | `openspec/changes/redesign-dsl-syntax-v2/tinymist-typst-lsp-integration-research.md` | Research only; not an approved implementation spec |
+| **LSP/VS Code Change** | `openspec/changes/add-mmt-lsp-vscode/` | Active implementation spec and follow-up Tinymist milestones |
 | **Rendering** | `typst_sandbox/mmt_render` | Typst rendering templates |
 | **Rust Validation** | `mmt_rs/tests/` | Public API, pack, CLI, AVIFS, Typst, and source-map tests |
 | **Legacy Validation** | `tools/dsl_refactor_check.py` | Python v1 golden regression only |
@@ -64,6 +69,21 @@ uv run tools/dsl_refactor_check.py
 
 # Run Rust v2 tests
 cargo test --manifest-path mmt_rs/Cargo.toml --all-targets
+
+# Run language server tests, including native stdio transcript
+cargo test --manifest-path mmt_lsp/Cargo.toml
+
+# Build VS Code Desktop/Web extension and Rust/WASM servers
+cd editors/vscode && npm install && npm run build
+
+# Exercise MMT/Tinymist Workers and VS Code Web Extension Host
+cd editors/vscode && npm run test:worker
+cd editors/vscode && TINYMIST_WEB_PKG=/path/to/tinymist-web/pkg npm run test:tinymist-worker
+cd editors/vscode && TINYMIST_WEB_PKG=/path/to/tinymist-web/pkg npm run test:web
+
+# Exercise native Tinymist transport and Desktop Extension Host
+cd editors/vscode && TINYMIST_BIN=/path/to/tinymist npm run test:tinymist-process
+cd editors/vscode && TINYMIST_BIN=/path/to/tinymist npm run test:desktop
 
 # Export a Rust v2 Typst project
 cargo run --manifest-path mmt_rs/Cargo.toml --bin mmt-compile -- --help

@@ -1,0 +1,2086 @@
+{
+  "id": 73,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 73,
+      "avatar": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 75,
+      "avatar": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    },
+    {
+      "id": 156,
+      "avatar": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/Student_Portrait_CH0197_Collection.png",
+      "skin": "正月",
+      "skin_cn": "新年"
+    }
+  ],
+  "family_name": "狮子堂",
+  "given_name": "泉",
+  "family_name_jp": "獅子堂",
+  "given_name_jp": "イズミ",
+  "family_name_kr": "시시도우",
+  "given_name_kr": "이즈미",
+  "family_name_en": "Shishido",
+  "given_name_en": "Izumi",
+  "family_name_zh_tw": "獅子堂",
+  "given_name_zh_tw": "泉",
+  "family_name_cn": "狮子堂",
+  "given_name_cn": "泉",
+  "nick_name": "汉堡,老八",
+  "introduction": "格赫娜学园所属，美食研究会的一员，什么都爱吃的大胃王少女。\n\n因为实在太爱食物了，就连别人敬谢不敏的古怪食物都能快乐的吃下。\n\n>世界上，有很多好吃的东西唷～！",
+  "introduction_cn": "歌赫娜美食研究会的一员，什么都爱吃的吃货少女。\n\n不仅非常喜欢美食，连别人厌恶的黑暗料理都能吃得干干净净。\n\n>这个世界上有好~多好吃的哦！",
+  "momo_talk_signature": "肚子饿了~",
+  "main_relation": 29,
+  "relation": [
+    27
+  ],
+  "age": 16,
+  "grade": "二年生",
+  "height": 161,
+  "birthday": "05-11",
+  "hobby": "制作古怪食物、吃古怪食物",
+  "designer": "Mx2J",
+  "illustrator": "Mx2J",
+  "character_voice": "久保百合花",
+  "character_voice_cn": "嘉儿",
+  "release_date": "2021-02-04",
+  "release_date_cn": "2023-08-03",
+  "release_date_global": "2021-11-09",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/avatar.png",
+  "school": 3,
+  "weapon_type": "MG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Large",
+  "special_appearance": true,
+  "more": "# 官方图集\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![izumi_jp](/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Izumi.jpg =420x) | 暂无 | ![izumi_tw](/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izumi_tw.jpg =700x) | ![izumi_en](/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izumi_en.jpg =400x) |\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 泉 汉化\n![泉](files/2/dA6oknlqSfpPRp2AoIDWYHZm5DaukOkl.png =450x)\n@tab 泉 原文\n![泉](files/2/prN0SptPq54WtvGuLjhzJJJXPCjpJEtF.jpg =450x)\n:::\n\n## 设定集\n\n::::center\n\n![vol1_008](/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_008.png =450x)\n\n![vol1_049](/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_049.png =450x)\n\n![vol1_150](/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_150.png =450x)\n\n![vol1_218](/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_218.png =450x)\n\n![vol2_74](/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-74.jpg =450x)\n\n::::\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[晴奈](https://kivo.wiki/data/character/195)|ハルナ|\n|[明里](https://kivo.wiki/data/character/110)|アカリ|\n|[纯子](https://kivo.wiki/data/character/103)|ジュンコ|\n|[朱莉](https://kivo.wiki/data/character/186)|ジュリ|\n|[雀亭老板娘](https://kivo.wiki/data/character/241)|女将さん|\n|[千夏](https://kivo.wiki/data/character/117)|チナツ|\n|[日奈](https://kivo.wiki/data/character/71)|風紀委員長|\n|[枫香](https://kivo.wiki/data/character/97)|フウカ<br>給食部の部長|\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/Izumi_home_Idle_01_1.3329999999999997.jpg",
+  "spine": [
+    1396,
+    478,
+    1769,
+    1034
+  ],
+  "model": [
+    37,
+    393
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "Izumi_Title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/p4crg6TaFUMBq1cGXSoIVE7wOnrdFk2n.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Buffed_1",
+      "category": "battle",
+      "text": "我又有力气了！",
+      "text_original": "元気出てきた。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/9H01hsiZqtK7vGWnDsbuhJ8YY6H8AlwD.ogg"
+    },
+    {
+      "description": "Izumi_Battle_BuffSelf_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "よいしょっと！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/h1lGtjSeNimkI7F3cUbZPnAdHF1WludO.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Damage_1",
+      "category": "battle",
+      "text": "这个，不好吃！",
+      "text_original": "これは、美味しくない！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/eVUYXSBaih9vtJOVtII0jDAkTKVNxY6y.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Damage_2",
+      "category": "battle",
+      "text": "好疼！",
+      "text_original": "痛いっ！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/vpxdZeKldWYvuIHFVwX8VOjNQQZySgjP.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Damage_3",
+      "category": "battle",
+      "text": "我饿了……",
+      "text_original": "お腹空いた～。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/hTwMvXLCx64l1MxanG7jmEzgWG5EnBJz.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Defense_1",
+      "category": "battle",
+      "text": "一点也不疼哦！",
+      "text_original": "痛くないわよ！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/vc01UUhlvt8tVsufHk6MeZns3Gi8oQ7v.ogg"
+    },
+    {
+      "description": "Izumi_Battle_In_1",
+      "category": "battle",
+      "text": "攻击！把敌人的零食全都抢过来！",
+      "text_original": "攻撃！敵のおやつを全部奪うわよ！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/mMxhW0w7qBKbuG90ILR8Jx4A5WpJyoRm.ogg"
+    },
+    {
+      "description": "Izumi_Battle_In_2",
+      "category": "battle",
+      "text": "早点结束吧，我要去吃点心呢！",
+      "text_original": "おやつを食べるために、早く終わらせよう！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/MMK4NUlCocEcHCnWxY3JqcE6sjOuQzPo.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Move_1",
+      "category": "battle",
+      "text": "这就打完了？什么时候开饭？",
+      "text_original": "これで終わり？ご飯はいつ？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/y5G5S72WrWAQB3Fqxmgwc3G9NME4vY3y.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Move_2",
+      "category": "battle",
+      "text": "把这些人都收拾掉的话，就能去吃饭了吗？",
+      "text_original": "あの子達を片付けたら、ご飯食べに行っていい？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/Zw528xSM1oH320U08zFqj7qPUFQ1PEC2.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Recovery_1",
+      "category": "battle",
+      "text": "Thank you，但是我饿了……",
+      "text_original": "サンキュー！でも、お腹空いてきちゃった……。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/1rliUWv2BbWvDRE0koe26Ndscy8ibPng.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Retire",
+      "category": "battle",
+      "text": "对不起……我撑不住了……",
+      "text_original": "ごめん、もう限界……。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/72KlGF4AqpYmmLtVwQK0s0bLgJLjbJal.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "やっ！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/yxKHPt1Uioji9xpO3iNAcIlPxoWrRctg.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "はっ！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/7QEmx1w4nOU08jkSj8Hyxb6NbflYd5FU.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Shout_3",
+      "category": "battle",
+      "text": "看招！",
+      "text_original": "くらえ！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/Zxw4apJ8YzUlNH8cdxpP46hrv7IKbFfd.ogg"
+    },
+    {
+      "description": "Izumi_Battle_TacticalAction_1",
+      "category": "battle",
+      "text": "去那边吧！",
+      "text_original": "あっちに行くね～。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/I9BtjLkjyC7gnMFXaxNuE8fm9p92MJae.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Victory_1",
+      "category": "battle",
+      "text": "嗯——嗯~好！",
+      "text_original": "はむっ、うんっ！よしっ！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/ZGfFbfj1BeikQQxFPhpCWMdXLgAf56Sl.ogg"
+    },
+    {
+      "description": "Izumi_Battle_Victory_2",
+      "category": "battle",
+      "text": "哈唔……大闹一场之后的汉堡特别香！",
+      "text_original": "あむっ…暴れた後のハンバーガーってやっぱり最高！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/Ls0RlgXMVkz6WIZfaAArBpRqKbg7qyd5.ogg"
+    },
+    {
+      "description": "Izumi_Cafe_Act_1",
+      "category": "cafe",
+      "text": "我的特长？嗯！应该是吃吧！",
+      "text_original": "特技？うん！食べることかな！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/QjXmuQ2jUvGA0BPUAWSd9NW3yL74a90d.ogg"
+    },
+    {
+      "description": "Izumi_Cafe_Act_2",
+      "category": "cafe",
+      "text": "开饭的时候记得叫我啊！",
+      "text_original": "食事の時間だったら私を呼んでくれないと！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/NxEoO4eYYHSYeBoRi1Bu4uIClcQH0Rjq.ogg"
+    },
+    {
+      "description": "Izumi_Cafe_monolog_1",
+      "category": "cafe",
+      "text": "要是有可以长出汉堡的树就好了！应该会有人发明出来的吧？",
+      "text_original": "ハンバーガーが実る木があったらいいのに！いつか開発されるんじゃないかな？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/8up8BQFTEzWDPmEeTelTSHq83Thzm8ru.ogg"
+    },
+    {
+      "description": "Izumi_Cafe_monolog_2",
+      "category": "cafe",
+      "text": "好！我去找点吃的！",
+      "text_original": "よし！食べ物を探してみる！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/4EU1xDyU5eIFGy6HEim4KxaeCCtzcVAq.ogg"
+    },
+    {
+      "description": "Izumi_Cafe_monolog_3",
+      "category": "cafe",
+      "text": "好，今天也要加油！",
+      "text_original": "よし、今日も頑張ろう！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/E1V2MO9wpuk87suZ3pVG2DpV44kW3vNY.ogg"
+    },
+    {
+      "description": "Izumi_CommonSkill",
+      "category": "battle",
+      "text": "呀！",
+      "text_original": "やあ！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/y1UkfYTab6woNFdVLOJZAKdsn9by3AmF.ogg"
+    },
+    {
+      "description": "Izumi_ExSkill_1",
+      "category": "battle",
+      "text": "出来吧，豪华巧克力汉堡！",
+      "text_original": "出てきて！デラックスチョコハンバーガー！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/YqUfY4SKkBd1m5uP414K5GGw7B1ihhgU.ogg"
+    },
+    {
+      "description": "Izumi_ExSkill_2",
+      "category": "battle",
+      "text": "我早有准备！",
+      "text_original": "よっ、こういう時のために、用意してたの！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/VtsPMUh6WzhVqhzCEF6bXbG1DPqaBnTM.ogg"
+    },
+    {
+      "description": "Izumi_ExSkill_3",
+      "category": "battle",
+      "text": "锵锵，吃零食了！",
+      "text_original": "じゃーん、おやつ登場。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/XgYMQUEUDNjPQOi9YRTxwz3atQ6DwODR.ogg"
+    },
+    {
+      "description": "Izumi_ExSkill_Level_1",
+      "category": "battle",
+      "text": "我好了！",
+      "text_original": "んっ、んっ、元気が出る！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/LYPx871IbTfeg2Unn5s5QQJdfrJAC33U.ogg"
+    },
+    {
+      "description": "Izumi_ExSkill_Level_2",
+      "category": "battle",
+      "text": "唔——哇！",
+      "text_original": "ハムハム、うおぉー！？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/SeX02jVNDH9m7q4E3ZUjQR9zdZUDzKkD.ogg"
+    },
+    {
+      "description": "Izumi_ExSkill_Level_3",
+      "category": "battle",
+      "text": "啊~能量补充好了，给我等着吧！",
+      "text_original": "ハムハム、ん！んー！エネルギー充填！覚悟しなさい！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/qf2M03E02l2nflYJ3Ge6Bb9iXoUokJCi.ogg"
+    },
+    {
+      "description": "Izumi_ExWeapon_Get",
+      "category": "growup",
+      "text": "能让我吃到美食的工具又多了一样！当然啦，和筷子之类的东西是两码事儿……不过以后我们就可以去吃更多其他的好东西啦，老师！",
+      "text_original": "美味しいものを食べるための道具が、また一つ増えちゃった！もちろんお箸とかそういうとは違うけど...これであれこれ一杯食べに行こう、先生。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/ofvcOzymfGwTF23uPbYeh4XTeMdqBynx.ogg"
+    },
+    {
+      "description": "Izumi_Formation_In_1",
+      "category": "formation",
+      "text": "OK！",
+      "text_original": "OK！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/KESOmAxFt4O4IdWCeuhFQJ8EO7W1QUNr.ogg"
+    },
+    {
+      "description": "Izumi_Formation_In_2",
+      "category": "formation",
+      "text": "准备完毕！",
+      "text_original": "準備完了～！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/jUNWgA960hjANO8DwYwQbyuncIpUPqon.ogg"
+    },
+    {
+      "description": "Izumi_Formation_Select",
+      "category": "formation",
+      "text": "",
+      "text_original": "ハムハムんんんーー",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/LuiJQmvRN4BOx82AQV3BuHWI4AAPBJuM.ogg"
+    },
+    {
+      "description": "Izumi_Gachaget",
+      "category": "growup",
+      "text": "哇！！是在找我吗？一起去吃好吃的吧！",
+      "text_original": " うわ！！私のことを探してくれてたの？一緒に美味しいもの食べに行こうよ！！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/j3B27mNVjE67kr3g879aZND6DXLhSjl7.ogg"
+    },
+    {
+      "description": "Izumi_Growup_1",
+      "category": "growup",
+      "text": "谢谢老师，感觉肚子填饱一点了。",
+      "text_original": "ありがとう、先生！少しはお腹が満たされた気分！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/sqm9qqgytEYzNRKHFPJhytYtW8rpKqKX.ogg"
+    },
+    {
+      "description": "Izumi_Growup_2",
+      "category": "growup",
+      "text": "为什么总是给我吃这么好的东西呢？",
+      "text_original": "どうしてこんな大事な食べ物をいつも私にくれるの？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/nQEBKXhEz8xgCsQ2h8rkO30uiLNwtkub.ogg"
+    },
+    {
+      "description": "Izumi_Growup_3",
+      "category": "growup",
+      "text": "多谢款待！",
+      "text_original": "ごちそうさまでした～！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/iQH0CLxOTy2xKTUwpsPBtngYEp1Pojdc.ogg"
+    },
+    {
+      "description": "Izumi_Growup_4",
+      "category": "growup",
+      "text": "好嘞，多吃点好吃的东西，多长点力气吧！",
+      "text_original": "よ～し！美味しいものいっぱい食べて力を付けよう！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/AANVd8LwTmqZQ9XzOTfKGZDkF9f0jjSe.ogg"
+    },
+    {
+      "description": "Izumi_Lobby_1",
+      "category": "lobby",
+      "text": "就没有那种去难吃的店里砸场子的任务吗。",
+      "text_original": "美味しくない、悪い店をやっつけに行く任務とかないのかな。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/hkbrYjDizYzHFCBOFzBRXNnpbHFiNWkp.ogg"
+    },
+    {
+      "description": "Izumi_Lobby_2",
+      "category": "lobby",
+      "text": "沙勒附近没有好吃的店吗？ 崔尼蒂附近的食堂都被我吃了个遍了…… 啊，这个不能说吗……？",
+      "text_original": "シャーレの近くに美味しいお店ないかな？ トリニティの食堂で食べ尽くしちゃったから…。 あ、これは言っちゃダメなやつだったっけ…？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/LfkmrmSbjjkFe1vpaYceoSMtGPsvXQYp.ogg"
+    },
+    {
+      "description": "Izumi_Lobby_3",
+      "category": "lobby",
+      "text": "这个零食是给我的吗？ 嘿，还是老师对我好！",
+      "text_original": "うん？このお菓子くれるの？ やっぱり先生は優しいね！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/aideByn4UPZ3TtyHvYcD2rjFJ3kOSO2h.ogg"
+    },
+    {
+      "description": "Izumi_Lobby_4",
+      "category": "lobby",
+      "text": "（刚才那个章鱼松饼……好像很好吃的样子……）",
+      "text_original": "（さっきのあのタコのパンケーキ…美味しそうだったな…）",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/v6oZEUd6qx7yFb4WFvz2jCqxXtFdHWVk.ogg"
+    },
+    {
+      "description": "Izumi_Lobby_5",
+      "category": "lobby",
+      "text": "带来幸福的青鸟……？ 我猜……尝起来可能会比较像鸡肉吧～",
+      "text_original": "幸せを運ぶ青い鳥…？ 多分…チキンの味に近いんだろうな～",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/H1xQms83ahayOrlsKIm64Hq3rCAZ6TEB.ogg"
+    },
+    {
+      "description": "Izumi_LogIn_1",
+      "category": "lobby",
+      "text": "你来了，老师！一直在等你呢！快去吃饭吧！ 啊……你要工作？",
+      "text_original": "ようこそ先生！待ってたよ！早くご飯食べに行こう！ あ…仕事があるの？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/FqsPugnXMt4yIMMFe5UstRdOcqyoHMQn.ogg"
+    },
+    {
+      "description": "Izumi_LogIn_2",
+      "category": "lobby",
+      "text": "老师！今天去吃点什么好呢~ 要先做任务？ 不要啦，先吃饭嘛！",
+      "text_original": "先生！今日は何を食べに行こっか～。 任務からやって、って？ ダメだよ、ご飯からだよ！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/IPEyrg4CPhuLdMRq0ksB2XDzMEzkk5Ol.ogg"
+    },
+    {
+      "description": "Izumi_MemorialLobby_1",
+      "category": "lobby",
+      "text": "我，我看猫猫吃得好香，不知不觉就……！",
+      "text_original": "ね、猫ちゃんたちがあまりにも美味しそうに食べてたから、つい…！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/yDcBsFdRLQoo4nPVMLmoOyrItLmU5dVx.ogg"
+    },
+    {
+      "description": "Izumi_MemorialLobby_2_1",
+      "category": "lobby",
+      "text": "哎，哎哎哎哎？！等，等下！别挠我啊~！",
+      "text_original": "って、ふえええっ？！ま、待って！引っ掻かないで～！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/kwq9vOaV6XN5f0JCI3Z67uM4xlYrtlz3.ogg"
+    },
+    {
+      "description": "Izumi_MemorialLobby_2_2",
+      "category": "lobby",
+      "text": "为什么~！猫猫都开始攻击我了~！",
+      "text_original": "何でぇ～！？猫ちゃんたちが襲ってくる～！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/yb0lZldUDYfkN43Ig30xukGkcaF5d9VS.ogg"
+    },
+    {
+      "description": "Izumi_MemorialLobby_3_1",
+      "category": "lobby",
+      "text": "可，可是，那个看起来真的很好吃啊！",
+      "text_original": "だ、だって！すごく美味しそうだったんだもん！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/uYrqqWtmVKlqa3XwDPDqCWzKopqUbUOj.ogg"
+    },
+    {
+      "description": "Izumi_MemorialLobby_3_2",
+      "category": "lobby",
+      "text": "而，而且我作为美食研究会的一员，",
+      "text_original": "そ、それに！私、美食研究会の一員だし！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/RCxuUC07OmWtTFIbe2khFLsL7t1Fyj2w.ogg"
+    },
+    {
+      "description": "Izumi_MemorialLobby_3_3",
+      "category": "lobby",
+      "text": "遇到感兴趣的食物，就有责任去尝一尝！",
+      "text_original": "気になったものはまず食べてみないと！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/JHGjG1ivKTYOYUWY4qdS4jSNKfbqh5NB.ogg"
+    },
+    {
+      "description": "Izumi_MemorialLobby_4_1",
+      "category": "lobby",
+      "text": "而且，上边还写着“金枪鱼味”、“高级”……！",
+      "text_original": "おまけにこれ「ツナ味」、「高級」って書いてあるし…！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/5n7N95TpbCp5S05wOnFKOATCXNE7KZUG.ogg"
+    },
+    {
+      "description": "Izumi_MemorialLobby_4_2",
+      "category": "lobby",
+      "text": "这么好吃的东西，你们怎么能自己独享呢？！",
+      "text_original": "こんな良いものをあなたたちだけで食べるなんて許せない！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/f94vSoXhtr8vTRHZn8m57iQfQhGuOWar.ogg"
+    },
+    {
+      "description": "Izumi_MemorialLobby_4_3",
+      "category": "lobby",
+      "text": "有好吃的就应该互相分享嘛！",
+      "text_original": "美味しいものは、一緒に分け合って食べないと！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/hhdnwmzXY9QkCG502523q4CNbbwvHb5d.ogg"
+    },
+    {
+      "description": "Izumi_MemorialLobby_5_1",
+      "category": "lobby",
+      "text": "啊好疼！我，我不是说了抱歉嘛！",
+      "text_original": "あ痛！だ、だからごめんってば！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/HKmA6z47u5TxDyBs4KnhZkFdhM500y4M.ogg"
+    },
+    {
+      "description": "Izumi_MemorialLobby_5_2",
+      "category": "lobby",
+      "text": "可我都已经吃完了，也没办法了吧……",
+      "text_original": "でも、もう食べちゃったものは仕方ないよね…？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/qErXwRK8Coftqgp8neyfsi7oVlovgen1.ogg"
+    },
+    {
+      "description": "Izumi_MemorialLobby_6",
+      "category": "lobby",
+      "text": "呜诶诶！不要咬我~！",
+      "text_original": "ふええ！噛まないで～！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/7iast7HDXozAa8IUK2RAzRksQu8SC65b.ogg"
+    },
+    {
+      "description": "Izumi_Relationship_Up_1",
+      "category": "growup",
+      "text": "一起踏上寻味之旅吧！",
+      "text_original": "一緒にグルメ巡りに行こ？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/CC7KOrLXHWm8A8YtpQIc6pbQbdJ65oMY.ogg"
+    },
+    {
+      "description": "Izumi_Relationship_Up_2",
+      "category": "growup",
+      "text": "不管吃的是什么，也不管在哪里吃，都很开心。是因为和老师在一起吗？",
+      "text_original": "何を食べてもどこで食べても楽しい！先生と一緒だからかな？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/Y5G7qr2F9kuCVP20ida8TE1ZnnwF8dER.ogg"
+    },
+    {
+      "description": "Izumi_Relationship_Up_3",
+      "category": "growup",
+      "text": "这次吃什么好呢？",
+      "text_original": "今度は何を食べようか？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/JvHRJnyyk1IsrarGl6Cj5EXzfpuug9w0.ogg"
+    },
+    {
+      "description": "Izumi_Relationship_Up_4",
+      "category": "growup",
+      "text": "哇！",
+      "text_original": "うわ！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/KErx7xBkU3j8w802lwnznXD2cLBziQzz.ogg"
+    },
+    {
+      "description": "Izumi_Season_Birthday",
+      "category": "lobby",
+      "text": "锵~你知道今天是什么日子吗？ 哎嘿！是必须要吃美食的日子~！ 走，一起去吃蛋糕吧！我可以破例分你一点哦？",
+      "text_original": "じゃーん！今日が何の日か知ってる？ えっへん！とにかく美味しいものを食べる日なんだ～！ じゃ、一緒にケーキ食べよう！特別に少し分けてあげてもいいよ？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/JYqYt7cNedUZ7WsOFoK0KixMEStycYiK.ogg"
+    },
+    {
+      "description": "Izumi_Season_Birthday_Player",
+      "category": "lobby",
+      "text": "老师！今天是你生日？ 那我们把咖啡厅包下来，吃一整天的蛋糕吧！ 今天一整天，我都会陪你！",
+      "text_original": "先生！お誕生日なの？ だったらカフェを貸し切って、一日中ケーキを食べよう！ 今日一日、私が一緒にいてあげる！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/PfYuHKSXa4wWVowFANN2AlG3ikP7yQ9K.ogg"
+    },
+    {
+      "description": "Izumi_Season_Halloween",
+      "category": "lobby",
+      "text": "呀吼——老师！今天该玩不给糖就捣蛋啦！快走快走！ 听说还有像西瓜那么大的糖果呢！",
+      "text_original": "やっほー先生！Treat or Treat！だよ！早く行ってみよう！ スイカぐらい大っきい飴もあるんだって！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/TnSOPeat0hp5MdTpBVbz9vEuQ9PtfOXU.ogg"
+    },
+    {
+      "description": "Izumi_Season_NewYear",
+      "category": "lobby",
+      "text": "过年啦！该吃打糕和红豆沙啦！ 听说去那边还能领到甜酒呢！",
+      "text_original": "お正月だよ！早くお餅とお汁こを食べなきゃ！ あっちに行ったら甘酒もくれるんだって！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/8vEB6JYSp9i6HOKZbVKUEs3zO2mvzX30.ogg"
+    },
+    {
+      "description": "Izumi_Season_Xmas",
+      "category": "lobby",
+      "text": "圣诞节啊…… 烤火鸡和奶油蛋糕可好吃了～ 要是能两个一起吃，那就更棒了～",
+      "text_original": "クリスマスね… 七面鳥とか生クリームのケーキが美味しいよね～ それを一緒に食べると、もっと美味しいよね～",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/Q1BZurC9G4u85ecZED63sjT896KiXgs9.ogg"
+    },
+    {
+      "description": "Izumi_Tactic_Defeat_1",
+      "category": "battle",
+      "text": "我饿了，所以输了。",
+      "text_original": "お腹が空いてたから負けちゃった…。",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/2VBpLdgXNjdm4z6ToVD3ndxR20H7bS33.ogg"
+    },
+    {
+      "description": "Izumi_Tactic_Defeat_2",
+      "category": "battle",
+      "text": "输了不许吃饭！",
+      "text_original": "罰としてご飯抜き！？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/JJupJmMIpcE7bE1RucJ2NmMpcfvwKx8p.ogg"
+    },
+    {
+      "description": "Izumi_Tactic_In_1",
+      "category": "battle",
+      "text": "早点结束，去吃饭吧！",
+      "text_original": "早く終わらせて、ご飯食べに行こう？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/rWltLRV9cCMFq0F3uPwBzLVmp6AgcE6W.ogg"
+    },
+    {
+      "description": "Izumi_Tactic_In_2",
+      "category": "battle",
+      "text": "啊？附近好像有家好吃又有名的餐厅！",
+      "text_original": "わあ、この辺に美味しくて有名なお店があった気がする！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/EIj1HhMfavFO8TVrDtianxIZC0rwieiy.ogg"
+    },
+    {
+      "description": "Izumi_Tactic_Victory_1",
+      "category": "battle",
+      "text": "老师，赢啦！你会请我吃好吃的对吧。",
+      "text_original": "先生、勝ったよ～。美味しいもの、奢ってくれるよね～？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/zpm6ylRpSD588jRPQM2DYQ4g4ujuPfvZ.ogg"
+    },
+    {
+      "description": "Izumi_Tactic_Victory_2",
+      "category": "battle",
+      "text": "饭点都到了？！动作快点快点！",
+      "text_original": "もうご飯の時間だよ！急いで急いで！",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/oJLtqlX4TCUr1fAGEAN5onlpLKgxLBUW.ogg"
+    },
+    {
+      "description": "izumi_cardgame_act_1",
+      "category": "event",
+      "text": "レンジで温め直してみたら？",
+      "text_original": "レンジで温め直してみたら？",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/jp/izumi_cardgame_act_1.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "izumi_battle_buffed_1.ogg",
+      "category": "battle",
+      "text": "我又有力气了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/NISofb0xlVYDKBX5bn6dPD1cW4jyINbW.ogg"
+    },
+    {
+      "description": "izumi_battle_buffself_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/XaRL6jzlPupJc73mezmCZg12Yh8wILuM.ogg"
+    },
+    {
+      "description": "izumi_battle_damage_1.ogg",
+      "category": "battle",
+      "text": "这个，不好吃！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/tw1kUUm5hXPZQ6tqB4gFcTyvf3GIWp3I.ogg"
+    },
+    {
+      "description": "izumi_battle_damage_2.ogg",
+      "category": "battle",
+      "text": "好疼！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/aqsqDqNfchVQ66mv9mGXlWLRS9HZqNS6.ogg"
+    },
+    {
+      "description": "izumi_battle_damage_3.ogg",
+      "category": "battle",
+      "text": "我饿了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/sCEb11BJPcYf8XUdJryuH1kwzlKxQCaC.ogg"
+    },
+    {
+      "description": "izumi_battle_defense_1.ogg",
+      "category": "battle",
+      "text": "一点也不疼哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/oyJt8KzNN0BWmQ7YVklHSQSFQ9gAONF3.ogg"
+    },
+    {
+      "description": "izumi_battle_in_1.ogg",
+      "category": "battle",
+      "text": "攻击！把敌人的零食全都抢过来！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/S3U481f5fQMRtTPfZbdL6QZq9x1bduNp.ogg"
+    },
+    {
+      "description": "izumi_battle_in_2.ogg",
+      "category": "battle",
+      "text": "早点结束吧，我要去吃点心呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/KrPZN4CYqEmSnTJl3kZeus7WZbFgbNSe.ogg"
+    },
+    {
+      "description": "izumi_battle_move_1.ogg",
+      "category": "battle",
+      "text": "这就打完了？什么时候开饭？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/0DyZyKDDILbj1ejWcKkZRSTWXIYoyQMy.ogg"
+    },
+    {
+      "description": "izumi_battle_move_2.ogg",
+      "category": "battle",
+      "text": "把这些人都收拾掉的话，就能去吃饭了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/I9j1FxplXusug9aJs6JzgUJ9yYMP08Z5.ogg"
+    },
+    {
+      "description": "izumi_battle_recovery_1.ogg",
+      "category": "battle",
+      "text": "Thank you，但是我饿了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/ZtNa0bxjEiR4tYZtQyWql9Ylnv6ZjAeQ.ogg"
+    },
+    {
+      "description": "izumi_battle_retire.ogg",
+      "category": "battle",
+      "text": "对不起……我撑不住了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/QiieEUTTIpwxUpkKs59vwiywf9PWgq6z.ogg"
+    },
+    {
+      "description": "izumi_battle_shout_1.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/GrV0yzYeZpsmjaOrtXeuhDQmSK0frH7E.ogg"
+    },
+    {
+      "description": "izumi_battle_shout_2.ogg",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/ByssGQobw2Tew0WiXOBLQx2B42Yaymqw.ogg"
+    },
+    {
+      "description": "izumi_battle_shout_3.ogg",
+      "category": "battle",
+      "text": "看招！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/86WhHIQw3gJTmOYTHpSwR9ALldybTpTZ.ogg"
+    },
+    {
+      "description": "izumi_battle_tacticalaction_1.ogg",
+      "category": "battle",
+      "text": "去那边吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/nxGfJhFxrjqIhExAA8Rq3ooucyQtgdBn.ogg"
+    },
+    {
+      "description": "izumi_battle_victory_1.ogg",
+      "category": "battle",
+      "text": "嗯——嗯~好！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/KutTZLEUzQWxfZtURzXLFktvEZW35smP.ogg"
+    },
+    {
+      "description": "izumi_battle_victory_2.ogg",
+      "category": "battle",
+      "text": "哈唔……大闹一场之后的汉堡特别香！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/1mYqB1O4GPtoFvqgTMwBOQ9rmAHTf8lU.ogg"
+    },
+    {
+      "description": "izumi_cafe_act_1.ogg",
+      "category": "cafe",
+      "text": "我的特长？嗯！应该是吃吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/8SAzmhTVzXkHTS6WqhH2ME97lPtgwCNH.ogg"
+    },
+    {
+      "description": "izumi_cafe_act_2.ogg",
+      "category": "cafe",
+      "text": "开饭的时候记得叫我啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/RmqxFc8IX6dA0MsxvX3zRzWa72BP3nKr.ogg"
+    },
+    {
+      "description": "izumi_cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "要是有可以长出汉堡的树就好了！应该会有人发明出来的吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/kUYe4Wv4W1XiTJMpW5n5iJR9nZrUZffN.ogg"
+    },
+    {
+      "description": "izumi_cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "好！我去找点吃的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/oH9NtBzEqWXnb4XEhnhK0lJLL2B6SPDs.ogg"
+    },
+    {
+      "description": "izumi_cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "好，今天也要加油！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/GeZPxiuUIP5PkSCkNWhMj6Wml6XuPMXY.ogg"
+    },
+    {
+      "description": "izumi_commonskill.ogg",
+      "category": "battle",
+      "text": "呀！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/Oh3cgLflrnrMnipBFc1rA2sN2tQ4Sg8I.ogg"
+    },
+    {
+      "description": "izumi_exskill_1.ogg",
+      "category": "battle",
+      "text": "出来吧，豪华巧克力汉堡！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/p8XeX79doCwTvrDoc5hHNx3L2ICfWZqM.ogg"
+    },
+    {
+      "description": "izumi_exskill_2.ogg",
+      "category": "battle",
+      "text": "我早有准备！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/sUrb0bb2K8GaV4MME6g3ToJK2RnXsr5Q.ogg"
+    },
+    {
+      "description": "izumi_exskill_3.ogg",
+      "category": "battle",
+      "text": "锵锵，吃零食了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/9Xxtar0Ieq08Lf9KVYSLO9PhwNUzoPdo.ogg"
+    },
+    {
+      "description": "izumi_exskill_level_1.ogg",
+      "category": "battle",
+      "text": "我好了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/m0LIjIQF6M4cB0UKgDn5ghJmCI0ibgMJ.ogg"
+    },
+    {
+      "description": "izumi_exskill_level_2.ogg",
+      "category": "battle",
+      "text": "唔——哇！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/ld5M2QxDeYRAZvcpXHFnTmATL8HX1G2Z.ogg"
+    },
+    {
+      "description": "izumi_exskill_level_3.ogg",
+      "category": "battle",
+      "text": "啊~能量补充好了，给我等着吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/ClAY5S0380aqfsYkaXErtIeywcE63s5P.ogg"
+    },
+    {
+      "description": "izumi_exweapon_get.ogg",
+      "category": "growup",
+      "text": "能让我吃到美食的工具又多了一样！当然啦，和筷子之类的东西是两码事儿……不过以后我们就可以去吃更多其他的好东西啦，老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/KWG1rpV1tFxwdJXxc78VTiZ7oLu3OjWM.ogg"
+    },
+    {
+      "description": "izumi_formation_in_1.ogg",
+      "category": "formation",
+      "text": "OK！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/5qzg22FUWdMrUeTDPUEZAQwJt0fftiX8.ogg"
+    },
+    {
+      "description": "izumi_formation_in_2.ogg",
+      "category": "formation",
+      "text": "准备完毕！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/wjQZ0w4wpQULCcby6Mk0IsR74a8W2aGd.ogg"
+    },
+    {
+      "description": "izumi_formation_select.ogg",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/1gQdQymB9z1lBTEWDo7QDN4SfWzywFmZ.ogg"
+    },
+    {
+      "description": "izumi_gachaget.ogg",
+      "category": "growup",
+      "text": "哇！！是在找我吗？一起去吃好吃的吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/THzFVvAtdzNOGMzEBb9ovwIlTiQSnWAg.ogg"
+    },
+    {
+      "description": "izumi_growup_1.ogg",
+      "category": "growup",
+      "text": "谢谢老师，感觉肚子填饱一点了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/V0IRXJb6P0gP02Ga4jmZKmACMqbtV3xp.ogg"
+    },
+    {
+      "description": "izumi_growup_2.ogg",
+      "category": "growup",
+      "text": "为什么总是给我吃这么好的东西呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/jCZvg4JoHvKIoTQZIzzlHqM1GAw49O4s.ogg"
+    },
+    {
+      "description": "izumi_growup_3.ogg",
+      "category": "growup",
+      "text": "多谢款待！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/Q17kKvh4WcxbQ4p5GUV8Kkvff3czOVel.ogg"
+    },
+    {
+      "description": "izumi_growup_4.ogg",
+      "category": "growup",
+      "text": "好嘞，多吃点好吃的东西，多长点力气吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/Q6ECE31FwU2sTYKEVv1ISlLruiPlXitR.ogg"
+    },
+    {
+      "description": "izumi_lobby_1.ogg",
+      "category": "lobby",
+      "text": "就没有那种去难吃的店里砸场子的任务吗。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/NE1Pha9jl2FinNdFbxOMBChety2cYgEA.ogg"
+    },
+    {
+      "description": "izumi_lobby_2.ogg",
+      "category": "lobby",
+      "text": "沙勒附近没有好吃的店吗？ 崔尼蒂附近的食堂都被我吃了个遍了…… 啊，这个不能说吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/9ifTJg8mExPGpr4Y8Dj1s3GK6gAEobBT.ogg"
+    },
+    {
+      "description": "izumi_lobby_3.ogg",
+      "category": "lobby",
+      "text": "这个零食是给我的吗？ 嘿，还是老师对我好！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/0K345nHBqCt8nJoTuD61Wv5IlgpQY5Xz.ogg"
+    },
+    {
+      "description": "izumi_lobby_4.ogg",
+      "category": "lobby",
+      "text": "（刚才那个章鱼松饼……好像很好吃的样子……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/7hpbWE0k10rFe5nGFXs8Qzzu3JnWR5sC.ogg"
+    },
+    {
+      "description": "izumi_lobby_5.ogg",
+      "category": "lobby",
+      "text": "带来幸福的青鸟……？ 我猜……尝起来可能会比较像鸡肉吧～",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/w21e2yNDWMNR2AXSAd7gZ34yWBHp2DfV.ogg"
+    },
+    {
+      "description": "izumi_login_1.ogg",
+      "category": "lobby",
+      "text": "你来了，老师！一直在等你呢！快去吃饭吧！ 啊……你要工作？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/ZoyC048ZbWjKq23LmBtqR3uUZuHxxWex.ogg"
+    },
+    {
+      "description": "izumi_login_2.ogg",
+      "category": "lobby",
+      "text": "老师！今天去吃点什么好呢~ 要先做任务？ 不要啦，先吃饭嘛！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/hPALquXm6RmHV79qY0r4PF4L0KBk5DGr.ogg"
+    },
+    {
+      "description": "izumi_relationship_up_1.ogg",
+      "category": "growup",
+      "text": "一起踏上寻味之旅吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/7T0xSvAkT8cCAugg30dvNNVhcZgNbtih.ogg"
+    },
+    {
+      "description": "izumi_relationship_up_2.ogg",
+      "category": "growup",
+      "text": "不管吃的是什么，也不管在哪里吃，都很开心。是因为和老师在一起吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/1gWcIwHwThV6yjykGgBgbUNW2FipWY5W.ogg"
+    },
+    {
+      "description": "izumi_relationship_up_3.ogg",
+      "category": "growup",
+      "text": "这次吃什么好呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/l76Zotjnxmq4yeVHCR5NgPHXsNMJXtQn.ogg"
+    },
+    {
+      "description": "izumi_relationship_up_4.ogg",
+      "category": "growup",
+      "text": "哇！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/YU6NP4lJjCnzMamwX2E3Mx1Lzu4d9vay.ogg"
+    },
+    {
+      "description": "izumi_season_birthday.ogg",
+      "category": "lobby",
+      "text": "锵~你知道今天是什么日子吗？ 哎嘿！是必须要吃美食的日子~！ 走，一起去吃蛋糕吧！我可以破例分你一点哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/XDZMZwuZk3W7pmzMaHpTWl3Lk4X8RZYj.ogg"
+    },
+    {
+      "description": "izumi_season_birthday_player.ogg",
+      "category": "lobby",
+      "text": "老师！今天是你生日？ 那我们把咖啡厅包下来，吃一整天的蛋糕吧！ 今天一整天，我都会陪你！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/ASzg7RTvTB8N08fJZZClAJ545onjvEMt.ogg"
+    },
+    {
+      "description": "izumi_season_halloween.ogg",
+      "category": "lobby",
+      "text": "呀吼——老师！今天该玩不给糖就捣蛋啦！快走快走！ 听说还有像西瓜那么大的糖果呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/0YZOV5SOdnylHJNVEsHkUxDPVysZvxZx.ogg"
+    },
+    {
+      "description": "izumi_season_newyear.ogg",
+      "category": "lobby",
+      "text": "过年啦！该吃打糕和红豆沙啦！ 听说去那边还能领到甜酒呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/SzZNaMsyzthCyGFt3fjzkQLOexEi62TC.ogg"
+    },
+    {
+      "description": "izumi_season_xmas.ogg",
+      "category": "lobby",
+      "text": "圣诞节啊…… 烤火鸡和奶油蛋糕可好吃了～ 要是能两个一起吃，那就更棒了～",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/gTxi1kaWVaECg23jM2wo8KhVueK3YkXB.ogg"
+    },
+    {
+      "description": "izumi_tactic_defeat_1.ogg",
+      "category": "battle",
+      "text": "我饿了，所以输了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/4LZkAcx8Eetr0egxyLm26xKfcb1yJfY0.ogg"
+    },
+    {
+      "description": "izumi_tactic_defeat_2.ogg",
+      "category": "battle",
+      "text": "输了不许吃饭！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/0JlVdpUuzpGpX7QDjEQ3D2vPHyqQSHDJ.ogg"
+    },
+    {
+      "description": "izumi_tactic_in_1.ogg",
+      "category": "battle",
+      "text": "早点结束，去吃饭吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/r1Nji7rX2105eaeZquiLOAuA3yV4Zcm8.ogg"
+    },
+    {
+      "description": "izumi_tactic_in_2.ogg",
+      "category": "battle",
+      "text": "啊？附近好像有家好吃又有名的餐厅！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/HRtkrHxF41IZGDsCtnUHbYfXDNXDQ2Nj.ogg"
+    },
+    {
+      "description": "izumi_tactic_victory_1.ogg",
+      "category": "battle",
+      "text": "老师，赢啦！你会请我吃好吃的对吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/j3co6DWoLQxHYnQoodTdoQpQLaqZtKkI.ogg"
+    },
+    {
+      "description": "izumi_tactic_victory_2.ogg",
+      "category": "battle",
+      "text": "饭点都到了？！动作快点快点！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/CqmF86dyQdbSLZufrYshQJSqiZMdOJdu.ogg"
+    },
+    {
+      "description": "izumi_title.ogg",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/5ngugyKizxvBw3LzaZh0fSsW7qPr2i54.ogg"
+    },
+    {
+      "description": "izumi_season_midautumn",
+      "category": "lobby",
+      "text": "新春到啦，又可以大吃大喝啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/jCshkq4LqKA3r0ZP6PdtVm4Us4fEwVCq.ogg"
+    },
+    {
+      "description": "izumi_season_chinesenewyear",
+      "category": "lobby",
+      "text": "月饼！莲蓉的蛋黄的五仁的豆沙的鲜肉的~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/PqZEWRsWqocsCpMevZUgBDZSLglA01uz.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_1",
+      "category": "lobby",
+      "text": "我，我看猫猫吃得好香，不知不觉就……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/3dj5JPM54OLxFQ7LLwqWQp4USYekUTeb.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "哎，哎哎哎哎？！等，等下！别挠我啊~！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/JPFy1vPKeqofBKiaqjgUhfU54myAJ0hm.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "为什么~！猫猫都开始攻击我了~！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/SAuuWfY98nTpivQZNsahwM6N1bJ6Kodb.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "可，可是，那个看起来真的很好吃啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/EIBWTRTC71iEOfVP8QXNiK0k2HySjFar.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "而，而且我作为美食研究会的一员，",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/DYxIxF1wU2cem0JmKMlvNmRvtO4XUg5A.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "遇到感兴趣的食物，就有责任去尝一尝！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/RQD1pbYw3m6o825UFzdSJnMIJVXjoNqq.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "而且，上边还写着“金枪鱼味”、“高级”……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/KMDdnHF5SZbFQhDzWMRqzyw1NsiG2zuk.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "这么好吃的东西，你们怎么能自己独享呢？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/1rjn6TbtZBsEMDrmcYfUiXkg733WZbh1.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "有好吃的就应该互相分享嘛！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/kawjlww7xjJq2uEozyuD6SfW7EO9ATen.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "啊好疼！我，我不是说了抱歉嘛！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/o77AXxLv5ybnOBCLb5uQctvSTYDbQcvS.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "可我都已经吃完了，也没办法了吧……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/kjAlx6UjGjjnytAhfNjOovDKe5NCP0BE.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_6",
+      "category": "lobby",
+      "text": "呜诶诶！不要咬我~！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/rgp5s0ZNjfxmMX3hgP7t8mnf7mJ3f2mx.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "Izumi_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/Izumi_Title.ogg"
+    },
+    {
+      "description": "izumi_battle_buffed_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_buffed_1.ogg"
+    },
+    {
+      "description": "izumi_battle_buffself_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_buffself_1.ogg"
+    },
+    {
+      "description": "izumi_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_damage_1.ogg"
+    },
+    {
+      "description": "izumi_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_damage_2.ogg"
+    },
+    {
+      "description": "izumi_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_damage_3.ogg"
+    },
+    {
+      "description": "izumi_battle_defense_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_defense_1.ogg"
+    },
+    {
+      "description": "izumi_battle_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_in_1.ogg"
+    },
+    {
+      "description": "izumi_battle_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_in_2.ogg"
+    },
+    {
+      "description": "izumi_battle_move_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_move_1.ogg"
+    },
+    {
+      "description": "izumi_battle_move_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_move_2.ogg"
+    },
+    {
+      "description": "izumi_battle_recovery_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_recovery_1.ogg"
+    },
+    {
+      "description": "izumi_battle_retire",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_retire.ogg"
+    },
+    {
+      "description": "izumi_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_shout_1.ogg"
+    },
+    {
+      "description": "izumi_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_shout_2.ogg"
+    },
+    {
+      "description": "izumi_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_shout_3.ogg"
+    },
+    {
+      "description": "izumi_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "izumi_battle_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_victory_1.ogg"
+    },
+    {
+      "description": "izumi_battle_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_battle_victory_2.ogg"
+    },
+    {
+      "description": "izumi_cafe_act_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_cafe_act_1.ogg"
+    },
+    {
+      "description": "izumi_cafe_act_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_cafe_act_2.ogg"
+    },
+    {
+      "description": "izumi_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "izumi_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "izumi_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "izumi_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_commonskill.ogg"
+    },
+    {
+      "description": "izumi_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_exskill_1.ogg"
+    },
+    {
+      "description": "izumi_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_exskill_2.ogg"
+    },
+    {
+      "description": "izumi_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_exskill_3.ogg"
+    },
+    {
+      "description": "izumi_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_exskill_level_1.ogg"
+    },
+    {
+      "description": "izumi_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_exskill_level_2.ogg"
+    },
+    {
+      "description": "izumi_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_exskill_level_3.ogg"
+    },
+    {
+      "description": "izumi_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_exweapon_get.ogg"
+    },
+    {
+      "description": "izumi_formation_in_1",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_formation_in_1.ogg"
+    },
+    {
+      "description": "izumi_formation_in_2",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_formation_in_2.ogg"
+    },
+    {
+      "description": "izumi_formation_select",
+      "category": "formation",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_formation_select.ogg"
+    },
+    {
+      "description": "izumi_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_gachaget.ogg"
+    },
+    {
+      "description": "izumi_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_growup_1.ogg"
+    },
+    {
+      "description": "izumi_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_growup_2.ogg"
+    },
+    {
+      "description": "izumi_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_growup_3.ogg"
+    },
+    {
+      "description": "izumi_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_growup_4.ogg"
+    },
+    {
+      "description": "izumi_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_lobby_1.ogg"
+    },
+    {
+      "description": "izumi_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_lobby_2.ogg"
+    },
+    {
+      "description": "izumi_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_lobby_3.ogg"
+    },
+    {
+      "description": "izumi_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_lobby_4.ogg"
+    },
+    {
+      "description": "izumi_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_lobby_5.ogg"
+    },
+    {
+      "description": "izumi_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_login_1.ogg"
+    },
+    {
+      "description": "izumi_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_login_2.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_memoriallobby_1.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_memoriallobby_3_3.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_4_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_memoriallobby_4_3.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "izumi_memoriallobby_6",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_memoriallobby_6.ogg"
+    },
+    {
+      "description": "izumi_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_relationship_up_1.ogg"
+    },
+    {
+      "description": "izumi_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_relationship_up_2.ogg"
+    },
+    {
+      "description": "izumi_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_relationship_up_3.ogg"
+    },
+    {
+      "description": "izumi_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_relationship_up_4.ogg"
+    },
+    {
+      "description": "izumi_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_season_birthday.ogg"
+    },
+    {
+      "description": "izumi_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_season_birthday_player.ogg"
+    },
+    {
+      "description": "izumi_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_season_halloween.ogg"
+    },
+    {
+      "description": "izumi_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_season_newyear.ogg"
+    },
+    {
+      "description": "izumi_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_season_xmas.ogg"
+    },
+    {
+      "description": "izumi_tactic_defeat_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "izumi_tactic_defeat_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "izumi_tactic_in_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_tactic_in_1.ogg"
+    },
+    {
+      "description": "izumi_tactic_in_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_tactic_in_2.ogg"
+    },
+    {
+      "description": "izumi_tactic_victory_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_tactic_victory_1.ogg"
+    },
+    {
+      "description": "izumi_tactic_victory_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/izumi_tactic_victory_2.ogg"
+    },
+    {
+      "description": "izumi_cardgame_act_1",
+      "category": "other",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/kr/izumi_cardgame_act_1.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_izumi_spr-01_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_izumi_spr-00_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_izumi_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_izumi_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_izumi_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_izumi_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_izumi_spr-07_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_izumi_spr-09_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_izumi_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_izumi_spr-08_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_izumi_spr-99_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "体操服立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E4%BD%93%E6%93%8D%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0051_spr_02.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E4%BD%93%E6%93%8D%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0051_spr_05.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E4%BD%93%E6%93%8D%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0051_spr_03.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E4%BD%93%E6%93%8D%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0051_spr_00.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E4%BD%93%E6%93%8D%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0051_spr_01.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E4%BD%93%E6%93%8D%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0051_spr_04.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E4%BD%93%E6%93%8D%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0051_spr_06.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E4%BD%93%E6%93%8D%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0051_spr_07.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E4%BD%93%E6%93%8D%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0051_spr_08.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E4%BD%93%E6%93%8D%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0051_spr_99.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E4%BD%93%E6%93%8D%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0051_spr_09.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E4%BD%93%E6%93%8D%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0051_spr_Idle_01.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Izumi.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izumi_tw.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izumi_en.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_008.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_049.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_150.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol.1_%E9%A1%B5%E9%9D%A2_218.png",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-74.jpg"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 107,
+      "favorability": 180
+    },
+    {
+      "id": 59,
+      "favorability": 60
+    },
+    {
+      "id": 38,
+      "favorability": 40
+    },
+    {
+      "id": 58,
+      "favorability": 40
+    },
+    {
+      "id": 92,
+      "favorability": 40
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 10009,
+      "dev_name": "Izumi_default",
+      "combat_style": "default",
+      "type": "Dealer",
+      "attack_attribute": "Explosive",
+      "defensive_attributes": "Light",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "D",
+      "indoor_adaptability": "B",
+      "street_adaptability": "S",
+      "equipment": [
+        8,
+        6,
+        3
+      ],
+      "cultivate_material": [
+        77,
+        80,
+        81,
+        82,
+        158,
+        160,
+        163,
+        165,
+        415,
+        416,
+        417,
+        418,
+        427,
+        428,
+        429,
+        19
+      ],
+      "favorite_equipment": 53,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/skill_icon/rBBiFOeaId0yiOuoe2fidCFGrjQTxVdS.png",
+            "title": "芝士巧克力汉堡～",
+            "title_cn": "芝士巧克力汉堡~",
+            "preview": "//static.kivo.wiki/videos/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/skill_preview/Y26Edlucc3t83wNzezg9WKhAwrlZSosB.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "恢复治疗力145%的生命值"
+              },
+              {
+                "cost": 3,
+                "describe": "恢复治疗力167%的生命值"
+              },
+              {
+                "cost": 3,
+                "describe": "恢复治疗力189%的生命值/攻击速度增加38.4%（持续21秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "恢复治疗力211%的生命值/攻击速度增加38.4%（持续21秒）"
+              },
+              {
+                "cost": 3,
+                "describe": "恢复治疗力254%的生命值/攻击速度增加38.4%（持续21秒）"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/skill_icon/AymOorJ0cRHIRueq4GSeYiZM1hD49pIP.png",
+            "title": "准备、砰！！",
+            "title_cn": "瞄准，砰！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "普通攻击时，有20%机率对1名敌人造成攻击力275%伤害（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，有20%机率对1名敌人造成攻击力289%伤害（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，有20%机率对1名敌人造成攻击力302%伤害（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，有20%机率对1名敌人造成攻击力357%伤害（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，有20%机率对1名敌人造成攻击力371%伤害（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，有20%机率对1名敌人造成攻击力385%伤害（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，有20%机率对1名敌人造成攻击力440%伤害（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，有20%机率对1名敌人造成攻击力454%伤害（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，有20%机率对1名敌人造成攻击力468%伤害（冷却时间10秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "普通攻击时，有20%机率对1名敌人造成攻击力523%伤害（冷却时间10秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/skill_icon/RLtQt6DVMIu98z1ZrGigettCrA5DGWSd.png",
+            "title": "还要吃什么？",
+            "title_cn": "接下来吃什么呢？",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "回复强化率增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/skill_icon/BMwkc7VNCxJv9zzsi7Y1u0bSnwuuq2Hg.png",
+            "title": "美食最赞~",
+            "title_cn": "美食才是最重要的~",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "攻击时按照自身当前生命值的比例，造成攻击力0.4%~2.2%追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时按照自身当前生命值的比例，造成攻击力0.4%~2.3%追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时按照自身当前生命值的比例，造成攻击力0.4%~2.4%追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时按照自身当前生命值的比例，造成攻击力0.5%~2.8%追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时按照自身当前生命值的比例，造成攻击力0.5%~2.9%追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时按照自身当前生命值的比例，造成攻击力0.5%~3%追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时按照自身当前生命值的比例，造成攻击力0.6%~3.5%追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时按照自身当前生命值的比例，造成攻击力0.6%~3.6%追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时按照自身当前生命值的比例，造成攻击力0.7%~3.7%追加伤害"
+              },
+              {
+                "cost": 1,
+                "describe": "攻击时按照自身当前生命值的比例，造成攻击力0.7%~4.1%追加伤害"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2571,
+          "attack": 238,
+          "defense": 81,
+          "healing": 1611,
+          "accuracy": 97,
+          "evasion": 195,
+          "crit": 244,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1428,
+          "range": 750,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 45
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/weapons_icon.png",
+        "name": "Daily Cutlery",
+        "name_cn": "每日餐具",
+        "description": "泉所使用的重型机枪。<br>据泉所说，用这把枪清除掉越多造成妨碍吃饭的人，事后吃到的饭似乎就会越美味。",
+        "description_cn": "泉使用的重型机枪。<br>用这把枪击败问题儿童后，连吃起饭来都会觉得更香。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「还要吃什么？」升级为「还要吃什么？+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 街道适应性 S -> SS",
+            "description": "在街道地形造成1.3倍伤害。在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 爆发克制伤害增加",
+            "description": "攻击类型为爆发的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/skill_icon/F0K6kLesb0M4P5vFhvA5WPB0k9FKrYIn.png",
+            "title": "还要吃什么？+",
+            "title_cn": "接下来吃什么呢？+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "回复强化率增加1000/回复强化率增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加1050/回复强化率增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加1100/回复强化率增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加1300/回复强化率增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加1350/回复强化率增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加1400/回复强化率增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加1600/回复强化率增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加1650/回复强化率增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加1700/回复强化率增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "回复强化率增加1900/回复强化率增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "c84533da-11db-41d4-86ed-034103c2917e",
+  "skill_declare_uuid": "c185b331-3cff-46c9-9946-b6ba8e6b7f9c",
+  "supplementary_uuid": "071a4685-c9dd-4f54-a6a2-04b7a2dc32a5",
+  "supplementary_declare_uuid": "4b6ddccc-8108-4125-ab09-3f93018342c1",
+  "created_at": 1684920783,
+  "updated_at": 1783342854
+}

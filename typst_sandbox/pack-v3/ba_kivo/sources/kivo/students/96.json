@@ -1,0 +1,1654 @@
+{
+  "id": 96,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 96,
+      "avatar": "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/avatar.png",
+      "skin": "",
+      "skin_cn": ""
+    },
+    {
+      "id": 50,
+      "avatar": "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/%E6%B3%B3%E8%A3%85/avatar.png",
+      "skin": "泳装",
+      "skin_cn": "泳装"
+    }
+  ],
+  "family_name": "河和",
+  "given_name": "静子",
+  "family_name_jp": "河和",
+  "given_name_jp": "シズコ",
+  "family_name_kr": "카와와",
+  "given_name_kr": "시즈코",
+  "family_name_en": "Kawawa",
+  "given_name_en": "Shizuko",
+  "family_name_zh_tw": "河和",
+  "given_name_zh_tw": "靜子",
+  "family_name_cn": "河和",
+  "given_name_cn": "静子",
+  "nick_name": "小车,老板娘",
+  "introduction": "百鬼夜行联合学园所属，节庆营运管理部的部长。\n\n同时也是百鬼夜行的传统茶室「百夜堂」的广告牌娘兼老板。\n\n虽然平常是「在百夜堂工作的冒失女孩」，不过那只不过是身为广告牌娘的一面而已。\n\n实际上是为了庆典成功和提高百夜堂的营收的话，什么事都会完成的、具有专家气质的少女。\n\n然而只要松懈下来就会率直地表现出感情，因此不只是亲近的朋友，就连老师已经看穿了。",
+  "introduction_cn": "百鬼夜行庆典运营管理部的部长。\n\n同时也是百鬼夜行的传统茶店【百夜堂】的看板娘。\n平时一副冒冒失失的样子，其实全都是她作为看板娘吸引客人的演技。\n实际上她为了庆典的成功和百夜堂的销售额什么事都做得出来，是个职业气质十足的少女。\n但因其对每件事都会率直地表现出情感，所以好朋友和老师都知道她的真面目。\n\n“啊，老师！欢迎光临~！\n来来来，您随便看随便挑！”",
+  "momo_talk_signature": "百夜堂好评如潮营业中！",
+  "main_relation": 46,
+  "relation": [
+    47,
+    45
+  ],
+  "age": 16,
+  "grade": "二年生",
+  "height": 153,
+  "birthday": "07-07",
+  "hobby": "可爱的接待客人、看板娘拳击",
+  "designer": "whoisshe",
+  "illustrator": "whoisshe",
+  "character_voice": "森永千才",
+  "character_voice_cn": "幽若乃",
+  "release_date": "2021-02-25",
+  "release_date_cn": "2023-08-17",
+  "release_date_global": "2021-11-29",
+  "sd_model_image": "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/sd_model.png",
+  "avatar": "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/avatar.png",
+  "school": 9,
+  "weapon_type": "SG",
+  "is_install": true,
+  "is_install_cn": true,
+  "is_install_global": true,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Small",
+  "special_appearance": false,
+  "more": "!!! note 提示\n本页面中涉及的名词与概念统一以“威威字幕君”的版本为准，但页面中所引用的部分剧情对白以国服版本为主，威威版本为辅，仅供参考。\n!!!\n\n<font color=\"#DEB2AF\">河和静子</font>是隶属于百鬼夜行联合学园的2年级生，同时也是祭典运营委员会的委员长。\n她是开服后最早实装的2星稀有度角色，是在首个活动「樱花烂漫庆典大骚动」中出场的重要角色。\n\n# 目录\n\n[[toc]]\n\n# 一、外在形象\n\n!!! note 提示\n\n立绘差分见本页面的鉴赏模式：https://kivo.wiki/data/character/96?mode=appreciation\n\n!!!\n\n静子的衣着是典型的和风女仆装，设计颇有大正风格，以桃粉色为主色调，衣服配有宽大的袖口和樱花图案，系着典型的带褶边的女仆围裙，脚上穿着酷似白丝袜的足袋与木屐，头上戴着女仆发箍，上有两个圆形和一个倒三角形排列组成的图案，仿佛一个笑脸，发箍旁还系有个蝴蝶结，配有一个可爱的铃铛。\n\n虽然正面立绘中看不到，但静子的围裙是在背后用一个蝴蝶结系上的。蝴蝶结上印有两个爱心，裙上还印有“百鬼夜行”的校徽。\n\n静子背后背着基沃托斯人必备的配枪「樱花嘣嘣」，上面点缀有樱花贴纸；她右手端着托有茶杯、茶壶、点心的托盘，这也是静子所拥有的第一套茶具——她的爱用品「充满回忆的茶具套装」。\n\n:::: center\n\n![shizuko_spr_00.png](files/1348/xnFDs5EhviT5pL8ZpwUl0mtq5e11tVEd.png =300x)\n\n![shizuko_sdart.png](files/1348/3IHKeQo9vHsCOsTa7bhR7hnGsaqsQr5O.png =150x)\n\n::::\n\n静子的光环样式是在一个圆环内部包含了两个对称放置的爱心图案。\n\n:::: center\n\n![静子光环.png](files/1348/Qm5VRlmpH63Zme3bmj19K1t3pPlZ0o8P.png =300x)\n\n::::\n\n# 二、人物塑造\n\n## 百夜堂看板娘\n\n百夜堂是一家百鬼夜行引以为傲的传统茶馆，同时也是祭典运营委员会的本部。因此，作为祭典运营委员会的委员长，静子需要百夜堂作为祭典运营委员会的招牌，也将百夜堂作为筹集活动资金的手段之一。\n\n谈起百夜堂，所有客人都有一致的认可：百夜堂最珍贵的正是看板娘静子的微笑。\n\n> 行人A\n> 百夜堂……是那家很出名的茶馆吗？\n>\n> 行人B\n> 对对，就是那家。他们家的草莓馅蜜可真是绝了！\n>\n> 行人C\n> 百夜堂好吃的东西太多啦，不过最让人欲罢不能的还是……\n>\n> 全员\n> “““静子小姐姐可爱的微笑！”””\n>\n> ——樱花烂漫庆典大骚动 2.欢迎来到百夜堂\n\n静子的品牌形象在百鬼夜行广受欢迎，在百夜堂外也常有路人来找静子拍照。\n\n> 百鬼夜行学生A\n> 小静！能不能合张影啊！\n>\n> 百鬼夜行学生B\n> 我也要，我也要！能不能也和我合影啊？！\n>\n> 静子（祭典运营委员会）\n> 诶嘿嘿\\~好的\\~合影的话，静子随时都可以哦！\n>\n> ——静子个人剧情 2.庆典运营管理部的帅气部长！\n\n即使在百鬼夜行外的其他学校，百夜堂也广为人知。\n\n> 格赫娜学生A\n> 咦？这不是【百夜堂】吗？\n>\n> 格赫娜学生B\n> 我听上次去百夜樱花节的朋友说，百夜堂的食物可好吃了……\n>\n> 格赫娜学生A\n> 正式比赛开始之前先尝尝看吧？\n>\n> ——晄轮大会二期 3.路边摊的诱惑\n\n静子还常需要带着百夜堂的移动式店铺出摊，为百夜堂做品牌宣传。在晄轮大会与EX技能动画中，静子就是带着移动式店铺出场。\n\n:::: center\n![移动式百夜堂.png](files/1348/PHf4owgp5uTQAkCCet3PrrI82K1XJhIH.png \"百夜堂移动式店铺\" =250x)\n::::\n\n## 营业形象\n\n静子会故意在服务客人时表现得很冒失，犯下各种小错误，然后在客人面前表现得慌张和可爱。静子的EX技能动画就是对这一点的直接刻画。\n\n这种特别的「冒失服务」正是百夜堂的品牌特色，百夜堂的客人大都是冲着这项特色服务而来，因此店面总是顾客盈门、生意兴隆。\n\n> 静子（祭典运营委员会）\n> 到底是在干什么？我是在……\n> 提供百夜堂的特色服务，冒失服务啊！\n> 之前我用桃信跟老师说过啊。\n> 我会给老师提供一套完美的服务。\n>\n> ……\n> \n> 总之，客人们可是叫我百夜堂的看板娘呢。\n> 我向大家展现我冒冒失失的可爱，大家由此得到心灵的治愈。\n> 可以说是双赢啊！还有比这更好的做生意方式吗？\n>\n> ——静子个人剧情 1.百夜堂的看板娘！\n\n静子常常在人前扮演弱女子，说话时还会在句尾加上“喵”。比如，初次见面时，静子就在老师面前扮演过出一副弱女子形象。\n\n> 菲娜（祭典运营委员会）\n> 部长刚才不是说，老师来的时候要用充满惊喜的方式欢迎吗…\n>\n> 静子（祭典运营委员会）\n> 不不不……我那是说作为百夜堂的员工，要留下良好的第一印象！\n> 第一印象懂不懂！\n> 在初次见面时表现出可爱~的一面，一开始就把老师的好感度刷到MAX……\n>\n> “呃，请问……”\n>\n> 静子（祭典运营委员会）\n> 诶？！\n> 啊，呃，刚才的，唔……\n> 诶嘿嘿……？\n> ……搞什么……咳咳！\n> 老师，欢迎光临！！\n> 欢迎来到百夜堂~！喵喵！\n>\n> “喵喵……？”\n>\n> ——樱花烂漫庆典大骚动 2.欢迎来到百夜堂\n\n> 静子（祭典运营委员会）\n> 这样的话，我们不被各种各样的人骂惨才怪！呜哇啊！\n> 啊……\n> ……呃……\n> 所以说\\~静子好害怕哦\\~☆\n>\n> ——樱花烂漫庆典大骚动 3.登场！百鬼夜行的问题儿童！\n\n> 静子（祭典运营委员会）\n> 有老师在的话，就算是那个阴阳部部长也只能乖乖协助我们了。\n> 到时候我就可以随心所欲地使唤那个高傲的家伙了……哼哼……\n> ……啊！……呃……静子好担心她们能不能听进去我们的话呢\n>\n> “……其实可以不用再掩饰了……”\n>\n> ——樱花烂漫庆典大骚动 4.阴阳部的电波系少女\n\n在与老师熟络后，静子不再用这种营业面貌掩饰自己的真性情，她开始肆意展现自己追求梦想、坚强努力<span class=\"md-hover-text\">还有腹黑毒舌</span>的一面。\n\n> 静子（祭典运营委员会）\n> 老师怎么可以这样天然呆呢？！\n> 难道这是比小马虎更高级的天然呆属性吗？！\n> 唉……只要在老师面前，就感觉自己原形毕露了。\n> 演技都变得毫无意义……\n>\n> “不管是什么样子，静子都是静子啊。”\n>\n> 静子（祭典运营委员会）\n> ……真是。\n> 真拿老师没办法。\n>\n> （之后，静子不知为何心情变好了，送了一大堆点心过来。）\n>\n> ——静子个人剧情 1.百夜堂的看板娘！\n\n虽然静子的朋友大都清楚她的真面目，但这种反差在外人看来依然非常奇妙。\n\n:::: center\n\n![1.png](files/1348/Xoln13EXLkOyxUkaXfUslG2TsSJ27KWy.png =300x)\n\n![2.png](files/1348/FeKLLJOqzogRFxlc4POnl4NdLw2dD9yP.png =450x)\n\n::::\n\n## “贪心”\n\n与表面上的可爱女子形象不同，真正的静子细心负责、有担当、为了目标会不懈努力、工作态度专业认真、业务水平无可置疑，有着强大的商业头脑。以她自己的话所言，她是个很贪心的人——她想做的事，她一件都不会放弃。\n\n> 静子（祭典运营委员会）\n> 不不不！我在百夜堂里扮演的角色只是我的另一面……！\n> 是为了赚取社团活动资金，在平时工作时展现出的另外一面而已！\n> 那并不是我全部的面貌！\n> 我可是祭典运营委员会的部长……！\n>\n> ——静子个人剧情 1.百夜堂的看板娘！\n\n> 静子（祭典运营委员会）\n> 您可能已经知道了，我可是很贪心的哦？\n> 虽然有很多想做的事情，也有很多想要的东西，但我一件都不会放弃。\n> 不管是让大家露出笑容，还是在商业上取得成功！\n> 还有让百夜堂成为基沃托斯首屈一指的茶店！\n> 我，一件都不想放弃！一件都不想！\n> 当然……我也不会放弃老师！\n>\n> ……\n>\n> 静子（祭典运营委员会）\n> 一想到在未知的前方，不知道有什么在等着我……\n> 我的内心就激动不已！\n> 能做到的事情想尽办法也要去做！\n> 该干的事情一件也不能落下！\n> 我要让这片群岛上，开满海之家的连锁店！\n> 如果成功了……\n> 我就把这片美丽的大海当作礼物，送给老师！\n>\n> ——静子（泳装）个人剧情 3.我可是很贪心的！\n\n面对困难，静子从来不会选择逃避，而是正面迎接问题。\n\n> 尼娅（阴阳部）\n> 那么，接下来就交给我们阴阳部吧。既然他们使用肮脏的手段，那我们就以其人之道还治其人之身。\n> 因此为了后续处理，请你马上回……\n>\n> 静子（祭典运营委员会）\n> 这我办不到。\n>\n> 尼娅（阴阳部）\n> ……嗯？\n> ……什么意思？\n>\n> 静子（祭典运营委员会）\n> 如果离开这里，也许确实能从【度假村狩猎】的问题中摆脱出来。\n>\n> 尼娅（阴阳部）\n> 对，所以必须回来梳理情况，再准备下一步……\n>\n> 静子（祭典运营委员会）\n> 但这样的话，什么问题都没解决。\n>\n> 尼娅（阴阳部）\n> ……嗯？\n>\n> 静子（祭典运营委员会）\n> 当然，尼娅你说的我也很能理解。\n> 但只要合同上面还留着百夜堂的名字，我们百鬼夜行的名声和品牌价值就会不断受损。\n>\n> “那就是大问题了吧？”\n>\n> 静子（祭典运营委员会）\n> 当然了！老师！这不仅是学院的问题，也是直接影响百鬼夜行旅游业信誉的问题！\n> 所以我不能回去。我要留下来，亲手解决这件事。\n>\n> ——出差！百夜堂海之家加盟计划 2.该做的事只有一件！\n\n静子有着绝不满足现状、永远追求更好的精神。策划樱花节时，她会准备比去年更好的全息投影设备来做出更壮观的烟花表演；在百鬼夜行把百夜堂的品牌做出名声后，她会与各大度假村进行合作，创办百夜堂的连锁店「海之家」。\n\n她曾向老师展示过为一场小型庆典准备器材、节目、周边、交通管制等详细策划的过程，把老师累得上气不接下气。但对静子来说这并不算什么。\n\n虽然静子因为百夜堂以及庆典筹备事务忙得团团转，但静子在看到人们的笑容时，就会觉得一切都是值得的。\n\n正是因为有着这样的精神，静子被同社团的部员海夏、修行部的部员所钦佩，甚至为阴阳部部长尼娅所称赞。\n\n> 静子（祭典运营委员会）\n> 我知道举办庆典是件又繁琐又辛苦的事。\n> 但在百夜堂工作让我感觉很开心，客人们也喜欢我，其他成员也在跟我一起努力。\n> 在所有人的努力下，最后成功举办庆典的那个时候……\n> 看到参加庆典的人们满脸的笑容，就觉得我辛苦的一切全都值了。\n>\n> ——静子个人剧情 2.庆典运营管理部的帅气部长！\n\n> 静子（祭典运营委员会）\n> 而经营百夜堂，是给庆典运营管理部筹集资金的方法之一……\n> 嗯，辛苦确实很辛苦，有时候也真的很麻烦……\n> 而且现在也忙着连锁经营海之家……\n> 辛苦的可不是一星半点儿哦？\n> 即使如此，还要继续这样干下去的理由？\n> 因为我，很喜欢庆典……吧？\n>\n> “肯定有这种原因，但……”\n> “我觉得，主要是因为静子喜欢人们的笑容。”\n>\n> 静子（祭典运营委员会）\n> 确实是这样……\n> 在结束了辛苦工作，看到庆典顺利举行的时候……\n> 看到百夜堂的客人露出笑容说着谢谢的时候……\n> 和其他成员一起努力的时候……\n> 我经历过的所有辛苦，都值得了。\n>\n> ——静子（泳装）个人剧情 2.所以……是来做什么的？\n\n除去表面那层营业模式的伪装，静子是一个不论什么困难都不会畏惧的坚强女子；但再深入地看下去，她也是个会失落、会沮丧、会向老师寻求帮助、在老师面前展现自己平常所隐藏的一面的学生。\n\n> 静子（祭典运营委员会）\n> 多亏了老师，我才想起自己忘记了什么东西。\n> 也正是多亏老师，我才学会了该如何去做。\n>\n> “……其实我感觉自己也没做什么特别的事情……”\n>\n> 静子（祭典运营委员会）\n> 我就知道老师会这么说。\n> 但如果没有老师的话……\n> 我肯定会错过很多重要的东西吧。\n> 好了，让人害羞的话已经说够了！\n> 从明天开始，我就会变回平时的河和静子了！\n> 好，老师，我们出发吧！\n>\n> ——静子（泳装）个人剧情 3.我可是很贪心的！\n\n由于过于专心工作，静子甚至因为会忘记休息而累倒。但在老师的指导下，她也逐渐学会了摸鱼。\n\n> 静子（祭典运营委员会）\n> 唔……这里是？\n>\n> “你没事吧？你晕倒了，所以我把你搬到了房间里。”\n>\n> 静子（祭典运营委员会）\n> 老，老师？\n> 这到底是，怎么回事？\n>\n> “你这是劳累过度，所以晕倒了。”\n> “是不是因为前几天帮别的商业街举办庆典，所以累着了？”\n>\n> 静子（祭典运营委员会）\n> 因为……\n> 确实最近百夜堂的客人比之前多了很多。\n> 身为祭典运营委员会的部长，工作也比之前更忙了。\n>\n> “不要太勉强自己啊。”\n>\n> 静子（祭典运营委员会）\n> 可是……\n> 这些都是我该做的事……\n> 不能有一丝懈怠。\n>\n> ——静子个人剧情 3.百夜堂的看板娘很专业哦！\n\n> “静子最近有好好休息吗？”\n>\n> 静子（祭典运营委员会）\n> 啊？什么意思……？！\n> 我现在有什么地方很奇怪吗？！\n>\n> “静子努力让客人们快乐起来的样子，看着很可爱。”\n> “但也没办法。毕竟连锁店已经扩张到这么大了……”\n>\n> 静子（祭典运营委员会）\n> 啊，啊……？\n> 呃……这是……唔……\n>\n> （静子的脸从未变得这么红。）\n>\n> 静子（祭典运营委员会）\n> 啊，我，我突然想起还有急事！\n> 我，我们业务部还有一个高端大气上档次的会议等着我！\n> 那，那明天见！\n>\n> ——静子（泳装）个人剧情 1.瞧见了吧？我成功了！\n\n> 静子（祭典运营委员会）\n> 诶嘿嘿，欢迎您回来\\~主人\\~？\n>\n> “静子，你看起来很悠闲啊……”\n>\n> 静子（祭典运营委员会）\n> 对的呀\\~您没看错，我现在摸鱼摸得正开心呢\\~\n> ……真不可思议啊。明明知道自己不能偷懒，明明知道要打起精神来……明明一直都是这么想的来着……\n> 但是只要和老师在一起……\n> 总感觉一点干劲都没有了……\n> 来呀，老师？请您到这边来。\n> ……是您让我变成这个样子的，您会负责的吧？\n>\n> ——静子个人剧情 4.今天要为自己充电\n\n也许是因为静子作为庆典主办人的职责完成得过于成功，坊间有着误会不小的传闻。相传，祭典运营委员会的部长是一个“为了钱不择手段的无情之人”。\n\n> 静子（祭典运营委员会）\n> 简单粗暴，抓个魑魅，审她！问出背后雇主到底是谁！\n>\n> 椿（修行部）\n> 真是冷酷无情诶。\n>\n> 枫（修行部）\n> 不愧是庆典运营管理部的部长！\n> 我以前就听人称赞部长，为了店铺的业绩、庆典的成败，会不择手段！\n> 原来是真的啊！\n>\n> ——樱花烂漫庆典大骚动 6.修行部的怪人们（2）\n\n> 静子（祭典运营委员会）\n> 你们是负责扮演绑架犯的演员吧？！怎么还在这儿！没听到飞船广播吗？活动已经开始了！\n>\n> 魑魅B（无常魑魅）\n> 庆，庆典运营管理部的部长……？\n>\n> 静子（祭典运营委员会）\n> 按照原本的计划，你们逃跑的路线应该是这边才对！\n>\n> 魑魅B（无常魑魅）\n> 咦？！你要帮我们逃跑吗？！\n>\n> 魑魅A（无常魑魅）\n> 我，我好像听说过！\n> 庆典运营管理部的部长……是一个为了钱不择手段的无情之人！\n>\n> 魑魅B（无常魑魅）\n> 难道……这也在那位笑笑教授的计划之内？！\n>\n> 魑魅队长（无常魑魅）\n> 原，原来是这么回事吗……！\n>\n> 静子（祭典运营委员会）\n> 嗯？怎么感觉完全被误会了……是工作交接环节出了问题吗？\n>\n> ——不忍之心 7.第一关：看板娘与护卫（1）\n\n## 腹黑毒舌\n\n静子拥有腹黑毒舌的属性，常常对眼下的状况给出犀利的吐槽，担当队伍中的吐槽角色。\n\n> 喵达政宗\n> 自投罗网的心情如何啊？\n> 哈哈哈！你们完蛋了！\n>\n> 静子（祭典运营委员会）\n> 唔……怎么听都像是三流反派战败前的台词啊。\n>\n> 菲娜（祭典运营委员会）\n> 不愧是部长！还是那么毒舌！\n>\n> ——樱花烂漫庆典大骚动 10.终曲将至！（1）\n\n> 静子（祭典运营委员会）\n> 啊……老师？\n> 您来得比我想的要早呢。\n> 难道您就这么迫不及待地想见到我吗？\n>\n> “是静子迫不及待想见到我吧？”\n>\n> 静子（祭典运营委员会）\n> 才没有这回事呢！请不要自作多情啊。\n>\n> “你这话好不给面子……”\n>\n> 静子（祭典运营委员会）\n> 哎，明明是您先开始的，怎么自己先玩不起了啊！\n> 您不是大人吗？不是老师吗？\n>\n> ——静子（泳装）个人剧情 2.所以……是来做什么的？\n\n> 静子（祭典运营委员会）\n> 有时候从外部人员的角度提出的不同意见确实有参考价值。\n> 这样一来，也许我们也能发现，有些重要的东西一直被自己忽略了……\n> 嗯，好吧！我同意了！\n> 修行部的各位，有什么好的想法就尽管说吧。\n>\n> 枫（修行部）\n> 嗯？真的吗？可以说吗？\n>\n> 静子（祭典运营委员会）\n> 你都强行闯进来了，现在还客气个什么劲啊？！\n>\n> ——祭典运营委员会社团剧情 1.祭典运营委员会例会，现在开始！\n\n# 三、人物经历\n\n!!! note 以下内容包含大量剧透\n如想保留初见体验，建议先前往游戏内或视频网站观看完整剧情。\n!!!\n\n## 樱花烂漫庆典大骚动\n\n为了解决魑魅一座在百夜樱花节上捣乱的问题，静子联系了夏莱的老师，邀请他前来百鬼夜行。静子和菲娜招待了老师，并且为老师介绍了百鬼夜行的风貌和祭典运营委员会的职能。\n\n静子从千禧借来了昂贵的全息设备，希望在这次樱花节上做出一场比以往更加华丽的超级烟花秀。祭典运营委员会作为管理方所拥有的庞大资金为百鬼夜行商业街商会老板喵达政宗所觊觎，因此喵达政宗准备了一个漏洞百出的计划，让泉奈和魑魅一座破坏这次樱花祭。\n\n静子计划让老师帮助自己取得阴阳部部长的协作，但来到阴阳部时，尼娅早已打听到消息并提前下班，只让千世留下一句“可以去找修行部”。祭典运营委员会便和修行部一起在樱花节期间维持治安。\n\n> 千世（阴阳部）\n> 欢迎老师。等您许久了。\n>\n> 静子（祭典运营委员会）\n> 千世……咦？你说你在等老师？\n> 难道，你早就知道我们会来？\n>\n> 千世（阴阳部）\n> 嗯，部长说过了。\n> 有二人将至，\n> 一位可爱的大人，\n> 一只小狸猫。\n>\n> 静子（祭典运营委员会）\n> 哈……？！你说谁是狸猫？！\n>\n> ——樱花烂漫庆典大骚动 4.阴阳部的电波系少女\n\n在老师的计划下，祭典运营委员会、修行部、认老师为主公的忍者泉奈共同击溃了喵达政宗的阴谋。百夜樱花节也顺利举办。\n\n> 静子（祭典运营委员会）\n> 有了老师的指挥，我们现在对付多少人都绰绰有余！\n>\n> 菲娜（祭典运营委员会）\n> 这就是！我们的实力！\n>\n> “我们赢了吧？”\n>\n> 喵达政宗\n> ……呵呵，老夫竟然……输了？\n>\n> ……\n>\n> 喵天丸\n> 呃……要不……各位，过去的事儿就让它过去吧？\n>\n> 静子（祭典运营委员会）\n> 你想得美！！！静子看板娘认真拳——！\n>\n> ——樱花烂漫庆典大骚动 11.终曲将至！（2）\n\n## 个人剧情&情人节剧情\n\n**百夜堂的看板娘**！\n\n静子向老师展示了自己作为看板娘的“冒失服务”，但老师却反应不大，这让静子有些慌张。面对说着「请多配合一下」的静子，老师说无论形象再怎么变，静子永远是静子，听完静子的脸上浮起了笑容。\n\n**庆典运营管理部的帅气部长**\n\n老师帮静子一起做庆典运营管理部的工作。静子在老师面前有条不紊地工作，展现出作为庆典运营管理部部长的帅气一面。\n\n**百夜堂的看板娘很专业哦**！\n\n总感觉身体不太舒服的静子终于还是病倒了。老师对身体状态差且过度劳累的静子说，适当休息非常重要。于是静子要求老师陪在身边直到她入睡。\n\n**今天要为自己充电**\n\n静子接受了老师的忠告，决定休息一天，她向老师撒娇让他坐到自己旁边。\n\n:::: center\n\n![Shizuko_home.png](files/1348/FTwmm8EtR8OGyRHhTao47m6lalaL1htN.png =450x)\n\n\n::::\n\n**为某人准备的特别问卷调查**\n\n静子请求老师参加关于百夜堂特别限定甜点的问卷调查。调查结束后，老师询问只有一个人参加调查是不是不够，静子却回复了一个灿烂的笑容。\n\n:::: center\n\n![百夜堂限定甜点](files/1348/khnnjM04q49kJZZ5JBUCzhZpH4YhkbRV.png \"百夜堂限定甜点\" =250x)\n\n::::\n\n**百夜堂的看板娘喜欢古董！**\n\n静子邀请老师来到百夜堂中。然而，由于正值活动期间，百夜堂生意火爆，为老师提供限定套餐所需的餐具不足。情急之下，静子用自己的私人茶具款待了老师。客流平息后，老师提及此事，静子不禁感到害羞。\n\n:::: center\n\n![充满回忆的茶具套装](files/1348/MyjXgO2q6V95cspm22sQ7S40465zOTwC.png \"充满回忆的茶具套装\" =250x)\n\n::::\n\n## 不忍之心\n\n静子和菲娜出演了庆典考验环节第一关【看板娘和护卫】的守门人。\n\n> 静子（祭典运营委员会）\n> 这里！就是【第一关：看板娘和护卫】，而守门人正是我！\n> 百夜堂的偶像兼老板！河和静子！\n>\n> 菲娜（祭典运营委员会）\n> 还有菲娜！头儿！\n>\n> ——不忍之心 7.第一关：看板娘与护卫（1）\n\n由于把魑魅一座当成了工作人员，静子放走了逃跑中的魑魅一座。\n\n> 静子（祭典运营委员会）\n> 你们是负责扮演绑架犯的演员吧？！怎么还在这儿！没听到飞船广播吗？活动已经开始了！\n>\n> 魑魅B（无常魑魅）\n> 庆，庆典运营管理部的部长……？\n>\n> 静子（祭典运营委员会）\n> 按照原本的计划，你们逃跑的路线应该是这边才对！\n>\n> 魑魅B（无常魑魅）\n> 咦？！你要帮我们逃跑吗？！\n>\n> 魑魅A（无常魑魅）\n> 我，我好像听说过！\n> 庆典运营管理部的部长……是一个为了钱不择手段的无情之人！\n>\n> 魑魅B（无常魑魅）\n> 难道……这也在那位笑笑教授的计划之内？！\n>\n> 魑魅队长（无常魑魅）\n> 原，原来是这么回事吗……！\n>\n> 静子（祭典运营委员会）\n> 嗯？怎么感觉完全被误会了……是工作交接环节出了问题吗？\n> 总之没时间了！快，走这边！\n>\n> ——不忍之心 7.第一关：看板娘与护卫（1）\n\n## 出差！百夜堂海之家加盟计划\n\n静子遭到凯撒集团的合同诈骗，陷入【度假村狩猎】的骚乱中。\n\n尼娅提议由阴阳部出面解决问题，但静子为了维护百鬼夜行的品牌价值，选择正面直接参与度假村狩猎，利用合同的漏洞反过来合并全部岛屿，并收回所有问题合同。\n\n静子并没有不顾一切地收回所有人的运营权，反而与温泉开发部、金羊毛号重新签订合同，让大家合法地参与了度假村运营，并且严正拒绝了凯撒集团和黑龟组的加盟。\n\n最后，联邦学生会介入，收回了失乐园度假村所有土地的所有权，其他所有组织在3天内离开。离开前，静子举办了一场宴会，招待了钢盔团、阿比多斯、联邦学生会等人。\n\n:::: center\n\n![BG_CS_Event_10.jpg](files/1348/B38abGdpAh8evD11eJRaXNWaeRzbc29X.jpg =450x)\n\n\n::::\n\n## Get Set, Go! ～基沃托斯晄轮大会～\n\n静子在晄轮大会中出摊贩售零食和汽水，为百夜堂做了宣传。\n\n> 静子（祭典运营委员会）\n> 百夜堂出摊啦！\n> 我们新推出了樱花气泡水！要不要买一杯，边看比赛边喝呢？\n> 还有静子亲手做的最中饼，可以当零食哦！\n>\n> ——晄轮大会二期 3.路边摊的诱惑\n\n!!! attention 延伸阅读\n\n相关内容在官方小说《～基沃托斯晄轮大会～舞台中心的小秘方》中有更详细的描写。\n\n!!!\n\n## 所有奇迹的始发点篇第2章\n\n祭典运营委员会负责百鬼夜行自治区的后方工作。\n\n> 静子（祭典运营委员会）\n> 顺便说一句，避难所都已经准备齐全了，各种补给品也将由我们祭典运营委员会提供支持！\n> 请大家多多关照！\n>\n> Final.2.10 自治区防御作战 - 百鬼夜行\n\n## 百花缭乱篇第1章\n\n静子决定重新举办已经被废止了20年的「百鬼夜行灯笼祭」，让最终章之后忙于重建工作的百鬼夜行重新焕发活力，为此忙碌万分。\n\n> 正如您所说，静子同学真的很努力哦～\n> 静子同学她啊，只要是为了祭典就会不顾后果地横冲直撞，真是让人看不腻——\n> ——啊不对，真是令人非常敬佩。\n>\n> ——尼娅，Vol5.1.4 在阴阳部\n\n> 三森（修行部）\n> 送故迎新……怀着对未来的祈愿，让过去的痛苦记忆都随着灯笼流向江河……\n> 于是，大家便能做好踏上新征程的心理准备——静子是这么说的。\n>\n> 椿（修行部）\n> 老师也还记得吧——天空被染红的那天\n> 自那以后，百鬼夜行就隐约弥漫着沉重的气氛……\n> 静子似乎一直很在意这个。\n>\n> 枫（修行部）\n> 所以，为了通过愉快的祭典来改变气氛，她对这次的祭典十分卖力！\n> 开开心心享受祭典，然后不好的回忆就吐旧纳新？地装进灯笼漂走！很厉害吧！\n> 然后，祭典的最后，会有超~~~好看的巫女小姐上台 跳舞！\n> 真好啊，我也想试试\n>\n> ——Vol5.1.8 青春（？）少女（2）\n\n紫和老师前往百花缭乱寻找桔梗，碰巧遇上静子来到百花缭乱寻找紫、委托紫担任巫女。\n\n被桔梗击败并呵斥的紫不见了踪影。为了祭典的成功，也因为无法对紫的遭遇视而不见，静子决心和老师一起寻找她。静子找到紫后，出乎意料地得到了紫同意担任巫女的承诺。虽然很在意紫的情况，也很自责是不是自己的要求导致了紫的消沉，但静子依然继续努力办成祭典。\n\n> 静子（祭典运营委员会）\n> 一直以来我都以为，联络不上勘解由小路家的巫女大人，只是时机不对。想着过段时间应该就能取得联系。\n> 没想到……紫同学和百花缭乱之间还有这种纠葛。\n> 我可能，把问题想象的太简单了。\n>\n> “静子……。”\n>\n> 静子（祭典运营委员会）\n> 所以说，我就更加不能在这种时候扭头回去了。\n> 不单只是为了祭典的成功……\n> 老师您也说过的吧。\n> 「紫同学的想法，是属于紫同学自己的」……\n> 我也是这么认为的。\n> 有想做的事情就应该行动起来，而且这个决定权在于当事人自己。\n> ……我们谁都没有告诉过紫同学这个道理吧？\n> 既然如此，我不能就这么回去。\n> 不对……是不想就这么回去。在我见到紫同学，把话说明白之前。\n>\n> ——Vol5.1.14 少女的决心\n\n由于棕榈的破坏，祭典运营委员会在会场全员晕倒，灯笼祭也一时中止。随着危机被解决，祭典运营委员会又重新振作起来，齐心协力重新举办灯笼祭。\n\n> “大家，这么早辛苦了。”\n>\n> 静子（祭典运营委员会）\n> 啊，老师！\n>\n> 菲娜（祭典运营委员会）\n> 老师，你好！\n>\n> 海夏（祭典运营委员会）\n> 哼哼！为了复活祭典，就由我们祭典运营委员会来齐心协力加油了！\n>\n> “毕竟之前也发生了那样的事啊。”\n> “是已经决定重新举办祭典对吧？“\n>\n> 静子（祭典运营委员会）\n> 是的。毕竟发生了谁都没有预料到的事态呢……\n> 好不容易获得了各方的理解，祭典最终能够再次得以举办。\n> 话是这么.....在骚动最严重的时候，祭典运营委员会竟然全员昏倒了.....\n> 好不甘心啊，不可原谅！！！\n>\n> ——Vol5.1.26 寄托着希望\n\n:::: center\n\n![BG_CS_PV4_5_20.jpg](files/1348/2dPPPSi5Wgfonzw4P84UwFMDuJpVwTlw.jpg \"灯笼祭\" =450x)\n\n\n::::\n\n## 热热闹闹，走走逛逛\n\n在格赫娜来百鬼夜行修学旅行之际，静子正出差研究圣三一的庆典。\n\n在最后的庆功宴上，静子夸奖了海夏的工作。\n\n> 静子（祭典运营委员会）\n> 事情经过我已经全都听说咯。事无巨细地，一字不漏地。\n> 你做到了，海夏。对自己再自信一些吧。即便我那时在场，大概也没办法处理得像你这么完美吧。\n>\n> 海夏（祭典运营委员会）\n> 真、真的吗……？\n>\n> “你就老实接受呗？”\n>\n> 静子（祭典运营委员会）\n> 我和老师，还有其他人可都是这么说的哦?对自己再自信一些吧！\n> 挺起胸膛，对自己说我做到了。说下一份工作也全都放马过来，看我把你们全都变成祭典！\n>\n> ——热热闹闹，走走逛逛 16.回忆永无敌\n\n## 社团剧情\n\n### 祭典运营委员会\n\n**祭典运营委员会例会，现在开始！**\n\n静子和菲娜为了准备庆典，决定开会商量。但会议却被擅自闯入的修行部成员们搞得一团糟。\n\n**祭典运营委员会例会，再次开始！**\n\n祭典运营委员会在休息日再次召开例会，以准备下个月的庆典。出差调研归来的海夏提出了各种荒唐的提案，被静子逐一否决。但海夏提议的「柳祭」触动了静子的心，于是众人立刻开始筹备。\n\n### 修行部\n\n**春宵苦短，奔跑吧，少女**\n\n枫向祭典运营委员会和老师咨询修行部的前辈们为什么撇下枫半夜偷偷出去的事，静子给出了最直接有效的建议：“直接去问她们不就好了”。\n\n# 四、杂项趣闻\n\n## CBT立绘\n\n静子在CBT时期就有登场。CBT时期立绘与现在的立绘相比并没有多少设计上的差异，主要区别在于面部表情中嘴部结构的修正。\n\n:::: center\n\n![shizuko_spr_00_1.png](files/1348/ihNxb32vqgevTfFZhf3mPIgJmvNaBbYT.png \"正式立绘\" =200x)\n\n![orihime_cbt_00_0_1.png](files/1348/cvFAEjzo02vnmXMlJaiaTZu4U8C9lb4S.png \"CBT立绘\" =200x)\n\n::::\n\n## 设计废案\n\n河和静子的设计废案曾包含兽耳与尾巴的要素，表情也比现在包含更多的恶作剧之感。\n\n:::: center\n\n![静子废案.png](files/1348/1m7rH2V7EninKzpegIsSP7unk1NJVRnG.png)\n\n::::\n\n## 首个追加二星角色\n\n河和静子是第一个在开服后实装的二星角色，是总力战「白&黑」的对策角色。\n\n## 神秘与原型\n\n河和静子的立绘中没有大多数百鬼夜行学生所拥有的人外要素，早期关于其原型的考据较为困难，曾有说法认为她的原型是河童。但是，在CBT时期，静子的游戏内相关资源名称是「Orihime / 織姫」，即「织女」。并且静子的生日7月7日也与之呼应。因此基本可以确定，静子的原型为**织女**。 \n\n千世曾经称静子为「タヌキさん / 小狸猫」，但在静子的立绘上没有相关的设计元素，这更可能是形容她善于扮演营业模式的性格。\n\n虽然静子的台词中包含许多与猫有关的台词，但是那大概只是静子的营业人设。\n\n## 看板娘拳\n\n静子拥有特别招式「看板娘パンチ / 看板娘拳」。游戏的过场加载图中就有静子在菲娜面前展示看板娘拳的场景。\n\n:::: center\n\n![SD1.png](files/1348/IN9861FtCULPRQIQOyhzivaEgr3VWXlh.png =600x)\n\n::::\n\n静子曾使用「静子看板娘认真拳」和「静子认真一拳 夏日版」两次击败了喵达政宗。\n\n> 你想得美！！！静子看板娘认真拳——！\n>\n> ——静子，樱花烂漫庆典大骚动 11.终曲将至！（2）\n\n> 梦话就留到梦里再说吧——！静子认真一拳！夏日版！！\n>\n> ——静子，出差！百夜堂海之家加盟计划 10.玄武使者（2）\n\n## 值日生语音\n\n静子在作为值日员的时候，便会毫不掩饰自己是在营业的事实，当着老师的面练习营业。\n\n> 啊，欢迎回来，老师！\n> 喵喵！ \n> ……嗯，刚才的很完美。\n\n> 呃……累死……\n> 啊，老师，您回来了！\n> 快来快来，这边请，\n> 不用客气~！\n\n> 啊，老师，欢迎光临~！\n> 今天也很热是吧，\n> 来，喝点饮料吧！\n> ……嗯，就是这种感觉。\n\n> 热死了……\n> 老老老老老师？！\n> 什么时候来的……！\n> 欢，欢迎光临~！\n\n## 和风兔女郎提出者\n\n静子在咖啡厅语音中提出的天才想法：在下次庆典中让所有人穿上和风兔女郎。\n\n> 下次的庆典，我想大胆一点，搞点不一样的……比如让所有人穿上和风兔女郎……嘿嘿……\n\n## 声线\n\n静子的日语声优森永千才的声线比较特别，因此静子的声线在许多人听来是比较尖锐的声音，「シズコ　変な声」（大意：“静子  声音好怪”）甚至曾作为X（原Twitter）的搜索联想关键词。\n\n森永千才也知晓这点，但与许多其他玩家一样，她将这视为静子的萌点之一。\n\n:::: center\n\n![森永千才推特.png](files/1348/JtX6aft9m07IathJdtQllYN3nJUvppuM.png =450x)\n\n来源：https://x.com/morinaga_1000/status/1621758026054262785\n\n::::\n\n## 体操服\n\n在运动会2期活动剧情中，静子的体操服立绘登场。\n\n设计/原画：MISOM150。\n\n:::: center\n\n![NP0053_spr_Idle_01.png](files/1348/qDzXs5IgTHZFkI4BQvj3L18j8klKtaqH.png =300x)\n\n::::\n\n## 隐藏大大大学说的破灭\n\n和许多 ~~（？）~~ 角色一样，从静子的初始立绘中难以准确判断其胸围。\n\n而随着静子（泳装）的实装，静子隐藏大大大派的幻想破灭了。\n\n:::: center\n\n![CH0180_spr_Idle_01.png](files/1348/uDm0oiv47t0fo3I4GO0hvnG40ZnpOObq.png =450x)\n\n::::\n\n## 1.5周年纪念短片\n\n在1.5周年纪念短片中，忍术研究部、修行部、祭典运营委员会来到商场挑选泳装，碰巧遇上了对策委员会。\n\n在随后的商场机器人暴动中，静子也使用其配枪樱花砰砰协助镇压了机器人，并在危机结束后提出了泳装服务企划。\n\n## ～基沃托斯晄轮大会～舞台中心的小秘方\n\n晄轮大会活动推出的官方小说中，描绘了静子和留美在摊贩区抢客的景象。百夜堂和玄武商会都是在基沃托斯颇负盛名的品牌，因此抢客十分激烈，双方数次吵起架来。\n\n偶然路过的纯子就这么被卷进了二人的纷争中，二人决定以料理决胜负。\n\n:::: center\n\n![novel.jpg](files/1348/HSUrX19GERxWlmalNRn3TgMw1i6ELpUe.jpg =450x)\n\n\n::::\n\n静子和菲娜的秘密菜谱被纯子误以为是什么机密食材的信息.把菜谱归还给静子后，纯子才明白静子只想堂堂正正地以美食取胜。\n\n# 五、延伸阅读\n\n## 角色配音\n\n### 森永千才\n\n相关链接：[X（原Twitter）](https://x.com/morinaga_1000)\n\n河和静子的日语声优。其声线音调较高，不过在节目中以及事务所的示例声音中会分别使用各种音色。\n\n曾出演过（以下只包含部分作品）：\n\n- 我被抓到贵族女校当“庶民样本”（神领可怜）\n- NEW GAME!（阿波根海子）\n- 粉彩回忆（螺丝兔）\n- 冰冰冰 冰淇淋君（奇奇）\n- 沦落者之夜（莫莉）\n- Unnamed Memory（纳克）\n- Fate/Grand Order（布拉达曼特）\n- 碧蓝航线（西弗吉尼亚）\n\n!!! attention 引用声明\n以上内容引自[萌娘百科](https://mzh.moegirl.org.cn/%E6%A3%AE%E6%B0%B8%E5%8D%83%E6%89%8D)，遵循[CC BY-NC-SA 3.0 CN](https://creativecommons.org/licenses/by-nc-sa/3.0/cn/)协议。\n!!!\n\n:::: center\n\n![签名色纸.png](files/1348/tA1AeSSmQXz8W9Awes6WCadIhZdx7c0F.png =450x)\n\n\nhttps://x.com/Blue_ArchiveJP/status/1366297331881058307\n\n::::\n\n### 幽若乃\n\n相关链接：[Bilibili](https://space.bilibili.com/260624615)\n\n河和静子的中文配音演员，同时也是一名在Bilibili上活跃的二次创作配音爱好者。\n\n曾出演过（以下只包含部分作品）：\n\n- 四叶草剧场（格蕾塔）\n- 空之要塞启航（阿玛莎）\n\n### 김가령\n\n相关链接：[YouTube](https://www.youtube.com/channel/UCm1JuixwDoQEDi5RfcRuHJg)、[치지직](https://chzzk.naver.com/314fd8aa23dccfedf21bcc00cd6df9ec)、[NAVER](https://blog.naver.com/if_world)、[Twitch](https://www.twitch.tv/garyeongvoice)\n\n河和静子的韩语配音演员，同时也是天童爱丽丝的配音演员。\n\n曾出演过（以下只包含部分作品）：\n- 冒险岛世界（元素师）\n- Cyphers（西德尼）\n- 重返未来1999（十四行诗）\n- 原神（派蒙）\n- 明日方舟（真理）\n- 幻塔（佩.佩.）\n- 最终幻想14（吉祥天女）\n- 废墟图书馆（堇紫泪滴 - 伊织）\n\n!!! attention 引用声明\n以上内容引自[Namu Wiki](https://namu.wiki/w/%EA%B9%80%EA%B0%80%EB%A0%B9)，遵循[CC BY-NC-SA 2.0 KR](https://creativecommons.org/licenses/by-nc-sa/2.0/kr/)协议。\n!!!\n\n## 人物介绍\n\n|  | 日服 | 简中服 | 繁中服 | 国际服 |\n| ----- | ----- | ----- | ----- | ----- |\n| 宣传简介   | お祭り運営委員会の委員長、シズコさん！<br>普段は喫茶店の看板娘として可愛らしい接客をしているのですが、油断をすると…？<br><br>「あっ、おかえりなさい先生！にゃんにゃん！……うん、今のは完璧」 | 百鬼夜行庆典运营管理部的部长。同时也是百鬼夜行的传统茶店【百夜堂】的看板娘。<br>平时一副冒冒失失的样子，其实全都是她作为看板娘吸引客人的演技。实际上她为了庆典的成功和百夜堂的销售额什么事都做得出来，是个职业气质十足的少女。<br>但因其对每件事都会率直地表现出情感，所以好朋友和老师都知道她的真面目。<br><br>“啊，老师！欢迎光临~！<br>来来来，您随便看随便挑！” | 女給簡單說就是穿著小振袖+圍裙的女僕啦///<br>不管是和風女僕、大正女僕<br>唯一可以知道的就是 靜子是最可愛的女僕!<br>帶著你的青輝石迎接她的光臨吧(*´∀`)~♥| Introducing <Momoyodou> mascot Shizuko!<br>She runs a tea house and is the President of the Festival Operations Department...Shizuko appears to be busy all the time. |\n| 游戏内简介 | 百鬼夜行連合学院所属、お祭り運営委員会の委員長。<br><br>同時に、伝統的な喫茶店「百夜堂」の看板娘兼オーナーでもある。普段は「百夜堂で働いているドジっ子な女の子」だが、それはあくまでも看板娘としての一面に過ぎない。実際はお祭りの成功と百夜堂の売上のためなら何でも成し遂げてみせる、プロフェッショナル気質な少女。ただし油断すると感情表現が素直に出てしまうため、親しい友人はもちろん、先生にも全てバレてしまっている。 | 百鬼夜行庆典运营管理部的部长。<br><br>同时也是百鬼夜行的传统茶店【百夜堂】的看板娘。<br>平时一副冒冒失失的样子，其实全都是她作为看板娘吸引客人的演技。<br>实际上她为了庆典的成功和百夜堂的销售额什么事都做得出来，是个职业气质十足的少女。<br>但因其对每件事都会率直地表现出情感，所以好朋友和老师都知道她的真面目。 | 百鬼夜行聯合學園所屬，節慶營運管理部的部長。<br><br>同時也是百鬼夜行的傳統茶室「百夜堂」的看板娘兼老闆。<br>雖然平常是「在百夜堂工作的冒失女孩」，不過那只不過是身為看板娘的一面而已。<br>實際上是為了慶典成功和提高百夜堂的營收的話，什麼事都會完成的、具有專家氣質的少女。<br>然而只要鬆懈下來就會率直地表現出感情，因此不只是親近的朋友，就連老師已經看穿了。  | President of the Festival Operations Department at Hyakkiyako Academy.<br><br>The mascot of Momoyodou, the Hyakkiyako's traditional tea house. Acts clumsy, but only because it sells her image as an idol. In truth, she's an expert flirt willing to do anything for the success of the festivals and Momoyodou. Wears her heart on her sleeve, making her an easy read for her friends as well as Sensei. |\n\n## 武器\n\n静子使用的武器【樱花砰砰】的现实原型是Ithaca 37。\n\n:::: center\n\n![Ithaca 37.jpg](files/1348/9Td6P5Bdi3oLlZBw2DWKPhGOSf6JnCMj.jpg)\n\n\n::::\n\n!!!attention  引用声明\n该图片引用自[Fandom Gun Wiki](https://guns.fandom.com/wiki/Ithaca_37)，遵循[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0)协议。\n!!!\n\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私<br>シズコ|\n|[老师](https://kivo.wiki/data/character/16)|先生<br>シャーレの先生|\n|[菲娜](https://kivo.wiki/data/character/215)|フィーナ|\n|[海夏](https://kivo.wiki/data/character/127)|ウミカ|\n|[泉奈](https://kivo.wiki/data/character/180)|イズナ<br>忍者の子|\n|[果穗](https://kivo.wiki/data/character/143)|カホさん|\n|[千世](https://kivo.wiki/data/character/84)|チセ|\n|[名草](https://kivo.wiki/data/character/254)|ナグサさん|\n|[尼娅](https://kivo.wiki/data/character/126)|陰陽部の部長<br>部長|\n|喵天丸|ニャン天丸<br>会長<br>ニャン天丸会長|\n|[弥守](https://kivo.wiki/data/character/22)|ミモリ|\n|[紫](https://kivo.wiki/data/character/318)|ユカリさん<br>勘解由小路さん|\n|[若藻](https://kivo.wiki/data/character/11)|あなた|\n|百花缭乱纷争调停委员会|百花繚乱の皆さん<br>皆さん<br>百花繚乱|\n\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>\n\n# 六、官方图集\n\n## 卡池banner\n\n| 日服  | 简中服 | 繁中服 | 国际服 | 备注 |\n| :-----: | :-----: | :-----: | :-----: | ------ |\n| 祭り囃子はしのぶれど | 庆典乐声响 难掩相思意 | 暂无 | 暂无 |        |\n| ![イズナ＆シズコ.jpg](files/1348/uUkUkNoJwDux4YsPyT5rPPvUyUyeIcID.jpg =450x) | ![izuna_shizuko_cn.png](files/1348/Yv4A4FPY1tXVzT5alIMsMy1BdHJn80Dq.png =450x) | ![izuna_shizuko_tw.png](files/1348/lJbRlht7XYji7hicMM5tWm4usaKX80eZ.png =450x) | ![izuna_shizuko_en.jpg](files/1348/b6yB2dBvzdbipHnzbwm7OT8EanCsjxwu.jpg =450x) |       |\n|  |                       | 我在百夜堂等你來喔！喵喵！ | I'll be waiting at Momoyodou! Nyan! |                          |\n|                      |  | ![izuna_shizuko_tw_re.png](files/1348/Uq8wveuvr8zURHIYaLzSTtbYJSxmoBKx.png =450x) | ![izuna_shizuko_en_re.jpg](files/1348/04cHU7MmwET6PO32E6sBHZCnJvXOdgLA.jpg =450x) | 国际服复刻卡池新增Banner |\n\n## 官方介绍图\n\n|  日服  | 简中服 |  繁中服  | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![Shizuko_jp.jpg](files/1348/ZZPxN4G4gukC23LvTQuprLR2mY8AG8xr.jpg =425x)| ![shizuko_cn.jpg](files/1348/D4ZEqzm2QYz6o7BJbxSHsc7MJk5jeLBD.jpg =425x) | ![shizuko_tw.jpg](files/1348/o2DvvVvAJtLYFgbm0IacBeEhrQCHu2Ii.jpg =700x) | ![shizuko_en.jpg](files/1348/YLRId4iyCk22NulCeX9ktFO7j6MrgJxB.jpg =370x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[百夜堂移动式店铺](https://kivo.wiki/data/item/826) |\n| :---: | :---: | :---: |\n| ![006yPoYygy1hqfs8qsyypg30k00etu13.gif](files/443/yQa2dBNgiPxb72PxDTryDzFpCtnRN8Rn.gif =450x) | ![shizuko_sd.gif](files/1348/7ZLAwnbr5mVqYl3OSd9cr0jqzU4VYjwN.gif =450x) | ![shizuko_interaction.gif](files/1348/clyQfbwSAfAIbu6VUjLBIsAQyxgzZESB.gif =450x) |\n\n## 游戏内SD图画\n\n:::: center\n\n![SD1.png](files/1348/IN9861FtCULPRQIQOyhzivaEgr3VWXlh.png =450x)\n\n![SD2.png](files/1348/BjhJJbJXroY8KuK22L9gbK6GDXORrgsA.png =450x)\n\n![SD3.png](files/1348/GLFnOHhemlBKt1rYg6fPJCdWJvMmp9cp.png =450x)\n\n![SD4.png](files/1348/3N5SrcExvD7go0jeiInffAeF53F35Czd.png =450x)\n\n![SD5.png](files/1348/oCt3CX9rIIC3d8pkbobONMMdMhRiMQN7.png =450x)\n\n::::\n\n## 各类贺图\n\n:::: center\n\n![fes1.jpg](files/1348/Xc4qoYxPhOB9DoCnnfJc6chKLJQtcAkn.jpg =450x)\n\n![fes3.jpg](files/1348/ZHTIMzN3uvBHYU36Ghj8zHl2jUXg9QgA.jpg =450x)\n\n::::\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 静子 汉化\n![静子](files/2/1dIp7m7teb2TC6kklHtfrgOXFDSKTeX1.png =450x)\n@tab 静子 原文\n![静子](files/2/fpXx5AUqRyL6uckqDd99PM3HACkPpN6N.jpg =450x)\n:::\n\n## 设定集\n\n:::: center\n\n![Vol.1_页面_094.png](files/1348/BLMzVpQqJjZ00Mp0Ye8m8zbvJiH9TYed.png =450x)\n\n![Vol.1_页面_189.png](files/1348/ahkonZEKkJxDQdtFQWSvu1FAHdBw2YA7.png =450x)\n\n![Vol.1_页面_226.png](files/1348/SZuOPspWng6mUJ2NbIxGf5mvcxqe4HAe.png =450x)\n\n![Vol.1_页面_263.png](files/1348/AGPkGtvquTOdmYqgYFpNrlHMH1Q7lwLa.png =450x)\n\n![Vol2-78.jpg](files/1348/62lfDUXFx1zJ37wSqh7d9Kbx29VMhpBk.jpg =450x)\n\n\n::::\n\n# 七、人物关系链\n\n```mermaid\nflowchart LR\n    classDef organization fill:#e1f5fe,stroke:#01579b,stroke-width:2px,rx:10px\n    classDef enemy fill:#ffebee,stroke:#b71c1c,stroke-width:2px,rx:10px\n    classDef person fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,rx:15px\n    classDef leader fill:#ffd700,stroke:#ff6f00,stroke-width:3px,rx:15px\n\n    YinYang[\"阴阳部\"]:::organization\n    ModPart[\"修行部\"]:::organization\n    NinjutsuPart[\"忍术研究部\"]:::organization\n    SchoolPart[\"废校对策委员会\"]:::organization\n    ChiMei[\"魑魅一座·路上流\"]:::enemy\n    Nyada[\"喵达政宗\"]:::enemy\n    Caesar[\"凯撒销售（前理事）\"]:::enemy\n    XuanWu[\"玄武商会\"]:::enemy\n    Kageyu[\"勘解由小路 紫\"]:::person\n\n    subgraph Committee[\"【祭典运营委员会】\"]\n        direction TB\n        Kawana[\"河和 静子\"]:::leader\n        Asahina[\"朝比奈 菲娜\"]:::person\n        Urahama[\"里滨 海夏\"]:::person\n    end\n\n    YinYang -->|\"曾委托\"| Committee\n    Committee ===|\"合作关系\"| ModPart\n    Committee ===|\"合作关系\"| NinjutsuPart\n    Committee ===|\"合作关系\"| SchoolPart\n    Committee -.->|\"时常对抗\"| ChiMei\n    Committee -->|\"曾击败\"| Nyada\n    Committee -->|\"曾击败\"| Caesar\n    Committee -.->|\"曾对抗\"| XuanWu\n    \n    Kawana -.->|\"曾委托\"| Kageyu\n\n```\n\n",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/Shizuko_home_Idle_01_1.0451999999999992.jpg",
+  "spine": [
+    31,
+    1722,
+    601,
+    973,
+    465
+  ],
+  "model": [
+    86,
+    442
+  ],
+  "voice_play_icon": "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/voice/play_icon.jpg",
+  "voice_pause_icon": "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/voice/pause_icon.jpg",
+  "voice": [
+    {
+      "description": "Shizuko_Title",
+      "category": "lobby",
+      "text": "Blue Archive!",
+      "text_original": "ブルーアーカイブ",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/IIGAZmt5SvY56DkM4MpIJc1MJ6VhvRin.ogg"
+    },
+    {
+      "description": "Shizuko_Cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "萌萌比心～……我……做得对不对呀？",
+      "text_original": "萌え萌えきゅ～ん……これで合ってるかな？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/PGVlXmaGZ8h9JV0umEuTGMfPvB8xvwZM.ogg"
+    },
+    {
+      "description": "Shizuko_Cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "要给下次的庆典制定一个详细的计划啦。",
+      "text_original": "次のお祭りに向けて、しっかりと計画を立てなくちゃ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/y89SPeKEjCsqd0cp9fudoJ9VrFsdCn58.ogg"
+    },
+    {
+      "description": "Shizuko_Cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "百夜堂的新菜单，该怎么安排呢……？",
+      "text_original": "百夜堂の新メニュー、何にしようかな……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/oV87uVZpvC8B1SNSbmzw6a0XRExHYSeE.ogg"
+    },
+    {
+      "description": "Shizuko_Cafe_monolog_4.ogg",
+      "category": "cafe",
+      "text": "下次的庆典，我想大胆一点，搞点不一样的……比如让所有人穿上和风兔女郎……嘿嘿……",
+      "text_original": "次のお祭りに、何か新しくて大胆な試みを……全員で着物風バニーガール、とか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/lsA2WxqD6388INHPGi7wJ1juYNnVmqhW.ogg"
+    },
+    {
+      "description": "Shizuko_Cafe_monolog_5.ogg",
+      "category": "cafe",
+      "text": "把这里当成百夜堂的临时店铺好像不错！",
+      "text_original": "ここ、百夜堂の出張店舗の場所に良さそう！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/oHvYNf7NMUK9hKsi7Rc45G6mra4cAaeo.ogg"
+    },
+    {
+      "description": "Shizuko_CommonSkill.ogg",
+      "category": "battle",
+      "text": "不许碍事！",
+      "text_original": "邪魔はさせません！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/tKygJCwJqJrwdss38DbXfen7ZSoI1yGp.ogg"
+    },
+    {
+      "description": "Shizuko_EventShop_1.ogg",
+      "category": "event",
+      "text": "就算是庆典……不对，正因为是庆典，百夜堂才不会休息！ ……呃，不过因为我们也是庆典运营管理部，不休息也是理所当然的，诶嘿。",
+      "text_original": "お祭りでも、いえ、お祭りだからこそ、百夜堂は止まりませんよ、まあ、私たちは同時にお祭り運営委員会でもあるので。当たり前なんですけどね。えへ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/F799OyK7gNuDxp7xHMdM9YbueieqJc1s.ogg"
+    },
+    {
+      "description": "Shizuko_EventShop_2.ogg",
+      "category": "event",
+      "text": "好，这里应该……萌——萌——比心♪ ……诶，这个已经过时了吗？真的假的？！",
+      "text_original": "よし、ここは萌え萌えキュン、え？これちょっとふるいですか？そうなんですか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/tJkX3MC2dcDT6q4VbYM5rxVA54dt9UgD.ogg"
+    },
+    {
+      "description": "Shizuko_EventShop_Buy_1.ogg",
+      "category": "event",
+      "text": "啊，那个……！没，没事没事，您请您请。绝对不是因为我想把卖剩下的给……吞了……",
+      "text_original": " あっそれ！いえいえ、どうぞどうぞ、別に甘えたら貰おうとか思ていたわけではなく。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/vdnUlVPSzTOw49gwIwRPDqkFeRzj3cpY.ogg"
+    },
+    {
+      "description": "Shizuko_EventShop_Buy_2.ogg",
+      "category": "event",
+      "text": "真是会选，不愧是老师！眼光独到！",
+      "text_original": "それは選ぶとは流石先生、お目が高いです。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/3UQCuwn1kjjR2NvscMcrPduT72rbG9b1.ogg"
+    },
+    {
+      "description": "Shizuko_EventShop_Buy_3.ogg",
+      "category": "event",
+      "text": "感谢您的购买，主人♪",
+      "text_original": "お買い上げありがとうございます！ご主人様。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/mwWQgSXW8w2eXwGgPzNK9n37Xfyu4dhv.ogg"
+    },
+    {
+      "description": "Shizuko_EventShop_Buy_4.ogg",
+      "category": "event",
+      "text": "啊，您也觉得这是好东西对吧？诶嘿嘿。",
+      "text_original": "あ、それ、やぱりいい品だと思いますよね。えへへ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/cIeiuZotSTCUVk1lzJAyyKfwRRt0cWbL.ogg"
+    },
+    {
+      "description": "Shizuko_EventShop_End.ogg",
+      "category": "event",
+      "text": "虽然庆典结束了，但我们仍然在营业。 据说大家分享之后剩下的部分叫做“福根儿”，老师可别错过呀！",
+      "text_original": " お祭りは終わってしまいましたが、まだまだ営業中です、残り物には福があるっていますから、さあ先生、どうぞ。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/12X8tNTyqSE9ldcUe5hfmFFTH6mObwE7.ogg"
+    },
+    {
+      "description": "Shizuko_EventShop_Login_1.ogg",
+      "category": "event",
+      "text": "百夜堂出摊啦！来来来，主人，需要什么呢？",
+      "text_original": " 百夜堂の出張販売です、さあご主人様、必要なものは何でしょうか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/eZkqE2SOMbnFfne2xvD6ScX6Y653NHTr.ogg"
+    },
+    {
+      "description": "Shizuko_EventShop_Login_2.ogg",
+      "category": "event",
+      "text": "啊，老师！欢迎光临~！ 来来来，您随便看随便挑！",
+      "text_original": "あっ、先生、いらしゃいませ、さあさあ、お好きなだけ見ていてください",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/DWOKkw1LFMVc2eDibVyurkV8IZraKVyx.ogg"
+    },
+    {
+      "description": "Shizuko_ExSkill_1.ogg",
+      "category": "battle",
+      "text": "百夜堂出摊啦！",
+      "text_original": "百夜堂出張販売です！うわあっ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/CeCaQi9WVkqrLgSHKz3KJGz7pfb1s5ie.ogg"
+    },
+    {
+      "description": "Shizuko_ExSkill_2.ogg",
+      "category": "battle",
+      "text": "无论顾客在哪，百夜堂都能为您服务！呃啊我的茶器！",
+      "text_original": "百夜堂はどこへでも出張販売します！わっ、茶器がー！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/oNgdINdO03ttmR4FjxJ3Kpcwu6YcuvAE.ogg"
+    },
+    {
+      "description": "Shizuko_ExSkill_2_b.ogg",
+      "category": "battle",
+      "text": "百夜堂はどこへでも出張販売します！わっー！",
+      "text_original": "百夜堂はどこへでも出張販売します！わっー！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/tLyEqUFsBWGnhO4NRwaCsblrHk2CM7yJ.ogg"
+    },
+    {
+      "description": "Shizuko_ExSkill_3.ogg",
+      "category": "battle",
+      "text": "一定要在这里赚得活动经费！诶？！",
+      "text_original": "ここで活動資金を稼がないと……うわーっ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/vkTWtfGzaY5bZUlhIPp3yNrTYYGGF75c.ogg"
+    },
+    {
+      "description": "Shizuko_ExSkill_Level_1.ogg",
+      "category": "battle",
+      "text": "我……我才不会就这样放弃呢！",
+      "text_original": "こ、こんなことではめげません！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/nXNAs2x3B2sB4J40aZ7rmJqrImYov3X8.ogg"
+    },
+    {
+      "description": "Shizuko_ExSkill_Level_2.ogg",
+      "category": "battle",
+      "text": "太，太激烈了吧！？",
+      "text_original": "ちょっ、激しすぎます！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/K0RwdnVkNSz9Y9XimpX1quMg4JVdBqu5.ogg"
+    },
+    {
+      "description": "Shizuko_ExSkill_Level_3.ogg",
+      "category": "battle",
+      "text": "诶，这可都是店里的东西啊。",
+      "text_original": "うぇ、お店の物なのに……",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/Hhhylc8YiHHWuDaKgUKNBI2PXoHX0D2y.ogg"
+    },
+    {
+      "description": "Shizuko_ExWeapon_Get.ogg",
+      "category": "growup",
+      "text": "这可是任何庆典上都买不到的非卖品呀。诶嘿嘿，我会好好珍惜的！老师！",
+      "text_original": "これ、どんなお祭りでも手に入らない非売品……ですね、えへへ、大切にします！先生。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/yv2hxh08QHgeK10thr1Yfoi0jMrK9W1f.ogg"
+    },
+    {
+      "description": "Shizuko_Formation_In_1.ogg",
+      "category": "formation",
+      "text": "不愧是老师，很有眼光嘛。",
+      "text_original": "流石先生、お目が高いですね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/Sd6lyT69HqJtaTqPq9xXdv08akvD4kCy.ogg"
+    },
+    {
+      "description": "Shizuko_Formation_In_2.ogg",
+      "category": "formation",
+      "text": "好耶，这是提高庆典预算的好机会……呃不对，我会加油的！",
+      "text_original": "よし、お祭りの予算稼ぐチャンス、じゃなくて、っが、頑張ります。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/ETndplDeVUwJT5LDR6xJ3y2zSTf1L3vy.ogg"
+    },
+    {
+      "description": "Shizuko_Gachaget.ogg",
+      "category": "growup",
+      "text": "哎嘿嘿，我是庆典运营管理部的静子～以后请多多关照啊，老师。诶？啊……对对对……这是营业用的台词……",
+      "text_original": "えへへ、お祭り運営委員会のシズコです～。 これからよろしくお願いしますね、先生？え？ ……ああ、はいはいそうですよ、営業用の台詞です！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/olFL2FiUBsjR60QDSBKxAJO462sJd1zN.ogg"
+    },
+    {
+      "description": "Shizuko_Growup_1.ogg",
+      "category": "growup",
+      "text": "嘿嘿嘿，老师对静子这么照顾，静子真的超级开心！喵喵~我真可爱。",
+      "text_original": "えへへ、シズコは～先生がシズコのこと大切にしてくれてと～っても嬉しいです～。にゃんにゃん！……うん、私可愛い！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/uXpjYfnSZMpTjkzm0E2igXisJTNSoRpb.ogg"
+    },
+    {
+      "description": "Shizuko_Growup_2.ogg",
+      "category": "growup",
+      "text": "唔哦！我成长了！V~",
+      "text_original": "わ～い、成長しました～！ブイ！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/lt2or4al90FUvSOKJE8tLsQE1YEVnEs3.ogg"
+    },
+    {
+      "description": "Shizuko_Growup_3.ogg",
+      "category": "growup",
+      "text": "行，行啊，既然你这么期待，那我就努力一下下了……",
+      "text_original": "ま、まあ？期待に応えられるようには頑張りますけど……？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/IwSaqx6yPpyxGlNQ1ErIaTrz657LzjYY.ogg"
+    },
+    {
+      "description": "Shizuko_Growup_4.ogg",
+      "category": "growup",
+      "text": "老师对静子这么好，静子一定会加倍努力的！毕竟，静子可是百夜堂的店长，兼看板娘啊！",
+      "text_original": "\t 先生にこんなに良くしてもらって……シズコ、改めて頑張ります！百夜堂の店主兼看板娘として！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/f1DloXRFebOe9vr8z3vf1xV7KI6n6PdI.ogg"
+    },
+    {
+      "description": "Shizuko_Lobby_1.ogg",
+      "category": "lobby",
+      "text": "您叫我了吗？今天需要我帮您做什么呢？不管是什么，尽管交给我吧～！",
+      "text_original": " 先生にこんなに良くしてもらって……シズコ、改めて頑張ります！百夜堂の店主兼看板娘として！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/0m99c5OxZaBNFxj3xC8YM8hR61vAuF7S.ogg"
+    },
+    {
+      "description": "Shizuko_Lobby_2.ogg",
+      "category": "lobby",
+      "text": "最近只是待在老师身边而已，可经常不知不觉就松懈下来了～ 唔……这都要怪老师哦？",
+      "text_original": "最近そばにいるだけで、知らず知らずのうちに気が緩んでしまうんですよね～。 ……先生のせいですよ？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/iPBEP1fY6nIYLndmrXMEKjOxBe9dMgV8.ogg"
+    },
+    {
+      "description": "Shizuko_Lobby_3.ogg",
+      "category": "lobby",
+      "text": "啊，回去还有百夜堂的工作要做呢。 ……您问我是不是很累？ 不累不累，没什么大不了的啦～这都是我应该做的。",
+      "text_original": "あ、帰ったらまだ百夜堂の仕事があるんでした。 ……大変だね、ですか？ いえいえ、大したことでは無いですよ〜。これも私がやるべきことですから。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/G3CovB7C9Sv7ddHt38aMcqlcka2lSpKx.ogg"
+    },
+    {
+      "description": "Shizuko_Lobby_4.ogg",
+      "category": "lobby",
+      "text": "诶？您说我很可爱？ 唉，请您别损我啦！老师又不是不知道我本来什么样子…… ……那样才最可爱？呃，呜……",
+      "text_original": "え？可愛い、ですか？ はあ、揶揄わないでください、先生は私の素顔を知ってるじゃないですか…… ……それが可愛い？う、ぐっ……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/BgG5I4LbdbNMxB89j9Lzmeb5jHePrrmY.ogg"
+    },
+    {
+      "description": "Shizuko_Lobby_5.ogg",
+      "category": "lobby",
+      "text": "老师，有看好自己的钱包吗？要时刻小心哦！ 因为百鬼夜行的庆典和百夜堂的馅蜜可是魅力十足，足以把紧闭的钱包撬开哦。",
+      "text_original": "先生財布の紐は固い方ですか？気を付けた方が良いですよ、 百鬼夜行のお祭りと百夜堂のあんみつは、それをこじ開けてしまうほど魅力的ですからね？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/E1eHM3Petqz0Tcw0fnWU3I2VSV4A3hAm.ogg"
+    },
+    {
+      "description": "Shizuko_LogIn_1.ogg",
+      "category": "lobby",
+      "text": "啊，欢迎回来，老师！喵喵！ ……嗯，刚才的很完美。",
+      "text_original": " あっ、おかえりなさい先生！にゃんにゃん！ ……うん、今のは完璧。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/GN7qAZyzPsSOY0HepWsDZQ7mGvO9ebgQ.ogg"
+    },
+    {
+      "description": "Shizuko_LogIn_2.ogg",
+      "category": "lobby",
+      "text": "呃……累死…… 啊，老师，您回来了！快来快来，这边请，不用客气～！",
+      "text_original": "うう……疲れた…。 あっ、先生、おかえりなさい！さあさあこちらへ、遠慮なさらず～！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/sbY9Lu1Ve3JDIX1E1OLoq19dP2K0wfB3.ogg"
+    },
+    {
+      "description": "Shizuko_MemorialLobby_1.ogg",
+      "category": "lobby",
+      "text": "诶嘿嘿，欢迎您回来~主人~？",
+      "text_original": "ふふっ、お帰りなさいませ～ご主人様～？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/18rs7nbImp62JxOxXhruA425WWIdQGAC.ogg"
+    },
+    {
+      "description": "Shizuko_MemorialLobby_2.ogg",
+      "category": "lobby",
+      "text": "对的呀~您没看错，我现在摸鱼摸得正开心呢~",
+      "text_original": "そうですよぉ～。見ての通り、現在進行形でおサボり中で～す。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/qksNoQzAIkPTlyTeuqn5LFEJNYVyIqen.ogg"
+    },
+    {
+      "description": "Shizuko_MemorialLobby_3_1.ogg",
+      "category": "lobby",
+      "text": "……真不可思议啊。明明知道自己不能偷懒，明明知道要打起精神来……明明一直都是这么想的来着……",
+      "text_original": "……不思議ですね。こういうことはしちゃいけないって、気を張ってなきゃって、ずっと思ってたはずなんですが……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/Kd6CrHth3UZ5dbJqEKFuDedYomLa9wPz.ogg"
+    },
+    {
+      "description": "Shizuko_MemorialLobby_3_2.ogg",
+      "category": "lobby",
+      "text": "但是只要和老师在一起……",
+      "text_original": "先生と一緒にいると……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/2D0oAwsOWVAfKG9ClDrNOLJiYb424Bu0.ogg"
+    },
+    {
+      "description": "Shizuko_MemorialLobby_3_3.ogg",
+      "category": "lobby",
+      "text": "总感觉一点干劲都没有了……",
+      "text_original": "なんだか、気が抜けちゃうって言うか……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/Sv1PCLr9MAs2XKMwjGjOU8iUFtTLxiVv.ogg"
+    },
+    {
+      "description": "Shizuko_MemorialLobby_4_1.ogg",
+      "category": "lobby",
+      "text": "来呀，老师？请您到这边来。",
+      "text_original": "ほら、先生？こっちに来てください。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/nQgmlSQtMO9cUfQksUG1H4ah5FrxwDls.ogg"
+    },
+    {
+      "description": "Shizuko_MemorialLobby_4_2.ogg",
+      "category": "lobby",
+      "text": "……是您让我变成这个样子的，您会负责的吧？",
+      "text_original": "……私をこんな風にした責任、取ってくれますよね？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/ADWVC0pQccvk44f6xZgNfGzYTx0kbMir.ogg"
+    },
+    {
+      "description": "Shizuko_Relationship_Up_1.ogg",
+      "category": "growup",
+      "text": "好好好，好近！和老师距离也太——可以吗？真的可以吗？！",
+      "text_original": "（ち、近い！せ、先生との距離がこんな！大丈夫かな！大丈夫なのかな！！）",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/ptHWd1lQGMHO1sV3SDG3p3Q0w1jGZwLW.ogg"
+    },
+    {
+      "description": "Shizuko_Relationship_Up_2.ogg",
+      "category": "growup",
+      "text": "这种甜蜜的感觉，简直就像我嘴里面填满了百夜堂的馅蜜一样！",
+      "text_original": "この甘い気持ち、百夜堂のあんみつを口いっぱいに頬張った時みたいな……。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/7avy1EoZkL5B4dJ70269ETGfupyU3UjO.ogg"
+    },
+    {
+      "description": "Shizuko_Relationship_Up_3.ogg",
+      "category": "growup",
+      "text": "每次我和老师在一起，感觉就像在过节一样的，真的很奇怪诶……",
+      "text_original": "先生と一緒にいると、いつも……まるでお祭りの日みたいな気分になります。本当に不思議ですね。",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/jCewZrKBStEIpL0GIjKSmPxbJ07XfvDo.ogg"
+    },
+    {
+      "description": "Shizuko_Relationship_Up_4.ogg",
+      "category": "growup",
+      "text": "有句话说，天下没有不散的宴席，但是至少，在宴席散去之前，能在我身边，多待一会儿吗……？",
+      "text_original": "楽しいお祭りもいつかは終わるもの、と言いますね……。でもせめて、本当にその時が来るまで……もう少し、そばにいても……いいですか？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/2GOUtdrinGt2Qp7EaZfKB9ydjYWq7pyf.ogg"
+    },
+    {
+      "description": "Shizuko_Season_Birthday.ogg",
+      "category": "lobby",
+      "text": "诶，您，您祝我生日快乐？ ……呃！啊，请，请别看我！我的表情现在肯定没法见人……！ ……嘿，嘿嘿嘿，嘿嘿嘿……！",
+      "text_original": "えっ、わ、私の誕生日を祝ってくださるんですか？ ……っ！あ、み、見ないでください！今、多分見せられない顔になってますから……！ ……っ、えへっ、えへへっ……！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/YiWidDAbQBbbvMHwHxG4p7Ql3qXqUroz.ogg"
+    },
+    {
+      "description": "Shizuko_Season_Birthday_Player.ogg",
+      "category": "lobby",
+      "text": "老师，祝您生日快乐！ 来，我们去百夜堂吧。我会用庆典运营管理部部长的权力，开一场像庆典一样的生日宴会！",
+      "text_original": "えっ、わ、私の誕生日を祝ってくださるんですか？ ……っ！あ、み、見ないでください！今、多分見せられない顔になってますから……！ ……っ、えへっ、えへへっ……！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/AVQ5RrCvfW3YQTzLvACvJPiPLGyjf9Vg.ogg"
+    },
+    {
+      "description": "Shizuko_Season_Halloween.ogg",
+      "category": "lobby",
+      "text": "不给糖，就捣蛋！ 老师老师，如果有人过来， 就强迫他来买百夜堂的馅蜜吧！ 诶？不行吗？为什么？",
+      "text_original": " トリックオアトリート！さあ先生、やって来た生徒には、百夜堂のあんみつを押し売りしてやりましょう！ え、ダメなんですか？どうして！？",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/K6hMWxmk2x80uPyxzeyPjGfKBComSvCs.ogg"
+    },
+    {
+      "description": "Shizuko_Season_NewYear.ogg",
+      "category": "lobby",
+      "text": "新年快乐！ 既然是新年， 就在被炉里暖暖和和地待着吧～ 等……啊！再让我待5分钟就行……！",
+      "text_original": " ハッピーニューイヤー！お正月ですし、こたつの中でぬくぬくするとしましょう～ ちょっ、あ、あと5分だけ……！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/q9d2OUbooeckGmNaRLXrSl3rV9JCZEQx.ogg"
+    },
+    {
+      "description": "Shizuko_Season_Xmas.ogg",
+      "category": "lobby",
+      "text": "今天是圣诞节！ 是举办庆典的日子！我们庆典运营管理部肯定不能缺席啊！好了老师，快走吧！",
+      "text_original": "今日はクリスマス！お祭りの日です！私たちお祭り運営委員会はもちろん見逃しませんよ！さあいきましょう、先生！",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/3c34jDiCdgbdoHXmxs85cj28nLBZHxEK.ogg"
+    }
+  ],
+  "voice_cn": [
+    {
+      "description": "shizuko_title.ogg",
+      "category": "lobby",
+      "text": "蔚蓝档案！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/5YGb2pzC1GSj4TeQZ8Ni5ArAVAlQCmRU.ogg"
+    },
+    {
+      "description": "shizuko_cafe_monolog_1.ogg",
+      "category": "cafe",
+      "text": "萌萌比心～……我……做得对不对呀？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/9sUkYOTENKXGZVxTQwcGafPlXzo5xqUH.ogg"
+    },
+    {
+      "description": "shizuko_cafe_monolog_2.ogg",
+      "category": "cafe",
+      "text": "要给下次的庆典制定一个详细的计划啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/lawDqUI7RCcjsF24E0dHTZrvvpA5msMp.ogg"
+    },
+    {
+      "description": "shizuko_cafe_monolog_3.ogg",
+      "category": "cafe",
+      "text": "百夜堂的新菜单，该怎么安排呢……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/AjrXa5NP7RtelQglpi603HhCjCjAqm6p.ogg"
+    },
+    {
+      "description": "shizuko_cafe_monolog_4.ogg",
+      "category": "cafe",
+      "text": "下次的庆典,我想大胆一点,搞点不一样的,比如让所有人穿上兔……嘿嘿……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/zcocwDtRfN1BnMtHrMtLGRxMV6iLz7VW.ogg"
+    },
+    {
+      "description": "shizuko_cafe_monolog_5.ogg",
+      "category": "cafe",
+      "text": "把这里当成百夜堂的临时店铺好像不错！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/5iGWoKKweTgHxFY5akGIo7sDkN5E6o9C.ogg"
+    },
+    {
+      "description": "shizuko_commonskill.ogg",
+      "category": "battle",
+      "text": "不许碍事！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/OhF5cxq8lE79vbt4msNv7Q3wWNClrehq.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_1.ogg",
+      "category": "event",
+      "text": "就算是庆典……不对，正因为是庆典，百夜堂才不会休息！ ……呃，不过因为我们也是庆典运营管理部，不休息也是理所当然的，诶嘿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/cnVMNZ6uP5CBFuKXmwTr8eUVk8AZzOFI.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_2.ogg",
+      "category": "event",
+      "text": "好，这里应该……萌——萌——比心♪ ……诶，这个已经过时了吗？真的假的？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/NVmE9G3na4L80z8xYgl81GQfhNG03ECm.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_buy_1.ogg",
+      "category": "event",
+      "text": "啊，那个……！没，没事没事，您请您请。绝对不是因为我想把卖剩下的给……吞了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/VcycJw6GRGQTXkiqitPzsJa84U5zydoX.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_buy_2.ogg",
+      "category": "event",
+      "text": "真是会选，不愧是老师！眼光独到！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/Bj3MrkkW48gD1msoXnozxMgIrM0ZMSJ3.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_buy_3.ogg",
+      "category": "event",
+      "text": "感谢您的购买，主人♪",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/c29rNq4H3G08LwoZw2DPx50rcv9w5y5I.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_buy_4.ogg",
+      "category": "event",
+      "text": "啊，您也觉得这是好东西对吧？诶嘿嘿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/qauPMFa5SZFOAy4jLCwF7vu89x3MMZM8.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_end.ogg",
+      "category": "event",
+      "text": "虽然庆典结束了，但我们仍然在营业。 据说大家分享之后剩下的部分叫做“福根儿”，老师可别错过呀！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/jl6ibRCPEZBwHnPe6Ad7X0oxBVRdjNtf.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_login_1.ogg",
+      "category": "event",
+      "text": "百夜堂出摊啦！来来来，主人，需要什么呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/oqCddhnCrCttmIV0GBWR49t1pWaRftW2.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_login_2.ogg",
+      "category": "event",
+      "text": "啊，老师！欢迎光临~！ 来来来，您随便看随便挑！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/u5JMQQSF3l9re8A9zxgcPttONeU8oQ3h.ogg"
+    },
+    {
+      "description": "shizuko_exskill_1.ogg",
+      "category": "battle",
+      "text": "百夜堂出摊啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/NNG7qxHNcSvkVZ43nTWNUvTHxTcwC5Sd.ogg"
+    },
+    {
+      "description": "shizuko_exskill_2.ogg",
+      "category": "battle",
+      "text": "无论在哪里，百夜堂都可以出摊，诶！？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/9uVQKF5LyrjZBE4WejIrt4O8WJv9EvRO.ogg"
+    },
+    {
+      "description": "shizuko_exskill_3.ogg",
+      "category": "battle",
+      "text": "一定要在这里赚得活动经费！诶？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/jBDICnjkP32A3An0qJBQz8OGz8NaalRb.ogg"
+    },
+    {
+      "description": "shizuko_exskill_level_1.ogg",
+      "category": "battle",
+      "text": "我……我才不会就这样放弃呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/yJ2ciVwTz0P8wxjNz5CNrqlnJm8Sueoa.ogg"
+    },
+    {
+      "description": "shizuko_exskill_level_2.ogg",
+      "category": "battle",
+      "text": "太，太激烈了吧！？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/hc9QPIr1kGZKuvfQ0jUeA7hLapcfW1yL.ogg"
+    },
+    {
+      "description": "shizuko_exskill_level_3.ogg",
+      "category": "battle",
+      "text": "诶，这可都是店里的东西啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/tQVw1JzuQTNtIR6HwsnVTiHw31Br84IX.ogg"
+    },
+    {
+      "description": "shizuko_exweapon_get.ogg",
+      "category": "growup",
+      "text": "这可是任何庆典上都买不到的非卖品呀。诶嘿嘿，我会好好珍惜的！老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/Ps6giJaA4TP4wUp3OqBbyYvkre6EpgIO.ogg"
+    },
+    {
+      "description": "shizuko_formation_in_1.ogg",
+      "category": "formation",
+      "text": "不愧是老师，很有眼光嘛。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/pOr4vDap9wvyhfUUFJrlYDSkhPaSZjVf.ogg"
+    },
+    {
+      "description": "shizuko_formation_in_2.ogg",
+      "category": "formation",
+      "text": "好耶，有机会提高庆典的预算……呃没有没有，我会加油的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/EIMXRq6FtesLzSN8GwkhLI2fYiNXGSWp.ogg"
+    },
+    {
+      "description": "shizuko_gachaget.ogg",
+      "category": "growup",
+      "text": "哎嘿嘿，我是庆典运营管理部的静子～以后请多多关照啊，老师。诶？啊……对对对……这是营业用的台词……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/QdIOMqE3YEPLtywfHtoALiaU9E8VqI5v.ogg"
+    },
+    {
+      "description": "shizuko_growup_1.ogg",
+      "category": "growup",
+      "text": "嘿嘿嘿，老师对静子这么照顾，静子真的超级开心！喵喵~我真可爱。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/DejpLu6pQ4cUekjiVuRLHzf93Lz1ebRb.ogg"
+    },
+    {
+      "description": "shizuko_growup_2.ogg",
+      "category": "growup",
+      "text": "唔哦！我成长了！V~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/oBLDAfzXCWrm1ey6YywSrhovTlxE4AVf.ogg"
+    },
+    {
+      "description": "shizuko_growup_3.ogg",
+      "category": "growup",
+      "text": "行，行啊，既然你这么期待，那我就努力一下下了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/kaMHRBbSieDMoFe23i3hA5mcIbpNgvwK.ogg"
+    },
+    {
+      "description": "shizuko_growup_4.ogg",
+      "category": "growup",
+      "text": "老师对静子这么好，静子一定会加倍努力的！毕竟，静子可是百夜堂的店长，兼招牌女郎啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/RtLurJPyNvXc4GNXYvyLqezA4JlTZASd.ogg"
+    },
+    {
+      "description": "shizuko_lobby_1.ogg",
+      "category": "lobby",
+      "text": "您叫我了吗？今天需要我帮您做什么呢？不管是什么，尽管交给我吧～！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/c9GxzxpdFCtMD4xnrBZa4o39UNi2YFKr.ogg"
+    },
+    {
+      "description": "shizuko_lobby_2.ogg",
+      "category": "lobby",
+      "text": "最近跟老师在一起而已，可经常不知不觉就松懈下来了~唔……这都要怪老师哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/wN7uySMiOkgDync0SjPhSlsNs6IS49sF.ogg"
+    },
+    {
+      "description": "shizuko_lobby_3.ogg",
+      "category": "lobby",
+      "text": "啊，回去还有百夜堂的工作要做呢。 ……您问我是不是很累？ 不累不累，没什么大不了的啦～这都是我应该做的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/5menuDGpzLuGyvTWRsiGU31jvoVq91Jf.ogg"
+    },
+    {
+      "description": "shizuko_lobby_4.ogg",
+      "category": "lobby",
+      "text": "诶？您说我很可爱？ 唉，请您别损我啦！老师又不是不知道我本来什么样子…… ……那样才最可爱？呃，呜……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/xWz7NUX1ScqWZ2yzYxTOA6MqMIZGYuVt.ogg"
+    },
+    {
+      "description": "shizuko_lobby_5.ogg",
+      "category": "lobby",
+      "text": "老师，有看好自己的钱包吗？要时刻小心哦！ 因为百鬼夜行的庆典和百夜堂的馅蜜可是魅力十足，足以把紧闭的钱包撬开哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/D8gDA8ndXmm4eNTEGv3cVXyZrTa5k5lf.ogg"
+    },
+    {
+      "description": "shizuko_login_1.ogg",
+      "category": "lobby",
+      "text": "啊，欢迎回来，老师！喵喵！ ……嗯，刚才的很完美。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/XvrYcPJGlc29US2zaUCk5ovPXI3NYVjh.ogg"
+    },
+    {
+      "description": "shizuko_login_2.ogg",
+      "category": "lobby",
+      "text": "呃……累死…… 啊，老师，您回来了！快来快来，这边请，不用客气～！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/1uHOZffSkhZpr684Oi5gLNcQpym3T8LL.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_1.ogg",
+      "category": "lobby",
+      "text": "诶嘿嘿，欢迎您回来~主人~？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/oGG92s6YulOx321LHY9A07gtFfk4kyQ6.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_2.ogg",
+      "category": "lobby",
+      "text": "对的呀~您没看错，我现在摸鱼摸得正开心呢~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/FWc2UuWKvFalcvJNvMN9uSWtDjCeNWcj.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_3_1.ogg",
+      "category": "lobby",
+      "text": "……真不可思议啊。明明知道自己不能偷懒，明明知道要打起精神来……明明一直都是这么想的来着……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/GwlHsg8CqMokPCmogsjYBqvkHh6EX5N5.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_3_2.ogg",
+      "category": "lobby",
+      "text": "但是只要和老师在一起……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/GcEgixV9sWjm8IBTCN0Mrit88TrTQCmk.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_3_3.ogg",
+      "category": "lobby",
+      "text": "总感觉一点干劲都没有了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/nDHhJZl6qnkzHGGS0HeLAVbUwGdNpzXP.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_4_1.ogg",
+      "category": "lobby",
+      "text": "来呀，老师？请您到这边来。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/amTdj2wjjSzFxSuADijpPTthrCVSXIWH.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_4_2.ogg",
+      "category": "lobby",
+      "text": "……是您让我变成这个样子的，您会负责的吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/FN9zcMY21toU0NHgUzxpmfFQmx8nJUXK.ogg"
+    },
+    {
+      "description": "shizuko_relationship_up_1.ogg",
+      "category": "growup",
+      "text": "好好好，好近！和老师距离也太——可以吗？真的可以吗？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/jpoQtjpxkiErtt3V1YJV3Pwm7xzb5prG.ogg"
+    },
+    {
+      "description": "shizuko_relationship_up_2.ogg",
+      "category": "growup",
+      "text": "这种甜蜜的感觉，简直就像我嘴里面填满了百夜堂的馅蜜一样！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/SD2qNZyG8QJOQomfCi5XZFiWkkgpJggp.ogg"
+    },
+    {
+      "description": "shizuko_relationship_up_3.ogg",
+      "category": "growup",
+      "text": "每次我和老师在一起，感觉就像在过节一样的，真的很奇怪诶……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/2n6mVP9yHWJAGZ1DUbOFMleMYFBZI7ix.ogg"
+    },
+    {
+      "description": "shizuko_relationship_up_4.ogg",
+      "category": "growup",
+      "text": "有句话说，天下没有不散的宴席，但是至少，在宴席散去之前，能在我身边，多待一会儿吗……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/5lUORlZpwmw9JgMUQxcaOmKoSXTjR5CF.ogg"
+    },
+    {
+      "description": "shizuko_season_birthday.ogg",
+      "category": "lobby",
+      "text": "诶，您，您祝我生日快乐？ ……呃！啊，请，请别看我！我的表情现在肯定没法见人……！ ……嘿，嘿嘿嘿，嘿嘿嘿……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/3GUgyAqsyiAGZVRYktQfXXpbVhRCPFsB.ogg"
+    },
+    {
+      "description": "shizuko_season_birthday_player.ogg",
+      "category": "lobby",
+      "text": "老师，祝您生日快乐！ 来，我们去百夜堂吧。我会用庆典运营管理部部长的权力，开一场像庆典一样的生日宴会！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/1x4T9nkqInYZ6vYGiOytk6syM2hGaMQs.ogg"
+    },
+    {
+      "description": "shizuko_season_halloween.ogg",
+      "category": "lobby",
+      "text": "不给糖，就捣蛋！ 老师老师，如果有人过来， 就强迫他来买百夜堂的馅蜜吧！ 诶？不行吗？为什么？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/jslnEW4d4h7jnzu8RZszSeTD4GWeCnE7.ogg"
+    },
+    {
+      "description": "shizuko_season_newyear.ogg",
+      "category": "lobby",
+      "text": "新年快乐！ 既然是新年， 就在被炉里暖暖和和地待着吧～ 等……啊！再让我待5分钟就行……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/cgROIIPt7IY1Jx7lDZIrdL5wQVpcozvE.ogg"
+    },
+    {
+      "description": "shizuko_season_xmas.ogg",
+      "category": "lobby",
+      "text": "今天是圣诞节！ 是举办庆典的日子！我们庆典运营管理部肯定不能缺席啊！好了老师，快走吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/r3vD3jqv2fr76ZQYD9ltUjWmn7YYJ2jr.ogg"
+    },
+    {
+      "description": "shizuko_season_midautumn",
+      "category": "lobby",
+      "text": "百夜堂今日限定独家配方月饼！老师您快尝尝吧，吃完之后，记得代表沙勒找我们订购月饼礼盒哦~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/TKpU6uOMlojXYAkbxcjkIlwgiW9HwxSr.ogg"
+    },
+    {
+      "description": "shizuko_title",
+      "category": "lobby",
+      "text": "Blue Archive!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/ozctVqF67bJjaf59Zw7Ywg1ArJoqq5eA.ogg"
+    },
+    {
+      "description": "shizuko_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，新春快乐！……才不是营业状态，刚刚的新春祝福是认真的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/IoKjpBeNUY1B3UFPfsXxdKOHaXFEqyT2.ogg"
+    },
+    {
+      "description": "shizuko_cafe_monolog_4",
+      "category": "cafe",
+      "text": "下次的庆典，我想大胆一点，搞点不一样的……比如让所有人穿上和风兔女郎……嘿嘿……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/Nmk25EncEIUaiObuC018S0TztYWlmIVd.ogg"
+    },
+    {
+      "description": "shizuko_exskill_2",
+      "category": "battle",
+      "text": "无论顾客在哪，百夜堂都能为您服务！呃啊我的茶器！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/k05NWM39hEVeXApACCkk7jtqSaef0gjO.ogg"
+    },
+    {
+      "description": "shizuko_formation_in_2",
+      "category": "formation",
+      "text": "好耶，这是提高庆典预算的好机会……呃不对，我会加油的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/oJQnIzk46HjgnlRObeuYC25CMkUdh3DK.ogg"
+    },
+    {
+      "description": "shizuko_growup_4",
+      "category": "growup",
+      "text": "老师对静子这么好，静子一定会加倍努力的！毕竟，静子可是百夜堂的店长，兼看板娘啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/IbhR74r6INTukKdScmhsRjh1KNZWbU1m.ogg"
+    },
+    {
+      "description": "shizuko_lobby_2",
+      "category": "lobby",
+      "text": "最近只是待在老师身边而已，可经常不知不觉就松懈下来了～ 唔……这都要怪老师哦？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/JWtdYxeofFBOZ2SY9bz0kCXxJ5Juqj9d.ogg"
+    }
+  ],
+  "voice_kr": [
+    {
+      "description": "Shizuko_Title",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/Shizuko_Title.ogg"
+    },
+    {
+      "description": "shizuko_cafe_monolog_1",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "shizuko_cafe_monolog_2",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "shizuko_cafe_monolog_3",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "shizuko_cafe_monolog_4",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "shizuko_cafe_monolog_5",
+      "category": "cafe",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "shizuko_commonskill",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_commonskill.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_eventshop_1.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_eventshop_2.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_buy_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_eventshop_buy_1.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_buy_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_eventshop_buy_2.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_buy_3",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_eventshop_buy_3.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_buy_4",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_eventshop_buy_4.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_end",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_eventshop_end.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_login_1",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_eventshop_login_1.ogg"
+    },
+    {
+      "description": "shizuko_eventshop_login_2",
+      "category": "event",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_eventshop_login_2.ogg"
+    },
+    {
+      "description": "shizuko_exskill_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_exskill_1.ogg"
+    },
+    {
+      "description": "shizuko_exskill_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_exskill_2.ogg"
+    },
+    {
+      "description": "shizuko_exskill_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_exskill_3.ogg"
+    },
+    {
+      "description": "shizuko_exskill_level_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_exskill_level_1.ogg"
+    },
+    {
+      "description": "shizuko_exskill_level_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_exskill_level_2.ogg"
+    },
+    {
+      "description": "shizuko_exskill_level_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_exskill_level_3.ogg"
+    },
+    {
+      "description": "shizuko_exweapon_get",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_exweapon_get.ogg"
+    },
+    {
+      "description": "shizuko_gachaget",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_gachaget.ogg"
+    },
+    {
+      "description": "shizuko_growup_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_growup_1.ogg"
+    },
+    {
+      "description": "shizuko_growup_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_growup_2.ogg"
+    },
+    {
+      "description": "shizuko_growup_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_growup_3.ogg"
+    },
+    {
+      "description": "shizuko_growup_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_growup_4.ogg"
+    },
+    {
+      "description": "shizuko_lobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_lobby_1.ogg"
+    },
+    {
+      "description": "shizuko_lobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_lobby_2.ogg"
+    },
+    {
+      "description": "shizuko_lobby_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_lobby_3.ogg"
+    },
+    {
+      "description": "shizuko_lobby_4",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_lobby_4.ogg"
+    },
+    {
+      "description": "shizuko_lobby_5",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_lobby_5.ogg"
+    },
+    {
+      "description": "shizuko_login_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_login_1.ogg"
+    },
+    {
+      "description": "shizuko_login_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_login_2.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_memoriallobby_1.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_memoriallobby_2.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_memoriallobby_3_3.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "shizuko_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "shizuko_relationship_up_1",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_relationship_up_1.ogg"
+    },
+    {
+      "description": "shizuko_relationship_up_2",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_relationship_up_2.ogg"
+    },
+    {
+      "description": "shizuko_relationship_up_3",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_relationship_up_3.ogg"
+    },
+    {
+      "description": "shizuko_relationship_up_4",
+      "category": "growup",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_relationship_up_4.ogg"
+    },
+    {
+      "description": "shizuko_season_birthday",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_season_birthday.ogg"
+    },
+    {
+      "description": "shizuko_season_birthday_player",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_season_birthday_player.ogg"
+    },
+    {
+      "description": "shizuko_season_halloween",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_season_halloween.ogg"
+    },
+    {
+      "description": "shizuko_season_newyear",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_season_newyear.ogg"
+    },
+    {
+      "description": "shizuko_season_xmas",
+      "category": "lobby",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/shizuko_season_xmas.ogg"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_shizuko_spr-99_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_shizuko_spr-03_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_shizuko_spr-06_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_shizuko_spr-04_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_shizuko_spr-05_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_shizuko_spr-00_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_shizuko_spr-02_0_waifu2x_2x_1n_png.jpg",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/J_shizuko_spr-01_0_waifu2x_2x_1n_png.jpg"
+      ]
+    },
+    {
+      "title": "运动服立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0053_spr_03.png",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0053_spr_00.png",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0053_spr_02.png",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0053_spr_01.png",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0053_spr_99.png",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0053_spr_05.png",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0053_spr_06.png",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0053_spr_Idle_01.png",
+        "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/original/gallery/%E8%BF%90%E5%8A%A8%E6%9C%8D%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/NP0053_spr_04.png"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 141,
+      "favorability": 180
+    },
+    {
+      "id": 63,
+      "favorability": 60
+    }
+  ],
+  "furniture": [
+    826
+  ],
+  "character_datas": [
+    {
+      "character_id": 23006,
+      "dev_name": "Shizuko_default",
+      "combat_style": "default",
+      "type": "Support",
+      "attack_attribute": "Mystic",
+      "defensive_attributes": "Special",
+      "is_groupc_control": false,
+      "team_position": "BACK",
+      "battlefield_position": "SPECIAL",
+      "rarity": 2,
+      "limited": false,
+      "outdoor_adaptability": "A",
+      "indoor_adaptability": "B",
+      "street_adaptability": "A",
+      "equipment": [
+        9,
+        6,
+        4
+      ],
+      "cultivate_material": [
+        69,
+        71,
+        72,
+        75,
+        196,
+        198,
+        200,
+        201,
+        415,
+        416,
+        417,
+        418,
+        435,
+        437,
+        438,
+        19
+      ],
+      "favorite_equipment": 48,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/skill_icon/IvUD8tJCV1gzLzxxlSTfRSttDtZc89oI.png",
+            "title": "百夜堂出差服务！",
+            "title_cn": "百夜堂出摊！",
+            "preview": "//static.kivo.wiki/videos/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/skill_preview/CGq42rFRMugtPaG6PZjftMnNdqIoJkje.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "召唤掩体/让圆形范围内的我方命中数值增加16.3%（持续30秒）/掩体额外拥有静子最大生命值29.2%的生命值。"
+              },
+              {
+                "cost": 3,
+                "describe": "召唤掩体/让圆形范围内的我方命中数值增加16.3%（持续30秒）/掩体额外拥有静子最大生命值33.6%的生命值。"
+              },
+              {
+                "cost": 3,
+                "describe": "召唤掩体/让圆形范围内的我方命中数值增加18.8%（持续30秒）/掩体额外拥有静子最大生命值38%的生命值。"
+              },
+              {
+                "cost": 3,
+                "describe": "召唤掩体/让圆形范围内的我方命中数值增加18.8%（持续30秒）/掩体额外拥有静子最大生命值42.4%的生命值。"
+              },
+              {
+                "cost": 3,
+                "describe": "召唤掩体/让圆形范围内的我方命中数值增加21.3%（持续30秒）/掩体额外拥有静子最大生命值46.8%的生命值。"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/skill_icon/fNrEoqwKzYEuAlCjCfD7xkGVIc7R34yh.png",
+            "title": "不要妨碍营业！",
+            "title_cn": "妨碍营业，不可饶恕！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力184%的伤害/使其攻击力减少17.4%（持续21秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力194%的伤害/使其攻击力减少17.4%（持续21秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力198%的伤害/使其攻击力减少17.8%（持续21秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力235%的伤害/使其攻击力减少17.8%（持续21秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力240%的伤害/使其攻击力减少18.3%（持续21秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力249%的伤害/使其攻击力减少18.3%（持续21秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力286%的伤害/使其攻击力减少18.3%（持续21秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力295%的伤害/使其攻击力减少18.3%（持续21秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力304%的伤害/使其攻击力减少18.3%（持续21秒）"
+              },
+              {
+                "cost": 1,
+                "describe": "每25秒对1名敌人造成攻击力341%的伤害/使其攻击力减少18.3%（持续21秒）"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/skill_icon/UrEZaK5PwFAK2Y5nEkmpuMZppOP8cgHx.png",
+            "title": "嘿嘿(・ω<)？",
+            "title_cn": "诶，诶嘿嘿？",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "命中值增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加26.6%"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/skill_icon/tjcccTJuizhoLGON3TxjFNb9cNdimLlW.png",
+            "title": "喵喵！",
+            "title_cn": "来自看板娘的助威哦！喵喵！",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "我方的暴击值增加9.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击值增加9.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击值增加10%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击值增加11.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击值增加12.3%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击值增加12.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击值增加14.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击值增加15%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击值增加15.5%"
+              },
+              {
+                "cost": 1,
+                "describe": "我方的暴击值增加17.3%"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 2351,
+          "attack": 185,
+          "defense": 119,
+          "healing": 1739,
+          "accuracy": 602,
+          "evasion": 200,
+          "crit": 200,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 2286,
+          "range": 1000,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 0
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/weapons_icon.png",
+        "name": "樱花嘣嘣",
+        "name_cn": "樱花砰砰",
+        "description": "静子所使用的泵动式霰弹枪。<br>据静子所说，似乎是「隐约散发出百夜堂招牌商品馅蜜的香气，世上独一无二的珍品」。",
+        "description_cn": "静子使用的泵动式霰弹枪。<br>静子有曰：“它散发着百夜堂特产馅蜜的味道，是世上独一无二的臻品”。",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「嘿嘿(・ω<)？」升级为「嘿嘿(・ω<)？+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 室内适应性 B -> A",
+            "description": "在室内地形造成1.1倍伤害。在掩体内时掩护成功率+45%。 攻击时绕过掩体概率增加45%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 COST上限增加",
+            "description": "学生在队伍内时，COST上限增加0.5。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E6%B2%B3%E5%92%8C%20%E9%9D%99%E5%AD%90/skill_icon/OOfsRpIUxC2p2exGVE4FFauCJitoPa9d.png",
+            "title": "嘿嘿(・ω<)？+",
+            "title_cn": "诶，诶嘿嘿？+",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "命中值增加160/命中值增加14%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加168/命中值增加14.7%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加176/命中值增加15.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加208/命中值增加18.2%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加216/命中值增加18.9%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加224/命中值增加19.6%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加256/命中值增加22.4%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加264/命中值增加23.1%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加272/命中值增加23.8%"
+              },
+              {
+                "cost": 1,
+                "describe": "命中值增加304/命中值增加26.6%"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [
+    {
+      "text": "萌娘百科. 森永千才. (2024-11-23)[2024-11-27].",
+      "url": "https://mzh.moegirl.org.cn/%E6%A3%AE%E6%B0%B8%E5%8D%83%E6%89%8D"
+    },
+    {
+      "text": "Namu韩站wiki. 카와와 시즈코.(2024-11-16)[2024-11-27].",
+      "url": "https://namu.wiki/w/%EC%B9%B4%EC%99%80%EC%99%80%20%EC%8B%9C%EC%A6%88%EC%BD%94"
+    },
+    {
+      "text": "蔚蓝档案. 国服剧情对白. [2024-11-27].",
+      "url": "https://bluearchive-cn.com/"
+    },
+    {
+      "text": "威威字幕君. 日服剧情翻译. (2024-11-21)[2024-11-27].",
+      "url": "https://space.bilibili.com/7045822/"
+    },
+    {
+      "text": "Namu韩站wiki. 김가령.(2024-10-05)[2024-11-27].",
+      "url": "https://namu.wiki/w/%EA%B9%80%EA%B0%80%EB%A0%B9"
+    }
+  ],
+  "contributor": [],
+  "info_declare_uuid": "2d6b6ac9-bc43-47fe-9d4d-36f156033812",
+  "skill_declare_uuid": "01d36c99-7744-40b8-8f8b-91685ceadff9",
+  "supplementary_uuid": "bb5afbbf-fe8e-4b82-8a69-5db00d15233d",
+  "supplementary_declare_uuid": "4f98a958-41bb-4caf-b707-714df6f2b54d",
+  "created_at": 1685181327,
+  "updated_at": 1783486015
+}

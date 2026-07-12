@@ -1,0 +1,1219 @@
+{
+  "id": 378,
+  "skin": "",
+  "skin_jp": "",
+  "skin_cn": "",
+  "skin_zh_tw": "",
+  "skin_list": [
+    {
+      "id": 378,
+      "avatar": "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/Student_Portrait_CH0264_Collection.png",
+      "skin": "",
+      "skin_cn": ""
+    }
+  ],
+  "family_name": "志真",
+  "given_name": "心华",
+  "family_name_jp": "志真",
+  "given_name_jp": "コノカ",
+  "family_name_kr": "시마",
+  "given_name_kr": "코노카",
+  "family_name_en": "Shima",
+  "given_name_en": "konoka",
+  "family_name_zh_tw": "志真",
+  "given_name_zh_tw": "木乃香",
+  "family_name_cn": "",
+  "given_name_cn": "",
+  "nick_name": "",
+  "introduction": "隶属于瓦尔基里警察学校，公安局副局长。\n\n虽然因为外表，经常会被误认为是嫌疑人，但实际上是个相当能干的警察。她对犯罪者的心理与行为的还原能力，在公安局中无人能及，不过看起来并不是有意识在这么做。\n\n据说她既是公安局里升职次数最多的人，也是被降职次数最多的学生。\n\n>早—，接下来拜托啦！",
+  "introduction_cn": "",
+  "momo_talk_signature": "换了手机，联络方式都逃走啦。",
+  "main_relation": 60,
+  "relation": [
+    61
+  ],
+  "age": 16,
+  "grade": "二年生",
+  "height": 165,
+  "birthday": "08-19",
+  "hobby": "用按摩椅放松、做报纸上的填词游戏",
+  "designer": "dydldidl",
+  "illustrator": "dydldidl",
+  "character_voice": "千本木彩花",
+  "character_voice_cn": "",
+  "release_date": "2026-03-18",
+  "release_date_cn": null,
+  "release_date_global": null,
+  "sd_model_image": "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/EnemyInfo_CH0264.png",
+  "avatar": "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/Student_Portrait_CH0264_Collection.png",
+  "school": 8,
+  "weapon_type": "SG",
+  "is_install": true,
+  "is_install_cn": false,
+  "is_install_global": false,
+  "is_npc": false,
+  "show_list": true,
+  "body_shape": "Medium",
+  "special_appearance": false,
+  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 書類は踊る、されど進まず ||||\n| ![](images/students/志真%20心华/original/gallery/官方图集/HDlnb4Va0AAh2CE.jpg =450x)|暂无|暂无|暂无|\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![](images/students/志真%20心华/original/gallery/官方图集/HDV887ia4AAZwSz.jpg =525x)|暂无|暂无|暂无|\n\n\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n| 自己 | あたし<br>お姉さん |\n|[老师](https://kivo.wiki/data/character/16)|先生<br>この方|\n|[叶渚](https://kivo.wiki/data/character/144)|姉御<br>カンナの姉御<br>先輩|\n|[京子](https://kivo.wiki/data/character/589)|密井キョウコ|\n|[纱织](https://kivo.wiki/data/character/36)|サオリさん<br>あなた|\n|[翼](https://kivo.wiki/data/character/587)|ツバサ<br>所長<br>モー所長|\n|[未来](https://kivo.wiki/data/character/515)|あんた<br>詐欺師|\n|[莱娜](https://kivo.wiki/data/character/550)|レナ<br>ぐるみん|\n|公安局|公安局|\n|調査班X|調査班X<br>みんな|\n|阿里乌斯小队|スクワッド<br>アリウススクワッド<br>スクワッドの皆さん<br>皆さん|\n|伪科学部|疑似科学部|\n|[瓦尔基里警察学校](https://kivo.wiki/data/organize/8)|ヴァルキューレ|\n|[阿里乌斯分校](https://kivo.wiki/data/organize/10)|アリウス分校|\n|[格赫娜学园](https://kivo.wiki/data/organize/3)|ゲヘナ|\n|[圣三一综合学园](https://kivo.wiki/data/organize/2)|トリニティ|\n|[联邦学生会](https://kivo.wiki/data/organize/12)|連邦生徒会|\n|[狂猎艺术学院](https://kivo.wiki/data/organize/14)|ワイルドハント芸術学院<br>芸術学院|\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "recollection_lobby_image": "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/%E6%9C%AA%E6%A0%87%E9%A2%98-2.jpg",
+  "spine": [
+    1266,
+    1451
+  ],
+  "model": [
+    517,
+    522
+  ],
+  "voice_play_icon": "",
+  "voice_pause_icon": "",
+  "voice": [
+    {
+      "description": "ch0264_battle_buffed_1",
+      "category": "battle",
+      "text": "感激涕零，谢天谢地～",
+      "text_original": "感謝感激雨あられ～",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_buffed_1.ogg"
+    },
+    {
+      "description": "ch0264_battle_buffself_1",
+      "category": "battle",
+      "text": "别以为能轻易回去。",
+      "text_original": "ただで帰れると思わないでよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_buffself_1.ogg"
+    },
+    {
+      "description": "ch0264_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_damage_1.ogg"
+    },
+    {
+      "description": "ch0264_battle_damage_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_damage_2.ogg"
+    },
+    {
+      "description": "ch0264_battle_damage_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_damage_3.ogg"
+    },
+    {
+      "description": "ch0264_battle_defense_1",
+      "category": "battle",
+      "text": "不好好瞄准的话是打不中的哦。",
+      "text_original": "ちゃんと狙わないと当たらないっすよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_defense_1.ogg"
+    },
+    {
+      "description": "ch0264_battle_in_1",
+      "category": "battle",
+      "text": "举起手来！再敢动就开枪了！啊……其实动一下也没关系哦？",
+      "text_original": "手を上げろ！動いたら撃つ！あ……動いてもいいからね？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_in_1.ogg"
+    },
+    {
+      "description": "ch0264_battle_in_2",
+      "category": "battle",
+      "text": "发现现行犯！出警～",
+      "text_original": "現行犯発見！しゅつど～",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_in_2.ogg"
+    },
+    {
+      "description": "ch0264_battle_move_1",
+      "category": "battle",
+      "text": "现在直接回去不行吗？",
+      "text_original": "ここで帰っちゃダメっすか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_move_1.ogg"
+    },
+    {
+      "description": "ch0264_battle_move_2",
+      "category": "battle",
+      "text": "诶——剩下的留到明天再弄嘛？",
+      "text_original": "えー、残りは明日にしません？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_move_2.ogg"
+    },
+    {
+      "description": "ch0264_battle_recovery_1",
+      "category": "battle",
+      "text": "谢啦——！",
+      "text_original": "あざーっす",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_recovery_1.ogg"
+    },
+    {
+      "description": "ch0264_battle_retire",
+      "category": "battle",
+      "text": "叫警察来！",
+      "text_original": "警察を呼んで！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_retire.ogg"
+    },
+    {
+      "description": "ch0264_battle_shout_1",
+      "category": "battle",
+      "text": "嘿唷",
+      "text_original": "よっしゃ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_shout_1.ogg"
+    },
+    {
+      "description": "ch0264_battle_shout_2",
+      "category": "battle",
+      "text": "放马过来。",
+      "text_original": "かかってこい。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_shout_2.ogg"
+    },
+    {
+      "description": "ch0264_battle_shout_3",
+      "category": "battle",
+      "text": "吃我一枪！",
+      "text_original": "喰らえ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_shout_3.ogg"
+    },
+    {
+      "description": "ch0264_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "我们打车过去嘛～",
+      "text_original": "タクシーで移動しましょうよ～",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "ch0264_battle_victory_1",
+      "category": "battle",
+      "text": "那个，作为嫌疑人的你有权要求律师到……后面是什么来着？",
+      "text_original": "えー、被疑者であるあなたは弁護士の立ち合いを……なんだっけ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_victory_1.ogg"
+    },
+    {
+      "description": "ch0264_battle_victory_2",
+      "category": "battle",
+      "text": "手铐就这一副。老老实实跟我走吧～",
+      "text_original": "手錠は1つしかないんで。大人しくついてくるっすよ～",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_battle_victory_2.ogg"
+    },
+    {
+      "description": "ch0264_boxshop_1",
+      "category": "event",
+      "text": "要把运气分给我吗？太棒了！",
+      "text_original": "運勢、分けてくれるんすか？やったぁ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_boxshop_1.ogg"
+    },
+    {
+      "description": "ch0264_boxshop_2",
+      "category": "event",
+      "text": "既然是和老师在一起，总会有办法的！",
+      "text_original": "先生と一緒だしなんとかなるっす！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_boxshop_2.ogg"
+    },
+    {
+      "description": "ch0264_boxshop_300",
+      "category": "event",
+      "text": "总之，先调查到最后看看吧！",
+      "text_original": "一応、最後まで調べてみるっすよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_boxshop_300.ogg"
+    },
+    {
+      "description": "ch0264_boxshop_end",
+      "category": "event",
+      "text": "清理时间！到最后也要打起精神来哦！",
+      "text_original": "後片づけタイム！最後まで気張ってくっすよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_boxshop_end.ogg"
+    },
+    {
+      "description": "ch0264_boxshop_login_1",
+      "category": "event",
+      "text": "来吧！接连不断地干下去吧！！",
+      "text_original": "さあ！どんどんいくっすよ！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_boxshop_login_1.ogg"
+    },
+    {
+      "description": "ch0264_boxshop_login_2",
+      "category": "event",
+      "text": "今天的占卜结果如何？我可深信着老师的运势哦！",
+      "text_original": "今日の占いはどうでした？先生の運勢を信じてますよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_boxshop_login_2.ogg"
+    },
+    {
+      "description": "ch0264_boxshop_spbuy_1",
+      "category": "event",
+      "text": "咕——！就是这个就是这个！",
+      "text_original": "くぅー！これこれ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_boxshop_spbuy_1.ogg"
+    },
+    {
+      "description": "ch0264_boxshop_spbuy_2",
+      "category": "event",
+      "text": "运气也太好了吧！？老师，真的牛得不行啊！",
+      "text_original": "すっごいツイてますね！？先生、マジパないっす！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_boxshop_spbuy_2.ogg"
+    },
+    {
+      "description": "ch0264_boxshop_spbuy_3",
+      "category": "event",
+      "text": "要是每天都能这样就好了呢～",
+      "text_original": "毎日こうならいいんすけどね～",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_boxshop_spbuy_3.ogg"
+    },
+    {
+      "description": "ch0264_cafe_monolog_1",
+      "category": "cafe",
+      "text": "人～好多啊～",
+      "text_original": "人が～おおいなぁ～",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0264_cafe_monolog_2",
+      "category": "cafe",
+      "text": "（那么，罪犯在哪里呢……嘛，这里应该没有吧）",
+      "text_original": "（さぁて犯罪者は……まぁ、ここにはいないか）",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0264_cafe_monolog_3",
+      "category": "cafe",
+      "text": "哎呀？我的警徽……丢到哪里去了……",
+      "text_original": "あれっ？あたしのバッジ……どこやったっけ……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0264_cafe_monolog_4",
+      "category": "cafe",
+      "text": "真和平啊。哈……好闲。",
+      "text_original": "平和だなー。はぁ……暇だ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0264_cafe_monolog_5",
+      "category": "cafe",
+      "text": "这个真的合法吗？",
+      "text_original": "これって合法なんすか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0264_commonskill",
+      "category": "battle",
+      "text": "我的书！要好好赔偿给我啊！",
+      "text_original": "あたしの本！ちゃんと弁償してよね！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_commonskill.ogg"
+    },
+    {
+      "description": "ch0264_eventlobby_1",
+      "category": "event",
+      "text": "噫、噫呀！？……真是的，吓了我一跳！",
+      "text_original": "ひ、ひゃっ！？……って、ビックリした",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_eventlobby_1.ogg"
+    },
+    {
+      "description": "ch0264_eventlobby_2",
+      "category": "event",
+      "text": "呼……这里也就空气还算挺清新的。",
+      "text_original": "ふぅ……ここ、空気だけは美味しいんすよね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_eventlobby_2.ogg"
+    },
+    {
+      "description": "ch0264_eventlobby_3",
+      "category": "event",
+      "text": "槌蛇——！要是抓到了绝对不放你走！",
+      "text_original": "ツチノコー！捕まえたら絶対に逃がさないっす！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_eventlobby_3.ogg"
+    },
+    {
+      "description": "ch0264_eventlobby_4",
+      "category": "event",
+      "text": "平常心……平常心……",
+      "text_original": "平常心……平常心……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_eventlobby_4.ogg"
+    },
+    {
+      "description": "ch0264_eventlogin_1_1",
+      "category": "event",
+      "text": "槌蛇哟——！在哪儿呢——！？",
+      "text_original": "ツチノコやーい！どこだー！？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_eventlogin_1_1.ogg"
+    },
+    {
+      "description": "ch0264_eventlogin_1_2",
+      "category": "event",
+      "text": "抓到你准没你好果子……不、不对！快出来吧——！",
+      "text_original": "捕まえたらただじゃおかな……い、いや！でてこーい！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_eventlogin_1_2.ogg"
+    },
+    {
+      "description": "ch0264_eventlogin_2",
+      "category": "event",
+      "text": "唔唔……好可怕……",
+      "text_original": "ううっ……怖っ……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_eventlogin_2.ogg"
+    },
+    {
+      "description": "ch0264_eventlogin_season_1",
+      "category": "event",
+      "text": "为什么会有这种像恶作剧一样的——唏！？谁、是谁……？",
+      "text_original": "なんでこんな嫌がらせみたいな――ひっ！？だっ、誰……？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "ch0264_eventlogin_season_2",
+      "category": "event",
+      "text": "就算是妖怪，只要能给它戴上手铐的话……！",
+      "text_original": "お化けだろうが手錠をかけられるなら……！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "ch0264_eventlogin_season_end_1",
+      "category": "event",
+      "text": "总算平安结束了！命运这种东西还挺好对付的嘛！哈哈哈——",
+      "text_original": "無事終わったっすね！運命なんてちょろいもんっす！はっはっはっ――",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_eventlogin_season_end_1.ogg"
+    },
+    {
+      "description": "ch0264_eventlogin_season_end_2",
+      "category": "event",
+      "text": "不、不对！刚才那句不算！一点都不好对付！对不起！！",
+      "text_original": "い、いや！今のなし！ちょろくないっす！ごめんなさい！！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_eventlogin_season_end_2.ogg"
+    },
+    {
+      "description": "ch0264_exskill_1",
+      "category": "battle",
+      "text": "警察登场～！",
+      "text_original": "警察とうじょ～！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_exskill_1.ogg"
+    },
+    {
+      "description": "ch0264_exskill_2",
+      "category": "battle",
+      "text": "正义执行！",
+      "text_original": "正義執行！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_exskill_2.ogg"
+    },
+    {
+      "description": "ch0264_exskill_3",
+      "category": "battle",
+      "text": "给我咬紧牙关撑着！",
+      "text_original": "歯ァ食いしばっときな！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_exskill_3.ogg"
+    },
+    {
+      "description": "ch0264_exskill_level_1",
+      "category": "battle",
+      "text": "这个太值得抓回去了！",
+      "text_original": "捕まえ甲斐があるぅ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0264_exskill_level_2",
+      "category": "battle",
+      "text": "都说了别反抗了！",
+      "text_original": "抵抗しなさんなって！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0264_exskill_level_3",
+      "category": "battle",
+      "text": "有不满的话，就到瓦尔基里再说吧。",
+      "text_original": "文句があるなら、ヴァルキューレに入ることだね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0264_exweapon_get",
+      "category": "growup",
+      "text": "啊，我一直想要这个的！有了它办事就简单多了！",
+      "text_original": "あ、これ欲しかったんすよ！これがあれば話が簡単に済むっすからね！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0264_formation_in_1",
+      "category": "formation",
+      "text": "好好，我知道啦。哈，好麻烦……",
+      "text_original": "はいはい、やりますよーっと。はぁ、めんど……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0264_formation_in_2",
+      "category": "formation",
+      "text": "今天的占卜排第几名来着？",
+      "text_original": "今日の占い、何位だったっけ？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0264_formation_select",
+      "category": "formation",
+      "text": "啊啊……腰伸展开了了～",
+      "text_original": "あぁ……腰が伸びる～",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_formation_select.ogg"
+    },
+    {
+      "description": "ch0264_gachaget",
+      "category": "growup",
+      "text": "啊，你好。我是瓦尔基里警察学校公安局的志真心华。要不要一起看看今天的占卜？",
+      "text_original": "あー、どもども。ヴァルキューレ警察学校、公安局の志真コノカっす。今日の占い、一緒に見てみません？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_gachaget.ogg"
+    },
+    {
+      "description": "ch0264_growup_1",
+      "category": "growup",
+      "text": "变强了！……感觉要被我送进医院的人数也会增加呢。",
+      "text_original": "強くなったっす！……病院送りの人数が増えそうっすね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_growup_1.ogg"
+    },
+    {
+      "description": "ch0264_growup_2",
+      "category": "growup",
+      "text": "喔——这样的话不都能当上警察了吗？开玩笑的。",
+      "text_original": "おぉ～、これなら警察にでもなれちゃうんじゃないですか？な～んて。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_growup_2.ogg"
+    },
+    {
+      "description": "ch0264_growup_3",
+      "category": "growup",
+      "text": "升职吗？大欢迎！反正也不知道什么时候就会被降职！",
+      "text_original": "昇進っすか？大歓迎っす！いつ降格しちゃうか分かりませんし！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_growup_3.ogg"
+    },
+    {
+      "description": "ch0264_growup_4",
+      "category": "growup",
+      "text": "哦！就是这种感觉！充满力量了！",
+      "text_original": "おっ！これこれ！みなぎるっすねぇ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_growup_4.ogg"
+    },
+    {
+      "description": "ch0264_lobby_1_1",
+      "category": "lobby",
+      "text": "就算我不在，瓦尔基里也没问题的。",
+      "text_original": "あたしが居なくてもヴァルキューレは大丈夫っすよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_lobby_1_1.ogg"
+    },
+    {
+      "description": "ch0264_lobby_1_2",
+      "category": "lobby",
+      "text": "倒不如说，我在的时候逮捕率反而更高……总觉得麻烦会主动找上门。所以，我觉得待在老师这里更好，开玩笑的。",
+      "text_original": "というか、いるほうが逮捕率あがるんすよね……なーんか、ちょっかいかけてくるっていうか。だから、こっちいる方がいい気がする、なんちゃって。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_lobby_1_2.ogg"
+    },
+    {
+      "description": "ch0264_lobby_2_1",
+      "category": "lobby",
+      "text": "老师，你文笔真好啊，真羡慕。",
+      "text_original": "先生、文章うまいっすねぇ～いいなぁ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_lobby_2_1.ogg"
+    },
+    {
+      "description": "ch0264_lobby_2_2",
+      "category": "lobby",
+      "text": "啊，不过写检讨和反省信我可是强项，有需要随时叫我！",
+      "text_original": "あ、でも始末書と反省文なら得意なんで、必要な時は言ってください！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_lobby_2_2.ogg"
+    },
+    {
+      "description": "ch0264_lobby_3_1",
+      "category": "lobby",
+      "text": "喝茶～喝茶～",
+      "text_original": "お茶～お茶～っと。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_lobby_3_1.ogg"
+    },
+    {
+      "description": "ch0264_lobby_3_2",
+      "category": "lobby",
+      "text": "……这茶包差不多该换了。泡到第30遍果然已经没味道了……",
+      "text_original": "……このティーバッグ、そろそろ替え時かな。30番煎じはさすがに味しなくなってきた……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_lobby_3_2.ogg"
+    },
+    {
+      "description": "ch0264_lobby_4_1",
+      "category": "lobby",
+      "text": "处分！处分！处分！……你不觉得重复说多了反而挺有趣的吗？",
+      "text_original": "懲戒！懲戒！懲戒！……って、繰り返し言われると面白く感じてきません？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_lobby_4_1.ogg"
+    },
+    {
+      "description": "ch0264_lobby_4_2",
+      "category": "lobby",
+      "text": "虽然再增加的话就真的不妙了……",
+      "text_original": "まぁ、これ以上はマズいっすけど……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_lobby_4_2.ogg"
+    },
+    {
+      "description": "ch0264_lobby_5",
+      "category": "lobby",
+      "text": "老师，今天的运势怎么样？",
+      "text_original": "先生、今日の運勢どうでした？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_lobby_5.ogg"
+    },
+    {
+      "description": "ch0264_login_1",
+      "category": "lobby",
+      "text": "你好呀——。最近怎么样？",
+      "text_original": "ちわーっす。調子どっすか？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_login_1.ogg"
+    },
+    {
+      "description": "ch0264_login_2",
+      "category": "lobby",
+      "text": "这段时间没见该不会背上前科了吧……开玩笑的啦！",
+      "text_original": "見ない間に前科持ちになってたり……なーんて、冗談ですって！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_login_2.ogg"
+    },
+    {
+      "description": "ch0264_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "啊——啊，全身湿透了……",
+      "text_original": "あーあ、びしょ濡れ……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "ch0264_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "唔……好冷。",
+      "text_original": "うぅ……さっむ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "ch0264_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "开始下起雨来了呢。明明听说到晚上都不会停的……哈……",
+      "text_original": "降り始めちゃいましたね。夜までは止まないらしいのに……はぁ……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0264_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "嘛，用来冷静一下头脑倒也正合适。",
+      "text_original": "まぁ、頭を冷やすにはちょうどよかったっすかね。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0264_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "哎？啊，嗯……",
+      "text_original": "はぇ？ああ、うーん。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "ch0264_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "要说不甘心的话那是骗人的。",
+      "text_original": "悔しくないって言ったら嘘になるっすよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "ch0264_memoriallobby_3_3",
+      "category": "lobby",
+      "text": "不仅各种白费力气，还变成了落汤鸡……",
+      "text_original": "いろいろ無駄骨になるわ、濡れ鼠になるわ……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_memoriallobby_3_3.ogg"
+    },
+    {
+      "description": "ch0264_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "不过，正像占卜说的那样。因为搭档就在身边，所以今天还是美好的一天。",
+      "text_original": "でも、占いの通りっす。バディが隣にいたから、良い1日になりました。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "ch0264_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "……全靠老师你哦。",
+      "text_original": "……先生のおかげっすよ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "ch0264_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "所以，硬要说的话——",
+      "text_original": "だから、どちらかというと――",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "ch0264_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "我很幸福。",
+      "text_original": "幸せです。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "ch0264_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "……啊，不，那个！",
+      "text_original": "……あっ、いや、その！こうやって雨宿りもできて、ラッキーで幸せだなって意味で！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_memoriallobby_5_3.ogg"
+    },
+    {
+      "description": "ch0264_memoriallobby_5_4",
+      "category": "lobby",
+      "text": "我的意思是能像这样躲雨，感觉很幸运、很幸福！",
+      "text_original": "そ、それだけ……っすから……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_memoriallobby_5_4.ogg"
+    },
+    {
+      "description": "ch0264_relationship_up_1",
+      "category": "growup",
+      "text": "怎么了老师，你是喜欢我吗？诶——？明明还有很多更温柔的孩子吧？",
+      "text_original": "なんすか先生、あたしのこと好きなんすか？えー？もっと優しい子とかいっぱい居るのに？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0264_relationship_up_2",
+      "category": "growup",
+      "text": "那个……我好歹也是个女孩子……别看我这样，其实很心细的哦？",
+      "text_original": "あの……あたしも一応女の子なんで……。こう見えて繊細なんすよ？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0264_relationship_up_3",
+      "category": "growup",
+      "text": "当老师的搭档真是好事不断呢！",
+      "text_original": "先生のバディやってると、いいことだらけっすね！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0264_relationship_up_4",
+      "category": "growup",
+      "text": "一直以来……谢谢你……啊，不，那个……毕竟好多事都……",
+      "text_original": "いつも……ありがとうございます……あ、や、その……色々と。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0264_season_birthday",
+      "category": "lobby",
+      "text": "Happy birthday to me~ Happy birthday to me~ Happy birthday dear Konoka~",
+      "text_original": "はっぴば～すで～とぅ～みぃ～はっぴば～すで～とぅ～みぃ～はっぴば～すでぇ～でぃあ、このかぁ～",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_season_birthday.ogg"
+    },
+    {
+      "description": "ch0264_season_birthday_player",
+      "category": "lobby",
+      "text": "老师，祝你生日快乐！虽然不太清楚你喜欢什么，我们现在就去商场买吧！",
+      "text_original": "先生、お誕生日おめでとうっす！何が好きかちょっとわからないんで、今からショッピングモール行くっすよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_season_birthday_player.ogg"
+    },
+    {
+      "description": "ch0264_season_halloween_1",
+      "category": "lobby",
+      "text": "刚才有人跟我说‘不给糖就捣蛋’。",
+      "text_original": "さっき、キャンディーくれなきゃいたずらするぞ！って言われたんすけど。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_season_halloween_1.ogg"
+    },
+    {
+      "description": "ch0264_season_halloween_2",
+      "category": "lobby",
+      "text": "我还以为是抢劫呢，不小心就把他给铐了……要是万圣节的话早点说嘛……",
+      "text_original": "強盗かと思ってつい手錠掛けちゃって……ハロウィンなら早く言ってほしかったっすね……。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_season_halloween_2.ogg"
+    },
+    {
+      "description": "ch0264_season_newyear",
+      "category": "lobby",
+      "text": "老师，新年快乐！我们要去抓捕那些兴奋过头的混混了哦～！",
+      "text_original": "先生、明けましておめでとうございます！浮かれてる不良を取り締まりに行くっすよ～！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_season_newyear.ogg"
+    },
+    {
+      "description": "ch0264_season_xmas",
+      "category": "lobby",
+      "text": "圣诞节啊……虽然大家都很感激的样子……但圣诞老人那家伙，其实是非法侵入的惯犯吧。",
+      "text_original": "クリスマスっすねぇ……なんかみんなありがたがってますけど……サンタって不法侵入の常習犯っすよね、あれ。",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_season_xmas.ogg"
+    },
+    {
+      "description": "ch0264_tactic_defeat_1",
+      "category": "battle",
+      "text": "反，反对暴力！",
+      "text_original": "ぼ、暴力反対！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "ch0264_tactic_defeat_2",
+      "category": "battle",
+      "text": "这案子要成悬案了",
+      "text_original": "この事件は迷宮入りってことで",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "ch0264_tactic_in_1",
+      "category": "battle",
+      "text": "啊，你有搜查令吗？我反正是没有哦！",
+      "text_original": "あ、令状持ってます？あたしは無いっすよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_tactic_in_1.ogg"
+    },
+    {
+      "description": "ch0264_tactic_in_2",
+      "category": "battle",
+      "text": "躲到哪里去了呢～？",
+      "text_original": "どこに隠れたのかな～？",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_tactic_in_2.ogg"
+    },
+    {
+      "description": "ch0264_tactic_victory_1",
+      "category": "battle",
+      "text": "这点程度的损失还在允许范围内！",
+      "text_original": "多少の被害は許容範囲内っす！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_tactic_victory_1.ogg"
+    },
+    {
+      "description": "ch0264_tactic_victory_2",
+      "category": "battle",
+      "text": "轻轻松松。连热身都算不上呢！",
+      "text_original": "楽勝楽勝。準備運動にもならなかったっすよ！",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/ch0264_tactic_victory_2.ogg"
+    },
+    {
+      "description": "CH0264_Title",
+      "category": "lobby",
+      "text": "蔚蓝档案～",
+      "text_original": "ぶる～あ～かいぶ～",
+      "file": "//static.kivo.wiki/voices/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/jp/CH0264_Title.ogg"
+    }
+  ],
+  "voice_cn": [],
+  "voice_kr": [],
+  "gallery": [
+    {
+      "title": "初始立绘差分",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_00.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_06.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_02.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_01.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_03.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_04.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_11.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_08.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_09.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_10.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_13.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_05.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_15.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_12.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_14.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_16.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_07.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_18.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_17.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_20.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_19.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_23.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_25.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_27.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_24.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_22.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_26.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_21.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_29.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_28.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_32.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_30.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_31.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_33.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_37.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_99.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_34.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_38.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_35.png",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%88%9D%E5%A7%8B%E7%AB%8B%E7%BB%98%E5%B7%AE%E5%88%86/CH0264_spr_36.png"
+      ]
+    },
+    {
+      "title": "官方图集",
+      "images": [
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/HDlnb4Va0AAh2CE.jpg",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/HDV887ia4AAZwSz.jpg",
+        "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/HDmQ4zma4AARuAK.jpg"
+      ]
+    }
+  ],
+  "gift_data": [
+    {
+      "id": 156,
+      "favorability": 240
+    },
+    {
+      "id": 73,
+      "favorability": 180
+    },
+    {
+      "id": 268,
+      "favorability": 60
+    },
+    {
+      "id": 67,
+      "favorability": 40
+    },
+    {
+      "id": 271,
+      "favorability": 40
+    },
+    {
+      "id": 272,
+      "favorability": 40
+    },
+    {
+      "id": 54,
+      "favorability": 40
+    },
+    {
+      "id": 61,
+      "favorability": 40
+    },
+    {
+      "id": 86,
+      "favorability": 40
+    },
+    {
+      "id": 263,
+      "favorability": 40
+    },
+    {
+      "id": 60,
+      "favorability": 40
+    }
+  ],
+  "furniture": null,
+  "character_datas": [
+    {
+      "character_id": 10137,
+      "dev_name": "CH0264",
+      "combat_style": "default",
+      "type": "Tank",
+      "attack_attribute": "Mystic",
+      "defensive_attributes": "Light",
+      "is_groupc_control": false,
+      "team_position": "FRONT",
+      "battlefield_position": "STRIKER",
+      "rarity": 3,
+      "limited": false,
+      "outdoor_adaptability": "B",
+      "indoor_adaptability": "D",
+      "street_adaptability": "S",
+      "equipment": [
+        9,
+        10,
+        2
+      ],
+      "cultivate_material": [
+        120,
+        121,
+        123,
+        124,
+        133,
+        135,
+        136,
+        138,
+        19,
+        1033,
+        1034,
+        1035,
+        1036,
+        407,
+        408,
+        409
+      ],
+      "favorite_equipment": 0,
+      "skill": {
+        "ex_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/skill_icon/TGFF8KxrTnomBpaKL4CMcD2RM2kf6O6g.png",
+            "title": "算是正当防卫？",
+            "title_cn": "",
+            "preview": "//static.kivo.wiki/videos/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/skill_preview/07Vs850A5tfccvLVAVSHeDRR4uxiFPPi.mp4",
+            "max_level": 5,
+            "link_student_id": 0,
+            "is_passive_skill": false,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 3,
+                "describe": "对扇形范围内的敌方，造成攻击力370%的伤害。<br>使用EX技能期间，每当被攻击时会恢复治疗力18%的生命值（最多生效35回）。"
+              },
+              {
+                "cost": 3,
+                "describe": "对扇形范围内的敌方，造成攻击力425%的伤害。<br>使用EX技能期间，每当被攻击时会恢复治疗力20.7%的生命值（最多生效35回）。"
+              },
+              {
+                "cost": 3,
+                "describe": "对扇形范围内的敌方，造成攻击力536%的伤害。<br>使用EX技能期间，每当被攻击时会恢复治疗力26.1%的生命值（最多生效35回）。"
+              },
+              {
+                "cost": 3,
+                "describe": "对扇形范围内的敌方，造成攻击力592%的伤害。<br>使用EX技能期间，每当被攻击时会恢复治疗力28.8%的生命值（最多生效35回）。"
+              },
+              {
+                "cost": 3,
+                "describe": "对扇形范围内的敌方，造成攻击力703%的伤害。<br>使用EX技能期间，每当被攻击时会恢复治疗力34.2%的生命值（最多生效35回）。"
+              }
+            ]
+          }
+        ],
+        "passive_skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/skill_icon/RmlBJ0TAiLxTlPJlBLCfB5SObj5nr2d9.png",
+            "title": "这不是挺有价值的吗？",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "每30秒，对1名敌人造成攻击力133%的伤害，并赋予嘲讽状态（1.3秒）<br>恢复治疗力77.6%的生命值。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对1名敌人造成攻击力140%的伤害，并赋予嘲讽状态（1.3秒）<br>恢复治疗力81.4%的生命值。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对1名敌人造成攻击力147%的伤害，并赋予嘲讽状态（1.3秒）<br>恢复治疗力85.3%的生命值。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对1名敌人造成攻击力174%的伤害，并赋予嘲讽状态（1.4秒）<br>恢复治疗力100%的生命值。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对1名敌人造成攻击力180%的伤害，并赋予嘲讽状态（1.4秒）<br>恢复治疗力104%的生命值。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对1名敌人造成攻击力187%的伤害，并赋予嘲讽状态（1.4秒）<br>恢复治疗力108%的生命值。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对1名敌人造成攻击力214%的伤害，并赋予嘲讽状态（1.5秒）<br>恢复治疗力124%的生命值。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对1名敌人造成攻击力220%的伤害，并赋予嘲讽状态（1.5秒）<br>恢复治疗力128%的生命值。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对1名敌人造成攻击力227%的伤害，并赋予嘲讽状态（1.5秒）<br>恢复治疗力131%的生命值。"
+              },
+              {
+                "cost": 1,
+                "describe": "每30秒，对1名敌人造成攻击力254%的伤害，并赋予嘲讽状态（1.7秒）<br>恢复治疗力147%的生命值。"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/skill_icon/OsydqQ9V6kmdAewibo1aC5RPRAJErMPp.png",
+            "title": "帮大忙了！",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "受恢复率增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "受恢复率增加14.7%。"
+              },
+              {
+                "cost": 1,
+                "describe": "受恢复率增加15.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "受恢复率增加18.2%。"
+              },
+              {
+                "cost": 1,
+                "describe": "受恢复率增加18.9%。"
+              },
+              {
+                "cost": 1,
+                "describe": "受恢复率增加19.6%。"
+              },
+              {
+                "cost": 1,
+                "describe": "受恢复率增加22.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "受恢复率增加23.1%。"
+              },
+              {
+                "cost": 1,
+                "describe": "受恢复率增加23.8%。"
+              },
+              {
+                "cost": 1,
+                "describe": "受恢复率增加26.6%。"
+              }
+            ]
+          },
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/skill_icon/7ZcZmWOW5SMQQlfel3BJscmTa5L7xSFN.png",
+            "title": "要是能做到的话就试试看啊！",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "使用EX技能期间，攻击力，防御力增加13.1%<br>当在EX技能持续的期间收到25回恢复效果时，自身的EX技能COST减少1（被减少COST的EX技能可以使用1次）。"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能期间，攻击力，防御力增加13.7%<br>当在EX技能持续的期间收到25回恢复效果时，自身的EX技能COST减少1（被减少COST的EX技能可以使用1次）。"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能期间，攻击力，防御力增加14.4%<br>当在EX技能持续的期间收到25回恢复效果时，自身的EX技能COST减少1（被减少COST的EX技能可以使用1次）。"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能期间，攻击力，防御力增加17%<br>当在EX技能持续的期间收到25回恢复效果时，自身的EX技能COST减少1（被减少COST的EX技能可以使用1次）。"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能期间，攻击力，防御力增加17.7%<br>当在EX技能持续的期间收到25回恢复效果时，自身的EX技能COST减少1（被减少COST的EX技能可以使用1次）。"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能期间，攻击力，防御力增加18.3%<br>当在EX技能持续的期间收到25回恢复效果时，自身的EX技能COST减少1（被减少COST的EX技能可以使用1次）。"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能期间，攻击力，防御力增加20.9%<br>当在EX技能持续的期间收到25回恢复效果时，自身的EX技能COST减少1（被减少COST的EX技能可以使用1次）。"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能期间，攻击力，防御力增加21.6%<br>当在EX技能持续的期间收到25回恢复效果时，自身的EX技能COST减少1（被减少COST的EX技能可以使用1次）。"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能期间，攻击力，防御力增加22.2%<br>当在EX技能持续的期间收到25回恢复效果时，自身的EX技能COST减少1（被减少COST的EX技能可以使用1次）。"
+              },
+              {
+                "cost": 1,
+                "describe": "使用EX技能期间，攻击力，防御力增加24.9%<br>当在EX技能持续的期间收到25回恢复效果时，自身的EX技能COST减少1（被减少COST的EX技能可以使用1次）。"
+              }
+            ]
+          }
+        ]
+      },
+      "basic": [
+        {
+          "max_hp": 3341,
+          "attack": 312,
+          "defense": 179,
+          "healing": 1322,
+          "accuracy": 603,
+          "evasion": 238,
+          "crit": 201,
+          "crit_res": 100,
+          "crit_dmg": 2,
+          "crit_dmg_res": 0.5,
+          "stability": 1988,
+          "range": 350,
+          "cc_power": 100,
+          "cc_res": 100,
+          "recovery_boost": 1,
+          "mag_count": 5
+        }
+      ],
+      "weapons": {
+        "icon": "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/Weapon_Icon_CH0264.png",
+        "name": "道具",
+        "name_cn": "",
+        "description": "心华爱用的枪。<br>不仅是业务，还可以当做午睡的枕头，用途多种多样。",
+        "description_cn": "",
+        "info": [
+          {
+            "title": "无",
+            "description": "无"
+          },
+          {
+            "title": "固有武器最大等级 Lv.30 → Lv.40 / 解锁被动技能+",
+            "description": "「帮大忙了！」升级为「帮大忙了！+」"
+          },
+          {
+            "title": "固有武器最大等级 Lv.40 → Lv.50 / 地形适应性强化 街道适应性 S -> SS",
+            "description": "在街道地形造成1.3倍伤害。在掩体内时掩护成功率+75%。 攻击时绕过掩体概率增加75%。"
+          },
+          {
+            "title": "固有武器最大等级 Lv.50 → Lv.60 / 数据强化 神秘克制伤害增加",
+            "description": "攻击类型为神秘的克制伤害增加10%。"
+          }
+        ],
+        "skill": [
+          {
+            "icon": "//static.kivo.wiki/images/students/%E5%BF%97%E7%9C%9F%20%E5%BF%83%E5%8D%8E/original/skill_icon/Y1bgykvuadIuSLQP5CodXDGAbn1GvUk8.png",
+            "title": "帮大忙了！+",
+            "title_cn": "",
+            "preview": "",
+            "max_level": 10,
+            "link_student_id": 0,
+            "is_passive_skill": true,
+            "derived_skills": [],
+            "info": [
+              {
+                "cost": 1,
+                "describe": "HP增加4773，受恢复率增加14%。"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加5012，受恢复率增加14.7%。"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加5251，受恢复率增加15.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加6205，受恢复率增加18.2%。"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加6444，受恢复率增加18.9%。"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加6682，受恢复率增加19.6%。"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加7637，受恢复率增加22.4%。"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加7876，受恢复率增加23.1%。"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加8114，受恢复率增加23.8%。"
+              },
+              {
+                "cost": 1,
+                "describe": "HP增加9069，受恢复率增加26.6%。"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source": [],
+  "contributor": [],
+  "info_declare_uuid": "dbde8ad8-a0db-4314-aa82-d44486e35e43",
+  "skill_declare_uuid": "cd495802-3918-44c8-8adc-c8e9b132d27c",
+  "supplementary_uuid": "d9b68b6d-e2fa-4626-887b-c1055f1bb3f0",
+  "supplementary_declare_uuid": "a4d329a3-42cd-4146-9c3c-dcadfa2d314a",
+  "created_at": 1719403716,
+  "updated_at": 1783658958
+}
