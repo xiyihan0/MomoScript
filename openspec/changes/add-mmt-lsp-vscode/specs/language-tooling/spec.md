@@ -113,6 +113,34 @@ valid Typst using deterministic virtual placeholder paths.
 - AND the host MUST provide that placeholder as a UTF-8 SVG virtual file before opening the entry
 - AND materialization failures MUST NOT be added to editor diagnostics
 
+### Requirement: Preview materialization is isolated from language projection
+
+The Web host SHALL isolate any revision-bound render project from the no-I/O editor projection.
+It MAY build that render project after a pack registry is installed, but SHALL NOT replace or mutate
+the editor projection.
+
+#### Scenario: A character avatar is rendered from a remote pack
+
+- GIVEN an acknowledged pack-v3 manifest resolves an actor avatar to `image-dir` storage
+- WHEN the host requests a render project for the current document revision
+- THEN the render project MUST describe the pack namespace, storage base, image basename and virtual URI
+- AND the host MUST derive an HTTPS URL beneath the acknowledged pack base
+- AND the host MUST reject unsafe path segments, redirects, unsupported image extensions and responses over 20 MiB
+- AND a stale revision MUST NOT replace the current preview
+- AND download/materialization failures MUST remain preview failures rather than editor diagnostics
+
+### Requirement: Web workspace edits survive reload
+
+The Web editor SHALL persist text changes to its IndexedDB-backed workspace in source order.
+
+#### Scenario: Reload after editing a story
+
+- GIVEN the author changes the open MMT document
+- WHEN persistence completes and the page reloads
+- THEN the workspace MUST reopen the latest text
+- AND the preview MUST be rebuilt from that persisted text and the acknowledged pack manifest
+
+
 ### Requirement: Projection segments permit only exact identity mapping
 
 Projection segments SHALL continuously cover generated Typst and SHALL classify unsafe generated

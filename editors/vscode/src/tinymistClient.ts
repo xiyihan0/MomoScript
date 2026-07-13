@@ -13,12 +13,46 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
 
+export type TypstVirtualFile =
+  | { uri: string; text: string; dataBase64?: never }
+  | { uri: string; text?: never; dataBase64: string };
+
+export interface TypstResourceRequest {
+  id: number;
+  uri: string;
+  packNamespace: string;
+  base: string;
+  fileName: string;
+  range: { start: { line: number; character: number }; end: { line: number; character: number } };
+}
+
 export interface TypstProjectUpdate {
   sourceUri: string;
   sourceVersion: number;
   revision: number;
   entryUri: string;
-  files: Array<{ uri: string; text: string }>;
+  files: TypstVirtualFile[];
+  full: boolean;
+}
+
+export interface TypstRenderProjectUpdate {
+  sourceUri: string;
+  sourceVersion: number;
+  revision: number;
+  entryUri: string;
+  files: TypstVirtualFile[];
+  full: true;
+  resources: TypstResourceRequest[];
+}
+
+export function isTypstTextFile(file: TypstVirtualFile): file is Extract<TypstVirtualFile, { text: string }> {
+  return typeof file.text === "string";
+}
+
+export function mergeProjectFiles(current: TypstVirtualFile[], changed: TypstVirtualFile[]): TypstVirtualFile[] {
+  const files = new Map(current.map((file) => [file.uri, file]));
+  for (const file of changed) files.set(file.uri, file);
+  return [...files.values()];
 }
 
 export interface ProjectedPosition {
@@ -83,15 +117,17 @@ export class TinymistWorkerClient implements TinymistHostBackend {
   private constructor(
     private readonly workerUri: string,
     private readonly moduleUri: string,
-    private readonly wasmUri: string
+    private readonly wasmUri: string,
+    private readonly workerFactory: (uri: string) => Worker
   ) {}
 
   static async start(
     workerUri: string,
     moduleUri: string,
-    wasmUri: string
+    wasmUri: string,
+    workerFactory: (uri: string) => Worker = (uri) => new Worker(uri)
   ): Promise<TinymistWorkerClient> {
-    const client = new TinymistWorkerClient(workerUri, moduleUri, wasmUri);
+    const client = new TinymistWorkerClient(workerUri, moduleUri, wasmUri, workerFactory);
     try {
       await client.bootWorker();
       client.ready = true;
@@ -104,7 +140,7 @@ export class TinymistWorkerClient implements TinymistHostBackend {
 
   private async bootWorker(): Promise<void> {
     if (this.stopped) throw new Error("Tinymist Worker client stopped");
-    const worker = new Worker(this.workerUri);
+    const worker = this.workerFactory(this.workerUri);
     this.worker = worker;
     worker.addEventListener("message", (event: MessageEvent<JsonRpcMessage>) => {
       if (worker === this.worker) this.handleMessage(worker, event.data);
@@ -229,16 +265,20 @@ export class TinymistWorkerClient implements TinymistHostBackend {
   }
 
   syncProject(update: TypstProjectUpdate): void {
-    const currentFiles = new Set<string>();
-    for (const file of update.files) currentFiles.add(file.uri);
+    const previous = this.projectsByEntry.get(update.entryUri);
+    const mergedFiles = update.full || !previous
+      ? update.files
+      : mergeProjectFiles(previous.files, update.files);
+    const merged = { ...update, full: true, files: mergedFiles };
+    const currentFiles = new Set(mergedFiles.filter(isTypstTextFile).map((file) => file.uri));
     this.projectFiles.set(update.sourceUri, currentFiles);
-    this.projectsByEntry.set(update.entryUri, update);
+    this.projectsByEntry.set(update.entryUri, merged);
     if (this.ready) {
       this.applyProject(update);
     } else {
       void this.ensureReady()
         .then(() => {
-          if (this.projectsByEntry.get(update.entryUri) === update) this.applyProject(update);
+          if (this.projectsByEntry.get(update.entryUri) === merged) this.applyProject(merged);
         })
         .catch((error: unknown) => this.dispatch("tinymist/clientFailed", { message: String(error) }));
     }
@@ -246,7 +286,7 @@ export class TinymistWorkerClient implements TinymistHostBackend {
 
   private applyProject(update: TypstProjectUpdate): void {
     const currentFiles = this.projectFiles.get(update.sourceUri) ?? new Set<string>();
-    for (const file of update.files) {
+    for (const file of update.files.filter(isTypstTextFile)) {
       const previousVersion = this.openFiles.get(file.uri);
       if (previousVersion === undefined) {
         this.rawNotify("textDocument/didOpen", {

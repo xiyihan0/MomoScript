@@ -145,7 +145,16 @@ try {
         json: JSON.stringify({
           schema: "mmt-pack.v3",
           pack: { namespace: "ba", name: "BA fixture", version: "1", type: "base" },
-          entities: { "柚子": { names: ["柚子", "Yuzu"], display_name: "柚子" } }
+          entities: {
+            "柚子": {
+              names: ["柚子", "Yuzu"],
+              display_name: "柚子",
+              slots: { avatar: { default: "default", items: {
+                default: { storage: "avatars", path: "yuzu.png" }
+              } } }
+            }
+          },
+          storage: { avatars: { kind: "image-dir", base: "assets/avatar" } }
         })
       }]
     });
@@ -164,6 +173,21 @@ try {
       textDocument: { uri: presetUri },
       position: { line: 1, character: 13 }
     });
+    const renderUri = "file:///workspace/render.mmt";
+    notify("textDocument/didOpen", {
+      textDocument: {
+        uri: renderUri,
+        languageId: "mmt",
+        version: 1,
+        text: "@actor yuzu\npreset: ba::柚子\n@end\n> yuzu: Hello"
+      }
+    });
+    await waitForNotification("textDocument/publishDiagnostics");
+    const renderProject = await request("mmt/getTypstRenderProject", { uri: renderUri });
+    if (renderProject.resources.length !== 1) throw new Error("render project omitted actor avatar");
+    if (renderProject.resources[0].fileName !== "yuzu.png") throw new Error("render resource path mismatch");
+    const renderEntry = renderProject.files.find((file) => file.uri === renderProject.entryUri);
+    if (!renderEntry?.text?.includes("mmt-resources/0.png")) throw new Error("render entry omitted materialized avatar path");
     await request("shutdown", null);
     notify("exit", null);
     worker.terminate();
@@ -174,7 +198,8 @@ try {
       symbolNames: symbols.map((symbol) => symbol.name),
       foldingCount: folding.length,
       completionLabels: completion.map((item) => item.label),
-      presetLabels: presetCompletion.map((item) => item.label)
+      presetLabels: presetCompletion.map((item) => item.label),
+      renderResource: renderProject.resources[0].fileName
     };
   }, `http://127.0.0.1:${address.port}/dist/${wasmAsset}`);
 

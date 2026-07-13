@@ -23,6 +23,7 @@ default = ["native"]
 native = ["dep:lsp-server"]
 
 [dependencies]
+base64 = "0.22"
 lsp-types = "=0.95.0"
 mmt_rs = { path = "../mmt_rs", default-features = false }
 serde = { version = "1", features = ["derive"] }

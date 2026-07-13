@@ -155,19 +155,23 @@ export function installTypstMiddleware(
 }
 
 export function connectTypstBackend(
-  context: vscode.ExtensionContext,
   client: BaseLanguageClient,
   backend: TinymistHostBackend
-): void {
+): vscode.Disposable[] {
   const diagnostics = vscode.languages.createDiagnosticCollection("mmt-typst");
-  context.subscriptions.push(diagnostics);
-  client.onNotification("mmt/typstProjectUpdated", (update: TypstProjectUpdate) => {
-    backend.syncProject(update);
-  });
-  client.onNotification("mmt/typstProjectClosed", (params: { sourceUri: string }) => {
-    backend.closeProject(params.sourceUri);
-    diagnostics.delete(vscode.Uri.parse(params.sourceUri));
-  });
+  const projectUpdated = client.onNotification(
+    "mmt/typstProjectUpdated",
+    (update: TypstProjectUpdate) => {
+      backend.syncProject(update);
+    }
+  );
+  const projectClosed = client.onNotification(
+    "mmt/typstProjectClosed",
+    (params: { sourceUri: string }) => {
+      backend.closeProject(params.sourceUri);
+      diagnostics.delete(vscode.Uri.parse(params.sourceUri));
+    }
+  );
   backend.on("textDocument/publishDiagnostics", (value) => {
     void (async () => {
       const params = value as {
@@ -194,4 +198,5 @@ export function connectTypstBackend(
       console.error("embedded Typst diagnostics failed", error);
     });
   });
+  return [diagnostics, projectUpdated, projectClosed];
 }

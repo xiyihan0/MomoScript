@@ -351,10 +351,10 @@ fn copy_template_tree(source: &Path, target: &Path) -> Result<(), MaterializeErr
         if file_type.is_dir() {
             copy_template_tree(&path, &destination)?;
         } else if file_type.is_file()
-            && matches!(
+            && (matches!(
                 path.extension().and_then(|value| value.to_str()),
-                Some("typ" | "webp")
-            )
+                Some("typ" | "webp" | "wasm" | "toml")
+            ) || entry.file_name() == "LICENSE")
         {
             fs::copy(&path, &destination).map_err(|error| {
                 MaterializeError::new(format!(

@@ -2,6 +2,9 @@
 
 use serde::Serialize;
 
+use crate::materialize::{MaterializeError, MaterializedImage, ResourceMaterializer};
+use crate::pack::PackRegistry;
+use crate::resolve::{ResolvedResource, ResolvedResourceKind};
 use crate::diag::Diagnostic;
 use crate::emit::{
     EmitOptions, EmittedTypst, GeneratedKind, MaterializedContent, Origin, OriginKind, emit_typst,
@@ -76,11 +79,21 @@ pub enum ProjectionError {
     },
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ProjectedResource {
+    pub typst_path: String,
+    pub pack_namespace: String,
+    pub base: String,
+    pub file_name: String,
+    pub range: TextRange,
+}
+
 #[derive(Debug, Clone)]
 pub struct TypstProjection {
     pub emitted: EmittedTypst,
     pub index: ProjectionIndex,
     pub diagnostics: Vec<Diagnostic>,
+    pub resources: Vec<ProjectedResource>,
 }
 
 impl ProjectionIndex {
@@ -241,7 +254,61 @@ pub fn project_text(
         emitted,
         index,
         diagnostics,
+        resources: Vec::new(),
     })
+}
+
+pub fn project_text_with_pack(
+    source: &str,
+    packs: &PackRegistry,
+    emit_options: &EmitOptions,
+) -> Result<TypstProjection, ProjectionError> {
+    let mut materializer = ProjectionMaterializer::default();
+    let compilation = crate::compile_text(source, packs, &mut materializer, emit_options);
+    let index = ProjectionIndex::new(source, &compilation.typst)?;
+    Ok(TypstProjection {
+        emitted: compilation.typst,
+        index,
+        diagnostics: compilation.diagnostics,
+        resources: materializer.resources,
+    })
+}
+
+#[derive(Default)]
+struct ProjectionMaterializer {
+    resources: Vec<ProjectedResource>,
+}
+
+impl ResourceMaterializer for ProjectionMaterializer {
+    fn materialize(&mut self, resource: &ResolvedResource) -> Result<MaterializedImage, MaterializeError> {
+        let source = match &resource.kind {
+            ResolvedResourceKind::Avatar { source, .. }
+            | ResolvedResourceKind::Sticker { source, .. }
+            | ResolvedResourceKind::PackAsset { source, .. } => source,
+            _ => return Err(MaterializeError::new("Web preview cannot materialize this resource source")),
+        };
+        if source.storage.kind != "image-dir" {
+            return Err(MaterializeError::new(format!(
+                "Web preview does not support '{}' storage yet",
+                source.storage.kind
+            )));
+        }
+        let file_name = source.path.as_deref().ok_or_else(|| MaterializeError::new("image-dir resource has no path"))?;
+        if file_name.is_empty() || file_name == "." || file_name == ".." || file_name.contains('/') || file_name.contains('\\') {
+            return Err(MaterializeError::new("image-dir resource path must be a basename"));
+        }
+        let base = source.storage.base.clone().ok_or_else(|| MaterializeError::new("image-dir storage has no base"))?;
+        let extension = file_name.rsplit_once('.').map(|(_, extension)| extension).unwrap_or("img");
+        let typst_path = format!("mmt-resources/{}.{}", self.resources.len(), extension);
+        self.resources.push(ProjectedResource {
+            typst_path: typst_path.clone(),
+            pack_namespace: source.pack_namespace.clone(),
+            base,
+            file_name: file_name.to_string(),
+            range: resource.range,
+        });
+        Ok(MaterializedImage { typst_path })
+    }
 }
 
 fn classify_origin(origin: &Origin) -> (Option<TextRange>, ProjectionKind, MappingMode) {

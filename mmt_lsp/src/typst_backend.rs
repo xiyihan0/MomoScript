@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use base64::Engine;
 
 use lsp_types::{
     CompletionItem, CompletionTextEdit, Diagnostic, InsertReplaceEdit, Position,
@@ -6,62 +7,31 @@ use lsp_types::{
 };
 use mmt_rs::{
     EmitOptions, MappingMode, PROJECTION_PLACEHOLDER_IMAGE, ProjectionEdit, ProjectionError,
-    ProjectionKind, StaticPresetCatalog, TypstProjection, project_text,
+    ProjectionKind, TypstProjection, project_text,
 };
+#[cfg(test)]
+use mmt_rs::StaticPresetCatalog;
 use serde::{Deserialize, Serialize};
 
 use crate::position::LineIndex;
 
-const EMBEDDED_TEMPLATE_FILES: &[(&str, &str)] = &[
-    (
-        "typst_sandbox/mmt_render/lib.typ",
-        include_str!("../../typst_sandbox/mmt_render/lib.typ"),
-    ),
-    (
-        "typst_sandbox/mmt_render/config.typ",
-        include_str!("../../typst_sandbox/mmt_render/config.typ"),
-    ),
-    (
-        "typst_sandbox/mmt_render/template.typ",
-        include_str!("../../typst_sandbox/mmt_render/template.typ"),
-    ),
-    (
-        "typst_sandbox/mmt_render/chat.typ",
-        include_str!("../../typst_sandbox/mmt_render/chat.typ"),
-    ),
-    ("typst_sandbox/mmt_render/special.typ", EDITOR_SPECIAL_TYP),
-    (
-        "typst_sandbox/mmt_render/resource.typ",
-        include_str!("../../typst_sandbox/mmt_render/resource.typ"),
-    ),
-    (
-        "typst_sandbox/mmt_render/themes/moetalk.typ",
-        include_str!("../../typst_sandbox/mmt_render/themes/moetalk.typ"),
-    ),
+const EMBEDDED_TEMPLATE_TEXT_FILES: &[(&str, &str)] = &[
+    ("typst_sandbox/mmt_render/lib.typ", include_str!("../../typst_sandbox/mmt_render/lib.typ")),
+    ("typst_sandbox/mmt_render/config.typ", include_str!("../../typst_sandbox/mmt_render/config.typ")),
+    ("typst_sandbox/mmt_render/template.typ", include_str!("../../typst_sandbox/mmt_render/template.typ")),
+    ("typst_sandbox/mmt_render/chat.typ", include_str!("../../typst_sandbox/mmt_render/chat.typ")),
+    ("typst_sandbox/mmt_render/special.typ", include_str!("../../typst_sandbox/mmt_render/special.typ")),
+    ("typst_sandbox/mmt_render/resource.typ", include_str!("../../typst_sandbox/mmt_render/resource.typ")),
+    ("typst_sandbox/mmt_render/themes/moetalk.typ", include_str!("../../typst_sandbox/mmt_render/themes/moetalk.typ")),
+    ("typst_sandbox/mmt_render/vendor/shadowed/src/lib.typ", include_str!("../../typst_sandbox/mmt_render/vendor/shadowed/src/lib.typ")),
+    ("typst_sandbox/mmt_render/vendor/shadowed/src/shadowed.typ", include_str!("../../typst_sandbox/mmt_render/vendor/shadowed/src/shadowed.typ")),
 ];
 
-// The production implementation depends on @preview/shadowed and raster
-// decorations. Language analysis only needs stable function signatures and
-// content flow, so the virtual project uses an I/O-free facade.
-const EDITOR_SPECIAL_TYP: &str = r#"
-#let narration(fill: auto, text-fill: auto, inset: auto, radius: auto, body) = body
-
-#let reply(
-  label: [回复],
-  fill: rgb("e1edf0"),
-  accent: rgb("4b6989"),
-  decoration: none,
-  ..items,
-) = items.pos()
-
-#let bond(
-  label: [羁绊事件],
-  fill: rgb("fc879b"),
-  text-fill: white,
-  decoration: none,
-  body,
-) = body
-"#;
+const EMBEDDED_TEMPLATE_BINARY_FILES: &[(&str, &[u8])] = &[
+    ("typst_sandbox/mmt_render/mmt_options.webp", include_bytes!("../../typst_sandbox/mmt_render/mmt_options.webp")),
+    ("typst_sandbox/mmt_render/mmt_favor.webp", include_bytes!("../../typst_sandbox/mmt_render/mmt_favor.webp")),
+    ("typst_sandbox/mmt_render/vendor/shadowed/src/renderer.wasm", include_bytes!("../../typst_sandbox/mmt_render/vendor/shadowed/src/renderer.wasm")),
+];
 
 const EDITOR_PLACEHOLDER_SVG: &str =
     r#"<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1" viewBox="0 0 1 1"/>"#;
@@ -70,7 +40,21 @@ const EDITOR_PLACEHOLDER_SVG: &str =
 #[serde(rename_all = "camelCase")]
 pub struct TypstVirtualFile {
     pub uri: Url,
-    pub text: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub text: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub data_base64: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TypstResourceRequest {
+    pub id: usize,
+    pub uri: Url,
+    pub pack_namespace: String,
+    pub base: String,
+    pub file_name: String,
+    pub range: Range,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -81,6 +65,19 @@ pub struct TypstProjectUpdate {
     pub revision: u64,
     pub entry_uri: Url,
     pub files: Vec<TypstVirtualFile>,
+    pub full: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TypstRenderProjectUpdate {
+    pub source_uri: Url,
+    pub source_version: i32,
+    pub revision: u64,
+    pub entry_uri: Url,
+    pub files: Vec<TypstVirtualFile>,
+    pub full: bool,
+    pub resources: Vec<TypstResourceRequest>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -105,28 +102,36 @@ pub struct ProjectionDocument {
 
 impl ProjectionDocument {
     pub fn project_update(&self) -> TypstProjectUpdate {
-        let mut files = EMBEDDED_TEMPLATE_FILES
-            .iter()
-            .map(|(path, text)| TypstVirtualFile {
-                uri: self
-                    .entry_uri
-                    .join(path)
-                    .expect("embedded template path forms a valid virtual URI"),
-                text: (*text).to_string(),
-            })
-            .collect::<Vec<_>>();
-        files.push(TypstVirtualFile {
-            uri: self
-                .entry_uri
-                .join(PROJECTION_PLACEHOLDER_IMAGE)
-                .expect("placeholder path forms a valid virtual URI"),
-            text: EDITOR_PLACEHOLDER_SVG.to_string(),
-        });
-        // Open the entry last so the backend's first analysis sees its complete
-        // local import graph instead of caching a transient missing-file world.
+        self.project_update_with_template(true)
+    }
+
+    pub fn project_delta(&self) -> TypstProjectUpdate {
+        self.project_update_with_template(false)
+    }
+
+    fn project_update_with_template(&self, include_template: bool) -> TypstProjectUpdate {
+        let mut files = Vec::new();
+        if include_template {
+            files.extend(EMBEDDED_TEMPLATE_TEXT_FILES.iter().map(|(path, text)| TypstVirtualFile {
+                uri: self.entry_uri.join(path).expect("embedded template path forms a valid virtual URI"),
+                text: Some((*text).to_string()),
+                data_base64: None,
+            }));
+            files.extend(EMBEDDED_TEMPLATE_BINARY_FILES.iter().map(|(path, data)| TypstVirtualFile {
+                uri: self.entry_uri.join(path).expect("embedded template path forms a valid virtual URI"),
+                text: None,
+                data_base64: Some(base64::engine::general_purpose::STANDARD.encode(data)),
+            }));
+            files.push(TypstVirtualFile {
+                uri: self.entry_uri.join(PROJECTION_PLACEHOLDER_IMAGE).expect("placeholder path forms a valid virtual URI"),
+                text: Some(EDITOR_PLACEHOLDER_SVG.to_string()),
+                data_base64: None,
+            });
+        }
         files.push(TypstVirtualFile {
             uri: self.entry_uri.clone(),
-            text: self.projection.emitted.source.clone(),
+            text: Some(self.projection.emitted.source.clone()),
+            data_base64: None,
         });
         TypstProjectUpdate {
             source_uri: self.source_uri.clone(),
@@ -134,6 +139,7 @@ impl ProjectionDocument {
             revision: self.revision,
             entry_uri: self.entry_uri.clone(),
             files,
+            full: include_template,
         }
     }
 
@@ -284,6 +290,51 @@ impl ProjectionDocument {
     }
 }
 
+pub fn build_render_project(
+    source_uri: Url,
+    source_version: i32,
+    revision: u64,
+    source: &str,
+    packs: &mmt_rs::pack::PackRegistry,
+) -> Result<TypstRenderProjectUpdate, ProjectionError> {
+    let entry_uri = virtual_entry_uri(&source_uri);
+    let projection = mmt_rs::project_text_with_pack(source, packs, &EmitOptions::default())?;
+    let source_lines = LineIndex::new(source);
+    let mut files = EMBEDDED_TEMPLATE_TEXT_FILES.iter().map(|(path, text)| TypstVirtualFile {
+        uri: entry_uri.join(path).expect("embedded template path forms a valid virtual URI"),
+        text: Some((*text).to_string()),
+        data_base64: None,
+    }).collect::<Vec<_>>();
+    files.extend(EMBEDDED_TEMPLATE_BINARY_FILES.iter().map(|(path, data)| TypstVirtualFile {
+        uri: entry_uri.join(path).expect("embedded template path forms a valid virtual URI"),
+        text: None,
+        data_base64: Some(base64::engine::general_purpose::STANDARD.encode(data)),
+    }));
+    files.push(TypstVirtualFile {
+        uri: entry_uri.clone(),
+        text: Some(projection.emitted.source.clone()),
+        data_base64: None,
+    });
+    let resources = projection.resources.iter().enumerate().map(|(id, resource)| TypstResourceRequest {
+        id,
+        uri: entry_uri.join(&resource.typst_path).expect("resource path forms a valid virtual URI"),
+        pack_namespace: resource.pack_namespace.clone(),
+        base: resource.base.clone(),
+        file_name: resource.file_name.clone(),
+        range: source_lines.range(source, resource.range, &PositionEncodingKind::UTF16)
+            .expect("resource range belongs to source"),
+    }).collect();
+    Ok(TypstRenderProjectUpdate {
+        source_uri,
+        source_version,
+        revision,
+        entry_uri,
+        full: true,
+        files,
+        resources,
+    })
+}
+
 #[derive(Debug, Default)]
 pub struct ProjectionStore {
     documents: HashMap<Url, ProjectionDocument>,
@@ -296,13 +347,10 @@ impl ProjectionStore {
         source_version: i32,
         revision: u64,
         source: String,
+        catalog: &impl mmt_rs::CharacterPresetCatalog,
     ) -> Result<&ProjectionDocument, ProjectionError> {
         let entry_uri = virtual_entry_uri(&source_uri);
-        let projection = project_text(
-            &source,
-            &StaticPresetCatalog::default(),
-            &EmitOptions::default(),
-        )?;
+        let projection = project_text(&source, catalog, &EmitOptions::default())?;
         let source_lines = LineIndex::new(&source);
         let typst_lines = LineIndex::new(&projection.emitted.source);
         self.documents.insert(
@@ -377,7 +425,7 @@ mod tests {
     fn maps_only_identity_positions_and_edits() {
         let source = "@typ: #let accent = blue".to_string();
         let mut store = ProjectionStore::default();
-        let document = store.upsert(uri(), 1, 7, source.clone()).unwrap();
+        let document = store.upsert(uri(), 1, 7, source.clone(), &StaticPresetCatalog::default()).unwrap();
         let offset = source.find("accent").unwrap();
         let position = LineIndex::new(&source)
             .position(&source, offset, &PositionEncodingKind::UTF16)
@@ -431,13 +479,11 @@ mod tests {
     #[test]
     fn virtual_entry_uri_is_stable_across_revisions() {
         let mut store = ProjectionStore::default();
-        let first = store
-            .upsert(uri(), 1, 1, "@typ: #let x = 1".to_string())
+        let first = store.upsert(uri(), 1, 1, "@typ: #let x = 1".to_string(), &StaticPresetCatalog::default())
             .unwrap()
             .entry_uri
             .clone();
-        let second = store
-            .upsert(uri(), 2, 2, "@typ: #let x = 2".to_string())
+        let second = store.upsert(uri(), 2, 2, "@typ: #let x = 2".to_string(), &StaticPresetCatalog::default())
             .unwrap()
             .entry_uri
             .clone();
@@ -447,8 +493,7 @@ mod tests {
     #[test]
     fn project_update_contains_the_embedded_template_import_graph() {
         let mut store = ProjectionStore::default();
-        let update = store
-            .upsert(uri(), 1, 1, "@typ: #let x = 1".to_string())
+        let update = store.upsert(uri(), 1, 1, "@typ: #let x = 1".to_string(), &StaticPresetCatalog::default())
             .unwrap()
             .project_update();
         let paths = update
@@ -460,7 +505,7 @@ mod tests {
         assert_eq!(wire["sourceVersion"], 1);
         assert!(wire.get("source_version").is_none());
         assert_eq!(wire["entryUri"], update.entry_uri.as_str());
-        assert_eq!(update.files.len(), 2 + EMBEDDED_TEMPLATE_FILES.len());
+        assert_eq!(update.files.len(), 2 + EMBEDDED_TEMPLATE_TEXT_FILES.len() + EMBEDDED_TEMPLATE_BINARY_FILES.len());
         assert_eq!(update.files.last().unwrap().uri, update.entry_uri);
         assert!(
             paths
@@ -472,6 +517,15 @@ mod tests {
                 .iter()
                 .any(|path| path.ends_with("typst_sandbox/mmt_render/themes/moetalk.typ"))
         );
+        assert!(update.full);
+        assert!(update.files.iter().any(|file| file.uri.path().ends_with("special.typ")
+            && file.text.as_deref() == Some(include_str!("../../typst_sandbox/mmt_render/special.typ"))));
+        assert!(update.files.iter().any(|file| file.uri.path().ends_with("mmt_options.webp")
+            && file.data_base64.is_some()));
+        let delta = store.get(&uri()).unwrap().project_delta();
+        assert!(!delta.full);
+        assert_eq!(delta.files.len(), 1);
+        assert_eq!(delta.files[0].uri, delta.entry_uri);
         assert!(
             paths
                 .iter()
@@ -541,7 +595,7 @@ mod tests {
     fn maps_wrapper_spanning_diagnostic_to_its_resource_patch() {
         let source = "@asset: hero src:https://example.com/a.png\n- T\"\"\"[:asset, hero:](width: mmt.missing-style-token)\"\"\"";
         let mut store = ProjectionStore::default();
-        let document = store.upsert(uri(), 1, 1, source.to_string()).unwrap();
+        let document = store.upsert(uri(), 1, 1, source.to_string(), &StaticPresetCatalog::default()).unwrap();
         let generated_start = document
             .projection
             .emitted
@@ -591,5 +645,32 @@ mod tests {
             &source[mapped.start..mapped.end],
             "width: mmt.missing-style-token"
         );
+    }
+
+    #[test]
+    fn render_project_plans_actor_avatar_without_changing_language_projection() {
+        let manifest = mmt_rs::pack::PackManifest::from_json(r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"Test","version":"1","type":"base"},
+            "entities":{"hifumi":{"names":["Hifumi"],"slots":{"avatar":{"default":"default","items":{"default":{"storage":"avatars","path":"hifumi.png"}}}}}},
+            "storage":{"avatars":{"kind":"image-dir","base":"assets/avatars"}}
+        }"#).unwrap();
+        let packs = mmt_rs::pack::PackRegistry::new(vec![manifest]).unwrap();
+        let source = "@actor hifumi\npreset: ba::hifumi\n@end\n> hifumi: Hello";
+        let planned = mmt_rs::project_text_with_pack(source, &packs, &EmitOptions::default()).unwrap();
+        assert_eq!(planned.resources.len(), 1, "diagnostics: {:?}\nsource: {}", planned.diagnostics, planned.emitted.source);
+        let render = build_render_project(uri(), 1, 1, source, &packs).unwrap();
+        assert_eq!(render.resources.len(), 1, "render files: {:?}", render.files);
+        assert_eq!(render.resources[0].pack_namespace, "ba");
+        assert_eq!(render.resources[0].base, "assets/avatars");
+        assert_eq!(render.resources[0].file_name, "hifumi.png");
+        assert!(render.files.iter().any(|file| {
+            file.uri == render.entry_uri
+                && file.text.as_deref().is_some_and(|text| text.contains("mmt-resources/0.png"))
+        }));
+
+        let mut language_store = ProjectionStore::default();
+        let language = language_store.upsert(uri(), 1, 1, source.to_string(), &packs).unwrap();
+        assert!(language.projection.emitted.source.contains(PROJECTION_PLACEHOLDER_IMAGE));
     }
 }

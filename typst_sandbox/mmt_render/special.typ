@@ -1,4 +1,4 @@
-#import "@preview/shadowed:0.2.0": shadowed
+#import "vendor/shadowed/src/lib.typ": shadowed
 #import "config.typ": current-config
 
 #let narration(fill: auto, text-fill: auto, inset: auto, radius: auto, body) = context {

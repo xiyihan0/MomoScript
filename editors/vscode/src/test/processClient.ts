@@ -128,6 +128,7 @@ async function main(): Promise<void> {
       sourceVersion: 1,
       revision: 1,
       entryUri: uri,
+      full: true,
       files: [
         {
           uri,

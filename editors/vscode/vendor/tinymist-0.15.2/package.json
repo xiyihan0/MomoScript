@@ -1,0 +1,32 @@
+{
+  "name": "tinymist",
+  "type": "module",
+  "collaborators": [
+    "Myriad-Dreamin <camiyoru@gmail.com>",
+    "Nathan Varner"
+  ],
+  "description": "An integrated language service for Typst.",
+  "version": "0.15.2",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Myriad-Dreamin/tinymist"
+  },
+  "files": [
+    "tinymist_bg.wasm",
+    "tinymist.js",
+    "tinymist.d.ts"
+  ],
+  "main": "tinymist.js",
+  "homepage": "https://github.com/Myriad-Dreamin/tinymist",
+  "types": "tinymist.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ],
+  "keywords": [
+    "api",
+    "lsp",
+    "language",
+    "typst"
+  ]
+}

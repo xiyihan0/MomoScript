@@ -3,6 +3,8 @@ import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import {
   serverRequestResponse,
   validateTinymistInitialize,
+  isTypstTextFile,
+  mergeProjectFiles,
   type TinymistHostBackend,
   type TinymistInitializeResult,
   type TypstProjectUpdate
@@ -66,9 +68,14 @@ export class TinymistProcessClient implements TinymistHostBackend {
   }
 
   syncProject(update: TypstProjectUpdate): void {
-    this.projectFiles.set(update.sourceUri, new Set(update.files.map((file) => file.uri)));
-    this.projectsByEntry.set(update.entryUri, update);
-    if (this.ready) this.applyProject(update);
+    const previous = this.projectsByEntry.get(update.entryUri);
+    const mergedFiles = update.full || !previous
+      ? update.files
+      : mergeProjectFiles(previous.files, update.files);
+    const merged = { ...update, full: true, files: mergedFiles };
+    this.projectFiles.set(update.sourceUri, new Set(mergedFiles.filter(isTypstTextFile).map((file) => file.uri)));
+    this.projectsByEntry.set(update.entryUri, merged);
+    if (this.ready) this.applyProject(update.full ? merged : update);
   }
 
   projectForEntry(entryUri: string): TypstProjectUpdate | undefined {
@@ -225,7 +232,7 @@ export class TinymistProcessClient implements TinymistHostBackend {
 
   private applyProject(update: TypstProjectUpdate): void {
     const currentFiles = this.projectFiles.get(update.sourceUri) ?? new Set<string>();
-    for (const file of update.files) {
+    for (const file of update.files.filter(isTypstTextFile)) {
       if (this.openFiles.has(file.uri)) {
         this.rawNotify("textDocument/didChange", {
           textDocument: { uri: file.uri, version: update.sourceVersion },

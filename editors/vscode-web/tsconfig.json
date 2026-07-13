@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ES2024", "DOM", "DOM.Iterable", "WebWorker"],
+    "skipLibCheck": true,
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "strict": true,
+    "types": ["vite/client", "node"]
+  },
+  "include": ["src", "vite.config.ts", "playwright.config.ts", "tests"]
+}

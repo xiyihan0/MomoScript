@@ -24,10 +24,15 @@ async function runTinymistWorkerClientTest(
     sourceVersion: 1,
     revision: 1,
     entryUri: uri,
+    full: true,
     files: [
       {
+        uri: uri.replace("main.typ", "helper.typ"),
+        text: "#let replayed(name) = [Hello #name]"
+      },
+      {
         uri,
-        text: "#let replayed(name) = [Hello #name]\n#replayed(\"MMT\")\n#rep"
+        text: "#import \"helper.typ\": replayed\n#replayed(\"MMT\")\n#rep"
       }
     ]
   };
@@ -36,6 +41,13 @@ async function runTinymistWorkerClientTest(
     const before = await client.request<CompletionList>("textDocument/completion", {
       textDocument: { uri },
       position: { line: 2, character: 4 }
+    });
+    client.syncProject({
+      ...update,
+      sourceVersion: 2,
+      revision: 2,
+      full: false,
+      files: [{ uri, text: "#import \"helper.typ\": replayed\n#replayed(\"MMT\")\n#rep" }]
     });
     await client.restart();
     const after = await client.request<CompletionList>("textDocument/completion", {

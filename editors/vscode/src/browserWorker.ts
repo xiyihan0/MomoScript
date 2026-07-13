@@ -51,6 +51,15 @@ async function start(wasmUri: string): Promise<void> {
   connection.onRequest("mmt/updatePackManifests", (params) =>
     request("mmt/updatePackManifests", params)
   );
+  connection.onRequest("mmt/getTypstProject", (params) =>
+    request("mmt/getTypstProject", params)
+  );
+  connection.onRequest("mmt/getTypstRenderProject", (params) =>
+    request("mmt/getTypstRenderProject", params)
+  );
+  connection.onRequest("mmt/updateDocument", (params) =>
+    request("mmt/updateDocument", params)
+  );
   connection.onDocumentSymbol((params) => request("textDocument/documentSymbol", params));
   connection.onFoldingRanges((params) => request("textDocument/foldingRange", params));
   connection.onCompletion((params) => request("textDocument/completion", params));

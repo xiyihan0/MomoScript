@@ -1,0 +1,45 @@
+{
+  "name": "momoscript-vscode-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "check": "tsc --noEmit",
+    "build": "node ../vscode/scripts/verify-web-vendor.mjs && node --max-old-space-size=8192 ./node_modules/vite/bin/vite.js build",
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "test:e2e:remote": "playwright test"
+  },
+  "dependencies": {
+    "@codingame/monaco-vscode-api": "21.6.0",
+    "@codingame/monaco-vscode-editor-api": "21.6.0",
+    "@codingame/monaco-vscode-editor-service-override": "21.6.0",
+    "@codingame/monaco-vscode-explorer-service-override": "21.6.0",
+    "@codingame/monaco-vscode-files-service-override": "21.6.0",
+    "@codingame/monaco-vscode-keybindings-service-override": "21.6.0",
+    "@codingame/monaco-vscode-markers-service-override": "21.6.0",
+    "@codingame/monaco-vscode-textmate-service-override": "21.6.0",
+    "@codingame/monaco-vscode-theme-defaults-default-extension": "21.6.0",
+    "@codingame/monaco-vscode-theme-service-override": "21.6.0",
+    "@codingame/monaco-vscode-theme-seti-default-extension": "21.6.0",
+    "@codingame/monaco-vscode-views-service-override": "21.6.0",
+    "@myriaddreamin/typst-ts-renderer": "0.7.0-rc2",
+    "@myriaddreamin/typst-ts-web-compiler": "0.7.0-rc2",
+    "@myriaddreamin/typst.ts": "0.7.0-rc2",
+    "monaco-editor": "npm:@codingame/monaco-vscode-editor-api@21.6.0",
+    "monaco-languageclient": "10.0.0",
+    "vscode": "npm:@codingame/monaco-vscode-extension-api@21.6.0",
+    "vscode-languageclient": "9.0.1",
+    "vscode-languageserver": "9.0.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.55.0",
+    "@types/node": "22.12.0",
+    "typescript": "5.9.3",
+    "vite": "7.3.1"
+  }
+}

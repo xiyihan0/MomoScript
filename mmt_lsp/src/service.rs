@@ -97,6 +97,14 @@ impl LanguageService {
         self.pack_revision
     }
 
+    pub fn pack_registry(&self) -> Option<&PackRegistry> {
+        self.pack_registry.as_ref()
+    }
+
+    pub fn document_uris(&self) -> Vec<Url> {
+        self.documents.keys().cloned().collect()
+    }
+
     pub fn open(&mut self, uri: Url, version: i32, text: String) -> &DocumentSnapshot {
         self.upsert(uri, version, text)
     }

@@ -34,7 +34,7 @@ export async function synchronizePackSources(
     updated: boolean;
   }>,
   fetchManifest: (url: string, etag: string | undefined) => Promise<PackFetchResponse>
-): Promise<void> {
+): Promise<PackManifestSource[]> {
   const sources: PackManifestSource[] = [];
   const staged: StagedSource[] = [];
   try {
@@ -81,6 +81,7 @@ export async function synchronizePackSources(
       await cache.promote(source.url, revision);
       await cache.setEtag(source.url, source.etag);
     }
+    return sources;
   } catch (error) {
     await Promise.all(staged.map((source) => cache.discard(source.url, revision)));
     throw error;

@@ -115,3 +115,9 @@ examples/
 mmt_rs/target/
 mmt_lsp/target/
 web/.vite/
+editors/vscode-web/node_modules/
+editors/vscode-web/dist/
+editors/vscode-web/.vite/
+
+# Local Netlify folder
+.netlify

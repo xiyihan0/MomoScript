@@ -56,6 +56,18 @@ Desktop binary 使用 `bin/<platform>-<arch>/mmt-lsp[.exe]`。构建脚本使用
 - host 可以选择 native、browser 或 remote preview backend；
 - preview 失败不覆盖 parser diagnostics。
 
+生产 Web host 使用两条严格分离的 Typst 路径。`mmt/typstProjectUpdated` 继续承载 no-I/O、placeholder-only
+语言投影并只同步给 Tinymist；`mmt/getTypstRenderProject` 针对同一 snapshot 构建独立 render project，
+解析 pack 逻辑资源但只返回确定性的 `image-dir` 下载描述。host 在预览后台任务中下载、限额读取并注入
+虚拟二进制文件。下载失败只进入预览状态/日志，不进入 MMT editor diagnostics。
+
+Web 资源 URL 必须由已确认 manifest 的 pack base、纯相对 storage 目录段和图片 basename 组合；host
+拒绝非 HTTPS、`.`/`..`、反斜杠、scheme/query/fragment、非图片扩展、redirect 和超过 20 MiB 的响应。
+缓存同时绑定 manifest 内容与 URL。每个 source URI 的后台任务由 revision 和 AbortController 约束；旧
+revision 不得覆盖新预览，同 revision 的 pack 刷新仍可替换资源。工作区文本写入按变更顺序串行提交到
+IndexedDB，使刷新恢复最新脚本。
+
+
 ## Tinymist Boundary
 
 首个切片完成后，再加入 no-I/O Typst projection、双向 projection segments 和 Tinymist sidecar。

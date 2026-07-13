@@ -183,7 +183,7 @@ fn fixed_tinymist_sidecar_handles_a_virtual_document_transcript() {
         let mut store = ProjectionStore::default();
         let source_uri = Url::parse("file:///workspace/sidecar.mmt").unwrap();
         let document = store
-            .upsert(source_uri, 1, 1, mmt_source.to_string())
+            .upsert(source_uri, 1, 1, mmt_source.to_string(), &mmt_rs::StaticPresetCatalog::default())
             .unwrap();
         assert!(
             document

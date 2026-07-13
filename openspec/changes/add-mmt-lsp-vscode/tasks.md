@@ -57,3 +57,13 @@
 - [x] 8.3 实现 actor block `preset:` 字段的 canonical entity completion
 - [x] 8.4 Desktop/Web 加载默认 BA Kivo manifest 并保留有效缓存
 - [x] 8.5 增加 native/WASM transcript 和 Web Extension Host 回归验证
+
+## 9. Production Web Editor
+
+- [x] 9.1 使用 Monaco/VS Code Workbench 替换旧 React 编辑器生产入口
+- [x] 9.2 将工作区文件与已确认的 pack manifest 持久化到 IndexedDB
+- [x] 9.3 分离 no-I/O Tinymist projection 与真实资源 render project
+- [x] 9.4 从 pack-v3 `image-dir` storage 安全下载并注入真实人物头像
+- [x] 9.5 增加资源大小、路径、HTTPS、redirect 与 stale revision 防护
+- [x] 9.6 增加 Browser Worker render-project transcript 与真实浏览器头像/刷新验收
+
