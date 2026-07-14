@@ -20,6 +20,8 @@ export interface InitOutput {
     readonly wasmlanguageserver_notification: (a: number, b: number, c: number, d: number, e: number) => [number, number];
     readonly wasmlanguageserver_request: (a: number, b: number, c: number, d: number, e: number) => [number, number];
     readonly analyze_text_wasm: (a: number, b: number) => [number, number];
+    readonly __wbindgen_exn_store: (a: number) => void;
+    readonly __externref_table_alloc: () => number;
     readonly __wbindgen_externrefs: WebAssembly.Table;
     readonly __wbindgen_malloc: (a: number, b: number) => number;
     readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;

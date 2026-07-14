@@ -11,6 +11,8 @@ type NotificationOutcome = {
   events: ServerEvent[];
   error?: { code: number; message: string };
 };
+type PackUpdateOutcome = { revision: number; updated: boolean; events?: ServerEvent[] };
+type DocumentUpdateOutcome = { project?: unknown | null; events?: ServerEvent[] };
 
 async function start(wasmUri: string): Promise<void> {
   await init({ module_or_path: new URL(wasmUri) });
@@ -48,18 +50,24 @@ async function start(wasmUri: string): Promise<void> {
   connection.onDidOpenTextDocument((params) => notification("textDocument/didOpen", params));
   connection.onDidChangeTextDocument((params) => notification("textDocument/didChange", params));
   connection.onDidCloseTextDocument((params) => notification("textDocument/didClose", params));
-  connection.onRequest("mmt/updatePackManifests", (params) =>
-    request("mmt/updatePackManifests", params)
-  );
+  connection.onRequest("mmt/updatePackManifests", (params) => {
+    const outcome = request<PackUpdateOutcome>("mmt/updatePackManifests", params);
+    for (const event of outcome.events ?? []) connection.sendNotification(event.method, event.params);
+    return outcome;
+  });
   connection.onRequest("mmt/getTypstProject", (params) =>
     request("mmt/getTypstProject", params)
   );
   connection.onRequest("mmt/getTypstRenderProject", (params) =>
     request("mmt/getTypstRenderProject", params)
   );
-  connection.onRequest("mmt/updateDocument", (params) =>
-    request("mmt/updateDocument", params)
-  );
+  connection.onRequest("mmt/updateDocument", (params) => {
+    const outcome = request<DocumentUpdateOutcome>("mmt/updateDocument", params);
+    for (const event of outcome.events ?? []) {
+      if (event.method !== "mmt/typstProjectUpdated") connection.sendNotification(event.method, event.params);
+    }
+    return outcome.project ?? null;
+  });
   connection.onDocumentSymbol((params) => request("textDocument/documentSymbol", params));
   connection.onFoldingRanges((params) => request("textDocument/foldingRange", params));
   connection.onCompletion((params) => request("textDocument/completion", params));

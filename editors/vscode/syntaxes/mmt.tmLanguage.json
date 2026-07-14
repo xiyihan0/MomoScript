@@ -4,6 +4,7 @@
   "scopeName": "source.mmt",
   "patterns": [
     { "include": "#comments" },
+    { "include": "#typst-regions" },
     { "include": "#directives" },
     { "include": "#statements" },
     { "include": "#macros" },
@@ -14,6 +15,110 @@
       "patterns": [
         { "name": "comment.line.double-slash.mmt", "match": "//.*$" }
       ]
+    },
+    "typst-regions": {
+      "patterns": [
+        {
+          "name": "meta.directive.typst.block.mmt",
+          "begin": "^(\\s*)(@typ)\\s*$",
+          "beginCaptures": { "2": { "name": "keyword.control.directive.mmt" } },
+          "end": "^(\\s*)(@end)\\b",
+          "endCaptures": { "2": { "name": "keyword.control.directive.mmt" } },
+          "contentName": "meta.embedded.block.typst",
+          "patterns": [{ "include": "source.typst" }]
+        },
+        {
+          "name": "meta.directive.typst.inline.mmt",
+          "begin": "^(\\s*)(@typ)(\\s*:\\s*)",
+          "beginCaptures": { "2": { "name": "keyword.control.directive.mmt" } },
+          "end": "$",
+          "contentName": "meta.embedded.inline.typst",
+          "patterns": [{ "include": "source.typst" }]
+        },
+        {
+          "name": "meta.body.typst.inline.mmt",
+          "begin": "^(\\s*(?:[><]\\s+.*:(?!:)|-)\\s*)(T)(\"{3,})(?=.*\\3\\s*$)",
+          "beginCaptures": {
+            "1": { "name": "keyword.operator.statement.mmt" },
+            "2": { "name": "storage.modifier.body-mode.mmt" },
+            "3": { "name": "punctuation.definition.string.begin.typst" }
+          },
+          "end": "\\3\\s*$",
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.typst" } },
+          "contentName": "meta.embedded.inline.typst",
+          "patterns": [{ "include": "#macros" }, { "include": "source.typst" }]
+        },
+        {
+          "name": "meta.body.typst-raw.inline.mmt",
+          "begin": "^(\\s*(?:[><]\\s+.*:(?!:)|-)\\s*)(rT)(\"{3,})(?=.*\\3\\s*$)",
+          "beginCaptures": {
+            "1": { "name": "keyword.operator.statement.mmt" },
+            "2": { "name": "storage.modifier.body-mode.mmt" },
+            "3": { "name": "punctuation.definition.string.begin.typst" }
+          },
+          "end": "\\3\\s*$",
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.typst" } },
+          "contentName": "meta.embedded.inline.typst",
+          "patterns": [{ "include": "source.typst" }]
+        },
+        {
+          "name": "meta.body.typst.block.mmt",
+          "begin": "^(\\s*(?:[><]\\s+.*:(?!:)|-)\\s*)(T)(\"{3,})\\s*$",
+          "beginCaptures": {
+            "1": { "name": "keyword.operator.statement.mmt" },
+            "2": { "name": "storage.modifier.body-mode.mmt" },
+            "3": { "name": "punctuation.definition.string.begin.typst" }
+          },
+          "end": "^\\s*\\3\\s*$",
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.typst" } },
+          "contentName": "meta.embedded.block.typst",
+          "patterns": [{ "include": "#macros" }, { "include": "source.typst" }]
+        },
+        {
+          "name": "meta.body.typst-raw.block.mmt",
+          "begin": "^(\\s*(?:[><]\\s+.*:(?!:)|-)\\s*)(rT)(\"{3,})\\s*$",
+          "beginCaptures": {
+            "1": { "name": "keyword.operator.statement.mmt" },
+            "2": { "name": "storage.modifier.body-mode.mmt" },
+            "3": { "name": "punctuation.definition.string.begin.typst" }
+          },
+          "end": "^\\s*\\3\\s*$",
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.typst" } },
+          "contentName": "meta.embedded.block.typst",
+          "patterns": [{ "include": "source.typst" }]
+        },
+        {
+          "name": "meta.statement.patch.mmt",
+          "begin": "^(\\s*[><-]\\s*)(\\()",
+          "beginCaptures": {
+            "1": { "name": "keyword.operator.statement.mmt" },
+            "2": { "name": "punctuation.section.parens.begin.typst" }
+          },
+          "end": "\\)",
+          "endCaptures": { "0": { "name": "punctuation.section.parens.end.typst" } },
+          "contentName": "meta.embedded.inline.typst",
+          "patterns": [{ "include": "#typst-patch-parentheses" }, { "include": "source.typst" }]
+        },
+        {
+          "name": "meta.resource.patch.mmt",
+          "begin": "(?<=:\\])(\\()",
+          "beginCaptures": {
+            "1": { "name": "punctuation.section.parens.begin.typst" }
+          },
+          "end": "\\)",
+          "endCaptures": { "0": { "name": "punctuation.section.parens.end.typst" } },
+          "contentName": "meta.embedded.inline.typst",
+          "patterns": [{ "include": "#typst-patch-parentheses" }, { "include": "source.typst" }]
+        }
+      ]
+    },
+    "typst-patch-parentheses": {
+      "name": "meta.group.typst",
+      "begin": "\\(",
+      "beginCaptures": { "0": { "name": "punctuation.section.parens.begin.typst" } },
+      "end": "\\)",
+      "endCaptures": { "0": { "name": "punctuation.section.parens.end.typst" } },
+      "patterns": [{ "include": "#typst-patch-parentheses" }, { "include": "source.typst" }]
     },
     "directives": {
       "patterns": [
@@ -43,7 +148,11 @@
           "begin": "\\[:",
           "beginCaptures": { "0": { "name": "punctuation.definition.macro.begin.mmt" } },
           "end": ":\\]",
-          "endCaptures": { "0": { "name": "punctuation.definition.macro.end.mmt" } }
+          "endCaptures": { "0": { "name": "punctuation.definition.macro.end.mmt" } },
+          "patterns": [
+            { "match": "\\\\.", "name": "constant.character.escape.mmt" },
+            { "include": "#strings" }
+          ]
         }
       ]
     },

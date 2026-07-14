@@ -9,10 +9,12 @@ import type {
   SignatureHelp as ProtocolSignatureHelp
 } from "vscode-languageserver-protocol";
 
-import type {
-  ProjectedPosition,
-  TinymistHostBackend,
-  TypstProjectUpdate
+import {
+  diagnosticVersionMatchesProjection,
+  projectionRevisionIsCurrent,
+  type ProjectedPosition,
+  type TinymistHostBackend,
+  type TypstProjectUpdate
 } from "./tinymistClient";
 
 async function requestWithCancellation<T>(
@@ -145,6 +147,7 @@ export function installTypstMiddleware(
           token
         );
         if (!current || current.revision !== route.revision) return undefined;
+        if (!projectionRevisionIsCurrent(backend, route.entryUri, route.revision)) return undefined;
         return activeClient.protocol2CodeConverter.asSignatureHelp(signature, token);
       } catch (error) {
         console.error("embedded Typst signature help failed", error);
@@ -158,6 +161,7 @@ export function connectTypstBackend(
   client: BaseLanguageClient,
   backend: TinymistHostBackend
 ): vscode.Disposable[] {
+  let warnedAboutUnversionedDiagnostics = false;
   const diagnostics = vscode.languages.createDiagnosticCollection("mmt-typst");
   const projectUpdated = client.onNotification(
     "mmt/typstProjectUpdated",
@@ -167,20 +171,27 @@ export function connectTypstBackend(
   );
   const projectClosed = client.onNotification(
     "mmt/typstProjectClosed",
-    (params: { sourceUri: string }) => {
-      backend.closeProject(params.sourceUri);
-      diagnostics.delete(vscode.Uri.parse(params.sourceUri));
+    (params: { sourceUri: string; entryUri: string }) => {
+      if (backend.closeProject(params.sourceUri, params.entryUri)) {
+        diagnostics.delete(vscode.Uri.parse(params.sourceUri));
+      }
     }
   );
   backend.on("textDocument/publishDiagnostics", (value) => {
     void (async () => {
       const params = value as {
         uri: string;
-        version?: number;
+        version?: number | null;
         diagnostics: ProtocolDiagnostic[];
       };
+      if (params.version == null && !warnedAboutUnversionedDiagnostics) {
+        warnedAboutUnversionedDiagnostics = true;
+        console.warn(
+          "Tinymist sent unversioned diagnostics; using revision-scoped virtual entry URI isolation"
+        );
+      }
       const project = backend.projectForEntry(params.uri);
-      if (!project || (params.version !== undefined && params.version !== project.sourceVersion)) {
+      if (!project || !diagnosticVersionMatchesProjection(project.revision, params.version)) {
         return;
       }
       const mapped = await client.sendRequest<ProtocolDiagnostic[] | null>(
@@ -193,6 +204,7 @@ export function connectTypstBackend(
       );
       if (!mapped) return;
       const converted = await client.protocol2CodeConverter.asDiagnostics(mapped);
+      if (!projectionRevisionIsCurrent(backend, params.uri, project.revision)) return;
       diagnostics.set(vscode.Uri.parse(project.sourceUri), converted);
     })().catch((error: unknown) => {
       console.error("embedded Typst diagnostics failed", error);

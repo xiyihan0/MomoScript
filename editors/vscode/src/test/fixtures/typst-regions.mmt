@@ -1,0 +1,22 @@
+@actor hana
+preset: ba::花子
+@end
+
+> hana: T"""#strong[inline macro] [:#1:]"""
+- rT"""#emph[inline raw] [:#1:]"""
+> hana: T"""
+#strong[multiline macro]
+[:#1:]
+"""
+- rT"""
+#emph[multiline raw]
+"""
+> hana: T""""
+#strong[an internal """ run does not close this fence]
+""""
+> hana: plain after long fence
+> (inset: (left: 1pt, right: 2pt), fill: rgb("#fff")) hana: statement patch body
+> hana: [:#1:](width: calc(100% - (2 * 1pt))) resource patch body
+> hana: [:ba::"晴,露营", "不是:]结束", #12:](width: calc(100% - (2 * 1pt))) quoted resource patch body
+> hana: [:ba::escaped\:]still, #12:](width: calc((2 + 3) * 1pt)) escaped close patch body
+> hana: [:ba::escaped\\:](width: calc((4 + 5) * 1pt)) paired escape patch body

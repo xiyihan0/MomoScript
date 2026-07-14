@@ -150,7 +150,8 @@ try {
         general: { positionEncodings: ["utf-16"] },
         textDocument: {
           completion: { completionItem: { snippetSupport: true } },
-          hover: { contentFormat: ["markdown", "plaintext"] }
+          hover: { contentFormat: ["markdown", "plaintext"] },
+          publishDiagnostics: { versionSupport: true, relatedInformation: true }
         }
       }
     });
@@ -161,9 +162,17 @@ try {
         uri,
         languageId: "typst",
         version: 1,
-        text: "#let greet(name) = [Hello #name]\n#greet(\"MMT\")\n#gre"
+        text: "#let greet(name) = [Hello #name]\n#greet(\"MMT\")\n#gre\n#let broken = ("
       }
     });
+    const diagnosticsV1 = await waitFor("textDocument/publishDiagnostics");
+    notify("textDocument/didChange", {
+      textDocument: { uri, version: 2 },
+      contentChanges: [{
+        text: "#let greet(name) = [Hello #name]\n#greet(\"MMT\")\n#gre\n#let broken = ["
+      }]
+    });
+    const diagnosticsV2 = await waitFor("textDocument/publishDiagnostics");
     const completion = await request("textDocument/completion", {
       textDocument: { uri },
       position: { line: 2, character: 4 }
@@ -186,12 +195,19 @@ try {
       serverInfo: initialize.serverInfo,
       completion,
       hover,
-      signature
+      signature,
+      diagnosticProvider: initialize.capabilities?.diagnosticProvider,
+      diagnosticVersions: [diagnosticsV1.params.version, diagnosticsV2.params.version],
     };
   });
 
   const completionText = JSON.stringify(result.completion);
   if (result.ready.backendVersion !== "0.15.2") throw new Error("Tinymist version mismatch");
+  const versionedDiagnostics = result.diagnosticVersions[0] === 1 && result.diagnosticVersions[1] === 2;
+  const unversionedDiagnostics = result.diagnosticVersions.every((version) => version == null);
+  if (!versionedDiagnostics && !unversionedDiagnostics) {
+    throw new Error(`Tinymist returned inconsistent diagnostic versions: ${JSON.stringify(result.diagnosticVersions)}`);
+  }
   if (!completionText.includes("greet")) throw new Error("missing user-defined completion");
   if (!result.hover) throw new Error("missing hover response");
   if (!result.signature?.signatures?.some((item) => item.label.includes("greet"))) {
@@ -207,7 +223,7 @@ try {
       ),
     { origin: `http://127.0.0.1:${address.port}` }
   );
-  if (!replay.before || !replay.after || replay.restarted !== 1) {
+  if (!replay.before || !replay.changed || !replay.after || replay.restarted !== 1) {
     throw new Error(`Tinymist Worker replay failed: ${JSON.stringify(replay)}`);
   }
   console.log(
@@ -215,6 +231,9 @@ try {
       startupMs: Math.round(result.startupMs),
       backend: result.ready,
       serverInfo: result.serverInfo,
+      diagnosticVersions: result.diagnosticVersions,
+      versionedDiagnostics,
+      diagnosticProvider: result.diagnosticProvider,
       replay
     })
   );

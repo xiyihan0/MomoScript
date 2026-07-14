@@ -127,7 +127,7 @@ export async function run(): Promise<void> {
 
   const typstDocument = await vscode.workspace.openTextDocument({
     language: "mmt",
-    content: "@typ\n#let greet(name) = [Hello #name]\n#greet(\"MMT\")\n#gre\n@end"
+    content: "@typ\n#let greet(name) = [Hello #name]\n#greet(\"MMT\")\n#gre\n#let broken = (\n@end"
   });
   await vscode.window.showTextDocument(typstDocument);
   let typstCompletion: vscode.CompletionList;
@@ -204,7 +204,7 @@ export async function run(): Promise<void> {
   await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
 
   const overlayText =
-    "@asset: hero src:https://example.com/a.png\n- T\"\"\"[:asset, hero:](width: mmt.missing-style-token) #stro\"\"\"";
+    "@asset: hero src:https://example.com/a.png\n- T\"\"\"[:asset, hero:](width: 1 +) #stro\"\"\"";
   const overlayDocument = await vscode.workspace.openTextDocument({
     language: "mmt",
     content: overlayText

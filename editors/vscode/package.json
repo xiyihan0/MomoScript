@@ -31,13 +31,26 @@
           "*.mmt.txt"
         ],
         "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "typst",
+        "aliases": ["Typst", "typst", "typ"],
+        "extensions": [".typ"]
       }
     ],
     "grammars": [
       {
         "language": "mmt",
         "scopeName": "source.mmt",
-        "path": "./syntaxes/mmt.tmLanguage.json"
+        "path": "./syntaxes/mmt.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.typst": "typst",
+          "meta.embedded.inline.typst": "typst"
+        }
+      },
+      {
+        "scopeName": "source.typst",
+        "path": "./vendor/tinymist-0.15.2/typst.tmLanguage.json"
       }
     ],
     "configuration": {
@@ -75,6 +88,7 @@
     "build:wasm": "node ./scripts/build-wasm.mjs",
     "build": "npm run build:native && npm run build:wasm && node ./scripts/build.mjs",
     "check": "tsc --noEmit",
+    "test:grammar": "node ./scripts/test-grammar.mjs",
     "test:worker": "npm run build:wasm && node ./scripts/build.mjs && node ./scripts/test-worker.mjs",
     "test:tinymist-worker": "node ./scripts/build.mjs && node ./scripts/test-tinymist-worker.mjs",
     "test:tinymist-process": "node ./scripts/build.mjs && node ./dist/test/processClient.js",
@@ -91,6 +105,8 @@
     "@vscode/test-electron": "^2.5.2",
     "@vscode/test-web": "^0.0.81",
     "esbuild": "^0.25.0",
+    "vscode-oniguruma": "1.7.0",
+    "vscode-textmate": "9.2.0",
     "typescript": "^5.7.0"
   }
 }

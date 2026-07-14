@@ -1,0 +1,4 @@
+typst.tmLanguage.json was extracted from the Tinymist v0.15.2 universal VSIX:
+https://github.com/Myriad-Dreamin/tinymist/releases/download/v0.15.2/tinymist-universal.vsix
+
+Tinymist is licensed under Apache-2.0. See LICENSE in this directory.
