@@ -133,6 +133,9 @@ try {
     const diagnostics = await waitForNotification("textDocument/publishDiagnostics");
     const symbols = await request("textDocument/documentSymbol", { textDocument: { uri } });
     const folding = await request("textDocument/foldingRange", { textDocument: { uri } });
+    const semanticTokens = await request("textDocument/semanticTokens/full", {
+      textDocument: { uri }
+    });
     const completion = await request("textDocument/completion", {
       textDocument: { uri },
       position: { line: 0, character: 1 }
@@ -274,9 +277,12 @@ try {
     return {
       positionEncoding: initialize.capabilities.positionEncoding,
       hoverProvider: initialize.capabilities.hoverProvider,
+      semanticTokensProvider: initialize.capabilities.semanticTokensProvider,
       diagnosticCount: diagnostics.params.diagnostics.length,
       symbolNames: symbols.map((symbol) => symbol.name),
       foldingCount: folding.length,
+      semanticTokenCount: semanticTokens.data.length,
+      replySemanticToken: semanticTokens.data.slice(0, 5),
       completionLabels: completion.map((item) => item.label),
       presetLabels: presetCompletion.map((item) => item.label),
       speakerLabels: speakerCompletion.map((item) => item.label),
@@ -288,6 +294,11 @@ try {
 
   if (result.positionEncoding !== "utf-16") throw new Error("position encoding mismatch");
   if (result.hoverProvider !== true) throw new Error("missing negotiated hover provider");
+  if (!result.semanticTokensProvider?.full) throw new Error("missing negotiated semantic tokens provider");
+  if (result.semanticTokenCount < 5) throw new Error("missing browser Worker semantic tokens");
+  if (JSON.stringify(result.replySemanticToken) !== JSON.stringify([0, 0, 6, 0, 0])) {
+    throw new Error(`unexpected @reply semantic token: ${JSON.stringify(result.replySemanticToken)}`);
+  }
   if (result.diagnosticCount < 1) throw new Error("missing browser Worker diagnostics");
   if (!result.symbolNames.includes("@reply")) throw new Error("missing browser Worker symbol");
   if (result.foldingCount < 1) throw new Error("missing browser Worker folding range");

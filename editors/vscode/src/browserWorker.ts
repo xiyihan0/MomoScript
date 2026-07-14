@@ -70,6 +70,9 @@ async function start(wasmUri: string): Promise<void> {
   });
   connection.onDocumentSymbol((params) => request("textDocument/documentSymbol", params));
   connection.onFoldingRanges((params) => request("textDocument/foldingRange", params));
+  connection.languages.semanticTokens.on((params) =>
+    request("textDocument/semanticTokens/full", params)
+  );
   connection.onCompletion((params) => request("textDocument/completion", params));
   connection.onHover((params) => request("textDocument/hover", params));
   connection.onSignatureHelp((params) => request("textDocument/signatureHelp", params));

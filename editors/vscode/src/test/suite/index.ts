@@ -72,6 +72,53 @@ export async function run(): Promise<void> {
   assert(extension.isActive, "MomoScript extension did not activate");
   console.log("[mmt-web-test] extension activated");
 
+  const markerDocument = await vscode.workspace.openTextDocument({ language: "mmt", content: "" });
+  const markerEditor = await vscode.window.showTextDocument(markerDocument);
+  await vscode.commands.executeCommand("type", { text: "[" });
+  await vscode.commands.executeCommand("type", { text: ":" });
+  await waitFor(
+    () => markerDocument.getText() === "[::]" ? true : undefined,
+    "resource marker close was not extended in the extension host"
+  );
+  assert(
+    markerEditor.selection.active.isEqual(new vscode.Position(0, 2)),
+    "resource marker cursor was not kept between delimiters"
+  );
+  await vscode.commands.executeCommand("type", { text: "x" });
+  await waitFor(
+    () => markerDocument.getText() === "[:x:]" ? true : undefined,
+    "resource marker text was inserted outside the delimiters"
+  );
+  assert(
+    markerEditor.selection.active.isEqual(new vscode.Position(0, 3)),
+    "resource marker cursor did not advance inside the delimiters"
+  );
+  console.log("[mmt-web-test] extension-host resource marker editing received");
+  await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
+
+  const multiMarkerDocument = await vscode.workspace.openTextDocument({ language: "mmt", content: "\n" });
+  const multiMarkerEditor = await vscode.window.showTextDocument(multiMarkerDocument);
+  multiMarkerEditor.selections = [
+    new vscode.Selection(0, 0, 0, 0),
+    new vscode.Selection(1, 0, 1, 0)
+  ];
+  await vscode.commands.executeCommand("type", { text: "[" });
+  await vscode.commands.executeCommand("type", { text: ":" });
+  await waitFor(
+    () => multiMarkerDocument.getText() === "[::]\n[::]" ? true : undefined,
+    "resource marker close was not extended for every extension-host cursor"
+  );
+  assert(
+    multiMarkerEditor.selections.every((selection) => selection.active.character === 2),
+    "resource marker cursors were not kept between delimiters"
+  );
+  await vscode.commands.executeCommand("type", { text: "x" });
+  await waitFor(
+    () => multiMarkerDocument.getText() === "[:x:]\n[:x:]" ? true : undefined,
+    "multi-cursor resource marker text was inserted outside the delimiters"
+  );
+  await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
+
   const document = await vscode.workspace.openTextDocument({
     language: "mmt",
     content: "@reply\n- 选项 A\n- 选项 B\n@end\n@end"

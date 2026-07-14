@@ -98,4 +98,22 @@ lacksContainingScope(21, "escaped close patch body", "meta.embedded.inline.typst
 hasContainingScope(22, "4", "meta.embedded.inline.typst");
 lacksContainingScope(22, "paired escape patch body", "meta.embedded.inline.typst");
 
+hasContainingScope(24, "fill", "meta.embedded.inline.typst");
+hasScope(24, "fill", "variable.other.readwrite.typst");
+hasContainingScope(25, "box", "meta.embedded.inline.typst");
+hasScope(26, "#1", "meta.macro.sticker.mmt");
+hasContainingScope(27, "emph", "meta.embedded.block.typst");
+assert(!tokenized[26].some((token) => token.scopes.includes("meta.macro.sticker.mmt")), "explicit rT override applied MMT macro scopes");
+lacksContainingScope(28, "raw text", "meta.embedded.inline.typst");
+assert(!tokenized[27].some((token) => token.scopes.includes("meta.macro.sticker.mmt")), "explicit rt override applied MMT macro scopes");
+hasScope(29, "#1", "meta.macro.sticker.mmt");
+hasScope(31, "strong", "entity.name.function.typst");
+hasScope(31, "#1", "meta.macro.sticker.mmt");
+hasScope(34, "grid", "entity.name.function.typst");
+lacksContainingScope(37, "box", "meta.embedded.inline.typst");
+hasContainingScope(39, "emph", "meta.embedded.inline.typst");
+assert(!tokenized[38].some((token) => token.scopes.includes("meta.macro.sticker.mmt")), "raw Typst mode applied MMT macro scopes");
+hasScope(41, "emph", "entity.name.function.typst");
+assert(!tokenized[40].some((token) => token.scopes.includes("meta.macro.sticker.mmt")), "raw inherited fence applied MMT macro scopes");
+
 console.log("Typst TextMate regions: T/rT bodies, nested statement/resource patches, quoted markers, escapes, and long fences passed");

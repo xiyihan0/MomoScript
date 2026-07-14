@@ -20,3 +20,24 @@ preset: ba::花子
 > hana: [:ba::"晴,露营", "不是:]结束", #12:](width: calc(100% - (2 * 1pt))) quoted resource patch body
 > hana: [:ba::escaped\:]still, #12:](width: calc((2 + 3) * 1pt)) escaped close patch body
 > hana: [:ba::escaped\\:](width: calc((4 + 5) * 1pt)) paired escape patch body
+@mode: typst
+> ba::晴: #set text(fill: red)
+- #box(fill: green)[123]
+> hana: #strong[mode body] [:#1:]
+> hana: rT"""#emph[raw override] [:#1:]"""
+> hana: rt"""raw text [:#1:]"""
+> hana: t"""text macro [:#1:]"""
+> hana: """
+#strong[inherited fence] [:#1:]
+"""
+@typ
+#grid(columns: 2)[nested]
+@end
+@mode: text
+- #box[plain text]
+@mode: raw-typst
+- #emph[raw typst] [:#1:]
+- """
+#emph[raw inherited fence] [:#1:]
+"""
+@mode: t

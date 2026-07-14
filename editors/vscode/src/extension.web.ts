@@ -5,6 +5,7 @@ import wasmAsset from "../wasm/mmt_lsp_bg.wasm";
 import { clientOptions } from "./clientOptions";
 import { TinymistWorkerClient } from "./tinymistClient";
 import { syncConfiguredPackManifests } from "./resourcePacks";
+import { registerMmtLanguageEditing } from "./languageEditing";
 import { connectTypstBackend, installTypstMiddleware } from "./typstFeatures";
 
 let client: LanguageClient | undefined;
@@ -12,6 +13,7 @@ let worker: Worker | undefined;
 let tinymist: TinymistWorkerClient | undefined;
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
+  context.subscriptions.push(registerMmtLanguageEditing());
   if (MMT_TINYMIST_WEB_AVAILABLE) {
     try {
       tinymist = await TinymistWorkerClient.start(

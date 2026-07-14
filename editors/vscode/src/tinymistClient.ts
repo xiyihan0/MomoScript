@@ -33,6 +33,13 @@ export type TypstResourceRequest =
       range: TypstResourceRange;
     }
   | {
+      kind: "workspace-file";
+      id: number;
+      uri: string;
+      fileName: string;
+      range: TypstResourceRange;
+    }
+  | {
       kind: "image-sequence";
       id: number;
       uri: string;

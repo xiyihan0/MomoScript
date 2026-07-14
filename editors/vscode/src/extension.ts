@@ -10,12 +10,14 @@ import {
 import { clientOptions } from "./clientOptions";
 import { TinymistProcessClient } from "./tinymistProcessClient";
 import { syncConfiguredPackManifests } from "./resourcePacks";
+import { registerMmtLanguageEditing } from "./languageEditing";
 import { connectTypstBackend, installTypstMiddleware } from "./typstFeatures";
 
 let client: LanguageClient | undefined;
 let tinymist: TinymistProcessClient | undefined;
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
+  context.subscriptions.push(registerMmtLanguageEditing());
   const configuredPath = vscode.workspace
     .getConfiguration("mmt")
     .get<string>("server.path", "");
