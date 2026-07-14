@@ -214,6 +214,13 @@ variant 字段建议包含：
 
 第一版主 manifest 不建议把 `tags`、`description`、原始 URL 或搜索向量写进 variant。它们更适合进入独立的 `catalog.json` / `search-index.json`，避免运行时 resolver 必须加载百科或语义搜索材料。
 
+IDE 预览图使用 manifest 顶层可选 `thumbnails` 索引，而不是把原始 URL、AVIFS frame
+或搜索元数据塞回 variant。索引 key 是 pack 内逻辑资源路径
+`<entity>/sticker/<set>/<variant>`，value 复用受控 `{ storage, path }` source；该 storage
+必须是 `image-dir`，path 必须是无 URL 语法、无转义段的 pack-relative path。构建器在
+AVIFS 编码时生成最长边不超过 256px 的独立 WebP，不得让 IDE 为预览下载或解码 sequence，
+也不得保留全尺寸未压缩源图充当 thumbnail。
+
 `ordinal` 不是文件名编号，也不是数组下标。迁移工具可以从旧文件名、旧 tags 顺序或 Kivo gallery 顺序生成它，但生成后必须固化在 manifest 中。`#n` 的编号范围默认是当前 set；如果一个 slot 下存在多个 set 且没有默认 set，裸 `#n` 应报 ambiguous。
 
 资源路径允许在 slot 后显式指定 set：

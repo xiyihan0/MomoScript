@@ -1,0 +1,13 @@
+/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, HEAD, OPTIONS
+  X-Content-Type-Options: nosniff
+
+/manifest.json
+  Cache-Control: public, max-age=0, must-revalidate
+
+/blobs/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800

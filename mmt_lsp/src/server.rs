@@ -5,9 +5,10 @@ use lsp_types::{
     DidCloseTextDocumentParams, DidOpenTextDocumentParams, DocumentSymbolParams,
     FoldingRangeParams, FoldingRangeProviderCapability, Hover, HoverProviderCapability,
     InitializeParams, InitializeResult, LogMessageParams, MessageType, OneOf, Position,
-    PositionEncodingKind, PublishDiagnosticsParams, ServerCapabilities, ServerInfo,
-    SignatureHelpOptions, TextDocumentIdentifier, TextDocumentSyncCapability, TextDocumentSyncKind,
-    Url,
+    PositionEncodingKind, PublishDiagnosticsParams, SemanticTokenType, SemanticTokensFullOptions,
+    SemanticTokensLegend, SemanticTokensOptions, SemanticTokensParams,
+    SemanticTokensServerCapabilities, ServerCapabilities, ServerInfo, SignatureHelpOptions,
+    TextDocumentIdentifier, TextDocumentSyncCapability, TextDocumentSyncKind, Url,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -219,6 +220,10 @@ impl MmtLanguageServer {
             "textDocument/foldingRange" => {
                 let params: FoldingRangeParams = decode(params)?;
                 encode(self.service.folding_ranges(&params.text_document.uri))
+            }
+            "textDocument/semanticTokens/full" => {
+                let params: SemanticTokensParams = decode(params)?;
+                encode(self.service.semantic_tokens(&params.text_document.uri))
             }
             "textDocument/completion" => {
                 let params: CompletionParams = decode(params)?;
@@ -548,7 +553,14 @@ impl MmtLanguageServer {
                 document_symbol_provider: Some(OneOf::Left(true)),
                 folding_range_provider: Some(FoldingRangeProviderCapability::Simple(true)),
                 completion_provider: Some(CompletionOptions {
-                    trigger_characters: Some(vec!["_".to_string(), "~".to_string()]),
+                    trigger_characters: Some(vec![
+                        "_".to_string(),
+                        "~".to_string(),
+                        "[".to_string(),
+                        ":".to_string(),
+                        ",".to_string(),
+                        "#".to_string(),
+                    ]),
                     ..CompletionOptions::default()
                 }),
                 hover_provider: Some(HoverProviderCapability::Simple(true)),
@@ -557,6 +569,23 @@ impl MmtLanguageServer {
                     retrigger_characters: Some(vec![",".to_string()]),
                     work_done_progress_options: Default::default(),
                 }),
+                semantic_tokens_provider: Some(
+                    SemanticTokensServerCapabilities::SemanticTokensOptions(
+                        SemanticTokensOptions {
+                            legend: SemanticTokensLegend {
+                                token_types: vec![
+                                    SemanticTokenType::KEYWORD,
+                                    SemanticTokenType::VARIABLE,
+                                    SemanticTokenType::ENUM_MEMBER,
+                                ],
+                                token_modifiers: Vec::new(),
+                            },
+                            range: None,
+                            full: Some(SemanticTokensFullOptions::Bool(true)),
+                            work_done_progress_options: Default::default(),
+                        },
+                    ),
+                ),
                 ..ServerCapabilities::default()
             },
             server_info: Some(ServerInfo {
@@ -681,7 +710,7 @@ mod tests {
         assert_eq!(result["capabilities"]["positionEncoding"], "utf-8");
         assert_eq!(
             result["capabilities"]["completionProvider"]["triggerCharacters"],
-            serde_json::json!(["_", "~"])
+            serde_json::json!(["_", "~", "[", ":", ",", "#"])
         );
 
         let events = server

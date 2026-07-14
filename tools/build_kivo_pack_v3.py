@@ -503,6 +503,7 @@ def _build_manifest(
             "base": "assets/avatar",
         }
     }
+    thumbnails: dict[str, Any] = {}
     tasks: list[DownloadTask] = []
 
     id_to_entity: dict[int, str] = {}
@@ -587,6 +588,10 @@ def _build_manifest(
                             "path": filename,
                         }
                     )
+                    thumbnails[f"{entity_id}/sticker/{set_id}/{set_id}_{image_index + 1:03d}"] = {
+                        "storage": storage_id,
+                        "path": filename,
+                    }
                     tasks.append(
                         DownloadTask(
                             url=normalized,
@@ -642,6 +647,7 @@ def _build_manifest(
         "entities": dict(sorted(entities.items(), key=lambda kv: kv[0])),
         "contributions": [],
         "assets": {},
+        "thumbnails": dict(sorted(thumbnails.items(), key=lambda kv: kv[0])),
         "storage": dict(sorted(storage.items(), key=lambda kv: kv[0])),
     }
     return manifest, tasks
@@ -729,6 +735,42 @@ def _prepare_padded_frames(
             )
         prepared.append(target)
     return prepared
+
+
+def _prepare_thumbnails(
+    paths: list[Path], out_dir: Path, *, resume: bool
+) -> list[str]:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    names: list[str] = []
+    for index, source in enumerate(paths, start=1):
+        name = f"{index:03d}.webp"
+        target = out_dir / name
+        names.append(name)
+        if resume and target.exists() and target.stat().st_size > 0:
+            continue
+        result = subprocess.run(
+            [
+                "magick",
+                f"{source}[0]",
+                "-auto-orient",
+                "-thumbnail",
+                "256x256>",
+                "-strip",
+                "-quality",
+                "75",
+                str(target),
+            ],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+        )
+        if result.returncode != 0 or not target.exists():
+            raise RuntimeError(
+                (result.stdout or "").strip()[-1000:]
+                or f"thumbnail conversion failed for {source}"
+            )
+    return names
 
 
 def _run_avifenc(
@@ -907,6 +949,12 @@ def _encode_avif_sequences(
                     )
                 status = "encoded"
 
+            thumbnail_dir = (
+                out_dir / "assets" / "thumbnails" / record["entity"] / job["set_id"]
+            )
+            thumbnail_names = _prepare_thumbnails(
+                image_paths, thumbnail_dir, resume=bool(args.resume)
+            )
             storage_update = {
                 "kind": "image-sequence",
                 "path": output_rel.as_posix(),
@@ -922,7 +970,12 @@ def _encode_avif_sequences(
             record["status"] = status
             record["output"] = output_rel.as_posix()
             record["bytes"] = output_path.stat().st_size
-            return {**job, "record": record, "storage_update": storage_update}
+            return {
+                **job,
+                "record": record,
+                "storage_update": storage_update,
+                "thumbnail_names": thumbnail_names,
+            }
         except Exception as exc:
             record["status"] = "failed"
             record["error"] = str(exc)
@@ -1002,6 +1055,27 @@ def _encode_avif_sequences(
         status = record["status"]
         summary["original_bytes"] += int(record.get("original_bytes") or 0)
         if status in {"encoded", "reused"}:
+            thumbnail_storage_id = "thumbnails"
+            manifest["storage"].setdefault(
+                thumbnail_storage_id,
+                {"kind": "image-dir", "base": "assets/thumbnails"},
+            )
+            thumbnail_prefix = f"{record['entity']}/sticker/{result['set_id']}/"
+            thumbnail_names = result["thumbnail_names"]
+            for index, variant in enumerate(result["variants"]):
+                resource_id = f"{thumbnail_prefix}{variant['id']}"
+                thumbnail = manifest.get("thumbnails", {}).get(resource_id)
+                if thumbnail is not None:
+                    thumbnail["storage"] = thumbnail_storage_id
+                    thumbnail["path"] = (
+                        f"{record['entity']}/{result['set_id']}/{thumbnail_names[index]}"
+                    )
+            valid_thumbnail_ids = {
+                f"{thumbnail_prefix}{variant['id']}" for variant in result["variants"]
+            }
+            for resource_id in list(manifest.get("thumbnails", {})):
+                if resource_id.startswith(thumbnail_prefix) and resource_id not in valid_thumbnail_ids:
+                    manifest["thumbnails"].pop(resource_id, None)
             for index, variant in enumerate(result["variants"]):
                 variant.pop("path", None)
                 variant["frame"] = index
@@ -1011,6 +1085,10 @@ def _encode_avif_sequences(
             summary["encoded"] += 1
             summary["compressed_bytes"] += int(record.get("bytes") or 0)
         elif status == "skipped":
+            thumbnail_prefix = f"{record['entity']}/sticker/{result['set_id']}/"
+            for resource_id in list(manifest.get("thumbnails", {})):
+                if resource_id.startswith(thumbnail_prefix):
+                    manifest["thumbnails"].pop(resource_id, None)
             _drop_sticker_set(
                 manifest, result["entity"], result["set_id"], result["storage_id"]
             )

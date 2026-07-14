@@ -23,6 +23,8 @@ pub struct PackManifest {
     #[serde(default)]
     pub assets: HashMap<String, PackAsset>,
     #[serde(default)]
+    pub thumbnails: HashMap<String, PackAssetSource>,
+    #[serde(default)]
     pub storage: HashMap<String, StorageEntry>,
 }
 
@@ -433,6 +435,33 @@ impl PackRegistry {
                     ));
                 }
             }
+            for (resource_id, thumbnail) in &manifest.thumbnails {
+                match manifest.storage.get(&thumbnail.storage) {
+                    Some(storage) if storage.kind == "image-dir" => {}
+                    Some(_) => errors.push(validation_error(
+                        Some(namespace),
+                        format!(
+                            "thumbnail '{resource_id}' must reference image-dir storage '{}'",
+                            thumbnail.storage
+                        ),
+                    )),
+                    None => errors.push(validation_error(
+                        Some(namespace),
+                        format!(
+                            "thumbnail '{resource_id}' references missing storage '{}'",
+                            thumbnail.storage
+                        ),
+                    )),
+                }
+                if !is_safe_pack_path(&thumbnail.path) {
+                    errors.push(validation_error(
+                        Some(namespace),
+                        format!(
+                            "thumbnail '{resource_id}' contains an unsafe pack-relative path"
+                        ),
+                    ));
+                }
+            }
         }
         errors
     }
@@ -809,10 +838,10 @@ fn validate_storage(
 
 fn is_safe_pack_path(path: &str) -> bool {
     !path.is_empty()
-        && !path.starts_with(['/', '\\'])
-        && path.as_bytes().get(1).is_none_or(|byte| *byte != b':')
+        && !path.starts_with('/')
+        && !path.contains(['\\', ':', '?', '#', '%'])
         && !path
-            .split(['/', '\\'])
+            .split('/')
             .any(|component| component.is_empty() || component == "." || component == "..")
 }
 
@@ -992,6 +1021,50 @@ mod tests {
         let errors = PackRegistry::new(vec![invalid]).unwrap_err();
 
         assert!(errors.len() >= 2);
+    }
+
+    #[test]
+    fn pack_paths_reject_url_syntax_and_encoded_traversal() {
+        assert!(is_safe_pack_path("students/yuzu/001.webp"));
+        for unsafe_path in [
+            "https:evil.example/x",
+            "data:image/png;base64,x",
+            "images/file.webp?download=1",
+            "images/file.webp#fragment",
+            "%2e%2e/secret.webp",
+            "images\\secret.webp",
+        ] {
+            assert!(!is_safe_pack_path(unsafe_path), "accepted {unsafe_path}");
+        }
+    }
+
+    #[test]
+    fn validation_rejects_thumbnail_storage_and_paths_outside_pack() {
+        let invalid = PackManifest::from_json(
+            r#"{
+              "schema":"mmt-pack.v3",
+              "pack":{"namespace":"bad","name":"Bad","version":"1","type":"base"},
+              "thumbnails":{
+                "x/sticker/default/one":{"storage":"sequence","path":"https:evil.example/x"},
+                "x/sticker/default/two":{"storage":"missing","path":"%2e%2e/secret.webp"}
+              },
+              "storage":{
+                "sequence":{"kind":"image-sequence","path":"frames.avifs","container":"avifs","codec":"av1","alpha":true,"frame_count":1,"size":[1,1],"sha256":"hash","profile":{},"random_access":"keyframe"}
+              }
+            }"#,
+        )
+        .unwrap();
+        let errors = PackRegistry::new(vec![invalid]).unwrap_err();
+
+        assert!(errors.iter().any(|error| error.message.contains("must reference image-dir")));
+        assert!(errors.iter().any(|error| error.message.contains("references missing storage")));
+        assert_eq!(
+            errors
+                .iter()
+                .filter(|error| error.message.contains("unsafe pack-relative path"))
+                .count(),
+            2
+        );
     }
 
     #[test]

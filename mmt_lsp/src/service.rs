@@ -4,14 +4,17 @@ use lsp_types::{
     CompletionItem, CompletionItemKind, CompletionTextEdit, Diagnostic,
     DiagnosticRelatedInformation, DiagnosticSeverity, DocumentSymbol, FoldingRange,
     FoldingRangeKind, Hover, HoverContents, Location, MarkupContent, MarkupKind,
-    ParameterInformation, ParameterLabel, Position, PositionEncodingKind, SignatureHelp,
-    SignatureInformation, SymbolKind, TextEdit, Url,
+    ParameterInformation, ParameterLabel, Position, PositionEncodingKind, SemanticToken,
+    SemanticTokens, SignatureHelp, SignatureInformation, SymbolKind, TextEdit, Url,
 };
 use mmt_rs::diag::{Diagnostic as MmtDiagnostic, Severity};
 use mmt_rs::pack::{PackManifest, PackRegistry};
 use mmt_rs::source::TextRange;
 use mmt_rs::syntax::{SpeakerMarkerSyntax, StatementKind, SyntaxDocument, SyntaxNode};
-use mmt_rs::{SpeakerIdentity, StaticPresetCatalog, lower_actors, lower_assets};
+use mmt_rs::{
+    ResolvedResourceKind, SpeakerIdentity, StaticPresetCatalog, lower_actors, lower_assets,
+    lower_resource_markers, resolve_body_modes, resolve_resources,
+};
 
 use crate::position::LineIndex;
 
@@ -295,6 +298,80 @@ impl LanguageService {
             .filter_map(|node| self.folding_range(document, node))
             .collect()
     }
+    pub fn semantic_tokens(&self, uri: &Url) -> Option<SemanticTokens> {
+        let document = self.snapshot(uri)?;
+        let mut ranges = Vec::<(TextRange, u32)>::new();
+        for node in &document.syntax.nodes {
+            match node {
+                SyntaxNode::DirectiveLine(directive) => ranges.push((directive.name_range, 0)),
+                SyntaxNode::DirectiveBlock(block) => ranges.push((block.name_range, 0)),
+                SyntaxNode::Statement(statement) => {
+                    if let Some(marker) = &statement.marker {
+                        let range = match marker {
+                            SpeakerMarkerSyntax::Explicit { range, .. }
+                            | SpeakerMarkerSyntax::BackRef { range, .. }
+                            | SpeakerMarkerSyntax::UniqueIndex { range, .. } => *range,
+                        };
+                        ranges.push((range, 1));
+                    }
+                }
+                SyntaxNode::Reply(reply) => {
+                    ranges.push((TextRange::new(reply.range.start, reply.range.start + 6), 0));
+                }
+                SyntaxNode::Bond(bond) => {
+                    ranges.push((TextRange::new(bond.range.start, bond.range.start + 5), 0));
+                }
+                _ => {}
+            }
+        }
+        let modes = resolve_body_modes(&document.syntax);
+        let actors = if let Some(registry) = &self.pack_registry {
+            lower_actors(&document.syntax, registry)
+        } else {
+            lower_actors(&document.syntax, &StaticPresetCatalog::default())
+        };
+        for marker in lower_resource_markers(&document.syntax, &modes, &actors).markers {
+            let marker_end = marker
+                .render_patch
+                .as_ref()
+                .map_or(marker.range.end, |patch| patch.range.start);
+            if marker_end >= marker.range.start + 4 {
+                ranges.push((TextRange::new(marker.range.start + 2, marker_end - 2), 2));
+            }
+        }
+        ranges.sort_by_key(|(range, _)| range.start);
+
+        let mut previous_line = 0;
+        let mut previous_start = 0;
+        let mut data = Vec::with_capacity(ranges.len());
+        for (range, token_type) in ranges {
+            let mapped = document
+                .lines
+                .range(&document.text, range, &self.encoding)?;
+            if mapped.start.line != mapped.end.line || mapped.start == mapped.end {
+                continue;
+            }
+            let delta_line = mapped.start.line - previous_line;
+            let delta_start = if delta_line == 0 {
+                mapped.start.character - previous_start
+            } else {
+                mapped.start.character
+            };
+            data.push(SemanticToken {
+                delta_line,
+                delta_start,
+                length: mapped.end.character - mapped.start.character,
+                token_type,
+                token_modifiers_bitset: 0,
+            });
+            previous_line = mapped.start.line;
+            previous_start = mapped.start.character;
+        }
+        Some(SemanticTokens {
+            result_id: None,
+            data,
+        })
+    }
 
     pub fn completions(&self, uri: &Url, position: Position) -> Vec<CompletionItem> {
         let Some(document) = self.snapshot(uri) else {
@@ -572,6 +649,33 @@ impl LanguageService {
             });
         }
 
+        if let Some(registry) = &self.pack_registry {
+            let modes = resolve_body_modes(&document.syntax);
+            let actors = lower_actors(&document.syntax, registry);
+            let assets = lower_assets(&document.syntax);
+            let markers = lower_resource_markers(&document.syntax, &modes, &actors);
+            let resolution = resolve_resources(&markers, &actors, &assets, registry);
+            if let Some(resource) = resolution
+                .resources
+                .iter()
+                .find(|resource| resource.range.start <= offset && offset < resource.range.end)
+            {
+                let range = document
+                    .lines
+                    .range(&document.text, resource.range, &self.encoding)?;
+                return Some(Hover {
+                    contents: HoverContents::Markup(MarkupContent {
+                        kind: MarkupKind::Markdown,
+                        value: resource_hover_markdown(
+                            &document.text[resource.range.start..resource.range.end],
+                            &resource.kind,
+                        ),
+                    }),
+                    range: Some(range),
+                });
+            }
+        }
+
         let (contract, marker_range) = facade_marker_at(&document.syntax, offset)?;
         let range = document
             .lines
@@ -605,6 +709,27 @@ impl LanguageService {
             url = url.join(&format!("{}/", base.trim_end_matches('/'))).ok()?;
         }
         url.join(path).ok()
+    }
+
+    fn sticker_preview_documentation(
+        &self,
+        manifest: &PackManifest,
+        resource_id: &str,
+    ) -> Option<lsp_types::Documentation> {
+        let thumbnail = manifest.thumbnails.get(resource_id)?;
+        let storage = manifest.storage.get(&thumbnail.storage)?;
+        if storage.kind != "image-dir" {
+            return None;
+        }
+        let mut url = self.pack_base_urls.get(&manifest.pack.namespace)?.clone();
+        if let Some(base) = storage.base.as_deref() {
+            url = url.join(&format!("{}/", base.trim_end_matches('/'))).ok()?;
+        }
+        let url = url.join(&thumbnail.path).ok()?;
+        Some(lsp_types::Documentation::MarkupContent(MarkupContent {
+            kind: MarkupKind::Markdown,
+            value: format!("![Sticker preview]({url})"),
+        }))
     }
 
     pub fn signature_help(&self, uri: &Url, position: Position) -> Option<SignatureHelp> {
@@ -764,19 +889,24 @@ impl LanguageService {
                     if let Some(sticker) = &entity.slots.sticker {
                         for (set_id, set) in &sticker.sets {
                             for variant in &set.variants {
-                                let selector = if sticker.sets.len() == 1
-                                    || sticker.default.as_deref() == Some(set_id)
-                                {
+                                let implicit_set = sticker.sets.len() == 1
+                                    || sticker.default.as_deref() == Some(set_id);
+                                let selector = if implicit_set {
                                     variant.id.clone()
                                 } else {
                                     format!("{set_id}/{}", variant.id)
                                 };
+                                let preview = self.sticker_preview_documentation(
+                                    manifest,
+                                    &format!("{local_id}/sticker/{set_id}/{}", variant.id),
+                                );
                                 items
                                     .entry(selector.clone())
                                     .or_insert_with(|| CompletionItem {
                                         label: selector.clone(),
                                         kind: Some(CompletionItemKind::REFERENCE),
                                         detail: Some(format!("sticker · {canonical_id}")),
+                                        documentation: preview.clone(),
                                         filter_text: Some(
                                             std::iter::once(variant.id.as_str())
                                                 .chain(variant.handles.iter().map(String::as_str))
@@ -788,6 +918,28 @@ impl LanguageService {
                                         ))),
                                         ..CompletionItem::default()
                                     });
+                                if let Some(ordinal) = variant.ordinal {
+                                    let ordinal_selector = if implicit_set {
+                                        format!("#{ordinal}")
+                                    } else {
+                                        format!("{set_id}/#{ordinal}")
+                                    };
+                                    items.entry(ordinal_selector.clone()).or_insert_with(|| {
+                                        CompletionItem {
+                                            label: ordinal_selector.clone(),
+                                            kind: Some(CompletionItemKind::REFERENCE),
+                                            detail: Some(format!(
+                                                "sticker · {canonical_id} · {}",
+                                                variant.id
+                                            )),
+                                            documentation: preview.clone(),
+                                            text_edit: Some(CompletionTextEdit::Edit(
+                                                TextEdit::new(range, ordinal_selector),
+                                            )),
+                                            ..CompletionItem::default()
+                                        }
+                                    });
+                                }
                             }
                         }
                     }
@@ -803,13 +955,20 @@ impl LanguageService {
                             };
                             for (set_id, set) in &sticker.sets {
                                 for variant in &set.variants {
-                                    let variant_path = if sticker.sets.len() == 1
-                                        || sticker.default.as_deref() == Some(set_id)
-                                    {
+                                    let implicit_set = sticker.sets.len() == 1
+                                        || sticker.default.as_deref() == Some(set_id);
+                                    let variant_path = if implicit_set {
                                         variant.id.clone()
                                     } else {
                                         format!("{set_id}/{}", variant.id)
                                     };
+                                    let preview = self.sticker_preview_documentation(
+                                        contribution_manifest,
+                                        &format!(
+                                            "{}/sticker/{set_id}/{}",
+                                            contribution.target, variant.id
+                                        ),
+                                    );
                                     let selector = format!(
                                         "{}::{variant_path}",
                                         contribution_manifest.pack.namespace
@@ -821,6 +980,7 @@ impl LanguageService {
                                             detail: Some(format!(
                                                 "contributed sticker · {canonical_id}"
                                             )),
+                                            documentation: preview.clone(),
                                             filter_text: Some(
                                                 std::iter::once(variant.id.as_str())
                                                     .chain(
@@ -835,6 +995,32 @@ impl LanguageService {
                                             ..CompletionItem::default()
                                         }
                                     });
+                                    if let Some(ordinal) = variant.ordinal {
+                                        let ordinal_path = if implicit_set {
+                                            format!("#{ordinal}")
+                                        } else {
+                                            format!("{set_id}/#{ordinal}")
+                                        };
+                                        let ordinal_selector = format!(
+                                            "{}::{ordinal_path}",
+                                            contribution_manifest.pack.namespace
+                                        );
+                                        items.entry(ordinal_selector.clone()).or_insert_with(
+                                            || CompletionItem {
+                                                label: ordinal_selector.clone(),
+                                                kind: Some(CompletionItemKind::REFERENCE),
+                                                detail: Some(format!(
+                                                    "contributed sticker · {canonical_id} · {}",
+                                                    variant.id
+                                                )),
+                                                documentation: preview.clone(),
+                                                text_edit: Some(CompletionTextEdit::Edit(
+                                                    TextEdit::new(range, ordinal_selector),
+                                                )),
+                                                ..CompletionItem::default()
+                                            },
+                                        );
+                                    }
                                 }
                             }
                         }
@@ -1257,6 +1443,76 @@ struct PatchContext {
     segment_start: usize,
     has_colon: bool,
     parameter_index: u32,
+}
+fn resource_hover_markdown(source: &str, kind: &ResolvedResourceKind) -> String {
+    let source = markdown_code(source);
+    match kind {
+        ResolvedResourceKind::Sticker {
+            entity_id,
+            contribution_namespace,
+            set_id,
+            variant_id,
+            source: storage,
+        } => format!(
+            "**Sticker `{}`**\n\n{} → entity `{}` · set `{}` · contribution `{}`\n\nStorage `{}` / `{}`",
+            markdown_text(variant_id),
+            source,
+            markdown_text(entity_id),
+            markdown_text(set_id),
+            markdown_text(contribution_namespace),
+            markdown_text(&storage.pack_namespace),
+            markdown_text(&storage.storage_id),
+        ),
+        ResolvedResourceKind::PackAsset {
+            name,
+            source: storage,
+        } => format!(
+            "**Pack asset `{}`**\n\n{}\n\nStorage `{}` / `{}`",
+            markdown_text(name),
+            source,
+            markdown_text(&storage.pack_namespace),
+            markdown_text(&storage.storage_id),
+        ),
+        ResolvedResourceKind::ScriptAsset {
+            namespace, name, ..
+        } => format!(
+            "**Script asset `{}`**\n\n{} · namespace `{}`",
+            markdown_text(name),
+            source,
+            markdown_text(namespace),
+        ),
+        ResolvedResourceKind::Temporary { name } => {
+            format!(
+                "**Temporary resource `{}`**\n\n{}",
+                markdown_text(name),
+                source
+            )
+        }
+        ResolvedResourceKind::WorkspaceFile { path } => {
+            format!(
+                "**Workspace file**\n\n{} → `{}`",
+                source,
+                markdown_text(path)
+            )
+        }
+        ResolvedResourceKind::RemoteUrl { url } => {
+            format!(
+                "**Remote resource**\n\n{} → `{}`",
+                source,
+                markdown_text(url)
+            )
+        }
+        ResolvedResourceKind::Avatar {
+            entity_id,
+            variant_id,
+            ..
+        } => format!(
+            "**Avatar `{}`**\n\n{} · entity `{}`",
+            markdown_text(variant_id),
+            source,
+            markdown_text(entity_id),
+        ),
+    }
 }
 
 fn patch_context(prefix: &str) -> PatchContext {
@@ -1879,5 +2135,102 @@ mod tests {
         };
         assert!(contents.value.contains("**Revised A**"));
         assert!(contents.value.contains("Reference ` _ ` → ` Revised A `"));
+    }
+    #[test]
+    fn completes_and_hovers_resolved_ordinal_resource_markers() {
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{"晴_露营":{"names":["晴_露营"],"slots":{"sticker":{"default":"default","sets":{"default":{"storage":"stickers","variants":[{"id":"default_001","ordinal":1,"path":"001.png"}]}}}}}},
+            "thumbnails":{"晴_露营/sticker/default/default_001":{"storage":"thumbnail_images","path":"晴_露营/default/001.webp"}},
+            "storage":{"stickers":{"kind":"image-dir","base":"assets"},"thumbnail_images":{"kind":"image-dir","base":"thumbnails"}}
+        }"#;
+        let mut service = LanguageService::default();
+        service
+            .update_pack_manifests(1, &[manifest.to_string()])
+            .unwrap();
+        assert!(service.set_pack_base_urls(
+            1,
+            HashMap::from([(
+                "ba".to_string(),
+                Url::parse("https://packs.example.test/ba/").unwrap(),
+            )]),
+        ));
+
+        let partial = "> 晴_露营: [:晴_露营,#";
+        service.open(uri(), 1, partial.to_string());
+        let completions = service.completions(
+            &uri(),
+            Position::new(0, partial.encode_utf16().count() as u32),
+        );
+        let ordinal = completions
+            .iter()
+            .find(|item| item.label == "#1")
+            .expect("missing ordinal resource completion");
+        assert_eq!(
+            ordinal.detail.as_deref(),
+            Some("sticker · ba::晴_露营 · default_001")
+        );
+        let Some(lsp_types::Documentation::MarkupContent(documentation)) = &ordinal.documentation
+        else {
+            panic!("expected markdown sticker preview");
+        };
+        assert_eq!(
+            documentation.value,
+            "![Sticker preview](https://packs.example.test/ba/thumbnails/%E6%99%B4_%E9%9C%B2%E8%90%A5/default/001.webp)"
+        );
+
+        let complete = "> 晴_露营: [:晴_露营,#1:]";
+        service.change(uri(), 2, complete.to_string());
+        let hover_character = complete[..complete.find("#1").unwrap() + 1]
+            .encode_utf16()
+            .count() as u32;
+        let hover = service
+            .hover(&uri(), Position::new(0, hover_character))
+            .unwrap();
+        let HoverContents::Markup(contents) = hover.contents else {
+            panic!("expected markdown hover");
+        };
+        assert!(contents.value.contains("Sticker `default\\_001`"));
+        assert!(contents.value.contains("entity `ba::晴\\_露营`"));
+    }
+
+    #[test]
+    fn emits_semantic_tokens_for_mmt_identities_without_tokenizing_typst() {
+        let mut service = LanguageService::default();
+        service
+            .update_pack_manifests(
+                1,
+                &[r#"{
+                    "schema":"mmt-pack.v3",
+                    "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+                    "entities":{"晴":{"names":["晴"]}}
+                }"#
+                .to_string()],
+            )
+            .unwrap();
+        service.open(
+            uri(),
+            1,
+            "@mode: typst\n- #box[Typst]\n@mode: text\n> 晴: [:#1:](width: 1em)".to_string(),
+        );
+        let tokens = service.semantic_tokens(&uri()).unwrap();
+        assert!(tokens.data.iter().any(|token| token.token_type == 0));
+        assert!(tokens.data.iter().any(|token| token.token_type == 1));
+        assert!(tokens.data.iter().any(|token| token.token_type == 2));
+        let resource = tokens
+            .data
+            .iter()
+            .find(|token| token.token_type == 2)
+            .unwrap();
+        assert_eq!(
+            resource.length, 2,
+            "resource token must stop before the Typst patch"
+        );
+        assert_eq!(
+            tokens.data.len(),
+            4,
+            "Typst tokens remain owned by TextMate/Tinymist"
+        );
     }
 }

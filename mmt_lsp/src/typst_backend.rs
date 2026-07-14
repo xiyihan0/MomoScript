@@ -97,6 +97,12 @@ pub enum TypstResourceRequest {
         file_name: String,
         range: Range,
     },
+    WorkspaceFile {
+        id: usize,
+        uri: Url,
+        file_name: String,
+        range: Range,
+    },
     ImageSequence {
         id: usize,
         uri: Url,
@@ -443,6 +449,12 @@ pub fn build_render_project(
                     codec: codec.clone(),
                     alpha: *alpha,
                     profile: profile.clone(),
+                    range,
+                },
+                mmt_rs::ProjectedResourceSource::WorkspaceFile { file_name } => TypstResourceRequest::WorkspaceFile {
+                    id,
+                    uri,
+                    file_name: file_name.clone(),
                     range,
                 },
             }
