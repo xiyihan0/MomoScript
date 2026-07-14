@@ -312,7 +312,7 @@ cache key 至少包含：
 - decoder profile / version
 - 输出格式和尺寸
 
-同一逻辑资源通过统一 `ResourceMaterializer` 合同进入 native CLI 或其他明确支持的宿主；当前暂不迁移的 Web 表面和 Python legacy 管线不约束这一阶段的接口实现。
+同一逻辑资源通过统一 `ResourceMaterializer` 合同进入 native CLI，或通过纯内存 projection planner 生成供 Web host 执行的资源请求；Python legacy 管线不约束这一接口。Web planner 只读取已验证 manifest/storage metadata，不执行 fetch 或 decode。
 
 core 只定义窄 `ResourceMaterializer` 接口：输入完整 `ResolvedResource`，输出 Typst 可读的
 受控静态图片路径或 materialize error。平台实现负责 pack root、工作区、临时上传、网络、

@@ -71,9 +71,9 @@ Rust DSL v2 的端到端验收 SHALL 将 emitter 生成的真实 Typst 交给受
 - THEN public façade、template、theme 和核心内容组件 MUST compile
 - AND 该 smoke MUST NOT 被当作 Rust emitter 端到端验证的替代品
 
-### Requirement: Legacy surfaces are validated only when intentionally changed
+### Requirement: Surface-specific checks supplement the Rust core safety net
 
-Python DSL、legacy JSON renderer、NoneBot 与 Web 不属于 Rust DSL v2 默认完成条件。
+Python DSL、legacy JSON renderer 与 NoneBot 历史表面只在被明确修改时验证；编辑器、WASM、Tinymist 或 Web runtime 发生变化时 SHALL 运行对应 npm project 的聚焦检查。表面检查不得替代 Rust DSL v2 core 回归。
 
 #### Scenario: Changing a retained legacy surface
 
@@ -82,9 +82,9 @@ Python DSL、legacy JSON renderer、NoneBot 与 Web 不属于 Rust DSL v2 默认
 - THEN 作者 SHALL 运行该表面的聚焦检查
 - AND 该检查 MUST NOT 被描述为 Rust DSL v2 的主线回归信号
 
-#### Scenario: Deferred Web surface
+#### Scenario: Changing a production editor surface
 
-- GIVEN 当前 Rust parser 阶段未修改 `web/`
-- WHEN Rust DSL v2 或 pack-v3 发生变化
-- THEN Web build、浏览器 WASM compatibility 和 Web materializer MUST NOT 成为该变化的验收条件
-- AND 后续 Web 迁移 MUST 通过独立变更重新定义对应 ABI 与验证范围
+- GIVEN 一项改动触及 `mmt_lsp` transport、Desktop/Web extension、生产 Web editor、Tinymist backend 或 browser materializer
+- WHEN 准备该改动的验证
+- THEN 作者 SHALL 在受影响的 npm project 中运行对应 transcript、browser、Extension Host 或 build 检查
+- AND change spec MUST 明确记录 ABI、runtime 和平台特定的验收边界

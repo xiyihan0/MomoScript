@@ -24,12 +24,26 @@ UTF-16。所有输入 position 和输出 range 都必须经过同一个 `LineInd
 ## Snapshot And Diagnostics
 
 `didOpen` / `didChange` 创建递增 revision 和完整 parse snapshot。第一版使用 full sync；没有性能证据前
-不实现增量 parser。publishDiagnostics 携带文档 version，close 后清空 diagnostics。
+不实现增量 parser。publishDiagnostics 携带文档 version，close 后清空 diagnostics。snapshot 与 projection
+必须共享同一次 parse 和 position index；当前重复 parse/index 属于待完成的性能与一致性封口项。
 
-Full-sync notification 必须且只能携带一个无 range 的 content change。malformed notification 保留
-最后一个有效 snapshot，并由 native/Web 统一生成 `window/logMessage`；native 同时写结构化 stderr。
-WASM bridge JSON decode error 保留 `-32700`，不得降级为 `null` params。diagnostic labels 映射为同 URI
-的 `DiagnosticRelatedInformation`。
+live diagnostics 的边界是“纯内存、无平台 I/O”，不是“在 pack resolve 前停止”。完整 live 集合必须以
+同一 snapshot/revision 为单位，包含 syntax、mode、actor、asset、resource marker、基于已安装只读
+`PackRegistry` 的 deterministic resolve/planning，以及 placeholder emission 的静态 Typst check。该集合
+必须替换当前 syntax+actor 发布路径，不能再拼接一份子集造成重复。未安装 registry 时只发布不依赖 pack
+的诊断；registry revision 成功更新后重新分析受影响文档。
+
+远端 fetch、redirect/size/hash 校验、AVIFS decode 与最终 renderer/layout 是 preview/build diagnostics。
+它们必须携带 source URI、source version、projection revision 与 phase；只有当 resource request 或 source map
+能唯一归因时才必须携带 authored range，否则允许 document-level diagnostic，禁止伪造范围。任何结果都不得
+覆盖更新后的 live diagnostics。render project 中由 `compile_text` / `ProjectionMaterializer` 产生的
+resolve/planning diagnostics 仍是纯内存结果，应随 render response 返回；`ProjectionMaterializer` 只生成
+资源请求，不执行下载或解码。
+
+Full-sync notification 必须且只能携带一个无 range 的 content change。malformed notification 保留最后一个
+有效 snapshot，并由 native/Web 统一生成 `window/logMessage`；native 同时写结构化 stderr。WASM bridge JSON
+decode error 保留 `-32700`，不得降级为 `null` params。diagnostic labels 映射为同 URI 的
+`DiagnosticRelatedInformation`。
 
 ## Completion Boundary
 
@@ -43,6 +57,12 @@ Web verification 分为真实 Chrome Worker/WASM transcript 与 VS Code Web Exte
 必须在安装 `BrowserMessageReader` 前完成 WASM 初始化，避免首条 initialize 在 connection listen 前
 丢失。extension deactivate 先停止 client，再显式 terminate Worker。
 
+生产 Web runtime 必须由单一 owner 管理 Workbench、model listeners、MMT/Tinymist clients、Workers、
+preview、cache/provider 与 AbortController。受控 teardown 使用可等待的 graceful `dispose()`；启动失败、HMR、
+`pagehide` / `beforeunload` 另需同步 `disposeNow()` 保底，先移除 listener/abort，再直接 terminate Worker。
+浏览器不会等待 unload Promise，因此只写 `void asyncDispose()` 不满足销毁合同。当前生产入口尚待完成该统一
+owner 与逆序 rollback。
+
 Desktop binary 使用 `bin/<platform>-<arch>/mmt-lsp[.exe]`。构建脚本使用 Node，在当前目标生成 binary；
 正式发布按 VS Code platform target 分包，不要求单机一次交叉编译所有目标。
 
@@ -50,37 +70,51 @@ Desktop binary 使用 `bin/<platform>-<arch>/mmt-lsp[.exe]`。构建脚本使用
 
 普通编辑可以触发图片 preview，但 preview 是独立、可取消、revision-bound 的后台任务：
 
-- diagnostics/symbol/folding 不等待 materializer 或 renderer；
+- diagnostics/symbol/folding 可以等待同 snapshot 的纯内存 resolve/planning，但不等待 fetch、decode 或 renderer I/O；
 - 新 didChange 取消或淘汰旧 preview；
-- preview 响应必须携带 URI 和 revision；
+- preview 响应必须携带 URI、source version 和 projection revision；
 - host 可以选择 native、browser 或 remote preview backend；
-- preview 失败不覆盖 parser diagnostics。
+- preview 失败不覆盖当前 live diagnostics。
 
-生产 Web host 使用两条严格分离的 Typst 路径。`mmt/typstProjectUpdated` 继续承载 no-I/O、placeholder-only
-语言投影并只同步给 Tinymist；`mmt/getTypstRenderProject` 针对同一 snapshot 构建独立 render project，
-解析 pack 逻辑资源但只返回确定性的 `image-dir` 下载描述。host 在预览后台任务中下载、限额读取并注入
-虚拟二进制文件。下载失败只进入预览状态/日志，不进入 MMT editor diagnostics。
+生产 Web host 使用两条严格分离的 Typst 输出路径。`mmt/typstProjectUpdated` 承载 placeholder-only language
+projection 并只同步给 Tinymist；它可以共享已加载 registry 的纯内存 resolve/planning diagnostics，但 emitted
+Typst 仍不得依赖真实资源。`mmt/getTypstRenderProject` 针对同一 snapshot 构建独立 render project，返回
+`image-dir` 或 AVIFS `image-sequence` 的确定性资源请求与 resolve/planning diagnostics。host 在预览后台任务中
+执行下载、限额读取、hash/profile/frame 校验、AVIFS decode，并注入虚拟二进制文件。
 
-Web 资源 URL 必须由已确认 manifest 的 pack base、纯相对 storage 目录段和图片 basename 组合；host
-拒绝非 HTTPS、`.`/`..`、反斜杠、scheme/query/fragment、非图片扩展、redirect 和超过 20 MiB 的响应。
-缓存同时绑定 manifest 内容与 URL。每个 source URI 的后台任务由 revision 和 AbortController 约束；旧
-revision 不得覆盖新预览，同 revision 的 pack 刷新仍可替换资源。工作区文本写入按变更顺序串行提交到
-IndexedDB，使刷新恢复最新脚本。
+Web 资源 URL 必须由已确认 manifest 的 pack base、纯相对 storage 路径和受控文件名组合；host 拒绝非
+HTTPS、`.`/`..`、反斜杠、scheme/query/fragment、非支持扩展、redirect 和超过 20 MiB 的响应。缓存 identity
+对 `image-dir` 绑定 manifest 内容与 URL，对 `image-sequence` 绑定 storage sha256、frame、decoder profile 与
+输出尺寸。每个 source URI 的后台任务由 revision 和 AbortController 约束；旧 revision 不得覆盖新预览，
+同 revision 的 pack 刷新仍可替换资源。工作区文本写入按变更顺序串行提交到 IndexedDB，使刷新恢复最新脚本。
 
 
 ## Tinymist Boundary
 
-首个切片完成后，再加入 no-I/O Typst projection、双向 projection segments 和 Tinymist sidecar。
-不得直接调用当前会进入 `materialize_resources` 的 `compile_text` 生成编辑器 projection。
+语言 projection 必须使用专用 placeholder emission，不能把需要真实资源文件的 render output 直接同步给
+Tinymist。纯内存 parser/lowering/pack resolve/resource planning 应由两条路径共享；平台 fetch、decoder、
+filesystem 与最终 renderer 仍只允许出现在 preview/build host。
 
 第一版明确采用 VS Code host coordinator：Rust `mmt-lsp` 负责 MMT 分析、no-I/O projection、source map
 和 revision 校验；VS Code Desktop/Web host 负责 Tinymist native/Web 生命周期、virtual project 同步、
 请求转发、取消与恢复。嵌入式 Typst delegation 当前是 VS Code 专属能力；其他 LSP client 仍可使用
 完整的基础 MMT diagnostics/symbols/folding/completion，但不获得 Typst delegation。通用 native
 coordinator 若有实际客户端需求，必须另立 change，不在本阶段改写同步 Rust server 架构。
-host backend protocol 当前版本为 `1`，virtual entry URI 使用稳定的
-`untitled:/mmt-projection/<source-uri-hex>/main.typ`。选择 Tinymist 明确支持的 `untitled:` VFS，
-而不是新增 custom scheme；该 URI 仅在 backend 内部使用，不暴露为用户文档。
+host backend protocol 当前版本为 `1`。每个 Rust `ProjectionStore` 会话生成随机 UUID，并为同一 source URI
+单调分配 projection revision；virtual entry URI 使用
+`untitled:/mmt-projection/<source-uri-hex>/<session-uuid>/main-<revision>.typ`。选择 Tinymist 明确支持的
+`untitled:` VFS，而不是新增 custom scheme；该 URI 仅在 backend 内部使用，不暴露为用户文档。新会话的
+第一条更新必须是 full snapshot；host 拒绝同会话非递增 revision、跨会话 delta 与已退休会话的迟到更新。
+
+每个 revision 的独立 entry URI 隔离 Tinymist 0.15.2 未携带 `version` 的 diagnostics。host 切换 revision
+时不立即 `didClose` 旧 entry，而是保留最近两个已应用文件代际；更早且全局无 owner 的文件进入带 revision
+校验的 30 秒 bounded close grace，届时才发送 `didClose`。旧 entry 从当前 projection 索引移除，因此迟到
+diagnostics 即使在 grace 期间到达也不能映射到新 revision。
+
+一次更新可能依次 `didOpen` entry、模板与资源文件，最后打开的文件不保证是 entry。Desktop/Web host 因此
+对每个 source debounce 250 ms，并以 `textDocument/foldingRange` 请求 prime 最新 entry；该请求参与 Tinymist
+implicit focus，不使用会锁定其他 MMT 文档的 `tinymist.focusMain`。每个 source 同时最多一个 prime in-flight，
+期间的新 revision 排队并在当前请求结算后重新 prime。
 
 Tinymist spike 固定到提交 `3d63da4f93c54ddef0c63e1a6237d67aee13f5fe`（`0.15.2`），Typst
 版本为 `0.15.0`。native transcript 使用扩展同版本二进制；Web artifact 使用 Rust `1.92.0` 和：

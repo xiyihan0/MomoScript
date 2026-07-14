@@ -2,7 +2,7 @@
 
 ## Purpose
 
-定义 MomoScript 如何使用 OpenSpec 来规划和评审较大的行为变更。
+定义 MomoScript 如何使用 OpenSpec 来规划、评审和验证较大的行为变更，并让实现状态、受影响能力与验收路径保持可追踪。
 
 ## Requirements
 

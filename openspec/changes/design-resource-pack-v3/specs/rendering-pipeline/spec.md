@@ -199,9 +199,19 @@ Rust language core SHALL pass fully resolved logical resources to a platform mat
 - THEN cache identity MUST include storage sha256、frame index、decoder profile、output format 与 output size
 - AND 不会复用不兼容的旧输出
 
-#### Scenario: Deferred browser surface does not constrain current pack-v3 acceptance
+#### Scenario: Browser planning reuses the logical resource contract
 
-- GIVEN 当前 pack-v3 阶段未迁移 Web 编辑器
-- WHEN pack-v3 或 native materializer 被实现和验收
-- THEN browser Worker、ImageBitmap、object URL 或 browser-only AVIF WASM decoder MUST NOT 成为完成条件
-- AND 后续 Web materializer MAY 复用相同 logical resource 与 cache identity 合同
+- GIVEN Web language service 已安装经过 `PackRegistry` validation 的 manifest
+- WHEN 它为 `image-dir` 或 `image-sequence` 资源构建 render project
+- THEN core MUST resolve and validate logical resource/storage metadata without network、filesystem or decoder I/O
+- AND the request MUST preserve pack namespace、storage identity、authored origin and cache identity inputs
+- AND Web host MUST perform fetch/decode as a revision-bound platform materialization step
+- AND browser runtime failures MUST NOT be reclassified as parser or resolver failures
+
+#### Scenario: Browser sequence materialization preserves cache identity
+
+- GIVEN a render request identifies an AVIFS frame
+- WHEN Web host downloads and decodes that frame
+- THEN it MUST validate storage sha256、frame bounds、codec/profile and declared output size
+- AND its cache identity MUST include storage sha256、frame、decoder profile、output format and output size
+- AND a result for an obsolete document revision MUST NOT replace the current preview

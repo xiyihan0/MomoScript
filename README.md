@@ -12,33 +12,39 @@ MomoScript 是一个正在开发中的，专为编写《蔚蓝档案》的 Momot
 
 ```text
 .
-├── mmt_core/             # 核心 DSL 解析器、编译器和资源解析器
-├── mmt_nonebot_plugin/   # NoneBot 适配器和插件逻辑
-├── web/                  # Vite + React Web 编辑器
-├── typst_sandbox/        # Typst 模板与资产包
-├── tools/                # 构建流水线与回归测试
-├── examples/             # 示例脚本与输出
-├── bot.py                # NoneBot 启动入口
-└── pyproject.toml        # uv 工作区定义
+├── mmt_rs/               # Rust DSL v2 parser、语义、资源解析与 Typst 投影
+├── mmt_lsp/              # Native/WASM 共用的 MMT language server
+├── editors/vscode/       # VS Code Desktop/Web 扩展、Worker 与固定 Tinymist 产物
+├── editors/vscode-web/   # 当前生产 Web 编辑器（Monaco VS Code API）
+├── mmt_core/             # Legacy Python DSL v1
+├── mmt_nonebot_plugin/   # NoneBot 适配器
+├── typst_sandbox/        # Typst 模板与 pack-v3 资源
+├── openspec/             # 当前能力规格与变更设计
+└── tools/                # 构建与回归工具
 ```
+
+`web/` 是已废弃的旧 React 编辑器，不再扩展；浏览器端工作统一进入 `editors/vscode-web/`。
 
 ---
 
 ## 快速开始
 
-本项目使用 [uv](https://github.com/astral-sh/uv) 管理 Python 环境。
+Python 历史工具使用 [uv](https://github.com/astral-sh/uv)；Rust DSL v2/LSP 使用 Cargo，两个编辑器目录分别是独立 npm project。
 
-### 1) 安装依赖
+### 1) 验证 Rust DSL v2 core
+
+```bash
+cargo test --manifest-path mmt_rs/Cargo.toml --all-targets
+```
+
+### 2) 运行 legacy Python v1 文本 → JSON 编译
 
 ```bash
 uv sync
+uv run tools/mmt_pipeline.py mmt_core/dsl_fixtures/basic.mmt.txt --out-json /tmp/mmt-basic.json
 ```
 
-### 2) 运行渲染流水线
-
-```bash
-uv run tools/mmt_pipeline.py examples/example_t.mmt.txt
-```
+该命令生成 `/tmp/mmt-basic.json`；不修改 fixture，也不执行资源解析、Typst 编译或 PDF 渲染。
 
 ### 3) 启动 NoneBot 机器人
 
@@ -47,10 +53,10 @@ uv run tools/mmt_pipeline.py examples/example_t.mmt.txt
 uv run bot.py
 ```
 
-### 4) 启动 Web 编辑器
+### 4) 启动当前 Web 编辑器
 
 ```bash
-cd web
+cd editors/vscode-web
 npm install
 npm run dev
 ```
@@ -59,9 +65,12 @@ npm run dev
 
 ## DSL 语法速览
 
-当前帮助页见：`typst_sandbox/mmt_render/mmt_help_syntax.typ`。
+Rust v2 当前行为以 `mmt_rs/` 测试和
+`openspec/changes/redesign-dsl-syntax-v2/specs/dsl-syntax/spec.md` 为真源；parser/source-map 约束见同一
+change 下的 `specs/dsl-parser-architecture/spec.md`。
 
-实现规格与下一版设计见 OpenSpec：当前实现以 `openspec/specs/dsl-syntax/spec.md` 为入口，下一版草案见 `openspec/changes/redesign-dsl-syntax-v2/`。
+`typst_sandbox/mmt_render/mmt_help_syntax.typ` 与 `openspec/specs/dsl-syntax/spec.md` 记录 legacy Python
+v1，不应用来判断 Rust v2 selector 或 directive 语法。
 
 ## OpenSpec
 
@@ -75,30 +84,72 @@ npm run dev
 
 ---
 
-## 渲染流程
+## Rust v2 编译与编辑器流程
 
-1. 解析 DSL → AST
-2. 编译 AST → JSON
-3. 资源解析（表情/头像/外链）
-4. Typst 渲染（SVG/PDF）
+1. DSL source → recoverable syntax AST 与 UTF-8 ranges
+2. body mode、actor、asset、resource marker semantic lowering
+3. 使用 pack-v3 registry 执行 deterministic resource resolve 与 planning
+4. native build：平台 materializer → Typst façade emission → 自包含 Typst project
+5. editor language path：placeholder Typst projection → Tinymist language intelligence
+6. Web preview path：revision-bound resource fetch/decode → typst.ts SVG render
 
 ---
 
-## Web 编辑器（Developing）
+## 当前 Web 编辑器
 
-纯前端的 Web 编辑器位于 `web/`，采用：
+`editors/vscode-web/` 复用 VS Code Web API、`mmt_lsp` WASM Worker 和固定版本
+Tinymist 0.15.2 Worker。当前实现包括：
 
-- Vite + React + Tailwind
-- typst.ts 进行浏览器渲染
-- mmt_rs wasm 解析 DSL
+- 当前直接发布 syntax 与 actor diagnostics；mode、asset、resource、pack resolve/planning 与 emitter diagnostic 的统一 live 发布已记录为未完成 OpenSpec 里程碑；
+- 人物/资源包 completion、symbols 和 folding；
+- MMT → placeholder Typst 全文投影，以及 completion、hover、signature help 和 diagnostics 映射；
+- Tinymist 官方 Typst TextMate grammar；`T` 区域继续识别 MMT inline marker，`rT` 保持 raw；
+- typst.ts SVG 预览、IndexedDB 工作区/资源缓存和刷新恢复；
+- HTTPS pack-v3 同步、image-dir 与 AVIFS image-sequence 浏览器物化。
 
-最小环境变量（部署用）：
+Ordinal sticker selector 写作 `[:#1:]`；不是 `[:sticker#1:]`。例如：
 
-```env
-VITE_MMT_TYPST_ROOT=https://eo.xiyihan.cn/typst_sandbox
-VITE_MMT_PACK_FETCH_URL=https://eo.xiyihan.cn/typst_sandbox/pack-v2/ba
-VITE_MMT_PACK_BASE=https://eo.xiyihan.cn/typst_sandbox
+```text
+> 花子: T"""#strong[你好] [:#1:]"""
+- rT"""raw [:#1:]"""
 ```
+
+### 验证
+
+```bash
+cargo test --manifest-path mmt_rs/Cargo.toml --all-targets
+cargo test --manifest-path mmt_lsp/Cargo.toml
+
+cd editors/vscode
+npm run check
+npm run test:grammar
+npm run test:worker
+TINYMIST_BIN=/path/to/tinymist npm run test:tinymist-process
+TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" npm run test:tinymist-worker
+TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" npm run test:web
+
+cd ../vscode-web
+npx playwright install chromium
+npm run check
+npm run test:avifs-worker
+```
+
+`test:grammar` 锁定 inline/multiline `T`/`rT`、MMT marker overlay 与长 fence；
+`test:avifs-worker` 在 Chromium 中验证 SHA-256、透明度、多帧选择和 PNG 输出。
+首次运行浏览器测试需安装与 lockfile 匹配的 Chromium；Linux CI 使用
+`npx playwright install --with-deps chromium`。
+
+### Netlify 部署
+
+仓库根目录的 `netlify.toml` 已固定 Node 22.12、`editors/vscode-web` base、`npm run build`
+和 `dist` publish。预览与生产部署分别执行：
+
+```bash
+npx netlify deploy --build
+npx netlify deploy --build --prod
+```
+
+当前 pack manifest 固定为 HTTPS 地址，不需要旧 `VITE_MMT_*` 环境变量。
 
 ---
 

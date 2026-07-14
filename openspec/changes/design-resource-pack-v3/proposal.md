@@ -10,7 +10,7 @@
 - 将人物实体、资源贡献、slot、set、variant、tags、description 与 ordinal 统一收进 manifest。
 - 允许资源条目指向普通图片文件，或指向 `image-sequence` storage 中的明确 frame。
 - 要求 compressed sequence 在进入 Typst 前 materialize 为受控静态图片。
-- 提供 Kivo Wiki 构建器和 AVIFS 编码 profile；浏览器 AVIF decoder 笔记保留为后续迁移参考，但不属于当前 parser 实现范围。
+- 提供 Kivo Wiki 构建器和 AVIFS 编码 profile；浏览器 materializer 作为独立 host capability 使用同一 logical resource 与 cache identity 合同，不进入 parser。
 
 ## Implementation Status
 
@@ -24,6 +24,8 @@
 - 从真实 Kivo pack 结构提炼的 base/extension fixture，以及 strict pipeline 到 Typst 0.15 的无网络编译测试
 - `ProjectMaterializer` 的 `image-dir` 复制与 AVIFS image-sequence 抽帧；后者使用受控 `avifdec + dav1d`、容器 SHA-256/尺寸校验、原子 PNG 输出和内容寻址 cache
 - 透明 AVIFS fixture 的 alpha 保留/cache 回归，以及真实 ba_kivo pack 的 avatar + sticker → Typst PDF smoke
+- `mmt_rs::project_text_with_pack` 通过纯内存 `ProjectionMaterializer` 校验 resolve/storage planning 并生成带 authored origin 的 `TypstResourceRequest`，不下载或解码资源
+- `editors/vscode-web/` 已实现 HTTPS `image-dir` 下载、限额/redirect/path 防护，以及带 SHA-256、profile、frame/size 校验的 AVIFS Web Worker 抽帧
 
 尚未完成：
 
@@ -35,4 +37,4 @@
 - Formal spec delta：`rendering-pipeline`
 - 相关设计：DSL v2 统一资源路径、`avatar` / `sticker` slot、contribution namespace 与 set-scoped ordinal
 - 主实现：`mmt_rs/src/{pack,resolve,materialize,pipeline}.rs`、`tools/build_kivo_pack_v3.py`
-- 本阶段非目标：Web editor 迁移、browser Worker、browser-only AVIF WASM decoder 或 UI 预热策略
+- Web host 与 language-tooling 协议由 `openspec/changes/add-mmt-lsp-vscode/` 约束；本 change 继续定义共享 logical resource、storage metadata、cache identity 与 materializer 安全边界

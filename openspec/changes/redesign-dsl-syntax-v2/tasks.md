@@ -59,3 +59,15 @@
 - [ ] 6.10 定义共享 generated source、source map、模板和物化资源的 compilation bundle
 - [x] 6.11 实现自包含 Typst CLI project exporter，并以普通资源、透明 AVIFS fixture 和真实 ba_kivo pack 验证导出项目可由 Typst 0.15 编译
 - [ ] 6.12 实现 Typst 0.15 library `World` backend，并验证它与 project exporter 使用相同 compilation bundle
+
+## 7. Syntax Spec ↔ Behavior Test Closure
+
+- [x] 7.1 逐项审计 active v2 syntax delta 的 80 个 scenario，并映射 `parser`、`inline`、semantic passes、pack/resolve、emitter/pipeline、`tests/syntax_api.rs` 与 `tests/pack_v3_e2e.rs` 的可观察断言；完整 spec location → exact test/assertion/gap 矩阵见 [`test-coverage-audit.md`](./test-coverage-audit.md)，结果为 62 项有直接覆盖、9 项部分覆盖、9 项无直接行为测试
+- [x] 7.2 用聚焦 probe 核实两个疑似冲突：`[\:` 当前产生零个 overlay marker；`sticker: #3` 当前被 Typst argument check 拒绝，因此这两项不是已证实的 spec/behavior 冲突
+- [x] 7.3 **P0** 修正 `scan_typst_overlay_macros` 对 `\[:#1:]` 的处理：奇数反斜杠候选不得被识别为 overlay macro，也不得在构造 Typst `Source` 前被 mask；保留原文使未配对右括号由 Typst 语法检查拒绝，并增加 `[\:`、`\[:...:]`、字符串/raw/comment/code region 回归
+- [ ] 7.4 **P1** 增加 patched statement 后续节点不继承、multiline patch 被拒绝且不吞下一行、fenced colon directive、fenced `@bond:` 与缩进 `@end` 仍属 continuation 的 parser 行为测试
+- [ ] 7.5 **P1** 补齐 ordinal 越界/缺失 default set、reply/bond 中裸 selector、quoted deterministic selector resolve failure 与 legacy inline target 保持非主路径的行为测试
+- [ ] 7.6 **P1** 补齐 avatar contribution/actor-name full path、缺失 default set、普通路径不推断 slot、avatar/sticker slot 区分与 extension pack 不改 base default 的 resolver/pack 测试
+- [ ] 7.7 **P1** 增加 `rT` marker preservation、跨 document mode 隔离、`>(sticker: #3)` 精确拒绝及 `avatar: happy` 不做 DSL selector rewrite 的回归
+- [ ] 7.8 **P1** 将至少一组 actor conflict、resource path/default、raw mode 与 contribution ambiguity 合同提升到 `mmt_rs/tests/syntax_api.rs` 或其他 public API integration test，避免只由 module-local tests 防守公开行为
+- [ ] 7.9 **P2** 完成上述合同后再归档 v2 delta，并在归档时保留 legacy Python spec 的明确版本/适用面标识，不把 v1 scenario 当作 Rust v2 验收依据

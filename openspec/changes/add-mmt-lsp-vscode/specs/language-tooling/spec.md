@@ -62,6 +62,29 @@ MMT diagnostic labels SHALL be exposed as LSP diagnostic related information for
 - THEN the primary range MUST remain the diagnostic range
 - AND the label range and message MUST appear in `relatedInformation`
 
+### Requirement: Live diagnostics come from one complete pure analysis result
+
+For one document snapshot and pack-registry revision, the language service SHALL publish one de-duplicated
+live diagnostic set covering syntax、mode、actor、asset、resource marker、deterministic pack resolve/planning
+and placeholder-emission static checks. It MUST replace narrower intermediate sets rather than concatenate
+syntax or actor diagnostics a second time.
+
+#### Scenario: Installed pack metadata participates in live diagnostics
+
+- GIVEN the service holds an open document and an acknowledged read-only `PackRegistry`
+- WHEN live analysis resolves selectors and plans `image-dir` or `image-sequence` resources
+- THEN missing、ambiguous or invalid selector/storage metadata MUST be reported on the authored MMT range
+- AND analysis MUST NOT fetch a blob、read a platform filesystem、invoke a decoder or run the final renderer
+- AND a registry update MUST recompute affected documents without changing their source version
+
+#### Scenario: Language and render paths share authored diagnostics
+
+- GIVEN syntax、semantic、resolve or planning reports an error for one snapshot
+- WHEN the host requests both a language projection and a render project
+- THEN both paths MUST derive that authored diagnostic from one shared parsed/analysis result
+- AND live publication MUST contain it at most once
+- AND render-project diagnostics MUST retain source version、projection revision、phase and authored range
+
 ### Requirement: Initial completion is MMT structural only
 
 第一阶段 completion SHALL derive from documented MMT syntax and SHALL NOT synthesize Typst or resource
@@ -87,6 +110,20 @@ relying on TypeScript and bundle success alone.
 - THEN the complete transcript MUST succeed without a Node API fallback
 - AND the first initialize message MUST NOT be lost while WASM starts
 
+### Requirement: Web runtime teardown has a synchronous safety path
+
+The production Web editor SHALL own Workbench services、model listeners、language clients、Workers、preview,
+providers、caches and cancellation controllers through one runtime lifecycle.
+
+#### Scenario: Startup fails or the page runtime is replaced
+
+- GIVEN startup has created only a prefix of runtime resources, or HMR/navigation replaces the page runtime
+- WHEN teardown begins
+- THEN resources MUST be released in reverse ownership order
+- AND listeners MUST be detached and controllers aborted before a stale callback can publish state
+- AND Worker termination MUST have a synchronous fallback that does not depend on awaiting an unload Promise
+- AND controlled teardown SHOULD attempt graceful LSP shutdown before invoking that fallback
+
 ### Requirement: Native binary paths are platform-qualified
 
 Desktop packaging SHALL use platform and architecture qualified binary directories and the Windows
@@ -101,17 +138,21 @@ target SHALL use an `.exe` executable name.
 
 ### Requirement: Typst projection is deterministic and performs no platform I/O
 
-Editor projection SHALL stop before resource resolution/materialization and SHALL emit syntactically
-valid Typst using deterministic virtual placeholder paths.
+Editor language projection SHALL emit syntactically valid Typst through deterministic virtual placeholder paths.
+It MAY perform deterministic resource resolve and planning against an already installed in-memory `PackRegistry`,
+but SHALL NOT perform platform resource I/O or make emitted language Typst depend on real resource files.
 
-#### Scenario: Resource-bearing document is projected
+#### Scenario: Registry-aware resource document is projected
 
 - GIVEN an MMT document contains actor avatars or inline resource markers
-- WHEN language core builds an editor Typst projection
-- THEN it MUST NOT invoke a resource materializer、decoder、network or filesystem lookup
+- AND a validated pack registry is already installed in memory
+- WHEN language core builds live diagnostics and the editor Typst projection
+- THEN it MAY resolve selectors and validate storage/planning metadata without I/O
+- AND it MUST NOT fetch resources、read a platform filesystem、invoke a decoder or run the final renderer
 - AND emitted resource calls MUST use the documented virtual placeholder path
 - AND the host MUST provide that placeholder as a UTF-8 SVG virtual file before opening the entry
-- AND materialization failures MUST NOT be added to editor diagnostics
+- AND resolve/planning failures MUST be editor diagnostics
+- AND actual fetch/decode/layout failures MUST NOT be added to live editor diagnostics
 
 ### Requirement: Preview materialization is isolated from language projection
 
@@ -119,15 +160,18 @@ The Web host SHALL isolate any revision-bound render project from the no-I/O edi
 It MAY build that render project after a pack registry is installed, but SHALL NOT replace or mutate
 the editor projection.
 
-#### Scenario: A character avatar is rendered from a remote pack
+#### Scenario: A remote pack resource is planned and rendered
 
-- GIVEN an acknowledged pack-v3 manifest resolves an actor avatar to `image-dir` storage
+- GIVEN an acknowledged pack-v3 manifest resolves an avatar or marker to `image-dir` or AVIFS `image-sequence` storage
 - WHEN the host requests a render project for the current document revision
-- THEN the render project MUST describe the pack namespace, storage base, image basename and virtual URI
+- THEN the render project MUST describe the pack namespace、storage source、virtual URI and authored resource range
+- AND an image sequence request MUST also preserve storage sha256、frame、frame count、codec/profile and output size
+- AND resolve/planning diagnostics MUST be returned with source version、projection revision、phase and authored range
 - AND the host MUST derive an HTTPS URL beneath the acknowledged pack base
-- AND the host MUST reject unsafe path segments, redirects, unsupported image extensions and responses over 20 MiB
-- AND a stale revision MUST NOT replace the current preview
-- AND download/materialization failures MUST remain preview failures rather than editor diagnostics
+- AND the host MUST reject unsafe path segments、redirects、unsupported storage/extensions and responses over 20 MiB
+- AND it MUST validate sequence hash/profile/frame before or during decode
+- AND a stale revision MUST NOT replace the current preview or its diagnostics
+- AND fetch、decode and final layout failures MUST remain revision-bound preview/build diagnostics rather than live editor diagnostics
 
 ### Requirement: Web workspace edits survive reload
 
@@ -166,6 +210,16 @@ contract and SHALL reject stale responses before source mapping.
 - WHEN the revision N response arrives
 - THEN the coordinator MUST discard it
 - AND MUST NOT map its ranges or edits into revision N+1
+
+#### Scenario: Unversioned diagnostics are isolated by revision entry URI
+
+- GIVEN source URI `U` has projection session `S` and current revision `N`
+- WHEN the coordinator accepts revision `N+1`
+- THEN its entry URI MUST be `untitled:/mmt-projection/<hex(U)>/<S>/main-<N+1>.typ`
+- AND the coordinator MUST reject non-increasing same-session updates、cross-session deltas and updates from retired sessions
+- AND the previous entry MUST stop being addressable as a current projection before responses for `N+1` are mapped
+- AND the host MUST retain at most two previous applied file generations before scheduling globally unowned files for revision-checked `didClose` after a bounded 30 second grace
+- AND the host MUST prime the newest entry through debounced `textDocument/foldingRange` implicit focus rather than persistent manual focus
 
 #### Scenario: Browser Typst Worker fails after initialization
 

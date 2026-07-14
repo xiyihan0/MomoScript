@@ -34,3 +34,10 @@
 - [ ] 4.7 用 builder 生成一个小型可审计样例并同时通过 schema 与 `PackRegistry` validation
 - [ ] 4.8 完成验收后把稳定 rendering-pipeline delta 归档到 `openspec/specs/`
 - [ ] 4.9 在不改变 materializer/cache 合同的前提下，用 direct libavif FFI backend 替换 native `avifdec` 子进程
+
+## 5. Browser Host Integration
+
+- [x] 5.1 通过纯内存 projection planner 将 resolved `image-dir` / `image-sequence` metadata 转为带 authored origin 的 Web resource request
+- [x] 5.2 实现 HTTPS image-dir 下载、path/redirect/size 防护与 revision-bound preview 注入
+- [x] 5.3 实现 AVIFS Web Worker 的 SHA-256、profile、frame/size 校验、透明 PNG 输出和聚焦浏览器测试
+- [ ] 5.4 通过 language-tooling render response 暴露 resolve/planning diagnostics，并将 fetch/decode failure 保持为独立 revision-bound preview diagnostics
