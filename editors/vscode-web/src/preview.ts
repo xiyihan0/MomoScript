@@ -6,7 +6,28 @@ import rendererWasmUrl from "@myriaddreamin/typst-ts-renderer/pkg/typst_ts_rende
 import notoRegularUrl from "../../vscode/vendor/fonts/NotoSansCJK-Regular.ttc?url";
 import notoBoldUrl from "../../vscode/vendor/fonts/NotoSansCJK-Bold.ttc?url";
 import monoUrl from "../../vscode/vendor/fonts/DejaVuSansMono.ttf?url";
+import mathUrl from "../../vscode/vendor/fonts/NewCMMath-Regular.otf?url";
+
 import type { TypstProjectUpdate } from "../../vscode/src/tinymistClient";
+
+const mainRegularUrl = "https://mms-pack.xiyihan.cn/fonts/MainFont.otf";
+const mainBoldUrl = "https://mms-pack.xiyihan.cn/fonts/MainFont_Bold.otf";
+const bundledFontsLoader = loadFonts([
+  mathUrl,
+  notoRegularUrl,
+  notoBoldUrl,
+  monoUrl
+], { assets: false });
+const remoteMainFontsLoader = loadFonts([mainRegularUrl, mainBoldUrl], { assets: false });
+const optionalMainFontsLoader = async (
+  ...args: Parameters<typeof remoteMainFontsLoader>
+): Promise<void> => {
+  try {
+    await remoteMainFontsLoader(...args);
+  } catch (error) {
+    console.warn("MomoScript preview is using the bundled Noto fallback because MainFont could not be loaded.", error);
+  }
+};
 
 const encoder = new TextEncoder();
 let initialized = false;
@@ -337,7 +358,7 @@ function cloneSafeSelectionChild(node: SVGForeignObjectElement, child: ChildNode
 function initializeTypst(): void {
   if (initialized) return;
   $typst.setCompilerInitOptions({
-    beforeBuild: [loadFonts([notoRegularUrl, notoBoldUrl, monoUrl], { assets: false })],
+    beforeBuild: [bundledFontsLoader, optionalMainFontsLoader],
     getModule: () => compilerWasmUrl
   });
   $typst.setRendererInitOptions({ getModule: () => rendererWasmUrl });

@@ -36,6 +36,33 @@
           }
         }
       }
+    },
+    "晴_露营": {
+      "names": ["晴_露营"],
+      "display_name": "晴（露营）",
+      "slots": {
+        "sticker": {
+          "default": "default",
+          "sets": {
+            "default": {
+              "storage": "avatars",
+              "variants": [
+                {
+                  "id": "default_001",
+                  "ordinal": 1,
+                  "path": "佳代子.png"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "thumbnails": {
+    "晴_露营/sticker/default/default_001": {
+      "storage": "avatars",
+      "path": "佳代子.png"
     }
   },
   "assets": {

@@ -30,6 +30,7 @@
     "@codingame/monaco-vscode-files-service-override": "21.6.0",
     "@codingame/monaco-vscode-keybindings-service-override": "21.6.0",
     "@codingame/monaco-vscode-markers-service-override": "21.6.0",
+    "@codingame/monaco-vscode-preferences-service-override": "^21.6.0",
     "@codingame/monaco-vscode-textmate-service-override": "21.6.0",
     "@codingame/monaco-vscode-theme-defaults-default-extension": "21.6.0",
     "@codingame/monaco-vscode-theme-service-override": "21.6.0",

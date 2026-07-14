@@ -22,7 +22,6 @@ body {
 #workbench.sidebar-collapsed {
   grid-template-columns: 48px 0 minmax(320px, var(--editor-pane-width, 1fr)) 5px minmax(320px, 1fr);
 }
-#workbench.sidebar-collapsed .workbench-sidebar { display: none; }
 #workbench.preview-collapsed .workbench-editor { grid-column: 3 / 6; }
 #workbench.preview-collapsed .workbench-splitter,
 #workbench.preview-collapsed .workbench-preview { display: none; }
@@ -42,13 +41,59 @@ body {
 }
 .workbench-pane-toggle:hover,
 .workbench-pane-toggle:focus-visible { border-color: #007acc; outline: none; }
-.workbench-pane-toggle.left { top: 38px; left: 296px; }
-#workbench.sidebar-collapsed .workbench-pane-toggle.left { left: 52px; transform: rotate(180deg); }
 .workbench-pane-toggle.right { right: 8px; }
 #workbench.preview-collapsed .workbench-pane-toggle.right { transform: rotate(180deg); }
 
+.workbench-activity {
+  min-width: 0;
+  min-height: 0;
+}
+
 .workbench-activity { grid-column: 1; grid-row: 1 / 3; min-width: 0; min-height: 0; }
 .workbench-sidebar { grid-column: 2; grid-row: 1 / 3; min-width: 0; min-height: 0; }
+.mms-project-view {
+  box-sizing: border-box;
+  display: grid !important;
+  align-content: start;
+  gap: 16px;
+  padding: 10px 12px 16px;
+  color: var(--vscode-foreground);
+  background: var(--vscode-sideBar-background);
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+}
+.mms-project-view section { display: grid; gap: 8px; }
+.mms-project-view h3 {
+  margin: 0;
+  color: var(--vscode-sideBarSectionHeader-foreground, var(--vscode-foreground));
+  font-size: 11px;
+  font-weight: 600;
+}
+.mms-project-view textarea {
+  box-sizing: border-box;
+  width: 100%;
+  resize: none;
+  padding: 4px 6px;
+  border: 1px solid var(--vscode-input-border, transparent);
+  color: var(--vscode-input-foreground);
+  background: var(--vscode-input-background);
+  font: inherit;
+}
+.mms-project-view textarea:focus {
+  border-color: var(--vscode-focusBorder);
+  outline: none;
+}
+.mms-project-view button {
+  padding: 4px 10px;
+  border: 1px solid var(--vscode-button-border, transparent);
+  color: var(--vscode-button-foreground);
+  background: var(--vscode-button-background);
+  font: inherit;
+  cursor: pointer;
+}
+.mms-project-view button:hover { background: var(--vscode-button-hoverBackground); }
+.mms-setting-row { display: flex; justify-content: space-between; font-size: 12px; }
+.mms-settings-status { min-height: 16px; color: #9cdcfe; font-size: 11px; }
 .workbench-editor { grid-column: 3; grid-row: 1; min-width: 0; min-height: 0; }
 .workbench-splitter {
   grid-column: 4;

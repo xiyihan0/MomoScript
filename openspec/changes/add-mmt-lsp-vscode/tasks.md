@@ -76,3 +76,12 @@
 - [ ] 10.5 建立生产 Web runtime owner、逆序启动失败 rollback、可等待 graceful dispose 与 unload/HMR 同步 Worker terminate 保底
 - [ ] 10.6 消除 Web 标准 `didChange` + 同版本 `mmt/updateDocument` 的双路同步；保持 `version <= current.version` 幂等拒绝，不以同版本重建 snapshot
 - [ ] 10.7 增加 live/render diagnostic 去重、pack resolve/planning、资源 I/O failure、runtime reload/HMR 与双路同步迁移的聚焦回归
+
+## 11. Semantic UX And Workbench Interaction
+
+- [x] 11.1 发布 MMT `semanticTokens/full` capability，并覆盖核心 directive、speaker 与资源 selector
+- [x] 11.2 保持 Typst TextMate/Tinymist scopes 与 MMT semantic token 范围分层，资源 suffix patch 不被覆盖
+- [x] 11.3 为 ordinal 资源 selector 增加 pack-aware completion 与 resolved hover
+- [x] 11.4 在 Desktop/Web extension host 与 standalone Web 中实现 `[:|:]` 标记输入和光标保持
+- [x] 11.5 将 Explorer 收纳到 Activity Bar，并为 Explorer/preview collapse controls 增加可访问状态
+- [x] 11.6 用 Worker transcript、TextMate fixture 与真实浏览器键盘/资源缓存流程验证上述能力

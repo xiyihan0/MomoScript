@@ -49,6 +49,12 @@ export async function materializeProjectResources(
   let retainedBase64Bytes = 0;
   const sequenceFetches = new Map<string, Promise<Uint8Array>>();
   for (const resource of project.resources) {
+    if (resource.kind === "workspace-file") {
+      if (!files.some((file) => file.uri === resource.uri)) {
+        errors.push(`Workspace resource '${resource.fileName}' was not mirrored`);
+      }
+      continue;
+    }
     try {
       const source = sources.get(resource.packNamespace);
       if (!source) throw new Error(`Pack source '${resource.packNamespace}' is unavailable`);

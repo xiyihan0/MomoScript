@@ -1,10 +1,11 @@
 import * as vscode from "vscode";
 import { LogLevel } from "@codingame/monaco-vscode-api";
-import { getService, IModelService } from "@codingame/monaco-vscode-api";
+import { getService, ICodeEditorService, IModelService } from "@codingame/monaco-vscode-api";
 import getExplorerServiceOverride from "@codingame/monaco-vscode-explorer-service-override";
 import getKeybindingsServiceOverride from "@codingame/monaco-vscode-keybindings-service-override";
 import getMarkersServiceOverride from "@codingame/monaco-vscode-markers-service-override";
-import getViewsServiceOverride, { attachPart, Parts } from "@codingame/monaco-vscode-views-service-override";
+import getPreferencesServiceOverride from "@codingame/monaco-vscode-preferences-service-override";
+import getViewsServiceOverride, { attachPart, isPartVisibile, onPartVisibilityChange, Parts, registerCustomView, setPartVisibility, ViewContainerLocation } from "@codingame/monaco-vscode-views-service-override";
 import { registerCustomProvider } from "@codingame/monaco-vscode-files-service-override";
 import { configureDefaultWorkerFactory } from "monaco-languageclient/workerFactory";
 import { MonacoVscodeApiWrapper } from "monaco-languageclient/vscodeApiWrapper";
@@ -25,7 +26,7 @@ import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
 import { projectionSessionKey } from "../../vscode/src/tinymistClient";
 import { sanitizeSvg, TypstPreviewController } from "./preview";
-import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest } from "../../vscode/src/tinymistClient";
+import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest, TypstVirtualFile } from "../../vscode/src/tinymistClient";
 
 if (import.meta.env.VITE_MMT_E2E === "1") {
   Reflect.set(globalThis, "__mmtSanitizeSvg", sanitizeSvg);
@@ -42,11 +43,39 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
     );
     return completions?.items.map((item) => item.label) ?? [];
   });
+  Reflect.set(globalThis, "__mmtCompletionDocumentation", async (line: number, character: number, label: string) => {
+    const completions = await vscode.commands.executeCommand<vscode.CompletionList>(
+      "vscode.executeCompletionItemProvider",
+      STORY,
+      new vscode.Position(line, character)
+    );
+    const item = completions?.items.find((candidate) => candidate.label === label);
+    return typeof item?.documentation === "string"
+      ? item.documentation
+      : item?.documentation?.value ?? null;
+  });
+  Reflect.set(globalThis, "__mmtHoverText", async (line: number, character: number) => {
+    const hovers = await vscode.commands.executeCommand<vscode.Hover[]>(
+      "vscode.executeHoverProvider",
+      STORY,
+      new vscode.Position(line, character)
+    );
+    return hovers?.flatMap((hover) => hover.contents.map((content) =>
+      typeof content === "string" ? content : content.value
+    )) ?? [];
+  });
+  Reflect.set(globalThis, "__mmtStoryText", () =>
+    vscode.workspace.textDocuments.find((document) => document.uri.toString() === STORY.toString())?.getText()
+  );
   Reflect.set(globalThis, "__mmtColorDecorators", () =>
     vscode.workspace
       .getConfiguration("editor", vscode.window.activeTextEditor?.document)
       .get<string>("defaultColorDecorators")
   );
+  Reflect.set(globalThis, "__mmtWriteWorkspaceFile", async (name: string, dataBase64: string) => {
+    if (!/^[^./\\][^/\\]*$/.test(name) || name === "..") throw new Error("invalid workspace basename");
+    await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(WORKSPACE, name), Uint8Array.from(atob(dataBase64), (char) => char.charCodeAt(0)));
+  });
 }
 const DEFAULT_STORY = "@reply\n- 选项 A\n- 选项 B\n@end\n";
 const PACK_URL = "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json";
@@ -54,6 +83,7 @@ const encoder = new TextEncoder();
 const MAX_RESOURCE_BYTES = 20 * 1024 * 1024;
 const MATERIALIZATION_DEPENDENCIES: ResourceMaterializationDependencies = {
   resourceUrl: (source, resource) => {
+    if (resource.kind === "workspace-file") throw new Error("Workspace resources do not have pack URLs");
     const relativePath = resource.kind === "image-dir"
       ? `${resource.base}/${resource.fileName}`
       : resource.path;
@@ -82,6 +112,14 @@ async function start(): Promise<void> {
   if (!root) throw new Error("Missing #workbench container");
   document.documentElement.dataset.mmtStage = "api-starting";
   const layout = createLayout(root);
+  const mmsViewRegistration = registerCustomView({
+    id: "momoscript.project",
+    name: "MomoScript",
+    location: ViewContainerLocation.Sidebar,
+    icon: mmsViewIcon(),
+    canMoveView: false,
+    renderBody: (container) => renderMmsProjectView(container)
+  });
   const preview = new TypstPreviewController(layout.preview);
   const previewProjects = new Map<string, TypstRenderProjectUpdate>();
   const packSourcesByNamespace = new Map<string, MaterializationPackSource>();
@@ -133,12 +171,14 @@ async function start(): Promise<void> {
       ...getKeybindingsServiceOverride(),
       ...getExplorerServiceOverride(),
       ...getMarkersServiceOverride(),
+      ...getPreferencesServiceOverride(),
       ...getViewsServiceOverride(),
     },
     viewsConfig: {
       $type: "ViewsService",
       htmlContainer: root,
       async viewsInitFunc() {
+        attachPart(Parts.ACTIVITYBAR_PART, layout.activity);
         attachPart(Parts.SIDEBAR_PART, layout.sidebar);
         attachPart(Parts.EDITOR_PART, layout.editor);
         attachPart(Parts.PANEL_PART, layout.panel);
@@ -166,6 +206,10 @@ async function start(): Promise<void> {
     monacoWorkerFactory: configureDefaultWorkerFactory
   });
   await api.start();
+  root.classList.toggle("sidebar-collapsed", !isPartVisibile(Parts.SIDEBAR_PART));
+  const sidebarVisibilityRegistration = onPartVisibilityChange(Parts.SIDEBAR_PART, (visible) => {
+    root.classList.toggle("sidebar-collapsed", !visible);
+  });
   const applyProject = async (project: TypstRenderProjectUpdate) => {
     const session = projectionSessionKey(project.entryUri);
     const latest = latestProjectBySource.get(project.sourceUri);
@@ -182,10 +226,11 @@ async function start(): Promise<void> {
     materializationControllers.get(project.sourceUri)?.abort();
     const controller = new AbortController();
     materializationControllers.set(project.sourceUri, controller);
+    const mirroredProject = await mirrorWorkspaceFiles(project, project, controller.signal);
     let prepared;
     try {
       prepared = await materializeProjectResources(
-        project,
+        mirroredProject,
         packSourcesByNamespace,
         materializedResourceCache,
         controller.signal,
@@ -285,32 +330,43 @@ async function start(): Promise<void> {
     );
     throw error;
   }
-  document.documentElement.dataset.mmtStage = "mmt-ready";
 
   packCache = await IndexedDbPackCache.open();
-  try {
+  const syncConfiguredPackSources = async () => {
+    const configured = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]);
     const packSources = await synchronizePackSources(
-      [PACK_URL],
+      configured,
       Date.now(),
-      packCache,
+      packCache!,
       (params) => activeClient!.sendRequest("mmt/updatePackManifests", params),
       fetchManifest
     );
+    packSourcesByNamespace.clear();
     for (const source of packSources) {
       const manifest = JSON.parse(source.json) as { pack?: { namespace?: unknown } };
       const namespace = manifest.pack?.namespace;
       if (typeof namespace === "string" && namespace.length > 0) {
-        packSourcesByNamespace.set(namespace, {
-          ...source,
-          cacheIdentity: await manifestCacheIdentity(source)
-        });
+        packSourcesByNamespace.set(namespace, { ...source, cacheIdentity: await manifestCacheIdentity(source) });
       }
     }
+  };
+  try {
+    await syncConfiguredPackSources();
   } catch (error) {
-    void vscode.window.showWarningMessage(
-      `MomoScript resource packs are unavailable: ${error instanceof Error ? error.message : String(error)}`
-    );
+    void vscode.window.showWarningMessage(`MomoScript resource packs are unavailable: ${error instanceof Error ? error.message : String(error)}`);
   }
+  const packConfigRegistration = vscode.workspace.onDidChangeConfiguration((event) => {
+    if (!event.affectsConfiguration("mmt.resourcePacks.manifestUrls")) return;
+    const values = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]);
+    const input = root.querySelector<HTMLTextAreaElement>('textarea[aria-label="Resource pack manifest URLs"]');
+    if (input) input.value = values.join("\n");
+    void syncConfiguredPackSources().catch((error: unknown) => {
+      void vscode.window.showWarningMessage(`MomoScript resource packs are unavailable: ${error instanceof Error ? error.message : String(error)}`);
+    });
+  });
+  const packUrls = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]);
+  const packUrlsInput = root.querySelector<HTMLTextAreaElement>('textarea[aria-label="Resource pack manifest URLs"]');
+  if (packUrlsInput) packUrlsInput.value = packUrls.join("\n");
 
   const story = await vscode.workspace.openTextDocument(STORY);
   const mmtStory = story.languageId === "mmt" ? story : await vscode.languages.setTextDocumentLanguage(story, "mmt");
@@ -326,10 +382,42 @@ async function start(): Promise<void> {
     }
   }
   const modelService = await getService(IModelService);
+  const codeEditorService = await getService(ICodeEditorService);
   const storyModel = modelService.getModels().find((model) =>
     model.uri.toString() === STORY.toString() && model.getLanguageId() === "mmt"
   );
   if (!storyModel) throw new Error("MomoScript text model is unavailable");
+  const markerEditingRegistration = storyModel.onDidChangeContent((event) => {
+    const ranges = event.changes.flatMap((change) => {
+      const range = change.range;
+      if (change.text !== ":") return [];
+      const line = storyModel.getLineContent(range.startLineNumber);
+      if (range.startColumn < 2
+        || line.slice(range.startColumn - 2, range.startColumn + 1) !== "[:]") return [];
+      return [range];
+    });
+    if (ranges.length === 0) return;
+    const focused = codeEditorService.getFocusedCodeEditor() ?? codeEditorService.getActiveCodeEditor();
+    const editor = focused?.getModel() === storyModel
+      ? focused
+      : codeEditorService.listCodeEditors().find((candidate) => candidate.getModel() === storyModel);
+    if (!editor) return;
+    editor.executeEdits("mmt-resource-marker", ranges.map((range) => ({
+      range: {
+        startLineNumber: range.startLineNumber,
+        startColumn: range.startColumn + 1,
+        endLineNumber: range.startLineNumber,
+        endColumn: range.startColumn + 2
+      },
+      text: ":]"
+    })));
+    editor.setSelections(ranges.map((range) => ({
+      selectionStartLineNumber: range.startLineNumber,
+      selectionStartColumn: range.startColumn + 1,
+      positionLineNumber: range.startLineNumber,
+      positionColumn: range.startColumn + 1
+    })));
+  });
   let sourceVersion = mmtStory.version;
   let changeSync = Promise.resolve();
   let persistenceSync = Promise.resolve();
@@ -362,12 +450,18 @@ async function start(): Promise<void> {
       console.error("MomoScript document synchronization failed", error);
     });
   });
+  document.documentElement.dataset.mmtStage = "mmt-ready";
   document.documentElement.dataset.mmtLanguageId = mmtStory.languageId;
   document.documentElement.dataset.mmtWorkspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? "";
   document.documentElement.dataset.mmtReady = "true";
   window.addEventListener("beforeunload", () => {
+    markerEditingRegistration.dispose();
+    mmsViewRegistration.dispose();
+    layout.dispose();
+    sidebarVisibilityRegistration.dispose();
     storyChangeRegistration.dispose();
     previewSelectionRegistration.dispose();
+    packConfigRegistration.dispose();
     workbenchProvider.dispose();
     void mmt?.dispose();
     void tinymist?.dispose();
@@ -530,24 +624,31 @@ function createLayout(root: HTMLElement) {
   const preview = part("preview");
   const panel = part("panel");
   const status = part("status");
-  const sidebarToggle = paneToggle("left", "file explorer");
   const previewToggle = paneToggle("right", "preview");
-  const togglePane = (button: HTMLButtonElement, className: string, paneName: string) => {
-    const collapsed = root.classList.toggle(className);
-    button.setAttribute("aria-expanded", String(!collapsed));
-    button.setAttribute("aria-label", `${collapsed ? "Expand" : "Collapse"} ${paneName}`);
-    button.title = button.getAttribute("aria-label") ?? "";
+  previewToggle.addEventListener("click", () => {
+    const collapsed = root.classList.toggle("preview-collapsed");
+    previewToggle.setAttribute("aria-expanded", String(!collapsed));
+    previewToggle.setAttribute("aria-label", `${collapsed ? "Expand" : "Collapse"} preview`);
+  });
+  const syncActivitySelection = (event: MouseEvent) => {
+    const tab = (event.target as Element | null)?.closest<HTMLElement>('[role="tab"]');
+    if (!tab || !activity.contains(tab)) return;
+    if (tab.getAttribute("aria-selected") !== "true") return;
+    event.stopPropagation();
+    setPartVisibility(Parts.SIDEBAR_PART, !isPartVisibile(Parts.SIDEBAR_PART));
   };
-  sidebarToggle.addEventListener("click", () =>
-    togglePane(sidebarToggle, "sidebar-collapsed", "file explorer")
-  );
-  previewToggle.addEventListener("click", () =>
-    togglePane(previewToggle, "preview-collapsed", "preview")
-  );
-  root.append(sidebarToggle, previewToggle);
-  root.append(activity, sidebar, editor, splitter, preview, panel, status);
+  activity.addEventListener("click", syncActivitySelection, true);
+  root.append(previewToggle, activity, sidebar, editor, splitter, preview, panel, status);
   installEditorPreviewSplitter(root, editor, splitter);
-  return { activity, sidebar, editor, preview, panel, status };
+  return {
+    activity,
+    sidebar,
+    editor,
+    preview,
+    panel,
+    status,
+    dispose: () => activity.removeEventListener("click", syncActivitySelection, true)
+  };
 }
 
 function installEditorPreviewSplitter(
@@ -606,11 +707,59 @@ function installEditorPreviewSplitter(
     resize(current.right + (event.key === "ArrowLeft" ? -20 : 20));
   });
 }
-function paneToggle(side: "left" | "right", paneName: string): HTMLButtonElement {
+function mmsViewIcon(): string {
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M4 5.5h16v10H9l-5 4v-14Zm4 4h8M8 12h5"/></svg>';
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
+  container.classList.add("mms-project-view");
+  const project = document.createElement("section");
+  project.innerHTML = '<h3>PROJECT</h3><div class="mms-setting-row"><span>Entry</span><code>story.mmt</code></div>';
+  const resources = document.createElement("section");
+  const resourceHeading = document.createElement("h3");
+  resourceHeading.textContent = "RESOURCE PACKS";
+  const label = document.createElement("label");
+  label.textContent = "Manifest URLs";
+  const urls = document.createElement("textarea");
+  urls.rows = 4;
+  urls.value = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]).join("\n");
+  urls.setAttribute("aria-label", "Resource pack manifest URLs");
+  const save = document.createElement("button");
+  save.type = "button";
+  save.textContent = "Save project settings";
+  const status = document.createElement("div");
+  status.className = "mms-settings-status";
+  const saveSettings = async () => {
+    const values = urls.value.split("\n").map((value) => value.trim()).filter(Boolean);
+    try {
+      await vscode.workspace.getConfiguration("mmt.resourcePacks").update("manifestUrls", values, vscode.ConfigurationTarget.Workspace);
+      status.textContent = "Saved";
+    } catch (error) {
+      status.textContent = error instanceof Error ? error.message : String(error);
+    }
+  };
+  save.addEventListener("click", saveSettings);
+  const advanced = document.createElement("button");
+  advanced.type = "button";
+  advanced.textContent = "Open advanced settings";
+  const openAdvanced = () => void vscode.commands.executeCommand("workbench.action.openSettings", "@ext:momoscript.momoscript-vscode");
+  advanced.addEventListener("click", openAdvanced);
+  resources.append(resourceHeading, label, urls, save, status, advanced);
+  container.append(project, resources);
+  return {
+    dispose() {
+      save.removeEventListener("click", saveSettings);
+      advanced.removeEventListener("click", openAdvanced);
+    }
+  };
+}
+
+function paneToggle(side: "right", paneName: string): HTMLButtonElement {
   const button = document.createElement("button");
   button.type = "button";
   button.className = `workbench-pane-toggle ${side}`;
-  button.textContent = side === "left" ? "‹" : "›";
+  button.textContent = "›";
   button.setAttribute("aria-expanded", "true");
   button.setAttribute("aria-label", `Collapse ${paneName}`);
   button.title = button.getAttribute("aria-label") ?? "";
@@ -622,4 +771,32 @@ function part(name: string): HTMLDivElement {
   const element = document.createElement("div");
   element.className = `workbench-${name}`;
   return element;
+}
+async function mirrorWorkspaceFiles(
+  sourceProject: TypstRenderProjectUpdate,
+  project: TypstRenderProjectUpdate,
+  signal: AbortSignal
+): Promise<TypstRenderProjectUpdate> {
+  const source = vscode.Uri.parse(sourceProject.sourceUri);
+  const root = vscode.Uri.parse(`${source.scheme}://${source.authority}/`);
+  const entry = vscode.Uri.parse(project.entryUri);
+  const basePath = entry.path.slice(0, entry.path.lastIndexOf("/") + 1);
+  const sourcePath = source.path;
+  const existing = new Set(project.files.map((file) => file.uri));
+  const imagePattern = /\.(?:png|jpe?g|gif|webp|svg|bmp|avif)$/i;
+  const maxFileBytes = 8 * 1024 * 1024;
+  const maxTotalBytes = 32 * 1024 * 1024;
+  let totalBytes = 0;
+  const files: TypstVirtualFile[] = [];
+  for (const [name, type] of await vscode.workspace.fs.readDirectory(root)) {
+    if (signal.aborted || type !== vscode.FileType.File || name === source.path.split("/").pop()) continue;
+    if (name === "." || name === ".." || name.includes("/") || name.includes("\\") || !imagePattern.test(name)) continue;
+    const uri = entry.with({ path: `${basePath}${name}` }).toString();
+    if (existing.has(uri)) continue;
+    const bytes = await vscode.workspace.fs.readFile(vscode.Uri.joinPath(root, name));
+    if (bytes.byteLength > maxFileBytes || totalBytes + bytes.byteLength > maxTotalBytes) continue;
+    totalBytes += bytes.byteLength;
+    files.push({ uri, dataBase64: bytesToBase64(bytes) });
+  }
+  return files.length === 0 ? project : { ...project, files: [...project.files, ...files] };
 }

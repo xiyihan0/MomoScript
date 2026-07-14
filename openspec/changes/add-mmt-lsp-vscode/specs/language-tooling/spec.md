@@ -98,6 +98,21 @@ query completion before projection and catalog services exist.
 - AND field-name completion MUST NOT run after the current line's field separator
 - AND Desktop、native transcript and Web Worker MUST use the same Rust completion implementation
 
+### Requirement: Resource completion may expose indexed thumbnails without resource I/O
+
+Validated pack manifests MAY provide a pack-relative thumbnail index for logical sticker variants.
+The language service SHALL expose an indexed preview as Markdown `CompletionItem.documentation`
+for the selected completion item, and SHALL NOT fetch、decode or materialize the underlying resource.
+
+#### Scenario: Author selects a sticker completion
+
+- GIVEN the acknowledged pack registry maps that sticker to an `image-dir` thumbnail `{ storage, path }`
+- AND the host has supplied an HTTPS pack base URL for the same pack revision
+- WHEN the client requests resource completion and selects that candidate
+- THEN the item documentation MUST contain the resolved pack-relative preview URL
+- AND the completion list MUST remain ordinary LSP completion rather than an image grid
+- AND missing or invalid thumbnail metadata MUST degrade to text-only completion without resource I/O
+
 ### Requirement: Web runtime is exercised in a browser
 
 Web extension verification SHALL execute the emitted Worker and WASM in a real browser rather than
@@ -404,3 +419,42 @@ The Web editor SHALL render Typst SVG with user-controlled zoom and SHALL repres
 - AND prefixed XHTML parser artifacts MUST be normalized to real XHTML elements
 - AND unexpected selection-subtree elements、attributes or styles MUST be rejected
 - AND active SVG content、event handlers and external resource references MUST be removed before import
+
+### Requirement: MMT semantic tokens remain separate from projected Typst
+
+The shared language service SHALL advertise `textDocument/semanticTokens/full` for authored MMT identities while TextMate and Tinymist retain ownership of Typst regions.
+
+#### Scenario: Core directives and authored identities receive semantic tokens
+
+- GIVEN a document contains `@reply`、`@bond`、a statement speaker and an inline resource selector
+- WHEN a native or browser client requests full semantic tokens
+- THEN directive names MUST be returned as `keyword`、speaker references as `variable` and resource selector bodies as `enumMember`
+- AND resource token ranges MUST stop before any suffix render patch
+- AND Typst body and patch expressions MUST NOT be duplicated by the MMT semantic-token layer
+
+### Requirement: Resolved resource markers expose deterministic language features
+
+#### Scenario: Author completes and inspects an ordinal sticker selector
+
+- GIVEN the acknowledged pack registry resolves an actor sticker set with stable ordinals
+- WHEN completion or hover is requested for `[:actor,#n:]`
+- THEN completion MUST offer deterministic ordinal selectors and identify their canonical variants
+- AND hover MUST report the resolved entity、set、contribution and storage metadata
+- AND these language queries MUST NOT fetch or materialize resource bytes
+
+### Requirement: Resource marker entry preserves the insertion point
+
+#### Scenario: Author types a resource marker opener
+
+- GIVEN an MMT editor automatically closes `[` with `]`
+- WHEN the author types `[:` with or without replacing an existing selection
+- THEN the editor MUST produce `[:|:]` with the insertion point between the delimiters
+- AND subsequent text MUST remain inside the marker
+- AND the behavior MUST be available in Desktop/Web extension hosts and the standalone Web workbench
+
+#### Scenario: Activity Bar controls auxiliary panes
+
+- GIVEN the standalone Web workbench is ready
+- WHEN the author uses the Explorer Activity Bar item or the preview collapse control
+- THEN the corresponding pane MUST collapse and restore through the same persistent control
+- AND the control's accessible name and expanded state MUST describe the next action and current state

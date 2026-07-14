@@ -64,6 +64,7 @@ typst_sandbox/mmt_packs/**
 !typst_sandbox/mmt_packs/**/asset_mapping.json
 !typst_sandbox/mmt_packs/**/images/**/tags.json
 **.png
+!screenshots/final-monaco-real-avatar.png
 !editors/vscode-web/e2e/fixtures/佳代子.png
 **.jpg
 

@@ -16,6 +16,8 @@ export default defineConfig({
     dedupe: [
       "vscode",
       "monaco-editor",
+      "vscode-languageclient",
+      "vscode-languageserver",
       "@codingame/monaco-vscode-api",
       "@codingame/monaco-vscode-editor-api",
       "@codingame/monaco-vscode-extension-api"
