@@ -11,6 +11,11 @@ import { MonacoVscodeApiWrapper } from "monaco-languageclient/vscodeApiWrapper";
 import type { BaseLanguageClient } from "vscode-languageclient";
 import { MmtIndexedDbFileSystemProvider, MmtWorkbenchFileSystemProvider } from "./filesystem";
 import { IndexedDbPackCache } from "./packCache";
+import { BoundedStringCache, MATERIALIZED_RESOURCE_CACHE_MAX_BYTES } from "./boundedStringCache";
+import { advanceLanguageProjection } from "./languageProjection";
+import type { LanguageProjectionToken } from "./languageProjection";
+import { materializeProjectResources } from "./resourceMaterializer";
+import type { MaterializationPackSource, ResourceMaterializationDependencies } from "./resourceMaterializer";
 import { mmtExtension } from "./mmtExtension";
 import { startMmtLanguageClient } from "./mmtLanguageClient";
 import type { MmtLanguageClientHandle } from "./mmtLanguageClient";
@@ -18,8 +23,9 @@ import { startTinymistLanguageClient } from "./tinymistLanguageClient";
 import type { TinymistHandle } from "./tinymistLanguageClient";
 import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
+import { projectionSessionKey } from "../../vscode/src/tinymistClient";
 import { TypstPreviewController } from "./preview";
-import type { TypstProjectUpdate, TypstRenderProjectUpdate } from "../../vscode/src/tinymistClient";
+import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest } from "../../vscode/src/tinymistClient";
 
 const WORKSPACE = vscode.Uri.parse("mmtfs://workspace/");
 const STORY = vscode.Uri.parse("mmtfs://workspace/story.mmt");
@@ -27,6 +33,18 @@ const DEFAULT_STORY = "@reply\n- 选项 A\n- 选项 B\n@end\n";
 const PACK_URL = "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json";
 const encoder = new TextEncoder();
 const MAX_RESOURCE_BYTES = 20 * 1024 * 1024;
+const MATERIALIZATION_DEPENDENCIES: ResourceMaterializationDependencies = {
+  resourceUrl: (source, resource) => {
+    const relativePath = resource.kind === "image-dir"
+      ? `${resource.base}/${resource.fileName}`
+      : resource.path;
+    return packResourceUrl(source.baseUrl, relativePath, resource.kind);
+  },
+  fetch: fetchResource,
+  decodeSequence: decodeAvifSequence,
+  encodeBase64: bytesToBase64
+};
+
 
 let provider: MmtIndexedDbFileSystemProvider | undefined;
 let packCache: IndexedDbPackCache | undefined;
@@ -47,15 +65,38 @@ async function start(): Promise<void> {
   const layout = createLayout(root);
   const preview = new TypstPreviewController(layout.preview);
   const previewProjects = new Map<string, TypstRenderProjectUpdate>();
-  const packSourcesByNamespace = new Map<string, PackManifestSource>();
-  const latestProjectRevision = new Map<string, number>();
+  const packSourcesByNamespace = new Map<string, MaterializationPackSource>();
+  const latestProjectBySource = new Map<string, { session: string; revision: number }>();
+  const retiredProjectSessions = new Map<string, Set<string>>();
   const materializationControllers = new Map<string, AbortController>();
-  const materializedResourceCache = new Map<string, { manifest: string; dataBase64: string }>();
+  const materializedResourceCache = new BoundedStringCache(MATERIALIZED_RESOURCE_CACHE_MAX_BYTES);
+  const latestLanguageProjectionBySource = new Map<string, LanguageProjectionToken>();
+  const retiredLanguageProjectionSessions = new Map<string, Set<string>>();
+  const requestedRenderTokens = new WeakSet<LanguageProjectionToken>();
+  let displayedPreviewSourceUri: string | undefined;
   const showActivePreview = () => {
     const uri = vscode.window.activeTextEditor?.document.uri.toString();
-    if (!uri) return;
-    const project = previewProjects.get(uri);
-    if (project) void preview.update(project);
+    const project = uri ? previewProjects.get(uri) : undefined;
+    if (project && uri) {
+      displayedPreviewSourceUri = uri;
+      void preview.update(project);
+    } else if (displayedPreviewSourceUri) {
+      displayedPreviewSourceUri = undefined;
+      void preview.close();
+    }
+  };
+  const closePreviewProject = (sourceUri: string) => {
+    materializationControllers.get(sourceUri)?.abort();
+    materializationControllers.delete(sourceUri);
+    latestProjectBySource.delete(sourceUri);
+    retiredProjectSessions.delete(sourceUri);
+    previewProjects.delete(sourceUri);
+    latestLanguageProjectionBySource.delete(sourceUri);
+    retiredLanguageProjectionSessions.delete(sourceUri);
+    if (displayedPreviewSourceUri === sourceUri) {
+      displayedPreviewSourceUri = undefined;
+      void preview.close();
+    }
   };
   try {
     provider = await MmtIndexedDbFileSystemProvider.open();
@@ -106,9 +147,18 @@ async function start(): Promise<void> {
   });
   await api.start();
   const applyProject = async (project: TypstRenderProjectUpdate) => {
-    const latest = latestProjectRevision.get(project.sourceUri);
-    if (latest !== undefined && latest > project.revision) return;
-    latestProjectRevision.set(project.sourceUri, project.revision);
+    const session = projectionSessionKey(project.entryUri);
+    const latest = latestProjectBySource.get(project.sourceUri);
+    const retiredSessions = retiredProjectSessions.get(project.sourceUri);
+    if (retiredSessions?.has(session)) return;
+    if ((!latest || latest.session !== session) && !project.full) return;
+    if (latest?.session === session && project.revision <= latest.revision) return;
+    if (latest && latest.session !== session) {
+      const nextRetiredSessions = retiredSessions ?? new Set<string>();
+      nextRetiredSessions.add(latest.session);
+      retiredProjectSessions.set(project.sourceUri, nextRetiredSessions);
+    }
+    latestProjectBySource.set(project.sourceUri, { session, revision: project.revision });
     materializationControllers.get(project.sourceUri)?.abort();
     const controller = new AbortController();
     materializationControllers.set(project.sourceUri, controller);
@@ -118,20 +168,52 @@ async function start(): Promise<void> {
         project,
         packSourcesByNamespace,
         materializedResourceCache,
-        controller.signal
+        controller.signal,
+        MATERIALIZATION_DEPENDENCIES
       );
     } catch (error) {
       if (controller.signal.aborted) return;
       throw error;
     }
-    if (latestProjectRevision.get(project.sourceUri) !== project.revision) return;
+    const current = latestProjectBySource.get(project.sourceUri);
+    if (current?.session !== session || current.revision !== project.revision) return;
     if (prepared.errors.length > 0) {
       console.error("MomoScript preview resources failed", prepared.errors);
       void vscode.window.showWarningMessage(prepared.errors[0]);
     }
     previewProjects.set(project.sourceUri, prepared.project);
     if (vscode.window.activeTextEditor?.document.uri.toString() === project.sourceUri) {
+      displayedPreviewSourceUri = project.sourceUri;
       await preview.update(prepared.project);
+    }
+  };
+  const trackLanguageProjection = (project: TypstProjectUpdate) => advanceLanguageProjection(
+    project,
+    projectionSessionKey(project.entryUri),
+    latestLanguageProjectionBySource,
+    retiredLanguageProjectionSessions
+  );
+  const requestRenderProject = async (
+    client: BaseLanguageClient,
+    project: TypstProjectUpdate,
+    token: LanguageProjectionToken
+  ) => {
+    if (requestedRenderTokens.has(token)) return;
+    requestedRenderTokens.add(token);
+    try {
+      const renderProject = await client.sendRequest<TypstRenderProjectUpdate | null>(
+        "mmt/getTypstRenderProject", { uri: project.sourceUri }
+      );
+      if (latestLanguageProjectionBySource.get(project.sourceUri) !== token) return;
+      if (
+        !renderProject ||
+        renderProject.entryUri !== token.entryUri ||
+        renderProject.revision !== token.revision
+      ) return;
+      await applyProject(renderProject);
+    } catch (error) {
+      requestedRenderTokens.delete(token);
+      throw error;
     }
   };
   const previewSelectionRegistration = vscode.window.onDidChangeActiveTextEditor(showActivePreview);
@@ -162,13 +244,20 @@ async function start(): Promise<void> {
     activeClient = mmt.client.getLanguageClient();
     if (!activeClient) throw new Error("MMT language client did not start");
     activeClient.onNotification("mmt/typstProjectUpdated", (project: TypstProjectUpdate) => {
-      tinymist?.backend.syncProject(project);
-      void activeClient!.sendRequest<TypstRenderProjectUpdate | null>("mmt/getTypstRenderProject", {
-        uri: project.sourceUri
-      }).then((renderProject) => renderProject && applyProject(renderProject)).catch((error: unknown) => {
+      const tracked = trackLanguageProjection(project);
+      if (!tracked) return;
+      if (tracked.advanced) tinymist?.backend.syncProject(project);
+      void requestRenderProject(activeClient!, project, tracked.token).catch((error: unknown) => {
         console.error("MomoScript preview materialization failed", error);
       });
     });
+    activeClient.onNotification(
+      "mmt/typstProjectClosed",
+      (params: { sourceUri: string; entryUri: string }) => {
+        if (latestLanguageProjectionBySource.get(params.sourceUri)?.entryUri !== params.entryUri) return;
+        closePreviewProject(params.sourceUri);
+      }
+    );
     tinymist?.connect(activeClient);
   } catch (error) {
     void vscode.window.showErrorMessage(
@@ -190,7 +279,12 @@ async function start(): Promise<void> {
     for (const source of packSources) {
       const manifest = JSON.parse(source.json) as { pack?: { namespace?: unknown } };
       const namespace = manifest.pack?.namespace;
-      if (typeof namespace === "string" && namespace.length > 0) packSourcesByNamespace.set(namespace, source);
+      if (typeof namespace === "string" && namespace.length > 0) {
+        packSourcesByNamespace.set(namespace, {
+          ...source,
+          cacheIdentity: await manifestCacheIdentity(source)
+        });
+      }
     }
   } catch (error) {
     void vscode.window.showWarningMessage(
@@ -204,20 +298,22 @@ async function start(): Promise<void> {
   const currentProject = await activeClient.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", {
     uri: mmtStory.uri.toString()
   });
-  if (currentProject) tinymist?.backend.syncProject(currentProject);
-  const currentRenderProject = await activeClient.sendRequest<TypstRenderProjectUpdate | null>(
-    "mmt/getTypstRenderProject", { uri: mmtStory.uri.toString() }
-  );
-  if (currentRenderProject) await applyProject(currentRenderProject);
+  if (currentProject) {
+    const tracked = trackLanguageProjection(currentProject);
+    if (tracked) {
+      if (tracked.advanced) tinymist?.backend.syncProject(currentProject);
+      await requestRenderProject(activeClient, currentProject, tracked.token);
+    }
+  }
   const modelService = await getService(IModelService);
   const storyModel = modelService.getModels().find((model) =>
     model.uri.toString() === STORY.toString() && model.getLanguageId() === "mmt"
   );
   if (!storyModel) throw new Error("MomoScript text model is unavailable");
-  let sourceVersion = currentProject?.sourceVersion ?? mmtStory.version;
+  let sourceVersion = mmtStory.version;
   let changeSync = Promise.resolve();
   let persistenceSync = Promise.resolve();
-  const changeSyncRegistration = storyModel.onDidChangeContent(() => {
+  const storyChangeRegistration = storyModel.onDidChangeContent(() => {
     const uri = storyModel.uri.toString();
     const version = ++sourceVersion;
     const text = storyModel.getValue();
@@ -231,12 +327,17 @@ async function start(): Promise<void> {
         textDocument: { uri, version },
         contentChanges: [{ text }]
       });
-      if (!current) return;
-      tinymist?.backend.syncProject(current);
-      const renderProject = await activeClient.sendRequest<TypstRenderProjectUpdate | null>(
-        "mmt/getTypstRenderProject", { uri }
-      );
-      if (renderProject) await applyProject(renderProject);
+      if (!current) {
+        const latest = latestLanguageProjectionBySource.get(uri);
+        if (latest && tinymist?.backend.closeProject(uri, latest.entryUri)) {
+          closePreviewProject(uri);
+        }
+        return;
+      }
+      const tracked = trackLanguageProjection(current);
+      if (!tracked) return;
+      if (tracked.advanced) tinymist?.backend.syncProject(current);
+      await requestRenderProject(activeClient, current, tracked.token);
     }).catch((error: unknown) => {
       console.error("MomoScript document synchronization failed", error);
     });
@@ -245,7 +346,7 @@ async function start(): Promise<void> {
   document.documentElement.dataset.mmtWorkspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? "";
   document.documentElement.dataset.mmtReady = "true";
   window.addEventListener("beforeunload", () => {
-    changeSyncRegistration.dispose();
+    storyChangeRegistration.dispose();
     previewSelectionRegistration.dispose();
     workbenchProvider.dispose();
     void mmt?.dispose();
@@ -254,68 +355,86 @@ async function start(): Promise<void> {
     provider?.dispose();
   });
 }
-async function materializeProjectResources(
-  project: TypstRenderProjectUpdate,
-  sources: Map<string, PackManifestSource>,
-  cache: Map<string, { manifest: string; dataBase64: string }>,
-  signal: AbortSignal
-): Promise<{ project: TypstRenderProjectUpdate; errors: string[] }> {
-  const files = [...project.files];
-  const errors: string[] = [];
-  for (const resource of project.resources) {
-    try {
-      const source = sources.get(resource.packNamespace);
-      if (!source) throw new Error(`Pack source '${resource.packNamespace}' is unavailable`);
-      const url = packResourceUrl(source.baseUrl, resource.base, resource.fileName);
-      let dataBase64 = cache.get(url.href)?.manifest === source.json
-        ? cache.get(url.href)!.dataBase64
-        : undefined;
-      if (!dataBase64) {
-        const response = await fetch(url, { signal, mode: "cors", credentials: "omit" });
-        if (!response.ok) throw new Error(`HTTP ${response.status} for ${url.href}`);
-        if (response.url !== url.href) throw new Error("Pack resource redirected outside its declared URL");
-        const declaredLength = Number(response.headers.get("content-length"));
-        if (Number.isFinite(declaredLength) && declaredLength > MAX_RESOURCE_BYTES) {
-          throw new Error(`Pack resource exceeds ${MAX_RESOURCE_BYTES} bytes`);
-        }
-        const bytes = await readResponseBytes(response, MAX_RESOURCE_BYTES, signal);
-        if (bytes.byteLength > MAX_RESOURCE_BYTES) {
-          throw new Error(`Pack resource exceeds ${MAX_RESOURCE_BYTES} bytes`);
-        }
-        dataBase64 = bytesToBase64(bytes);
-        cache.set(url.href, { manifest: source.json, dataBase64 });
-      }
-      files.push({ uri: resource.uri, dataBase64 });
-    } catch (error) {
-      if (signal.aborted) throw error;
-      errors.push(
-        `Failed to materialize character resource: ${error instanceof Error ? error.message : String(error)}`
-      );
-    }
+
+async function fetchResource(url: URL, signal: AbortSignal): Promise<Uint8Array> {
+  const response = await fetch(url, { signal, mode: "cors", credentials: "omit" });
+  if (!response.ok) throw new Error(`HTTP ${response.status} for ${url.href}`);
+  if (response.url !== url.href) throw new Error("Pack resource redirected outside its declared URL");
+  const declaredLength = Number(response.headers.get("content-length"));
+  if (Number.isFinite(declaredLength) && declaredLength > MAX_RESOURCE_BYTES) {
+    throw new Error(`Pack resource exceeds ${MAX_RESOURCE_BYTES} bytes`);
   }
-  return { project: { ...project, files }, errors };
+  return readResponseBytes(response, MAX_RESOURCE_BYTES, signal);
 }
 
-function packResourceUrl(packBase: string, storageBase: string, fileName: string): URL {
+function packResourceUrl(packBase: string, relativePath: string, kind: TypstResourceRequest["kind"]): URL {
   const root = new URL(packBase);
   if (root.protocol !== "https:") throw new Error("Pack resource base must use HTTPS");
-  if (fileName.length === 0 || fileName === "." || fileName === ".." || /[\\/]/.test(fileName)) {
-    throw new Error("Pack resource path must be a basename");
-  }
-  if (!/\.(?:png|jpe?g|webp)$/i.test(fileName)) throw new Error("Pack resource is not a supported image");
-  if (/[\\?#:]/.test(storageBase)) throw new Error("Pack storage base contains forbidden characters");
-  const segments = storageBase.split("/");
+  if (/[\\?#:]/.test(relativePath)) throw new Error("Pack resource path contains forbidden characters");
+  const segments = relativePath.split("/");
   if (segments.length === 0 || segments.some((segment) => segment.length === 0 || segment === "." || segment === "..")) {
-    throw new Error("Pack storage base must contain relative directory segments");
+    throw new Error("Pack resource path must contain relative segments");
   }
-  const relative = [...segments, fileName].map(encodeURIComponent).join("/");
+  const fileName = segments.at(-1)!;
+  const extension = kind === "image-dir" ? /\.(?:png|jpe?g|webp)$/i : /\.avifs$/i;
+  if (!extension.test(fileName)) throw new Error(`Pack ${kind} resource has an unsupported extension`);
   const rootHref = root.href.endsWith("/") ? root.href : `${root.href}/`;
-  const url = new URL(relative, rootHref);
+  const url = new URL(segments.map(encodeURIComponent).join("/"), rootHref);
   const rootPath = new URL(rootHref).pathname;
   if (url.protocol !== "https:" || url.origin !== root.origin || !url.pathname.startsWith(rootPath)) {
     throw new Error("Pack resource escaped its HTTPS pack root");
   }
   return url;
+}
+
+type ImageSequenceResource = Extract<TypstResourceRequest, { kind: "image-sequence" }>;
+
+interface AvifWorkerResponse {
+  id: number;
+  png?: ArrayBuffer;
+  error?: string;
+}
+
+async function decodeAvifSequence(
+  bytes: Uint8Array,
+  resource: ImageSequenceResource,
+  signal: AbortSignal
+): Promise<Uint8Array> {
+  if (resource.container !== "avifs" || resource.codec !== "av1") {
+    throw new Error(`Unsupported image sequence ${resource.container}/${resource.codec}`);
+  }
+  if (resource.frame < 0 || resource.frame >= resource.frameCount) {
+    throw new Error(`AVIFS frame ${resource.frame} is outside frameCount ${resource.frameCount}`);
+  }
+  const worker = new Worker(new URL("./avifSequenceWorker.ts", import.meta.url), { type: "module" });
+  return new Promise<Uint8Array>((resolve, reject) => {
+    const abort = () => {
+      worker.terminate();
+      reject(signal.reason ?? new DOMException("Aborted", "AbortError"));
+    };
+    signal.addEventListener("abort", abort, { once: true });
+    worker.onerror = (event) => {
+      signal.removeEventListener("abort", abort);
+      worker.terminate();
+      reject(new Error(event.message || "AVIFS decoder Worker failed"));
+    };
+    worker.onmessage = (event: MessageEvent<AvifWorkerResponse>) => {
+      signal.removeEventListener("abort", abort);
+      worker.terminate();
+      if (event.data.error) reject(new Error(event.data.error));
+      else if (event.data.png instanceof ArrayBuffer) resolve(new Uint8Array(event.data.png));
+      else reject(new Error("AVIFS decoder Worker returned no PNG"));
+    };
+    const payload = bytes.buffer;
+    worker.postMessage({
+      id: resource.id,
+      bytes: payload,
+      frame: resource.frame,
+      sha256: resource.sha256,
+      size: resource.size,
+      profile: resource.profile
+    }, [payload]);
+  });
 }
 
 function bytesToBase64(bytes: Uint8Array): string {
@@ -362,6 +481,12 @@ async function ensureDefaultStory(): Promise<void> {
   } catch {
     await vscode.workspace.fs.writeFile(STORY, encoder.encode(DEFAULT_STORY));
   }
+}
+
+async function manifestCacheIdentity(source: PackManifestSource): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", encoder.encode(source.json));
+  const hash = [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+  return `${source.manifestUrl}:${hash}`;
 }
 
 async function fetchManifest(url: string, etag: string | undefined) {

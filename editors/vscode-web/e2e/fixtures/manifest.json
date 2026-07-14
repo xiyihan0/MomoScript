@@ -1,0 +1,32 @@
+{
+  "schema": "mmt-pack.v3",
+  "pack": {
+    "namespace": "ba",
+    "name": "MomoScript browser E2E fixture",
+    "version": "1.0.0",
+    "type": "base"
+  },
+  "entities": {
+    "佳代子": {
+      "names": ["佳代子"],
+      "display_name": "佳代子",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "佳代子.png"
+            }
+          }
+        }
+      }
+    }
+  },
+  "storage": {
+    "avatars": {
+      "kind": "image-dir",
+      "base": "assets/avatar"
+    }
+  }
+}

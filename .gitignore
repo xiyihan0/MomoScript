@@ -64,7 +64,11 @@ typst_sandbox/mmt_packs/**
 !typst_sandbox/mmt_packs/**/asset_mapping.json
 !typst_sandbox/mmt_packs/**/images/**/tags.json
 **.png
+!editors/vscode-web/e2e/fixtures/佳代子.png
 **.jpg
+
+# Browser test artifacts
+editors/vscode-web/test-results/
 
 # Pack v2 workspace:
 # - Only keep the base pack `typst_sandbox/pack-v2/ba/` in git.
