@@ -1,59 +1,51 @@
 # MomoScript
+
 [![Netlify Status](https://api.netlify.com/api/v1/badges/1b48c1c1-6c02-424b-bb3c-0304c500b741/deploy-status)](https://app.netlify.com/projects/momoscript/deploys)
 
+MomoScript（MMT）是一套面向 Momotalk / MoeTalk 风格视觉叙事的领域特定语言与工具链。项目以 Rust DSL v2 为当前主线，将文本脚本解析为可恢复语法树和语义模型，解析人物与资源包引用，生成 Typst 工程，并在桌面、浏览器和 NoneBot 场景中提供编辑与渲染能力。
 
-MomoScript 是一个正在开发中的，专为编写《蔚蓝档案》的 Momotalk 样式文档设计的领域特定语言（DSL）和渲染器。它能够将简单的文本脚本转换成类似 Momotalk/MoeTalk 风格的可视化对话图片或 PDF 示例文档，借助 Typst 本身的强大排版能力进行高级样式设置，并可以集成到 NoneBot 机器人框架中。
+> 项目仍在快速开发中。Rust v2 的行为测试与活动 OpenSpec 是当前语法真源；Python v1 仅用于兼容历史工作流。
 
-- 本项目仍处于早期开发阶段，DSL 语法和文档生成管线在未来可能发生较大变动。
+![MomoScript Web 编辑器](screenshots/final-monaco-real-avatar.png)
 
----
+## 核心能力
+
+- **Rust DSL v2**：可恢复解析、UTF-8 source ranges、语义 lowering、资源解析与 Typst façade emission。
+- **Pack v3 资源系统**：实体、slot、set、variant、ordinal selector，以及 image-dir / AVIFS image-sequence 存储。
+- **原生与 WASM LSP**：诊断、补全、悬停、签名帮助、文档符号、折叠和 MMT → Typst 投影。
+- **VS Code Desktop / Web 扩展**：MMT TextMate grammar、嵌入式 Typst 高亮和 Tinymist 语言能力。
+- **浏览器编辑器**：VS Code Web API、持久化工作区、Typst SVG 预览、资源拉取与物化。
+- **NoneBot 集成**：通过 Rust v2 project pipeline 生成可发送的渲染结果。
 
 ## 仓库结构
 
 ```text
 .
-├── mmt_rs/               # Rust DSL v2 parser、语义、资源解析与 Typst 投影
-├── mmt_lsp/              # Native/WASM 共用的 MMT language server
-├── editors/vscode/       # VS Code Desktop/Web 扩展、Worker 与固定 Tinymist 产物
-├── editors/vscode-web/   # 当前生产 Web 编辑器（Monaco VS Code API）
-├── mmt_core/             # Legacy Python DSL v1
-├── mmt_nonebot_plugin/   # NoneBot 适配器
+├── mmt_rs/               # Rust DSL v2 parser、pipeline、pack resolver 与 emitter
+├── mmt_lsp/              # Native/WASM 共用语言服务
+├── editors/vscode/       # VS Code Desktop/Web 扩展、Worker 与 vendored artifacts
+├── editors/vscode-web/   # 当前生产 Web 编辑器
 ├── typst_sandbox/        # Typst 模板与 pack-v3 资源
-├── openspec/             # 当前能力规格与变更设计
-└── tools/                # 构建与回归工具
+├── mmt_nonebot_plugin/   # NoneBot 适配器
+├── mmt_core/             # Legacy Python DSL v1
+├── tools/                # 构建、验证与历史流水线工具
+├── openspec/             # 当前规格与活动变更设计
+└── examples/             # 示例脚本与历史输出
 ```
 
-`web/` 是已废弃的旧 React 编辑器，不再扩展；浏览器端工作统一进入 `editors/vscode-web/`。
+旧 `web/` React 编辑器已停止扩展；浏览器端开发统一位于 `editors/vscode-web/`。
 
----
+## 环境要求
+
+- Rust 1.92+
+- Node.js 22.12+
+- Python 3.10+ 与 [uv](https://docs.astral.sh/uv/)（仅 Python/NoneBot 工作流）
+- Typst 0.15（原生最终编译）
+- 可选：`avifdec`，用于原生 AVIFS 帧物化
 
 ## 快速开始
 
-Python 历史工具使用 [uv](https://github.com/astral-sh/uv)；Rust DSL v2/LSP 使用 Cargo，两个编辑器目录分别是独立 npm project。
-
-### 1) 验证 Rust DSL v2 core
-
-```bash
-cargo test --manifest-path mmt_rs/Cargo.toml --all-targets
-```
-
-### 2) 运行 legacy Python v1 文本 → JSON 编译
-
-```bash
-uv sync
-uv run tools/mmt_pipeline.py mmt_core/dsl_fixtures/basic.mmt.txt --out-json /tmp/mmt-basic.json
-```
-
-该命令生成 `/tmp/mmt-basic.json`；不修改 fixture，也不执行资源解析、Typst 编译或 PDF 渲染。
-
-### 3) 启动 NoneBot 机器人
-
-```bash
-# 如需使用机器人功能，请先准备 .env 配置
-uv run bot.py
-```
-
-### 4) 启动当前 Web 编辑器
+### 启动 Web 编辑器
 
 ```bash
 cd editors/vscode-web
@@ -61,98 +53,147 @@ npm install
 npm run dev
 ```
 
----
+生产构建：
 
-## DSL 语法速览
-
-Rust v2 当前行为以 `mmt_rs/` 测试和
-`openspec/changes/redesign-dsl-syntax-v2/specs/dsl-syntax/spec.md` 为真源；parser/source-map 约束见同一
-change 下的 `specs/dsl-parser-architecture/spec.md`。
-
-`typst_sandbox/mmt_render/mmt_help_syntax.typ` 与 `openspec/specs/dsl-syntax/spec.md` 记录 legacy Python
-v1，不应用来判断 Rust v2 selector 或 directive 语法。
-
-## OpenSpec
-
-仓库已加入一个轻量的 OpenSpec 目录用于记录能力规格和变更提案：
-
-- 项目上下文：`openspec/project.md`
-- 当前能力规格：`openspec/specs/`
-- 变更提案：`openspec/changes/`
-
-推荐在修改 DSL 语义、渲染流程、资源解析、Web 编辑器行为或跨模块工作流之前，先写对应的 OpenSpec 变更提案，再开始实现。
-
----
-
-## Rust v2 编译与编辑器流程
-
-1. DSL source → recoverable syntax AST 与 UTF-8 ranges
-2. body mode、actor、asset、resource marker semantic lowering
-3. 使用 pack-v3 registry 执行 deterministic resource resolve 与 planning
-4. native build：平台 materializer → Typst façade emission → 自包含 Typst project
-5. editor language path：placeholder Typst projection → Tinymist language intelligence
-6. Web preview path：revision-bound resource fetch/decode → typst.ts SVG render
-
----
-
-## 当前 Web 编辑器
-
-`editors/vscode-web/` 复用 VS Code Web API、`mmt_lsp` WASM Worker 和固定版本
-Tinymist 0.15.2 Worker。当前实现包括：
-
-- 当前直接发布 syntax 与 actor diagnostics；mode、asset、resource、pack resolve/planning 与 emitter diagnostic 的统一 live 发布已记录为未完成 OpenSpec 里程碑；
-- 人物/资源包 completion、symbols 和 folding；
-- MMT → placeholder Typst 全文投影，以及 completion、hover、signature help 和 diagnostics 映射；
-- Tinymist 官方 Typst TextMate grammar；`T` 区域继续识别 MMT inline marker，`rT` 保持 raw；
-- typst.ts SVG 预览、IndexedDB 工作区/资源缓存和刷新恢复；
-- HTTPS pack-v3 同步、image-dir 与 AVIFS image-sequence 浏览器物化。
-
-Ordinal sticker selector 写作 `[:#1:]`；不是 `[:sticker#1:]`。例如：
-
-```text
-> 花子: T"""#strong[你好] [:#1:]"""
-- rT"""raw [:#1:]"""
+```bash
+npm run check
+npm run build
 ```
 
-### 验证
+### 验证 Rust v2 core 与语言服务
 
 ```bash
 cargo test --manifest-path mmt_rs/Cargo.toml --all-targets
 cargo test --manifest-path mmt_lsp/Cargo.toml
+```
 
+### 导出 Typst 工程
+
+```bash
+cargo run --manifest-path mmt_rs/Cargo.toml --bin mmt-compile -- \
+  --input examples/example_t.mmt.txt \
+  --output-dir /tmp/mmt-project \
+  --manifest typst_sandbox/pack-v3/ba_kivo/manifest.json \
+  --template-dir typst_sandbox/mmt_render
+
+typst compile --root /tmp/mmt-project \
+  /tmp/mmt-project/main.typ /tmp/mmt-project/output.pdf
+```
+
+CLI 会向 stdout 输出 JSON report，并在失败时返回非零状态。资源物化结果写入受控工程目录和内容寻址缓存，不直接信任脚本中的任意文件路径。
+
+### 启动 NoneBot
+
+```bash
+uv sync
+# 按 mmt_nonebot_plugin/README.md 准备 .env
+uv run bot.py
+```
+
+## DSL 示例
+
+```mmt
+@actor 花子
+preset: ba:hanako
+@end
+
+> 花子: T"""#strong[你好。] [:#1:]"""
+- rT"""旁白保持 raw Typst body。"""
+```
+
+正文模式：
+
+- `t`：普通文本并解析 MMT inline marker。
+- `T`：Typst body，并叠加 MMT inline marker。
+- `rt`：raw 普通文本。
+- `rT`：raw Typst body。
+
+Ordinal sticker selector 写作 `[:#1:]`。完整规则以以下材料为准：
+
+1. `mmt_rs/` 行为测试；
+2. `openspec/changes/redesign-dsl-syntax-v2/specs/dsl-syntax/spec.md`；
+3. `openspec/changes/redesign-dsl-syntax-v2/specs/dsl-parser-architecture/spec.md`。
+
+`openspec/specs/dsl-syntax/spec.md` 和 `typst_sandbox/mmt_render/mmt_help_syntax.typ` 主要记录 legacy Python v1，不能作为 Rust v2 selector 或 directive 的判定依据。
+
+## 编译与编辑流程
+
+```mermaid
+flowchart LR
+  A[MMT source] --> B[Recoverable syntax AST]
+  B --> C[Semantic lowering]
+  C --> D[Pack-v3 resolve and planning]
+  D --> E[Resource materialization]
+  E --> F[Typst project]
+  F --> G[PDF or SVG]
+  C --> H[Placeholder Typst projection]
+  H --> I[Tinymist language intelligence]
+```
+
+原生构建使用平台 materializer 生成自包含 Typst 工程；编辑器语言路径使用 placeholder 投影获得 Tinymist 能力；Web 预览则按文档 revision 拉取并解码资源，通过 typst.ts 生成 SVG。
+
+## 编辑器开发与验证
+
+```bash
 cd editors/vscode
+npm install
 npm run check
 npm run test:grammar
 npm run test:worker
+
+# 需要本地 Tinymist binary
 TINYMIST_BIN=/path/to/tinymist npm run test:tinymist-process
+
+# 需要固定 Tinymist Web package
 TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" npm run test:tinymist-worker
 TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" npm run test:web
+```
 
-cd ../vscode-web
+Web 端：
+
+```bash
+cd editors/vscode-web
 npx playwright install chromium
 npm run check
+npm run test:e2e
 npm run test:avifs-worker
 ```
 
-`test:grammar` 锁定 inline/multiline `T`/`rT`、MMT marker overlay 与长 fence；
-`test:avifs-worker` 在 Chromium 中验证 SHA-256、透明度、多帧选择和 PNG 输出。
-首次运行浏览器测试需安装与 lockfile 匹配的 Chromium；Linux CI 使用
-`npx playwright install --with-deps chromium`。
+`editors/vscode/vendor/` 中的语言服务产物必须通过项目脚本更新，避免手工复制导致 WASM 与 checksum 不一致：
 
-### Netlify 部署
+```bash
+cd editors/vscode
+npm run vendor:mmt-lsp
+```
 
-仓库根目录的 `netlify.toml` 已固定 Node 22.12、`editors/vscode-web` base、`npm run build`
-和 `dist` publish。预览与生产部署分别执行：
+## OpenSpec
+
+影响 DSL 语义、渲染结果、资源解析、编辑器行为或公开工作流的变更，应先与 OpenSpec 对齐：
+
+- 项目上下文：`openspec/project.md`
+- 稳定能力：`openspec/specs/`
+- 活动变更：`openspec/changes/`
+
+当前重点包括 DSL v2、pack v3、MMT LSP / VS Code 集成和 Tinymist 投影边界。
+
+## 部署
+
+Netlify 配置位于仓库根目录 `netlify.toml`，构建目标为 `editors/vscode-web`：
 
 ```bash
 npx netlify deploy --build
 npx netlify deploy --build --prod
 ```
 
-当前 pack manifest 固定为 HTTPS 地址，不需要旧 `VITE_MMT_*` 环境变量。
+生产 Web 编辑器默认从 HTTPS pack-v3 manifest 获取资源，不依赖旧版 `VITE_MMT_*` 环境变量。
 
----
+## 项目状态与边界
 
-## 📄 License
+- Rust v2 是主实现；legacy Python v1 不再定义新语法。
+- 当前 Web 编辑器已支持实时编辑、语言服务、资源预览和工作区恢复。
+- 部分资源包受独立 EULA 约束，不随 MPL-2.0 自动获得再分发许可。
+- DSL、pack schema 和编辑器集成仍可能在 OpenSpec 变更完成前调整。
 
-MPL 2.0 License（注意素材包可能受各自 EULA 约束）
+## License
+
+代码以 [MPL-2.0](LICENSE) 发布。第三方素材与资源包可能适用各自许可或 EULA。

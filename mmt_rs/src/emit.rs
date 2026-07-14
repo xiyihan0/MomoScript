@@ -468,6 +468,9 @@ impl<'a> TypstEmitter<'a> {
         let Some(patch) = patch else {
             return;
         };
+        if patch.raw_args.trim().is_empty() {
+            return;
+        }
         self.diagnostics
             .extend(check_typst_args(&patch.raw_args, patch.args_range));
         self.builder.push_mmt(
@@ -747,6 +750,23 @@ mod tests {
                 .contains("#mmt.reply()[#text(\"A\")][#text(\"B\")]")
         );
         assert!(emitted.source.contains("#mmt.bond()[#text(\"bond\")]"));
+        assert!(
+            check_typst_source(&emitted.source, TextRange::new(0, emitted.source.len())).is_empty()
+        );
+    }
+
+    #[test]
+    fn empty_patches_emit_no_argument_or_separator() {
+        let emitted = emit(
+            ">() 柚子: left\n\
+             <() right\n\
+             -() narration\n\
+             @reply(): A | B\n\
+             @bond(): bond",
+        );
+
+        assert!(emitted.diagnostics.is_empty());
+        assert!(!emitted.source.contains("\n,\n"));
         assert!(
             check_typst_source(&emitted.source, TextRange::new(0, emitted.source.len())).is_empty()
         );

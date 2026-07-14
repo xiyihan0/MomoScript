@@ -62,6 +62,7 @@ struct UpdatePackManifestsParams {
 #[serde(rename_all = "camelCase")]
 struct PackManifestSourceParams {
     json: String,
+    base_url: Option<Url>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -226,7 +227,20 @@ impl MmtLanguageServer {
                     params.text_document_position.position,
                 ))
             }
-            "textDocument/hover" | "textDocument/signatureHelp" => Ok(Value::Null),
+            "textDocument/hover" => {
+                let params: lsp_types::HoverParams = decode(params)?;
+                encode(self.service.hover(
+                    &params.text_document_position_params.text_document.uri,
+                    params.text_document_position_params.position,
+                ))
+            }
+            "textDocument/signatureHelp" => {
+                let params: lsp_types::SignatureHelpParams = decode(params)?;
+                encode(self.service.signature_help(
+                    &params.text_document_position_params.text_document.uri,
+                    params.text_document_position_params.position,
+                ))
+            }
             "mmt/typstPosition" => {
                 let params: TypstPositionParams = decode(params)?;
                 encode(self.projections.project_position(
@@ -346,6 +360,14 @@ impl MmtLanguageServer {
             }
             "mmt/updatePackManifests" => {
                 let params: UpdatePackManifestsParams = decode(params)?;
+                let base_urls = params
+                    .sources
+                    .iter()
+                    .filter_map(|source| {
+                        let manifest = mmt_rs::pack::PackManifest::from_json(&source.json).ok()?;
+                        Some((manifest.pack.namespace, source.base_url.clone()?))
+                    })
+                    .collect::<HashMap<_, _>>();
                 let manifests = params
                     .sources
                     .into_iter()
@@ -355,6 +377,9 @@ impl MmtLanguageServer {
                     .service
                     .update_pack_manifests(params.revision, &manifests)
                     .map_err(ServerError::invalid_params)?;
+                if updated {
+                    self.service.set_pack_base_urls(params.revision, base_urls);
+                }
                 let mut events = Vec::new();
                 if updated {
                     let documents = self
@@ -452,10 +477,11 @@ impl MmtLanguageServer {
             "textDocument/didClose" => {
                 let params: DidCloseTextDocumentParams = decode(params)?;
                 let uri = params.text_document.uri;
-                let entry_uri = self
-                    .published_project_entries
-                    .remove(&uri)
-                    .or_else(|| self.projections.get(&uri).map(|project| project.entry_uri.clone()));
+                let entry_uri = self.published_project_entries.remove(&uri).or_else(|| {
+                    self.projections
+                        .get(&uri)
+                        .map(|project| project.entry_uri.clone())
+                });
                 self.service.close(&uri);
                 self.projections.remove(&uri);
                 let mut events = vec![publish_diagnostics(uri.clone(), None, Vec::new())];
@@ -521,13 +547,16 @@ impl MmtLanguageServer {
                 )),
                 document_symbol_provider: Some(OneOf::Left(true)),
                 folding_range_provider: Some(FoldingRangeProviderCapability::Simple(true)),
-                completion_provider: Some(CompletionOptions::default()),
-                hover_provider: self
-                    .typst_language_features
-                    .then_some(HoverProviderCapability::Simple(true)),
-                signature_help_provider: self
-                    .typst_language_features
-                    .then(SignatureHelpOptions::default),
+                completion_provider: Some(CompletionOptions {
+                    trigger_characters: Some(vec!["_".to_string(), "~".to_string()]),
+                    ..CompletionOptions::default()
+                }),
+                hover_provider: Some(HoverProviderCapability::Simple(true)),
+                signature_help_provider: Some(SignatureHelpOptions {
+                    trigger_characters: Some(vec!["(".to_string(), ",".to_string()]),
+                    retrigger_characters: Some(vec![",".to_string()]),
+                    work_done_progress_options: Default::default(),
+                }),
                 ..ServerCapabilities::default()
             },
             server_info: Some(ServerInfo {
@@ -650,6 +679,10 @@ mod tests {
         let mut server = MmtLanguageServer::default();
         let result = server.request("initialize", initialize(true)).unwrap();
         assert_eq!(result["capabilities"]["positionEncoding"], "utf-8");
+        assert_eq!(
+            result["capabilities"]["completionProvider"]["triggerCharacters"],
+            serde_json::json!(["_", "~"])
+        );
 
         let events = server
             .notification(

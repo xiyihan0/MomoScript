@@ -24,11 +24,30 @@ import type { TinymistHandle } from "./tinymistLanguageClient";
 import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
 import { projectionSessionKey } from "../../vscode/src/tinymistClient";
-import { TypstPreviewController } from "./preview";
+import { sanitizeSvg, TypstPreviewController } from "./preview";
 import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest } from "../../vscode/src/tinymistClient";
+
+if (import.meta.env.VITE_MMT_E2E === "1") {
+  Reflect.set(globalThis, "__mmtSanitizeSvg", sanitizeSvg);
+}
 
 const WORKSPACE = vscode.Uri.parse("mmtfs://workspace/");
 const STORY = vscode.Uri.parse("mmtfs://workspace/story.mmt");
+if (import.meta.env.VITE_MMT_E2E === "1") {
+  Reflect.set(globalThis, "__mmtCompletionLabels", async (line: number, character: number) => {
+    const completions = await vscode.commands.executeCommand<vscode.CompletionList>(
+      "vscode.executeCompletionItemProvider",
+      STORY,
+      new vscode.Position(line, character)
+    );
+    return completions?.items.map((item) => item.label) ?? [];
+  });
+  Reflect.set(globalThis, "__mmtColorDecorators", () =>
+    vscode.workspace
+      .getConfiguration("editor", vscode.window.activeTextEditor?.document)
+      .get<string>("defaultColorDecorators")
+  );
+}
 const DEFAULT_STORY = "@reply\n- 选项 A\n- 选项 B\n@end\n";
 const PACK_URL = "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json";
 const encoder = new TextEncoder();
@@ -139,7 +158,8 @@ async function start(): Promise<void> {
         "workbench.colorTheme": "MomoScript Dark",
         "files.autoSave": "afterDelay",
         "editor.wordWrap": "on",
-        "editor.wordBasedSuggestions": "off"
+        "editor.wordBasedSuggestions": "off",
+        "[mmt]": { "editor.defaultColorDecorators": "never" }
       })
     },
     extensions: [mmtExtension()],
@@ -506,12 +526,97 @@ function createLayout(root: HTMLElement) {
   const activity = part("activity");
   const sidebar = part("sidebar");
   const editor = part("editor");
+  const splitter = part("splitter");
   const preview = part("preview");
   const panel = part("panel");
   const status = part("status");
-  root.append(activity, sidebar, editor, preview, panel, status);
+  const sidebarToggle = paneToggle("left", "file explorer");
+  const previewToggle = paneToggle("right", "preview");
+  const togglePane = (button: HTMLButtonElement, className: string, paneName: string) => {
+    const collapsed = root.classList.toggle(className);
+    button.setAttribute("aria-expanded", String(!collapsed));
+    button.setAttribute("aria-label", `${collapsed ? "Expand" : "Collapse"} ${paneName}`);
+    button.title = button.getAttribute("aria-label") ?? "";
+  };
+  sidebarToggle.addEventListener("click", () =>
+    togglePane(sidebarToggle, "sidebar-collapsed", "file explorer")
+  );
+  previewToggle.addEventListener("click", () =>
+    togglePane(previewToggle, "preview-collapsed", "preview")
+  );
+  root.append(sidebarToggle, previewToggle);
+  root.append(activity, sidebar, editor, splitter, preview, panel, status);
+  installEditorPreviewSplitter(root, editor, splitter);
   return { activity, sidebar, editor, preview, panel, status };
 }
+
+function installEditorPreviewSplitter(
+  root: HTMLElement,
+  editor: HTMLElement,
+  splitter: HTMLElement
+): void {
+  splitter.setAttribute("role", "separator");
+  splitter.setAttribute("aria-label", "Resize editor and preview");
+  splitter.setAttribute("aria-orientation", "vertical");
+  splitter.setAttribute("aria-valuemin", "0");
+  splitter.setAttribute("aria-valuemax", "100");
+  splitter.setAttribute("aria-valuenow", "50");
+  splitter.tabIndex = 0;
+
+  const resize = (clientX: number) => {
+    const rootBounds = root.getBoundingClientRect();
+    const editorStart = editor.getBoundingClientRect().left;
+    const available = rootBounds.right - editorStart - splitter.offsetWidth;
+    const minimum = Math.min(320, Math.floor(available / 2));
+    const width = Math.min(available - minimum, Math.max(minimum, clientX - editorStart));
+    root.style.setProperty("--editor-pane-width", `${width}px`);
+    const percentage = available > 0 ? Math.round(width / available * 100) : 50;
+    splitter.setAttribute("aria-valuenow", String(percentage));
+  };
+  const reset = () => {
+    root.style.removeProperty("--editor-pane-width");
+    splitter.setAttribute("aria-valuenow", "50");
+  };
+
+  splitter.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    splitter.setPointerCapture(event.pointerId);
+    const move = (moveEvent: PointerEvent) => resize(moveEvent.clientX);
+    const finish = (finishEvent: PointerEvent) => {
+      if (splitter.hasPointerCapture(finishEvent.pointerId)) {
+        splitter.releasePointerCapture(finishEvent.pointerId);
+      }
+      splitter.removeEventListener("pointermove", move);
+      splitter.removeEventListener("pointerup", finish);
+      splitter.removeEventListener("pointercancel", finish);
+    };
+    splitter.addEventListener("pointermove", move);
+    splitter.addEventListener("pointerup", finish);
+    splitter.addEventListener("pointercancel", finish);
+  });
+  splitter.addEventListener("dblclick", reset);
+  splitter.addEventListener("keydown", (event) => {
+    if (event.key === "Home") {
+      reset();
+      return;
+    }
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    const current = editor.getBoundingClientRect();
+    resize(current.right + (event.key === "ArrowLeft" ? -20 : 20));
+  });
+}
+function paneToggle(side: "left" | "right", paneName: string): HTMLButtonElement {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `workbench-pane-toggle ${side}`;
+  button.textContent = side === "left" ? "‹" : "›";
+  button.setAttribute("aria-expanded", "true");
+  button.setAttribute("aria-label", `Collapse ${paneName}`);
+  button.title = button.getAttribute("aria-label") ?? "";
+  return button;
+}
+
 
 function part(name: string): HTMLDivElement {
   const element = document.createElement("div");

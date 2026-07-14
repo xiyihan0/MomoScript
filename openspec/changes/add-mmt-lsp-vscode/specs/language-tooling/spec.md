@@ -297,3 +297,110 @@ variant semantics, and the shared Rust language service SHALL validate and atomi
 - WHEN completion is requested for an actor preset
 - THEN the language service MUST read manifest metadata only
 - AND it MUST NOT fetch blobs、decode frames or expose pack-relative storage paths
+
+#### Scenario: Inline resource completion follows authored marker context
+
+- GIVEN a document declares script-local assets and the acknowledged registry contains pack assets and sticker variants
+- WHEN completion is requested in a bare speaker-relative selector、`[:asset, …:]` or `[:actor-name, …:]`
+- THEN bare selectors MUST offer variants from the current statement speaker's preset
+- AND `asset` MUST offer script-local assets even before pack synchronization completes
+- AND explicit script actor names MUST resolve to their preset before variant completion
+- AND candidates MUST use deterministic selector text without fetching or materializing resource bytes
+
+### Requirement: Empty render patches are valid no-ops
+
+An authored empty patch `()` SHALL remain parseable while the author enters parameters and SHALL emit no Typst argument or separator.
+
+#### Scenario: Statement has an empty patch
+
+- GIVEN an MMT statement such as `<() Hello`
+- WHEN the language projection and final emitter process it
+- THEN the result MUST be equivalent to `< Hello`
+- AND emitted Typst MUST remain syntactically valid
+
+### Requirement: MMT façade features do not weaken identity mapping
+
+MMT construct hover、signature help and patch completion SHALL use an explicit public façade contract. A synthetic feature-query anchor MAY address generated Typst context, but MUST NOT be treated as an identity mapping or permit generated-wrapper edits to map into MMT.
+
+#### Scenario: Author requests features on a construct or inside an empty patch
+
+- GIVEN the cursor is on `-`、`<`、`>`、`@reply`、`@bond` or inside an empty patch
+- WHEN hover、signature help or completion is requested
+- THEN MMT SHALL expose the applicable public façade signature
+- AND Typst value-expression completion MAY be delegated to Tinymist
+- AND generated wrapper TextEdits、additional edits、rename or formatting edits MUST NOT be projected into MMT
+
+### Requirement: Speaker hover reflects the statement revision
+
+Explicit speaker tokens and history references SHALL resolve through the lowered statement speaker and actor revision rather than by token text alone.
+
+#### Scenario: Actor is patched between statements
+
+- GIVEN aliases refer to one `ActorId` and a later `@actor` block changes its display name or avatar
+- WHEN the author hovers an explicit speaker token on either statement
+- THEN hover MUST show the `ActorState` revision selected for that statement
+- AND it SHOULD include a safe avatar preview when the acknowledged pack metadata exposes a browser-loadable image
+
+#### Scenario: History reference exposes its resolved actor
+
+- GIVEN `_`、`_n`、`~` or `~n` resolves to a prior actor on the same dialogue side
+- WHEN the author requests completion or hovers the authored reference
+- THEN the language service MUST identify the referenced actor and the revision active at the current statement
+- AND completion detail MUST label the resolved display name without rewriting bare `_` or `~` aliases
+- AND a future actor revision after the current statement MUST NOT leak into that label
+
+### Requirement: Web preview and workspace expose authored structure
+
+The Web editor SHALL render Typst SVG with user-controlled zoom and SHALL represent its `mmtfs://workspace/` authority as the workspace root without creating a duplicate `/workspace` child path.
+
+#### Scenario: Existing browser workspace starts
+
+- GIVEN IndexedDB contains the historical empty `/workspace` directory entry
+- WHEN the editor starts
+- THEN it MUST remove that empty compatibility entry
+- AND `story.mmt` MUST remain at `/story.mmt`
+- AND preview controls MUST support zoom in、zoom out、actual size and fit width without rasterizing the SVG
+
+#### Scenario: Author resizes editor and preview panes
+
+- GIVEN the Web workbench shows editor and preview side by side
+- WHEN the author drags the accessible separator or uses its keyboard controls
+- THEN the editor and preview widths MUST update without overlapping either pane
+- AND double-click or the reset key MUST restore the equal split
+
+#### Scenario: Author collapses auxiliary panes
+
+- GIVEN the file explorer and preview are visible
+- WHEN the author activates either accessible collapse control
+- THEN that pane MUST be removed from the workbench layout and the editor MUST use the released width
+- AND the control MUST remain available to restore the pane
+- AND the preview control MUST NOT overlap zoom or fit controls
+
+#### Scenario: Plain body hashes are not default color literals
+
+- GIVEN an MMT text body contains `#123` or another hash-prefixed fragment
+- WHEN the editor's default color detector scans the document
+- THEN MMT language defaults MUST suppress that detector
+- AND dedicated Typst color providers MAY still operate on projected Typst regions
+
+#### Scenario: Statement patches use Typst argument scopes
+
+- GIVEN a statement patch and a Typst façade call contain equivalent named arguments
+- WHEN TextMate tokenization highlights both forms
+- THEN parameter names、colons、units、nested calls、strings and operators in the patch MUST use the corresponding Typst scopes
+
+#### Scenario: Multi-page SVG remains vector and visually separated
+
+- GIVEN Typst emits more than one `.typst-page` group
+- WHEN the Web preview imports the SVG
+- THEN consecutive page groups MUST have a visible gap
+- AND zoom、actual size and fit width MUST continue to transform the SVG without rasterization
+
+#### Scenario: Browser SVG text can be selected and copied safely
+
+- GIVEN typst.ts emits `.tsel` XHTML inside SVG `foreignObject` nodes
+- WHEN the Web preview sanitizes and imports that renderer output
+- THEN validated text-only `div` / `span` selection nodes MUST remain selectable and copyable
+- AND prefixed XHTML parser artifacts MUST be normalized to real XHTML elements
+- AND unexpected selection-subtree elements、attributes or styles MUST be rejected
+- AND active SVG content、event handlers and external resource references MUST be removed before import

@@ -301,10 +301,8 @@ mod tests {
         );
 
         let escaped_colon = r"before [\: after";
-        let escaped_colon_scan = scan_typst_overlay_macros(
-            escaped_colon,
-            TextRange::new(0, escaped_colon.len()),
-        );
+        let escaped_colon_scan =
+            scan_typst_overlay_macros(escaped_colon, TextRange::new(0, escaped_colon.len()));
         assert!(escaped_colon_scan.macros.is_empty());
     }
 

@@ -19,7 +19,30 @@
               "path": "佳代子.png"
             }
           }
+        },
+        "sticker": {
+          "default": "default",
+          "sets": {
+            "default": {
+              "storage": "avatars",
+              "variants": [
+                {
+                  "id": "smile",
+                  "path": "佳代子.png",
+                  "handles": ["微笑"]
+                }
+              ]
+            }
+          }
         }
+      }
+    }
+  },
+  "assets": {
+    "logo": {
+      "source": {
+        "storage": "avatars",
+        "path": "佳代子.png"
       }
     }
   },

@@ -30,3 +30,18 @@
 #mmt.bond[进入柚子的羁绊剧情]
 
 #let sticker-probe = mmt.sticker(rect(width: 2em, height: 2em, fill: rgb("ef8cab")))
+
+#layout(size => {
+  let real-sticker = mmt.sticker(image("../mmt_favor.webp"))
+  let sticker-chat = mmt.chat-left(name: [Sticker probe])[#real-sticker]
+  let empty-chat = mmt.chat-left(name: [Empty probe])[]
+  assert(
+    calc.abs(measure(real-sticker, width: size.width).width - 70% * size.width) < 0.01pt,
+    message: "the default sticker must occupy 70% of the available width",
+  )
+  assert(
+    measure(sticker-chat, width: size.width).height > measure(empty-chat, width: size.width).height,
+    message: "a real sticker image must contribute non-zero height inside a chat bubble",
+  )
+  sticker-chat
+})

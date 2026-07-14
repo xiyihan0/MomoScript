@@ -53,6 +53,11 @@
         "path": "./vendor/tinymist-0.15.2/typst.tmLanguage.json"
       }
     ],
+    "configurationDefaults": {
+      "[mmt]": {
+        "editor.defaultColorDecorators": "never"
+      }
+    },
     "configuration": {
       "title": "MomoScript",
       "properties": {
@@ -86,6 +91,7 @@
   "scripts": {
     "build:native": "node ./scripts/build-native.mjs",
     "build:wasm": "node ./scripts/build-wasm.mjs",
+    "vendor:mmt-lsp": "npm run build:wasm && node ./scripts/promote-mmt-lsp-vendor.mjs",
     "build": "npm run build:native && npm run build:wasm && node ./scripts/build.mjs",
     "check": "tsc --noEmit",
     "test:grammar": "node ./scripts/test-grammar.mjs",

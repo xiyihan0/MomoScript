@@ -183,6 +183,40 @@ export async function run(): Promise<void> {
 
   const activeEditor = vscode.window.activeTextEditor;
   assert(activeEditor, "Typst fixture editor is not active");
+  const incompleteCall = "#gre";
+  const incompleteStart = typstDocument.getText().lastIndexOf(incompleteCall);
+  assert(incompleteStart >= 0, "incomplete Typst call is missing");
+  await activeEditor.edit((builder) => {
+    builder.replace(
+      new vscode.Range(
+        typstDocument.positionAt(incompleteStart),
+        typstDocument.positionAt(incompleteStart + incompleteCall.length)
+      ),
+      "#greet(\"MMT\")"
+    );
+  });
+  const brokenTypst = "#let broken = (";
+  const brokenStart = typstDocument.getText().indexOf(brokenTypst);
+  assert(brokenStart >= 0, "broken Typst fixture is missing");
+  await activeEditor.edit((builder) => {
+    builder.replace(
+      new vscode.Range(
+        typstDocument.positionAt(brokenStart),
+        typstDocument.positionAt(brokenStart + brokenTypst.length)
+      ),
+      "#let broken = 3"
+    );
+  });
+  await waitFor(() => {
+    const current = vscode.languages.getDiagnostics(typstDocument.uri);
+    return current.every((diagnostic) => diagnostic.source !== "typst") ? true : undefined;
+  }, "fixed embedded Typst diagnostics were not cleared");
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  assert(
+    vscode.languages.getDiagnostics(typstDocument.uri).every((diagnostic) => diagnostic.source !== "typst"),
+    "fixed embedded Typst diagnostics reappeared"
+  );
+  console.log("[mmt-web-test] fixed embedded Typst diagnostics cleared");
   await activeEditor.edit((builder) => {
     builder.replace(
       new vscode.Range(typstDocument.positionAt(0), typstDocument.positionAt(typstDocument.getText().length)),

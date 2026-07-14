@@ -3,13 +3,15 @@ use std::collections::HashMap;
 use lsp_types::{
     CompletionItem, CompletionItemKind, CompletionTextEdit, Diagnostic,
     DiagnosticRelatedInformation, DiagnosticSeverity, DocumentSymbol, FoldingRange,
-    FoldingRangeKind, Location, Position, PositionEncodingKind, SymbolKind, TextEdit, Url,
+    FoldingRangeKind, Hover, HoverContents, Location, MarkupContent, MarkupKind,
+    ParameterInformation, ParameterLabel, Position, PositionEncodingKind, SignatureHelp,
+    SignatureInformation, SymbolKind, TextEdit, Url,
 };
 use mmt_rs::diag::{Diagnostic as MmtDiagnostic, Severity};
 use mmt_rs::pack::{PackManifest, PackRegistry};
 use mmt_rs::source::TextRange;
-use mmt_rs::syntax::{SyntaxDocument, SyntaxNode};
-use mmt_rs::{StaticPresetCatalog, lower_actors};
+use mmt_rs::syntax::{SpeakerMarkerSyntax, StatementKind, SyntaxDocument, SyntaxNode};
+use mmt_rs::{SpeakerIdentity, StaticPresetCatalog, lower_actors, lower_assets};
 
 use crate::position::LineIndex;
 
@@ -43,6 +45,7 @@ pub struct LanguageService {
     encoding: PositionEncodingKind,
     pack_revision: u64,
     pack_registry: Option<PackRegistry>,
+    pack_base_urls: HashMap<String, Url>,
 }
 
 impl Default for LanguageService {
@@ -53,6 +56,7 @@ impl Default for LanguageService {
             encoding: PositionEncodingKind::UTF16,
             pack_revision: 0,
             pack_registry: None,
+            pack_base_urls: HashMap::new(),
         }
     }
 }
@@ -92,6 +96,19 @@ impl LanguageService {
         self.pack_registry = Some(registry);
         self.pack_revision = revision;
         Ok(true)
+    }
+
+    pub fn set_pack_base_urls(
+        &mut self,
+        revision: u64,
+        mut base_urls: HashMap<String, Url>,
+    ) -> bool {
+        if revision != self.pack_revision {
+            return false;
+        }
+        base_urls.retain(|_, url| url.scheme() == "https");
+        self.pack_base_urls = base_urls;
+        true
     }
 
     pub fn pack_revision(&self) -> u64 {
@@ -295,6 +312,24 @@ impl LanguageService {
         let before_cursor = &document.text[line_start..offset];
         let trimmed = before_cursor.trim_start();
 
+        if let Some((contract, patch)) = facade_patch_at(&document.syntax, offset) {
+            let prefix = &document.text[patch.args_range.start..offset];
+            let context = patch_context(prefix);
+            if context.depth == 0 && !context.has_colon {
+                let segment = &prefix[context.segment_start..];
+                let leading = segment.len() - segment.trim_start().len();
+                let replace_start = patch.args_range.start + context.segment_start + leading;
+                return completion_items(
+                    document,
+                    &self.encoding,
+                    replace_start,
+                    offset,
+                    contract.parameters,
+                    CompletionItemKind::FIELD,
+                );
+            }
+        }
+
         if let Some(value_prefix) = trimmed.strip_prefix("@mode:") {
             let replace_start = offset - value_prefix.trim_start().len();
             return completion_items(
@@ -348,6 +383,59 @@ impl LanguageService {
                 ],
                 CompletionItemKind::KEYWORD,
             );
+        }
+
+        if let Some(marker_start) = before_cursor.rfind("[:") {
+            let marker_prefix = &before_cursor[marker_start + 2..];
+            if !marker_prefix.contains(":]") {
+                let inferred_subject = self.resource_speaker_subject(document, offset);
+                if let Some((head, value)) = marker_prefix.split_once(',') {
+                    let value_prefix = value.trim_start();
+                    let replace_start = offset - value_prefix.len();
+                    let head = head.trim();
+                    match head {
+                        "asset" => {
+                            return self.resource_completions(
+                                document,
+                                replace_start,
+                                offset,
+                                Some("asset"),
+                            );
+                        }
+                        "sticker" => {
+                            return self.resource_completions(
+                                document,
+                                replace_start,
+                                offset,
+                                inferred_subject.as_deref(),
+                            );
+                        }
+                        "tmp" | "file" | "url" => return Vec::new(),
+                        _ => {
+                            let actor_subject = self.resource_actor_subject(document, head);
+                            return self.resource_completions(
+                                document,
+                                replace_start,
+                                offset,
+                                Some(actor_subject.as_deref().unwrap_or(head)),
+                            );
+                        }
+                    }
+                }
+                let replace_start = offset - marker_prefix.len();
+                let mut items = self.resource_completions(document, replace_start, offset, None);
+                if let Some(subject) = inferred_subject.as_deref() {
+                    items.extend(self.resource_completions(
+                        document,
+                        replace_start,
+                        offset,
+                        Some(subject),
+                    ));
+                    items.sort_by(|left, right| left.label.cmp(&right.label));
+                    items.dedup_by(|left, right| left.label == right.label);
+                }
+                return items;
+            }
         }
 
         let Some(block_name) = document.syntax.nodes.iter().find_map(|node| match node {
@@ -404,6 +492,376 @@ impl LanguageService {
             fields,
             CompletionItemKind::FIELD,
         )
+    }
+
+    pub fn hover(&self, uri: &Url, position: Position) -> Option<Hover> {
+        let document = self.snapshot(uri)?;
+        let offset = document
+            .lines
+            .offset(&document.text, position, &self.encoding)?;
+
+        if let Some((statement, marker, marker_range)) =
+            document.syntax.nodes.iter().find_map(|node| {
+                let SyntaxNode::Statement(statement) = node else {
+                    return None;
+                };
+                let marker = statement.marker.as_ref()?;
+                let marker_range = match marker {
+                    SpeakerMarkerSyntax::Explicit { range, .. }
+                    | SpeakerMarkerSyntax::BackRef { range, .. }
+                    | SpeakerMarkerSyntax::UniqueIndex { range, .. } => *range,
+                };
+                (marker_range.start <= offset && offset < marker_range.end).then_some((
+                    statement,
+                    marker,
+                    marker_range,
+                ))
+            })
+        {
+            let actors = if let Some(registry) = &self.pack_registry {
+                lower_actors(&document.syntax, registry)
+            } else {
+                lower_actors(&document.syntax, &StaticPresetCatalog::default())
+            };
+            let speaker = actors
+                .speakers
+                .iter()
+                .find(|speaker| speaker.statement_range == statement.range)?;
+            let SpeakerIdentity::Actor(actor_id) = speaker.speaker else {
+                return None;
+            };
+            let actor = actors.actors.iter().find(|actor| actor.id == actor_id)?;
+            let revision = actor
+                .revisions
+                .iter()
+                .find(|revision| Some(revision.number) == speaker.revision)?;
+            let mut value = format!(
+                "**{}**\n\nActor {} · preset {} · revision {}",
+                markdown_text(&revision.state.display_name),
+                markdown_code(&actor.primary_name),
+                markdown_code(&actor.preset_id),
+                revision.number,
+            );
+            if !matches!(marker, SpeakerMarkerSyntax::Explicit { .. }) {
+                value.push_str(&format!(
+                    "\n\nReference {} → {}",
+                    markdown_code(&document.text[marker_range.start..marker_range.end]),
+                    markdown_code(&revision.state.display_name),
+                ));
+            }
+            if let Some(avatar) = &revision.state.avatar {
+                value.push_str(&format!("\n\nAvatar {}", markdown_code(avatar)));
+            }
+            if let Some(url) = revision
+                .state
+                .avatar
+                .as_deref()
+                .and_then(|avatar| self.avatar_preview_url(avatar))
+            {
+                value.push_str(&format!("\n\n![Actor avatar]({url})"));
+            }
+            let range = document
+                .lines
+                .range(&document.text, marker_range, &self.encoding)?;
+            return Some(Hover {
+                contents: HoverContents::Markup(MarkupContent {
+                    kind: MarkupKind::Markdown,
+                    value,
+                }),
+                range: Some(range),
+            });
+        }
+
+        let (contract, marker_range) = facade_marker_at(&document.syntax, offset)?;
+        let range = document
+            .lines
+            .range(&document.text, marker_range, &self.encoding)?;
+        Some(Hover {
+            contents: HoverContents::Markup(MarkupContent {
+                kind: MarkupKind::Markdown,
+                value: format!(
+                    "```typst\n{}\n```\n\n{}",
+                    contract.signature, contract.summary
+                ),
+            }),
+            range: Some(range),
+        })
+    }
+
+    fn avatar_preview_url(&self, avatar: &str) -> Option<Url> {
+        let (entity_id, variant) = avatar.split_once("/avatar/")?;
+        let registry = self.pack_registry.as_ref()?;
+        let resolved = registry.resolve_avatar(entity_id, None, variant).ok()?;
+        let storage = registry.storage(&resolved.storage_pack_namespace, &resolved.storage_id)?;
+        if storage.kind != "image-dir" {
+            return None;
+        }
+        let path = resolved.path.as_deref()?;
+        let mut url = self
+            .pack_base_urls
+            .get(&resolved.storage_pack_namespace)?
+            .clone();
+        if let Some(base) = storage.base.as_deref() {
+            url = url.join(&format!("{}/", base.trim_end_matches('/'))).ok()?;
+        }
+        url.join(path).ok()
+    }
+
+    pub fn signature_help(&self, uri: &Url, position: Position) -> Option<SignatureHelp> {
+        let document = self.snapshot(uri)?;
+        let offset = document
+            .lines
+            .offset(&document.text, position, &self.encoding)?;
+        let (contract, patch) = facade_patch_at(&document.syntax, offset)?;
+        let context = patch_context(&document.text[patch.args_range.start..offset]);
+        if context.depth != 0 {
+            return None;
+        }
+        let segment = document.text[patch.args_range.start + context.segment_start..offset].trim();
+        let active_parameter = segment
+            .split_once(':')
+            .and_then(|(name, _)| {
+                contract
+                    .parameters
+                    .iter()
+                    .position(|(candidate, _)| *candidate == name.trim())
+                    .map(|index| index as u32)
+            })
+            .or_else(|| {
+                (context.parameter_index < contract.parameters.len() as u32)
+                    .then_some(context.parameter_index)
+            });
+        Some(SignatureHelp {
+            signatures: vec![SignatureInformation {
+                label: contract.signature.to_string(),
+                documentation: None,
+                parameters: Some(
+                    contract
+                        .parameters
+                        .iter()
+                        .map(|(name, detail)| ParameterInformation {
+                            label: ParameterLabel::Simple(format!("{name}:")),
+                            documentation: Some(lsp_types::Documentation::String(
+                                (*detail).to_string(),
+                            )),
+                        })
+                        .collect(),
+                ),
+                active_parameter,
+            }],
+            active_signature: Some(0),
+            active_parameter,
+        })
+    }
+
+    fn resource_speaker_subject(
+        &self,
+        document: &DocumentSnapshot,
+        offset: usize,
+    ) -> Option<String> {
+        let actors = if let Some(registry) = &self.pack_registry {
+            lower_actors(&document.syntax, registry)
+        } else {
+            lower_actors(&document.syntax, &StaticPresetCatalog::default())
+        };
+        let speaker = actors.speakers.iter().find(|speaker| {
+            speaker.statement_range.start <= offset && offset <= speaker.statement_range.end
+        })?;
+        let SpeakerIdentity::Actor(actor_id) = speaker.speaker else {
+            return None;
+        };
+        actors
+            .actors
+            .iter()
+            .find(|actor| actor.id == actor_id)
+            .map(|actor| actor.preset_id.clone())
+    }
+
+    fn resource_actor_subject(&self, document: &DocumentSnapshot, name: &str) -> Option<String> {
+        let actors = if let Some(registry) = &self.pack_registry {
+            lower_actors(&document.syntax, registry)
+        } else {
+            lower_actors(&document.syntax, &StaticPresetCatalog::default())
+        };
+        actors
+            .actors
+            .iter()
+            .find(|actor| actor.names.iter().any(|candidate| candidate == name))
+            .map(|actor| actor.preset_id.clone())
+    }
+
+    fn resource_completions(
+        &self,
+        document: &DocumentSnapshot,
+        start: usize,
+        end: usize,
+        subject: Option<&str>,
+    ) -> Vec<CompletionItem> {
+        let Some(range) =
+            document
+                .lines
+                .range(&document.text, TextRange::new(start, end), &self.encoding)
+        else {
+            return Vec::new();
+        };
+        let mut items = HashMap::<String, CompletionItem>::new();
+        for asset in lower_assets(&document.syntax).assets {
+            let selector = match subject {
+                Some("asset") => asset.id.name.clone(),
+                None => format!("asset, {}", asset.id.name),
+                Some(_) => continue,
+            };
+            items
+                .entry(selector.clone())
+                .or_insert_with(|| CompletionItem {
+                    label: selector.clone(),
+                    kind: Some(CompletionItemKind::FILE),
+                    detail: Some(format!("script asset · {}", asset.id.namespace)),
+                    text_edit: Some(CompletionTextEdit::Edit(TextEdit::new(range, selector))),
+                    ..CompletionItem::default()
+                });
+        }
+        let Some(registry) = &self.pack_registry else {
+            let mut items = items.into_values().collect::<Vec<_>>();
+            items.sort_by(|left, right| left.label.cmp(&right.label));
+            return items;
+        };
+        if subject == Some("asset") {
+            for manifest in registry.manifests() {
+                for asset_id in manifest.assets.keys() {
+                    items
+                        .entry(asset_id.clone())
+                        .or_insert_with(|| CompletionItem {
+                            label: asset_id.clone(),
+                            kind: Some(CompletionItemKind::FILE),
+                            detail: Some(format!("pack asset · {}", manifest.pack.name)),
+                            text_edit: Some(CompletionTextEdit::Edit(TextEdit::new(
+                                range,
+                                asset_id.clone(),
+                            ))),
+                            ..CompletionItem::default()
+                        });
+                }
+            }
+            let mut items = items.into_values().collect::<Vec<_>>();
+            items.sort_by(|left, right| left.label.cmp(&right.label));
+            return items;
+        }
+        if let Some(subject) = subject {
+            for manifest in registry.manifests() {
+                for (local_id, entity) in &manifest.entities {
+                    let canonical_id = if local_id.contains("::") {
+                        local_id.clone()
+                    } else {
+                        format!("{}::{local_id}", manifest.pack.namespace)
+                    };
+                    if subject != local_id
+                        && subject != canonical_id
+                        && !entity.names.iter().any(|name| name == subject)
+                    {
+                        continue;
+                    }
+                    if let Some(sticker) = &entity.slots.sticker {
+                        for (set_id, set) in &sticker.sets {
+                            for variant in &set.variants {
+                                let selector = if sticker.sets.len() == 1
+                                    || sticker.default.as_deref() == Some(set_id)
+                                {
+                                    variant.id.clone()
+                                } else {
+                                    format!("{set_id}/{}", variant.id)
+                                };
+                                items
+                                    .entry(selector.clone())
+                                    .or_insert_with(|| CompletionItem {
+                                        label: selector.clone(),
+                                        kind: Some(CompletionItemKind::REFERENCE),
+                                        detail: Some(format!("sticker · {canonical_id}")),
+                                        filter_text: Some(
+                                            std::iter::once(variant.id.as_str())
+                                                .chain(variant.handles.iter().map(String::as_str))
+                                                .collect::<Vec<_>>()
+                                                .join(" "),
+                                        ),
+                                        text_edit: Some(CompletionTextEdit::Edit(TextEdit::new(
+                                            range, selector,
+                                        ))),
+                                        ..CompletionItem::default()
+                                    });
+                            }
+                        }
+                    }
+                    for contribution_manifest in registry.manifests() {
+                        for contribution in &contribution_manifest.contributions {
+                            if contribution.target != canonical_id
+                                && contribution.target != *local_id
+                            {
+                                continue;
+                            }
+                            let Some(sticker) = &contribution.slots.sticker else {
+                                continue;
+                            };
+                            for (set_id, set) in &sticker.sets {
+                                for variant in &set.variants {
+                                    let variant_path = if sticker.sets.len() == 1
+                                        || sticker.default.as_deref() == Some(set_id)
+                                    {
+                                        variant.id.clone()
+                                    } else {
+                                        format!("{set_id}/{}", variant.id)
+                                    };
+                                    let selector = format!(
+                                        "{}::{variant_path}",
+                                        contribution_manifest.pack.namespace
+                                    );
+                                    items.entry(selector.clone()).or_insert_with(|| {
+                                        CompletionItem {
+                                            label: selector.clone(),
+                                            kind: Some(CompletionItemKind::REFERENCE),
+                                            detail: Some(format!(
+                                                "contributed sticker · {canonical_id}"
+                                            )),
+                                            filter_text: Some(
+                                                std::iter::once(variant.id.as_str())
+                                                    .chain(
+                                                        variant.handles.iter().map(String::as_str),
+                                                    )
+                                                    .collect::<Vec<_>>()
+                                                    .join(" "),
+                                            ),
+                                            text_edit: Some(CompletionTextEdit::Edit(
+                                                TextEdit::new(range, selector),
+                                            )),
+                                            ..CompletionItem::default()
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            for manifest in registry.manifests() {
+                for asset_id in manifest.assets.keys() {
+                    let selector = format!("asset, {asset_id}");
+                    items
+                        .entry(selector.clone())
+                        .or_insert_with(|| CompletionItem {
+                            label: selector.clone(),
+                            kind: Some(CompletionItemKind::FILE),
+                            detail: Some(format!("pack asset · {}", manifest.pack.name)),
+                            text_edit: Some(CompletionTextEdit::Edit(TextEdit::new(
+                                range, selector,
+                            ))),
+                            ..CompletionItem::default()
+                        });
+                }
+            }
+        }
+        let mut items = items.into_values().collect::<Vec<_>>();
+        items.sort_by(|left, right| left.label.cmp(&right.label));
+        items
     }
 
     fn preset_completions(
@@ -479,15 +937,99 @@ impl LanguageService {
         } else {
             lower_actors(&document.syntax, &StaticPresetCatalog::default())
         };
-        for actor in actors.actors {
+
+        let statement_kind = document.syntax.nodes.iter().find_map(|node| match node {
+            SyntaxNode::Statement(statement)
+                if statement.range.start <= start && start <= statement.range.end =>
+            {
+                Some(statement.kind)
+            }
+            _ => None,
+        });
+        if let Some(statement_kind) =
+            statement_kind.filter(|kind| *kind != StatementKind::Narration)
+        {
+            let history = actors
+                .speakers
+                .iter()
+                .filter(|speaker| speaker.statement_range.start < start)
+                .filter(|speaker| {
+                    document.syntax.nodes.iter().any(|node| matches!(
+                        node,
+                        SyntaxNode::Statement(statement)
+                            if statement.range == speaker.statement_range && statement.kind == statement_kind
+                    ))
+                })
+                .filter_map(|speaker| match speaker.speaker {
+                    SpeakerIdentity::Actor(actor_id) => Some(actor_id),
+                    SpeakerIdentity::Builtin(_) => None,
+                })
+                .collect::<Vec<_>>();
+            let mut add_reference = |label: String, actor_id| {
+                let Some(actor) = actors.actors.iter().find(|actor| actor.id == actor_id) else {
+                    return;
+                };
+                let Some(state) = actor
+                    .revisions
+                    .iter()
+                    .rev()
+                    .find(|revision| revision.origin.start < start)
+                    .map(|revision| &revision.state)
+                else {
+                    return;
+                };
+                items
+                    .entry(label.clone())
+                    .or_insert_with(|| CompletionItem {
+                        label: label.clone(),
+                        kind: Some(CompletionItemKind::REFERENCE),
+                        detail: Some(format!(
+                            "speaker reference → {} · {}",
+                            state.display_name, actor.primary_name
+                        )),
+                        text_edit: Some(CompletionTextEdit::Edit(TextEdit::new(range, label))),
+                        ..CompletionItem::default()
+                    });
+            };
+            if let Some(&actor_id) = history.last() {
+                add_reference("_0".to_string(), actor_id);
+                let current = actor_id;
+                let mut recent_distinct = Vec::new();
+                for &candidate in history.iter().rev() {
+                    if candidate != current && !recent_distinct.contains(&candidate) {
+                        recent_distinct.push(candidate);
+                    }
+                }
+                for (index, candidate) in recent_distinct.into_iter().enumerate() {
+                    if index == 0 {
+                        add_reference("_".to_string(), candidate);
+                    }
+                    add_reference(format!("_{}", index + 1), candidate);
+                }
+            }
+            let mut unique = Vec::new();
+            for &actor_id in &history {
+                if !unique.contains(&actor_id) {
+                    unique.push(actor_id);
+                }
+            }
+            for (index, actor_id) in unique.into_iter().enumerate() {
+                if index == 0 {
+                    add_reference("~".to_string(), actor_id);
+                }
+                add_reference(format!("~{}", index + 1), actor_id);
+            }
+        }
+
+        for actor in &actors.actors {
             let detail = format!("script actor · {}", actor.preset_id);
-            let names = std::iter::once(actor.primary_name).chain(actor.names);
+            let names = std::iter::once(&actor.primary_name).chain(actor.names.iter());
             for name in names {
                 items.entry(name.clone()).or_insert_with(|| CompletionItem {
                     label: name.clone(),
                     kind: Some(CompletionItemKind::VARIABLE),
                     detail: Some(detail.clone()),
-                    text_edit: Some(CompletionTextEdit::Edit(TextEdit::new(range, name))),
+                    text_edit: Some(CompletionTextEdit::Edit(TextEdit::new(range, name.clone()))),
                     ..CompletionItem::default()
                 });
             }
@@ -562,6 +1104,195 @@ impl LanguageService {
             collapsed_text: None,
         })
     }
+}
+
+fn markdown_text(value: &str) -> String {
+    let mut escaped = String::with_capacity(value.len());
+    for character in value.chars() {
+        if character == '\n' || character == '\r' {
+            escaped.push(' ');
+        } else if "\\`*_{}[]<>()#+-.!|".contains(character) {
+            escaped.push('\\');
+            escaped.push(character);
+        } else {
+            escaped.push(character);
+        }
+    }
+    escaped
+}
+
+fn markdown_code(value: &str) -> String {
+    let longest = value
+        .split(|character| character != '`')
+        .map(str::len)
+        .max()
+        .unwrap_or(0);
+    let delimiter = "`".repeat(longest + 1);
+    let content = value.replace(['\n', '\r'], " ");
+    format!("{delimiter} {content} {delimiter}")
+}
+
+#[derive(Clone, Copy)]
+struct FacadeContract {
+    signature: &'static str,
+    summary: &'static str,
+    parameters: &'static [(&'static str, &'static str)],
+}
+
+const CHAT_PARAMETERS: &[(&str, &str)] = &[
+    ("continued", "override consecutive-message grouping"),
+    ("fill", "bubble fill"),
+    ("text-fill", "message text fill"),
+    ("inset", "bubble inset"),
+    ("radius", "bubble corner radius"),
+    ("tip", "show the bubble tip"),
+    ("image-only", "render image-only bubble content"),
+    ("reserve-avatar-space", "reserve the avatar column"),
+];
+const NARRATION_PARAMETERS: &[(&str, &str)] = &[
+    ("fill", "panel fill"),
+    ("text-fill", "narration text fill"),
+    ("inset", "panel inset"),
+    ("radius", "panel corner radius"),
+];
+const REPLY_PARAMETERS: &[(&str, &str)] = &[
+    ("label", "reply panel label"),
+    ("fill", "panel fill"),
+    ("accent", "accent and item text color"),
+    ("decoration", "top-right decoration or none"),
+];
+const BOND_PARAMETERS: &[(&str, &str)] = &[
+    ("label", "bond panel label"),
+    ("fill", "panel fill"),
+    ("text-fill", "bond event text fill"),
+    ("decoration", "top-right decoration or none"),
+];
+const CHAT_CONTRACT: FacadeContract = FacadeContract {
+    signature: "mmt.chat-left/right(continued: auto, fill: auto, text-fill: auto, inset: auto, radius: auto, tip: auto, image-only: false, reserve-avatar-space: auto)",
+    summary: "Render a left or right MomoTalk message. Speaker identity, avatar and body are managed by MomoScript.",
+    parameters: CHAT_PARAMETERS,
+};
+const NARRATION_CONTRACT: FacadeContract = FacadeContract {
+    signature: "mmt.narration(fill: auto, text-fill: auto, inset: auto, radius: auto)",
+    summary: "Render a centered narration panel.",
+    parameters: NARRATION_PARAMETERS,
+};
+const REPLY_CONTRACT: FacadeContract = FacadeContract {
+    signature: "mmt.reply(label: [回复], fill: rgb(\"e1edf0\"), accent: rgb(\"4b6989\"), decoration: image(...))",
+    summary: "Render reply options. List items are supplied by the MMT body.",
+    parameters: REPLY_PARAMETERS,
+};
+const BOND_CONTRACT: FacadeContract = FacadeContract {
+    signature: "mmt.bond(label: [羁绊事件], fill: rgb(\"fc879b\"), text-fill: white, decoration: image(...))",
+    summary: "Render a bond-event panel.",
+    parameters: BOND_PARAMETERS,
+};
+
+fn facade_marker_at(
+    document: &SyntaxDocument,
+    offset: usize,
+) -> Option<(FacadeContract, TextRange)> {
+    document.nodes.iter().find_map(|node| match node {
+        SyntaxNode::Statement(statement)
+            if statement.range.start <= offset && offset < statement.range.start + 1 =>
+        {
+            let contract = match statement.kind {
+                mmt_rs::syntax::StatementKind::Narration => NARRATION_CONTRACT,
+                mmt_rs::syntax::StatementKind::Left | mmt_rs::syntax::StatementKind::Right => {
+                    CHAT_CONTRACT
+                }
+            };
+            Some((
+                contract,
+                TextRange::new(statement.range.start, statement.range.start + 1),
+            ))
+        }
+        SyntaxNode::Reply(reply)
+            if reply.range.start <= offset && offset < reply.range.start + "@reply".len() =>
+        {
+            Some((
+                REPLY_CONTRACT,
+                TextRange::new(reply.range.start, reply.range.start + "@reply".len()),
+            ))
+        }
+        SyntaxNode::Bond(bond)
+            if bond.range.start <= offset && offset < bond.range.start + "@bond".len() =>
+        {
+            Some((
+                BOND_CONTRACT,
+                TextRange::new(bond.range.start, bond.range.start + "@bond".len()),
+            ))
+        }
+        _ => None,
+    })
+}
+
+fn facade_patch_at(
+    document: &SyntaxDocument,
+    offset: usize,
+) -> Option<(FacadeContract, &mmt_rs::syntax::PatchSyntax)> {
+    document.nodes.iter().find_map(|node| {
+        let (contract, patch) = match node {
+            SyntaxNode::Statement(statement) => {
+                let contract = match statement.kind {
+                    mmt_rs::syntax::StatementKind::Narration => NARRATION_CONTRACT,
+                    mmt_rs::syntax::StatementKind::Left | mmt_rs::syntax::StatementKind::Right => {
+                        CHAT_CONTRACT
+                    }
+                };
+                (contract, statement.patch.as_ref()?)
+            }
+            SyntaxNode::Reply(reply) => (REPLY_CONTRACT, reply.patch.as_ref()?),
+            SyntaxNode::Bond(bond) => (BOND_CONTRACT, bond.patch.as_ref()?),
+            _ => return None,
+        };
+        (patch.args_range.start <= offset && offset <= patch.args_range.end)
+            .then_some((contract, patch))
+    })
+}
+
+#[derive(Debug, Default)]
+struct PatchContext {
+    depth: usize,
+    segment_start: usize,
+    has_colon: bool,
+    parameter_index: u32,
+}
+
+fn patch_context(prefix: &str) -> PatchContext {
+    let mut context = PatchContext::default();
+    let mut quote = None;
+    let mut escaped = false;
+    for (index, character) in prefix.char_indices() {
+        if escaped {
+            escaped = false;
+            continue;
+        }
+        if character == '\\' {
+            escaped = true;
+            continue;
+        }
+        if let Some(delimiter) = quote {
+            if character == delimiter {
+                quote = None;
+            }
+            continue;
+        }
+        if character == '"' || character == '\'' {
+            quote = Some(character);
+        } else if matches!(character, '(' | '[' | '{') {
+            context.depth += 1;
+        } else if matches!(character, ')' | ']' | '}') {
+            context.depth = context.depth.saturating_sub(1);
+        } else if context.depth == 0 && character == ',' {
+            context.segment_start = index + character.len_utf8();
+            context.has_colon = false;
+            context.parameter_index += 1;
+        } else if context.depth == 0 && character == ':' {
+            context.has_colon = true;
+        }
+    }
+    context
 }
 
 fn statement_speaker_prefix(
@@ -757,6 +1488,90 @@ mod tests {
     }
 
     #[test]
+    fn completes_inline_resource_subjects_assets_and_sticker_variants() {
+        let base = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{"柚子":{"names":["柚子","Yuzu"],"slots":{"sticker":{"default":"default","sets":{"default":{"storage":"stickers","variants":[{"id":"smile","handles":["微笑"]}]}}}}}},
+            "assets":{"logo":{"source":{"storage":"stickers","path":"logo.png"}}},
+            "storage":{"stickers":{"kind":"image-dir","base":"assets"}}
+        }"#;
+        let extension = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba_ext","name":"BA extension","version":"1","type":"extension","requires":["ba"]},
+            "contributions":[{"target":"ba::柚子","slots":{"sticker":{"default":"extra","sets":{"extra":{"storage":"stickers","variants":[{"id":"wink","handles":["眨眼"]}]}}}}}],
+            "storage":{"stickers":{"kind":"image-dir","base":"assets"}}
+        }"#;
+        let mut service = LanguageService::default();
+        service
+            .update_pack_manifests(1, &[base.to_string(), extension.to_string()])
+            .unwrap();
+
+        let asset_source = "> 柚子: [:asset, lo";
+        service.open(uri(), 2, asset_source.to_string());
+        let assets = service.completions(
+            &uri(),
+            Position::new(0, asset_source.encode_utf16().count() as u32),
+        );
+        assert!(assets.iter().any(|item| item.label == "logo"));
+
+        let inferred_source = "@actor yuzu\npreset: ba::柚子\n@end\n> yuzu: [:smi";
+        service.open(uri(), 3, inferred_source.to_string());
+        let inferred = service.completions(
+            &uri(),
+            Position::new(3, "> yuzu: [:smi".encode_utf16().count() as u32),
+        );
+        assert!(inferred.iter().any(|item| item.label == "smile"));
+        assert!(inferred.iter().any(|item| item.label == "asset, logo"));
+        assert!(inferred.iter().all(|item| item.label != "ba::柚子"));
+
+        let alias_source = "@actor yuzu\npreset: ba::柚子\n@end\n> yuzu: [:yuzu, smi";
+        service.open(uri(), 4, alias_source.to_string());
+        let alias_variants = service.completions(
+            &uri(),
+            Position::new(3, "> yuzu: [:yuzu, smi".encode_utf16().count() as u32),
+        );
+        assert!(alias_variants.iter().any(|item| item.label == "smile"));
+
+        let variant_source = "> 柚子: [:ba::柚子, smi";
+        service.open(uri(), 2, variant_source.to_string());
+        let variants = service.completions(
+            &uri(),
+            Position::new(0, variant_source.encode_utf16().count() as u32),
+        );
+        assert!(variants.iter().any(|item| item.label == "smile"));
+        assert!(variants.iter().any(|item| item.label == "ba_ext::wink"));
+        let smile = variants.iter().find(|item| item.label == "smile").unwrap();
+        let Some(CompletionTextEdit::Edit(edit)) = &smile.text_edit else {
+            panic!("expected resource completion text edit");
+        };
+        assert_eq!(edit.new_text, "smile");
+        assert_eq!(
+            edit.range.start.character,
+            variant_source[..variant_source.rfind("smi").unwrap()]
+                .encode_utf16()
+                .count() as u32
+        );
+    }
+
+    #[test]
+    fn completes_script_assets_without_a_pack_registry() {
+        let source =
+            "@asset hero\nsrc: \"https://example.test/hero.png\"\n@end\n> narrator: [:asset, he";
+        let mut service = LanguageService::default();
+        service.open(uri(), 1, source.to_string());
+        let completions = service.completions(
+            &uri(),
+            Position::new(3, "> narrator: [:asset, he".encode_utf16().count() as u32),
+        );
+        let hero = completions
+            .iter()
+            .find(|item| item.label == "hero")
+            .expect("missing script-local asset completion");
+        assert_eq!(hero.detail.as_deref(), Some("script asset · custom"));
+    }
+
+    #[test]
     fn does_not_complete_pack_entities_in_actor_identity_head() {
         let manifest = r#"{
             "schema":"mmt-pack.v3",
@@ -894,10 +1709,7 @@ mod tests {
             "missing script actor at the exclusive patch end",
         );
 
-        let completions = service.completions(
-            &uri(),
-            Position::new(3, statement.len() as u32),
-        );
+        let completions = service.completions(&uri(), Position::new(3, statement.len() as u32));
         let actor = completions
             .iter()
             .find(|completion| completion.label == "hana")
@@ -912,5 +1724,160 @@ mod tests {
                 Position::new(3, statement.len() as u32),
             )
         );
+    }
+
+    #[test]
+    fn exposes_facade_hover_signature_and_top_level_parameter_completion() {
+        let mut service = LanguageService::default();
+        let source = "<(fill: rgb(1, 2, 3), ) hello";
+        service.open(uri(), 1, source.to_string());
+
+        let hover = service.hover(&uri(), Position::new(0, 0)).unwrap();
+        let HoverContents::Markup(contents) = hover.contents else {
+            panic!("expected markdown hover");
+        };
+        assert!(contents.value.contains("mmt.chat-left/right"));
+
+        let nested = source.find("2, ").unwrap() + 3;
+        assert!(
+            service
+                .completions(&uri(), Position::new(0, nested as u32))
+                .is_empty(),
+            "nested expression commas must not trigger façade fields",
+        );
+
+        let top_level = source.rfind(", ").unwrap() + 2;
+        let completions = service.completions(&uri(), Position::new(0, top_level as u32));
+        assert!(completions.iter().any(|item| item.label == "continued"));
+
+        let signature = service
+            .signature_help(&uri(), Position::new(0, top_level as u32))
+            .unwrap();
+        assert_eq!(signature.active_parameter, Some(1));
+
+        service.open(uri(), 2, "<(radius: 4pt, tip: ) hello".to_string());
+        let named = service
+            .signature_help(&uri(), Position::new(0, 20))
+            .unwrap();
+        assert_eq!(named.active_parameter, Some(5));
+    }
+
+    #[test]
+    fn speaker_hover_uses_the_statement_actor_revision() {
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{"日富美":{"names":["日富美"],"slots":{"avatar":{"default":"default","items":{"default":{"storage":"avatars","path":"日富美.png"}}}}}},
+            "storage":{"avatars":{"kind":"image-dir","base":"assets/avatar"}}
+        }"#;
+        let mut service = LanguageService::default();
+        service
+            .update_pack_manifests(1, &[manifest.to_string()])
+            .unwrap();
+        service.set_pack_base_urls(
+            1,
+            HashMap::from([(
+                "ba".to_string(),
+                Url::parse("file:///tmp/untrusted/").unwrap(),
+            )]),
+        );
+        assert!(service.pack_base_urls.is_empty());
+        service.set_pack_base_urls(
+            1,
+            HashMap::from([(
+                "ba".to_string(),
+                Url::parse("https://example.test/ba_kivo/").unwrap(),
+            )]),
+        );
+        service.open(
+            uri(),
+            1,
+            "> 日富美: first\n@actor 日富美\ndisplay-name: \"小鸟游日富美](https://evil.test/pixel)![\"\nalso-as: [hifumi]\n@end\n> hifumi: second".to_string(),
+        );
+
+        let first = service.hover(&uri(), Position::new(0, 3)).unwrap();
+        let second = service.hover(&uri(), Position::new(5, 3)).unwrap();
+        let HoverContents::Markup(first) = first.contents else {
+            panic!()
+        };
+        let HoverContents::Markup(second) = second.contents else {
+            panic!()
+        };
+        assert!(first.value.contains("**日富美**"));
+        assert!(first.value.contains("revision 0"));
+        assert!(
+            second
+                .value
+                .contains("**小鸟游日富美\\]\\(https://evil\\.test/pixel\\)\\!\\[**")
+        );
+        assert!(second.value.contains("revision 1"));
+        assert!(
+            second
+                .value
+                .contains("https://example.test/ba_kivo/assets/avatar/")
+        );
+        assert!(second.value.contains("%E6%97%A5%E5%AF%8C%E7%BE%8E.png"));
+        assert_eq!(
+            second.value.matches("](").count(),
+            1,
+            "only the fixed avatar target is allowed"
+        );
+    }
+
+    #[test]
+    fn speaker_references_complete_and_hover_with_the_current_revision() {
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{
+                "A":{"names":["A"],"display_name":"Actor A"},
+                "B":{"names":["B"],"display_name":"Actor B"}
+            }
+        }"#;
+        let mut service = LanguageService::default();
+        service
+            .update_pack_manifests(1, &[manifest.to_string()])
+            .unwrap();
+        let prefix = "> A: first\n> B: second\n@actor A\ndisplay-name: \"Revised A\"\n@end\n";
+        let future = "\n@actor A\ndisplay-name: \"Future A\"\n@end";
+        service.open(uri(), 1, format!("{prefix}> _{future}"));
+        let completions = service.completions(&uri(), Position::new(5, 3));
+        let back_ref = completions
+            .iter()
+            .find(|item| item.label == "_")
+            .expect("missing recent-distinct reference");
+        assert_eq!(
+            back_ref.detail.as_deref(),
+            Some("speaker reference → Revised A · A")
+        );
+        assert_eq!(
+            completions
+                .iter()
+                .find(|item| item.label == "_1")
+                .and_then(|item| item.detail.as_deref()),
+            Some("speaker reference → Revised A · A")
+        );
+        assert_eq!(
+            completions
+                .iter()
+                .find(|item| item.label == "_0")
+                .and_then(|item| item.detail.as_deref()),
+            Some("speaker reference → Actor B · B")
+        );
+        assert_eq!(
+            completions
+                .iter()
+                .find(|item| item.label == "~")
+                .and_then(|item| item.detail.as_deref()),
+            Some("speaker reference → Revised A · A")
+        );
+
+        service.change(uri(), 2, format!("{prefix}> _: third{future}"));
+        let hover = service.hover(&uri(), Position::new(5, 2)).unwrap();
+        let HoverContents::Markup(contents) = hover.contents else {
+            panic!("expected markdown hover");
+        };
+        assert!(contents.value.contains("**Revised A**"));
+        assert!(contents.value.contains("Reference ` _ ` → ` Revised A `"));
     }
 }

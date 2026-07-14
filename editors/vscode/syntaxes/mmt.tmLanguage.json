@@ -92,33 +92,37 @@
           "begin": "^(\\s*[><-]\\s*)(\\()",
           "beginCaptures": {
             "1": { "name": "keyword.operator.statement.mmt" },
-            "2": { "name": "punctuation.section.parens.begin.typst" }
+            "2": { "name": "meta.brace.round.typst" }
           },
           "end": "\\)",
-          "endCaptures": { "0": { "name": "punctuation.section.parens.end.typst" } },
-          "contentName": "meta.embedded.inline.typst",
-          "patterns": [{ "include": "#typst-patch-parentheses" }, { "include": "source.typst" }]
+          "endCaptures": { "0": { "name": "meta.brace.round.typst" } },
+          "contentName": "meta.embedded.inline.typst meta.expr.call.typst",
+          "patterns": [{ "include": "#typst-patch-arguments" }]
         },
         {
           "name": "meta.resource.patch.mmt",
           "begin": "(?<=:\\])(\\()",
           "beginCaptures": {
-            "1": { "name": "punctuation.section.parens.begin.typst" }
+            "1": { "name": "meta.brace.round.typst" }
           },
           "end": "\\)",
-          "endCaptures": { "0": { "name": "punctuation.section.parens.end.typst" } },
-          "contentName": "meta.embedded.inline.typst",
-          "patterns": [{ "include": "#typst-patch-parentheses" }, { "include": "source.typst" }]
+          "endCaptures": { "0": { "name": "meta.brace.round.typst" } },
+          "contentName": "meta.embedded.inline.typst meta.expr.call.typst",
+          "patterns": [{ "include": "#typst-patch-arguments" }]
         }
       ]
     },
-    "typst-patch-parentheses": {
-      "name": "meta.group.typst",
-      "begin": "\\(",
-      "beginCaptures": { "0": { "name": "punctuation.section.parens.begin.typst" } },
-      "end": "\\)",
-      "endCaptures": { "0": { "name": "punctuation.section.parens.end.typst" } },
-      "patterns": [{ "include": "#typst-patch-parentheses" }, { "include": "source.typst" }]
+    "typst-patch-arguments": {
+      "patterns": [
+        {
+          "match": "([A-Za-z_][A-Za-z0-9_-]*)(\\s*)(:)",
+          "captures": {
+            "1": { "name": "variable.other.readwrite.typst" },
+            "3": { "name": "punctuation.separator.colon.typst" }
+          }
+        },
+        { "include": "source.typst#expression" }
+      ]
     },
     "directives": {
       "patterns": [

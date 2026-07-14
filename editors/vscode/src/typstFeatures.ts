@@ -39,6 +39,8 @@ export function installTypstMiddleware(
 ): void {
   options.middleware = {
     provideCompletionItem: async (document, position, completionContext, token, next) => {
+      const mmt = await next(document, position, completionContext, token);
+      if (Array.isArray(mmt) ? mmt.length > 0 : Boolean(mmt?.items.length)) return mmt;
       const activeClient = client();
       try {
         const route = await activeClient.sendRequest<ProjectedPosition | null>(
@@ -49,7 +51,7 @@ export function installTypstMiddleware(
           },
           token
         );
-        if (!route) return next(document, position, completionContext, token);
+        if (!route) return mmt;
         const result = await requestWithCancellation<
           ProtocolCompletionItem[] | ProtocolCompletionList | null
         >(backend, "textDocument/completion", {
@@ -73,10 +75,12 @@ export function installTypstMiddleware(
         return activeClient.protocol2CodeConverter.asCompletionResult(mapped, undefined, token);
       } catch (error) {
         console.error("embedded Typst completion failed", error);
-        return next(document, position, completionContext, token);
+        return mmt;
       }
     },
     provideHover: async (document, position, token, next) => {
+      const mmt = await next(document, position, token);
+      if (mmt) return mmt;
       const activeClient = client();
       try {
         const route = await activeClient.sendRequest<ProjectedPosition | null>(
@@ -87,7 +91,7 @@ export function installTypstMiddleware(
           },
           token
         );
-        if (!route) return next(document, position, token);
+        if (!route) return mmt;
         const hover = await requestWithCancellation<ProtocolHover | null>(backend, "textDocument/hover", {
           textDocument: { uri: route.entryUri },
           position: route.position
@@ -105,10 +109,12 @@ export function installTypstMiddleware(
         return activeClient.protocol2CodeConverter.asHover(mapped);
       } catch (error) {
         console.error("embedded Typst hover failed", error);
-        return next(document, position, token);
+        return mmt;
       }
     },
     provideSignatureHelp: async (document, position, signatureContext, token, next) => {
+      const mmt = await next(document, position, signatureContext, token);
+      if (mmt) return mmt;
       const activeClient = client();
       try {
         const params = {
@@ -120,7 +126,7 @@ export function installTypstMiddleware(
           params,
           token
         );
-        if (!route) return next(document, position, signatureContext, token);
+        if (!route) return mmt;
         const signature = await requestWithCancellation<ProtocolSignatureHelp | null>(
           backend,
           "textDocument/signatureHelp",
@@ -151,7 +157,7 @@ export function installTypstMiddleware(
         return activeClient.protocol2CodeConverter.asSignatureHelp(signature, token);
       } catch (error) {
         console.error("embedded Typst signature help failed", error);
-        return next(document, position, signatureContext, token);
+        return mmt;
       }
     }
   };
@@ -167,6 +173,10 @@ export function connectTypstBackend(
     "mmt/typstProjectUpdated",
     (update: TypstProjectUpdate) => {
       backend.syncProject(update);
+      const current = backend.projectForEntry(update.entryUri);
+      if (current?.sourceUri === update.sourceUri && current.revision === update.revision) {
+        diagnostics.delete(vscode.Uri.parse(update.sourceUri));
+      }
     }
   );
   const projectClosed = client.onNotification(

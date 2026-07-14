@@ -79,6 +79,13 @@ assert(!tokenized[16].some((token) => token.scopes.includes("meta.embedded.block
 
 hasContainingScope(18, "right", "meta.embedded.inline.typst");
 lacksContainingScope(18, "statement patch body", "meta.embedded.inline.typst");
+hasScope(18, "inset", "variable.other.readwrite.typst");
+hasScope(18, ":", "punctuation.separator.colon.typst");
+hasScope(18, "1pt", "constant.numeric.length.typst");
+hasContainingScope(18, "rgb", "support.function.builtin.typst");
+hasScope(18, "#fff", "string.quoted.double.typst");
+hasScope(19, "100%", "constant.numeric.percentage.typst");
+hasScope(19, "-", "keyword.operator.arithmetic.typst");
 hasScope(19, "#1", "meta.macro.sticker.mmt");
 hasContainingScope(19, "2", "meta.embedded.inline.typst");
 lacksContainingScope(19, "resource patch body", "meta.embedded.inline.typst");

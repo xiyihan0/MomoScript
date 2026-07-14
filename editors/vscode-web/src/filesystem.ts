@@ -148,7 +148,14 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
     const entries = await readAll(this.database);
     entries.forEach((entry) => this.#entries.set(entry.path, { ...entry, data: new Uint8Array(entry.data) }));
     if (!this.#entries.has("/")) await this.persistAndRemember(makeEntry("/", vscode.FileType.Directory));
-    if (!this.#entries.has("/workspace")) await this.persistAndRemember(makeEntry("/workspace", vscode.FileType.Directory));
+    const legacyWorkspace = this.#entries.get("/workspace");
+    if (
+      legacyWorkspace?.type === vscode.FileType.Directory
+      && this.subtree("/workspace").length === 1
+    ) {
+      await runTransaction(this.database, (store) => store.delete("/workspace"));
+      this.#entries.delete("/workspace");
+    }
   }
 
   private subtree(path: string): StoredEntry[] {
