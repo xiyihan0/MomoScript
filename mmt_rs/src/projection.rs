@@ -2,13 +2,13 @@
 
 use serde::Serialize;
 
-use crate::materialize::{MaterializeError, MaterializedImage, ResourceMaterializer};
-use crate::pack::PackRegistry;
-use crate::resolve::{ResolvedResource, ResolvedResourceKind};
 use crate::diag::Diagnostic;
 use crate::emit::{
     EmitOptions, EmittedTypst, GeneratedKind, MaterializedContent, Origin, OriginKind, emit_typst,
 };
+use crate::materialize::{MaterializeError, MaterializedImage, ResourceMaterializer};
+use crate::pack::PackRegistry;
+use crate::resolve::{ResolvedResource, ResolvedResourceKind};
 use crate::semantic::{
     CharacterPresetCatalog, lower_actors, lower_assets, lower_resource_markers, resolve_body_modes,
 };
@@ -80,11 +80,29 @@ pub enum ProjectionError {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ProjectedResourceSource {
+    ImageDir {
+        base: String,
+        file_name: String,
+    },
+    ImageSequence {
+        path: String,
+        frame: u32,
+        sha256: String,
+        size: [u32; 2],
+        frame_count: u32,
+        container: String,
+        codec: String,
+        alpha: bool,
+        profile: serde_json::Value,
+    },
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ProjectedResource {
     pub typst_path: String,
     pub pack_namespace: String,
-    pub base: String,
-    pub file_name: String,
+    pub source: ProjectedResourceSource,
     pub range: TextRange,
 }
 
@@ -280,31 +298,111 @@ struct ProjectionMaterializer {
 }
 
 impl ResourceMaterializer for ProjectionMaterializer {
-    fn materialize(&mut self, resource: &ResolvedResource) -> Result<MaterializedImage, MaterializeError> {
+    fn materialize(
+        &mut self,
+        resource: &ResolvedResource,
+    ) -> Result<MaterializedImage, MaterializeError> {
         let source = match &resource.kind {
             ResolvedResourceKind::Avatar { source, .. }
             | ResolvedResourceKind::Sticker { source, .. }
             | ResolvedResourceKind::PackAsset { source, .. } => source,
-            _ => return Err(MaterializeError::new("Web preview cannot materialize this resource source")),
+            _ => {
+                return Err(MaterializeError::new(
+                    "Web preview cannot materialize this resource source",
+                ));
+            }
         };
-        if source.storage.kind != "image-dir" {
-            return Err(MaterializeError::new(format!(
-                "Web preview does not support '{}' storage yet",
-                source.storage.kind
-            )));
-        }
-        let file_name = source.path.as_deref().ok_or_else(|| MaterializeError::new("image-dir resource has no path"))?;
-        if file_name.is_empty() || file_name == "." || file_name == ".." || file_name.contains('/') || file_name.contains('\\') {
-            return Err(MaterializeError::new("image-dir resource path must be a basename"));
-        }
-        let base = source.storage.base.clone().ok_or_else(|| MaterializeError::new("image-dir storage has no base"))?;
-        let extension = file_name.rsplit_once('.').map(|(_, extension)| extension).unwrap_or("img");
-        let typst_path = format!("mmt-resources/{}.{}", self.resources.len(), extension);
+        let (typst_path, projected_source) =
+            match source.storage.kind.as_str() {
+                "image-dir" => {
+                    let file_name = source
+                        .path
+                        .as_deref()
+                        .ok_or_else(|| MaterializeError::new("image-dir resource has no path"))?;
+                    if file_name.is_empty()
+                        || file_name == "."
+                        || file_name == ".."
+                        || file_name.contains('/')
+                        || file_name.contains('\\')
+                    {
+                        return Err(MaterializeError::new(
+                            "image-dir resource path must be a basename",
+                        ));
+                    }
+                    let base =
+                        source.storage.base.clone().ok_or_else(|| {
+                            MaterializeError::new("image-dir storage has no base")
+                        })?;
+                    let extension = file_name
+                        .rsplit_once('.')
+                        .map(|(_, extension)| extension)
+                        .unwrap_or("img");
+                    (
+                        format!("mmt-resources/{}.{}", self.resources.len(), extension),
+                        ProjectedResourceSource::ImageDir {
+                            base,
+                            file_name: file_name.to_string(),
+                        },
+                    )
+                }
+                "image-sequence" => {
+                    let path = source.storage.path.clone().ok_or_else(|| {
+                        MaterializeError::new("image-sequence storage has no path")
+                    })?;
+                    let frame = source.frame.ok_or_else(|| {
+                        MaterializeError::new("image-sequence resource has no frame")
+                    })?;
+                    let frame_count = source.storage.frame_count.ok_or_else(|| {
+                        MaterializeError::new("image-sequence storage has no frame_count")
+                    })?;
+                    if frame >= frame_count {
+                        return Err(MaterializeError::new(
+                            "image-sequence frame is outside frame_count",
+                        ));
+                    }
+                    let sha256 = source.storage.sha256.clone().ok_or_else(|| {
+                        MaterializeError::new("image-sequence storage has no sha256")
+                    })?;
+                    let size = source.storage.size.ok_or_else(|| {
+                        MaterializeError::new("image-sequence storage has no size")
+                    })?;
+                    let container = source.storage.container.clone().ok_or_else(|| {
+                        MaterializeError::new("image-sequence storage has no container")
+                    })?;
+                    let codec = source.storage.codec.clone().ok_or_else(|| {
+                        MaterializeError::new("image-sequence storage has no codec")
+                    })?;
+                    let alpha = source.storage.alpha.ok_or_else(|| {
+                        MaterializeError::new("image-sequence storage has no alpha metadata")
+                    })?;
+                    let profile = source.storage.profile.clone().ok_or_else(|| {
+                        MaterializeError::new("image-sequence storage has no profile")
+                    })?;
+                    (
+                        format!("mmt-resources/{}.png", self.resources.len()),
+                        ProjectedResourceSource::ImageSequence {
+                            path,
+                            frame,
+                            sha256,
+                            size,
+                            frame_count,
+                            container,
+                            codec,
+                            alpha,
+                            profile,
+                        },
+                    )
+                }
+                kind => {
+                    return Err(MaterializeError::new(format!(
+                        "Web preview does not support '{kind}' storage"
+                    )));
+                }
+            };
         self.resources.push(ProjectedResource {
             typst_path: typst_path.clone(),
             pack_namespace: source.pack_namespace.clone(),
-            base,
-            file_name: file_name.to_string(),
+            source: projected_source,
             range: resource.range,
         });
         Ok(MaterializedImage { typst_path })

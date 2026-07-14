@@ -29,9 +29,9 @@ pub use parser::{parse_document, parse_text};
 pub use pipeline::{Compilation, CompilationFailure, compile_text, compile_text_strict};
 pub use project::{ProjectMaterializer, ProjectMaterializerOptions, export_template_library};
 pub use projection::{
-    MappingMode, PROJECTION_PLACEHOLDER_IMAGE, ProjectedResource, ProjectionEdit, ProjectionError,
-    ProjectionIndex, ProjectionKind, ProjectionSegment, TypstProjection, project_text,
-    project_text_with_pack,
+    MappingMode, PROJECTION_PLACEHOLDER_IMAGE, ProjectedResource, ProjectedResourceSource,
+    ProjectionEdit, ProjectionError, ProjectionIndex, ProjectionKind, ProjectionSegment,
+    TypstProjection, project_text, project_text_with_pack,
 };
 pub use resolve::{
     PackStorageSource, ResolvedResource, ResolvedResourceKind, ResourceFailure, ResourceResolution,

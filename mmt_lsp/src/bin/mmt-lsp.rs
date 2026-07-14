@@ -1,5 +1,5 @@
 use lsp_server::{Connection, Message, Notification, Response};
-use mmt_lsp::MmtLanguageServer;
+use mmt_lsp::{MmtLanguageServer, ServerEvent};
 
 fn main() -> Result<(), Box<dyn std::error::Error + Sync + Send>> {
     let (connection, io_threads) = Connection::stdio();
@@ -19,11 +19,45 @@ fn main() -> Result<(), Box<dyn std::error::Error + Sync + Send>> {
                 if connection.handle_shutdown(&request)? {
                     break;
                 }
-                let response = match server.request(&request.method, request.params) {
-                    Ok(result) => Response::new_ok(request.id, result),
-                    Err(error) => Response::new_err(request.id, error.code, error.message),
+                let (response, events) = match server.request(&request.method, request.params) {
+                    Ok(result) => {
+                        let events = result
+                            .get("events")
+                            .cloned()
+                            .and_then(|value| {
+                                serde_json::from_value::<Vec<ServerEvent>>(value).ok()
+                            })
+                            .unwrap_or_default();
+                        let events = if request.method == "mmt/updateDocument" {
+                            events
+                                .into_iter()
+                                .filter(|event| event.method != "mmt/typstProjectUpdated")
+                                .collect()
+                        } else {
+                            events
+                        };
+                        let response_result = if request.method == "mmt/updateDocument" {
+                            result
+                                .get("project")
+                                .cloned()
+                                .unwrap_or(serde_json::Value::Null)
+                        } else {
+                            result
+                        };
+                        (Response::new_ok(request.id, response_result), events)
+                    }
+                    Err(error) => (
+                        Response::new_err(request.id, error.code, error.message),
+                        Vec::new(),
+                    ),
                 };
                 connection.sender.send(Message::Response(response))?;
+                for event in events {
+                    connection.sender.send(Message::Notification(Notification {
+                        method: event.method,
+                        params: event.params,
+                    }))?;
+                }
             }
             Message::Notification(notification) => {
                 let method = notification.method;

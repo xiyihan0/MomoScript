@@ -1,36 +1,72 @@
-use std::collections::HashMap;
 use base64::Engine;
+use std::collections::HashMap;
 
 use lsp_types::{
     CompletionItem, CompletionTextEdit, Diagnostic, InsertReplaceEdit, Position,
     PositionEncodingKind, Range, TextEdit, Url,
 };
+#[cfg(test)]
+use mmt_rs::StaticPresetCatalog;
 use mmt_rs::{
     EmitOptions, MappingMode, PROJECTION_PLACEHOLDER_IMAGE, ProjectionEdit, ProjectionError,
     ProjectionKind, TypstProjection, project_text,
 };
-#[cfg(test)]
-use mmt_rs::StaticPresetCatalog;
 use serde::{Deserialize, Serialize};
 
 use crate::position::LineIndex;
 
 const EMBEDDED_TEMPLATE_TEXT_FILES: &[(&str, &str)] = &[
-    ("typst_sandbox/mmt_render/lib.typ", include_str!("../../typst_sandbox/mmt_render/lib.typ")),
-    ("typst_sandbox/mmt_render/config.typ", include_str!("../../typst_sandbox/mmt_render/config.typ")),
-    ("typst_sandbox/mmt_render/template.typ", include_str!("../../typst_sandbox/mmt_render/template.typ")),
-    ("typst_sandbox/mmt_render/chat.typ", include_str!("../../typst_sandbox/mmt_render/chat.typ")),
-    ("typst_sandbox/mmt_render/special.typ", include_str!("../../typst_sandbox/mmt_render/special.typ")),
-    ("typst_sandbox/mmt_render/resource.typ", include_str!("../../typst_sandbox/mmt_render/resource.typ")),
-    ("typst_sandbox/mmt_render/themes/moetalk.typ", include_str!("../../typst_sandbox/mmt_render/themes/moetalk.typ")),
-    ("typst_sandbox/mmt_render/vendor/shadowed/src/lib.typ", include_str!("../../typst_sandbox/mmt_render/vendor/shadowed/src/lib.typ")),
-    ("typst_sandbox/mmt_render/vendor/shadowed/src/shadowed.typ", include_str!("../../typst_sandbox/mmt_render/vendor/shadowed/src/shadowed.typ")),
+    (
+        "typst_sandbox/mmt_render/lib.typ",
+        include_str!("../../typst_sandbox/mmt_render/lib.typ"),
+    ),
+    (
+        "typst_sandbox/mmt_render/config.typ",
+        include_str!("../../typst_sandbox/mmt_render/config.typ"),
+    ),
+    (
+        "typst_sandbox/mmt_render/template.typ",
+        include_str!("../../typst_sandbox/mmt_render/template.typ"),
+    ),
+    (
+        "typst_sandbox/mmt_render/chat.typ",
+        include_str!("../../typst_sandbox/mmt_render/chat.typ"),
+    ),
+    (
+        "typst_sandbox/mmt_render/special.typ",
+        include_str!("../../typst_sandbox/mmt_render/special.typ"),
+    ),
+    (
+        "typst_sandbox/mmt_render/resource.typ",
+        include_str!("../../typst_sandbox/mmt_render/resource.typ"),
+    ),
+    (
+        "typst_sandbox/mmt_render/themes/moetalk.typ",
+        include_str!("../../typst_sandbox/mmt_render/themes/moetalk.typ"),
+    ),
+    (
+        "typst_sandbox/mmt_render/vendor/shadowed/src/lib.typ",
+        include_str!("../../typst_sandbox/mmt_render/vendor/shadowed/src/lib.typ"),
+    ),
+    (
+        "typst_sandbox/mmt_render/vendor/shadowed/src/shadowed.typ",
+        include_str!("../../typst_sandbox/mmt_render/vendor/shadowed/src/shadowed.typ"),
+    ),
 ];
 
 const EMBEDDED_TEMPLATE_BINARY_FILES: &[(&str, &[u8])] = &[
-    ("typst_sandbox/mmt_render/mmt_options.webp", include_bytes!("../../typst_sandbox/mmt_render/mmt_options.webp")),
-    ("typst_sandbox/mmt_render/mmt_favor.webp", include_bytes!("../../typst_sandbox/mmt_render/mmt_favor.webp")),
-    ("typst_sandbox/mmt_render/vendor/shadowed/src/renderer.wasm", include_bytes!("../../typst_sandbox/mmt_render/vendor/shadowed/src/renderer.wasm")),
+    (
+        "typst_sandbox/mmt_render/mmt_options.webp",
+        include_bytes!("../../typst_sandbox/mmt_render/mmt_options.webp"),
+    ),
+    (
+        "typst_sandbox/mmt_render/mmt_favor.webp",
+        include_bytes!("../../typst_sandbox/mmt_render/mmt_favor.webp"),
+    ),
+    (
+        "typst_sandbox/mmt_render/vendor/shadowed/src/renderer.wasm",
+        include_bytes!("../../typst_sandbox/mmt_render/vendor/shadowed/src/renderer.wasm"),
+    ),
 ];
 
 const EDITOR_PLACEHOLDER_SVG: &str =
@@ -47,21 +83,44 @@ pub struct TypstVirtualFile {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct TypstResourceRequest {
-    pub id: usize,
-    pub uri: Url,
-    pub pack_namespace: String,
-    pub base: String,
-    pub file_name: String,
-    pub range: Range,
+#[serde(
+    tag = "kind",
+    rename_all = "kebab-case",
+    rename_all_fields = "camelCase"
+)]
+pub enum TypstResourceRequest {
+    ImageDir {
+        id: usize,
+        uri: Url,
+        pack_namespace: String,
+        base: String,
+        file_name: String,
+        range: Range,
+    },
+    ImageSequence {
+        id: usize,
+        uri: Url,
+        pack_namespace: String,
+        path: String,
+        frame: u32,
+        sha256: String,
+        size: [u32; 2],
+        frame_count: u32,
+        container: String,
+        codec: String,
+        alpha: bool,
+        profile: serde_json::Value,
+        range: Range,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TypstProjectUpdate {
     pub source_uri: Url,
+    /// LSP version of the authored MMT document.
     pub source_version: i32,
+    /// Monotonic virtual Typst projection version; advances on every rebuild.
     pub revision: u64,
     pub entry_uri: Url,
     pub files: Vec<TypstVirtualFile>,
@@ -72,7 +131,9 @@ pub struct TypstProjectUpdate {
 #[serde(rename_all = "camelCase")]
 pub struct TypstRenderProjectUpdate {
     pub source_uri: Url,
+    /// LSP version of the authored MMT document.
     pub source_version: i32,
+    /// Monotonic virtual Typst projection version; advances on every rebuild.
     pub revision: u64,
     pub entry_uri: Url,
     pub files: Vec<TypstVirtualFile>,
@@ -112,18 +173,31 @@ impl ProjectionDocument {
     fn project_update_with_template(&self, include_template: bool) -> TypstProjectUpdate {
         let mut files = Vec::new();
         if include_template {
-            files.extend(EMBEDDED_TEMPLATE_TEXT_FILES.iter().map(|(path, text)| TypstVirtualFile {
-                uri: self.entry_uri.join(path).expect("embedded template path forms a valid virtual URI"),
-                text: Some((*text).to_string()),
-                data_base64: None,
+            files.extend(EMBEDDED_TEMPLATE_TEXT_FILES.iter().map(|(path, text)| {
+                TypstVirtualFile {
+                    uri: self
+                        .entry_uri
+                        .join(path)
+                        .expect("embedded template path forms a valid virtual URI"),
+                    text: Some((*text).to_string()),
+                    data_base64: None,
+                }
             }));
-            files.extend(EMBEDDED_TEMPLATE_BINARY_FILES.iter().map(|(path, data)| TypstVirtualFile {
-                uri: self.entry_uri.join(path).expect("embedded template path forms a valid virtual URI"),
-                text: None,
-                data_base64: Some(base64::engine::general_purpose::STANDARD.encode(data)),
+            files.extend(EMBEDDED_TEMPLATE_BINARY_FILES.iter().map(|(path, data)| {
+                TypstVirtualFile {
+                    uri: self
+                        .entry_uri
+                        .join(path)
+                        .expect("embedded template path forms a valid virtual URI"),
+                    text: None,
+                    data_base64: Some(base64::engine::general_purpose::STANDARD.encode(data)),
+                }
             }));
             files.push(TypstVirtualFile {
-                uri: self.entry_uri.join(PROJECTION_PLACEHOLDER_IMAGE).expect("placeholder path forms a valid virtual URI"),
+                uri: self
+                    .entry_uri
+                    .join(PROJECTION_PLACEHOLDER_IMAGE)
+                    .expect("placeholder path forms a valid virtual URI"),
                 text: Some(EDITOR_PLACEHOLDER_SVG.to_string()),
                 data_base64: None,
             });
@@ -294,36 +368,86 @@ pub fn build_render_project(
     source_uri: Url,
     source_version: i32,
     revision: u64,
+    entry_uri: Url,
     source: &str,
     packs: &mmt_rs::pack::PackRegistry,
 ) -> Result<TypstRenderProjectUpdate, ProjectionError> {
-    let entry_uri = virtual_entry_uri(&source_uri);
     let projection = mmt_rs::project_text_with_pack(source, packs, &EmitOptions::default())?;
     let source_lines = LineIndex::new(source);
-    let mut files = EMBEDDED_TEMPLATE_TEXT_FILES.iter().map(|(path, text)| TypstVirtualFile {
-        uri: entry_uri.join(path).expect("embedded template path forms a valid virtual URI"),
-        text: Some((*text).to_string()),
-        data_base64: None,
-    }).collect::<Vec<_>>();
-    files.extend(EMBEDDED_TEMPLATE_BINARY_FILES.iter().map(|(path, data)| TypstVirtualFile {
-        uri: entry_uri.join(path).expect("embedded template path forms a valid virtual URI"),
-        text: None,
-        data_base64: Some(base64::engine::general_purpose::STANDARD.encode(data)),
+    let mut files = EMBEDDED_TEMPLATE_TEXT_FILES
+        .iter()
+        .map(|(path, text)| TypstVirtualFile {
+            uri: entry_uri
+                .join(path)
+                .expect("embedded template path forms a valid virtual URI"),
+            text: Some((*text).to_string()),
+            data_base64: None,
+        })
+        .collect::<Vec<_>>();
+    files.extend(EMBEDDED_TEMPLATE_BINARY_FILES.iter().map(|(path, data)| {
+        TypstVirtualFile {
+            uri: entry_uri
+                .join(path)
+                .expect("embedded template path forms a valid virtual URI"),
+            text: None,
+            data_base64: Some(base64::engine::general_purpose::STANDARD.encode(data)),
+        }
     }));
     files.push(TypstVirtualFile {
         uri: entry_uri.clone(),
         text: Some(projection.emitted.source.clone()),
         data_base64: None,
     });
-    let resources = projection.resources.iter().enumerate().map(|(id, resource)| TypstResourceRequest {
-        id,
-        uri: entry_uri.join(&resource.typst_path).expect("resource path forms a valid virtual URI"),
-        pack_namespace: resource.pack_namespace.clone(),
-        base: resource.base.clone(),
-        file_name: resource.file_name.clone(),
-        range: source_lines.range(source, resource.range, &PositionEncodingKind::UTF16)
-            .expect("resource range belongs to source"),
-    }).collect();
+    let resources = projection
+        .resources
+        .iter()
+        .enumerate()
+        .map(|(id, resource)| {
+            let uri = entry_uri
+                .join(&resource.typst_path)
+                .expect("resource path forms a valid virtual URI");
+            let range = source_lines
+                .range(source, resource.range, &PositionEncodingKind::UTF16)
+                .expect("resource range belongs to source");
+            match &resource.source {
+                mmt_rs::ProjectedResourceSource::ImageDir { base, file_name } => {
+                    TypstResourceRequest::ImageDir {
+                        id,
+                        uri,
+                        pack_namespace: resource.pack_namespace.clone(),
+                        base: base.clone(),
+                        file_name: file_name.clone(),
+                        range,
+                    }
+                }
+                mmt_rs::ProjectedResourceSource::ImageSequence {
+                    path,
+                    frame,
+                    sha256,
+                    size,
+                    frame_count,
+                    container,
+                    codec,
+                    alpha,
+                    profile,
+                } => TypstResourceRequest::ImageSequence {
+                    id,
+                    uri,
+                    pack_namespace: resource.pack_namespace.clone(),
+                    path: path.clone(),
+                    frame: *frame,
+                    sha256: sha256.clone(),
+                    size: *size,
+                    frame_count: *frame_count,
+                    container: container.clone(),
+                    codec: codec.clone(),
+                    alpha: *alpha,
+                    profile: profile.clone(),
+                    range,
+                },
+            }
+        })
+        .collect();
     Ok(TypstRenderProjectUpdate {
         source_uri,
         source_version,
@@ -335,9 +459,21 @@ pub fn build_render_project(
     })
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct ProjectionStore {
     documents: HashMap<Url, ProjectionDocument>,
+    session_id: String,
+    next_revision: u64,
+}
+
+impl Default for ProjectionStore {
+    fn default() -> Self {
+        Self {
+            documents: HashMap::new(),
+            next_revision: 1,
+            session_id: uuid::Uuid::new_v4().simple().to_string(),
+        }
+    }
 }
 
 impl ProjectionStore {
@@ -345,11 +481,15 @@ impl ProjectionStore {
         &mut self,
         source_uri: Url,
         source_version: i32,
-        revision: u64,
         source: String,
         catalog: &impl mmt_rs::CharacterPresetCatalog,
     ) -> Result<&ProjectionDocument, ProjectionError> {
-        let entry_uri = virtual_entry_uri(&source_uri);
+        let revision = self.next_revision;
+        self.next_revision = self
+            .next_revision
+            .checked_add(1)
+            .expect("Typst projection revision overflow");
+        let entry_uri = virtual_entry_uri(&source_uri, &self.session_id, revision);
         let projection = project_text(&source, catalog, &EmitOptions::default())?;
         let source_lines = LineIndex::new(&source);
         let typst_lines = LineIndex::new(&projection.emitted.source);
@@ -392,15 +532,17 @@ impl ProjectionStore {
     }
 }
 
-fn virtual_entry_uri(source_uri: &Url) -> Url {
+fn virtual_entry_uri(source_uri: &Url, session_id: &str, revision: u64) -> Url {
     let identity = source_uri
         .as_str()
         .as_bytes()
         .iter()
         .map(|byte| format!("{byte:02x}"))
         .collect::<String>();
-    Url::parse(&format!("untitled:/mmt-projection/{identity}/main.typ"))
-        .expect("hex-encoded source URI always forms a valid virtual URI")
+    Url::parse(&format!(
+        "untitled:/mmt-projection/{identity}/{session_id}/main-{revision}.typ"
+    ))
+    .expect("hex-encoded source URI, UUID session, and numeric revision form a valid virtual URI")
 }
 
 #[cfg(test)]
@@ -425,7 +567,9 @@ mod tests {
     fn maps_only_identity_positions_and_edits() {
         let source = "@typ: #let accent = blue".to_string();
         let mut store = ProjectionStore::default();
-        let document = store.upsert(uri(), 1, 7, source.clone(), &StaticPresetCatalog::default()).unwrap();
+        let document = store
+            .upsert(uri(), 1, source.clone(), &StaticPresetCatalog::default())
+            .unwrap();
         let offset = source.find("accent").unwrap();
         let position = LineIndex::new(&source)
             .position(&source, offset, &PositionEncodingKind::UTF16)
@@ -477,23 +621,63 @@ mod tests {
     }
 
     #[test]
-    fn virtual_entry_uri_is_stable_across_revisions() {
+    fn virtual_entry_uri_is_revision_scoped_with_a_stable_project_root() {
         let mut store = ProjectionStore::default();
-        let first = store.upsert(uri(), 1, 1, "@typ: #let x = 1".to_string(), &StaticPresetCatalog::default())
+        let first = store
+            .upsert(
+                uri(),
+                1,
+                "@typ: #let x = 1".to_string(),
+                &StaticPresetCatalog::default(),
+            )
+            .unwrap();
+        let first_entry = first.entry_uri.clone();
+        let first_template = first_entry
+            .join("typst_sandbox/mmt_render/lib.typ")
+            .unwrap();
+        let first_revision = first.revision;
+        let second = store
+            .upsert(
+                uri(),
+                1,
+                "@typ: #let x = 2".to_string(),
+                &StaticPresetCatalog::default(),
+            )
+            .unwrap();
+        let second_template = second
+            .entry_uri
+            .join("typst_sandbox/mmt_render/lib.typ")
+            .unwrap();
+        assert_ne!(first_entry, second.entry_uri);
+        assert_eq!(first_template, second_template);
+        assert_eq!(second.source_version, 1);
+        assert!(second.revision > first_revision);
+        let mut next_session = ProjectionStore::default();
+        let next_session_entry = next_session
+            .upsert(
+                uri(),
+                1,
+                "@typ: #let x = 3".to_string(),
+                &StaticPresetCatalog::default(),
+            )
             .unwrap()
             .entry_uri
             .clone();
-        let second = store.upsert(uri(), 2, 2, "@typ: #let x = 2".to_string(), &StaticPresetCatalog::default())
-            .unwrap()
-            .entry_uri
-            .clone();
-        assert_eq!(first, second);
+        let first_root = first_entry.as_str().rsplit_once('/').unwrap().0;
+        let next_root = next_session_entry.as_str().rsplit_once('/').unwrap().0;
+        assert_ne!(first_root, next_root);
     }
 
     #[test]
     fn project_update_contains_the_embedded_template_import_graph() {
         let mut store = ProjectionStore::default();
-        let update = store.upsert(uri(), 1, 1, "@typ: #let x = 1".to_string(), &StaticPresetCatalog::default())
+        let update = store
+            .upsert(
+                uri(),
+                1,
+                "@typ: #let x = 1".to_string(),
+                &StaticPresetCatalog::default(),
+            )
             .unwrap()
             .project_update();
         let paths = update
@@ -505,7 +689,10 @@ mod tests {
         assert_eq!(wire["sourceVersion"], 1);
         assert!(wire.get("source_version").is_none());
         assert_eq!(wire["entryUri"], update.entry_uri.as_str());
-        assert_eq!(update.files.len(), 2 + EMBEDDED_TEMPLATE_TEXT_FILES.len() + EMBEDDED_TEMPLATE_BINARY_FILES.len());
+        assert_eq!(
+            update.files.len(),
+            2 + EMBEDDED_TEMPLATE_TEXT_FILES.len() + EMBEDDED_TEMPLATE_BINARY_FILES.len()
+        );
         assert_eq!(update.files.last().unwrap().uri, update.entry_uri);
         assert!(
             paths
@@ -518,10 +705,17 @@ mod tests {
                 .any(|path| path.ends_with("typst_sandbox/mmt_render/themes/moetalk.typ"))
         );
         assert!(update.full);
-        assert!(update.files.iter().any(|file| file.uri.path().ends_with("special.typ")
-            && file.text.as_deref() == Some(include_str!("../../typst_sandbox/mmt_render/special.typ"))));
-        assert!(update.files.iter().any(|file| file.uri.path().ends_with("mmt_options.webp")
-            && file.data_base64.is_some()));
+        assert!(
+            update
+                .files
+                .iter()
+                .any(|file| file.uri.path().ends_with("special.typ")
+                    && file.text.as_deref()
+                        == Some(include_str!("../../typst_sandbox/mmt_render/special.typ")))
+        );
+        assert!(update.files.iter().any(
+            |file| file.uri.path().ends_with("mmt_options.webp") && file.data_base64.is_some()
+        ));
         let delta = store.get(&uri()).unwrap().project_delta();
         assert!(!delta.full);
         assert_eq!(delta.files.len(), 1);
@@ -595,7 +789,14 @@ mod tests {
     fn maps_wrapper_spanning_diagnostic_to_its_resource_patch() {
         let source = "@asset: hero src:https://example.com/a.png\n- T\"\"\"[:asset, hero:](width: mmt.missing-style-token)\"\"\"";
         let mut store = ProjectionStore::default();
-        let document = store.upsert(uri(), 1, 1, source.to_string(), &StaticPresetCatalog::default()).unwrap();
+        let document = store
+            .upsert(
+                uri(),
+                1,
+                source.to_string(),
+                &StaticPresetCatalog::default(),
+            )
+            .unwrap();
         let generated_start = document
             .projection
             .emitted
@@ -657,20 +858,95 @@ mod tests {
         }"#).unwrap();
         let packs = mmt_rs::pack::PackRegistry::new(vec![manifest]).unwrap();
         let source = "@actor hifumi\npreset: ba::hifumi\n@end\n> hifumi: Hello";
-        let planned = mmt_rs::project_text_with_pack(source, &packs, &EmitOptions::default()).unwrap();
-        assert_eq!(planned.resources.len(), 1, "diagnostics: {:?}\nsource: {}", planned.diagnostics, planned.emitted.source);
-        let render = build_render_project(uri(), 1, 1, source, &packs).unwrap();
-        assert_eq!(render.resources.len(), 1, "render files: {:?}", render.files);
-        assert_eq!(render.resources[0].pack_namespace, "ba");
-        assert_eq!(render.resources[0].base, "assets/avatars");
-        assert_eq!(render.resources[0].file_name, "hifumi.png");
+        let planned =
+            mmt_rs::project_text_with_pack(source, &packs, &EmitOptions::default()).unwrap();
+        assert_eq!(
+            planned.resources.len(),
+            1,
+            "diagnostics: {:?}\nsource: {}",
+            planned.diagnostics,
+            planned.emitted.source
+        );
+        let render = build_render_project(
+            uri(),
+            1,
+            1,
+            virtual_entry_uri(&uri(), "render-test", 1),
+            source,
+            &packs,
+        )
+        .unwrap();
+        assert_eq!(
+            render.resources.len(),
+            1,
+            "render files: {:?}",
+            render.files
+        );
+        assert!(matches!(
+            &render.resources[0],
+            TypstResourceRequest::ImageDir { pack_namespace, base, file_name, .. }
+                if pack_namespace == "ba" && base == "assets/avatars" && file_name == "hifumi.png"
+        ));
         assert!(render.files.iter().any(|file| {
             file.uri == render.entry_uri
-                && file.text.as_deref().is_some_and(|text| text.contains("mmt-resources/0.png"))
+                && file
+                    .text
+                    .as_deref()
+                    .is_some_and(|text| text.contains("mmt-resources/0.png"))
         }));
 
         let mut language_store = ProjectionStore::default();
-        let language = language_store.upsert(uri(), 1, 1, source.to_string(), &packs).unwrap();
-        assert!(language.projection.emitted.source.contains(PROJECTION_PLACEHOLDER_IMAGE));
+        let language = language_store
+            .upsert(uri(), 1, source.to_string(), &packs)
+            .unwrap();
+        assert!(
+            language
+                .projection
+                .emitted
+                .source
+                .contains(PROJECTION_PLACEHOLDER_IMAGE)
+        );
+    }
+
+    #[test]
+    fn render_project_preserves_image_sequence_frame_metadata() {
+        let manifest = mmt_rs::pack::PackManifest::from_json(r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"Test","version":"1","type":"base"},
+            "entities":{"花子":{"names":["花子"],"slots":{"sticker":{"default":"default","sets":{"default":{"storage":"hanako","variants":[{"id":"default_001","ordinal":1,"frame":0}]}}}}}},
+            "storage":{"hanako":{"kind":"image-sequence","path":"blobs/花子/default.avifs","container":"avifs","codec":"av1","alpha":true,"frame_count":1,"size":[400,479],"sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","profile":{"keyframe_interval":30},"random_access":"keyframe"}}
+        }"#).unwrap();
+        let packs = mmt_rs::pack::PackRegistry::new(vec![manifest]).unwrap();
+        let source = "> 花子: [:#1:]";
+        let render = build_render_project(
+            uri(),
+            1,
+            1,
+            virtual_entry_uri(&uri(), "render-test", 1),
+            source,
+            &packs,
+        )
+        .unwrap();
+        assert_eq!(render.resources.len(), 1);
+        assert!(matches!(
+            &render.resources[0],
+            TypstResourceRequest::ImageSequence {
+                pack_namespace, path, frame, size, frame_count, container, codec, alpha, ..
+            } if pack_namespace == "ba"
+                && path == "blobs/花子/default.avifs"
+                && *frame == 0
+                && *size == [400, 479]
+                && *frame_count == 1
+                && container == "avifs"
+                && codec == "av1"
+                && *alpha
+        ));
+        assert!(render.files.iter().any(|file| {
+            file.uri == render.entry_uri
+                && file
+                    .text
+                    .as_deref()
+                    .is_some_and(|text| text.contains("mmt-resources/0.png"))
+        }));
     }
 }

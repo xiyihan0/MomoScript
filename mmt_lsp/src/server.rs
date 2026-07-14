@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::HashMap;
 
 use lsp_types::{
     CompletionItem, CompletionOptions, CompletionParams, Diagnostic, DidChangeTextDocumentParams,
@@ -157,7 +157,7 @@ enum ServerLifecycle {
 pub struct MmtLanguageServer {
     service: LanguageService,
     projections: ProjectionStore,
-    published_template_projects: HashSet<Url>,
+    published_project_entries: HashMap<Url, Url>,
     preview_on_change: bool,
     typst_language_features: bool,
     lifecycle: ServerLifecycle,
@@ -168,7 +168,7 @@ impl Default for MmtLanguageServer {
         Self {
             service: LanguageService::default(),
             projections: ProjectionStore::default(),
-            published_template_projects: HashSet::new(),
+            published_project_entries: HashMap::new(),
             preview_on_change: false,
             typst_language_features: false,
             lifecycle: ServerLifecycle::Created,
@@ -291,23 +291,19 @@ impl MmtLanguageServer {
             "mmt/updateDocument" => {
                 let params: DidChangeTextDocumentParams = decode(params)?;
                 let uri = params.text_document.uri.clone();
-                let include_template = !self.published_template_projects.contains(&uri);
-                self.notification(
+                let include_template = !self.published_project_entries.contains_key(&uri);
+                let events = self.notification(
                     "textDocument/didChange",
                     serde_json::to_value(params).expect("didChange params are serializable"),
                 )?;
-                let Some(document) = self.projections.get(&uri) else {
-                    return Ok(Value::Null);
-                };
-                let update = if include_template {
-                    document.project_update()
-                } else {
-                    document.project_delta()
-                };
-                if include_template {
-                    self.published_template_projects.insert(uri);
-                }
-                encode(update)
+                let project = self.projections.get(&uri).map(|document| {
+                    if include_template {
+                        document.project_update()
+                    } else {
+                        document.project_delta()
+                    }
+                });
+                encode(serde_json::json!({ "project": project, "events": events }))
             }
             "mmt/getTypstProject" => {
                 let params: GetTypstProjectParams = decode(params)?;
@@ -315,7 +311,8 @@ impl MmtLanguageServer {
                     return Ok(Value::Null);
                 };
                 let update = document.project_update();
-                self.published_template_projects.insert(params.uri);
+                self.published_project_entries
+                    .insert(params.uri, update.entry_uri.clone());
                 encode(update)
             }
             "mmt/getTypstRenderProject" => {
@@ -323,16 +320,29 @@ impl MmtLanguageServer {
                 let Some(document) = self.service.snapshot(&params.uri) else {
                     return Ok(Value::Null);
                 };
+                let Some(projection) = self.projections.get(&params.uri) else {
+                    return Ok(Value::Null);
+                };
+                let projection_revision = projection.revision;
+                let projection_entry_uri = projection.entry_uri.clone();
                 let Some(packs) = self.service.pack_registry() else {
                     return Ok(Value::Null);
                 };
-                encode(build_render_project(
-                    params.uri,
-                    document.version,
-                    document.revision,
-                    &document.text,
-                    packs,
-                ).map_err(|error| ServerError::invalid_params(format!("failed to build render project: {error:?}")))?)
+                encode(
+                    build_render_project(
+                        params.uri,
+                        document.version,
+                        projection_revision,
+                        projection_entry_uri,
+                        &document.text,
+                        packs,
+                    )
+                    .map_err(|error| {
+                        ServerError::invalid_params(format!(
+                            "failed to build render project: {error:?}"
+                        ))
+                    })?,
+                )
             }
             "mmt/updatePackManifests" => {
                 let params: UpdatePackManifestsParams = decode(params)?;
@@ -345,9 +355,26 @@ impl MmtLanguageServer {
                     .service
                     .update_pack_manifests(params.revision, &manifests)
                     .map_err(ServerError::invalid_params)?;
+                let mut events = Vec::new();
+                if updated {
+                    let documents = self
+                        .service
+                        .document_uris()
+                        .into_iter()
+                        .filter_map(|uri| {
+                            let document = self.service.snapshot(&uri)?;
+                            Some((uri, document.version))
+                        })
+                        .collect::<Vec<_>>();
+                    for (uri, version) in documents {
+                        let projection_error = self.refresh_projection(&uri);
+                        events.extend(self.document_events(uri, version, projection_error));
+                    }
+                }
                 Ok(serde_json::json!({
                     "revision": params.revision,
                     "updated": updated,
+                    "events": events,
                 }))
             }
             _ => Err(ServerError::method_not_found(method)),
@@ -382,19 +409,10 @@ impl MmtLanguageServer {
             "textDocument/didOpen" => {
                 let params: DidOpenTextDocumentParams = decode(params)?;
                 let document = params.text_document;
-                let revision = self
-                    .service
-                    .open(document.uri.clone(), document.version, document.text)
-                    .revision;
+                self.service
+                    .open(document.uri.clone(), document.version, document.text);
                 let projection_error = self.refresh_projection(&document.uri);
-                Ok(
-                    self.document_events(
-                        document.uri,
-                        document.version,
-                        revision,
-                        projection_error,
-                    ),
-                )
+                Ok(self.document_events(document.uri, document.version, projection_error))
             }
             "textDocument/didChange" => {
                 let params: DidChangeTextDocumentParams = decode(params)?;
@@ -421,36 +439,33 @@ impl MmtLanguageServer {
                         document.uri
                     )));
                 }
-                let Some(revision) = self
+                if self
                     .service
                     .change(document.uri.clone(), document.version, change.text)
-                    .map(|snapshot| snapshot.revision)
-                else {
+                    .is_none()
+                {
                     return Ok(Vec::new());
-                };
+                }
                 let projection_error = self.refresh_projection(&document.uri);
-                Ok(
-                    self.document_events(
-                        document.uri,
-                        document.version,
-                        revision,
-                        projection_error,
-                    ),
-                )
+                Ok(self.document_events(document.uri, document.version, projection_error))
             }
             "textDocument/didClose" => {
                 let params: DidCloseTextDocumentParams = decode(params)?;
                 let uri = params.text_document.uri;
+                let entry_uri = self
+                    .published_project_entries
+                    .remove(&uri)
+                    .or_else(|| self.projections.get(&uri).map(|project| project.entry_uri.clone()));
                 self.service.close(&uri);
                 self.projections.remove(&uri);
-                self.published_template_projects.remove(&uri);
-                Ok(vec![
-                    publish_diagnostics(uri.clone(), None, Vec::new()),
-                    ServerEvent {
+                let mut events = vec![publish_diagnostics(uri.clone(), None, Vec::new())];
+                if let Some(entry_uri) = entry_uri {
+                    events.push(ServerEvent {
                         method: "mmt/typstProjectClosed".to_string(),
-                        params: serde_json::json!({"sourceUri": uri}),
-                    },
-                ])
+                        params: serde_json::json!({"sourceUri": uri, "entryUri": entry_uri}),
+                    });
+                }
+                Ok(events)
             }
             _ => Ok(Vec::new()),
         }
@@ -526,22 +541,21 @@ impl MmtLanguageServer {
         &mut self,
         uri: lsp_types::Url,
         version: i32,
-        revision: u64,
         projection_error: Option<ServerEvent>,
     ) -> Vec<ServerEvent> {
-        let include_template = !self.published_template_projects.contains(&uri);
+        let include_template = !self.published_project_entries.contains_key(&uri);
         let mut events = vec![publish_diagnostics(
             uri.clone(),
             Some(version),
             self.service.diagnostics(&uri),
         )];
-        if self.preview_on_change {
-            events.push(ServerEvent {
-                method: "mmt/previewRequested".to_string(),
-                params: serde_json::json!({ "uri": uri, "revision": revision }),
-            });
-        }
         if let Some(projection) = self.projections.get(&uri) {
+            if self.preview_on_change {
+                events.push(ServerEvent {
+                    method: "mmt/previewRequested".to_string(),
+                    params: serde_json::json!({ "uri": uri, "revision": projection.revision }),
+                });
+            }
             events.push(ServerEvent {
                 method: "mmt/typstProjectUpdated".to_string(),
                 params: serde_json::to_value(if include_template {
@@ -551,14 +565,15 @@ impl MmtLanguageServer {
                 })
                 .expect("Typst project update is serializable"),
             });
-            if include_template {
-                self.published_template_projects.insert(uri.clone());
-            }
+            self.published_project_entries
+                .insert(uri.clone(), projection.entry_uri.clone());
         }
-        if projection_error.is_some() {
+        if projection_error.is_some()
+            && let Some(entry_uri) = self.published_project_entries.remove(&uri)
+        {
             events.push(ServerEvent {
                 method: "mmt/typstProjectClosed".to_string(),
-                params: serde_json::json!({"sourceUri": uri}),
+                params: serde_json::json!({"sourceUri": uri, "entryUri": entry_uri}),
             });
         }
         events.extend(projection_error);
@@ -568,13 +583,14 @@ impl MmtLanguageServer {
     fn refresh_projection(&mut self, uri: &lsp_types::Url) -> Option<ServerEvent> {
         let document = self.service.snapshot(uri)?;
         let version = document.version;
-        let revision = document.revision;
         let text = document.text.clone();
         let result = if let Some(catalog) = self.service.pack_registry() {
-            self.projections.upsert(uri.clone(), version, revision, text, catalog)
+            self.projections.upsert(uri.clone(), version, text, catalog)
         } else {
             self.projections.upsert(
-                uri.clone(), version, revision, text,
+                uri.clone(),
+                version,
+                text,
                 &mmt_rs::StaticPresetCatalog::default(),
             )
         };
@@ -620,6 +636,7 @@ fn publish_diagnostics(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::{TypstProjectUpdate, TypstRenderProjectUpdate};
 
     fn initialize(preview_on_change: bool) -> Value {
         serde_json::json!({
@@ -688,12 +705,18 @@ mod tests {
 
         assert_eq!(second.revision, 2);
 
-        server
+        let expected_closed_entry = second.entry_uri.to_string();
+        let close_events = server
             .notification(
                 "textDocument/didClose",
                 serde_json::json!({"textDocument": {"uri": uri.clone()}}),
             )
             .unwrap();
+        assert!(close_events.iter().any(|event| {
+            event.method == "mmt/typstProjectClosed"
+                && event.params["sourceUri"] == uri.as_str()
+                && event.params["entryUri"] == expected_closed_entry
+        }));
         assert!(server.projections().get(&uri).is_none());
     }
 
@@ -725,19 +748,45 @@ mod tests {
         assert_eq!(project["sourceUri"], uri.as_str());
         assert_eq!(project["sourceVersion"], 7);
         assert_eq!(project["revision"], 1);
-        assert!(project["files"].as_array().is_some_and(|files| !files.is_empty()));
+        assert!(
+            project["files"]
+                .as_array()
+                .is_some_and(|files| !files.is_empty())
+        );
         assert_eq!(project["full"], true);
-        assert!(project["files"].as_array().unwrap().iter().any(|file| file.get("dataBase64").is_some()));
-        let delta = server.request(
-            "mmt/updateDocument",
-            serde_json::json!({
-                "textDocument": {"uri": uri.clone(), "version": 8},
-                "contentChanges": [{"text": "@typ: #let x = 2"}]
-            }),
-        ).unwrap();
-        assert_eq!(delta["full"], false);
-        assert_eq!(delta["files"].as_array().unwrap().len(), 1);
-        assert_eq!(delta["files"][0]["uri"], delta["entryUri"]);
+        assert!(
+            project["files"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|file| file.get("dataBase64").is_some())
+        );
+        let delta = server
+            .request(
+                "mmt/updateDocument",
+                serde_json::json!({
+                    "textDocument": {"uri": uri.clone(), "version": 8},
+                    "contentChanges": [{"text": "@typ: #let x = 2"}]
+                }),
+            )
+            .unwrap();
+        assert_eq!(delta["project"]["full"], false);
+        assert_eq!(delta["project"]["files"].as_array().unwrap().len(), 1);
+        assert_eq!(
+            delta["project"]["files"][0]["uri"],
+            delta["project"]["entryUri"]
+        );
+        let events = delta["events"].as_array().unwrap();
+        assert!(
+            events
+                .iter()
+                .any(|event| event["method"] == "textDocument/publishDiagnostics")
+        );
+        assert!(
+            events
+                .iter()
+                .any(|event| event["method"] == "mmt/typstProjectUpdated")
+        );
 
         let missing = server
             .request(
@@ -753,18 +802,33 @@ mod tests {
         let mut server = MmtLanguageServer::default();
         server.request("initialize", initialize(false)).unwrap();
         let uri = lsp_types::Url::parse("file:///workspace/atomic.mmt").unwrap();
-        server.service.open(uri.clone(), 1, "@typ: #let x = 1".to_string());
+        server
+            .service
+            .open(uri.clone(), 1, "@typ: #let x = 1".to_string());
         server.refresh_projection(&uri);
 
-        let project = server.request(
-            "mmt/updateDocument",
-            serde_json::json!({
-                "textDocument": {"uri": uri, "version": 2},
-                "contentChanges": [{"text": "@typ: #let x = 2"}]
-            }),
-        ).unwrap();
-        assert_eq!(project["full"], true);
-        assert!(project["files"].as_array().unwrap().iter().any(|file| file.get("dataBase64").is_some()));
+        let project = server
+            .request(
+                "mmt/updateDocument",
+                serde_json::json!({
+                    "textDocument": {"uri": uri, "version": 2},
+                    "contentChanges": [{"text": "@typ: #let x = 2"}]
+                }),
+            )
+            .unwrap();
+        assert_eq!(project["project"]["full"], true);
+        assert!(
+            project["project"]["files"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|file| file.get("dataBase64").is_some())
+        );
+        assert!(
+            project["events"]
+                .as_array()
+                .is_some_and(|events| !events.is_empty())
+        );
     }
 
     #[test]
@@ -772,11 +836,17 @@ mod tests {
         let mut server = MmtLanguageServer::default();
         server.request("initialize", initialize(false)).unwrap();
         let uri = lsp_types::Url::parse("file:///workspace/failure.mmt").unwrap();
-        let revision = server
+        server
             .service
-            .open(uri.clone(), 1, "@typ: #let x = 1".to_string())
-            .revision;
+            .open(uri.clone(), 1, "@typ: #let x = 1".to_string());
         server.refresh_projection(&uri);
+        let initial = server.document_events(uri.clone(), 1, None);
+        let initial_update = initial
+            .iter()
+            .find(|event| event.method == "mmt/typstProjectUpdated")
+            .unwrap();
+        assert_eq!(initial_update.params["full"], true);
+        assert!(server.published_project_entries.contains_key(&uri));
         server.projections.remove(&uri);
         let error = ServerError {
             code: -32603,
@@ -784,21 +854,36 @@ mod tests {
             data: None,
         }
         .log_event("mmt/projection");
-        let events = server.document_events(uri.clone(), 1, revision, Some(error));
+        let events = server.document_events(uri.clone(), 1, Some(error));
         assert!(
             !events
                 .iter()
                 .any(|event| event.method == "mmt/typstProjectUpdated")
         );
         assert!(events.iter().any(|event| {
-            event.method == "mmt/typstProjectClosed" && event.params["sourceUri"] == uri.as_str()
+            event.method == "mmt/typstProjectClosed"
+                && event.params["sourceUri"] == uri.as_str()
+                && event.params["entryUri"].is_string()
         }));
-        let revision = server.service.change(uri.clone(), 2, "@typ: #let x = 2".to_string()).unwrap().revision;
+        assert!(!server.published_project_entries.contains_key(&uri));
+        server
+            .service
+            .change(uri.clone(), 2, "@typ: #let x = 2".to_string())
+            .unwrap();
         server.refresh_projection(&uri);
-        let recovered = server.document_events(uri, 2, revision, None);
-        let update = recovered.iter().find(|event| event.method == "mmt/typstProjectUpdated").unwrap();
+        let recovered = server.document_events(uri, 2, None);
+        let update = recovered
+            .iter()
+            .find(|event| event.method == "mmt/typstProjectUpdated")
+            .unwrap();
         assert_eq!(update.params["full"], true);
-        assert!(update.params["files"].as_array().unwrap().iter().any(|file| file.get("dataBase64").is_some()));
+        assert!(
+            update.params["files"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|file| file.get("dataBase64").is_some())
+        );
     }
 
     #[test]
@@ -941,6 +1026,105 @@ mod tests {
         let snapshot = server.service().snapshot(&uri).unwrap();
         assert_eq!(snapshot.version, 1);
         assert_eq!(snapshot.text, "- original");
+    }
+
+    #[test]
+    fn pack_update_republishes_open_document_semantics() {
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+        let uri = "file:///workspace/speaker.mmt";
+        let opened = server.notification(
+            "textDocument/didOpen",
+            serde_json::json!({
+                "textDocument": { "uri": uri, "languageId": "mmt", "version": 1, "text": "> 花子: hello" }
+            }),
+        ).unwrap();
+        assert!(
+            opened
+                .iter()
+                .find(|event| event.method == "textDocument/publishDiagnostics")
+                .unwrap()
+                .params["diagnostics"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|diagnostic| diagnostic["message"]
+                    .as_str()
+                    .unwrap()
+                    .contains("unknown character preset"))
+        );
+        let before: TypstProjectUpdate = serde_json::from_value(
+            opened
+                .iter()
+                .find(|event| event.method == "mmt/typstProjectUpdated")
+                .unwrap()
+                .params
+                .clone(),
+        )
+        .unwrap();
+        let before_text = before
+            .files
+            .iter()
+            .find(|file| file.uri == before.entry_uri)
+            .unwrap()
+            .text
+            .as_deref()
+            .unwrap()
+            .to_string();
+        assert_eq!(before.source_version, 1);
+
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{"花子":{"names":["花子"]}}
+        }"#;
+        let result = server.request("mmt/updatePackManifests", serde_json::json!({
+            "revision": 1,
+            "sources": [{ "manifestUrl": "https://example.test/manifest.json", "baseUrl": "https://example.test/", "json": manifest }]
+        })).unwrap();
+        let events: Vec<ServerEvent> = serde_json::from_value(result["events"].clone()).unwrap();
+        let diagnostics = events
+            .iter()
+            .find(|event| event.method == "textDocument/publishDiagnostics")
+            .unwrap();
+        assert!(
+            diagnostics.params["diagnostics"]
+                .as_array()
+                .unwrap()
+                .is_empty()
+        );
+        let after: TypstProjectUpdate = serde_json::from_value(
+            events
+                .iter()
+                .find(|event| event.method == "mmt/typstProjectUpdated")
+                .unwrap()
+                .params
+                .clone(),
+        )
+        .unwrap();
+        let after_text = after
+            .files
+            .iter()
+            .find(|file| file.uri == after.entry_uri)
+            .unwrap()
+            .text
+            .as_deref()
+            .unwrap();
+        assert_eq!(after.source_version, before.source_version);
+        assert!(after.revision > before.revision);
+        assert_ne!(after_text, before_text);
+
+        let render: TypstRenderProjectUpdate = serde_json::from_value(
+            server
+                .request(
+                    "mmt/getTypstRenderProject",
+                    serde_json::json!({ "uri": uri }),
+                )
+                .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(render.source_version, 1);
+        assert_eq!(render.revision, after.revision);
     }
 
     #[test]

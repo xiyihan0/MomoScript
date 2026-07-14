@@ -141,6 +141,11 @@ fn native_stdio_matches_the_shared_server_transcript() {
     let pack_update = receive(&mut stdout);
     assert_eq!(pack_update["result"]["revision"], 1);
     assert_eq!(pack_update["result"]["updated"], true);
+    assert_eq!(
+        receive(&mut stdout)["method"],
+        "textDocument/publishDiagnostics"
+    );
+    assert_eq!(receive(&mut stdout)["method"], "mmt/typstProjectUpdated");
     let preset_uri = "file:///workspace/preset.mmt";
     send(
         &mut stdin,

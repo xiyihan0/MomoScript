@@ -9,6 +9,7 @@ use mmt_rs::diag::{Diagnostic as MmtDiagnostic, Severity};
 use mmt_rs::pack::{PackManifest, PackRegistry};
 use mmt_rs::source::TextRange;
 use mmt_rs::syntax::{SyntaxDocument, SyntaxNode};
+use mmt_rs::{StaticPresetCatalog, lower_actors};
 
 use crate::position::LineIndex;
 
@@ -140,10 +141,16 @@ impl LanguageService {
         let Some(document) = self.snapshot(uri) else {
             return Vec::new();
         };
+        let actors = if let Some(registry) = &self.pack_registry {
+            lower_actors(&document.syntax, registry)
+        } else {
+            lower_actors(&document.syntax, &StaticPresetCatalog::default())
+        };
         document
             .syntax
             .diagnostics
             .iter()
+            .chain(actors.diagnostics.iter())
             .filter_map(|diagnostic| self.diagnostic(uri, document, diagnostic))
             .collect()
     }
@@ -309,6 +316,20 @@ impl LanguageService {
             );
         }
 
+        let statement_start = line_start + before_cursor.len() - trimmed.len();
+        let statement_patch = document.syntax.nodes.iter().find_map(|node| match node {
+            SyntaxNode::Statement(statement) if statement.range.start == statement_start => {
+                statement.patch.as_ref().map(|patch| patch.range)
+            }
+            _ => None,
+        });
+        if let Some(speaker_prefix) =
+            statement_speaker_prefix(trimmed, statement_start, offset, statement_patch)
+        {
+            let replace_start = offset - speaker_prefix.len();
+            return self.speaker_completions(document, replace_start, offset);
+        }
+
         if trimmed.starts_with('@') && !trimmed.chars().any(char::is_whitespace) {
             let replace_start = line_start + before_cursor.len() - trimmed.len();
             return completion_items(
@@ -439,6 +460,80 @@ impl LanguageService {
         items
     }
 
+    fn speaker_completions(
+        &self,
+        document: &DocumentSnapshot,
+        start: usize,
+        end: usize,
+    ) -> Vec<CompletionItem> {
+        let Some(range) =
+            document
+                .lines
+                .range(&document.text, TextRange::new(start, end), &self.encoding)
+        else {
+            return Vec::new();
+        };
+        let mut items = HashMap::<String, CompletionItem>::new();
+        let actors = if let Some(registry) = &self.pack_registry {
+            lower_actors(&document.syntax, registry)
+        } else {
+            lower_actors(&document.syntax, &StaticPresetCatalog::default())
+        };
+        for actor in actors.actors {
+            let detail = format!("script actor · {}", actor.preset_id);
+            let names = std::iter::once(actor.primary_name).chain(actor.names);
+            for name in names {
+                items.entry(name.clone()).or_insert_with(|| CompletionItem {
+                    label: name.clone(),
+                    kind: Some(CompletionItemKind::VARIABLE),
+                    detail: Some(detail.clone()),
+                    text_edit: Some(CompletionTextEdit::Edit(TextEdit::new(range, name))),
+                    ..CompletionItem::default()
+                });
+            }
+        }
+        if let Some(registry) = &self.pack_registry {
+            for manifest in registry.manifests() {
+                for (local_id, entity) in &manifest.entities {
+                    let canonical_id = if local_id.contains("::") {
+                        local_id.clone()
+                    } else {
+                        format!("{}::{local_id}", manifest.pack.namespace)
+                    };
+                    let display_name = entity
+                        .display_name
+                        .as_deref()
+                        .or_else(|| entity.names.first().map(String::as_str))
+                        .unwrap_or(local_id);
+                    for label in
+                        std::iter::once(canonical_id.clone()).chain(entity.names.iter().cloned())
+                    {
+                        items
+                            .entry(label.clone())
+                            .or_insert_with(|| CompletionItem {
+                                label: label.clone(),
+                                kind: Some(CompletionItemKind::CLASS),
+                                detail: Some(format!("{display_name} · {canonical_id}")),
+                                filter_text: Some(
+                                    std::iter::once(canonical_id.as_str())
+                                        .chain(entity.names.iter().map(String::as_str))
+                                        .collect::<Vec<_>>()
+                                        .join(" "),
+                                ),
+                                text_edit: Some(CompletionTextEdit::Edit(TextEdit::new(
+                                    range, label,
+                                ))),
+                                ..CompletionItem::default()
+                            });
+                    }
+                }
+            }
+        }
+        let mut items = items.into_values().collect::<Vec<_>>();
+        items.sort_by(|left, right| left.label.cmp(&right.label));
+        items
+    }
+
     fn folding_range(
         &self,
         document: &DocumentSnapshot,
@@ -467,6 +562,37 @@ impl LanguageService {
             collapsed_text: None,
         })
     }
+}
+
+fn statement_speaker_prefix(
+    line: &str,
+    statement_start: usize,
+    offset: usize,
+    patch_range: Option<TextRange>,
+) -> Option<&str> {
+    let mut rest = line
+        .strip_prefix('>')
+        .or_else(|| line.strip_prefix('<'))?
+        .trim_start();
+    if rest.starts_with('(') {
+        let patch_range = patch_range?;
+        if offset < patch_range.end {
+            return None;
+        }
+        let patch_end = patch_range.end.checked_sub(statement_start)?;
+        rest = line.get(patch_end..)?.trim_start();
+    }
+    for (offset, character) in rest.char_indices() {
+        if character != ':' {
+            continue;
+        }
+        let before = rest[..offset].chars().next_back();
+        let after = rest[offset + 1..].chars().next();
+        if before != Some(':') && after != Some(':') {
+            return None;
+        }
+    }
+    Some(rest)
 }
 
 fn completion_items(
@@ -669,6 +795,122 @@ mod tests {
                 .completions(&uri(), Position::new(1, 8))
                 .iter()
                 .any(|completion| completion.label == "ba::柚子")
+        );
+    }
+
+    #[test]
+    fn diagnoses_unknown_statement_speaker_semantically() {
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{"花子":{"names":["花子"]}}
+        }"#;
+        let mut service = LanguageService::default();
+        service
+            .update_pack_manifests(1, &[manifest.to_string()])
+            .unwrap();
+        service.open(uri(), 1, "> 未知人物: hello".to_string());
+        let diagnostics = service.diagnostics(&uri());
+        assert!(diagnostics.iter().any(|diagnostic| {
+            diagnostic.severity == Some(DiagnosticSeverity::ERROR)
+                && diagnostic
+                    .message
+                    .contains("unknown character preset '未知人物'")
+                && diagnostic.range
+                    == lsp_types::Range::new(Position::new(0, 2), Position::new(0, 6))
+        }));
+    }
+
+    #[test]
+    fn completes_pack_names_ids_and_script_actor_aliases_as_speakers() {
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{"花子":{"names":["花子","Hanako"],"display_name":"浦和花子"}}
+        }"#;
+        let mut service = LanguageService::default();
+        service
+            .update_pack_manifests(1, &[manifest.to_string()])
+            .unwrap();
+        service.open(
+            uri(),
+            1,
+            "@actor hana\npreset: ba::花子\nalso-as: [小花]\n@end\n> 花".to_string(),
+        );
+        let completions = service.completions(&uri(), Position::new(4, 3));
+        for expected in ["花子", "Hanako", "ba::花子", "hana", "小花"] {
+            assert!(
+                completions
+                    .iter()
+                    .any(|completion| completion.label == expected),
+                "missing {expected}"
+            );
+        }
+        let name = completions
+            .iter()
+            .find(|completion| completion.label == "花子")
+            .unwrap();
+        let Some(CompletionTextEdit::Edit(edit)) = &name.text_edit else {
+            panic!("expected a speaker text edit");
+        };
+        assert_eq!(
+            edit.range,
+            lsp_types::Range::new(Position::new(4, 2), Position::new(4, 3))
+        );
+    }
+
+    #[test]
+    fn completes_speaker_after_balanced_statement_patch() {
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{"花子":{"names":["花子"]}}
+        }"#;
+        let mut service = LanguageService::default();
+        service
+            .update_pack_manifests(1, &[manifest.to_string()])
+            .unwrap();
+        let statement = r#"> (inset: (left: 1pt), fill: rgb(")")) ha"#;
+        service.open(
+            uri(),
+            1,
+            format!("@actor hana\npreset: ba::花子\n@end\n{statement}"),
+        );
+
+        let inside_patch = statement.find("left").unwrap() + 2;
+        assert!(
+            service
+                .completions(&uri(), Position::new(3, inside_patch as u32))
+                .iter()
+                .all(|completion| completion.label != "hana")
+        );
+
+        let patch_end = statement.rfind("))").unwrap() + 2;
+        assert!(
+            service
+                .completions(&uri(), Position::new(3, patch_end as u32))
+                .iter()
+                .any(|completion| completion.label == "hana"),
+            "missing script actor at the exclusive patch end",
+        );
+
+        let completions = service.completions(
+            &uri(),
+            Position::new(3, statement.len() as u32),
+        );
+        let actor = completions
+            .iter()
+            .find(|completion| completion.label == "hana")
+            .expect("missing script actor after statement patch");
+        let Some(CompletionTextEdit::Edit(edit)) = &actor.text_edit else {
+            panic!("expected a speaker text edit");
+        };
+        assert_eq!(
+            edit.range,
+            lsp_types::Range::new(
+                Position::new(3, (statement.len() - 2) as u32),
+                Position::new(3, statement.len() as u32),
+            )
         );
     }
 }

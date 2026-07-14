@@ -66,18 +66,24 @@ pub fn scan_typst_overlay_macros(text: &str, origin: TextRange) -> TypstOverlayS
 
     while let Some(relative) = text[cursor..].find("[:") {
         let start = cursor + relative;
+        let escaped = has_odd_backslash_prefix(text, start);
         match parse_inline_macro_at_checked(&text[start..], origin.start + start) {
             Ok(parsed) => {
                 let end = parsed.syntax.range.end - origin.start;
-                mask_overlay_candidate(&mut masked, start, end);
-                candidates.push((start, Some(parsed.syntax), parsed.diagnostics));
+                if !escaped {
+                    mask_overlay_candidate(&mut masked, start, end);
+                }
+                candidates.push((start, escaped, Some(parsed.syntax), parsed.diagnostics));
                 cursor = end;
             }
             Err(InlineMacroParseError::MissingClose { range }) => {
                 let end = start + 2;
-                mask_overlay_candidate(&mut masked, start, end);
+                if !escaped {
+                    mask_overlay_candidate(&mut masked, start, end);
+                }
                 candidates.push((
                     start,
+                    escaped,
                     None,
                     vec![crate::inline::InlineMacroDiagnostic {
                         message: "unclosed inline macro".to_string(),
@@ -100,7 +106,10 @@ pub fn scan_typst_overlay_macros(text: &str, origin: TextRange) -> TypstOverlayS
     let root = LinkedNode::new(source.root());
     let mut macros = Vec::new();
 
-    for (start, syntax, candidate_diagnostics) in candidates {
+    for (start, escaped, syntax, candidate_diagnostics) in candidates {
+        if escaped {
+            continue;
+        }
         let is_markup = root
             .leaf_at(start, Side::After)
             .and_then(|leaf| leaf.mode_after())
@@ -122,6 +131,16 @@ pub fn scan_typst_overlay_macros(text: &str, origin: TextRange) -> TypstOverlayS
         macros,
         diagnostics,
     }
+}
+
+fn has_odd_backslash_prefix(text: &str, start: usize) -> bool {
+    text.as_bytes()[..start]
+        .iter()
+        .rev()
+        .take_while(|byte| **byte == b'\\')
+        .count()
+        % 2
+        == 1
 }
 
 fn mask_overlay_candidate(masked: &mut [u8], start: usize, end: usize) {
@@ -266,6 +285,27 @@ mod tests {
                 .collect::<Vec<_>>(),
             vec!["#1", "#5"]
         );
+    }
+
+    #[test]
+    fn escaped_overlay_marker_is_rejected_by_typst_syntax() {
+        let text = r"before \[:#1:] after";
+        let scan = scan_typst_overlay_macros(text, TextRange::new(0, text.len()));
+
+        assert!(scan.macros.is_empty());
+        assert!(!scan.diagnostics.is_empty());
+        assert!(
+            scan.diagnostics
+                .iter()
+                .all(|diagnostic| diagnostic.phase == DiagnosticPhase::Typst)
+        );
+
+        let escaped_colon = r"before [\: after";
+        let escaped_colon_scan = scan_typst_overlay_macros(
+            escaped_colon,
+            TextRange::new(0, escaped_colon.len()),
+        );
+        assert!(escaped_colon_scan.macros.is_empty());
     }
 
     #[test]
