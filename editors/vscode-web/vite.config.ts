@@ -4,7 +4,7 @@ export default defineConfig({
   build: {
     target: "esnext",
     assetsInlineLimit: 0,
-    sourcemap: true
+    sourcemap: false
   },
   worker: {
     format: "es"
