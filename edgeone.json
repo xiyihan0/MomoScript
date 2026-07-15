@@ -1,6 +1,0 @@
-{
-  "installCommand": "cd editors/vscode-web && npm ci",
-  "buildCommand": "cd editors/vscode-web && npm run build",
-  "outputDirectory": "editors/vscode-web/dist",
-  "nodeVersion": "22.12.0"
-}
