@@ -14,35 +14,14 @@ body {
 
 #workbench {
   display: grid;
-  grid-template-columns: 48px minmax(180px, 260px) minmax(320px, var(--editor-pane-width, 1fr)) 5px minmax(320px, 1fr);
+  grid-template-columns: 48px minmax(180px, 260px) minmax(320px, 1fr);
   grid-template-rows: minmax(0, 1fr) minmax(120px, 26vh) 22px;
 }
 
 #workbench { position: relative; }
 #workbench.sidebar-collapsed {
-  grid-template-columns: 48px 0 minmax(320px, var(--editor-pane-width, 1fr)) 5px minmax(320px, 1fr);
+  grid-template-columns: 48px 0 minmax(320px, 1fr);
 }
-#workbench.preview-collapsed .workbench-editor { grid-column: 3 / 6; }
-#workbench.preview-collapsed .workbench-splitter,
-#workbench.preview-collapsed .workbench-preview { display: none; }
-
-.workbench-pane-toggle {
-  position: absolute;
-  z-index: 100;
-  top: 7px;
-  width: 22px;
-  height: 22px;
-  padding: 0;
-  border: 1px solid #555;
-  border-radius: 3px;
-  color: #ddd;
-  background: #2d2d2d;
-  cursor: pointer;
-}
-.workbench-pane-toggle:hover,
-.workbench-pane-toggle:focus-visible { border-color: #007acc; outline: none; }
-.workbench-pane-toggle.right { right: 8px; }
-#workbench.preview-collapsed .workbench-pane-toggle.right { transform: rotate(180deg); }
 
 .workbench-activity {
   min-width: 0;
@@ -95,20 +74,9 @@ body {
 .mms-setting-row { display: flex; justify-content: space-between; font-size: 12px; }
 .mms-settings-status { min-height: 16px; color: #9cdcfe; font-size: 11px; }
 .workbench-editor { grid-column: 3; grid-row: 1; min-width: 0; min-height: 0; }
-.workbench-splitter {
-  grid-column: 4;
-  grid-row: 1;
-  position: relative;
-  z-index: 5;
-  cursor: col-resize;
-  background: #2b2b2b;
-  touch-action: none;
-}
-.workbench-splitter:hover,
-.workbench-splitter:focus-visible { background: #007acc; outline: none; }
-.workbench-preview { grid-column: 5; grid-row: 1; min-width: 0; min-height: 0; }
-.workbench-panel { grid-column: 3 / 6; grid-row: 2; min-width: 0; min-height: 0; }
-.workbench-status { grid-column: 1 / 6; grid-row: 3; min-width: 0; min-height: 0; }
+.workbench-preview { display: none; }
+.workbench-panel { grid-column: 3; grid-row: 2; min-width: 0; min-height: 0; }
+.workbench-status { grid-column: 1 / 4; grid-row: 3; min-width: 0; min-height: 0; }
 
 .typst-preview {
   box-sizing: border-box;

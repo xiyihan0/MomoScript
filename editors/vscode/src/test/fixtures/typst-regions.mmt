@@ -41,3 +41,18 @@ preset: ba::花子
 #emph[raw inherited fence] [:#1:]
 """
 @mode: t
+@mode: typst
+-(fill: rgb("#fff"), inset: calc((2 + 3) * 1pt)) #image("119686013_p0.jpg")
+-(fill: none) T"""#image("119686013_p0.jpg")
+- #stack[1][2]
+"""
+@mode: text
+-(fill: rgb("#000"), inset: calc((4 + 5) * 1pt)) T"""#strong[patched explicit body] [:#1:]
+"""
+-(fill: rgb("#111")) rT"""#emph[patched raw Typst] [:#1:]
+"""
+-(fill: rgb("#222")) t"""patched text macro [:#1:]
+"""
+-(fill: rgb("#333")) rt"""patched raw text [:#1:]
+"""
+> hana: plain after patched fences

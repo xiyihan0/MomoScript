@@ -32,6 +32,11 @@ const optionalMainFontsLoader = async (
 const encoder = new TextEncoder();
 let initialized = false;
 
+export interface TypstPreviewEvents {
+  status(message: string, error: boolean): void;
+  rendered(svg: string, revision: number, shadowCount: number, pageSize: { width: number; height: number }): void;
+}
+
 export class TypstPreviewController {
   private pending: TypstProjectUpdate | undefined;
   private rendering = false;
@@ -45,7 +50,7 @@ export class TypstPreviewController {
   private zoom = 1;
   private pageSize: { width: number; height: number } | undefined;
 
-  constructor(private readonly container: HTMLElement) {
+  constructor(private readonly container: HTMLElement, private readonly events?: TypstPreviewEvents) {
     this.container.classList.add("typst-preview");
     const toolbar = document.createElement("div");
     toolbar.className = "typst-preview-toolbar";
@@ -208,6 +213,7 @@ export class TypstPreviewController {
       this.container.dataset.previewRevision = String(revision);
       this.container.dataset.previewShadowCount = String(this.mappedPaths.size);
       this.container.dataset.previewReady = "true";
+      this.events?.rendered(inlineSvg.outerHTML, revision, this.mappedPaths.size, this.pageSize);
     } catch (error) {
       await this.unmapAbandonedPaths(mappedThisAttempt);
       if (generation !== this.generation || this.pending) return;
@@ -226,6 +232,7 @@ export class TypstPreviewController {
     const status = document.createElement("div");
     status.className = error ? "typst-preview-status error" : "typst-preview-status";
     status.textContent = message;
+    this.events?.status(message, error);
     this.viewport.replaceChildren(status);
   }
 }

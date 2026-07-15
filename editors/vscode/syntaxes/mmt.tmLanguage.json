@@ -90,9 +90,86 @@
         }
       ]
     },
+    "statement-patch": {
+      "patterns": [
+        {
+          "name": "meta.statement.patch.mmt",
+          "begin": "\\G(\\()",
+          "beginCaptures": { "1": { "name": "meta.brace.round.typst" } },
+          "end": "\\)",
+          "endCaptures": { "0": { "name": "meta.brace.round.typst" } },
+          "contentName": "meta.embedded.inline.typst meta.expr.call.typst",
+          "patterns": [{ "include": "#typst-patch-arguments" }]
+        }
+      ]
+    },
+    "explicit-body-suffix": {
+      "patterns": [
+        {
+          "name": "meta.body.typst.explicit-override.mmt",
+          "begin": "(?<=\\))\\s*(T)(\"{3,})",
+          "beginCaptures": {
+            "1": { "name": "storage.modifier.body-mode.mmt" },
+            "2": { "name": "punctuation.definition.string.begin.typst" }
+          },
+          "end": "\\2\\s*$",
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.typst" } },
+          "contentName": "meta.embedded.block.typst",
+          "patterns": [{ "include": "#macros" }, { "include": "source.typst" }]
+        },
+        {
+          "name": "meta.body.typst-raw.explicit-override.mmt",
+          "begin": "(?<=\\))\\s*(rT)(\"{3,})",
+          "beginCaptures": {
+            "1": { "name": "storage.modifier.body-mode.mmt" },
+            "2": { "name": "punctuation.definition.string.begin.typst" }
+          },
+          "end": "\\2\\s*$",
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.typst" } },
+          "contentName": "meta.embedded.block.typst",
+          "patterns": [{ "include": "source.typst" }]
+        },
+        {
+          "name": "meta.body.text.explicit-override.mmt",
+          "begin": "(?<=\\))\\s*(t)(\"{3,})",
+          "beginCaptures": {
+            "1": { "name": "storage.modifier.body-mode.mmt" },
+            "2": { "name": "punctuation.definition.string.begin.mmt" }
+          },
+          "end": "\\2\\s*$",
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.mmt" } },
+          "patterns": [{ "include": "#macros" }]
+        },
+        {
+          "name": "meta.body.text-raw.explicit-override.mmt",
+          "begin": "(?<=\\))\\s*(rt)(\"{3,})",
+          "beginCaptures": {
+            "1": { "name": "storage.modifier.body-mode.mmt" },
+            "2": { "name": "punctuation.definition.string.begin.mmt" }
+          },
+          "end": "\\2\\s*$",
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.mmt" } }
+        }
+      ]
+    },
+    "patched-explicit-body-overrides": {
+      "patterns": [
+        {
+          "name": "meta.statement.patched-explicit-body.mmt",
+          "begin": "^(\\s*(?:[><]\\s+.*?(?<!:):(?!:)|-)\\s*)(?=\\(.*\\)\\s*(?:T|rT|t|rt)\"{3,})",
+          "beginCaptures": { "1": { "name": "keyword.operator.statement.mmt" } },
+          "end": "$",
+          "patterns": [
+            { "include": "#statement-patch" },
+            { "include": "#explicit-body-suffix" }
+          ]
+        }
+      ]
+    },
     "typst-regions": {
       "patterns": [
         { "include": "#typst-directives" },
+        { "include": "#patched-explicit-body-overrides" },
         {
           "name": "meta.mode.typst.mmt",
           "begin": "^(\\s*)(@mode)(\\s*:\\s*)(?:T|typst)\\s*$",
@@ -120,7 +197,12 @@
               "beginCaptures": { "1": { "name": "keyword.operator.statement.mmt" } },
               "end": "$",
               "contentName": "meta.embedded.inline.typst",
-              "patterns": [{ "include": "#macros" }, { "include": "source.typst" }]
+              "patterns": [
+                { "include": "#statement-patch" },
+                { "include": "#explicit-body-suffix" },
+                { "include": "#macros" },
+                { "include": "source.typst" }
+              ]
             },
             { "include": "#directives" }
           ]
@@ -152,7 +234,11 @@
               "beginCaptures": { "1": { "name": "keyword.operator.statement.mmt" } },
               "end": "$",
               "contentName": "meta.embedded.inline.typst",
-              "patterns": [{ "include": "source.typst" }]
+              "patterns": [
+                { "include": "#statement-patch" },
+                { "include": "#explicit-body-suffix" },
+                { "include": "source.typst" }
+              ]
             },
             { "include": "#directives" }
           ]
@@ -210,16 +296,11 @@
           "patterns": [{ "include": "source.typst" }]
         },
         {
-          "name": "meta.statement.patch.mmt",
-          "begin": "^(\\s*[><-]\\s*)(\\()",
-          "beginCaptures": {
-            "1": { "name": "keyword.operator.statement.mmt" },
-            "2": { "name": "meta.brace.round.typst" }
-          },
-          "end": "\\)",
-          "endCaptures": { "0": { "name": "meta.brace.round.typst" } },
-          "contentName": "meta.embedded.inline.typst meta.expr.call.typst",
-          "patterns": [{ "include": "#typst-patch-arguments" }]
+          "name": "meta.statement.patched-line.mmt",
+          "begin": "^(\\s*[><-]\\s*)(?=\\()",
+          "beginCaptures": { "1": { "name": "keyword.operator.statement.mmt" } },
+          "end": "$",
+          "patterns": [{ "include": "#statement-patch" }]
         },
         {
           "name": "meta.resource.patch.mmt",
@@ -234,6 +315,17 @@
         }
       ]
     },
+    "typst-patch-parentheses": {
+      "patterns": [
+        {
+          "name": "meta.brace.round.typst meta.expr.call.typst",
+          "begin": "\\(",
+          "end": "\\)",
+          "contentName": "meta.embedded.inline.typst meta.expr.call.typst",
+          "patterns": [{ "include": "#typst-patch-arguments" }]
+        }
+      ]
+    },
     "typst-patch-arguments": {
       "patterns": [
         {
@@ -243,6 +335,7 @@
             "3": { "name": "punctuation.separator.colon.typst" }
           }
         },
+        { "include": "#typst-patch-parentheses" },
         { "include": "source.typst#expression" }
       ]
     },

@@ -1,7 +1,7 @@
 {
   "name": "momoscript-vscode",
   "displayName": "MomoScript",
-  "description": "Language support for the MomoScript visual storytelling DSL.",
+  "description": "为 MomoScript 视觉叙事 DSL 提供语言支持。",
   "version": "0.1.0",
   "publisher": "momoscript",
   "license": "MPL-2.0",
@@ -65,25 +65,49 @@
           "type": "string",
           "default": "",
           "scope": "machine",
-          "description": "Path to mmt-lsp. Empty uses the binary bundled with the extension."
+          "description": "mmt-lsp 的路径。留空时使用扩展内置的二进制文件。"
         },
         "mmt.typst.server.path": {
           "type": "string",
           "default": "",
           "scope": "machine",
-          "description": "Path to Tinymist. Empty uses a bundled Tinymist binary when available."
+          "description": "Tinymist 的路径。留空时优先使用扩展内置的 Tinymist 二进制文件。"
         },
         "mmt.resourcePacks.manifestUrls": {
           "type": "array",
           "items": { "type": "string", "format": "uri" },
           "default": ["https://mms-pack.xiyihan.cn/ba_kivo/manifest.json"],
           "scope": "window",
-          "description": "HTTPS pack-v3 manifest URLs loaded for resource-aware language features."
+          "description": "为资源感知语言功能加载的 HTTPS pack-v3 清单地址。"
         },
         "mmt.preview.onChange": {
           "type": "boolean",
           "default": true,
-          "description": "Schedule a revision-bound preview after document changes."
+          "description": "文档变化后自动调度与对应修订版本绑定的预览。"
+        },
+        "mmt.resources.maxFileSizeMb": {
+          "type": "number",
+          "default": 20,
+          "minimum": 1,
+          "maximum": 64,
+          "scope": "window",
+          "description": "单个资源包文件允许加载的最大压缩体积，单位 MiB。"
+        },
+        "mmt.resources.maxProjectResources": {
+          "type": "integer",
+          "default": 128,
+          "minimum": 1,
+          "maximum": 512,
+          "scope": "window",
+          "description": "单次预览修订最多允许物化的资源数量。"
+        },
+        "mmt.resources.maxProjectSizeMb": {
+          "type": "number",
+          "default": 64,
+          "minimum": 1,
+          "maximum": 256,
+          "scope": "window",
+          "description": "单次预览修订允许占用的资源常驻与临时内存上限，单位 MiB。"
         }
       }
     }

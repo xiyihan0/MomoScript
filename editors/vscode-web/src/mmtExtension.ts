@@ -35,6 +35,14 @@ export function mmtExtension(): ExtensionConfig {
       languages: manifest.contributes.languages,
       grammars: manifest.contributes.grammars,
       configuration: manifest.contributes.configuration,
+      commands: [
+        { command: "mmt.preview.open", title: "Typst 预览", icon: "$(open-preview)" }
+      ],
+      menus: {
+        "editor/title": [
+          { command: "mmt.preview.open", when: "editorLangId == mmt", group: "navigation" }
+        ]
+      },
       themes: [
         {
           id: "MomoScript Dark",

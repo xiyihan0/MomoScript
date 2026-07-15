@@ -1,3 +1,4 @@
+import "@codingame/monaco-vscode-language-pack-zh-hans";
 import * as vscode from "vscode";
 import { LogLevel } from "@codingame/monaco-vscode-api";
 import { getService, ICodeEditorService, IModelService } from "@codingame/monaco-vscode-api";
@@ -5,9 +6,11 @@ import getExplorerServiceOverride from "@codingame/monaco-vscode-explorer-servic
 import getKeybindingsServiceOverride from "@codingame/monaco-vscode-keybindings-service-override";
 import getMarkersServiceOverride from "@codingame/monaco-vscode-markers-service-override";
 import getPreferencesServiceOverride from "@codingame/monaco-vscode-preferences-service-override";
+import getOutputServiceOverride from "@codingame/monaco-vscode-output-service-override";
+import getLocalizationServiceOverride from "@codingame/monaco-vscode-localization-service-override";
 import getViewsServiceOverride, { attachPart, isPartVisibile, onPartVisibilityChange, Parts, registerCustomView, setPartVisibility, ViewContainerLocation } from "@codingame/monaco-vscode-views-service-override";
 import { registerCustomProvider } from "@codingame/monaco-vscode-files-service-override";
-import { configureDefaultWorkerFactory } from "monaco-languageclient/workerFactory";
+import { useWorkerFactory } from "monaco-languageclient/workerFactory";
 import { MonacoVscodeApiWrapper } from "monaco-languageclient/vscodeApiWrapper";
 import type { BaseLanguageClient } from "vscode-languageclient";
 import { MmtIndexedDbFileSystemProvider, MmtWorkbenchFileSystemProvider } from "./filesystem";
@@ -18,6 +21,7 @@ import type { LanguageProjectionToken } from "./languageProjection";
 import { materializeProjectResources } from "./resourceMaterializer";
 import type { MaterializationPackSource, ResourceMaterializationDependencies } from "./resourceMaterializer";
 import { mmtExtension } from "./mmtExtension";
+import { normalizeResourceLimits } from "./resourceSettings";
 import { startMmtLanguageClient } from "./mmtLanguageClient";
 import type { MmtLanguageClientHandle } from "./mmtLanguageClient";
 import { startTinymistLanguageClient } from "./tinymistLanguageClient";
@@ -76,11 +80,31 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
     if (!/^[^./\\][^/\\]*$/.test(name) || name === "..") throw new Error("invalid workspace basename");
     await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(WORKSPACE, name), Uint8Array.from(atob(dataBase64), (char) => char.charCodeAt(0)));
   });
+  Reflect.set(globalThis, "__mmtOpenWorkspaceDocument", async (name: string, text: string) => {
+    if (!/^[^./\\][^/\\]*\.mmt\.txt$/.test(name)) throw new Error("invalid MMT workspace basename");
+    const uri = vscode.Uri.joinPath(WORKSPACE, name);
+    await vscode.workspace.fs.writeFile(uri, encoder.encode(text));
+    const opened = await vscode.workspace.openTextDocument(uri);
+    const document = opened.languageId === "mmt" ? opened : await vscode.languages.setTextDocumentLanguage(opened, "mmt");
+    await vscode.window.showTextDocument(document);
+    return uri.toString();
+  });
+  Reflect.set(globalThis, "__mmtReadWorkspaceDocument", async (name: string) => {
+    if (!/^[^./\\][^/\\]*\.mmt\.txt$/.test(name)) throw new Error("invalid MMT workspace basename");
+    return new TextDecoder().decode(await vscode.workspace.fs.readFile(vscode.Uri.joinPath(WORKSPACE, name)));
+  });
 }
 const DEFAULT_STORY = "@reply\n- 选项 A\n- 选项 B\n@end\n";
 const PACK_URL = "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json";
 const encoder = new TextEncoder();
-const MAX_RESOURCE_BYTES = 20 * 1024 * 1024;
+function configuredResourceLimits() {
+  const configuration = vscode.workspace.getConfiguration("mmt.resources");
+  return normalizeResourceLimits({
+    maxFileSizeMb: configuration.get("maxFileSizeMb"),
+    maxProjectResources: configuration.get("maxProjectResources"),
+    maxProjectSizeMb: configuration.get("maxProjectSizeMb")
+  });
+}
 const MATERIALIZATION_DEPENDENCIES: ResourceMaterializationDependencies = {
   resourceUrl: (source, resource) => {
     if (resource.kind === "workspace-file") throw new Error("Workspace resources do not have pack URLs");
@@ -93,6 +117,25 @@ const MATERIALIZATION_DEPENDENCIES: ResourceMaterializationDependencies = {
   decodeSequence: decodeAvifSequence,
   encodeBase64: bytesToBase64
 };
+
+function configureWorkbenchWorkerFactory(): void {
+  useWorkerFactory({
+    workerLoaders: {
+      TextEditorWorker: () => new Worker(
+        new URL("@codingame/monaco-vscode-editor-api/esm/vs/editor/editor.worker.js", import.meta.url),
+        { type: "module" }
+      ),
+      TextMateWorker: () => new Worker(
+        new URL("@codingame/monaco-vscode-textmate-service-override/worker", import.meta.url),
+        { type: "module" }
+      ),
+      OutputLinkDetectionWorker: () => new Worker(
+        new URL("@codingame/monaco-vscode-output-service-override/worker", import.meta.url),
+        { type: "module" }
+      )
+    }
+  });
+}
 
 
 let provider: MmtIndexedDbFileSystemProvider | undefined;
@@ -110,6 +153,13 @@ void start().catch((error: unknown) => {
 async function start(): Promise<void> {
   const root = document.querySelector<HTMLElement>("#workbench");
   if (!root) throw new Error("Missing #workbench container");
+  let output: vscode.OutputChannel | undefined;
+  const log = (scope: string, message: string) => {
+    const line = `[${new Date().toISOString()}] [${scope}] ${message}`;
+    if (output) output.appendLine(line);
+    else console.info(line);
+  };
+  log("host", "Starting Web Workbench");
   document.documentElement.dataset.mmtStage = "api-starting";
   const layout = createLayout(root);
   const mmsViewRegistration = registerCustomView({
@@ -120,7 +170,19 @@ async function start(): Promise<void> {
     canMoveView: false,
     renderBody: (container) => renderMmsProjectView(container)
   });
-  const preview = new TypstPreviewController(layout.preview);
+  let previewPanel: vscode.WebviewPanel | undefined;
+  let previewPanelTitle = "MomoScript 预览";
+  let previewPanelDisposeRegistration: vscode.Disposable | undefined;
+  const preview = new TypstPreviewController(layout.preview, {
+    status(message, error) {
+      log(error ? "preview:error" : "preview", message);
+      if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, error);
+    },
+    rendered(svg, revision, shadowCount, pageSize) {
+      log("preview", `Rendered revision ${revision} with ${shadowCount} virtual files`);
+      if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, svg, "", false, pageSize);
+    }
+  });
   const previewProjects = new Map<string, TypstRenderProjectUpdate>();
   const packSourcesByNamespace = new Map<string, MaterializationPackSource>();
   const latestProjectBySource = new Map<string, { session: string; revision: number }>();
@@ -130,17 +192,20 @@ async function start(): Promise<void> {
   const latestLanguageProjectionBySource = new Map<string, LanguageProjectionToken>();
   const retiredLanguageProjectionSessions = new Map<string, Set<string>>();
   const requestedRenderTokens = new WeakSet<LanguageProjectionToken>();
+  if (import.meta.env.VITE_MMT_E2E === "1") {
+    Reflect.set(globalThis, "__mmtLatestProjectionRevision", () => {
+      const sourceUri = vscode.window.activeTextEditor?.document.uri.toString();
+      return sourceUri ? latestLanguageProjectionBySource.get(sourceUri)?.revision : undefined;
+    });
+  }
   let displayedPreviewSourceUri: string | undefined;
-  const showActivePreview = () => {
-    const uri = vscode.window.activeTextEditor?.document.uri.toString();
-    const project = uri ? previewProjects.get(uri) : undefined;
-    if (project && uri) {
-      displayedPreviewSourceUri = uri;
-      void preview.update(project);
-    } else if (displayedPreviewSourceUri) {
-      displayedPreviewSourceUri = undefined;
-      void preview.close();
-    }
+  if (import.meta.env.VITE_MMT_E2E === "1") {
+    Reflect.set(globalThis, "__mmtDisplayedPreviewSourceUri", () => displayedPreviewSourceUri);
+  }
+  const refreshOpenedPreview = () => {
+    if (!displayedPreviewSourceUri) return;
+    const project = previewProjects.get(displayedPreviewSourceUri);
+    if (project) void preview.update(project);
   };
   const closePreviewProject = (sourceUri: string) => {
     materializationControllers.get(sourceUri)?.abort();
@@ -150,10 +215,7 @@ async function start(): Promise<void> {
     previewProjects.delete(sourceUri);
     latestLanguageProjectionBySource.delete(sourceUri);
     retiredLanguageProjectionSessions.delete(sourceUri);
-    if (displayedPreviewSourceUri === sourceUri) {
-      displayedPreviewSourceUri = undefined;
-      void preview.close();
-    }
+    if (displayedPreviewSourceUri === sourceUri) previewPanel?.dispose();
   };
   try {
     provider = await MmtIndexedDbFileSystemProvider.open();
@@ -170,8 +232,14 @@ async function start(): Promise<void> {
     serviceOverrides: {
       ...getKeybindingsServiceOverride(),
       ...getExplorerServiceOverride(),
+      ...getLocalizationServiceOverride({
+        async setLocale() {},
+        async clearLocale() {},
+        availableLanguages: [{ locale: "zh-cn", languageName: "中文（简体）" }]
+      }),
       ...getMarkersServiceOverride(),
       ...getPreferencesServiceOverride(),
+      ...getOutputServiceOverride(),
       ...getViewsServiceOverride(),
     },
     viewsConfig: {
@@ -203,9 +271,11 @@ async function start(): Promise<void> {
       })
     },
     extensions: [mmtExtension()],
-    monacoWorkerFactory: configureDefaultWorkerFactory
+    monacoWorkerFactory: configureWorkbenchWorkerFactory
   });
   await api.start();
+  output = vscode.window.createOutputChannel("MomoScript");
+  log("host", "VS Code Workbench ready");
   root.classList.toggle("sidebar-collapsed", !isPartVisibile(Parts.SIDEBAR_PART));
   const sidebarVisibilityRegistration = onPartVisibilityChange(Parts.SIDEBAR_PART, (visible) => {
     root.classList.toggle("sidebar-collapsed", !visible);
@@ -229,12 +299,18 @@ async function start(): Promise<void> {
     const mirroredProject = await mirrorWorkspaceFiles(project, project, controller.signal);
     let prepared;
     try {
+      const limits = configuredResourceLimits();
+      log("resources", `Materializing ${project.resources.length} resources for revision ${project.revision} (file ${limits.maxFileBytes} bytes, project ${limits.maxProjectBytes} bytes)`);
       prepared = await materializeProjectResources(
         mirroredProject,
         packSourcesByNamespace,
         materializedResourceCache,
         controller.signal,
-        MATERIALIZATION_DEPENDENCIES
+        MATERIALIZATION_DEPENDENCIES,
+        {
+          maxResources: limits.maxResources,
+          maxBytes: limits.maxProjectBytes
+        }
       );
     } catch (error) {
       if (controller.signal.aborted) return;
@@ -245,10 +321,10 @@ async function start(): Promise<void> {
     if (prepared.errors.length > 0) {
       console.error("MomoScript preview resources failed", prepared.errors);
       void vscode.window.showWarningMessage(prepared.errors[0]);
+      for (const error of prepared.errors) log("resources:error", error);
     }
     previewProjects.set(project.sourceUri, prepared.project);
-    if (vscode.window.activeTextEditor?.document.uri.toString() === project.sourceUri) {
-      displayedPreviewSourceUri = project.sourceUri;
+    if (displayedPreviewSourceUri === project.sourceUri && previewPanel) {
       await preview.update(prepared.project);
     }
   };
@@ -258,18 +334,25 @@ async function start(): Promise<void> {
     latestLanguageProjectionBySource,
     retiredLanguageProjectionSessions
   );
+  const previewOnChange = () => vscode.workspace.getConfiguration("mmt.preview").get<boolean>("onChange", true);
   const requestRenderProject = async (
     client: BaseLanguageClient,
-    project: TypstProjectUpdate,
-    token: LanguageProjectionToken
+    sourceUri: string,
+    token: LanguageProjectionToken,
+    force = false
   ) => {
     if (requestedRenderTokens.has(token)) return;
     requestedRenderTokens.add(token);
+    log("preview", `Requesting render project for ${sourceUri}`);
     try {
       const renderProject = await client.sendRequest<TypstRenderProjectUpdate | null>(
-        "mmt/getTypstRenderProject", { uri: project.sourceUri }
+        "mmt/getTypstRenderProject", { uri: sourceUri }
       );
-      if (latestLanguageProjectionBySource.get(project.sourceUri) !== token) return;
+      if (latestLanguageProjectionBySource.get(sourceUri) !== token) return;
+      if (!force && !previewOnChange()) {
+        requestedRenderTokens.delete(token);
+        return;
+      }
       if (
         !renderProject ||
         renderProject.entryUri !== token.entryUri ||
@@ -281,7 +364,14 @@ async function start(): Promise<void> {
       throw error;
     }
   };
-  const previewSelectionRegistration = vscode.window.onDidChangeActiveTextEditor(showActivePreview);
+  const schedulePreviewIfEnabled = async (
+    client: BaseLanguageClient,
+    sourceUri: string,
+    token: LanguageProjectionToken
+  ) => {
+    if (!previewOnChange()) return;
+    await requestRenderProject(client, sourceUri, token);
+  };
   document.documentElement.dataset.mmtStage = "api-ready";
   await ensureDefaultStory();
   document.documentElement.dataset.mmtStage = "filesystem-ready";
@@ -290,9 +380,11 @@ async function start(): Promise<void> {
   document.documentElement.dataset.mmtStage = "tinymist-starting";
   try {
     tinymist = await startTinymistLanguageClient();
+    log("tinymist", "Tinymist Worker ready");
   } catch (error) {
+    log("tinymist:error", error instanceof Error ? error.message : String(error));
     void vscode.window.showWarningMessage(
-      `Embedded Typst language service is unavailable: ${error instanceof Error ? error.message : String(error)}`
+      `内置 Typst 语言服务不可用：${error instanceof Error ? error.message : String(error)}`
     );
   }
   document.documentElement.dataset.mmtStage = tinymist ? "tinymist-ready" : "tinymist-unavailable";
@@ -312,7 +404,7 @@ async function start(): Promise<void> {
       const tracked = trackLanguageProjection(project);
       if (!tracked) return;
       if (tracked.advanced) tinymist?.backend.syncProject(project);
-      void requestRenderProject(activeClient!, project, tracked.token).catch((error: unknown) => {
+      void schedulePreviewIfEnabled(activeClient!, project.sourceUri, tracked.token).catch((error: unknown) => {
         console.error("MomoScript preview materialization failed", error);
       });
     });
@@ -324,12 +416,60 @@ async function start(): Promise<void> {
       }
     );
     tinymist?.connect(activeClient);
+    log("mmt", "MMT language server ready");
   } catch (error) {
+    log("mmt:error", error instanceof Error ? error.message : String(error));
     void vscode.window.showErrorMessage(
-      `MomoScript browser language server failed: ${error instanceof Error ? error.message : String(error)}`
+      `MomoScript 浏览器语言服务器启动失败：${error instanceof Error ? error.message : String(error)}`
     );
     throw error;
   }
+  const previewCommandRegistration = vscode.commands.registerCommand("mmt.preview.open", async (resource?: vscode.Uri) => {
+    const resourceDocument = resource
+      ? vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === resource.toString())
+      : undefined;
+    const document = resourceDocument ?? vscode.window.activeTextEditor?.document;
+    if (!document || document.languageId !== "mmt") {
+      void vscode.window.showWarningMessage("请先打开一个 MomoScript 文档，再启动 Typst 预览。");
+      return;
+    }
+    const sourceUri = document.uri.toString();
+    displayedPreviewSourceUri = sourceUri;
+    previewPanelTitle = `${document.uri.path.split("/").at(-1) ?? "MomoScript"}（预览）`;
+    if (!previewPanel) {
+      previewPanel = vscode.window.createWebviewPanel(
+        "mmt.typstPreview",
+        previewPanelTitle,
+        vscode.ViewColumn.Beside,
+        { enableScripts: false, retainContextWhenHidden: true }
+      );
+      previewPanelDisposeRegistration = previewPanel.onDidDispose(() => {
+        previewPanel = undefined;
+        displayedPreviewSourceUri = undefined;
+        previewPanelDisposeRegistration?.dispose();
+        previewPanelDisposeRegistration = undefined;
+        void preview.close();
+        log("preview", "Preview editor closed");
+      });
+    } else {
+      previewPanel.title = previewPanelTitle;
+      previewPanel.reveal(vscode.ViewColumn.Beside, true);
+    }
+    previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, "正在准备 MomoScript 投影…");
+    log("preview", `Opening ${sourceUri}`);
+    const project = await activeClient!.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", { uri: sourceUri });
+    if (!project) {
+      const message = `无法为 ${document.fileName} 获取 Typst 投影。`;
+      previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
+      log("preview:error", message);
+      return;
+    }
+    const tracked = trackLanguageProjection(project);
+    if (!tracked) return;
+    if (tracked.advanced) tinymist?.backend.syncProject(project);
+    await requestRenderProject(activeClient!, project.sourceUri, tracked.token, true);
+    refreshOpenedPreview();
+  });
 
   packCache = await IndexedDbPackCache.open();
   const syncConfiguredPackSources = async () => {
@@ -349,6 +489,7 @@ async function start(): Promise<void> {
         packSourcesByNamespace.set(namespace, { ...source, cacheIdentity: await manifestCacheIdentity(source) });
       }
     }
+    log("resources", `Accepted ${packSources.length} resource pack manifests`);
   };
   try {
     await syncConfiguredPackSources();
@@ -362,6 +503,16 @@ async function start(): Promise<void> {
     if (input) input.value = values.join("\n");
     void syncConfiguredPackSources().catch((error: unknown) => {
       void vscode.window.showWarningMessage(`MomoScript resource packs are unavailable: ${error instanceof Error ? error.message : String(error)}`);
+    });
+  });
+  const previewConfigRegistration = vscode.workspace.onDidChangeConfiguration((event) => {
+    if (!event.affectsConfiguration("mmt.preview.onChange")) return;
+    if (!previewOnChange()) return;
+    const sourceUri = vscode.window.activeTextEditor?.document.uri.toString();
+    const token = sourceUri ? latestLanguageProjectionBySource.get(sourceUri) : undefined;
+    if (!sourceUri || !token) return;
+    void schedulePreviewIfEnabled(activeClient!, sourceUri, token).catch((error: unknown) => {
+      console.error("MomoScript preview materialization failed", error);
     });
   });
   const packUrls = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]);
@@ -378,7 +529,7 @@ async function start(): Promise<void> {
     const tracked = trackLanguageProjection(currentProject);
     if (tracked) {
       if (tracked.advanced) tinymist?.backend.syncProject(currentProject);
-      await requestRenderProject(activeClient, currentProject, tracked.token);
+      await schedulePreviewIfEnabled(activeClient, currentProject.sourceUri, tracked.token);
     }
   }
   const modelService = await getService(IModelService);
@@ -418,54 +569,53 @@ async function start(): Promise<void> {
       positionColumn: range.startColumn + 1
     })));
   });
-  let sourceVersion = mmtStory.version;
-  let changeSync = Promise.resolve();
-  let persistenceSync = Promise.resolve();
-  const storyChangeRegistration = storyModel.onDidChangeContent(() => {
-    const uri = storyModel.uri.toString();
-    const version = ++sourceVersion;
-    const text = storyModel.getValue();
-    persistenceSync = persistenceSync.then(() =>
-      Promise.resolve(vscode.workspace.fs.writeFile(STORY, encoder.encode(text)))
-    ).catch((error: unknown) => {
-      console.error("MomoScript document persistence failed", error);
-    });
-    changeSync = changeSync.then(async () => {
-      const current = await activeClient.sendRequest<TypstProjectUpdate | null>("mmt/updateDocument", {
-        textDocument: { uri, version },
-        contentChanges: [{ text }]
-      });
-      if (!current) {
-        const latest = latestLanguageProjectionBySource.get(uri);
-        if (latest && tinymist?.backend.closeProject(uri, latest.entryUri)) {
-          closePreviewProject(uri);
-        }
-        return;
-      }
+  const persistenceByUri = new Map<string, Promise<void>>();
+  const documentPersistenceRegistration = vscode.workspace.onDidChangeTextDocument((event) => {
+    const document = event.document;
+    if (document.languageId !== "mmt" || document.uri.scheme !== "mmtfs" || document.uri.authority !== "workspace") return;
+    const uri = document.uri.toString();
+    const priorRevision = latestLanguageProjectionBySource.get(uri)?.revision ?? -1;
+    const previous = persistenceByUri.get(uri) ?? Promise.resolve();
+    const next = previous.then(async () => {
+      await vscode.workspace.fs.writeFile(document.uri, encoder.encode(document.getText()));
+      log("document", `Saved ${document.uri.path}`);
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      if ((latestLanguageProjectionBySource.get(uri)?.revision ?? -1) > priorRevision) return;
+      const current = await activeClient.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", { uri });
+      if (!current || current.revision <= priorRevision) return;
       const tracked = trackLanguageProjection(current);
       if (!tracked) return;
       if (tracked.advanced) tinymist?.backend.syncProject(current);
-      await requestRenderProject(activeClient, current, tracked.token);
+      await schedulePreviewIfEnabled(activeClient, current.sourceUri, tracked.token);
     }).catch((error: unknown) => {
-      console.error("MomoScript document synchronization failed", error);
+      log("document:error", `${document.uri.path}: ${error instanceof Error ? error.message : String(error)}`);
+    }).finally(() => {
+      if (persistenceByUri.get(uri) === next) persistenceByUri.delete(uri);
     });
+    persistenceByUri.set(uri, next);
   });
   document.documentElement.dataset.mmtStage = "mmt-ready";
   document.documentElement.dataset.mmtLanguageId = mmtStory.languageId;
   document.documentElement.dataset.mmtWorkspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? "";
+  log("host", "MomoScript editor ready");
+  output.show(false);
   document.documentElement.dataset.mmtReady = "true";
   window.addEventListener("beforeunload", () => {
     markerEditingRegistration.dispose();
     mmsViewRegistration.dispose();
     layout.dispose();
     sidebarVisibilityRegistration.dispose();
-    storyChangeRegistration.dispose();
-    previewSelectionRegistration.dispose();
+    documentPersistenceRegistration.dispose();
     packConfigRegistration.dispose();
+    previewCommandRegistration.dispose();
+    previewPanel?.dispose();
+    previewPanelDisposeRegistration?.dispose();
+    previewConfigRegistration.dispose();
     workbenchProvider.dispose();
     void mmt?.dispose();
     void tinymist?.dispose();
     packCache?.dispose();
+    output?.dispose();
     provider?.dispose();
   });
 }
@@ -475,10 +625,11 @@ async function fetchResource(url: URL, signal: AbortSignal): Promise<Uint8Array>
   if (!response.ok) throw new Error(`HTTP ${response.status} for ${url.href}`);
   if (response.url !== url.href) throw new Error("Pack resource redirected outside its declared URL");
   const declaredLength = Number(response.headers.get("content-length"));
-  if (Number.isFinite(declaredLength) && declaredLength > MAX_RESOURCE_BYTES) {
-    throw new Error(`Pack resource exceeds ${MAX_RESOURCE_BYTES} bytes`);
+  const limit = configuredResourceLimits().maxFileBytes;
+  if (Number.isFinite(declaredLength) && declaredLength > limit) {
+    throw new Error(`Pack resource exceeds ${limit} bytes`);
   }
-  return readResponseBytes(response, MAX_RESOURCE_BYTES, signal);
+  return readResponseBytes(response, limit, signal);
 }
 
 function packResourceUrl(packBase: string, relativePath: string, kind: TypstResourceRequest["kind"]): URL {
@@ -615,21 +766,58 @@ async function fetchManifest(url: string, etag: string | undefined) {
   };
 }
 
+function previewWebviewHtml(
+  webview: vscode.Webview,
+  title: string,
+  svg?: string,
+  status = "Rendering preview…",
+  error = false,
+  pageSize?: { width: number; height: number }
+): string {
+  void webview;
+  const pageStyle = pageSize ? ` style="width:${pageSize.width}px;height:${pageSize.height}px" data-intrinsic-width="${pageSize.width}" data-intrinsic-height="${pageSize.height}"` : "";
+  const body = svg
+    ? `<main class="viewport"><article class="page"${pageStyle}>${svg}</article></main>`
+    : `<main class="status${error ? " error" : ""}">${escapeHtml(status)}</main>`;
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escapeHtml(title)}</title>
+  <style>
+    html, body { margin: 0; min-height: 100%; background: var(--vscode-editor-background); color: var(--vscode-editor-foreground); }
+    body { box-sizing: border-box; padding: 24px; font-family: var(--vscode-font-family); }
+    .viewport { display: flex; justify-content: center; min-width: min-content; }
+    .page { box-shadow: 0 2px 10px #0008; line-height: 0; }
+    .page svg { display: block; width: 100%; height: 100%; max-width: none; }
+    .status { display: grid; min-height: calc(100vh - 48px); place-items: center; color: var(--vscode-descriptionForeground); }
+    .status.error { color: var(--vscode-errorForeground); }
+  </style>
+</head>
+<body>${body}</body>
+</html>`;
+}
+
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#39;"
+  })[character]!);
+}
+
 function createLayout(root: HTMLElement) {
   root.replaceChildren();
   const activity = part("activity");
   const sidebar = part("sidebar");
   const editor = part("editor");
-  const splitter = part("splitter");
   const preview = part("preview");
   const panel = part("panel");
   const status = part("status");
-  const previewToggle = paneToggle("right", "preview");
-  previewToggle.addEventListener("click", () => {
-    const collapsed = root.classList.toggle("preview-collapsed");
-    previewToggle.setAttribute("aria-expanded", String(!collapsed));
-    previewToggle.setAttribute("aria-label", `${collapsed ? "Expand" : "Collapse"} preview`);
-  });
   const syncActivitySelection = (event: MouseEvent) => {
     const tab = (event.target as Element | null)?.closest<HTMLElement>('[role="tab"]');
     if (!tab || !activity.contains(tab)) return;
@@ -638,8 +826,7 @@ function createLayout(root: HTMLElement) {
     setPartVisibility(Parts.SIDEBAR_PART, !isPartVisibile(Parts.SIDEBAR_PART));
   };
   activity.addEventListener("click", syncActivitySelection, true);
-  root.append(previewToggle, activity, sidebar, editor, splitter, preview, panel, status);
-  installEditorPreviewSplitter(root, editor, splitter);
+  root.append(activity, sidebar, editor, preview, panel, status);
   return {
     activity,
     sidebar,
@@ -651,62 +838,6 @@ function createLayout(root: HTMLElement) {
   };
 }
 
-function installEditorPreviewSplitter(
-  root: HTMLElement,
-  editor: HTMLElement,
-  splitter: HTMLElement
-): void {
-  splitter.setAttribute("role", "separator");
-  splitter.setAttribute("aria-label", "Resize editor and preview");
-  splitter.setAttribute("aria-orientation", "vertical");
-  splitter.setAttribute("aria-valuemin", "0");
-  splitter.setAttribute("aria-valuemax", "100");
-  splitter.setAttribute("aria-valuenow", "50");
-  splitter.tabIndex = 0;
-
-  const resize = (clientX: number) => {
-    const rootBounds = root.getBoundingClientRect();
-    const editorStart = editor.getBoundingClientRect().left;
-    const available = rootBounds.right - editorStart - splitter.offsetWidth;
-    const minimum = Math.min(320, Math.floor(available / 2));
-    const width = Math.min(available - minimum, Math.max(minimum, clientX - editorStart));
-    root.style.setProperty("--editor-pane-width", `${width}px`);
-    const percentage = available > 0 ? Math.round(width / available * 100) : 50;
-    splitter.setAttribute("aria-valuenow", String(percentage));
-  };
-  const reset = () => {
-    root.style.removeProperty("--editor-pane-width");
-    splitter.setAttribute("aria-valuenow", "50");
-  };
-
-  splitter.addEventListener("pointerdown", (event) => {
-    event.preventDefault();
-    splitter.setPointerCapture(event.pointerId);
-    const move = (moveEvent: PointerEvent) => resize(moveEvent.clientX);
-    const finish = (finishEvent: PointerEvent) => {
-      if (splitter.hasPointerCapture(finishEvent.pointerId)) {
-        splitter.releasePointerCapture(finishEvent.pointerId);
-      }
-      splitter.removeEventListener("pointermove", move);
-      splitter.removeEventListener("pointerup", finish);
-      splitter.removeEventListener("pointercancel", finish);
-    };
-    splitter.addEventListener("pointermove", move);
-    splitter.addEventListener("pointerup", finish);
-    splitter.addEventListener("pointercancel", finish);
-  });
-  splitter.addEventListener("dblclick", reset);
-  splitter.addEventListener("keydown", (event) => {
-    if (event.key === "Home") {
-      reset();
-      return;
-    }
-    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-    event.preventDefault();
-    const current = editor.getBoundingClientRect();
-    resize(current.right + (event.key === "ArrowLeft" ? -20 : 20));
-  });
-}
 function mmsViewIcon(): string {
   const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M4 5.5h16v10H9l-5 4v-14Zm4 4h8M8 12h5"/></svg>';
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
@@ -715,26 +846,50 @@ function mmsViewIcon(): string {
 function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
   container.classList.add("mms-project-view");
   const project = document.createElement("section");
-  project.innerHTML = '<h3>PROJECT</h3><div class="mms-setting-row"><span>Entry</span><code>story.mmt</code></div>';
+  project.innerHTML = '<h3>项目</h3><div class="mms-setting-row"><span>入口文件</span><code>story.mmt</code></div>';
+  const previewSettings = document.createElement("section");
+  const previewHeading = document.createElement("h3");
+  previewHeading.textContent = "预览";
+  const previewLabel = document.createElement("label");
+  previewLabel.className = "mms-setting-row";
+  const previewLabelText = document.createElement("span");
+  previewLabelText.textContent = "文档变化时自动预览";
+  const previewToggle = document.createElement("input");
+  previewToggle.type = "checkbox";
+  previewToggle.checked = vscode.workspace.getConfiguration("mmt.preview").get<boolean>("onChange", true);
+  previewLabel.append(previewLabelText, previewToggle);
+  const previewStatus = document.createElement("div");
+  previewStatus.className = "mms-settings-status";
+  const updatePreviewSetting = async () => {
+    try {
+      await vscode.workspace.getConfiguration("mmt.preview").update("onChange", previewToggle.checked, vscode.ConfigurationTarget.Workspace);
+      previewStatus.textContent = previewToggle.checked ? "实时预览已启用" : "实时预览已暂停";
+    } catch (error) {
+      previewToggle.checked = vscode.workspace.getConfiguration("mmt.preview").get<boolean>("onChange", true);
+      previewStatus.textContent = error instanceof Error ? error.message : String(error);
+    }
+  };
+  previewToggle.addEventListener("change", updatePreviewSetting);
+  previewSettings.append(previewHeading, previewLabel, previewStatus);
   const resources = document.createElement("section");
   const resourceHeading = document.createElement("h3");
-  resourceHeading.textContent = "RESOURCE PACKS";
+  resourceHeading.textContent = "资源包";
   const label = document.createElement("label");
-  label.textContent = "Manifest URLs";
+  label.textContent = "清单地址";
   const urls = document.createElement("textarea");
   urls.rows = 4;
   urls.value = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]).join("\n");
-  urls.setAttribute("aria-label", "Resource pack manifest URLs");
+  urls.setAttribute("aria-label", "资源包清单地址");
   const save = document.createElement("button");
   save.type = "button";
-  save.textContent = "Save project settings";
+  save.textContent = "保存项目设置";
   const status = document.createElement("div");
   status.className = "mms-settings-status";
   const saveSettings = async () => {
     const values = urls.value.split("\n").map((value) => value.trim()).filter(Boolean);
     try {
       await vscode.workspace.getConfiguration("mmt.resourcePacks").update("manifestUrls", values, vscode.ConfigurationTarget.Workspace);
-      status.textContent = "Saved";
+      status.textContent = "已保存";
     } catch (error) {
       status.textContent = error instanceof Error ? error.message : String(error);
     }
@@ -742,29 +897,29 @@ function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
   save.addEventListener("click", saveSettings);
   const advanced = document.createElement("button");
   advanced.type = "button";
-  advanced.textContent = "Open advanced settings";
+  advanced.textContent = "打开高级设置";
   const openAdvanced = () => void vscode.commands.executeCommand("workbench.action.openSettings", "@ext:momoscript.momoscript-vscode");
   advanced.addEventListener("click", openAdvanced);
+  const configurationRegistration = vscode.workspace.onDidChangeConfiguration((event) => {
+    if (event.affectsConfiguration("mmt.preview.onChange")) {
+      previewToggle.checked = vscode.workspace.getConfiguration("mmt.preview").get<boolean>("onChange", true);
+    }
+    if (event.affectsConfiguration("mmt.resourcePacks.manifestUrls")) {
+      urls.value = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]).join("\n");
+    }
+  });
   resources.append(resourceHeading, label, urls, save, status, advanced);
-  container.append(project, resources);
+  container.append(project, previewSettings, resources);
   return {
     dispose() {
+      previewToggle.removeEventListener("change", updatePreviewSetting);
+      configurationRegistration.dispose();
       save.removeEventListener("click", saveSettings);
       advanced.removeEventListener("click", openAdvanced);
     }
   };
 }
 
-function paneToggle(side: "right", paneName: string): HTMLButtonElement {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = `workbench-pane-toggle ${side}`;
-  button.textContent = "›";
-  button.setAttribute("aria-expanded", "true");
-  button.setAttribute("aria-label", `Collapse ${paneName}`);
-  button.title = button.getAttribute("aria-label") ?? "";
-  return button;
-}
 
 
 function part(name: string): HTMLDivElement {

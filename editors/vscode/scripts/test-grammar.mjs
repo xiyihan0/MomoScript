@@ -116,4 +116,29 @@ assert(!tokenized[38].some((token) => token.scopes.includes("meta.macro.sticker.
 hasScope(41, "emph", "entity.name.function.typst");
 assert(!tokenized[40].some((token) => token.scopes.includes("meta.macro.sticker.mmt")), "raw inherited fence applied MMT macro scopes");
 
-console.log("Typst TextMate regions: T/rT bodies, nested statement/resource patches, quoted markers, escapes, and long fences passed");
+hasScope(45, "fill", "variable.other.readwrite.typst");
+hasScope(45, "rgb", "support.function.builtin.typst");
+hasContainingScope(45, "3", "meta.expr.call.typst");
+hasScope(45, "3", "constant.numeric.integer.typst");
+hasScope(45, "image", "entity.name.function.typst");
+hasScope(46, "fill", "variable.other.readwrite.typst");
+hasScope(46, "image", "entity.name.function.typst");
+hasContainingScope(47, "stack", "meta.embedded.block.typst");
+hasScope(47, "stack", "entity.name.function.typst");
+hasContainingScope(50, "5", "meta.expr.call.typst");
+hasContainingScope(50, "strong", "meta.embedded.block.typst");
+hasScope(50, "strong", "entity.name.function.typst");
+hasScope(50, "#1", "meta.macro.sticker.mmt");
+hasScope(52, "fill", "variable.other.readwrite.typst");
+hasScope(52, "emph", "entity.name.function.typst");
+hasContainingScope(52, "emph", "meta.embedded.block.typst");
+assert(!tokenized[51].some((token) => token.scopes.includes("meta.macro.sticker.mmt")), "patched rT region applied MMT macro scopes");
+hasScope(54, "fill", "variable.other.readwrite.typst");
+hasScope(54, "#1", "meta.macro.sticker.mmt");
+lacksContainingScope(54, "patched text macro", "meta.embedded.block.typst");
+hasScope(56, "fill", "variable.other.readwrite.typst");
+lacksContainingScope(56, "patched raw text", "meta.embedded.block.typst");
+assert(!tokenized[55].some((token) => token.scopes.includes("meta.macro.sticker.mmt")), "patched rt region applied MMT macro scopes");
+lacksContainingScope(58, "plain after patched fences", "meta.embedded.block.typst");
+
+console.log("Typst TextMate regions: patched and unpatched t/T/rt/rT fences, nested patches, quoted markers, escapes, and long fences passed");

@@ -44,9 +44,14 @@ test("production editor materializes an avatar and restores the authored story a
 
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
+  const outputPanel = page.locator(".workbench-panel");
+  await expect(outputPanel.getByRole("tab", { name: /^输出/ })).toHaveAttribute("aria-selected", "true");
+  await expect(outputPanel).toContainText("MomoScript editor ready");
   const editor = page.locator(".workbench-editor .monaco-editor").first();
   const preview = page.locator(".workbench-preview");
   await expect(editor).toBeVisible();
+  await page.getByRole("button", { name: "Typst 预览" }).click();
+  await expect(page.getByRole("tab", { name: /^story\.mmt（预览）, 编辑器组2$/ })).toBeVisible();
   await expect(preview).toHaveAttribute("data-preview-ready", "true");
   const imageBaselineRevision = await preview.getAttribute("data-preview-revision");
   const workspaceImage = avatar.toString("base64");
@@ -56,7 +61,8 @@ test("production editor materializes an avatar and restores the authored story a
   await page.keyboard.insertText("@typ\nWORKSPACE_IMAGE_READY\n#image(\"./workspace-image.png\")\n@end");
   await expect(preview.locator(".tsel").filter({ hasText: "WORKSPACE_IMAGE_READY" }).first()).toBeAttached();
   await expect.poll(() => preview.getAttribute("data-preview-revision"), { timeout: 30000 }).not.toBe(imageBaselineRevision);
-  await expect(preview.locator("svg image").first()).toBeVisible();
+  await expect(preview.locator("svg image").first()).toBeAttached();
+  await expect.poll(() => renderedWebviewHasVisibleIntrinsicPage(page), { timeout: 30_000 }).toBe(true);
   const sanitizerResult = await page.evaluate(() => {
     const sanitizeSvg = Reflect.get(globalThis, "__mmtSanitizeSvg");
     if (typeof sanitizeSvg !== "function") throw new Error("missing E2E SVG sanitizer hook");
@@ -80,49 +86,26 @@ test("production editor materializes an avatar and restores the authored story a
     text: "中文 styled",
     tag: "div"
   });
-  const splitter = page.getByRole("separator", { name: "Resize editor and preview" });
-  await expect(splitter).toBeVisible();
-  const initialEditorWidth = (await editor.boundingBox())!.width;
-  const splitterBox = (await splitter.boundingBox())!;
-  await page.mouse.move(splitterBox.x + splitterBox.width / 2, splitterBox.y + 20);
-  await page.mouse.down();
-  await page.mouse.move(splitterBox.x + splitterBox.width / 2 + 80, splitterBox.y + 20);
-  await page.mouse.up();
-  await expect.poll(async () => (await editor.boundingBox())!.width).toBeGreaterThan(initialEditorWidth + 60);
-  await splitter.dblclick();
-  await expect.poll(async () => (await editor.boundingBox())!.width).toBeCloseTo(initialEditorWidth, 0);
-  const explorerActivity = page.getByRole("tab", { name: /^Explorer/ });
+  const explorerActivity = page.getByRole("tab", { name: /^资源管理器/ });
   const mmsActivity = page.getByRole("tab", { name: "MomoScript", exact: true });
-  const previewToggle = page.getByRole("button", { name: "Collapse preview" });
   await expect(explorerActivity).toBeVisible();
   await expect(explorerActivity).toHaveAttribute("aria-selected", "true");
-  await expect(previewToggle).toBeVisible();
-  const previewToggleBox = (await previewToggle.boundingBox())!;
-  const fitButtonBox = (await page.getByRole("button", { name: "Fit width" }).boundingBox())!;
-  expect(previewToggleBox.x).toBeGreaterThanOrEqual(fitButtonBox.x + fitButtonBox.width);
   await explorerActivity.click();
   await expect(page.locator("#workbench")).toHaveClass(/sidebar-collapsed/);
   await explorerActivity.click();
   await expect(page.locator("#workbench")).not.toHaveClass(/sidebar-collapsed/);
-  await expect(page.getByRole("tree", { name: "Files Explorer" })).toBeVisible();
+  await expect(page.getByRole("tree", { name: "文件资源管理器" })).toBeVisible();
   await explorerActivity.click();
   await expect(page.locator("#workbench")).toHaveClass(/sidebar-collapsed/);
   await mmsActivity.click();
   await expect(page.locator("#workbench")).not.toHaveClass(/sidebar-collapsed/);
-  await expect(page.getByRole("textbox", { name: "Resource pack manifest URLs" })).toBeVisible();
+  await expect(page.getByRole("textbox", { name: "资源包清单地址" })).toBeVisible();
   await expect(mmsActivity).toHaveAttribute("aria-selected", "true");
-  await expect(page.getByRole("textbox", { name: "Resource pack manifest URLs" })).toHaveValue(MANIFEST_URL);
+  await expect(page.getByRole("textbox", { name: "资源包清单地址" })).toHaveValue(MANIFEST_URL);
   await explorerActivity.click();
-  await expect(page.getByRole("tree", { name: "Files Explorer" })).toBeVisible();
-  await expect(page.getByRole("textbox", { name: "Resource pack manifest URLs" })).toBeHidden();
+  await expect(page.getByRole("tree", { name: "文件资源管理器" })).toBeVisible();
+  await expect(page.getByRole("textbox", { name: "资源包清单地址" })).toBeHidden();
   await expect(explorerActivity).toHaveAttribute("aria-selected", "true");
-  await previewToggle.click();
-  await expect(preview).toBeHidden();
-  await expect(splitter).toBeHidden();
-  await expect.poll(async () => (await editor.boundingBox())!.width).toBeGreaterThan(initialEditorWidth + 250);
-  await page.getByRole("button", { name: "Expand preview" }).click();
-  await expect(preview).toBeVisible();
-  await expect(splitter).toBeVisible();
   await expect.poll(() => workspaceEntryExists(page, "/workspace")).toBe(false);
   await editor.click();
   await page.keyboard.press("Control+A");
@@ -183,35 +166,35 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(preview.locator(".typst-page")).toHaveCount(2);
   const selectableText = preview.locator(".tsel").filter({ hasText: "Page one" }).first();
   await expect(selectableText).toBeAttached();
-  if (testInfo.project.name === "chrome") {
-    await page.evaluate(() => navigator.clipboard.writeText(""));
-    const textBox = await selectableText.boundingBox();
-    expect(textBox).not.toBeNull();
-    const hitTarget = await page.evaluate(({ x, y }) => {
-      const target = document.elementFromPoint(x, y);
-      return { localName: target?.localName, className: target?.getAttribute("class") };
-    }, { x: textBox!.x + 1, y: textBox!.y + textBox!.height / 2 });
-    await page.mouse.move(textBox!.x + 1, textBox!.y + textBox!.height / 2);
-    await page.mouse.down();
-    await page.mouse.move(textBox!.x + textBox!.width - 1, textBox!.y + textBox!.height / 2, { steps: 10 });
-    await page.mouse.up();
-    const selectionAfterDrag = await page.evaluate(() => window.getSelection()?.toString() ?? "");
-    expect({ hitTarget, selectionAfterDrag }).toMatchObject({
-      hitTarget: { className: "tsel" },
-      selectionAfterDrag: expect.stringContaining("Page one")
-    });
-    await page.keyboard.press("Control+C");
-    await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain("Page one");
-  }
-  const pageGap = await preview.locator(".typst-page").evaluateAll((pages) => {
-    const first = pages[0].getBoundingClientRect();
-    const second = pages[1].getBoundingClientRect();
-    return second.top - first.bottom;
-  });
-  expect(pageGap).toBeGreaterThan(5);
   const baselineRevision = await preview.getAttribute("data-preview-revision");
   const baselineShadowCount = Number(await preview.getAttribute("data-preview-shadow-count"));
   expect(Number.isSafeInteger(baselineShadowCount)).toBe(true);
+  const baselineProjectionRevision = await page.evaluate(() => {
+    const revision = Reflect.get(globalThis, "__mmtLatestProjectionRevision");
+    if (typeof revision !== "function") throw new Error("missing E2E projection revision hook");
+    return revision() as number;
+  });
+  await mmsActivity.click();
+  const previewOnChange = page.getByRole("checkbox", { name: "文档变化时自动预览" });
+  await expect(previewOnChange).toBeChecked();
+  await previewOnChange.uncheck();
+  await expect(page.getByText("实时预览已暂停", { exact: true })).toBeVisible();
+  await explorerActivity.click();
+  await editor.click();
+  await page.keyboard.press("Control+A");
+  await page.keyboard.insertText("- preview paused");
+  await expect.poll(() => page.evaluate(() => {
+    const revision = Reflect.get(globalThis, "__mmtLatestProjectionRevision");
+    if (typeof revision !== "function") throw new Error("missing E2E projection revision hook");
+    return revision() as number;
+  })).toBeGreaterThan(baselineProjectionRevision);
+  await expect(preview).toHaveAttribute("data-preview-revision", baselineRevision ?? "");
+  await mmsActivity.click();
+  await expect(previewOnChange).not.toBeChecked();
+  await previewOnChange.check();
+  await expect(page.getByText("实时预览已启用", { exact: true })).toBeVisible();
+  await expect(preview).not.toHaveAttribute("data-preview-revision", baselineRevision ?? "");
+  await explorerActivity.click();
 
   await editor.click();
   await page.keyboard.press("Control+A");
@@ -219,22 +202,32 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(page.locator(".workbench-editor .view-lines")).toContainText("E2E persisted avatar message");
   await expect(preview).not.toHaveAttribute("data-preview-revision", baselineRevision ?? "");
   await expect(preview).toHaveAttribute("data-preview-ready", "true");
-  await expect(preview.locator('svg[aria-label="Rendered MomoScript preview"]')).toBeVisible();
-  await preview.getByRole("button", { name: "Zoom in" }).click();
-  await expect(preview.locator(".typst-preview-zoom")).toHaveText("110%");
-  await preview.getByRole("button", { name: "Actual size" }).click();
-  await expect(preview.locator(".typst-preview-zoom")).toHaveText("100%");
-  const actualSize = await preview.evaluate((element) => {
-    const canvas = element.querySelector<HTMLElement>(".typst-preview-canvas")!;
-    return {
-      canvasWidth: Number.parseFloat(canvas.style.width),
-      intrinsicWidth: Number(canvas.dataset.intrinsicWidth),
-    };
-  });
-  expect(actualSize.canvasWidth).toBeCloseTo(actualSize.intrinsicWidth, 5);
+  await expect(preview.locator('svg[aria-label="Rendered MomoScript preview"]')).toBeAttached();
+  await expect.poll(() => renderedWebviewHasVisibleIntrinsicPage(page), { timeout: 30_000 }).toBe(true);
   const authoredShadowCount = Number(await preview.getAttribute("data-preview-shadow-count"));
   expect(authoredShadowCount).toBeGreaterThan(baselineShadowCount);
   await expect.poll(() => persistedStory(page)).toBe(authored);
+  const chapterInitial = "@typ\nCHAPTER_TWO\n@end\n";
+  const chapterEdited = "@typ\nCHAPTER_TWO_EDITED\n@end\n";
+  await page.evaluate(({ name, text }) => (Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function)(name, text), {
+    name: "chapter-two.mmt.txt",
+    text: chapterInitial
+  });
+  await expect(page.getByRole("tab", { name: /^chapter-two\.mmt\.txt，预览, 编辑器组1$/ })).toBeVisible();
+  const chapterEditor = page.locator(".workbench-editor .monaco-editor:visible");
+  await chapterEditor.click();
+  await page.keyboard.press("Control+A");
+  await page.keyboard.insertText(chapterEdited);
+  await expect.poll(() => readWorkspaceDocument(page, "chapter-two.mmt.txt")).toBe(chapterEdited);
+  await page.getByRole("button", { name: "Typst 预览" }).click();
+  await expect.poll(() => displayedPreviewSource(page)).toMatch(/chapter-two\.mmt\.txt$/);
+  await expect(page.getByRole("tab", { name: /^chapter-two\.mmt\.txt（预览）, 编辑器组2$/ })).toBeVisible();
+  await expect.poll(() => visiblePreviewText(page), { timeout: 30_000 }).toContain("CHAPTER_TWO_EDITED");
+  await page.getByRole("tab", { name: /^story\.mmt, 编辑器组1$/ }).click();
+  await page.getByRole("button", { name: "Typst 预览" }).click();
+  await expect(page.getByRole("tab", { name: /^story\.mmt（预览）, 编辑器组2$/ })).toBeVisible();
+  await expect.poll(() => displayedPreviewSource(page)).toMatch(/story\.mmt$/);
+  await expect.poll(() => visiblePreviewText(page), { timeout: 30_000 }).toContain("E2E persisted avatar message");
   await seedLegacyWorkspace(page, false);
   await expect.poll(() => workspaceEntryExists(page, "/workspace")).toBe(true);
 
@@ -242,10 +235,12 @@ test("production editor materializes an avatar and restores the authored story a
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
   await expect(page.locator(".workbench-editor .view-lines")).toContainText("E2E persisted avatar message");
+  await page.getByRole("button", { name: "Typst 预览" }).click();
   const secondAssetResponse = await secondAsset;
   expect(secondAssetResponse.ok(), `reloaded pack asset returned HTTP ${secondAssetResponse.status()}`).toBe(true);
   await expect(preview).toHaveAttribute("data-preview-ready", "true");
-  await expect(preview.locator('svg[aria-label="Rendered MomoScript preview"]')).toBeVisible();
+  await expect(preview.locator('svg[aria-label="Rendered MomoScript preview"]')).toBeAttached();
+  await expect.poll(() => renderedWebviewHasVisibleIntrinsicPage(page), { timeout: 30_000 }).toBe(true);
   await expect(preview).toHaveAttribute("data-preview-shadow-count", String(authoredShadowCount));
   await expect.poll(() => workspaceEntryExists(page, "/workspace")).toBe(false);
   await expect.poll(() => persistedStory(page)).toBe(authored);
@@ -262,6 +257,57 @@ test("production editor materializes an avatar and restores the authored story a
   await expect.poll(() => workspaceEntryExists(page, "/workspace/keep.txt")).toBe(true);
   await expect.poll(() => persistedStory(page)).toBe(authored);
 });
+async function renderedWebviewHasVisibleIntrinsicPage(page: Page): Promise<boolean> {
+  const frames = page.frames().filter((candidate) => candidate.url().includes("/fake-") && candidate.url().includes(".html"));
+  for (const frame of frames.toReversed()) {
+    const visible = await frame.evaluate(() => {
+      const pageElement = document.querySelector<HTMLElement>(".page[data-intrinsic-width][data-intrinsic-height]");
+      const svg = pageElement?.querySelector<SVGElement>("svg[aria-label='Rendered MomoScript preview']");
+      if (!pageElement || !svg) return false;
+      const pageRect = pageElement.getBoundingClientRect();
+      const svgRect = svg.getBoundingClientRect();
+      const intrinsicWidth = Number(pageElement.dataset.intrinsicWidth);
+      const intrinsicHeight = Number(pageElement.dataset.intrinsicHeight);
+      return pageRect.width > 0
+        && pageRect.height > 0
+        && Math.abs(pageRect.width - intrinsicWidth) < 1
+        && Math.abs(pageRect.height - intrinsicHeight) < 1
+        && Math.abs(svgRect.width - intrinsicWidth) < 1
+        && Math.abs(svgRect.height - intrinsicHeight) < 1;
+    });
+    if (visible) return true;
+  }
+  return false;
+}
+
+async function visiblePreviewText(page: Page): Promise<string> {
+  const frames = page.frames().filter((candidate) => candidate.url().includes("/fake-") && candidate.url().includes(".html"));
+  for (const frame of frames.toReversed()) {
+    const result = await frame.evaluate(() => {
+      const pageElement = document.querySelector<HTMLElement>(".page[data-intrinsic-width]");
+      return pageElement && pageElement.getBoundingClientRect().width > 0 ? pageElement.textContent ?? "" : "";
+    });
+    if (result) return result;
+  }
+  return "";
+}
+
+async function readWorkspaceDocument(page: Page, name: string): Promise<string> {
+  return page.evaluate(async (fileName) => {
+    const readDocument = Reflect.get(globalThis, "__mmtReadWorkspaceDocument");
+    if (typeof readDocument !== "function") throw new Error("missing E2E workspace document reader");
+    return readDocument(fileName) as Promise<string>;
+  }, name);
+}
+
+
+async function displayedPreviewSource(page: Page): Promise<string> {
+  return page.evaluate(() => {
+    const source = Reflect.get(globalThis, "__mmtDisplayedPreviewSourceUri");
+    if (typeof source !== "function") throw new Error("missing E2E displayed preview source hook");
+    return source() as string;
+  });
+}
 
 function corsHeaders(contentType: string, etag?: string): Record<string, string> {
   return {
