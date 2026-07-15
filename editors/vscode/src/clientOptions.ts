@@ -3,7 +3,7 @@ import type { LanguageClientOptions } from "vscode-languageclient";
 
 export function clientOptions(typstLanguageFeatures = false): LanguageClientOptions {
   return {
-    documentSelector: [{ language: "mmt" }],
+    documentSelector: [{ language: "mmt" }, { language: "typst" }],
     initializationOptions: {
       typstLanguageFeatures,
       previewOnChange: vscode.workspace

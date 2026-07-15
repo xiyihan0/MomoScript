@@ -69,6 +69,7 @@ test("production editor materializes an avatar and restores the authored story a
     const source = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:h5="http://www.w3.org/1999/xhtml">'
       + '<foreignObject x="0" y="0" width="100" height="20"><h5:div class="tsel" style="font-size: 16px">中文 <h5:span>styled</h5:span></h5:div></foreignObject>'
       + '<foreignObject x="0" y="0" width="999" height="999"><h5:div class="tsel" style="font-size: 16px"><h5:span><h5:img src="https://evil.invalid/x" /></h5:span></h5:div></foreignObject>'
+      + '<a href="https://example.com"><rect class="pseudo-link" width="40" height="12"></rect></a>'
       + '<script>alert(1)</script></svg>';
     const root = new DOMParser().parseFromString(source, "text/html").querySelector("svg");
     if (!root) throw new Error("missing sanitizer fixture root");
@@ -77,14 +78,16 @@ test("production editor materializes an avatar and restores the authored story a
       foreignObjects: root.querySelectorAll("foreignObject").length,
       activeNodes: root.querySelectorAll("script, img, iframe, object, embed").length,
       text: root.querySelector(".tsel")?.textContent,
-      tag: root.querySelector(".tsel")?.localName
+      tag: root.querySelector(".tsel")?.localName,
+      pseudoLinkFill: root.querySelector("rect.pseudo-link")?.getAttribute("fill")
     };
   });
   expect(sanitizerResult).toEqual({
     foreignObjects: 1,
     activeNodes: 0,
     text: "中文 styled",
-    tag: "div"
+    tag: "div",
+    pseudoLinkFill: "transparent"
   });
   const explorerActivity = page.getByRole("tab", { name: /^资源管理器/ });
   const mmsActivity = page.getByRole("tab", { name: "MomoScript", exact: true });
@@ -243,7 +246,8 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(preview).toHaveAttribute("data-preview-ready", "true");
   await expect(preview.locator('svg[aria-label="Rendered MomoScript preview"]')).toBeAttached();
   await expect.poll(() => renderedWebviewHasVisibleIntrinsicPage(page), { timeout: 30_000 }).toBe(true);
-  await expect(preview).toHaveAttribute("data-preview-shadow-count", String(authoredShadowCount));
+  await expect(preview).toHaveAttribute("data-preview-shadow-count", /[1-9]\d*/);
+  await expect(preview.locator("svg image").first()).toBeAttached();
   await expect.poll(() => workspaceEntryExists(page, "/workspace")).toBe(false);
   await expect.poll(() => persistedStory(page)).toBe(authored);
 

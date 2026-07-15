@@ -285,7 +285,7 @@ function addSvgPageGaps(root: SVGElement): number {
   const pages = [...root.children].filter(
     (child): child is SVGGElement => child instanceof SVGGElement && child.classList.contains("typst-page")
   );
-  if (pages.length < 2) return 0;
+  if (pages.length === 0) return 0;
   const transforms = pages.map((page) => {
     const transform = page.getAttribute("transform") ?? "";
     return /^translate\(\s*([-+]?\d*\.?\d+)\s*[, ]\s*([-+]?\d*\.?\d+)\s*\)$/.exec(transform);
@@ -297,10 +297,24 @@ function addSvgPageGaps(root: SVGElement): number {
     || viewBox.some((value) => !Number.isFinite(value))
   ) return 0;
 
+  const pageTops = transforms.map((transform) => Number(transform![2]));
+  const documentBottom = viewBox[1] + viewBox[3];
+  for (const [index, page] of pages.entries()) {
+    const pageBottom = pageTops[index + 1] ?? documentBottom;
+    const background = root.ownerDocument.createElementNS("http://www.w3.org/2000/svg", "rect");
+    background.setAttribute("x", "0");
+    background.setAttribute("y", "0");
+    background.setAttribute("width", String(viewBox[2]));
+    background.setAttribute("height", String(pageBottom - pageTops[index]!));
+    background.setAttribute("fill", "white");
+    background.setAttribute("data-preview-page-background", "true");
+    page.prepend(background);
+  }
+
   const gap = 12;
   for (const [index, page] of pages.entries()) {
     const transform = transforms[index]!;
-    page.setAttribute("transform", `translate(${transform[1]}, ${Number(transform[2]) + gap * index})`);
+    page.setAttribute("transform", `translate(${transform![1]}, ${pageTops[index]! + gap * index})`);
   }
   const added = gap * (pages.length - 1);
   viewBox[3] += added;
@@ -316,6 +330,9 @@ export function sanitizeSvg(root: SVGElement): void {
       return;
     }
     normalizeTextSelectionNode(node);
+  });
+  root.querySelectorAll("rect.pseudo-link").forEach((node) => {
+    node.setAttribute("fill", "transparent");
   });
   for (const element of [root, ...root.querySelectorAll("*")]) {
     for (const attribute of [...element.attributes]) {

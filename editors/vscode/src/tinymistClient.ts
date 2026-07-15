@@ -99,6 +99,7 @@ export interface TinymistHostBackend {
   on(method: string, handler: (params: unknown) => void): void;
   request<T>(method: string, params: unknown, signal?: AbortSignal): Promise<T>;
   syncProject(update: TypstProjectUpdate): void;
+  semanticTokensLegend?(): { tokenTypes: string[]; tokenModifiers: string[] } | undefined;
   closeProject(sourceUri: string, entryUri: string): boolean;
   projectForEntry(entryUri: string): TypstProjectUpdate | undefined;
   stop(): Promise<void>;
@@ -281,7 +282,12 @@ export function projectionRevisionIsCurrent(
 }
 
 export interface TinymistInitializeResult {
-  capabilities?: { completionProvider?: unknown; hoverProvider?: unknown; signatureHelpProvider?: unknown };
+  capabilities?: {
+    completionProvider?: unknown;
+    hoverProvider?: unknown;
+    signatureHelpProvider?: unknown;
+    semanticTokensProvider?: { legend?: { tokenTypes?: string[]; tokenModifiers?: string[] }; full?: unknown };
+  };
   serverInfo?: { name?: string; version?: string };
 }
 
@@ -364,6 +370,12 @@ export class TinymistWorkerClient implements TinymistHostBackend {
     }
   }
 
+  private semanticLegend: { tokenTypes: string[]; tokenModifiers: string[] } | undefined;
+
+  semanticTokensLegend(): { tokenTypes: string[]; tokenModifiers: string[] } | undefined {
+    return this.semanticLegend;
+  }
+
   private async bootWorker(): Promise<void> {
     if (this.stopped) throw new Error("Tinymist Worker client stopped");
     const worker = this.workerFactory(this.workerUri);
@@ -420,12 +432,25 @@ export class TinymistWorkerClient implements TinymistHostBackend {
           completion: { completionItem: { snippetSupport: true } },
           hover: { contentFormat: ["markdown", "plaintext"] },
           signatureHelp: {},
-          publishDiagnostics: { versionSupport: true, relatedInformation: true }
+          publishDiagnostics: { versionSupport: true, relatedInformation: true },
+          semanticTokens: {
+            requests: { full: true, range: false },
+            tokenTypes: ["namespace", "type", "class", "enum", "interface", "struct", "typeParameter", "parameter", "variable", "property", "enumMember", "event", "function", "method", "macro", "keyword", "modifier", "comment", "string", "number", "regexp", "operator", "decorator"],
+            tokenModifiers: ["declaration", "definition", "readonly", "static", "deprecated", "abstract", "async", "modification", "documentation", "defaultLibrary"],
+            formats: ["relative"]
+          },
         }
       },
       clientInfo: { name: "momoscript-vscode", version: "0.1.0" }
     });
+    if (!initialize.capabilities?.semanticTokensProvider?.legend?.tokenTypes || !initialize.capabilities.semanticTokensProvider.legend.tokenModifiers) {
+      throw new Error("Tinymist semantic tokens capability with legend is required");
+    }
     validateTinymistInitialize(initialize);
+    this.semanticLegend = {
+      tokenTypes: [...initialize.capabilities!.semanticTokensProvider!.legend!.tokenTypes!],
+      tokenModifiers: [...initialize.capabilities!.semanticTokensProvider!.legend!.tokenModifiers!]
+    };
     this.rawNotify("initialized", {});
     worker.addEventListener("error", (event) => {
       event.preventDefault();

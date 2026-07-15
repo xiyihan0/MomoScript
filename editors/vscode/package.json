@@ -49,6 +49,7 @@
         }
       },
       {
+        "language": "typst",
         "scopeName": "source.typst",
         "path": "./vendor/tinymist-0.15.2/typst.tmLanguage.json"
       }

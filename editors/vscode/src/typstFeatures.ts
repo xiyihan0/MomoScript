@@ -38,7 +38,25 @@ export function installTypstMiddleware(
   client: () => BaseLanguageClient
 ): void {
   options.middleware = {
+    didOpen: async (document, next) => {
+      if (document.languageId !== "typst") await next(document);
+    },
+    didChange: async (event, next) => {
+      if (event.document.languageId !== "typst") await next(event);
+    },
+    didClose: async (document, next) => {
+      if (document.languageId !== "typst") await next(document);
+    },
     provideCompletionItem: async (document, position, completionContext, token, next) => {
+      if (document.languageId === "typst") {
+        const activeClient = client();
+        const result = await requestWithCancellation<ProtocolCompletionItem[] | ProtocolCompletionList | null>(backend, "textDocument/completion", {
+          textDocument: { uri: document.uri.toString() },
+          position: activeClient.code2ProtocolConverter.asPosition(position),
+          context: { triggerKind: completionContext.triggerKind, triggerCharacter: completionContext.triggerCharacter }
+        }, token);
+        return activeClient.protocol2CodeConverter.asCompletionResult(result, undefined, token);
+      }
       const mmt = await next(document, position, completionContext, token);
       if (Array.isArray(mmt) ? mmt.length > 0 : Boolean(mmt?.items.length)) return mmt;
       const activeClient = client();
@@ -79,6 +97,14 @@ export function installTypstMiddleware(
       }
     },
     provideHover: async (document, position, token, next) => {
+      if (document.languageId === "typst") {
+        const activeClient = client();
+        const hover = await requestWithCancellation<ProtocolHover | null>(backend, "textDocument/hover", {
+          textDocument: { uri: document.uri.toString() },
+          position: activeClient.code2ProtocolConverter.asPosition(position)
+        }, token);
+        return hover ? activeClient.protocol2CodeConverter.asHover(hover) : undefined;
+      }
       const mmt = await next(document, position, token);
       if (mmt) return mmt;
       const activeClient = client();
@@ -113,6 +139,15 @@ export function installTypstMiddleware(
       }
     },
     provideSignatureHelp: async (document, position, signatureContext, token, next) => {
+      if (document.languageId === "typst") {
+        const activeClient = client();
+        const signature = await requestWithCancellation<ProtocolSignatureHelp | null>(backend, "textDocument/signatureHelp", {
+          textDocument: { uri: document.uri.toString() },
+          position: activeClient.code2ProtocolConverter.asPosition(position),
+          context: { triggerKind: signatureContext.triggerKind, triggerCharacter: signatureContext.triggerCharacter, isRetrigger: signatureContext.isRetrigger }
+        }, token);
+        return signature ? activeClient.protocol2CodeConverter.asSignatureHelp(signature, token) : undefined;
+      }
       const mmt = await next(document, position, signatureContext, token);
       if (mmt) return mmt;
       const activeClient = client();
@@ -202,6 +237,12 @@ export function connectTypstBackend(
       }
       const project = backend.projectForEntry(params.uri);
       if (!project || !diagnosticVersionMatchesProjection(project.revision, params.version)) {
+        return;
+      }
+      if (project.sourceUri === project.entryUri) {
+        const converted = await client.protocol2CodeConverter.asDiagnostics(params.diagnostics);
+        if (!projectionRevisionIsCurrent(backend, params.uri, project.revision)) return;
+        diagnostics.set(vscode.Uri.parse(project.sourceUri), converted);
         return;
       }
       const mapped = await client.sendRequest<ProtocolDiagnostic[] | null>(

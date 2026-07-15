@@ -8,6 +8,8 @@ import getMarkersServiceOverride from "@codingame/monaco-vscode-markers-service-
 import getPreferencesServiceOverride from "@codingame/monaco-vscode-preferences-service-override";
 import getOutputServiceOverride from "@codingame/monaco-vscode-output-service-override";
 import getLocalizationServiceOverride from "@codingame/monaco-vscode-localization-service-override";
+import getTextMateServiceOverride from "@codingame/monaco-vscode-textmate-service-override";
+import getThemeServiceOverride from "@codingame/monaco-vscode-theme-service-override";
 import getViewsServiceOverride, { attachPart, isPartVisibile, onPartVisibilityChange, Parts, registerCustomView, setPartVisibility, ViewContainerLocation } from "@codingame/monaco-vscode-views-service-override";
 import { registerCustomProvider } from "@codingame/monaco-vscode-files-service-override";
 import { useWorkerFactory } from "monaco-languageclient/workerFactory";
@@ -68,6 +70,25 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
       typeof content === "string" ? content : content.value
     )) ?? [];
   });
+  Reflect.set(globalThis, "__mmtTypstHoverText", async (name: string, line: number, character: number) => {
+    const uri = vscode.Uri.joinPath(WORKSPACE, name);
+    const hovers = await vscode.commands.executeCommand<vscode.Hover[]>("vscode.executeHoverProvider", uri, new vscode.Position(line, character));
+    return hovers?.flatMap((hover) => hover.contents.map((content) => typeof content === "string" ? content : content.value)) ?? [];
+  });
+  Reflect.set(globalThis, "__mmtTypstSemanticTokens", async (name: string) => {
+    const uri = vscode.Uri.joinPath(WORKSPACE, name);
+    const tokens = await vscode.commands.executeCommand<vscode.SemanticTokens>("vscode.provideDocumentSemanticTokens", uri);
+    return tokens ? Array.from(tokens.data) : [];
+  });
+  Reflect.set(globalThis, "__mmtTypstRawSemanticTokens", async (name: string) => {
+    const uri = vscode.Uri.joinPath(WORKSPACE, name).toString();
+    return tinymist?.backend.request<{ data: number[] } | null>("textDocument/semanticTokens/full", { textDocument: { uri } }) ?? null;
+  });
+  Reflect.set(globalThis, "__mmtTypstBackendProject", (name: string) => {
+    const uri = vscode.Uri.joinPath(WORKSPACE, name).toString();
+    const project = tinymist?.backend.projectForEntry(uri);
+    return project ? { revision: project.revision, text: project.files.find((file) => file.uri === uri && "text" in file)?.text ?? null } : null;
+  });
   Reflect.set(globalThis, "__mmtStoryText", () =>
     vscode.workspace.textDocuments.find((document) => document.uri.toString() === STORY.toString())?.getText()
   );
@@ -91,8 +112,18 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
     return uri.toString();
   });
   Reflect.set(globalThis, "__mmtReadWorkspaceDocument", async (name: string) => {
-    if (!/^[^./\\][^/\\]*\.mmt\.txt$/.test(name)) throw new Error("invalid MMT workspace basename");
+    if (!/^[^./\\][^/\\]*(?:\.mmt\.txt|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
     return new TextDecoder().decode(await vscode.workspace.fs.readFile(vscode.Uri.joinPath(WORKSPACE, name)));
+  });
+  Reflect.set(globalThis, "__mmtReplaceWorkspaceDocument", async (name: string, text: string) => {
+    if (!/^[^./\\][^/\\]*(?:\.mmt\.txt|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
+    const uri = vscode.Uri.joinPath(WORKSPACE, name);
+    const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === uri.toString());
+    if (!document) throw new Error("workspace document is not open");
+    const edit = new vscode.WorkspaceEdit();
+    edit.replace(uri, new vscode.Range(document.positionAt(0), document.positionAt(document.getText().length)), text);
+    if (!await vscode.workspace.applyEdit(edit)) throw new Error("workspace edit was rejected");
+    return document.getText();
   });
 }
 const DEFAULT_STORY = "@reply\n- 选项 A\n- 选项 B\n@end\n";
@@ -244,6 +275,8 @@ async function start(): Promise<void> {
       ...getMarkersServiceOverride(),
       ...getPreferencesServiceOverride(),
       ...getOutputServiceOverride(),
+        ...getTextMateServiceOverride(),
+        ...getThemeServiceOverride(),
       ...getViewsServiceOverride(),
     },
     viewsConfig: {
@@ -392,6 +425,39 @@ async function start(): Promise<void> {
     );
   }
   document.documentElement.dataset.mmtStage = tinymist ? "tinymist-ready" : "tinymist-unavailable";
+  const syncTypstLanguageDocument = async (document: vscode.TextDocument): Promise<TypstProjectUpdate | undefined> => {
+    if (document.languageId !== "typst" || document.uri.scheme !== "mmtfs" || document.uri.authority !== "workspace") return undefined;
+    const sourceUri = document.uri.toString();
+    const project = await buildTypstProject(document, typstRevisions);
+    if (typstRevisions.get(sourceUri) !== project.revision) return undefined;
+    tinymist?.backend.syncProject(project);
+    tinymist?.refreshSemanticTokens();
+    return project;
+  };
+  const recognizeAndSyncTypst = async (document: vscode.TextDocument): Promise<TypstProjectUpdate | undefined> => {
+    if (!document.uri.path.toLowerCase().endsWith(".typ")) return undefined;
+    const recognized = document.languageId === "typst" ? document : await vscode.languages.setTextDocumentLanguage(document, "typst");
+    return syncTypstLanguageDocument(recognized);
+  };
+  if (import.meta.env.VITE_MMT_E2E === "1") {
+    Reflect.set(globalThis, "__mmtSyncWorkspaceTypst", async (name: string) => {
+      const uri = vscode.Uri.joinPath(WORKSPACE, name).toString();
+      const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === uri);
+      if (!document) throw new Error(`workspace document is not open: ${name}`);
+      const project = await recognizeAndSyncTypst(document);
+      const accepted = project ? tinymist?.backend.projectForEntry(project.entryUri) : undefined;
+      return project ? { entryUri: project.entryUri, revision: project.revision, acceptedRevision: accepted?.revision ?? null } : null;
+    });
+  }
+  const typstDocumentOpenRegistration = vscode.workspace.onDidOpenTextDocument((document) => {
+    void recognizeAndSyncTypst(document).catch((error: unknown) => log("tinymist:error", error instanceof Error ? error.message : String(error)));
+  });
+  const typstEditorActivationRegistration = vscode.window.onDidChangeActiveTextEditor((editor) => {
+    if (!editor) return;
+    void recognizeAndSyncTypst(editor.document).catch((error: unknown) => log("tinymist:error", error instanceof Error ? error.message : String(error)));
+  });
+  await Promise.allSettled(vscode.workspace.textDocuments.map((document) => recognizeAndSyncTypst(document)));
+  if (vscode.window.activeTextEditor) await recognizeAndSyncTypst(vscode.window.activeTextEditor.document);
 
   let activeClient: BaseLanguageClient | undefined;
   try {
@@ -426,7 +492,8 @@ async function start(): Promise<void> {
     void vscode.window.showErrorMessage(
       `MomoScript 浏览器语言服务器启动失败：${error instanceof Error ? error.message : String(error)}`
     );
-    throw error;
+  } finally {
+    tinymist?.activateSemanticTokens();
   }
   const previewCommandRegistration = vscode.commands.registerCommand("mmt.preview.open", async (resource?: vscode.Uri) => {
     const resourceDocument = resource
@@ -480,11 +547,17 @@ async function start(): Promise<void> {
       previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, "正在准备 Typst 预览…");
       const project = await buildTypstProject(document, typstRevisions);
       typstProjects.set(sourceUri, project);
+      tinymist?.backend.syncProject(project);
       await preview.update(project);
       return;
     }
+    if (!activeClient) {
+      const message = "MomoScript 语言服务器不可用；Typst 编辑与语言服务仍可继续使用。";
+      previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
+      return;
+    }
     previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, "正在准备 MomoScript 投影…");
-    const project = await activeClient!.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", { uri: sourceUri });
+    const project = await activeClient.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", { uri: sourceUri });
     if (!project) {
       const message = `无法为 ${document.fileName} 获取 Typst 投影。`;
       previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
@@ -494,18 +567,22 @@ async function start(): Promise<void> {
     const tracked = trackLanguageProjection(project);
     if (!tracked) return;
     if (tracked.advanced) tinymist?.backend.syncProject(project);
-    await requestRenderProject(activeClient!, project.sourceUri, tracked.token, true);
+    await requestRenderProject(activeClient, project.sourceUri, tracked.token, true);
     refreshOpenedPreview();
   });
 
   packCache = await IndexedDbPackCache.open();
   const syncConfiguredPackSources = async () => {
+    if (!activeClient) {
+      log("resources", "Skipped resource pack synchronization because the MomoScript language server is unavailable");
+      return;
+    }
     const configured = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]);
     const packSources = await synchronizePackSources(
       configured,
       Date.now(),
       packCache!,
-      (params) => activeClient!.sendRequest("mmt/updatePackManifests", params),
+      (params) => activeClient.sendRequest("mmt/updatePackManifests", params),
       fetchManifest
     );
     packSourcesByNamespace.clear();
@@ -538,7 +615,7 @@ async function start(): Promise<void> {
     const sourceUri = vscode.window.activeTextEditor?.document.uri.toString();
     const token = sourceUri ? latestLanguageProjectionBySource.get(sourceUri) : undefined;
     if (!sourceUri || !token) return;
-    void schedulePreviewIfEnabled(activeClient!, sourceUri, token).catch((error: unknown) => {
+    if (activeClient) void schedulePreviewIfEnabled(activeClient, sourceUri, token).catch((error: unknown) => {
       console.error("MomoScript preview materialization failed", error);
     });
   });
@@ -549,10 +626,10 @@ async function start(): Promise<void> {
   const story = await vscode.workspace.openTextDocument(STORY);
   const mmtStory = story.languageId === "mmt" ? story : await vscode.languages.setTextDocumentLanguage(story, "mmt");
   await vscode.window.showTextDocument(mmtStory);
-  const currentProject = await activeClient.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", {
-    uri: mmtStory.uri.toString()
-  });
-  if (currentProject) {
+  const currentProject = activeClient
+    ? await activeClient.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", { uri: mmtStory.uri.toString() })
+    : null;
+  if (currentProject && activeClient) {
     const tracked = trackLanguageProjection(currentProject);
     if (tracked) {
       if (tracked.advanced) tinymist?.backend.syncProject(currentProject);
@@ -608,6 +685,7 @@ async function start(): Promise<void> {
       log("document", `Saved ${document.uri.path}`);
       await new Promise((resolve) => setTimeout(resolve, 50));
       if ((latestLanguageProjectionBySource.get(uri)?.revision ?? -1) > priorRevision) return;
+      if (!activeClient) return;
       const current = await activeClient.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", { uri });
       if (!current || current.revision <= priorRevision) return;
       const tracked = trackLanguageProjection(current);
@@ -625,10 +703,9 @@ async function start(): Promise<void> {
   document.documentElement.dataset.mmtLanguageId = mmtStory.languageId;
   document.documentElement.dataset.mmtWorkspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? "";
   const typstDocumentChangeRegistration = vscode.workspace.onDidChangeTextDocument((event) => {
-    if (event.document.languageId !== "typst" || event.document.uri.scheme !== "mmtfs" || event.document.uri.authority !== "workspace") return;
-    const sourceUri = event.document.uri.toString();
-    void buildTypstProject(event.document, typstRevisions).then((project) => {
-      if (typstRevisions.get(sourceUri) !== project.revision) return;
+    void recognizeAndSyncTypst(event.document).then((project) => {
+      if (!project) return;
+      const sourceUri = event.document.uri.toString();
       typstProjects.set(sourceUri, project);
       if (displayedPreviewSourceUri === sourceUri) return preview.update(project);
     }).catch((error: unknown) => log("preview:error", `Typst: ${error instanceof Error ? error.message : String(error)}`));
@@ -643,6 +720,8 @@ async function start(): Promise<void> {
     sidebarVisibilityRegistration.dispose();
     documentPersistenceRegistration.dispose();
     typstDocumentChangeRegistration.dispose();
+    typstDocumentOpenRegistration.dispose();
+    typstEditorActivationRegistration.dispose();
     packConfigRegistration.dispose();
     previewCommandRegistration.dispose();
     previewPanel?.dispose();
@@ -852,10 +931,10 @@ function previewWebviewHtml(
     .export-toolbar { position: sticky; top: 0; z-index: 1; display: flex; justify-content: flex-end; gap: 6px; padding: 8px 24px; border-bottom: 1px solid var(--vscode-panel-border); background: var(--vscode-editor-background); }
     .export-toolbar button { padding: 3px 9px; border: 1px solid var(--vscode-button-border, transparent); color: var(--vscode-button-foreground); background: var(--vscode-button-background); cursor: pointer; }
     .export-toolbar button:hover { background: var(--vscode-button-hoverBackground); }
-    .viewport { display: flex; justify-content: center; min-width: min-content; padding: 24px; background: #e5e5e5; }
-    .page { background: #ffffff; box-shadow: 0 2px 10px #0008; line-height: 0; }
-    .page svg { display: block; width: 100%; height: 100%; max-width: none; }
-    .page .tsel, .page .tsel span { position: fixed; left: 0; width: 100%; height: 100%; color: transparent; white-space: pre; text-align: justify; text-align-last: justify; pointer-events: auto; user-select: text; cursor: text; }
+    .viewport { display: flex; justify-content: center; min-width: min-content; min-height: min-content; overflow: auto; padding: 24px; background: #e5e5e5; }
+    .page { flex: 0 0 auto; background: transparent; line-height: 0; transform-origin: top left; }
+    .page svg { display: block; width: 100%; height: 100%; max-width: none; filter: drop-shadow(0 2px 5px #0008); }
+    .page .tsel, .page .tsel span { color: transparent; line-height: 1; white-space: pre; pointer-events: auto; user-select: text; cursor: text; }
     .page .tsel::selection, .page .tsel span::selection { color: transparent; background: #7db9dea0; }
     .status { display: grid; min-height: 100vh; place-items: center; color: var(--vscode-descriptionForeground); }
     .status.error { color: var(--vscode-errorForeground); }
@@ -864,6 +943,26 @@ function previewWebviewHtml(
 <body>${body}</body>
 <script nonce="${nonce}">
   const vscode = acquireVsCodeApi();
+  const viewport = document.querySelector('.viewport');
+  const page = document.querySelector('.page');
+  let zoom = 1;
+  viewport?.addEventListener('wheel', (event) => {
+    if (!event.ctrlKey && !event.metaKey) return;
+    event.preventDefault();
+    if (!page) return;
+    const intrinsicWidth = Number(page.dataset.intrinsicWidth);
+    const intrinsicHeight = Number(page.dataset.intrinsicHeight);
+    if (!(intrinsicWidth > 0) || !(intrinsicHeight > 0)) return;
+    const pageBounds = page.getBoundingClientRect();
+    const anchorX = (event.clientX - pageBounds.left) / pageBounds.width;
+    const anchorY = (event.clientY - pageBounds.top) / pageBounds.height;
+    zoom = Math.min(4, Math.max(0.25, zoom * Math.exp(-event.deltaY * 0.002)));
+    page.style.width = intrinsicWidth * zoom + 'px';
+    page.style.height = intrinsicHeight * zoom + 'px';
+    const resizedBounds = page.getBoundingClientRect();
+    viewport.scrollLeft += resizedBounds.left + anchorX * resizedBounds.width - event.clientX;
+    viewport.scrollTop += resizedBounds.top + anchorY * resizedBounds.height - event.clientY;
+  }, { passive: false });
   document.querySelector('.export-toolbar')?.addEventListener('click', (event) => {
     const button = event.target.closest('button[data-format]');
     if (button) vscode.postMessage({ type: 'export', format: button.dataset.format });
