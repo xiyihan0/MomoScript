@@ -792,6 +792,8 @@ function previewWebviewHtml(
     .viewport { display: flex; justify-content: center; min-width: min-content; }
     .page { box-shadow: 0 2px 10px #0008; line-height: 0; }
     .page svg { display: block; width: 100%; height: 100%; max-width: none; }
+    .page .tsel, .page .tsel span { position: fixed; left: 0; width: 100%; height: 100%; color: transparent; white-space: pre; text-align: justify; text-align-last: justify; pointer-events: auto; user-select: text; cursor: text; }
+    .page .tsel::selection, .page .tsel span::selection { color: transparent; background: #7db9dea0; }
     .status { display: grid; min-height: calc(100vh - 48px); place-items: center; color: var(--vscode-descriptionForeground); }
     .status.error { color: var(--vscode-errorForeground); }
   </style>

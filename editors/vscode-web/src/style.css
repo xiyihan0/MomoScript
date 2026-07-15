@@ -74,7 +74,7 @@ body {
 .mms-setting-row { display: flex; justify-content: space-between; font-size: 12px; }
 .mms-settings-status { min-height: 16px; color: #9cdcfe; font-size: 11px; }
 .workbench-editor { grid-column: 3; grid-row: 1; min-width: 0; min-height: 0; }
-.workbench-preview { display: none; }
+.workbench-preview.typst-preview { display: none; }
 .workbench-panel { grid-column: 3; grid-row: 2; min-width: 0; min-height: 0; }
 .workbench-status { grid-column: 1 / 4; grid-row: 3; min-width: 0; min-height: 0; }
 
@@ -142,8 +142,8 @@ body {
 }
 
 
-.typst-preview-page .tsel,
-.typst-preview-page .tsel span {
+.typst-doc .tsel,
+.typst-doc .tsel span {
   position: fixed;
   left: 0;
   width: 100%;
@@ -157,8 +157,8 @@ body {
   cursor: text;
 }
 
-.typst-preview-page .tsel::selection,
-.typst-preview-page .tsel span::selection {
+.typst-doc .tsel::selection,
+.typst-doc .tsel span::selection {
   color: transparent;
   background: #7db9dea0;
 }
