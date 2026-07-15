@@ -4,8 +4,8 @@ import * as vscode from "vscode";
 import { TinymistWorkerClient } from "../../vscode/src/tinymistClient";
 import { connectTypstBackend, installTypstMiddleware } from "../../vscode/src/typstFeatures";
 import tinymistModuleUrl from "../../vscode/vendor/tinymist-0.15.2/tinymist.js?url";
-import tinymistWasmUrl from "../../vscode/vendor/tinymist-0.15.2/tinymist_bg.wasm?url";
 import tinymistWorkerUrl from "../../vscode/src/tinymistWorker.ts?worker&url";
+const tinymistWasmUrl = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454/tinymist_bg.wasm";
 
 export interface TinymistHandle {
   backend: TinymistWorkerClient;

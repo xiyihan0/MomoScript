@@ -1,7 +1,6 @@
 import { $typst, MemoryAccessModel } from "@myriaddreamin/typst.ts";
 import { loadFonts } from "@myriaddreamin/typst.ts/dist/esm/options.init.mjs";
 import { TypstSnippet } from "@myriaddreamin/typst.ts/dist/esm/contrib/snippet.mjs";
-import compilerWasmUrl from "@myriaddreamin/typst-ts-web-compiler/pkg/typst_ts_web_compiler_bg.wasm?url";
 import rendererWasmUrl from "@myriaddreamin/typst-ts-renderer/pkg/typst_ts_renderer_bg.wasm?url";
 import notoRegularUrl from "../../vscode/vendor/fonts/NotoSansCJK-Regular.ttc?url";
 import notoBoldUrl from "../../vscode/vendor/fonts/NotoSansCJK-Bold.ttc?url";
@@ -9,6 +8,8 @@ import monoUrl from "../../vscode/vendor/fonts/DejaVuSansMono.ttf?url";
 import mathUrl from "../../vscode/vendor/fonts/NewCMMath-Regular.otf?url";
 
 import type { TypstProjectUpdate } from "../../vscode/src/tinymistClient";
+const compilerWasmUrl = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.7.0-rc2/acac51459fa84907843d7a1927ae7b6fc5c743d5de4f61473c866829c9c46e2d/typst_ts_web_compiler_bg.wasm";
+
 
 const mainRegularUrl = "https://mms-pack.xiyihan.cn/fonts/MainFont.otf";
 const mainBoldUrl = "https://mms-pack.xiyihan.cn/fonts/MainFont_Bold.otf";
