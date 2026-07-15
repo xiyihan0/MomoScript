@@ -36,6 +36,12 @@ export interface TypstPreviewEvents {
   status(message: string, error: boolean): void;
   rendered(svg: string, revision: number, shadowCount: number, pageSize: { width: number; height: number }): void;
 }
+export type TypstExportFormat = "pdf" | "png" | "jpg" | "svg";
+
+export interface TypstExport {
+  blob: Blob;
+  extension: TypstExportFormat;
+}
 
 export class TypstPreviewController {
   private pending: TypstProjectUpdate | undefined;
@@ -49,6 +55,8 @@ export class TypstPreviewController {
   private readonly zoomLabel = document.createElement("span");
   private zoom = 1;
   private pageSize: { width: number; height: number } | undefined;
+  private latestEntryPath: string | undefined;
+  private latestSvg: string | undefined;
 
   constructor(private readonly container: HTMLElement, private readonly events?: TypstPreviewEvents) {
     this.container.classList.add("typst-preview");
@@ -101,6 +109,24 @@ export class TypstPreviewController {
     if (!this.pageSize) return;
     this.setZoom((this.viewport.clientWidth - 32) / this.pageSize.width);
   }
+  async createExport(format: TypstExportFormat): Promise<TypstExport> {
+    const entryPath = this.latestEntryPath;
+    const svg = this.latestSvg;
+    const pageSize = this.pageSize;
+    if (!entryPath || !svg || !pageSize) throw new Error("请等待当前预览渲染完成后再导出。");
+    if (format === "pdf") {
+      const pdf = await $typst.pdf({ mainFilePath: entryPath });
+      if (!pdf) throw new Error("Typst 未生成 PDF 数据。");
+      return { blob: new Blob([new Uint8Array(pdf)], { type: "application/pdf" }), extension: format };
+    }
+    const exportSvg = svgWithoutSelectionLayer(svg);
+    if (format === "svg") {
+      return { blob: new Blob([exportSvg], { type: "image/svg+xml;charset=utf-8" }), extension: format };
+    }
+    const mime = format === "png" ? "image/png" : "image/jpeg";
+    return { blob: await rasterizeSvg(exportSvg, pageSize, mime), extension: format };
+  }
+
   async update(project: TypstProjectUpdate): Promise<void> {
     this.generation += 1;
     this.closeRequested = false;
@@ -140,6 +166,8 @@ export class TypstPreviewController {
     for (const path of this.mappedPaths) await $typst.unmapShadow(path);
     this.mappedPaths.clear();
     this.pageSize = undefined;
+    this.latestEntryPath = undefined;
+    this.latestSvg = undefined;
     this.content.replaceChildren();
     delete this.container.dataset.previewRevision;
     delete this.container.dataset.previewShadowCount;
@@ -207,6 +235,8 @@ export class TypstPreviewController {
       }
       this.mappedPaths = nextPaths;
       this.pageSize = { width, height };
+      this.latestEntryPath = virtualPath(project.entryUri);
+      this.latestSvg = inlineSvg.outerHTML;
       this.content.replaceChildren(inlineSvg);
       this.viewport.replaceChildren(this.canvas);
       this.setZoom(this.zoom);
@@ -360,6 +390,46 @@ function cloneSafeSelectionChild(node: SVGForeignObjectElement, child: ChildNode
   const span = node.ownerDocument.createElementNS("http://www.w3.org/1999/xhtml", "span");
   span.append(...[...source.childNodes].map((nested) => cloneSafeSelectionChild(node, nested)));
   return span;
+}
+
+function svgWithoutSelectionLayer(svg: string): string {
+  const document = new DOMParser().parseFromString(svg, "image/svg+xml");
+  const root = document.documentElement;
+  if (root.localName !== "svg" || document.querySelector("parsererror")) {
+    throw new Error("无法为导出解析当前 SVG。");
+  }
+  root.querySelectorAll("foreignObject").forEach((node) => {
+    if (node.querySelector(":scope > .tsel")) node.remove();
+  });
+  return new XMLSerializer().serializeToString(root);
+}
+
+async function rasterizeSvg(
+  svg: string,
+  pageSize: { width: number; height: number },
+  mime: "image/png" | "image/jpeg"
+): Promise<Blob> {
+  const scale = 2;
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.ceil(pageSize.width * scale);
+  canvas.height = Math.ceil(pageSize.height * scale);
+  const context = canvas.getContext("2d");
+  if (!context) throw new Error("浏览器无法创建图片导出画布。");
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  const url = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+  try {
+    const image = new Image();
+    image.decoding = "async";
+    image.src = url;
+    await image.decode();
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, mime, mime === "image/jpeg" ? 0.92 : undefined));
+    if (!blob) throw new Error("浏览器未生成图片数据。");
+    return blob;
+  } finally {
+    URL.revokeObjectURL(url);
+  }
 }
 
 function initializeTypst(): void {

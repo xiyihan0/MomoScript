@@ -29,7 +29,7 @@ import type { TinymistHandle } from "./tinymistLanguageClient";
 import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
 import { projectionSessionKey } from "../../vscode/src/tinymistClient";
-import { sanitizeSvg, TypstPreviewController } from "./preview";
+import { sanitizeSvg, TypstPreviewController, type TypstExportFormat } from "./preview";
 import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest, TypstVirtualFile } from "../../vscode/src/tinymistClient";
 
 if (import.meta.env.VITE_MMT_E2E === "1") {
@@ -173,6 +173,7 @@ async function start(): Promise<void> {
   let previewPanel: vscode.WebviewPanel | undefined;
   let previewPanelTitle = "MomoScript 预览";
   let previewPanelDisposeRegistration: vscode.Disposable | undefined;
+  let previewPanelMessageRegistration: vscode.Disposable | undefined;
   const preview = new TypstPreviewController(layout.preview, {
     status(message, error) {
       log(error ? "preview:error" : "preview", message);
@@ -441,15 +442,31 @@ async function start(): Promise<void> {
         "mmt.typstPreview",
         previewPanelTitle,
         vscode.ViewColumn.Beside,
-        { enableScripts: false, retainContextWhenHidden: true }
+        { enableScripts: true, retainContextWhenHidden: true }
       );
       previewPanelDisposeRegistration = previewPanel.onDidDispose(() => {
         previewPanel = undefined;
         displayedPreviewSourceUri = undefined;
         previewPanelDisposeRegistration?.dispose();
         previewPanelDisposeRegistration = undefined;
+        previewPanelMessageRegistration?.dispose();
+        previewPanelMessageRegistration = undefined;
         void preview.close();
         log("preview", "Preview editor closed");
+      });
+      previewPanelMessageRegistration = previewPanel.webview.onDidReceiveMessage(async (message: unknown) => {
+        if (!isExportMessage(message)) return;
+        const sourceName = displayedPreviewSourceUri ? new URL(displayedPreviewSourceUri).pathname.split("/").at(-1) : "momoscript";
+        const baseName = (sourceName ?? "momoscript").replace(/\.mmt(?:\.txt)?$/i, "") || "momoscript";
+        try {
+          const exported = await preview.createExport(message.format);
+          downloadBlob(exported.blob, `${baseName}.${exported.extension}`);
+          log("export", `Downloaded ${baseName}.${exported.extension}`);
+        } catch (error) {
+          const detail = error instanceof Error ? error.message : String(error);
+          log("export:error", detail);
+          void vscode.window.showErrorMessage(`导出失败：${detail}`);
+        }
       });
     } else {
       previewPanel.title = previewPanelTitle;
@@ -766,6 +783,25 @@ async function fetchManifest(url: string, etag: string | undefined) {
   };
 }
 
+function isExportMessage(value: unknown): value is { type: "export"; format: TypstExportFormat } {
+  if (!value || typeof value !== "object") return false;
+  const message = value as { type?: unknown; format?: unknown };
+  return message.type === "export" && ["pdf", "png", "jpg", "svg"].includes(String(message.format));
+}
+
+function downloadBlob(blob: Blob, filename: string): void {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+}
+
+function previewNonce(): string {
+  return crypto.randomUUID().replaceAll("-", "");
+}
+
 function previewWebviewHtml(
   webview: vscode.Webview,
   title: string,
@@ -775,30 +811,44 @@ function previewWebviewHtml(
   pageSize?: { width: number; height: number }
 ): string {
   void webview;
+  const nonce = previewNonce();
   const pageStyle = pageSize ? ` style="width:${pageSize.width}px;height:${pageSize.height}px" data-intrinsic-width="${pageSize.width}" data-intrinsic-height="${pageSize.height}"` : "";
+  const formats = (["pdf", "png", "jpg", "svg"] as const)
+    .map((format) => `<button type="button" data-format="${format}">${format.toUpperCase()}</button>`)
+    .join("");
   const body = svg
-    ? `<main class="viewport"><article class="page"${pageStyle}>${svg}</article></main>`
+    ? `<nav class="export-toolbar" aria-label="导出预览">${formats}</nav><main class="viewport"><article class="page"${pageStyle}>${svg}</article></main>`
     : `<main class="status${error ? " error" : ""}">${escapeHtml(status)}</main>`;
   return `<!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: blob:; style-src 'unsafe-inline'; script-src 'nonce-${nonce}'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(title)}</title>
   <style>
     html, body { margin: 0; min-height: 100%; background: var(--vscode-editor-background); color: var(--vscode-editor-foreground); }
-    body { box-sizing: border-box; padding: 24px; font-family: var(--vscode-font-family); }
-    .viewport { display: flex; justify-content: center; min-width: min-content; }
-    .page { box-shadow: 0 2px 10px #0008; line-height: 0; }
+    body { box-sizing: border-box; font-family: var(--vscode-font-family); }
+    .export-toolbar { position: sticky; top: 0; z-index: 1; display: flex; justify-content: flex-end; gap: 6px; padding: 8px 24px; border-bottom: 1px solid var(--vscode-panel-border); background: var(--vscode-editor-background); }
+    .export-toolbar button { padding: 3px 9px; border: 1px solid var(--vscode-button-border, transparent); color: var(--vscode-button-foreground); background: var(--vscode-button-background); cursor: pointer; }
+    .export-toolbar button:hover { background: var(--vscode-button-hoverBackground); }
+    .viewport { display: flex; justify-content: center; min-width: min-content; padding: 24px; background: #e5e5e5; }
+    .page { background: #ffffff; box-shadow: 0 2px 10px #0008; line-height: 0; }
     .page svg { display: block; width: 100%; height: 100%; max-width: none; }
     .page .tsel, .page .tsel span { position: fixed; left: 0; width: 100%; height: 100%; color: transparent; white-space: pre; text-align: justify; text-align-last: justify; pointer-events: auto; user-select: text; cursor: text; }
     .page .tsel::selection, .page .tsel span::selection { color: transparent; background: #7db9dea0; }
-    .status { display: grid; min-height: calc(100vh - 48px); place-items: center; color: var(--vscode-descriptionForeground); }
+    .status { display: grid; min-height: 100vh; place-items: center; color: var(--vscode-descriptionForeground); }
     .status.error { color: var(--vscode-errorForeground); }
   </style>
 </head>
 <body>${body}</body>
+<script nonce="${nonce}">
+  const vscode = acquireVsCodeApi();
+  document.querySelector('.export-toolbar')?.addEventListener('click', (event) => {
+    const button = event.target.closest('button[data-format]');
+    if (button) vscode.postMessage({ type: 'export', format: button.dataset.format });
+  });
+</script>
 </html>`;
 }
 
