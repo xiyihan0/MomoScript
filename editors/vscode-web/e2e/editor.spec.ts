@@ -205,7 +205,9 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(preview.locator('svg[aria-label="Rendered MomoScript preview"]')).toBeAttached();
   await expect.poll(() => renderedWebviewHasVisibleIntrinsicPage(page), { timeout: 30_000 }).toBe(true);
   const authoredShadowCount = Number(await preview.getAttribute("data-preview-shadow-count"));
-  expect(authoredShadowCount).toBeGreaterThan(baselineShadowCount);
+  expect(authoredShadowCount).toBeGreaterThan(0);
+  await expect(preview.locator("svg image").first()).toBeAttached();
+  if (local) expect(avatarRequests).toBe(1);
   await expect.poll(() => persistedStory(page)).toBe(authored);
   const chapterInitial = "@typ\nCHAPTER_TWO\n@end\n";
   const chapterEdited = "@typ\nCHAPTER_TWO_EDITED\n@end\n";
