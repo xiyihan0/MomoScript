@@ -81,11 +81,12 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
     await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(WORKSPACE, name), Uint8Array.from(atob(dataBase64), (char) => char.charCodeAt(0)));
   });
   Reflect.set(globalThis, "__mmtOpenWorkspaceDocument", async (name: string, text: string) => {
-    if (!/^[^./\\][^/\\]*\.mmt\.txt$/.test(name)) throw new Error("invalid MMT workspace basename");
+    if (!/^[^./\\][^/\\]*(?:\.mmt\.txt|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
     const uri = vscode.Uri.joinPath(WORKSPACE, name);
     await vscode.workspace.fs.writeFile(uri, encoder.encode(text));
     const opened = await vscode.workspace.openTextDocument(uri);
-    const document = opened.languageId === "mmt" ? opened : await vscode.languages.setTextDocumentLanguage(opened, "mmt");
+    const expectedLanguage = name.endsWith(".typ") ? "typst" : "mmt";
+    const document = opened.languageId === expectedLanguage ? opened : await vscode.languages.setTextDocumentLanguage(opened, expectedLanguage);
     await vscode.window.showTextDocument(document);
     return uri.toString();
   });
@@ -191,6 +192,8 @@ async function start(): Promise<void> {
   const materializationControllers = new Map<string, AbortController>();
   const materializedResourceCache = new BoundedStringCache(MATERIALIZED_RESOURCE_CACHE_MAX_BYTES);
   const latestLanguageProjectionBySource = new Map<string, LanguageProjectionToken>();
+  const typstRevisions = new Map<string, number>();
+  const typstProjects = new Map<string, TypstProjectUpdate>();
   const retiredLanguageProjectionSessions = new Map<string, Set<string>>();
   const requestedRenderTokens = new WeakSet<LanguageProjectionToken>();
   if (import.meta.env.VITE_MMT_E2E === "1") {
@@ -430,13 +433,13 @@ async function start(): Promise<void> {
       ? vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === resource.toString())
       : undefined;
     const document = resourceDocument ?? vscode.window.activeTextEditor?.document;
-    if (!document || document.languageId !== "mmt") {
-      void vscode.window.showWarningMessage("请先打开一个 MomoScript 文档，再启动 Typst 预览。");
+    if (!document || !["mmt", "typst"].includes(document.languageId)) {
+      void vscode.window.showWarningMessage("请先打开一个 MomoScript 或 Typst 文档，再启动预览。");
       return;
     }
     const sourceUri = document.uri.toString();
     displayedPreviewSourceUri = sourceUri;
-    previewPanelTitle = `${document.uri.path.split("/").at(-1) ?? "MomoScript"}（预览）`;
+    previewPanelTitle = `${document.uri.path.split("/").at(-1) ?? "文档"}（预览）`;
     if (!previewPanel) {
       previewPanel = vscode.window.createWebviewPanel(
         "mmt.typstPreview",
@@ -456,8 +459,8 @@ async function start(): Promise<void> {
       });
       previewPanelMessageRegistration = previewPanel.webview.onDidReceiveMessage(async (message: unknown) => {
         if (!isExportMessage(message)) return;
-        const sourceName = displayedPreviewSourceUri ? new URL(displayedPreviewSourceUri).pathname.split("/").at(-1) : "momoscript";
-        const baseName = (sourceName ?? "momoscript").replace(/\.mmt(?:\.txt)?$/i, "") || "momoscript";
+        const sourceName = displayedPreviewSourceUri ? new URL(displayedPreviewSourceUri).pathname.split("/").at(-1) : "document";
+        const baseName = (sourceName ?? "document").replace(/\.(?:mmt(?:\.txt)?|typ)$/i, "") || "document";
         try {
           const exported = await preview.createExport(message.format);
           downloadBlob(exported.blob, `${baseName}.${exported.extension}`);
@@ -472,8 +475,15 @@ async function start(): Promise<void> {
       previewPanel.title = previewPanelTitle;
       previewPanel.reveal(vscode.ViewColumn.Beside, true);
     }
-    previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, "正在准备 MomoScript 投影…");
     log("preview", `Opening ${sourceUri}`);
+    if (document.languageId === "typst") {
+      previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, "正在准备 Typst 预览…");
+      const project = await buildTypstProject(document, typstRevisions);
+      typstProjects.set(sourceUri, project);
+      await preview.update(project);
+      return;
+    }
+    previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, "正在准备 MomoScript 投影…");
     const project = await activeClient!.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", { uri: sourceUri });
     if (!project) {
       const message = `无法为 ${document.fileName} 获取 Typst 投影。`;
@@ -614,6 +624,15 @@ async function start(): Promise<void> {
   document.documentElement.dataset.mmtStage = "mmt-ready";
   document.documentElement.dataset.mmtLanguageId = mmtStory.languageId;
   document.documentElement.dataset.mmtWorkspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? "";
+  const typstDocumentChangeRegistration = vscode.workspace.onDidChangeTextDocument((event) => {
+    if (event.document.languageId !== "typst" || event.document.uri.scheme !== "mmtfs" || event.document.uri.authority !== "workspace") return;
+    const sourceUri = event.document.uri.toString();
+    void buildTypstProject(event.document, typstRevisions).then((project) => {
+      if (typstRevisions.get(sourceUri) !== project.revision) return;
+      typstProjects.set(sourceUri, project);
+      if (displayedPreviewSourceUri === sourceUri) return preview.update(project);
+    }).catch((error: unknown) => log("preview:error", `Typst: ${error instanceof Error ? error.message : String(error)}`));
+  });
   log("host", "MomoScript editor ready");
   output.show(false);
   document.documentElement.dataset.mmtReady = "true";
@@ -623,6 +642,7 @@ async function start(): Promise<void> {
     layout.dispose();
     sidebarVisibilityRegistration.dispose();
     documentPersistenceRegistration.dispose();
+    typstDocumentChangeRegistration.dispose();
     packConfigRegistration.dispose();
     previewCommandRegistration.dispose();
     previewPanel?.dispose();
@@ -979,6 +999,39 @@ function part(name: string): HTMLDivElement {
   element.className = `workbench-${name}`;
   return element;
 }
+async function buildTypstProject(document: vscode.TextDocument, revisions: Map<string, number>): Promise<TypstProjectUpdate> {
+  const sourceUri = document.uri.toString();
+  const revision = (revisions.get(sourceUri) ?? 0) + 1;
+  revisions.set(sourceUri, revision);
+  const root = vscode.Uri.parse(`${document.uri.scheme}://${document.uri.authority}/`);
+  const entryUri = document.uri.toString();
+  const files: TypstVirtualFile[] = [{ uri: entryUri, text: document.getText() }];
+  const maxFiles = 256;
+  const maxFileBytes = 8 * 1024 * 1024;
+  const maxTotalBytes = 32 * 1024 * 1024;
+  const maxDirectories = 32;
+  let visitedDirectories = 0;
+  let totalBytes = encoder.encode(document.getText()).byteLength;
+  const visit = async (directory: vscode.Uri): Promise<void> => {
+    if (files.length >= maxFiles || visitedDirectories++ >= maxDirectories) return;
+    for (const [name, type] of await vscode.workspace.fs.readDirectory(directory)) {
+      if (files.length >= maxFiles) return;
+      if (name === "." || name === ".." || name.includes("\\") || name.includes("/")) continue;
+      const uri = vscode.Uri.joinPath(directory, name);
+      if (type === vscode.FileType.Directory) { await visit(uri); continue; }
+      if (type !== vscode.FileType.File || uri.toString() === entryUri) continue;
+      const path = uri.path.toLowerCase();
+      if (!/\.(?:typ|bib|png|jpe?g|gif|webp|svg|bmp|avif|ttf|otf|woff2?)$/i.test(path)) continue;
+      const bytes = await vscode.workspace.fs.readFile(uri);
+      if (bytes.byteLength > maxFileBytes || totalBytes + bytes.byteLength > maxTotalBytes) continue;
+      totalBytes += bytes.byteLength;
+      files.push(path.endsWith(".typ") || path.endsWith(".bib") ? { uri: uri.toString(), text: new TextDecoder().decode(bytes) } : { uri: uri.toString(), dataBase64: bytesToBase64(bytes) });
+    }
+  };
+  await visit(root);
+  return { sourceUri, sourceVersion: document.version, revision, entryUri, files, full: true };
+}
+
 async function mirrorWorkspaceFiles(
   sourceProject: TypstRenderProjectUpdate,
   project: TypstRenderProjectUpdate,

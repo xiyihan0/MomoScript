@@ -40,7 +40,7 @@ export function mmtExtension(): ExtensionConfig {
       ],
       menus: {
         "editor/title": [
-          { command: "mmt.preview.open", when: "editorLangId == mmt", group: "navigation" }
+          { command: "mmt.preview.open", when: "editorLangId == mmt || editorLangId == typst", group: "navigation" }
         ]
       },
       themes: [
