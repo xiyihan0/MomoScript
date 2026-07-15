@@ -28,6 +28,7 @@ fn cli_exports_a_self_contained_typst_project_from_stdin() {
         .arg("--template-dir")
         .arg(template_dir())
         .args(["--title", "CLI fixture"])
+        .arg("--no-header")
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()
@@ -48,6 +49,9 @@ fn cli_exports_a_self_contained_typst_project_from_stdin() {
     let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
     assert_eq!(report["success"], true);
     assert!(output_dir.join("main.typ").is_file());
+    assert!(fs::read_to_string(output_dir.join("main.typ"))
+        .unwrap()
+        .contains("show-header: false"));
     assert!(output_dir.join("source.mmt").is_file());
     let source_map: serde_json::Value =
         serde_json::from_slice(&fs::read(output_dir.join("source-map.json")).unwrap()).unwrap();

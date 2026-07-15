@@ -432,7 +432,7 @@ impl<'a> TypstEmitter<'a> {
         for item in &reply.items {
             self.builder
                 .push_generated("[", GeneratedKind::StatementCallWrapper, Some(parent));
-            self.emit_body(item, parent);
+            self.emit_reply_body(item, parent);
             self.builder
                 .push_generated("]", GeneratedKind::StatementCallWrapper, Some(parent));
         }
@@ -498,6 +498,44 @@ impl<'a> TypstEmitter<'a> {
             ResolvedBodyMode::TypstRaw => self.emit_checked_typst(body, OriginKind::TypstBody),
             ResolvedBodyMode::TypstMacro => self.emit_typst_overlay(body, parent),
         }
+    }
+
+    fn emit_reply_body(&mut self, body: &BodySyntax, parent: usize) {
+        let mode = self
+            .modes
+            .get(&body.range)
+            .copied()
+            .unwrap_or(ResolvedBodyMode::TextMacro);
+        match mode {
+            ResolvedBodyMode::TextMacro => self.emit_text_parts_decoded(body, parent, true),
+            ResolvedBodyMode::TextRaw => self.emit_text_source_decoded(&body.source, body.range, parent),
+            ResolvedBodyMode::TypstRaw | ResolvedBodyMode::TypstMacro => self.emit_body(body, parent),
+        }
+    }
+
+    fn emit_text_parts_decoded(&mut self, body: &BodySyntax, parent: usize, expand_macros: bool) {
+        for part in &body.parts {
+            match part {
+                BodyPartSyntax::Text { source, range } => {
+                    self.emit_text_source_decoded(source, *range, parent);
+                }
+                BodyPartSyntax::InlineMacro(marker) if expand_macros => {
+                    self.emit_materialized_marker(marker, parent);
+                }
+                BodyPartSyntax::InlineMacro(marker) => {
+                    self.emit_text_source_decoded(
+                        &body.source[marker.range.start - body.range.start
+                            ..marker.range.end - body.range.start],
+                        marker.range,
+                        parent,
+                    );
+                }
+            }
+        }
+    }
+
+    fn emit_text_source_decoded(&mut self, source: &str, range: TextRange, parent: usize) {
+        self.emit_text_source(&source.replace("\\|", "|"), range, parent);
     }
 
     fn emit_typst_overlay(&mut self, body: &BodySyntax, parent: usize) {
@@ -753,6 +791,16 @@ mod tests {
         assert!(
             check_typst_source(&emitted.source, TextRange::new(0, emitted.source.len())).is_empty()
         );
+    }
+
+    #[test]
+    fn decodes_escaped_reply_separator_in_emitted_text() {
+        let emitted = emit(r#"@reply: 是 | 不知道\|算了"#);
+        assert!(emitted.diagnostics.is_empty());
+        assert!(emitted
+            .source
+            .contains(r#"#mmt.reply()[#text("是")][#text("不知道|算了")]"#));
+        assert!(!emitted.source.contains(r#"不知道\|算了"#));
     }
 
     #[test]

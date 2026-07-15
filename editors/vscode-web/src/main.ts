@@ -40,6 +40,8 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
 
 const WORKSPACE = vscode.Uri.parse("mmtfs://workspace/");
 const STORY = vscode.Uri.parse("mmtfs://workspace/story.mmt");
+const INTRO = vscode.Uri.parse("mmtfs://workspace/intro.typ");
+const DEFAULT_DOCUMENT = INTRO;
 if (import.meta.env.VITE_MMT_E2E === "1") {
   Reflect.set(globalThis, "__mmtCompletionLabels", async (line: number, character: number) => {
     const completions = await vscode.commands.executeCommand<vscode.CompletionList>(
@@ -89,6 +91,15 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
     const project = tinymist?.backend.projectForEntry(uri);
     return project ? { revision: project.revision, text: project.files.find((file) => file.uri === uri && "text" in file)?.text ?? null } : null;
   });
+  Reflect.set(globalThis, "__mmtActiveDocument", () => {
+    const active = vscode.window.activeTextEditor?.document;
+    const workspaceDocument = active?.uri.scheme === "mmtfs"
+      ? active
+      : vscode.window.visibleTextEditors.find((editor) => editor.document.uri.scheme === "mmtfs")?.document;
+    return workspaceDocument
+      ? { name: workspaceDocument.uri.path.split("/").pop(), languageId: workspaceDocument.languageId, text: workspaceDocument.getText() }
+      : null;
+  });
   Reflect.set(globalThis, "__mmtStoryText", () =>
     vscode.workspace.textDocuments.find((document) => document.uri.toString() === STORY.toString())?.getText()
   );
@@ -102,7 +113,7 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
     await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(WORKSPACE, name), Uint8Array.from(atob(dataBase64), (char) => char.charCodeAt(0)));
   });
   Reflect.set(globalThis, "__mmtOpenWorkspaceDocument", async (name: string, text: string) => {
-    if (!/^[^./\\][^/\\]*(?:\.mmt\.txt|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
+    if (!/^[^./\\][^/\\]*(?:\.mmt(?:\.txt)?|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
     const uri = vscode.Uri.joinPath(WORKSPACE, name);
     await vscode.workspace.fs.writeFile(uri, encoder.encode(text));
     const opened = await vscode.workspace.openTextDocument(uri);
@@ -111,12 +122,21 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
     await vscode.window.showTextDocument(document);
     return uri.toString();
   });
+  Reflect.set(globalThis, "__mmtShowWorkspaceDocument", async (name: string) => {
+    if (!/^[^./\\][^/\\]*(?:\.mmt(?:\.txt)?|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
+    const uri = vscode.Uri.joinPath(WORKSPACE, name);
+    const opened = await vscode.workspace.openTextDocument(uri);
+    const expectedLanguage = name.endsWith(".typ") ? "typst" : "mmt";
+    const document = opened.languageId === expectedLanguage ? opened : await vscode.languages.setTextDocumentLanguage(opened, expectedLanguage);
+    await vscode.window.showTextDocument(document);
+    return uri.toString();
+  });
   Reflect.set(globalThis, "__mmtReadWorkspaceDocument", async (name: string) => {
-    if (!/^[^./\\][^/\\]*(?:\.mmt\.txt|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
+    if (!/^[^./\\][^/\\]*(?:\.mmt(?:\.txt)?|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
     return new TextDecoder().decode(await vscode.workspace.fs.readFile(vscode.Uri.joinPath(WORKSPACE, name)));
   });
   Reflect.set(globalThis, "__mmtReplaceWorkspaceDocument", async (name: string, text: string) => {
-    if (!/^[^./\\][^/\\]*(?:\.mmt\.txt|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
+    if (!/^[^./\\][^/\\]*(?:\.mmt(?:\.txt)?|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
     const uri = vscode.Uri.joinPath(WORKSPACE, name);
     const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === uri.toString());
     if (!document) throw new Error("workspace document is not open");
@@ -410,7 +430,7 @@ async function start(): Promise<void> {
     await requestRenderProject(client, sourceUri, token);
   };
   document.documentElement.dataset.mmtStage = "api-ready";
-  await ensureDefaultStory();
+  await ensureDefaultWorkspace();
   document.documentElement.dataset.mmtStage = "filesystem-ready";
 
 
@@ -623,66 +643,67 @@ async function start(): Promise<void> {
   const packUrlsInput = root.querySelector<HTMLTextAreaElement>('textarea[aria-label="Resource pack manifest URLs"]');
   if (packUrlsInput) packUrlsInput.value = packUrls.join("\n");
 
-  const story = await vscode.workspace.openTextDocument(STORY);
-  const mmtStory = story.languageId === "mmt" ? story : await vscode.languages.setTextDocumentLanguage(story, "mmt");
-  await vscode.window.showTextDocument(mmtStory);
-  const currentProject = activeClient
-    ? await activeClient.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", { uri: mmtStory.uri.toString() })
-    : null;
-  if (currentProject && activeClient) {
-    const tracked = trackLanguageProjection(currentProject);
-    if (tracked) {
-      if (tracked.advanced) tinymist?.backend.syncProject(currentProject);
-      await schedulePreviewIfEnabled(activeClient, currentProject.sourceUri, tracked.token);
-    }
-  }
+  const initialDocument = await vscode.workspace.openTextDocument(DEFAULT_DOCUMENT);
+  const recognizedDocument = initialDocument.languageId === "typst"
+    ? initialDocument
+    : await vscode.languages.setTextDocumentLanguage(initialDocument, "typst");
+  await vscode.window.showTextDocument(recognizedDocument);
   const modelService = await getService(IModelService);
   const codeEditorService = await getService(ICodeEditorService);
-  const storyModel = modelService.getModels().find((model) =>
-    model.uri.toString() === STORY.toString() && model.getLanguageId() === "mmt"
-  );
-  if (!storyModel) throw new Error("MomoScript text model is unavailable");
-  const markerEditingRegistration = storyModel.onDidChangeContent((event) => {
-    const ranges = event.changes.flatMap((change) => {
-      const range = change.range;
-      if (change.text !== ":") return [];
-      const line = storyModel.getLineContent(range.startLineNumber);
-      if (range.startColumn < 2
-        || line.slice(range.startColumn - 2, range.startColumn + 1) !== "[:]") return [];
-      return [range];
-    });
-    if (ranges.length === 0) return;
-    const focused = codeEditorService.getFocusedCodeEditor() ?? codeEditorService.getActiveCodeEditor();
-    const editor = focused?.getModel() === storyModel
-      ? focused
-      : codeEditorService.listCodeEditors().find((candidate) => candidate.getModel() === storyModel);
-    if (!editor) return;
-    editor.executeEdits("mmt-resource-marker", ranges.map((range) => ({
-      range: {
-        startLineNumber: range.startLineNumber,
-        startColumn: range.startColumn + 1,
-        endLineNumber: range.startLineNumber,
-        endColumn: range.startColumn + 2
-      },
-      text: ":]"
-    })));
-    editor.setSelections(ranges.map((range) => ({
-      selectionStartLineNumber: range.startLineNumber,
-      selectionStartColumn: range.startColumn + 1,
-      positionLineNumber: range.startLineNumber,
-      positionColumn: range.startColumn + 1
-    })));
-  });
+  const markerModelRegistrations: vscode.Disposable[] = [];
+  const bindMarkerEditing = (model: ReturnType<IModelService["getModels"]>[number]) => {
+    if (model.uri.scheme !== "mmtfs" || !model.uri.path.endsWith(".mmt") && !model.uri.path.endsWith(".mmt.txt")) return;
+    markerModelRegistrations.push(model.onDidChangeContent((event) => {
+      const ranges = event.changes.flatMap((change) => {
+        const range = change.range;
+        if (change.text !== ":") return [];
+        const line = model.getLineContent(range.startLineNumber);
+        return range.startColumn >= 2 && line.slice(range.startColumn - 2, range.startColumn + 1) === "[:]" ? [range] : [];
+      });
+      if (ranges.length === 0) return;
+      const focused = codeEditorService.getFocusedCodeEditor() ?? codeEditorService.getActiveCodeEditor();
+      const editor = focused?.getModel() === model
+        ? focused
+        : codeEditorService.listCodeEditors().find((candidate) => candidate.getModel() === model);
+      if (!editor) return;
+      editor.executeEdits("mmt-resource-marker", ranges.map((range) => ({
+        range: {
+          startLineNumber: range.startLineNumber,
+          startColumn: range.startColumn + 1,
+          endLineNumber: range.startLineNumber,
+          endColumn: range.startColumn + 2
+        },
+        text: ":]"
+      })));
+      editor.setSelections(ranges.map((range) => ({
+        selectionStartLineNumber: range.startLineNumber,
+        selectionStartColumn: range.startColumn + 1,
+        positionLineNumber: range.startLineNumber,
+        positionColumn: range.startColumn + 1
+      })));
+    }));
+  };
+  modelService.getModels().forEach(bindMarkerEditing);
+  const markerModelRegistration = modelService.onModelAdded(bindMarkerEditing);
+  const markerEditingRegistration: vscode.Disposable = {
+    dispose() {
+      markerModelRegistration.dispose();
+      markerModelRegistrations.splice(0).forEach((registration) => registration.dispose());
+    }
+  };
   const persistenceByUri = new Map<string, Promise<void>>();
   const documentPersistenceRegistration = vscode.workspace.onDidChangeTextDocument((event) => {
     const document = event.document;
-    if (document.languageId !== "mmt" || document.uri.scheme !== "mmtfs" || document.uri.authority !== "workspace") return;
+    if ((document.languageId !== "mmt" && document.languageId !== "typst")
+      || document.uri.scheme !== "mmtfs" || document.uri.authority !== "workspace") return;
     const uri = document.uri.toString();
+    const text = document.getText();
     const priorRevision = latestLanguageProjectionBySource.get(uri)?.revision ?? -1;
     const previous = persistenceByUri.get(uri) ?? Promise.resolve();
     const next = previous.then(async () => {
-      await vscode.workspace.fs.writeFile(document.uri, encoder.encode(document.getText()));
+      await vscode.workspace.fs.writeFile(document.uri, encoder.encode(text));
       log("document", `Saved ${document.uri.path}`);
+      if (document.languageId === "typst") return;
       await new Promise((resolve) => setTimeout(resolve, 50));
       if ((latestLanguageProjectionBySource.get(uri)?.revision ?? -1) > priorRevision) return;
       if (!activeClient) return;
@@ -700,7 +721,7 @@ async function start(): Promise<void> {
     persistenceByUri.set(uri, next);
   });
   document.documentElement.dataset.mmtStage = "mmt-ready";
-  document.documentElement.dataset.mmtLanguageId = mmtStory.languageId;
+  document.documentElement.dataset.mmtLanguageId = recognizedDocument.languageId;
   document.documentElement.dataset.mmtWorkspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? "";
   const typstDocumentChangeRegistration = vscode.workspace.onDidChangeTextDocument((event) => {
     void recognizeAndSyncTypst(event.document).then((project) => {
@@ -856,11 +877,61 @@ async function readResponseBytes(response: Response, limit: number, signal: Abor
 }
 
 
-async function ensureDefaultStory(): Promise<void> {
+async function loadDefaultIntro(): Promise<Uint8Array> {
+  const url = new URL("intro.typ", document.baseURI);
+  let response: Response;
   try {
-    await vscode.workspace.fs.stat(STORY);
+    response = await fetch(url, { credentials: "same-origin" });
+  } catch (error) {
+    throw new Error(`Failed to load bundled intro template from ${url.href}`, { cause: error });
+  }
+  if (!response.ok) {
+    throw new Error(`Failed to load bundled intro template from ${url.href}: HTTP ${response.status}`);
+  }
+  const source = await response.text();
+  if (!source.trim()) throw new Error(`Bundled intro template is empty: ${url.href}`);
+  return encoder.encode(source);
+}
+
+const INTRO_ASSETS = [
+  "basic", "actor", "continuation", "rotation", "reply-inline", "reply-block",
+  "bond", "typst", "mode", "full", "sticker",
+] as const;
+
+async function loadIntroAssets(): Promise<void> {
+  const directory = vscode.Uri.joinPath(WORKSPACE, "intro-assets");
+  await vscode.workspace.fs.createDirectory(directory);
+  await Promise.all(INTRO_ASSETS.map(async (name) => {
+    const url = new URL(`intro-assets/${name}.png`, document.baseURI);
+    const response = await fetch(url, { credentials: "same-origin" });
+    if (!response.ok) throw new Error(`Failed to load bundled intro asset ${url.href}: HTTP ${response.status}`);
+    await vscode.workspace.fs.writeFile(
+      vscode.Uri.joinPath(directory, `${name}.png`),
+      new Uint8Array(await response.arrayBuffer()),
+    );
+  }));
+}
+
+async function ensureDefaultWorkspace(): Promise<void> {
+  try {
+    await vscode.workspace.fs.stat(INTRO);
   } catch {
-    await vscode.workspace.fs.writeFile(STORY, encoder.encode(DEFAULT_STORY));
+    await vscode.workspace.fs.writeFile(INTRO, await loadDefaultIntro());
+  }
+  await loadIntroAssets();
+  if (import.meta.env.VITE_MMT_E2E === "1") {
+    try {
+      await vscode.workspace.fs.stat(STORY);
+    } catch {
+      await vscode.workspace.fs.writeFile(STORY, encoder.encode(DEFAULT_STORY));
+    }
+    return;
+  }
+  try {
+    const existing = new TextDecoder().decode(await vscode.workspace.fs.readFile(STORY));
+    if (existing === DEFAULT_STORY) await vscode.workspace.fs.delete(STORY);
+  } catch {
+    // No legacy default story to migrate.
   }
 }
 
@@ -1017,7 +1088,7 @@ function mmsViewIcon(): string {
 function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
   container.classList.add("mms-project-view");
   const project = document.createElement("section");
-  project.innerHTML = '<h3>项目</h3><div class="mms-setting-row"><span>入口文件</span><code>story.mmt</code></div>';
+  project.innerHTML = '<h3>项目</h3><div class="mms-setting-row"><span>入口文件</span><code>intro.typ</code></div>';
   const previewSettings = document.createElement("section");
   const previewHeading = document.createElement("h3");
   previewHeading.textContent = "预览";

@@ -5,6 +5,7 @@ import rendererWasmUrl from "@myriaddreamin/typst-ts-renderer/pkg/typst_ts_rende
 import notoRegularUrl from "../../vscode/vendor/fonts/NotoSansCJK-Regular.ttc?url";
 import notoBoldUrl from "../../vscode/vendor/fonts/NotoSansCJK-Bold.ttc?url";
 import monoUrl from "../../vscode/vendor/fonts/DejaVuSansMono.ttf?url";
+import jetBrainsMonoUrl from "../../vscode/vendor/fonts/JetBrainsMono-Regular.ttf?url";
 import mathUrl from "../../vscode/vendor/fonts/NewCMMath-Regular.otf?url";
 
 import type { TypstProjectUpdate } from "../../vscode/src/tinymistClient";
@@ -17,7 +18,8 @@ const bundledFontsLoader = loadFonts([
   mathUrl,
   notoRegularUrl,
   notoBoldUrl,
-  monoUrl
+  monoUrl,
+  jetBrainsMonoUrl,
 ], { assets: false });
 const remoteMainFontsLoader = loadFonts([mainRegularUrl, mainBoldUrl], { assets: false });
 const optionalMainFontsLoader = async (

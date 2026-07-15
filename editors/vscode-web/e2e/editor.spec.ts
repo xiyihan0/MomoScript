@@ -14,6 +14,7 @@ const authored = [
   "> kayoko: E2E persisted avatar message",
   ""
 ].join("\n");
+const editedIntro = "#set page(width: 420pt, height: 260pt)\n= Welcome to MomoScript\n\nIntro persisted.\n";
 
 test("production editor materializes an avatar and restores the authored story after reload", async ({ page }, testInfo) => {
   const local = testInfo.project.name !== "remote";
@@ -53,11 +54,26 @@ test("production editor materializes an avatar and restores the authored story a
   const outputPanel = page.locator(".workbench-panel");
   await expect(outputPanel.getByRole("tab", { name: /^输出/ })).toHaveAttribute("aria-selected", "true");
   await expect(outputPanel).toContainText("MomoScript editor ready");
-  const editor = page.locator(".workbench-editor .monaco-editor").first();
+  let editor = page.locator(".workbench-editor .monaco-editor").first();
   const preview = page.locator(".workbench-preview");
   await expect(editor).toBeVisible();
+  await expect.poll(() => activeDocument(page)).toMatchObject({ name: "intro.typ", languageId: "typst" });
   await page.getByRole("button", { name: "Typst 预览" }).click();
-  await expect(page.getByRole("tab", { name: /^story\.mmt（预览）, 编辑器组2$/ })).toBeVisible();
+  await expect(page.getByRole("tab", { name: /^intro\.typ（预览）, 编辑器组\d+$/ })).toBeVisible();
+  await expect(preview).toHaveAttribute("data-preview-ready", "true");
+  await page.evaluate(({ name, text }) => (Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function)(name, text), {
+    name: "intro.typ",
+    text: editedIntro
+  });
+  await expect.poll(() => readWorkspaceDocument(page, "intro.typ")).toBe(editedIntro);
+  await page.evaluate(({ name, text }) => (Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function)(name, text), {
+    name: "story.mmt",
+    text: "@reply\n- 选项 A\n- 选项 B\n@end\n"
+  });
+  await expect.poll(() => activeDocument(page)).toMatchObject({ name: "story.mmt", languageId: "mmt" });
+  editor = page.locator('[role="code"][data-uri="mmtfs://workspace/story.mmt"]');
+  await page.getByRole("button", { name: "Typst 预览" }).click();
+  await expect.poll(() => displayedPreviewSource(page)).toMatch(/story\.mmt$/);
   await expect(preview).toHaveAttribute("data-preview-ready", "true");
   const imageBaselineRevision = await preview.getAttribute("data-preview-revision");
   const workspaceImage = avatar.toString("base64");
@@ -208,7 +224,7 @@ test("production editor materializes an avatar and restores the authored story a
   await editor.click();
   await page.keyboard.press("Control+A");
   await page.keyboard.insertText(authored);
-  await expect(page.locator(".workbench-editor .view-lines")).toContainText("E2E persisted avatar message");
+  await expect(editor.locator(".view-lines")).toContainText("E2E persisted avatar message");
   await expect(preview).not.toHaveAttribute("data-preview-revision", baselineRevision ?? "");
   await expect(preview).toHaveAttribute("data-preview-ready", "true");
   await expect(preview.locator('svg[aria-label="Rendered MomoScript preview"]')).toBeAttached();
@@ -224,19 +240,17 @@ test("production editor materializes an avatar and restores the authored story a
     name: "chapter-two.mmt.txt",
     text: chapterInitial
   });
-  await expect(page.getByRole("tab", { name: /^chapter-two\.mmt\.txt，预览, 编辑器组1$/ })).toBeVisible();
-  const chapterEditor = page.locator(".workbench-editor .monaco-editor:visible");
-  await chapterEditor.click();
+  await expect(page.getByRole("tab", { name: /^chapter-two\.mmt\.txt，预览, 编辑器组\d+$/ })).toBeVisible();
+  const chapterEditor = page.getByRole("textbox", { name: /^chapter-two\.mmt\.txt，预览, 编辑器组\d+$/ });
+  await chapterEditor.focus();
   await page.keyboard.press("Control+A");
   await page.keyboard.insertText(chapterEdited);
   await expect.poll(() => readWorkspaceDocument(page, "chapter-two.mmt.txt")).toBe(chapterEdited);
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => displayedPreviewSource(page)).toMatch(/chapter-two\.mmt\.txt$/);
-  await expect(page.getByRole("tab", { name: /^chapter-two\.mmt\.txt（预览）, 编辑器组2$/ })).toBeVisible();
   await expect.poll(() => visiblePreviewText(page), { timeout: 30_000 }).toContain("CHAPTER_TWO_EDITED");
-  await page.getByRole("tab", { name: /^story\.mmt, 编辑器组1$/ }).click();
+  await page.getByRole("tab", { name: /^story\.mmt, 编辑器组\d+$/ }).click();
   await page.getByRole("button", { name: "Typst 预览" }).click();
-  await expect(page.getByRole("tab", { name: /^story\.mmt（预览）, 编辑器组2$/ })).toBeVisible();
   await expect.poll(() => displayedPreviewSource(page)).toMatch(/story\.mmt$/);
   await expect.poll(() => visiblePreviewText(page), { timeout: 30_000 }).toContain("E2E persisted avatar message");
   await seedLegacyWorkspace(page, false);
@@ -245,7 +259,10 @@ test("production editor materializes an avatar and restores the authored story a
   const secondAsset = page.waitForResponse((response) => isPackAsset(response));
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
-  await expect(page.locator(".workbench-editor .view-lines")).toContainText("E2E persisted avatar message");
+  await expect.poll(() => activeDocument(page)).toMatchObject({ name: "intro.typ", languageId: "typst", text: editedIntro });
+  await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("story.mmt"));
+  await expect.poll(() => activeDocument(page)).toMatchObject({ name: "story.mmt", languageId: "mmt" });
+  await expect(editor.locator(".view-lines")).toContainText("E2E persisted avatar message");
   await page.getByRole("button", { name: "Typst 预览" }).click();
   const secondAssetResponse = await secondAsset;
   expect(secondAssetResponse.ok(), `reloaded pack asset returned HTTP ${secondAssetResponse.status()}`).toBe(true);
@@ -269,6 +286,10 @@ test("production editor materializes an avatar and restores the authored story a
   await expect.poll(() => workspaceEntryExists(page, "/workspace/keep.txt")).toBe(true);
   await expect.poll(() => persistedStory(page)).toBe(authored);
 });
+async function activeDocument(page: Page): Promise<{ name: string; languageId: string; text: string } | null> {
+  return page.evaluate(() => (Reflect.get(globalThis, "__mmtActiveDocument") as Function)());
+}
+
 async function renderedWebviewHasVisibleIntrinsicPage(page: Page): Promise<boolean> {
   const frames = page.frames().filter((candidate) => candidate.url().includes("/fake-") && candidate.url().includes(".html"));
   for (const frame of frames.toReversed()) {

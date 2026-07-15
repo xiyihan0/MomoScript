@@ -21,6 +21,7 @@ struct Options {
     template_dir: PathBuf,
     workspace_root: PathBuf,
     title: String,
+    show_header: bool,
     author: Option<String>,
     cache_dir: PathBuf,
     avifdec_bin: PathBuf,
@@ -81,6 +82,7 @@ fn run(args: Vec<OsString>) -> Result<CliReport, CliReport> {
         template_import: "template/lib.typ".to_string(),
         title: options.title,
         author: options.author,
+        show_header: options.show_header,
         ..EmitOptions::default()
     };
 
@@ -126,6 +128,7 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
     let mut template_dir = PathBuf::from("typst_sandbox/mmt_render");
     let mut workspace_root = env::current_dir().map_err(|error| error.to_string())?;
     let mut title = "无题".to_string();
+    let mut show_header = true;
     let mut author = None;
     let mut cache_dir = PathBuf::from(".cache/mmt-rs/materialized");
     let mut avifdec_bin = PathBuf::from("avifdec");
@@ -153,6 +156,7 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
                 workspace_root = PathBuf::from(value(&mut args, "--workspace-root")?)
             }
             "--title" => title = value(&mut args, "--title")?,
+            "--no-header" => show_header = false,
             "--author" => author = Some(value(&mut args, "--author")?),
             "--cache-dir" => cache_dir = PathBuf::from(value(&mut args, "--cache-dir")?),
             "--avifdec-bin" => avifdec_bin = PathBuf::from(value(&mut args, "--avifdec-bin")?),
@@ -168,6 +172,7 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
         template_dir,
         workspace_root,
         title,
+        show_header,
         author,
         cache_dir,
         avifdec_bin,
@@ -176,7 +181,7 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
 }
 
 fn usage() -> String {
-    "usage: mmt-compile [--input FILE] --output-dir DIR [--manifest FILE ...] [--template-dir DIR] [--workspace-root DIR] [--cache-dir DIR] [--avifdec-bin FILE] [--decoder-profile ID] [--title TEXT] [--author TEXT]".to_string()
+    "usage: mmt-compile [--input FILE] --output-dir DIR [--manifest FILE ...] [--template-dir DIR] [--workspace-root DIR] [--cache-dir DIR] [--avifdec-bin FILE] [--decoder-profile ID] [--title TEXT] [--author TEXT] [--no-header]".to_string()
 }
 
 fn read_source(path: Option<&Path>) -> Result<String, String> {
