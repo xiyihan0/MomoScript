@@ -103,6 +103,7 @@ test("production editor materializes an avatar and restores the authored story a
   }
   await expect(previewWebview.locator(".viewport .page svg")).toBeAttached({ timeout: 60_000 });
   await expect(outputPanel).toContainText(/Typst\s+编译器\s+WASM\s+下载完成\s+\d+\.\d\s+MiB/);
+  await expect(outputPanel).not.toContainText(/(?:Tinymist|Typst\s+编译器)\s+WASM\s+(?:100|[1-9]\d{2,})%/);
   const exportTrigger = previewWebview.getByRole("button", { name: "导出" });
   const exportMenu = previewWebview.getByRole("menu", { name: "导出格式" });
   await expect(exportTrigger).toBeVisible();
