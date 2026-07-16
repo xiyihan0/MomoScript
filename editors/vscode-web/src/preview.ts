@@ -9,7 +9,7 @@ import jetBrainsMonoUrl from "../../vscode/vendor/fonts/JetBrainsMono-Regular.tt
 import mathUrl from "../../vscode/vendor/fonts/NewCMMath-Regular.otf?url";
 
 import type { TypstProjectUpdate } from "../../vscode/src/tinymistClient";
-const compilerWasmUrl = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.7.0-rc2/acac51459fa84907843d7a1927ae7b6fc5c743d5de4f61473c866829c9c46e2d/typst_ts_web_compiler_bg.wasm";
+const compilerWasmUrl = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.7.0-rc2/acac51459fa84907843d7a1927ae7b6fc5c743d5de4f61473c866829c9c46e2d/typst_ts_web_compiler_bg.wasm?delivery=zstd-v1";
 
 
 const mainRegularUrl = "https://mms-pack.xiyihan.cn/fonts/MainFont.otf";
@@ -480,7 +480,8 @@ async function downloadWasmModule(
     report(`${label} 已下载 ${(bytes.byteLength / 1048576).toFixed(1)} MiB`);
     return WebAssembly.compile(bytes);
   }
-  const total = Number(response.headers.get("content-length")) || 0;
+  const encodedTransfer = new URL(url).searchParams.get("delivery") === "zstd-v1";
+  let total = encodedTransfer ? 0 : Number(response.headers.get("content-length")) || 0;
   const reader = response.body.getReader();
   const chunks: Uint8Array[] = [];
   let lastReported = -5;
@@ -492,7 +493,8 @@ async function downloadWasmModule(
     if (!value) continue;
     chunks.push(value);
     received += value.byteLength;
-    const percent = total > 0 ? Math.floor(received / total * 100) : 0;
+    if (total > 0 && received > total) total = 0;
+    const percent = total > 0 ? Math.min(99, Math.floor(received / total * 100)) : 0;
     const shouldReport = total > 0
       ? percent >= lastReported + 5
       : received - lastReportedBytes >= 1048576;

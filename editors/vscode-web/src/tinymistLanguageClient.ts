@@ -5,7 +5,7 @@ import { TinymistWorkerClient } from "../../vscode/src/tinymistClient";
 import { connectTypstBackend, installTypstMiddleware } from "../../vscode/src/typstFeatures";
 import tinymistModuleUrl from "../../vscode/vendor/tinymist-0.15.2/tinymist.js?url";
 import tinymistWorkerUrl from "../../vscode/src/tinymistWorker.ts?worker&url";
-const tinymistWasmUrl = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454/tinymist_bg.wasm";
+const tinymistWasmUrl = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454/tinymist_bg.wasm?delivery=zstd-v1";
 
 export interface TinymistHandle {
   backend: TinymistWorkerClient;
@@ -93,7 +93,8 @@ async function downloadWasm(url: string, label: string, report: (message: string
     report(`${label} 已下载 ${(bytes.byteLength / 1048576).toFixed(1)} MiB`);
     return bytes;
   }
-  const total = Number(response.headers.get("content-length")) || 0;
+  const encodedTransfer = new URL(url).searchParams.get("delivery") === "zstd-v1";
+  let total = encodedTransfer ? 0 : Number(response.headers.get("content-length")) || 0;
   const reader = response.body.getReader();
   const chunks: Uint8Array[] = [];
   let lastReported = -5;
@@ -105,7 +106,8 @@ async function downloadWasm(url: string, label: string, report: (message: string
     if (!value) continue;
     chunks.push(value);
     received += value.byteLength;
-    const percent = total > 0 ? Math.floor(received / total * 100) : 0;
+    if (total > 0 && received > total) total = 0;
+    const percent = total > 0 ? Math.min(99, Math.floor(received / total * 100)) : 0;
     const shouldReport = total > 0
       ? percent >= lastReported + 5
       : received - lastReportedBytes >= 1048576;
