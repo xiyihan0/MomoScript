@@ -291,6 +291,70 @@ try {
     if (!documentConfig.range || documentConfig.range.start.line !== 0) {
       throw new Error("browser Worker document config range is missing");
     }
+    const documentDirectiveHover = await request("textDocument/hover", {
+      textDocument: { uri: documentConfigUri },
+      position: { line: 0, character: 4 }
+    });
+    if (!documentDirectiveHover?.contents?.value?.includes("Configure document title")) {
+      throw new Error("browser Worker omitted @document hover");
+    }
+    if (
+      documentDirectiveHover.range?.start?.line !== 0 ||
+      documentDirectiveHover.range?.start?.character !== 0 ||
+      documentDirectiveHover.range?.end?.line !== 0 ||
+      documentDirectiveHover.range?.end?.character !== 9
+    ) {
+      throw new Error(
+        `browser Worker returned an invalid @document hover range: ${JSON.stringify(documentDirectiveHover.range)}`
+      );
+    }
+    const documentFieldHover = await request("textDocument/hover", {
+      textDocument: { uri: documentConfigUri },
+      position: { line: 1, character: 2 }
+    });
+    if (!documentFieldHover?.contents?.value?.includes("document title; defaults to 无题")) {
+      throw new Error("browser Worker omitted @document field hover");
+    }
+    if (
+      documentFieldHover.range?.start?.line !== 1 ||
+      documentFieldHover.range?.start?.character !== 0 ||
+      documentFieldHover.range?.end?.line !== 1 ||
+      documentFieldHover.range?.end?.character !== 5
+    ) {
+      throw new Error(
+        `browser Worker returned an invalid @document field hover range: ${JSON.stringify(documentFieldHover.range)}`
+      );
+    }
+    const typHoverUri = "file:///workspace/typ-hover.mmt";
+    notify("textDocument/didOpen", {
+      textDocument: {
+        uri: typHoverUri,
+        languageId: "mmt",
+        version: 1,
+        text: "@typ: #text(\"checked\")"
+      }
+    });
+    await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (message) => message.params.uri === typHoverUri
+    );
+    const typDirectiveHover = await request("textDocument/hover", {
+      textDocument: { uri: typHoverUri },
+      position: { line: 0, character: 3 }
+    });
+    if (!typDirectiveHover?.contents?.value?.includes("raw Typst content")) {
+      throw new Error("browser Worker omitted @typ hover");
+    }
+    if (
+      typDirectiveHover.range?.start?.line !== 0 ||
+      typDirectiveHover.range?.start?.character !== 0 ||
+      typDirectiveHover.range?.end?.line !== 0 ||
+      typDirectiveHover.range?.end?.character !== 4
+    ) {
+      throw new Error(
+        `browser Worker returned an invalid @typ hover range: ${JSON.stringify(typDirectiveHover.range)}`
+      );
+    }
     const documentCompletionUri = "file:///workspace/document-completion.mmt";
     notify("textDocument/didOpen", {
       textDocument: {
@@ -357,7 +421,12 @@ try {
       renderResource: renderProject.resources[0].fileName,
       documentConfigMode: documentConfig.compiledAt.mode,
       documentFieldLabels: documentFieldCompletions.map((item) => item.label),
-      documentValueLabels: documentValueCompletions.map((item) => item.label)
+      documentValueLabels: documentValueCompletions.map((item) => item.label),
+      documentHoverKinds: [
+        documentDirectiveHover.contents.kind,
+        documentFieldHover.contents.kind,
+        typDirectiveHover.contents.kind
+      ]
     };
   }, `http://127.0.0.1:${address.port}/dist/${wasmAsset}`);
 

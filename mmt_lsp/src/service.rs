@@ -474,9 +474,9 @@ impl LanguageService {
                 &[
                     ("@actor", "open or create a script actor"),
                     ("@asset", "declare a script-local asset"),
-                    ("@document", "configure document title and compilation time"),
+                    ("@document", DOCUMENT_DIRECTIVE_DESCRIPTION),
                     ("@mode", "change the following content mode"),
-                    ("@typ", "insert checked Typst content"),
+                    ("@typ", TYP_DIRECTIVE_DESCRIPTION),
                     ("@reply", "render reply options"),
                     ("@bond", "render a bond event"),
                     ("@end", "close the current block"),
@@ -709,6 +709,21 @@ impl LanguageService {
             let range = document
                 .lines
                 .range(&document.text, marker_range, &self.encoding)?;
+            return Some(Hover {
+                contents: HoverContents::Markup(MarkupContent {
+                    kind: MarkupKind::Markdown,
+                    value,
+                }),
+                range: Some(range),
+            });
+        }
+
+        if let Some((hover_range, value)) =
+            directive_hover_at(&document.syntax, &document.text, offset)
+        {
+            let range = document
+                .lines
+                .range(&document.text, hover_range, &self.encoding)?;
             return Some(Hover {
                 contents: HoverContents::Markup(MarkupContent {
                     kind: MarkupKind::Markdown,
@@ -1387,6 +1402,10 @@ fn markdown_code(value: &str) -> String {
     format!("{delimiter} {content} {delimiter}")
 }
 
+const DOCUMENT_DIRECTIVE_DESCRIPTION: &str =
+    "Configure document title, author, title-bar visibility, and compilation time.";
+const TYP_DIRECTIVE_DESCRIPTION: &str = "Insert raw Typst content that is checked with the generated document and mapped back to this source.";
+
 const DOCUMENT_FIELDS: &[(&str, &str)] = &[
     ("title", "document title; defaults to 无题"),
     ("author", "optional document author"),
@@ -1404,6 +1423,77 @@ const DOCUMENT_FIELDS: &[(&str, &str)] = &[
         "local, utc, Z, or a fixed UTC offset such as +08:00",
     ),
 ];
+
+fn directive_hover_at(
+    document: &SyntaxDocument,
+    source: &str,
+    offset: usize,
+) -> Option<(TextRange, String)> {
+    document.nodes.iter().find_map(|node| {
+        let (name, name_range, items) = match node {
+            SyntaxNode::DirectiveLine(directive) => {
+                (directive.name.as_str(), directive.name_range, None)
+            }
+            SyntaxNode::DirectiveBlock(block) => {
+                (block.name.as_str(), block.name_range, Some(&block.items))
+            }
+            _ => return None,
+        };
+
+        if name == "document"
+            && let Some(items) = items
+            && let Some((field, description)) = items.iter().find_map(|item| {
+                let DirectiveItemSyntax::Field(field) = item else {
+                    return None;
+                };
+                let description = DOCUMENT_FIELDS.iter().find_map(|(name, description)| {
+                    (*name == field.name).then_some(*description)
+                })?;
+                (field.name_range.start <= offset && offset < field.name_range.end)
+                    .then_some((field, description))
+            })
+        {
+            return Some((
+                field.name_range,
+                format!("**{}**\n\n{}", markdown_code(&field.name), description),
+            ));
+        }
+
+        let marker_range = directive_marker_range(source, name_range)?;
+        if !(marker_range.start <= offset && offset < marker_range.end) {
+            return None;
+        }
+        match name {
+            "document" => {
+                let fields = DOCUMENT_FIELDS
+                    .iter()
+                    .map(|(name, description)| {
+                        format!("- {} — {}", markdown_code(name), description)
+                    })
+                    .collect::<Vec<_>>()
+                    .join("\n");
+                Some((
+                    marker_range,
+                    format!(
+                        "**@document**\n\n{}\n\n{}",
+                        DOCUMENT_DIRECTIVE_DESCRIPTION, fields
+                    ),
+                ))
+            }
+            "typ" => Some((
+                marker_range,
+                format!("**@typ**\n\n{TYP_DIRECTIVE_DESCRIPTION}"),
+            )),
+            _ => None,
+        }
+    })
+}
+
+fn directive_marker_range(source: &str, name_range: TextRange) -> Option<TextRange> {
+    let marker_start = name_range.start.checked_sub(1)?;
+    (source.as_bytes().get(marker_start) == Some(&b'@'))
+        .then_some(TextRange::new(marker_start, name_range.end))
+}
 
 #[derive(Clone, Copy)]
 struct FacadeContract {
@@ -1706,6 +1796,20 @@ mod tests {
 
     fn uri() -> Url {
         Url::parse("file:///workspace/example.mmt").unwrap()
+    }
+
+    fn markdown_hover(
+        service: &LanguageService,
+        line: u32,
+        character: u32,
+    ) -> (String, lsp_types::Range) {
+        let hover = service
+            .hover(&uri(), Position::new(line, character))
+            .expect("expected hover");
+        let HoverContents::Markup(contents) = hover.contents else {
+            panic!("expected markdown hover");
+        };
+        (contents.value, hover.range.expect("expected hover range"))
     }
 
     #[test]
@@ -2152,6 +2256,74 @@ mod tests {
                 Position::new(3, statement.len() as u32),
             )
         );
+    }
+
+    #[test]
+    fn hovers_document_directive_fields_and_typ_directive_at_ast_ranges() {
+        let mut service = LanguageService::default();
+        service.open(
+            uri(),
+            1,
+            concat!(
+                "@document\n",
+                "title: \"Story\"\n",
+                "author: \"xiyihan\"\n",
+                "show-header: true\n",
+                "compiled-at: auto\n",
+                "compiled-at-format: \"[year]\"\n",
+                "timezone: +08:00\n",
+                "@end\n",
+                "@typ\n",
+                "#let x = 1\n",
+                "@end\n",
+                "@typ: #text(\"inline\")",
+            )
+            .to_string(),
+        );
+
+        for character in [0, 4, 8] {
+            let (markdown, range) = markdown_hover(&service, 0, character);
+            assert!(markdown.contains(DOCUMENT_DIRECTIVE_DESCRIPTION));
+            assert!(markdown.contains("` timezone `"));
+            assert_eq!(
+                range,
+                lsp_types::Range::new(Position::new(0, 0), Position::new(0, 9))
+            );
+        }
+
+        for (line, (field, description)) in DOCUMENT_FIELDS.iter().enumerate() {
+            for character in [0, field.len() / 2, field.len() - 1] {
+                let (markdown, range) = markdown_hover(&service, line as u32 + 1, character as u32);
+                assert!(markdown.contains(description));
+                assert_eq!(
+                    range,
+                    lsp_types::Range::new(
+                        Position::new(line as u32 + 1, 0),
+                        Position::new(line as u32 + 1, field.len() as u32),
+                    )
+                );
+            }
+        }
+
+        for line in [8, 11] {
+            for character in [0, 2, 3] {
+                let (markdown, range) = markdown_hover(&service, line, character);
+                assert!(markdown.contains(TYP_DIRECTIVE_DESCRIPTION));
+                assert_eq!(
+                    range,
+                    lsp_types::Range::new(Position::new(line, 0), Position::new(line, 4))
+                );
+            }
+        }
+
+        for (line, character) in [(0, 9), (1, 5), (1, 7), (6, 8), (6, 10), (8, 4)] {
+            assert!(
+                service
+                    .hover(&uri(), Position::new(line, character))
+                    .is_none(),
+                "unexpected hover at {line}:{character}",
+            );
+        }
     }
 
     #[test]
