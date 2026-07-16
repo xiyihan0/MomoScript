@@ -5,6 +5,8 @@ const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
 const MANIFEST_URL = `${PACK_ROOT}manifest.json`;
 const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454/tinymist_bg.wasm?delivery=zstd-v1";
 const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.7.0-rc2/acac51459fa84907843d7a1927ae7b6fc5c743d5de4f61473c866829c9c46e2d/typst_ts_web_compiler_bg.wasm?delivery=zstd-v1";
+const TINYMIST_WASM_FALLBACK_URL = TINYMIST_WASM_URL.replace("?delivery=zstd-v1", "");
+const TYPST_COMPILER_WASM_FALLBACK_URL = TYPST_COMPILER_WASM_URL.replace("?delivery=zstd-v1", "");
 const manifest = await readFile(new URL("./fixtures/manifest.json", import.meta.url));
 const avatar = await readFile(new URL("./fixtures/佳代子.png", import.meta.url));
 const authored = [
@@ -20,6 +22,10 @@ test("production editor materializes an avatar and restores the authored story a
   const local = testInfo.project.name !== "remote";
   let manifestRequests = 0;
   let avatarRequests = 0;
+  let tinymistRolloutRequests = 0;
+  let tinymistFallbackRequests = 0;
+  let compilerRolloutRequests = 0;
+  let compilerFallbackRequests = 0;
   if (local) {
     await page.route("https://**/*", async (route) => {
       const url = route.request().url();
@@ -42,6 +48,14 @@ test("production editor materializes an avatar and restores the authored story a
         return;
       }
       if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
+        if (url === TINYMIST_WASM_URL) tinymistRolloutRequests += 1;
+        else compilerRolloutRequests += 1;
+        await route.abort("connectionfailed");
+        return;
+      }
+      if (url === TINYMIST_WASM_FALLBACK_URL || url === TYPST_COMPILER_WASM_FALLBACK_URL) {
+        if (url === TINYMIST_WASM_FALLBACK_URL) tinymistFallbackRequests += 1;
+        else compilerFallbackRequests += 1;
         await route.continue();
         return;
       }
@@ -51,6 +65,10 @@ test("production editor materializes an avatar and restores the authored story a
 
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
+  if (local) {
+    expect(tinymistRolloutRequests).toBe(1);
+    expect(tinymistFallbackRequests).toBe(1);
+  }
   const outputPanel = page.locator(".workbench-panel");
   const outputToggle = page.getByRole("status").getByRole("button", { name: /MomoScript/ });
   const problemsToggle = page.locator("#status\\.problems").getByRole("button");
@@ -62,7 +80,8 @@ test("production editor materializes an avatar and restores the authored story a
   await outputToggle.click();
   await expect(outputPanel.getByRole("tab", { name: /^输出/ })).toHaveAttribute("aria-selected", "true");
   await expect(outputPanel).toContainText("MomoScript editor ready");
-  await expect(outputPanel).not.toContainText(/(?:Tinymist|Typst 编译器) WASM \d+%/);
+  await expect(outputPanel).toContainText(/Tinymist\s+WASM\s+下载完成\s+\d+\.\d\s+MiB/);
+  await expect(outputPanel).not.toContainText(/(?:Tinymist|Typst\s+编译器)\s+WASM\s+(?:100|[1-9]\d{2,})%/);
   await problemsToggle.click();
   await expect(outputPanel.getByRole("tab", { name: /^问题/ })).toHaveAttribute("aria-selected", "true");
   await problemsToggle.click();
@@ -78,7 +97,12 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(preview).toHaveAttribute("data-preview-ready", "true");
   const previewWebview = await previewWebviewFrame(page);
   await expect(previewWebview.locator("#workbench")).toHaveCount(0);
+  if (local) {
+    expect(compilerRolloutRequests).toBe(1);
+    expect(compilerFallbackRequests).toBe(1);
+  }
   await expect(previewWebview.locator(".viewport .page svg")).toBeAttached({ timeout: 60_000 });
+  await expect(outputPanel).toContainText(/Typst\s+编译器\s+WASM\s+下载完成\s+\d+\.\d\s+MiB/);
   const exportTrigger = previewWebview.getByRole("button", { name: "导出" });
   const exportMenu = previewWebview.getByRole("menu", { name: "导出格式" });
   await expect(exportTrigger).toBeVisible();

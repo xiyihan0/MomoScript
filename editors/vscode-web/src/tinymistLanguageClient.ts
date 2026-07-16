@@ -19,20 +19,8 @@ export interface TinymistHandle {
 export async function startTinymistLanguageClient(
   report: (message: string) => void = () => {},
 ): Promise<TinymistHandle> {
-  const wasmBytes = await downloadWasm(tinymistWasmUrl, "Tinymist WASM", report);
-  const wasmUrl = URL.createObjectURL(new Blob([wasmBytes.buffer as ArrayBuffer], { type: "application/wasm" }));
-  let backend: TinymistWorkerClient;
-  try {
-    backend = await TinymistWorkerClient.start(
-      new URL(tinymistWorkerUrl, window.location.href).href,
-      new URL(tinymistModuleUrl, window.location.href).href,
-      wasmUrl,
-      (uri) => new Worker(uri, { type: "module", name: "Tinymist LS" })
-    );
-  } catch (error) {
-    URL.revokeObjectURL(wasmUrl);
-    throw error;
-  }
+  const wasmBytes = await downloadTinymistWasm(report);
+  const { backend, wasmUrl } = await startTinymistBackend(wasmBytes);
   const disposables: vscode.Disposable[] = [];
   const semanticTokensChanged = new vscode.EventEmitter<void>();
   disposables.push(semanticTokensChanged);
@@ -82,6 +70,49 @@ export async function startTinymistLanguageClient(
       URL.revokeObjectURL(wasmUrl);
     }
   };
+}
+
+async function startTinymistBackend(
+  wasmBytes: Uint8Array,
+): Promise<{ backend: TinymistWorkerClient; wasmUrl: string }> {
+  const wasmUrl = URL.createObjectURL(new Blob([wasmBytes.buffer as ArrayBuffer], { type: "application/wasm" }));
+  try {
+    const backend = await TinymistWorkerClient.start(
+      new URL(tinymistWorkerUrl, window.location.href).href,
+      new URL(tinymistModuleUrl, window.location.href).href,
+      wasmUrl,
+      (uri) => new Worker(uri, { type: "module", name: "Tinymist LS" })
+    );
+    return { backend, wasmUrl };
+  } catch (error) {
+    URL.revokeObjectURL(wasmUrl);
+    throw error;
+  }
+}
+
+async function downloadTinymistWasm(report: (message: string) => void): Promise<Uint8Array> {
+  try {
+    return await downloadValidatedWasm(tinymistWasmUrl, "Tinymist WASM", report);
+  } catch {
+    report("Tinymist WASM 压缩传输失败，回退未压缩版本…");
+    return downloadValidatedWasm(withoutDeliveryQuery(tinymistWasmUrl), "Tinymist WASM", report);
+  }
+}
+
+async function downloadValidatedWasm(
+  url: string,
+  label: string,
+  report: (message: string) => void,
+): Promise<Uint8Array> {
+  const bytes = await downloadWasm(url, label, report);
+  if (!WebAssembly.validate(bytes.buffer as ArrayBuffer)) throw new Error(`${label}不是有效的 WebAssembly 模块`);
+  return bytes;
+}
+
+function withoutDeliveryQuery(url: string): string {
+  const fallback = new URL(url);
+  fallback.searchParams.delete("delivery");
+  return fallback.href;
 }
 
 async function downloadWasm(url: string, label: string, report: (message: string) => void): Promise<Uint8Array> {

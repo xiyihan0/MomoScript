@@ -456,7 +456,12 @@ async function rasterizeSvg(
 async function initializeTypst(report: (message: string) => void): Promise<void> {
   if (initialized) return;
   if (!compilerModule) {
-    compilerModule = await downloadWasmModule(compilerWasmUrl, "Typst 编译器 WASM", report);
+    try {
+      compilerModule = await downloadWasmModule(compilerWasmUrl, "Typst 编译器 WASM", report);
+    } catch {
+      report("Typst 编译器 WASM 压缩传输失败，回退未压缩版本…");
+      compilerModule = await downloadWasmModule(withoutDeliveryQuery(compilerWasmUrl), "Typst 编译器 WASM", report);
+    }
   }
   $typst.setCompilerInitOptions({
     beforeBuild: [bundledFontsLoader, optionalMainFontsLoader],
@@ -465,6 +470,12 @@ async function initializeTypst(report: (message: string) => void): Promise<void>
   $typst.setRendererInitOptions({ getModule: () => rendererWasmUrl });
   $typst.use(TypstSnippet.withAccessModel(new MemoryAccessModel()));
   initialized = true;
+}
+
+function withoutDeliveryQuery(url: string): string {
+  const fallback = new URL(url);
+  fallback.searchParams.delete("delivery");
+  return fallback.href;
 }
 
 async function downloadWasmModule(
