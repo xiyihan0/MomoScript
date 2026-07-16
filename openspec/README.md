@@ -19,7 +19,7 @@
 本仓库当前常用验证方式：
 
 - Rust core：`cargo test --manifest-path mmt_rs/Cargo.toml`
-- Typst v2 façade 目标命令：`cd typst_sandbox/mmt_render && typst compile tests/v2-smoke.typ /tmp/mmt-v2-smoke.pdf --root ..`；当前 clean checkout 缺少 `mmt_options.webp`，在修复自包含 fixture 前不得宣称该 smoke 通过
+- Typst v2 façade：`cd typst_sandbox/mmt_render && typst compile tests/v2-smoke.typ /tmp/mmt-v2-smoke.pdf --root ..`；fixture 所需的 `mmt_options.webp` 与 `mmt_favor.webp` 已跟踪，命令用于验证当前 façade、配置状态和真实图片内容
 - Rust v2 行为变化：增加聚焦 Rust 测试，并验证 `compile_text_strict` 的完整阶段结果
 - Rust v2 主线验收：将 emitter 生成的 Typst 交给 Typst 0.15 编译，覆盖真实 source-map/diagnostic 边界
 - Python legacy、NoneBot 和 Web 命令只在明确修改对应表面时运行；`web/` 暂不属于当前 Rust parser 的默认验证目标

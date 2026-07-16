@@ -21,6 +21,10 @@ DSL v2 使用当前目录的 `lib.typ` 作为无 import 副作用的模板入口
 core lowering/materialize 的 Typst content，不读取 MMT JSON，也不调用 `eval`。旧
 `mmt_render.typ` / `mmt.typ` 暂时作为 legacy JSON renderer 保留。
 
+当前 Typst 0.15 公共 façade、参数、配置状态与限制见
+[`API.md`](./API.md)。该文档只把 `lib.typ` 的真实导出视为可用 API；尚未实现的
+主题扩展保持在对应 OpenSpec change 中。
+
 使用 Typst 0.15 验证完整 façade 和 MoeTalk 默认视觉：
 
 ```bash
