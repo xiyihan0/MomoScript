@@ -291,6 +291,52 @@ try {
     if (!documentConfig.range || documentConfig.range.start.line !== 0) {
       throw new Error("browser Worker document config range is missing");
     }
+    const documentCompletionUri = "file:///workspace/document-completion.mmt";
+    notify("textDocument/didOpen", {
+      textDocument: {
+        uri: documentCompletionUri,
+        languageId: "mmt",
+        version: 1,
+        text: "@document\ntitle: Story\nti"
+      }
+    });
+    await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (message) => message.params.uri === documentCompletionUri
+    );
+    const documentFieldCompletions = await request("textDocument/completion", {
+      textDocument: { uri: documentCompletionUri },
+      position: { line: 2, character: 2 }
+    });
+    if (!documentFieldCompletions.some((item) => item.label === "timezone")) {
+      throw new Error("browser Worker omitted @document field completions");
+    }
+    if (documentFieldCompletions.some((item) => item.label === "title")) {
+      throw new Error("browser Worker repeated an existing unique @document field");
+    }
+
+    const documentValueUri = "file:///workspace/document-value-completion.mmt";
+    notify("textDocument/didOpen", {
+      textDocument: {
+        uri: documentValueUri,
+        languageId: "mmt",
+        version: 1,
+        text: "@document\ntimezone: \n@end"
+      }
+    });
+    await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (message) => message.params.uri === documentValueUri
+    );
+    const documentValueCompletions = await request("textDocument/completion", {
+      textDocument: { uri: documentValueUri },
+      position: { line: 1, character: 10 }
+    });
+    for (const expected of ["local", "utc", "Z", "+08:00"]) {
+      if (!documentValueCompletions.some((item) => item.label === expected)) {
+        throw new Error(`browser Worker omitted @document value completion ${expected}`);
+      }
+    }
     await request("shutdown", null);
     notify("exit", null);
     worker.terminate();
@@ -309,7 +355,9 @@ try {
       semanticDiagnosticCount: semanticDiagnostics.params.diagnostics.length,
       packProjectionRevisions: [beforePackProject.params.revision, afterPackProject.params.revision],
       renderResource: renderProject.resources[0].fileName,
-      documentConfigMode: documentConfig.compiledAt.mode
+      documentConfigMode: documentConfig.compiledAt.mode,
+      documentFieldLabels: documentFieldCompletions.map((item) => item.label),
+      documentValueLabels: documentValueCompletions.map((item) => item.label)
     };
   }, `http://127.0.0.1:${address.port}/dist/${wasmAsset}`);
 

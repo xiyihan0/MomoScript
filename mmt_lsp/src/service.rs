@@ -10,10 +10,12 @@ use lsp_types::{
 use mmt_rs::diag::{Diagnostic as MmtDiagnostic, Severity};
 use mmt_rs::pack::{PackManifest, PackRegistry};
 use mmt_rs::source::TextRange;
-use mmt_rs::syntax::{SpeakerMarkerSyntax, StatementKind, SyntaxDocument, SyntaxNode};
+use mmt_rs::syntax::{
+    DirectiveItemSyntax, SpeakerMarkerSyntax, StatementKind, SyntaxDocument, SyntaxNode,
+};
 use mmt_rs::{
-    ResolvedResourceKind, SpeakerIdentity, StaticPresetCatalog, lower_actors, lower_assets,
-    lower_resource_markers, resolve_body_modes, resolve_resources,
+    DocumentTimezone, ResolvedResourceKind, SpeakerIdentity, StaticPresetCatalog, lower_actors,
+    lower_assets, lower_resource_markers, resolve_body_modes, resolve_resources,
 };
 
 use crate::position::LineIndex;
@@ -304,7 +306,27 @@ impl LanguageService {
         for node in &document.syntax.nodes {
             match node {
                 SyntaxNode::DirectiveLine(directive) => ranges.push((directive.name_range, 0)),
-                SyntaxNode::DirectiveBlock(block) => ranges.push((block.name_range, 0)),
+                SyntaxNode::DirectiveBlock(block) => {
+                    ranges.push((block.name_range, 0));
+                    if block.name == "document" {
+                        for item in &block.items {
+                            let DirectiveItemSyntax::Field(field) = item else {
+                                continue;
+                            };
+                            ranges.push((field.name_range, 3));
+                            let value = field.value.trim();
+                            let is_enum = match field.name.as_str() {
+                                "show-header" => matches!(value, "true" | "false"),
+                                "compiled-at" => value == "auto",
+                                "timezone" => value.parse::<DocumentTimezone>().is_ok(),
+                                _ => false,
+                            };
+                            if is_enum {
+                                ranges.push((field.value_range, 2));
+                            }
+                        }
+                    }
+                }
                 SyntaxNode::Statement(statement) => {
                     if let Some(marker) = &statement.marker {
                         let range = match marker {
@@ -452,6 +474,7 @@ impl LanguageService {
                 &[
                     ("@actor", "open or create a script actor"),
                     ("@asset", "declare a script-local asset"),
+                    ("@document", "configure document title and compilation time"),
                     ("@mode", "change the following content mode"),
                     ("@typ", "insert checked Typst content"),
                     ("@reply", "render reply options"),
@@ -515,22 +538,56 @@ impl LanguageService {
             }
         }
 
-        let Some(block_name) = document.syntax.nodes.iter().find_map(|node| match node {
+        let Some(block) = document.syntax.nodes.iter().find_map(|node| match node {
             SyntaxNode::DirectiveBlock(block)
                 if block.range.start <= offset && offset <= block.range.end =>
             {
-                Some(block.name.as_str())
+                Some(block)
             }
             _ => None,
         }) else {
             return Vec::new();
         };
+        let block_name = block.name.as_str();
         if block_name == "actor"
             && let Some((field, value_prefix)) = trimmed.split_once(':')
             && field.trim() == "preset"
         {
             let replace_start = offset - value_prefix.trim_start().len();
             return self.preset_completions(document, replace_start, offset);
+        }
+        if block_name == "document"
+            && let Some((field, value_prefix)) = trimmed.split_once(':')
+        {
+            let values: &[(&str, &str)] = match field.trim() {
+                "show-header" => &[
+                    ("true", "show the document title bar"),
+                    ("false", "hide the document title bar"),
+                ],
+                "compiled-at" => &[("auto", "format the host-provided compilation instant")],
+                "compiled-at-format" => &[(
+                    "\"[year]-[month]-[day] [hour]:[minute]:[second]\"",
+                    "default Rust time format description",
+                )],
+                "timezone" => &[
+                    ("local", "use the host local UTC offset"),
+                    ("utc", "use UTC"),
+                    ("Z", "use UTC"),
+                    ("+08:00", "fixed UTC offset; edit HH:MM as needed"),
+                ],
+                _ => &[],
+            };
+            if !values.is_empty() {
+                let replace_start = offset - value_prefix.trim_start().len();
+                return completion_items(
+                    document,
+                    &self.encoding,
+                    replace_start,
+                    offset,
+                    values,
+                    CompletionItemKind::VALUE,
+                );
+            }
         }
         // Once a field separator is present, the cursor is in the value. Resource
         // and Typst-aware backends own completion there; field names must not
@@ -552,6 +609,7 @@ impl LanguageService {
                 ("src", "required asset source"),
                 ("ns", "asset namespace; defaults to custom"),
             ],
+            "document" => DOCUMENT_FIELDS,
             _ => return Vec::new(),
         };
         let token_start = offset
@@ -561,14 +619,25 @@ impl LanguageService {
                 .take_while(|ch| ch.is_alphanumeric() || *ch == '-')
                 .map(char::len_utf8)
                 .sum::<usize>();
-        completion_items(
+        let mut items = completion_items(
             document,
             &self.encoding,
             token_start,
             offset,
             fields,
             CompletionItemKind::FIELD,
-        )
+        );
+        if block_name == "document" {
+            items.retain(|completion| {
+                !block.items.iter().any(|item| {
+                    matches!(
+                        item,
+                        DirectiveItemSyntax::Field(field) if field.name == completion.label
+                    )
+                })
+            });
+        }
+        items
     }
 
     pub fn hover(&self, uri: &Url, position: Position) -> Option<Hover> {
@@ -1318,6 +1387,24 @@ fn markdown_code(value: &str) -> String {
     format!("{delimiter} {content} {delimiter}")
 }
 
+const DOCUMENT_FIELDS: &[(&str, &str)] = &[
+    ("title", "document title; defaults to 无题"),
+    ("author", "optional document author"),
+    ("show-header", "show or hide the document title bar"),
+    (
+        "compiled-at",
+        "fixed compilation label or auto for a host-provided instant",
+    ),
+    (
+        "compiled-at-format",
+        "Rust time format description used with compiled-at: auto",
+    ),
+    (
+        "timezone",
+        "local, utc, Z, or a fixed UTC offset such as +08:00",
+    ),
+];
+
 #[derive(Clone, Copy)]
 struct FacadeContract {
     signature: &'static str,
@@ -1704,6 +1791,91 @@ mod tests {
             fields
                 .iter()
                 .any(|completion| completion.label == "display-name")
+        );
+    }
+
+    #[test]
+    fn completes_document_directive_fields_and_values_in_incomplete_blocks() {
+        let mut service = LanguageService::default();
+        service.open(uri(), 1, "@doc".to_string());
+        let directives = service.completions(&uri(), Position::new(0, 4));
+        assert!(
+            directives
+                .iter()
+                .any(|completion| completion.label == "@document")
+        );
+
+        service.open(uri(), 2, "@document\nti".to_string());
+        let incomplete_fields = service.completions(&uri(), Position::new(1, 2));
+        assert!(
+            incomplete_fields
+                .iter()
+                .any(|completion| completion.label == "title")
+        );
+
+        service.open(
+            uri(),
+            3,
+            "@document\ntitle: Story\nauthor: Author\nsh\n@end".to_string(),
+        );
+        let remaining_fields = service.completions(&uri(), Position::new(3, 2));
+        assert!(
+            remaining_fields
+                .iter()
+                .any(|completion| completion.label == "show-header")
+        );
+        assert!(
+            remaining_fields
+                .iter()
+                .all(|completion| !matches!(completion.label.as_str(), "title" | "author"))
+        );
+
+        service.open(uri(), 4, "@document\nshow-header: \n@end".to_string());
+        let booleans = service.completions(&uri(), Position::new(1, 13));
+        assert!(booleans.iter().any(|completion| completion.label == "true"));
+        assert!(
+            booleans
+                .iter()
+                .any(|completion| completion.label == "false")
+        );
+
+        service.open(uri(), 5, "@document\ntimezone: \n@end".to_string());
+        let timezones = service.completions(&uri(), Position::new(1, 10));
+        for expected in ["local", "utc", "Z", "+08:00"] {
+            assert!(
+                timezones
+                    .iter()
+                    .any(|completion| completion.label == expected),
+                "missing timezone completion {expected}"
+            );
+        }
+    }
+
+    #[test]
+    fn semantically_highlights_document_fields_and_enum_values() {
+        let mut service = LanguageService::default();
+        service.open(
+            uri(),
+            1,
+            "@document\nshow-header: true\ncompiled-at: auto\ntimezone: +08:00\n@end".to_string(),
+        );
+
+        let tokens = service.semantic_tokens(&uri()).unwrap();
+        assert_eq!(
+            tokens
+                .data
+                .iter()
+                .filter(|token| token.token_type == 3)
+                .count(),
+            3
+        );
+        assert_eq!(
+            tokens
+                .data
+                .iter()
+                .filter(|token| token.token_type == 2)
+                .count(),
+            3
         );
     }
 

@@ -47,6 +47,18 @@ pub enum DocumentTimezone {
     FixedOffsetMinutes(i16),
 }
 
+impl std::str::FromStr for DocumentTimezone {
+    type Err = String;
+
+    fn from_str(value: &str) -> Result<Self, Self::Err> {
+        match value {
+            "local" => Ok(Self::Local),
+            "utc" | "Z" => Ok(Self::FixedOffsetMinutes(0)),
+            raw => parse_fixed_offset(raw).map(Self::FixedOffsetMinutes),
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct DocumentLowering {
     pub config: DocumentConfig,
@@ -371,16 +383,12 @@ impl DocumentLowerer {
             ));
             return None;
         }
-        match value.value.as_str() {
-            "local" => Some(DocumentTimezone::Local),
-            "utc" | "Z" => Some(DocumentTimezone::FixedOffsetMinutes(0)),
-            raw => match parse_fixed_offset(raw) {
-                Ok(minutes) => Some(DocumentTimezone::FixedOffsetMinutes(minutes)),
-                Err(message) => {
-                    self.diagnostics.push(semantic_error(message, value.range));
-                    None
-                }
-            },
+        match value.value.parse() {
+            Ok(timezone) => Some(timezone),
+            Err(message) => {
+                self.diagnostics.push(semantic_error(message, value.range));
+                None
+            }
         }
     }
 

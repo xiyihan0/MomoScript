@@ -29,18 +29,22 @@ const registry = new Registry({
 const grammar = await registry.loadGrammar("source.mmt");
 assert(grammar, "MMT grammar failed to load");
 
+function tokenize(lines) {
+  let ruleStack = INITIAL;
+  return lines.map((line) => {
+    const result = grammar.tokenizeLine(line, ruleStack);
+    ruleStack = result.ruleStack;
+    return result.tokens.map((token) => ({
+      text: line.slice(token.startIndex, token.endIndex),
+      scopes: token.scopes
+    }));
+  });
+}
+
 const lines = (await readFile(join(root, "src/test/fixtures/typst-regions.mmt"), "utf8"))
   .trimEnd()
   .split("\n");
-let ruleStack = INITIAL;
-const tokenized = lines.map((line) => {
-  const result = grammar.tokenizeLine(line, ruleStack);
-  ruleStack = result.ruleStack;
-  return result.tokens.map((token) => ({
-    text: line.slice(token.startIndex, token.endIndex),
-    scopes: token.scopes
-  }));
-});
+const tokenized = tokenize(lines);
 
 function scopes(line, text) {
   const token = tokenized[line - 1].find((candidate) => candidate.text === text);
@@ -141,4 +145,26 @@ lacksContainingScope(56, "patched raw text", "meta.embedded.block.typst");
 assert(!tokenized[55].some((token) => token.scopes.includes("meta.macro.sticker.mmt")), "patched rt region applied MMT macro scopes");
 lacksContainingScope(58, "plain after patched fences", "meta.embedded.block.typst");
 
-console.log("Typst TextMate regions: patched and unpatched t/T/rt/rT fences, nested patches, quoted markers, escapes, and long fences passed");
+const documentLines = (await readFile(join(root, "src/test/fixtures/document-config.mmt"), "utf8"))
+  .trimEnd()
+  .split("\n");
+const documentTokens = tokenize(documentLines);
+function hasDocumentScope(line, text, scope) {
+  assert(
+    documentTokens[line - 1].some((token) => token.text === text && token.scopes.includes(scope)),
+    `document line ${line} token ${JSON.stringify(text)} lacks ${scope}`
+  );
+}
+hasDocumentScope(1, "@document", "keyword.control.directive.mmt");
+hasDocumentScope(2, "title", "variable.other.property.mmt");
+hasDocumentScope(2, "Story", "string.quoted.double.mmt");
+hasDocumentScope(4, "show-header", "variable.other.property.mmt");
+hasDocumentScope(4, "true", "constant.language.boolean.mmt");
+hasDocumentScope(5, "compiled-at", "variable.other.property.mmt");
+hasDocumentScope(5, "auto", "constant.language.enum.mmt");
+hasDocumentScope(6, "compiled-at-format", "variable.other.property.mmt");
+hasDocumentScope(7, "timezone", "variable.other.property.mmt");
+hasDocumentScope(7, "+08:00", "constant.language.enum.mmt");
+hasDocumentScope(8, "@end", "keyword.control.directive.mmt");
+
+console.log("MMT TextMate grammar: document fields/values and Typst t/T/rt/rT regions passed");

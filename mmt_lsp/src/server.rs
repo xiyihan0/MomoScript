@@ -596,6 +596,7 @@ impl MmtLanguageServer {
                                     SemanticTokenType::KEYWORD,
                                     SemanticTokenType::VARIABLE,
                                     SemanticTokenType::ENUM_MEMBER,
+                                    SemanticTokenType::PROPERTY,
                                 ],
                                 token_modifiers: Vec::new(),
                             },

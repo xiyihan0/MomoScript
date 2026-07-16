@@ -342,8 +342,54 @@
     "directives": {
       "patterns": [
         {
+          "name": "meta.directive.document.block.mmt",
+          "begin": "^\\s*(@document)\\s*$",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.directive.mmt" }
+          },
+          "end": "^\\s*(@end)\\b",
+          "endCaptures": {
+            "1": { "name": "keyword.control.directive.mmt" }
+          },
+          "patterns": [
+            { "include": "#comments" },
+            {
+              "match": "^\\s*(show-header)(\\s*)(:)(\\s*)(true|false)\\s*$",
+              "captures": {
+                "1": { "name": "variable.other.property.mmt" },
+                "3": { "name": "punctuation.separator.key-value.mmt" },
+                "5": { "name": "constant.language.boolean.mmt" }
+              }
+            },
+            {
+              "match": "^\\s*(compiled-at)(\\s*)(:)(\\s*)(auto)\\s*$",
+              "captures": {
+                "1": { "name": "variable.other.property.mmt" },
+                "3": { "name": "punctuation.separator.key-value.mmt" },
+                "5": { "name": "constant.language.enum.mmt" }
+              }
+            },
+            {
+              "match": "^\\s*(timezone)(\\s*)(:)(\\s*)(local|utc|Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])\\s*$",
+              "captures": {
+                "1": { "name": "variable.other.property.mmt" },
+                "3": { "name": "punctuation.separator.key-value.mmt" },
+                "5": { "name": "constant.language.enum.mmt" }
+              }
+            },
+            {
+              "match": "^\\s*(title|author|show-header|compiled-at|compiled-at-format|timezone)(\\s*)(:)",
+              "captures": {
+                "1": { "name": "variable.other.property.mmt" },
+                "3": { "name": "punctuation.separator.key-value.mmt" }
+              }
+            },
+            { "include": "#strings" }
+          ]
+        },
+        {
           "name": "meta.directive.mmt",
-          "match": "^\\s*(@(?:actor|asset|typ|reply|bond|mode|end))\\b",
+          "match": "^\\s*(@(?:actor|asset|document|typ|reply|bond|mode|end))\\b",
           "captures": { "1": { "name": "keyword.control.directive.mmt" } }
         }
       ]
