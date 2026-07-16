@@ -13,7 +13,7 @@ use lsp_types::{
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::{LanguageService, ProjectionStore, build_render_project};
+use crate::{LanguageService, ProjectionStore, build_render_project, position::LineIndex};
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -50,6 +50,8 @@ struct MapTypstDiagnosticsParams {
 #[serde(rename_all = "camelCase")]
 struct GetTypstProjectParams {
     uri: Url,
+    #[serde(default)]
+    timestamp: Option<mmt_rs::HostTimestamp>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -334,6 +336,13 @@ impl MmtLanguageServer {
                     .insert(params.uri, update.entry_uri.clone());
                 encode(update)
             }
+            "mmt/getDocumentConfig" => {
+                let params: GetTypstProjectParams = decode(params)?;
+                let Some(document) = self.service.snapshot(&params.uri) else {
+                    return Ok(Value::Null);
+                };
+                document_config_response(&document.text, self.service.encoding())
+            }
             "mmt/getTypstRenderProject" => {
                 let params: GetTypstProjectParams = decode(params)?;
                 let Some(document) = self.service.snapshot(&params.uri) else {
@@ -355,6 +364,16 @@ impl MmtLanguageServer {
                         projection_entry_uri,
                         &document.text,
                         packs,
+                        params
+                            .timestamp
+                            .map(|timestamp| {
+                                mmt_rs::HostTimestamp::new(
+                                    timestamp.unix_millis,
+                                    timestamp.local_offset_minutes,
+                                )
+                            })
+                            .transpose()
+                            .map_err(ServerError::invalid_params)?,
                     )
                     .map_err(|error| {
                         ServerError::invalid_params(format!(
@@ -665,6 +684,85 @@ impl MmtLanguageServer {
         }
         None
     }
+}
+
+fn document_config_response(
+    source: &str,
+    encoding: &PositionEncodingKind,
+) -> Result<Value, ServerError> {
+    let syntax = mmt_rs::parse_text(source);
+    let blocks = syntax
+        .nodes
+        .iter()
+        .filter_map(|node| match node {
+            mmt_rs::syntax::SyntaxNode::DirectiveBlock(block) if block.name == "document" => {
+                Some(block)
+            }
+            _ => None,
+        })
+        .collect::<Vec<_>>();
+    let malformed = syntax.nodes.iter().any(|node| match node {
+        mmt_rs::syntax::SyntaxNode::DirectiveLine(line) => line.name == "document",
+        mmt_rs::syntax::SyntaxNode::Error(error) => {
+            error.source.trim_start().starts_with("@document")
+        }
+        _ => false,
+    });
+    if malformed || blocks.len() > 1 {
+        return Err(ServerError::invalid_params(
+            "document configuration must be one valid @document ... @end block",
+        ));
+    }
+    let range = blocks
+        .first()
+        .map(|block| {
+            LineIndex::new(source)
+                .range(source, block.range, encoding)
+                .ok_or_else(|| {
+                    ServerError::invalid_params("document configuration range is invalid")
+                })
+        })
+        .transpose()?;
+    let lowered = mmt_rs::lower_document(&syntax);
+    if let Some(diagnostic) = lowered
+        .diagnostics
+        .iter()
+        .find(|diagnostic| diagnostic.severity == mmt_rs::diag::Severity::Error)
+    {
+        return Err(ServerError::invalid_params(format!(
+            "fix the existing @document diagnostic before replacing it: {}",
+            diagnostic.message
+        )));
+    }
+    let compiled_at = match &lowered.config.compiled_at {
+        mmt_rs::CompiledAtConfig::Hidden => serde_json::json!({ "mode": "hidden" }),
+        mmt_rs::CompiledAtConfig::Manual(text) => {
+            serde_json::json!({ "mode": "manual", "text": text })
+        }
+        mmt_rs::CompiledAtConfig::Auto { format, timezone } => {
+            let timezone = match timezone {
+                mmt_rs::DocumentTimezone::Local => "local".to_string(),
+                mmt_rs::DocumentTimezone::FixedOffsetMinutes(0) => "utc".to_string(),
+                mmt_rs::DocumentTimezone::FixedOffsetMinutes(minutes) => {
+                    let sign = if *minutes < 0 { '-' } else { '+' };
+                    let absolute = minutes.unsigned_abs();
+                    format!("{sign}{:02}:{:02}", absolute / 60, absolute % 60)
+                }
+            };
+            serde_json::json!({
+                "mode": "auto",
+                "format": format,
+                "timezone": timezone,
+            })
+        }
+    };
+    encode(serde_json::json!({
+        "range": range,
+        "title": lowered.config.title,
+        "author": lowered.config.author,
+        "showHeader": lowered.config.show_header,
+        "compiledAt": compiled_at,
+    }))
 }
 
 fn decode<T: serde::de::DeserializeOwned>(value: Value) -> Result<T, ServerError> {
@@ -1187,6 +1285,29 @@ mod tests {
         .unwrap();
         assert_eq!(render.source_version, 1);
         assert_eq!(render.revision, after.revision);
+    }
+
+    #[test]
+    fn document_config_response_returns_ast_range_and_rejects_lossy_replacement() {
+        let source = "@document\n\
+                      title: Story\n\
+                      compiled-at: auto\n\
+                      timezone: +08:00\n\
+                      @end\n\
+                      - hello";
+        let response = document_config_response(source, &PositionEncodingKind::UTF16).unwrap();
+        assert_eq!(response["title"], "Story");
+        assert_eq!(response["compiledAt"]["mode"], "auto");
+        assert_eq!(response["compiledAt"]["timezone"], "+08:00");
+        assert_eq!(response["range"]["start"]["line"], 0);
+        assert_eq!(response["range"]["end"]["line"], 4);
+
+        let error = document_config_response(
+            "@document\nunknown: value\n@end",
+            &PositionEncodingKind::UTF16,
+        )
+        .unwrap_err();
+        assert!(error.message.contains("unknown @document field"));
     }
 
     #[test]

@@ -40,12 +40,14 @@ pub use resolve::{
 pub use semantic::{
     ActorId, ActorLowering, ActorLoweringOptions, ActorRevision, ActorState, AssetId,
     AssetLowering, AssetSource, BodyModeResolution, BuiltinSpeakerId, CharacterPreset,
-    CharacterPresetCatalog, PresetLookup, ResolvedBodyMode, ResolvedBodyModeEntry,
-    ResolvedStatementSpeaker, ScriptActor, ScriptAsset, SpeakerIdentity, StaticPresetCatalog,
-    SubjectRef, VariantSelector, lower_actors, lower_actors_with_options, lower_assets,
-    lower_resource_markers, resolve_body_modes,
+    CharacterPresetCatalog, CompiledAtConfig, DEFAULT_COMPILED_AT_FORMAT, DocumentConfig,
+    DocumentLowering, DocumentOverrides, DocumentPresentation, DocumentTimezone, HostTimestamp,
+    PresetLookup, ResolvedBodyMode, ResolvedBodyModeEntry, ResolvedResourceMarker,
+    ResolvedStatementSpeaker, ResourceLowering, ResourceSelector, ScriptActor, ScriptAsset,
+    SpeakerIdentity, StaticPresetCatalog, SubjectRef, VariantSelector, lower_actors,
+    lower_actors_with_options, lower_assets, lower_document, lower_resource_markers,
+    resolve_body_modes, resolve_document_presentation,
 };
-pub use semantic::{ResolvedResourceMarker, ResourceLowering, ResourceSelector};
 pub use typst_check::{
     TypstCheckConfig, TypstOverlayScan, check_typst_args, check_typst_source,
     scan_typst_overlay_macros,

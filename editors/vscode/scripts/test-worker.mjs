@@ -271,6 +271,26 @@ try {
     }
     const renderEntry = renderProject.files.find((file) => file.uri === renderProject.entryUri);
     if (!renderEntry?.text?.includes("mmt-resources/0.png")) throw new Error("render entry omitted materialized avatar path");
+    const documentConfigUri = "file:///workspace/document-config.mmt";
+    notify("textDocument/didOpen", {
+      textDocument: {
+        uri: documentConfigUri,
+        languageId: "mmt",
+        version: 1,
+        text: "@document\ntitle: Worker document\ncompiled-at: auto\ntimezone: +08:00\n@end\n- hello"
+      }
+    });
+    await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (message) => message.params.uri === documentConfigUri
+    );
+    const documentConfig = await request("mmt/getDocumentConfig", { uri: documentConfigUri });
+    if (documentConfig.title !== "Worker document" || documentConfig.compiledAt.mode !== "auto") {
+      throw new Error("browser Worker document config response mismatch");
+    }
+    if (!documentConfig.range || documentConfig.range.start.line !== 0) {
+      throw new Error("browser Worker document config range is missing");
+    }
     await request("shutdown", null);
     notify("exit", null);
     worker.terminate();
@@ -288,7 +308,8 @@ try {
       speakerLabels: speakerCompletion.map((item) => item.label),
       semanticDiagnosticCount: semanticDiagnostics.params.diagnostics.length,
       packProjectionRevisions: [beforePackProject.params.revision, afterPackProject.params.revision],
-      renderResource: renderProject.resources[0].fileName
+      renderResource: renderProject.resources[0].fileName,
+      documentConfigMode: documentConfig.compiledAt.mode
     };
   }, `http://127.0.0.1:${address.port}/dist/${wasmAsset}`);
 

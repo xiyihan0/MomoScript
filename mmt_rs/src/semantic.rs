@@ -6,6 +6,7 @@
 
 pub mod actor;
 pub mod asset;
+pub mod document;
 pub mod resource;
 
 pub use actor::{
@@ -14,6 +15,11 @@ pub use actor::{
     SpeakerIdentity, StaticPresetCatalog, lower_actors, lower_actors_with_options,
 };
 pub use asset::{AssetId, AssetLowering, AssetSource, ScriptAsset, lower_assets};
+pub use document::{
+    CompiledAtConfig, DEFAULT_COMPILED_AT_FORMAT, DocumentConfig, DocumentLowering,
+    DocumentOverrides, DocumentPresentation, DocumentTimezone, HostTimestamp, lower_document,
+    resolve_document_presentation,
+};
 pub use resource::{
     ResolvedResourceMarker, ResourceLowering, ResourceSelector, SubjectRef, VariantSelector,
     lower_resource_markers,

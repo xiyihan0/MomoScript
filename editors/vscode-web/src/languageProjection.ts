@@ -10,6 +10,31 @@ export interface LanguageProjectionAdvance {
   token: LanguageProjectionToken;
   advanced: boolean;
 }
+export interface PreviewHostTimestamp {
+  unixMillis: number;
+  localOffsetMinutes: number;
+}
+
+export class RevisionPinnedPreviewClock {
+  readonly #timestampByToken = new WeakMap<LanguageProjectionToken, PreviewHostTimestamp>();
+
+  timestamp(
+    token: LanguageProjectionToken,
+    refresh = false,
+    now: () => Date = () => new Date()
+  ): PreviewHostTimestamp {
+    const pinned = this.#timestampByToken.get(token);
+    if (pinned && !refresh) return pinned;
+    const current = now();
+    const timestamp = {
+      unixMillis: current.getTime(),
+      localOffsetMinutes: -current.getTimezoneOffset()
+    };
+    this.#timestampByToken.set(token, timestamp);
+    return timestamp;
+  }
+}
+
 
 export function advanceLanguageProjection(
   project: Pick<TypstProjectUpdate, "sourceUri" | "entryUri" | "revision" | "full">,

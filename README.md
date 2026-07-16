@@ -93,6 +93,15 @@ uv run bot.py
 ## DSL 示例
 
 ```mmt
+@document
+title: 无题
+author: xiyihan
+show-header: true
+compiled-at: auto
+compiled-at-format: "[year]-[month]-[day] [hour]:[minute]:[second]"
+timezone: local
+@end
+
 @actor 花子
 preset: ba:hanako
 @end
@@ -107,6 +116,8 @@ preset: ba:hanako
 - `T`：Typst body，并叠加 MMT inline marker。
 - `rt`：raw 普通文本。
 - `rT`：raw Typst body。
+
+`@document` 必须是文件内唯一、位于正文前的聚合块。`compiled-at` 可写固定文本或 `auto`；自动时间由 CLI/预览 host 注入，同一 Web 文档 revision 内保持不变，显式刷新后更新。`timezone` 接受 `local`、`utc`、`Z` 或 `±HH:MM`。CLI 的 `--title`、`--author`、`--show-header` / `--no-header`、`--compiled-at` 会逐字段覆盖脚本设置；`--clock RFC3339` 用于可复现导出。
 
 Ordinal sticker selector 写作 `[:#1:]`。完整规则以以下材料为准：
 

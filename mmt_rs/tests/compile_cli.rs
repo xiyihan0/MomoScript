@@ -29,6 +29,7 @@ fn cli_exports_a_self_contained_typst_project_from_stdin() {
         .arg(template_dir())
         .args(["--title", "CLI fixture"])
         .arg("--no-header")
+        .args(["--compiled-at", "CLI build"])
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()
@@ -49,9 +50,14 @@ fn cli_exports_a_self_contained_typst_project_from_stdin() {
     let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
     assert_eq!(report["success"], true);
     assert!(output_dir.join("main.typ").is_file());
-    assert!(fs::read_to_string(output_dir.join("main.typ"))
-        .unwrap()
-        .contains("show-header: false"));
+    assert!(
+        fs::read_to_string(output_dir.join("main.typ"))
+            .unwrap()
+            .contains("show-header: false")
+    );
+    let generated = fs::read_to_string(output_dir.join("main.typ")).unwrap();
+    assert!(generated.contains("title: \"CLI fixture\""));
+    assert!(generated.contains("compiled-at: \"CLI build\""));
     assert!(output_dir.join("source.mmt").is_file());
     let source_map: serde_json::Value =
         serde_json::from_slice(&fs::read(output_dir.join("source-map.json")).unwrap()).unwrap();
@@ -72,6 +78,45 @@ fn cli_exports_a_self_contained_typst_project_from_stdin() {
         String::from_utf8_lossy(&typst.stderr)
     );
     assert!(output_dir.join("output.pdf").is_file());
+    fs::remove_dir_all(output_dir).unwrap();
+}
+
+#[test]
+fn cli_formats_document_auto_time_from_reproducible_rfc3339_clock() {
+    let output_dir = temp_dir("cli-document-clock");
+    let mut child = Command::new(env!("CARGO_BIN_EXE_mmt-compile"))
+        .args(["--output-dir"])
+        .arg(&output_dir)
+        .arg("--template-dir")
+        .arg(template_dir())
+        .args(["--clock", "1970-01-01T00:00:00-05:00"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .spawn()
+        .unwrap();
+    child
+        .stdin
+        .take()
+        .unwrap()
+        .write_all(
+            "@document\n\
+             title: Source title\n\
+             compiled-at: auto\n\
+             timezone: local\n\
+             @end\n\
+             - hello"
+                .as_bytes(),
+        )
+        .unwrap();
+    let output = child.wait_with_output().unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stdout)
+    );
+    let generated = fs::read_to_string(output_dir.join("main.typ")).unwrap();
+    assert!(generated.contains("title: \"Source title\""));
+    assert!(generated.contains("compiled-at: \"1970-01-01 00:00:00\""));
     fs::remove_dir_all(output_dir).unwrap();
 }
 

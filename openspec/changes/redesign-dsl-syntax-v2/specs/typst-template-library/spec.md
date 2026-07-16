@@ -41,6 +41,25 @@
 - THEN resource helper MUST receive image/content rather than a DSL selector or pack key
 - AND marker suffix patch arguments MUST apply only to the resource helper call
 
+### Requirement: Document configuration lowers into the template show rule
+
+MMT SHALL resolve document metadata before emission and pass Typst-native values to the existing `mmt.template.with(...)` façade.
+
+#### Scenario: Header configuration has one source of truth
+
+- GIVEN semantic lowering has produced document title、author、header visibility and optional compiled-at text
+- WHEN emitter creates the generated Typst prelude
+- THEN it SHALL pass `title`、`author`、`show-header` and `compiled-at` to `mmt.template.with(...)`
+- AND the template SHALL render only those lowered values
+- AND Web、Desktop、CLI and NoneBot hosts MUST NOT maintain a second hidden title-bar configuration
+
+#### Scenario: Automatic time is resolved outside Typst
+
+- GIVEN the DSL requests automatic compiled-at text
+- WHEN the generated Typst reaches the template library
+- THEN `compiled-at` MUST already be formatted content or `none`
+- AND the template library MUST NOT call a clock、infer a timezone or format an instant
+
 ### Requirement: Continued chat rendering supports automatic and explicit control
 
 模板库 SHALL 允许 emitter 自动判断连续消息，同时允许节点和 Typst 配置覆盖最终渲染方式。

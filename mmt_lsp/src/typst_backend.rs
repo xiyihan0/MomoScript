@@ -377,8 +377,16 @@ pub fn build_render_project(
     entry_uri: Url,
     source: &str,
     packs: &mmt_rs::pack::PackRegistry,
+    timestamp: Option<mmt_rs::HostTimestamp>,
 ) -> Result<TypstRenderProjectUpdate, ProjectionError> {
-    let projection = mmt_rs::project_text_with_pack(source, packs, &EmitOptions::default())?;
+    let projection = mmt_rs::project_text_with_pack(
+        source,
+        packs,
+        &EmitOptions {
+            timestamp,
+            ..EmitOptions::default()
+        },
+    )?;
     let source_lines = LineIndex::new(source);
     let mut files = EMBEDDED_TEMPLATE_TEXT_FILES
         .iter()
@@ -451,12 +459,14 @@ pub fn build_render_project(
                     profile: profile.clone(),
                     range,
                 },
-                mmt_rs::ProjectedResourceSource::WorkspaceFile { file_name } => TypstResourceRequest::WorkspaceFile {
-                    id,
-                    uri,
-                    file_name: file_name.clone(),
-                    range,
-                },
+                mmt_rs::ProjectedResourceSource::WorkspaceFile { file_name } => {
+                    TypstResourceRequest::WorkspaceFile {
+                        id,
+                        uri,
+                        file_name: file_name.clone(),
+                        range,
+                    }
+                }
             }
         })
         .collect();
@@ -886,6 +896,7 @@ mod tests {
             virtual_entry_uri(&uri(), "render-test", 1),
             source,
             &packs,
+            None,
         )
         .unwrap();
         assert_eq!(
@@ -921,6 +932,51 @@ mod tests {
     }
 
     #[test]
+    fn render_project_uses_host_time_while_language_projection_stays_clock_free() {
+        let packs = mmt_rs::pack::PackRegistry::new(Vec::new()).unwrap();
+        let source = "@document\n\
+                      compiled-at: auto\n\
+                      timezone: local\n\
+                      @end\n\
+                      - hello";
+        let language =
+            mmt_rs::project_text_with_pack(source, &packs, &EmitOptions::default()).unwrap();
+        assert!(language.emitted.source.contains("compiled-at: none"));
+
+        let timestamp = mmt_rs::HostTimestamp::new(0, 480).unwrap();
+        let first = build_render_project(
+            uri(),
+            1,
+            1,
+            virtual_entry_uri(&uri(), "render-time", 1),
+            source,
+            &packs,
+            Some(timestamp),
+        )
+        .unwrap();
+        let second = build_render_project(
+            uri(),
+            1,
+            1,
+            virtual_entry_uri(&uri(), "render-time", 1),
+            source,
+            &packs,
+            Some(timestamp),
+        )
+        .unwrap();
+        let entry_text = |project: &TypstRenderProjectUpdate| {
+            project
+                .files
+                .iter()
+                .find(|file| file.uri == project.entry_uri)
+                .and_then(|file| file.text.clone())
+                .unwrap()
+        };
+        assert!(entry_text(&first).contains("compiled-at: \"1970-01-01 08:00:00\""));
+        assert_eq!(entry_text(&first), entry_text(&second));
+    }
+
+    #[test]
     fn render_project_preserves_image_sequence_frame_metadata() {
         let manifest = mmt_rs::pack::PackManifest::from_json(r#"{
             "schema":"mmt-pack.v3",
@@ -937,6 +993,7 @@ mod tests {
             virtual_entry_uri(&uri(), "render-test", 1),
             source,
             &packs,
+            None,
         )
         .unwrap();
         assert_eq!(render.resources.len(), 1);

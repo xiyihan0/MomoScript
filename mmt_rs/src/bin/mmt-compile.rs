@@ -8,10 +8,11 @@ use std::process::ExitCode;
 
 use mmt_rs::pack::{PackManifest, PackRegistry};
 use mmt_rs::{
-    EmitOptions, ProjectMaterializer, ProjectMaterializerOptions, SourceSpan, compile_text_strict,
-    export_template_library,
+    DocumentOverrides, EmitOptions, HostTimestamp, ProjectMaterializer, ProjectMaterializerOptions,
+    SourceSpan, compile_text_strict, export_template_library,
 };
 use serde::Serialize;
+use time::{OffsetDateTime, format_description::well_known::Rfc3339};
 
 #[derive(Debug)]
 struct Options {
@@ -20,9 +21,11 @@ struct Options {
     manifests: Vec<PathBuf>,
     template_dir: PathBuf,
     workspace_root: PathBuf,
-    title: String,
-    show_header: bool,
+    title: Option<String>,
+    show_header: Option<bool>,
     author: Option<String>,
+    compiled_at: Option<String>,
+    clock: Option<String>,
     cache_dir: PathBuf,
     avifdec_bin: PathBuf,
     decoder_profile: String,
@@ -67,6 +70,7 @@ fn main() -> ExitCode {
 
 fn run(args: Vec<OsString>) -> Result<CliReport, CliReport> {
     let options = parse_args(args).map_err(host_error)?;
+    let timestamp = resolve_clock(options.clock.as_deref()).map_err(host_error)?;
     let source = read_source(options.input.as_deref()).map_err(host_error)?;
     let (registry, pack_roots) = load_registry(&options.manifests).map_err(host_error)?;
     let mut materializer = ProjectMaterializer::new(ProjectMaterializerOptions {
@@ -80,10 +84,13 @@ fn run(args: Vec<OsString>) -> Result<CliReport, CliReport> {
     .map_err(|error| host_error(error.message))?;
     let emit_options = EmitOptions {
         template_import: "template/lib.typ".to_string(),
-        title: options.title,
-        author: options.author,
-        show_header: options.show_header,
-        ..EmitOptions::default()
+        document_overrides: DocumentOverrides {
+            title: options.title,
+            author: options.author,
+            show_header: options.show_header,
+            compiled_at: options.compiled_at,
+        },
+        timestamp: Some(timestamp),
     };
 
     match compile_text_strict(&source, &registry, &mut materializer, &emit_options) {
@@ -127,9 +134,11 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
     let mut manifests = Vec::new();
     let mut template_dir = PathBuf::from("typst_sandbox/mmt_render");
     let mut workspace_root = env::current_dir().map_err(|error| error.to_string())?;
-    let mut title = "无题".to_string();
-    let mut show_header = true;
+    let mut title = None;
+    let mut show_header = None;
     let mut author = None;
+    let mut compiled_at = None;
+    let mut clock = None;
     let mut cache_dir = PathBuf::from(".cache/mmt-rs/materialized");
     let mut avifdec_bin = PathBuf::from("avifdec");
     let mut decoder_profile = "avifdec-dav1d-png-v1".to_string();
@@ -155,9 +164,12 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
             "--workspace-root" => {
                 workspace_root = PathBuf::from(value(&mut args, "--workspace-root")?)
             }
-            "--title" => title = value(&mut args, "--title")?,
-            "--no-header" => show_header = false,
+            "--title" => title = Some(value(&mut args, "--title")?),
+            "--show-header" => set_header_override(&mut show_header, true)?,
+            "--no-header" => set_header_override(&mut show_header, false)?,
             "--author" => author = Some(value(&mut args, "--author")?),
+            "--compiled-at" => compiled_at = Some(value(&mut args, "--compiled-at")?),
+            "--clock" => clock = Some(value(&mut args, "--clock")?),
             "--cache-dir" => cache_dir = PathBuf::from(value(&mut args, "--cache-dir")?),
             "--avifdec-bin" => avifdec_bin = PathBuf::from(value(&mut args, "--avifdec-bin")?),
             "--decoder-profile" => decoder_profile = value(&mut args, "--decoder-profile")?,
@@ -174,14 +186,56 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
         title,
         show_header,
         author,
+        compiled_at,
+        clock,
         cache_dir,
         avifdec_bin,
         decoder_profile,
     })
 }
 
+fn set_header_override(target: &mut Option<bool>, value: bool) -> Result<(), String> {
+    if target.replace(value).is_some() {
+        return Err("only one of --show-header or --no-header may be supplied".to_string());
+    }
+    Ok(())
+}
+
+fn resolve_clock(value: Option<&str>) -> Result<HostTimestamp, String> {
+    match value {
+        Some(value) => parse_clock(value),
+        None => current_clock(),
+    }
+}
+
+fn parse_clock(value: &str) -> Result<HostTimestamp, String> {
+    let datetime = OffsetDateTime::parse(value, &Rfc3339)
+        .map_err(|error| format!("--clock must be RFC 3339 with an explicit offset: {error}"))?;
+    let unix_millis = datetime.unix_timestamp_nanos().div_euclid(1_000_000);
+    let unix_millis = i64::try_from(unix_millis)
+        .map_err(|_| "--clock instant is outside the supported range".to_string())?;
+    let offset_seconds = datetime.offset().whole_seconds();
+    if offset_seconds % 60 != 0 {
+        return Err("--clock offset must use whole minutes".to_string());
+    }
+    let offset_minutes = i16::try_from(offset_seconds / 60)
+        .map_err(|_| "--clock offset is outside the supported range".to_string())?;
+    HostTimestamp::new(unix_millis, offset_minutes)
+}
+
+fn current_clock() -> Result<HostTimestamp, String> {
+    let now = jiff::Zoned::now();
+    let offset_seconds = now.offset().seconds();
+    if offset_seconds % 60 != 0 {
+        return Err("local UTC offset must use whole minutes".to_string());
+    }
+    let offset_minutes = i16::try_from(offset_seconds / 60)
+        .map_err(|_| "local UTC offset is outside the supported range".to_string())?;
+    HostTimestamp::new(now.timestamp().as_millisecond(), offset_minutes)
+}
+
 fn usage() -> String {
-    "usage: mmt-compile [--input FILE] --output-dir DIR [--manifest FILE ...] [--template-dir DIR] [--workspace-root DIR] [--cache-dir DIR] [--avifdec-bin FILE] [--decoder-profile ID] [--title TEXT] [--author TEXT] [--no-header]".to_string()
+    "usage: mmt-compile [--input FILE] --output-dir DIR [--manifest FILE ...] [--template-dir DIR] [--workspace-root DIR] [--cache-dir DIR] [--avifdec-bin FILE] [--decoder-profile ID] [--title TEXT] [--author TEXT] [--show-header | --no-header] [--compiled-at TEXT] [--clock RFC3339]".to_string()
 }
 
 fn read_source(path: Option<&Path>) -> Result<String, String> {

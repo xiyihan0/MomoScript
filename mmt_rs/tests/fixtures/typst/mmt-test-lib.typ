@@ -1,4 +1,4 @@
-#let template(show-header: true, title: "", author: none, body) = body
+#let template(show-header: true, title: "", author: none, compiled-at: none, body) = body
 
 #let chat-left(name: none, avatar: none, reserve-avatar-space: true, auto-continued: false, continued: auto, body) = body
 #let chat-right(name: none, avatar: none, reserve-avatar-space: true, auto-continued: false, continued: auto, body) = body

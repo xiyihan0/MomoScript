@@ -61,6 +61,9 @@ async function start(wasmUri: string): Promise<void> {
   connection.onRequest("mmt/getTypstRenderProject", (params) =>
     request("mmt/getTypstRenderProject", params)
   );
+  connection.onRequest("mmt/getDocumentConfig", (params) =>
+    request("mmt/getDocumentConfig", params)
+  );
   connection.onRequest("mmt/updateDocument", (params) => {
     const outcome = request<DocumentUpdateOutcome>("mmt/updateDocument", params);
     for (const event of outcome.events ?? []) {

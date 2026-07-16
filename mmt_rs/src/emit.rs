@@ -6,8 +6,9 @@ use serde::Serialize;
 
 use crate::diag::{Diagnostic, DiagnosticPhase, Severity};
 use crate::semantic::{
-    ActorId, ActorLowering, BodyModeResolution, BuiltinSpeakerId, ResolvedBodyMode,
-    ResolvedResourceMarker, SpeakerIdentity,
+    ActorId, ActorLowering, BodyModeResolution, BuiltinSpeakerId, DocumentConfig,
+    DocumentOverrides, DocumentPresentation, HostTimestamp, ResolvedBodyMode,
+    ResolvedResourceMarker, SpeakerIdentity, resolve_document_presentation,
 };
 use crate::source::TextRange;
 use crate::syntax::{
@@ -128,18 +129,16 @@ pub struct BuiltinPresentation {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct EmitOptions {
     pub template_import: String,
-    pub show_header: bool,
-    pub title: String,
-    pub author: Option<String>,
+    pub document_overrides: DocumentOverrides,
+    pub timestamp: Option<HostTimestamp>,
 }
 
 impl Default for EmitOptions {
     fn default() -> Self {
         Self {
             template_import: "typst_sandbox/mmt_render/lib.typ".to_string(),
-            show_header: true,
-            title: "无题".to_string(),
-            author: None,
+            document_overrides: DocumentOverrides::default(),
+            timestamp: None,
         }
     }
 }
@@ -167,12 +166,21 @@ impl MaterializedContent {
 
 pub fn emit_typst(
     document: &SyntaxDocument,
+    document_config: &DocumentConfig,
     modes: &BodyModeResolution,
     actors: &ActorLowering,
     materialized: &MaterializedContent,
     options: &EmitOptions,
 ) -> EmittedTypst {
-    TypstEmitter::new(document, modes, actors, materialized, options).emit()
+    TypstEmitter::new(
+        document,
+        document_config,
+        modes,
+        actors,
+        materialized,
+        options,
+    )
+    .emit()
 }
 
 struct TypstEmitter<'a> {
@@ -182,6 +190,7 @@ struct TypstEmitter<'a> {
     speakers: HashMap<TextRange, usize>,
     materialized: &'a MaterializedContent,
     options: &'a EmitOptions,
+    presentation: DocumentPresentation,
     builder: EmitBuilder,
     diagnostics: Vec<Diagnostic>,
     previous_chat: Option<ChatGroupKey>,
@@ -212,11 +221,29 @@ struct EmitBuilder {
 impl<'a> TypstEmitter<'a> {
     fn new(
         document: &'a SyntaxDocument,
+        document_config: &DocumentConfig,
         modes: &'a BodyModeResolution,
         actors: &'a ActorLowering,
         materialized: &'a MaterializedContent,
         options: &'a EmitOptions,
     ) -> Self {
+        let (presentation, diagnostics) = match resolve_document_presentation(
+            document_config,
+            &options.document_overrides,
+            options.timestamp,
+        ) {
+            Ok(presentation) => (presentation, Vec::new()),
+            Err(error) => (
+                resolve_document_presentation(document_config, &options.document_overrides, None)
+                    .expect("document presentation without a timestamp is infallible"),
+                vec![Diagnostic::new(
+                    Severity::Error,
+                    DiagnosticPhase::Semantic,
+                    error,
+                    None,
+                )],
+            ),
+        };
         Self {
             document,
             modes: modes
@@ -233,8 +260,9 @@ impl<'a> TypstEmitter<'a> {
                 .collect(),
             materialized,
             options,
+            presentation,
             builder: EmitBuilder::default(),
-            diagnostics: Vec::new(),
+            diagnostics,
             previous_chat: None,
         }
     }
@@ -290,18 +318,25 @@ impl<'a> TypstEmitter<'a> {
 
     fn emit_prelude(&mut self) {
         let import = escape_typst_string(&self.options.template_import);
-        let title = escape_typst_string(&self.options.title);
+        let title = escape_typst_string(&self.presentation.title);
         let author = self
-            .options
+            .presentation
             .author
             .as_deref()
             .map(escape_typst_string)
-            .map(|author| format!("\n  author: \"{author}\","))
-            .unwrap_or_default();
+            .map(|author| format!("\"{author}\""))
+            .unwrap_or_else(|| "none".to_string());
+        let compiled_at = self
+            .presentation
+            .compiled_at
+            .as_deref()
+            .map(escape_typst_string)
+            .map(|value| format!("\"{value}\""))
+            .unwrap_or_else(|| "none".to_string());
         self.builder.push_generated(
             &format!(
-                "#import \"{import}\" as mmt\n\n#show: mmt.template.with(\n  show-header: {},\n  title: \"{title}\",{author}\n)\n\n#[",
-                self.options.show_header,
+                "#import \"{import}\" as mmt\n\n#show: mmt.template.with(\n  show-header: {},\n  title: \"{title}\",\n  author: {author},\n  compiled-at: {compiled_at},\n)\n\n#[",
+                self.presentation.show_header,
             ),
             GeneratedKind::TemplateWrapper,
             None,
@@ -508,8 +543,12 @@ impl<'a> TypstEmitter<'a> {
             .unwrap_or(ResolvedBodyMode::TextMacro);
         match mode {
             ResolvedBodyMode::TextMacro => self.emit_text_parts_decoded(body, parent, true),
-            ResolvedBodyMode::TextRaw => self.emit_text_source_decoded(&body.source, body.range, parent),
-            ResolvedBodyMode::TypstRaw | ResolvedBodyMode::TypstMacro => self.emit_body(body, parent),
+            ResolvedBodyMode::TextRaw => {
+                self.emit_text_source_decoded(&body.source, body.range, parent)
+            }
+            ResolvedBodyMode::TypstRaw | ResolvedBodyMode::TypstMacro => {
+                self.emit_body(body, parent)
+            }
         }
     }
 
@@ -733,7 +772,7 @@ fn escape_typst_string(text: &str) -> String {
 mod tests {
     use super::*;
     use crate::semantic::{
-        CharacterPreset, StaticPresetCatalog, lower_actors, lower_resource_markers,
+        CharacterPreset, StaticPresetCatalog, lower_actors, lower_document, lower_resource_markers,
         resolve_body_modes,
     };
     use crate::{parse_text, typst_check::check_typst_source};
@@ -758,11 +797,47 @@ mod tests {
         assert!(actors.diagnostics.is_empty());
         emit_typst(
             &document,
+            &DocumentConfig::default(),
             &modes,
             &actors,
             &MaterializedContent::default(),
             &EmitOptions::default(),
         )
+    }
+
+    #[test]
+    fn emits_lowered_document_metadata_and_fixed_automatic_time() {
+        let source = "@document\n\
+                      title: Story\n\
+                      author: Author\n\
+                      show-header: false\n\
+                      compiled-at: auto\n\
+                      timezone: +08:00\n\
+                      @end\n\
+                      - hello";
+        let (document, modes, actors) = lower(source);
+        let document_config = lower_document(&document);
+        assert!(document_config.diagnostics.is_empty());
+        let emitted = emit_typst(
+            &document,
+            &document_config.config,
+            &modes,
+            &actors,
+            &MaterializedContent::default(),
+            &EmitOptions {
+                timestamp: Some(HostTimestamp::new(0, -300).unwrap()),
+                ..EmitOptions::default()
+            },
+        );
+        assert!(emitted.diagnostics.is_empty());
+        assert!(emitted.source.contains("show-header: false"));
+        assert!(emitted.source.contains("title: \"Story\""));
+        assert!(emitted.source.contains("author: \"Author\""));
+        assert!(
+            emitted
+                .source
+                .contains("compiled-at: \"1970-01-01 08:00:00\"")
+        );
     }
 
     #[test]
@@ -797,9 +872,11 @@ mod tests {
     fn decodes_escaped_reply_separator_in_emitted_text() {
         let emitted = emit(r#"@reply: 是 | 不知道\|算了"#);
         assert!(emitted.diagnostics.is_empty());
-        assert!(emitted
-            .source
-            .contains(r#"#mmt.reply()[#text("是")][#text("不知道|算了")]"#));
+        assert!(
+            emitted
+                .source
+                .contains(r#"#mmt.reply()[#text("是")][#text("不知道|算了")]"#)
+        );
         assert!(!emitted.source.contains(r#"不知道\|算了"#));
     }
 
@@ -846,6 +923,7 @@ mod tests {
         let (document, modes, actors) = lower(">(fill: ,) 柚子: hello");
         let emitted = emit_typst(
             &document,
+            &DocumentConfig::default(),
             &modes,
             &actors,
             &MaterializedContent::default(),
@@ -967,6 +1045,7 @@ mod tests {
         }
         let emitted = emit_typst(
             &document,
+            &DocumentConfig::default(),
             &modes,
             &actors,
             &materialized,
@@ -1000,6 +1079,7 @@ mod tests {
         materialized.bind_inline_image(&resources.markers[0], "cache/happy.png");
         let emitted = emit_typst(
             &document,
+            &DocumentConfig::default(),
             &modes,
             &actors,
             &materialized,
@@ -1038,6 +1118,7 @@ mod tests {
         materialized.bind_inline_image(&resources.markers[0], "cache/happy.png");
         let emitted = emit_typst(
             &document,
+            &DocumentConfig::default(),
             &modes,
             &actors,
             &materialized,
@@ -1063,6 +1144,7 @@ mod tests {
         materialized.bind_inline_image(&resources.markers[0], "cache/happy.png");
         let emitted = emit_typst(
             &document,
+            &DocumentConfig::default(),
             &modes,
             &actors,
             &materialized,

@@ -188,6 +188,25 @@ fence 内部保持为当前 statement 的正文，不参与顶层行头识别。
 
 fence 至少使用 3 个连续双引号。若正文需要包含 `"""`，作者可以使用更长 fence，例如 `""""...""""`；closing fence 需要使用不少于 opening fence 长度的连续双引号。
 
+### 文档标题栏与编译时间
+
+文件级展示设置使用唯一的聚合声明，并在所有可渲染节点之前出现：
+
+```text
+@document
+  title: 无题
+  author: xiyihan
+  show-header: true
+  compiled-at: auto
+  compiled-at-format: "[year]-[month]-[day] [hour]:[minute]:[second]"
+  timezone: local
+@end
+```
+
+`title`、`author` 与 `show-header` 直接 lowering 到 v2 `mmt.template.with(...)` 的同名配置。`compiled-at` 缺省或裸 `none` 表示不显示，裸 `auto` 表示由 host 为本次 export/preview render session 注入一个固定 instant 与本地 UTC offset，其他 scalar 则作为手动文本。引号保留控制词的字面含义，例如 `"auto"` 显示为文本 `auto`。
+
+自动时间在 MMT core 中格式化，Typst 模板不读取系统时间。格式采用 Rust `time` format-description；缺省为 locale-independent 的 `[year]-[month]-[day] [hour]:[minute]:[second]`。`timezone` 支持 `local`、`utc` / `Z` 与固定 `+HH:MM` / `-HH:MM`。CLI export 每次显式导出取一次 instant；Web preview 在同一 source revision 内固定 instant，只有显式刷新或新 revision 才更新，避免未编辑文档反复改变 generated source 与 cache key。无 render clock 的纯 language projection 不生成时间文本。
+
 ### 正文模式与 inline macro
 
 正文内容有两个正交维度：文本语法和宏展开。第一版候选标记为：

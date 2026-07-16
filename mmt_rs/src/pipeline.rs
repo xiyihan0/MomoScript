@@ -6,8 +6,8 @@ use crate::materialize::{Materialization, ResourceMaterializer, materialize_reso
 use crate::pack::PackRegistry;
 use crate::resolve::{ResourceResolution, resolve_actor_avatars, resolve_resources};
 use crate::semantic::{
-    ActorLowering, AssetLowering, BodyModeResolution, ResourceLowering, lower_actors, lower_assets,
-    lower_resource_markers, resolve_body_modes,
+    ActorLowering, AssetLowering, BodyModeResolution, DocumentLowering, ResourceLowering,
+    lower_actors, lower_assets, lower_document, lower_resource_markers, resolve_body_modes,
 };
 use crate::source::TextRange;
 use crate::syntax::SyntaxDocument;
@@ -16,6 +16,7 @@ use crate::typst_check::check_typst_source;
 #[derive(Debug, Clone)]
 pub struct Compilation {
     pub document: SyntaxDocument,
+    pub document_config: DocumentLowering,
     pub modes: BodyModeResolution,
     pub actors: ActorLowering,
     pub assets: AssetLowering,
@@ -38,6 +39,7 @@ pub fn compile_text(
     emit_options: &EmitOptions,
 ) -> Compilation {
     let document = crate::parse_text(source);
+    let document_config = lower_document(&document);
     let modes = resolve_body_modes(&document);
     let actors = lower_actors(&document, packs);
     let assets = lower_assets(&document);
@@ -50,6 +52,7 @@ pub fn compile_text(
     let materialization = materialize_resources(&resolution, materializer);
     let mut typst = emit_typst(
         &document,
+        &document_config.config,
         &modes,
         &actors,
         &materialization.content,
@@ -59,6 +62,7 @@ pub fn compile_text(
 
     let diagnostics = [
         document.diagnostics.as_slice(),
+        document_config.diagnostics.as_slice(),
         modes.diagnostics.as_slice(),
         actors.diagnostics.as_slice(),
         assets.diagnostics.as_slice(),
@@ -74,6 +78,7 @@ pub fn compile_text(
 
     Compilation {
         document,
+        document_config,
         modes,
         actors,
         assets,
@@ -93,6 +98,7 @@ pub fn compile_text_strict(
 ) -> Result<Compilation, CompilationFailure> {
     let document = crate::parse_text(source);
     fail_if_errors(document.diagnostics.clone())?;
+    let document_config = lower_document(&document);
 
     let modes = resolve_body_modes(&document);
     let actors = lower_actors(&document, packs);
@@ -100,6 +106,7 @@ pub fn compile_text_strict(
     let resource_markers = lower_resource_markers(&document, &modes, &actors);
     fail_if_errors(
         [
+            document_config.diagnostics.as_slice(),
             modes.diagnostics.as_slice(),
             actors.diagnostics.as_slice(),
             assets.diagnostics.as_slice(),
@@ -123,6 +130,7 @@ pub fn compile_text_strict(
 
     let mut typst = emit_typst(
         &document,
+        &document_config.config,
         &modes,
         &actors,
         &materialization.content,
@@ -133,6 +141,7 @@ pub fn compile_text_strict(
 
     let diagnostics = [
         document.diagnostics.as_slice(),
+        document_config.diagnostics.as_slice(),
         modes.diagnostics.as_slice(),
         actors.diagnostics.as_slice(),
         assets.diagnostics.as_slice(),
@@ -148,6 +157,7 @@ pub fn compile_text_strict(
 
     Ok(Compilation {
         document,
+        document_config,
         modes,
         actors,
         assets,

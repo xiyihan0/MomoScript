@@ -6,8 +6,8 @@ use mmt_rs::materialize::{MaterializeError, MaterializedImage, ResourceMateriali
 use mmt_rs::pack::{PackManifest, PackRegistry};
 use mmt_rs::resolve::{ResolvedResource, ResolvedResourceKind};
 use mmt_rs::{
-    EmitOptions, compile_text_strict, lower_actors, lower_assets, lower_resource_markers,
-    parse_text, resolve_body_modes, resolve_resources,
+    DocumentOverrides, EmitOptions, compile_text_strict, lower_actors, lower_assets,
+    lower_resource_markers, parse_text, resolve_body_modes, resolve_resources,
 };
 
 const BASE_MANIFEST: &str = include_str!("fixtures/pack-v3/base-manifest.json");
@@ -113,7 +113,10 @@ fn strict_pipeline_generated_typst_compiles_with_typst_015() {
     };
     let options = EmitOptions {
         template_import: "../../../mmt_rs/tests/fixtures/typst/mmt-test-lib.typ".to_string(),
-        title: "Pack v3 E2E".to_string(),
+        document_overrides: DocumentOverrides {
+            title: Some("Pack v3 E2E".to_string()),
+            ..DocumentOverrides::default()
+        },
         ..EmitOptions::default()
     };
     let source = "> 佳代子: first [:#1:](width: 2em)\n\

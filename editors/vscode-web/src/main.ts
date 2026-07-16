@@ -19,7 +19,7 @@ import type { BaseLanguageClient } from "vscode-languageclient";
 import { MmtIndexedDbFileSystemProvider, MmtWorkbenchFileSystemProvider } from "./filesystem";
 import { IndexedDbPackCache } from "./packCache";
 import { BoundedStringCache, MATERIALIZED_RESOURCE_CACHE_MAX_BYTES } from "./boundedStringCache";
-import { advanceLanguageProjection } from "./languageProjection";
+import { advanceLanguageProjection, RevisionPinnedPreviewClock } from "./languageProjection";
 import type { LanguageProjectionToken } from "./languageProjection";
 import { materializeProjectResources } from "./resourceMaterializer";
 import type { MaterializationPackSource, ResourceMaterializationDependencies } from "./resourceMaterializer";
@@ -249,6 +249,8 @@ async function start(): Promise<void> {
   const typstProjects = new Map<string, TypstProjectUpdate>();
   const retiredLanguageProjectionSessions = new Map<string, Set<string>>();
   const requestedRenderTokens = new WeakSet<LanguageProjectionToken>();
+  const previewClock = new RevisionPinnedPreviewClock();
+  const renderRequestIdBySource = new Map<string, number>();
   if (import.meta.env.VITE_MMT_E2E === "1") {
     Reflect.set(globalThis, "__mmtLatestProjectionRevision", () => {
       const sourceUri = vscode.window.activeTextEditor?.document.uri.toString();
@@ -272,6 +274,7 @@ async function start(): Promise<void> {
     previewProjects.delete(sourceUri);
     latestLanguageProjectionBySource.delete(sourceUri);
     retiredLanguageProjectionSessions.delete(sourceUri);
+    renderRequestIdBySource.delete(sourceUri);
     if (displayedPreviewSourceUri === sourceUri) previewPanel?.dispose();
   };
   try {
@@ -359,13 +362,16 @@ async function start(): Promise<void> {
   const sidebarVisibilityRegistration = onPartVisibilityChange(Parts.SIDEBAR_PART, (visible) => {
     root.classList.toggle("sidebar-collapsed", !visible);
   });
-  const applyProject = async (project: TypstRenderProjectUpdate) => {
+  const applyProject = async (project: TypstRenderProjectUpdate, replaceSameRevision = false) => {
     const session = projectionSessionKey(project.entryUri);
     const latest = latestProjectBySource.get(project.sourceUri);
     const retiredSessions = retiredProjectSessions.get(project.sourceUri);
     if (retiredSessions?.has(session)) return;
     if ((!latest || latest.session !== session) && !project.full) return;
-    if (latest?.session === session && project.revision <= latest.revision) return;
+    if (
+      latest?.session === session
+      && (project.revision < latest.revision || (!replaceSameRevision && project.revision === latest.revision))
+    ) return;
     if (latest && latest.session !== session) {
       const nextRetiredSessions = retiredSessions ?? new Set<string>();
       nextRetiredSessions.add(latest.session);
@@ -420,24 +426,30 @@ async function start(): Promise<void> {
     token: LanguageProjectionToken,
     force = false
   ) => {
-    if (requestedRenderTokens.has(token)) return;
+    if (!force && requestedRenderTokens.has(token)) return;
     requestedRenderTokens.add(token);
+    const timestamp = previewClock.timestamp(token, force);
+    const requestId = (renderRequestIdBySource.get(sourceUri) ?? 0) + 1;
+    renderRequestIdBySource.set(sourceUri, requestId);
     log("preview", `Requesting render project for ${sourceUri}`);
     try {
       const renderProject = await client.sendRequest<TypstRenderProjectUpdate | null>(
-        "mmt/getTypstRenderProject", { uri: sourceUri }
+        "mmt/getTypstRenderProject", { uri: sourceUri, timestamp }
       );
-      if (latestLanguageProjectionBySource.get(sourceUri) !== token) return;
+      if (
+        latestLanguageProjectionBySource.get(sourceUri) !== token
+        || renderRequestIdBySource.get(sourceUri) !== requestId
+      ) return;
       if (!force && !previewOnChange()) {
         requestedRenderTokens.delete(token);
         return;
       }
       if (
-        !renderProject ||
-        renderProject.entryUri !== token.entryUri ||
-        renderProject.revision !== token.revision
+        !renderProject
+        || renderProject.entryUri !== token.entryUri
+        || renderProject.revision !== token.revision
       ) return;
-      await applyProject(renderProject);
+      await applyProject(renderProject, force);
     } catch (error) {
       requestedRenderTokens.delete(token);
       throw error;
@@ -537,6 +549,21 @@ async function start(): Promise<void> {
   } finally {
     tinymist?.activateSemanticTokens();
   }
+  const documentConfigCommandRegistration = vscode.commands.registerCommand("mmt.document.configure", async () => {
+    const document = vscode.window.activeTextEditor?.document;
+    if (!document || document.languageId !== "mmt") {
+      void vscode.window.showWarningMessage("请先打开一个 MomoScript 文档。");
+      return;
+    }
+    try {
+      if (!activeClient) throw new Error("MMT 语言服务器不可用");
+      await configureDocumentSettings(document, activeClient);
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : String(error);
+      log("document:error", detail);
+      void vscode.window.showErrorMessage(`文档设置失败：${detail}`);
+    }
+  });
   const previewCommandRegistration = vscode.commands.registerCommand("mmt.preview.open", async (resource?: vscode.Uri) => {
     const resourceDocument = resource
       ? vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === resource.toString())
@@ -571,6 +598,15 @@ async function start(): Promise<void> {
         const sourceName = displayedPreviewSourceUri ? new URL(displayedPreviewSourceUri).pathname.split("/").at(-1) : "document";
         const baseName = (sourceName ?? "document").replace(/\.(?:mmt(?:\.txt)?|typ)$/i, "") || "document";
         try {
+          if (displayedPreviewSourceUri && activeClient) {
+            const sourceDocument = vscode.workspace.textDocuments.find(
+              (candidate) => candidate.uri.toString() === displayedPreviewSourceUri
+            );
+            const token = latestLanguageProjectionBySource.get(displayedPreviewSourceUri);
+            if (sourceDocument?.languageId === "mmt" && token) {
+              await requestRenderProject(activeClient, displayedPreviewSourceUri, token, true);
+            }
+          }
           const exported = await preview.createExport(message.format);
           downloadBlob(exported.blob, `${baseName}.${exported.extension}`);
           log("export", `Downloaded ${baseName}.${exported.extension}`);
@@ -767,6 +803,7 @@ async function start(): Promise<void> {
     typstEditorActivationRegistration.dispose();
     packConfigRegistration.dispose();
     previewCommandRegistration.dispose();
+    documentConfigCommandRegistration.dispose();
     previewPanel?.dispose();
     previewPanelDisposeRegistration?.dispose();
     previewConfigRegistration.dispose();
@@ -1153,10 +1190,152 @@ function mmsViewIcon(): string {
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
+interface DocumentConfigView {
+  range: { start: { line: number; character: number }; end: { line: number; character: number } } | null;
+  title: string;
+  author: string | null;
+  showHeader: boolean;
+  compiledAt:
+    | { mode: "hidden" }
+    | { mode: "manual"; text: string }
+    | { mode: "auto"; format: string; timezone: string };
+}
+
+async function configureDocumentSettings(
+  document: vscode.TextDocument,
+  client: BaseLanguageClient
+): Promise<void> {
+  const expectedVersion = document.version;
+  const current = await client.sendRequest<DocumentConfigView | null>(
+    "mmt/getDocumentConfig",
+    { uri: document.uri.toString() }
+  );
+  if (!current) throw new Error("当前文档尚未进入 MMT language service");
+
+  const title = await vscode.window.showInputBox({
+    title: "MomoScript 文档标题",
+    prompt: "显示在标题栏中的标题",
+    value: current.title,
+    validateInput: (value) => value.trim().length === 0 ? "标题不能为空" : undefined
+  });
+  if (title === undefined) return;
+  const author = await vscode.window.showInputBox({
+    title: "MomoScript 文档作者",
+    prompt: "留空则不显示作者",
+    value: current.author ?? ""
+  });
+  if (author === undefined) return;
+  const header = await vscode.window.showQuickPick(
+    [
+      { label: "显示标题栏", value: true },
+      { label: "隐藏标题栏", value: false }
+    ],
+    {
+      title: "标题栏",
+      placeHolder: current.showHeader ? "显示标题栏" : "隐藏标题栏"
+    }
+  );
+  if (!header) return;
+  const timeMode = await vscode.window.showQuickPick(
+    [
+      { label: "不显示编译时间", mode: "hidden" as const },
+      { label: "自动生成", mode: "auto" as const },
+      { label: "手动文本", mode: "manual" as const }
+    ],
+    {
+      title: "编译时间",
+      placeHolder: current.compiledAt.mode === "hidden"
+        ? "不显示编译时间"
+        : current.compiledAt.mode === "auto" ? "自动生成" : "手动文本"
+    }
+  );
+  if (!timeMode) return;
+
+  let compiledAtLines: string[] = [];
+  if (timeMode.mode === "manual") {
+    const manual = await vscode.window.showInputBox({
+      title: "手动编译时间文本",
+      value: current.compiledAt.mode === "manual" ? current.compiledAt.text : "",
+      validateInput: (value) => value.length === 0 ? "时间文本不能为空" : undefined
+    });
+    if (manual === undefined) return;
+    compiledAtLines = [`  compiled-at: ${JSON.stringify(manual)}`];
+  } else if (timeMode.mode === "auto") {
+    const format = await vscode.window.showInputBox({
+      title: "自动时间格式",
+      prompt: "使用 Rust time format-description 语法",
+      value: current.compiledAt.mode === "auto"
+        ? current.compiledAt.format
+        : "[year]-[month]-[day] [hour]:[minute]:[second]",
+      validateInput: (value) => value.length === 0 ? "时间格式不能为空" : undefined
+    });
+    if (format === undefined) return;
+    const timezone = await vscode.window.showInputBox({
+      title: "自动时间时区",
+      prompt: "local、utc、Z 或 +HH:MM / -HH:MM",
+      value: current.compiledAt.mode === "auto" ? current.compiledAt.timezone : "local",
+      validateInput: (value) => /^(?:local|utc|Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)$/.test(value)
+        ? undefined
+        : "请输入 local、utc、Z 或有效的固定时区偏移"
+    });
+    if (timezone === undefined) return;
+    compiledAtLines = [
+      "  compiled-at: auto",
+      `  compiled-at-format: ${JSON.stringify(format)}`,
+      `  timezone: ${timezone}`
+    ];
+  } else {
+    compiledAtLines = ["  compiled-at: none"];
+  }
+
+  const lines = [
+    "@document",
+    `  title: ${JSON.stringify(title)}`,
+    ...(author.length > 0 ? [`  author: ${JSON.stringify(author)}`] : []),
+    `  show-header: ${header.value}`,
+    ...compiledAtLines,
+    "@end",
+    ""
+  ];
+  if (document.version !== expectedVersion) {
+    throw new Error("配置期间文档已发生变化；请重新打开文档设置");
+  }
+  const text = lines.join("\n");
+  const edit = new vscode.WorkspaceEdit();
+  if (current.range) {
+    edit.replace(
+      document.uri,
+      new vscode.Range(
+        current.range.start.line,
+        current.range.start.character,
+        current.range.end.line,
+        current.range.end.character
+      ),
+      text.trimEnd()
+    );
+  } else {
+    edit.insert(document.uri, new vscode.Position(0, 0), text);
+  }
+  if (!await vscode.workspace.applyEdit(edit)) {
+    throw new Error("编辑器拒绝了文档设置修改");
+  }
+}
+
 function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
   container.classList.add("mms-project-view");
   const project = document.createElement("section");
   project.innerHTML = '<h3>项目</h3><div class="mms-setting-row"><span>入口文件</span><code>intro.typ</code></div>';
+  const documentSettings = document.createElement("section");
+  const documentHeading = document.createElement("h3");
+  documentHeading.textContent = "文档";
+  const documentDescription = document.createElement("p");
+  documentDescription.textContent = "标题、作者、标题栏与编译时间写入当前 MMT 文件。";
+  const configureDocument = document.createElement("button");
+  configureDocument.type = "button";
+  configureDocument.textContent = "配置当前文档";
+  const openDocumentSettings = () => void vscode.commands.executeCommand("mmt.document.configure");
+  configureDocument.addEventListener("click", openDocumentSettings);
+  documentSettings.append(documentHeading, documentDescription, configureDocument);
   const previewSettings = document.createElement("section");
   const previewHeading = document.createElement("h3");
   previewHeading.textContent = "预览";
@@ -1219,13 +1398,14 @@ function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
     }
   });
   resources.append(resourceHeading, label, urls, save, status, advanced);
-  container.append(project, previewSettings, resources);
+  container.append(project, documentSettings, previewSettings, resources);
   return {
     dispose() {
       previewToggle.removeEventListener("change", updatePreviewSetting);
       configurationRegistration.dispose();
       save.removeEventListener("click", saveSettings);
       advanced.removeEventListener("click", openAdvanced);
+      configureDocument.removeEventListener("click", openDocumentSettings);
     }
   };
 }

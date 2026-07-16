@@ -24,6 +24,7 @@
 - [x] 3.4 实现 `@asset` block 和 short form 到统一 `ScriptAsset` IR 的 lowering
 - [x] 3.5 实现 marker subject/resource-space/full-path normalization 与确定性失败
 - [x] 3.6 使用 Typst 0.15 syntax tree 限定 `T` mode overlay 展开区域并验证 patch args
+- [x] 3.7 实现唯一 `@document` block、标题栏字段、host-injected automatic time 与严格字段诊断
 
 ## 4. Pack、resolve 与 materialization
 
@@ -44,6 +45,7 @@
 - [x] 5.6 跟踪 `special.typ` 使用的 `mmt_options.webp` 与 `mmt_favor.webp`，并验证 v2 façade smoke 可在指定 project root 下自包含编译
 - [ ] 5.7 固化哪些节点打断 automatic continuation，并写入 formal scenario
 - [ ] 5.8 明确 v2 第一版 template 管理的 page/header/raw 样式；image-only sticker 与 advanced API 可 deferred
+- [x] 5.9 将 lowered document metadata 贯通到 `mmt.template.with(...)`，并保持无 clock 的 language projection 稳定
 
 ## 6. 主线交付与验收
 
@@ -59,6 +61,7 @@
 - [ ] 6.10 定义共享 generated source、source map、模板和物化资源的 compilation bundle
 - [x] 6.11 实现自包含 Typst CLI project exporter，并以普通资源、透明 AVIFS fixture 和真实 ba_kivo pack 验证导出项目可由 Typst 0.15 编译
 - [ ] 6.12 实现 Typst 0.15 library `World` backend，并验证它与 project exporter 使用相同 compilation bundle
+- [x] 6.13 覆盖 document config、固定 instant/timezone formatting、CLI override 与 LSP/Web revision-pinned preview time
 
 ## 7. Syntax Spec ↔ Behavior Test Closure
 

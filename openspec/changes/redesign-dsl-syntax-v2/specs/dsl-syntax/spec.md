@@ -79,6 +79,79 @@
 - THEN compiler MUST report an actor name conflict
 - AND MUST NOT implicitly merge actors or move `b`
 
+### Requirement: Document presentation uses one aggregated file-level declaration
+
+下一版 DSL SHALL 使用单一 `@document ... @end` block 表达文档标题栏与编译时间设置；该声明作用于整份文档，而不是形成按位置变化的渲染状态。
+
+#### Scenario: Document declaration configures title bar fields
+
+- GIVEN 作者需要设置标题、作者或标题栏可见性
+- WHEN 作者写出 `@document ... @end`
+- THEN block SHALL accept scalar `title`、optional scalar `author` and boolean `show-header`
+- AND omitted fields SHALL retain the v2 template defaults
+- AND unknown、duplicate、list-valued or malformed fields MUST produce source-ranged semantic diagnostics
+
+#### Scenario: Document declaration is unique and precedes renderable content
+
+- GIVEN document presentation is file-wide configuration
+- WHEN a source contains more than one `@document` block
+- THEN compiler MUST reject every later declaration and identify the first declaration
+- WHEN `@document` appears after a statement、reply、bond or raw `@typ` content
+- THEN compiler MUST report that document configuration must precede renderable content
+- AND MUST NOT apply it as a mid-document state transition
+
+#### Scenario: Compiled-at accepts hidden and manual forms
+
+- GIVEN the template header accepts optional compiled-at content
+- WHEN `compiled-at` is omitted or is the unquoted keyword `none`
+- THEN generated Typst SHALL pass no compiled-at value
+- WHEN `compiled-at` is any other scalar value
+- THEN MMT SHALL pass that value as literal header text
+- AND quoted `"auto"` or `"none"` SHALL remain literal text rather than a control keyword
+
+#### Scenario: Automatic compiled-at is host-injected and deterministic
+
+- GIVEN `compiled-at: auto`
+- WHEN a CLI export or interactive preview render begins
+- THEN the host MUST inject one explicit instant and local UTC offset into the MMT compilation session
+- AND MMT SHALL format that instant before Typst emission
+- AND the Typst template MUST NOT read the operating-system or browser clock
+- AND repeated compilation with the same source、instant and offset MUST produce byte-identical generated Typst
+- AND an interactive preview MUST pin the instant to its document revision until an explicit refresh or a newer source revision starts another render session
+
+#### Scenario: Automatic time supports format and timezone
+
+- GIVEN `compiled-at: auto`
+- WHEN `compiled-at-format` is omitted
+- THEN MMT SHALL use locale-independent `[year]-[month]-[day] [hour]:[minute]:[second]` output
+- WHEN `compiled-at-format` is present
+- THEN MMT SHALL interpret it using Rust `time` format-description syntax
+- AND an invalid format MUST produce a diagnostic at the field value
+- WHEN `timezone` is omitted or is `local`
+- THEN formatting SHALL use the offset injected by the host
+- WHEN `timezone` is `utc`、`Z` or a fixed `+HH:MM` / `-HH:MM` offset
+- THEN MMT SHALL format the same instant in that offset
+- AND `compiled-at-format` or `timezone` without `compiled-at: auto` MUST be rejected as inapplicable
+
+#### Scenario: Language projection does not invent a clock
+
+- GIVEN syntax diagnostics or editor projection runs without a preview/export time input
+- WHEN the document requests `compiled-at: auto`
+- THEN the language core SHALL omit compiled-at from that non-rendering projection
+- AND MUST NOT read a clock or emit a changing value
+- AND the preview/export host remains responsible for a revision-pinned time input
+
+#### Scenario: Explicit host overrides win field by field
+
+- GIVEN document lowering has produced DSL-authored title-bar settings
+- WHEN a host explicitly supplies `title`、`author`、`show-header` or literal `compiled-at` overrides
+- THEN only the supplied fields SHALL replace their DSL-authored values
+- AND omitted host fields MUST preserve the DSL result
+- AND a literal compiled-at override SHALL replace automatic formatting rather than combine with `compiled-at-format` or `timezone`
+- AND the CLI SHALL expose these overrides as `--title`、`--author`、`--show-header` / `--no-header` and `--compiled-at`
+- AND `--clock` SHALL supply a reproducible host instant for DSL `compiled-at: auto` without itself changing the document mode
+- AND `--clock` MUST accept RFC 3339 with an explicit `Z` or numeric offset, and that parsed offset SHALL become the injected `local` offset
+
 #### Scenario: Asset registration supports canonical block and shared short form
 
 - GIVEN DSL v2 需要注册资源并允许显式 namespace

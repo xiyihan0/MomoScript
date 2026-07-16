@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { advanceLanguageProjection } from "../src/languageProjection.ts";
+import { advanceLanguageProjection, RevisionPinnedPreviewClock } from "../src/languageProjection.ts";
 
 const latest = new Map();
 const retired = new Map();
@@ -12,6 +12,14 @@ const first = advanceLanguageProjection(
 );
 assert.equal(first?.advanced, true);
 assert.equal(latest.get(sourceUri), first?.token);
+
+const clock = new RevisionPinnedPreviewClock();
+const pinned = clock.timestamp(first.token, false, () => new Date(1_000));
+assert.equal(clock.timestamp(first.token, false, () => new Date(2_000)), pinned);
+assert.equal(pinned.unixMillis, 1_000, "one projection revision must retain one preview instant");
+const refreshed = clock.timestamp(first.token, true, () => new Date(3_000));
+assert.equal(refreshed.unixMillis, 3_000, "explicit refresh must advance the preview instant");
+assert.notEqual(refreshed, pinned);
 
 const duplicate = advanceLanguageProjection(
   { sourceUri, entryUri: first.token.entryUri, revision: 1, full: true },
@@ -51,6 +59,8 @@ const replacement = advanceLanguageProjection(
   retired
 );
 assert.equal(replacement?.advanced, true);
+const replacementTime = clock.timestamp(replacement.token, false, () => new Date(4_000));
+assert.equal(replacementTime.unixMillis, 4_000, "a new projection revision must receive a new instant");
 assert.equal(retired.get(sourceUri)?.has(first.token.session), true);
 assert.equal(advanceLanguageProjection(
   { sourceUri, entryUri: "untitled:/mmt-projection/a/main-3.typ", revision: 3, full: true },
@@ -59,4 +69,4 @@ assert.equal(advanceLanguageProjection(
   retired
 ), undefined, "retired sessions must not revive");
 
-console.log(JSON.stringify({ duplicateApplied: false, duplicateRetryTokenPreserved: true, sessionRetirement: true }));
+console.log(JSON.stringify({ duplicateApplied: false, duplicateRetryTokenPreserved: true, sessionRetirement: true, revisionPinnedClock: true }));
