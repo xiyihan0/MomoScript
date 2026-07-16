@@ -72,13 +72,20 @@ test("production editor materializes an avatar and restores the authored story a
   const outputPanel = page.locator(".workbench-panel");
   const outputToggle = page.getByRole("status").getByRole("button", { name: /MomoScript/ });
   const problemsToggle = page.locator("#status\\.problems").getByRole("button");
+  const workbench = page.locator("#workbench");
+  const editorHost = page.locator(".workbench-editor");
   if (await outputPanel.isVisible()) {
     await outputToggle.click();
     await outputToggle.click();
   }
   await expect(outputPanel).toBeHidden();
+  await expect(workbench).toHaveClass(/panel-collapsed/);
+  const collapsedEditorHeight = await editorHost.evaluate((element) => element.getBoundingClientRect().height);
   await outputToggle.click();
   await expect(outputPanel.getByRole("tab", { name: /^输出/ })).toHaveAttribute("aria-selected", "true");
+  await expect(workbench).not.toHaveClass(/panel-collapsed/);
+  const expandedEditorHeight = await editorHost.evaluate((element) => element.getBoundingClientRect().height);
+  expect(collapsedEditorHeight - expandedEditorHeight).toBeGreaterThan(100);
   await expect(outputPanel).toContainText("MomoScript editor ready");
   await expect(outputPanel).toContainText(/Tinymist\s+WASM\s+下载完成\s+\d+\.\d\s+MiB/);
   await expect(outputPanel).not.toContainText(/(?:Tinymist|Typst\s+编译器)\s+WASM\s+(?:100|[1-9]\d{2,})%/);
@@ -86,6 +93,9 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(outputPanel.getByRole("tab", { name: /^问题/ })).toHaveAttribute("aria-selected", "true");
   await problemsToggle.click();
   await expect(outputPanel).toBeHidden();
+  await expect(workbench).toHaveClass(/panel-collapsed/);
+  await expect.poll(async () => Math.round(await editorHost.evaluate((element) => element.getBoundingClientRect().height)))
+    .toBe(Math.round(collapsedEditorHeight));
   await outputToggle.click();
   await expect(outputPanel.getByRole("tab", { name: /^输出/ })).toHaveAttribute("aria-selected", "true");
   let editor = page.locator(".workbench-editor .monaco-editor").first();

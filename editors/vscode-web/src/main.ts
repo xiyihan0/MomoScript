@@ -336,11 +336,13 @@ async function start(): Promise<void> {
   await api.start();
   output = vscode.window.createOutputChannel("MomoScript");
   log("host", "VS Code Workbench ready");
-  setPartVisibility(Parts.PANEL_PART, false);
-  layout.panel.hidden = true;
-  const panelVisibilityRegistration = onPartVisibilityChange(Parts.PANEL_PART, (visible) => {
+  const applyPanelVisibility = (visible: boolean) => {
     layout.panel.hidden = !visible;
-  });
+    root.classList.toggle("panel-collapsed", !visible);
+  };
+  setPartVisibility(Parts.PANEL_PART, false);
+  applyPanelVisibility(false);
+  const panelVisibilityRegistration = onPartVisibilityChange(Parts.PANEL_PART, applyPanelVisibility);
   const statusBarRegistration = renderStatusBarPart(layout.status);
   const outputStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 99);
   outputStatus.name = "MomoScript 日志";

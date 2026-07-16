@@ -17,6 +17,10 @@ body {
   grid-template-columns: 48px minmax(180px, 260px) minmax(320px, 1fr);
   grid-template-rows: minmax(0, 1fr) minmax(120px, 26vh) 22px;
 }
+#workbench.panel-collapsed {
+  grid-template-rows: minmax(0, 1fr) 0 22px;
+}
+
 
 #workbench { position: relative; }
 #workbench.sidebar-collapsed {
