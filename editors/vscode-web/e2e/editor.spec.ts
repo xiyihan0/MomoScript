@@ -78,6 +78,22 @@ test("production editor materializes an avatar and restores the authored story a
   const previewWebview = await previewWebviewFrame(page);
   await expect(previewWebview.locator("#workbench")).toHaveCount(0);
   await expect(previewWebview.locator(".viewport .page svg")).toBeAttached({ timeout: 60_000 });
+  const exportTrigger = previewWebview.getByRole("button", { name: "导出" });
+  const exportMenu = previewWebview.getByRole("menu", { name: "导出格式" });
+  await expect(exportTrigger).toBeVisible();
+  await expect(exportTrigger).toHaveAttribute("aria-expanded", "false");
+  await expect(exportMenu).toBeHidden();
+  await exportTrigger.click();
+  await expect(exportTrigger).toHaveAttribute("aria-expanded", "true");
+  await expect(exportMenu).toBeVisible();
+  await expect(exportMenu.getByRole("menuitem")).toHaveText([
+    "PDF 文档.pdf",
+    "PNG 图片.png",
+    "JPEG 图片.jpg",
+    "SVG 矢量图.svg"
+  ]);
+  await previewWebview.locator("body").press("Escape");
+  await expect(exportMenu).toBeHidden();
   await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("intro.typ"));
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "intro.typ", languageId: "typst" });
   await page.getByRole("button", { name: "Typst 预览" }).click();

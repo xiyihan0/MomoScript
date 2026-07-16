@@ -994,11 +994,16 @@ function previewWebviewHtml(
   void webview;
   const nonce = previewNonce();
   const pageStyle = pageSize ? ` style="width:${pageSize.width}px;height:${pageSize.height}px" data-intrinsic-width="${pageSize.width}" data-intrinsic-height="${pageSize.height}"` : "";
-  const formats = (["pdf", "png", "jpg", "svg"] as const)
-    .map((format) => `<button type="button" data-format="${format}">${format.toUpperCase()}</button>`)
-    .join("");
+  const formats = [
+    { format: "pdf", label: "PDF 文档", extension: ".pdf" },
+    { format: "png", label: "PNG 图片", extension: ".png" },
+    { format: "jpg", label: "JPEG 图片", extension: ".jpg" },
+    { format: "svg", label: "SVG 矢量图", extension: ".svg" }
+  ].map(({ format, label, extension }) =>
+    `<button type="button" role="menuitem" data-format="${format}"><span>${label}</span><span class="export-extension">${extension}</span></button>`
+  ).join("");
   const body = svg
-    ? `<nav class="export-toolbar" aria-label="导出预览">${formats}</nav><main class="viewport"><article class="page"${pageStyle}>${svg}</article></main>`
+    ? `<nav class="export-toolbar" aria-label="预览操作"><div class="export-control"><button type="button" class="export-trigger" aria-haspopup="menu" aria-expanded="false">导出<span class="export-chevron" aria-hidden="true"></span></button><div class="export-menu" role="menu" aria-label="导出格式" hidden>${formats}</div></div></nav><main class="viewport"><article class="page"${pageStyle}>${svg}</article></main>`
     : `<main class="status${error ? " error" : ""}">${escapeHtml(status)}</main>`;
   return `<!doctype html>
 <html lang="zh-CN">
@@ -1010,9 +1015,18 @@ function previewWebviewHtml(
   <style>
     html, body { margin: 0; min-height: 100%; background: var(--vscode-editor-background); color: var(--vscode-editor-foreground); }
     body { box-sizing: border-box; font-family: var(--vscode-font-family); }
-    .export-toolbar { position: sticky; top: 0; z-index: 1; display: flex; justify-content: flex-end; gap: 6px; padding: 8px 24px; border-bottom: 1px solid var(--vscode-panel-border); background: var(--vscode-editor-background); }
-    .export-toolbar button { padding: 3px 9px; border: 1px solid var(--vscode-button-border, transparent); color: var(--vscode-button-foreground); background: var(--vscode-button-background); cursor: pointer; }
-    .export-toolbar button:hover { background: var(--vscode-button-hoverBackground); }
+    .export-toolbar { position: sticky; top: 0; z-index: 2; display: flex; justify-content: flex-end; min-height: 34px; padding: 4px 12px; box-sizing: border-box; border-bottom: 1px solid var(--vscode-panel-border); background: var(--vscode-editor-background); }
+    .export-control { position: relative; display: flex; align-items: center; }
+    .export-trigger { display: inline-flex; align-items: center; gap: 7px; height: 26px; padding: 0 10px; border: 1px solid var(--vscode-button-border, transparent); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); font: inherit; cursor: pointer; }
+    .export-trigger:hover { background: var(--vscode-button-hoverBackground); }
+    .export-trigger:focus-visible, .export-menu button:focus-visible { outline: 1px solid var(--vscode-focusBorder); outline-offset: -1px; }
+    .export-chevron { width: 6px; height: 6px; margin-top: -3px; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: rotate(45deg); }
+    .export-menu { position: absolute; top: calc(100% + 4px); right: 0; z-index: 3; min-width: 190px; padding: 4px; border: 1px solid var(--vscode-menu-border, var(--vscode-panel-border)); border-radius: 3px; background: var(--vscode-menu-background, #252526); box-shadow: 0 2px 8px #0008; }
+    .export-menu[hidden] { display: none; }
+    .export-menu button { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 26px; padding: 4px 8px; border: 0; border-radius: 2px; color: var(--vscode-menu-foreground, var(--vscode-foreground)); background: transparent; font: inherit; text-align: left; cursor: pointer; }
+    .export-menu button:hover, .export-menu button:focus { color: var(--vscode-menu-selectionForeground, var(--vscode-button-foreground)); background: var(--vscode-menu-selectionBackground, var(--vscode-list-activeSelectionBackground)); outline: none; }
+    .export-extension { margin-left: 20px; color: var(--vscode-descriptionForeground); font-family: var(--vscode-editor-font-family); font-size: 11px; text-transform: uppercase; }
+    .export-menu button:hover .export-extension, .export-menu button:focus .export-extension { color: inherit; opacity: .8; }
     .viewport { display: flex; justify-content: center; min-width: min-content; min-height: min-content; overflow: auto; padding: 24px; background: #e5e5e5; }
     .page { flex: 0 0 auto; background: transparent; line-height: 0; transform-origin: top left; }
     .page svg { display: block; width: 100%; height: 100%; max-width: none; filter: drop-shadow(0 2px 5px #0008); }
@@ -1045,9 +1059,50 @@ function previewWebviewHtml(
     viewport.scrollLeft += resizedBounds.left + anchorX * resizedBounds.width - event.clientX;
     viewport.scrollTop += resizedBounds.top + anchorY * resizedBounds.height - event.clientY;
   }, { passive: false });
-  document.querySelector('.export-toolbar')?.addEventListener('click', (event) => {
+  const exportControl = document.querySelector('.export-control');
+  const exportTrigger = document.querySelector('.export-trigger');
+  const exportMenu = document.querySelector('.export-menu');
+  const exportItems = [...document.querySelectorAll('.export-menu button[data-format]')];
+  const setExportMenuOpen = (open, focusFirst = false) => {
+    if (!exportTrigger || !exportMenu) return;
+    exportMenu.hidden = !open;
+    exportTrigger.setAttribute('aria-expanded', String(open));
+    if (open && focusFirst) exportItems[0]?.focus();
+  };
+  exportTrigger?.addEventListener('click', () => {
+    setExportMenuOpen(exportMenu?.hidden ?? true);
+  });
+  exportMenu?.addEventListener('click', (event) => {
     const button = event.target.closest('button[data-format]');
-    if (button) vscode.postMessage({ type: 'export', format: button.dataset.format });
+    if (!button) return;
+    setExportMenuOpen(false);
+    exportTrigger?.focus();
+    vscode.postMessage({ type: 'export', format: button.dataset.format });
+  });
+  exportTrigger?.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowDown') return;
+    event.preventDefault();
+    setExportMenuOpen(true, true);
+  });
+  exportMenu?.addEventListener('keydown', (event) => {
+    const current = exportItems.indexOf(document.activeElement);
+    let next = current;
+    if (event.key === 'ArrowDown') next = (current + 1) % exportItems.length;
+    else if (event.key === 'ArrowUp') next = (current - 1 + exportItems.length) % exportItems.length;
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = exportItems.length - 1;
+    else return;
+    event.preventDefault();
+    exportItems[next]?.focus();
+  });
+  document.addEventListener('pointerdown', (event) => {
+    if (!exportControl?.contains(event.target)) setExportMenuOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || exportMenu?.hidden) return;
+    event.preventDefault();
+    setExportMenuOpen(false);
+    exportTrigger?.focus();
   });
 </script>
 </html>`;
