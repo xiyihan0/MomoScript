@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { expect, test, type Page, type Response } from "@playwright/test";
+import { expect, test, type Frame, type Page, type Response } from "@playwright/test";
 
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
 const MANIFEST_URL = `${PACK_ROOT}manifest.json`;
@@ -52,20 +52,51 @@ test("production editor materializes an avatar and restores the authored story a
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
   const outputPanel = page.locator(".workbench-panel");
+  const outputToggle = page.getByRole("status").getByRole("button", { name: /MomoScript/ });
+  const problemsToggle = page.locator("#status\\.problems").getByRole("button");
+  if (await outputPanel.isVisible()) {
+    await outputToggle.click();
+    await outputToggle.click();
+  }
+  await expect(outputPanel).toBeHidden();
+  await outputToggle.click();
   await expect(outputPanel.getByRole("tab", { name: /^输出/ })).toHaveAttribute("aria-selected", "true");
   await expect(outputPanel).toContainText("MomoScript editor ready");
+  await problemsToggle.click();
+  await expect(outputPanel.getByRole("tab", { name: /^问题/ })).toHaveAttribute("aria-selected", "true");
+  await problemsToggle.click();
+  await expect(outputPanel).toBeHidden();
+  await outputToggle.click();
+  await expect(outputPanel.getByRole("tab", { name: /^输出/ })).toHaveAttribute("aria-selected", "true");
   let editor = page.locator(".workbench-editor .monaco-editor").first();
   const preview = page.locator(".workbench-preview");
   await expect(editor).toBeVisible();
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "intro.typ", languageId: "typst" });
   await page.getByRole("button", { name: "Typst 预览" }).click();
-  await expect(page.getByRole("tab", { name: /^intro\.typ（预览）, 编辑器组\d+$/ })).toBeVisible();
+  await expect(page.getByRole("tab", { name: /^intro\.typ（预览）/ })).toBeVisible();
   await expect(preview).toHaveAttribute("data-preview-ready", "true");
+  const previewWebview = await previewWebviewFrame(page);
+  await expect(previewWebview.locator("#workbench")).toHaveCount(0);
+  await expect(previewWebview.locator(".viewport .page svg")).toBeAttached({ timeout: 60_000 });
+  await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("intro.typ"));
+  await expect.poll(() => activeDocument(page)).toMatchObject({ name: "intro.typ", languageId: "typst" });
+  await page.getByRole("button", { name: "Typst 预览" }).click();
+  await expect(page.getByRole("tab", { name: /^intro\.typ（预览）/ })).toHaveAttribute("aria-selected", "true");
   await page.evaluate(({ name, text }) => (Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function)(name, text), {
     name: "intro.typ",
     text: editedIntro
   });
   await expect.poll(() => readWorkspaceDocument(page, "intro.typ")).toBe(editedIntro);
+  const defaultStory = await readWorkspaceDocument(page, "story.mmt");
+  expect(defaultStory).toContain("> 佳代子:");
+  expect(defaultStory).toContain(">_:");
+  expect(defaultStory).toContain("< 老师好！");
+  expect(defaultStory).toContain("[:#1:]");
+  await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("story.mmt"));
+  await page.getByRole("button", { name: "Typst 预览" }).click();
+  await expect.poll(() => displayedPreviewSource(page)).toMatch(/story\.mmt$/);
+  await expect(preview).toHaveAttribute("data-preview-ready", "true");
+  await expect(preview.locator("svg image").first()).toBeAttached();
   await page.evaluate(({ name, text }) => (Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function)(name, text), {
     name: "story.mmt",
     text: "@reply\n- 选项 A\n- 选项 B\n@end\n"
@@ -78,6 +109,8 @@ test("production editor materializes an avatar and restores the authored story a
   const imageBaselineRevision = await preview.getAttribute("data-preview-revision");
   const workspaceImage = avatar.toString("base64");
   await page.evaluate(({ name, data }) => (Reflect.get(globalThis, "__mmtWriteWorkspaceFile") as Function)(name, data), { name: "workspace-image.png", data: workspaceImage });
+  await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("story.mmt"));
+  await expect.poll(() => activeDocument(page)).toMatchObject({ name: "story.mmt", languageId: "mmt" });
   await editor.click();
   await page.keyboard.press("Control+A");
   await page.keyboard.insertText("@typ\nWORKSPACE_IMAGE_READY\n#image(\"./workspace-image.png\")\n@end");
@@ -356,6 +389,25 @@ function isPackAsset(response: Response): boolean {
   return url.startsWith(PACK_ROOT)
     && url !== MANIFEST_URL
     && /\.(?:avifs?|png|jpe?g|svg|webp)(?:$|\?)/i.test(url);
+}
+
+async function previewWebviewFrame(page: Page): Promise<Frame> {
+  let previewFrame: Frame | undefined;
+  await expect.poll(async () => {
+    for (const frame of page.frames()) {
+      try {
+        if (await frame.locator(".viewport .page svg").count() > 0) {
+          previewFrame = frame;
+          return true;
+        }
+      } catch {
+        // VS Code replaces its pending webview iframe after setting HTML.
+      }
+    }
+    return false;
+  }, { timeout: 60_000 }).toBe(true);
+  if (!previewFrame) throw new Error("rendered preview webview frame is missing");
+  return previewFrame;
 }
 
 async function seedLegacyWorkspace(page: Page, withChild: boolean): Promise<void> {

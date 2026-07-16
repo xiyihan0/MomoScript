@@ -9,7 +9,12 @@ const theme = JSON.stringify({
   type: "dark",
   colors: {
     "editor.background": "#1e1e1e",
-    "editor.foreground": "#d4d4d4"
+    "editor.foreground": "#d4d4d4",
+    "statusBar.background": "#181818",
+    "statusBar.foreground": "#cccccc",
+    "statusBar.border": "#2b2b2b",
+    "statusBarItem.hoverBackground": "#ffffff1f",
+    "statusBarItem.activeBackground": "#ffffff2e"
   },
   tokenColors: [
     { scope: "comment", settings: { foreground: "#6a9955" } },

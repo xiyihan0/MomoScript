@@ -10,7 +10,8 @@ import getOutputServiceOverride from "@codingame/monaco-vscode-output-service-ov
 import getLocalizationServiceOverride from "@codingame/monaco-vscode-localization-service-override";
 import getTextMateServiceOverride from "@codingame/monaco-vscode-textmate-service-override";
 import getThemeServiceOverride from "@codingame/monaco-vscode-theme-service-override";
-import getViewsServiceOverride, { attachPart, isPartVisibile, onPartVisibilityChange, Parts, registerCustomView, setPartVisibility, ViewContainerLocation } from "@codingame/monaco-vscode-views-service-override";
+import getStatusBarServiceOverride from "@codingame/monaco-vscode-view-status-bar-service-override";
+import getViewsServiceOverride, { attachPart, isPartVisibile, onPartVisibilityChange, Parts, registerCustomView, renderStatusBarPart, setPartVisibility, ViewContainerLocation } from "@codingame/monaco-vscode-views-service-override";
 import { registerCustomProvider } from "@codingame/monaco-vscode-files-service-override";
 import { useWorkerFactory } from "monaco-languageclient/workerFactory";
 import { MonacoVscodeApiWrapper } from "monaco-languageclient/vscodeApiWrapper";
@@ -146,7 +147,7 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
     return document.getText();
   });
 }
-const DEFAULT_STORY = "@reply\n- 选项 A\n- 选项 B\n@end\n";
+const DEFAULT_STORY = "> 佳代子: 你好，老师！\n>_: 我也可以继续说。\n< 老师好！\n> 佳代子: 看看这个：[:#1:](width: 2em)\n";
 const PACK_URL = "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json";
 const encoder = new TextEncoder();
 function configuredResourceLimits() {
@@ -228,7 +229,8 @@ async function start(): Promise<void> {
   let previewPanelMessageRegistration: vscode.Disposable | undefined;
   const preview = new TypstPreviewController(layout.preview, {
     status(message, error) {
-      log(error ? "preview:error" : "preview", message);
+      const scope = message.includes("WASM") ? "wasm" : (error ? "preview:error" : "preview");
+      log(scope, message);
       if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, error);
     },
     rendered(svg, revision, shadowCount, pageSize) {
@@ -297,6 +299,7 @@ async function start(): Promise<void> {
       ...getOutputServiceOverride(),
         ...getTextMateServiceOverride(),
         ...getThemeServiceOverride(),
+      ...getStatusBarServiceOverride(),
       ...getViewsServiceOverride(),
     },
     viewsConfig: {
@@ -333,6 +336,23 @@ async function start(): Promise<void> {
   await api.start();
   output = vscode.window.createOutputChannel("MomoScript");
   log("host", "VS Code Workbench ready");
+  setPartVisibility(Parts.PANEL_PART, false);
+  layout.panel.hidden = true;
+  const panelVisibilityRegistration = onPartVisibilityChange(Parts.PANEL_PART, (visible) => {
+    layout.panel.hidden = !visible;
+  });
+  const statusBarRegistration = renderStatusBarPart(layout.status);
+  const outputStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 99);
+  outputStatus.name = "MomoScript 日志";
+  outputStatus.text = "$(output) MomoScript";
+  outputStatus.tooltip = "显示或隐藏 MomoScript 日志";
+  outputStatus.command = "workbench.action.output.toggleOutput";
+  outputStatus.show();
+  const diagnosticsStatusDispose = () => {
+    panelVisibilityRegistration.dispose();
+    outputStatus.dispose();
+    statusBarRegistration.dispose();
+  };
   root.classList.toggle("sidebar-collapsed", !isPartVisibile(Parts.SIDEBAR_PART));
   const sidebarVisibilityRegistration = onPartVisibilityChange(Parts.SIDEBAR_PART, (visible) => {
     root.classList.toggle("sidebar-collapsed", !visible);
@@ -436,7 +456,7 @@ async function start(): Promise<void> {
 
   document.documentElement.dataset.mmtStage = "tinymist-starting";
   try {
-    tinymist = await startTinymistLanguageClient();
+    tinymist = await startTinymistLanguageClient((message) => log("wasm", message));
     log("tinymist", "Tinymist Worker ready");
   } catch (error) {
     log("tinymist:error", error instanceof Error ? error.message : String(error));
@@ -560,7 +580,7 @@ async function start(): Promise<void> {
       });
     } else {
       previewPanel.title = previewPanelTitle;
-      previewPanel.reveal(vscode.ViewColumn.Beside, true);
+      previewPanel.reveal(undefined, false);
     }
     log("preview", `Opening ${sourceUri}`);
     if (document.languageId === "typst") {
@@ -732,7 +752,6 @@ async function start(): Promise<void> {
     }).catch((error: unknown) => log("preview:error", `Typst: ${error instanceof Error ? error.message : String(error)}`));
   });
   log("host", "MomoScript editor ready");
-  output.show(false);
   document.documentElement.dataset.mmtReady = "true";
   window.addEventListener("beforeunload", () => {
     markerEditingRegistration.dispose();
@@ -742,6 +761,7 @@ async function start(): Promise<void> {
     documentPersistenceRegistration.dispose();
     typstDocumentChangeRegistration.dispose();
     typstDocumentOpenRegistration.dispose();
+    diagnosticsStatusDispose();
     typstEditorActivationRegistration.dispose();
     packConfigRegistration.dispose();
     previewCommandRegistration.dispose();
@@ -919,19 +939,10 @@ async function ensureDefaultWorkspace(): Promise<void> {
     await vscode.workspace.fs.writeFile(INTRO, await loadDefaultIntro());
   }
   await loadIntroAssets();
-  if (import.meta.env.VITE_MMT_E2E === "1") {
-    try {
-      await vscode.workspace.fs.stat(STORY);
-    } catch {
-      await vscode.workspace.fs.writeFile(STORY, encoder.encode(DEFAULT_STORY));
-    }
-    return;
-  }
   try {
-    const existing = new TextDecoder().decode(await vscode.workspace.fs.readFile(STORY));
-    if (existing === DEFAULT_STORY) await vscode.workspace.fs.delete(STORY);
+    await vscode.workspace.fs.stat(STORY);
   } catch {
-    // No legacy default story to migrate.
+    await vscode.workspace.fs.writeFile(STORY, encoder.encode(DEFAULT_STORY));
   }
 }
 

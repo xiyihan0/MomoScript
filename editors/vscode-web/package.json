@@ -39,6 +39,7 @@
     "@codingame/monaco-vscode-theme-defaults-default-extension": "21.6.0",
     "@codingame/monaco-vscode-theme-service-override": "21.6.0",
     "@codingame/monaco-vscode-theme-seti-default-extension": "21.6.0",
+    "@codingame/monaco-vscode-view-status-bar-service-override": "21.6.0",
     "@codingame/monaco-vscode-views-service-override": "21.6.0",
     "@myriaddreamin/typst-ts-renderer": "0.7.0-rc2",
     "@myriaddreamin/typst-ts-web-compiler": "0.7.0-rc2",
@@ -50,6 +51,7 @@
     "vscode-languageserver": "9.0.1"
   },
   "devDependencies": {
+    "@codingame/esbuild-import-meta-url-plugin": "1.0.3",
     "@playwright/test": "1.55.0",
     "@types/node": "22.12.0",
     "typescript": "5.9.3",

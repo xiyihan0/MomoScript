@@ -16,13 +16,23 @@ export interface TinymistHandle {
   dispose(): Promise<void>;
 }
 
-export async function startTinymistLanguageClient(): Promise<TinymistHandle> {
-  const backend = await TinymistWorkerClient.start(
-    new URL(tinymistWorkerUrl, window.location.href).href,
-    new URL(tinymistModuleUrl, window.location.href).href,
-    new URL(tinymistWasmUrl, window.location.href).href,
-    (uri) => new Worker(uri, { type: "module", name: "Tinymist LS" })
-  );
+export async function startTinymistLanguageClient(
+  report: (message: string) => void = () => {},
+): Promise<TinymistHandle> {
+  const wasmBytes = await downloadWasm(tinymistWasmUrl, "Tinymist WASM", report);
+  const wasmUrl = URL.createObjectURL(new Blob([wasmBytes.buffer as ArrayBuffer], { type: "application/wasm" }));
+  let backend: TinymistWorkerClient;
+  try {
+    backend = await TinymistWorkerClient.start(
+      new URL(tinymistWorkerUrl, window.location.href).href,
+      new URL(tinymistModuleUrl, window.location.href).href,
+      wasmUrl,
+      (uri) => new Worker(uri, { type: "module", name: "Tinymist LS" })
+    );
+  } catch (error) {
+    URL.revokeObjectURL(wasmUrl);
+    throw error;
+  }
   const disposables: vscode.Disposable[] = [];
   const semanticTokensChanged = new vscode.EventEmitter<void>();
   disposables.push(semanticTokensChanged);
@@ -69,6 +79,47 @@ export async function startTinymistLanguageClient(): Promise<TinymistHandle> {
     async dispose() {
       for (const disposable of disposables.splice(0)) disposable.dispose();
       await backend.stop();
+      URL.revokeObjectURL(wasmUrl);
     }
   };
+}
+
+async function downloadWasm(url: string, label: string, report: (message: string) => void): Promise<Uint8Array> {
+  report(`${label} 开始下载…`);
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`${label}下载失败：HTTP ${response.status}`);
+  if (!response.body) {
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    report(`${label} 已下载 ${(bytes.byteLength / 1048576).toFixed(1)} MiB`);
+    return bytes;
+  }
+  const total = Number(response.headers.get("content-length")) || 0;
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let lastReported = -5;
+  let lastReportedBytes = 0;
+  let received = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    if (!value) continue;
+    chunks.push(value);
+    received += value.byteLength;
+    const percent = total > 0 ? Math.floor(received / total * 100) : 0;
+    const shouldReport = total > 0
+      ? percent >= lastReported + 5
+      : received - lastReportedBytes >= 1048576;
+    if (shouldReport) {
+      lastReported = total > 0 ? percent : lastReported;
+      lastReportedBytes = received;
+      report(total > 0
+        ? `${label} ${percent}% (${(received / 1048576).toFixed(1)} / ${(total / 1048576).toFixed(1)} MiB)`
+        : `${label} 已下载 ${(received / 1048576).toFixed(1)} MiB`);
+    }
+  }
+  const bytes = new Uint8Array(received);
+  let offset = 0;
+  for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength; }
+  report(`${label} 下载完成 ${(received / 1048576).toFixed(1)} MiB`);
+  return bytes;
 }

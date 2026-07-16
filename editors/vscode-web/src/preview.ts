@@ -34,6 +34,7 @@ const optionalMainFontsLoader = async (
 
 const encoder = new TextEncoder();
 let initialized = false;
+let compilerModule: WebAssembly.Module | undefined;
 
 export interface TypstPreviewEvents {
   status(message: string, error: boolean): void;
@@ -184,7 +185,7 @@ export class TypstPreviewController {
     const mappedThisAttempt = new Set<string>();
     this.showStatus("Rendering preview…");
     try {
-      initializeTypst();
+      await initializeTypst((message) => this.showStatus(message));
       for (const file of project.files) {
         const path = virtualPath(file.uri);
         const data = file.text === undefined ? decodeBase64(file.dataBase64) : encoder.encode(file.text);
@@ -452,15 +453,62 @@ async function rasterizeSvg(
   }
 }
 
-function initializeTypst(): void {
+async function initializeTypst(report: (message: string) => void): Promise<void> {
   if (initialized) return;
+  if (!compilerModule) {
+    compilerModule = await downloadWasmModule(compilerWasmUrl, "Typst 编译器 WASM", report);
+  }
   $typst.setCompilerInitOptions({
     beforeBuild: [bundledFontsLoader, optionalMainFontsLoader],
-    getModule: () => compilerWasmUrl
+    getModule: () => compilerModule!,
   });
   $typst.setRendererInitOptions({ getModule: () => rendererWasmUrl });
   $typst.use(TypstSnippet.withAccessModel(new MemoryAccessModel()));
   initialized = true;
+}
+
+async function downloadWasmModule(
+  url: string,
+  label: string,
+  report: (message: string) => void,
+): Promise<WebAssembly.Module> {
+  report(`${label} 开始下载…`);
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`${label}下载失败：HTTP ${response.status}`);
+  if (!response.body) {
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    report(`${label} 已下载 ${(bytes.byteLength / 1048576).toFixed(1)} MiB`);
+    return WebAssembly.compile(bytes);
+  }
+  const total = Number(response.headers.get("content-length")) || 0;
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let lastReported = -5;
+  let lastReportedBytes = 0;
+  let received = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    if (!value) continue;
+    chunks.push(value);
+    received += value.byteLength;
+    const percent = total > 0 ? Math.floor(received / total * 100) : 0;
+    const shouldReport = total > 0
+      ? percent >= lastReported + 5
+      : received - lastReportedBytes >= 1048576;
+    if (shouldReport) {
+      lastReported = total > 0 ? percent : lastReported;
+      lastReportedBytes = received;
+      report(total > 0
+        ? `${label} ${percent}% (${(received / 1048576).toFixed(1)} / ${(total / 1048576).toFixed(1)} MiB)`
+        : `${label} 已下载 ${(received / 1048576).toFixed(1)} MiB`);
+    }
+  }
+  const bytes = new Uint8Array(received);
+  let offset = 0;
+  for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength; }
+  report(`${label} 下载完成 ${(received / 1048576).toFixed(1)} MiB`);
+  return WebAssembly.compile(bytes);
 }
 
 function decodeBase64(data: string): Uint8Array {

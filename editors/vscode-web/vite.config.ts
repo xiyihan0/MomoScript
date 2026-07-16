@@ -1,3 +1,4 @@
+import importMetaUrlPlugin from "@codingame/esbuild-import-meta-url-plugin";
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -10,6 +11,9 @@ export default defineConfig({
     format: "es"
   },
   optimizeDeps: {
+    esbuildOptions: {
+      plugins: [importMetaUrlPlugin]
+    },
     include: ["vscode-textmate", "vscode-oniguruma"]
   },
   resolve: {
