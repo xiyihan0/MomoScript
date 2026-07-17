@@ -14,6 +14,7 @@
     "build": "node ../vscode/scripts/verify-web-vendor.mjs && node --max-old-space-size=8192 ./node_modules/vite/bin/vite.js build",
     "preview": "vite preview",
     "test:e2e": "playwright test --project=local",
+    "test:e2e:lifecycle": "playwright test --config=playwright.lifecycle.config.ts",
     "test:e2e:chrome": "playwright test --project=chrome",
     "test:avifs-worker": "npm run build && node ./scripts/test-avifs-worker.mjs",
     "test:resource-cache": "node --experimental-strip-types ./scripts/test-bounded-string-cache.mjs",

@@ -41,6 +41,21 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
   Reflect.set(globalThis, "__mmtSanitizeSvg", sanitizeSvg);
 }
 
+type E2ELifecycleKind = "runtime-ready" | "dispose-invoked" | "dispose-complete" | "unload" | "hmr" | "hmr-fallback";
+
+function beginE2ELifecycle(): number | undefined {
+  if (import.meta.env.VITE_MMT_E2E !== "1") return undefined;
+  const begin = Reflect.get(globalThis, "__mmtBeginLifecycleGeneration");
+  return typeof begin === "function" ? begin() as number : undefined;
+}
+
+function recordE2ELifecycle(kind: E2ELifecycleKind, generation: number | undefined): void {
+  if (import.meta.env.VITE_MMT_E2E !== "1" || generation === undefined) return;
+  const record = Reflect.get(globalThis, "__mmtRecordLifecycle");
+  if (typeof record === "function") record(kind, generation);
+}
+
+
 
 const WORKSPACE = vscode.Uri.parse("mmtfs://workspace/");
 const STORY = vscode.Uri.parse("mmtfs://workspace/story.mmt");
@@ -209,15 +224,24 @@ let mmt: MmtLanguageClientHandle | undefined;
 let tinymist: TinymistHandle | undefined;
 
 let runtimeOwner: RuntimeOwner | undefined;
-void start().catch((error: unknown) => {
-  void runtimeOwner?.dispose();
-  document.documentElement.dataset.mmtStage = "failed";
-  console.error("MomoScript editor failed to start", error);
-  const root = document.querySelector<HTMLElement>("#workbench");
-  if (root) root.textContent = error instanceof Error ? error.message : String(error);
-});
+const hmrDisposal = Reflect.get(globalThis, "__mmtHmrDisposal");
+if (import.meta.hot && hmrDisposal instanceof Promise) {
+  void hmrDisposal.then(
+    () => window.location.reload(),
+    () => window.location.reload()
+  );
+} else {
+  void start().catch((error: unknown) => {
+    void runtimeOwner?.dispose();
+    document.documentElement.dataset.mmtStage = "failed";
+    console.error("MomoScript editor failed to start", error);
+    const root = document.querySelector<HTMLElement>("#workbench");
+    if (root) root.textContent = error instanceof Error ? error.message : String(error);
+  });
+}
 
 async function start(): Promise<void> {
+  const lifecycleGeneration = beginE2ELifecycle();
   runtimeOwner = new RuntimeOwner();
   const owner = runtimeOwner;
   const own = <T extends { dispose(): void | Promise<void> }>(resource: T): T => owner.add(resource);
@@ -864,13 +888,35 @@ async function start(): Promise<void> {
     }).catch((error: unknown) => log("preview:error", `Typst: ${error instanceof Error ? error.message : String(error)}`));
   }));
   owner.ready();
+  recordE2ELifecycle("runtime-ready", lifecycleGeneration);
   const terminateTinymist = tinymist?.terminate.bind(tinymist) ?? (() => {});
   const terminateMmt = mmt?.terminate.bind(mmt) ?? (() => {});
   const terminateWorkers = () => { terminateMmt(); terminateTinymist(); };
-  const ownerDispose = () => owner.dispose();
+  let disposalRecorded = false;
+  const ownerDispose = async () => {
+    recordE2ELifecycle("dispose-invoked", lifecycleGeneration);
+    await owner.dispose();
+    if (disposalRecorded) return;
+    disposalRecorded = true;
+    recordE2ELifecycle("dispose-complete", lifecycleGeneration);
+  };
+  const hotDispose = () => {
+    recordE2ELifecycle("hmr", lifecycleGeneration);
+    const disposal = disposeWithFallback(ownerDispose, () => {
+      recordE2ELifecycle("hmr-fallback", lifecycleGeneration);
+      terminateWorkers();
+    });
+    Reflect.set(globalThis, "__mmtHmrDisposal", disposal);
+    void disposal;
+  };
   const hot = import.meta.hot;
-  hot?.dispose(() => { void disposeWithFallback(ownerDispose, terminateWorkers); });
-  own(ownEventListener(window, "beforeunload", terminateOnUnload({ terminate: terminateWorkers }, ownerDispose), { once: true }));
+  hot?.dispose(hotDispose);
+  if (import.meta.hot) import.meta.hot.accept();
+  const unload = terminateOnUnload({ terminate: terminateWorkers }, ownerDispose);
+  own(ownEventListener(window, "beforeunload", () => {
+    recordE2ELifecycle("unload", lifecycleGeneration);
+    unload();
+  }, { once: true }));
 }
 
 async function fetchResource(url: URL, signal: AbortSignal): Promise<Uint8Array> {
