@@ -1,0 +1,32 @@
+{
+  "schema": "mmt-tinymist-artifact-decision.v1",
+  "artifacts": {
+    "nativeDigest": "a05c45590986ec48d9dd50ef41c1e38cf233f3a313319ef47dabbef5067e0038",
+    "webDigest": "d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454",
+    "backendVersion": "0.15.2"
+  },
+  "decision": "retain-pinned-artifacts",
+  "reason": "The qualified baseline is sufficient for identity and runtime-coordination work; unqualified providers and missing callbacks remain disabled.",
+  "blockedUntilMaintainedPatchAndTranscripts": {
+    "p0Providers": [
+      "definitionProvider",
+      "documentFormattingProvider",
+      "documentLinkProvider",
+      "documentRangeFormattingProvider",
+      "documentSymbolProvider",
+      "referencesProvider",
+      "renameProvider"
+    ],
+    "packageCallback": true,
+    "versionedPreviewLocation": true
+  },
+  "fallbacks": {
+    "packageResolution": "disabled",
+    "previewLocation": "immutable-location-map"
+  },
+  "wave0Exit": {
+    "baselineProvidersMayProceed": true,
+    "blockedCapabilitiesMayProceed": false,
+    "patchRequired": true
+  }
+}

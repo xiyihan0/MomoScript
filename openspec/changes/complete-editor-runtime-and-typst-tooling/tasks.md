@@ -21,7 +21,8 @@
   - Evidence: `npm run test:project-lifecycle` compares both production clients against `src/test/fixtures/project-lifecycle-baseline.json` for full/delta materialization, duplicate/unknown/retired rejection, prime, close, latest-complete restart replay and old-generation request rejection.
 - [x] 0.13 Add current standalone and embedded baseline transcripts for diagnostics, completion, hover, signature help and semantic tokens
   - Evidence: `npm run test:typst-baseline` executes current middleware/diagnostic routes and compares normalized output with `src/test/fixtures/typst-language-baseline.json`; semantic-token ownership is checked as standalone Tinymist-direct and embedded MMT-native.
-- [ ] 0.14 Record the accepted Tinymist artifact upgrade/patch decision if a desired core provider、package callback or location contract is missing
+- [x] 0.14 Record the accepted Tinymist artifact upgrade/patch decision if a desired core provider、package callback or location contract is missing
+  - Evidence: `npm run test:artifact-decision` checks `tinymist-artifact-decision.json`: retain the pinned `0.15.2` artifacts for qualified baseline work, keep seven unqualified P0 providers and package resolution disabled until a maintained native/Web patch plus positive/negative transcripts exists, and use only retained `immutable-location-map` data while the versioned location contract is absent.
 
 ## 1. Snapshot identity and position domains
 
