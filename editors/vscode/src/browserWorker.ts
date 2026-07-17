@@ -12,7 +12,6 @@ type NotificationOutcome = {
   error?: { code: number; message: string };
 };
 type PackUpdateOutcome = { revision: number; updated: boolean; events?: ServerEvent[] };
-type DocumentUpdateOutcome = { project?: unknown | null; events?: ServerEvent[] };
 
 async function start(wasmUri: string): Promise<void> {
   await init({ module_or_path: new URL(wasmUri) });
@@ -64,13 +63,6 @@ async function start(wasmUri: string): Promise<void> {
   connection.onRequest("mmt/getDocumentConfig", (params) =>
     request("mmt/getDocumentConfig", params)
   );
-  connection.onRequest("mmt/updateDocument", (params) => {
-    const outcome = request<DocumentUpdateOutcome>("mmt/updateDocument", params);
-    for (const event of outcome.events ?? []) {
-      if (event.method !== "mmt/typstProjectUpdated") connection.sendNotification(event.method, event.params);
-    }
-    return outcome.project ?? null;
-  });
   connection.onDocumentSymbol((params) => request("textDocument/documentSymbol", params));
   connection.onFoldingRanges((params) => request("textDocument/foldingRange", params));
   connection.languages.semanticTokens.on((params) =>

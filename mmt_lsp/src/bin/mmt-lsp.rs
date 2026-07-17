@@ -28,22 +28,7 @@ fn main() -> Result<(), Box<dyn std::error::Error + Sync + Send>> {
                                 serde_json::from_value::<Vec<ServerEvent>>(value).ok()
                             })
                             .unwrap_or_default();
-                        let events = if request.method == "mmt/updateDocument" {
-                            events
-                                .into_iter()
-                                .filter(|event| event.method != "mmt/typstProjectUpdated")
-                                .collect()
-                        } else {
-                            events
-                        };
-                        let response_result = if request.method == "mmt/updateDocument" {
-                            result
-                                .get("project")
-                                .cloned()
-                                .unwrap_or(serde_json::Value::Null)
-                        } else {
-                            result
-                        };
+                        let response_result = result;
                         (Response::new_ok(request.id, response_result), events)
                     }
                     Err(error) => (

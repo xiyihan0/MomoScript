@@ -8,6 +8,7 @@ export interface MmtLanguageClientHandle {
   client: LanguageClientWrapper;
   worker: Worker;
   dispose(): Promise<void>;
+  terminate(): void;
 }
 
 export async function startMmtLanguageClient(
@@ -34,6 +35,9 @@ export async function startMmtLanguageClient(
     return {
       client,
       worker,
+      terminate() {
+        worker.terminate();
+      },
       async dispose() {
         await client.dispose(false);
         worker.terminate();

@@ -67,6 +67,19 @@ export interface TypstProjectUpdate {
   full: boolean;
 }
 
+export interface TypstRenderDiagnosticLabel {
+  range: TypstResourceRange;
+  message?: string;
+}
+
+export interface TypstRenderDiagnostic {
+  severity: "info" | "warning" | "error";
+  phase: "syntax" | "semantic" | "resolve" | "materialize" | "typst";
+  message: string;
+  range?: TypstResourceRange;
+  labels: TypstRenderDiagnosticLabel[];
+}
+
 export interface TypstRenderProjectUpdate {
   sourceUri: string;
   /** LSP version of the authored MMT document. */
@@ -77,6 +90,7 @@ export interface TypstRenderProjectUpdate {
   files: TypstVirtualFile[];
   full: true;
   resources: TypstResourceRequest[];
+  diagnostics: TypstRenderDiagnostic[];
 }
 
 export function isTypstTextFile(file: TypstVirtualFile): file is Extract<TypstVirtualFile, { text: string }> {
@@ -103,6 +117,7 @@ export interface TinymistHostBackend {
   closeProject(sourceUri: string, entryUri: string): boolean;
   projectForEntry(entryUri: string): TypstProjectUpdate | undefined;
   stop(): Promise<void>;
+  terminate(): void;
 }
 
 export function diagnosticVersionMatchesProjection(
@@ -727,6 +742,15 @@ export class TinymistWorkerClient implements TinymistHostBackend {
     this.dispatch("tinymist/virtualFileClosed", { uri });
   }
 
+  terminate(): void {
+    this.stopped = true;
+    this.ready = false;
+    this.worker?.terminate();
+    this.worker = undefined;
+    this.failPending(new Error("Tinymist Worker terminated"));
+    this.clearCloseFallbacks();
+    this.clearProjectPrimes();
+  }
   async stop(): Promise<void> {
     this.stopped = true;
     try {

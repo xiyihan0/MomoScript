@@ -211,13 +211,26 @@ try {
       "textDocument/publishDiagnostics",
       (message) => message.params.uri === packSensitiveUri && message.params.version === 2
     );
-    const requestedProject = await request("mmt/updateDocument", {
+    const requestedProjectNotification = waitForNotification(
+      "mmt/typstProjectUpdated",
+      (message) => message.params.sourceUri === packSensitiveUri && message.params.sourceVersion === 2
+    );
+    notify("textDocument/didChange", {
       textDocument: { uri: packSensitiveUri, version: 2 },
       contentChanges: [{ text: "> 柚子: updated" }]
     });
+    const requestedProject = (await requestedProjectNotification).params;
     await requestedDiagnosticsNotification;
-    if (requestedProject.sourceVersion !== 2 || requestedProject.entryUri === afterPackProject.params.entryUri) {
-      throw new Error("mmt/updateDocument did not unwrap its new project while forwarding diagnostics");
+    if (requestedProject.entryUri === afterPackProject.params.entryUri) {
+      throw new Error("standard didChange did not publish its new project");
+    }
+    notify("textDocument/didChange", {
+      textDocument: { uri: packSensitiveUri, version: 2 },
+      contentChanges: [{ text: "> 柚子: stale duplicate" }]
+    });
+    const afterDuplicate = await request("mmt/getTypstProject", { uri: packSensitiveUri });
+    if (afterDuplicate.sourceVersion !== 2 || afterDuplicate.revision !== requestedProject.revision) {
+      throw new Error("same-version didChange rebuilt the current snapshot");
     }
     const presetUri = "file:///workspace/preset.mmt";
     notify("textDocument/didOpen", {

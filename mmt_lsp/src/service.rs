@@ -14,8 +14,9 @@ use mmt_rs::syntax::{
     DirectiveItemSyntax, SpeakerMarkerSyntax, StatementKind, SyntaxDocument, SyntaxNode,
 };
 use mmt_rs::{
-    DocumentTimezone, ResolvedResourceKind, SpeakerIdentity, StaticPresetCatalog, lower_actors,
-    lower_assets, lower_resource_markers, resolve_body_modes, resolve_resources,
+    DocumentTimezone, EmitOptions, ResolvedResourceKind, SpeakerIdentity, StaticPresetCatalog,
+    diagnose_text, diagnose_text_with_pack, lower_actors, lower_assets, lower_resource_markers,
+    resolve_body_modes, resolve_resources,
 };
 
 use crate::position::LineIndex;
@@ -163,16 +164,17 @@ impl LanguageService {
         let Some(document) = self.snapshot(uri) else {
             return Vec::new();
         };
-        let actors = if let Some(registry) = &self.pack_registry {
-            lower_actors(&document.syntax, registry)
+        let diagnostics = if let Some(registry) = &self.pack_registry {
+            diagnose_text_with_pack(&document.text, registry, &EmitOptions::default())
         } else {
-            lower_actors(&document.syntax, &StaticPresetCatalog::default())
+            diagnose_text(
+                &document.text,
+                &StaticPresetCatalog::default(),
+                &EmitOptions::default(),
+            )
         };
-        document
-            .syntax
-            .diagnostics
+        diagnostics
             .iter()
-            .chain(actors.diagnostics.iter())
             .filter_map(|diagnostic| self.diagnostic(uri, document, diagnostic))
             .collect()
     }
@@ -1826,6 +1828,69 @@ mod tests {
         assert!(service.diagnostics(&uri()).is_empty());
         assert!(service.change(uri(), 1, "- stale".to_string()).is_none());
         assert_eq!(service.snapshot(&uri()).unwrap().version, 2);
+    }
+
+    #[test]
+    fn publishes_resource_lowering_diagnostics_without_pack_manifests() {
+        let mut service = LanguageService::default();
+        service.open(uri(), 1, "- [:happy:]".to_string());
+
+        let diagnostics = service.diagnostics(&uri());
+
+        let diagnostic = diagnostics
+            .iter()
+            .find(|diagnostic| {
+                diagnostic.data == Some(serde_json::json!({ "phase": "semantic" }))
+                    && diagnostic.message
+                        == "bare sticker selector requires an explicit actor speaker or subject"
+            })
+            .expect("resource-lowering diagnostic");
+        assert_eq!(diagnostic.range.start, Position::new(0, 4));
+        assert_eq!(diagnostic.range.end, Position::new(0, 9));
+    }
+
+    #[test]
+    fn publishes_complete_live_diagnostic_pipeline_without_duplicates() {
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{"花子":{"names":["花子"]}}
+        }"#;
+        let mut service = LanguageService::default();
+        service.update_pack_manifests(1, &[manifest.to_string()]).unwrap();
+        service.open(
+            uri(),
+            1,
+            "@mode: nonsense\n@actor broken\nunknown: x\n@end\n@asset bad\nsrc: ../bad.png\n@end\n- [:#0:]\n@actor hanako\npreset: ba::花子\n@end\n> hanako: [:missing:]\n@typ: #let =\n@end".to_string(),
+        );
+        let diagnostics = service.diagnostics(&uri());
+        let has_phase = |phase: &str| diagnostics.iter().any(|diagnostic| {
+            diagnostic.data.as_ref().and_then(|data| data.get("phase")).and_then(|value| value.as_str()) == Some(phase)
+        });
+        assert!(has_phase("syntax"), "syntax diagnostics must be published: {diagnostics:#?}");
+        assert!(has_phase("semantic"), "semantic diagnostics must be published: {diagnostics:#?}");
+        assert!(has_phase("resolve"), "pack resolve/planning diagnostics must be published: {diagnostics:#?}");
+        assert!(has_phase("typst"), "placeholder Typst-check diagnostics must be published: {diagnostics:#?}");
+        for expected in [
+            "unknown body mode",
+            "unknown @actor field",
+            "local asset src must be a sanitized basename",
+            "bare sticker selector requires an explicit actor speaker or subject",
+        ] {
+            assert!(diagnostics.iter().any(|diagnostic| diagnostic.message.contains(expected)), "missing {expected:?} diagnostic: {diagnostics:#?}");
+        }
+        let unique = diagnostics
+            .iter()
+            .map(|diagnostic| (
+                diagnostic.range.start.line,
+                diagnostic.range.start.character,
+                diagnostic.range.end.line,
+                diagnostic.range.end.character,
+                diagnostic.message.as_str(),
+                diagnostic.data.as_ref().and_then(|data| data.get("phase")).and_then(|phase| phase.as_str()),
+            ))
+            .collect::<std::collections::HashSet<_>>();
+        assert_eq!(unique.len(), diagnostics.len(), "live diagnostics must not be duplicated");
     }
 
     #[test]

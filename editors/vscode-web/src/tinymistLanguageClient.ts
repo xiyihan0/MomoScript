@@ -14,6 +14,7 @@ export interface TinymistHandle {
   installMiddleware(options: LanguageClientOptions, getClient: () => BaseLanguageClient): void;
   connect(client: BaseLanguageClient): void;
   dispose(): Promise<void>;
+  terminate(): void;
 }
 
 export async function startTinymistLanguageClient(
@@ -63,6 +64,9 @@ export async function startTinymistLanguageClient(
     },
     connect(client) {
       disposables.push(...connectTypstBackend(client, backend));
+    },
+    terminate() {
+      backend.terminate();
     },
     async dispose() {
       for (const disposable of disposables.splice(0)) disposable.dispose();

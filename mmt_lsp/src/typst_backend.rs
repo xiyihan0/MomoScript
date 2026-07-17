@@ -122,6 +122,25 @@ pub enum TypstResourceRequest {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct TypstRenderDiagnosticLabel {
+    pub range: Range,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TypstRenderDiagnostic {
+    pub severity: String,
+    pub phase: String,
+    pub message: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub range: Option<Range>,
+    pub labels: Vec<TypstRenderDiagnosticLabel>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct TypstProjectUpdate {
     pub source_uri: Url,
     /// LSP version of the authored MMT document.
@@ -145,6 +164,7 @@ pub struct TypstRenderProjectUpdate {
     pub files: Vec<TypstVirtualFile>,
     pub full: bool,
     pub resources: Vec<TypstResourceRequest>,
+    pub diagnostics: Vec<TypstRenderDiagnostic>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -370,6 +390,50 @@ impl ProjectionDocument {
     }
 }
 
+fn render_diagnostics(
+    source: &str,
+    source_lines: &LineIndex,
+    diagnostics: &[mmt_rs::diag::Diagnostic],
+) -> Vec<TypstRenderDiagnostic> {
+    diagnostics
+        .iter()
+        .map(|diagnostic| TypstRenderDiagnostic {
+            severity: match diagnostic.severity {
+                mmt_rs::diag::Severity::Error => "error",
+                mmt_rs::diag::Severity::Warning => "warning",
+                mmt_rs::diag::Severity::Info => "info",
+            }
+            .to_string(),
+            phase: match diagnostic.phase {
+                mmt_rs::diag::DiagnosticPhase::Syntax => "syntax",
+                mmt_rs::diag::DiagnosticPhase::Semantic => "semantic",
+                mmt_rs::diag::DiagnosticPhase::Resolve => "resolve",
+                mmt_rs::diag::DiagnosticPhase::Materialize => "materialize",
+                mmt_rs::diag::DiagnosticPhase::Typst => "typst",
+            }
+            .to_string(),
+            message: diagnostic.message.clone(),
+            range: diagnostic.range.and_then(|range| {
+                source_lines.range(source, range, &PositionEncodingKind::UTF16)
+            }),
+            labels: diagnostic
+                .labels
+                .iter()
+                .filter_map(|label| {
+                    Some(TypstRenderDiagnosticLabel {
+                        range: source_lines.range(
+                            source,
+                            label.range,
+                            &PositionEncodingKind::UTF16,
+                        )?,
+                        message: label.message.clone(),
+                    })
+                })
+                .collect(),
+        })
+        .collect()
+}
+
 pub fn build_render_project(
     source_uri: Url,
     source_version: i32,
@@ -470,6 +534,7 @@ pub fn build_render_project(
             }
         })
         .collect();
+    let diagnostics = render_diagnostics(source, &source_lines, &projection.diagnostics);
     Ok(TypstRenderProjectUpdate {
         source_uri,
         source_version,
@@ -478,6 +543,7 @@ pub fn build_render_project(
         full: true,
         files,
         resources,
+        diagnostics,
     })
 }
 
@@ -868,6 +934,45 @@ mod tests {
             &source[mapped.start..mapped.end],
             "width: mmt.missing-style-token"
         );
+    }
+
+    #[test]
+    fn render_project_binds_planning_diagnostics_to_source_revision() {
+        let manifest = mmt_rs::pack::PackManifest::from_json(r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"Test","version":"1","type":"base"},
+            "entities":{"花子":{"names":["花子"]}}
+        }"#).unwrap();
+        let packs = mmt_rs::pack::PackRegistry::new(vec![manifest]).unwrap();
+        let source = "@asset hero\nsrc: first.png\n@end\n@asset hero\nsrc: second.png\n@end\n> 花子: [:missing:]";
+        let render = build_render_project(
+            uri(),
+            37,
+            91,
+            virtual_entry_uri(&uri(), "render-diagnostics", 91),
+            source,
+            &packs,
+            None,
+        )
+        .unwrap();
+
+        assert_eq!(render.source_version, 37);
+        assert_eq!(render.revision, 91);
+        let duplicate = render
+            .diagnostics
+            .iter()
+            .find(|diagnostic| diagnostic.message.contains("duplicate asset name"))
+            .expect("asset planning diagnostic");
+        assert_eq!(duplicate.phase, "semantic");
+        assert!(duplicate.range.is_some());
+        assert_eq!(duplicate.labels.len(), 1);
+        assert_eq!(duplicate.labels[0].message.as_deref(), Some("first declaration is here"));
+        let unresolved = render
+            .diagnostics
+            .iter()
+            .find(|diagnostic| diagnostic.phase == "resolve")
+            .expect("pack resolve diagnostic");
+        assert!(unresolved.range.is_some());
     }
 
     #[test]

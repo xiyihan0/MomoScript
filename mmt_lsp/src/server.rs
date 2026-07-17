@@ -311,23 +311,6 @@ impl MmtLanguageServer {
                         .collect::<Vec<_>>(),
                 )
             }
-            "mmt/updateDocument" => {
-                let params: DidChangeTextDocumentParams = decode(params)?;
-                let uri = params.text_document.uri.clone();
-                let include_template = !self.published_project_entries.contains_key(&uri);
-                let events = self.notification(
-                    "textDocument/didChange",
-                    serde_json::to_value(params).expect("didChange params are serializable"),
-                )?;
-                let project = self.projections.get(&uri).map(|document| {
-                    if include_template {
-                        document.project_update()
-                    } else {
-                        document.project_delta()
-                    }
-                });
-                encode(serde_json::json!({ "project": project, "events": events }))
-            }
             "mmt/getTypstProject" => {
                 let params: GetTypstProjectParams = decode(params)?;
                 let Some(document) = self.projections.get(&params.uri) else {
@@ -960,32 +943,23 @@ mod tests {
                 .iter()
                 .any(|file| file.get("dataBase64").is_some())
         );
-        let delta = server
-            .request(
-                "mmt/updateDocument",
+        let events = server
+            .notification(
+                "textDocument/didChange",
                 serde_json::json!({
                     "textDocument": {"uri": uri.clone(), "version": 8},
                     "contentChanges": [{"text": "@typ: #let x = 2"}]
                 }),
             )
             .unwrap();
-        assert_eq!(delta["project"]["full"], false);
-        assert_eq!(delta["project"]["files"].as_array().unwrap().len(), 1);
-        assert_eq!(
-            delta["project"]["files"][0]["uri"],
-            delta["project"]["entryUri"]
-        );
-        let events = delta["events"].as_array().unwrap();
-        assert!(
-            events
-                .iter()
-                .any(|event| event["method"] == "textDocument/publishDiagnostics")
-        );
-        assert!(
-            events
-                .iter()
-                .any(|event| event["method"] == "mmt/typstProjectUpdated")
-        );
+        let delta = events
+            .iter()
+            .find(|event| event.method == "mmt/typstProjectUpdated")
+            .expect("standard didChange project update");
+        assert_eq!(delta.params["full"], false);
+        assert_eq!(delta.params["files"].as_array().unwrap().len(), 1);
+        assert_eq!(delta.params["files"][0]["uri"], delta.params["entryUri"]);
+        assert!(events.iter().any(|event| event.method == "textDocument/publishDiagnostics"));
 
         let missing = server
             .request(
@@ -1070,7 +1044,7 @@ mod tests {
     }
 
     #[test]
-    fn atomic_update_returns_full_bundle_before_project_fetch() {
+    fn standard_did_change_returns_full_bundle_before_project_fetch() {
         let mut server = MmtLanguageServer::default();
         server.request("initialize", initialize(false)).unwrap();
         let uri = lsp_types::Url::parse("file:///workspace/atomic.mmt").unwrap();
@@ -1079,28 +1053,25 @@ mod tests {
             .open(uri.clone(), 1, "@typ: #let x = 1".to_string());
         server.refresh_projection(&uri);
 
-        let project = server
-            .request(
-                "mmt/updateDocument",
+        let events = server
+            .notification(
+                "textDocument/didChange",
                 serde_json::json!({
                     "textDocument": {"uri": uri, "version": 2},
                     "contentChanges": [{"text": "@typ: #let x = 2"}]
                 }),
             )
             .unwrap();
-        assert_eq!(project["project"]["full"], true);
-        assert!(
-            project["project"]["files"]
-                .as_array()
-                .unwrap()
-                .iter()
-                .any(|file| file.get("dataBase64").is_some())
-        );
-        assert!(
-            project["events"]
-                .as_array()
-                .is_some_and(|events| !events.is_empty())
-        );
+        let project = events
+            .iter()
+            .find(|event| event.method == "mmt/typstProjectUpdated")
+            .expect("standard didChange project update");
+        assert_eq!(project.params["full"], true);
+        assert!(project.params["files"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|file| file.get("dataBase64").is_some()));
     }
 
     #[test]

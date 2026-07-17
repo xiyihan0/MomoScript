@@ -2,6 +2,7 @@ pub mod analysis;
 pub mod diag;
 pub mod emit;
 pub mod inline;
+pub mod identity;
 pub mod materialize;
 pub mod pack;
 pub mod parser;
@@ -21,6 +22,12 @@ pub use analysis::{
 pub use emit::{
     BuiltinPresentation, EmitOptions, EmittedTypst, MaterializedContent, SourceMapEntry, emit_typst,
 };
+pub use identity::{
+    CanonicalIdentityError, LogicalProjectFileId, LogicalSourceId, MaterializationKey,
+    ProjectDigestInput, ProjectionKey, RenderKey, RuntimeArtifactKey, SourceContentKey,
+    SourceStaleToken, TypstProjectSnapshotKey, canonical_relative_path, derived_key,
+    project_snapshot_key, runtime_artifact_key, source_content_key,
+};
 pub use materialize::{
     Materialization, MaterializeError, MaterializedImage, ResourceMaterializer,
     materialize_resources,
@@ -31,7 +38,7 @@ pub use project::{ProjectMaterializer, ProjectMaterializerOptions, export_templa
 pub use projection::{
     MappingMode, PROJECTION_PLACEHOLDER_IMAGE, ProjectedResource, ProjectedResourceSource,
     ProjectionEdit, ProjectionError, ProjectionIndex, ProjectionKind, ProjectionSegment,
-    TypstProjection, project_text, project_text_with_pack,
+    TypstProjection, diagnose_text, diagnose_text_with_pack, project_text, project_text_with_pack,
 };
 pub use resolve::{
     PackStorageSource, ResolvedResource, ResolvedResourceKind, ResourceFailure, ResourceResolution,

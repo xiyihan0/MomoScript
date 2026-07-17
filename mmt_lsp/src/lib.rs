@@ -7,7 +7,8 @@ pub use server::{MmtLanguageServer, NotificationOutcome, ServerError, ServerEven
 pub use service::{DocumentSnapshot, LanguageService};
 pub use typst_backend::{
     ProjectedPosition, ProjectionDocument, ProjectionStore, TypstProjectUpdate,
-    TypstRenderProjectUpdate, TypstResourceRequest, TypstVirtualFile, build_render_project,
+    TypstRenderDiagnostic, TypstRenderDiagnosticLabel, TypstRenderProjectUpdate,
+    TypstResourceRequest, TypstVirtualFile, build_render_project,
 };
 
 #[cfg(target_arch = "wasm32")]

@@ -11,9 +11,9 @@ import {
   type IStat,
   type IWatchOptions
 } from "@codingame/monaco-vscode-files-service-override";
+import { IndexedDbWorkspaceBackend, type WorkspaceRevision } from "./indexedDbWorkspace";
+import { WorkspaceCoordinator, normalizeWorkspacePath as normalize } from "./workspace";
 
-const DATABASE = "momoscript-workspace-v1";
-const STORE = "files";
 
 interface StoredEntry {
   path: string;
@@ -28,10 +28,19 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
   readonly onDidChangeFile = this.#changes.event;
   readonly #entries = new Map<string, StoredEntry>();
 
-  private constructor(private readonly database: IDBDatabase) {}
+  private constructor(
+    private readonly backend: IndexedDbWorkspaceBackend,
+    readonly coordinator: WorkspaceCoordinator
+  ) {}
 
   static async open(): Promise<MmtIndexedDbFileSystemProvider> {
-    const provider = new MmtIndexedDbFileSystemProvider(await openDatabase());
+    const backend = await IndexedDbWorkspaceBackend.open();
+    const coordinator = new WorkspaceCoordinator(backend);
+    await coordinator.acquireWriter();
+    if (coordinator.state.lease !== "readonly") {
+      await coordinator.mutate("migration", () => backend.resumeV1BaselineMigration());
+    }
+    const provider = new MmtIndexedDbFileSystemProvider(backend, coordinator);
     await provider.load();
     return provider;
   }
@@ -60,9 +69,11 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
     if (this.#entries.has(path)) throw vscode.FileSystemError.FileExists(uri);
     this.requireDirectory(parentPath(path));
     const entry = makeEntry(path, vscode.FileType.Directory);
-    await this.persist(entry);
-    this.#entries.set(path, entry);
-    this.#changes.fire([{ type: vscode.FileChangeType.Created, uri }]);
+    await this.coordinator.mutate("create", async () => {
+      await this.backend.commitMutation("create", new Map(), new Map([[path, entry]]));
+      this.#entries.set(path, entry);
+      this.#changes.fire([{ type: vscode.FileChangeType.Created, uri }]);
+    });
   }
 
   readFile(uri: Uri): Uint8Array {
@@ -90,9 +101,15 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
       mtime: now,
       data: content.slice()
     };
-    await this.persist(entry);
-    this.#entries.set(path, entry);
-    this.#changes.fire([{ type: previous ? vscode.FileChangeType.Changed : vscode.FileChangeType.Created, uri }]);
+    await this.coordinator.mutate(previous ? "edit" : "create", async () => {
+      await this.backend.commitMutation(
+        previous ? "edit" : "create",
+        previous ? new Map([[path, previous]]) : new Map(),
+        new Map([[path, entry]])
+      );
+      this.#entries.set(path, entry);
+      this.#changes.fire([{ type: previous ? vscode.FileChangeType.Changed : vscode.FileChangeType.Created, uri }]);
+    });
   }
 
   async delete(uri: Uri, options: { readonly recursive: boolean }): Promise<void> {
@@ -100,9 +117,15 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
     this.require(path);
     const descendants = this.subtree(path);
     if (!options.recursive && descendants.length > 1) throw vscode.FileSystemError.NoPermissions("Directory is not empty");
-    await runTransaction(this.database, (store) => descendants.forEach((entry) => store.delete(entry.path)));
-    descendants.forEach((entry) => this.#entries.delete(entry.path));
-    this.#changes.fire([{ type: vscode.FileChangeType.Deleted, uri }]);
+    await this.coordinator.mutate("delete", async () => {
+      await this.backend.commitMutation(
+        "delete",
+        new Map(descendants.map((entry) => [entry.path, entry])),
+        new Map()
+      );
+      descendants.forEach((entry) => this.#entries.delete(entry.path));
+      this.#changes.fire([{ type: vscode.FileChangeType.Deleted, uri }]);
+    });
   }
 
   async rename(
@@ -125,36 +148,98 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
       mtime: Date.now(),
       data: entry.data.slice()
     }));
-    await runTransaction(this.database, (store) => {
-      targetEntries.forEach((entry) => store.delete(entry.path));
-      sourceEntries.forEach((entry) => store.delete(entry.path));
-      moved.forEach((entry) => store.put(entry));
+    await this.coordinator.mutate("rename", async () => {
+      await this.backend.commitMutation(
+        "rename",
+        new Map([...targetEntries, ...sourceEntries].map((entry) => [entry.path, entry])),
+        new Map(moved.map((entry) => [entry.path, entry]))
+      );
+      targetEntries.forEach((entry) => this.#entries.delete(entry.path));
+      sourceEntries.forEach((entry) => this.#entries.delete(entry.path));
+      moved.forEach((entry) => this.#entries.set(entry.path, entry));
+      this.#changes.fire([
+        { type: vscode.FileChangeType.Deleted, uri: oldUri },
+        { type: vscode.FileChangeType.Created, uri: newUri }
+      ]);
     });
-    targetEntries.forEach((entry) => this.#entries.delete(entry.path));
-    sourceEntries.forEach((entry) => this.#entries.delete(entry.path));
-    moved.forEach((entry) => this.#entries.set(entry.path, entry));
-    this.#changes.fire([
-      { type: vscode.FileChangeType.Deleted, uri: oldUri },
-      { type: vscode.FileChangeType.Created, uri: newUri }
-    ]);
+  }
+
+  workspaceStatus(): { workspaceId: string; generation: number; backend: string; lease: string } {
+    const { metadata, lease } = this.coordinator.state;
+    return { workspaceId: metadata.workspaceId, generation: metadata.generation, backend: metadata.kind, lease };
+  }
+
+  revisions(limit = 100): Promise<readonly WorkspaceRevision[]> {
+    return this.backend.revisions(limit);
+  }
+
+  historyBytes(): Promise<number> {
+    return this.backend.historyBytes();
+  }
+
+  async createCheckpoint(name: string): Promise<string> {
+    const checkpoint = name.trim();
+    if (!checkpoint) throw new Error("Checkpoint name is required");
+    let revision = "";
+    await this.coordinator.mutate("checkpoint", async () => {
+      revision = await this.backend.commitMutation("checkpoint", new Map(), new Map(), checkpoint);
+    });
+    return revision;
+  }
+
+  async restore(revision: string): Promise<void> {
+    const restored = await this.backend.restoreRevision(revision);
+    const desired = new Map(restored);
+    if (!desired.has("/")) desired.set("/", this.#entries.get("/") ?? makeEntry("/", vscode.FileType.Directory));
+    const before = new Map(this.#entries);
+    await this.coordinator.mutate("restore", async () => {
+      await this.backend.commitMutation(
+        "checkpoint",
+        new Map(),
+        new Map(),
+        `Before restore ${revision.slice(0, 8)}`
+      );
+      await this.backend.commitMutation("restore", before, desired);
+      this.#entries.clear();
+      for (const [path, entry] of desired) {
+        this.#entries.set(path, { ...entry, type: entry.type as vscode.FileType, data: new Uint8Array(entry.data) });
+      }
+      if (!this.#entries.has("/")) this.#entries.set("/", makeEntry("/", vscode.FileType.Directory));
+      this.#changes.fire([{ type: vscode.FileChangeType.Changed, uri: vscode.Uri.parse("mmtfs://workspace/") }]);
+    });
+  }
+
+  takeOverWriter(): Promise<string> {
+    return this.coordinator.acquireWriter(true);
+  }
+
+  exportEntries(): readonly StoredEntry[] {
+    return [...this.#entries.values()].map((entry) => ({ ...entry, data: entry.data.slice() }));
   }
 
   dispose(): void {
     this.#changes.dispose();
-    this.database.close();
+    this.coordinator.dispose();
   }
 
   private async load(): Promise<void> {
-    const entries = await readAll(this.database);
-    entries.forEach((entry) => this.#entries.set(entry.path, { ...entry, data: new Uint8Array(entry.data) }));
-    if (!this.#entries.has("/")) await this.persistAndRemember(makeEntry("/", vscode.FileType.Directory));
+    const entries = await this.backend.load();
+    entries.forEach((entry) => this.#entries.set(entry.path, { ...entry, type: entry.type as vscode.FileType, data: new Uint8Array(entry.data) }));
+    if (!this.#entries.has("/")) {
+      const root = makeEntry("/", vscode.FileType.Directory);
+      if (this.coordinator.state.lease === "readonly") this.#entries.set("/", root);
+      else await this.coordinator.mutate("migration", () => this.persistAndRemember(root));
+    }
     const legacyWorkspace = this.#entries.get("/workspace");
     if (
-      legacyWorkspace?.type === vscode.FileType.Directory
+      this.coordinator.state.lease !== "readonly"
+      && legacyWorkspace?.type === vscode.FileType.Directory
       && this.subtree("/workspace").length === 1
     ) {
-      await runTransaction(this.database, (store) => store.delete("/workspace"));
-      this.#entries.delete("/workspace");
+      await this.coordinator.mutate("migration", async () => {
+        await this.backend.transact((store) => store.delete("/workspace"));
+        this.#entries.delete("/workspace");
+      });
     }
   }
 
@@ -175,14 +260,8 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
   }
 
   private async persistAndRemember(entry: StoredEntry): Promise<void> {
-    await this.persist(entry);
+    await this.backend.put(entry);
     this.#entries.set(entry.path, entry);
-  }
-
-  private persist(entry: StoredEntry): Promise<void> {
-    return runTransaction(this.database, (store) => {
-      store.put(entry);
-    });
   }
 }
 
@@ -248,10 +327,6 @@ export class MmtWorkbenchFileSystemProvider implements IFileSystemProviderWithFi
   }
 }
 
-function normalize(value: string): string {
-  const parts = value.split("/").filter(Boolean);
-  return parts.length === 0 ? "/" : `/${parts.join("/")}`;
-}
 
 function parentPath(value: string): string {
   const normalized = normalize(value);
@@ -264,30 +339,3 @@ function makeEntry(path: string, type: vscode.FileType): StoredEntry {
   return { path: normalize(path), type, ctime: now, mtime: now, data: new Uint8Array() };
 }
 
-function openDatabase(): Promise<IDBDatabase> {
-  const { promise, resolve, reject } = Promise.withResolvers<IDBDatabase>();
-  const request = indexedDB.open(DATABASE, 1);
-  request.onupgradeneeded = () => request.result.createObjectStore(STORE, { keyPath: "path" });
-  request.onsuccess = () => resolve(request.result);
-  request.onerror = () => reject(request.error);
-  request.onblocked = () => reject(new Error("IndexedDB upgrade is blocked"));
-  return promise;
-}
-
-function readAll(database: IDBDatabase): Promise<StoredEntry[]> {
-  const { promise, resolve, reject } = Promise.withResolvers<StoredEntry[]>();
-  const request = database.transaction(STORE).objectStore(STORE).getAll();
-  request.onsuccess = () => resolve(request.result as StoredEntry[]);
-  request.onerror = () => reject(request.error);
-  return promise;
-}
-
-function runTransaction(database: IDBDatabase, body: (store: IDBObjectStore) => void): Promise<void> {
-  const { promise, resolve, reject } = Promise.withResolvers<void>();
-  const transaction = database.transaction(STORE, "readwrite");
-  transaction.oncomplete = () => resolve();
-  transaction.onerror = () => reject(transaction.error);
-  transaction.onabort = () => reject(transaction.error ?? new Error("IndexedDB transaction aborted"));
-  body(transaction.objectStore(STORE));
-  return promise;
-}

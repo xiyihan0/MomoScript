@@ -21,6 +21,7 @@
     "test:resource-materializer": "node --experimental-strip-types ./scripts/test-resource-materializer.mjs",
     "test:resource-settings": "node --experimental-strip-types ./scripts/test-resource-settings.mjs",
     "test:language-projection": "node --experimental-strip-types ./scripts/test-language-projection.mjs",
+    "test:runtime-owner": "node --experimental-strip-types ./scripts/test-runtime-owner.mjs",
     "test:e2e:remote": "playwright test --project=remote"
   },
   "dependencies": {

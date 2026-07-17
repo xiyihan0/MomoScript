@@ -219,11 +219,19 @@ impl ProjectionIndex {
     }
 }
 
-pub fn project_text(
+pub fn diagnose_text(
     source: &str,
     catalog: &impl CharacterPresetCatalog,
     emit_options: &EmitOptions,
-) -> Result<TypstProjection, ProjectionError> {
+) -> Vec<Diagnostic> {
+    diagnose_and_emit(source, catalog, emit_options).1
+}
+
+fn diagnose_and_emit(
+    source: &str,
+    catalog: &impl CharacterPresetCatalog,
+    emit_options: &EmitOptions,
+) -> (EmittedTypst, Vec<Diagnostic>) {
     let document = crate::parse_text(source);
     let document_config = lower_document(&document);
     let modes = resolve_body_modes(&document);
@@ -267,7 +275,6 @@ pub fn project_text(
         })
         .collect::<Vec<_>>();
     emitted.diagnostics.extend(generated_diagnostics);
-    let index = ProjectionIndex::new(source, &emitted)?;
     let diagnostics = [
         document.diagnostics.as_slice(),
         document_config.diagnostics.as_slice(),
@@ -281,12 +288,31 @@ pub fn project_text(
     .flatten()
     .cloned()
     .collect();
+    (emitted, diagnostics)
+}
+
+pub fn project_text(
+    source: &str,
+    catalog: &impl CharacterPresetCatalog,
+    emit_options: &EmitOptions,
+) -> Result<TypstProjection, ProjectionError> {
+    let (emitted, diagnostics) = diagnose_and_emit(source, catalog, emit_options);
+    let index = ProjectionIndex::new(source, &emitted)?;
     Ok(TypstProjection {
         emitted,
         index,
         diagnostics,
         resources: Vec::new(),
     })
+}
+
+pub fn diagnose_text_with_pack(
+    source: &str,
+    packs: &PackRegistry,
+    emit_options: &EmitOptions,
+) -> Vec<Diagnostic> {
+    let mut materializer = ProjectionMaterializer::default();
+    crate::compile_text(source, packs, &mut materializer, emit_options).diagnostics
 }
 
 pub fn project_text_with_pack(
