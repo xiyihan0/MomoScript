@@ -33,12 +33,17 @@ pub use materialize::{
     materialize_resources,
 };
 pub use parser::{parse_document, parse_text};
-pub use pipeline::{Compilation, CompilationFailure, compile_text, compile_text_strict};
+pub use pipeline::{
+    AnalyzedDocument, Compilation, CompilationFailure, analyze_text, analyze_text_with_pack,
+    compile_text, compile_text_strict,
+};
 pub use project::{ProjectMaterializer, ProjectMaterializerOptions, export_template_library};
 pub use projection::{
     MappingMode, PROJECTION_PLACEHOLDER_IMAGE, ProjectedResource, ProjectedResourceSource,
     ProjectionEdit, ProjectionError, ProjectionIndex, ProjectionKind, ProjectionSegment,
-    TypstProjection, diagnose_text, diagnose_text_with_pack, project_text, project_text_with_pack,
+    TypstProjection, diagnose_analyzed, diagnose_analyzed_with_pack, diagnose_text,
+    diagnose_text_with_pack, project_analyzed, project_analyzed_with_pack, project_text,
+    project_text_with_pack,
 };
 pub use resolve::{
     PackStorageSource, ResolvedResource, ResolvedResourceKind, ResourceFailure, ResourceResolution,

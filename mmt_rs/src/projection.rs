@@ -9,10 +9,8 @@ use crate::emit::{
 use crate::materialize::{MaterializeError, MaterializedImage, ResourceMaterializer};
 use crate::pack::PackRegistry;
 use crate::resolve::{ResolvedResource, ResolvedResourceKind};
-use crate::semantic::{
-    CharacterPresetCatalog, lower_actors, lower_assets, lower_document, lower_resource_markers,
-    resolve_body_modes,
-};
+use crate::pipeline::AnalyzedDocument;
+use crate::semantic::CharacterPresetCatalog;
 use crate::source::TextRange;
 use crate::typst_check::check_typst_source;
 
@@ -77,6 +75,11 @@ pub enum ProjectionError {
     },
     UnsafeEdit {
         range: TextRange,
+    },
+    MissingResourceAnalysis,
+    StalePackAnalysis {
+        analyzed_revision: Option<u64>,
+        requested_revision: u64,
     },
 }
 
@@ -224,28 +227,28 @@ pub fn diagnose_text(
     catalog: &impl CharacterPresetCatalog,
     emit_options: &EmitOptions,
 ) -> Vec<Diagnostic> {
-    diagnose_and_emit(source, catalog, emit_options).1
+    let analysis = crate::pipeline::analyze_text(source, catalog);
+    diagnose_analyzed(&analysis, emit_options)
+}
+
+pub fn diagnose_analyzed(
+    analysis: &AnalyzedDocument,
+    emit_options: &EmitOptions,
+) -> Vec<Diagnostic> {
+    diagnose_and_emit(analysis, emit_options).1
 }
 
 fn diagnose_and_emit(
-    source: &str,
-    catalog: &impl CharacterPresetCatalog,
+    analysis: &AnalyzedDocument,
     emit_options: &EmitOptions,
 ) -> (EmittedTypst, Vec<Diagnostic>) {
-    let document = crate::parse_text(source);
-    let document_config = lower_document(&document);
-    let modes = resolve_body_modes(&document);
-    let actors = lower_actors(&document, catalog);
-    let assets = lower_assets(&document);
-    let resources = lower_resource_markers(&document, &modes, &actors);
-
     let mut placeholders = MaterializedContent::default();
-    for marker in &resources.markers {
+    for marker in &analysis.resource_markers.markers {
         placeholders
             .inline_images
             .insert(marker.range, PROJECTION_PLACEHOLDER_IMAGE.to_string());
     }
-    for actor in &actors.actors {
+    for actor in &analysis.actors.actors {
         for revision in &actor.revisions {
             if revision.state.avatar.is_some() {
                 placeholders.actor_avatars.insert(
@@ -257,10 +260,10 @@ fn diagnose_and_emit(
     }
 
     let mut emitted = emit_typst(
-        &document,
-        &document_config.config,
-        &modes,
-        &actors,
+        &analysis.document,
+        &analysis.document_config.config,
+        &analysis.modes,
+        &analysis.actors,
         &placeholders,
         emit_options,
     );
@@ -275,13 +278,18 @@ fn diagnose_and_emit(
         })
         .collect::<Vec<_>>();
     emitted.diagnostics.extend(generated_diagnostics);
+    let resolution_diagnostics = analysis
+        .resolution
+        .as_ref()
+        .map_or(&[][..], |resolution| resolution.diagnostics.as_slice());
     let diagnostics = [
-        document.diagnostics.as_slice(),
-        document_config.diagnostics.as_slice(),
-        modes.diagnostics.as_slice(),
-        actors.diagnostics.as_slice(),
-        assets.diagnostics.as_slice(),
-        resources.diagnostics.as_slice(),
+        analysis.document.diagnostics.as_slice(),
+        analysis.document_config.diagnostics.as_slice(),
+        analysis.modes.diagnostics.as_slice(),
+        analysis.actors.diagnostics.as_slice(),
+        analysis.assets.diagnostics.as_slice(),
+        analysis.resource_markers.diagnostics.as_slice(),
+        resolution_diagnostics,
         emitted.diagnostics.as_slice(),
     ]
     .into_iter()
@@ -296,7 +304,16 @@ pub fn project_text(
     catalog: &impl CharacterPresetCatalog,
     emit_options: &EmitOptions,
 ) -> Result<TypstProjection, ProjectionError> {
-    let (emitted, diagnostics) = diagnose_and_emit(source, catalog, emit_options);
+    let analysis = crate::pipeline::analyze_text(source, catalog);
+    project_analyzed(source, &analysis, emit_options)
+}
+
+pub fn project_analyzed(
+    source: &str,
+    analysis: &AnalyzedDocument,
+    emit_options: &EmitOptions,
+) -> Result<TypstProjection, ProjectionError> {
+    let (emitted, diagnostics) = diagnose_and_emit(analysis, emit_options);
     let index = ProjectionIndex::new(source, &emitted)?;
     Ok(TypstProjection {
         emitted,
@@ -311,8 +328,19 @@ pub fn diagnose_text_with_pack(
     packs: &PackRegistry,
     emit_options: &EmitOptions,
 ) -> Vec<Diagnostic> {
+    let analysis = crate::pipeline::analyze_text_with_pack(source, packs);
+    diagnose_analyzed_with_pack(&analysis, emit_options)
+        .expect("pack analysis always contains resource resolution")
+}
+
+pub fn diagnose_analyzed_with_pack(
+    analysis: &AnalyzedDocument,
+    emit_options: &EmitOptions,
+) -> Result<Vec<Diagnostic>, ProjectionError> {
     let mut materializer = ProjectionMaterializer::default();
-    crate::compile_text(source, packs, &mut materializer, emit_options).diagnostics
+    let compilation = crate::pipeline::compile_analyzed(analysis, &mut materializer, emit_options)
+        .ok_or(ProjectionError::MissingResourceAnalysis)?;
+    Ok(compilation.diagnostics)
 }
 
 pub fn project_text_with_pack(
@@ -320,8 +348,18 @@ pub fn project_text_with_pack(
     packs: &PackRegistry,
     emit_options: &EmitOptions,
 ) -> Result<TypstProjection, ProjectionError> {
+    let analysis = crate::pipeline::analyze_text_with_pack(source, packs);
+    project_analyzed_with_pack(source, &analysis, emit_options)
+}
+
+pub fn project_analyzed_with_pack(
+    source: &str,
+    analysis: &AnalyzedDocument,
+    emit_options: &EmitOptions,
+) -> Result<TypstProjection, ProjectionError> {
     let mut materializer = ProjectionMaterializer::default();
-    let compilation = crate::compile_text(source, packs, &mut materializer, emit_options);
+    let compilation = crate::pipeline::compile_analyzed(analysis, &mut materializer, emit_options)
+        .ok_or(ProjectionError::MissingResourceAnalysis)?;
     let index = ProjectionIndex::new(source, &compilation.typst)?;
     Ok(TypstProjection {
         emitted: compilation.typst,

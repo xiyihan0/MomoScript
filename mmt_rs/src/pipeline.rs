@@ -6,12 +6,105 @@ use crate::materialize::{Materialization, ResourceMaterializer, materialize_reso
 use crate::pack::PackRegistry;
 use crate::resolve::{ResourceResolution, resolve_actor_avatars, resolve_resources};
 use crate::semantic::{
-    ActorLowering, AssetLowering, BodyModeResolution, DocumentLowering, ResourceLowering,
-    lower_actors, lower_assets, lower_document, lower_resource_markers, resolve_body_modes,
+    ActorLowering, AssetLowering, BodyModeResolution, CharacterPresetCatalog, DocumentLowering,
+    ResourceLowering, lower_actors, lower_assets, lower_document, lower_resource_markers,
+    resolve_body_modes,
 };
 use crate::source::TextRange;
 use crate::syntax::SyntaxDocument;
 use crate::typst_check::check_typst_source;
+
+#[derive(Debug, Clone)]
+pub struct AnalyzedDocument {
+    pub document: SyntaxDocument,
+    pub document_config: DocumentLowering,
+    pub modes: BodyModeResolution,
+    pub actors: ActorLowering,
+    pub assets: AssetLowering,
+    pub resource_markers: ResourceLowering,
+    pub resolution: Option<ResourceResolution>,
+}
+
+pub fn analyze_text(
+    source: &str,
+    catalog: &impl CharacterPresetCatalog,
+) -> AnalyzedDocument {
+    let document = crate::parse_text(source);
+    let document_config = lower_document(&document);
+    let modes = resolve_body_modes(&document);
+    let actors = lower_actors(&document, catalog);
+    let assets = lower_assets(&document);
+    let resource_markers = lower_resource_markers(&document, &modes, &actors);
+    AnalyzedDocument {
+        document,
+        document_config,
+        modes,
+        actors,
+        assets,
+        resource_markers,
+        resolution: None,
+    }
+}
+
+pub fn analyze_text_with_pack(source: &str, packs: &PackRegistry) -> AnalyzedDocument {
+    let mut analysis = analyze_text(source, packs);
+    let mut resolution = resolve_resources(
+        &analysis.resource_markers,
+        &analysis.actors,
+        &analysis.assets,
+        packs,
+    );
+    let avatars = resolve_actor_avatars(&analysis.actors, &analysis.assets, packs);
+    resolution.resources.extend(avatars.resources);
+    resolution.failures.extend(avatars.failures);
+    resolution.diagnostics.extend(avatars.diagnostics);
+    analysis.resolution = Some(resolution);
+    analysis
+}
+
+pub(crate) struct AnalyzedCompilation {
+    pub materialization: Materialization,
+    pub typst: EmittedTypst,
+    pub diagnostics: Vec<Diagnostic>,
+}
+
+pub(crate) fn compile_analyzed(
+    analysis: &AnalyzedDocument,
+    materializer: &mut impl ResourceMaterializer,
+    emit_options: &EmitOptions,
+) -> Option<AnalyzedCompilation> {
+    let resolution = analysis.resolution.as_ref()?;
+    let materialization = materialize_resources(resolution, materializer);
+    let mut typst = emit_typst(
+        &analysis.document,
+        &analysis.document_config.config,
+        &analysis.modes,
+        &analysis.actors,
+        &materialization.content,
+        emit_options,
+    );
+    validate_generated_typst(&mut typst);
+    let diagnostics = [
+        analysis.document.diagnostics.as_slice(),
+        analysis.document_config.diagnostics.as_slice(),
+        analysis.modes.diagnostics.as_slice(),
+        analysis.actors.diagnostics.as_slice(),
+        analysis.assets.diagnostics.as_slice(),
+        analysis.resource_markers.diagnostics.as_slice(),
+        resolution.diagnostics.as_slice(),
+        materialization.diagnostics.as_slice(),
+        typst.diagnostics.as_slice(),
+    ]
+    .into_iter()
+    .flatten()
+    .cloned()
+    .collect();
+    Some(AnalyzedCompilation {
+        materialization,
+        typst,
+        diagnostics,
+    })
+}
 
 #[derive(Debug, Clone)]
 pub struct Compilation {
@@ -38,45 +131,10 @@ pub fn compile_text(
     materializer: &mut impl ResourceMaterializer,
     emit_options: &EmitOptions,
 ) -> Compilation {
-    let document = crate::parse_text(source);
-    let document_config = lower_document(&document);
-    let modes = resolve_body_modes(&document);
-    let actors = lower_actors(&document, packs);
-    let assets = lower_assets(&document);
-    let resource_markers = lower_resource_markers(&document, &modes, &actors);
-    let mut resolution = resolve_resources(&resource_markers, &actors, &assets, packs);
-    let avatars = resolve_actor_avatars(&actors, &assets, packs);
-    resolution.resources.extend(avatars.resources);
-    resolution.failures.extend(avatars.failures);
-    resolution.diagnostics.extend(avatars.diagnostics);
-    let materialization = materialize_resources(&resolution, materializer);
-    let mut typst = emit_typst(
-        &document,
-        &document_config.config,
-        &modes,
-        &actors,
-        &materialization.content,
-        emit_options,
-    );
-    validate_generated_typst(&mut typst);
-
-    let diagnostics = [
-        document.diagnostics.as_slice(),
-        document_config.diagnostics.as_slice(),
-        modes.diagnostics.as_slice(),
-        actors.diagnostics.as_slice(),
-        assets.diagnostics.as_slice(),
-        resource_markers.diagnostics.as_slice(),
-        resolution.diagnostics.as_slice(),
-        materialization.diagnostics.as_slice(),
-        typst.diagnostics.as_slice(),
-    ]
-    .into_iter()
-    .flatten()
-    .cloned()
-    .collect();
-
-    Compilation {
+    let analysis = analyze_text_with_pack(source, packs);
+    let compiled = compile_analyzed(&analysis, materializer, emit_options)
+        .expect("pack analysis always contains resource resolution");
+    let AnalyzedDocument {
         document,
         document_config,
         modes,
@@ -84,9 +142,18 @@ pub fn compile_text(
         assets,
         resource_markers,
         resolution,
-        materialization,
-        typst,
-        diagnostics,
+    } = analysis;
+    Compilation {
+        document,
+        document_config,
+        modes,
+        actors,
+        assets,
+        resource_markers,
+        resolution: resolution.expect("pack analysis always contains resource resolution"),
+        materialization: compiled.materialization,
+        typst: compiled.typst,
+        diagnostics: compiled.diagnostics,
     }
 }
 
@@ -96,56 +163,45 @@ pub fn compile_text_strict(
     materializer: &mut impl ResourceMaterializer,
     emit_options: &EmitOptions,
 ) -> Result<Compilation, CompilationFailure> {
-    let document = crate::parse_text(source);
-    fail_if_errors(document.diagnostics.clone())?;
-    let document_config = lower_document(&document);
-
-    let modes = resolve_body_modes(&document);
-    let actors = lower_actors(&document, packs);
-    let assets = lower_assets(&document);
-    let resource_markers = lower_resource_markers(&document, &modes, &actors);
+    let analysis = analyze_text_with_pack(source, packs);
+    fail_if_errors(analysis.document.diagnostics.clone())?;
     fail_if_errors(
         [
-            document_config.diagnostics.as_slice(),
-            modes.diagnostics.as_slice(),
-            actors.diagnostics.as_slice(),
-            assets.diagnostics.as_slice(),
-            resource_markers.diagnostics.as_slice(),
+            analysis.document_config.diagnostics.as_slice(),
+            analysis.modes.diagnostics.as_slice(),
+            analysis.actors.diagnostics.as_slice(),
+            analysis.assets.diagnostics.as_slice(),
+            analysis.resource_markers.diagnostics.as_slice(),
         ]
         .into_iter()
         .flatten()
         .cloned()
         .collect(),
     )?;
-
-    let mut resolution = resolve_resources(&resource_markers, &actors, &assets, packs);
-    let avatars = resolve_actor_avatars(&actors, &assets, packs);
-    resolution.resources.extend(avatars.resources);
-    resolution.failures.extend(avatars.failures);
-    resolution.diagnostics.extend(avatars.diagnostics);
+    let resolution = analysis
+        .resolution
+        .as_ref()
+        .expect("pack analysis always contains resource resolution");
     fail_if_errors(resolution.diagnostics.clone())?;
-
-    let materialization = materialize_resources(&resolution, materializer);
+    let materialization = materialize_resources(resolution, materializer);
     fail_if_errors(materialization.diagnostics.clone())?;
-
     let mut typst = emit_typst(
-        &document,
-        &document_config.config,
-        &modes,
-        &actors,
+        &analysis.document,
+        &analysis.document_config.config,
+        &analysis.modes,
+        &analysis.actors,
         &materialization.content,
         emit_options,
     );
     validate_generated_typst(&mut typst);
     fail_if_errors(typst.diagnostics.clone())?;
-
     let diagnostics = [
-        document.diagnostics.as_slice(),
-        document_config.diagnostics.as_slice(),
-        modes.diagnostics.as_slice(),
-        actors.diagnostics.as_slice(),
-        assets.diagnostics.as_slice(),
-        resource_markers.diagnostics.as_slice(),
+        analysis.document.diagnostics.as_slice(),
+        analysis.document_config.diagnostics.as_slice(),
+        analysis.modes.diagnostics.as_slice(),
+        analysis.actors.diagnostics.as_slice(),
+        analysis.assets.diagnostics.as_slice(),
+        analysis.resource_markers.diagnostics.as_slice(),
         resolution.diagnostics.as_slice(),
         materialization.diagnostics.as_slice(),
         typst.diagnostics.as_slice(),
@@ -154,8 +210,7 @@ pub fn compile_text_strict(
     .flatten()
     .cloned()
     .collect();
-
-    Ok(Compilation {
+    let AnalyzedDocument {
         document,
         document_config,
         modes,
@@ -163,6 +218,15 @@ pub fn compile_text_strict(
         assets,
         resource_markers,
         resolution,
+    } = analysis;
+    Ok(Compilation {
+        document,
+        document_config,
+        modes,
+        actors,
+        assets,
+        resource_markers,
+        resolution: resolution.expect("pack analysis always contains resource resolution"),
         materialization,
         typst,
         diagnostics,

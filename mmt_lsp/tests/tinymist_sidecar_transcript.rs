@@ -2,7 +2,7 @@ use std::io::{BufRead, BufReader, Read, Write};
 use std::process::{ChildStdin, ChildStdout, Command, Stdio};
 
 use lsp_types::{Hover, PositionEncodingKind, Url};
-use mmt_lsp::ProjectionStore;
+use mmt_lsp::{LanguageService, ProjectionStore};
 use mmt_rs::{EmitOptions, StaticPresetCatalog, project_text};
 use serde_json::{Value, json};
 
@@ -181,15 +181,12 @@ fn fixed_tinymist_sidecar_handles_a_virtual_document_transcript() {
     let hover_result: Hover = serde_json::from_value(hover["result"].clone()).unwrap();
     if let Some(range) = hover_result.range {
         let mut store = ProjectionStore::default();
+        let mut service = LanguageService::default();
         let source_uri = Url::parse("file:///workspace/sidecar.mmt").unwrap();
-        let document = store
-            .upsert(
-                source_uri,
-                1,
-                mmt_source.to_string(),
-                &mmt_rs::StaticPresetCatalog::default(),
-            )
-            .unwrap();
+        let snapshot = service
+            .open(source_uri.clone(), 1, mmt_source.to_string())
+            .clone();
+        let document = store.upsert(source_uri, &snapshot).unwrap();
         assert!(
             document
                 .typst_range_to_mmt(range, &PositionEncodingKind::UTF16)

@@ -13,7 +13,7 @@ use lsp_types::{
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::{LanguageService, ProjectionStore, build_render_project, position::LineIndex};
+use crate::{LanguageService, ProjectionStore, build_render_project};
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -329,7 +329,7 @@ impl MmtLanguageServer {
                 let Some(document) = self.service.snapshot(&params.uri) else {
                     return Ok(Value::Null);
                 };
-                document_config_response(&document.text, self.service.encoding())
+                document_config_response(document, self.service.encoding())
             }
             "mmt/getTypstRenderProject" => {
                 let params: GetTypstProjectParams = decode(params)?;
@@ -339,19 +339,18 @@ impl MmtLanguageServer {
                 let Some(projection) = self.projections.get(&params.uri) else {
                     return Ok(Value::Null);
                 };
-                let projection_revision = projection.revision;
-                let projection_entry_uri = projection.entry_uri.clone();
-                let Some(packs) = self.service.pack_registry() else {
+                if projection.source_revision != document.revision
+                    || projection.source_version != document.version
+                {
                     return Ok(Value::Null);
-                };
+                }
+                if self.service.pack_registry().is_none() {
+                    return Ok(Value::Null);
+                }
                 encode(
                     build_render_project(
-                        params.uri,
-                        document.version,
-                        projection_revision,
-                        projection_entry_uri,
-                        &document.text,
-                        packs,
+                        projection,
+                        self.service.pack_revision(),
                         params
                             .timestamp
                             .map(|timestamp| {
@@ -654,18 +653,7 @@ impl MmtLanguageServer {
 
     fn refresh_projection(&mut self, uri: &lsp_types::Url) -> Option<ServerEvent> {
         let document = self.service.snapshot(uri)?;
-        let version = document.version;
-        let text = document.text.clone();
-        let result = if let Some(catalog) = self.service.pack_registry() {
-            self.projections.upsert(uri.clone(), version, text, catalog)
-        } else {
-            self.projections.upsert(
-                uri.clone(),
-                version,
-                text,
-                &mmt_rs::StaticPresetCatalog::default(),
-            )
-        };
+        let result = self.projections.upsert(uri.clone(), document);
         match result {
             Ok(_) => {
                 self.projection_errors.remove(uri);
@@ -686,10 +674,11 @@ impl MmtLanguageServer {
 }
 
 fn document_config_response(
-    source: &str,
+    document: &crate::DocumentSnapshot,
     encoding: &PositionEncodingKind,
 ) -> Result<Value, ServerError> {
-    let syntax = mmt_rs::parse_text(source);
+    let source = &document.text;
+    let syntax = &document.analysis.document;
     let blocks = syntax
         .nodes
         .iter()
@@ -715,14 +704,15 @@ fn document_config_response(
     let range = blocks
         .first()
         .map(|block| {
-            LineIndex::new(source)
+            document
+                .lines
                 .range(source, block.range, encoding)
                 .ok_or_else(|| {
                     ServerError::invalid_params("document configuration range is invalid")
                 })
         })
         .transpose()?;
-    let lowered = mmt_rs::lower_document(&syntax);
+    let lowered = &document.analysis.document_config;
     if let Some(diagnostic) = lowered
         .diagnostics
         .iter()
@@ -1378,17 +1368,26 @@ mod tests {
                       timezone: +08:00\n\
                       @end\n\
                       - hello";
-        let response = document_config_response(source, &PositionEncodingKind::UTF16).unwrap();
+        let mut service = LanguageService::default();
+        let document_uri = Url::parse("file:///workspace/config.mmt").unwrap();
+        let document = service
+            .open(document_uri.clone(), 1, source.to_string())
+            .clone();
+        let response = document_config_response(&document, &PositionEncodingKind::UTF16).unwrap();
         assert_eq!(response["title"], "Story");
         assert_eq!(response["compiledAt"]["mode"], "auto");
         assert_eq!(response["compiledAt"]["timezone"], "+08:00");
         assert_eq!(response["range"]["start"]["line"], 0);
         assert_eq!(response["range"]["end"]["line"], 4);
 
-        let error = document_config_response(
-            "@document\nunknown: value\n@end",
-            &PositionEncodingKind::UTF16,
-        )
+        let invalid = service
+            .open(
+                document_uri,
+                2,
+                "@document\nunknown: value\n@end".to_string(),
+            )
+            .clone();
+        let error = document_config_response(&invalid, &PositionEncodingKind::UTF16)
         .unwrap_err();
         assert!(error.message.contains("unknown @document field"));
     }

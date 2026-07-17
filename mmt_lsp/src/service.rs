@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, sync::Arc};
 
 use lsp_types::{
     CompletionItem, CompletionItemKind, CompletionTextEdit, Diagnostic,
@@ -14,9 +14,8 @@ use mmt_rs::syntax::{
     DirectiveItemSyntax, SpeakerMarkerSyntax, StatementKind, SyntaxDocument, SyntaxNode,
 };
 use mmt_rs::{
-    DocumentTimezone, EmitOptions, ResolvedResourceKind, SpeakerIdentity, StaticPresetCatalog,
-    diagnose_text, diagnose_text_with_pack, lower_actors, lower_assets, lower_resource_markers,
-    resolve_body_modes, resolve_resources,
+    AnalyzedDocument, DocumentTimezone, EmitOptions, ResolvedResourceKind, SpeakerIdentity,
+    StaticPresetCatalog, diagnose_analyzed, diagnose_analyzed_with_pack,
 };
 
 use crate::position::LineIndex;
@@ -26,20 +25,27 @@ pub struct DocumentSnapshot {
     pub version: i32,
     pub revision: u64,
     pub text: String,
-    pub syntax: SyntaxDocument,
-    pub lines: LineIndex,
+    pub analysis: Arc<AnalyzedDocument>,
+    pub lines: Arc<LineIndex>,
+    pub pack_revision: Option<u64>,
 }
 
 impl DocumentSnapshot {
-    fn new(version: i32, revision: u64, text: String) -> Self {
-        let syntax = mmt_rs::parse_text(&text);
-        let lines = LineIndex::new(&text);
+    fn new(
+        version: i32,
+        revision: u64,
+        text: String,
+        analysis: AnalyzedDocument,
+        pack_revision: Option<u64>,
+    ) -> Self {
+        let lines = Arc::new(LineIndex::new(&text));
         Self {
             version,
             revision,
             text,
-            syntax,
+            analysis: Arc::new(analysis),
             lines,
+            pack_revision,
         }
     }
 }
@@ -52,6 +58,8 @@ pub struct LanguageService {
     pack_revision: u64,
     pack_registry: Option<PackRegistry>,
     pack_base_urls: HashMap<String, Url>,
+    analysis_builds: u64,
+    authored_line_index_builds: u64,
 }
 
 impl Default for LanguageService {
@@ -63,6 +71,8 @@ impl Default for LanguageService {
             pack_revision: 0,
             pack_registry: None,
             pack_base_urls: HashMap::new(),
+            analysis_builds: 0,
+            authored_line_index_builds: 0,
         }
     }
 }
@@ -99,6 +109,11 @@ impl LanguageService {
                 .collect::<Vec<_>>()
                 .join("; ")
         })?;
+        for document in self.documents.values_mut() {
+            document.analysis = Arc::new(mmt_rs::analyze_text_with_pack(&document.text, &registry));
+            document.pack_revision = Some(revision);
+            self.analysis_builds += 1;
+        }
         self.pack_registry = Some(registry);
         self.pack_revision = revision;
         Ok(true)
@@ -147,8 +162,23 @@ impl LanguageService {
     fn upsert(&mut self, uri: Url, version: i32, text: String) -> &DocumentSnapshot {
         let revision = self.next_revision;
         self.next_revision += 1;
-        self.documents
-            .insert(uri.clone(), DocumentSnapshot::new(version, revision, text));
+        let (analysis, pack_revision) = if let Some(registry) = &self.pack_registry {
+            (
+                mmt_rs::analyze_text_with_pack(&text, registry),
+                Some(self.pack_revision),
+            )
+        } else {
+            (
+                mmt_rs::analyze_text(&text, &StaticPresetCatalog::default()),
+                None,
+            )
+        };
+        self.analysis_builds += 1;
+        self.authored_line_index_builds += 1;
+        self.documents.insert(
+            uri.clone(),
+            DocumentSnapshot::new(version, revision, text, analysis, pack_revision),
+        );
         &self.documents[&uri]
     }
 
@@ -164,19 +194,22 @@ impl LanguageService {
         let Some(document) = self.snapshot(uri) else {
             return Vec::new();
         };
-        let diagnostics = if let Some(registry) = &self.pack_registry {
-            diagnose_text_with_pack(&document.text, registry, &EmitOptions::default())
-        } else {
-            diagnose_text(
-                &document.text,
-                &StaticPresetCatalog::default(),
-                &EmitOptions::default(),
+        let diagnostics = if document.pack_revision.is_some() {
+            diagnose_analyzed_with_pack(&document.analysis, &EmitOptions::default()).expect(
+                "document with a pack revision must contain pack resource analysis",
             )
+        } else {
+            diagnose_analyzed(&document.analysis, &EmitOptions::default())
         };
         diagnostics
             .iter()
             .filter_map(|diagnostic| self.diagnostic(uri, document, diagnostic))
             .collect()
+    }
+
+    #[cfg(test)]
+    pub(crate) fn analysis_cache_counts(&self) -> (u64, u64) {
+        (self.analysis_builds, self.authored_line_index_builds)
     }
 
     fn diagnostic(
@@ -229,8 +262,7 @@ impl LanguageService {
         let Some(document) = self.snapshot(uri) else {
             return Vec::new();
         };
-        document
-            .syntax
+        document.analysis.document
             .nodes
             .iter()
             .filter_map(|node| self.symbol(document, node))
@@ -295,8 +327,7 @@ impl LanguageService {
         let Some(document) = self.snapshot(uri) else {
             return Vec::new();
         };
-        document
-            .syntax
+        document.analysis.document
             .nodes
             .iter()
             .filter_map(|node| self.folding_range(document, node))
@@ -305,7 +336,7 @@ impl LanguageService {
     pub fn semantic_tokens(&self, uri: &Url) -> Option<SemanticTokens> {
         let document = self.snapshot(uri)?;
         let mut ranges = Vec::<(TextRange, u32)>::new();
-        for node in &document.syntax.nodes {
+        for node in &document.analysis.document.nodes {
             match node {
                 SyntaxNode::DirectiveLine(directive) => ranges.push((directive.name_range, 0)),
                 SyntaxNode::DirectiveBlock(block) => {
@@ -348,13 +379,7 @@ impl LanguageService {
                 _ => {}
             }
         }
-        let modes = resolve_body_modes(&document.syntax);
-        let actors = if let Some(registry) = &self.pack_registry {
-            lower_actors(&document.syntax, registry)
-        } else {
-            lower_actors(&document.syntax, &StaticPresetCatalog::default())
-        };
-        for marker in lower_resource_markers(&document.syntax, &modes, &actors).markers {
+        for marker in &document.analysis.resource_markers.markers {
             let marker_end = marker
                 .render_patch
                 .as_ref()
@@ -413,7 +438,7 @@ impl LanguageService {
         let before_cursor = &document.text[line_start..offset];
         let trimmed = before_cursor.trim_start();
 
-        if let Some((contract, patch)) = facade_patch_at(&document.syntax, offset) {
+        if let Some((contract, patch)) = facade_patch_at(&document.analysis.document, offset) {
             let prefix = &document.text[patch.args_range.start..offset];
             let context = patch_context(prefix);
             if context.depth == 0 && !context.has_colon {
@@ -453,7 +478,7 @@ impl LanguageService {
         }
 
         let statement_start = line_start + before_cursor.len() - trimmed.len();
-        let statement_patch = document.syntax.nodes.iter().find_map(|node| match node {
+        let statement_patch = document.analysis.document.nodes.iter().find_map(|node| match node {
             SyntaxNode::Statement(statement) if statement.range.start == statement_start => {
                 statement.patch.as_ref().map(|patch| patch.range)
             }
@@ -540,7 +565,7 @@ impl LanguageService {
             }
         }
 
-        let Some(block) = document.syntax.nodes.iter().find_map(|node| match node {
+        let Some(block) = document.analysis.document.nodes.iter().find_map(|node| match node {
             SyntaxNode::DirectiveBlock(block)
                 if block.range.start <= offset && offset <= block.range.end =>
             {
@@ -649,7 +674,7 @@ impl LanguageService {
             .offset(&document.text, position, &self.encoding)?;
 
         if let Some((statement, marker, marker_range)) =
-            document.syntax.nodes.iter().find_map(|node| {
+            document.analysis.document.nodes.iter().find_map(|node| {
                 let SyntaxNode::Statement(statement) = node else {
                     return None;
                 };
@@ -666,11 +691,7 @@ impl LanguageService {
                 ))
             })
         {
-            let actors = if let Some(registry) = &self.pack_registry {
-                lower_actors(&document.syntax, registry)
-            } else {
-                lower_actors(&document.syntax, &StaticPresetCatalog::default())
-            };
+            let actors = &document.analysis.actors;
             let speaker = actors
                 .speakers
                 .iter()
@@ -721,7 +742,7 @@ impl LanguageService {
         }
 
         if let Some((hover_range, value)) =
-            directive_hover_at(&document.syntax, &document.text, offset)
+            directive_hover_at(&document.analysis.document, &document.text, offset)
         {
             let range = document
                 .lines
@@ -735,12 +756,7 @@ impl LanguageService {
             });
         }
 
-        if let Some(registry) = &self.pack_registry {
-            let modes = resolve_body_modes(&document.syntax);
-            let actors = lower_actors(&document.syntax, registry);
-            let assets = lower_assets(&document.syntax);
-            let markers = lower_resource_markers(&document.syntax, &modes, &actors);
-            let resolution = resolve_resources(&markers, &actors, &assets, registry);
+        if let Some(resolution) = &document.analysis.resolution {
             if let Some(resource) = resolution
                 .resources
                 .iter()
@@ -762,7 +778,7 @@ impl LanguageService {
             }
         }
 
-        let (contract, marker_range) = facade_marker_at(&document.syntax, offset)?;
+        let (contract, marker_range) = facade_marker_at(&document.analysis.document, offset)?;
         let range = document
             .lines
             .range(&document.text, marker_range, &self.encoding)?;
@@ -823,7 +839,7 @@ impl LanguageService {
         let offset = document
             .lines
             .offset(&document.text, position, &self.encoding)?;
-        let (contract, patch) = facade_patch_at(&document.syntax, offset)?;
+        let (contract, patch) = facade_patch_at(&document.analysis.document, offset)?;
         let context = patch_context(&document.text[patch.args_range.start..offset]);
         if context.depth != 0 {
             return None;
@@ -870,11 +886,7 @@ impl LanguageService {
         document: &DocumentSnapshot,
         offset: usize,
     ) -> Option<String> {
-        let actors = if let Some(registry) = &self.pack_registry {
-            lower_actors(&document.syntax, registry)
-        } else {
-            lower_actors(&document.syntax, &StaticPresetCatalog::default())
-        };
+        let actors = &document.analysis.actors;
         let speaker = actors.speakers.iter().find(|speaker| {
             speaker.statement_range.start <= offset && offset <= speaker.statement_range.end
         })?;
@@ -889,11 +901,7 @@ impl LanguageService {
     }
 
     fn resource_actor_subject(&self, document: &DocumentSnapshot, name: &str) -> Option<String> {
-        let actors = if let Some(registry) = &self.pack_registry {
-            lower_actors(&document.syntax, registry)
-        } else {
-            lower_actors(&document.syntax, &StaticPresetCatalog::default())
-        };
+        let actors = &document.analysis.actors;
         actors
             .actors
             .iter()
@@ -916,7 +924,7 @@ impl LanguageService {
             return Vec::new();
         };
         let mut items = HashMap::<String, CompletionItem>::new();
-        for asset in lower_assets(&document.syntax).assets {
+        for asset in &document.analysis.assets.assets {
             let selector = match subject {
                 Some("asset") => asset.id.name.clone(),
                 None => format!("asset, {}", asset.id.name),
@@ -1204,13 +1212,9 @@ impl LanguageService {
             return Vec::new();
         };
         let mut items = HashMap::<String, CompletionItem>::new();
-        let actors = if let Some(registry) = &self.pack_registry {
-            lower_actors(&document.syntax, registry)
-        } else {
-            lower_actors(&document.syntax, &StaticPresetCatalog::default())
-        };
+        let actors = &document.analysis.actors;
 
-        let statement_kind = document.syntax.nodes.iter().find_map(|node| match node {
+        let statement_kind = document.analysis.document.nodes.iter().find_map(|node| match node {
             SyntaxNode::Statement(statement)
                 if statement.range.start <= start && start <= statement.range.end =>
             {
@@ -1226,7 +1230,7 @@ impl LanguageService {
                 .iter()
                 .filter(|speaker| speaker.statement_range.start < start)
                 .filter(|speaker| {
-                    document.syntax.nodes.iter().any(|node| matches!(
+                    document.analysis.document.nodes.iter().any(|node| matches!(
                         node,
                         SyntaxNode::Statement(statement)
                             if statement.range == speaker.statement_range && statement.kind == statement_kind
