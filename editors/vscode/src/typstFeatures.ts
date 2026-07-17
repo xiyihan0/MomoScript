@@ -23,9 +23,11 @@ import {
 } from "./typstProtocol";
 import {
   LineIndex,
+  PositionConversionError,
   mmtClientPosition,
   parseProjectedPosition,
   retainedBackendPosition,
+  validatePositionBearingPayload,
   wireBackendPosition,
   type RetainedBackendPosition
 } from "./typstPosition";
@@ -54,7 +56,27 @@ interface GuardedBackendPosition extends RetainedBackendPosition {
 const guardsByBackend = new WeakMap<TinymistHostBackend, TypstPublicationGuard>();
 
 class TypstPublicationGuard {
+  private readonly sourceIndexes = new Map<string, { version: number; index: LineIndex }>();
   readonly staleTokens = new SourceStaleTokenRegistry();
+
+  retainSource(document: vscode.TextDocument): void {
+    this.sourceIndexes.set(document.uri.toString(), {
+      version: document.version,
+      index: new LineIndex(document.getText())
+    });
+  }
+
+  releaseSource(uri: string): void {
+    this.sourceIndexes.delete(uri);
+  }
+
+  sourceIndex(identity: TypstRequestIdentity): LineIndex {
+    const retained = this.sourceIndexes.get(identity.staleToken.hostUri);
+    if (!retained || retained.version !== identity.staleToken.documentVersion) {
+      throw new PositionConversionError("StaleProjection");
+    }
+    return retained.index;
+  }
 
   constructor(private readonly backend: TinymistHostBackend) {}
 
@@ -98,6 +120,12 @@ function hasCanonicalProjectIdentity(
     && typeof project.projectionKey === "string";
 }
 
+
+function retainedProjectIndex(project: TypstProjectUpdate, uri: string): LineIndex {
+  const file = project.files.find((candidate) => candidate.uri === uri);
+  if (typeof file?.text !== "string") throw new PositionConversionError("AbsentGeneration");
+  return new LineIndex(file.text);
+}
 
 async function projectedBackendPosition(
   document: vscode.TextDocument,
@@ -155,14 +183,17 @@ export function installTypstMiddleware(
   guardsByBackend.set(backend, guard);
   options.middleware = {
     didOpen: async (document, next) => {
+      guard.retainSource(document);
       guard.staleTokens.open(document.uri.toString(), document.version);
       if (document.languageId !== "typst") await next(document);
     },
     didChange: async (event, next) => {
+      guard.retainSource(event.document);
       guard.staleTokens.advance(event.document.uri.toString(), event.document.version);
       if (event.document.languageId !== "typst") await next(event);
     },
     didClose: async (document, next) => {
+      guard.releaseSource(document.uri.toString());
       guard.staleTokens.close(document.uri.toString());
       if (document.languageId !== "typst") await next(document);
     },
@@ -175,14 +206,15 @@ export function installTypstMiddleware(
           document.version
         );
         if (!identity) return undefined;
+        const index = retainedProjectIndex(backend.projectForEntry(identity.entryUri)!, identity.entryUri);
         const result = await requestWithIdentity<ProtocolCompletionItem[] | ProtocolCompletionList | null>(backend, guard, identity, "textDocument/completion", {
           textDocument: { uri: document.uri.toString() },
           position: standaloneBackendPosition(document, position, activeClient),
           context: { triggerKind: completionContext.triggerKind, triggerCharacter: completionContext.triggerCharacter }
         }, token);
-        return result === undefined
-          ? undefined
-          : activeClient.protocol2CodeConverter.asCompletionResult(result, undefined, token);
+        if (result === undefined) return undefined;
+        validatePositionBearingPayload("completion", result, index, TINYMIST_POSITION_ENCODING);
+        return activeClient.protocol2CodeConverter.asCompletionResult(result, undefined, token);
       }
       const mmt = await next(document, position, completionContext, token);
       if (Array.isArray(mmt) ? mmt.length > 0 : Boolean(mmt?.items.length)) return mmt;
@@ -208,6 +240,7 @@ export function installTypstMiddleware(
           }
         }, token);
         if (result === undefined) return mmt;
+        validatePositionBearingPayload("completion", result, route.index, route.position.encoding);
         const items = Array.isArray(result) ? result : (result?.items ?? []);
         const mapped = await activeClient.sendRequest<ProtocolCompletionItem[] | null>(
           "mmt/mapTypstCompletion",
@@ -224,6 +257,14 @@ export function installTypstMiddleware(
           token
         );
         if (!guard.isCurrent(route.identity)) return mmt;
+        if (mapped) {
+          validatePositionBearingPayload(
+            "completion",
+            mapped,
+            guard.sourceIndex(route.identity),
+            "utf-16"
+          );
+        }
         return activeClient.protocol2CodeConverter.asCompletionResult(mapped, undefined, token);
       } catch (error) {
         console.error("embedded Typst completion failed", error);
@@ -239,11 +280,14 @@ export function installTypstMiddleware(
           document.version
         );
         if (!identity) return undefined;
+        const index = retainedProjectIndex(backend.projectForEntry(identity.entryUri)!, identity.entryUri);
         const hover = await requestWithIdentity<ProtocolHover | null>(backend, guard, identity, "textDocument/hover", {
           textDocument: { uri: document.uri.toString() },
           position: standaloneBackendPosition(document, position, activeClient)
         }, token);
-        return hover ? activeClient.protocol2CodeConverter.asHover(hover) : undefined;
+        if (!hover) return undefined;
+        validatePositionBearingPayload("hover", hover, index, TINYMIST_POSITION_ENCODING);
+        return activeClient.protocol2CodeConverter.asHover(hover);
       }
       const mmt = await next(document, position, token);
       if (mmt) return mmt;
@@ -262,6 +306,7 @@ export function installTypstMiddleware(
           textDocument: { uri: route.entryUri },
           position: wireBackendPosition(route.position)
         }, token);
+        validatePositionBearingPayload("hover", hover, route.index, route.position.encoding);
         if (!hover) return undefined;
         const mapped = await activeClient.sendRequest<ProtocolHover | null>(
           "mmt/mapTypstHover",
@@ -278,6 +323,9 @@ export function installTypstMiddleware(
           token
         );
         if (!guard.isCurrent(route.identity)) return mmt;
+        if (mapped) {
+          validatePositionBearingPayload("hover", mapped, guard.sourceIndex(route.identity), "utf-16");
+        }
         return activeClient.protocol2CodeConverter.asHover(mapped);
       } catch (error) {
         console.error("embedded Typst hover failed", error);
@@ -395,6 +443,13 @@ export function connectTypstBackend(
       const identity = guard.capture(project, project.sourceUri, project.sourceVersion);
       if (!identity) return;
       if (project.sourceUri === project.entryUri) {
+        const projectIndex = retainedProjectIndex(project, project.entryUri);
+        validatePositionBearingPayload(
+          "diagnostics",
+          params.diagnostics,
+          projectIndex,
+          TINYMIST_POSITION_ENCODING
+        );
         const converted = await client.protocol2CodeConverter.asDiagnostics(params.diagnostics);
         if (!guard.isCurrent(identity)) return;
         diagnostics.set(vscode.Uri.parse(project.sourceUri), converted);
@@ -414,6 +469,12 @@ export function connectTypstBackend(
         }
       );
       if (!mapped) return;
+      validatePositionBearingPayload(
+        "diagnostics",
+        mapped,
+        guard.sourceIndex(identity),
+        "utf-16"
+      );
       const converted = await client.protocol2CodeConverter.asDiagnostics(mapped);
       if (!guard.isCurrent(identity)) return;
       diagnostics.set(vscode.Uri.parse(project.sourceUri), converted);

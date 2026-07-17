@@ -289,6 +289,134 @@ export function retainedBackendPosition(
   };
 }
 
+export interface WireRange {
+  readonly start: WirePosition;
+  readonly end: WirePosition;
+}
+
+export type PositionBearingFamily = "completion" | "hover" | "diagnostics" | "semanticTokens" | "symbols";
+
+function requireObject(value: unknown): Record<string, unknown> {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new PositionConversionError("InvalidCharacter");
+  }
+  return value as Record<string, unknown>;
+}
+
+function validateBackendWirePosition(
+  value: unknown,
+  index: LineIndex,
+  encoding: PositionEncoding
+): void {
+  const candidate = requireObject(value);
+  index.backendToByte(tinymistBackendPosition({
+    line: checkedCoordinate(candidate.line),
+    character: checkedCoordinate(candidate.character)
+  }, encoding));
+}
+
+export function validateBackendWireRange(
+  value: unknown,
+  index: LineIndex,
+  encoding: PositionEncoding
+): void {
+  const candidate = requireObject(value);
+  validateBackendWirePosition(candidate.start, index, encoding);
+  validateBackendWirePosition(candidate.end, index, encoding);
+  const start = index.backendToByte(tinymistBackendPosition(requireObject(candidate.start) as unknown as WirePosition, encoding));
+  const end = index.backendToByte(tinymistBackendPosition(requireObject(candidate.end) as unknown as WirePosition, encoding));
+  if (start.value > end.value) throw new PositionConversionError("InvalidCharacter");
+}
+
+function validateCompletionItem(value: unknown, index: LineIndex, encoding: PositionEncoding): void {
+  const item = requireObject(value);
+  if (item.textEdit !== undefined) {
+    const edit = requireObject(item.textEdit);
+    if (edit.range !== undefined) validateBackendWireRange(edit.range, index, encoding);
+    if (edit.insert !== undefined) validateBackendWireRange(edit.insert, index, encoding);
+    if (edit.replace !== undefined) validateBackendWireRange(edit.replace, index, encoding);
+  }
+  if (item.additionalTextEdits !== undefined) {
+    if (!Array.isArray(item.additionalTextEdits)) throw new PositionConversionError("InvalidCharacter");
+    for (const editValue of item.additionalTextEdits) {
+      const edit = requireObject(editValue);
+      validateBackendWireRange(edit.range, index, encoding);
+    }
+  }
+}
+
+function validateSemanticTokens(value: unknown, index: LineIndex, encoding: PositionEncoding): void {
+  const response = requireObject(value);
+  if (!Array.isArray(response.data) || response.data.length % 5 !== 0) {
+    throw new PositionConversionError("InvalidCharacter");
+  }
+  let line = 0;
+  let character = 0;
+  for (let offset = 0; offset < response.data.length; offset += 5) {
+    const deltaLine = checkedCoordinate(response.data[offset]);
+    const deltaStart = checkedCoordinate(response.data[offset + 1]);
+    const length = checkedCoordinate(response.data[offset + 2]);
+    checkedCoordinate(response.data[offset + 3]);
+    checkedCoordinate(response.data[offset + 4]);
+    line += deltaLine;
+    character = deltaLine === 0 ? character + deltaStart : deltaStart;
+    validateBackendWirePosition({ line, character }, index, encoding);
+    validateBackendWirePosition({ line, character: character + length }, index, encoding);
+  }
+}
+
+/** Validates an entire response before any part of it can be published or mapped. */
+function validateSymbol(value: unknown, index: LineIndex, encoding: PositionEncoding): void {
+  const symbol = requireObject(value);
+  if (symbol.range !== undefined) validateBackendWireRange(symbol.range, index, encoding);
+  if (symbol.selectionRange !== undefined) {
+    validateBackendWireRange(symbol.selectionRange, index, encoding);
+  }
+  if (symbol.location !== undefined) {
+    validateBackendWireRange(requireObject(symbol.location).range, index, encoding);
+  }
+  if (symbol.children !== undefined) {
+    if (!Array.isArray(symbol.children)) throw new PositionConversionError("InvalidCharacter");
+    for (const child of symbol.children) validateSymbol(child, index, encoding);
+  }
+}
+
+export function validatePositionBearingPayload<T>(
+  family: PositionBearingFamily,
+  value: T,
+  index: LineIndex,
+  encoding: PositionEncoding
+): T {
+  if (value == null) return value;
+  if (family === "completion") {
+    const items = Array.isArray(value) ? value : requireObject(value).items;
+    if (!Array.isArray(items)) throw new PositionConversionError("InvalidCharacter");
+    for (const item of items) validateCompletionItem(item, index, encoding);
+  } else if (family === "hover") {
+    const hover = requireObject(value);
+    if (hover.range !== undefined) validateBackendWireRange(hover.range, index, encoding);
+  } else if (family === "diagnostics") {
+    if (!Array.isArray(value)) throw new PositionConversionError("InvalidCharacter");
+    for (const diagnosticValue of value) {
+      const diagnostic = requireObject(diagnosticValue);
+      validateBackendWireRange(diagnostic.range, index, encoding);
+      if (diagnostic.relatedInformation !== undefined) {
+        if (!Array.isArray(diagnostic.relatedInformation)) throw new PositionConversionError("InvalidCharacter");
+        for (const relatedValue of diagnostic.relatedInformation) {
+          const related = requireObject(relatedValue);
+          const location = requireObject(related.location);
+          validateBackendWireRange(location.range, index, encoding);
+        }
+      }
+    }
+  } else if (family === "symbols") {
+    if (!Array.isArray(value)) throw new PositionConversionError("InvalidCharacter");
+    for (const symbol of value) validateSymbol(symbol, index, encoding);
+  } else {
+    validateSemanticTokens(value, index, encoding);
+  }
+  return value;
+}
 export function wireBackendPosition(position: TinymistBackendPosition): WirePosition {
   return position.value;
 }

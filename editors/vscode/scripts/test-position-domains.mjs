@@ -27,6 +27,7 @@ const {
   mmtClientPosition,
   parseProjectedPosition,
   retainedBackendPosition,
+  validatePositionBearingPayload,
   wireBackendPosition
 } = positions;
 
@@ -94,5 +95,48 @@ expectFailure("StaleProjection", () => retainedBackendPosition(route, { ...gener
 expectFailure("ProjectionMismatch", () => retainedBackendPosition(route, { ...generation, entryUri: "untitled:/other.typ" }));
 expectFailure("AbsentGeneration", () => retainedBackendPosition(route, { ...generation, files: [] }));
 expectFailure("AmbiguousEncoding", () => parseProjectedPosition({ ...route, positionEncoding: "utf-32" }));
+
+const validRange = {
+  start: { line: 0, character: 0 },
+  end: { line: 0, character: 8 }
+};
+const splitSurrogateRange = {
+  start: { line: 0, character: 7 },
+  end: { line: 0, character: 8 }
+};
+const reversedRange = {
+  start: { line: 0, character: 8 },
+  end: { line: 0, character: 0 }
+};
+expectFailure("SplitUtf16Surrogate", () => validatePositionBearingPayload(
+  "completion",
+  [{ label: "unsafe", textEdit: { range: splitSurrogateRange, newText: "x" } }],
+  index,
+  "utf-16"
+));
+expectFailure("InvalidCharacter", () => validatePositionBearingPayload(
+  "hover",
+  { contents: "unsafe", range: reversedRange },
+  index,
+  "utf-16"
+));
+expectFailure("InvalidLine", () => validatePositionBearingPayload(
+  "diagnostics",
+  [{ message: "unsafe", range: { start: { line: 99, character: 0 }, end: { line: 99, character: 1 } } }],
+  index,
+  "utf-16"
+));
+expectFailure("SplitUtf16Surrogate", () => validatePositionBearingPayload(
+  "symbols",
+  [{ name: "unsafe", range: validRange, selectionRange: splitSurrogateRange }],
+  index,
+  "utf-16"
+));
+expectFailure("SplitUtf16Surrogate", () => validatePositionBearingPayload(
+  "semanticTokens",
+  { data: [0, 7, 1, 0, 0] },
+  index,
+  "utf-16"
+));
 
 console.log(JSON.stringify({ checked: true, boundaries: fixture.boundaries.length, families: fixture.families }));
