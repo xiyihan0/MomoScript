@@ -24,6 +24,7 @@
     "test:resource-settings": "node --experimental-strip-types ./scripts/test-resource-settings.mjs",
     "test:language-projection": "node --experimental-strip-types ./scripts/test-language-projection.mjs",
     "test:runtime-owner": "node --experimental-strip-types ./scripts/test-runtime-owner.mjs",
+    "test:runtime-controller": "node --experimental-strip-types ./scripts/test-runtime-controller.mjs",
     "test:pwa-quiesce": "node --experimental-strip-types ./scripts/test-pwa-quiesce.mjs",
     "test:origin-storage": "node --experimental-strip-types ./scripts/test-origin-storage-coordinator.mjs",
     "test:workspace-atomic-apply": "node --experimental-strip-types ./scripts/test-workspace-atomic-apply.mjs",

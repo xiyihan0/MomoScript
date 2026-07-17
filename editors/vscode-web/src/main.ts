@@ -34,12 +34,14 @@ import type { PackManifestSource } from "../../vscode/src/packSync";
 import { projectionSessionKey } from "../../vscode/src/tinymistClient";
 import { sanitizeSvg, TypstPreviewController, type TypstExportFormat } from "./preview";
 import { PreviewBuildState } from "./previewDiagnostics";
-import { RuntimeOwner, disposeWithFallback, ownEventListener, terminateOnUnload } from "./runtimeOwner";
+import { ownEventListener } from "./runtimeOwner";
+import { EditorRuntimeController } from "./runtimeController";
 import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
 import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest, TypstVirtualFile } from "../../vscode/src/tinymistClient";
 import {
   canonicalBytesDigest,
   logicalSourceId,
+  projectionKey as buildProjectionKey,
   projectSnapshotKey,
   sourceContentKey,
   type LogicalProjectFileId
@@ -231,7 +233,7 @@ let packCache: IndexedDbPackCache | undefined;
 let mmt: MmtLanguageClientHandle | undefined;
 let tinymist: TinymistHandle | undefined;
 
-let runtimeOwner: RuntimeOwner | undefined;
+let runtimeController: EditorRuntimeController | undefined;
 const hmrDisposal = Reflect.get(globalThis, "__mmtHmrDisposal");
 if (import.meta.hot && hmrDisposal instanceof Promise) {
   void hmrDisposal.then(
@@ -240,7 +242,6 @@ if (import.meta.hot && hmrDisposal instanceof Promise) {
   );
 } else {
   void start().catch((error: unknown) => {
-    void runtimeOwner?.dispose();
     document.documentElement.dataset.mmtStage = "failed";
     console.error("MomoScript editor failed to start", error);
     const root = document.querySelector<HTMLElement>("#workbench");
@@ -250,9 +251,17 @@ if (import.meta.hot && hmrDisposal instanceof Promise) {
 
 async function start(): Promise<void> {
   const lifecycleGeneration = beginE2ELifecycle();
-  runtimeOwner = new RuntimeOwner();
-  const owner = runtimeOwner;
-  const own = <T extends { dispose(): void | Promise<void> }>(resource: T): T => owner.add(resource);
+  const controller = new EditorRuntimeController({
+    captureAcceptedPreviewProjects: import.meta.env.VITE_MMT_E2E === "1"
+  });
+  runtimeController = controller;
+  await controller.start(() => initializeRuntime(controller, lifecycleGeneration));
+  recordE2ELifecycle("runtime-ready", lifecycleGeneration);
+}
+
+async function initializeRuntime(controller: EditorRuntimeController, lifecycleGeneration: number | undefined): Promise<void> {
+  const own = <T extends { dispose(): void | Promise<void> }>(resource: T): T => controller.own(resource);
+  const subscribe = <T extends { dispose(): void | Promise<void> }>(subscription: T): T => controller.subscribe(subscription);
   const root = document.querySelector<HTMLElement>("#workbench");
   if (!root) throw new Error("Missing #workbench container");
   let output: vscode.OutputChannel | undefined;
@@ -291,24 +300,24 @@ async function start(): Promise<void> {
       if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, svg, "", false, pageSize);
     }
   });
-  const previewProjects = new Map<string, TypstRenderProjectUpdate>();
-  const packSourcesByNamespace = new Map<string, MaterializationPackSource>();
-  const latestProjectBySource = new Map<string, { session: string; sourceVersion: number; revision: number }>();
-  const retiredProjectSessions = new Map<string, Set<string>>();
-  const materializationControllers = new Map<string, AbortController>();
-  const pendingMaterializations = new Set<Promise<void>>();
-  let acceptingRuntimeWork = true;
+  const {
+    previewProjects,
+    packSourcesByNamespace,
+    latestProjectBySource,
+    retiredProjectSessions,
+    materializationControllers,
+    pendingMaterializations,
+    latestLanguageProjectionBySource,
+    typstRevisions,
+    typstProjects,
+    acceptedPreviewLanguageProjects,
+    retiredLanguageProjectionSessions,
+    requestedRenderTokens,
+    renderRequestIdBySource,
+    persistenceByUri,
+  } = controller.stores;
   const materializedResourceCache = new BoundedStringCache(MATERIALIZED_RESOURCE_CACHE_MAX_BYTES);
-  const latestLanguageProjectionBySource = new Map<string, LanguageProjectionToken>();
-  const typstRevisions = new Map<string, number>();
-  const typstProjects = new Map<string, TypstProjectUpdate>();
-  const acceptedPreviewLanguageProjects = import.meta.env.VITE_MMT_E2E === "1"
-    ? new Map<string, TypstProjectUpdate>()
-    : undefined;
-  const retiredLanguageProjectionSessions = new Map<string, Set<string>>();
-  const requestedRenderTokens = new WeakSet<LanguageProjectionToken>();
   const previewClock = new RevisionPinnedPreviewClock();
-  const renderRequestIdBySource = new Map<string, number>();
   if (import.meta.env.VITE_MMT_E2E === "1") {
     Reflect.set(globalThis, "__mmtLatestProjectionRevision", () => {
       const sourceUri = vscode.window.activeTextEditor?.document.uri.toString();
@@ -333,15 +342,7 @@ async function start(): Promise<void> {
     if (project) void preview.update(project);
   };
   const closePreviewProject = (sourceUri: string) => {
-    materializationControllers.get(sourceUri)?.abort();
-    materializationControllers.delete(sourceUri);
-    latestProjectBySource.delete(sourceUri);
-    retiredProjectSessions.delete(sourceUri);
-    previewProjects.delete(sourceUri);
-    acceptedPreviewLanguageProjects?.delete(sourceUri);
-    latestLanguageProjectionBySource.delete(sourceUri);
-    retiredLanguageProjectionSessions.delete(sourceUri);
-    renderRequestIdBySource.delete(sourceUri);
+    controller.stores.closeSource(sourceUri);
     previewBuildState.clear(sourceUri);
     if (displayedPreviewSourceUri === sourceUri) previewPanel?.dispose();
   };
@@ -568,6 +569,7 @@ async function start(): Promise<void> {
     tinymist = await startTinymistLanguageClient((message) => log("wasm", message));
     const handle = tinymist;
     own({ dispose: () => handle.dispose() });
+    controller.registerTermination(() => handle.terminate());
     log("tinymist", "Tinymist Worker ready");
   } catch (error) {
     log("tinymist:error", error instanceof Error ? error.message : String(error));
@@ -600,10 +602,10 @@ async function start(): Promise<void> {
       return project ? { entryUri: project.entryUri, revision: project.revision, acceptedRevision: accepted?.revision ?? null } : null;
     });
   }
-  const typstDocumentOpenRegistration = own(vscode.workspace.onDidOpenTextDocument((document) => {
+  const typstDocumentOpenRegistration = subscribe(vscode.workspace.onDidOpenTextDocument((document) => {
     void recognizeAndSyncTypst(document).catch((error: unknown) => log("tinymist:error", error instanceof Error ? error.message : String(error)));
   }));
-  const typstEditorActivationRegistration = own(vscode.window.onDidChangeActiveTextEditor((editor) => {
+  const typstEditorActivationRegistration = subscribe(vscode.window.onDidChangeActiveTextEditor((editor) => {
     if (!editor) return;
     void recognizeAndSyncTypst(editor.document).catch((error: unknown) => log("tinymist:error", error instanceof Error ? error.message : String(error)));
   }));
@@ -622,8 +624,9 @@ async function start(): Promise<void> {
     activeClient = mmt.client.getLanguageClient();
     const handle = mmt;
     own({ dispose: () => handle.dispose() });
+    controller.registerTermination(() => handle.terminate());
     if (!activeClient) throw new Error("MMT language client did not start");
-    own(activeClient.onNotification("mmt/typstProjectUpdated", (project: TypstProjectUpdate) => {
+    subscribe(activeClient.onNotification("mmt/typstProjectUpdated", (project: TypstProjectUpdate) => {
       const tracked = trackLanguageProjection(project);
       if (!tracked) return;
       if (tracked.advanced) tinymist?.backend.syncProject(project);
@@ -631,7 +634,7 @@ async function start(): Promise<void> {
         log("preview:error", error instanceof Error ? error.message : String(error));
       });
     }));
-    own(activeClient.onNotification(
+    subscribe(activeClient.onNotification(
       "mmt/typstProjectClosed",
       (params: { sourceUri: string; entryUri: string }) => {
         if (latestLanguageProjectionBySource.get(params.sourceUri)?.entryUri !== params.entryUri) return;
@@ -648,7 +651,7 @@ async function start(): Promise<void> {
   } finally {
     tinymist?.activateSemanticTokens();
   }
-  const documentConfigCommandRegistration = own(vscode.commands.registerCommand("mmt.document.configure", async () => {
+  const documentConfigCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.document.configure", async () => {
     const document = vscode.window.activeTextEditor?.document;
     if (!document || document.languageId !== "mmt") {
       void vscode.window.showWarningMessage("请先打开一个 MomoScript 文档。");
@@ -663,7 +666,7 @@ async function start(): Promise<void> {
       void vscode.window.showErrorMessage(`文档设置失败：${detail}`);
     }
   }));
-  const previewCommandRegistration = own(vscode.commands.registerCommand("mmt.preview.open", async (resource?: vscode.Uri) => {
+  const previewCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.preview.open", async (resource?: vscode.Uri) => {
     const resourceDocument = resource
       ? vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === resource.toString())
       : undefined;
@@ -682,7 +685,7 @@ async function start(): Promise<void> {
         vscode.ViewColumn.Beside,
         { enableScripts: true, retainContextWhenHidden: true }
       ));
-      previewPanelDisposeRegistration = own(previewPanel.onDidDispose(() => {
+      previewPanelDisposeRegistration = subscribe(previewPanel.onDidDispose(() => {
         previewPanel = undefined;
         displayedPreviewSourceUri = undefined;
         previewPanelDisposeRegistration?.dispose();
@@ -692,7 +695,7 @@ async function start(): Promise<void> {
         void preview.close();
         log("preview", "Preview editor closed");
       }));
-      previewPanelMessageRegistration = own(previewPanel.webview.onDidReceiveMessage(async (message: unknown) => {
+      previewPanelMessageRegistration = subscribe(previewPanel.webview.onDidReceiveMessage(async (message: unknown) => {
         if (!isExportMessage(message)) return;
         const sourceName = displayedPreviewSourceUri ? new URL(displayedPreviewSourceUri).pathname.split("/").at(-1) : "document";
         const baseName = (sourceName ?? "document").replace(/\.(?:mmt(?:\.txt)?|typ)$/i, "") || "document";
@@ -792,7 +795,7 @@ async function start(): Promise<void> {
   } catch (error) {
     void vscode.window.showWarningMessage(`MomoScript resource packs are unavailable: ${error instanceof Error ? error.message : String(error)}`);
   }
-  const packConfigRegistration = own(vscode.workspace.onDidChangeConfiguration((event) => {
+  const packConfigRegistration = subscribe(vscode.workspace.onDidChangeConfiguration((event) => {
     if (!event.affectsConfiguration("mmt.resourcePacks.manifestUrls")) return;
     const values = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]);
     const input = root.querySelector<HTMLTextAreaElement>('textarea[aria-label="Resource pack manifest URLs"]');
@@ -801,7 +804,7 @@ async function start(): Promise<void> {
       void vscode.window.showWarningMessage(`MomoScript resource packs are unavailable: ${error instanceof Error ? error.message : String(error)}`);
     });
   }));
-  const previewConfigRegistration = own(vscode.workspace.onDidChangeConfiguration((event) => {
+  const previewConfigRegistration = subscribe(vscode.workspace.onDidChangeConfiguration((event) => {
     if (!event.affectsConfiguration("mmt.preview.onChange")) return;
     if (!previewOnChange()) return;
     const sourceUri = vscode.window.activeTextEditor?.document.uri.toString();
@@ -856,16 +859,15 @@ async function start(): Promise<void> {
     }));
   };
   modelService.getModels().forEach(bindMarkerEditing);
-  const markerModelRegistration = own(modelService.onModelAdded(bindMarkerEditing));
-  const markerEditingRegistration = own<vscode.Disposable>({
+  const markerModelRegistration = subscribe(modelService.onModelAdded(bindMarkerEditing));
+  const markerEditingRegistration = subscribe<vscode.Disposable>({
     dispose() {
       markerModelRegistration.dispose();
       markerModelRegistrations.splice(0).forEach((registration) => registration.dispose());
     }
   });
-  const persistenceByUri = new Map<string, Promise<void>>();
-  const documentPersistenceRegistration = own(vscode.workspace.onDidChangeTextDocument((event) => {
-    if (!acceptingRuntimeWork) return;
+  const documentPersistenceRegistration = subscribe(vscode.workspace.onDidChangeTextDocument((event) => {
+    if (!controller.acceptingWork) return;
     const document = event.document;
     if ((document.languageId !== "mmt" && document.languageId !== "typst")
       || document.uri.scheme !== "mmtfs" || document.uri.authority !== "workspace") return;
@@ -896,8 +898,8 @@ async function start(): Promise<void> {
   document.documentElement.dataset.mmtStage = "mmt-ready";
   document.documentElement.dataset.mmtLanguageId = recognizedDocument.languageId;
   document.documentElement.dataset.mmtWorkspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? "";
-  const typstDocumentChangeRegistration = own(vscode.workspace.onDidChangeTextDocument((event) => {
-    if (!acceptingRuntimeWork) return;
+  const typstDocumentChangeRegistration = subscribe(vscode.workspace.onDidChangeTextDocument((event) => {
+    if (!controller.acceptingWork) return;
     void recognizeAndSyncTypst(event.document).then((project) => {
       if (!project) return;
       const sourceUri = event.document.uri.toString();
@@ -907,8 +909,7 @@ async function start(): Promise<void> {
   }));
   const safeRestart = new PwaSafeRestartQuiesceAdapter({
     pauseNewWork() {
-      acceptingRuntimeWork = false;
-      return () => { acceptingRuntimeWork = true; };
+      return controller.pauseNewWork();
     },
     requireWriter() {
       if (provider?.coordinator.state.lease !== "writer") throw new Error("Safe restart requires the workspace writer lease");
@@ -930,8 +931,7 @@ async function start(): Promise<void> {
       await provider!.coordinator.flush();
     },
     async abortAndDrainRuntimeWork() {
-      for (const controller of materializationControllers.values()) controller.abort();
-      await Promise.all([...pendingMaterializations, ...persistenceByUri.values()]);
+      await controller.prepareForQuiesce();
     },
     async persistRecoveryMetadata() {
       sessionStorage.setItem("momoscript.safe-restart.v1", JSON.stringify({
@@ -939,43 +939,34 @@ async function start(): Promise<void> {
         workspaceUri: vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? null,
       }));
     },
-    runtime: owner,
+    runtime: controller,
   });
   Reflect.set(globalThis, "__mmtPwaSafeRestart", safeRestart);
-  own({
+  subscribe({
     dispose() {
       if (Reflect.get(globalThis, "__mmtPwaSafeRestart") === safeRestart) Reflect.deleteProperty(globalThis, "__mmtPwaSafeRestart");
     },
   });
-  owner.ready();
-  recordE2ELifecycle("runtime-ready", lifecycleGeneration);
-  const terminateTinymist = tinymist?.terminate.bind(tinymist) ?? (() => {});
-  const terminateMmt = mmt?.terminate.bind(mmt) ?? (() => {});
-  const terminateWorkers = () => { terminateMmt(); terminateTinymist(); };
   let disposalRecorded = false;
-  const ownerDispose = async () => {
+  const controllerDispose = async () => {
     recordE2ELifecycle("dispose-invoked", lifecycleGeneration);
-    await owner.dispose();
+    await controller.dispose(750, () => recordE2ELifecycle("hmr-fallback", lifecycleGeneration));
     if (disposalRecorded) return;
     disposalRecorded = true;
     recordE2ELifecycle("dispose-complete", lifecycleGeneration);
   };
   const hotDispose = () => {
     recordE2ELifecycle("hmr", lifecycleGeneration);
-    const disposal = disposeWithFallback(ownerDispose, () => {
-      recordE2ELifecycle("hmr-fallback", lifecycleGeneration);
-      terminateWorkers();
-    });
+    const disposal = controllerDispose();
     Reflect.set(globalThis, "__mmtHmrDisposal", disposal);
     void disposal;
   };
   const hot = import.meta.hot;
   hot?.dispose(hotDispose);
   if (import.meta.hot) import.meta.hot.accept();
-  const unload = terminateOnUnload({ terminate: terminateWorkers }, ownerDispose);
-  own(ownEventListener(window, "beforeunload", () => {
+  subscribe(ownEventListener(window, "beforeunload", () => {
     recordE2ELifecycle("unload", lifecycleGeneration);
-    unload();
+    controller.terminateAndDispose();
   }, { once: true }));
 }
 
@@ -1646,6 +1637,14 @@ async function buildTypstProject(document: vscode.TextDocument, revisions: Map<s
     projectOptions: new Map([["profile", "standalone"]]),
     sourceMapDigest: mappingDigest
   });
+  const projectionKey = await buildProjectionKey(
+    sourceContent,
+    `standalone:${logicalSource}`,
+    revision,
+    entryFile,
+    projectDigest,
+    mappingDigest
+  );
   return {
     sourceUri,
     sourceVersion: document.version,
@@ -1654,6 +1653,8 @@ async function buildTypstProject(document: vscode.TextDocument, revisions: Map<s
     files,
     full: true,
     projectDigest,
+    sourceContent,
+    projectionKey,
     mappingDigest
   };
 }

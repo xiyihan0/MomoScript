@@ -8,6 +8,7 @@ const fixturePath = path.join(root, "src/test/fixtures/runtime-inventory.json");
 const [
   fixtureText,
   mainSource,
+  runtimeControllerSource,
   workerSource,
   processSource,
   transportSource,
@@ -19,6 +20,7 @@ const [
 ] = await Promise.all([
   readFile(fixturePath, "utf8"),
   readFile(path.join(root, "../vscode-web/src/main.ts"), "utf8"),
+  readFile(path.join(root, "../vscode-web/src/runtimeController.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistClient.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistProcessClient.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistTransport.ts"), "utf8"),
@@ -32,6 +34,7 @@ const inventory = JSON.parse(fixtureText);
 assert.equal(inventory.schemaVersion, 1);
 assert.deepEqual(inventory.scope, [
   "editors/vscode-web/src/main.ts",
+  "editors/vscode-web/src/runtimeController.ts",
   "editors/vscode/src/tinymistClient.ts",
   "editors/vscode/src/tinymistProcessClient.ts",
   "editors/vscode/src/tinymistTransport.ts",
@@ -59,26 +62,28 @@ assert.deepEqual(
   "main.ts collection ownership inventory changed"
 );
 for (const name of expectedMainCollections) {
-  assert.match(mainSource, new RegExp(`\\b${name}\\b`), `inventory entry ${name} no longer exists in main.ts`);
+  assert.match(runtimeControllerSource, new RegExp(`\\b${name}\\b`), `controller store ${name} is missing`);
+  assert.match(mainSource, new RegExp(`\\b${name}\\b`), `production composition no longer consumes ${name}`);
+  assert.doesNotMatch(mainSource, new RegExp(`(?:const|let)\\s+${name}\\s*=\\s*new\\s+(?:Map|Set|WeakSet)`), `${name} returned to main.ts ownership`);
 }
 assert.ok(inventory.main.collections.every((entry) => entry.role && entry.owner && entry.dispose));
 
 const listenerAnchors = {
   panelVisibilityRegistration: "const panelVisibilityRegistration = own(",
   sidebarVisibilityRegistration: "const sidebarVisibilityRegistration = own(",
-  typstDocumentOpenRegistration: "const typstDocumentOpenRegistration = own(",
-  typstEditorActivationRegistration: "const typstEditorActivationRegistration = own(",
+  typstDocumentOpenRegistration: "const typstDocumentOpenRegistration = subscribe(",
+  typstEditorActivationRegistration: "const typstEditorActivationRegistration = subscribe(",
   "mmt/typstProjectUpdated": "activeClient.onNotification(\"mmt/typstProjectUpdated\"",
   "mmt/typstProjectClosed": "\"mmt/typstProjectClosed\"",
-  documentConfigCommandRegistration: "const documentConfigCommandRegistration = own(",
-  previewCommandRegistration: "const previewCommandRegistration = own(",
-  previewPanelDisposeRegistration: "previewPanelDisposeRegistration = own(",
-  previewPanelMessageRegistration: "previewPanelMessageRegistration = own(",
-  packConfigRegistration: "const packConfigRegistration = own(",
-  previewConfigRegistration: "const previewConfigRegistration = own(",
-  markerEditingRegistration: "const markerEditingRegistration = own",
-  documentPersistenceRegistration: "const documentPersistenceRegistration = own(",
-  typstDocumentChangeRegistration: "const typstDocumentChangeRegistration = own(",
+  documentConfigCommandRegistration: "const documentConfigCommandRegistration = subscribe(",
+  previewCommandRegistration: "const previewCommandRegistration = subscribe(",
+  previewPanelDisposeRegistration: "previewPanelDisposeRegistration = subscribe(",
+  previewPanelMessageRegistration: "previewPanelMessageRegistration = subscribe(",
+  packConfigRegistration: "const packConfigRegistration = subscribe(",
+  previewConfigRegistration: "const previewConfigRegistration = subscribe(",
+  markerEditingRegistration: "const markerEditingRegistration = subscribe",
+  documentPersistenceRegistration: "const documentPersistenceRegistration = subscribe(",
+  typstDocumentChangeRegistration: "const typstDocumentChangeRegistration = subscribe(",
   beforeunload: "ownEventListener(window, \"beforeunload\"",
   hmr: "hot?.dispose(hotDispose)",
   "layout activity click": "activity.addEventListener(\"click\", syncActivitySelection, true)",
@@ -101,6 +106,7 @@ assert.deepEqual(inventory.main.timers.map((entry) => entry.name), [
 assert.match(mainSource, /setTimeout\(resolve, 50\)/);
 assert.match(mainSource, /setTimeout\(\(\) => URL\.revokeObjectURL\(url\), 0\)/);
 assert.match(runtimeOwnerSource, /setTimeout\(\(\) => \{ timedOut = true; resolve\(\); \}, deadlineMs\)/);
+assert.match(runtimeControllerSource, /disposeWithFallback/);
 
 const workerNames = inventory.main.workersAndProcesses.map((entry) => entry.name);
 assert.deepEqual(workerNames, [
@@ -120,10 +126,11 @@ assert.match(webSource, /TinymistWorkerClient\.start/);
 assert.match(webSource, /worker = new Worker/);
 assert.match(desktopSource, /TinymistProcessClient\.start/);
 assert.match(desktopSource, /new LanguageClient/);
-assert.equal(inventory.main.dispose.primaryOwner, "RuntimeOwner");
-assert.match(mainSource, /const own = <T extends \{ dispose\(\): void \| Promise<void> \}>/);
-assert.match(mainSource, /disposeWithFallback\(ownerDispose/);
-assert.match(mainSource, /terminateOnUnload\(\{ terminate: terminateWorkers \}, ownerDispose\)/);
+assert.equal(inventory.main.dispose.primaryOwner, "EditorRuntimeController");
+assert.match(mainSource, /controller\.own\(resource\)/);
+assert.match(mainSource, /controller\.subscribe\(subscription\)/);
+assert.match(mainSource, /controller\.dispose\(750/);
+assert.match(mainSource, /controller\.terminateAndDispose\(\)/);
 
 const duplicateNames = inventory.duplicatedClientState.map((entry) => [entry.worker, entry.process]);
 assert.equal(duplicateNames.length, 4, "remaining client wrapper state inventory is incomplete");

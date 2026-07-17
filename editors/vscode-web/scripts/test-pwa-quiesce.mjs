@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { PwaSafeRestartDeadlineExceeded, PwaSafeRestartQuiesceAdapter } from "../src/pwaSafeRestart.ts";
+import { EditorRuntimeController } from "../src/runtimeController.ts";
 
 const productionOrder = [];
 let acceptingProductionWork = true;
@@ -94,6 +95,22 @@ assert.deepEqual(failure.readiness, {
 });
 assert.equal(visibleStatus, "mmt-ready", "blocked preparation must leave visible status unchanged");
 
+const sharedRuntime = new EditorRuntimeController();
+await sharedRuntime.start(() => {});
+const sharedAdapter = new PwaSafeRestartQuiesceAdapter({
+  pauseNewWork() { return sharedRuntime.pauseNewWork(); },
+  requireWriter() {},
+  assertWorkspaceSafe() {},
+  async flushDurableState() {},
+  async abortAndDrainRuntimeWork() { await sharedRuntime.prepareForQuiesce(); },
+  async persistRecoveryMetadata() {},
+  runtime: sharedRuntime,
+});
+await sharedAdapter.prepareForReload(100);
+assert.equal(sharedRuntime.state, "quiescing", "PWA preparation must enter the single editor controller quiesce state");
+assert.equal(sharedRuntime.acceptingWork, false);
+await sharedRuntime.dispose();
+
 console.log(JSON.stringify({
   productionTopology: true,
   safeBoundaryOrdering: true,
@@ -101,5 +118,6 @@ console.log(JSON.stringify({
   blockerFailure: true,
   concurrentIdempotent: true,
   noVisibleStatusRegression: true,
+  sharedEditorController: true,
   activationAndServiceWorkerOutOfScope: true,
 }));

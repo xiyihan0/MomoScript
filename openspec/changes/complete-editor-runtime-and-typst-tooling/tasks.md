@@ -65,13 +65,15 @@
 - [x] 2.7 Materialize latest accepted full+deltas into one complete newest-revision project and replay only that representation after Worker/process restart
 - [x] 2.8 Implement bounded request, prime, close and replay queues with cancellation
   - Evidence: `cd editors/vscode && npm run check && npm run test:typst-project-state && npm run test:runtime-characterization` validates shared Worker/process transport and project-state ownership, monotonic backend generation rejection, bounded cancellation, newest-complete replay, unchanged lifecycle transitions and unchanged diagnostics/completion/hover/signature-help/semantic-token characterization.
-- [ ] 2.9 Introduce `EditorRuntimeController` with serialized startup, reverse-order rollback, ready, quiesce and dispose states
-- [ ] 2.10 Move production Web document/project/preview/materialization subscriptions under the controller
-- [ ] 2.11 Replace related `main.ts` maps with coordinator-owned typed stores
-- [ ] 2.12 Implement graceful dispose deadline and synchronous terminate fallback for unload/HMR
+- [x] 2.9 Introduce `EditorRuntimeController` with serialized startup, reverse-order rollback, ready, quiesce and dispose states
+- [x] 2.10 Move production Web document/project/preview/materialization subscriptions under the controller
+- [x] 2.11 Replace related `main.ts` maps with coordinator-owned typed stores
+- [x] 2.12 Implement graceful dispose deadline and synchronous terminate fallback for unload/HMR
+  - Evidence: production `editors/vscode-web/src/runtimeController.ts` is the single `RuntimeOwner` composition root; `main.ts` registers document/project/preview/materialization subscriptions through `controller.subscribe`, consumes controller-owned typed stores, registers both language Worker terminators during startup and routes HMR/unload through the same controller. `cd editors/vscode-web && npm run check && npm run test:runtime-controller && npm run test:runtime-owner && npm run test:e2e:lifecycle` passes, covering serialized startup, reverse rollback/dispose, rejected quiesce recovery, deadline termination, synchronous unload termination and real Vite HMR/beforeunload Worker closure.
 - [x] 2.13 Connect PWA safe-restart quiesce only after the owning PWA contract is complete, without defining a second lifecycle
-  - Evidence: production `main.ts` publishes the narrow `PwaSafeRestartQuiesceAdapter` port backed by the existing runtime owner; it rejects new document/project work, drains durable and materialization work, exposes activation readiness and never activates/reloads a Service Worker. `cd editors/vscode-web && npm run test:pwa-quiesce && npm run test:runtime-owner && npm run check` passes.
+  - Evidence: production `main.ts` publishes the narrow `PwaSafeRestartQuiesceAdapter` port backed by the same `EditorRuntimeController`; work admission, durable persistence, materialization abort/drain and final runtime quiesce remain one lifecycle, and no Service Worker activation/reload is introduced. `cd editors/vscode-web && npm run test:pwa-quiesce && npm run test:runtime-owner && npm run check` passes.
 - [ ] 2.14 Prove native process, browser Worker, Desktop Host and Web Host retain baseline behavior after cutover
+  - Evidence: `cd editors/vscode && npm run check && npm run test:runtime-characterization && npm run test:worker`, `TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" npm run test:tinymist-worker`, and `TINYMIST_BIN=/home/xiyihan/MomoScript-worktrees/artifacts/tinymist-3d63da4f/target/release/tinymist npm run test:desktop` pass unchanged Worker/characterization/Desktop transcripts. The same native process command remains blocked by the integrated W1-C regression `cancelled Tinymist request was not rejected`; `TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" npm run test:web` built successfully but its external VS Code Insiders download failed three times with `ECONNRESET` before Web Host execution. Keep 2.14 unchecked until both gates execute successfully.
 - [ ] 2.15 Delete duplicated project lifecycle state from Worker/process clients
 
 ## 3. Generic Typst feature router

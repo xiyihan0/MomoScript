@@ -30,10 +30,14 @@ export class RuntimeOwner {
           try { await resource.dispose(); } catch { /* continue rollback */ }
         }
       };
-      await Promise.race([
-        drain(),
-        new Promise<void>((resolve) => setTimeout(resolve, deadlineMs))
-      ]);
+      if (deadlineMs === Number.POSITIVE_INFINITY) {
+        await drain();
+      } else {
+        await Promise.race([
+          drain(),
+          new Promise<void>((resolve) => setTimeout(resolve, deadlineMs))
+        ]);
+      }
       this.#state = "disposed";
     })();
     return this.#disposePromise;
@@ -56,14 +60,26 @@ export function ownEventListener(
   };
 }
 
-export async function disposeWithFallback(dispose: () => Promise<void>, terminate: () => void, deadlineMs = 750): Promise<void> {
+export async function disposeWithFallback(
+  dispose: () => Promise<void>,
+  terminate: () => void,
+  deadlineMs = 750
+): Promise<"graceful" | "terminated"> {
+  let timer: number | NodeJS.Timeout | undefined;
   let timedOut = false;
   let failed = false;
   await Promise.race([
     dispose().catch(() => { failed = true; }),
-    new Promise<void>((resolve) => setTimeout(() => { timedOut = true; resolve(); }, deadlineMs))
+    new Promise<void>((resolve) => {
+      timer = setTimeout(() => { timedOut = true; resolve(); }, deadlineMs);
+    })
   ]);
-  if (timedOut || failed) terminate();
+  clearTimeout(timer);
+  if (timedOut || failed) {
+    terminate();
+    return "terminated";
+  }
+  return "graceful";
 }
 
 export function terminateOnUnload(worker: { terminate(): void }, dispose: () => Promise<void>): () => void {
