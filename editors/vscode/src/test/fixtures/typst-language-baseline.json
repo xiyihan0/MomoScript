@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "standalone": {
+    "diagnostics": {
+      "uri": "logical:/standalone.typ",
+      "diagnostics": [
+        {
+          "severity": 1,
+          "message": "standalone-diagnostic",
+          "range": {
+            "start": { "line": 0, "character": 0 },
+            "end": { "line": 0, "character": 1 }
+          }
+        }
+      ]
+    },
+    "completion": {
+      "methods": ["textDocument/completion"],
+      "labels": ["standalone"]
+    },
+    "hover": {
+      "methods": ["textDocument/hover"],
+      "value": "hover:logical:/standalone.typ"
+    },
+    "signatureHelp": {
+      "methods": ["textDocument/signatureHelp"],
+      "labels": ["signature:logical:/standalone.typ"]
+    },
+    "semanticTokens": {
+      "route": "tinymist-direct",
+      "selector": { "language": "typst", "scheme": "mmtfs" },
+      "method": "textDocument/semanticTokens/full",
+      "data": [0, 0, 3, 1, 0]
+    }
+  },
+  "embedded": {
+    "diagnostics": {
+      "uri": "logical-source:embedded",
+      "diagnostics": [
+        {
+          "severity": 2,
+          "message": "mapped:embedded-diagnostic",
+          "range": {
+            "start": { "line": 0, "character": 0 },
+            "end": { "line": 0, "character": 1 }
+          }
+        }
+      ]
+    },
+    "completion": {
+      "methods": [
+        "mmt/typstPosition",
+        "textDocument/completion",
+        "mmt/mapTypstCompletion"
+      ],
+      "labels": ["mapped:projected"],
+      "mmtNativePrecedence": true
+    },
+    "hover": {
+      "methods": [
+        "mmt/typstPosition",
+        "textDocument/hover",
+        "mmt/mapTypstHover"
+      ],
+      "value": "hover:untitled:/fixture/embedded/main-7.typ",
+      "mappedRange": {
+        "start": { "line": 2, "character": 1 },
+        "end": { "line": 2, "character": 5 }
+      }
+    },
+    "signatureHelp": {
+      "methods": [
+        "mmt/typstPosition",
+        "textDocument/signatureHelp",
+        "mmt/typstPosition"
+      ],
+      "labels": ["signature:untitled:/fixture/embedded/main-7.typ"],
+      "backendCharacter": 5,
+      "revisionRechecked": true
+    },
+    "semanticTokens": {
+      "route": "mmt-native",
+      "projectedTinymistRequest": false
+    }
+  }
+}

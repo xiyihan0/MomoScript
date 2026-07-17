@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "lifecycle": [
+    {
+      "kind": "worker",
+      "accepted": [
+        "full:session-a@1",
+        "delta:session-a@2",
+        "full:session-b@1"
+      ],
+      "rejected": [
+        "duplicate:session-a@2",
+        "unknown-delta:session-b@1",
+        "retired:session-a@3"
+      ],
+      "materializedDeltaFileCount": 2,
+      "initialTransitions": [
+        {
+          "method": "textDocument/didOpen",
+          "uri": "untitled:/fixture/session-a/helper.typ",
+          "version": 1
+        },
+        {
+          "method": "textDocument/didOpen",
+          "uri": "untitled:/fixture/session-a/main-1.typ",
+          "version": 1
+        },
+        {
+          "method": "textDocument/foldingRange",
+          "uri": "untitled:/fixture/session-a/main-1.typ",
+          "version": null
+        },
+        {
+          "method": "textDocument/didOpen",
+          "uri": "untitled:/fixture/session-a/main-2.typ",
+          "version": 2
+        },
+        {
+          "method": "textDocument/foldingRange",
+          "uri": "untitled:/fixture/session-a/main-2.typ",
+          "version": null
+        },
+        {
+          "method": "textDocument/didOpen",
+          "uri": "untitled:/fixture/session-b/main-1.typ",
+          "version": 1
+        },
+        {
+          "method": "textDocument/foldingRange",
+          "uri": "untitled:/fixture/session-b/main-1.typ",
+          "version": null
+        }
+      ],
+      "primeEntries": [
+        "untitled:/fixture/session-a/main-1.typ",
+        "untitled:/fixture/session-a/main-2.typ",
+        "untitled:/fixture/session-b/main-1.typ"
+      ],
+      "restartReplay": [
+        {
+          "method": "textDocument/didOpen",
+          "uri": "untitled:/fixture/session-b/main-1.typ",
+          "version": 1
+        }
+      ],
+      "staleGenerationRejected": true,
+      "closeEntries": [
+        "untitled:/fixture/session-b/main-1.typ"
+      ]
+    },
+    {
+      "kind": "process",
+      "accepted": [
+        "full:session-a@1",
+        "delta:session-a@2",
+        "full:session-b@1"
+      ],
+      "rejected": [
+        "duplicate:session-a@2",
+        "unknown-delta:session-b@1",
+        "retired:session-a@3"
+      ],
+      "materializedDeltaFileCount": 2,
+      "initialTransitions": [
+        {
+          "method": "textDocument/didOpen",
+          "uri": "untitled:/fixture/session-a/helper.typ",
+          "version": 1
+        },
+        {
+          "method": "textDocument/didOpen",
+          "uri": "untitled:/fixture/session-a/main-1.typ",
+          "version": 1
+        },
+        {
+          "method": "textDocument/foldingRange",
+          "uri": "untitled:/fixture/session-a/main-1.typ",
+          "version": null
+        },
+        {
+          "method": "textDocument/didOpen",
+          "uri": "untitled:/fixture/session-a/main-2.typ",
+          "version": 2
+        },
+        {
+          "method": "textDocument/foldingRange",
+          "uri": "untitled:/fixture/session-a/main-2.typ",
+          "version": null
+        },
+        {
+          "method": "textDocument/didOpen",
+          "uri": "untitled:/fixture/session-b/main-1.typ",
+          "version": 1
+        },
+        {
+          "method": "textDocument/foldingRange",
+          "uri": "untitled:/fixture/session-b/main-1.typ",
+          "version": null
+        }
+      ],
+      "primeEntries": [
+        "untitled:/fixture/session-a/main-1.typ",
+        "untitled:/fixture/session-a/main-2.typ",
+        "untitled:/fixture/session-b/main-1.typ"
+      ],
+      "restartReplay": [
+        {
+          "method": "textDocument/didOpen",
+          "uri": "untitled:/fixture/session-b/main-1.typ",
+          "version": 1
+        }
+      ],
+      "staleGenerationRejected": true,
+      "closeEntries": [
+        "untitled:/fixture/session-b/main-1.typ"
+      ]
+    }
+  ]
+}

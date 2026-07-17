@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "scope": [
+    "editors/vscode-web/src/main.ts",
+    "editors/vscode/src/tinymistClient.ts",
+    "editors/vscode/src/tinymistProcessClient.ts"
+  ],
+  "main": {
+    "collections": [
+      { "name": "previewProjects", "kind": "Map", "role": "latest prepared render project per logical source", "owner": "start runtime closure", "dispose": "runtime teardown" },
+      { "name": "packSourcesByNamespace", "kind": "Map", "role": "accepted resource pack source per namespace", "owner": "start runtime closure", "dispose": "runtime teardown" },
+      { "name": "latestProjectBySource", "kind": "Map", "role": "preview session, source version, and revision acceptance guard", "owner": "applyProject closure", "dispose": "closePreviewProject or runtime teardown" },
+      { "name": "retiredProjectSessions", "kind": "Map<Set>", "role": "permanent preview-session retirement guard", "owner": "applyProject closure", "dispose": "closePreviewProject or runtime teardown" },
+      { "name": "materializationControllers", "kind": "Map<AbortController>", "role": "latest materialization cancellation per source", "owner": "applyProject closure", "dispose": "superseding apply aborts; closePreviewProject aborts" },
+      { "name": "latestLanguageProjectionBySource", "kind": "Map", "role": "accepted language projection token per source", "owner": "trackLanguageProjection closure", "dispose": "closePreviewProject or runtime teardown" },
+      { "name": "typstRevisions", "kind": "Map", "role": "standalone Typst revision per source", "owner": "buildTypstProject call sites", "dispose": "runtime teardown" },
+      { "name": "typstProjects", "kind": "Map", "role": "standalone Typst project per source", "owner": "Typst document and preview handlers", "dispose": "runtime teardown" },
+      { "name": "acceptedPreviewLanguageProjects", "kind": "conditional Map", "role": "E2E-only accepted projection evidence", "owner": "preview command closure", "dispose": "closePreviewProject or runtime teardown" },
+      { "name": "retiredLanguageProjectionSessions", "kind": "Map<Set>", "role": "permanent language-projection session retirement guard", "owner": "trackLanguageProjection closure", "dispose": "closePreviewProject or runtime teardown" },
+      { "name": "requestedRenderTokens", "kind": "WeakSet", "role": "deduplicates preview render requests by accepted token identity", "owner": "requestRenderProject closure", "dispose": "garbage collected with token/runtime" },
+      { "name": "renderRequestIdBySource", "kind": "Map", "role": "latest-wins render request sequence per source", "owner": "requestRenderProject closure", "dispose": "closePreviewProject or runtime teardown" },
+      { "name": "persistenceByUri", "kind": "Map<Promise>", "role": "serialized document persistence queue per URI", "owner": "document change subscription", "dispose": "entry removed on settlement; runtime teardown owns subscription" }
+    ],
+    "listeners": [
+      { "name": "panelVisibilityRegistration", "source": "part visibility", "owner": "RuntimeOwner" },
+      { "name": "sidebarVisibilityRegistration", "source": "part visibility", "owner": "RuntimeOwner" },
+      { "name": "typstDocumentOpenRegistration", "source": "workspace document open", "owner": "RuntimeOwner" },
+      { "name": "typstEditorActivationRegistration", "source": "active editor change", "owner": "RuntimeOwner" },
+      { "name": "mmt/typstProjectUpdated", "source": "MMT client notification", "owner": "RuntimeOwner" },
+      { "name": "mmt/typstProjectClosed", "source": "MMT client notification", "owner": "RuntimeOwner" },
+      { "name": "documentConfigCommandRegistration", "source": "command", "owner": "RuntimeOwner" },
+      { "name": "previewCommandRegistration", "source": "command", "owner": "RuntimeOwner" },
+      { "name": "previewPanelDisposeRegistration", "source": "webview panel disposal", "owner": "RuntimeOwner plus panel callback self-release" },
+      { "name": "previewPanelMessageRegistration", "source": "webview message", "owner": "RuntimeOwner plus panel callback self-release" },
+      { "name": "packConfigRegistration", "source": "configuration change", "owner": "RuntimeOwner" },
+      { "name": "previewConfigRegistration", "source": "configuration change", "owner": "RuntimeOwner" },
+      { "name": "markerEditingRegistration", "source": "model content listeners", "owner": "RuntimeOwner wrapper drains child registrations" },
+      { "name": "documentPersistenceRegistration", "source": "document change", "owner": "RuntimeOwner" },
+      { "name": "typstDocumentChangeRegistration", "source": "document change", "owner": "RuntimeOwner" },
+      { "name": "beforeunload", "source": "window", "owner": "RuntimeOwner via ownEventListener" },
+      { "name": "hmr", "source": "import.meta.hot", "owner": "Vite HMR callback; delegates to RuntimeOwner with terminate fallback" },
+      { "name": "layout activity click", "source": "DOM", "owner": "layout disposable registered in RuntimeOwner" },
+      { "name": "settings controls", "source": "DOM and configuration", "owner": "settings view disposable" },
+      { "name": "preview webview controls", "source": "isolated webview DOM", "owner": "webview document lifecycle" },
+      { "name": "AVIFS abort", "source": "AbortSignal", "owner": "one-shot decode promise removes listener on settlement" }
+    ],
+    "timers": [
+      { "name": "document projection catch-up", "kind": "one-shot debounce", "owner": "persistence queue promise", "cleanup": "settles into queue finally" },
+      { "name": "download object URL revoke", "kind": "zero-delay one-shot", "owner": "downloadBlob call", "cleanup": "callback revokes URL" },
+      { "name": "HMR graceful fallback", "kind": "deadline", "owner": "disposeWithFallback", "cleanup": "cleared when graceful disposal wins" }
+    ],
+    "workersAndProcesses": [
+      { "name": "TextEditorWorker", "kind": "Worker", "owner": "Monaco worker factory", "dispose": "Monaco API lifecycle" },
+      { "name": "TextMateWorker", "kind": "Worker", "owner": "Monaco worker factory", "dispose": "Monaco API lifecycle" },
+      { "name": "OutputLinkDetectionWorker", "kind": "Worker", "owner": "Monaco worker factory", "dispose": "Monaco API lifecycle" },
+      { "name": "Tinymist Worker", "kind": "Worker", "owner": "Tinymist handle registered in RuntimeOwner", "dispose": "graceful handle.dispose; HMR/unload terminate fallback" },
+      { "name": "MMT Worker", "kind": "Worker", "owner": "MMT handle registered in RuntimeOwner", "dispose": "graceful handle.dispose; HMR/unload terminate fallback" },
+      { "name": "AVIFS decoder", "kind": "Worker", "owner": "single decode promise", "dispose": "terminate on success, error, or abort" },
+      { "name": "native Tinymist", "kind": "process", "owner": "TinymistProcessClient in Desktop extension", "dispose": "shutdown/exit then kill fallback" },
+      { "name": "native MMT LSP", "kind": "process", "owner": "VS Code LanguageClient in Desktop extension", "dispose": "LanguageClient stop" }
+    ],
+    "dispose": {
+      "primaryOwner": "RuntimeOwner",
+      "registration": "own(resource)",
+      "order": "sequential reverse acquisition",
+      "startupFailure": "start catch invokes runtimeOwner.dispose",
+      "hmr": "disposeWithFallback(ownerDispose, terminateWorkers)",
+      "unload": "terminateOnUnload terminates synchronously and continues ownerDispose",
+      "idempotence": "RuntimeOwner shares one disposal promise"
+    }
+  },
+  "duplicatedClientState": [
+    { "semantic": "JSON-RPC request sequence", "worker": "nextId", "process": "nextId" },
+    { "semantic": "pending requests and request deadlines", "worker": "pending", "process": "pending" },
+    { "semantic": "notification handlers", "worker": "handlers", "process": "handlers" },
+    { "semantic": "open virtual file revisions", "worker": "openFiles", "process": "openFiles" },
+    { "semantic": "current project files", "worker": "projectFiles", "process": "projectFiles" },
+    { "semantic": "last applied project files", "worker": "appliedProjectFiles", "process": "appliedProjectFiles" },
+    { "semantic": "two retained file generations", "worker": "retainedProjectFiles", "process": "retainedProjectFiles" },
+    { "semantic": "latest complete projects by entry", "worker": "projectsByEntry", "process": "projectsByEntry" },
+    { "semantic": "latest accepted session and revision by source", "worker": "latestProjectionBySource", "process": "latestProjectionBySource" },
+    { "semantic": "retired sessions by source", "worker": "retiredSessionsBySource", "process": "retiredSessionsBySource" },
+    { "semantic": "last applied session and revision by source", "worker": "appliedProjectionBySource", "process": "appliedProjectionBySource" },
+    { "semantic": "scheduled virtual-file closes", "worker": "scheduledFileCloses", "process": "scheduledFileCloses" },
+    { "semantic": "close-grace deadline handles", "worker": "scheduledCloseFallbacks", "process": "scheduledCloseFallbacks" },
+    { "semantic": "project-prime debounce timers", "worker": "projectPrimeTimers", "process": "projectPrimeTimers" },
+    { "semantic": "project-prime latest queue", "worker": "projectPrimeQueue", "process": "projectPrimeQueue" },
+    { "semantic": "project-prime in-flight tokens", "worker": "projectPrimeInFlight", "process": "projectPrimeInFlight" },
+    { "semantic": "active transport", "worker": "worker", "process": "child" },
+    { "semantic": "transport readiness", "worker": "ready", "process": "ready" },
+    { "semantic": "terminal stop flag", "worker": "stopped", "process": "stopped" },
+    { "semantic": "single recovery promise", "worker": "restarting", "process": "restarting" }
+  ],
+  "processOnlyState": [
+    { "name": "buffer", "role": "Content-Length framed byte buffer" },
+    { "name": "projectPrimeByEntry", "role": "feature requests wait for exact entry prime" }
+  ],
+  "workerOnlyState": [
+    { "name": "semanticLegend", "role": "semantic token legend exposed to Web host" }
+  ]
+}

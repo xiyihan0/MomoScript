@@ -12,9 +12,12 @@
 - [ ] 0.8 Generate checked capability manifests containing artifact digest, backend version, position encoding, provider options and experimental methods
 - [ ] 0.9 Diff native/Web manifests and classify every provider as core-required, host-optional, deferred or unavailable
 - [ ] 0.10 Remove any capability claim not supported by an explicitly enumerated provider and successful positive/negative method transcripts
-- [ ] 0.11 Inventory current runtime maps, listeners, timers, queues, AbortControllers, Workers, processes and dispose ownership
-- [ ] 0.12 Add behavior-preserving Worker/process project lifecycle fixtures before extraction
-- [ ] 0.13 Add current standalone and embedded baseline transcripts for diagnostics, completion, hover, signature help and semantic tokens
+- [x] 0.11 Inventory current runtime maps, listeners, timers, queues, AbortControllers, Workers, processes and dispose ownership
+  - Evidence: `npm run test:runtime-inventory` machine-checks `src/test/fixtures/runtime-inventory.json`, including 13 long-lived `main.ts` collections, 21 listener groups, 3 timer classes, 8 Worker/process owners and 20 duplicated Worker/process client state fields.
+- [x] 0.12 Add behavior-preserving Worker/process project lifecycle fixtures before extraction
+  - Evidence: `npm run test:project-lifecycle` compares both production clients against `src/test/fixtures/project-lifecycle-baseline.json` for full/delta materialization, duplicate/unknown/retired rejection, prime, close, latest-complete restart replay and old-generation request rejection.
+- [x] 0.13 Add current standalone and embedded baseline transcripts for diagnostics, completion, hover, signature help and semantic tokens
+  - Evidence: `npm run test:typst-baseline` executes current middleware/diagnostic routes and compares normalized output with `src/test/fixtures/typst-language-baseline.json`; semantic-token ownership is checked as standalone Tinymist-direct and embedded MMT-native.
 - [ ] 0.14 Record the accepted Tinymist artifact upgrade/patch decision if a desired core provider、package callback or location contract is missing
 
 ## 1. Snapshot identity and position domains

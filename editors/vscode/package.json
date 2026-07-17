@@ -124,7 +124,11 @@
     "test:tinymist-worker": "node ./scripts/build.mjs && node ./scripts/test-tinymist-worker.mjs",
     "test:tinymist-process": "node ./scripts/build.mjs && node ./dist/test/processClient.js",
     "test:desktop": "npm run build && xvfb-run -a node ./scripts/test-desktop.mjs",
-    "test:web": "node ./scripts/require-tinymist-web.mjs && npm run build && vscode-test-web --browser=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/test/suite/index.js --headless=true --esm=true"
+    "test:web": "node ./scripts/require-tinymist-web.mjs && npm run build && vscode-test-web --browser=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/test/suite/index.js --headless=true --esm=true",
+    "test:runtime-inventory": "node ./scripts/test-runtime-inventory.mjs",
+    "test:project-lifecycle": "node ./scripts/test-project-lifecycle.mjs",
+    "test:typst-baseline": "node ./scripts/test-typst-language-baseline.mjs",
+    "test:runtime-characterization": "npm run test:runtime-inventory && npm run test:project-lifecycle && npm run test:typst-baseline"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1",
