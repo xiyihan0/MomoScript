@@ -1,4 +1,4 @@
-import type { TypstProjectSnapshotKey } from "./runtimeIdentity";
+import type { ProjectionKey, SourceContentKey, TypstProjectSnapshotKey } from "./runtimeIdentity";
 
 type JsonRpcId = number | string;
 
@@ -67,9 +67,10 @@ export interface TypstProjectUpdate {
   entryUri: string;
   files: TypstVirtualFile[];
   full: boolean;
-  /** Present on canonical backend snapshots; omitted only by legacy host-built updates. */
-  projectDigest?: TypstProjectSnapshotKey;
-  mappingDigest?: string;
+  sourceContent: SourceContentKey;
+  projectDigest: TypstProjectSnapshotKey;
+  projectionKey: ProjectionKey;
+  mappingDigest: string;
 }
 
 export interface TypstRenderDiagnosticLabel {
@@ -98,6 +99,8 @@ export interface TypstRenderProjectUpdate {
   diagnostics: TypstRenderDiagnostic[];
   projectDigest: TypstProjectSnapshotKey;
   mappingDigest: string;
+  sourceContent: SourceContentKey;
+  projectionKey: ProjectionKey;
   packRegistryDigest: string;
   resourcePlanDigest: string;
   resourceBytesDigest: string;
@@ -117,6 +120,7 @@ export function mergeProjectFiles(current: TypstVirtualFile[], changed: TypstVir
 export interface TinymistHostBackend {
   on(method: string, handler: (params: unknown) => void): void;
   request<T>(method: string, params: unknown, signal?: AbortSignal): Promise<T>;
+  backendGeneration(): number;
   syncProject(update: TypstProjectUpdate): void;
   semanticTokensLegend?(): { tokenTypes: string[]; tokenModifiers: string[] } | undefined;
   closeProject(sourceUri: string, entryUri: string): boolean;
@@ -363,6 +367,7 @@ export class TinymistWorkerClient implements TinymistHostBackend {
   private ready = false;
   private stopped = false;
   private restarting: Promise<void> | undefined;
+  private generation = 0;
 
   private constructor(
     private readonly workerUri: string,
@@ -396,10 +401,15 @@ export class TinymistWorkerClient implements TinymistHostBackend {
     return this.semanticLegend;
   }
 
+  backendGeneration(): number {
+    return this.generation;
+  }
+
   private async bootWorker(): Promise<void> {
     if (this.stopped) throw new Error("Tinymist Worker client stopped");
     const worker = this.workerFactory(this.workerUri);
     this.worker = worker;
+    this.generation += 1;
     worker.addEventListener("message", (event: MessageEvent<JsonRpcMessage>) => {
       if (worker === this.worker) this.handleMessage(worker, event.data);
     });

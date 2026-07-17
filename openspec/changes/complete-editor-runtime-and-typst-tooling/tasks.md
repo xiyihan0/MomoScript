@@ -28,8 +28,8 @@
 
 - [x] 1.1 Define shared protocol types for `LogicalSourceId`, `SourceContentKey`, local-only `SourceStaleToken`, `TypstProjectSnapshotKey`, `ProjectionKey`, `MaterializationKey`, `RuntimeArtifactKey` and `RenderKey`
   - Evidence: `cargo test --manifest-path mmt_rs/Cargo.toml --test runtime_identity` and `cd editors/vscode && npm run test:runtime-identity` exercise the shared Rust/TypeScript typed constructors and identical pinned digests.
-- [ ] 1.2 Prove canonical derived keys transitively exclude host URI、document-incarnation nonce and editor-local version; retain all three only in request publish/apply guards and retire the nonce on close
-  - Identity evidence: canonical constructors accept no host URI/incarnation/version input and the fixture rejects `file:`/`mmtfs:` values; host request-guard ownership and close retirement remain part of the runtime-state cutover, so this item stays unchecked.
+- [x] 1.2 Prove canonical derived keys transitively exclude host URI、document-incarnation nonce and editor-local version; retain all three only in request publish/apply guards and retire the nonce on close
+  - Evidence: `cargo test --manifest-path mmt_rs/Cargo.toml --test runtime_identity`, `cd editors/vscode && npm run test:response-identity` and `npm run test:typst-baseline` prove canonical constructors never accept host-local values, equal canonical keys survive local version/incarnation changes, close/reopen issues a non-reused incarnation, and old local/backend generations cannot publish.
 - [x] 1.3 Define canonical length-delimited SHA-256 serialization independent of map/filesystem order and platform separators
   - Evidence: Rust identity unit tests cover reversed map order and invalid separators; the shared Node/Rust fixture matches byte-for-byte SHA-256 outputs.
 - [x] 1.4 Add complete workspace-file, package-generation, generated-dependency and project-option digests to every Typst project snapshot
@@ -46,10 +46,11 @@
   - Evidence: the shared fixture proves compiler/renderer versions plus both artifact, template and font digests compose the same `RuntimeArtifactKey` and transitive `RenderKey` in Rust/TypeScript.
 - [x] 1.10 Introduce typed MMT-client, UTF-8-byte and Tinymist-backend position domains in Rust and TypeScript boundaries
 - [x] 1.11 Convert projected requests through current source and projected `LineIndex` instances rather than passing plain positions
-- [ ] 1.12 Convert responses against the exact retained virtual file and complete Typst project generation used by the request
+- [x] 1.12 Convert responses against the exact retained virtual file and complete Typst project generation used by the request
+  - Evidence: `cargo test --manifest-path mmt_lsp/Cargo.toml`, `cd editors/vscode && npm run test:position-domains`, `npm run test:response-identity` and `npm run test:typst-baseline` bind response mapping to exact retained entry/revision plus `SourceContentKey`、`TypstProjectSnapshotKey`、`ProjectionKey` and backend generation; absent/mismatched/stale identities reject atomically before conversion/publication, including unchanged-document dependency advances.
 - [x] 1.13 Reject invalid boundaries, absent generations, stale projects/projections and encoding ambiguity without clamping
 - [x] 1.14 Add Chinese, combining mark and astral Unicode round-trip fixtures for every position-bearing protocol family
-  - Position evidence: `cargo test --manifest-path mmt_lsp/Cargo.toml`, `npm run test:position-domains`, the focused `tsc` boundary check and `npm run test:typst-baseline` validate typed mixed-encoding conversion, exact retained `entryUri`/revision lookup, atomic stale/mismatch/ambiguity rejection and unchanged diagnostics/completion/hover/signature-help/semantic-token characterization. Task 1.12 remains open until the identity owner’s complete `TypstProjectSnapshotKey` is wired into response validation.
+  - Position evidence: `cargo test --manifest-path mmt_lsp/Cargo.toml`, `npm run test:position-domains`, the focused `tsc` boundary check and `npm run test:typst-baseline` validate typed mixed-encoding conversion, exact retained `entryUri`/revision/project identity lookup, atomic stale/mismatch/ambiguity rejection and unchanged diagnostics/completion/hover/signature-help/semantic-token characterization.
 - [x] 1.15 Add canonical logical-identity/digest fixtures shared by Rust and TypeScript and prove `file:`/`mmtfs:` parity
   - Evidence: `cargo test --manifest-path mmt_rs/Cargo.toml --test runtime_identity` and `cd editors/vscode && npm run test:runtime-identity` consume the shared canonical identity fixture and match every digest across `file:`/`mmtfs:`/internal mounts; Rust and TypeScript also consume `mmt_lsp/tests/fixtures/position-domains.json` byte-for-byte for Chinese、combining-mark and astral boundary parity.
 

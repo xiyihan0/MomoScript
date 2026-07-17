@@ -68,17 +68,25 @@ expectFailure("InvalidLine", () => {
   index.clientToByte(mmtClientPosition({ line: 99, character: 0 }, "utf-16"));
 });
 
+const retainedIdentity = {
+  sourceContent: "source-content-7",
+  projectDigest: "project-7",
+  projectionKey: "projection-7"
+};
+
 const entryUri = "untitled:/retained/main-7.typ";
 const route = parseProjectedPosition({
   entryUri,
   revision: 7,
   position: { line: 0, character: 8 },
-  positionEncoding: "utf-16"
+  positionEncoding: "utf-16",
+  ...retainedIdentity
 });
 const generation = {
   entryUri,
   revision: 7,
-  files: [{ uri: entryUri, text: fixture.text }]
+  files: [{ uri: entryUri, text: fixture.text }],
+  ...retainedIdentity
 };
 assert.deepEqual(wireBackendPosition(retainedBackendPosition(route, generation).position), route.position);
 expectFailure("AbsentGeneration", () => retainedBackendPosition(route, undefined));

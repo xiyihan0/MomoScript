@@ -14,7 +14,8 @@ import {
   projectionRevisionIsCurrent,
   rotateProjectFileGenerations,
   serverRequestResponse,
-  validateTinymistInitialize
+  validateTinymistInitialize,
+  type TypstProjectUpdate
 } from "../tinymistClient";
 import { TinymistProcessClient, type TinymistProcessFactory } from "../tinymistProcessClient";
 import {
@@ -22,6 +23,19 @@ import {
   type PackCacheStore,
   type PackFetchResponse
 } from "../packSync";
+
+function fixtureIdentity(revision: number): Pick<
+  TypstProjectUpdate,
+  "sourceContent" | "projectDigest" | "projectionKey" | "mappingDigest"
+> {
+  const key = `fixture-${revision}`;
+  return {
+    sourceContent: key as TypstProjectUpdate["sourceContent"],
+    projectDigest: key as TypstProjectUpdate["projectDigest"],
+    projectionKey: key as TypstProjectUpdate["projectionKey"],
+    mappingDigest: key
+  };
+}
 
 class MemoryPackCache implements PackCacheStore {
   readonly committed = new Map<string, string>();
@@ -312,6 +326,7 @@ async function testPrimeFailureBlocksFeatureRequest(): Promise<void> {
       sourceUri: "file:///workspace/prime-failure.mmt",
       sourceVersion: 1,
       revision: 1,
+      ...fixtureIdentity(1),
       entryUri,
       full: true,
       files: [{ uri: entryUri, text: "#let greet = 1" }]
@@ -346,6 +361,7 @@ async function testSupersededPrimeBlocksStaleFeatureRequest(): Promise<void> {
       sourceUri,
       sourceVersion: 1,
       revision: 6,
+      ...fixtureIdentity(6),
       entryUri: oldEntryUri,
       full: true,
       files: [{ uri: oldEntryUri, text: "#let old = 6" }]
@@ -359,6 +375,7 @@ async function testSupersededPrimeBlocksStaleFeatureRequest(): Promise<void> {
       sourceUri,
       sourceVersion: 2,
       revision: 7,
+      ...fixtureIdentity(7),
       entryUri: nextEntryUri,
       full: true,
       files: [{ uri: nextEntryUri, text: "#let current = 7" }]
@@ -1033,6 +1050,7 @@ async function main(): Promise<void> {
       sourceUri,
       sourceVersion: 1,
       revision: 1,
+      ...fixtureIdentity(1),
       entryUri: uriV1,
       full: true,
       files: [
@@ -1071,6 +1089,7 @@ async function main(): Promise<void> {
       sourceUri: retiredSourceUri,
       sourceVersion: 1,
       revision: 1,
+      ...fixtureIdentity(1),
       entryUri: retiredUri,
       full: true,
       files: [{ uri: retiredUri, text: "#let retired = 1" }]
@@ -1088,6 +1107,7 @@ async function main(): Promise<void> {
       sourceUri,
       sourceVersion: 1,
       revision: 2,
+      ...fixtureIdentity(2),
       entryUri: uriV2,
       full: false,
       files: [{
@@ -1109,6 +1129,7 @@ async function main(): Promise<void> {
       sourceUri,
       sourceVersion: 1,
       revision: 2,
+      ...fixtureIdentity(2),
       entryUri: uriV2,
       full: false,
       files: [{ uri: uriV2, text: "#let stale = 1" }]
@@ -1124,6 +1145,7 @@ async function main(): Promise<void> {
       sourceUri,
       sourceVersion: 1,
       revision: 1,
+      ...fixtureIdentity(1),
       entryUri: uriNextSession,
       full: false,
       files: [{ uri: uriNextSession, text: "#let incomplete = 1" }]
@@ -1133,6 +1155,7 @@ async function main(): Promise<void> {
       sourceUri,
       sourceVersion: 1,
       revision: 1,
+      ...fixtureIdentity(1),
       entryUri: uriNextSession,
       full: true,
       files: [{
@@ -1150,6 +1173,7 @@ async function main(): Promise<void> {
       sourceUri,
       sourceVersion: 1,
       revision: 3,
+      ...fixtureIdentity(3),
       entryUri: lateOldUri,
       full: true,
       files: [{ uri: lateOldUri, text: "#let stale = 1" }]
@@ -1172,6 +1196,7 @@ async function main(): Promise<void> {
       sourceUri: reopenedSourceUri,
       sourceVersion: 1,
       revision: 1,
+      ...fixtureIdentity(1),
       entryUri: reopenedUri,
       full: true,
       files: [{ uri: reopenedUri, text: "#let clean = 1" }]
@@ -1183,6 +1208,7 @@ async function main(): Promise<void> {
       sourceUri: reopenedSourceUri,
       sourceVersion: 2,
       revision: 2,
+      ...fixtureIdentity(2),
       entryUri: reopenedUri,
       full: true,
       files: [{ uri: reopenedUri, text: "#let clean = 2" }]

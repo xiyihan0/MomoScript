@@ -10,6 +10,7 @@ use lsp_types::{
     SemanticTokensServerCapabilities, ServerCapabilities, ServerInfo, SignatureHelpOptions,
     TextDocumentIdentifier, TextDocumentSyncCapability, TextDocumentSyncKind, Url,
 };
+use mmt_rs::{ProjectionKey, SourceContentKey, TypstProjectSnapshotKey};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
@@ -33,6 +34,9 @@ struct MapTypstCompletionParams {
     revision: u64,
     entry_uri: Url,
     backend_encoding: PositionEncoding,
+    source_content: SourceContentKey,
+    project_digest: TypstProjectSnapshotKey,
+    projection_key: ProjectionKey,
     items: Vec<CompletionItem>,
 }
 
@@ -43,6 +47,9 @@ struct MapTypstHoverParams {
     revision: u64,
     entry_uri: Url,
     backend_encoding: PositionEncoding,
+    source_content: SourceContentKey,
+    project_digest: TypstProjectSnapshotKey,
+    projection_key: ProjectionKey,
     hover: Hover,
 }
 
@@ -53,6 +60,9 @@ struct MapTypstDiagnosticsParams {
     revision: u64,
     entry_uri: Url,
     backend_encoding: PositionEncoding,
+    source_content: SourceContentKey,
+    project_digest: TypstProjectSnapshotKey,
+    projection_key: ProjectionKey,
     diagnostics: Vec<Diagnostic>,
 }
 
@@ -281,6 +291,9 @@ impl MmtLanguageServer {
                     &params.source_uri,
                     &params.entry_uri,
                     params.revision,
+                    &params.source_content,
+                    &params.project_digest,
+                    &params.projection_key,
                 ) else {
                     return Ok(Value::Null);
                 };
@@ -298,6 +311,9 @@ impl MmtLanguageServer {
                     &params.source_uri,
                     &params.entry_uri,
                     params.revision,
+                    &params.source_content,
+                    &params.project_digest,
+                    &params.projection_key,
                 ) else {
                     return Ok(Value::Null);
                 };
@@ -322,6 +338,9 @@ impl MmtLanguageServer {
                     &params.source_uri,
                     &params.entry_uri,
                     params.revision,
+                    &params.source_content,
+                    &params.project_digest,
+                    &params.projection_key,
                 ) else {
                     return Ok(Value::Null);
                 };
@@ -1181,6 +1200,9 @@ mod tests {
                     "revision": route["revision"],
                     "entryUri": route["entryUri"],
                     "backendEncoding": route["positionEncoding"],
+                    "sourceContent": route["sourceContent"],
+                    "projectDigest": route["projectDigest"],
+                    "projectionKey": route["projectionKey"],
                     "items": [{
                         "label": "greet",
                         "textEdit": {
@@ -1214,6 +1236,9 @@ mod tests {
                     "revision": route["revision"],
                     "entryUri": route["entryUri"],
                     "backendEncoding": route["positionEncoding"],
+                    "sourceContent": route["sourceContent"],
+                    "projectDigest": route["projectDigest"],
+                    "projectionKey": route["projectionKey"],
                     "items": []
                 }),
             )

@@ -75,6 +75,7 @@ export class TinymistProcessClient implements TinymistHostBackend {
   private ready = false;
   private stopped = false;
   private restarting: Promise<void> | undefined;
+  private generation = 0;
 
   private constructor(
     private readonly command: string,
@@ -96,6 +97,10 @@ export class TinymistProcessClient implements TinymistHostBackend {
       await client.stop();
       throw error;
     }
+  }
+
+  backendGeneration(): number {
+    return this.generation;
   }
 
   on(method: string, handler: (params: unknown) => void): void {
@@ -205,6 +210,7 @@ export class TinymistProcessClient implements TinymistHostBackend {
     if (this.stopped) throw new Error("Tinymist process client stopped");
     const child = this.processFactory(this.command);
     this.child = child;
+    this.generation += 1;
     this.buffer = Buffer.alloc(0);
     child.stdout.on("data", (chunk: Buffer) => {
       if (child !== this.child) return;

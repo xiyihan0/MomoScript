@@ -59,12 +59,20 @@ fn retained_generation_lookup_distinguishes_stale_mismatch_and_absence() {
     let first_projection = store.upsert(uri.clone(), &first).unwrap();
     let first_entry = first_projection.entry_uri.clone();
     let first_revision = first_projection.revision;
+    let first_identity = first_projection.project_update();
 
     let second = service.change(uri.clone(), 2, "@typ: #let 中文 = [é 😀 next]".into()).unwrap().clone();
     store.upsert(uri.clone(), &second).unwrap();
 
     assert_eq!(
-        store.response_generation(&uri, &first_entry, first_revision).unwrap_err(),
+        store.response_generation(
+            &uri,
+            &first_entry,
+            first_revision,
+            &first_identity.source_content,
+            &first_identity.project_digest,
+            &first_identity.projection_key,
+        ).unwrap_err(),
         PositionConversionError::StaleProjection
     );
     assert_eq!(store.generation(&uri, &first_entry, first_revision).unwrap().revision, first_revision);

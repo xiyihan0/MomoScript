@@ -61,7 +61,10 @@ const projects = new Map([
     sourceVersion: 3,
     revision: 3,
     full: true,
-    files: [{ uri: "logical:/standalone.typ", text: "line\nabcd" }]
+    files: [{ uri: "logical:/standalone.typ", text: "line\nabcd" }],
+    sourceContent: "source-standalone",
+    projectDigest: "project-standalone",
+    projectionKey: "projection-standalone"
   }],
   ["untitled:/fixture/embedded/main-7.typ", {
     sourceUri: "logical-source:embedded",
@@ -69,9 +72,15 @@ const projects = new Map([
     sourceVersion: 4,
     revision: 7,
     full: true,
-    files: [{ uri: "untitled:/fixture/embedded/main-7.typ", text: "a\nb\nabcdefg" }]
+    files: [{ uri: "untitled:/fixture/embedded/main-7.typ", text: "a\nb\nabcdefg" }],
+    sourceContent: "source-embedded",
+    projectDigest: "project-embedded",
+    projectionKey: "projection-embedded"
   }]
 ]);
+
+let backendGeneration = 1;
+let deferredBackendResponse;
 
 const backend = {
   on(method, handler) {
@@ -79,7 +88,15 @@ const backend = {
     handlers.push(handler);
     backendHandlers.set(method, handlers);
   },
+  backendGeneration() {
+    return backendGeneration;
+  },
   async request(method, params) {
+    if (deferredBackendResponse) {
+      const deferred = deferredBackendResponse;
+      deferredBackendResponse = undefined;
+      return deferred.promise;
+    }
     backendCalls.push({ method, params: structuredClone(params) });
     if (method === "textDocument/completion") {
       return [{ label: params.textDocument.uri.includes("embedded") ? "projected" : "standalone" }];
@@ -131,7 +148,10 @@ const client = {
         entryUri: "untitled:/fixture/embedded/main-7.typ",
         revision: 7,
         position: { line: params.position.line, character: params.position.character },
-        positionEncoding: "utf-16"
+        positionEncoding: "utf-16",
+        sourceContent: "source-embedded",
+        projectDigest: "project-embedded",
+        projectionKey: "projection-embedded"
       };
     }
     if (method === "mmt/mapTypstCompletion") {
@@ -166,15 +186,20 @@ connectTypstBackend(client, backend);
 const standalone = {
   languageId: "typst",
   uri: { toString: () => "logical:/standalone.typ" },
-  getText: () => "line\nabcd"
+  getText: () => "line\nabcd",
+  version: 3
 };
 const embedded = {
   languageId: "mmt",
   uri: { toString: () => "logical-source:embedded" },
-  getText: () => "a\nb\nabcdefg"
+  getText: () => "a\nb\nabcdefg",
+  version: 4
 };
 const completionContext = { triggerKind: 1 };
 const signatureContext = { triggerKind: 1, triggerCharacter: "(", isRetrigger: false };
+
+await middleware.didOpen(standalone, () => undefined);
+await middleware.didOpen(embedded, () => undefined);
 
 const standaloneCompletion = await middleware.provideCompletionItem(
   standalone,
@@ -288,6 +313,7 @@ const actual = {
       value: embeddedHover.contents.value,
       mappedRange: embeddedHover.range
     },
+
     signatureHelp: {
       methods: [clientCalls[4].method, embeddedBackendMethods[2], clientCalls[5].method],
       labels: embeddedSignature.signatures.map((item) => item.label),
@@ -305,4 +331,46 @@ assert.doesNotMatch(checkedText, /(?:\/home\/|[A-Z]:\\\\)/, "language evidence c
 assert.doesNotMatch(checkedText, /"(?:capturedAt|durationMs|timestamp)"/, "language evidence contains volatile timing");
 const checked = JSON.parse(checkedText);
 assert.deepEqual(actual, checked, "Typst language baseline changed; inspect and deliberately update checked evidence");
+const standaloneProject = projects.get("logical:/standalone.typ");
+const dependencyResponse = Promise.withResolvers();
+deferredBackendResponse = dependencyResponse;
+const staleDependencyHover = middleware.provideHover(
+  standalone,
+  { line: 1, character: 2 },
+  cancellationToken,
+  () => undefined
+);
+projects.set("logical:/standalone.typ", {
+  ...standaloneProject,
+  projectDigest: "project-standalone-next",
+  projectionKey: "projection-standalone-next"
+});
+dependencyResponse.resolve({ contents: { kind: "markdown", value: "stale dependency" } });
+assert.equal(await staleDependencyHover, undefined, "unchanged document published an old dependency response");
+projects.set("logical:/standalone.typ", standaloneProject);
+
+const closedResponse = Promise.withResolvers();
+deferredBackendResponse = closedResponse;
+const closedHover = middleware.provideHover(
+  standalone,
+  { line: 1, character: 2 },
+  cancellationToken,
+  () => undefined
+);
+await middleware.didClose(standalone, () => undefined);
+await middleware.didOpen(standalone, () => undefined);
+closedResponse.resolve({ contents: { kind: "markdown", value: "closed incarnation" } });
+assert.equal(await closedHover, undefined, "close/reopen published an old incarnation response");
+
+const retiredBackendResponse = Promise.withResolvers();
+deferredBackendResponse = retiredBackendResponse;
+const retiredBackendHover = middleware.provideHover(
+  standalone,
+  { line: 1, character: 2 },
+  cancellationToken,
+  () => undefined
+);
+backendGeneration += 1;
+retiredBackendResponse.resolve({ contents: { kind: "markdown", value: "retired backend" } });
+assert.equal(await retiredBackendHover, undefined, "retired backend generation published a response");
 console.log(JSON.stringify({ checked: true, families: ["diagnostics", "completion", "hover", "signatureHelp", "semanticTokens"] }));

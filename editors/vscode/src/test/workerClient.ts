@@ -10,6 +10,19 @@ function hasLabel(result: CompletionList, expected: string): boolean {
   );
 }
 
+function fixtureIdentity(revision: number): Pick<
+  TypstProjectUpdate,
+  "sourceContent" | "projectDigest" | "projectionKey" | "mappingDigest"
+> {
+  const key = `fixture-${revision}`;
+  return {
+    sourceContent: key as TypstProjectUpdate["sourceContent"],
+    projectDigest: key as TypstProjectUpdate["projectDigest"],
+    projectionKey: key as TypstProjectUpdate["projectionKey"],
+    mappingDigest: key
+  };
+}
+
 async function runTinymistWorkerClientTest(
   workerUri: string,
   moduleUri: string,
@@ -25,6 +38,7 @@ async function runTinymistWorkerClientTest(
     sourceUri: "file:///workspace/replay-test.mmt",
     sourceVersion: 1,
     revision: 1,
+    ...fixtureIdentity(1),
     entryUri: uriV1,
     full: true,
     files: [
@@ -47,6 +61,7 @@ async function runTinymistWorkerClientTest(
     client.syncProject({
       ...update,
       revision: 2,
+      ...fixtureIdentity(2),
       entryUri: uriV2,
       full: false,
       files: [{ uri: uriV2, text: "#let repacked(name) = [Updated #name]\n#repacked(\"MMT\")\n#rep" }]
@@ -55,6 +70,7 @@ async function runTinymistWorkerClientTest(
     client.syncProject({
       ...update,
       revision: 2,
+      ...fixtureIdentity(2),
       entryUri: uriV2,
       full: false,
       files: [{ uri: uriV2, text: "#let stale = 1" }]
@@ -66,6 +82,7 @@ async function runTinymistWorkerClientTest(
     client.syncProject({
       ...update,
       revision: 1,
+      ...fixtureIdentity(1),
       entryUri: uriNextSession,
       full: false,
       files: [{ uri: uriNextSession, text: "#let incomplete = 1" }]
@@ -74,6 +91,7 @@ async function runTinymistWorkerClientTest(
     client.syncProject({
       ...update,
       revision: 1,
+      ...fixtureIdentity(1),
       entryUri: uriNextSession,
       full: true,
       files: [
@@ -85,6 +103,7 @@ async function runTinymistWorkerClientTest(
     client.syncProject({
       ...update,
       revision: 3,
+      ...fixtureIdentity(3),
       entryUri: lateOldUri,
       full: true,
       files: [{ uri: lateOldUri, text: "#let stale = 1" }]

@@ -1,3 +1,5 @@
+import type { ProjectionKey, SourceContentKey, TypstProjectSnapshotKey } from "./runtimeIdentity";
+
 export type PositionEncoding = "utf-8" | "utf-16";
 
 export interface WirePosition {
@@ -195,6 +197,9 @@ export interface RetainedTypstGeneration {
   readonly entryUri: string;
   readonly revision: number;
   readonly files: readonly RetainedTypstFile[];
+  readonly sourceContent: SourceContentKey;
+  readonly projectDigest: TypstProjectSnapshotKey;
+  readonly projectionKey: ProjectionKey;
 }
 
 export interface ProjectedPositionWire {
@@ -202,6 +207,9 @@ export interface ProjectedPositionWire {
   readonly revision: number;
   readonly position: WirePosition;
   readonly positionEncoding: PositionEncoding;
+  readonly sourceContent: SourceContentKey;
+  readonly projectDigest: TypstProjectSnapshotKey;
+  readonly projectionKey: ProjectionKey;
 }
 
 export interface RetainedBackendPosition {
@@ -209,6 +217,9 @@ export interface RetainedBackendPosition {
   readonly revision: number;
   readonly index: LineIndex;
   readonly position: TinymistBackendPosition;
+  readonly sourceContent: SourceContentKey;
+  readonly projectDigest: TypstProjectSnapshotKey;
+  readonly projectionKey: ProjectionKey;
 }
 
 export function parseProjectedPosition(value: unknown): ProjectedPositionWire {
@@ -223,6 +234,9 @@ export function parseProjectedPosition(value: unknown): ProjectedPositionWire {
     || typeof candidate.position !== "object"
     || candidate.position === null
     || (candidate.positionEncoding !== "utf-8" && candidate.positionEncoding !== "utf-16")
+    || typeof candidate.sourceContent !== "string"
+    || typeof candidate.projectDigest !== "string"
+    || typeof candidate.projectionKey !== "string"
   ) {
     throw new PositionConversionError("AmbiguousEncoding");
   }
@@ -234,7 +248,10 @@ export function parseProjectedPosition(value: unknown): ProjectedPositionWire {
       line: checkedCoordinate(position.line),
       character: checkedCoordinate(position.character)
     },
-    positionEncoding: candidate.positionEncoding
+    positionEncoding: candidate.positionEncoding,
+    sourceContent: candidate.sourceContent,
+    projectDigest: candidate.projectDigest,
+    projectionKey: candidate.projectionKey
   };
 }
 
@@ -248,14 +265,28 @@ export function retainedBackendPosition(
   }
   if (generation.revision !== value.revision) {
     throw new PositionConversionError("StaleProjection");
-
+  }
+  if (
+    generation.sourceContent !== value.sourceContent
+    || generation.projectDigest !== value.projectDigest
+    || generation.projectionKey !== value.projectionKey
+  ) {
+    throw new PositionConversionError("ProjectionMismatch");
   }
   const file = generation.files.find((candidate) => candidate.uri === value.entryUri);
   if (typeof file?.text !== "string") throw new PositionConversionError("AbsentGeneration");
   const index = new LineIndex(file.text);
   const position = tinymistBackendPosition(value.position, value.positionEncoding);
   index.backendToByte(position);
-  return { entryUri: value.entryUri, revision: value.revision, index, position };
+  return {
+    entryUri: value.entryUri,
+    revision: value.revision,
+    sourceContent: value.sourceContent,
+    projectDigest: value.projectDigest,
+    projectionKey: value.projectionKey,
+    index,
+    position
+  };
 }
 
 export function wireBackendPosition(position: TinymistBackendPosition): WirePosition {

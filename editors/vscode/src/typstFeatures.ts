@@ -11,10 +11,16 @@ import type {
 
 import {
   diagnosticVersionMatchesProjection,
-  projectionRevisionIsCurrent,
   type TinymistHostBackend,
   type TypstProjectUpdate
 } from "./tinymistClient";
+import {
+  SourceStaleTokenRegistry,
+  captureTypstRequestIdentity,
+  typstRequestIdentityIsCurrent,
+  type CanonicalTypstProjectIdentity,
+  type TypstRequestIdentity
+} from "./typstProtocol";
 import {
   LineIndex,
   mmtClientPosition,
@@ -40,13 +46,67 @@ function standaloneBackendPosition(
   );
 }
 
+
+interface GuardedBackendPosition extends RetainedBackendPosition {
+  readonly identity: TypstRequestIdentity;
+}
+
+const guardsByBackend = new WeakMap<TinymistHostBackend, TypstPublicationGuard>();
+
+class TypstPublicationGuard {
+  readonly staleTokens = new SourceStaleTokenRegistry();
+
+  constructor(private readonly backend: TinymistHostBackend) {}
+
+  capture(
+    project: TypstProjectUpdate | undefined,
+    hostUri: string,
+    documentVersion: number
+  ): TypstRequestIdentity | undefined {
+    const staleToken = this.staleTokens.current(hostUri);
+    if (
+      !staleToken
+      || staleToken.documentVersion !== documentVersion
+      || project?.sourceVersion !== documentVersion
+      || !hasCanonicalProjectIdentity(project)
+    ) {
+      return undefined;
+    }
+    return captureTypstRequestIdentity(
+      project,
+      staleToken,
+      this.backend.backendGeneration()
+    );
+  }
+
+  isCurrent(identity: TypstRequestIdentity): boolean {
+    const project = this.backend.projectForEntry(identity.entryUri);
+    return typstRequestIdentityIsCurrent(identity, {
+      project: hasCanonicalProjectIdentity(project) ? project : undefined,
+      staleToken: this.staleTokens.current(identity.staleToken.hostUri),
+      backendGeneration: this.backend.backendGeneration()
+    });
+  }
+}
+
+function hasCanonicalProjectIdentity(
+  project: TypstProjectUpdate | undefined
+): project is TypstProjectUpdate & CanonicalTypstProjectIdentity {
+  return project !== undefined
+    && typeof project.sourceContent === "string"
+    && typeof project.projectDigest === "string"
+    && typeof project.projectionKey === "string";
+}
+
+
 async function projectedBackendPosition(
   document: vscode.TextDocument,
   position: vscode.Position,
   token: vscode.CancellationToken,
   activeClient: BaseLanguageClient,
-  backend: TinymistHostBackend
-): Promise<RetainedBackendPosition | null> {
+  backend: TinymistHostBackend,
+  guard: TypstPublicationGuard
+): Promise<GuardedBackendPosition | null> {
   const client = mmtClientPosition(
     activeClient.code2ProtocolConverter.asPosition(position),
     "utf-16"
@@ -62,19 +122,25 @@ async function projectedBackendPosition(
   );
   if (value === null) return null;
   const projected = parseProjectedPosition(value);
-  return retainedBackendPosition(projected, backend.projectForEntry(projected.entryUri));
+  const project = backend.projectForEntry(projected.entryUri);
+  const retained = retainedBackendPosition(projected, project);
+  const identity = guard.capture(project, document.uri.toString(), document.version);
+  return identity ? { ...retained, identity } : null;
 }
 
-async function requestWithCancellation<T>(
+async function requestWithIdentity<T>(
   backend: TinymistHostBackend,
+  guard: TypstPublicationGuard,
+  identity: TypstRequestIdentity,
   method: string,
   params: unknown,
   token: vscode.CancellationToken
-): Promise<T> {
+): Promise<T | undefined> {
   const controller = new AbortController();
   const subscription = token.onCancellationRequested(() => controller.abort());
   try {
-    return await backend.request<T>(method, params, controller.signal);
+    const response = await backend.request<T>(method, params, controller.signal);
+    return guard.isCurrent(identity) ? response : undefined;
   } finally {
     subscription.dispose();
   }
@@ -85,25 +151,38 @@ export function installTypstMiddleware(
   backend: TinymistHostBackend,
   client: () => BaseLanguageClient
 ): void {
+  const guard = new TypstPublicationGuard(backend);
+  guardsByBackend.set(backend, guard);
   options.middleware = {
     didOpen: async (document, next) => {
+      guard.staleTokens.open(document.uri.toString(), document.version);
       if (document.languageId !== "typst") await next(document);
     },
     didChange: async (event, next) => {
+      guard.staleTokens.advance(event.document.uri.toString(), event.document.version);
       if (event.document.languageId !== "typst") await next(event);
     },
     didClose: async (document, next) => {
+      guard.staleTokens.close(document.uri.toString());
       if (document.languageId !== "typst") await next(document);
     },
     provideCompletionItem: async (document, position, completionContext, token, next) => {
       if (document.languageId === "typst") {
         const activeClient = client();
-        const result = await requestWithCancellation<ProtocolCompletionItem[] | ProtocolCompletionList | null>(backend, "textDocument/completion", {
+        const identity = guard.capture(
+          backend.projectForEntry(document.uri.toString()),
+          document.uri.toString(),
+          document.version
+        );
+        if (!identity) return undefined;
+        const result = await requestWithIdentity<ProtocolCompletionItem[] | ProtocolCompletionList | null>(backend, guard, identity, "textDocument/completion", {
           textDocument: { uri: document.uri.toString() },
           position: standaloneBackendPosition(document, position, activeClient),
           context: { triggerKind: completionContext.triggerKind, triggerCharacter: completionContext.triggerCharacter }
         }, token);
-        return activeClient.protocol2CodeConverter.asCompletionResult(result, undefined, token);
+        return result === undefined
+          ? undefined
+          : activeClient.protocol2CodeConverter.asCompletionResult(result, undefined, token);
       }
       const mmt = await next(document, position, completionContext, token);
       if (Array.isArray(mmt) ? mmt.length > 0 : Boolean(mmt?.items.length)) return mmt;
@@ -114,12 +193,13 @@ export function installTypstMiddleware(
           position,
           token,
           activeClient,
-          backend
+          backend,
+          guard
         );
         if (!route) return mmt;
-        const result = await requestWithCancellation<
+        const result = await requestWithIdentity<
           ProtocolCompletionItem[] | ProtocolCompletionList | null
-        >(backend, "textDocument/completion", {
+        >(backend, guard, route.identity, "textDocument/completion", {
           textDocument: { uri: route.entryUri },
           position: wireBackendPosition(route.position),
           context: {
@@ -127,6 +207,7 @@ export function installTypstMiddleware(
             triggerCharacter: completionContext.triggerCharacter
           }
         }, token);
+        if (result === undefined) return mmt;
         const items = Array.isArray(result) ? result : (result?.items ?? []);
         const mapped = await activeClient.sendRequest<ProtocolCompletionItem[] | null>(
           "mmt/mapTypstCompletion",
@@ -135,10 +216,14 @@ export function installTypstMiddleware(
             revision: route.revision,
             entryUri: route.entryUri,
             backendEncoding: route.position.encoding,
+            sourceContent: route.sourceContent,
+            projectDigest: route.projectDigest,
+            projectionKey: route.projectionKey,
             items
           },
           token
         );
+        if (!guard.isCurrent(route.identity)) return mmt;
         return activeClient.protocol2CodeConverter.asCompletionResult(mapped, undefined, token);
       } catch (error) {
         console.error("embedded Typst completion failed", error);
@@ -148,7 +233,13 @@ export function installTypstMiddleware(
     provideHover: async (document, position, token, next) => {
       if (document.languageId === "typst") {
         const activeClient = client();
-        const hover = await requestWithCancellation<ProtocolHover | null>(backend, "textDocument/hover", {
+        const identity = guard.capture(
+          backend.projectForEntry(document.uri.toString()),
+          document.uri.toString(),
+          document.version
+        );
+        if (!identity) return undefined;
+        const hover = await requestWithIdentity<ProtocolHover | null>(backend, guard, identity, "textDocument/hover", {
           textDocument: { uri: document.uri.toString() },
           position: standaloneBackendPosition(document, position, activeClient)
         }, token);
@@ -163,10 +254,11 @@ export function installTypstMiddleware(
           position,
           token,
           activeClient,
-          backend
+          backend,
+          guard
         );
         if (!route) return mmt;
-        const hover = await requestWithCancellation<ProtocolHover | null>(backend, "textDocument/hover", {
+        const hover = await requestWithIdentity<ProtocolHover | null>(backend, guard, route.identity, "textDocument/hover", {
           textDocument: { uri: route.entryUri },
           position: wireBackendPosition(route.position)
         }, token);
@@ -178,10 +270,14 @@ export function installTypstMiddleware(
             revision: route.revision,
             entryUri: route.entryUri,
             backendEncoding: route.position.encoding,
+            sourceContent: route.sourceContent,
+            projectDigest: route.projectDigest,
+            projectionKey: route.projectionKey,
             hover
           },
           token
         );
+        if (!guard.isCurrent(route.identity)) return mmt;
         return activeClient.protocol2CodeConverter.asHover(mapped);
       } catch (error) {
         console.error("embedded Typst hover failed", error);
@@ -191,7 +287,13 @@ export function installTypstMiddleware(
     provideSignatureHelp: async (document, position, signatureContext, token, next) => {
       if (document.languageId === "typst") {
         const activeClient = client();
-        const signature = await requestWithCancellation<ProtocolSignatureHelp | null>(backend, "textDocument/signatureHelp", {
+        const identity = guard.capture(
+          backend.projectForEntry(document.uri.toString()),
+          document.uri.toString(),
+          document.version
+        );
+        if (!identity) return undefined;
+        const signature = await requestWithIdentity<ProtocolSignatureHelp | null>(backend, guard, identity, "textDocument/signatureHelp", {
           textDocument: { uri: document.uri.toString() },
           position: standaloneBackendPosition(document, position, activeClient),
           context: { triggerKind: signatureContext.triggerKind, triggerCharacter: signatureContext.triggerCharacter, isRetrigger: signatureContext.isRetrigger }
@@ -207,11 +309,14 @@ export function installTypstMiddleware(
           position,
           token,
           activeClient,
-          backend
+          backend,
+          guard
         );
         if (!route) return mmt;
-        const signature = await requestWithCancellation<ProtocolSignatureHelp | null>(
+        const signature = await requestWithIdentity<ProtocolSignatureHelp | null>(
           backend,
+          guard,
+          route.identity,
           "textDocument/signatureHelp",
           {
             textDocument: { uri: route.entryUri },
@@ -232,10 +337,11 @@ export function installTypstMiddleware(
           position,
           token,
           activeClient,
-          backend
+          backend,
+          guard
         );
-        if (!current || current.revision !== route.revision) return undefined;
-        if (!projectionRevisionIsCurrent(backend, route.entryUri, route.revision)) return undefined;
+        if (!current || current.projectionKey !== route.projectionKey) return undefined;
+        if (!guard.isCurrent(route.identity)) return undefined;
         return activeClient.protocol2CodeConverter.asSignatureHelp(signature, token);
       } catch (error) {
         console.error("embedded Typst signature help failed", error);
@@ -249,6 +355,8 @@ export function connectTypstBackend(
   client: BaseLanguageClient,
   backend: TinymistHostBackend
 ): vscode.Disposable[] {
+  const guard = guardsByBackend.get(backend);
+  if (!guard) throw new Error("Typst middleware must own response guards before backend connection");
   let warnedAboutUnversionedDiagnostics = false;
   const diagnostics = vscode.languages.createDiagnosticCollection("mmt-typst");
   const projectUpdated = client.onNotification(
@@ -283,12 +391,12 @@ export function connectTypstBackend(
         );
       }
       const project = backend.projectForEntry(params.uri);
-      if (!project || !diagnosticVersionMatchesProjection(project.revision, params.version)) {
-        return;
-      }
+      if (!project || !diagnosticVersionMatchesProjection(project.revision, params.version)) return;
+      const identity = guard.capture(project, project.sourceUri, project.sourceVersion);
+      if (!identity) return;
       if (project.sourceUri === project.entryUri) {
         const converted = await client.protocol2CodeConverter.asDiagnostics(params.diagnostics);
-        if (!projectionRevisionIsCurrent(backend, params.uri, project.revision)) return;
+        if (!guard.isCurrent(identity)) return;
         diagnostics.set(vscode.Uri.parse(project.sourceUri), converted);
         return;
       }
@@ -299,12 +407,15 @@ export function connectTypstBackend(
           revision: project.revision,
           entryUri: project.entryUri,
           backendEncoding: TINYMIST_POSITION_ENCODING,
+          sourceContent: identity.sourceContent,
+          projectDigest: identity.projectDigest,
+          projectionKey: identity.projectionKey,
           diagnostics: params.diagnostics
         }
       );
       if (!mapped) return;
       const converted = await client.protocol2CodeConverter.asDiagnostics(mapped);
-      if (!projectionRevisionIsCurrent(backend, params.uri, project.revision)) return;
+      if (!guard.isCurrent(identity)) return;
       diagnostics.set(vscode.Uri.parse(project.sourceUri), converted);
     })().catch((error: unknown) => {
       console.error("embedded Typst diagnostics failed", error);
