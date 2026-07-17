@@ -12,7 +12,7 @@
 - [x] 0.8 Generate checked capability manifests containing artifact digest, backend version, position encoding, provider options and experimental methods
   - Evidence: `cd editors/vscode && npm run test:capability-manifest` checks `src/test/fixtures/tinymist-capability-manifest.json`, including native checksum reference `tinymist-native.sha256`, Web SHA-256 `d9b946…`, backend `0.15.2`, and UTF-16.
 - [x] 0.9 Diff native/Web manifests and classify every provider as core-required, host-optional, deferred or unavailable
-  - Evidence: the same deterministic command reports baseline completion/hover/semantic-token/signature providers as `core-required`, P0 providers as `deferred` pending shared method transcripts, and location/package callback as explicit host-optional/unavailable.
+  - Evidence: the same deterministic command reports baseline completion/hover/semantic-token/signature providers as `core-required`, advertised P0 providers without shared positive/negative method transcripts as `unavailable` with machine-readable `patchRequired: true` and `patchRequiredProviders`, and location/package callback as explicit host-optional/unavailable.
 - [x] 0.10 Remove any capability claim not supported by an explicitly enumerated provider and successful positive/negative method transcripts
   - Evidence: the generator rejects stale manifests and asserts no P0 provider is `core-required` without compatible advertisement plus shared positive/negative evidence; package callback remains unavailable rather than claimed.
 - [x] 0.11 Inventory current runtime maps, listeners, timers, queues, AbortControllers, Workers, processes and dispose ownership

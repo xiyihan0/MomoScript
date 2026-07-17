@@ -67,18 +67,18 @@
       "web": true
     },
     {
-      "classification": "deferred",
+      "classification": "unavailable",
       "key": "definitionProvider",
       "native": true,
-      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "reason": "P0 is advertised but lacks shared positive/negative method transcripts; W0-H patch blocker",
       "sameOptions": true,
       "web": true
     },
     {
-      "classification": "deferred",
+      "classification": "unavailable",
       "key": "documentFormattingProvider",
       "native": true,
-      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "reason": "P0 is advertised but lacks shared positive/negative method transcripts; W0-H patch blocker",
       "sameOptions": true,
       "web": true
     },
@@ -91,26 +91,26 @@
       "web": true
     },
     {
-      "classification": "deferred",
+      "classification": "unavailable",
       "key": "documentLinkProvider",
       "native": true,
-      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "reason": "P0 is advertised but lacks shared positive/negative method transcripts; W0-H patch blocker",
       "sameOptions": true,
       "web": true
     },
     {
-      "classification": "deferred",
+      "classification": "unavailable",
       "key": "documentRangeFormattingProvider",
       "native": true,
-      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "reason": "P0 is advertised but lacks shared positive/negative method transcripts; W0-H patch blocker",
       "sameOptions": true,
       "web": true
     },
     {
-      "classification": "deferred",
+      "classification": "unavailable",
       "key": "documentSymbolProvider",
       "native": true,
-      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "reason": "P0 is advertised but lacks shared positive/negative method transcripts; W0-H patch blocker",
       "sameOptions": true,
       "web": true
     },
@@ -163,18 +163,18 @@
       "web": true
     },
     {
-      "classification": "deferred",
+      "classification": "unavailable",
       "key": "referencesProvider",
       "native": true,
-      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "reason": "P0 is advertised but lacks shared positive/negative method transcripts; W0-H patch blocker",
       "sameOptions": true,
       "web": true
     },
     {
-      "classification": "deferred",
+      "classification": "unavailable",
       "key": "renameProvider",
       "native": true,
-      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "reason": "P0 is advertised but lacks shared positive/negative method transcripts; W0-H patch blocker",
       "sameOptions": true,
       "web": true
     },
@@ -238,7 +238,17 @@
       "referencesProvider",
       "renameProvider"
     ],
-    "rule": "core-required requires compatible native/Web advertisement and shared positive/negative method transcript"
+    "patchRequired": true,
+    "patchRequiredProviders": [
+      "definitionProvider",
+      "documentFormattingProvider",
+      "documentLinkProvider",
+      "documentRangeFormattingProvider",
+      "documentSymbolProvider",
+      "referencesProvider",
+      "renameProvider"
+    ],
+    "rule": "core-required requires compatible native/Web advertisement and shared positive/negative method transcript; advertised P0 without that evidence is unavailable and blocks W0-H"
   },
   "schemaVersion": 1
 }

@@ -53,8 +53,8 @@ const providers = capabilityKeys.map((key) => {
     classification = "core-required";
     reason = "compatible advertisement plus checked native/Web baseline transcript";
   } else if (native && web && p0.has(key)) {
-    classification = "deferred";
-    reason = "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts";
+    classification = "unavailable";
+    reason = "P0 is advertised but lacks shared positive/negative method transcripts; W0-H patch blocker";
   } else if (native && web) {
     classification = "deferred";
     reason = sameOptions
@@ -66,6 +66,8 @@ const providers = capabilityKeys.map((key) => {
   }
   return { classification, key, native, reason, sameOptions, web };
 });
+const patchRequiredProviders = providers.filter((item) => p0.has(item.key) && item.classification === "unavailable").map((item) => item.key);
+const patchRequired = patchRequiredProviders.length > 0;
 
 const manifest = stable({
   schemaVersion: 1,
@@ -104,7 +106,9 @@ const manifest = stable({
   qualification: {
     baselineEvidence: "typst-language-baseline.json",
     p0Keys: [...p0].sort(),
-    rule: "core-required requires compatible native/Web advertisement and shared positive/negative method transcript",
+    patchRequired,
+    patchRequiredProviders,
+    rule: "core-required requires compatible native/Web advertisement and shared positive/negative method transcript; advertised P0 without that evidence is unavailable and blocks W0-H",
   },
 });
 
@@ -117,7 +121,7 @@ for (const provider of manifest.providers) {
     assert(provider.native && provider.web && provider.sameOptions && baselineQualified.has(provider.key));
   }
   if (p0.has(provider.key)) {
-    assert.notEqual(provider.classification, "core-required", `${provider.key} lacks shared method transcript`);
+    assert.equal(provider.classification, "unavailable", `${provider.key} lacks shared method transcript and must block W0-H`);
   }
 }
 assert.equal(manifest.packageCallback.classification, "unavailable");
@@ -133,7 +137,8 @@ if (process.env.UPDATE_TINYMIST_CAPABILITY_MANIFEST === "1") {
 console.log(JSON.stringify({
   checked: true,
   coreRequired: manifest.providers.filter((item) => item.classification === "core-required").map((item) => item.key),
-  deferredP0: manifest.providers.filter((item) => p0.has(item.key)).map((item) => item.key),
+  patchRequired: manifest.qualification.patchRequired,
+  patchRequiredProviders: manifest.qualification.patchRequiredProviders,
   packageCallback: manifest.packageCallback.classification,
   locationFallback: manifest.previewLocation.fallback,
 }));
