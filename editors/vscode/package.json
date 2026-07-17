@@ -128,7 +128,8 @@
     "test:runtime-inventory": "node ./scripts/test-runtime-inventory.mjs",
     "test:project-lifecycle": "node ./scripts/test-project-lifecycle.mjs",
     "test:typst-baseline": "node ./scripts/test-typst-language-baseline.mjs",
-    "test:runtime-characterization": "npm run test:runtime-inventory && npm run test:project-lifecycle && npm run test:typst-baseline"
+    "test:runtime-characterization": "npm run test:runtime-inventory && npm run test:project-lifecycle && npm run test:typst-baseline",
+    "test:capability-manifest": "node ./scripts/test-capability-manifest.mjs"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1",

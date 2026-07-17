@@ -9,9 +9,12 @@
 - [ ] 0.5 Capture complete normalized `initialize` results and dynamic registrations from the pinned browser Tinymist Worker artifact
 - [ ] 0.6 Capture native/Web package-callback message shape、cancellation and error transcripts; require artifact upgrade or maintained patch if logical host callbacks are unavailable
 - [ ] 0.7 Capture native/Web preview/location method、artifact digest and coordinate-version evidence
-- [ ] 0.8 Generate checked capability manifests containing artifact digest, backend version, position encoding, provider options and experimental methods
-- [ ] 0.9 Diff native/Web manifests and classify every provider as core-required, host-optional, deferred or unavailable
-- [ ] 0.10 Remove any capability claim not supported by an explicitly enumerated provider and successful positive/negative method transcripts
+- [x] 0.8 Generate checked capability manifests containing artifact digest, backend version, position encoding, provider options and experimental methods
+  - Evidence: `cd editors/vscode && npm run test:capability-manifest` checks `src/test/fixtures/tinymist-capability-manifest.json`, including native checksum reference `tinymist-native.sha256`, Web SHA-256 `d9b946…`, backend `0.15.2`, and UTF-16.
+- [x] 0.9 Diff native/Web manifests and classify every provider as core-required, host-optional, deferred or unavailable
+  - Evidence: the same deterministic command reports baseline completion/hover/semantic-token/signature providers as `core-required`, P0 providers as `deferred` pending shared method transcripts, and location/package callback as explicit host-optional/unavailable.
+- [x] 0.10 Remove any capability claim not supported by an explicitly enumerated provider and successful positive/negative method transcripts
+  - Evidence: the generator rejects stale manifests and asserts no P0 provider is `core-required` without compatible advertisement plus shared positive/negative evidence; package callback remains unavailable rather than claimed.
 - [x] 0.11 Inventory current runtime maps, listeners, timers, queues, AbortControllers, Workers, processes and dispose ownership
   - Evidence: `npm run test:runtime-inventory` machine-checks `src/test/fixtures/runtime-inventory.json`, including 13 long-lived `main.ts` collections, 21 listener groups, 3 timer classes, 8 Worker/process owners and 20 duplicated Worker/process client state fields.
 - [x] 0.12 Add behavior-preserving Worker/process project lifecycle fixtures before extraction

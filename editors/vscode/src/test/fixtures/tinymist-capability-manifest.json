@@ -1,0 +1,244 @@
+{
+  "artifacts": {
+    "native": {
+      "backendVersion": "0.15.2",
+      "checksumReference": "tinymist-native.sha256",
+      "digest": "a05c45590986ec48d9dd50ef41c1e38cf233f3a313319ef47dabbef5067e0038",
+      "positionEncoding": "utf-16"
+    },
+    "web": {
+      "backendVersion": "0.15.2",
+      "checksumReference": "vendor/tinymist-0.15.2/SHA256SUMS",
+      "digest": "d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454",
+      "positionEncoding": "utf-16"
+    }
+  },
+  "experimentalMethods": {
+    "native": [
+      "onEnter"
+    ],
+    "web": [
+      "onEnter"
+    ]
+  },
+  "packageCallback": {
+    "cancellationQualified": false,
+    "classification": "unavailable",
+    "native": "unavailable",
+    "web": "unavailable"
+  },
+  "previewLocation": {
+    "classification": "host-optional",
+    "coordinateVersion": null,
+    "fallback": "immutable-location-map",
+    "nativeQualifiedMethod": null
+  },
+  "providers": [
+    {
+      "classification": "deferred",
+      "key": "codeActionProvider",
+      "native": true,
+      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "codeLensProvider",
+      "native": true,
+      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "colorProvider",
+      "native": true,
+      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "core-required",
+      "key": "completionProvider",
+      "native": true,
+      "reason": "compatible advertisement plus checked native/Web baseline transcript",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "definitionProvider",
+      "native": true,
+      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "documentFormattingProvider",
+      "native": true,
+      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "documentHighlightProvider",
+      "native": true,
+      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "documentLinkProvider",
+      "native": true,
+      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "documentRangeFormattingProvider",
+      "native": true,
+      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "documentSymbolProvider",
+      "native": true,
+      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "executeCommandProvider",
+      "native": true,
+      "reason": "artifact provider options differ",
+      "sameOptions": false,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "experimental",
+      "native": true,
+      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "foldingRangeProvider",
+      "native": true,
+      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "core-required",
+      "key": "hoverProvider",
+      "native": true,
+      "reason": "compatible advertisement plus checked native/Web baseline transcript",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "inlayHintProvider",
+      "native": true,
+      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "positionEncoding",
+      "native": true,
+      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "referencesProvider",
+      "native": true,
+      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "renameProvider",
+      "native": true,
+      "reason": "P0 is advertised by both artifacts but lacks shared positive/negative method transcripts",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "selectionRangeProvider",
+      "native": true,
+      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "core-required",
+      "key": "semanticTokensProvider",
+      "native": true,
+      "reason": "compatible advertisement plus checked native/Web baseline transcript",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "core-required",
+      "key": "signatureHelpProvider",
+      "native": true,
+      "reason": "compatible advertisement plus checked native/Web baseline transcript",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "textDocumentSync",
+      "native": true,
+      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "workspace",
+      "native": true,
+      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "sameOptions": true,
+      "web": true
+    },
+    {
+      "classification": "deferred",
+      "key": "workspaceSymbolProvider",
+      "native": true,
+      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "sameOptions": true,
+      "web": true
+    }
+  ],
+  "qualification": {
+    "baselineEvidence": "typst-language-baseline.json",
+    "p0Keys": [
+      "definitionProvider",
+      "documentFormattingProvider",
+      "documentLinkProvider",
+      "documentRangeFormattingProvider",
+      "documentSymbolProvider",
+      "referencesProvider",
+      "renameProvider"
+    ],
+    "rule": "core-required requires compatible native/Web advertisement and shared positive/negative method transcript"
+  },
+  "schemaVersion": 1
+}
