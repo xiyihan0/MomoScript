@@ -67,7 +67,8 @@
 - [ ] 2.10 Move production Web document/project/preview/materialization subscriptions under the controller
 - [ ] 2.11 Replace related `main.ts` maps with coordinator-owned typed stores
 - [ ] 2.12 Implement graceful dispose deadline and synchronous terminate fallback for unload/HMR
-- [ ] 2.13 Connect PWA safe-restart quiesce only after the owning PWA contract is complete, without defining a second lifecycle
+- [x] 2.13 Connect PWA safe-restart quiesce only after the owning PWA contract is complete, without defining a second lifecycle
+  - Evidence: production `main.ts` publishes the narrow `PwaSafeRestartQuiesceAdapter` port backed by the existing runtime owner; it rejects new document/project work, drains durable and materialization work, exposes activation readiness and never activates/reloads a Service Worker. `cd editors/vscode-web && npm run test:pwa-quiesce && npm run test:runtime-owner && npm run check` passes.
 - [ ] 2.14 Prove native process, browser Worker, Desktop Host and Web Host retain baseline behavior after cutover
 - [ ] 2.15 Delete duplicated project lifecycle state from Worker/process clients
 

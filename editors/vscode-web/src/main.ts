@@ -35,6 +35,7 @@ import { projectionSessionKey } from "../../vscode/src/tinymistClient";
 import { sanitizeSvg, TypstPreviewController, type TypstExportFormat } from "./preview";
 import { PreviewBuildState } from "./previewDiagnostics";
 import { RuntimeOwner, disposeWithFallback, ownEventListener, terminateOnUnload } from "./runtimeOwner";
+import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
 import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest, TypstVirtualFile } from "../../vscode/src/tinymistClient";
 import {
   canonicalBytesDigest,
@@ -295,6 +296,8 @@ async function start(): Promise<void> {
   const latestProjectBySource = new Map<string, { session: string; sourceVersion: number; revision: number }>();
   const retiredProjectSessions = new Map<string, Set<string>>();
   const materializationControllers = new Map<string, AbortController>();
+  const pendingMaterializations = new Set<Promise<void>>();
+  let acceptingRuntimeWork = true;
   const materializedResourceCache = new BoundedStringCache(MATERIALIZED_RESOURCE_CACHE_MAX_BYTES);
   const latestLanguageProjectionBySource = new Map<string, LanguageProjectionToken>();
   const typstRevisions = new Map<string, number>();
@@ -535,7 +538,13 @@ async function start(): Promise<void> {
         || renderProject.revision !== token.revision
         || renderProject.sourceVersion !== token.sourceVersion
       ) return;
-      await applyProject(renderProject, force);
+      const application = applyProject(renderProject, force);
+      pendingMaterializations.add(application);
+      try {
+        await application;
+      } finally {
+        pendingMaterializations.delete(application);
+      }
     } catch (error) {
       requestedRenderTokens.delete(token);
       throw error;
@@ -856,6 +865,7 @@ async function start(): Promise<void> {
   });
   const persistenceByUri = new Map<string, Promise<void>>();
   const documentPersistenceRegistration = own(vscode.workspace.onDidChangeTextDocument((event) => {
+    if (!acceptingRuntimeWork) return;
     const document = event.document;
     if ((document.languageId !== "mmt" && document.languageId !== "typst")
       || document.uri.scheme !== "mmtfs" || document.uri.authority !== "workspace") return;
@@ -887,6 +897,7 @@ async function start(): Promise<void> {
   document.documentElement.dataset.mmtLanguageId = recognizedDocument.languageId;
   document.documentElement.dataset.mmtWorkspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? "";
   const typstDocumentChangeRegistration = own(vscode.workspace.onDidChangeTextDocument((event) => {
+    if (!acceptingRuntimeWork) return;
     void recognizeAndSyncTypst(event.document).then((project) => {
       if (!project) return;
       const sourceUri = event.document.uri.toString();
@@ -894,6 +905,48 @@ async function start(): Promise<void> {
       if (displayedPreviewSourceUri === sourceUri) return preview.update(project);
     }).catch((error: unknown) => log("preview:error", `Typst: ${error instanceof Error ? error.message : String(error)}`));
   }));
+  const safeRestart = new PwaSafeRestartQuiesceAdapter({
+    pauseNewWork() {
+      acceptingRuntimeWork = false;
+      return () => { acceptingRuntimeWork = true; };
+    },
+    requireWriter() {
+      if (provider?.coordinator.state.lease !== "writer") throw new Error("Safe restart requires the workspace writer lease");
+    },
+    assertWorkspaceSafe() {
+      const state = provider?.coordinator.state;
+      if (!state) throw new Error("Workspace is unavailable");
+      if (state.blocked || state.pendingJournalIds.length > 0 || state.metadata.storage.pendingJournal) {
+        throw new Error("Safe restart is blocked by a pending workspace journal");
+      }
+      if (state.metadata.storage.quotaBlocked) throw new Error("Safe restart is blocked by workspace quota/history state");
+      if (state.metadata.storage.historyDegraded && state.metadata.storage.unreconciled) {
+        throw new Error("Safe restart is blocked until workspace history is reconciled");
+      }
+      if (state.metadata.migration.state !== "complete") throw new Error("Safe restart is blocked by incomplete workspace migration");
+    },
+    async flushDurableState() {
+      await Promise.all([...persistenceByUri.values()]);
+      await provider!.coordinator.flush();
+    },
+    async abortAndDrainRuntimeWork() {
+      for (const controller of materializationControllers.values()) controller.abort();
+      await Promise.all([...pendingMaterializations, ...persistenceByUri.values()]);
+    },
+    async persistRecoveryMetadata() {
+      sessionStorage.setItem("momoscript.safe-restart.v1", JSON.stringify({
+        sourceUri: vscode.window.activeTextEditor?.document.uri.toString() ?? null,
+        workspaceUri: vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? null,
+      }));
+    },
+    runtime: owner,
+  });
+  Reflect.set(globalThis, "__mmtPwaSafeRestart", safeRestart);
+  own({
+    dispose() {
+      if (Reflect.get(globalThis, "__mmtPwaSafeRestart") === safeRestart) Reflect.deleteProperty(globalThis, "__mmtPwaSafeRestart");
+    },
+  });
   owner.ready();
   recordE2ELifecycle("runtime-ready", lifecycleGeneration);
   const terminateTinymist = tinymist?.terminate.bind(tinymist) ?? (() => {});

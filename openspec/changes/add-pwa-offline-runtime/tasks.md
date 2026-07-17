@@ -3,7 +3,8 @@
 - [x] 0.1 定义 page、root worker、workspace、Local History 和 Pack Manager 共用的 `OriginStorageCoordinator` message/schema/version contract
 - [x] 0.2 落地 shell-agnostic durable inventory/reservation foundation，足以批准 History desired budget；不得依赖 shell/pack 已实现
 - [ ] 0.3 完成 `add-workspace-storage-history-sync` task 3.5/3.6 的 inventory/state 注册，再原子更新 inventory 并申请 History desired budget
-- [ ] 0.4 完成 `add-mmt-lsp-vscode` Web runtime owner：逆序 startup rollback、可等待 `prepareForReload` / graceful dispose 与 unload 同步 Worker terminate fallback
+- [x] 0.4 完成 `add-mmt-lsp-vscode` Web runtime owner：逆序 startup rollback、可等待 `prepareForReload` / graceful dispose 与 unload 同步 Worker terminate fallback
+  - Evidence: `cd editors/vscode-web && npm run test:runtime-owner && npm run test:pwa-quiesce` covers reverse rollback、graceful deadline/fallback and the production safe-restart adapter without adding another listener or runtime lifecycle.
 - [x] 0.5 用 fault-injecting fake subsystems 验证 reservation、release、crash expiry 和并发 shell/pack request 不重复占用同一 free bytes
 
 ## 1. Phase 0 Browser And Deployment Decision Gate
@@ -47,7 +48,8 @@
 
 - [ ] 5.1 waiting worker 只发布 manifest/size；实现“下载更新”和“重启并应用”两步 UI，不自动 staging/skipWaiting/reload
 - [ ] 5.2 update staging 复用 origin reservation，保留 active A 与 workspace safety；空间不足在下载 B 前失败
-- [ ] 5.3 实现 `prepareForReload()`：writer lease、document queue、history edit group、journal/unreconciled/migration gate、preview abort/await 和 session metadata
+- [x] 5.3 实现 `prepareForReload()`：writer lease、document queue、history edit group、journal/unreconciled/migration gate、preview abort/await 和 session metadata
+  - Evidence: `PwaSafeRestartQuiesceAdapter` pauses new document/project work, validates the live writer and workspace metadata gates, flushes the coordinator/document queues, aborts and awaits tracked materialization, persists recovery metadata, then invokes the existing runtime owner's `quiesce()`; `npm run test:pwa-quiesce` covers success、deadline/blocker recovery and concurrent/idempotent calls.
 - [ ] 5.4 仅在安全边界发送 `ACTIVATE(buildId)`；worker 调用 `skipWaiting()` 但不自动 `clients.claim()`，接受页面只 reload 一次
 - [ ] 5.5 实现 client revision handshake/heartbeat；旧 tab 不强制 reload，previous cache 在所有 A clients 退出前保留
 - [ ] 5.6 实现 probation：Workbench/workspace、MMT、Tinymist、Typst smoke、Webview 全通过后 `SHELL_HEALTHY`
