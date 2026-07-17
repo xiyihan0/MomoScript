@@ -70,9 +70,9 @@
 ## 10. Diagnostics And Runtime Closure
 
 - [x] 10.1 将 syntax、mode、actor、asset、resource、pack resolve/planning 与 placeholder Typst-check 收束为单一 live diagnostic 集合，替换当前 syntax+actor 子集并避免重复
-- [ ] 10.2 让 language projection 与 render project 共享同一次 parse/analysis 和 position index，删除每次变更的重复 parse/index
+- [x] 10.2 让 language projection 与 render project 共享同一次 parse/analysis 和 position index，删除每次变更的重复 parse/index
 - [x] 10.3 为 `TypstRenderProjectUpdate` 增加 source-version/revision-bound resolve/planning diagnostics，并保留 phase、labels 与 authored range
-- [ ] 10.4 将 Web fetch、AVIFS decode 与最终 render/layout failure 建模为独立 preview/build diagnostics，拒绝旧 revision 覆盖
+- [x] 10.4 将 Web fetch、AVIFS decode 与最终 render/layout failure 建模为独立 preview/build diagnostics，拒绝旧 revision 覆盖
 - [x] 10.5 建立生产 Web runtime owner、逆序启动失败 rollback、可等待 graceful dispose 与 unload/HMR 同步 Worker terminate 保底
 - [x] 10.6 消除 Web 标准 `didChange` + 同版本 `mmt/updateDocument` 的双路同步；保持 `version <= current.version` 幂等拒绝，不以同版本重建 snapshot
 - [ ] 10.7 增加 live/render diagnostic 去重、pack resolve/planning、资源 I/O failure、runtime reload/HMR 与双路同步迁移的聚焦回归
