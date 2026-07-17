@@ -8,6 +8,7 @@
 - [ ] 0.4 Capture complete normalized `initialize` results from the pinned native Tinymist process artifact
 - [ ] 0.5 Capture complete normalized `initialize` results and dynamic registrations from the pinned browser Tinymist Worker artifact
 - [ ] 0.6 Capture native/Web package-callback message shape、cancellation and error transcripts; require artifact upgrade or maintained patch if logical host callbacks are unavailable
+  - Blocker evidence (2026-07-18): direct reruns of pinned native SHA-256 `a05c455…` and Web WASM SHA-256 `d9b946…` observed no logical callback; native emitted only a package-not-found diagnostic with `serverRequests: []`, while Web direct request/cancellation probes returned `-32601`. `tinymist-package-patch-assessment.json` records why the synchronous native `HttpRegistry`/Web `JsRegistry` contracts cannot be adapted safely in the host alone and enumerates the required pinned upstream async request/injection/resync patch. Package resolution and 7.1–7.20 remain disabled/unclaimed.
 - [ ] 0.7 Capture native/Web preview/location method、artifact digest and coordinate-version evidence
 - [x] 0.8 Generate checked capability manifests containing artifact digest, backend version, position encoding, provider options and experimental methods
   - Evidence: `cd editors/vscode && npm run test:capability-manifest` checks `src/test/fixtures/tinymist-capability-manifest.json`, including native checksum reference `tinymist-native.sha256`, Web SHA-256 `d9b946…`, backend `0.15.2`, and UTF-16.

@@ -1,0 +1,66 @@
+{
+  "schema": "mmt-tinymist-package-patch-assessment.v1",
+  "assessedBase": "4241a83769ac4f34ed640dc16d62fb7f6b1ef534",
+  "artifacts": {
+    "native": {
+      "version": "0.15.2",
+      "sha256": "a05c45590986ec48d9dd50ef41c1e38cf233f3a313319ef47dabbef5067e0038",
+      "command": "TINYMIST_BIN=/home/xiyihan/MomoScript-worktrees/artifacts/tinymist-3d63da4f/target/release/tinymist npm run test:tinymist-process",
+      "observed": {
+        "import": "@preview/mmt-evidence-missing:999.999.999",
+        "serverRequests": [],
+        "result": "deterministic package-not-found diagnostic",
+        "callbackAvailability": "unavailable",
+        "cancellation": "unavailable"
+      }
+    },
+    "web": {
+      "version": "0.15.2",
+      "wasmSha256": "d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454",
+      "command": "TINYMIST_WEB_PKG=$PWD/vendor/tinymist-0.15.2 npm run test:tinymist-worker",
+      "observed": {
+        "import": "@preview/cetz:0.2.2",
+        "serverRequests": [],
+        "directRequestErrorCode": -32601,
+        "cancellationProbeErrorCode": -32601,
+        "callbackAvailability": "unavailable"
+      }
+    }
+  },
+  "sourceAssessment": {
+    "maintainableHostOnlyAdapter": false,
+    "reason": "The fixed artifacts expose no callback. Adding a dispatcher branch cannot cause Tinymist to issue a request or consume host-supplied package bytes.",
+    "blockingInterfaces": [
+      {
+        "source": "crates/tinymist-package/src/registry/http.rs",
+        "detail": "Native PackageStorage::prepare_package performs synchronous in-backend filesystem lookup and direct HTTP download; it has no host request or package injection port."
+      },
+      {
+        "source": "crates/tinymist-package/src/registry/browser.rs",
+        "detail": "Web JsRegistry::resolve calls a synchronous JavaScript resolve function and accepts only an immediately returned path; a Promise-backed LSP callback cannot satisfy this contract."
+      },
+      {
+        "source": "crates/sync-lsp/src/server/lsp_srv.rs",
+        "detail": "Client requests are asynchronous callbacks into mutable server state; PackageRegistry::resolve is synchronous, so blocking it would deadlock the browser Worker event loop."
+      },
+      {
+        "source": "editors/vscode/src/tinymistHostSession.ts",
+        "detail": "The typed server dispatcher has no package handler port; even adding one would only answer requests after an artifact begins emitting them."
+      }
+    ],
+    "requiredPinnedUpstreamPatch": [
+      "Introduce an asynchronous package-missing event outside synchronous compiler evaluation, carrying backend generation and complete project snapshot identity.",
+      "Accept a host activation/injection message that installs an immutable logical package generation and maps its files into the registry/VFS without native or Web network access.",
+      "Reschedule compilation after activation and reject responses from retired backend/project generations.",
+      "Propagate cancellation by request ID without cancelling other dependent projects.",
+      "Disable HttpRegistry direct downloads in the patched native LSP build and use the same logical protocol in native and Web builds.",
+      "Rebuild the pinned native binary and Web WASM, promote checksums, and capture positive, unavailable, cancellation, stale-generation and error transcripts before enabling the host service."
+    ]
+  },
+  "decision": {
+    "packageResolution": "disabled",
+    "downstreamImplementationStarted": false,
+    "tasksSatisfied": [],
+    "blocker": "maintained-native-and-web-artifact-patch-required"
+  }
+}
