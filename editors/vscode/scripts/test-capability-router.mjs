@@ -10,7 +10,8 @@ const bundle = await build({
     contents: [
       "export * from './src/tinymistCapabilities.ts';",
       "export * from './src/tinymistHostSession.ts';",
-      "export * from './src/tinymistRequestDispatcher.ts';"
+      "export * from './src/tinymistRequestDispatcher.ts';",
+      "export * from './src/typstFeatureRouter.ts';"
     ].join("\n"),
     resolveDir: root,
     sourcefile: "capability-router-entry.ts",
@@ -31,7 +32,8 @@ const {
   TinymistDispatchError,
   TinymistHostSession,
   TinymistRequestDispatcher,
-  TinymistServerRequestDispatcher
+  TinymistServerRequestDispatcher,
+  TypstFeatureRouter
 } = runtime;
 
 const fixtures = path.join(root, "src", "test", "fixtures");
@@ -302,11 +304,170 @@ assert.deepEqual(
   "request sequence was not strictly monotonic"
 );
 
+const nativeProviderRegistry = new TinymistCapabilityRegistry();
+nativeProviderRegistry.install(10, nativeEvidence.initialize);
+const webProviderRegistry = new TinymistCapabilityRegistry();
+webProviderRegistry.install(11, webEvidence.initialize);
+applyTranscript(new TinymistServerRequestDispatcher(webProviderRegistry), 11, webEvidence);
+const nativeProviderRouter = new TypstFeatureRouter({ capabilities: () => nativeProviderRegistry }, () => ({}));
+const webProviderRouter = new TypstFeatureRouter({ capabilities: () => webProviderRegistry }, () => ({}));
+const nativeProviderMethods = nativeProviderRouter.registrations().map((registration) => registration.method);
+const webProviderMethods = webProviderRouter.registrations().map((registration) => registration.method);
+assert.deepEqual(nativeProviderMethods, webProviderMethods, "native/Web qualified baseline provider registrations diverged");
+assert.equal(webProviderMethods.includes("textDocument/semanticTokens/full"), true);
+assert.deepEqual(
+  nativeProviderRouter.capability("textDocument/completion").triggerCharacters,
+  webProviderRouter.capability("textDocument/completion").triggerCharacters,
+  "native/Web negotiated completion triggers diverged"
+);
+
+const qualifiedRegistry = new TinymistCapabilityRegistry();
+qualifiedRegistry.install(12, {
+  capabilities: {
+    completionProvider: { resolveProvider: true, triggerCharacters: ["#", "."] },
+    hoverProvider: true,
+    signatureHelpProvider: { triggerCharacters: ["("], retriggerCharacters: [","] },
+    semanticTokensProvider: { full: true }
+  }
+});
+const providerBackend = {
+  capabilities: () => qualifiedRegistry,
+  backendGeneration: () => 12,
+  projectForEntry: () => undefined,
+  request: async () => null
+};
+const providerRouter = new TypstFeatureRouter(providerBackend, () => ({}));
+const registrations = providerRouter.registrations();
+assert.deepEqual(
+  registrations.map((registration) => registration.method),
+  [
+    "textDocument/completion",
+    "textDocument/hover",
+    "textDocument/signatureHelp",
+    "textDocument/semanticTokens/full"
+  ],
+  "qualified provider registration order changed"
+);
+assert.deepEqual(providerRouter.capability("textDocument/completion"), {
+  method: "textDocument/completion",
+  triggerCharacters: ["#", "."],
+  retriggerCharacters: [],
+  resolveProvider: true
+});
+assert.deepEqual(providerRouter.capability("textDocument/signatureHelp"), {
+  method: "textDocument/signatureHelp",
+  triggerCharacters: ["("],
+  retriggerCharacters: [","],
+  resolveProvider: false
+});
+
+const unavailableStates = [];
+const unavailableRegistry = new TinymistCapabilityRegistry();
+unavailableRegistry.install(13, { capabilities: { completionProvider: {} } });
+const unavailableRouter = new TypstFeatureRouter(
+  {
+    capabilities: () => unavailableRegistry,
+    backendGeneration: () => 13,
+    projectForEntry: () => undefined,
+    request: async () => null
+  },
+  () => ({}),
+  { unavailable: (state) => unavailableStates.push(state) }
+);
+assert.equal(unavailableRouter.registrations().some((item) => item.method === "textDocument/hover"), false);
+assert.equal(unavailableRouter.capability("textDocument/hover").kind, "CapabilityUnavailable");
+assert.equal(unavailableStates.length, 1, "unavailable state was not visible exactly once");
+
+const routedProjects = new Map([
+  ["logical:/unicode.typ", {
+    sourceUri: "logical:/unicode.typ",
+    sourceVersion: 1,
+    revision: 1,
+    entryUri: "logical:/unicode.typ",
+    files: [{ uri: "logical:/unicode.typ", text: "中😀a" }],
+    full: true,
+    sourceContent: "source-standalone",
+    projectDigest: "project-standalone",
+    projectionKey: "projection-standalone",
+    mappingDigest: "mapping-standalone"
+  }],
+  ["logical:/embedded-2.typ", {
+    sourceUri: "logical:/embedded.mmt",
+    sourceVersion: 2,
+    revision: 2,
+    entryUri: "logical:/embedded-2.typ",
+    files: [{ uri: "logical:/embedded-2.typ", text: "a😀b" }],
+    full: true,
+    sourceContent: "source-embedded",
+    projectDigest: "project-embedded",
+    projectionKey: "projection-embedded",
+    mappingDigest: "mapping-embedded"
+  }]
+]);
+const routedBackendCalls = [];
+const routedBackend = {
+  capabilities: () => qualifiedRegistry,
+  backendGeneration: () => 12,
+  projectForEntry: (entryUri) => routedProjects.get(entryUri),
+  request: async (method, params) => {
+    routedBackendCalls.push({ method, params: structuredClone(params) });
+    return {
+      isIncomplete: true,
+      itemDefaults: { commitCharacters: ["."] },
+      items: [{ label: params.textDocument.uri, data: { resolve: "kept" } }]
+    };
+  }
+};
+const routedClient = {
+  sendRequest: async (method, params) => {
+    if (method === "mmt/typstPosition") {
+      return {
+        entryUri: "logical:/embedded-2.typ",
+        revision: 2,
+        position: { line: 0, character: 5 },
+        positionEncoding: "utf-8",
+        sourceContent: "source-embedded",
+        projectDigest: "project-embedded",
+        projectionKey: "projection-embedded"
+      };
+    }
+    if (method === "mmt/mapTypstCompletion") return params.items;
+    throw new Error(`unexpected routed client request: ${method}`);
+  }
+};
+const routedRouter = new TypstFeatureRouter(routedBackend, () => routedClient, { backendEncoding: "utf-8" });
+const routedToken = { onCancellationRequested: () => ({ dispose() {} }) };
+const standaloneDocument = { languageId: "typst", uri: "logical:/unicode.typ", version: 1, text: "中😀a" };
+const embeddedDocument = { languageId: "mmt", uri: "logical:/embedded.mmt", version: 2, text: "x😀y" };
+routedRouter.open(standaloneDocument);
+routedRouter.open(embeddedDocument);
+const standaloneResult = await routedRouter.completion(
+  standaloneDocument,
+  { line: 0, character: 3 },
+  { triggerKind: 1 },
+  routedToken
+);
+const projectedResult = await routedRouter.completion(
+  embeddedDocument,
+  { line: 0, character: 3 },
+  { triggerKind: 1 },
+  routedToken
+);
+assert.equal(routedBackendCalls[0].params.position.character, 7, "standalone UTF-16 position was not converted to UTF-8");
+assert.equal(routedBackendCalls[1].params.position.character, 5, "projected lookup position was not retained in backend encoding");
+assert.deepEqual(standaloneResult.itemDefaults, { commitCharacters: ["."] });
+assert.deepEqual(projectedResult.itemDefaults, { commitCharacters: ["."] });
+assert.deepEqual(projectedResult.items[0].data, { resolve: "kept" });
+
 console.log(JSON.stringify({
   checked: true,
   nativeCapabilities: nativeRegistry.list().length,
   webDynamicSemanticTokens: true,
   dynamicUnregister: true,
+  nativeWebProviderRegistration: true,
+  unavailableStateVisible: true,
+  standaloneAndProjectedPositionConversion: true,
+  completionDefaultsAndResolveDataPreserved: true,
   staleGraphRejected: true,
   cancellationRejected: true,
   sequenceRejected: true

@@ -82,7 +82,28 @@ const projects = new Map([
 let backendGeneration = 1;
 let deferredBackendResponse;
 
+const baselineCapabilityOptions = new Map([
+  ["textDocument/completion", { triggerCharacters: ["#", "(", "<", ",", ".", ":", "/", "\"", "@"] }],
+  ["textDocument/hover", true],
+  ["textDocument/signatureHelp", { triggerCharacters: ["(", ",", ":"] }],
+  ["textDocument/semanticTokens/full", { full: { delta: true } }]
+]);
+
 const backend = {
+  capabilities() {
+    return {
+      generation: backendGeneration,
+      has: (method) => baselineCapabilityOptions.has(method),
+      get: (method) => baselineCapabilityOptions.has(method)
+        ? { method, initializeOptions: baselineCapabilityOptions.get(method), dynamicRegistrations: [] }
+        : undefined,
+      list: () => [...baselineCapabilityOptions].map(([method, initializeOptions]) => ({
+        method,
+        initializeOptions,
+        dynamicRegistrations: []
+      }))
+    };
+  },
   on(method, handler) {
     const handlers = backendHandlers.get(method) ?? [];
     handlers.push(handler);
@@ -132,7 +153,8 @@ const converter = {
   asCompletionResult: (value) => value,
   asHover: (value) => value,
   asSignatureHelp: (value) => value,
-  asDiagnostics: async (value) => value
+  asDiagnostics: async (value) => value,
+  asSemanticTokens: async (value) => value
 };
 const client = {
   code2ProtocolConverter: converter,
@@ -176,11 +198,6 @@ const options = {};
 installTypstMiddleware(options, backend, () => client);
 const middleware = options.middleware;
 assert.ok(middleware, "Typst middleware was not installed");
-assert.equal(
-  "provideDocumentSemanticTokens" in middleware,
-  false,
-  "embedded Typst middleware unexpectedly replaced MMT-native semantic tokens"
-);
 connectTypstBackend(client, backend);
 
 const standalone = {
@@ -271,18 +288,18 @@ const diagnosticsSettled = Promise.withResolvers();
 setImmediate(diagnosticsSettled.resolve);
 await diagnosticsSettled.promise;
 
-const semanticTokens = await backend.request("textDocument/semanticTokens/full", {
-  textDocument: { uri: "logical:/standalone.typ" }
-});
-const typstFeaturesSource = await readFile(path.join(root, "src/typstFeatures.ts"), "utf8");
-const webAdapterSource = await readFile(path.join(root, "../vscode-web/src/tinymistLanguageClient.ts"), "utf8");
-assert.equal(
-  typstFeaturesSource.includes("provideDocumentSemanticTokens"),
-  false,
-  "embedded middleware unexpectedly began routing Tinymist semantic tokens"
+const semanticTokens = await middleware.provideDocumentSemanticTokens(
+  standalone,
+  cancellationToken,
+  () => { throw new Error("standalone semantic tokens reached MMT middleware"); }
 );
-assert.match(webAdapterSource, /\{ language: "typst", scheme: "mmtfs" \}/);
-assert.match(webAdapterSource, /"textDocument\/semanticTokens\/full"/);
+const embeddedSemanticTokens = { data: [9, 9, 9, 9, 9], resultId: "mmt-native" };
+const routedEmbeddedSemanticTokens = await middleware.provideDocumentSemanticTokens(
+  embedded,
+  cancellationToken,
+  () => embeddedSemanticTokens
+);
+assert.equal(routedEmbeddedSemanticTokens, embeddedSemanticTokens, "MMT-native semantic tokens lost precedence");
 
 
 const standaloneBackendMethods = backendCalls.slice(0, 3).map((call) => call.method);

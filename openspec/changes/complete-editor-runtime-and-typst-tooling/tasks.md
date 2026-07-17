@@ -86,13 +86,20 @@
   - Evidence: `tinymistRequestDispatcher.ts` defines a typed request map/envelope and assigns strictly monotonic local sequences while carrying every required canonical and host-local publication guard. `cd editors/vscode && npm run check && npm run test:capability-router` passes, including in-flight cancellation, same-scope supersession and independent-method sequencing.
 - [x] 3.3 Reject every standalone/projected response when its complete project graph changes, even if the requesting document version is unchanged
   - Evidence: `TinymistRequestDispatcher` performs preflight and post-response equality checks for backend generation, logical/source content identity, incarnation/version token, complete `TypstProjectSnapshotKey` and optional `ProjectionKey`; the focused fixture advances only the project snapshot while keeping the requesting document token unchanged and receives `StaleProjectSnapshot`. `cd editors/vscode && npm run test:capability-router && npm run test:response-identity` passes.
-- [ ] 3.4 Implement standalone Typst routing with explicit backend position conversion
-- [ ] 3.5 Implement MMT-first routing and current projected-position lookup
-- [ ] 3.6 Migrate completion, hover and signature help to the router without changing results
-- [ ] 3.7 Migrate Typst diagnostics and semantic tokens to shared request/revision handling
-- [ ] 3.8 Preserve completion item defaults, resolve data and trigger/retrigger characters from negotiated capabilities
-- [ ] 3.9 Expose user-visible unavailable state instead of registering commands/providers that always fail
-- [ ] 3.10 Add provider-registration tests for native/Web capability differences
+- [x] 3.4 Implement standalone Typst routing with explicit backend position conversion
+  - Evidence: `TypstFeatureRouter` converts retained UTF-16 editor positions through `LineIndex` into the active backend encoding before typed dispatch. `cd editors/vscode && npm run test:capability-router && npm run test:position-domains` passes, including Chinese-plus-astral UTF-16 character 3 → UTF-8 byte 7 and invalid-boundary rejection.
+- [x] 3.5 Implement MMT-first routing and current projected-position lookup
+  - Evidence: middleware returns definitive MMT completion/hover/signature and semantic-token results without a Tinymist request; otherwise the router resolves `mmt/typstPosition`, requires the exact retained project/projection, and rechecks signature routing before publication. `cd editors/vscode && npm run test:capability-router && npm run test:typst-baseline && npm run test:response-identity` passes with projected UTF-8 position 5, MMT precedence, close/reopen、backend-generation and graph-change rejection.
+- [x] 3.6 Migrate completion, hover and signature help to the router without changing results
+  - Evidence: `typstFeatures.ts` now delegates all three standalone/projected fallback families to `TypstFeatureRouter`; `cd editors/vscode && npm run test:typst-baseline` matches the checked `typst-language-baseline.json` byte-for-byte while `npm run test:capability-router` covers typed dispatch and sequence/cancellation guards.
+- [x] 3.7 Migrate Typst diagnostics and semantic tokens to shared request/revision handling
+  - Evidence: push diagnostics use the router's retained revision/project/projection publication guard and mapping path; standalone semantic tokens use the same capability gate、dispatcher and retained index while MMT semantic tokens remain native. `cd editors/vscode && npm run test:typst-baseline && npm run test:response-identity` passes; `TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" npm run test:tinymist-worker` and `TINYMIST_BIN=/home/xiyihan/MomoScript-worktrees/artifacts/tinymist-3d63da4f/target/release/tinymist npm run test:tinymist-process` exercise the real Worker/process interfaces.
+- [x] 3.8 Preserve completion item defaults, resolve data and trigger/retrigger characters from negotiated capabilities
+  - Evidence: projected completion reconstructs the original `CompletionList` around mapped items, preserving `itemDefaults`, `isIncomplete` and item `data`; registration metadata merges initialize/dynamic trigger and retrigger characters and resolve support. `cd editors/vscode && npm run test:capability-router` observes preserved `{ commitCharacters: ["."] }`, resolve data and synthetic negotiated trigger/retrigger options.
+- [x] 3.9 Expose user-visible unavailable state instead of registering commands/providers that always fail
+  - Evidence: absent active-generation methods are excluded from `registrations()`, return typed `CapabilityUnavailable` state and emit one generation/method-scoped VS Code status message. `cd editors/vscode && npm run test:capability-router` proves hover is omitted and the visible unavailable callback fires exactly once.
+- [x] 3.10 Add provider-registration tests for native/Web capability differences
+  - Evidence: `cd editors/vscode && npm run test:capability-router && npm run test:capability-manifest` consumes checked native/Web initialize plus dynamic-registration evidence, verifies the qualified baseline registration set and negotiated completion triggers, and retains Web dynamic semantic-token registration/unregister behavior. `npm run check`, `npm run test:worker`, `TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" npm run test:tinymist-worker` and `TINYMIST_BIN=/home/xiyihan/MomoScript-worktrees/artifacts/tinymist-3d63da4f/target/release/tinymist npm run test:tinymist-process` pass.
 
 ## 4. Qualified standalone Typst authoring features
 
