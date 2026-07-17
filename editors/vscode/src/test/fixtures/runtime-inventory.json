@@ -5,6 +5,7 @@
     "editors/vscode-web/src/runtimeController.ts",
     "editors/vscode/src/tinymistClient.ts",
     "editors/vscode/src/tinymistProcessClient.ts",
+    "editors/vscode/src/tinymistHostSession.ts",
     "editors/vscode/src/tinymistTransport.ts",
     "editors/vscode/src/typstProjectState.ts"
   ],
@@ -72,12 +73,20 @@
       "idempotence": "EditorRuntimeController shares startup, quiesce and disposal promises"
     }
   },
-  "duplicatedClientState": [
-    { "semantic": "notification handlers", "worker": "handlers", "process": "handlers" },
-    { "semantic": "transport readiness", "worker": "ready", "process": "ready" },
-    { "semantic": "terminal stop flag", "worker": "stopped", "process": "stopped" },
-    { "semantic": "single recovery promise", "worker": "restarting", "process": "restarting" }
+  "duplicatedClientState": [],
+  "sharedHostSessionState": [
+    { "name": "handlers", "role": "host-neutral notification and project event subscriptions" },
+    { "name": "ready", "role": "initialized backend and replay completion" },
+    { "name": "stopped", "role": "terminal session disposal guard" },
+    { "name": "restarting", "role": "single serialized recovery promise" }
   ],
+  "hostSessionLifecycle": {
+    "owner": "TinymistHostSession",
+    "recovery": "one boot promise activates one newer generation and replays latest complete projects before ready",
+    "gracefulDispose": "stop marks terminal before awaiting transport shutdown",
+    "immediateDispose": "terminate marks the shared session terminal and synchronously terminates the active transport",
+    "idempotence": "stop and terminate share one terminal guard"
+  },
   "sharedTransportState": [
     { "name": "nextId", "role": "JSON-RPC request sequence" },
     { "name": "pending", "role": "bounded pending requests and deadlines" },

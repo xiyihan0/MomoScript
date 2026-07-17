@@ -5,10 +5,8 @@ import {
   type JsonRpcMessage,
   type TinymistWorkerFactory
 } from "./tinymistTransport";
-import {
-  DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS,
-  TypstProjectState
-} from "./typstProjectState";
+import { TinymistHostSession } from "./tinymistHostSession";
+import { DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS } from "./typstProjectState";
 export {
   canonicalTypstUri,
   mergeProjectFiles,
@@ -190,13 +188,9 @@ export function serverRequestResponse(message: JsonRpcMessage): JsonRpcMessage {
 
 
 export class TinymistWorkerClient implements TinymistHostBackend {
-  private readonly handlers = new Map<string, Set<(params: unknown) => void>>();
   private readonly transport: JsonRpcTinymistTransport;
-  private readonly projectState: TypstProjectState;
+  private readonly session: TinymistHostSession;
   private semanticLegend: { tokenTypes: string[]; tokenModifiers: string[] } | undefined;
-  private ready = false;
-  private stopped = false;
-  private restarting: Promise<void> | undefined;
 
   private constructor(
     workerUri: string,
@@ -209,14 +203,14 @@ export class TinymistWorkerClient implements TinymistHostBackend {
       () => TinymistWorkerConnection.create({ workerUri, moduleUri, wasmUri, workerFactory }),
       { serverRequest: serverRequestResponse }
     );
-    this.transport.onNotification((method, params) => this.dispatch(method, params));
-    this.transport.onFailure((error, generation) => this.handleRuntimeFailure(error, generation));
-    this.projectState = new TypstProjectState({
-      request: <T>(method: string, params: unknown, signal?: AbortSignal) =>
-        this.transport.request<T>(method, params, signal),
-      notify: (method, params) => this.transport.notify(method, params),
-      emit: (method, params) => this.dispatch(method, params)
-    }, { closeGraceMs });
+    this.session = new TinymistHostSession({
+      label: "Tinymist Worker",
+      transport: this.transport,
+      closeGraceMs,
+      recoverOnSync: true,
+      queueNotificationsWhileRecovering: true,
+      boot: () => this.bootWorker()
+    });
   }
 
   static async start(
@@ -228,7 +222,7 @@ export class TinymistWorkerClient implements TinymistHostBackend {
   ): Promise<TinymistWorkerClient> {
     const client = new TinymistWorkerClient(workerUri, moduleUri, wasmUri, workerFactory, closeGraceMs);
     try {
-      await client.bootWorker();
+      await client.session.start();
       return client;
     } catch (error) {
       await client.stop();
@@ -237,7 +231,7 @@ export class TinymistWorkerClient implements TinymistHostBackend {
   }
 
   backendGeneration(): number {
-    return this.transport.generation;
+    return this.session.backendGeneration();
   }
 
   semanticTokensLegend(): { tokenTypes: string[]; tokenModifiers: string[] } | undefined {
@@ -245,70 +239,42 @@ export class TinymistWorkerClient implements TinymistHostBackend {
   }
 
   on(method: string, handler: (params: unknown) => void): void {
-    const handlers = this.handlers.get(method) ?? new Set();
-    handlers.add(handler);
-    this.handlers.set(method, handlers);
+    this.session.on(method, handler);
   }
 
-  async request<T>(method: string, params: unknown, signal?: AbortSignal): Promise<T> {
-    await this.ensureReady();
-    return this.projectState.request<T>(method, params, signal);
+  request<T>(method: string, params: unknown, signal?: AbortSignal): Promise<T> {
+    return this.session.request<T>(method, params, signal);
   }
 
   notify(method: string, params: unknown): void {
-    if (this.ready && this.transport.started) {
-      this.transport.notify(method, params);
-      return;
-    }
-    void this.ensureReady()
-      .then(() => this.transport.notify(method, params))
-      .catch((error: unknown) => this.dispatch("tinymist/clientFailed", { message: String(error) }));
+    this.session.notify(method, params);
   }
 
   syncProject(update: TypstProjectUpdate): void {
-    this.projectState.syncProject(update);
-    if (!this.ready) void this.ensureReady().catch((error: unknown) => {
-      this.dispatch("tinymist/clientFailed", { message: String(error) });
-    });
+    this.session.syncProject(update);
   }
 
   projectForEntry(entryUri: string): TypstProjectUpdate | undefined {
-    return this.projectState.projectForEntry(entryUri);
+    return this.session.projectForEntry(entryUri);
   }
 
   closeProject(sourceUri: string, entryUri: string): boolean {
-    return this.projectState.closeProject(sourceUri, entryUri);
+    return this.session.closeProject(sourceUri, entryUri);
   }
 
-  async restart(): Promise<void> {
-    if (this.stopped) throw new Error("Tinymist Worker client stopped");
-    const generation = this.transport.generation;
-    const error = new Error("Tinymist Worker restart requested");
-    this.ready = false;
-    this.projectState.deactivateBackend(generation, error);
-    this.transport.terminateNow(error);
-    this.dispatch("tinymist/clientRestarting", { message: error.message });
-    this.startRecovery();
-    await this.ensureReady();
+  restart(): Promise<void> {
+    return this.session.restart();
   }
 
   terminate(): void {
-    if (this.stopped) return;
-    this.stopped = true;
-    this.ready = false;
-    this.projectState.dispose(new Error("Tinymist Worker terminated"));
-    this.transport.terminateNow(new Error("Tinymist Worker terminated"));
+    this.session.terminate();
   }
 
-  async stop(): Promise<void> {
-    if (this.stopped) return;
-    this.stopped = true;
-    this.ready = false;
-    this.projectState.dispose(new Error("Tinymist Worker stopped"));
-    await this.transport.stop();
+  stop(): Promise<void> {
+    return this.session.stop();
   }
 
-  private async bootWorker(): Promise<void> {
+  private async bootWorker() {
     const session = await this.transport.start({
       processId: null,
       rootUri: null,
@@ -340,43 +306,6 @@ export class TinymistWorkerClient implements TinymistHostBackend {
       tokenTypes: [...legend.tokenTypes],
       tokenModifiers: [...legend.tokenModifiers]
     };
-    await this.projectState.activateBackend(session.generation);
-    this.ready = true;
-  }
-
-  private ensureReady(): Promise<void> {
-    if (this.stopped) return Promise.reject(new Error("Tinymist Worker client stopped"));
-    if (this.ready) return Promise.resolve();
-    this.startRecovery();
-    return this.restarting ?? Promise.reject(new Error("Tinymist Worker recovery did not start"));
-  }
-
-  private handleRuntimeFailure(error: Error, generation: number): void {
-    if (this.stopped || generation !== this.transport.generation) return;
-    this.ready = false;
-    this.projectState.deactivateBackend(generation, error);
-    this.dispatch("tinymist/clientRestarting", { message: error.message });
-    this.startRecovery();
-  }
-
-  private startRecovery(): void {
-    if (this.stopped || this.ready || this.restarting) return;
-    const recovery = this.bootWorker().then(() => {
-      this.dispatch("tinymist/clientRestarted", undefined);
-    });
-    this.restarting = recovery;
-    void recovery.catch((error: unknown) => {
-      this.ready = false;
-      this.transport.terminateNow(error instanceof Error ? error : new Error(String(error)));
-      this.dispatch("tinymist/clientFailed", {
-        message: error instanceof Error ? error.message : String(error)
-      });
-    }).finally(() => {
-      if (this.restarting === recovery) this.restarting = undefined;
-    });
-  }
-
-  private dispatch(method: string, params: unknown): void {
-    for (const handler of this.handlers.get(method) ?? []) handler(params);
+    return session;
   }
 }

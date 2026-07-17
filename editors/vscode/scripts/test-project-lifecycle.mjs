@@ -198,6 +198,9 @@ async function exerciseClient(kind, startClient, transports) {
   const client = await startClient();
   const primes = [];
   const closes = [];
+  const lifecycleEvents = [];
+  client.on("tinymist/clientRestarting", () => lifecycleEvents.push("restarting"));
+  client.on("tinymist/clientRestarted", () => lifecycleEvents.push("restarted"));
   client.on("tinymist/projectPrimed", (value) => primes.push(value));
   client.on("tinymist/virtualFileClosed", (value) => closes.push(value));
 
@@ -272,6 +275,7 @@ async function exerciseClient(kind, startClient, transports) {
     assert.equal(client.projectForEntry(ENTRY_B1)?.revision, 1, `${kind} lost the replacement session`);
 
     const oldTransport = transports.at(-1);
+    const initialGeneration = client.backendGeneration();
     const initialTransitions = normalizeMessages(oldTransport.sent);
     const staleRequest = client.request("fixture/stale", { textDocument: { uri: ENTRY_B1 } });
     while (oldTransport.delayed.size === 0) await Promise.resolve();
@@ -279,6 +283,8 @@ async function exerciseClient(kind, startClient, transports) {
     await assert.rejects(staleRequest, /restart requested/, `${kind} published an old-generation response`);
     oldTransport.releaseDelayed();
     await restart;
+    assert.equal(client.backendGeneration(), initialGeneration + 1, `${kind} recovery did not advance exactly one generation`);
+    assert.deepEqual(lifecycleEvents, ["restarting", "restarted"], `${kind} recovery lifecycle was not serialized`);
     const replayTransport = transports.at(-1);
     const replay = normalizeMessages(replayTransport.sent);
     assert.deepEqual(
@@ -310,6 +316,10 @@ async function exerciseClient(kind, startClient, transports) {
     };
   } finally {
     await client.stop();
+    await client.stop();
+    await assert.rejects(client.request("fixture/after-stop", {}), /client stopped/, `${kind} accepted work after disposal`);
+    const finalTransport = transports.at(-1);
+    assert.ok(finalTransport.terminated === true || finalTransport.exitCode === 0, `${kind} transport was not disposed`);
   }
 }
 

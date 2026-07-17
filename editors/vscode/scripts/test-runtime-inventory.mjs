@@ -11,6 +11,7 @@ const [
   runtimeControllerSource,
   workerSource,
   processSource,
+  hostSessionSource,
   transportSource,
   processTransportSource,
   projectStateSource,
@@ -23,6 +24,7 @@ const [
   readFile(path.join(root, "../vscode-web/src/runtimeController.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistClient.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistProcessClient.ts"), "utf8"),
+  readFile(path.join(root, "src/tinymistHostSession.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistTransport.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistProcessTransport.ts"), "utf8"),
   readFile(path.join(root, "src/typstProjectState.ts"), "utf8"),
@@ -37,6 +39,7 @@ assert.deepEqual(inventory.scope, [
   "editors/vscode-web/src/runtimeController.ts",
   "editors/vscode/src/tinymistClient.ts",
   "editors/vscode/src/tinymistProcessClient.ts",
+  "editors/vscode/src/tinymistHostSession.ts",
   "editors/vscode/src/tinymistTransport.ts",
   "editors/vscode/src/typstProjectState.ts"
 ]);
@@ -132,12 +135,19 @@ assert.match(mainSource, /controller\.subscribe\(subscription\)/);
 assert.match(mainSource, /controller\.dispose\(750/);
 assert.match(mainSource, /controller\.terminateAndDispose\(\)/);
 
-const duplicateNames = inventory.duplicatedClientState.map((entry) => [entry.worker, entry.process]);
-assert.equal(duplicateNames.length, 4, "remaining client wrapper state inventory is incomplete");
-for (const entry of inventory.duplicatedClientState) {
-  assert.match(workerSource, new RegExp(`\\b${entry.worker}\\b`), `Worker wrapper state ${entry.worker} disappeared`);
-  assert.match(processSource, new RegExp(`\\b${entry.process}\\b`), `process wrapper state ${entry.process} disappeared`);
+assert.deepEqual(inventory.duplicatedClientState, [], "Worker/process lifecycle state is still duplicated");
+const duplicatedFieldDeclaration = /private(?:\s+readonly)?\s+(?:handlers|ready|stopped|restarting)\b/;
+assert.doesNotMatch(workerSource, duplicatedFieldDeclaration, "Worker adapter owns shared lifecycle state");
+assert.doesNotMatch(processSource, duplicatedFieldDeclaration, "process adapter owns shared lifecycle state");
+assert.doesNotMatch(workerSource, /new\s+TypstProjectState|\.onFailure\(|\.onNotification\(/, "Worker adapter bypasses the shared host session");
+assert.doesNotMatch(processSource, /new\s+TypstProjectState|\.onFailure\(|\.onNotification\(/, "process adapter bypasses the shared host session");
+for (const entry of inventory.sharedHostSessionState) {
+  assert.match(hostSessionSource, new RegExp(`private(?:\\s+readonly)?\\s+${entry.name}\\b`), `shared host-session state ${entry.name} is missing`);
 }
+assert.equal(inventory.hostSessionLifecycle.owner, "TinymistHostSession");
+assert.match(hostSessionSource, /if \(this\.stopped \|\| this\.ready \|\| this\.restarting\) return;/, "recovery is not serialized");
+assert.match(hostSessionSource, /this\.stopped = true;[\s\S]*await this\.options\.transport\.stop\(\);/, "graceful disposal is not terminal before shutdown");
+assert.match(hostSessionSource, /this\.stopped = true;[\s\S]*this\.options\.transport\.terminateNow\(error\);/, "immediate disposal does not synchronously terminate");
 for (const entry of inventory.sharedTransportState) {
   assert.match(transportSource, new RegExp(`\\b${entry.name}\\b`), `shared transport state ${entry.name} disappeared`);
 }
