@@ -56,14 +56,15 @@
 
 ## 2. Shared runtime and project state
 
-- [ ] 2.1 Introduce `TinymistTransport` with Worker and process implementations limited to JSON-RPC transport lifecycle
-- [ ] 2.2 Extract open/applied/retained project file state from both Tinymist clients into shared `TypstProjectState`
-- [ ] 2.3 Extract accepted session/revision and retired-session rules into shared state
-- [ ] 2.4 Extract project prime debounce, in-flight tokens and close-grace scheduling into shared state
-- [ ] 2.5 Implement per-source full/delta/retire state transitions and invariant errors
-- [ ] 2.6 Implement backend generation tracking and reject responses from stopped/restarted generations
-- [ ] 2.7 Materialize latest accepted full+deltas into one complete newest-revision project and replay only that representation after Worker/process restart
-- [ ] 2.8 Implement bounded request, prime, close and replay queues with cancellation
+- [x] 2.1 Introduce `TinymistTransport` with Worker and process implementations limited to JSON-RPC transport lifecycle
+- [x] 2.2 Extract open/applied/retained project file state from both Tinymist clients into shared `TypstProjectState`
+- [x] 2.3 Extract accepted session/revision and retired-session rules into shared state
+- [x] 2.4 Extract project prime debounce, in-flight tokens and close-grace scheduling into shared state
+- [x] 2.5 Implement per-source full/delta/retire state transitions and invariant errors
+- [x] 2.6 Implement backend generation tracking and reject responses from stopped/restarted generations
+- [x] 2.7 Materialize latest accepted full+deltas into one complete newest-revision project and replay only that representation after Worker/process restart
+- [x] 2.8 Implement bounded request, prime, close and replay queues with cancellation
+  - Evidence: `cd editors/vscode && npm run check && npm run test:typst-project-state && npm run test:runtime-characterization` validates shared Worker/process transport and project-state ownership, monotonic backend generation rejection, bounded cancellation, newest-complete replay, unchanged lifecycle transitions and unchanged diagnostics/completion/hover/signature-help/semantic-token characterization.
 - [ ] 2.9 Introduce `EditorRuntimeController` with serialized startup, reverse-order rollback, ready, quiesce and dispose states
 - [ ] 2.10 Move production Web document/project/preview/materialization subscriptions under the controller
 - [ ] 2.11 Replace related `main.ts` maps with coordinator-owned typed stores

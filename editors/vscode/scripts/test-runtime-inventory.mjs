@@ -5,11 +5,25 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const fixturePath = path.join(root, "src/test/fixtures/runtime-inventory.json");
-const [fixtureText, mainSource, workerSource, processSource, runtimeOwnerSource, desktopSource, webSource] = await Promise.all([
+const [
+  fixtureText,
+  mainSource,
+  workerSource,
+  processSource,
+  transportSource,
+  processTransportSource,
+  projectStateSource,
+  runtimeOwnerSource,
+  desktopSource,
+  webSource
+] = await Promise.all([
   readFile(fixturePath, "utf8"),
   readFile(path.join(root, "../vscode-web/src/main.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistClient.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistProcessClient.ts"), "utf8"),
+  readFile(path.join(root, "src/tinymistTransport.ts"), "utf8"),
+  readFile(path.join(root, "src/tinymistProcessTransport.ts"), "utf8"),
+  readFile(path.join(root, "src/typstProjectState.ts"), "utf8"),
   readFile(path.join(root, "../vscode-web/src/runtimeOwner.ts"), "utf8"),
   readFile(path.join(root, "src/extension.ts"), "utf8"),
   readFile(path.join(root, "src/extension.web.ts"), "utf8")
@@ -19,7 +33,9 @@ assert.equal(inventory.schemaVersion, 1);
 assert.deepEqual(inventory.scope, [
   "editors/vscode-web/src/main.ts",
   "editors/vscode/src/tinymistClient.ts",
-  "editors/vscode/src/tinymistProcessClient.ts"
+  "editors/vscode/src/tinymistProcessClient.ts",
+  "editors/vscode/src/tinymistTransport.ts",
+  "editors/vscode/src/typstProjectState.ts"
 ]);
 
 const expectedMainCollections = [
@@ -110,13 +126,19 @@ assert.match(mainSource, /disposeWithFallback\(ownerDispose/);
 assert.match(mainSource, /terminateOnUnload\(\{ terminate: terminateWorkers \}, ownerDispose\)/);
 
 const duplicateNames = inventory.duplicatedClientState.map((entry) => [entry.worker, entry.process]);
-assert.equal(duplicateNames.length, 20, "duplicated Tinymist state inventory is incomplete");
+assert.equal(duplicateNames.length, 4, "remaining client wrapper state inventory is incomplete");
 for (const entry of inventory.duplicatedClientState) {
-  assert.match(workerSource, new RegExp(`\\b${entry.worker}\\b`), `Worker state ${entry.worker} disappeared`);
-  assert.match(processSource, new RegExp(`\\b${entry.process}\\b`), `process state ${entry.process} disappeared`);
+  assert.match(workerSource, new RegExp(`\\b${entry.worker}\\b`), `Worker wrapper state ${entry.worker} disappeared`);
+  assert.match(processSource, new RegExp(`\\b${entry.process}\\b`), `process wrapper state ${entry.process} disappeared`);
+}
+for (const entry of inventory.sharedTransportState) {
+  assert.match(transportSource, new RegExp(`\\b${entry.name}\\b`), `shared transport state ${entry.name} disappeared`);
+}
+for (const entry of inventory.sharedProjectState) {
+  assert.match(projectStateSource, new RegExp(`\\b${entry.name}\\b`), `shared project state ${entry.name} disappeared`);
 }
 for (const entry of inventory.processOnlyState) {
-  assert.match(processSource, new RegExp(`\\b${entry.name}\\b`), `process-only state ${entry.name} disappeared`);
+  assert.match(processTransportSource, new RegExp(`\\b${entry.name}\\b`), `process-only state ${entry.name} disappeared`);
 }
 for (const entry of inventory.workerOnlyState) {
   assert.match(workerSource, new RegExp(`\\b${entry.name}\\b`), `Worker-only state ${entry.name} disappeared`);

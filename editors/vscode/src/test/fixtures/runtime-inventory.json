@@ -3,7 +3,9 @@
   "scope": [
     "editors/vscode-web/src/main.ts",
     "editors/vscode/src/tinymistClient.ts",
-    "editors/vscode/src/tinymistProcessClient.ts"
+    "editors/vscode/src/tinymistProcessClient.ts",
+    "editors/vscode/src/tinymistTransport.ts",
+    "editors/vscode/src/typstProjectState.ts"
   ],
   "main": {
     "collections": [
@@ -70,30 +72,36 @@
     }
   },
   "duplicatedClientState": [
-    { "semantic": "JSON-RPC request sequence", "worker": "nextId", "process": "nextId" },
-    { "semantic": "pending requests and request deadlines", "worker": "pending", "process": "pending" },
     { "semantic": "notification handlers", "worker": "handlers", "process": "handlers" },
-    { "semantic": "open virtual file revisions", "worker": "openFiles", "process": "openFiles" },
-    { "semantic": "current project files", "worker": "projectFiles", "process": "projectFiles" },
-    { "semantic": "last applied project files", "worker": "appliedProjectFiles", "process": "appliedProjectFiles" },
-    { "semantic": "two retained file generations", "worker": "retainedProjectFiles", "process": "retainedProjectFiles" },
-    { "semantic": "latest complete projects by entry", "worker": "projectsByEntry", "process": "projectsByEntry" },
-    { "semantic": "latest accepted session and revision by source", "worker": "latestProjectionBySource", "process": "latestProjectionBySource" },
-    { "semantic": "retired sessions by source", "worker": "retiredSessionsBySource", "process": "retiredSessionsBySource" },
-    { "semantic": "last applied session and revision by source", "worker": "appliedProjectionBySource", "process": "appliedProjectionBySource" },
-    { "semantic": "scheduled virtual-file closes", "worker": "scheduledFileCloses", "process": "scheduledFileCloses" },
-    { "semantic": "close-grace deadline handles", "worker": "scheduledCloseFallbacks", "process": "scheduledCloseFallbacks" },
-    { "semantic": "project-prime debounce timers", "worker": "projectPrimeTimers", "process": "projectPrimeTimers" },
-    { "semantic": "project-prime latest queue", "worker": "projectPrimeQueue", "process": "projectPrimeQueue" },
-    { "semantic": "project-prime in-flight tokens", "worker": "projectPrimeInFlight", "process": "projectPrimeInFlight" },
-    { "semantic": "active transport", "worker": "worker", "process": "child" },
     { "semantic": "transport readiness", "worker": "ready", "process": "ready" },
     { "semantic": "terminal stop flag", "worker": "stopped", "process": "stopped" },
     { "semantic": "single recovery promise", "worker": "restarting", "process": "restarting" }
   ],
+  "sharedTransportState": [
+    { "name": "nextId", "role": "JSON-RPC request sequence" },
+    { "name": "pending", "role": "bounded pending requests and deadlines" },
+    { "name": "currentGeneration", "role": "monotonic backend generation" },
+    { "name": "connection", "role": "active Worker or process JSON-RPC connection" }
+  ],
+  "sharedProjectState": [
+    { "name": "openFiles", "role": "open virtual file revisions" },
+    { "name": "projectFiles", "role": "current complete project files" },
+    { "name": "appliedProjectFiles", "role": "last applied file generation" },
+    { "name": "retainedProjectFiles", "role": "bounded retained file generations" },
+    { "name": "projectsByEntry", "role": "latest complete project per source" },
+    { "name": "latestProjectionBySource", "role": "accepted session and revision" },
+    { "name": "retiredSessionsBySource", "role": "permanently retired sessions" },
+    { "name": "appliedProjectionBySource", "role": "last applied session and revision" },
+    { "name": "scheduledFileCloses", "role": "bounded close ownership" },
+    { "name": "scheduledCloseFallbacks", "role": "close-grace deadlines" },
+    { "name": "projectPrimeTimers", "role": "prime debounce timers" },
+    { "name": "projectPrimeQueue", "role": "latest-wins prime queue" },
+    { "name": "projectPrimeInFlight", "role": "cancellable prime work" },
+    { "name": "projectPrimeByEntry", "role": "exact-entry prime barriers" },
+    { "name": "requestControllers", "role": "bounded cancellable feature requests" }
+  ],
   "processOnlyState": [
-    { "name": "buffer", "role": "Content-Length framed byte buffer" },
-    { "name": "projectPrimeByEntry", "role": "feature requests wait for exact entry prime" }
+    { "name": "buffer", "role": "Content-Length framed byte buffer in process connection" }
   ],
   "workerOnlyState": [
     { "name": "semanticLegend", "role": "semantic token legend exposed to Web host" }

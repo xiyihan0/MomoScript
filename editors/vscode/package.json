@@ -127,6 +127,7 @@
     "test:web": "node ./scripts/require-tinymist-web.mjs && npm run build && vscode-test-web --browser=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/test/suite/index.js --headless=true --esm=true",
     "test:runtime-inventory": "node ./scripts/test-runtime-inventory.mjs",
     "test:project-lifecycle": "node ./scripts/test-project-lifecycle.mjs",
+    "test:typst-project-state": "node ./scripts/test-typst-project-state.mjs",
     "test:typst-baseline": "node ./scripts/test-typst-language-baseline.mjs",
     "test:position-domains": "node ./scripts/test-position-domains.mjs",
     "test:runtime-characterization": "npm run test:runtime-inventory && npm run test:project-lifecycle && npm run test:typst-baseline",
