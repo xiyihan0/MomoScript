@@ -45,13 +45,22 @@ const STORY = vscode.Uri.parse("mmtfs://workspace/story.mmt");
 const INTRO = vscode.Uri.parse("mmtfs://workspace/intro.typ");
 const DEFAULT_DOCUMENT = INTRO;
 if (import.meta.env.VITE_MMT_E2E === "1") {
-  Reflect.set(globalThis, "__mmtCompletionLabels", async (line: number, character: number) => {
+  Reflect.set(globalThis, "__mmtCompletionLabels", async (
+    line: number,
+    character: number,
+    triggerCharacter?: string,
+    name = "story.mmt"
+  ) => {
+    const uri = vscode.Uri.joinPath(WORKSPACE, name);
     const completions = await vscode.commands.executeCommand<vscode.CompletionList>(
       "vscode.executeCompletionItemProvider",
-      STORY,
-      new vscode.Position(line, character)
+      uri,
+      new vscode.Position(line, character),
+      triggerCharacter
     );
-    return completions?.items.map((item) => item.label) ?? [];
+    return completions?.items.map((item) => (
+      typeof item.label === "string" ? item.label : item.label.label
+    )) ?? [];
   });
   Reflect.set(globalThis, "__mmtCompletionDocumentation", async (line: number, character: number, label: string) => {
     const completions = await vscode.commands.executeCommand<vscode.CompletionList>(

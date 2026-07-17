@@ -569,6 +569,18 @@ impl MmtLanguageServer {
             .and_then(Value::as_bool)
             .unwrap_or(false);
 
+        let mut completion_trigger_characters = vec![
+            "_".to_string(),
+            "~".to_string(),
+            "[".to_string(),
+            ":".to_string(),
+            ",".to_string(),
+            "#".to_string(),
+        ];
+        if self.typst_language_features {
+            completion_trigger_characters.push(".".to_string());
+        }
+
         encode(InitializeResult {
             capabilities: ServerCapabilities {
                 position_encoding: Some(encoding),
@@ -578,14 +590,7 @@ impl MmtLanguageServer {
                 document_symbol_provider: Some(OneOf::Left(true)),
                 folding_range_provider: Some(FoldingRangeProviderCapability::Simple(true)),
                 completion_provider: Some(CompletionOptions {
-                    trigger_characters: Some(vec![
-                        "_".to_string(),
-                        "~".to_string(),
-                        "[".to_string(),
-                        ":".to_string(),
-                        ",".to_string(),
-                        "#".to_string(),
-                    ]),
+                    trigger_characters: Some(completion_trigger_characters),
                     ..CompletionOptions::default()
                 }),
                 hover_provider: Some(HoverProviderCapability::Simple(true)),
@@ -838,6 +843,29 @@ mod tests {
         assert_eq!(events[0].method, "textDocument/publishDiagnostics");
         assert_eq!(events[1].method, "mmt/previewRequested");
         assert_eq!(events[1].params["revision"], 1);
+    }
+
+    #[test]
+    fn advertises_typst_member_completion_trigger_when_enabled() {
+        let mut server = MmtLanguageServer::default();
+        let result = server
+            .request(
+                "initialize",
+                serde_json::json!({
+                    "capabilities": {
+                        "general": { "positionEncodings": ["utf-16"] }
+                    },
+                    "initializationOptions": {
+                        "previewOnChange": false,
+                        "typstLanguageFeatures": true
+                    }
+                }),
+            )
+            .unwrap();
+        assert_eq!(
+            result["capabilities"]["completionProvider"]["triggerCharacters"],
+            serde_json::json!(["_", "~", "[", ":", ",", "#", "."])
+        );
     }
 
     #[test]

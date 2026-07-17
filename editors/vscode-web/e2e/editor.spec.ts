@@ -161,6 +161,22 @@ test("production editor materializes an avatar and restores the authored story a
   expect(typBlockProjection?.text).toContain("#let accent = rgb(\"#24324a\")");
   expect(typBlockProjection?.text).toContain("#let a=1");
   expect(typBlockProjection?.text).toContain("#a");
+  await page.evaluate(({ name, text }) => (
+    Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function
+  )(name, text), {
+    name: "projection-race.mmt",
+    text: "@typ\n#sym.\n@end"
+  });
+  await expect.poll(() => page.evaluate(async ({ name, line, character, triggerCharacter }) => {
+    const completionLabels = Reflect.get(globalThis, "__mmtCompletionLabels");
+    if (typeof completionLabels !== "function") throw new Error("missing E2E completion hook");
+    return completionLabels(line, character, triggerCharacter, name);
+  }, {
+    name: "projection-race.mmt",
+    line: 1,
+    character: "#sym.".length,
+    triggerCharacter: "."
+  })).toEqual(expect.arrayContaining(["AA", "acute", "alpha"]));
   const defaultStory = await readWorkspaceDocument(page, "story.mmt");
   expect(defaultStory).toContain("> 佳代子:");
   expect(defaultStory).toContain(">_:");

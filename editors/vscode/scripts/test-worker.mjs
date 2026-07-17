@@ -440,6 +440,7 @@ try {
       positionEncoding: initialize.capabilities.positionEncoding,
       hoverProvider: initialize.capabilities.hoverProvider,
       semanticTokensProvider: initialize.capabilities.semanticTokensProvider,
+      completionTriggerCharacters: initialize.capabilities.completionProvider?.triggerCharacters ?? [],
       diagnosticCount: diagnostics.params.diagnostics.length,
       symbolNames: symbols.map((symbol) => symbol.name),
       foldingCount: folding.length,
@@ -466,6 +467,9 @@ try {
   if (result.positionEncoding !== "utf-16") throw new Error("position encoding mismatch");
   if (result.hoverProvider !== true) throw new Error("missing negotiated hover provider");
   if (!result.semanticTokensProvider?.full) throw new Error("missing negotiated semantic tokens provider");
+  if (!result.completionTriggerCharacters.includes(".")) {
+    throw new Error("missing negotiated Typst member completion trigger");
+  }
   if (result.semanticTokenCount < 5) throw new Error("missing browser Worker semantic tokens");
   if (JSON.stringify(result.replySemanticToken) !== JSON.stringify([0, 0, 6, 0, 0])) {
     throw new Error(`unexpected @reply semantic token: ${JSON.stringify(result.replySemanticToken)}`);
