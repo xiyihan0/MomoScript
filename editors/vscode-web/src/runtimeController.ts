@@ -2,6 +2,8 @@ import type { TypstProjectUpdate, TypstRenderProjectUpdate } from "../../vscode/
 import type { MaterializationPackSource } from "./resourceMaterializer";
 import type { LanguageProjectionToken } from "./languageProjection";
 import { RuntimeOwner, disposeWithFallback, type RuntimeOwnedResource } from "./runtimeOwner.ts";
+import { OriginStorageCoordinator } from "./originStorage.ts";
+import { TypstPackageCacheStorageOwner } from "./packageCacheStorage.ts";
 
 export type EditorRuntimeState = "starting" | "ready" | "quiescing" | "disposing" | "disposed";
 
@@ -87,6 +89,9 @@ export class EditorRuntimeController {
   readonly #owner = new RuntimeOwner();
   readonly #disposeDeadlineMs: number;
   readonly #terminators: Array<() => void> = [];
+  #originStorage: OriginStorageCoordinator | undefined;
+  #packageCacheStorage: TypstPackageCacheStorageOwner | undefined;
+  #originStoragePromise: Promise<TypstPackageCacheStorageOwner> | undefined;
   #state: EditorRuntimeState = "starting";
   #acceptingWork = true;
   #startPromise: Promise<void> | undefined;
@@ -101,6 +106,8 @@ export class EditorRuntimeController {
 
   get state(): EditorRuntimeState { return this.#state; }
   get acceptingWork(): boolean { return this.#acceptingWork && this.#state !== "disposing" && this.#state !== "disposed"; }
+  get originStorage(): OriginStorageCoordinator | undefined { return this.#originStorage; }
+  get packageCacheStorage(): TypstPackageCacheStorageOwner | undefined { return this.#packageCacheStorage; }
 
   start(initialize: (controller: EditorRuntimeController) => void | Promise<void>): Promise<void> {
     if (this.#startPromise) return this.#startPromise;
@@ -129,6 +136,25 @@ export class EditorRuntimeController {
 
   subscribe<T extends RuntimeOwnedResource>(subscription: T): T {
     return this.own(subscription);
+  }
+
+  initializeOriginStorage(
+    open: () => Promise<OriginStorageCoordinator> = () => OriginStorageCoordinator.open(),
+  ): Promise<TypstPackageCacheStorageOwner> {
+    if (this.#originStoragePromise) return this.#originStoragePromise;
+    const initialization = (async () => {
+      const coordinator = await open();
+      try {
+        this.#originStorage = this.own(coordinator);
+        this.#packageCacheStorage = this.own(new TypstPackageCacheStorageOwner(coordinator));
+        return this.#packageCacheStorage;
+      } catch (error) {
+        coordinator.close();
+        throw error;
+      }
+    })();
+    this.#originStoragePromise = initialization;
+    return initialization;
   }
 
   registerTermination(terminate: () => void): void {

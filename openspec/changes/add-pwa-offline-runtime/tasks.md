@@ -27,11 +27,12 @@
 
 ## 3. Origin-wide Storage Coordinator
 
-- [ ] 3.1 建立 IndexedDB inventory/reservation registry，区分 workspace protected、history-policy-managed、active shell、previous/staging shell、active/previous pack 与 materialization cache
-- [ ] 3.2 实现 decoded peak + metadata + `max(64 MiB, 20%)` margin + workspace growth reserve 的统一 reservation
+- [x] 3.1 建立 IndexedDB inventory/reservation registry，区分 workspace protected、history-policy-managed、active shell、previous/staging shell、active/previous pack 与 materialization cache
+- [x] 3.2 实现 decoded peak + metadata + `max(64 MiB, 20%)` margin + workspace growth reserve 的统一 reservation
 - [ ] 3.3 将 workspace current/pinned heads/checkpoints/journal/sync baseline/unreconciled durable head 注册为 PWA/pack 不可删除的 protected bytes
 - [ ] 3.4 实现回收计划：failed/orphan staging → materialization cache → inactive previous pack → healthy previous shell → 用户确认的 active offline pack
-- [ ] 3.5 阻止 PWA/pack 直接触发 Local History GC、删除 active shell 或绕过 coordinator 独立调用 estimate 后写入
+- [x] 3.5 阻止 PWA/pack 直接触发 Local History GC、删除 active shell 或绕过 coordinator 独立调用 estimate 后写入
+  - Evidence: `cd editors/vscode-web && npm run test:origin-storage` exercises the durable class registry, conservative reservation formula, ordered reclaim plan, explicit active-pack confirmation, Typst package pins and eviction/invalidation callbacks while proving protected workspace/history inventory is byte-for-byte unchanged.
 - [ ] 3.6 集中处理 `persisted()` / 用户触发 `persist()`，将 grant/deny 表示为 origin-wide 状态而非单 pack 保证
 - [ ] 3.7 注入 estimate padding/staleness、QuotaExceeded、transaction abort 和 crash，验证只回收 reproducible bytes且 reservation 幂等释放
 

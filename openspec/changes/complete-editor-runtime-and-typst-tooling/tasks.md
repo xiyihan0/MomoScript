@@ -168,6 +168,7 @@ Every item in this section is enabled only if the active artifact advertises the
 - [ ] 7.16 Keep `mmt_rs`, `mmt_lsp` and Tinymist backend network-free
 - [ ] 7.17 Emit an authored-range dependency diagnostic only for a unique import site; otherwise emit document-level package/dependency-chain diagnostics
 - [ ] 7.18 Register Web package cache through `OriginStorageCoordinator` only after its owning PWA contract exists
+  - Prerequisite evidence: `TypstPackageCacheStorageOwner` is opened and disposed by the single `EditorRuntimeController`, registers immutable generations as `typst-package-cache`, and exposes typed reserve/commit/pin/evict/invalidate ownership. `npm run test:origin-storage` covers quota pressure and protected-byte precedence; the task remains unchecked until the package service registers real generations.
 - [ ] 7.19 Include package generation and build-pinned bundled font-set digests in project/render identities
 - [ ] 7.20 Add native/Web fixtures for callback cancellation/errors, cached offline resolution, concurrent requests and every archive/manifest rejection boundary
 

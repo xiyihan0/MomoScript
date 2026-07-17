@@ -264,6 +264,7 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
   const subscribe = <T extends { dispose(): void | Promise<void> }>(subscription: T): T => controller.subscribe(subscription);
   const root = document.querySelector<HTMLElement>("#workbench");
   if (!root) throw new Error("Missing #workbench container");
+  await controller.initializeOriginStorage();
   let output: vscode.OutputChannel | undefined;
   const log = (scope: string, message: string) => {
     const line = `[${new Date().toISOString()}] [${scope}] ${message}`;

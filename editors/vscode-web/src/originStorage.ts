@@ -18,6 +18,7 @@ export type StorageClass =
   | "pack-active"
   | "pack-previous"
   | "pack-staging"
+  | "typst-package-cache"
   | "materialization-cache";
 
 export interface StorageInventoryEntry {
@@ -82,6 +83,13 @@ export type OriginStorageRequest =
 export type OriginStorageResponse =
   | { readonly protocol: typeof ORIGIN_STORAGE_PROTOCOL; readonly requestId: string; readonly ok: true; readonly snapshot?: OriginStorageSnapshot; readonly reservation?: StorageReservation }
   | { readonly protocol: typeof ORIGIN_STORAGE_PROTOCOL; readonly requestId: string; readonly ok: false; readonly error: { readonly code: "InvalidRequest" | "QuotaBlocked" | "UnknownReservation" | "ReservationInactive"; readonly message: string } };
+
+export interface StorageReclaimer {
+  readonly confirmedActivePackIds?: ReadonlySet<string>;
+  canReclaim(entry: StorageInventoryEntry): boolean;
+  evict(entry: StorageInventoryEntry): void | Promise<void>;
+  invalidate(entry: StorageInventoryEntry): void | Promise<void>;
+}
 
 export class OriginStorageCoordinator {
   #queue = Promise.resolve();
@@ -177,6 +185,56 @@ export class OriginStorageCoordinator {
     });
   }
 
+  async reserveWithReclamation(request: StorageReservationRequest, reclaimer: StorageReclaimer): Promise<StorageReservation> {
+    return this.withOriginLock(async () => {
+      validateReservationRequest(request);
+      await this.expireReservations();
+      const inventory = await this.readInventory();
+      const reservations = await this.readActiveReservations();
+      const plan = await this.buildPlan(request, inventory, reservations);
+      const shortage = Math.max(0, plan.accountedUsage + plan.reserved + plan.required - plan.quota);
+      if (shortage > 0) {
+        const candidates = this.reclaimCandidates(inventory);
+        const eligible = candidates.filter((entry) => (
+          entry.class !== "pack-active" || reclaimer.confirmedActivePackIds?.has(entry.id) === true
+        ) && reclaimer.canReclaim(entry));
+        const reclaimableBytes = eligible.reduce((total, entry) => total + entry.bytes, 0);
+        const pinnedBytes = candidates.reduce((total, entry) => total + entry.bytes, 0) - reclaimableBytes;
+        const reclaim: StorageInventoryEntry[] = [];
+        let plannedBytes = 0;
+        for (const entry of eligible) {
+          if (plannedBytes >= shortage) break;
+          reclaim.push(entry);
+          plannedBytes += entry.bytes;
+        }
+        const operationPlan: StoragePlan = {
+          ...plan,
+          protectedBytes: plan.protectedBytes + pinnedBytes,
+          reclaimableBytes,
+          reclaim,
+        };
+        if (plannedBytes < shortage) throw new StorageQuotaBlocked(operationPlan);
+        for (const entry of reclaim) {
+          await reclaimer.evict(entry);
+          await transaction(this.database, [INVENTORY_STORE], (tx) => tx.objectStore(INVENTORY_STORE).delete(entry.id));
+          await reclaimer.invalidate(entry);
+        }
+      }
+      const now = Date.now();
+      const reservation: StorageReservation = {
+        token: crypto.randomUUID(),
+        owner: request.owner,
+        purpose: request.purpose,
+        reservedBytes: plan.required,
+        createdAt: now,
+        expiresAt: now + (request.ttlMs ?? ORIGIN_STORAGE_DEFAULT_TTL_MS),
+        state: "active",
+      };
+      await transaction(this.database, [RESERVATION_STORE], (tx) => tx.objectStore(RESERVATION_STORE).put(reservation));
+      return reservation;
+    });
+  }
+
   async commit(token: string, entry: Omit<StorageInventoryEntry, "updatedAt">): Promise<void> {
     await this.withOriginLock(async () => {
       await this.expireReservations();
@@ -253,6 +311,10 @@ export class OriginStorageCoordinator {
     this.database.close();
   }
 
+  dispose(): void {
+    this.close();
+  }
+
   private async buildPlan(request: StorageReservationRequest, inventory: readonly StorageInventoryEntry[], reservations: readonly StorageReservation[]): Promise<StoragePlan> {
     const gate = inventory.find((entry) => entry.blocked);
     if (gate && (request.owner === "shell" || request.owner === "pack" || request.owner === "materializer")) {
@@ -270,20 +332,7 @@ export class OriginStorageCoordinator {
     const required = request.decodedBytes + request.metadataBytes + request.workspaceGrowthBytes + margin;
     if (!Number.isSafeInteger(required)) throw new Error("Storage reservation exceeds the safe integer range");
     const protectedBytes = inventory.filter((entry) => !entry.reproducible || entry.class === "workspace-protected" || entry.class === "history-managed" || entry.class === "shell-active").reduce((total, entry) => total + entry.bytes, 0);
-    const rank: Record<StorageClass, number> = {
-      "shell-staging": 0,
-      "pack-staging": 0,
-      "materialization-cache": 1,
-      "pack-previous": 2,
-      "shell-previous": 3,
-      "pack-active": 4,
-      "history-managed": 99,
-      "workspace-protected": 99,
-      "shell-active": 99,
-    };
-    const candidates = inventory
-      .filter((entry) => entry.reproducible && rank[entry.class] < 99)
-      .sort((left, right) => rank[left.class] - rank[right.class] || left.updatedAt - right.updatedAt || compareBytes(left.id, right.id));
+    const candidates = this.reclaimCandidates(inventory);
     const reclaimableBytes = candidates.reduce((total, entry) => total + entry.bytes, 0);
     const shortage = Math.max(0, accountedUsage + reserved + required - quota);
     const reclaim: StorageInventoryEntry[] = [];
@@ -308,6 +357,24 @@ export class OriginStorageCoordinator {
       reclaimableBytes,
       reclaim,
     };
+  }
+
+  private reclaimCandidates(inventory: readonly StorageInventoryEntry[]): StorageInventoryEntry[] {
+    const rank: Record<StorageClass, number> = {
+      "shell-staging": 0,
+      "pack-staging": 0,
+      "materialization-cache": 1,
+      "pack-previous": 2,
+      "typst-package-cache": 2,
+      "shell-previous": 3,
+      "pack-active": 4,
+      "history-managed": 99,
+      "workspace-protected": 99,
+      "shell-active": 99,
+    };
+    return inventory
+      .filter((entry) => entry.reproducible && rank[entry.class] < 99)
+      .sort((left, right) => rank[left.class] - rank[right.class] || left.updatedAt - right.updatedAt || compareBytes(left.id, right.id));
   }
 
   private async readInventory(): Promise<StorageInventoryEntry[]> {

@@ -6,6 +6,7 @@ import {
   StorageQuotaBlocked,
   StorageOperationBlocked,
 } from "../src/originStorage.ts";
+import { TypstPackageCacheStorageOwner } from "../src/packageCacheStorage.ts";
 
 const MIB = 1024 * 1024;
 const databases = new Map();
@@ -276,6 +277,101 @@ assert.equal(history.purpose, "history-desired-budget");
 assert.deepEqual((await coordinator.inventory()).map((entry) => entry.id).sort(), ["history:pinned", "workspace:current"]);
 await coordinator.release(history.token);
 
+const protectedInventory = (await coordinator.inventory())
+  .filter((entry) => entry.owner === "workspace" || entry.owner === "history")
+  .map(({ id, bytes, class: storageClass }) => ({ id, bytes, class: storageClass }))
+  .sort((left, right) => left.id.localeCompare(right.id));
+const packageEvents = [];
+const packageStorage = new TypstPackageCacheStorageOwner(coordinator);
+await packageStorage.registerExisting({
+  generationId: "preview/demo@1.0.0#evictable",
+  bytes: 20 * MIB,
+  evictBytes() { packageEvents.push("evict:evictable"); },
+  invalidateDependents(generationId) { packageEvents.push(`invalidate:${generationId}`); },
+});
+await packageStorage.registerExisting({
+  generationId: "preview/demo@1.0.0#pinned",
+  bytes: 12 * MIB,
+  evictBytes() { packageEvents.push("evict:pinned"); },
+  invalidateDependents(generationId) { packageEvents.push(`invalidate:${generationId}`); },
+});
+const firstPin = packageStorage.pin("preview/demo@1.0.0#pinned");
+const secondPin = packageStorage.pin("preview/demo@1.0.0#pinned");
+firstPin.dispose();
+quota = 116 * MIB;
+const packageReservation = await packageStorage.reserve({
+  purpose: "typst-package-staging",
+  decodedBytes: 0,
+  metadataBytes: 0,
+  workspaceGrowthBytes: 0,
+});
+assert.deepEqual(packageEvents, [
+  "evict:evictable",
+  "invalidate:preview/demo@1.0.0#evictable",
+], "quota pressure must evict bytes before invalidating dependent identities while retaining pins");
+assert.deepEqual((await coordinator.inventory())
+  .filter((entry) => entry.owner === "workspace" || entry.owner === "history")
+  .map(({ id, bytes, class: storageClass }) => ({ id, bytes, class: storageClass }))
+  .sort((left, right) => left.id.localeCompare(right.id)), protectedInventory, "package reclamation must not change protected workspace/history inventory");
+await coordinator.release(packageReservation.token);
+
+quota = 104 * MIB;
+await assert.rejects(packageStorage.reserve({
+  purpose: "typst-package-pinned-pressure",
+  decodedBytes: 0,
+  metadataBytes: 0,
+  workspaceGrowthBytes: 0,
+}), (error) => {
+  assert.equal(error instanceof StorageQuotaBlocked, true);
+  assert.equal(error.plan.reclaimableBytes, 0, "a render/export pin must remove its generation from the reclaimable plan");
+  assert.equal(error.plan.protectedBytes, 52 * MIB, "workspace/history and runtime pins must dominate quota pressure");
+  return true;
+});
+assert.equal(packageEvents.length, 2, "a blocked reservation must not invoke cache eviction callbacks");
+secondPin.dispose();
+const releasedPinReservation = await packageStorage.reserve({
+  purpose: "typst-package-released-pin",
+  decodedBytes: 0,
+  metadataBytes: 0,
+  workspaceGrowthBytes: 0,
+});
+assert.deepEqual(packageEvents.slice(2), [
+  "evict:pinned",
+  "invalidate:preview/demo@1.0.0#pinned",
+]);
+await coordinator.release(releasedPinReservation.token);
+packageStorage.dispose();
+
+quota = 112 * MIB;
+const activePackId = "offline-pack:active:demo";
+await coordinator.register({
+  id: activePackId,
+  owner: "pack",
+  class: "pack-active",
+  bytes: 8 * MIB,
+  reproducible: true,
+  active: true,
+});
+const activePackEvents = [];
+const activePackRequest = request("pack", "active-pack-confirmation", 0);
+const activePackReclaimer = {
+  canReclaim: () => true,
+  evict: (entry) => { activePackEvents.push(`evict:${entry.id}`); },
+  invalidate: (entry) => { activePackEvents.push(`invalidate:${entry.id}`); },
+};
+await assert.rejects(
+  coordinator.reserveWithReclamation(activePackRequest, activePackReclaimer),
+  StorageQuotaBlocked,
+  "an active offline pack must not be reclaimed without explicit author confirmation",
+);
+assert.deepEqual(activePackEvents, []);
+const confirmedActivePackReservation = await coordinator.reserveWithReclamation(activePackRequest, {
+  ...activePackReclaimer,
+  confirmedActivePackIds: new Set([activePackId]),
+});
+assert.deepEqual(activePackEvents, [`evict:${activePackId}`, `invalidate:${activePackId}`]);
+await coordinator.release(confirmedActivePackReservation.token);
+
 await coordinator.register({
   id: "workspace:blocked-gate",
   owner: "workspace",
@@ -299,4 +395,6 @@ console.log(JSON.stringify({
   concurrentUniqueness: { positive: true, winners: 1, rejected: 1 },
   workspaceHardGate: { shellRejected: true, packRejected: true, freshInventoryRequired: true },
   historyBudgetFoundation: { positive: true },
+  typstPackageCache: { quotaPressure: true, pins: true, evictionInvalidation: true, protectedPrecedence: true },
+  activeOfflinePack: { unconfirmedProtected: true, confirmedReclaimable: true },
 }));

@@ -100,6 +100,49 @@ assert.equal(stores.stores.retiredProjectSessions.has("source"), false);
 assert.equal(stores.stores.renderRequestIdBySource.has("source"), false);
 await stores.dispose();
 
+let originOpenCalls = 0;
+let originDisposeCalls = 0;
+const registeredInventory = [];
+const fakeOriginCoordinator = {
+  async register(entry) { registeredInventory.push(entry); },
+  async commit() { throw new Error("not exercised"); },
+  async reserveWithReclamation() { throw new Error("not exercised"); },
+  close() { originDisposeCalls += 1; },
+  dispose() { this.close(); },
+};
+const storageRuntime = new EditorRuntimeController();
+let packageCacheStorage;
+await storageRuntime.start(async (runtime) => {
+  const open = async () => {
+    originOpenCalls += 1;
+    await Promise.resolve();
+    return fakeOriginCoordinator;
+  };
+  const first = runtime.initializeOriginStorage(open);
+  const second = runtime.initializeOriginStorage(open);
+  const [firstStore, secondStore] = await Promise.all([first, second]);
+  assert.equal(firstStore, secondStore, "one runtime must open and own one origin/package cache store");
+  assert.equal(runtime.originStorage, fakeOriginCoordinator);
+  assert.equal(runtime.packageCacheStorage, firstStore);
+  packageCacheStorage = firstStore;
+  await firstStore.registerExisting({
+    generationId: "preview/runtime-owned@1.0.0#digest",
+    bytes: 4,
+    evictBytes() {},
+    invalidateDependents() {},
+  });
+});
+assert.equal(originOpenCalls, 1, "concurrent initialization must share one origin storage open");
+assert.equal(registeredInventory[0].class, "typst-package-cache");
+await storageRuntime.dispose();
+assert.equal(originDisposeCalls, 1, "the runtime controller must dispose its origin coordinator exactly once");
+await assert.rejects(packageCacheStorage.registerExisting({
+  generationId: "preview/after-dispose@1.0.0#digest",
+  bytes: 1,
+  evictBytes() {},
+  invalidateDependents() {},
+}), /disposed/, "the package cache store must share the runtime lifecycle");
+
 console.log(JSON.stringify({
   serializedStartup: true,
   reverseStartupRollback: true,
@@ -109,4 +152,5 @@ console.log(JSON.stringify({
   gracefulDeadlineFallback: true,
   unloadImmediateTermination: true,
   controllerOwnedTypedStores: true,
+  originPackageStorageOwnership: true,
 }));
