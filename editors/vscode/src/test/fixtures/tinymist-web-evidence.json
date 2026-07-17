@@ -1,0 +1,285 @@
+{
+  "artifact": {
+    "backendName": "tinymist-web",
+    "backendVersion": "0.15.2",
+    "checksumManifest": {
+      "entries": [
+        {
+          "name": "tinymist_bg.wasm",
+          "sha256": "d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454",
+          "size": 32346976
+        },
+        {
+          "name": "tinymist.js",
+          "sha256": "f310d8ed520d6ec7000a695f4d15c6e1f1cda5be2ce3b61168f1d8ef7447caa9",
+          "size": 29720
+        }
+      ],
+      "path": "vendor/tinymist-0.15.2/SHA256SUMS"
+    },
+    "digests": {
+      "tinymist_bg.wasm": "d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454",
+      "tinymist.js": "f310d8ed520d6ec7000a695f4d15c6e1f1cda5be2ce3b61168f1d8ef7447caa9"
+    },
+    "host": "web-worker",
+    "packageVersion": "0.15.2",
+    "protocolVersion": 1
+  },
+  "dynamicRegistrations": {
+    "observationWindowMs": 300,
+    "register": [
+      {
+        "id": "semantic_tokens",
+        "method": "textDocument/semanticTokens",
+        "registerOptions": {
+          "full": {
+            "delta": true
+          },
+          "legend": {
+            "tokenModifiers": [
+              "strong",
+              "emph",
+              "math",
+              "readonly",
+              "static",
+              "defaultLibrary"
+            ],
+            "tokenTypes": [
+              "comment",
+              "string",
+              "keyword",
+              "operator",
+              "number",
+              "function",
+              "decorator",
+              "type",
+              "namespace",
+              "bool",
+              "punct",
+              "escape",
+              "link",
+              "raw",
+              "label",
+              "ref",
+              "heading",
+              "marker",
+              "term",
+              "delim",
+              "pol",
+              "error",
+              "text"
+            ]
+          }
+        }
+      },
+      {
+        "id": "config",
+        "method": "workspace/didChangeConfiguration"
+      }
+    ],
+    "unregister": []
+  },
+  "experimentalMethods": [
+    "onEnter"
+  ],
+  "initialize": {
+    "capabilities": {
+      "codeActionProvider": true,
+      "codeLensProvider": {
+        "resolveProvider": false
+      },
+      "colorProvider": true,
+      "completionProvider": {
+        "triggerCharacters": [
+          "#",
+          "(",
+          "<",
+          ",",
+          ".",
+          ":",
+          "/",
+          "\"",
+          "@"
+        ]
+      },
+      "definitionProvider": true,
+      "documentFormattingProvider": true,
+      "documentHighlightProvider": true,
+      "documentLinkProvider": {},
+      "documentRangeFormattingProvider": true,
+      "documentSymbolProvider": true,
+      "executeCommandProvider": {
+        "commands": [
+          "tinymist.getResources",
+          "tinymist.exportPdf",
+          "tinymist.exportBundle",
+          "tinymist.doClearCache",
+          "tinymist.exportHtml",
+          "tinymist.exportAnsiHighlight",
+          "tinymist.interactCodeContext",
+          "tinymist.getWorkspaceLabels",
+          "tinymist.exportMarkdown",
+          "tinymist.exportSvg",
+          "tinymist.exportQuery",
+          "tinymist.pinMain",
+          "tinymist.exportTeX",
+          "tinymist.exportAst",
+          "tinymist.getServerInfo",
+          "tinymist.focusMain",
+          "tinymist.exportPng",
+          "tinymist.getDocumentMetrics",
+          "tinymist.exportText"
+        ]
+      },
+      "experimental": {
+        "onEnter": true
+      },
+      "foldingRangeProvider": true,
+      "hoverProvider": true,
+      "inlayHintProvider": true,
+      "positionEncoding": "utf-16",
+      "referencesProvider": true,
+      "renameProvider": {
+        "prepareProvider": true
+      },
+      "selectionRangeProvider": true,
+      "signatureHelpProvider": {
+        "triggerCharacters": [
+          "(",
+          ",",
+          ":"
+        ]
+      },
+      "textDocumentSync": {
+        "change": 2,
+        "openClose": true,
+        "save": true
+      },
+      "workspace": {
+        "workspaceFolders": {
+          "changeNotifications": true,
+          "supported": true
+        }
+      },
+      "workspaceSymbolProvider": true
+    },
+    "serverInfo": {
+      "name": "tinymist",
+      "version": "0.15.2"
+    }
+  },
+  "normalization": {
+    "arrayOrderPreserved": true,
+    "recursivelySortedObjectKeys": true,
+    "volatileFieldsRemoved": [
+      "JSON-RPC request ids",
+      "startup duration",
+      "absolute package path"
+    ]
+  },
+  "packageCallback": {
+    "availability": "unavailable",
+    "cancellation": {
+      "callbackRequestAvailable": false,
+      "cancelNotificationSent": true,
+      "directUnsupportedProbe": {
+        "error": {
+          "code": -32601,
+          "data": null,
+          "message": "method not found"
+        },
+        "ok": false
+      },
+      "observedCallbackCancellation": null
+    },
+    "error": {
+      "directUnsupportedProbe": {
+        "error": {
+          "code": -32601,
+          "data": null,
+          "message": "method not found"
+        },
+        "ok": false
+      },
+      "observedCallbackErrorShape": null
+    },
+    "method": "mmt/typstPackageRequest.v1",
+    "request": {
+      "diagnostics": [],
+      "observed": null,
+      "observedCount": 0,
+      "trigger": "open @preview/cetz:0.2.2 import"
+    },
+    "unavailableReason": "The pinned Web artifact emitted no logical host package request; direct requests to the reserved method return Method not found. Cancellation and callback error shapes therefore cannot be qualified."
+  },
+  "previewLocation": {
+    "advertisedCommands": [],
+    "coordinateVersion": null,
+    "fallbackDecision": "immutable-location-map",
+    "locationMethod": null,
+    "previewArtifact": {
+      "previewIndexProbe": {
+        "ok": true,
+        "result": {
+          "length": 96,
+          "type": "string"
+        }
+      },
+      "resourceCommandAdvertised": true
+    },
+    "probes": [
+      {
+        "advertised": false,
+        "command": "tinymist.startDefaultPreview",
+        "outcome": {
+          "error": {
+            "code": -32601,
+            "data": null,
+            "message": "method not found"
+          },
+          "ok": false
+        }
+      },
+      {
+        "advertised": false,
+        "command": "tinymist.scrollPreview",
+        "outcome": {
+          "error": {
+            "code": -32601,
+            "data": null,
+            "message": "method not found"
+          },
+          "ok": false
+        }
+      },
+      {
+        "advertised": false,
+        "command": "tinymist.getDocumentTrace",
+        "outcome": {
+          "error": {
+            "code": -32601,
+            "data": null,
+            "message": "method not found"
+          },
+          "ok": false
+        }
+      }
+    ],
+    "unavailableReason": "The pinned Web artifact advertises no preview navigation or document-trace command and no coordinate version."
+  },
+  "schemaVersion": 1,
+  "transcripts": {
+    "negative": {
+      "locationCommandsUnavailable": true,
+      "packageCallbackUnavailable": true,
+      "packageCancellationUnavailable": true
+    },
+    "positive": {
+      "completionContainsUserSymbol": true,
+      "diagnosticVersionMode": "unversioned",
+      "hoverPresent": true,
+      "previewResourceAvailable": true,
+      "signatureContainsUserSymbol": true
+    }
+  }
+}
