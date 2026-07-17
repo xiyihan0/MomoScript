@@ -298,6 +298,7 @@ await packageStorage.registerExisting({
 const firstPin = packageStorage.pin("preview/demo@1.0.0#pinned");
 const secondPin = packageStorage.pin("preview/demo@1.0.0#pinned");
 firstPin.dispose();
+firstPin.dispose();
 quota = 116 * MIB;
 const packageReservation = await packageStorage.reserve({
   purpose: "typst-package-staging",
@@ -340,7 +341,47 @@ assert.deepEqual(packageEvents.slice(2), [
   "invalidate:preview/demo@1.0.0#pinned",
 ]);
 await coordinator.release(releasedPinReservation.token);
+
+const raceGenerationId = "preview/demo@1.0.0#eviction-race";
+const evictionStarted = Promise.withResolvers();
+const finishEviction = Promise.withResolvers();
+const raceEvents = [];
+await packageStorage.registerExisting({
+  generationId: raceGenerationId,
+  bytes: 8 * MIB,
+  async evictBytes() {
+    raceEvents.push("evict:start");
+    evictionStarted.resolve();
+    await finishEviction.promise;
+    raceEvents.push("evict:complete");
+  },
+  invalidateDependents(generationId) { raceEvents.push(`invalidate:${generationId}`); },
+});
+quota = 104 * MIB;
+const racingReservation = packageStorage.reserve({
+  purpose: "typst-package-eviction-race",
+  decodedBytes: 0,
+  metadataBytes: 0,
+  workspaceGrowthBytes: 0,
+});
+await evictionStarted.promise;
+let racedPin;
+assert.throws(() => {
+  racedPin = packageStorage.pin(raceGenerationId);
+}, /evicting/, "a generation must reject new consumers as soon as byte eviction starts");
+assert.equal(racedPin, undefined, "no consumer may receive a valid pin that outlives the evicted bytes");
+finishEviction.resolve();
+const completedRacingReservation = await racingReservation;
+assert.deepEqual(raceEvents, [
+  "evict:start",
+  "evict:complete",
+  `invalidate:${raceGenerationId}`,
+], "byte eviction must finish before dependent invalidation");
+assert.equal((await coordinator.inventory()).some((entry) => entry.id === `typst-package:${raceGenerationId}`), false);
+await coordinator.release(completedRacingReservation.token);
 packageStorage.dispose();
+packageStorage.dispose();
+assert.throws(() => packageStorage.pin(raceGenerationId), /disposed/, "storage owner disposal must be idempotent and terminal");
 
 quota = 112 * MIB;
 const activePackId = "offline-pack:active:demo";
@@ -395,6 +436,6 @@ console.log(JSON.stringify({
   concurrentUniqueness: { positive: true, winners: 1, rejected: 1 },
   workspaceHardGate: { shellRejected: true, packRejected: true, freshInventoryRequired: true },
   historyBudgetFoundation: { positive: true },
-  typstPackageCache: { quotaPressure: true, pins: true, evictionInvalidation: true, protectedPrecedence: true },
+  typstPackageCache: { quotaPressure: true, pins: true, evictionPinRace: true, evictionInvalidation: true, protectedPrecedence: true, disposalIdempotent: true },
   activeOfflinePack: { unconfirmedProtected: true, confirmedReclaimable: true },
 }));

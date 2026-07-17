@@ -17,6 +17,14 @@ export interface TypstPackageGenerationPin extends RuntimeOwnedResource {
   readonly generationId: string;
 }
 
+type TypstPackageGenerationState = "active" | "evicting" | "evicted";
+
+interface OwnedTypstPackageGeneration {
+  readonly registration: TypstPackageGenerationRegistration;
+  state: TypstPackageGenerationState;
+  pinCount: number;
+}
+
 export interface PackageCacheStorageCoordinator {
   register(entry: Omit<StorageInventoryEntry, "updatedAt">): Promise<void>;
   commit(token: string, entry: Omit<StorageInventoryEntry, "updatedAt">): Promise<void>;
@@ -30,8 +38,7 @@ export interface PackageCacheStorageCoordinator {
  */
 export class TypstPackageCacheStorageOwner implements RuntimeOwnedResource {
   readonly #coordinator: PackageCacheStorageCoordinator;
-  readonly #registrations = new Map<string, TypstPackageGenerationRegistration>();
-  readonly #pinCounts = new Map<string, number>();
+  readonly #registrations = new Map<string, OwnedTypstPackageGeneration>();
   #disposed = false;
 
   constructor(coordinator: PackageCacheStorageCoordinator) {
@@ -41,29 +48,31 @@ export class TypstPackageCacheStorageOwner implements RuntimeOwnedResource {
   async registerExisting(registration: TypstPackageGenerationRegistration): Promise<void> {
     const id = this.prepareRegistration(registration);
     await this.#coordinator.register(inventoryEntry(id, registration.bytes));
-    this.#registrations.set(id, registration);
+    this.#registrations.set(id, { registration, state: "active", pinCount: 0 });
   }
 
   async commit(token: string, registration: TypstPackageGenerationRegistration): Promise<void> {
     const id = this.prepareRegistration(registration);
     await this.#coordinator.commit(token, inventoryEntry(id, registration.bytes));
-    this.#registrations.set(id, registration);
+    this.#registrations.set(id, { registration, state: "active", pinCount: 0 });
   }
 
   pin(generationId: string): TypstPackageGenerationPin {
     this.assertActive();
     const id = inventoryId(generationId);
-    if (!this.#registrations.has(id)) throw new Error(`Unknown Typst package generation ${generationId}`);
-    this.#pinCounts.set(id, (this.#pinCounts.get(id) ?? 0) + 1);
+    const owned = this.#registrations.get(id);
+    if (!owned) throw new Error(`Unknown Typst package generation ${generationId}`);
+    if (owned.state !== "active") {
+      throw new Error(`Typst package generation is ${owned.state}: ${generationId}`);
+    }
+    owned.pinCount += 1;
     let released = false;
     return {
       generationId,
       dispose: () => {
         if (released) return;
         released = true;
-        const count = this.#pinCounts.get(id);
-        if (count === undefined || count <= 1) this.#pinCounts.delete(id);
-        else this.#pinCounts.set(id, count - 1);
+        owned.pinCount -= 1;
       },
     };
   }
@@ -73,18 +82,25 @@ export class TypstPackageCacheStorageOwner implements RuntimeOwnedResource {
     return this.#coordinator.reserveWithReclamation(
       { ...request, owner: "pack" },
       {
-        canReclaim: (entry) => this.#registrations.has(entry.id) && !this.#pinCounts.has(entry.id),
+        canReclaim: (entry) => {
+          const owned = this.#registrations.get(entry.id);
+          return owned?.state === "active" && owned.pinCount === 0;
+        },
         evict: async (entry) => {
-          const registration = this.#registrations.get(entry.id);
-          if (!registration) throw new Error(`Unowned storage reclamation ${entry.id}`);
-          await registration.evictBytes();
+          const owned = this.#registrations.get(entry.id);
+          if (!owned) throw new Error(`Unowned storage reclamation ${entry.id}`);
+          if (owned.state !== "active") throw new Error(`Storage reclamation already started for ${entry.id}`);
+          if (owned.pinCount !== 0) throw new Error(`Storage reclamation raced a live pin for ${entry.id}`);
+          owned.state = "evicting";
+          await owned.registration.evictBytes();
+          owned.state = "evicted";
         },
         invalidate: async (entry) => {
-          const registration = this.#registrations.get(entry.id);
-          if (!registration) throw new Error(`Unowned storage invalidation ${entry.id}`);
-          this.#registrations.delete(entry.id);
-          this.#pinCounts.delete(entry.id);
-          await registration.invalidateDependents(registration.generationId);
+          const owned = this.#registrations.get(entry.id);
+          if (!owned) throw new Error(`Unowned storage invalidation ${entry.id}`);
+          if (owned.state !== "evicted") throw new Error(`Storage bytes remain available for ${entry.id}`);
+          await owned.registration.invalidateDependents(owned.registration.generationId);
+          if (this.#registrations.get(entry.id) === owned) this.#registrations.delete(entry.id);
         },
       },
     );
@@ -94,7 +110,6 @@ export class TypstPackageCacheStorageOwner implements RuntimeOwnedResource {
     if (this.#disposed) return;
     this.#disposed = true;
     this.#registrations.clear();
-    this.#pinCounts.clear();
   }
 
   private prepareRegistration(registration: TypstPackageGenerationRegistration): string {
