@@ -86,7 +86,7 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(workbench).not.toHaveClass(/panel-collapsed/);
   const expandedEditorHeight = await editorHost.evaluate((element) => element.getBoundingClientRect().height);
   expect(collapsedEditorHeight - expandedEditorHeight).toBeGreaterThan(100);
-  await expect(outputPanel).toContainText("MomoScript editor ready");
+  await expect(outputPanel).toContainText("MMT language server ready");
   await expect(outputPanel).toContainText(/Tinymist\s+WASM\s+下载完成\s+\d+\.\d\s+MiB/);
   await expect(outputPanel).not.toContainText(/(?:Tinymist|Typst\s+编译器)\s+WASM\s+(?:100|[1-9]\d{2,})%/);
   await problemsToggle.click();
@@ -507,7 +507,7 @@ async function previewWebviewFrame(page: Page): Promise<Frame> {
 async function seedLegacyWorkspace(page: Page, withChild: boolean): Promise<void> {
   await page.evaluate(async (includeChild) => {
     const database = await new Promise<IDBDatabase>((resolve, reject) => {
-      const request = indexedDB.open("momoscript-workspace-v1", 1);
+      const request = indexedDB.open("momoscript-workspace-v1");
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });
@@ -539,7 +539,7 @@ async function seedLegacyWorkspace(page: Page, withChild: boolean): Promise<void
 async function workspaceEntryExists(page: Page, path: string): Promise<boolean> {
   return page.evaluate(async (entryPath) => {
     const database = await new Promise<IDBDatabase>((resolve, reject) => {
-      const request = indexedDB.open("momoscript-workspace-v1", 1);
+      const request = indexedDB.open("momoscript-workspace-v1");
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });
@@ -558,7 +558,7 @@ async function workspaceEntryExists(page: Page, path: string): Promise<boolean> 
 async function persistedStory(page: Page): Promise<string | undefined> {
   return page.evaluate(async () => {
     const database = await new Promise<IDBDatabase>((resolve, reject) => {
-      const request = indexedDB.open("momoscript-workspace-v1", 1);
+      const request = indexedDB.open("momoscript-workspace-v1");
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });
