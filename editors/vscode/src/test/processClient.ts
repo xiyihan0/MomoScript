@@ -1,6 +1,10 @@
+import { createHash } from "node:crypto";
+import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { EventEmitter } from "node:events";
+import { createReadStream } from "node:fs";
+import { readFile, writeFile } from "node:fs/promises";
+import { basename, dirname, resolve } from "node:path";
 import { PassThrough } from "node:stream";
-import type { ChildProcessWithoutNullStreams } from "node:child_process";
 
 import {
   releasePendingProjectFileAfterGrace,
@@ -375,6 +379,528 @@ async function testSupersededPrimeBlocksStaleFeatureRequest(): Promise<void> {
 }
 
 
+type TranscriptId = number | string;
+
+interface TranscriptMessage {
+  jsonrpc?: "2.0";
+  id?: TranscriptId | null;
+  method?: string;
+  params?: unknown;
+  result?: unknown;
+  error?: { code: number; message: string; data?: unknown };
+}
+
+declare global {
+  interface PromiseConstructor {
+    withResolvers<T>(): {
+      promise: Promise<T>;
+      resolve(value: T | PromiseLike<T>): void;
+      reject(reason?: unknown): void;
+    };
+  }
+}
+
+function isTranscriptRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function parseTranscriptMessage(json: string): TranscriptMessage {
+  const parsed: unknown = JSON.parse(json);
+  if (!isTranscriptRecord(parsed)) throw new Error("native evidence response is not an object");
+  const message: TranscriptMessage = {};
+  if (parsed.jsonrpc !== undefined) {
+    if (parsed.jsonrpc !== "2.0") throw new Error("native evidence response has an invalid jsonrpc version");
+    message.jsonrpc = "2.0";
+  }
+  if (parsed.id !== undefined) {
+    if (parsed.id !== null && typeof parsed.id !== "number" && typeof parsed.id !== "string") {
+      throw new Error("native evidence response has an invalid id");
+    }
+    message.id = parsed.id;
+  }
+  if (parsed.method !== undefined) {
+    if (typeof parsed.method !== "string") throw new Error("native evidence response has an invalid method");
+    message.method = parsed.method;
+  }
+  if (parsed.params !== undefined) message.params = parsed.params;
+  if (parsed.result !== undefined) message.result = parsed.result;
+  if (parsed.error !== undefined) {
+    if (
+      !isTranscriptRecord(parsed.error) ||
+      typeof parsed.error.code !== "number" ||
+      typeof parsed.error.message !== "string"
+    ) {
+      throw new Error("native evidence response has an invalid error");
+    }
+    message.error = {
+      code: parsed.error.code,
+      message: parsed.error.message,
+      ...(parsed.error.data === undefined ? {} : { data: parsed.error.data })
+    };
+  }
+  return message;
+}
+
+interface TranscriptWaiter {
+  resolve(message: TranscriptMessage): void;
+  reject(error: Error): void;
+  timeout: NodeJS.Timeout;
+}
+
+class NativeTranscriptSession {
+  private buffer = Buffer.alloc(0);
+  private readonly messages: TranscriptMessage[] = [];
+  private readonly waiters: TranscriptWaiter[] = [];
+  readonly child: ChildProcessWithoutNullStreams;
+
+  constructor(command: string) {
+    this.child = spawn(command, ["--log-filter", "error", "lsp"], {
+      stdio: ["pipe", "pipe", "pipe"],
+      env: { ...process.env, TINYMIST_LOG: "error" }
+    });
+    this.child.stdout.on("data", (chunk: Buffer) => {
+      this.buffer = Buffer.concat([this.buffer, chunk]);
+      this.drain();
+    });
+    this.child.once("error", (error) => this.rejectWaiters(error));
+    this.child.once("exit", (code, signal) => {
+      if (this.waiters.length > 0) {
+        this.rejectWaiters(new Error(`native evidence process exited with ${code ?? signal}`));
+      }
+    });
+  }
+
+  send(message: TranscriptMessage): void {
+    const body = Buffer.from(JSON.stringify(message), "utf8");
+    this.child.stdin.write(`Content-Length: ${body.length}\r\n\r\n`);
+    this.child.stdin.write(body);
+  }
+
+  nextMessage(timeoutMs: number): Promise<TranscriptMessage> {
+    const message = this.messages.shift();
+    if (message) return Promise.resolve(message);
+    const { promise, resolve, reject } = Promise.withResolvers<TranscriptMessage>();
+    const timeout = setTimeout(() => {
+      const index = this.waiters.findIndex((waiter) => waiter.resolve === resolve);
+      if (index >= 0) this.waiters.splice(index, 1);
+      reject(new Error(`native evidence message timed out after ${timeoutMs}ms`));
+    }, timeoutMs);
+    this.waiters.push({ resolve, reject, timeout });
+    return promise;
+  }
+
+  async stop(): Promise<void> {
+    if (this.child.exitCode !== null) return;
+    this.send({ jsonrpc: "2.0", id: 9_999, method: "shutdown", params: null });
+    try {
+      while (true) {
+        const message = await this.nextMessage(2_000);
+        if (message.id === 9_999) break;
+      }
+      this.send({ jsonrpc: "2.0", method: "exit", params: null });
+      const { promise, resolve } = Promise.withResolvers<void>();
+      const timeout = setTimeout(resolve, 2_000);
+      this.child.once("exit", () => {
+        clearTimeout(timeout);
+        resolve();
+      });
+      await promise;
+    } catch {
+      this.child.kill();
+    }
+    if (this.child.exitCode === null) this.child.kill();
+  }
+
+  private drain(): void {
+    while (true) {
+      const headerEnd = this.buffer.indexOf("\r\n\r\n");
+      if (headerEnd < 0) return;
+      const header = this.buffer.subarray(0, headerEnd).toString("ascii");
+      const lengthText = /Content-Length:\s*(\d+)/i.exec(header)?.[1];
+      if (!lengthText) throw new Error("native evidence response omitted Content-Length");
+      const length = Number(lengthText);
+      const bodyStart = headerEnd + 4;
+      const bodyEnd = bodyStart + length;
+      if (this.buffer.length < bodyEnd) return;
+      const message = parseTranscriptMessage(this.buffer.subarray(bodyStart, bodyEnd).toString("utf8"));
+      this.buffer = this.buffer.subarray(bodyEnd);
+      const waiter = this.waiters.shift();
+      if (waiter) {
+        clearTimeout(waiter.timeout);
+        waiter.resolve(message);
+      } else {
+        this.messages.push(message);
+      }
+    }
+  }
+
+  private rejectWaiters(error: Error): void {
+    for (const waiter of this.waiters.splice(0)) {
+      clearTimeout(waiter.timeout);
+      waiter.reject(error);
+    }
+  }
+}
+
+function normalizedJson(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(normalizedJson);
+  if (!isTranscriptRecord(value)) return value;
+  const normalized: Record<string, unknown> = {};
+  for (const key of Object.keys(value).sort()) {
+    normalized[key] = normalizedJson(value[key]);
+  }
+  return normalized;
+}
+
+function respondToServerRequest(
+  session: NativeTranscriptSession,
+  message: TranscriptMessage,
+  serverRequests: TranscriptMessage[]
+): void {
+  if (!message.method || message.id == null) return;
+  serverRequests.push(message);
+  if (message.method === "workspace/configuration") {
+    const items = isTranscriptRecord(message.params) && Array.isArray(message.params.items)
+      ? message.params.items
+      : [];
+    session.send({
+      jsonrpc: "2.0",
+      id: message.id,
+      result: items.map(() => null)
+    });
+    return;
+  }
+  if (
+    message.method === "window/workDoneProgress/create" ||
+    message.method === "client/registerCapability" ||
+    message.method === "client/unregisterCapability"
+  ) {
+    session.send({ jsonrpc: "2.0", id: message.id, result: null });
+    return;
+  }
+  session.send({
+    jsonrpc: "2.0",
+    id: message.id,
+    error: { code: -32601, message: `Unsupported native evidence server request: ${message.method}` }
+  });
+}
+
+async function transcriptRequest(
+  session: NativeTranscriptSession,
+  id: number,
+  method: string,
+  params: unknown,
+  serverRequests: TranscriptMessage[],
+  timeoutMs = 10_000
+): Promise<TranscriptMessage> {
+  session.send({ jsonrpc: "2.0", id, method, params });
+  const deadline = Date.now() + timeoutMs;
+  while (true) {
+    const message = await session.nextMessage(Math.max(1, deadline - Date.now()));
+    if (message.id === id && !message.method) return message;
+    respondToServerRequest(session, message, serverRequests);
+  }
+}
+
+async function collectTranscriptWindow(
+  session: NativeTranscriptSession,
+  durationMs: number,
+  serverRequests: TranscriptMessage[]
+): Promise<TranscriptMessage[]> {
+  const messages: TranscriptMessage[] = [];
+  const deadline = Date.now() + durationMs;
+  while (Date.now() < deadline) {
+    try {
+      const message = await session.nextMessage(Math.max(1, deadline - Date.now()));
+      messages.push(message);
+      respondToServerRequest(session, message, serverRequests);
+    } catch (error) {
+      if (error instanceof Error && error.message.includes("timed out")) break;
+      throw error;
+    }
+  }
+  return messages;
+}
+
+async function sha256File(path: string): Promise<string> {
+  const hash = createHash("sha256");
+  for await (const chunk of createReadStream(path)) hash.update(chunk as Buffer);
+  return hash.digest("hex");
+}
+
+async function captureNativeTinymistEvidence(command: string): Promise<Record<string, unknown>> {
+  const checksumPath = process.env.TINYMIST_SHA256_FILE ?? resolve(dirname(command), "../../../tinymist-native.sha256");
+  const checksumManifest = (await readFile(checksumPath, "utf8")).trim();
+  const checksumMatch = /^([a-f0-9]{64})\s+(.+)$/.exec(checksumManifest);
+  if (!checksumMatch) throw new Error(`invalid native checksum manifest: ${checksumPath}`);
+  const artifactDigest = await sha256File(command);
+  if (artifactDigest !== checksumMatch[1]) {
+    throw new Error(`native artifact digest ${artifactDigest} does not match ${checksumMatch[1]}`);
+  }
+
+  const session = new NativeTranscriptSession(command);
+  const serverRequests: TranscriptMessage[] = [];
+  const dynamicRequests: TranscriptMessage[] = [];
+  const packageImport = "@preview/mmt-evidence-missing:999.999.999";
+  const packageUri = "untitled:/native-evidence/package.typ";
+  const packageMessages: TranscriptMessage[] = [];
+  try {
+    const initializeResponse = await transcriptRequest(session, 1, "initialize", {
+      processId: process.pid,
+      rootUri: null,
+      capabilities: {
+        workspace: { configuration: true },
+        general: { positionEncodings: ["utf-16"] },
+        textDocument: {
+          completion: { completionItem: { snippetSupport: true } },
+          hover: { contentFormat: ["markdown", "plaintext"] },
+          signatureHelp: {},
+          publishDiagnostics: { versionSupport: true, relatedInformation: true }
+        }
+      },
+      clientInfo: { name: "momoscript-vscode", version: "0.1.0" }
+    }, serverRequests);
+    if (initializeResponse.error || !isTranscriptRecord(initializeResponse.result)) {
+      throw new Error(`native initialize failed: ${JSON.stringify(initializeResponse.error)}`);
+    }
+    const normalizedInitialize = normalizedJson(initializeResponse.result);
+    if (!isTranscriptRecord(normalizedInitialize)) throw new Error("normalized initialize result is invalid");
+    const initialize = normalizedInitialize;
+    if (!isTranscriptRecord(initialize.capabilities)) throw new Error("native initialize omitted capabilities");
+    const capabilities = initialize.capabilities;
+    const executeCommandProvider = capabilities.executeCommandProvider;
+    let executeCommands: string[] = [];
+    if (isTranscriptRecord(executeCommandProvider) && executeCommandProvider.commands !== undefined) {
+      if (!Array.isArray(executeCommandProvider.commands) || !executeCommandProvider.commands.every((item) => typeof item === "string")) {
+        throw new Error("native initialize returned invalid execute commands");
+      }
+      executeCommands = [...executeCommandProvider.commands].sort();
+      executeCommandProvider.commands = executeCommands;
+    }
+
+    session.send({ jsonrpc: "2.0", method: "initialized", params: {} });
+    const dynamicWindowMs = 750;
+    const afterInitialize = await collectTranscriptWindow(session, dynamicWindowMs, dynamicRequests);
+    const registrations = dynamicRequests
+      .filter((message) => message.method === "client/registerCapability")
+      .flatMap((message) => {
+        if (!isTranscriptRecord(message.params) || !Array.isArray(message.params.registrations)) return [];
+        return message.params.registrations;
+      })
+      .map(normalizedJson)
+      .sort((left, right) => JSON.stringify(left).localeCompare(JSON.stringify(right)));
+    const unregistrations = dynamicRequests
+      .filter((message) => message.method === "client/unregisterCapability")
+      .flatMap((message) => {
+        if (!isTranscriptRecord(message.params)) return [];
+        if (Array.isArray(message.params.unregisterations)) return message.params.unregisterations;
+        return Array.isArray(message.params.unregistrations) ? message.params.unregistrations : [];
+      })
+      .map(normalizedJson)
+      .sort((left, right) => JSON.stringify(left).localeCompare(JSON.stringify(right)));
+
+    session.send({
+      jsonrpc: "2.0",
+      method: "textDocument/didOpen",
+      params: {
+        textDocument: {
+          uri: packageUri,
+          languageId: "typst",
+          version: 1,
+          text: `#import "${packageImport}": *\n#missing`
+        }
+      }
+    });
+    const packageDeadline = Date.now() + 10_000;
+    while (Date.now() < packageDeadline) {
+      const message = await session.nextMessage(Math.max(1, packageDeadline - Date.now()));
+      packageMessages.push(message);
+      respondToServerRequest(session, message, serverRequests);
+      if (message.method === "textDocument/publishDiagnostics" && isTranscriptRecord(message.params)) {
+        const uri = message.params.uri;
+        const diagnostics = message.params.diagnostics;
+        if (typeof uri === "string" && uri.includes("native-evidence/package.typ") && Array.isArray(diagnostics) && diagnostics.length > 0) break;
+      }
+    }
+
+    const traceResponse = await transcriptRequest(
+      session,
+      2,
+      "workspace/executeCommand",
+      { command: "tinymist.getDocumentTrace", arguments: [packageUri] },
+      serverRequests
+    );
+    const scrollResponse = await transcriptRequest(
+      session,
+      3,
+      "workspace/executeCommand",
+      { command: "tinymist.scrollPreview", arguments: [] },
+      serverRequests
+    );
+    const locationResponse = await transcriptRequest(
+      session,
+      4,
+      "mmt/previewLocation.v1",
+      { uri: packageUri, position: { line: 0, character: 0 } },
+      serverRequests
+    );
+
+    const callbackMessages = [...dynamicRequests, ...packageMessages, ...serverRequests]
+      .filter((message) => message.method === "mmt/typstPackageRequest.v1");
+    const diagnosticMessages = packageMessages
+      .filter((message) => message.method === "textDocument/publishDiagnostics")
+      .map((message) => normalizedJson(message.params));
+    const advertisedCommands = executeCommands.filter((commandName) =>
+      /preview|documenttrace/i.test(commandName)
+    );
+    const traceResult = isTranscriptRecord(traceResponse.result) ? traceResponse.result : undefined;
+    const traceRequest = isTranscriptRecord(traceResult?.request) ? traceResult.request : undefined;
+    const traceMessages = Array.isArray(traceResult?.messages)
+      ? traceResult.messages.filter(isTranscriptRecord)
+      : [];
+    const traceShape = traceResult ? {
+      keys: Object.keys(traceResult).sort(),
+      requestKeys: traceRequest ? Object.keys(traceRequest).sort() : [],
+      messageMethods: traceMessages
+        .map((message) => typeof message.method === "string" ? message.method : null)
+        .filter((method): method is string => method !== null)
+        .sort()
+    } : null;
+    const configurationPositive = serverRequestResponse({
+      jsonrpc: "2.0",
+      id: 100,
+      method: "workspace/configuration",
+      params: { items: [{ section: "typst" }] }
+    });
+    const unknownNegative = serverRequestResponse({
+      jsonrpc: "2.0",
+      id: 101,
+      method: "workspace/unknown"
+    });
+    const serverInfo = isTranscriptRecord(initialize.serverInfo) ? initialize.serverInfo : undefined;
+    const backendName = typeof serverInfo?.name === "string" ? serverInfo.name : null;
+    const backendVersion = typeof serverInfo?.version === "string" ? serverInfo.version : null;
+
+    const normalizedEvidence = normalizedJson({
+      schemaVersion: 1,
+      artifact: {
+        host: "native-process",
+        packageVersion: "0.15.2",
+        backendName,
+        backendVersion,
+        protocolVersion: "LSP 3.17",
+        digests: { tinymist: artifactDigest },
+        checksumManifest: {
+          reference: basename(checksumPath),
+          referencedArtifact: basename(checksumMatch[2]),
+          expectedSha256: checksumMatch[1],
+          verified: true
+        }
+      },
+      initialize,
+      dynamicRegistrations: {
+        register: registrations,
+        unregister: unregistrations,
+        observationWindowMs: dynamicWindowMs,
+        otherMessages: afterInitialize
+          .filter((message) => message.method !== "client/registerCapability" && message.method !== "client/unregisterCapability")
+          .map(normalizedJson)
+      },
+      packageCallback: {
+        method: "mmt/typstPackageRequest.v1",
+        availability: callbackMessages.length > 0 ? "available" : "unavailable",
+        trigger: {
+          importUri: packageImport,
+          serverRequests: callbackMessages.map(normalizedJson),
+          diagnostics: diagnosticMessages
+        },
+        cancellation: callbackMessages.length > 0
+          ? { observed: false, reason: "callback was observed but cancellation was not exercised in stage 0" }
+          : { observed: false, reason: "no logical callback request ID was emitted; cancellation is unavailable" },
+        error: diagnosticMessages.length > 0
+          ? { observed: true, channel: "textDocument/publishDiagnostics" }
+          : { observed: false, channel: null }
+      },
+      previewLocation: {
+        advertised: {
+          commands: advertisedCommands,
+          experimental: capabilities.experimental ?? null
+        },
+        probes: [
+          {
+            method: "workspace/executeCommand:tinymist.getDocumentTrace",
+            outcome: traceResponse.error ? "error" : "success",
+            error: traceResponse.error ?? null,
+            resultShape: traceShape
+          },
+          {
+            method: "workspace/executeCommand:tinymist.scrollPreview",
+            outcome: scrollResponse.error ? "error" : "success",
+            error: scrollResponse.error ?? null,
+            resultShape: scrollResponse.result === undefined ? null : typeof scrollResponse.result
+          },
+          {
+            method: "mmt/previewLocation.v1",
+            outcome: locationResponse.error ? "error" : "success",
+            error: locationResponse.error ?? null,
+            resultShape: locationResponse.result === undefined ? null : typeof locationResponse.result
+          }
+        ],
+        coordinateVersion: null,
+        qualifiedMethod: null,
+        availabilityReason: "artifact exposes preview commands but no versioned location method or coordinate version"
+      },
+      transcripts: {
+        positive: [
+          { request: "initialize", outcome: "complete-result" },
+          { request: "client/registerCapability", outcome: registrations.length > 0 ? "observed" : "missing" },
+          { request: "workspace/configuration", response: configurationPositive },
+          { request: "package import", outcome: diagnosticMessages.length > 0 ? "deterministic-diagnostic" : "missing-diagnostic" },
+          { request: "tinymist.getDocumentTrace", outcome: traceResponse.error ? "error" : "success" }
+        ],
+        negative: [
+          { request: "workspace/unknown", response: unknownNegative },
+          { request: "mmt/typstPackageRequest.v1", outcome: callbackMessages.length > 0 ? "observed" : "not-emitted" },
+          { request: "logical package callback cancellation", outcome: callbackMessages.length > 0 ? "not-exercised" : "unavailable" },
+          { request: "tinymist.scrollPreview without focused preview", response: scrollResponse },
+          { request: "mmt/previewLocation.v1", response: locationResponse }
+        ]
+      },
+      normalization: {
+        recursivelySortedObjectKeys: true,
+        semanticallyUnorderedCommandArraysSorted: true,
+        volatileFieldsRemoved: [
+          "initialize.params.processId",
+          "trace.result.request.compilerProgram",
+          "trace.result.result.tracingUrl"
+        ]
+      }
+    });
+    if (!isTranscriptRecord(normalizedEvidence)) throw new Error("normalized native evidence is invalid");
+    return normalizedEvidence;
+  } finally {
+    await session.stop();
+  }
+}
+
+async function verifyCheckedNativeEvidence(command: string): Promise<Record<string, unknown>> {
+  const evidence = await captureNativeTinymistEvidence(command);
+  const evidencePath = process.env.TINYMIST_NATIVE_EVIDENCE ?? resolve("src/test/fixtures/tinymist-native-evidence.json");
+  const serialized = `${JSON.stringify(evidence, null, 2)}\n`;
+  if (process.env.UPDATE_TINYMIST_NATIVE_EVIDENCE === "1") {
+    await writeFile(evidencePath, serialized, "utf8");
+  } else {
+    const checked = await readFile(evidencePath, "utf8");
+    if (checked !== serialized) {
+      throw new Error(
+        `native Tinymist evidence differs from ${evidencePath}; ` +
+        "run with UPDATE_TINYMIST_NATIVE_EVIDENCE=1 only after reviewing the fixed artifact change"
+      );
+    }
+  }
+  return evidence;
+}
+
 async function main(): Promise<void> {
   await testRejectedManifestPreservesCache();
   testProjectFileGenerationRetention();
@@ -404,6 +930,8 @@ async function main(): Promise<void> {
   }
   const command = process.env.TINYMIST_BIN;
   if (!command) throw new Error("TINYMIST_BIN is required");
+  const nativeEvidence = await verifyCheckedNativeEvidence(command);
+  console.log(JSON.stringify({ checkedEvidence: true, evidence: nativeEvidence }, null, 2));
   const configuration = serverRequestResponse({
     jsonrpc: "2.0",
     id: 1,

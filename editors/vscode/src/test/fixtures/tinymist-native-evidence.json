@@ -1,0 +1,347 @@
+{
+  "artifact": {
+    "backendName": "tinymist",
+    "backendVersion": "0.15.2",
+    "checksumManifest": {
+      "expectedSha256": "a05c45590986ec48d9dd50ef41c1e38cf233f3a313319ef47dabbef5067e0038",
+      "reference": "tinymist-native.sha256",
+      "referencedArtifact": "tinymist",
+      "verified": true
+    },
+    "digests": {
+      "tinymist": "a05c45590986ec48d9dd50ef41c1e38cf233f3a313319ef47dabbef5067e0038"
+    },
+    "host": "native-process",
+    "packageVersion": "0.15.2",
+    "protocolVersion": "LSP 3.17"
+  },
+  "dynamicRegistrations": {
+    "observationWindowMs": 750,
+    "otherMessages": [],
+    "register": [
+      {
+        "id": "config",
+        "method": "workspace/didChangeConfiguration"
+      }
+    ],
+    "unregister": []
+  },
+  "initialize": {
+    "capabilities": {
+      "codeActionProvider": true,
+      "codeLensProvider": {
+        "resolveProvider": false
+      },
+      "colorProvider": true,
+      "completionProvider": {
+        "triggerCharacters": [
+          "#",
+          "(",
+          "<",
+          ",",
+          ".",
+          ":",
+          "/",
+          "\"",
+          "@"
+        ]
+      },
+      "definitionProvider": true,
+      "documentFormattingProvider": true,
+      "documentHighlightProvider": true,
+      "documentLinkProvider": {},
+      "documentRangeFormattingProvider": true,
+      "documentSymbolProvider": true,
+      "executeCommandProvider": {
+        "commands": [
+          "tinymist.doClearCache",
+          "tinymist.doGetTemplateEntry",
+          "tinymist.doInitTemplate",
+          "tinymist.doKillPreview",
+          "tinymist.doStartBrowsingPreview",
+          "tinymist.doStartPreview",
+          "tinymist.exportAnsiHighlight",
+          "tinymist.exportAst",
+          "tinymist.exportBundle",
+          "tinymist.exportHtml",
+          "tinymist.exportMarkdown",
+          "tinymist.exportPdf",
+          "tinymist.exportPng",
+          "tinymist.exportQuery",
+          "tinymist.exportSvg",
+          "tinymist.exportTeX",
+          "tinymist.exportText",
+          "tinymist.focusMain",
+          "tinymist.getDocumentMetrics",
+          "tinymist.getDocumentTrace",
+          "tinymist.getResources",
+          "tinymist.getServerInfo",
+          "tinymist.getWorkspaceLabels",
+          "tinymist.interactCodeContext",
+          "tinymist.pinMain",
+          "tinymist.scrollPreview",
+          "tinymist.startDefaultPreview",
+          "tinymist.startServerProfiling",
+          "tinymist.stopServerProfiling"
+        ]
+      },
+      "experimental": {
+        "onEnter": true
+      },
+      "foldingRangeProvider": true,
+      "hoverProvider": true,
+      "inlayHintProvider": true,
+      "positionEncoding": "utf-16",
+      "referencesProvider": true,
+      "renameProvider": {
+        "prepareProvider": true
+      },
+      "selectionRangeProvider": true,
+      "semanticTokensProvider": {
+        "full": {
+          "delta": true
+        },
+        "legend": {
+          "tokenModifiers": [
+            "strong",
+            "emph",
+            "math",
+            "readonly",
+            "static",
+            "defaultLibrary"
+          ],
+          "tokenTypes": [
+            "comment",
+            "string",
+            "keyword",
+            "operator",
+            "number",
+            "function",
+            "decorator",
+            "type",
+            "namespace",
+            "bool",
+            "punct",
+            "escape",
+            "link",
+            "raw",
+            "label",
+            "ref",
+            "heading",
+            "marker",
+            "term",
+            "delim",
+            "pol",
+            "error",
+            "text"
+          ]
+        }
+      },
+      "signatureHelpProvider": {
+        "triggerCharacters": [
+          "(",
+          ",",
+          ":"
+        ]
+      },
+      "textDocumentSync": {
+        "change": 2,
+        "openClose": true,
+        "save": true
+      },
+      "workspace": {
+        "workspaceFolders": {
+          "changeNotifications": true,
+          "supported": true
+        }
+      },
+      "workspaceSymbolProvider": true
+    },
+    "serverInfo": {
+      "name": "tinymist",
+      "version": "0.15.2"
+    }
+  },
+  "normalization": {
+    "recursivelySortedObjectKeys": true,
+    "semanticallyUnorderedCommandArraysSorted": true,
+    "volatileFieldsRemoved": [
+      "initialize.params.processId",
+      "trace.result.request.compilerProgram",
+      "trace.result.result.tracingUrl"
+    ]
+  },
+  "packageCallback": {
+    "availability": "unavailable",
+    "cancellation": {
+      "observed": false,
+      "reason": "no logical callback request ID was emitted; cancellation is unavailable"
+    },
+    "error": {
+      "channel": "textDocument/publishDiagnostics",
+      "observed": true
+    },
+    "method": "mmt/typstPackageRequest.v1",
+    "trigger": {
+      "diagnostics": [
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-evidence-missing:999.999.999)",
+              "range": {
+                "end": {
+                  "character": 51,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "untitled:native-evidence/package.typ"
+        }
+      ],
+      "importUri": "@preview/mmt-evidence-missing:999.999.999",
+      "serverRequests": []
+    }
+  },
+  "previewLocation": {
+    "advertised": {
+      "commands": [
+        "tinymist.doKillPreview",
+        "tinymist.doStartBrowsingPreview",
+        "tinymist.doStartPreview",
+        "tinymist.getDocumentTrace",
+        "tinymist.scrollPreview",
+        "tinymist.startDefaultPreview"
+      ],
+      "experimental": {
+        "onEnter": true
+      }
+    },
+    "availabilityReason": "artifact exposes preview commands but no versioned location method or coordinate version",
+    "coordinateVersion": null,
+    "probes": [
+      {
+        "error": null,
+        "method": "workspace/executeCommand:tinymist.getDocumentTrace",
+        "outcome": "success",
+        "resultShape": {
+          "keys": [
+            "messages",
+            "request",
+            "stderr"
+          ],
+          "messageMethods": [
+            "tinymistExt/diagnostics"
+          ],
+          "requestKeys": [
+            "compilerProgram",
+            "fontPaths",
+            "inputs",
+            "main",
+            "root",
+            "rpcKind"
+          ]
+        }
+      },
+      {
+        "error": {
+          "code": -32600,
+          "message": "no focusing location"
+        },
+        "method": "workspace/executeCommand:tinymist.scrollPreview",
+        "outcome": "error",
+        "resultShape": null
+      },
+      {
+        "error": {
+          "code": -32601,
+          "message": "method not found"
+        },
+        "method": "mmt/previewLocation.v1",
+        "outcome": "error",
+        "resultShape": null
+      }
+    ],
+    "qualifiedMethod": null
+  },
+  "schemaVersion": 1,
+  "transcripts": {
+    "negative": [
+      {
+        "request": "workspace/unknown",
+        "response": {
+          "error": {
+            "code": -32601,
+            "message": "Unsupported Tinymist server request: workspace/unknown"
+          },
+          "id": 101,
+          "jsonrpc": "2.0"
+        }
+      },
+      {
+        "outcome": "not-emitted",
+        "request": "mmt/typstPackageRequest.v1"
+      },
+      {
+        "outcome": "unavailable",
+        "request": "logical package callback cancellation"
+      },
+      {
+        "request": "tinymist.scrollPreview without focused preview",
+        "response": {
+          "error": {
+            "code": -32600,
+            "message": "no focusing location"
+          },
+          "id": 3,
+          "jsonrpc": "2.0"
+        }
+      },
+      {
+        "request": "mmt/previewLocation.v1",
+        "response": {
+          "error": {
+            "code": -32601,
+            "message": "method not found"
+          },
+          "id": 4,
+          "jsonrpc": "2.0"
+        }
+      }
+    ],
+    "positive": [
+      {
+        "outcome": "complete-result",
+        "request": "initialize"
+      },
+      {
+        "outcome": "observed",
+        "request": "client/registerCapability"
+      },
+      {
+        "request": "workspace/configuration",
+        "response": {
+          "id": 100,
+          "jsonrpc": "2.0",
+          "result": [
+            null
+          ]
+        }
+      },
+      {
+        "outcome": "deterministic-diagnostic",
+        "request": "package import"
+      },
+      {
+        "outcome": "success",
+        "request": "tinymist.getDocumentTrace"
+      }
+    ]
+  }
+}
