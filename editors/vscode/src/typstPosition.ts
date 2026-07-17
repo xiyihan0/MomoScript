@@ -345,6 +345,26 @@ function validateCompletionItem(value: unknown, index: LineIndex, encoding: Posi
   }
 }
 
+function validateCompletionDefaultEditRange(
+  value: unknown,
+  index: LineIndex,
+  encoding: PositionEncoding
+): void {
+  const range = requireObject(value);
+  if (range.start !== undefined && range.end !== undefined) {
+    if (range.insert !== undefined || range.replace !== undefined) {
+      throw new PositionConversionError("InvalidCharacter");
+    }
+    validateBackendWireRange(range, index, encoding);
+    return;
+  }
+  if (range.start !== undefined || range.end !== undefined || range.insert === undefined || range.replace === undefined) {
+    throw new PositionConversionError("InvalidCharacter");
+  }
+  validateBackendWireRange(range.insert, index, encoding);
+  validateBackendWireRange(range.replace, index, encoding);
+}
+
 function validateSemanticTokens(value: unknown, index: LineIndex, encoding: PositionEncoding): void {
   const response = requireObject(value);
   if (!Array.isArray(response.data) || response.data.length % 5 !== 0) {
@@ -389,7 +409,14 @@ export function validatePositionBearingPayload<T>(
 ): T {
   if (value == null) return value;
   if (family === "completion") {
-    const items = Array.isArray(value) ? value : requireObject(value).items;
+    const list = Array.isArray(value) ? undefined : requireObject(value);
+    if (list?.itemDefaults !== undefined) {
+      const defaults = requireObject(list.itemDefaults);
+      if (defaults.editRange !== undefined) {
+        validateCompletionDefaultEditRange(defaults.editRange, index, encoding);
+      }
+    }
+    const items = Array.isArray(value) ? value : list?.items;
     if (!Array.isArray(items)) throw new PositionConversionError("InvalidCharacter");
     for (const item of items) validateCompletionItem(item, index, encoding);
   } else if (family === "hover") {

@@ -15,10 +15,18 @@ import type { TinymistHostBackend, TypstProjectUpdate } from "./tinymistClient";
 import {
   TypstFeatureRouter,
   type TypstCapabilityUnavailableState,
+  type BaselineTypstMethod,
+  type TypstProviderRegistration,
   type TypstRouterDocument
 } from "./typstFeatureRouter";
 
 const routersByBackend = new WeakMap<TinymistHostBackend, TypstFeatureRouter>();
+
+interface PublishedTypstDiagnostics {
+  readonly uri: string;
+  readonly version?: number | null;
+  readonly diagnostics: ProtocolDiagnostic[];
+}
 
 export function installTypstMiddleware(
   options: LanguageClientOptions,
@@ -30,6 +38,11 @@ export function installTypstMiddleware(
     unavailable: (state) => showCapabilityUnavailable(state, unavailableMethods)
   });
   routersByBackend.set(backend, router);
+  if (Array.isArray(options.documentSelector)) {
+    options.documentSelector = options.documentSelector.filter((selector) =>
+      typeof selector === "string" ? selector !== "typst" : selector.language !== "typst"
+    );
+  }
 
   options.middleware = {
     didOpen: async (document, next) => {
@@ -151,9 +164,23 @@ export function connectTypstBackend(
   if (!router) throw new Error("Typst middleware must own the feature router before backend connection");
   let warnedAboutUnversionedDiagnostics = false;
   const diagnostics = vscode.languages.createDiagnosticCollection("mmt-typst");
+  const providers = new TypstHostProviderRegistrations(router, backend, client);
+  for (const document of vscode.workspace.textDocuments) {
+    if (document.languageId === "typst") router.open(routerDocument(document));
+  }
+  const opened = vscode.workspace.onDidOpenTextDocument((document) => {
+    if (document.languageId === "typst") router.open(routerDocument(document));
+  });
+  const changed = vscode.workspace.onDidChangeTextDocument((event) => {
+    if (event.document.languageId === "typst") router.change(routerDocument(event.document));
+  });
+  const closed = vscode.workspace.onDidCloseTextDocument((document) => {
+    if (document.languageId === "typst") router.close(document.uri.toString());
+  });
   const projectUpdated = client.onNotification(
     "mmt/typstProjectUpdated",
     (update: TypstProjectUpdate) => {
+      router.retire(update.sourceUri);
       backend.syncProject(update);
       const current = backend.projectForEntry(update.entryUri);
       if (current?.sourceUri === update.sourceUri && current.revision === update.revision) {
@@ -164,18 +191,31 @@ export function connectTypstBackend(
   const projectClosed = client.onNotification(
     "mmt/typstProjectClosed",
     (params: { sourceUri: string; entryUri: string }) => {
+      router.retire(params.sourceUri);
       if (backend.closeProject(params.sourceUri, params.entryUri)) {
         diagnostics.delete(vscode.Uri.parse(params.sourceUri));
       }
     }
   );
+  backend.on("tinymist/capabilitiesChanged", (value) => {
+    if (value && typeof value === "object" && "generation" in value
+      && typeof value.generation === "number") {
+      router.retireBackendGenerationsExcept(value.generation);
+    } else {
+      router.retireAllRequests();
+    }
+    providers.reconcile();
+  });
+  backend.on("tinymist/clientRestarting", () => {
+    router.retireAllRequests();
+    providers.reconcile();
+  });
   backend.on("textDocument/publishDiagnostics", (value) => {
     void (async () => {
-      const params = value as {
-        uri: string;
-        version?: number | null;
-        diagnostics: ProtocolDiagnostic[];
-      };
+      if (!isPublishedTypstDiagnostics(value)) {
+        throw new Error("Tinymist published invalid diagnostics parameters");
+      }
+      const params = value;
       if (params.version == null && !warnedAboutUnversionedDiagnostics) {
         warnedAboutUnversionedDiagnostics = true;
         console.warn(
@@ -187,12 +227,201 @@ export function connectTypstBackend(
       const converted = await client.protocol2CodeConverter.asDiagnostics(
         routed.diagnostics as ProtocolDiagnostic[]
       );
+      if (!router.diagnosticsAreCurrent(routed)) return;
       diagnostics.set(vscode.Uri.parse(routed.uri), converted);
     })().catch((error: unknown) => {
       console.error("Typst diagnostics failed", error);
     });
   });
-  return [diagnostics, projectUpdated, projectClosed];
+  providers.reconcile();
+  return [
+    diagnostics,
+    providers,
+    opened,
+    changed,
+    closed,
+    projectUpdated,
+    projectClosed
+  ];
+}
+
+class TypstHostProviderRegistrations implements vscode.Disposable {
+  private readonly active = new Map<
+    BaselineTypstMethod,
+    { readonly fingerprint: string; readonly disposable: vscode.Disposable }
+  >();
+  private disposed = false;
+
+  constructor(
+    private readonly router: TypstFeatureRouter,
+    private readonly backend: TinymistHostBackend,
+    private readonly client: BaseLanguageClient
+  ) {}
+
+  reconcile(): void {
+    if (this.disposed) return;
+    const desired = new Map(
+      this.router.registrations().map((registration) => [registration.method, registration])
+    );
+    for (const [method, active] of this.active) {
+      const registration = desired.get(method);
+      const fingerprint = registration ? this.fingerprint(registration) : undefined;
+      if (fingerprint === active.fingerprint) continue;
+      active.disposable.dispose();
+      this.active.delete(method);
+    }
+    for (const [method, registration] of desired) {
+      if (this.active.has(method)) continue;
+      const fingerprint = this.fingerprint(registration);
+      if (fingerprint === undefined) continue;
+      this.active.set(method, {
+        fingerprint,
+        disposable: this.register(registration)
+      });
+    }
+  }
+
+  dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
+    for (const active of this.active.values()) active.disposable.dispose();
+    this.active.clear();
+  }
+
+  private fingerprint(registration: TypstProviderRegistration): string | undefined {
+    if (registration.method !== "textDocument/semanticTokens/full") {
+      return JSON.stringify(registration);
+    }
+    const legend = this.backend.semanticTokensLegend?.();
+    return legend ? JSON.stringify({ registration, legend }) : undefined;
+  }
+
+  private register(registration: TypstProviderRegistration): vscode.Disposable {
+    const selector: vscode.DocumentSelector = [{ language: "typst" }];
+    switch (registration.method) {
+      case "textDocument/completion":
+        return vscode.languages.registerCompletionItemProvider(
+          selector,
+          {
+            provideCompletionItems: async (document, position, token, context) => {
+              try {
+                const result = await this.router.completion(
+                  routerDocument(document),
+                  this.client.code2ProtocolConverter.asPosition(position),
+                  {
+                    triggerKind: context.triggerKind as ProtocolCompletionTriggerKind,
+                    ...(context.triggerCharacter === undefined
+                      ? {}
+                      : { triggerCharacter: context.triggerCharacter })
+                  },
+                  token
+                );
+                return result === undefined
+                  ? undefined
+                  : this.client.protocol2CodeConverter.asCompletionResult(
+                      result as ProtocolCompletionItem[] | ProtocolCompletionList | null,
+                      undefined,
+                      token
+                    );
+              } catch (error) {
+                console.error("standalone Typst completion failed", error);
+                return undefined;
+              }
+            }
+          },
+          ...registration.triggerCharacters
+        );
+      case "textDocument/hover":
+        return vscode.languages.registerHoverProvider(selector, {
+          provideHover: async (document, position, token) => {
+            try {
+              const result = await this.router.hover(
+                routerDocument(document),
+                this.client.code2ProtocolConverter.asPosition(position),
+                token
+              );
+              return result === undefined
+                ? undefined
+                : this.client.protocol2CodeConverter.asHover(result as ProtocolHover | null);
+            } catch (error) {
+              console.error("standalone Typst hover failed", error);
+              return undefined;
+            }
+          }
+        });
+      case "textDocument/signatureHelp":
+        return vscode.languages.registerSignatureHelpProvider(
+          selector,
+          {
+            provideSignatureHelp: async (document, position, token, context) => {
+              try {
+                const result = await this.router.signatureHelp(
+                  routerDocument(document),
+                  this.client.code2ProtocolConverter.asPosition(position),
+                  {
+                    triggerKind: context.triggerKind as ProtocolSignatureHelpTriggerKind,
+                    isRetrigger: context.isRetrigger,
+                    ...(context.triggerCharacter === undefined
+                      ? {}
+                      : { triggerCharacter: context.triggerCharacter })
+                  },
+                  token
+                );
+                return result === undefined
+                  ? undefined
+                  : this.client.protocol2CodeConverter.asSignatureHelp(
+                      result as ProtocolSignatureHelp | null,
+                      token
+                    );
+              } catch (error) {
+                console.error("standalone Typst signature help failed", error);
+                return undefined;
+              }
+            }
+          },
+          {
+            triggerCharacters: [...registration.triggerCharacters],
+            retriggerCharacters: [...registration.retriggerCharacters]
+          }
+        );
+      case "textDocument/semanticTokens/full": {
+        const legend = this.backend.semanticTokensLegend?.();
+        if (!legend) throw new Error("Tinymist semantic token legend is unavailable");
+        return vscode.languages.registerDocumentSemanticTokensProvider(
+          selector,
+          {
+            provideDocumentSemanticTokens: async (document, token) => {
+              try {
+                const result = await this.router.semanticTokens(routerDocument(document), token);
+                return result === undefined
+                  ? undefined
+                  : await this.client.protocol2CodeConverter.asSemanticTokens(
+                      result as ProtocolSemanticTokens | null,
+                      token
+                    );
+              } catch (error) {
+                console.error("standalone Typst semantic tokens failed", error);
+                return undefined;
+              }
+            }
+          },
+          new vscode.SemanticTokensLegend([...legend.tokenTypes], [...legend.tokenModifiers])
+        );
+      }
+    }
+  }
+}
+
+function isPublishedTypstDiagnostics(value: unknown): value is PublishedTypstDiagnostics {
+  if (!value || typeof value !== "object"
+    || !("uri" in value) || typeof value.uri !== "string"
+    || !("diagnostics" in value) || !Array.isArray(value.diagnostics)) {
+    return false;
+  }
+  return !("version" in value)
+    || value.version === undefined
+    || value.version === null
+    || typeof value.version === "number";
 }
 
 function routerDocument(document: vscode.TextDocument): TypstRouterDocument {

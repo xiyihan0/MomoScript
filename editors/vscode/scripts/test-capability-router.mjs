@@ -5,13 +5,72 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
+const vscodeStub = `
+export const __host = {
+  registrations: [],
+  diagnosticCollections: [],
+  documents: [],
+  opened: [],
+  changed: [],
+  closed: []
+};
+function disposable(dispose) { return { dispose }; }
+function registration(kind, selector, provider, metadata) {
+  const value = { kind, selector, provider, metadata, disposed: false };
+  value.dispose = () => { value.disposed = true; };
+  __host.registrations.push(value);
+  return value;
+}
+export const languages = {
+  createDiagnosticCollection(name) {
+    const value = {
+      name,
+      sets: [],
+      deletes: [],
+      set(uri, diagnostics) { this.sets.push({ uri: uri.toString(), diagnostics }); },
+      delete(uri) { this.deletes.push(uri.toString()); },
+      dispose() { this.disposed = true; }
+    };
+    __host.diagnosticCollections.push(value);
+    return value;
+  },
+  registerCompletionItemProvider(selector, provider, ...triggerCharacters) {
+    return registration("completion", selector, provider, { triggerCharacters });
+  },
+  registerHoverProvider(selector, provider) {
+    return registration("hover", selector, provider, {});
+  },
+  registerSignatureHelpProvider(selector, provider, metadata) {
+    return registration("signatureHelp", selector, provider, metadata);
+  },
+  registerDocumentSemanticTokensProvider(selector, provider, legend) {
+    return registration("semanticTokens", selector, provider, { legend });
+  }
+};
+export const workspace = {
+  get textDocuments() { return __host.documents; },
+  onDidOpenTextDocument(handler) { __host.opened.push(handler); return disposable(() => {}); },
+  onDidChangeTextDocument(handler) { __host.changed.push(handler); return disposable(() => {}); },
+  onDidCloseTextDocument(handler) { __host.closed.push(handler); return disposable(() => {}); }
+};
+export const Uri = { parse(value) { return { toString: () => value }; } };
+export const window = { setStatusBarMessage() {} };
+export class SemanticTokensLegend {
+  constructor(tokenTypes, tokenModifiers) {
+    this.tokenTypes = tokenTypes;
+    this.tokenModifiers = tokenModifiers;
+  }
+}
+`;
 const bundle = await build({
   stdin: {
     contents: [
       "export * from './src/tinymistCapabilities.ts';",
       "export * from './src/tinymistHostSession.ts';",
       "export * from './src/tinymistRequestDispatcher.ts';",
-      "export * from './src/typstFeatureRouter.ts';"
+      "export * from './src/typstFeatureRouter.ts';",
+      "export * from './src/typstFeatures.ts';",
+      "export { __host } from 'vscode';"
     ].join("\n"),
     resolveDir: root,
     sourcefile: "capability-router-entry.ts",
@@ -22,12 +81,22 @@ const bundle = await build({
   platform: "node",
   target: "node22",
   write: false,
-  logLevel: "silent"
+  logLevel: "silent",
+  plugins: [{
+    name: "vscode-fixture",
+    setup(context) {
+      context.onResolve({ filter: /^vscode$/ }, () => ({ path: "vscode", namespace: "fixture" }));
+      context.onLoad({ filter: /.*/, namespace: "fixture" }, () => ({ contents: vscodeStub, loader: "js" }));
+    }
+  }],
 });
 const runtime = await import(
   `data:text/javascript;base64,${Buffer.from(bundle.outputFiles[0].text).toString("base64")}`
 );
 const {
+  __host,
+  connectTypstBackend,
+  installTypstMiddleware,
   TinymistCapabilityRegistry,
   TinymistDispatchError,
   TinymistHostSession,
@@ -304,6 +373,53 @@ assert.deepEqual(
   "request sequence was not strictly monotonic"
 );
 
+assert.equal(requestDispatcher.activeRequestScopeCount(), 0, "completed requests retained sequence scopes");
+const growthDispatcher = new TinymistRequestDispatcher(
+  async () => null,
+  (capturedIdentity) => capturedIdentity
+);
+for (let index = 0; index < 256; index += 1) {
+  const identity = {
+    ...baseIdentity,
+    sourceContent: `source-content-${index}`,
+    sourceStaleToken: {
+      ...baseIdentity.sourceStaleToken,
+      hostUri: `file:///workspace/growth-${index}.typ`
+    }
+  };
+  await growthDispatcher.request("textDocument/hover", {}, identity);
+}
+assert.equal(growthDispatcher.activeRequestScopeCount(), 0, "settled content snapshots grew sequence state");
+
+let retiredResolve;
+const retirementDispatcher = new TinymistRequestDispatcher(
+  () => new Promise((resolve) => { retiredResolve = resolve; }),
+  (capturedIdentity) => capturedIdentity
+);
+const retiredByClose = retirementDispatcher.request("textDocument/hover", {}, baseIdentity);
+assert.equal(retirementDispatcher.activeRequestScopeCount(), 1);
+retirementDispatcher.retireHost(baseIdentity.sourceStaleToken.hostUri);
+assert.equal(retirementDispatcher.activeRequestScopeCount(), 0);
+retiredResolve(null);
+await assert.rejects(
+  retiredByClose,
+  (error) => error instanceof TinymistDispatchError && error.code === "SupersededSequence"
+);
+
+const nextGenerationIdentity = {
+  ...baseIdentity,
+  backendGeneration: 5,
+  sourceStaleToken: { ...baseIdentity.sourceStaleToken, hostUri: "file:///workspace/generation.typ" }
+};
+const retiredByGeneration = retirementDispatcher.request("textDocument/hover", {}, nextGenerationIdentity);
+retirementDispatcher.retireGenerationsExcept(6);
+assert.equal(retirementDispatcher.activeRequestScopeCount(), 0);
+retiredResolve(null);
+await assert.rejects(
+  retiredByGeneration,
+  (error) => error instanceof TinymistDispatchError && error.code === "SupersededSequence"
+);
+
 const nativeProviderRegistry = new TinymistCapabilityRegistry();
 nativeProviderRegistry.install(10, nativeEvidence.initialize);
 const webProviderRegistry = new TinymistCapabilityRegistry();
@@ -378,6 +494,161 @@ assert.equal(unavailableRouter.registrations().some((item) => item.method === "t
 assert.equal(unavailableRouter.capability("textDocument/hover").kind, "CapabilityUnavailable");
 assert.equal(unavailableStates.length, 1, "unavailable state was not visible exactly once");
 
+const hostRegistry = new TinymistCapabilityRegistry();
+hostRegistry.install(20, {
+  capabilities: {
+    completionProvider: { triggerCharacters: ["#", "."] },
+    signatureHelpProvider: { triggerCharacters: ["("], retriggerCharacters: [","] },
+    semanticTokensProvider: {
+      full: true,
+      legend: {
+        tokenTypes: ["comment", "string", "keyword", "operator"],
+        tokenModifiers: ["declaration", "readonly"]
+      }
+    }
+  }
+});
+hostRegistry.register(20, [{ id: "host-hover", method: "textDocument/hover" }]);
+const hostEvents = new Map();
+const hostDocument = {
+  languageId: "typst",
+  uri: { toString: () => "file:///workspace/host.typ" },
+  version: 1,
+  getText: () => "abc"
+};
+const hostProjects = new Map([["file:///workspace/host.typ", {
+  sourceUri: "file:///workspace/host.typ",
+  sourceVersion: 1,
+  revision: 1,
+  entryUri: "file:///workspace/host.typ",
+  files: [{ uri: "file:///workspace/host.typ", text: "abc" }],
+  full: true,
+  sourceContent: "source-host",
+  projectDigest: "project-host-a",
+  projectionKey: "projection-host",
+  mappingDigest: "mapping-host"
+}]]);
+const hostBackend = {
+  capabilities: () => hostRegistry,
+  backendGeneration: () => 20,
+  semanticTokensLegend: () => ({
+    tokenTypes: ["comment", "string", "keyword", "operator"],
+    tokenModifiers: ["declaration", "readonly"]
+  }),
+  on(method, handler) {
+    const handlers = hostEvents.get(method) ?? [];
+    handlers.push(handler);
+    hostEvents.set(method, handlers);
+  },
+  projectForEntry: (entryUri) => hostProjects.get(entryUri),
+  request: async (method) => method === "textDocument/semanticTokens/full"
+    ? { data: [0, 0, 1, 2, 0] }
+    : null,
+  syncProject() {},
+  closeProject() { return true; }
+};
+let resolveDiagnostics;
+let diagnosticsConversionStarted;
+const diagnosticsStarted = new Promise((resolve) => { diagnosticsConversionStarted = resolve; });
+const notificationHandlers = new Map();
+const hostClient = {
+  onNotification(method, handler) {
+    notificationHandlers.set(method, handler);
+    return { dispose() {} };
+  },
+  sendRequest: async () => null,
+  code2ProtocolConverter: { asPosition: (position) => position },
+  protocol2CodeConverter: {
+    asCompletionResult: async (value) => value,
+    asHover: (value) => value,
+    asSignatureHelp: async (value) => value,
+    asSemanticTokens: async (value) => value,
+    asDiagnostics(value) {
+      diagnosticsConversionStarted();
+      return new Promise((resolve) => { resolveDiagnostics = () => resolve(value); });
+    }
+  }
+};
+__host.documents.splice(0, __host.documents.length, hostDocument);
+const hostOptions = { documentSelector: [{ language: "mmt" }, { language: "typst" }] };
+installTypstMiddleware(hostOptions, hostBackend, () => hostClient);
+assert.deepEqual(hostOptions.documentSelector, [{ language: "mmt" }], "MMT client retained standalone Typst providers");
+const hostDisposables = connectTypstBackend(hostClient, hostBackend);
+const activeHostRegistrations = () => __host.registrations.filter((registration) => !registration.disposed);
+assert.deepEqual(
+  activeHostRegistrations().map((registration) => registration.kind).sort(),
+  ["completion", "hover", "semanticTokens", "signatureHelp"],
+  "negotiated Tinymist providers were not registered with the VS Code host"
+);
+assert.deepEqual(
+  activeHostRegistrations().find((registration) => registration.kind === "completion").metadata.triggerCharacters,
+  ["#", "."]
+);
+assert.deepEqual(
+  activeHostRegistrations().find((registration) => registration.kind === "signatureHelp").metadata,
+  { triggerCharacters: ["("], retriggerCharacters: [","] }
+);
+const semanticRegistration = activeHostRegistrations().find((registration) => registration.kind === "semanticTokens");
+assert.deepEqual(
+  semanticRegistration.metadata.legend.tokenTypes,
+  ["comment", "string", "keyword", "operator"],
+  "standalone provider used the MMT semantic-token legend"
+);
+const hostToken = { isCancellationRequested: false, onCancellationRequested: () => ({ dispose() {} }) };
+assert.deepEqual(
+  await semanticRegistration.provider.provideDocumentSemanticTokens(hostDocument, hostToken),
+  { data: [0, 0, 1, 2, 0] },
+  "standalone semantic tokens were not decoded against the registered Tinymist legend"
+);
+
+hostRegistry.unregister(20, [{ id: "host-hover", method: "textDocument/hover" }]);
+for (const handler of hostEvents.get("tinymist/capabilitiesChanged")) {
+  handler({ generation: 20, capabilities: hostRegistry.list() });
+}
+assert.equal(
+  activeHostRegistrations().some((registration) => registration.kind === "hover"),
+  false,
+  "dynamic capability unregistration left a VS Code hover provider registered"
+);
+hostRegistry.register(20, [{
+  id: "host-completion-triggers",
+  method: "textDocument/completion",
+  registerOptions: { triggerCharacters: ["@"] }
+}]);
+for (const handler of hostEvents.get("tinymist/capabilitiesChanged")) {
+  handler({ generation: 20, capabilities: hostRegistry.list() });
+}
+assert.deepEqual(
+  activeHostRegistrations().find((registration) => registration.kind === "completion").metadata.triggerCharacters,
+  ["#", ".", "@"],
+  "dynamic completion trigger metadata was not applied to the host registration"
+);
+
+for (const handler of hostEvents.get("textDocument/publishDiagnostics")) {
+  handler({
+    uri: "file:///workspace/host.typ",
+    version: 1,
+    diagnostics: [{
+      range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } },
+      severity: 1,
+      message: "stale"
+    }]
+  });
+}
+await diagnosticsStarted;
+hostProjects.set("file:///workspace/host.typ", {
+  ...hostProjects.get("file:///workspace/host.typ"),
+  projectDigest: "project-host-b"
+});
+resolveDiagnostics();
+await new Promise((resolve) => setImmediate(resolve));
+assert.equal(
+  __host.diagnosticCollections[0].sets.length,
+  0,
+  "diagnostics converted after a project graph change were published"
+);
+for (const disposable of hostDisposables) disposable.dispose();
+
 const routedProjects = new Map([
   ["logical:/unicode.typ", {
     sourceUri: "logical:/unicode.typ",
@@ -405,6 +676,10 @@ const routedProjects = new Map([
   }]
 ]);
 const routedBackendCalls = [];
+let routedDefaultEditRange = {
+  insert: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
+  replace: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } }
+};
 const routedBackend = {
   capabilities: () => qualifiedRegistry,
   backendGeneration: () => 12,
@@ -413,7 +688,7 @@ const routedBackend = {
     routedBackendCalls.push({ method, params: structuredClone(params) });
     return {
       isIncomplete: true,
-      itemDefaults: { commitCharacters: ["."] },
+      itemDefaults: { commitCharacters: ["."], editRange: routedDefaultEditRange },
       items: [{ label: params.textDocument.uri, data: { resolve: "kept" } }]
     };
   }
@@ -431,7 +706,18 @@ const routedClient = {
         projectionKey: "projection-embedded"
       };
     }
-    if (method === "mmt/mapTypstCompletion") return params.items;
+    if (method === "mmt/mapTypstCompletion") {
+      return params.items.map((item) => item.textEdit?.newText === ""
+        ? {
+            ...item,
+            textEdit: {
+              newText: "",
+              insert: { start: { line: 0, character: 1 }, end: { line: 0, character: 3 } },
+              replace: { start: { line: 0, character: 1 }, end: { line: 0, character: 3 } }
+            }
+          }
+        : item);
+    }
     throw new Error(`unexpected routed client request: ${method}`);
   }
 };
@@ -455,9 +741,34 @@ const projectedResult = await routedRouter.completion(
 );
 assert.equal(routedBackendCalls[0].params.position.character, 7, "standalone UTF-16 position was not converted to UTF-8");
 assert.equal(routedBackendCalls[1].params.position.character, 5, "projected lookup position was not retained in backend encoding");
-assert.deepEqual(standaloneResult.itemDefaults, { commitCharacters: ["."] });
-assert.deepEqual(projectedResult.itemDefaults, { commitCharacters: ["."] });
+assert.deepEqual(standaloneResult.itemDefaults, {
+  commitCharacters: ["."],
+  editRange: {
+    insert: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
+    replace: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } }
+  }
+});
+assert.deepEqual(projectedResult.itemDefaults, {
+  commitCharacters: ["."],
+  editRange: {
+    insert: { start: { line: 0, character: 1 }, end: { line: 0, character: 3 } },
+    replace: { start: { line: 0, character: 1 }, end: { line: 0, character: 3 } }
+  }
+});
 assert.deepEqual(projectedResult.items[0].data, { resolve: "kept" });
+routedDefaultEditRange = {
+  start: { line: 0, character: 0 },
+  end: { line: 0, character: 99 }
+};
+await assert.rejects(
+  routedRouter.completion(
+    embeddedDocument,
+    { line: 0, character: 3 },
+    { triggerKind: 1 },
+    routedToken
+  ),
+  "invalid default editRange was published"
+);
 
 console.log(JSON.stringify({
   checked: true,
@@ -468,6 +779,11 @@ console.log(JSON.stringify({
   unavailableStateVisible: true,
   standaloneAndProjectedPositionConversion: true,
   completionDefaultsAndResolveDataPreserved: true,
+  hostRegistrationsReconciled: true,
+  negotiatedSemanticLegend: true,
+  diagnosticConversionRaceRejected: true,
+  completionDefaultEditRangeMapped: true,
+  requestScopesRetired: true,
   staleGraphRejected: true,
   cancellationRejected: true,
   sequenceRejected: true

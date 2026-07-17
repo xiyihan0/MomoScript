@@ -74,6 +74,7 @@ export interface TypstProviderRegistration {
 export interface RoutedTypstDiagnostics {
   readonly uri: string;
   readonly diagnostics: readonly Diagnostic[];
+  readonly identity: TinymistRequestIdentity;
 }
 
 interface GuardedBackendPosition extends RetainedBackendPosition {
@@ -128,19 +129,34 @@ export class TypstFeatureRouter {
   }
 
   open(document: TypstRouterDocument): void {
+    this.dispatcher.retireHost(document.uri);
     this.retain(document);
     this.staleTokens.open(document.uri, document.version);
   }
 
   change(document: TypstRouterDocument): void {
+    this.dispatcher.retireHost(document.uri);
     this.retain(document);
     this.staleTokens.advance(document.uri, document.version);
   }
 
+  retire(uri: string): void {
+    this.dispatcher.retireHost(uri);
+  }
+
   close(uri: string): void {
+    this.dispatcher.retireHost(uri);
     this.sourceIndexes.delete(uri);
     this.entryByHostUri.delete(uri);
     this.staleTokens.close(uri);
+  }
+
+  retireBackendGenerationsExcept(generation: number): void {
+    this.dispatcher.retireGenerationsExcept(generation);
+  }
+
+  retireAllRequests(): void {
+    this.dispatcher.retireAll();
   }
 
   capability(method: BaselineTypstMethod): TypstProviderRegistration | TypstCapabilityUnavailableState {
@@ -191,17 +207,56 @@ export class TypstFeatureRouter {
       position: wireBackendPosition(route.position),
       context: completionContext(context)
     }, route.identity, token);
-    if (result === undefined) return undefined;
+    if (result === undefined || result === null) return result;
     validatePositionBearingPayload("completion", result, route.index, route.position.encoding);
-    const items = Array.isArray(result) ? result : (result?.items ?? []);
+    const list = Array.isArray(result) ? undefined : result;
+    const items = Array.isArray(result) ? result : result.items;
+    const defaults = list?.itemDefaults;
+    const defaultEditRange = defaults?.editRange;
+    let mappingItems = items;
+    if (defaultEditRange !== undefined) {
+      // validatePositionBearingPayload proved the protocol union before this narrowing.
+      const validatedDefaultEditRange = defaultEditRange as NonNullable<
+        NonNullable<CompletionList["itemDefaults"]>["editRange"]
+      >;
+      mappingItems = [...items, {
+        label: "",
+        textEdit: "insert" in validatedDefaultEditRange
+          ? {
+              newText: "",
+              insert: validatedDefaultEditRange.insert,
+              replace: validatedDefaultEditRange.replace
+            }
+          : { newText: "", range: validatedDefaultEditRange }
+      }];
+    }
     const mapped = await this.client().sendRequest<CompletionItem[] | null>(
       "mmt/mapTypstCompletion",
-      mappingParams(document, route, { items }),
+      mappingParams(document, route, { items: mappingItems }),
       token
     );
     if (!mapped || !this.identityIsCurrent(route.identity)) return undefined;
-    validatePositionBearingPayload("completion", mapped, this.sourceIndex(route.identity), "utf-16");
-    return Array.isArray(result) ? mapped : { ...(result as CompletionList), items: mapped };
+    if (defaultEditRange !== undefined && mapped.length !== mappingItems.length) return undefined;
+    if (defaultEditRange === undefined) {
+      validatePositionBearingPayload("completion", mapped, this.sourceIndex(route.identity), "utf-16");
+      if (list === undefined) return mapped;
+      const completedWithoutDefault: CompletionList = { ...list, items: mapped };
+      return completedWithoutDefault;
+    }
+    const mappedTextEdit = mapped[mapped.length - 1]?.textEdit;
+    const mappedEditRange = mappedTextEdit === undefined
+      ? undefined
+      : "range" in mappedTextEdit
+        ? mappedTextEdit.range
+        : { insert: mappedTextEdit.insert, replace: mappedTextEdit.replace };
+    if (mappedEditRange === undefined || !list || !defaults) return undefined;
+    const completed: CompletionList = {
+      ...list,
+      itemDefaults: { ...defaults, editRange: mappedEditRange },
+      items: mapped.slice(0, -1)
+    };
+    validatePositionBearingPayload("completion", completed, this.sourceIndex(route.identity), "utf-16");
+    return completed;
   }
 
   async hover(
@@ -297,7 +352,7 @@ export class TypstFeatureRouter {
     validatePositionBearingPayload("diagnostics", params.diagnostics, projectIndex, this.backendEncoding);
     if (project.sourceUri === project.entryUri) {
       return this.identityIsCurrent(identity)
-        ? { uri: project.sourceUri, diagnostics: params.diagnostics }
+        ? { uri: project.sourceUri, diagnostics: params.diagnostics, identity }
         : undefined;
     }
     const mapped = await this.client().sendRequest<Diagnostic[] | null>(
@@ -315,7 +370,11 @@ export class TypstFeatureRouter {
     );
     if (!mapped || !this.identityIsCurrent(identity)) return undefined;
     validatePositionBearingPayload("diagnostics", mapped, this.sourceIndex(identity), "utf-16");
-    return { uri: project.sourceUri, diagnostics: mapped };
+    return { uri: project.sourceUri, diagnostics: mapped, identity };
+  }
+
+  diagnosticsAreCurrent(routed: RoutedTypstDiagnostics): boolean {
+    return this.identityIsCurrent(routed.identity);
   }
 
   private standaloneRoute(document: TypstRouterDocument): StandaloneRoute | undefined {

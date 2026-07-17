@@ -17,8 +17,20 @@ const vscodeFixture = {
         delete() {},
         dispose() {}
       };
-    }
-  }
+    },
+    registerCompletionItemProvider() { return { dispose() {} }; },
+    registerHoverProvider() { return { dispose() {} }; },
+    registerSignatureHelpProvider() { return { dispose() {} }; },
+    registerDocumentSemanticTokensProvider() { return { dispose() {} }; }
+  },
+  workspace: {
+    textDocuments: [],
+    onDidOpenTextDocument() { return { dispose() {} }; },
+    onDidChangeTextDocument() { return { dispose() {} }; },
+    onDidCloseTextDocument() { return { dispose() {} }; }
+  },
+  window: { setStatusBarMessage() {} },
+  SemanticTokensLegend: class {}
 };
 globalThis.__mmtRuntimeCharacterizationVscode = vscodeFixture;
 
@@ -40,7 +52,7 @@ const bundle = await build({
     setup(buildApi) {
       buildApi.onResolve({ filter: /^vscode$/ }, () => ({ path: "vscode-characterization", namespace: "fixture" }));
       buildApi.onLoad({ filter: /.*/, namespace: "fixture" }, () => ({
-        contents: "export const Uri = globalThis.__mmtRuntimeCharacterizationVscode.Uri; export const languages = globalThis.__mmtRuntimeCharacterizationVscode.languages;",
+        contents: "export const Uri = globalThis.__mmtRuntimeCharacterizationVscode.Uri; export const languages = globalThis.__mmtRuntimeCharacterizationVscode.languages; export const workspace = globalThis.__mmtRuntimeCharacterizationVscode.workspace; export const window = globalThis.__mmtRuntimeCharacterizationVscode.window; export const SemanticTokensLegend = globalThis.__mmtRuntimeCharacterizationVscode.SemanticTokensLegend;",
         loader: "js"
       }));
     }

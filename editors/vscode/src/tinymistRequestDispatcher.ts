@@ -78,12 +78,35 @@ type CurrentIdentity = (
  */
 export class TinymistRequestDispatcher<Requests> {
   private nextRequestSequence = 1;
-  private readonly latestSequenceByScope = new Map<string, number>();
+  private readonly latestSequenceByScope = new Map<
+    string,
+    { readonly sequence: number; readonly hostUri: string; readonly backendGeneration: number }
+  >();
 
   constructor(
     private readonly send: TinymistRequestSender<Requests>,
     private readonly currentIdentity: CurrentIdentity
   ) {}
+
+  activeRequestScopeCount(): number {
+    return this.latestSequenceByScope.size;
+  }
+
+  retireHost(hostUri: string): void {
+    for (const [scope, active] of this.latestSequenceByScope) {
+      if (active.hostUri === hostUri) this.latestSequenceByScope.delete(scope);
+    }
+  }
+
+  retireGenerationsExcept(backendGeneration: number): void {
+    for (const [scope, active] of this.latestSequenceByScope) {
+      if (active.backendGeneration !== backendGeneration) this.latestSequenceByScope.delete(scope);
+    }
+  }
+
+  retireAll(): void {
+    this.latestSequenceByScope.clear();
+  }
 
   async request<Method extends keyof Requests & string>(
     method: Method,
@@ -97,29 +120,39 @@ export class TinymistRequestDispatcher<Requests> {
       params,
       metadata
     });
-    const scope = requestScope(envelope);
+    const scope = `${method}\u0000${metadata.sourceStaleToken.hostUri}`;
 
     this.assertNotCancelled(signal);
     this.assertCurrent(metadata);
-    this.latestSequenceByScope.set(scope, metadata.requestSequence);
+    this.latestSequenceByScope.set(scope, {
+      sequence: metadata.requestSequence,
+      hostUri: metadata.sourceStaleToken.hostUri,
+      backendGeneration: metadata.backendGeneration
+    });
 
-    let response: unknown;
     try {
-      response = await this.send(envelope as TinymistRequestEnvelopeFor<Requests>, signal);
-    } catch (error) {
-      if (signal?.aborted) throw cancelledError(signal);
-      throw error;
-    }
+      let response: unknown;
+      try {
+        response = await this.send(envelope as TinymistRequestEnvelopeFor<Requests>, signal);
+      } catch (error) {
+        if (signal?.aborted) throw cancelledError(signal);
+        throw error;
+      }
 
-    this.assertNotCancelled(signal);
-    this.assertCurrent(metadata);
-    if (this.latestSequenceByScope.get(scope) !== metadata.requestSequence) {
-      throw new TinymistDispatchError(
-        "SupersededSequence",
-        `Tinymist ${method} response sequence ${metadata.requestSequence} was superseded`
-      );
+      this.assertNotCancelled(signal);
+      this.assertCurrent(metadata);
+      if (this.latestSequenceByScope.get(scope)?.sequence !== metadata.requestSequence) {
+        throw new TinymistDispatchError(
+          "SupersededSequence",
+          `Tinymist ${method} response sequence ${metadata.requestSequence} was superseded`
+        );
+      }
+      return response as TinymistRequestResult<Requests[Method]>;
+    } finally {
+      if (this.latestSequenceByScope.get(scope)?.sequence === metadata.requestSequence) {
+        this.latestSequenceByScope.delete(scope);
+      }
     }
-    return response as TinymistRequestResult<Requests[Method]>;
   }
 
   private capture(identity: TinymistRequestIdentity): TinymistRequestMetadata {
@@ -178,13 +211,6 @@ function sourceStaleTokensEqual(left: SourceStaleToken, right: SourceStaleToken)
     && left.documentVersion === right.documentVersion;
 }
 
-function requestScope(envelope: TinymistRequestEnvelope<string, unknown>): string {
-  return [
-    envelope.method,
-    envelope.metadata.logicalSource,
-    envelope.metadata.sourceStaleToken.hostUri
-  ].join("\u0000");
-}
 
 function cancelledError(signal: AbortSignal): TinymistDispatchError {
   const suffix = signal.reason instanceof Error ? `: ${signal.reason.message}` : "";

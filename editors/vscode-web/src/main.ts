@@ -585,7 +585,6 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
     const project = await buildTypstProject(document, typstRevisions);
     if (typstRevisions.get(sourceUri) !== project.revision) return undefined;
     tinymist?.backend.syncProject(project);
-    tinymist?.refreshSemanticTokens();
     return project;
   };
   const recognizeAndSyncTypst = async (document: vscode.TextDocument): Promise<TypstProjectUpdate | undefined> => {
@@ -649,8 +648,6 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
     void vscode.window.showErrorMessage(
       `MomoScript 浏览器语言服务器启动失败：${error instanceof Error ? error.message : String(error)}`
     );
-  } finally {
-    tinymist?.activateSemanticTokens();
   }
   const documentConfigCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.document.configure", async () => {
     const document = vscode.window.activeTextEditor?.document;

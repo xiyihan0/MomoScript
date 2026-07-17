@@ -8,8 +8,8 @@ import type { TinymistTransport } from "./tinymistTransport";
 import { DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS } from "./typstProjectState";
 import {
   validateTinymistInitialize,
+  semanticTokensLegendFromInitialize,
   type TinymistHostBackend,
-  type TinymistInitializeResult,
   type TypstProjectUpdate
 } from "./tinymistClient";
 
@@ -17,6 +17,7 @@ export type { TinymistProcessFactory } from "./tinymistProcessTransport";
 
 export class TinymistProcessClient implements TinymistHostBackend {
   private readonly session: TinymistHostSession;
+  private semanticLegend: { tokenTypes: string[]; tokenModifiers: string[] } | undefined;
 
   private constructor(private readonly transport: TinymistTransport, closeGraceMs: number) {
     this.session = new TinymistHostSession({
@@ -51,6 +52,10 @@ export class TinymistProcessClient implements TinymistHostBackend {
 
   capabilities(): TinymistCapabilityView {
     return this.session.capabilities();
+  }
+
+  semanticTokensLegend(): { tokenTypes: string[]; tokenModifiers: string[] } | undefined {
+    return this.semanticLegend;
   }
 
   on(method: string, handler: (params: unknown) => void): void {
@@ -100,12 +105,20 @@ export class TinymistProcessClient implements TinymistHostBackend {
           completion: { completionItem: { snippetSupport: true } },
           hover: { contentFormat: ["markdown", "plaintext"] },
           signatureHelp: {},
-          publishDiagnostics: { versionSupport: true, relatedInformation: true }
+          publishDiagnostics: { versionSupport: true, relatedInformation: true },
+          semanticTokens: {
+            requests: { full: true, range: false },
+            tokenTypes: ["namespace", "type", "class", "enum", "interface", "struct", "typeParameter", "parameter", "variable", "property", "enumMember", "event", "function", "method", "macro", "keyword", "modifier", "comment", "string", "number", "regexp", "operator", "decorator"],
+            tokenModifiers: ["declaration", "definition", "readonly", "static", "deprecated", "abstract", "async", "modification", "documentation", "defaultLibrary"],
+            formats: ["relative"]
+          }
         }
       },
       clientInfo: { name: "momoscript-vscode", version: "0.1.0" }
     });
-    validateTinymistInitialize(session.initializeResult as TinymistInitializeResult);
+    const initialize = session.initializeResult;
+    validateTinymistInitialize(initialize);
+    this.semanticLegend = semanticTokensLegendFromInitialize(initialize);
     return session;
   }
 }

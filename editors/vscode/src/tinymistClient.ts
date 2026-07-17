@@ -162,14 +162,40 @@ export interface TinymistInitializeResult {
   serverInfo?: { name?: string; version?: string };
 }
 
-export function validateTinymistInitialize(result: TinymistInitializeResult): void {
-  if (result.serverInfo?.version !== "0.15.2") {
-    throw new Error(`Tinymist 0.15.2 required, received ${result.serverInfo?.version ?? "unknown"}`);
+export function validateTinymistInitialize(result: unknown): asserts result is TinymistInitializeResult {
+  if (!result || typeof result !== "object") {
+    throw new Error("Tinymist initialize result is invalid");
   }
-  const capabilities = result.capabilities;
-  if (!capabilities?.completionProvider || !capabilities.hoverProvider || !capabilities.signatureHelpProvider) {
+  const serverInfo = "serverInfo" in result ? result.serverInfo : undefined;
+  const version = serverInfo && typeof serverInfo === "object" && "version" in serverInfo
+    ? serverInfo.version
+    : undefined;
+  if (version !== "0.15.2") {
+    throw new Error(`Tinymist 0.15.2 required, received ${typeof version === "string" ? version : "unknown"}`);
+  }
+  const capabilities = "capabilities" in result ? result.capabilities : undefined;
+  if (!capabilities || typeof capabilities !== "object"
+    || !("completionProvider" in capabilities) || !capabilities.completionProvider
+    || !("hoverProvider" in capabilities) || !capabilities.hoverProvider
+    || !("signatureHelpProvider" in capabilities) || !capabilities.signatureHelpProvider) {
     throw new Error("Tinymist completion, hover, and signature help capabilities are required");
   }
+}
+
+export function semanticTokensLegendFromInitialize(
+  result: TinymistInitializeResult
+): { tokenTypes: string[]; tokenModifiers: string[] } {
+  const legend = result.capabilities?.semanticTokensProvider?.legend;
+  if (!Array.isArray(legend?.tokenTypes)
+    || !legend.tokenTypes.every((value) => typeof value === "string")
+    || !Array.isArray(legend.tokenModifiers)
+    || !legend.tokenModifiers.every((value) => typeof value === "string")) {
+    throw new Error("Tinymist semantic tokens capability with legend is required");
+  }
+  return {
+    tokenTypes: [...legend.tokenTypes],
+    tokenModifiers: [...legend.tokenModifiers]
+  };
 }
 
 
@@ -285,16 +311,9 @@ export class TinymistWorkerClient implements TinymistHostBackend {
       },
       clientInfo: { name: "momoscript-vscode", version: "0.1.0" }
     });
-    const initialize = session.initializeResult as TinymistInitializeResult;
+    const initialize = session.initializeResult;
     validateTinymistInitialize(initialize);
-    const legend = initialize.capabilities?.semanticTokensProvider?.legend;
-    if (!legend?.tokenTypes || !legend.tokenModifiers) {
-      throw new Error("Tinymist semantic tokens capability with legend is required");
-    }
-    this.semanticLegend = {
-      tokenTypes: [...legend.tokenTypes],
-      tokenModifiers: [...legend.tokenModifiers]
-    };
+    this.semanticLegend = semanticTokensLegendFromInitialize(initialize);
     return session;
   }
 }
