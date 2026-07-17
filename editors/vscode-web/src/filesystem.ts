@@ -338,4 +338,3 @@ function makeEntry(path: string, type: vscode.FileType): StoredEntry {
   const now = Date.now();
   return { path: normalize(path), type, ctime: now, mtime: now, data: new Uint8Array() };
 }
-
