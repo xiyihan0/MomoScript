@@ -26,21 +26,31 @@
 
 ## 1. Snapshot identity and position domains
 
-- [ ] 1.1 Define shared protocol types for `LogicalSourceId`, `SourceContentKey`, local-only `SourceStaleToken`, `TypstProjectSnapshotKey`, `ProjectionKey`, `MaterializationKey`, `RuntimeArtifactKey` and `RenderKey`
+- [x] 1.1 Define shared protocol types for `LogicalSourceId`, `SourceContentKey`, local-only `SourceStaleToken`, `TypstProjectSnapshotKey`, `ProjectionKey`, `MaterializationKey`, `RuntimeArtifactKey` and `RenderKey`
+  - Evidence: `cargo test --manifest-path mmt_rs/Cargo.toml --test runtime_identity` and `cd editors/vscode && npm run test:runtime-identity` exercise the shared Rust/TypeScript typed constructors and identical pinned digests.
 - [ ] 1.2 Prove canonical derived keys transitively exclude host URI、document-incarnation nonce and editor-local version; retain all three only in request publish/apply guards and retire the nonce on close
-- [ ] 1.3 Define canonical length-delimited SHA-256 serialization independent of map/filesystem order and platform separators
-- [ ] 1.4 Add complete workspace-file, package-generation, generated-dependency and project-option digests to every Typst project snapshot
-- [ ] 1.5 Define structured `LogicalProjectFileId` variants for workspace、package and generated files; canonical project serialization MUST reject presentation/backend URIs as digest inputs
-- [ ] 1.6 Add byte-for-byte parity fixtures for identical logical projects mounted as Desktop `file:`、Web `mmtfs:` and backend-internal URIs
-- [ ] 1.7 Add project and mapping digests to `mmt/getTypstProject` responses
-- [ ] 1.8 Add pack registry, resource plan and materialized byte digests to render-project results
-- [ ] 1.9 Generate runtime artifact keys from compiler, renderer, template bundle and bundled font-set versions/digests
+  - Identity evidence: canonical constructors accept no host URI/incarnation/version input and the fixture rejects `file:`/`mmtfs:` values; host request-guard ownership and close retirement remain part of the runtime-state cutover, so this item stays unchecked.
+- [x] 1.3 Define canonical length-delimited SHA-256 serialization independent of map/filesystem order and platform separators
+  - Evidence: Rust identity unit tests cover reversed map order and invalid separators; the shared Node/Rust fixture matches byte-for-byte SHA-256 outputs.
+- [x] 1.4 Add complete workspace-file, package-generation, generated-dependency and project-option digests to every Typst project snapshot
+  - Evidence: `ProjectDigestInput` and production MMT/standalone Typst builders populate all four domains; focused Rust backend tests pass.
+- [x] 1.5 Define structured `LogicalProjectFileId` variants for workspace、package and generated files; canonical project serialization MUST reject presentation/backend URIs as digest inputs
+  - Evidence: both implementations serialize the same structured variants, and reject `file:`, `mmtfs:`, absolute, traversal and backslash inputs.
+- [x] 1.6 Add byte-for-byte parity fixtures for identical logical projects mounted as Desktop `file:`、Web `mmtfs:` and backend-internal URIs
+  - Evidence: `mmt_rs/tests/fixtures/runtime-identity.json` is consumed by both focused commands and covers all three mount schemes plus Chinese/combining/astral content.
+- [x] 1.7 Add project and mapping digests to `mmt/getTypstProject` responses
+  - Evidence: `TypstProjectUpdate` carries `projectDigest`/`mappingDigest`; `cargo test --manifest-path mmt_lsp/Cargo.toml typst_backend::tests` verifies response construction without changing URI/file payloads.
+- [x] 1.8 Add pack registry, resource plan and materialized byte digests to render-project results
+  - Evidence: pack manifest JSON is canonicalized and snapshot-bound in Rust, render plans exclude presentation URIs, and Web materialization replaces the empty pre-materialization digest with the actual ordered bytes digest; Rust backend tests and Web `npm run check` pass.
+- [x] 1.9 Generate runtime artifact keys from compiler, renderer, template bundle and bundled font-set versions/digests
+  - Evidence: the shared fixture proves compiler/renderer versions plus both artifact, template and font digests compose the same `RuntimeArtifactKey` and transitive `RenderKey` in Rust/TypeScript.
 - [ ] 1.10 Introduce typed MMT-client, UTF-8-byte and Tinymist-backend position domains in Rust and TypeScript boundaries
 - [ ] 1.11 Convert projected requests through current source and projected `LineIndex` instances rather than passing plain positions
 - [ ] 1.12 Convert responses against the exact retained virtual file and complete Typst project generation used by the request
 - [ ] 1.13 Reject invalid boundaries, absent generations, stale projects/projections and encoding ambiguity without clamping
 - [ ] 1.14 Add Chinese, combining mark and astral Unicode round-trip fixtures for every position-bearing protocol family
 - [ ] 1.15 Add canonical logical-identity/digest fixtures shared by Rust and TypeScript and prove `file:`/`mmtfs:` parity
+  - Identity evidence: `cargo test --manifest-path mmt_rs/Cargo.toml --test runtime_identity` and `cd editors/vscode && npm run test:runtime-identity` consume the same checked fixture and match all identity/digest keys; keep unchecked until the position-domain half is integrated.
 
 ## 2. Shared runtime and project state
 

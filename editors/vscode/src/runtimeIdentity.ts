@@ -12,25 +12,30 @@ export type RuntimeArtifactKey = string & { readonly __runtimeArtifactKey: uniqu
 export type RenderKey = string & { readonly __renderKey: unique symbol };
 
 export type LogicalProjectFileId =
-  | { readonly kind: "workspace"; readonly path: string }
+  | {
+      readonly kind: "workspace";
+      readonly logicalWorkspaceId: string;
+      readonly canonicalWorkspaceRelativePath: string;
+    }
   | {
       readonly kind: "package";
       readonly namespace: string;
       readonly name: string;
       readonly version: string;
-      readonly generation: string;
-      readonly path: string;
+      readonly packageGenerationDigest: string;
+      readonly canonicalPackageRelativePath: string;
     }
   | {
       readonly kind: "generated";
-      readonly producer: string;
-      readonly origin: string;
-      readonly path: string;
+      readonly dependencyOrigin: string;
+      readonly producerDigest: string;
+      readonly canonicalOriginRelativePath: string;
     };
 
 export interface ProjectDigestInput {
   readonly logicalSource: LogicalSourceId;
   readonly sourceContent: SourceContentKey;
+  readonly entryFile: LogicalProjectFileId;
   readonly files: ReadonlyMap<LogicalProjectFileId, string>;
   readonly packageGenerations: ReadonlyMap<string, string>;
   readonly generatedDependencies: ReadonlyMap<string, string>;
@@ -40,12 +45,15 @@ export interface ProjectDigestInput {
 
 const encoder = new TextEncoder();
 
-export function logicalSourceId(workspaceId: string, relativePath: string): LogicalSourceId {
-  return `workspace:${workspaceId}/${canonicalRelativePath(relativePath)}` as LogicalSourceId;
+export async function logicalSourceId(workspaceId: string, relativePath: string): Promise<LogicalSourceId> {
+  checkedComponent(workspaceId);
+  const writer = new CanonicalWriter("mmt-logical-source-v1");
+  writer.strings([workspaceId, canonicalRelativePath(relativePath)]);
+  return await writer.digest() as LogicalSourceId;
 }
 
 export function canonicalRelativePath(path: string): string {
-  if (path.startsWith("/") || path.includes("\\") || path.includes("://")) {
+  if (path.startsWith("/") || path.includes("\\") || isUriLike(path)) {
     throw new Error(`Non-canonical logical path: ${path}`);
   }
   const segments = path.split("/");
@@ -55,14 +63,18 @@ export function canonicalRelativePath(path: string): string {
   return segments.join("/");
 }
 
-export async function sourceContentKey(bytes: Uint8Array): Promise<SourceContentKey> {
-  return await canonicalDigest("mmt-source-content-v1", [bytes]) as SourceContentKey;
+export async function sourceContentKey(
+  logicalSource: LogicalSourceId,
+  bytes: Uint8Array
+): Promise<SourceContentKey> {
+  return await canonicalDigest("mmt-source-content-v1", [encoder.encode(logicalSource), bytes]) as SourceContentKey;
 }
 
 export async function projectSnapshotKey(input: ProjectDigestInput): Promise<TypstProjectSnapshotKey> {
   const writer = new CanonicalWriter("mmt-typst-project-v1");
   writer.string(input.logicalSource);
   writer.string(input.sourceContent);
+  writeLogicalFile(writer, input.entryFile);
   writer.map(input.files, logicalFileSortKey, (file, digest) => {
     writeLogicalFile(writer, file);
     writer.string(digest);
@@ -74,56 +86,154 @@ export async function projectSnapshotKey(input: ProjectDigestInput): Promise<Typ
   return await writer.digest() as TypstProjectSnapshotKey;
 }
 
+export async function projectionKey(
+  source: SourceContentKey,
+  session: string,
+  revision: number,
+  logicalEntryId: LogicalProjectFileId,
+  projectDigest: TypstProjectSnapshotKey,
+  mappingDigest: string
+): Promise<ProjectionKey> {
+  if (!Number.isSafeInteger(revision) || revision < 0) throw new Error("Invalid projection revision");
+  const writer = new CanonicalWriter("mmt-projection-key-v1");
+  writer.strings([source, session, String(revision)]);
+  writeLogicalFile(writer, logicalEntryId);
+  writer.strings([projectDigest, mappingDigest]);
+  return await writer.digest() as ProjectionKey;
+}
+
+export async function materializationKey(
+  projection: ProjectionKey,
+  packRegistryDigest: string,
+  resourcePlanDigest: string,
+  resourceBytesDigest: string
+): Promise<MaterializationKey> {
+  return await derivedKey("mmt-materialization-key-v1", [
+    projection,
+    packRegistryDigest,
+    resourcePlanDigest,
+    resourceBytesDigest
+  ]) as MaterializationKey;
+}
+
 export async function runtimeArtifactKey(
-  compiler: string,
-  renderer: string,
+  typstCompilerVersion: string,
+  typstWasmDigest: string,
+  rendererVersion: string,
+  rendererWasmDigest: string,
   templateBundleDigest: string,
   fontSetDigest: string
 ): Promise<RuntimeArtifactKey> {
-  return await canonicalDigest("mmt-runtime-artifact-v1", [
-    encoder.encode(compiler),
-    encoder.encode(renderer),
-    encoder.encode(templateBundleDigest),
-    encoder.encode(fontSetDigest)
+  return await derivedKey("mmt-runtime-artifact-v1", [
+    typstCompilerVersion,
+    typstWasmDigest,
+    rendererVersion,
+    rendererWasmDigest,
+    templateBundleDigest,
+    fontSetDigest
   ]) as RuntimeArtifactKey;
+}
+
+export async function renderKey(
+  materialization: MaterializationKey,
+  runtime: RuntimeArtifactKey,
+  renderOptionsDigest: string
+): Promise<RenderKey> {
+  return await derivedKey("mmt-render-key-v1", [materialization, runtime, renderOptionsDigest]) as RenderKey;
 }
 
 export async function derivedKey(domain: string, fields: readonly string[]): Promise<string> {
   return canonicalDigest(domain, fields.map((field) => encoder.encode(field)));
 }
 
-function logicalFileSortKey(file: LogicalProjectFileId): string {
+export async function canonicalBytesDigest(domain: string, fields: readonly Uint8Array[]): Promise<string> {
+  return canonicalDigest(domain, fields);
+}
+
+function checkedComponent(value: string): void {
+  if (!value || isUriLike(value)) throw new Error(`Non-canonical logical component: ${value}`);
+}
+
+function isUriLike(value: string): boolean {
+  return /^[A-Za-z][A-Za-z0-9+.-]*:/.test(value);
+}
+
+function logicalFileSortKey(file: LogicalProjectFileId): Uint8Array {
   switch (file.kind) {
-    case "workspace": return `0\0${file.path}`;
-    case "package": return `1\0${file.namespace}\0${file.name}\0${file.version}\0${file.generation}\0${file.path}`;
-    case "generated": return `2\0${file.producer}\0${file.origin}\0${file.path}`;
+    case "workspace":
+      return encoder.encode(`0\0${file.logicalWorkspaceId}\0${file.canonicalWorkspaceRelativePath}`);
+    case "package":
+      return encoder.encode(`1\0${file.namespace}\0${file.name}\0${file.version}\0${file.packageGenerationDigest}\0${file.canonicalPackageRelativePath}`);
+    case "generated":
+      return encoder.encode(`2\0${file.dependencyOrigin}\0${file.producerDigest}\0${file.canonicalOriginRelativePath}`);
   }
 }
 
-function writeLogicalFile(writer: CanonicalWriter, file: LogicalProjectFileId): void {
+interface FieldWriter {
+  strings(values: readonly string[]): void;
+}
+
+function writeLogicalFile(writer: FieldWriter, file: LogicalProjectFileId): void {
   switch (file.kind) {
-    case "workspace": writer.strings(["workspace", canonicalRelativePath(file.path)]); break;
-    case "package": writer.strings(["package", file.namespace, file.name, file.version, file.generation, canonicalRelativePath(file.path)]); break;
-    case "generated": writer.strings(["generated", file.producer, file.origin, canonicalRelativePath(file.path)]); break;
+    case "workspace":
+      checkedComponent(file.logicalWorkspaceId);
+      writer.strings(["workspace", file.logicalWorkspaceId, canonicalRelativePath(file.canonicalWorkspaceRelativePath)]);
+      break;
+    case "package":
+      [file.namespace, file.name, file.version, file.packageGenerationDigest].forEach(checkedComponent);
+      writer.strings([
+        "package",
+        file.namespace,
+        file.name,
+        file.version,
+        file.packageGenerationDigest,
+        canonicalRelativePath(file.canonicalPackageRelativePath)
+      ]);
+      break;
+    case "generated":
+      [file.dependencyOrigin, file.producerDigest].forEach(checkedComponent);
+      writer.strings([
+        "generated",
+        file.dependencyOrigin,
+        file.producerDigest,
+        canonicalRelativePath(file.canonicalOriginRelativePath)
+      ]);
+      break;
   }
 }
 
-class CanonicalWriter {
-  readonly #chunks: Uint8Array[] = [];
-
-  constructor(domain: string) { this.string(domain); }
+class CanonicalBytes implements FieldWriter {
+  readonly chunks: Uint8Array[] = [];
 
   bytes(value: Uint8Array): void {
     const length = new Uint8Array(8);
     new DataView(length.buffer).setBigUint64(0, BigInt(value.byteLength));
-    this.#chunks.push(length, value);
+    this.chunks.push(length, value);
   }
 
   string(value: string): void { this.bytes(encoder.encode(value)); }
   strings(values: readonly string[]): void { for (const value of values) this.string(value); }
 
-  map<K, V>(map: ReadonlyMap<K, V>, key: (key: K) => string, write: (key: K, value: V) => void): void {
-    const entries = [...map.entries()].sort(([left], [right]) => key(left).localeCompare(key(right), "en"));
+  finish(): Uint8Array {
+    const size = this.chunks.reduce((total, chunk) => total + chunk.byteLength, 0);
+    const bytes = new Uint8Array(size);
+    let offset = 0;
+    for (const chunk of this.chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    return bytes;
+  }
+}
+
+class CanonicalWriter extends CanonicalBytes {
+  constructor(domain: string) {
+    super();
+    this.string(domain);
+  }
+
+  map<K, V>(map: ReadonlyMap<K, V>, key: (key: K) => Uint8Array, write: (key: K, value: V) => void): void {
+    const entries = [...map.entries()].sort(([left], [right]) => compareBytes(key(left), key(right)));
     const count = new Uint8Array(8);
     new DataView(count.buffer).setBigUint64(0, BigInt(entries.length));
     this.bytes(count);
@@ -131,15 +241,11 @@ class CanonicalWriter {
   }
 
   stringMap(map: ReadonlyMap<string, string>): void {
-    this.map(map, (key) => key, (key, value) => this.strings([key, value]));
+    this.map(map, (key) => encoder.encode(key), (key, value) => this.strings([key, value]));
   }
 
   async digest(): Promise<string> {
-    const size = this.#chunks.reduce((total, chunk) => total + chunk.byteLength, 0);
-    const bytes = new Uint8Array(size);
-    let offset = 0;
-    for (const chunk of this.#chunks) { bytes.set(chunk, offset); offset += chunk.byteLength; }
-    return hex(await crypto.subtle.digest("SHA-256", bytes.buffer as ArrayBuffer));
+    return hex(await crypto.subtle.digest("SHA-256", this.finish().buffer as ArrayBuffer));
   }
 }
 
@@ -147,6 +253,14 @@ async function canonicalDigest(domain: string, fields: readonly Uint8Array[]): P
   const writer = new CanonicalWriter(domain);
   for (const field of fields) writer.bytes(field);
   return writer.digest();
+}
+
+function compareBytes(left: Uint8Array, right: Uint8Array): number {
+  const length = Math.min(left.length, right.length);
+  for (let index = 0; index < length; index += 1) {
+    if (left[index] !== right[index]) return left[index]! - right[index]!;
+  }
+  return left.length - right.length;
 }
 
 function hex(buffer: ArrayBuffer): string {

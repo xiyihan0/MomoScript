@@ -1,3 +1,5 @@
+import type { TypstProjectSnapshotKey } from "./runtimeIdentity";
+
 type JsonRpcId = number | string;
 
 interface JsonRpcMessage {
@@ -65,6 +67,9 @@ export interface TypstProjectUpdate {
   entryUri: string;
   files: TypstVirtualFile[];
   full: boolean;
+  /** Present on canonical backend snapshots; omitted only by legacy host-built updates. */
+  projectDigest?: TypstProjectSnapshotKey;
+  mappingDigest?: string;
 }
 
 export interface TypstRenderDiagnosticLabel {
@@ -91,6 +96,11 @@ export interface TypstRenderProjectUpdate {
   full: true;
   resources: TypstResourceRequest[];
   diagnostics: TypstRenderDiagnostic[];
+  projectDigest: TypstProjectSnapshotKey;
+  mappingDigest: string;
+  packRegistryDigest: string;
+  resourcePlanDigest: string;
+  resourceBytesDigest: string;
 }
 
 export function isTypstTextFile(file: TypstVirtualFile): file is Extract<TypstVirtualFile, { text: string }> {

@@ -1,5 +1,5 @@
 use base64::Engine;
-use std::{collections::HashMap, sync::Arc};
+use std::{collections::{BTreeMap, HashMap}, sync::Arc};
 
 use lsp_types::{
     CompletionItem, CompletionTextEdit, Diagnostic, InsertReplaceEdit, Position,
@@ -8,9 +8,10 @@ use lsp_types::{
 #[cfg(test)]
 use mmt_rs::{StaticPresetCatalog, project_text};
 use mmt_rs::{
-    AnalyzedDocument, EmitOptions, MappingMode, PROJECTION_PLACEHOLDER_IMAGE, ProjectionEdit,
-    ProjectionError, ProjectionKind, TypstProjection, project_analyzed,
-    project_analyzed_with_pack,
+    AnalyzedDocument, EmitOptions, LogicalProjectFileId, MappingMode, PROJECTION_PLACEHOLDER_IMAGE,
+    ProjectDigestInput, ProjectionEdit, ProjectionError, ProjectionKind, TypstProjectSnapshotKey,
+    TypstProjection, canonical_bytes_digest, canonical_json_digest, logical_source_id,
+    project_analyzed, project_analyzed_with_pack, project_snapshot_key, source_content_key,
 };
 use serde::{Deserialize, Serialize};
 
@@ -151,6 +152,8 @@ pub struct TypstProjectUpdate {
     pub entry_uri: Url,
     pub files: Vec<TypstVirtualFile>,
     pub full: bool,
+    pub project_digest: TypstProjectSnapshotKey,
+    pub mapping_digest: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -166,6 +169,11 @@ pub struct TypstRenderProjectUpdate {
     pub full: bool,
     pub resources: Vec<TypstResourceRequest>,
     pub diagnostics: Vec<TypstRenderDiagnostic>,
+    pub project_digest: TypstProjectSnapshotKey,
+    pub mapping_digest: String,
+    pub pack_registry_digest: String,
+    pub resource_plan_digest: String,
+    pub resource_bytes_digest: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -182,6 +190,7 @@ pub struct ProjectionDocument {
     pub source_version: i32,
     pub source_revision: u64,
     pub pack_revision: Option<u64>,
+    pub pack_registry_digest: String,
     pub revision: u64,
     pub entry_uri: Url,
     pub source: String,
@@ -191,6 +200,84 @@ pub struct ProjectionDocument {
     typst_lines: LineIndex,
 }
 
+fn project_identity(
+    document: &ProjectionDocument,
+    projection: &TypstProjection,
+    profile: &str,
+) -> (TypstProjectSnapshotKey, String) {
+    let mapping_value = serde_json::json!({
+        "origins": projection.emitted.origins,
+        "sourceMap": projection.emitted.source_map,
+    });
+    let mapping_digest = canonical_json_digest("mmt-source-map-v1", &mapping_value);
+    let path_segments = document
+        .source_uri
+        .path_segments()
+        .map(|segments| segments.filter(|segment| !segment.is_empty()).collect::<Vec<_>>())
+        .unwrap_or_default();
+    let (workspace_id, relative_segments) = if document.source_uri.scheme() == "file" {
+        let workspace = path_segments.first().copied().unwrap_or("workspace");
+        (workspace, path_segments.get(1..).unwrap_or_default())
+    } else if let Some(authority) = document.source_uri.host_str() {
+        (authority, path_segments.as_slice())
+    } else {
+        ("workspace", path_segments.as_slice())
+    };
+    let relative_path = if relative_segments.is_empty() {
+        "document.mmt".to_string()
+    } else {
+        relative_segments.join("/")
+    };
+    let logical_source = logical_source_id(workspace_id, relative_path)
+        .expect("URL mount adapter produces canonical logical source components");
+    let source_content = source_content_key(&logical_source, document.source.as_bytes());
+    let template_bytes = EMBEDDED_TEMPLATE_TEXT_FILES
+        .iter()
+        .map(|(_, text)| text.as_bytes())
+        .chain(EMBEDDED_TEMPLATE_BINARY_FILES.iter().map(|(_, bytes)| *bytes))
+        .collect::<Vec<_>>();
+    let template_digest = canonical_bytes_digest("mmt-template-bundle-v1", &template_bytes);
+    let entry_file = LogicalProjectFileId::generated("authored", &mapping_digest, "main.typ")
+        .expect("fixed generated entry identity is canonical");
+    let mut files = BTreeMap::from([(
+        entry_file.clone(),
+        canonical_bytes_digest("mmt-project-file-v1", &[projection.emitted.source.as_bytes()]),
+    )]);
+    for (path, text) in EMBEDDED_TEMPLATE_TEXT_FILES {
+        files.insert(
+            LogicalProjectFileId::generated("template", &template_digest, *path)
+                .expect("fixed template path is canonical"),
+            canonical_bytes_digest("mmt-project-file-v1", &[text.as_bytes()]),
+        );
+    }
+    for (path, bytes) in EMBEDDED_TEMPLATE_BINARY_FILES {
+        files.insert(
+            LogicalProjectFileId::generated("template", &template_digest, *path)
+                .expect("fixed template path is canonical"),
+            canonical_bytes_digest("mmt-project-file-v1", &[*bytes]),
+        );
+    }
+    if profile == "language" {
+        files.insert(
+            LogicalProjectFileId::generated("template", &template_digest, PROJECTION_PLACEHOLDER_IMAGE)
+                .expect("fixed placeholder path is canonical"),
+            canonical_bytes_digest("mmt-project-file-v1", &[EDITOR_PLACEHOLDER_SVG.as_bytes()]),
+        );
+    }
+    let project = project_snapshot_key(&ProjectDigestInput {
+        logical_source,
+        source_content,
+        entry_file,
+        files,
+        package_generations: document.pack_revision.map_or_else(BTreeMap::new, |revision| {
+            BTreeMap::from([(format!("registry-generation-{revision}"), document.pack_registry_digest.clone())])
+        }),
+        generated_dependencies: BTreeMap::from([("template".into(), template_digest)]),
+        project_options: BTreeMap::from([("profile".into(), profile.into())]),
+        source_map_digest: mapping_digest.clone(),
+    });
+    (project, mapping_digest)
+}
 impl ProjectionDocument {
     pub fn project_update(&self) -> TypstProjectUpdate {
         self.project_update_with_template(true)
@@ -237,6 +324,7 @@ impl ProjectionDocument {
             text: Some(self.projection.emitted.source.clone()),
             data_base64: None,
         });
+        let (project_digest, mapping_digest) = project_identity(self, &self.projection, "language");
         TypstProjectUpdate {
             source_uri: self.source_uri.clone(),
             source_version: self.source_version,
@@ -244,6 +332,8 @@ impl ProjectionDocument {
             entry_uri: self.entry_uri.clone(),
             files,
             full: include_template,
+            project_digest,
+            mapping_digest,
         }
     }
 
@@ -483,7 +573,7 @@ pub fn build_render_project(
         text: Some(projection.emitted.source.clone()),
         data_base64: None,
     });
-    let resources = projection
+    let resources: Vec<TypstResourceRequest> = projection
         .resources
         .iter()
         .enumerate()
@@ -547,6 +637,16 @@ pub fn build_render_project(
             }
         })
         .collect();
+    let (project_digest, mapping_digest) = project_identity(document, &projection, "render");
+    let mut resource_plan = serde_json::to_value(&resources)
+        .expect("resource plan protocol values are serializable");
+    if let serde_json::Value::Array(items) = &mut resource_plan {
+        for item in items {
+            if let serde_json::Value::Object(fields) = item { fields.remove("uri"); }
+        }
+    }
+    let resource_plan_digest = canonical_json_digest("mmt-resource-plan-v1", &resource_plan);
+    let resource_bytes_digest = canonical_bytes_digest("mmt-resource-bytes-v1", &[]);
     let diagnostics = render_diagnostics(
         &document.source,
         &document.source_lines,
@@ -561,6 +661,11 @@ pub fn build_render_project(
         files,
         resources,
         diagnostics,
+        project_digest,
+        mapping_digest,
+        pack_registry_digest: document.pack_registry_digest.clone(),
+        resource_plan_digest,
+        resource_bytes_digest,
     })
 }
 
@@ -606,6 +711,7 @@ impl ProjectionStore {
                 source_version: snapshot.version,
                 source_revision: snapshot.revision,
                 pack_revision: snapshot.pack_revision,
+                pack_registry_digest: snapshot.pack_registry_digest.clone(),
                 revision,
                 entry_uri,
                 source: snapshot.text.clone(),
@@ -685,6 +791,7 @@ mod tests {
             lines: Arc::new(LineIndex::new(&text)),
             text,
             pack_revision: None,
+            pack_registry_digest: canonical_bytes_digest("mmt-pack-registry-v1", &[]),
         }
     }
 
@@ -702,6 +809,7 @@ mod tests {
             lines: Arc::new(LineIndex::new(&text)),
             text,
             pack_revision: Some(pack_revision),
+            pack_registry_digest: canonical_bytes_digest("mmt-pack-registry-v1", &[b"test-pack"]),
         }
     }
 
@@ -819,6 +927,8 @@ mod tests {
         assert_eq!(wire["sourceVersion"], 1);
         assert!(wire.get("source_version").is_none());
         assert_eq!(wire["entryUri"], update.entry_uri.as_str());
+        assert_eq!(wire["projectDigest"].as_str().unwrap().len(), 64);
+        assert_eq!(wire["mappingDigest"].as_str().unwrap().len(), 64);
         assert_eq!(
             update.files.len(),
             2 + EMBEDDED_TEMPLATE_TEXT_FILES.len() + EMBEDDED_TEMPLATE_BINARY_FILES.len()
@@ -850,6 +960,8 @@ mod tests {
         assert!(!delta.full);
         assert_eq!(delta.files.len(), 1);
         assert_eq!(delta.files[0].uri, delta.entry_uri);
+        assert_eq!(delta.project_digest, update.project_digest);
+        assert_eq!(delta.mapping_digest, update.mapping_digest);
         assert!(
             paths
                 .iter()
@@ -987,6 +1099,11 @@ mod tests {
 
         assert_eq!(render.source_version, 37);
         assert_eq!(render.revision, revision);
+        assert_eq!(render.project_digest.0.len(), 64);
+        assert_eq!(render.mapping_digest.len(), 64);
+        assert_eq!(render.pack_registry_digest, document.pack_registry_digest);
+        assert_eq!(render.resource_plan_digest.len(), 64);
+        assert_eq!(render.resource_bytes_digest.len(), 64);
         let duplicate = render
             .diagnostics
             .iter()

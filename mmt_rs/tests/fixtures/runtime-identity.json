@@ -1,0 +1,19 @@
+{
+  "workspaceId": "workspace",
+  "relativePath": "stories/晴.mmt",
+  "mountUris": [
+    "file:///workspace/stories/%E6%99%B4.mmt",
+    "mmtfs://workspace/stories/%E6%99%B4.mmt",
+    "mmt-internal://workspace/stories/%E6%99%B4.mmt"
+  ],
+  "source": "晴é😀",
+  "expected": {
+    "logicalSource": "1b6368183929387c88a19bfbe777650ff2e8107832c67137eb512c84070bcb0a",
+    "sourceContent": "6b5260b87208086d4352b7d9f10671fea3dd551d2000b090f8ab66392d23c789",
+    "project": "1c37b6fba4beef65cd6cecd845fe13364998b43a6b89ecae5371624058751d48",
+    "projection": "25f9590ab44ac0f66275a2d08f0446fd655d4ca5e256587eaac3c7c42d03c0ba",
+    "materialization": "2440dcf68e97a7d719bb0bf887ca5e233d69cb7e59c3a08dab395c5420f55393",
+    "runtime": "c434423c3f01ccd1383b7d99e4f5d050413b02e8a8b80bbbb76f211ac324e7f6",
+    "render": "b0bda026d12ed963cccd38b8bec40115df212117abe1e54c1210ee3cb26ab658"
+  }
+}

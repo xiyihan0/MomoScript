@@ -2,6 +2,7 @@ import type { PackManifestSource } from "../../vscode/src/packSync";
 import type { TypstRenderProjectUpdate, TypstResourceRequest } from "../../vscode/src/tinymistClient";
 import type { BoundedStringCache } from "./boundedStringCache";
 import { fetchSequenceOnce, sequenceFetchKey } from "./resourceFetchCache.ts";
+import { canonicalBytesDigest } from "../../vscode/src/runtimeIdentity";
 
 export interface MaterializationPackSource extends PackManifestSource {
   cacheIdentity: string;
@@ -113,7 +114,23 @@ export async function materializeProjectResources(
       if (error instanceof ResourceBudgetError) break;
     }
   }
-  return { project: { ...project, files }, diagnostics };
+  const digestFields: Uint8Array[] = [];
+  const encoder = new TextEncoder();
+  for (const resource of [...project.resources].sort((left, right) => left.id - right.id)) {
+    const { uri: _uri, range: _range, ...logicalResource } = resource;
+    digestFields.push(encoder.encode(JSON.stringify(logicalResource)));
+    const file = files.find((candidate) => candidate.uri === resource.uri);
+    if (!file) {
+      digestFields.push(encoder.encode("missing"));
+    } else if (file.text !== undefined) {
+      digestFields.push(encoder.encode(file.text));
+    } else {
+      const binary = atob(file.dataBase64);
+      digestFields.push(Uint8Array.from(binary, (character) => character.charCodeAt(0)));
+    }
+  }
+  const resourceBytesDigest = await canonicalBytesDigest("mmt-resource-bytes-v1", digestFields);
+  return { project: { ...project, files, resourceBytesDigest }, diagnostics };
 }
 
 function assertResourceBudget(bytes: number, limits: ResourceMaterializationLimits): void {

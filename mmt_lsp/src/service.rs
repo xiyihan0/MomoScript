@@ -28,6 +28,7 @@ pub struct DocumentSnapshot {
     pub analysis: Arc<AnalyzedDocument>,
     pub lines: Arc<LineIndex>,
     pub pack_revision: Option<u64>,
+    pub pack_registry_digest: String,
 }
 
 impl DocumentSnapshot {
@@ -37,6 +38,7 @@ impl DocumentSnapshot {
         text: String,
         analysis: AnalyzedDocument,
         pack_revision: Option<u64>,
+        pack_registry_digest: String,
     ) -> Self {
         let lines = Arc::new(LineIndex::new(&text));
         Self {
@@ -46,6 +48,7 @@ impl DocumentSnapshot {
             analysis: Arc::new(analysis),
             lines,
             pack_revision,
+            pack_registry_digest,
         }
     }
 }
@@ -57,6 +60,7 @@ pub struct LanguageService {
     encoding: PositionEncodingKind,
     pack_revision: u64,
     pack_registry: Option<PackRegistry>,
+    pack_registry_digest: String,
     pack_base_urls: HashMap<String, Url>,
     analysis_builds: u64,
     authored_line_index_builds: u64,
@@ -70,6 +74,7 @@ impl Default for LanguageService {
             encoding: PositionEncodingKind::UTF16,
             pack_revision: 0,
             pack_registry: None,
+            pack_registry_digest: mmt_rs::canonical_bytes_digest("mmt-pack-registry-v1", &[]),
             pack_base_urls: HashMap::new(),
             analysis_builds: 0,
             authored_line_index_builds: 0,
@@ -94,6 +99,20 @@ impl LanguageService {
         if revision <= self.pack_revision {
             return Ok(false);
         }
+        let mut manifest_digests = sources
+            .iter()
+            .enumerate()
+            .map(|(index, source)| {
+                let value = serde_json::from_str(source)
+                    .map_err(|error| format!("pack manifest {index} is invalid JSON: {error}"))?;
+                Ok(mmt_rs::canonical_json_digest("mmt-pack-manifest-v1", &value))
+            })
+            .collect::<Result<Vec<_>, String>>()?;
+        manifest_digests.sort();
+        let pack_registry_digest = mmt_rs::canonical_bytes_digest(
+            "mmt-pack-registry-v1",
+            &manifest_digests.iter().map(|digest| digest.as_bytes()).collect::<Vec<_>>(),
+        );
         let manifests = sources
             .iter()
             .enumerate()
@@ -112,9 +131,11 @@ impl LanguageService {
         for document in self.documents.values_mut() {
             document.analysis = Arc::new(mmt_rs::analyze_text_with_pack(&document.text, &registry));
             document.pack_revision = Some(revision);
+            document.pack_registry_digest = pack_registry_digest.clone();
             self.analysis_builds += 1;
         }
         self.pack_registry = Some(registry);
+        self.pack_registry_digest = pack_registry_digest;
         self.pack_revision = revision;
         Ok(true)
     }
@@ -162,22 +183,24 @@ impl LanguageService {
     fn upsert(&mut self, uri: Url, version: i32, text: String) -> &DocumentSnapshot {
         let revision = self.next_revision;
         self.next_revision += 1;
-        let (analysis, pack_revision) = if let Some(registry) = &self.pack_registry {
+        let (analysis, pack_revision, pack_registry_digest) = if let Some(registry) = &self.pack_registry {
             (
                 mmt_rs::analyze_text_with_pack(&text, registry),
                 Some(self.pack_revision),
+                self.pack_registry_digest.clone(),
             )
         } else {
             (
                 mmt_rs::analyze_text(&text, &StaticPresetCatalog::default()),
                 None,
+                self.pack_registry_digest.clone(),
             )
         };
         self.analysis_builds += 1;
         self.authored_line_index_builds += 1;
         self.documents.insert(
             uri.clone(),
-            DocumentSnapshot::new(version, revision, text, analysis, pack_revision),
+            DocumentSnapshot::new(version, revision, text, analysis, pack_revision, pack_registry_digest),
         );
         &self.documents[&uri]
     }

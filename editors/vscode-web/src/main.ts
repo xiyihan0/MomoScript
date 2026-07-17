@@ -36,6 +36,13 @@ import { sanitizeSvg, TypstPreviewController, type TypstExportFormat } from "./p
 import { PreviewBuildState } from "./previewDiagnostics";
 import { RuntimeOwner, disposeWithFallback, ownEventListener, terminateOnUnload } from "./runtimeOwner";
 import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest, TypstVirtualFile } from "../../vscode/src/tinymistClient";
+import {
+  canonicalBytesDigest,
+  logicalSourceId,
+  projectSnapshotKey,
+  sourceContentKey,
+  type LogicalProjectFileId
+} from "../../vscode/src/runtimeIdentity";
 
 if (import.meta.env.VITE_MMT_E2E === "1") {
   Reflect.set(globalThis, "__mmtSanitizeSvg", sanitizeSvg);
@@ -1550,7 +1557,52 @@ async function buildTypstProject(document: vscode.TextDocument, revisions: Map<s
     }
   };
   await visit(root);
-  return { sourceUri, sourceVersion: document.version, revision, entryUri, files, full: true };
+  const workspaceId = document.uri.authority || "workspace";
+  const mountedPath = (uri: vscode.Uri) => {
+    const path = uri.path.replace(/^\/+/, "");
+    return path.startsWith(`${workspaceId}/`) ? path.slice(workspaceId.length + 1) : path;
+  };
+  const logicalSource = await logicalSourceId(workspaceId, mountedPath(document.uri));
+  const sourceContent = await sourceContentKey(logicalSource, encoder.encode(document.getText()));
+  const entryFile: LogicalProjectFileId = {
+    kind: "workspace",
+    logicalWorkspaceId: workspaceId,
+    canonicalWorkspaceRelativePath: mountedPath(document.uri)
+  };
+  const logicalFiles = new Map<LogicalProjectFileId, string>();
+  for (const file of files) {
+    const fileUri = vscode.Uri.parse(file.uri);
+    const id: LogicalProjectFileId = {
+      kind: "workspace",
+      logicalWorkspaceId: workspaceId,
+      canonicalWorkspaceRelativePath: mountedPath(fileUri)
+    };
+    const bytes = file.text !== undefined
+      ? encoder.encode(file.text)
+      : Uint8Array.from(atob(file.dataBase64), (character) => character.charCodeAt(0));
+    logicalFiles.set(id, await canonicalBytesDigest("mmt-project-file-v1", [bytes]));
+  }
+  const mappingDigest = await canonicalBytesDigest("mmt-source-map-v1", []);
+  const projectDigest = await projectSnapshotKey({
+    logicalSource,
+    sourceContent,
+    entryFile,
+    files: logicalFiles,
+    packageGenerations: new Map(),
+    generatedDependencies: new Map(),
+    projectOptions: new Map([["profile", "standalone"]]),
+    sourceMapDigest: mappingDigest
+  });
+  return {
+    sourceUri,
+    sourceVersion: document.version,
+    revision,
+    entryUri,
+    files,
+    full: true,
+    projectDigest,
+    mappingDigest
+  };
 }
 
 async function mirrorWorkspaceFiles(

@@ -25,8 +25,9 @@ pub use emit::{
 pub use identity::{
     CanonicalIdentityError, LogicalProjectFileId, LogicalSourceId, MaterializationKey,
     ProjectDigestInput, ProjectionKey, RenderKey, RuntimeArtifactKey, SourceContentKey,
-    SourceStaleToken, TypstProjectSnapshotKey, canonical_relative_path, derived_key,
-    project_snapshot_key, runtime_artifact_key, source_content_key,
+    SourceStaleToken, TypstProjectSnapshotKey, canonical_bytes_digest, canonical_json_digest, canonical_relative_path,
+    derived_key, logical_source_id, materialization_key, project_snapshot_key, projection_key,
+    render_key, runtime_artifact_key, source_content_key,
 };
 pub use materialize::{
     Materialization, MaterializeError, MaterializedImage, ResourceMaterializer,
