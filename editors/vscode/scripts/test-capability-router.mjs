@@ -282,12 +282,14 @@ let currentIdentity = baseIdentity;
 const pending = [];
 const captured = [];
 const requestDispatcher = new TinymistRequestDispatcher(
-  (envelope, signal) => new Promise((resolve, reject) => {
-    const abort = () => reject(signal.reason instanceof Error ? signal.reason : new Error("cancelled"));
+  (envelope, signal) => {
+    const gate = Promise.withResolvers();
+    const abort = () => gate.reject(signal.reason instanceof Error ? signal.reason : new Error("cancelled"));
     signal?.addEventListener("abort", abort, { once: true });
     captured.push(envelope);
-    pending.push({ envelope, resolve, reject });
-  }),
+    pending.push({ envelope, resolve: gate.resolve, reject: gate.reject });
+    return gate.promise;
+  },
   () => currentIdentity
 );
 
@@ -391,16 +393,16 @@ for (let index = 0; index < 256; index += 1) {
 }
 assert.equal(growthDispatcher.activeRequestScopeCount(), 0, "settled content snapshots grew sequence state");
 
-let retiredResolve;
+let retirementGate = Promise.withResolvers();
 const retirementDispatcher = new TinymistRequestDispatcher(
-  () => new Promise((resolve) => { retiredResolve = resolve; }),
+  () => retirementGate.promise,
   (capturedIdentity) => capturedIdentity
 );
 const retiredByClose = retirementDispatcher.request("textDocument/hover", {}, baseIdentity);
 assert.equal(retirementDispatcher.activeRequestScopeCount(), 1);
 retirementDispatcher.retireHost(baseIdentity.sourceStaleToken.hostUri);
 assert.equal(retirementDispatcher.activeRequestScopeCount(), 0);
-retiredResolve(null);
+retirementGate.resolve(null);
 await assert.rejects(
   retiredByClose,
   (error) => error instanceof TinymistDispatchError && error.code === "SupersededSequence"
@@ -411,10 +413,11 @@ const nextGenerationIdentity = {
   backendGeneration: 5,
   sourceStaleToken: { ...baseIdentity.sourceStaleToken, hostUri: "file:///workspace/generation.typ" }
 };
+retirementGate = Promise.withResolvers();
 const retiredByGeneration = retirementDispatcher.request("textDocument/hover", {}, nextGenerationIdentity);
 retirementDispatcher.retireGenerationsExcept(6);
 assert.equal(retirementDispatcher.activeRequestScopeCount(), 0);
-retiredResolve(null);
+retirementGate.resolve(null);
 await assert.rejects(
   retiredByGeneration,
   (error) => error instanceof TinymistDispatchError && error.code === "SupersededSequence"
@@ -498,14 +501,7 @@ const hostRegistry = new TinymistCapabilityRegistry();
 hostRegistry.install(20, {
   capabilities: {
     completionProvider: { triggerCharacters: ["#", "."] },
-    signatureHelpProvider: { triggerCharacters: ["("], retriggerCharacters: [","] },
-    semanticTokensProvider: {
-      full: true,
-      legend: {
-        tokenTypes: ["comment", "string", "keyword", "operator"],
-        tokenModifiers: ["declaration", "readonly"]
-      }
-    }
+    signatureHelpProvider: { triggerCharacters: ["("], retriggerCharacters: [","] }
   }
 });
 hostRegistry.register(20, [{ id: "host-hover", method: "textDocument/hover" }]);
@@ -531,10 +527,11 @@ const hostProjects = new Map([["file:///workspace/host.typ", {
 const hostBackend = {
   capabilities: () => hostRegistry,
   backendGeneration: () => 20,
-  semanticTokensLegend: () => ({
-    tokenTypes: ["comment", "string", "keyword", "operator"],
-    tokenModifiers: ["declaration", "readonly"]
-  }),
+  semanticTokensLegend() {
+    const options = hostRegistry.get("textDocument/semanticTokens/full")
+      ?.dynamicRegistrations.at(-1)?.registerOptions;
+    return options?.legend;
+  },
   on(method, handler) {
     const handlers = hostEvents.get(method) ?? [];
     handlers.push(handler);
@@ -547,9 +544,8 @@ const hostBackend = {
   syncProject() {},
   closeProject() { return true; }
 };
-let resolveDiagnostics;
-let diagnosticsConversionStarted;
-const diagnosticsStarted = new Promise((resolve) => { diagnosticsConversionStarted = resolve; });
+const diagnosticsGate = Promise.withResolvers();
+const diagnosticsStarted = Promise.withResolvers();
 const notificationHandlers = new Map();
 const hostClient = {
   onNotification(method, handler) {
@@ -564,8 +560,8 @@ const hostClient = {
     asSignatureHelp: async (value) => value,
     asSemanticTokens: async (value) => value,
     asDiagnostics(value) {
-      diagnosticsConversionStarted();
-      return new Promise((resolve) => { resolveDiagnostics = () => resolve(value); });
+      diagnosticsStarted.resolve();
+      return diagnosticsGate.promise.then(() => value);
     }
   }
 };
@@ -577,8 +573,8 @@ const hostDisposables = connectTypstBackend(hostClient, hostBackend);
 const activeHostRegistrations = () => __host.registrations.filter((registration) => !registration.disposed);
 assert.deepEqual(
   activeHostRegistrations().map((registration) => registration.kind).sort(),
-  ["completion", "hover", "semanticTokens", "signatureHelp"],
-  "negotiated Tinymist providers were not registered with the VS Code host"
+  ["completion", "hover", "signatureHelp"],
+  "semantic tokens registered before the dynamic legend was available"
 );
 assert.deepEqual(
   activeHostRegistrations().find((registration) => registration.kind === "completion").metadata.triggerCharacters,
@@ -587,6 +583,25 @@ assert.deepEqual(
 assert.deepEqual(
   activeHostRegistrations().find((registration) => registration.kind === "signatureHelp").metadata,
   { triggerCharacters: ["("], retriggerCharacters: [","] }
+);
+hostRegistry.register(20, [{
+  id: "host-semantic-tokens",
+  method: "textDocument/semanticTokens",
+  registerOptions: {
+    full: true,
+    legend: {
+      tokenTypes: ["comment", "string", "keyword", "operator"],
+      tokenModifiers: ["declaration", "readonly"]
+    }
+  }
+}]);
+for (const handler of hostEvents.get("tinymist/capabilitiesChanged")) {
+  handler({ generation: 20, capabilities: hostRegistry.list() });
+}
+assert.deepEqual(
+  activeHostRegistrations().map((registration) => registration.kind).sort(),
+  ["completion", "hover", "semanticTokens", "signatureHelp"],
+  "dynamic semantic-token legend did not activate the VS Code provider"
 );
 const semanticRegistration = activeHostRegistrations().find((registration) => registration.kind === "semanticTokens");
 assert.deepEqual(
@@ -635,13 +650,15 @@ for (const handler of hostEvents.get("textDocument/publishDiagnostics")) {
     }]
   });
 }
-await diagnosticsStarted;
+await diagnosticsStarted.promise;
 hostProjects.set("file:///workspace/host.typ", {
   ...hostProjects.get("file:///workspace/host.typ"),
   projectDigest: "project-host-b"
 });
-resolveDiagnostics();
-await new Promise((resolve) => setImmediate(resolve));
+diagnosticsGate.resolve();
+const eventLoopTurn = Promise.withResolvers();
+setImmediate(eventLoopTurn.resolve);
+await eventLoopTurn.promise;
 assert.equal(
   __host.diagnosticCollections[0].sets.length,
   0,
@@ -780,7 +797,7 @@ console.log(JSON.stringify({
   standaloneAndProjectedPositionConversion: true,
   completionDefaultsAndResolveDataPreserved: true,
   hostRegistrationsReconciled: true,
-  negotiatedSemanticLegend: true,
+  dynamicSemanticLegendPublished: true,
   diagnosticConversionRaceRejected: true,
   completionDefaultEditRangeMapped: true,
   requestScopesRetired: true,

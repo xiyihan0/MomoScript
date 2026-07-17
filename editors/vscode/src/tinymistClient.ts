@@ -182,15 +182,32 @@ export function validateTinymistInitialize(result: unknown): asserts result is T
   }
 }
 
-export function semanticTokensLegendFromInitialize(
-  result: TinymistInitializeResult
-): { tokenTypes: string[]; tokenModifiers: string[] } {
-  const legend = result.capabilities?.semanticTokensProvider?.legend;
-  if (!Array.isArray(legend?.tokenTypes)
+export function semanticTokensLegendFromCapabilities(
+  capabilities: TinymistCapabilityView
+): { tokenTypes: string[]; tokenModifiers: string[] } | undefined {
+  const descriptor = capabilities.get("textDocument/semanticTokens/full")
+    ?? capabilities.get("textDocument/semanticTokens");
+  if (!descriptor) return undefined;
+  for (let index = descriptor.dynamicRegistrations.length - 1; index >= 0; index -= 1) {
+    const legend = semanticTokensLegendFromProviderOptions(
+      descriptor.dynamicRegistrations[index].registerOptions
+    );
+    if (legend) return legend;
+  }
+  return semanticTokensLegendFromProviderOptions(descriptor.initializeOptions);
+}
+
+function semanticTokensLegendFromProviderOptions(
+  options: unknown
+): { tokenTypes: string[]; tokenModifiers: string[] } | undefined {
+  if (!options || typeof options !== "object" || !("legend" in options)) return undefined;
+  const legend = options.legend;
+  if (!legend || typeof legend !== "object"
+    || !("tokenTypes" in legend) || !Array.isArray(legend.tokenTypes)
     || !legend.tokenTypes.every((value) => typeof value === "string")
-    || !Array.isArray(legend.tokenModifiers)
+    || !("tokenModifiers" in legend) || !Array.isArray(legend.tokenModifiers)
     || !legend.tokenModifiers.every((value) => typeof value === "string")) {
-    throw new Error("Tinymist semantic tokens capability with legend is required");
+    return undefined;
   }
   return {
     tokenTypes: [...legend.tokenTypes],
@@ -202,7 +219,6 @@ export function semanticTokensLegendFromInitialize(
 export class TinymistWorkerClient implements TinymistHostBackend {
   private readonly transport: JsonRpcTinymistTransport;
   private readonly session: TinymistHostSession;
-  private semanticLegend: { tokenTypes: string[]; tokenModifiers: string[] } | undefined;
 
   private constructor(
     workerUri: string,
@@ -250,7 +266,7 @@ export class TinymistWorkerClient implements TinymistHostBackend {
   }
 
   semanticTokensLegend(): { tokenTypes: string[]; tokenModifiers: string[] } | undefined {
-    return this.semanticLegend;
+    return semanticTokensLegendFromCapabilities(this.session.capabilities());
   }
 
   on(method: string, handler: (params: unknown) => void): void {
@@ -313,7 +329,6 @@ export class TinymistWorkerClient implements TinymistHostBackend {
     });
     const initialize = session.initializeResult;
     validateTinymistInitialize(initialize);
-    this.semanticLegend = semanticTokensLegendFromInitialize(initialize);
     return session;
   }
 }

@@ -27,8 +27,12 @@ async function runTinymistWorkerClientTest(
   workerUri: string,
   moduleUri: string,
   wasmUri: string
-): Promise<{ before: boolean; changed: boolean; after: boolean; restarted: number }> {
+): Promise<{ before: boolean; changed: boolean; after: boolean; restarted: number; semanticLegend: boolean }> {
   const client = await TinymistWorkerClient.start(workerUri, moduleUri, wasmUri);
+  const initialLegend = client.semanticTokensLegend();
+  if (!initialLegend || initialLegend.tokenTypes[0] !== "comment") {
+    throw new Error("Tinymist Worker did not publish its dynamically registered semantic-token legend");
+  }
   let restarted = 0;
   client.on("tinymist/clientRestarted", () => restarted++);
   const uriV1 = "untitled:/mmt-projection/replay-test/main-1.typ";
@@ -113,6 +117,10 @@ async function runTinymistWorkerClientTest(
       throw new Error("retired worker projection session was restored by a late update");
     }
     await client.restart();
+    const restartedLegend = client.semanticTokensLegend();
+    if (!restartedLegend || restartedLegend.tokenTypes[0] !== "comment") {
+      throw new Error("Tinymist Worker restart did not restore its dynamic semantic-token legend");
+    }
     const after = await client.request<CompletionList>("textDocument/completion", {
       textDocument: { uri: uriNextSession },
       position: { line: 2, character: 4 }
@@ -121,6 +129,7 @@ async function runTinymistWorkerClientTest(
       before: hasLabel(before, "replayed"),
       changed: hasLabel(changed, "repacked"),
       after: hasLabel(after, "repacked"),
+      semanticLegend: true,
       restarted
     };
   } finally {

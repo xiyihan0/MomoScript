@@ -7,8 +7,8 @@ import { TinymistHostSession } from "./tinymistHostSession";
 import type { TinymistTransport } from "./tinymistTransport";
 import { DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS } from "./typstProjectState";
 import {
+  semanticTokensLegendFromCapabilities,
   validateTinymistInitialize,
-  semanticTokensLegendFromInitialize,
   type TinymistHostBackend,
   type TypstProjectUpdate
 } from "./tinymistClient";
@@ -17,7 +17,6 @@ export type { TinymistProcessFactory } from "./tinymistProcessTransport";
 
 export class TinymistProcessClient implements TinymistHostBackend {
   private readonly session: TinymistHostSession;
-  private semanticLegend: { tokenTypes: string[]; tokenModifiers: string[] } | undefined;
 
   private constructor(private readonly transport: TinymistTransport, closeGraceMs: number) {
     this.session = new TinymistHostSession({
@@ -55,7 +54,7 @@ export class TinymistProcessClient implements TinymistHostBackend {
   }
 
   semanticTokensLegend(): { tokenTypes: string[]; tokenModifiers: string[] } | undefined {
-    return this.semanticLegend;
+    return semanticTokensLegendFromCapabilities(this.session.capabilities());
   }
 
   on(method: string, handler: (params: unknown) => void): void {
@@ -118,7 +117,6 @@ export class TinymistProcessClient implements TinymistHostBackend {
     });
     const initialize = session.initializeResult;
     validateTinymistInitialize(initialize);
-    this.semanticLegend = semanticTokensLegendFromInitialize(initialize);
     return session;
   }
 }
