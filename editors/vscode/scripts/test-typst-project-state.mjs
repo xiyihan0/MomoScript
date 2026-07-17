@@ -85,6 +85,16 @@ const retired = state.syncProject({ ...full, revision: 99, entryUri: entryA2, fu
 assert.equal(retired.accepted, false);
 assert.equal(retired.error.code, "RetiredSession");
 
+const defaultCancellation = new AbortController();
+defaultCancellation.abort();
+await assert.rejects(
+  state.request("fixture/hold", {}, defaultCancellation.signal),
+  (error) => error instanceof TypstProjectInvariantError
+    && error.code === "Cancelled"
+    && error.message === "Tinymist request cancelled"
+);
+assert.equal(held.size, 0);
+
 const cancellation = new AbortController();
 const firstRequest = state.request("fixture/hold", {}, cancellation.signal);
 await Promise.resolve();
@@ -92,8 +102,9 @@ await assert.rejects(
   state.request("fixture/hold", {}),
   (error) => error instanceof TypstProjectInvariantError && error.code === "RequestQueueFull"
 );
-cancellation.abort(new Error("fixture cancellation"));
-await assert.rejects(firstRequest, /fixture cancellation/);
+const customCancellation = new Error("fixture cancellation");
+cancellation.abort(customCancellation);
+await assert.rejects(firstRequest, (error) => error === customCancellation);
 assert.equal(held.size, 0);
 
 notifications.length = 0;

@@ -149,6 +149,7 @@ export type TypstProjectInvariantCode =
   | "RequestQueueFull"
   | "ReplayQueueFull"
   | "BackendUnavailable"
+  | "Cancelled"
   | "StaleBackendGeneration";
 
 export class TypstProjectInvariantError extends Error {
@@ -356,7 +357,13 @@ export class TypstProjectState {
     }
     const generation = this.activeGeneration;
     const controller = new AbortController();
-    const abort = () => controller.abort(signal?.reason ?? new Error("Tinymist request cancelled"));
+    const abort = () => {
+      const reason = signal?.reason;
+      const cancellation = new TypstProjectInvariantError("Cancelled", "Tinymist request cancelled");
+      controller.abort(reason instanceof DOMException && reason.name === "AbortError"
+        ? cancellation
+        : reason ?? cancellation);
+    };
     if (signal?.aborted) abort();
     else signal?.addEventListener("abort", abort, { once: true });
     this.requestControllers.add(controller);
