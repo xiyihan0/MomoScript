@@ -39,6 +39,22 @@ export class RuntimeOwner {
     return this.#disposePromise;
   }
 }
+export interface RuntimeEventTarget {
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: AddEventListenerOptions | boolean): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: EventListenerOptions | boolean): void;
+}
+
+export function ownEventListener(
+  target: RuntimeEventTarget,
+  type: string,
+  listener: EventListenerOrEventListenerObject,
+  options?: AddEventListenerOptions | boolean
+): RuntimeOwnedResource {
+  target.addEventListener(type, listener, options);
+  return {
+    dispose: () => target.removeEventListener(type, listener, options)
+  };
+}
 
 export async function disposeWithFallback(dispose: () => Promise<void>, terminate: () => void, deadlineMs = 750): Promise<void> {
   let timedOut = false;

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { RuntimeOwner, disposeWithFallback, terminateOnUnload } from "../src/runtimeOwner.ts";
+import { RuntimeOwner, disposeWithFallback, ownEventListener, terminateOnUnload } from "../src/runtimeOwner.ts";
 
 const order = [];
 const owner = new RuntimeOwner();
@@ -56,14 +56,29 @@ productionOwn("tinymist");
 productionOwn("mmt");
 try { throw new Error("injected production mid-start failure"); } catch { await productionTopology.dispose(); }
 assert.deepEqual(productionOrder, ["mmt", "tinymist", "subscription", "view", "layout"], "production resources must roll back in global acquisition order");
+const listenerOwner = new RuntimeOwner();
+const listeners = new Map();
+const eventTarget = {
+  addEventListener(type, listener) { listeners.set(type, listener); },
+  removeEventListener(type, listener) {
+    if (listeners.get(type) === listener) listeners.delete(type);
+  }
+};
+let listenerCalls = 0;
+listenerOwner.add(ownEventListener(eventTarget, "beforeunload", () => { listenerCalls += 1; }, { once: true }));
+assert.equal(typeof listeners.get("beforeunload"), "function", "owned listener must be installed");
+listeners.get("beforeunload")();
+assert.equal(listenerCalls, 1, "owned listener must remain behaviorally active before disposal");
+await listenerOwner.dispose();
+assert.equal(listeners.has("beforeunload"), false, "runtime disposal must remove owned global listeners");
 
 let terminated = 0;
 let release;
-const unload = terminateOnUnload({ terminate() { terminated += 1; } }, () => new Promise((resolve) => { release = resolve; }), 5);
+const unload = terminateOnUnload({ terminate() { terminated += 1; } }, () => new Promise((resolve) => { release = resolve; }));
 unload();
 unload();
 await new Promise((resolve) => setTimeout(resolve, 15));
-assert.equal(terminated, 1, "unload fallback must synchronously terminate once after graceful deadline");
+assert.equal(terminated, 1, "unload must synchronously terminate once while graceful disposal continues");
 
 let hmrTerminated = 0;
 await disposeWithFallback(() => new Promise((resolve) => setTimeout(resolve, 2)), () => { hmrTerminated += 1; }, 20);
@@ -74,4 +89,4 @@ await disposeWithFallback(async () => { throw new Error("injected dispose failur
 assert.equal(hmrTerminated, 2, "HMR should terminate and resolve when graceful disposal rejects");
 release();
 
-console.log(JSON.stringify({ reverseSequential: true, rollbackAfterFailure: true, midStartRollback: true, productionTopologyRollback: true, concurrentIdempotent: true, rejectDuringQuiesce: true, idempotent: true, unloadImmediateTerminate: true, hmrDeadlineFallback: true, hmrRejectFallback: true }));
+console.log(JSON.stringify({ reverseSequential: true, rollbackAfterFailure: true, midStartRollback: true, productionTopologyRollback: true, listenerOwnership: true, concurrentIdempotent: true, rejectDuringQuiesce: true, idempotent: true, unloadImmediateTerminate: true, hmrDeadlineFallback: true, hmrRejectFallback: true }));

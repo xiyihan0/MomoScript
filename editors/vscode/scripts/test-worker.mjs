@@ -232,6 +232,35 @@ try {
     if (afterDuplicate.sourceVersion !== 2 || afterDuplicate.revision !== requestedProject.revision) {
       throw new Error("same-version didChange rebuilt the current snapshot");
     }
+    let legacySyncError;
+    try {
+      await request("mmt/updateDocument", {
+        uri: packSensitiveUri,
+        version: 3,
+        text: "> 柚子: legacy route must not exist"
+      });
+    } catch (error) {
+      legacySyncError = error;
+    }
+    if (!legacySyncError || !/not found|method/i.test(legacySyncError.message)) {
+      throw new Error("legacy mmt/updateDocument synchronization route is still available");
+    }
+    notify("textDocument/didChange", {
+      textDocument: { uri: packSensitiveUri, version: 1 },
+      contentChanges: [{ text: "> 柚子: stale older version" }]
+    });
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    const afterOlder = await request("mmt/getTypstProject", { uri: packSensitiveUri });
+    if (afterOlder.sourceVersion !== 2 || afterOlder.revision !== requestedProject.revision) {
+      throw new Error("older didChange rebuilt or replaced the current snapshot");
+    }
+    if (notifications.some((message) =>
+      message.method === "mmt/typstProjectUpdated"
+      && message.params.sourceUri === packSensitiveUri
+      && message.params.sourceVersion === 1
+    )) {
+      throw new Error("older didChange published a replacement project");
+    }
     const presetUri = "file:///workspace/preset.mmt";
     notify("textDocument/didOpen", {
       textDocument: {
@@ -284,6 +313,54 @@ try {
     }
     const renderEntry = renderProject.files.find((file) => file.uri === renderProject.entryUri);
     if (!renderEntry?.text?.includes("mmt-resources/0.png")) throw new Error("render entry omitted materialized avatar path");
+    const renderDiagnosticsUri = "file:///workspace/render-diagnostics.mmt";
+    const renderDiagnosticsNotification = waitForNotification(
+      "textDocument/publishDiagnostics",
+      (message) => message.params.uri === renderDiagnosticsUri
+    );
+    const renderDiagnosticsProjectNotification = waitForNotification(
+      "mmt/typstProjectUpdated",
+      (message) => message.params.sourceUri === renderDiagnosticsUri
+    );
+    notify("textDocument/didOpen", {
+      textDocument: {
+        uri: renderDiagnosticsUri,
+        languageId: "mmt",
+        version: 4,
+        text: "@asset hero\nsrc: first.png\n@end\n@asset hero\nsrc: second.png\n@end\n> 柚子: [:missing:]"
+      }
+    });
+    const liveRenderDiagnostics = await renderDiagnosticsNotification;
+    const liveRenderProject = await renderDiagnosticsProjectNotification;
+    const renderDiagnosticsProject = await request("mmt/getTypstRenderProject", { uri: renderDiagnosticsUri });
+    if (renderDiagnosticsProject.sourceVersion !== 4 || renderDiagnosticsProject.revision !== liveRenderProject.params.revision) {
+      throw new Error("render diagnostics lost source version or projection revision binding");
+    }
+    const renderPhases = new Set(renderDiagnosticsProject.diagnostics.map((diagnostic) => diagnostic.phase));
+    for (const phase of ["semantic", "resolve"]) {
+      if (!renderPhases.has(phase)) throw new Error(`render project omitted ${phase} planning diagnostics`);
+    }
+    const renderDiagnosticIds = renderDiagnosticsProject.diagnostics.map((diagnostic) =>
+      JSON.stringify([diagnostic.phase, diagnostic.message, diagnostic.range, diagnostic.labels])
+    );
+    for (const diagnostic of renderDiagnosticsProject.diagnostics) {
+      if (!liveRenderDiagnostics.params.diagnostics.some((live) =>
+        live.message === diagnostic.message && live.data?.phase === diagnostic.phase
+      )) {
+        throw new Error(`live diagnostics lost render planning diagnostic: ${diagnostic.message}`);
+      }
+    }
+    if (new Set(renderDiagnosticIds).size !== renderDiagnosticIds.length) {
+      throw new Error("render project diagnostics contain duplicate identities");
+    }
+    if (notifications.some((message) =>
+      message.method === "textDocument/publishDiagnostics" && message.params.uri === renderDiagnosticsUri
+    )) {
+      throw new Error("render project request published a second live diagnostic set");
+    }
+    if (liveRenderDiagnostics.params.diagnostics.length === 0) {
+      throw new Error("live render-diagnostics fixture did not produce planning diagnostics");
+    }
     const documentConfigUri = "file:///workspace/document-config.mmt";
     notify("textDocument/didOpen", {
       textDocument: {
@@ -465,6 +542,11 @@ try {
       semanticDiagnosticCount: semanticDiagnostics.params.diagnostics.length,
       packProjectionRevisions: [beforePackProject.params.revision, afterPackProject.params.revision],
       renderResource: renderProject.resources[0].fileName,
+      synchronizationVersions: [afterDuplicate.sourceVersion, afterOlder.sourceVersion],
+      legacyUpdateDocumentUnavailable: true,
+      renderDiagnosticPhases: [...renderPhases].sort(),
+      renderDiagnosticCount: renderDiagnosticsProject.diagnostics.length,
+      duplicateRenderPublication: false,
       documentConfigMode: documentConfig.compiledAt.mode,
       documentFieldLabels: documentFieldCompletions.map((item) => item.label),
       documentValueLabels: documentValueCompletions.map((item) => item.label),

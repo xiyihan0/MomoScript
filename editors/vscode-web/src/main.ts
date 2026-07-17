@@ -34,7 +34,7 @@ import type { PackManifestSource } from "../../vscode/src/packSync";
 import { projectionSessionKey } from "../../vscode/src/tinymistClient";
 import { sanitizeSvg, TypstPreviewController, type TypstExportFormat } from "./preview";
 import { PreviewBuildState } from "./previewDiagnostics";
-import { RuntimeOwner, disposeWithFallback, terminateOnUnload } from "./runtimeOwner";
+import { RuntimeOwner, disposeWithFallback, ownEventListener, terminateOnUnload } from "./runtimeOwner";
 import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest, TypstVirtualFile } from "../../vscode/src/tinymistClient";
 
 if (import.meta.env.VITE_MMT_E2E === "1") {
@@ -870,7 +870,7 @@ async function start(): Promise<void> {
   const ownerDispose = () => owner.dispose();
   const hot = import.meta.hot;
   hot?.dispose(() => { void disposeWithFallback(ownerDispose, terminateWorkers); });
-  window.addEventListener("beforeunload", terminateOnUnload({ terminate: terminateWorkers }, ownerDispose), { once: true });
+  own(ownEventListener(window, "beforeunload", terminateOnUnload({ terminate: terminateWorkers }, ownerDispose), { once: true }));
 }
 
 async function fetchResource(url: URL, signal: AbortSignal): Promise<Uint8Array> {
