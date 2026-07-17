@@ -134,7 +134,8 @@
     "test:capability-manifest": "node ./scripts/test-capability-manifest.mjs",
     "test:artifact-decision": "node ./scripts/test-artifact-decision.mjs",
     "test:runtime-identity": "node ./scripts/test-runtime-identity.mjs",
-    "test:response-identity": "node ./scripts/test-response-identity.mjs"
+    "test:response-identity": "node ./scripts/test-response-identity.mjs",
+    "test:capability-router": "node ./scripts/test-capability-router.mjs"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1",

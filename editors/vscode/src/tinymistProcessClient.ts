@@ -1,3 +1,4 @@
+import type { TinymistCapabilityView } from "./tinymistCapabilities";
 import {
   createTinymistProcessTransport,
   type TinymistProcessFactory
@@ -6,7 +7,6 @@ import { TinymistHostSession } from "./tinymistHostSession";
 import type { TinymistTransport } from "./tinymistTransport";
 import { DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS } from "./typstProjectState";
 import {
-  serverRequestResponse,
   validateTinymistInitialize,
   type TinymistHostBackend,
   type TinymistInitializeResult,
@@ -33,8 +33,7 @@ export class TinymistProcessClient implements TinymistHostBackend {
     processFactory?: TinymistProcessFactory
   ): Promise<TinymistProcessClient> {
     const transport = createTinymistProcessTransport(command, {
-      processFactory,
-      serverRequest: serverRequestResponse
+      processFactory
     });
     const client = new TinymistProcessClient(transport, closeGraceMs);
     try {
@@ -48,6 +47,10 @@ export class TinymistProcessClient implements TinymistHostBackend {
 
   backendGeneration(): number {
     return this.session.backendGeneration();
+  }
+
+  capabilities(): TinymistCapabilityView {
+    return this.session.capabilities();
   }
 
   on(method: string, handler: (params: unknown) => void): void {

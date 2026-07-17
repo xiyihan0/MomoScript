@@ -79,9 +79,12 @@
 
 ## 3. Generic Typst feature router
 
-- [ ] 3.1 Introduce runtime capability registry from initialize results and dynamic registrations
-- [ ] 3.2 Implement generic request metadata containing backend generation, logical source/content identity, local document-incarnation/version stale token, complete Typst project snapshot, projection key and request sequence
-- [ ] 3.3 Reject every standalone/projected response when its complete project graph changes, even if the requesting document version is unchanged
+- [x] 3.1 Introduce runtime capability registry from initialize results and dynamic registrations
+  - Evidence: `TinymistHostSession` installs the active generation's normalized `TinymistCapabilityRegistry` from the native/Web initialize result, routes typed `client/registerCapability` and `client/unregisterCapability` requests through `TinymistServerRequestDispatcher`, clears registrations on generation end/recovery and preserves `-32601` for unknown server requests. `cd editors/vscode && npm run test:capability-router && npm run test:capability-manifest` passes against the checked native/Web transcripts, including Web-only dynamic semantic-token registration, differing execute-command options, unregister and stale-generation cases.
+- [x] 3.2 Implement generic request metadata containing backend generation, logical source/content identity, local document-incarnation/version stale token, complete Typst project snapshot, projection key and request sequence
+  - Evidence: `tinymistRequestDispatcher.ts` defines a typed request map/envelope and assigns strictly monotonic local sequences while carrying every required canonical and host-local publication guard. `cd editors/vscode && npm run check && npm run test:capability-router` passes, including in-flight cancellation, same-scope supersession and independent-method sequencing.
+- [x] 3.3 Reject every standalone/projected response when its complete project graph changes, even if the requesting document version is unchanged
+  - Evidence: `TinymistRequestDispatcher` performs preflight and post-response equality checks for backend generation, logical/source content identity, incarnation/version token, complete `TypstProjectSnapshotKey` and optional `ProjectionKey`; the focused fixture advances only the project snapshot while keeping the requesting document token unchanged and receives `StaleProjectSnapshot`. `cd editors/vscode && npm run test:capability-router && npm run test:response-identity` passes.
 - [ ] 3.4 Implement standalone Typst routing with explicit backend position conversion
 - [ ] 3.5 Implement MMT-first routing and current projected-position lookup
 - [ ] 3.6 Migrate completion, hover and signature help to the router without changing results

@@ -1,8 +1,9 @@
+import type { TinymistCapabilityView } from "./tinymistCapabilities";
+export { serverRequestResponse } from "./tinymistCapabilities";
 import type { ProjectionKey, SourceContentKey, TypstProjectSnapshotKey } from "./runtimeIdentity";
 import {
   JsonRpcTinymistTransport,
   TinymistWorkerConnection,
-  type JsonRpcMessage,
   type TinymistWorkerFactory
 } from "./tinymistTransport";
 import { TinymistHostSession } from "./tinymistHostSession";
@@ -19,10 +20,6 @@ export {
   type ProjectFileRotation
 } from "./typstProjectState";
 
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null;
-}
 
 export type TypstVirtualFile =
   | { uri: string; text: string; dataBase64?: never }
@@ -123,6 +120,7 @@ export function isTypstTextFile(file: TypstVirtualFile): file is Extract<TypstVi
 
 export interface TinymistHostBackend {
   backendGeneration(): number;
+  capabilities(): TinymistCapabilityView;
   on(method: string, handler: (params: unknown) => void): void;
   request<T>(method: string, params: unknown, signal?: AbortSignal): Promise<T>;
   syncProject(update: TypstProjectUpdate): void;
@@ -155,6 +153,7 @@ export function projectionRevisionIsCurrent(
 
 export interface TinymistInitializeResult {
   capabilities?: {
+    [provider: string]: unknown;
     completionProvider?: unknown;
     hoverProvider?: unknown;
     signatureHelpProvider?: unknown;
@@ -172,19 +171,6 @@ export function validateTinymistInitialize(result: TinymistInitializeResult): vo
     throw new Error("Tinymist completion, hover, and signature help capabilities are required");
   }
 }
-export function serverRequestResponse(message: JsonRpcMessage): JsonRpcMessage {
-  const id = message.id ?? null;
-  if (message.method === "workspace/configuration") {
-    const items = isRecord(message.params) && Array.isArray(message.params.items)
-      ? message.params.items
-      : [];
-    return { jsonrpc: "2.0", id, result: items.map(() => null) };
-  }
-  if (message.method === "window/workDoneProgress/create" || message.method === "client/registerCapability" || message.method === "client/unregisterCapability") {
-    return { jsonrpc: "2.0", id, result: null };
-  }
-  return { jsonrpc: "2.0", id, error: { code: -32601, message: `Unsupported Tinymist server request: ${message.method ?? "unknown"}` } };
-}
 
 
 export class TinymistWorkerClient implements TinymistHostBackend {
@@ -200,8 +186,7 @@ export class TinymistWorkerClient implements TinymistHostBackend {
     closeGraceMs: number
   ) {
     this.transport = new JsonRpcTinymistTransport(
-      () => TinymistWorkerConnection.create({ workerUri, moduleUri, wasmUri, workerFactory }),
-      { serverRequest: serverRequestResponse }
+      () => TinymistWorkerConnection.create({ workerUri, moduleUri, wasmUri, workerFactory })
     );
     this.session = new TinymistHostSession({
       label: "Tinymist Worker",
@@ -232,6 +217,10 @@ export class TinymistWorkerClient implements TinymistHostBackend {
 
   backendGeneration(): number {
     return this.session.backendGeneration();
+  }
+
+  capabilities(): TinymistCapabilityView {
+    return this.session.capabilities();
   }
 
   semanticTokensLegend(): { tokenTypes: string[]; tokenModifiers: string[] } | undefined {

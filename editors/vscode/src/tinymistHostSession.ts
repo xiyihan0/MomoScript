@@ -1,3 +1,8 @@
+import {
+  TinymistCapabilityRegistry,
+  TinymistServerRequestDispatcher,
+  type TinymistCapabilityView
+} from "./tinymistCapabilities";
 import type { TypstProjectUpdate } from "./tinymistClient";
 import type { TinymistBackendSession, TinymistTransport } from "./tinymistTransport";
 import {
@@ -21,11 +26,20 @@ export interface TinymistHostSessionOptions {
 export class TinymistHostSession {
   private readonly handlers = new Map<string, Set<(params: unknown) => void>>();
   private readonly projectState: TypstProjectState;
+  private readonly capabilityRegistry: TinymistCapabilityRegistry;
   private ready = false;
   private stopped = false;
   private restarting: Promise<void> | undefined;
 
   constructor(private readonly options: TinymistHostSessionOptions) {
+    this.capabilityRegistry = new TinymistCapabilityRegistry((view) => {
+      this.dispatch("tinymist/capabilitiesChanged", Object.freeze({
+        generation: view.generation,
+        capabilities: view.list()
+      }));
+    });
+    const serverRequests = new TinymistServerRequestDispatcher(this.capabilityRegistry);
+    options.transport.onServerRequest((message, generation) => serverRequests.dispatch(message, generation));
     options.transport.onNotification((method, params) => this.dispatch(method, params));
     options.transport.onFailure((error, generation) => this.handleRuntimeFailure(error, generation));
     this.projectState = new TypstProjectState({
@@ -43,6 +57,10 @@ export class TinymistHostSession {
 
   backendGeneration(): number {
     return this.options.transport.generation;
+  }
+
+  capabilities(): TinymistCapabilityView {
+    return this.capabilityRegistry;
   }
 
   on(method: string, handler: (params: unknown) => void): void {
@@ -90,6 +108,7 @@ export class TinymistHostSession {
     const error = new Error(`${this.options.label} restart requested`);
     this.ready = false;
     this.projectState.deactivateBackend(generation, error);
+    this.capabilityRegistry.clear(generation);
     this.options.transport.terminateNow(error);
     this.dispatch("tinymist/clientRestarting", { message: error.message });
     this.startRecovery(true);
@@ -100,6 +119,7 @@ export class TinymistHostSession {
     if (this.stopped) return;
     this.stopped = true;
     this.ready = false;
+    this.capabilityRegistry.clear();
     this.projectState.dispose(new Error(`${this.options.label} stopped`));
     await this.options.transport.stop();
   }
@@ -109,6 +129,7 @@ export class TinymistHostSession {
     this.stopped = true;
     this.ready = false;
     const error = new Error(`${this.options.label} terminated`);
+    this.capabilityRegistry.clear();
     this.projectState.dispose(error);
     this.options.transport.terminateNow(error);
   }
@@ -123,6 +144,7 @@ export class TinymistHostSession {
   private handleRuntimeFailure(error: Error, generation: number): void {
     if (this.stopped || generation !== this.options.transport.generation) return;
     this.ready = false;
+    this.capabilityRegistry.clear(generation);
     this.projectState.deactivateBackend(generation, error);
     this.dispatch("tinymist/clientRestarting", { message: error.message });
     this.startRecovery(true);
@@ -131,6 +153,7 @@ export class TinymistHostSession {
   private startRecovery(announceLifecycle: boolean): void {
     if (this.stopped || this.ready || this.restarting) return;
     const recovery = this.options.boot().then(async (session) => {
+      this.capabilityRegistry.install(session.generation, session.initializeResult);
       await this.projectState.activateBackend(session.generation);
       if (this.stopped) {
         this.options.transport.terminateNow(new Error(`${this.options.label} stopped during recovery`));
@@ -143,6 +166,7 @@ export class TinymistHostSession {
     void recovery.catch((error: unknown) => {
       if (this.stopped) return;
       this.ready = false;
+      this.capabilityRegistry.clear(this.options.transport.generation);
       this.options.transport.terminateNow(error instanceof Error ? error : new Error(String(error)));
       if (announceLifecycle) {
         this.dispatch("tinymist/clientFailed", {
