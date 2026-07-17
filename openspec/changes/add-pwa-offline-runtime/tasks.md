@@ -1,10 +1,10 @@
 ## 0. Prerequisite Contracts
 
-- [ ] 0.1 定义 page、root worker、workspace、Local History 和 Pack Manager 共用的 `OriginStorageCoordinator` message/schema/version contract
-- [ ] 0.2 落地 shell-agnostic durable inventory/reservation foundation，足以批准 History desired budget；不得依赖 shell/pack 已实现
+- [x] 0.1 定义 page、root worker、workspace、Local History 和 Pack Manager 共用的 `OriginStorageCoordinator` message/schema/version contract
+- [x] 0.2 落地 shell-agnostic durable inventory/reservation foundation，足以批准 History desired budget；不得依赖 shell/pack 已实现
 - [ ] 0.3 完成 `add-workspace-storage-history-sync` task 3.5/3.6 的 inventory/state 注册，再原子更新 inventory 并申请 History desired budget
 - [ ] 0.4 完成 `add-mmt-lsp-vscode` Web runtime owner：逆序 startup rollback、可等待 `prepareForReload` / graceful dispose 与 unload 同步 Worker terminate fallback
-- [ ] 0.5 用 fault-injecting fake subsystems 验证 reservation、release、crash expiry 和并发 shell/pack request 不重复占用同一 free bytes
+- [x] 0.5 用 fault-injecting fake subsystems 验证 reservation、release、crash expiry 和并发 shell/pack request 不重复占用同一 free bytes
 
 ## 1. Phase 0 Browser And Deployment Decision Gate
 
