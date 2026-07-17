@@ -1,29 +1,31 @@
 ## 1. Storage Foundation
 
-- [ ] 1.1 从 `MmtIndexedDbFileSystemProvider` 提取 `WorkspaceCoordinator`、`WorkspaceBackend` 与统一 mutation reason，不改变 `mmtfs://workspace/` URI 或现有 reload 行为
-- [ ] 1.2 定义稳定 `workspaceId`、backend generation、path normalization/case capability 和 active-backend metadata
-- [ ] 1.3 为每个 workspace 增加 Web Locks writer lease、第二标签页只读状态与显式接管流程
-- [ ] 1.4 增加 contract tests，使用同一 mutation transcript 验证 provider 与 IndexedDB backend 的 stat/read/write/mkdir/delete/rename/event 行为
+- [x] 1.1 从 `MmtIndexedDbFileSystemProvider` 提取 `WorkspaceCoordinator`、`WorkspaceBackend` 与统一 mutation reason，不改变 `mmtfs://workspace/` URI 或现有 reload 行为
+- [x] 1.2 定义稳定 `workspaceId`、backend generation、path normalization/case capability 和 active-backend metadata
+- [x] 1.3 为每个 workspace 增加 Web Locks writer lease、第二标签页只读状态与显式接管流程
+- [x] 1.4 增加 contract tests，使用同一 mutation transcript 验证 provider 与 IndexedDB backend 的 stat/read/write/mkdir/delete/rename/event 行为
 - [ ] 1.5 运行 `npm run check` 与本地生产 Web E2E，证明第一切片只重构边界、不改变编辑、preview、Explorer 和 reload
 
 ## 2. IndexedDB Version 2 Migration
 
-- [ ] 2.1 在原 `momoscript-workspace-v1` database 上创建 version-2 metadata、blob、revision、change、head、journal、sync baseline 和 handle stores
-- [ ] 2.2 实现 `v1-baseline-pending` 两阶段迁移、deterministic batch cursor、幂等 resume 和 final publish transaction
-- [ ] 2.3 建立真实 version-1 fixture，逐路径比对 type/ctime/mtime/bytes，并覆盖历史空 `/workspace` 与非空 subtree
-- [ ] 2.4 在每个 migration 阶段注入 transaction abort、reload、quota/hash failure，验证旧 `files` 保留、单一 baseline 和 read-only recovery/export
-- [ ] 2.5 验证已有生产 IndexedDB workspace 在升级后重开最新 `.mmt` / `.typ` 文本并正常驱动 preview
+- [x] 2.1 在原 `momoscript-workspace-v1` database 上创建 version-2 metadata、blob、revision、change、head、journal、sync baseline 和 handle stores
+- [x] 2.2 实现 `v1-baseline-pending` 两阶段迁移、deterministic batch cursor、幂等 resume 和 final publish transaction
+- [x] 2.3 建立真实 version-1 fixture，逐路径比对 type/ctime/mtime/bytes，并覆盖历史空 `/workspace` 与非空 subtree
+- [x] 2.4 在每个 migration 阶段注入 transaction abort、reload、quota/hash failure，验证旧 `files` 保留、单一 baseline 和 read-only recovery/export
+- [x] 2.5 验证已有生产 IndexedDB workspace 在升级后重开最新 `.mmt` / `.typ` 文本并正常驱动 preview
 
 ## 3. Local History Engine
 
-- [ ] 3.1 实现 SHA-256 blob store、revision/change/head model 与 IndexedDB current-file/history 单 transaction mutation
-- [ ] 3.2 实现 5 秒 idle / 30 秒最大时长的普通 edit grouping，并保证 destructive、external、sync、checkpoint、restore 和 migration 边界封口
-- [ ] 3.3 覆盖 create/write/delete/recursive delete/rename/overwrite/import 的 before/after tree 与 source-order history
-- [ ] 3.4 实现 named checkpoint、文本 Diff、整文件/树恢复；恢复前 checkpoint 与 `restore` revision 不得改写旧历史
-- [ ] 3.5 依赖 `add-pwa-offline-runtime` task 0.2 注册 protected/history-policy-managed bytes、writer/flush、migration、journal、quota-blocked 与 unreconciled states
-- [ ] 3.6 在同一 coordinator mutation 中先更新 inventory 再申请 History allocation，实现 desired budget、30 天保留、unreferenced blob GC 和 protected-root pinning
-- [ ] 3.7 注入 quota/transaction/coordinator failure，验证普通 mutation 不会在 inventory、reservation、current bytes、heads、revision 和 file event 之间部分提交
-- [ ] 3.8 用 shell/pack reservation fixture 验证外部 installer 不能删除 History、触发 History GC 或复用 blocked/degraded 前的旧 inventory
+- [x] 3.1 实现 SHA-256 blob store、revision/change/head model 与 IndexedDB current-file/history 单 transaction mutation
+- [x] 3.2 实现 5 秒 idle / 30 秒最大时长的普通 edit grouping，并保证 destructive、external、sync、checkpoint、restore 和 migration 边界封口
+- [x] 3.3 覆盖 create/write/delete/recursive delete/rename/overwrite/import 的 before/after tree 与 source-order history
+- [x] 3.4 实现 named checkpoint、文本 Diff、整文件/树恢复；恢复前 checkpoint 与 `restore` revision 不得改写旧历史
+- [x] 3.5 依赖 `add-pwa-offline-runtime` task 0.2 注册 protected/history-policy-managed bytes、writer/flush、migration、journal、quota-blocked 与 unreconciled states
+- [x] 3.6 在同一 coordinator mutation 中先更新 inventory 再申请 History allocation，实现 desired budget、30 天保留、unreferenced blob GC 和 protected-root pinning
+- [x] 3.7 注入 quota/transaction/coordinator failure，验证普通 mutation 不会在 inventory、reservation、current bytes、heads、revision 和 file event 之间部分提交
+- [x] 3.8 用 shell/pack reservation fixture 验证外部 installer 不能删除 History、触发 History GC 或复用 blocked/degraded 前的旧 inventory
+
+Focused evidence (2026-07-17): `npm run test:workspace-atomic-apply` covers deterministic backend/path transcript, resumable/idempotent migration and injected hash failure, SHA-256 history/edit grouping/tree/checkpoint/diff/restore, quota atomicity, and second-target rollback plus rollback-failure blocking. `npm run test:origin-storage` covers durable workspace/history inventory, desired History budget, shell/pack protection, and blocked-state fresh-inventory gates.
 
 ## 4. Local History UX
 

@@ -1,4 +1,4 @@
-import type { WorkspaceBackend, WorkspaceBackendMetadata, WorkspaceEntry, WorkspaceMutationStore } from "./workspace";
+import type { WorkspaceAtomicJournal, WorkspaceAtomicJournalState, WorkspaceBackend, WorkspaceBackendMetadata, WorkspaceEntry, WorkspaceMutationStore } from "./workspace";
 import { normalizeWorkspacePath } from "./workspace";
 
 export const WORKSPACE_DATABASE = "momoscript-workspace-v1";
@@ -41,7 +41,8 @@ const META_WORKSPACE = "workspace";
 const META_MIGRATION = "migration";
 
 export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
-  readonly metadata: WorkspaceBackendMetadata;
+  readonly capabilities = { paths: { caseSensitive: true, separator: "/" as const }, atomicCurrentFileTransaction: true };
+  metadata: WorkspaceBackendMetadata;
 
   private constructor(readonly database: IDBDatabase, metadata: WorkspaceBackendMetadata) {
     this.metadata = metadata;
@@ -203,22 +204,63 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
     return blobs.reduce((total, blob) => total + blob.size, 0);
   }
 
+  prepareAtomicJournal(journal: WorkspaceAtomicJournal): Promise<void> {
+    return transactionDone(this.database, [WORKSPACE_STORES.journal], "readwrite", (transaction) => {
+      transaction.objectStore(WORKSPACE_STORES.journal).put(structuredClone(journal));
+    });
+  }
+
+  async finishAtomicJournal(
+    id: string,
+    state: Exclude<WorkspaceAtomicJournalState, "pending">,
+    error?: string
+  ): Promise<void> {
+    const store = this.database.transaction(WORKSPACE_STORES.journal).objectStore(WORKSPACE_STORES.journal);
+    const journal = await requestResult<WorkspaceAtomicJournal | undefined>(store.get(id));
+    if (!journal) throw new Error(`Unknown atomic journal ${id}`);
+    await transactionDone(this.database, [WORKSPACE_STORES.journal], "readwrite", (transaction) => {
+      transaction.objectStore(WORKSPACE_STORES.journal).put({ ...journal, state, ...(error ? { error } : {}) });
+    });
+  }
+
+  async pendingAtomicJournals(): Promise<readonly WorkspaceAtomicJournal[]> {
+    const journals = await requestResult<WorkspaceAtomicJournal[]>(
+      this.database.transaction(WORKSPACE_STORES.journal).objectStore(WORKSPACE_STORES.journal).getAll()
+    );
+    return journals.filter((journal) => journal.state === "pending" || journal.state === "blocked");
+  }
+
   close(): void { this.database.close(); }
 
   async resumeV1BaselineMigration(): Promise<void> {
-    const migration = await getMetadata<{ state: string; cursor?: string }>(this.database, META_MIGRATION);
-    if (!migration || migration.state === "complete") return;
-    const entries = (await this.load()).slice().sort((left, right) => left.path.localeCompare(right.path));
-    const start = migration.cursor ? Math.max(0, entries.findIndex((entry) => entry.path > migration.cursor!)) : 0;
-    const batch = entries.slice(start, start + 64);
-    if (batch.length > 0) {
-      const before = new Map<string, WorkspaceEntry>();
-      const after = new Map(batch.map((entry) => [entry.path, entry]));
-      await this.commitMutation("migration", before, after, start === 0 ? "Imported version-1 baseline" : undefined);
-      await setMetadata(this.database, META_MIGRATION, { state: "v1-baseline-pending", cursor: batch.at(-1)!.path });
-      return this.resumeV1BaselineMigration();
+    const migration = await getMetadata<{ state: string; cursor?: string; migrationId?: string }>(this.database, META_MIGRATION);
+    if (!migration || migration.state === "complete") {
+      if (this.metadata.migration.state !== "complete") await this.#publishMigration({ state: "complete", migrationId: this.metadata.migration.migrationId });
+      return;
     }
-    await setMetadata(this.database, META_MIGRATION, { state: "complete" });
+    try {
+      const entries = (await this.load()).slice().sort((left, right) => comparePaths(left.path, right.path));
+      const existingHead = await this.head();
+      if (!existingHead) {
+        await this.commitMutation("backend-migration", new Map(), new Map(entries.map((entry) => [entry.path, entry])), "Imported version-1 baseline");
+      }
+      const verified = await this.load();
+      if (verified.length !== entries.length || verified.some((entry, index) => !equalEntry(entry, entries[index]))) {
+        throw new Error("Version-1 baseline byte verification failed");
+      }
+      await setMetadata(this.database, META_MIGRATION, { state: "complete", migrationId: migration.migrationId ?? this.metadata.migration.migrationId, cursor: entries.at(-1)?.path });
+      await this.#publishMigration({ state: "complete", migrationId: migration.migrationId ?? this.metadata.migration.migrationId });
+    } catch (error) {
+      const failed = { state: "migration-failed" as const, migrationId: migration.migrationId ?? this.metadata.migration.migrationId, cursor: migration.cursor, error: error instanceof Error ? error.message : String(error) };
+      await setMetadata(this.database, META_MIGRATION, failed);
+      await this.#publishMigration(failed);
+      throw error;
+    }
+  }
+
+  async #publishMigration(migration: WorkspaceBackendMetadata["migration"]): Promise<void> {
+    this.metadata = { ...this.metadata, migration };
+    await setMetadata(this.database, META_WORKSPACE, this.metadata);
   }
 }
 
@@ -248,11 +290,18 @@ async function openDatabase(): Promise<IDBDatabase> {
 async function ensureWorkspaceMetadata(database: IDBDatabase): Promise<WorkspaceBackendMetadata> {
   const existing = await getMetadata<WorkspaceBackendMetadata>(database, META_WORKSPACE);
   if (existing) return existing;
+  const now = Date.now();
+  const workspaceId = crypto.randomUUID();
   const metadata: WorkspaceBackendMetadata = {
-    workspaceId: crypto.randomUUID(),
-    generation: 1,
-    kind: "indexeddb",
-    paths: { caseSensitive: true, separator: "/" }
+    workspaceId,
+    displayName: "Browser workspace",
+    createdAt: now,
+    activeBackend: { kind: "indexeddb", id: workspaceId },
+    backendGeneration: 1,
+    headSequence: 0,
+    paths: { caseSensitive: true, separator: "/" },
+    migration: { state: "v1-baseline-pending", migrationId: crypto.randomUUID() },
+    storage: { quotaBlocked: false, historyDegraded: false, unreconciled: false, pendingJournal: false },
   };
   await setMetadata(database, META_WORKSPACE, metadata);
   return metadata;
@@ -298,6 +347,21 @@ function metadataOnly(entry: WorkspaceEntry): Omit<WorkspaceEntry, "data"> {
 }
 
 function cloneEntry(entry: WorkspaceEntry): WorkspaceEntry { return { ...entry, data: new Uint8Array(entry.data) }; }
+
+function equalEntry(left: WorkspaceEntry, right: WorkspaceEntry): boolean {
+  return left.path === right.path && left.type === right.type && left.ctime === right.ctime && left.mtime === right.mtime
+    && left.data.byteLength === right.data.byteLength && left.data.every((value, index) => value === right.data[index]);
+}
+
+function comparePaths(left: string, right: string): number {
+  const encoder = new TextEncoder();
+  const a = encoder.encode(left);
+  const b = encoder.encode(right);
+  for (let index = 0; index < Math.min(a.length, b.length); index += 1) {
+    if (a[index] !== b[index]) return a[index] - b[index];
+  }
+  return a.length - b.length;
+}
 
 async function sha256(bytes: Uint8Array): Promise<string> {
   const digest = await crypto.subtle.digest("SHA-256", bytes.slice().buffer as ArrayBuffer);

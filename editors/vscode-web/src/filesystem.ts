@@ -36,9 +36,10 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
   static async open(): Promise<MmtIndexedDbFileSystemProvider> {
     const backend = await IndexedDbWorkspaceBackend.open();
     const coordinator = new WorkspaceCoordinator(backend);
+    await coordinator.initialize();
     await coordinator.acquireWriter();
     if (coordinator.state.lease !== "readonly") {
-      await coordinator.mutate("migration", () => backend.resumeV1BaselineMigration());
+      await coordinator.mutate("backend-migration", () => backend.resumeV1BaselineMigration());
     }
     const provider = new MmtIndexedDbFileSystemProvider(backend, coordinator);
     await provider.load();
@@ -166,7 +167,7 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
 
   workspaceStatus(): { workspaceId: string; generation: number; backend: string; lease: string } {
     const { metadata, lease } = this.coordinator.state;
-    return { workspaceId: metadata.workspaceId, generation: metadata.generation, backend: metadata.kind, lease };
+    return { workspaceId: metadata.workspaceId, generation: metadata.backendGeneration, backend: metadata.activeBackend.kind, lease };
   }
 
   revisions(limit = 100): Promise<readonly WorkspaceRevision[]> {
@@ -228,7 +229,7 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
     if (!this.#entries.has("/")) {
       const root = makeEntry("/", vscode.FileType.Directory);
       if (this.coordinator.state.lease === "readonly") this.#entries.set("/", root);
-      else await this.coordinator.mutate("migration", () => this.persistAndRemember(root));
+      else await this.coordinator.mutate("backend-migration", () => this.persistAndRemember(root));
     }
     const legacyWorkspace = this.#entries.get("/workspace");
     if (
@@ -236,7 +237,7 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
       && legacyWorkspace?.type === vscode.FileType.Directory
       && this.subtree("/workspace").length === 1
     ) {
-      await this.coordinator.mutate("migration", async () => {
+      await this.coordinator.mutate("backend-migration", async () => {
         await this.backend.transact((store) => store.delete("/workspace"));
         this.#entries.delete("/workspace");
       });

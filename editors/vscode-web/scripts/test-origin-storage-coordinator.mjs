@@ -4,6 +4,7 @@ import {
   ORIGIN_STORAGE_SCHEMA_VERSION,
   OriginStorageCoordinator,
   StorageQuotaBlocked,
+  StorageOperationBlocked,
 } from "../src/originStorage.ts";
 
 const MIB = 1024 * 1024;
@@ -275,6 +276,17 @@ assert.equal(history.purpose, "history-desired-budget");
 assert.deepEqual((await coordinator.inventory()).map((entry) => entry.id).sort(), ["history:pinned", "workspace:current"]);
 await coordinator.release(history.token);
 
+await coordinator.register({
+  id: "workspace:blocked-gate",
+  owner: "workspace",
+  class: "workspace-protected",
+  bytes: 0,
+  reproducible: false,
+  active: true,
+  blocked: true,
+});
+await assert.rejects(coordinator.reserve(request("shell", "blocked-shell", 1)), StorageOperationBlocked);
+await assert.rejects(coordinator.reserve(request("pack", "blocked-pack", 1)), StorageOperationBlocked);
 peer.close();
 coordinator.close();
 console.log(JSON.stringify({
@@ -285,5 +297,6 @@ console.log(JSON.stringify({
   release: { positive: true, idempotent: true },
   crashExpiry: { positive: true, abandonedReservationVisibleNegative: true },
   concurrentUniqueness: { positive: true, winners: 1, rejected: 1 },
+  workspaceHardGate: { shellRejected: true, packRejected: true, freshInventoryRequired: true },
   historyBudgetFoundation: { positive: true },
 }));

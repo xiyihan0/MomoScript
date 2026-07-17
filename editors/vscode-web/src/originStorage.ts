@@ -28,6 +28,7 @@ export interface StorageInventoryEntry {
   readonly reproducible: boolean;
   readonly active: boolean;
   readonly updatedAt: number;
+  readonly blocked?: boolean;
 }
 
 export interface StorageReservationRequest {
@@ -253,6 +254,10 @@ export class OriginStorageCoordinator {
   }
 
   private async buildPlan(request: StorageReservationRequest, inventory: readonly StorageInventoryEntry[], reservations: readonly StorageReservation[]): Promise<StoragePlan> {
+    const gate = inventory.find((entry) => entry.blocked);
+    if (gate && (request.owner === "shell" || request.owner === "pack" || request.owner === "materializer")) {
+      throw new StorageOperationBlocked(gate.id);
+    }
     const estimate = await navigator.storage.estimate();
     const browserUsage = estimate.usage ?? 0;
     const quota = estimate.quota ?? 0;
@@ -336,6 +341,15 @@ export class OriginStorageCoordinator {
     });
     this.#queue = queued.then(() => undefined, () => undefined);
     return queued;
+  }
+}
+
+export class StorageOperationBlocked extends Error {
+  readonly inventoryId: string;
+  constructor(inventoryId: string) {
+    super(`Origin storage operation is blocked by ${inventoryId}`);
+    this.name = "StorageOperationBlocked";
+    this.inventoryId = inventoryId;
   }
 }
 

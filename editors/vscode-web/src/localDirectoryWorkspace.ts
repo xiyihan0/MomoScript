@@ -20,6 +20,7 @@ export interface ReconcileResult {
 }
 
 export class LocalDirectoryWorkspaceBackend implements WorkspaceBackend {
+  readonly capabilities = { paths: { caseSensitive: true, separator: "/" as const }, atomicCurrentFileTransaction: false };
   readonly metadata: WorkspaceBackendMetadata;
   readonly #cache = new Map<string, WorkspaceEntry>();
   readonly #journal: LocalDirectoryJournal;
@@ -50,11 +51,17 @@ export class LocalDirectoryWorkspaceBackend implements WorkspaceBackend {
   ): Promise<LocalDirectoryWorkspaceBackend> {
     const permission = await handle.queryPermission({ mode: "readwrite" });
     if (permission !== "granted") throw new Error("Local directory permission requires a user gesture");
+    const now = Date.now();
     const metadata: WorkspaceBackendMetadata = {
       workspaceId,
-      generation,
-      kind: "local-directory",
-      paths: { caseSensitive: true, separator: "/" }
+      displayName: handle.name,
+      createdAt: now,
+      activeBackend: { kind: "local-directory", id: workspaceId },
+      backendGeneration: generation,
+      headSequence: 0,
+      paths: { caseSensitive: true, separator: "/" },
+      migration: { state: "complete", migrationId: crypto.randomUUID() },
+      storage: { quotaBlocked: false, historyDegraded: false, unreconciled: false, pendingJournal: false },
     };
     const backend = new LocalDirectoryWorkspaceBackend(handle, metadata, await LocalDirectoryJournal.open());
     await backend.recoverJournal();

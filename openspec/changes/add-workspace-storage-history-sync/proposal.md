@@ -29,7 +29,7 @@
 
 # Implementation Status
 
-本 change 当前只有设计与 spec delta，尚未修改生产存储实现。任务全部保持未完成，直到对应行为有聚焦测试和浏览器验收证据。
+Storage foundation 1.1–1.4, IndexedDB v2 migration 2.1–2.5, and Local History engine 3.1–3.8 are implemented with focused migration/history/quota/origin-gate/atomic-rollback evidence. Later UX, File System Access reconciliation/migration, WebDAV, and cross-host phases remain open.
 
 # Scope
 
