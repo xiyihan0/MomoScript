@@ -139,6 +139,28 @@ test("production editor materializes an avatar and restores the authored story a
     text: editedIntro
   });
   await expect.poll(() => readWorkspaceDocument(page, "intro.typ")).toBe(editedIntro);
+  const typBlockSource = "@typ\n#let accent = rgb(\"#24324a\")\n#let a=1\n#a\n@end";
+  await page.evaluate(({ name, text }) => (
+    Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function
+  )(name, text), {
+    name: "projection-race.mmt",
+    text: typBlockSource
+  });
+  await page.getByRole("button", { name: "Typst 预览" }).click();
+  await expect.poll(() => displayedPreviewSource(page)).toMatch(/projection-race\.mmt$/);
+  await expect(preview).toHaveAttribute("data-preview-ready", "true");
+  const typBlockPreview = await previewWebviewFrame(page);
+  await expect(typBlockPreview.locator("body")).not.toContainText(/无法为|未能及时同步/);
+  await expect(typBlockPreview.locator(".viewport .page svg")).toBeAttached();
+  const typBlockProjection = await page.evaluate(async (name) => {
+    const getEntry = Reflect.get(globalThis, "__mmtLanguageProjectionEntry");
+    if (typeof getEntry !== "function") throw new Error("missing E2E language projection hook");
+    return getEntry(name) as Promise<{ sourceVersion: number; text?: string } | null>;
+  }, "projection-race.mmt");
+  expect(typBlockProjection?.sourceVersion).toBeGreaterThanOrEqual(1);
+  expect(typBlockProjection?.text).toContain("#let accent = rgb(\"#24324a\")");
+  expect(typBlockProjection?.text).toContain("#let a=1");
+  expect(typBlockProjection?.text).toContain("#a");
   const defaultStory = await readWorkspaceDocument(page, "story.mmt");
   expect(defaultStory).toContain("> 佳代子:");
   expect(defaultStory).toContain(">_:");
@@ -401,11 +423,15 @@ async function renderedWebviewHasVisibleIntrinsicPage(page: Page): Promise<boole
 async function visiblePreviewText(page: Page): Promise<string> {
   const frames = page.frames().filter((candidate) => candidate.url().includes("/fake-") && candidate.url().includes(".html"));
   for (const frame of frames.toReversed()) {
-    const result = await frame.evaluate(() => {
-      const pageElement = document.querySelector<HTMLElement>(".page[data-intrinsic-width]");
-      return pageElement && pageElement.getBoundingClientRect().width > 0 ? pageElement.textContent ?? "" : "";
-    });
-    if (result) return result;
+    try {
+      const result = await frame.evaluate(() => {
+        const pageElement = document.querySelector<HTMLElement>(".page[data-intrinsic-width]");
+        return pageElement && pageElement.getBoundingClientRect().width > 0 ? pageElement.textContent ?? "" : "";
+      });
+      if (result) return result;
+    } catch {
+      // Preview webviews are replaced atomically; ignore frames detached during the swap.
+    }
   }
   return "";
 }

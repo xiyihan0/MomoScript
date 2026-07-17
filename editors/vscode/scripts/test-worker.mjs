@@ -355,6 +355,38 @@ try {
         `browser Worker returned an invalid @typ hover range: ${JSON.stringify(typDirectiveHover.range)}`
       );
     }
+    const multilineTypUri = "file:///workspace/multiline-typ.mmt";
+    notify("textDocument/didOpen", {
+      textDocument: {
+        uri: multilineTypUri,
+        languageId: "mmt",
+        version: 1,
+        text: "@typ\n#let accent = rgb(\"#24324a\")\n#let a=1\n#a\n@end"
+      }
+    });
+    await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (message) => message.params.uri === multilineTypUri
+    );
+    const multilineTypProject = await request("mmt/getTypstProject", { uri: multilineTypUri });
+    if (!multilineTypProject) throw new Error("browser Worker discarded the multiline @typ projection");
+    const multilineTypEntry = multilineTypProject.files.find(
+      (file) => file.uri === multilineTypProject.entryUri
+    );
+    if (
+      !multilineTypEntry?.text?.includes("#let accent = rgb(\"#24324a\")") ||
+      !multilineTypEntry.text.includes("#let a=1") ||
+      !multilineTypEntry.text.includes("#a")
+    ) {
+      throw new Error("browser Worker omitted content from the multiline @typ projection");
+    }
+    const multilineTypProjectionError = notifications.find(
+      (message) => message.method === "window/logMessage"
+        && message.params?.message?.startsWith("mmt/projection:")
+    );
+    if (multilineTypProjectionError) {
+      throw new Error(`browser Worker emitted a projection error: ${multilineTypProjectionError.params.message}`);
+    }
     const documentCompletionUri = "file:///workspace/document-completion.mmt";
     notify("textDocument/didOpen", {
       textDocument: {
@@ -426,7 +458,8 @@ try {
         documentDirectiveHover.contents.kind,
         documentFieldHover.contents.kind,
         typDirectiveHover.contents.kind
-      ]
+      ],
+      multilineTypProjectionVersion: multilineTypProject.sourceVersion
     };
   }, `http://127.0.0.1:${address.port}/dist/${wasmAsset}`);
 

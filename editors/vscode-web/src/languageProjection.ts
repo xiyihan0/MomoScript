@@ -34,6 +34,24 @@ export class RevisionPinnedPreviewClock {
     return timestamp;
   }
 }
+export async function waitForSynchronizedLanguageProjection<T extends { sourceVersion: number }>(
+  request: () => Promise<T | null>,
+  minimumSourceVersion: number,
+  timeoutMs = 5_000
+): Promise<T | null> {
+  const deadline = Date.now() + timeoutMs;
+  let delayMs = 25;
+  do {
+    const project = await request();
+    if (project && project.sourceVersion >= minimumSourceVersion) return project;
+    const remainingMs = deadline - Date.now();
+    if (remainingMs <= 0) break;
+    await new Promise((resolve) => setTimeout(resolve, Math.min(delayMs, remainingMs)));
+    delayMs = Math.min(delayMs * 2, 250);
+  } while (Date.now() < deadline);
+  return null;
+}
+
 
 
 export function advanceLanguageProjection(

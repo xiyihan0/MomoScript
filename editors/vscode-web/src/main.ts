@@ -19,7 +19,7 @@ import type { BaseLanguageClient } from "vscode-languageclient";
 import { MmtIndexedDbFileSystemProvider, MmtWorkbenchFileSystemProvider } from "./filesystem";
 import { IndexedDbPackCache } from "./packCache";
 import { BoundedStringCache, MATERIALIZED_RESOURCE_CACHE_MAX_BYTES } from "./boundedStringCache";
-import { advanceLanguageProjection, RevisionPinnedPreviewClock } from "./languageProjection";
+import { advanceLanguageProjection, RevisionPinnedPreviewClock, waitForSynchronizedLanguageProjection } from "./languageProjection";
 import type { LanguageProjectionToken } from "./languageProjection";
 import { materializeProjectResources } from "./resourceMaterializer";
 import type { MaterializationPackSource, ResourceMaterializationDependencies } from "./resourceMaterializer";
@@ -38,6 +38,7 @@ import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest
 if (import.meta.env.VITE_MMT_E2E === "1") {
   Reflect.set(globalThis, "__mmtSanitizeSvg", sanitizeSvg);
 }
+
 
 const WORKSPACE = vscode.Uri.parse("mmtfs://workspace/");
 const STORY = vscode.Uri.parse("mmtfs://workspace/story.mmt");
@@ -247,6 +248,9 @@ async function start(): Promise<void> {
   const latestLanguageProjectionBySource = new Map<string, LanguageProjectionToken>();
   const typstRevisions = new Map<string, number>();
   const typstProjects = new Map<string, TypstProjectUpdate>();
+  const acceptedPreviewLanguageProjects = import.meta.env.VITE_MMT_E2E === "1"
+    ? new Map<string, TypstProjectUpdate>()
+    : undefined;
   const retiredLanguageProjectionSessions = new Map<string, Set<string>>();
   const requestedRenderTokens = new WeakSet<LanguageProjectionToken>();
   const previewClock = new RevisionPinnedPreviewClock();
@@ -255,6 +259,13 @@ async function start(): Promise<void> {
     Reflect.set(globalThis, "__mmtLatestProjectionRevision", () => {
       const sourceUri = vscode.window.activeTextEditor?.document.uri.toString();
       return sourceUri ? latestLanguageProjectionBySource.get(sourceUri)?.revision : undefined;
+    });
+    Reflect.set(globalThis, "__mmtLanguageProjectionEntry", (name: string) => {
+      const uri = vscode.Uri.joinPath(WORKSPACE, name).toString();
+      const project = acceptedPreviewLanguageProjects!.get(uri);
+      if (!project) return null;
+      const entry = project.files.find((file) => file.uri === project.entryUri);
+      return { sourceVersion: project.sourceVersion, text: entry?.text };
     });
   }
   let displayedPreviewSourceUri: string | undefined;
@@ -272,6 +283,7 @@ async function start(): Promise<void> {
     latestProjectBySource.delete(sourceUri);
     retiredProjectSessions.delete(sourceUri);
     previewProjects.delete(sourceUri);
+    acceptedPreviewLanguageProjects?.delete(sourceUri);
     latestLanguageProjectionBySource.delete(sourceUri);
     retiredLanguageProjectionSessions.delete(sourceUri);
     renderRequestIdBySource.delete(sourceUri);
@@ -635,15 +647,29 @@ async function start(): Promise<void> {
       return;
     }
     previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, "正在准备 MomoScript 投影…");
-    const project = await activeClient.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", { uri: sourceUri });
+    let project: TypstProjectUpdate | null;
+    try {
+      project = await waitForSynchronizedLanguageProjection(
+        () => activeClient.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", { uri: sourceUri }),
+        document.version
+      );
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : String(error);
+      const message = `无法为 ${document.fileName} 构建 Typst 投影：${detail}`;
+      previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
+      log("preview:error", message);
+      return;
+    }
+    if (displayedPreviewSourceUri !== sourceUri) return;
     if (!project) {
-      const message = `无法为 ${document.fileName} 获取 Typst 投影。`;
+      const message = `语言服务器未能及时同步 ${document.fileName} 的文档版本 ${document.version}。`;
       previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
       log("preview:error", message);
       return;
     }
     const tracked = trackLanguageProjection(project);
     if (!tracked) return;
+    acceptedPreviewLanguageProjects?.set(sourceUri, project);
     if (tracked.advanced) tinymist?.backend.syncProject(project);
     await requestRenderProject(activeClient, project.sourceUri, tracked.token, true);
     refreshOpenedPreview();

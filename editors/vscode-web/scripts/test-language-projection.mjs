@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { advanceLanguageProjection, RevisionPinnedPreviewClock } from "../src/languageProjection.ts";
+import { advanceLanguageProjection, RevisionPinnedPreviewClock, waitForSynchronizedLanguageProjection } from "../src/languageProjection.ts";
 
 const latest = new Map();
 const retired = new Map();
@@ -68,5 +68,27 @@ assert.equal(advanceLanguageProjection(
   latest,
   retired
 ), undefined, "retired sessions must not revive");
+
+const synchronizedProject = { sourceVersion: 3, revision: 7 };
+let synchronizationRequests = 0;
+const synchronized = await waitForSynchronizedLanguageProjection(async () => {
+  synchronizationRequests += 1;
+  if (synchronizationRequests === 1) return null;
+  if (synchronizationRequests === 2) return { sourceVersion: 2, revision: 6 };
+  return synchronizedProject;
+}, 3, 1_000);
+assert.equal(synchronized, synchronizedProject, "preview open must wait for the current document version");
+assert.equal(synchronizationRequests, 3, "null and stale projections must be retried");
+
+let failedRequests = 0;
+await assert.rejects(
+  waitForSynchronizedLanguageProjection(async () => {
+    failedRequests += 1;
+    throw new Error("deterministic projection failure");
+  }, 1, 1_000),
+  /deterministic projection failure/,
+  "projection build failures must be surfaced immediately"
+);
+assert.equal(failedRequests, 1, "deterministic projection failures must not be retried");
 
 console.log(JSON.stringify({ duplicateApplied: false, duplicateRetryTokenPreserved: true, sessionRetirement: true, revisionPinnedClock: true }));

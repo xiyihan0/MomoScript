@@ -162,6 +162,7 @@ pub struct MmtLanguageServer {
     service: LanguageService,
     projections: ProjectionStore,
     published_project_entries: HashMap<Url, Url>,
+    projection_errors: HashMap<Url, ServerError>,
     preview_on_change: bool,
     typst_language_features: bool,
     lifecycle: ServerLifecycle,
@@ -173,6 +174,7 @@ impl Default for MmtLanguageServer {
             service: LanguageService::default(),
             projections: ProjectionStore::default(),
             published_project_entries: HashMap::new(),
+            projection_errors: HashMap::new(),
             preview_on_change: false,
             typst_language_features: false,
             lifecycle: ServerLifecycle::Created,
@@ -329,6 +331,9 @@ impl MmtLanguageServer {
             "mmt/getTypstProject" => {
                 let params: GetTypstProjectParams = decode(params)?;
                 let Some(document) = self.projections.get(&params.uri) else {
+                    if let Some(error) = self.projection_errors.get(&params.uri) {
+                        return Err(error.clone());
+                    }
                     return Ok(Value::Null);
                 };
                 let update = document.project_update();
@@ -508,6 +513,7 @@ impl MmtLanguageServer {
                 });
                 self.service.close(&uri);
                 self.projections.remove(&uri);
+                self.projection_errors.remove(&uri);
                 let mut events = vec![publish_diagnostics(uri.clone(), None, Vec::new())];
                 if let Some(entry_uri) = entry_uri {
                     events.push(ServerEvent {
@@ -672,18 +678,22 @@ impl MmtLanguageServer {
                 &mmt_rs::StaticPresetCatalog::default(),
             )
         };
-        if let Err(error) = result {
-            self.projections.remove(uri);
-            return Some(
-                ServerError {
+        match result {
+            Ok(_) => {
+                self.projection_errors.remove(uri);
+                None
+            }
+            Err(error) => {
+                self.projections.remove(uri);
+                let error = ServerError {
                     code: -32603,
                     message: format!("failed to build Typst projection: {error:?}"),
                     data: Some(serde_json::json!({"uri": uri, "revision": document.revision})),
-                }
-                .log_event("mmt/projection"),
-            );
+                };
+                self.projection_errors.insert(uri.clone(), error.clone());
+                Some(error.log_event("mmt/projection"))
+            }
         }
-        None
     }
 }
 
@@ -956,6 +966,79 @@ mod tests {
             )
             .unwrap();
         assert!(missing.is_null());
+    }
+
+    #[test]
+    fn opens_multiline_typ_block_and_returns_current_typst_project() {
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+        let uri = lsp_types::Url::parse("file:///workspace/test.mmt").unwrap();
+        let events = server
+            .notification(
+                "textDocument/didOpen",
+                serde_json::json!({
+                    "textDocument": {
+                        "uri": uri.clone(),
+                        "languageId": "mmt",
+                        "version": 1,
+                        "text": "@typ\n#let accent = rgb(\"#24324a\")\n#let a=1\n#a\n@end"
+                    }
+                }),
+            )
+            .unwrap();
+
+        assert!(
+            !events.iter().any(|event| {
+                event.method == "window/logMessage"
+                    && event.params["message"]
+                        .as_str()
+                        .is_some_and(|message| message.starts_with("mmt/projection:"))
+            }),
+            "unexpected projection error: {events:?}",
+        );
+        let project = server
+            .request(
+                "mmt/getTypstProject",
+                serde_json::json!({"uri": uri.clone()}),
+            )
+            .unwrap();
+        assert!(!project.is_null(), "projection was not retained");
+        assert_eq!(project["sourceUri"], uri.as_str());
+        assert!(
+            project["files"]
+                .as_array()
+                .is_some_and(
+                    |files| files
+                        .iter()
+                        .any(|file| file["text"].as_str().is_some_and(|text| {
+                            text.contains("#let accent = rgb(\"#24324a\")")
+                                && text.contains("#let a=1")
+                                && text.contains("#a")
+                        }))
+                ),
+            "Typst project omitted the multiline @typ body: {project}",
+        );
+    }
+
+    #[test]
+    fn get_typst_project_returns_the_recorded_projection_error() {
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+        let uri = lsp_types::Url::parse("file:///workspace/failed.mmt").unwrap();
+        server.projection_errors.insert(
+            uri.clone(),
+            ServerError {
+                code: -32603,
+                message: "failed to build Typst projection: invalid boundary".to_string(),
+                data: Some(serde_json::json!({"uri": uri, "revision": 1})),
+            },
+        );
+
+        let error = server
+            .request("mmt/getTypstProject", serde_json::json!({"uri": uri}))
+            .unwrap_err();
+        assert_eq!(error.code, -32603);
+        assert!(error.message.contains("invalid boundary"));
     }
 
     #[test]
