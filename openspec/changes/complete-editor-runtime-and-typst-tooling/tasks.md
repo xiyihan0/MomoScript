@@ -1,0 +1,202 @@
+## 0. Prerequisite closure and characterization
+
+- [ ] 0.1 Complete `add-mmt-lsp-vscode` tasks 10.1–10.7 and record their focused test evidence
+- [ ] 0.2 Complete the `add-workspace-storage-history-sync` workspace backend and journaled atomic batch/preimage contract before runtime cutover or multi-document edits
+- [ ] 0.3 Complete `add-pwa-offline-runtime` task 0.2 ownership handoff before production Web cutover; gate artifact identity、quiesce and persistent package cache separately on their owning PWA contracts
+- [ ] 0.4 Capture complete normalized `initialize` results from the pinned native Tinymist process artifact
+- [ ] 0.5 Capture complete normalized `initialize` results and dynamic registrations from the pinned browser Tinymist Worker artifact
+- [ ] 0.6 Capture native/Web package-callback message shape、cancellation and error transcripts; require artifact upgrade or maintained patch if logical host callbacks are unavailable
+- [ ] 0.7 Capture native/Web preview/location method、artifact digest and coordinate-version evidence
+- [ ] 0.8 Generate checked capability manifests containing artifact digest, backend version, position encoding, provider options and experimental methods
+- [ ] 0.9 Diff native/Web manifests and classify every provider as core-required, host-optional, deferred or unavailable
+- [ ] 0.10 Remove any capability claim not supported by an explicitly enumerated provider and successful positive/negative method transcripts
+- [ ] 0.11 Inventory current runtime maps, listeners, timers, queues, AbortControllers, Workers, processes and dispose ownership
+- [ ] 0.12 Add behavior-preserving Worker/process project lifecycle fixtures before extraction
+- [ ] 0.13 Add current standalone and embedded baseline transcripts for diagnostics, completion, hover, signature help and semantic tokens
+- [ ] 0.14 Record the accepted Tinymist artifact upgrade/patch decision if a desired core provider、package callback or location contract is missing
+
+## 1. Snapshot identity and position domains
+
+- [ ] 1.1 Define shared protocol types for `LogicalSourceId`, `SourceContentKey`, local-only `SourceStaleToken`, `TypstProjectSnapshotKey`, `ProjectionKey`, `MaterializationKey`, `RuntimeArtifactKey` and `RenderKey`
+- [ ] 1.2 Prove canonical derived keys transitively exclude host URI、document-incarnation nonce and editor-local version; retain all three only in request publish/apply guards and retire the nonce on close
+- [ ] 1.3 Define canonical length-delimited SHA-256 serialization independent of map/filesystem order and platform separators
+- [ ] 1.4 Add complete workspace-file, package-generation, generated-dependency and project-option digests to every Typst project snapshot
+- [ ] 1.5 Define structured `LogicalProjectFileId` variants for workspace、package and generated files; canonical project serialization MUST reject presentation/backend URIs as digest inputs
+- [ ] 1.6 Add byte-for-byte parity fixtures for identical logical projects mounted as Desktop `file:`、Web `mmtfs:` and backend-internal URIs
+- [ ] 1.7 Add project and mapping digests to `mmt/getTypstProject` responses
+- [ ] 1.8 Add pack registry, resource plan and materialized byte digests to render-project results
+- [ ] 1.9 Generate runtime artifact keys from compiler, renderer, template bundle and bundled font-set versions/digests
+- [ ] 1.10 Introduce typed MMT-client, UTF-8-byte and Tinymist-backend position domains in Rust and TypeScript boundaries
+- [ ] 1.11 Convert projected requests through current source and projected `LineIndex` instances rather than passing plain positions
+- [ ] 1.12 Convert responses against the exact retained virtual file and complete Typst project generation used by the request
+- [ ] 1.13 Reject invalid boundaries, absent generations, stale projects/projections and encoding ambiguity without clamping
+- [ ] 1.14 Add Chinese, combining mark and astral Unicode round-trip fixtures for every position-bearing protocol family
+- [ ] 1.15 Add canonical logical-identity/digest fixtures shared by Rust and TypeScript and prove `file:`/`mmtfs:` parity
+
+## 2. Shared runtime and project state
+
+- [ ] 2.1 Introduce `TinymistTransport` with Worker and process implementations limited to JSON-RPC transport lifecycle
+- [ ] 2.2 Extract open/applied/retained project file state from both Tinymist clients into shared `TypstProjectState`
+- [ ] 2.3 Extract accepted session/revision and retired-session rules into shared state
+- [ ] 2.4 Extract project prime debounce, in-flight tokens and close-grace scheduling into shared state
+- [ ] 2.5 Implement per-source full/delta/retire state transitions and invariant errors
+- [ ] 2.6 Implement backend generation tracking and reject responses from stopped/restarted generations
+- [ ] 2.7 Materialize latest accepted full+deltas into one complete newest-revision project and replay only that representation after Worker/process restart
+- [ ] 2.8 Implement bounded request, prime, close and replay queues with cancellation
+- [ ] 2.9 Introduce `EditorRuntimeController` with serialized startup, reverse-order rollback, ready, quiesce and dispose states
+- [ ] 2.10 Move production Web document/project/preview/materialization subscriptions under the controller
+- [ ] 2.11 Replace related `main.ts` maps with coordinator-owned typed stores
+- [ ] 2.12 Implement graceful dispose deadline and synchronous terminate fallback for unload/HMR
+- [ ] 2.13 Connect PWA safe-restart quiesce only after the owning PWA contract is complete, without defining a second lifecycle
+- [ ] 2.14 Prove native process, browser Worker, Desktop Host and Web Host retain baseline behavior after cutover
+- [ ] 2.15 Delete duplicated project lifecycle state from Worker/process clients
+
+## 3. Generic Typst feature router
+
+- [ ] 3.1 Introduce runtime capability registry from initialize results and dynamic registrations
+- [ ] 3.2 Implement generic request metadata containing backend generation, logical source/content identity, local document-incarnation/version stale token, complete Typst project snapshot, projection key and request sequence
+- [ ] 3.3 Reject every standalone/projected response when its complete project graph changes, even if the requesting document version is unchanged
+- [ ] 3.4 Implement standalone Typst routing with explicit backend position conversion
+- [ ] 3.5 Implement MMT-first routing and current projected-position lookup
+- [ ] 3.6 Migrate completion, hover and signature help to the router without changing results
+- [ ] 3.7 Migrate Typst diagnostics and semantic tokens to shared request/revision handling
+- [ ] 3.8 Preserve completion item defaults, resolve data and trigger/retrigger characters from negotiated capabilities
+- [ ] 3.9 Expose user-visible unavailable state instead of registering commands/providers that always fail
+- [ ] 3.10 Add provider-registration tests for native/Web capability differences
+
+## 4. Qualified standalone Typst authoring features
+
+Every item in this section is enabled only if the active artifact advertises the provider. P0 items require native/Web convergence before completion.
+
+- [ ] 4.1 Implement standalone go-to-definition and link navigation
+- [ ] 4.2 Implement standalone references with cancellation and partial-result handling
+- [ ] 4.3 Implement standalone prepare-rename and versioned rename workspace edits
+- [ ] 4.4 Implement standalone full and range formatting and configure format-on-save only after a successful transcript
+- [ ] 4.5 Implement standalone Typst document symbols
+- [ ] 4.6 Implement type-definition and implementation routes when advertised
+- [ ] 4.7 Implement workspace symbols and optional symbol resolve when advertised
+- [ ] 4.8 Implement document highlights when advertised
+- [ ] 4.9 Implement selection ranges when advertised
+- [ ] 4.10 Implement document links and link resolve when advertised
+- [ ] 4.11 Implement document colors and color presentations when advertised
+- [ ] 4.12 Implement code actions and resolve when advertised
+- [ ] 4.13 Implement inlay hints and resolve when advertised
+- [ ] 4.14 Implement code lenses and resolve when advertised; keep disabled if artifacts do not qualify
+- [ ] 4.15 Route edits、commands and URIs carried by color presentations, inlay hints, code lenses and document links through the same snapshot、target and allowlist validator
+- [ ] 4.16 Strip an unsafe optional field only when the protocol proves the remaining item semantically complete; otherwise reject the item
+- [ ] 4.17 Add negative transcripts for unsafe color edits、inlay-hint commands、code-lens commands and stale link targets
+- [ ] 4.18 Add one native process and one browser Worker transcript per enabled provider
+
+## 5. Projected read features
+
+- [ ] 5.1 Add Rust mapping result kinds for authored MMT, workspace Typst, package file, generated projection and stale/unknown locations
+- [ ] 5.2 Add read-only URI content providers for retained virtual projection and package generations
+- [ ] 5.3 Map definition targets to authored MMT Identity ranges or explicit read-only virtual files
+- [ ] 5.4 Map references item by item only where method semantics permit partial safe results
+- [ ] 5.5 Map type-definition and implementation locations when the provider is qualified
+- [ ] 5.6 Map document highlights conservatively and discard stale/unsafe ranges
+- [ ] 5.7 Map nested selection ranges until the first unsafe ancestor
+- [ ] 5.8 Map document links, colors, hints and lenses only under method-specific safe rules, validating every nested edit、command and URI payload
+- [ ] 5.9 Hide generated projection symbols and deduplicate authored MMT/Typst workspace symbols
+- [ ] 5.10 Keep package files read-only and restrict visibility to active project dependencies
+- [ ] 5.11 Add fixtures for Identity, Synthetic, Escaped, MacroExpansion, cross-segment and retired-generation results
+- [ ] 5.12 Prove MMT-native results retain precedence over Typst fallback
+
+## 6. Atomic projected edit features
+
+- [ ] 6.1 Define `ProjectedEditTransaction` protocol and Rust validator
+- [ ] 6.2 Decode every backend range using the exact retained virtual document and encoding
+- [ ] 6.3 Require every projection edit to lie wholly in one current Identity segment
+- [ ] 6.4 Reject edits to templates, packages, generated wrappers, materialized resources and read-only virtual files
+- [ ] 6.5 Normalize URIs and reject overlapping edits before returning a workspace edit
+- [ ] 6.6 Version every edited writable document and reject changed versions before application
+- [ ] 6.7 Implement projected prepare-rename with current Identity placeholder validation
+- [ ] 6.8 Implement projected single-document rename first; enable multi-document rename only after journaled `WorkspaceCoordinator.atomicApply` rollback qualifies
+- [ ] 6.9 Implement embedded Typst range formatting only within one Identity segment
+- [ ] 6.10 Keep MMT full-document formatting outside Tinymist and disable embedded format-on-save composition
+- [ ] 6.11 Implement code-action edit mapping only when all edits validate atomically
+- [ ] 6.12 Add a shared allowlist for command-bearing code actions and reject host-I/O commands
+- [ ] 6.13 Surface `UnsafeEdit`, `StaleProjection`, `ReadOnlyTarget` and `CapabilityUnavailable` distinctly
+- [ ] 6.14 Add adversarial rename/format/code-action fixtures with mixed safe/unsafe edits, overlaps and concurrent changes
+- [ ] 6.15 Prove applying an edit advances documents only through standard `didChange`
+- [ ] 6.16 Capture preimages, journal the complete batch, commit all targets and restore every preimage on injected mid-commit failure
+- [ ] 6.17 Reject multi-document projected edits as capability unavailable until atomic apply/rollback passes focused failure fixtures
+
+## 7. Host-mediated Typst packages
+
+- [ ] 7.1 Define versioned `mmt/typstPackageRequest.v1` request/response/cancellation schemas with backend generation and complete project snapshot identity
+- [ ] 7.2 Add explicit Worker and process dispatcher branches and native/Web transcripts for the package callback
+- [ ] 7.3 Define `PackageSpec`, registry adapter, cache adapter and dependency graph interfaces
+- [ ] 7.4 Parse fully versioned `@preview/name:version` imports without allowing source-authored arbitrary URLs
+- [ ] 7.5 Define Web and Desktop registry configuration and workspace-trust behavior for local namespaces
+- [ ] 7.6 Implement coalesced package requests and cancellation by active dependent projects
+- [ ] 7.7 Enforce HTTPS, status, redirect allowlist, content type and compressed-size limits
+- [ ] 7.8 Verify declared archive size and SHA-256 when distribution metadata provides them
+- [ ] 7.9 Stream downloads to staging without unbounded whole-response copies
+- [ ] 7.10 Reject archive traversal, absolute paths, links/devices, duplicate/case-fold paths and unknown entry types
+- [ ] 7.11 Enforce expanded-size, file-count and per-file bounds
+- [ ] 7.12 Validate `typst.toml` namespace/name/version and require every path-bearing field, including `entrypoint`, to resolve to an existing regular file inside package root
+- [ ] 7.13 Add absolute、parent-traversing、missing and non-file entrypoint fixtures
+- [ ] 7.14 Activate immutable package generations atomically and preserve the last valid generation on failure
+- [ ] 7.15 Mount package files through an internal read-only URI scheme and inject explicit virtual dependencies
+- [ ] 7.16 Keep `mmt_rs`, `mmt_lsp` and Tinymist backend network-free
+- [ ] 7.17 Emit an authored-range dependency diagnostic only for a unique import site; otherwise emit document-level package/dependency-chain diagnostics
+- [ ] 7.18 Register Web package cache through `OriginStorageCoordinator` only after its owning PWA contract exists
+- [ ] 7.19 Include package generation and build-pinned bundled font-set digests in project/render identities
+- [ ] 7.20 Add native/Web fixtures for callback cancellation/errors, cached offline resolution, concurrent requests and every archive/manifest rejection boundary
+
+## 8. Preview state and navigation
+
+- [ ] 8.1 Introduce `PreviewDocumentState`, immutable `PreviewArtifact` and byte-bounded artifact cache
+- [ ] 8.2 Normalize renderer output into validated page records and page geometry
+- [ ] 8.3 Negotiate a `LocationProviderKey` containing backend/trace artifact digest, generation, method and coordinate version, or retain an immutable location map per artifact
+- [ ] 8.4 Bind every location request/response and `PreviewArtifact` to both `RenderKey` and `LocationProviderKey`
+- [ ] 8.5 Add debounced editor-to-preview positioning for standalone Typst
+- [ ] 8.6 Map MMT selection through current projection before editor-to-preview positioning
+- [ ] 8.7 Select the candidate location nearest the currently visible page and show a bounded visual indicator
+- [ ] 8.8 Add preview-to-source navigation to authored MMT, workspace Typst or read-only virtual dependency files
+- [ ] 8.9 Add cursor overlay and remove it when source/render identities diverge
+- [ ] 8.10 Report viewport changes using normalized page-relative coordinates
+- [ ] 8.11 Persist per-workspace/source zoom, fit mode and viewport without generated DOM IDs
+- [ ] 8.12 Add fit-page and preserve existing fit-width/manual zoom
+- [ ] 8.13 Add capability-gated incremental update batches with full-refresh fallback on gaps or reordering
+- [ ] 8.14 Add capability-gated partial rendering without allowing mixed-render-key pages
+- [ ] 8.15 Add outline presentation only from authored symbols or safely mapped locations
+- [ ] 8.16 Add Desktop/Web interaction fixtures for navigation, stale preview, multi-document switching and renderer recovery
+- [ ] 8.17 Reject navigation against an old displayed artifact after provider restart/version change unless that artifact retains an immutable location map
+
+## 9. Exact-snapshot export
+
+- [ ] 9.1 Bind displayed SVG, page geometry and renderer inputs to immutable `RenderKey`
+- [ ] 9.2 Mark displayed preview stale immediately when authored source or any render dependency advances
+- [ ] 9.3 Export SVG/PNG/JPEG only from the displayed sanitized SVG artifact
+- [ ] 9.4 Reconstruct PDF compilation from immutable files/resources/fonts/runtime represented by the displayed key
+- [ ] 9.5 Fail with `ArtifactUnavailable` rather than using mutable current shadow files after eviction
+- [ ] 9.6 Offer explicit `export displayed revision` or `wait for latest` when preview is stale
+- [ ] 9.7 Reject export from partial or failed preview state
+- [ ] 9.8 Add races for export during source edit, materialization, render completion and backend/runtime update
+- [ ] 9.9 Verify output metadata and content correspond to the requested `RenderKey`
+
+## 10. Diagnostics, status and observability
+
+- [ ] 10.1 Consume the existing unified live/resolve/preview diagnostic phases without a parallel collection
+- [ ] 10.2 Publish package failures as source-bound preview/build diagnostics when current source content and document-incarnation stale tokens exist
+- [ ] 10.3 Publish global runtime artifact/startup failures in runtime status and Output, not document syntax diagnostics
+- [ ] 10.4 Verify the coordinator continues consuming the existing durable resource/preview Problems entries and optional summary notifications without creating a second publisher or collection
+- [ ] 10.5 Expose active backend version, artifact digest prefix, position encoding, recovery state and queued project count
+- [ ] 10.6 Expose stale preview/export state and unsafe edit reasons to users
+- [ ] 10.7 Add structured debug records keyed by request, projection and render identities without logging source/package contents
+- [ ] 10.8 Prove old revision diagnostics, status and preview results cannot overwrite current state
+
+## 11. Cross-host parity and cutover
+
+- [ ] 11.1 Generate the final native/Web capability matrix from captured manifests and passing transcripts
+- [ ] 11.2 Run shared standalone Typst provider fixtures against native process and browser Worker
+- [ ] 11.3 Run shared projected read/edit fixtures through Desktop and Web Extension Hosts
+- [ ] 11.4 Run production standalone Web E2E for persistence, package, preview navigation and exact-snapshot export
+- [ ] 11.5 Exercise backend restart, HMR, unload and PWA quiesce paths with no leaked Worker/process or stale publication
+- [ ] 11.6 Exercise Unicode, cancellation, queue bounds and retained-generation eviction on every host
+- [ ] 11.7 Confirm Desktop/Web semantic parity for every core-required capability by normalized logical identity and render-key components, excluding host URI scheme and local version counters
+- [ ] 11.8 Document intentional host-optional differences and hide unsupported UI commands
+- [ ] 11.9 Delete superseded Web maps, duplicated Worker/process state and feature-specific lifecycle code
+- [ ] 11.10 Update implementation-status sections only after focused verification evidence exists
