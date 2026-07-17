@@ -30,6 +30,10 @@ export interface ResourceMaterializationDependencies {
   decodeSequence(bytes: Uint8Array, resource: ImageSequenceResource, signal: AbortSignal): Promise<Uint8Array>;
   encodeBase64(bytes: Uint8Array): string;
 }
+export interface ResourceMaterializationDiagnostic {
+  phase: "fetch" | "decode";
+  message: string;
+}
 
 export async function materializeProjectResources(
   project: TypstRenderProjectUpdate,
@@ -38,12 +42,12 @@ export async function materializeProjectResources(
   signal: AbortSignal,
   dependencies: ResourceMaterializationDependencies,
   limits: ResourceMaterializationLimits = DEFAULT_LIMITS
-): Promise<{ project: TypstRenderProjectUpdate; errors: string[] }> {
+): Promise<{ project: TypstRenderProjectUpdate; diagnostics: ResourceMaterializationDiagnostic[] }> {
   const files = [...project.files];
-  const errors: string[] = [];
+  const diagnostics: ResourceMaterializationDiagnostic[] = [];
   if (project.resources.length > limits.maxResources) {
-    errors.push(`Project requests ${project.resources.length} resources; limit is ${limits.maxResources}`);
-    return { project: { ...project, files }, errors };
+    diagnostics.push({ phase: "fetch", message: `Project requests ${project.resources.length} resources; limit is ${limits.maxResources}` });
+    return { project: { ...project, files }, diagnostics };
   }
   let retainedSequenceBytes = 0;
   let retainedBase64Bytes = 0;
@@ -51,10 +55,11 @@ export async function materializeProjectResources(
   for (const resource of project.resources) {
     if (resource.kind === "workspace-file") {
       if (!files.some((file) => file.uri === resource.uri)) {
-        errors.push(`Workspace resource '${resource.fileName}' was not mirrored`);
+        diagnostics.push({ phase: "fetch", message: `Workspace resource '${resource.fileName}' was not mirrored` });
       }
       continue;
     }
+    let phase: ResourceMaterializationDiagnostic["phase"] = "fetch";
     try {
       const source = sources.get(resource.packNamespace);
       if (!source) throw new Error(`Pack source '${resource.packNamespace}' is unavailable`);
@@ -76,9 +81,14 @@ export async function materializeProjectResources(
               return sequence;
             }
           );
-        const materialized = resource.kind === "image-dir"
-          ? bytes
-          : await dependencies.decodeSequence(bytes.slice(), resource, signal);
+        let materialized: Uint8Array;
+        if (resource.kind === "image-dir") {
+          materialized = bytes;
+        } else {
+          phase = "decode";
+          materialized = await dependencies.decodeSequence(bytes.slice(), resource, signal);
+          phase = "fetch";
+        }
         const transientBytes = resource.kind === "image-dir" ? bytes.byteLength : materialized.byteLength;
         dataBase64 = dependencies.encodeBase64(materialized);
         const base64Bytes = dataBase64.length * 2;
@@ -96,13 +106,14 @@ export async function materializeProjectResources(
       files.push({ uri: resource.uri, dataBase64 });
     } catch (error) {
       if (signal.aborted) throw error;
-      errors.push(
-        `Failed to materialize character resource: ${error instanceof Error ? error.message : String(error)}`
-      );
+      diagnostics.push({
+        phase,
+        message: `Failed to materialize character resource: ${error instanceof Error ? error.message : String(error)}`
+      });
       if (error instanceof ResourceBudgetError) break;
     }
   }
-  return { project: { ...project, files }, errors };
+  return { project: { ...project, files }, diagnostics };
 }
 
 function assertResourceBudget(bytes: number, limits: ResourceMaterializationLimits): void {

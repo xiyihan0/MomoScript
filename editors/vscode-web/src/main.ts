@@ -33,6 +33,7 @@ import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
 import { projectionSessionKey } from "../../vscode/src/tinymistClient";
 import { sanitizeSvg, TypstPreviewController, type TypstExportFormat } from "./preview";
+import { PreviewBuildState } from "./previewDiagnostics";
 import { RuntimeOwner, disposeWithFallback, terminateOnUnload } from "./runtimeOwner";
 import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest, TypstVirtualFile } from "../../vscode/src/tinymistClient";
 
@@ -243,20 +244,24 @@ async function start(): Promise<void> {
   let previewPanelTitle = "MomoScript 预览";
   let previewPanelDisposeRegistration: vscode.Disposable | undefined;
   let previewPanelMessageRegistration: vscode.Disposable | undefined;
+  const previewBuildState = new PreviewBuildState();
   const preview = new TypstPreviewController(layout.preview, {
-    status(message, error) {
+    status(message, error, revision) {
+      if (revision && !previewBuildState.isCurrent(revision)) return;
+      if (error && revision) previewBuildState.fail(revision, "render-layout", message);
       const scope = message.includes("WASM") ? "wasm" : (error ? "preview:error" : "preview");
       log(scope, message);
       if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, error);
     },
     rendered(svg, revision, shadowCount, pageSize) {
-      log("preview", `Rendered revision ${revision} with ${shadowCount} virtual files`);
+      if (!previewBuildState.isCurrent(revision)) return;
+      log("preview", `Rendered revision ${revision.revision} with ${shadowCount} virtual files`);
       if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, svg, "", false, pageSize);
     }
   });
   const previewProjects = new Map<string, TypstRenderProjectUpdate>();
   const packSourcesByNamespace = new Map<string, MaterializationPackSource>();
-  const latestProjectBySource = new Map<string, { session: string; revision: number }>();
+  const latestProjectBySource = new Map<string, { session: string; sourceVersion: number; revision: number }>();
   const retiredProjectSessions = new Map<string, Set<string>>();
   const materializationControllers = new Map<string, AbortController>();
   const materializedResourceCache = new BoundedStringCache(MATERIALIZED_RESOURCE_CACHE_MAX_BYTES);
@@ -282,6 +287,7 @@ async function start(): Promise<void> {
       const entry = project.files.find((file) => file.uri === project.entryUri);
       return { sourceVersion: project.sourceVersion, text: entry?.text };
     });
+    Reflect.set(globalThis, "__mmtPreviewBuildDiagnostics", (sourceUri: string) => previewBuildState.diagnostics(sourceUri));
   }
   let displayedPreviewSourceUri: string | undefined;
   if (import.meta.env.VITE_MMT_E2E === "1") {
@@ -302,6 +308,7 @@ async function start(): Promise<void> {
     latestLanguageProjectionBySource.delete(sourceUri);
     retiredLanguageProjectionSessions.delete(sourceUri);
     renderRequestIdBySource.delete(sourceUri);
+    previewBuildState.clear(sourceUri);
     if (displayedPreviewSourceUri === sourceUri) previewPanel?.dispose();
   };
   try {
@@ -392,20 +399,25 @@ async function start(): Promise<void> {
     if ((!latest || latest.session !== session) && !project.full) return;
     if (
       latest?.session === session
-      && (project.revision < latest.revision || (!replaceSameRevision && project.revision === latest.revision))
+      && (project.revision < latest.revision
+        || (project.revision === latest.revision && project.sourceVersion !== latest.sourceVersion)
+        || (!replaceSameRevision && project.revision === latest.revision))
     ) return;
     if (latest && latest.session !== session) {
       const nextRetiredSessions = retiredSessions ?? new Set<string>();
       nextRetiredSessions.add(latest.session);
       retiredProjectSessions.set(project.sourceUri, nextRetiredSessions);
     }
-    latestProjectBySource.set(project.sourceUri, { session, revision: project.revision });
+    latestProjectBySource.set(project.sourceUri, { session, sourceVersion: project.sourceVersion, revision: project.revision });
+    const projectRevision = { sourceUri: project.sourceUri, sourceVersion: project.sourceVersion, revision: project.revision };
+    previewBuildState.activate(projectRevision);
+    if (displayedPreviewSourceUri === project.sourceUri) preview.invalidate();
     materializationControllers.get(project.sourceUri)?.abort();
     const controller = new AbortController();
     materializationControllers.set(project.sourceUri, controller);
-    const mirroredProject = await mirrorWorkspaceFiles(project, project, controller.signal);
     let prepared;
     try {
+      const mirroredProject = await mirrorWorkspaceFiles(project, project, controller.signal);
       const limits = configuredResourceLimits();
       log("resources", `Materializing ${project.resources.length} resources for revision ${project.revision} (file ${limits.maxFileBytes} bytes, project ${limits.maxProjectBytes} bytes)`);
       prepared = await materializeProjectResources(
@@ -421,14 +433,34 @@ async function start(): Promise<void> {
       );
     } catch (error) {
       if (controller.signal.aborted) return;
-      throw error;
+      const failedCurrent = latestProjectBySource.get(project.sourceUri);
+      if (
+        failedCurrent?.session !== session
+        || failedCurrent.sourceVersion !== project.sourceVersion
+        || failedCurrent.revision !== project.revision
+      ) return;
+      const message = `Failed to fetch preview workspace resources: ${error instanceof Error ? error.message : String(error)}`;
+      previewBuildState.fail(projectRevision, "fetch", message);
+      log("resources:fetch:error", message);
+      void vscode.window.showWarningMessage(`Preview fetch failed: ${message}`);
+      if (displayedPreviewSourceUri === project.sourceUri && previewPanel) {
+        previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
+      }
+      return;
     }
     const current = latestProjectBySource.get(project.sourceUri);
-    if (current?.session !== session || current.revision !== project.revision) return;
-    if (prepared.errors.length > 0) {
-      console.error("MomoScript preview resources failed", prepared.errors);
-      void vscode.window.showWarningMessage(prepared.errors[0]);
-      for (const error of prepared.errors) log("resources:error", error);
+    if (
+      current?.session !== session
+      || current.sourceVersion !== project.sourceVersion
+      || current.revision !== project.revision
+    ) return;
+    if (prepared.diagnostics.length > 0) {
+      for (const diagnostic of prepared.diagnostics) {
+        previewBuildState.fail(projectRevision, diagnostic.phase, diagnostic.message);
+        log(`resources:${diagnostic.phase}:error`, diagnostic.message);
+      }
+      const first = prepared.diagnostics[0];
+      void vscode.window.showWarningMessage(`Preview ${first.phase} failed: ${first.message}`);
     }
     previewProjects.set(project.sourceUri, prepared.project);
     if (displayedPreviewSourceUri === project.sourceUri && previewPanel) {
@@ -470,6 +502,7 @@ async function start(): Promise<void> {
         !renderProject
         || renderProject.entryUri !== token.entryUri
         || renderProject.revision !== token.revision
+        || renderProject.sourceVersion !== token.sourceVersion
       ) return;
       await applyProject(renderProject, force);
     } catch (error) {
@@ -555,7 +588,7 @@ async function start(): Promise<void> {
       if (!tracked) return;
       if (tracked.advanced) tinymist?.backend.syncProject(project);
       void schedulePreviewIfEnabled(activeClient!, project.sourceUri, tracked.token).catch((error: unknown) => {
-        console.error("MomoScript preview materialization failed", error);
+        log("preview:error", error instanceof Error ? error.message : String(error));
       });
     }));
     own(activeClient.onNotification(
@@ -652,6 +685,7 @@ async function start(): Promise<void> {
       const project = await buildTypstProject(document, typstRevisions);
       typstProjects.set(sourceUri, project);
       tinymist?.backend.syncProject(project);
+      previewBuildState.activate({ sourceUri: project.sourceUri, sourceVersion: project.sourceVersion, revision: project.revision });
       await preview.update(project);
       return;
     }
@@ -734,7 +768,7 @@ async function start(): Promise<void> {
     const token = sourceUri ? latestLanguageProjectionBySource.get(sourceUri) : undefined;
     if (!sourceUri || !token) return;
     if (activeClient) void schedulePreviewIfEnabled(activeClient, sourceUri, token).catch((error: unknown) => {
-      console.error("MomoScript preview materialization failed", error);
+      log("preview:error", error instanceof Error ? error.message : String(error));
     });
   }));
   const packUrls = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]);

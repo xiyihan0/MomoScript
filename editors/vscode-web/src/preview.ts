@@ -9,6 +9,7 @@ import jetBrainsMonoUrl from "../../vscode/vendor/fonts/JetBrainsMono-Regular.tt
 import mathUrl from "../../vscode/vendor/fonts/NewCMMath-Regular.otf?url";
 
 import type { TypstProjectUpdate } from "../../vscode/src/tinymistClient";
+import { isCurrentPreviewUpdate, type PreviewRevision } from "./previewDiagnostics";
 const compilerWasmUrl = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.7.0-rc2/acac51459fa84907843d7a1927ae7b6fc5c743d5de4f61473c866829c9c46e2d/typst_ts_web_compiler_bg.wasm?delivery=zstd-v1";
 
 
@@ -37,8 +38,8 @@ let initialized = false;
 let compilerModule: WebAssembly.Module | undefined;
 
 export interface TypstPreviewEvents {
-  status(message: string, error: boolean): void;
-  rendered(svg: string, revision: number, shadowCount: number, pageSize: { width: number; height: number }): void;
+  status(message: string, error: boolean, revision?: PreviewRevision): void;
+  rendered(svg: string, revision: PreviewRevision, shadowCount: number, pageSize: { width: number; height: number }): void;
 }
 export type TypstExportFormat = "pdf" | "png" | "jpg" | "svg";
 
@@ -131,6 +132,11 @@ export class TypstPreviewController {
     return { blob: await rasterizeSvg(exportSvg, pageSize, mime), extension: format };
   }
 
+  invalidate(): void {
+    this.generation += 1;
+    this.pending = undefined;
+  }
+
   async update(project: TypstProjectUpdate): Promise<void> {
     this.generation += 1;
     this.closeRequested = false;
@@ -180,12 +186,12 @@ export class TypstPreviewController {
   }
 
   private async render(project: TypstProjectUpdate, generation: number): Promise<void> {
-    const revision = project.revision;
+    const revision = { sourceUri: project.sourceUri, sourceVersion: project.sourceVersion, revision: project.revision };
     const nextPaths = new Set(project.files.map((file) => virtualPath(file.uri)));
     const mappedThisAttempt = new Set<string>();
-    this.showStatus("Rendering preview…");
+    this.showStatus("Rendering preview…", false, revision, generation);
     try {
-      await initializeTypst((message) => this.showStatus(message));
+      await initializeTypst((message) => this.showStatus(message, false, revision, generation));
       for (const file of project.files) {
         const path = virtualPath(file.uri);
         const data = file.text === undefined ? decodeBase64(file.dataBase64) : encoder.encode(file.text);
@@ -193,7 +199,7 @@ export class TypstPreviewController {
         mappedThisAttempt.add(path);
       }
       const svg = await $typst.svg({ mainFilePath: virtualPath(project.entryUri) });
-      if (generation !== this.generation || this.pending) {
+      if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) {
         await this.unmapAbandonedPaths(mappedThisAttempt);
         return;
       }
@@ -230,7 +236,7 @@ export class TypstPreviewController {
       inlineSvg.setAttribute("aria-label", "Rendered MomoScript preview");
       inlineSvg.setAttribute("width", "100%");
       inlineSvg.setAttribute("height", "100%");
-      if (generation !== this.generation || this.pending) {
+      if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) {
         await this.unmapAbandonedPaths(mappedThisAttempt);
         return;
       }
@@ -244,15 +250,15 @@ export class TypstPreviewController {
       this.content.replaceChildren(inlineSvg);
       this.viewport.replaceChildren(this.canvas);
       this.setZoom(this.zoom);
-      this.container.dataset.previewRevision = String(revision);
+      this.container.dataset.previewRevision = String(project.revision);
       this.container.dataset.previewShadowCount = String(this.mappedPaths.size);
       this.container.dataset.previewReady = "true";
       this.events?.rendered(inlineSvg.outerHTML, revision, this.mappedPaths.size, this.pageSize);
     } catch (error) {
       await this.unmapAbandonedPaths(mappedThisAttempt);
-      if (generation !== this.generation || this.pending) return;
+      if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) return;
       this.container.dataset.previewReady = "false";
-      this.showStatus(`Preview failed: ${error instanceof Error ? error.message : String(error)}`, true);
+      this.showStatus(`Preview failed: ${error instanceof Error ? error.message : String(error)}`, true, revision, generation);
     }
   }
 
@@ -262,11 +268,12 @@ export class TypstPreviewController {
     }
   }
 
-  private showStatus(message: string, error = false): void {
+  private showStatus(message: string, error = false, revision?: PreviewRevision, generation?: number): void {
+    if (generation !== undefined && !isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) return;
     const status = document.createElement("div");
     status.className = error ? "typst-preview-status error" : "typst-preview-status";
     status.textContent = message;
-    this.events?.status(message, error);
+    this.events?.status(message, error, revision);
     this.viewport.replaceChildren(status);
   }
 }

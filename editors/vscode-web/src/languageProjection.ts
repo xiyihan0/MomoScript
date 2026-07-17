@@ -3,6 +3,7 @@ import type { TypstProjectUpdate } from "../../vscode/src/tinymistClient";
 export interface LanguageProjectionToken {
   entryUri: string;
   session: string;
+  sourceVersion: number;
   revision: number;
 }
 
@@ -55,7 +56,7 @@ export async function waitForSynchronizedLanguageProjection<T extends { sourceVe
 
 
 export function advanceLanguageProjection(
-  project: Pick<TypstProjectUpdate, "sourceUri" | "entryUri" | "revision" | "full">,
+  project: Pick<TypstProjectUpdate, "sourceUri" | "sourceVersion" | "entryUri" | "revision" | "full">,
   session: string,
   latestBySource: Map<string, LanguageProjectionToken>,
   retiredSessionsBySource: Map<string, Set<string>>
@@ -67,6 +68,7 @@ export function advanceLanguageProjection(
   if (latest?.session === session) {
     if (project.revision < latest.revision) return undefined;
     if (project.revision === latest.revision) {
+      if (project.sourceVersion !== latest.sourceVersion) return undefined;
       return project.entryUri === latest.entryUri
         ? { token: latest, advanced: false }
         : undefined;
@@ -77,7 +79,7 @@ export function advanceLanguageProjection(
     nextRetiredSessions.add(latest.session);
     retiredSessionsBySource.set(project.sourceUri, nextRetiredSessions);
   }
-  const token = { entryUri: project.entryUri, session, revision: project.revision };
+  const token = { entryUri: project.entryUri, session, sourceVersion: project.sourceVersion, revision: project.revision };
   latestBySource.set(project.sourceUri, token);
   return { token, advanced: true };
 }

@@ -71,7 +71,7 @@ const result = await materializeProjectResources(
   dependencies
 );
 
-assert.deepEqual(result.errors, []);
+assert.deepEqual(result.diagnostics, []);
 assert.equal(fetches, 1, "two frames from one sequence must fetch the AVIFS once per materialization");
 assert.deepEqual(decodedInputs, [[1, 2, 3], [1, 2, 3]], "each decoder must receive an intact copy");
 assert.deepEqual(result.project.files.map((file) => file.dataBase64), ["10", "11"]);
@@ -87,7 +87,8 @@ const countLimited = await materializeProjectResources(
   { maxResources: 1, maxBytes: 100 }
 );
 assert.equal(countLimited.project.files.length, 0);
-assert.match(countLimited.errors[0], /2 resources; limit is 1/);
+assert.match(countLimited.diagnostics[0].message, /2 resources; limit is 1/);
+assert.equal(countLimited.diagnostics[0].phase, "fetch");
 
 const byteLimited = await materializeProjectResources(
   { ...project, resources: [resource(3, 0)] },
@@ -98,12 +99,35 @@ const byteLimited = await materializeProjectResources(
   { maxResources: 2, maxBytes: 5 }
 );
 assert.equal(byteLimited.project.files.length, 0);
-assert.match(byteLimited.errors[0], /memory budget exceeds 5 bytes/);
+assert.match(byteLimited.diagnostics[0].message, /memory budget exceeds 5 bytes/);
+assert.equal(byteLimited.diagnostics[0].phase, "fetch");
+
+const failedFetch = await materializeProjectResources(
+  { ...project, resources: [resource(4, 0)] },
+  new Map([["fixture", source]]),
+  { get: () => undefined, set: () => {} },
+  new AbortController().signal,
+  { ...dependencies, fetch: async () => { throw new Error("network unavailable"); } }
+);
+assert.deepEqual(failedFetch.diagnostics.map(({ phase }) => phase), ["fetch"]);
+assert.match(failedFetch.diagnostics[0].message, /network unavailable/);
+
+const failedDecode = await materializeProjectResources(
+  { ...project, resources: [resource(5, 0)] },
+  new Map([["fixture", source]]),
+  { get: () => undefined, set: () => {} },
+  new AbortController().signal,
+  { ...dependencies, decodeSequence: async () => { throw new Error("invalid AVIFS"); } }
+);
+assert.deepEqual(failedDecode.diagnostics.map(({ phase }) => phase), ["decode"]);
+assert.match(failedDecode.diagnostics[0].message, /invalid AVIFS/);
 
 console.log(JSON.stringify({
   materializationFetches: fetches,
   decoderCopies: decodedInputs.length,
   maxActiveDecoders,
   countBudget: true,
-  byteBudget: true
+  byteBudget: true,
+  fetchPhase: true,
+  decodePhase: true
 }));
