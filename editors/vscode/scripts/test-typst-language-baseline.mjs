@@ -61,7 +61,7 @@ const projects = new Map([
     sourceVersion: 3,
     revision: 3,
     full: true,
-    files: []
+    files: [{ uri: "logical:/standalone.typ", text: "line\nabcd" }]
   }],
   ["untitled:/fixture/embedded/main-7.typ", {
     sourceUri: "logical-source:embedded",
@@ -69,7 +69,7 @@ const projects = new Map([
     sourceVersion: 4,
     revision: 7,
     full: true,
-    files: []
+    files: [{ uri: "untitled:/fixture/embedded/main-7.typ", text: "a\nb\nabcdefg" }]
   }]
 ]);
 
@@ -130,7 +130,8 @@ const client = {
       return {
         entryUri: "untitled:/fixture/embedded/main-7.typ",
         revision: 7,
-        position: { line: params.position.line, character: params.position.character }
+        position: { line: params.position.line, character: params.position.character },
+        positionEncoding: "utf-16"
       };
     }
     if (method === "mmt/mapTypstCompletion") {
@@ -162,8 +163,16 @@ assert.equal(
 );
 connectTypstBackend(client, backend);
 
-const standalone = { languageId: "typst", uri: { toString: () => "logical:/standalone.typ" } };
-const embedded = { languageId: "mmt", uri: { toString: () => "logical-source:embedded" } };
+const standalone = {
+  languageId: "typst",
+  uri: { toString: () => "logical:/standalone.typ" },
+  getText: () => "line\nabcd"
+};
+const embedded = {
+  languageId: "mmt",
+  uri: { toString: () => "logical-source:embedded" },
+  getText: () => "a\nb\nabcdefg"
+};
 const completionContext = { triggerKind: 1 };
 const signatureContext = { triggerKind: 1, triggerCharacter: "(", isRetrigger: false };
 

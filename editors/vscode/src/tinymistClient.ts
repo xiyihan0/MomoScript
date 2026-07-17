@@ -113,11 +113,6 @@ export function mergeProjectFiles(current: TypstVirtualFile[], changed: TypstVir
   return [...files.values()];
 }
 
-export interface ProjectedPosition {
-  revision: number;
-  entryUri: string;
-  position: { line: number; character: number };
-}
 
 export interface TinymistHostBackend {
   on(method: string, handler: (params: unknown) => void): void;

@@ -1,8 +1,9 @@
 use std::io::{BufRead, BufReader, Read, Write};
 use std::process::{ChildStdin, ChildStdout, Command, Stdio};
 
-use lsp_types::{Hover, PositionEncodingKind, Url};
+use lsp_types::{Hover, Url};
 use mmt_lsp::{LanguageService, ProjectionStore};
+use mmt_lsp::position::PositionEncoding;
 use mmt_rs::{EmitOptions, StaticPresetCatalog, project_text};
 use serde_json::{Value, json};
 
@@ -189,8 +190,12 @@ fn fixed_tinymist_sidecar_handles_a_virtual_document_transcript() {
         let document = store.upsert(source_uri, &snapshot).unwrap();
         assert!(
             document
-                .typst_range_to_mmt(range, &PositionEncodingKind::UTF16)
-                .is_some(),
+                .typst_range_to_mmt(
+                    range,
+                    PositionEncoding::Utf16,
+                    PositionEncoding::Utf16,
+                )
+                .is_ok(),
             "Tinymist hover range is not safely mappable: {range:?}"
         );
     }

@@ -13,13 +13,17 @@ use lsp_types::{
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::{LanguageService, ProjectionStore, build_render_project};
+use crate::{
+    LanguageService, ProjectionStore, build_render_project,
+    position::{MmtClientPosition, PositionEncoding},
+};
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct TypstPositionParams {
     text_document: TextDocumentIdentifier,
     position: Position,
+    backend_encoding: PositionEncoding,
 }
 
 #[derive(Debug, Deserialize)]
@@ -27,6 +31,8 @@ struct TypstPositionParams {
 struct MapTypstCompletionParams {
     source_uri: Url,
     revision: u64,
+    entry_uri: Url,
+    backend_encoding: PositionEncoding,
     items: Vec<CompletionItem>,
 }
 
@@ -35,6 +41,8 @@ struct MapTypstCompletionParams {
 struct MapTypstHoverParams {
     source_uri: Url,
     revision: u64,
+    entry_uri: Url,
+    backend_encoding: PositionEncoding,
     hover: Hover,
 }
 
@@ -43,6 +51,8 @@ struct MapTypstHoverParams {
 struct MapTypstDiagnosticsParams {
     source_uri: Url,
     revision: u64,
+    entry_uri: Url,
+    backend_encoding: PositionEncoding,
     diagnostics: Vec<Diagnostic>,
 }
 
@@ -252,41 +262,51 @@ impl MmtLanguageServer {
             }
             "mmt/typstPosition" => {
                 let params: TypstPositionParams = decode(params)?;
+                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding()) else {
+                    return Ok(Value::Null);
+                };
                 encode(self.projections.project_position(
                     &params.text_document.uri,
-                    params.position,
-                    self.service.encoding(),
-                ))
+                    MmtClientPosition::new(params.position),
+                    client_encoding,
+                    params.backend_encoding,
+                ).ok())
             }
             "mmt/mapTypstCompletion" => {
                 let params: MapTypstCompletionParams = decode(params)?;
-                let Some(document) = self.projections.get(&params.source_uri) else {
+                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding()) else {
                     return Ok(Value::Null);
                 };
-                if document.revision != params.revision {
+                let Ok(document) = self.projections.response_generation(
+                    &params.source_uri,
+                    &params.entry_uri,
+                    params.revision,
+                ) else {
                     return Ok(Value::Null);
-                }
-                encode(
-                    params
-                        .items
-                        .into_iter()
-                        .filter_map(|item| {
-                            document.map_completion_item(item, self.service.encoding())
-                        })
-                        .collect::<Vec<_>>(),
-                )
+                };
+                let mapped = params.items.into_iter().map(|item| {
+                    document.map_completion_item(item, params.backend_encoding, client_encoding)
+                }).collect::<Result<Vec<_>, _>>();
+                encode(mapped.ok())
             }
             "mmt/mapTypstHover" => {
                 let mut params: MapTypstHoverParams = decode(params)?;
-                let Some(document) = self.projections.get(&params.source_uri) else {
+                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding()) else {
                     return Ok(Value::Null);
                 };
-                if document.revision != params.revision {
+                let Ok(document) = self.projections.response_generation(
+                    &params.source_uri,
+                    &params.entry_uri,
+                    params.revision,
+                ) else {
                     return Ok(Value::Null);
-                }
+                };
                 if let Some(range) = params.hover.range {
-                    let Some(mapped) = document.typst_range_to_mmt(range, self.service.encoding())
-                    else {
+                    let Ok(mapped) = document.typst_range_to_mmt(
+                        range,
+                        params.backend_encoding,
+                        client_encoding,
+                    ) else {
                         return Ok(Value::Null);
                     };
                     params.hover.range = Some(mapped);
@@ -295,21 +315,20 @@ impl MmtLanguageServer {
             }
             "mmt/mapTypstDiagnostics" => {
                 let params: MapTypstDiagnosticsParams = decode(params)?;
-                let Some(document) = self.projections.get(&params.source_uri) else {
+                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding()) else {
                     return Ok(Value::Null);
                 };
-                if document.revision != params.revision {
+                let Ok(document) = self.projections.response_generation(
+                    &params.source_uri,
+                    &params.entry_uri,
+                    params.revision,
+                ) else {
                     return Ok(Value::Null);
-                }
-                encode(
-                    params
-                        .diagnostics
-                        .into_iter()
-                        .filter_map(|diagnostic| {
-                            document.map_diagnostic(diagnostic, self.service.encoding())
-                        })
-                        .collect::<Vec<_>>(),
-                )
+                };
+                let mapped = params.diagnostics.into_iter().map(|diagnostic| {
+                    document.map_diagnostic(diagnostic, params.backend_encoding, client_encoding)
+                }).collect::<Result<Vec<_>, _>>();
+                encode(mapped.ok())
             }
             "mmt/getTypstProject" => {
                 let params: GetTypstProjectParams = decode(params)?;
@@ -1148,7 +1167,8 @@ mod tests {
                 "mmt/typstPosition",
                 serde_json::json!({
                     "textDocument": {"uri": uri.clone()},
-                    "position": {"line": 1, "character": 8}
+                    "position": {"line": 1, "character": 8},
+                    "backendEncoding": "utf-16"
                 }),
             )
             .unwrap();
@@ -1159,6 +1179,8 @@ mod tests {
                 serde_json::json!({
                     "sourceUri": uri.clone(),
                     "revision": route["revision"],
+                    "entryUri": route["entryUri"],
+                    "backendEncoding": route["positionEncoding"],
                     "items": [{
                         "label": "greet",
                         "textEdit": {
@@ -1190,6 +1212,8 @@ mod tests {
                 serde_json::json!({
                     "sourceUri": uri,
                     "revision": route["revision"],
+                    "entryUri": route["entryUri"],
+                    "backendEncoding": route["positionEncoding"],
                     "items": []
                 }),
             )

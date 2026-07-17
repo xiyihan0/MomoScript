@@ -1,5 +1,5 @@
 use base64::Engine;
-use std::{collections::{BTreeMap, HashMap}, sync::Arc};
+use std::{collections::{BTreeMap, HashMap, VecDeque}, sync::Arc};
 
 use lsp_types::{
     CompletionItem, CompletionTextEdit, Diagnostic, InsertReplaceEdit, Position,
@@ -15,7 +15,13 @@ use mmt_rs::{
 };
 use serde::{Deserialize, Serialize};
 
-use crate::{position::LineIndex, service::DocumentSnapshot};
+use crate::{
+    position::{
+        LineIndex, MmtClientPosition, PositionConversionError, PositionEncoding,
+        TinymistBackendPosition, Utf8ByteOffset, Utf8ByteRange,
+    },
+    service::DocumentSnapshot,
+};
 
 const EMBEDDED_TEMPLATE_TEXT_FILES: &[(&str, &str)] = &[
     (
@@ -182,6 +188,7 @@ pub struct ProjectedPosition {
     pub revision: u64,
     pub entry_uri: Url,
     pub position: Position,
+    pub position_encoding: PositionEncoding,
 }
 
 #[derive(Debug, Clone)]
@@ -339,41 +346,51 @@ impl ProjectionDocument {
 
     pub fn mmt_position_to_typst(
         &self,
-        position: Position,
-        encoding: &PositionEncodingKind,
-    ) -> Option<Position> {
-        let mmt_offset = self.source_lines.offset(&self.source, position, encoding)?;
-        let typst_offset = self.projection.index.mmt_to_typst(mmt_offset)?;
-        self.typst_lines
-            .position(&self.projection.emitted.source, typst_offset, encoding)
+        position: MmtClientPosition,
+        client_encoding: PositionEncoding,
+        backend_encoding: PositionEncoding,
+    ) -> Result<TinymistBackendPosition, PositionConversionError> {
+        let mmt_offset = self.source_lines.mmt_offset(position, client_encoding)?;
+        let typst_offset = self
+            .projection
+            .index
+            .mmt_to_typst(mmt_offset.get())
+            .map(Utf8ByteOffset::new)
+            .ok_or(PositionConversionError::ProjectionMismatch)?;
+        self.typst_lines.backend_position(typst_offset, backend_encoding)
     }
 
     pub fn typst_range_to_mmt(
         &self,
         range: Range,
-        encoding: &PositionEncodingKind,
-    ) -> Option<Range> {
-        let typst_range = mmt_rs::source::TextRange::new(
-            self.typst_lines
-                .offset(&self.projection.emitted.source, range.start, encoding)?,
-            self.typst_lines
-                .offset(&self.projection.emitted.source, range.end, encoding)?,
-        );
-        let mmt_range = self.projection.index.typst_to_mmt(typst_range)?;
-        self.source_lines.range(&self.source, mmt_range, encoding)
+        backend_encoding: PositionEncoding,
+        client_encoding: PositionEncoding,
+    ) -> Result<Range, PositionConversionError> {
+        let typst_range = self.typst_lines.backend_range(range, backend_encoding)?;
+        let mmt_range = self
+            .projection
+            .index
+            .typst_to_mmt(typst_range.into_text_range())
+            .ok_or(PositionConversionError::ProjectionMismatch)?;
+        self.source_lines.mmt_range(
+            Utf8ByteRange::new(
+                Utf8ByteOffset::new(mmt_range.start),
+                Utf8ByteOffset::new(mmt_range.end),
+            )?,
+            client_encoding,
+        )
     }
 
     pub fn typst_edit_to_mmt(
         &self,
         edit: TextEdit,
-        encoding: &PositionEncodingKind,
-    ) -> Option<TextEdit> {
-        let typst_range = mmt_rs::source::TextRange::new(
-            self.typst_lines
-                .offset(&self.projection.emitted.source, edit.range.start, encoding)?,
-            self.typst_lines
-                .offset(&self.projection.emitted.source, edit.range.end, encoding)?,
-        );
+        backend_encoding: PositionEncoding,
+        client_encoding: PositionEncoding,
+    ) -> Result<TextEdit, PositionConversionError> {
+        let typst_range = self
+            .typst_lines
+            .backend_range(edit.range, backend_encoding)?
+            .into_text_range();
         let mapped = self
             .projection
             .index
@@ -381,11 +398,15 @@ impl ProjectionDocument {
                 range: typst_range,
                 new_text: edit.new_text,
             })
-            .ok()?;
-        Some(TextEdit {
-            range: self
-                .source_lines
-                .range(&self.source, mapped.range, encoding)?,
+            .map_err(|_| PositionConversionError::ProjectionMismatch)?;
+        Ok(TextEdit {
+            range: self.source_lines.mmt_range(
+                Utf8ByteRange::new(
+                    Utf8ByteOffset::new(mapped.range.start),
+                    Utf8ByteOffset::new(mapped.range.end),
+                )?,
+                client_encoding,
+            )?,
             new_text: mapped.new_text,
         })
     }
@@ -393,15 +414,16 @@ impl ProjectionDocument {
     pub fn map_completion_item(
         &self,
         mut item: CompletionItem,
-        encoding: &PositionEncodingKind,
-    ) -> Option<CompletionItem> {
+        backend_encoding: PositionEncoding,
+        client_encoding: PositionEncoding,
+    ) -> Result<CompletionItem, PositionConversionError> {
         item.text_edit = match item.text_edit {
             Some(CompletionTextEdit::Edit(edit)) => Some(CompletionTextEdit::Edit(
-                self.typst_edit_to_mmt(edit, encoding)?,
+                self.typst_edit_to_mmt(edit, backend_encoding, client_encoding)?,
             )),
             Some(CompletionTextEdit::InsertAndReplace(edit)) => {
-                let insert = self.typst_range_to_mmt(edit.insert, encoding)?;
-                let replace = self.typst_range_to_mmt(edit.replace, encoding)?;
+                let insert = self.typst_range_to_mmt(edit.insert, backend_encoding, client_encoding)?;
+                let replace = self.typst_range_to_mmt(edit.replace, backend_encoding, client_encoding)?;
                 Some(CompletionTextEdit::InsertAndReplace(InsertReplaceEdit {
                     new_text: edit.new_text,
                     insert,
@@ -414,54 +436,66 @@ impl ProjectionDocument {
             item.additional_text_edits = Some(
                 edits
                     .into_iter()
-                    .map(|edit| self.typst_edit_to_mmt(edit, encoding))
-                    .collect::<Option<Vec<_>>>()?,
+                    .map(|edit| self.typst_edit_to_mmt(edit, backend_encoding, client_encoding))
+                    .collect::<Result<Vec<_>, _>>()?,
             );
         }
-        Some(item)
+        Ok(item)
     }
 
     pub fn map_diagnostic(
         &self,
         mut diagnostic: Diagnostic,
-        encoding: &PositionEncodingKind,
-    ) -> Option<Diagnostic> {
-        diagnostic.range = self.typst_diagnostic_range_to_mmt(diagnostic.range, encoding)?;
-        diagnostic.related_information = diagnostic.related_information.map(|information| {
-            information
-                .into_iter()
-                .filter_map(|mut related| {
-                    if related.location.uri != self.entry_uri {
-                        return None;
-                    }
-                    related.location.uri = self.source_uri.clone();
-                    related.location.range =
-                        self.typst_range_to_mmt(related.location.range, encoding)?;
-                    Some(related)
-                })
-                .collect()
-        });
+        backend_encoding: PositionEncoding,
+        client_encoding: PositionEncoding,
+    ) -> Result<Diagnostic, PositionConversionError> {
+        diagnostic.range = self.typst_diagnostic_range_to_mmt(
+            diagnostic.range,
+            backend_encoding,
+            client_encoding,
+        )?;
+        if let Some(information) = diagnostic.related_information.take() {
+            let mut mapped = Vec::new();
+            for mut related in information {
+                if related.location.uri != self.entry_uri {
+                    continue;
+                }
+                related.location.uri = self.source_uri.clone();
+                related.location.range = self.typst_range_to_mmt(
+                    related.location.range,
+                    backend_encoding,
+                    client_encoding,
+                )?;
+                mapped.push(related);
+            }
+            diagnostic.related_information = Some(mapped);
+        }
         diagnostic.source = Some("typst".to_string());
-        Some(diagnostic)
+        Ok(diagnostic)
     }
 
     fn typst_diagnostic_range_to_mmt(
         &self,
         range: Range,
-        encoding: &PositionEncodingKind,
-    ) -> Option<Range> {
-        let typst_range = mmt_rs::source::TextRange::new(
-            self.typst_lines
-                .offset(&self.projection.emitted.source, range.start, encoding)?,
-            self.typst_lines
-                .offset(&self.projection.emitted.source, range.end, encoding)?,
-        );
+        backend_encoding: PositionEncoding,
+        client_encoding: PositionEncoding,
+    ) -> Result<Range, PositionConversionError> {
+        let typst_range = self
+            .typst_lines
+            .backend_range(range, backend_encoding)?
+            .into_text_range();
         if let Some(mapped) = self.projection.index.typst_to_mmt(typst_range) {
-            return self.source_lines.range(&self.source, mapped, encoding);
+            return self.source_lines.mmt_range(
+                Utf8ByteRange::new(
+                    Utf8ByteOffset::new(mapped.start),
+                    Utf8ByteOffset::new(mapped.end),
+                )?,
+                client_encoding,
+            );
         }
 
         // Semantic diagnostics can include generated call wrappers. Prefer the
-        // authored patch inside that span instead of dropping the diagnostic.
+        // single authored patch inside that span; multiple candidates are ambiguous.
         let mut authored = self.projection.index.segments().iter().filter(|segment| {
             segment.mapping == MappingMode::Identity
                 && matches!(
@@ -471,16 +505,28 @@ impl ProjectionDocument {
                 && segment.typst_range.start < typst_range.end
                 && typst_range.start < segment.typst_range.end
         });
-        let segment = authored.next()?;
+        let segment = authored
+            .next()
+            .ok_or(PositionConversionError::ProjectionMismatch)?;
         if authored.next().is_some() {
-            return None;
+            return Err(PositionConversionError::AmbiguousMapping);
         }
         let overlap = mmt_rs::source::TextRange::new(
             segment.typst_range.start.max(typst_range.start),
             segment.typst_range.end.min(typst_range.end),
         );
-        let mapped = self.projection.index.typst_to_mmt(overlap)?;
-        self.source_lines.range(&self.source, mapped, encoding)
+        let mapped = self
+            .projection
+            .index
+            .typst_to_mmt(overlap)
+            .ok_or(PositionConversionError::ProjectionMismatch)?;
+        self.source_lines.mmt_range(
+            Utf8ByteRange::new(
+                Utf8ByteOffset::new(mapped.start),
+                Utf8ByteOffset::new(mapped.end),
+            )?,
+            client_encoding,
+        )
     }
 }
 
@@ -669,9 +715,12 @@ pub fn build_render_project(
     })
 }
 
+const RETAINED_POSITION_GENERATIONS: usize = 2;
+
 #[derive(Debug)]
 pub struct ProjectionStore {
     documents: HashMap<Url, ProjectionDocument>,
+    retained: HashMap<Url, VecDeque<ProjectionDocument>>,
     session_id: String,
     next_revision: u64,
 }
@@ -680,6 +729,7 @@ impl Default for ProjectionStore {
     fn default() -> Self {
         Self {
             documents: HashMap::new(),
+            retained: HashMap::new(),
             next_revision: 1,
             session_id: uuid::Uuid::new_v4().simple().to_string(),
         }
@@ -704,23 +754,27 @@ impl ProjectionStore {
             &EmitOptions::default(),
         )?;
         let typst_lines = LineIndex::new(&projection.emitted.source);
-        self.documents.insert(
-            source_uri.clone(),
-            ProjectionDocument {
-                source_uri: source_uri.clone(),
-                source_version: snapshot.version,
-                source_revision: snapshot.revision,
-                pack_revision: snapshot.pack_revision,
-                pack_registry_digest: snapshot.pack_registry_digest.clone(),
-                revision,
-                entry_uri,
-                source: snapshot.text.clone(),
-                analysis: Arc::clone(&snapshot.analysis),
-                projection,
-                source_lines: Arc::clone(&snapshot.lines),
-                typst_lines,
-            },
-        );
+        let next = ProjectionDocument {
+            source_uri: source_uri.clone(),
+            source_version: snapshot.version,
+            source_revision: snapshot.revision,
+            pack_revision: snapshot.pack_revision,
+            pack_registry_digest: snapshot.pack_registry_digest.clone(),
+            revision,
+            entry_uri,
+            source: snapshot.text.clone(),
+            analysis: Arc::clone(&snapshot.analysis),
+            projection,
+            source_lines: Arc::clone(&snapshot.lines),
+            typst_lines,
+        };
+        if let Some(previous) = self.documents.insert(source_uri.clone(), next) {
+            let retained = self.retained.entry(source_uri.clone()).or_default();
+            retained.push_back(previous);
+            while retained.len() > RETAINED_POSITION_GENERATIONS {
+                retained.pop_front();
+            }
+        }
         Ok(&self.documents[&source_uri])
     }
 
@@ -728,21 +782,77 @@ impl ProjectionStore {
         self.documents.get(source_uri)
     }
 
+    pub fn generation(
+        &self,
+        source_uri: &Url,
+        entry_uri: &Url,
+        revision: u64,
+    ) -> Result<&ProjectionDocument, PositionConversionError> {
+        let candidates = self
+            .documents
+            .get(source_uri)
+            .into_iter()
+            .chain(self.retained.get(source_uri).into_iter().flatten())
+            .filter(|document| document.entry_uri == *entry_uri && document.revision == revision)
+            .collect::<Vec<_>>();
+        match candidates.as_slice() {
+            [] => {
+                let has_related_generation = self
+                    .documents
+                    .get(source_uri)
+                    .into_iter()
+                    .chain(self.retained.get(source_uri).into_iter().flatten())
+                    .any(|document| document.entry_uri == *entry_uri || document.revision == revision);
+                Err(if has_related_generation {
+                    PositionConversionError::ProjectionMismatch
+                } else {
+                    PositionConversionError::AbsentGeneration
+                })
+            }
+            [document] => Ok(document),
+            _ => Err(PositionConversionError::AmbiguousGeneration),
+        }
+    }
+
+    pub fn response_generation(
+        &self,
+        source_uri: &Url,
+        entry_uri: &Url,
+        revision: u64,
+    ) -> Result<&ProjectionDocument, PositionConversionError> {
+        let document = self.generation(source_uri, entry_uri, revision)?;
+        let current = self
+            .documents
+            .get(source_uri)
+            .ok_or(PositionConversionError::AbsentGeneration)?;
+        if current.entry_uri != document.entry_uri || current.revision != document.revision {
+            return Err(PositionConversionError::StaleProjection);
+        }
+        Ok(document)
+    }
+
     pub fn remove(&mut self, source_uri: &Url) {
         self.documents.remove(source_uri);
+        self.retained.remove(source_uri);
     }
 
     pub fn project_position(
         &self,
         source_uri: &Url,
-        position: Position,
-        encoding: &PositionEncodingKind,
-    ) -> Option<ProjectedPosition> {
-        let document = self.get(source_uri)?;
-        Some(ProjectedPosition {
+        position: MmtClientPosition,
+        client_encoding: PositionEncoding,
+        backend_encoding: PositionEncoding,
+    ) -> Result<ProjectedPosition, PositionConversionError> {
+        let document = self
+            .get(source_uri)
+            .ok_or(PositionConversionError::AbsentGeneration)?;
+        Ok(ProjectedPosition {
             revision: document.revision,
             entry_uri: document.entry_uri.clone(),
-            position: document.mmt_position_to_typst(position, encoding)?,
+            position: document
+                .mmt_position_to_typst(position, client_encoding, backend_encoding)?
+                .into_lsp(),
+            position_encoding: backend_encoding,
         })
     }
 }
@@ -837,21 +947,30 @@ mod tests {
             .position(&source, offset, &PositionEncodingKind::UTF16)
             .unwrap();
         let projected = document
-            .mmt_position_to_typst(position, &PositionEncodingKind::UTF16)
-            .unwrap();
+            .mmt_position_to_typst(
+                MmtClientPosition::new(position),
+                PositionEncoding::Utf16,
+                PositionEncoding::Utf16,
+            )
+            .unwrap()
+            .into_lsp();
         let edit = document
             .typst_edit_to_mmt(
                 TextEdit::new(Range::new(projected, projected), "theme".to_string()),
-                &PositionEncodingKind::UTF16,
+                PositionEncoding::Utf16,
+                PositionEncoding::Utf16,
             )
             .unwrap();
         assert_eq!(edit.range.start, position);
 
         let generated = Range::new(Position::new(0, 0), Position::new(0, 0));
-        assert!(
-            document
-                .typst_range_to_mmt(generated, &PositionEncodingKind::UTF16)
-                .is_none()
+        assert_eq!(
+            document.typst_range_to_mmt(
+                generated,
+                PositionEncoding::Utf16,
+                PositionEncoding::Utf16,
+            ),
+            Err(PositionConversionError::ProjectionMismatch)
         );
 
         let completion = document
@@ -864,7 +983,8 @@ mod tests {
                     ))),
                     ..CompletionItem::default()
                 },
-                &PositionEncodingKind::UTF16,
+                PositionEncoding::Utf16,
+                PositionEncoding::Utf16,
             )
             .unwrap();
         let Some(CompletionTextEdit::Edit(completion_edit)) = completion.text_edit else {
@@ -875,7 +995,8 @@ mod tests {
         let diagnostic = document
             .map_diagnostic(
                 Diagnostic::new_simple(Range::new(projected, projected), "Typst error".to_string()),
-                &PositionEncodingKind::UTF16,
+                PositionEncoding::Utf16,
+                PositionEncoding::Utf16,
             )
             .unwrap();
         assert_eq!(diagnostic.range.start, position);
@@ -1057,7 +1178,8 @@ mod tests {
         let mapped = document
             .map_diagnostic(
                 Diagnostic::new_simple(generated_range, "unknown field".to_string()),
-                &PositionEncodingKind::UTF16,
+                PositionEncoding::Utf16,
+                PositionEncoding::Utf16,
             )
             .unwrap();
         let mapped = mmt_rs::source::TextRange::new(
@@ -1319,4 +1441,28 @@ mod tests {
         ));
         assert_eq!(service.analysis_cache_counts(), (3, 2));
     }
+    #[test]
+    fn duplicate_generation_is_rejected_as_ambiguous() {
+        let source_uri = uri();
+        let mut store = ProjectionStore::default();
+        let document = store
+            .upsert(
+                source_uri.clone(),
+                &snapshot(1, "@typ: #let value = 1", &StaticPresetCatalog::default()),
+            )
+            .unwrap()
+            .clone();
+        store
+            .retained
+            .entry(source_uri.clone())
+            .or_default()
+            .push_back(document.clone());
+        assert_eq!(
+            store
+                .generation(&source_uri, &document.entry_uri, document.revision)
+                .unwrap_err(),
+            PositionConversionError::AmbiguousGeneration
+        );
+    }
+
 }

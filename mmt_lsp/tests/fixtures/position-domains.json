@@ -1,0 +1,27 @@
+{
+  "text": "中文 é 😀\n下一行",
+  "boundaries": [
+    { "line": 0, "utf8": 0, "utf16": 0 },
+    { "line": 0, "utf8": 3, "utf16": 1 },
+    { "line": 0, "utf8": 6, "utf16": 2 },
+    { "line": 0, "utf8": 7, "utf16": 3 },
+    { "line": 0, "utf8": 8, "utf16": 4 },
+    { "line": 0, "utf8": 10, "utf16": 5 },
+    { "line": 0, "utf8": 11, "utf16": 6 },
+    { "line": 0, "utf8": 15, "utf16": 8 },
+    { "line": 1, "utf8": 0, "utf16": 0 },
+    { "line": 1, "utf8": 3, "utf16": 1 },
+    { "line": 1, "utf8": 6, "utf16": 2 },
+    { "line": 1, "utf8": 9, "utf16": 3 }
+  ],
+  "families": [
+    "request",
+    "location",
+    "range",
+    "edit",
+    "diagnostic",
+    "symbol",
+    "selectionRange",
+    "previewNavigation"
+  ]
+}

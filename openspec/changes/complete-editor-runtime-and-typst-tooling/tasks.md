@@ -44,13 +44,14 @@
   - Evidence: pack manifest JSON is canonicalized and snapshot-bound in Rust, render plans exclude presentation URIs, and Web materialization replaces the empty pre-materialization digest with the actual ordered bytes digest; Rust backend tests and Web `npm run check` pass.
 - [x] 1.9 Generate runtime artifact keys from compiler, renderer, template bundle and bundled font-set versions/digests
   - Evidence: the shared fixture proves compiler/renderer versions plus both artifact, template and font digests compose the same `RuntimeArtifactKey` and transitive `RenderKey` in Rust/TypeScript.
-- [ ] 1.10 Introduce typed MMT-client, UTF-8-byte and Tinymist-backend position domains in Rust and TypeScript boundaries
-- [ ] 1.11 Convert projected requests through current source and projected `LineIndex` instances rather than passing plain positions
+- [x] 1.10 Introduce typed MMT-client, UTF-8-byte and Tinymist-backend position domains in Rust and TypeScript boundaries
+- [x] 1.11 Convert projected requests through current source and projected `LineIndex` instances rather than passing plain positions
 - [ ] 1.12 Convert responses against the exact retained virtual file and complete Typst project generation used by the request
-- [ ] 1.13 Reject invalid boundaries, absent generations, stale projects/projections and encoding ambiguity without clamping
-- [ ] 1.14 Add Chinese, combining mark and astral Unicode round-trip fixtures for every position-bearing protocol family
-- [ ] 1.15 Add canonical logical-identity/digest fixtures shared by Rust and TypeScript and prove `file:`/`mmtfs:` parity
-  - Identity evidence: `cargo test --manifest-path mmt_rs/Cargo.toml --test runtime_identity` and `cd editors/vscode && npm run test:runtime-identity` consume the same checked fixture and match all identity/digest keys; keep unchecked until the position-domain half is integrated.
+- [x] 1.13 Reject invalid boundaries, absent generations, stale projects/projections and encoding ambiguity without clamping
+- [x] 1.14 Add Chinese, combining mark and astral Unicode round-trip fixtures for every position-bearing protocol family
+  - Position evidence: `cargo test --manifest-path mmt_lsp/Cargo.toml`, `npm run test:position-domains`, the focused `tsc` boundary check and `npm run test:typst-baseline` validate typed mixed-encoding conversion, exact retained `entryUri`/revision lookup, atomic stale/mismatch/ambiguity rejection and unchanged diagnostics/completion/hover/signature-help/semantic-token characterization. Task 1.12 remains open until the identity owner’s complete `TypstProjectSnapshotKey` is wired into response validation.
+- [x] 1.15 Add canonical logical-identity/digest fixtures shared by Rust and TypeScript and prove `file:`/`mmtfs:` parity
+  - Evidence: `cargo test --manifest-path mmt_rs/Cargo.toml --test runtime_identity` and `cd editors/vscode && npm run test:runtime-identity` consume the shared canonical identity fixture and match every digest across `file:`/`mmtfs:`/internal mounts; Rust and TypeScript also consume `mmt_lsp/tests/fixtures/position-domains.json` byte-for-byte for Chinese、combining-mark and astral boundary parity.
 
 ## 2. Shared runtime and project state
 

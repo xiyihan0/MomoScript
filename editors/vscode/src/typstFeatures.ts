@@ -12,10 +12,58 @@ import type {
 import {
   diagnosticVersionMatchesProjection,
   projectionRevisionIsCurrent,
-  type ProjectedPosition,
   type TinymistHostBackend,
   type TypstProjectUpdate
 } from "./tinymistClient";
+import {
+  LineIndex,
+  mmtClientPosition,
+  parseProjectedPosition,
+  retainedBackendPosition,
+  wireBackendPosition,
+  type RetainedBackendPosition
+} from "./typstPosition";
+
+const TINYMIST_POSITION_ENCODING = "utf-16" as const;
+
+function standaloneBackendPosition(
+  document: vscode.TextDocument,
+  position: vscode.Position,
+  activeClient: BaseLanguageClient
+): { line: number; character: number } {
+  const client = mmtClientPosition(
+    activeClient.code2ProtocolConverter.asPosition(position),
+    "utf-16"
+  );
+  return wireBackendPosition(
+    new LineIndex(document.getText()).convertClient(client, TINYMIST_POSITION_ENCODING)
+  );
+}
+
+async function projectedBackendPosition(
+  document: vscode.TextDocument,
+  position: vscode.Position,
+  token: vscode.CancellationToken,
+  activeClient: BaseLanguageClient,
+  backend: TinymistHostBackend
+): Promise<RetainedBackendPosition | null> {
+  const client = mmtClientPosition(
+    activeClient.code2ProtocolConverter.asPosition(position),
+    "utf-16"
+  );
+  const value = await activeClient.sendRequest<unknown>(
+    "mmt/typstPosition",
+    {
+      textDocument: { uri: document.uri.toString() },
+      position: client.value,
+      backendEncoding: TINYMIST_POSITION_ENCODING
+    },
+    token
+  );
+  if (value === null) return null;
+  const projected = parseProjectedPosition(value);
+  return retainedBackendPosition(projected, backend.projectForEntry(projected.entryUri));
+}
 
 async function requestWithCancellation<T>(
   backend: TinymistHostBackend,
@@ -52,7 +100,7 @@ export function installTypstMiddleware(
         const activeClient = client();
         const result = await requestWithCancellation<ProtocolCompletionItem[] | ProtocolCompletionList | null>(backend, "textDocument/completion", {
           textDocument: { uri: document.uri.toString() },
-          position: activeClient.code2ProtocolConverter.asPosition(position),
+          position: standaloneBackendPosition(document, position, activeClient),
           context: { triggerKind: completionContext.triggerKind, triggerCharacter: completionContext.triggerCharacter }
         }, token);
         return activeClient.protocol2CodeConverter.asCompletionResult(result, undefined, token);
@@ -61,20 +109,19 @@ export function installTypstMiddleware(
       if (Array.isArray(mmt) ? mmt.length > 0 : Boolean(mmt?.items.length)) return mmt;
       const activeClient = client();
       try {
-        const route = await activeClient.sendRequest<ProjectedPosition | null>(
-          "mmt/typstPosition",
-          {
-            textDocument: { uri: document.uri.toString() },
-            position: activeClient.code2ProtocolConverter.asPosition(position)
-          },
-          token
+        const route = await projectedBackendPosition(
+          document,
+          position,
+          token,
+          activeClient,
+          backend
         );
         if (!route) return mmt;
         const result = await requestWithCancellation<
           ProtocolCompletionItem[] | ProtocolCompletionList | null
         >(backend, "textDocument/completion", {
           textDocument: { uri: route.entryUri },
-          position: route.position,
+          position: wireBackendPosition(route.position),
           context: {
             triggerKind: completionContext.triggerKind,
             triggerCharacter: completionContext.triggerCharacter
@@ -86,6 +133,8 @@ export function installTypstMiddleware(
           {
             sourceUri: document.uri.toString(),
             revision: route.revision,
+            entryUri: route.entryUri,
+            backendEncoding: route.position.encoding,
             items
           },
           token
@@ -101,7 +150,7 @@ export function installTypstMiddleware(
         const activeClient = client();
         const hover = await requestWithCancellation<ProtocolHover | null>(backend, "textDocument/hover", {
           textDocument: { uri: document.uri.toString() },
-          position: activeClient.code2ProtocolConverter.asPosition(position)
+          position: standaloneBackendPosition(document, position, activeClient)
         }, token);
         return hover ? activeClient.protocol2CodeConverter.asHover(hover) : undefined;
       }
@@ -109,18 +158,17 @@ export function installTypstMiddleware(
       if (mmt) return mmt;
       const activeClient = client();
       try {
-        const route = await activeClient.sendRequest<ProjectedPosition | null>(
-          "mmt/typstPosition",
-          {
-            textDocument: { uri: document.uri.toString() },
-            position: activeClient.code2ProtocolConverter.asPosition(position)
-          },
-          token
+        const route = await projectedBackendPosition(
+          document,
+          position,
+          token,
+          activeClient,
+          backend
         );
         if (!route) return mmt;
         const hover = await requestWithCancellation<ProtocolHover | null>(backend, "textDocument/hover", {
           textDocument: { uri: route.entryUri },
-          position: route.position
+          position: wireBackendPosition(route.position)
         }, token);
         if (!hover) return undefined;
         const mapped = await activeClient.sendRequest<ProtocolHover | null>(
@@ -128,6 +176,8 @@ export function installTypstMiddleware(
           {
             sourceUri: document.uri.toString(),
             revision: route.revision,
+            entryUri: route.entryUri,
+            backendEncoding: route.position.encoding,
             hover
           },
           token
@@ -143,7 +193,7 @@ export function installTypstMiddleware(
         const activeClient = client();
         const signature = await requestWithCancellation<ProtocolSignatureHelp | null>(backend, "textDocument/signatureHelp", {
           textDocument: { uri: document.uri.toString() },
-          position: activeClient.code2ProtocolConverter.asPosition(position),
+          position: standaloneBackendPosition(document, position, activeClient),
           context: { triggerKind: signatureContext.triggerKind, triggerCharacter: signatureContext.triggerCharacter, isRetrigger: signatureContext.isRetrigger }
         }, token);
         return signature ? activeClient.protocol2CodeConverter.asSignatureHelp(signature, token) : undefined;
@@ -152,14 +202,12 @@ export function installTypstMiddleware(
       if (mmt) return mmt;
       const activeClient = client();
       try {
-        const params = {
-          textDocument: { uri: document.uri.toString() },
-          position: activeClient.code2ProtocolConverter.asPosition(position)
-        };
-        const route = await activeClient.sendRequest<ProjectedPosition | null>(
-          "mmt/typstPosition",
-          params,
-          token
+        const route = await projectedBackendPosition(
+          document,
+          position,
+          token,
+          activeClient,
+          backend
         );
         if (!route) return mmt;
         const signature = await requestWithCancellation<ProtocolSignatureHelp | null>(
@@ -169,10 +217,7 @@ export function installTypstMiddleware(
             textDocument: { uri: route.entryUri },
             // Tinymist 0.15.2 advances the supplied offset by one before
             // classifying the argument context, so point it at the trigger.
-            position: {
-              line: route.position.line,
-              character: Math.max(0, route.position.character - 1)
-            },
+            position: wireBackendPosition(route.index.previousScalar(route.position)),
             context: {
               triggerKind: signatureContext.triggerKind,
               triggerCharacter: signatureContext.triggerCharacter,
@@ -182,10 +227,12 @@ export function installTypstMiddleware(
           token
         );
         if (!signature) return undefined;
-        const current = await activeClient.sendRequest<ProjectedPosition | null>(
-          "mmt/typstPosition",
-          params,
-          token
+        const current = await projectedBackendPosition(
+          document,
+          position,
+          token,
+          activeClient,
+          backend
         );
         if (!current || current.revision !== route.revision) return undefined;
         if (!projectionRevisionIsCurrent(backend, route.entryUri, route.revision)) return undefined;
@@ -250,6 +297,8 @@ export function connectTypstBackend(
         {
           sourceUri: project.sourceUri,
           revision: project.revision,
+          entryUri: project.entryUri,
+          backendEncoding: TINYMIST_POSITION_ENCODING,
           diagnostics: params.diagnostics
         }
       );

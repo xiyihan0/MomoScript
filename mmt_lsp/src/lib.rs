@@ -1,4 +1,4 @@
-mod position;
+pub mod position;
 mod server;
 mod service;
 mod typst_backend;
