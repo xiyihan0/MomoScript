@@ -12,9 +12,10 @@ export function registerMmtLanguageEditing(): vscode.Disposable {
       const start = change.range.start;
       const line = event.document.lineAt(start.line).text;
       if (start.character < 1
-        || line.slice(start.character - 1, start.character + 2) !== "[:]") return [];
+        || line.slice(start.character - 1, start.character + 1) !== "[:") return [];
       const close = start.translate(0, 1);
-      return [new vscode.Range(close, close.translate(0, 1))];
+      const end = line.at(close.character) === "]" ? close.translate(0, 1) : close;
+      return [new vscode.Range(close, end)];
     });
     if (ranges.length === 0) return;
 

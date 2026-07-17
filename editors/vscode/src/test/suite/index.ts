@@ -77,12 +77,11 @@ export async function run(): Promise<void> {
   await vscode.commands.executeCommand("type", { text: "[" });
   await vscode.commands.executeCommand("type", { text: ":" });
   await waitFor(
-    () => markerDocument.getText() === "[::]" ? true : undefined,
-    "resource marker close was not extended in the extension host"
-  );
-  assert(
-    markerEditor.selection.active.isEqual(new vscode.Position(0, 2)),
-    "resource marker cursor was not kept between delimiters"
+    () => markerDocument.getText() === "[::]"
+      && markerEditor.selection.active.isEqual(new vscode.Position(0, 2))
+      ? true
+      : undefined,
+    "resource marker close and cursor did not settle between delimiters"
   );
   await vscode.commands.executeCommand("type", { text: "x" });
   await waitFor(
@@ -105,12 +104,11 @@ export async function run(): Promise<void> {
   await vscode.commands.executeCommand("type", { text: "[" });
   await vscode.commands.executeCommand("type", { text: ":" });
   await waitFor(
-    () => multiMarkerDocument.getText() === "[::]\n[::]" ? true : undefined,
-    "resource marker close was not extended for every extension-host cursor"
-  );
-  assert(
-    multiMarkerEditor.selections.every((selection) => selection.active.character === 2),
-    "resource marker cursors were not kept between delimiters"
+    () => multiMarkerDocument.getText() === "[::]\n[::]"
+      && multiMarkerEditor.selections.every((selection) => selection.active.character === 2)
+      ? true
+      : undefined,
+    "resource marker close and cursors did not settle for every extension-host cursor"
   );
   await vscode.commands.executeCommand("type", { text: "x" });
   await waitFor(
@@ -177,17 +175,12 @@ export async function run(): Promise<void> {
     content: "@typ\n#let greet(name) = [Hello #name]\n#greet(\"MMT\")\n#gre\n#let broken = (\n@end"
   });
   await vscode.window.showTextDocument(typstDocument);
-  let typstCompletion: vscode.CompletionList;
-  try {
-    typstCompletion = await waitForCompletion(
-      typstDocument,
-      new vscode.Position(3, 4),
-      "greet",
-      "=>"
-    );
-  } catch (error) {
-    throw new Error(error instanceof Error ? error.message : String(error));
-  }
+  const typstCompletion = await waitForCompletion(
+    typstDocument,
+    new vscode.Position(3, 4),
+    "greet",
+    "=>"
+  );
   assert(
     typstCompletion.items.some(
       (item) => completionLabel(item) === "greet" && item.detail?.includes("=>")
