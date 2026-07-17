@@ -77,6 +77,22 @@
 - [x] 10.6 消除 Web 标准 `didChange` + 同版本 `mmt/updateDocument` 的双路同步；保持 `version <= current.version` 幂等拒绝，不以同版本重建 snapshot
 - [x] 10.7 增加 live/render diagnostic 去重、pack resolve/planning、资源 I/O failure、runtime reload/HMR 与双路同步迁移的聚焦回归
 
+### Focused evidence for 10.1–10.7 (2026-07-17)
+
+Verified on branch `agent/w0-a` at closure baseline `952aff899c5a8ada7435429efa606c52bf0001e0`. The contiguous closure history is `09096fd`–`952aff8`; the contract-bearing implementation and regression commits are mapped below (the remaining commits in that range are design/status or style-only changes).
+
+| Task | Same-branch implementation / regression commits | Focused command and observed result |
+|---|---|---|
+| 10.1 | `e55090b`, `5f6d138` | `cargo test --manifest-path mmt_lsp/Cargo.toml publishes_complete_live_diagnostic_pipeline_without_duplicates` — 1 passed; `npm run test:worker` — normalized transcript reported `renderDiagnosticPhases=["resolve","semantic"]`, `renderDiagnosticCount=2`, `duplicateRenderPublication=false`. |
+| 10.2 | `70f0085` | `cargo test --manifest-path mmt_lsp/Cargo.toml language_and_render_reuse_analysis_and_invalidate_by_source_and_pack` — 1 passed, covering one analysis/line index per source revision, reuse by diagnostics/projection/render, and pack-only invalidation without rebuilding the line index. |
+| 10.3 | `e55090b`, `70f0085`, `5f6d138` | `cargo test --manifest-path mmt_lsp/Cargo.toml render_project_binds_planning_diagnostics_to_source_revision` — 1 passed; the Worker transcript above also preserved semantic/resolve phases and rejected a second live publication. |
+| 10.4 | `05dfcf0` | `npm run test:preview-diagnostics` — `phases=["fetch","decode","render-layout"]`, with stale initialization/failure/success all rejected; `npm run test:resource-materializer` — count/byte budgets passed and fetch/decode failures retained distinct phases. |
+| 10.5 | `e55090b`, `5f6d138`, `952aff8` | `npm run test:runtime-owner` — reverse sequential disposal, startup rollback, listener ownership, unload termination, graceful HMR, deadline fallback and rejection fallback all true; `npm run test:e2e:lifecycle` — 1 passed with real MMT/Tinymist Workers across Vite HMR and page unload. |
+| 10.6 | `e55090b`, `5f6d138` | `npm run test:worker` — normalized transcript reported `synchronizationVersions=[2,2]` and `legacyUpdateDocumentUnavailable=true`, proving same/older versions did not rebuild and the legacy mutation route is absent. |
+| 10.7 | `5f6d138`, `5949d76`, `952aff8` | All focused commands above passed; `cargo test --manifest-path mmt_rs/Cargo.toml resolve_failure_is_not_duplicated_by_emitter` — 1 passed; `npm run test:language-projection` — duplicate/stale application rejected and session retirement true; `npm run test:e2e` — 1 production-browser test passed. |
+
+The JSON transcripts are deterministic summaries containing both positive behavior and negative/stale/failure rejection signals; no Tinymist transcript or production client was modified for this evidence pass.
+
 ## 11. Semantic UX And Workbench Interaction
 
 - [x] 11.1 发布 MMT `semanticTokens/full` capability，并覆盖核心 directive、speaker 与资源 selector

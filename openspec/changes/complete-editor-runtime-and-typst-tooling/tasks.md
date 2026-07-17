@@ -1,6 +1,7 @@
 ## 0. Prerequisite closure and characterization
 
-- [ ] 0.1 Complete `add-mmt-lsp-vscode` tasks 10.1–10.7 and record their focused test evidence
+- [x] 0.1 Complete `add-mmt-lsp-vscode` tasks 10.1–10.7 and record their focused test evidence
+  - Evidence: same-branch closure history `09096fd`–`952aff8`; exact 10.1–10.7 implementation/regression commit mapping, focused commands, and observed positive/negative normalized results are recorded under “Focused evidence for 10.1–10.7 (2026-07-17)” in [`add-mmt-lsp-vscode/tasks.md`](../add-mmt-lsp-vscode/tasks.md).
 - [ ] 0.2 Complete the `add-workspace-storage-history-sync` workspace backend and journaled atomic batch/preimage contract before runtime cutover or multi-document edits
 - [ ] 0.3 Complete `add-pwa-offline-runtime` task 0.2 ownership handoff before production Web cutover; gate artifact identity、quiesce and persistent package cache separately on their owning PWA contracts
 - [ ] 0.4 Capture complete normalized `initialize` results from the pinned native Tinymist process artifact
