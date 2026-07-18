@@ -198,6 +198,7 @@ export default defineConfig({
       "monaco-editor",
       "vscode-languageclient",
       "vscode-languageserver-protocol",
+      "vscode-languageserver",
       "@codingame/monaco-vscode-api",
       "@codingame/monaco-vscode-extension-api",
     ],
