@@ -141,7 +141,9 @@ try {
     console.error(`[requestfailed] ${request.url()} ${request.failure()?.errorText ?? ""}`)
   );
   await page.goto(`http://127.0.0.1:${address.port}/`);
+  await page.addScriptTag({ url: `http://127.0.0.1:${address.port}/extension/dist/test/packageTranscriptHost.js` });
   const result = await page.evaluate(async () => {
+    const packageHost = new globalThis.MmtPackageTranscript.PackageTranscriptHost();
     const worker = new Worker("/extension/dist/tinymistWorker.js");
     let nextId = 1;
     const pending = new Map();
@@ -164,7 +166,7 @@ try {
       worker.postMessage({ jsonrpc: "2.0", id, ...payload });
     }
 
-    worker.addEventListener("message", (event) => {
+    worker.addEventListener("message", async (event) => {
       const message = event.data;
       if (message.method && message.id !== undefined) {
         serverRequests.push({ method: message.method, params: message.params ?? null });
@@ -184,35 +186,19 @@ try {
         } else if (message.method === "mmt/typstPackageRequest.v1") {
           const params = message.params ?? null;
           packageCallbackRequests.push(params);
-          const name = params?.package_spec?.name;
-          if (name === "mmt-callback-ready") {
-            const packageGeneration = "web-generation-1";
-            const filesDigest = "1111111111111111111111111111111111111111111111111111111111111111";
-            const result = {
-              status: "Ready",
-              request_id: params.request_id,
-              package_generation: packageGeneration,
-              files_digest: filesDigest,
-              files: [
-                {
-                  path: "typst.toml",
-                  content_base64: btoa('[package]\nname = "mmt-callback-ready"\nversion = "1.0.0"\nentrypoint = "lib.typ"\nauthors = ["MMT"]\n')
-                },
-                { path: "lib.typ", content_base64: btoa("#let value = [host-ready]\n") }
-              ]
-            };
+          const name = params?.package_spec?.name ?? "invalid";
+          const controller = new AbortController();
+          pendingPackageCallbacks.set(message.id, { name, params, controller });
+          try {
+            const result = await packageHost.resolve(params, controller.signal);
             packageCallbackResponses.push({ name, outcome: result });
             respond(message.id, { result });
-          } else if (name === "mmt-callback-unavailable") {
-            const result = { status: "Unavailable", request_id: params.request_id, reason: "offline fixture", retryable: true };
-            packageCallbackResponses.push({ name, outcome: result });
-            respond(message.id, { result });
-          } else if (name === "mmt-callback-cancel") {
-            pendingPackageCallbacks.set(message.id, { name, params });
-          } else {
-            const error = { code: -32010, message: "host package fixture error" };
+          } catch (cause) {
+            const error = { code: -32010, message: cause instanceof Error ? cause.message : String(cause) };
             packageCallbackResponses.push({ name, error });
             respond(message.id, { error });
+          } finally {
+            pendingPackageCallbacks.delete(message.id);
           }
         } else {
           respond(message.id, { error: { code: -32601, message: `Unhandled server request: ${message.method}` } });
@@ -228,12 +214,7 @@ try {
       }
       if (message.method === "$/cancelRequest") {
         const cancelled = pendingPackageCallbacks.get(message.params?.id);
-        if (cancelled) {
-          pendingPackageCallbacks.delete(message.params.id);
-          const result = { status: "Cancelled", request_id: cancelled.params.request_id };
-          packageCallbackResponses.push({ name: cancelled.name, outcome: result });
-          respond(message.params.id, { result });
-        }
+        cancelled?.controller.abort(new DOMException("Tinymist cancelled package callback", "AbortError"));
       }
       if (message.method) notifications.push(message);
       if (message.method === "tinymist/workerBootProgress") {
@@ -412,17 +393,20 @@ try {
     if (legacyPackageContextResponse.error?.code !== -32601) {
       throw new Error(`legacy package context method was not rejected: ${JSON.stringify(legacyPackageContextResponse)}`);
     }
-    const packageContext = (backendGeneration, snapshotKey) => notify("mmt/typstPackageContext.v1", {
-      backend_generation: backendGeneration,
-      typst_project_snapshot_key: snapshotKey
-    });
+    const packageContext = (backendGeneration, snapshotKey, packageName) => {
+      notify("mmt/typstPackageContext.v1", {
+        backend_generation: backendGeneration,
+        typst_project_snapshot_key: snapshotKey
+      });
+      packageHost.setContext(backendGeneration, snapshotKey, packageName);
+    };
     const changePackageFixture = (name, version) => notify("textDocument/didChange", {
       textDocument: { uri, version },
       contentChanges: [{ text: `#import "@preview/${name}:1.0.0": value\n#value` }]
     });
 
     const packageUri = uri;
-    packageContext(1, "web-package-ready-snapshot");
+    packageContext(1, "web-package-ready-snapshot", "mmt-callback-ready");
     changePackageFixture("mmt-callback-ready", 3);
     await waitForPackageCallback("mmt-callback-ready");
     const packageDiagnosticsNotification = await waitForNotification(
@@ -431,7 +415,7 @@ try {
     );
     const packageDiagnostics = packageDiagnosticsNotification.params;
 
-    packageContext(2, "web-package-unavailable-snapshot");
+    packageContext(2, "web-package-unavailable-snapshot", "mmt-callback-unavailable");
     changePackageFixture("mmt-callback-unavailable", 4);
     await waitForPackageCallback("mmt-callback-unavailable");
     const unavailableDiagnostics = (await waitForNotification(
@@ -439,7 +423,7 @@ try {
       (item) => sameDocumentUri(item.params?.uri, packageUri) && item.params?.diagnostics?.length > 0
     )).params;
 
-    packageContext(3, "web-package-error-snapshot");
+    packageContext(3, "web-package-error-snapshot", "mmt-callback-error");
     changePackageFixture("mmt-callback-error", 5);
     await waitForPackageCallback("mmt-callback-error");
     const errorDiagnostics = (await waitForNotification(
@@ -447,10 +431,10 @@ try {
       (item) => sameDocumentUri(item.params?.uri, packageUri) && item.params?.diagnostics?.length > 0
     )).params;
 
-    packageContext(4, "web-package-cancel-snapshot");
+    packageContext(4, "web-package-cancel-snapshot", "mmt-callback-cancel");
     changePackageFixture("mmt-callback-cancel", 6);
     await waitForPackageCallback("mmt-callback-cancel");
-    packageContext(5, "web-package-after-cancel-snapshot");
+    packageContext(5, "web-package-after-cancel-snapshot", "closed");
     const cancellationNotification = await waitForNotification("$/cancelRequest");
     await observeQuietPeriod(200, 5_000);
 

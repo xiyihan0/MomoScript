@@ -394,6 +394,10 @@ export class TypstProjectState {
     const applied = this.appliedProjectionBySource.get(update.sourceUri);
     if (applied?.session === session && update.revision <= applied.revision) return;
     const currentFiles = this.projectFiles.get(update.sourceUri) ?? new Set<string>();
+    this.port.notify("mmt/typstPackageContext.v1", {
+      backend_generation: this.activeGeneration,
+      typst_project_snapshot_key: update.projectDigest
+    });
     for (const file of update.files) {
       if (typeof file.text !== "string") continue;
       const uri = canonicalTypstUri(file.uri);

@@ -29,6 +29,7 @@ export interface PackageCacheStorageCoordinator {
   register(entry: Omit<StorageInventoryEntry, "updatedAt">): Promise<void>;
   commit(token: string, entry: Omit<StorageInventoryEntry, "updatedAt">): Promise<void>;
   reserveWithReclamation(request: StorageReservationRequest, reclaimer: StorageReclaimer): Promise<StorageReservation>;
+  release(token: string): Promise<void>;
 }
 
 /**
@@ -105,6 +106,11 @@ export class TypstPackageCacheStorageOwner implements RuntimeOwnedResource {
       },
     );
   }
+  release(token: string): Promise<void> {
+    this.assertActive();
+    return this.#coordinator.release(token);
+  }
+
 
   dispose(): void {
     if (this.#disposed) return;

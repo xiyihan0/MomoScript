@@ -2,6 +2,7 @@ import type { BaseLanguageClient } from "vscode-languageclient";
 import type { LanguageClientOptions } from "vscode-languageclient";
 import type * as vscode from "vscode";
 import { TinymistWorkerClient } from "../../vscode/src/tinymistClient";
+import type { TypstPackageService } from "../../vscode/src/typstPackageService";
 import { connectTypstBackend, installTypstMiddleware } from "../../vscode/src/typstFeatures";
 import tinymistModuleUrl from "../../vscode/vendor/tinymist-0.15.2/tinymist.js?url";
 import tinymistWorkerUrl from "../../vscode/src/tinymistWorker.ts?worker&url";
@@ -17,9 +18,10 @@ export interface TinymistHandle {
 
 export async function startTinymistLanguageClient(
   report: (message: string) => void = () => {},
+  packageService?: TypstPackageService
 ): Promise<TinymistHandle> {
   const wasmBytes = await downloadTinymistWasm(report);
-  const { backend, wasmUrl } = await startTinymistBackend(wasmBytes);
+  const { backend, wasmUrl } = await startTinymistBackend(wasmBytes, packageService);
   const disposables: vscode.Disposable[] = [];
   return {
     backend,
@@ -42,6 +44,7 @@ export async function startTinymistLanguageClient(
 
 async function startTinymistBackend(
   wasmBytes: Uint8Array,
+  packageService?: TypstPackageService
 ): Promise<{ backend: TinymistWorkerClient; wasmUrl: string }> {
   const wasmUrl = URL.createObjectURL(new Blob([wasmBytes.buffer as ArrayBuffer], { type: "application/wasm" }));
   try {
@@ -49,7 +52,9 @@ async function startTinymistBackend(
       new URL(tinymistWorkerUrl, window.location.href).href,
       new URL(tinymistModuleUrl, window.location.href).href,
       wasmUrl,
-      (uri) => new Worker(uri, { type: "module", name: "Tinymist LS" })
+      (uri) => new Worker(uri, { type: "module", name: "Tinymist LS" }),
+      undefined,
+      packageService
     );
     return { backend, wasmUrl };
   } catch (error) {

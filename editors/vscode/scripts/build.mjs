@@ -70,6 +70,21 @@ await Promise.all([
   }),
   build({
     ...common,
+    entryPoints: ["src/test/packageService.ts"],
+    outfile: "dist/test/packageService.js",
+    platform: "node",
+    format: "cjs"
+  }),
+  build({
+    ...common,
+    entryPoints: ["src/test/packageTranscriptHost.ts"],
+    outfile: "dist/test/packageTranscriptHost.js",
+    platform: "browser",
+    format: "iife",
+    globalName: "MmtPackageTranscript"
+  }),
+  build({
+    ...common,
     entryPoints: ["src/test/workerClient.ts"],
     outfile: "dist/test/workerClient.js",
     platform: "browser",

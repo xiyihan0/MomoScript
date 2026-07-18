@@ -1,4 +1,11 @@
 import type { JsonRpcMessage } from "./tinymistTransport";
+import { TYPST_PACKAGE_REQUEST_METHOD } from "./typstPackageProtocol";
+
+export type TinymistPackageRequestHandler = (
+  params: unknown,
+  generation: number,
+  signal: AbortSignal
+) => Promise<unknown>;
 
 export interface TinymistDynamicRegistration {
   readonly id: string;
@@ -255,9 +262,12 @@ export class TinymistCapabilityRegistry implements TinymistCapabilityView {
 }
 
 export class TinymistServerRequestDispatcher {
-  constructor(private readonly capabilities?: TinymistCapabilityRegistry) {}
+  constructor(
+    private readonly capabilities?: TinymistCapabilityRegistry,
+    private readonly packageRequest?: TinymistPackageRequestHandler
+  ) {}
 
-  dispatch(message: JsonRpcMessage, generation: number): JsonRpcMessage {
+  dispatch(message: JsonRpcMessage, generation: number, signal: AbortSignal = new AbortController().signal): JsonRpcMessage | Promise<JsonRpcMessage> {
     const id = message.id ?? null;
     switch (message.method) {
       case "workspace/configuration": {
@@ -280,21 +290,30 @@ export class TinymistServerRequestDispatcher {
         this.capabilities?.unregister(generation, unregistrations);
         return { jsonrpc: "2.0", id, result: null };
       }
+      case TYPST_PACKAGE_REQUEST_METHOD:
+        if (!this.packageRequest) return methodNotFound(id, message.method);
+        return this.packageRequest(message.params, generation, signal).then((result) => ({ jsonrpc: "2.0", id, result }));
       default:
-        return {
-          jsonrpc: "2.0",
-          id,
-          error: {
-            code: -32601,
-            message: `Unsupported Tinymist server request: ${message.method ?? "unknown"}`
-          }
-        };
+        return methodNotFound(id, message.method);
+    }
+  }
+}
+
+function methodNotFound(id: JsonRpcMessage["id"], method: string | undefined): JsonRpcMessage {
+  return {
+    jsonrpc: "2.0",
+    id: id ?? null,
+    error: {
+      code: -32601,
+      message: `Unsupported Tinymist server request: ${method ?? "unknown"}`
     }
   }
 }
 
 export function serverRequestResponse(message: JsonRpcMessage): JsonRpcMessage {
-  return new TinymistServerRequestDispatcher().dispatch(message, 0);
+  const response = new TinymistServerRequestDispatcher().dispatch(message, 0);
+  if (response instanceof Promise) throw new Error("Unexpected asynchronous server request response");
+  return response;
 }
 
 function parseRegistrations(params: unknown): readonly TinymistDynamicRegistration[] | undefined {

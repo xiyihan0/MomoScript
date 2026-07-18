@@ -8,10 +8,12 @@ import {
 } from "vscode-languageclient/node";
 
 import { clientOptions } from "./clientOptions";
+import { DesktopTypstPackageCache, TypstPackageFileSystemProvider } from "./desktopTypstPackageCache";
 import { TinymistProcessClient } from "./tinymistProcessClient";
 import { syncConfiguredPackManifests } from "./resourcePacks";
 import { registerMmtLanguageEditing } from "./languageEditing";
 import { connectTypstBackend, installTypstMiddleware } from "./typstFeatures";
+import { TypstPackageService } from "./typstPackageService";
 
 let client: LanguageClient | undefined;
 let tinymist: TinymistProcessClient | undefined;
@@ -35,7 +37,14 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   const tinymistCommand = configuredTinymist || bundledTinymist;
   if (configuredTinymist || fs.existsSync(bundledTinymist)) {
     try {
-      tinymist = await TinymistProcessClient.start(tinymistCommand);
+      const packageCache = await DesktopTypstPackageCache.open(context);
+      const packageService = new TypstPackageService({ cache: packageCache });
+      context.subscriptions.push(vscode.workspace.registerFileSystemProvider(
+        "mmt-package",
+        new TypstPackageFileSystemProvider(packageCache),
+        { isReadonly: true, isCaseSensitive: true }
+      ));
+      tinymist = await TinymistProcessClient.start(tinymistCommand, undefined, undefined, packageService);
     } catch (error) {
       tinymist = undefined;
       void vscode.window.showWarningMessage(

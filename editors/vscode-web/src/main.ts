@@ -29,6 +29,14 @@ import { startMmtLanguageClient } from "./mmtLanguageClient";
 import type { MmtLanguageClientHandle } from "./mmtLanguageClient";
 import { startTinymistLanguageClient } from "./tinymistLanguageClient";
 import type { TinymistHandle } from "./tinymistLanguageClient";
+import {
+  IndexedDbTypstPackageCache,
+  WebTypstPackageFileSystemProvider
+} from "./typstPackageCache";
+import {
+  InMemoryTypstPackageDependencyGraph,
+  TypstPackageService
+} from "../../vscode/src/typstPackageService";
 import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
 import { projectionSessionKey } from "../../vscode/src/tinymistClient";
@@ -293,7 +301,21 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
   const subscribe = <T extends { dispose(): void | Promise<void> }>(subscription: T): T => controller.subscribe(subscription);
   const root = document.querySelector<HTMLElement>("#workbench");
   if (!root) throw new Error("Missing #workbench container");
-  await controller.initializeOriginStorage();
+  const packageCacheStorage = await controller.initializeOriginStorage();
+  const packageDependencies = new InMemoryTypstPackageDependencyGraph();
+  const typstPackageCache = own(await IndexedDbTypstPackageCache.open(
+    packageCacheStorage,
+    (generation) => { packageDependencies.invalidateGeneration(generation); }
+  ));
+  const typstPackageService = new TypstPackageService({
+    cache: typstPackageCache,
+    dependencies: packageDependencies
+  });
+  subscribe(vscode.workspace.registerFileSystemProvider(
+    "mmt-package",
+    new WebTypstPackageFileSystemProvider(typstPackageCache),
+    { isReadonly: true, isCaseSensitive: true }
+  ));
   let output: vscode.OutputChannel | undefined;
   const log = (scope: string, message: string) => {
     const line = `[${new Date().toISOString()}] [${scope}] ${message}`;
@@ -879,7 +901,10 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
 
   document.documentElement.dataset.mmtStage = "tinymist-starting";
   try {
-    tinymist = await startTinymistLanguageClient((message) => log("wasm", message));
+    tinymist = await startTinymistLanguageClient(
+      (message) => log("wasm", message),
+      typstPackageService
+    );
     const handle = tinymist;
     own({ dispose: () => handle.dispose() });
     controller.registerTermination(() => handle.terminate());

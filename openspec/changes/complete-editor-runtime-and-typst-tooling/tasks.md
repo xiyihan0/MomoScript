@@ -184,27 +184,38 @@ Every item in this section is enabled only if the active artifact advertises the
 
 ## 7. Host-mediated Typst packages
 
-- [ ] 7.1 Define versioned `mmt/typstPackageRequest.v1` request/response/cancellation schemas with backend generation and complete project snapshot identity
-- [ ] 7.2 Add explicit Worker and process dispatcher branches and native/Web transcripts for the package callback
-- [ ] 7.3 Define `PackageSpec`, registry adapter, cache adapter and dependency graph interfaces
-- [ ] 7.4 Parse fully versioned `@preview/name:version` imports without allowing source-authored arbitrary URLs
-- [ ] 7.5 Define Web and Desktop registry configuration and workspace-trust behavior for local namespaces
-- [ ] 7.6 Implement coalesced package requests and cancellation by active dependent projects
-- [ ] 7.7 Enforce HTTPS, status, redirect allowlist, content type and compressed-size limits
-- [ ] 7.8 Verify declared archive size and SHA-256 when distribution metadata provides them
-- [ ] 7.9 Stream downloads to staging without unbounded whole-response copies
-- [ ] 7.10 Reject archive traversal, absolute paths, links/devices, duplicate/case-fold paths and unknown entry types
-- [ ] 7.11 Enforce expanded-size, file-count and per-file bounds
-- [ ] 7.12 Validate `typst.toml` namespace/name/version and require every path-bearing field, including `entrypoint`, to resolve to an existing regular file inside package root
-- [ ] 7.13 Add absolute、parent-traversing、missing and non-file entrypoint fixtures
-- [ ] 7.14 Activate immutable package generations atomically and preserve the last valid generation on failure
-- [ ] 7.15 Mount package files through an internal read-only URI scheme and inject explicit virtual dependencies
-- [ ] 7.16 Keep `mmt_rs`, `mmt_lsp` and Tinymist backend network-free
-- [ ] 7.17 Emit an authored-range dependency diagnostic only for a unique import site; otherwise emit document-level package/dependency-chain diagnostics
-- [ ] 7.18 Register Web package cache through `OriginStorageCoordinator` only after its owning PWA contract exists
-  - Prerequisite evidence: `TypstPackageCacheStorageOwner` is opened and disposed by the single `EditorRuntimeController`, registers immutable generations as `typst-package-cache`, and exposes typed reserve/commit/pin/evict/invalidate ownership. `npm run test:origin-storage` covers quota pressure and protected-byte precedence; the task remains unchecked until the package service registers real generations.
-- [ ] 7.19 Include package generation and build-pinned bundled font-set digests in project/render identities
-- [ ] 7.20 Add native/Web fixtures for callback cancellation/errors, cached offline resolution, concurrent requests and every archive/manifest rejection boundary
+- [x] 7.1 Define versioned `mmt/typstPackageRequest.v1` request/response/cancellation schemas with backend generation and complete project snapshot identity
+  - Evidence: `typstPackageProtocol.ts` validates the literal v1 request/context methods and the `Ready | Unavailable | Cancelled` union; `TypstPackageService.isCurrent` requires both active backend generation and a registered complete `projectDigest` before and after asynchronous work.
+- [x] 7.2 Add explicit Worker and process dispatcher branches and native/Web transcripts for the package callback
+  - Evidence: `TinymistServerRequestDispatcher` routes the literal package method through the cancellable async `JsonRpcTinymistTransport` server-request path used by both clients. Checked `tinymist-native-evidence.json` and `tinymist-web-evidence.json` were captured from patched native digest `b96ce119…` and Web WASM digest `c9ff9b1d…` using the real `PackageTranscriptHost` service.
+- [x] 7.3 Define `PackageSpec`, registry adapter, cache adapter and dependency graph interfaces
+  - Evidence: `typstPackageProtocol.ts`, `typstPackageArchive.ts` and `typstPackageService.ts` define these contracts; Desktop, memory and IndexedDB adapters implement the same immutable cache interface.
+- [x] 7.4 Parse fully versioned `@preview/name:version` imports without allowing source-authored arbitrary URLs
+- [x] 7.5 Define Web and Desktop registry configuration and workspace-trust behavior for local namespaces
+  - Evidence: `OfficialPreviewRegistry` derives allowlisted HTTPS URLs only for normalized `preview` identities. Neither host installs a local namespace adapter; therefore source-authored URLs and untrusted local namespaces deterministically return unavailable.
+- [x] 7.6 Implement coalesced package requests and cancellation by active dependent projects
+- [x] 7.7 Enforce HTTPS, status, redirect allowlist, content type and compressed-size limits
+- [x] 7.8 Verify declared archive size and SHA-256 when distribution metadata provides them
+- [x] 7.9 Stream downloads to staging without unbounded whole-response copies
+  - Evidence: `acquireTypstPackage` reads response streams chunk-by-chunk under a hard compressed limit, validates every redirect hop/final URL and verifies declared size/digest before bounded decompression; `npm run test:typst-package` covers redirect, status, type, oversize and integrity failures.
+- [x] 7.10 Reject archive traversal, absolute paths, links/devices, duplicate/case-fold paths and unknown entry types
+- [x] 7.11 Enforce expanded-size, file-count and per-file bounds
+- [x] 7.12 Validate `typst.toml` namespace/name/version and require every path-bearing field, including `entrypoint`, to resolve to an existing regular file inside package root
+- [x] 7.13 Add absolute、parent-traversing、missing and non-file entrypoint fixtures
+  - Evidence: `src/test/packageService.ts` exercises traversal, POSIX/drive absolute paths, alternate separators, links, devices, unknown types, duplicate/case-fold collisions, all three expansion bounds, manifest identity mismatch, and absolute/parent/missing/non-file entrypoints; `npm run test:typst-package` passes.
+- [x] 7.14 Activate immutable package generations atomically and preserve the last valid generation on failure
+  - Evidence: digest-addressed Desktop and IndexedDB stores write immutable generation bytes before atomically replacing the active pointer; the focused failure/race fixture proves cancelled or stale completion cannot activate and the previous generation remains readable.
+- [x] 7.15 Mount package files through an internal read-only URI scheme and inject explicit virtual dependencies
+- [x] 7.16 Keep `mmt_rs`, `mmt_lsp` and Tinymist backend network-free
+  - Evidence: package files are returned only as validated `content_base64`, mounted as digest-bound `mmt-package:` files by read-only Desktop/Web filesystem providers, and recorded in `TypstPackageDependencyGraph`. Native/Web transcript network assertions observe no backend-originated external request.
+- [x] 7.17 Emit an authored-range dependency diagnostic only for a unique import site; otherwise emit document-level package/dependency-chain diagnostics
+  - Evidence: package status construction attaches a range only for one import in the authored source URI and otherwise emits source/snapshot-bound dependency-chain status.
+- [x] 7.18 Register Web package cache through `OriginStorageCoordinator` only after its owning PWA contract exists
+  - Evidence: `IndexedDbTypstPackageCache` is opened from the runtime controller's sole `TypstPackageCacheStorageOwner`; new validated generations reserve and commit `typst-package-cache` inventory, while eviction deletes only reproducible generation bytes and invalidates dependent snapshots. `npm run test:origin-storage` covers quota, pin and protected-byte precedence.
+- [x] 7.19 Include package generation and build-pinned bundled font-set digests in project/render identities
+  - Evidence: active dependencies expose exact `packageGeneration`/`filesDigest`; Wave 1 `ProjectDigestInput.packageGenerations` and `RuntimeArtifactKey.fontSetDigest` consume these generation and build-pinned font inputs rather than host paths or mutable cache state.
+- [x] 7.20 Add native/Web fixtures for callback cancellation/errors, cached offline resolution, concurrent requests and every archive/manifest rejection boundary
+  - Evidence: `npm run test:typst-package`, `TINYMIST_BIN=… npm run test:tinymist-process`, and `TINYMIST_WEB_PKG=… npm run test:tinymist-worker` pass with checked Ready/Unavailable/error/Cancelled service responses, cached offline resolution, one-fetch coalescing and stale/cancellation races.
 
 ## 8. Preview state and navigation
 

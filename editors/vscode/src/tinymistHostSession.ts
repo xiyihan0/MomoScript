@@ -4,6 +4,7 @@ import {
   type TinymistCapabilityView
 } from "./tinymistCapabilities";
 import type { TypstProjectUpdate } from "./tinymistClient";
+import { InMemoryTypstPackageCache, TypstPackageService } from "./typstPackageService";
 import type { TinymistBackendSession, TinymistTransport } from "./tinymistTransport";
 import {
   DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS,
@@ -17,6 +18,7 @@ export interface TinymistHostSessionOptions {
   closeGraceMs?: number;
   recoverOnSync?: boolean;
   queueNotificationsWhileRecovering?: boolean;
+  packageService?: TypstPackageService;
 }
 
 /**
@@ -27,6 +29,8 @@ export class TinymistHostSession {
   private readonly handlers = new Map<string, Set<(params: unknown) => void>>();
   private readonly projectState: TypstProjectState;
   private readonly capabilityRegistry: TinymistCapabilityRegistry;
+  private readonly packageService: TypstPackageService;
+  private readonly removePackageStatusHandler: () => void;
   private ready = false;
   private stopped = false;
   private restarting: Promise<void> | undefined;
@@ -38,8 +42,17 @@ export class TinymistHostSession {
         capabilities: view.list()
       }));
     });
-    const serverRequests = new TinymistServerRequestDispatcher(this.capabilityRegistry);
-    options.transport.onServerRequest((message, generation) => serverRequests.dispatch(message, generation));
+    this.packageService = options.packageService ?? new TypstPackageService({
+      cache: new InMemoryTypstPackageCache()
+    });
+    this.removePackageStatusHandler = this.packageService.onStatus((status) => {
+      this.dispatch("tinymist/packageStatus", status);
+    });
+    const serverRequests = new TinymistServerRequestDispatcher(
+      this.capabilityRegistry,
+      (params, _generation, signal) => this.packageService.resolve(params, signal)
+    );
+    options.transport.onServerRequest((message, generation, signal) => serverRequests.dispatch(message, generation, signal));
     options.transport.onNotification((method, params) => this.dispatch(method, params));
     options.transport.onFailure((error, generation) => this.handleRuntimeFailure(error, generation));
     this.projectState = new TypstProjectState({
@@ -86,7 +99,9 @@ export class TinymistHostSession {
   }
 
   syncProject(update: TypstProjectUpdate): void {
-    this.projectState.syncProject(update);
+    this.packageService.registerProject(update, this.projectState.backendGeneration());
+    const transition = this.projectState.syncProject(update);
+    if (!transition.accepted) this.packageService.retireProject(update.projectDigest);
     if (this.options.recoverOnSync && !this.ready) {
       void this.ensureReady().catch((error: unknown) => {
         this.dispatch("tinymist/clientFailed", { message: String(error) });
@@ -97,9 +112,11 @@ export class TinymistHostSession {
   projectForEntry(entryUri: string): TypstProjectUpdate | undefined {
     return this.projectState.projectForEntry(entryUri);
   }
-
   closeProject(sourceUri: string, entryUri: string): boolean {
-    return this.projectState.closeProject(sourceUri, entryUri);
+    const project = this.projectState.projectForEntry(entryUri);
+    const closed = this.projectState.closeProject(sourceUri, entryUri);
+    if (closed && project) this.packageService.retireProject(project.projectDigest);
+    return closed;
   }
 
   async restart(): Promise<void> {
@@ -108,6 +125,7 @@ export class TinymistHostSession {
     const error = new Error(`${this.options.label} restart requested`);
     this.ready = false;
     this.projectState.deactivateBackend(generation, error);
+    this.packageService.setBackendGeneration(0);
     this.capabilityRegistry.clear(generation);
     this.options.transport.terminateNow(error);
     this.dispatch("tinymist/clientRestarting", { message: error.message });
@@ -120,6 +138,8 @@ export class TinymistHostSession {
     this.stopped = true;
     this.ready = false;
     this.capabilityRegistry.clear();
+    this.packageService.setBackendGeneration(0);
+    this.removePackageStatusHandler();
     this.projectState.dispose(new Error(`${this.options.label} stopped`));
     await this.options.transport.stop();
   }
@@ -130,6 +150,8 @@ export class TinymistHostSession {
     this.ready = false;
     const error = new Error(`${this.options.label} terminated`);
     this.capabilityRegistry.clear();
+    this.packageService.setBackendGeneration(0);
+    this.removePackageStatusHandler();
     this.projectState.dispose(error);
     this.options.transport.terminateNow(error);
   }
@@ -146,6 +168,7 @@ export class TinymistHostSession {
     this.ready = false;
     this.capabilityRegistry.clear(generation);
     this.projectState.deactivateBackend(generation, error);
+    this.packageService.setBackendGeneration(0);
     this.dispatch("tinymist/clientRestarting", { message: error.message });
     this.startRecovery(true);
   }
@@ -154,6 +177,7 @@ export class TinymistHostSession {
     if (this.stopped || this.ready || this.restarting) return;
     const recovery = this.options.boot().then(async (session) => {
       this.capabilityRegistry.install(session.generation, session.initializeResult);
+      this.packageService.setBackendGeneration(session.generation);
       await this.projectState.activateBackend(session.generation);
       if (this.stopped) {
         this.options.transport.terminateNow(new Error(`${this.options.label} stopped during recovery`));

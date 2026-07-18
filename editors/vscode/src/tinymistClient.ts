@@ -7,6 +7,7 @@ import {
   type TinymistWorkerFactory
 } from "./tinymistTransport";
 import { TinymistHostSession } from "./tinymistHostSession";
+import type { TypstPackageService } from "./typstPackageService";
 import { DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS } from "./typstProjectState";
 export {
   canonicalTypstUri,
@@ -225,7 +226,8 @@ export class TinymistWorkerClient implements TinymistHostBackend {
     moduleUri: string,
     wasmUri: string,
     workerFactory: TinymistWorkerFactory,
-    closeGraceMs: number
+    closeGraceMs: number,
+    packageService?: TypstPackageService
   ) {
     this.transport = new JsonRpcTinymistTransport(
       () => TinymistWorkerConnection.create({ workerUri, moduleUri, wasmUri, workerFactory })
@@ -234,6 +236,7 @@ export class TinymistWorkerClient implements TinymistHostBackend {
       label: "Tinymist Worker",
       transport: this.transport,
       closeGraceMs,
+      packageService,
       recoverOnSync: true,
       queueNotificationsWhileRecovering: true,
       boot: () => this.bootWorker()
@@ -245,9 +248,10 @@ export class TinymistWorkerClient implements TinymistHostBackend {
     moduleUri: string,
     wasmUri: string,
     workerFactory: TinymistWorkerFactory = (uri) => new Worker(uri),
-    closeGraceMs = DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS
+    closeGraceMs = DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS,
+    packageService?: TypstPackageService
   ): Promise<TinymistWorkerClient> {
-    const client = new TinymistWorkerClient(workerUri, moduleUri, wasmUri, workerFactory, closeGraceMs);
+    const client = new TinymistWorkerClient(workerUri, moduleUri, wasmUri, workerFactory, closeGraceMs, packageService);
     try {
       await client.session.start();
       return client;

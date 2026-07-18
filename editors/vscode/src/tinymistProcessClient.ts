@@ -5,6 +5,7 @@ import {
 } from "./tinymistProcessTransport";
 import { TinymistHostSession } from "./tinymistHostSession";
 import type { TinymistTransport } from "./tinymistTransport";
+import type { TypstPackageService } from "./typstPackageService";
 import { DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS } from "./typstProjectState";
 import {
   semanticTokensLegendFromCapabilities,
@@ -18,11 +19,16 @@ export type { TinymistProcessFactory } from "./tinymistProcessTransport";
 export class TinymistProcessClient implements TinymistHostBackend {
   private readonly session: TinymistHostSession;
 
-  private constructor(private readonly transport: TinymistTransport, closeGraceMs: number) {
+  private constructor(
+    private readonly transport: TinymistTransport,
+    closeGraceMs: number,
+    packageService?: TypstPackageService
+  ) {
     this.session = new TinymistHostSession({
       label: "Tinymist process",
       transport,
       closeGraceMs,
+      packageService,
       boot: () => this.bootProcess()
     });
   }
@@ -30,12 +36,13 @@ export class TinymistProcessClient implements TinymistHostBackend {
   static async start(
     command: string,
     closeGraceMs = DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS,
-    processFactory?: TinymistProcessFactory
+    processFactory?: TinymistProcessFactory,
+    packageService?: TypstPackageService
   ): Promise<TinymistProcessClient> {
     const transport = createTinymistProcessTransport(command, {
       processFactory
     });
-    const client = new TinymistProcessClient(transport, closeGraceMs);
+    const client = new TinymistProcessClient(transport, closeGraceMs, packageService);
     try {
       await client.session.start();
       return client;

@@ -139,7 +139,8 @@
     "test:provider-descriptors": "node ./scripts/test-provider-descriptors.mjs",
     "test:provider-payload-negative": "node ./scripts/test-provider-payload-negative.mjs",
     "test:projected-edits": "node ./scripts/test-projected-edits.mjs",
-    "test:projected-payload": "node ./scripts/test-projected-payload.mjs"
+    "test:projected-payload": "node ./scripts/test-projected-payload.mjs",
+    "test:typst-package": "node ./scripts/build.mjs && node ./dist/test/packageService.js"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1",

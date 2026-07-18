@@ -21,7 +21,7 @@ export interface TinymistTransport {
   request<T>(method: string, params: unknown, signal?: AbortSignal): Promise<T>;
   notify(method: string, params: unknown): void;
   onNotification(handler: (method: string, params: unknown, generation: number) => void): void;
-  onServerRequest(handler: (message: JsonRpcMessage, generation: number) => JsonRpcMessage): void;
+  onServerRequest(handler: TinymistServerRequestHandler): void;
   onFailure(handler: (error: Error, generation: number) => void): void;
   stop(): Promise<void>;
   terminateNow(reason?: Error): void;
@@ -35,6 +35,16 @@ export interface JsonRpcConnection {
 }
 
 export type JsonRpcConnectionFactory = () => Promise<JsonRpcConnection>;
+export type TinymistServerRequestHandler = (
+  message: JsonRpcMessage,
+  generation: number,
+  signal: AbortSignal
+) => JsonRpcMessage | Promise<JsonRpcMessage>;
+
+interface PendingServerRequest {
+  readonly generation: number;
+  readonly controller: AbortController;
+}
 
 interface PendingRequest {
   generation: number;
@@ -47,7 +57,7 @@ interface PendingRequest {
 export interface JsonRpcTransportOptions {
   requestTimeoutMs?: number;
   maxPendingRequests?: number;
-  serverRequest?: (message: JsonRpcMessage, generation: number) => JsonRpcMessage;
+  serverRequest?: TinymistServerRequestHandler;
 }
 
 const DEFAULT_REQUEST_TIMEOUT_MS = 60_000;
@@ -70,8 +80,9 @@ export class JsonRpcTinymistTransport implements TinymistTransport {
   private readonly pending = new Map<JsonRpcId, PendingRequest>();
   private readonly notificationHandlers = new Set<(method: string, params: unknown, generation: number) => void>();
   private readonly failureHandlers = new Set<(error: Error, generation: number) => void>();
-  private serverRequestHandler: (message: JsonRpcMessage, generation: number) => JsonRpcMessage;
+  private serverRequestHandler: TinymistServerRequestHandler;
   private permanentlyStopped = false;
+  private readonly pendingServerRequests = new Map<JsonRpcId, PendingServerRequest>();
   private starting: Promise<TinymistBackendSession> | undefined;
   private readonly requestTimeoutMs: number;
   private readonly maxPendingRequests: number;
@@ -202,7 +213,7 @@ export class JsonRpcTinymistTransport implements TinymistTransport {
     this.notificationHandlers.add(handler);
   }
 
-  onServerRequest(handler: (message: JsonRpcMessage, generation: number) => JsonRpcMessage): void {
+  onServerRequest(handler: TinymistServerRequestHandler): void {
     this.serverRequestHandler = handler;
   }
 
@@ -238,7 +249,7 @@ export class JsonRpcTinymistTransport implements TinymistTransport {
     const connection = this.connection;
     if (!connection || generation !== this.currentGeneration) return;
     if (message.method && message.id !== undefined) {
-      connection.send(this.serverRequestHandler(message, generation));
+      this.handleServerRequest(message, generation, connection);
       return;
     }
     if (message.id !== undefined && message.id !== null) {
@@ -257,8 +268,51 @@ export class JsonRpcTinymistTransport implements TinymistTransport {
       return;
     }
     if (message.method) {
+      if (this.cancelServerRequest(message, generation)) return;
       for (const handler of this.notificationHandlers) handler(message.method, message.params, generation);
     }
+  }
+
+  private handleServerRequest(message: JsonRpcMessage, generation: number, connection: JsonRpcConnection): void {
+    const id = message.id ?? null;
+    if (id === null) return;
+    const controller = new AbortController();
+    this.pendingServerRequests.set(id, { generation, controller });
+    let response: JsonRpcMessage | Promise<JsonRpcMessage>;
+    try {
+      response = this.serverRequestHandler(message, generation, controller.signal);
+    } catch (error) {
+      response = serverRequestFailure(id, error);
+    }
+    void Promise.resolve(response).then(
+      (value) => {
+        const pending = this.pendingServerRequests.get(id);
+        if (!pending || pending.controller !== controller) return;
+        this.pendingServerRequests.delete(id);
+        if (connection === this.connection && generation === this.currentGeneration && !controller.signal.aborted) {
+          connection.send(value);
+        }
+      },
+      (error: unknown) => {
+        const pending = this.pendingServerRequests.get(id);
+        if (!pending || pending.controller !== controller) return;
+        this.pendingServerRequests.delete(id);
+        if (connection === this.connection && generation === this.currentGeneration && !controller.signal.aborted) {
+          connection.send(serverRequestFailure(id, error));
+        }
+      }
+    );
+  }
+
+  private cancelServerRequest(message: JsonRpcMessage, generation: number): boolean {
+    if (message.method !== "$/cancelRequest" || typeof message.params !== "object" || message.params === null) return false;
+    const id = Reflect.get(message.params, "id") as unknown;
+    if (typeof id !== "number" && typeof id !== "string") return false;
+    const pending = this.pendingServerRequests.get(id);
+    if (!pending || pending.generation !== generation) return false;
+    this.pendingServerRequests.delete(id);
+    pending.controller.abort(new DOMException("Tinymist server request cancelled", "AbortError"));
+    return true;
   }
 
   private handleConnectionFailure(error: Error, generation: number): void {
@@ -278,8 +332,24 @@ export class JsonRpcTinymistTransport implements TinymistTransport {
       pending.removeAbortListener();
       pending.reject(error);
     }
+    for (const [id, pending] of this.pendingServerRequests) {
+      if (generation !== undefined && pending.generation !== generation) continue;
+      this.pendingServerRequests.delete(id);
+      pending.controller.abort(error);
+    }
   }
 }
+function serverRequestFailure(id: JsonRpcId, error: unknown): JsonRpcMessage {
+  return {
+    jsonrpc: "2.0",
+    id,
+    error: {
+      code: -32603,
+      message: error instanceof Error ? error.message : String(error)
+    }
+  };
+}
+
 
 export type TinymistWorkerFactory = (uri: string) => Worker;
 

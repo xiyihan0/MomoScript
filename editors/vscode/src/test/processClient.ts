@@ -23,6 +23,7 @@ import {
   type PackCacheStore,
   type PackFetchResponse
 } from "../packSync";
+import { PackageTranscriptHost } from "./packageTranscriptHost";
 
 function fixtureIdentity(revision: number): Pick<
   TypstProjectUpdate,
@@ -571,7 +572,8 @@ function normalizedJson(value: unknown): unknown {
 
 interface NativePackageCallbackHarness {
   responses: unknown[];
-  pending: Map<string | number, { name: string; requestId: string }>;
+  pending: Map<string | number, { name: string; requestId: string; controller: AbortController }>;
+  host: PackageTranscriptHost;
 }
 
 let nativePackageCallbackHarness: NativePackageCallbackHarness | undefined;
@@ -586,10 +588,7 @@ function respondToServerRequest(
     if (typeof rpcId === "string" || typeof rpcId === "number") {
       const pending = nativePackageCallbackHarness.pending.get(rpcId);
       if (pending) {
-        nativePackageCallbackHarness.pending.delete(rpcId);
-        const result = { status: "Cancelled", request_id: pending.requestId };
-        nativePackageCallbackHarness.responses.push({ name: pending.name, outcome: result });
-        session.send({ jsonrpc: "2.0", id: rpcId, result });
+        pending.controller.abort(new DOMException("Tinymist cancelled package callback", "AbortError"));
       }
     }
   }
@@ -614,33 +613,19 @@ function respondToServerRequest(
     const packageSpec = isTranscriptRecord(message.params.package_spec) ? message.params.package_spec : undefined;
     const name = typeof packageSpec?.name === "string" ? packageSpec.name : "invalid";
     const requestId = typeof message.params.request_id === "string" ? message.params.request_id : "invalid";
-    if (name === "mmt-callback-ready") {
-      const result = {
-        status: "Ready",
-        request_id: requestId,
-        package_generation: "native-generation-1",
-        files_digest: "2222222222222222222222222222222222222222222222222222222222222222",
-        files: [
-          {
-            path: "typst.toml",
-            content_base64: Buffer.from('[package]\nname = "mmt-callback-ready"\nversion = "1.0.0"\nentrypoint = "lib.typ"\nauthors = ["MMT"]\n').toString("base64")
-          },
-          { path: "lib.typ", content_base64: Buffer.from("#let value = [host-ready]\n").toString("base64") }
-        ]
-      };
-      nativePackageCallbackHarness.responses.push({ name, outcome: result });
-      session.send({ jsonrpc: "2.0", id: message.id, result });
-    } else if (name === "mmt-callback-unavailable") {
-      const result = { status: "Unavailable", request_id: requestId, reason: "offline fixture", retryable: true };
-      nativePackageCallbackHarness.responses.push({ name, outcome: result });
-      session.send({ jsonrpc: "2.0", id: message.id, result });
-    } else if (name === "mmt-callback-cancel") {
-      nativePackageCallbackHarness.pending.set(message.id, { name, requestId });
-    } else {
-      const error = { code: -32010, message: "host package fixture error" };
-      nativePackageCallbackHarness.responses.push({ name, error });
-      session.send({ jsonrpc: "2.0", id: message.id, error });
-    }
+    const controller = new AbortController();
+    nativePackageCallbackHarness.pending.set(message.id, { name, requestId, controller });
+    void nativePackageCallbackHarness.host.resolve(message.params as never, controller.signal).then(
+      (result) => {
+        nativePackageCallbackHarness?.responses.push({ name, outcome: result });
+        session.send({ jsonrpc: "2.0", id: message.id, result });
+      },
+      (cause: unknown) => {
+        const error = { code: -32010, message: cause instanceof Error ? cause.message : String(cause) };
+        nativePackageCallbackHarness?.responses.push({ name, error });
+        session.send({ jsonrpc: "2.0", id: message.id, error });
+      }
+    ).finally(() => nativePackageCallbackHarness?.pending.delete(message.id!));
     return;
   }
   session.send({
@@ -694,7 +679,7 @@ async function sha256File(path: string): Promise<string> {
 }
 
 async function captureNativeTinymistEvidence(command: string): Promise<Record<string, unknown>> {
-  const checksumPath = process.env.TINYMIST_SHA256_FILE ?? resolve(dirname(command), "../../../tinymist-native.sha256");
+  const checksumPath = process.env.TINYMIST_SHA256_FILE ?? resolve("src/test/fixtures/tinymist-native-patched.sha256");
   const checksumManifest = (await readFile(checksumPath, "utf8")).trim();
   const checksumMatch = /^([a-f0-9]{64})\s+(.+)$/.exec(checksumManifest);
   if (!checksumMatch) throw new Error(`invalid native checksum manifest: ${checksumPath}`);
@@ -709,7 +694,11 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
   const packageImport = "@preview/mmt-callback-ready:1.0.0";
   const packageUri = "file:///tmp/mmt-native-evidence/package.typ";
   const packageMessages: TranscriptMessage[] = [];
-  const packageHarness: NativePackageCallbackHarness = { responses: [], pending: new Map() };
+  const packageHarness: NativePackageCallbackHarness = {
+    responses: [],
+    pending: new Map(),
+    host: new PackageTranscriptHost()
+  };
   nativePackageCallbackHarness = packageHarness;
   try {
     const initializeResponse = await transcriptRequest(session, 1, "initialize", {
@@ -766,14 +755,18 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
       .map(normalizedJson)
       .sort((left, right) => JSON.stringify(left).localeCompare(JSON.stringify(right)));
 
-    const sendPackageContext = (backendGeneration: number, snapshot: string): void => session.send({
-      jsonrpc: "2.0",
-      method: "mmt/typstPackageContext.v1",
-      params: {
-        backend_generation: backendGeneration,
-        typst_project_snapshot_key: snapshot.padEnd(64, snapshot)
-      }
-    });
+    const sendPackageContext = (backendGeneration: number, snapshot: string, packageName: string): void => {
+      const snapshotKey = snapshot.padEnd(64, snapshot);
+      session.send({
+        jsonrpc: "2.0",
+        method: "mmt/typstPackageContext.v1",
+        params: {
+          backend_generation: backendGeneration,
+          typst_project_snapshot_key: snapshotKey
+        }
+      });
+      packageHarness.host.setContext(backendGeneration, snapshotKey, packageName);
+    };
     const changePackageDocument = (version: number, name: string): void => session.send({
       jsonrpc: "2.0",
       method: version === 1 ? "textDocument/didOpen" : "textDocument/didChange",
@@ -789,21 +782,21 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
     if (legacyContextResponse.error?.code !== -32601) {
       throw new Error(`legacy package context method was not rejected: ${JSON.stringify(legacyContextResponse)}`);
     }
-    sendPackageContext(1, "1");
+    sendPackageContext(1, "1", "mmt-callback-ready");
     changePackageDocument(1, "mmt-callback-ready");
     await transcriptRequest(session, 20, "textDocument/hover", { textDocument: { uri: packageUri }, position: { line: 1, character: 2 } }, serverRequests);
     packageMessages.push(...await collectTranscriptWindow(session, 1_200, serverRequests));
-    sendPackageContext(2, "2");
+    sendPackageContext(2, "2", "mmt-callback-unavailable");
     changePackageDocument(2, "mmt-callback-unavailable");
     packageMessages.push(...await collectTranscriptWindow(session, 900, serverRequests));
-    sendPackageContext(3, "3");
+    sendPackageContext(3, "3", "mmt-callback-error");
     changePackageDocument(3, "mmt-callback-error");
     packageMessages.push(...await collectTranscriptWindow(session, 900, serverRequests));
-    sendPackageContext(4, "4");
+    sendPackageContext(4, "4", "mmt-callback-cancel");
     changePackageDocument(4, "mmt-callback-cancel");
     packageMessages.push(...await collectTranscriptWindow(session, 400, serverRequests));
     session.send({ jsonrpc: "2.0", method: "textDocument/didClose", params: { textDocument: { uri: packageUri } } });
-    sendPackageContext(5, "5");
+    sendPackageContext(5, "5", "closed");
     packageMessages.push(...await collectTranscriptWindow(session, 700, serverRequests));
     session.send({
       jsonrpc: "2.0",
@@ -840,15 +833,18 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
       .filter((message) => message.method === "$/cancelRequest");
     const callbackResponses = packageHarness.responses.map(normalizedJson);
     const callbackResponseText = JSON.stringify(callbackResponses);
-    for (const required of ["Ready", "Unavailable", "Cancelled", "host package fixture error"]) {
+    for (const required of ["Ready", "Unavailable", "Cancelled", "manifest identity does not match"]) {
       if (!callbackResponseText.includes(required)) throw new Error(`native callback transcript omitted ${required}: messages=${JSON.stringify(packageMessages)}, responses=${callbackResponseText}`);
     }
     if (packageHarness.pending.size !== 0 || cancellationMessages.length === 0) {
       throw new Error("native callback cancellation was not completed");
     }
-    const diagnosticMessages = packageMessages
+    const diagnosticMessages = [...new Map(packageMessages
       .filter((message) => message.method === "textDocument/publishDiagnostics")
-      .map((message) => normalizedJson(message.params));
+      .map((message) => normalizedJson(message.params))
+      .map((params) => [JSON.stringify(params), params])).entries()]
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([, params]) => params);
     const advertisedCommands = executeCommands.filter((commandName) =>
       /preview|documenttrace/i.test(commandName)
     );
