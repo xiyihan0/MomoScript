@@ -177,7 +177,7 @@ This change depends on, but SHALL NOT duplicate, the following active changes. T
 
 ## Implementation status
 
-This change is design-only when introduced. No runtime or language capability described here may be presented as implemented until its task is checked and its focused contract tests and host acceptance evidence exist.
+Sections 0.x–9.x are implemented on the integrated development branch as of 2026-07-18. Each checked task links focused contract/transcript evidence; fixed native/Web Tinymist artifacts are digest-pinned and the production Web editor has passing online and offline Chromium acceptance. Sections 10–11 remain explicit follow-on work unless individually checked; this status does not claim the separate full PWA install/update、Local History UX、File System Access or WebDAV changes.
 
 ## Impact
 

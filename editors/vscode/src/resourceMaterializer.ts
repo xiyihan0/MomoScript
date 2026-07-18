@@ -1,6 +1,6 @@
 import type { PackManifestSource } from "./packSync.ts";
 import { canonicalBytesDigest } from "./runtimeIdentity.ts";
-import type { TypstRenderProjectUpdate, TypstResourceRequest } from "./tinymistClient.ts";
+import type { TypstRenderProjectUpdate, TypstResourceRange, TypstResourceRequest } from "./tinymistClient.ts";
 
 export interface MaterializationPackSource extends PackManifestSource {
   readonly cacheIdentity: string;
@@ -39,6 +39,12 @@ export interface ResourceMaterializationDependencies {
 export interface ResourceMaterializationDiagnostic {
   readonly phase: "fetch" | "decode";
   readonly message: string;
+  readonly range?: TypstResourceRange;
+  readonly dependency?: Readonly<{
+    kind: TypstResourceRequest["kind"];
+    id: number;
+    packNamespace?: string;
+  }>;
 }
 
 /** Host-neutral, bounded materialization shared by browser and native preview. */
@@ -62,7 +68,11 @@ export async function materializeProjectResources(
   for (const resource of project.resources) {
     if (resource.kind === "workspace-file") {
       if (!files.some((file) => file.uri === resource.uri)) {
-        diagnostics.push({ phase: "fetch", message: `Workspace resource '${resource.fileName}' was not mirrored` });
+        diagnostics.push({
+          phase: "fetch",
+          message: `Workspace resource '${resource.fileName}' was not mirrored`,
+          ...resourceAttribution(resource)
+        });
       }
       continue;
     }
@@ -108,7 +118,8 @@ export async function materializeProjectResources(
       if (signal.aborted) throw error;
       diagnostics.push({
         phase,
-        message: `Failed to materialize character resource: ${error instanceof Error ? error.message : String(error)}`
+        message: `Failed to materialize character resource: ${error instanceof Error ? error.message : String(error)}`,
+        ...(error instanceof ResourceBudgetError ? {} : resourceAttribution(resource))
       });
       if (error instanceof ResourceBudgetError) break;
     }
@@ -129,6 +140,20 @@ export async function materializeProjectResources(
   }
   const resourceBytesDigest = await canonicalBytesDigest("mmt-resource-bytes-v1", digestFields);
   return { project: { ...project, files, resourceBytesDigest }, diagnostics };
+}
+
+function resourceAttribution(resource: TypstResourceRequest): Pick<
+  ResourceMaterializationDiagnostic,
+  "range" | "dependency"
+> {
+  return {
+    range: resource.range,
+    dependency: Object.freeze({
+      kind: resource.kind,
+      id: resource.id,
+      ...("packNamespace" in resource ? { packNamespace: resource.packNamespace } : {})
+    })
+  };
 }
 
 function assertResourceBudget(bytes: number, limits: ResourceMaterializationLimits): void {

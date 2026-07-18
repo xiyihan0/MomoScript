@@ -226,7 +226,7 @@ let unsafeCodeAction = false;
 const backend = {
   backendGeneration: () => 1,
   capabilities: () => capabilities,
-  on() {},
+  on() { return { dispose() {} }; },
   request(method) {
     const range = { start: { line: 0, character: 5 }, end: { line: 0, character: 10 } };
     if (method === "textDocument/prepareRename") return Promise.resolve({ range, placeholder: "alpha" });

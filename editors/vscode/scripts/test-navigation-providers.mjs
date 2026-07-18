@@ -69,7 +69,7 @@ let backendRequest = async () => null;
 const backend = {
   backendGeneration: () => registry.generation,
   capabilities: () => registry,
-  on() {},
+  on() { return { dispose() {} }; },
   request: (method, params, signal) => backendRequest(method, params, signal),
   syncProject(update) { project = update; },
   closeProject() { return false; },

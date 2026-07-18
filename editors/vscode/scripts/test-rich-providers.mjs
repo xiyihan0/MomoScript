@@ -131,7 +131,10 @@ let pendingRequest;
 const backend = {
   backendGeneration: () => capabilities.generation,
   capabilities: () => capabilities,
-  on(method, handler) { listeners.set(method, handler); },
+  on(method, handler) {
+    listeners.set(method, handler);
+    return { dispose() { if (listeners.get(method) === handler) listeners.delete(method); } };
+  },
   request(method, params, signal) {
     if (method === "textDocument/rangeFormatting" && pendingRequest) {
       return new Promise((resolve, reject) => {

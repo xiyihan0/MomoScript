@@ -3,7 +3,7 @@ export interface PwaSafeRestartRuntimePort {
 }
 
 export interface PwaSafeRestartDependencies {
-  pauseNewWork(): () => void;
+  pauseNewWork: () => () => void;
   requireWriter(): void | Promise<void>;
   assertWorkspaceSafe(): void | Promise<void>;
   flushDurableState(): Promise<void>;

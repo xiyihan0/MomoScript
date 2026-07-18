@@ -11,6 +11,14 @@
             "start": { "line": 0, "character": 0 },
             "end": { "line": 0, "character": 1 }
           }
+        },
+        {
+          "severity": 0,
+          "message": "preview-build-diagnostic",
+          "range": {
+            "start": { "line": 0, "character": 0 },
+            "end": { "line": 0, "character": 0 }
+          }
         }
       ]
     },

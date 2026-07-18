@@ -90,6 +90,7 @@ const countLimited = await materializeProjectResources(
 assert.equal(countLimited.project.files.length, 0);
 assert.match(countLimited.diagnostics[0].message, /2 resources; limit is 1/);
 assert.equal(countLimited.diagnostics[0].phase, "fetch");
+assert.equal(countLimited.diagnostics[0].range, undefined, "project-wide count budgets must stay document-level");
 
 const byteLimited = await materializeProjectResources(
   { ...project, resources: [resource(3, 0)] },
@@ -102,6 +103,7 @@ const byteLimited = await materializeProjectResources(
 assert.equal(byteLimited.project.files.length, 0);
 assert.match(byteLimited.diagnostics[0].message, /memory budget exceeds 5 bytes/);
 assert.equal(byteLimited.diagnostics[0].phase, "fetch");
+assert.equal(byteLimited.diagnostics[0].range, undefined, "project-wide byte budgets must stay document-level");
 
 const failedFetch = await materializeProjectResources(
   { ...project, resources: [resource(4, 0)] },
@@ -112,6 +114,12 @@ const failedFetch = await materializeProjectResources(
 );
 assert.deepEqual(failedFetch.diagnostics.map(({ phase }) => phase), ["fetch"]);
 assert.match(failedFetch.diagnostics[0].message, /network unavailable/);
+assert.deepEqual(failedFetch.diagnostics[0].range, resource(4, 0).range);
+assert.deepEqual(failedFetch.diagnostics[0].dependency, {
+  kind: "image-sequence",
+  id: 4,
+  packNamespace: "fixture"
+});
 
 const failedDecode = await materializeProjectResources(
   { ...project, resources: [resource(5, 0)] },
@@ -122,6 +130,8 @@ const failedDecode = await materializeProjectResources(
 );
 assert.deepEqual(failedDecode.diagnostics.map(({ phase }) => phase), ["decode"]);
 assert.match(failedDecode.diagnostics[0].message, /invalid AVIFS/);
+assert.deepEqual(failedDecode.diagnostics[0].range, resource(5, 0).range);
+assert.equal(failedDecode.diagnostics[0].dependency.id, 5);
 
 console.log(JSON.stringify({
   materializationFetches: fetches,

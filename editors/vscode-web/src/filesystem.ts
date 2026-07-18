@@ -36,14 +36,19 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
   static async open(): Promise<MmtIndexedDbFileSystemProvider> {
     const backend = await IndexedDbWorkspaceBackend.open();
     const coordinator = new WorkspaceCoordinator(backend);
-    await coordinator.initialize();
-    await coordinator.acquireWriter();
-    if (coordinator.state.lease !== "readonly") {
-      await coordinator.mutate("backend-migration", () => backend.resumeV1BaselineMigration());
+    try {
+      await coordinator.initialize();
+      await coordinator.acquireWriter();
+      if (coordinator.state.lease !== "readonly") {
+        await coordinator.mutate("backend-migration", () => backend.resumeV1BaselineMigration());
+      }
+      const provider = new MmtIndexedDbFileSystemProvider(backend, coordinator);
+      await provider.load();
+      return provider;
+    } catch (error) {
+      coordinator.dispose();
+      throw error;
     }
-    const provider = new MmtIndexedDbFileSystemProvider(backend, coordinator);
-    await provider.load();
-    return provider;
   }
 
   watch(): vscode.Disposable {

@@ -42,10 +42,16 @@ import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
 import { projectionSessionKey } from "../../vscode/src/tinymistClient";
 import { sanitizeSvg, TypstPreviewController, type TypstPreviewBinding } from "./preview";
-import { PreviewBuildState } from "./previewDiagnostics";
+import {
+  PreviewBuildState,
+  type PreviewBuildDiagnostic,
+  type PreviewBuildIdentity,
+  type PreviewRevision
+} from "./previewDiagnostics";
 import { ownEventListener } from "./runtimeOwner";
 import { EditorRuntimeController } from "./runtimeController";
 import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
+import { registerPwaUpdateLifecycle } from "./pwaUpdate";
 import { createPreviewArtifact, type LocationProviderKey, type PreviewArtifact, type PreviewPagePoint, type PreviewSourceTarget, type PreviewViewport } from "./previewArtifact.ts";
 import type {
   PreviewBackendLocation,
@@ -454,7 +460,75 @@ async function initializeRuntime(
     const project = previewProjects.get(sourceUri) ?? typstProjects.get(sourceUri);
     return document && project ? previewIdentityFor(project, document) : undefined;
   };
-  const previewBindingFor = async (project: TypstProjectUpdate, document: vscode.TextDocument): Promise<TypstPreviewBinding> => {
+  const previewBuildIdentityFor = (
+    project: TypstProjectUpdate,
+    document: vscode.TextDocument
+  ): PreviewBuildIdentity => {
+    const identity = previewIdentityFor(project, document);
+    return Object.freeze({
+      sourceUri: identity.sourceUri,
+      sourceVersion: identity.sourceStaleToken.documentVersion,
+      revision: identity.revision,
+      sourceContent: identity.sourceContent,
+      sourceStaleToken: identity.sourceStaleToken,
+    });
+  };
+  const currentPreviewBuildIdentity = (
+    revision: PreviewRevision
+  ): PreviewBuildIdentity | undefined => {
+    const document = vscode.workspace.textDocuments.find(
+      (candidate) => candidate.uri.toString() === revision.sourceUri
+    );
+    const project = previewProjects.get(revision.sourceUri) ?? typstProjects.get(revision.sourceUri);
+    if (!document || !project
+      || document.version !== revision.sourceVersion
+      || project.sourceVersion !== revision.sourceVersion
+      || project.revision !== revision.revision) return undefined;
+    return previewBuildIdentityFor(project, document);
+  };
+  const previewProblemDiagnostic = (
+    diagnostic: PreviewBuildDiagnostic
+  ): vscode.Diagnostic => {
+    const range = diagnostic.range
+      ? new vscode.Range(
+          diagnostic.range.start.line,
+          diagnostic.range.start.character,
+          diagnostic.range.end.line,
+          diagnostic.range.end.character
+        )
+      : new vscode.Range(0, 0, 0, 0);
+    const problem = new vscode.Diagnostic(
+      range,
+      `[${diagnostic.phase}] ${diagnostic.message}`,
+      diagnostic.severity === "error"
+        ? vscode.DiagnosticSeverity.Error
+        : diagnostic.severity === "warning"
+          ? vscode.DiagnosticSeverity.Warning
+          : vscode.DiagnosticSeverity.Information
+    );
+    problem.source = "MomoScript preview/build";
+    problem.code = `preview/${diagnostic.phase}`;
+    if (diagnostic.dependency) {
+      const pack = diagnostic.dependency.packNamespace
+        ? ` from pack '${diagnostic.dependency.packNamespace}'`
+        : "";
+      problem.relatedInformation = [
+        new vscode.DiagnosticRelatedInformation(
+          new vscode.Location(vscode.Uri.parse(diagnostic.sourceUri), range),
+          `Resource ${diagnostic.dependency.kind} #${diagnostic.dependency.id}${pack}`
+        )
+      ];
+    }
+    return problem;
+  };
+  const previewPhaseForProjectDiagnostic = (
+    phase: TypstRenderProjectUpdate["diagnostics"][number]["phase"]
+  ): "package" | "compiler" => phase === "materialize" ? "package" : "compiler";
+  const previewBindingFor = async (
+    project: TypstProjectUpdate,
+    document: vscode.TextDocument,
+    requestId?: number
+  ): Promise<TypstPreviewBinding> => {
     const renderProject = project as Partial<TypstRenderProjectUpdate>;
     const materialization = await materializationKey(
       project.projectionKey,
@@ -465,6 +539,7 @@ async function initializeRuntime(
     const key = await renderKey(materialization, await PREVIEW_RUNTIME_KEY, await PREVIEW_RENDER_OPTIONS_DIGEST);
     const mapDigest = await canonicalBytesDigest("mmt-preview-empty-location-map-v1", [encoder.encode(key)]);
     return Object.freeze({
+      ...(requestId === undefined ? {} : { requestId }),
       renderKey: key,
       locationProviderKey: Object.freeze({
         kind: "immutable-map",
@@ -524,12 +599,13 @@ async function initializeRuntime(
   const preview = own(new TypstPreviewController(layout.preview, {
     status(message, error, revision) {
       if (revision?.sourceUri === previewFixtureActiveSourceUri) return;
-      if (revision && !previewBuildState.isCurrent(revision)) return;
-      if (error && revision) {
-        previewBuildState.fail(revision, "render-layout", message);
-        const requested = controller.stores.previewArtifacts.document(revision.sourceUri).requestedRenderKey;
-        controller.stores.previewArtifacts.fail(revision.sourceUri, requested);
-        if (displayedPreviewSourceUri === revision.sourceUri) exactExportUi.bind(revision.sourceUri);
+      const identity = revision ? currentPreviewBuildIdentity(revision) : undefined;
+      if (revision && (!identity || !previewBuildState.isCurrent(identity))) return;
+      if (error && identity) {
+        previewBuildState.fail(identity, "renderer", message);
+        const requested = controller.stores.previewArtifacts.document(identity.sourceUri).requestedRenderKey;
+        controller.stores.previewArtifacts.fail(identity.sourceUri, requested);
+        if (displayedPreviewSourceUri === identity.sourceUri) exactExportUi.bind(identity.sourceUri);
       }
       const scope = message.includes("WASM") ? "wasm" : (error ? "preview:error" : "preview");
       log(scope, message);
@@ -537,8 +613,18 @@ async function initializeRuntime(
     },
     rendered(svg, revision, shadowCount, pageSize) {
       if (revision.sourceUri === previewFixtureActiveSourceUri) return;
-      if (!previewBuildState.isCurrent(revision)) return;
-      log("preview", `Rendered revision ${revision.revision} with ${shadowCount} virtual files`);
+      const identity = currentPreviewBuildIdentity(revision);
+      if (!identity || !previewBuildState.isCurrent(identity)) return;
+      log("preview:identity", JSON.stringify({
+        event: "rendered",
+        ...(revision.requestId === undefined ? {} : { requestId: revision.requestId }),
+        revision: identity.revision,
+        projectionKey: previewProjects.get(identity.sourceUri)?.projectionKey
+          ?? typstProjects.get(identity.sourceUri)?.projectionKey,
+        renderKey: preview.displayedRenderKey,
+        shadowCount,
+      }));
+      previewBuildState.complete(identity);
       if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, svg, "", false, pageSize, preview.viewportState, exactExportUi.state);
     },
   }, {
@@ -560,11 +646,11 @@ async function initializeRuntime(
       fullRefreshRequested(reason) { log("preview:refresh", `Full refresh required: ${reason}`); },
     },
   }));
-  const renderPreview = async (project: TypstProjectUpdate): Promise<void> => {
+  const renderPreview = async (project: TypstProjectUpdate, requestId?: number): Promise<void> => {
     const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === project.sourceUri);
     if (!document) return;
     if (previewFixtureActiveSourceUri === project.sourceUri) return;
-    const binding = await previewBindingFor(project, document);
+    const binding = await previewBindingFor(project, document, requestId);
     if (previewFixtureActiveSourceUri === project.sourceUri) return;
     const before = controller.stores.previewArtifacts.document(project.sourceUri);
     if (before.displayedArtifact && before.displayedArtifact.renderKey !== binding.renderKey) {
@@ -980,11 +1066,73 @@ async function initializeRuntime(
   outputStatus.tooltip = "显示或隐藏 MomoScript 日志";
   outputStatus.command = "workbench.action.output.toggleOutput";
   outputStatus.show();
+  const buildStatus = own(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 98));
+  buildStatus.name = "MomoScript 构建状态";
+  buildStatus.command = "workbench.actions.view.problems";
+  const refreshBuildStatus = () => {
+    const sourceUri = displayedPreviewSourceUri
+      ?? vscode.window.activeTextEditor?.document.uri.toString();
+    const document = sourceUri
+      ? vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === sourceUri)
+      : undefined;
+    const snapshot = sourceUri ? previewBuildState.snapshot(sourceUri) : undefined;
+    const stale = Boolean(
+      document
+      && snapshot?.identity
+      && (
+        snapshot.identity.sourceVersion !== document.version
+        || snapshot.identity.sourceStaleToken.hostUri !== sourceUri
+        || snapshot.identity.sourceStaleToken.documentIncarnation
+          !== previewDocumentIncarnations.get(document)
+      )
+    );
+    const status = stale ? "stale" : (snapshot?.status ?? "idle");
+    buildStatus.backgroundColor = status === "failed"
+      ? new vscode.ThemeColor("statusBarItem.errorBackground")
+      : status === "stale"
+        ? new vscode.ThemeColor("statusBarItem.warningBackground")
+        : undefined;
+    if (status === "rendering") buildStatus.text = "$(sync~spin) MomoScript: rendering…";
+    else if (status === "ready") buildStatus.text = "$(check) MomoScript: ready";
+    else if (status === "failed") buildStatus.text = "$(error) MomoScript: failed";
+    else if (status === "stale") buildStatus.text = "$(warning) MomoScript: stale";
+    else buildStatus.text = "$(circle-outline) MomoScript: idle";
+    const revision = snapshot?.identity ? ` revision ${snapshot.identity.revision}` : "";
+    const diagnostics = snapshot?.diagnosticCount
+      ? `; ${snapshot.diagnosticCount} build problem(s)`
+      : "";
+    buildStatus.tooltip = `${buildStatus.text.replace(/^\\$\\([^)]*\\)\\s*/, "")}${revision}${diagnostics}. Click to focus Problems.`;
+    buildStatus.show();
+  };
+  own(previewBuildState.subscribe((sourceUri) => {
+    if ((displayedPreviewSourceUri ?? vscode.window.activeTextEditor?.document.uri.toString()) === sourceUri) {
+      refreshBuildStatus();
+    }
+  }));
+  own(vscode.window.onDidChangeActiveTextEditor(refreshBuildStatus));
+  own(vscode.workspace.onDidChangeTextDocument((event) => {
+    const sourceUri = event.document.uri.toString();
+    const identity = previewBuildState.snapshot(sourceUri).identity;
+    if (identity && (
+      identity.sourceVersion !== event.document.version
+      || identity.sourceStaleToken.documentIncarnation
+        !== previewDocumentIncarnations.get(event.document)
+    )) {
+      previewBuildState.stale(sourceUri);
+    } else if (event.document === vscode.window.activeTextEditor?.document) {
+      refreshBuildStatus();
+    }
+  }));
+  refreshBuildStatus();
   root.classList.toggle("sidebar-collapsed", !isPartVisibile(Parts.SIDEBAR_PART));
   const sidebarVisibilityRegistration = own(onPartVisibilityChange(Parts.SIDEBAR_PART, (visible) => {
     root.classList.toggle("sidebar-collapsed", !visible);
   }));
-  const applyProject = async (project: TypstRenderProjectUpdate, replaceSameRevision = false) => {
+  const applyProject = async (
+    project: TypstRenderProjectUpdate,
+    replaceSameRevision = false,
+    requestId?: number
+  ) => {
     const session = projectionSessionKey(project.entryUri);
     const latest = latestProjectBySource.get(project.sourceUri);
     const retiredSessions = retiredProjectSessions.get(project.sourceUri);
@@ -996,14 +1144,38 @@ async function initializeRuntime(
         || (project.revision === latest.revision && project.sourceVersion !== latest.sourceVersion)
         || (!replaceSameRevision && project.revision === latest.revision))
     ) return;
+    const sourceDocument = vscode.workspace.textDocuments.find(
+      (candidate) => candidate.uri.toString() === project.sourceUri
+    );
+    if (!sourceDocument || sourceDocument.version !== project.sourceVersion) return;
     if (latest && latest.session !== session) {
       const nextRetiredSessions = retiredSessions ?? new Set<string>();
       nextRetiredSessions.add(latest.session);
       retiredProjectSessions.set(project.sourceUri, nextRetiredSessions);
     }
-    latestProjectBySource.set(project.sourceUri, { session, sourceVersion: project.sourceVersion, revision: project.revision });
-    const projectRevision = { sourceUri: project.sourceUri, sourceVersion: project.sourceVersion, revision: project.revision };
+    latestProjectBySource.set(project.sourceUri, {
+      session,
+      sourceVersion: project.sourceVersion,
+      revision: project.revision
+    });
+    const projectRevision = previewBuildIdentityFor(project, sourceDocument);
     previewBuildState.activate(projectRevision);
+    for (const diagnostic of project.diagnostics) {
+      previewBuildState.fail(
+        projectRevision,
+        previewPhaseForProjectDiagnostic(diagnostic.phase),
+        `[${diagnostic.phase}] ${diagnostic.message}`,
+        {
+          severity: diagnostic.severity,
+          range: diagnostic.range ?? diagnostic.labels[0]?.range,
+        }
+      );
+    }
+    const sourceStillCurrent = () =>
+      sourceDocument.version === project.sourceVersion
+      && previewDocumentIncarnations.get(sourceDocument)
+        === projectRevision.sourceStaleToken.documentIncarnation
+      && previewBuildState.isCurrent(projectRevision);
     if (displayedPreviewSourceUri === project.sourceUri) preview.invalidate();
     materializationControllers.get(project.sourceUri)?.abort();
     const controller = new AbortController();
@@ -1012,7 +1184,14 @@ async function initializeRuntime(
     try {
       const mirroredProject = await mirrorWorkspaceFiles(project, project, controller.signal);
       const limits = configuredResourceLimits();
-      log("resources", `Materializing ${project.resources.length} resources for revision ${project.revision} (file ${limits.maxFileBytes} bytes, project ${limits.maxProjectBytes} bytes)`);
+      log("resources:identity", JSON.stringify({
+        event: "materialize",
+        revision: project.revision,
+        projectionKey: project.projectionKey,
+        resourceCount: project.resources.length,
+        maxFileBytes: limits.maxFileBytes,
+        maxProjectBytes: limits.maxProjectBytes,
+      }));
       prepared = await materializeProjectResources(
         mirroredProject,
         packSourcesByNamespace,
@@ -1026,6 +1205,7 @@ async function initializeRuntime(
       );
     } catch (error) {
       if (controller.signal.aborted) return;
+      if (!sourceStillCurrent()) return;
       const failedCurrent = latestProjectBySource.get(project.sourceUri);
       if (
         failedCurrent?.session !== session
@@ -1041,6 +1221,7 @@ async function initializeRuntime(
       }
       return;
     }
+    if (!sourceStillCurrent()) return;
     const current = latestProjectBySource.get(project.sourceUri);
     if (
       current?.session !== session
@@ -1049,7 +1230,10 @@ async function initializeRuntime(
     ) return;
     if (prepared.diagnostics.length > 0) {
       for (const diagnostic of prepared.diagnostics) {
-        previewBuildState.fail(projectRevision, diagnostic.phase, diagnostic.message);
+        previewBuildState.fail(projectRevision, diagnostic.phase, diagnostic.message, {
+          range: diagnostic.range,
+          dependency: diagnostic.dependency,
+        });
         log(`resources:${diagnostic.phase}:error`, diagnostic.message);
       }
       const first = prepared.diagnostics[0];
@@ -1057,7 +1241,7 @@ async function initializeRuntime(
     }
     previewProjects.set(project.sourceUri, prepared.project);
     if (displayedPreviewSourceUri === project.sourceUri && previewPanel) {
-      await renderPreview(prepared.project);
+      await renderPreview(prepared.project, requestId);
     }
   };
   const trackLanguageProjection = (project: TypstProjectUpdate) => advanceLanguageProjection(
@@ -1078,7 +1262,13 @@ async function initializeRuntime(
     const timestamp = previewClock.timestamp(token, force);
     const requestId = (renderRequestIdBySource.get(sourceUri) ?? 0) + 1;
     renderRequestIdBySource.set(sourceUri, requestId);
-    log("preview", `Requesting render project for ${sourceUri}`);
+    log("preview:identity", JSON.stringify({
+      event: "request",
+      requestId,
+      sourceUri,
+      revision: token.revision,
+      session: token.session,
+    }));
     try {
       const renderProject = await client.sendRequest<TypstRenderProjectUpdate | null>(
         "mmt/getTypstRenderProject", { uri: sourceUri, timestamp }
@@ -1097,7 +1287,7 @@ async function initializeRuntime(
         || renderProject.revision !== token.revision
         || renderProject.sourceVersion !== token.sourceVersion
       ) return;
-      const application = applyProject(renderProject, force);
+      const application = applyProject(renderProject, force, requestId);
       pendingMaterializations.add(application);
       try {
         await application;
@@ -1227,7 +1417,20 @@ async function initializeRuntime(
         closePreviewProject(params.sourceUri);
       }
     ));
-    tinymist?.connect(activeClient);
+    const problems = tinymist?.connect(activeClient);
+    if (problems) {
+      previewBuildState.bindPublisher({
+        replace(identity, diagnostics) {
+          problems.replacePreview(
+            vscode.Uri.parse(identity.sourceUri),
+            diagnostics.map(previewProblemDiagnostic)
+          );
+        },
+        clear(sourceUri) {
+          problems.clearPreview(vscode.Uri.parse(sourceUri));
+        },
+      });
+    }
     log("mmt", "MMT language server ready");
   } catch (error) {
     log("mmt:error", error instanceof Error ? error.message : String(error));
@@ -1262,6 +1465,7 @@ async function initializeRuntime(
     const sourceUri = document.uri.toString();
     previewFixtureActiveSourceUri = undefined;
     displayedPreviewSourceUri = sourceUri;
+    refreshBuildStatus();
     exactExportUi.bind(sourceUri);
     previewPanelTitle = `${document.uri.path.split("/").at(-1) ?? "文档"}（预览）`;
     if (!previewPanel) {
@@ -1275,6 +1479,7 @@ async function initializeRuntime(
         previewPanel = undefined;
         exactExportUi.bind(undefined);
         displayedPreviewSourceUri = undefined;
+        refreshBuildStatus();
         previewPanelDisposeRegistration?.dispose();
         previewPanelDisposeRegistration = undefined;
         previewPanelMessageRegistration?.dispose();
@@ -1313,7 +1518,7 @@ async function initializeRuntime(
       const project = await buildTypstProject(document, typstRevisions);
       typstProjects.set(sourceUri, project);
       tinymist?.backend.syncProject(project);
-      previewBuildState.activate({ sourceUri: project.sourceUri, sourceVersion: project.sourceVersion, revision: project.revision });
+      previewBuildState.activate(previewBuildIdentityFor(project, document));
       await renderPreview(project);
       return;
     }
@@ -1566,6 +1771,23 @@ async function initializeRuntime(
       if (Reflect.get(globalThis, "__mmtPwaSafeRestart") === safeRestart) Reflect.deleteProperty(globalThis, "__mmtPwaSafeRestart");
     },
   });
+  if (import.meta.env.PROD && import.meta.env.VITE_MMT_E2E !== "1") {
+    own(registerPwaUpdateLifecycle({
+      prepareForReload: () => safeRestart.prepareForReload(10_000),
+      async promptForReload() {
+        const update = "安全更新并重启";
+        return await vscode.window.showInformationMessage(
+          "MomoScript 已准备好离线更新。保存并安全重启以启用新版本。",
+          update
+        ) === update;
+      },
+      report(message, error) {
+        const detail = error instanceof Error ? error.message : String(error ?? "");
+        log("pwa:update", `${message}${detail ? `: ${detail}` : ""}`);
+        if (error) void vscode.window.showErrorMessage(`${message}: ${detail}`);
+      },
+    }));
+  }
   let controllerDisposal: Promise<void> | undefined;
   const controllerDispose = (): Promise<void> => {
     if (controllerDisposal) return controllerDisposal;

@@ -30,6 +30,75 @@ import { ProjectedTypstEditProviders } from "./projectedEdits";
 
 const routersByBackend = new WeakMap<TinymistHostBackend, TypstFeatureRouter>();
 const retainedDocumentsByBackend = new WeakMap<TinymistHostBackend, RetainedVirtualDocumentStore>();
+const problemsByBackend = new WeakMap<TinymistHostBackend, TypstProblemsPublisher>();
+
+export interface TypstProblemsPublisher extends vscode.Disposable {
+  replacePreview(uri: vscode.Uri, diagnostics: readonly vscode.Diagnostic[]): void;
+  clearPreview(uri: vscode.Uri): void;
+}
+
+class UnifiedTypstProblemsPublisher implements TypstProblemsPublisher {
+  readonly #collection = vscode.languages.createDiagnosticCollection("mmt-typst");
+  readonly #language = new Map<string, readonly vscode.Diagnostic[]>();
+  readonly #preview = new Map<string, readonly vscode.Diagnostic[]>();
+  #disposed = false;
+
+  replaceLanguage(uri: vscode.Uri, diagnostics: readonly vscode.Diagnostic[]): void {
+    if (this.#disposed) return;
+    this.#language.set(uri.toString(), [...diagnostics]);
+    this.#publish(uri);
+  }
+
+  clearLanguage(uri: vscode.Uri): void {
+    if (this.#disposed) return;
+    this.#language.delete(uri.toString());
+    this.#publish(uri);
+  }
+
+  replacePreview(uri: vscode.Uri, diagnostics: readonly vscode.Diagnostic[]): void {
+    if (this.#disposed) return;
+    this.#preview.set(uri.toString(), [...diagnostics]);
+    this.#publish(uri);
+  }
+
+  clearPreview(uri: vscode.Uri): void {
+    if (this.#disposed) return;
+    this.#preview.delete(uri.toString());
+    this.#publish(uri);
+  }
+
+  clear(uri: vscode.Uri): void {
+    if (this.#disposed) return;
+    this.#language.delete(uri.toString());
+    this.#preview.delete(uri.toString());
+    this.#collection.delete(uri);
+  }
+
+  dispose(): void {
+    if (this.#disposed) return;
+    this.#disposed = true;
+    this.#language.clear();
+    this.#preview.clear();
+    this.#collection.dispose();
+  }
+
+  #publish(uri: vscode.Uri): void {
+    if (this.#disposed) return;
+    const key = uri.toString();
+    const diagnostics = [
+      ...(this.#language.get(key) ?? []),
+      ...(this.#preview.get(key) ?? [])
+    ];
+    if (diagnostics.length === 0) this.#collection.delete(uri);
+    else this.#collection.set(uri, diagnostics);
+  }
+}
+
+export function typstProblemsPublisher(
+  backend: TinymistHostBackend
+): TypstProblemsPublisher | undefined {
+  return problemsByBackend.get(backend);
+}
 
 interface PublishedTypstDiagnostics {
   readonly uri: string;
@@ -173,7 +242,8 @@ export function connectTypstBackend(
   const router = routersByBackend.get(backend);
   if (!router) throw new Error("Typst middleware must own the feature router before backend connection");
   let warnedAboutUnversionedDiagnostics = false;
-  const diagnostics = vscode.languages.createDiagnosticCollection("mmt-typst");
+  const problems = new UnifiedTypstProblemsPublisher();
+  problemsByBackend.set(backend, problems);
   const providers = new TypstHostProviderRegistrations(router, backend, client);
   const navigationProviders = new TypstNavigationProviders(router, client, host);
   const richProviders = new RichTypstProviderRegistrations(router, backend, client, host);
@@ -209,7 +279,7 @@ export function connectTypstBackend(
       backend.syncProject(update);
       const current = backend.projectForEntry(update.entryUri);
       if (current?.sourceUri === update.sourceUri && current.revision === update.revision) {
-        diagnostics.delete(vscode.Uri.parse(update.sourceUri));
+        problems.clearLanguage(vscode.Uri.parse(update.sourceUri));
       }
     }
   );
@@ -219,11 +289,11 @@ export function connectTypstBackend(
       router.retire(params.sourceUri);
       if (backend.closeProject(params.sourceUri, params.entryUri)) {
         retainedDocuments.closeProjectionSource(params.sourceUri);
-        diagnostics.delete(vscode.Uri.parse(params.sourceUri));
+        problems.clear(vscode.Uri.parse(params.sourceUri));
       }
     }
   );
-  backend.on("tinymist/capabilitiesChanged", (value) => {
+  const capabilitiesChanged = backend.on("tinymist/capabilitiesChanged", (value) => {
     if (value && typeof value === "object" && "generation" in value
       && typeof value.generation === "number") {
       router.retireBackendGenerationsExcept(value.generation);
@@ -235,14 +305,14 @@ export function connectTypstBackend(
     richProviders.reconcile();
     projectedEditProviders.reconcile();
   });
-  backend.on("tinymist/clientRestarting", () => {
+  const clientRestarting = backend.on("tinymist/clientRestarting", () => {
     router.retireAllRequests();
     providers.reconcile();
     navigationProviders.reconcile();
     richProviders.reconcile();
     projectedEditProviders.reconcile();
   });
-  backend.on("textDocument/publishDiagnostics", (value) => {
+  const publishedDiagnostics = backend.on("textDocument/publishDiagnostics", (value) => {
     void (async () => {
       if (!isPublishedTypstDiagnostics(value)) {
         throw new Error("Tinymist published invalid diagnostics parameters");
@@ -260,7 +330,7 @@ export function connectTypstBackend(
         routed.diagnostics as ProtocolDiagnostic[]
       );
       if (!router.diagnosticsAreCurrent(routed)) return;
-      diagnostics.set(vscode.Uri.parse(routed.uri), converted);
+      problems.replaceLanguage(vscode.Uri.parse(routed.uri), converted);
     })().catch((error: unknown) => {
       console.error("Typst diagnostics failed", error);
     });
@@ -269,19 +339,35 @@ export function connectTypstBackend(
   navigationProviders.reconcile();
   richProviders.reconcile();
   projectedEditProviders.reconcile();
-  return [
-    diagnostics,
+  const releaseProblems = new vscode.Disposable(() => {
+    if (problemsByBackend.get(backend) === problems) problemsByBackend.delete(backend);
+  });
+  const owned: vscode.Disposable[] = [
+    capabilitiesChanged,
+    clientRestarting,
+    publishedDiagnostics,
+    opened,
+    changed,
+    closed,
+    projectUpdated,
+    projectClosed,
     providers,
     navigationProviders,
     richProviders,
     projectedEditProviders,
     ...virtualContentProviders,
-    opened,
-    changed,
-    closed,
-    projectUpdated,
-    projectClosed
+    releaseProblems,
+    problems
   ];
+  return [new vscode.Disposable(() => {
+    for (const disposable of owned) {
+      try {
+        disposable.dispose();
+      } catch (error) {
+        console.error("Failed to dispose Typst feature resource", error);
+      }
+    }
+  })];
 }
 
 class TypstHostProviderRegistrations implements vscode.Disposable {

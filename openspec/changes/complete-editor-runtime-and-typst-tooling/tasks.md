@@ -4,18 +4,21 @@
   - Evidence: same-branch closure history `09096fd`–`952aff8`; exact 10.1–10.7 implementation/regression commit mapping, focused commands, and observed positive/negative normalized results are recorded under “Focused evidence for 10.1–10.7 (2026-07-17)” in [`add-mmt-lsp-vscode/tasks.md`](../add-mmt-lsp-vscode/tasks.md).
 - [x] 0.2 Complete the `add-workspace-storage-history-sync` workspace backend and journaled atomic batch/preimage contract before runtime cutover or multi-document edits
   - Evidence: `npm run test:workspace-atomic-apply` verifies migration/history/quota contracts and restores every preimage when the second target commit fails; rollback failure leaves the durable journal blocked. `npm run test:origin-storage` verifies protected workspace/history inventory and shell/pack hard gates.
-- [ ] 0.3 Complete `add-pwa-offline-runtime` task 0.2 ownership handoff before production Web cutover; gate artifact identity、quiesce and persistent package cache separately on their owning PWA contracts
-- [ ] 0.4 Capture complete normalized `initialize` results from the pinned native Tinymist process artifact
-- [ ] 0.5 Capture complete normalized `initialize` results and dynamic registrations from the pinned browser Tinymist Worker artifact
-- [ ] 0.6 Capture native/Web package-callback message shape、cancellation and error transcripts; require artifact upgrade or maintained patch if logical host callbacks are unavailable
-  - Blocker evidence (2026-07-18): direct reruns of pinned native SHA-256 `a05c455…` and Web WASM SHA-256 `d9b946…` observed no logical callback; native emitted only a package-not-found diagnostic with `serverRequests: []`, while Web direct request/cancellation probes returned `-32601`. `tinymist-package-patch-assessment.json` records why the synchronous native `HttpRegistry`/Web `JsRegistry` contracts cannot be adapted safely in the host alone and enumerates the required pinned upstream async request/injection/resync patch. Package resolution and 7.1–7.20 remain disabled/unclaimed.
-- [ ] 0.7 Capture native/Web preview/location method、artifact digest and coordinate-version evidence
+- [x] 0.3 Complete `add-pwa-offline-runtime` task 0.2 ownership handoff before production Web cutover; gate artifact identity、quiesce and persistent package cache separately on their owning PWA contracts
+  - Evidence: `add-pwa-offline-runtime` 0.2/0.4 and `add-workspace-storage-history-sync` 3.5/3.6 are complete. Production Web uses one `OriginStorageCoordinator`, one `EditorRuntimeController`, and the same `PwaSafeRestartQuiesceAdapter`; `npm run test:origin-storage`, `npm run test:pwa-quiesce`, `npm run test:pwa-update`, and the production `npm run test:e2e:pwa-offline` cold-start smoke cover the handoff without creating a second runtime owner.
+- [x] 0.4 Capture complete normalized `initialize` results from the pinned native Tinymist process artifact
+- [x] 0.5 Capture complete normalized `initialize` results and dynamic registrations from the pinned browser Tinymist Worker artifact
+  - Evidence: checked `tinymist-native-evidence.json` and `tinymist-web-evidence.json` contain the complete normalized initialize result, dynamic registrations, backend/version/position encoding, and verified patched artifact SHA-256 values `b96ce119…` and `c9ff9b1d…`. `npm run test:capability-manifest`, the native process transcript, and browser Worker transcript reject artifact drift.
+- [x] 0.6 Capture native/Web package-callback message shape、cancellation and error transcripts; require artifact upgrade or maintained patch if logical host callbacks are unavailable
+  - Evidence: the maintained native/Web patch adds the versioned `mmt/typstPackageRequest.v1` callback to pinned artifacts `b96ce119…`/`c9ff9b1d…`. Both checked evidence files contain Ready、Unavailable、Cancelled and error transcripts; `npm run test:typst-package`, `npm run test:tinymist-process`, and `npm run test:tinymist-worker` exercise the shared host service.
+- [x] 0.7 Capture native/Web preview/location method、artifact digest and coordinate-version evidence
+  - Evidence: both checked artifact transcripts explicitly record that no versioned backend location method or coordinate version is advertised. `tinymist-capability-manifest.json` therefore qualifies only the retained `immutable-location-map` fallback; preview artifacts bind its digest and `typst-page-points-v1` coordinate version through `LocationProviderKey`. `npm run test:preview-artifact` and `npm run test:preview-interaction` pass.
 - [x] 0.8 Generate checked capability manifests containing artifact digest, backend version, position encoding, provider options and experimental methods
-  - Evidence: `cd editors/vscode && npm run test:capability-manifest` checks `src/test/fixtures/tinymist-capability-manifest.json`, including native checksum reference `tinymist-native.sha256`, Web SHA-256 `d9b946…`, backend `0.15.2`, and UTF-16.
+  - Evidence: `cd editors/vscode && npm run test:capability-manifest` checks `src/test/fixtures/tinymist-capability-manifest.json`, including native checksum reference `tinymist-native-patched.sha256`, Web `SHA256SUMS`, SHA-256 values `b96ce119…`/`c9ff9b1d…`, backend `0.15.2`, and UTF-16.
 - [x] 0.9 Diff native/Web manifests and classify every provider as core-required, host-optional, deferred or unavailable
-  - Evidence: the same deterministic command reports baseline completion/hover/semantic-token/signature providers as `core-required`, advertised P0 providers without shared positive/negative method transcripts as `unavailable` with machine-readable `patchRequired: true` and `patchRequiredProviders`, and location/package callback as explicit host-optional/unavailable.
+  - Evidence: the deterministic manifest classifies converged baseline and seven P0 transcript-qualified providers as `core-required`, rich independently qualified providers as `host-optional`, the unsafe command-only code-lens provider as `unavailable`, package callback as `core-required`, and preview location as `host-optional` with immutable-map fallback.
 - [x] 0.10 Remove any capability claim not supported by an explicitly enumerated provider and successful positive/negative method transcripts
-  - Evidence: the generator rejects stale manifests and asserts no P0 provider is `core-required` without compatible advertisement plus shared positive/negative evidence; package callback remains unavailable rather than claimed.
+  - Evidence: the generator rejects stale manifests and asserts no P0 provider is `core-required` without compatible advertisement plus shared positive/negative evidence. The maintained patch and checked transcripts leave `patchRequired: false`; unsafe code lens and unversioned backend preview location remain unclaimed.
 - [x] 0.11 Inventory current runtime maps, listeners, timers, queues, AbortControllers, Workers, processes and dispose ownership
   - Evidence: `npm run test:runtime-inventory` machine-checks `src/test/fixtures/runtime-inventory.json`, including 13 long-lived `main.ts` collections, 21 listener groups, 3 timer classes, 8 Worker/process owners and 20 duplicated Worker/process client state fields.
 - [x] 0.12 Add behavior-preserving Worker/process project lifecycle fixtures before extraction
@@ -105,16 +108,17 @@
 
 Every item in this section is enabled only if the active artifact advertises the provider. P0 items require native/Web convergence before completion.
 
-- [ ] 4.1 Implement standalone go-to-definition and link navigation
+- [x] 4.1 Implement standalone go-to-definition and link navigation
 - [x] 4.2 Implement standalone references with cancellation and partial-result handling
-- [ ] 4.3 Implement standalone prepare-rename and versioned rename workspace edits
-- [ ] 4.4 Implement standalone full and range formatting and configure format-on-save only after a successful transcript
+- [x] 4.3 Implement standalone prepare-rename and versioned rename workspace edits
+- [x] 4.4 Implement standalone full and range formatting and configure format-on-save only after a successful transcript
+  - Evidence: `TypstRichProviderRegistrations` registers rename、prepare-rename、full formatting and range formatting only for active qualified artifacts and writable standalone documents, then validates versioned edits against the exact retained snapshot. Native and Worker artifact probes both return a prepare result, versioned rename edit, one full-format edit, and one range-format edit; `node scripts/test-rich-providers.mjs` covers stale、read-only、unsafe and dynamic-unregister rejection.
 - [x] 4.5 Implement standalone Typst document symbols
 - [x] 4.6 Implement type-definition and implementation routes when advertised
 - [x] 4.7 Implement workspace symbols and optional symbol resolve when advertised
 - [x] 4.8 Implement document highlights when advertised
   - Evidence: `TypstNavigationProviders` installs only active, fixed-artifact-qualified standalone providers and routes through `TypstFeatureRouter.standaloneProvider`, whose request identity, retained-file position conversion and final generation/capability guard reject cancellation, stale graph, restart and unregister races. `node scripts/test-navigation-providers.mjs` covers dynamic absent/unregister, UTF-8↔UTF-16 conversion, multi-location references and nested document symbols; `TINYMIST_BIN=/home/xiyihan/MomoScript-worktrees/artifacts/tinymist-3d63da4f-w2-b0/target/release/tinymist TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" node scripts/test-navigation-artifacts.mjs` proves definition, references, hierarchical document symbols, workspace symbols and document highlights on both pinned artifacts while type-definition/implementation remain unavailable and unregistered.
-- [ ] 4.9 Implement selection ranges when advertised
+- [x] 4.9 Implement selection ranges when advertised
 - [x] 4.10 Implement document links and link resolve when advertised
   - Evidence: `RichTypstProviderRegistrations` registers the qualified standalone link family for native/Web and exposes resolve only when the negotiated `resolveProvider` option is active. Every item and resolved item passes `validateTypstProviderItemPayload`; unsafe external/host targets are stripped only when the range remains meaningful, stale or unauthenticated resolve data is rejected. The pinned native/Worker probe returns one safe path link on each host; `node ./scripts/test-rich-providers.mjs`, `npm run test:provider-payload-negative` and `npm run test:provider-descriptors` pass.
 - [x] 4.11 Implement document colors and color presentations when advertised
@@ -131,7 +135,8 @@ Every item in this section is enabled only if the active artifact advertises the
   - Evidence: validated results expose immutable `strippedFields` entries with field paths and explicit reasons; document-link targets、inlay-hint commands/locations/text edits、unresolved code-lens commands and code-action commands are stripped only under their protocol-specific meaningful-remainder rule, while color edits、command-only actions/lenses and mixed unsafe atomic edits reject the item. The focused negative fixture asserts both sanitized values and reasons.
 - [x] 4.17 Add negative transcripts for unsafe color edits、inlay-hint commands、code-lens commands and stale link targets
   - Evidence: `npm run test:provider-payload-negative` covers stale/read-only/overlapping color edits, unsafe hint text edits/commands/host locations, unsafe and command-only lenses, network/host-path/stale links, code-action diagnostics/commands/resource operations/mixed transactions, unauthenticated resolve data and resolve-after-restart for link、hint、lens and action methods. `npm run test:provider-descriptors`, `npm run test:runtime-identity`, `npm run test:response-identity` and `npm run test:position-domains` also pass without qualifying or registering a provider.
-- [ ] 4.18 Add one native process and one browser Worker transcript per enabled provider
+- [x] 4.18 Add one native process and one browser Worker transcript per enabled provider
+  - Evidence: `typst-navigation-evidence.json` and `tinymist-rich-provider-qualification.json` are digest-pinned native/Worker transcript matrices. Fresh runs of `test-navigation-artifacts.mjs` and `test-rich-provider-artifact.mjs native|worker` reproduce every enabled navigation/rich provider result and retain type-definition、implementation and code-lens as explicitly unavailable.
 
 ## 5. Projected read features
 
@@ -181,8 +186,9 @@ Every item in this section is enabled only if the active artifact advertises the
   - Evidence: the focused Rust fixture covers valid authored mapping、UTF-8 codepoint and UTF-16 surrogate splits、mixed safe/unsafe atomic rejection、generated and five host read-only target classes、overlaps、concurrent version changes and normalized URI aliases. `cd editors/vscode && npm run test:projected-edits` now also runs `test-multi-document-projected-edits.mjs`: the production applier rechecks both retained projection revisions、both authored document versions、all returned byte boundaries and overlaps before constructing one complete `WorkspaceEdit`; partial validator output、mixed unsafe/read-only results、resource operations、cancellation、unsupported hosts and stale secondary projections make zero mutation calls, while injected second-target failure restores both fixture preimages. `npm run check` and the focused protocol `npx tsc --noEmit --strict --skipLibCheck --target ES2022 --module ESNext --moduleResolution Bundler src/projectedEditProtocol.ts` pass.
 - [x] 6.15 Prove applying an edit advances documents only through standard `didChange`
   - Evidence: the single-document fixture applies through `vscode.workspace.applyEdit` with an immediate version recheck, observes exactly one normal `didChange`, and proves neither the adapter nor provider routing emits `mmt/updateDocument`; stale、overlap、cross-segment、read-only、multi-document and unsafe-command refusals never reach `WorkspaceEdit.applyEdit`. `cd editors/vscode && npm run test:projected-edits` passes.
-- [ ] 6.16 Capture preimages, journal the complete batch, commit all targets and restore every preimage on injected mid-commit failure
-- [ ] 6.17 Reject multi-document projected edits as capability unavailable until atomic apply/rollback passes focused failure fixtures
+- [x] 6.16 Capture preimages, journal the complete batch, commit all targets and restore every preimage on injected mid-commit failure
+- [x] 6.17 Reject multi-document projected edits as capability unavailable until atomic apply/rollback passes focused failure fixtures
+  - Evidence: `WorkspaceCoordinator.atomicApply` durably records every preimage before mutation, commits the complete target set, restores all preimages after an injected second-target failure, and leaves a blocked journal if restoration itself fails. `npm run test:workspace-atomic-apply` and `npm run test:projected-edits` pass; multi-document capability is exposed only after this gate and otherwise returns `CapabilityUnavailable` with zero mutation calls.
 
 ## 7. Host-mediated Typst packages
 
@@ -221,10 +227,11 @@ Every item in this section is enabled only if the active artifact advertises the
 
 ## 8. Preview state and navigation
 
-- [ ] 8.1 Introduce `PreviewDocumentState`, immutable `PreviewArtifact` and byte-bounded artifact cache
-- [ ] 8.2 Normalize renderer output into validated page records and page geometry
-- [ ] 8.3 Negotiate a `LocationProviderKey` containing backend/trace artifact digest, generation, method and coordinate version, or retain an immutable location map per artifact
-- [ ] 8.4 Bind every location request/response and `PreviewArtifact` to both `RenderKey` and `LocationProviderKey`
+- [x] 8.1 Introduce `PreviewDocumentState`, immutable `PreviewArtifact` and byte-bounded artifact cache
+- [x] 8.2 Normalize renderer output into validated page records and page geometry
+- [x] 8.3 Negotiate a `LocationProviderKey` containing backend/trace artifact digest, generation, method and coordinate version, or retain an immutable location map per artifact
+- [x] 8.4 Bind every location request/response and `PreviewArtifact` to both `RenderKey` and `LocationProviderKey`
+  - Evidence: `PreviewArtifactStore` owns byte-bounded pinned LRU artifacts and per-source `PreviewDocumentState`; `createPreviewArtifact` validates immutable normalized pages/geometry and requires either a fully qualified provider key or a matching retained immutable map. `npm run test:preview-artifact` proves immutable identity binding、normalization、eviction and stale failure guards; `npm run test:preview-interaction` proves every request/response and overlay remains bound to the displayed render/location keys.
 - [x] 8.5 Add debounced editor-to-preview positioning for standalone Typst
 - [x] 8.6 Map MMT selection through current projection before editor-to-preview positioning
 - [x] 8.7 Select the candidate location nearest the currently visible page and show a bounded visual indicator
@@ -254,6 +261,8 @@ Every item in this section is enabled only if the active artifact advertises the
 
 Evidence (W4-D): `npm run check`, `npm run test:exact-export`, `npm run test:preview-artifact`, `npm run test:preview-interaction`, `npm run test:runtime-controller`, `npm run test:runtime-owner`, and `npm run test:origin-storage` pass. The exact-export fixture covers displayed A in SVG/PNG/JPEG/PDF after current B, wait-latest B, all six advance causes, immutable-input/artifact eviction, partial/failed rejection, pin release/disposal, and SHA-256 metadata. An isolated Vite browser smoke imported the host-neutral service and observed `ExportChoiceRequired`, `ArtifactUnavailable`, and only the explicitly selected displayed-A download.
 Evidence (W4-E): `npm run check`, `npm run test:exact-export`, `npm run test:preview-artifact`, `npm run test:preview-interaction`, `npm run test:runtime-controller`, and `npm run test:runtime-owner` pass. Real Chromium runs `npm run test:e2e -- exact-export.spec.ts` and observes the actual Webview format selector, deterministic partial/failed/evicted disabled states, literal `Export displayed revision` and `Wait for latest` stale actions, cancellation, a displayed-A SVG download, and a wait-latest B SVG download. `npm run test:e2e:preview-interaction` also passes after exercising fit-page, fit-width, zoom, navigation, source switching, stale overlays and provider recovery against the same Webview protocol. Production startup no longer races the default VS Code API: top-level workspace constants use the low-level `URI`, and the read-only package provider registers only after `api.start()`.
+
+Final 0.x–9.x closure evidence (2026-07-18): `cd editors/vscode && npm run check`, capability/identity/position/router/provider/navigation/rich-provider/projected-read/projected-payload/projected-edit/package transcripts, and fixed native/Worker artifact probes pass. `cd editors/vscode-web && npm run check`, runtime/storage/resource/preview/exact-export/PWA focused suites, production `npm run test:e2e` (3 passed), and production offline cold-start `npm run test:e2e:pwa-offline` (1 passed) pass. The browser cold-start proves cached shell membership, offline Workbench/MMT/Tinymist/Typst startup, editing, immutable preview, ready status, Output activity, and no network fallback.
 
 ## 10. Diagnostics, status and observability
 

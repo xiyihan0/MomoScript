@@ -16,6 +16,7 @@
     "test:e2e": "playwright test --project=local",
     "test:e2e:lifecycle": "playwright test --config=playwright.lifecycle.config.ts",
     "test:e2e:chrome": "playwright test --project=chrome",
+    "test:e2e:pwa-offline": "npm run build && playwright test --config=playwright.pwa.config.ts",
     "test:avifs-worker": "npm run build && node ./scripts/test-avifs-worker.mjs",
     "test:resource-cache": "node --experimental-strip-types ./scripts/test-bounded-string-cache.mjs",
     "test:resource-fetch-cache": "node --experimental-strip-types ./scripts/test-resource-fetch-cache.mjs",
@@ -30,6 +31,7 @@
     "test:runtime-owner": "node --experimental-strip-types ./scripts/test-runtime-owner.mjs",
     "test:runtime-controller": "node --experimental-strip-types ./scripts/test-runtime-controller.mjs",
     "test:pwa-quiesce": "node --experimental-strip-types ./scripts/test-pwa-quiesce.mjs",
+    "test:pwa-update": "node --experimental-strip-types ./scripts/test-pwa-update.mjs",
     "test:origin-storage": "node --experimental-strip-types ./scripts/test-origin-storage-coordinator.mjs",
     "test:workspace-atomic-apply": "node --experimental-strip-types ./scripts/test-workspace-atomic-apply.mjs",
     "test:e2e:remote": "playwright test --project=remote"

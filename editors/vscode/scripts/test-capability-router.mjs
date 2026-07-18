@@ -74,6 +74,10 @@ export class SemanticTokensLegend {
     this.tokenModifiers = tokenModifiers;
   }
 }
+export class Disposable {
+  constructor(call) { this.call = call; }
+  dispose() { this.call(); }
+}
 `;
 const bundle = await build({
   stdin: {
@@ -462,6 +466,7 @@ const fixedQualifiedProviderMethods = [
   "textDocument/documentSymbol",
   "workspace/symbol",
   "textDocument/documentHighlight",
+  "textDocument/selectionRange",
   "textDocument/documentLink",
   "textDocument/documentColor",
   "textDocument/colorPresentation",
@@ -574,6 +579,14 @@ const hostBackend = {
     const handlers = hostEvents.get(method) ?? [];
     handlers.push(handler);
     hostEvents.set(method, handlers);
+    return {
+      dispose() {
+        const current = hostEvents.get(method) ?? [];
+        const remaining = current.filter((candidate) => candidate !== handler);
+        if (remaining.length === 0) hostEvents.delete(method);
+        else hostEvents.set(method, remaining);
+      }
+    };
   },
   projectForEntry: (entryUri) => hostProjects.get(entryUri),
   request: async (method) => method === "textDocument/semanticTokens/full"

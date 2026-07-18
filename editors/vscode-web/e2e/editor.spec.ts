@@ -70,7 +70,7 @@ test("production editor materializes an avatar and restores the authored story a
     expect(tinymistFallbackRequests).toBe(1);
   }
   const outputPanel = page.locator(".workbench-panel");
-  const outputToggle = page.getByRole("status").getByRole("button", { name: /MomoScript/ });
+  const outputToggle = page.getByRole("status").getByRole("button", { name: /显示或隐藏 MomoScript 日志/ });
   const problemsToggle = page.locator("#status\\.problems").getByRole("button");
   const workbench = page.locator("#workbench");
   const editorHost = page.locator(".workbench-editor");
@@ -105,6 +105,12 @@ test("production editor materializes an avatar and restores the authored story a
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect(page.getByRole("tab", { name: /^intro\.typ（预览）/ })).toBeVisible();
   await expect(preview).toHaveAttribute("data-preview-ready", "true");
+  const buildStatus = page.getByRole("status").getByRole("button", { name: /MomoScript: ready/ });
+  await expect(buildStatus).toBeVisible();
+  await buildStatus.click();
+  await expect(outputPanel.getByRole("tab", { name: /^问题/ })).toHaveAttribute("aria-selected", "true");
+  await outputToggle.click();
+  await expect(outputPanel.getByRole("tab", { name: /^输出/ })).toHaveAttribute("aria-selected", "true");
   const previewWebview = await previewWebviewFrame(page);
   await expect(previewWebview.locator("#workbench")).toHaveCount(0);
   if (local) {

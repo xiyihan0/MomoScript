@@ -3,15 +3,20 @@ import type { LanguageClientOptions } from "vscode-languageclient";
 import type * as vscode from "vscode";
 import { TinymistWorkerClient } from "../../vscode/src/tinymistClient";
 import type { TypstPackageService } from "../../vscode/src/typstPackageService";
-import { connectTypstBackend, installTypstMiddleware } from "../../vscode/src/typstFeatures";
+import {
+  connectTypstBackend,
+  installTypstMiddleware,
+  typstProblemsPublisher,
+  type TypstProblemsPublisher
+} from "../../vscode/src/typstFeatures";
 import tinymistModuleUrl from "../../vscode/vendor/tinymist-0.15.2/tinymist.js?url";
 import tinymistWorkerUrl from "../../vscode/src/tinymistWorker.ts?worker&url";
-const tinymistWasmUrl = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454/tinymist_bg.wasm?delivery=zstd-v1";
+import { TINYMIST_WASM_URL } from "./runtimeArtifacts";
 
 export interface TinymistHandle {
   backend: TinymistWorkerClient;
   installMiddleware(options: LanguageClientOptions, getClient: () => BaseLanguageClient): void;
-  connect(client: BaseLanguageClient): void;
+  connect(client: BaseLanguageClient): TypstProblemsPublisher;
   dispose(): Promise<void>;
   terminate(): void;
 }
@@ -30,12 +35,18 @@ export async function startTinymistLanguageClient(
     },
     connect(client) {
       disposables.push(...connectTypstBackend(client, backend, "web"));
+      const problems = typstProblemsPublisher(backend);
+      if (!problems) {
+        for (const disposable of disposables.splice(0).reverse()) disposable.dispose();
+        throw new Error("Tinymist Problems publisher was not installed");
+      }
+      return problems;
     },
     terminate() {
       backend.terminate();
     },
     async dispose() {
-      for (const disposable of disposables.splice(0)) disposable.dispose();
+      for (const disposable of disposables.splice(0).reverse()) disposable.dispose();
       await backend.stop();
       URL.revokeObjectURL(wasmUrl);
     }
@@ -65,10 +76,10 @@ async function startTinymistBackend(
 
 async function downloadTinymistWasm(report: (message: string) => void): Promise<Uint8Array> {
   try {
-    return await downloadValidatedWasm(tinymistWasmUrl, "Tinymist WASM", report);
+    return await downloadValidatedWasm(TINYMIST_WASM_URL, "Tinymist WASM", report);
   } catch {
     report("Tinymist WASM 压缩传输失败，回退未压缩版本…");
-    return downloadValidatedWasm(withoutDeliveryQuery(tinymistWasmUrl), "Tinymist WASM", report);
+    return downloadValidatedWasm(withoutDeliveryQuery(TINYMIST_WASM_URL), "Tinymist WASM", report);
   }
 }
 

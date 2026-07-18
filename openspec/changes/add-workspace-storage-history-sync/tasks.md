@@ -4,7 +4,8 @@
 - [x] 1.2 定义稳定 `workspaceId`、backend generation、path normalization/case capability 和 active-backend metadata
 - [x] 1.3 为每个 workspace 增加 Web Locks writer lease、第二标签页只读状态与显式接管流程
 - [x] 1.4 增加 contract tests，使用同一 mutation transcript 验证 provider 与 IndexedDB backend 的 stat/read/write/mkdir/delete/rename/event 行为
-- [ ] 1.5 运行 `npm run check` 与本地生产 Web E2E，证明第一切片只重构边界、不改变编辑、preview、Explorer 和 reload
+- [x] 1.5 运行 `npm run check` 与本地生产 Web E2E，证明第一切片只重构边界、不改变编辑、preview、Explorer 和 reload
+  - Evidence (2026-07-18): `cd editors/vscode-web && npm run check && npm run test:e2e` passes with 3 production-like Chromium scenarios. The editor scenario exercises persisted editing、Explorer、preview、output/problems and reload against the extracted coordinator/backend; `npm run test:e2e:pwa-offline` separately proves a closed/reopened production editor can cold-start and edit from the cached shell.
 
 ## 2. IndexedDB Version 2 Migration
 

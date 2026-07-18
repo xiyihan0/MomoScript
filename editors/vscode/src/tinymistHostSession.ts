@@ -76,10 +76,20 @@ export class TinymistHostSession {
     return this.capabilityRegistry;
   }
 
-  on(method: string, handler: (params: unknown) => void): void {
+  on(method: string, handler: (params: unknown) => void): { dispose(): void } {
     const handlers = this.handlers.get(method) ?? new Set();
     handlers.add(handler);
     this.handlers.set(method, handlers);
+    let active = true;
+    return {
+      dispose: () => {
+        if (!active) return;
+        active = false;
+        const current = this.handlers.get(method);
+        current?.delete(handler);
+        if (current?.size === 0) this.handlers.delete(method);
+      }
+    };
   }
 
   async request<T>(method: string, params: unknown, signal?: AbortSignal): Promise<T> {

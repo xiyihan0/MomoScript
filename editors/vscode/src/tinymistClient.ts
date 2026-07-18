@@ -122,7 +122,7 @@ export function isTypstTextFile(file: TypstVirtualFile): file is Extract<TypstVi
 export interface TinymistHostBackend {
   backendGeneration(): number;
   capabilities(): TinymistCapabilityView;
-  on(method: string, handler: (params: unknown) => void): void;
+  on(method: string, handler: (params: unknown) => void): { dispose(): void };
   request<T>(method: string, params: unknown, signal?: AbortSignal): Promise<T>;
   syncProject(update: TypstProjectUpdate): void;
   semanticTokensLegend?(): { tokenTypes: string[]; tokenModifiers: string[] } | undefined;
@@ -273,8 +273,8 @@ export class TinymistWorkerClient implements TinymistHostBackend {
     return semanticTokensLegendFromCapabilities(this.session.capabilities());
   }
 
-  on(method: string, handler: (params: unknown) => void): void {
-    this.session.on(method, handler);
+  on(method: string, handler: (params: unknown) => void): { dispose(): void } {
+    return this.session.on(method, handler);
   }
 
   request<T>(method: string, params: unknown, signal?: AbortSignal): Promise<T> {

@@ -36,7 +36,7 @@ import {
   type PreviewSourceIdentity,
 } from "./previewInteraction.ts";
 import type { RenderKey } from "../../vscode/src/runtimeIdentity";
-const compilerWasmUrl = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.7.0-rc2/acac51459fa84907843d7a1927ae7b6fc5c743d5de4f61473c866829c9c46e2d/typst_ts_web_compiler_bg.wasm?delivery=zstd-v1";
+import { TYPST_COMPILER_WASM_URL } from "./runtimeArtifacts";
 
 
 const mainRegularUrl = "https://mms-pack.xiyihan.cn/fonts/MainFont.otf";
@@ -70,6 +70,7 @@ export interface TypstPreviewEvents {
 
 export interface TypstPreviewBinding {
   readonly renderKey: RenderKey;
+  readonly requestId?: number;
   readonly locationProviderKey: LocationProviderKey;
   readonly locationMap?: PreviewImmutableLocationMap;
   readonly identity: PreviewSourceIdentity;
@@ -377,7 +378,12 @@ export class TypstPreviewController {
   }
 
   private async render(project: TypstProjectUpdate, generation: number, binding?: TypstPreviewBinding): Promise<void> {
-    const revision = { sourceUri: project.sourceUri, sourceVersion: project.sourceVersion, revision: project.revision };
+    const revision: PreviewRevision = {
+      sourceUri: project.sourceUri,
+      sourceVersion: project.sourceVersion,
+      revision: project.revision,
+      ...(binding?.requestId === undefined ? {} : { requestId: binding.requestId }),
+    };
     const nextPaths = new Set(project.files.map((file) => virtualPath(file.uri)));
     const mappedThisAttempt = new Set<string>();
     this.showStatus("Rendering preview…", false, revision, generation);
@@ -767,10 +773,10 @@ async function initializeTypst(report: (message: string) => void): Promise<void>
   if (initialized) return;
   if (!compilerModule) {
     try {
-      compilerModule = await downloadWasmModule(compilerWasmUrl, "Typst 编译器 WASM", report);
+      compilerModule = await downloadWasmModule(TYPST_COMPILER_WASM_URL, "Typst 编译器 WASM", report);
     } catch {
       report("Typst 编译器 WASM 压缩传输失败，回退未压缩版本…");
-      compilerModule = await downloadWasmModule(withoutDeliveryQuery(compilerWasmUrl), "Typst 编译器 WASM", report);
+      compilerModule = await downloadWasmModule(withoutDeliveryQuery(TYPST_COMPILER_WASM_URL), "Typst 编译器 WASM", report);
     }
   }
   $typst.setCompilerInitOptions({

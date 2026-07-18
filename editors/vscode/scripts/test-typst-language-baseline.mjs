@@ -6,6 +6,7 @@ import { build } from "esbuild";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const diagnosticWrites = [];
+let diagnosticCollectionDisposed = false;
 const vscodeFixture = {
   Uri: { parse: (value) => ({ toString: () => value }) },
   languages: {
@@ -15,7 +16,7 @@ const vscodeFixture = {
           diagnosticWrites.push({ uri: uri.toString(), diagnostics: structuredClone(diagnostics) });
         },
         delete() {},
-        dispose() {}
+        dispose() { diagnosticCollectionDisposed = true; }
       };
     },
     registerCompletionItemProvider() { return { dispose() {} }; },
@@ -31,13 +32,17 @@ const vscodeFixture = {
     onDidCloseTextDocument() { return { dispose() {} }; }
   },
   window: { setStatusBarMessage() {} },
-  SemanticTokensLegend: class {}
+  SemanticTokensLegend: class {},
+  Disposable: class {
+    constructor(call) { this.call = call; }
+    dispose() { this.call(); }
+  },
 };
 globalThis.__mmtRuntimeCharacterizationVscode = vscodeFixture;
 
 const bundle = await build({
   stdin: {
-    contents: "export { installTypstMiddleware, connectTypstBackend } from './src/typstFeatures.ts';",
+    contents: "export { installTypstMiddleware, connectTypstBackend, typstProblemsPublisher } from './src/typstFeatures.ts';",
     resolveDir: root,
     sourcefile: "runtime-characterization-entry.ts",
     loader: "ts"
@@ -53,14 +58,14 @@ const bundle = await build({
     setup(buildApi) {
       buildApi.onResolve({ filter: /^vscode$/ }, () => ({ path: "vscode-characterization", namespace: "fixture" }));
       buildApi.onLoad({ filter: /.*/, namespace: "fixture" }, () => ({
-        contents: "export const Uri = globalThis.__mmtRuntimeCharacterizationVscode.Uri; export const languages = globalThis.__mmtRuntimeCharacterizationVscode.languages; export const workspace = globalThis.__mmtRuntimeCharacterizationVscode.workspace; export const window = globalThis.__mmtRuntimeCharacterizationVscode.window; export const SemanticTokensLegend = globalThis.__mmtRuntimeCharacterizationVscode.SemanticTokensLegend;",
+        contents: "export const Uri = globalThis.__mmtRuntimeCharacterizationVscode.Uri; export const languages = globalThis.__mmtRuntimeCharacterizationVscode.languages; export const workspace = globalThis.__mmtRuntimeCharacterizationVscode.workspace; export const window = globalThis.__mmtRuntimeCharacterizationVscode.window; export const SemanticTokensLegend = globalThis.__mmtRuntimeCharacterizationVscode.SemanticTokensLegend; export const Disposable = globalThis.__mmtRuntimeCharacterizationVscode.Disposable;",
         loader: "js"
       }));
     }
   }]
 });
 const source = bundle.outputFiles[0].text;
-const { installTypstMiddleware, connectTypstBackend } = await import(
+const { installTypstMiddleware, connectTypstBackend, typstProblemsPublisher } = await import(
   `data:text/javascript;base64,${Buffer.from(source).toString("base64")}`
 );
 
@@ -121,6 +126,14 @@ const backend = {
     const handlers = backendHandlers.get(method) ?? [];
     handlers.push(handler);
     backendHandlers.set(method, handlers);
+    return {
+      dispose() {
+        const current = backendHandlers.get(method) ?? [];
+        const remaining = current.filter((candidate) => candidate !== handler);
+        if (remaining.length === 0) backendHandlers.delete(method);
+        else backendHandlers.set(method, remaining);
+      }
+    };
   },
   backendGeneration() {
     return backendGeneration;
@@ -211,7 +224,14 @@ const options = {};
 installTypstMiddleware(options, backend, () => client);
 const middleware = options.middleware;
 assert.ok(middleware, "Typst middleware was not installed");
-connectTypstBackend(client, backend);
+const connection = connectTypstBackend(client, backend);
+const problems = typstProblemsPublisher(backend);
+assert.ok(problems, "unified Typst Problems publisher was not installed");
+problems.replacePreview(vscodeFixture.Uri.parse("logical:/standalone.typ"), [{
+  message: "preview-build-diagnostic",
+  severity: 0,
+  range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } }
+}]);
 
 const standalone = {
   languageId: "typst",
@@ -300,6 +320,14 @@ for (const handler of backendHandlers.get("textDocument/publishDiagnostics") ?? 
 const diagnosticsSettled = Promise.withResolvers();
 setImmediate(diagnosticsSettled.resolve);
 await diagnosticsSettled.promise;
+const latestStandaloneDiagnostics = diagnosticWrites
+  .filter((write) => write.uri === "logical:/standalone.typ")
+  .at(-1)?.diagnostics ?? [];
+assert.deepEqual(
+  latestStandaloneDiagnostics.map((diagnostic) => diagnostic.message),
+  ["standalone-diagnostic", "preview-build-diagnostic"],
+  "language and preview diagnostics must share one durable Problems collection"
+);
 
 const semanticTokens = await middleware.provideDocumentSemanticTokens(
   standalone,
@@ -320,7 +348,7 @@ const embeddedBackendMethods = backendCalls.slice(3, 6).map((call) => call.metho
 const actual = {
   schemaVersion: 1,
   standalone: {
-    diagnostics: diagnosticWrites.find((write) => write.uri === "logical:/standalone.typ"),
+    diagnostics: diagnosticWrites.filter((write) => write.uri === "logical:/standalone.typ").at(-1),
     completion: { methods: [standaloneBackendMethods[0]], labels: standaloneCompletion.map((item) => item.label) },
     hover: { methods: [standaloneBackendMethods[1]], value: standaloneHover.contents.value },
     signatureHelp: { methods: [standaloneBackendMethods[2]], labels: standaloneSignature.signatures.map((item) => item.label) },
@@ -403,4 +431,7 @@ const retiredBackendHover = middleware.provideHover(
 backendGeneration += 1;
 retiredBackendResponse.resolve({ contents: { kind: "markdown", value: "retired backend" } });
 assert.equal(await retiredBackendHover, undefined, "retired backend generation published a response");
+for (const disposable of connection) disposable.dispose();
+assert.equal(backendHandlers.size, 0, "backend notification handlers leaked after Typst feature disposal");
+assert.equal(diagnosticCollectionDisposed, true, "unified Problems collection was not disposed");
 console.log(JSON.stringify({ checked: true, families: ["diagnostics", "completion", "hover", "signatureHelp", "semanticTokens"] }));
