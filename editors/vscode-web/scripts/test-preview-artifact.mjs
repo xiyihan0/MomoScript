@@ -33,8 +33,13 @@ assert.equal(locationProviderMatches(a, renderKey("render-a"), provider()), true
 assert.equal(locationProviderMatches(a, renderKey("render-a"), provider(2)), false, "provider restart invalidates responses");
 assert.equal(locationProviderMatches(a, renderKey("render-b"), provider()), false, "location response must bind exact RenderKey");
 
-const fallback = artifact("render-map", "mmtfs://workspace/a.mmt", "map", {
-  kind: "immutable-map", digest: "sha256:map", coordinateVersion: "typst-page-points-v1",
+const fallbackKey = { kind: "immutable-map", digest: "sha256:map", coordinateVersion: "typst-page-points-v1" };
+const fallback = createPreviewArtifact({
+  renderKey: renderKey("render-map"),
+  sourceUri: "mmtfs://workspace/a.mmt",
+  locationProviderKey: fallbackKey,
+  locationMap: { digest: fallbackKey.digest, sourceToPreview: [], previewToSource: [] },
+  pages: [page(0, "map")],
 });
 assert.equal(locationProviderMatches(fallback, renderKey("render-map"), fallback.locationProviderKey), true);
 

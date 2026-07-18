@@ -32,19 +32,30 @@ import type { TinymistHandle } from "./tinymistLanguageClient";
 import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
 import { projectionSessionKey } from "../../vscode/src/tinymistClient";
-import { sanitizeSvg, TypstPreviewController, type TypstExportFormat } from "./preview";
+import { sanitizeSvg, TypstPreviewController, type TypstExportFormat, type TypstPreviewBinding } from "./preview";
 import { PreviewBuildState } from "./previewDiagnostics";
 import { ownEventListener } from "./runtimeOwner";
 import { EditorRuntimeController } from "./runtimeController";
 import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
+import { createPreviewArtifact, type LocationProviderKey, type PreviewPagePoint, type PreviewSourceTarget, type PreviewViewport } from "./previewArtifact.ts";
+import type {
+  PreviewBackendLocation,
+  PreviewEditorSelection,
+  PreviewSourceIdentity,
+  ProjectedPreviewSelection,
+} from "./previewInteraction.ts";
 import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest, TypstVirtualFile } from "../../vscode/src/tinymistClient";
 import {
   canonicalBytesDigest,
   logicalSourceId,
+  materializationKey,
   projectionKey as buildProjectionKey,
   projectSnapshotKey,
+  renderKey,
+  runtimeArtifactKey,
   sourceContentKey,
-  type LogicalProjectFileId
+  type LogicalProjectFileId,
+  type SourceStaleToken,
 } from "../../vscode/src/runtimeIdentity";
 
 if (import.meta.env.VITE_MMT_E2E === "1") {
@@ -52,6 +63,12 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
 }
 
 type E2ELifecycleKind = "runtime-ready" | "dispose-invoked" | "dispose-complete" | "unload" | "hmr" | "hmr-fallback";
+
+interface PreviewInteractionFixtureRequest {
+  readonly action: "install-provider" | "install-immutable" | "position" | "navigate" | "restart-provider" | "advance-source" | "state";
+  readonly range?: { start: { line: number; character: number }; end: { line: number; character: number } };
+  readonly point?: PreviewPagePoint;
+}
 
 function beginE2ELifecycle(): number | undefined {
   if (import.meta.env.VITE_MMT_E2E !== "1") return undefined;
@@ -187,6 +204,18 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
 const DEFAULT_STORY = "> 佳代子: 你好，老师！\n>_: 我也可以继续说。\n< 老师好！\n> 佳代子: 看看这个：[:#1:](width: 2em)\n";
 const PACK_URL = "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json";
 const encoder = new TextEncoder();
+const PREVIEW_RUNTIME_KEY = runtimeArtifactKey(
+  "0.7.0-rc2",
+  "acac51459fa84907843d7a1927ae7b6fc5c743d5de4f61473c866829c9c46e2d",
+  "0.7.0-rc2",
+  "7e295cdf8a429e41de9d964581a4aa0c08b48757e5b9f8a3dceebe85cc8729eb",
+  "mmt-template-bundle-v1",
+  "c02a98146312b8756f9f23654b194885358f603eed736f037f172d617330c05c",
+);
+const PREVIEW_RENDER_OPTIONS_DIGEST = canonicalBytesDigest(
+  "mmt-preview-render-options-v1",
+  [encoder.encode("svg:default")],
+);
 function configuredResourceLimits() {
   const configuration = vscode.workspace.getConfiguration("mmt.resources");
   return normalizeResourceLimits({
@@ -286,21 +315,8 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
   let previewPanelTitle = "MomoScript 预览";
   let previewPanelDisposeRegistration: vscode.Disposable | undefined;
   let previewPanelMessageRegistration: vscode.Disposable | undefined;
+  let activeClient: BaseLanguageClient | undefined;
   const previewBuildState = new PreviewBuildState();
-  const preview = new TypstPreviewController(layout.preview, {
-    status(message, error, revision) {
-      if (revision && !previewBuildState.isCurrent(revision)) return;
-      if (error && revision) previewBuildState.fail(revision, "render-layout", message);
-      const scope = message.includes("WASM") ? "wasm" : (error ? "preview:error" : "preview");
-      log(scope, message);
-      if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, error);
-    },
-    rendered(svg, revision, shadowCount, pageSize) {
-      if (!previewBuildState.isCurrent(revision)) return;
-      log("preview", `Rendered revision ${revision.revision} with ${shadowCount} virtual files`);
-      if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, svg, "", false, pageSize);
-    }
-  });
   const {
     previewProjects,
     packSourcesByNamespace,
@@ -317,6 +333,302 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
     renderRequestIdBySource,
     persistenceByUri,
   } = controller.stores;
+  const previewDocumentIncarnations = new WeakMap<vscode.TextDocument, string>();
+  const previewIdentityFor = (project: TypstProjectUpdate, document: vscode.TextDocument): PreviewSourceIdentity => {
+    let documentIncarnation = previewDocumentIncarnations.get(document);
+    if (!documentIncarnation) {
+      documentIncarnation = crypto.randomUUID();
+      previewDocumentIncarnations.set(document, documentIncarnation);
+    }
+    const sourceStaleToken: SourceStaleToken = Object.freeze({
+      hostUri: document.uri.toString(),
+      documentIncarnation,
+      documentVersion: document.version,
+    });
+    return Object.freeze({
+      workspaceId: provider?.workspaceStatus().workspaceId ?? (document.uri.authority || "workspace"),
+      sourceUri: project.sourceUri,
+      sourceContent: project.sourceContent,
+      sourceStaleToken,
+      projectDigest: project.projectDigest,
+      projectionKey: project.projectionKey,
+      revision: project.revision,
+      entryUri: project.entryUri,
+      languageId: document.languageId === "mmt" ? "mmt" : "typst",
+      backendEncoding: "utf-8",
+    });
+  };
+  const currentPreviewIdentity = (sourceUri: string): PreviewSourceIdentity | undefined => {
+    const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === sourceUri);
+    const project = previewProjects.get(sourceUri) ?? typstProjects.get(sourceUri);
+    return document && project ? previewIdentityFor(project, document) : undefined;
+  };
+  const previewBindingFor = async (project: TypstProjectUpdate, document: vscode.TextDocument): Promise<TypstPreviewBinding> => {
+    const renderProject = project as Partial<TypstRenderProjectUpdate>;
+    const materialization = await materializationKey(
+      project.projectionKey,
+      renderProject.packRegistryDigest ?? project.projectDigest,
+      renderProject.resourcePlanDigest ?? project.projectDigest,
+      renderProject.resourceBytesDigest ?? project.projectDigest,
+    );
+    const key = await renderKey(materialization, await PREVIEW_RUNTIME_KEY, await PREVIEW_RENDER_OPTIONS_DIGEST);
+    const mapDigest = await canonicalBytesDigest("mmt-preview-empty-location-map-v1", [encoder.encode(key)]);
+    return Object.freeze({
+      renderKey: key,
+      locationProviderKey: Object.freeze({
+        kind: "immutable-map",
+        digest: mapDigest,
+        coordinateVersion: "typst-page-points-v1",
+      }),
+      locationMap: Object.freeze({ digest: mapDigest, sourceToPreview: Object.freeze([]), previewToSource: Object.freeze([]) }),
+      identity: previewIdentityFor(project, document),
+    });
+  };
+  const mapProjectedPreviewSelection = async (
+    selection: PreviewEditorSelection,
+    signal: AbortSignal,
+  ): Promise<ProjectedPreviewSelection | undefined> => {
+    if (!activeClient || signal.aborted) return undefined;
+    const mapped = await activeClient.sendRequest<ProjectedPreviewSelection | null>("mmt/typstRange", {
+      textDocument: { uri: selection.identity.sourceUri },
+      range: selection.range,
+      backendEncoding: selection.identity.backendEncoding,
+    });
+    return signal.aborted ? undefined : mapped ?? undefined;
+  };
+  const mapPreviewSource = async (
+    identity: PreviewSourceIdentity,
+    location: PreviewBackendLocation,
+    signal: AbortSignal,
+  ): Promise<PreviewSourceTarget | undefined> => {
+    if (!activeClient || signal.aborted || !identity.projectionKey) return undefined;
+    const mapped = await activeClient.sendRequest<readonly PreviewSourceTarget[] | null>("mmt/mapTypstReadLocations", {
+      sourceUri: identity.sourceUri,
+      revision: identity.revision,
+      entryUri: identity.entryUri,
+      backendEncoding: identity.backendEncoding,
+      sourceContent: identity.sourceContent,
+      projectDigest: identity.projectDigest,
+      projectionKey: identity.projectionKey,
+      locations: [location],
+    });
+    if (signal.aborted) return undefined;
+    const target = mapped?.[0];
+    if (!target || target.kind === "staleUnknown") return target;
+    const readOnly = target.kind === "packageFile" || target.kind === "generatedProjection";
+    return Object.freeze({ ...target, readOnly, retained: true });
+  };
+  const openPreviewSource = async (target: PreviewSourceTarget): Promise<void> => {
+    if (!target.uri || !target.range) return;
+    const document = await vscode.workspace.openTextDocument(vscode.Uri.parse(target.uri));
+    const editor = await vscode.window.showTextDocument(document, { preview: target.readOnly === true });
+    editor.selection = new vscode.Selection(
+      target.range.start.line,
+      target.range.start.character,
+      target.range.end.line,
+      target.range.end.character,
+    );
+    editor.revealRange(editor.selection, vscode.TextEditorRevealType.InCenterIfOutsideViewport);
+  };
+  const preview = own(new TypstPreviewController(layout.preview, {
+    status(message, error, revision) {
+      if (revision && !previewBuildState.isCurrent(revision)) return;
+      if (error && revision) previewBuildState.fail(revision, "render-layout", message);
+      const scope = message.includes("WASM") ? "wasm" : (error ? "preview:error" : "preview");
+      log(scope, message);
+      if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, error);
+    },
+    rendered(svg, revision, shadowCount, pageSize) {
+      if (!previewBuildState.isCurrent(revision)) return;
+      log("preview", `Rendered revision ${revision.revision} with ${shadowCount} virtual files`);
+      if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, svg, "", false, pageSize, preview.viewportState);
+    },
+  }, {
+    currentIdentity: currentPreviewIdentity,
+    mapProjectedSelection: mapProjectedPreviewSelection,
+    mapPreviewSource,
+    openSource: openPreviewSource,
+    events: {
+      statusChanged(status, message) { log(`preview:navigation:${status}`, message); },
+      indicatorChanged(indicator) {
+        if (previewPanel) previewPanel.webview.postMessage({ type: "indicator", point: indicator?.point });
+      },
+      cursorChanged(cursor) {
+        if (previewPanel) previewPanel.webview.postMessage({ type: "cursor", point: cursor?.point });
+      },
+      viewportChanged(viewport) {
+        if (previewPanel) previewPanel.webview.postMessage({ type: "restoreViewport", viewport });
+      },
+      fullRefreshRequested(reason) { log("preview:refresh", `Full refresh required: ${reason}`); },
+    },
+  }));
+  const renderPreview = async (project: TypstProjectUpdate): Promise<void> => {
+    const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === project.sourceUri);
+    if (!document) return;
+    const binding = await previewBindingFor(project, document);
+    controller.stores.previewArtifacts.request(project.sourceUri, binding.renderKey);
+    const retained = controller.stores.previewArtifacts.get(binding.renderKey);
+    if (retained) {
+      preview.displayArtifact(retained, binding.identity, binding.resolver);
+    } else {
+      await preview.update(project, binding);
+      const artifact = preview.displayedArtifact;
+      if (!artifact || artifact.renderKey !== binding.renderKey) return;
+      controller.stores.previewArtifacts.put(artifact);
+    }
+    controller.stores.previewArtifacts.display(project.sourceUri, binding.renderKey);
+  };
+  let fixtureProviderKey: LocationProviderKey | undefined;
+  let fixtureSelection: PreviewEditorSelection | undefined;
+  if (import.meta.env.VITE_MMT_E2E === "1") {
+    Reflect.set(globalThis, "__mmtPreviewInteractionFixture", async (request: PreviewInteractionFixtureRequest) => {
+      if (request.action === "state") {
+        return {
+          renderKey: preview.displayedRenderKey ?? null,
+          viewport: preview.viewportState,
+          status: layout.preview.querySelector(".typst-preview-interaction-status")?.getAttribute("data-status") ?? null,
+          statusText: layout.preview.querySelector(".typst-preview-interaction-status")?.textContent ?? "",
+          indicatorCount: layout.preview.querySelectorAll(".typst-preview-indicator").length,
+          cursorCount: layout.preview.querySelectorAll(".typst-preview-cursor").length,
+          pageCount: layout.preview.querySelectorAll(".typst-preview-page").length,
+        };
+      }
+      if (request.action === "restart-provider") {
+        const restarted: LocationProviderKey = fixtureProviderKey?.kind === "provider"
+          ? { ...fixtureProviderKey, backendGeneration: fixtureProviderKey.backendGeneration + 1 }
+          : {
+              kind: "provider",
+              backendOrTraceArtifactDigest: "fixture:restarted-provider",
+              backendGeneration: 999,
+              method: "mmt/previewLocation.fixture.v2",
+              coordinateVersion: "typst-page-points-v2",
+            };
+        preview.providerRestarted(restarted);
+        return true;
+      }
+      if (request.action === "position") {
+        if (!fixtureSelection) return false;
+        preview.scheduleEditorSelection(fixtureSelection);
+        return true;
+      }
+      if (request.action === "navigate") {
+        return request.point ? Boolean(await preview.navigatePreviewPoint(request.point)) : false;
+      }
+      if (request.action === "advance-source") {
+        const current = fixtureSelection?.identity;
+        if (!current) return false;
+        preview.sourceIdentityAdvanced({
+          ...current,
+          sourceStaleToken: {
+            ...current.sourceStaleToken,
+            documentVersion: current.sourceStaleToken.documentVersion + 1,
+          },
+        });
+        return true;
+      }
+
+      const document = vscode.window.activeTextEditor?.document
+        ?? (displayedPreviewSourceUri
+          ? vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === displayedPreviewSourceUri)
+          : undefined);
+      if (!document) throw new Error("No active editor for preview interaction fixture");
+      const sourceUri = document.uri.toString();
+      let project = previewProjects.get(sourceUri) ?? typstProjects.get(sourceUri);
+      if (!project && document.languageId === "typst") {
+        project = await buildTypstProject(document, typstRevisions);
+        typstProjects.set(sourceUri, project);
+      }
+      if (!project) throw new Error("No retained project for preview interaction fixture");
+      const identity = previewIdentityFor(project, document);
+      const selectedRange = request.range ?? {
+        start: { line: 0, character: 0 },
+        end: { line: 0, character: 0 },
+      };
+      fixtureSelection = { identity, range: selectedRange };
+      const fixtureMaterialization = await materializationKey(
+        project.projectionKey,
+        "preview-interaction-fixture-pack",
+        "preview-interaction-fixture-plan",
+        "preview-interaction-fixture-bytes",
+      );
+      const fixtureOptions = await canonicalBytesDigest(
+        "mmt-preview-interaction-fixture-v1",
+        [encoder.encode(request.action), encoder.encode(project.sourceContent)],
+      );
+      const fixtureRenderKey = await renderKey(fixtureMaterialization, await PREVIEW_RUNTIME_KEY, fixtureOptions);
+      const pages = [0, 1].map((pageIndex) => ({
+        pageIndex,
+        geometry: { viewBox: [0, 0, 320, 480] as const, cssWidth: 320, cssHeight: 480 },
+        sanitizedSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480"><rect width="320" height="480" fill="white"/><circle cx="${pageIndex === 0 ? 64 : 288}" cy="${pageIndex === 0 ? 72 : 456}" r="18" fill="#007acc"/><text x="24" y="36" fill="black">Interaction page ${pageIndex + 1}</text></svg>`,
+      }));
+      if (request.action === "install-provider") {
+        fixtureProviderKey = {
+          kind: "provider",
+          backendOrTraceArtifactDigest: "fixture:preview-location",
+          backendGeneration: 77,
+          method: "mmt/previewLocation.fixture.v1",
+          coordinateVersion: "typst-page-points-v1",
+        };
+        const artifact = createPreviewArtifact({
+          renderKey: fixtureRenderKey,
+          sourceUri,
+          locationProviderKey: fixtureProviderKey,
+          pages,
+        });
+        preview.displayArtifact(artifact, identity, {
+          key: fixtureProviderKey,
+          async locateSelection() { return [{ pageIndex: 0, x: 0.2, y: 0.15 }, { pageIndex: 1, x: 0.9, y: 0.95 }]; },
+          async locatePoint() { return { uri: identity.entryUri, range: selectedRange }; },
+        });
+        if (previewPanel) previewPanel.webview.html = previewWebviewHtml(
+          previewPanel.webview,
+          previewPanelTitle,
+          artifact.pages[0]!.sanitizedSvg,
+          "",
+          false,
+          { width: artifact.pages[0]!.geometry.cssWidth, height: artifact.pages[0]!.geometry.cssHeight },
+          preview.viewportState,
+        );
+      } else {
+        fixtureProviderKey = undefined;
+        const mapDigest = await canonicalBytesDigest("mmt-preview-interaction-map-v1", [encoder.encode(fixtureRenderKey)]);
+        const target: PreviewSourceTarget = identity.languageId === "mmt"
+          ? { kind: "authoredIdentity", uri: sourceUri, range: selectedRange, readOnly: false, retained: true }
+          : { kind: "workspaceTypst", uri: sourceUri, range: selectedRange, readOnly: false, retained: true };
+        const artifact = createPreviewArtifact({
+          renderKey: fixtureRenderKey,
+          sourceUri,
+          locationProviderKey: { kind: "immutable-map", digest: mapDigest, coordinateVersion: "typst-page-points-v1" },
+          locationMap: {
+            digest: mapDigest,
+            sourceToPreview: [{
+              sourceUri,
+              sourceContent: identity.sourceContent,
+              projectionKey: identity.projectionKey,
+              range: selectedRange,
+              candidates: [{ pageIndex: 0, x: 0.2, y: 0.15 }, { pageIndex: 1, x: 0.9, y: 0.95 }],
+            }],
+            previewToSource: [
+              { pageIndex: 0, x: 0.2, y: 0.15, radius: 0.08, target },
+              { pageIndex: 1, x: 0.9, y: 0.95, radius: 0.08, target },
+            ],
+          },
+          pages,
+        });
+        preview.displayArtifact(artifact, identity);
+        if (previewPanel) previewPanel.webview.html = previewWebviewHtml(
+          previewPanel.webview,
+          previewPanelTitle,
+          artifact.pages[0]!.sanitizedSvg,
+          "",
+          false,
+          { width: artifact.pages[0]!.geometry.cssWidth, height: artifact.pages[0]!.geometry.cssHeight },
+          preview.viewportState,
+        );
+      }
+      return true;
+    });
+  }
   const materializedResourceCache = new BoundedStringCache(MATERIALIZED_RESOURCE_CACHE_MAX_BYTES);
   const previewClock = new RevisionPinnedPreviewClock();
   if (import.meta.env.VITE_MMT_E2E === "1") {
@@ -340,7 +652,7 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
   const refreshOpenedPreview = () => {
     if (!displayedPreviewSourceUri) return;
     const project = previewProjects.get(displayedPreviewSourceUri);
-    if (project) void preview.update(project);
+    if (project) void renderPreview(project);
   };
   const closePreviewProject = (sourceUri: string) => {
     controller.stores.closeSource(sourceUri);
@@ -500,7 +812,7 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
     }
     previewProjects.set(project.sourceUri, prepared.project);
     if (displayedPreviewSourceUri === project.sourceUri && previewPanel) {
-      await preview.update(prepared.project);
+      await renderPreview(prepared.project);
     }
   };
   const trackLanguageProjection = (project: TypstProjectUpdate) => advanceLanguageProjection(
@@ -609,10 +921,31 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
     if (!editor) return;
     void recognizeAndSyncTypst(editor.document).catch((error: unknown) => log("tinymist:error", error instanceof Error ? error.message : String(error)));
   }));
+  const previewSelectionRegistration = subscribe(vscode.window.onDidChangeTextEditorSelection((event) => {
+    const sourceUri = event.textEditor.document.uri.toString();
+    if (displayedPreviewSourceUri !== sourceUri) return;
+    const identity = currentPreviewIdentity(sourceUri);
+    if (!identity) return;
+    const selection = event.selections[0];
+    if (!selection) return;
+    preview.scheduleEditorSelection({
+      identity,
+      range: {
+        start: { line: selection.start.line, character: selection.start.character },
+        end: { line: selection.end.line, character: selection.end.character },
+      },
+    });
+  }));
+  const previewSourceAdvanceRegistration = subscribe(vscode.workspace.onDidChangeTextDocument((event) => {
+    const sourceUri = event.document.uri.toString();
+    if (displayedPreviewSourceUri !== sourceUri) return;
+    controller.stores.previewArtifacts.markStale(sourceUri);
+    const project = previewProjects.get(sourceUri) ?? typstProjects.get(sourceUri);
+    if (project) preview.sourceIdentityAdvanced(previewIdentityFor(project, event.document));
+  }));
   await Promise.allSettled(vscode.workspace.textDocuments.map((document) => recognizeAndSyncTypst(document)));
   if (vscode.window.activeTextEditor) await recognizeAndSyncTypst(vscode.window.activeTextEditor.document);
 
-  let activeClient: BaseLanguageClient | undefined;
   try {
     mmt = await startMmtLanguageClient(Boolean(tinymist), (options) => {
       tinymist?.installMiddleware(options, () => {
@@ -694,6 +1027,14 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
         log("preview", "Preview editor closed");
       }));
       previewPanelMessageRegistration = subscribe(previewPanel.webview.onDidReceiveMessage(async (message: unknown) => {
+        if (isPreviewViewportMessage(message)) {
+          preview.updateViewportFromHost(message.viewport);
+          return;
+        }
+        if (isPreviewNavigateMessage(message)) {
+          await preview.navigatePreviewPoint(message.point);
+          return;
+        }
         if (!isExportMessage(message)) return;
         const sourceName = displayedPreviewSourceUri ? new URL(displayedPreviewSourceUri).pathname.split("/").at(-1) : "document";
         const baseName = (sourceName ?? "document").replace(/\.(?:mmt(?:\.txt)?|typ)$/i, "") || "document";
@@ -727,7 +1068,7 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
       typstProjects.set(sourceUri, project);
       tinymist?.backend.syncProject(project);
       previewBuildState.activate({ sourceUri: project.sourceUri, sourceVersion: project.sourceVersion, revision: project.revision });
-      await preview.update(project);
+      await renderPreview(project);
       return;
     }
     if (!activeClient) {
@@ -902,7 +1243,7 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
       if (!project) return;
       const sourceUri = event.document.uri.toString();
       typstProjects.set(sourceUri, project);
-      if (displayedPreviewSourceUri === sourceUri) return preview.update(project);
+      if (displayedPreviewSourceUri === sourceUri) return renderPreview(project);
     }).catch((error: unknown) => log("preview:error", `Typst: ${error instanceof Error ? error.message : String(error)}`));
   }));
   const safeRestart = new PwaSafeRestartQuiesceAdapter({
@@ -1161,6 +1502,29 @@ function isExportMessage(value: unknown): value is { type: "export"; format: Typ
   return message.type === "export" && ["pdf", "png", "jpg", "svg"].includes(String(message.format));
 }
 
+function isPreviewViewportMessage(value: unknown): value is { type: "viewport"; viewport: PreviewViewport } {
+  if (!value || typeof value !== "object") return false;
+  const message = value as { type?: unknown; viewport?: Partial<PreviewViewport> };
+  const viewport = message.viewport;
+  return message.type === "viewport"
+    && Boolean(viewport)
+    && typeof viewport?.page === "number"
+    && typeof viewport.x === "number"
+    && typeof viewport.y === "number"
+    && typeof viewport.zoom === "number"
+    && (viewport.fitMode === "manual" || viewport.fitMode === "width" || viewport.fitMode === "page");
+}
+
+function isPreviewNavigateMessage(value: unknown): value is { type: "navigate"; point: PreviewPagePoint } {
+  if (!value || typeof value !== "object") return false;
+  const message = value as { type?: unknown; point?: Partial<PreviewPagePoint> };
+  return message.type === "navigate"
+    && Boolean(message.point)
+    && typeof message.point?.pageIndex === "number"
+    && typeof message.point.x === "number"
+    && typeof message.point.y === "number";
+}
+
 function downloadBlob(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -1180,7 +1544,8 @@ function previewWebviewHtml(
   svg?: string,
   status = "Rendering preview…",
   error = false,
-  pageSize?: { width: number; height: number }
+  pageSize?: { width: number; height: number },
+  viewportState: PreviewViewport = { page: 0, x: 0, y: 0, zoom: 1, fitMode: "width" },
 ): string {
   void webview;
   const nonce = previewNonce();
@@ -1194,7 +1559,7 @@ function previewWebviewHtml(
     `<button type="button" role="menuitem" data-format="${format}"><span>${label}</span><span class="export-extension">${extension}</span></button>`
   ).join("");
   const body = svg
-    ? `<nav class="export-toolbar" aria-label="预览操作"><div class="export-control"><button type="button" class="export-trigger" aria-haspopup="menu" aria-expanded="false">导出<span class="export-chevron" aria-hidden="true"></span></button><div class="export-menu" role="menu" aria-label="导出格式" hidden>${formats}</div></div></nav><main class="viewport"><article class="page"${pageStyle}>${svg}</article></main>`
+    ? `<nav class="preview-toolbar" aria-label="预览操作"><div class="zoom-controls"><button type="button" data-zoom="out" aria-label="Zoom out">−</button><span class="zoom-label" aria-live="polite">100%</span><button type="button" data-zoom="in" aria-label="Zoom in">+</button><button type="button" data-fit="width">Fit width</button><button type="button" data-fit="page">Fit page</button></div><div class="export-control"><button type="button" class="export-trigger" aria-haspopup="menu" aria-expanded="false">导出<span class="export-chevron" aria-hidden="true"></span></button><div class="export-menu" role="menu" aria-label="导出格式" hidden>${formats}</div></div></nav><main class="viewport"><article class="page" data-page-index="0"${pageStyle}>${svg}</article></main>`
     : `<main class="status${error ? " error" : ""}">${escapeHtml(status)}</main>`;
   return `<!doctype html>
 <html lang="zh-CN">
@@ -1206,7 +1571,10 @@ function previewWebviewHtml(
   <style>
     html, body { margin: 0; min-height: 100%; background: var(--vscode-editor-background); color: var(--vscode-editor-foreground); }
     body { box-sizing: border-box; font-family: var(--vscode-font-family); }
-    .export-toolbar { position: sticky; top: 0; z-index: 2; display: flex; justify-content: flex-end; min-height: 34px; padding: 4px 12px; box-sizing: border-box; border-bottom: 1px solid var(--vscode-panel-border); background: var(--vscode-editor-background); }
+    .preview-toolbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 4px 12px; box-sizing: border-box; border-bottom: 1px solid var(--vscode-panel-border); background: var(--vscode-editor-background); }
+    .zoom-controls { display: flex; align-items: center; gap: 5px; }
+    .zoom-controls button { min-height: 26px; border: 1px solid var(--vscode-button-border, var(--vscode-panel-border)); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); cursor: pointer; }
+    .zoom-label { width: 44px; color: var(--vscode-descriptionForeground); font: 12px var(--vscode-editor-font-family); text-align: center; }
     .export-control { position: relative; display: flex; align-items: center; }
     .export-trigger { display: inline-flex; align-items: center; gap: 7px; height: 26px; padding: 0 10px; border: 1px solid var(--vscode-button-border, transparent); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); font: inherit; cursor: pointer; }
     .export-trigger:hover { background: var(--vscode-button-hoverBackground); }
@@ -1218,11 +1586,14 @@ function previewWebviewHtml(
     .export-menu button:hover, .export-menu button:focus { color: var(--vscode-menu-selectionForeground, var(--vscode-button-foreground)); background: var(--vscode-menu-selectionBackground, var(--vscode-list-activeSelectionBackground)); outline: none; }
     .export-extension { margin-left: 20px; color: var(--vscode-descriptionForeground); font-family: var(--vscode-editor-font-family); font-size: 11px; text-transform: uppercase; }
     .export-menu button:hover .export-extension, .export-menu button:focus .export-extension { color: inherit; opacity: .8; }
-    .viewport { display: flex; justify-content: center; min-width: min-content; min-height: min-content; overflow: auto; padding: 24px; background: #e5e5e5; }
-    .page { flex: 0 0 auto; background: transparent; line-height: 0; transform-origin: top left; }
+    .viewport { display: flex; justify-content: center; min-width: min-content; height: calc(100vh - 43px); overflow: auto; box-sizing: border-box; padding: 24px; background: #e5e5e5; }
+    .page { position: relative; flex: 0 0 auto; background: transparent; line-height: 0; transform-origin: top left; }
     .page svg { display: block; width: 100%; height: 100%; max-width: none; filter: drop-shadow(0 2px 5px #0008); }
     .page .tsel, .page .tsel span { color: transparent; line-height: 1; white-space: pre; pointer-events: auto; user-select: text; cursor: text; }
     .page .tsel::selection, .page .tsel span::selection { color: transparent; background: #7db9dea0; }
+    .preview-indicator, .preview-cursor { position: absolute; z-index: 4; pointer-events: none; transform: translate(-50%, -50%); }
+    .preview-indicator { width: 18px; height: 18px; border: 2px solid #007acc; border-radius: 50%; background: #007acc28; box-shadow: 0 0 0 4px #007acc24; }
+    .preview-cursor { width: 2px; height: 20px; background: #d16969; box-shadow: 0 0 0 1px #fff8; }
     .status { display: grid; min-height: 100vh; place-items: center; color: var(--vscode-descriptionForeground); }
     .status.error { color: var(--vscode-errorForeground); }
   </style>
@@ -1232,24 +1603,98 @@ function previewWebviewHtml(
   const vscode = acquireVsCodeApi();
   const viewport = document.querySelector('.viewport');
   const page = document.querySelector('.page');
-  let zoom = 1;
+  const zoomLabel = document.querySelector('.zoom-label');
+  const initialViewport = ${JSON.stringify(viewportState)};
+  let zoom = initialViewport.zoom;
+  let fitMode = initialViewport.fitMode;
+  const intrinsicWidth = Number(page?.dataset.intrinsicWidth);
+  const intrinsicHeight = Number(page?.dataset.intrinsicHeight);
+  const applyZoom = (nextZoom, nextFitMode, notify = true) => {
+    if (!page || !(intrinsicWidth > 0) || !(intrinsicHeight > 0)) return;
+    zoom = Math.round(Math.min(5, Math.max(.1, nextZoom)) * 100) / 100;
+    fitMode = nextFitMode;
+    page.style.width = intrinsicWidth * zoom + 'px';
+    page.style.height = intrinsicHeight * zoom + 'px';
+    if (zoomLabel) zoomLabel.textContent = Math.round(zoom * 100) + '%';
+    if (notify) reportViewport();
+  };
+  const reportViewport = () => {
+    if (!viewport || !page) return;
+    const viewportBounds = viewport.getBoundingClientRect();
+    const pageBounds = page.getBoundingClientRect();
+    if (!(pageBounds.width > 0) || !(pageBounds.height > 0)) return;
+    const x = Math.min(1, Math.max(0, (viewportBounds.left + viewportBounds.width / 2 - pageBounds.left) / pageBounds.width));
+    const y = Math.min(1, Math.max(0, (viewportBounds.top + viewportBounds.height / 2 - pageBounds.top) / pageBounds.height));
+    vscode.postMessage({ type: 'viewport', viewport: { page: 0, x, y, zoom, fitMode } });
+  };
+  const fitWidth = (notify = true) => {
+    if (!viewport || !(intrinsicWidth > 0)) return;
+    applyZoom((viewport.clientWidth - 48) / intrinsicWidth, 'width', notify);
+  };
+  const fitPage = (notify = true) => {
+    if (!viewport || !(intrinsicWidth > 0) || !(intrinsicHeight > 0)) return;
+    applyZoom(Math.min((viewport.clientWidth - 48) / intrinsicWidth, (viewport.clientHeight - 48) / intrinsicHeight), 'page', notify);
+  };
+  const restoreViewport = (state) => {
+    if (!viewport || !page || !state) return;
+    if (state.fitMode === 'width') fitWidth(false);
+    else if (state.fitMode === 'page') fitPage(false);
+    else applyZoom(state.zoom, 'manual', false);
+    requestAnimationFrame(() => {
+      viewport.scrollLeft = page.offsetLeft + Math.min(1, Math.max(0, state.x)) * page.offsetWidth - viewport.clientWidth / 2;
+      viewport.scrollTop = page.offsetTop + Math.min(1, Math.max(0, state.y)) * page.offsetHeight - viewport.clientHeight / 2;
+    });
+  };
+  restoreViewport(initialViewport);
+  document.querySelector('[data-zoom="out"]')?.addEventListener('click', () => applyZoom(zoom - .1, 'manual'));
+  document.querySelector('[data-zoom="in"]')?.addEventListener('click', () => applyZoom(zoom + .1, 'manual'));
+  document.querySelector('[data-fit="width"]')?.addEventListener('click', () => fitWidth());
+  document.querySelector('[data-fit="page"]')?.addEventListener('click', () => fitPage());
   viewport?.addEventListener('wheel', (event) => {
     if (!event.ctrlKey && !event.metaKey) return;
     event.preventDefault();
     if (!page) return;
-    const intrinsicWidth = Number(page.dataset.intrinsicWidth);
-    const intrinsicHeight = Number(page.dataset.intrinsicHeight);
-    if (!(intrinsicWidth > 0) || !(intrinsicHeight > 0)) return;
     const pageBounds = page.getBoundingClientRect();
     const anchorX = (event.clientX - pageBounds.left) / pageBounds.width;
     const anchorY = (event.clientY - pageBounds.top) / pageBounds.height;
-    zoom = Math.min(4, Math.max(0.25, zoom * Math.exp(-event.deltaY * 0.002)));
-    page.style.width = intrinsicWidth * zoom + 'px';
-    page.style.height = intrinsicHeight * zoom + 'px';
+    applyZoom(zoom * Math.exp(-event.deltaY * .002), 'manual', false);
     const resizedBounds = page.getBoundingClientRect();
     viewport.scrollLeft += resizedBounds.left + anchorX * resizedBounds.width - event.clientX;
     viewport.scrollTop += resizedBounds.top + anchorY * resizedBounds.height - event.clientY;
+    reportViewport();
   }, { passive: false });
+  let viewportFrame;
+  viewport?.addEventListener('scroll', () => {
+    if (viewportFrame) return;
+    viewportFrame = requestAnimationFrame(() => { viewportFrame = undefined; reportViewport(); });
+  }, { passive: true });
+  page?.addEventListener('click', (event) => {
+    const bounds = page.getBoundingClientRect();
+    if (!(bounds.width > 0) || !(bounds.height > 0)) return;
+    vscode.postMessage({
+      type: 'navigate',
+      point: {
+        pageIndex: 0,
+        x: Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width)),
+        y: Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height)),
+      },
+    });
+  });
+  const showOverlay = (className, point) => {
+    document.querySelector('.' + className)?.remove();
+    if (!point || point.pageIndex !== 0 || !page) return;
+    const overlay = document.createElement('span');
+    overlay.className = className;
+    overlay.style.left = Math.min(1, Math.max(0, point.x)) * 100 + '%';
+    overlay.style.top = Math.min(1, Math.max(0, point.y)) * 100 + '%';
+    page.append(overlay);
+    if (className === 'preview-indicator') overlay.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+  };
+  window.addEventListener('message', (event) => {
+    if (event.data?.type === 'restoreViewport') restoreViewport(event.data.viewport);
+    else if (event.data?.type === 'indicator') showOverlay('preview-indicator', event.data.point);
+    else if (event.data?.type === 'cursor') showOverlay('preview-cursor', event.data.point);
+  });
   const exportControl = document.querySelector('.export-control');
   const exportTrigger = document.querySelector('.export-trigger');
   const exportMenu = document.querySelector('.export-menu');

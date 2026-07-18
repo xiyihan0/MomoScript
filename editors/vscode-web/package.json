@@ -22,6 +22,8 @@
     "test:resource-materializer": "node --experimental-strip-types ./scripts/test-resource-materializer.mjs",
     "test:preview-diagnostics": "node --experimental-strip-types ./scripts/test-preview-diagnostics.mjs",
     "test:preview-artifact": "node --experimental-strip-types ./scripts/test-preview-artifact.mjs",
+    "test:preview-interaction": "node --experimental-strip-types ./scripts/test-preview-interaction.mjs",
+    "test:e2e:preview-interaction": "playwright test --project=local preview-interaction.spec.ts",
     "test:resource-settings": "node --experimental-strip-types ./scripts/test-resource-settings.mjs",
     "test:language-projection": "node --experimental-strip-types ./scripts/test-language-projection.mjs",
     "test:runtime-owner": "node --experimental-strip-types ./scripts/test-runtime-owner.mjs",

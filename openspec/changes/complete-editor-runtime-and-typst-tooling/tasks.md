@@ -212,19 +212,20 @@ Every item in this section is enabled only if the active artifact advertises the
 - [ ] 8.2 Normalize renderer output into validated page records and page geometry
 - [ ] 8.3 Negotiate a `LocationProviderKey` containing backend/trace artifact digest, generation, method and coordinate version, or retain an immutable location map per artifact
 - [ ] 8.4 Bind every location request/response and `PreviewArtifact` to both `RenderKey` and `LocationProviderKey`
-- [ ] 8.5 Add debounced editor-to-preview positioning for standalone Typst
-- [ ] 8.6 Map MMT selection through current projection before editor-to-preview positioning
-- [ ] 8.7 Select the candidate location nearest the currently visible page and show a bounded visual indicator
-- [ ] 8.8 Add preview-to-source navigation to authored MMT, workspace Typst or read-only virtual dependency files
-- [ ] 8.9 Add cursor overlay and remove it when source/render identities diverge
-- [ ] 8.10 Report viewport changes using normalized page-relative coordinates
-- [ ] 8.11 Persist per-workspace/source zoom, fit mode and viewport without generated DOM IDs
-- [ ] 8.12 Add fit-page and preserve existing fit-width/manual zoom
-- [ ] 8.13 Add capability-gated incremental update batches with full-refresh fallback on gaps or reordering
-- [ ] 8.14 Add capability-gated partial rendering without allowing mixed-render-key pages
-- [ ] 8.15 Add outline presentation only from authored symbols or safely mapped locations
-- [ ] 8.16 Add Desktop/Web interaction fixtures for navigation, stale preview, multi-document switching and renderer recovery
-- [ ] 8.17 Reject navigation against an old displayed artifact after provider restart/version change unless that artifact retains an immutable location map
+- [x] 8.5 Add debounced editor-to-preview positioning for standalone Typst
+- [x] 8.6 Map MMT selection through current projection before editor-to-preview positioning
+- [x] 8.7 Select the candidate location nearest the currently visible page and show a bounded visual indicator
+- [x] 8.8 Add preview-to-source navigation to authored MMT, workspace Typst or read-only virtual dependency files
+- [x] 8.9 Add cursor overlay and remove it when source/render identities diverge
+- [x] 8.10 Report viewport changes using normalized page-relative coordinates
+- [x] 8.11 Persist per-workspace/source zoom, fit mode and viewport without generated DOM IDs
+- [x] 8.12 Add fit-page and preserve existing fit-width/manual zoom
+- [x] 8.13 Add capability-gated incremental update batches with full-refresh fallback on gaps or reordering
+- [x] 8.14 Add capability-gated partial rendering without allowing mixed-render-key pages
+- [x] 8.15 Add outline presentation only from authored symbols or safely mapped locations
+- [x] 8.16 Add Desktop/Web interaction fixtures for navigation, stale preview, multi-document switching and renderer recovery
+- [x] 8.17 Reject navigation against an old displayed artifact after provider restart/version change unless that artifact retains an immutable location map
+  - Evidence: `PreviewInteractionController` binds every request、indicator and cursor to the displayed immutable `PreviewArtifact`、`RenderKey`、`LocationProviderKey` and complete source identity; standalone selections debounce, projected MMT ranges consume `mmt/typstRange`, reverse read navigation consumes `mmt/mapTypstReadLocations`, and stale source/provider drift cancels requests and removes both overlays. Viewports normalize page-relative coordinates and persist by workspace/source; Web and Desktop Webview controls share fit-width、fit-page and manual zoom messages. Incremental gaps/reordering request full refresh, partial batches reject mixed render keys, and outline targets accept only authored/safely mapped locations. `npm run test:preview-interaction`、`npm run test:preview-artifact`、`npm run test:preview-diagnostics`、`npm run test:runtime-controller`、`npm run test:runtime-owner` and `npx tsc --noEmit` pass. A real Chromium smoke opened the VS Code Webview Panel, exercised visible fit-page→manual 159% zoom and editor positioning with one bounded indicator/cursor, proved immutable-map navigation survives an unrelated provider restart, then proved provider-bound restart rejects navigation and removes both visible overlays.
 
 ## 9. Exact-snapshot export
 

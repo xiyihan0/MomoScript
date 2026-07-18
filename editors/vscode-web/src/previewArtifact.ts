@@ -40,10 +40,59 @@ export interface PreviewPage {
   readonly sanitizedSvg: string;
 }
 
+export interface PreviewWirePosition {
+  readonly line: number;
+  readonly character: number;
+}
+
+export interface PreviewWireRange {
+  readonly start: PreviewWirePosition;
+  readonly end: PreviewWirePosition;
+}
+
+export interface PreviewPagePoint {
+  readonly pageIndex: number;
+  /** Page-relative normalized coordinate in the inclusive range 0..1. */
+  readonly x: number;
+  /** Page-relative normalized coordinate in the inclusive range 0..1. */
+  readonly y: number;
+}
+
+export type PreviewSourceKind = "authoredIdentity" | "workspaceTypst" | "packageFile" | "generatedProjection" | "staleUnknown";
+
+export interface PreviewSourceTarget {
+  readonly kind: PreviewSourceKind;
+  readonly uri?: string;
+  readonly range?: PreviewWireRange;
+  readonly readOnly?: boolean;
+  readonly retained?: boolean;
+}
+
+export interface PreviewSourceMapEntry {
+  readonly sourceUri: string;
+  readonly sourceContent: string;
+  readonly projectionKey?: string;
+  readonly range: PreviewWireRange;
+  readonly candidates: readonly PreviewPagePoint[];
+}
+
+export interface PreviewPageMapEntry extends PreviewPagePoint {
+  readonly radius: number;
+  readonly target: PreviewSourceTarget;
+}
+
+/** Complete location data retained with one immutable render artifact. */
+export interface PreviewImmutableLocationMap {
+  readonly digest: string;
+  readonly sourceToPreview: readonly PreviewSourceMapEntry[];
+  readonly previewToSource: readonly PreviewPageMapEntry[];
+}
+
 export interface PreviewArtifact {
   readonly renderKey: RenderKey;
   readonly sourceUri: string;
   readonly locationProviderKey: LocationProviderKey;
+  readonly locationMap?: PreviewImmutableLocationMap;
   readonly pages: readonly PreviewPage[];
   readonly warnings: readonly string[];
   readonly byteSize: number;
@@ -62,6 +111,7 @@ export interface PreviewArtifactInput {
   readonly renderKey: RenderKey;
   readonly sourceUri: string;
   readonly locationProviderKey: LocationProviderKey;
+  readonly locationMap?: PreviewImmutableLocationMap;
   readonly pages: readonly PreviewPage[];
   readonly warnings?: readonly string[];
 }
@@ -73,17 +123,23 @@ export function createPreviewArtifact(input: PreviewArtifactInput): PreviewArtif
   requireNonEmpty(input.renderKey, "RenderKey");
   requireNonEmpty(input.sourceUri, "source URI");
   validateLocationProviderKey(input.locationProviderKey);
+  if (input.locationProviderKey.kind === "immutable-map" && !input.locationMap) {
+    throw new Error("Immutable LocationProviderKey requires a complete retained location map");
+  }
   if (input.pages.length === 0) throw new Error("Preview artifact must contain at least one page");
   const pages = input.pages.map((page, index) => normalizePreviewPage(page, index));
+  const locationMap = input.locationMap ? normalizeLocationMap(input.locationMap, input.locationProviderKey, pages.length) : undefined;
   const warnings = Object.freeze([...(input.warnings ?? [])].map((warning) => String(warning)));
   const byteSize = pages.reduce((total, page) => total + encoder.encode(page.sanitizedSvg).byteLength + 8 * 6, 0)
     + encoder.encode(input.sourceUri).byteLength
     + encoder.encode(JSON.stringify(input.locationProviderKey)).byteLength
+    + (locationMap ? encoder.encode(JSON.stringify(locationMap)).byteLength : 0)
     + warnings.reduce((total, warning) => total + encoder.encode(warning).byteLength, 0);
   return Object.freeze({
     renderKey: input.renderKey,
     sourceUri: input.sourceUri,
     locationProviderKey: Object.freeze({ ...input.locationProviderKey }),
+    locationMap,
     pages: Object.freeze(pages),
     warnings,
     byteSize,
@@ -142,6 +198,65 @@ function validateSanitizedSvg(svg: string): void {
   }
 }
 
+function normalizeLocationMap(
+  map: PreviewImmutableLocationMap,
+  key: LocationProviderKey,
+  pageCount: number,
+): PreviewImmutableLocationMap {
+  if (key.kind !== "immutable-map" || key.digest !== map.digest) {
+    throw new Error("Immutable location map must match the artifact LocationProviderKey");
+  }
+  const sourceToPreview = map.sourceToPreview.map((entry) => Object.freeze({
+    sourceUri: requireNonEmpty(entry.sourceUri, "location-map source URI"),
+    sourceContent: requireNonEmpty(entry.sourceContent, "location-map SourceContentKey"),
+    projectionKey: entry.projectionKey,
+    range: normalizeWireRange(entry.range),
+    candidates: Object.freeze(entry.candidates.map((candidate) => normalizePagePoint(candidate, pageCount))),
+  }));
+  const previewToSource = map.previewToSource.map((entry) => {
+    if (!Number.isFinite(entry.radius) || entry.radius <= 0 || entry.radius > 1) {
+      throw new Error("Preview location radius must be within 0..1");
+    }
+    const point = normalizePagePoint(entry, pageCount);
+    const target = normalizeSourceTarget(entry.target);
+    return Object.freeze({ ...point, radius: entry.radius, target });
+  });
+  return Object.freeze({
+    digest: map.digest,
+    sourceToPreview: Object.freeze(sourceToPreview),
+    previewToSource: Object.freeze(previewToSource),
+  });
+}
+
+function normalizePagePoint(point: PreviewPagePoint, pageCount: number): PreviewPagePoint {
+  if (!Number.isSafeInteger(point.pageIndex) || point.pageIndex < 0 || point.pageIndex >= pageCount) {
+    throw new Error("Preview location page is outside the artifact");
+  }
+  if (!Number.isFinite(point.x) || !Number.isFinite(point.y) || point.x < 0 || point.x > 1 || point.y < 0 || point.y > 1) {
+    throw new Error("Preview location coordinates must be normalized to 0..1");
+  }
+  return Object.freeze({ pageIndex: point.pageIndex, x: point.x, y: point.y });
+}
+
+function normalizeWireRange(range: PreviewWireRange): PreviewWireRange {
+  for (const position of [range.start, range.end]) {
+    if (!Number.isSafeInteger(position.line) || position.line < 0 || !Number.isSafeInteger(position.character) || position.character < 0) {
+      throw new Error("Preview source positions must be non-negative integers");
+    }
+  }
+  if (range.end.line < range.start.line || (range.end.line === range.start.line && range.end.character < range.start.character)) {
+    throw new Error("Preview source range is reversed");
+  }
+  return Object.freeze({ start: Object.freeze({ ...range.start }), end: Object.freeze({ ...range.end }) });
+}
+
+function normalizeSourceTarget(target: PreviewSourceTarget): PreviewSourceTarget {
+  if (target.kind === "staleUnknown") return Object.freeze({ kind: target.kind });
+  const uri = requireNonEmpty(target.uri ?? "", "preview source target URI");
+  if (!target.range) throw new Error("Preview source target must contain a range");
+  return Object.freeze({ ...target, uri, range: normalizeWireRange(target.range) });
+}
+
 function validateLocationProviderKey(key: LocationProviderKey): void {
   requireNonEmpty(key.coordinateVersion, "location coordinate version");
   if (key.kind === "provider") {
@@ -153,8 +268,9 @@ function validateLocationProviderKey(key: LocationProviderKey): void {
   }
 }
 
-function requireNonEmpty(value: string, label: string): void {
+function requireNonEmpty(value: string, label: string): string {
   if (value.trim().length === 0) throw new Error(`${label} must not be empty`);
+  return value;
 }
 
 interface CacheEntry { artifact: PreviewArtifact; pins: number }
@@ -228,6 +344,17 @@ export class PreviewArtifactStore implements RuntimeOwnedResource {
     if (!artifact || artifact.sourceUri !== sourceUri) throw new Error("ArtifactUnavailable");
     const previous = this.document(sourceUri);
     const next = Object.freeze({ ...previous, requestedRenderKey: renderKey, displayedArtifact: artifact, status: artifact.stale ? "stale" : "ready" } satisfies PreviewDocumentState);
+    this.#documents.set(sourceUri, next);
+    return next;
+  }
+
+  markStale(sourceUri: string): PreviewDocumentState {
+    const previous = this.document(sourceUri);
+    const displayedArtifact = previous.displayedArtifact
+      ? markPreviewArtifactStale(previous.displayedArtifact)
+      : undefined;
+    if (displayedArtifact) this.#replaceCached(displayedArtifact);
+    const next = Object.freeze({ ...previous, displayedArtifact, status: "stale" } satisfies PreviewDocumentState);
     this.#documents.set(sourceUri, next);
     return next;
   }
