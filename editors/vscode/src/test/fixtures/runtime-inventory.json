@@ -76,6 +76,7 @@
   "duplicatedClientState": [],
   "sharedHostSessionState": [
     { "name": "handlers", "role": "host-neutral notification and project event subscriptions" },
+    { "name": "capabilityRegistry", "role": "shared initialize and dynamic capability state, including semantic-token legend" },
     { "name": "ready", "role": "initialized backend and replay completion" },
     { "name": "stopped", "role": "terminal session disposal guard" },
     { "name": "restarting", "role": "single serialized recovery promise" }
@@ -113,7 +114,5 @@
   "processOnlyState": [
     { "name": "buffer", "role": "Content-Length framed byte buffer in process connection" }
   ],
-  "workerOnlyState": [
-    { "name": "semanticLegend", "role": "semantic token legend exposed to Web host" }
-  ]
+  "workerOnlyState": []
 }

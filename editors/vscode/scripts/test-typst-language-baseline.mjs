@@ -25,6 +25,7 @@ const vscodeFixture = {
   },
   workspace: {
     textDocuments: [],
+    registerTextDocumentContentProvider() { return { dispose() {} }; },
     onDidOpenTextDocument() { return { dispose() {} }; },
     onDidChangeTextDocument() { return { dispose() {} }; },
     onDidCloseTextDocument() { return { dispose() {} }; }

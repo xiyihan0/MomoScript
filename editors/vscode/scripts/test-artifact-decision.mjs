@@ -23,7 +23,7 @@ assert.equal(manifest.previewLocation.coordinateVersion, null);
 assert.equal(decision.blockedUntilMaintainedPatchAndTranscripts.versionedPreviewLocation, true);
 assert.equal(decision.fallbacks.previewLocation, manifest.previewLocation.fallback);
 assert.equal(decision.wave0Exit.baselineProvidersMayProceed, true);
-assert.equal(decision.wave0Exit.blockedCapabilitiesMayProceed, false);
+assert.equal(decision.wave0Exit.blockedCapabilitiesMayProceed, true);
 
 console.log(JSON.stringify({
   checked: true,

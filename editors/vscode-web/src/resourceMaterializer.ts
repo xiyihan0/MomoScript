@@ -2,7 +2,7 @@ import type { PackManifestSource } from "../../vscode/src/packSync";
 import type { TypstRenderProjectUpdate, TypstResourceRequest } from "../../vscode/src/tinymistClient";
 import type { BoundedStringCache } from "./boundedStringCache";
 import { fetchSequenceOnce, sequenceFetchKey } from "./resourceFetchCache.ts";
-import { canonicalBytesDigest } from "../../vscode/src/runtimeIdentity";
+import { canonicalBytesDigest } from "../../vscode/src/runtimeIdentity.ts";
 
 export interface MaterializationPackSource extends PackManifestSource {
   cacheIdentity: string;

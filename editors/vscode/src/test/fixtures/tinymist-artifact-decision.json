@@ -6,17 +6,9 @@
     "backendVersion": "0.15.2"
   },
   "decision": "retain-pinned-artifacts",
-  "reason": "The maintained pinned patch qualifies the versioned native/Web logical package callback; unqualified providers remain disabled.",
+  "reason": "The maintained pinned patch and checked native/Web transcripts qualify the logical package callback and every P0 provider; versioned preview location remains on the immutable-map fallback.",
   "blockedUntilMaintainedPatchAndTranscripts": {
-    "p0Providers": [
-      "definitionProvider",
-      "documentFormattingProvider",
-      "documentLinkProvider",
-      "documentRangeFormattingProvider",
-      "documentSymbolProvider",
-      "referencesProvider",
-      "renameProvider"
-    ],
+    "p0Providers": [],
     "packageCallback": false,
     "versionedPreviewLocation": true
   },
@@ -26,7 +18,7 @@
   },
   "wave0Exit": {
     "baselineProvidersMayProceed": true,
-    "blockedCapabilitiesMayProceed": false,
-    "patchRequired": true
+    "blockedCapabilitiesMayProceed": true,
+    "patchRequired": false
   }
 }

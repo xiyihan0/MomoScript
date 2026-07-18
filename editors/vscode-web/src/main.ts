@@ -2,6 +2,7 @@ import "@codingame/monaco-vscode-language-pack-zh-hans";
 import * as vscode from "vscode";
 import { LogLevel } from "@codingame/monaco-vscode-api";
 import { getService, ICodeEditorService, IModelService } from "@codingame/monaco-vscode-api";
+import { URI } from "@codingame/monaco-vscode-api/vscode/vs/base/common/uri";
 import getExplorerServiceOverride from "@codingame/monaco-vscode-explorer-service-override";
 import getKeybindingsServiceOverride from "@codingame/monaco-vscode-keybindings-service-override";
 import getMarkersServiceOverride from "@codingame/monaco-vscode-markers-service-override";
@@ -92,9 +93,9 @@ function recordE2ELifecycle(kind: E2ELifecycleKind, generation: number | undefin
 
 
 
-const WORKSPACE = vscode.Uri.parse("mmtfs://workspace/");
-const STORY = vscode.Uri.parse("mmtfs://workspace/story.mmt");
-const INTRO = vscode.Uri.parse("mmtfs://workspace/intro.typ");
+const WORKSPACE = URI.parse("mmtfs://workspace/");
+const STORY = URI.parse("mmtfs://workspace/story.mmt");
+const INTRO = URI.parse("mmtfs://workspace/intro.typ");
 const DEFAULT_DOCUMENT = INTRO;
 if (import.meta.env.VITE_MMT_E2E === "1") {
   Reflect.set(globalThis, "__mmtCompletionLabels", async (
@@ -311,11 +312,6 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
     cache: typstPackageCache,
     dependencies: packageDependencies
   });
-  subscribe(vscode.workspace.registerFileSystemProvider(
-    "mmt-package",
-    new WebTypstPackageFileSystemProvider(typstPackageCache),
-    { isReadonly: true, isCaseSensitive: true }
-  ));
   let output: vscode.OutputChannel | undefined;
   const log = (scope: string, message: string) => {
     const line = `[${new Date().toISOString()}] [${scope}] ${message}`;
@@ -741,6 +737,11 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
     monacoWorkerFactory: configureWorkbenchWorkerFactory
   });
   await api.start();
+  subscribe(vscode.workspace.registerFileSystemProvider(
+    "mmt-package",
+    new WebTypstPackageFileSystemProvider(typstPackageCache),
+    { isReadonly: true, isCaseSensitive: true }
+  ));
   output = own(vscode.window.createOutputChannel("MomoScript"));
   log("host", "VS Code Workbench ready");
   const applyPanelVisibility = (visible: boolean) => {
