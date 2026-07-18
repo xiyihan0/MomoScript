@@ -158,6 +158,33 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(previewWebview.getByLabel("Export format")).toBeEnabled();
   await expect(previewWebview.getByRole("button", { name: "Export exact revision" })).toBeEnabled();
   await expect(previewWebview.locator(".exact-export")).toHaveAttribute("data-availability", "ready");
+  const previewViewport = previewWebview.locator(".viewport");
+  await previewWebview.evaluate(() => {
+    Reflect.set(globalThis, "__mmtPreviewRestoreMessages", 0);
+    window.addEventListener("message", (event) => {
+      if (event.data?.type === "restoreViewport") {
+        Reflect.set(globalThis, "__mmtPreviewRestoreMessages", Number(Reflect.get(globalThis, "__mmtPreviewRestoreMessages")) + 1);
+      }
+    });
+  });
+  await previewViewport.hover();
+  await page.mouse.wheel(0, 320);
+  await expect.poll(() => previewViewport.evaluate((element) => element.scrollTop)).toBeGreaterThan(0);
+  const wheelDownTop = await previewViewport.evaluate((element) => element.scrollTop);
+  await page.waitForTimeout(300);
+  expect(Math.abs(await previewViewport.evaluate((element) => element.scrollTop) - wheelDownTop)).toBeLessThanOrEqual(1);
+  await page.mouse.wheel(0, -120);
+  await expect.poll(() => previewViewport.evaluate((element) => element.scrollTop)).toBeLessThan(wheelDownTop);
+  const wheelUpTop = await previewViewport.evaluate((element) => element.scrollTop);
+  await page.waitForTimeout(300);
+  expect(Math.abs(await previewViewport.evaluate((element) => element.scrollTop) - wheelUpTop)).toBeLessThanOrEqual(1);
+  const draggedTop = await previewViewport.evaluate((element) => {
+    element.scrollTop = Math.max(0, element.scrollTop / 2);
+    return element.scrollTop;
+  });
+  await page.waitForTimeout(300);
+  expect(Math.abs(await previewViewport.evaluate((element) => element.scrollTop) - draggedTop)).toBeLessThanOrEqual(1);
+  expect(await previewWebview.evaluate(() => Number(Reflect.get(globalThis, "__mmtPreviewRestoreMessages")))).toBe(0);
   await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("intro.typ"));
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "intro.typ", languageId: "typst" });
   await page.getByRole("button", { name: "Typst 预览" }).click();

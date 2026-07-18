@@ -112,6 +112,7 @@ export class TypstPreviewController {
   private latestEntryPath: string | undefined;
   private latestSvg: string | undefined;
   private scrollFrame: number | undefined;
+  private acceptingHostViewport = false;
 
   constructor(
     container: HTMLElement,
@@ -162,7 +163,7 @@ export class TypstPreviewController {
         },
         viewportChanged: (state) => {
           this.applyViewportState(state);
-          externalInteractionEvents?.viewportChanged?.(state);
+          if (!this.acceptingHostViewport) externalInteractionEvents?.viewportChanged?.(state);
         },
         sourceOpened: (target) => externalInteractionEvents?.sourceOpened?.(target),
         fullRefreshRequested: (reason) => externalInteractionEvents?.fullRefreshRequested?.(reason),
@@ -191,7 +192,12 @@ export class TypstPreviewController {
   get displayedArtifact(): PreviewArtifact | undefined { return this.interaction.artifact; }
 
   updateViewportFromHost(viewport: PreviewViewport): void {
-    this.interaction.updateViewport(viewport);
+    this.acceptingHostViewport = true;
+    try {
+      this.interaction.updateViewport(viewport);
+    } finally {
+      this.acceptingHostViewport = false;
+    }
   }
 
   navigatePreviewPoint(point: PreviewPagePoint): Promise<PreviewSourceTarget | undefined> {
