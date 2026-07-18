@@ -41,8 +41,9 @@ pub use pipeline::{
 pub use project::{ProjectMaterializer, ProjectMaterializerOptions, export_template_library};
 pub use projection::{
     MappingMode, PROJECTION_PLACEHOLDER_IMAGE, ProjectedResource, ProjectedResourceSource,
-    ProjectionEdit, ProjectionError, ProjectionIndex, ProjectionKind, ProjectionSegment,
-    TypstProjection, diagnose_analyzed, diagnose_analyzed_with_pack, diagnose_text,
+    ProjectionEdit, ProjectionError, ProjectionIndex, ProjectionKind, ProjectionMappingKind,
+    ProjectionMappingResult, ProjectionSegment, TypstProjection, diagnose_analyzed,
+    diagnose_analyzed_with_pack, diagnose_text,
     diagnose_text_with_pack, project_analyzed, project_analyzed_with_pack, project_text,
     project_text_with_pack,
 };

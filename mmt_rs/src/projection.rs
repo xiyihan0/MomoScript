@@ -45,6 +45,39 @@ pub struct ProjectionSegment {
     pub mapping: MappingMode,
 }
 
+/// Trust classification for a location returned by a Typst language backend.
+///
+/// Only `AuthoredIdentity` carries a reverse mapping in a [`ProjectionIndex`].
+/// Workspace and package variants are assigned by the host after it resolves a
+/// logical project file. Generated projection text remains navigable only while
+/// its immutable generation is retained.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub enum ProjectionMappingKind {
+    AuthoredIdentity,
+    WorkspaceTypst,
+    PackageFile,
+    GeneratedProjection,
+    StaleUnknown,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+pub struct ProjectionMappingResult {
+    pub kind: ProjectionMappingKind,
+    pub projected_range: TextRange,
+    pub source_range: Option<TextRange>,
+}
+
+impl ProjectionMappingResult {
+    pub const fn external(kind: ProjectionMappingKind, range: TextRange) -> Self {
+        Self {
+            kind,
+            projected_range: range,
+            source_range: None,
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ProjectionIndex {
     segments: Vec<ProjectionSegment>,
@@ -209,6 +242,48 @@ impl ProjectionIndex {
             mmt.start + range.start - segment.typst_range.start,
             mmt.start + range.end - segment.typst_range.start,
         ))
+    }
+
+    /// Classifies a backend byte range without guessing across source-map
+    /// segments. A range is authored only when it is wholly contained in one
+    /// Identity segment. Other exact single-segment ranges are generated and
+    /// remain useful for read-only navigation. Invalid, ambiguous, and
+    /// cross-segment ranges are explicitly stale/unknown.
+    pub fn classify_read(&self, range: TextRange) -> ProjectionMappingResult {
+        let mut candidates = self.segments.iter().filter(|segment| {
+            if range.start > range.end {
+                return false;
+            }
+            if range.start == range.end {
+                segment.typst_range.start <= range.start
+                    && (range.start < segment.typst_range.end
+                        || (range.start == segment.typst_range.end
+                            && segment.typst_range.end
+                                == self.segments.last().map_or(0, |last| last.typst_range.end)))
+            } else {
+                segment.typst_range.start <= range.start && range.end <= segment.typst_range.end
+            }
+        });
+        let Some(segment) = candidates.next() else {
+            return ProjectionMappingResult::external(ProjectionMappingKind::StaleUnknown, range);
+        };
+        if candidates.next().is_some() {
+            return ProjectionMappingResult::external(ProjectionMappingKind::StaleUnknown, range);
+        }
+        if segment.mapping != MappingMode::Identity {
+            return ProjectionMappingResult::external(
+                ProjectionMappingKind::GeneratedProjection,
+                range,
+            );
+        }
+        let Some(source_range) = self.typst_to_mmt(range) else {
+            return ProjectionMappingResult::external(ProjectionMappingKind::StaleUnknown, range);
+        };
+        ProjectionMappingResult {
+            kind: ProjectionMappingKind::AuthoredIdentity,
+            projected_range: range,
+            source_range: Some(source_range),
+        }
     }
 
     pub fn map_text_edit(&self, edit: &ProjectionEdit) -> Result<ProjectionEdit, ProjectionError> {
@@ -610,6 +685,69 @@ mod tests {
             Err(ProjectionError::UnsafeEdit { .. })
         ));
     }
+    #[test]
+    fn read_classification_is_exact_and_conservative() {
+        let index = ProjectionIndex {
+            segments: vec![
+                ProjectionSegment {
+                    mmt_range: Some(TextRange::new(10, 14)),
+                    typst_range: TextRange::new(0, 4),
+                    kind: ProjectionKind::TypDirective,
+                    mapping: MappingMode::Identity,
+                },
+                ProjectionSegment {
+                    mmt_range: Some(TextRange::new(20, 24)),
+                    typst_range: TextRange::new(4, 8),
+                    kind: ProjectionKind::TextBody,
+                    mapping: MappingMode::Synthetic,
+                },
+                ProjectionSegment {
+                    mmt_range: Some(TextRange::new(30, 34)),
+                    typst_range: TextRange::new(8, 12),
+                    kind: ProjectionKind::TextBody,
+                    mapping: MappingMode::Escaped,
+                },
+                ProjectionSegment {
+                    mmt_range: Some(TextRange::new(40, 44)),
+                    typst_range: TextRange::new(12, 16),
+                    kind: ProjectionKind::TextBody,
+                    mapping: MappingMode::MacroExpansion,
+                },
+            ],
+        };
+
+        assert_eq!(
+            index.classify_read(TextRange::new(1, 3)),
+            ProjectionMappingResult {
+                kind: ProjectionMappingKind::AuthoredIdentity,
+                projected_range: TextRange::new(1, 3),
+                source_range: Some(TextRange::new(11, 13)),
+            }
+        );
+        for range in [
+            TextRange::new(5, 7),
+            TextRange::new(9, 11),
+            TextRange::new(13, 15),
+        ] {
+            assert_eq!(
+                index.classify_read(range),
+                ProjectionMappingResult::external(
+                    ProjectionMappingKind::GeneratedProjection,
+                    range,
+                )
+            );
+        }
+        for range in [
+            TextRange::new(3, 5),
+            TextRange::new(17, 17),
+        ] {
+            assert_eq!(
+                index.classify_read(range).kind,
+                ProjectionMappingKind::StaleUnknown
+            );
+        }
+    }
+
     #[test]
     fn projection_materializes_only_basename_workspace_files() {
         let resource = ResolvedResource {
