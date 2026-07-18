@@ -86,8 +86,9 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(workbench).not.toHaveClass(/panel-collapsed/);
   const expandedEditorHeight = await editorHost.evaluate((element) => element.getBoundingClientRect().height);
   expect(collapsedEditorHeight - expandedEditorHeight).toBeGreaterThan(100);
-  await expect(outputPanel).toContainText("MMT language server ready");
-  await expect(outputPanel).toContainText("Tinymist Worker ready");
+  await expect(outputPanel).toContainText(
+    /runtime:status.*"backendVersion":"0\.15\.2".*"recoveryState":"ready"/s
+  );
   await expect(outputPanel).not.toContainText(/(?:Tinymist|Typst\s+编译器)\s+WASM\s+(?:100|[1-9]\d{2,})%/);
   await problemsToggle.click();
   await expect(outputPanel.getByRole("tab", { name: /^问题/ })).toHaveAttribute("aria-selected", "true");
