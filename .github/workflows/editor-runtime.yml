@@ -154,6 +154,7 @@ jobs:
           TINYMIST_WEB_SHA256_FILE: ${{ github.workspace }}/.ci/tinymist/web/SHA256SUMS
         run: |
           chmod +x "$TINYMIST_BIN"
+          npm run build:wasm
           npm run check
           npm run test:grammar
           npm run test:position-domains
@@ -201,6 +202,7 @@ jobs:
           TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
           TINYMIST_WEB_SHA256_FILE: ${{ github.workspace }}/.ci/tinymist/web/SHA256SUMS
         run: |
+          npm --prefix editors/vscode run build:wasm
           npm --prefix editors/vscode run check
           npm --prefix editors/vscode run test:tinymist-worker
           npm --prefix editors/vscode run test:web
