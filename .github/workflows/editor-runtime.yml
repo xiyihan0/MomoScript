@@ -17,6 +17,8 @@ env:
   NODE_VERSION: 22.22.0
   RUST_TOOLCHAIN: 1.92.0
   WASM_PACK_VERSION: 0.15.0
+  TYPST_VERSION: 0.15.0
+  TYPST_LINUX_SHA256: 59b207df01be2dab9f13e80f73d04d7ff8273ffd46b3dd1b9eef5c60f3eeabea
   TINYMIST_REVISION: 3d63da4f93c54ddef0c63e1a6237d67aee13f5fe
 
 jobs:
@@ -30,6 +32,16 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends libavif-bin
+      - name: Install pinned Typst CLI
+        run: |
+          archive="/tmp/typst-x86_64-unknown-linux-musl.tar.xz"
+          curl --fail --location --silent --show-error \
+            "https://github.com/typst/typst/releases/download/v${TYPST_VERSION}/typst-x86_64-unknown-linux-musl.tar.xz" \
+            --output "$archive"
+          echo "${TYPST_LINUX_SHA256}  ${archive}" | sha256sum --check
+          tar --extract --xz --file "$archive" --directory /tmp
+          sudo install "/tmp/typst-x86_64-unknown-linux-musl/typst" /usr/local/bin/typst
+          typst --version
       - name: Install pinned Rust toolchain
         run: |
           rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal
