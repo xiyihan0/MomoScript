@@ -5,6 +5,7 @@ const fixtureRoot = new URL("../src/test/fixtures/", import.meta.url);
 const nativeEvidence = JSON.parse(await readFile(new URL("tinymist-native-evidence.json", fixtureRoot), "utf8"));
 const webEvidence = JSON.parse(await readFile(new URL("tinymist-web-evidence.json", fixtureRoot), "utf8"));
 const navigationEvidence = JSON.parse(await readFile(new URL("typst-navigation-evidence.json", fixtureRoot), "utf8"));
+const richQualification = JSON.parse(await readFile(new URL("tinymist-rich-provider-qualification.json", fixtureRoot), "utf8"));
 
 const capabilityKeys = [...new Set([
   ...Object.keys(nativeEvidence.initialize.capabilities),
@@ -24,6 +25,8 @@ const navigationQualified = new Set([
   "documentHighlightProvider",
 ]);
 const transcriptQualified = new Set([...baselineQualified, ...navigationQualified]);
+const richQualified = new Map(Object.entries(richQualification.qualifiedProviders));
+const richUnavailable = new Map(Object.entries(richQualification.unavailableProviders));
 const p0 = new Set([
   "definitionProvider",
   "documentLinkProvider",
@@ -58,7 +61,15 @@ const providers = capabilityKeys.map((key) => {
     || key === "semanticTokensProvider";
   let classification = "unavailable";
   let reason = "not advertised by either fixed artifact";
-  if (native && web && sameOptions && transcriptQualified.has(key)) {
+  if (native && web && sameOptions && richQualified.has(key)) {
+    classification = richQualified.get(key);
+    reason = classification === "core-required"
+      ? "compatible advertisement plus checked native/Web rich-provider transcript"
+      : "qualified independently by native and Web rich-provider transcripts";
+  } else if (richUnavailable.has(key)) {
+    classification = "unavailable";
+    reason = richUnavailable.get(key);
+  } else if (native && web && sameOptions && transcriptQualified.has(key)) {
     classification = "core-required";
     reason = navigationQualified.has(key)
       ? "compatible advertisement plus checked native/Web navigation transcript"
@@ -118,10 +129,11 @@ const manifest = stable({
   qualification: {
     baselineEvidence: "typst-language-baseline.json",
     navigationEvidence: "typst-navigation-evidence.json",
+    providerEvidence: "tinymist-rich-provider-qualification.json",
     p0Keys: [...p0].sort(),
     patchRequired,
     patchRequiredProviders,
-    rule: "core-required requires compatible native/Web advertisement and shared positive/negative method transcript; advertised P0 without that evidence is unavailable and blocks W0-H",
+    rule: "core-required requires compatible native/Web advertisement and shared positive/negative method transcript; unsafe or non-positive providers remain unavailable",
   },
 });
 
@@ -133,9 +145,10 @@ assert.equal(manifest.artifacts.native.positionEncoding, "utf-16");
 assert.equal(manifest.artifacts.web.positionEncoding, "utf-16");
 for (const provider of manifest.providers) {
   if (provider.classification === "core-required") {
-    assert(provider.native && provider.web && provider.sameOptions && transcriptQualified.has(provider.key));
+    assert(provider.native && provider.web && provider.sameOptions
+      && (transcriptQualified.has(provider.key) || richQualified.get(provider.key) === "core-required"));
   }
-  if (p0.has(provider.key) && !navigationQualified.has(provider.key)) {
+  if (p0.has(provider.key) && !navigationQualified.has(provider.key) && !richQualified.has(provider.key)) {
     assert.equal(provider.classification, "unavailable", `${provider.key} lacks shared method transcript and must block W0-H`);
   }
 }

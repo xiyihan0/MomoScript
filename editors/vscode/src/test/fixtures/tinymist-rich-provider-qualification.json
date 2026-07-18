@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "artifacts": {
+    "native": "b96ce119a2ef789978350c26ccc89113435cf010e8f1f8eb2c883fb2ec631611",
+    "web": "c9ff9b1d8197656e89e2ee4cc3fc74923ddfecaec3fbc4022f82d150fa995db4"
+  },
+  "qualifiedProviders": {
+    "renameProvider": "core-required",
+    "documentFormattingProvider": "core-required",
+    "documentRangeFormattingProvider": "core-required",
+    "documentLinkProvider": "core-required",
+    "colorProvider": "host-optional",
+    "codeActionProvider": "host-optional"
+  },
+  "unavailableProviders": {
+    "inlayHintProvider": "native returns null and Worker returns no result for the checked positive fixture",
+    "codeLensProvider": "effectful export command with resolveProvider=false"
+  },
+  "native": {
+    "host": "native",
+    "backendVersion": "0.15.2",
+    "positionEncoding": "utf-16",
+    "qualified": {
+      "rename": true,
+      "formatting": true,
+      "rangeFormatting": true,
+      "documentLink": true,
+      "documentColor": true,
+      "colorPresentation": true,
+      "codeAction": true
+    },
+    "unavailable": {
+      "inlayHint": "native returns null and Worker returns no result for the checked positive fixture",
+      "codeLens": "effectful export command with resolveProvider=false"
+    },
+    "responseKinds": {
+      "prepareRename": "object",
+      "rename": "object",
+      "formatting": "array:1",
+      "rangeFormatting": "array:1",
+      "documentLink": "array:1",
+      "documentColor": "array:1",
+      "colorPresentation": "array:10",
+      "codeAction": "array:3",
+      "inlayHint": "null",
+      "codeLens": "array:1",
+      "signatureHelp": "null"
+    }
+  },
+  "worker": {
+    "host": "worker",
+    "backendVersion": "0.15.2",
+    "positionEncoding": "utf-16",
+    "qualified": {
+      "rename": true,
+      "formatting": true,
+      "rangeFormatting": true,
+      "documentLink": true,
+      "documentColor": true,
+      "colorPresentation": true,
+      "codeAction": true
+    },
+    "unavailable": {
+      "inlayHint": "native returns null and Worker returns no result for the checked positive fixture",
+      "codeLens": "effectful export command with resolveProvider=false"
+    },
+    "responseKinds": {
+      "prepareRename": "object",
+      "rename": "object",
+      "formatting": "array:1",
+      "rangeFormatting": "array:1",
+      "documentLink": "array:1",
+      "documentColor": "array:1",
+      "colorPresentation": "array:10",
+      "codeAction": "array:3",
+      "inlayHint": "undefined",
+      "codeLens": "array:1",
+      "signatureHelp": "undefined"
+    }
+  }
+}

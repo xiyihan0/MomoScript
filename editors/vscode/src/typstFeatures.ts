@@ -25,6 +25,7 @@ import {
   RetainedVirtualDocumentStore,
   registerVirtualTypstContentProviders
 } from "./retainedVirtualDocuments";
+import { RichTypstProviderRegistrations } from "./typstRichProviders";
 
 const routersByBackend = new WeakMap<TinymistHostBackend, TypstFeatureRouter>();
 const retainedDocumentsByBackend = new WeakMap<TinymistHostBackend, RetainedVirtualDocumentStore>();
@@ -174,6 +175,7 @@ export function connectTypstBackend(
   const diagnostics = vscode.languages.createDiagnosticCollection("mmt-typst");
   const providers = new TypstHostProviderRegistrations(router, backend, client);
   const navigationProviders = new TypstNavigationProviders(router, client, host);
+  const richProviders = new RichTypstProviderRegistrations(router, backend, client, host);
   let retainedDocuments = retainedDocumentsByBackend.get(backend);
   if (!retainedDocuments) {
     retainedDocuments = new RetainedVirtualDocumentStore();
@@ -228,11 +230,13 @@ export function connectTypstBackend(
     }
     providers.reconcile();
     navigationProviders.reconcile();
+    richProviders.reconcile();
   });
   backend.on("tinymist/clientRestarting", () => {
     router.retireAllRequests();
     providers.reconcile();
     navigationProviders.reconcile();
+    richProviders.reconcile();
   });
   backend.on("textDocument/publishDiagnostics", (value) => {
     void (async () => {
@@ -259,10 +263,12 @@ export function connectTypstBackend(
   });
   providers.reconcile();
   navigationProviders.reconcile();
+  richProviders.reconcile();
   return [
     diagnostics,
     providers,
     navigationProviders,
+    richProviders,
     ...virtualContentProviders,
     opened,
     changed,

@@ -98,23 +98,25 @@ const nativeRegistry = installedRegistry(1, nativeEvidence);
 const webRegistry = installedRegistry(2, webEvidence);
 const nativeQualification = new TypstProviderQualificationRegistry(nativeRegistry, "native");
 const webQualification = new TypstProviderQualificationRegistry(webRegistry, "web");
-const qualifiedNavigationMethods = [
+const fixedQualifiedMethods = [
   "textDocument/definition",
   "textDocument/references",
+  "textDocument/prepareRename",
+  "textDocument/rename",
+  "textDocument/formatting",
+  "textDocument/rangeFormatting",
   "textDocument/documentSymbol",
   "workspace/symbol",
-  "textDocument/documentHighlight"
+  "textDocument/documentHighlight",
+  "textDocument/documentLink",
+  "textDocument/documentColor",
+  "textDocument/colorPresentation",
+  "textDocument/codeAction"
 ];
-assert.deepEqual(
-  nativeQualification.registrations().map((item) => item.descriptor.method),
-  qualifiedNavigationMethods,
-  "native navigation provider qualification diverged from checked transcript"
-);
-assert.deepEqual(
-  webQualification.registrations().map((item) => item.descriptor.method),
-  qualifiedNavigationMethods,
-  "Web navigation provider qualification diverged from checked transcript"
-);
+assert.deepEqual(nativeQualification.registrations().map((item) => item.descriptor.method), fixedQualifiedMethods,
+  "native provider qualification diverged from checked evidence");
+assert.deepEqual(webQualification.registrations().map((item) => item.descriptor.method), fixedQualifiedMethods,
+  "Web provider qualification diverged from checked evidence");
 assert.equal(nativeQualification.capability("textDocument/definition").kind, "QualifiedProvider");
 assert.equal(nativeQualification.capability("textDocument/definition").qualification, "core-required");
 assert.equal(webQualification.capability("textDocument/inlayHint").classification, "deferred");
@@ -282,7 +284,7 @@ const validPayload = validateTypstProviderPayload(payload({
 assert.equal(validPayload.kind, "Validated");
 assert.equal(validPayload.edits[0].uri, sourceUri);
 assert.equal(validateTypstProviderPayload(payload({
-  capability: nativeQualification.capability("textDocument/documentLink")
+  capability: nativeQualification.capability("textDocument/inlayHint")
 })).kind, "CapabilityUnavailable");
 assert.equal(validateTypstProviderPayload(payload({
   current: { ...identity, projectSnapshot: "new-project" }

@@ -452,23 +452,25 @@ assert.deepEqual(
   webProviderRouter.capability("textDocument/completion").triggerCharacters,
   "native/Web negotiated completion triggers diverged"
 );
-const qualifiedNavigationMethods = [
+const fixedQualifiedProviderMethods = [
   "textDocument/definition",
   "textDocument/references",
+  "textDocument/prepareRename",
+  "textDocument/rename",
+  "textDocument/formatting",
+  "textDocument/rangeFormatting",
   "textDocument/documentSymbol",
   "workspace/symbol",
-  "textDocument/documentHighlight"
+  "textDocument/documentHighlight",
+  "textDocument/documentLink",
+  "textDocument/documentColor",
+  "textDocument/colorPresentation",
+  "textDocument/codeAction"
 ];
-assert.deepEqual(
-  nativeProviderRouter.providerRegistrations("native").map((item) => item.descriptor.method),
-  qualifiedNavigationMethods,
-  "native navigation contracts diverged from checked artifact transcript"
-);
-assert.deepEqual(
-  webProviderRouter.providerRegistrations("web").map((item) => item.descriptor.method),
-  qualifiedNavigationMethods,
-  "Web navigation contracts diverged from checked artifact transcript"
-);
+assert.deepEqual(nativeProviderRouter.providerRegistrations("native").map((item) => item.descriptor.method),
+  fixedQualifiedProviderMethods, "native provider registrations diverged from checked qualification");
+assert.deepEqual(webProviderRouter.providerRegistrations("web").map((item) => item.descriptor.method),
+  fixedQualifiedProviderMethods, "Web provider registrations diverged from checked qualification");
 assert.equal(
   nativeProviderRouter.providerCapability("native", "textDocument/definition").kind,
   "QualifiedProvider",

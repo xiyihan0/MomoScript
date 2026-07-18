@@ -193,6 +193,34 @@ const P0_UNAVAILABLE = Object.freeze({
   sameOptions: true,
   reason: "P0 is advertised but lacks shared positive/negative method transcripts"
 });
+const RICH_CORE_REQUIRED = Object.freeze({
+  classification: "core-required" as const,
+  native: true,
+  web: true,
+  sameOptions: true,
+  reason: "compatible advertisement plus checked native/Web rich-provider transcript"
+});
+const RICH_HOST_OPTIONAL = Object.freeze({
+  classification: "host-optional" as const,
+  native: true,
+  web: true,
+  sameOptions: true,
+  reason: "qualified independently by native and Web rich-provider transcripts"
+});
+const CODE_LENS_UNSAFE = Object.freeze({
+  classification: "unavailable" as const,
+  native: true,
+  web: true,
+  sameOptions: true,
+  reason: "fixed artifacts return an effectful export command and advertise no resolve provider"
+});
+const INLAY_HINT_UNAVAILABLE = Object.freeze({
+  classification: "unavailable" as const,
+  native: true,
+  web: true,
+  sameOptions: true,
+  reason: "fixed native returns null and Web returns no inlay-hint result for the checked positive fixture"
+});
 const NOT_ADVERTISED = Object.freeze({
   classification: "unavailable" as const,
   native: false,
@@ -206,18 +234,18 @@ export const FIXED_TINYMIST_PROVIDER_QUALIFICATION: Readonly<Record<TypstProvide
   typeDefinitionProvider: NOT_ADVERTISED,
   implementationProvider: NOT_ADVERTISED,
   referencesProvider: CORE_NAVIGATION,
-  renameProvider: P0_UNAVAILABLE,
-  documentFormattingProvider: P0_UNAVAILABLE,
-  documentRangeFormattingProvider: P0_UNAVAILABLE,
+  renameProvider: RICH_CORE_REQUIRED,
+  documentFormattingProvider: RICH_CORE_REQUIRED,
+  documentRangeFormattingProvider: RICH_CORE_REQUIRED,
   documentSymbolProvider: CORE_NAVIGATION,
   workspaceSymbolProvider: CORE_NAVIGATION,
   documentHighlightProvider: CORE_NAVIGATION,
   selectionRangeProvider: ADVERTISED_UNQUALIFIED,
-  documentLinkProvider: P0_UNAVAILABLE,
-  colorProvider: ADVERTISED_UNQUALIFIED,
-  codeActionProvider: ADVERTISED_UNQUALIFIED,
-  inlayHintProvider: ADVERTISED_UNQUALIFIED,
-  codeLensProvider: ADVERTISED_UNQUALIFIED
+  documentLinkProvider: RICH_CORE_REQUIRED,
+  colorProvider: RICH_HOST_OPTIONAL,
+  codeActionProvider: RICH_HOST_OPTIONAL,
+  inlayHintProvider: INLAY_HINT_UNAVAILABLE,
+  codeLensProvider: CODE_LENS_UNSAFE
 });
 
 const descriptors = defineDescriptors([
