@@ -20,7 +20,7 @@ export class Range {
 }
 export class TextEdit { constructor(range, newText) { this.range = range; this.newText = newText; } }
 export class Uri {
-  constructor(value) { this.value = value; this.scheme = value.slice(0, value.indexOf(":")); }
+  constructor(value) { this.value = value; this.scheme = value.slice(0, value.indexOf(":")); this.query = ""; this.fragment = ""; }
   toString() { return this.value; }
   static parse(value) { return new Uri(value); }
 }
@@ -199,8 +199,11 @@ const multi = await productionAdapter.apply(route, {
   changes: { [entryUri]: [{ range: { start: { line: 0, character: 5 }, end: { line: 0, character: 10 } }, newText: "multi" }] }
 }, token);
 assert.equal(multi.kind, "CapabilityUnavailable");
-assert.equal((await new CapabilityUnavailableMultiDocumentEditApplier().apply({ kind: "Validated", documents: [] }, token)).kind,
-  "CapabilityUnavailable");
+assert.equal((await new CapabilityUnavailableMultiDocumentEditApplier().apply(
+  { protocolVersion: 1, documents: [], edits: [], expectedVersions: [] },
+  { kind: "Validated", documents: [] },
+  token
+)).kind, "CapabilityUnavailable");
 assert.equal(validateTypstCommandPayload({ title: "safe", command: "mmt.safe", arguments: ["local"] }, ["mmt.safe"]).kind,
   "Validated");
 for (const command of [

@@ -72,3 +72,4 @@ assert.deepEqual(failures.map((failure) => failure.kind), [
 ]);
 console.log("projected edit protocol fixture: ok");
 await import("./test-single-document-projected-edits.mjs");
+await import("./test-multi-document-projected-edits.mjs");

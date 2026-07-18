@@ -18,9 +18,12 @@ import {
   type ProjectedEditFailure,
   type ProjectedEditTransaction,
   type ProjectedEditValidationResult,
-  type ProjectedTextEdit,
-  type ValidatedProjectedDocumentEdits
+  type ProjectedTextEdit
 } from "./projectedEditProtocol";
+
+interface CollectedProjectedTextEdit extends ProjectedTextEdit {
+  readonly projectedVersion?: number;
+}
 import {
   type RoutedProjectedTypstProviderResult,
   TypstFeatureRouter,
@@ -60,14 +63,29 @@ export type ProjectedEditApplicationResult =
   | ProjectedEditFailure;
 
 export interface MultiDocumentEditApplier {
+  prepare(
+    transaction: ProjectedEditTransaction,
+    validated: Extract<ProjectedEditValidationResult, { readonly kind: "Validated" }>,
+    token: vscode.CancellationToken
+  ): Promise<PreparedProjectedEdit | ProjectedEditFailure>;
   apply(
+    transaction: ProjectedEditTransaction,
     validated: Extract<ProjectedEditValidationResult, { readonly kind: "Validated" }>,
     token: vscode.CancellationToken
   ): Promise<ProjectedEditApplicationResult>;
 }
 
 export class CapabilityUnavailableMultiDocumentEditApplier implements MultiDocumentEditApplier {
+  async prepare(
+    _transaction: ProjectedEditTransaction,
+    _validated: Extract<ProjectedEditValidationResult, { readonly kind: "Validated" }>,
+    _token: vscode.CancellationToken
+  ): Promise<ProjectedEditFailure> {
+    return Object.freeze({ kind: "CapabilityUnavailable" as const });
+  }
+
   async apply(
+    _transaction: ProjectedEditTransaction,
     _validated: Extract<ProjectedEditValidationResult, { readonly kind: "Validated" }>,
     _token: vscode.CancellationToken
   ): Promise<ProjectedEditApplicationResult> {
@@ -80,18 +98,79 @@ export interface ProjectedEditWorkspaceHost {
   applyEdit(edit: vscode.WorkspaceEdit): Thenable<boolean>;
 }
 
+export interface PreparedProjectedDocumentEdit {
+  readonly document: vscode.TextDocument;
+  readonly expectedVersion: number;
+  readonly textEdits: readonly vscode.TextEdit[];
+}
+
 export interface PreparedProjectedEdit {
   readonly kind: "Validated";
   readonly transaction: ProjectedEditTransaction;
   readonly protocolEdit: WorkspaceEdit;
   readonly workspaceEdit: vscode.WorkspaceEdit;
+  readonly documents: readonly PreparedProjectedDocumentEdit[];
+  /** Single-document compatibility fields; multi-document callers use `documents`. */
   readonly document: vscode.TextDocument;
   readonly textEdits: readonly vscode.TextEdit[];
+}
+
+export class AtomicWorkspaceEditMultiDocumentEditApplier implements MultiDocumentEditApplier {
+  constructor(
+    private readonly workspace: ProjectedEditWorkspaceHost = vscode.workspace,
+    private readonly supported = true
+  ) {}
+
+  async prepare(
+    transaction: ProjectedEditTransaction,
+    validated: Extract<ProjectedEditValidationResult, { readonly kind: "Validated" }>,
+    token: vscode.CancellationToken
+  ): Promise<PreparedProjectedEdit | ProjectedEditFailure> {
+    if (!this.supported || typeof this.workspace.applyEdit !== "function") {
+      return Object.freeze({ kind: "CapabilityUnavailable" as const });
+    }
+    if (token.isCancellationRequested) {
+      return Object.freeze({ kind: "StaleProjection" as const, reason: "request cancelled" });
+    }
+    return prepareValidatedWorkspaceEdit(transaction, validated, this.workspace);
+  }
+
+  async apply(
+    transaction: ProjectedEditTransaction,
+    validated: Extract<ProjectedEditValidationResult, { readonly kind: "Validated" }>,
+    token: vscode.CancellationToken
+  ): Promise<ProjectedEditApplicationResult> {
+    const prepared = await this.prepare(transaction, validated, token);
+    if (prepared.kind !== "Validated") return prepared;
+    if (token.isCancellationRequested || prepared.documents.some(({ document, expectedVersion }) =>
+      document.version !== expectedVersion
+    )) {
+      return Object.freeze({ kind: "StaleProjection" as const, reason: "document version changed before atomic WorkspaceEdit.applyEdit" });
+    }
+    return await this.workspace.applyEdit(prepared.workspaceEdit)
+      ? Object.freeze({ kind: "Applied" as const })
+      : Object.freeze({ kind: "ApplyFailed" as const });
+  }
+}
+
+export interface ResolvedProjectedEditDocument {
+  readonly virtualUri: string;
+  readonly sourceContent: ProjectedEditTransaction["documents"][number]["sourceContent"];
+  readonly projectionKey: ProjectedEditTransaction["documents"][number]["projectionKey"];
+  readonly encoding: ProjectedEditTransaction["documents"][number]["encoding"];
+  readonly projectedVersion: number;
+  readonly authoredUri: string;
+  readonly authoredVersion: number;
+}
+
+export interface ProjectedEditDocumentResolver {
+  resolve(virtualUri: string, encoding: "utf-8" | "utf-16"): ResolvedProjectedEditDocument | ProjectedEditFailure;
 }
 
 interface ProjectedRouteIdentity {
   readonly entryUri: string;
   readonly encoding: "utf-8" | "utf-16";
+  readonly revision: number;
   readonly identity: RoutedProjectedTypstProviderResult<"textDocument/rename">["identity"];
 }
 
@@ -103,7 +182,8 @@ export class ProjectedEditAdapter {
   constructor(
     private readonly validator: ProjectedEditValidator,
     private readonly workspace: ProjectedEditWorkspaceHost = vscode.workspace,
-    private readonly multiDocument: MultiDocumentEditApplier = new CapabilityUnavailableMultiDocumentEditApplier()
+    private readonly multiDocument: MultiDocumentEditApplier = new CapabilityUnavailableMultiDocumentEditApplier(),
+    private readonly documentResolver?: ProjectedEditDocumentResolver
   ) {}
 
   async prepareTextEdits(
@@ -136,13 +216,18 @@ export class ProjectedEditAdapter {
     const backendEdits = collectWorkspaceTextEdits(edit, route);
     if ("kind" in backendEdits) return backendEdits;
     const transaction = this.transaction(route, backendEdits);
+    if ("kind" in transaction) return transaction;
     const validated = await this.validator.validate(transaction, token);
     if (validated.kind !== "Validated") return validated;
-    if (token.isCancellationRequested) return Object.freeze({ kind: "StaleProjection", reason: "request cancelled" });
-    if (validated.documents.length !== 1) return await this.multiDocument.apply(validated, token);
-    const prepared = this.convertValidated(transaction, validated.documents[0]);
+    if (token.isCancellationRequested) {
+      return Object.freeze({ kind: "StaleProjection", reason: "request cancelled" });
+    }
+    if (validated.documents.length !== 1) {
+      return await this.multiDocument.apply(transaction, validated, token);
+    }
+    const prepared = prepareValidatedWorkspaceEdit(transaction, validated, this.workspace);
     if (prepared.kind !== "Validated") return prepared;
-    if (prepared.document.version !== prepared.transaction.expectedVersions[0]?.version) {
+    if (prepared.document.version !== prepared.documents[0]?.expectedVersion) {
       return Object.freeze({ kind: "StaleProjection", reason: "document version changed before WorkspaceEdit.applyEdit" });
     }
     return await this.workspace.applyEdit(prepared.workspaceEdit)
@@ -157,86 +242,107 @@ export class ProjectedEditAdapter {
   ): Promise<PreparedProjectedEdit | ProjectedEditFailure> {
     if (edits.length === 0) return unsafe("backend edit is empty");
     const transaction = this.transaction(route, edits);
+    if ("kind" in transaction) return transaction;
     const validated = await this.validator.validate(transaction, token);
     if (validated.kind !== "Validated") return validated;
-    if (token.isCancellationRequested) return Object.freeze({ kind: "StaleProjection", reason: "request cancelled" });
-    if (validated.documents.length !== 1) {
-      return Object.freeze({ kind: "CapabilityUnavailable" as const });
+    if (token.isCancellationRequested) {
+      return Object.freeze({ kind: "StaleProjection", reason: "request cancelled" });
     }
-    return this.convertValidated(transaction, validated.documents[0]);
+    return validated.documents.length === 1
+      ? prepareValidatedWorkspaceEdit(transaction, validated, this.workspace)
+      : await this.multiDocument.prepare(transaction, validated, token);
   }
 
   private transaction(
     route: ProjectedRouteIdentity,
-    edits: readonly ProjectedTextEdit[]
-  ): ProjectedEditTransaction {
+    edits: readonly CollectedProjectedTextEdit[]
+  ): ProjectedEditTransaction | ProjectedEditFailure {
     const virtualUris = [...new Set(edits.map((edit) => edit.virtualUri))];
+    const documents: ResolvedProjectedEditDocument[] = [];
+    for (const virtualUri of virtualUris) {
+      let resolved: ResolvedProjectedEditDocument | ProjectedEditFailure;
+      if (virtualUri === route.entryUri) {
+        if (!route.identity.projectionKey) {
+          return Object.freeze({ kind: "StaleProjection", reason: "request projection identity is absent" });
+        }
+        resolved = {
+          virtualUri,
+          sourceContent: route.identity.sourceContent,
+          projectionKey: route.identity.projectionKey,
+          encoding: route.encoding,
+          projectedVersion: route.revision,
+          authoredUri: route.identity.sourceStaleToken.hostUri,
+          authoredVersion: route.identity.sourceStaleToken.documentVersion
+        };
+      } else {
+        if (!this.documentResolver) return Object.freeze({ kind: "CapabilityUnavailable" as const });
+        resolved = this.documentResolver.resolve(virtualUri, route.encoding);
+        if ("kind" in resolved) return resolved;
+      }
+      const projectedVersions = new Set(edits
+        .filter((edit) => edit.virtualUri === virtualUri && edit.projectedVersion !== undefined)
+        .map((edit) => edit.projectedVersion));
+      if (projectedVersions.size > 1 || (projectedVersions.size === 1 && !projectedVersions.has(resolved.projectedVersion))) {
+        return Object.freeze({ kind: "StaleProjection", reason: "backend edit version does not match its retained projection" });
+      }
+      documents.push(resolved);
+    }
+
+    const expectedByUri = new Map<string, number>();
+    for (const document of documents) {
+      const uri = canonicalUri(document.authoredUri);
+      if (!uri) return unsafe("projected edit resolver returned an invalid authored URI");
+      const previous = expectedByUri.get(uri);
+      if (previous !== undefined && previous !== document.authoredVersion) {
+        return Object.freeze({ kind: "StaleProjection", reason: "projected documents disagree about the authored version" });
+      }
+      expectedByUri.set(uri, document.authoredVersion);
+    }
     return Object.freeze({
       protocolVersion: PROJECTED_EDIT_PROTOCOL_VERSION,
-      documents: Object.freeze(virtualUris.map((virtualUri) => Object.freeze({
-        virtualUri,
-        sourceContent: route.identity.sourceContent,
-        projectionKey: route.identity.projectionKey!,
-        encoding: route.encoding
+      documents: Object.freeze(documents.map((document) => Object.freeze({
+        virtualUri: document.virtualUri,
+        sourceContent: document.sourceContent,
+        projectionKey: document.projectionKey,
+        encoding: document.encoding
       }))),
-      edits: Object.freeze(edits.map((edit) => Object.freeze(edit))),
-      expectedVersions: Object.freeze([Object.freeze({
-        uri: route.identity.sourceStaleToken.hostUri,
-        version: route.identity.sourceStaleToken.documentVersion
-      })])
+      edits: Object.freeze(edits.map(({ projectedVersion: _projectedVersion, ...edit }) => Object.freeze(edit))),
+      expectedVersions: Object.freeze([...expectedByUri].map(([uri, version]) => Object.freeze({ uri, version })))
     });
   }
+}
 
-  private convertValidated(
-    transaction: ProjectedEditTransaction,
-    validated: ValidatedProjectedDocumentEdits
-  ): PreparedProjectedEdit | ProjectedEditFailure {
-    const expected = transaction.expectedVersions[0];
-    if (!expected
-      || validated.normalizedUri !== expected.uri
-      || validated.expectedVersion !== expected.version) {
-      return unsafe("Rust validator returned a different authored target identity");
+export class TinymistProjectedEditDocumentResolver implements ProjectedEditDocumentResolver {
+  constructor(
+    private readonly backend: TinymistHostBackend,
+    private readonly workspace: ProjectedEditWorkspaceHost = vscode.workspace
+  ) {}
+
+  resolve(
+    virtualUri: string,
+    encoding: "utf-8" | "utf-16"
+  ): ResolvedProjectedEditDocument | ProjectedEditFailure {
+    const project = this.backend.projectForEntry(virtualUri);
+    if (!project) return unsafe("backend edit targets an unretained projected document");
+    if (project.entryUri !== virtualUri) {
+      return Object.freeze({ kind: "ReadOnlyTarget" as const, uri: virtualUri });
     }
-    const document = this.workspace.textDocuments.find((candidate) =>
-      candidate.uri.toString() === validated.normalizedUri
-    );
-    if (!document || document.version !== validated.expectedVersion) {
-      return Object.freeze({ kind: "StaleProjection", reason: "document version changed before edit publication" });
+    const authoredUri = canonicalUri(project.sourceUri);
+    if (!authoredUri || project.sourceUri === project.entryUri) {
+      return unsafe("backend edit target is not an authored MMT projection");
     }
-    const offsets = validated.edits.flatMap((edit) => [edit.startByte, edit.endByte]);
-    const utf16Offsets = utf8ByteOffsetsToUtf16(document.getText(), offsets);
-    if (!utf16Offsets) return unsafe("Rust validator returned a non-boundary byte offset");
-    const protocolEdits: TextEdit[] = [];
-    const textEdits: vscode.TextEdit[] = [];
-    for (let index = 0; index < validated.edits.length; index += 1) {
-      const edit = validated.edits[index];
-      const start = document.positionAt(utf16Offsets[index * 2]);
-      const end = document.positionAt(utf16Offsets[index * 2 + 1]);
-      const range = new vscode.Range(start, end);
-      textEdits.push(new vscode.TextEdit(range, edit.newText));
-      protocolEdits.push({
-        range: {
-          start: { line: start.line, character: start.character },
-          end: { line: end.line, character: end.character }
-        },
-        newText: edit.newText
-      });
+    const matching = this.workspace.textDocuments.filter((document) => canonicalUri(document.uri.toString()) === authoredUri);
+    if (matching.length !== 1 || matching[0].version !== project.sourceVersion) {
+      return Object.freeze({ kind: "StaleProjection" as const, reason: "projected target document version is not current" });
     }
-    const protocolEdit: WorkspaceEdit = {
-      documentChanges: [{
-        textDocument: { uri: validated.normalizedUri, version: validated.expectedVersion },
-        edits: protocolEdits
-      }]
-    };
-    const workspaceEdit = new vscode.WorkspaceEdit();
-    workspaceEdit.set(vscode.Uri.parse(validated.normalizedUri), textEdits);
     return Object.freeze({
-      kind: "Validated" as const,
-      transaction,
-      protocolEdit,
-      workspaceEdit,
-      document,
-      textEdits: Object.freeze(textEdits)
+      virtualUri,
+      projectedVersion: project.revision,
+      sourceContent: project.sourceContent,
+      projectionKey: project.projectionKey,
+      encoding,
+      authoredUri,
+      authoredVersion: project.sourceVersion
     });
   }
 }
@@ -252,7 +358,10 @@ export class ProjectedTypstEditProviders implements vscode.Disposable {
     private readonly client: BaseLanguageClient,
     private readonly host: TypstProviderHost,
     private readonly adapter: ProjectedEditAdapter = new ProjectedEditAdapter(
-      new LanguageClientProjectedEditValidator(client)
+      new LanguageClientProjectedEditValidator(client),
+      vscode.workspace,
+      new AtomicWorkspaceEditMultiDocumentEditApplier(vscode.workspace),
+      new TinymistProjectedEditDocumentResolver(backend, vscode.workspace)
     )
   ) {}
 
@@ -483,8 +592,8 @@ export class ProjectedTypstEditProviders implements vscode.Disposable {
 function collectWorkspaceTextEdits(
   edit: WorkspaceEdit,
   route: ProjectedRouteIdentity
-): ProjectedTextEdit[] | ProjectedEditFailure {
-  const collected: ProjectedTextEdit[] = [];
+): CollectedProjectedTextEdit[] | ProjectedEditFailure {
+  const collected: CollectedProjectedTextEdit[] = [];
   if (edit.changes !== undefined) {
     for (const [virtualUri, edits] of Object.entries(edit.changes)) {
       for (const item of edits) collected.push({ virtualUri, range: item.range, newText: item.newText });
@@ -493,18 +602,122 @@ function collectWorkspaceTextEdits(
   if (edit.documentChanges !== undefined) {
     for (const change of edit.documentChanges) {
       if (!("textDocument" in change)) return unsafe("workspace resource operations are not projected text edits");
-      if (change.textDocument.version !== null
-        && change.textDocument.version !== undefined
-        && change.textDocument.version !== route.identity.sourceStaleToken.documentVersion
-        && change.textDocument.version !== (route as Partial<{ revision: number }>).revision) {
-        return Object.freeze({ kind: "StaleProjection", reason: "backend edit version does not match the request projection" });
+      const projectedVersion = change.textDocument.version ?? undefined;
+      if (projectedVersion !== undefined && (!Number.isSafeInteger(projectedVersion) || projectedVersion < 0)) {
+        return Object.freeze({ kind: "StaleProjection", reason: "backend edit has an invalid projection version" });
       }
       for (const item of change.edits) {
-        collected.push({ virtualUri: change.textDocument.uri, range: item.range, newText: item.newText });
+        collected.push({
+          virtualUri: change.textDocument.uri,
+          range: item.range,
+          newText: item.newText,
+          projectedVersion
+        });
       }
     }
   }
   return collected.length > 0 ? collected : unsafe("workspace edit has no text edits");
+}
+
+function prepareValidatedWorkspaceEdit(
+  transaction: ProjectedEditTransaction,
+  validated: Extract<ProjectedEditValidationResult, { readonly kind: "Validated" }>,
+  workspace: ProjectedEditWorkspaceHost
+): PreparedProjectedEdit | ProjectedEditFailure {
+  if (validated.documents.length < 1 || validated.documents.length !== transaction.expectedVersions.length) {
+    return unsafe("Rust validator returned a partial authored target set");
+  }
+  const expectedByUri = new Map<string, number>();
+  for (const expected of transaction.expectedVersions) {
+    const uri = canonicalUri(expected.uri);
+    if (!uri || !Number.isSafeInteger(expected.version) || expectedByUri.has(uri)) {
+      return unsafe("projected edit transaction contains an invalid or duplicate authored target");
+    }
+    expectedByUri.set(uri, expected.version);
+  }
+
+  const seen = new Set<string>();
+  const preparedDocuments: PreparedProjectedDocumentEdit[] = [];
+  const protocolChanges: NonNullable<WorkspaceEdit["documentChanges"]> = [];
+  const workspaceEdit = new vscode.WorkspaceEdit();
+  for (const validatedDocument of validated.documents) {
+    const uri = canonicalUri(validatedDocument.normalizedUri);
+    const expectedVersion = uri ? expectedByUri.get(uri) : undefined;
+    if (!uri || seen.has(uri) || expectedVersion === undefined
+      || validatedDocument.expectedVersion !== expectedVersion
+      || validatedDocument.edits.length === 0) {
+      return unsafe("Rust validator returned a different or duplicate authored target identity");
+    }
+    seen.add(uri);
+    const matching = workspace.textDocuments.filter((document) => canonicalUri(document.uri.toString()) === uri);
+    if (matching.length !== 1 || matching[0].version !== expectedVersion) {
+      return Object.freeze({ kind: "StaleProjection", reason: "document version changed before edit publication" });
+    }
+    const document = matching[0];
+    const byteRanges = validatedDocument.edits.map((edit) => ({ start: edit.startByte, end: edit.endByte }));
+    if (byteRanges.some(({ start, end }) => !Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start < 0 || start > end)
+      || [...byteRanges].sort((left, right) => left.start - right.start || left.end - right.end)
+        .some((range, index, ranges) => index > 0 && byteRangesOverlap(ranges[index - 1], range))) {
+      return unsafe("Rust validator returned invalid or overlapping authored ranges");
+    }
+    const offsets = byteRanges.flatMap(({ start, end }) => [start, end]);
+    const utf16Offsets = utf8ByteOffsetsToUtf16(document.getText(), offsets);
+    if (!utf16Offsets) return unsafe("Rust validator returned a non-boundary byte offset");
+    const protocolEdits: TextEdit[] = [];
+    const textEdits: vscode.TextEdit[] = [];
+    for (let index = 0; index < validatedDocument.edits.length; index += 1) {
+      const edit = validatedDocument.edits[index];
+      if (typeof edit.newText !== "string") return unsafe("Rust validator returned a non-text replacement");
+      const start = document.positionAt(utf16Offsets[index * 2]);
+      const end = document.positionAt(utf16Offsets[index * 2 + 1]);
+      const range = new vscode.Range(start, end);
+      textEdits.push(new vscode.TextEdit(range, edit.newText));
+      protocolEdits.push({
+        range: {
+          start: { line: start.line, character: start.character },
+          end: { line: end.line, character: end.character }
+        },
+        newText: edit.newText
+      });
+    }
+    workspaceEdit.set(vscode.Uri.parse(uri), textEdits);
+    protocolChanges.push({ textDocument: { uri, version: expectedVersion }, edits: protocolEdits });
+    preparedDocuments.push(Object.freeze({
+      document,
+      expectedVersion,
+      textEdits: Object.freeze(textEdits)
+    }));
+  }
+  if (seen.size !== expectedByUri.size) return unsafe("Rust validator omitted an authored target");
+  const first = preparedDocuments[0];
+  return Object.freeze({
+    kind: "Validated" as const,
+    transaction,
+    protocolEdit: { documentChanges: protocolChanges },
+    workspaceEdit,
+    documents: Object.freeze(preparedDocuments),
+    document: first.document,
+    textEdits: first.textEdits
+  });
+}
+
+function byteRangesOverlap(
+  left: { readonly start: number; readonly end: number },
+  right: { readonly start: number; readonly end: number }
+): boolean {
+  if (left.start === left.end && right.start === right.end) return left.start === right.start;
+  return left.start < right.end && right.start < left.end
+    || left.start === left.end && right.start <= left.start && left.start < right.end
+    || right.start === right.end && left.start <= right.start && right.start < left.end;
+}
+
+function canonicalUri(value: string): string | undefined {
+  try {
+    const uri = vscode.Uri.parse(value, true);
+    return uri.query.length === 0 && uri.fragment.length === 0 ? uri.toString() : undefined;
+  } catch {
+    return undefined;
+  }
 }
 
 function utf8ByteOffsetsToUtf16(text: string, offsets: readonly number[]): number[] | undefined {
