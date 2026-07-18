@@ -29,7 +29,7 @@ export async function startTinymistLanguageClient(
       installTypstMiddleware(options, backend, getClient);
     },
     connect(client) {
-      disposables.push(...connectTypstBackend(client, backend));
+      disposables.push(...connectTypstBackend(client, backend, "web"));
     },
     terminate() {
       backend.terminate();

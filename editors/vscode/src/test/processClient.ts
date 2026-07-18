@@ -794,7 +794,7 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
     packageMessages.push(...await collectTranscriptWindow(session, 900, serverRequests));
     sendPackageContext(4, "4", "mmt-callback-cancel");
     changePackageDocument(4, "mmt-callback-cancel");
-    packageMessages.push(...await collectTranscriptWindow(session, 400, serverRequests));
+    packageMessages.push(...await collectTranscriptWindow(session, 1_200, serverRequests));
     session.send({ jsonrpc: "2.0", method: "textDocument/didClose", params: { textDocument: { uri: packageUri } } });
     sendPackageContext(5, "5", "closed");
     packageMessages.push(...await collectTranscriptWindow(session, 700, serverRequests));
