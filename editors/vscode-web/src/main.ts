@@ -3,6 +3,8 @@ import * as vscode from "vscode";
 import { LogLevel } from "@codingame/monaco-vscode-api";
 import { getService, ICodeEditorService, IModelService } from "@codingame/monaco-vscode-api";
 import { URI } from "@codingame/monaco-vscode-api/vscode/vs/base/common/uri";
+import { Event } from "@codingame/monaco-vscode-api/vscode/vs/base/common/event";
+import { Orientation, Sizing, SplitView, type IView } from "@codingame/monaco-vscode-api/vscode/vs/base/browser/ui/splitview/splitview";
 import getExplorerServiceOverride from "@codingame/monaco-vscode-explorer-service-override";
 import getKeybindingsServiceOverride from "@codingame/monaco-vscode-keybindings-service-override";
 import getMarkersServiceOverride from "@codingame/monaco-vscode-markers-service-override";
@@ -1029,10 +1031,10 @@ async function initializeRuntime(
       $type: "ViewsService",
       htmlContainer: root,
       async viewsInitFunc() {
-        attachPart(Parts.ACTIVITYBAR_PART, layout.activity);
-        attachPart(Parts.SIDEBAR_PART, layout.sidebar);
-        attachPart(Parts.EDITOR_PART, layout.editor);
-        attachPart(Parts.PANEL_PART, layout.panel);
+        own(attachPart(Parts.ACTIVITYBAR_PART, layout.activity));
+        own(attachPart(Parts.SIDEBAR_PART, layout.sidebar));
+        own(attachPart(Parts.EDITOR_PART, layout.editor));
+        own(attachPart(Parts.PANEL_PART, layout.panel));
       }
     },
     workspaceConfig: {
@@ -1065,7 +1067,7 @@ async function initializeRuntime(
   output = own(vscode.window.createOutputChannel("MomoScript"));
   log("host", "VS Code Workbench ready");
   const applyPanelVisibility = (visible: boolean) => {
-    layout.panel.hidden = !visible;
+    layout.setPanelVisible(visible);
     root.classList.toggle("panel-collapsed", !visible);
   };
   setPartVisibility(Parts.PANEL_PART, false);
@@ -1156,6 +1158,7 @@ async function initializeRuntime(
   refreshBuildStatus();
   root.classList.toggle("sidebar-collapsed", !isPartVisibile(Parts.SIDEBAR_PART));
   const sidebarVisibilityRegistration = own(onPartVisibilityChange(Parts.SIDEBAR_PART, (visible) => {
+    layout.setSidebarVisible(visible);
     root.classList.toggle("sidebar-collapsed", !visible);
   }));
   const applyProject = async (
@@ -2389,12 +2392,53 @@ function scriptJson(value: unknown): string {
 
 function createLayout(root: HTMLElement) {
   root.replaceChildren();
+  const body = part("body");
   const activity = part("activity");
+  const primary = part("primary");
   const sidebar = part("sidebar");
+  const main = part("main");
   const editor = part("editor");
   const preview = part("preview");
   const panel = part("panel");
   const status = part("status");
+  body.append(activity, primary);
+  root.append(body, status, preview);
+
+  const sidebarMainSplit = new SplitView(primary, {
+    orientation: Orientation.HORIZONTAL,
+    proportionalLayout: false
+  });
+  sidebarMainSplit.addView(splitViewPart(sidebar, 180, 600), 260);
+  sidebarMainSplit.addView(
+    splitViewPart(main, 320, Number.POSITIVE_INFINITY),
+    Math.max(320, primary.clientWidth - 260)
+  );
+  sidebarMainSplit.layout(primary.clientWidth);
+  sidebarMainSplit.resizeView(0, 260);
+
+  const editorPanelSplit = new SplitView(main, {
+    orientation: Orientation.VERTICAL,
+    proportionalLayout: false
+  });
+  editorPanelSplit.addView(
+    splitViewPart(editor, 180, Number.POSITIVE_INFINITY),
+    Math.max(180, main.clientHeight)
+  );
+  editorPanelSplit.addView(
+    splitViewPart(panel, 120, Number.POSITIVE_INFINITY),
+    Sizing.Invisible(234)
+  );
+  editorPanelSplit.layout(main.clientHeight);
+
+  const resizeObserver = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.target === primary) sidebarMainSplit.layout(primary.clientWidth);
+      else if (entry.target === main) editorPanelSplit.layout(main.clientHeight);
+    }
+  });
+  resizeObserver.observe(primary);
+  resizeObserver.observe(main);
+
   const syncActivitySelection = (event: MouseEvent) => {
     const tab = (event.target as Element | null)?.closest<HTMLElement>('[role="tab"]');
     if (!tab || !activity.contains(tab)) return;
@@ -2403,7 +2447,6 @@ function createLayout(root: HTMLElement) {
     setPartVisibility(Parts.SIDEBAR_PART, !isPartVisibile(Parts.SIDEBAR_PART));
   };
   activity.addEventListener("click", syncActivitySelection, true);
-  root.append(activity, sidebar, editor, preview, panel, status);
   return {
     activity,
     sidebar,
@@ -2411,7 +2454,32 @@ function createLayout(root: HTMLElement) {
     preview,
     panel,
     status,
-    dispose: () => activity.removeEventListener("click", syncActivitySelection, true)
+    setPanelVisible(visible: boolean) {
+      if (editorPanelSplit.isViewVisible(1) !== visible) editorPanelSplit.setViewVisible(1, visible);
+    },
+    setSidebarVisible(visible: boolean) {
+      if (sidebarMainSplit.isViewVisible(0) !== visible) sidebarMainSplit.setViewVisible(0, visible);
+    },
+    dispose() {
+      activity.removeEventListener("click", syncActivitySelection, true);
+      resizeObserver.disconnect();
+      editorPanelSplit.dispose();
+      sidebarMainSplit.dispose();
+    }
+  };
+}
+
+function splitViewPart(
+  element: HTMLElement,
+  minimumSize: number,
+  maximumSize: number
+): IView {
+  return {
+    element,
+    minimumSize,
+    maximumSize,
+    onDidChange: Event.None,
+    layout() {}
   };
 }
 

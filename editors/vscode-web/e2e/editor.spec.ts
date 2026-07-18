@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { expect, test, type Frame, type Page, type Response } from "@playwright/test";
+import { expect, test, type Frame, type Locator, type Page, type Response } from "@playwright/test";
 
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
 const MANIFEST_URL = `${PACK_ROOT}manifest.json`;
@@ -153,7 +153,10 @@ test("production editor materializes an avatar and restores the authored story a
     expect(compilerFallbackRequests).toBe(1);
   }
   await expect(previewWebview.locator(".viewport .page svg")).toBeAttached({ timeout: 60_000 });
-  await expect(outputPanel).not.toContainText(/Typst\s+编译器\s+WASM.*(?:失败|failed)/i);
+  await expect(outputPanel).not.toContainText(
+    /Typst\s+编译器\s+WASM.*(?:失败|failed)/i,
+    { useInnerText: true }
+  );
   await expect(outputPanel).not.toContainText(/(?:Tinymist|Typst\s+编译器)\s+WASM\s+(?:100|[1-9]\d{2,})%/);
   await expect(previewWebview.getByLabel("Export format")).toBeEnabled();
   await expect(previewWebview.getByRole("button", { name: "Export exact revision" })).toBeEnabled();
@@ -484,6 +487,51 @@ test("production editor materializes an avatar and restores the authored story a
   await expect.poll(() => workspaceEntryExists(page, "/workspace")).toBe(true);
   await expect.poll(() => workspaceEntryExists(page, "/workspace/keep.txt")).toBe(true);
   await expect.poll(() => persistedStory(page)).toBe(authored);
+});
+
+test("VS Code native sashes resize the explorer and panel in both directions", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
+
+  const dragSash = async (sash: Locator, deltaX: number, deltaY: number) => {
+    const box = await sash.boundingBox();
+    expect(box, "VS Code layout sash is missing").not.toBeNull();
+    const x = box!.x + box!.width / 2;
+    const y = box!.y + box!.height / 2;
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    await page.mouse.move(x + deltaX, y + deltaY, { steps: 8 });
+    await page.mouse.up();
+  };
+
+  const sidebar = page.locator(".workbench-sidebar");
+  const sidebarSash = page.locator(
+    ".workbench-primary > .monaco-split-view2.horizontal > .sash-container > .monaco-sash"
+  ).first();
+  const initialSidebarWidth = await sidebar.evaluate((element) => element.getBoundingClientRect().width);
+  await dragSash(sidebarSash, 80, 0);
+  await expect.poll(() => sidebar.evaluate((element) => element.getBoundingClientRect().width))
+    .toBeGreaterThan(initialSidebarWidth + 60);
+  const expandedSidebarWidth = await sidebar.evaluate((element) => element.getBoundingClientRect().width);
+  await dragSash(sidebarSash, -80, 0);
+  await expect.poll(() => sidebar.evaluate((element) => element.getBoundingClientRect().width))
+    .toBeLessThan(expandedSidebarWidth - 60);
+
+  const panel = page.locator(".workbench-panel");
+  const outputToggle = page.getByRole("status").getByRole("button", { name: /显示或隐藏 MomoScript 日志/ });
+  if (!(await panel.isVisible())) await outputToggle.click();
+  await expect(panel).toBeVisible();
+  const panelSash = page.locator(
+    ".workbench-main > .monaco-split-view2.vertical > .sash-container > .monaco-sash"
+  ).first();
+  const initialPanelHeight = await panel.evaluate((element) => element.getBoundingClientRect().height);
+  await dragSash(panelSash, 0, -60);
+  await expect.poll(() => panel.evaluate((element) => element.getBoundingClientRect().height))
+    .toBeGreaterThan(initialPanelHeight + 40);
+  const expandedPanelHeight = await panel.evaluate((element) => element.getBoundingClientRect().height);
+  await dragSash(panelSash, 0, 60);
+  await expect.poll(() => panel.evaluate((element) => element.getBoundingClientRect().height))
+    .toBeLessThan(expandedPanelHeight - 40);
 });
 async function activeDocument(page: Page): Promise<{ name: string; languageId: string; text: string } | null> {
   return page.evaluate(() => (Reflect.get(globalThis, "__mmtActiveDocument") as Function)());

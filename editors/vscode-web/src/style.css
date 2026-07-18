@@ -13,27 +13,38 @@ body {
 }
 
 #workbench {
-  display: grid;
-  grid-template-columns: 48px minmax(180px, 260px) minmax(320px, 1fr);
-  grid-template-rows: minmax(0, 1fr) minmax(120px, 26vh) 22px;
-}
-#workbench.panel-collapsed {
-  grid-template-rows: minmax(0, 1fr) 0 22px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
-
-#workbench { position: relative; }
-#workbench.sidebar-collapsed {
-  grid-template-columns: 48px 0 minmax(320px, 1fr);
-}
-
-.workbench-activity {
+.workbench-body {
+  display: flex;
+  flex: 1 1 auto;
   min-width: 0;
   min-height: 0;
 }
 
-.workbench-activity { grid-column: 1; grid-row: 1 / 3; min-width: 0; min-height: 0; }
-.workbench-sidebar { grid-column: 2; grid-row: 1 / 3; min-width: 0; min-height: 0; }
+.workbench-activity {
+  flex: 0 0 48px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.workbench-primary,
+.workbench-main,
+.workbench-sidebar,
+.workbench-editor,
+.workbench-panel {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.workbench-primary {
+  flex: 1 1 auto;
+}
 .mms-project-view {
   box-sizing: border-box;
   display: grid !important;
@@ -77,12 +88,9 @@ body {
 .mms-project-view button:hover { background: var(--vscode-button-hoverBackground); }
 .mms-setting-row { display: flex; justify-content: space-between; font-size: 12px; }
 .mms-settings-status { min-height: 16px; color: #9cdcfe; font-size: 11px; }
-.workbench-editor { grid-column: 3; grid-row: 1; min-width: 0; min-height: 0; }
 .workbench-preview.typst-preview { display: none; }
-.workbench-panel { grid-column: 3; grid-row: 2; min-width: 0; min-height: 0; }
 .workbench-status {
-  grid-column: 1 / 4;
-  grid-row: 3;
+  flex: 0 0 22px;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
