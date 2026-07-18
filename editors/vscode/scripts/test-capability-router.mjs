@@ -439,6 +439,13 @@ assert.deepEqual(
   webProviderRouter.capability("textDocument/completion").triggerCharacters,
   "native/Web negotiated completion triggers diverged"
 );
+assert.deepEqual(nativeProviderRouter.providerRegistrations("native"), [], "unqualified native provider contracts leaked into host registration");
+assert.deepEqual(webProviderRouter.providerRegistrations("web"), [], "unqualified Web provider contracts leaked into host registration");
+assert.equal(
+  nativeProviderRouter.providerCapability("native", "textDocument/definition").kind,
+  "CapabilityUnavailable",
+  "runtime advertisement bypassed fixed-artifact provider qualification"
+);
 
 const qualifiedRegistry = new TinymistCapabilityRegistry();
 qualifiedRegistry.install(12, {

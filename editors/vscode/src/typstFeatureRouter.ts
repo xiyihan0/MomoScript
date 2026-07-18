@@ -19,6 +19,26 @@ import {
   type TinymistRequestDefinition,
   type TinymistRequestIdentity
 } from "./tinymistRequestDispatcher";
+import {
+  TypstProviderQualificationRegistry,
+  bindTypstProviderResolveMetadata,
+  readTypstProviderResolveMetadata,
+  typstProviderResolveIdentityIsCurrent,
+  unwrapTypstProviderResolveItem,
+  validateTypstProviderPositions,
+  type TypstProviderCapabilityContract,
+  type TypstProviderHost,
+  type TypstProviderMethod,
+  type TypstProviderPositionContext,
+  type TypstProviderRegistrationContract,
+  type TypstProviderRequests,
+  type TypstProviderResolveMetadata
+} from "./typstProviderDescriptors";
+import {
+  validateTypstProviderPayload,
+  type TypstProviderPayloadValidationInput,
+  type TypstProviderPayloadValidationResult
+} from "./typstProviderPayload";
 import type { LogicalSourceId } from "./runtimeIdentity";
 import {
   SourceStaleTokenRegistry,
@@ -43,12 +63,14 @@ export type BaselineTypstMethod =
   | "textDocument/signatureHelp"
   | "textDocument/semanticTokens/full";
 
-interface BaselineTypstRequests {
+export interface BaselineTypstRequests {
   "textDocument/completion": TinymistRequestDefinition<unknown, CompletionItem[] | CompletionList | null>;
   "textDocument/hover": TinymistRequestDefinition<unknown, Hover | null>;
   "textDocument/signatureHelp": TinymistRequestDefinition<unknown, SignatureHelp | null>;
   "textDocument/semanticTokens/full": TinymistRequestDefinition<unknown, SemanticTokens | null>;
 }
+
+export type TypstRouterRequests = BaselineTypstRequests & TypstProviderRequests;
 
 export interface TypstRouterDocument {
   readonly languageId: string;
@@ -75,6 +97,12 @@ export interface RoutedTypstDiagnostics {
   readonly uri: string;
   readonly diagnostics: readonly Diagnostic[];
   readonly identity: TinymistRequestIdentity;
+}
+
+export interface TypstProviderResolveRequest<Item> {
+  readonly item: Item;
+  readonly identity: TinymistRequestIdentity;
+  readonly metadata: TypstProviderResolveMetadata;
 }
 
 interface GuardedBackendPosition extends RetainedBackendPosition {
@@ -110,7 +138,7 @@ export class TypstFeatureRouter {
   private readonly entryByHostUri = new Map<string, string>();
   private readonly reportedUnavailable = new Set<string>();
   private readonly backendEncoding: PositionEncoding;
-  private readonly dispatcher: TinymistRequestDispatcher<BaselineTypstRequests>;
+  private readonly dispatcher: TinymistRequestDispatcher<TypstRouterRequests>;
 
   constructor(
     private readonly backend: TinymistHostBackend,
@@ -118,7 +146,7 @@ export class TypstFeatureRouter {
     private readonly options: TypstFeatureRouterOptions = {}
   ) {
     this.backendEncoding = options.backendEncoding ?? "utf-16";
-    this.dispatcher = new TinymistRequestDispatcher<BaselineTypstRequests>(
+    this.dispatcher = new TinymistRequestDispatcher<TypstRouterRequests>(
       (envelope, signal) => this.backend.request(envelope.method, envelope.params, signal),
       (captured) => this.currentIdentity(captured.sourceStaleToken.hostUri)
     );
@@ -178,6 +206,59 @@ export class TypstFeatureRouter {
       if (descriptor) registrations.push(registrationFromDescriptor(method, descriptor));
     }
     return registrations;
+  }
+
+  providerCapability(
+    host: TypstProviderHost,
+    method: TypstProviderMethod
+  ): TypstProviderCapabilityContract {
+    return new TypstProviderQualificationRegistry(this.backend.capabilities(), host).capability(method);
+  }
+
+  providerRegistrations(host: TypstProviderHost): readonly TypstProviderRegistrationContract[] {
+    return new TypstProviderQualificationRegistry(this.backend.capabilities(), host).registrations();
+  }
+
+  validateProviderPositions<T>(
+    method: TypstProviderMethod,
+    value: T,
+    context: TypstProviderPositionContext
+  ): T {
+    return validateTypstProviderPositions(method, value, context);
+  }
+
+  validateProviderPayload(
+    host: TypstProviderHost,
+    input: Omit<TypstProviderPayloadValidationInput, "capability">
+  ): TypstProviderPayloadValidationResult {
+    return validateTypstProviderPayload({
+      ...input,
+      capability: this.providerCapability(host, input.method)
+    });
+  }
+
+  bindProviderResolveItem<Item>(
+    requestMethod: TypstProviderMethod,
+    item: Item,
+    identity: TinymistRequestIdentity
+  ): Item {
+    return bindTypstProviderResolveMetadata(requestMethod, item, identity);
+  }
+
+  providerResolveRequest<Item>(
+    resolveMethod: TypstProviderMethod,
+    item: Item
+  ): TypstProviderResolveRequest<Item> | undefined {
+    const metadata = readTypstProviderResolveMetadata(resolveMethod, item);
+    if (!metadata || !typstProviderResolveIdentityIsCurrent(
+      metadata,
+      this.currentIdentity(metadata.identity.sourceStaleToken.hostUri)
+    )) return undefined;
+    return Object.freeze({
+      item: unwrapTypstProviderResolveItem(item, metadata),
+      identity: metadata.identity,
+      metadata
+    });
   }
 
   async completion(

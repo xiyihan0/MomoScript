@@ -135,7 +135,8 @@
     "test:artifact-decision": "node ./scripts/test-artifact-decision.mjs",
     "test:runtime-identity": "node ./scripts/test-runtime-identity.mjs",
     "test:response-identity": "node ./scripts/test-response-identity.mjs",
-    "test:capability-router": "node ./scripts/test-capability-router.mjs"
+    "test:capability-router": "node ./scripts/test-capability-router.mjs",
+    "test:provider-descriptors": "node ./scripts/test-provider-descriptors.mjs"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1",

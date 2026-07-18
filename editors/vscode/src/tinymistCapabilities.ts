@@ -112,17 +112,33 @@ function addInitializeCapabilities(target: Map<string, unknown>, initializeResul
 
 function dynamicRegistrationMethods(registration: TinymistDynamicRegistration): readonly string[] {
   const methods = [registration.method];
-  if (registration.method !== "textDocument/semanticTokens" || !isRecord(registration.registerOptions)) {
+  if (!isRecord(registration.registerOptions)) return methods;
+  if (registration.method === "textDocument/semanticTokens") {
+    if (isAdvertised(registration.registerOptions.full)) {
+      methods.push("textDocument/semanticTokens/full");
+      if (isRecord(registration.registerOptions.full) && registration.registerOptions.full.delta === true) {
+        methods.push("textDocument/semanticTokens/full/delta");
+      }
+    }
+    if (isAdvertised(registration.registerOptions.range)) {
+      methods.push("textDocument/semanticTokens/range");
+    }
     return methods;
   }
-  if (isAdvertised(registration.registerOptions.full)) {
-    methods.push("textDocument/semanticTokens/full");
-    if (isRecord(registration.registerOptions.full) && registration.registerOptions.full.delta === true) {
-      methods.push("textDocument/semanticTokens/full/delta");
-    }
-  }
-  if (isAdvertised(registration.registerOptions.range)) {
-    methods.push("textDocument/semanticTokens/range");
+  if (registration.method === "textDocument/completion" && registration.registerOptions.resolveProvider === true) {
+    methods.push("completionItem/resolve");
+  } else if (registration.method === "textDocument/rename" && registration.registerOptions.prepareProvider === true) {
+    methods.push("textDocument/prepareRename");
+  } else if (registration.method === "textDocument/documentLink" && registration.registerOptions.resolveProvider === true) {
+    methods.push("documentLink/resolve");
+  } else if (registration.method === "textDocument/codeAction" && registration.registerOptions.resolveProvider === true) {
+    methods.push("codeAction/resolve");
+  } else if (registration.method === "textDocument/inlayHint" && registration.registerOptions.resolveProvider === true) {
+    methods.push("inlayHint/resolve");
+  } else if (registration.method === "textDocument/codeLens" && registration.registerOptions.resolveProvider === true) {
+    methods.push("codeLens/resolve");
+  } else if (registration.method === "workspace/symbol" && registration.registerOptions.resolveProvider === true) {
+    methods.push("workspaceSymbol/resolve");
   }
   return methods;
 }
