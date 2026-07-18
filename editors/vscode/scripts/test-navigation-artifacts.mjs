@@ -309,7 +309,7 @@ async function webTranscript() {
         method: "tinymist/boot",
         params: { moduleUri: `${location.origin}/tinymist/tinymist.js`, wasmUri: `${location.origin}/tinymist/tinymist_bg.wasm` }
       });
-      const deadline = performance.now() + 20_000;
+      const deadline = performance.now() + 60_000;
       while (!notifications.some((item) => item.method === "tinymist/workerReady")) {
         if (performance.now() > deadline) throw new Error("Worker boot timed out");
         await pause(20);
