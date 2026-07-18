@@ -2,7 +2,7 @@ use base64::Engine;
 use std::{collections::{BTreeMap, HashMap, VecDeque}, sync::Arc};
 
 use lsp_types::{
-    CompletionItem, CompletionTextEdit, Diagnostic, InsertReplaceEdit, Position,
+    CompletionItem, CompletionTextEdit, Diagnostic, InsertReplaceEdit, Location, Position,
     PositionEncodingKind, Range, TextEdit, Url,
 };
 #[cfg(test)]
@@ -10,9 +10,10 @@ use mmt_rs::{StaticPresetCatalog, project_text};
 use mmt_rs::{
     AnalyzedDocument, EmitOptions, LogicalProjectFileId, MappingMode, PROJECTION_PLACEHOLDER_IMAGE,
     ProjectDigestInput, ProjectionEdit, ProjectionError, ProjectionKey, ProjectionKind,
-    SourceContentKey, TypstProjectSnapshotKey, TypstProjection, canonical_bytes_digest,
-    canonical_json_digest, logical_source_id, project_analyzed, project_analyzed_with_pack,
-    project_snapshot_key, projection_key, source_content_key,
+    ProjectionMappingKind, ProjectionMappingResult, SourceContentKey, TypstProjectSnapshotKey,
+    TypstProjection, canonical_bytes_digest, canonical_json_digest, logical_source_id,
+    project_analyzed, project_analyzed_with_pack, project_snapshot_key, projection_key,
+    source_content_key,
 };
 use serde::{Deserialize, Serialize};
 
@@ -197,6 +198,38 @@ pub struct ProjectedPosition {
     pub source_content: SourceContentKey,
     pub project_digest: TypstProjectSnapshotKey,
     pub projection_key: ProjectionKey,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ProjectedRange {
+    pub revision: u64,
+    pub entry_uri: Url,
+    pub range: Range,
+    pub position_encoding: PositionEncoding,
+    pub source_content: SourceContentKey,
+    pub project_digest: TypstProjectSnapshotKey,
+    pub projection_key: ProjectionKey,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ProjectedReadLocation {
+    pub kind: ProjectionMappingKind,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub uri: Option<Url>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub range: Option<Range>,
+}
+
+impl ProjectedReadLocation {
+    fn stale_unknown() -> Self {
+        Self {
+            kind: ProjectionMappingKind::StaleUnknown,
+            uri: None,
+            range: None,
+        }
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -411,6 +444,27 @@ impl ProjectionDocument {
         self.typst_lines.backend_position(typst_offset, backend_encoding)
     }
 
+    pub fn mmt_range_to_typst(
+        &self,
+        range: Range,
+        client_encoding: PositionEncoding,
+        backend_encoding: PositionEncoding,
+    ) -> Result<Range, PositionConversionError> {
+        let source = self.source_lines.backend_range(range, client_encoding)?;
+        let projected = self
+            .projection
+            .index
+            .mmt_range_to_typst(source.into_text_range())
+            .ok_or(PositionConversionError::ProjectionMismatch)?;
+        self.typst_lines.mmt_range(
+            Utf8ByteRange::new(
+                Utf8ByteOffset::new(projected.start),
+                Utf8ByteOffset::new(projected.end),
+            )?,
+            backend_encoding,
+        )
+    }
+
     pub fn typst_range_to_mmt(
         &self,
         range: Range,
@@ -430,6 +484,105 @@ impl ProjectionDocument {
             )?,
             client_encoding,
         )
+    }
+
+    /// Maps one backend location against the exact projection generation.
+    /// Generated projection/template locations remain explicit read-only
+    /// virtual targets; external workspace and package locations are classified
+    /// for host policy without inventing an authored mapping.
+    pub fn classify_read_location(
+        &self,
+        location: Location,
+        backend_encoding: PositionEncoding,
+        client_encoding: PositionEncoding,
+    ) -> ProjectedReadLocation {
+        if location.uri == self.entry_uri {
+            let Ok(projected) = self.typst_lines.backend_range(location.range, backend_encoding)
+            else {
+                return ProjectedReadLocation::stale_unknown();
+            };
+            return self.mapped_projection_range(
+                self.projection.index.classify_read(projected.into_text_range()),
+                client_encoding,
+            );
+        }
+
+        for (path, text) in EMBEDDED_TEMPLATE_TEXT_FILES {
+            let Ok(template_uri) = self.entry_uri.join(path) else {
+                continue;
+            };
+            if location.uri != template_uri {
+                continue;
+            }
+            let lines = LineIndex::new(text);
+            let Ok(bytes) = lines.backend_range(location.range, backend_encoding) else {
+                return ProjectedReadLocation::stale_unknown();
+            };
+            let Ok(range) = lines.mmt_range(bytes, client_encoding) else {
+                return ProjectedReadLocation::stale_unknown();
+            };
+            return ProjectedReadLocation {
+                kind: ProjectionMappingKind::GeneratedProjection,
+                uri: Some(read_only_projection_uri(&location.uri)),
+                range: Some(range),
+            };
+        }
+
+        let kind = match location.uri.scheme() {
+            "file" | "mmtfs" | "vscode-remote" => ProjectionMappingKind::WorkspaceTypst,
+            "mmt-package" => ProjectionMappingKind::PackageFile,
+            _ => ProjectionMappingKind::StaleUnknown,
+        };
+        if kind == ProjectionMappingKind::StaleUnknown {
+            ProjectedReadLocation::stale_unknown()
+        } else {
+            ProjectedReadLocation {
+                kind,
+                uri: Some(location.uri),
+                range: Some(location.range),
+            }
+        }
+    }
+
+    fn mapped_projection_range(
+        &self,
+        mapped: ProjectionMappingResult,
+        client_encoding: PositionEncoding,
+    ) -> ProjectedReadLocation {
+        match mapped.kind {
+            ProjectionMappingKind::AuthoredIdentity => {
+                let Some(source) = mapped.source_range else {
+                    return ProjectedReadLocation::stale_unknown();
+                };
+                let Ok(range) = Utf8ByteRange::new(
+                    Utf8ByteOffset::new(source.start),
+                    Utf8ByteOffset::new(source.end),
+                ).and_then(|source| self.source_lines.mmt_range(source, client_encoding)) else {
+                    return ProjectedReadLocation::stale_unknown();
+                };
+                ProjectedReadLocation {
+                    kind: ProjectionMappingKind::AuthoredIdentity,
+                    uri: Some(self.source_uri.clone()),
+                    range: Some(range),
+                }
+            }
+            ProjectionMappingKind::GeneratedProjection => {
+                let Ok(range) = Utf8ByteRange::new(
+                    Utf8ByteOffset::new(mapped.projected_range.start),
+                    Utf8ByteOffset::new(mapped.projected_range.end),
+                ).and_then(|projected| self.typst_lines.mmt_range(projected, client_encoding)) else {
+                    return ProjectedReadLocation::stale_unknown();
+                };
+                ProjectedReadLocation {
+                    kind: ProjectionMappingKind::GeneratedProjection,
+                    uri: Some(read_only_projection_uri(&self.entry_uri)),
+                    range: Some(range),
+                }
+            }
+            ProjectionMappingKind::WorkspaceTypst
+            | ProjectionMappingKind::PackageFile
+            | ProjectionMappingKind::StaleUnknown => ProjectedReadLocation::stale_unknown(),
+        }
     }
 
     pub fn typst_edit_to_mmt(
@@ -908,6 +1061,31 @@ impl ProjectionStore {
         Ok(document)
     }
 
+    pub fn classify_response_location(
+        &self,
+        source_uri: &Url,
+        entry_uri: &Url,
+        revision: u64,
+        source_content: &SourceContentKey,
+        project_digest: &TypstProjectSnapshotKey,
+        projection_key: &ProjectionKey,
+        location: Location,
+        backend_encoding: PositionEncoding,
+        client_encoding: PositionEncoding,
+    ) -> ProjectedReadLocation {
+        let Ok(document) = self.response_generation(
+            source_uri,
+            entry_uri,
+            revision,
+            source_content,
+            project_digest,
+            projection_key,
+        ) else {
+            return ProjectedReadLocation::stale_unknown();
+        };
+        document.classify_read_location(location, backend_encoding, client_encoding)
+    }
+
     pub fn remove(&mut self, source_uri: &Url) {
         self.documents.remove(source_uri);
         self.retained.remove(source_uri);
@@ -936,6 +1114,28 @@ impl ProjectionStore {
             projection_key: identity.projection_key.clone(),
         })
     }
+
+    pub fn project_range(
+        &self,
+        source_uri: &Url,
+        range: Range,
+        client_encoding: PositionEncoding,
+        backend_encoding: PositionEncoding,
+    ) -> Result<ProjectedRange, PositionConversionError> {
+        let document = self
+            .get(source_uri)
+            .ok_or(PositionConversionError::AbsentGeneration)?;
+        let identity = &document.language_identity;
+        Ok(ProjectedRange {
+            revision: document.revision,
+            entry_uri: document.entry_uri.clone(),
+            range: document.mmt_range_to_typst(range, client_encoding, backend_encoding)?,
+            position_encoding: backend_encoding,
+            source_content: identity.source_content.clone(),
+            project_digest: identity.project_digest.clone(),
+            projection_key: identity.projection_key.clone(),
+        })
+    }
 }
 
 fn virtual_entry_uri(source_uri: &Url, session_id: &str, revision: u64) -> Url {
@@ -949,6 +1149,13 @@ fn virtual_entry_uri(source_uri: &Url, session_id: &str, revision: u64) -> Url {
         "untitled:/mmt-projection/{identity}/{session_id}/main-{revision}.typ"
     ))
     .expect("hex-encoded source URI, UUID session, and numeric revision form a valid virtual URI")
+}
+
+pub fn read_only_projection_uri(backend_uri: &Url) -> Url {
+    let mut uri = backend_uri.clone();
+    uri.set_scheme("mmt-projection")
+        .expect("mmt-projection is a valid URI scheme");
+    uri
 }
 
 #[cfg(test)]
@@ -1082,6 +1289,102 @@ mod tests {
             .unwrap();
         assert_eq!(diagnostic.range.start, position);
         assert_eq!(diagnostic.source.as_deref(), Some("typst"));
+    }
+
+    #[test]
+    fn read_locations_classify_virtual_targets_and_reject_retired_generations() {
+        let source = "@typ: #let accent = blue".to_string();
+        let mut store = ProjectionStore::default();
+        let document = store
+            .upsert(
+                uri(),
+                &snapshot(1, source.clone(), &StaticPresetCatalog::default()),
+            )
+            .unwrap();
+        let offset = source.find("accent").unwrap() + 1;
+        let authored_position = LineIndex::new(&source)
+            .position(&source, offset, &PositionEncodingKind::UTF16)
+            .unwrap();
+        let projected_position = document
+            .mmt_position_to_typst(
+                MmtClientPosition::new(authored_position),
+                PositionEncoding::Utf16,
+                PositionEncoding::Utf16,
+            )
+            .unwrap()
+            .into_lsp();
+        let authored = document.classify_read_location(
+            Location::new(
+                document.entry_uri.clone(),
+                Range::new(projected_position, projected_position),
+            ),
+            PositionEncoding::Utf16,
+            PositionEncoding::Utf16,
+        );
+        assert_eq!(authored.kind, ProjectionMappingKind::AuthoredIdentity);
+        assert_eq!(authored.uri.as_ref(), Some(&uri()));
+        assert_eq!(authored.range.unwrap().start, authored_position);
+
+        let generated = document.classify_read_location(
+            Location::new(
+                document.entry_uri.clone(),
+                Range::new(Position::new(0, 0), Position::new(0, 1)),
+            ),
+            PositionEncoding::Utf16,
+            PositionEncoding::Utf16,
+        );
+        assert_eq!(generated.kind, ProjectionMappingKind::GeneratedProjection);
+        assert_eq!(generated.uri.unwrap().scheme(), "mmt-projection");
+
+        for (target, expected) in [
+            ("file:///workspace/dependency.typ", ProjectionMappingKind::WorkspaceTypst),
+            ("mmt-package:/preview/example/1.0.0/lib.typ?digest=abc", ProjectionMappingKind::PackageFile),
+        ] {
+            let mapped = document.classify_read_location(
+                Location::new(
+                    Url::parse(target).unwrap(),
+                    Range::new(Position::new(0, 0), Position::new(0, 1)),
+                ),
+                PositionEncoding::Utf16,
+                PositionEncoding::Utf16,
+            );
+            assert_eq!(mapped.kind, expected);
+        }
+        assert_eq!(
+            document
+                .classify_read_location(
+                    Location::new(
+                        Url::parse("https://example.invalid/unknown.typ").unwrap(),
+                        Range::default(),
+                    ),
+                    PositionEncoding::Utf16,
+                    PositionEncoding::Utf16,
+                )
+                .kind,
+            ProjectionMappingKind::StaleUnknown
+        );
+
+        let old_entry = document.entry_uri.clone();
+        let old_revision = document.revision;
+        let old_identity = document.language_identity.clone();
+        store
+            .upsert(
+                uri(),
+                &snapshot(2, "@typ: #let accent = red", &StaticPresetCatalog::default()),
+            )
+            .unwrap();
+        let retired = store.classify_response_location(
+            &uri(),
+            &old_entry,
+            old_revision,
+            &old_identity.source_content,
+            &old_identity.project_digest,
+            &old_identity.projection_key,
+            Location::new(old_entry.clone(), Range::new(projected_position, projected_position)),
+            PositionEncoding::Utf16,
+            PositionEncoding::Utf16,
+        );
+        assert_eq!(retired, ProjectedReadLocation::stale_unknown());
     }
 
     #[test]

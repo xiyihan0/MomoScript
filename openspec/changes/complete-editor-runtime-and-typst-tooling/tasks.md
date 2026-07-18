@@ -129,18 +129,29 @@ Every item in this section is enabled only if the active artifact advertises the
 
 ## 5. Projected read features
 
-- [ ] 5.1 Add Rust mapping result kinds for authored MMT, workspace Typst, package file, generated projection and stale/unknown locations
-- [ ] 5.2 Add read-only URI content providers for retained virtual projection and package generations
-- [ ] 5.3 Map definition targets to authored MMT Identity ranges or explicit read-only virtual files
-- [ ] 5.4 Map references item by item only where method semantics permit partial safe results
-- [ ] 5.5 Map type-definition and implementation locations when the provider is qualified
-- [ ] 5.6 Map document highlights conservatively and discard stale/unsafe ranges
-- [ ] 5.7 Map nested selection ranges until the first unsafe ancestor
+- [x] 5.1 Add Rust mapping result kinds for authored MMT, workspace Typst, package file, generated projection and stale/unknown locations
+  - Evidence: `ProjectionMappingKind` is the single Rust classification truth source; `ProjectionIndex::classify_read` and the exact Identity-only forward range mapper reject cross-segment/ambiguous input. `cargo test --manifest-path mmt_rs/Cargo.toml projection::tests` passes.
+- [x] 5.2 Add read-only URI content providers for retained virtual projection and package generations
+  - Evidence: `RetainedVirtualDocumentStore` plus `ProjectionTextDocumentContentProvider`/`PackageTextDocumentContentProvider` retain immutable bytes behind `mmt-projection:`/`mmt-package:` only; `node scripts/test-projected-reads.mjs` proves registration, immutable collision rejection, current-plus-two projection retention and eviction.
+- [x] 5.3 Map definition targets to authored MMT Identity ranges or explicit read-only virtual files
+  - Evidence: `mmt/mapTypstReadLocations` maps exact Identity locations to authored MMT and generated navigation to `mmt-projection:`; the focused server and TypeScript fixtures pass.
+- [x] 5.4 Map references item by item only where method semantics permit partial safe results
+  - Evidence: `mapNavigationLocations("references", ...)` retains safe items, counts omitted stale items and returns explicit `StaleUnknown` when every item is unsafe; `node scripts/test-projected-reads.mjs` passes.
+- [x] 5.5 Map type-definition and implementation locations when the provider is qualified
+  - Evidence: the shared navigation mapper returns `CapabilityUnavailable` for unqualified type-definition/implementation and uses the same exact location classification after qualification; the focused TypeScript fixture passes.
+- [x] 5.6 Map document highlights conservatively and discard stale/unsafe ranges
+  - Evidence: `mapDocumentHighlights` accepts authored Identity ranges in the requested MMT URI only and omits generated/stale/cross-document results; the focused TypeScript fixture passes.
+- [x] 5.7 Map nested selection ranges until the first unsafe ancestor
+  - Evidence: `mapSelectionRanges` rebuilds inner-to-outer authored chains and truncates at the first generated/stale/cross-document ancestor; `mmt/typstRange` provides exact forward Identity ranges without endpoint guessing. Focused Rust/RPC/TypeScript fixtures pass.
 - [ ] 5.8 Map document links, colors, hints and lenses only under method-specific safe rules, validating every nested edit、command and URI payload
-- [ ] 5.9 Hide generated projection symbols and deduplicate authored MMT/Typst workspace symbols
-- [ ] 5.10 Keep package files read-only and restrict visibility to active project dependencies
-- [ ] 5.11 Add fixtures for Identity, Synthetic, Escaped, MacroExpansion, cross-segment and retired-generation results
-- [ ] 5.12 Prove MMT-native results retain precedence over Typst fallback
+- [x] 5.9 Hide generated projection symbols and deduplicate authored MMT/Typst workspace symbols
+  - Evidence: `mergeWorkspaceSymbols` drops generated/stale symbols and deduplicates canonical URI/range/kind/name identities, retaining MMT-native entries first; the focused TypeScript fixture passes.
+- [x] 5.10 Keep package files read-only and restrict visibility to active project dependencies
+  - Evidence: package navigation is denied unless the caller proves visibility, and `PackageTextDocumentContentProvider` returns immutable content only while an active project snapshot names the exact package generation. The inactive/active/closed/retired fixture passes.
+- [x] 5.11 Add fixtures for Identity, Synthetic, Escaped, MacroExpansion, cross-segment and retired-generation results
+  - Evidence: `cargo test --manifest-path mmt_rs/Cargo.toml projection::tests` covers all four mapping modes plus cross-segment rejection; `cargo test --manifest-path mmt_lsp/Cargo.toml read_locations_classify_virtual_targets_and_reject_retired_generations` proves retired responses become explicit `staleUnknown`.
+- [x] 5.12 Prove MMT-native results retain precedence over Typst fallback
+  - Evidence: `mmtNativeFirst` does not invoke the projected callback for a definitive MMT result and invokes it only for a non-definitive empty result; `node scripts/test-projected-reads.mjs` passes.
 
 ## 6. Atomic projected edit features
 

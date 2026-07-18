@@ -231,6 +231,24 @@ impl ProjectionIndex {
         mapped
     }
 
+    pub fn mmt_range_to_typst(&self, range: TextRange) -> Option<TextRange> {
+        let mut candidates = self.segments.iter().filter(|segment| {
+            segment.mapping == MappingMode::Identity
+                && segment.mmt_range.is_some_and(|source| {
+                    source.start <= range.start && range.end <= source.end
+                })
+        });
+        let segment = candidates.next()?;
+        if candidates.next().is_some() {
+            return None;
+        }
+        let source = segment.mmt_range?;
+        Some(TextRange::new(
+            segment.typst_range.start + range.start - source.start,
+            segment.typst_range.start + range.end - source.start,
+        ))
+    }
+
     pub fn typst_to_mmt(&self, range: TextRange) -> Option<TextRange> {
         let segment = self.segments.iter().find(|segment| {
             segment.mapping == MappingMode::Identity
@@ -724,6 +742,11 @@ mod tests {
                 source_range: Some(TextRange::new(11, 13)),
             }
         );
+        assert_eq!(
+            index.mmt_range_to_typst(TextRange::new(11, 13)),
+            Some(TextRange::new(1, 3))
+        );
+        assert_eq!(index.mmt_range_to_typst(TextRange::new(13, 21)), None);
         for range in [
             TextRange::new(5, 7),
             TextRange::new(9, 11),

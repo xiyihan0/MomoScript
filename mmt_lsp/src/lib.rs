@@ -6,9 +6,10 @@ mod typst_backend;
 pub use server::{MmtLanguageServer, NotificationOutcome, ServerError, ServerEvent};
 pub use service::{DocumentSnapshot, LanguageService};
 pub use typst_backend::{
-    ProjectedPosition, ProjectionDocument, ProjectionStore, TypstProjectUpdate,
-    TypstRenderDiagnostic, TypstRenderDiagnosticLabel, TypstRenderProjectUpdate,
-    TypstResourceRequest, TypstVirtualFile, build_render_project,
+    ProjectedPosition, ProjectedRange, ProjectedReadLocation, ProjectionDocument, ProjectionStore,
+    TypstProjectUpdate, TypstRenderDiagnostic, TypstRenderDiagnosticLabel,
+    TypstRenderProjectUpdate, TypstResourceRequest, TypstVirtualFile, build_render_project,
+    read_only_projection_uri,
 };
 
 #[cfg(target_arch = "wasm32")]

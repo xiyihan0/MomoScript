@@ -4,9 +4,9 @@ use lsp_types::{
     CompletionItem, CompletionOptions, CompletionParams, Diagnostic, DidChangeTextDocumentParams,
     DidCloseTextDocumentParams, DidOpenTextDocumentParams, DocumentSymbolParams,
     FoldingRangeParams, FoldingRangeProviderCapability, Hover, HoverProviderCapability,
-    InitializeParams, InitializeResult, LogMessageParams, MessageType, OneOf, Position,
-    PositionEncodingKind, PublishDiagnosticsParams, SemanticTokenType, SemanticTokensFullOptions,
-    SemanticTokensLegend, SemanticTokensOptions, SemanticTokensParams,
+    InitializeParams, InitializeResult, Location, LogMessageParams, MessageType, OneOf, Position,
+    PositionEncodingKind, PublishDiagnosticsParams, Range, SemanticTokenType,
+    SemanticTokensFullOptions, SemanticTokensLegend, SemanticTokensOptions, SemanticTokensParams,
     SemanticTokensServerCapabilities, ServerCapabilities, ServerInfo, SignatureHelpOptions,
     TextDocumentIdentifier, TextDocumentSyncCapability, TextDocumentSyncKind, Url,
 };
@@ -24,6 +24,14 @@ use crate::{
 struct TypstPositionParams {
     text_document: TextDocumentIdentifier,
     position: Position,
+    backend_encoding: PositionEncoding,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct TypstRangeParams {
+    text_document: TextDocumentIdentifier,
+    range: Range,
     backend_encoding: PositionEncoding,
 }
 
@@ -64,6 +72,19 @@ struct MapTypstDiagnosticsParams {
     project_digest: TypstProjectSnapshotKey,
     projection_key: ProjectionKey,
     diagnostics: Vec<Diagnostic>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct MapTypstReadLocationsParams {
+    source_uri: Url,
+    revision: u64,
+    entry_uri: Url,
+    backend_encoding: PositionEncoding,
+    source_content: SourceContentKey,
+    project_digest: TypstProjectSnapshotKey,
+    projection_key: ProjectionKey,
+    locations: Vec<Location>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -282,6 +303,18 @@ impl MmtLanguageServer {
                     params.backend_encoding,
                 ).ok())
             }
+            "mmt/typstRange" => {
+                let params: TypstRangeParams = decode(params)?;
+                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding()) else {
+                    return Ok(Value::Null);
+                };
+                encode(self.projections.project_range(
+                    &params.text_document.uri,
+                    params.range,
+                    client_encoding,
+                    params.backend_encoding,
+                ).ok())
+            }
             "mmt/mapTypstCompletion" => {
                 let params: MapTypstCompletionParams = decode(params)?;
                 let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding()) else {
@@ -348,6 +381,25 @@ impl MmtLanguageServer {
                     document.map_diagnostic(diagnostic, params.backend_encoding, client_encoding)
                 }).collect::<Result<Vec<_>, _>>();
                 encode(mapped.ok())
+            }
+            "mmt/mapTypstReadLocations" => {
+                let params: MapTypstReadLocationsParams = decode(params)?;
+                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding()) else {
+                    return Ok(Value::Null);
+                };
+                encode(params.locations.into_iter().map(|location| {
+                    self.projections.classify_response_location(
+                        &params.source_uri,
+                        &params.entry_uri,
+                        params.revision,
+                        &params.source_content,
+                        &params.project_digest,
+                        &params.projection_key,
+                        location,
+                        params.backend_encoding,
+                        client_encoding,
+                    )
+                }).collect::<Vec<_>>())
             }
             "mmt/getTypstProject" => {
                 let params: GetTypstProjectParams = decode(params)?;
@@ -1192,6 +1244,36 @@ mod tests {
             )
             .unwrap();
         assert_eq!(route["revision"], 1);
+        let projected_range = server
+            .request(
+                "mmt/typstRange",
+                serde_json::json!({
+                    "textDocument": {"uri": uri.clone()},
+                    "range": {
+                        "start": {"line": 1, "character": 5},
+                        "end": {"line": 1, "character": 8}
+                    },
+                    "backendEncoding": "utf-16"
+                }),
+            )
+            .unwrap();
+        assert_eq!(projected_range["revision"], route["revision"]);
+        assert_eq!(projected_range["entryUri"], route["entryUri"]);
+        assert_eq!(projected_range["range"]["end"], route["position"]);
+        let unsafe_projected_range = server
+            .request(
+                "mmt/typstRange",
+                serde_json::json!({
+                    "textDocument": {"uri": uri.clone()},
+                    "range": {
+                        "start": {"line": 0, "character": 0},
+                        "end": {"line": 1, "character": 8}
+                    },
+                    "backendEncoding": "utf-16"
+                }),
+            )
+            .unwrap();
+        assert!(unsafe_projected_range.is_null());
         let mapped = server
             .request(
                 "mmt/mapTypstCompletion",
@@ -1218,6 +1300,61 @@ mod tests {
             .unwrap();
         assert_eq!(mapped[0]["textEdit"]["range"]["start"]["line"], 1);
         assert_eq!(mapped[0]["textEdit"]["range"]["start"]["character"], 8);
+        let mut authored_backend_position = route["position"].clone();
+        let authored_character = authored_backend_position["character"]
+            .as_u64()
+            .unwrap()
+            .checked_sub(1)
+            .unwrap();
+        authored_backend_position["character"] = serde_json::json!(authored_character);
+
+        let reads = server
+            .request(
+                "mmt/mapTypstReadLocations",
+                serde_json::json!({
+                    "sourceUri": uri.clone(),
+                    "revision": route["revision"],
+                    "entryUri": route["entryUri"],
+                    "backendEncoding": route["positionEncoding"],
+                    "sourceContent": route["sourceContent"],
+                    "projectDigest": route["projectDigest"],
+                    "projectionKey": route["projectionKey"],
+                    "locations": [
+                        {
+                            "uri": route["entryUri"],
+                            "range": {"start": authored_backend_position, "end": route["position"]}
+                        },
+                        {
+                            "uri": route["entryUri"],
+                            "range": {
+                                "start": {"line": 0, "character": 0},
+                                "end": {"line": 0, "character": 1}
+                            }
+                        },
+                        {
+                            "uri": "file:///workspace/helper.typ",
+                            "range": {
+                                "start": {"line": 0, "character": 0},
+                                "end": {"line": 0, "character": 1}
+                            }
+                        },
+                        {
+                            "uri": "mmt-package:/preview/example/1.0.0/lib.typ?digest=abc",
+                            "range": {
+                                "start": {"line": 0, "character": 0},
+                                "end": {"line": 0, "character": 1}
+                            }
+                        }
+                    ]
+                }),
+            )
+            .unwrap();
+        assert_eq!(reads[0]["kind"], "authoredIdentity");
+        assert_eq!(reads[0]["uri"], uri.as_str());
+        assert_eq!(reads[1]["kind"], "generatedProjection");
+        assert!(reads[1]["uri"].as_str().unwrap().starts_with("mmt-projection:"));
+        assert_eq!(reads[2]["kind"], "workspaceTypst");
+        assert_eq!(reads[3]["kind"], "packageFile");
 
         server
             .notification(
@@ -1232,7 +1369,7 @@ mod tests {
             .request(
                 "mmt/mapTypstCompletion",
                 serde_json::json!({
-                    "sourceUri": uri,
+                    "sourceUri": uri.clone(),
                     "revision": route["revision"],
                     "entryUri": route["entryUri"],
                     "backendEncoding": route["positionEncoding"],
@@ -1244,6 +1381,26 @@ mod tests {
             )
             .unwrap();
         assert!(stale.is_null());
+        let stale_read = server
+            .request(
+                "mmt/mapTypstReadLocations",
+                serde_json::json!({
+                    "sourceUri": uri,
+                    "revision": route["revision"],
+                    "entryUri": route["entryUri"],
+                    "backendEncoding": route["positionEncoding"],
+                    "sourceContent": route["sourceContent"],
+                    "projectDigest": route["projectDigest"],
+                    "projectionKey": route["projectionKey"],
+                    "locations": [{
+                        "uri": route["entryUri"],
+                        "range": {"start": route["position"], "end": route["position"]}
+                    }]
+                }),
+            )
+            .unwrap();
+        assert_eq!(stale_read[0]["kind"], "staleUnknown");
+        assert!(stale_read[0].get("uri").is_none());
     }
 
     #[test]
