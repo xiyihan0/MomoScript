@@ -98,6 +98,7 @@ jobs:
         env:
           TINYMIST_BIN: ${{ runner.temp }}/tinymist/target/release/tinymist
           TINYMIST_WEB_PKG: ${{ runner.temp }}/tinymist/crates/tinymist/pkg
+          TINYMIST_SHA256_FILE: ${{ runner.temp }}/tinymist/target/release/tinymist-native-patched.sha256
         run: |
           npm run test:tinymist-process
           npm run test:tinymist-worker
@@ -105,6 +106,7 @@ jobs:
         run: |
           mkdir -p .ci/tinymist/native .ci/tinymist/web
           cp "$RUNNER_TEMP/tinymist/target/release/tinymist" .ci/tinymist/native/tinymist
+          cp "$RUNNER_TEMP/tinymist/target/release/tinymist-native-patched.sha256" .ci/tinymist/native/tinymist-native-patched.sha256
           cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/tinymist.js" .ci/tinymist/web/tinymist.js
           cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/tinymist_bg.wasm" .ci/tinymist/web/tinymist_bg.wasm
           cp editors/vscode/vendor/tinymist-0.15.2/SHA256SUMS .ci/tinymist/web/SHA256SUMS
@@ -144,6 +146,7 @@ jobs:
         env:
           TINYMIST_BIN: ${{ github.workspace }}/.ci/tinymist/native/tinymist
           TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+          TINYMIST_SHA256_FILE: ${{ github.workspace }}/.ci/tinymist/native/tinymist-native-patched.sha256
         run: |
           chmod +x "$TINYMIST_BIN"
           npm run check

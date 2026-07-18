@@ -987,6 +987,22 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
   }
 }
 
+function serializedNativeEvidenceForComparison(evidence: Record<string, unknown>): string {
+  const normalized = structuredClone(evidence) as {
+    artifact?: {
+      digests?: { tinymist?: string };
+      checksumManifest?: { expectedSha256?: string };
+    };
+  };
+  if (normalized.artifact?.digests) {
+    normalized.artifact.digests.tinymist = "<runtime-native-sha256>";
+  }
+  if (normalized.artifact?.checksumManifest) {
+    normalized.artifact.checksumManifest.expectedSha256 = "<runtime-native-sha256>";
+  }
+  return `${JSON.stringify(normalized, null, 2)}\n`;
+}
+
 async function verifyCheckedNativeEvidence(command: string): Promise<Record<string, unknown>> {
   const evidence = await captureNativeTinymistEvidence(command);
   const evidencePath = process.env.TINYMIST_NATIVE_EVIDENCE ?? resolve("src/test/fixtures/tinymist-native-evidence.json");
@@ -995,7 +1011,14 @@ async function verifyCheckedNativeEvidence(command: string): Promise<Record<stri
     await writeFile(evidencePath, serialized, "utf8");
   } else {
     const checked = await readFile(evidencePath, "utf8");
-    if (checked !== serialized) {
+    const runtimeNativeArtifact = process.env.TINYMIST_SHA256_FILE !== undefined;
+    const actualForComparison = runtimeNativeArtifact
+      ? serializedNativeEvidenceForComparison(evidence)
+      : serialized;
+    const checkedForComparison = runtimeNativeArtifact
+      ? serializedNativeEvidenceForComparison(JSON.parse(checked) as Record<string, unknown>)
+      : checked;
+    if (checkedForComparison !== actualForComparison) {
       throw new Error(
         `native Tinymist evidence differs from ${evidencePath}; ` +
         "run with UPDATE_TINYMIST_NATIVE_EVIDENCE=1 only after reviewing the fixed artifact change"

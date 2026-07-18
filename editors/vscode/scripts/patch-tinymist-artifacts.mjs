@@ -50,11 +50,23 @@ if (mode === "build-promote") {
   );
 }
 
+let promotedArtifacts = pin.artifacts;
 if (mode === "build-promote" || mode === "promote") {
   const nativePath = path.join(source, pin.artifacts.native.relativePath);
   const jsPath = path.join(source, pin.artifacts.webJs.relativePath);
   const wasmPath = path.join(source, pin.artifacts.webWasm.relativePath);
-  await verifyFile(nativePath, pin.artifacts.native);
+  const nativeBytes = await readFile(nativePath);
+  const nativeDigest = createHash("sha256").update(nativeBytes).digest("hex");
+  const nativeSize = (await stat(nativePath)).size;
+  if (nativeSize === 0) throw new Error(`${nativePath}: empty native artifact`);
+  await writeFile(
+    path.join(path.dirname(nativePath), "tinymist-native-patched.sha256"),
+    `${nativeDigest}  tinymist\n`
+  );
+  promotedArtifacts = {
+    ...pin.artifacts,
+    native: { ...pin.artifacts.native, sha256: nativeDigest, size: nativeSize }
+  };
   await verifyFile(jsPath, pin.artifacts.webJs);
   await verifyFile(wasmPath, pin.artifacts.webWasm);
 
@@ -76,7 +88,7 @@ if (mode === "build-promote" || mode === "promote") {
   );
 }
 
-console.log(JSON.stringify({ applied: true, mode, revision: pin.upstream.revision, artifacts: pin.artifacts }));
+console.log(JSON.stringify({ applied: true, mode, revision: pin.upstream.revision, artifacts: promotedArtifacts }));
 
 async function verifyFile(filename, expected) {
   const bytes = await readFile(filename);

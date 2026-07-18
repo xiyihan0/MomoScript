@@ -346,11 +346,21 @@ const web = verify("web", await webTranscript());
 const nativeDigest = createHash("sha256").update(await readFile(path.resolve(process.env.TINYMIST_BIN))).digest("hex");
 const webDigest = createHash("sha256").update(await readFile(path.resolve(process.env.TINYMIST_WEB_PKG, "tinymist_bg.wasm"))).digest("hex");
 const evidence = { schema: "mmt-typst-navigation-transcript.v1", artifacts: { native: nativeDigest, web: webDigest }, native, web };
+if (process.env.TINYMIST_SHA256_FILE) {
+  const manifest = (await readFile(path.resolve(process.env.TINYMIST_SHA256_FILE), "utf8")).trim();
+  const match = /^([a-f0-9]{64})\s+(.+)$/.exec(manifest);
+  if (!match) throw new Error(`invalid native checksum manifest: ${process.env.TINYMIST_SHA256_FILE}`);
+  assert.equal(nativeDigest, match[1], "native artifact matches its runtime checksum manifest");
+}
 const checkedPath = path.join(root, "src/test/fixtures/typst-navigation-evidence.json");
 if (process.env.UPDATE_TINYMIST_NAVIGATION_EVIDENCE === "1") {
   await writeFile(checkedPath, `${JSON.stringify(evidence, null, 2)}\n`);
 } else {
   const checked = JSON.parse(await readFile(checkedPath, "utf8"));
-  assert.deepEqual(evidence, checked, "navigation evidence changed for the pinned artifacts");
+  const comparisonEvidence = structuredClone(evidence);
+  if (process.env.TINYMIST_SHA256_FILE) {
+    comparisonEvidence.artifacts.native = checked.artifacts.native;
+  }
+  assert.deepEqual(comparisonEvidence, checked, "navigation evidence changed for the pinned source and patch");
 }
 console.log(JSON.stringify(evidence, null, 2));

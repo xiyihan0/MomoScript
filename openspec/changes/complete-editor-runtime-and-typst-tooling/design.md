@@ -48,6 +48,16 @@ Before specifying a provider as required for implementation, build scripts SHALL
 - the pinned native Tinymist process artifact;
 - the pinned browser Tinymist Worker artifact.
 
+The checked capability baseline may identify exact canonical artifact bytes. A native
+release build is not assumed to be bit-reproducible across checkout paths and host
+linkers: CI pins the upstream revision、maintained patch digest and Rust toolchain,
+computes a SHA-256 manifest for the produced process binary, verifies the binary
+against that run-local manifest, and compares its normalized behavior with the
+checked baseline while excluding only the native digest fields. That manifest travels
+with the immutable native artifact to downstream jobs. The browser Worker remains
+byte-pinned to its checked SHA-256 because its WASM build is reproducible under the
+pinned toolchain.
+
 The normalized manifest includes:
 
 ```text
