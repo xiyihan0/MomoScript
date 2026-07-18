@@ -107,6 +107,7 @@ jobs:
         run: |
           npm run test:tinymist-process
           npm run test:tinymist-worker
+          node ./scripts/test-navigation-artifacts.mjs
       - name: Stage immutable Tinymist artifacts
         run: |
           mkdir -p .ci/tinymist/native .ci/tinymist/web
@@ -165,7 +166,6 @@ jobs:
           npm run test:provider-payload-negative
           npm run test:projected-edits
           npm run test:projected-payload
-          node ./scripts/test-navigation-artifacts.mjs
           node ./scripts/test-navigation-providers.mjs
           node ./scripts/test-multi-document-projected-edits.mjs
           npm run test:desktop-preview
