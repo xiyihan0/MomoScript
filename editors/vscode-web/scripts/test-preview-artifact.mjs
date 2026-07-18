@@ -77,10 +77,12 @@ cache.request(a.sourceUri, c.renderKey);
 assert.equal(cache.document(a.sourceUri).displayedArtifact.stale, true);
 assert.equal(cache.document(a.sourceUri).displayedArtifact.renderKey, a.renderKey);
 assert.equal(cache.document("mmtfs://workspace/unrelated.mmt").status, "idle", "documents have independent state");
+assert.equal(cache.fail(a.sourceUri, a.renderKey).status, "stale", "an old render failure cannot replace current preview state");
+assert.equal(cache.fail(a.sourceUri, c.renderKey).status, "failed");
 assert.throws(() => cache.put(artifact("render-a", a.sourceUri, "different")), /different immutable artifact/);
 cache.closeSource(a.sourceUri);
 assert.equal(cache.document(a.sourceUri).status, "idle");
 cache.dispose();
 assert.throws(() => cache.get(a.renderKey), /disposed/);
 
-console.log(JSON.stringify({ immutableArtifacts: true, normalizedPages: true, exactIdentityBinding: true, boundedPinnedLru: true, multiDocumentState: true }));
+console.log(JSON.stringify({ immutableArtifacts: true, normalizedPages: true, exactIdentityBinding: true, boundedPinnedLru: true, multiDocumentState: true, currentFailureGuard: true }));

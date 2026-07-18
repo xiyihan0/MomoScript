@@ -41,18 +41,20 @@ import {
 import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
 import { projectionSessionKey } from "../../vscode/src/tinymistClient";
-import { sanitizeSvg, TypstPreviewController, type TypstExportFormat, type TypstPreviewBinding } from "./preview";
+import { sanitizeSvg, TypstPreviewController, type TypstPreviewBinding } from "./preview";
 import { PreviewBuildState } from "./previewDiagnostics";
 import { ownEventListener } from "./runtimeOwner";
 import { EditorRuntimeController } from "./runtimeController";
 import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
-import { createPreviewArtifact, type LocationProviderKey, type PreviewPagePoint, type PreviewSourceTarget, type PreviewViewport } from "./previewArtifact.ts";
+import { createPreviewArtifact, type LocationProviderKey, type PreviewArtifact, type PreviewPagePoint, type PreviewSourceTarget, type PreviewViewport } from "./previewArtifact.ts";
 import type {
   PreviewBackendLocation,
   PreviewEditorSelection,
   PreviewSourceIdentity,
   ProjectedPreviewSelection,
 } from "./previewInteraction.ts";
+import { ExactExportUiController, LatestExactArtifactWaiter, type ExactExportUiState } from "./exactExportUi.ts";
+import type { ExactExportFormat, ExactExportPorts, RenderAdvanceCause, RenderAdvanceToken, StaleExportChoice } from "./exactExport.ts";
 import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest, TypstVirtualFile } from "../../vscode/src/tinymistClient";
 import {
   canonicalBytesDigest,
@@ -77,6 +79,16 @@ interface PreviewInteractionFixtureRequest {
   readonly action: "install-provider" | "install-immutable" | "position" | "navigate" | "restart-provider" | "advance-source" | "state";
   readonly range?: { start: { line: number; character: number }; end: { line: number; character: number } };
   readonly point?: PreviewPagePoint;
+}
+
+interface ExactExportFixtureRequest {
+  readonly action: "install" | "advance" | "publish-latest" | "partial" | "failed" | "evicted" | "state";
+  readonly marker?: string;
+}
+
+interface E2EExactExportHost {
+  readonly latest: LatestExactArtifactWaiter;
+  readonly ports: ExactExportPorts;
 }
 
 function beginE2ELifecycle(): number | undefined {
@@ -183,7 +195,7 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
     const opened = await vscode.workspace.openTextDocument(uri);
     const expectedLanguage = name.endsWith(".typ") ? "typst" : "mmt";
     const document = opened.languageId === expectedLanguage ? opened : await vscode.languages.setTextDocumentLanguage(opened, expectedLanguage);
-    await vscode.window.showTextDocument(document);
+    await vscode.window.showTextDocument(document, { viewColumn: vscode.ViewColumn.One, preserveFocus: false });
     return uri.toString();
   });
   Reflect.set(globalThis, "__mmtShowWorkspaceDocument", async (name: string) => {
@@ -192,7 +204,7 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
     const opened = await vscode.workspace.openTextDocument(uri);
     const expectedLanguage = name.endsWith(".typ") ? "typst" : "mmt";
     const document = opened.languageId === expectedLanguage ? opened : await vscode.languages.setTextDocumentLanguage(opened, expectedLanguage);
-    await vscode.window.showTextDocument(document);
+    await vscode.window.showTextDocument(document, { viewColumn: vscode.ViewColumn.One, preserveFocus: false });
     return uri.toString();
   });
   Reflect.set(globalThis, "__mmtReadWorkspaceDocument", async (name: string) => {
@@ -225,6 +237,29 @@ const PREVIEW_RENDER_OPTIONS_DIGEST = canonicalBytesDigest(
   "mmt-preview-render-options-v1",
   [encoder.encode("svg:default")],
 );
+
+function createE2EExactExportHost(): E2EExactExportHost | undefined {
+  if (import.meta.env.VITE_MMT_E2E !== "1") return undefined;
+  const latest = new LatestExactArtifactWaiter();
+  return {
+    latest,
+    ports: {
+      latest,
+      raster: {
+        async encode(page, format, signal) {
+          signal.throwIfAborted();
+          return encoder.encode(`${format}:${page.sanitizedSvg}`);
+        },
+      },
+      pdf: {
+        async compile(render, runtime, signal) {
+          signal.throwIfAborted();
+          return encoder.encode(`pdf:${render.renderKey}:${runtime.runtimeArtifactKey}`);
+        },
+      },
+    },
+  };
+}
 function configuredResourceLimits() {
   const configuration = vscode.workspace.getConfiguration("mmt.resources");
   return normalizeResourceLimits({
@@ -282,6 +317,9 @@ if (import.meta.hot && hmrDisposal instanceof Promise) {
   void start().catch((error: unknown) => {
     document.documentElement.dataset.mmtStage = "failed";
     console.error("MomoScript editor failed to start", error);
+    if (import.meta.env.VITE_MMT_E2E === "1") {
+      Reflect.set(globalThis, "__mmtStartupError", error instanceof Error ? error.stack ?? error.message : String(error));
+    }
     const root = document.querySelector<HTMLElement>("#workbench");
     if (root) root.textContent = error instanceof Error ? error.message : String(error);
   });
@@ -289,17 +327,24 @@ if (import.meta.hot && hmrDisposal instanceof Promise) {
 
 async function start(): Promise<void> {
   const lifecycleGeneration = beginE2ELifecycle();
+  const exactExportHost = createE2EExactExportHost();
   const controller = new EditorRuntimeController({
-    captureAcceptedPreviewProjects: import.meta.env.VITE_MMT_E2E === "1"
+    captureAcceptedPreviewProjects: import.meta.env.VITE_MMT_E2E === "1",
+    exactExport: exactExportHost?.ports,
   });
   runtimeController = controller;
-  await controller.start(() => initializeRuntime(controller, lifecycleGeneration));
+  await controller.start(() => initializeRuntime(controller, lifecycleGeneration, exactExportHost));
   recordE2ELifecycle("runtime-ready", lifecycleGeneration);
 }
 
-async function initializeRuntime(controller: EditorRuntimeController, lifecycleGeneration: number | undefined): Promise<void> {
+async function initializeRuntime(
+  controller: EditorRuntimeController,
+  lifecycleGeneration: number | undefined,
+  exactExportHost: E2EExactExportHost | undefined,
+): Promise<void> {
   const own = <T extends { dispose(): void | Promise<void> }>(resource: T): T => controller.own(resource);
   const subscribe = <T extends { dispose(): void | Promise<void> }>(subscription: T): T => controller.subscribe(subscription);
+  if (exactExportHost) own(exactExportHost.latest);
   const root = document.querySelector<HTMLElement>("#workbench");
   if (!root) throw new Error("Missing #workbench container");
   const packageCacheStorage = await controller.initializeOriginStorage();
@@ -334,6 +379,8 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
   let previewPanelDisposeRegistration: vscode.Disposable | undefined;
   let previewPanelMessageRegistration: vscode.Disposable | undefined;
   let activeClient: BaseLanguageClient | undefined;
+  let displayedPreviewSourceUri: string | undefined;
+  let previewFixtureActiveSourceUri: string | undefined;
   const previewBuildState = new PreviewBuildState();
   const {
     previewProjects,
@@ -351,6 +398,20 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
     renderRequestIdBySource,
     persistenceByUri,
   } = controller.stores;
+  const exactExportAdvanceBySource = new Map<string, RenderAdvanceToken>();
+  const exactExportUi = own(new ExactExportUiController(controller.stores.exactExport, {
+    stateChanged(state) {
+      if (previewPanel) void previewPanel.webview.postMessage({ type: "exactExportState", state });
+    },
+    failed(error) {
+      log("export:error", error instanceof Error ? error.message : String(error));
+    },
+  }));
+  const advanceExactExport = (sourceUri: string, cause: RenderAdvanceCause): void => {
+    const token = controller.stores.exactExport?.advance(sourceUri, cause);
+    if (token) exactExportAdvanceBySource.set(sourceUri, token);
+    if (displayedPreviewSourceUri === sourceUri) exactExportUi.bind(sourceUri);
+  };
   const previewDocumentIncarnations = new WeakMap<vscode.TextDocument, string>();
   const previewIdentityFor = (project: TypstProjectUpdate, document: vscode.TextDocument): PreviewSourceIdentity => {
     let documentIncarnation = previewDocumentIncarnations.get(document);
@@ -450,16 +511,23 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
   };
   const preview = own(new TypstPreviewController(layout.preview, {
     status(message, error, revision) {
+      if (revision?.sourceUri === previewFixtureActiveSourceUri) return;
       if (revision && !previewBuildState.isCurrent(revision)) return;
-      if (error && revision) previewBuildState.fail(revision, "render-layout", message);
+      if (error && revision) {
+        previewBuildState.fail(revision, "render-layout", message);
+        const requested = controller.stores.previewArtifacts.document(revision.sourceUri).requestedRenderKey;
+        controller.stores.previewArtifacts.fail(revision.sourceUri, requested);
+        if (displayedPreviewSourceUri === revision.sourceUri) exactExportUi.bind(revision.sourceUri);
+      }
       const scope = message.includes("WASM") ? "wasm" : (error ? "preview:error" : "preview");
       log(scope, message);
       if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, error);
     },
     rendered(svg, revision, shadowCount, pageSize) {
+      if (revision.sourceUri === previewFixtureActiveSourceUri) return;
       if (!previewBuildState.isCurrent(revision)) return;
       log("preview", `Rendered revision ${revision.revision} with ${shadowCount} virtual files`);
-      if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, svg, "", false, pageSize, preview.viewportState);
+      if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, svg, "", false, pageSize, preview.viewportState, exactExportUi.state);
     },
   }, {
     currentIdentity: currentPreviewIdentity,
@@ -483,18 +551,40 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
   const renderPreview = async (project: TypstProjectUpdate): Promise<void> => {
     const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === project.sourceUri);
     if (!document) return;
+    if (previewFixtureActiveSourceUri === project.sourceUri) return;
     const binding = await previewBindingFor(project, document);
-    controller.stores.previewArtifacts.request(project.sourceUri, binding.renderKey);
-    const retained = controller.stores.previewArtifacts.get(binding.renderKey);
-    if (retained) {
-      preview.displayArtifact(retained, binding.identity, binding.resolver);
-    } else {
-      await preview.update(project, binding);
-      const artifact = preview.displayedArtifact;
-      if (!artifact || artifact.renderKey !== binding.renderKey) return;
-      controller.stores.previewArtifacts.put(artifact);
+    if (previewFixtureActiveSourceUri === project.sourceUri) return;
+    const before = controller.stores.previewArtifacts.document(project.sourceUri);
+    if (before.displayedArtifact && before.displayedArtifact.renderKey !== binding.renderKey) {
+      advanceExactExport(project.sourceUri, "render");
     }
-    controller.stores.previewArtifacts.display(project.sourceUri, binding.renderKey);
+    controller.stores.previewArtifacts.request(project.sourceUri, binding.renderKey);
+    if (displayedPreviewSourceUri === project.sourceUri) exactExportUi.bind(project.sourceUri);
+    try {
+      const retained = controller.stores.previewArtifacts.get(binding.renderKey);
+      if (retained) {
+        preview.displayArtifact(retained, binding.identity, binding.resolver);
+      } else {
+        await preview.update(project, binding);
+        if (previewFixtureActiveSourceUri === project.sourceUri) return;
+        const artifact = preview.displayedArtifact;
+        if (!artifact || artifact.renderKey !== binding.renderKey) return;
+        controller.stores.previewArtifacts.put(artifact);
+      }
+      controller.stores.previewArtifacts.display(project.sourceUri, binding.renderKey);
+    } catch (error) {
+      controller.stores.previewArtifacts.fail(project.sourceUri, binding.renderKey);
+      if (displayedPreviewSourceUri === project.sourceUri) exactExportUi.bind(project.sourceUri);
+      throw error;
+    }
+    const advance = exactExportAdvanceBySource.get(project.sourceUri);
+    if (!advance) {
+      exactExportHost?.latest.publish(project.sourceUri, binding.renderKey);
+    } else if (controller.stores.exactExport?.publishLatest(advance, binding.renderKey)) {
+      exactExportAdvanceBySource.delete(project.sourceUri);
+      exactExportHost?.latest.publish(project.sourceUri, binding.renderKey);
+    }
+    if (displayedPreviewSourceUri === project.sourceUri) exactExportUi.bind(project.sourceUri);
   };
   let fixtureProviderKey: LocationProviderKey | undefined;
   let fixtureSelection: PreviewEditorSelection | undefined;
@@ -551,6 +641,9 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
           : undefined);
       if (!document) throw new Error("No active editor for preview interaction fixture");
       const sourceUri = document.uri.toString();
+      previewFixtureActiveSourceUri = sourceUri;
+      materializationControllers.get(sourceUri)?.abort();
+      preview.invalidate();
       let project = previewProjects.get(sourceUri) ?? typstProjects.get(sourceUri);
       if (!project && document.languageId === "typst") {
         project = await buildTypstProject(document, typstRevisions);
@@ -598,15 +691,19 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
           async locateSelection() { return [{ pageIndex: 0, x: 0.2, y: 0.15 }, { pageIndex: 1, x: 0.9, y: 0.95 }]; },
           async locatePoint() { return { uri: identity.entryUri, range: selectedRange }; },
         });
-        if (previewPanel) previewPanel.webview.html = previewWebviewHtml(
-          previewPanel.webview,
-          previewPanelTitle,
-          artifact.pages[0]!.sanitizedSvg,
-          "",
-          false,
-          { width: artifact.pages[0]!.geometry.cssWidth, height: artifact.pages[0]!.geometry.cssHeight },
-          preview.viewportState,
-        );
+        if (previewPanel) {
+          previewPanel.reveal(undefined, false);
+          previewPanel.webview.html = previewWebviewHtml(
+            previewPanel.webview,
+            previewPanelTitle,
+            artifact.pages[0]!.sanitizedSvg,
+            "",
+            false,
+            { width: artifact.pages[0]!.geometry.cssWidth, height: artifact.pages[0]!.geometry.cssHeight },
+            preview.viewportState,
+            exactExportUi.state,
+          );
+        }
       } else {
         fixtureProviderKey = undefined;
         const mapDigest = await canonicalBytesDigest("mmt-preview-interaction-map-v1", [encoder.encode(fixtureRenderKey)]);
@@ -634,17 +731,125 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
           pages,
         });
         preview.displayArtifact(artifact, identity);
-        if (previewPanel) previewPanel.webview.html = previewWebviewHtml(
-          previewPanel.webview,
-          previewPanelTitle,
-          artifact.pages[0]!.sanitizedSvg,
-          "",
-          false,
-          { width: artifact.pages[0]!.geometry.cssWidth, height: artifact.pages[0]!.geometry.cssHeight },
-          preview.viewportState,
-        );
+        if (previewPanel) {
+          previewPanel.reveal(undefined, false);
+          previewPanel.webview.html = previewWebviewHtml(
+            previewPanel.webview,
+            previewPanelTitle,
+            artifact.pages[0]!.sanitizedSvg,
+            "",
+            false,
+            { width: artifact.pages[0]!.geometry.cssWidth, height: artifact.pages[0]!.geometry.cssHeight },
+            preview.viewportState,
+            exactExportUi.state,
+          );
+        }
       }
       return true;
+    });
+  }
+  let exactExportFixtureNext: PreviewArtifact | undefined;
+  let exactExportFixtureAdvance: RenderAdvanceToken | undefined;
+  if (import.meta.env.VITE_MMT_E2E === "1") {
+    Reflect.set(globalThis, "__mmtExactExportFixture", async (request: ExactExportFixtureRequest) => {
+      if (request.action === "state") return exactExportUi.state;
+      if (!controller.stores.exactExport || !exactExportHost) throw new Error("Exact export fixture runtime is unavailable");
+      const document = vscode.window.activeTextEditor?.document
+        ?? (displayedPreviewSourceUri
+          ? vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === displayedPreviewSourceUri)
+          : undefined);
+      if (!document) throw new Error("No active preview document for exact export fixture");
+      const sourceUri = document.uri.toString();
+      let project = previewProjects.get(sourceUri) ?? typstProjects.get(sourceUri);
+      if (!project && document.languageId === "typst") {
+        project = await buildTypstProject(document, typstRevisions);
+        typstProjects.set(sourceUri, project);
+      }
+      if (!project) throw new Error("No retained project for exact export fixture");
+      const identity = previewIdentityFor(project, document);
+      const marker = request.marker ?? request.action;
+      const fixtureMaterialization = await materializationKey(
+        project.projectionKey,
+        `exact-export-${marker}-pack`,
+        `exact-export-${marker}-plan`,
+        `exact-export-${marker}-bytes`,
+      );
+      const fixtureOptions = await canonicalBytesDigest(
+        "mmt-exact-export-ui-fixture-v1",
+        [encoder.encode(marker), encoder.encode(project.sourceContent)],
+      );
+      const fixtureRenderKey = await renderKey(fixtureMaterialization, await PREVIEW_RUNTIME_KEY, fixtureOptions);
+      const mapDigest = await canonicalBytesDigest("mmt-exact-export-ui-map-v1", [encoder.encode(fixtureRenderKey)]);
+      const artifact = createPreviewArtifact({
+        renderKey: fixtureRenderKey,
+        sourceUri,
+        locationProviderKey: { kind: "immutable-map", digest: mapDigest, coordinateVersion: "typst-page-points-v1" },
+        locationMap: { digest: mapDigest, sourceToPreview: [], previewToSource: [] },
+        pages: [{
+          pageIndex: 0,
+          geometry: { viewBox: [0, 0, 320, 480], cssWidth: 320, cssHeight: 480 },
+          sanitizedSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480"><rect width="320" height="480" fill="white"/><text x="24" y="48" fill="black">Exact export ${escapeHtml(marker)}</text></svg>`,
+        }],
+      });
+      const renderFixturePanel = (displayed: PreviewArtifact): void => {
+        preview.displayArtifact(displayed, identity);
+        if (previewPanel) {
+          previewPanel.reveal(undefined, false);
+          previewPanel.webview.html = previewWebviewHtml(
+            previewPanel.webview,
+            previewPanelTitle,
+            displayed.pages[0]!.sanitizedSvg,
+            "",
+            false,
+            { width: displayed.pages[0]!.geometry.cssWidth, height: displayed.pages[0]!.geometry.cssHeight },
+            preview.viewportState,
+            exactExportUi.state,
+          );
+        }
+      };
+      if (request.action === "install") {
+        previewFixtureActiveSourceUri = sourceUri;
+        materializationControllers.get(sourceUri)?.abort();
+        preview.invalidate();
+        controller.stores.previewArtifacts.put(artifact);
+        controller.stores.previewArtifacts.display(sourceUri, artifact.renderKey);
+        exactExportHost.latest.publish(sourceUri, artifact.renderKey);
+        exactExportUi.bind(sourceUri);
+        renderFixturePanel(artifact);
+        return exactExportUi.state;
+      }
+      if (request.action === "advance") {
+        controller.stores.previewArtifacts.put(artifact);
+        exactExportFixtureNext = artifact;
+        exactExportFixtureAdvance = controller.stores.exactExport.advance(sourceUri, "source");
+        exactExportAdvanceBySource.set(sourceUri, exactExportFixtureAdvance);
+        controller.stores.previewArtifacts.request(sourceUri, artifact.renderKey);
+        exactExportUi.bind(sourceUri);
+        return exactExportUi.state;
+      }
+      if (request.action === "publish-latest") {
+        const latest = exactExportFixtureNext;
+        const advance = exactExportFixtureAdvance;
+        if (!latest || !advance) throw new Error("No pending exact export fixture artifact");
+        controller.stores.previewArtifacts.display(sourceUri, latest.renderKey);
+        if (!controller.stores.exactExport.publishLatest(advance, latest.renderKey)) {
+          throw new Error("Exact export fixture latest publication was rejected");
+        }
+        exactExportAdvanceBySource.delete(sourceUri);
+        exactExportFixtureAdvance = undefined;
+        renderFixturePanel(latest);
+        exactExportHost.latest.publish(sourceUri, latest.renderKey);
+        return latest.renderKey;
+      }
+      controller.stores.previewArtifacts.closeSource(sourceUri);
+      if (request.action === "partial") {
+        controller.stores.previewArtifacts.request(sourceUri, artifact.renderKey);
+      } else if (request.action === "failed") {
+        controller.stores.previewArtifacts.request(sourceUri, artifact.renderKey);
+        controller.stores.previewArtifacts.fail(sourceUri, artifact.renderKey);
+      }
+      exactExportUi.bind(sourceUri);
+      return exactExportUi.state;
     });
   }
   const materializedResourceCache = new BoundedStringCache(MATERIALIZED_RESOURCE_CACHE_MAX_BYTES);
@@ -663,7 +868,6 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
     });
     Reflect.set(globalThis, "__mmtPreviewBuildDiagnostics", (sourceUri: string) => previewBuildState.diagnostics(sourceUri));
   }
-  let displayedPreviewSourceUri: string | undefined;
   if (import.meta.env.VITE_MMT_E2E === "1") {
     Reflect.set(globalThis, "__mmtDisplayedPreviewSourceUri", () => displayedPreviewSourceUri);
   }
@@ -674,6 +878,8 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
   };
   const closePreviewProject = (sourceUri: string) => {
     controller.stores.closeSource(sourceUri);
+    exactExportAdvanceBySource.delete(sourceUri);
+    exactExportHost?.latest.closeSource(sourceUri);
     previewBuildState.clear(sourceUri);
     if (displayedPreviewSourceUri === sourceUri) previewPanel?.dispose();
   };
@@ -740,7 +946,7 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
   subscribe(vscode.workspace.registerFileSystemProvider(
     "mmt-package",
     new WebTypstPackageFileSystemProvider(typstPackageCache),
-    { isReadonly: true, isCaseSensitive: true }
+    { isReadonly: true, isCaseSensitive: true },
   ));
   output = own(vscode.window.createOutputChannel("MomoScript"));
   log("host", "VS Code Workbench ready");
@@ -965,7 +1171,9 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
   const previewSourceAdvanceRegistration = subscribe(vscode.workspace.onDidChangeTextDocument((event) => {
     const sourceUri = event.document.uri.toString();
     if (displayedPreviewSourceUri !== sourceUri) return;
+    advanceExactExport(sourceUri, "source");
     controller.stores.previewArtifacts.markStale(sourceUri);
+    exactExportUi.bind(sourceUri);
     const project = previewProjects.get(sourceUri) ?? typstProjects.get(sourceUri);
     if (project) preview.sourceIdentityAdvanced(previewIdentityFor(project, event.document));
   }));
@@ -988,7 +1196,10 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
     subscribe(activeClient.onNotification("mmt/typstProjectUpdated", (project: TypstProjectUpdate) => {
       const tracked = trackLanguageProjection(project);
       if (!tracked) return;
-      if (tracked.advanced) tinymist?.backend.syncProject(project);
+      if (tracked.advanced) {
+        if (displayedPreviewSourceUri === project.sourceUri) advanceExactExport(project.sourceUri, "dependency");
+        tinymist?.backend.syncProject(project);
+      }
       void schedulePreviewIfEnabled(activeClient!, project.sourceUri, tracked.token).catch((error: unknown) => {
         log("preview:error", error instanceof Error ? error.message : String(error));
       });
@@ -1033,7 +1244,9 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
       return;
     }
     const sourceUri = document.uri.toString();
+    previewFixtureActiveSourceUri = undefined;
     displayedPreviewSourceUri = sourceUri;
+    exactExportUi.bind(sourceUri);
     previewPanelTitle = `${document.uri.path.split("/").at(-1) ?? "文档"}（预览）`;
     if (!previewPanel) {
       previewPanel = own(vscode.window.createWebviewPanel(
@@ -1044,6 +1257,7 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
       ));
       previewPanelDisposeRegistration = subscribe(previewPanel.onDidDispose(() => {
         previewPanel = undefined;
+        exactExportUi.bind(undefined);
         displayedPreviewSourceUri = undefined;
         previewPanelDisposeRegistration?.dispose();
         previewPanelDisposeRegistration = undefined;
@@ -1061,27 +1275,17 @@ async function initializeRuntime(controller: EditorRuntimeController, lifecycleG
           await preview.navigatePreviewPoint(message.point);
           return;
         }
+        if (isExactExportCancelMessage(message)) {
+          exactExportUi.cancel();
+          return;
+        }
         if (!isExportMessage(message)) return;
         const sourceName = displayedPreviewSourceUri ? new URL(displayedPreviewSourceUri).pathname.split("/").at(-1) : "document";
         const baseName = (sourceName ?? "document").replace(/\.(?:mmt(?:\.txt)?|typ)$/i, "") || "document";
-        try {
-          if (displayedPreviewSourceUri && activeClient) {
-            const sourceDocument = vscode.workspace.textDocuments.find(
-              (candidate) => candidate.uri.toString() === displayedPreviewSourceUri
-            );
-            const token = latestLanguageProjectionBySource.get(displayedPreviewSourceUri);
-            if (sourceDocument?.languageId === "mmt" && token) {
-              await requestRenderProject(activeClient, displayedPreviewSourceUri, token, true);
-            }
-          }
-          const exported = await preview.createExport(message.format);
-          downloadBlob(exported.blob, `${baseName}.${exported.extension}`);
-          log("export", `Downloaded ${baseName}.${exported.extension}`);
-        } catch (error) {
-          const detail = error instanceof Error ? error.message : String(error);
-          log("export:error", detail);
-          void vscode.window.showErrorMessage(`导出失败：${detail}`);
-        }
+        const exported = await exactExportUi.export(message.format, message.staleChoice);
+        if (!exported) return;
+        downloadBlob(exported.blob, `${baseName}.${exported.extension}`);
+        log("export", `Downloaded ${baseName}.${exported.extension} from ${exported.metadata.renderKey}`);
       }));
     } else {
       previewPanel.title = previewPanelTitle;
@@ -1522,10 +1726,21 @@ async function fetchManifest(url: string, etag: string | undefined) {
   };
 }
 
-function isExportMessage(value: unknown): value is { type: "export"; format: TypstExportFormat } {
-  if (!value || typeof value !== "object") return false;
-  const message = value as { type?: unknown; format?: unknown };
-  return message.type === "export" && ["pdf", "png", "jpg", "svg"].includes(String(message.format));
+interface ExactExportWebviewMessage {
+  readonly type: "exact-export";
+  readonly format: ExactExportFormat;
+  readonly staleChoice?: StaleExportChoice;
+}
+
+function isExportMessage(value: unknown): value is ExactExportWebviewMessage {
+  if (!value || typeof value !== "object" || !("type" in value) || value.type !== "exact-export") return false;
+  if (!("format" in value) || !["pdf", "png", "jpg", "svg"].includes(String(value.format))) return false;
+  if (!("staleChoice" in value) || value.staleChoice === undefined) return true;
+  return value.staleChoice === "export-displayed" || value.staleChoice === "wait-for-latest";
+}
+
+function isExactExportCancelMessage(value: unknown): value is { readonly type: "exact-export-cancel" } {
+  return Boolean(value && typeof value === "object" && "type" in value && value.type === "exact-export-cancel");
 }
 
 function isPreviewViewportMessage(value: unknown): value is { type: "viewport"; viewport: PreviewViewport } {
@@ -1572,20 +1787,29 @@ function previewWebviewHtml(
   error = false,
   pageSize?: { width: number; height: number },
   viewportState: PreviewViewport = { page: 0, x: 0, y: 0, zoom: 1, fitMode: "width" },
+  exactExportState?: ExactExportUiState,
 ): string {
   void webview;
   const nonce = previewNonce();
+  const resolvedExportState: ExactExportUiState = exactExportState ?? Object.freeze({
+    availability: "no-document",
+    phase: "idle",
+    message: "Open a preview to export an exact artifact.",
+    canSelectFormat: false,
+    canExportDisplayed: false,
+    canWaitForLatest: false,
+    canCancel: false,
+  });
   const pageStyle = pageSize ? ` style="width:${pageSize.width}px;height:${pageSize.height}px" data-intrinsic-width="${pageSize.width}" data-intrinsic-height="${pageSize.height}"` : "";
   const formats = [
-    { format: "pdf", label: "PDF 文档", extension: ".pdf" },
-    { format: "png", label: "PNG 图片", extension: ".png" },
-    { format: "jpg", label: "JPEG 图片", extension: ".jpg" },
-    { format: "svg", label: "SVG 矢量图", extension: ".svg" }
-  ].map(({ format, label, extension }) =>
-    `<button type="button" role="menuitem" data-format="${format}"><span>${label}</span><span class="export-extension">${extension}</span></button>`
-  ).join("");
+    { format: "pdf", label: "PDF document" },
+    { format: "png", label: "PNG image" },
+    { format: "jpg", label: "JPEG image" },
+    { format: "svg", label: "SVG vector" },
+  ].map(({ format, label }) => `<option value="${format}">${label}</option>`).join("");
+  const exportControls = `<section class="exact-export" data-availability="${resolvedExportState.availability}" data-phase="${resolvedExportState.phase}" aria-label="Exact snapshot export"><label class="exact-export-format"><span>Format</span><select aria-label="Export format" disabled>${formats}</select></label><button type="button" data-export-action="ready" hidden disabled>Export exact revision</button><div class="exact-export-stale" hidden><button type="button" data-export-action="export-displayed" disabled>Export displayed revision</button><button type="button" data-export-action="wait-for-latest" disabled>Wait for latest</button></div><button type="button" data-export-action="cancel" hidden disabled>Cancel export</button><span class="exact-export-status" role="status" aria-live="polite">${escapeHtml(resolvedExportState.message)}</span></section>`;
   const body = svg
-    ? `<nav class="preview-toolbar" aria-label="预览操作"><div class="zoom-controls"><button type="button" data-zoom="out" aria-label="Zoom out">−</button><span class="zoom-label" aria-live="polite">100%</span><button type="button" data-zoom="in" aria-label="Zoom in">+</button><button type="button" data-fit="width">Fit width</button><button type="button" data-fit="page">Fit page</button></div><div class="export-control"><button type="button" class="export-trigger" aria-haspopup="menu" aria-expanded="false">导出<span class="export-chevron" aria-hidden="true"></span></button><div class="export-menu" role="menu" aria-label="导出格式" hidden>${formats}</div></div></nav><main class="viewport"><article class="page" data-page-index="0"${pageStyle}>${svg}</article></main>`
+    ? `<nav class="preview-toolbar" aria-label="预览操作"><div class="zoom-controls"><button type="button" data-zoom="out" aria-label="Zoom out">−</button><span class="zoom-label" aria-live="polite">100%</span><button type="button" data-zoom="in" aria-label="Zoom in">+</button><button type="button" data-fit="width">Fit width</button><button type="button" data-fit="page">Fit page</button></div>${exportControls}</nav><main class="viewport"><article class="page" data-page-index="0"${pageStyle}>${svg}</article></main>`
     : `<main class="status${error ? " error" : ""}">${escapeHtml(status)}</main>`;
   return `<!doctype html>
 <html lang="zh-CN">
@@ -1601,17 +1825,19 @@ function previewWebviewHtml(
     .zoom-controls { display: flex; align-items: center; gap: 5px; }
     .zoom-controls button { min-height: 26px; border: 1px solid var(--vscode-button-border, var(--vscode-panel-border)); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); cursor: pointer; }
     .zoom-label { width: 44px; color: var(--vscode-descriptionForeground); font: 12px var(--vscode-editor-font-family); text-align: center; }
-    .export-control { position: relative; display: flex; align-items: center; }
-    .export-trigger { display: inline-flex; align-items: center; gap: 7px; height: 26px; padding: 0 10px; border: 1px solid var(--vscode-button-border, transparent); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); font: inherit; cursor: pointer; }
-    .export-trigger:hover { background: var(--vscode-button-hoverBackground); }
-    .export-trigger:focus-visible, .export-menu button:focus-visible { outline: 1px solid var(--vscode-focusBorder); outline-offset: -1px; }
-    .export-chevron { width: 6px; height: 6px; margin-top: -3px; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: rotate(45deg); }
-    .export-menu { position: absolute; top: calc(100% + 4px); right: 0; z-index: 3; min-width: 190px; padding: 4px; border: 1px solid var(--vscode-menu-border, var(--vscode-panel-border)); border-radius: 3px; background: var(--vscode-menu-background, #252526); box-shadow: 0 2px 8px #0008; }
-    .export-menu[hidden] { display: none; }
-    .export-menu button { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 26px; padding: 4px 8px; border: 0; border-radius: 2px; color: var(--vscode-menu-foreground, var(--vscode-foreground)); background: transparent; font: inherit; text-align: left; cursor: pointer; }
-    .export-menu button:hover, .export-menu button:focus { color: var(--vscode-menu-selectionForeground, var(--vscode-button-foreground)); background: var(--vscode-menu-selectionBackground, var(--vscode-list-activeSelectionBackground)); outline: none; }
-    .export-extension { margin-left: 20px; color: var(--vscode-descriptionForeground); font-family: var(--vscode-editor-font-family); font-size: 11px; text-transform: uppercase; }
-    .export-menu button:hover .export-extension, .export-menu button:focus .export-extension { color: inherit; opacity: .8; }
+    .exact-export { display: grid; grid-template-columns: auto auto; align-items: center; justify-content: end; gap: 4px 6px; min-width: 0; }
+    .exact-export-format { display: inline-flex; align-items: center; gap: 5px; color: var(--vscode-descriptionForeground); font-size: 11px; }
+    .exact-export select, .exact-export button { min-height: 26px; border: 1px solid var(--vscode-button-border, var(--vscode-panel-border)); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); font: inherit; }
+    .exact-export select { color: var(--vscode-dropdown-foreground, var(--vscode-foreground)); background: var(--vscode-dropdown-background, var(--vscode-editor-background)); }
+    .exact-export button { padding: 3px 8px; cursor: pointer; }
+    .exact-export button:hover:not(:disabled) { background: var(--vscode-button-hoverBackground); }
+    .exact-export select:focus-visible, .exact-export button:focus-visible { outline: 1px solid var(--vscode-focusBorder); outline-offset: 1px; }
+    .exact-export select:disabled, .exact-export button:disabled { cursor: not-allowed; opacity: .55; }
+    .exact-export-stale { display: flex; gap: 4px; }
+    .exact-export-stale[hidden], .exact-export [hidden] { display: none; }
+    .exact-export-status { grid-column: 1 / -1; max-width: 520px; overflow: hidden; color: var(--vscode-descriptionForeground); font-size: 11px; text-align: right; text-overflow: ellipsis; white-space: nowrap; }
+    .exact-export[data-availability="stale"] .exact-export-status { color: var(--vscode-editorWarning-foreground, #cca700); }
+    .exact-export[data-availability="failed"] .exact-export-status, .exact-export[data-phase="error"] .exact-export-status { color: var(--vscode-errorForeground); }
     .viewport { display: flex; justify-content: center; min-width: min-content; height: calc(100vh - 43px); overflow: auto; box-sizing: border-box; padding: 24px; background: #e5e5e5; }
     .page { position: relative; flex: 0 0 auto; background: transparent; line-height: 0; transform-origin: top left; }
     .page svg { display: block; width: 100%; height: 100%; max-width: none; filter: drop-shadow(0 2px 5px #0008); }
@@ -1630,7 +1856,8 @@ function previewWebviewHtml(
   const viewport = document.querySelector('.viewport');
   const page = document.querySelector('.page');
   const zoomLabel = document.querySelector('.zoom-label');
-  const initialViewport = ${JSON.stringify(viewportState)};
+  const initialViewport = ${scriptJson(viewportState)};
+  const initialExportState = ${scriptJson(resolvedExportState)};
   let zoom = initialViewport.zoom;
   let fitMode = initialViewport.fitMode;
   const intrinsicWidth = Number(page?.dataset.intrinsicWidth);
@@ -1720,51 +1947,48 @@ function previewWebviewHtml(
     if (event.data?.type === 'restoreViewport') restoreViewport(event.data.viewport);
     else if (event.data?.type === 'indicator') showOverlay('preview-indicator', event.data.point);
     else if (event.data?.type === 'cursor') showOverlay('preview-cursor', event.data.point);
+    else if (event.data?.type === 'exactExportState') applyExactExportState(event.data.state);
   });
-  const exportControl = document.querySelector('.export-control');
-  const exportTrigger = document.querySelector('.export-trigger');
-  const exportMenu = document.querySelector('.export-menu');
-  const exportItems = [...document.querySelectorAll('.export-menu button[data-format]')];
-  const setExportMenuOpen = (open, focusFirst = false) => {
-    if (!exportTrigger || !exportMenu) return;
-    exportMenu.hidden = !open;
-    exportTrigger.setAttribute('aria-expanded', String(open));
-    if (open && focusFirst) exportItems[0]?.focus();
+  const exportControl = document.querySelector('.exact-export');
+  const exportFormat = document.querySelector('.exact-export select');
+  const exportReady = document.querySelector('[data-export-action="ready"]');
+  const exportDisplayed = document.querySelector('[data-export-action="export-displayed"]');
+  const exportLatest = document.querySelector('[data-export-action="wait-for-latest"]');
+  const exportStale = document.querySelector('.exact-export-stale');
+  const exportCancel = document.querySelector('[data-export-action="cancel"]');
+  const exportStatus = document.querySelector('.exact-export-status');
+  const applyExactExportState = (state) => {
+    if (!exportControl || !state) return;
+    exportControl.dataset.availability = state.availability;
+    exportControl.dataset.phase = state.phase;
+    if (exportStatus) exportStatus.textContent = state.message;
+    if (exportFormat) exportFormat.disabled = !state.canSelectFormat;
+    if (exportReady) {
+      exportReady.hidden = state.availability !== 'ready' || state.canCancel;
+      exportReady.disabled = !state.canExportDisplayed;
+    }
+    if (exportStale) exportStale.hidden = state.availability !== 'stale' || state.canCancel;
+    if (exportDisplayed) exportDisplayed.disabled = !state.canExportDisplayed;
+    if (exportLatest) exportLatest.disabled = !state.canWaitForLatest;
+    if (exportCancel) {
+      exportCancel.hidden = !state.canCancel;
+      exportCancel.disabled = !state.canCancel;
+    }
   };
-  exportTrigger?.addEventListener('click', () => {
-    setExportMenuOpen(exportMenu?.hidden ?? true);
+  applyExactExportState(initialExportState);
+  exportReady?.addEventListener('click', () => {
+    vscode.postMessage({ type: 'exact-export', format: exportFormat?.value });
   });
-  exportMenu?.addEventListener('click', (event) => {
-    const button = event.target.closest('button[data-format]');
-    if (!button) return;
-    setExportMenuOpen(false);
-    exportTrigger?.focus();
-    vscode.postMessage({ type: 'export', format: button.dataset.format });
+  exportDisplayed?.addEventListener('click', () => {
+    vscode.postMessage({ type: 'exact-export', format: exportFormat?.value, staleChoice: 'export-displayed' });
   });
-  exportTrigger?.addEventListener('keydown', (event) => {
-    if (event.key !== 'ArrowDown') return;
-    event.preventDefault();
-    setExportMenuOpen(true, true);
+  exportLatest?.addEventListener('click', () => {
+    vscode.postMessage({ type: 'exact-export', format: exportFormat?.value, staleChoice: 'wait-for-latest' });
   });
-  exportMenu?.addEventListener('keydown', (event) => {
-    const current = exportItems.indexOf(document.activeElement);
-    let next = current;
-    if (event.key === 'ArrowDown') next = (current + 1) % exportItems.length;
-    else if (event.key === 'ArrowUp') next = (current - 1 + exportItems.length) % exportItems.length;
-    else if (event.key === 'Home') next = 0;
-    else if (event.key === 'End') next = exportItems.length - 1;
-    else return;
-    event.preventDefault();
-    exportItems[next]?.focus();
-  });
-  document.addEventListener('pointerdown', (event) => {
-    if (!exportControl?.contains(event.target)) setExportMenuOpen(false);
-  });
-  document.addEventListener('keydown', (event) => {
-    if (event.key !== 'Escape' || exportMenu?.hidden) return;
-    event.preventDefault();
-    setExportMenuOpen(false);
-    exportTrigger?.focus();
+  exportCancel?.addEventListener('click', () => {
+    exportCancel.disabled = true;
+    if (exportStatus) exportStatus.textContent = 'Cancelling exact export…';
+    vscode.postMessage({ type: 'exact-export-cancel' });
   });
 </script>
 </html>`;
@@ -1778,6 +2002,13 @@ function escapeHtml(value: string): string {
     "\"": "&quot;",
     "'": "&#39;"
   })[character]!);
+}
+
+function scriptJson(value: unknown): string {
+  return JSON.stringify(value)
+    .replaceAll("<", "\\u003c")
+    .replaceAll("\u2028", "\\u2028")
+    .replaceAll("\u2029", "\\u2029");
 }
 
 function createLayout(root: HTMLElement) {

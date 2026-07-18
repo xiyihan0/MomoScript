@@ -358,6 +358,18 @@ export class PreviewArtifactStore implements RuntimeOwnedResource {
     this.#documents.set(sourceUri, next);
     return next;
   }
+  fail(sourceUri: string, renderKey?: RenderKey): PreviewDocumentState {
+    const previous = this.document(sourceUri);
+    if (renderKey && previous.requestedRenderKey && previous.requestedRenderKey !== renderKey) return previous;
+    const next = Object.freeze({
+      ...previous,
+      requestedRenderKey: renderKey ?? previous.requestedRenderKey,
+      status: "failed",
+    } satisfies PreviewDocumentState);
+    this.#documents.set(sourceUri, next);
+    return next;
+  }
+
 
   closeSource(sourceUri: string): void { this.#documents.delete(sourceUri); }
 

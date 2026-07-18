@@ -23,7 +23,14 @@ test("Web and Desktop preview interactions stay artifact-bound", async ({ page }
     await route.continue();
   });
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 120_000 });
+  await expect.poll(async () => {
+    const startup = await page.evaluate(() => ({
+      stage: document.documentElement.dataset.mmtStage,
+      error: Reflect.get(globalThis, "__mmtStartupError"),
+    }));
+    if (startup.stage === "failed") throw new Error(String(startup.error ?? "Editor startup failed"));
+    return startup.stage;
+  }, { timeout: 120_000 }).toBe("mmt-ready");
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => page.evaluate(() => Reflect.get(globalThis, "__mmtDisplayedPreviewSourceUri")?.())).not.toBeUndefined();
 
@@ -56,15 +63,20 @@ test("Web and Desktop preview interactions stay artifact-bound", async ({ page }
   await expect(desktopPreview.locator(".preview-cursor")).toHaveCount(0);
   await expect(desktopPreview.locator(".preview-indicator")).toHaveCount(0);
 
-  await page.evaluate(() => (Reflect.get(globalThis, "__mmtWriteAndShowWorkspaceDocument") as Function)(
-    "interaction-b.typ",
-    "#set page(width: 280pt, height: 180pt)\n= Interaction B\n",
-  ));
+  await page.evaluate(async () => {
+    const openDocument = Reflect.get(globalThis, "__mmtOpenWorkspaceDocument");
+    if (typeof openDocument !== "function") throw new Error("workspace document fixture is unavailable");
+    await openDocument("interaction-b.typ", "#set page(width: 280pt, height: 180pt)\n= Interaction B\n");
+  });
   await callFixture(page, { action: "install-immutable" });
   desktopPreview = await previewWebviewFrame(page);
   await desktopPreview.getByRole("button", { name: "Fit page" }).click();
   expect((await interactionState(page)).viewport.fitMode).toBe("page");
-  await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("intro.typ"));
+  await page.evaluate(async () => {
+    const showDocument = Reflect.get(globalThis, "__mmtShowWorkspaceDocument");
+    if (typeof showDocument !== "function") throw new Error("workspace show fixture is unavailable");
+    await showDocument("intro.typ");
+  });
   await callFixture(page, { action: "install-immutable" });
   desktopPreview = await previewWebviewFrame(page);
   const restoredIntro = (await interactionState(page)).viewport;
