@@ -5,6 +5,7 @@ import { RuntimeOwner, disposeWithFallback, type RuntimeOwnedResource } from "./
 import { OriginStorageCoordinator } from "./originStorage.ts";
 import { TypstPackageCacheStorageOwner } from "./packageCacheStorage.ts";
 import { PreviewArtifactStore } from "./previewArtifact.ts";
+import { ExactExportService, type ExactExportPorts } from "./exactExport.ts";
 
 export type EditorRuntimeState = "starting" | "ready" | "quiescing" | "disposing" | "disposed";
 
@@ -17,6 +18,7 @@ export interface PreviewProjectRevision {
 /** Typed production Web state whose lifetime is exactly one editor runtime. */
 export class WebEditorRuntimeStores implements RuntimeOwnedResource {
   readonly previewArtifacts: PreviewArtifactStore;
+  readonly exactExport: ExactExportService | undefined;
   readonly previewProjects = new Map<string, TypstRenderProjectUpdate>();
   readonly packSourcesByNamespace = new Map<string, MaterializationPackSource>();
   readonly latestProjectBySource = new Map<string, PreviewProjectRevision>();
@@ -32,8 +34,11 @@ export class WebEditorRuntimeStores implements RuntimeOwnedResource {
   readonly renderRequestIdBySource = new Map<string, number>();
   readonly persistenceByUri = new Map<string, Promise<void>>();
 
-  constructor(captureAcceptedPreviewProjects = false) {
+  constructor(captureAcceptedPreviewProjects = false, exactExportPorts?: ExactExportPorts) {
     this.previewArtifacts = new PreviewArtifactStore(32 * 1024 * 1024);
+    this.exactExport = exactExportPorts
+      ? new ExactExportService({ ...exactExportPorts, artifacts: this.previewArtifacts })
+      : undefined;
     this.acceptedPreviewLanguageProjects = captureAcceptedPreviewProjects
       ? new Map<string, TypstProjectUpdate>()
       : undefined;
@@ -62,6 +67,7 @@ export class WebEditorRuntimeStores implements RuntimeOwnedResource {
 
   dispose(): void {
     this.abortMaterializations();
+    this.exactExport?.dispose();
     this.previewArtifacts.dispose();
     this.previewProjects.clear();
     this.packSourcesByNamespace.clear();
@@ -82,6 +88,7 @@ export class WebEditorRuntimeStores implements RuntimeOwnedResource {
 export interface EditorRuntimeControllerOptions {
   readonly disposeDeadlineMs?: number;
   readonly captureAcceptedPreviewProjects?: boolean;
+  readonly exactExport?: ExactExportPorts;
 }
 
 /**
@@ -106,7 +113,10 @@ export class EditorRuntimeController {
 
   constructor(options: EditorRuntimeControllerOptions = {}) {
     this.#disposeDeadlineMs = checkedDeadline(options.disposeDeadlineMs ?? 750);
-    this.stores = this.#owner.add(new WebEditorRuntimeStores(options.captureAcceptedPreviewProjects));
+    this.stores = this.#owner.add(new WebEditorRuntimeStores(
+      options.captureAcceptedPreviewProjects,
+      options.exactExport,
+    ));
   }
 
   get state(): EditorRuntimeState { return this.#state; }

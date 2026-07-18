@@ -242,15 +242,17 @@ Every item in this section is enabled only if the active artifact advertises the
 
 ## 9. Exact-snapshot export
 
-- [ ] 9.1 Bind displayed SVG, page geometry and renderer inputs to immutable `RenderKey`
-- [ ] 9.2 Mark displayed preview stale immediately when authored source or any render dependency advances
-- [ ] 9.3 Export SVG/PNG/JPEG only from the displayed sanitized SVG artifact
-- [ ] 9.4 Reconstruct PDF compilation from immutable files/resources/fonts/runtime represented by the displayed key
-- [ ] 9.5 Fail with `ArtifactUnavailable` rather than using mutable current shadow files after eviction
+- [x] 9.1 Bind displayed SVG, page geometry and renderer inputs to immutable `RenderKey`
+- [x] 9.2 Mark displayed preview stale immediately when authored source or any render dependency advances
+- [x] 9.3 Export SVG/PNG/JPEG only from the displayed sanitized SVG artifact
+- [x] 9.4 Reconstruct PDF compilation from immutable files/resources/fonts/runtime represented by the displayed key
+- [x] 9.5 Fail with `ArtifactUnavailable` rather than using mutable current shadow files after eviction
 - [ ] 9.6 Offer explicit `export displayed revision` or `wait for latest` when preview is stale
-- [ ] 9.7 Reject export from partial or failed preview state
-- [ ] 9.8 Add races for export during source edit, materialization, render completion and backend/runtime update
-- [ ] 9.9 Verify output metadata and content correspond to the requested `RenderKey`
+- [x] 9.7 Reject export from partial or failed preview state
+- [x] 9.8 Add races for export during source edit, materialization, render completion and backend/runtime update
+- [x] 9.9 Verify output metadata and content correspond to the requested `RenderKey`
+
+Evidence (W4-D): `npm run check`, `npm run test:exact-export`, `npm run test:preview-artifact`, `npm run test:preview-interaction`, `npm run test:runtime-controller`, `npm run test:runtime-owner`, and `npm run test:origin-storage` pass. The exact-export fixture covers displayed A in SVG/PNG/JPEG/PDF after current B, wait-latest B, all six advance causes, immutable-input/artifact eviction, partial/failed rejection, pin release/disposal, and SHA-256 metadata. An isolated Vite browser smoke imported the host-neutral service and observed `ExportChoiceRequired`, `ArtifactUnavailable`, and only the explicitly selected displayed-A download.
 
 ## 10. Diagnostics, status and observability
 

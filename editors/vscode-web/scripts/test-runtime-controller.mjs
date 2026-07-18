@@ -143,6 +143,23 @@ await assert.rejects(packageCacheStorage.registerExisting({
   invalidateDependents() {},
 }), /disposed/, "the package cache store must share the runtime lifecycle");
 
+const exactExportRuntime = new EditorRuntimeController({
+  exactExport: {
+    raster: { async encode() { throw new Error("not exercised"); } },
+    pdf: { async compile() { throw new Error("not exercised"); } },
+    latest: { async waitForLatest() { throw new Error("not exercised"); } },
+  },
+});
+await exactExportRuntime.start(() => {});
+const runtimeOwnedExactExport = exactExportRuntime.stores.exactExport;
+assert.ok(runtimeOwnedExactExport, "production runtime stores must own the injected exact export service");
+assert.deepEqual(runtimeOwnedExactExport.availability("mmtfs://workspace/story.mmt"), {
+  kind: "unavailable",
+  reason: "ArtifactUnavailable",
+});
+await exactExportRuntime.dispose();
+assert.throws(() => runtimeOwnedExactExport.advance("mmtfs://workspace/story.mmt", "source"), /disposed/);
+
 console.log(JSON.stringify({
   serializedStartup: true,
   reverseStartupRollback: true,
@@ -153,4 +170,5 @@ console.log(JSON.stringify({
   unloadImmediateTermination: true,
   controllerOwnedTypedStores: true,
   originPackageStorageOwnership: true,
+  exactExportLifecycleOwnership: true,
 }));
