@@ -105,6 +105,14 @@ export interface TypstProviderResolveRequest<Item> {
   readonly metadata: TypstProviderResolveMetadata;
 }
 
+export interface RoutedStandaloneTypstProviderResult<Method extends TypstProviderMethod> {
+  readonly method: Method;
+  readonly value: TypstProviderRequests[Method]["result"];
+  readonly identity: TinymistRequestIdentity;
+  readonly positionContext: TypstProviderPositionContext;
+  readonly capability: TypstProviderRegistrationContract;
+}
+
 interface GuardedBackendPosition extends RetainedBackendPosition {
   readonly identity: TinymistRequestIdentity;
 }
@@ -259,6 +267,56 @@ export class TypstFeatureRouter {
       identity: metadata.identity,
       metadata
     });
+  }
+
+  /** Routes a qualified standalone provider through the shared generation/snapshot dispatcher. */
+  async standaloneProvider<Method extends TypstProviderMethod>(
+    host: TypstProviderHost,
+    method: Method,
+    document: TypstRouterDocument,
+    params: TypstProviderRequests[Method]["params"],
+    token: CancellationToken
+  ): Promise<RoutedStandaloneTypstProviderResult<Method> | undefined> {
+    if (document.languageId !== "typst") return undefined;
+    const capability = this.providerCapability(host, method);
+    if (capability.kind !== "QualifiedProvider") return undefined;
+    const route = this.standaloneRoute(document);
+    if (!route) return undefined;
+    const routedParams = routeTextDocument(params, route.entryUri) as TypstProviderRequests[Method]["params"];
+    const value = await this.request(method, routedParams, route.identity, token);
+    if (value === undefined) return undefined;
+    const positionContext = this.providerPositionContext(route.identity, route.entryUri);
+    validateTypstProviderPositions(method, value, positionContext);
+    return Object.freeze({ method, value, identity: route.identity, positionContext, capability });
+  }
+
+  /** Resolves only host-authenticated items that still match the retained backend generation. */
+  async standaloneProviderResolve<Method extends TypstProviderMethod>(
+    host: TypstProviderHost,
+    method: Method,
+    item: TypstProviderRequests[Method]["params"],
+    token: CancellationToken
+  ): Promise<RoutedStandaloneTypstProviderResult<Method> | undefined> {
+    const capability = this.providerCapability(host, method);
+    if (capability.kind !== "QualifiedProvider") return undefined;
+    const resolve = this.providerResolveRequest(method, item);
+    if (!resolve) return undefined;
+    const value = await this.request(
+      method,
+      resolve.item as TypstProviderRequests[Method]["params"],
+      resolve.identity,
+      token
+    );
+    if (value === undefined) return undefined;
+    const entryUri = this.entryByHostUri.get(resolve.identity.sourceStaleToken.hostUri);
+    if (!entryUri) return undefined;
+    const positionContext = this.providerPositionContext(resolve.identity, entryUri);
+    validateTypstProviderPositions(method, value, positionContext);
+    return Object.freeze({ method, value, identity: resolve.identity, positionContext, capability });
+  }
+
+  providerIdentityIsCurrent(identity: TinymistRequestIdentity): boolean {
+    return this.identityIsCurrent(identity);
   }
 
   async completion(
@@ -559,17 +617,38 @@ export class TypstFeatureRouter {
     return retained.index;
   }
 
-  private async request<Method extends BaselineTypstMethod>(
+  private providerPositionContext(
+    identity: TinymistRequestIdentity,
+    entryUri: string
+  ): TypstProviderPositionContext {
+    const project = this.backend.projectForEntry(entryUri);
+    if (!project) throw new PositionConversionError("AbsentGeneration");
+    return Object.freeze({
+      sourceUri: identity.sourceStaleToken.hostUri,
+      sourceIndex: this.sourceIndex(identity),
+      encoding: this.backendEncoding,
+      retainedIndex: (uri: string) => {
+        try {
+          return retainedProjectIndex(project, uri);
+        } catch (error) {
+          if (error instanceof PositionConversionError) return undefined;
+          throw error;
+        }
+      }
+    });
+  }
+
+  private async request<Method extends keyof TypstRouterRequests & string>(
     method: Method,
-    params: BaselineTypstRequests[Method]["params"],
+    params: TypstRouterRequests[Method]["params"],
     identity: TinymistRequestIdentity,
     token: CancellationToken
-  ): Promise<BaselineTypstRequests[Method]["result"] | undefined> {
+  ): Promise<TypstRouterRequests[Method]["result"] | undefined> {
     const controller = new AbortController();
     if (token.isCancellationRequested) controller.abort(new Error("VS Code request cancelled"));
     const subscription = token.onCancellationRequested(() => controller.abort(new Error("VS Code request cancelled")));
     try {
-      return await this.dispatcher.request(method, params as never, identity, controller.signal) as BaselineTypstRequests[Method]["result"];
+      return await this.dispatcher.request(method, params as never, identity, controller.signal) as TypstRouterRequests[Method]["result"];
     } catch (error) {
       if (error instanceof TinymistDispatchError) return undefined;
       throw error;
@@ -598,6 +677,11 @@ export class TypstFeatureRouter {
     }
     return state;
   }
+}
+
+function routeTextDocument(params: unknown, entryUri: string): unknown {
+  if (!isRecord(params) || !("textDocument" in params)) return params;
+  return { ...params, textDocument: { uri: entryUri } };
 }
 
 function hasCanonicalProjectIdentity(
