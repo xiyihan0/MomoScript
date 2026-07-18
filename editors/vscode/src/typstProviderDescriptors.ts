@@ -214,13 +214,6 @@ const CODE_LENS_UNSAFE = Object.freeze({
   sameOptions: true,
   reason: "fixed artifacts return an effectful export command and advertise no resolve provider"
 });
-const INLAY_HINT_UNAVAILABLE = Object.freeze({
-  classification: "unavailable" as const,
-  native: true,
-  web: true,
-  sameOptions: true,
-  reason: "fixed native returns null and Web returns no inlay-hint result for the checked positive fixture"
-});
 const NOT_ADVERTISED = Object.freeze({
   classification: "unavailable" as const,
   native: false,
@@ -244,7 +237,7 @@ export const FIXED_TINYMIST_PROVIDER_QUALIFICATION: Readonly<Record<TypstProvide
   documentLinkProvider: RICH_CORE_REQUIRED,
   colorProvider: RICH_HOST_OPTIONAL,
   codeActionProvider: RICH_HOST_OPTIONAL,
-  inlayHintProvider: INLAY_HINT_UNAVAILABLE,
+  inlayHintProvider: RICH_HOST_OPTIONAL,
   codeLensProvider: CODE_LENS_UNSAFE
 });
 

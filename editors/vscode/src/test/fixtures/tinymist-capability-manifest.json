@@ -147,10 +147,10 @@
       "web": true
     },
     {
-      "classification": "unavailable",
+      "classification": "host-optional",
       "key": "inlayHintProvider",
       "native": true,
-      "reason": "native returns null and Worker returns no result for the checked positive fixture",
+      "reason": "qualified independently by native and Web rich-provider transcripts",
       "sameOptions": true,
       "web": true
     },

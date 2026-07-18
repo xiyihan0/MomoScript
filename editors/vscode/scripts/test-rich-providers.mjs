@@ -196,13 +196,13 @@ const registrations = new RichTypstProviderRegistrations(router, backend, client
 registrations.reconcile();
 const registered = Object.fromEntries(__host.registrations.map((item) => [item.kind, item]));
 assert.deepEqual(Object.keys(registered).sort(), [
-  "codeAction", "color", "documentLink", "formatting", "rangeFormatting", "rename"
+  "codeAction", "color", "documentLink", "formatting", "inlayHint", "rangeFormatting", "rename"
 ]);
 assert.equal(registered.codeLens, undefined, "unqualified effectful code lens registered");
-assert.equal(registered.inlayHint, undefined, "unqualified inlay provider registered");
 assert.deepEqual(registered.codeAction.metadata.providedCodeActionKinds, ["quickfix"]);
 assert.equal(typeof registered.documentLink.provider.resolveDocumentLink, "function");
 assert.equal(typeof registered.codeAction.provider.resolveCodeAction, "function");
+assert.equal(typeof registered.inlayHint.provider.resolveInlayHint, "function");
 
 const cancellationToken = () => {
   const handlers = new Set();
@@ -232,6 +232,11 @@ assert.equal((await registered.color.provider.provideColorPresentations(
   token
 )).length, 1);
 assert.equal((await registered.codeAction.provider.provideCodeActions(document, range, { diagnostics: [] }, token)).length, 1);
+const hints = await registered.inlayHint.provider.provideInlayHints(document, range, token);
+assert.equal(hints.length, 1);
+assert.equal(hints[0].label[0].command, undefined, "effectful inlay command crossed publication boundary");
+const resolvedHint = await registered.inlayHint.provider.resolveInlayHint(hints[0], token);
+assert.equal(resolvedHint.label, "name");
 
 responses.set("textDocument/colorPresentation", [{
   label: "overlap",
@@ -267,7 +272,7 @@ capabilities.install(2, initialize);
 assert.equal(await registered.documentLink.provider.resolveDocumentLink(restartLinks[0], token), undefined,
   "resolve metadata survived backend generation restart");
 registrations.reconcile();
-assert(__host.registrations.slice(0, 6).every((item) => item.disposed), "restart did not dispose old providers");
+assert(__host.registrations.slice(0, 7).every((item) => item.disposed), "restart did not dispose old providers");
 capabilities.clear(2);
 registrations.reconcile();
 assert(__host.registrations.every((item) => item.disposed), "capability removal left providers registered");
@@ -276,7 +281,7 @@ registrations.dispose();
 console.log(JSON.stringify({
   checked: true,
   registered: Object.keys(registered).sort(),
-  unavailable: ["codeLens", "inlayHint"],
+  unavailable: ["codeLens"],
   atomicUnsafePayloadsRejected: true,
   cancellationRejected: true,
   resolveRestartRejected: true,

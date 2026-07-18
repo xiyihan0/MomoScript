@@ -465,7 +465,8 @@ const fixedQualifiedProviderMethods = [
   "textDocument/documentLink",
   "textDocument/documentColor",
   "textDocument/colorPresentation",
-  "textDocument/codeAction"
+  "textDocument/codeAction",
+  "textDocument/inlayHint"
 ];
 assert.deepEqual(nativeProviderRouter.providerRegistrations("native").map((item) => item.descriptor.method),
   fixedQualifiedProviderMethods, "native provider registrations diverged from checked qualification");

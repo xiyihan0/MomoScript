@@ -10,10 +10,10 @@
     "documentRangeFormattingProvider": "core-required",
     "documentLinkProvider": "core-required",
     "colorProvider": "host-optional",
-    "codeActionProvider": "host-optional"
+    "codeActionProvider": "host-optional",
+    "inlayHintProvider": "host-optional"
   },
   "unavailableProviders": {
-    "inlayHintProvider": "native returns null and Worker returns no result for the checked positive fixture",
     "codeLensProvider": "effectful export command with resolveProvider=false"
   },
   "native": {
@@ -27,10 +27,10 @@
       "documentLink": true,
       "documentColor": true,
       "colorPresentation": true,
-      "codeAction": true
+      "codeAction": true,
+      "inlayHint": true
     },
     "unavailable": {
-      "inlayHint": "native returns null and Worker returns no result for the checked positive fixture",
       "codeLens": "effectful export command with resolveProvider=false"
     },
     "responseKinds": {
@@ -42,7 +42,7 @@
       "documentColor": "array:1",
       "colorPresentation": "array:10",
       "codeAction": "array:3",
-      "inlayHint": "null",
+      "inlayHint": "array:2",
       "codeLens": "array:1",
       "signatureHelp": "null"
     }
@@ -58,10 +58,10 @@
       "documentLink": true,
       "documentColor": true,
       "colorPresentation": true,
-      "codeAction": true
+      "codeAction": true,
+      "inlayHint": true
     },
     "unavailable": {
-      "inlayHint": "native returns null and Worker returns no result for the checked positive fixture",
       "codeLens": "effectful export command with resolveProvider=false"
     },
     "responseKinds": {
@@ -73,7 +73,7 @@
       "documentColor": "array:1",
       "colorPresentation": "array:10",
       "codeAction": "array:3",
-      "inlayHint": "undefined",
+      "inlayHint": "array:2",
       "codeLens": "array:1",
       "signatureHelp": "undefined"
     }

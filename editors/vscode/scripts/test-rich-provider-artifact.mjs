@@ -16,6 +16,8 @@ if (mode !== "native" && mode !== "worker") {
 const sourceText = [
   "#let greet(name) = [Hello #name]",
   "#greet(\"MMT\")",
+  "#let f(x, y) = x + y",
+  "#f(1, 2)",
   "#let shade=rgb(\"ff0000\")",
   "#read(\"base.typ\")",
   "$ $",
@@ -30,7 +32,7 @@ function probeRequests(uri) {
     ["formatting", "textDocument/formatting", { ...document, options: { tabSize: 2, insertSpaces: true } }],
     ["rangeFormatting", "textDocument/rangeFormatting", {
       ...document,
-      range: { start: { line: 0, character: 0 }, end: { line: 4, character: 3 } },
+      range: { start: { line: 0, character: 0 }, end: { line: 6, character: 3 } },
       options: { tabSize: 2, insertSpaces: true }
     }],
     ["documentLink", "textDocument/documentLink", document],
@@ -38,16 +40,16 @@ function probeRequests(uri) {
     ["colorPresentation", "textDocument/colorPresentation", {
       ...document,
       color: { red: 1, green: 0, blue: 0, alpha: 1 },
-      range: { start: { line: 2, character: 11 }, end: { line: 2, character: 24 } }
+      range: { start: { line: 4, character: 11 }, end: { line: 4, character: 24 } }
     }],
     ["codeAction", "textDocument/codeAction", {
       ...document,
-      range: { start: { line: 4, character: 0 }, end: { line: 4, character: 3 } },
+      range: { start: { line: 6, character: 0 }, end: { line: 6, character: 3 } },
       context: { diagnostics: [] }
     }],
     ["inlayHint", "textDocument/inlayHint", {
       ...document,
-      range: { start: { line: 0, character: 0 }, end: { line: 1, character: 13 } }
+      range: { start: { line: 2, character: 0 }, end: { line: 3, character: 8 } }
     }],
     ["codeLens", "textDocument/codeLens", document],
     ["signatureHelp", "textDocument/signatureHelp", {
@@ -103,7 +105,7 @@ function assertProbe(host, initialize, probes) {
   assert(Array.isArray(probes.documentColor) && probes.documentColor.length > 0, `${host} document-color positive result`);
   assert(Array.isArray(probes.colorPresentation) && probes.colorPresentation.length > 0, `${host} color-presentation positive result`);
   assert(probes.codeAction === null || Array.isArray(probes.codeAction), `${host} code-action protocol result`);
-  assert.equal(probes.inlayHint, host === "native" ? null : undefined, `${host} inlay-hint negative transcript`);
+  assert(Array.isArray(probes.inlayHint) && probes.inlayHint.length > 0, `${host} inlay-hint positive transcript`);
   assert(Array.isArray(probes.codeLens) && probes.codeLens.some((item) => item.command?.command === "tinymist.exportPdf"),
     `${host} code-lens unsafe-command negative transcript`);
   assert.equal(capabilities.codeLensProvider.resolveProvider, false, `${host} code-lens resolve must remain disabled`);
@@ -119,9 +121,9 @@ function assertProbe(host, initialize, probes) {
       documentColor: true,
       colorPresentation: true,
       codeAction: true,
+      inlayHint: true
     },
     unavailable: {
-      inlayHint: "native returns null and Worker returns no result for the checked positive fixture",
       codeLens: "effectful export command with resolveProvider=false"
     },
     responseKinds: Object.fromEntries(Object.entries(probes).map(([name, value]) => [

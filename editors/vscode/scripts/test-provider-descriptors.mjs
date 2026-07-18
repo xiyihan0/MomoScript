@@ -111,7 +111,8 @@ const fixedQualifiedMethods = [
   "textDocument/documentLink",
   "textDocument/documentColor",
   "textDocument/colorPresentation",
-  "textDocument/codeAction"
+  "textDocument/codeAction",
+  "textDocument/inlayHint"
 ];
 assert.deepEqual(nativeQualification.registrations().map((item) => item.descriptor.method), fixedQualifiedMethods,
   "native provider qualification diverged from checked evidence");
@@ -119,7 +120,7 @@ assert.deepEqual(webQualification.registrations().map((item) => item.descriptor.
   "Web provider qualification diverged from checked evidence");
 assert.equal(nativeQualification.capability("textDocument/definition").kind, "QualifiedProvider");
 assert.equal(nativeQualification.capability("textDocument/definition").qualification, "core-required");
-assert.equal(webQualification.capability("textDocument/inlayHint").classification, "deferred");
+assert.equal(webQualification.capability("textDocument/inlayHint").qualification, "host-optional");
 assert.equal(webQualification.capability("textDocument/typeDefinition").classification, "unavailable");
 
 const resolveRegistry = new TinymistCapabilityRegistry();
@@ -284,7 +285,7 @@ const validPayload = validateTypstProviderPayload(payload({
 assert.equal(validPayload.kind, "Validated");
 assert.equal(validPayload.edits[0].uri, sourceUri);
 assert.equal(validateTypstProviderPayload(payload({
-  capability: nativeQualification.capability("textDocument/inlayHint")
+  capability: nativeQualification.capability("textDocument/codeLens")
 })).kind, "CapabilityUnavailable");
 assert.equal(validateTypstProviderPayload(payload({
   current: { ...identity, projectSnapshot: "new-project" }
