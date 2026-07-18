@@ -8,6 +8,7 @@ import {
 } from "vscode-languageclient/node";
 
 import { clientOptions } from "./clientOptions";
+import { DesktopPreviewService, type DesktopStaleExportChoice } from "./desktopPreview";
 import { DesktopTypstPackageCache, TypstPackageFileSystemProvider } from "./desktopTypstPackageCache";
 import { TinymistProcessClient } from "./tinymistProcessClient";
 import { syncConfiguredPackManifests } from "./resourcePacks";
@@ -17,6 +18,7 @@ import { TypstPackageService } from "./typstPackageService";
 
 let client: LanguageClient | undefined;
 let tinymist: TinymistProcessClient | undefined;
+let preview: DesktopPreviewService | undefined;
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   context.subscriptions.push(registerMmtLanguageEditing());
@@ -63,13 +65,23 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     options
   );
   client = activeClient;
-  client.onNotification("mmt/previewRequested", () => {
-    // The preview backend will consume this revision-bound event in the next slice.
-  });
-  if (tinymist) context.subscriptions.push(...connectTypstBackend(activeClient, tinymist, "native"));
+  await vscode.commands.executeCommand("setContext", "mmt.desktopPreviewAvailable", tinymist !== undefined);
+  if (tinymist) {
+    preview = new DesktopPreviewService(activeClient, tinymistCommand, context.globalStorageUri);
+    context.subscriptions.push(
+      preview,
+      vscode.commands.registerCommand("mmt.previewDesktop", async () => await preview?.preview()),
+      vscode.commands.registerCommand(
+        "mmt.exportPdfDesktop",
+        async (destination?: vscode.Uri, staleChoice?: DesktopStaleExportChoice) =>
+          await preview?.exportPdf(undefined, destination, staleChoice)
+      ),
+      ...connectTypstBackend(activeClient, tinymist, "native")
+    );
+  }
   await client.start();
   try {
-    await syncConfiguredPackManifests(context, activeClient);
+    preview?.setPackSources(await syncConfiguredPackManifests(context, activeClient));
   } catch (error) {
     void vscode.window.showWarningMessage(
       `MomoScript resource packs are unavailable: ${error instanceof Error ? error.message : String(error)}`
@@ -81,7 +93,9 @@ export async function deactivate(): Promise<void> {
   try {
     await client?.stop();
   } finally {
+    preview?.dispose();
     await tinymist?.stop();
+    preview = undefined;
     tinymist = undefined;
   }
 }

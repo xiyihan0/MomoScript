@@ -217,6 +217,7 @@ export class LatestExactArtifactWaiter implements LatestPreviewPort, RuntimeOwne
       waiters.add(waiter);
       this.#waiters.set(sourceUri, waiters);
       signal.addEventListener("abort", waiter.abort, { once: true });
+      if (signal.aborted) waiter.abort();
     });
   }
 

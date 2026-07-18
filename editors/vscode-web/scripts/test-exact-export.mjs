@@ -7,6 +7,7 @@ import {
   PreviewNotExportableError,
 } from "../src/exactExport.ts";
 import { PreviewArtifactStore, createPreviewArtifact } from "../src/previewArtifact.ts";
+import { LatestExactArtifactWaiter } from "../src/exactExportUi.ts";
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
@@ -309,12 +310,43 @@ assert.throws(() => abortingService.advance(sourceUri, "source"), /disposed/);
 abortStore.put(artifact("render-after-dispose", "D"));
 assert.equal(abortStore.get(a.renderKey), undefined, "released pins must not survive service disposal");
 abortStore.dispose();
+const latestWaiter = new LatestExactArtifactWaiter();
+latestWaiter.publish(sourceUri, a.renderKey);
+const firstWaitAbort = new AbortController();
+const firstWait = latestWaiter.waitForLatest(sourceUri, a.renderKey, firstWaitAbort.signal);
+firstWaitAbort.abort(new DOMException("cancel first wait", "AbortError"));
+await assert.rejects(firstWait, (error) => error?.name === "AbortError");
+const retriedWait = latestWaiter.waitForLatest(sourceUri, a.renderKey, new AbortController().signal);
+let retriedSettled = false;
+void retriedWait.then(() => { retriedSettled = true; });
+latestWaiter.publish(sourceUri, a.renderKey);
+await Promise.resolve();
+assert.equal(retriedSettled, false, "retry resolved without a new renderKey");
+latestWaiter.publish(sourceUri, b.renderKey);
+assert.equal(await retriedWait, b.renderKey, "retry did not resolve to the new renderKey");
+
+const setupAbort = new DOMException("abort during waiter setup", "AbortError");
+const racingSignal = {
+  aborted: false,
+  reason: setupAbort,
+  throwIfAborted() {},
+  addEventListener() { this.aborted = true; },
+  removeEventListener() {},
+};
+await assert.rejects(
+  latestWaiter.waitForLatest(sourceUri, b.renderKey, racingSignal),
+  (error) => error === setupAbort,
+);
+latestWaiter.dispose();
+
 service.dispose();
 store.dispose();
 
 console.log(JSON.stringify({
   displayedFourFormats: true,
   waitLatestExactB: true,
+  waitLatestCancelRetry: true,
+  waitLatestSetupAbortRace: true,
   sixAdvanceRaces: causes,
   artifactAndInputEviction: true,
   partialAndFailedRejected: true,

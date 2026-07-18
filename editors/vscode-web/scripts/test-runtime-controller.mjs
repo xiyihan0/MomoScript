@@ -67,10 +67,12 @@ await deadline.start((runtime) => {
   runtime.registerTermination(() => { deadlineTerminations += 1; });
   runtime.own({ async dispose() { await new Promise(() => {}); } });
 });
+deadline.stores.previewProjects.set("deadline-source", {});
 await deadline.dispose(5, () => { deadlineFallbacks += 1; });
 assert.equal(deadlineTerminations, 1, "a missed graceful deadline must synchronously invoke termination fallback");
 assert.equal(deadlineFallbacks, 1);
 assert.equal(deadline.state, "disposed");
+assert.equal(deadline.stores.previewProjects.size, 0, "deadline fallback must synchronously clear retained runtime stores");
 deadline.terminate();
 assert.equal(deadlineTerminations, 1, "termination fallback must be idempotent");
 
@@ -80,8 +82,10 @@ await unload.start((runtime) => {
   runtime.registerTermination(() => { unloadTerminations += 1; });
   runtime.own({ async dispose() { await Promise.resolve(); } });
 });
+unload.stores.previewProjects.set("source", {});
 unload.terminateAndDispose();
 assert.equal(unloadTerminations, 1, "unload must terminate synchronously before returning");
+assert.equal(unload.stores.previewProjects.size, 0, "hard termination must synchronously clear retained runtime stores");
 await unload.dispose();
 unload.terminateAndDispose();
 assert.equal(unloadTerminations, 1);

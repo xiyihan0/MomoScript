@@ -1,0 +1,224 @@
+name: Editor Runtime
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: editor-runtime-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 22.22.0
+  RUST_TOOLCHAIN: 1.92.0
+  WASM_PACK_VERSION: 0.15.0
+  TINYMIST_REVISION: 3d63da4f93c54ddef0c63e1a6237d67aee13f5fe
+
+jobs:
+  core-native:
+    name: core-native
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Rust toolchain
+        run: |
+          rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal
+          rustup default "$RUST_TOOLCHAIN"
+      - name: Test Rust language core
+        run: cargo test --locked --manifest-path mmt_rs/Cargo.toml --all-targets
+      - name: Test native language server
+        run: cargo test --locked --manifest-path mmt_lsp/Cargo.toml --all-targets
+
+  tinymist-compatibility:
+    name: tinymist-compatibility
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: editors/vscode/package-lock.json
+      - name: Install pinned Rust and wasm-pack
+        run: |
+          rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
+          rustup default "$RUST_TOOLCHAIN"
+          cargo install wasm-pack --version "$WASM_PACK_VERSION" --locked
+      - name: Install extension dependencies
+        working-directory: editors/vscode
+        run: npm ci
+      - name: Check out pinned Tinymist source
+        run: |
+          git clone --filter=blob:none https://github.com/Myriad-Dreamin/tinymist.git "$RUNNER_TEMP/tinymist"
+          git -C "$RUNNER_TEMP/tinymist" checkout --detach "$TINYMIST_REVISION"
+      - name: Restore pinned Tinymist artifacts
+        id: tinymist-artifact-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ runner.temp }}/tinymist/target/release/tinymist
+            ${{ runner.temp }}/tinymist/crates/tinymist/pkg/tinymist.js
+            ${{ runner.temp }}/tinymist/crates/tinymist/pkg/tinymist_bg.wasm
+          key: tinymist-v1-${{ runner.os }}-${{ runner.arch }}-${{ env.RUST_TOOLCHAIN }}-${{ env.TINYMIST_REVISION }}-${{ hashFiles('third_party/tinymist/pin.json', 'third_party/tinymist/patches/*.patch') }}
+      - name: Apply maintained patch and verify pinned artifacts
+        env:
+          TINYMIST_SRC: ${{ runner.temp }}/tinymist
+          CACHE_HIT: ${{ steps.tinymist-artifact-cache.outputs.cache-hit }}
+        run: |
+          if [ "$CACHE_HIT" = "true" ]; then
+            node editors/vscode/scripts/patch-tinymist-artifacts.mjs promote
+          else
+            node editors/vscode/scripts/patch-tinymist-artifacts.mjs build-promote
+          fi
+      - name: Verify native and Web compatibility transcripts
+        working-directory: editors/vscode
+        env:
+          TINYMIST_BIN: ${{ runner.temp }}/tinymist/target/release/tinymist
+          TINYMIST_WEB_PKG: ${{ runner.temp }}/tinymist/crates/tinymist/pkg
+        run: |
+          npm run test:tinymist-process
+          npm run test:tinymist-worker
+      - name: Stage immutable Tinymist artifacts
+        run: |
+          mkdir -p .ci/tinymist/native .ci/tinymist/web
+          cp "$RUNNER_TEMP/tinymist/target/release/tinymist" .ci/tinymist/native/tinymist
+          cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/tinymist.js" .ci/tinymist/web/tinymist.js
+          cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/tinymist_bg.wasm" .ci/tinymist/web/tinymist_bg.wasm
+          cp editors/vscode/vendor/tinymist-0.15.2/SHA256SUMS .ci/tinymist/web/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tinymist-pinned-linux-x64
+          path: .ci/tinymist
+          compression-level: 0
+          if-no-files-found: error
+
+  extension-desktop:
+    name: extension-desktop
+    needs: tinymist-compatibility
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: editors/vscode/package-lock.json
+      - name: Install pinned Rust and wasm-pack
+        run: |
+          rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
+          rustup default "$RUST_TOOLCHAIN"
+          cargo install wasm-pack --version "$WASM_PACK_VERSION" --locked
+      - uses: actions/download-artifact@v4
+        with:
+          name: tinymist-pinned-linux-x64
+          path: .ci/tinymist
+      - name: Install extension dependencies
+        working-directory: editors/vscode
+        run: npm ci
+      - name: Verify Desktop extension contracts
+        working-directory: editors/vscode
+        env:
+          TINYMIST_BIN: ${{ github.workspace }}/.ci/tinymist/native/tinymist
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+        run: |
+          chmod +x "$TINYMIST_BIN"
+          npm run check
+          npm run test:grammar
+          npm run test:position-domains
+          npm run test:capability-manifest
+          npm run test:provider-descriptors
+          npm run test:provider-payload-negative
+          npm run test:projected-edits
+          npm run test:projected-payload
+          node ./scripts/test-navigation-artifacts.mjs
+          node ./scripts/test-navigation-providers.mjs
+          node ./scripts/test-multi-document-projected-edits.mjs
+          npm run test:desktop-preview
+          npm run test:typst-package
+          npm run test:desktop
+
+  extension-web:
+    name: extension-web
+    needs: tinymist-compatibility
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            editors/vscode/package-lock.json
+            editors/vscode-web/package-lock.json
+      - name: Install pinned Rust and wasm-pack
+        run: |
+          rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
+          rustup default "$RUST_TOOLCHAIN"
+          cargo install wasm-pack --version "$WASM_PACK_VERSION" --locked
+      - uses: actions/download-artifact@v4
+        with:
+          name: tinymist-pinned-linux-x64
+          path: .ci/tinymist
+      - name: Install editor dependencies
+        run: |
+          npm ci --prefix editors/vscode
+          npm ci --prefix editors/vscode-web
+      - name: Verify Web extension and runtime contracts
+        env:
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+        run: |
+          npm --prefix editors/vscode run check
+          npm --prefix editors/vscode run test:tinymist-worker
+          npm --prefix editors/vscode run test:web
+          npm --prefix editors/vscode-web run check
+          npm --prefix editors/vscode-web run test:resource-cache
+          npm --prefix editors/vscode-web run test:resource-fetch-cache
+          npm --prefix editors/vscode-web run test:resource-materializer
+          npm --prefix editors/vscode-web run test:preview-diagnostics
+          npm --prefix editors/vscode-web run test:preview-artifact
+          npm --prefix editors/vscode-web run test:runtime-controller
+          npm --prefix editors/vscode-web run test:pwa-quiesce
+          npm --prefix editors/vscode-web run test:workspace-atomic-apply
+          npm --prefix editors/vscode-web run test:origin-storage
+          npm --prefix editors/vscode-web run test:exact-export
+          npm --prefix editors/vscode-web run test:preview-interaction
+
+  production-e2e:
+    name: production-e2e
+    needs: [tinymist-compatibility, extension-web]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            editors/vscode/package-lock.json
+            editors/vscode-web/package-lock.json
+      - uses: actions/download-artifact@v4
+        with:
+          name: tinymist-pinned-linux-x64
+          path: .ci/tinymist
+      - name: Install production editor dependencies
+        run: |
+          npm ci --prefix editors/vscode
+          npm ci --prefix editors/vscode-web
+          npx --prefix editors/vscode-web playwright install --with-deps chrome
+      - name: Run real-Chrome production editor journeys
+        working-directory: editors/vscode-web
+        env:
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+        run: |
+          npm run test:e2e:chrome
+          npm run test:e2e:lifecycle

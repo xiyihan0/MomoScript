@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import type { BaseLanguageClient } from "vscode-languageclient";
 
-import { synchronizePackSources, type PackCacheStore } from "./packSync";
+import { synchronizePackSources, type PackCacheStore, type PackManifestSource } from "./packSync";
 
 const DEFAULT_MANIFEST_URL = "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json";
 const REVISION_KEY = "mmt.resourcePacks.revision";
@@ -65,7 +65,7 @@ class VsCodePackCache implements PackCacheStore {
 export async function syncConfiguredPackManifests(
   context: vscode.ExtensionContext,
   client: BaseLanguageClient
-): Promise<void> {
+): Promise<PackManifestSource[]> {
   const configured = vscode.workspace
     .getConfiguration("mmt")
     .get<string[]>("resourcePacks.manifestUrls", [DEFAULT_MANIFEST_URL]);
@@ -73,7 +73,7 @@ export async function syncConfiguredPackManifests(
   const revision = context.globalState.get<number>(REVISION_KEY, 0) + 1;
   await vscode.workspace.fs.createDirectory(context.globalStorageUri);
 
-  await synchronizePackSources(
+  const sources = await synchronizePackSources(
     urls,
     revision,
     new VsCodePackCache(context),
@@ -94,4 +94,5 @@ export async function syncConfiguredPackManifests(
   for (const url of urls) {
     await context.globalState.update(`mmt.resourcePacks.cache.${new URL(url).href}`, undefined);
   }
+  return sources;
 }

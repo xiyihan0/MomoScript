@@ -1,5 +1,5 @@
 import type { TypstProjectUpdate, TypstRenderProjectUpdate } from "../../vscode/src/tinymistClient";
-import type { MaterializationPackSource } from "./resourceMaterializer";
+import type { MaterializationPackSource } from "../../vscode/src/resourceMaterializer";
 import type { LanguageProjectionToken } from "./languageProjection";
 import { RuntimeOwner, disposeWithFallback, type RuntimeOwnedResource } from "./runtimeOwner.ts";
 import { OriginStorageCoordinator } from "./originStorage.ts";
@@ -240,6 +240,7 @@ export class EditorRuntimeController {
   terminate(): void {
     if (this.#terminated) return;
     this.#terminated = true;
+    this.stores.dispose();
     for (const terminate of this.#terminators) {
       try { terminate(); } catch { /* terminate every owned Worker/process */ }
     }

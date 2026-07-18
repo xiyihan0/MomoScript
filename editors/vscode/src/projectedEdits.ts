@@ -258,15 +258,16 @@ export class ProjectedEditAdapter {
     edits: readonly CollectedProjectedTextEdit[]
   ): ProjectedEditTransaction | ProjectedEditFailure {
     const virtualUris = [...new Set(edits.map((edit) => edit.virtualUri))];
-    const documents: ResolvedProjectedEditDocument[] = [];
+    const documentsByUri = new Map<string, ResolvedProjectedEditDocument>();
+    const retainedUriByBackendUri = new Map<string, string>();
     for (const virtualUri of virtualUris) {
       let resolved: ResolvedProjectedEditDocument | ProjectedEditFailure;
-      if (virtualUri === route.entryUri) {
+      if (equivalentTinymistProjectedUri(virtualUri, route.entryUri)) {
         if (!route.identity.projectionKey) {
           return Object.freeze({ kind: "StaleProjection", reason: "request projection identity is absent" });
         }
         resolved = {
-          virtualUri,
+          virtualUri: route.entryUri,
           sourceContent: route.identity.sourceContent,
           projectionKey: route.identity.projectionKey,
           encoding: route.encoding,
@@ -285,8 +286,18 @@ export class ProjectedEditAdapter {
       if (projectedVersions.size > 1 || (projectedVersions.size === 1 && !projectedVersions.has(resolved.projectedVersion))) {
         return Object.freeze({ kind: "StaleProjection", reason: "backend edit version does not match its retained projection" });
       }
-      documents.push(resolved);
+      const existing = documentsByUri.get(resolved.virtualUri);
+      if (existing !== undefined
+        && (existing.sourceContent !== resolved.sourceContent
+          || existing.projectionKey !== resolved.projectionKey
+          || existing.authoredUri !== resolved.authoredUri
+          || existing.authoredVersion !== resolved.authoredVersion)) {
+        return unsafe("projected URI aliases resolve to conflicting retained identities");
+      }
+      documentsByUri.set(resolved.virtualUri, resolved);
+      retainedUriByBackendUri.set(virtualUri, resolved.virtualUri);
     }
+    const documents = [...documentsByUri.values()];
 
     const expectedByUri = new Map<string, number>();
     for (const document of documents) {
@@ -306,7 +317,10 @@ export class ProjectedEditAdapter {
         projectionKey: document.projectionKey,
         encoding: document.encoding
       }))),
-      edits: Object.freeze(edits.map(({ projectedVersion: _projectedVersion, ...edit }) => Object.freeze(edit))),
+      edits: Object.freeze(edits.map(({ projectedVersion: _projectedVersion, ...edit }) => Object.freeze({
+        ...edit,
+        virtualUri: retainedUriByBackendUri.get(edit.virtualUri) as string
+      }))),
       expectedVersions: Object.freeze([...expectedByUri].map(([uri, version]) => Object.freeze({ uri, version })))
     });
   }
@@ -322,9 +336,11 @@ export class TinymistProjectedEditDocumentResolver implements ProjectedEditDocum
     virtualUri: string,
     encoding: "utf-8" | "utf-16"
   ): ResolvedProjectedEditDocument | ProjectedEditFailure {
-    const project = this.backend.projectForEntry(virtualUri);
+    const alias = tinymistHierarchicalProjectedUri(virtualUri);
+    const project = this.backend.projectForEntry(virtualUri)
+      ?? (alias === undefined ? undefined : this.backend.projectForEntry(alias));
     if (!project) return unsafe("backend edit targets an unretained projected document");
-    if (project.entryUri !== virtualUri) {
+    if (!equivalentTinymistProjectedUri(virtualUri, project.entryUri)) {
       return Object.freeze({ kind: "ReadOnlyTarget" as const, uri: virtualUri });
     }
     const authoredUri = canonicalUri(project.sourceUri);
@@ -336,7 +352,7 @@ export class TinymistProjectedEditDocumentResolver implements ProjectedEditDocum
       return Object.freeze({ kind: "StaleProjection" as const, reason: "projected target document version is not current" });
     }
     return Object.freeze({
-      virtualUri,
+      virtualUri: project.entryUri,
       projectedVersion: project.revision,
       sourceContent: project.sourceContent,
       projectionKey: project.projectionKey,
@@ -360,7 +376,7 @@ export class ProjectedTypstEditProviders implements vscode.Disposable {
     private readonly adapter: ProjectedEditAdapter = new ProjectedEditAdapter(
       new LanguageClientProjectedEditValidator(client),
       vscode.workspace,
-      new AtomicWorkspaceEditMultiDocumentEditApplier(vscode.workspace),
+      new CapabilityUnavailableMultiDocumentEditApplier(),
       new TinymistProjectedEditDocumentResolver(backend, vscode.workspace)
     )
   ) {}
@@ -718,6 +734,24 @@ function canonicalUri(value: string): string | undefined {
   } catch {
     return undefined;
   }
+}
+
+function equivalentTinymistProjectedUri(candidate: string, retained: string): boolean {
+  const canonicalCandidate = canonicalUri(candidate);
+  const canonicalRetained = canonicalUri(retained);
+  if (canonicalCandidate === undefined || canonicalRetained === undefined) return false;
+  if (canonicalCandidate === canonicalRetained) return true;
+  return tinymistHierarchicalProjectedUri(canonicalCandidate) === canonicalRetained;
+}
+
+/**
+ * Tinymist 0.15.2 serializes `untitled:/mmt-projection/...` edit targets as
+ * `untitled:mmt-projection/...`. Accept only that pinned, projection-root alias;
+ * arbitrary opaque/hierarchical URI pairs remain distinct.
+ */
+function tinymistHierarchicalProjectedUri(value: string): string | undefined {
+  const match = /^untitled:mmt-projection\/(.+)$/.exec(value);
+  return match === null ? undefined : `untitled:/mmt-projection/${match[1]}`;
 }
 
 function utf8ByteOffsetsToUtf16(text: string, offsets: readonly number[]): number[] | undefined {

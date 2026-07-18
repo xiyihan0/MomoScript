@@ -25,10 +25,7 @@ pub struct AnalyzedDocument {
     pub resolution: Option<ResourceResolution>,
 }
 
-pub fn analyze_text(
-    source: &str,
-    catalog: &impl CharacterPresetCatalog,
-) -> AnalyzedDocument {
+pub fn analyze_text(source: &str, catalog: &impl CharacterPresetCatalog) -> AnalyzedDocument {
     let document = crate::parse_text(source);
     let document_config = lower_document(&document);
     let modes = resolve_body_modes(&document);

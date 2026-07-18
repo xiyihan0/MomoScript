@@ -23,6 +23,7 @@ const navigationQualified = new Set([
   "documentSymbolProvider",
   "workspaceSymbolProvider",
   "documentHighlightProvider",
+  "selectionRangeProvider",
 ]);
 const transcriptQualified = new Set([...baselineQualified, ...navigationQualified]);
 const richQualified = new Map(Object.entries(richQualification.qualifiedProviders));

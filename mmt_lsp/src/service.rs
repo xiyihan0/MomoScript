@@ -105,13 +105,19 @@ impl LanguageService {
             .map(|(index, source)| {
                 let value = serde_json::from_str(source)
                     .map_err(|error| format!("pack manifest {index} is invalid JSON: {error}"))?;
-                Ok(mmt_rs::canonical_json_digest("mmt-pack-manifest-v1", &value))
+                Ok(mmt_rs::canonical_json_digest(
+                    "mmt-pack-manifest-v1",
+                    &value,
+                ))
             })
             .collect::<Result<Vec<_>, String>>()?;
         manifest_digests.sort();
         let pack_registry_digest = mmt_rs::canonical_bytes_digest(
             "mmt-pack-registry-v1",
-            &manifest_digests.iter().map(|digest| digest.as_bytes()).collect::<Vec<_>>(),
+            &manifest_digests
+                .iter()
+                .map(|digest| digest.as_bytes())
+                .collect::<Vec<_>>(),
         );
         let manifests = sources
             .iter()
@@ -183,24 +189,32 @@ impl LanguageService {
     fn upsert(&mut self, uri: Url, version: i32, text: String) -> &DocumentSnapshot {
         let revision = self.next_revision;
         self.next_revision += 1;
-        let (analysis, pack_revision, pack_registry_digest) = if let Some(registry) = &self.pack_registry {
-            (
-                mmt_rs::analyze_text_with_pack(&text, registry),
-                Some(self.pack_revision),
-                self.pack_registry_digest.clone(),
-            )
-        } else {
-            (
-                mmt_rs::analyze_text(&text, &StaticPresetCatalog::default()),
-                None,
-                self.pack_registry_digest.clone(),
-            )
-        };
+        let (analysis, pack_revision, pack_registry_digest) =
+            if let Some(registry) = &self.pack_registry {
+                (
+                    mmt_rs::analyze_text_with_pack(&text, registry),
+                    Some(self.pack_revision),
+                    self.pack_registry_digest.clone(),
+                )
+            } else {
+                (
+                    mmt_rs::analyze_text(&text, &StaticPresetCatalog::default()),
+                    None,
+                    self.pack_registry_digest.clone(),
+                )
+            };
         self.analysis_builds += 1;
         self.authored_line_index_builds += 1;
         self.documents.insert(
             uri.clone(),
-            DocumentSnapshot::new(version, revision, text, analysis, pack_revision, pack_registry_digest),
+            DocumentSnapshot::new(
+                version,
+                revision,
+                text,
+                analysis,
+                pack_revision,
+                pack_registry_digest,
+            ),
         );
         &self.documents[&uri]
     }
@@ -218,9 +232,8 @@ impl LanguageService {
             return Vec::new();
         };
         let diagnostics = if document.pack_revision.is_some() {
-            diagnose_analyzed_with_pack(&document.analysis, &EmitOptions::default()).expect(
-                "document with a pack revision must contain pack resource analysis",
-            )
+            diagnose_analyzed_with_pack(&document.analysis, &EmitOptions::default())
+                .expect("document with a pack revision must contain pack resource analysis")
         } else {
             diagnose_analyzed(&document.analysis, &EmitOptions::default())
         };
@@ -285,7 +298,9 @@ impl LanguageService {
         let Some(document) = self.snapshot(uri) else {
             return Vec::new();
         };
-        document.analysis.document
+        document
+            .analysis
+            .document
             .nodes
             .iter()
             .filter_map(|node| self.symbol(document, node))
@@ -350,7 +365,9 @@ impl LanguageService {
         let Some(document) = self.snapshot(uri) else {
             return Vec::new();
         };
-        document.analysis.document
+        document
+            .analysis
+            .document
             .nodes
             .iter()
             .filter_map(|node| self.folding_range(document, node))
@@ -501,12 +518,17 @@ impl LanguageService {
         }
 
         let statement_start = line_start + before_cursor.len() - trimmed.len();
-        let statement_patch = document.analysis.document.nodes.iter().find_map(|node| match node {
-            SyntaxNode::Statement(statement) if statement.range.start == statement_start => {
-                statement.patch.as_ref().map(|patch| patch.range)
-            }
-            _ => None,
-        });
+        let statement_patch = document
+            .analysis
+            .document
+            .nodes
+            .iter()
+            .find_map(|node| match node {
+                SyntaxNode::Statement(statement) if statement.range.start == statement_start => {
+                    statement.patch.as_ref().map(|patch| patch.range)
+                }
+                _ => None,
+            });
         if let Some(speaker_prefix) =
             statement_speaker_prefix(trimmed, statement_start, offset, statement_patch)
         {
@@ -588,14 +610,20 @@ impl LanguageService {
             }
         }
 
-        let Some(block) = document.analysis.document.nodes.iter().find_map(|node| match node {
-            SyntaxNode::DirectiveBlock(block)
-                if block.range.start <= offset && offset <= block.range.end =>
-            {
-                Some(block)
-            }
-            _ => None,
-        }) else {
+        let Some(block) = document
+            .analysis
+            .document
+            .nodes
+            .iter()
+            .find_map(|node| match node {
+                SyntaxNode::DirectiveBlock(block)
+                    if block.range.start <= offset && offset <= block.range.end =>
+                {
+                    Some(block)
+                }
+                _ => None,
+            })
+        else {
             return Vec::new();
         };
         let block_name = block.name.as_str();
@@ -1237,14 +1265,19 @@ impl LanguageService {
         let mut items = HashMap::<String, CompletionItem>::new();
         let actors = &document.analysis.actors;
 
-        let statement_kind = document.analysis.document.nodes.iter().find_map(|node| match node {
-            SyntaxNode::Statement(statement)
-                if statement.range.start <= start && start <= statement.range.end =>
-            {
-                Some(statement.kind)
-            }
-            _ => None,
-        });
+        let statement_kind = document
+            .analysis
+            .document
+            .nodes
+            .iter()
+            .find_map(|node| match node {
+                SyntaxNode::Statement(statement)
+                    if statement.range.start <= start && start <= statement.range.end =>
+                {
+                    Some(statement.kind)
+                }
+                _ => None,
+            });
         if let Some(statement_kind) =
             statement_kind.filter(|kind| *kind != StatementKind::Narration)
         {
@@ -1884,40 +1917,76 @@ mod tests {
             "entities":{"花子":{"names":["花子"]}}
         }"#;
         let mut service = LanguageService::default();
-        service.update_pack_manifests(1, &[manifest.to_string()]).unwrap();
+        service
+            .update_pack_manifests(1, &[manifest.to_string()])
+            .unwrap();
         service.open(
             uri(),
             1,
             "@mode: nonsense\n@actor broken\nunknown: x\n@end\n@asset bad\nsrc: ../bad.png\n@end\n- [:#0:]\n@actor hanako\npreset: ba::花子\n@end\n> hanako: [:missing:]\n@typ: #let =\n@end".to_string(),
         );
         let diagnostics = service.diagnostics(&uri());
-        let has_phase = |phase: &str| diagnostics.iter().any(|diagnostic| {
-            diagnostic.data.as_ref().and_then(|data| data.get("phase")).and_then(|value| value.as_str()) == Some(phase)
-        });
-        assert!(has_phase("syntax"), "syntax diagnostics must be published: {diagnostics:#?}");
-        assert!(has_phase("semantic"), "semantic diagnostics must be published: {diagnostics:#?}");
-        assert!(has_phase("resolve"), "pack resolve/planning diagnostics must be published: {diagnostics:#?}");
-        assert!(has_phase("typst"), "placeholder Typst-check diagnostics must be published: {diagnostics:#?}");
+        let has_phase = |phase: &str| {
+            diagnostics.iter().any(|diagnostic| {
+                diagnostic
+                    .data
+                    .as_ref()
+                    .and_then(|data| data.get("phase"))
+                    .and_then(|value| value.as_str())
+                    == Some(phase)
+            })
+        };
+        assert!(
+            has_phase("syntax"),
+            "syntax diagnostics must be published: {diagnostics:#?}"
+        );
+        assert!(
+            has_phase("semantic"),
+            "semantic diagnostics must be published: {diagnostics:#?}"
+        );
+        assert!(
+            has_phase("resolve"),
+            "pack resolve/planning diagnostics must be published: {diagnostics:#?}"
+        );
+        assert!(
+            has_phase("typst"),
+            "placeholder Typst-check diagnostics must be published: {diagnostics:#?}"
+        );
         for expected in [
             "unknown body mode",
             "unknown @actor field",
             "local asset src must be a sanitized basename",
             "bare sticker selector requires an explicit actor speaker or subject",
         ] {
-            assert!(diagnostics.iter().any(|diagnostic| diagnostic.message.contains(expected)), "missing {expected:?} diagnostic: {diagnostics:#?}");
+            assert!(
+                diagnostics
+                    .iter()
+                    .any(|diagnostic| diagnostic.message.contains(expected)),
+                "missing {expected:?} diagnostic: {diagnostics:#?}"
+            );
         }
         let unique = diagnostics
             .iter()
-            .map(|diagnostic| (
-                diagnostic.range.start.line,
-                diagnostic.range.start.character,
-                diagnostic.range.end.line,
-                diagnostic.range.end.character,
-                diagnostic.message.as_str(),
-                diagnostic.data.as_ref().and_then(|data| data.get("phase")).and_then(|phase| phase.as_str()),
-            ))
+            .map(|diagnostic| {
+                (
+                    diagnostic.range.start.line,
+                    diagnostic.range.start.character,
+                    diagnostic.range.end.line,
+                    diagnostic.range.end.character,
+                    diagnostic.message.as_str(),
+                    diagnostic
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.get("phase"))
+                        .and_then(|phase| phase.as_str()),
+                )
+            })
             .collect::<std::collections::HashSet<_>>();
-        assert_eq!(unique.len(), diagnostics.len(), "live diagnostics must not be duplicated");
+        assert_eq!(
+            unique.len(),
+            diagnostics.len(),
+            "live diagnostics must not be duplicated"
+        );
     }
 
     #[test]

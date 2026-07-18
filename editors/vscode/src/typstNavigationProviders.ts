@@ -5,6 +5,7 @@ import type {
   DocumentHighlight,
   DocumentSymbol,
   Location,
+  SelectionRange,
   SymbolInformation,
   WorkspaceSymbol
 } from "vscode-languageserver-protocol";
@@ -28,7 +29,8 @@ const NAVIGATION_METHODS: Readonly<Partial<Record<TypstNavigationProviderMethod,
   "textDocument/references": true,
   "textDocument/documentSymbol": true,
   "workspace/symbol": true,
-  "textDocument/documentHighlight": true
+  "textDocument/documentHighlight": true,
+  "textDocument/selectionRange": true
 });
 
 /** Dynamic, capability-qualified registrations for standalone read-only navigation. */
@@ -209,6 +211,29 @@ export class TypstNavigationProviders implements vscode.Disposable {
             return routed
               ? await this.client.protocol2CodeConverter.asDocumentHighlights(
                   this.convert(routed) as DocumentHighlight[] | null,
+                  token
+                )
+              : undefined;
+          }
+        });
+      case "textDocument/selectionRange":
+        return vscode.languages.registerSelectionRangeProvider(selector, {
+          provideSelectionRanges: async (document, positions, token) => {
+            const routed = await this.router.standaloneProvider(
+              this.host,
+              method,
+              routerDocument(document),
+              {
+                textDocument: { uri: document.uri.toString() },
+                positions: positions.map((position) =>
+                  this.client.code2ProtocolConverter.asPosition(position)
+                )
+              },
+              token
+            );
+            return routed
+              ? await this.client.protocol2CodeConverter.asSelectionRanges(
+                  this.convert(routed) as SelectionRange[] | null,
                   token
                 )
               : undefined;

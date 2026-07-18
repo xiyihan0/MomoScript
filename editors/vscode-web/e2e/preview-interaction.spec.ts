@@ -70,8 +70,7 @@ test("Web and Desktop preview interactions stay artifact-bound", async ({ page }
   });
   await callFixture(page, { action: "install-immutable" });
   desktopPreview = await previewWebviewFrame(page);
-  await desktopPreview.getByRole("button", { name: "Fit page" }).click();
-  expect((await interactionState(page)).viewport.fitMode).toBe("page");
+  await expect.poll(async () => (await interactionState(page)).viewport.fitMode).toBe("width");
   await page.evaluate(async () => {
     const showDocument = Reflect.get(globalThis, "__mmtShowWorkspaceDocument");
     if (typeof showDocument !== "function") throw new Error("workspace show fixture is unavailable");

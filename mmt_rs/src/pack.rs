@@ -456,9 +456,7 @@ impl PackRegistry {
                 if !is_safe_pack_path(&thumbnail.path) {
                     errors.push(validation_error(
                         Some(namespace),
-                        format!(
-                            "thumbnail '{resource_id}' contains an unsafe pack-relative path"
-                        ),
+                        format!("thumbnail '{resource_id}' contains an unsafe pack-relative path"),
                     ));
                 }
             }
@@ -1056,8 +1054,16 @@ mod tests {
         .unwrap();
         let errors = PackRegistry::new(vec![invalid]).unwrap_err();
 
-        assert!(errors.iter().any(|error| error.message.contains("must reference image-dir")));
-        assert!(errors.iter().any(|error| error.message.contains("references missing storage")));
+        assert!(
+            errors
+                .iter()
+                .any(|error| error.message.contains("must reference image-dir"))
+        );
+        assert!(
+            errors
+                .iter()
+                .any(|error| error.message.contains("references missing storage"))
+        );
         assert_eq!(
             errors
                 .iter()

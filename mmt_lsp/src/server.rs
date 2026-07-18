@@ -296,27 +296,37 @@ impl MmtLanguageServer {
             }
             "mmt/typstPosition" => {
                 let params: TypstPositionParams = decode(params)?;
-                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding()) else {
+                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding())
+                else {
                     return Ok(Value::Null);
                 };
-                encode(self.projections.project_position(
-                    &params.text_document.uri,
-                    MmtClientPosition::new(params.position),
-                    client_encoding,
-                    params.backend_encoding,
-                ).ok())
+                encode(
+                    self.projections
+                        .project_position(
+                            &params.text_document.uri,
+                            MmtClientPosition::new(params.position),
+                            client_encoding,
+                            params.backend_encoding,
+                        )
+                        .ok(),
+                )
             }
             "mmt/typstRange" => {
                 let params: TypstRangeParams = decode(params)?;
-                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding()) else {
+                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding())
+                else {
                     return Ok(Value::Null);
                 };
-                encode(self.projections.project_range(
-                    &params.text_document.uri,
-                    params.range,
-                    client_encoding,
-                    params.backend_encoding,
-                ).ok())
+                encode(
+                    self.projections
+                        .project_range(
+                            &params.text_document.uri,
+                            params.range,
+                            client_encoding,
+                            params.backend_encoding,
+                        )
+                        .ok(),
+                )
             }
             "mmt/validateProjectedEdit" => {
                 let transaction: ProjectedEditTransaction = decode(params)?;
@@ -339,7 +349,10 @@ impl MmtLanguageServer {
                         }
                     })
                     .collect::<Vec<_>>();
-                match self.projections.validate_projected_edit(&transaction, &targets) {
+                match self
+                    .projections
+                    .validate_projected_edit(&transaction, &targets)
+                {
                     Ok(validated) => Ok(serde_json::json!({
                         "kind": "Validated",
                         "documents": validated.documents.into_iter().map(|document| serde_json::json!({
@@ -357,7 +370,8 @@ impl MmtLanguageServer {
             }
             "mmt/mapTypstCompletion" => {
                 let params: MapTypstCompletionParams = decode(params)?;
-                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding()) else {
+                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding())
+                else {
                     return Ok(Value::Null);
                 };
                 let Ok(document) = self.projections.response_generation(
@@ -370,14 +384,19 @@ impl MmtLanguageServer {
                 ) else {
                     return Ok(Value::Null);
                 };
-                let mapped = params.items.into_iter().map(|item| {
-                    document.map_completion_item(item, params.backend_encoding, client_encoding)
-                }).collect::<Result<Vec<_>, _>>();
+                let mapped = params
+                    .items
+                    .into_iter()
+                    .map(|item| {
+                        document.map_completion_item(item, params.backend_encoding, client_encoding)
+                    })
+                    .collect::<Result<Vec<_>, _>>();
                 encode(mapped.ok())
             }
             "mmt/mapTypstHover" => {
                 let mut params: MapTypstHoverParams = decode(params)?;
-                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding()) else {
+                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding())
+                else {
                     return Ok(Value::Null);
                 };
                 let Ok(document) = self.projections.response_generation(
@@ -404,7 +423,8 @@ impl MmtLanguageServer {
             }
             "mmt/mapTypstDiagnostics" => {
                 let params: MapTypstDiagnosticsParams = decode(params)?;
-                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding()) else {
+                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding())
+                else {
                     return Ok(Value::Null);
                 };
                 let Ok(document) = self.projections.response_generation(
@@ -417,29 +437,44 @@ impl MmtLanguageServer {
                 ) else {
                     return Ok(Value::Null);
                 };
-                let mapped = params.diagnostics.into_iter().map(|diagnostic| {
-                    document.map_diagnostic(diagnostic, params.backend_encoding, client_encoding)
-                }).collect::<Result<Vec<_>, _>>();
+                let mapped = params
+                    .diagnostics
+                    .into_iter()
+                    .map(|diagnostic| {
+                        document.map_diagnostic(
+                            diagnostic,
+                            params.backend_encoding,
+                            client_encoding,
+                        )
+                    })
+                    .collect::<Result<Vec<_>, _>>();
                 encode(mapped.ok())
             }
             "mmt/mapTypstReadLocations" => {
                 let params: MapTypstReadLocationsParams = decode(params)?;
-                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding()) else {
+                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding())
+                else {
                     return Ok(Value::Null);
                 };
-                encode(params.locations.into_iter().map(|location| {
-                    self.projections.classify_response_location(
-                        &params.source_uri,
-                        &params.entry_uri,
-                        params.revision,
-                        &params.source_content,
-                        &params.project_digest,
-                        &params.projection_key,
-                        location,
-                        params.backend_encoding,
-                        client_encoding,
-                    )
-                }).collect::<Vec<_>>())
+                encode(
+                    params
+                        .locations
+                        .into_iter()
+                        .map(|location| {
+                            self.projections.classify_response_location(
+                                &params.source_uri,
+                                &params.entry_uri,
+                                params.revision,
+                                &params.source_content,
+                                &params.project_digest,
+                                &params.projection_key,
+                                location,
+                                params.backend_encoding,
+                                client_encoding,
+                            )
+                        })
+                        .collect::<Vec<_>>(),
+                )
             }
             "mmt/getTypstProject" => {
                 let params: GetTypstProjectParams = decode(params)?;
@@ -1082,7 +1117,9 @@ mod tests {
                 }),
             )
             .unwrap();
-        let stale = server.request("mmt/validateProjectedEdit", transaction).unwrap();
+        let stale = server
+            .request("mmt/validateProjectedEdit", transaction)
+            .unwrap();
         assert_eq!(stale["kind"], "StaleProjection");
         assert_eq!(stale["reason"], "retiredProjection");
     }
@@ -1144,7 +1181,11 @@ mod tests {
         assert_eq!(delta.params["full"], false);
         assert_eq!(delta.params["files"].as_array().unwrap().len(), 1);
         assert_eq!(delta.params["files"][0]["uri"], delta.params["entryUri"]);
-        assert!(events.iter().any(|event| event.method == "textDocument/publishDiagnostics"));
+        assert!(
+            events
+                .iter()
+                .any(|event| event.method == "textDocument/publishDiagnostics")
+        );
 
         let missing = server
             .request(
@@ -1252,11 +1293,13 @@ mod tests {
             .find(|event| event.method == "mmt/typstProjectUpdated")
             .expect("standard didChange project update");
         assert_eq!(project.params["full"], true);
-        assert!(project.params["files"]
-            .as_array()
-            .unwrap()
-            .iter()
-            .any(|file| file.get("dataBase64").is_some()));
+        assert!(
+            project.params["files"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|file| file.get("dataBase64").is_some())
+        );
     }
 
     #[test]
@@ -1457,7 +1500,12 @@ mod tests {
         assert_eq!(reads[0]["kind"], "authoredIdentity");
         assert_eq!(reads[0]["uri"], uri.as_str());
         assert_eq!(reads[1]["kind"], "generatedProjection");
-        assert!(reads[1]["uri"].as_str().unwrap().starts_with("mmt-projection:"));
+        assert!(
+            reads[1]["uri"]
+                .as_str()
+                .unwrap()
+                .starts_with("mmt-projection:")
+        );
         assert_eq!(reads[2]["kind"], "workspaceTypst");
         assert_eq!(reads[3]["kind"], "packageFile");
 
@@ -1698,8 +1746,7 @@ mod tests {
                 "@document\nunknown: value\n@end".to_string(),
             )
             .clone();
-        let error = document_config_response(&invalid, &PositionEncodingKind::UTF16)
-        .unwrap_err();
+        let error = document_config_response(&invalid, &PositionEncodingKind::UTF16).unwrap_err();
         assert!(error.message.contains("unknown @document field"));
     }
 

@@ -1,22 +1,25 @@
 use base64::Engine;
-use std::{collections::{BTreeMap, HashMap, VecDeque}, sync::Arc};
+use std::{
+    collections::{BTreeMap, HashMap, VecDeque},
+    sync::Arc,
+};
 
 use lsp_types::{
     CompletionItem, CompletionTextEdit, Diagnostic, InsertReplaceEdit, Location, Position,
     PositionEncodingKind, Range, TextEdit, Url,
 };
-#[cfg(test)]
-use mmt_rs::{StaticPresetCatalog, project_text};
 use mmt_rs::{
     AnalyzedDocument, EmitOptions, LogicalProjectFileId, MappingMode, PROJECTION_PLACEHOLDER_IMAGE,
     ProjectDigestInput, ProjectedEditFailure, ProjectedEditTarget, ProjectedEditTransaction,
-    ProjectionEdit, ProjectionError, ProjectionKey, ProjectionKind,
-    ProjectionMappingKind, ProjectionMappingResult, RetainedProjectedDocument, SourceContentKey,
-    TypstProjectSnapshotKey, TypstProjection, ValidatedProjectedEditTransaction,
-    canonical_bytes_digest, canonical_json_digest, logical_source_id,
-    normalize_projected_edit_uri, project_analyzed, project_analyzed_with_pack,
-    project_snapshot_key, projection_key, source_content_key, validate_projected_edit_transaction,
+    ProjectionEdit, ProjectionError, ProjectionKey, ProjectionKind, ProjectionMappingKind,
+    ProjectionMappingResult, RetainedProjectedDocument, SourceContentKey, TypstProjectSnapshotKey,
+    TypstProjection, ValidatedProjectedEditTransaction, canonical_bytes_digest,
+    canonical_json_digest, logical_source_id, normalize_projected_edit_uri, project_analyzed,
+    project_analyzed_with_pack, project_snapshot_key, projection_key, source_content_key,
+    validate_projected_edit_transaction,
 };
+#[cfg(test)]
+use mmt_rs::{StaticPresetCatalog, project_text};
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -296,7 +299,11 @@ fn project_identity(
     let path_segments = input
         .source_uri
         .path_segments()
-        .map(|segments| segments.filter(|segment| !segment.is_empty()).collect::<Vec<_>>())
+        .map(|segments| {
+            segments
+                .filter(|segment| !segment.is_empty())
+                .collect::<Vec<_>>()
+        })
         .unwrap_or_default();
     let (workspace_id, relative_segments) = if input.source_uri.scheme() == "file" {
         let workspace = path_segments.first().copied().unwrap_or("workspace");
@@ -317,14 +324,21 @@ fn project_identity(
     let template_bytes = EMBEDDED_TEMPLATE_TEXT_FILES
         .iter()
         .map(|(_, text)| text.as_bytes())
-        .chain(EMBEDDED_TEMPLATE_BINARY_FILES.iter().map(|(_, bytes)| *bytes))
+        .chain(
+            EMBEDDED_TEMPLATE_BINARY_FILES
+                .iter()
+                .map(|(_, bytes)| *bytes),
+        )
         .collect::<Vec<_>>();
     let template_digest = canonical_bytes_digest("mmt-template-bundle-v1", &template_bytes);
     let entry_file = LogicalProjectFileId::generated("authored", &mapping_digest, "main.typ")
         .expect("fixed generated entry identity is canonical");
     let mut files = BTreeMap::from([(
         entry_file.clone(),
-        canonical_bytes_digest("mmt-project-file-v1", &[projection.emitted.source.as_bytes()]),
+        canonical_bytes_digest(
+            "mmt-project-file-v1",
+            &[projection.emitted.source.as_bytes()],
+        ),
     )]);
     for (path, text) in EMBEDDED_TEMPLATE_TEXT_FILES {
         files.insert(
@@ -342,8 +356,12 @@ fn project_identity(
     }
     if profile == "language" {
         files.insert(
-            LogicalProjectFileId::generated("template", &template_digest, PROJECTION_PLACEHOLDER_IMAGE)
-                .expect("fixed placeholder path is canonical"),
+            LogicalProjectFileId::generated(
+                "template",
+                &template_digest,
+                PROJECTION_PLACEHOLDER_IMAGE,
+            )
+            .expect("fixed placeholder path is canonical"),
             canonical_bytes_digest("mmt-project-file-v1", &[EDITOR_PLACEHOLDER_SVG.as_bytes()]),
         );
     }
@@ -353,7 +371,10 @@ fn project_identity(
         entry_file: entry_file.clone(),
         files,
         package_generations: input.pack_revision.map_or_else(BTreeMap::new, |revision| {
-            BTreeMap::from([(format!("registry-generation-{revision}"), input.pack_registry_digest.to_string())])
+            BTreeMap::from([(
+                format!("registry-generation-{revision}"),
+                input.pack_registry_digest.to_string(),
+            )])
         }),
         generated_dependencies: BTreeMap::from([("template".into(), template_digest)]),
         project_options: BTreeMap::from([("profile".into(), profile.into())]),
@@ -367,7 +388,12 @@ fn project_identity(
         &project_digest,
         &mapping_digest,
     );
-    ProjectIdentity { source_content, project_digest, projection_key, mapping_digest }
+    ProjectIdentity {
+        source_content,
+        project_digest,
+        projection_key,
+        mapping_digest,
+    }
 }
 impl ProjectionDocument {
     pub fn project_update(&self) -> TypstProjectUpdate {
@@ -443,7 +469,8 @@ impl ProjectionDocument {
             .mmt_to_typst(mmt_offset.get())
             .map(Utf8ByteOffset::new)
             .ok_or(PositionConversionError::ProjectionMismatch)?;
-        self.typst_lines.backend_position(typst_offset, backend_encoding)
+        self.typst_lines
+            .backend_position(typst_offset, backend_encoding)
     }
 
     pub fn mmt_range_to_typst(
@@ -499,12 +526,16 @@ impl ProjectionDocument {
         client_encoding: PositionEncoding,
     ) -> ProjectedReadLocation {
         if location.uri == self.entry_uri {
-            let Ok(projected) = self.typst_lines.backend_range(location.range, backend_encoding)
+            let Ok(projected) = self
+                .typst_lines
+                .backend_range(location.range, backend_encoding)
             else {
                 return ProjectedReadLocation::stale_unknown();
             };
             return self.mapped_projection_range(
-                self.projection.index.classify_read(projected.into_text_range()),
+                self.projection
+                    .index
+                    .classify_read(projected.into_text_range()),
                 client_encoding,
             );
         }
@@ -559,7 +590,8 @@ impl ProjectionDocument {
                 let Ok(range) = Utf8ByteRange::new(
                     Utf8ByteOffset::new(source.start),
                     Utf8ByteOffset::new(source.end),
-                ).and_then(|source| self.source_lines.mmt_range(source, client_encoding)) else {
+                )
+                .and_then(|source| self.source_lines.mmt_range(source, client_encoding)) else {
                     return ProjectedReadLocation::stale_unknown();
                 };
                 ProjectedReadLocation {
@@ -572,7 +604,8 @@ impl ProjectionDocument {
                 let Ok(range) = Utf8ByteRange::new(
                     Utf8ByteOffset::new(mapped.projected_range.start),
                     Utf8ByteOffset::new(mapped.projected_range.end),
-                ).and_then(|projected| self.typst_lines.mmt_range(projected, client_encoding)) else {
+                )
+                .and_then(|projected| self.typst_lines.mmt_range(projected, client_encoding)) else {
                     return ProjectedReadLocation::stale_unknown();
                 };
                 ProjectedReadLocation {
@@ -628,8 +661,10 @@ impl ProjectionDocument {
                 self.typst_edit_to_mmt(edit, backend_encoding, client_encoding)?,
             )),
             Some(CompletionTextEdit::InsertAndReplace(edit)) => {
-                let insert = self.typst_range_to_mmt(edit.insert, backend_encoding, client_encoding)?;
-                let replace = self.typst_range_to_mmt(edit.replace, backend_encoding, client_encoding)?;
+                let insert =
+                    self.typst_range_to_mmt(edit.insert, backend_encoding, client_encoding)?;
+                let replace =
+                    self.typst_range_to_mmt(edit.replace, backend_encoding, client_encoding)?;
                 Some(CompletionTextEdit::InsertAndReplace(InsertReplaceEdit {
                     new_text: edit.new_text,
                     insert,
@@ -759,9 +794,9 @@ fn render_diagnostics(
             }
             .to_string(),
             message: diagnostic.message.clone(),
-            range: diagnostic.range.and_then(|range| {
-                source_lines.range(source, range, &PositionEncodingKind::UTF16)
-            }),
+            range: diagnostic
+                .range
+                .and_then(|range| source_lines.range(source, range, &PositionEncodingKind::UTF16)),
             labels: diagnostic
                 .labels
                 .iter()
@@ -890,11 +925,13 @@ pub fn build_render_project(
         })
         .collect();
     let identity = project_identity(document.into(), &projection, "render");
-    let mut resource_plan = serde_json::to_value(&resources)
-        .expect("resource plan protocol values are serializable");
+    let mut resource_plan =
+        serde_json::to_value(&resources).expect("resource plan protocol values are serializable");
     if let serde_json::Value::Array(items) = &mut resource_plan {
         for item in items {
-            if let serde_json::Value::Object(fields) = item { fields.remove("uri"); }
+            if let serde_json::Value::Object(fields) = item {
+                fields.remove("uri");
+            }
         }
     }
     let resource_plan_digest = canonical_json_digest("mmt-resource-plan-v1", &resource_plan);
@@ -956,11 +993,8 @@ impl ProjectionStore {
             .checked_add(1)
             .expect("Typst projection revision overflow");
         let entry_uri = virtual_entry_uri(&source_uri, &self.session_id, revision);
-        let projection = project_analyzed(
-            &snapshot.text,
-            &snapshot.analysis,
-            &EmitOptions::default(),
-        )?;
+        let projection =
+            project_analyzed(&snapshot.text, &snapshot.analysis, &EmitOptions::default())?;
         let typst_lines = LineIndex::new(&projection.emitted.source);
         let language_identity = project_identity(
             ProjectIdentityInput {
@@ -1024,7 +1058,9 @@ impl ProjectionStore {
                     .get(source_uri)
                     .into_iter()
                     .chain(self.retained.get(source_uri).into_iter().flatten())
-                    .any(|document| document.entry_uri == *entry_uri || document.revision == revision);
+                    .any(|document| {
+                        document.entry_uri == *entry_uri || document.revision == revision
+                    });
                 Err(if has_related_generation {
                     PositionConversionError::ProjectionMismatch
                 } else {
@@ -1175,14 +1211,17 @@ impl ProjectionStore {
                 source: &document.projection.emitted.source,
                 index: &document.projection.index,
                 authored_target_uri: document.source_uri.as_str(),
-                current: self.documents.get(&document.source_uri).is_some_and(|current| {
-                    current.entry_uri == document.entry_uri && current.revision == document.revision
-                }),
+                current: self
+                    .documents
+                    .get(&document.source_uri)
+                    .is_some_and(|current| {
+                        current.entry_uri == document.entry_uri
+                            && current.revision == document.revision
+                    }),
             })
             .collect::<Vec<_>>();
         validate_projected_edit_transaction(transaction, &retained, targets, true)
     }
-
 }
 
 fn virtual_entry_uri(source_uri: &Url, session_id: &str, revision: u64) -> Url {
@@ -1275,7 +1314,11 @@ mod tests {
     fn maps_only_identity_positions_and_edits() {
         let source = "@typ: #let accent = blue".to_string();
         let mut store = ProjectionStore::default();
-        let document = store.upsert(uri(), &snapshot(1, source.clone(), &StaticPresetCatalog::default()))
+        let document = store
+            .upsert(
+                uri(),
+                &snapshot(1, source.clone(), &StaticPresetCatalog::default()),
+            )
             .unwrap();
         let offset = source.find("accent").unwrap();
         let position = LineIndex::new(&source)
@@ -1384,8 +1427,14 @@ mod tests {
         assert_eq!(generated.uri.unwrap().scheme(), "mmt-projection");
 
         for (target, expected) in [
-            ("file:///workspace/dependency.typ", ProjectionMappingKind::WorkspaceTypst),
-            ("mmt-package:/preview/example/1.0.0/lib.typ?digest=abc", ProjectionMappingKind::PackageFile),
+            (
+                "file:///workspace/dependency.typ",
+                ProjectionMappingKind::WorkspaceTypst,
+            ),
+            (
+                "mmt-package:/preview/example/1.0.0/lib.typ?digest=abc",
+                ProjectionMappingKind::PackageFile,
+            ),
         ] {
             let mapped = document.classify_read_location(
                 Location::new(
@@ -1417,7 +1466,11 @@ mod tests {
         store
             .upsert(
                 uri(),
-                &snapshot(2, "@typ: #let accent = red", &StaticPresetCatalog::default()),
+                &snapshot(
+                    2,
+                    "@typ: #let accent = red",
+                    &StaticPresetCatalog::default(),
+                ),
             )
             .unwrap();
         let retired = store.classify_response_location(
@@ -1427,7 +1480,10 @@ mod tests {
             &old_identity.source_content,
             &old_identity.project_digest,
             &old_identity.projection_key,
-            Location::new(old_entry.clone(), Range::new(projected_position, projected_position)),
+            Location::new(
+                old_entry.clone(),
+                Range::new(projected_position, projected_position),
+            ),
             PositionEncoding::Utf16,
             PositionEncoding::Utf16,
         );
@@ -1437,14 +1493,30 @@ mod tests {
     #[test]
     fn virtual_entry_uri_is_revision_scoped_with_a_stable_project_root() {
         let mut store = ProjectionStore::default();
-        let first = store.upsert(uri(), &snapshot(1, "@typ: #let x = 1".to_string(), &StaticPresetCatalog::default()))
+        let first = store
+            .upsert(
+                uri(),
+                &snapshot(
+                    1,
+                    "@typ: #let x = 1".to_string(),
+                    &StaticPresetCatalog::default(),
+                ),
+            )
             .unwrap();
         let first_entry = first.entry_uri.clone();
         let first_template = first_entry
             .join("typst_sandbox/mmt_render/lib.typ")
             .unwrap();
         let first_revision = first.revision;
-        let second = store.upsert(uri(), &snapshot(1, "@typ: #let x = 2".to_string(), &StaticPresetCatalog::default()))
+        let second = store
+            .upsert(
+                uri(),
+                &snapshot(
+                    1,
+                    "@typ: #let x = 2".to_string(),
+                    &StaticPresetCatalog::default(),
+                ),
+            )
             .unwrap();
         let second_template = second
             .entry_uri
@@ -1455,7 +1527,15 @@ mod tests {
         assert_eq!(second.source_version, 1);
         assert!(second.revision > first_revision);
         let mut next_session = ProjectionStore::default();
-        let next_session_entry = next_session.upsert(uri(), &snapshot(1, "@typ: #let x = 3".to_string(), &StaticPresetCatalog::default()))
+        let next_session_entry = next_session
+            .upsert(
+                uri(),
+                &snapshot(
+                    1,
+                    "@typ: #let x = 3".to_string(),
+                    &StaticPresetCatalog::default(),
+                ),
+            )
             .unwrap()
             .entry_uri
             .clone();
@@ -1467,7 +1547,15 @@ mod tests {
     #[test]
     fn project_update_contains_the_embedded_template_import_graph() {
         let mut store = ProjectionStore::default();
-        let update = store.upsert(uri(), &snapshot(1, "@typ: #let x = 1".to_string(), &StaticPresetCatalog::default()))
+        let update = store
+            .upsert(
+                uri(),
+                &snapshot(
+                    1,
+                    "@typ: #let x = 1".to_string(),
+                    &StaticPresetCatalog::default(),
+                ),
+            )
             .unwrap()
             .project_update();
         let paths = update
@@ -1587,7 +1675,11 @@ mod tests {
     fn maps_wrapper_spanning_diagnostic_to_its_resource_patch() {
         let source = "@asset: hero src:https://example.com/a.png\n- T\"\"\"[:asset, hero:](width: mmt.missing-style-token)\"\"\"";
         let mut store = ProjectionStore::default();
-        let document = store.upsert(uri(), &snapshot(1, source.to_string(), &StaticPresetCatalog::default()))
+        let document = store
+            .upsert(
+                uri(),
+                &snapshot(1, source.to_string(), &StaticPresetCatalog::default()),
+            )
             .unwrap();
         let generated_start = document
             .projection
@@ -1643,11 +1735,14 @@ mod tests {
 
     #[test]
     fn render_project_binds_planning_diagnostics_to_source_revision() {
-        let manifest = mmt_rs::pack::PackManifest::from_json(r#"{
+        let manifest = mmt_rs::pack::PackManifest::from_json(
+            r#"{
             "schema":"mmt-pack.v3",
             "pack":{"namespace":"ba","name":"Test","version":"1","type":"base"},
             "entities":{"花子":{"names":["花子"]}}
-        }"#).unwrap();
+        }"#,
+        )
+        .unwrap();
         let packs = mmt_rs::pack::PackRegistry::new(vec![manifest]).unwrap();
         let source = "@asset hero\nsrc: first.png\n@end\n@asset hero\nsrc: second.png\n@end\n> 花子: [:missing:]";
         let document = stored_pack_document(37, source, &packs, 1);
@@ -1671,7 +1766,10 @@ mod tests {
         assert_eq!(duplicate.phase, "semantic");
         assert!(duplicate.range.is_some());
         assert_eq!(duplicate.labels.len(), 1);
-        assert_eq!(duplicate.labels[0].message.as_deref(), Some("first declaration is here"));
+        assert_eq!(
+            duplicate.labels[0].message.as_deref(),
+            Some("first declaration is here")
+        );
         let unresolved = render
             .diagnostics
             .iter()
@@ -1825,7 +1923,13 @@ mod tests {
         let first = store.upsert(uri(), &first_snapshot).unwrap().clone();
         assert!(Arc::ptr_eq(&first.analysis, &first_snapshot.analysis));
         assert!(Arc::ptr_eq(&first.source_lines, &first_snapshot.lines));
-        assert!(first.projection.emitted.source.contains(PROJECTION_PLACEHOLDER_IMAGE));
+        assert!(
+            first
+                .projection
+                .emitted
+                .source
+                .contains(PROJECTION_PLACEHOLDER_IMAGE)
+        );
         let first_render = build_render_project(&first, 1, None).unwrap();
         assert!(matches!(
             &first_render.resources[0],
@@ -1870,7 +1974,13 @@ mod tests {
         let third = store.upsert(uri(), &after_pack).unwrap();
         assert!(Arc::ptr_eq(&third.analysis, &after_pack.analysis));
         assert!(Arc::ptr_eq(&third.source_lines, &after_pack.lines));
-        assert!(third.projection.emitted.source.contains(PROJECTION_PLACEHOLDER_IMAGE));
+        assert!(
+            third
+                .projection
+                .emitted
+                .source
+                .contains(PROJECTION_PLACEHOLDER_IMAGE)
+        );
         let third_render = build_render_project(third, 2, None).unwrap();
         assert!(matches!(
             &third_render.resources[0],
@@ -1887,59 +1997,84 @@ mod tests {
         first_snapshot.pack_revision = Some(1);
         first_snapshot.pack_registry_digest = "pack-generation-a".into();
         let mut store = ProjectionStore::default();
-        let first = store.upsert(source_uri.clone(), &first_snapshot).unwrap().clone();
+        let first = store
+            .upsert(source_uri.clone(), &first_snapshot)
+            .unwrap()
+            .clone();
         let first_identity = first.project_update();
 
         let mut dependency_advanced = snapshot(1, source, &catalog);
         dependency_advanced.pack_revision = Some(2);
         dependency_advanced.pack_registry_digest = "pack-generation-b".into();
-        let current = store.upsert(source_uri.clone(), &dependency_advanced).unwrap().clone();
+        let current = store
+            .upsert(source_uri.clone(), &dependency_advanced)
+            .unwrap()
+            .clone();
         let current_identity = current.project_update();
-        assert_eq!(first_identity.source_content, current_identity.source_content);
-        assert_ne!(first_identity.project_digest, current_identity.project_digest);
-        assert!(store.response_generation(
-            &source_uri,
-            &current.entry_uri,
-            current.revision,
-            &current_identity.source_content,
-            &current_identity.project_digest,
-            &current_identity.projection_key,
-        ).is_ok());
         assert_eq!(
-            store.response_generation(
-                &source_uri,
-                &current.entry_uri,
-                current.revision,
-                &first_identity.source_content,
-                &first_identity.project_digest,
-                &first_identity.projection_key,
-            ).unwrap_err(),
+            first_identity.source_content,
+            current_identity.source_content
+        );
+        assert_ne!(
+            first_identity.project_digest,
+            current_identity.project_digest
+        );
+        assert!(
+            store
+                .response_generation(
+                    &source_uri,
+                    &current.entry_uri,
+                    current.revision,
+                    &current_identity.source_content,
+                    &current_identity.project_digest,
+                    &current_identity.projection_key,
+                )
+                .is_ok()
+        );
+        assert_eq!(
+            store
+                .response_generation(
+                    &source_uri,
+                    &current.entry_uri,
+                    current.revision,
+                    &first_identity.source_content,
+                    &first_identity.project_digest,
+                    &first_identity.projection_key,
+                )
+                .unwrap_err(),
             PositionConversionError::ProjectionMismatch,
         );
         assert_eq!(
-            store.response_generation(
-                &source_uri,
-                &first.entry_uri,
-                first.revision,
-                &first_identity.source_content,
-                &first_identity.project_digest,
-                &first_identity.projection_key,
-            ).unwrap_err(),
+            store
+                .response_generation(
+                    &source_uri,
+                    &first.entry_uri,
+                    first.revision,
+                    &first_identity.source_content,
+                    &first_identity.project_digest,
+                    &first_identity.projection_key,
+                )
+                .unwrap_err(),
             PositionConversionError::StaleProjection,
         );
 
         store.remove(&source_uri);
-        let reopened = store.upsert(source_uri.clone(), &first_snapshot).unwrap().clone();
+        let reopened = store
+            .upsert(source_uri.clone(), &first_snapshot)
+            .unwrap()
+            .clone();
         assert_ne!(reopened.entry_uri, first.entry_uri);
         assert_eq!(
-            store.response_generation(
-                &source_uri,
-                &first.entry_uri,
-                first.revision,
-                &first_identity.source_content,
-                &first_identity.project_digest,
-                &first_identity.projection_key,
-            ).unwrap_err(),
+            store
+                .response_generation(
+                    &source_uri,
+                    &first.entry_uri,
+                    first.revision,
+                    &first_identity.source_content,
+                    &first_identity.project_digest,
+                    &first_identity.projection_key,
+                )
+                .unwrap_err(),
             PositionConversionError::AbsentGeneration,
         );
     }
@@ -1967,5 +2102,4 @@ mod tests {
             PositionConversionError::AmbiguousGeneration
         );
     }
-
 }

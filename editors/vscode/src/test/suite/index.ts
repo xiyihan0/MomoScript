@@ -327,5 +327,82 @@ export async function run(): Promise<void> {
   assert(facadeHover?.length, "missing template facade hover");
   console.log("[mmt-web-test] template facade hover received");
   await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
+  if (vscode.env.uiKind === vscode.UIKind.Desktop && process.env.MMT_DESKTOP_EXPORT_PATH) {
+    type NativeRender = {
+      readonly sourceVersion: number;
+      readonly renderKey: string;
+      readonly outputUri: vscode.Uri;
+    };
+    const renderDocument = await vscode.workspace.openTextDocument({
+      language: "mmt",
+      content: "@typ: #rect(width: 1cm, height: 1cm, fill: red)"
+    });
+    await vscode.window.showTextDocument(renderDocument);
+    const previewA = await withTimeout(
+      vscode.commands.executeCommand<NativeRender>("mmt.previewDesktop"),
+      "Desktop MomoScript preview timed out",
+      60_000
+    );
+    const svgA = await vscode.workspace.fs.readFile(previewA.outputUri);
+    const exportAUri = vscode.Uri.file(process.env.MMT_DESKTOP_EXPORT_PATH);
+    const displayedAUri = vscode.Uri.file(process.env.MMT_DESKTOP_EXPORT_PATH.replace(/\.pdf$/u, ".displayed-a.pdf"));
+    const latestBUri = vscode.Uri.file(process.env.MMT_DESKTOP_EXPORT_PATH.replace(/\.pdf$/u, ".latest-b.pdf"));
+    const exportA = await withTimeout(
+      vscode.commands.executeCommand<NativeRender>("mmt.exportPdfDesktop", exportAUri),
+      "Desktop MomoScript PDF export timed out",
+      60_000
+    );
+    assert(exportA.renderKey === previewA.renderKey, "current Desktop export lost the displayed render key");
+
+    const edit = new vscode.WorkspaceEdit();
+    edit.replace(
+      renderDocument.uri,
+      new vscode.Range(renderDocument.positionAt(0), renderDocument.positionAt(renderDocument.getText().length)),
+      "@typ: #rect(width: 1cm, height: 1cm, fill: blue)"
+    );
+    assert(await vscode.workspace.applyEdit(edit), "failed to advance Desktop exact-export source");
+    const displayedA = await withTimeout(
+      vscode.commands.executeCommand<NativeRender>(
+        "mmt.exportPdfDesktop",
+        displayedAUri,
+        "export-displayed"
+      ),
+      "Desktop displayed-A export timed out",
+      60_000
+    );
+    const latestB = await withTimeout(
+      vscode.commands.executeCommand<NativeRender>(
+        "mmt.exportPdfDesktop",
+        latestBUri,
+        "wait-for-latest"
+      ),
+      "Desktop wait-latest B export timed out",
+      60_000
+    );
+    const previewB = await withTimeout(
+      vscode.commands.executeCommand<NativeRender>("mmt.previewDesktop"),
+      "Desktop MomoScript B preview timed out",
+      60_000
+    );
+    const svgB = await vscode.workspace.fs.readFile(previewB.outputUri);
+    const pdfA = await vscode.workspace.fs.readFile(exportAUri);
+    const displayedPdfA = await vscode.workspace.fs.readFile(displayedAUri);
+    const pdfB = await vscode.workspace.fs.readFile(latestBUri);
+    const svgAText = new TextDecoder().decode(svgA);
+    const svgBText = new TextDecoder().decode(svgB);
+    for (const pdf of [pdfA, displayedPdfA, pdfB]) {
+      assert(new TextDecoder().decode(pdf.slice(0, 5)) === "%PDF-", "Desktop export did not produce a PDF");
+    }
+    assert(svgAText.startsWith("<svg"), "Desktop preview A did not produce SVG");
+    assert(svgBText.startsWith("<svg"), "Desktop preview B did not produce SVG");
+    assert(svgAText.includes('fill="#ff4136"'), "Desktop preview A did not render Typst red");
+    assert(svgBText.includes('fill="#0074d9"'), "Desktop preview B did not render Typst blue");
+    assert(displayedA.renderKey === previewA.renderKey, "displayed-A export changed RenderKey");
+    assert(latestB.renderKey !== previewA.renderKey, "wait-latest export retained stale RenderKey A");
+    assert(previewB.renderKey === latestB.renderKey, "Desktop preview B disagreed with wait-latest export B");
+    console.log("[mmt-web-test] native preview, displayed-A export and wait-latest B export received");
+    await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
+    await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
+  }
   console.log("[mmt-web-test] complete");
 }

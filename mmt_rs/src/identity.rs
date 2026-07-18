@@ -38,7 +38,11 @@ digest_key!(RuntimeArtifactKey);
 digest_key!(RenderKey);
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
-#[serde(tag = "kind", rename_all = "kebab-case", rename_all_fields = "camelCase")]
+#[serde(
+    tag = "kind",
+    rename_all = "kebab-case",
+    rename_all_fields = "camelCase"
+)]
 pub enum LogicalProjectFileId {
     Workspace {
         logical_workspace_id: String,
@@ -99,8 +103,15 @@ impl LogicalProjectFileId {
 
     fn write_canonical(&self, writer: &mut CanonicalWriter) {
         match self {
-            Self::Workspace { logical_workspace_id, canonical_workspace_relative_path } => {
-                writer.fields(["workspace", logical_workspace_id, canonical_workspace_relative_path]);
+            Self::Workspace {
+                logical_workspace_id,
+                canonical_workspace_relative_path,
+            } => {
+                writer.fields([
+                    "workspace",
+                    logical_workspace_id,
+                    canonical_workspace_relative_path,
+                ]);
             }
             Self::Package {
                 namespace,
@@ -150,7 +161,9 @@ fn checked_component(value: String) -> Result<String, CanonicalIdentityError> {
 }
 
 fn is_uri_like(value: &str) -> bool {
-    let Some(colon) = value.find(':') else { return false };
+    let Some(colon) = value.find(':') else {
+        return false;
+    };
     let scheme = &value[..colon];
     !scheme.is_empty()
         && scheme.bytes().enumerate().all(|(index, byte)| {
@@ -291,14 +304,21 @@ pub fn render_key(
 ) -> RenderKey {
     RenderKey(derived_key(
         "mmt-render-key-v1",
-        &[materialization.0.as_str(), runtime.0.as_str(), render_options_digest],
+        &[
+            materialization.0.as_str(),
+            runtime.0.as_str(),
+            render_options_digest,
+        ],
     ))
 }
 
 pub fn derived_key(domain: &str, fields: &[&str]) -> String {
     canonical_bytes_digest(
         domain,
-        &fields.iter().map(|field| field.as_bytes()).collect::<Vec<_>>(),
+        &fields
+            .iter()
+            .map(|field| field.as_bytes())
+            .collect::<Vec<_>>(),
     )
 }
 
@@ -314,12 +334,16 @@ pub fn canonical_json_digest(domain: &str, value: &serde_json::Value) -> String 
     fn write_json(writer: &mut CanonicalWriter, value: &serde_json::Value) {
         match value {
             serde_json::Value::Null => writer.field(b"null"),
-            serde_json::Value::Bool(value) => writer.fields(["bool", if *value { "true" } else { "false" }]),
+            serde_json::Value::Bool(value) => {
+                writer.fields(["bool", if *value { "true" } else { "false" }])
+            }
             serde_json::Value::Number(value) => writer.fields(["number", &value.to_string()]),
             serde_json::Value::String(value) => writer.fields(["string", value]),
             serde_json::Value::Array(values) => {
                 writer.fields(["array", &values.len().to_string()]);
-                for value in values { write_json(writer, value); }
+                for value in values {
+                    write_json(writer, value);
+                }
             }
             serde_json::Value::Object(values) => {
                 writer.fields(["object", &values.len().to_string()]);
@@ -358,11 +382,7 @@ impl CanonicalWriter {
         }
     }
 
-    fn map<K: Ord, V>(
-        &mut self,
-        map: &BTreeMap<K, V>,
-        mut write: impl FnMut(&mut Self, &K, &V),
-    ) {
+    fn map<K: Ord, V>(&mut self, map: &BTreeMap<K, V>, mut write: impl FnMut(&mut Self, &K, &V)) {
         self.field(&(map.len() as u64).to_be_bytes());
         for (key, value) in map {
             write(self, key, value);
@@ -387,15 +407,20 @@ mod tests {
     fn fixture() -> ProjectDigestInput {
         let logical_source = logical_source_id("workspace", "故事/晴.mmt").unwrap();
         let source_content = source_content_key(&logical_source, "晴e\u{301}😀".as_bytes());
-        let entry_file = LogicalProjectFileId::generated("authored", "producer-v1", "main.typ").unwrap();
+        let entry_file =
+            LogicalProjectFileId::generated("authored", "producer-v1", "main.typ").unwrap();
         let files = BTreeMap::from([
-            (entry_file.clone(), canonical_bytes_digest("mmt-file-v1", &[b"hello"])),
+            (
+                entry_file.clone(),
+                canonical_bytes_digest("mmt-file-v1", &[b"hello"]),
+            ),
             (
                 LogicalProjectFileId::workspace("workspace", "assets/avatar.png").unwrap(),
                 canonical_bytes_digest("mmt-file-v1", &[b"png"]),
             ),
             (
-                LogicalProjectFileId::package("preview", "theme", "1.0.0", "pack-gen", "lib.typ").unwrap(),
+                LogicalProjectFileId::package("preview", "theme", "1.0.0", "pack-gen", "lib.typ")
+                    .unwrap(),
                 canonical_bytes_digest("mmt-file-v1", &[b"theme"]),
             ),
         ]);
@@ -404,7 +429,10 @@ mod tests {
             source_content,
             entry_file,
             files,
-            package_generations: BTreeMap::from([("preview/theme:1.0.0".into(), "pack-gen".into())]),
+            package_generations: BTreeMap::from([(
+                "preview/theme:1.0.0".into(),
+                "pack-gen".into(),
+            )]),
             generated_dependencies: BTreeMap::from([("template".into(), "template-gen".into())]),
             project_options: BTreeMap::from([("compiledAt".into(), "none".into())]),
             source_map_digest: derived_key("mmt-source-map-v1", &["identity"]),
@@ -424,7 +452,14 @@ mod tests {
             &input.source_map_digest,
         );
         let materialization = materialization_key(&projection, "pack", "plan", "bytes");
-        let runtime = runtime_artifact_key("0.15.2", "compiler-wasm", "0.7.0", "renderer-wasm", "template", "fonts");
+        let runtime = runtime_artifact_key(
+            "0.15.2",
+            "compiler-wasm",
+            "0.7.0",
+            "renderer-wasm",
+            "template",
+            "fonts",
+        );
         let render = render_key(&materialization, &runtime, "options");
         assert_eq!(project.0.len(), 64);
         assert_eq!(projection.0.len(), 64);
@@ -448,9 +483,22 @@ mod tests {
     fn canonical_project_is_order_independent_and_rejects_presentation_uris() {
         let input = fixture();
         let mut reversed = input.clone();
-        reversed.files = input.files.iter().rev().map(|(key, value)| (key.clone(), value.clone())).collect();
-        reversed.project_options = input.project_options.iter().rev().map(|(key, value)| (key.clone(), value.clone())).collect();
-        assert_eq!(project_snapshot_key(&input), project_snapshot_key(&reversed));
+        reversed.files = input
+            .files
+            .iter()
+            .rev()
+            .map(|(key, value)| (key.clone(), value.clone()))
+            .collect();
+        reversed.project_options = input
+            .project_options
+            .iter()
+            .rev()
+            .map(|(key, value)| (key.clone(), value.clone()))
+            .collect();
+        assert_eq!(
+            project_snapshot_key(&input),
+            project_snapshot_key(&reversed)
+        );
         assert_eq!(
             LogicalProjectFileId::workspace("workspace", "file:/tmp/main.typ"),
             Err(CanonicalIdentityError::UriLikeValue)

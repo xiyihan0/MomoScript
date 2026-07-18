@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { spawn } from "node:child_process";
 import { createReadStream } from "node:fs";
-import { readFile, stat } from "node:fs/promises";
+import { readFile, stat, writeFile } from "node:fs/promises";
 import { createServer } from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -40,6 +40,7 @@ function initializeParams(rootUri) {
         implementation: { dynamicRegistration: true, linkSupport: true },
         references: { dynamicRegistration: true },
         typeDefinition: { dynamicRegistration: true, linkSupport: true },
+        selectionRange: { dynamicRegistration: true },
         publishDiagnostics: { versionSupport: true }
       }
     },
@@ -64,6 +65,9 @@ async function exercise(rpc, uri, rootUri) {
   const highlights = await rpc.request("textDocument/documentHighlight", {
     textDocument: { uri }, position: { line: 11, character: 19 }
   });
+  const selectionRanges = await rpc.request("textDocument/selectionRange", {
+    textDocument: { uri }, positions: [{ line: 11, character: 19 }]
+  });
   const documentSymbols = await rpc.request("textDocument/documentSymbol", {
     textDocument: { uri }
   });
@@ -83,6 +87,7 @@ async function exercise(rpc, uri, rootUri) {
     highlights,
     documentSymbols,
     workspaceSymbols,
+    selectionRanges,
     cancelledOutcome,
     serverRequests: rpc.serverRequests
   };
@@ -95,7 +100,8 @@ function verify(host, transcript) {
     "referencesProvider",
     "documentSymbolProvider",
     "workspaceSymbolProvider",
-    "documentHighlightProvider"
+    "documentHighlightProvider",
+    "selectionRangeProvider"
   ]) assert(capabilities[key], `${host} omitted ${key}`);
   assert.equal(Boolean(capabilities.typeDefinitionProvider), false, `${host} unexpectedly advertised typeDefinition`);
   assert.equal(Boolean(capabilities.implementationProvider), false, `${host} unexpectedly advertised implementation`);
@@ -104,6 +110,8 @@ function verify(host, transcript) {
   assert(definitions.some((item) => item && (item.uri || item.targetUri)), `${host} definition has no target`);
   assert(Array.isArray(transcript.references) && transcript.references.length >= 3, `${host} references omitted multi-location result`);
   assert(Array.isArray(transcript.highlights) && transcript.highlights.length > 0, `${host} document highlights absent`);
+  assert(Array.isArray(transcript.selectionRanges) && transcript.selectionRanges.length === 1, `${host} selection range absent`);
+  assert(transcript.selectionRanges[0]?.parent, `${host} selection range omitted its parent chain`);
   assert(Array.isArray(transcript.documentSymbols) && transcript.documentSymbols.length > 0, `${host} document symbols absent`);
   const symbolText = JSON.stringify(transcript.documentSymbols);
   assert(symbolText.includes("Parent") && symbolText.includes("Child"), `${host} heading symbols absent`);
@@ -114,6 +122,7 @@ function verify(host, transcript) {
       definition: definitions.length,
       references: transcript.references.length,
       highlights: transcript.highlights.length,
+      selectionRanges: transcript.selectionRanges.length,
       documentSymbols: transcript.documentSymbols.length,
       workspaceSymbols: transcript.workspaceSymbols.length,
       hierarchicalHeadings: symbolText.includes("children") && symbolText.includes("Parent") && symbolText.includes("Child")
@@ -314,6 +323,7 @@ async function webTranscript() {
       const definition = await request("textDocument/definition", { textDocument: { uri }, position: { line: 5, character: 2 } });
       const references = await request("textDocument/references", { textDocument: { uri }, position: { line: 0, character: 6 }, context: { includeDeclaration: true } });
       const highlights = await request("textDocument/documentHighlight", { textDocument: { uri }, position: { line: 11, character: 19 } });
+      const selectionRanges = await request("textDocument/selectionRange", { textDocument: { uri }, positions: [{ line: 11, character: 19 }] });
       const documentSymbols = await request("textDocument/documentSymbol", { textDocument: { uri } });
       const workspaceSymbols = await request("workspace/symbol", { query: "greet" });
       const cancelled = rawRequest("textDocument/references", { textDocument: { uri }, position: { line: 0, character: 6 }, context: { includeDeclaration: true } });
@@ -323,7 +333,7 @@ async function webTranscript() {
       await request("shutdown", null);
       notify("exit", null);
       worker.terminate();
-      return { initialize, definition, references, highlights, documentSymbols, workspaceSymbols, cancelledOutcome, serverRequests };
+      return { initialize, definition, references, highlights, selectionRanges, documentSymbols, workspaceSymbols, cancelledOutcome, serverRequests };
     }, { source, initializeParams: initializeParams(null) });
   } finally {
     await browser.close();
@@ -336,6 +346,11 @@ const web = verify("web", await webTranscript());
 const nativeDigest = createHash("sha256").update(await readFile(path.resolve(process.env.TINYMIST_BIN))).digest("hex");
 const webDigest = createHash("sha256").update(await readFile(path.resolve(process.env.TINYMIST_WEB_PKG, "tinymist_bg.wasm"))).digest("hex");
 const evidence = { schema: "mmt-typst-navigation-transcript.v1", artifacts: { native: nativeDigest, web: webDigest }, native, web };
-const checked = JSON.parse(await readFile(path.join(root, "src/test/fixtures/typst-navigation-evidence.json"), "utf8"));
-assert.deepEqual(evidence, checked, "navigation evidence changed for the pinned artifacts");
+const checkedPath = path.join(root, "src/test/fixtures/typst-navigation-evidence.json");
+if (process.env.UPDATE_TINYMIST_NAVIGATION_EVIDENCE === "1") {
+  await writeFile(checkedPath, `${JSON.stringify(evidence, null, 2)}\n`);
+} else {
+  const checked = JSON.parse(await readFile(checkedPath, "utf8"));
+  assert.deepEqual(evidence, checked, "navigation evidence changed for the pinned artifacts");
+}
 console.log(JSON.stringify(evidence, null, 2));

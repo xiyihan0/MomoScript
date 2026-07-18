@@ -55,6 +55,10 @@ import {
   validatePositionBearingPayload,
   wireBackendPosition,
   type PositionEncoding,
+  type ProjectedPositionRequestWire,
+  type ProjectedPositionWire,
+  type ProjectedRangeRequestWire,
+  type ProjectedRangeWire,
   type RetainedBackendPosition,
   type RetainedBackendRange,
   type WirePosition,
@@ -673,13 +677,14 @@ export class TypstFeatureRouter {
     position: WirePosition,
     token: CancellationToken
   ): Promise<GuardedBackendPosition | undefined> {
-    const value = await this.client().sendRequest<unknown>(
+    const request: ProjectedPositionRequestWire = {
+      textDocument: { uri: document.uri },
+      position,
+      backendEncoding: this.backendEncoding
+    };
+    const value = await this.client().sendRequest<ProjectedPositionWire | null>(
       "mmt/typstPosition",
-      {
-        textDocument: { uri: document.uri },
-        position,
-        backendEncoding: this.backendEncoding
-      },
+      request,
       token
     );
     if (value === null) return undefined;
@@ -695,13 +700,14 @@ export class TypstFeatureRouter {
     range: WireRange,
     token: CancellationToken
   ): Promise<GuardedBackendRange | undefined> {
-    const value = await this.client().sendRequest<unknown>(
+    const request: ProjectedRangeRequestWire = {
+      textDocument: { uri: document.uri },
+      range,
+      backendEncoding: this.backendEncoding
+    };
+    const value = await this.client().sendRequest<ProjectedRangeWire | null>(
       "mmt/typstRange",
-      {
-        textDocument: { uri: document.uri },
-        range,
-        backendEncoding: this.backendEncoding
-      },
+      request,
       token
     );
     if (value === null) return undefined;

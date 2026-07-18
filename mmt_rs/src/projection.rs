@@ -8,8 +8,8 @@ use crate::emit::{
 };
 use crate::materialize::{MaterializeError, MaterializedImage, ResourceMaterializer};
 use crate::pack::PackRegistry;
-use crate::resolve::{ResolvedResource, ResolvedResourceKind};
 use crate::pipeline::AnalyzedDocument;
+use crate::resolve::{ResolvedResource, ResolvedResourceKind};
 use crate::semantic::CharacterPresetCatalog;
 use crate::source::TextRange;
 use crate::typst_check::check_typst_source;
@@ -234,9 +234,9 @@ impl ProjectionIndex {
     pub fn mmt_range_to_typst(&self, range: TextRange) -> Option<TextRange> {
         let mut candidates = self.segments.iter().filter(|segment| {
             segment.mapping == MappingMode::Identity
-                && segment.mmt_range.is_some_and(|source| {
-                    source.start <= range.start && range.end <= source.end
-                })
+                && segment
+                    .mmt_range
+                    .is_some_and(|source| source.start <= range.start && range.end <= source.end)
         });
         let segment = candidates.next()?;
         if candidates.next().is_some() {
@@ -760,10 +760,7 @@ mod tests {
                 )
             );
         }
-        for range in [
-            TextRange::new(3, 5),
-            TextRange::new(17, 17),
-        ] {
+        for range in [TextRange::new(3, 5), TextRange::new(17, 17)] {
             assert_eq!(
                 index.classify_read(range).kind,
                 ProjectionMappingKind::StaleUnknown

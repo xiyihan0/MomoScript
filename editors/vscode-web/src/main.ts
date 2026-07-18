@@ -22,8 +22,8 @@ import { IndexedDbPackCache } from "./packCache";
 import { BoundedStringCache, MATERIALIZED_RESOURCE_CACHE_MAX_BYTES } from "./boundedStringCache";
 import { advanceLanguageProjection, RevisionPinnedPreviewClock, waitForSynchronizedLanguageProjection } from "./languageProjection";
 import type { LanguageProjectionToken } from "./languageProjection";
-import { materializeProjectResources } from "./resourceMaterializer";
-import type { MaterializationPackSource, ResourceMaterializationDependencies } from "./resourceMaterializer";
+import { materializeProjectResources } from "../../vscode/src/resourceMaterializer";
+import type { MaterializationPackSource, ResourceMaterializationDependencies } from "../../vscode/src/resourceMaterializer";
 import { mmtExtension } from "./mmtExtension";
 import { normalizeResourceLimits } from "./resourceSettings";
 import { startMmtLanguageClient } from "./mmtLanguageClient";
@@ -66,6 +66,7 @@ import {
   runtimeArtifactKey,
   sourceContentKey,
   type LogicalProjectFileId,
+  type RenderKey,
   type SourceStaleToken,
 } from "../../vscode/src/runtimeIdentity";
 
@@ -73,7 +74,7 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
   Reflect.set(globalThis, "__mmtSanitizeSvg", sanitizeSvg);
 }
 
-type E2ELifecycleKind = "runtime-ready" | "dispose-invoked" | "dispose-complete" | "unload" | "hmr" | "hmr-fallback";
+type E2ELifecycleKind = "runtime-ready" | "dispose-invoked" | "dispose-complete" | "retained-artifacts-cleared" | "unload" | "hmr" | "hmr-fallback";
 
 interface PreviewInteractionFixtureRequest {
   readonly action: "install-provider" | "install-immutable" | "position" | "navigate" | "restart-provider" | "advance-source" | "state";
@@ -82,8 +83,9 @@ interface PreviewInteractionFixtureRequest {
 }
 
 interface ExactExportFixtureRequest {
-  readonly action: "install" | "advance" | "publish-latest" | "partial" | "failed" | "evicted" | "state";
+  readonly action: "install" | "advance" | "publish-latest" | "partial" | "failed" | "evicted" | "state" | "has-artifact";
   readonly marker?: string;
+  readonly renderKey?: string;
 }
 
 interface E2EExactExportHost {
@@ -278,7 +280,8 @@ const MATERIALIZATION_DEPENDENCIES: ResourceMaterializationDependencies = {
   },
   fetch: fetchResource,
   decodeSequence: decodeAvifSequence,
-  encodeBase64: bytesToBase64
+  encodeBase64: bytesToBase64,
+  decodeBase64: base64ToBytes
 };
 
 function configureWorkbenchWorkerFactory(): void {
@@ -344,6 +347,15 @@ async function initializeRuntime(
 ): Promise<void> {
   const own = <T extends { dispose(): void | Promise<void> }>(resource: T): T => controller.own(resource);
   const subscribe = <T extends { dispose(): void | Promise<void> }>(subscription: T): T => controller.subscribe(subscription);
+  const exposeRuntimeGlobal = <T>(key: string, value: T): T => {
+    Reflect.set(globalThis, key, value);
+    subscribe({
+      dispose() {
+        if (Reflect.get(globalThis, key) === value) Reflect.deleteProperty(globalThis, key);
+      },
+    });
+    return value;
+  };
   if (exactExportHost) own(exactExportHost.latest);
   const root = document.querySelector<HTMLElement>("#workbench");
   if (!root) throw new Error("Missing #workbench container");
@@ -589,7 +601,7 @@ async function initializeRuntime(
   let fixtureProviderKey: LocationProviderKey | undefined;
   let fixtureSelection: PreviewEditorSelection | undefined;
   if (import.meta.env.VITE_MMT_E2E === "1") {
-    Reflect.set(globalThis, "__mmtPreviewInteractionFixture", async (request: PreviewInteractionFixtureRequest) => {
+    exposeRuntimeGlobal("__mmtPreviewInteractionFixture", async (request: PreviewInteractionFixtureRequest) => {
       if (request.action === "state") {
         return {
           renderKey: preview.displayedRenderKey ?? null,
@@ -751,8 +763,12 @@ async function initializeRuntime(
   let exactExportFixtureNext: PreviewArtifact | undefined;
   let exactExportFixtureAdvance: RenderAdvanceToken | undefined;
   if (import.meta.env.VITE_MMT_E2E === "1") {
-    Reflect.set(globalThis, "__mmtExactExportFixture", async (request: ExactExportFixtureRequest) => {
+    exposeRuntimeGlobal("__mmtExactExportFixture", async (request: ExactExportFixtureRequest) => {
       if (request.action === "state") return exactExportUi.state;
+      if (request.action === "has-artifact") {
+        if (!request.renderKey) throw new Error("Exact export artifact lookup requires renderKey");
+        return controller.stores.previewArtifacts.get(request.renderKey as RenderKey) !== undefined;
+      }
       if (!controller.stores.exactExport || !exactExportHost) throw new Error("Exact export fixture runtime is unavailable");
       const document = vscode.window.activeTextEditor?.document
         ?? (displayedPreviewSourceUri
@@ -855,21 +871,21 @@ async function initializeRuntime(
   const materializedResourceCache = new BoundedStringCache(MATERIALIZED_RESOURCE_CACHE_MAX_BYTES);
   const previewClock = new RevisionPinnedPreviewClock();
   if (import.meta.env.VITE_MMT_E2E === "1") {
-    Reflect.set(globalThis, "__mmtLatestProjectionRevision", () => {
+    exposeRuntimeGlobal("__mmtLatestProjectionRevision", () => {
       const sourceUri = vscode.window.activeTextEditor?.document.uri.toString();
       return sourceUri ? latestLanguageProjectionBySource.get(sourceUri)?.revision : undefined;
     });
-    Reflect.set(globalThis, "__mmtLanguageProjectionEntry", (name: string) => {
+    exposeRuntimeGlobal("__mmtLanguageProjectionEntry", (name: string) => {
       const uri = vscode.Uri.joinPath(WORKSPACE, name).toString();
       const project = acceptedPreviewLanguageProjects!.get(uri);
       if (!project) return null;
       const entry = project.files.find((file) => file.uri === project.entryUri);
       return { sourceVersion: project.sourceVersion, text: entry?.text };
     });
-    Reflect.set(globalThis, "__mmtPreviewBuildDiagnostics", (sourceUri: string) => previewBuildState.diagnostics(sourceUri));
+    exposeRuntimeGlobal("__mmtPreviewBuildDiagnostics", (sourceUri: string) => previewBuildState.diagnostics(sourceUri));
   }
   if (import.meta.env.VITE_MMT_E2E === "1") {
-    Reflect.set(globalThis, "__mmtDisplayedPreviewSourceUri", () => displayedPreviewSourceUri);
+    exposeRuntimeGlobal("__mmtDisplayedPreviewSourceUri", () => displayedPreviewSourceUri);
   }
   const refreshOpenedPreview = () => {
     if (!displayedPreviewSourceUri) return;
@@ -1137,7 +1153,7 @@ async function initializeRuntime(
     return syncTypstLanguageDocument(recognized);
   };
   if (import.meta.env.VITE_MMT_E2E === "1") {
-    Reflect.set(globalThis, "__mmtSyncWorkspaceTypst", async (name: string) => {
+    exposeRuntimeGlobal("__mmtSyncWorkspaceTypst", async (name: string) => {
       const uri = vscode.Uri.joinPath(WORKSPACE, name).toString();
       const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === uri);
       if (!document) throw new Error(`workspace document is not open: ${name}`);
@@ -1435,34 +1451,68 @@ async function initializeRuntime(
       markerModelRegistrations.splice(0).forEach((registration) => registration.dispose());
     }
   });
+  const pendingPersistenceByUri = new Map<string, {
+    readonly documentUri: vscode.Uri;
+    readonly documentPath: string;
+    readonly languageId: string;
+    readonly text: string;
+    readonly documentVersion: number;
+  }>();
+  const persistenceDebounce = () => new Promise<void>((resolve) => window.setTimeout(resolve, 50));
+  const schedulePersistence = (uri: string): void => {
+    if (persistenceByUri.has(uri)) return;
+    const next = (async () => {
+      await persistenceDebounce();
+      while (true) {
+        const snapshot = pendingPersistenceByUri.get(uri);
+        if (!snapshot) return;
+        pendingPersistenceByUri.delete(uri);
+        await vscode.workspace.fs.writeFile(snapshot.documentUri, encoder.encode(snapshot.text));
+        log("document", `Saved ${snapshot.documentPath}`);
+        if (snapshot.languageId === "mmt") {
+          await persistenceDebounce();
+          if (pendingPersistenceByUri.has(uri)) continue;
+          const client = activeClient;
+          if (client) {
+            const current = await waitForSynchronizedLanguageProjection(
+              () => client.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", { uri }),
+              snapshot.documentVersion
+            );
+            if (current) {
+              const tracked = trackLanguageProjection(current);
+              if (tracked) {
+                if (tracked.advanced) tinymist?.backend.syncProject(current);
+                await schedulePreviewIfEnabled(client, current.sourceUri, tracked.token);
+              }
+            }
+          }
+        }
+        if (!pendingPersistenceByUri.has(uri)) return;
+        await persistenceDebounce();
+      }
+    })().catch((error: unknown) => {
+      const snapshot = pendingPersistenceByUri.get(uri);
+      log("document:error", `${snapshot?.documentPath ?? uri}: ${error instanceof Error ? error.message : String(error)}`);
+    }).finally(() => {
+      if (persistenceByUri.get(uri) === next) persistenceByUri.delete(uri);
+      if (pendingPersistenceByUri.has(uri)) schedulePersistence(uri);
+    });
+    persistenceByUri.set(uri, next);
+  };
   const documentPersistenceRegistration = subscribe(vscode.workspace.onDidChangeTextDocument((event) => {
     if (!controller.acceptingWork) return;
     const document = event.document;
     if ((document.languageId !== "mmt" && document.languageId !== "typst")
       || document.uri.scheme !== "mmtfs" || document.uri.authority !== "workspace") return;
     const uri = document.uri.toString();
-    const text = document.getText();
-    const priorRevision = latestLanguageProjectionBySource.get(uri)?.revision ?? -1;
-    const previous = persistenceByUri.get(uri) ?? Promise.resolve();
-    const next = previous.then(async () => {
-      await vscode.workspace.fs.writeFile(document.uri, encoder.encode(text));
-      log("document", `Saved ${document.uri.path}`);
-      if (document.languageId === "typst") return;
-      await new Promise((resolve) => setTimeout(resolve, 50));
-      if ((latestLanguageProjectionBySource.get(uri)?.revision ?? -1) > priorRevision) return;
-      if (!activeClient) return;
-      const current = await activeClient.sendRequest<TypstProjectUpdate | null>("mmt/getTypstProject", { uri });
-      if (!current || current.revision <= priorRevision) return;
-      const tracked = trackLanguageProjection(current);
-      if (!tracked) return;
-      if (tracked.advanced) tinymist?.backend.syncProject(current);
-      await schedulePreviewIfEnabled(activeClient, current.sourceUri, tracked.token);
-    }).catch((error: unknown) => {
-      log("document:error", `${document.uri.path}: ${error instanceof Error ? error.message : String(error)}`);
-    }).finally(() => {
-      if (persistenceByUri.get(uri) === next) persistenceByUri.delete(uri);
+    pendingPersistenceByUri.set(uri, {
+      documentUri: document.uri,
+      documentPath: document.uri.path,
+      languageId: document.languageId,
+      documentVersion: document.version,
+      text: document.getText(),
     });
-    persistenceByUri.set(uri, next);
+    schedulePersistence(uri);
   }));
   document.documentElement.dataset.mmtStage = "mmt-ready";
   document.documentElement.dataset.mmtLanguageId = recognizedDocument.languageId;
@@ -1516,13 +1566,19 @@ async function initializeRuntime(
       if (Reflect.get(globalThis, "__mmtPwaSafeRestart") === safeRestart) Reflect.deleteProperty(globalThis, "__mmtPwaSafeRestart");
     },
   });
-  let disposalRecorded = false;
-  const controllerDispose = async () => {
-    recordE2ELifecycle("dispose-invoked", lifecycleGeneration);
-    await controller.dispose(750, () => recordE2ELifecycle("hmr-fallback", lifecycleGeneration));
-    if (disposalRecorded) return;
-    disposalRecorded = true;
-    recordE2ELifecycle("dispose-complete", lifecycleGeneration);
+  let controllerDisposal: Promise<void> | undefined;
+  const controllerDispose = (): Promise<void> => {
+    if (controllerDisposal) return controllerDisposal;
+    const disposal = (async () => {
+      recordE2ELifecycle("dispose-invoked", lifecycleGeneration);
+      await controller.dispose(750, () => recordE2ELifecycle("hmr-fallback", lifecycleGeneration));
+      if (controller.stores.previewArtifacts.size === 0) {
+        recordE2ELifecycle("retained-artifacts-cleared", lifecycleGeneration);
+      }
+      recordE2ELifecycle("dispose-complete", lifecycleGeneration);
+    })();
+    controllerDisposal = disposal;
+    return disposal;
   };
   const hotDispose = () => {
     recordE2ELifecycle("hmr", lifecycleGeneration);
@@ -1627,6 +1683,11 @@ function bytesToBase64(bytes: Uint8Array): string {
     binary += String.fromCharCode(...bytes.subarray(offset, offset + 0x8000));
   }
   return btoa(binary);
+}
+
+function base64ToBytes(value: string): Uint8Array {
+  const binary = atob(value);
+  return Uint8Array.from(binary, (character) => character.charCodeAt(0));
 }
 
 async function readResponseBytes(response: Response, limit: number, signal: AbortSignal): Promise<Uint8Array> {

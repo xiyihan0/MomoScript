@@ -20,7 +20,8 @@ globalThis.__navigationVscode = {
     ["registerReferenceProvider", "references"],
     ["registerDocumentSymbolProvider", "documentSymbols"],
     ["registerWorkspaceSymbolProvider", "workspaceSymbols"],
-    ["registerDocumentHighlightProvider", "highlights"]
+    ["registerDocumentHighlightProvider", "highlights"],
+    ["registerSelectionRangeProvider", "selectionRanges"]
   ].map(([name, kind]) => [name, (...args) => {
     const provider = kind === "workspaceSymbols" ? args[0] : args[1];
     const entry = { kind, provider, disposed: false };
@@ -87,6 +88,7 @@ const converter = {
     asDocumentHighlights: async (value) => value,
     asDocumentSymbols: async (value) => value,
     asSymbolInformations: async (value) => value,
+    asSelectionRanges: async (value) => value,
     asSymbolInformation: (value) => value
   }
 };
@@ -107,13 +109,14 @@ registry.install(2, { capabilities: {
   referencesProvider: true,
   documentSymbolProvider: true,
   workspaceSymbolProvider: { resolveProvider: true },
-  documentHighlightProvider: true
+  documentHighlightProvider: true,
+  selectionRangeProvider: true
 } });
 project = projectFixture(1, "content-1", "project-1");
 family.reconcile();
 assert.deepEqual(
   registrations.filter((item) => !item.disposed).map((item) => item.kind).sort(),
-  ["definition", "documentSymbols", "highlights", "references", "workspaceSymbols"]
+  ["definition", "documentSymbols", "highlights", "references", "selectionRanges", "workspaceSymbols"]
 );
 assert.equal(registrations.some((item) => item.kind === "typeDefinition"), false, "absent typeDefinition registered");
 assert.equal(registrations.some((item) => item.kind === "implementation"), false, "absent implementation registered");
@@ -159,6 +162,31 @@ const references = await referencesProvider.provideReferences(
   cancellationToken()
 );
 assert.equal(references.length, 2, "multi-location references were truncated");
+
+const selectionRangeProvider = active("selectionRanges");
+let capturedSelectionRangePositions;
+backendRequest = async (method, params) => {
+  assert.equal(method, "textDocument/selectionRange");
+  capturedSelectionRangePositions = params.positions;
+  return [{
+    range: { start: { line: 0, character: 7 }, end: { line: 0, character: 10 } },
+    parent: {
+      range: { start: { line: 0, character: 0 }, end: { line: 0, character: 10 } }
+    }
+  }];
+};
+const selectionRanges = await selectionRangeProvider.provideSelectionRanges(
+  document,
+  [{ line: 0, character: 3 }],
+  cancellationToken()
+);
+assert.deepEqual(capturedSelectionRangePositions, [{ line: 0, character: 7 }], "selection-range inputs bypassed UTF-8 conversion");
+assert.deepEqual(selectionRanges[0], {
+  range: { start: { line: 0, character: 3 }, end: { line: 0, character: 6 } },
+  parent: {
+    range: { start: { line: 0, character: 0 }, end: { line: 0, character: 6 } }
+  }
+}, "selection-range parent chain bypassed UTF-16 conversion");
 
 const symbolProvider = active("documentSymbols");
 backendRequest = async () => [{
@@ -243,6 +271,7 @@ console.log(JSON.stringify({
   staleAndCapabilityRace: true,
   cancellation: true,
   multiLocation: references.length,
+  selectionRangeParent: Boolean(selectionRanges[0].parent),
   symbolHierarchy: "Parent/Child",
   backendPosition: capturedPosition,
   clientRange: convertedDefinitions[0].range,

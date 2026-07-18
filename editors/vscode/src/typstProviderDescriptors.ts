@@ -172,13 +172,6 @@ export const FIXED_TINYMIST_PROVIDER_ARTIFACTS = Object.freeze({
   })
 });
 
-const ADVERTISED_UNQUALIFIED = Object.freeze({
-  classification: "deferred" as const,
-  native: true,
-  web: true,
-  sameOptions: true,
-  reason: "advertised by both fixed artifacts; method transcript not yet qualified"
-});
 const CORE_NAVIGATION = Object.freeze({
   classification: "core-required" as const,
   native: true,
@@ -233,7 +226,7 @@ export const FIXED_TINYMIST_PROVIDER_QUALIFICATION: Readonly<Record<TypstProvide
   documentSymbolProvider: CORE_NAVIGATION,
   workspaceSymbolProvider: CORE_NAVIGATION,
   documentHighlightProvider: CORE_NAVIGATION,
-  selectionRangeProvider: ADVERTISED_UNQUALIFIED,
+  selectionRangeProvider: CORE_NAVIGATION,
   documentLinkProvider: RICH_CORE_REQUIRED,
   colorProvider: RICH_HOST_OPTIONAL,
   codeActionProvider: RICH_HOST_OPTIONAL,

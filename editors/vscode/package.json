@@ -17,6 +17,20 @@
   "main": "./dist/extension.js",
   "browser": "./dist/extension.web.js",
   "contributes": {
+    "commands": [
+      {
+        "command": "mmt.previewDesktop",
+        "title": "Preview MomoScript",
+        "category": "MomoScript",
+        "enablement": "editorLangId == mmt && isWeb == false && mmt.desktopPreviewAvailable"
+      },
+      {
+        "command": "mmt.exportPdfDesktop",
+        "title": "Export MomoScript as PDF",
+        "category": "MomoScript",
+        "enablement": "editorLangId == mmt && isWeb == false && mmt.desktopPreviewAvailable"
+      }
+    ],
     "languages": [
       {
         "id": "mmt",
@@ -109,6 +123,12 @@
           "maximum": 256,
           "scope": "window",
           "description": "单次预览修订允许占用的资源常驻与临时内存上限，单位 MiB。"
+        },
+        "mmt.resources.avifdec.path": {
+          "type": "string",
+          "default": "avifdec",
+          "scope": "machine",
+          "description": "Desktop 预览解码 AVIFS sticker 帧时使用的 avifdec 可执行文件。"
         }
       }
     }
@@ -124,7 +144,7 @@
     "test:tinymist-worker": "node ./scripts/build.mjs && node ./scripts/test-tinymist-worker.mjs",
     "test:tinymist-process": "node ./scripts/build.mjs && node ./dist/test/processClient.js",
     "test:desktop": "npm run build && xvfb-run -a node ./scripts/test-desktop.mjs",
-    "test:web": "node ./scripts/require-tinymist-web.mjs && npm run build && vscode-test-web --browser=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/test/suite/index.js --headless=true --esm=true",
+    "test:web": "node ./scripts/require-tinymist-web.mjs && npm run build && node ./scripts/test-web.mjs",
     "test:runtime-inventory": "node ./scripts/test-runtime-inventory.mjs",
     "test:project-lifecycle": "node ./scripts/test-project-lifecycle.mjs",
     "test:typst-project-state": "node ./scripts/test-typst-project-state.mjs",
@@ -140,7 +160,8 @@
     "test:provider-payload-negative": "node ./scripts/test-provider-payload-negative.mjs",
     "test:projected-edits": "node ./scripts/test-projected-edits.mjs",
     "test:projected-payload": "node ./scripts/test-projected-payload.mjs",
-    "test:typst-package": "node ./scripts/build.mjs && node ./dist/test/packageService.js"
+    "test:typst-package": "node ./scripts/build.mjs && node ./dist/test/packageService.js",
+    "test:desktop-preview": "node ./scripts/test-desktop-preview.mjs"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1",

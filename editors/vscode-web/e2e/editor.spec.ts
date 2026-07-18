@@ -114,22 +114,9 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(previewWebview.locator(".viewport .page svg")).toBeAttached({ timeout: 60_000 });
   await expect(outputPanel).toContainText(/Typst\s+编译器\s+WASM\s+下载完成\s+\d+\.\d\s+MiB/);
   await expect(outputPanel).not.toContainText(/(?:Tinymist|Typst\s+编译器)\s+WASM\s+(?:100|[1-9]\d{2,})%/);
-  const exportTrigger = previewWebview.getByRole("button", { name: "导出" });
-  const exportMenu = previewWebview.getByRole("menu", { name: "导出格式" });
-  await expect(exportTrigger).toBeVisible();
-  await expect(exportTrigger).toHaveAttribute("aria-expanded", "false");
-  await expect(exportMenu).toBeHidden();
-  await exportTrigger.click();
-  await expect(exportTrigger).toHaveAttribute("aria-expanded", "true");
-  await expect(exportMenu).toBeVisible();
-  await expect(exportMenu.getByRole("menuitem")).toHaveText([
-    "PDF 文档.pdf",
-    "PNG 图片.png",
-    "JPEG 图片.jpg",
-    "SVG 矢量图.svg"
-  ]);
-  await previewWebview.locator("body").press("Escape");
-  await expect(exportMenu).toBeHidden();
+  await expect(previewWebview.getByLabel("Export format")).toBeEnabled();
+  await expect(previewWebview.getByRole("button", { name: "Export exact revision" })).toBeEnabled();
+  await expect(previewWebview.locator(".exact-export")).toHaveAttribute("data-availability", "ready");
   await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("intro.typ"));
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "intro.typ", languageId: "typst" });
   await page.getByRole("button", { name: "Typst 预览" }).click();
@@ -162,8 +149,12 @@ test("production editor materializes an avatar and restores the authored story a
   expect(typBlockProjection?.text).toContain("#let a=1");
   expect(typBlockProjection?.text).toContain("#a");
   await page.evaluate(({ name, text }) => (
-    Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function
+    Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function
   )(name, text), {
+    name: "projection-race.mmt",
+    text: "@typ\n#sym.\n@end"
+  });
+  await expect.poll(() => activeDocument(page)).toMatchObject({
     name: "projection-race.mmt",
     text: "@typ\n#sym.\n@end"
   });
@@ -177,6 +168,17 @@ test("production editor materializes an avatar and restores the authored story a
     character: "#sym.".length,
     triggerCharacter: "."
   })).toEqual(expect.arrayContaining(["AA", "acute", "alpha"]));
+  const projectionEditor = page.locator('[role="code"][data-uri="mmtfs://workspace/projection-race.mmt"]');
+  await projectionEditor.click();
+  await page.keyboard.press("Control+A");
+  await page.keyboard.insertText("@typ\n#sym.\n@end");
+  await page.keyboard.press("ArrowUp");
+  await page.keyboard.press("End");
+  await page.keyboard.press("Control+Space");
+  const completionWidget = page.locator(".suggest-widget.visible");
+  await expect(completionWidget).toBeVisible();
+  await expect(completionWidget.getByRole("listitem", { name: /^alpha，/ })).toBeVisible();
+  await page.keyboard.press("Escape");
   const defaultStory = await readWorkspaceDocument(page, "story.mmt");
   expect(defaultStory).toContain("> 佳代子:");
   expect(defaultStory).toContain(">_:");
@@ -355,6 +357,8 @@ test("production editor materializes an avatar and restores the authored story a
   const authoredShadowCount = Number(await preview.getAttribute("data-preview-shadow-count"));
   expect(authoredShadowCount).toBeGreaterThan(0);
   await expect(preview.locator("svg image").first()).toBeAttached();
+  const authoredRenderKey = await preview.getAttribute("data-preview-render-key");
+  expect(authoredRenderKey).toBeTruthy();
   if (local) expect(avatarRequests).toBe(1);
   await expect.poll(() => persistedStory(page)).toBe(authored);
   const chapterInitial = "@typ\nCHAPTER_TWO\n@end\n";
@@ -375,7 +379,8 @@ test("production editor materializes an avatar and restores the authored story a
   await page.getByRole("tab", { name: /^story\.mmt, 编辑器组\d+$/ }).click();
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => displayedPreviewSource(page)).toMatch(/story\.mmt$/);
-  await expect.poll(() => visiblePreviewText(page), { timeout: 30_000 }).toContain("E2E persisted avatar message");
+  await expect(preview).toHaveAttribute("data-preview-render-key", authoredRenderKey!);
+  await expect(preview.locator("svg image").first()).toBeAttached();
   await seedLegacyWorkspace(page, false);
   await expect.poll(() => workspaceEntryExists(page, "/workspace")).toBe(true);
 
@@ -424,12 +429,15 @@ async function renderedWebviewHasVisibleIntrinsicPage(page: Page): Promise<boole
       const svgRect = svg.getBoundingClientRect();
       const intrinsicWidth = Number(pageElement.dataset.intrinsicWidth);
       const intrinsicHeight = Number(pageElement.dataset.intrinsicHeight);
+      const widthScale = pageRect.width / intrinsicWidth;
+      const heightScale = pageRect.height / intrinsicHeight;
       return pageRect.width > 0
         && pageRect.height > 0
-        && Math.abs(pageRect.width - intrinsicWidth) < 1
-        && Math.abs(pageRect.height - intrinsicHeight) < 1
-        && Math.abs(svgRect.width - intrinsicWidth) < 1
-        && Math.abs(svgRect.height - intrinsicHeight) < 1;
+        && Number.isFinite(widthScale)
+        && Number.isFinite(heightScale)
+        && Math.abs(widthScale - heightScale) < 0.01
+        && Math.abs(svgRect.width - pageRect.width) < 1
+        && Math.abs(svgRect.height - pageRect.height) < 1;
     });
     if (visible) return true;
   }

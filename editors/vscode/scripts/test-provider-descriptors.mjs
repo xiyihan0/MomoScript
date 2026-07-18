@@ -108,6 +108,7 @@ const fixedQualifiedMethods = [
   "textDocument/documentSymbol",
   "workspace/symbol",
   "textDocument/documentHighlight",
+  "textDocument/selectionRange",
   "textDocument/documentLink",
   "textDocument/documentColor",
   "textDocument/colorPresentation",

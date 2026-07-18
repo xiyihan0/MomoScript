@@ -164,6 +164,70 @@ const backendEdit = {
   ]
 };
 
+// Tinymist 0.15.2 returns this exact `changes` shape and drops the slash after
+// the untitled scheme. The host must bind that alias back to the retained URI
+// before asking Rust to validate identity and ranges.
+const sidecarVirtualA = "untitled:mmt-projection/a/session/main-7.typ";
+let sidecarTransaction;
+const sidecarAdapter = new ProjectedEditAdapter(
+  {
+    async validate(transaction) {
+      sidecarTransaction = transaction;
+      return {
+        kind: "Validated",
+        documents: [{
+          normalizedUri: sourceA,
+          expectedVersion: 3,
+          edits: [{
+            startByte: ranges[sourceA][0],
+            endByte: ranges[sourceA][1],
+            newText: "salute"
+          }]
+        }]
+      };
+    }
+  },
+  workspace,
+  new CapabilityUnavailableMultiDocumentEditApplier(),
+  resolver
+);
+const sidecarPrepared = await sidecarAdapter.prepareWorkspaceEdit(route, {
+  changes: {
+    [sidecarVirtualA]: [{
+      newText: "salute",
+      range: {
+        start: { line: 0, character: 5 },
+        end: { line: 0, character: 10 }
+      }
+    }]
+  }
+}, token);
+assert.equal(sidecarPrepared.kind, "Validated");
+assert.deepEqual(sidecarTransaction.documents.map((item) => item.virtualUri), [virtualA]);
+assert.deepEqual(sidecarTransaction.edits.map((item) => item.virtualUri), [virtualA],
+  "real Tinymist URI alias crossed the Rust validation boundary");
+assert.equal(sidecarPrepared.protocolEdit.documentChanges[0].textDocument.version, 3);
+const fileSchemeRoute = {
+  ...route,
+  entryUri: "file:/mmt-projection/a/session/main-7.typ"
+};
+const nonPinnedAlias = await new ProjectedEditAdapter(
+  { async validate() { throw new Error("non-pinned alias reached validation"); } },
+  workspace
+).prepareWorkspaceEdit(fileSchemeRoute, {
+  changes: {
+    "file:mmt-projection/a/session/main-7.typ": [{
+      newText: "salute",
+      range: {
+        start: { line: 0, character: 5 },
+        end: { line: 0, character: 10 }
+      }
+    }]
+  }
+}, token);
+assert.equal(nonPinnedAlias.kind, "CapabilityUnavailable",
+  "a non-untitled opaque URI was treated as the pinned Tinymist alias");
+
 const prepared = await adapter.prepareWorkspaceEdit(route, backendEdit, token);
 assert.equal(prepared.kind, "Validated");
 assert.equal(prepared.documents.length, 2);
@@ -224,6 +288,8 @@ const unsupported = new ProjectedEditAdapter(
   resolver
 );
 assert.equal((await unsupported.apply(route, backendEdit, token)).kind, "CapabilityUnavailable");
+assert.equal((await unsupported.prepareWorkspaceEdit(route, backendEdit, token)).kind, "CapabilityUnavailable",
+  "provider preparation exposed a multi-document edit before rollback-safe coordination");
 assert.equal((await new CapabilityUnavailableMultiDocumentEditApplier().apply(
   { protocolVersion: 1, documents: [], edits: [], expectedVersions: [] },
   { kind: "Validated", documents: [] },

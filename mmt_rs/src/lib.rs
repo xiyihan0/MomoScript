@@ -1,8 +1,8 @@
 pub mod analysis;
 pub mod diag;
 pub mod emit;
-pub mod inline;
 pub mod identity;
+pub mod inline;
 pub mod materialize;
 pub mod pack;
 pub mod parser;
@@ -26,9 +26,9 @@ pub use emit::{
 pub use identity::{
     CanonicalIdentityError, LogicalProjectFileId, LogicalSourceId, MaterializationKey,
     ProjectDigestInput, ProjectionKey, RenderKey, RuntimeArtifactKey, SourceContentKey,
-    SourceStaleToken, TypstProjectSnapshotKey, canonical_bytes_digest, canonical_json_digest, canonical_relative_path,
-    derived_key, logical_source_id, materialization_key, project_snapshot_key, projection_key,
-    render_key, runtime_artifact_key, source_content_key,
+    SourceStaleToken, TypstProjectSnapshotKey, canonical_bytes_digest, canonical_json_digest,
+    canonical_relative_path, derived_key, logical_source_id, materialization_key,
+    project_snapshot_key, projection_key, render_key, runtime_artifact_key, source_content_key,
 };
 pub use materialize::{
     Materialization, MaterializeError, MaterializedImage, ResourceMaterializer,
@@ -52,9 +52,8 @@ pub use projection::{
     MappingMode, PROJECTION_PLACEHOLDER_IMAGE, ProjectedResource, ProjectedResourceSource,
     ProjectionEdit, ProjectionError, ProjectionIndex, ProjectionKind, ProjectionMappingKind,
     ProjectionMappingResult, ProjectionSegment, TypstProjection, diagnose_analyzed,
-    diagnose_analyzed_with_pack, diagnose_text,
-    diagnose_text_with_pack, project_analyzed, project_analyzed_with_pack, project_text,
-    project_text_with_pack,
+    diagnose_analyzed_with_pack, diagnose_text, diagnose_text_with_pack, project_analyzed,
+    project_analyzed_with_pack, project_text, project_text_with_pack,
 };
 pub use resolve::{
     PackStorageSource, ResolvedResource, ResolvedResourceKind, ResourceFailure, ResourceResolution,

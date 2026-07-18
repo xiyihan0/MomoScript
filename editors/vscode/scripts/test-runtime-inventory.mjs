@@ -91,7 +91,7 @@ const listenerAnchors = {
   hmr: "hot?.dispose(hotDispose)",
   "layout activity click": "activity.addEventListener(\"click\", syncActivitySelection, true)",
   "settings controls": "previewToggle.addEventListener(\"change\", updatePreviewSetting)",
-  "preview webview controls": "exportTrigger?.addEventListener('click'",
+  "preview webview controls": "exportReady?.addEventListener('click'",
   "AVIFS abort": "signal.addEventListener(\"abort\", abort, { once: true })"
 };
 for (const listener of inventory.main.listeners) {

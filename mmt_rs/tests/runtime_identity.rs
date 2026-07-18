@@ -31,18 +31,24 @@ struct Expected {
 
 #[test]
 fn rust_and_typescript_share_canonical_logical_identity_fixture() {
-    let fixture: Fixture = serde_json::from_str(include_str!("fixtures/runtime-identity.json")).unwrap();
+    let fixture: Fixture =
+        serde_json::from_str(include_str!("fixtures/runtime-identity.json")).unwrap();
     let logical_source = logical_source_id(&fixture.workspace_id, &fixture.relative_path).unwrap();
     let source_content = source_content_key(&logical_source, fixture.source.as_bytes());
-    let entry_file = LogicalProjectFileId::generated("authored", "producer-v1", "main.typ").unwrap();
+    let entry_file =
+        LogicalProjectFileId::generated("authored", "producer-v1", "main.typ").unwrap();
     let files = BTreeMap::from([
-        (entry_file.clone(), canonical_bytes_digest("mmt-file-v1", &[b"hello"])),
+        (
+            entry_file.clone(),
+            canonical_bytes_digest("mmt-file-v1", &[b"hello"]),
+        ),
         (
             LogicalProjectFileId::workspace(&fixture.workspace_id, "assets/avatar.png").unwrap(),
             canonical_bytes_digest("mmt-file-v1", &[b"png"]),
         ),
         (
-            LogicalProjectFileId::package("preview", "theme", "1.0.0", "pack-gen", "lib.typ").unwrap(),
+            LogicalProjectFileId::package("preview", "theme", "1.0.0", "pack-gen", "lib.typ")
+                .unwrap(),
             canonical_bytes_digest("mmt-file-v1", &[b"theme"]),
         ),
     ]);
@@ -57,7 +63,14 @@ fn rust_and_typescript_share_canonical_logical_identity_fixture() {
         project_options: BTreeMap::from([("compiledAt".into(), "none".into())]),
         source_map_digest: mapping_digest.clone(),
     });
-    let projection = projection_key(&source_content, "session-a", 7, &entry_file, &project, &mapping_digest);
+    let projection = projection_key(
+        &source_content,
+        "session-a",
+        7,
+        &entry_file,
+        &project,
+        &mapping_digest,
+    );
     let materialization = materialization_key(&projection, "pack", "plan", "bytes");
     let runtime = runtime_artifact_key(
         "0.15.2",
@@ -77,6 +90,9 @@ fn rust_and_typescript_share_canonical_logical_identity_fixture() {
     assert_eq!(runtime.0, fixture.expected.runtime);
     assert_eq!(render.0, fixture.expected.render);
     for uri in fixture.mount_uris {
-        assert!(canonical_relative_path(&uri).is_err(), "presentation URI entered canonical serializer: {uri}");
+        assert!(
+            canonical_relative_path(&uri).is_err(),
+            "presentation URI entered canonical serializer: {uri}"
+        );
     }
 }

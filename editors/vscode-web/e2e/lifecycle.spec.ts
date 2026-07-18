@@ -26,8 +26,19 @@ type LifecycleState = {
   sequence: number;
   events: LifecycleEvent[];
 };
+type ExactExportFixtureState = {
+  availability: string;
+  phase: string;
+  displayedRenderKey?: string;
+  requestedRenderKey?: string;
+  completedRenderKey?: string;
+};
+type ExactExportFixtureRequest = {
+  action: "install" | "state";
+  marker?: string;
+};
 
-test("Vite HMR and production unload close their real language Workers", async ({ page }) => {
+test("repeated Vite HMR and unload sequences evict retained runtime generations", async ({ page }) => {
   await installWorkerLifecycleObserver(page);
   await routeStartupResources(page);
 
@@ -37,84 +48,83 @@ test("Vite HMR and production unload close their real language Workers", async (
     (await lifecycleState(page)).events.some((event) => event.kind === "runtime-ready")
   ), { message: "the initial runtime must reach the production ready registration path" }).toBe(true);
   const initialState = await lifecycleState(page);
-  const initialGeneration = initialState.generation;
-  const initialDocumentGeneration = initialState.documentGeneration;
-  const replacementGeneration = initialGeneration + 1;
-  const reloadGeneration = initialGeneration + 2;
-  await assertLiveLanguageWorkers(page, initialGeneration, "initial runtime");
+  let generation = initialState.generation;
+  let documentGeneration = initialState.documentGeneration;
+  await assertLiveLanguageWorkers(page, generation, "initial runtime");
 
-  const firstGenerationWorkers = page.workers().filter((worker) => /(?:browserWorker|tinymistWorker)/i.test(worker.url()));
-  expect(firstGenerationWorkers, "the initial runtime must own real MMT and Tinymist browser Workers").toHaveLength(2);
-  const firstGenerationClosed = firstGenerationWorkers.map((worker) => new Promise<void>((resolve) => worker.once("close", resolve)));
+  const transitions = ["hmr", "hmr", "unload", "unload"] as const;
+  for (const [index, transition] of transitions.entries()) {
+    const oldGeneration = generation;
+    const installed = await exactExportFixture(page, { action: "install", marker: `${transition}-${index}` });
+    expect(installed.availability).toBe("ready");
+    expect(installed.phase).toBe("idle");
+    expect(installed.displayedRenderKey).toBeTruthy();
+    const retainedRenderKey = installed.displayedRenderKey!;
+    expect(await exactExportArtifactRetained(page, retainedRenderKey)).toBe(true);
 
-  await reloadMainThroughVite(page);
-  await waitForRuntimeGeneration(page, replacementGeneration);
-  await assertLiveLanguageWorkers(page, replacementGeneration, "runtime recreated after serialized Vite HMR disposal");
-  await Promise.all(firstGenerationClosed);
-  expect(
-    (await lifecycleState(page)).documentGeneration,
-    "Vite HMR must reload only after disposing the old runtime"
-  ).toBe(initialDocumentGeneration + 1);
+    const oldWorkers = page.workers().filter((worker) => /(?:browserWorker|tinymistWorker)/i.test(worker.url()));
+    expect(oldWorkers, `runtime ${oldGeneration} must own exactly two live language Workers`).toHaveLength(2);
+    const oldWorkersClosed = oldWorkers.map((worker) => new Promise<void>((resolve) => worker.once("close", resolve)));
 
-  let state = await lifecycleState(page);
-  const firstEvents = state.events.filter((event) => event.generation === initialGeneration);
-  expect(firstEvents.filter((event) => event.kind === "hmr"), "Vite must invoke the production callback registered with import.meta.hot.dispose").toHaveLength(1);
-  expect(
-    firstEvents.some((event) => event.kind === "dispose-complete")
-      || firstEvents.some((event) => event.kind === "hmr-fallback"),
-    "the real Vite HMR callback must complete graceful disposal or invoke its termination fallback"
-  ).toBe(true);
-  expect(
-    languageKinds(firstEvents.filter((event) => event.kind === "worker-terminate")),
-    "Vite HMR disposal must call terminate() on both old real language Workers"
-  ).toEqual(["mmt", "tinymist"]);
-  expect(firstEvents.filter((event) => event.kind === "unload"), "HMR must not invoke beforeunload").toHaveLength(0);
+    if (transition === "hmr") await reloadMainThroughVite(page);
+    else await page.reload();
+    generation += 1;
+    documentGeneration += 1;
+    await waitForRuntimeGeneration(page, generation);
+    await Promise.all(oldWorkersClosed);
+    await assertLiveLanguageWorkers(page, generation, `runtime ${generation} after ${transition} transition ${index + 1}`);
 
+    const state = await lifecycleState(page);
+    expect(state.documentGeneration, `${transition} transition ${index + 1} must create exactly one document`).toBe(documentGeneration);
+    const oldEvents = state.events.filter((event) => event.generation === oldGeneration);
+    if (transition === "hmr") {
+      expect(oldEvents.filter((event) => event.kind === "hmr"), "Vite must invoke exactly one production HMR callback").toHaveLength(1);
+      expect(oldEvents.filter((event) => event.kind === "unload"), "HMR must not invoke beforeunload").toHaveLength(0);
+      expect(
+        oldEvents.some((event) => event.kind === "dispose-complete")
+          || oldEvents.some((event) => event.kind === "hmr-fallback"),
+        "HMR must complete graceful disposal or invoke its bounded termination fallback"
+      ).toBe(true);
+      expect(
+        oldEvents.filter((event) => event.kind === "retained-artifacts-cleared"),
+        "HMR disposal must clear the old generation's retained preview artifact store"
+      ).toHaveLength(1);
+    } else {
+      expect(oldEvents.filter((event) => event.kind === "hmr"), "explicit reload must not invoke HMR disposal").toHaveLength(0);
+      expect(oldEvents.filter((event) => event.kind === "unload"), "beforeunload must run exactly once").toHaveLength(1);
+      const unloadSequence = oldEvents.find((event) => event.kind === "unload")!.sequence;
+      for (const event of oldEvents.filter((candidate) => candidate.kind === "worker-terminate")) {
+        expect(event.sequence, `${event.workerKind} terminate() must follow beforeunload`).toBeGreaterThan(unloadSequence);
+      }
+    }
+    expect(
+      languageKinds(oldEvents.filter((event) => event.kind === "worker-terminate")),
+      `${transition} must terminate both old real language Workers`
+    ).toEqual(["mmt", "tinymist"]);
 
-  const secondGenerationWorkers = page.workers().filter((worker) => /(?:browserWorker|tinymistWorker)/i.test(worker.url()));
-  expect(secondGenerationWorkers, "the HMR replacement must own newly constructed real language Workers").toHaveLength(2);
-  const secondGenerationClosed = secondGenerationWorkers.map((worker) => new Promise<void>((resolve) => worker.once("close", resolve)));
-
-  await page.reload();
-  await waitForRuntimeGeneration(page, reloadGeneration);
-  expect(
-    (await lifecycleState(page)).documentGeneration,
-    "the explicit page reload must create exactly one additional document"
-  ).toBe(initialDocumentGeneration + 2);
-  await assertLiveLanguageWorkers(page, reloadGeneration, "runtime recreated after beforeunload");
-  await Promise.all(secondGenerationClosed);
-
-  state = await lifecycleState(page);
-  const refreshedFirstEvents = state.events.filter((event) => event.generation === initialGeneration);
-  expect(
-    refreshedFirstEvents.filter((event) => event.kind === "unload"),
-    "HMR disposal must remove the old generation's owned beforeunload listener"
-  ).toHaveLength(0);
-  const secondEvents = state.events.filter((event) => event.generation === replacementGeneration);
-  expect(
-    secondEvents.filter((event) => event.kind === "unload"),
-    "the production beforeunload registration must invoke exactly once for the live old generation"
-  ).toHaveLength(1);
-  expect(
-    languageKinds(secondEvents.filter((event) => event.kind === "worker-terminate")),
-    "beforeunload must explicitly call terminate() on both old real language Workers before navigation"
-  ).toEqual(["mmt", "tinymist"]);
-  const unloadSequence = secondEvents.find((event) => event.kind === "unload")?.sequence ?? Number.MAX_SAFE_INTEGER;
-  for (const event of secondEvents.filter((candidate) => candidate.kind === "worker-terminate")) {
-    expect(event.sequence, `${event.workerKind} terminate() must be requested by the beforeunload invocation`).toBeGreaterThan(unloadSequence);
+    const replacementExport = await exactExportFixture(page, { action: "state" });
+    expect(replacementExport).toMatchObject({
+      availability: "no-document",
+      phase: "idle"
+    });
+    expect(replacementExport.displayedRenderKey).toBeUndefined();
+    expect(replacementExport.requestedRenderKey).toBeUndefined();
+    expect(replacementExport.completedRenderKey).toBeUndefined();
+    expect(
+      await exactExportArtifactRetained(page, retainedRenderKey),
+      `runtime ${generation} must not retain generation ${oldGeneration}'s preview artifact`
+    ).toBe(false);
   }
 
-  const thirdEvents = state.events.filter((event) => event.generation === reloadGeneration);
-  expect(thirdEvents.filter((event) => event.kind === "runtime-ready"), "the new generation must initialize exactly once").toHaveLength(1);
+  const finalState = await lifecycleState(page);
+  const finalEvents = finalState.events.filter((event) => event.generation === generation);
+  expect(finalEvents.filter((event) => event.kind === "runtime-ready"), "the final runtime must initialize exactly once").toHaveLength(1);
   expect(
-    languageKinds(thirdEvents.filter((event) => event.kind === "worker-construct")),
-    "the new generation must construct fresh MMT and Tinymist Workers"
+    languageKinds(finalEvents.filter((event) => event.kind === "worker-construct")),
+    "the final runtime must construct fresh MMT and Tinymist Workers"
   ).toEqual(["mmt", "tinymist"]);
-  expect(
-    thirdEvents.filter((event) => event.kind === "worker-terminate"),
-    "the live new generation must not inherit stale termination state"
-  ).toHaveLength(0);
-  expect(languageWorkerUrls(page), "only the new generation's two language Workers may remain live").toHaveLength(2);
+  expect(finalEvents.filter((event) => event.kind === "worker-terminate"), "the live final runtime must not inherit stale termination state").toHaveLength(0);
+  expect(languageWorkerUrls(page), "only the final generation's two language Workers may remain live").toHaveLength(2);
 });
 
 async function installWorkerLifecycleObserver(page: Page): Promise<void> {
@@ -254,6 +264,26 @@ async function reloadMainThroughVite(page: Page): Promise<void> {
   const response = await page.request.post(`${new URL(page.url()).origin}/__mmt_e2e/reload-main`);
   expect(response.status(), `Vite E2E HMR endpoint failed: ${await response.text()}`).toBe(204);
 }
+
+async function exactExportFixture(
+  page: Page,
+  request: ExactExportFixtureRequest
+): Promise<ExactExportFixtureState> {
+  return await page.evaluate(async (value) => {
+    const fixture = Reflect.get(globalThis, "__mmtExactExportFixture");
+    if (typeof fixture !== "function") throw new Error("exact export fixture is unavailable");
+    return await fixture(value) as ExactExportFixtureState;
+  }, request);
+}
+
+async function exactExportArtifactRetained(page: Page, renderKey: string): Promise<boolean> {
+  return await page.evaluate(async (key) => {
+    const fixture = Reflect.get(globalThis, "__mmtExactExportFixture");
+    if (typeof fixture !== "function") throw new Error("exact export fixture is unavailable");
+    return await fixture({ action: "has-artifact", renderKey: key }) as boolean;
+  }, renderKey);
+}
+
 
 async function lifecycleState(page: Page): Promise<LifecycleState> {
   return page.evaluate((storageKey) => {

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {
   materializeProjectResources,
   MAX_PROJECT_RESOURCE_CONCURRENCY
-} from "../src/resourceMaterializer.ts";
+} from "../../vscode/src/resourceMaterializer.ts";
 
 const source = {
   manifestUrl: "https://packs.example/manifest.json",
@@ -61,7 +61,8 @@ const dependencies = {
     activeDecoders -= 1;
     return new Uint8Array([request.frame + 10]);
   },
-  encodeBase64: (bytes) => [...bytes].join(",")
+  encodeBase64: (bytes) => [...bytes].join(","),
+  decodeBase64: (value) => Uint8Array.from(value.split(",").map(Number))
 };
 const result = await materializeProjectResources(
   project,

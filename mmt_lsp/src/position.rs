@@ -60,7 +60,6 @@ impl Utf8ByteOffset {
     pub(crate) fn new(offset: usize) -> Self {
         Self(offset)
     }
-
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -70,7 +69,10 @@ pub struct Utf8ByteRange {
 }
 
 impl Utf8ByteRange {
-    pub fn new(start: Utf8ByteOffset, end: Utf8ByteOffset) -> Result<Self, PositionConversionError> {
+    pub fn new(
+        start: Utf8ByteOffset,
+        end: Utf8ByteOffset,
+    ) -> Result<Self, PositionConversionError> {
         if start > end {
             return Err(PositionConversionError::InvalidRange);
         }
@@ -149,7 +151,10 @@ impl LineIndex {
                 }
             })
             .collect();
-        Self { lines, text_len: text.len() }
+        Self {
+            lines,
+            text_len: text.len(),
+        }
     }
 
     fn checked_position(
@@ -165,7 +170,10 @@ impl LineIndex {
             Ok(line) => line,
             Err(next) => next.saturating_sub(1),
         };
-        let line = self.lines.get(line_number).ok_or(PositionConversionError::InvalidLine)?;
+        let line = self
+            .lines
+            .get(line_number)
+            .ok_or(PositionConversionError::InvalidLine)?;
         if offset > line.content_end {
             return Err(PositionConversionError::InvalidCharacter);
         }
@@ -240,7 +248,8 @@ impl LineIndex {
         offset: Utf8ByteOffset,
         encoding: PositionEncoding,
     ) -> Result<MmtClientPosition, PositionConversionError> {
-        self.checked_position(offset, encoding).map(MmtClientPosition::new)
+        self.checked_position(offset, encoding)
+            .map(MmtClientPosition::new)
     }
 
     pub fn backend_position(
@@ -248,7 +257,8 @@ impl LineIndex {
         offset: Utf8ByteOffset,
         encoding: PositionEncoding,
     ) -> Result<TinymistBackendPosition, PositionConversionError> {
-        self.checked_position(offset, encoding).map(TinymistBackendPosition::new)
+        self.checked_position(offset, encoding)
+            .map(TinymistBackendPosition::new)
     }
 
     pub fn backend_range(
@@ -274,14 +284,24 @@ impl LineIndex {
     }
 
     // Non-projected language-service compatibility. Projection boundaries use the typed methods above.
-    pub fn position(&self, text: &str, offset: usize, encoding: &PositionEncodingKind) -> Option<Position> {
+    pub fn position(
+        &self,
+        text: &str,
+        offset: usize,
+        encoding: &PositionEncodingKind,
+    ) -> Option<Position> {
         (text.len() == self.text_len)
             .then_some(())
             .and_then(|()| PositionEncoding::from_lsp(encoding).ok())
             .and_then(|encoding| self.checked_position(Utf8ByteOffset(offset), encoding).ok())
     }
 
-    pub fn offset(&self, text: &str, position: Position, encoding: &PositionEncodingKind) -> Option<usize> {
+    pub fn offset(
+        &self,
+        text: &str,
+        position: Position,
+        encoding: &PositionEncodingKind,
+    ) -> Option<usize> {
         (text.len() == self.text_len)
             .then_some(())
             .and_then(|()| PositionEncoding::from_lsp(encoding).ok())
@@ -289,7 +309,12 @@ impl LineIndex {
             .map(Utf8ByteOffset::get)
     }
 
-    pub fn range(&self, text: &str, range: TextRange, encoding: &PositionEncodingKind) -> Option<Range> {
+    pub fn range(
+        &self,
+        text: &str,
+        range: TextRange,
+        encoding: &PositionEncodingKind,
+    ) -> Option<Range> {
         Some(Range::new(
             self.position(text, range.start, encoding)?,
             self.position(text, range.end, encoding)?,
@@ -326,11 +351,17 @@ mod tests {
         let text = "晴😀\r\n";
         let index = LineIndex::new(text);
         assert_eq!(
-            index.mmt_offset(MmtClientPosition::new(Position::new(0, 1)), PositionEncoding::Utf8),
+            index.mmt_offset(
+                MmtClientPosition::new(Position::new(0, 1)),
+                PositionEncoding::Utf8
+            ),
             Err(PositionConversionError::SplitUtf8CodePoint)
         );
         assert_eq!(
-            index.backend_offset(TinymistBackendPosition::new(Position::new(0, 2)), PositionEncoding::Utf16),
+            index.backend_offset(
+                TinymistBackendPosition::new(Position::new(0, 2)),
+                PositionEncoding::Utf16
+            ),
             Err(PositionConversionError::SplitUtf16Surrogate)
         );
         assert_eq!(

@@ -202,6 +202,12 @@ export interface RetainedTypstGeneration {
   readonly projectionKey: ProjectionKey;
 }
 
+export interface ProjectedPositionRequestWire {
+  readonly textDocument: { readonly uri: string };
+  readonly position: WirePosition;
+  readonly backendEncoding: PositionEncoding;
+}
+
 export interface ProjectedPositionWire {
   readonly entryUri: string;
   readonly revision: number;
@@ -287,6 +293,12 @@ export function retainedBackendPosition(
     index,
     position
   };
+}
+
+export interface ProjectedRangeRequestWire {
+  readonly textDocument: { readonly uri: string };
+  readonly range: WireRange;
+  readonly backendEncoding: PositionEncoding;
 }
 
 export interface ProjectedRangeWire {

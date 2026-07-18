@@ -1,9 +1,9 @@
 use std::io::{BufRead, BufReader, Read, Write};
 use std::process::{ChildStdin, ChildStdout, Command, Stdio};
 
-use lsp_types::{Hover, Url};
-use mmt_lsp::{LanguageService, ProjectionStore};
+use lsp_types::{Hover, Range, Url};
 use mmt_lsp::position::PositionEncoding;
+use mmt_lsp::{LanguageService, ProjectionStore};
 use mmt_rs::{EmitOptions, StaticPresetCatalog, project_text};
 use serde_json::{Value, json};
 
@@ -116,7 +116,8 @@ fn fixed_tinymist_sidecar_handles_a_virtual_document_transcript() {
                     "general": {"positionEncodings": ["utf-16"]},
                     "textDocument": {
                         "completion": {"completionItem": {"snippetSupport": true}},
-                        "hover": {"contentFormat": ["markdown", "plaintext"]}
+                        "hover": {"contentFormat": ["markdown", "plaintext"]},
+                        "rename": {"prepareSupport": true},
                     }
                 },
                 "clientInfo": {"name": "mmt-lsp-sidecar-test", "version": "0.1.0"}
@@ -172,7 +173,7 @@ fn fixed_tinymist_sidecar_handles_a_virtual_document_transcript() {
             "method": "textDocument/hover",
             "params": {
                 "textDocument": {"uri": "untitled:/mmt-projection/main.typ"},
-                "position": hover_position
+                "position": hover_position.clone()
             }
         }),
     );
@@ -180,21 +181,17 @@ fn fixed_tinymist_sidecar_handles_a_virtual_document_transcript() {
     assert!(hover.get("error").is_none(), "{hover}");
     assert!(!hover["result"].is_null(), "{hover}");
     let hover_result: Hover = serde_json::from_value(hover["result"].clone()).unwrap();
+    let mut store = ProjectionStore::default();
+    let mut service = LanguageService::default();
+    let source_uri = Url::parse("file:///workspace/sidecar.mmt").unwrap();
+    let snapshot = service
+        .open(source_uri.clone(), 1, mmt_source.to_string())
+        .clone();
+    let document = store.upsert(source_uri, &snapshot).unwrap();
     if let Some(range) = hover_result.range {
-        let mut store = ProjectionStore::default();
-        let mut service = LanguageService::default();
-        let source_uri = Url::parse("file:///workspace/sidecar.mmt").unwrap();
-        let snapshot = service
-            .open(source_uri.clone(), 1, mmt_source.to_string())
-            .clone();
-        let document = store.upsert(source_uri, &snapshot).unwrap();
         assert!(
             document
-                .typst_range_to_mmt(
-                    range,
-                    PositionEncoding::Utf16,
-                    PositionEncoding::Utf16,
-                )
+                .typst_range_to_mmt(range, PositionEncoding::Utf16, PositionEncoding::Utf16,)
                 .is_ok(),
             "Tinymist hover range is not safely mappable: {range:?}"
         );
@@ -202,9 +199,62 @@ fn fixed_tinymist_sidecar_handles_a_virtual_document_transcript() {
 
     send(
         &mut stdin,
-        &json!({"jsonrpc": "2.0", "id": 4, "method": "shutdown", "params": null}),
+        &json!({
+            "jsonrpc": "2.0",
+            "id": 4,
+            "method": "textDocument/prepareRename",
+            "params": {
+                "textDocument": {"uri": "untitled:/mmt-projection/main.typ"},
+                "position": hover_position.clone()
+            }
+        }),
     );
-    assert!(receive_response(&mut stdin, &mut stdout, 4)["result"].is_null());
+    let prepare_rename = receive_response(&mut stdin, &mut stdout, 4);
+    assert!(prepare_rename.get("error").is_none(), "{prepare_rename}");
+    assert_eq!(prepare_rename["result"]["placeholder"], "greet");
+
+    send(
+        &mut stdin,
+        &json!({
+            "jsonrpc": "2.0",
+            "id": 5,
+            "method": "textDocument/rename",
+            "params": {
+                "textDocument": {"uri": "untitled:/mmt-projection/main.typ"},
+                "position": hover_position,
+                "newName": "salute"
+            }
+        }),
+    );
+    let rename = receive_response(&mut stdin, &mut stdout, 5);
+    assert!(rename.get("error").is_none(), "{rename}");
+    let changes = rename["result"]["changes"]
+        .as_object()
+        .expect("Tinymist rename must return a changes map");
+    assert_eq!(changes.len(), 1, "{rename}");
+    let (target_uri, edits) = changes.iter().next().unwrap();
+    assert_eq!(
+        target_uri, "untitled:mmt-projection/main.typ",
+        "pinned Tinymist edit URI serialization changed"
+    );
+    let edits = edits.as_array().expect("rename edits");
+    assert_eq!(edits.len(), 1, "{rename}");
+    for edit in edits {
+        assert_eq!(edit["newText"], "salute");
+        let range: Range = serde_json::from_value(edit["range"].clone()).unwrap();
+        assert!(
+            document
+                .typst_range_to_mmt(range, PositionEncoding::Utf16, PositionEncoding::Utf16)
+                .is_ok(),
+            "real Tinymist rename range is not safely mappable: {range:?}"
+        );
+    }
+
+    send(
+        &mut stdin,
+        &json!({"jsonrpc": "2.0", "id": 6, "method": "shutdown", "params": null}),
+    );
+    assert!(receive_response(&mut stdin, &mut stdout, 6)["result"].is_null());
     send(
         &mut stdin,
         &json!({"jsonrpc": "2.0", "method": "exit", "params": null}),

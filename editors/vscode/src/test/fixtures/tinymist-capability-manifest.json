@@ -179,10 +179,10 @@
       "web": true
     },
     {
-      "classification": "deferred",
+      "classification": "core-required",
       "key": "selectionRangeProvider",
       "native": true,
-      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "reason": "compatible advertisement plus checked native/Web navigation transcript",
       "sameOptions": true,
       "web": true
     },

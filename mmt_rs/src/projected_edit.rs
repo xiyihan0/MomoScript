@@ -207,11 +207,12 @@ pub fn validate_projected_edit_transaction<'a>(
         let identity = identities
             .get(&virtual_uri)
             .ok_or_else(|| unsafe_edit(UnsafeEditReason::MissingDocumentIdentity))?;
-        let document = retained_by_uri.get(&virtual_uri).ok_or(
-            ProjectedEditFailure::StaleProjection {
-                reason: StaleProjectionReason::MissingRetainedDocument,
-            },
-        )?;
+        let document =
+            retained_by_uri
+                .get(&virtual_uri)
+                .ok_or(ProjectedEditFailure::StaleProjection {
+                    reason: StaleProjectionReason::MissingRetainedDocument,
+                })?;
         if !document.current {
             return Err(ProjectedEditFailure::StaleProjection {
                 reason: StaleProjectionReason::RetiredProjection,
@@ -244,15 +245,14 @@ pub fn validate_projected_edit_transaction<'a>(
             .source_range
             .ok_or_else(|| unsafe_edit(UnsafeEditReason::CrossSegment))?;
         let target_uri = normalize_uri(document.authored_target_uri)?;
-        let target = target_by_uri
-            .get(&target_uri)
-            .ok_or_else(|| ProjectedEditFailure::ReadOnlyTarget {
-                uri: target_uri.clone(),
-            })?;
+        let target =
+            target_by_uri
+                .get(&target_uri)
+                .ok_or_else(|| ProjectedEditFailure::ReadOnlyTarget {
+                    uri: target_uri.clone(),
+                })?;
         if target.class != ProjectedTargetClass::Authored || !target.writable {
-            return Err(ProjectedEditFailure::ReadOnlyTarget {
-                uri: target_uri,
-            });
+            return Err(ProjectedEditFailure::ReadOnlyTarget { uri: target_uri });
         }
         let expected_version = expected_versions
             .get(&target_uri)
@@ -262,21 +262,30 @@ pub fn validate_projected_edit_transaction<'a>(
                 reason: StaleProjectionReason::DocumentVersionChanged,
             });
         }
-        mapped.entry(target_uri).or_default().push(ValidatedProjectedEdit {
-            range: source_range,
-            new_text: &edit.new_text,
-        });
+        mapped
+            .entry(target_uri)
+            .or_default()
+            .push(ValidatedProjectedEdit {
+                range: source_range,
+                new_text: &edit.new_text,
+            });
     }
 
     let edited_targets: BTreeSet<_> = mapped.keys().cloned().collect();
-    if expected_versions.keys().any(|uri| !edited_targets.contains(uri)) {
+    if expected_versions
+        .keys()
+        .any(|uri| !edited_targets.contains(uri))
+    {
         return Err(unsafe_edit(UnsafeEditReason::MissingExpectedVersion));
     }
 
     let mut documents = Vec::with_capacity(mapped.len());
     for (uri, mut edits) in mapped {
         edits.sort_unstable_by_key(|edit| (edit.range.start, edit.range.end));
-        if edits.windows(2).any(|pair| ranges_overlap(pair[0].range, pair[1].range)) {
+        if edits
+            .windows(2)
+            .any(|pair| ranges_overlap(pair[0].range, pair[1].range))
+        {
             return Err(unsafe_edit(UnsafeEditReason::OverlappingEdits));
         }
         documents.push(ValidatedProjectedDocumentEdits {
@@ -320,7 +329,8 @@ fn decode_position(
     position: ProjectedEditPosition,
     encoding: ProjectedEditEncoding,
 ) -> Result<usize, ProjectedEditFailure> {
-    let line = usize::try_from(position.line).map_err(|_| unsafe_edit(UnsafeEditReason::InvalidPosition))?;
+    let line = usize::try_from(position.line)
+        .map_err(|_| unsafe_edit(UnsafeEditReason::InvalidPosition))?;
     let character = usize::try_from(position.character)
         .map_err(|_| unsafe_edit(UnsafeEditReason::InvalidPosition))?;
     let line_start = if line == 0 {
@@ -335,9 +345,11 @@ fn decode_position(
     let raw_end = source[line_start..]
         .find('\n')
         .map_or(source.len(), |offset| line_start + offset);
-    let line_end = raw_end.checked_sub(
-        usize::from(raw_end > line_start && source.as_bytes()[raw_end - 1] == b'\r'),
-    ).ok_or_else(|| unsafe_edit(UnsafeEditReason::InvalidPosition))?;
+    let line_end = raw_end
+        .checked_sub(usize::from(
+            raw_end > line_start && source.as_bytes()[raw_end - 1] == b'\r',
+        ))
+        .ok_or_else(|| unsafe_edit(UnsafeEditReason::InvalidPosition))?;
     let line_text = &source[line_start..line_end];
     let mut units = 0usize;
     if character == 0 {
@@ -369,7 +381,9 @@ fn normalize_uri(uri: &str) -> Result<String, ProjectedEditFailure> {
     if uri.contains(['?', '#', '\\']) {
         return Err(unsafe_edit(UnsafeEditReason::InvalidUri));
     }
-    let colon = uri.find(':').ok_or_else(|| unsafe_edit(UnsafeEditReason::InvalidUri))?;
+    let colon = uri
+        .find(':')
+        .ok_or_else(|| unsafe_edit(UnsafeEditReason::InvalidUri))?;
     let scheme = &uri[..colon];
     if scheme.is_empty()
         || !scheme.bytes().enumerate().all(|(index, byte)| {
@@ -407,7 +421,11 @@ fn normalize_uri(uri: &str) -> Result<String, ProjectedEditFailure> {
         }
     }
     let mut path = format!("{}{}", if absolute { "/" } else { "" }, segments.join("/"));
-    if scheme == "file" && path.len() >= 3 && path.as_bytes()[0] == b'/' && path.as_bytes()[2] == b':' {
+    if scheme == "file"
+        && path.len() >= 3
+        && path.as_bytes()[0] == b'/'
+        && path.as_bytes()[2] == b':'
+    {
         path.replace_range(1..2, &path[1..2].to_ascii_lowercase());
     }
     Ok(if remainder.starts_with("//") || scheme == "file" {
@@ -434,15 +452,24 @@ fn normalize_percent_encoding(value: &str) -> Result<String, ProjectedEditFailur
         if index + 2 >= bytes.len() {
             return Err(unsafe_edit(UnsafeEditReason::InvalidUri));
         }
-        let high = hex(bytes[index + 1]).ok_or_else(|| unsafe_edit(UnsafeEditReason::InvalidUri))?;
+        let high =
+            hex(bytes[index + 1]).ok_or_else(|| unsafe_edit(UnsafeEditReason::InvalidUri))?;
         let low = hex(bytes[index + 2]).ok_or_else(|| unsafe_edit(UnsafeEditReason::InvalidUri))?;
         let byte = high * 16 + low;
         if byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'.' | b'_' | b'~') {
             normalized.push(char::from(byte));
         } else {
             normalized.push('%');
-            normalized.push(char::from_digit(u32::from(high), 16).unwrap().to_ascii_uppercase());
-            normalized.push(char::from_digit(u32::from(low), 16).unwrap().to_ascii_uppercase());
+            normalized.push(
+                char::from_digit(u32::from(high), 16)
+                    .unwrap()
+                    .to_ascii_uppercase(),
+            );
+            normalized.push(
+                char::from_digit(u32::from(low), 16)
+                    .unwrap()
+                    .to_ascii_uppercase(),
+            );
         }
         index += 3;
     }

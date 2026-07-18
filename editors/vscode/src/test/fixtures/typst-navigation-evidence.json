@@ -10,6 +10,7 @@
       "definition": 1,
       "references": 3,
       "highlights": 3,
+      "selectionRanges": 1,
       "documentSymbols": 3,
       "workspaceSymbols": 1,
       "hierarchicalHeadings": true
@@ -27,6 +28,7 @@
       "definition": 1,
       "references": 3,
       "highlights": 3,
+      "selectionRanges": 1,
       "documentSymbols": 3,
       "workspaceSymbols": 1,
       "hierarchicalHeadings": true
