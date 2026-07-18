@@ -508,7 +508,9 @@ try {
   const unversionedDiagnostics = result.diagnosticVersions.every((version) => version == null);
   assert(versionedDiagnostics || unversionedDiagnostics, "diagnostic versions are consistent");
 
-  const advertisedCommands = result.initialize.capabilities?.executeCommandProvider?.commands ?? [];
+  const normalizedCapabilities = structuredClone(result.initialize.capabilities ?? null);
+  const advertisedCommands = normalizedCapabilities?.executeCommandProvider?.commands ?? [];
+  advertisedCommands.sort();
   const locationCommands = [
     "tinymist.startDefaultPreview",
     "tinymist.scrollPreview",
@@ -551,7 +553,7 @@ try {
     },
     initialize: {
       serverInfo: result.initialize.serverInfo ?? null,
-      capabilities: result.initialize.capabilities ?? null
+      capabilities: normalizedCapabilities
     },
     dynamicRegistrations: {
       register: result.dynamicRegistrations.register,

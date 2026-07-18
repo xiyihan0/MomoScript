@@ -110,25 +110,25 @@
       "documentSymbolProvider": true,
       "executeCommandProvider": {
         "commands": [
-          "tinymist.getResources",
-          "tinymist.exportPdf",
           "tinymist.doClearCache",
-          "tinymist.focusMain",
+          "tinymist.exportAnsiHighlight",
+          "tinymist.exportAst",
           "tinymist.exportBundle",
           "tinymist.exportHtml",
-          "tinymist.interactCodeContext",
           "tinymist.exportMarkdown",
-          "tinymist.exportAst",
-          "tinymist.exportText",
-          "tinymist.getWorkspaceLabels",
-          "tinymist.exportAnsiHighlight",
+          "tinymist.exportPdf",
           "tinymist.exportPng",
-          "tinymist.getServerInfo",
           "tinymist.exportQuery",
-          "tinymist.pinMain",
+          "tinymist.exportSvg",
           "tinymist.exportTeX",
+          "tinymist.exportText",
+          "tinymist.focusMain",
           "tinymist.getDocumentMetrics",
-          "tinymist.exportSvg"
+          "tinymist.getResources",
+          "tinymist.getServerInfo",
+          "tinymist.getWorkspaceLabels",
+          "tinymist.interactCodeContext",
+          "tinymist.pinMain"
         ]
       },
       "experimental": {
