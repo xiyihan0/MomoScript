@@ -15,7 +15,7 @@ if (!packageRoot) {
   throw new Error("TINYMIST_WEB_PKG must point to the fixed tinymist-web pkg directory");
 }
 
-const expectedArtifacts = new Map([
+const canonicalArtifacts = new Map([
   ["tinymist.js", "f2c1756f580ab97ede75f266185cea8ab86160e00d9735f8adca732c96527400"],
   ["tinymist_bg.wasm", "c9ff9b1d8197656e89e2ee4cc3fc74923ddfecaec3fbc4022f82d150fa995db4"]
 ]);
@@ -65,16 +65,18 @@ async function verifyPinnedArtifact() {
     if (manifest.has(match[2])) throw new Error(`duplicate Tinymist checksum entry: ${match[2]}`);
     manifest.set(match[2], match[1]);
   }
-  assert.deepEqual([...manifest.keys()].sort(), [...expectedArtifacts.keys()].sort());
+  assert.deepEqual([...manifest.keys()].sort(), [...canonicalArtifacts.keys()].sort());
 
   const digests = {};
   const checksumManifest = [];
-  for (const [name, expectedDigest] of expectedArtifacts) {
-    assert.equal(manifest.get(name), expectedDigest, `${name} baseline SHA256SUMS digest`);
+  let runtimeArtifact = false;
+  for (const [name, canonicalDigest] of canonicalArtifacts) {
+    const expectedDigest = manifest.get(name);
     const filename = path.join(packageRoot, name);
     const bytes = await readFile(filename);
     const actualDigest = createHash("sha256").update(bytes).digest("hex");
-    assert.equal(actualDigest, expectedDigest, `${name} bytes match baseline SHA256SUMS`);
+    assert.equal(actualDigest, expectedDigest, `${name} bytes match their supplied SHA256SUMS`);
+    runtimeArtifact ||= actualDigest !== canonicalDigest;
     digests[name] = actualDigest;
     checksumManifest.push({ name, sha256: actualDigest, size: bytes.byteLength });
   }
@@ -84,8 +86,21 @@ async function verifyPinnedArtifact() {
   return {
     packageVersion: packageMetadata.version,
     digests,
-    checksumManifest: checksumManifest.sort((left, right) => left.name.localeCompare(right.name))
+    checksumManifest: checksumManifest.sort((left, right) => left.name.localeCompare(right.name)),
+    runtimeArtifact
   };
+}
+
+function webEvidenceForComparison(evidence) {
+  const normalized = structuredClone(evidence);
+  for (const name of Object.keys(normalized.artifact.digests)) {
+    normalized.artifact.digests[name] = `<runtime-${name}-sha256>`;
+  }
+  for (const entry of normalized.artifact.checksumManifest.entries) {
+    entry.sha256 = `<runtime-${entry.name}-sha256>`;
+    entry.size = `<runtime-${entry.name}-size>`;
+  }
+  return normalize(normalized);
 }
 
 const artifact = await verifyPinnedArtifact();
@@ -641,7 +656,9 @@ try {
     await writeFile(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`, "utf8");
   } else {
     const checked = JSON.parse(await readFile(evidencePath, "utf8"));
-    assert.deepEqual(evidence, checked, "Tinymist Web evidence changed; rerun qualification deliberately");
+    const actualForComparison = artifact.runtimeArtifact ? webEvidenceForComparison(evidence) : evidence;
+    const checkedForComparison = artifact.runtimeArtifact ? webEvidenceForComparison(checked) : checked;
+    assert.deepEqual(actualForComparison, checkedForComparison, "Tinymist Web behavior changed; rerun qualification deliberately");
   }
 
   console.log(JSON.stringify({

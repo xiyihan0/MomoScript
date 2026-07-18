@@ -55,30 +55,46 @@ if (mode === "build-promote" || mode === "promote") {
   const nativePath = path.join(source, pin.artifacts.native.relativePath);
   const jsPath = path.join(source, pin.artifacts.webJs.relativePath);
   const wasmPath = path.join(source, pin.artifacts.webWasm.relativePath);
-  const nativeBytes = await readFile(nativePath);
-  const nativeDigest = createHash("sha256").update(nativeBytes).digest("hex");
-  const nativeSize = (await stat(nativePath)).size;
-  if (nativeSize === 0) throw new Error(`${nativePath}: empty native artifact`);
+  const nativeArtifact = await describeFile(nativePath);
+  const jsArtifact = await describeFile(jsPath);
+  const wasmArtifact = await describeFile(wasmPath);
+  for (const [filename, artifact] of [
+    [nativePath, nativeArtifact],
+    [jsPath, jsArtifact],
+    [wasmPath, wasmArtifact]
+  ]) {
+    if (artifact.size === 0) throw new Error(`${filename}: empty artifact`);
+  }
+
   await writeFile(
     path.join(path.dirname(nativePath), "tinymist-native-patched.sha256"),
-    `${nativeDigest}  tinymist\n`
+    `${nativeArtifact.sha256}  tinymist\n`
+  );
+  await writeFile(
+    path.join(path.dirname(jsPath), "SHA256SUMS"),
+    `${jsArtifact.sha256}  tinymist.js\n${wasmArtifact.sha256}  tinymist_bg.wasm\n`
   );
   promotedArtifacts = {
     ...pin.artifacts,
-    native: { ...pin.artifacts.native, sha256: nativeDigest, size: nativeSize }
+    native: { ...pin.artifacts.native, ...nativeArtifact },
+    webJs: { ...pin.artifacts.webJs, ...jsArtifact },
+    webWasm: { ...pin.artifacts.webWasm, ...wasmArtifact }
   };
-  await verifyFile(jsPath, pin.artifacts.webJs);
-  await verifyFile(wasmPath, pin.artifacts.webWasm);
 
-  const vendor = path.join(root, "editors", "vscode", "vendor", `tinymist-${pin.upstream.version}`);
-  await copyFile(jsPath, path.join(vendor, "tinymist.js"));
-  await copyFile(wasmPath, path.join(vendor, "tinymist_bg.wasm"));
-  await writeFile(
-    path.join(vendor, "SHA256SUMS"),
-    `${pin.artifacts.webJs.sha256}  tinymist.js\n${pin.artifacts.webWasm.sha256}  tinymist_bg.wasm\n`
-  );
-  // Keep this checked manifest canonical-only. A rebuilt native binary receives
-  // its run-local checksum beside the binary and in promotedArtifacts above.
+  const canonicalWeb = jsArtifact.sha256 === pin.artifacts.webJs.sha256
+    && wasmArtifact.sha256 === pin.artifacts.webWasm.sha256;
+  if (canonicalWeb) {
+    const vendor = path.join(root, "editors", "vscode", "vendor", `tinymist-${pin.upstream.version}`);
+    await copyFile(jsPath, path.join(vendor, "tinymist.js"));
+    await copyFile(wasmPath, path.join(vendor, "tinymist_bg.wasm"));
+    await writeFile(
+      path.join(vendor, "SHA256SUMS"),
+      `${pin.artifacts.webJs.sha256}  tinymist.js\n${pin.artifacts.webWasm.sha256}  tinymist_bg.wasm\n`
+    );
+  }
+
+  // Keep this checked manifest canonical-only. Rebuilt native and Web artifacts
+  // receive run-local checksum manifests beside their binaries above.
   await writeFile(
     path.join(root, "third_party", "tinymist", "SHA256SUMS"),
     [
@@ -91,6 +107,14 @@ if (mode === "build-promote" || mode === "promote") {
 }
 
 console.log(JSON.stringify({ applied: true, mode, revision: pin.upstream.revision, artifacts: promotedArtifacts }));
+
+async function describeFile(filename) {
+  const bytes = await readFile(filename);
+  return {
+    sha256: createHash("sha256").update(bytes).digest("hex"),
+    size: (await stat(filename)).size
+  };
+}
 
 async function verifyFile(filename, expected) {
   const bytes = await readFile(filename);
