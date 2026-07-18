@@ -85,7 +85,8 @@ jobs:
             ${{ runner.temp }}/tinymist/target/release/tinymist
             ${{ runner.temp }}/tinymist/crates/tinymist/pkg/tinymist.js
             ${{ runner.temp }}/tinymist/crates/tinymist/pkg/tinymist_bg.wasm
-          key: tinymist-v1-${{ runner.os }}-${{ runner.arch }}-${{ env.RUST_TOOLCHAIN }}-${{ env.TINYMIST_REVISION }}-${{ hashFiles('third_party/tinymist/pin.json', 'third_party/tinymist/patches/*.patch') }}
+            ${{ runner.temp }}/tinymist/crates/tinymist/pkg/package.json
+          key: tinymist-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.RUST_TOOLCHAIN }}-${{ env.TINYMIST_REVISION }}-${{ hashFiles('third_party/tinymist/pin.json', 'third_party/tinymist/patches/*.patch') }}
       - name: Apply maintained patch and verify pinned artifacts
         env:
           TINYMIST_SRC: ${{ runner.temp }}/tinymist
@@ -113,6 +114,7 @@ jobs:
           cp "$RUNNER_TEMP/tinymist/target/release/tinymist-native-patched.sha256" .ci/tinymist/native/tinymist-native-patched.sha256
           cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/tinymist.js" .ci/tinymist/web/tinymist.js
           cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/tinymist_bg.wasm" .ci/tinymist/web/tinymist_bg.wasm
+          cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/package.json" .ci/tinymist/web/package.json
           cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/SHA256SUMS" .ci/tinymist/web/SHA256SUMS
       - uses: actions/upload-artifact@v4
         with:
