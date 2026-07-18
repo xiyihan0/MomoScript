@@ -21,8 +21,13 @@ import {
 } from "./typstFeatureRouter";
 import { TypstNavigationProviders } from "./typstNavigationProviders";
 import type { TypstProviderHost } from "./typstProviderDescriptors";
+import {
+  RetainedVirtualDocumentStore,
+  registerVirtualTypstContentProviders
+} from "./retainedVirtualDocuments";
 
 const routersByBackend = new WeakMap<TinymistHostBackend, TypstFeatureRouter>();
+const retainedDocumentsByBackend = new WeakMap<TinymistHostBackend, RetainedVirtualDocumentStore>();
 
 interface PublishedTypstDiagnostics {
   readonly uri: string;
@@ -169,6 +174,12 @@ export function connectTypstBackend(
   const diagnostics = vscode.languages.createDiagnosticCollection("mmt-typst");
   const providers = new TypstHostProviderRegistrations(router, backend, client);
   const navigationProviders = new TypstNavigationProviders(router, client, host);
+  let retainedDocuments = retainedDocumentsByBackend.get(backend);
+  if (!retainedDocuments) {
+    retainedDocuments = new RetainedVirtualDocumentStore();
+    retainedDocumentsByBackend.set(backend, retainedDocuments);
+  }
+  const virtualContentProviders = registerVirtualTypstContentProviders(vscode.workspace, retainedDocuments);
   for (const document of vscode.workspace.textDocuments) {
     if (document.languageId === "typst") router.open(routerDocument(document));
   }
@@ -185,6 +196,12 @@ export function connectTypstBackend(
     "mmt/typstProjectUpdated",
     (update: TypstProjectUpdate) => {
       router.retire(update.sourceUri);
+      retainedDocuments.retainProjection({
+        sourceUri: update.sourceUri,
+        revision: update.revision,
+        projectionKey: update.projectionKey,
+        files: update.files
+      });
       backend.syncProject(update);
       const current = backend.projectForEntry(update.entryUri);
       if (current?.sourceUri === update.sourceUri && current.revision === update.revision) {
@@ -197,6 +214,7 @@ export function connectTypstBackend(
     (params: { sourceUri: string; entryUri: string }) => {
       router.retire(params.sourceUri);
       if (backend.closeProject(params.sourceUri, params.entryUri)) {
+        retainedDocuments.closeProjectionSource(params.sourceUri);
         diagnostics.delete(vscode.Uri.parse(params.sourceUri));
       }
     }
@@ -245,6 +263,7 @@ export function connectTypstBackend(
     diagnostics,
     providers,
     navigationProviders,
+    ...virtualContentProviders,
     opened,
     changed,
     closed,

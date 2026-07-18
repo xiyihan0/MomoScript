@@ -8,6 +8,7 @@ const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const vscodeStub = `
 export const __host = {
   registrations: [],
+  contentProviders: [],
   diagnosticCollections: [],
   documents: [],
   opened: [],
@@ -56,6 +57,11 @@ export const languages = {
 };
 export const workspace = {
   get textDocuments() { return __host.documents; },
+  registerTextDocumentContentProvider(scheme, provider) {
+    const value = { scheme, provider, disposed: false };
+    __host.contentProviders.push(value);
+    return disposable(() => { value.disposed = true; });
+  },
   onDidOpenTextDocument(handler) { __host.opened.push(handler); return disposable(() => {}); },
   onDidChangeTextDocument(handler) { __host.changed.push(handler); return disposable(() => {}); },
   onDidCloseTextDocument(handler) { __host.closed.push(handler); return disposable(() => {}); }
@@ -570,7 +576,16 @@ const hostBackend = {
   request: async (method) => method === "textDocument/semanticTokens/full"
     ? { data: [0, 0, 1, 2, 0] }
     : null,
-  syncProject() {},
+  syncProject(update) {
+    const contentProvider = __host.contentProviders.find((item) => item.scheme === "mmt-projection" && !item.disposed);
+    const retainedUri = update.entryUri.replace(/^[^:]+:/, "mmt-projection:");
+    assert.equal(
+      contentProvider.provider.provideTextDocumentContent({ toString: () => retainedUri }),
+      update.files.find((file) => file.uri === update.entryUri).text,
+      "projection bytes were not retained before backend sync"
+    );
+    hostProjects.set(update.entryUri, update);
+  },
   closeProject() { return true; }
 };
 const diagnosticsGate = Promise.withResolvers();
@@ -599,6 +614,40 @@ const hostOptions = { documentSelector: [{ language: "mmt" }, { language: "typst
 installTypstMiddleware(hostOptions, hostBackend, () => hostClient);
 assert.deepEqual(hostOptions.documentSelector, [{ language: "mmt" }], "MMT client retained standalone Typst providers");
 const hostDisposables = connectTypstBackend(hostClient, hostBackend, "native");
+assert.deepEqual(
+  __host.contentProviders.map((item) => item.scheme).sort(),
+  ["mmt-package", "mmt-projection"],
+  "virtual Typst content providers were not registered"
+);
+const retainedUpdate = {
+  sourceUri: "file:///workspace/host.typ",
+  sourceVersion: 2,
+  revision: 2,
+  entryUri: "untitled:/mmt-projection/host/main-2.typ",
+  files: [{ uri: "untitled:/mmt-projection/host/main-2.typ", text: "retained projection" }],
+  full: true,
+  sourceContent: "source-host-2",
+  projectDigest: "project-host-2",
+  projectionKey: "projection-host-2",
+  mappingDigest: "mapping-host-2"
+};
+notificationHandlers.get("mmt/typstProjectUpdated")(retainedUpdate);
+const projectionContentProvider = __host.contentProviders.find((item) => item.scheme === "mmt-projection").provider;
+const retainedReadUri = { toString: () => "mmt-projection:/mmt-projection/host/main-2.typ" };
+assert.equal(
+  projectionContentProvider.provideTextDocumentContent(retainedReadUri),
+  "retained projection",
+  "accepted project update was not readable from the retained content provider"
+);
+notificationHandlers.get("mmt/typstProjectClosed")({
+  sourceUri: retainedUpdate.sourceUri,
+  entryUri: retainedUpdate.entryUri
+});
+assert.throws(
+  () => projectionContentProvider.provideTextDocumentContent(retainedReadUri),
+  /not retained/,
+  "closed projection source remained readable"
+);
 const activeHostRegistrations = () => __host.registrations.filter((registration) => !registration.disposed);
 assert.deepEqual(
   activeHostRegistrations().map((registration) => registration.kind).sort(),
@@ -694,6 +743,7 @@ assert.equal(
   "diagnostics converted after a project graph change were published"
 );
 for (const disposable of hostDisposables) disposable.dispose();
+assert(__host.contentProviders.every((item) => item.disposed), "virtual content providers survived backend disposal");
 
 const routedProjects = new Map([
   ["logical:/unicode.typ", {
