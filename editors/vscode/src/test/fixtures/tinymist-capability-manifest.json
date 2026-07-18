@@ -239,13 +239,8 @@
       "referencesProvider",
       "renameProvider"
     ],
-    "patchRequired": true,
-    "patchRequiredProviders": [
-      "documentFormattingProvider",
-      "documentLinkProvider",
-      "documentRangeFormattingProvider",
-      "renameProvider"
-    ],
+    "patchRequired": false,
+    "patchRequiredProviders": [],
     "providerEvidence": "tinymist-rich-provider-qualification.json",
     "rule": "core-required requires compatible native/Web advertisement and shared positive/negative method transcript; unsafe or non-positive providers remain unavailable"
   },
