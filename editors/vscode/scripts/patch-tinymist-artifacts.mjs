@@ -77,6 +77,8 @@ if (mode === "build-promote" || mode === "promote") {
     path.join(vendor, "SHA256SUMS"),
     `${pin.artifacts.webJs.sha256}  tinymist.js\n${pin.artifacts.webWasm.sha256}  tinymist_bg.wasm\n`
   );
+  // Keep this checked manifest canonical-only. A rebuilt native binary receives
+  // its run-local checksum beside the binary and in promotedArtifacts above.
   await writeFile(
     path.join(root, "third_party", "tinymist", "SHA256SUMS"),
     [
