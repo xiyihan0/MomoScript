@@ -282,9 +282,16 @@ export class TypstFeatureRouter {
     if (capability.kind !== "QualifiedProvider") return undefined;
     const route = this.standaloneRoute(document);
     if (!route) return undefined;
-    const routedParams = routeTextDocument(params, route.entryUri) as TypstProviderRequests[Method]["params"];
+    const routedParams = routeStandaloneProviderParams(
+      params,
+      route.entryUri,
+      route.index,
+      this.backendEncoding
+    ) as TypstProviderRequests[Method]["params"];
     const value = await this.request(method, routedParams, route.identity, token);
-    if (value === undefined) return undefined;
+    if (value === undefined
+      || !this.identityIsCurrent(route.identity)
+      || !this.providerCapabilityIsCurrent(host, method, capability)) return undefined;
     const positionContext = this.providerPositionContext(route.identity, route.entryUri);
     validateTypstProviderPositions(method, value, positionContext);
     return Object.freeze({ method, value, identity: route.identity, positionContext, capability });
@@ -307,7 +314,9 @@ export class TypstFeatureRouter {
       resolve.identity,
       token
     );
-    if (value === undefined) return undefined;
+    if (value === undefined
+      || !this.identityIsCurrent(resolve.identity)
+      || !this.providerCapabilityIsCurrent(host, method, capability)) return undefined;
     const entryUri = this.entryByHostUri.get(resolve.identity.sourceStaleToken.hostUri);
     if (!entryUri) return undefined;
     const positionContext = this.providerPositionContext(resolve.identity, entryUri);
@@ -609,6 +618,17 @@ export class TypstFeatureRouter {
       && current.projectionKey === identity.projectionKey;
   }
 
+  private providerCapabilityIsCurrent(
+    host: TypstProviderHost,
+    method: TypstProviderMethod,
+    captured: TypstProviderRegistrationContract
+  ): boolean {
+    const current = this.providerCapability(host, method);
+    return current.kind === "QualifiedProvider"
+      && current.runtime === captured.runtime
+      && current.resolveProvider === captured.resolveProvider;
+  }
+
   private sourceIndex(identity: TinymistRequestIdentity): LineIndex {
     const retained = this.sourceIndexes.get(identity.sourceStaleToken.hostUri);
     if (!retained || retained.version !== identity.sourceStaleToken.documentVersion) {
@@ -679,9 +699,32 @@ export class TypstFeatureRouter {
   }
 }
 
-function routeTextDocument(params: unknown, entryUri: string): unknown {
-  if (!isRecord(params) || !("textDocument" in params)) return params;
-  return { ...params, textDocument: { uri: entryUri } };
+function routeStandaloneProviderParams(
+  params: unknown,
+  entryUri: string,
+  index: LineIndex,
+  backendEncoding: PositionEncoding
+): unknown {
+  if (!isRecord(params)) return params;
+  const routed: Record<string, unknown> = { ...params };
+  if ("textDocument" in routed) routed.textDocument = { uri: entryUri };
+  const convert = (value: unknown): WirePosition => {
+    if (!isRecord(value)) throw new PositionConversionError("InvalidLine");
+    return wireBackendPosition(index.convertClient(mmtClientPosition(
+      { line: value.line as number, character: value.character as number },
+      "utf-16"
+    ), backendEncoding));
+  };
+  if (routed.position !== undefined) routed.position = convert(routed.position);
+  if (routed.range !== undefined) {
+    if (!isRecord(routed.range)) throw new PositionConversionError("InvalidLine");
+    routed.range = { start: convert(routed.range.start), end: convert(routed.range.end) };
+  }
+  if (routed.positions !== undefined) {
+    if (!Array.isArray(routed.positions)) throw new PositionConversionError("InvalidLine");
+    routed.positions = routed.positions.map(convert);
+  }
+  return routed;
 }
 
 function hasCanonicalProjectIdentity(
