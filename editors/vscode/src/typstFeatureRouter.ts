@@ -308,18 +308,19 @@ export class TypstFeatureRouter {
     if (capability.kind !== "QualifiedProvider") return undefined;
     const resolve = this.providerResolveRequest(method, item);
     if (!resolve) return undefined;
+    const entryUri = this.entryByHostUri.get(resolve.identity.sourceStaleToken.hostUri);
+    if (!entryUri) return undefined;
+    const positionContext = this.providerPositionContext(resolve.identity, entryUri);
+    const routedItem = routeProviderResolveParams(method, resolve.item, positionContext);
     const value = await this.request(
       method,
-      resolve.item as TypstProviderRequests[Method]["params"],
+      routedItem as TypstProviderRequests[Method]["params"],
       resolve.identity,
       token
     );
     if (value === undefined
       || !this.identityIsCurrent(resolve.identity)
       || !this.providerCapabilityIsCurrent(host, method, capability)) return undefined;
-    const entryUri = this.entryByHostUri.get(resolve.identity.sourceStaleToken.hostUri);
-    if (!entryUri) return undefined;
-    const positionContext = this.providerPositionContext(resolve.identity, entryUri);
     validateTypstProviderPositions(method, value, positionContext);
     return Object.freeze({ method, value, identity: resolve.identity, positionContext, capability });
   }
@@ -723,6 +724,86 @@ function routeStandaloneProviderParams(
   if (routed.positions !== undefined) {
     if (!Array.isArray(routed.positions)) throw new PositionConversionError("InvalidLine");
     routed.positions = routed.positions.map(convert);
+  }
+  return routed;
+}
+
+function routeProviderResolveParams(
+  method: TypstProviderMethod,
+  value: unknown,
+  context: TypstProviderPositionContext
+): unknown {
+  if (!isRecord(value)) throw new PositionConversionError("InvalidLine");
+  const routed: Record<string, unknown> = { ...value };
+  const convertPosition = (position: unknown, uri = context.sourceUri): WirePosition => {
+    if (!isRecord(position)) throw new PositionConversionError("InvalidLine");
+    const index = uri === context.sourceUri ? context.sourceIndex : context.retainedIndex?.(uri);
+    if (!index) throw new PositionConversionError("AbsentGeneration");
+    return wireBackendPosition(index.convertClient(mmtClientPosition({
+      line: position.line as number,
+      character: position.character as number
+    }, "utf-16"), context.encoding));
+  };
+  const convertRange = (range: unknown, uri = context.sourceUri): unknown => {
+    if (!isRecord(range)) throw new PositionConversionError("InvalidLine");
+    return { start: convertPosition(range.start, uri), end: convertPosition(range.end, uri) };
+  };
+  const convertTextEdits = (edits: unknown, uri = context.sourceUri): unknown => {
+    if (!Array.isArray(edits)) throw new PositionConversionError("InvalidLine");
+    return edits.map((edit) => {
+      if (!isRecord(edit)) throw new PositionConversionError("InvalidLine");
+      return { ...edit, range: convertRange(edit.range, uri) };
+    });
+  };
+  if (method === "workspaceSymbol/resolve") {
+    if (!isRecord(routed.location) || typeof routed.location.uri !== "string") {
+      throw new PositionConversionError("AbsentGeneration");
+    }
+    if (routed.location.range !== undefined) {
+      routed.location = {
+        ...routed.location,
+        range: convertRange(routed.location.range, routed.location.uri)
+      };
+    }
+  } else if (method === "documentLink/resolve" || method === "codeLens/resolve") {
+    routed.range = convertRange(routed.range);
+  } else if (method === "inlayHint/resolve") {
+    routed.position = convertPosition(routed.position);
+    if (routed.textEdits !== undefined) routed.textEdits = convertTextEdits(routed.textEdits);
+    if (Array.isArray(routed.label)) {
+      routed.label = routed.label.map((part) => {
+        if (!isRecord(part) || !isRecord(part.location) || typeof part.location.uri !== "string") return part;
+        return {
+          ...part,
+          location: {
+            ...part.location,
+            range: convertRange(part.location.range, part.location.uri)
+          }
+        };
+      });
+    }
+  } else if (method === "codeAction/resolve") {
+    if (Array.isArray(routed.diagnostics)) {
+      routed.diagnostics = routed.diagnostics.map((diagnostic) => {
+        if (!isRecord(diagnostic)) throw new PositionConversionError("InvalidLine");
+        return { ...diagnostic, range: convertRange(diagnostic.range) };
+      });
+    }
+    if (isRecord(routed.edit) && Array.isArray(routed.edit.documentChanges)) {
+      routed.edit = {
+        ...routed.edit,
+        documentChanges: routed.edit.documentChanges.map((change) => {
+          if (!isRecord(change) || !isRecord(change.textDocument)
+            || typeof change.textDocument.uri !== "string") {
+            throw new PositionConversionError("AbsentGeneration");
+          }
+          return {
+            ...change,
+            edits: convertTextEdits(change.edits, change.textDocument.uri)
+          };
+        })
+      };
+    }
   }
   return routed;
 }
