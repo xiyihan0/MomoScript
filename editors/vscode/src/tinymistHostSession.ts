@@ -71,6 +71,10 @@ export class TinymistHostSession {
   backendGeneration(): number {
     return this.options.transport.generation;
   }
+  queuedProjectCount(): number {
+    return this.projectState.queuedProjectCount();
+  }
+
 
   capabilities(): TinymistCapabilityView {
     return this.capabilityRegistry;

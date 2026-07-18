@@ -121,6 +121,7 @@ export function isTypstTextFile(file: TypstVirtualFile): file is Extract<TypstVi
 
 export interface TinymistHostBackend {
   backendGeneration(): number;
+  queuedProjectCount(): number;
   capabilities(): TinymistCapabilityView;
   on(method: string, handler: (params: unknown) => void): { dispose(): void };
   request<T>(method: string, params: unknown, signal?: AbortSignal): Promise<T>;
@@ -264,6 +265,10 @@ export class TinymistWorkerClient implements TinymistHostBackend {
   backendGeneration(): number {
     return this.session.backendGeneration();
   }
+  queuedProjectCount(): number {
+    return this.session.queuedProjectCount();
+  }
+
 
   capabilities(): TinymistCapabilityView {
     return this.session.capabilities();

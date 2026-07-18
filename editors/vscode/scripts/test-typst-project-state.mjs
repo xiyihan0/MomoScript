@@ -46,7 +46,7 @@ const port = {
 
 const state = new TypstProjectState(port, {
   closeGraceMs: 1,
-  primeDebounceMs: 10_000,
+  primeDebounceMs: 0,
   limits: { maxProjects: 2, maxRequests: 1, maxPrimes: 2, maxCloses: 4, maxReplay: 2 }
 });
 await state.activateBackend(1);
@@ -69,6 +69,7 @@ const full = {
   ]
 };
 assert.equal(state.syncProject(full).accepted, true);
+assert.equal(state.queuedProjectCount(), 1, "complete project was not queued for priming");
 assert.equal(state.syncProject({ ...full, revision: 2, entryUri: entryA2, full: false, files: [
   { uri: entryA2, text: "#let value = 2\n#value" }
 ] }).accepted, true);
@@ -81,6 +82,10 @@ const unknown = state.syncProject({ ...full, entryUri: entryB, full: false, file
 assert.equal(unknown.accepted, false);
 assert.equal(unknown.error.code, "UnknownSessionDelta");
 assert.equal(state.syncProject({ ...full, entryUri: entryB, full: true, files: [{ uri: entryB, text: "#let current = true" }] }).accepted, true);
+assert.equal(state.queuedProjectCount(), 1, "same logical source was counted more than once");
+await new Promise((resolve) => setTimeout(resolve, 0));
+assert.equal(state.queuedProjectCount(), 0, "in-flight prime was still reported as queued");
+assert.ok(events.some((item) => item.method === "tinymist/projectPrimeStarted"), "queue-to-in-flight transition was not published");
 const retired = state.syncProject({ ...full, revision: 99, entryUri: entryA2, full: true, files: [] });
 assert.equal(retired.accepted, false);
 assert.equal(retired.error.code, "RetiredSession");
@@ -109,6 +114,7 @@ assert.equal(held.size, 0);
 
 notifications.length = 0;
 state.deactivateBackend(1, new Error("fixture restart"));
+assert.equal(state.queuedProjectCount(), 0, "backend deactivation left queued prime work behind");
 await state.activateBackend(2);
 assert.equal(state.backendGeneration(), 2);
 const replayOpens = notifications
@@ -121,4 +127,4 @@ await assert.rejects(
 );
 state.dispose();
 assert.ok(events.some((item) => item.method === "tinymist/projectRejected"));
-console.log(JSON.stringify({ checked: true, generation: 2, replay: replayOpens, boundedRequests: true }));
+console.log(JSON.stringify({ checked: true, generation: 2, replay: replayOpens, boundedRequests: true, queuedProjectCount: true, queueTransitions: true }));

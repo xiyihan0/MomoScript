@@ -55,6 +55,10 @@ export class TinymistProcessClient implements TinymistHostBackend {
   backendGeneration(): number {
     return this.session.backendGeneration();
   }
+  queuedProjectCount(): number {
+    return this.session.queuedProjectCount();
+  }
+
 
   capabilities(): TinymistCapabilityView {
     return this.session.capabilities();

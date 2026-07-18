@@ -93,6 +93,7 @@ export class TypstPreviewController {
   private readonly events: TypstPreviewEvents | undefined;
   private pending: PendingPreviewRender | undefined;
   private rendering = false;
+  private typstOperationTail: Promise<void> = Promise.resolve();
   private mappedPaths = new Set<string>();
   private generation = 0;
   private closeRequested = false;
@@ -232,13 +233,18 @@ export class TypstPreviewController {
     this.setZoom(Math.min((this.viewport.clientWidth - 32) / width, (this.viewport.clientHeight - 32) / height), "page", persist);
   }
 
-  async createExport(format: TypstExportFormat): Promise<TypstExport> {
+  async createExport(format: TypstExportFormat, signal?: AbortSignal): Promise<TypstExport> {
     const entryPath = this.latestEntryPath;
     const svg = this.latestSvg;
     const pageSize = this.pageSize;
     if (!entryPath || !svg || !pageSize) throw new Error("请等待当前预览渲染完成后再导出。");
+    signal?.throwIfAborted();
     if (format === "pdf") {
-      const pdf = await $typst.pdf({ mainFilePath: entryPath });
+      const pdf = await this.withTypstOperation(() => {
+        signal?.throwIfAborted();
+        return $typst.pdf({ mainFilePath: entryPath });
+      });
+      signal?.throwIfAborted();
       if (!pdf) throw new Error("Typst 未生成 PDF 数据。");
       return { blob: new Blob([new Uint8Array(pdf)], { type: "application/pdf" }), extension: format };
     }
@@ -247,7 +253,9 @@ export class TypstPreviewController {
       return { blob: new Blob([exportSvg], { type: "image/svg+xml;charset=utf-8" }), extension: format };
     }
     const mime = format === "png" ? "image/png" : "image/jpeg";
-    return { blob: await rasterizeSvg(exportSvg, pageSize, mime), extension: format };
+    const blob = await rasterizeSvg(exportSvg, pageSize, mime);
+    signal?.throwIfAborted();
+    return { blob, extension: format };
   }
 
   invalidate(): void {
@@ -345,17 +353,29 @@ export class TypstPreviewController {
       while (this.closeRequested || this.pending) {
         if (this.closeRequested) {
           this.closeRequested = false;
-          await this.resetPreview();
+          await this.withTypstOperation(() => this.resetPreview());
           continue;
         }
         const next = this.pending;
         if (!next) continue;
         const generation = this.generation;
         this.pending = undefined;
-        await this.render(next.project, generation, next.binding);
+        await this.withTypstOperation(() => this.render(next.project, generation, next.binding));
       }
     } finally {
       this.rendering = false;
+    }
+  }
+
+  private async withTypstOperation<T>(operation: () => Promise<T>): Promise<T> {
+    const previous = this.typstOperationTail;
+    let release!: () => void;
+    this.typstOperationTail = new Promise<void>((resolve) => { release = resolve; });
+    await previous;
+    try {
+      return await operation();
+    } finally {
+      release();
     }
   }
 
@@ -417,6 +437,7 @@ export class TypstPreviewController {
       if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
         throw new Error("Typst renderer returned SVG without a positive page size");
       }
+      ensureSvgPageBackground(root);
       sanitizeSvg(root);
       const inlineSvg = document.importNode(root, true);
       inlineSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
@@ -640,6 +661,20 @@ function addSvgPageGaps(root: SVGElement): number {
   viewBox[3] += added;
   root.setAttribute("viewBox", viewBox.join(" "));
   return added;
+}
+
+export function ensureSvgPageBackground(root: SVGSVGElement): void {
+  if (root.querySelector(":scope > [data-preview-page-background]")) return;
+  const viewBox = root.getAttribute("viewBox")?.trim().split(/[ ,]+/).map(Number);
+  const validViewBox = viewBox?.length === 4 && viewBox.every(Number.isFinite) && viewBox[2] > 0 && viewBox[3] > 0;
+  const background = root.ownerDocument.createElementNS("http://www.w3.org/2000/svg", "rect");
+  background.setAttribute("x", validViewBox ? String(viewBox[0]) : "0");
+  background.setAttribute("y", validViewBox ? String(viewBox[1]) : "0");
+  background.setAttribute("width", validViewBox ? String(viewBox[2]) : "100%");
+  background.setAttribute("height", validViewBox ? String(viewBox[3]) : "100%");
+  background.setAttribute("fill", "white");
+  background.setAttribute("data-preview-page-background", "true");
+  root.prepend(background);
 }
 
 export function sanitizeSvg(root: SVGElement): void {

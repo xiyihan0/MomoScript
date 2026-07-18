@@ -42,6 +42,7 @@ import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
 import { projectionSessionKey } from "../../vscode/src/tinymistClient";
 import { sanitizeSvg, TypstPreviewController, type TypstPreviewBinding } from "./preview";
+import { createCurrentPreviewExportClient } from "./currentPreviewExport.ts";
 import {
   PreviewBuildState,
   type PreviewBuildDiagnostic,
@@ -52,6 +53,8 @@ import { ownEventListener } from "./runtimeOwner";
 import { EditorRuntimeController } from "./runtimeController";
 import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
 import { registerPwaUpdateLifecycle } from "./pwaUpdate";
+import { TINYMIST_VERSION, TINYMIST_WASM_SHA256 } from "./runtimeArtifacts";
+import { EditorRuntimeStatus, type RuntimeRecoveryState } from "./runtimeStatus";
 import { createPreviewArtifact, type LocationProviderKey, type PreviewArtifact, type PreviewPagePoint, type PreviewSourceTarget, type PreviewViewport } from "./previewArtifact.ts";
 import type {
   PreviewBackendLocation,
@@ -247,7 +250,10 @@ const PREVIEW_RENDER_OPTIONS_DIGEST = canonicalBytesDigest(
 );
 
 function createE2EExactExportHost(): E2EExactExportHost | undefined {
-  if (import.meta.env.VITE_MMT_E2E !== "1") return undefined;
+  if (
+    import.meta.env.VITE_MMT_E2E !== "1"
+    || new URL(location.href).searchParams.get("mmtExportMode") === "current-preview"
+  ) return undefined;
   const latest = new LatestExactArtifactWaiter();
   return {
     latest,
@@ -416,15 +422,21 @@ async function initializeRuntime(
     renderRequestIdBySource,
     persistenceByUri,
   } = controller.stores;
+  let preview!: TypstPreviewController;
   const exactExportAdvanceBySource = new Map<string, RenderAdvanceToken>();
-  const exactExportUi = own(new ExactExportUiController(controller.stores.exactExport, {
+  const currentPreviewExport = createCurrentPreviewExportClient({
+    artifacts: controller.stores.previewArtifacts,
+    preview: () => preview,
+  });
+  const exportMode = controller.stores.exactExport ? "exact" : "current-preview";
+  const exactExportUi = own(new ExactExportUiController(controller.stores.exactExport ?? currentPreviewExport, {
     stateChanged(state) {
       if (previewPanel) void previewPanel.webview.postMessage({ type: "exactExportState", state });
     },
     failed(error) {
       log("export:error", error instanceof Error ? error.message : String(error));
     },
-  }));
+  }, exportMode));
   const advanceExactExport = (sourceUri: string, cause: RenderAdvanceCause): void => {
     const token = controller.stores.exactExport?.advance(sourceUri, cause);
     if (token) exactExportAdvanceBySource.set(sourceUri, token);
@@ -596,7 +608,7 @@ async function initializeRuntime(
     );
     editor.revealRange(editor.selection, vscode.TextEditorRevealType.InCenterIfOutsideViewport);
   };
-  const preview = own(new TypstPreviewController(layout.preview, {
+  preview = own(new TypstPreviewController(layout.preview, {
     status(message, error, revision) {
       if (revision?.sourceUri === previewFixtureActiveSourceUri) return;
       const identity = revision ? currentPreviewBuildIdentity(revision) : undefined;
@@ -1066,6 +1078,11 @@ async function initializeRuntime(
   outputStatus.tooltip = "显示或隐藏 MomoScript 日志";
   outputStatus.command = "workbench.action.output.toggleOutput";
   outputStatus.show();
+  const runtimeStatus = new EditorRuntimeStatus({
+    backendVersion: TINYMIST_VERSION,
+    artifactDigest: TINYMIST_WASM_SHA256,
+    positionEncoding: "utf-16",
+  });
   const buildStatus = own(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 98));
   buildStatus.name = "MomoScript 构建状态";
   buildStatus.command = "workbench.actions.view.problems";
@@ -1086,22 +1103,31 @@ async function initializeRuntime(
           !== previewDocumentIncarnations.get(document)
       )
     );
-    const status = stale ? "stale" : (snapshot?.status ?? "idle");
-    buildStatus.backgroundColor = status === "failed"
+    const previewStatus = stale ? "stale" : (snapshot?.status ?? "idle");
+    const runtime = runtimeStatus.snapshot();
+    const displayStatus = runtime.recoveryState === "ready"
+      ? previewStatus
+      : runtime.recoveryState;
+    buildStatus.backgroundColor = displayStatus === "failed"
       ? new vscode.ThemeColor("statusBarItem.errorBackground")
-      : status === "stale"
+      : displayStatus === "stale"
         ? new vscode.ThemeColor("statusBarItem.warningBackground")
         : undefined;
-    if (status === "rendering") buildStatus.text = "$(sync~spin) MomoScript: rendering…";
-    else if (status === "ready") buildStatus.text = "$(check) MomoScript: ready";
-    else if (status === "failed") buildStatus.text = "$(error) MomoScript: failed";
-    else if (status === "stale") buildStatus.text = "$(warning) MomoScript: stale";
-    else buildStatus.text = "$(circle-outline) MomoScript: idle";
-    const revision = snapshot?.identity ? ` revision ${snapshot.identity.revision}` : "";
-    const diagnostics = snapshot?.diagnosticCount
-      ? `; ${snapshot.diagnosticCount} build problem(s)`
-      : "";
-    buildStatus.tooltip = `${buildStatus.text.replace(/^\\$\\([^)]*\\)\\s*/, "")}${revision}${diagnostics}. Click to focus Problems.`;
+    const icon = displayStatus === "failed"
+      ? "error"
+      : displayStatus === "recovering" || displayStatus === "starting" || displayStatus === "rendering"
+        ? "sync~spin"
+        : displayStatus === "stale"
+          ? "warning"
+          : displayStatus === "ready"
+            ? "check"
+            : "circle-outline";
+    buildStatus.text = `$(${icon}) MomoScript: ${displayStatus === "rendering" ? "rendering…" : displayStatus}`;
+    buildStatus.tooltip = runtimeStatus.tooltip(
+      `Preview ${previewStatus}`,
+      snapshot?.identity?.revision,
+      snapshot?.diagnosticCount ?? 0,
+    );
     buildStatus.show();
   };
   own(previewBuildState.subscribe((sourceUri) => {
@@ -1109,6 +1135,10 @@ async function initializeRuntime(
       refreshBuildStatus();
     }
   }));
+  own(runtimeStatus.onDidChange(() => refreshBuildStatus()));
+  if (import.meta.env.VITE_MMT_E2E === "1") {
+    exposeRuntimeGlobal("__mmtRuntimeStatus", () => runtimeStatus.snapshot());
+  }
   own(vscode.window.onDidChangeActiveTextEditor(refreshBuildStatus));
   own(vscode.workspace.onDidChangeTextDocument((event) => {
     const sourceUri = event.document.uri.toString();
@@ -1312,6 +1342,39 @@ async function initializeRuntime(
   document.documentElement.dataset.mmtStage = "filesystem-ready";
 
 
+  const publishRuntimeStatus = (
+    event: string,
+    recoveryState: RuntimeRecoveryState,
+    lastFailure?: string,
+  ) => {
+    const backend = tinymist?.backend;
+    const snapshot = runtimeStatus.update({
+      recoveryState,
+      generation: backend?.backendGeneration() ?? 0,
+      queuedProjectCount: backend?.queuedProjectCount() ?? 0,
+      ...(lastFailure === undefined ? {} : { lastFailure }),
+    });
+    log("runtime:status", JSON.stringify({ event, ...snapshot }));
+  };
+  const publishRuntimeQueue = (event: string): void => {
+    const backend = tinymist?.backend;
+    const snapshot = runtimeStatus.update({
+      generation: backend?.backendGeneration() ?? 0,
+      queuedProjectCount: backend?.queuedProjectCount() ?? 0,
+    });
+    log("runtime:status", JSON.stringify({ event, ...snapshot }));
+  };
+  if (import.meta.env.VITE_MMT_E2E === "1") {
+    exposeRuntimeGlobal("__mmtRuntimeStatusFixture", (
+      recoveryState: RuntimeRecoveryState,
+      lastFailure?: string,
+    ) => publishRuntimeStatus("e2e-fixture", recoveryState, lastFailure));
+  }
+  const syncTinymistProject = (project: TypstProjectUpdate): void => {
+    tinymist?.backend.syncProject(project);
+    if (tinymist) publishRuntimeQueue("project-queued");
+  };
+
   document.documentElement.dataset.mmtStage = "tinymist-starting";
   try {
     tinymist = await startTinymistLanguageClient(
@@ -1321,11 +1384,29 @@ async function initializeRuntime(
     const handle = tinymist;
     own({ dispose: () => handle.dispose() });
     controller.registerTermination(() => handle.terminate());
+    const refreshRuntimeQueue = () => publishRuntimeQueue("project-queue-changed");
+    own(handle.backend.on("tinymist/projectPrimeStarted", refreshRuntimeQueue));
+    own(handle.backend.on("tinymist/projectPrimed", refreshRuntimeQueue));
+    own(handle.backend.on("tinymist/projectPrimeFailed", refreshRuntimeQueue));
+    own(handle.backend.on("tinymist/clientRestarting", () => publishRuntimeStatus("backend-restarting", "recovering")));
+    own(handle.backend.on("tinymist/clientRestarted", () => publishRuntimeStatus("backend-restarted", "ready")));
+    own(handle.backend.on("tinymist/clientFailed", (params) => {
+      const message = params && typeof params === "object" && "message" in params
+        ? String(params.message)
+        : "Tinymist backend failed";
+      publishRuntimeStatus("backend-failed", "failed", message);
+    }));
+    publishRuntimeStatus("backend-ready", "ready");
     log("tinymist", "Tinymist Worker ready");
   } catch (error) {
     log("tinymist:error", error instanceof Error ? error.message : String(error));
     void vscode.window.showWarningMessage(
       `内置 Typst 语言服务不可用：${error instanceof Error ? error.message : String(error)}`
+    );
+    publishRuntimeStatus(
+      "backend-start-failed",
+      "failed",
+      error instanceof Error ? error.message : String(error),
     );
   }
   document.documentElement.dataset.mmtStage = tinymist ? "tinymist-ready" : "tinymist-unavailable";
@@ -1334,7 +1415,7 @@ async function initializeRuntime(
     const sourceUri = document.uri.toString();
     const project = await buildTypstProject(document, typstRevisions);
     if (typstRevisions.get(sourceUri) !== project.revision) return undefined;
-    tinymist?.backend.syncProject(project);
+    syncTinymistProject(project);
     return project;
   };
   const recognizeAndSyncTypst = async (document: vscode.TextDocument): Promise<TypstProjectUpdate | undefined> => {
@@ -1404,7 +1485,7 @@ async function initializeRuntime(
       if (!tracked) return;
       if (tracked.advanced) {
         if (displayedPreviewSourceUri === project.sourceUri) advanceExactExport(project.sourceUri, "dependency");
-        tinymist?.backend.syncProject(project);
+        syncTinymistProject(project);
       }
       void schedulePreviewIfEnabled(activeClient!, project.sourceUri, tracked.token).catch((error: unknown) => {
         log("preview:error", error instanceof Error ? error.message : String(error));
@@ -1436,6 +1517,11 @@ async function initializeRuntime(
     log("mmt:error", error instanceof Error ? error.message : String(error));
     void vscode.window.showErrorMessage(
       `MomoScript 浏览器语言服务器启动失败：${error instanceof Error ? error.message : String(error)}`
+    );
+    publishRuntimeStatus(
+      "mmt-start-failed",
+      "failed",
+      error instanceof Error ? error.message : String(error),
     );
   }
   const documentConfigCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.document.configure", async () => {
@@ -1517,7 +1603,7 @@ async function initializeRuntime(
       previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, "正在准备 Typst 预览…");
       const project = await buildTypstProject(document, typstRevisions);
       typstProjects.set(sourceUri, project);
-      tinymist?.backend.syncProject(project);
+      syncTinymistProject(project);
       previewBuildState.activate(previewBuildIdentityFor(project, document));
       await renderPreview(project);
       return;
@@ -1551,7 +1637,7 @@ async function initializeRuntime(
     const tracked = trackLanguageProjection(project);
     if (!tracked) return;
     acceptedPreviewLanguageProjects?.set(sourceUri, project);
-    if (tracked.advanced) tinymist?.backend.syncProject(project);
+    if (tracked.advanced) syncTinymistProject(project);
     await requestRenderProject(activeClient, project.sourceUri, tracked.token, true);
     refreshOpenedPreview();
   }));
@@ -1686,7 +1772,7 @@ async function initializeRuntime(
             if (current) {
               const tracked = trackLanguageProjection(current);
               if (tracked) {
-                if (tracked.advanced) tinymist?.backend.syncProject(current);
+                if (tracked.advanced) syncTinymistProject(current);
                 await schedulePreviewIfEnabled(client, current.sourceUri, tracked.token);
               }
             }
@@ -2075,9 +2161,10 @@ function previewWebviewHtml(
   void webview;
   const nonce = previewNonce();
   const resolvedExportState: ExactExportUiState = exactExportState ?? Object.freeze({
+    mode: "exact",
     availability: "no-document",
     phase: "idle",
-    message: "Open a preview to export an exact artifact.",
+    message: "Open a preview to export its output.",
     canSelectFormat: false,
     canExportDisplayed: false,
     canWaitForLatest: false,
@@ -2090,7 +2177,9 @@ function previewWebviewHtml(
     { format: "jpg", label: "JPEG image" },
     { format: "svg", label: "SVG vector" },
   ].map(({ format, label }) => `<option value="${format}">${label}</option>`).join("");
-  const exportControls = `<section class="exact-export" data-availability="${resolvedExportState.availability}" data-phase="${resolvedExportState.phase}" aria-label="Exact snapshot export"><label class="exact-export-format"><span>Format</span><select aria-label="Export format" disabled>${formats}</select></label><button type="button" data-export-action="ready" hidden disabled>Export exact revision</button><div class="exact-export-stale" hidden><button type="button" data-export-action="export-displayed" disabled>Export displayed revision</button><button type="button" data-export-action="wait-for-latest" disabled>Wait for latest</button></div><button type="button" data-export-action="cancel" hidden disabled>Cancel export</button><span class="exact-export-status" role="status" aria-live="polite">${escapeHtml(resolvedExportState.message)}</span></section>`;
+  const exportReadyLabel = resolvedExportState.mode === "exact" ? "Export exact revision" : "Export current preview";
+  const exportAriaLabel = resolvedExportState.mode === "exact" ? "Exact snapshot export" : "Current preview export";
+  const exportControls = `<section class="exact-export" data-mode="${resolvedExportState.mode}" data-availability="${resolvedExportState.availability}" data-phase="${resolvedExportState.phase}" aria-label="${exportAriaLabel}"><label class="exact-export-format"><span>Format</span><select aria-label="Export format" disabled>${formats}</select></label><button type="button" data-export-action="ready" hidden disabled>${exportReadyLabel}</button><div class="exact-export-stale" hidden><button type="button" data-export-action="export-displayed" disabled>Export displayed revision</button><button type="button" data-export-action="wait-for-latest" disabled>Wait for latest</button></div><button type="button" data-export-action="cancel" hidden disabled>Cancel export</button><span class="exact-export-status" role="status" aria-live="polite">${escapeHtml(resolvedExportState.message)}</span></section>`;
   const body = svg
     ? `<nav class="preview-toolbar" aria-label="预览操作"><div class="zoom-controls"><button type="button" data-zoom="out" aria-label="Zoom out">−</button><span class="zoom-label" aria-live="polite">100%</span><button type="button" data-zoom="in" aria-label="Zoom in">+</button><button type="button" data-fit="width">Fit width</button><button type="button" data-fit="page">Fit page</button></div>${exportControls}</nav><main class="viewport"><article class="page" data-page-index="0"${pageStyle}>${svg}</article></main>`
     : `<main class="status${error ? " error" : ""}">${escapeHtml(status)}</main>`;
@@ -2122,7 +2211,7 @@ function previewWebviewHtml(
     .exact-export[data-availability="stale"] .exact-export-status { color: var(--vscode-editorWarning-foreground, #cca700); }
     .exact-export[data-availability="failed"] .exact-export-status, .exact-export[data-phase="error"] .exact-export-status { color: var(--vscode-errorForeground); }
     .viewport { display: flex; justify-content: center; min-width: min-content; height: calc(100vh - 43px); overflow: auto; box-sizing: border-box; padding: 24px; background: #e5e5e5; }
-    .page { position: relative; flex: 0 0 auto; background: transparent; line-height: 0; transform-origin: top left; }
+    .page { position: relative; flex: 0 0 auto; background: #fff; line-height: 0; transform-origin: top left; }
     .page svg { display: block; width: 100%; height: 100%; max-width: none; filter: drop-shadow(0 2px 5px #0008); }
     .page .tsel, .page .tsel span { color: transparent; line-height: 1; white-space: pre; pointer-events: auto; user-select: text; cursor: text; }
     .page .tsel::selection, .page .tsel span::selection { color: transparent; background: #7db9dea0; }
@@ -2243,10 +2332,12 @@ function previewWebviewHtml(
   const applyExactExportState = (state) => {
     if (!exportControl || !state) return;
     exportControl.dataset.availability = state.availability;
+    exportControl.dataset.mode = state.mode;
     exportControl.dataset.phase = state.phase;
     if (exportStatus) exportStatus.textContent = state.message;
     if (exportFormat) exportFormat.disabled = !state.canSelectFormat;
     if (exportReady) {
+      exportReady.textContent = state.mode === 'exact' ? 'Export exact revision' : 'Export current preview';
       exportReady.hidden = state.availability !== 'ready' || state.canCancel;
       exportReady.disabled = !state.canExportDisplayed;
     }
@@ -2270,7 +2361,9 @@ function previewWebviewHtml(
   });
   exportCancel?.addEventListener('click', () => {
     exportCancel.disabled = true;
-    if (exportStatus) exportStatus.textContent = 'Cancelling exact export…';
+    if (exportStatus) exportStatus.textContent = initialExportState.mode === 'exact'
+      ? 'Cancelling exact export…'
+      : 'Cancelling preview export…';
     vscode.postMessage({ type: 'exact-export-cancel' });
   });
 </script>

@@ -266,24 +266,28 @@ Final 0.x–9.x closure evidence (2026-07-18): `cd editors/vscode && npm run che
 
 ## 10. Diagnostics, status and observability
 
-- [ ] 10.1 Consume the existing unified live/resolve/preview diagnostic phases without a parallel collection
-- [ ] 10.2 Publish package failures as source-bound preview/build diagnostics when current source content and document-incarnation stale tokens exist
-- [ ] 10.3 Publish global runtime artifact/startup failures in runtime status and Output, not document syntax diagnostics
-- [ ] 10.4 Verify the coordinator continues consuming the existing durable resource/preview Problems entries and optional summary notifications without creating a second publisher or collection
-- [ ] 10.5 Expose active backend version, artifact digest prefix, position encoding, recovery state and queued project count
-- [ ] 10.6 Expose stale preview/export state and unsafe edit reasons to users
-- [ ] 10.7 Add structured debug records keyed by request, projection and render identities without logging source/package contents
-- [ ] 10.8 Prove old revision diagnostics, status and preview results cannot overwrite current state
+- [x] 10.1 Consume the existing unified live/resolve/preview diagnostic phases without a parallel collection
+- [x] 10.2 Publish package failures as source-bound preview/build diagnostics when current source content and document-incarnation stale tokens exist
+- [x] 10.3 Publish global runtime artifact/startup failures in runtime status and Output, not document syntax diagnostics
+- [x] 10.4 Verify the coordinator continues consuming the existing durable resource/preview Problems entries and optional summary notifications without creating a second publisher or collection
+- [x] 10.5 Expose active backend version, artifact digest prefix, position encoding, recovery state and queued project count
+- [x] 10.6 Expose stale preview/export state and unsafe edit reasons to users
+- [x] 10.7 Add structured debug records keyed by request, projection and render identities without logging source/package contents
+- [x] 10.8 Prove old revision diagnostics, status and preview results cannot overwrite current state
+ 
+Evidence (W5-A, standalone Web scope, 2026-07-18): `npm run check`, `npm run test:preview-diagnostics`, `npm run test:runtime-status`, `npm run test:typst-project-state`, and `npm run test:typst-package` pass. Production Chromium `npx playwright test --project=local e2e/editor.spec.ts` proves runtime identity/recovery/queue details, global failure routing to status and Output, the Problems command, and a stale status while an older preview remains displayed after editing. `npm run test:e2e:preview-interaction` proves stale editor/preview navigation is rejected. Existing `preview:identity` and `resources:identity` records expose request/projection/render keys and bounded counts without source or package bytes.
 
 ## 11. Cross-host parity and cutover
 
 - [ ] 11.1 Generate the final native/Web capability matrix from captured manifests and passing transcripts
 - [ ] 11.2 Run shared standalone Typst provider fixtures against native process and browser Worker
 - [ ] 11.3 Run shared projected read/edit fixtures through Desktop and Web Extension Hosts
-- [ ] 11.4 Run production standalone Web E2E for persistence, package, preview navigation and exact-snapshot export
+- [x] 11.4 Run production standalone Web E2E for persistence, package, preview navigation and exact-snapshot export
 - [ ] 11.5 Exercise backend restart, HMR, unload and PWA quiesce paths with no leaked Worker/process or stale publication
 - [ ] 11.6 Exercise Unicode, cancellation, queue bounds and retained-generation eviction on every host
 - [ ] 11.7 Confirm Desktop/Web semantic parity for every core-required capability by normalized logical identity and render-key components, excluding host URI scheme and local version counters
-- [ ] 11.8 Document intentional host-optional differences and hide unsupported UI commands
-- [ ] 11.9 Delete superseded Web maps, duplicated Worker/process state and feature-specific lifecycle code
-- [ ] 11.10 Update implementation-status sections only after focused verification evidence exists
+- [x] 11.8 Document intentional host-optional differences and hide unsupported UI commands
+- [x] 11.9 Delete superseded Web maps, duplicated Worker/process state and feature-specific lifecycle code
+- [x] 11.10 Update implementation-status sections only after focused verification evidence exists
+
+Evidence (W5-B, standalone Web cutover, 2026-07-18): production Chromium editor and preview-interaction E2E pass against the Monaco Workbench host; the earlier focused current-preview exact-export E2E remains green. `npm run test:capability-router` and `npm run test:provider-descriptors` pass with unavailable capabilities omitted or surfaced as unavailable rather than registered as unsafe commands. `npm run test:runtime-inventory` reports `duplicatedClientState: 0`, and `npm run test:project-lifecycle` passes for the shared Worker/process session owner. Tasks 11.1-11.3 and 11.5-11.7 remain open because full native/Desktop/Web parity is outside this standalone Monaco cutover.

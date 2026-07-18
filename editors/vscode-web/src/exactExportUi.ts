@@ -22,8 +22,11 @@ export type ExactExportUiAvailability =
   | "evicted";
 
 export type ExactExportUiPhase = "idle" | "exporting" | "waiting" | "complete" | "cancelled" | "error";
+export type ExactExportUiMode = "exact" | "current-preview";
+
 
 export interface ExactExportUiState {
+  readonly mode: ExactExportUiMode;
   readonly sourceUri?: string;
   readonly availability: ExactExportUiAvailability;
   readonly phase: ExactExportUiPhase;
@@ -49,15 +52,21 @@ type ExactExportClient = Pick<ExactExportService, "availability" | "export">;
 export class ExactExportUiController implements RuntimeOwnedResource {
   readonly #client: ExactExportClient | undefined;
   readonly #events: ExactExportUiEvents;
+  readonly #mode: ExactExportUiMode;
   #sourceUri: string | undefined;
   #operation: AbortController | undefined;
   #state: ExactExportUiState;
   #disposed = false;
 
-  constructor(client: ExactExportClient | undefined, events: ExactExportUiEvents = {}) {
+  constructor(
+    client: ExactExportClient | undefined,
+    events: ExactExportUiEvents = {},
+    mode: ExactExportUiMode = "exact",
+  ) {
     this.#client = client;
     this.#events = events;
-    this.#state = stateFor(undefined, client ? undefined : "capability-unavailable");
+    this.#mode = mode;
+    this.#state = stateFor(undefined, client ? undefined : "capability-unavailable", mode);
   }
 
   get state(): ExactExportUiState { return this.#state; }
@@ -77,7 +86,7 @@ export class ExactExportUiController implements RuntimeOwnedResource {
     this.#assertActive();
     if (this.#operation) return this.#state;
     const availability = this.#availability();
-    return this.#publish(stateFor(this.#sourceUri, availability));
+    return this.#publish(stateFor(this.#sourceUri, availability, this.#mode));
   }
 
   async export(format: ExactExportFormat, staleChoice?: StaleExportChoice): Promise<ExactExportResult | undefined> {
@@ -85,7 +94,7 @@ export class ExactExportUiController implements RuntimeOwnedResource {
     if (this.#operation) return undefined;
     const sourceUri = this.#sourceUri;
     const availability = this.#availability();
-    const base = stateFor(sourceUri, availability);
+    const base = stateFor(sourceUri, availability, this.#mode);
     if (!sourceUri || !this.#client || base.availability === "no-document" || base.availability === "capability-unavailable") {
       this.#publish(base);
       return undefined;
@@ -109,7 +118,9 @@ export class ExactExportUiController implements RuntimeOwnedResource {
     this.#publish({
       ...base,
       phase: waiting ? "waiting" : "exporting",
-      message: waiting ? "Waiting for latest exact artifact…" : "Exporting displayed exact revision…",
+      message: waiting
+        ? "Waiting for latest exact artifact…"
+        : this.#mode === "exact" ? "Exporting displayed exact revision…" : "Exporting current preview…",
       canSelectFormat: false,
       canExportDisplayed: false,
       canWaitForLatest: false,
@@ -119,16 +130,20 @@ export class ExactExportUiController implements RuntimeOwnedResource {
       const result = await this.#client.export({ sourceUri, format, staleChoice, signal: operation.signal });
       operation.signal.throwIfAborted();
       if (this.#operation !== operation || this.#sourceUri !== sourceUri) return undefined;
-      const settled = stateFor(sourceUri, this.#client.availability(sourceUri));
+      const settled = stateFor(sourceUri, this.#client.availability(sourceUri), this.#mode);
       return this.#complete(settled, result, waiting);
     } catch (error) {
       if (this.#operation !== operation || this.#sourceUri !== sourceUri) return undefined;
       if (operation.signal.aborted || isAbortError(error)) {
-        this.#publish({ ...stateFor(sourceUri, this.#availability()), phase: "cancelled", message: "Exact export cancelled." });
+        this.#publish({
+          ...stateFor(sourceUri, this.#availability(), this.#mode),
+          phase: "cancelled",
+          message: this.#mode === "exact" ? "Exact export cancelled." : "Preview export cancelled.",
+        });
         return undefined;
       }
       this.#events.failed?.(error);
-      this.#publish(errorState(sourceUri, this.#availability(), error));
+      this.#publish(errorState(sourceUri, this.#availability(), error, this.#mode));
       return undefined;
     } finally {
       if (this.#operation === operation) this.#operation = undefined;
@@ -138,7 +153,7 @@ export class ExactExportUiController implements RuntimeOwnedResource {
   cancel(): boolean {
     if (!this.#operation) return false;
     const operation = this.#operation;
-    operation.abort(new DOMException("Exact export cancelled", "AbortError"));
+    operation.abort(new DOMException(this.#mode === "exact" ? "Exact export cancelled" : "Preview export cancelled", "AbortError"));
     return true;
   }
 
@@ -165,7 +180,9 @@ export class ExactExportUiController implements RuntimeOwnedResource {
       phase: "complete",
       message: waited
         ? `Exported latest exact revision ${result.metadata.renderKey}.`
-        : `Exported displayed exact revision ${result.metadata.renderKey}.`,
+        : this.#mode === "exact"
+          ? `Exported displayed exact revision ${result.metadata.renderKey}.`
+          : `Exported current preview ${result.metadata.renderKey}.`,
       completedRenderKey: result.metadata.renderKey,
       completedFormat: result.metadata.format,
     });
@@ -250,14 +267,35 @@ export class LatestExactArtifactWaiter implements LatestPreviewPort, RuntimeOwne
 function stateFor(
   sourceUri: string | undefined,
   availability: ExactExportAvailability | "capability-unavailable" | undefined,
+  mode: ExactExportUiMode,
 ): ExactExportUiState {
-  if (!sourceUri) return baseState(undefined, "no-document", "Open a preview to export an exact artifact.");
-  if (availability === "capability-unavailable") {
-    return baseState(sourceUri, "capability-unavailable", "Exact export is unavailable on this host.");
+  const exact = mode === "exact";
+  if (!sourceUri) {
+    return baseState(undefined, "no-document", exact
+      ? "Open a preview to export an exact artifact."
+      : "Open a preview to export its current output.", mode);
   }
-  if (!availability) return baseState(sourceUri, "evicted", "The displayed exact artifact is unavailable or was evicted.");
+  if (availability === "capability-unavailable") {
+    return baseState(sourceUri, "capability-unavailable", exact
+      ? "Exact export is unavailable on this host."
+      : "Current preview export is unavailable on this host.", mode);
+  }
+  if (!availability) {
+    return baseState(sourceUri, "evicted", exact
+      ? "The displayed exact artifact is unavailable or was evicted."
+      : "The current preview output is unavailable or was evicted.", mode);
+  }
   if (availability.kind === "ready") {
-    return actionState(sourceUri, "ready", "Exact displayed revision is ready to export.", availability.displayedRenderKey, undefined, true, false);
+    return actionState(
+      sourceUri,
+      "ready",
+      exact ? "Exact displayed revision is ready to export." : "Current preview is ready to export.",
+      availability.displayedRenderKey,
+      undefined,
+      true,
+      false,
+      mode,
+    );
   }
   if (availability.kind === "stale-choice") {
     return actionState(
@@ -268,15 +306,22 @@ function stateFor(
       availability.requestedRenderKey,
       true,
       true,
+      mode,
     );
   }
   if (availability.reason === "PartialPreview") {
-    return baseState(sourceUri, "partial", "Exact export is disabled while the preview is partial or rendering.");
+    return baseState(sourceUri, "partial", exact
+      ? "Exact export is disabled while the preview is partial or rendering."
+      : "Export is disabled while the current preview is rendering.", mode);
   }
   if (availability.reason === "FailedPreview") {
-    return baseState(sourceUri, "failed", "Exact export is disabled because the preview render failed.");
+    return baseState(sourceUri, "failed", exact
+      ? "Exact export is disabled because the preview render failed."
+      : "Export is disabled because the preview render failed.", mode);
   }
-  return baseState(sourceUri, "evicted", "The displayed exact artifact is unavailable or was evicted.");
+  return baseState(sourceUri, "evicted", exact
+    ? "The displayed exact artifact is unavailable or was evicted."
+    : "The current preview output is unavailable or was evicted.", mode);
 }
 
 function actionState(
@@ -287,8 +332,10 @@ function actionState(
   requestedRenderKey: RenderKey | undefined,
   canExportDisplayed: boolean,
   canWaitForLatest: boolean,
+  mode: ExactExportUiMode,
 ): ExactExportUiState {
   return Object.freeze({
+    mode,
     sourceUri,
     availability,
     phase: "idle",
@@ -306,8 +353,10 @@ function baseState(
   sourceUri: string | undefined,
   availability: Exclude<ExactExportUiAvailability, "ready" | "stale">,
   message: string,
+  mode: ExactExportUiMode,
 ): ExactExportUiState {
   return Object.freeze({
+    mode,
     sourceUri,
     availability,
     phase: "idle",
@@ -323,20 +372,25 @@ function errorState(
   sourceUri: string,
   availability: ExactExportAvailability | "capability-unavailable" | undefined,
   error: unknown,
+  mode: ExactExportUiMode,
 ): ExactExportUiState {
   if (error instanceof ArtifactUnavailableError) {
-    return { ...baseState(sourceUri, "evicted", "The displayed exact artifact is unavailable or was evicted."), phase: "error" };
+    const message = mode === "exact"
+      ? "The displayed exact artifact is unavailable or was evicted."
+      : "The current preview output is unavailable or was evicted.";
+    return { ...baseState(sourceUri, "evicted", message, mode), phase: "error" };
   }
   if (error instanceof PreviewNotExportableError) {
     const kind = error.code === "PartialPreview" ? "partial" : "failed";
-    return { ...baseState(sourceUri, kind, error.message), phase: "error" };
+    return { ...baseState(sourceUri, kind, error.message, mode), phase: "error" };
   }
   if (error instanceof ExportChoiceRequiredError) {
-    const base = stateFor(sourceUri, availability);
+    const base = stateFor(sourceUri, availability, mode);
     return { ...base, phase: "error", message: "Choose Export displayed revision or Wait for latest." };
   }
-  const base = stateFor(sourceUri, availability);
-  return { ...base, phase: "error", message: `Exact export failed: ${error instanceof Error ? error.message : String(error)}` };
+  const base = stateFor(sourceUri, availability, mode);
+  const label = mode === "exact" ? "Exact export" : "Preview export";
+  return { ...base, phase: "error", message: `${label} failed: ${error instanceof Error ? error.message : String(error)}` };
 }
 
 function isAbortError(error: unknown): boolean {

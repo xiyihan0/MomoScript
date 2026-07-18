@@ -245,6 +245,10 @@ export class TypstProjectState {
   backendGeneration(): number {
     return this.activeGeneration;
   }
+  queuedProjectCount(): number {
+    return this.projectPrimeQueue.size;
+  }
+
 
   syncProject(update: TypstProjectUpdate): ProjectTransitionResult {
     const session = projectionSessionKey(update.entryUri);
@@ -475,6 +479,12 @@ export class TypstProjectState {
     const controller = new AbortController();
     const active: InFlightPrime = { token: Symbol(sourceUri), job, controller };
     this.projectPrimeInFlight.set(sourceUri, active);
+    this.port.emit("tinymist/projectPrimeStarted", {
+      sourceUri,
+      entryUri: job.entryUri,
+      session: job.session,
+      revision: job.revision
+    });
     void this.port.request("textDocument/foldingRange", { textDocument: { uri: job.entryUri } }, controller.signal)
       .then(() => {
         if (this.projectPrimeInFlight.get(sourceUri)?.token !== active.token) return;

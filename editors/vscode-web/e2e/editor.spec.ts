@@ -87,7 +87,7 @@ test("production editor materializes an avatar and restores the authored story a
   const expandedEditorHeight = await editorHost.evaluate((element) => element.getBoundingClientRect().height);
   expect(collapsedEditorHeight - expandedEditorHeight).toBeGreaterThan(100);
   await expect(outputPanel).toContainText("MMT language server ready");
-  await expect(outputPanel).toContainText(/Tinymist\s+WASM\s+下载完成\s+\d+\.\d\s+MiB/);
+  await expect(outputPanel).toContainText("Tinymist Worker ready");
   await expect(outputPanel).not.toContainText(/(?:Tinymist|Typst\s+编译器)\s+WASM\s+(?:100|[1-9]\d{2,})%/);
   await problemsToggle.click();
   await expect(outputPanel.getByRole("tab", { name: /^问题/ })).toHaveAttribute("aria-selected", "true");
@@ -107,8 +107,42 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(preview).toHaveAttribute("data-preview-ready", "true");
   const buildStatus = page.getByRole("status").getByRole("button", { name: /MomoScript: ready/ });
   await expect(buildStatus).toBeVisible();
+  await expect(buildStatus).toHaveAttribute("aria-label", /Tinymist 0\.15\.2 \([0-9a-f]{12}\).*position utf-16.*queued projects \d+/s);
+  await expect.poll(() => page.evaluate(() => {
+    const snapshot = (Reflect.get(globalThis, "__mmtRuntimeStatus") as Function)();
+    return {
+      backendVersion: snapshot.backendVersion,
+      digestLength: snapshot.artifactDigestPrefix.length,
+      positionEncoding: snapshot.positionEncoding,
+      recoveryState: snapshot.recoveryState,
+      queuedProjectCount: snapshot.queuedProjectCount,
+    };
+  })).toEqual({
+    backendVersion: "0.15.2",
+    digestLength: 12,
+    positionEncoding: "utf-16",
+    recoveryState: "ready",
+    queuedProjectCount: 0,
+  });
+  await page.evaluate(() => (
+    Reflect.get(globalThis, "__mmtRuntimeStatusFixture") as Function
+  )("failed", "fixture global runtime failure"));
+  const failedRuntimeStatus = page.getByRole("status").getByRole("button", { name: /MomoScript: failed/ });
+  await expect(failedRuntimeStatus).toBeVisible();
+  await expect(failedRuntimeStatus).toHaveAttribute("aria-label", /last runtime failure: fixture global runtime failure/);
+  await failedRuntimeStatus.click();
+  await page.evaluate(() => (
+    Reflect.get(globalThis, "__mmtRuntimeStatusFixture") as Function
+  )("ready"));
+  await expect(buildStatus).toBeVisible();
+  await expect(buildStatus).not.toHaveAttribute("aria-label", /fixture global runtime failure/);
+  await expect(outputPanel.getByRole("tab", { name: /^问题/ })).toHaveAttribute("aria-selected", "true");
+  await outputToggle.click();
+  await expect(outputPanel.getByRole("tab", { name: /^输出/ })).toHaveAttribute("aria-selected", "true");
+  await expect(outputPanel).toContainText(/runtime:status.*"event":"e2e-fixture".*"recoveryState":"failed".*"lastFailure":"fixture\s+global\s+runtime\s+failure"/s);
   await buildStatus.click();
   await expect(outputPanel.getByRole("tab", { name: /^问题/ })).toHaveAttribute("aria-selected", "true");
+  await expect(buildStatus).toHaveAttribute("aria-label", /Click to focus Problems\./);
   await outputToggle.click();
   await expect(outputPanel.getByRole("tab", { name: /^输出/ })).toHaveAttribute("aria-selected", "true");
   const previewWebview = await previewWebviewFrame(page);
@@ -118,7 +152,7 @@ test("production editor materializes an avatar and restores the authored story a
     expect(compilerFallbackRequests).toBe(1);
   }
   await expect(previewWebview.locator(".viewport .page svg")).toBeAttached({ timeout: 60_000 });
-  await expect(outputPanel).toContainText(/Typst\s+编译器\s+WASM\s+下载完成\s+\d+\.\d\s+MiB/);
+  await expect(outputPanel).not.toContainText(/Typst\s+编译器\s+WASM.*(?:失败|failed)/i);
   await expect(outputPanel).not.toContainText(/(?:Tinymist|Typst\s+编译器)\s+WASM\s+(?:100|[1-9]\d{2,})%/);
   await expect(previewWebview.getByLabel("Export format")).toBeEnabled();
   await expect(previewWebview.getByRole("button", { name: "Export exact revision" })).toBeEnabled();
@@ -345,6 +379,9 @@ test("production editor materializes an avatar and restores the authored story a
     return revision() as number;
   })).toBeGreaterThan(baselineProjectionRevision);
   await expect(preview).toHaveAttribute("data-preview-revision", baselineRevision ?? "");
+  const staleBuildStatus = page.getByRole("status").getByRole("button", { name: /MomoScript: stale/ });
+  await expect(staleBuildStatus).toBeVisible();
+  await expect(staleBuildStatus).toHaveAttribute("aria-label", /Preview stale/);
   await mmsActivity.click();
   await expect(previewOnChange).not.toBeChecked();
   await previewOnChange.check();
