@@ -70,6 +70,9 @@ jobs:
       - name: Install extension dependencies
         working-directory: editors/vscode
         run: npm ci
+      - name: Build MomoScript Web language server
+        working-directory: editors/vscode
+        run: npm run build:wasm
       - name: Check out pinned Tinymist source
         run: |
           git clone --filter=blob:none https://github.com/Myriad-Dreamin/tinymist.git "$RUNNER_TEMP/tinymist"
