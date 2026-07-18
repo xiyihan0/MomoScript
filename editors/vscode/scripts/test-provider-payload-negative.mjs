@@ -122,6 +122,28 @@ expectKind("Validated", validate("textDocument/inlayHint", {
   position: range.start,
   label: [{ value: "hint", location: { uri: "file:///etc/passwd", range } }]
 }), "host-path inlay location is stripped from meaningful hint");
+const packageDigest = "a".repeat(64);
+const packagePath = "mmt-package:/preview/example/1.0.0/lib.typ";
+const canonicalPackageUri = `${packagePath}?digest=${packageDigest}`;
+const packageHint = expectKind("Validated", validate("textDocument/inlayHint", {
+  position: range.start,
+  label: [{ value: "package", location: { uri: canonicalPackageUri, range } }]
+}), "canonical package generation URI");
+assert.equal(packageHint.strippedFields.length, 0);
+assert.equal(packageHint.uris[0].uri, canonicalPackageUri);
+for (const unsafePackageUri of [
+  `${canonicalPackageUri}&extra=1`,
+  `${canonicalPackageUri}&digest=${packageDigest}`,
+  `${packagePath}?digest=${"A".repeat(64)}`,
+  `${canonicalPackageUri}#fragment`
+]) {
+  const unsafePackageHint = expectKind("Validated", validate("textDocument/inlayHint", {
+    position: range.start,
+    label: [{ value: "package", location: { uri: unsafePackageUri, range } }]
+  }), "non-canonical package URI stripping");
+  assert.equal(unsafePackageHint.value.label[0].location, undefined);
+  assert.match(unsafePackageHint.strippedFields[0].reason, /unsafe scheme, authority, query, or fragment/u);
+}
 
 const strippedLens = expectKind("Validated", validate("textDocument/codeLens", {
   range,

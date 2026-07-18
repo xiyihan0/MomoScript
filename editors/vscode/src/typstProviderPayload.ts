@@ -218,10 +218,13 @@ function validatedUri(value: unknown, kind: TypstNestedUriPayload["kind"]): stri
   }
   const scheme = parsed.protocol.slice(0, -1);
   const allowed = kind === "document" ? DOCUMENT_URI_SCHEMES : LINK_URI_SCHEMES;
+  const canonicalPackageQuery = scheme === "mmt-package"
+    && /^\?digest=[a-f0-9]{64}$/u.test(parsed.search);
   if (allowed[scheme] !== true
     || parsed.username !== ""
     || parsed.password !== ""
-    || (kind === "document" && (parsed.search !== "" || parsed.hash !== ""))) {
+    || parsed.hash !== ""
+    || (parsed.search !== "" && !canonicalPackageQuery)) {
     throw new UnsafeProviderPayloadError("provider URI uses an unsafe scheme, authority, query, or fragment");
   }
   if (parsed.href !== value) {
