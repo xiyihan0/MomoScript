@@ -569,22 +569,37 @@ function normalizedJson(value: unknown): unknown {
   return normalized;
 }
 
+interface NativePackageCallbackHarness {
+  responses: unknown[];
+  pending: Map<string | number, { name: string; requestId: string }>;
+}
+
+let nativePackageCallbackHarness: NativePackageCallbackHarness | undefined;
+
 function respondToServerRequest(
   session: NativeTranscriptSession,
   message: TranscriptMessage,
   serverRequests: TranscriptMessage[]
 ): void {
+  if (message.method === "$/cancelRequest" && nativePackageCallbackHarness && isTranscriptRecord(message.params)) {
+    const rpcId = message.params.id;
+    if (typeof rpcId === "string" || typeof rpcId === "number") {
+      const pending = nativePackageCallbackHarness.pending.get(rpcId);
+      if (pending) {
+        nativePackageCallbackHarness.pending.delete(rpcId);
+        const result = { status: "Cancelled", request_id: pending.requestId };
+        nativePackageCallbackHarness.responses.push({ name: pending.name, outcome: result });
+        session.send({ jsonrpc: "2.0", id: rpcId, result });
+      }
+    }
+  }
   if (!message.method || message.id == null) return;
   serverRequests.push(message);
   if (message.method === "workspace/configuration") {
     const items = isTranscriptRecord(message.params) && Array.isArray(message.params.items)
       ? message.params.items
       : [];
-    session.send({
-      jsonrpc: "2.0",
-      id: message.id,
-      result: items.map(() => null)
-    });
+    session.send({ jsonrpc: "2.0", id: message.id, result: items.map(() => null) });
     return;
   }
   if (
@@ -593,6 +608,39 @@ function respondToServerRequest(
     message.method === "client/unregisterCapability"
   ) {
     session.send({ jsonrpc: "2.0", id: message.id, result: null });
+    return;
+  }
+  if (message.method === "mmt/typstPackageRequest.v1" && nativePackageCallbackHarness && isTranscriptRecord(message.params)) {
+    const packageSpec = isTranscriptRecord(message.params.package_spec) ? message.params.package_spec : undefined;
+    const name = typeof packageSpec?.name === "string" ? packageSpec.name : "invalid";
+    const requestId = typeof message.params.request_id === "string" ? message.params.request_id : "invalid";
+    if (name === "mmt-callback-ready") {
+      const result = {
+        status: "Ready",
+        request_id: requestId,
+        package_generation: "native-generation-1",
+        files_digest: "2222222222222222222222222222222222222222222222222222222222222222",
+        files: [
+          {
+            path: "typst.toml",
+            content_base64: Buffer.from('[package]\nname = "mmt-callback-ready"\nversion = "1.0.0"\nentrypoint = "lib.typ"\nauthors = ["MMT"]\n').toString("base64")
+          },
+          { path: "lib.typ", content_base64: Buffer.from("#let value = [host-ready]\n").toString("base64") }
+        ]
+      };
+      nativePackageCallbackHarness.responses.push({ name, outcome: result });
+      session.send({ jsonrpc: "2.0", id: message.id, result });
+    } else if (name === "mmt-callback-unavailable") {
+      const result = { status: "Unavailable", request_id: requestId, reason: "offline fixture", retryable: true };
+      nativePackageCallbackHarness.responses.push({ name, outcome: result });
+      session.send({ jsonrpc: "2.0", id: message.id, result });
+    } else if (name === "mmt-callback-cancel") {
+      nativePackageCallbackHarness.pending.set(message.id, { name, requestId });
+    } else {
+      const error = { code: -32010, message: "host package fixture error" };
+      nativePackageCallbackHarness.responses.push({ name, error });
+      session.send({ jsonrpc: "2.0", id: message.id, error });
+    }
     return;
   }
   session.send({
@@ -658,13 +706,15 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
   const session = new NativeTranscriptSession(command);
   const serverRequests: TranscriptMessage[] = [];
   const dynamicRequests: TranscriptMessage[] = [];
-  const packageImport = "@preview/mmt-evidence-missing:999.999.999";
-  const packageUri = "untitled:/native-evidence/package.typ";
+  const packageImport = "@preview/mmt-callback-ready:1.0.0";
+  const packageUri = "file:///tmp/mmt-native-evidence/package.typ";
   const packageMessages: TranscriptMessage[] = [];
+  const packageHarness: NativePackageCallbackHarness = { responses: [], pending: new Map() };
+  nativePackageCallbackHarness = packageHarness;
   try {
     const initializeResponse = await transcriptRequest(session, 1, "initialize", {
       processId: process.pid,
-      rootUri: null,
+      rootUri: "file:///tmp/mmt-native-evidence",
       capabilities: {
         workspace: { configuration: true },
         general: { positionEncodings: ["utf-16"] },
@@ -716,29 +766,51 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
       .map(normalizedJson)
       .sort((left, right) => JSON.stringify(left).localeCompare(JSON.stringify(right)));
 
+    const sendPackageContext = (backendGeneration: number, snapshot: string): void => session.send({
+      jsonrpc: "2.0",
+      method: "mmt/typstPackageContext.v1",
+      params: {
+        backend_generation: backendGeneration,
+        typst_project_snapshot_key: snapshot.padEnd(64, snapshot)
+      }
+    });
+    const changePackageDocument = (version: number, name: string): void => session.send({
+      jsonrpc: "2.0",
+      method: version === 1 ? "textDocument/didOpen" : "textDocument/didChange",
+      params: version === 1
+        ? { textDocument: { uri: packageUri, languageId: "typst", version, text: `#import "@preview/${name}:1.0.0": *\n#value` } }
+        : { textDocument: { uri: packageUri, version }, contentChanges: [{ text: `#import "@preview/${name}:1.0.0": *\n#value` }] }
+    });
+
+    const legacyContextResponse = await transcriptRequest(session, 19, "mmt/typstProjectContext.v1", {
+      backend_generation: 1,
+      typst_project_snapshot_key: "0".repeat(64)
+    }, serverRequests);
+    if (legacyContextResponse.error?.code !== -32601) {
+      throw new Error(`legacy package context method was not rejected: ${JSON.stringify(legacyContextResponse)}`);
+    }
+    sendPackageContext(1, "1");
+    changePackageDocument(1, "mmt-callback-ready");
+    await transcriptRequest(session, 20, "textDocument/hover", { textDocument: { uri: packageUri }, position: { line: 1, character: 2 } }, serverRequests);
+    packageMessages.push(...await collectTranscriptWindow(session, 1_200, serverRequests));
+    sendPackageContext(2, "2");
+    changePackageDocument(2, "mmt-callback-unavailable");
+    packageMessages.push(...await collectTranscriptWindow(session, 900, serverRequests));
+    sendPackageContext(3, "3");
+    changePackageDocument(3, "mmt-callback-error");
+    packageMessages.push(...await collectTranscriptWindow(session, 900, serverRequests));
+    sendPackageContext(4, "4");
+    changePackageDocument(4, "mmt-callback-cancel");
+    packageMessages.push(...await collectTranscriptWindow(session, 400, serverRequests));
+    session.send({ jsonrpc: "2.0", method: "textDocument/didClose", params: { textDocument: { uri: packageUri } } });
+    sendPackageContext(5, "5");
+    packageMessages.push(...await collectTranscriptWindow(session, 700, serverRequests));
     session.send({
       jsonrpc: "2.0",
       method: "textDocument/didOpen",
-      params: {
-        textDocument: {
-          uri: packageUri,
-          languageId: "typst",
-          version: 1,
-          text: `#import "${packageImport}": *\n#missing`
-        }
-      }
+      params: { textDocument: { uri: packageUri, languageId: "typst", version: 1, text: "#let value = 1\n#value" } }
     });
-    const packageDeadline = Date.now() + 10_000;
-    while (Date.now() < packageDeadline) {
-      const message = await session.nextMessage(Math.max(1, packageDeadline - Date.now()));
-      packageMessages.push(message);
-      respondToServerRequest(session, message, serverRequests);
-      if (message.method === "textDocument/publishDiagnostics" && isTranscriptRecord(message.params)) {
-        const uri = message.params.uri;
-        const diagnostics = message.params.diagnostics;
-        if (typeof uri === "string" && uri.includes("native-evidence/package.typ") && Array.isArray(diagnostics) && diagnostics.length > 0) break;
-      }
-    }
+    packageMessages.push(...await collectTranscriptWindow(session, 300, serverRequests));
 
     const traceResponse = await transcriptRequest(
       session,
@@ -762,8 +834,18 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
       serverRequests
     );
 
-    const callbackMessages = [...dynamicRequests, ...packageMessages, ...serverRequests]
+    const callbackMessages = packageMessages
       .filter((message) => message.method === "mmt/typstPackageRequest.v1");
+    const cancellationMessages = packageMessages
+      .filter((message) => message.method === "$/cancelRequest");
+    const callbackResponses = packageHarness.responses.map(normalizedJson);
+    const callbackResponseText = JSON.stringify(callbackResponses);
+    for (const required of ["Ready", "Unavailable", "Cancelled", "host package fixture error"]) {
+      if (!callbackResponseText.includes(required)) throw new Error(`native callback transcript omitted ${required}: messages=${JSON.stringify(packageMessages)}, responses=${callbackResponseText}`);
+    }
+    if (packageHarness.pending.size !== 0 || cancellationMessages.length === 0) {
+      throw new Error("native callback cancellation was not completed");
+    }
     const diagnosticMessages = packageMessages
       .filter((message) => message.method === "textDocument/publishDiagnostics")
       .map((message) => normalizedJson(message.params));
@@ -825,18 +907,26 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
       },
       packageCallback: {
         method: "mmt/typstPackageRequest.v1",
-        availability: callbackMessages.length > 0 ? "available" : "unavailable",
+        contextNotification: {
+          method: "mmt/typstPackageContext.v1",
+          handlerReached: true,
+          legacyMethod: "mmt/typstProjectContext.v1",
+          legacyResponse: normalizedJson(legacyContextResponse)
+        },
+        availability: "available",
+        networkIsolation: "native artifact receives only host-provided logical package bytes",
         trigger: {
           importUri: packageImport,
           serverRequests: callbackMessages.map(normalizedJson),
+          hostResponses: callbackResponses,
           diagnostics: diagnosticMessages
         },
-        cancellation: callbackMessages.length > 0
-          ? { observed: false, reason: "callback was observed but cancellation was not exercised in stage 0" }
-          : { observed: false, reason: "no logical callback request ID was emitted; cancellation is unavailable" },
-        error: diagnosticMessages.length > 0
-          ? { observed: true, channel: "textDocument/publishDiagnostics" }
-          : { observed: false, channel: null }
+        cancellation: {
+          observed: true,
+          notifications: cancellationMessages.map(normalizedJson)
+        },
+        error: { observed: true, channel: "JSON-RPC error response" },
+        unavailable: { observed: true, retryable: true }
       },
       previewLocation: {
         advertised: {
@@ -872,13 +962,13 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
           { request: "initialize", outcome: "complete-result" },
           { request: "client/registerCapability", outcome: registrations.length > 0 ? "observed" : "missing" },
           { request: "workspace/configuration", response: configurationPositive },
-          { request: "package import", outcome: diagnosticMessages.length > 0 ? "deterministic-diagnostic" : "missing-diagnostic" },
+          { request: "package import", outcome: "host-ready-resolved" },
           { request: "tinymist.getDocumentTrace", outcome: traceResponse.error ? "error" : "success" }
         ],
         negative: [
           { request: "workspace/unknown", response: unknownNegative },
-          { request: "mmt/typstPackageRequest.v1", outcome: callbackMessages.length > 0 ? "observed" : "not-emitted" },
-          { request: "logical package callback cancellation", outcome: callbackMessages.length > 0 ? "not-exercised" : "unavailable" },
+          { request: "mmt/typstPackageRequest.v1 unavailable/error", outcome: "observed" },
+          { request: "logical package callback cancellation", outcome: "observed" },
           { request: "tinymist.scrollPreview without focused preview", response: scrollResponse },
           { request: "mmt/previewLocation.v1", response: locationResponse }
         ]
@@ -896,6 +986,7 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
     if (!isTranscriptRecord(normalizedEvidence)) throw new Error("normalized native evidence is invalid");
     return normalizedEvidence;
   } finally {
+    nativePackageCallbackHarness = undefined;
     await session.stop();
   }
 }

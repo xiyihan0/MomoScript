@@ -1,12 +1,12 @@
 {
   "schema": "mmt-tinymist-artifact-decision.v1",
   "artifacts": {
-    "nativeDigest": "a05c45590986ec48d9dd50ef41c1e38cf233f3a313319ef47dabbef5067e0038",
-    "webDigest": "d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454",
+    "nativeDigest": "b96ce119a2ef789978350c26ccc89113435cf010e8f1f8eb2c883fb2ec631611",
+    "webDigest": "c9ff9b1d8197656e89e2ee4cc3fc74923ddfecaec3fbc4022f82d150fa995db4",
     "backendVersion": "0.15.2"
   },
   "decision": "retain-pinned-artifacts",
-  "reason": "The qualified baseline is sufficient for identity and runtime-coordination work; unqualified providers and missing callbacks remain disabled.",
+  "reason": "The maintained pinned patch qualifies the versioned native/Web logical package callback; unqualified providers remain disabled.",
   "blockedUntilMaintainedPatchAndTranscripts": {
     "p0Providers": [
       "definitionProvider",
@@ -17,11 +17,11 @@
       "referencesProvider",
       "renameProvider"
     ],
-    "packageCallback": true,
+    "packageCallback": false,
     "versionedPreviewLocation": true
   },
   "fallbacks": {
-    "packageResolution": "disabled",
+    "packageResolution": "host-callback-v1",
     "previewLocation": "immutable-location-map"
   },
   "wave0Exit": {

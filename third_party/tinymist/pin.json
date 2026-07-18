@@ -1,0 +1,44 @@
+{
+  "schema": "mmt-tinymist-pin.v1",
+  "upstream": {
+    "repository": "https://github.com/Myriad-Dreamin/tinymist.git",
+    "revision": "3d63da4f93c54ddef0c63e1a6237d67aee13f5fe",
+    "version": "0.15.2"
+  },
+  "toolchain": {
+    "rust": "1.92.0",
+    "wasmPack": "0.15.0"
+  },
+  "patch": {
+    "path": "third_party/tinymist/patches/0001-mmt-host-package-callback.patch",
+    "sha256": "a7841931fe6eecc095ba3489f33bf4e4f9eba937d2cfb4b56808bb63f1ae7faa"
+  },
+  "build": {
+    "native": "cargo +1.92.0 build --locked --release --bin tinymist",
+    "web": "RUSTUP_TOOLCHAIN=1.92.0 wasm-pack build --target web --release -- --locked --no-default-features --features web,no-content-hint",
+    "webWorkingDirectory": "crates/tinymist"
+  },
+  "artifacts": {
+    "native": {
+      "relativePath": "target/release/tinymist",
+      "size": 75732216,
+      "sha256": "b96ce119a2ef789978350c26ccc89113435cf010e8f1f8eb2c883fb2ec631611"
+    },
+    "webJs": {
+      "relativePath": "crates/tinymist/pkg/tinymist.js",
+      "size": 29720,
+      "sha256": "f2c1756f580ab97ede75f266185cea8ab86160e00d9735f8adca732c96527400"
+    },
+    "webWasm": {
+      "relativePath": "crates/tinymist/pkg/tinymist_bg.wasm",
+      "size": 32402922,
+      "sha256": "c9ff9b1d8197656e89e2ee4cc3fc74923ddfecaec3fbc4022f82d150fa995db4"
+    }
+  },
+  "protocol": {
+    "requestMethod": "mmt/typstPackageRequest.v1",
+    "contextNotification": "mmt/typstPackageContext.v1",
+    "activatedRoot": "/__mmt_typst_packages/{namespace}/{name}/{version}/{files_digest}",
+    "networkPolicy": "patched LSP registries never download; host injects immutable files before Ready"
+  }
+}

@@ -3,13 +3,13 @@
     "backendName": "tinymist",
     "backendVersion": "0.15.2",
     "checksumManifest": {
-      "expectedSha256": "a05c45590986ec48d9dd50ef41c1e38cf233f3a313319ef47dabbef5067e0038",
-      "reference": "tinymist-native.sha256",
+      "expectedSha256": "b96ce119a2ef789978350c26ccc89113435cf010e8f1f8eb2c883fb2ec631611",
+      "reference": "w2-b0-final-native.sha256",
       "referencedArtifact": "tinymist",
       "verified": true
     },
     "digests": {
-      "tinymist": "a05c45590986ec48d9dd50ef41c1e38cf233f3a313319ef47dabbef5067e0038"
+      "tinymist": "b96ce119a2ef789978350c26ccc89113435cf010e8f1f8eb2c883fb2ec631611"
     },
     "host": "native-process",
     "packageVersion": "0.15.2",
@@ -172,25 +172,47 @@
     ]
   },
   "packageCallback": {
-    "availability": "unavailable",
+    "availability": "available",
     "cancellation": {
-      "observed": false,
-      "reason": "no logical callback request ID was emitted; cancellation is unavailable"
+      "notifications": [
+        {
+          "jsonrpc": "2.0",
+          "method": "$/cancelRequest",
+          "params": {
+            "id": 4
+          }
+        }
+      ],
+      "observed": true
+    },
+    "contextNotification": {
+      "handlerReached": true,
+      "legacyMethod": "mmt/typstProjectContext.v1",
+      "legacyResponse": {
+        "error": {
+          "code": -32601,
+          "message": "method not found"
+        },
+        "id": 19,
+        "jsonrpc": "2.0"
+      },
+      "method": "mmt/typstPackageContext.v1"
     },
     "error": {
-      "channel": "textDocument/publishDiagnostics",
+      "channel": "JSON-RPC error response",
       "observed": true
     },
     "method": "mmt/typstPackageRequest.v1",
+    "networkIsolation": "native artifact receives only host-provided logical package bytes",
     "trigger": {
       "diagnostics": [
         {
           "diagnostics": [
             {
-              "message": "package not found (searched for @preview/mmt-evidence-missing:999.999.999)",
+              "message": "package not found (searched for @preview/mmt-callback-ready:1.0.0)",
               "range": {
                 "end": {
-                  "character": 51,
+                  "character": 43,
                   "line": 0
                 },
                 "start": {
@@ -202,11 +224,1033 @@
               "source": "typst"
             }
           ],
-          "uri": "untitled:native-evidence/package.typ"
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 49,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-error:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 43,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-cancel:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 44,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-cancel:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 44,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-cancel:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 44,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-cancel:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 44,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-cancel:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 44,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-cancel:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 44,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-cancel:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 44,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-cancel:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 44,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [
+            {
+              "message": "package not found (searched for @preview/mmt-callback-cancel:1.0.0)",
+              "range": {
+                "end": {
+                  "character": 44,
+                  "line": 0
+                },
+                "start": {
+                  "character": 8,
+                  "line": 0
+                }
+              },
+              "severity": 1,
+              "source": "typst"
+            }
+          ],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
+        },
+        {
+          "diagnostics": [],
+          "uri": "file:///tmp/mmt-native-evidence/package.typ"
         }
       ],
-      "importUri": "@preview/mmt-evidence-missing:999.999.999",
-      "serverRequests": []
+      "hostResponses": [
+        {
+          "name": "mmt-callback-ready",
+          "outcome": {
+            "files": [
+              {
+                "content_base64": "W3BhY2thZ2VdCm5hbWUgPSAibW10LWNhbGxiYWNrLXJlYWR5Igp2ZXJzaW9uID0gIjEuMC4wIgplbnRyeXBvaW50ID0gImxpYi50eXAiCmF1dGhvcnMgPSBbIk1NVCJdCg==",
+                "path": "typst.toml"
+              },
+              {
+                "content_base64": "I2xldCB2YWx1ZSA9IFtob3N0LXJlYWR5XQo=",
+                "path": "lib.typ"
+              }
+            ],
+            "files_digest": "2222222222222222222222222222222222222222222222222222222222222222",
+            "package_generation": "native-generation-1",
+            "request_id": "mmt-package-1",
+            "status": "Ready"
+          }
+        },
+        {
+          "name": "mmt-callback-unavailable",
+          "outcome": {
+            "reason": "offline fixture",
+            "request_id": "mmt-package-2",
+            "retryable": true,
+            "status": "Unavailable"
+          }
+        },
+        {
+          "error": {
+            "code": -32010,
+            "message": "host package fixture error"
+          },
+          "name": "mmt-callback-error"
+        },
+        {
+          "name": "mmt-callback-cancel",
+          "outcome": {
+            "request_id": "mmt-package-4",
+            "status": "Cancelled"
+          }
+        }
+      ],
+      "importUri": "@preview/mmt-callback-ready:1.0.0",
+      "serverRequests": [
+        {
+          "id": 2,
+          "jsonrpc": "2.0",
+          "method": "mmt/typstPackageRequest.v1",
+          "params": {
+            "backend_generation": 2,
+            "package_spec": {
+              "name": "mmt-callback-unavailable",
+              "namespace": "preview",
+              "version": "1.0.0"
+            },
+            "request_id": "mmt-package-2",
+            "typst_project_snapshot_key": "2222222222222222222222222222222222222222222222222222222222222222"
+          }
+        },
+        {
+          "id": 3,
+          "jsonrpc": "2.0",
+          "method": "mmt/typstPackageRequest.v1",
+          "params": {
+            "backend_generation": 3,
+            "package_spec": {
+              "name": "mmt-callback-error",
+              "namespace": "preview",
+              "version": "1.0.0"
+            },
+            "request_id": "mmt-package-3",
+            "typst_project_snapshot_key": "3333333333333333333333333333333333333333333333333333333333333333"
+          }
+        },
+        {
+          "id": 4,
+          "jsonrpc": "2.0",
+          "method": "mmt/typstPackageRequest.v1",
+          "params": {
+            "backend_generation": 4,
+            "package_spec": {
+              "name": "mmt-callback-cancel",
+              "namespace": "preview",
+              "version": "1.0.0"
+            },
+            "request_id": "mmt-package-4",
+            "typst_project_snapshot_key": "4444444444444444444444444444444444444444444444444444444444444444"
+          }
+        }
+      ]
+    },
+    "unavailable": {
+      "observed": true,
+      "retryable": true
     }
   },
   "previewLocation": {
@@ -250,13 +1294,10 @@
         }
       },
       {
-        "error": {
-          "code": -32600,
-          "message": "no focusing location"
-        },
+        "error": null,
         "method": "workspace/executeCommand:tinymist.scrollPreview",
-        "outcome": "error",
-        "resultShape": null
+        "outcome": "success",
+        "resultShape": "object"
       },
       {
         "error": {
@@ -285,22 +1326,19 @@
         }
       },
       {
-        "outcome": "not-emitted",
-        "request": "mmt/typstPackageRequest.v1"
+        "outcome": "observed",
+        "request": "mmt/typstPackageRequest.v1 unavailable/error"
       },
       {
-        "outcome": "unavailable",
+        "outcome": "observed",
         "request": "logical package callback cancellation"
       },
       {
         "request": "tinymist.scrollPreview without focused preview",
         "response": {
-          "error": {
-            "code": -32600,
-            "message": "no focusing location"
-          },
           "id": 3,
-          "jsonrpc": "2.0"
+          "jsonrpc": "2.0",
+          "result": null
         }
       },
       {
@@ -335,7 +1373,7 @@
         }
       },
       {
-        "outcome": "deterministic-diagnostic",
+        "outcome": "host-ready-resolved",
         "request": "package import"
       },
       {

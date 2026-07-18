@@ -16,9 +16,9 @@ assert.deepEqual(
   decision.blockedUntilMaintainedPatchAndTranscripts.p0Providers,
   manifest.qualification.patchRequiredProviders,
 );
-assert.equal(manifest.packageCallback.classification, "unavailable");
-assert.equal(decision.blockedUntilMaintainedPatchAndTranscripts.packageCallback, true);
-assert.equal(decision.fallbacks.packageResolution, "disabled");
+assert.equal(manifest.packageCallback.classification, "core-required");
+assert.equal(decision.blockedUntilMaintainedPatchAndTranscripts.packageCallback, false);
+assert.equal(decision.fallbacks.packageResolution, "host-callback-v1");
 assert.equal(manifest.previewLocation.coordinateVersion, null);
 assert.equal(decision.blockedUntilMaintainedPatchAndTranscripts.versionedPreviewLocation, true);
 assert.equal(decision.fallbacks.previewLocation, manifest.previewLocation.fallback);

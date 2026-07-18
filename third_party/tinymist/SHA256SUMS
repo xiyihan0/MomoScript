@@ -1,0 +1,4 @@
+a7841931fe6eecc095ba3489f33bf4e4f9eba937d2cfb4b56808bb63f1ae7faa  patches/0001-mmt-host-package-callback.patch
+b96ce119a2ef789978350c26ccc89113435cf010e8f1f8eb2c883fb2ec631611  target/release/tinymist
+f2c1756f580ab97ede75f266185cea8ab86160e00d9735f8adca732c96527400  crates/tinymist/pkg/tinymist.js
+c9ff9b1d8197656e89e2ee4cc3fc74923ddfecaec3fbc4022f82d150fa995db4  crates/tinymist/pkg/tinymist_bg.wasm

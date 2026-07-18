@@ -1,0 +1,1004 @@
+diff --git a/crates/sync-lsp/src/server/lsp_srv.rs b/crates/sync-lsp/src/server/lsp_srv.rs
+index 17d02e153472f8976e3703fd67b7ac0fe414afe8..e8c1b8944403ba8cb6308f071b8f4023ed30efb5 100644
+--- a/crates/sync-lsp/src/server/lsp_srv.rs
++++ b/crates/sync-lsp/src/server/lsp_srv.rs
+@@ -11,7 +11,7 @@ impl<S: 'static> TypedLspClient<S> {
+         &self,
+         params: R::Params,
+         handler: impl FnOnce(&mut S, lsp::Response) + Send + Sync + 'static,
+-    ) {
++    ) -> RequestId {
+         let caster = self.caster.clone();
+         self.client
+             .send_lsp_request_::<R>(params, move |s, resp| handler(caster(s), resp))
+@@ -24,15 +24,17 @@ impl LspClient {
+         &self,
+         params: R::Params,
+         handler: impl FnOnce(&mut dyn Any, lsp::Response) + Send + Sync + 'static,
+-    ) {
++    ) -> RequestId {
+         let mut req_queue = self.req_queue.lock();
+         let request = req_queue.outgoing.register(
+             R::METHOD.to_owned(),
+             params,
+             Box::new(|s, resp| handler(s, resp.try_into().unwrap())),
+         );
++        let request_id = request.id.clone();
+ 
+         self.sender.send_message(request.into());
++        request_id
+     }
+ 
+     /// Completes an client2server request in the request queue.
+diff --git a/crates/tinymist-package/src/registry.rs b/crates/tinymist-package/src/registry.rs
+index 62499140d511b5c894caa0f5b62cb5a8653f5155..d09d703aa363ec9ff9fd5ef1748af8beaf81e806 100644
+--- a/crates/tinymist-package/src/registry.rs
++++ b/crates/tinymist-package/src/registry.rs
+@@ -1,13 +1,17 @@
+ //! Package Registry.
+ 
++use std::collections::HashMap;
+ use std::num::NonZeroUsize;
+ use std::path::PathBuf;
++use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::{path::Path, sync::Arc};
+ 
+ use ecow::EcoString;
++use parking_lot::RwLock;
+ use serde::Deserialize;
+ use tinymist_std::time::UtcDateTime;
+ pub use typst::diag::PackageError;
++use typst::diag::eco_format;
+ pub use typst::syntax::package::PackageSpec;
+ use typst::syntax::package::{PackageInfo, TemplateInfo, VersionlessPackageSpec};
+ 
+@@ -51,6 +55,84 @@ impl PackageSpecExt for VersionlessPackageSpec {
+     }
+ }
+ 
++/// A non-blocking callback emitted when a fully specified package is absent.
++pub type PackageMissingCallback = Arc<dyn Fn(PackageSpec) + Send + Sync>;
++
++/// Immutable host package activations shared by compiler snapshots.
++#[derive(Default)]
++pub struct HostPackageMap {
++    packages: RwLock<HashMap<PackageSpec, HostPackageActivation>>,
++    revision: AtomicUsize,
++}
++
++#[derive(Clone)]
++struct HostPackageActivation {
++    root: Arc<Path>,
++    #[allow(dead_code)]
++    package_generation: EcoString,
++    #[allow(dead_code)]
++    files_digest: EcoString,
++}
++
++impl HostPackageMap {
++    /// Returns the active immutable root for a package.
++    pub fn resolve(&self, spec: &PackageSpec) -> Option<Arc<Path>> {
++        self.packages.read().get(spec).map(|entry| entry.root.clone())
++    }
++
++    /// Derives the internal root for host-injected immutable package files.
++    pub fn root_for(spec: &PackageSpec, files_digest: &str) -> Result<Arc<Path>, PackageError> {
++        if files_digest.len() != 64 || !files_digest.bytes().all(|byte| byte.is_ascii_hexdigit()) {
++            return Err(PackageError::Other(Some(eco_format!(
++                "invalid host package files digest"
++            ))));
++        }
++        Ok(PathBuf::from("/__mmt_typst_packages")
++            .join(spec.namespace.as_str())
++            .join(spec.name.as_str())
++            .join(spec.version.to_string())
++            .join(files_digest.to_ascii_lowercase())
++            .into())
++    }
++
++    /// Atomically activates a host-prepared immutable package generation.
++    pub fn activate(
++        &self,
++        spec: PackageSpec,
++        package_generation: &str,
++        files_digest: &str,
++    ) -> Result<Arc<Path>, PackageError> {
++        if package_generation.is_empty()
++            || package_generation.len() > 128
++            || !package_generation
++                .bytes()
++                .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
++        {
++            return Err(PackageError::Other(Some(eco_format!(
++                "invalid host package generation"
++            ))));
++        }
++        let root = Self::root_for(&spec, files_digest)?;
++        let activation = HostPackageActivation {
++            root: root.clone(),
++            package_generation: package_generation.into(),
++            files_digest: files_digest.into(),
++        };
++        self.packages.write().insert(spec, activation);
++        let previous = self.revision.fetch_add(1, Ordering::AcqRel);
++        if previous == usize::MAX {
++            self.revision.store(1, Ordering::Release);
++        }
++        Ok(root)
++    }
++
++    /// Returns a stable non-zero revision for compiler cache invalidation.
++    pub fn revision(&self) -> NonZeroUsize {
++        NonZeroUsize::new(self.revision.load(Ordering::Acquire).saturating_add(1))
++            .unwrap_or(NonZeroUsize::MIN)
++    }
++}
++
+ /// A trait for package registries.
+ pub trait PackageRegistry {
+     /// A function to be called when the registry is reset.
+diff --git a/crates/tinymist-package/src/registry/browser.rs b/crates/tinymist-package/src/registry/browser.rs
+index a0d72ea6cb0bdc3bfb2fa82910efa1a0f46dbb9a..29bd890d61343a318257d92ba0378e547d2d9c5b 100644
+--- a/crates/tinymist-package/src/registry/browser.rs
++++ b/crates/tinymist-package/src/registry/browser.rs
+@@ -1,6 +1,6 @@
+ //! Browser proxy registry for tinymist. You should implement interfaces in js.
+ 
+-use std::{io::Read, path::Path};
++use std::{io::Read, path::Path, sync::Arc};
+ 
+ use js_sys::Uint8Array;
+ use tinymist_std::ImmutPath;
+@@ -9,7 +9,9 @@ use wasm_bindgen::{JsValue, prelude::*};
+ 
+ use crate::registry::PackageIndexEntry;
+ 
+-use super::{PackageError, PackageRegistry, PackageSpec};
++use super::{
++    HostPackageMap, PackageError, PackageMissingCallback, PackageRegistry, PackageSpec,
++};
+ 
+ /// The `ProxyContext` struct is a wrapper around a JavaScript this.
+ #[wasm_bindgen]
+@@ -79,16 +81,22 @@ impl ProxyContext {
+ }
+ 
+ /// The `JsRegistry` struct is a wrapper around a JavaScript function that
+-#[derive(Debug)]
+ pub struct JsRegistry {
+     /// The JavaScript this context.
+     pub context: ProxyContext,
+     /// The JavaScript function to call for resolving packages.
+     pub real_resolve_fn: js_sys::Function,
++    /// Optional non-blocking host callback for unresolved preview packages.
++    pub missing_callback: Option<PackageMissingCallback>,
++    /// Host-activated immutable package roots.
++    pub host_packages: Arc<HostPackageMap>,
+ }
+ 
+ impl PackageRegistry for JsRegistry {
+     fn resolve(&self, spec: &PackageSpec) -> Result<std::sync::Arc<Path>, PackageError> {
++        if let Some(root) = self.host_packages.resolve(spec) {
++            return Ok(root);
++        }
+         // prepare js_spec
+         let js_spec = js_sys::Object::new();
+         js_sys::Reflect::set(&js_spec, &"name".into(), &spec.name.to_string().into()).unwrap();
+@@ -110,9 +118,18 @@ impl PackageRegistry for JsRegistry {
+             .map_err(|e| PackageError::Other(Some(eco_format!("{:?}", e))))
+             .and_then(|v| {
+                 if v.is_undefined() {
++                    if spec.namespace == "preview" {
++                        if let Some(callback) = &self.missing_callback {
++                            callback(spec.clone());
++                        }
++                    }
+                     Err(PackageError::NotFound(spec.clone()))
++                } else if let Some(path) = v.as_string() {
++                    Ok(Path::new(&path).into())
+                 } else {
+-                    Ok(Path::new(&v.as_string().unwrap()).into())
++                    Err(PackageError::Other(Some(eco_format!(
++                        "host package resolver returned a non-path value"
++                    ))))
+                 }
+             })
+     }
+@@ -121,9 +138,47 @@ impl PackageRegistry for JsRegistry {
+     fn packages(&self) -> &[PackageIndexEntry] {
+         &[]
+     }
++
++    fn revision(&self) -> Option<std::num::NonZeroUsize> {
++        self.missing_callback
++            .as_ref()
++            .map(|_| self.host_packages.revision())
++    }
+ }
+ 
+ impl JsRegistry {
++    /// Creates a browser registry backed by an immediate immutable path lookup.
++    pub fn new(context: ProxyContext, real_resolve_fn: js_sys::Function) -> Self {
++        Self {
++            context,
++            real_resolve_fn,
++            missing_callback: None,
++            host_packages: Arc::default(),
++        }
++    }
++
++    /// Routes unresolved preview packages to the asynchronous host callback.
++    pub fn with_host_package_callback(
++        mut self,
++        callback: PackageMissingCallback,
++        host_packages: Arc<HostPackageMap>,
++    ) -> Self {
++        self.missing_callback = Some(callback);
++        self.host_packages = host_packages;
++        self
++    }
++
++    /// Activates a host-prepared immutable package generation.
++    pub fn activate_host_package(
++        &self,
++        spec: PackageSpec,
++        package_generation: &str,
++        files_digest: &str,
++    ) -> Result<Arc<Path>, PackageError> {
++        self.host_packages
++            .activate(spec, package_generation, files_digest)
++    }
++
+     /// Returns the path at which non-local packages should be stored when
+     /// downloaded.
+     pub fn package_cache_path(&self) -> Option<&ImmutPath> {
+diff --git a/crates/tinymist-package/src/registry/http.rs b/crates/tinymist-package/src/registry/http.rs
+index cb9a692f166ac006b282075671e74a0571561f14..75332105f7fdf0677504b7595729304c5d42eb07 100644
+--- a/crates/tinymist-package/src/registry/http.rs
++++ b/crates/tinymist-package/src/registry/http.rs
+@@ -13,7 +13,8 @@ use typst::syntax::package::{PackageVersion, VersionlessPackageSpec};
+ use crate::registry::{PREVIEW_NS, PackageIndexEntry, PackageSpecExt};
+ 
+ use super::{
+-    DEFAULT_REGISTRY, DummyNotifier, Notifier, PackageError, PackageRegistry, PackageSpec,
++    DEFAULT_REGISTRY, DummyNotifier, HostPackageMap, Notifier, PackageError,
++    PackageMissingCallback, PackageRegistry, PackageSpec,
+ };
+ 
+ /// The http package registry for typst.ts.
+@@ -29,6 +30,10 @@ pub struct HttpRegistry {
+     cert_path: Option<ImmutPath>,
+     /// The notifier to use for progress updates.
+     notifier: Arc<Mutex<dyn Notifier + Send>>,
++    /// Optional host callback used instead of direct network access.
++    missing_callback: Option<PackageMissingCallback>,
++    /// Host-activated immutable package roots.
++    host_packages: Arc<HostPackageMap>,
+     // package_dir_cache: RwLock<HashMap<PackageSpec, Result<ImmutPath, PackageError>>>,
+ }
+ 
+@@ -39,6 +44,8 @@ impl Default for HttpRegistry {
+             cert_path: None,
+             package_path: None,
+             package_cache_path: None,
++            missing_callback: None,
++            host_packages: Arc::default(),
+ 
+             storage: OnceLock::new(),
+             // package_dir_cache: RwLock::new(HashMap::new()),
+@@ -69,6 +76,28 @@ impl HttpRegistry {
+         }
+     }
+ 
++    /// Routes missing preview packages to the host and disables registry network I/O.
++    pub fn with_host_package_callback(
++        mut self,
++        callback: PackageMissingCallback,
++        host_packages: Arc<HostPackageMap>,
++    ) -> Self {
++        self.missing_callback = Some(callback);
++        self.host_packages = host_packages;
++        self
++    }
++
++    /// Activates a host-prepared immutable package generation.
++    pub fn activate_host_package(
++        &self,
++        spec: PackageSpec,
++        package_generation: &str,
++        files_digest: &str,
++    ) -> Result<Arc<Path>, PackageError> {
++        self.host_packages
++            .activate(spec, package_generation, files_digest)
++    }
++
+     /// Get `typst-kit` implementing package storage
+     pub fn storage(&self) -> &PackageStorage {
+         self.storage.get_or_init(|| {
+@@ -81,6 +110,7 @@ impl HttpRegistry {
+                     .or_else(|| Some(dirs::data_dir()?.join(DEFAULT_PACKAGES_SUBDIR).into())),
+                 self.cert_path.clone(),
+                 self.notifier.clone(),
++                self.missing_callback.clone(),
+             )
+         })
+     }
+@@ -105,12 +135,27 @@ impl HttpRegistry {
+ 
+ impl PackageRegistry for HttpRegistry {
+     fn resolve(&self, spec: &PackageSpec) -> Result<ImmutPath, PackageError> {
++        if let Some(root) = self.host_packages.resolve(spec) {
++            return Ok(root);
++        }
++        if spec.namespace == "preview" {
++            if let Some(callback) = &self.missing_callback {
++                callback(spec.clone());
++                return Err(PackageError::NotFound(spec.clone()));
++            }
++        }
+         self.storage().prepare_package(spec)
+     }
+ 
+     fn packages(&self) -> &[PackageIndexEntry] {
+         self.storage().download_index()
+     }
++
++    fn revision(&self) -> Option<std::num::NonZeroUsize> {
++        self.missing_callback
++            .as_ref()
++            .map(|_| self.host_packages.revision())
++    }
+ }
+ 
+ /// The default packages sub directory within the package and package cache
+@@ -129,6 +174,7 @@ pub struct PackageStorage {
+     /// The cached index of the preview namespace.
+     index: OnceLock<Vec<PackageIndexEntry>>,
+     notifier: Arc<Mutex<dyn Notifier + Send>>,
++    missing_callback: Option<PackageMissingCallback>,
+ }
+ 
+ impl PackageStorage {
+@@ -140,12 +186,14 @@ impl PackageStorage {
+         package_path: Option<ImmutPath>,
+         cert_path: Option<ImmutPath>,
+         notifier: Arc<Mutex<dyn Notifier + Send>>,
++        missing_callback: Option<PackageMissingCallback>,
+     ) -> Self {
+         Self {
+             package_cache_path,
+             package_path,
+             cert_path,
+             notifier,
++            missing_callback,
+             index: OnceLock::new(),
+         }
+     }
+@@ -178,11 +226,14 @@ impl PackageStorage {
+                 return Ok(dir.into());
+             }
+ 
+-            // Download from network if it doesn't exist yet.
+             if spec.is_preview() {
+-                self.download_package(spec, &dir)?;
+-                if dir.exists() {
+-                    return Ok(dir.into());
++                if let Some(callback) = &self.missing_callback {
++                    callback(spec.clone());
++                } else {
++                    self.download_package(spec, &dir)?;
++                    if dir.exists() {
++                        return Ok(dir.into());
++                    }
+                 }
+             }
+         }
+@@ -228,6 +279,9 @@ impl PackageStorage {
+ 
+     /// Download the package index. The result of this is cached for efficiency.
+     pub fn download_index(&self) -> &[PackageIndexEntry] {
++        if self.missing_callback.is_some() {
++            return self.index.get_or_init(Vec::new);
++        }
+         self.index.get_or_init(|| {
+             let url = format!("{DEFAULT_REGISTRY}/preview/index.json");
+ 
+diff --git a/crates/tinymist-project/src/compiler.rs b/crates/tinymist-project/src/compiler.rs
+index ac4ff3a3768ee5483a74ee98174e68bb09a5e8bc..6fc27067e0a7423e2652b5953041523cae806740 100644
+--- a/crates/tinymist-project/src/compiler.rs
++++ b/crates/tinymist-project/src/compiler.rs
+@@ -12,7 +12,9 @@ use tinymist_task::ExportTarget;
+ use tinymist_world::vfs::notify::{
+     FilesystemEvent, MemoryEvent, NotifyDeps, NotifyMessage, UpstreamUpdateEvent,
+ };
+-use tinymist_world::vfs::{FileId, FsProvider, RevisingVfs, WorkspaceResolver};
++use tinymist_world::package::registry::HostPackageMap;
++use tinymist_world::package::PackageSpec;
++use tinymist_world::vfs::{FileId, FileSnapshot, FsProvider, RevisingVfs, WorkspaceResolver};
+ use tinymist_world::{
+     BundleCompilationTask, CompileSignal, CompileSnapshot, CompilerFeat, CompilerUniverse,
+     DiagnosticsTask, EntryReader, EntryState, FlagTask, HtmlCompilationTask, PagedCompilationTask,
+@@ -244,6 +246,15 @@ impl<F: CompilerFeat + Send + Sync + 'static, Ext: 'static> CompileHandler<F, Ex
+     fn status(&self, _revision: usize, _rep: CompileReport) {}
+ }
+ 
++/// Atomic immutable package generation installation for package-root VFS ids.
++pub struct HostPackageMemoryEvent {
++    pub host_packages: Arc<HostPackageMap>,
++    pub spec: PackageSpec,
++    pub package_generation: String,
++    pub files_digest: String,
++    pub inserts: Vec<(FileId, FileSnapshot)>,
++}
++
+ /// An interrupt to the compiler.
+ pub enum Interrupt<F: CompilerFeat> {
+     /// Compile anyway.
+@@ -260,6 +271,8 @@ pub enum Interrupt<F: CompilerFeat> {
+     CreationTimestamp(Option<i64>),
+     /// Memory file changes.
+     Memory(MemoryEvent),
++    /// Install package files by package-root file id and atomically activate the generation.
++    HostPackage(HostPackageMemoryEvent),
+     /// File system event.
+     Fs(FilesystemEvent),
+     /// Save a file.
+@@ -278,6 +291,7 @@ impl<F: CompilerFeat> fmt::Debug for Interrupt<F> {
+             Interrupt::Font(..) => write!(f, "Font(..)"),
+             Interrupt::CreationTimestamp(ts) => write!(f, "CreationTimestamp({ts:?})"),
+             Interrupt::Memory(..) => write!(f, "Memory(..)"),
++            Interrupt::HostPackage(..) => write!(f, "HostPackage(..)"),
+             Interrupt::Fs(..) => write!(f, "Fs(..)"),
+             Interrupt::Save(path) => write!(f, "Save({path:?})"),
+         }
+@@ -618,6 +632,26 @@ impl<F: CompilerFeat + Send + Sync + 'static, Ext: Default + 'static> ProjectCom
+                     }
+                 });
+             }
++            Interrupt::HostPackage(event) => {
++                let changes = std::iter::repeat_n(&event.inserts, 1 + self.dedicates.len());
++                let projects = std::iter::once(&mut self.primary).chain(self.dedicates.iter_mut());
++                for (project, inserts) in projects.zip(changes) {
++                    project.verse.increment_revision(|verse| {
++                        let mut vfs = verse.vfs();
++                        for (file_id, snapshot) in inserts {
++                            let _ = vfs.map_shadow_by_id(*file_id, snapshot.clone());
++                        }
++                    });
++                    project.reason.merge(reason_by_mem());
++                }
++                if let Err(error) = event.host_packages.activate(
++                    event.spec,
++                    &event.package_generation,
++                    &event.files_digest,
++                ) {
++                    log::error!("cannot activate materialized host package: {error}");
++                }
++            }
+             Interrupt::Memory(event) => {
+                 log::debug!("ProjectCompiler: memory event incoming");
+ 
+diff --git a/crates/tinymist-project/src/lsp.rs b/crates/tinymist-project/src/lsp.rs
+index 8d3ca24b615a6eae47c11444cb6afd344a0834f3..106d088924aa6a2d574799dff4b03ee80b7fcb65 100644
+--- a/crates/tinymist-project/src/lsp.rs
++++ b/crates/tinymist-project/src/lsp.rs
+@@ -5,6 +5,7 @@ use tinymist_std::ImmutPath;
+ use tinymist_std::error::prelude::*;
+ use tinymist_task::ExportTarget;
+ use tinymist_world::package::RegistryPathMapper;
++use tinymist_world::package::registry::{HostPackageMap, PackageMissingCallback};
+ #[cfg(all(not(feature = "system"), feature = "web"))]
+ use tinymist_world::package::registry::ProxyContext;
+ use tinymist_world::vfs::Vfs;
+@@ -327,17 +328,31 @@ impl LspUniverseBuilder {
+         )
+     }
+ 
++    /// Resolves a native package registry without backend network access.
++    #[cfg(feature = "system")]
++    pub fn resolve_package_host_mediated(
++        cert_path: Option<ImmutPath>,
++        args: Option<&CompilePackageArgs>,
++        callback: PackageMissingCallback,
++        host_packages: Arc<HostPackageMap>,
++    ) -> tinymist_world::package::registry::HttpRegistry {
++        Self::resolve_package(cert_path, args).with_host_package_callback(callback, host_packages)
++    }
++
+     /// Resolves package registry from given options.
+     #[cfg(all(not(feature = "system"), feature = "web"))]
+     pub fn resolve_package(
+         _cert_path: Option<ImmutPath>,
+         _args: Option<&CompilePackageArgs>,
+         resolve_fn: js_sys::Function,
++        callback: PackageMissingCallback,
++        host_packages: Arc<HostPackageMap>,
+     ) -> tinymist_world::package::registry::JsRegistry {
+-        tinymist_world::package::registry::JsRegistry {
+-            context: ProxyContext::new(wasm_bindgen::JsValue::NULL),
+-            real_resolve_fn: resolve_fn,
+-        }
++        tinymist_world::package::registry::JsRegistry::new(
++            ProxyContext::new(wasm_bindgen::JsValue::NULL),
++            resolve_fn,
++        )
++        .with_host_package_callback(callback, host_packages)
+     }
+ 
+     /// Resolves package registry from given options.
+diff --git a/crates/tinymist/src/lib.rs b/crates/tinymist/src/lib.rs
+index 3dd078a1366e8dd58b59b48c7b8982aec336ff90..f678df14275b1a90c2116bd939219e80d4787934 100644
+--- a/crates/tinymist/src/lib.rs
++++ b/crates/tinymist/src/lib.rs
+@@ -52,6 +52,7 @@ mod input;
+ #[path = "log.rs"]
+ mod log_;
+ mod lsp;
++mod package_callback;
+ mod resource;
+ mod server;
+ mod stats;
+diff --git a/crates/tinymist/src/package_callback.rs b/crates/tinymist/src/package_callback.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5ead47dd2f5e829be9ad63e22163e98533a42317
+--- /dev/null
++++ b/crates/tinymist/src/package_callback.rs
+@@ -0,0 +1,320 @@
++//! Host-mediated Typst package callback protocol.
++
++use std::collections::{HashMap, HashSet};
++use std::path::{Component, Path};
++use std::sync::Arc;
++
++use base64::Engine;
++use lsp_types::{notification::Notification, request::Request};
++use serde::{Deserialize, Serialize};
++use sync_ls::{Initializer, LspResult, RequestId, ServiceState, lsp};
++use tinymist_project::HostPackageMemoryEvent;
++use tinymist_project::world::package::registry::HostPackageMap;
++use tinymist_project::world::package::PackageSpec;
++use typst::diag::FileResult;
++use typst::foundations::Bytes;
++use typst::syntax::{FileId, RootedPath, VirtualPath, VirtualRoot};
++
++use crate::project::LspInterrupt;
++use crate::ServerState;
++
++/// Versioned context notification sent before compiling a project snapshot.
++pub enum TypstPackageContextNotification {}
++
++impl Notification for TypstPackageContextNotification {
++    type Params = TypstPackageContext;
++    const METHOD: &'static str = "mmt/typstPackageContext.v1";
++}
++
++
++/// Versioned package request emitted by Tinymist.
++pub enum TypstPackageRequest {}
++
++impl Request for TypstPackageRequest {
++    type Params = TypstPackageRequestParams;
++    type Result = TypstPackageResponse;
++    const METHOD: &'static str = "mmt/typstPackageRequest.v1";
++}
++
++/// Identity of the active host project snapshot.
++#[derive(Debug, Clone, Hash, PartialEq, Eq, Deserialize, Serialize)]
++pub struct TypstPackageContext {
++    pub backend_generation: u64,
++    pub typst_project_snapshot_key: String,
++}
++
++/// A safe, fully specified Typst package identity.
++#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
++pub struct HostPackageSpec {
++    pub namespace: String,
++    pub name: String,
++    pub version: String,
++}
++
++impl From<&PackageSpec> for HostPackageSpec {
++    fn from(spec: &PackageSpec) -> Self {
++        Self {
++            namespace: spec.namespace.to_string(),
++            name: spec.name.to_string(),
++            version: spec.version.to_string(),
++        }
++    }
++}
++
++/// Parameters sent to the host package service.
++#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
++pub struct TypstPackageRequestParams {
++    pub request_id: String,
++    pub backend_generation: u64,
++    pub typst_project_snapshot_key: String,
++    pub package_spec: HostPackageSpec,
++    #[serde(skip_serializing_if = "Option::is_none")]
++    pub requested_path: Option<String>,
++}
++
++/// Host outcome for one logical package request.
++#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
++#[serde(tag = "status")]
++pub enum TypstPackageResponse {
++    Ready {
++        request_id: String,
++        package_generation: String,
++        files_digest: String,
++        files: Vec<HostPackageFile>,
++    },
++    Unavailable {
++        request_id: String,
++        reason: String,
++        retryable: bool,
++    },
++    Cancelled {
++        request_id: String,
++    },
++}
++
++/// One safe package-relative file supplied by the host.
++#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
++pub struct HostPackageFile {
++    pub path: String,
++    pub content_base64: String,
++}
++
++
++/// Missing-package event emitted from synchronous compiler evaluation.
++#[derive(Debug)]
++pub(crate) struct PackageMissingEvent {
++    pub spec: Option<PackageSpec>,
++}
++
++#[derive(Debug)]
++struct PendingPackageRequest {
++    rpc_id: RequestId,
++    context: TypstPackageContext,
++    spec: PackageSpec,
++}
++
++/// State for non-blocking package requests. It owns no package bytes.
++#[derive(Default)]
++pub(crate) struct PackageCallbackState {
++    context: Option<TypstPackageContext>,
++    pub(crate) host_packages: Arc<HostPackageMap>,
++    next_request_id: u64,
++    pending: HashMap<String, PendingPackageRequest>,
++    requested: HashSet<(TypstPackageContext, PackageSpec)>,
++}
++
++impl ServerState {
++    pub(crate) fn package_context_notification(
++        &mut self,
++        context: TypstPackageContext,
++    ) -> LspResult<()> {
++        if context.backend_generation == 0 || context.typst_project_snapshot_key.is_empty() {
++            return Err(sync_ls::invalid_params(
++                "package context requires a positive backend generation and project snapshot key",
++            ));
++        }
++        #[cfg(feature = "system")]
++        let initial_context = self.package_callback.context.is_none();
++        if self.package_callback.context.as_ref() == Some(&context) {
++            return Ok(());
++        }
++
++        self.package_callback
++            .requested
++            .retain(|(seen_context, _)| seen_context == &context);
++        let client = self.client.clone().to_untyped();
++        for (_, pending) in self.package_callback.pending.drain() {
++            client.send_notification_(lsp::Notification::new(
++                "$/cancelRequest".to_owned(),
++                serde_json::json!({ "id": pending.rpc_id }),
++            ));
++        }
++        self.package_callback.context = Some(context);
++        #[cfg(feature = "system")]
++        if initial_context {
++            self.reload_projects()
++                .map_err(|error| sync_ls::internal_error(format!("cannot activate host package registry: {error}")))?;
++        }
++        Ok(())
++    }
++
++
++    pub(crate) fn package_missing_event<T: Initializer<S = Self>>(
++        mut state: ServiceState<T, T::S>,
++        event: PackageMissingEvent,
++    ) -> anyhow::Result<()> {
++        let Some(ready) = state.ready() else {
++            return Ok(());
++        };
++        if let Some(spec) = event.spec {
++            ready.request_missing_package(spec);
++        }
++        Ok(())
++    }
++
++    fn request_missing_package(&mut self, spec: PackageSpec) {
++        if spec.namespace.as_str() != "preview" {
++            return;
++        }
++        let Some(context) = self.package_callback.context.clone() else {
++            return;
++        };
++        if !self
++            .package_callback
++            .requested
++            .insert((context.clone(), spec.clone()))
++        {
++            return;
++        }
++
++        self.package_callback.next_request_id = self
++            .package_callback
++            .next_request_id
++            .checked_add(1)
++            .unwrap_or(1);
++        let request_id = format!("mmt-package-{}", self.package_callback.next_request_id);
++        let params = TypstPackageRequestParams {
++            request_id: request_id.clone(),
++            backend_generation: context.backend_generation,
++            typst_project_snapshot_key: context.typst_project_snapshot_key.clone(),
++            package_spec: HostPackageSpec::from(&spec),
++            requested_path: None,
++        };
++        let callback_request_id = request_id.clone();
++        let rpc_id = self.client.send_lsp_request::<TypstPackageRequest>(
++            params,
++            move |state, response| {
++                state.handle_package_response(&callback_request_id, response);
++            },
++        );
++        self.package_callback.pending.insert(
++            request_id,
++            PendingPackageRequest {
++                rpc_id,
++                context,
++                spec,
++            },
++        );
++    }
++
++    fn handle_package_response(&mut self, request_id: &str, response: lsp::Response) {
++        let Some(pending) = self.package_callback.pending.remove(request_id) else {
++            return;
++        };
++        if self.package_callback.context.as_ref() != Some(&pending.context) {
++            return;
++        }
++        let Some(result) = response.result else {
++            if let Some(error) = response.error {
++                log::warn!("host package request {request_id} failed: {}", error.message);
++            }
++            return;
++        };
++        let outcome = match serde_json::from_value::<TypstPackageResponse>(result) {
++            Ok(outcome) => outcome,
++            Err(error) => {
++                log::warn!("invalid host package response for {request_id}: {error}");
++                return;
++            }
++        };
++
++        match outcome {
++            TypstPackageResponse::Ready {
++                request_id: response_id,
++                package_generation,
++                files_digest,
++                files,
++            } if response_id == request_id => {
++                #[cfg(any(feature = "system", feature = "web"))]
++                {
++                    if files.is_empty() {
++                        log::warn!("host package Ready response has no files for {request_id}");
++                        return;
++                    }
++                    if let Err(error) = HostPackageMap::root_for(&pending.spec, &files_digest) {
++                        log::warn!("invalid host package root for {request_id}: {error}");
++                        return;
++                    }
++                    let mut seen = HashSet::new();
++                    let mut inserts = Vec::with_capacity(files.len());
++                    for file in files {
++                        let relative = Path::new(&file.path);
++                        if file.path.is_empty()
++                            || file.path.contains('\\')
++                            || relative.is_absolute()
++                            || !relative.components().all(|component| matches!(component, Component::Normal(_)))
++                            || !seen.insert(file.path.clone())
++                        {
++                            log::warn!("unsafe or duplicate package-relative path for {request_id}");
++                            return;
++                        }
++                        let content = match base64::engine::general_purpose::STANDARD.decode(&file.content_base64) {
++                            Ok(content) => content,
++                            Err(_) => {
++                                log::warn!("invalid base64 package file for {request_id}");
++                                return;
++                            }
++                        };
++                        let virtual_path = match VirtualPath::new(&file.path) {
++                            Ok(path) => path,
++                            Err(_) => {
++                                log::warn!("invalid package virtual path for {request_id}");
++                                return;
++                            }
++                        };
++                        let file_id = FileId::new(RootedPath::new(
++                            VirtualRoot::Package(pending.spec.clone()),
++                            virtual_path,
++                        ));
++                        inserts.push((file_id, FileResult::Ok(Bytes::new(content)).into()));
++                    }
++                    self.project.interrupt(LspInterrupt::HostPackage(HostPackageMemoryEvent {
++                        host_packages: self.package_callback.host_packages.clone(),
++                        spec: pending.spec,
++                        package_generation,
++                        files_digest,
++                        inserts,
++                    }));
++                    self.schedule_async();
++                }
++            }
++            TypstPackageResponse::Unavailable {
++                request_id: response_id,
++                reason,
++                retryable,
++            } if response_id == request_id => {
++                log::info!(
++                    "host package unavailable for {request_id}: {reason} (retryable={retryable})"
++                );
++            }
++            TypstPackageResponse::Cancelled {
++                request_id: response_id,
++            } if response_id == request_id => {
++                log::debug!("host package request {request_id} was cancelled");
++            }
++            _ => {
++                log::warn!("host package response request id mismatch for {request_id}");
++            }
++        }
++    }
++}
+diff --git a/crates/tinymist/src/project.rs b/crates/tinymist/src/project.rs
+index 64955b073cc3a07fb6bf7d7d22b353267a3dc0c4..e2aa7100d11041d29b53ab0d55b202f89278d362 100644
+--- a/crates/tinymist/src/project.rs
++++ b/crates/tinymist/src/project.rs
+@@ -28,6 +28,7 @@ use parking_lot::Mutex;
+ use reflexo::hash::FxHashMap;
+ use sync_ls::{LspClient, TypedLspClient};
+ use tinymist_project::vfs::{FileChangeSet, MemoryEvent};
++use tinymist_project::world::package::registry::HostPackageMap;
+ use tinymist_query::analysis::{Analysis, LspQuerySnapshot, PeriscopeProvider};
+ use tinymist_query::{
+     CheckRequest, CompilerQueryRequest, DiagnosticsMap, LocalContext, SemanticRequest, GLOBAL_STATS,
+@@ -38,6 +39,7 @@ use tokio::sync::mpsc;
+ use typst::{diag::FileResult, foundations::Bytes, introspection::PagedPosition as TypstPosition};
+ 
+ use super::ServerState;
++use crate::package_callback::PackageMissingEvent;
+ use crate::actor::editor::{EditorRequest, ProjVersion};
+ use crate::stats::{CompilerQueryStats, QueryStatGuard};
+ #[cfg(feature = "export")]
+@@ -94,6 +96,8 @@ impl ServerState {
+             editor_tx,
+             self.client.clone(),
+             self.dep_tx.clone(),
++            #[cfg(any(feature = "system", feature = "web"))]
++            self.package_callback.host_packages.clone(),
+             #[cfg(feature = "preview")]
+             self.preview.watchers.clone(),
+             #[cfg(all(not(feature = "system"), feature = "web"))]
+@@ -146,6 +150,7 @@ impl ServerState {
+         editor_tx: mpsc::UnboundedSender<EditorRequest>,
+         client: TypedLspClient<ServerState>,
+         dep_tx: mpsc::UnboundedSender<NotifyMessage>,
++        #[cfg(any(feature = "system", feature = "web"))] host_packages: Arc<HostPackageMap>,
+         #[cfg(feature = "preview")] preview: ProjectPreviewState,
+         #[cfg(all(not(feature = "system"), feature = "web"))] resolve_fn: js_sys::Function,
+     ) -> ProjectState {
+@@ -213,10 +218,29 @@ impl ServerState {
+ 
+         let fonts = config.fonts();
+ 
++        #[cfg(any(feature = "system", feature = "web"))]
++        let package_client = client.clone().to_untyped();
++        #[cfg(any(feature = "system", feature = "web"))]
++        let package_missing = Arc::new(move |spec| {
++            package_client.send_event(PackageMissingEvent { spec: Some(spec) });
++        });
++
+         #[cfg(all(not(feature = "system"), feature = "web"))]
+-        let packages =
+-            LspUniverseBuilder::resolve_package(cert_path.clone(), Some(&package), resolve_fn);
+-        #[cfg(any(feature = "system", not(feature = "web")))]
++        let packages = LspUniverseBuilder::resolve_package(
++            cert_path.clone(),
++            Some(&package),
++            resolve_fn,
++            package_missing,
++            host_packages.clone(),
++        );
++        #[cfg(feature = "system")]
++        let packages = LspUniverseBuilder::resolve_package_host_mediated(
++            cert_path.clone(),
++            Some(&package),
++            package_missing,
++            host_packages,
++        );
++        #[cfg(not(any(feature = "system", feature = "web")))]
+         let packages = LspUniverseBuilder::resolve_package(cert_path.clone(), Some(&package));
+ 
+         let creation_timestamp = config.creation_timestamp();
+diff --git a/crates/tinymist/src/server.rs b/crates/tinymist/src/server.rs
+index 96fbb3d07d34bfd8f741dbc0958501e63ddc1ac3..4d2424309b46fa007a29bfff8082f1fc47a62113 100644
+--- a/crates/tinymist/src/server.rs
++++ b/crates/tinymist/src/server.rs
+@@ -18,6 +18,9 @@ use crate::actor::editor::{EditorActor, EditorRequest};
+ use crate::input::FsChange;
+ use crate::lsp::query::OnEnter;
+ use crate::project::{EntryResolver, LspInterrupt, ProjectInsId, ProjectState};
++use crate::package_callback::{
++    PackageCallbackState, PackageMissingEvent, TypstPackageContextNotification,
++};
+ use crate::task::FormatTask;
+ use crate::vfs::notify::NotifyMessage;
+ use crate::{lsp::init::*, *};
+@@ -47,6 +50,8 @@ pub struct ServerState {
+     // State
+     /// The project state.
+     pub project: ProjectState,
++    /// Active host-mediated package callback state.
++    pub(crate) package_callback: PackageCallbackState,
+     /// The project route state.
+     #[cfg(feature = "lock")]
+     pub route: ProjectRouteState,
+@@ -132,11 +137,15 @@ impl ServerState {
+         #[cfg(feature = "preview")]
+         let watchers = crate::project::ProjectPreviewState::default();
+ 
++        let package_callback = PackageCallbackState::default();
++
+         let handle = Self::project(
+             &config,
+             editor_tx.clone(),
+             client.clone(),
+             dep_tx.clone(),
++            #[cfg(any(feature = "system", feature = "web"))]
++            package_callback.host_packages.clone(),
+             #[cfg(feature = "preview")]
+             watchers.clone(),
+             #[cfg(all(not(feature = "system"), feature = "web"))]
+@@ -165,6 +174,7 @@ impl ServerState {
+ 
+             client: client.clone(),
+             project: handle,
++            package_callback,
+             editor_tx,
+             memory_changes: HashMap::new(),
+             ever_focusing_by_activities: false,
+@@ -283,6 +293,10 @@ impl ServerState {
+                 &LspInterrupt::Compile(ProjectInsId::default()),
+                 State::compile_interrupt::<T>,
+             )
++            .with_event(
++                &PackageMissingEvent { spec: None },
++                State::package_missing_event::<T>,
++            )
+             .with_event(
+                 &ServerEvent::UnpinPrimaryByPreview,
+                 State::server_event::<T>,
+@@ -317,6 +331,9 @@ impl ServerState {
+             .with_request_::<WillRenameFiles>(State::will_rename_files)
+             .with_request_::<FsChange>(State::fs_change)
+             // notifications
++            .with_notification::<TypstPackageContextNotification>(
++                State::package_context_notification,
++            )
+             .with_notification::<Initialized>(State::initialized)
+             .with_notification::<DidOpenTextDocument>(State::did_open)
+             .with_notification::<DidCloseTextDocument>(State::did_close)

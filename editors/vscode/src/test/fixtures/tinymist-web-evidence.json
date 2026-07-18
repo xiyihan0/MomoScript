@@ -6,20 +6,20 @@
       "entries": [
         {
           "name": "tinymist_bg.wasm",
-          "sha256": "d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454",
-          "size": 32346976
+          "sha256": "c9ff9b1d8197656e89e2ee4cc3fc74923ddfecaec3fbc4022f82d150fa995db4",
+          "size": 32402922
         },
         {
           "name": "tinymist.js",
-          "sha256": "f310d8ed520d6ec7000a695f4d15c6e1f1cda5be2ce3b61168f1d8ef7447caa9",
+          "sha256": "f2c1756f580ab97ede75f266185cea8ab86160e00d9735f8adca732c96527400",
           "size": 29720
         }
       ],
       "path": "vendor/tinymist-0.15.2/SHA256SUMS"
     },
     "digests": {
-      "tinymist_bg.wasm": "d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454",
-      "tinymist.js": "f310d8ed520d6ec7000a695f4d15c6e1f1cda5be2ce3b61168f1d8ef7447caa9"
+      "tinymist_bg.wasm": "c9ff9b1d8197656e89e2ee4cc3fc74923ddfecaec3fbc4022f82d150fa995db4",
+      "tinymist.js": "f2c1756f580ab97ede75f266185cea8ab86160e00d9735f8adca732c96527400"
     },
     "host": "web-worker",
     "packageVersion": "0.15.2",
@@ -112,23 +112,23 @@
         "commands": [
           "tinymist.getResources",
           "tinymist.exportPdf",
-          "tinymist.exportBundle",
           "tinymist.doClearCache",
+          "tinymist.focusMain",
+          "tinymist.exportBundle",
           "tinymist.exportHtml",
-          "tinymist.exportAnsiHighlight",
           "tinymist.interactCodeContext",
-          "tinymist.getWorkspaceLabels",
           "tinymist.exportMarkdown",
-          "tinymist.exportSvg",
+          "tinymist.exportAst",
+          "tinymist.exportText",
+          "tinymist.getWorkspaceLabels",
+          "tinymist.exportAnsiHighlight",
+          "tinymist.exportPng",
+          "tinymist.getServerInfo",
           "tinymist.exportQuery",
           "tinymist.pinMain",
           "tinymist.exportTeX",
-          "tinymist.exportAst",
-          "tinymist.getServerInfo",
-          "tinymist.focusMain",
-          "tinymist.exportPng",
           "tinymist.getDocumentMetrics",
-          "tinymist.exportText"
+          "tinymist.exportSvg"
         ]
       },
       "experimental": {
@@ -178,39 +178,192 @@
     ]
   },
   "packageCallback": {
-    "availability": "unavailable",
+    "availability": "observed",
     "cancellation": {
-      "callbackRequestAvailable": false,
-      "cancelNotificationSent": true,
-      "directUnsupportedProbe": {
-        "error": {
-          "code": -32601,
-          "data": null,
-          "message": "method not found"
-        },
-        "ok": false
-      },
-      "observedCallbackCancellation": null
+      "notificationObserved": true,
+      "outcome": {
+        "name": "mmt-callback-cancel",
+        "outcome": {
+          "request_id": "mmt-package-4",
+          "status": "Cancelled"
+        }
+      }
     },
+    "contextHandlerReached": true,
+    "contextMethod": "mmt/typstPackageContext.v1",
     "error": {
-      "directUnsupportedProbe": {
+      "diagnostics": [
+        {
+          "message": "package not found (searched for @preview/mmt-callback-ready:1.0.0)",
+          "range": {
+            "end": {
+              "character": 43,
+              "line": 0
+            },
+            "start": {
+              "character": 8,
+              "line": 0
+            }
+          },
+          "severity": 1,
+          "source": "typst"
+        }
+      ],
+      "outcome": {
         "error": {
-          "code": -32601,
-          "data": null,
-          "message": "method not found"
+          "code": -32010,
+          "message": "host package fixture error"
         },
-        "ok": false
+        "name": "mmt-callback-error"
+      }
+    },
+    "externalNetworkRequests": [],
+    "legacyContextMethod": "mmt/typstProjectContext.v1",
+    "legacyContextResponse": {
+      "error": {
+        "code": -32601,
+        "message": "method not found"
       },
-      "observedCallbackErrorShape": null
+      "id": 5,
+      "jsonrpc": "2.0"
     },
     "method": "mmt/typstPackageRequest.v1",
-    "request": {
-      "diagnostics": [],
-      "observed": null,
-      "observedCount": 0,
-      "trigger": "open @preview/cetz:0.2.2 import"
+    "ready": {
+      "outcome": {
+        "name": "mmt-callback-ready",
+        "outcome": {
+          "files": [
+            {
+              "content_base64": "W3BhY2thZ2VdCm5hbWUgPSAibW10LWNhbGxiYWNrLXJlYWR5Igp2ZXJzaW9uID0gIjEuMC4wIgplbnRyeXBvaW50ID0gImxpYi50eXAiCmF1dGhvcnMgPSBbIk1NVCJdCg==",
+              "path": "typst.toml"
+            },
+            {
+              "content_base64": "I2xldCB2YWx1ZSA9IFtob3N0LXJlYWR5XQo=",
+              "path": "lib.typ"
+            }
+          ],
+          "files_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+          "package_generation": "web-generation-1",
+          "request_id": "mmt-package-1",
+          "status": "Ready"
+        }
+      },
+      "resolvedDiagnostics": []
     },
-    "unavailableReason": "The pinned Web artifact emitted no logical host package request; direct requests to the reserved method return Method not found. Cancellation and callback error shapes therefore cannot be qualified."
+    "requests": [
+      {
+        "backend_generation": 1,
+        "package_spec": {
+          "name": "mmt-callback-ready",
+          "namespace": "preview",
+          "version": "1.0.0"
+        },
+        "request_id": "mmt-package-1",
+        "typst_project_snapshot_key": "web-package-ready-snapshot"
+      },
+      {
+        "backend_generation": 2,
+        "package_spec": {
+          "name": "mmt-callback-unavailable",
+          "namespace": "preview",
+          "version": "1.0.0"
+        },
+        "request_id": "mmt-package-2",
+        "typst_project_snapshot_key": "web-package-unavailable-snapshot"
+      },
+      {
+        "backend_generation": 3,
+        "package_spec": {
+          "name": "mmt-callback-error",
+          "namespace": "preview",
+          "version": "1.0.0"
+        },
+        "request_id": "mmt-package-3",
+        "typst_project_snapshot_key": "web-package-error-snapshot"
+      },
+      {
+        "backend_generation": 4,
+        "package_spec": {
+          "name": "mmt-callback-cancel",
+          "namespace": "preview",
+          "version": "1.0.0"
+        },
+        "request_id": "mmt-package-4",
+        "typst_project_snapshot_key": "web-package-cancel-snapshot"
+      }
+    ],
+    "responses": [
+      {
+        "name": "mmt-callback-ready",
+        "outcome": {
+          "files": [
+            {
+              "content_base64": "W3BhY2thZ2VdCm5hbWUgPSAibW10LWNhbGxiYWNrLXJlYWR5Igp2ZXJzaW9uID0gIjEuMC4wIgplbnRyeXBvaW50ID0gImxpYi50eXAiCmF1dGhvcnMgPSBbIk1NVCJdCg==",
+              "path": "typst.toml"
+            },
+            {
+              "content_base64": "I2xldCB2YWx1ZSA9IFtob3N0LXJlYWR5XQo=",
+              "path": "lib.typ"
+            }
+          ],
+          "files_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+          "package_generation": "web-generation-1",
+          "request_id": "mmt-package-1",
+          "status": "Ready"
+        }
+      },
+      {
+        "name": "mmt-callback-unavailable",
+        "outcome": {
+          "reason": "offline fixture",
+          "request_id": "mmt-package-2",
+          "retryable": true,
+          "status": "Unavailable"
+        }
+      },
+      {
+        "error": {
+          "code": -32010,
+          "message": "host package fixture error"
+        },
+        "name": "mmt-callback-error"
+      },
+      {
+        "name": "mmt-callback-cancel",
+        "outcome": {
+          "request_id": "mmt-package-4",
+          "status": "Cancelled"
+        }
+      }
+    ],
+    "unavailable": {
+      "diagnostics": [
+        {
+          "message": "unclosed delimiter",
+          "range": {
+            "end": {
+              "character": 15,
+              "line": 3
+            },
+            "start": {
+              "character": 14,
+              "line": 3
+            }
+          },
+          "severity": 1,
+          "source": "typst"
+        }
+      ],
+      "outcome": {
+        "name": "mmt-callback-unavailable",
+        "outcome": {
+          "reason": "offline fixture",
+          "request_id": "mmt-package-2",
+          "retryable": true,
+          "status": "Unavailable"
+        }
+      }
+    }
   },
   "previewLocation": {
     "advertisedCommands": [],
@@ -270,14 +423,17 @@
   "schemaVersion": 1,
   "transcripts": {
     "negative": {
+      "backendNetworkIsolated": true,
       "locationCommandsUnavailable": true,
-      "packageCallbackUnavailable": true,
-      "packageCancellationUnavailable": true
+      "packageCancellationObserved": true,
+      "packageErrorObserved": true,
+      "packageUnavailableObserved": true
     },
     "positive": {
       "completionContainsUserSymbol": true,
       "diagnosticVersionMode": "unversioned",
       "hoverPresent": true,
+      "packageReadyResolved": true,
       "previewResourceAvailable": true,
       "signatureContainsUserSymbol": true
     }

@@ -16,8 +16,8 @@ if (!packageRoot) {
 }
 
 const expectedArtifacts = new Map([
-  ["tinymist.js", "f310d8ed520d6ec7000a695f4d15c6e1f1cda5be2ce3b61168f1d8ef7447caa9"],
-  ["tinymist_bg.wasm", "d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454"]
+  ["tinymist.js", "f2c1756f580ab97ede75f266185cea8ab86160e00d9735f8adca732c96527400"],
+  ["tinymist_bg.wasm", "c9ff9b1d8197656e89e2ee4cc3fc74923ddfecaec3fbc4022f82d150fa995db4"]
 ]);
 
 function normalize(value) {
@@ -130,6 +130,11 @@ if (!address || typeof address === "string") throw new Error("failed to bind tes
 const browser = await chromium.launch({ headless: true });
 try {
   const page = await browser.newPage();
+  const externalNetworkRequests = [];
+  page.on("request", (request) => {
+    const url = new URL(request.url());
+    if (url.hostname !== "127.0.0.1") externalNetworkRequests.push(request.url());
+  });
   page.on("console", (message) => console.error(`[browser:${message.type()}] ${message.text()}`));
   page.on("pageerror", (error) => console.error(`[pageerror] ${error.stack ?? error.message}`));
   page.on("requestfailed", (request) =>
@@ -144,6 +149,8 @@ try {
     const serverRequests = [];
     const dynamicRegistrations = { register: [], unregister: [] };
     const packageCallbackRequests = [];
+    const packageCallbackResponses = [];
+    const pendingPackageCallbacks = new Map();
     let workerFailure;
 
     worker.addEventListener("error", (event) => {
@@ -175,10 +182,38 @@ try {
         } else if (message.method === "window/workDoneProgress/create") {
           respond(message.id, { result: null });
         } else if (message.method === "mmt/typstPackageRequest.v1") {
-          packageCallbackRequests.push(message.params ?? null);
-          respond(message.id, {
-            error: { code: -32601, message: "Host package callback intentionally unavailable in Wave 0 evidence" }
-          });
+          const params = message.params ?? null;
+          packageCallbackRequests.push(params);
+          const name = params?.package_spec?.name;
+          if (name === "mmt-callback-ready") {
+            const packageGeneration = "web-generation-1";
+            const filesDigest = "1111111111111111111111111111111111111111111111111111111111111111";
+            const result = {
+              status: "Ready",
+              request_id: params.request_id,
+              package_generation: packageGeneration,
+              files_digest: filesDigest,
+              files: [
+                {
+                  path: "typst.toml",
+                  content_base64: btoa('[package]\nname = "mmt-callback-ready"\nversion = "1.0.0"\nentrypoint = "lib.typ"\nauthors = ["MMT"]\n')
+                },
+                { path: "lib.typ", content_base64: btoa("#let value = [host-ready]\n") }
+              ]
+            };
+            packageCallbackResponses.push({ name, outcome: result });
+            respond(message.id, { result });
+          } else if (name === "mmt-callback-unavailable") {
+            const result = { status: "Unavailable", request_id: params.request_id, reason: "offline fixture", retryable: true };
+            packageCallbackResponses.push({ name, outcome: result });
+            respond(message.id, { result });
+          } else if (name === "mmt-callback-cancel") {
+            pendingPackageCallbacks.set(message.id, { name, params });
+          } else {
+            const error = { code: -32010, message: "host package fixture error" };
+            packageCallbackResponses.push({ name, error });
+            respond(message.id, { error });
+          }
         } else {
           respond(message.id, { error: { code: -32601, message: `Unhandled server request: ${message.method}` } });
         }
@@ -190,6 +225,15 @@ try {
         pending.delete(message.id);
         request.resolve(message);
         return;
+      }
+      if (message.method === "$/cancelRequest") {
+        const cancelled = pendingPackageCallbacks.get(message.params?.id);
+        if (cancelled) {
+          pendingPackageCallbacks.delete(message.params.id);
+          const result = { status: "Cancelled", request_id: cancelled.params.request_id };
+          packageCallbackResponses.push({ name: cancelled.name, outcome: result });
+          respond(message.params.id, { result });
+        }
       }
       if (message.method) notifications.push(message);
       if (message.method === "tinymist/workerBootProgress") {
@@ -245,7 +289,18 @@ try {
         await new Promise((resolve) => setTimeout(resolve, 20));
       }
       const diagnosticUris = notifications.filter((item) => item.method === "textDocument/publishDiagnostics").map((item) => item.params?.uri);
-      throw new Error(`timeout waiting for ${method}; diagnosticUris=${diagnosticUris.join(",")}; notifications=${notifications.map((item) => item.method).join(",")}; serverRequests=${serverRequests.map((item) => item.method).join(",")}`);
+      throw new Error(`timeout waiting for ${method}; diagnostics=${JSON.stringify(notifications.filter((item) => item.method === "textDocument/publishDiagnostics").map((item) => item.params))}; logs=${JSON.stringify(notifications.filter((item) => item.method === "tmLog").map((item) => item.params))}`);
+    }
+
+    async function waitForPackageCallback(name) {
+      const deadline = performance.now() + 20_000;
+      while (performance.now() < deadline) {
+        const callback = packageCallbackRequests.find((item) => item?.package_spec?.name === name);
+        if (callback) return callback;
+        if (workerFailure) throw new Error(workerFailure);
+        await new Promise((resolve) => setTimeout(resolve, 20));
+      }
+      throw new Error(`timeout waiting for package callback ${name}; requests=${serverRequests.map((item) => item.method).join(",")}; logs=${JSON.stringify(notifications.filter((item) => item.method === "tmLog").map((item) => item.params))}`);
     }
 
     async function observeQuietPeriod(quietMs = 300, timeoutMs = 5_000) {
@@ -350,41 +405,54 @@ try {
       context: { triggerKind: 1, isRetrigger: false }
     });
 
-    const packageUri = "untitled:/mmt-projection/browser/package-import.typ";
-    notify("textDocument/didOpen", {
-      textDocument: {
-        uri: packageUri,
-        languageId: "typst",
-        version: 1,
-        text: "#import \"@preview/cetz:0.2.2\": canvas\n#canvas.canvas({})"
-      }
+    const legacyPackageContextResponse = await rawRequest("mmt/typstProjectContext.v1", {
+      backend_generation: 1,
+      typst_project_snapshot_key: "0".repeat(64)
+    }).response;
+    if (legacyPackageContextResponse.error?.code !== -32601) {
+      throw new Error(`legacy package context method was not rejected: ${JSON.stringify(legacyPackageContextResponse)}`);
+    }
+    const packageContext = (backendGeneration, snapshotKey) => notify("mmt/typstPackageContext.v1", {
+      backend_generation: backendGeneration,
+      typst_project_snapshot_key: snapshotKey
     });
-    await observeQuietPeriod(500, 5_000);
-    const packageDiagnosticsNotification = notifications.find(
-      (item) => item.method === "textDocument/publishDiagnostics" && sameDocumentUri(item.params?.uri, packageUri)
-    );
-    const packageDiagnostics = packageDiagnosticsNotification?.params ?? {
-      uri: packageUri,
-      diagnostics: []
-    };
+    const changePackageFixture = (name, version) => notify("textDocument/didChange", {
+      textDocument: { uri, version },
+      contentChanges: [{ text: `#import "@preview/${name}:1.0.0": value\n#value` }]
+    });
 
-    const packageProbe = rawRequest("mmt/typstPackageRequest.v1", {
-      request_id: "web-evidence-request",
-      backend_generation: 1,
-      typst_project_snapshot_key: "wave0-unavailable-probe",
-      package_spec: { namespace: "preview", name: "cetz", version: "0.2.2" },
-      requested_path: "typst.toml"
-    });
-    const packageProbeResponse = await packageProbe.response;
-    const cancelledPackageProbe = rawRequest("mmt/typstPackageRequest.v1", {
-      request_id: "web-evidence-cancel",
-      backend_generation: 1,
-      typst_project_snapshot_key: "wave0-unavailable-probe",
-      package_spec: { namespace: "preview", name: "cetz", version: "0.2.2" },
-      requested_path: null
-    });
-    notify("$/cancelRequest", { id: cancelledPackageProbe.id });
-    const cancelledPackageResponse = await cancelledPackageProbe.response;
+    const packageUri = uri;
+    packageContext(1, "web-package-ready-snapshot");
+    changePackageFixture("mmt-callback-ready", 3);
+    await waitForPackageCallback("mmt-callback-ready");
+    const packageDiagnosticsNotification = await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (item) => sameDocumentUri(item.params?.uri, packageUri) && item.params?.diagnostics?.length === 0
+    );
+    const packageDiagnostics = packageDiagnosticsNotification.params;
+
+    packageContext(2, "web-package-unavailable-snapshot");
+    changePackageFixture("mmt-callback-unavailable", 4);
+    await waitForPackageCallback("mmt-callback-unavailable");
+    const unavailableDiagnostics = (await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (item) => sameDocumentUri(item.params?.uri, packageUri) && item.params?.diagnostics?.length > 0
+    )).params;
+
+    packageContext(3, "web-package-error-snapshot");
+    changePackageFixture("mmt-callback-error", 5);
+    await waitForPackageCallback("mmt-callback-error");
+    const errorDiagnostics = (await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (item) => sameDocumentUri(item.params?.uri, packageUri) && item.params?.diagnostics?.length > 0
+    )).params;
+
+    packageContext(4, "web-package-cancel-snapshot");
+    changePackageFixture("mmt-callback-cancel", 6);
+    await waitForPackageCallback("mmt-callback-cancel");
+    packageContext(5, "web-package-after-cancel-snapshot");
+    const cancellationNotification = await waitForNotification("$/cancelRequest");
+    await observeQuietPeriod(200, 5_000);
 
     const previewResourceResponse = await rawRequest("workspace/executeCommand", {
       command: "tinymist.getResources",
@@ -413,9 +481,12 @@ try {
       dynamicRegistrations,
       serverRequests,
       packageCallbackRequests,
+      packageCallbackResponses,
       packageDiagnostics,
-      packageProbeResponse,
-      cancelledPackageResponse,
+      unavailableDiagnostics,
+      errorDiagnostics,
+      cancellationNotification,
+      legacyPackageContextResponse,
       previewResourceResponse,
       locationProbeResponses,
       completion,
@@ -459,6 +530,7 @@ try {
     severity: diagnostic.severity ?? null,
     source: diagnostic.source ?? null
   }));
+  const packageOutcome = (name) => result.packageCallbackResponses.find((item) => item.name === name);
   const experimental = result.initialize.capabilities?.experimental;
   const experimentalMethods = experimental && typeof experimental === "object"
     ? Object.entries(experimental).filter(([, enabled]) => Boolean(enabled)).map(([name]) => name).sort()
@@ -489,26 +561,30 @@ try {
     },
     packageCallback: {
       method: "mmt/typstPackageRequest.v1",
-      availability: packageServerRequests.length > 0 ? "observed" : "unavailable",
-      request: {
-        trigger: "open @preview/cetz:0.2.2 import",
-        observed: result.packageCallbackRequests[0] ?? null,
-        observedCount: packageServerRequests.length,
-        diagnostics: packageDiagnosticSummary
+      contextMethod: "mmt/typstPackageContext.v1",
+      contextHandlerReached: true,
+      legacyContextMethod: "mmt/typstProjectContext.v1",
+      legacyContextResponse: result.legacyPackageContextResponse,
+      availability: "observed",
+      requests: result.packageCallbackRequests,
+      responses: result.packageCallbackResponses,
+      ready: {
+        outcome: packageOutcome("mmt-callback-ready"),
+        resolvedDiagnostics: packageDiagnosticSummary
+      },
+      unavailable: {
+        outcome: packageOutcome("mmt-callback-unavailable"),
+        diagnostics: result.unavailableDiagnostics.diagnostics
       },
       cancellation: {
-        callbackRequestAvailable: packageServerRequests.length > 0,
-        cancelNotificationSent: true,
-        observedCallbackCancellation: null,
-        directUnsupportedProbe: rpcOutcome(result.cancelledPackageResponse)
+        notificationObserved: result.cancellationNotification.method === "$/cancelRequest",
+        outcome: packageOutcome("mmt-callback-cancel")
       },
       error: {
-        observedCallbackErrorShape: null,
-        directUnsupportedProbe: rpcOutcome(result.packageProbeResponse)
+        outcome: packageOutcome("mmt-callback-error"),
+        diagnostics: result.errorDiagnostics.diagnostics
       },
-      unavailableReason: packageServerRequests.length > 0
-        ? null
-        : "The pinned Web artifact emitted no logical host package request; direct requests to the reserved method return Method not found. Cancellation and callback error shapes therefore cannot be qualified."
+      externalNetworkRequests
     },
     previewLocation: {
       advertisedCommands: advertisedCommands.filter((command) => /preview|trace/i.test(command)).sort(),
@@ -530,11 +606,14 @@ try {
         hoverPresent: Boolean(result.hover),
         signatureContainsUserSymbol: result.signature?.signatures?.some((item) => item.label.includes("greet")) ?? false,
         diagnosticVersionMode: versionedDiagnostics ? "versioned" : "unversioned",
-        previewResourceAvailable: rpcOutcome(result.previewResourceResponse).ok
+        previewResourceAvailable: rpcOutcome(result.previewResourceResponse).ok,
+        packageReadyResolved: packageDiagnosticSummary.length === 0 && packageOutcome("mmt-callback-ready")?.outcome?.status === "Ready"
       },
       negative: {
-        packageCallbackUnavailable: packageServerRequests.length === 0 && !rpcOutcome(result.packageProbeResponse).ok,
-        packageCancellationUnavailable: !rpcOutcome(result.cancelledPackageResponse).ok,
+        packageUnavailableObserved: packageOutcome("mmt-callback-unavailable")?.outcome?.status === "Unavailable",
+        packageErrorObserved: packageOutcome("mmt-callback-error")?.error?.code === -32010,
+        packageCancellationObserved: packageOutcome("mmt-callback-cancel")?.outcome?.status === "Cancelled",
+        backendNetworkIsolated: externalNetworkRequests.length === 0,
         locationCommandsUnavailable: locationProbes.every((probe) => !probe.advertised && !probe.outcome.ok)
       }
     },
@@ -546,13 +625,16 @@ try {
     experimentalMethods
   });
 
-  assert.equal(evidence.packageCallback.availability, "unavailable", "missing Web package callback is explicit");
-  assert.equal(evidence.packageCallback.error.directUnsupportedProbe.error.code, -32601);
-  assert.equal(evidence.packageCallback.cancellation.directUnsupportedProbe.error.code, -32601);
+  assert.equal(evidence.packageCallback.availability, "observed", "Web package callback is observed");
+  assert.equal(evidence.packageCallback.requests.length, 4, "all Web callback outcomes were requested");
   assert.equal(evidence.previewLocation.coordinateVersion, null, "missing coordinate version is explicit");
   assert.equal(evidence.previewLocation.locationMethod, null, "missing Web location method is explicit");
   assert(evidence.transcripts.positive.previewResourceAvailable, "preview artifact resource positive transcript");
-  assert(evidence.transcripts.negative.packageCallbackUnavailable, "package callback negative transcript");
+  assert(evidence.transcripts.positive.packageReadyResolved, "Web Ready package resolved without diagnostics");
+  assert(evidence.transcripts.negative.packageUnavailableObserved, "Web Unavailable callback transcript");
+  assert(evidence.transcripts.negative.packageErrorObserved, "Web callback error transcript");
+  assert(evidence.transcripts.negative.packageCancellationObserved, "Web callback cancellation transcript");
+  assert(evidence.transcripts.negative.backendNetworkIsolated, "Web backend made no external network request");
   assert(evidence.transcripts.negative.locationCommandsUnavailable, "location negative transcript");
 
   await page.addScriptTag({ url: `${page.url()}extension/dist/test/workerClient.js` });

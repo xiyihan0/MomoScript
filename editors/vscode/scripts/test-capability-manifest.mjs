@@ -90,10 +90,11 @@ const manifest = stable({
     web: [...webEvidence.experimentalMethods].sort(),
   },
   packageCallback: {
-    classification: "unavailable",
+    classification: "core-required",
     native: nativeEvidence.packageCallback.availability,
     web: webEvidence.packageCallback.availability,
-    cancellationQualified: false,
+    cancellationQualified: nativeEvidence.packageCallback.cancellation.observed
+      && webEvidence.packageCallback.cancellation.notificationObserved,
   },
   previewLocation: {
     classification: "host-optional",
@@ -113,7 +114,7 @@ const manifest = stable({
 });
 
 assert.equal(manifest.artifacts.native.digest, nativeEvidence.artifact.checksumManifest.expectedSha256);
-assert.equal(manifest.artifacts.web.digest, "d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454");
+assert.equal(manifest.artifacts.web.digest, webEvidence.artifact.digests["tinymist_bg.wasm"]);
 assert.equal(manifest.artifacts.native.positionEncoding, "utf-16");
 assert.equal(manifest.artifacts.web.positionEncoding, "utf-16");
 for (const provider of manifest.providers) {
@@ -124,7 +125,8 @@ for (const provider of manifest.providers) {
     assert.equal(provider.classification, "unavailable", `${provider.key} lacks shared method transcript and must block W0-H`);
   }
 }
-assert.equal(manifest.packageCallback.classification, "unavailable");
+assert.equal(manifest.packageCallback.classification, "core-required");
+assert.equal(manifest.packageCallback.cancellationQualified, true);
 assert.equal(manifest.previewLocation.fallback, "immutable-location-map");
 
 const checkedPath = new URL("tinymist-capability-manifest.json", fixtureRoot);
