@@ -4,6 +4,7 @@ import { readFile, writeFile } from "node:fs/promises";
 const fixtureRoot = new URL("../src/test/fixtures/", import.meta.url);
 const nativeEvidence = JSON.parse(await readFile(new URL("tinymist-native-evidence.json", fixtureRoot), "utf8"));
 const webEvidence = JSON.parse(await readFile(new URL("tinymist-web-evidence.json", fixtureRoot), "utf8"));
+const navigationEvidence = JSON.parse(await readFile(new URL("typst-navigation-evidence.json", fixtureRoot), "utf8"));
 
 const capabilityKeys = [...new Set([
   ...Object.keys(nativeEvidence.initialize.capabilities),
@@ -15,6 +16,14 @@ const baselineQualified = new Set([
   "semanticTokensProvider",
   "signatureHelpProvider",
 ]);
+const navigationQualified = new Set([
+  "definitionProvider",
+  "referencesProvider",
+  "documentSymbolProvider",
+  "workspaceSymbolProvider",
+  "documentHighlightProvider",
+]);
+const transcriptQualified = new Set([...baselineQualified, ...navigationQualified]);
 const p0 = new Set([
   "definitionProvider",
   "documentLinkProvider",
@@ -49,9 +58,11 @@ const providers = capabilityKeys.map((key) => {
     || key === "semanticTokensProvider";
   let classification = "unavailable";
   let reason = "not advertised by either fixed artifact";
-  if (native && web && sameOptions && baselineQualified.has(key)) {
+  if (native && web && sameOptions && transcriptQualified.has(key)) {
     classification = "core-required";
-    reason = "compatible advertisement plus checked native/Web baseline transcript";
+    reason = navigationQualified.has(key)
+      ? "compatible advertisement plus checked native/Web navigation transcript"
+      : "compatible advertisement plus checked native/Web baseline transcript";
   } else if (native && web && p0.has(key)) {
     classification = "unavailable";
     reason = "P0 is advertised but lacks shared positive/negative method transcripts; W0-H patch blocker";
@@ -106,6 +117,7 @@ const manifest = stable({
   providers,
   qualification: {
     baselineEvidence: "typst-language-baseline.json",
+    navigationEvidence: "typst-navigation-evidence.json",
     p0Keys: [...p0].sort(),
     patchRequired,
     patchRequiredProviders,
@@ -115,13 +127,15 @@ const manifest = stable({
 
 assert.equal(manifest.artifacts.native.digest, nativeEvidence.artifact.checksumManifest.expectedSha256);
 assert.equal(manifest.artifacts.web.digest, webEvidence.artifact.digests["tinymist_bg.wasm"]);
+assert.equal(manifest.artifacts.native.digest, navigationEvidence.artifacts.native);
+assert.equal(manifest.artifacts.web.digest, navigationEvidence.artifacts.web);
 assert.equal(manifest.artifacts.native.positionEncoding, "utf-16");
 assert.equal(manifest.artifacts.web.positionEncoding, "utf-16");
 for (const provider of manifest.providers) {
   if (provider.classification === "core-required") {
-    assert(provider.native && provider.web && provider.sameOptions && baselineQualified.has(provider.key));
+    assert(provider.native && provider.web && provider.sameOptions && transcriptQualified.has(provider.key));
   }
-  if (p0.has(provider.key)) {
+  if (p0.has(provider.key) && !navigationQualified.has(provider.key)) {
     assert.equal(provider.classification, "unavailable", `${provider.key} lacks shared method transcript and must block W0-H`);
   }
 }

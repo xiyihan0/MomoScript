@@ -45,7 +45,14 @@ export const languages = {
   },
   registerDocumentSemanticTokensProvider(selector, provider, legend) {
     return registration("semanticTokens", selector, provider, { legend });
-  }
+  },
+  registerDefinitionProvider(selector, provider) { return registration("definition", selector, provider, {}); },
+  registerTypeDefinitionProvider(selector, provider) { return registration("typeDefinition", selector, provider, {}); },
+  registerImplementationProvider(selector, provider) { return registration("implementation", selector, provider, {}); },
+  registerReferenceProvider(selector, provider) { return registration("references", selector, provider, {}); },
+  registerDocumentSymbolProvider(selector, provider) { return registration("documentSymbols", selector, provider, {}); },
+  registerWorkspaceSymbolProvider(provider) { return registration("workspaceSymbols", [], provider, {}); },
+  registerDocumentHighlightProvider(selector, provider) { return registration("highlights", selector, provider, {}); }
 };
 export const workspace = {
   get textDocuments() { return __host.documents; },
@@ -54,7 +61,7 @@ export const workspace = {
   onDidCloseTextDocument(handler) { __host.closed.push(handler); return disposable(() => {}); }
 };
 export const Uri = { parse(value) { return { toString: () => value }; } };
-export const window = { setStatusBarMessage() {} };
+export const window = { activeTextEditor: undefined, setStatusBarMessage() {} };
 export class SemanticTokensLegend {
   constructor(tokenTypes, tokenModifiers) {
     this.tokenTypes = tokenTypes;
@@ -439,12 +446,27 @@ assert.deepEqual(
   webProviderRouter.capability("textDocument/completion").triggerCharacters,
   "native/Web negotiated completion triggers diverged"
 );
-assert.deepEqual(nativeProviderRouter.providerRegistrations("native"), [], "unqualified native provider contracts leaked into host registration");
-assert.deepEqual(webProviderRouter.providerRegistrations("web"), [], "unqualified Web provider contracts leaked into host registration");
+const qualifiedNavigationMethods = [
+  "textDocument/definition",
+  "textDocument/references",
+  "textDocument/documentSymbol",
+  "workspace/symbol",
+  "textDocument/documentHighlight"
+];
+assert.deepEqual(
+  nativeProviderRouter.providerRegistrations("native").map((item) => item.descriptor.method),
+  qualifiedNavigationMethods,
+  "native navigation contracts diverged from checked artifact transcript"
+);
+assert.deepEqual(
+  webProviderRouter.providerRegistrations("web").map((item) => item.descriptor.method),
+  qualifiedNavigationMethods,
+  "Web navigation contracts diverged from checked artifact transcript"
+);
 assert.equal(
   nativeProviderRouter.providerCapability("native", "textDocument/definition").kind,
-  "CapabilityUnavailable",
-  "runtime advertisement bypassed fixed-artifact provider qualification"
+  "QualifiedProvider",
+  "checked navigation qualification was not installed"
 );
 
 const qualifiedRegistry = new TinymistCapabilityRegistry();
@@ -576,7 +598,7 @@ __host.documents.splice(0, __host.documents.length, hostDocument);
 const hostOptions = { documentSelector: [{ language: "mmt" }, { language: "typst" }] };
 installTypstMiddleware(hostOptions, hostBackend, () => hostClient);
 assert.deepEqual(hostOptions.documentSelector, [{ language: "mmt" }], "MMT client retained standalone Typst providers");
-const hostDisposables = connectTypstBackend(hostClient, hostBackend);
+const hostDisposables = connectTypstBackend(hostClient, hostBackend, "native");
 const activeHostRegistrations = () => __host.registrations.filter((registration) => !registration.disposed);
 assert.deepEqual(
   activeHostRegistrations().map((registration) => registration.kind).sort(),

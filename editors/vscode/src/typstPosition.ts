@@ -328,6 +328,31 @@ export function validateBackendWireRange(
   if (start.value > end.value) throw new PositionConversionError("InvalidCharacter");
 }
 
+/** Converts one backend coordinate through an exact retained file generation. */
+export function convertBackendWirePosition(
+  value: WirePosition,
+  index: LineIndex,
+  backendEncoding: PositionEncoding,
+  clientEncoding: PositionEncoding = "utf-16"
+): WirePosition {
+  const backend = tinymistBackendPosition(value, backendEncoding);
+  return index.byteToClient(index.backendToByte(backend), clientEncoding).value;
+}
+
+/** Converts and validates an ordered backend range without clamping. */
+export function convertBackendWireRange(
+  value: WireRange,
+  index: LineIndex,
+  backendEncoding: PositionEncoding,
+  clientEncoding: PositionEncoding = "utf-16"
+): WireRange {
+  validateBackendWireRange(value, index, backendEncoding);
+  return {
+    start: convertBackendWirePosition(value.start, index, backendEncoding, clientEncoding),
+    end: convertBackendWirePosition(value.end, index, backendEncoding, clientEncoding)
+  };
+}
+
 function validateCompletionItem(value: unknown, index: LineIndex, encoding: PositionEncoding): void {
   const item = requireObject(value);
   if (item.textEdit !== undefined) {

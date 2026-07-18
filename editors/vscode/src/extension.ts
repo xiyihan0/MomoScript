@@ -57,7 +57,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   client.onNotification("mmt/previewRequested", () => {
     // The preview backend will consume this revision-bound event in the next slice.
   });
-  if (tinymist) context.subscriptions.push(...connectTypstBackend(activeClient, tinymist));
+  if (tinymist) context.subscriptions.push(...connectTypstBackend(activeClient, tinymist, "native"));
   await client.start();
   try {
     await syncConfiguredPackManifests(context, activeClient);

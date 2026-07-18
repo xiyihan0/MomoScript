@@ -74,7 +74,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       `MomoScript browser language server failed: ${params.message}`
     );
   });
-  if (tinymist) context.subscriptions.push(...connectTypstBackend(activeClient, tinymist));
+  if (tinymist) context.subscriptions.push(...connectTypstBackend(activeClient, tinymist, "web"));
   await client.start();
   try {
     await syncConfiguredPackManifests(context, activeClient);

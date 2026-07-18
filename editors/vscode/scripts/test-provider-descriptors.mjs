@@ -98,10 +98,25 @@ const nativeRegistry = installedRegistry(1, nativeEvidence);
 const webRegistry = installedRegistry(2, webEvidence);
 const nativeQualification = new TypstProviderQualificationRegistry(nativeRegistry, "native");
 const webQualification = new TypstProviderQualificationRegistry(webRegistry, "web");
-assert.deepEqual(nativeQualification.registrations(), [], "unqualified native providers must not register");
-assert.deepEqual(webQualification.registrations(), [], "unqualified Web providers must not register");
-assert.equal(nativeQualification.capability("textDocument/definition").kind, "CapabilityUnavailable");
-assert.equal(nativeQualification.capability("textDocument/definition").classification, "unavailable");
+const qualifiedNavigationMethods = [
+  "textDocument/definition",
+  "textDocument/references",
+  "textDocument/documentSymbol",
+  "workspace/symbol",
+  "textDocument/documentHighlight"
+];
+assert.deepEqual(
+  nativeQualification.registrations().map((item) => item.descriptor.method),
+  qualifiedNavigationMethods,
+  "native navigation provider qualification diverged from checked transcript"
+);
+assert.deepEqual(
+  webQualification.registrations().map((item) => item.descriptor.method),
+  qualifiedNavigationMethods,
+  "Web navigation provider qualification diverged from checked transcript"
+);
+assert.equal(nativeQualification.capability("textDocument/definition").kind, "QualifiedProvider");
+assert.equal(nativeQualification.capability("textDocument/definition").qualification, "core-required");
 assert.equal(webQualification.capability("textDocument/inlayHint").classification, "deferred");
 assert.equal(webQualification.capability("textDocument/typeDefinition").classification, "unavailable");
 

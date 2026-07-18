@@ -106,13 +106,14 @@
 Every item in this section is enabled only if the active artifact advertises the provider. P0 items require native/Web convergence before completion.
 
 - [ ] 4.1 Implement standalone go-to-definition and link navigation
-- [ ] 4.2 Implement standalone references with cancellation and partial-result handling
+- [x] 4.2 Implement standalone references with cancellation and partial-result handling
 - [ ] 4.3 Implement standalone prepare-rename and versioned rename workspace edits
 - [ ] 4.4 Implement standalone full and range formatting and configure format-on-save only after a successful transcript
-- [ ] 4.5 Implement standalone Typst document symbols
-- [ ] 4.6 Implement type-definition and implementation routes when advertised
-- [ ] 4.7 Implement workspace symbols and optional symbol resolve when advertised
-- [ ] 4.8 Implement document highlights when advertised
+- [x] 4.5 Implement standalone Typst document symbols
+- [x] 4.6 Implement type-definition and implementation routes when advertised
+- [x] 4.7 Implement workspace symbols and optional symbol resolve when advertised
+- [x] 4.8 Implement document highlights when advertised
+  - Evidence: `TypstNavigationProviders` installs only active, fixed-artifact-qualified standalone providers and routes through `TypstFeatureRouter.standaloneProvider`, whose request identity, retained-file position conversion and final generation/capability guard reject cancellation, stale graph, restart and unregister races. `node scripts/test-navigation-providers.mjs` covers dynamic absent/unregister, UTF-8↔UTF-16 conversion, multi-location references and nested document symbols; `TINYMIST_BIN=/home/xiyihan/MomoScript-worktrees/artifacts/tinymist-3d63da4f-w2-b0/target/release/tinymist TINYMIST_WEB_PKG="$PWD/vendor/tinymist-0.15.2" node scripts/test-navigation-artifacts.mjs` proves definition, references, hierarchical document symbols, workspace symbols and document highlights on both pinned artifacts while type-definition/implementation remain unavailable and unregistered.
 - [ ] 4.9 Implement selection ranges when advertised
 - [ ] 4.10 Implement document links and link resolve when advertised
 - [ ] 4.11 Implement document colors and color presentations when advertised

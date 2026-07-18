@@ -67,10 +67,10 @@
       "web": true
     },
     {
-      "classification": "unavailable",
+      "classification": "core-required",
       "key": "definitionProvider",
       "native": true,
-      "reason": "P0 is advertised but lacks shared positive/negative method transcripts; W0-H patch blocker",
+      "reason": "compatible advertisement plus checked native/Web navigation transcript",
       "sameOptions": true,
       "web": true
     },
@@ -83,10 +83,10 @@
       "web": true
     },
     {
-      "classification": "deferred",
+      "classification": "core-required",
       "key": "documentHighlightProvider",
       "native": true,
-      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "reason": "compatible advertisement plus checked native/Web navigation transcript",
       "sameOptions": true,
       "web": true
     },
@@ -107,10 +107,10 @@
       "web": true
     },
     {
-      "classification": "unavailable",
+      "classification": "core-required",
       "key": "documentSymbolProvider",
       "native": true,
-      "reason": "P0 is advertised but lacks shared positive/negative method transcripts; W0-H patch blocker",
+      "reason": "compatible advertisement plus checked native/Web navigation transcript",
       "sameOptions": true,
       "web": true
     },
@@ -163,10 +163,10 @@
       "web": true
     },
     {
-      "classification": "unavailable",
+      "classification": "core-required",
       "key": "referencesProvider",
       "native": true,
-      "reason": "P0 is advertised but lacks shared positive/negative method transcripts; W0-H patch blocker",
+      "reason": "compatible advertisement plus checked native/Web navigation transcript",
       "sameOptions": true,
       "web": true
     },
@@ -219,16 +219,17 @@
       "web": true
     },
     {
-      "classification": "deferred",
+      "classification": "core-required",
       "key": "workspaceSymbolProvider",
       "native": true,
-      "reason": "advertised by both artifacts; method transcript not yet qualified",
+      "reason": "compatible advertisement plus checked native/Web navigation transcript",
       "sameOptions": true,
       "web": true
     }
   ],
   "qualification": {
     "baselineEvidence": "typst-language-baseline.json",
+    "navigationEvidence": "typst-navigation-evidence.json",
     "p0Keys": [
       "definitionProvider",
       "documentFormattingProvider",
@@ -240,12 +241,9 @@
     ],
     "patchRequired": true,
     "patchRequiredProviders": [
-      "definitionProvider",
       "documentFormattingProvider",
       "documentLinkProvider",
       "documentRangeFormattingProvider",
-      "documentSymbolProvider",
-      "referencesProvider",
       "renameProvider"
     ],
     "rule": "core-required requires compatible native/Web advertisement and shared positive/negative method transcript; advertised P0 without that evidence is unavailable and blocks W0-H"

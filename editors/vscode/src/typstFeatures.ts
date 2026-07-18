@@ -19,6 +19,8 @@ import {
   type TypstProviderRegistration,
   type TypstRouterDocument
 } from "./typstFeatureRouter";
+import { TypstNavigationProviders } from "./typstNavigationProviders";
+import type { TypstProviderHost } from "./typstProviderDescriptors";
 
 const routersByBackend = new WeakMap<TinymistHostBackend, TypstFeatureRouter>();
 
@@ -158,13 +160,15 @@ export function installTypstMiddleware(
 
 export function connectTypstBackend(
   client: BaseLanguageClient,
-  backend: TinymistHostBackend
+  backend: TinymistHostBackend,
+  host: TypstProviderHost
 ): vscode.Disposable[] {
   const router = routersByBackend.get(backend);
   if (!router) throw new Error("Typst middleware must own the feature router before backend connection");
   let warnedAboutUnversionedDiagnostics = false;
   const diagnostics = vscode.languages.createDiagnosticCollection("mmt-typst");
   const providers = new TypstHostProviderRegistrations(router, backend, client);
+  const navigationProviders = new TypstNavigationProviders(router, client, host);
   for (const document of vscode.workspace.textDocuments) {
     if (document.languageId === "typst") router.open(routerDocument(document));
   }
@@ -205,10 +209,12 @@ export function connectTypstBackend(
       router.retireAllRequests();
     }
     providers.reconcile();
+    navigationProviders.reconcile();
   });
   backend.on("tinymist/clientRestarting", () => {
     router.retireAllRequests();
     providers.reconcile();
+    navigationProviders.reconcile();
   });
   backend.on("textDocument/publishDiagnostics", (value) => {
     void (async () => {
@@ -234,9 +240,11 @@ export function connectTypstBackend(
     });
   });
   providers.reconcile();
+  navigationProviders.reconcile();
   return [
     diagnostics,
     providers,
+    navigationProviders,
     opened,
     changed,
     closed,

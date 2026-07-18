@@ -47,8 +47,10 @@ import type {
 import {
   LineIndex,
   PositionConversionError,
+  convertBackendWireRange,
   validateBackendWireRange,
-  type PositionEncoding
+  type PositionEncoding,
+  type WireRange
 } from "./typstPosition";
 
 export const TYPST_PROVIDER_METHODS = Object.freeze([
@@ -162,11 +164,11 @@ interface FixedProviderQualification {
 export const FIXED_TINYMIST_PROVIDER_ARTIFACTS = Object.freeze({
   native: Object.freeze({
     backendVersion: "0.15.2",
-    digest: "a05c45590986ec48d9dd50ef41c1e38cf233f3a313319ef47dabbef5067e0038"
+    digest: "b96ce119a2ef789978350c26ccc89113435cf010e8f1f8eb2c883fb2ec631611"
   }),
   web: Object.freeze({
     backendVersion: "0.15.2",
-    digest: "d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454"
+    digest: "c9ff9b1d8197656e89e2ee4cc3fc74923ddfecaec3fbc4022f82d150fa995db4"
   })
 });
 
@@ -176,6 +178,13 @@ const ADVERTISED_UNQUALIFIED = Object.freeze({
   web: true,
   sameOptions: true,
   reason: "advertised by both fixed artifacts; method transcript not yet qualified"
+});
+const CORE_NAVIGATION = Object.freeze({
+  classification: "core-required" as const,
+  native: true,
+  web: true,
+  sameOptions: true,
+  reason: "compatible advertisement plus checked native/Web navigation transcript"
 });
 const P0_UNAVAILABLE = Object.freeze({
   classification: "unavailable" as const,
@@ -193,16 +202,16 @@ const NOT_ADVERTISED = Object.freeze({
 });
 
 export const FIXED_TINYMIST_PROVIDER_QUALIFICATION: Readonly<Record<TypstProviderCapabilityKey, FixedProviderQualification>> = Object.freeze({
-  definitionProvider: P0_UNAVAILABLE,
+  definitionProvider: CORE_NAVIGATION,
   typeDefinitionProvider: NOT_ADVERTISED,
   implementationProvider: NOT_ADVERTISED,
-  referencesProvider: P0_UNAVAILABLE,
+  referencesProvider: CORE_NAVIGATION,
   renameProvider: P0_UNAVAILABLE,
   documentFormattingProvider: P0_UNAVAILABLE,
   documentRangeFormattingProvider: P0_UNAVAILABLE,
-  documentSymbolProvider: P0_UNAVAILABLE,
-  workspaceSymbolProvider: ADVERTISED_UNQUALIFIED,
-  documentHighlightProvider: ADVERTISED_UNQUALIFIED,
+  documentSymbolProvider: CORE_NAVIGATION,
+  workspaceSymbolProvider: CORE_NAVIGATION,
+  documentHighlightProvider: CORE_NAVIGATION,
   selectionRangeProvider: ADVERTISED_UNQUALIFIED,
   documentLinkProvider: P0_UNAVAILABLE,
   colorProvider: ADVERTISED_UNQUALIFIED,
@@ -360,6 +369,158 @@ export function validateTypstProviderPositions<T>(
   else if (family === "inlay-hints") validateInlayHints(value, context);
   else validateCodeLenses(value, context);
   return value;
+}
+
+export type TypstNavigationProviderMethod =
+  | "textDocument/definition"
+  | "textDocument/typeDefinition"
+  | "textDocument/implementation"
+  | "textDocument/references"
+  | "textDocument/documentSymbol"
+  | "workspace/symbol"
+  | "workspaceSymbol/resolve"
+  | "textDocument/documentHighlight"
+  | "textDocument/selectionRange";
+
+/**
+ * Converts every range carried by a read-only navigation response through the
+ * exact retained file bytes captured for the request. Unknown target URIs are
+ * rejected instead of being published with an ambiguous coordinate domain.
+ */
+export function convertTypstNavigationProviderPositions<T>(
+  method: TypstNavigationProviderMethod,
+  value: T,
+  context: TypstProviderPositionContext,
+  targetEncoding: PositionEncoding = "utf-16"
+): T {
+  validateTypstProviderPositions(method, value, context);
+  if (value == null) return value;
+  if (method === "textDocument/definition"
+    || method === "textDocument/typeDefinition"
+    || method === "textDocument/implementation") {
+    const converted = Array.isArray(value)
+      ? value.map((item) => convertNavigationLocationOrLink(item, context, targetEncoding))
+      : convertNavigationLocationOrLink(value, context, targetEncoding);
+    return converted as T;
+  }
+  if (method === "textDocument/references") {
+    return requireArray(value).map((item) => convertNavigationLocation(item, context, targetEncoding)) as T;
+  }
+  if (method === "textDocument/documentSymbol") {
+    return convertNavigationDocumentSymbols(value, context, targetEncoding) as T;
+  }
+  if (method === "workspace/symbol" || method === "workspaceSymbol/resolve") {
+    const values = Array.isArray(value) ? value : [value];
+    const converted = values.map((item) => convertNavigationWorkspaceSymbol(item, context, targetEncoding));
+    return (Array.isArray(value) ? converted : converted[0]) as T;
+  }
+  if (method === "textDocument/documentHighlight") {
+    return requireArray(value).map((item) => {
+      const record = requireRecord(item);
+      return { ...record, range: convertNavigationRange(record.range, context.sourceUri, context, targetEncoding) };
+    }) as T;
+  }
+  return requireArray(value).map((item) => convertNavigationSelectionRange(item, context, targetEncoding)) as T;
+}
+
+function convertNavigationLocationOrLink(
+  value: unknown,
+  context: TypstProviderPositionContext,
+  targetEncoding: PositionEncoding
+): Record<string, unknown> {
+  const item = requireRecord(value);
+  if (item.uri !== undefined) return convertNavigationLocation(item, context, targetEncoding);
+  const targetUri = requireString(item.targetUri);
+  return {
+    ...item,
+    targetUri,
+    targetRange: convertNavigationRange(item.targetRange, targetUri, context, targetEncoding),
+    targetSelectionRange: convertNavigationRange(item.targetSelectionRange, targetUri, context, targetEncoding),
+    ...(item.originSelectionRange === undefined ? {} : {
+      originSelectionRange: convertNavigationRange(item.originSelectionRange, context.sourceUri, context, targetEncoding)
+    })
+  };
+}
+
+function convertNavigationLocation(
+  value: unknown,
+  context: TypstProviderPositionContext,
+  targetEncoding: PositionEncoding
+): Record<string, unknown> {
+  const item = requireRecord(value);
+  const uri = requireString(item.uri);
+  return { ...item, uri, range: convertNavigationRange(item.range, uri, context, targetEncoding) };
+}
+
+function convertNavigationDocumentSymbols(
+  value: unknown,
+  context: TypstProviderPositionContext,
+  targetEncoding: PositionEncoding
+): readonly Record<string, unknown>[] {
+  return requireArray(value).map((symbolValue) => {
+    const symbol = requireRecord(symbolValue);
+    if (symbol.location !== undefined) {
+      return { ...symbol, location: convertNavigationLocation(symbol.location, context, targetEncoding) };
+    }
+    return {
+      ...symbol,
+      range: convertNavigationRange(symbol.range, context.sourceUri, context, targetEncoding),
+      selectionRange: convertNavigationRange(symbol.selectionRange, context.sourceUri, context, targetEncoding),
+      ...(symbol.children === undefined ? {} : {
+        children: convertNavigationDocumentSymbols(symbol.children, context, targetEncoding)
+      })
+    };
+  });
+}
+
+function convertNavigationWorkspaceSymbol(
+  value: unknown,
+  context: TypstProviderPositionContext,
+  targetEncoding: PositionEncoding
+): Record<string, unknown> {
+  const symbol = requireRecord(value);
+  const location = requireRecord(symbol.location);
+  const uri = requireString(location.uri);
+  return {
+    ...symbol,
+    location: {
+      ...location,
+      uri,
+      ...(location.range === undefined ? {} : {
+        range: convertNavigationRange(location.range, uri, context, targetEncoding)
+      })
+    }
+  };
+}
+
+function convertNavigationSelectionRange(
+  value: unknown,
+  context: TypstProviderPositionContext,
+  targetEncoding: PositionEncoding
+): Record<string, unknown> {
+  const item = requireRecord(value);
+  return {
+    ...item,
+    range: convertNavigationRange(item.range, context.sourceUri, context, targetEncoding),
+    ...(item.parent === undefined ? {} : {
+      parent: convertNavigationSelectionRange(item.parent, context, targetEncoding)
+    })
+  };
+}
+
+function convertNavigationRange(
+  value: unknown,
+  uri: string,
+  context: TypstProviderPositionContext,
+  targetEncoding: PositionEncoding
+): WireRange {
+  const index = uri === context.sourceUri ? context.sourceIndex : context.retainedIndex?.(uri);
+  if (!index) throw new PositionConversionError("AbsentGeneration");
+  const range = requireRecord(value);
+  return convertBackendWireRange({
+    start: wirePosition(range.start),
+    end: wirePosition(range.end)
+  }, index, context.encoding, targetEncoding);
 }
 
 export interface TypstProviderResolveMetadata {
