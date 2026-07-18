@@ -14,7 +14,7 @@ export default defineConfig({
     screenshot: "only-on-failure"
   },
   projects: [
-    { name: "lifecycle", use: { ...devices["Desktop Chrome"] } }
+    { name: "lifecycle", use: { ...devices["Desktop Chrome"], channel: "chrome" } }
   ],
   webServer: {
     command: "VITE_MMT_E2E=1 npm run dev -- --host 127.0.0.1 --port 4174 --strictPort",

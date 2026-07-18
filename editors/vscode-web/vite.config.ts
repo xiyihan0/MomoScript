@@ -145,7 +145,7 @@ function e2eLifecyclePlugin(): Plugin | undefined {
       return () => {
         server.middlewares.use(async (request, response, next) => {
           const pathname = new URL(request.url ?? "/", "http://mmt-e2e.local").pathname;
-          if (pathname !== "/__mmt_e2e_reload") return next();
+          if (pathname !== "/__mmt_e2e/reload-main") return next();
           if (request.method !== "POST") {
             response.statusCode = 405;
             response.end("method not allowed");

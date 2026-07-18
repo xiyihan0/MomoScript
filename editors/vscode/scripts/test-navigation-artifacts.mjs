@@ -263,6 +263,13 @@ async function webTranscript() {
     await page.goto(`http://127.0.0.1:${address.port}/`);
     return await page.evaluate(async ({ source, initializeParams }) => {
       const worker = new Worker("/extension/dist/tinymistWorker.js");
+      let workerFailure;
+      worker.addEventListener("error", (event) => {
+        workerFailure = `${event.message || "worker failed"} at ${event.filename}:${event.lineno}:${event.colno}`;
+      });
+      worker.addEventListener("messageerror", () => {
+        workerFailure = "worker message could not be deserialized";
+      });
       let nextId = 1;
       const pending = new Map();
       const notifications = [];
@@ -311,6 +318,9 @@ async function webTranscript() {
       });
       const deadline = performance.now() + 60_000;
       while (!notifications.some((item) => item.method === "tinymist/workerReady")) {
+        const failed = notifications.find((item) => item.method === "tinymist/workerFailed");
+        if (failed) throw new Error(`Worker boot failed: ${failed.params?.message ?? "unknown failure"}`);
+        if (workerFailure) throw new Error(`Worker boot failed: ${workerFailure}`);
         if (performance.now() > deadline) throw new Error("Worker boot timed out");
         await pause(20);
       }
