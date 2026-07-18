@@ -74,7 +74,7 @@ function validate(method, item, overrides = {}) {
     request: identity,
     current: identity,
     targetClass: "AuthoredMmt",
-    allowedCommands: ["mmt.safe", "mmt.shell", "mmt.open"],
+    allowedCommands: ["mmt.safe", "mmt.shell", "mmt.open", "tinymist.exportPdf"],
     item,
     ...overrides
   });
@@ -159,6 +159,10 @@ expectKind("UnsafeEdit", validate("textDocument/codeLens", {
   range,
   command: { title: "shell", command: "mmt.shell", arguments: ["echo unsafe"] }
 }), "allowlisted shell command");
+expectKind("UnsafeEdit", validate("textDocument/codeLens", {
+  range,
+  command: { title: "Export PDF", command: "tinymist.exportPdf", arguments: [sourceUri] }
+}), "allowlisted export command");
 
 const strippedNetworkLink = expectKind("Validated", validate("textDocument/documentLink", {
   range,

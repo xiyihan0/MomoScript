@@ -647,7 +647,7 @@ function commandPayload(value: unknown, path: string): TypstNestedCommandPayload
 
 function commandHasForbiddenEffect(command: string): boolean {
   // Even an accidentally configured allowlist must not authorize host I/O.
-  return /(?:shell|terminal|process|execute|clipboard|openexternal|openurl|download|upload)/iu.test(command);
+  return /(?:shell|terminal|process|execute|clipboard|openexternal|openurl|download|upload|export|write|save)/iu.test(command);
 }
 
 function rejectHostPathOutsideRequest(uri: string, input: TypstProviderItemPayloadValidationInput): void {
