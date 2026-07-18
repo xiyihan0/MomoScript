@@ -119,9 +119,12 @@ Every item in this section is enabled only if the active artifact advertises the
 - [ ] 4.12 Implement code actions and resolve when advertised
 - [ ] 4.13 Implement inlay hints and resolve when advertised
 - [ ] 4.14 Implement code lenses and resolve when advertised; keep disabled if artifacts do not qualify
-- [ ] 4.15 Route edits、commands and URIs carried by color presentations, inlay hints, code lenses and document links through the same snapshot、target and allowlist validator
-- [ ] 4.16 Strip an unsafe optional field only when the protocol proves the remaining item semantically complete; otherwise reject the item
-- [ ] 4.17 Add negative transcripts for unsafe color edits、inlay-hint commands、code-lens commands and stale link targets
+- [x] 4.15 Route edits、commands and URIs carried by color presentations, inlay hints, code lenses and document links through the same snapshot、target and allowlist validator
+  - Evidence: `validateTypstProviderItemPayload` recursively collects method-specific color、hint、lens、link and code-action payloads, including versioned `WorkspaceEdit.documentChanges` and resolve metadata, before one atomic W3-0 snapshot/target/allowlist validation; resource operations、unversioned or cross-identity edits and host/network/clipboard/shell effects are rejected. `cd editors/vscode && npm run check && npm run test:provider-payload-negative` passes.
+- [x] 4.16 Strip an unsafe optional field only when the protocol proves the remaining item semantically complete; otherwise reject the item
+  - Evidence: validated results expose immutable `strippedFields` entries with field paths and explicit reasons; document-link targets、inlay-hint commands/locations/text edits、unresolved code-lens commands and code-action commands are stripped only under their protocol-specific meaningful-remainder rule, while color edits、command-only actions/lenses and mixed unsafe atomic edits reject the item. The focused negative fixture asserts both sanitized values and reasons.
+- [x] 4.17 Add negative transcripts for unsafe color edits、inlay-hint commands、code-lens commands and stale link targets
+  - Evidence: `npm run test:provider-payload-negative` covers stale/read-only/overlapping color edits, unsafe hint text edits/commands/host locations, unsafe and command-only lenses, network/host-path/stale links, code-action diagnostics/commands/resource operations/mixed transactions, unauthenticated resolve data and resolve-after-restart for link、hint、lens and action methods. `npm run test:provider-descriptors`, `npm run test:runtime-identity`, `npm run test:response-identity` and `npm run test:position-domains` also pass without qualifying or registering a provider.
 - [ ] 4.18 Add one native process and one browser Worker transcript per enabled provider
 
 ## 5. Projected read features

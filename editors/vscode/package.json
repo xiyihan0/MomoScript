@@ -136,7 +136,8 @@
     "test:runtime-identity": "node ./scripts/test-runtime-identity.mjs",
     "test:response-identity": "node ./scripts/test-response-identity.mjs",
     "test:capability-router": "node ./scripts/test-capability-router.mjs",
-    "test:provider-descriptors": "node ./scripts/test-provider-descriptors.mjs"
+    "test:provider-descriptors": "node ./scripts/test-provider-descriptors.mjs",
+    "test:provider-payload-negative": "node ./scripts/test-provider-payload-negative.mjs"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1",
