@@ -144,20 +144,22 @@ Every item in this section is enabled only if the active artifact advertises the
 
 ## 6. Atomic projected edit features
 
-- [ ] 6.1 Define `ProjectedEditTransaction` protocol and Rust validator
-- [ ] 6.2 Decode every backend range using the exact retained virtual document and encoding
-- [ ] 6.3 Require every projection edit to lie wholly in one current Identity segment
-- [ ] 6.4 Reject edits to templates, packages, generated wrappers, materialized resources and read-only virtual files
-- [ ] 6.5 Normalize URIs and reject overlapping edits before returning a workspace edit
-- [ ] 6.6 Version every edited writable document and reject changed versions before application
+- [x] 6.1 Define `ProjectedEditTransaction` protocol and Rust validator
+- [x] 6.2 Decode every backend range using the exact retained virtual document and encoding
+- [x] 6.3 Require every projection edit to lie wholly in one current Identity segment
+- [x] 6.4 Reject edits to templates, packages, generated wrappers, materialized resources and read-only virtual files
+- [x] 6.5 Normalize URIs and reject overlapping edits before returning a workspace edit
+- [x] 6.6 Version every edited writable document and reject changed versions before application
+  - Evidence: `mmt_rs::projected_edit` binds protocol v1 edits to exact `SourceContentKey`、`ProjectionKey`、retained virtual bytes and negotiated UTF-8/UTF-16 encoding, consumes `ProjectionIndex::classify_read`, and returns borrowed replacement text plus precise authored byte ranges only after URI normalization、Identity-only mapping、writable-target、non-overlap and exact-version checks all succeed. `cargo test --manifest-path mmt_rs/Cargo.toml --test projected_edit_validator` passes.
 - [ ] 6.7 Implement projected prepare-rename with current Identity placeholder validation
 - [ ] 6.8 Implement projected single-document rename first; enable multi-document rename only after journaled `WorkspaceCoordinator.atomicApply` rollback qualifies
 - [ ] 6.9 Implement embedded Typst range formatting only within one Identity segment
 - [ ] 6.10 Keep MMT full-document formatting outside Tinymist and disable embedded format-on-save composition
 - [ ] 6.11 Implement code-action edit mapping only when all edits validate atomically
 - [ ] 6.12 Add a shared allowlist for command-bearing code actions and reject host-I/O commands
-- [ ] 6.13 Surface `UnsafeEdit`, `StaleProjection`, `ReadOnlyTarget` and `CapabilityUnavailable` distinctly
-- [ ] 6.14 Add adversarial rename/format/code-action fixtures with mixed safe/unsafe edits, overlaps and concurrent changes
+- [x] 6.13 Surface `UnsafeEdit`, `StaleProjection`, `ReadOnlyTarget` and `CapabilityUnavailable` distinctly
+- [x] 6.14 Add adversarial rename/format/code-action fixtures with mixed safe/unsafe edits, overlaps and concurrent changes
+  - Evidence: the focused Rust fixture covers valid authored mapping、UTF-8 codepoint and UTF-16 surrogate splits、mixed safe/unsafe atomic rejection、generated and five host read-only target classes、overlaps、concurrent version changes and normalized URI aliases; `cd editors/vscode && npm run test:projected-edits` verifies the matching versioned TypeScript wire/error union, and a focused `npx tsc --noEmit --strict --skipLibCheck --target ES2022 --module ESNext --moduleResolution Bundler src/projectedEditProtocol.ts` passes.
 - [ ] 6.15 Prove applying an edit advances documents only through standard `didChange`
 - [ ] 6.16 Capture preimages, journal the complete batch, commit all targets and restore every preimage on injected mid-commit failure
 - [ ] 6.17 Reject multi-document projected edits as capability unavailable until atomic apply/rollback passes focused failure fixtures

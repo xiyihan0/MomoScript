@@ -8,6 +8,7 @@ pub mod pack;
 pub mod parser;
 pub mod pipeline;
 pub mod project;
+pub mod projected_edit;
 pub mod projection;
 pub mod resolve;
 pub mod semantic;
@@ -39,6 +40,14 @@ pub use pipeline::{
     compile_text, compile_text_strict,
 };
 pub use project::{ProjectMaterializer, ProjectMaterializerOptions, export_template_library};
+pub use projected_edit::{
+    PROJECTED_EDIT_PROTOCOL_VERSION, ProjectedEditDocumentIdentity, ProjectedEditEncoding,
+    ProjectedEditFailure, ProjectedEditPosition, ProjectedEditRange, ProjectedEditTarget,
+    ProjectedEditTransaction, ProjectedTargetClass, ProjectedTargetVersion, ProjectedTextEdit,
+    RetainedProjectedDocument, StaleProjectionReason, UnsafeEditReason,
+    ValidatedProjectedDocumentEdits, ValidatedProjectedEdit, ValidatedProjectedEditTransaction,
+    normalize_projected_edit_uri, validate_projected_edit_transaction,
+};
 pub use projection::{
     MappingMode, PROJECTION_PLACEHOLDER_IMAGE, ProjectedResource, ProjectedResourceSource,
     ProjectionEdit, ProjectionError, ProjectionIndex, ProjectionKind, ProjectionMappingKind,
