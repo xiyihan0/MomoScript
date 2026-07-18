@@ -14,9 +14,10 @@ use crate::source::TextRange;
 pub const PROJECTED_EDIT_PROTOCOL_VERSION: u32 = 1;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "kebab-case")]
 pub enum ProjectedEditEncoding {
+    #[serde(rename = "utf-8")]
     Utf8,
+    #[serde(rename = "utf-16")]
     Utf16,
 }
 

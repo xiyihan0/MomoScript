@@ -9,11 +9,13 @@ use lsp_types::{
 use mmt_rs::{StaticPresetCatalog, project_text};
 use mmt_rs::{
     AnalyzedDocument, EmitOptions, LogicalProjectFileId, MappingMode, PROJECTION_PLACEHOLDER_IMAGE,
-    ProjectDigestInput, ProjectionEdit, ProjectionError, ProjectionKey, ProjectionKind,
-    ProjectionMappingKind, ProjectionMappingResult, SourceContentKey, TypstProjectSnapshotKey,
-    TypstProjection, canonical_bytes_digest, canonical_json_digest, logical_source_id,
-    project_analyzed, project_analyzed_with_pack, project_snapshot_key, projection_key,
-    source_content_key,
+    ProjectDigestInput, ProjectedEditFailure, ProjectedEditTarget, ProjectedEditTransaction,
+    ProjectionEdit, ProjectionError, ProjectionKey, ProjectionKind,
+    ProjectionMappingKind, ProjectionMappingResult, RetainedProjectedDocument, SourceContentKey,
+    TypstProjectSnapshotKey, TypstProjection, ValidatedProjectedEditTransaction,
+    canonical_bytes_digest, canonical_json_digest, logical_source_id,
+    normalize_projected_edit_uri, project_analyzed, project_analyzed_with_pack,
+    project_snapshot_key, projection_key, source_content_key, validate_projected_edit_transaction,
 };
 use serde::{Deserialize, Serialize};
 
@@ -1136,6 +1138,51 @@ impl ProjectionStore {
             projection_key: identity.projection_key.clone(),
         })
     }
+    pub fn validate_projected_edit<'a>(
+        &self,
+        transaction: &'a ProjectedEditTransaction,
+        targets: &[ProjectedEditTarget<'_>],
+    ) -> Result<ValidatedProjectedEditTransaction<'a>, ProjectedEditFailure> {
+        for edit in &transaction.edits {
+            let normalized = normalize_projected_edit_uri(&edit.virtual_uri)?;
+            let read_only = self
+                .documents
+                .values()
+                .chain(self.retained.values().flatten())
+                .any(|document| {
+                    EMBEDDED_TEMPLATE_TEXT_FILES
+                        .iter()
+                        .map(|(path, _)| *path)
+                        .chain(EMBEDDED_TEMPLATE_BINARY_FILES.iter().map(|(path, _)| *path))
+                        .chain(std::iter::once(PROJECTION_PLACEHOLDER_IMAGE))
+                        .filter_map(|path| document.entry_uri.join(path).ok())
+                        .filter_map(|uri| normalize_projected_edit_uri(uri.as_str()).ok())
+                        .any(|uri| uri == normalized)
+                });
+            if read_only || normalized.starts_with("mmt-package:") {
+                return Err(ProjectedEditFailure::ReadOnlyTarget { uri: normalized });
+            }
+        }
+
+        let retained = self
+            .documents
+            .values()
+            .chain(self.retained.values().flatten())
+            .map(|document| RetainedProjectedDocument {
+                virtual_uri: document.entry_uri.as_str(),
+                source_content: &document.language_identity.source_content,
+                projection_key: &document.language_identity.projection_key,
+                source: &document.projection.emitted.source,
+                index: &document.projection.index,
+                authored_target_uri: document.source_uri.as_str(),
+                current: self.documents.get(&document.source_uri).is_some_and(|current| {
+                    current.entry_uri == document.entry_uri && current.revision == document.revision
+                }),
+            })
+            .collect::<Vec<_>>();
+        validate_projected_edit_transaction(transaction, &retained, targets, true)
+    }
+
 }
 
 fn virtual_entry_uri(source_uri: &Url, session_id: &str, revision: u64) -> Url {

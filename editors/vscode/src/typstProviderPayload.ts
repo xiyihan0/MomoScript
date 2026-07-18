@@ -77,6 +77,37 @@ export type TypstProviderPayloadValidationResult =
   | ReadOnlyTypstProviderPayload
   | UnavailableTypstProviderPayload;
 
+export type TypstCommandValidationResult =
+  | { readonly kind: "Validated"; readonly command: string; readonly arguments: readonly unknown[] }
+  | UnsafeTypstProviderPayload;
+
+/** Shared command gate for code actions and other effect-bearing provider payloads. */
+export function validateTypstCommandPayload(
+  value: unknown,
+  allowedCommands: readonly string[]
+): TypstCommandValidationResult {
+  try {
+    const command = commandPayload(value, "command");
+    if (!allowedCommands.includes(command.command as string)
+      || commandHasForbiddenEffect(command.command as string)) {
+      throw new UnsafeProviderPayloadError("provider command is not safely allowlisted");
+    }
+    const args = command.arguments ?? [];
+    validateJsonPayload(args);
+    rejectEffectfulArguments(args);
+    return Object.freeze({
+      kind: "Validated" as const,
+      command: command.command as string,
+      arguments: Object.freeze([...args as readonly unknown[]])
+    });
+  } catch (error) {
+    if (error instanceof UnsafeProviderPayloadError) {
+      return Object.freeze({ kind: "UnsafeEdit" as const, reason: error.message });
+    }
+    throw error;
+  }
+}
+
 interface ValidatedNestedEdit {
   readonly uri: string;
   readonly version: number;
@@ -625,16 +656,7 @@ function collectImplicitTextEdit(
 }
 
 function commandIsIndividuallySafe(value: unknown, input: TypstProviderItemPayloadValidationInput): boolean {
-  try {
-    const command = commandPayload(value, "command");
-    if (!input.allowedCommands.includes(command.command as string) || commandHasForbiddenEffect(command.command as string)) return false;
-    validateJsonPayload(command.arguments ?? []);
-    rejectEffectfulArguments(command.arguments ?? []);
-    return true;
-  } catch (error) {
-    if (error instanceof UnsafeProviderPayloadError) return false;
-    throw error;
-  }
+  return validateTypstCommandPayload(value, input.allowedCommands).kind === "Validated";
 }
 
 function commandPayload(value: unknown, path: string): TypstNestedCommandPayload {

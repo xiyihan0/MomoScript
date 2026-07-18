@@ -289,6 +289,89 @@ export function retainedBackendPosition(
   };
 }
 
+export interface ProjectedRangeWire {
+  readonly entryUri: string;
+  readonly revision: number;
+  readonly range: WireRange;
+  readonly positionEncoding: PositionEncoding;
+  readonly sourceContent: SourceContentKey;
+  readonly projectDigest: TypstProjectSnapshotKey;
+  readonly projectionKey: ProjectionKey;
+}
+
+export interface RetainedBackendRange {
+  readonly entryUri: string;
+  readonly revision: number;
+  readonly index: LineIndex;
+  readonly range: WireRange;
+  readonly encoding: PositionEncoding;
+  readonly sourceContent: SourceContentKey;
+  readonly projectDigest: TypstProjectSnapshotKey;
+  readonly projectionKey: ProjectionKey;
+}
+
+export function parseProjectedRange(value: unknown): ProjectedRangeWire {
+  if (typeof value !== "object" || value === null) {
+    throw new PositionConversionError("AbsentGeneration");
+  }
+  const candidate = value as Partial<ProjectedRangeWire>;
+  if (
+    typeof candidate.entryUri !== "string"
+    || !Number.isSafeInteger(candidate.revision)
+    || (candidate.revision as number) < 0
+    || typeof candidate.range !== "object"
+    || candidate.range === null
+    || (candidate.positionEncoding !== "utf-8" && candidate.positionEncoding !== "utf-16")
+    || typeof candidate.sourceContent !== "string"
+    || typeof candidate.projectDigest !== "string"
+    || typeof candidate.projectionKey !== "string"
+  ) {
+    throw new PositionConversionError("AmbiguousEncoding");
+  }
+  const range = candidate.range as WireRange;
+  return {
+    entryUri: candidate.entryUri,
+    revision: candidate.revision as number,
+    range: {
+      start: { line: checkedCoordinate(range.start?.line), character: checkedCoordinate(range.start?.character) },
+      end: { line: checkedCoordinate(range.end?.line), character: checkedCoordinate(range.end?.character) }
+    },
+    positionEncoding: candidate.positionEncoding,
+    sourceContent: candidate.sourceContent,
+    projectDigest: candidate.projectDigest,
+    projectionKey: candidate.projectionKey
+  };
+}
+
+export function retainedBackendRange(
+  value: ProjectedRangeWire,
+  generation: RetainedTypstGeneration | undefined
+): RetainedBackendRange {
+  if (!generation) throw new PositionConversionError("AbsentGeneration");
+  if (generation.entryUri !== value.entryUri) throw new PositionConversionError("ProjectionMismatch");
+  if (generation.revision !== value.revision) throw new PositionConversionError("StaleProjection");
+  if (generation.sourceContent !== value.sourceContent
+    || generation.projectDigest !== value.projectDigest
+    || generation.projectionKey !== value.projectionKey) {
+    throw new PositionConversionError("ProjectionMismatch");
+  }
+  const file = generation.files.find((candidate) => candidate.uri === value.entryUri);
+  if (typeof file?.text !== "string") throw new PositionConversionError("AbsentGeneration");
+  const index = new LineIndex(file.text);
+  index.backendToByte(tinymistBackendPosition(value.range.start, value.positionEncoding));
+  index.backendToByte(tinymistBackendPosition(value.range.end, value.positionEncoding));
+  return {
+    entryUri: value.entryUri,
+    revision: value.revision,
+    sourceContent: value.sourceContent,
+    projectDigest: value.projectDigest,
+    projectionKey: value.projectionKey,
+    index,
+    range: value.range,
+    encoding: value.positionEncoding
+  };
+}
+
 export interface WireRange {
   readonly start: WirePosition;
   readonly end: WirePosition;

@@ -169,16 +169,18 @@ Every item in this section is enabled only if the active artifact advertises the
 - [x] 6.5 Normalize URIs and reject overlapping edits before returning a workspace edit
 - [x] 6.6 Version every edited writable document and reject changed versions before application
   - Evidence: `mmt_rs::projected_edit` binds protocol v1 edits to exact `SourceContentKey`、`ProjectionKey`、retained virtual bytes and negotiated UTF-8/UTF-16 encoding, consumes `ProjectionIndex::classify_read`, and returns borrowed replacement text plus precise authored byte ranges only after URI normalization、Identity-only mapping、writable-target、non-overlap and exact-version checks all succeed. `cargo test --manifest-path mmt_rs/Cargo.toml --test projected_edit_validator` passes.
-- [ ] 6.7 Implement projected prepare-rename with current Identity placeholder validation
-- [ ] 6.8 Implement projected single-document rename first; enable multi-document rename only after journaled `WorkspaceCoordinator.atomicApply` rollback qualifies
-- [ ] 6.9 Implement embedded Typst range formatting only within one Identity segment
-- [ ] 6.10 Keep MMT full-document formatting outside Tinymist and disable embedded format-on-save composition
-- [ ] 6.11 Implement code-action edit mapping only when all edits validate atomically
-- [ ] 6.12 Add a shared allowlist for command-bearing code actions and reject host-I/O commands
+- [x] 6.7 Implement projected prepare-rename with current Identity placeholder validation
+- [x] 6.8 Implement projected single-document rename first; enable multi-document rename only after journaled `WorkspaceCoordinator.atomicApply` rollback qualifies
+- [x] 6.9 Implement embedded Typst range formatting only within one Identity segment
+- [x] 6.10 Keep MMT full-document formatting outside Tinymist and disable embedded format-on-save composition
+- [x] 6.11 Implement code-action edit mapping only when all edits validate atomically
+- [x] 6.12 Add a shared allowlist for command-bearing code actions and reject host-I/O commands
+  - Evidence: `ProjectedTypstEditProviders` routes only MMT prepare-rename、rename、explicit embedded range-format and code-action requests through exact projected position/range identities; `ProjectedEditAdapter` submits every backend text edit to the real `mmt/validateProjectedEdit` Rust RPC, requires one current authored document, and keeps the default `MultiDocumentEditApplier` capability unavailable. Prepare placeholders must equal the mapped current source text, full-document/format-on-save composition is refused, and the shared command gate rejects shell、path、network and clipboard effects. `cd editors/vscode && npm run check && npm run test:projected-edits`、`node scripts/test-rich-providers.mjs` and `npm run test:provider-payload-negative` pass; focused Rust validator/RPC tests pass.
 - [x] 6.13 Surface `UnsafeEdit`, `StaleProjection`, `ReadOnlyTarget` and `CapabilityUnavailable` distinctly
 - [x] 6.14 Add adversarial rename/format/code-action fixtures with mixed safe/unsafe edits, overlaps and concurrent changes
   - Evidence: the focused Rust fixture covers valid authored mapping、UTF-8 codepoint and UTF-16 surrogate splits、mixed safe/unsafe atomic rejection、generated and five host read-only target classes、overlaps、concurrent version changes and normalized URI aliases; `cd editors/vscode && npm run test:projected-edits` verifies the matching versioned TypeScript wire/error union, and a focused `npx tsc --noEmit --strict --skipLibCheck --target ES2022 --module ESNext --moduleResolution Bundler src/projectedEditProtocol.ts` passes.
-- [ ] 6.15 Prove applying an edit advances documents only through standard `didChange`
+- [x] 6.15 Prove applying an edit advances documents only through standard `didChange`
+  - Evidence: the single-document fixture applies through `vscode.workspace.applyEdit` with an immediate version recheck, observes exactly one normal `didChange`, and proves neither the adapter nor provider routing emits `mmt/updateDocument`; stale、overlap、cross-segment、read-only、multi-document and unsafe-command refusals never reach `WorkspaceEdit.applyEdit`. `cd editors/vscode && npm run test:projected-edits` passes.
 - [ ] 6.16 Capture preimages, journal the complete batch, commit all targets and restore every preimage on injected mid-commit failure
 - [ ] 6.17 Reject multi-document projected edits as capability unavailable until atomic apply/rollback passes focused failure fixtures
 

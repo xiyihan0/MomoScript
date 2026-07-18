@@ -10,7 +10,10 @@ use lsp_types::{
     SemanticTokensServerCapabilities, ServerCapabilities, ServerInfo, SignatureHelpOptions,
     TextDocumentIdentifier, TextDocumentSyncCapability, TextDocumentSyncKind, Url,
 };
-use mmt_rs::{ProjectionKey, SourceContentKey, TypstProjectSnapshotKey};
+use mmt_rs::{
+    ProjectedEditTarget, ProjectedEditTransaction, ProjectedTargetClass, ProjectionKey,
+    SourceContentKey, TypstProjectSnapshotKey,
+};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
@@ -314,6 +317,43 @@ impl MmtLanguageServer {
                     client_encoding,
                     params.backend_encoding,
                 ).ok())
+            }
+            "mmt/validateProjectedEdit" => {
+                let transaction: ProjectedEditTransaction = decode(params)?;
+                let targets = transaction
+                    .expected_versions
+                    .iter()
+                    .map(|expected| {
+                        let current = Url::parse(&expected.uri)
+                            .ok()
+                            .and_then(|uri| self.service.snapshot(&uri));
+                        ProjectedEditTarget {
+                            uri: expected.uri.as_str(),
+                            version: current.map_or(expected.version, |snapshot| snapshot.version),
+                            class: if current.is_some() {
+                                ProjectedTargetClass::Authored
+                            } else {
+                                ProjectedTargetClass::ReadOnlyVirtual
+                            },
+                            writable: current.is_some(),
+                        }
+                    })
+                    .collect::<Vec<_>>();
+                match self.projections.validate_projected_edit(&transaction, &targets) {
+                    Ok(validated) => Ok(serde_json::json!({
+                        "kind": "Validated",
+                        "documents": validated.documents.into_iter().map(|document| serde_json::json!({
+                            "normalizedUri": document.normalized_uri,
+                            "expectedVersion": document.expected_version,
+                            "edits": document.edits.into_iter().map(|edit| serde_json::json!({
+                                "startByte": edit.range.start,
+                                "endByte": edit.range.end,
+                                "newText": edit.new_text,
+                            })).collect::<Vec<_>>(),
+                        })).collect::<Vec<_>>(),
+                    })),
+                    Err(failure) => encode(failure),
+                }
             }
             "mmt/mapTypstCompletion" => {
                 let params: MapTypstCompletionParams = decode(params)?;
@@ -980,6 +1020,71 @@ mod tests {
                 && event.params["entryUri"] == expected_closed_entry
         }));
         assert!(server.projections().get(&uri).is_none());
+    }
+
+    #[test]
+    fn projected_edit_rpc_binds_current_projection_and_standard_document_version() {
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+        let uri = Url::parse("file:///workspace/projected-edit.mmt").unwrap();
+        server
+            .notification(
+                "textDocument/didOpen",
+                serde_json::json!({
+                    "textDocument": {
+                        "uri": uri,
+                        "languageId": "mmt",
+                        "version": 1,
+                        "text": "@typ: #let alpha = 1"
+                    }
+                }),
+            )
+            .unwrap();
+        let projection = server.projections().get(&uri).unwrap();
+        let update = projection.project_update();
+        let projected_source = &projection.projection.emitted.source;
+        let alpha = projected_source.find("alpha").unwrap();
+        let prefix = &projected_source[..alpha];
+        let line = prefix.bytes().filter(|byte| *byte == b'\n').count();
+        let line_start = prefix.rfind('\n').map_or(0, |newline| newline + 1);
+        let character = projected_source[line_start..alpha].encode_utf16().count();
+        let transaction = serde_json::json!({
+            "protocolVersion": 1,
+            "documents": [{
+                "virtualUri": update.entry_uri,
+                "sourceContent": update.source_content,
+                "projectionKey": update.projection_key,
+                "encoding": "utf-16"
+            }],
+            "edits": [{
+                "virtualUri": projection.entry_uri,
+                "range": {
+                    "start": {"line": line, "character": character},
+                    "end": {"line": line, "character": character + 5}
+                },
+                "newText": "beta"
+            }],
+            "expectedVersions": [{"uri": uri, "version": 1}]
+        });
+        let validated = server
+            .request("mmt/validateProjectedEdit", transaction.clone())
+            .unwrap();
+        assert_eq!(validated["kind"], "Validated");
+        assert_eq!(validated["documents"][0]["normalizedUri"], uri.as_str());
+        assert_eq!(validated["documents"][0]["edits"][0]["newText"], "beta");
+
+        server
+            .notification(
+                "textDocument/didChange",
+                serde_json::json!({
+                    "textDocument": {"uri": uri, "version": 2},
+                    "contentChanges": [{"text": "@typ: #let alpha = 2"}]
+                }),
+            )
+            .unwrap();
+        let stale = server.request("mmt/validateProjectedEdit", transaction).unwrap();
+        assert_eq!(stale["kind"], "StaleProjection");
+        assert_eq!(stale["reason"], "retiredProjection");
     }
 
     #[test]

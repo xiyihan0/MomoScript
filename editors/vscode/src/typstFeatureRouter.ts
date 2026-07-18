@@ -49,12 +49,16 @@ import {
   PositionConversionError,
   mmtClientPosition,
   parseProjectedPosition,
+  parseProjectedRange,
   retainedBackendPosition,
+  retainedBackendRange,
   validatePositionBearingPayload,
   wireBackendPosition,
   type PositionEncoding,
   type RetainedBackendPosition,
-  type WirePosition
+  type RetainedBackendRange,
+  type WirePosition,
+  type WireRange
 } from "./typstPosition";
 
 export type BaselineTypstMethod =
@@ -113,7 +117,18 @@ export interface RoutedStandaloneTypstProviderResult<Method extends TypstProvide
   readonly capability: TypstProviderRegistrationContract;
 }
 
+export interface RoutedProjectedTypstProviderResult<Method extends TypstProviderMethod>
+  extends RoutedStandaloneTypstProviderResult<Method> {
+  readonly entryUri: string;
+  readonly revision: number;
+  readonly encoding: PositionEncoding;
+}
+
 interface GuardedBackendPosition extends RetainedBackendPosition {
+  readonly identity: TinymistRequestIdentity;
+}
+
+interface GuardedBackendRange extends RetainedBackendRange {
   readonly identity: TinymistRequestIdentity;
 }
 
@@ -295,6 +310,117 @@ export class TypstFeatureRouter {
     const positionContext = this.providerPositionContext(route.identity, route.entryUri);
     validateTypstProviderPositions(method, value, positionContext);
     return Object.freeze({ method, value, identity: route.identity, positionContext, capability });
+  }
+
+  async projectedProviderAtPosition<Method extends "textDocument/prepareRename" | "textDocument/rename">(
+    host: TypstProviderHost,
+    method: Method,
+    document: TypstRouterDocument,
+    position: WirePosition,
+    params: TypstProviderRequests[Method]["params"],
+    token: CancellationToken
+  ): Promise<RoutedProjectedTypstProviderResult<Method> | undefined> {
+    if (document.languageId === "typst") return undefined;
+    const capability = this.providerCapability(host, method);
+    if (capability.kind !== "QualifiedProvider") return undefined;
+    const route = await this.projectedRoute(document, position, token);
+    if (!route) return undefined;
+    const routedParams = {
+      ...params,
+      textDocument: { uri: route.entryUri },
+      position: wireBackendPosition(route.position)
+    } as TypstProviderRequests[Method]["params"];
+    const value = await this.request(method, routedParams, route.identity, token);
+    if (value === undefined
+      || !this.identityIsCurrent(route.identity)
+      || !this.providerCapabilityIsCurrent(host, method, capability)) return undefined;
+    const positionContext = this.providerPositionContext(route.identity, route.entryUri);
+    validateTypstProviderPositions(method, value, positionContext);
+    return Object.freeze({
+      method,
+      value,
+      identity: route.identity,
+      positionContext,
+      capability,
+      entryUri: route.entryUri,
+      revision: route.revision,
+      encoding: route.position.encoding
+    });
+  }
+
+  async projectedProviderAtRange<Method extends
+    | "textDocument/rangeFormatting"
+    | "textDocument/codeAction"
+  >(
+    host: TypstProviderHost,
+    method: Method,
+    document: TypstRouterDocument,
+    range: WireRange,
+    params: TypstProviderRequests[Method]["params"],
+    token: CancellationToken
+  ): Promise<RoutedProjectedTypstProviderResult<Method> | undefined> {
+    if (document.languageId === "typst") return undefined;
+    const capability = this.providerCapability(host, method);
+    if (capability.kind !== "QualifiedProvider") return undefined;
+    const route = await this.projectedRangeRoute(document, range, token);
+    if (!route) return undefined;
+    const routedParams = {
+      ...params,
+      textDocument: { uri: route.entryUri },
+      range: route.range
+    } as TypstProviderRequests[Method]["params"];
+    const value = await this.request(method, routedParams, route.identity, token);
+    if (value === undefined
+      || !this.identityIsCurrent(route.identity)
+      || !this.providerCapabilityIsCurrent(host, method, capability)) return undefined;
+    const positionContext = this.providerPositionContext(route.identity, route.entryUri);
+    validateTypstProviderPositions(method, value, positionContext);
+    return Object.freeze({
+      method,
+      value,
+      identity: route.identity,
+      positionContext,
+      capability,
+      entryUri: route.entryUri,
+      revision: route.revision,
+      encoding: route.encoding
+    });
+  }
+
+  async projectedProviderResolve(
+    host: TypstProviderHost,
+    method: "codeAction/resolve",
+    item: TypstProviderRequests["codeAction/resolve"]["params"],
+    token: CancellationToken
+  ): Promise<RoutedProjectedTypstProviderResult<"codeAction/resolve"> | undefined> {
+    const capability = this.providerCapability(host, method);
+    if (capability.kind !== "QualifiedProvider") return undefined;
+    const resolve = this.providerResolveRequest(method, item);
+    if (!resolve) return undefined;
+    const entryUri = this.entryByHostUri.get(resolve.identity.sourceStaleToken.hostUri);
+    const project = entryUri ? this.backend.projectForEntry(entryUri) : undefined;
+    if (!entryUri || !project || project.sourceUri === project.entryUri) return undefined;
+    const value = await this.request(
+      method,
+      resolve.item as TypstProviderRequests["codeAction/resolve"]["params"],
+      resolve.identity,
+      token
+    );
+    if (value === undefined
+      || !this.identityIsCurrent(resolve.identity)
+      || !this.providerCapabilityIsCurrent(host, method, capability)) return undefined;
+    const positionContext = this.providerPositionContext(resolve.identity, entryUri);
+    validateTypstProviderPositions(method, value, positionContext);
+    return Object.freeze({
+      method,
+      value,
+      identity: resolve.identity,
+      positionContext,
+      capability,
+      entryUri,
+      revision: project.revision,
+      encoding: this.backendEncoding
+    });
   }
 
   /** Resolves only host-authenticated items that still match the retained backend generation. */
@@ -560,6 +686,28 @@ export class TypstFeatureRouter {
     const projected = parseProjectedPosition(value);
     const project = this.backend.projectForEntry(projected.entryUri);
     const retained = retainedBackendPosition(projected, project);
+    const identity = this.capture(project, document.uri, document.version);
+    return identity ? { ...retained, identity } : undefined;
+  }
+
+  private async projectedRangeRoute(
+    document: TypstRouterDocument,
+    range: WireRange,
+    token: CancellationToken
+  ): Promise<GuardedBackendRange | undefined> {
+    const value = await this.client().sendRequest<unknown>(
+      "mmt/typstRange",
+      {
+        textDocument: { uri: document.uri },
+        range,
+        backendEncoding: this.backendEncoding
+      },
+      token
+    );
+    if (value === null) return undefined;
+    const projected = parseProjectedRange(value);
+    const project = this.backend.projectForEntry(projected.entryUri);
+    const retained = retainedBackendRange(projected, project);
     const identity = this.capture(project, document.uri, document.version);
     return identity ? { ...retained, identity } : undefined;
   }

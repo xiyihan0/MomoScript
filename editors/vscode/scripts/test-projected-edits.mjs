@@ -71,3 +71,4 @@ assert.deepEqual(failures.map((failure) => failure.kind), [
   "CapabilityUnavailable"
 ]);
 console.log("projected edit protocol fixture: ok");
+await import("./test-single-document-projected-edits.mjs");

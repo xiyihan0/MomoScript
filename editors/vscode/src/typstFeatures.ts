@@ -26,6 +26,7 @@ import {
   registerVirtualTypstContentProviders
 } from "./retainedVirtualDocuments";
 import { RichTypstProviderRegistrations } from "./typstRichProviders";
+import { ProjectedTypstEditProviders } from "./projectedEdits";
 
 const routersByBackend = new WeakMap<TinymistHostBackend, TypstFeatureRouter>();
 const retainedDocumentsByBackend = new WeakMap<TinymistHostBackend, RetainedVirtualDocumentStore>();
@@ -176,6 +177,7 @@ export function connectTypstBackend(
   const providers = new TypstHostProviderRegistrations(router, backend, client);
   const navigationProviders = new TypstNavigationProviders(router, client, host);
   const richProviders = new RichTypstProviderRegistrations(router, backend, client, host);
+  const projectedEditProviders = new ProjectedTypstEditProviders(router, backend, client, host);
   let retainedDocuments = retainedDocumentsByBackend.get(backend);
   if (!retainedDocuments) {
     retainedDocuments = new RetainedVirtualDocumentStore();
@@ -231,12 +233,14 @@ export function connectTypstBackend(
     providers.reconcile();
     navigationProviders.reconcile();
     richProviders.reconcile();
+    projectedEditProviders.reconcile();
   });
   backend.on("tinymist/clientRestarting", () => {
     router.retireAllRequests();
     providers.reconcile();
     navigationProviders.reconcile();
     richProviders.reconcile();
+    projectedEditProviders.reconcile();
   });
   backend.on("textDocument/publishDiagnostics", (value) => {
     void (async () => {
@@ -264,11 +268,13 @@ export function connectTypstBackend(
   providers.reconcile();
   navigationProviders.reconcile();
   richProviders.reconcile();
+  projectedEditProviders.reconcile();
   return [
     diagnostics,
     providers,
     navigationProviders,
     richProviders,
+    projectedEditProviders,
     ...virtualContentProviders,
     opened,
     changed,
