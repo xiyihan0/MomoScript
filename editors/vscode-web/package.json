@@ -21,6 +21,7 @@
     "test:resource-fetch-cache": "node --experimental-strip-types ./scripts/test-resource-fetch-cache.mjs",
     "test:resource-materializer": "node --experimental-strip-types ./scripts/test-resource-materializer.mjs",
     "test:preview-diagnostics": "node --experimental-strip-types ./scripts/test-preview-diagnostics.mjs",
+    "test:preview-artifact": "node --experimental-strip-types ./scripts/test-preview-artifact.mjs",
     "test:resource-settings": "node --experimental-strip-types ./scripts/test-resource-settings.mjs",
     "test:language-projection": "node --experimental-strip-types ./scripts/test-language-projection.mjs",
     "test:runtime-owner": "node --experimental-strip-types ./scripts/test-runtime-owner.mjs",

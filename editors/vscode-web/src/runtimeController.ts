@@ -4,6 +4,7 @@ import type { LanguageProjectionToken } from "./languageProjection";
 import { RuntimeOwner, disposeWithFallback, type RuntimeOwnedResource } from "./runtimeOwner.ts";
 import { OriginStorageCoordinator } from "./originStorage.ts";
 import { TypstPackageCacheStorageOwner } from "./packageCacheStorage.ts";
+import { PreviewArtifactStore } from "./previewArtifact.ts";
 
 export type EditorRuntimeState = "starting" | "ready" | "quiescing" | "disposing" | "disposed";
 
@@ -15,6 +16,7 @@ export interface PreviewProjectRevision {
 
 /** Typed production Web state whose lifetime is exactly one editor runtime. */
 export class WebEditorRuntimeStores implements RuntimeOwnedResource {
+  readonly previewArtifacts: PreviewArtifactStore;
   readonly previewProjects = new Map<string, TypstRenderProjectUpdate>();
   readonly packSourcesByNamespace = new Map<string, MaterializationPackSource>();
   readonly latestProjectBySource = new Map<string, PreviewProjectRevision>();
@@ -31,6 +33,7 @@ export class WebEditorRuntimeStores implements RuntimeOwnedResource {
   readonly persistenceByUri = new Map<string, Promise<void>>();
 
   constructor(captureAcceptedPreviewProjects = false) {
+    this.previewArtifacts = new PreviewArtifactStore(32 * 1024 * 1024);
     this.acceptedPreviewLanguageProjects = captureAcceptedPreviewProjects
       ? new Map<string, TypstProjectUpdate>()
       : undefined;
@@ -54,10 +57,12 @@ export class WebEditorRuntimeStores implements RuntimeOwnedResource {
     this.latestLanguageProjectionBySource.delete(sourceUri);
     this.retiredLanguageProjectionSessions.delete(sourceUri);
     this.renderRequestIdBySource.delete(sourceUri);
+    this.previewArtifacts.closeSource(sourceUri);
   }
 
   dispose(): void {
     this.abortMaterializations();
+    this.previewArtifacts.dispose();
     this.previewProjects.clear();
     this.packSourcesByNamespace.clear();
     this.latestProjectBySource.clear();

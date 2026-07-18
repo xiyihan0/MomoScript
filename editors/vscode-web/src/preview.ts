@@ -10,6 +10,7 @@ import mathUrl from "../../vscode/vendor/fonts/NewCMMath-Regular.otf?url";
 
 import type { TypstProjectUpdate } from "../../vscode/src/tinymistClient";
 import { isCurrentPreviewUpdate, type PreviewRevision } from "./previewDiagnostics";
+import { normalizePreviewPage } from "./previewArtifact.ts";
 const compilerWasmUrl = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.7.0-rc2/acac51459fa84907843d7a1927ae7b6fc5c743d5de4f61473c866829c9c46e2d/typst_ts_web_compiler_bg.wasm?delivery=zstd-v1";
 
 
@@ -232,10 +233,20 @@ export class TypstPreviewController {
       this.canvas.dataset.intrinsicWidth = String(width);
       sanitizeSvg(root);
       const inlineSvg = document.importNode(root, true);
+      inlineSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
       inlineSvg.setAttribute("role", "img");
       inlineSvg.setAttribute("aria-label", "Rendered MomoScript preview");
       inlineSvg.setAttribute("width", "100%");
       inlineSvg.setAttribute("height", "100%");
+      const normalizedPage = normalizePreviewPage({
+        pageIndex: 0,
+        geometry: {
+          viewBox: [viewBox?.[0] ?? 0, viewBox?.[1] ?? 0, viewBoxWidth ?? width, viewBoxHeight ?? height],
+          cssWidth: width,
+          cssHeight: height,
+        },
+        sanitizedSvg: inlineSvg.outerHTML,
+      }, 0);
       if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) {
         await this.unmapAbandonedPaths(mappedThisAttempt);
         return;
@@ -246,14 +257,14 @@ export class TypstPreviewController {
       this.mappedPaths = nextPaths;
       this.pageSize = { width, height };
       this.latestEntryPath = virtualPath(project.entryUri);
-      this.latestSvg = inlineSvg.outerHTML;
+      this.latestSvg = normalizedPage.sanitizedSvg;
       this.content.replaceChildren(inlineSvg);
       this.viewport.replaceChildren(this.canvas);
       this.setZoom(this.zoom);
       this.container.dataset.previewRevision = String(project.revision);
       this.container.dataset.previewShadowCount = String(this.mappedPaths.size);
       this.container.dataset.previewReady = "true";
-      this.events?.rendered(inlineSvg.outerHTML, revision, this.mappedPaths.size, this.pageSize);
+      this.events?.rendered(normalizedPage.sanitizedSvg, revision, this.mappedPaths.size, this.pageSize);
     } catch (error) {
       await this.unmapAbandonedPaths(mappedThisAttempt);
       if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) return;
