@@ -3,6 +3,7 @@ import "@codingame/monaco-vscode-media-preview-default-extension";
 import * as vscode from "vscode";
 import { LogLevel } from "@codingame/monaco-vscode-api";
 import { getService, ICodeEditorService, IModelService } from "@codingame/monaco-vscode-api";
+import { registerAssets } from "@codingame/monaco-vscode-api/assets";
 import { URI } from "@codingame/monaco-vscode-api/vscode/vs/base/common/uri";
 import { Event } from "@codingame/monaco-vscode-api/vscode/vs/base/common/event";
 import { Orientation, Sizing, SplitView, type IView } from "@codingame/monaco-vscode-api/vscode/vs/base/browser/ui/splitview/splitview";
@@ -88,6 +89,21 @@ import {
   type RenderKey,
   type SourceStaleToken,
 } from "../../vscode/src/runtimeIdentity";
+
+const webviewIndexUrl = new URL("../node_modules/@codingame/monaco-vscode-view-common-service-override/service-override/vs/workbench/contrib/webview/browser/pre/index.html", import.meta.url).href;
+const webviewFakeUrl = new URL("../node_modules/@codingame/monaco-vscode-view-common-service-override/service-override/vs/workbench/contrib/webview/browser/pre/fake.html", import.meta.url).href;
+
+function deploymentHtmlUrl(url: string): string {
+  if (!location.hostname.endsWith(".pages.dev")) return url;
+  const parsed = new URL(url);
+  parsed.pathname = parsed.pathname.replace(/\.html$/, "");
+  return parsed.href;
+}
+
+registerAssets({
+  "vs/workbench/contrib/webview/browser/pre/index.html": () => deploymentHtmlUrl(webviewIndexUrl),
+  "vs/workbench/contrib/webview/browser/pre/fake.html": () => deploymentHtmlUrl(webviewFakeUrl),
+});
 
 if (import.meta.env.VITE_MMT_E2E === "1") {
   Reflect.set(globalThis, "__mmtSanitizeSvg", sanitizeSvg);
