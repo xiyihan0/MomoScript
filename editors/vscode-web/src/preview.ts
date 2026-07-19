@@ -8,7 +8,7 @@ import monoUrl from "../../vscode/vendor/fonts/DejaVuSansMono.ttf?url";
 import jetBrainsMonoUrl from "../../vscode/vendor/fonts/JetBrainsMono-Regular.ttf?url";
 import mathUrl from "../../vscode/vendor/fonts/NewCMMath-Regular.otf?url";
 
-import type { TypstProjectUpdate } from "../../vscode/src/tinymistClient";
+import type { TypstProjectUpdate, TypstVirtualFile } from "../../vscode/src/tinymistClient";
 import { isCurrentPreviewUpdate, type PreviewRevision } from "./previewDiagnostics";
 import {
   createPreviewArtifact,
@@ -95,6 +95,7 @@ export class TypstPreviewController {
   private rendering = false;
   private typstOperationTail: Promise<void> = Promise.resolve();
   private mappedPaths = new Set<string>();
+  private mappedFiles = new Map<string, TypstVirtualFile>();
   private generation = 0;
   private closeRequested = false;
   private readonly viewport = document.createElement("div");
@@ -388,6 +389,7 @@ export class TypstPreviewController {
   private async resetPreview(): Promise<void> {
     for (const path of this.mappedPaths) await $typst.unmapShadow(path);
     this.mappedPaths.clear();
+    this.mappedFiles.clear();
     this.pageElements.clear();
     this.pageSize = undefined;
     this.latestEntryPath = undefined;
@@ -411,12 +413,13 @@ export class TypstPreviewController {
       ...(binding?.requestId === undefined ? {} : { requestId: binding.requestId }),
     };
     const nextPaths = new Set(project.files.map((file) => virtualPath(file.uri)));
+    const nextFiles = new Map(project.files.map((file) => [virtualPath(file.uri), file]));
     const mappedThisAttempt = new Set<string>();
     this.showStatus("Rendering preview…", false, revision, generation);
     try {
       await initializeTypst((message) => this.showStatus(message, false, revision, generation));
-      for (const file of project.files) {
-        const path = virtualPath(file.uri);
+      for (const [path, file] of nextFiles) {
+        if (this.mappedFiles.get(path) === file) continue;
         const data = file.text === undefined ? decodeBase64(file.dataBase64) : encoder.encode(file.text);
         await $typst.mapShadow(path, data);
         mappedThisAttempt.add(path);
@@ -471,6 +474,7 @@ export class TypstPreviewController {
         if (!nextPaths.has(previous)) await $typst.unmapShadow(previous);
       }
       this.mappedPaths = nextPaths;
+      this.mappedFiles = nextFiles;
       this.pageSize = { width, height };
       this.latestEntryPath = virtualPath(project.entryUri);
       this.latestSvg = normalizedPage.sanitizedSvg;

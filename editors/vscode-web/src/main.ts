@@ -1439,9 +1439,16 @@ async function initializeRuntime(
       lastFailure?: string,
     ) => publishRuntimeStatus("e2e-fixture", recoveryState, lastFailure));
   }
-  const syncTinymistProject = (project: TypstProjectUpdate): void => {
-    tinymist?.backend.syncProject(project);
-    if (tinymist) publishRuntimeQueue("project-queued");
+  const syncTinymistProject = (project: TypstProjectUpdate, incremental = false): void => {
+    const backend = tinymist?.backend;
+    if (backend) {
+      const previous = backend.projectForEntry(project.entryUri);
+      const update = incremental && previous?.sourceUri === project.sourceUri
+        ? { ...project, full: false, files: project.files.filter((file) => file.text !== undefined) }
+        : project;
+      backend.syncProject(update);
+      publishRuntimeQueue("project-queued");
+    }
   };
 
   document.documentElement.dataset.mmtStage = "tinymist-starting";
@@ -1479,18 +1486,25 @@ async function initializeRuntime(
     );
   }
   document.documentElement.dataset.mmtStage = tinymist ? "tinymist-ready" : "tinymist-unavailable";
-  const syncTypstLanguageDocument = async (document: vscode.TextDocument): Promise<TypstProjectUpdate | undefined> => {
+  const syncTypstLanguageDocument = async (
+    document: vscode.TextDocument,
+    incremental = false,
+  ): Promise<TypstProjectUpdate | undefined> => {
     if (document.languageId !== "typst" || document.uri.scheme !== "mmtfs" || document.uri.authority !== "workspace") return undefined;
     const sourceUri = document.uri.toString();
-    const project = await buildTypstProject(document, typstRevisions);
+    const previous = incremental ? typstProjects.get(sourceUri) : undefined;
+    const project = await buildTypstProject(document, typstRevisions, previous);
     if (typstRevisions.get(sourceUri) !== project.revision) return undefined;
-    syncTinymistProject(project);
+    syncTinymistProject(project, previous !== undefined);
     return project;
   };
-  const recognizeAndSyncTypst = async (document: vscode.TextDocument): Promise<TypstProjectUpdate | undefined> => {
+  const recognizeAndSyncTypst = async (
+    document: vscode.TextDocument,
+    incremental = false,
+  ): Promise<TypstProjectUpdate | undefined> => {
     if (!document.uri.path.toLowerCase().endsWith(".typ")) return undefined;
     const recognized = document.languageId === "typst" ? document : await vscode.languages.setTextDocumentLanguage(document, "typst");
-    return syncTypstLanguageDocument(recognized);
+    return syncTypstLanguageDocument(recognized, incremental);
   };
   if (import.meta.env.VITE_MMT_E2E === "1") {
     exposeRuntimeGlobal("__mmtSyncWorkspaceTypst", async (name: string) => {
@@ -1883,7 +1897,7 @@ async function initializeRuntime(
   document.documentElement.dataset.mmtWorkspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? "";
   const typstDocumentChangeRegistration = subscribe(vscode.workspace.onDidChangeTextDocument((event) => {
     if (!controller.acceptingWork) return;
-    void recognizeAndSyncTypst(event.document).then((project) => {
+    void recognizeAndSyncTypst(event.document, true).then((project) => {
       if (!project) return;
       const sourceUri = event.document.uri.toString();
       typstProjects.set(sourceUri, project);
@@ -2798,13 +2812,25 @@ function part(name: string): HTMLDivElement {
   element.className = `workbench-${name}`;
   return element;
 }
-async function buildTypstProject(document: vscode.TextDocument, revisions: Map<string, number>): Promise<TypstProjectUpdate> {
+const typstVirtualFileDigestCache = new WeakMap<object, Promise<string>>();
+
+async function buildTypstProject(
+  document: vscode.TextDocument,
+  revisions: Map<string, number>,
+  previous?: TypstProjectUpdate,
+): Promise<TypstProjectUpdate> {
   const sourceUri = document.uri.toString();
   const revision = (revisions.get(sourceUri) ?? 0) + 1;
   revisions.set(sourceUri, revision);
   const root = vscode.Uri.parse(`${document.uri.scheme}://${document.uri.authority}/`);
   const entryUri = document.uri.toString();
-  const files: TypstVirtualFile[] = [{ uri: entryUri, text: document.getText() }];
+  const reusableFiles = previous?.sourceUri === sourceUri && previous.entryUri === entryUri
+    ? previous.files.filter((file) => file.uri !== entryUri)
+    : undefined;
+  const files: TypstVirtualFile[] = [
+    { uri: entryUri, text: document.getText() },
+    ...(reusableFiles ?? []),
+  ];
   const maxFiles = 256;
   const maxFileBytes = 8 * 1024 * 1024;
   const maxTotalBytes = 32 * 1024 * 1024;
@@ -2827,7 +2853,7 @@ async function buildTypstProject(document: vscode.TextDocument, revisions: Map<s
       files.push(path.endsWith(".typ") || path.endsWith(".bib") ? { uri: uri.toString(), text: new TextDecoder().decode(bytes) } : { uri: uri.toString(), dataBase64: bytesToBase64(bytes) });
     }
   };
-  await visit(root);
+  if (!reusableFiles) await visit(root);
   const workspaceId = document.uri.authority || "workspace";
   const mountedPath = (uri: vscode.Uri) => {
     const path = uri.path.replace(/^\/+/, "");
@@ -2848,10 +2874,7 @@ async function buildTypstProject(document: vscode.TextDocument, revisions: Map<s
       logicalWorkspaceId: workspaceId,
       canonicalWorkspaceRelativePath: mountedPath(fileUri)
     };
-    const bytes = file.text !== undefined
-      ? encoder.encode(file.text)
-      : Uint8Array.from(atob(file.dataBase64), (character) => character.charCodeAt(0));
-    logicalFiles.set(id, await canonicalBytesDigest("mmt-project-file-v1", [bytes]));
+    logicalFiles.set(id, await typstVirtualFileDigest(file));
   }
   const mappingDigest = await canonicalBytesDigest("mmt-source-map-v1", []);
   const projectDigest = await projectSnapshotKey({
@@ -2884,6 +2907,20 @@ async function buildTypstProject(document: vscode.TextDocument, revisions: Map<s
     projectionKey,
     mappingDigest
   };
+}
+
+async function typstVirtualFileDigest(file: TypstVirtualFile): Promise<string> {
+  let digest = typstVirtualFileDigestCache.get(file);
+  if (!digest) {
+    digest = (async () => {
+      const bytes = file.text !== undefined
+        ? encoder.encode(file.text)
+        : Uint8Array.from(atob(file.dataBase64), (character) => character.charCodeAt(0));
+      return canonicalBytesDigest("mmt-project-file-v1", [bytes]);
+    })();
+    typstVirtualFileDigestCache.set(file, digest);
+  }
+  return digest;
 }
 
 async function mirrorWorkspaceFiles(

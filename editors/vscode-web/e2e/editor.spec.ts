@@ -198,6 +198,9 @@ test("production editor materializes an avatar and restores the authored story a
   });
   await expect.poll(() => readWorkspaceDocument(page, "intro.typ")).toBe(editedIntro);
   await expect(buildStatus).toBeVisible({ timeout: 60_000 });
+  await expect.poll(() => page.evaluate((name) => (
+    Reflect.get(globalThis, "__mmtTypstBackendProject") as Function
+  )(name)?.text, "intro.typ")).toBe(editedIntro);
   const updatedTypstPreview = await previewWebviewFrame(page);
   await expect(updatedTypstPreview.getByText("Intro persisted.", { exact: true })).toBeAttached();
   await expect(updatedTypstPreview.locator(".typst-page > [data-preview-page-background]")).toHaveCount(2);
