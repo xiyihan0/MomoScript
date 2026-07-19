@@ -33,10 +33,14 @@ test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-ex
   await expect(controls).toHaveAttribute("data-availability", "ready");
   await expect(preview.getByLabel("Export format")).toBeEnabled();
   await expect(preview.getByRole("button", { name: "Export current preview" })).toBeEnabled();
-  await expect(preview.locator(".page")).toHaveCSS("background-color", "rgb(255, 255, 255)");
-  const background = preview.locator(".page > svg > rect[data-preview-page-background='true']");
-  await expect(background).toHaveCount(1);
-  await expect(background).toHaveAttribute("fill", "white");
+  await expect(preview.locator(".page")).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  const renderedPages = preview.locator(".page > svg > .typst-page");
+  const renderedPageCount = await renderedPages.count();
+  expect(renderedPageCount).toBeGreaterThan(0);
+  const backgrounds = preview.locator(".page > svg > .typst-page > rect[data-preview-page-background='true']");
+  await expect(backgrounds).toHaveCount(renderedPageCount);
+  expect(await backgrounds.evaluateAll((elements) => elements.map((element) => element.getAttribute("fill"))))
+    .toEqual(Array(renderedPageCount).fill("white"));
 
   await preview.getByLabel("Export format").selectOption("svg");
   const svgDownload = await clickForDownload(
