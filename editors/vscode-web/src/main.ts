@@ -1887,7 +1887,10 @@ async function initializeRuntime(
       if (!project) return;
       const sourceUri = event.document.uri.toString();
       typstProjects.set(sourceUri, project);
-      if (displayedPreviewSourceUri === sourceUri) return renderPreview(project);
+      if (displayedPreviewSourceUri === sourceUri) {
+        previewBuildState.activate(previewBuildIdentityFor(project, event.document));
+        return renderPreview(project);
+      }
     }).catch((error: unknown) => log("preview:error", `Typst: ${error instanceof Error ? error.message : String(error)}`));
   }));
   const safeRestart = new PwaSafeRestartQuiesceAdapter({
@@ -2287,8 +2290,9 @@ function previewWebviewHtml(
     .exact-export[data-availability="stale"] .exact-export-status { color: var(--vscode-editorWarning-foreground, #cca700); }
     .exact-export[data-availability="failed"] .exact-export-status, .exact-export[data-phase="error"] .exact-export-status { color: var(--vscode-errorForeground); }
     .viewport { display: flex; justify-content: center; min-width: min-content; height: calc(100vh - 43px); overflow: auto; box-sizing: border-box; padding: 24px; background: #e5e5e5; }
-    .page { position: relative; flex: 0 0 auto; background: #fff; line-height: 0; transform-origin: top left; }
-    .page svg { display: block; width: 100%; height: 100%; max-width: none; filter: drop-shadow(0 2px 5px #0008); }
+    .page { position: relative; flex: 0 0 auto; background: transparent; line-height: 0; transform-origin: top left; }
+    .page svg { display: block; width: 100%; height: 100%; max-width: none; }
+    .page svg > .typst-page { filter: drop-shadow(0 2px 5px #0008); }
     .page .tsel, .page .tsel span { color: transparent; line-height: 1; white-space: pre; pointer-events: auto; user-select: text; cursor: text; }
     .page .tsel::selection, .page .tsel span::selection { color: transparent; background: #7db9dea0; }
     .preview-indicator, .preview-cursor { position: absolute; z-index: 4; pointer-events: none; transform: translate(-50%, -50%); }

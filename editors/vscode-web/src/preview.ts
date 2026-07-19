@@ -431,19 +431,22 @@ export class TypstPreviewController {
       if (!(root instanceof SVGSVGElement) || root.namespaceURI !== "http://www.w3.org/2000/svg") {
         throw new Error("Typst renderer returned no valid SVG root");
       }
+      const pageGap = addSvgPageGaps(root);
       const viewBox = root.getAttribute("viewBox")?.trim().split(/[ ,]+/).map(Number);
       const viewBoxWidth = viewBox?.length === 4 ? viewBox[2] : undefined;
       const viewBoxHeight = viewBox?.length === 4 ? viewBox[3] : undefined;
       const intrinsicWidth = svgCssPixels(root.getAttribute("width"));
       const intrinsicHeight = svgCssPixels(root.getAttribute("height"));
       const width = intrinsicWidth ?? viewBoxWidth ?? Number.NaN;
-      const height = intrinsicHeight ?? (intrinsicWidth !== undefined && viewBoxWidth && viewBoxHeight
-        ? intrinsicWidth * viewBoxHeight / viewBoxWidth
-        : viewBoxHeight ?? Number.NaN);
+      const height = pageGap > 0 && viewBoxWidth !== undefined && viewBoxWidth > 0 && viewBoxHeight !== undefined
+        ? width * viewBoxHeight / viewBoxWidth
+        : intrinsicHeight ?? (intrinsicWidth !== undefined && viewBoxWidth && viewBoxHeight
+          ? intrinsicWidth * viewBoxHeight / viewBoxWidth
+          : viewBoxHeight ?? Number.NaN);
       if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
         throw new Error("Typst renderer returned SVG without a positive page size");
       }
-      ensureSvgPageBackground(root);
+      if (pageGap === 0) ensureSvgPageBackground(root);
       sanitizeSvg(root);
       const inlineSvg = document.importNode(root, true);
       inlineSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");

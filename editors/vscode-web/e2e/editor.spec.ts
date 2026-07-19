@@ -16,7 +16,7 @@ const authored = [
   "> kayoko: E2E persisted avatar message",
   ""
 ].join("\n");
-const editedIntro = "#set page(width: 420pt, height: 260pt)\n= Welcome to MomoScript\n\nIntro persisted.\n";
+const editedIntro = "#set page(width: 420pt, height: 260pt)\n= Welcome to MomoScript\n\nIntro persisted.\n#pagebreak()\nSecond page.\n";
 
 test("production editor materializes an avatar and restores the authored story after reload", async ({ page }, testInfo) => {
   const local = testInfo.project.name !== "remote";
@@ -197,6 +197,17 @@ test("production editor materializes an avatar and restores the authored story a
     text: editedIntro
   });
   await expect.poll(() => readWorkspaceDocument(page, "intro.typ")).toBe(editedIntro);
+  await expect(buildStatus).toBeVisible({ timeout: 60_000 });
+  const updatedTypstPreview = await previewWebviewFrame(page);
+  await expect(updatedTypstPreview.getByText("Intro persisted.", { exact: true })).toBeAttached();
+  await expect(updatedTypstPreview.locator(".typst-page > [data-preview-page-background]")).toHaveCount(2);
+  await expect(updatedTypstPreview.locator(".page svg > [data-preview-page-background]")).toHaveCount(0);
+  const previewPageGap = await updatedTypstPreview.locator(".page svg > .typst-page").evaluateAll((pages) => {
+    if (pages.length !== 2) return Number.NaN;
+    const top = (page: Element) => Number(/translate\(\s*[-+]?\d*\.?\d+\s*[, ]\s*([-+]?\d*\.?\d+)\s*\)/.exec(page.getAttribute("transform") ?? "")?.[1]);
+    return top(pages[1]!) - top(pages[0]!) - Number((pages[0] as SVGElement).dataset.pageHeight);
+  });
+  expect(previewPageGap).toBeGreaterThan(0);
   const typBlockSource = "@typ\n#let accent = rgb(\"#24324a\")\n#let values = range(1, 3, inclusive: true)\n#if values.len() != 3 { panic(\"Typst 0.15 inclusive range is unavailable\") }\n#let a=1\n#a\n@end";
   await page.evaluate(({ name, text }) => (
     Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function
