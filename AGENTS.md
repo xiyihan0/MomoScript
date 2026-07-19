@@ -1,6 +1,6 @@
 # MOMOSCRIPT (MMT) KNOWLEDGE BASE
 
-**Generated:** 2026-01-12
+**Updated:** 2026-07-19
 **Platform:** Linux / Python 3.10+ / UV Workspace
 
 ## OVERVIEW
@@ -14,6 +14,7 @@ MomoScript (MMT) is a DSL for scripted visual storytelling (MoeTalk style), feat
 ├── mmt_lsp/              # Shared Rust LSP core, native stdio server, and WASM bridge
 ├── mmt_nonebot_plugin/   # NoneBot adapter using the Rust v2 project pipeline
 ├── editors/vscode/       # VS Code Desktop/Web extension and browser Worker
+├── editors/vscode-web/   # Standalone browser Workbench, preview, persistence, and PWA shell
 ├── typst_sandbox/        # Rendering engine (Typst) and asset packs
 ├── tools/                # Build pipelines, validation, and refactor checks
 ├── web/                  # Vite/React editor and WASM integration
@@ -33,6 +34,8 @@ MomoScript (MMT) is a DSL for scripted visual storytelling (MoeTalk style), feat
 | **Rust/WASM Core** | `mmt_rs/` | Main language core, native CLI, fixtures, and WASM analysis |
 | **Language Server** | `mmt_lsp/` | Versioned snapshots, diagnostics, symbols, folding, stdio/WASM transports |
 | **VS Code Extension** | `editors/vscode/` | Desktop/Web language clients, Worker, grammar, and build scripts |
+| **Standalone Web Workbench** | `editors/vscode-web/` | Production browser shell; start with its `README.md` |
+| **Web Workbench Architecture** | `openspec/specs/web-workbench-shell/spec.md` | ViewsService/SplitView topology, ownership, lifecycle, and WorkspaceService migration gate |
 | **LSP/VS Code Research** | `openspec/changes/redesign-dsl-syntax-v2/tinymist-typst-lsp-integration-research.md` | Research only; not an approved implementation spec |
 | **LSP/VS Code Change** | `openspec/changes/add-mmt-lsp-vscode/` | Active implementation spec and follow-up Tinymist milestones |
 | **Rendering** | `typst_sandbox/mmt_render` | Typst rendering templates |
@@ -49,6 +52,7 @@ MomoScript (MMT) is a DSL for scripted visual storytelling (MoeTalk style), feat
 - **Typst**: Executed via sandbox (`mmt_core/typst_sandbox.py`) with memory/timeout limits.
 - **OpenSpec**: Substantial DSL/rendering/workflow changes should be described under `openspec/changes/` and aligned to `openspec/specs/`.
 - **Syntax Truth Source**: Treat `mmt_rs/` behavior tests and the active `redesign-dsl-syntax-v2` spec delta as the Rust v2 source of truth. Python parser/compiler and `openspec/specs/dsl-syntax/spec.md` are legacy v1 references until archival is complete.
+- **Web Workbench Truth Source**: Preserve the `ViewsService` + native `SplitView` shell and the single `EditorRuntimeController` ownership model described by `openspec/specs/web-workbench-shell/spec.md`; a `WorkspaceService` cutover requires a separate OpenSpec proposal.
 
 ## ANTI-PATTERNS (THIS PROJECT)
 - **NO** root pollution: (Legacy) Scripts like `bot.py` are at root, but new tools should go in `tools/`.
@@ -75,6 +79,9 @@ cargo test --manifest-path mmt_lsp/Cargo.toml
 
 # Build VS Code Desktop/Web extension and Rust/WASM servers
 cd editors/vscode && npm install && npm run build
+
+# Build and check the standalone browser Workbench
+cd editors/vscode-web && npm install && npm run check && npm run build
 
 # Exercise MMT/Tinymist Workers and VS Code Web Extension Host
 cd editors/vscode && npm run test:worker
