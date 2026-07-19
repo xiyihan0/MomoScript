@@ -251,3 +251,11 @@ jobs:
         run: |
           npm run test:e2e:chrome
           npm run test:e2e:lifecycle
+      - name: Upload E2E failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-e2e-test-results
+          path: editors/vscode-web/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
