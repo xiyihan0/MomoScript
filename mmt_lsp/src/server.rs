@@ -1209,7 +1209,7 @@ mod tests {
                         "uri": uri.clone(),
                         "languageId": "mmt",
                         "version": 1,
-                        "text": "@typ\n#let accent = rgb(\"#24324a\")\n#let a=1\n#a\n@end"
+                        "text": "@typ\r\n\r\n#let step(body) = text(fill: white, weight: \"bold\", body)\r\n\r\n@end"
                     }
                 }),
             )
@@ -1239,9 +1239,9 @@ mod tests {
                     |files| files
                         .iter()
                         .any(|file| file["text"].as_str().is_some_and(|text| {
-                            text.contains("#let accent = rgb(\"#24324a\")")
-                                && text.contains("#let a=1")
-                                && text.contains("#a")
+                            text.contains(
+                                "#let step(body) = text(fill: white, weight: \"bold\", body)",
+                            ) && text.contains("\r\n")
                         }))
                 ),
             "Typst project omitted the multiline @typ body: {project}",

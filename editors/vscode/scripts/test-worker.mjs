@@ -451,7 +451,7 @@ try {
         uri: multilineTypUri,
         languageId: "mmt",
         version: 1,
-        text: "@typ\n#let accent = rgb(\"#24324a\")\n#let a=1\n#a\n@end"
+        text: "@typ\r\n\r\n#let step(body) = text(fill: white, weight: \"bold\", body)\r\n\r\n@end"
       }
     });
     await waitForNotification(
@@ -464,9 +464,8 @@ try {
       (file) => file.uri === multilineTypProject.entryUri
     );
     if (
-      !multilineTypEntry?.text?.includes("#let accent = rgb(\"#24324a\")") ||
-      !multilineTypEntry.text.includes("#let a=1") ||
-      !multilineTypEntry.text.includes("#a")
+      !multilineTypEntry?.text?.includes("#let step(body) = text(fill: white, weight: \"bold\", body)") ||
+      !multilineTypEntry.text.includes("\r\n")
     ) {
       throw new Error("browser Worker omitted content from the multiline @typ projection");
     }

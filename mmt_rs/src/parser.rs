@@ -280,7 +280,7 @@ impl Parser<'_> {
             if source.is_empty() {
                 body_start = line.range.start;
             } else {
-                source.push('\n');
+                source.push_str(&self.source.text()[body_end..line.range.start]);
             }
             source.push_str(line.text);
             body_end = line.range.end;
@@ -1365,6 +1365,26 @@ mod tests {
                 if body.mode == BodyMode::TypstRaw
                     && body.source == "#let config = (\nname: \"value\",\n)\n@reference remains typst content"
         ));
+    }
+
+    #[test]
+    fn typ_block_preserves_crlf_in_identity_mapped_body() {
+        let source =
+            "@typ\r\n\r\n#let step(body) = text(fill: white, weight: \"bold\", body)\r\n\r\n@end";
+        let doc = parse_text(source);
+        assert!(doc.diagnostics.is_empty());
+
+        let SyntaxNode::DirectiveBlock(block) = &doc.nodes[0] else {
+            panic!("expected typ directive block");
+        };
+        let DirectiveItemSyntax::Body(body) = &block.items[0] else {
+            panic!("expected typ directive body");
+        };
+        assert_eq!(body.source, &source[body.range.start..body.range.end]);
+        assert_eq!(
+            body.source,
+            "#let step(body) = text(fill: white, weight: \"bold\", body)\r\n"
+        );
     }
 
     #[test]
