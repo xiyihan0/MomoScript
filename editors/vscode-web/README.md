@@ -2,61 +2,91 @@
 
 本目录是独立运行的浏览器编辑器，不是普通 Monaco 页面。它组合了 VS Code Workbench、Web Extension Host、MMT LSP WASM Worker、Tinymist WASM Worker、Typst compiler/renderer、IndexedDB workspace 和浏览器端资源 materializer。
 
-本文是维护 runbook：记录已验证的开发流程和高风险故障模式。规范性架构与行为要求仍以以下 OpenSpec 为准：
+本文是维护 runbook：记录已验证的开发流程和高风险故障模式。shell 拓扑、所有权、生命周期和迁移门槛的规范性合同是：
 
-- [`openspec/changes/add-mmt-lsp-vscode/design.md`](../../openspec/changes/add-mmt-lsp-vscode/design.md)
-- [`openspec/changes/add-mmt-lsp-vscode/specs/language-tooling/spec.md`](../../openspec/changes/add-mmt-lsp-vscode/specs/language-tooling/spec.md)
-- [`openspec/changes/redesign-dsl-syntax-v2/tinymist-typst-lsp-integration-research.md`](../../openspec/changes/redesign-dsl-syntax-v2/tinymist-typst-lsp-integration-research.md)
-- [`openspec/changes/add-mmt-lsp-vscode/pwa-feasibility-and-design.md`](../../openspec/changes/add-mmt-lsp-vscode/pwa-feasibility-and-design.md)（PWA 可行性草案，非已批准规格）
+- [`openspec/specs/web-workbench-shell/spec.md`](../../openspec/specs/web-workbench-shell/spec.md)
+
+相关能力继续由各自 OpenSpec capability 负责，本 README 不复制其易变实现细节。维护时按 capability ID 查阅当前稳定规格或 active change：
+
+- `editor-runtime-coordination`：单一产品 runtime、project/revision 与 dispose 合同；
+- `language-tooling`：MMT/Tinymist 编辑器能力；
+- `pwa-runtime`：PWA 目标合同与当前实施证据。
 
 ## Current Behavior
 
 当前实现已经具备：
 
-- 原生 VS Code Activity Bar、Explorer、Sidebar、Editor 和 Panel parts；
+- 原生 VS Code Activity Bar、Explorer、Sidebar、Editor、Panel 和 Status Bar parts；
 - 通过 `registerCustomView` 注册的 MomoScript 原生 View；
 - IndexedDB workspace 和文档持久化；
 - MMT LSP 与 Tinymist 独立 Worker；
-- revision-bound Typst projection 和预览；
+- revision-bound Typst projection、preview artifact 和预览交互；
 - workspace 图片、pack-v3 图片及 AVIFS materialization；
 - embedded Typst grammar、completion、hover 和 diagnostics；
-- 可取消的实时渲染与受限内存资源缓存。
+- 可取消的实时渲染与受限内存资源缓存；
+- Web App Manifest、安装 metadata，以及 production build 生成并注册的根 `/sw.js`；
+- production shell/local assets 与选定 pinned runtime 的 Service Worker precache，以及经过 workspace/runtime quiesce 后才激活 waiting worker 的提示式更新。
 
-当前不具备：
+当前仍不具备：
 
-- PWA 安装和根 Service Worker；
-- 完整资源包离线安装；
-- 持久化 pack asset cache；
-- pack 原子升级、回滚和空间管理。
+- `add-pwa-offline-runtime` 规划的显式、逐项校验并可回滚的 offline shell installer；
+- 完整资源包离线安装、持久 pack asset cache、pack 原子升级/回滚和空间管理；
+- offline-ready、browser-installed、staging、probation 等完整状态面板；
+- 多 shell revision 的 client handshake、probation 和回滚；
+- sash 大小的 reload 持久化；
+- Monaco `WorkspaceService` 对完整 Workbench shell/layout 的接管。
 
-`IndexedDbPackCache` 当前只持久化 manifest/ETag；`BoundedStringCache` 是页面内 32 MiB 内存 LRU，不能视为离线资源缓存。
+`IndexedDbPackCache` 当前只持久化 manifest/ETag；`BoundedStringCache` 是页面内 32 MiB 内存 LRU，不能视为离线资源缓存。当前 `/sw.js` 的 install-time precache 也不等同于 active PWA spec 中显式 reservation、artifact verification、probation 与 rollback 均完成的 offline shell。
 
 ## Architecture Boundaries
+
+### Embedded Workbench model
+
+当前 Monaco wrapper 使用 `viewsConfig.$type: "ViewsService"`，不是 `WorkspaceService`：
+
+1. `createLayout` 创建固定拓扑：root 下是 `body`、Status、product Preview；`body` 内是 Activity 与 `primary`；`primary` 内是 Sidebar 与 `main`；`main` 内是 Editor 与 Panel；
+2. Activity 位于 shell body 左侧，Sidebar/main 由原生水平 `SplitView` 分隔；
+3. main 内部再用原生垂直 `SplitView` 分隔 Editor/Panel；
+4. `viewsInitFunc` 用 `attachPart` 把 Activity Bar、Sidebar、Editor、Panel Part 交给各 host，Status Bar 由 `renderStatusBarPart` 挂载；每个 attachment/renderer disposable 都必须注册给同一个 runtime owner；
+5. Views Service 是 Part 实例、容器选择和可见性的权威；两个 `SplitView` 是对应 host 几何和原生 sash 的权威；
+6. CSS 只负责外层固定区域和视觉样式，不能拥有 Sidebar/Panel 尺寸或可见性，也不能增加手写 sash。
+
+当前 sash 尺寸只存在于本次页面生命周期；reload 会重新使用 `createLayout` 的初始尺寸。不要把文档持久化或 Part 可见性行为误写成 sash-size 持久化。
+
+### State owners
 
 ```text
 VS Code TextDocument / mmtfs workspace
   -> MMT LSP revision snapshot
   -> Typst projection session/revision
   -> workspace/pack resource materialization
-  -> Typst render project
-  -> preview revision
+  -> accepted render artifact
+  -> displayed preview revision
 ```
-
-每一层只允许一个权威状态：
 
 | 状态 | 权威来源 |
 |---|---|
-| 文档内容 | VS Code `TextDocument` / workspace filesystem |
+| Part 实例、当前 View container、Part 可见性 | Monaco VS Code Views Service / Part API；Part attachment disposable 进入产品 runtime owner |
+| Sidebar/main、Editor/Panel 几何与 sash | `createLayout` 创建的两个原生 `SplitView` |
+| 当前 authored 文档内容 | VS Code `TextDocument` |
+| authored 文档持久字节 | `mmtfs` workspace provider/coordinator |
+| 产品 startup、work admission、quiesce、dispose | 单一 `EditorRuntimeController` 及其单一 `RuntimeOwner` |
+| projection/materialization、已接受 preview revision/artifact | `EditorRuntimeController` 拥有的 typed stores / `PreviewArtifactStore` |
+| 已显示 preview DOM 与 viewport interaction | runtime-owned `TypstPreviewController`，只绑定已接受 artifact identity |
+| PWA registration、waiting worker 与 activation/reload | `registerPwaUpdateLifecycle`；安全重启仅通过 adapter 调用同一个 runtime |
 | MMT 分析 | MMT LSP versioned snapshot |
 | Typst 虚拟项目 | projection session + revision |
-| 当前预览 | 最新已接受 render revision |
-| Pack manifest URL 选择 | VS Code configuration service |
+| Pack manifest URL 选择、用户配置 | VS Code configuration service |
 | Pack manifest 持久副本/ETag | IndexedDB cache（仅持久缓存） |
 | 已接受的 Pack 语义与 revision | MMT LSP monotonic `pack_revision` / `PackRegistry` |
-| Sidebar 可见性 | VS Code layout service |
-| 用户配置 | VS Code configuration service |
 
-UI 可以镜像状态，不能建立第二套真值。
+UI class、label 和 control 可以镜像权威状态，不能建立第二套 boolean、document buffer、revision map、artifact selection、persistence queue 或 disposal graph。
+
+### Why this is not WorkspaceService
+
+`WorkspaceService` 会接管完整 Workbench shell/layout 行为；当前产品只需要固定 host 加 attached Parts，因此保留 `ViewsService` + nested `SplitView`。当需求依赖完整 Workbench region、跨完整 shell 的 layout command，或 sash/layout reload 恢复时，必须先提交独立 OpenSpec migration proposal，并一次性移除被替代的 SplitView geometry owner，不能让两套 layout 同步。
+
+即使未来采用 `WorkspaceService`，它也只替换 shell/layout ownership；MomoScript 的 document persistence、projection/preview state、Worker、quiesce 和 dispose 仍由 `EditorRuntimeController` / `RuntimeOwner` 负责。
 
 ## Pitfall Runbook
 
@@ -96,60 +126,63 @@ UI 可以镜像状态，不能建立第二套真值。
 
 **根因**
 
-`attachPart` 的初始化由 Views Service 完成；`isPartVisibile`、`onPartVisibilityChange` 等 API 在 `api.start()` 前没有可用 Part。
+`attachPart` 由 `viewsConfig.$type: "ViewsService"` 的初始化回调完成；`isPartVisibile`、`onPartVisibilityChange` 等 API 在 `api.start()` 前没有可用 Part。
 
 **正确模式**
 
 ```ts
-const api = new MonacoVscodeApiWrapper(...);
 await api.start();
 
-root.classList.toggle(
-  "sidebar-collapsed",
-  !isPartVisibile(Parts.SIDEBAR_PART)
-);
+const visible = isPartVisibile(Parts.SIDEBAR_PART);
+layout.setSidebarVisible(visible);
+root.classList.toggle("sidebar-collapsed", !visible);
+
 const registration = onPartVisibilityChange(
   Parts.SIDEBAR_PART,
-  visible => root.classList.toggle("sidebar-collapsed", !visible)
+  visible => {
+    layout.setSidebarVisible(visible);
+    root.classList.toggle("sidebar-collapsed", !visible);
+  }
 );
 ```
 
-先读取一次当前状态，再注册后续事件。仅注册事件不够，因为 listener 不会自动回放初始状态。
+先把当前 Part 状态同步给 owning `SplitView`，再注册后续事件。仅切 class 或仅注册不会回放初始状态的 listener 都不够。Panel 遵守同一规则。
 
 **回归测试**
 
-- 首次加载时 Sidebar 与外层 grid 宽度一致；
-- 恢复“Sidebar 已隐藏”的 Workbench 状态时不留下 260px 空白栏；
+- 首次加载时 Sidebar Part 状态与水平 `SplitView` host 一致；
+- Views Service 报告 Sidebar 隐藏时不留下空白栏；
+- Panel 的初始隐藏和后续 Output toggle 都同步到垂直 `SplitView`；
 - 启动日志中没有 `Part not found`。
 
-### 3. 只把 CSS Grid 宽度设为零
+### 3. 把 CSS 或 DOM 当成布局 owner
 
 **症状**
 
-- Sidebar 看似折叠，但仍可被聚焦；
-- inline 内容可能溢出零宽 grid cell；
+- Sidebar/Panel 看似折叠但仍占用 sash 空间或仍可聚焦；
 - `isPartVisibile` 与页面视觉状态矛盾；
-- 后续 Activity 切换出现空白 View。
+- resize 后 Part host 和内容尺寸分离；
+- 后续 Activity 切换出现空白 View；
+- 出现原生 sash 之外的第二个拖动手柄。
 
 **根因**
 
-只切换 `sidebar-collapsed` class，没有改变原生 `SIDEBAR_PART` 可见状态。
+直接改 class、width/height 或 DOM，而没有通过 Views Service 改 Part 状态并由 owning `SplitView` 更新 geometry。
 
 **正确模式**
 
-对于当前已选中的 Activity tab：
-
-1. 阻止原生点击处理销毁/隐藏当前 View descriptor；
-2. 调用 `setPartVisibility(Parts.SIDEBAR_PART, nextVisible)`；
-3. 由 `onPartVisibilityChange` 回写外层 grid class。
-
-对于未选中的 Activity tab，让原生 Views Service 完成容器切换。
+- 当前已选中的 Activity tab 再次点击时，阻止会销毁/隐藏当前 View descriptor 的原生路径，只调用 `setPartVisibility(Parts.SIDEBAR_PART, nextVisible)`；
+- 未选中的 Activity tab 继续交给原生 Views Service 切换容器；
+- `onPartVisibilityChange` 把 Sidebar/Panel 状态镜像到对应 `SplitView.setViewVisible`；
+- resize 只由两个原生 `SplitView` 和其 sash 处理；
+- class 只作样式/诊断镜像，不参与布局决策。
 
 **回归测试**
 
-- Explorer 点击一次折叠；
-- 同一 Explorer 再点一次恢复；
-- 恢复后 `Files Explorer` tree 存在；
+- Explorer 点击一次折叠，同一 Explorer 再点一次恢复；
+- 隐藏的 Sidebar/Panel 不占 geometry，恢复后真实内容仍存在；
+- 原生 sash 可调整 Sidebar 与 Panel，resize 后 Part 内容随 host layout；
+- reload 后文档继续持久，但测试不得宣称 sash 尺寸被恢复；
 - 再折叠并切换 MomoScript 时 Sidebar 展开且设置内容存在。
 
 ### 4. 错误处理原生 Explorer descriptor
@@ -206,7 +239,7 @@ await expect(explorer).toHaveAttribute("aria-selected", "true");
 
 **回归测试**
 
-E2E 同时覆盖：折叠、恢复、视图切换、真实 View 内容和 reload 后状态。
+E2E 同时覆盖：折叠、恢复、视图切换、真实 View 内容，以及 reload 后的文档/Part 行为；不得从 reload 成功推断 sash-size 持久化。
 
 ### 6. Worker 在 WASM boot 前接收 LSP initialize
 
@@ -481,29 +514,35 @@ Network 中能看到字体文件，渲染结果仍回退；数学公式与正文
 
 每个行为必须断言用户可观察结果，例如 Files Explorer tree、preview revision、workspace 文件内容，而不是只断言 class/title。
 
-### 17. 将来加入 PWA 时忽略现有 Webview Service Worker
+### 17. 误判根 PWA 生命周期或建立第二个 runtime owner
 
 **症状**
 
-根 PWA worker 与 VS Code Webview iframe worker 产生首载、离线或更新版本冲突。
+- 文档仍称“尚未实现 PWA”，但 production build 已输出 manifest 和 `/sw.js`；
+- waiting worker 在文档队列、journal 或 materialization 未安全收束前激活/重载；
+- 根 PWA worker 与 VS Code Webview iframe worker 产生首载、离线或混合版本冲突；
+- PWA adapter 自己终止 Worker、释放 subscription，和产品 runtime disposal 竞争。
 
 **根因**
 
-把当前站点当成没有 Service Worker 的普通 Vite 应用；实际上构建已生成 `assets/service-worker-*.js` 供 Webview 使用。
+没有区分三个 owner：根 Service Worker 的 registration/activation、Webview worker scope，以及 `EditorRuntimeController` 的产品资源生命周期。
 
-**正确模式（待实施）**
+**当前正确模式**
 
-PWA 原型必须验证：
+- production、非 E2E 页面通过 `registerPwaUpdateLifecycle` 注册根 `/sw.js`；build 会 precache production shell/local assets 与选定 pinned runtime；
+- waiting worker 只在用户接受后进入 safe restart；
+- `PwaSafeRestartQuiesceAdapter` 检查 writer/workspace 状态，flush durable queues，abort/drain runtime work，写 recovery metadata，并调用同一个 `EditorRuntimeController.quiesce()`；
+- adapter 不拥有 runtime disposal；HMR、unload、startup rollback 仍统一进入 controller / `RuntimeOwner`；
+- 根 worker 和构建生成的 Webview worker 是不同 scope/用途，修改 routing、cache 或 update 时必须一起验证；
+- 当前 precache/update 基线不能被描述成 active PWA spec 规划的显式 verified shell installer、probation、rollback 或 offline pack manager。
 
-- 两个 worker 的 scope 优先级；
-- Webview iframe 首次离线加载；
-- 更新和 unregister；
-- 旧 JS、新 WASM、旧 Webview worker 混合版本；
-- workspace flush 后再接受更新。
+**回归测试**
 
-**回归测试（待实施）**
-
-Chrome/Safari 下分别测试首次安装、完全离线启动、worker 更新、拒绝更新、接受更新和清站点数据恢复。
+- production-like 环境验证 manifest、根 `/sw.js` registration/scope 和完全离线 cold start；
+- 验证 waiting update 的拒绝、接受、single reload，以及 writer/journal/flush blocker 会保留当前页面；
+- 验证根 worker 与 Webview iframe worker 的首次加载和更新；
+- 验证 HMR/unload/PWA quiesce 仍只有一个 `EditorRuntimeController`/`RuntimeOwner` disposal graph；
+- 验证旧 JS、新 WASM 或旧 Webview worker 的混合版本不会被静默当成健康状态。
 
 ## Recommended Development Flow
 
@@ -627,16 +666,21 @@ git diff --check
 - [ ] 取消后不会 apply project 或更新 preview
 - [ ] reload 不会用默认文档覆盖用户内容
 - [ ] configuration change 会回填 UI
-- [ ] disposable 在 unload/host dispose 时完整释放
+- [ ] 每个 editor lifetime 只有一个 `EditorRuntimeController` / `RuntimeOwner`
+- [ ] startup rollback、HMR、unload 和 PWA quiesce 都进入同一个 lifecycle
+- [ ] PWA adapter 不自行 dispose 产品 Worker/subscription
 
 ### Workbench UI
 
-- [ ] 优先使用原生 Part/View/Service
-- [ ] 初始 part visibility 与后续事件都同步到外层布局
+- [ ] `ViewsService` 是 Part/visibility owner，`SplitView` 是 geometry/sash owner
+- [ ] 初始 Part visibility 与后续事件都同步到对应 `SplitView`
 - [ ] 当前 Activity 项折叠不会销毁 View descriptor
+- [ ] 没有 CSS Grid sizing、手写 sash 或第二套 width/height truth
+- [ ] 不宣称当前 sash 尺寸可跨 reload 恢复
 - [ ] 使用 VS Code theme variables
 - [ ] E2E 使用原生 tab/`aria-selected` 语义
-- [ ] 断言 Files Explorer tree/设置内容，而不只断言标题
+- [ ] 断言 Files Explorer tree/设置内容，而不只断言 class 或标题
+- [ ] 采用 `WorkspaceService` 前有独立 migration proposal，且不替换产品 runtime disposal
 
 ### Files And Resources
 
