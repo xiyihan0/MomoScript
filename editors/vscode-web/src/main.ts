@@ -1391,7 +1391,7 @@ async function initializeRuntime(
     await requestRenderProject(client, sourceUri, token);
   };
   document.documentElement.dataset.mmtStage = "api-ready";
-  const createdDefaultIntro = await ensureDefaultWorkspace();
+  await ensureDefaultWorkspace();
   document.documentElement.dataset.mmtStage = "filesystem-ready";
 
 
@@ -1749,7 +1749,7 @@ async function initializeRuntime(
   if (packUrlsInput) packUrlsInput.value = packUrls.join("\n");
 
   const restoredActiveDocument = await restoreActiveWorkspaceDocument();
-  if (!restoredActiveDocument && createdDefaultIntro && !vscode.window.activeTextEditor) {
+  if (!restoredActiveDocument && !vscode.window.activeTextEditor) {
     const initialDocument = await vscode.workspace.openTextDocument(INTRO);
     const recognizedDocument = initialDocument.languageId === "typst"
       ? initialDocument

@@ -66,6 +66,9 @@ test("repeated Vite HMR and unload sequences evict retained runtime generations"
     expect(oldWorkers, `runtime ${oldGeneration} must own exactly two live language Workers`).toHaveLength(2);
     const oldWorkersClosed = oldWorkers.map((worker) => new Promise<void>((resolve) => worker.once("close", resolve)));
 
+    if (transition === "unload" && index === 2) {
+      await page.evaluate(() => localStorage.removeItem("momoscript.active-workspace-document.v1"));
+    }
     if (transition === "hmr") await reloadMainThroughVite(page);
     else await page.reload();
     generation += 1;
