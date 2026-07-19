@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
+import importMetaUrlPlugin from "@codingame/esbuild-import-meta-url-plugin";
 import { defineConfig, type Plugin } from "vite";
 import {
   PINNED_RUNTIME_WASM_URLS,
@@ -190,7 +191,14 @@ export default defineConfig({
     format: "es"
   },
   optimizeDeps: {
-    include: ["vscode-textmate", "vscode-oniguruma"]
+    include: [
+      "vscode-textmate",
+      "vscode-oniguruma",
+      "@codingame/monaco-vscode-media-preview-default-extension",
+    ],
+    esbuildOptions: {
+      plugins: [importMetaUrlPlugin],
+    },
   },
   resolve: {
     dedupe: [

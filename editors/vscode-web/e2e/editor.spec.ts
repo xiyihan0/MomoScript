@@ -4,7 +4,7 @@ import { expect, test, type Frame, type Locator, type Page, type Response } from
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
 const MANIFEST_URL = `${PACK_ROOT}manifest.json`;
 const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454/tinymist_bg.wasm?delivery=zstd-v1";
-const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.7.0-rc2/acac51459fa84907843d7a1927ae7b6fc5c743d5de4f61473c866829c9c46e2d/typst_ts_web_compiler_bg.wasm?delivery=zstd-v1";
+const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/85a071522388ca99f0cf7f749a287b5578b4c3256ac16014d2894e73e862979a/typst_ts_web_compiler_bg.wasm?delivery=zstd-v1";
 const TINYMIST_WASM_FALLBACK_URL = TINYMIST_WASM_URL.replace("?delivery=zstd-v1", "");
 const TYPST_COMPILER_WASM_FALLBACK_URL = TYPST_COMPILER_WASM_URL.replace("?delivery=zstd-v1", "");
 const manifest = await readFile(new URL("./fixtures/manifest.json", import.meta.url));
@@ -197,7 +197,7 @@ test("production editor materializes an avatar and restores the authored story a
     text: editedIntro
   });
   await expect.poll(() => readWorkspaceDocument(page, "intro.typ")).toBe(editedIntro);
-  const typBlockSource = "@typ\n#let accent = rgb(\"#24324a\")\n#let a=1\n#a\n@end";
+  const typBlockSource = "@typ\n#let accent = rgb(\"#24324a\")\n#let values = range(1, 3, inclusive: true)\n#if values.len() != 3 { panic(\"Typst 0.15 inclusive range is unavailable\") }\n#let a=1\n#a\n@end";
   await page.evaluate(({ name, text }) => (
     Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function
   )(name, text), {
@@ -219,6 +219,8 @@ test("production editor materializes an avatar and restores the authored story a
   expect(typBlockProjection?.text).toContain("#let accent = rgb(\"#24324a\")");
   expect(typBlockProjection?.text).toContain("#let a=1");
   expect(typBlockProjection?.text).toContain("#a");
+  expect(typBlockProjection?.text).toContain("#let values = range(1, 3, inclusive: true)");
+  expect(typBlockProjection?.text).toContain("Typst 0.15 inclusive range is unavailable");
   await page.evaluate(({ name, text }) => (
     Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function
   )(name, text), {
@@ -272,6 +274,26 @@ test("production editor materializes an avatar and restores the authored story a
   const imageBaselineRevision = await preview.getAttribute("data-preview-revision");
   const workspaceImage = avatar.toString("base64");
   await page.evaluate(({ name, data }) => (Reflect.get(globalThis, "__mmtWriteWorkspaceFile") as Function)(name, data), { name: "workspace-image.png", data: workspaceImage });
+  await page.getByRole("treeitem", { name: "workspace-image.png", exact: true }).click();
+  await expect.poll(() => page.frames().length).toBeGreaterThan(2);
+  await expect.poll(async () => {
+    for (const frame of page.frames()) {
+      const dimensions = await frame.locator("img").evaluateAll((images) => images.map((image) => ({
+        complete: (image as HTMLImageElement).complete,
+        width: (image as HTMLImageElement).naturalWidth,
+        height: (image as HTMLImageElement).naturalHeight,
+      })));
+      if (dimensions.some(({ complete, width, height }) => complete && width > 0 && height > 0)) return true;
+    }
+    return false;
+  }).toBe(true);
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.keyboard.press("Control+Shift+P");
+  await expect(page.locator(".quick-input-widget")).toBeVisible();
+  await page.setViewportSize({ width: 1240, height: 943 });
+  await expect.poll(() => page.locator(".workbench-primary").evaluate((element) => element.getBoundingClientRect().right)).toBe(1240);
+  await expect.poll(() => page.locator(".workbench-editor").evaluate((element) => element.getBoundingClientRect().right)).toBe(1240);
+  await page.keyboard.press("Escape");
   await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("story.mmt"));
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "story.mmt", languageId: "mmt" });
   await editor.click();
@@ -323,6 +345,7 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(page.getByRole("textbox", { name: "资源包清单地址" })).toBeVisible();
   await expect(mmsActivity).toHaveAttribute("aria-selected", "true");
   await expect(page.getByRole("textbox", { name: "资源包清单地址" })).toHaveValue(MANIFEST_URL);
+  await expect(page.getByText("入口文件", { exact: true })).toHaveCount(0);
   await explorerActivity.click();
   await expect(page.getByRole("tree", { name: "文件资源管理器" })).toBeVisible();
   await expect(page.getByRole("textbox", { name: "资源包清单地址" })).toBeHidden();
@@ -461,8 +484,6 @@ test("production editor materializes an avatar and restores the authored story a
   const secondAsset = page.waitForResponse((response) => isPackAsset(response));
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
-  await expect.poll(() => activeDocument(page)).toMatchObject({ name: "intro.typ", languageId: "typst", text: editedIntro });
-  await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("story.mmt"));
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "story.mmt", languageId: "mmt" });
   await expect(editor.locator(".view-lines")).toContainText("E2E persisted avatar message");
   await page.getByRole("button", { name: "Typst 预览" }).click();

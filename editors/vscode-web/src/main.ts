@@ -1,4 +1,5 @@
 import "@codingame/monaco-vscode-language-pack-zh-hans";
+import "@codingame/monaco-vscode-media-preview-default-extension";
 import * as vscode from "vscode";
 import { LogLevel } from "@codingame/monaco-vscode-api";
 import { getService, ICodeEditorService, IModelService } from "@codingame/monaco-vscode-api";
@@ -55,7 +56,14 @@ import { ownEventListener } from "./runtimeOwner";
 import { EditorRuntimeController } from "./runtimeController";
 import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
 import { registerPwaUpdateLifecycle } from "./pwaUpdate";
-import { TINYMIST_VERSION, TINYMIST_WASM_SHA256 } from "./runtimeArtifacts";
+import {
+  TINYMIST_VERSION,
+  TINYMIST_WASM_SHA256,
+  TYPST_COMPILER_VERSION,
+  TYPST_COMPILER_WASM_SHA256,
+  TYPST_RENDERER_VERSION,
+  TYPST_RENDERER_WASM_SHA256,
+} from "./runtimeArtifacts";
 import { EditorRuntimeStatus, type RuntimeRecoveryState } from "./runtimeStatus";
 import { createPreviewArtifact, type LocationProviderKey, type PreviewArtifact, type PreviewPagePoint, type PreviewSourceTarget, type PreviewViewport } from "./previewArtifact.ts";
 import type {
@@ -121,7 +129,49 @@ function recordE2ELifecycle(kind: E2ELifecycleKind, generation: number | undefin
 const WORKSPACE = URI.parse("mmtfs://workspace/");
 const STORY = URI.parse("mmtfs://workspace/story.mmt");
 const INTRO = URI.parse("mmtfs://workspace/intro.typ");
-const DEFAULT_DOCUMENT = INTRO;
+const ACTIVE_WORKSPACE_DOCUMENT_KEY = "momoscript.active-workspace-document.v1";
+
+function rememberActiveWorkspaceDocument(document: vscode.TextDocument): void {
+  const uri = document.uri;
+  if (uri.scheme !== WORKSPACE.scheme || uri.authority !== WORKSPACE.authority) return;
+  if (!/\.(?:mmt(?:\.txt)?|typ)$/i.test(uri.path)) return;
+  try {
+    localStorage.setItem(ACTIVE_WORKSPACE_DOCUMENT_KEY, uri.path);
+  } catch {
+    // Browser storage can be unavailable in restricted contexts; the open document still remains usable.
+  }
+}
+
+async function restoreActiveWorkspaceDocument(): Promise<boolean> {
+  let path: string | null;
+  try {
+    path = localStorage.getItem(ACTIVE_WORKSPACE_DOCUMENT_KEY);
+  } catch {
+    return false;
+  }
+  if (!path || !/\.(?:mmt(?:\.txt)?|typ)$/i.test(path)) return false;
+  const segments = path.split("/").slice(1);
+  if (`/${segments.join("/")}` !== path || segments.some((segment) => !segment || segment === "." || segment === ".." || segment.includes("\\"))) {
+    localStorage.removeItem(ACTIVE_WORKSPACE_DOCUMENT_KEY);
+    return false;
+  }
+  const uri = vscode.Uri.joinPath(WORKSPACE, ...segments);
+  try {
+    const stat = await vscode.workspace.fs.stat(uri);
+    if ((stat.type & vscode.FileType.File) === 0) throw new Error("remembered workspace document is not a file");
+    const opened = await vscode.workspace.openTextDocument(uri);
+    const expectedLanguage = path.endsWith(".typ") ? "typst" : "mmt";
+    const document = opened.languageId === expectedLanguage
+      ? opened
+      : await vscode.languages.setTextDocumentLanguage(opened, expectedLanguage);
+    await vscode.window.showTextDocument(document, { viewColumn: vscode.ViewColumn.One, preserveFocus: false });
+    return true;
+  } catch {
+    localStorage.removeItem(ACTIVE_WORKSPACE_DOCUMENT_KEY);
+    return false;
+  }
+}
+
 if (import.meta.env.VITE_MMT_E2E === "1") {
   Reflect.set(globalThis, "__mmtCompletionLabels", async (
     line: number,
@@ -239,10 +289,10 @@ const DEFAULT_STORY = "> 佳代子: 你好，老师！\n>_: 我也可以继续�
 const PACK_URL = "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json";
 const encoder = new TextEncoder();
 const PREVIEW_RUNTIME_KEY = runtimeArtifactKey(
-  "0.7.0-rc2",
-  "acac51459fa84907843d7a1927ae7b6fc5c743d5de4f61473c866829c9c46e2d",
-  "0.7.0-rc2",
-  "7e295cdf8a429e41de9d964581a4aa0c08b48757e5b9f8a3dceebe85cc8729eb",
+  TYPST_COMPILER_VERSION,
+  TYPST_COMPILER_WASM_SHA256,
+  TYPST_RENDERER_VERSION,
+  TYPST_RENDERER_WASM_SHA256,
   "mmt-template-bundle-v1",
   "c02a98146312b8756f9f23654b194885358f603eed736f037f172d617330c05c",
 );
@@ -1341,7 +1391,7 @@ async function initializeRuntime(
     await requestRenderProject(client, sourceUri, token);
   };
   document.documentElement.dataset.mmtStage = "api-ready";
-  await ensureDefaultWorkspace();
+  const createdDefaultIntro = await ensureDefaultWorkspace();
   document.documentElement.dataset.mmtStage = "filesystem-ready";
 
 
@@ -1441,6 +1491,7 @@ async function initializeRuntime(
   }));
   const typstEditorActivationRegistration = subscribe(vscode.window.onDidChangeActiveTextEditor((editor) => {
     if (!editor) return;
+    rememberActiveWorkspaceDocument(editor.document);
     void recognizeAndSyncTypst(editor.document).catch((error: unknown) => log("tinymist:error", error instanceof Error ? error.message : String(error)));
   }));
   const previewSelectionRegistration = subscribe(vscode.window.onDidChangeTextEditorSelection((event) => {
@@ -1697,11 +1748,14 @@ async function initializeRuntime(
   const packUrlsInput = root.querySelector<HTMLTextAreaElement>('textarea[aria-label="Resource pack manifest URLs"]');
   if (packUrlsInput) packUrlsInput.value = packUrls.join("\n");
 
-  const initialDocument = await vscode.workspace.openTextDocument(DEFAULT_DOCUMENT);
-  const recognizedDocument = initialDocument.languageId === "typst"
-    ? initialDocument
-    : await vscode.languages.setTextDocumentLanguage(initialDocument, "typst");
-  await vscode.window.showTextDocument(recognizedDocument);
+  const restoredActiveDocument = await restoreActiveWorkspaceDocument();
+  if (!restoredActiveDocument && createdDefaultIntro && !vscode.window.activeTextEditor) {
+    const initialDocument = await vscode.workspace.openTextDocument(INTRO);
+    const recognizedDocument = initialDocument.languageId === "typst"
+      ? initialDocument
+      : await vscode.languages.setTextDocumentLanguage(initialDocument, "typst");
+    await vscode.window.showTextDocument(recognizedDocument);
+  }
   const modelService = await getService(IModelService);
   const codeEditorService = await getService(ICodeEditorService);
   const markerModelRegistrations: vscode.Disposable[] = [];
@@ -1809,7 +1863,7 @@ async function initializeRuntime(
     schedulePersistence(uri);
   }));
   document.documentElement.dataset.mmtStage = "mmt-ready";
-  document.documentElement.dataset.mmtLanguageId = recognizedDocument.languageId;
+  document.documentElement.dataset.mmtLanguageId = vscode.window.activeTextEditor?.document.languageId ?? "";
   document.documentElement.dataset.mmtWorkspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? "";
   const typstDocumentChangeRegistration = subscribe(vscode.workspace.onDidChangeTextDocument((event) => {
     if (!controller.acceptingWork) return;
@@ -2066,11 +2120,13 @@ async function loadIntroAssets(): Promise<void> {
   }));
 }
 
-async function ensureDefaultWorkspace(): Promise<void> {
+async function ensureDefaultWorkspace(): Promise<boolean> {
+  let createdIntro = false;
   try {
     await vscode.workspace.fs.stat(INTRO);
   } catch {
     await vscode.workspace.fs.writeFile(INTRO, await loadDefaultIntro());
+    createdIntro = true;
   }
   await loadIntroAssets();
   try {
@@ -2078,6 +2134,7 @@ async function ensureDefaultWorkspace(): Promise<void> {
   } catch {
     await vscode.workspace.fs.writeFile(STORY, encoder.encode(DEFAULT_STORY));
   }
+  return createdIntro;
 }
 
 async function manifestCacheIdentity(source: PackManifestSource): Promise<string> {
@@ -2430,14 +2487,19 @@ function createLayout(root: HTMLElement) {
   );
   editorPanelSplit.layout(main.clientHeight);
 
-  const resizeObserver = new ResizeObserver((entries) => {
-    for (const entry of entries) {
-      if (entry.target === primary) sidebarMainSplit.layout(primary.clientWidth);
-      else if (entry.target === main) editorPanelSplit.layout(main.clientHeight);
-    }
-  });
+  let layoutFrame = 0;
+  const syncSplitLayout = () => {
+    cancelAnimationFrame(layoutFrame);
+    layoutFrame = requestAnimationFrame(() => {
+      if (primary.clientWidth > 0) sidebarMainSplit.layout(primary.clientWidth);
+      if (main.clientHeight > 0) editorPanelSplit.layout(main.clientHeight);
+    });
+  };
+  const resizeObserver = new ResizeObserver(syncSplitLayout);
   resizeObserver.observe(primary);
   resizeObserver.observe(main);
+  window.addEventListener("resize", syncSplitLayout);
+  window.visualViewport?.addEventListener("resize", syncSplitLayout);
 
   const syncActivitySelection = (event: MouseEvent) => {
     const tab = (event.target as Element | null)?.closest<HTMLElement>('[role="tab"]');
@@ -2462,6 +2524,9 @@ function createLayout(root: HTMLElement) {
     },
     dispose() {
       activity.removeEventListener("click", syncActivitySelection, true);
+      window.removeEventListener("resize", syncSplitLayout);
+      window.visualViewport?.removeEventListener("resize", syncSplitLayout);
+      cancelAnimationFrame(layoutFrame);
       resizeObserver.disconnect();
       editorPanelSplit.dispose();
       sidebarMainSplit.dispose();
@@ -2621,8 +2686,6 @@ async function configureDocumentSettings(
 
 function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
   container.classList.add("mms-project-view");
-  const project = document.createElement("section");
-  project.innerHTML = '<h3>项目</h3><div class="mms-setting-row"><span>入口文件</span><code>intro.typ</code></div>';
   const documentSettings = document.createElement("section");
   const documentHeading = document.createElement("h3");
   documentHeading.textContent = "文档";
@@ -2696,7 +2759,7 @@ function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
     }
   });
   resources.append(resourceHeading, label, urls, save, status, advanced);
-  container.append(project, documentSettings, previewSettings, resources);
+  container.append(documentSettings, previewSettings, resources);
   return {
     dispose() {
       previewToggle.removeEventListener("change", updatePreviewSetting);
