@@ -41,9 +41,11 @@ test("Web and Desktop preview interactions stay artifact-bound", async ({ page }
   await desktopPreview.getByRole("button", { name: "Fit page" }).click();
   await expect.poll(async () => (await interactionState(page)).viewport.fitMode).toBe("page");
   await desktopPreview.getByRole("button", { name: "Zoom in" }).click();
+  await expect.poll(async () => {
+    const viewport = (await interactionState(page)).viewport;
+    return viewport.fitMode === "manual" && viewport.zoom > 0.1;
+  }).toBe(true);
   const introViewport = (await interactionState(page)).viewport;
-  expect(introViewport.fitMode).toBe("manual");
-  expect(introViewport.zoom).toBeGreaterThan(0.1);
 
   await callFixture(page, { action: "position" });
   await expect.poll(async () => (await interactionState(page)).indicatorCount).toBe(1);
