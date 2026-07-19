@@ -294,6 +294,7 @@ test("production editor materializes an avatar and restores the authored story a
   await expect.poll(() => page.locator(".workbench-primary").evaluate((element) => element.getBoundingClientRect().right)).toBe(1240);
   await expect.poll(() => page.locator(".workbench-editor").evaluate((element) => element.getBoundingClientRect().right)).toBe(1240);
   await page.keyboard.press("Escape");
+  await page.getByRole("tab", { name: /^workspace-image\.png/ }).getByRole("button", { name: /^关闭/ }).click();
   await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("story.mmt"));
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "story.mmt", languageId: "mmt" });
   await editor.click();
