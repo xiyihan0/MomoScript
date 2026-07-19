@@ -576,25 +576,29 @@ async function activeDocument(page: Page): Promise<{ name: string; languageId: s
 async function renderedWebviewHasVisibleIntrinsicPage(page: Page): Promise<boolean> {
   const frames = page.frames().filter((candidate) => candidate.url().includes("/fake-") && candidate.url().includes(".html"));
   for (const frame of frames.toReversed()) {
-    const visible = await frame.evaluate(() => {
-      const pageElement = document.querySelector<HTMLElement>(".page[data-intrinsic-width][data-intrinsic-height]");
-      const svg = pageElement?.querySelector<SVGElement>("svg[aria-label='Rendered MomoScript preview']");
-      if (!pageElement || !svg) return false;
-      const pageRect = pageElement.getBoundingClientRect();
-      const svgRect = svg.getBoundingClientRect();
-      const intrinsicWidth = Number(pageElement.dataset.intrinsicWidth);
-      const intrinsicHeight = Number(pageElement.dataset.intrinsicHeight);
-      const widthScale = pageRect.width / intrinsicWidth;
-      const heightScale = pageRect.height / intrinsicHeight;
-      return pageRect.width > 0
-        && pageRect.height > 0
-        && Number.isFinite(widthScale)
-        && Number.isFinite(heightScale)
-        && Math.abs(widthScale - heightScale) < 0.01
-        && Math.abs(svgRect.width - pageRect.width) < 1
-        && Math.abs(svgRect.height - pageRect.height) < 1;
-    });
-    if (visible) return true;
+    try {
+      const visible = await frame.evaluate(() => {
+        const pageElement = document.querySelector<HTMLElement>(".page[data-intrinsic-width][data-intrinsic-height]");
+        const svg = pageElement?.querySelector<SVGElement>("svg[aria-label='Rendered MomoScript preview']");
+        if (!pageElement || !svg) return false;
+        const pageRect = pageElement.getBoundingClientRect();
+        const svgRect = svg.getBoundingClientRect();
+        const intrinsicWidth = Number(pageElement.dataset.intrinsicWidth);
+        const intrinsicHeight = Number(pageElement.dataset.intrinsicHeight);
+        const widthScale = pageRect.width / intrinsicWidth;
+        const heightScale = pageRect.height / intrinsicHeight;
+        return pageRect.width > 0
+          && pageRect.height > 0
+          && Number.isFinite(widthScale)
+          && Number.isFinite(heightScale)
+          && Math.abs(widthScale - heightScale) < 0.01
+          && Math.abs(svgRect.width - pageRect.width) < 1
+          && Math.abs(svgRect.height - pageRect.height) < 1;
+      });
+      if (visible) return true;
+    } catch {
+      // Preview HTML replacement detaches the previous frame; inspect the next live frame.
+    }
   }
   return false;
 }
