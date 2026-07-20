@@ -48,8 +48,14 @@
       },
       {
         "id": "typst",
-        "aliases": ["Typst", "typst", "typ"],
-        "extensions": [".typ"]
+        "aliases": [
+          "Typst",
+          "typst",
+          "typ"
+        ],
+        "extensions": [
+          ".typ"
+        ]
       }
     ],
     "grammars": [
@@ -90,8 +96,13 @@
         },
         "mmt.resourcePacks.manifestUrls": {
           "type": "array",
-          "items": { "type": "string", "format": "uri" },
-          "default": ["https://mms-pack.xiyihan.cn/ba_kivo/manifest.json"],
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "default": [
+            "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json"
+          ],
           "scope": "window",
           "description": "为资源感知语言功能加载的 HTTPS pack-v3 清单地址。"
         },
@@ -164,6 +175,7 @@
     "test:desktop-preview": "node ./scripts/test-desktop-preview.mjs"
   },
   "dependencies": {
+    "js-toml": "^1.2.1",
     "vscode-languageclient": "^9.0.1",
     "vscode-languageserver": "^9.0.1"
   },
@@ -173,8 +185,8 @@
     "@vscode/test-electron": "^2.5.2",
     "@vscode/test-web": "^0.0.81",
     "esbuild": "^0.25.0",
+    "typescript": "^5.7.0",
     "vscode-oniguruma": "1.7.0",
-    "vscode-textmate": "9.2.0",
-    "typescript": "^5.7.0"
+    "vscode-textmate": "9.2.0"
   }
 }

@@ -18,6 +18,7 @@ import {
   materializePackageGeneration,
   type TypstPackageStatus
 } from "../typstPackageService";
+import { TypstPreviewPackageRegistry } from "../typstPreviewPackageRegistry";
 import type { TypstProjectUpdate } from "../tinymistClient";
 
 const SPEC: PackageSpec = Object.freeze({ namespace: "preview", name: "demo", version: "1.2.3" });
@@ -48,6 +49,18 @@ async function main(): Promise<void> {
   assert.match(validated.packageGeneration, /^[0-9a-f]{64}$/);
   assert.deepEqual(fetchLog, [DISTRIBUTION.url]);
   assert.equal(materializePackageGeneration(validated).internalFiles[1]?.uri.startsWith("mmt-package:/preview/demo/1.2.3/"), true);
+  const rootedFiles = parseTarArchive(tar([
+    { path: ".", bytes: new Uint8Array(), type: "5" },
+    { path: "./typst.toml", bytes: text(MANIFEST) },
+    { path: "./lib.typ", bytes: text("#let answer = 42\n") }
+  ]));
+  assert.deepEqual(rootedFiles.map((file) => file.path), ["lib.typ", "typst.toml"]);
+  const officialStyleManifest = MANIFEST.replace('namespace = "preview"\n', "")
+    + 'authors = [\n  "One",\n  "Two"\n]\n';
+  assert.equal(validateTypstManifest(SPEC, [
+    { path: "typst.toml", bytes: text(officialStyleManifest) },
+    { path: "lib.typ", bytes: text("#let answer = 42\n") }
+  ]), "lib.typ");
 
   await expectAcquisition("UnsafeRegistry", () => acquireTypstPackage(
     SPEC,
@@ -90,6 +103,7 @@ async function main(): Promise<void> {
   archiveRejectionFixtures();
   manifestRejectionFixtures();
   await serviceFixtures(validGzip);
+  await transitivePackageFixture();
   process.stdout.write(`${JSON.stringify({
     protocol: "mmt/typstPackageRequest.v1",
     context: "mmt/typstPackageContext.v1",
@@ -180,6 +194,23 @@ async function serviceFixtures(validGzip: Uint8Array): Promise<void> {
   assert.equal(service.dependenciesForProject(project.projectDigest).length, 1);
   assert.equal(statuses.at(-1)?.authoredRange?.start.character, 8);
   const generationBeforeFailures = ready.status === "Ready" ? ready.package_generation : "";
+  const prepared = await service.prepareProject(project.projectDigest, new AbortController().signal);
+  assert.equal(prepared.length, 1);
+  assert.equal(prepared[0]?.packageGeneration, generationBeforeFailures);
+  assert.equal(fetches, 1);
+  const previewFiles = new Map<string, Uint8Array>();
+  const previewRegistry = new TypstPreviewPackageRegistry({
+    insertFile(path, data) { previewFiles.set(path, data); },
+    removeFile(path) { previewFiles.delete(path); }
+  });
+  previewRegistry.install(prepared[0]!);
+  const previewRoot = previewRegistry.resolve(SPEC);
+  assert.ok(previewRoot);
+  assert.ok(previewRoot.startsWith("/@memory/"));
+  assert.deepEqual(previewFiles.get(`${previewRoot}/lib.typ`), text("#let answer = 42\n"));
+  previewRegistry.evict(generationBeforeFailures);
+  assert.equal(previewRegistry.resolve(SPEC), undefined);
+  assert.equal(previewFiles.size, 0);
 
   offline = true;
   const offlineCached = await service.resolve(request("offline-cached", 1, project.projectDigest), new AbortController().signal);
@@ -256,6 +287,58 @@ async function serviceFixtures(validGzip: Uint8Array): Promise<void> {
   assert.deepEqual(readOnlyBytes, activeAfterFailures!.internalFiles[1]!.bytes);
   readOnlyBytes![0] ^= 0xff;
   assert.notDeepEqual(readOnlyBytes, await cache.read(activeAfterFailures!.internalFiles[1]!.uri));
+  const replacement = fixtureProject("snapshot-replacement", project.sourceUri);
+  service.registerProject(replacement, 1);
+  assert.equal(
+    (await service.resolve(request("retired-source-snapshot", 1, project.projectDigest), new AbortController().signal)).status,
+    "Cancelled"
+  );
+}
+
+async function transitivePackageFixture(): Promise<void> {
+  const dependency: PackageSpec = Object.freeze({ namespace: "preview", name: "child", version: "2.0.0" });
+  const urlFor = (spec: PackageSpec) => `https://packages.test/${spec.namespace}/${spec.name}-${spec.version}.tar.gz`;
+  const archiveFor = (spec: PackageSpec, source: string) => new Uint8Array(gzipSync(tar([
+    {
+      path: "typst.toml",
+      bytes: text(`[package]\nnamespace = "${spec.namespace}"\nname = "${spec.name}"\nversion = "${spec.version}"\nentrypoint = "lib.typ"\n`)
+    },
+    { path: "lib.typ", bytes: text(source) }
+  ])));
+  const archives = new Map([
+    [urlFor(SPEC), archiveFor(SPEC, '#import "@preview/child:2.0.0": value\n#let answer = value\n')],
+    [urlFor(dependency), archiveFor(dependency, "#let value = 42\n")]
+  ]);
+  const fetches: string[] = [];
+  const service = new TypstPackageService({
+    cache: new InMemoryTypstPackageCache(),
+    registries: [{
+      identity: "transitive-fixture-registry-v1",
+      async resolve(spec, signal) {
+        if (signal.aborted) throw signal.reason;
+        const url = urlFor(spec);
+        return archives.has(url) ? {
+          registryId: "transitive-fixture-registry-v1",
+          url,
+          allowedHosts: new Set(["packages.test"]),
+          contentTypes: ["application/gzip"]
+        } : undefined;
+      }
+    }],
+    fetchPackage: async (url, init) => {
+      const archive = archives.get(url);
+      if (!archive) return new Response(null, { status: 404 });
+      fetches.push(url);
+      return streamingFetch(archive)(url, init);
+    }
+  });
+  service.setBackendGeneration(1);
+  const project = fixtureProject("snapshot-transitive", "file:///workspace/transitive.typ");
+  service.registerProject(project, 1);
+  const prepared = await service.prepareProject(project.projectDigest, new AbortController().signal);
+  assert.deepEqual(prepared.map((generation) => generation.spec.name), ["demo", "child"]);
+  assert.deepEqual(fetches, [urlFor(SPEC), urlFor(dependency)]);
+  assert.equal(service.dependenciesForProject(project.projectDigest).length, 2);
 }
 
 function fixtureProject(snapshot: string, sourceUri: string, source = "#import @preview/demo:1.2.3: answer\n"): TypstProjectUpdate {

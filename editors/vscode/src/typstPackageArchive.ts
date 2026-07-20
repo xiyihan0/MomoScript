@@ -1,3 +1,4 @@
+import { load as parseToml } from "js-toml";
 import { canonicalRelativePath } from "./runtimeIdentity";
 import { checkedPackageSpec, packageSpecKey, type PackageSpec } from "./typstPackageProtocol";
 
@@ -207,9 +208,22 @@ export function parseTarArchive(
     validateTarChecksum(header);
     const name = tarString(header, 0, 100);
     const prefix = tarString(header, 345, 155);
-    const path = canonicalArchivePath(prefix ? `${prefix}/${name}` : name);
+    const rawPath = prefix ? `${prefix}/${name}` : name;
     const size = tarOctal(header, 124, 12);
     const type = String.fromCharCode(header[156] ?? 0);
+    const paddedSize = Math.ceil(size / TAR_BLOCK_BYTES) * TAR_BLOCK_BYTES;
+    if (offset + paddedSize > bytes.byteLength) {
+      throw new TypstPackageAcquisitionError("UnsafeArchive", `Truncated archive entry: ${rawPath}`);
+    }
+    const relativePath = rawPath === "." ? "" : rawPath.replace(/^(?:\.\/)+/, "");
+    if (!relativePath) {
+      if (type !== "5" || size !== 0) {
+        throw new TypstPackageAcquisitionError("UnsafeArchive", "Archive root entry must be an empty directory");
+      }
+      offset += paddedSize;
+      continue;
+    }
+    const path = canonicalArchivePath(relativePath);
     if (canonical.has(path)) {
       throw new TypstPackageAcquisitionError("UnsafeArchive", `Duplicate archive path: ${path}`);
     }
@@ -221,10 +235,6 @@ export function parseTarArchive(
     canonical.add(path);
     folded.set(caseFolded, path);
 
-    const paddedSize = Math.ceil(size / TAR_BLOCK_BYTES) * TAR_BLOCK_BYTES;
-    if (offset + paddedSize > bytes.byteLength) {
-      throw new TypstPackageAcquisitionError("UnsafeArchive", `Truncated archive entry: ${path}`);
-    }
     if (type === "5") {
       if (size !== 0) throw new TypstPackageAcquisitionError("UnsafeArchive", `Directory entry contains bytes: ${path}`);
     } else if (type === "\0" || type === "0") {
@@ -260,29 +270,37 @@ export function validateTypstManifest(spec: PackageSpec, files: readonly Validat
   } catch {
     throw new TypstPackageAcquisitionError("InvalidManifest", "Typst package manifest is not valid UTF-8");
   }
-  const parsed = parseTomlStrings(text);
-  const namespace = parsed.get("package.namespace")?.[0];
-  const name = parsed.get("package.name")?.[0];
-  const version = parsed.get("package.version")?.[0];
-  if (namespace !== spec.namespace || name !== spec.name || version !== spec.version) {
+  let parsed: unknown;
+  try {
+    parsed = parseToml(text, { maxDepth: 32 });
+  } catch (error) {
+    throw new TypstPackageAcquisitionError(
+      "InvalidManifest",
+      `Typst package manifest is not valid TOML: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
+  const root = manifestTable(parsed, "manifest");
+  const packageTable = manifestTable(root.package, "package");
+  const namespace = optionalManifestString(packageTable, "namespace");
+  const name = optionalManifestString(packageTable, "name");
+  const version = optionalManifestString(packageTable, "version");
+  if ((namespace !== undefined && namespace !== spec.namespace) || name !== spec.name || version !== spec.version) {
     throw new TypstPackageAcquisitionError(
       "InvalidManifest",
       `Typst package manifest identity does not match ${packageSpecKey(spec)}`
     );
   }
-  const entrypoint = parsed.get("package.entrypoint")?.[0];
+  const entrypoint = optionalManifestString(packageTable, "entrypoint");
   if (!entrypoint) throw new TypstPackageAcquisitionError("InvalidManifest", "Typst package manifest has no entrypoint");
-  for (const [key, values] of parsed) {
-    const field = key.slice(key.lastIndexOf(".") + 1).toLowerCase();
-    if (!/(?:entrypoint|path|paths|file|files)$/.test(field)) continue;
-    for (const value of values) {
+  for (const field of manifestPathFields(root)) {
+    for (const value of field.values) {
       let path: string;
       try {
         path = canonicalArchivePath(value);
       } catch (error) {
         throw new TypstPackageAcquisitionError(
           "InvalidManifest",
-          `Unsafe Typst package manifest path ${key}: ${error instanceof Error ? error.message : String(error)}`
+          `Unsafe Typst package manifest path ${field.key}: ${error instanceof Error ? error.message : String(error)}`
         );
       }
       if (!byPath.has(path)) {
@@ -437,83 +455,44 @@ async function readExpandedBody(response: Response, limit: number, signal: Abort
   }
 }
 
-function parseTomlStrings(text: string): Map<string, readonly string[]> {
-  const result = new Map<string, readonly string[]>();
-  let section = "";
-  for (const original of text.split(/\r?\n/)) {
-    const line = stripTomlComment(original).trim();
-    if (!line) continue;
-    const sectionMatch = /^\[([^\]]+)\]$/.exec(line);
-    if (sectionMatch) {
-      section = sectionMatch[1]!.trim();
-      if (!/^[A-Za-z0-9_.-]+$/.test(section)) {
-        throw new TypstPackageAcquisitionError("InvalidManifest", `Unsupported TOML section: ${section}`);
+function manifestTable(value: unknown, label: string): Record<string, unknown> {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new TypstPackageAcquisitionError("InvalidManifest", `Typst package ${label} must be a TOML table`);
+  }
+  return value as Record<string, unknown>;
+}
+
+function optionalManifestString(table: Record<string, unknown>, key: string): string | undefined {
+  const value = table[key];
+  if (value === undefined) return undefined;
+  if (typeof value !== "string") {
+    throw new TypstPackageAcquisitionError("InvalidManifest", `Typst package field ${key} must be a string`);
+  }
+  return value;
+}
+
+function manifestPathFields(
+  table: Record<string, unknown>,
+  prefix = ""
+): readonly { readonly key: string; readonly values: readonly string[] }[] {
+  const fields: { key: string; values: readonly string[] }[] = [];
+  for (const [name, value] of Object.entries(table)) {
+    const key = prefix ? `${prefix}.${name}` : name;
+    if (/(?:entrypoint|path|paths|file|files)$/i.test(name)) {
+      const values = typeof value === "string"
+        ? [value]
+        : Array.isArray(value) && value.every((item) => typeof item === "string")
+          ? value
+          : undefined;
+      if (!values) {
+        throw new TypstPackageAcquisitionError("InvalidManifest", `Typst package path field ${key} must contain strings`);
       }
-      continue;
-    }
-    const assignment = /^([A-Za-z0-9_-]+)\s*=\s*(.+)$/.exec(line);
-    if (!assignment) throw new TypstPackageAcquisitionError("InvalidManifest", `Unsupported TOML syntax: ${line}`);
-    const key = section ? `${section}.${assignment[1]}` : assignment[1]!;
-    const raw = assignment[2]!.trim();
-    const values = raw.startsWith("[") ? parseTomlStringArray(raw) : [parseTomlString(raw)];
-    if (result.has(key)) throw new TypstPackageAcquisitionError("InvalidManifest", `Duplicate TOML key: ${key}`);
-    result.set(key, Object.freeze(values));
-  }
-  return result;
-}
-
-function stripTomlComment(line: string): string {
-  let quoted = false;
-  let escaped = false;
-  for (let index = 0; index < line.length; index += 1) {
-    const character = line[index]!;
-    if (escaped) {
-      escaped = false;
-    } else if (character === "\\" && quoted) {
-      escaped = true;
-    } else if (character === '"') {
-      quoted = !quoted;
-    } else if (character === "#" && !quoted) {
-      return line.slice(0, index);
+      fields.push({ key, values: Object.freeze([...values]) });
+    } else if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+      fields.push(...manifestPathFields(value as Record<string, unknown>, key));
     }
   }
-  return line;
-}
-
-function parseTomlStringArray(raw: string): string[] {
-  if (!raw.endsWith("]")) throw new TypstPackageAcquisitionError("InvalidManifest", "Unterminated TOML array");
-  const inner = raw.slice(1, -1).trim();
-  if (!inner) return [];
-  const values: string[] = [];
-  let start = 0;
-  let quoted = false;
-  let escaped = false;
-  for (let index = 0; index <= inner.length; index += 1) {
-    const character = inner[index];
-    if (index === inner.length || (character === "," && !quoted)) {
-      values.push(parseTomlString(inner.slice(start, index).trim()));
-      start = index + 1;
-    } else if (escaped) {
-      escaped = false;
-    } else if (character === "\\" && quoted) {
-      escaped = true;
-    } else if (character === '"') {
-      quoted = !quoted;
-    }
-  }
-  if (quoted) throw new TypstPackageAcquisitionError("InvalidManifest", "Unterminated TOML string array");
-  return values;
-}
-
-function parseTomlString(raw: string): string {
-  if (!raw.startsWith('"') || !raw.endsWith('"')) {
-    throw new TypstPackageAcquisitionError("InvalidManifest", "Package identity and path fields must be TOML strings");
-  }
-  try {
-    return JSON.parse(raw) as string;
-  } catch {
-    throw new TypstPackageAcquisitionError("InvalidManifest", "Invalid TOML basic string");
-  }
+  return fields;
 }
 
 function tarString(header: Uint8Array, offset: number, length: number): string {

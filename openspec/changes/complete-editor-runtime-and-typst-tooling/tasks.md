@@ -224,6 +224,12 @@ Every item in this section is enabled only if the active artifact advertises the
   - Evidence: active dependencies expose exact `packageGeneration`/`filesDigest`; Wave 1 `ProjectDigestInput.packageGenerations` and `RuntimeArtifactKey.fontSetDigest` consume these generation and build-pinned font inputs rather than host paths or mutable cache state.
 - [x] 7.20 Add native/Web fixtures for callback cancellation/errors, cached offline resolution, concurrent requests and every archive/manifest rejection boundary
   - Evidence: `npm run test:typst-package`, `TINYMIST_BIN=… npm run test:tinymist-process`, and `TINYMIST_WEB_PKG=… npm run test:tinymist-worker` pass with checked Ready/Unavailable/error/Cancelled service responses, cached offline resolution, one-fetch coalescing and stale/cancellation races.
+- [ ] 7.21 Adopt `.typst/packages/{namespace}/{name}/{version}` as the logical package-root layout without exposing Web cache entries as editable workspace files
+- [ ] 7.22 Register the build-pinned `@local/mmt-render:0.1.0` package from `typst_sandbox/mmt_render/typst.toml` in native and Web hosts while keeping arbitrary local namespaces trust-gated
+- [ ] 7.23 Cut Rust emission, LSP projection identities, Tinymist callbacks, preview and exact export over from relative embedded-template paths to the immutable local package generation
+- [ ] 7.24 Export CLI projects with `.typst/packages/local/mmt-render/0.1.0` and compile them through that package root
+  - Progress (2026-07-20): `mmt-compile --use-local-template-package` now emits `@local/mmt-render:0.1.0` without copying the legacy `template/`; the default remains the self-contained relative export. The focused CLI test installs the package under a temporary `.typst/packages/local/mmt-render/0.1.0` root and compiles it with Typst `--package-path`. Task 7.24 remains open until the host export workflow installs the package automatically.
+- [ ] 7.25 Remove the old `template/` export and `typst_sandbox/mmt_render/*` projected-file graph after native, Web, CLI and Typst smoke tests pass
 
 ## 8. Preview state and navigation
 

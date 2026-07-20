@@ -11,8 +11,8 @@ import {
   type IStat,
   type IWatchOptions
 } from "@codingame/monaco-vscode-files-service-override";
-import { IndexedDbWorkspaceBackend, type WorkspaceRevision } from "./indexedDbWorkspace";
-import { WorkspaceCoordinator, normalizeWorkspacePath as normalize } from "./workspace";
+import { IndexedDbWorkspaceBackend, type WorkspaceHistoryRevision, type WorkspaceRevision } from "./indexedDbWorkspace";
+import { WorkspaceCoordinator, normalizeWorkspacePath as normalize, type WorkspaceEntry } from "./workspace";
 
 
 interface StoredEntry {
@@ -99,6 +99,11 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
     if (previous?.type === vscode.FileType.Directory) throw vscode.FileSystemError.FileIsADirectory(uri);
     if (!previous && !options.create) throw vscode.FileSystemError.FileNotFound(uri);
     if (previous && !options.overwrite) throw vscode.FileSystemError.FileExists(uri);
+    if (
+      previous
+      && previous.data.byteLength === content.byteLength
+      && previous.data.every((value, index) => value === content[index])
+    ) return;
     const now = Date.now();
     const entry: StoredEntry = {
       path,
@@ -179,6 +184,14 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
     return this.backend.revisions(limit);
   }
 
+  history(limit = 100): Promise<readonly WorkspaceHistoryRevision[]> {
+    return this.backend.history(limit);
+  }
+
+  snapshotEntry(revision: string, path: string): Promise<WorkspaceEntry | undefined> {
+    return this.backend.snapshotEntry(revision, path);
+  }
+
   historyBytes(): Promise<number> {
     return this.backend.historyBytes();
   }
@@ -212,6 +225,29 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
       }
       if (!this.#entries.has("/")) this.#entries.set("/", makeEntry("/", vscode.FileType.Directory));
       this.#changes.fire([{ type: vscode.FileChangeType.Changed, uri: vscode.Uri.parse("mmtfs://workspace/") }]);
+    });
+  }
+
+  async restoreFile(revision: string, rawPath: string): Promise<void> {
+    const path = normalize(rawPath);
+    const historical = await this.backend.snapshotEntry(revision, path);
+    const current = this.#entries.get(path);
+    if (!historical && !current) return;
+    const before = current ? new Map([[path, current]]) : new Map<string, StoredEntry>();
+    const after = historical
+      ? new Map([[path, { ...historical, type: historical.type as vscode.FileType, data: historical.data.slice() }]])
+      : new Map<string, StoredEntry>();
+    await this.coordinator.mutate("restore", async () => {
+      await this.backend.commitMutation("checkpoint", new Map(), new Map(), `Before restoring ${path}`);
+      await this.backend.commitMutation("restore", before, after);
+      if (historical) {
+        const restored = { ...historical, type: historical.type as vscode.FileType, data: historical.data.slice() };
+        this.#entries.set(path, restored);
+        this.#changes.fire([{ type: current ? vscode.FileChangeType.Changed : vscode.FileChangeType.Created, uri: vscode.Uri.parse(`mmtfs://workspace${path}`) }]);
+      } else {
+        this.#entries.delete(path);
+        this.#changes.fire([{ type: vscode.FileChangeType.Deleted, uri: vscode.Uri.parse(`mmtfs://workspace${path}`) }]);
+      }
     });
   }
 

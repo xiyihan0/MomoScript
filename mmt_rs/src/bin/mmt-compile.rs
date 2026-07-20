@@ -14,12 +14,15 @@ use mmt_rs::{
 use serde::Serialize;
 use time::{OffsetDateTime, format_description::well_known::Rfc3339};
 
+const LOCAL_TEMPLATE_PACKAGE: &str = "@local/mmt-render:0.1.0";
+
 #[derive(Debug)]
 struct Options {
     input: Option<PathBuf>,
     output_dir: PathBuf,
     manifests: Vec<PathBuf>,
     template_dir: PathBuf,
+    use_local_template_package: bool,
     workspace_root: PathBuf,
     title: Option<String>,
     show_header: Option<bool>,
@@ -73,6 +76,11 @@ fn run(args: Vec<OsString>) -> Result<CliReport, CliReport> {
     let timestamp = resolve_clock(options.clock.as_deref()).map_err(host_error)?;
     let source = read_source(options.input.as_deref()).map_err(host_error)?;
     let (registry, pack_roots) = load_registry(&options.manifests).map_err(host_error)?;
+    let template_import = if options.use_local_template_package {
+        LOCAL_TEMPLATE_PACKAGE
+    } else {
+        "template/lib.typ"
+    };
     let mut materializer = ProjectMaterializer::new(ProjectMaterializerOptions {
         output_dir: options.output_dir.clone(),
         workspace_root: options.workspace_root,
@@ -83,7 +91,7 @@ fn run(args: Vec<OsString>) -> Result<CliReport, CliReport> {
     })
     .map_err(|error| host_error(error.message))?;
     let emit_options = EmitOptions {
-        template_import: "template/lib.typ".to_string(),
+        template_import: template_import.to_string(),
         document_overrides: DocumentOverrides {
             title: options.title,
             author: options.author,
@@ -95,8 +103,10 @@ fn run(args: Vec<OsString>) -> Result<CliReport, CliReport> {
 
     match compile_text_strict(&source, &registry, &mut materializer, &emit_options) {
         Ok(compilation) => {
-            export_template_library(&options.template_dir, &options.output_dir)
-                .map_err(|error| host_error(error.message))?;
+            if !options.use_local_template_package {
+                export_template_library(&options.template_dir, &options.output_dir)
+                    .map_err(|error| host_error(error.message))?;
+            }
             fs::write(
                 options.output_dir.join("main.typ"),
                 &compilation.typst.source,
@@ -136,6 +146,7 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
     let mut workspace_root = env::current_dir().map_err(|error| error.to_string())?;
     let mut title = None;
     let mut show_header = None;
+    let mut use_local_template_package = false;
     let mut author = None;
     let mut compiled_at = None;
     let mut clock = None;
@@ -165,6 +176,7 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
                 workspace_root = PathBuf::from(value(&mut args, "--workspace-root")?)
             }
             "--title" => title = Some(value(&mut args, "--title")?),
+            "--use-local-template-package" => use_local_template_package = true,
             "--show-header" => set_header_override(&mut show_header, true)?,
             "--no-header" => set_header_override(&mut show_header, false)?,
             "--author" => author = Some(value(&mut args, "--author")?),
@@ -188,6 +200,7 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
         author,
         compiled_at,
         clock,
+        use_local_template_package,
         cache_dir,
         avifdec_bin,
         decoder_profile,
@@ -235,7 +248,7 @@ fn current_clock() -> Result<HostTimestamp, String> {
 }
 
 fn usage() -> String {
-    "usage: mmt-compile [--input FILE] --output-dir DIR [--manifest FILE ...] [--template-dir DIR] [--workspace-root DIR] [--cache-dir DIR] [--avifdec-bin FILE] [--decoder-profile ID] [--title TEXT] [--author TEXT] [--show-header | --no-header] [--compiled-at TEXT] [--clock RFC3339]".to_string()
+    "usage: mmt-compile [--input FILE] --output-dir DIR [--manifest FILE ...] [--template-dir DIR] [--use-local-template-package] [--workspace-root DIR] [--cache-dir DIR] [--avifdec-bin FILE] [--decoder-profile ID] [--title TEXT] [--author TEXT] [--show-header | --no-header] [--compiled-at TEXT] [--clock RFC3339]".to_string()
 }
 
 fn read_source(path: Option<&Path>) -> Result<String, String> {

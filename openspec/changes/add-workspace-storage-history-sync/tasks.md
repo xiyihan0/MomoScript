@@ -36,6 +36,8 @@ Focused evidence (2026-07-17): `npm run test:workspace-atomic-apply` covers dete
 - [ ] 4.4 用 Playwright 验证编辑→历史→Diff→恢复→reload，且 preview 使用恢复后的持久内容
 - [ ] 4.5 验证清理 pinned state、超预算写入和 writer takeover 都有明确确认与可访问状态
 
+Implementation progress (2026-07-20): the Web Workbench now exposes workspace identity/backend/lease and History bytes in a dedicated Local History Activity Bar view, separate from the compact MomoScript project-settings view. The native-styled timeline supports current-file/workspace scopes, type filters, named checkpoint creation, native `vscode.diff` over read-only `mmt-history:` documents, guarded file/workspace restore, and binary export/whole-file restore. `npm run test:e2e -- editor.spec.ts` proves the production Explorer, MomoScript, and Local History sidebar entries switch independently. Browser smoke additionally exercised the dedicated views, checkpoint creation, and a real native Diff editor. Tasks 4.1–4.5 remain open until origin-coordinator budget/GC controls, complete binary metadata, restore→reload preview E2E, and writer/quota confirmation coverage are all closed.
+
 ## 5. File System Access Backend
 
 - [ ] 5.1 实现目录 picker、structured-cloned handle、`queryPermission` / 用户手势 `requestPermission` 与 unsupported-browser capability gating

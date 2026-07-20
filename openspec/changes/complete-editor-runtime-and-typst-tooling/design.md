@@ -632,6 +632,10 @@ For official packages, the supported authored syntax is `@preview/name:version`.
 
 Local namespaces are disabled by default in Web. Desktop or a user-selected workspace backend may register an explicit local package root through settings and workspace trust.
 
+MomoScript mirrors Typst's package-root layout under the logical root `.typst/packages/{namespace}/{name}/{version}`. Automatically downloaded `@preview` packages remain reproducible cache data: Web stores their immutable generations in IndexedDB and exposes the logical path only through `mmt-package:`; filesystem hosts may materialize the same hierarchy in a cache excluded from workspace history and sync. User-authored `@local` packages are durable data and MUST NOT be reclaimed as downloaded cache entries.
+
+The renderer façade is a build-pinned trusted local package, authored as `@local/mmt-render:0.1.0`. Its source remains in `typst_sandbox/mmt_render`, whose `typst.toml` is the package manifest; build/export pipelines install that tree at `.typst/packages/local/mmt-render/0.1.0`. This built-in registration does not enable arbitrary `@local` lookup: Web accepts only the exact bundled identity, while Desktop or a user-selected directory still requires workspace trust for any additional local package root. Rust emission, native/Web package callbacks, projected dependencies, preview, CLI export and exact export MUST cut over together; a relative-import fallback or a second embedded-template graph is prohibited.
+
 ### 9.3 Resolution pipeline
 
 ```text

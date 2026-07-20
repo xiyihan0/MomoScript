@@ -19,6 +19,20 @@ fn template_dir() -> PathBuf {
         .join("typst_sandbox/mmt_render")
 }
 
+fn copy_dir_all(source: &std::path::Path, destination: &std::path::Path) {
+    fs::create_dir_all(destination).unwrap();
+    for entry in fs::read_dir(source).unwrap() {
+        let entry = entry.unwrap();
+        let source_path = entry.path();
+        let destination_path = destination.join(entry.file_name());
+        if entry.file_type().unwrap().is_dir() {
+            copy_dir_all(&source_path, &destination_path);
+        } else {
+            fs::copy(source_path, destination_path).unwrap();
+        }
+    }
+}
+
 #[test]
 fn cli_exports_a_self_contained_typst_project_from_stdin() {
     let output_dir = temp_dir("cli-success");
@@ -79,6 +93,61 @@ fn cli_exports_a_self_contained_typst_project_from_stdin() {
     );
     assert!(output_dir.join("output.pdf").is_file());
     fs::remove_dir_all(output_dir).unwrap();
+}
+
+#[test]
+fn cli_can_reference_an_installed_local_template_package() {
+    let fixture_root = temp_dir("cli-local-template");
+    let output_dir = fixture_root.join("project");
+    let package_root = fixture_root.join(".typst/packages");
+    let package_dir = package_root.join("local/mmt-render/0.1.0");
+    copy_dir_all(&template_dir(), &package_dir);
+
+    let mut child = Command::new(env!("CARGO_BIN_EXE_mmt-compile"))
+        .args(["--output-dir"])
+        .arg(&output_dir)
+        .arg("--use-local-template-package")
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .spawn()
+        .unwrap();
+    child
+        .stdin
+        .take()
+        .unwrap()
+        .write_all("- local package".as_bytes())
+        .unwrap();
+    let output = child.wait_with_output().unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stdout)
+    );
+
+    let generated = fs::read_to_string(output_dir.join("main.typ")).unwrap();
+    assert!(generated.contains("#import \"@local/mmt-render:0.1.0\" as mmt"));
+    assert!(!output_dir.join("template").exists());
+
+    let typst = Command::new("typst")
+        .args([
+            "compile",
+            "main.typ",
+            "output.pdf",
+            "--root",
+            ".",
+            "--package-path",
+        ])
+        .arg(&package_root)
+        .current_dir(&output_dir)
+        .output()
+        .unwrap();
+    assert!(
+        typst.status.success(),
+        "{}",
+        String::from_utf8_lossy(&typst.stderr)
+    );
+    assert!(output_dir.join("output.pdf").is_file());
+    fs::remove_dir_all(fixture_root).unwrap();
 }
 
 #[test]

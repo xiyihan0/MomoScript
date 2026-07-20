@@ -29,6 +29,7 @@ import type { LanguageProjectionToken } from "./languageProjection";
 import { materializeProjectResources } from "../../vscode/src/resourceMaterializer";
 import type { MaterializationPackSource, ResourceMaterializationDependencies } from "../../vscode/src/resourceMaterializer";
 import { mmtExtension } from "./mmtExtension";
+import { registerLocalHistoryCommands, renderLocalHistoryView } from "./localHistoryUi";
 import { normalizeResourceLimits } from "./resourceSettings";
 import { startMmtLanguageClient } from "./mmtLanguageClient";
 import type { MmtLanguageClientHandle } from "./mmtLanguageClient";
@@ -40,12 +41,19 @@ import {
 } from "./typstPackageCache";
 import {
   InMemoryTypstPackageDependencyGraph,
-  TypstPackageService
+  TypstPackageService,
+  type TypstPackageGeneration
 } from "../../vscode/src/typstPackageService";
 import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
 import { projectionSessionKey } from "../../vscode/src/tinymistClient";
-import { sanitizeSvg, TypstPreviewController, type TypstPreviewBinding } from "./preview";
+import {
+  evictPreviewPackageGeneration,
+  installPreviewPackageGenerations,
+  sanitizeSvg,
+  TypstPreviewController,
+  type TypstPreviewBinding
+} from "./preview";
 import { createCurrentPreviewExportClient } from "./currentPreviewExport.ts";
 import {
   PreviewBuildState,
@@ -263,6 +271,9 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
       .getConfiguration("editor", vscode.window.activeTextEditor?.document)
       .get<string>("defaultColorDecorators")
   );
+  Reflect.set(globalThis, "__mmtDefaultEol", () =>
+    vscode.workspace.getConfiguration("files").get<string>("eol")
+  );
   Reflect.set(globalThis, "__mmtWriteWorkspaceFile", async (name: string, dataBase64: string) => {
     if (!/^[^./\\][^/\\]*$/.test(name) || name === "..") throw new Error("invalid workspace basename");
     await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(WORKSPACE, name), Uint8Array.from(atob(dataBase64), (char) => char.charCodeAt(0)));
@@ -443,7 +454,10 @@ async function initializeRuntime(
   const packageDependencies = new InMemoryTypstPackageDependencyGraph();
   const typstPackageCache = own(await IndexedDbTypstPackageCache.open(
     packageCacheStorage,
-    (generation) => { packageDependencies.invalidateGeneration(generation); }
+    (generation) => {
+      packageDependencies.invalidateGeneration(generation);
+      evictPreviewPackageGeneration(generation);
+    }
   ));
   const typstPackageService = new TypstPackageService({
     cache: typstPackageCache,
@@ -465,6 +479,16 @@ async function initializeRuntime(
     icon: mmsViewIcon(),
     canMoveView: false,
     renderBody: (container) => renderMmsProjectView(container)
+  }));
+  const historyViewRegistration = own(registerCustomView({
+    id: "momoscript.localHistory",
+    name: "本地历史",
+    location: ViewContainerLocation.Sidebar,
+    icon: historyViewIcon(),
+    canMoveView: false,
+    renderBody: (container) => provider
+      ? renderLocalHistoryView(container, provider)
+      : { dispose() {} }
   }));
   let previewPanel: vscode.WebviewPanel | undefined;
   let previewPanelTitle = "MomoScript 预览";
@@ -607,14 +631,24 @@ async function initializeRuntime(
   const previewBindingFor = async (
     project: TypstProjectUpdate,
     document: vscode.TextDocument,
+    packageGenerations: readonly TypstPackageGeneration[],
     requestId?: number
   ): Promise<TypstPreviewBinding> => {
     const renderProject = project as Partial<TypstRenderProjectUpdate>;
+    const resourceBytesDigest = renderProject.resourceBytesDigest ?? project.projectDigest;
+    const packageBytesDigest = packageGenerations.length === 0
+      ? resourceBytesDigest
+      : await canonicalBytesDigest("mmt-preview-resource-package-generations-v1", [
+          encoder.encode(resourceBytesDigest),
+          ...[...packageGenerations]
+            .sort((left, right) => left.packageGeneration.localeCompare(right.packageGeneration))
+            .map((generation) => encoder.encode(`${generation.packageGeneration}\0${generation.filesDigest}`))
+        ]);
     const materialization = await materializationKey(
       project.projectionKey,
       renderProject.packRegistryDigest ?? project.projectDigest,
       renderProject.resourcePlanDigest ?? project.projectDigest,
-      renderProject.resourceBytesDigest ?? project.projectDigest,
+      packageBytesDigest,
     );
     const key = await renderKey(materialization, await PREVIEW_RUNTIME_KEY, await PREVIEW_RENDER_OPTIONS_DIGEST);
     const mapDigest = await canonicalBytesDigest("mmt-preview-empty-location-map-v1", [encoder.encode(key)]);
@@ -730,7 +764,9 @@ async function initializeRuntime(
     const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === project.sourceUri);
     if (!document) return;
     if (previewFixtureActiveSourceUri === project.sourceUri) return;
-    const binding = await previewBindingFor(project, document, requestId);
+    const packageGenerations = await typstPackageService.prepareProject(project.projectDigest, new AbortController().signal);
+    installPreviewPackageGenerations(packageGenerations);
+    const binding = await previewBindingFor(project, document, packageGenerations, requestId);
     if (previewFixtureActiveSourceUri === project.sourceUri) return;
     const before = controller.stores.previewArtifacts.document(project.sourceUri);
     if (before.displayedArtifact && before.displayedArtifact.renderKey !== binding.renderKey) {
@@ -1116,6 +1152,7 @@ async function initializeRuntime(
       json: JSON.stringify({
         "workbench.colorTheme": "MomoScript Dark",
         "files.autoSave": "afterDelay",
+        "files.eol": "\n",
         "editor.wordWrap": "on",
         "editor.wordBasedSuggestions": "off",
         "[mmt]": { "editor.defaultColorDecorators": "never" }
@@ -1130,6 +1167,7 @@ async function initializeRuntime(
     new WebTypstPackageFileSystemProvider(typstPackageCache),
     { isReadonly: true, isCaseSensitive: true },
   ));
+  subscribe(registerLocalHistoryCommands(provider));
   output = own(vscode.window.createOutputChannel("MomoScript"));
   log("host", "VS Code Workbench ready");
   const applyPanelVisibility = (visible: boolean) => {
@@ -2587,6 +2625,11 @@ function mmsViewIcon(): string {
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
+function historyViewIcon(): string {
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3L4.5 9M4.5 4.5V9H9M12 7.5V12l3 2"/></svg>';
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
 interface DocumentConfigView {
   range: { start: { line: number; character: number }; end: { line: number; character: number } } | null;
   title: string;
@@ -2721,6 +2764,7 @@ async function configureDocumentSettings(
 function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
   container.classList.add("mms-project-view");
   const documentSettings = document.createElement("section");
+  documentSettings.className = "mms-settings-section";
   const documentHeading = document.createElement("h3");
   documentHeading.textContent = "文档";
   const documentDescription = document.createElement("p");
@@ -2732,6 +2776,7 @@ function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
   configureDocument.addEventListener("click", openDocumentSettings);
   documentSettings.append(documentHeading, documentDescription, configureDocument);
   const previewSettings = document.createElement("section");
+  previewSettings.className = "mms-settings-section";
   const previewHeading = document.createElement("h3");
   previewHeading.textContent = "预览";
   const previewLabel = document.createElement("label");
@@ -2756,12 +2801,13 @@ function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
   previewToggle.addEventListener("change", updatePreviewSetting);
   previewSettings.append(previewHeading, previewLabel, previewStatus);
   const resources = document.createElement("section");
+  resources.className = "mms-settings-section";
   const resourceHeading = document.createElement("h3");
   resourceHeading.textContent = "资源包";
   const label = document.createElement("label");
   label.textContent = "清单地址";
   const urls = document.createElement("textarea");
-  urls.rows = 4;
+  urls.rows = 3;
   urls.value = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]).join("\n");
   urls.setAttribute("aria-label", "资源包清单地址");
   const save = document.createElement("button");
@@ -2792,7 +2838,11 @@ function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
       urls.value = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]).join("\n");
     }
   });
-  resources.append(resourceHeading, label, urls, save, status, advanced);
+  const resourceActions = document.createElement("div");
+  resourceActions.className = "mms-settings-actions";
+  advanced.className = "mms-secondary-button";
+  resourceActions.append(save, advanced);
+  resources.append(resourceHeading, label, urls, resourceActions, status);
   container.append(documentSettings, previewSettings, resources);
   return {
     dispose() {

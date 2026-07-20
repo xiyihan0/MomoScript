@@ -192,6 +192,8 @@ test("production editor materializes an avatar and restores the authored story a
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "intro.typ", languageId: "typst" });
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect(page.getByRole("tab", { name: /^intro\.typ（预览）/ })).toHaveAttribute("aria-selected", "true");
+  const initialTypstPreview = await previewWebviewFrame(page);
+  await expect(initialTypstPreview.locator(".typst-page").first()).toBeAttached();
   await page.evaluate(({ name, text }) => (Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function)(name, text), {
     name: "intro.typ",
     text: editedIntro
@@ -346,6 +348,7 @@ test("production editor materializes an avatar and restores the authored story a
   });
   const explorerActivity = page.getByRole("tab", { name: /^资源管理器/ });
   const mmsActivity = page.getByRole("tab", { name: "MomoScript", exact: true });
+  const historyActivity = page.getByRole("tab", { name: "本地历史", exact: true });
   await expect(explorerActivity).toBeVisible();
   await expect(explorerActivity).toHaveAttribute("aria-selected", "true");
   await explorerActivity.click();
@@ -355,8 +358,14 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(page.getByRole("tree", { name: "文件资源管理器" })).toBeVisible();
   await explorerActivity.click();
   await expect(page.locator("#workbench")).toHaveClass(/sidebar-collapsed/);
-  await mmsActivity.click();
+  await historyActivity.click();
   await expect(page.locator("#workbench")).not.toHaveClass(/sidebar-collapsed/);
+  const localHistory = page.getByRole("tree", { name: "本地历史版本" });
+  await expect(localHistory).toBeVisible();
+  await expect(page.getByRole("combobox", { name: "本地历史范围" })).toBeVisible();
+  await expect(page.getByRole("button", { name: /默认保留 30 天/ })).toBeVisible();
+  await expect(historyActivity).toHaveAttribute("aria-selected", "true");
+  await mmsActivity.click();
   await expect(page.getByRole("textbox", { name: "资源包清单地址" })).toBeVisible();
   await expect(mmsActivity).toHaveAttribute("aria-selected", "true");
   await expect(page.getByRole("textbox", { name: "资源包清单地址" })).toHaveValue(MANIFEST_URL);
@@ -417,6 +426,8 @@ test("production editor materializes an avatar and restores the authored story a
     return readColorDecorators();
   });
   expect(colorDecorators).toBe("never");
+  const defaultEol = await page.evaluate(() => (Reflect.get(globalThis, "__mmtDefaultEol") as Function)());
+  expect(defaultEol).toBe("\n");
   await page.waitForTimeout(750);
   await expect(editor.locator(".colorpicker-color-decoration")).toHaveCount(0);
   await editor.click();

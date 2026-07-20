@@ -21,6 +21,21 @@ command writes one JSON report to stdout and uses a non-zero exit code on
 failure. Diagnostics include phase, severity, UTF-8 byte range, and one-based
 line/column positions.
 
+By default, the exporter copies the renderer to `template/` and emits the existing relative import, so the output remains self-contained. If `@local/mmt-render:0.1.0` is already installed under a Typst package root, pass `--use-local-template-package`; the exporter emits that package import and does not copy `template/`:
+
+```bash
+cargo run --manifest-path mmt_rs/Cargo.toml --bin mmt-compile -- \
+  --input examples/example.mmt.txt \
+  --output-dir /tmp/mmt-project \
+  --use-local-template-package
+
+typst compile --root /tmp/mmt-project \
+  --package-path /path/to/.typst/packages \
+  /tmp/mmt-project/main.typ /tmp/mmt-project/output.pdf
+```
+
+The package root must contain `local/mmt-render/0.1.0/typst.toml`. Package installation remains a host responsibility; the Rust emitter performs no filesystem package discovery.
+
 The filesystem exporter supports workspace files, pack-v3 `image-dir` storage,
 and AVIFS `image-sequence` storage. AVIFS frames are decoded to PNG through a
 controlled `avifdec -c dav1d --index N` process, verified against manifest

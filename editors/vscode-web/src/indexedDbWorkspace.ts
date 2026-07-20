@@ -26,7 +26,7 @@ export interface WorkspaceRevision {
   updatedAt: number;
   checkpoint?: string;
 }
-interface ChangeRecord {
+export interface WorkspaceHistoryChange {
   id: string;
   revision: string;
   path: string;
@@ -34,6 +34,10 @@ interface ChangeRecord {
   after?: string;
   beforeEntry?: Omit<WorkspaceEntry, "data">;
   afterEntry?: Omit<WorkspaceEntry, "data">;
+}
+
+export interface WorkspaceHistoryRevision extends WorkspaceRevision {
+  changes: readonly WorkspaceHistoryChange[];
 }
 interface HeadRecord { workspaceId: string; revision: string }
 
@@ -99,7 +103,7 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
       && now - previousRevision.updatedAt < 5_000
       && now - previousRevision.createdAt < 30_000;
     const revision = grouped ? previousRevision.id : crypto.randomUUID();
-    const existingChanges = grouped ? await this.changes(revision) : new Map<string, ChangeRecord>();
+    const existingChanges = grouped ? await this.changes(revision) : new Map<string, WorkspaceHistoryChange>();
     await transactionDone(
       this.database,
       [WORKSPACE_STORES.files, WORKSPACE_STORES.blobs, WORKSPACE_STORES.revisions, WORKSPACE_STORES.changes, WORKSPACE_STORES.heads],
@@ -125,7 +129,7 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
             after: afterDigest,
             beforeEntry: existing?.beforeEntry ?? (previous && metadataOnly(previous)),
             afterEntry: next && metadataOnly(next)
-          } satisfies ChangeRecord);
+          } satisfies WorkspaceHistoryChange);
         }
         transaction.objectStore(WORKSPACE_STORES.revisions).put({
           id: revision,
@@ -148,8 +152,8 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
     );
   }
 
-  async changes(revision: string): Promise<Map<string, ChangeRecord>> {
-    const records = await requestResult<ChangeRecord[]>(
+  async changes(revision: string): Promise<Map<string, WorkspaceHistoryChange>> {
+    const records = await requestResult<WorkspaceHistoryChange[]>(
       this.database.transaction(WORKSPACE_STORES.changes).objectStore(WORKSPACE_STORES.changes).getAll()
     );
     return new Map(records.filter((record) => record.revision === revision).map((record) => [record.path, record]));
@@ -172,6 +176,28 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
       .slice(0, limit);
   }
 
+  async history(limit = 100): Promise<readonly WorkspaceHistoryRevision[]> {
+    const revisions = await this.revisions(limit);
+    const changes = await requestResult<WorkspaceHistoryChange[]>(
+      this.database.transaction(WORKSPACE_STORES.changes).objectStore(WORKSPACE_STORES.changes).getAll()
+    );
+    const byRevision = new Map<string, WorkspaceHistoryChange[]>();
+    for (const change of changes) {
+      const current = byRevision.get(change.revision) ?? [];
+      current.push(change);
+      byRevision.set(change.revision, current);
+    }
+    return revisions.map((revision) => ({
+      ...revision,
+      changes: Object.freeze((byRevision.get(revision.id) ?? []).sort((left, right) => left.path.localeCompare(right.path)))
+    }));
+  }
+
+  async snapshotEntry(revision: string, path: string): Promise<WorkspaceEntry | undefined> {
+    const entry = (await this.restoreRevision(revision)).get(normalizeWorkspacePath(path));
+    return entry ? cloneEntry(entry) : undefined;
+  }
+
   async restoreRevision(revision: string): Promise<ReadonlyMap<string, WorkspaceEntry>> {
     const revisions = await this.revisions(Number.MAX_SAFE_INTEGER);
     const byId = new Map(revisions.map((entry) => [entry.id, entry]));
@@ -181,7 +207,7 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
     chain.reverse();
     const transaction = this.database.transaction([WORKSPACE_STORES.changes, WORKSPACE_STORES.blobs]);
     const [allChanges, allBlobs] = await Promise.all([
-      requestResult<ChangeRecord[]>(transaction.objectStore(WORKSPACE_STORES.changes).getAll()),
+      requestResult<WorkspaceHistoryChange[]>(transaction.objectStore(WORKSPACE_STORES.changes).getAll()),
       requestResult<BlobRecord[]>(transaction.objectStore(WORKSPACE_STORES.blobs).getAll())
     ]);
     const blobs = new Map(allBlobs.map((blob) => [blob.digest, blob]));

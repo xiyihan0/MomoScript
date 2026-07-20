@@ -1,0 +1,9 @@
+[package]
+name = "mmt-render"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["MomoScript contributors"]
+license = "MPL-2.0"
+description = "MomoScript's Typst rendering facade for scripted visual storytelling"
+compiler = "0.15.0"
+exclude = ["tests", ".tmp", ".assets", "API.md", "README.md", "mmt_render.typ", "mmt.typ", "mmt_help_syntax.typ"]

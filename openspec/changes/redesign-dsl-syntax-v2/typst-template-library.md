@@ -15,10 +15,10 @@ DSL v2 的 Typst 层应从“读取 JSON 并在模板内解释消息”改为可
 
 ## 包与入口
 
-模板库倾向使用无 import 副作用的 Typst package 风格入口。`lib.typ` 只聚合导出 API；页面、字体与主题设置由显式 template show rule 建立：
+模板库使用 build-pinned 的 Typst local package 身份 `@local/mmt-render:0.1.0`。源码仍以 `typst_sandbox/mmt_render/typst.toml` 为 manifest truth source；构建、CLI export 与 exact export 按 Typst 标准 package-root 布局安装到 `.typst/packages/local/mmt-render/0.1.0`。`lib.typ` 只聚合导出 API；页面、字体与主题设置由显式 template show rule 建立：
 
 ```typst
-#import "mmt-render/lib.typ" as mmt
+#import "@local/mmt-render:0.1.0" as mmt
 
 #show: mmt.template.with(
   theme: mmt.themes.moetalk(),

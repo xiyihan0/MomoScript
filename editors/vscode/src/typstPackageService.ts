@@ -13,6 +13,7 @@ import {
 import {
   checkedTypstPackageRequest,
   packageSpecKey,
+  parseAuthoredPackageSpec,
   type PackageSpec,
   type TypstPackageRequestParams,
   type TypstPackageResponse,
@@ -174,6 +175,7 @@ export class TypstPackageService {
   readonly #statusHandlers = new Set<(status: TypstPackageStatus) => void>();
   readonly #dependencies: TypstPackageDependencyGraph;
   readonly #projects = new Map<string, PackageProject>();
+  readonly #latestSnapshotBySource = new Map<string, string>();
   readonly #inflight = new Map<string, SharedAcquisition>();
   readonly #negative = new Map<string, Extract<TypstPackageResponse, { status: "Unavailable" }>>();
   #backendGeneration = 0;
@@ -209,6 +211,8 @@ export class TypstPackageService {
 
   registerProject(project: TypstProjectUpdate, backendGeneration: number): void {
     if (backendGeneration !== this.#backendGeneration || backendGeneration < 0) return;
+    const previousSnapshot = this.#latestSnapshotBySource.get(project.sourceUri);
+    if (previousSnapshot && previousSnapshot !== project.projectDigest) this.retireProject(previousSnapshot);
     const imports = collectPackageImportSites(project);
     this.#projects.set(project.projectDigest, Object.freeze({
       backendGeneration,
@@ -216,10 +220,15 @@ export class TypstPackageService {
       sourceUri: project.sourceUri,
       imports
     }));
+    this.#latestSnapshotBySource.set(project.sourceUri, project.projectDigest);
   }
 
   retireProject(projectSnapshot: string): void {
+    const project = this.#projects.get(projectSnapshot);
     this.#projects.delete(projectSnapshot);
+    if (project && this.#latestSnapshotBySource.get(project.sourceUri) === projectSnapshot) {
+      this.#latestSnapshotBySource.delete(project.sourceUri);
+    }
     this.#dependencies.removeProject(projectSnapshot);
     for (const key of this.#negative.keys()) {
       if (key.startsWith(`${projectSnapshot}\0`)) this.#negative.delete(key);
@@ -233,6 +242,43 @@ export class TypstPackageService {
 
   dependenciesForProject(projectSnapshot: string): readonly TypstPackageDependency[] {
     return this.#dependencies.forProject(projectSnapshot);
+  }
+
+  async prepareProject(projectSnapshot: string, signal: AbortSignal): Promise<readonly TypstPackageGeneration[]> {
+    const project = this.#projects.get(projectSnapshot);
+    if (!project || signal.aborted) return Object.freeze([]);
+    const generations: TypstPackageGeneration[] = [];
+    const importKeys = [...project.imports.keys()].sort();
+    const queued = new Set(importKeys);
+    for (let index = 0; index < importKeys.length; index += 1) {
+      const packageSpec = parseAuthoredPackageSpec(importKeys[index]!);
+      const response = await this.resolve({
+        backend_generation: project.backendGeneration,
+        typst_project_snapshot_key: projectSnapshot,
+        request_id: `preview:${projectSnapshot}:${index}`,
+        package_spec: packageSpec
+      }, signal);
+      if (response.status === "Cancelled") return Object.freeze([]);
+      if (response.status === "Unavailable") {
+        throw new TypstPackageAcquisitionError("Unavailable", response.reason, response.retryable);
+      }
+      const active = await this.#cache.active(packageSpec);
+      if (!active || active.packageGeneration !== response.package_generation) {
+        throw new TypstPackageAcquisitionError(
+          "Unavailable",
+          `Activated Typst package generation disappeared: ${packageSpecKey(packageSpec)}`,
+          true
+        );
+      }
+      generations.push(active);
+      for (const dependency of collectPackageImportKeys(active.files)) {
+        if (queued.has(dependency)) continue;
+        queued.add(dependency);
+        importKeys.push(dependency);
+      }
+    }
+    if (signal.aborted || !this.#projects.has(projectSnapshot)) return Object.freeze([]);
+    return Object.freeze(generations);
   }
 
   async resolve(value: unknown, signal: AbortSignal): Promise<TypstPackageResponse> {
@@ -387,9 +433,29 @@ export function materializePackageGeneration(archive: ValidatedPackageArchive): 
   return Object.freeze({ ...archive, internalRootUri, internalFiles: Object.freeze(internalFiles) });
 }
 
+const PACKAGE_IMPORT_PATTERN = /@([a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?)\/([a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?):(\d+\.\d+\.\d+(?:-[0-9A-Za-z.]+)?(?:\+[0-9A-Za-z.]+)?)/g;
+
+function collectPackageImportKeys(files: readonly ValidatedPackageFile[]): readonly string[] {
+  const keys = new Set<string>();
+  const decoder = new TextDecoder("utf-8", { fatal: true });
+  for (const file of files) {
+    if (!file.path.endsWith(".typ")) continue;
+    let source: string;
+    try {
+      source = decoder.decode(file.bytes);
+    } catch {
+      continue;
+    }
+    for (const match of source.matchAll(PACKAGE_IMPORT_PATTERN)) {
+      keys.add(packageSpecKey({ namespace: match[1]!, name: match[2]!, version: match[3]! }));
+    }
+  }
+  return Object.freeze([...keys].sort());
+}
+
 function collectPackageImportSites(project: TypstProjectUpdate): ReadonlyMap<string, readonly PackageImportSite[]> {
   const sites = new Map<string, PackageImportSite[]>();
-  const pattern = /@([a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?)\/([a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?):(\d+\.\d+\.\d+(?:-[0-9A-Za-z.]+)?(?:\+[0-9A-Za-z.]+)?)/g;
+  const pattern = PACKAGE_IMPORT_PATTERN;
   for (const file of project.files) {
     if (file.text === undefined) continue;
     const lineStarts = [0];

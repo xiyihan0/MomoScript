@@ -9,6 +9,8 @@ import jetBrainsMonoUrl from "../../vscode/vendor/fonts/JetBrainsMono-Regular.tt
 import mathUrl from "../../vscode/vendor/fonts/NewCMMath-Regular.otf?url";
 
 import type { TypstProjectUpdate, TypstVirtualFile } from "../../vscode/src/tinymistClient";
+import type { TypstPackageGeneration } from "../../vscode/src/typstPackageService";
+import { TypstPreviewPackageRegistry } from "../../vscode/src/typstPreviewPackageRegistry";
 import { isCurrentPreviewUpdate, type PreviewRevision } from "./previewDiagnostics";
 import {
   createPreviewArtifact,
@@ -62,6 +64,16 @@ const optionalMainFontsLoader = async (
 const encoder = new TextEncoder();
 let initialized = false;
 let compilerModule: WebAssembly.Module | undefined;
+const previewAccessModel = new MemoryAccessModel();
+const previewPackageRegistry = new TypstPreviewPackageRegistry(previewAccessModel);
+
+export function installPreviewPackageGenerations(generations: readonly TypstPackageGeneration[]): void {
+  for (const generation of generations) previewPackageRegistry.install(generation);
+}
+
+export function evictPreviewPackageGeneration(packageGeneration: string): void {
+  previewPackageRegistry.evict(packageGeneration);
+}
 
 export interface TypstPreviewEvents {
   status(message: string, error: boolean, revision?: PreviewRevision): void;
@@ -832,7 +844,10 @@ async function initializeTypst(report: (message: string) => void): Promise<void>
     getModule: () => compilerModule!,
   });
   $typst.setRendererInitOptions({ getModule: () => rendererWasmUrl });
-  $typst.use(TypstSnippet.withAccessModel(new MemoryAccessModel()));
+  $typst.use(
+    TypstSnippet.withAccessModel(previewAccessModel),
+    TypstSnippet.withPackageRegistry(previewPackageRegistry)
+  );
   initialized = true;
 }
 

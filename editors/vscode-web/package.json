@@ -60,6 +60,7 @@
     "@myriaddreamin/typst-ts-renderer": "0.8.0-rc3",
     "@myriaddreamin/typst-ts-web-compiler": "0.8.0-rc3",
     "@myriaddreamin/typst.ts": "0.8.0-rc3",
+    "js-toml": "^1.2.1",
     "monaco-editor": "npm:@codingame/monaco-vscode-editor-api@21.6.0",
     "monaco-languageclient": "10.0.0",
     "vscode": "npm:@codingame/monaco-vscode-extension-api@21.6.0",
