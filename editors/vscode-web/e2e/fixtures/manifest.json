@@ -24,13 +24,17 @@
           "default": "default",
           "sets": {
             "default": {
-              "storage": "avatars",
+              "storage": "alpha_sequence",
               "variants": [
-                {
-                  "id": "smile",
-                  "path": "佳代子.png",
-                  "handles": ["微笑"]
-                }
+                { "id": "frame_001", "ordinal": 1, "frame": 0 },
+                { "id": "frame_002", "ordinal": 2, "frame": 1 }
+              ]
+            },
+            "kindergarten": {
+              "display_name": "幼儿园立绘差分",
+              "storage": "alpha_sequence",
+              "variants": [
+                { "id": "frame_003", "ordinal": 1, "frame": 2 }
               ]
             }
           }
@@ -39,7 +43,7 @@
     },
     "晴_露营": {
       "names": ["晴_露营"],
-      "display_name": "晴（露营）",
+      "display_name": "晴",
       "slots": {
         "sticker": {
           "default": "default",
@@ -52,6 +56,24 @@
                   "ordinal": 1,
                   "path": "佳代子.png"
                 }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "透明测试": {
+      "names": ["透明测试"],
+      "display_name": "透明测试",
+      "slots": {
+        "sticker": {
+          "default": "default",
+          "sets": {
+            "default": {
+              "storage": "alpha_sequence",
+              "variants": [
+                { "id": "frame_001", "ordinal": 1, "frame": 0 },
+                { "id": "frame_002", "ordinal": 2, "frame": 1 }
               ]
             }
           }
@@ -77,6 +99,26 @@
     "avatars": {
       "kind": "image-dir",
       "base": "assets/avatar"
+    },
+    "alpha_sequence": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/alpha/default.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 28,
+      "fps": 1,
+      "size": [1002, 896],
+      "alpha": true,
+      "sha256": "a3d12e6399f79b05ddd33fb30a42190702f0954a61a19af93d0d329d909d2123",
+      "random_access": "keyframe-or-linear",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30
+      }
     }
   }
 }

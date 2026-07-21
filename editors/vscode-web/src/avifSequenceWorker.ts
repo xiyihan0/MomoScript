@@ -59,7 +59,7 @@ async function decode(request: DecodeRequest): Promise<{ id: number; png: ArrayB
   const decoder = new ImageDecoderClass({ data: request.bytes, type: "image/avif", preferAnimation: true });
   try {
     await decoder.tracks.ready;
-    const result = await decoder.decode({ frameIndex: request.frame, completeFramesOnly: true });
+    const result = await decoder.decode({ frameIndex: request.frame, completeFramesOnly: false });
     const frame = result.image;
     try {
       if (frame.displayWidth !== width || frame.displayHeight !== height) {

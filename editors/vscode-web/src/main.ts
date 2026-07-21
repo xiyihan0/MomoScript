@@ -46,6 +46,9 @@ import {
 } from "../../vscode/src/typstPackageService";
 import { synchronizePackSources } from "../../vscode/src/packSync";
 import type { PackManifestSource } from "../../vscode/src/packSync";
+import { decodeAvifSequence } from "./avifSequence";
+import { packResourceUrl, projectGalleryPack, type GalleryPack } from "./galleryPack";
+import { registerCharacterGalleryCommands, renderCharacterGalleryView } from "./characterGalleryUi";
 import { projectionSessionKey } from "../../vscode/src/tinymistClient";
 import {
   evictPreviewPackageGeneration,
@@ -83,7 +86,7 @@ import type {
 } from "./previewInteraction.ts";
 import { ExactExportUiController, LatestExactArtifactWaiter, type ExactExportUiState } from "./exactExportUi.ts";
 import type { ExactExportFormat, ExactExportPorts, RenderAdvanceCause, RenderAdvanceToken, StaleExportChoice } from "./exactExport.ts";
-import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstResourceRequest, TypstVirtualFile } from "../../vscode/src/tinymistClient";
+import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstVirtualFile } from "../../vscode/src/tinymistClient";
 import {
   canonicalBytesDigest,
   logicalSourceId,
@@ -399,6 +402,8 @@ let provider: MmtIndexedDbFileSystemProvider | undefined;
 let packCache: IndexedDbPackCache | undefined;
 let mmt: MmtLanguageClientHandle | undefined;
 let tinymist: TinymistHandle | undefined;
+let galleryPacks: readonly GalleryPack[] = [];
+const galleryPacksChanged = new vscode.EventEmitter<void>();
 
 let runtimeController: EditorRuntimeController | undefined;
 const hmrDisposal = Reflect.get(globalThis, "__mmtHmrDisposal");
@@ -489,6 +494,17 @@ async function initializeRuntime(
     renderBody: (container) => provider
       ? renderLocalHistoryView(container, provider)
       : { dispose() {} }
+  }));
+  const galleryViewRegistration = own(registerCustomView({
+    id: "momoscript.characterGallery",
+    name: "角色图鉴",
+    location: ViewContainerLocation.Sidebar,
+    icon: galleryViewIcon(),
+    canMoveView: false,
+    renderBody: (container) => renderCharacterGalleryView(container, {
+      getPacks: () => galleryPacks,
+      onDidChangePacks: (listener) => galleryPacksChanged.event(listener)
+    })
   }));
   let previewPanel: vscode.WebviewPanel | undefined;
   let previewPanelTitle = "MomoScript 预览";
@@ -1168,6 +1184,7 @@ async function initializeRuntime(
     { isReadonly: true, isCaseSensitive: true },
   ));
   subscribe(registerLocalHistoryCommands(provider));
+  subscribe(registerCharacterGalleryCommands(() => galleryPacks));
   output = own(vscode.window.createOutputChannel("MomoScript"));
   log("host", "VS Code Workbench ready");
   const applyPanelVisibility = (visible: boolean) => {
@@ -1779,13 +1796,21 @@ async function initializeRuntime(
       fetchManifest
     );
     packSourcesByNamespace.clear();
+    const projected: GalleryPack[] = [];
     for (const source of packSources) {
+      try {
+        projected.push(projectGalleryPack(source));
+      } catch (error) {
+        log("gallery", `Skipped invalid gallery pack ${source.manifestUrl}: ${error instanceof Error ? error.message : String(error)}`);
+      }
       const manifest = JSON.parse(source.json) as { pack?: { namespace?: unknown } };
       const namespace = manifest.pack?.namespace;
       if (typeof namespace === "string" && namespace.length > 0) {
         packSourcesByNamespace.set(namespace, { ...source, cacheIdentity: await manifestCacheIdentity(source) });
       }
     }
+    galleryPacks = projected;
+    galleryPacksChanged.fire();
     log("resources", `Accepted ${packSources.length} resource pack manifests`);
   };
   try {
@@ -2041,76 +2066,6 @@ async function fetchResource(url: URL, signal: AbortSignal): Promise<Uint8Array>
     throw new Error(`Pack resource exceeds ${limit} bytes`);
   }
   return readResponseBytes(response, limit, signal);
-}
-
-function packResourceUrl(packBase: string, relativePath: string, kind: TypstResourceRequest["kind"]): URL {
-  const root = new URL(packBase);
-  if (root.protocol !== "https:") throw new Error("Pack resource base must use HTTPS");
-  if (/[\\?#:]/.test(relativePath)) throw new Error("Pack resource path contains forbidden characters");
-  const segments = relativePath.split("/");
-  if (segments.length === 0 || segments.some((segment) => segment.length === 0 || segment === "." || segment === "..")) {
-    throw new Error("Pack resource path must contain relative segments");
-  }
-  const fileName = segments.at(-1)!;
-  const extension = kind === "image-dir" ? /\.(?:png|jpe?g|webp)$/i : /\.avifs$/i;
-  if (!extension.test(fileName)) throw new Error(`Pack ${kind} resource has an unsupported extension`);
-  const rootHref = root.href.endsWith("/") ? root.href : `${root.href}/`;
-  const url = new URL(segments.map(encodeURIComponent).join("/"), rootHref);
-  const rootPath = new URL(rootHref).pathname;
-  if (url.protocol !== "https:" || url.origin !== root.origin || !url.pathname.startsWith(rootPath)) {
-    throw new Error("Pack resource escaped its HTTPS pack root");
-  }
-  return url;
-}
-
-type ImageSequenceResource = Extract<TypstResourceRequest, { kind: "image-sequence" }>;
-
-interface AvifWorkerResponse {
-  id: number;
-  png?: ArrayBuffer;
-  error?: string;
-}
-
-async function decodeAvifSequence(
-  bytes: Uint8Array,
-  resource: ImageSequenceResource,
-  signal: AbortSignal
-): Promise<Uint8Array> {
-  if (resource.container !== "avifs" || resource.codec !== "av1") {
-    throw new Error(`Unsupported image sequence ${resource.container}/${resource.codec}`);
-  }
-  if (resource.frame < 0 || resource.frame >= resource.frameCount) {
-    throw new Error(`AVIFS frame ${resource.frame} is outside frameCount ${resource.frameCount}`);
-  }
-  const worker = new Worker(new URL("./avifSequenceWorker.ts", import.meta.url), { type: "module" });
-  return new Promise<Uint8Array>((resolve, reject) => {
-    const abort = () => {
-      worker.terminate();
-      reject(signal.reason ?? new DOMException("Aborted", "AbortError"));
-    };
-    signal.addEventListener("abort", abort, { once: true });
-    worker.onerror = (event) => {
-      signal.removeEventListener("abort", abort);
-      worker.terminate();
-      reject(new Error(event.message || "AVIFS decoder Worker failed"));
-    };
-    worker.onmessage = (event: MessageEvent<AvifWorkerResponse>) => {
-      signal.removeEventListener("abort", abort);
-      worker.terminate();
-      if (event.data.error) reject(new Error(event.data.error));
-      else if (event.data.png instanceof ArrayBuffer) resolve(new Uint8Array(event.data.png));
-      else reject(new Error("AVIFS decoder Worker returned no PNG"));
-    };
-    const payload = bytes.buffer;
-    worker.postMessage({
-      id: resource.id,
-      bytes: payload,
-      frame: resource.frame,
-      sha256: resource.sha256,
-      size: resource.size,
-      profile: resource.profile
-    }, [payload]);
-  });
 }
 
 function bytesToBase64(bytes: Uint8Array): string {
@@ -2627,6 +2582,11 @@ function mmsViewIcon(): string {
 
 function historyViewIcon(): string {
   const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3L4.5 9M4.5 4.5V9H9M12 7.5V12l3 2"/></svg>';
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+function galleryViewIcon(): string {
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 19.5c.8-3.4 3.4-5.2 6.5-5.2s5.7 1.8 6.5 5.2"/></g></svg>';
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 

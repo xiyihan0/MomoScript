@@ -42,14 +42,16 @@ export function mmtExtension(): ExtensionConfig {
       configuration: manifest.contributes.configuration,
       commands: [
         { command: "mmt.preview.open", title: "Typst 预览", icon: "$(open-preview)" },
-        { command: "mmt.history.showFileHistory", title: "显示文件历史记录", icon: "$(history)" }
+        { command: "mmt.history.showFileHistory", title: "显示文件历史记录", icon: "$(history)" },
+        { command: "mmt.gallery.insertStickerAtCursor", title: "插入角色表情差分", icon: "$(smiley)" }
       ],
       menus: {
         "editor/title": [
           { command: "mmt.preview.open", when: "editorLangId == mmt || editorLangId == typst", group: "navigation" }
         ],
         "editor/context": [
-          { command: "mmt.history.showFileHistory", when: "resourceScheme == mmtfs", group: "navigation" }
+          { command: "mmt.gallery.insertStickerAtCursor", when: "resourceScheme == mmtfs && editorLangId == mmt", group: "navigation@1" },
+          { command: "mmt.history.showFileHistory", when: "resourceScheme == mmtfs", group: "navigation@2" }
         ],
         "editor/title/context": [
           { command: "mmt.history.showFileHistory", when: "resourceScheme == mmtfs", group: "navigation" }
