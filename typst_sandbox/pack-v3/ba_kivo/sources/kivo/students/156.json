@@ -38,7 +38,7 @@
   "given_name_cn": "泉",
   "nick_name": "",
   "introduction": "格赫娜学园所属，新年之际身着盛装的美食研究会成员。\n不论新年换上何种装扮，泉对美食的挑战与探索之心始终如一。这正是她的原动力、她独一无二的个性。\n\n> 今年也要继续发掘新的美味哦~！\n",
-  "introduction_cn": "",
+  "introduction_cn": "即便穿上和服，也和平日里的泉一样。\n\n新的一年到来，泉的美食冒险也仍未停歇。或许这就是她总是笑得那么灿烂的原因。\n\n> 我们一起去寻找新的味觉组合吧！",
   "momo_talk_signature": "美食与人生，都是一场冒险！",
   "main_relation": 29,
   "relation": [
@@ -54,20 +54,20 @@
   "character_voice": "久保百合花",
   "character_voice_cn": "嘉儿",
   "release_date": "2025-03-19",
-  "release_date_cn": null,
+  "release_date_cn": "2026-07-16",
   "release_date_global": "2025-08-19",
   "sd_model_image": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/EnemyInfo_CH0197.png",
   "avatar": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/Student_Portrait_CH0197_Collection.png",
   "school": 3,
   "weapon_type": "MG",
   "is_install": true,
-  "is_install_cn": false,
+  "is_install_cn": true,
   "is_install_global": true,
   "is_npc": false,
   "show_list": true,
   "body_shape": "Medium",
   "special_appearance": false,
-  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 今年こそ煌めく美食に舌鼓！ | 暂无 | 美食冒險，一起上路吧？ | Would you like to go on a Dining Adventure? |\n| ![日Banner](images/students/狮子堂%20泉/正月/gallery/官方图集/GmTEqXsbIAEKTfc.jpg =450x) | 暂无 | ![繁中Banner](files/1348/jLyDHfsuTpKiaE5650AiAvHjWvxeirb0.png =450x) | ![国际Banner](images/students/狮子堂%20泉/正月/gallery/官方图集/GyI-hEoaEAQvhJu.jpg =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![日介绍](images/students/狮子堂%20泉/正月/gallery/官方图集/GmIWElEaQAAgcL6.jpg =525x) | 暂无 | ![繁中介](files/1348/rqMwFOwArhfOILbbVprGkpQfGwYDmq2X.jpg =530x) | ![EN介绍](images/students/狮子堂%20泉/正月/gallery/官方图集/GyI-GK8a0AA-HZi.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[御节料理套餐桌](https://kivo.wiki/data/item/1597) |\n| :---: | :---: | :---: |\n| ![ex__.gif](files/16727/VQKUjh2BNKIbWqDjiUxU6TnWQUCcchnF.gif =450x)| 暂无 | ![furniture__.gif](files/16727/NjMc1DrEGYCzcqbPk5rvO4hAEflJ4A8x.gif =450x)|\n\n## 设定集\n\n::::center\n\n![Vol2-81.jpg](files/16727/ZAVBF8kv6j8GowkwI5ybcBi7Kz41E28g.jpg =450x)\n\n![Vol2-13.jpg](files/16727/IUNjb7bTJZ307i1ZdQ7twq1BY6WmYPPY.jpg =450x)\n\n::::\n\n## 国际服直播内容\n::::center\n![Snipaste_2026-05-25_23-35-24.png](files/490/CqeHUp9I87ooC9DrMMO2EPo6I4wTNhEY.png =450x)\n::::",
+  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 今年こそ煌めく美食に舌鼓！ | 新年遂心愿 璀璨珍馐跃眼前 幸福唇齿间！ | 美食冒險，一起上路吧？ | Would you like to go on a Dining Adventure? |\n| ![日Banner](images/students/狮子堂%20泉/正月/gallery/官方图集/GmTEqXsbIAEKTfc.jpg =450x) | ![简中banner](images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izumi_newyear_banner_cn.jpg =500x) | ![繁中Banner](files/1348/jLyDHfsuTpKiaE5650AiAvHjWvxeirb0.png =450x) | ![国际Banner](images/students/狮子堂%20泉/正月/gallery/官方图集/GyI-hEoaEAQvhJu.jpg =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![日介绍](images/students/狮子堂%20泉/正月/gallery/官方图集/GmIWElEaQAAgcL6.jpg =525x) | ![简中介绍](images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izumi_newyear_intro_cn.jpg =420x) | ![繁中介](files/1348/rqMwFOwArhfOILbbVprGkpQfGwYDmq2X.jpg =530x) | ![EN介绍](images/students/狮子堂%20泉/正月/gallery/官方图集/GyI-GK8a0AA-HZi.jpg =400x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[御节料理套餐桌](https://kivo.wiki/data/item/1597) |\n| :---: | :---: | :---: |\n| ![ex__.gif](files/16727/VQKUjh2BNKIbWqDjiUxU6TnWQUCcchnF.gif =450x)| ![touch](images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izumi_newyear_touch_cn.gif =425x) | ![furniture__.gif](files/16727/NjMc1DrEGYCzcqbPk5rvO4hAEflJ4A8x.gif =450x)|\n\n## 设定集\n\n::::center\n\n![Vol2-81.jpg](files/16727/ZAVBF8kv6j8GowkwI5ybcBi7Kz41E28g.jpg =450x)\n\n![Vol2-13.jpg](files/16727/IUNjb7bTJZ307i1ZdQ7twq1BY6WmYPPY.jpg =450x)\n\n::::\n\n## 国际服直播内容\n::::center\n![Snipaste_2026-05-25_23-35-24.png](files/490/CqeHUp9I87ooC9DrMMO2EPo6I4wTNhEY.png =450x)\n::::",
   "recollection_lobby_image": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/CH0197_home_Idle_01_1.133400000000023.jpg",
   "spine": [
     1251,
@@ -606,7 +606,575 @@
       "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/jp/ch0197_formation_in_1.ogg"
     }
   ],
-  "voice_cn": [],
+  "voice_cn": [
+    {
+      "description": "ch0197_cafe_monolog_1",
+      "category": "cafe",
+      "text": "今年会有什么新奇的美食呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0197_cafe_monolog_2",
+      "category": "cafe",
+      "text": "美~食~冒~险~酸甜苦辣的世界！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0197_cafe_monolog_3",
+      "category": "cafe",
+      "text": "这儿配什么吃的合适呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0197_cafe_monolog_4",
+      "category": "cafe",
+      "text": "先把我的特制酱料带来吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0197_cafe_monolog_5",
+      "category": "cafe",
+      "text": "有人喜欢沙丁鱼薄荷章鱼烧吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0197_commonskill",
+      "category": "battle",
+      "text": "这个怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_commonskill.ogg"
+    },
+    {
+      "description": "ch0197_eventlobby_1",
+      "category": "event",
+      "text": "我呀，只要看到老师吃得开心，就已经够幸福了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_eventlobby_1.ogg"
+    },
+    {
+      "description": "ch0197_eventlobby_2",
+      "category": "event",
+      "text": "和老师在一起的每一刻都很有新鲜感。像是发现新味道一样。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_eventlobby_2.ogg"
+    },
+    {
+      "description": "ch0197_eventlobby_3",
+      "category": "event",
+      "text": "我听说，冒险要有人陪着才好玩。所以我的美食冒险，也得带上老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_eventlobby_3.ogg"
+    },
+    {
+      "description": "ch0197_eventlobby_4_1",
+      "category": "event",
+      "text": "我也是美食研究会的一员！探索新味道的冒险是永无止境的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_eventlobby_4_1.ogg"
+    },
+    {
+      "description": "ch0197_eventlobby_4_2",
+      "category": "event",
+      "text": "这就是我的美食之道！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_eventlobby_4_2.ogg"
+    },
+    {
+      "description": "ch0197_eventlogin_1",
+      "category": "event",
+      "text": "老师！新年到啦~！我们的美食冒险该开始了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_eventlogin_1.ogg"
+    },
+    {
+      "description": "ch0197_eventlogin_2",
+      "category": "event",
+      "text": "有什么想吃的吗，老师？我想吃的可太多了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_eventlogin_2.ogg"
+    },
+    {
+      "description": "ch0197_eventlogin_season_1_1",
+      "category": "event",
+      "text": "啊…有点看不过来了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_eventlogin_season_1_1.ogg"
+    },
+    {
+      "description": "ch0197_eventlogin_season_1_2",
+      "category": "event",
+      "text": "我觉得就都交给老师了，可以的吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_eventlogin_season_1_2.ogg"
+    },
+    {
+      "description": "ch0197_eventlogin_season_2",
+      "category": "event",
+      "text": "居然是御节料理比赛，好厉害！这简直就是冒险啊，好紧张！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "ch0197_eventlogin_season_end",
+      "category": "event",
+      "text": "这应该是最棒的一次新年啦，老师！既吃了很多美食，又有老师陪着！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "ch0197_exskill_1",
+      "category": "battle",
+      "text": "嚼嚼。咕~咚。这边！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_exskill_1.ogg"
+    },
+    {
+      "description": "ch0197_exskill_2",
+      "category": "battle",
+      "text": "吧唧吧唧。那……这个怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_exskill_2.ogg"
+    },
+    {
+      "description": "ch0197_exskill_3",
+      "category": "battle",
+      "text": "呣，呣呣……让我看看……这个给你！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_exskill_3.ogg"
+    },
+    {
+      "description": "ch0197_exskill_level_1",
+      "category": "battle",
+      "text": "泉，登场！多吃点吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0197_exskill_level_2",
+      "category": "battle",
+      "text": "饿了吧？来点这个！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0197_exskill_level_3",
+      "category": "battle",
+      "text": "呀吼—！我看看……找到啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0197_exweapon_get",
+      "category": "growup",
+      "text": "美食冒险说不定会有什么危险呢。所以我会用这个保护老师的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0197_formation_in_1",
+      "category": "formation",
+      "text": "你叫我了吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0197_formation_in_2",
+      "category": "formation",
+      "text": "嗯！一起去吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0197_formation_select",
+      "category": "formation",
+      "text": "哇~！老师，我在这儿！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_formation_select.ogg"
+    },
+    {
+      "description": "ch0197_gachaget",
+      "category": "growup",
+      "text": "新的一年啦，老师！一起出发去美食冒险吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_gachaget.ogg"
+    },
+    {
+      "description": "ch0197_growup_1",
+      "category": "growup",
+      "text": "噢？！这么多？可以吗？欸嘿嘿，那我就不客气啦~！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_growup_1.ogg"
+    },
+    {
+      "description": "ch0197_growup_2",
+      "category": "growup",
+      "text": "老师给的都很好吃！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_growup_2.ogg"
+    },
+    {
+      "description": "ch0197_growup_3",
+      "category": "growup",
+      "text": "我不能总是白拿吧？！这次，我也带你去吃好吃的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_growup_3.ogg"
+    },
+    {
+      "description": "ch0197_growup_4",
+      "category": "growup",
+      "text": "这味道太神奇了！啊，这个是吃的吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_growup_4.ogg"
+    },
+    {
+      "description": "ch0197_lobby_1_1",
+      "category": "lobby",
+      "text": "等忙完了一起去吃好吃的吧，老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_1_1.ogg"
+    },
+    {
+      "description": "ch0197_lobby_1_2",
+      "category": "lobby",
+      "text": "啊？老师也不知道……什么时候能忙完？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_1_2.ogg"
+    },
+    {
+      "description": "ch0197_lobby_1_3",
+      "category": "lobby",
+      "text": "天呐……老师惨惨的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_1_3.ogg"
+    },
+    {
+      "description": "ch0197_lobby_2_1",
+      "category": "lobby",
+      "text": "我呀，遇见老师后好像改变了很多！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_2_1.ogg"
+    },
+    {
+      "description": "ch0197_lobby_2_2",
+      "category": "lobby",
+      "text": "老师想知道具体的变化？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_2_2.ogg"
+    },
+    {
+      "description": "ch0197_lobby_2_3",
+      "category": "lobby",
+      "text": "……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_2_3.ogg"
+    },
+    {
+      "description": "ch0197_lobby_2_4",
+      "category": "lobby",
+      "text": "反正就是变了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_2_4.ogg"
+    },
+    {
+      "description": "ch0197_lobby_3_1",
+      "category": "lobby",
+      "text": "嗓子如果不舒服可要告诉我哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_3_1.ogg"
+    },
+    {
+      "description": "ch0197_lobby_3_2",
+      "category": "lobby",
+      "text": "我随时都备着——锵锵！咸味甘草糖！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_3_2.ogg"
+    },
+    {
+      "description": "ch0197_lobby_3_3",
+      "category": "lobby",
+      "text": "这个真的超好吃！而且听说对嗓子也很好！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_3_3.ogg"
+    },
+    {
+      "description": "ch0197_lobby_4_1",
+      "category": "lobby",
+      "text": "老师有没有什么很特别的时间段呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_4_1.ogg"
+    },
+    {
+      "description": "ch0197_lobby_4_2",
+      "category": "lobby",
+      "text": "我的话，就是到处找好吃的，还有发现特别的味道的时候吧~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_4_2.ogg"
+    },
+    {
+      "description": "ch0197_lobby_4_3",
+      "category": "lobby",
+      "text": "不过现在不知道为什么，觉得和老师在一起的时光才最特别。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_4_3.ogg"
+    },
+    {
+      "description": "ch0197_lobby_5_1",
+      "category": "lobby",
+      "text": "对我来说，寻找美食其实就是寻找新鲜感的过程。所以我才总想尝试更多新东西。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_5_1.ogg"
+    },
+    {
+      "description": "ch0197_lobby_5_2",
+      "category": "lobby",
+      "text": "老师……你呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_lobby_5_2.ogg"
+    },
+    {
+      "description": "ch0197_login_1",
+      "category": "lobby",
+      "text": "啊！是老师！快请进快请进！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_login_1.ogg"
+    },
+    {
+      "description": "ch0197_login_2_1",
+      "category": "lobby",
+      "text": "路上很辛苦吧，老师？我一定要给你个抱抱！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_login_2_1.ogg"
+    },
+    {
+      "description": "ch0197_login_2_2",
+      "category": "lobby",
+      "text": "嗯？心领了？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_login_2_2.ogg"
+    },
+    {
+      "description": "ch0197_login_2_3",
+      "category": "lobby",
+      "text": "那好吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_login_2_3.ogg"
+    },
+    {
+      "description": "ch0197_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "那个，老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "ch0197_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "我听说新年的食物，除了御节料理之外，还有很多花样呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "ch0197_memoriallobby_1_3",
+      "category": "lobby",
+      "text": "所以我准备了这么多！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_memoriallobby_1_3.ogg"
+    },
+    {
+      "description": "ch0197_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "我？我呀……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0197_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "光是看着老师吃，就觉得很幸福了呀。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0197_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "还有，能跟老师像这样…",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "ch0197_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "单独在一起就已经开心得不得了啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "ch0197_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "好，好像……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "ch0197_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "不小心，说了有点害羞的话……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "ch0197_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "但，但就是，很开心！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "ch0197_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "所以没关系，嗯！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "ch0197_relationship_up_1",
+      "category": "growup",
+      "text": "老师，今年的愿望是什么呀？我的心愿是能和老师在一起的时间长一点！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0197_relationship_up_2",
+      "category": "growup",
+      "text": "跟老师在一起，就会觉得很放松！比做我的特制酱料的时候还要安心！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0197_relationship_up_3",
+      "category": "growup",
+      "text": "老师，可，可以牵你的手吗？诶嘿嘿！机会难得，我还想挽你的胳膊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0197_relationship_up_4",
+      "category": "growup",
+      "text": "见到老师就会莫名感觉很幸福。比吃到好吃的，尝到新的味道还要幸福……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0197_season_birthday_1",
+      "category": "lobby",
+      "text": "原来你还记得我的生日。太开心了！蛋糕也准备好了，一起吃吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_birthday_1.ogg"
+    },
+    {
+      "description": "ch0197_season_birthday_2",
+      "category": "lobby",
+      "text": "嗯？老师觉得蛋糕应该你来买？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_birthday_2.ogg"
+    },
+    {
+      "description": "ch0197_season_birthday_3",
+      "category": "lobby",
+      "text": "说什么呢，老师！生日最重要的是吃蛋糕的仪式感嘛~其他都无所谓啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_birthday_3.ogg"
+    },
+    {
+      "description": "ch0197_season_birthday_player_1",
+      "category": "lobby",
+      "text": "我记着呢！今天是老师的生日吧？我特地记下来了，就怕给忘了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "ch0197_season_birthday_player_2",
+      "category": "lobby",
+      "text": "来来来！蛋糕也买来咯！没关系！我还没撒我的特制调味料呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "ch0197_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师，老师！听说了吗？！山海经学院的春节也有不少好吃的呢！我闻到美食冒险的味道了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "ch0197_season_halloween_1",
+      "category": "lobby",
+      "text": "万圣节~糖果~特制南瓜派~",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_halloween_1.ogg"
+    },
+    {
+      "description": "ch0197_season_halloween_2",
+      "category": "lobby",
+      "text": "撒上我的特制糖霜，味道会更独特！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_halloween_2.ogg"
+    },
+    {
+      "description": "ch0197_season_halloween_3",
+      "category": "lobby",
+      "text": "啊，不小心撒太多了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_halloween_3.ogg"
+    },
+    {
+      "description": "ch0197_season_midautumn",
+      "category": "lobby",
+      "text": "月亮会是什么味道的呢？圆圆的……难道是章鱼烧味？！要是能撒点糖粉尝一尝就好了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_midautumn.ogg"
+    },
+    {
+      "description": "ch0197_season_newyear_1",
+      "category": "lobby",
+      "text": "新年穿和服啦！怎么样？合身不？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_newyear_1.ogg"
+    },
+    {
+      "description": "ch0197_season_newyear_2",
+      "category": "lobby",
+      "text": "穿着和服吃东西时，有很多需要注意的地方，确实有点麻烦……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_newyear_2.ogg"
+    },
+    {
+      "description": "ch0197_season_xmas_1",
+      "category": "lobby",
+      "text": "火鸡！炸鸡！特制派和蛋奶酒！再加上我的特制酱料，圣诞节就准备就绪啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_xmas_1.ogg"
+    },
+    {
+      "description": "ch0197_season_xmas_2",
+      "category": "lobby",
+      "text": "别担心，老师。你那份我单独准备啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_season_xmas_2.ogg"
+    },
+    {
+      "description": "ch0197_title",
+      "category": "lobby",
+      "text": "Blue, Archive!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/cn/ch0197_title.ogg"
+    }
+  ],
   "voice_kr": [
     {
       "description": "ch0197_cafe_monolog_1",
@@ -1165,7 +1733,11 @@
         "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/furniture__.gif",
         "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/ex__.gif",
         "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-81.jpg",
-        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-13.jpg"
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Vol2-13.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izumi_newyear_intro_cn.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izumi_newyear_skill_cn.jpg",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izumi_newyear_touch_cn.gif",
+        "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/izumi_newyear_banner_cn.jpg"
       ]
     }
   ],
@@ -1238,7 +1810,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/skill_icon/nqUBLTtskgO0arRqiaqThMLW3wzbgb5E.png",
             "title": "共享章鱼烧！",
-            "title_cn": "",
+            "title_cn": "大家尝尝章鱼烧！",
             "preview": "//static.kivo.wiki/videos/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/skill_preview/mcCZ0gxD1JRhNyHQaN2pYorCP0ySGMRZ.mp4",
             "max_level": 5,
             "link_student_id": 0,
@@ -1247,7 +1819,7 @@
               {
                 "icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/skill_icon/ipLH7JxwSEYWtgWweHkBlESF2iIBS2nT.png",
                 "title": "有很多哟！",
-                "title_cn": "",
+                "title_cn": "量大管饱哦！",
                 "preview": "",
                 "max_level": 5,
                 "link_student_id": 0,
@@ -1305,7 +1877,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/skill_icon/vDVhqCtUVLHoenibCdemwkTDeSCluuYi.png",
             "title": "镜饼来啦！",
-            "title_cn": "",
+            "title_cn": "年糕来咯！",
             "preview": "",
             "max_level": 10,
             "link_student_id": 0,
@@ -1357,7 +1929,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/skill_icon/W9LB5olxPPZBXcdp44vHyUcUOavf7Y8s.png",
             "title": "人生就是冒险！",
-            "title_cn": "",
+            "title_cn": "人生就是冒险！",
             "preview": "",
             "max_level": 10,
             "link_student_id": 0,
@@ -1409,7 +1981,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/skill_icon/GIK7SeT8PGb3NneQh6IA0hXJISr41J5W.png",
             "title": "一起上吧！",
-            "title_cn": "",
+            "title_cn": "一起出发吧！",
             "preview": "",
             "max_level": 10,
             "link_student_id": 0,
@@ -1483,9 +2055,9 @@
       "weapons": {
         "icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/weapons_icon.png",
         "name": "Daily Cutlery",
-        "name_cn": "",
+        "name_cn": "每日餐具",
         "description": "泉所使用的重型机枪。<br> 为了开拓全新的美食领域，今天她也在用爱枪开辟前路。",
-        "description_cn": "",
+        "description_cn": "泉使用的重机枪。<br> 在她的美食冒险旅途中，这把枪就是她最可靠的伙伴。",
         "info": [
           {
             "title": "",
@@ -1508,7 +2080,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E7%8B%AE%E5%AD%90%E5%A0%82%20%E6%B3%89/%E6%AD%A3%E6%9C%88/skill_icon/mp41cPpbTiFYaOHJNVdSJH6act6S5UxC.png",
             "title": "人生就是冒险！+",
-            "title_cn": "",
+            "title_cn": "人生就是冒险！+",
             "preview": "",
             "max_level": 10,
             "link_student_id": 0,
@@ -1568,5 +2140,5 @@
   "supplementary_uuid": "ab03fbcd-cc2e-472c-b1d9-6e52b84feb0a",
   "supplementary_declare_uuid": "9f85b3e8-674a-40be-8c63-3706433b8f66",
   "created_at": 1685628126,
-  "updated_at": 1780412502
+  "updated_at": 1784254789
 }

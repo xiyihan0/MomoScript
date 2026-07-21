@@ -55,19 +55,19 @@
   "character_voice_cn": "曾彤",
   "release_date": "2026-03-04",
   "release_date_cn": null,
-  "release_date_global": null,
+  "release_date_global": "2026-07-14",
   "sd_model_image": "//static.kivo.wiki/images/students/%E9%BB%91%E5%B4%8E%20%E5%B0%8F%E9%9B%AA/%E7%9D%A1%E8%A1%A3/EnemyInfo_CH0310.png",
   "avatar": "//static.kivo.wiki/images/students/%E9%BB%91%E5%B4%8E%20%E5%B0%8F%E9%9B%AA/%E7%9D%A1%E8%A1%A3/Student_Portrait_CH0310_Collection.png",
   "school": 4,
   "weapon_type": "MG",
   "is_install": true,
   "is_install_cn": false,
-  "is_install_global": false,
+  "is_install_global": true,
   "is_npc": false,
   "show_list": true,
   "body_shape": "Small",
   "special_appearance": false,
-  "more": "# 官方图集\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 月満ちる夜の合言葉 |  |  |  |\n| ![HCdhIY7boAEVVcx.jpeg](files/20414/3AiKMH5EVsL5uSqzf128EBZnNteEFVjT.jpg =450x)| 暂无 | 暂无 | 暂无 |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![HCSzFKcbEAI5X7_.jpeg](files/20414/KTBRHN3R0LtyuL4MrKdW0hL8HXrCEuny.jpg =450x)| 暂无 | 暂无 | 暂无 |\n\n## SD动画\n\n| EX技能动画 | 咖啡厅触摸 | 家具互动：[]() |\n| :---: | :---: | :---: |\n| ![小雪ex演示.gif](files/20414/9RiwsTo0i6veWGqXauWYmz0XKGPAfhLx.gif =350x)| 暂无 | ![小雪家具互动.gif](files/20414/GaipJp004KeMZiwOGXQxj6ZDqREowU5N.gif =350x)|\n\n\n\n\n\n## 国际服直播内容\n::::center\n![koyuki_pajama_stream.png](files/6296/F1yJluhNTc6pjj1VWgHegOFbwpDNkBhG.png =450x)\n::::\n",
+  "more": "# 官方图集\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 月満ちる夜の合言葉 |  | 你來救我了啊，老師！咦，老師也被抓住了嗎？！ | Oh, you came here to save me, Sensei! Wait, you catght too?! |\n| ![HCdhIY7boAEVVcx.jpeg](files/20414/3AiKMH5EVsL5uSqzf128EBZnNteEFVjT.jpg =450x)| 暂无 | ![睡衣小雪卡池Banner.jpeg](files/17010/dmk8WplJUb6FUGA4d5KVOoAOzDY2H2TB.jpg =450x) | ![CE9178BF-A5AD-4BE2-8637-1B296F4F0D5E.png](files/17010/hI9AiOSJ3pBbCVeQzbYXAUFGSwDAr79R.png =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![HCSzFKcbEAI5X7_.jpeg](files/20414/KTBRHN3R0LtyuL4MrKdW0hL8HXrCEuny.jpg =525x)| 暂无 | ![睡衣小雪官方介绍图.jpeg](files/17010/aBZYCIUIfjXAVc9B5sigsfimwV7XN5II.jpg =525x) | ![EF48FD29-0294-4F18-B43C-1A795B987BA4.png](files/17010/am99BEjdYV7d3ET2Hga5vXAWUHrsuO02.png =400x) |\n\n## SD动画\n\n| EX技能动画 | 咖啡厅触摸 | 家具互动：[]() |\n| :---: | :---: | :---: |\n| ![小雪ex演示.gif](files/20414/9RiwsTo0i6veWGqXauWYmz0XKGPAfhLx.gif =350x)| 暂无 | ![小雪家具互动.gif](files/20414/GaipJp004KeMZiwOGXQxj6ZDqREowU5N.gif =350x)|\n\n\n\n\n\n## 国际服直播内容\n::::center\n![koyuki_pajama_stream.png](files/6296/F1yJluhNTc6pjj1VWgHegOFbwpDNkBhG.png =450x)\n::::\n",
   "recollection_lobby_image": "//static.kivo.wiki/images/students/%E9%BB%91%E5%B4%8E%20%E5%B0%8F%E9%9B%AA/%E7%9D%A1%E8%A1%A3/CH0310_home_Idle_01%E5%9B%9E%E5%BF%86%E5%A4%A7%E5%8E%85%E9%A2%84%E8%A7%88.jpg",
   "spine": [
     1310,
@@ -924,5 +924,5 @@
   "supplementary_uuid": "676ca55c-19b4-4e6a-98a7-6b4159d0a907",
   "supplementary_declare_uuid": "a182bae9-1c08-4963-8a40-9e2183ad4f45",
   "created_at": 1735038006,
-  "updated_at": 1780404415
+  "updated_at": 1784418707
 }

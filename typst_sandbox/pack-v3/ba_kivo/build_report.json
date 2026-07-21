@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-11T07:52:28.279845+00:00",
+  "generated_at": "2026-07-21T14:47:51.311780+00:00",
   "student_ids": [
     76,
     287,
@@ -330,12 +330,20 @@
     317,
     315
   ],
-  "entities": 328,
+  "entities": 322,
+  "excluded_entities": [
+    "裴（CBT）",
+    "奈央（CBT）",
+    "康娜（CBT）",
+    "由加利（CBT）",
+    "米莉亚（CBT）",
+    "露音（CBT）"
+  ],
   "name_conflicts": [],
-  "download_tasks": 8140,
+  "download_tasks": 8069,
   "detail_errors": [],
   "dry_run": false,
-  "downloaded": 8140,
+  "downloaded": 8069,
   "download_failures": [],
   "encode": {
     "enabled": true,
@@ -351,14 +359,14 @@
       "speed": 8,
       "jobs": "4"
     },
-    "total": 456,
-    "encoded": 452,
+    "total": 450,
+    "encoded": 446,
     "failed": 0,
     "skipped_sets": 4,
     "skipped_variants": 1,
-    "original_bytes": 4911408853,
-    "compressed_bytes": 53566389,
-    "compression_ratio": 0.010907,
+    "original_bytes": 4895634935,
+    "compressed_bytes": 53255665,
+    "compression_ratio": 0.010878,
     "failures": []
   }
 }

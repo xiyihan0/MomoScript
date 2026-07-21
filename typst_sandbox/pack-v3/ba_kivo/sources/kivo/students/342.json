@@ -26,7 +26,7 @@
   "given_name_cn": "莱依",
   "nick_name": "",
   "introduction": "隶属于千禧科学学院，最喜欢棒球的第四棒击球手。\n\n抱有着想要对死盯着物理学和动力学的「千禧棒球部」进行改革的热烈感情。和热血上头的堇好像意气相投......也说不定，实战的时候好像有时配合不是很好。\n\n>像实战一样对待训练，像训练一样对待实战！",
-  "introduction_cn": "",
+  "introduction_cn": "千禧年棒球部的第四棒击球员。\n\n虽然名为棒球部，但莱依始终怀揣着用动力学来改革棒球部的雄心壮志。与体力充沛的堇在某些时候很合得来，但在实战中步调却很难一致。\n\n> 把训练当作比赛！把比赛看作训练！",
   "momo_talk_signature": "先把打击率拉到1成！",
   "main_relation": 40,
   "relation": [
@@ -41,22 +41,22 @@
   "designer": "MISOM150",
   "illustrator": "MISOM150",
   "character_voice": "稻垣好",
-  "character_voice_cn": "",
+  "character_voice_cn": "彭韵铮",
   "release_date": "2025-03-26",
-  "release_date_cn": null,
+  "release_date_cn": "2026-07-16",
   "release_date_global": "2025-08-26",
   "sd_model_image": "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/EnemyInfo_CH0245.png",
   "avatar": "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/Student_Portrait_CH0245_Collection.png",
   "school": 4,
   "weapon_type": "RL",
   "is_install": true,
-  "is_install_cn": false,
+  "is_install_cn": true,
   "is_install_global": true,
   "is_npc": false,
   "show_list": true,
   "body_shape": "Medium",
   "special_appearance": false,
-  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|背負いし４番が夢を打つ| 暂无 | 老師喜歡棒球嗎？我啊，真的非常喜歡喔！ | Do you like baseball, Sensei? Because I love it! |\n| ![JP](files/153/Tj47faEDuFkJ8txMQcPjcO5ilE7R5jn5.png =450x) | 暂无 | ![](images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/BA%EB%A0%88%EC%9D%B4%ED%94%BD%EC%97%85X1280x720.png =450x) | ![EN](images/students/野正%20莱依/original/gallery/官方图集/Gy24NQGaoAAptco.jpg =450x) |\n\n## 角色介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![JP](files/153/00b6YsFWvfnNOR6yGUIC2n0vuTyxoqOO.jpg =525x) | 暂无 | ![](images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/531913979_805186968686210_7148354703372346302_n.jpg =530x) | ![EN](images/students/野正%20莱依/original/gallery/官方图集/Gy20uO4a0AEqGrA.jpg =400x) |\n\n## SD动画\n:::: center\n| EX技能 | 咖啡厅触摸 | 家具互动：[千禧制发球机](https://kivo.wiki/data/item/1600) |\n| - | - | - |\n| ![](images/students/野正%20莱依/original/gallery/官方图集/rei_ex.gif =450x) | 暂无 | ![](images/students/野正%20莱依/original/gallery/官方图集/rei_cafe.gif =450x) |\n::::\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 莱依 汉化\n![莱依](files/2/WPBdwSs8gsglP2iXUGYkiFZEwMqCreKz.png =450x)\n@tab 莱依 原文\n![莱依](files/2/oCytsmvrI4iV9DZoCKeOA5AHBgz8ezGn.jpg =450x)\n:::\n\n\n## 设定集\n::: center\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 064.png](files/153/kuWSne6Bs1pvM5RVS0KO5d4PNgqkB3WX.png =450x)\n:::\n\n## 国际服直播内容\n:::: center\n![Snipaste_2026-05-24_04-05-44.png](files/490/pOpFICu1ge19z9sKD7w0Vjhy7imom32G.png =450x)\n\n![Snipaste_2026-05-24_04-05-20.png](files/490/1EIkrSo5nxx0vsdeUpZW6cyvp7UsUMn8.png =450x)\n\n![Snipaste_2026-05-24_04-05-07.png](files/490/kghVPaB85Ghr0d0j7rq0SGhxUcqdJ1A5.png =450x)\n\n![Snipaste_2026-05-24_04-03-43.png](files/490/k2Q8SdsSBZOOsZ5kn8Ke1HAK6H1ur7Iv.png =450x)\n::::\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[堇](https://kivo.wiki/data/character/187)|スミレ先輩<br>先輩|\n|[花江](https://kivo.wiki/data/character/98)|ハナエさん|\n\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
+  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n|背負いし４番が夢を打つ| 4棒之梦 一击冲天 | 老師喜歡棒球嗎？我啊，真的非常喜歡喔！ | Do you like baseball, Sensei? Because I love it! |\n| ![JP](files/153/Tj47faEDuFkJ8txMQcPjcO5ilE7R5jn5.png =450x) | ![](images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/KeSKbnrE.png =450x) | ![](images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/BA%EB%A0%88%EC%9D%B4%ED%94%BD%EC%97%85X1280x720.png =450x) | ![EN](images/students/野正%20莱依/original/gallery/官方图集/Gy24NQGaoAAptco.jpg =450x) |\n\n## 角色介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![JP](files/153/00b6YsFWvfnNOR6yGUIC2n0vuTyxoqOO.jpg =525x) | ![](images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/d670e2c00a52c5843a.jpg =425x) | ![](images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/531913979_805186968686210_7148354703372346302_n.jpg =530x) | ![EN](images/students/野正%20莱依/original/gallery/官方图集/Gy20uO4a0AEqGrA.jpg =400x) |\n\n## SD动画\n:::: center\n| EX技能 | 咖啡厅触摸 | 家具互动：[千禧制发球机](https://kivo.wiki/data/item/1600) |\n| - | - | - |\n| ![](images/students/野正%20莱依/original/gallery/官方图集/rei_ex.gif =450x) | ![](images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/dfd5a7d162c17cd679.gif =350x) | ![](images/students/野正%20莱依/original/gallery/官方图集/rei_cafe.gif =450x) |\n::::\n\n## 夏莱的感谢信大作战\n!!! note 提示\n****以下内容来自 2026年日服官方活动『シャーレのお手紙大作戦』的学生回信合集**\n**详情见报刊亭文章：** https://kivo.wiki/article/72**\n!!!\n::: tabs\n@tab 莱依 汉化\n![莱依](files/2/WPBdwSs8gsglP2iXUGYkiFZEwMqCreKz.png =450x)\n@tab 莱依 原文\n![莱依](files/2/oCytsmvrI4iV9DZoCKeOA5AHBgz8ezGn.jpg =450x)\n:::\n\n\n## 设定集\n::: center\n![ブルーアーカイブ オフィシャルアートワークス_ 3 - 064.png](files/153/kuWSne6Bs1pvM5RVS0KO5d4PNgqkB3WX.png =450x)\n:::\n\n## 国际服直播内容\n:::: center\n![Snipaste_2026-05-24_04-05-44.png](files/490/pOpFICu1ge19z9sKD7w0Vjhy7imom32G.png =450x)\n\n![Snipaste_2026-05-24_04-05-20.png](files/490/1EIkrSo5nxx0vsdeUpZW6cyvp7UsUMn8.png =450x)\n\n![Snipaste_2026-05-24_04-05-07.png](files/490/kghVPaB85Ghr0d0j7rq0SGhxUcqdJ1A5.png =450x)\n\n![Snipaste_2026-05-24_04-03-43.png](files/490/k2Q8SdsSBZOOsZ5kn8Ke1HAK6H1ur7Iv.png =450x)\n::::\n# 延伸阅读\n## 角色称呼方式\n<details>\n<summary><b><font size=\"4\">学生对自己及他人的称呼</font></summary></b>\n\n| <font size=\"4\">称呼对象</font> | <font size=\"4\">日文称呼</font> |\n| :---: | :---: |\n|自己|私|\n|[老师](https://kivo.wiki/data/character/16)|先生|\n|[堇](https://kivo.wiki/data/character/187)|スミレ先輩<br>先輩|\n|[花江](https://kivo.wiki/data/character/98)|ハナエさん|\n\n\n\n\n!!! attention 引用声明\n<b>上表来自日站wiki[キャラ呼称表]([https://bluearchive.wikiru.jp](https://bluearchive.wikiru.jp/?キャラ呼称表))</b>\n!!!\n</details>\n<br>",
   "recollection_lobby_image": "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/CH0245_home_Idle_01_1.4498999999999653.jpg",
   "spine": [
     1260,
@@ -960,7 +960,911 @@
       "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/jp/ch0245_exskill_level_3.ogg"
     }
   ],
-  "voice_cn": [],
+  "voice_cn": [
+    {
+      "description": "ch0245_battle_buffed_1",
+      "category": "battle",
+      "text": "一鼓作气，说不定能冲击四成打击率呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_buffed_1.ogg"
+    },
+    {
+      "description": "ch0245_battle_buffself_1",
+      "category": "battle",
+      "text": "好戏可才刚刚开始呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_buffself_1.ogg"
+    },
+    {
+      "description": "ch0245_battle_covered_1",
+      "category": "battle",
+      "text": "躲开！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_covered_1.ogg"
+    },
+    {
+      "description": "ch0245_battle_damage_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_damage_1.ogg"
+    },
+    {
+      "description": "ch0245_battle_damage_2",
+      "category": "battle",
+      "text": "好痛！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_damage_2.ogg"
+    },
+    {
+      "description": "ch0245_battle_damage_3",
+      "category": "battle",
+      "text": "我一定可以撑过去！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_damage_3.ogg"
+    },
+    {
+      "description": "ch0245_battle_defense_1",
+      "category": "battle",
+      "text": "是内场高飞球！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_defense_1.ogg"
+    },
+    {
+      "description": "ch0245_battle_in_1",
+      "category": "battle",
+      "text": "但换个角度来看，也算是一种磨练吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_in_1.ogg"
+    },
+    {
+      "description": "ch0245_battle_in_2",
+      "category": "battle",
+      "text": "总有一天，我要让棒球部彻底改头换面……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_in_2.ogg"
+    },
+    {
+      "description": "ch0245_battle_move_1",
+      "category": "battle",
+      "text": "攻守交换？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_move_1.ogg"
+    },
+    {
+      "description": "ch0245_battle_move_2",
+      "category": "battle",
+      "text": "移动！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_move_2.ogg"
+    },
+    {
+      "description": "ch0245_battle_recovery_1",
+      "category": "battle",
+      "text": "谢谢，感觉好多啦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_recovery_1.ogg"
+    },
+    {
+      "description": "ch0245_battle_retire",
+      "category": "battle",
+      "text": "还是...训练不够啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_retire.ogg"
+    },
+    {
+      "description": "ch0245_battle_shout_1",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_shout_1.ogg"
+    },
+    {
+      "description": "ch0245_battle_shout_2",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_shout_2.ogg"
+    },
+    {
+      "description": "ch0245_battle_shout_3",
+      "category": "battle",
+      "text": "",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_shout_3.ogg"
+    },
+    {
+      "description": "ch0245_battle_tacticalaction_1",
+      "category": "battle",
+      "text": "像跑垒员那样……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_tacticalaction_1.ogg"
+    },
+    {
+      "description": "ch0245_battle_victory_1",
+      "category": "battle",
+      "text": "嘿！老师！看我挥棒挥得怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_victory_1.ogg"
+    },
+    {
+      "description": "ch0245_battle_victory_2",
+      "category": "battle",
+      "text": "向三成打击率的目标前进！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_battle_victory_2.ogg"
+    },
+    {
+      "description": "ch0245_cafe_monolog_1",
+      "category": "cafe",
+      "text": "……堇前辈应该不会追到这里来吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0245_cafe_monolog_2",
+      "category": "cafe",
+      "text": "练习固然重要，但适当的休息同样很重要……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0245_cafe_monolog_3",
+      "category": "cafe",
+      "text": "听说摄取适量咖啡因，可以提高训练效果……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0245_cafe_monolog_4",
+      "category": "cafe",
+      "text": "（要不然……今天把训练翘了吧……）",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0245_cafe_monolog_5",
+      "category": "cafe",
+      "text": "那个鲜奶油看起来好好吃……不行，要忍住。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0245_commonskill",
+      "category": "battle",
+      "text": "接住啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_commonskill.ogg"
+    },
+    {
+      "description": "ch0245_eventlobby_1",
+      "category": "event",
+      "text": "怎么了，老师？想了解一些棒球规则吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventlobby_1.ogg"
+    },
+    {
+      "description": "ch0245_eventlobby_2_1",
+      "category": "event",
+      "text": "我正在查阅比赛记录。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventlobby_2_1.ogg"
+    },
+    {
+      "description": "ch0245_eventlobby_2_2",
+      "category": "event",
+      "text": "啊，真方便啊，现在网上都给整理出来了。听说以前还得一点一点自己查资料呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventlobby_2_2.ogg"
+    },
+    {
+      "description": "ch0245_eventlobby_3_1",
+      "category": "event",
+      "text": "哎，老师，不要碰腰！胳肢窝也不可以……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventlobby_3_1.ogg"
+    },
+    {
+      "description": "ch0245_eventlobby_3_2",
+      "category": "event",
+      "text": "毕竟现在在比赛呢，而且人还这么多……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventlobby_3_2.ogg"
+    },
+    {
+      "description": "ch0245_eventlobby_4_1",
+      "category": "event",
+      "text": "要吃点什么吗？棒球场的美食可是别有一番风味呢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventlobby_4_1.ogg"
+    },
+    {
+      "description": "ch0245_eventlobby_4_2",
+      "category": "event",
+      "text": "至于价格嘛……就先不要在意这么多了吧，嗯。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventlobby_4_2.ogg"
+    },
+    {
+      "description": "ch0245_eventlogin_1",
+      "category": "event",
+      "text": "您喜欢棒球吗，老师？我真的非常喜欢！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventlogin_1.ogg"
+    },
+    {
+      "description": "ch0245_eventlogin_2",
+      "category": "event",
+      "text": "今天的比赛很关键！不过也没有哪一场比赛是不重要的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventlogin_2.ogg"
+    },
+    {
+      "description": "ch0245_eventlogin_season_1",
+      "category": "event",
+      "text": "虽然比赛形势有点难说……但我相信一定能逆转！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "ch0245_eventlogin_season_2",
+      "category": "event",
+      "text": "常言道，棒球到了九局下半两人出局才真正开始！机会只留给有准备的人！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "ch0245_eventlogin_season_end_1",
+      "category": "event",
+      "text": "不敢相信，我竟然能打出本垒打……那一记挥棒，那道轨迹……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventlogin_season_end_1.ogg"
+    },
+    {
+      "description": "ch0245_eventlogin_season_end_2",
+      "category": "event",
+      "text": "棒球，真是太棒了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventlogin_season_end_2.ogg"
+    },
+    {
+      "description": "ch0245_eventmission_1_1",
+      "category": "event",
+      "text": "听说那些伟大的选手们，不仅每天吃一样的食谱、作息规律，就连训练也是严格按照标准执行的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventmission_1_1.ogg"
+    },
+    {
+      "description": "ch0245_eventmission_1_2",
+      "category": "event",
+      "text": "这……对我来说太累了，做不到的吧……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventmission_1_2.ogg"
+    },
+    {
+      "description": "ch0245_eventmission_2_1",
+      "category": "event",
+      "text": "这么想想，老师您也很厉害。要每天上班……还会被工作压得喘不过气……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventmission_2_1.ogg"
+    },
+    {
+      "description": "ch0245_eventmission_2_2",
+      "category": "event",
+      "text": "诶？您说我不也是一样？可是听说上班比上课辛苦多呢，不是吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventmission_2_2.ogg"
+    },
+    {
+      "description": "ch0245_eventmission_day_end_1",
+      "category": "event",
+      "text": "今天的日程结束啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventmission_day_end_1.ogg"
+    },
+    {
+      "description": "ch0245_eventmission_day_end_2",
+      "category": "event",
+      "text": "请问，接下来您有时间吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventmission_day_end_2.ogg"
+    },
+    {
+      "description": "ch0245_eventmission_get_1",
+      "category": "event",
+      "text": "这也正是……训练的成果！恭喜您，老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventmission_get_1.ogg"
+    },
+    {
+      "description": "ch0245_eventmission_get_2",
+      "category": "event",
+      "text": "您做到了，老师！我也会努力的，请老师为我见证吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventmission_get_2.ogg"
+    },
+    {
+      "description": "ch0245_eventmission_login_1",
+      "category": "event",
+      "text": "我觉得这种事情最重要的，就是每天持之以恒完成相同的量。训练也是一样的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventmission_login_1.ogg"
+    },
+    {
+      "description": "ch0245_eventmission_login_2",
+      "category": "event",
+      "text": "重复的训练或许很无聊……但从中一定会有所收获。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_eventmission_login_2.ogg"
+    },
+    {
+      "description": "ch0245_exskill_1",
+      "category": "battle",
+      "text": "呼……那就……呃啊？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_exskill_1.ogg"
+    },
+    {
+      "description": "ch0245_exskill_2",
+      "category": "battle",
+      "text": "来吧……放马过来……！呜哇？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_exskill_2.ogg"
+    },
+    {
+      "description": "ch0245_exskill_3",
+      "category": "battle",
+      "text": "看我的……挥棒……！怎么会？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_exskill_3.ogg"
+    },
+    {
+      "description": "ch0245_exskill_level_1",
+      "category": "battle",
+      "text": "诶？诶诶？没办法了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0245_exskill_level_2",
+      "category": "battle",
+      "text": "哇啊啊啊？！还是先……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0245_exskill_level_3",
+      "category": "battle",
+      "text": "冷，冷静点！哈啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0245_exweapon_get",
+      "category": "growup",
+      "text": "啊，谢谢您，老师。竟然为我做了这么多……就算是为了报答老师，我也一定要打出三成以上的打击率！……虽然现在得先努力达成一成……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0245_formation_in_1",
+      "category": "formation",
+      "text": "棒球的精髓，就在于本垒打。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0245_formation_in_2",
+      "category": "formation",
+      "text": "棒球的精髓，就在于本垒打。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0245_formation_select",
+      "category": "formation",
+      "text": "唔……好险！这就算是，一出局了吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_formation_select.ogg"
+    },
+    {
+      "description": "ch0245_gachaget",
+      "category": "growup",
+      "text": "老师，我是千禧年第四棒击球手，野正莱依。……目前的目标是，打击率一成！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_gachaget.ogg"
+    },
+    {
+      "description": "ch0245_growup_1",
+      "category": "growup",
+      "text": "这都是训练的成果！谢谢您的见证，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_growup_1.ogg"
+    },
+    {
+      "description": "ch0245_growup_2",
+      "category": "growup",
+      "text": "我的打击水准有提高吗？也许可以成为……更优秀的选手了吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_growup_2.ogg"
+    },
+    {
+      "description": "ch0245_growup_3",
+      "category": "growup",
+      "text": "不论是棒球……还是其他任何事情。我都想认真对待。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_growup_3.ogg"
+    },
+    {
+      "description": "ch0245_growup_4",
+      "category": "growup",
+      "text": "都说棒球是在那种看不见的地方最需要努力的运动。就算只是一个普通的高飞球，要接住它也必须拼命练习。这正是我喜欢棒球的原因。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_growup_4.ogg"
+    },
+    {
+      "description": "ch0245_lobby_1_1",
+      "category": "lobby",
+      "text": "还有别的事情要我做的吗？我其实还挺擅长文书工作和数据整理的哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_lobby_1_1.ogg"
+    },
+    {
+      "description": "ch0245_lobby_1_2",
+      "category": "lobby",
+      "text": "……虽然，肯定比不过研讨会的前辈们啦……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_lobby_1_2.ogg"
+    },
+    {
+      "description": "ch0245_lobby_2_1",
+      "category": "lobby",
+      "text": "一定要选的话，我当然是户外派啦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_lobby_2_1.ogg"
+    },
+    {
+      "description": "ch0245_lobby_2_2",
+      "category": "lobby",
+      "text": "啊……虽然基本都集中在那几个训练场和球场了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_lobby_2_2.ogg"
+    },
+    {
+      "description": "ch0245_lobby_3_1",
+      "category": "lobby",
+      "text": "来沙勒值日也不错呢。总有种能光明正大休息的感觉。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_lobby_3_1.ogg"
+    },
+    {
+      "description": "ch0245_lobby_3_2",
+      "category": "lobby",
+      "text": "……即便如此，身体还是莫名想动一动呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_lobby_3_2.ogg"
+    },
+    {
+      "description": "ch0245_lobby_4_1",
+      "category": "lobby",
+      "text": "如果工作提前结束了……要不要一起出去转转？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_lobby_4_1.ogg"
+    },
+    {
+      "description": "ch0245_lobby_4_2",
+      "category": "lobby",
+      "text": "限定的运动主题卡开始发售了！就在我常去的那座体育场里！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_lobby_4_2.ogg"
+    },
+    {
+      "description": "ch0245_lobby_5_1",
+      "category": "lobby",
+      "text": "您喜欢去击球中心吗，老师？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_lobby_5_1.ogg"
+    },
+    {
+      "description": "ch0245_lobby_5_2",
+      "category": "lobby",
+      "text": "您一定会喜欢的！可以在那里痛快地挥棒，然后将压力一扫而空！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_lobby_5_2.ogg"
+    },
+    {
+      "description": "ch0245_login_1_1",
+      "category": "lobby",
+      "text": "老师，您来啦。我正在整理今天的工作清单。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_login_1_1.ogg"
+    },
+    {
+      "description": "ch0245_login_1_2",
+      "category": "lobby",
+      "text": "诶？这没什么……我早就习惯啦，毕竟也有在管理棒球部的日程嘛。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_login_1_2.ogg"
+    },
+    {
+      "description": "ch0245_login_2_1",
+      "category": "lobby",
+      "text": "您好，老师！野正莱依，前来报到！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_login_2_1.ogg"
+    },
+    {
+      "description": "ch0245_login_2_2",
+      "category": "lobby",
+      "text": "嘿嘿，怎么样？我试着模仿了一下棒球部的训练开场白呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_login_2_2.ogg"
+    },
+    {
+      "description": "ch0245_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "这是，我第一次",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "ch0245_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "接到的本垒打球。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "ch0245_memoriallobby_2",
+      "category": "lobby",
+      "text": "正式开始打棒球后，我一直随身带着。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_memoriallobby_2.ogg"
+    },
+    {
+      "description": "ch0245_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "因为想着",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "ch0245_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "总有一天，自己也要打出本垒打。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "ch0245_memoriallobby_4",
+      "category": "lobby",
+      "text": "现在，我把它珍藏在储物柜里。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_memoriallobby_4.ogg"
+    },
+    {
+      "description": "ch0245_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "每当心灰意冷的时候，只要看到这颗球",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "ch0245_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "就会让我找回初心，重新获得力量。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "ch0245_memoriallobby_5_3",
+      "category": "lobby",
+      "text": "它就像是，我的护身符一样。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_memoriallobby_5_3.ogg"
+    },
+    {
+      "description": "ch0245_omikuji_1",
+      "category": "event",
+      "text": "虽然只来兼职一天，但听说也会给工钱的！我打算回去先买个新手套。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikuji_1.ogg"
+    },
+    {
+      "description": "ch0245_omikuji_2_1",
+      "category": "event",
+      "text": "棒球这项运动啊，技术固然很重要，但运气也是实力的一部分。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikuji_2_1.ogg"
+    },
+    {
+      "description": "ch0245_omikuji_2_2",
+      "category": "event",
+      "text": "……我打不出本垒打，会不会是运气不好？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikuji_2_2.ogg"
+    },
+    {
+      "description": "ch0245_omikuji_end",
+      "category": "event",
+      "text": "您好，老师。您手里要是还有抽奖券，最好是都用完了再走哦！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikuji_end.ogg"
+    },
+    {
+      "description": "ch0245_omikuji_login_1_1",
+      "category": "event",
+      "text": "听说体育场那边有抽奖活动！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikuji_login_1_1.ogg"
+    },
+    {
+      "description": "ch0245_omikuji_login_1_2",
+      "category": "event",
+      "text": "也不知道为什么，我也被拉过来帮忙了……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikuji_login_1_2.ogg"
+    },
+    {
+      "description": "ch0245_omikuji_login_2_1",
+      "category": "event",
+      "text": "欢迎光临！要来试一试手气吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikuji_login_2_1.ogg"
+    },
+    {
+      "description": "ch0245_omikuji_login_2_2",
+      "category": "event",
+      "text": "怎么样，老师？看起来很专业吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikuji_login_2_2.ogg"
+    },
+    {
+      "description": "ch0245_omikujipickup_1",
+      "category": "event",
+      "text": "一等奖！是一等奖诶，老师！哇，真是太厉害了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikujipickup_1.ogg"
+    },
+    {
+      "description": "ch0245_omikujipickup_2",
+      "category": "event",
+      "text": "哇，是二等奖呢！虽然没拿到一等奖有些可惜，但也很棒了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikujipickup_2.ogg"
+    },
+    {
+      "description": "ch0245_omikujipickup_3",
+      "category": "event",
+      "text": "是幸运奖呢。不过仔细想想，这个奖或许才最能体现抽奖的本质呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikujipickup_3.ogg"
+    },
+    {
+      "description": "ch0245_omikujipickup_4",
+      "category": "event",
+      "text": "是……鼓励奖。哎呀，那又怎样，不也挺好的嘛？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikujipickup_4.ogg"
+    },
+    {
+      "description": "ch0245_omikujipickup_5",
+      "category": "event",
+      "text": "参与奖……没关系的，老师！重在参与嘛！是吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikujipickup_5.ogg"
+    },
+    {
+      "description": "ch0245_omikujipickup_6",
+      "category": "event",
+      "text": "嗯，什么都没发生！……是吧，老师？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_omikujipickup_6.ogg"
+    },
+    {
+      "description": "ch0245_relationship_up_1",
+      "category": "growup",
+      "text": "我觉得，重要的是可以分清自己能做到和不能做到的事。不过呢，我想把自己打出的每一个本垒打球，都送给老师，嘿嘿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0245_relationship_up_2",
+      "category": "growup",
+      "text": "数据和统计当然很重要，棒球就是这样。但人生在世，总会遇到无法靠那些解释的事情。比如，那个……对我来说……大概就是老师您这样的……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0245_relationship_up_3",
+      "category": "growup",
+      "text": "在棒球里，我最喜欢的就是本垒打了。虽然我很少……不，根本……没打出来过……但是老师，您知道吗？对我而言，老师就像是本垒打一样呢，嘿嘿。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0245_relationship_up_4",
+      "category": "growup",
+      "text": "小时候看棒球比赛，总觉得自己也能做到。但现在……让我有这种感觉的似乎变成了老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0245_season_birthday_1",
+      "category": "lobby",
+      "text": "今天也是美好的一天呢，老师！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_birthday_1.ogg"
+    },
+    {
+      "description": "ch0245_season_birthday_2",
+      "category": "lobby",
+      "text": "诶？我的生日……？谢，谢谢。没想到您记得啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_birthday_2.ogg"
+    },
+    {
+      "description": "ch0245_season_birthday_3",
+      "category": "lobby",
+      "text": "礼，礼物？！不用啦！您能记得我就已经很……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_birthday_3.ogg"
+    },
+    {
+      "description": "ch0245_season_birthday_4",
+      "category": "lobby",
+      "text": "谢谢。嘿嘿……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_birthday_4.ogg"
+    },
+    {
+      "description": "ch0245_season_birthday_player_1",
+      "category": "lobby",
+      "text": "我可记着呢！今天是您的生日吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_birthday_player_1.ogg"
+    },
+    {
+      "description": "ch0245_season_birthday_player_2",
+      "category": "lobby",
+      "text": "嘿嘿，我对记数字很有信心。尤其是分析棒球年鉴的时候。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_birthday_player_2.ogg"
+    },
+    {
+      "description": "ch0245_season_birthday_player_3",
+      "category": "lobby",
+      "text": "那么再次祝您生日快乐！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_birthday_player_3.ogg"
+    },
+    {
+      "description": "ch0245_season_birthday_player_4",
+      "category": "lobby",
+      "text": "但我能为您做的事情少之又少……真的很抱歉呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_birthday_player_4.ogg"
+    },
+    {
+      "description": "ch0245_season_chinesenewyear",
+      "category": "lobby",
+      "text": "老师！春节快乐！不知道山海经学院的学员们会不会用打棒球来庆祝呢……？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "ch0245_season_halloween_1",
+      "category": "lobby",
+      "text": "老师，万圣节到了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_halloween_1.ogg"
+    },
+    {
+      "description": "ch0245_season_halloween_2",
+      "category": "lobby",
+      "text": "……有人说，千禧年棒球部本身就很恐怖了，所以万圣节不用特意装扮……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_halloween_2.ogg"
+    },
+    {
+      "description": "ch0245_season_halloween_3",
+      "category": "lobby",
+      "text": "我会努力让大家改观的！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_halloween_3.ogg"
+    },
+    {
+      "description": "ch0245_season_midautumn",
+      "category": "lobby",
+      "text": "老师您看那月亮……小小的，悬在空中，好像整个夜晚都为了这一刻而静止了一样。听说今天是中秋节，不如我们一起欣赏这场“夜空本垒打”吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_midautumn.ogg"
+    },
+    {
+      "description": "ch0245_season_newyear_1",
+      "category": "lobby",
+      "text": "新年到啦，老师！今年我一定要打出本垒打……！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_newyear_1.ogg"
+    },
+    {
+      "description": "ch0245_season_newyear_2",
+      "category": "lobby",
+      "text": "在此之前，先成为打击率三成的击球员……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_newyear_2.ogg"
+    },
+    {
+      "description": "ch0245_season_newyear_3",
+      "category": "lobby",
+      "text": "不对，还是先从一成开始……哈啊……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_newyear_3.ogg"
+    },
+    {
+      "description": "ch0245_season_xmas_1",
+      "category": "lobby",
+      "text": "如果要说没有棒球赛的冬天该怎么度过，大概就是闲着看看窗外，静待春天吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_xmas_1.ogg"
+    },
+    {
+      "description": "ch0245_season_xmas_2",
+      "category": "lobby",
+      "text": "啊！不过现在嘛……吃炸鸡怎么样，炸鸡！火鸡也不错！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_season_xmas_2.ogg"
+    },
+    {
+      "description": "ch0245_tactic_defeat_1",
+      "category": "battle",
+      "text": "要是能再多练习一下就好了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_tactic_defeat_1.ogg"
+    },
+    {
+      "description": "ch0245_tactic_defeat_2",
+      "category": "battle",
+      "text": "虽然胜败乃兵家常事。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_tactic_defeat_2.ogg"
+    },
+    {
+      "description": "ch0245_tactic_in_1",
+      "category": "battle",
+      "text": "开始吧，老师。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_tactic_in_1.ogg"
+    },
+    {
+      "description": "ch0245_tactic_in_2",
+      "category": "battle",
+      "text": "不到最后一刻，就不算结束！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_tactic_in_2.ogg"
+    },
+    {
+      "description": "ch0245_tactic_victory_1",
+      "category": "battle",
+      "text": "有句话说，运气源于计划。老师，您辛苦了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_tactic_victory_1.ogg"
+    },
+    {
+      "description": "ch0245_tactic_victory_2",
+      "category": "battle",
+      "text": "虽然可能大家都是一样的，但我就是很讨厌输啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_tactic_victory_2.ogg"
+    },
+    {
+      "description": "ch0245_title",
+      "category": "lobby",
+      "text": "blue archive!",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/cn/ch0245_title.ogg"
+    }
+  ],
   "voice_kr": [
     {
       "description": "ch0245_battle_buffed_1",
@@ -1891,7 +2795,13 @@
         "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/531913979_805186968686210_7148354703372346302_n.jpg",
         "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/BA%EB%A0%88%EC%9D%B4%ED%94%BD%EC%97%85X1280x720.png",
         "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/rei_cafe.gif",
-        "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/rei_ex.gif"
+        "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/rei_ex.gif",
+        "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/KeSKbnrE.png",
+        "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/d670e2c00a52c5843a.jpg",
+        "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/38c1fc4987c8d7c5b9.gif",
+        "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/dfd5a7d162c17cd679.gif",
+        "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/0ee7aa8c767f032b20.jpg",
+        "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/ed074f4b4aecdf960a.gif"
       ]
     }
   ],
@@ -1960,7 +2870,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/skill_icon/TzjWMnhTXyj8cG4LjsuL9lLXxGmwVKa6.png",
             "title": "千禧的第四棒击球手！",
-            "title_cn": "",
+            "title_cn": "千禧年第四棒！",
             "preview": "//static.kivo.wiki/videos/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/skill_preview/ICTMtukMGK5f4J5LHEGroU9pcR20ddVc.mp4",
             "max_level": 5,
             "link_student_id": 0,
@@ -1994,7 +2904,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/skill_icon/7LsX1azIIOSJC4fjBqojKyCIRdURvnJX.png",
             "title": "精彩守备",
-            "title_cn": "",
+            "title_cn": "精彩守备",
             "preview": "",
             "max_level": 10,
             "link_student_id": 0,
@@ -2046,7 +2956,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/skill_icon/dubs6qD48xO2ATcdOKWEr8KIwXx1joFV.png",
             "title": "未来的强打者",
-            "title_cn": "",
+            "title_cn": "未来的强棒",
             "preview": "",
             "max_level": 10,
             "link_student_id": 0,
@@ -2098,7 +3008,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/skill_icon/hOK87SW0017Ux9kuXW3vuYCXTAJVuYf1.png",
             "title": "三次出局，换边",
-            "title_cn": "",
+            "title_cn": "三人出局攻守交换",
             "preview": "",
             "max_level": 10,
             "link_student_id": 0,
@@ -2172,9 +3082,9 @@
       "weapons": {
         "icon": "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/Weapon_Icon_CH0245.png",
         "name": "Moonshot！",
-        "name_cn": "",
+        "name_cn": "Moonshot!",
         "description": "倾注了莱依实现本垒打的愿望的无后坐力炮。<br>她留下了“总有一天要把球打飞到月亮上去......！”这样的豪言壮语。",
-        "description_cn": "",
+        "description_cn": "寄托着莱依对本垒打的渴望的无后坐力炮。<br>寄托着莱依对本垒打的渴望的无后坐力炮。",
         "info": [
           {
             "title": "",
@@ -2197,7 +3107,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E9%87%8E%E6%AD%A3%20%E8%8E%B1%E4%BE%9D/original/skill_icon/x5gSPMNc7k2TD0SNOyJRYuouLLYjLrfQ.png",
             "title": "未来的强打者+",
-            "title_cn": "",
+            "title_cn": "未来的强棒+",
             "preview": "",
             "max_level": 10,
             "link_student_id": 0,
@@ -2262,5 +3172,5 @@
   "supplementary_uuid": "c0a77af4-ae79-40e4-8c8f-2c8bebab89b5",
   "supplementary_declare_uuid": "0beb9ea1-b3f1-4647-bdde-c060a5e10f19",
   "created_at": 1703676552,
-  "updated_at": 1783483858
+  "updated_at": 1784203960
 }

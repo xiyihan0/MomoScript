@@ -2,7 +2,7 @@
   "id": 523,
   "skin": "打工",
   "skin_jp": "アルバイト",
-  "skin_cn": "",
+  "skin_cn": "打工",
   "skin_zh_tw": "",
   "skin_list": [
     {
@@ -15,7 +15,7 @@
       "id": 523,
       "avatar": "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/Student_Portrait_CH0287_Collection.png",
       "skin": "打工",
-      "skin_cn": ""
+      "skin_cn": "打工"
     }
   ],
   "family_name": "乙花",
@@ -32,7 +32,7 @@
   "given_name_cn": "堇",
   "nick_name": "工堇",
   "introduction": "千禧科学学院所属，体育训练部的部长。\n因某种机缘巧合，堇开始在球场兼职售货员。这套增加全身负重的服装也正好能当作训练，她似乎也挺乐在其中。\n\n> 补充水分与营养，是一切的基础。",
-  "introduction_cn": "",
+  "introduction_cn": "出于种种原因，来到赛场内售卖饮料的堇。\n不过对堇而言，这身衣服以及其设备重量，似乎也都成了训练的一部分。\n\n> 水分和营养补充，两者都至关重要。",
   "momo_talk_signature": "来杯饮料吧？",
   "main_relation": 40,
   "relation": null,
@@ -46,20 +46,20 @@
   "character_voice": "今井麻美",
   "character_voice_cn": "昱头",
   "release_date": "2025-03-26",
-  "release_date_cn": null,
+  "release_date_cn": "2026-07-16",
   "release_date_global": "2025-08-26",
   "sd_model_image": "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/EnemyInfo_CH0287.png",
   "avatar": "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/Student_Portrait_CH0287_Collection.png",
   "school": 4,
   "weapon_type": "SG",
   "is_install": true,
-  "is_install_cn": false,
+  "is_install_cn": true,
   "is_install_global": true,
   "is_npc": false,
   "show_list": true,
   "body_shape": "Large",
   "special_appearance": false,
-  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 筋肉１番努力は２番 | 暂无 | 指導員，請注意脫水現象喔。 | Trainer. Make sure you stay hydrated. |\n| ![](images/students/乙花%20堇/打工/gallery/官方图集/Gm3HylgboAA0LI3.jpg =450x) | 暂无 | ![](images/students/乙花%20堇/打工/gallery/官方图集/BA스미레픽업X1280x720.png =450x) | ![EN](images/students/乙花%20堇/打工/gallery/官方图集/Gy23g_vaAAAUD4Q.jpg =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![](images/students/乙花%20堇/打工/gallery/官方图集/GmnP0RMaAAAXIkz.jpg =450x) | 暂无 | ![](images/students/乙花%20堇/打工/gallery/官方图集/532202831_805179298686977_4939548835229519085_n.jpg =450x) | ![EN](images/students/乙花%20堇/打工/gallery/官方图集/Gy2yjQZbsAAZpo-.jpg =350x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[]() |\n| :---: | :---: | :---: |\n| ![](images/students/乙花%20堇/打工/gallery/官方图集/sumire_parttimer_ex.gif =450x) | ![]( =450x) | ![](images/students/乙花%20堇/打工/gallery/官方图集/sumire_partime_cafe.gif =450x) |\n\n## 国际服直播内容\n::::center\n![Snipaste_2026-05-24_04-04-25.png](files/490/wMpMUWGq4kW6nFGi78UOU1DH6dyqgXNM.png =450x)\n\n![Snipaste_2026-05-24_04-04-17.png](files/490/ZCeHrp1f8WHbbWPKDkUSmUglf7jaPMvw.png =450x)\n::::\n\n",
+  "more": "# 官方图集\n\n## 卡池Banner\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| 筋肉１番努力は２番 | 肌肉第1 努力第2 | 指導員，請注意脫水現象喔。 | Trainer. Make sure you stay hydrated. |\n| ![](images/students/乙花%20堇/打工/gallery/官方图集/Gm3HylgboAA0LI3.jpg =450x) | ![rMfqCMgy.png](files/24290/YzD2ziakRG1svmno92F8en5fVvs4Xwar.png =450x)| ![](images/students/乙花%20堇/打工/gallery/官方图集/BA스미레픽업X1280x720.png =450x) | ![EN](images/students/乙花%20堇/打工/gallery/官方图集/Gy23g_vaAAAUD4Q.jpg =450x) |\n\n## 官方介绍图\n\n| 日服 | 简中服 | 繁中服 | 国际服 |\n| :---: | :---: | :---: | :---: |\n| ![](images/students/乙花%20堇/打工/gallery/官方图集/GmnP0RMaAAAXIkz.jpg =450x) | ![](files/24290/L6trCeYgBVSkzc9FuHp1nndhdeVUbVEG.jpg =350x)| ![](images/students/乙花%20堇/打工/gallery/官方图集/532202831_805179298686977_4939548835229519085_n.jpg =450x) | ![EN](images/students/乙花%20堇/打工/gallery/官方图集/Gy2yjQZbsAAZpo-.jpg =350x) |\n\n## SD动画\n\n| EX技能 | 咖啡厅触摸 | 家具互动：[]() |\n| :---: | :---: | :---: |\n| ![](images/students/乙花%20堇/打工/gallery/官方图集/sumire_parttimer_ex.gif =450x) | ![](files/24290/valOTvPKcAXVGvwand3gAw2fzmjWZMZ5.gif =450x) | ![](images/students/乙花%20堇/打工/gallery/官方图集/sumire_partime_cafe.gif =450x) |\n\n## 国际服直播内容\n::::center\n![Snipaste_2026-05-24_04-04-25.png](files/490/wMpMUWGq4kW6nFGi78UOU1DH6dyqgXNM.png =450x)\n\n![Snipaste_2026-05-24_04-04-17.png](files/490/ZCeHrp1f8WHbbWPKDkUSmUglf7jaPMvw.png =450x)\n::::\n\n",
   "recollection_lobby_image": "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/CH0287_home_Idle_01_1.5171999999999535.jpg",
   "spine": [
     1289,
@@ -605,7 +605,554 @@
       "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/jp/ch0287_formation_in_1.ogg"
     }
   ],
-  "voice_cn": [],
+  "voice_cn": [
+    {
+      "description": "ch0287_cafe_monolog_1",
+      "category": "cafe",
+      "text": "我们找个安静的地方运动吧……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_cafe_monolog_1.ogg"
+    },
+    {
+      "description": "ch0287_cafe_monolog_2",
+      "category": "cafe",
+      "text": "咖啡厅是提供饮品的地方。那么我能不能……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_cafe_monolog_2.ogg"
+    },
+    {
+      "description": "ch0287_cafe_monolog_3",
+      "category": "cafe",
+      "text": "要不要试着在特别菜单里加上蛋白饮料呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_cafe_monolog_3.ogg"
+    },
+    {
+      "description": "ch0287_cafe_monolog_4",
+      "category": "cafe",
+      "text": "有人需要饮料吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_cafe_monolog_4.ogg"
+    },
+    {
+      "description": "ch0287_cafe_monolog_5",
+      "category": "cafe",
+      "text": "感觉也可以在这里做力量训练呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_cafe_monolog_5.ogg"
+    },
+    {
+      "description": "ch0287_commonskill",
+      "category": "battle",
+      "text": "口渴了吧？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_commonskill.ogg"
+    },
+    {
+      "description": "ch0287_eventlobby_1",
+      "category": "event",
+      "text": "本来穿这件衣服为的是不那么显眼……但从功能性来说，也还不错呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventlobby_1.ogg"
+    },
+    {
+      "description": "ch0287_eventlobby_2",
+      "category": "event",
+      "text": "教练？是您叫我吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventlobby_2.ogg"
+    },
+    {
+      "description": "ch0287_eventlobby_3",
+      "category": "event",
+      "text": "教练？您怎么了？是想检查我的腿部肌肉吗？这样的话，请尽管摸吧，呵呵。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventlobby_3.ogg"
+    },
+    {
+      "description": "ch0287_eventlobby_4",
+      "category": "event",
+      "text": "这套饮料设备的重量？体感上大概有25kg左右。正适合用来做持续的低重量、高重复次数的训练呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventlobby_4.ogg"
+    },
+    {
+      "description": "ch0287_eventlogin_1",
+      "category": "event",
+      "text": "虽然我不太了解棒球比赛的规则……但仅仅是这份从现场传来的热烈气氛，就足够令我心潮澎湃了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventlogin_1.ogg"
+    },
+    {
+      "description": "ch0287_eventlogin_2",
+      "category": "event",
+      "text": "气氛真是热烈啊，教练。请注意补水哦。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventlogin_2.ogg"
+    },
+    {
+      "description": "ch0287_eventlogin_season_1",
+      "category": "event",
+      "text": "不论怎么看，现在发生的这些事都与体育精神相去甚远。教练，我们必须做点什么！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventlogin_season_1.ogg"
+    },
+    {
+      "description": "ch0287_eventlogin_season_2",
+      "category": "event",
+      "text": "渴望胜利的心固然重要，但凡事过犹不及。我又学到了一课。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventlogin_season_2.ogg"
+    },
+    {
+      "description": "ch0287_eventlogin_season_end",
+      "category": "event",
+      "text": "一切似乎都已经顺利结束了。那么，作为纪念，我们一起锻炼一下怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventlogin_season_end.ogg"
+    },
+    {
+      "description": "ch0287_eventshop_1",
+      "category": "event",
+      "text": "点清数量，快速供应……感觉这样可以锻炼我的瞬间爆发力呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventshop_1.ogg"
+    },
+    {
+      "description": "ch0287_eventshop_2",
+      "category": "event",
+      "text": "即便是在工作中，我也会注意时刻保持正确的体态。毕竟，我是健身部的部长啊。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventshop_2.ogg"
+    },
+    {
+      "description": "ch0287_eventshop_buy_1",
+      "category": "event",
+      "text": "好的，给您。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventshop_buy_1.ogg"
+    },
+    {
+      "description": "ch0287_eventshop_buy_2",
+      "category": "event",
+      "text": "其他还有需要的吗，教练？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventshop_buy_2.ogg"
+    },
+    {
+      "description": "ch0287_eventshop_buy_3",
+      "category": "event",
+      "text": "好的，请稍等。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventshop_buy_3.ogg"
+    },
+    {
+      "description": "ch0287_eventshop_buy_4",
+      "category": "event",
+      "text": "另外再送您一杯，怎么样？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventshop_buy_4.ogg"
+    },
+    {
+      "description": "ch0287_eventshop_end",
+      "category": "event",
+      "text": "请再确认一下，不要遗漏东西。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventshop_end.ogg"
+    },
+    {
+      "description": "ch0287_eventshop_login_1",
+      "category": "event",
+      "text": "您来了啊，教练。看一看有没有您中意的东西再走吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventshop_login_1.ogg"
+    },
+    {
+      "description": "ch0287_eventshop_login_2",
+      "category": "event",
+      "text": "因为我一直在管理训练器材，所以对这种工作也很快就适应了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_eventshop_login_2.ogg"
+    },
+    {
+      "description": "ch0287_exskill_1",
+      "category": "battle",
+      "text": "请慢用。嗯？接住了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_exskill_1.ogg"
+    },
+    {
+      "description": "ch0287_exskill_2",
+      "category": "battle",
+      "text": "请稍等一下。唔？接到了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_exskill_2.ogg"
+    },
+    {
+      "description": "ch0287_exskill_3",
+      "category": "battle",
+      "text": "请等一下。这是？！在这边！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_exskill_3.ogg"
+    },
+    {
+      "description": "ch0287_exskill_level_1",
+      "category": "battle",
+      "text": "嘿呀！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_exskill_level_1.ogg"
+    },
+    {
+      "description": "ch0287_exskill_level_2",
+      "category": "battle",
+      "text": "呀！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_exskill_level_2.ogg"
+    },
+    {
+      "description": "ch0287_exskill_level_3",
+      "category": "battle",
+      "text": "接好了！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_exskill_level_3.ogg"
+    },
+    {
+      "description": "ch0287_exweapon_get",
+      "category": "growup",
+      "text": "教练，感谢您一直以来的悉心指导。作为健身部的教练，我会更加努力的。那我们继续吧，会员们！再来一组！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_exweapon_get.ogg"
+    },
+    {
+      "description": "ch0287_formation_in_1",
+      "category": "formation",
+      "text": "我今天会在这里兼职。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_formation_in_1.ogg"
+    },
+    {
+      "description": "ch0287_formation_in_2",
+      "category": "formation",
+      "text": "希望能给大家带来更多活力。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_formation_in_2.ogg"
+    },
+    {
+      "description": "ch0287_formation_select",
+      "category": "formation",
+      "text": "要来一杯吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_formation_select.ogg"
+    },
+    {
+      "description": "ch0287_gachaget",
+      "category": "growup",
+      "text": "您好，教练。如果口渴了，请随时和我说。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_gachaget.ogg"
+    },
+    {
+      "description": "ch0287_growup_1",
+      "category": "growup",
+      "text": "这个饮料设备对锻炼也很有帮助。虽然份量有点轻，但很适合做全身运动呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_growup_1.ogg"
+    },
+    {
+      "description": "ch0287_growup_2",
+      "category": "growup",
+      "text": "微笑，积极的态度和亲切感……这些不管是在兼职还是锻炼指导中，都很重要。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_growup_2.ogg"
+    },
+    {
+      "description": "ch0287_growup_3",
+      "category": "growup",
+      "text": "要帮助他人，我自己的专业实力也必须过硬才行。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_growup_3.ogg"
+    },
+    {
+      "description": "ch0287_growup_4",
+      "category": "growup",
+      "text": "希望今天举起的重量能超过昨天的记录。也希望明天能成为比今天更好的自己。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_growup_4.ogg"
+    },
+    {
+      "description": "ch0287_lobby_1",
+      "category": "lobby",
+      "text": "如果您觉得水分或蛋白质摄取不足，请随时告诉我。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_lobby_1.ogg"
+    },
+    {
+      "description": "ch0287_lobby_2_1",
+      "category": "lobby",
+      "text": "我啊……喜欢那种不会轻言放弃的人。能为他人指引方向的人，和愿意一次次重新尝试的人。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_lobby_2_1.ogg"
+    },
+    {
+      "description": "ch0287_lobby_2_2",
+      "category": "lobby",
+      "text": "……是啊。和教练有这么多的相同点，应该不是偶然吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_lobby_2_2.ogg"
+    },
+    {
+      "description": "ch0287_lobby_3_1",
+      "category": "lobby",
+      "text": "我认为树立目标是很重要的。而为了接近那个目标，持之以恒地行动也同样重要。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_lobby_3_1.ogg"
+    },
+    {
+      "description": "ch0287_lobby_3_2",
+      "category": "lobby",
+      "text": "没关系，教练。俗话说，好的开始就是成功的一半。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_lobby_3_2.ogg"
+    },
+    {
+      "description": "ch0287_lobby_4_1",
+      "category": "lobby",
+      "text": "在穿着这身服装兼职的时候，总会有些人来找我……让我给他们加油打气。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_lobby_4_1.ogg"
+    },
+    {
+      "description": "ch0287_lobby_4_2",
+      "category": "lobby",
+      "text": "不过毕竟，给予他人力量，是一件重要的事情呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_lobby_4_2.ogg"
+    },
+    {
+      "description": "ch0287_lobby_5_1",
+      "category": "lobby",
+      "text": "如果您觉得累了，请直接告诉我。我对运动按摩还是很有自信的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_lobby_5_1.ogg"
+    },
+    {
+      "description": "ch0287_lobby_5_2",
+      "category": "lobby",
+      "text": "我还能马上为您提供，可以快速补充水分的功能性饮料。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_lobby_5_2.ogg"
+    },
+    {
+      "description": "ch0287_login_1",
+      "category": "lobby",
+      "text": "欢迎光临，教练。饮料的品种刚刚更新了，要不要一起尝尝？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_login_1.ogg"
+    },
+    {
+      "description": "ch0287_login_2",
+      "category": "lobby",
+      "text": "您好，“老师”。作为今天的值日员，老师的活力和健康状态由我来负责。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_login_2.ogg"
+    },
+    {
+      "description": "ch0287_memoriallobby_1_1",
+      "category": "lobby",
+      "text": "辛苦了，教练！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_memoriallobby_1_1.ogg"
+    },
+    {
+      "description": "ch0287_memoriallobby_1_2",
+      "category": "lobby",
+      "text": "您刚刚跑的，真的很棒啊！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_memoriallobby_1_2.ogg"
+    },
+    {
+      "description": "ch0287_memoriallobby_1_3",
+      "category": "lobby",
+      "text": "来，请用！这是我给您准备的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_memoriallobby_1_3.ogg"
+    },
+    {
+      "description": "ch0287_memoriallobby_2_1",
+      "category": "lobby",
+      "text": "是呀，努力了就应该获得回报。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_memoriallobby_2_1.ogg"
+    },
+    {
+      "description": "ch0287_memoriallobby_2_2",
+      "category": "lobby",
+      "text": "这是...理所应当的奖励！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_memoriallobby_2_2.ogg"
+    },
+    {
+      "description": "ch0287_memoriallobby_3_1",
+      "category": "lobby",
+      "text": "当然，可能不是所有事情...",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_memoriallobby_3_1.ogg"
+    },
+    {
+      "description": "ch0287_memoriallobby_3_2",
+      "category": "lobby",
+      "text": "都能获得与努力成正比的回报。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_memoriallobby_3_2.ogg"
+    },
+    {
+      "description": "ch0287_memoriallobby_4_1",
+      "category": "lobby",
+      "text": "但我还是希望，",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_memoriallobby_4_1.ogg"
+    },
+    {
+      "description": "ch0287_memoriallobby_4_2",
+      "category": "lobby",
+      "text": "努力过的人都能获得应得的回报。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_memoriallobby_4_2.ogg"
+    },
+    {
+      "description": "ch0287_memoriallobby_5_1",
+      "category": "lobby",
+      "text": "来，快喝吧！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_memoriallobby_5_1.ogg"
+    },
+    {
+      "description": "ch0287_memoriallobby_5_2",
+      "category": "lobby",
+      "text": "我也要喝上一杯。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_memoriallobby_5_2.ogg"
+    },
+    {
+      "description": "ch0287_relationship_up_1",
+      "category": "growup",
+      "text": "笑容永远是免费的。但送给教练的那份微笑，更是无价的礼物。什么是“无价的礼物”？就是，永远带着我的真心。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_relationship_up_1.ogg"
+    },
+    {
+      "description": "ch0287_relationship_up_2",
+      "category": "growup",
+      "text": "感谢您一直以来陪同我一起锻炼。今天，我们就放慢节奏，轻松地度过吧。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_relationship_up_2.ogg"
+    },
+    {
+      "description": "ch0287_relationship_up_3",
+      "category": "growup",
+      "text": "教练……不，老师，多亏了您，我才能每天都收获满满，不断成长。未来，您愿意和我一起“二人三足”，继续奔跑下去吗？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_relationship_up_3.ogg"
+    },
+    {
+      "description": "ch0287_relationship_up_4",
+      "category": "growup",
+      "text": "无论是锻炼还是兼职，似乎只要和教练在一起，就能提高效率。这是为什么呢？您说您不知道吗？我好像……已经知道原因了。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_relationship_up_4.ogg"
+    },
+    {
+      "description": "ch0287_season_birthday_1",
+      "category": "lobby",
+      "text": "竟然收到了“老师”的祝福……总觉得有点不好意思呢。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_season_birthday_1.ogg"
+    },
+    {
+      "description": "ch0287_season_birthday_2",
+      "category": "lobby",
+      "text": "那么，作为庆生的回礼，您是否愿意和我一起，完成一场充满活力的特别训练呢……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_season_birthday_2.ogg"
+    },
+    {
+      "description": "ch0287_season_birthday_3",
+      "category": "lobby",
+      "text": "……唔，要说礼物的话，蛋白饮料每种口味都来一份……",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_season_birthday_3.ogg"
+    },
+    {
+      "description": "ch0287_season_birthday_player",
+      "category": "lobby",
+      "text": "生日快乐，教练。我准备送您一桶蛋白饮料作为礼物，您觉得如何呢？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_season_birthday_player.ogg"
+    },
+    {
+      "description": "ch0287_season_chinesenewyear",
+      "category": "lobby",
+      "text": "教练，听说山海经学院那边过年的时候，会连续好几天大吃高热量的食物来庆祝呢。这也许……正是推销蛋白饮料的好机会？",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_season_chinesenewyear.ogg"
+    },
+    {
+      "description": "ch0287_season_halloween_1",
+      "category": "lobby",
+      "text": "教练，您觉得南瓜味的蛋白糖果怎么样？当然了，这是我特别订制的。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_season_halloween_1.ogg"
+    },
+    {
+      "description": "ch0287_season_halloween_2",
+      "category": "lobby",
+      "text": "虽然我没有很在意味道怎么样。但营养绝对有保障。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_season_halloween_2.ogg"
+    },
+    {
+      "description": "ch0287_season_midautumn",
+      "category": "lobby",
+      "text": "看比赛时间长，吃“月饼”这种高热量的食物正好能补充能量。给，教练。中秋快乐。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_season_midautumn.ogg"
+    },
+    {
+      "description": "ch0287_season_newyear",
+      "category": "lobby",
+      "text": "新年已至，祝愿您在新的一年里也身体健康。如果想要运动或者喝点什么……您知道该找谁吧，呵呵。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_season_newyear.ogg"
+    },
+    {
+      "description": "ch0287_season_xmas_1",
+      "category": "lobby",
+      "text": "圣诞节到了，正是容易长肉的节日。",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_season_xmas_1.ogg"
+    },
+    {
+      "description": "ch0287_season_xmas_2",
+      "category": "lobby",
+      "text": "请不用担心，教练。脂肪不过是储备燃料。是让训练更有活力的力量源泉！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_season_xmas_2.ogg"
+    },
+    {
+      "description": "ch0287_season_xmas_3",
+      "category": "lobby",
+      "text": "您，您突然要去哪里？！",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_season_xmas_3.ogg"
+    },
+    {
+      "description": "ch0287_title",
+      "category": "lobby",
+      "text": "Blue Archive",
+      "text_original": "",
+      "file": "//static.kivo.wiki/voices/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/cn/ch0287_title.ogg"
+    }
+  ],
   "voice_kr": [
     {
       "description": "ch0287_cafe_monolog_1",
@@ -1170,7 +1717,12 @@
         "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/Gm3HylgboAA0LI3.jpg",
         "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/BA%EC%8A%A4%EB%AF%B8%EB%A0%88%ED%94%BD%EC%97%85X1280x720.png",
         "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sumire_parttimer_ex.gif",
-        "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sumire_partime_cafe.gif"
+        "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/sumire_partime_cafe.gif",
+        "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/rMfqCMgy.png",
+        "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/f37a24420f3ec1a7e8f8b143f6a175673493265644980448.jpg",
+        "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/47231f7506388004044f6a828bf576d03493265644980448.gif",
+        "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/ec92989b242ac75a82afb1f4ec6d3df73493265644980448.jpg",
+        "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/gallery/%E5%AE%98%E6%96%B9%E5%9B%BE%E9%9B%86/b2592a73c407e60422162ff726af34b03493265644980448.gif"
       ]
     }
   ],
@@ -1181,7 +1733,7 @@
     },
     {
       "id": 67,
-      "favorability": 40
+      "favorability": 60
     },
     {
       "id": 156,
@@ -1244,7 +1796,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/skill_icon/whkPFtFE4FF8SG4wJBY3L80xCyit6dMB.png",
             "title": "Catch and Pitch",
-            "title_cn": "",
+            "title_cn": "接球即传",
             "preview": "//static.kivo.wiki/videos/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/skill_preview/fA673wd2pZ2HyrJlZo54DlsVx7sE264R.mp4",
             "max_level": 5,
             "link_student_id": 0,
@@ -1278,7 +1830,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/skill_icon/1q3syNupqQyV3mvGR6MXGc9jNyGKC2XR.png",
             "title": "特制运动饮料",
-            "title_cn": "",
+            "title_cn": "特制运动饮料",
             "preview": "",
             "max_level": 10,
             "link_student_id": 0,
@@ -1330,7 +1882,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/skill_icon/Ui3VwnNof9I2kpMVVXwzlr1GIHC3syfh.png",
             "title": "后燃效应",
-            "title_cn": "",
+            "title_cn": "后燃效应",
             "preview": "",
             "max_level": 10,
             "link_student_id": 0,
@@ -1382,7 +1934,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/skill_icon/dNK3xkPhEm2jsh6KpE4oJ2ewSnk8PjA1.png",
             "title": "全力打工时间",
-            "title_cn": "",
+            "title_cn": "兼职生的意志",
             "preview": "",
             "max_level": 10,
             "link_student_id": 0,
@@ -1458,7 +2010,7 @@
         "name": "千禧年最新式哑铃",
         "name_cn": "千禧年最新式哑铃",
         "description": "堇平常健身时爱用的半自动霞弹枪。<br>即使在负重训练与打工时，它依然能发挥其功效。",
-        "description_cn": "",
+        "description_cn": "堇的半自动霰弹枪。<br>不光在重量训练时会使用，在兼职工作中也有特殊的效果。",
         "info": [
           {
             "title": "",
@@ -1481,7 +2033,7 @@
           {
             "icon": "//static.kivo.wiki/images/students/%E4%B9%99%E8%8A%B1%20%E5%A0%87/%E6%89%93%E5%B7%A5/skill_icon/RYGZhp6vgDsd3PNkeJSmw3LNJpxRVwwy.png",
             "title": "后燃效应+",
-            "title_cn": "",
+            "title_cn": "后燃效应+",
             "preview": "",
             "max_level": 10,
             "link_student_id": 0,
@@ -1541,5 +2093,5 @@
   "supplementary_uuid": "a53428d1-0c3a-4f4b-bcf4-98d50561caca",
   "supplementary_declare_uuid": "0663f560-0ab8-4235-9b45-2a29a6c9b879",
   "created_at": 1742626312,
-  "updated_at": 1780404916
+  "updated_at": 1784210157
 }
