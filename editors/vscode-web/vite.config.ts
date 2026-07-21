@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { createRequire } from "node:module";
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import importMetaUrlPlugin from "@codingame/esbuild-import-meta-url-plugin";
@@ -200,6 +201,11 @@ export default defineConfig({
     },
   },
   resolve: {
+    alias: {
+      // editors/vscode/src 的裸导入在 CI 上无法向上解析到本包 node_modules；
+      // 固定到本包自己声明的同一份依赖（js-toml 已是 dependencies）。
+      "js-toml": createRequire(import.meta.url).resolve("js-toml"),
+    },
     dedupe: [
       "vscode",
       "monaco-editor",
