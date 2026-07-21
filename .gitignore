@@ -88,6 +88,16 @@ typst_sandbox/pack-v2/ba/**
 !typst_sandbox/pack-v2/ba/asset_mapping.json
 !typst_sandbox/pack-v2/ba/images/**/tags.json
 
+# Pack v3 workspace: keep manifest + build reports + raw sources, ignore large binary assets
+# (blobs/assets are rebuilt locally and distributed via OSS/CDN, not git).
+typst_sandbox/pack-v3/**
+!typst_sandbox/pack-v3/
+!typst_sandbox/pack-v3/**/
+!typst_sandbox/pack-v3/**/manifest.json
+!typst_sandbox/pack-v3/**/build_report.json
+!typst_sandbox/pack-v3/**/encode_report.jsonl
+!typst_sandbox/pack-v3/**/sources/**
+
 # Copy under typst_sandbox/mmt_render is cache only
 typst_sandbox/mmt_render/avatar/
 
