@@ -4,9 +4,8 @@ import path from "node:path";
 import importMetaUrlPlugin from "@codingame/esbuild-import-meta-url-plugin";
 import { defineConfig, type Plugin } from "vite";
 import {
-  PINNED_RUNTIME_WASM_URLS,
-  TINYMIST_WASM_URL,
-  TYPST_COMPILER_WASM_URL
+  PINNED_RUNTIME_ARTIFACT_URLS,
+  PRELOADED_RUNTIME_ARTIFACT_URLS,
 } from "./src/runtimeArtifacts";
 
 function publicAssets(root: string): Array<{ url: string; bytes: Buffer }> {
@@ -108,8 +107,8 @@ function pwaPrecachePlugin(): Plugin {
     generateBundle(_options, bundle) {
       const urls = new Set<string>(["/", "/index.html"]);
       const hash = createHash("sha256");
-      const immutableUrls = [...PINNED_RUNTIME_WASM_URLS];
-      const immutablePrecacheUrls = [TINYMIST_WASM_URL, TYPST_COMPILER_WASM_URL];
+      const immutableUrls = [...PINNED_RUNTIME_ARTIFACT_URLS];
+      const immutablePrecacheUrls = [...PRELOADED_RUNTIME_ARTIFACT_URLS];
       hash.update(JSON.stringify({ immutableUrls, immutablePrecacheUrls }));
       for (const file of publicFiles) {
         urls.add(file.url);

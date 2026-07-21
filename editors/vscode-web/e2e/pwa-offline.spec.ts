@@ -7,6 +7,10 @@ test("installed production editor cold-starts offline with language workers and 
 
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect(page.locator(".workbench-preview")).toHaveAttribute("data-preview-ready", "true");
+  const notoRequests = await page.evaluate(() => performance.getEntriesByType("resource")
+    .map((entry) => entry.name)
+    .filter((url) => url.includes("NotoSansCJK")));
+  expect(notoRequests).toEqual([]);
 
   const cacheEvidence = await page.evaluate(async () => {
     const registration = await navigator.serviceWorker.ready;
@@ -21,19 +25,25 @@ test("installed production editor cold-starts offline with language workers and 
     if (!localMatch || !remoteMatch) throw new Error("generated service-worker manifests are missing");
     const local = JSON.parse(localMatch[1]) as string[];
     const remote = JSON.parse(remoteMatch[1]) as string[];
-    const requiredLocal = local.filter((url) => /(?:mmt_lsp_bg|tinymistWorker|browserWorker|typst_ts_renderer_bg|NotoSansCJK)/.test(url));
+    const requiredLocal = local.filter((url) => /(?:mmt_lsp_bg|tinymistWorker|browserWorker|typst_ts_renderer_bg)/.test(url));
     const required = [...requiredLocal, ...remote];
     const cached = await Promise.all(required.map(async (url) => ({ url, cached: Boolean(await caches.match(url)) })));
     return {
       controller: Boolean(navigator.serviceWorker.controller),
       localCount: local.length,
       remoteCount: remote.length,
+      notoLocalCount: local.filter((url) => url.includes("NotoSansCJK")).length,
+      mainFontBrotliCount: remote.filter((url) => /MainFont(?:_Bold)?[.]otf[.]br[?]delivery=br-v1$/.test(url)).length,
+      wasmBrotliCount: remote.filter((url) => /[.]wasm[.]br[?]delivery=br-v1$/.test(url)).length,
       required: cached,
     };
   });
   expect(cacheEvidence.controller).toBe(true);
   expect(cacheEvidence.localCount).toBeGreaterThan(100);
-  expect(cacheEvidence.remoteCount).toBe(2);
+  expect(cacheEvidence.remoteCount).toBe(4);
+  expect(cacheEvidence.notoLocalCount).toBe(0);
+  expect(cacheEvidence.mainFontBrotliCount).toBe(2);
+  expect(cacheEvidence.wasmBrotliCount).toBe(2);
   expect(cacheEvidence.required.length).toBeGreaterThanOrEqual(7);
   expect(cacheEvidence.required.filter((entry) => !entry.cached)).toEqual([]);
 

@@ -2,8 +2,6 @@ import { $typst, MemoryAccessModel } from "@myriaddreamin/typst.ts";
 import { loadFonts } from "@myriaddreamin/typst.ts/dist/esm/options.init.mjs";
 import { TypstSnippet } from "@myriaddreamin/typst.ts/dist/esm/contrib/snippet.mjs";
 import rendererWasmUrl from "@myriaddreamin/typst-ts-renderer/pkg/typst_ts_renderer_bg.wasm?url";
-import notoRegularUrl from "../../vscode/vendor/fonts/NotoSansCJK-Regular.ttc?url";
-import notoBoldUrl from "../../vscode/vendor/fonts/NotoSansCJK-Bold.ttc?url";
 import monoUrl from "../../vscode/vendor/fonts/DejaVuSansMono.ttf?url";
 import jetBrainsMonoUrl from "../../vscode/vendor/fonts/JetBrainsMono-Regular.ttf?url";
 import mathUrl from "../../vscode/vendor/fonts/NewCMMath-Regular.otf?url";
@@ -38,26 +36,30 @@ import {
   type PreviewSourceIdentity,
 } from "./previewInteraction.ts";
 import type { RenderKey } from "../../vscode/src/runtimeIdentity";
-import { TYPST_COMPILER_WASM_URL } from "./runtimeArtifacts";
+import {
+  MAIN_FONT_BOLD_URL,
+  MAIN_FONT_REGULAR_URL,
+  TYPST_COMPILER_WASM_URL,
+  runtimeIdentityUrl,
+} from "./runtimeArtifacts";
 
 
-const mainRegularUrl = "https://mms-pack.xiyihan.cn/fonts/MainFont.otf";
-const mainBoldUrl = "https://mms-pack.xiyihan.cn/fonts/MainFont_Bold.otf";
 const bundledFontsLoader = loadFonts([
   mathUrl,
-  notoRegularUrl,
-  notoBoldUrl,
   monoUrl,
   jetBrainsMonoUrl,
 ], { assets: false });
-const remoteMainFontsLoader = loadFonts([mainRegularUrl, mainBoldUrl], { assets: false });
+const remoteMainFontsLoader = loadFonts([
+  MAIN_FONT_REGULAR_URL,
+  MAIN_FONT_BOLD_URL,
+], { assets: false });
 const optionalMainFontsLoader = async (
   ...args: Parameters<typeof remoteMainFontsLoader>
 ): Promise<void> => {
   try {
     await remoteMainFontsLoader(...args);
   } catch (error) {
-    console.warn("MomoScript preview is using the bundled Noto fallback because MainFont could not be loaded.", error);
+    console.warn("MomoScript preview is continuing without MainFont because the remote font could not be loaded.", error);
   }
 };
 
@@ -836,7 +838,7 @@ async function initializeTypst(report: (message: string) => void): Promise<void>
       compilerModule = await downloadWasmModule(TYPST_COMPILER_WASM_URL, "Typst 编译器 WASM", report);
     } catch {
       report("Typst 编译器 WASM 压缩传输失败，回退未压缩版本…");
-      compilerModule = await downloadWasmModule(withoutDeliveryQuery(TYPST_COMPILER_WASM_URL), "Typst 编译器 WASM", report);
+      compilerModule = await downloadWasmModule(runtimeIdentityUrl(TYPST_COMPILER_WASM_URL), "Typst 编译器 WASM", report);
     }
   }
   $typst.setCompilerInitOptions({
@@ -849,12 +851,6 @@ async function initializeTypst(report: (message: string) => void): Promise<void>
     TypstSnippet.withPackageRegistry(previewPackageRegistry)
   );
   initialized = true;
-}
-
-function withoutDeliveryQuery(url: string): string {
-  const fallback = new URL(url);
-  fallback.searchParams.delete("delivery");
-  return fallback.href;
 }
 
 async function downloadWasmModule(

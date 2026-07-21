@@ -4,7 +4,7 @@
     margin: (x: 10pt, y: 20pt),
   ),
   text: (
-    font: ("FZLanTingYuanGBK", "Noto Sans CJK SC"),
+    font: "FZLanTingYuanGBK",
     size: 10pt,
     fill: rgb("263342"),
   ),

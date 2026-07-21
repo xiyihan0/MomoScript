@@ -1,0 +1,82 @@
+if match_re($uri, '^/wasm/.+[.]wasm[.]br$') {
+  add_rsp_header('Vary', 'Accept-Encoding')
+  add_rsp_header('X-MMT-Edge-Delivery', 'br-object-v1')
+  if eq($arg_delivery, 'br-v1') {
+    if $http_accept_encoding {
+      ae = lower($http_accept_encoding)
+      supports_br = match_re(ae, '(^|,)[ \t]*br([ \t]*;[^,]*)?[ \t]*(,|$)')
+      disables_br = match_re(ae, '(^|,)[ \t]*br[ \t]*;[ \t]*q[ \t]*=[ \t]*0([.]0*)?[ \t]*(,|$)')
+      if and(supports_br, not(disables_br)) {
+        add_rsp_header('Content-Encoding', 'br')
+        add_rsp_header('Content-Type', 'application/wasm')
+        add_rsp_header('X-MMT-Edge-Delivery', 'br-v1')
+      }
+    }
+  }
+}
+
+if match_re($uri, '^/fonts/.+[.](otf|ttf|ttc|otc|woff2?)[.]br$') {
+  add_rsp_header('Vary', 'Accept-Encoding')
+  add_rsp_header('X-MMT-Edge-Delivery', 'br-object-v1')
+  if eq($arg_delivery, 'br-v1') {
+    if $http_accept_encoding {
+      ae = lower($http_accept_encoding)
+      supports_br = match_re(ae, '(^|,)[ \t]*br([ \t]*;[^,]*)?[ \t]*(,|$)')
+      disables_br = match_re(ae, '(^|,)[ \t]*br[ \t]*;[ \t]*q[ \t]*=[ \t]*0([.]0*)?[ \t]*(,|$)')
+      if and(supports_br, not(disables_br)) {
+        add_rsp_header('Content-Encoding', 'br')
+        if match_re($uri, '[.]otf[.]br$') {
+          add_rsp_header('Content-Type', 'font/otf')
+        }
+        if match_re($uri, '[.]ttf[.]br$') {
+          add_rsp_header('Content-Type', 'font/ttf')
+        }
+        if match_re($uri, '[.](ttc|otc)[.]br$') {
+          add_rsp_header('Content-Type', 'font/collection')
+        }
+        if match_re($uri, '[.]woff[.]br$') {
+          add_rsp_header('Content-Type', 'font/woff')
+        }
+        if match_re($uri, '[.]woff2[.]br$') {
+          add_rsp_header('Content-Type', 'font/woff2')
+        }
+        add_rsp_header('X-MMT-Edge-Delivery', 'br-v1')
+      }
+    }
+  }
+}
+
+if or(match_re($uri, '^/wasm/.+[.]wasm$'), match_re($uri, '^/fonts/.+[.](otf|ttf|ttc|otc|woff2?)$')) {
+  add_rsp_header('Vary', 'Accept-Encoding')
+  add_rsp_header('X-MMT-Edge-Delivery', 'identity-v1')
+  if eq($arg_delivery, 'zstd-v1') {
+    if $http_accept_encoding {
+      ae = lower($http_accept_encoding)
+      supports_zstd = match_re(ae, '(^|,)[ \t]*zstd([ \t]*;[^,]*)?[ \t]*(,|$)')
+      disables_zstd = match_re(ae, '(^|,)[ \t]*zstd[ \t]*;[ \t]*q[ \t]*=[ \t]*0([.]0*)?[ \t]*(,|$)')
+      if and(supports_zstd, not(disables_zstd)) {
+        add_rsp_header('Content-Encoding', 'zstd')
+        if match_re($uri, '[.]wasm$') {
+          add_rsp_header('Content-Type', 'application/wasm')
+        }
+        if match_re($uri, '[.]otf$') {
+          add_rsp_header('Content-Type', 'font/otf')
+        }
+        if match_re($uri, '[.]ttf$') {
+          add_rsp_header('Content-Type', 'font/ttf')
+        }
+        if match_re($uri, '[.](ttc|otc)$') {
+          add_rsp_header('Content-Type', 'font/collection')
+        }
+        if match_re($uri, '[.]woff$') {
+          add_rsp_header('Content-Type', 'font/woff')
+        }
+        if match_re($uri, '[.]woff2$') {
+          add_rsp_header('Content-Type', 'font/woff2')
+        }
+        add_rsp_header('X-MMT-Edge-Delivery', 'zstd-v1')
+        rewrite(concat($uri, '.zst'), 'break')
+      }
+    }
+  }
+}

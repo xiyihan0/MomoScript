@@ -11,7 +11,7 @@ import {
 } from "../../vscode/src/typstFeatures";
 import tinymistModuleUrl from "../../vscode/vendor/tinymist-0.15.2/tinymist.js?url";
 import tinymistWorkerUrl from "../../vscode/src/tinymistWorker.ts?worker&url";
-import { TINYMIST_WASM_URL } from "./runtimeArtifacts";
+import { TINYMIST_WASM_URL, runtimeIdentityUrl } from "./runtimeArtifacts";
 
 export interface TinymistHandle {
   backend: TinymistWorkerClient;
@@ -79,7 +79,7 @@ async function downloadTinymistWasm(report: (message: string) => void): Promise<
     return await downloadValidatedWasm(TINYMIST_WASM_URL, "Tinymist WASM", report);
   } catch {
     report("Tinymist WASM 压缩传输失败，回退未压缩版本…");
-    return downloadValidatedWasm(withoutDeliveryQuery(TINYMIST_WASM_URL), "Tinymist WASM", report);
+    return downloadValidatedWasm(runtimeIdentityUrl(TINYMIST_WASM_URL), "Tinymist WASM", report);
   }
 }
 
@@ -91,12 +91,6 @@ async function downloadValidatedWasm(
   const bytes = await downloadWasm(url, label, report);
   if (!WebAssembly.validate(bytes.buffer as ArrayBuffer)) throw new Error(`${label}不是有效的 WebAssembly 模块`);
   return bytes;
-}
-
-function withoutDeliveryQuery(url: string): string {
-  const fallback = new URL(url);
-  fallback.searchParams.delete("delivery");
-  return fallback.href;
 }
 
 async function downloadWasm(url: string, label: string, report: (message: string) => void): Promise<Uint8Array> {

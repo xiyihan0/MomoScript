@@ -31,12 +31,13 @@ Service Worker 不解释 MMT、Typst project、workspace AST 或 pack semantic m
 
 ## Current Baseline
 
-2026-07-16 工作树中的 `editors/vscode-web/dist` 为 188 个文件、57.80 MiB、0 个 source map。最大本地文件是两张
-Noto Sans CJK 字体（19.12/18.58 MiB）、Workbench 主 JS（9.97 MiB）和 MMT LSP WASM（1.63 MiB）。该数值不包含：
+2026-07-20 工作树中的 `editors/vscode-web/dist` 为 21.34 MiB、0 个 source map。两张完整 Noto Sans CJK TTC
+不再进入本地 build；最大本地文件是 Workbench 主 JS、MMT LSP WASM、Typst renderer WASM 与 NewCMMath。该数值不包含：
 
-- 启动时从 `mms-pack.xiyihan.cn` 加载的 Tinymist WASM；生产实测 response 为 9,240,839 encoded bytes、32,346,976 decoded bytes；
-- 首次 preview 时加载的 Typst compiler WASM；
-- 可选 MainFont；离线时已有 bundled Noto fallback；
+- 启动时从 `mms-pack.xiyihan.cn` 加载的 Tinymist WASM（Brotli q11/lgwin24，独立 `.br` 对象路径）；
+- 首次 preview 时加载的 Typst compiler WASM（同上）；
+- shell 预缓存的两张版本化 MainFont Brotli q11/lgwin24 对象；
+- 非默认、仅保留在 CDN 且不进入 shell precache 的 Noto Sans CJK Brotli 对象；
 - 任何 pack image/AVIFS resource。
 
 因此 reservation 必须根据 shell build manifest 的完整 local + selected remote decoded inventory 计算，不能用 `dist` 大小或 HTTP
@@ -117,10 +118,10 @@ interface ShellArtifact {
 compiler/renderer、Workers、Workbench extensions、必需 fonts 与 Webview iframe bootstrap 必须属于同一个 buildId。
 
 跨域 runtime 定义收束到单一 `runtimeArtifacts.ts` catalog；`preview.ts`、`tinymistLanguageClient.ts` 和 shell manifest generator 共用，禁止
-页面 hardcode 与 PWA 清单维护两份 URL/hash。每个远端 artifact 可以声明有序 candidate（例如 zstd delivery 与 identity fallback）；shell
-只激活实际下载并通过校验的 selection，registry 记录选中的 exact request URL。
+页面 hardcode 与 PWA 清单维护两份 URL/hash。预压缩表示必须使用独立对象路径作为 CDN cache key：字体与 WASM 的 Brotli candidate 使用
+`*.br?delivery=br-v1`，并保留 identity fallback。不得只靠查询参数在同一路径切换 br/zstd，因为当前 CDN cache key 忽略查询参数。shell 只激活实际下载并通过校验的 selection，registry 记录选中的 exact request URL。规则源码以 `tools/cdn/mmt_precompressed_artifacts.edgescript` 为 truth source，部署后需核对线上规则 SHA-256 与仓库一致。
 
-source maps、测试 artifact、workspace、pack、WebDAV、optional MainFont 和未被启动/preview 路径使用的 legacy asset 不进入 shell manifest。
+source maps、测试 artifact、workspace、pack、WebDAV、optional Noto fallback 和未被启动/preview 路径使用的 legacy asset 不进入 shell precache manifest。
 
 ## Root Service Worker Boundaries
 
@@ -138,7 +139,7 @@ navigation fallback 必须同时检查 `mode === "navigate"`、document destinat
 manifest、pack blob、API/WebDAV 与不存在的 asset 绝不回退 HTML。
 
 root worker 不缓存 opaque response、redirected response、non-2xx、错误 MIME、超限 body 或 hash mismatch。跨域 runtime/pack 必须是可检查的
-CORS response；验证 clone 的 decoded bytes，缓存原 Response，保留 `Content-Encoding` / `Vary` 语义，不自行重写 zstd body/header。
+CORS response；验证 clone 的 decoded bytes，缓存原 Response，保留 `Content-Encoding` / `Vary` 语义，不自行重写 br/zstd body/header。
 
 ## Explicit Offline Shell Installation
 
