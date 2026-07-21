@@ -375,14 +375,17 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(page.getByRole("textbox", { name: "资源包清单地址" })).toBeHidden();
   await expect(explorerActivity).toHaveAttribute("aria-selected", "true");
   await expect.poll(() => workspaceEntryExists(page, "/workspace")).toBe(false);
-  await editor.click();
-  await page.keyboard.press("Control+A");
-  await page.keyboard.insertText("- [:asset, lo");
-  await expect.poll(() => page.evaluate(async (character) => {
-    const completionLabels = Reflect.get(globalThis, "__mmtCompletionLabels");
-    if (typeof completionLabels !== "function") throw new Error("missing E2E completion hook");
-    return completionLabels(0, character);
-  }, "- [:asset, lo".length)).toContain("logo");
+  if (local) {
+    // 共享资产补全依赖 fixture manifest 中的 logo；线上 ba_kivo pack 没有顶层共享 assets 段
+    await editor.click();
+    await page.keyboard.press("Control+A");
+    await page.keyboard.insertText("- [:asset, lo");
+    await expect.poll(() => page.evaluate(async (character) => {
+      const completionLabels = Reflect.get(globalThis, "__mmtCompletionLabels");
+      if (typeof completionLabels !== "function") throw new Error("missing E2E completion hook");
+      return completionLabels(0, character);
+    }, "- [:asset, lo".length)).toContain("logo");
+  }
   await editor.click();
   await page.keyboard.press("Control+A");
   await page.keyboard.type("[");
@@ -579,6 +582,27 @@ test("VS Code native sashes resize the explorer and panel in both directions", a
   await dragSash(panelSash, 0, 60);
   await expect.poll(() => panel.evaluate((element) => element.getBoundingClientRect().height))
     .toBeLessThan(expandedPanelHeight - 40);
+});
+
+test("editor context menu reveals the current file in local history", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
+
+  await page.getByRole("treeitem", { name: /story\.mmt/ }).click();
+  const editor = page.locator(".workbench-editor .monaco-editor").first();
+  await expect(editor).toBeVisible();
+  await editor.locator(".view-lines .view-line").first().click({ button: "right" });
+  const historyItem = page.getByRole("menuitem", { name: "显示文件历史记录" });
+  await expect(historyItem).toBeVisible();
+  await page.keyboard.press("ArrowDown");
+  await expect(historyItem).toBeFocused();
+  await page.keyboard.press("Enter");
+
+  const scope = page.getByRole("combobox", { name: "本地历史范围" });
+  await expect(scope).toBeVisible();
+  await expect(scope).toHaveValue("file");
+  await expect.poll(() => scope.evaluate((element) => (element as HTMLSelectElement).selectedOptions[0]?.textContent)).toBe("story.mmt");
+  await expect(page.getByRole("tree", { name: "本地历史版本" })).toContainText("story.mmt");
 });
 async function activeDocument(page: Page): Promise<{ name: string; languageId: string; text: string } | null> {
   return page.evaluate(() => (Reflect.get(globalThis, "__mmtActiveDocument") as Function)());

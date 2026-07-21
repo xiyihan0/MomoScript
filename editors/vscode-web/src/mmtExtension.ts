@@ -41,11 +41,21 @@ export function mmtExtension(): ExtensionConfig {
       grammars: manifest.contributes.grammars,
       configuration: manifest.contributes.configuration,
       commands: [
-        { command: "mmt.preview.open", title: "Typst 预览", icon: "$(open-preview)" }
+        { command: "mmt.preview.open", title: "Typst 预览", icon: "$(open-preview)" },
+        { command: "mmt.history.showFileHistory", title: "显示文件历史记录", icon: "$(history)" }
       ],
       menus: {
         "editor/title": [
           { command: "mmt.preview.open", when: "editorLangId == mmt || editorLangId == typst", group: "navigation" }
+        ],
+        "editor/context": [
+          { command: "mmt.history.showFileHistory", when: "resourceScheme == mmtfs", group: "navigation" }
+        ],
+        "editor/title/context": [
+          { command: "mmt.history.showFileHistory", when: "resourceScheme == mmtfs", group: "navigation" }
+        ],
+        "explorer/context": [
+          { command: "mmt.history.showFileHistory", when: "resourceScheme == mmtfs", group: "navigation" }
         ]
       },
       themes: [

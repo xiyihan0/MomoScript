@@ -6,6 +6,8 @@ const HISTORY_SCHEME = "mmt-history";
 const FALLBACK_HISTORY_BUDGET = 50 * 1024 * 1024;
 const textDecoder = new TextDecoder("utf-8", { fatal: true });
 
+let pendingFileScope = false;
+
 export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemProvider): vscode.Disposable {
   const subscriptions: vscode.Disposable[] = [];
   subscriptions.push(vscode.workspace.registerTextDocumentContentProvider(HISTORY_SCHEME, {
@@ -75,6 +77,30 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
       return;
     }
     exportBytes(basename(path), entry.data);
+  }));
+  subscriptions.push(vscode.commands.registerCommand("mmt.history.showFileHistory", async (resource?: vscode.Uri) => {
+    const uri = resource?.scheme === "mmtfs" ? resource : vscode.window.activeTextEditor?.document.uri;
+    if (!uri || uri.scheme !== "mmtfs") {
+      void vscode.window.showWarningMessage("没有可查看历史记录的工作区文件");
+      return;
+    }
+    const stat = await vscode.workspace.fs.stat(uri).then((value) => value, () => undefined);
+    if (!stat) {
+      void vscode.window.showWarningMessage(`工作区中不存在 ${basename(uri.path)}`);
+      return;
+    }
+    if (stat.type === vscode.FileType.Directory) {
+      void vscode.window.showWarningMessage("历史记录按文件查看，请选择一个文件");
+      return;
+    }
+    try {
+      const document = await vscode.workspace.openTextDocument(uri);
+      await vscode.window.showTextDocument(document, { preview: false });
+      pendingFileScope = true;
+    } catch {
+      // 无法以文本打开的文件保持工作区范围，仅聚焦历史视图
+    }
+    await vscode.commands.executeCommand("momoscript.localHistory.focus");
   }));
   subscriptions.push(vscode.commands.registerCommand("mmt.history.takeOverWriter", async () => {
     const answer = await vscode.window.showWarningMessage(
@@ -156,6 +182,10 @@ export function renderLocalHistoryView(container: HTMLElement, provider: MmtInde
     alert.textContent = problem ?? "";
     footer.textContent = `${formatBytes(bytes)} / ${formatBytes(FALLBACK_HISTORY_BUDGET)} · 默认保留 30 天`;
     const activePath = activeWorkspacePath();
+    if (pendingFileScope) {
+      pendingFileScope = false;
+      if (activePath) scope.value = "file";
+    }
     scope.querySelector<HTMLOptionElement>('option[value="file"]')!.textContent = activePath ? basename(activePath) : "当前文件不可用";
     scope.disabled = !activePath && scope.value === "file";
     if (!activePath && scope.value === "file") scope.value = "workspace";
