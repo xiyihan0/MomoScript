@@ -231,6 +231,15 @@ export class WorkspaceCoordinator {
     });
   }
 
+  async maintainHistory<T>(run: () => Promise<T>): Promise<T> {
+    return this.#enqueue(async () => {
+      if (this.#lease === "readonly") throw new Error("Workspace is read-only in this tab");
+      if (this.#blocked || this.backend.metadata.storage.pendingJournal) throw new Error("History maintenance is blocked by a pending atomic journal");
+      if (this.backend.metadata.migration.state !== "complete") throw new Error("Workspace migration is incomplete; history maintenance is unavailable");
+      return run();
+    });
+  }
+
   async atomicApply<Preimage>(
     reason: WorkspaceMutationReason,
     targets: readonly WorkspaceAtomicApplyTarget<Preimage>[],

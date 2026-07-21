@@ -28,6 +28,19 @@ The Sidebar/main boundary SHALL be one native horizontal VS Code `SplitView`, an
 - AND MUST NOT be implemented with a CSS Grid column or row、a handwritten sash or a second width/height state
 - AND documentation and verification MUST NOT claim that sash sizes persist across reload unless a future approved persistence owner implements and proves that behavior
 
+### Requirement: Native notifications are visible and actionable
+
+The Views Service shell SHALL register Monaco VS Code's notifications service override before Workbench initialization. The rendered Status Bar SHALL expose the native notifications button, and non-modal `showInformationMessage`、`showWarningMessage` and `showErrorMessage` calls SHALL feed the same native toast and notification-center model. The shell MUST NOT implement a parallel product-specific notification queue or migrate layout ownership merely to obtain these surfaces.
+
+#### Scenario: An extension publishes a notification
+
+- GIVEN the embedded shell is ready
+- WHEN an extension publishes a non-modal message
+- THEN a native notification toast MUST become visible
+- AND the Status Bar notifications button MUST expose that message in the notification center
+- AND clearing the notification through native notification-center actions MUST remove it from the shared model
+
+
 ### Requirement: Visibility and geometry have explicit owners
 
 Views Service SHALL be the authority for Workbench Part existence、selected view container and Part visibility. The two shell SplitViews SHALL own host geometry and SHALL mirror the initial and subsequent Sidebar/Panel visibility reported by Views Service. CSS classes MAY expose state for styling or diagnostics, but MUST NOT be an authoritative visibility state.

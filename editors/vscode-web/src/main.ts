@@ -10,6 +10,7 @@ import { Orientation, Sizing, SplitView, type IView } from "@codingame/monaco-vs
 import getExplorerServiceOverride from "@codingame/monaco-vscode-explorer-service-override";
 import getKeybindingsServiceOverride from "@codingame/monaco-vscode-keybindings-service-override";
 import getMarkersServiceOverride from "@codingame/monaco-vscode-markers-service-override";
+import getNotificationsServiceOverride from "@codingame/monaco-vscode-notifications-service-override";
 import getPreferencesServiceOverride from "@codingame/monaco-vscode-preferences-service-override";
 import getOutputServiceOverride from "@codingame/monaco-vscode-output-service-override";
 import getLocalizationServiceOverride from "@codingame/monaco-vscode-localization-service-override";
@@ -1138,6 +1139,7 @@ async function initializeRuntime(
         availableLanguages: [{ locale: "zh-cn", languageName: "中文（简体）" }]
       }),
       ...getMarkersServiceOverride(),
+      ...getNotificationsServiceOverride(),
       ...getPreferencesServiceOverride(),
       ...getOutputServiceOverride(),
         ...getTextMateServiceOverride(),
@@ -1184,6 +1186,14 @@ async function initializeRuntime(
     { isReadonly: true, isCaseSensitive: true },
   ));
   subscribe(registerLocalHistoryCommands(provider));
+  if (import.meta.env.VITE_MMT_E2E === "1") {
+    exposeRuntimeGlobal("__mmtCreateCheckpoint", (name: string) => provider!.createCheckpoint(name));
+    exposeRuntimeGlobal("__mmtDeleteWorkspaceFile", async (name: string) => {
+      if (!/^[^./\\][^/\\]*$/.test(name) || name === "..") throw new Error("invalid workspace basename");
+      await vscode.workspace.fs.delete(vscode.Uri.joinPath(WORKSPACE, name));
+    });
+    exposeRuntimeGlobal("__mmtHistoryUsage", () => provider!.historyUsage());
+  }
   subscribe(registerCharacterGalleryCommands(() => galleryPacks));
   output = own(vscode.window.createOutputChannel("MomoScript"));
   log("host", "VS Code Workbench ready");

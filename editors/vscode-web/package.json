@@ -49,6 +49,7 @@
     "@codingame/monaco-vscode-localization-service-override": "^21.6.0",
     "@codingame/monaco-vscode-markers-service-override": "21.6.0",
     "@codingame/monaco-vscode-media-preview-default-extension": "21.6.0",
+    "@codingame/monaco-vscode-notifications-service-override": "21.6.0",
     "@codingame/monaco-vscode-output-service-override": "^21.6.0",
     "@codingame/monaco-vscode-preferences-service-override": "^21.6.0",
     "@codingame/monaco-vscode-textmate-service-override": "21.6.0",

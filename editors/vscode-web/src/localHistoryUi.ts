@@ -3,7 +3,6 @@ import type { MmtIndexedDbFileSystemProvider } from "./filesystem";
 import type { WorkspaceHistoryChange, WorkspaceHistoryRevision } from "./indexedDbWorkspace";
 
 const HISTORY_SCHEME = "mmt-history";
-const FALLBACK_HISTORY_BUDGET = 50 * 1024 * 1024;
 const textDecoder = new TextDecoder("utf-8", { fatal: true });
 
 let pendingFileScope = false;
@@ -12,9 +11,13 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
   const subscriptions: vscode.Disposable[] = [];
   subscriptions.push(vscode.workspace.registerTextDocumentContentProvider(HISTORY_SCHEME, {
     async provideTextDocumentContent(uri) {
-      const revision = new URLSearchParams(uri.query).get("revision");
+      const parameters = new URLSearchParams(uri.query);
+      const revision = parameters.get("revision");
       if (!revision) throw new Error("历史文档缺少 revision");
-      const entry = await provider.snapshotEntry(revision, uri.path);
+      const side = parameters.get("side");
+      const entry = side === "before" || side === "after"
+        ? await provider.historyChangeEntry(revision, uri.path, side)
+        : await provider.snapshotEntry(revision, uri.path);
       if (!entry || entry.type !== vscode.FileType.File) return "";
       return decodeText(entry.data);
     }
@@ -27,7 +30,7 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
     }
     if (!isText(entry.data)) {
       const action = await vscode.window.showInformationMessage(
-        `${basename(path)} 是二进制文件（${formatBytes(entry.data.byteLength)}），只能导出或整文件恢复。`,
+        `${basename(path)} 是 ${mediaLabel(path)} 文件（${formatBytes(entry.data.byteLength)}），只能导出或整文件恢复。`,
         "导出历史版本",
         "恢复此文件"
       );
@@ -46,6 +49,9 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
     const label = timestamp ? new Date(timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : revision.slice(0, 8);
     await vscode.commands.executeCommand("vscode.diff", historical, current, `${basename(path)} — ${label} ↔ 当前`);
   }));
+  subscriptions.push(vscode.commands.registerCommand("mmt.history.inspectDeletion", async (revision: string, path: string, timestamp?: number) => {
+    await inspectDeletedChange(provider, revision, path, timestamp);
+  }));
   subscriptions.push(vscode.commands.registerCommand("mmt.history.checkpoint", async () => {
     const name = await vscode.window.showInputBox({
       title: "创建 Checkpoint",
@@ -57,8 +63,42 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
     await provider.createCheckpoint(name);
     void vscode.window.showInformationMessage(`已创建 Checkpoint：${name.trim()}`);
   }));
+  subscriptions.push(vscode.commands.registerCommand("mmt.history.renameCheckpoint", async (revision: string, current: string) => {
+    const name = await vscode.window.showInputBox({
+      title: "重命名 Checkpoint",
+      value: current,
+      validateInput: (value) => value.trim() ? undefined : "名称不能为空"
+    });
+    if (!name || name.trim() === current) return;
+    await provider.renameCheckpoint(revision, name);
+    void vscode.window.showInformationMessage(`Checkpoint 已重命名为：${name.trim()}`);
+  }));
+  subscriptions.push(vscode.commands.registerCommand("mmt.history.deleteCheckpoint", async (revision: string, current: string) => {
+    const answer = await vscode.window.showWarningMessage(
+      `删除 Checkpoint“${current}”？对应状态将不再受历史清理保护。`,
+      { modal: true },
+      "删除 Checkpoint"
+    );
+    if (answer !== "删除 Checkpoint") return;
+    await provider.deleteCheckpoint(revision);
+    void vscode.window.showInformationMessage(`已删除 Checkpoint：${current}`);
+  }));
+  subscriptions.push(vscode.commands.registerCommand("mmt.history.clearUnprotected", async () => {
+    const usage = await provider.historyUsage();
+    const answer = await vscode.window.showWarningMessage(
+      `清理普通编辑历史？${usage.checkpointCount} 个 Checkpoint（${formatBytes(usage.checkpointBytes)}）和当前/结构恢复点会保留。`,
+      { modal: true },
+      "清理普通历史"
+    );
+    if (answer !== "清理普通历史") return;
+    const next = await provider.clearUnprotectedHistory();
+    void vscode.window.showInformationMessage(`普通历史已清理；当前占用 ${formatBytes(next.totalBytes)}。`);
+  }));
   subscriptions.push(vscode.commands.registerCommand("mmt.history.restoreFile", async (revision: string, path: string) => {
     await confirmRestoreFile(provider, revision, path);
+  }));
+  subscriptions.push(vscode.commands.registerCommand("mmt.history.restoreDeletedFile", async (revision: string, path: string) => {
+    await confirmRestoreDeletedFile(provider, revision, path);
   }));
   subscriptions.push(vscode.commands.registerCommand("mmt.history.restoreWorkspace", async (revision: string, label?: string, changeCount?: number) => {
     const answer = await vscode.window.showWarningMessage(
@@ -68,7 +108,9 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
     );
     if (answer !== "恢复工作区") return;
     await provider.restore(revision);
-    void vscode.window.showInformationMessage("工作区已恢复；操作前状态已保存为 Checkpoint。", "打开本地历史");
+    await synchronizeOpenDocuments(provider);
+    const action = await vscode.window.showInformationMessage("工作区已恢复；操作前状态已保存为 Checkpoint。", "打开本地历史");
+    if (action === "打开本地历史") await vscode.commands.executeCommand("momoscript.localHistory.focus");
   }));
   subscriptions.push(vscode.commands.registerCommand("mmt.history.exportFile", async (revision: string, path: string) => {
     const entry = await provider.snapshotEntry(revision, path);
@@ -112,7 +154,38 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
     await provider.takeOverWriter();
     void vscode.window.showInformationMessage("已接管工作区写入权。此后修改会继续记录到本地历史。 ");
   }));
+  subscriptions.push(registerWorkspaceLeaseAttention(provider));
   return { dispose: () => subscriptions.splice(0).reverse().forEach((subscription) => subscription.dispose()) };
+}
+
+function registerWorkspaceLeaseAttention(provider: MmtIndexedDbFileSystemProvider): vscode.Disposable {
+  const subscriptions: vscode.Disposable[] = [];
+  const status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+  status.name = "MomoScript 工作区写入状态";
+  status.text = "$(lock) 工作区只读";
+  status.tooltip = "另一标签页持有工作区写入权；点击以接管";
+  status.command = "mmt.history.takeOverWriter";
+  status.backgroundColor = new vscode.ThemeColor("statusBarItem.warningBackground");
+  subscriptions.push(status);
+
+  let previousLease: string | undefined;
+  const refresh = () => {
+    const lease = provider.coordinator.state.lease;
+    if (lease === "readonly") status.show();
+    else status.hide();
+    if (lease === "readonly" && previousLease !== "readonly") {
+      void vscode.window.showWarningMessage(
+        "此标签页的工作区为只读。另一标签页持有写入权，当前修改无法保存到本地工作区。",
+        "接管写入权"
+      ).then((action) => {
+        if (action === "接管写入权") void vscode.commands.executeCommand("mmt.history.takeOverWriter");
+      });
+    }
+    previousLease = lease;
+  };
+  subscriptions.push(new vscode.Disposable(provider.coordinator.onDidChange(refresh)));
+  refresh();
+  return new vscode.Disposable(() => subscriptions.splice(0).reverse().forEach((subscription) => subscription.dispose()));
 }
 
 export function renderLocalHistoryView(container: HTMLElement, provider: MmtIndexedDbFileSystemProvider): vscode.Disposable {
@@ -140,8 +213,9 @@ export function renderLocalHistoryView(container: HTMLElement, provider: MmtInde
   const toolbar = document.createElement("div");
   toolbar.className = "mms-history-toolbar";
   const checkpoint = iconButton("＋", "创建 Checkpoint");
+  const cleanup = iconButton("⌫", "清理普通历史");
   const refreshButton = iconButton("↻", "刷新本地历史");
-  toolbar.append(checkpoint, refreshButton);
+  toolbar.append(checkpoint, cleanup, refreshButton);
   heading.append(title, toolbar);
   const controls = document.createElement("div");
   controls.className = "mms-history-controls";
@@ -159,28 +233,20 @@ export function renderLocalHistoryView(container: HTMLElement, provider: MmtInde
   list.className = "mms-history-list";
   list.setAttribute("role", "tree");
   list.setAttribute("aria-label", "本地历史版本");
-  const footer = document.createElement("button");
+  const loadMore = document.createElement("button");
+  loadMore.type = "button";
+  loadMore.className = "mms-history-load-more";
+  loadMore.textContent = "加载更早记录";
+  const footer = document.createElement("div");
   footer.className = "mms-history-footer";
-  footer.type = "button";
-  history.append(heading, controls, alert, list, footer);
+  history.append(heading, controls, alert, list, loadMore, footer);
   container.append(workspace, history);
 
   let disposed = false;
   let refreshGeneration = 0;
-  const refresh = async () => {
-    const generation = ++refreshGeneration;
-    const status = provider.workspaceStatus();
-    const metadata = provider.coordinator.state.metadata;
-    const bytes = await provider.historyBytes();
-    const revisions = await provider.history(200);
-    if (disposed || generation !== refreshGeneration) return;
-    workspaceIdentity.textContent = `${metadata.displayName} · ${shortId(status.workspaceId)}`;
-    workspaceState.textContent = `${backendLabel(status.backend)} · ${leaseLabel(status.lease)} · ${formatBytes(bytes)}`;
-    takeOver.hidden = status.lease === "writer";
-    const problem = historyProblem(provider);
-    alert.hidden = !problem;
-    alert.textContent = problem ?? "";
-    footer.textContent = `${formatBytes(bytes)} / ${formatBytes(FALLBACK_HISTORY_BUDGET)} · 默认保留 30 天`;
+  let loaded: WorkspaceHistoryRevision[] = [];
+  let nextCursor: { createdAt: number; id: string } | undefined;
+  const renderLoaded = () => {
     const activePath = activeWorkspacePath();
     if (pendingFileScope) {
       pendingFileScope = false;
@@ -189,21 +255,53 @@ export function renderLocalHistoryView(container: HTMLElement, provider: MmtInde
     scope.querySelector<HTMLOptionElement>('option[value="file"]')!.textContent = activePath ? basename(activePath) : "当前文件不可用";
     scope.disabled = !activePath && scope.value === "file";
     if (!activePath && scope.value === "file") scope.value = "workspace";
-    renderRevisionList(list, filterRevisions(revisions, scope.value, reason.value, activePath));
+    renderRevisionList(list, filterRevisions(loaded, scope.value, reason.value, activePath));
+    loadMore.hidden = !nextCursor;
+  };
+  const refresh = async () => {
+    const generation = ++refreshGeneration;
+    const status = provider.workspaceStatus();
+    const metadata = provider.coordinator.state.metadata;
+    const [usage, page] = await Promise.all([provider.historyUsage(), provider.historyPage(50)]);
+    if (disposed || generation !== refreshGeneration) return;
+    loaded = [...page.revisions];
+    nextCursor = page.nextCursor;
+    workspaceIdentity.textContent = `${metadata.displayName} · ${shortId(status.workspaceId)}`;
+    workspaceState.textContent = `${backendLabel(status.backend)} · ${leaseLabel(status.lease)} · ${formatBytes(usage.totalBytes)}`;
+    takeOver.hidden = status.lease === "writer";
+    checkpoint.disabled = status.lease === "readonly";
+    cleanup.disabled = status.lease === "readonly";
+    const problem = historyProblem(provider);
+    alert.hidden = !problem;
+    alert.textContent = problem ?? "";
+    footer.textContent = `${formatBytes(usage.totalBytes)} / ${formatBytes(usage.budgetBytes)} · 保留 30 天 · ${usage.checkpointCount} 个 Checkpoint（保护 ${formatBytes(usage.checkpointBytes)}）`;
+    footer.title = `恢复关键内容 ${formatBytes(usage.protectedBytes)}；历史文件内容按 SHA-256 去重，不包含索引元数据`;
+    renderLoaded();
   };
   const scheduleRefresh = () => void refresh().catch((error: unknown) => {
     if (disposed) return;
     list.replaceChildren(messageElement(error instanceof Error ? error.message : String(error)));
   });
   checkpoint.addEventListener("click", () => void vscode.commands.executeCommand("mmt.history.checkpoint").then(scheduleRefresh));
+  cleanup.addEventListener("click", () => void vscode.commands.executeCommand("mmt.history.clearUnprotected").then(scheduleRefresh));
   refreshButton.addEventListener("click", scheduleRefresh);
-  scope.addEventListener("change", scheduleRefresh);
-  reason.addEventListener("change", scheduleRefresh);
-  footer.addEventListener("click", () => void vscode.window.showInformationMessage(
-    `本地历史当前占用 ${footer.textContent?.split(" · ")[0] ?? "未知"}。容量治理与清理入口将在历史存储接入 origin-wide budget 后启用。`
-  ));
+  loadMore.addEventListener("click", () => void (async () => {
+    if (!nextCursor) return;
+    loadMore.disabled = true;
+    try {
+      const page = await provider.historyPage(50, nextCursor);
+      loaded.push(...page.revisions);
+      nextCursor = page.nextCursor;
+      renderLoaded();
+    } finally {
+      loadMore.disabled = false;
+    }
+  })());
+  scope.addEventListener("change", renderLoaded);
+  reason.addEventListener("change", renderLoaded);
   const fileChanges = provider.onDidChangeFile(scheduleRefresh);
-  const activeEditorChanges = vscode.window.onDidChangeActiveTextEditor(scheduleRefresh);
+  const activeEditorChanges = vscode.window.onDidChangeActiveTextEditor(renderLoaded);
+  const coordinatorChanges = new vscode.Disposable(provider.coordinator.onDidChange(scheduleRefresh));
   scheduleRefresh();
 
   function renderRevisionList(target: HTMLElement, revisions: readonly WorkspaceHistoryRevision[]): void {
@@ -239,26 +337,57 @@ export function renderLocalHistoryView(container: HTMLElement, provider: MmtInde
     copy.className = "mms-history-copy";
     const primary = document.createElement("span");
     primary.className = "mms-history-primary";
-    primary.textContent = revision.checkpoint || reasonLabel(revision.reason);
+    const directChange = revision.reason === "edit" && revision.changes.length === 1
+      ? revision.changes[0]
+      : undefined;
+    primary.textContent = revision.checkpoint
+      || (directChange ? `编辑 ${displayPath(directChange.path)}` : reasonLabel(revision.reason));
     const secondary = document.createElement("span");
     secondary.className = "mms-history-secondary";
-    secondary.textContent = `${formatTime(revision.updatedAt)} · ${revision.changes.length} 项变化`;
+    secondary.textContent = directChange
+      ? `${formatTime(revision.updatedAt)} · ${changeMetadata(directChange)}`
+      : `${formatTime(revision.updatedAt)} · ${revision.changes.length} 项变化`;
     copy.append(primary, secondary);
-    const restore = iconButton("↶", "恢复整个工作区到此版本");
+    const restore = directChange
+      ? iconButton("↶", `恢复 ${displayPath(directChange.path)} 到此版本`)
+      : iconButton("↶", "恢复整个工作区到此版本");
     restore.className = "mms-history-row-action";
     restore.addEventListener("click", (event) => {
       event.preventDefault();
       event.stopPropagation();
-      void vscode.commands.executeCommand("mmt.history.restoreWorkspace", revision.id, revision.checkpoint || formatTime(revision.updatedAt), revision.changes.length).then(scheduleRefresh);
+      const command = directChange
+        ? vscode.commands.executeCommand("mmt.history.restoreFile", revision.id, directChange.path)
+        : vscode.commands.executeCommand("mmt.history.restoreWorkspace", revision.id, revision.checkpoint || formatTime(revision.updatedAt), revision.changes.length);
+      void command.then(scheduleRefresh);
     });
     summary.append(icon, copy, restore);
     details.append(summary);
+    if (directChange) {
+      details.classList.add("mms-history-revision-direct");
+      details.setAttribute("aria-expanded", "false");
+      summary.title = `打开 ${displayPath(directChange.path)} 的更改`;
+      summary.addEventListener("click", (event) => {
+        event.preventDefault();
+        void vscode.commands.executeCommand("mmt.history.compare", revision.id, directChange.path, revision.updatedAt);
+      });
+      return details;
+    }
+    const updateExpanded = () => details.setAttribute("aria-expanded", String(details.open));
+    details.addEventListener("toggle", updateExpanded);
+    updateExpanded();
     const changes = document.createElement("div");
     changes.className = "mms-history-changes";
-    if (revision.changes.length === 0) {
-      changes.append(messageElement("工作区 Checkpoint"));
-    } else {
-      for (const change of revision.changes) changes.append(changeElement(revision, change));
+    if (revision.changes.length === 0) changes.append(messageElement(revision.checkpoint ? "受保护的工作区 Checkpoint" : "此记录没有文件变化"));
+    else for (const change of revision.changes) changes.append(changeElement(revision, change));
+    if (revision.checkpoint) {
+      const manage = document.createElement("div");
+      manage.className = "mms-history-checkpoint-actions";
+      const rename = iconButton("重命名", `重命名 Checkpoint ${revision.checkpoint}`);
+      const remove = iconButton("删除", `删除 Checkpoint ${revision.checkpoint}`);
+      rename.addEventListener("click", () => void vscode.commands.executeCommand("mmt.history.renameCheckpoint", revision.id, revision.checkpoint).then(scheduleRefresh));
+      remove.addEventListener("click", () => void vscode.commands.executeCommand("mmt.history.deleteCheckpoint", revision.id, revision.checkpoint).then(scheduleRefresh));
+      manage.append(rename, remove);
+      changes.append(manage);
     }
     details.append(changes);
     return details;
@@ -267,6 +396,7 @@ export function renderLocalHistoryView(container: HTMLElement, provider: MmtInde
   function changeElement(revision: WorkspaceHistoryRevision, change: WorkspaceHistoryChange): HTMLElement {
     const row = document.createElement("div");
     row.className = "mms-history-change";
+    const deleted = Boolean(change.beforeEntry && !change.afterEntry);
     const status = document.createElement("span");
     status.className = "mms-history-change-kind";
     status.textContent = changeKind(change);
@@ -274,12 +404,24 @@ export function renderLocalHistoryView(container: HTMLElement, provider: MmtInde
     open.type = "button";
     open.className = "mms-history-change-path";
     open.textContent = basename(change.path);
-    open.title = change.path;
-    open.addEventListener("click", () => void vscode.commands.executeCommand("mmt.history.compare", revision.id, change.path, revision.updatedAt));
-    const restore = iconButton("↶", `恢复 ${basename(change.path)}`);
+    open.title = `${change.path} · ${changeMetadata(change, true)}`;
+    open.addEventListener("click", () => void vscode.commands.executeCommand(
+      deleted ? "mmt.history.inspectDeletion" : "mmt.history.compare",
+      revision.id,
+      change.path,
+      revision.updatedAt
+    ));
+    const metadata = document.createElement("span");
+    metadata.className = "mms-history-change-meta";
+    metadata.textContent = changeMetadata(change);
+    const restore = iconButton("↶", deleted ? `恢复被删除文件 ${basename(change.path)}` : `恢复 ${basename(change.path)}`);
     restore.className = "mms-history-change-action";
-    restore.addEventListener("click", () => void vscode.commands.executeCommand("mmt.history.restoreFile", revision.id, change.path).then(scheduleRefresh));
-    row.append(status, open, restore);
+    restore.addEventListener("click", () => void vscode.commands.executeCommand(
+      deleted ? "mmt.history.restoreDeletedFile" : "mmt.history.restoreFile",
+      revision.id,
+      change.path
+    ).then(scheduleRefresh));
+    row.append(status, open, metadata, restore);
     return row;
   }
 
@@ -288,6 +430,7 @@ export function renderLocalHistoryView(container: HTMLElement, provider: MmtInde
       disposed = true;
       fileChanges.dispose();
       activeEditorChanges.dispose();
+      coordinatorChanges.dispose();
       workspace.remove();
       history.remove();
     }
@@ -302,7 +445,84 @@ async function confirmRestoreFile(provider: MmtIndexedDbFileSystemProvider, revi
   );
   if (answer !== "恢复此文件") return;
   await provider.restoreFile(revision, path);
+  await synchronizeOpenDocuments(provider, new Set([path]));
   void vscode.window.showInformationMessage(`已恢复 ${basename(path)}；操作前状态已保存。`);
+}
+
+async function inspectDeletedChange(
+  provider: MmtIndexedDbFileSystemProvider,
+  revision: string,
+  path: string,
+  timestamp?: number
+): Promise<void> {
+  const entry = await provider.historyChangeEntry(revision, path, "before");
+  if (!entry || entry.type !== vscode.FileType.File) {
+    void vscode.window.showWarningMessage(`删除记录中没有 ${basename(path)} 的删除前文件内容`);
+    return;
+  }
+  const actions = ["查看删除前内容", "恢复被删除文件", "恢复删除后的工作区"] as const;
+  const action = await vscode.window.showInformationMessage(
+    `${basename(path)} 在此记录中被删除。删除前文件为 ${mediaLabel(path)}，${formatBytes(entry.data.byteLength)}。`,
+    ...(isText(entry.data) ? actions : ["导出删除前文件", actions[1], actions[2]] as const)
+  );
+  if (action === "恢复被删除文件") {
+    await confirmRestoreDeletedFile(provider, revision, path);
+    return;
+  }
+  if (action === "恢复删除后的工作区") {
+    await vscode.commands.executeCommand("mmt.history.restoreWorkspace", revision, `删除 ${basename(path)} 后`, 1);
+    return;
+  }
+  if (action === "导出删除前文件") {
+    exportBytes(basename(path), entry.data);
+    return;
+  }
+  if (action !== "查看删除前内容") return;
+  const status = provider.workspaceStatus();
+  const historical = (side: "before" | "after") => vscode.Uri.from({
+    scheme: HISTORY_SCHEME,
+    authority: status.workspaceId,
+    path,
+    query: new URLSearchParams({ revision, side }).toString()
+  });
+  const label = timestamp ? formatTime(timestamp) : revision.slice(0, 8);
+  await vscode.commands.executeCommand("vscode.diff", historical("before"), historical("after"), `${basename(path)} — ${label} 删除前 ↔ 删除后`);
+}
+
+async function confirmRestoreDeletedFile(provider: MmtIndexedDbFileSystemProvider, revision: string, path: string): Promise<void> {
+  const answer = await vscode.window.showWarningMessage(
+    `恢复被删除文件 ${basename(path)}？如果同名文件已重新创建，当前内容会先保存为安全 Checkpoint。`,
+    { modal: true },
+    "恢复被删除文件"
+  );
+  if (answer !== "恢复被删除文件") return;
+  await provider.restoreDeletedFile(revision, path);
+  await synchronizeOpenDocuments(provider, new Set([path]));
+  void vscode.window.showInformationMessage(`已恢复被删除文件 ${basename(path)}。`);
+}
+
+async function synchronizeOpenDocuments(
+  provider: MmtIndexedDbFileSystemProvider,
+  paths?: ReadonlySet<string>
+): Promise<void> {
+  const edit = new vscode.WorkspaceEdit();
+  let changed = false;
+  for (const document of vscode.workspace.textDocuments) {
+    if (document.uri.scheme !== "mmtfs" || document.uri.authority !== "workspace") continue;
+    if (paths && !paths.has(document.uri.path)) continue;
+    let text: string;
+    try {
+      text = decodeText(provider.readFile(document.uri));
+    } catch {
+      continue;
+    }
+    if (document.getText() === text) continue;
+    edit.replace(document.uri, new vscode.Range(document.positionAt(0), document.positionAt(document.getText().length)), text);
+    changed = true;
+  }
+  if (changed && !await vscode.workspace.applyEdit(edit)) {
+    throw new Error("历史内容已恢复，但无法同步已打开的编辑器");
+  }
 }
 
 function filterRevisions(
@@ -380,9 +600,33 @@ function reasonLabel(reason: string): string {
 }
 
 function changeKind(change: WorkspaceHistoryChange): string {
-  if (!change.beforeEntry && change.afterEntry) return "A";
-  if (change.beforeEntry && !change.afterEntry) return "D";
-  return "M";
+  if (!change.beforeEntry && change.afterEntry) return "新增";
+  if (change.beforeEntry && !change.afterEntry) return "删除";
+  return "修改";
+}
+
+function changeMetadata(change: WorkspaceHistoryChange, fullHash = false): string {
+  const digest = change.after ?? change.before;
+  const size = change.afterEntry ? change.afterSize : change.beforeSize;
+  return [
+    mediaLabel(change.path, change.mediaType),
+    size === undefined ? undefined : formatBytes(size),
+    digest ? `SHA-256 ${fullHash ? digest : digest.slice(0, 8)}` : undefined
+  ].filter(Boolean).join(" · ");
+}
+
+function mediaLabel(path: string, mediaType?: string): string {
+  const type = mediaType ?? ({
+    avif: "image/avif", avifs: "image/avif-sequence", gif: "image/gif", jpeg: "image/jpeg", jpg: "image/jpeg",
+    json: "application/json", mmt: "text/x-momoscript", pdf: "application/pdf", png: "image/png", svg: "image/svg+xml",
+    toml: "application/toml", typ: "text/x-typst", txt: "text/plain", webp: "image/webp"
+  } as Record<string, string>)[path.split(".").at(-1)?.toLowerCase() ?? ""] ?? "application/octet-stream";
+  return ({
+    "application/json": "JSON", "application/octet-stream": "二进制", "application/pdf": "PDF", "application/toml": "TOML",
+    "image/avif": "AVIF", "image/avif-sequence": "AVIF 序列", "image/gif": "GIF", "image/jpeg": "JPEG",
+    "image/png": "PNG", "image/svg+xml": "SVG", "image/webp": "WebP", "text/plain": "文本",
+    "text/x-momoscript": "MomoScript", "text/x-typst": "Typst"
+  } as Record<string, string>)[type] ?? type;
 }
 
 function dateGroup(timestamp: number): string {
@@ -407,5 +651,6 @@ function formatBytes(bytes: number): string {
 
 function shortId(value: string): string { return value.split("-").join("").slice(0, 6); }
 function basename(path: string): string { return path.split("/").filter(Boolean).at(-1) ?? path; }
+function displayPath(path: string): string { return path.replace(/^\/+/, "") || "/"; }
 function backendLabel(kind: string): string { return kind === "indexeddb" ? "浏览器存储" : kind === "local-directory" ? "本地目录" : kind; }
 function leaseLabel(lease: string): string { return lease === "writer" ? "可写" : lease === "readonly" ? "只读" : "不可用"; }

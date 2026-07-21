@@ -30,13 +30,19 @@ Focused evidence (2026-07-17): `npm run test:workspace-atomic-apply` covers dete
 
 ## 4. Local History UX
 
-- [ ] 4.1 增加 workspace/status UI，显示 identity 短标识、backend、writer lease、history bytes/budget 和 quota/degraded 状态
-- [ ] 4.2 增加按文件/工作区浏览 revision、创建 checkpoint、Diff、恢复、导出和清理历史命令
-- [ ] 4.3 对二进制历史提供 metadata、导出和整文件恢复，不尝试文本 Diff
-- [ ] 4.4 用 Playwright 验证编辑→历史→Diff→恢复→reload，且 preview 使用恢复后的持久内容
-- [ ] 4.5 验证清理 pinned state、超预算写入和 writer takeover 都有明确确认与可访问状态
+- [x] 4.1 增加 workspace/status UI，显示 identity 短标识、backend、writer lease、history bytes/budget 和 quota/degraded 状态
+- [x] 4.2 增加按文件/工作区浏览 revision、创建 checkpoint、Diff、恢复、导出和清理历史命令
+- [x] 4.3 对二进制历史提供 metadata、导出和整文件恢复，不尝试文本 Diff
+- [x] 4.4 用 Playwright 验证编辑→历史→Diff→恢复→reload，且 preview 使用恢复后的持久内容
+- [x] 4.5 验证清理 pinned state、超预算写入和 writer takeover 都有明确确认与可访问状态
 
-Implementation progress (2026-07-20): the Web Workbench now exposes workspace identity/backend/lease and History bytes in a dedicated Local History Activity Bar view, separate from the compact MomoScript project-settings view. The native-styled timeline supports current-file/workspace scopes, type filters, named checkpoint creation, native `vscode.diff` over read-only `mmt-history:` documents, guarded file/workspace restore, and binary export/whole-file restore. `npm run test:e2e -- editor.spec.ts` proves the production Explorer, MomoScript, and Local History sidebar entries switch independently. Browser smoke additionally exercised the dedicated views, checkpoint creation, and a real native Diff editor. Tasks 4.1–4.5 remain open until origin-coordinator budget/GC controls, complete binary metadata, restore→reload preview E2E, and writer/quota confirmation coverage are all closed.
+Implementation progress (2026-07-20): the Web Workbench exposes workspace identity/backend/lease and History bytes in a dedicated Local History Activity Bar view, separate from the compact MomoScript project-settings view. The native-styled timeline supports current-file/workspace scopes, type filters, named checkpoint creation, native `vscode.diff` over read-only `mmt-history:` documents, guarded file/workspace restore, and binary export/whole-file restore. `npm run test:e2e -- editor.spec.ts` proved the production Explorer, MomoScript, and Local History sidebar entries switch independently; browser smoke additionally exercised the dedicated views, checkpoint creation, and a real native Diff editor.
+
+Writer-contention evidence (2026-07-21): the Workbench now raises an actionable warning notification and a warning-colored `$(lock) 工作区只读` Status Bar item whenever another tab owns the writer lease. The Local History status subscribes directly to coordinator lease changes. `npm run test:e2e -- --project=local --grep "second tab blocks writes"` opens two real pages, proves the read-only page rejects a provider write without creating the file, requires an explicit takeover confirmation, moves the warning to the displaced writer, and proves the new writer can persist afterward.
+
+History UX evidence (2026-07-21, before production policy activation): the timeline reported measured history-file bytes as `自动清理尚未启用` rather than claiming an unenforced 50 MB / 30-day policy. A one-file edit rendered as `编辑 <path>` and activated its native Diff directly, while its row action remained file-scoped. `npm run test:e2e -- --project=local --grep "local history opens a single-file edit diff"` proved edit → Checkpoint → edit → direct Diff → file restore → open editor/preview synchronization → workspace restore → actionable completion notification → reload, with IndexedDB bytes and preview text remaining restored.
+
+History completion evidence (2026-07-22): the version-3 IndexedDB upgrade adds revision/time indexes and resumable full-snapshot migration; the production backend now enforces a 50 MiB / 30-day policy with SHA-256 blob GC, protected current/structural roots, named Checkpoint rename/delete, and explicit quota-blocked state. The Local History view uses indexed 50-row pagination, direct-edit fast paths, full workspace metadata for create/delete/rename, binary metadata/export/whole-file restore, deletion inspection, and restore confirmation. `npm run test:e2e -- --project=local --grep "local history"` covers paging, age GC without current-file loss, Checkpoint management/cleanup, text Diff/restore/reload, deleted-file inspection/restore, and binary metadata behavior; `npm run test:workspace-atomic-apply` covers quota-blocked atomic failure, while the two-tab Playwright case covers writer takeover.
 
 ## 5. File System Access Backend
 

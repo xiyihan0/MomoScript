@@ -11,7 +11,7 @@ import {
   type IStat,
   type IWatchOptions
 } from "@codingame/monaco-vscode-files-service-override";
-import { IndexedDbWorkspaceBackend, type WorkspaceHistoryRevision, type WorkspaceRevision } from "./indexedDbWorkspace";
+import { IndexedDbWorkspaceBackend, type WorkspaceHistoryCursor, type WorkspaceHistoryPage, type WorkspaceHistoryRevision, type WorkspaceHistoryUsage, type WorkspaceRevision } from "./indexedDbWorkspace";
 import { WorkspaceCoordinator, normalizeWorkspacePath as normalize, type WorkspaceEntry } from "./workspace";
 
 
@@ -188,6 +188,18 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
     return this.backend.history(limit);
   }
 
+  historyPage(limit = 50, cursor?: WorkspaceHistoryCursor): Promise<WorkspaceHistoryPage> {
+    return this.backend.historyPage(limit, cursor);
+  }
+
+  historyUsage(): Promise<WorkspaceHistoryUsage> {
+    return this.backend.historyUsage();
+  }
+
+  historyChangeEntry(revision: string, path: string, side: "before" | "after"): Promise<WorkspaceEntry | undefined> {
+    return this.backend.changeEntry(revision, path, side);
+  }
+
   snapshotEntry(revision: string, path: string): Promise<WorkspaceEntry | undefined> {
     return this.backend.snapshotEntry(revision, path);
   }
@@ -204,6 +216,18 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
       revision = await this.backend.commitMutation("checkpoint", new Map(), new Map(), checkpoint);
     });
     return revision;
+  }
+
+  async renameCheckpoint(revision: string, name: string): Promise<void> {
+    await this.coordinator.maintainHistory(() => this.backend.renameCheckpoint(revision, name));
+  }
+
+  async deleteCheckpoint(revision: string): Promise<void> {
+    await this.coordinator.maintainHistory(() => this.backend.deleteCheckpoint(revision));
+  }
+
+  async clearUnprotectedHistory(): Promise<WorkspaceHistoryUsage> {
+    return this.coordinator.maintainHistory(() => this.backend.clearUnprotectedHistory());
   }
 
   async restore(revision: string): Promise<void> {
@@ -230,7 +254,17 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
 
   async restoreFile(revision: string, rawPath: string): Promise<void> {
     const path = normalize(rawPath);
-    const historical = await this.backend.snapshotEntry(revision, path);
+    await this.applyFileRestore(revision, path, await this.backend.snapshotEntry(revision, path));
+  }
+
+  async restoreDeletedFile(revision: string, rawPath: string): Promise<void> {
+    const path = normalize(rawPath);
+    const historical = await this.backend.changeEntry(revision, path, "before");
+    if (!historical) throw new Error(`删除记录中没有 ${path} 的删除前内容`);
+    await this.applyFileRestore(revision, path, historical);
+  }
+
+  private async applyFileRestore(revision: string, path: string, historical: WorkspaceEntry | undefined): Promise<void> {
     const current = this.#entries.get(path);
     if (!historical && !current) return;
     const before = current ? new Map([[path, current]]) : new Map<string, StoredEntry>();
@@ -238,7 +272,7 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
       ? new Map([[path, { ...historical, type: historical.type as vscode.FileType, data: historical.data.slice() }]])
       : new Map<string, StoredEntry>();
     await this.coordinator.mutate("restore", async () => {
-      await this.backend.commitMutation("checkpoint", new Map(), new Map(), `Before restoring ${path}`);
+      await this.backend.commitMutation("checkpoint", new Map(), new Map(), `Before restoring ${path} from ${revision.slice(0, 8)}`);
       await this.backend.commitMutation("restore", before, after);
       if (historical) {
         const restored = { ...historical, type: historical.type as vscode.FileType, data: historical.data.slice() };
