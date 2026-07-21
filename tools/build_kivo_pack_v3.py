@@ -162,6 +162,9 @@ COLLAB_FULL_NAMES = {
     "佐天泪子",
 }
 
+# 远古测试（CBT）时期实体的标记；构建时默认排除，可用 --exclude-entity-marker 调整。
+DEFAULT_EXCLUDED_ENTITY_MARKERS = ("(CBT)", "（CBT）")
+
 
 def _utc_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -233,18 +236,38 @@ def _full_name(detail: dict[str, Any], *, locale: str) -> str:
     return f"{family}{given}".strip()
 
 
+def _primary_name(detail: dict[str, Any]) -> str:
+    full_cn = _full_name(detail, locale="zh-CN")
+    if full_cn in COLLAB_FULL_NAMES:
+        return full_cn
+    return _display_name(detail)
+
+
+def _normalized_entity_key(name: str) -> str:
+    """实体 key 兼作存储路径，必须 URL/对象存储安全。"""
+    return re.sub(r'[\\/:*?"<>|]', "_", name)
+
+
+def _star_display_forms(name: str) -> list[str]:
+    """`白子*恐怖` 这类 alter 名称归一化为 白子_恐怖 / 白子（恐怖） 两种写法。"""
+    if "*" not in name:
+        return [name]
+    base, _, rest = name.partition("*")
+    if not base or not rest:
+        return [base or rest]
+    return _unique([f"{base}_{rest}", f"{base}（{rest}）"])
+
+
 def _entity_id_for(detail: dict[str, Any]) -> str:
     student_id = int(detail.get("id") or 0)
-    full_cn = _full_name(detail, locale="zh-CN")
-    given = _display_name(detail)
-    base_id = full_cn if full_cn in COLLAB_FULL_NAMES else given
+    base_id = _primary_name(detail)
     skin = _safe_text(
         detail.get("skin_cn") or detail.get("skin") or detail.get("skin_jp")
     )
     if base_id and skin:
-        return f"{base_id}_{skin}"
+        return _normalized_entity_key(f"{base_id}_{skin}")
     if base_id:
-        return base_id
+        return _normalized_entity_key(base_id)
     return f"student_{student_id}"
 
 
@@ -262,15 +285,13 @@ def _display_name(detail: dict[str, Any]) -> str:
 def _canonical_names(
     detail: dict[str, Any], *, nickname_names: bool, english_names: bool
 ) -> list[str]:
-    full_cn = _full_name(detail, locale="zh-CN")
-    given = _display_name(detail)
-    primary_name = full_cn if full_cn in COLLAB_FULL_NAMES else given
+    primary_name = _primary_name(detail)
     skin = _safe_text(detail.get("skin_cn") or detail.get("skin"))
     names: list[str] = []
     if skin:
         names.extend([f"{primary_name}_{skin}", f"{primary_name}({skin})"])
     else:
-        names.append(primary_name)
+        names.extend(_star_display_forms(primary_name))
 
     if english_names:
         given_en = _safe_text(detail.get("given_name_en"))
@@ -284,6 +305,11 @@ def _canonical_names(
         names.extend(_split_nicknames(_safe_text(detail.get("nick_name"))))
 
     return _unique(names)
+
+
+def _display_primary(detail: dict[str, Any]) -> str:
+    """展示用名称：联动角色用全名，alter（*）用括号形式。"""
+    return _star_display_forms(_primary_name(detail))[-1]
 
 
 def _locale_map(*items: tuple[str, Any]) -> dict[str, str]:
@@ -493,9 +519,10 @@ def _build_manifest(
     max_gallery_images: Optional[int],
     nickname_names: bool,
     english_names: bool,
+    excluded_entity_markers: list[str],
     api_versions: dict[int, str],
     api_times: dict[int, int],
-) -> tuple[dict[str, Any], list[DownloadTask]]:
+) -> tuple[dict[str, Any], list[DownloadTask], list[str]]:
     entities: dict[str, Any] = {}
     storage: dict[str, Any] = {
         "avatars": {
@@ -516,9 +543,19 @@ def _build_manifest(
         used_entity_ids.add(entity_id)
         id_to_entity[int(detail.get("id") or 0)] = entity_id
 
+    skipped_entities: list[str] = []
     for detail in details:
         student_id = int(detail.get("id") or 0)
         entity_id = id_to_entity[student_id]
+        candidate_names = [entity_id, *_canonical_names(detail, nickname_names=nickname_names, english_names=english_names)]
+        if any(
+            marker in candidate
+            for marker in excluded_entity_markers
+            for candidate in candidate_names
+        ):
+            skipped_entities.append(entity_id)
+            print(f"[info] excluded entity {entity_id} (marker match)")
+            continue
         avatar_url = _normalize_url(_safe_text(detail.get("avatar")))
         avatar_ext = _url_ext(avatar_url, default=".png")
         avatar_filename = f"{entity_id}{avatar_ext}"
@@ -629,7 +666,7 @@ def _build_manifest(
                     nickname_names=nickname_names,
                     english_names=english_names,
                 ),
-                "display_name": _display_name(detail),
+                "display_name": _display_primary(detail),
                 "slots": slots,
             }
         )
@@ -650,7 +687,7 @@ def _build_manifest(
         "thumbnails": dict(sorted(thumbnails.items(), key=lambda kv: kv[0])),
         "storage": dict(sorted(storage.items(), key=lambda kv: kv[0])),
     }
-    return manifest, tasks
+    return manifest, tasks, skipped_entities
 
 
 def _write_json(path: Path, data: Any) -> None:
@@ -1195,7 +1232,7 @@ async def main_async(args: argparse.Namespace) -> int:
                     detail,
                 )
 
-        manifest, tasks = _build_manifest(
+        manifest, tasks, skipped_entities = _build_manifest(
             details,
             namespace=args.namespace,
             pack_name=args.pack_name,
@@ -1208,6 +1245,7 @@ async def main_async(args: argparse.Namespace) -> int:
             else None,
             nickname_names=bool(args.nickname_names),
             english_names=bool(args.english_names),
+            excluded_entity_markers=list(args.exclude_entity_marker),
             api_versions=api_versions,
             api_times=api_times,
         )
@@ -1217,6 +1255,7 @@ async def main_async(args: argparse.Namespace) -> int:
             "generated_at": _utc_now_iso(),
             "student_ids": student_ids,
             "entities": len(manifest["entities"]),
+            "excluded_entities": skipped_entities,
             "name_conflicts": _entity_name_conflicts(manifest),
             "download_tasks": len(tasks),
             "detail_errors": errors,
@@ -1370,6 +1409,12 @@ def build_argparser() -> argparse.ArgumentParser:
         action="append",
         default=list(DEFAULT_EXCLUDED_GALLERY_TITLES),
         help="Substring of gallery titles to exclude in sticker-like mode. Can repeat.",
+    )
+    parser.add_argument(
+        "--exclude-entity-marker",
+        action="append",
+        default=list(DEFAULT_EXCLUDED_ENTITY_MARKERS),
+        help="Substring of entity id/names to exclude from the pack (default: CBT markers). Can repeat.",
     )
     parser.add_argument(
         "--max-gallery-images",
