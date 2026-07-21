@@ -18,7 +18,7 @@
 
 - [x] 3.1 注册 `mmt.gallery.insertSticker(entityName, ordinal)`：mmt 编辑器校验、光标/选区插入 `[:name,#n:]`、保持编辑器焦点
 - [x] 3.2 差分格点击接入命令；非 mmt 编辑器显示警告且不改动文档
-  - 注意：当前 workbench 布局不渲染通知 toast（既有平台缺口，历史视图/PWA 更新提示同样不可见），警告通过 `showWarningMessage` 发出；行为合同以不修改文档为准
+  - 通知缺口已由 Web Workbench 的 native notifications service override 补齐；`showWarningMessage` 现在进入同一原生 toast、通知中心与 Status Bar 铃铛模型，非 mmt 编辑器仍不得修改文档
 
 ## 4. 验证
 

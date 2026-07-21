@@ -19,6 +19,7 @@
 - 原生 VS Code Activity Bar、Explorer、Sidebar、Editor、Panel 和 Status Bar parts；
 - 通过 `registerCustomView` 注册的 MomoScript 原生 View；
 - IndexedDB workspace 和文档持久化；
+- 本地历史 Activity View：按文件/工作区分页浏览、50 MiB / 30 天保留、named Checkpoint、文本 Diff/恢复、删除前检查与二进制导出/整文件恢复；
 - MMT LSP 与 Tinymist 独立 Worker；
 - revision-bound Typst projection、preview artifact 和预览交互；
 - workspace 图片、pack-v3 图片及 AVIFS materialization；
@@ -70,6 +71,7 @@ VS Code TextDocument / mmtfs workspace
 | Sidebar/main、Editor/Panel 几何与 sash | `createLayout` 创建的两个原生 `SplitView` |
 | 当前 authored 文档内容 | VS Code `TextDocument` |
 | authored 文档持久字节 | `mmtfs` workspace provider/coordinator |
+| IndexedDB 历史 revision/head/snapshot、SHA-256 blob、保留与 Checkpoint | workspace backend/coordinator；Local History View 仅按游标读取和发命令 |
 | 产品 startup、work admission、quiesce、dispose | 单一 `EditorRuntimeController` 及其单一 `RuntimeOwner` |
 | projection/materialization、已接受 preview revision/artifact | `EditorRuntimeController` 拥有的 typed stores / `PreviewArtifactStore` |
 | 已显示 preview DOM 与 viewport interaction | runtime-owned `TypstPreviewController`，只绑定已接受 artifact identity |

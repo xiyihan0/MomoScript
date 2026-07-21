@@ -139,6 +139,61 @@ A restore SHALL create a new current state without rewriting or moving prior rev
 - AND it MUST create a new `restore` revision
 - AND both the selected old revision and pre-restore checkpoint MUST remain available
 
+### Requirement: Local History actions reflect their scope
+
+The Local History UI SHALL distinguish direct single-file actions from workspace-wide transitions and SHALL keep open authored views synchronized with a completed restore.
+
+#### Scenario: One edit revision changes one file
+
+- GIVEN an `edit` revision changes exactly one workspace file
+- WHEN the timeline renders that revision
+- THEN its primary label MUST identify the file as `编辑 <workspace-relative-path>`
+- AND activating the revision MUST open that file's native Diff directly
+- AND its restore action MUST restore only that file rather than the whole workspace
+
+#### Scenario: Restored content is open in the editor
+
+- GIVEN a restored text file is open and drives a preview
+- WHEN the file or workspace restore commits
+- THEN the open document MUST synchronize to the restored persistent bytes
+- AND the preview MUST advance to the restored content before the UI reports a stable restored state
+
+#### Scenario: A workspace has more revisions than one timeline page
+
+- GIVEN more than 50 revisions match the selected file/workspace scope and reason filter
+- WHEN the timeline opens and the author loads earlier records
+- THEN the backend MUST use its revision/time indexes and a stable cursor rather than scanning and inflating the whole history
+- AND the UI MUST append the next page without duplicating or reordering revisions
+
+#### Scenario: Author manages a named Checkpoint
+
+- GIVEN a named Checkpoint protects a historical snapshot
+- WHEN the author renames or explicitly deletes it
+- THEN the timeline and protected-byte/count status MUST update without changing the represented file snapshot
+- AND deleting it MUST remove its protection and history row, except that a current head MAY remain as a non-Checkpoint recovery root
+- AND clearing ordinary edit history MUST preserve named Checkpoints、current state and structural recovery roots
+
+#### Scenario: A historical change is deleted or binary
+
+- GIVEN a revision deletes a file or records bytes that are not text
+- WHEN the author inspects that change
+- THEN a deletion MUST offer its before-state for inspection and confirmed whole-file restore
+- AND binary content MUST show media type、byte size and SHA-256 metadata
+- AND binary content MUST offer export and confirmed whole-file restore without opening a text Diff
+
+### Requirement: Retention claims reflect active production behavior
+
+The Local History UI SHALL report measured file-content usage together with the exact retention policy enforced by the production IndexedDB backend.
+
+#### Scenario: Production history retention is enabled
+
+- GIVEN the version-3 production IndexedDB history backend is active
+- WHEN the history footer reports usage
+- THEN it MUST show measured SHA-256 blob bytes against the 50 MiB budget、the 30-day edit retention period、Checkpoint count and protected Checkpoint bytes
+- AND GC MUST remove expired or oldest eligible ordinary edits and unreferenced blobs without deleting current workspace bytes
+- AND quota overflow caused only by protected/current state MUST publish an accessible quota-blocked state and block subsequent unrecorded mutations rather than deleting current content
+
+
 ### Requirement: History retention is byte-bounded and protects recovery roots
 
 History GC SHALL enforce a visible byte budget while retaining every blob required for active state、pending recovery、sync safety and pinned checkpoints.
@@ -313,6 +368,7 @@ The Web editor SHALL acquire a workspace-scoped writer lease before accepting pe
 - WHEN a second page opens W
 - THEN the second page MUST open read-only or wait visibly
 - AND it MUST NOT persist mutations concurrently
+- AND the shell MUST display a persistent warning status and an actionable notification while the page remains read-only
 - AND takeover MUST require an explicit author action rather than an automatic timeout
 
 ### Requirement: Unsupported browsers retain the IndexedDB workflow

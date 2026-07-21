@@ -168,6 +168,7 @@ body {
 .mms-history-toolbar button:hover,
 .mms-history-row-action:hover,
 .mms-history-change-action:hover { background: var(--vscode-toolbar-hoverBackground, var(--vscode-list-hoverBackground)); }
+.mms-history-toolbar button:disabled { opacity: .45; }
 .mms-history-controls { gap: 4px; padding: 6px 8px; }
 .mms-history-controls select {
   min-width: 0;
@@ -207,6 +208,10 @@ body {
 .mms-history-revision > summary:hover,
 .mms-history-change:hover { background: var(--vscode-list-hoverBackground, #2a2d2e); }
 .mms-history-revision[open] > summary { background: var(--vscode-list-inactiveSelectionBackground, #37373d); }
+.mms-history-revision > summary:focus-visible {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: -1px;
+}
 .mms-history-icon { color: var(--vscode-descriptionForeground, #bbb); text-align: center; }
 .mms-history-copy { display: grid; min-width: 0; }
 .mms-history-primary { font-size: 12px; }
@@ -219,7 +224,16 @@ body {
 .mms-history-change:focus-within .mms-history-change-action { opacity: 1; }
 .mms-history-changes { display: grid; padding: 2px 5px 5px 27px; }
 .mms-history-change { min-height: 24px; }
-.mms-history-change-kind { width: 18px; color: var(--vscode-descriptionForeground, #aaa); font-size: 10px; }
+.mms-history-change-kind { flex: 0 0 30px; color: var(--vscode-descriptionForeground, #aaa); font-size: 10px; }
+.mms-history-change-meta {
+  max-width: 104px;
+  overflow: hidden;
+  flex: 0 1 auto;
+  color: var(--vscode-descriptionForeground, #aaa);
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .mms-history-change-path {
   min-width: 0;
   flex: 1 1 auto;
@@ -233,6 +247,19 @@ body {
   white-space: nowrap;
 }
 .mms-history-message { padding: 8px 12px; color: var(--vscode-descriptionForeground, #aaa); font-size: 11px; }
+.mms-history-checkpoint-actions { display: flex; justify-content: flex-end; gap: 4px; padding: 2px 4px; }
+.mms-history-checkpoint-actions button,
+.mms-history-load-more {
+  padding: 3px 7px;
+  border: 0;
+  color: var(--vscode-button-secondaryForeground, var(--vscode-foreground));
+  background: var(--vscode-button-secondaryBackground, var(--vscode-list-inactiveSelectionBackground));
+  font: inherit;
+}
+.mms-history-checkpoint-actions button:hover,
+.mms-history-load-more:hover { background: var(--vscode-button-secondaryHoverBackground, var(--vscode-list-hoverBackground)); }
+.mms-history-load-more { margin: 4px 8px; }
+.mms-history-load-more:disabled { opacity: .55; }
 .mms-history-footer {
   width: 100%;
   padding: 5px 12px;
@@ -243,7 +270,6 @@ body {
   font-size: 10px !important;
   text-align: left;
 }
-.mms-history-footer:hover { background: var(--vscode-list-hoverBackground, #2a2d2e); }
 .workbench-preview.typst-preview { display: none; }
 .workbench-status {
   flex: 0 0 22px;
