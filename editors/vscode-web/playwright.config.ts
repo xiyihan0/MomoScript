@@ -4,7 +4,8 @@ export default defineConfig({
   testDir: "./e2e",
   testIgnore: ["lifecycle.spec.ts", "pwa-offline.spec.ts"],
   fullyParallel: false,
-  workers: 1,
+  // Each worker boots the full Workbench plus language/Typst WASM; two keeps CI memory bounded.
+  workers: 2,
   timeout: 180_000,
   expect: { timeout: 45_000 },
   use: {
