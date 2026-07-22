@@ -140,14 +140,15 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Configure pinned Cargo registry
         run: |
-          mkdir -p "$CARGO_HOME"
+          cargo_home="${CARGO_HOME:-$HOME/.cargo}"
+          mkdir -p "$cargo_home"
           printf '%s\n' \
             '[source.crates-io]' \
             "replace-with = 'mirror'" \
             '' \
             '[source.mirror]' \
             "registry = \"${TYPST_TS_CARGO_REGISTRY}\"" \
-            > "$CARGO_HOME/config.toml"
+            > "$cargo_home/config.toml"
       - name: Install pinned Rust and wasm-pack
         run: |
           rustup toolchain install "$TYPST_TS_RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
