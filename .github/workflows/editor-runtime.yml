@@ -164,6 +164,8 @@ jobs:
         run: |
           wasm-pack build --target web --scope myriaddreamin --release -- --no-default-features --features web,misc
           node ../tools/wasm-debundle.mjs
+          sha256sum pkg/typst_ts_web_compiler_bg.wasm pkg/typst_ts_web_compiler.mjs
+          wc -c pkg/typst_ts_web_compiler_bg.wasm pkg/typst_ts_web_compiler.mjs
           echo "fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c  pkg/typst_ts_web_compiler_bg.wasm" | sha256sum --check
           echo "94d91940b1cc6242009962e42e31da2438f9879239efa572e3d4a92eb61e3507  pkg/typst_ts_web_compiler.mjs" | sha256sum --check
           echo "94d91940b1cc6242009962e42e31da2438f9879239efa572e3d4a92eb61e3507  $GITHUB_WORKSPACE/third_party/typst-ts/pkg/typst_ts_web_compiler.mjs" | sha256sum --check
