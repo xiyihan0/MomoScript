@@ -4,8 +4,8 @@ export default defineConfig({
   testDir: "./e2e",
   testIgnore: ["lifecycle.spec.ts", "pwa-offline.spec.ts"],
   fullyParallel: false,
-  // CI runners cannot reliably compile two full Tinymist/Typst WASM stacks concurrently.
-  workers: process.env.CI ? 1 : 2,
+  // Bound each browser process to a subset of the full-WASM journeys to avoid long-run compiler buildup.
+  workers: 2,
   timeout: 180_000,
   expect: { timeout: 120_000 },
   use: {
