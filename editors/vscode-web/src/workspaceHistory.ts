@@ -94,7 +94,9 @@ export class WorkspaceHistory {
       && now - previousRevision.updatedAt < HISTORY_IDLE_MS
       && now - previousRevision.createdAt < HISTORY_MAX_GROUP_MS;
     const revisionId = grouped ? previousRevision.id : crypto.randomUUID();
-    const changes = grouped ? mergeChanges(previousRevision.changes, rawChanges) : rawChanges;
+    const changes = (grouped ? mergeChanges(previousRevision.changes, rawChanges) : rawChanges)
+      .filter(historyChangeHasEffect);
+    const elideGroupedRevision = grouped && previousRevision.parent !== undefined && changes.length === 0;
     const revision: HistoryRevision = {
       id: revisionId,
       parent: grouped ? previousRevision.parent : this.#head,
@@ -105,7 +107,9 @@ export class WorkspaceHistory {
       pinned: options.pin ?? Boolean(options.label),
       changes,
     };
-    const revisions = grouped ? [...this.#revisions.slice(0, -1), revision] : [...this.#revisions, revision];
+    const revisions = elideGroupedRevision
+      ? this.#revisions.slice(0, -1)
+      : grouped ? [...this.#revisions.slice(0, -1), revision] : [...this.#revisions, revision];
     const current = cloneTree(this.#current);
     for (const path of paths) {
       const entry = after.get(path);
@@ -117,8 +121,9 @@ export class WorkspaceHistory {
     this.#blobs = stagedBlobs;
     this.#revisions = revisions;
     this.#current = current;
-    this.#head = revisionId;
-    return revisionId;
+    this.#head = elideGroupedRevision ? previousRevision.parent : revisionId;
+    if (elideGroupedRevision) this.gc(now);
+    return this.#head;
   }
 
   checkpoint(label: string, now = Date.now()): Promise<string> {
@@ -246,6 +251,12 @@ export function workspaceInventory(
       ...(hardGate ? [{ id: `workspace:${workspaceId}:gate`, owner: "workspace" as const, class: "workspace-protected" as const, bytes: 0, reproducible: false, active: true, blocked: true }] : []),
     ],
   };
+}
+
+function historyChangeHasEffect(change: Pick<HistoryChange, "before" | "after" | "beforeEntry" | "afterEntry">): boolean {
+  if (change.before !== change.after) return true;
+  if (Boolean(change.beforeEntry) !== Boolean(change.afterEntry)) return true;
+  return change.beforeEntry?.type !== change.afterEntry?.type;
 }
 
 function mergeChanges(existing: readonly HistoryChange[], next: readonly HistoryChange[]): HistoryChange[] {

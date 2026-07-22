@@ -8,6 +8,7 @@ import {
   type GalleryStickerSet,
   type GalleryVariant
 } from "./galleryPack";
+import { showMomoScriptMessage } from "./notifications";
 
 const ENTITY_PAGE_SIZE = 48;
 const ZOOM_STORAGE_KEY = "mmt-gallery-zoom";
@@ -29,7 +30,7 @@ export function registerCharacterGalleryCommands(getPacks: () => readonly Galler
     if (typeof entityName !== "string" || typeof ordinal !== "number") return;
     const editor = vscode.window.activeTextEditor;
     if (!editor || editor.document.uri.scheme !== "mmtfs" || editor.document.languageId !== "mmt") {
-      void vscode.window.showWarningMessage("请先打开一个 MMT 文档，再插入人物差分");
+      void showMomoScriptMessage("warning", "请先打开一个 MMT 文档，再插入人物差分");
       return;
     }
     const selector = typeof setId === "string" && setId.length > 0 ? `${setId}/#${ordinal}` : `#${ordinal}`;
@@ -45,7 +46,7 @@ export function registerCharacterGalleryCommands(getPacks: () => readonly Galler
   subscriptions.push(vscode.commands.registerCommand("mmt.gallery.insertStickerAtCursor", async () => {
     const editor = vscode.window.activeTextEditor;
     if (!editor || editor.document.uri.scheme !== "mmtfs" || editor.document.languageId !== "mmt") {
-      void vscode.window.showWarningMessage("请先打开一个 MMT 文档，再插入人物差分");
+      void showMomoScriptMessage("warning", "请先打开一个 MMT 文档，再插入人物差分");
       return;
     }
     const entityKey = resolveSpeakerEntityKey(editor.document, editor.selection.active, getPacks());

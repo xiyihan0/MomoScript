@@ -384,13 +384,19 @@ body {
 
 .typst-preview-page .tsel,
 .typst-preview-page .tsel span {
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
   color: transparent;
-  line-height: 1;
+  text-align: justify;
+  text-align-last: justify;
   white-space: pre;
   pointer-events: auto;
   user-select: text;
   cursor: text;
 }
+
 
 .typst-preview-page .tsel::selection,
 .typst-preview-page .tsel span::selection {

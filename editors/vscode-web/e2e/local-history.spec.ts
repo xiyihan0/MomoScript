@@ -177,6 +177,25 @@ test("local history enforces retention and manages paged Checkpoints", async ({ 
   await expect(page.getByText("暂无符合条件的历史记录")).toBeVisible();
 });
 
+test("local history elides an edit group that returns to its original content", async ({ page }) => {
+  const original = "#set page(width: 320pt, height: 180pt)\n= ORIGINAL\n";
+  const transient = "#set page(width: 320pt, height: 180pt)\n= TRANSIENT\n";
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
+  await page.evaluate(({ name, text }) => (
+    Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function
+  )(name, text), { name: "history-noop.typ", text: original });
+  await page.evaluate(({ name, text }) => (
+    Reflect.get(globalThis, "__mmtWriteWorkspaceFile") as Function
+  )(name, btoa(text)), { name: "history-noop.typ", text: transient });
+  await expect.poll(() => persistedWorkspaceText(page, "/history-noop.typ")).toBe(transient);
+  await page.evaluate(({ name, text }) => (
+    Reflect.get(globalThis, "__mmtWriteWorkspaceFile") as Function
+  )(name, btoa(text)), { name: "history-noop.typ", text: original });
+  await expect.poll(() => persistedWorkspaceText(page, "/history-noop.typ")).toBe(original);
+  await expect.poll(() => historyEditCountForPath(page, "/history-noop.typ")).toBe(0);
+});
+
 test("local history distinguishes deleted files and reports binary metadata", async ({ page }) => {
   const deletedText = "#set page(width: 320pt, height: 180pt)\n= DELETE ME\n";
   await page.goto("/");
@@ -307,4 +326,33 @@ async function historyRevisionExists(page: Page, revision: string): Promise<bool
       database.close();
     }
   }, revision);
+}
+
+async function historyEditCountForPath(page: Page, path: string): Promise<number> {
+  return page.evaluate(async (entryPath) => {
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open("momoscript-workspace-v1");
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    try {
+      const transaction = database.transaction(["revisions", "changes"]);
+      const [revisions, changes] = await Promise.all([
+        new Promise<Array<{ id: string; reason: string }>>((resolve, reject) => {
+          const request = transaction.objectStore("revisions").getAll();
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        }),
+        new Promise<Array<{ revision: string; path: string }>>((resolve, reject) => {
+          const request = transaction.objectStore("changes").getAll();
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        }),
+      ]);
+      const editRevisions = new Set(revisions.filter((revision) => revision.reason === "edit").map((revision) => revision.id));
+      return changes.filter((change) => change.path === entryPath && editRevisions.has(change.revision)).length;
+    } finally {
+      database.close();
+    }
+  }, path);
 }

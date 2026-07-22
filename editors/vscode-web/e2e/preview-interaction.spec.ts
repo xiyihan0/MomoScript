@@ -104,6 +104,109 @@ test("Web and Desktop preview interactions stay artifact-bound", async ({ page }
   await expect.poll(async () => (await interactionState(page)).viewport.fitMode).toBe("width");
 });
 
+test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
+  await page.route("https://**/*", async (route) => {
+    const url = route.request().url();
+    if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
+      await route.abort("connectionfailed");
+      return;
+    }
+    await route.continue();
+  });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 120_000 });
+  const source = [
+    "@typ",
+    "12345",
+    "#divider()",
+    "abcde",
+    "123434",
+    '#image("intro-assets/basic.png")',
+    "@end",
+    "",
+  ].join("\n");
+  const sourceUri = await page.evaluate(({ name, text }) => (
+    Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function
+  )(name, text), { name: "nested-workspace-image.mmt", text: source });
+  await page.getByRole("button", { name: "Typst 预览" }).click();
+  const previewFrame = await previewWebviewFrame(page);
+  await expect(previewFrame.locator("svg image").first()).toBeAttached({ timeout: 60_000 });
+  await expect(previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    const parentBounds = element.parentElement!.getBoundingClientRect();
+    const style = getComputedStyle(element);
+    return {
+      fillsForeignObject: Math.abs(bounds.left - parentBounds.left) <= 0.01
+        && Math.abs(bounds.top - parentBounds.top) <= 0.01
+        && Math.abs(bounds.width - parentBounds.width) <= 0.01
+        && Math.abs(bounds.height - parentBounds.height) <= 0.01,
+      position: style.position,
+      width: style.width,
+      height: style.height,
+      textAlign: style.textAlign,
+      textAlignLast: style.textAlignLast,
+      userSelect: style.userSelect,
+    };
+  })).resolves.toEqual({
+    fillsForeignObject: true,
+    position: "fixed",
+    width: "187.5px",
+    height: "62.5px",
+    textAlign: "justify",
+    textAlignLast: "justify",
+    userSelect: "text",
+  });
+  await expect.poll(() => page.evaluate((uri) => (
+    Reflect.get(globalThis, "__mmtPreviewBuildDiagnostics") as Function
+  )(uri), sourceUri)).toEqual([]);
+});
+
+test("Typst preview keeps its scroll position across source-only rerenders", async ({ page }) => {
+  await page.route("https://**/*", async (route) => {
+    const url = route.request().url();
+    if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
+      await route.abort("connectionfailed");
+      return;
+    }
+    await route.continue();
+  });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 120_000 });
+  const source = [
+    "#set page(width: 420pt, height: 260pt)",
+    ...Array.from({ length: 10 }, (_, index) => `= Stable page ${index + 1}\n#pagebreak()`),
+    "",
+  ].join("\n");
+  await page.evaluate(({ name, text }) => {
+    const openDocument = Reflect.get(globalThis, "__mmtOpenWorkspaceDocument");
+    if (typeof openDocument !== "function") throw new Error("workspace document fixture is unavailable");
+    return openDocument(name, text);
+  }, { name: "scroll-stability.typ", text: source });
+  await page.getByRole("button", { name: "Typst 预览" }).click();
+  const previewFrame = await previewWebviewFrame(page);
+  const viewport = previewFrame.locator(".viewport");
+  await expect(viewport.locator(".page svg")).toBeVisible();
+  const before = await viewport.evaluate((element) => {
+    element.scrollTop = Math.min(900, element.scrollHeight - element.clientHeight);
+    return element.scrollTop;
+  });
+  expect(before).toBeGreaterThan(100);
+  await page.waitForTimeout(250);
+  const revision = await page.locator(".workbench-preview").getAttribute("data-preview-revision");
+  await page.evaluate(({ name, text }) => (
+    Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function
+  )(name, text), { name: "scroll-stability.typ", text: `${source}// source-only edit\n` });
+  await expect.poll(() => page.locator(".workbench-preview").getAttribute("data-preview-revision"), { timeout: 60_000 })
+    .not.toBe(revision);
+  const after = await viewport.evaluate((element) => element.scrollTop);
+  expect(Math.abs(after - before)).toBeLessThanOrEqual(2);
+  await callFixture(page, { action: "overlay", point: { pageIndex: 0, x: 0.5, y: 0.5 } });
+  await expect(viewport.locator(".preview-indicator")).toBeVisible();
+  await page.waitForTimeout(250);
+  const afterIndicator = await viewport.evaluate((element) => element.scrollTop);
+  expect(Math.abs(afterIndicator - after)).toBeLessThanOrEqual(2);
+});
+
 async function callFixture(page: Page, request: Record<string, unknown>): Promise<unknown> {
   return page.evaluate(async (value) => {
     const fixture = Reflect.get(globalThis, "__mmtPreviewInteractionFixture");

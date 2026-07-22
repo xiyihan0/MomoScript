@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import type { MmtIndexedDbFileSystemProvider } from "./filesystem";
 import type { WorkspaceHistoryChange, WorkspaceHistoryRevision } from "./indexedDbWorkspace";
+import { showMomoScriptMessage } from "./notifications";
 
 const HISTORY_SCHEME = "mmt-history";
 const textDecoder = new TextDecoder("utf-8", { fatal: true });
@@ -25,14 +26,14 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
   subscriptions.push(vscode.commands.registerCommand("mmt.history.compare", async (revision: string, path: string, timestamp?: number) => {
     const entry = await provider.snapshotEntry(revision, path);
     if (!entry) {
-      void vscode.window.showWarningMessage(`历史版本中不存在 ${basename(path)}`);
+      void showMomoScriptMessage("warning", `历史版本中不存在 ${basename(path)}`);
       return;
     }
     if (!isText(entry.data)) {
-      const action = await vscode.window.showInformationMessage(
+      const action = await showMomoScriptMessage(
+        "info",
         `${basename(path)} 是 ${mediaLabel(path)} 文件（${formatBytes(entry.data.byteLength)}），只能导出或整文件恢复。`,
-        "导出历史版本",
-        "恢复此文件"
+        ["导出历史版本", "恢复此文件"],
       );
       if (action === "导出历史版本") exportBytes(basename(path), entry.data);
       if (action === "恢复此文件") await confirmRestoreFile(provider, revision, path);
@@ -61,7 +62,7 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
     });
     if (!name) return;
     await provider.createCheckpoint(name);
-    void vscode.window.showInformationMessage(`已创建 Checkpoint：${name.trim()}`);
+    void showMomoScriptMessage("info", `已创建 Checkpoint：${name.trim()}`);
   }));
   subscriptions.push(vscode.commands.registerCommand("mmt.history.renameCheckpoint", async (revision: string, current: string) => {
     const name = await vscode.window.showInputBox({
@@ -71,7 +72,7 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
     });
     if (!name || name.trim() === current) return;
     await provider.renameCheckpoint(revision, name);
-    void vscode.window.showInformationMessage(`Checkpoint 已重命名为：${name.trim()}`);
+    void showMomoScriptMessage("info", `Checkpoint 已重命名为：${name.trim()}`);
   }));
   subscriptions.push(vscode.commands.registerCommand("mmt.history.deleteCheckpoint", async (revision: string, current: string) => {
     const answer = await vscode.window.showWarningMessage(
@@ -81,7 +82,7 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
     );
     if (answer !== "删除 Checkpoint") return;
     await provider.deleteCheckpoint(revision);
-    void vscode.window.showInformationMessage(`已删除 Checkpoint：${current}`);
+    void showMomoScriptMessage("info", `已删除 Checkpoint：${current}`);
   }));
   subscriptions.push(vscode.commands.registerCommand("mmt.history.clearUnprotected", async () => {
     const usage = await provider.historyUsage();
@@ -92,7 +93,7 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
     );
     if (answer !== "清理普通历史") return;
     const next = await provider.clearUnprotectedHistory();
-    void vscode.window.showInformationMessage(`普通历史已清理；当前占用 ${formatBytes(next.totalBytes)}。`);
+    void showMomoScriptMessage("info", `普通历史已清理；当前占用 ${formatBytes(next.totalBytes)}。`);
   }));
   subscriptions.push(vscode.commands.registerCommand("mmt.history.restoreFile", async (revision: string, path: string) => {
     await confirmRestoreFile(provider, revision, path);
@@ -109,13 +110,13 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
     if (answer !== "恢复工作区") return;
     await provider.restore(revision);
     await synchronizeOpenDocuments(provider);
-    const action = await vscode.window.showInformationMessage("工作区已恢复；操作前状态已保存为 Checkpoint。", "打开本地历史");
+    const action = await showMomoScriptMessage("info", "工作区已恢复；操作前状态已保存为 Checkpoint。", ["打开本地历史"]);
     if (action === "打开本地历史") await vscode.commands.executeCommand("momoscript.localHistory.focus");
   }));
   subscriptions.push(vscode.commands.registerCommand("mmt.history.exportFile", async (revision: string, path: string) => {
     const entry = await provider.snapshotEntry(revision, path);
     if (!entry || entry.type !== vscode.FileType.File) {
-      void vscode.window.showWarningMessage(`历史版本中不存在 ${basename(path)}`);
+      void showMomoScriptMessage("warning", `历史版本中不存在 ${basename(path)}`);
       return;
     }
     exportBytes(basename(path), entry.data);
@@ -123,16 +124,16 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
   subscriptions.push(vscode.commands.registerCommand("mmt.history.showFileHistory", async (resource?: vscode.Uri) => {
     const uri = resource?.scheme === "mmtfs" ? resource : vscode.window.activeTextEditor?.document.uri;
     if (!uri || uri.scheme !== "mmtfs") {
-      void vscode.window.showWarningMessage("没有可查看历史记录的工作区文件");
+      void showMomoScriptMessage("warning", "没有可查看历史记录的工作区文件");
       return;
     }
     const stat = await vscode.workspace.fs.stat(uri).then((value) => value, () => undefined);
     if (!stat) {
-      void vscode.window.showWarningMessage(`工作区中不存在 ${basename(uri.path)}`);
+      void showMomoScriptMessage("warning", `工作区中不存在 ${basename(uri.path)}`);
       return;
     }
     if (stat.type === vscode.FileType.Directory) {
-      void vscode.window.showWarningMessage("历史记录按文件查看，请选择一个文件");
+      void showMomoScriptMessage("warning", "历史记录按文件查看，请选择一个文件");
       return;
     }
     try {
@@ -152,7 +153,7 @@ export function registerLocalHistoryCommands(provider: MmtIndexedDbFileSystemPro
     );
     if (answer !== "接管写入权") return;
     await provider.takeOverWriter();
-    void vscode.window.showInformationMessage("已接管工作区写入权。此后修改会继续记录到本地历史。 ");
+    void showMomoScriptMessage("info", "已接管工作区写入权；修改将继续保存到本地历史。");
   }));
   subscriptions.push(registerWorkspaceLeaseAttention(provider));
   return { dispose: () => subscriptions.splice(0).reverse().forEach((subscription) => subscription.dispose()) };
@@ -174,9 +175,11 @@ function registerWorkspaceLeaseAttention(provider: MmtIndexedDbFileSystemProvide
     if (lease === "readonly") status.show();
     else status.hide();
     if (lease === "readonly" && previousLease !== "readonly") {
-      void vscode.window.showWarningMessage(
-        "此标签页的工作区为只读。另一标签页持有写入权，当前修改无法保存到本地工作区。",
-        "接管写入权"
+      void showMomoScriptMessage(
+        "warning",
+        "此标签页为只读；写入权由另一标签页持有，修改不会保存。",
+        ["接管写入权"],
+        { id: "workspace-readonly" },
       ).then((action) => {
         if (action === "接管写入权") void vscode.commands.executeCommand("mmt.history.takeOverWriter");
       });
@@ -446,7 +449,7 @@ async function confirmRestoreFile(provider: MmtIndexedDbFileSystemProvider, revi
   if (answer !== "恢复此文件") return;
   await provider.restoreFile(revision, path);
   await synchronizeOpenDocuments(provider, new Set([path]));
-  void vscode.window.showInformationMessage(`已恢复 ${basename(path)}；操作前状态已保存。`);
+  void showMomoScriptMessage("info", `已恢复 ${basename(path)}；操作前状态已保存。`);
 }
 
 async function inspectDeletedChange(
@@ -457,13 +460,14 @@ async function inspectDeletedChange(
 ): Promise<void> {
   const entry = await provider.historyChangeEntry(revision, path, "before");
   if (!entry || entry.type !== vscode.FileType.File) {
-    void vscode.window.showWarningMessage(`删除记录中没有 ${basename(path)} 的删除前文件内容`);
+    void showMomoScriptMessage("warning", `删除记录中没有 ${basename(path)} 的删除前文件内容`);
     return;
   }
   const actions = ["查看删除前内容", "恢复被删除文件", "恢复删除后的工作区"] as const;
-  const action = await vscode.window.showInformationMessage(
+  const action = await showMomoScriptMessage(
+    "info",
     `${basename(path)} 在此记录中被删除。删除前文件为 ${mediaLabel(path)}，${formatBytes(entry.data.byteLength)}。`,
-    ...(isText(entry.data) ? actions : ["导出删除前文件", actions[1], actions[2]] as const)
+    isText(entry.data) ? actions : ["导出删除前文件", actions[1], actions[2]],
   );
   if (action === "恢复被删除文件") {
     await confirmRestoreDeletedFile(provider, revision, path);
@@ -498,7 +502,7 @@ async function confirmRestoreDeletedFile(provider: MmtIndexedDbFileSystemProvide
   if (answer !== "恢复被删除文件") return;
   await provider.restoreDeletedFile(revision, path);
   await synchronizeOpenDocuments(provider, new Set([path]));
-  void vscode.window.showInformationMessage(`已恢复被删除文件 ${basename(path)}。`);
+  void showMomoScriptMessage("info", `已恢复被删除文件 ${basename(path)}。`);
 }
 
 async function synchronizeOpenDocuments(

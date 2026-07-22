@@ -69,6 +69,7 @@ import { ownEventListener } from "./runtimeOwner";
 import { EditorRuntimeController } from "./runtimeController";
 import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
 import { registerPwaUpdateLifecycle } from "./pwaUpdate";
+import { showMomoScriptMessage } from "./notifications";
 import {
   TINYMIST_VERSION,
   TINYMIST_WASM_SHA256,
@@ -124,7 +125,7 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
 type E2ELifecycleKind = "runtime-ready" | "dispose-invoked" | "dispose-complete" | "retained-artifacts-cleared" | "unload" | "hmr" | "hmr-fallback";
 
 interface PreviewInteractionFixtureRequest {
-  readonly action: "install-provider" | "install-immutable" | "position" | "navigate" | "restart-provider" | "advance-source" | "state";
+  readonly action: "install-provider" | "install-immutable" | "position" | "overlay" | "navigate" | "restart-provider" | "advance-source" | "state";
   readonly range?: { start: { line: number; character: number }; end: { line: number; character: number } };
   readonly point?: PreviewPagePoint;
 }
@@ -508,6 +509,7 @@ async function initializeRuntime(
     })
   }));
   let previewPanel: vscode.WebviewPanel | undefined;
+  let previewPanelHasPage = false;
   let previewPanelTitle = "MomoScript 预览";
   let previewPanelDisposeRegistration: vscode.Disposable | undefined;
   let previewPanelMessageRegistration: vscode.Disposable | undefined;
@@ -740,7 +742,10 @@ async function initializeRuntime(
       }
       const scope = message.includes("WASM") ? "wasm" : (error ? "preview:error" : "preview");
       log(scope, message);
-      if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, error);
+      if (previewPanel && (error || !previewPanelHasPage)) {
+        previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, error);
+        previewPanelHasPage = false;
+      }
     },
     rendered(svg, revision, shadowCount, pageSize) {
       if (revision.sourceUri === previewFixtureActiveSourceUri) return;
@@ -756,7 +761,20 @@ async function initializeRuntime(
         shadowCount,
       }));
       previewBuildState.complete(identity);
-      if (previewPanel) previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, svg, "", false, pageSize, preview.viewportState, exactExportUi.state);
+      if (previewPanel) {
+        const panel = previewPanel;
+        const html = previewWebviewHtml(panel.webview, previewPanelTitle, svg, "", false, pageSize, preview.viewportState, exactExportUi.state);
+        if (!previewPanelHasPage) {
+          panel.webview.html = html;
+          previewPanelHasPage = true;
+        } else {
+          void panel.webview.postMessage({ type: "render", svg, pageSize }).then((delivered) => {
+            if (delivered || previewPanel !== panel) return;
+            panel.webview.html = html;
+            previewPanelHasPage = true;
+          });
+        }
+      }
     },
   }, {
     currentIdentity: currentPreviewIdentity,
@@ -831,6 +849,9 @@ async function initializeRuntime(
           cursorCount: layout.preview.querySelectorAll(".typst-preview-cursor").length,
           pageCount: layout.preview.querySelectorAll(".typst-preview-page").length,
         };
+      }
+      if (request.action === "overlay") {
+        return request.point ? Boolean(await previewPanel?.webview.postMessage({ type: "indicator", point: request.point })) : false;
       }
       if (request.action === "restart-provider") {
         const restarted: LocationProviderKey = fixtureProviderKey?.kind === "provider"
@@ -1379,8 +1400,9 @@ async function initializeRuntime(
       const message = `Failed to fetch preview workspace resources: ${error instanceof Error ? error.message : String(error)}`;
       previewBuildState.fail(projectRevision, "fetch", message);
       log("resources:fetch:error", message);
-      void vscode.window.showWarningMessage(`Preview fetch failed: ${message}`);
+      void showMomoScriptMessage("warning", `Preview fetch failed: ${message}`);
       if (displayedPreviewSourceUri === project.sourceUri && previewPanel) {
+        previewPanelHasPage = false;
         previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
       }
       return;
@@ -1401,7 +1423,7 @@ async function initializeRuntime(
         log(`resources:${diagnostic.phase}:error`, diagnostic.message);
       }
       const first = prepared.diagnostics[0];
-      void vscode.window.showWarningMessage(`Preview ${first.phase} failed: ${first.message}`);
+      void showMomoScriptMessage("warning", `Preview ${first.phase} failed: ${first.message}`);
     }
     previewProjects.set(project.sourceUri, prepared.project);
     if (displayedPreviewSourceUri === project.sourceUri && previewPanel) {
@@ -1541,8 +1563,9 @@ async function initializeRuntime(
     log("tinymist", "Tinymist Worker ready");
   } catch (error) {
     log("tinymist:error", error instanceof Error ? error.message : String(error));
-    void vscode.window.showWarningMessage(
-      `内置 Typst 语言服务不可用：${error instanceof Error ? error.message : String(error)}`
+    void showMomoScriptMessage(
+      "warning",
+      `内置 Typst 语言服务不可用：${error instanceof Error ? error.message : String(error)}`,
     );
     publishRuntimeStatus(
       "backend-start-failed",
@@ -1664,8 +1687,9 @@ async function initializeRuntime(
     log("mmt", "MMT language server ready");
   } catch (error) {
     log("mmt:error", error instanceof Error ? error.message : String(error));
-    void vscode.window.showErrorMessage(
-      `MomoScript 浏览器语言服务器启动失败：${error instanceof Error ? error.message : String(error)}`
+    void showMomoScriptMessage(
+      "error",
+      `MomoScript 浏览器语言服务器启动失败：${error instanceof Error ? error.message : String(error)}`,
     );
     publishRuntimeStatus(
       "mmt-start-failed",
@@ -1676,7 +1700,7 @@ async function initializeRuntime(
   const documentConfigCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.document.configure", async () => {
     const document = vscode.window.activeTextEditor?.document;
     if (!document || document.languageId !== "mmt") {
-      void vscode.window.showWarningMessage("请先打开一个 MomoScript 文档。");
+      void showMomoScriptMessage("warning", "请先打开一个 MomoScript 文档。");
       return;
     }
     try {
@@ -1685,7 +1709,7 @@ async function initializeRuntime(
     } catch (error) {
       const detail = error instanceof Error ? error.message : String(error);
       log("document:error", detail);
-      void vscode.window.showErrorMessage(`文档设置失败：${detail}`);
+      void showMomoScriptMessage("error", `文档设置失败：${detail}`);
     }
   }));
   const previewCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.preview.open", async (resource?: vscode.Uri) => {
@@ -1694,7 +1718,7 @@ async function initializeRuntime(
       : undefined;
     const document = resourceDocument ?? vscode.window.activeTextEditor?.document;
     if (!document || !["mmt", "typst"].includes(document.languageId)) {
-      void vscode.window.showWarningMessage("请先打开一个 MomoScript 或 Typst 文档，再启动预览。");
+      void showMomoScriptMessage("warning", "请先打开一个 MomoScript 或 Typst 文档，再启动预览。");
       return;
     }
     const sourceUri = document.uri.toString();
@@ -1712,6 +1736,7 @@ async function initializeRuntime(
       ));
       previewPanelDisposeRegistration = subscribe(previewPanel.onDidDispose(() => {
         previewPanel = undefined;
+        previewPanelHasPage = false;
         exactExportUi.bind(undefined);
         displayedPreviewSourceUri = undefined;
         refreshBuildStatus();
@@ -1749,6 +1774,7 @@ async function initializeRuntime(
     }
     log("preview", `Opening ${sourceUri}`);
     if (document.languageId === "typst") {
+      previewPanelHasPage = false;
       previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, "正在准备 Typst 预览…");
       const project = await buildTypstProject(document, typstRevisions);
       typstProjects.set(sourceUri, project);
@@ -1759,9 +1785,11 @@ async function initializeRuntime(
     }
     if (!activeClient) {
       const message = "MomoScript 语言服务器不可用；Typst 编辑与语言服务仍可继续使用。";
+      previewPanelHasPage = false;
       previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
       return;
     }
+    previewPanelHasPage = false;
     previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, "正在准备 MomoScript 投影…");
     let project: TypstProjectUpdate | null;
     try {
@@ -1772,6 +1800,7 @@ async function initializeRuntime(
     } catch (error) {
       const detail = error instanceof Error ? error.message : String(error);
       const message = `无法为 ${document.fileName} 构建 Typst 投影：${detail}`;
+      previewPanelHasPage = false;
       previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
       log("preview:error", message);
       return;
@@ -1779,6 +1808,7 @@ async function initializeRuntime(
     if (displayedPreviewSourceUri !== sourceUri) return;
     if (!project) {
       const message = `语言服务器未能及时同步 ${document.fileName} 的文档版本 ${document.version}。`;
+      previewPanelHasPage = false;
       previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
       log("preview:error", message);
       return;
@@ -1826,7 +1856,7 @@ async function initializeRuntime(
   try {
     await syncConfiguredPackSources();
   } catch (error) {
-    void vscode.window.showWarningMessage(`MomoScript resource packs are unavailable: ${error instanceof Error ? error.message : String(error)}`);
+    void showMomoScriptMessage("warning", `MomoScript resource packs are unavailable: ${error instanceof Error ? error.message : String(error)}`);
   }
   const packConfigRegistration = subscribe(vscode.workspace.onDidChangeConfiguration((event) => {
     if (!event.affectsConfiguration("mmt.resourcePacks.manifestUrls")) return;
@@ -1834,7 +1864,7 @@ async function initializeRuntime(
     const input = root.querySelector<HTMLTextAreaElement>('textarea[aria-label="Resource pack manifest URLs"]');
     if (input) input.value = values.join("\n");
     void syncConfiguredPackSources().catch((error: unknown) => {
-      void vscode.window.showWarningMessage(`MomoScript resource packs are unavailable: ${error instanceof Error ? error.message : String(error)}`);
+      void showMomoScriptMessage("warning", `MomoScript resource packs are unavailable: ${error instanceof Error ? error.message : String(error)}`);
     });
   }));
   const previewConfigRegistration = subscribe(vscode.workspace.onDidChangeConfiguration((event) => {
@@ -2025,15 +2055,17 @@ async function initializeRuntime(
       prepareForReload: () => safeRestart.prepareForReload(10_000),
       async promptForReload() {
         const update = "安全更新并重启";
-        return await vscode.window.showInformationMessage(
+        return await showMomoScriptMessage(
+          "info",
           "MomoScript 已准备好离线更新。保存并安全重启以启用新版本。",
-          update
+          [update],
+          { id: "pwa-update-ready" },
         ) === update;
       },
       report(message, error) {
         const detail = error instanceof Error ? error.message : String(error ?? "");
         log("pwa:update", `${message}${detail ? `: ${detail}` : ""}`);
-        if (error) void vscode.window.showErrorMessage(`${message}: ${detail}`);
+        if (error) void showMomoScriptMessage("error", `${message}: ${detail}`);
       },
     }));
   }
@@ -2310,7 +2342,7 @@ function previewWebviewHtml(
     .page { position: relative; flex: 0 0 auto; background: transparent; line-height: 0; transform-origin: top left; }
     .page svg { display: block; width: 100%; height: 100%; max-width: none; }
     .page svg > .typst-page { filter: drop-shadow(0 2px 5px #0008); }
-    .page .tsel, .page .tsel span { color: transparent; line-height: 1; white-space: pre; pointer-events: auto; user-select: text; cursor: text; }
+    .page .tsel, .page .tsel span { left: 0; position: fixed; width: 100%; height: 100%; color: transparent; text-align: justify; text-align-last: justify; white-space: pre; pointer-events: auto; user-select: text; cursor: text; }
     .page .tsel::selection, .page .tsel span::selection { color: transparent; background: #7db9dea0; }
     .preview-indicator, .preview-cursor { position: absolute; z-index: 4; pointer-events: none; transform: translate(-50%, -50%); }
     .preview-indicator { width: 18px; height: 18px; border: 2px solid #007acc; border-radius: 50%; background: #007acc28; box-shadow: 0 0 0 4px #007acc24; }
@@ -2329,8 +2361,8 @@ function previewWebviewHtml(
   const initialExportState = ${scriptJson(resolvedExportState)};
   let zoom = initialViewport.zoom;
   let fitMode = initialViewport.fitMode;
-  const intrinsicWidth = Number(page?.dataset.intrinsicWidth);
-  const intrinsicHeight = Number(page?.dataset.intrinsicHeight);
+  let intrinsicWidth = Number(page?.dataset.intrinsicWidth);
+  let intrinsicHeight = Number(page?.dataset.intrinsicHeight);
   const applyZoom = (nextZoom, nextFitMode, notify = true) => {
     if (!page || !(intrinsicWidth > 0) || !(intrinsicHeight > 0)) return;
     zoom = Math.round(Math.min(5, Math.max(.1, nextZoom)) * 100) / 100;
@@ -2402,7 +2434,11 @@ function previewWebviewHtml(
       },
     });
   });
+  let indicatorPoint;
+  let cursorPoint;
   const showOverlay = (className, point) => {
+    if (className === 'preview-indicator') indicatorPoint = point;
+    else cursorPoint = point;
     document.querySelector('.' + className)?.remove();
     if (!point || point.pageIndex !== 0 || !page) return;
     const overlay = document.createElement('span');
@@ -2410,12 +2446,36 @@ function previewWebviewHtml(
     overlay.style.left = Math.min(1, Math.max(0, point.x)) * 100 + '%';
     overlay.style.top = Math.min(1, Math.max(0, point.y)) * 100 + '%';
     page.append(overlay);
-    if (className === 'preview-indicator') overlay.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+  };
+  const replaceRenderedPage = (svg, size) => {
+    if (!viewport || !page || typeof svg !== 'string' || !size) return;
+    const parsed = new DOMParser().parseFromString(svg, 'image/svg+xml');
+    const root = parsed.documentElement;
+    if (root.namespaceURI !== 'http://www.w3.org/2000/svg' || root.localName !== 'svg') return;
+    const scrollLeft = viewport.scrollLeft;
+    const scrollTop = viewport.scrollTop;
+    intrinsicWidth = Number(size.width);
+    intrinsicHeight = Number(size.height);
+    if (!(intrinsicWidth > 0) || !(intrinsicHeight > 0)) return;
+    page.dataset.intrinsicWidth = String(intrinsicWidth);
+    page.dataset.intrinsicHeight = String(intrinsicHeight);
+    page.replaceChildren(document.importNode(root, true));
+    if (fitMode === 'width') fitWidth(false);
+    else if (fitMode === 'page') fitPage(false);
+    else applyZoom(zoom, 'manual', false);
+    showOverlay('preview-indicator', indicatorPoint);
+    showOverlay('preview-cursor', cursorPoint);
+    requestAnimationFrame(() => {
+      viewport.scrollLeft = scrollLeft;
+      viewport.scrollTop = scrollTop;
+      reportViewport();
+    });
   };
   window.addEventListener('message', (event) => {
     if (event.data?.type === 'restoreViewport') restoreViewport(event.data.viewport);
     else if (event.data?.type === 'indicator') showOverlay('preview-indicator', event.data.point);
     else if (event.data?.type === 'cursor') showOverlay('preview-cursor', event.data.point);
+    else if (event.data?.type === 'render') replaceRenderedPage(event.data.svg, event.data.pageSize);
     else if (event.data?.type === 'exactExportState') applyExactExportState(event.data.state);
   });
   const exportControl = document.querySelector('.exact-export');
@@ -2952,22 +3012,37 @@ async function mirrorWorkspaceFiles(
   const root = vscode.Uri.parse(`${source.scheme}://${source.authority}/`);
   const entry = vscode.Uri.parse(project.entryUri);
   const basePath = entry.path.slice(0, entry.path.lastIndexOf("/") + 1);
-  const sourcePath = source.path;
   const existing = new Set(project.files.map((file) => file.uri));
   const imagePattern = /\.(?:png|jpe?g|gif|webp|svg|bmp|avif)$/i;
+  const maxFiles = 256;
+  const maxDirectories = 64;
   const maxFileBytes = 8 * 1024 * 1024;
   const maxTotalBytes = 32 * 1024 * 1024;
+  let visitedDirectories = 0;
   let totalBytes = 0;
   const files: TypstVirtualFile[] = [];
-  for (const [name, type] of await vscode.workspace.fs.readDirectory(root)) {
-    if (signal.aborted || type !== vscode.FileType.File || name === source.path.split("/").pop()) continue;
-    if (name === "." || name === ".." || name.includes("/") || name.includes("\\") || !imagePattern.test(name)) continue;
-    const uri = entry.with({ path: `${basePath}${name}` }).toString();
-    if (existing.has(uri)) continue;
-    const bytes = await vscode.workspace.fs.readFile(vscode.Uri.joinPath(root, name));
-    if (bytes.byteLength > maxFileBytes || totalBytes + bytes.byteLength > maxTotalBytes) continue;
-    totalBytes += bytes.byteLength;
-    files.push({ uri, dataBase64: bytesToBase64(bytes) });
-  }
+  const visit = async (directory: vscode.Uri, segments: readonly string[]): Promise<void> => {
+    if (signal.aborted || files.length >= maxFiles || visitedDirectories >= maxDirectories) return;
+    visitedDirectories += 1;
+    for (const [name, type] of await vscode.workspace.fs.readDirectory(directory)) {
+      if (signal.aborted || files.length >= maxFiles) return;
+      if (name === "." || name === ".." || name.includes("/") || name.includes("\\")) continue;
+      const sourceUri = vscode.Uri.joinPath(directory, name);
+      const relativeSegments = [...segments, name];
+      if (type === vscode.FileType.Directory) {
+        await visit(sourceUri, relativeSegments);
+        continue;
+      }
+      if (type !== vscode.FileType.File || !imagePattern.test(name)) continue;
+      const uri = entry.with({ path: `${basePath}${relativeSegments.join("/")}` }).toString();
+      if (existing.has(uri)) continue;
+      const bytes = await vscode.workspace.fs.readFile(sourceUri);
+      if (bytes.byteLength > maxFileBytes || totalBytes + bytes.byteLength > maxTotalBytes) continue;
+      totalBytes += bytes.byteLength;
+      existing.add(uri);
+      files.push({ uri, dataBase64: bytesToBase64(bytes) });
+    }
+  };
+  await visit(root, []);
   return files.length === 0 ? project : { ...project, files: [...project.files, ...files] };
 }

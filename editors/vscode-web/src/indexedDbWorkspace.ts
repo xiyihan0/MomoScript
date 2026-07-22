@@ -163,8 +163,38 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
       && now - previousRevision.updatedAt < 5_000
       && now - previousRevision.createdAt < 30_000;
     const revision = grouped ? previousRevision.id : crypto.randomUUID();
-    const existingChanges = grouped ? await this.changes(revision) : new Map<string, WorkspaceHistoryChange>();
-    const snapshot = head ? await this.snapshotRecords(head) : new Map<string, SnapshotRecord>();
+    const existingChanges = grouped
+      ? new Map(
+          [...(await this.changes(revision))]
+            .filter(([, change]) => historyChangeHasEffect(change))
+        )
+      : new Map<string, WorkspaceHistoryChange>();
+    const effectiveChanges = new Map(existingChanges);
+    for (const path of paths) {
+      const previous = before.get(path);
+      const next = after.get(path);
+      const existing = existingChanges.get(path);
+      const change: WorkspaceHistoryChange = {
+        id: `${revision}:${path}`,
+        revision,
+        path,
+        before: existing?.before ?? (previous?.type === 1 ? digests.get(`before:${path}`) : undefined),
+        after: next?.type === 1 ? digests.get(`after:${path}`) : undefined,
+        beforeEntry: existing?.beforeEntry ?? (previous && metadataOnly(previous)),
+        afterEntry: next && metadataOnly(next),
+        beforeSize: existing?.beforeSize ?? (previous?.type === 1 ? previous.data.byteLength : undefined),
+        afterSize: next?.type === 1 ? next.data.byteLength : undefined,
+        mediaType: mediaType(path)
+      };
+      if (historyChangeHasEffect(change)) effectiveChanges.set(path, change);
+      else effectiveChanges.delete(path);
+    }
+    const elideGroupedRevision = grouped
+      && previousRevision.parent !== undefined
+      && effectiveChanges.size === 0;
+    const snapshot = elideGroupedRevision
+      ? new Map<string, SnapshotRecord>()
+      : head ? await this.snapshotRecords(head) : new Map<string, SnapshotRecord>();
     for (const path of paths) {
       const next = after.get(path);
       if (!next) {
@@ -188,7 +218,6 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
           const files = transaction.objectStore(WORKSPACE_STORES.files);
           const blobs = transaction.objectStore(WORKSPACE_STORES.blobs);
           const changes = transaction.objectStore(WORKSPACE_STORES.changes);
-          const snapshots = transaction.objectStore(WORKSPACE_STORES.snapshots);
           for (const path of paths) {
             const previous = before.get(path);
             const next = after.get(path);
@@ -197,45 +226,53 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
             const afterDigest = next?.type === 1 ? digests.get(`after:${path}`) : undefined;
             if (previous?.type === 1 && beforeDigest) blobs.put({ digest: beforeDigest, bytes: previous.data.slice(), size: previous.data.byteLength } satisfies BlobRecord);
             if (next?.type === 1 && afterDigest) blobs.put({ digest: afterDigest, bytes: next.data.slice(), size: next.data.byteLength } satisfies BlobRecord);
-            const existing = existingChanges.get(path);
-            changes.put({
-              id: `${revision}:${path}`,
-              revision,
-              path,
-              before: existing?.before ?? beforeDigest,
-              after: afterDigest,
-              beforeEntry: existing?.beforeEntry ?? (previous && metadataOnly(previous)),
-              afterEntry: next && metadataOnly(next),
-              beforeSize: existing?.beforeSize ?? (previous?.type === 1 ? previous.data.byteLength : undefined),
-              afterSize: next?.type === 1 ? next.data.byteLength : undefined,
-              mediaType: mediaType(path)
-            } satisfies WorkspaceHistoryChange);
-          }
-          if (grouped) {
-            for (const path of paths) {
-              const record = snapshot.get(path);
-              if (record) snapshots.put({ ...record, id: `${revision}:${path}`, revision });
-              else snapshots.delete(`${revision}:${path}`);
+            if (!elideGroupedRevision) {
+              const change = effectiveChanges.get(path);
+              if (change) changes.put(change);
+              else changes.delete(`${revision}:${path}`);
             }
-          } else {
-            for (const [path, record] of snapshot) snapshots.put({ ...record, id: `${revision}:${path}`, revision, path });
           }
-          transaction.objectStore(WORKSPACE_STORES.revisions).put({
-            id: revision,
-            workspaceId: this.metadata.workspaceId,
-            parent: grouped ? previousRevision.parent : head,
-            reason,
-            createdAt: grouped ? previousRevision.createdAt : now,
-            updatedAt: now,
-            checkpoint,
-            protected: Boolean(checkpoint)
-          } satisfies WorkspaceRevision);
-          transaction.objectStore(WORKSPACE_STORES.heads).put({ workspaceId: this.metadata.workspaceId, revision } satisfies HeadRecord);
+          const revisionStore = transaction.objectStore(WORKSPACE_STORES.revisions);
+          const snapshotStore = transaction.objectStore(WORKSPACE_STORES.snapshots);
+          const headStore = transaction.objectStore(WORKSPACE_STORES.heads);
+          if (elideGroupedRevision) {
+            revisionStore.delete(revision);
+            for (const change of existingChanges.values()) {
+              changes.delete(change.id);
+              snapshotStore.delete(`${revision}:${change.path}`);
+            }
+            headStore.put({ workspaceId: this.metadata.workspaceId, revision: previousRevision.parent! } satisfies HeadRecord);
+          } else {
+            if (grouped) {
+              for (const path of paths) {
+                const record = snapshot.get(path);
+                if (record) snapshotStore.put({ ...record, id: `${revision}:${path}`, revision });
+                else snapshotStore.delete(`${revision}:${path}`);
+              }
+            } else {
+              for (const [path, record] of snapshot) snapshotStore.put({ ...record, id: `${revision}:${path}`, revision, path });
+            }
+            revisionStore.put({
+              id: revision,
+              workspaceId: this.metadata.workspaceId,
+              parent: grouped ? previousRevision.parent : head,
+              reason,
+              createdAt: grouped ? previousRevision.createdAt : now,
+              updatedAt: now,
+              checkpoint,
+              protected: Boolean(checkpoint)
+            } satisfies WorkspaceRevision);
+            headStore.put({ workspaceId: this.metadata.workspaceId, revision } satisfies HeadRecord);
+          }
         }
       );
     } catch (error) {
       if (isQuotaError(error)) await this.publishStorage({ ...this.metadata.storage, quotaBlocked: true });
       throw error;
+    }
+    if (elideGroupedRevision) {
+      await this.gc(now);
+      return previousRevision.parent!;
     }
     await this.finishHistoryMutation(reason, addedBlobBytes, now);
     return revision;
@@ -278,11 +315,17 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
     const transaction = this.database.transaction(WORKSPACE_STORES.changes);
     const index = transaction.objectStore(WORKSPACE_STORES.changes).index(CHANGE_REVISION_INDEX);
     const groups = await Promise.all(revisions.map((revision) => requestResult<WorkspaceHistoryChange[]>(index.getAll(IDBKeyRange.only(revision.id)))));
-    const history = revisions.map((revision, index) => ({
-      ...revision,
-      changes: Object.freeze(groups[index].sort((left, right) => comparePaths(left.path, right.path)))
-    }));
-    const last = history.at(-1);
+    const history = revisions
+      .map((revision, index) => ({
+        ...revision,
+        changes: Object.freeze(
+          groups[index]
+            .filter(historyChangeHasEffect)
+            .sort((left, right) => comparePaths(left.path, right.path))
+        )
+      }))
+      .filter((revision) => revision.reason !== "edit" || revision.changes.length > 0);
+    const last = revisions.at(-1);
     return {
       revisions: history,
       ...(hasMore && last ? { nextCursor: { createdAt: last.createdAt, id: last.id } } : {})
@@ -756,6 +799,12 @@ function deleteByIndex(index: IDBIndex, key: IDBValidKey): void {
     cursor.delete();
     cursor.continue();
   };
+}
+
+function historyChangeHasEffect(change: Pick<WorkspaceHistoryChange, "before" | "after" | "beforeEntry" | "afterEntry">): boolean {
+  if (change.before !== change.after) return true;
+  if (Boolean(change.beforeEntry) !== Boolean(change.afterEntry)) return true;
+  return change.beforeEntry?.type !== change.afterEntry?.type;
 }
 
 function mediaType(path: string): string {

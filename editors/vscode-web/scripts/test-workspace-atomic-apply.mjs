@@ -24,6 +24,15 @@ const grouped = history.snapshot.revisions.at(-1);
 assert.equal(history.textDiff(grouped.id, "/story.mmt").before, "A");
 assert.equal(history.textDiff(grouped.id, "/story.mmt").after, "C");
 
+const noOpHistory = new WorkspaceHistory(1024 * 1024);
+const noOpBaseline = await noOpHistory.commit("import", new Map(), tree(root, storyA), { now: 1, label: "baseline", pin: true });
+const transient = entry("/story.mmt", "transient", 1, 5);
+await noOpHistory.commit("edit", tree(storyA), tree(transient), { now: 2_000 });
+const revertedHead = await noOpHistory.commit("edit", tree(transient), tree(storyA), { now: 3_000 });
+assert.equal(revertedHead, noOpBaseline, "an edit group returning to its parent state must be elided");
+assert.equal(noOpHistory.snapshot.revisions.length, 1, "net-no-op edit groups must not appear as duplicate history versions");
+assert.equal(new TextDecoder().decode(noOpHistory.snapshot.current.get("/story.mmt").data), "A");
+
 const asset = entry("/assets", "", 2, 5);
 const nested = entry("/assets/a.typ", "nested", 1, 6);
 await history.commit("create", new Map(), tree(asset, nested), { now: 4_100 });

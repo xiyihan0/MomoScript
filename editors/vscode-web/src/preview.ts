@@ -128,6 +128,8 @@ export class TypstPreviewController {
   private latestSvg: string | undefined;
   private scrollFrame: number | undefined;
   private acceptingHostViewport = false;
+  private viewportRestoreFrame: number | undefined;
+  private suppressViewportReports = false;
 
   constructor(
     container: HTMLElement,
@@ -343,10 +345,22 @@ export class TypstPreviewController {
   }
 
   displayArtifact(artifact: PreviewArtifact, identity: PreviewSourceIdentity, resolver?: PreviewLocationResolver): void {
+    this.suppressViewportReports = true;
+    if (this.scrollFrame !== undefined) {
+      cancelAnimationFrame(this.scrollFrame);
+      this.scrollFrame = undefined;
+    }
+    if (this.viewportRestoreFrame !== undefined) cancelAnimationFrame(this.viewportRestoreFrame);
     this.mountPages(artifact.pages);
     this.interaction.bindArtifact(artifact, identity, resolver);
     this.container.dataset.previewRenderKey = artifact.renderKey;
-    requestAnimationFrame(() => this.restoreViewport(this.interaction.viewport));
+    this.viewportRestoreFrame = requestAnimationFrame(() => {
+      this.restoreViewport(this.interaction.viewport);
+      this.viewportRestoreFrame = requestAnimationFrame(() => {
+        this.viewportRestoreFrame = undefined;
+        this.suppressViewportReports = false;
+      });
+    });
   }
 
   setOutline(symbols: readonly PreviewOutlineSymbol[]): void {
@@ -401,6 +415,11 @@ export class TypstPreviewController {
   }
 
   private async resetPreview(): Promise<void> {
+    if (this.scrollFrame !== undefined) cancelAnimationFrame(this.scrollFrame);
+    if (this.viewportRestoreFrame !== undefined) cancelAnimationFrame(this.viewportRestoreFrame);
+    this.scrollFrame = undefined;
+    this.viewportRestoreFrame = undefined;
+    this.suppressViewportReports = false;
     for (const path of this.mappedPaths) await $typst.unmapShadow(path);
     this.mappedPaths.clear();
     this.mappedFiles.clear();
@@ -429,9 +448,9 @@ export class TypstPreviewController {
     const nextPaths = new Set(project.files.map((file) => virtualPath(file.uri)));
     const nextFiles = new Map(project.files.map((file) => [virtualPath(file.uri), file]));
     const mappedThisAttempt = new Set<string>();
-    this.showStatus("Rendering preview…", false, revision, generation);
+    this.showStatus("Rendering preview…", false, revision, generation, this.pageElements.size > 0);
     try {
-      await initializeTypst((message) => this.showStatus(message, false, revision, generation));
+      await initializeTypst((message) => this.showStatus(message, false, revision, generation, this.pageElements.size > 0));
       for (const [path, file] of nextFiles) {
         if (this.mappedFiles.get(path) === file) continue;
         const data = file.text === undefined ? decodeBase64(file.dataBase64) : encoder.encode(file.text);
@@ -576,7 +595,7 @@ export class TypstPreviewController {
   }
 
   private scheduleViewportReport(): void {
-    if (this.scrollFrame !== undefined || !this.interaction.artifact) return;
+    if (this.suppressViewportReports || this.scrollFrame !== undefined || !this.interaction.artifact) return;
     this.scrollFrame = requestAnimationFrame(() => {
       this.scrollFrame = undefined;
       const viewportBounds = this.viewport.getBoundingClientRect();
@@ -604,7 +623,6 @@ export class TypstPreviewController {
     indicator.style.left = `${point.x * 100}%`;
     indicator.style.top = `${point.y * 100}%`;
     page.append(indicator);
-    indicator.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
   }
 
   private showCursor(point: PreviewPagePoint | undefined): void {
@@ -625,13 +643,21 @@ export class TypstPreviewController {
     }
   }
 
-  private showStatus(message: string, error = false, revision?: PreviewRevision, generation?: number): void {
+  private showStatus(
+    message: string,
+    error = false,
+    revision?: PreviewRevision,
+    generation?: number,
+    preserveContent = false,
+  ): void {
     if (generation !== undefined && !isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) return;
-    const status = document.createElement("div");
-    status.className = error ? "typst-preview-status error" : "typst-preview-status";
-    status.textContent = message;
+    if (!preserveContent) {
+      const status = document.createElement("div");
+      status.className = error ? "typst-preview-status error" : "typst-preview-status";
+      status.textContent = message;
+      this.viewport.replaceChildren(status);
+    }
     this.events?.status(message, error, revision);
-    this.viewport.replaceChildren(status);
   }
 }
 
@@ -790,6 +816,7 @@ function cloneSafeSelectionChild(node: SVGForeignObjectElement, child: ChildNode
   span.append(...[...source.childNodes].map((nested) => cloneSafeSelectionChild(node, nested)));
   return span;
 }
+
 
 function svgWithoutSelectionLayer(svg: string): string {
   const document = new DOMParser().parseFromString(svg, "image/svg+xml");
