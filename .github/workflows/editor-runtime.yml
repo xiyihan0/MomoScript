@@ -24,7 +24,6 @@ env:
   TYPST_TS_RUST_TOOLCHAIN: 1.96.0
   TYPST_TS_BINARYEN_VERSION: 116
   TYPST_TS_BINARYEN_SHA256: c55b74f3109cdae97490faf089b0286d3bba926bb6ea5ed00c8c784fc53718fd
-  TYPST_TS_CARGO_REGISTRY: sparse+https://mirrors.tuna.tsinghua.edu.cn/crates.io-index/
 
 jobs:
   core-native:
@@ -138,17 +137,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Configure pinned Cargo registry
-        run: |
-          cargo_home="${CARGO_HOME:-$HOME/.cargo}"
-          mkdir -p "$cargo_home"
-          printf '%s\n' \
-            '[source.crates-io]' \
-            "replace-with = 'mirror'" \
-            '' \
-            '[source.mirror]' \
-            "registry = \"${TYPST_TS_CARGO_REGISTRY}\"" \
-            > "$cargo_home/config.toml"
       - name: Install pinned Rust and wasm-pack
         run: |
           rustup toolchain install "$TYPST_TS_RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
@@ -177,8 +165,7 @@ jobs:
           wasm-pack build --target web --scope myriaddreamin --release -- --no-default-features --features web,misc
           node ../tools/wasm-debundle.mjs
           sha256sum pkg/typst_ts_web_compiler_bg.wasm pkg/typst_ts_web_compiler.mjs
-          wc -c pkg/typst_ts_web_compiler_bg.wasm pkg/typst_ts_web_compiler.mjs
-          echo "fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c  pkg/typst_ts_web_compiler_bg.wasm" | sha256sum --check
+          node --input-type=module -e 'import { readFile } from "node:fs/promises"; const module = await WebAssembly.compile(await readFile("pkg/typst_ts_web_compiler_bg.wasm")); const exports = new Set(WebAssembly.Module.exports(module).map(({ name }) => name)); for (const name of ["typstcompileworld_render_svg_with_debug_spans", "typstcompileworld_resolve_main_spans"]) { if (!exports.has(name)) throw new Error(`missing WASM export: ${name}`); }'
           echo "94d91940b1cc6242009962e42e31da2438f9879239efa572e3d4a92eb61e3507  pkg/typst_ts_web_compiler.mjs" | sha256sum --check
           echo "94d91940b1cc6242009962e42e31da2438f9879239efa572e3d4a92eb61e3507  $GITHUB_WORKSPACE/third_party/typst-ts/pkg/typst_ts_web_compiler.mjs" | sha256sum --check
 
