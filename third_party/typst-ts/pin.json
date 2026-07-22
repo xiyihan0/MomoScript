@@ -6,8 +6,9 @@
     "version": "0.8.0-rc3"
   },
   "toolchain": {
-    "rust": "1.92.0",
-    "wasmPack": "0.15.0"
+    "rust": "1.96.0",
+    "wasmPack": "0.15.0",
+    "binaryen": "116"
   },
   "patch": {
     "path": "third_party/typst-ts/patches/0001-expose-render-debug-spans.patch",

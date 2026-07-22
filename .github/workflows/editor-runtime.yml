@@ -21,6 +21,8 @@ env:
   TYPST_LINUX_SHA256: 59b207df01be2dab9f13e80f73d04d7ff8273ffd46b3dd1b9eef5c60f3eeabea
   TINYMIST_REVISION: 3d63da4f93c54ddef0c63e1a6237d67aee13f5fe
   TYPST_TS_REVISION: e1974e566ba63dcf8ecdd6730cff25de26c7dbd2
+  TYPST_TS_RUST_TOOLCHAIN: 1.96.0
+  TYPST_TS_BINARYEN_VERSION: 116
 
 jobs:
   core-native:
@@ -136,9 +138,14 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install pinned Rust and wasm-pack
         run: |
-          rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
-          rustup default "$RUST_TOOLCHAIN"
+          rustup toolchain install "$TYPST_TS_RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
+          rustup default "$TYPST_TS_RUST_TOOLCHAIN"
           cargo install wasm-pack --version "$WASM_PACK_VERSION" --locked
+      - name: Install pinned Binaryen
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends binaryen
+          wasm-opt --version | grep -F "version_${TYPST_TS_BINARYEN_VERSION}"
       - name: Check out pinned typst.ts source
         run: |
           git clone --filter=blob:none https://github.com/Myriad-Dreamin/typst.ts.git "$RUNNER_TEMP/typst.ts"
