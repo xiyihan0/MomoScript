@@ -23,6 +23,7 @@ env:
   TYPST_TS_REVISION: e1974e566ba63dcf8ecdd6730cff25de26c7dbd2
   TYPST_TS_RUST_TOOLCHAIN: 1.96.0
   TYPST_TS_BINARYEN_VERSION: 116
+  TYPST_TS_BINARYEN_SHA256: c55b74f3109cdae97490faf089b0286d3bba926bb6ea5ed00c8c784fc53718fd
 
 jobs:
   core-native:
@@ -143,9 +144,15 @@ jobs:
           cargo install wasm-pack --version "$WASM_PACK_VERSION" --locked
       - name: Install pinned Binaryen
         run: |
-          sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends binaryen
-          wasm-opt --version | grep -F "version_${TYPST_TS_BINARYEN_VERSION}"
+          archive="$RUNNER_TEMP/binaryen-version_${TYPST_TS_BINARYEN_VERSION}-x86_64-linux.tar.gz"
+          curl --fail --location --silent --show-error \
+            "https://github.com/WebAssembly/binaryen/releases/download/version_${TYPST_TS_BINARYEN_VERSION}/binaryen-version_${TYPST_TS_BINARYEN_VERSION}-x86_64-linux.tar.gz" \
+            --output "$archive"
+          echo "${TYPST_TS_BINARYEN_SHA256}  ${archive}" | sha256sum --check
+          tar --extract --gzip --file "$archive" --directory "$RUNNER_TEMP"
+          binaryen_bin="$RUNNER_TEMP/binaryen-version_${TYPST_TS_BINARYEN_VERSION}/bin"
+          echo "$binaryen_bin" >> "$GITHUB_PATH"
+          "$binaryen_bin/wasm-opt" --version | grep -F "version_${TYPST_TS_BINARYEN_VERSION}"
       - name: Check out pinned typst.ts source
         run: |
           git clone --filter=blob:none https://github.com/Myriad-Dreamin/typst.ts.git "$RUNNER_TEMP/typst.ts"
