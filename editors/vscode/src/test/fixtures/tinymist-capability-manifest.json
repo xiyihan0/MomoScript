@@ -15,9 +15,11 @@
   },
   "experimentalMethods": {
     "native": [
+      "mmtPreviewLocationProvider",
       "onEnter"
     ],
     "web": [
+      "mmtPreviewLocationProvider",
       "onEnter"
     ]
   },
@@ -31,7 +33,8 @@
     "classification": "host-optional",
     "coordinateVersion": null,
     "fallback": "immutable-location-map",
-    "nativeQualifiedMethod": null
+    "nativeQualifiedMethod": "tinymist/previewLocation+tinymist/sourceLocations",
+    "webQualifiedMethod": null
   },
   "providers": [
     {

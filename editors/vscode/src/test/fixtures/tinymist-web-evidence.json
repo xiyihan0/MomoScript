@@ -80,6 +80,7 @@
     "unregister": []
   },
   "experimentalMethods": [
+    "mmtPreviewLocationProvider",
     "onEnter"
   ],
   "initialize": {
@@ -132,6 +133,11 @@
         ]
       },
       "experimental": {
+        "mmtPreviewLocationProvider": {
+          "coordinateVersion": "typst-page-points-v1",
+          "previewToSourceMethod": "tinymist/previewLocation",
+          "sourceToPreviewMethod": "tinymist/sourceLocations"
+        },
         "onEnter": true
       },
       "foldingRangeProvider": true,
@@ -224,7 +230,7 @@
         "code": -32601,
         "message": "method not found"
       },
-      "id": 5,
+      "id": 86,
       "jsonrpc": "2.0"
     },
     "method": "mmt/typstPackageRequest.v1",
@@ -339,15 +345,15 @@
     "unavailable": {
       "diagnostics": [
         {
-          "message": "unclosed delimiter",
+          "message": "unknown variable: gre",
           "range": {
             "end": {
-              "character": 15,
-              "line": 3
+              "character": 4,
+              "line": 2
             },
             "start": {
-              "character": 14,
-              "line": 3
+              "character": 1,
+              "line": 2
             }
           },
           "severity": 1,
@@ -367,9 +373,9 @@
   },
   "previewLocation": {
     "advertisedCommands": [],
-    "coordinateVersion": null,
+    "coordinateVersion": "typst-page-points-v1",
     "fallbackDecision": "immutable-location-map",
-    "locationMethod": null,
+    "locationMethod": "tinymist/previewLocation",
     "previewArtifact": {
       "previewIndexProbe": {
         "ok": true,
@@ -382,54 +388,32 @@
     },
     "probes": [
       {
-        "advertised": false,
-        "command": "tinymist.startDefaultPreview",
-        "outcome": {
-          "error": {
-            "code": -32601,
-            "data": null,
-            "message": "method not found"
-          },
-          "ok": false
-        }
+        "method": "tinymist/sourceLocations",
+        "outcome": "empty"
       },
       {
-        "advertised": false,
-        "command": "tinymist.scrollPreview",
-        "outcome": {
-          "error": {
-            "code": -32601,
-            "data": null,
-            "message": "method not found"
-          },
-          "ok": false
-        }
+        "method": "tinymist/previewLocation",
+        "outcome": "empty"
       },
       {
-        "advertised": false,
-        "command": "tinymist.getDocumentTrace",
-        "outcome": {
-          "error": {
-            "code": -32601,
-            "data": null,
-            "message": "method not found"
-          },
-          "ok": false
-        }
+        "method": "tinymist/previewLocation:invalid-coordinate",
+        "outcome": "unexpected"
       }
     ],
-    "unavailableReason": "The pinned Web artifact advertises no preview navigation or document-trace command and no coordinate version."
+    "qualifiedMethod": null,
+    "unavailableReason": "The pinned Web artifact exposes no qualified bidirectional location method."
   },
   "schemaVersion": 1,
   "transcripts": {
     "negative": {
       "backendNetworkIsolated": true,
-      "locationCommandsUnavailable": true,
+      "invalidPreviewCoordinateRejected": false,
       "packageCancellationObserved": true,
       "packageErrorObserved": true,
       "packageUnavailableObserved": true
     },
     "positive": {
+      "bidirectionalPreviewLocation": false,
       "completionContainsUserSymbol": true,
       "diagnosticVersionMode": "unversioned",
       "hoverPresent": true,
