@@ -81,13 +81,19 @@ export async function syncConfiguredPackManifests(
     async (url, etag) => {
       const headers: Record<string, string> = { Accept: "application/json" };
       if (etag !== undefined) headers["If-None-Match"] = etag;
-      const response = await fetch(url, { headers });
-      return {
-        status: response.status,
-        ok: response.ok,
-        etag: response.headers.get("etag") ?? undefined,
-        text: () => response.text()
-      };
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15_000);
+      try {
+        const response = await fetch(url, { headers, signal: controller.signal });
+        return {
+          status: response.status,
+          ok: response.ok,
+          etag: response.headers.get("etag") ?? undefined,
+          text: () => response.text()
+        };
+      } finally {
+        clearTimeout(timeout);
+      }
     }
   );
   await context.globalState.update(REVISION_KEY, revision);
