@@ -3,13 +3,13 @@
     "backendName": "tinymist",
     "backendVersion": "0.15.2",
     "checksumManifest": {
-      "expectedSha256": "b96ce119a2ef789978350c26ccc89113435cf010e8f1f8eb2c883fb2ec631611",
+      "expectedSha256": "1ad4decf905f38fbddd8ab76a9c5da55c48af77768e104bcdcbe421d90db4f87",
       "reference": "tinymist-native-patched.sha256",
       "referencedArtifact": "tinymist",
       "verified": true
     },
     "digests": {
-      "tinymist": "b96ce119a2ef789978350c26ccc89113435cf010e8f1f8eb2c883fb2ec631611"
+      "tinymist": "1ad4decf905f38fbddd8ab76a9c5da55c48af77768e104bcdcbe421d90db4f87"
     },
     "host": "native-process",
     "packageVersion": "0.15.2",
@@ -86,6 +86,11 @@
         ]
       },
       "experimental": {
+        "mmtPreviewLocationProvider": {
+          "coordinateVersion": "typst-page-points-v1",
+          "previewToSourceMethod": "tinymist/previewLocation",
+          "sourceToPreviewMethod": "tinymist/sourceLocations"
+        },
         "onEnter": true
       },
       "foldingRangeProvider": true,
@@ -168,7 +173,9 @@
     "volatileFieldsRemoved": [
       "initialize.params.processId",
       "trace.result.request.compilerProgram",
-      "trace.result.result.tracingUrl"
+      "trace.result.result.tracingUrl",
+      "packageCallback.trigger.serverRequests[].id",
+      "packageCallback.cancellation.notifications[].params.id"
     ]
   },
   "packageCallback": {
@@ -179,7 +186,7 @@
           "jsonrpc": "2.0",
           "method": "$/cancelRequest",
           "params": {
-            "id": 4
+            "id": "callback-request-3"
           }
         }
       ],
@@ -338,7 +345,7 @@
       "importUri": "@preview/mmt-callback-ready:1.0.0",
       "serverRequests": [
         {
-          "id": 2,
+          "id": "callback-request-1",
           "jsonrpc": "2.0",
           "method": "mmt/typstPackageRequest.v1",
           "params": {
@@ -353,7 +360,7 @@
           }
         },
         {
-          "id": 3,
+          "id": "callback-request-2",
           "jsonrpc": "2.0",
           "method": "mmt/typstPackageRequest.v1",
           "params": {
@@ -368,7 +375,7 @@
           }
         },
         {
-          "id": 4,
+          "id": "callback-request-3",
           "jsonrpc": "2.0",
           "method": "mmt/typstPackageRequest.v1",
           "params": {
@@ -400,11 +407,16 @@
         "tinymist.startDefaultPreview"
       ],
       "experimental": {
+        "mmtPreviewLocationProvider": {
+          "coordinateVersion": "typst-page-points-v1",
+          "previewToSourceMethod": "tinymist/previewLocation",
+          "sourceToPreviewMethod": "tinymist/sourceLocations"
+        },
         "onEnter": true
       }
     },
-    "availabilityReason": "artifact exposes preview commands but no versioned location method or coordinate version",
-    "coordinateVersion": null,
+    "availabilityReason": null,
+    "coordinateVersion": "typst-page-points-v1",
     "probes": [
       {
         "error": null,
@@ -436,16 +448,25 @@
         "resultShape": "object"
       },
       {
-        "error": {
-          "code": -32601,
-          "message": "method not found"
-        },
-        "method": "mmt/previewLocation.v1",
-        "outcome": "error",
-        "resultShape": null
+        "error": null,
+        "method": "tinymist/sourceLocations",
+        "outcome": "success",
+        "resultShape": "normalized-page-points"
+      },
+      {
+        "error": null,
+        "method": "tinymist/previewLocation",
+        "outcome": "success",
+        "resultShape": "location"
+      },
+      {
+        "error": null,
+        "method": "tinymist/previewLocation:invalid-coordinate",
+        "outcome": "success",
+        "resultShape": "null"
       }
     ],
-    "qualifiedMethod": null
+    "qualifiedMethod": "tinymist/previewLocation+tinymist/sourceLocations"
   },
   "schemaVersion": 1,
   "transcripts": {
@@ -470,22 +491,11 @@
         "request": "logical package callback cancellation"
       },
       {
-        "request": "tinymist.scrollPreview without focused preview",
+        "request": "tinymist/previewLocation invalid coordinate",
         "response": {
-          "id": 3,
+          "id": 6,
           "jsonrpc": "2.0",
           "result": null
-        }
-      },
-      {
-        "request": "mmt/previewLocation.v1",
-        "response": {
-          "error": {
-            "code": -32601,
-            "message": "method not found"
-          },
-          "id": 4,
-          "jsonrpc": "2.0"
         }
       }
     ],

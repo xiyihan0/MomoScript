@@ -893,6 +893,20 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
     const backendName = typeof serverInfo?.name === "string" ? serverInfo.name : null;
     const backendVersion = typeof serverInfo?.version === "string" ? serverInfo.version : null;
 
+    const callbackRequestIds = new Map<unknown, string>();
+    const normalizedCallbackMessages = callbackMessages.map((message, index) => {
+      const id = `callback-request-${index + 1}`;
+      callbackRequestIds.set(message.id, id);
+      return normalizedJson({ ...message, id });
+    });
+    const normalizedCancellationMessages = cancellationMessages.map((message) => {
+      const params = isTranscriptRecord(message.params) ? message.params : {};
+      return normalizedJson({
+        ...message,
+        params: { ...params, id: callbackRequestIds.get(params.id) ?? "callback-request-unknown" }
+      });
+    });
+
     const normalizedEvidence = normalizedJson({
       schemaVersion: 1,
       artifact: {
@@ -930,13 +944,13 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
         networkIsolation: "native artifact receives only host-provided logical package bytes",
         trigger: {
           importUri: packageImport,
-          serverRequests: callbackMessages.map(normalizedJson),
+          serverRequests: normalizedCallbackMessages,
           hostResponses: callbackResponses,
           diagnostics: diagnosticMessages
         },
         cancellation: {
           observed: true,
-          notifications: cancellationMessages.map(normalizedJson)
+          notifications: normalizedCancellationMessages
         },
         error: { observed: true, channel: "JSON-RPC error response" },
         unavailable: { observed: true, retryable: true }
@@ -1008,7 +1022,9 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
         volatileFieldsRemoved: [
           "initialize.params.processId",
           "trace.result.request.compilerProgram",
-          "trace.result.result.tracingUrl"
+          "trace.result.result.tracingUrl",
+          "packageCallback.trigger.serverRequests[].id",
+          "packageCallback.cancellation.notifications[].params.id"
         ]
       }
     });
