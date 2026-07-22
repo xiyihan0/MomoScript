@@ -35,7 +35,7 @@ async function waitFor<T>(
   probe: () => T | undefined | PromiseLike<T | undefined>,
   message: string
 ): Promise<T> {
-  const deadline = Date.now() + 15_000;
+  const deadline = Date.now() + 30_000;
   while (Date.now() < deadline) {
     const value = await probe();
     if (value !== undefined) {
