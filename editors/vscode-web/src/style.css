@@ -390,6 +390,7 @@ body {
   overflow: hidden;
   color: transparent;
   font-family: monospace;
+  line-height: normal;
   text-align: left;
   text-align-last: left;
   white-space: pre;
@@ -404,9 +405,11 @@ body {
 }
 
 .typst-preview-page .tsel .tsel-token {
+  display: inline-block;
+  line-height: normal;
   position: relative;
-  width: fit-content;
-  height: fit-content;
+  width: 0.602em;
+  height: 1em;
 }
 
 .typst-preview-page .tsel::selection,

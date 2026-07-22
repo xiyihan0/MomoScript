@@ -607,12 +607,13 @@ export class TypstPreviewController {
             throw new Error("Rendered Typst entry source is unavailable for exact preview navigation");
           }
           this.mountPages([normalizedPage]);
+          const locations = measureRenderArtifactLocations(this.pageElements, resolvedSpans);
           resolver = createRenderArtifactLocationResolver(
             binding.locationProviderKey,
             project.entryUri,
             entryFile.text,
             binding.identity.backendEncoding,
-            measureRenderArtifactLocations(this.pageElements, resolvedSpans),
+            locations,
           );
         }
         const artifact = createPreviewArtifact({
@@ -791,29 +792,61 @@ function measureRenderArtifactLocations(
   const locations: RenderArtifactLocation[] = [];
   const seen = new Set<string>();
   for (const [pageIndex, page] of pages) {
-    const pageBounds = page.getBoundingClientRect();
-    if (pageBounds.width <= 0 || pageBounds.height <= 0) continue;
-    for (const element of page.querySelectorAll<SVGGraphicsElement>("[data-span]")) {
-      const span = resolved.get(element.getAttribute("data-span") ?? "");
-      if (!span) continue;
-      const bounds = element.getBoundingClientRect();
-      if (
-        !Number.isFinite(bounds.left)
-        || !Number.isFinite(bounds.top)
-        || bounds.width <= 0
-        || bounds.height <= 0
-      ) continue;
-      const left = clampUnit((bounds.left - pageBounds.left) / pageBounds.width);
-      const top = clampUnit((bounds.top - pageBounds.top) / pageBounds.height);
-      const right = clampUnit((bounds.right - pageBounds.left) / pageBounds.width);
-      const bottom = clampUnit((bounds.bottom - pageBounds.top) / pageBounds.height);
-      if (right <= left || bottom <= top) continue;
-      const x = (left + right) / 2;
-      const y = (top + bottom) / 2;
-      const identity = `${span.span}:${pageIndex}:${x.toFixed(5)}:${y.toFixed(5)}`;
-      if (seen.has(identity)) continue;
-      seen.add(identity);
-      locations.push(Object.freeze({ ...span, pageIndex, x, y, left, top, right, bottom }));
+    let measuredPage = page;
+    let pageBounds = measuredPage.getBoundingClientRect();
+    if (pageBounds.width <= 0 || pageBounds.height <= 0) {
+      measuredPage = page.cloneNode(true) as HTMLElement;
+      Object.assign(measuredPage.style, {
+        position: "fixed",
+        display: "block",
+        visibility: "hidden",
+        pointerEvents: "none",
+        left: "0",
+        top: "0",
+        width: `${page.dataset.intrinsicWidth ?? 1}px`,
+        height: `${page.dataset.intrinsicHeight ?? 1}px`,
+      });
+      document.body.append(measuredPage);
+      pageBounds = measuredPage.getBoundingClientRect();
+    }
+    try {
+      if (pageBounds.width <= 0 || pageBounds.height <= 0) continue;
+      for (const element of measuredPage.querySelectorAll<SVGGraphicsElement>("[data-span]")) {
+        const span = resolved.get(element.getAttribute("data-span") ?? "");
+        if (!span) continue;
+        const selectableTokens = [...element.querySelectorAll<HTMLElement>(".tsel-token")];
+        const rectangles = (selectableTokens.length > 0 ? selectableTokens : [element])
+          .map((target) => target.getBoundingClientRect());
+        const bounds = {
+          left: Math.min(...rectangles.map((rectangle) => rectangle.left)),
+          top: Math.min(...rectangles.map((rectangle) => rectangle.top)),
+          right: Math.max(...rectangles.map((rectangle) => rectangle.right)),
+          bottom: Math.max(...rectangles.map((rectangle) => rectangle.bottom)),
+          width: 0,
+          height: 0,
+        };
+        bounds.width = bounds.right - bounds.left;
+        bounds.height = bounds.bottom - bounds.top;
+        if (
+          !Number.isFinite(bounds.left)
+          || !Number.isFinite(bounds.top)
+          || bounds.width <= 0
+          || bounds.height <= 0
+        ) continue;
+        const left = clampUnit((bounds.left - pageBounds.left) / pageBounds.width);
+        const top = clampUnit((bounds.top - pageBounds.top) / pageBounds.height);
+        const right = clampUnit((bounds.right - pageBounds.left) / pageBounds.width);
+        const bottom = clampUnit((bounds.bottom - pageBounds.top) / pageBounds.height);
+        if (right <= left || bottom <= top) continue;
+        const x = (left + right) / 2;
+        const y = (top + bottom) / 2;
+        const identity = `${span.span}:${pageIndex}:${x.toFixed(5)}:${y.toFixed(5)}`;
+        if (seen.has(identity)) continue;
+        seen.add(identity);
+        locations.push(Object.freeze({ ...span, pageIndex, x, y, left, top, right, bottom }));
+      }
+    } finally {
+      if (measuredPage !== page) measuredPage.remove();
     }
   }
   return Object.freeze(locations);

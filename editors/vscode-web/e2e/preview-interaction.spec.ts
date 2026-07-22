@@ -105,7 +105,7 @@ test("Web and Desktop preview interactions stay artifact-bound", async ({ page }
   await expect.poll(async () => (await interactionState(page)).viewport.fitMode).toBe("width");
 });
 
-test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
+test("MMT Typst preview supports selectable text, workspace images, and bidirectional navigation", async ({ page }) => {
   await page.route("https://**/*", async (route) => {
     const url = route.request().url();
     if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
@@ -178,6 +178,64 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
     range.selectNodeContents(token);
     return range.toString();
   })).toBe("e");
+
+  const tokenGeometry = await previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().locator(".tsel-token").nth(2).evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    const style = getComputedStyle(element);
+    const parentStyle = getComputedStyle(element.parentElement!);
+    return { width: bounds.width, height: bounds.height, display: style.display, fontSize: style.fontSize, lineHeight: style.lineHeight, parentFontSize: parentStyle.fontSize, parentLineHeight: parentStyle.lineHeight };
+  });
+  expect(tokenGeometry.width > 0 && tokenGeometry.height > 0, JSON.stringify(tokenGeometry)).toBe(true);
+  await previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().locator(".tsel-token").nth(2).evaluate((element) => {
+    document.getSelection()?.removeAllRanges();
+    const bounds = element.getBoundingClientRect();
+    element.closest(".page")!.dispatchEvent(new PointerEvent("pointerdown", {
+      bubbles: true,
+      clientX: bounds.left + bounds.width / 2,
+      clientY: bounds.top + bounds.height / 2,
+    }));
+    element.closest(".page")!.dispatchEvent(new PointerEvent("pointerup", {
+      bubbles: true,
+      clientX: bounds.left + bounds.width / 2,
+      clientY: bounds.top + bounds.height / 2,
+    }));
+    element.closest(".page")!.dispatchEvent(new MouseEvent("click", {
+      bubbles: true,
+      clientX: bounds.left + bounds.width / 2,
+      clientY: bounds.top + bounds.height / 2,
+    }));
+  });
+  await expect.poll(async () => await callFixture(page, { action: "editor-selection" })).toMatchObject({
+    uri: sourceUri,
+    range: { start: { line: 1 }, end: { line: 1 } },
+  });
+
+  await selectableText.evaluate((element) => {
+    const tokens = element.querySelectorAll(":scope > .tsel-token");
+    const range = document.createRange();
+    range.setStart(tokens[0]!.firstChild!, 0);
+    range.setEnd(tokens[4]!.firstChild!, 1);
+    const selection = document.getSelection()!;
+    selection.removeAllRanges();
+    selection.addRange(range);
+    const bounds = tokens[2]!.getBoundingClientRect();
+    element.closest(".page")!.dispatchEvent(new MouseEvent("click", {
+      bubbles: true,
+      clientX: bounds.left + bounds.width / 2,
+      clientY: bounds.top + bounds.height / 2,
+    }));
+  });
+  await page.waitForTimeout(250);
+  await expect(callFixture(page, { action: "editor-selection" })).resolves.toMatchObject({
+    uri: sourceUri,
+    range: { start: { line: 1 }, end: { line: 1 } },
+  });
+
+  expect(await callFixture(page, {
+    action: "position-live",
+    range: { start: { line: 3, character: 0 }, end: { line: 3, character: 5 } },
+  })).toBe(true);
+  await expect(previewFrame.locator(".preview-cursor")).toHaveCount(1);
   await expect.poll(() => page.evaluate((uri) => (
     Reflect.get(globalThis, "__mmtPreviewBuildDiagnostics") as Function
   )(uri), sourceUri)).toEqual([]);
