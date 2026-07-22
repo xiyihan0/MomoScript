@@ -177,7 +177,7 @@ function registerWorkspaceLeaseAttention(provider: MmtIndexedDbFileSystemProvide
     if (lease === "readonly" && previousLease !== "readonly") {
       void showMomoScriptMessage(
         "warning",
-        "此标签页为只读；写入权由另一标签页持有，修改不会保存。",
+        "此标签页的工作区为只读；写入权由另一标签页持有，修改不会保存。",
         ["接管写入权"],
         { id: "workspace-readonly" },
       ).then((action) => {

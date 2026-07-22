@@ -119,8 +119,7 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
     "@typ",
     "12345",
     "#divider()",
-    "abcde",
-    "123434",
+    "abcde 123434",
     '#image("intro-assets/basic.png")',
     "@end",
     "",
@@ -136,10 +135,9 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
     const parentBounds = element.parentElement!.getBoundingClientRect();
     const style = getComputedStyle(element);
     return {
-      fillsForeignObject: Math.abs(bounds.left - parentBounds.left) <= 0.01
-        && Math.abs(bounds.top - parentBounds.top) <= 0.01
-        && Math.abs(bounds.width - parentBounds.width) <= 0.01
-        && Math.abs(bounds.height - parentBounds.height) <= 0.01,
+      fillsForeignObjectWidth: Math.abs(bounds.left - parentBounds.left) <= 0.01
+        && Math.abs(bounds.width - parentBounds.width) <= 0.01,
+      verticallyCalibrated: style.transform !== "none",
       position: style.position,
       width: style.width,
       height: style.height,
@@ -148,7 +146,8 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
       userSelect: style.userSelect,
     };
   })).resolves.toEqual({
-    fillsForeignObject: true,
+    fillsForeignObjectWidth: true,
+    verticallyCalibrated: true,
     position: "fixed",
     width: "187.5px",
     height: "62.5px",
@@ -156,6 +155,32 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
     textAlignLast: "justify",
     userSelect: "text",
   });
+  const selectableText = previewFrame.locator(".tsel").filter({ hasText: "abcde 123434" }).first();
+  const selectionGeometry = await selectableText.evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    const glyphs = [...element.closest(".typst-text")!.querySelectorAll(":scope > use")].slice(0, 5);
+    const first = glyphs[0]!.getBoundingClientRect();
+    const last = glyphs[4]!.getBoundingClientRect();
+    return {
+      startX: first.left - bounds.left + 1,
+      endX: last.right - bounds.left - 1,
+      y: (first.top + first.bottom) / 2 - bounds.top,
+    };
+  });
+  const selectableBounds = await selectableText.boundingBox();
+  expect(selectableBounds).not.toBeNull();
+  await page.mouse.move(
+    selectableBounds!.x + selectionGeometry.startX,
+    selectableBounds!.y + selectionGeometry.y,
+  );
+  await page.mouse.down();
+  await page.mouse.move(
+    selectableBounds!.x + selectionGeometry.endX,
+    selectableBounds!.y + selectionGeometry.y,
+    { steps: 12 },
+  );
+  await page.mouse.up();
+  await expect.poll(() => previewFrame.evaluate(() => getSelection()?.toString())).toBe("abcde");
   await expect.poll(() => page.evaluate((uri) => (
     Reflect.get(globalThis, "__mmtPreviewBuildDiagnostics") as Function
   )(uri), sourceUri)).toEqual([]);

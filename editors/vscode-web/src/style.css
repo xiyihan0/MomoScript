@@ -382,6 +382,11 @@ body {
 }
 
 
+.typst-preview-page .tsel {
+  transform: translateY(0.32em);
+  transform-origin: left top;
+}
+
 .typst-preview-page .tsel,
 .typst-preview-page .tsel span {
   left: 0;
