@@ -1052,9 +1052,18 @@ async function verifyCheckedNativeEvidence(command: string): Promise<Record<stri
       ? serializedNativeEvidenceForComparison(JSON.parse(checked) as Record<string, unknown>)
       : checked;
     if (checkedForComparison !== actualForComparison) {
+      const checkedLines = checkedForComparison.split("\n");
+      const actualLines = actualForComparison.split("\n");
+      const firstDifferentLine = Math.max(0, Array.from(
+        { length: Math.max(checkedLines.length, actualLines.length) },
+        (_, index) => index,
+      ).find((index) => checkedLines[index] !== actualLines[index]) ?? 0);
+      const difference = `first difference at line ${firstDifferentLine + 1}: `
+        + `expected ${JSON.stringify(checkedLines[firstDifferentLine] ?? "<eof>")}, `
+        + `received ${JSON.stringify(actualLines[firstDifferentLine] ?? "<eof>")}`;
       throw new Error(
         `native Tinymist evidence differs from ${evidencePath}; ` +
-        "run with UPDATE_TINYMIST_NATIVE_EVIDENCE=1 only after reviewing the fixed artifact change"
+        `run with UPDATE_TINYMIST_NATIVE_EVIDENCE=1 only after reviewing the fixed artifact change; ${difference}`
       );
     }
   }
