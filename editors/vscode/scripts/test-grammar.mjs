@@ -144,6 +144,12 @@ hasScope(56, "fill", "variable.other.readwrite.typst");
 lacksContainingScope(56, "patched raw text", "meta.embedded.block.typst");
 assert(!tokenized[55].some((token) => token.scopes.includes("meta.macro.sticker.mmt")), "patched rt region applied MMT macro scopes");
 lacksContainingScope(58, "plain after patched fences", "meta.embedded.block.typst");
+hasScope(59, "fill", "variable.other.readwrite.typst");
+hasContainingScope(59, "美游", "entity.name.character.mmt");
+hasScope(59, "daily_record", "entity.name.function.typst");
+hasContainingScope(60, "观察对象", "meta.embedded.block.typst");
+hasScope(61, "\"\"\"", "punctuation.definition.string.end.typst");
+lacksContainingScope(62, "plain after patched speaker fence", "meta.embedded.block.typst");
 
 const documentLines = (await readFile(join(root, "src/test/fixtures/document-config.mmt"), "utf8"))
   .trimEnd()

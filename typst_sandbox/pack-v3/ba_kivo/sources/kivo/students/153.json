@@ -2008,7 +2008,7 @@
             "icon": "//static.kivo.wiki/images/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/%E5%9C%A3%E8%AF%9E%E8%8A%82/skill_icon/yQdGZgaKQUziQAlcAHlh27Fl3ovKy32y.png",
             "title": "祝福的声响",
             "title_cn": "祝福的铃声",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E9%B9%AB%E8%A7%81%20%E8%8A%B9%E5%A8%9C/%E5%9C%A3%E8%AF%9E%E8%8A%82/skill_preview/ovjTr8nVmf7jn1FtcrEXD7IFOwt0vav6.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -2304,5 +2304,5 @@
   "supplementary_uuid": "d0694e46-ff87-4570-a3dd-7963f27b8147",
   "supplementary_declare_uuid": "ca16ac71-d0ac-4a09-93ec-a3bbefe8dcf0",
   "created_at": 1685609207,
-  "updated_at": 1780412221
+  "updated_at": 1784719899
 }

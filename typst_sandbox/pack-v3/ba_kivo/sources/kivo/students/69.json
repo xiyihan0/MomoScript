@@ -1232,7 +1232,7 @@
             "icon": "//static.kivo.wiki/images/students/%E7%8C%AB%E5%A1%9A%20%E5%93%8D/skill_icon/WYZTQMpFY6Ek4h1yRIXEYaKTM9PeN2vL.png",
             "title": "会痛的概率很高哦",
             "title_cn": "会痛的概率很高哦",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E7%8C%AB%E5%86%A2%20%E5%93%8D/original/skill_preview/EHNa9yjFwrKzVjyUIb0aIOxNAJKCZuGQ.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -1528,5 +1528,5 @@
   "supplementary_uuid": "d5e3d7a4-c010-4993-b206-e282fdd7f2e5",
   "supplementary_declare_uuid": "a23261d3-850f-48f7-b127-992d550d5399",
   "created_at": 1684863779,
-  "updated_at": 1783483399
+  "updated_at": 1784720882
 }

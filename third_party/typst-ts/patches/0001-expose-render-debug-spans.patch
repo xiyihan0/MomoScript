@@ -1,0 +1,152 @@
+diff --git a/packages/compiler/src/lib.rs b/packages/compiler/src/lib.rs
+index a672ab1..dd1e101 100644
+--- a/packages/compiler/src/lib.rs
++++ b/packages/compiler/src/lib.rs
+@@ -8,8 +8,9 @@ pub use crate::builder::TypstFontResolver;
+ pub use reflexo_typst::*;
+ 
+ use core::fmt;
+-use std::{fmt::Write, path::Path, sync::Arc};
++use std::{fmt::Write, num::NonZeroU64, path::Path, sync::Arc};
+ 
++use ::typst::WorldExt;
+ use error::TypstSourceDiagnostic;
+ use font::cache::FontInfoCache;
+ use js_sys::{Array, JsString, Uint8Array};
+@@ -18,6 +19,7 @@ use reflexo_typst::package::registry::JsRegistry;
+ use reflexo_typst::prelude::EcoVec;
+ use reflexo_typst::typst::diag::{SourceResult, Warned};
+ use reflexo_typst::typst::foundations::IntoValue;
++use reflexo_typst::typst::syntax::Span;
+ use reflexo_typst::vfs::browser::ProxyAccessModel;
+ use wasm_bindgen::prelude::*;
+ 
+@@ -379,6 +381,19 @@ impl TypstCompiler {
+ type CFlag<D> = FlagTask<CompilationTask<D>>;
+ type PagedCFlag = CFlag<reflexo_typst::TypstPagedDocument>;
+ type HtmlCFlag = CFlag<reflexo_typst::TypstHtmlDocument>;
++struct DebugSvgExportFeature;
++
++impl reflexo_vec2svg::ExportFeature for DebugSvgExportFeature {
++    const ENABLE_INLINED_SVG: bool = false;
++    const ENABLE_TRACING: bool = false;
++    const SHOULD_ATTACH_DEBUG_INFO: bool = true;
++    const SHOULD_RENDER_TEXT_ELEMENT: bool = true;
++    const USE_STABLE_GLYPH_ID: bool = true;
++    const SHOULD_RASTERIZE_TEXT: bool = false;
++    const WITH_BUILTIN_CSS: bool = true;
++    const WITH_RESPONSIVE_JS: bool = false;
++    const AWARE_HTML_ENTITY: bool = false;
++}
+ 
+ #[wasm_bindgen]
+ pub struct TypstCompileWorld {
+@@ -406,6 +421,43 @@ impl TypstCompileWorld {
+             .get_doc(kind)?
+             .and_then(|doc| Some(doc.info().title.as_ref()?.to_string())))
+     }
++    pub fn resolve_main_spans(&self, span_ids_json: String) -> Result<String, JsValue> {
++        let span_ids: Vec<String> =
++            serde_json::from_str(&span_ids_json).map_err(|error| error.to_string())?;
++        let world = &self.graph.snap.world;
++        let main = world.main();
++        let resolved = span_ids.into_iter().filter_map(|span_id| {
++            let raw = u64::from_str_radix(span_id.trim_start_matches("0x"), 16).ok()?;
++            let span = Span::from_raw(NonZeroU64::new(raw)?);
++            if span.id() != Some(main) {
++                return None;
++            }
++            let range = world.range(span)?;
++            Some(serde_json::json!({
++                "span": span_id,
++                "start": range.start,
++                "end": range.end,
++            }))
++        });
++        serde_json::to_string(&resolved.collect::<Vec<_>>())
++            .map_err(|error| error.to_string().into())
++    }
++    pub fn render_svg_with_debug_spans(&mut self) -> Result<String, JsValue> {
++        let doc = self
++            .do_compile_paged()?
++            .ok_or_else(|| error_once!("document is not compiled"))?;
++        type DebugSvgExporter = reflexo_vec2svg::SvgExporter<DebugSvgExportFeature>;
++        let mut typst2vec = reflexo_typst2vec::pass::Typst2VecPass::default();
++        typst2vec.spans.set_should_attach_debug_info(true);
++        let pages = typst2vec.paged(&doc);
++        let mut module = typst2vec.finalize();
++        module.prepare_glyphs();
++        Ok(DebugSvgExporter::render_flat_svg(
++            &module,
++            &pages,
++            None,
++        ))
++    }
+ 
+     pub fn get_artifact(&mut self, fmt: u8, diagnostics_format: u8) -> Result<JsValue, JsValue> {
+         #[cfg(feature = "svg")]
+diff --git a/crates/conversion/typst2vec/src/pass/typst2vec.rs b/crates/conversion/typst2vec/src/pass/typst2vec.rs
+index 3370ba0..20ac4fe 100644
+--- a/crates/conversion/typst2vec/src/pass/typst2vec.rs
++++ b/crates/conversion/typst2vec/src/pass/typst2vec.rs
+@@ -431,7 +431,7 @@ impl<const ENABLE_REF_CNT: bool> Typst2VecPassImpl<ENABLE_REF_CNT> {
+                         item: i,
+                     });
+ 
+-                    i
++                    text.glyphs.first().map_or(i, |glyph| self.debug_item(i, glyph.span.0))
+                 }
+                 FrameItem::Shape(shape, s) => {
+                     let i = self.shape(state, shape);
+@@ -444,7 +444,7 @@ impl<const ENABLE_REF_CNT: bool> Typst2VecPassImpl<ENABLE_REF_CNT> {
+                         item: i,
+                     });
+ 
+-                    i
++                    self.debug_item(i, *s)
+                 }
+                 FrameItem::Image(image, size, s) => {
+                     let i = self.image(image, *size);
+@@ -456,7 +456,7 @@ impl<const ENABLE_REF_CNT: bool> Typst2VecPassImpl<ENABLE_REF_CNT> {
+                         item: i,
+                     });
+ 
+-                    i
++                    self.debug_item(i, *s)
+                 }
+                 // Meta::Link(_) => Fingerprint::from_u128(0),
+                 FrameItem::Link(lnk, size) => {
+@@ -540,6 +540,14 @@ impl<const ENABLE_REF_CNT: bool> Typst2VecPassImpl<ENABLE_REF_CNT> {
+         fingerprint
+     }
+ 
++    fn debug_item(&self, item: Fingerprint, span: Span) -> Fingerprint {
++        if !self.spans.should_attach_debug_info || span == Span::detached() {
++            return item;
++        }
++        let label = format!("mmt-debug-span:{:x}", span.into_raw().get()).into();
++        self.store(VecItem::Labelled(LabelledRef(label, item)))
++    }
++
+     /// Increases the lifetime of an item.
+     ///
+     /// Note: See [`Self::increment_lifetime`], the `self.lifetime` increases by
+diff --git a/crates/conversion/vec2svg/src/backend/mod.rs b/crates/conversion/vec2svg/src/backend/mod.rs
+index 01d992e..2aefefe 100644
+--- a/crates/conversion/vec2svg/src/backend/mod.rs
++++ b/crates/conversion/vec2svg/src/backend/mod.rs
+@@ -627,7 +627,13 @@ impl<
+         self
+     }
+ 
+-    fn with_label(mut self, _ctx: &mut C, label: &str) -> Self {
++    fn with_label(mut self, ctx: &mut C, label: &str) -> Self {
++        if ctx.should_attach_debug_info() {
++            if let Some(span) = label.strip_prefix("mmt-debug-span:") {
++                self.attributes.push(("data-span", span.into()));
++                return self;
++            }
++        }
+         self.attributes.push(("data-typst-label", label.into()));
+         self
+     }

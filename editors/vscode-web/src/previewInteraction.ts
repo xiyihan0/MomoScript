@@ -188,14 +188,20 @@ export class PreviewInteractionController {
     if (artifact.locationProviderKey.kind === "immutable-map" && !artifact.locationMap) {
       throw new Error("Immutable-map artifact is missing its retained map");
     }
-    if (resolver && locationProviderKeyId(resolver.key) !== locationProviderKeyId(artifact.locationProviderKey)) {
+    const retainedResolver = resolver ?? (
+      this.#resolver
+      && locationProviderKeyId(this.#resolver.key) === locationProviderKeyId(artifact.locationProviderKey)
+        ? this.#resolver
+        : undefined
+    );
+    if (retainedResolver && locationProviderKeyId(retainedResolver.key) !== locationProviderKeyId(artifact.locationProviderKey)) {
       throw new Error("Preview resolver does not match the artifact LocationProviderKey");
     }
     this.cancelPendingSelections();
     this.removeCursor();
     this.removeIndicator();
     this.#bound = Object.freeze({ artifact, identity });
-    this.#resolver = resolver;
+    this.#resolver = retainedResolver;
     const restored = this.#dependencies.persistence?.load(identity.workspaceId, identity.sourceUri);
     this.#viewport = normalizeViewport(restored ?? { page: 0, x: 0, y: 0, zoom: 1, fitMode: "width" }, artifact.pages.length);
     this.#dependencies.events?.viewportChanged?.(this.#viewport);

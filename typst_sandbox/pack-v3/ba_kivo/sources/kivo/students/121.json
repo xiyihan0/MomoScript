@@ -1928,7 +1928,7 @@
             "icon": "//static.kivo.wiki/images/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/%E6%B3%B3%E8%A3%85/skill_icon/NQmZFlSsoxmjtWHJ1eNJy3TGfZW8EBRq.png",
             "title": "绝海：Ish-bosheth",
             "title_cn": "滨海：伊施波设",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E7%A9%BA%E5%B4%8E%20%E6%97%A5%E5%A5%88/%E6%B3%B3%E8%A3%85/skill_preview/EmBSzwQ5IV2iW64Gfxx611izWaduryj3.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -2224,5 +2224,5 @@
   "supplementary_uuid": "bdc7069c-63f3-4b2b-ab33-e95c0aec7acc",
   "supplementary_declare_uuid": "a35779b0-9259-4ef4-b94c-f5e78b475495",
   "created_at": 1685420439,
-  "updated_at": 1777657508
+  "updated_at": 1784720370
 }

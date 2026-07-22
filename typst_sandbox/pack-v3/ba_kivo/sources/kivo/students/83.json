@@ -2988,7 +2988,7 @@
             "icon": "//static.kivo.wiki/images/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/skill_icon/nBbNWR8bToqBN27PspwP00lbwbTWIKK6.png",
             "title": "真碍事！",
             "title_cn": "别碍手碍脚！",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E9%BB%91%E8%A7%81%20%E8%8A%B9%E9%A6%99/original/skill_preview/j1K7CRVIpJ183SjnTBCKhIxdbO24e1sI.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -3284,5 +3284,5 @@
   "supplementary_uuid": "639bb29d-2b38-4ec2-ab07-ecc844cdbe21",
   "supplementary_declare_uuid": "60622761-a6f5-4326-a83f-d2e95cfb7ee6",
   "created_at": 1685115317,
-  "updated_at": 1783337388
+  "updated_at": 1784720705
 }

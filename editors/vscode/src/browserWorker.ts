@@ -74,6 +74,9 @@ async function start(wasmUri: string): Promise<void> {
   connection.onRequest("mmt/typstPosition", (params) =>
     request("mmt/typstPosition", params)
   );
+  connection.onRequest("mmt/typstRange", (params) =>
+    request("mmt/typstRange", params)
+  );
   connection.onRequest("mmt/mapTypstCompletion", (params) =>
     request("mmt/mapTypstCompletion", params)
   );
@@ -82,6 +85,9 @@ async function start(wasmUri: string): Promise<void> {
   );
   connection.onRequest("mmt/mapTypstDiagnostics", (params) =>
     request("mmt/mapTypstDiagnostics", params)
+  );
+  connection.onRequest("mmt/mapTypstReadLocations", (params) =>
+    request("mmt/mapTypstReadLocations", params)
   );
   connection.listen();
   self.postMessage({ jsonrpc: "2.0", method: "mmt/workerReady", params: null });

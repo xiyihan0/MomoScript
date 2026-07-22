@@ -58,7 +58,6 @@
     "@codingame/monaco-vscode-theme-seti-default-extension": "21.6.0",
     "@codingame/monaco-vscode-view-status-bar-service-override": "21.6.0",
     "@codingame/monaco-vscode-views-service-override": "21.6.0",
-    "@myriaddreamin/typst-ts-renderer": "0.8.0-rc3",
     "@myriaddreamin/typst-ts-web-compiler": "0.8.0-rc3",
     "@myriaddreamin/typst.ts": "0.8.0-rc3",
     "js-toml": "^1.2.1",

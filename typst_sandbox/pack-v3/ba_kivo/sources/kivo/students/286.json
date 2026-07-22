@@ -2164,7 +2164,7 @@
             "icon": "//static.kivo.wiki/images/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/%E6%B3%B3%E8%A3%85/skill_icon/L8HZ2AGkz7IA95Ow1K0OQay37vb8FuEC.png",
             "title": "弹道导弹攻击",
             "title_cn": "弹道导弹打击",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E9%A3%8E%E4%BB%93%20%E8%90%8C%E7%BB%98/%E6%B3%B3%E8%A3%85/skill_preview/hJWzycLcHQceNJWYwcJjxgGijLR5ZYtt.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -2460,5 +2460,5 @@
   "supplementary_uuid": "bf3ac885-9a90-4268-bf0a-fe8767f67fb3",
   "supplementary_declare_uuid": "d537144c-6be6-4fa7-bf61-b06eeb3889b8",
   "created_at": 1687680986,
-  "updated_at": 1774183237
+  "updated_at": 1784719737
 }

@@ -16,6 +16,7 @@ pub mod source;
 pub mod syntax;
 pub mod typst_check;
 
+
 pub use analysis::{
     ANALYSIS_SCHEMA, AnalysisDiagnostic, AnalysisLabel, AnalysisReport, AstReport, SourceSpan,
     analyze_text_json, analyze_text_wasm,

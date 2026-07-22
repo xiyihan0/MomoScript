@@ -1551,7 +1551,7 @@
             "icon": "//static.kivo.wiki/images/students/%E8%8D%AF%E5%AD%90%20%E7%BA%B1%E7%BB%AB/%E7%A7%81%E6%9C%8D/skill_icon/fr1plpA2Zc8Pd5BUTQ89vSApC4oNrNsj.png",
             "title": "这是我送的礼物！",
             "title_cn": "这是小爷我的礼物！",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E8%8D%AF%E5%AD%90%20%E7%BA%B1%E7%BB%AB/%E7%A7%81%E6%9C%8D/skill_preview/6rZsib3IUnMtWtinJTpgtEZJymtRJcr6.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -1847,5 +1847,5 @@
   "supplementary_uuid": "37f1d2ec-13dc-4256-a170-5b0f3e4cb551",
   "supplementary_declare_uuid": "c2e87c67-1039-4ab0-847a-94dd6470bebe",
   "created_at": 1685123022,
-  "updated_at": 1774941153
+  "updated_at": 1784720633
 }

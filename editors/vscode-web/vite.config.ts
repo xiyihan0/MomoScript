@@ -99,6 +99,19 @@ self.addEventListener("fetch", (event) => {
 `;
 }
 
+function typstCompilerBindingsPlugin(): Plugin {
+  const compilerBinding = /@myriaddreamin\/typst-ts-web-compiler\/pkg\/typst_ts_web_compiler\.mjs$/;
+  const pinnedBinding = path.resolve("../../third_party/typst-ts/pkg/typst_ts_web_compiler.mjs");
+  return {
+    name: "momoscript-pinned-typst-compiler-bindings",
+    enforce: "pre",
+    transform(_code, id) {
+      if (!compilerBinding.test(id.split("?")[0]!)) return;
+      return readFileSync(pinnedBinding, "utf8");
+    },
+  };
+}
+
 function pwaPrecachePlugin(): Plugin {
   const root = path.resolve("public");
   const publicFiles = publicAssets(root);
@@ -173,7 +186,7 @@ function e2eLifecyclePlugin(): Plugin | undefined {
 }
 
 export default defineConfig({
-  plugins: [e2eLifecyclePlugin(), pwaPrecachePlugin()],
+  plugins: [typstCompilerBindingsPlugin(), e2eLifecyclePlugin(), pwaPrecachePlugin()],
   define: {
     "import.meta.env.VITE_MMT_E2E": JSON.stringify(process.env.VITE_MMT_E2E === "1" ? "1" : "0")
   },
@@ -191,6 +204,7 @@ export default defineConfig({
     format: "es"
   },
   optimizeDeps: {
+    exclude: ["@myriaddreamin/typst-ts-web-compiler"],
     include: [
       "vscode-textmate",
       "vscode-oniguruma",

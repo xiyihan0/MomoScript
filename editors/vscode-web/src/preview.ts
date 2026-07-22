@@ -1,7 +1,7 @@
 import { $typst, MemoryAccessModel } from "@myriaddreamin/typst.ts";
 import { loadFonts } from "@myriaddreamin/typst.ts/dist/esm/options.init.mjs";
 import { TypstSnippet } from "@myriaddreamin/typst.ts/dist/esm/contrib/snippet.mjs";
-import rendererWasmUrl from "@myriaddreamin/typst-ts-renderer/pkg/typst_ts_renderer_bg.wasm?url";
+import { kObject } from "@myriaddreamin/typst.ts/dist/esm/internal.types.mjs";
 import monoUrl from "../../vscode/vendor/fonts/DejaVuSansMono.ttf?url";
 import jetBrainsMonoUrl from "../../vscode/vendor/fonts/JetBrainsMono-Regular.ttf?url";
 import mathUrl from "../../vscode/vendor/fonts/NewCMMath-Regular.otf?url";
@@ -32,6 +32,8 @@ import {
   type PreviewOutlineSymbol,
   type PreviewPageBatch,
   type PreviewBatchResult,
+  type PreviewProviderPointRequest,
+  type PreviewProviderSelectionRequest,
   type PreviewProtocolCapabilities,
   type PreviewSourceIdentity,
 } from "./previewInteraction.ts";
@@ -68,6 +70,37 @@ let initialized = false;
 let compilerModule: WebAssembly.Module | undefined;
 const previewAccessModel = new MemoryAccessModel();
 const previewPackageRegistry = new TypstPreviewPackageRegistry(previewAccessModel);
+export const RENDER_ARTIFACT_LOCATION_METHOD = "mmt/renderArtifactLocations";
+export const RENDER_ARTIFACT_COORDINATE_VERSION = "typst-svg-debug-spans-v1";
+
+interface ResolvedTypstDebugSpan {
+  readonly span: string;
+  readonly start: number;
+  readonly end: number;
+}
+
+interface RenderArtifactLocation extends ResolvedTypstDebugSpan, PreviewPagePoint {
+  readonly left: number;
+  readonly top: number;
+  readonly right: number;
+  readonly bottom: number;
+}
+
+
+interface DebugTypstCompileWorld {
+  resolve_main_spans(spanIdsJson: string): string;
+  render_svg_with_debug_spans(): string;
+}
+
+export function renderArtifactLocationProviderKey(renderKey: RenderKey, revision: number): LocationProviderKey {
+  return Object.freeze({
+    kind: "provider",
+    backendOrTraceArtifactDigest: renderKey,
+    backendGeneration: revision,
+    method: RENDER_ARTIFACT_LOCATION_METHOD,
+    coordinateVersion: RENDER_ARTIFACT_COORDINATE_VERSION,
+  });
+}
 
 export function installPreviewPackageGenerations(generations: readonly TypstPackageGeneration[]): void {
   for (const generation of generations) previewPackageRegistry.install(generation);
@@ -101,6 +134,47 @@ export interface TypstExport {
   blob: Blob;
   extension: TypstExportFormat;
 }
+interface DebugSvgRender {
+  readonly svg: string;
+  readonly spans: readonly ResolvedTypstDebugSpan[];
+}
+
+async function renderSvgWithDebugSpans(mainFilePath: string): Promise<DebugSvgRender> {
+  const compiler = await $typst.getCompiler();
+  return compiler.runWithWorld({ mainFilePath }, async (world) => {
+    const rawWorld = (world as unknown as { [kObject]: DebugTypstCompileWorld })[kObject];
+    const svg = rawWorld.render_svg_with_debug_spans();
+    const parsedSvg = new DOMParser().parseFromString(svg, "image/svg+xml");
+    if (parsedSvg.querySelector("parsererror")) {
+      throw new Error("Typst debug SVG is malformed");
+    }
+    const spanIds = [...new Set(
+      [...parsedSvg.querySelectorAll<SVGElement>("[data-span]")]
+        .map((element) => element.getAttribute("data-span"))
+        .filter((span): span is string => Boolean(span)),
+    )];
+    const parsed = JSON.parse(rawWorld.resolve_main_spans(JSON.stringify(spanIds))) as unknown;
+    if (!Array.isArray(parsed)) throw new Error("Typst debug-span resolver returned a malformed result");
+    const spans = Object.freeze(parsed.flatMap((candidate): ResolvedTypstDebugSpan[] => {
+      if (
+        !candidate
+        || typeof candidate !== "object"
+        || typeof candidate.span !== "string"
+        || !Number.isSafeInteger(candidate.start)
+        || !Number.isSafeInteger(candidate.end)
+        || candidate.start < 0
+        || candidate.end < candidate.start
+      ) return [];
+      return [Object.freeze({
+        span: candidate.span,
+        start: candidate.start,
+        end: candidate.end,
+      })];
+    }));
+    return Object.freeze({ svg, spans });
+  });
+}
+
 
 export class TypstPreviewController {
   private readonly container: HTMLElement;
@@ -310,12 +384,22 @@ export class TypstPreviewController {
   scheduleEditorSelection(selection: PreviewEditorSelection): void {
     this.interaction.scheduleEditorSelection(selection);
   }
+  async navigateEditorSelection(selection: PreviewEditorSelection): Promise<boolean> {
+    return Boolean(await this.interaction.navigateEditorSelection(selection));
+  }
+
+  get currentCursorPoint(): PreviewPagePoint | undefined {
+    return this.interaction.cursor?.point;
+  }
+
 
   sourceIdentityAdvanced(identity: PreviewSourceIdentity): void {
     this.interaction.sourceIdentityAdvanced(identity);
   }
 
   providerRestarted(key: LocationProviderKey | undefined): void {
+    const displayed = this.interaction.artifact?.locationProviderKey;
+    if (displayed?.kind === "provider" && displayed.method === RENDER_ARTIFACT_LOCATION_METHOD) return;
     this.interaction.providerRestarted(key);
   }
 
@@ -457,7 +541,9 @@ export class TypstPreviewController {
         await $typst.mapShadow(path, data);
         mappedThisAttempt.add(path);
       }
-      const svg = await $typst.svg({ mainFilePath: virtualPath(project.entryUri) });
+      const entryPath = virtualPath(project.entryUri);
+      const entryFile = nextFiles.get(entryPath);
+      const { svg, spans: resolvedSpans } = await renderSvgWithDebugSpans(entryPath);
       if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) {
         await this.unmapAbandonedPaths(mappedThisAttempt);
         return;
@@ -509,9 +595,26 @@ export class TypstPreviewController {
       this.mappedPaths = nextPaths;
       this.mappedFiles = nextFiles;
       this.pageSize = { width, height };
-      this.latestEntryPath = virtualPath(project.entryUri);
+      this.latestEntryPath = entryPath;
       this.latestSvg = normalizedPage.sanitizedSvg;
       if (binding) {
+        let resolver = binding.resolver;
+        if (
+          binding.locationProviderKey.kind === "provider"
+          && binding.locationProviderKey.method === RENDER_ARTIFACT_LOCATION_METHOD
+        ) {
+          if (entryFile?.text === undefined) {
+            throw new Error("Rendered Typst entry source is unavailable for exact preview navigation");
+          }
+          this.mountPages([normalizedPage]);
+          resolver = createRenderArtifactLocationResolver(
+            binding.locationProviderKey,
+            project.entryUri,
+            entryFile.text,
+            binding.identity.backendEncoding,
+            measureRenderArtifactLocations(this.pageElements, resolvedSpans),
+          );
+        }
         const artifact = createPreviewArtifact({
           renderKey: binding.renderKey,
           sourceUri: binding.identity.sourceUri,
@@ -519,7 +622,7 @@ export class TypstPreviewController {
           locationMap: binding.locationMap,
           pages: [normalizedPage],
         });
-        this.displayArtifact(artifact, binding.identity, binding.resolver);
+        this.displayArtifact(artifact, binding.identity, resolver);
       } else {
         this.mountPages([normalizedPage]);
       }
@@ -550,14 +653,34 @@ export class TypstPreviewController {
         throw new Error("Preview artifact page has no valid SVG root");
       }
       element.append(document.importNode(svg, true));
+      let pointerOrigin: { x: number; y: number } | undefined;
+      let pointerDragged = false;
+      element.addEventListener("pointerdown", (event) => {
+        pointerOrigin = { x: event.clientX, y: event.clientY };
+        pointerDragged = false;
+      });
+      element.addEventListener("pointermove", (event) => {
+        if (!pointerOrigin) return;
+        if (Math.hypot(event.clientX - pointerOrigin.x, event.clientY - pointerOrigin.y) > 3) {
+          pointerDragged = true;
+        }
+      });
+      element.addEventListener("pointerup", () => { pointerOrigin = undefined; });
       element.addEventListener("click", (event) => {
+        const dragged = pointerDragged;
+        pointerDragged = false;
         const bounds = element.getBoundingClientRect();
         if (bounds.width <= 0 || bounds.height <= 0) return;
-        void this.interaction.navigatePreviewPoint({
+        const point = {
           pageIndex: page.pageIndex,
           x: Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width)),
           y: Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height)),
-        });
+        };
+        setTimeout(() => {
+          const selection = element.ownerDocument.getSelection();
+          if (dragged || (selection && !selection.isCollapsed)) return;
+          void this.interaction.navigatePreviewPoint(point);
+        }, 0);
       });
       this.pageElements.set(page.pageIndex, element);
       this.canvas.append(element);
@@ -660,6 +783,197 @@ export class TypstPreviewController {
     this.events?.status(message, error, revision);
   }
 }
+function measureRenderArtifactLocations(
+  pages: ReadonlyMap<number, HTMLElement>,
+  resolvedSpans: readonly ResolvedTypstDebugSpan[],
+): readonly RenderArtifactLocation[] {
+  const resolved = new Map(resolvedSpans.map((span) => [span.span, span]));
+  const locations: RenderArtifactLocation[] = [];
+  const seen = new Set<string>();
+  for (const [pageIndex, page] of pages) {
+    const pageBounds = page.getBoundingClientRect();
+    if (pageBounds.width <= 0 || pageBounds.height <= 0) continue;
+    for (const element of page.querySelectorAll<SVGGraphicsElement>("[data-span]")) {
+      const span = resolved.get(element.getAttribute("data-span") ?? "");
+      if (!span) continue;
+      const bounds = element.getBoundingClientRect();
+      if (
+        !Number.isFinite(bounds.left)
+        || !Number.isFinite(bounds.top)
+        || bounds.width <= 0
+        || bounds.height <= 0
+      ) continue;
+      const left = clampUnit((bounds.left - pageBounds.left) / pageBounds.width);
+      const top = clampUnit((bounds.top - pageBounds.top) / pageBounds.height);
+      const right = clampUnit((bounds.right - pageBounds.left) / pageBounds.width);
+      const bottom = clampUnit((bounds.bottom - pageBounds.top) / pageBounds.height);
+      if (right <= left || bottom <= top) continue;
+      const x = (left + right) / 2;
+      const y = (top + bottom) / 2;
+      const identity = `${span.span}:${pageIndex}:${x.toFixed(5)}:${y.toFixed(5)}`;
+      if (seen.has(identity)) continue;
+      seen.add(identity);
+      locations.push(Object.freeze({ ...span, pageIndex, x, y, left, top, right, bottom }));
+    }
+  }
+  return Object.freeze(locations);
+}
+
+function createRenderArtifactLocationResolver(
+  key: LocationProviderKey,
+  entryUri: string,
+  sourceText: string,
+  backendEncoding: PreviewSourceIdentity["backendEncoding"],
+  locations: readonly RenderArtifactLocation[],
+): PreviewLocationResolver {
+  if (key.kind !== "provider" || key.method !== RENDER_ARTIFACT_LOCATION_METHOD) {
+    throw new Error("Exact render-artifact locations require the matching provider key");
+  }
+  return Object.freeze({
+    key,
+    async locateSelection(request: PreviewProviderSelectionRequest, signal: AbortSignal) {
+      if (signal.aborted || request.sourceUri !== entryUri) return Object.freeze([]);
+      const start = wirePositionToByteOffset(sourceText, request.range.start, request.positionEncoding);
+      const end = wirePositionToByteOffset(sourceText, request.range.end, request.positionEncoding);
+      if (start === undefined || end === undefined) return Object.freeze([]);
+      const selectedStart = Math.min(start, end);
+      const selectedEnd = Math.max(start, end);
+      const matching = locations.filter((location) => selectedStart === selectedEnd
+        ? location.start <= selectedStart && selectedStart <= location.end
+        : location.start < selectedEnd && selectedStart < location.end);
+      const candidates = matching.length > 0 ? matching : locations.filter(
+        (location) => Math.min(
+          Math.abs(location.start - selectedStart),
+          Math.abs(location.end - selectedStart),
+        ) <= 2,
+      );
+      return Object.freeze(uniquePagePoints(candidates));
+    },
+    async locatePoint(request: PreviewProviderPointRequest, signal: AbortSignal) {
+      if (signal.aborted || request.pageIndex < 0) return undefined;
+      const onPoint = locations.filter((location) =>
+        location.pageIndex === request.pageIndex
+        && request.x >= location.left
+        && request.x <= location.right
+        && request.y >= location.top
+        && request.y <= location.bottom);
+      const pool = onPoint.length > 0
+        ? onPoint
+        : locations.filter((location) => location.pageIndex === request.pageIndex);
+      const nearest = pool
+        .map((location) => ({
+          location,
+          distance: Math.hypot(request.x - location.x, request.y - location.y),
+          area: (location.right - location.left) * (location.bottom - location.top),
+        }))
+        .sort((left, right) => onPoint.length > 0
+          ? left.area - right.area || left.distance - right.distance
+          : left.distance - right.distance)[0];
+      if (!nearest || (onPoint.length === 0 && nearest.distance > 0.04)) return undefined;
+      return Object.freeze({
+        uri: entryUri,
+        range: byteRangeToWireRange(
+          sourceText,
+          nearest.location.start,
+          nearest.location.end,
+          backendEncoding,
+        ),
+      });
+    },
+  });
+}
+
+function uniquePagePoints(locations: readonly RenderArtifactLocation[]): readonly PreviewPagePoint[] {
+  const seen = new Set<string>();
+  const points: PreviewPagePoint[] = [];
+  for (const location of locations) {
+    const identity = `${location.pageIndex}:${location.x.toFixed(5)}:${location.y.toFixed(5)}`;
+    if (seen.has(identity)) continue;
+    seen.add(identity);
+    points.push(Object.freeze({
+      pageIndex: location.pageIndex,
+      x: location.x,
+      y: location.y,
+    }));
+  }
+  return points;
+}
+
+function wirePositionToByteOffset(
+  source: string,
+  position: { readonly line: number; readonly character: number },
+  encoding: "utf-8" | "utf-16" | "utf-32",
+): number | undefined {
+  if (position.line < 0 || position.character < 0) return undefined;
+  let lineStart = 0;
+  for (let line = 0; line < position.line; line += 1) {
+    const newline = source.indexOf("\n", lineStart);
+    if (newline < 0) return undefined;
+    lineStart = newline + 1;
+  }
+  const newline = source.indexOf("\n", lineStart);
+  const lineText = source.slice(lineStart, newline < 0 ? source.length : newline);
+  let codeUnitOffset: number | undefined;
+  if (encoding === "utf-16") {
+    codeUnitOffset = position.character <= lineText.length ? position.character : undefined;
+  } else if (encoding === "utf-32") {
+    const codePoints = [...lineText];
+    codeUnitOffset = position.character <= codePoints.length
+      ? codePoints.slice(0, position.character).join("").length
+      : undefined;
+  } else {
+    codeUnitOffset = utf8CharacterToCodeUnitOffset(lineText, position.character);
+  }
+  return codeUnitOffset === undefined
+    ? undefined
+    : encoder.encode(source.slice(0, lineStart + codeUnitOffset)).byteLength;
+}
+
+function utf8CharacterToCodeUnitOffset(text: string, byteOffset: number): number | undefined {
+  if (byteOffset < 0) return undefined;
+  let bytes = 0;
+  let codeUnits = 0;
+  for (const character of text) {
+    if (bytes === byteOffset) return codeUnits;
+    const encoded = encoder.encode(character).byteLength;
+    if (bytes + encoded > byteOffset) return undefined;
+    bytes += encoded;
+    codeUnits += character.length;
+  }
+  return bytes === byteOffset ? codeUnits : undefined;
+}
+
+function byteRangeToWireRange(
+  source: string,
+  start: number,
+  end: number,
+  encoding: "utf-8" | "utf-16" | "utf-32",
+) {
+  return Object.freeze({
+    start: byteOffsetToWirePosition(source, start, encoding),
+    end: byteOffsetToWirePosition(source, end, encoding),
+  });
+}
+
+function byteOffsetToWirePosition(
+  source: string,
+  byteOffset: number,
+  encoding: "utf-8" | "utf-16" | "utf-32",
+) {
+  const bytes = encoder.encode(source);
+  const prefix = new TextDecoder("utf-8", { fatal: true }).decode(bytes.slice(0, byteOffset));
+  const line = prefix.split("\n").length - 1;
+  const lineText = prefix.slice(prefix.lastIndexOf("\n") + 1);
+  const character = encoding === "utf-8"
+    ? encoder.encode(lineText).byteLength
+    : encoding === "utf-32" ? [...lineText].length : lineText.length;
+  return Object.freeze({ line, character });
+}
+
+function clampUnit(value: number): number {
+  return Math.min(1, Math.max(0, value));
+}
+
 
 function svgCssPixels(value: string | null): number | undefined {
   if (value === null) return undefined;
@@ -927,7 +1241,6 @@ async function initializeTypst(report: (message: string) => void): Promise<void>
     beforeBuild: [bundledFontsLoader, optionalMainFontsLoader],
     getModule: () => compilerModule!,
   });
-  $typst.setRendererInitOptions({ getModule: () => rendererWasmUrl });
   $typst.use(
     TypstSnippet.withAccessModel(previewAccessModel),
     TypstSnippet.withPackageRegistry(previewPackageRegistry)

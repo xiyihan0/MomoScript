@@ -632,7 +632,7 @@ impl Parser<'_> {
         first_line_end: usize,
     ) -> Option<(BodySyntax, usize)> {
         let open = parse_fence_open(first_text, first_start)?;
-        let body_start = open.content_start;
+        let mut body_start = open.content_start;
 
         if let Some(close_offset) = find_fence_close(open.remaining, open.fence_len) {
             let source = open.remaining[..close_offset].to_string();
@@ -649,9 +649,14 @@ impl Parser<'_> {
         }
         let mut body_end = first_line_end;
         let mut range_end = first_line_end;
+        let mut body_started = !open.remaining.is_empty();
 
         while self.index < self.lines.len() {
             let line = self.lines[self.index].clone();
+            if !body_started {
+                body_start = line.range.start;
+                body_started = true;
+            }
             if let Some(close_offset) = find_fence_close(line.text, open.fence_len) {
                 if !source.is_empty() {
                     source.push('\n');
@@ -1497,6 +1502,35 @@ mod tests {
         };
         assert_eq!(statement.body.source, "@reply: 不应切出\n> 也不是新消息\n");
         assert_eq!(statement.body.mode, BodyMode::Inherit);
+    }
+
+    #[test]
+    fn fenced_body_opening_line_break_preserves_source_range_length() {
+        let source = "> 美游: T\"\"\"\n#daily_record[\n观察记录\n]\n\"\"\"";
+        let doc = parse_text(source);
+        assert!(doc.diagnostics.is_empty());
+
+        let SyntaxNode::Statement(statement) = &doc.nodes[0] else {
+            panic!("expected statement");
+        };
+        assert_eq!(statement.body.source, "#daily_record[\n观察记录\n]\n");
+        assert_eq!(statement.body.range.len(), statement.body.source.len());
+        assert_eq!(
+            &source[statement.body.range.start..statement.body.range.end],
+            statement.body.source
+        );
+    }
+
+    #[test]
+    fn empty_fenced_body_opening_line_break_has_empty_range() {
+        let doc = parse_text("> 美游: T\"\"\"\n\"\"\"");
+        assert!(doc.diagnostics.is_empty());
+
+        let SyntaxNode::Statement(statement) = &doc.nodes[0] else {
+            panic!("expected statement");
+        };
+        assert!(statement.body.source.is_empty());
+        assert!(statement.body.range.is_empty());
     }
 
     #[test]

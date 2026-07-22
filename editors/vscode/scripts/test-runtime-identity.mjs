@@ -49,7 +49,7 @@ const project = await identity.projectSnapshotKey({
 });
 const projection = await identity.projectionKey(sourceContent, "session-a", 7, entryFile, project, mappingDigest);
 const materialization = await identity.materializationKey(projection, "pack", "plan", "bytes");
-const runtime = await identity.runtimeArtifactKey("0.15.2", "compiler-wasm", "0.7.0", "renderer-wasm", "template", "fonts");
+const runtime = await identity.runtimeArtifactKey("0.15.2", "compiler-wasm", "template", "fonts");
 const render = await identity.renderKey(materialization, runtime, "options");
 const actual = { logicalSource, sourceContent, project, projection, materialization, runtime, render };
 

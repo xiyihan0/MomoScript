@@ -489,9 +489,18 @@ qualifiedRegistry.install(12, {
     completionProvider: { resolveProvider: true, triggerCharacters: ["#", "."] },
     hoverProvider: true,
     signatureHelpProvider: { triggerCharacters: ["("], retriggerCharacters: [","] },
-    semanticTokensProvider: { full: true }
+    semanticTokensProvider: { full: true },
+    experimental: {
+      mmtPreviewLocationProvider: {
+        previewToSourceMethod: "tinymist/previewLocation",
+        sourceToPreviewMethod: "tinymist/sourceLocations",
+        coordinateVersion: "typst-page-points-v1"
+      }
+    }
   }
 });
+assert.equal(qualifiedRegistry.has("tinymist/previewLocation"), true);
+assert.equal(qualifiedRegistry.has("tinymist/sourceLocations"), true);
 const providerBackend = {
   capabilities: () => qualifiedRegistry,
   backendGeneration: () => 12,

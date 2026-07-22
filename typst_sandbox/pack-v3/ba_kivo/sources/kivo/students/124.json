@@ -1396,7 +1396,7 @@
             "icon": "//static.kivo.wiki/images/students/%E4%BC%8A%E8%8D%89%20%E9%81%A5%E9%A6%99/%E6%AD%A3%E6%9C%88/skill_icon/guBtPZdbHDdVeaFSI2g3fpViFDddoGc6.png",
             "title": "谁允许了……？",
             "title_cn": "谁允许你了……？！",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E4%BC%8A%E8%8D%89%20%E9%81%A5%E9%A6%99/%E6%AD%A3%E6%9C%88/skill_preview/Jl4MsyNN4WDAXmxqya0yqHrw5CQHpvjB.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -1692,5 +1692,5 @@
   "supplementary_uuid": "6ba5ca80-317f-4362-bcee-f49c79f86006",
   "supplementary_declare_uuid": "dcdc03e0-74f2-415a-acb8-8c02a9aba339",
   "created_at": 1685438162,
-  "updated_at": 1782227655
+  "updated_at": 1784720150
 }

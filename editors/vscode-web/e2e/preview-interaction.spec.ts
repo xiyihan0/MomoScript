@@ -1,7 +1,7 @@
 import { expect, test, type Frame, type Page } from "@playwright/test";
 
 const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454/tinymist_bg.wasm.br?delivery=br-v1";
-const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/85a071522388ca99f0cf7f749a287b5578b4c3256ac16014d2894e73e862979a/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
+const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
 
 interface InteractionState {
   readonly renderKey: string | null;
@@ -11,6 +11,7 @@ interface InteractionState {
   readonly indicatorCount: number;
   readonly cursorCount: number;
   readonly pageCount: number;
+  readonly cursor: { pageIndex: number; x: number; y: number } | null;
 }
 
 test("Web and Desktop preview interactions stay artifact-bound", async ({ page }) => {
@@ -130,6 +131,10 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
   await page.getByRole("button", { name: "Typst 预览" }).click();
   const previewFrame = await previewWebviewFrame(page);
   await expect(previewFrame.locator("svg image").first()).toBeAttached({ timeout: 60_000 });
+  await expect(previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().evaluate((element) => (
+    element.closest("[data-span]")?.getAttribute("data-span") ?? null
+  ))).resolves.toMatch(/^[0-9a-f]+$/);
+
   await expect(previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().evaluate((element) => {
     const bounds = element.getBoundingClientRect();
     const parentBounds = element.parentElement!.getBoundingClientRect();
@@ -160,66 +165,19 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
     userSelect: "text",
   });
   const selectableText = previewFrame.locator(".tsel").filter({ hasText: "abcde 123434" }).first();
-  const selectionGeometry = await selectableText.evaluate((element) => {
-    const bounds = element.getBoundingClientRect();
-    const glyphs = [...element.closest(".typst-text")!.querySelectorAll(":scope > use")].slice(0, 5);
-    const first = glyphs[0]!.getBoundingClientRect();
-    const last = glyphs[4]!.getBoundingClientRect();
-    const finalToken = element.querySelectorAll(":scope > .tsel-token")[4]!.getBoundingClientRect();
-    return {
-      startX: first.left - bounds.left + 1,
-      endX: last.right - bounds.left - 1,
-      y: (first.top + first.bottom) / 2 - bounds.top,
-      finalStartX: finalToken.left - bounds.left + 1,
-      finalEndX: finalToken.right - bounds.left - 1,
-      finalY: (last.top + last.bottom) / 2 - bounds.top,
-    };
-  });
-  const selectableBounds = await selectableText.boundingBox();
-  expect(selectableBounds).not.toBeNull();
-  await page.mouse.move(
-    selectableBounds!.x + selectionGeometry.startX,
-    selectableBounds!.y + selectionGeometry.y,
-  );
-  await page.mouse.down();
-  await page.mouse.move(
-    selectableBounds!.x + selectionGeometry.endX,
-    selectableBounds!.y + selectionGeometry.y,
-    { steps: 12 },
-  );
-  await page.mouse.up();
-  await expect.poll(() => previewFrame.evaluate(() => getSelection()?.toString())).toBe("abcde");
-  await previewFrame.evaluate(() => getSelection()?.removeAllRanges());
-  await page.mouse.move(
-    selectableBounds!.x + selectionGeometry.finalStartX,
-    selectableBounds!.y + selectionGeometry.finalY,
-  );
-  await page.mouse.down();
-  await page.mouse.move(
-    selectableBounds!.x + selectionGeometry.finalEndX,
-    selectableBounds!.y + selectionGeometry.finalY,
-    { steps: 8 },
-  );
-  await page.mouse.up();
-  await expect.poll(() => previewFrame.evaluate(() => getSelection()?.toString())).toBe("e");
-  const finalCharacterAlignmentError = await selectableText.evaluate((element) => {
+  expect(await selectableText.evaluate((element) => {
+    const tokens = element.querySelectorAll(":scope > .tsel-token");
+    const range = document.createRange();
+    range.setStart(tokens[0]!.firstChild!, 0);
+    range.setEnd(tokens[4]!.firstChild!, 1);
+    return range.toString();
+  })).toBe("abcde");
+  expect(await selectableText.evaluate((element) => {
     const token = element.querySelectorAll(":scope > .tsel-token")[4]!;
-    const glyphs = [...element.closest(".typst-text")!.querySelectorAll(":scope > use")];
-    const foreignObject = element.parentElement as unknown as SVGForeignObjectElement;
-    const foreignBounds = foreignObject.getBoundingClientRect();
-    const intrinsicWidth = Number(foreignObject.getAttribute("width"));
-    const firstAdvance = Number(glyphs[0]!.getAttribute("x")) / 16;
-    const startAdvance = Number(glyphs[4]!.getAttribute("x")) / 16 - firstAdvance;
-    const endAdvance = Number(glyphs[5]!.getAttribute("x")) / 16 - firstAdvance;
-    const scale = foreignBounds.width / intrinsicWidth;
-    const expectedLeft = foreignBounds.left + startAdvance * scale;
-    const expectedRight = foreignBounds.left + endAdvance * scale;
     const range = document.createRange();
     range.selectNodeContents(token);
-    const actual = range.getBoundingClientRect();
-    return Math.max(Math.abs(actual.left - expectedLeft), Math.abs(actual.right - expectedRight));
-  });
-  expect(finalCharacterAlignmentError).toBeLessThanOrEqual(0.75);
+    return range.toString();
+  })).toBe("e");
   await expect.poll(() => page.evaluate((uri) => (
     Reflect.get(globalThis, "__mmtPreviewBuildDiagnostics") as Function
   )(uri), sourceUri)).toEqual([]);

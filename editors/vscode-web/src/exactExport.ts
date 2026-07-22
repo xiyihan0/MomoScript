@@ -66,8 +66,6 @@ export interface ImmutableRuntimeInputs {
   readonly compilerVersion: string;
   readonly compilerWasmDigest: string;
   readonly compilerWasmBytes: Uint8Array;
-  readonly rendererVersion: string;
-  readonly rendererWasmDigest: string;
   readonly templateBundleDigest: string;
   readonly fontSetDigest: string;
   readonly fonts: readonly ImmutableFontInput[];
@@ -373,8 +371,6 @@ function validateRenderInputs(render: ImmutableRenderInputs, runtime: ImmutableR
     runtime.runtimeArtifactKey,
     runtime.compilerVersion,
     runtime.compilerWasmDigest,
-    runtime.rendererVersion,
-    runtime.rendererWasmDigest,
     runtime.templateBundleDigest,
     runtime.fontSetDigest,
   ];
@@ -434,8 +430,6 @@ function retainedInputsEqual(left: RetainedRenderInputs, right: RetainedRenderIn
     || JSON.stringify(left.render.sysInputs) !== JSON.stringify(right.render.sysInputs)
     || left.runtime.compilerVersion !== right.runtime.compilerVersion
     || left.runtime.compilerWasmDigest !== right.runtime.compilerWasmDigest
-    || left.runtime.rendererVersion !== right.runtime.rendererVersion
-    || left.runtime.rendererWasmDigest !== right.runtime.rendererWasmDigest
     || left.runtime.templateBundleDigest !== right.runtime.templateBundleDigest
     || left.runtime.fontSetDigest !== right.runtime.fontSetDigest
     || left.render.files.length !== right.render.files.length

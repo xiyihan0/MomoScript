@@ -4,7 +4,7 @@ import { expect, test, type Frame, type Locator, type Page, type Response } from
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
 const MANIFEST_URL = `${PACK_ROOT}manifest.json`;
 const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454/tinymist_bg.wasm.br?delivery=br-v1";
-const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/85a071522388ca99f0cf7f749a287b5578b4c3256ac16014d2894e73e862979a/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
+const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
 const TINYMIST_WASM_FALLBACK_URL = TINYMIST_WASM_URL.replace(".br?delivery=br-v1", "");
 const TYPST_COMPILER_WASM_FALLBACK_URL = TYPST_COMPILER_WASM_URL.replace(".br?delivery=br-v1", "");
 const manifest = await readFile(new URL("./fixtures/manifest.json", import.meta.url));

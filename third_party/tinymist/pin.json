@@ -11,7 +11,7 @@
   },
   "patch": {
     "path": "third_party/tinymist/patches/0001-mmt-host-package-callback.patch",
-    "sha256": "a7841931fe6eecc095ba3489f33bf4e4f9eba937d2cfb4b56808bb63f1ae7faa"
+    "sha256": "bf7f10043ce079f94ba45bdb69795fa82f93d48477b1ab0784396e52c2bbfd0d"
   },
   "build": {
     "native": "cargo +1.92.0 build --locked --release --bin tinymist",
@@ -38,6 +38,8 @@
   "protocol": {
     "requestMethod": "mmt/typstPackageRequest.v1",
     "contextNotification": "mmt/typstPackageContext.v1",
+    "previewLocationRequest": "tinymist/previewLocation",
+    "sourceLocationsRequest": "tinymist/sourceLocations",
     "activatedRoot": "/__mmt_typst_packages/{namespace}/{name}/{version}/{files_digest}",
     "networkPolicy": "patched LSP registries never download; host injects immutable files before Ready"
   }

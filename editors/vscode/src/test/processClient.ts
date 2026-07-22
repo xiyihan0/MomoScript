@@ -801,7 +801,7 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
     session.send({
       jsonrpc: "2.0",
       method: "textDocument/didOpen",
-      params: { textDocument: { uri: packageUri, languageId: "typst", version: 1, text: "#let value = 1\n#value" } }
+      params: { textDocument: { uri: packageUri, languageId: "typst", version: 1, text: "[Hello native]" } }
     });
     packageMessages.push(...await collectTranscriptWindow(session, 300, serverRequests));
 
@@ -819,11 +819,28 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
       { command: "tinymist.scrollPreview", arguments: [] },
       serverRequests
     );
-    const locationResponse = await transcriptRequest(
+    const sourceLocationsResponse = await transcriptRequest(
       session,
       4,
-      "mmt/previewLocation.v1",
-      { uri: packageUri, position: { line: 0, character: 0 } },
+      "tinymist/sourceLocations",
+      { uri: packageUri, position: { line: 0, character: 2 } },
+      serverRequests
+    );
+    const sourceLocations = Array.isArray(sourceLocationsResponse.result)
+      ? sourceLocationsResponse.result
+      : [];
+    const locationResponse = await transcriptRequest(
+      session,
+      5,
+      "tinymist/previewLocation",
+      { uri: packageUri, position: sourceLocations[0] },
+      serverRequests
+    );
+    const invalidLocationResponse = await transcriptRequest(
+      session,
+      6,
+      "tinymist/previewLocation",
+      { uri: packageUri, position: { pageIndex: 0, x: -1, y: 0.5 } },
       serverRequests
     );
 
@@ -943,15 +960,32 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
             resultShape: scrollResponse.result === undefined ? null : typeof scrollResponse.result
           },
           {
-            method: "mmt/previewLocation.v1",
+            method: "tinymist/sourceLocations",
+            outcome: sourceLocationsResponse.error ? "error" : "success",
+            error: sourceLocationsResponse.error ?? null,
+            resultShape: sourceLocations.length > 0 ? "normalized-page-points" : null
+          },
+          {
+            method: "tinymist/previewLocation",
             outcome: locationResponse.error ? "error" : "success",
             error: locationResponse.error ?? null,
-            resultShape: locationResponse.result === undefined ? null : typeof locationResponse.result
+            resultShape: isTranscriptRecord(locationResponse.result) ? "location" : null
+          },
+          {
+            method: "tinymist/previewLocation:invalid-coordinate",
+            outcome: invalidLocationResponse.error ? "error" : "success",
+            error: invalidLocationResponse.error ?? null,
+            resultShape: invalidLocationResponse.result === null ? "null" : typeof invalidLocationResponse.result
           }
         ],
-        coordinateVersion: null,
-        qualifiedMethod: null,
-        availabilityReason: "artifact exposes preview commands but no versioned location method or coordinate version"
+        coordinateVersion: isTranscriptRecord(capabilities.experimental)
+          && isTranscriptRecord(capabilities.experimental.mmtPreviewLocationProvider)
+          ? capabilities.experimental.mmtPreviewLocationProvider.coordinateVersion ?? null
+          : null,
+        qualifiedMethod: sourceLocations.length > 0 && isTranscriptRecord(locationResponse.result)
+          ? "tinymist/previewLocation+tinymist/sourceLocations"
+          : null,
+        availabilityReason: null
       },
       transcripts: {
         positive: [
@@ -965,8 +999,7 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
           { request: "workspace/unknown", response: unknownNegative },
           { request: "mmt/typstPackageRequest.v1 unavailable/error", outcome: "observed" },
           { request: "logical package callback cancellation", outcome: "observed" },
-          { request: "tinymist.scrollPreview without focused preview", response: scrollResponse },
-          { request: "mmt/previewLocation.v1", response: locationResponse }
+          { request: "tinymist/previewLocation invalid coordinate", response: invalidLocationResponse }
         ]
       },
       normalization: {

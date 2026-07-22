@@ -176,13 +176,19 @@ impl ProjectionIndex {
                     origin_id: entry.origin_id,
                 });
             };
-            let (mmt_range, kind, mapping) = classify_origin(origin);
+            let (mmt_range, kind, mut mapping) = classify_origin(origin);
             if let Some(range) = mmt_range {
                 if !valid_range(mmt_source, range) {
                     return Err(ProjectionError::InvalidBoundary {
                         space: "mmt",
                         range,
                     });
+                }
+                if mapping == MappingMode::Escaped
+                    && mmt_source.get(range.start..range.end)
+                        == emitted.source.get(entry.generated_range.start..entry.generated_range.end)
+                {
+                    mapping = MappingMode::Identity;
                 }
                 if mapping == MappingMode::Identity && range.len() != entry.generated_range.len() {
                     return Err(ProjectionError::IdentityLengthMismatch {

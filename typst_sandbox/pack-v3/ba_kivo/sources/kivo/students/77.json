@@ -2342,7 +2342,7 @@
             "icon": "//static.kivo.wiki/images/students/%E9%A3%9E%E9%B8%9F%E9%A9%AC%20%E6%97%B6/skill_icon/vcfhSP0BssQzWUIlFHBnbDmXAHpeXtIR.png",
             "title": "系统：阿比舒(ABI-Eshuh）",
             "title_cn": "阿比舒系统",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E9%A3%9E%E9%B8%9F%E9%A9%AC%20%E6%97%B6/original/skill_preview/k6Uzk5AnDCd3NkSDe8Gjn6jv9E2Ih876.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -2671,5 +2671,5 @@
   "supplementary_uuid": "e0165aeb-3de6-40e5-8fb6-b16c86bbd713",
   "supplementary_declare_uuid": "ed8a4259-2b06-47db-a529-ba79e4c9c41a",
   "created_at": 1684948829,
-  "updated_at": 1783484910
+  "updated_at": 1784720795
 }

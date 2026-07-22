@@ -279,18 +279,14 @@ pub fn materialization_key(
 pub fn runtime_artifact_key(
     typst_compiler_version: &str,
     typst_wasm_digest: &str,
-    renderer_version: &str,
-    renderer_wasm_digest: &str,
     template_bundle_digest: &str,
     font_set_digest: &str,
 ) -> RuntimeArtifactKey {
     RuntimeArtifactKey(derived_key(
-        "mmt-runtime-artifact-v1",
+        "mmt-runtime-artifact-v2",
         &[
             typst_compiler_version,
             typst_wasm_digest,
-            renderer_version,
-            renderer_wasm_digest,
             template_bundle_digest,
             font_set_digest,
         ],
@@ -452,14 +448,8 @@ mod tests {
             &input.source_map_digest,
         );
         let materialization = materialization_key(&projection, "pack", "plan", "bytes");
-        let runtime = runtime_artifact_key(
-            "0.15.2",
-            "compiler-wasm",
-            "0.7.0",
-            "renderer-wasm",
-            "template",
-            "fonts",
-        );
+        let runtime =
+            runtime_artifact_key("0.15.2", "compiler-wasm", "template", "fonts");
         let render = render_key(&materialization, &runtime, "options");
         assert_eq!(project.0.len(), 64);
         assert_eq!(projection.0.len(), 64);

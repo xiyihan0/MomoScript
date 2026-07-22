@@ -815,11 +815,11 @@ fn render_diagnostics(
         .collect()
 }
 
-pub fn build_render_project(
+fn build_render_project_generation(
     document: &ProjectionDocument,
     pack_revision: u64,
     timestamp: Option<mmt_rs::HostTimestamp>,
-) -> Result<TypstRenderProjectUpdate, ProjectionError> {
+) -> Result<(TypstRenderProjectUpdate, ProjectionDocument), ProjectionError> {
     if document.pack_revision != Some(pack_revision) {
         return Err(ProjectionError::StalePackAnalysis {
             analyzed_revision: document.pack_revision,
@@ -941,7 +941,7 @@ pub fn build_render_project(
         &document.source_lines,
         &projection.diagnostics,
     );
-    Ok(TypstRenderProjectUpdate {
+    let update = TypstRenderProjectUpdate {
         source_uri: document.source_uri.clone(),
         source_version: document.source_version,
         revision: document.revision,
@@ -950,14 +950,27 @@ pub fn build_render_project(
         files,
         resources,
         diagnostics,
-        project_digest: identity.project_digest,
-        mapping_digest: identity.mapping_digest,
-        source_content: identity.source_content,
-        projection_key: identity.projection_key,
+        project_digest: identity.project_digest.clone(),
+        mapping_digest: identity.mapping_digest.clone(),
+        source_content: identity.source_content.clone(),
+        projection_key: identity.projection_key.clone(),
         pack_registry_digest: document.pack_registry_digest.clone(),
         resource_plan_digest,
         resource_bytes_digest,
-    })
+    };
+    let mut generation = document.clone();
+    generation.typst_lines = LineIndex::new(&projection.emitted.source);
+    generation.projection = projection;
+    generation.language_identity = identity;
+    Ok((update, generation))
+}
+
+pub fn build_render_project(
+    document: &ProjectionDocument,
+    pack_revision: u64,
+    timestamp: Option<mmt_rs::HostTimestamp>,
+) -> Result<TypstRenderProjectUpdate, ProjectionError> {
+    build_render_project_generation(document, pack_revision, timestamp).map(|(update, _)| update)
 }
 
 const RETAINED_POSITION_GENERATIONS: usize = 2;
@@ -966,6 +979,7 @@ const RETAINED_POSITION_GENERATIONS: usize = 2;
 pub struct ProjectionStore {
     documents: HashMap<Url, ProjectionDocument>,
     retained: HashMap<Url, VecDeque<ProjectionDocument>>,
+    rendered: HashMap<Url, VecDeque<ProjectionDocument>>,
     session_id: String,
     next_revision: u64,
 }
@@ -975,6 +989,7 @@ impl Default for ProjectionStore {
         Self {
             documents: HashMap::new(),
             retained: HashMap::new(),
+            rendered: HashMap::new(),
             next_revision: 1,
             session_id: uuid::Uuid::new_v4().simple().to_string(),
         }
@@ -1038,6 +1053,31 @@ impl ProjectionStore {
         self.documents.get(source_uri)
     }
 
+    pub fn build_render_project(
+        &mut self,
+        source_uri: &Url,
+        pack_revision: u64,
+        timestamp: Option<mmt_rs::HostTimestamp>,
+    ) -> Result<TypstRenderProjectUpdate, ProjectionError> {
+        let document = self
+            .documents
+            .get(source_uri)
+            .expect("render project source generation must exist");
+        let (update, generation) =
+            build_render_project_generation(document, pack_revision, timestamp)?;
+        let rendered = self.rendered.entry(source_uri.clone()).or_default();
+        rendered.retain(|candidate| {
+            candidate.entry_uri != generation.entry_uri
+                || candidate.revision != generation.revision
+                || candidate.language_identity != generation.language_identity
+        });
+        rendered.push_back(generation);
+        while rendered.len() > RETAINED_POSITION_GENERATIONS {
+            rendered.pop_front();
+        }
+        Ok(update)
+    }
+
     pub fn generation(
         &self,
         source_uri: &Url,
@@ -1081,22 +1121,38 @@ impl ProjectionStore {
         project_digest: &TypstProjectSnapshotKey,
         projection_key: &ProjectionKey,
     ) -> Result<&ProjectionDocument, PositionConversionError> {
-        let document = self.generation(source_uri, entry_uri, revision)?;
         let current = self
             .documents
             .get(source_uri)
             .ok_or(PositionConversionError::AbsentGeneration)?;
-        if current.entry_uri != document.entry_uri || current.revision != document.revision {
-            return Err(PositionConversionError::StaleProjection);
+        if current.entry_uri != *entry_uri || current.revision != revision {
+            let has_related_generation = std::iter::once(current)
+                .chain(self.retained.get(source_uri).into_iter().flatten())
+                .chain(self.rendered.get(source_uri).into_iter().flatten())
+                .any(|document| document.entry_uri == *entry_uri || document.revision == revision);
+            return Err(if has_related_generation {
+                PositionConversionError::StaleProjection
+            } else {
+                PositionConversionError::AbsentGeneration
+            });
         }
-        let identity = &document.language_identity;
-        if identity.source_content != *source_content
-            || identity.project_digest != *project_digest
-            || identity.projection_key != *projection_key
-        {
-            return Err(PositionConversionError::ProjectionMismatch);
+        let candidates = std::iter::once(current)
+            .chain(self.retained.get(source_uri).into_iter().flatten())
+            .chain(self.rendered.get(source_uri).into_iter().flatten())
+            .filter(|document| {
+                let identity = &document.language_identity;
+                document.entry_uri == *entry_uri
+                    && document.revision == revision
+                    && identity.source_content == *source_content
+                    && identity.project_digest == *project_digest
+                    && identity.projection_key == *projection_key
+            })
+            .collect::<Vec<_>>();
+        match candidates.as_slice() {
+            [document] => Ok(document),
+            [] => Err(PositionConversionError::ProjectionMismatch),
+            _ => Err(PositionConversionError::AmbiguousGeneration),
         }
-        Ok(document)
     }
 
     pub fn classify_response_location(
@@ -1127,6 +1183,7 @@ impl ProjectionStore {
     pub fn remove(&mut self, source_uri: &Url) {
         self.documents.remove(source_uri);
         self.retained.remove(source_uri);
+        self.rendered.remove(source_uri);
     }
 
     pub fn project_position(
@@ -1163,6 +1220,38 @@ impl ProjectionStore {
         let document = self
             .get(source_uri)
             .ok_or(PositionConversionError::AbsentGeneration)?;
+        let identity = &document.language_identity;
+        Ok(ProjectedRange {
+            revision: document.revision,
+            entry_uri: document.entry_uri.clone(),
+            range: document.mmt_range_to_typst(range, client_encoding, backend_encoding)?,
+            position_encoding: backend_encoding,
+            source_content: identity.source_content.clone(),
+            project_digest: identity.project_digest.clone(),
+            projection_key: identity.projection_key.clone(),
+        })
+    }
+
+    pub fn project_range_for_generation(
+        &self,
+        source_uri: &Url,
+        range: Range,
+        client_encoding: PositionEncoding,
+        backend_encoding: PositionEncoding,
+        entry_uri: &Url,
+        revision: u64,
+        source_content: &SourceContentKey,
+        project_digest: &TypstProjectSnapshotKey,
+        projection_key: &ProjectionKey,
+    ) -> Result<ProjectedRange, PositionConversionError> {
+        let document = self.response_generation(
+            source_uri,
+            entry_uri,
+            revision,
+            source_content,
+            project_digest,
+            projection_key,
+        )?;
         let identity = &document.language_identity;
         Ok(ProjectedRange {
             revision: document.revision,

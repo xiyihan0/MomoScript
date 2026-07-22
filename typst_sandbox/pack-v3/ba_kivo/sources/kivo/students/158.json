@@ -2677,7 +2677,7 @@
             "icon": "//static.kivo.wiki/images/students/%E5%92%8C%E6%B3%89%E5%85%83%20%E8%89%BE%E7%B1%B3/skill_icon/8ea3YM2MT3iXBP0jtXBitQp8CRhxzVhw.png",
             "title": "不屈意志",
             "title_cn": "不屈的意志",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E5%92%8C%E6%B3%89%E5%85%83%20%E8%89%BE%E7%B1%B3/original/skill_preview/JXkJnyOoYYAOn1N4YGNpMdTvIT65phTG.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -2973,5 +2973,5 @@
   "supplementary_uuid": "79763655-268d-43a2-b78e-0b7ebe61a475",
   "supplementary_declare_uuid": "e1f01a15-fc11-4e58-a23f-363f198e89ce",
   "created_at": 1685629354,
-  "updated_at": 1783483731
+  "updated_at": 1784719800
 }

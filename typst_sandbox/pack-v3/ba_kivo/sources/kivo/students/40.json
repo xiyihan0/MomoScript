@@ -2125,7 +2125,7 @@
             "icon": "//static.kivo.wiki/images/students/%E5%8D%81%E5%85%AD%E5%A4%9C%20%E9%87%8E%E5%AE%AB/skill_icon/xegkrXZiS6DGH9lGMrWukkzOsga1a9Gd.png",
             "title": "凉爽的时间到啰～♣",
             "title_cn": "凉爽时间到～♣",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E5%8D%81%E5%85%AD%E5%A4%9C%20%E9%87%8E%E5%AE%AB/%E6%B3%B3%E8%A3%85/skill_preview/mVd2ceFROUkwyfMh0KgogXfxAknZNSUB.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -2421,5 +2421,5 @@
   "supplementary_uuid": "85ec0aa7-f138-4643-90e9-daa45d8bf323",
   "supplementary_declare_uuid": "dd50be35-c98f-401f-986b-6e6263420dd8",
   "created_at": 1684657965,
-  "updated_at": 1783343768
+  "updated_at": 1784720928
 }

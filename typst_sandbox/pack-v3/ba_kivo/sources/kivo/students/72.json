@@ -1713,7 +1713,7 @@
             "icon": "//static.kivo.wiki/images/students/%E9%93%B6%E9%95%9C%20%E4%BC%8A%E7%BB%87/skill_icon/F3vgLFBOCzo7Ju4uVQxlKZEHIWnXAXvn.png",
             "title": "一网打尽",
             "title_cn": "一网打尽",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E9%93%B6%E9%95%9C%20%E4%BC%8A%E7%BB%87/original/skill_preview/xpt3FxXXHZmwP1xR30fstWGbeJRrSTsq.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -2009,5 +2009,5 @@
   "supplementary_uuid": "ef075e6f-0c02-46da-b69a-c55aa6620eef",
   "supplementary_declare_uuid": "f82e79f4-079a-4cb5-b764-8ee46971987c",
   "created_at": 1684919480,
-  "updated_at": 1783323639
+  "updated_at": 1784720843
 }

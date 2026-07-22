@@ -3,10 +3,10 @@
   "pack": {
     "namespace": "ba",
     "name": "Kivo Wiki Blue Archive draft pack",
-    "version": "2026.07.21",
+    "version": "2026.07.22",
     "type": "base",
     "source": "kivo.wiki",
-    "generated_at": "2026-07-21T14:47:51.285814+00:00"
+    "generated_at": "2026-07-22T12:33:16.989577+00:00"
   },
   "entities": {
     "一花": {
@@ -3639,6 +3639,526 @@
               "handles": [
                 "初始立绘差分",
                 "default"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "凛": {
+      "names": [
+        "凛"
+      ],
+      "display_name": "凛",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "凛.png"
+            }
+          }
+        },
+        "sticker": {
+          "default": "default",
+          "sets": {
+            "default": {
+              "display_name": "初始立绘差分",
+              "storage": "凛_default_images",
+              "variants": [
+                {
+                  "id": "default_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "default_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "default_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "default_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "default_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "default_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "default_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "default_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "default_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "default_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "default_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "default_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "default_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "default_014",
+                  "ordinal": 14,
+                  "frame": 13
+                },
+                {
+                  "id": "default_015",
+                  "ordinal": 15,
+                  "frame": 14
+                },
+                {
+                  "id": "default_016",
+                  "ordinal": 16,
+                  "frame": 15
+                },
+                {
+                  "id": "default_017",
+                  "ordinal": 17,
+                  "frame": 16
+                },
+                {
+                  "id": "default_018",
+                  "ordinal": 18,
+                  "frame": 17
+                },
+                {
+                  "id": "default_019",
+                  "ordinal": 19,
+                  "frame": 18
+                },
+                {
+                  "id": "default_020",
+                  "ordinal": 20,
+                  "frame": 19
+                },
+                {
+                  "id": "default_021",
+                  "ordinal": 21,
+                  "frame": 20
+                },
+                {
+                  "id": "default_022",
+                  "ordinal": 22,
+                  "frame": 21
+                },
+                {
+                  "id": "default_023",
+                  "ordinal": 23,
+                  "frame": 22
+                },
+                {
+                  "id": "default_024",
+                  "ordinal": 24,
+                  "frame": 23
+                },
+                {
+                  "id": "default_025",
+                  "ordinal": 25,
+                  "frame": 24
+                },
+                {
+                  "id": "default_026",
+                  "ordinal": 26,
+                  "frame": 25
+                },
+                {
+                  "id": "default_027",
+                  "ordinal": 27,
+                  "frame": 26
+                },
+                {
+                  "id": "default_028",
+                  "ordinal": 28,
+                  "frame": 27
+                },
+                {
+                  "id": "default_029",
+                  "ordinal": 29,
+                  "frame": 28
+                },
+                {
+                  "id": "default_030",
+                  "ordinal": 30,
+                  "frame": 29
+                },
+                {
+                  "id": "default_031",
+                  "ordinal": 31,
+                  "frame": 30
+                },
+                {
+                  "id": "default_032",
+                  "ordinal": 32,
+                  "frame": 31
+                },
+                {
+                  "id": "default_033",
+                  "ordinal": 33,
+                  "frame": 32
+                },
+                {
+                  "id": "default_034",
+                  "ordinal": 34,
+                  "frame": 33
+                },
+                {
+                  "id": "default_035",
+                  "ordinal": 35,
+                  "frame": 34
+                },
+                {
+                  "id": "default_036",
+                  "ordinal": 36,
+                  "frame": 35
+                },
+                {
+                  "id": "default_037",
+                  "ordinal": 37,
+                  "frame": 36
+                },
+                {
+                  "id": "default_038",
+                  "ordinal": 38,
+                  "frame": 37
+                },
+                {
+                  "id": "default_039",
+                  "ordinal": 39,
+                  "frame": 38
+                },
+                {
+                  "id": "default_040",
+                  "ordinal": 40,
+                  "frame": 39
+                },
+                {
+                  "id": "default_041",
+                  "ordinal": 41,
+                  "frame": 40
+                },
+                {
+                  "id": "default_042",
+                  "ordinal": 42,
+                  "frame": 41
+                },
+                {
+                  "id": "default_043",
+                  "ordinal": 43,
+                  "frame": 42
+                },
+                {
+                  "id": "default_044",
+                  "ordinal": 44,
+                  "frame": 43
+                }
+              ],
+              "handles": [
+                "初始立绘差分",
+                "default"
+              ]
+            },
+            "navigator_uniform": {
+              "display_name": "领航服差分",
+              "storage": "凛_navigator_uniform_images",
+              "variants": [
+                {
+                  "id": "navigator_uniform_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "navigator_uniform_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "navigator_uniform_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "navigator_uniform_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "navigator_uniform_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "navigator_uniform_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "navigator_uniform_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "navigator_uniform_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "navigator_uniform_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "navigator_uniform_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "navigator_uniform_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "navigator_uniform_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "navigator_uniform_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "navigator_uniform_014",
+                  "ordinal": 14,
+                  "frame": 13
+                },
+                {
+                  "id": "navigator_uniform_015",
+                  "ordinal": 15,
+                  "frame": 14
+                },
+                {
+                  "id": "navigator_uniform_016",
+                  "ordinal": 16,
+                  "frame": 15
+                },
+                {
+                  "id": "navigator_uniform_017",
+                  "ordinal": 17,
+                  "frame": 16
+                },
+                {
+                  "id": "navigator_uniform_018",
+                  "ordinal": 18,
+                  "frame": 17
+                },
+                {
+                  "id": "navigator_uniform_019",
+                  "ordinal": 19,
+                  "frame": 18
+                }
+              ],
+              "handles": [
+                "领航服差分"
+              ]
+            },
+            "set_03": {
+              "display_name": "私服差分",
+              "storage": "凛_set_03_images",
+              "variants": [
+                {
+                  "id": "set_03_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "set_03_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "set_03_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "set_03_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "set_03_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "set_03_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "set_03_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "set_03_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "set_03_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "set_03_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "set_03_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "set_03_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "set_03_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "set_03_014",
+                  "ordinal": 14,
+                  "frame": 13
+                },
+                {
+                  "id": "set_03_015",
+                  "ordinal": 15,
+                  "frame": 14
+                },
+                {
+                  "id": "set_03_016",
+                  "ordinal": 16,
+                  "frame": 15
+                },
+                {
+                  "id": "set_03_017",
+                  "ordinal": 17,
+                  "frame": 16
+                },
+                {
+                  "id": "set_03_018",
+                  "ordinal": 18,
+                  "frame": 17
+                },
+                {
+                  "id": "set_03_019",
+                  "ordinal": 19,
+                  "frame": 18
+                },
+                {
+                  "id": "set_03_020",
+                  "ordinal": 20,
+                  "frame": 19
+                },
+                {
+                  "id": "set_03_021",
+                  "ordinal": 21,
+                  "frame": 20
+                },
+                {
+                  "id": "set_03_022",
+                  "ordinal": 22,
+                  "frame": 21
+                },
+                {
+                  "id": "set_03_023",
+                  "ordinal": 23,
+                  "frame": 22
+                },
+                {
+                  "id": "set_03_024",
+                  "ordinal": 24,
+                  "frame": 23
+                },
+                {
+                  "id": "set_03_025",
+                  "ordinal": 25,
+                  "frame": 24
+                },
+                {
+                  "id": "set_03_026",
+                  "ordinal": 26,
+                  "frame": 25
+                },
+                {
+                  "id": "set_03_027",
+                  "ordinal": 27,
+                  "frame": 26
+                },
+                {
+                  "id": "set_03_028",
+                  "ordinal": 28,
+                  "frame": 27
+                },
+                {
+                  "id": "set_03_029",
+                  "ordinal": 29,
+                  "frame": 28
+                },
+                {
+                  "id": "set_03_030",
+                  "ordinal": 30,
+                  "frame": 29
+                },
+                {
+                  "id": "set_03_031",
+                  "ordinal": 31,
+                  "frame": 30
+                }
+              ],
+              "handles": [
+                "私服差分"
               ]
             }
           }
@@ -20096,6 +20616,148 @@
         }
       }
     },
+    "普拉娜": {
+      "names": [
+        "普拉娜"
+      ],
+      "display_name": "普拉娜",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "普拉娜.png"
+            }
+          }
+        },
+        "sticker": {
+          "default": "default",
+          "sets": {
+            "default": {
+              "display_name": "初始立绘差分",
+              "storage": "普拉娜_default_images",
+              "variants": [
+                {
+                  "id": "default_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "default_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "default_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "default_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "default_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "default_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "default_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "default_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "default_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "default_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "default_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "default_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "default_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "default_014",
+                  "ordinal": 14,
+                  "frame": 13
+                },
+                {
+                  "id": "default_015",
+                  "ordinal": 15,
+                  "frame": 14
+                },
+                {
+                  "id": "default_016",
+                  "ordinal": 16,
+                  "frame": 15
+                },
+                {
+                  "id": "default_017",
+                  "ordinal": 17,
+                  "frame": 16
+                },
+                {
+                  "id": "default_018",
+                  "ordinal": 18,
+                  "frame": 17
+                },
+                {
+                  "id": "default_019",
+                  "ordinal": 19,
+                  "frame": 18
+                },
+                {
+                  "id": "default_020",
+                  "ordinal": 20,
+                  "frame": 19
+                },
+                {
+                  "id": "default_021",
+                  "ordinal": 21,
+                  "frame": 20
+                },
+                {
+                  "id": "default_022",
+                  "ordinal": 22,
+                  "frame": 21
+                }
+              ],
+              "handles": [
+                "初始立绘差分",
+                "default"
+              ]
+            }
+          }
+        }
+      }
+    },
     "晴": {
       "names": [
         "晴"
@@ -22816,6 +23478,108 @@
         }
       }
     },
+    "李": {
+      "names": [
+        "李"
+      ],
+      "display_name": "李",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "李.png"
+            }
+          }
+        },
+        "sticker": {
+          "default": "default",
+          "sets": {
+            "default": {
+              "display_name": "初始立绘差分",
+              "storage": "李_default_images",
+              "variants": [
+                {
+                  "id": "default_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "default_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "default_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "default_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "default_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "default_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "default_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "default_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "default_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "default_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "default_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "default_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "default_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "default_014",
+                  "ordinal": 14,
+                  "frame": 13
+                }
+              ],
+              "handles": [
+                "初始立绘差分",
+                "default"
+              ]
+            }
+          }
+        }
+      }
+    },
     "果穗": {
       "names": [
         "果穗"
@@ -24834,6 +25598,357 @@
               "handles": [
                 "初始立绘差分",
                 "default"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "桃香": {
+      "names": [
+        "桃香"
+      ],
+      "display_name": "桃香",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "桃香.png"
+            }
+          }
+        },
+        "sticker": {
+          "default": "default",
+          "sets": {
+            "default": {
+              "display_name": "初始立绘差分",
+              "storage": "桃香_default_images",
+              "variants": [
+                {
+                  "id": "default_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "default_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "default_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "default_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "default_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "default_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "default_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "default_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "default_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "default_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "default_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "default_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "default_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "default_014",
+                  "ordinal": 14,
+                  "frame": 13
+                },
+                {
+                  "id": "default_015",
+                  "ordinal": 15,
+                  "frame": 14
+                },
+                {
+                  "id": "default_016",
+                  "ordinal": 16,
+                  "frame": 15
+                },
+                {
+                  "id": "default_017",
+                  "ordinal": 17,
+                  "frame": 16
+                },
+                {
+                  "id": "default_018",
+                  "ordinal": 18,
+                  "frame": 17
+                },
+                {
+                  "id": "default_019",
+                  "ordinal": 19,
+                  "frame": 18
+                },
+                {
+                  "id": "default_020",
+                  "ordinal": 20,
+                  "frame": 19
+                },
+                {
+                  "id": "default_021",
+                  "ordinal": 21,
+                  "frame": 20
+                },
+                {
+                  "id": "default_022",
+                  "ordinal": 22,
+                  "frame": 21
+                },
+                {
+                  "id": "default_023",
+                  "ordinal": 23,
+                  "frame": 22
+                },
+                {
+                  "id": "default_024",
+                  "ordinal": 24,
+                  "frame": 23
+                },
+                {
+                  "id": "default_025",
+                  "ordinal": 25,
+                  "frame": 24
+                },
+                {
+                  "id": "default_026",
+                  "ordinal": 26,
+                  "frame": 25
+                },
+                {
+                  "id": "default_027",
+                  "ordinal": 27,
+                  "frame": 26
+                },
+                {
+                  "id": "default_028",
+                  "ordinal": 28,
+                  "frame": 27
+                },
+                {
+                  "id": "default_029",
+                  "ordinal": 29,
+                  "frame": 28
+                },
+                {
+                  "id": "default_030",
+                  "ordinal": 30,
+                  "frame": 29
+                },
+                {
+                  "id": "default_031",
+                  "ordinal": 31,
+                  "frame": 30
+                },
+                {
+                  "id": "default_032",
+                  "ordinal": 32,
+                  "frame": 31
+                },
+                {
+                  "id": "default_033",
+                  "ordinal": 33,
+                  "frame": 32
+                },
+                {
+                  "id": "default_034",
+                  "ordinal": 34,
+                  "frame": 33
+                },
+                {
+                  "id": "default_035",
+                  "ordinal": 35,
+                  "frame": 34
+                },
+                {
+                  "id": "default_036",
+                  "ordinal": 36,
+                  "frame": 35
+                },
+                {
+                  "id": "default_037",
+                  "ordinal": 37,
+                  "frame": 36
+                },
+                {
+                  "id": "default_038",
+                  "ordinal": 38,
+                  "frame": 37
+                },
+                {
+                  "id": "default_039",
+                  "ordinal": 39,
+                  "frame": 38
+                },
+                {
+                  "id": "default_040",
+                  "ordinal": 40,
+                  "frame": 39
+                },
+                {
+                  "id": "default_041",
+                  "ordinal": 41,
+                  "frame": 40
+                },
+                {
+                  "id": "default_042",
+                  "ordinal": 42,
+                  "frame": 41
+                },
+                {
+                  "id": "default_043",
+                  "ordinal": 43,
+                  "frame": 42
+                },
+                {
+                  "id": "default_044",
+                  "ordinal": 44,
+                  "frame": 43
+                },
+                {
+                  "id": "default_045",
+                  "ordinal": 45,
+                  "frame": 44
+                },
+                {
+                  "id": "default_046",
+                  "ordinal": 46,
+                  "frame": 45
+                },
+                {
+                  "id": "default_047",
+                  "ordinal": 47,
+                  "frame": 46
+                },
+                {
+                  "id": "default_048",
+                  "ordinal": 48,
+                  "frame": 47
+                }
+              ],
+              "handles": [
+                "初始立绘差分",
+                "default"
+              ]
+            },
+            "navigator_uniform": {
+              "display_name": "领航服差分",
+              "storage": "桃香_navigator_uniform_images",
+              "variants": [
+                {
+                  "id": "navigator_uniform_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "navigator_uniform_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "navigator_uniform_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "navigator_uniform_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "navigator_uniform_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "navigator_uniform_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "navigator_uniform_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "navigator_uniform_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "navigator_uniform_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "navigator_uniform_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "navigator_uniform_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "navigator_uniform_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "navigator_uniform_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "navigator_uniform_014",
+                  "ordinal": 14,
+                  "frame": 13
+                }
+              ],
+              "handles": [
+                "领航服差分"
               ]
             }
           }
@@ -26899,6 +28014,217 @@
         }
       }
     },
+    "步美": {
+      "names": [
+        "步美"
+      ],
+      "display_name": "步美",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "步美.png"
+            }
+          }
+        },
+        "sticker": {
+          "default": "default",
+          "sets": {
+            "default": {
+              "display_name": "初始立绘差分",
+              "storage": "步美_default_images",
+              "variants": [
+                {
+                  "id": "default_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "default_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "default_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "default_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "default_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "default_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "default_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "default_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "default_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "default_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "default_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "default_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "default_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "default_014",
+                  "ordinal": 14,
+                  "frame": 13
+                },
+                {
+                  "id": "default_015",
+                  "ordinal": 15,
+                  "frame": 14
+                },
+                {
+                  "id": "default_016",
+                  "ordinal": 16,
+                  "frame": 15
+                }
+              ],
+              "handles": [
+                "初始立绘差分",
+                "default"
+              ]
+            },
+            "navigator_uniform": {
+              "display_name": "领航服差分",
+              "storage": "步美_navigator_uniform_images",
+              "variants": [
+                {
+                  "id": "navigator_uniform_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "navigator_uniform_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "navigator_uniform_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "navigator_uniform_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "navigator_uniform_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "navigator_uniform_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "navigator_uniform_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "navigator_uniform_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "navigator_uniform_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "navigator_uniform_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "navigator_uniform_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "navigator_uniform_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "navigator_uniform_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "navigator_uniform_014",
+                  "ordinal": 14,
+                  "frame": 13
+                },
+                {
+                  "id": "navigator_uniform_015",
+                  "ordinal": 15,
+                  "frame": 14
+                },
+                {
+                  "id": "navigator_uniform_016",
+                  "ordinal": 16,
+                  "frame": 15
+                },
+                {
+                  "id": "navigator_uniform_017",
+                  "ordinal": 17,
+                  "frame": 16
+                },
+                {
+                  "id": "navigator_uniform_018",
+                  "ordinal": 18,
+                  "frame": 17
+                }
+              ],
+              "handles": [
+                "领航服差分"
+              ]
+            }
+          }
+        }
+      }
+    },
     "泉": {
       "names": [
         "泉"
@@ -28878,6 +30204,148 @@
                   "id": "default_008",
                   "ordinal": 8,
                   "frame": 7
+                }
+              ],
+              "handles": [
+                "初始立绘差分",
+                "default"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "灰音": {
+      "names": [
+        "灰音"
+      ],
+      "display_name": "灰音",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "灰音.png"
+            }
+          }
+        },
+        "sticker": {
+          "default": "default",
+          "sets": {
+            "default": {
+              "display_name": "初始立绘差分",
+              "storage": "灰音_default_images",
+              "variants": [
+                {
+                  "id": "default_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "default_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "default_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "default_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "default_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "default_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "default_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "default_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "default_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "default_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "default_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "default_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "default_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "default_014",
+                  "ordinal": 14,
+                  "frame": 13
+                },
+                {
+                  "id": "default_015",
+                  "ordinal": 15,
+                  "frame": 14
+                },
+                {
+                  "id": "default_016",
+                  "ordinal": 16,
+                  "frame": 15
+                },
+                {
+                  "id": "default_017",
+                  "ordinal": 17,
+                  "frame": 16
+                },
+                {
+                  "id": "default_018",
+                  "ordinal": 18,
+                  "frame": 17
+                },
+                {
+                  "id": "default_019",
+                  "ordinal": 19,
+                  "frame": 18
+                },
+                {
+                  "id": "default_020",
+                  "ordinal": 20,
+                  "frame": 19
+                },
+                {
+                  "id": "default_021",
+                  "ordinal": 21,
+                  "frame": 20
+                },
+                {
+                  "id": "default_022",
+                  "ordinal": 22,
+                  "frame": 21
                 }
               ],
               "handles": [
@@ -39972,6 +41440,173 @@
         }
       }
     },
+    "联邦学生会长": {
+      "names": [
+        "联邦学生会长"
+      ],
+      "display_name": "联邦学生会长",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "联邦学生会长.png"
+            }
+          }
+        },
+        "sticker": {
+          "default": "default",
+          "sets": {
+            "default": {
+              "display_name": "初始立绘差分",
+              "storage": "联邦学生会长_default_images",
+              "variants": [
+                {
+                  "id": "default_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "default_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "default_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "default_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "default_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "default_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "default_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "default_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "default_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "default_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "default_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "default_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "default_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "default_014",
+                  "ordinal": 14,
+                  "frame": 13
+                },
+                {
+                  "id": "default_015",
+                  "ordinal": 15,
+                  "frame": 14
+                },
+                {
+                  "id": "default_016",
+                  "ordinal": 16,
+                  "frame": 15
+                },
+                {
+                  "id": "default_017",
+                  "ordinal": 17,
+                  "frame": 16
+                },
+                {
+                  "id": "default_018",
+                  "ordinal": 18,
+                  "frame": 17
+                },
+                {
+                  "id": "default_019",
+                  "ordinal": 19,
+                  "frame": 18
+                },
+                {
+                  "id": "default_020",
+                  "ordinal": 20,
+                  "frame": 19
+                },
+                {
+                  "id": "default_021",
+                  "ordinal": 21,
+                  "frame": 20
+                },
+                {
+                  "id": "default_022",
+                  "ordinal": 22,
+                  "frame": 21
+                },
+                {
+                  "id": "default_023",
+                  "ordinal": 23,
+                  "frame": 22
+                },
+                {
+                  "id": "default_024",
+                  "ordinal": 24,
+                  "frame": 23
+                },
+                {
+                  "id": "default_025",
+                  "ordinal": 25,
+                  "frame": 24
+                },
+                {
+                  "id": "default_026",
+                  "ordinal": 26,
+                  "frame": 25
+                },
+                {
+                  "id": "default_027",
+                  "ordinal": 27,
+                  "frame": 26
+                }
+              ],
+              "handles": [
+                "初始立绘差分",
+                "default"
+              ]
+            }
+          }
+        }
+      }
+    },
     "胡桃": {
       "names": [
         "胡桃"
@@ -41529,6 +43164,292 @@
               "handles": [
                 "初始立绘差分",
                 "default"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "花耶": {
+      "names": [
+        "花耶"
+      ],
+      "display_name": "花耶",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "花耶.png"
+            }
+          }
+        },
+        "sticker": {
+          "default": "default",
+          "sets": {
+            "default": {
+              "display_name": "初始立绘差分",
+              "storage": "花耶_default_images",
+              "variants": [
+                {
+                  "id": "default_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "default_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "default_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "default_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "default_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "default_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "default_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "default_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "default_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "default_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "default_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "default_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "default_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "default_014",
+                  "ordinal": 14,
+                  "frame": 13
+                },
+                {
+                  "id": "default_015",
+                  "ordinal": 15,
+                  "frame": 14
+                },
+                {
+                  "id": "default_016",
+                  "ordinal": 16,
+                  "frame": 15
+                },
+                {
+                  "id": "default_017",
+                  "ordinal": 17,
+                  "frame": 16
+                },
+                {
+                  "id": "default_018",
+                  "ordinal": 18,
+                  "frame": 17
+                },
+                {
+                  "id": "default_019",
+                  "ordinal": 19,
+                  "frame": 18
+                },
+                {
+                  "id": "default_020",
+                  "ordinal": 20,
+                  "frame": 19
+                },
+                {
+                  "id": "default_021",
+                  "ordinal": 21,
+                  "frame": 20
+                },
+                {
+                  "id": "default_022",
+                  "ordinal": 22,
+                  "frame": 21
+                },
+                {
+                  "id": "default_023",
+                  "ordinal": 23,
+                  "frame": 22
+                },
+                {
+                  "id": "default_024",
+                  "ordinal": 24,
+                  "frame": 23
+                },
+                {
+                  "id": "default_025",
+                  "ordinal": 25,
+                  "frame": 24
+                },
+                {
+                  "id": "default_026",
+                  "ordinal": 26,
+                  "frame": 25
+                }
+              ],
+              "handles": [
+                "初始立绘差分",
+                "default"
+              ]
+            },
+            "set_02": {
+              "display_name": "囚服差分",
+              "storage": "花耶_set_02_images",
+              "variants": [
+                {
+                  "id": "set_02_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "set_02_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "set_02_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "set_02_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "set_02_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "set_02_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "set_02_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "set_02_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "set_02_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "set_02_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "set_02_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "set_02_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "set_02_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "set_02_014",
+                  "ordinal": 14,
+                  "frame": 13
+                },
+                {
+                  "id": "set_02_015",
+                  "ordinal": 15,
+                  "frame": 14
+                },
+                {
+                  "id": "set_02_016",
+                  "ordinal": 16,
+                  "frame": 15
+                },
+                {
+                  "id": "set_02_017",
+                  "ordinal": 17,
+                  "frame": 16
+                },
+                {
+                  "id": "set_02_018",
+                  "ordinal": 18,
+                  "frame": 17
+                },
+                {
+                  "id": "set_02_019",
+                  "ordinal": 19,
+                  "frame": 18
+                },
+                {
+                  "id": "set_02_020",
+                  "ordinal": 20,
+                  "frame": 19
+                },
+                {
+                  "id": "set_02_021",
+                  "ordinal": 21,
+                  "frame": 20
+                },
+                {
+                  "id": "set_02_022",
+                  "ordinal": 22,
+                  "frame": 21
+                },
+                {
+                  "id": "set_02_023",
+                  "ordinal": 23,
+                  "frame": 22
+                }
+              ],
+              "handles": [
+                "囚服差分"
               ]
             }
           }
@@ -45662,6 +47583,83 @@
         }
       }
     },
+    "葵": {
+      "names": [
+        "葵"
+      ],
+      "display_name": "葵",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "葵.png"
+            }
+          }
+        },
+        "sticker": {
+          "default": "default",
+          "sets": {
+            "default": {
+              "display_name": "初始立绘差分",
+              "storage": "葵_default_images",
+              "variants": [
+                {
+                  "id": "default_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "default_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "default_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "default_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "default_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "default_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "default_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "default_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "default_009",
+                  "ordinal": 9,
+                  "frame": 8
+                }
+              ],
+              "handles": [
+                "初始立绘差分",
+                "default"
+              ]
+            }
+          }
+        }
+      }
+    },
     "蓟": {
       "names": [
         "蓟"
@@ -47895,6 +49893,228 @@
               ],
               "handles": [
                 "初始立绘差分",
+                "default"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "阿洛娜": {
+      "names": [
+        "阿洛娜"
+      ],
+      "display_name": "阿洛娜",
+      "slots": {
+        "avatar": {
+          "default": "default",
+          "items": {
+            "default": {
+              "storage": "avatars",
+              "path": "阿洛娜.png"
+            }
+          }
+        },
+        "sticker": {
+          "default": "face_portrait",
+          "sets": {
+            "face_portrait": {
+              "display_name": "脸图差分",
+              "storage": "阿洛娜_face_portrait_images",
+              "variants": [
+                {
+                  "id": "face_portrait_001",
+                  "ordinal": 1,
+                  "frame": 0
+                },
+                {
+                  "id": "face_portrait_002",
+                  "ordinal": 2,
+                  "frame": 1
+                },
+                {
+                  "id": "face_portrait_003",
+                  "ordinal": 3,
+                  "frame": 2
+                },
+                {
+                  "id": "face_portrait_004",
+                  "ordinal": 4,
+                  "frame": 3
+                },
+                {
+                  "id": "face_portrait_005",
+                  "ordinal": 5,
+                  "frame": 4
+                },
+                {
+                  "id": "face_portrait_006",
+                  "ordinal": 6,
+                  "frame": 5
+                },
+                {
+                  "id": "face_portrait_007",
+                  "ordinal": 7,
+                  "frame": 6
+                },
+                {
+                  "id": "face_portrait_008",
+                  "ordinal": 8,
+                  "frame": 7
+                },
+                {
+                  "id": "face_portrait_009",
+                  "ordinal": 9,
+                  "frame": 8
+                },
+                {
+                  "id": "face_portrait_010",
+                  "ordinal": 10,
+                  "frame": 9
+                },
+                {
+                  "id": "face_portrait_011",
+                  "ordinal": 11,
+                  "frame": 10
+                },
+                {
+                  "id": "face_portrait_012",
+                  "ordinal": 12,
+                  "frame": 11
+                },
+                {
+                  "id": "face_portrait_013",
+                  "ordinal": 13,
+                  "frame": 12
+                },
+                {
+                  "id": "face_portrait_014",
+                  "ordinal": 14,
+                  "frame": 13
+                },
+                {
+                  "id": "face_portrait_015",
+                  "ordinal": 15,
+                  "frame": 14
+                },
+                {
+                  "id": "face_portrait_016",
+                  "ordinal": 16,
+                  "frame": 15
+                },
+                {
+                  "id": "face_portrait_017",
+                  "ordinal": 17,
+                  "frame": 16
+                },
+                {
+                  "id": "face_portrait_018",
+                  "ordinal": 18,
+                  "frame": 17
+                },
+                {
+                  "id": "face_portrait_019",
+                  "ordinal": 19,
+                  "frame": 18
+                },
+                {
+                  "id": "face_portrait_020",
+                  "ordinal": 20,
+                  "frame": 19
+                },
+                {
+                  "id": "face_portrait_021",
+                  "ordinal": 21,
+                  "frame": 20
+                },
+                {
+                  "id": "face_portrait_022",
+                  "ordinal": 22,
+                  "frame": 21
+                },
+                {
+                  "id": "face_portrait_023",
+                  "ordinal": 23,
+                  "frame": 22
+                },
+                {
+                  "id": "face_portrait_024",
+                  "ordinal": 24,
+                  "frame": 23
+                },
+                {
+                  "id": "face_portrait_025",
+                  "ordinal": 25,
+                  "frame": 24
+                },
+                {
+                  "id": "face_portrait_026",
+                  "ordinal": 26,
+                  "frame": 25
+                },
+                {
+                  "id": "face_portrait_027",
+                  "ordinal": 27,
+                  "frame": 26
+                },
+                {
+                  "id": "face_portrait_028",
+                  "ordinal": 28,
+                  "frame": 27
+                },
+                {
+                  "id": "face_portrait_029",
+                  "ordinal": 29,
+                  "frame": 28
+                },
+                {
+                  "id": "face_portrait_030",
+                  "ordinal": 30,
+                  "frame": 29
+                },
+                {
+                  "id": "face_portrait_031",
+                  "ordinal": 31,
+                  "frame": 30
+                },
+                {
+                  "id": "face_portrait_032",
+                  "ordinal": 32,
+                  "frame": 31
+                },
+                {
+                  "id": "face_portrait_033",
+                  "ordinal": 33,
+                  "frame": 32
+                },
+                {
+                  "id": "face_portrait_034",
+                  "ordinal": 34,
+                  "frame": 33
+                },
+                {
+                  "id": "face_portrait_035",
+                  "ordinal": 35,
+                  "frame": 34
+                },
+                {
+                  "id": "face_portrait_036",
+                  "ordinal": 36,
+                  "frame": 35
+                },
+                {
+                  "id": "face_portrait_037",
+                  "ordinal": 37,
+                  "frame": 36
+                },
+                {
+                  "id": "face_portrait_038",
+                  "ordinal": 38,
+                  "frame": 37
+                }
+              ],
+              "handles": [
+                "脸图差分",
                 "default"
               ]
             }
@@ -51992,6 +54212,382 @@
     "冬/sticker/default/default_036": {
       "storage": "thumbnails",
       "path": "冬/default/036.webp"
+    },
+    "凛/sticker/default/default_001": {
+      "storage": "thumbnails",
+      "path": "凛/default/001.webp"
+    },
+    "凛/sticker/default/default_002": {
+      "storage": "thumbnails",
+      "path": "凛/default/002.webp"
+    },
+    "凛/sticker/default/default_003": {
+      "storage": "thumbnails",
+      "path": "凛/default/003.webp"
+    },
+    "凛/sticker/default/default_004": {
+      "storage": "thumbnails",
+      "path": "凛/default/004.webp"
+    },
+    "凛/sticker/default/default_005": {
+      "storage": "thumbnails",
+      "path": "凛/default/005.webp"
+    },
+    "凛/sticker/default/default_006": {
+      "storage": "thumbnails",
+      "path": "凛/default/006.webp"
+    },
+    "凛/sticker/default/default_007": {
+      "storage": "thumbnails",
+      "path": "凛/default/007.webp"
+    },
+    "凛/sticker/default/default_008": {
+      "storage": "thumbnails",
+      "path": "凛/default/008.webp"
+    },
+    "凛/sticker/default/default_009": {
+      "storage": "thumbnails",
+      "path": "凛/default/009.webp"
+    },
+    "凛/sticker/default/default_010": {
+      "storage": "thumbnails",
+      "path": "凛/default/010.webp"
+    },
+    "凛/sticker/default/default_011": {
+      "storage": "thumbnails",
+      "path": "凛/default/011.webp"
+    },
+    "凛/sticker/default/default_012": {
+      "storage": "thumbnails",
+      "path": "凛/default/012.webp"
+    },
+    "凛/sticker/default/default_013": {
+      "storage": "thumbnails",
+      "path": "凛/default/013.webp"
+    },
+    "凛/sticker/default/default_014": {
+      "storage": "thumbnails",
+      "path": "凛/default/014.webp"
+    },
+    "凛/sticker/default/default_015": {
+      "storage": "thumbnails",
+      "path": "凛/default/015.webp"
+    },
+    "凛/sticker/default/default_016": {
+      "storage": "thumbnails",
+      "path": "凛/default/016.webp"
+    },
+    "凛/sticker/default/default_017": {
+      "storage": "thumbnails",
+      "path": "凛/default/017.webp"
+    },
+    "凛/sticker/default/default_018": {
+      "storage": "thumbnails",
+      "path": "凛/default/018.webp"
+    },
+    "凛/sticker/default/default_019": {
+      "storage": "thumbnails",
+      "path": "凛/default/019.webp"
+    },
+    "凛/sticker/default/default_020": {
+      "storage": "thumbnails",
+      "path": "凛/default/020.webp"
+    },
+    "凛/sticker/default/default_021": {
+      "storage": "thumbnails",
+      "path": "凛/default/021.webp"
+    },
+    "凛/sticker/default/default_022": {
+      "storage": "thumbnails",
+      "path": "凛/default/022.webp"
+    },
+    "凛/sticker/default/default_023": {
+      "storage": "thumbnails",
+      "path": "凛/default/023.webp"
+    },
+    "凛/sticker/default/default_024": {
+      "storage": "thumbnails",
+      "path": "凛/default/024.webp"
+    },
+    "凛/sticker/default/default_025": {
+      "storage": "thumbnails",
+      "path": "凛/default/025.webp"
+    },
+    "凛/sticker/default/default_026": {
+      "storage": "thumbnails",
+      "path": "凛/default/026.webp"
+    },
+    "凛/sticker/default/default_027": {
+      "storage": "thumbnails",
+      "path": "凛/default/027.webp"
+    },
+    "凛/sticker/default/default_028": {
+      "storage": "thumbnails",
+      "path": "凛/default/028.webp"
+    },
+    "凛/sticker/default/default_029": {
+      "storage": "thumbnails",
+      "path": "凛/default/029.webp"
+    },
+    "凛/sticker/default/default_030": {
+      "storage": "thumbnails",
+      "path": "凛/default/030.webp"
+    },
+    "凛/sticker/default/default_031": {
+      "storage": "thumbnails",
+      "path": "凛/default/031.webp"
+    },
+    "凛/sticker/default/default_032": {
+      "storage": "thumbnails",
+      "path": "凛/default/032.webp"
+    },
+    "凛/sticker/default/default_033": {
+      "storage": "thumbnails",
+      "path": "凛/default/033.webp"
+    },
+    "凛/sticker/default/default_034": {
+      "storage": "thumbnails",
+      "path": "凛/default/034.webp"
+    },
+    "凛/sticker/default/default_035": {
+      "storage": "thumbnails",
+      "path": "凛/default/035.webp"
+    },
+    "凛/sticker/default/default_036": {
+      "storage": "thumbnails",
+      "path": "凛/default/036.webp"
+    },
+    "凛/sticker/default/default_037": {
+      "storage": "thumbnails",
+      "path": "凛/default/037.webp"
+    },
+    "凛/sticker/default/default_038": {
+      "storage": "thumbnails",
+      "path": "凛/default/038.webp"
+    },
+    "凛/sticker/default/default_039": {
+      "storage": "thumbnails",
+      "path": "凛/default/039.webp"
+    },
+    "凛/sticker/default/default_040": {
+      "storage": "thumbnails",
+      "path": "凛/default/040.webp"
+    },
+    "凛/sticker/default/default_041": {
+      "storage": "thumbnails",
+      "path": "凛/default/041.webp"
+    },
+    "凛/sticker/default/default_042": {
+      "storage": "thumbnails",
+      "path": "凛/default/042.webp"
+    },
+    "凛/sticker/default/default_043": {
+      "storage": "thumbnails",
+      "path": "凛/default/043.webp"
+    },
+    "凛/sticker/default/default_044": {
+      "storage": "thumbnails",
+      "path": "凛/default/044.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_001": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/001.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_002": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/002.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_003": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/003.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_004": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/004.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_005": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/005.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_006": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/006.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_007": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/007.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_008": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/008.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_009": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/009.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_010": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/010.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_011": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/011.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_012": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/012.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_013": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/013.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_014": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/014.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_015": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/015.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_016": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/016.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_017": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/017.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_018": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/018.webp"
+    },
+    "凛/sticker/navigator_uniform/navigator_uniform_019": {
+      "storage": "thumbnails",
+      "path": "凛/navigator_uniform/019.webp"
+    },
+    "凛/sticker/set_03/set_03_001": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/001.webp"
+    },
+    "凛/sticker/set_03/set_03_002": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/002.webp"
+    },
+    "凛/sticker/set_03/set_03_003": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/003.webp"
+    },
+    "凛/sticker/set_03/set_03_004": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/004.webp"
+    },
+    "凛/sticker/set_03/set_03_005": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/005.webp"
+    },
+    "凛/sticker/set_03/set_03_006": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/006.webp"
+    },
+    "凛/sticker/set_03/set_03_007": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/007.webp"
+    },
+    "凛/sticker/set_03/set_03_008": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/008.webp"
+    },
+    "凛/sticker/set_03/set_03_009": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/009.webp"
+    },
+    "凛/sticker/set_03/set_03_010": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/010.webp"
+    },
+    "凛/sticker/set_03/set_03_011": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/011.webp"
+    },
+    "凛/sticker/set_03/set_03_012": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/012.webp"
+    },
+    "凛/sticker/set_03/set_03_013": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/013.webp"
+    },
+    "凛/sticker/set_03/set_03_014": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/014.webp"
+    },
+    "凛/sticker/set_03/set_03_015": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/015.webp"
+    },
+    "凛/sticker/set_03/set_03_016": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/016.webp"
+    },
+    "凛/sticker/set_03/set_03_017": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/017.webp"
+    },
+    "凛/sticker/set_03/set_03_018": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/018.webp"
+    },
+    "凛/sticker/set_03/set_03_019": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/019.webp"
+    },
+    "凛/sticker/set_03/set_03_020": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/020.webp"
+    },
+    "凛/sticker/set_03/set_03_021": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/021.webp"
+    },
+    "凛/sticker/set_03/set_03_022": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/022.webp"
+    },
+    "凛/sticker/set_03/set_03_023": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/023.webp"
+    },
+    "凛/sticker/set_03/set_03_024": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/024.webp"
+    },
+    "凛/sticker/set_03/set_03_025": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/025.webp"
+    },
+    "凛/sticker/set_03/set_03_026": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/026.webp"
+    },
+    "凛/sticker/set_03/set_03_027": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/027.webp"
+    },
+    "凛/sticker/set_03/set_03_028": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/028.webp"
+    },
+    "凛/sticker/set_03/set_03_029": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/029.webp"
+    },
+    "凛/sticker/set_03/set_03_030": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/030.webp"
+    },
+    "凛/sticker/set_03/set_03_031": {
+      "storage": "thumbnails",
+      "path": "凛/set_03/031.webp"
     },
     "切里诺/sticker/default/default_001": {
       "storage": "thumbnails",
@@ -62129,6 +64725,94 @@
       "storage": "thumbnails",
       "path": "昴/default/034.webp"
     },
+    "普拉娜/sticker/default/default_001": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/001.webp"
+    },
+    "普拉娜/sticker/default/default_002": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/002.webp"
+    },
+    "普拉娜/sticker/default/default_003": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/003.webp"
+    },
+    "普拉娜/sticker/default/default_004": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/004.webp"
+    },
+    "普拉娜/sticker/default/default_005": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/005.webp"
+    },
+    "普拉娜/sticker/default/default_006": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/006.webp"
+    },
+    "普拉娜/sticker/default/default_007": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/007.webp"
+    },
+    "普拉娜/sticker/default/default_008": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/008.webp"
+    },
+    "普拉娜/sticker/default/default_009": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/009.webp"
+    },
+    "普拉娜/sticker/default/default_010": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/010.webp"
+    },
+    "普拉娜/sticker/default/default_011": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/011.webp"
+    },
+    "普拉娜/sticker/default/default_012": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/012.webp"
+    },
+    "普拉娜/sticker/default/default_013": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/013.webp"
+    },
+    "普拉娜/sticker/default/default_014": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/014.webp"
+    },
+    "普拉娜/sticker/default/default_015": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/015.webp"
+    },
+    "普拉娜/sticker/default/default_016": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/016.webp"
+    },
+    "普拉娜/sticker/default/default_017": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/017.webp"
+    },
+    "普拉娜/sticker/default/default_018": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/018.webp"
+    },
+    "普拉娜/sticker/default/default_019": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/019.webp"
+    },
+    "普拉娜/sticker/default/default_020": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/020.webp"
+    },
+    "普拉娜/sticker/default/default_021": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/021.webp"
+    },
+    "普拉娜/sticker/default/default_022": {
+      "storage": "thumbnails",
+      "path": "普拉娜/default/022.webp"
+    },
     "晴/sticker/default/default_001": {
       "storage": "thumbnails",
       "path": "晴/default/001.webp"
@@ -63853,6 +66537,62 @@
       "storage": "thumbnails",
       "path": "朱莉_打工/default/014.webp"
     },
+    "李/sticker/default/default_001": {
+      "storage": "thumbnails",
+      "path": "李/default/001.webp"
+    },
+    "李/sticker/default/default_002": {
+      "storage": "thumbnails",
+      "path": "李/default/002.webp"
+    },
+    "李/sticker/default/default_003": {
+      "storage": "thumbnails",
+      "path": "李/default/003.webp"
+    },
+    "李/sticker/default/default_004": {
+      "storage": "thumbnails",
+      "path": "李/default/004.webp"
+    },
+    "李/sticker/default/default_005": {
+      "storage": "thumbnails",
+      "path": "李/default/005.webp"
+    },
+    "李/sticker/default/default_006": {
+      "storage": "thumbnails",
+      "path": "李/default/006.webp"
+    },
+    "李/sticker/default/default_007": {
+      "storage": "thumbnails",
+      "path": "李/default/007.webp"
+    },
+    "李/sticker/default/default_008": {
+      "storage": "thumbnails",
+      "path": "李/default/008.webp"
+    },
+    "李/sticker/default/default_009": {
+      "storage": "thumbnails",
+      "path": "李/default/009.webp"
+    },
+    "李/sticker/default/default_010": {
+      "storage": "thumbnails",
+      "path": "李/default/010.webp"
+    },
+    "李/sticker/default/default_011": {
+      "storage": "thumbnails",
+      "path": "李/default/011.webp"
+    },
+    "李/sticker/default/default_012": {
+      "storage": "thumbnails",
+      "path": "李/default/012.webp"
+    },
+    "李/sticker/default/default_013": {
+      "storage": "thumbnails",
+      "path": "李/default/013.webp"
+    },
+    "李/sticker/default/default_014": {
+      "storage": "thumbnails",
+      "path": "李/default/014.webp"
+    },
     "果穗/sticker/default/default_001": {
       "storage": "thumbnails",
       "path": "果穗/default/001.webp"
@@ -65169,6 +67909,254 @@
       "storage": "thumbnails",
       "path": "桃_武装/default/031.webp"
     },
+    "桃香/sticker/default/default_001": {
+      "storage": "thumbnails",
+      "path": "桃香/default/001.webp"
+    },
+    "桃香/sticker/default/default_002": {
+      "storage": "thumbnails",
+      "path": "桃香/default/002.webp"
+    },
+    "桃香/sticker/default/default_003": {
+      "storage": "thumbnails",
+      "path": "桃香/default/003.webp"
+    },
+    "桃香/sticker/default/default_004": {
+      "storage": "thumbnails",
+      "path": "桃香/default/004.webp"
+    },
+    "桃香/sticker/default/default_005": {
+      "storage": "thumbnails",
+      "path": "桃香/default/005.webp"
+    },
+    "桃香/sticker/default/default_006": {
+      "storage": "thumbnails",
+      "path": "桃香/default/006.webp"
+    },
+    "桃香/sticker/default/default_007": {
+      "storage": "thumbnails",
+      "path": "桃香/default/007.webp"
+    },
+    "桃香/sticker/default/default_008": {
+      "storage": "thumbnails",
+      "path": "桃香/default/008.webp"
+    },
+    "桃香/sticker/default/default_009": {
+      "storage": "thumbnails",
+      "path": "桃香/default/009.webp"
+    },
+    "桃香/sticker/default/default_010": {
+      "storage": "thumbnails",
+      "path": "桃香/default/010.webp"
+    },
+    "桃香/sticker/default/default_011": {
+      "storage": "thumbnails",
+      "path": "桃香/default/011.webp"
+    },
+    "桃香/sticker/default/default_012": {
+      "storage": "thumbnails",
+      "path": "桃香/default/012.webp"
+    },
+    "桃香/sticker/default/default_013": {
+      "storage": "thumbnails",
+      "path": "桃香/default/013.webp"
+    },
+    "桃香/sticker/default/default_014": {
+      "storage": "thumbnails",
+      "path": "桃香/default/014.webp"
+    },
+    "桃香/sticker/default/default_015": {
+      "storage": "thumbnails",
+      "path": "桃香/default/015.webp"
+    },
+    "桃香/sticker/default/default_016": {
+      "storage": "thumbnails",
+      "path": "桃香/default/016.webp"
+    },
+    "桃香/sticker/default/default_017": {
+      "storage": "thumbnails",
+      "path": "桃香/default/017.webp"
+    },
+    "桃香/sticker/default/default_018": {
+      "storage": "thumbnails",
+      "path": "桃香/default/018.webp"
+    },
+    "桃香/sticker/default/default_019": {
+      "storage": "thumbnails",
+      "path": "桃香/default/019.webp"
+    },
+    "桃香/sticker/default/default_020": {
+      "storage": "thumbnails",
+      "path": "桃香/default/020.webp"
+    },
+    "桃香/sticker/default/default_021": {
+      "storage": "thumbnails",
+      "path": "桃香/default/021.webp"
+    },
+    "桃香/sticker/default/default_022": {
+      "storage": "thumbnails",
+      "path": "桃香/default/022.webp"
+    },
+    "桃香/sticker/default/default_023": {
+      "storage": "thumbnails",
+      "path": "桃香/default/023.webp"
+    },
+    "桃香/sticker/default/default_024": {
+      "storage": "thumbnails",
+      "path": "桃香/default/024.webp"
+    },
+    "桃香/sticker/default/default_025": {
+      "storage": "thumbnails",
+      "path": "桃香/default/025.webp"
+    },
+    "桃香/sticker/default/default_026": {
+      "storage": "thumbnails",
+      "path": "桃香/default/026.webp"
+    },
+    "桃香/sticker/default/default_027": {
+      "storage": "thumbnails",
+      "path": "桃香/default/027.webp"
+    },
+    "桃香/sticker/default/default_028": {
+      "storage": "thumbnails",
+      "path": "桃香/default/028.webp"
+    },
+    "桃香/sticker/default/default_029": {
+      "storage": "thumbnails",
+      "path": "桃香/default/029.webp"
+    },
+    "桃香/sticker/default/default_030": {
+      "storage": "thumbnails",
+      "path": "桃香/default/030.webp"
+    },
+    "桃香/sticker/default/default_031": {
+      "storage": "thumbnails",
+      "path": "桃香/default/031.webp"
+    },
+    "桃香/sticker/default/default_032": {
+      "storage": "thumbnails",
+      "path": "桃香/default/032.webp"
+    },
+    "桃香/sticker/default/default_033": {
+      "storage": "thumbnails",
+      "path": "桃香/default/033.webp"
+    },
+    "桃香/sticker/default/default_034": {
+      "storage": "thumbnails",
+      "path": "桃香/default/034.webp"
+    },
+    "桃香/sticker/default/default_035": {
+      "storage": "thumbnails",
+      "path": "桃香/default/035.webp"
+    },
+    "桃香/sticker/default/default_036": {
+      "storage": "thumbnails",
+      "path": "桃香/default/036.webp"
+    },
+    "桃香/sticker/default/default_037": {
+      "storage": "thumbnails",
+      "path": "桃香/default/037.webp"
+    },
+    "桃香/sticker/default/default_038": {
+      "storage": "thumbnails",
+      "path": "桃香/default/038.webp"
+    },
+    "桃香/sticker/default/default_039": {
+      "storage": "thumbnails",
+      "path": "桃香/default/039.webp"
+    },
+    "桃香/sticker/default/default_040": {
+      "storage": "thumbnails",
+      "path": "桃香/default/040.webp"
+    },
+    "桃香/sticker/default/default_041": {
+      "storage": "thumbnails",
+      "path": "桃香/default/041.webp"
+    },
+    "桃香/sticker/default/default_042": {
+      "storage": "thumbnails",
+      "path": "桃香/default/042.webp"
+    },
+    "桃香/sticker/default/default_043": {
+      "storage": "thumbnails",
+      "path": "桃香/default/043.webp"
+    },
+    "桃香/sticker/default/default_044": {
+      "storage": "thumbnails",
+      "path": "桃香/default/044.webp"
+    },
+    "桃香/sticker/default/default_045": {
+      "storage": "thumbnails",
+      "path": "桃香/default/045.webp"
+    },
+    "桃香/sticker/default/default_046": {
+      "storage": "thumbnails",
+      "path": "桃香/default/046.webp"
+    },
+    "桃香/sticker/default/default_047": {
+      "storage": "thumbnails",
+      "path": "桃香/default/047.webp"
+    },
+    "桃香/sticker/default/default_048": {
+      "storage": "thumbnails",
+      "path": "桃香/default/048.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_001": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/001.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_002": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/002.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_003": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/003.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_004": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/004.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_005": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/005.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_006": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/006.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_007": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/007.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_008": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/008.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_009": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/009.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_010": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/010.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_011": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/011.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_012": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/012.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_013": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/013.webp"
+    },
+    "桃香/sticker/navigator_uniform/navigator_uniform_014": {
+      "storage": "thumbnails",
+      "path": "桃香/navigator_uniform/014.webp"
+    },
     "桐乃/sticker/default/default_001": {
       "storage": "thumbnails",
       "path": "桐乃/default/001.webp"
@@ -66417,6 +69405,142 @@
       "storage": "thumbnails",
       "path": "歌原_应援团/default/017.webp"
     },
+    "步美/sticker/default/default_001": {
+      "storage": "thumbnails",
+      "path": "步美/default/001.webp"
+    },
+    "步美/sticker/default/default_002": {
+      "storage": "thumbnails",
+      "path": "步美/default/002.webp"
+    },
+    "步美/sticker/default/default_003": {
+      "storage": "thumbnails",
+      "path": "步美/default/003.webp"
+    },
+    "步美/sticker/default/default_004": {
+      "storage": "thumbnails",
+      "path": "步美/default/004.webp"
+    },
+    "步美/sticker/default/default_005": {
+      "storage": "thumbnails",
+      "path": "步美/default/005.webp"
+    },
+    "步美/sticker/default/default_006": {
+      "storage": "thumbnails",
+      "path": "步美/default/006.webp"
+    },
+    "步美/sticker/default/default_007": {
+      "storage": "thumbnails",
+      "path": "步美/default/007.webp"
+    },
+    "步美/sticker/default/default_008": {
+      "storage": "thumbnails",
+      "path": "步美/default/008.webp"
+    },
+    "步美/sticker/default/default_009": {
+      "storage": "thumbnails",
+      "path": "步美/default/009.webp"
+    },
+    "步美/sticker/default/default_010": {
+      "storage": "thumbnails",
+      "path": "步美/default/010.webp"
+    },
+    "步美/sticker/default/default_011": {
+      "storage": "thumbnails",
+      "path": "步美/default/011.webp"
+    },
+    "步美/sticker/default/default_012": {
+      "storage": "thumbnails",
+      "path": "步美/default/012.webp"
+    },
+    "步美/sticker/default/default_013": {
+      "storage": "thumbnails",
+      "path": "步美/default/013.webp"
+    },
+    "步美/sticker/default/default_014": {
+      "storage": "thumbnails",
+      "path": "步美/default/014.webp"
+    },
+    "步美/sticker/default/default_015": {
+      "storage": "thumbnails",
+      "path": "步美/default/015.webp"
+    },
+    "步美/sticker/default/default_016": {
+      "storage": "thumbnails",
+      "path": "步美/default/016.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_001": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/001.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_002": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/002.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_003": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/003.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_004": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/004.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_005": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/005.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_006": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/006.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_007": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/007.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_008": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/008.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_009": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/009.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_010": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/010.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_011": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/011.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_012": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/012.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_013": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/013.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_014": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/014.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_015": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/015.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_016": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/016.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_017": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/017.webp"
+    },
+    "步美/sticker/navigator_uniform/navigator_uniform_018": {
+      "storage": "thumbnails",
+      "path": "步美/navigator_uniform/018.webp"
+    },
     "泉/sticker/default/default_001": {
       "storage": "thumbnails",
       "path": "泉/default/001.webp"
@@ -67608,6 +70732,94 @@
     "濑名_便服/sticker/default/default_008": {
       "storage": "thumbnails",
       "path": "濑名_便服/default/008.webp"
+    },
+    "灰音/sticker/default/default_001": {
+      "storage": "thumbnails",
+      "path": "灰音/default/001.webp"
+    },
+    "灰音/sticker/default/default_002": {
+      "storage": "thumbnails",
+      "path": "灰音/default/002.webp"
+    },
+    "灰音/sticker/default/default_003": {
+      "storage": "thumbnails",
+      "path": "灰音/default/003.webp"
+    },
+    "灰音/sticker/default/default_004": {
+      "storage": "thumbnails",
+      "path": "灰音/default/004.webp"
+    },
+    "灰音/sticker/default/default_005": {
+      "storage": "thumbnails",
+      "path": "灰音/default/005.webp"
+    },
+    "灰音/sticker/default/default_006": {
+      "storage": "thumbnails",
+      "path": "灰音/default/006.webp"
+    },
+    "灰音/sticker/default/default_007": {
+      "storage": "thumbnails",
+      "path": "灰音/default/007.webp"
+    },
+    "灰音/sticker/default/default_008": {
+      "storage": "thumbnails",
+      "path": "灰音/default/008.webp"
+    },
+    "灰音/sticker/default/default_009": {
+      "storage": "thumbnails",
+      "path": "灰音/default/009.webp"
+    },
+    "灰音/sticker/default/default_010": {
+      "storage": "thumbnails",
+      "path": "灰音/default/010.webp"
+    },
+    "灰音/sticker/default/default_011": {
+      "storage": "thumbnails",
+      "path": "灰音/default/011.webp"
+    },
+    "灰音/sticker/default/default_012": {
+      "storage": "thumbnails",
+      "path": "灰音/default/012.webp"
+    },
+    "灰音/sticker/default/default_013": {
+      "storage": "thumbnails",
+      "path": "灰音/default/013.webp"
+    },
+    "灰音/sticker/default/default_014": {
+      "storage": "thumbnails",
+      "path": "灰音/default/014.webp"
+    },
+    "灰音/sticker/default/default_015": {
+      "storage": "thumbnails",
+      "path": "灰音/default/015.webp"
+    },
+    "灰音/sticker/default/default_016": {
+      "storage": "thumbnails",
+      "path": "灰音/default/016.webp"
+    },
+    "灰音/sticker/default/default_017": {
+      "storage": "thumbnails",
+      "path": "灰音/default/017.webp"
+    },
+    "灰音/sticker/default/default_018": {
+      "storage": "thumbnails",
+      "path": "灰音/default/018.webp"
+    },
+    "灰音/sticker/default/default_019": {
+      "storage": "thumbnails",
+      "path": "灰音/default/019.webp"
+    },
+    "灰音/sticker/default/default_020": {
+      "storage": "thumbnails",
+      "path": "灰音/default/020.webp"
+    },
+    "灰音/sticker/default/default_021": {
+      "storage": "thumbnails",
+      "path": "灰音/default/021.webp"
+    },
+    "灰音/sticker/default/default_022": {
+      "storage": "thumbnails",
+      "path": "灰音/default/022.webp"
     },
     "爱丽丝/sticker/default/default_001": {
       "storage": "thumbnails",
@@ -74489,6 +77701,114 @@
       "storage": "thumbnails",
       "path": "翼/default/031.webp"
     },
+    "联邦学生会长/sticker/default/default_001": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/001.webp"
+    },
+    "联邦学生会长/sticker/default/default_002": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/002.webp"
+    },
+    "联邦学生会长/sticker/default/default_003": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/003.webp"
+    },
+    "联邦学生会长/sticker/default/default_004": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/004.webp"
+    },
+    "联邦学生会长/sticker/default/default_005": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/005.webp"
+    },
+    "联邦学生会长/sticker/default/default_006": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/006.webp"
+    },
+    "联邦学生会长/sticker/default/default_007": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/007.webp"
+    },
+    "联邦学生会长/sticker/default/default_008": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/008.webp"
+    },
+    "联邦学生会长/sticker/default/default_009": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/009.webp"
+    },
+    "联邦学生会长/sticker/default/default_010": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/010.webp"
+    },
+    "联邦学生会长/sticker/default/default_011": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/011.webp"
+    },
+    "联邦学生会长/sticker/default/default_012": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/012.webp"
+    },
+    "联邦学生会长/sticker/default/default_013": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/013.webp"
+    },
+    "联邦学生会长/sticker/default/default_014": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/014.webp"
+    },
+    "联邦学生会长/sticker/default/default_015": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/015.webp"
+    },
+    "联邦学生会长/sticker/default/default_016": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/016.webp"
+    },
+    "联邦学生会长/sticker/default/default_017": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/017.webp"
+    },
+    "联邦学生会长/sticker/default/default_018": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/018.webp"
+    },
+    "联邦学生会长/sticker/default/default_019": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/019.webp"
+    },
+    "联邦学生会长/sticker/default/default_020": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/020.webp"
+    },
+    "联邦学生会长/sticker/default/default_021": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/021.webp"
+    },
+    "联邦学生会长/sticker/default/default_022": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/022.webp"
+    },
+    "联邦学生会长/sticker/default/default_023": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/023.webp"
+    },
+    "联邦学生会长/sticker/default/default_024": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/024.webp"
+    },
+    "联邦学生会长/sticker/default/default_025": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/025.webp"
+    },
+    "联邦学生会长/sticker/default/default_026": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/026.webp"
+    },
+    "联邦学生会长/sticker/default/default_027": {
+      "storage": "thumbnails",
+      "path": "联邦学生会长/default/027.webp"
+    },
     "胡桃/sticker/default/default_001": {
       "storage": "thumbnails",
       "path": "胡桃/default/001.webp"
@@ -75372,6 +78692,202 @@
     "花江_圣诞/sticker/default/default_011": {
       "storage": "thumbnails",
       "path": "花江_圣诞/default/011.webp"
+    },
+    "花耶/sticker/default/default_001": {
+      "storage": "thumbnails",
+      "path": "花耶/default/001.webp"
+    },
+    "花耶/sticker/default/default_002": {
+      "storage": "thumbnails",
+      "path": "花耶/default/002.webp"
+    },
+    "花耶/sticker/default/default_003": {
+      "storage": "thumbnails",
+      "path": "花耶/default/003.webp"
+    },
+    "花耶/sticker/default/default_004": {
+      "storage": "thumbnails",
+      "path": "花耶/default/004.webp"
+    },
+    "花耶/sticker/default/default_005": {
+      "storage": "thumbnails",
+      "path": "花耶/default/005.webp"
+    },
+    "花耶/sticker/default/default_006": {
+      "storage": "thumbnails",
+      "path": "花耶/default/006.webp"
+    },
+    "花耶/sticker/default/default_007": {
+      "storage": "thumbnails",
+      "path": "花耶/default/007.webp"
+    },
+    "花耶/sticker/default/default_008": {
+      "storage": "thumbnails",
+      "path": "花耶/default/008.webp"
+    },
+    "花耶/sticker/default/default_009": {
+      "storage": "thumbnails",
+      "path": "花耶/default/009.webp"
+    },
+    "花耶/sticker/default/default_010": {
+      "storage": "thumbnails",
+      "path": "花耶/default/010.webp"
+    },
+    "花耶/sticker/default/default_011": {
+      "storage": "thumbnails",
+      "path": "花耶/default/011.webp"
+    },
+    "花耶/sticker/default/default_012": {
+      "storage": "thumbnails",
+      "path": "花耶/default/012.webp"
+    },
+    "花耶/sticker/default/default_013": {
+      "storage": "thumbnails",
+      "path": "花耶/default/013.webp"
+    },
+    "花耶/sticker/default/default_014": {
+      "storage": "thumbnails",
+      "path": "花耶/default/014.webp"
+    },
+    "花耶/sticker/default/default_015": {
+      "storage": "thumbnails",
+      "path": "花耶/default/015.webp"
+    },
+    "花耶/sticker/default/default_016": {
+      "storage": "thumbnails",
+      "path": "花耶/default/016.webp"
+    },
+    "花耶/sticker/default/default_017": {
+      "storage": "thumbnails",
+      "path": "花耶/default/017.webp"
+    },
+    "花耶/sticker/default/default_018": {
+      "storage": "thumbnails",
+      "path": "花耶/default/018.webp"
+    },
+    "花耶/sticker/default/default_019": {
+      "storage": "thumbnails",
+      "path": "花耶/default/019.webp"
+    },
+    "花耶/sticker/default/default_020": {
+      "storage": "thumbnails",
+      "path": "花耶/default/020.webp"
+    },
+    "花耶/sticker/default/default_021": {
+      "storage": "thumbnails",
+      "path": "花耶/default/021.webp"
+    },
+    "花耶/sticker/default/default_022": {
+      "storage": "thumbnails",
+      "path": "花耶/default/022.webp"
+    },
+    "花耶/sticker/default/default_023": {
+      "storage": "thumbnails",
+      "path": "花耶/default/023.webp"
+    },
+    "花耶/sticker/default/default_024": {
+      "storage": "thumbnails",
+      "path": "花耶/default/024.webp"
+    },
+    "花耶/sticker/default/default_025": {
+      "storage": "thumbnails",
+      "path": "花耶/default/025.webp"
+    },
+    "花耶/sticker/default/default_026": {
+      "storage": "thumbnails",
+      "path": "花耶/default/026.webp"
+    },
+    "花耶/sticker/set_02/set_02_001": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/001.webp"
+    },
+    "花耶/sticker/set_02/set_02_002": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/002.webp"
+    },
+    "花耶/sticker/set_02/set_02_003": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/003.webp"
+    },
+    "花耶/sticker/set_02/set_02_004": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/004.webp"
+    },
+    "花耶/sticker/set_02/set_02_005": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/005.webp"
+    },
+    "花耶/sticker/set_02/set_02_006": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/006.webp"
+    },
+    "花耶/sticker/set_02/set_02_007": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/007.webp"
+    },
+    "花耶/sticker/set_02/set_02_008": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/008.webp"
+    },
+    "花耶/sticker/set_02/set_02_009": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/009.webp"
+    },
+    "花耶/sticker/set_02/set_02_010": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/010.webp"
+    },
+    "花耶/sticker/set_02/set_02_011": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/011.webp"
+    },
+    "花耶/sticker/set_02/set_02_012": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/012.webp"
+    },
+    "花耶/sticker/set_02/set_02_013": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/013.webp"
+    },
+    "花耶/sticker/set_02/set_02_014": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/014.webp"
+    },
+    "花耶/sticker/set_02/set_02_015": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/015.webp"
+    },
+    "花耶/sticker/set_02/set_02_016": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/016.webp"
+    },
+    "花耶/sticker/set_02/set_02_017": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/017.webp"
+    },
+    "花耶/sticker/set_02/set_02_018": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/018.webp"
+    },
+    "花耶/sticker/set_02/set_02_019": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/019.webp"
+    },
+    "花耶/sticker/set_02/set_02_020": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/020.webp"
+    },
+    "花耶/sticker/set_02/set_02_021": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/021.webp"
+    },
+    "花耶/sticker/set_02/set_02_022": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/022.webp"
+    },
+    "花耶/sticker/set_02/set_02_023": {
+      "storage": "thumbnails",
+      "path": "花耶/set_02/023.webp"
     },
     "芹娜/sticker/default/default_001": {
       "storage": "thumbnails",
@@ -77917,6 +81433,42 @@
       "storage": "thumbnails",
       "path": "萌绘_泳装/default/031.webp"
     },
+    "葵/sticker/default/default_001": {
+      "storage": "thumbnails",
+      "path": "葵/default/001.webp"
+    },
+    "葵/sticker/default/default_002": {
+      "storage": "thumbnails",
+      "path": "葵/default/002.webp"
+    },
+    "葵/sticker/default/default_003": {
+      "storage": "thumbnails",
+      "path": "葵/default/003.webp"
+    },
+    "葵/sticker/default/default_004": {
+      "storage": "thumbnails",
+      "path": "葵/default/004.webp"
+    },
+    "葵/sticker/default/default_005": {
+      "storage": "thumbnails",
+      "path": "葵/default/005.webp"
+    },
+    "葵/sticker/default/default_006": {
+      "storage": "thumbnails",
+      "path": "葵/default/006.webp"
+    },
+    "葵/sticker/default/default_007": {
+      "storage": "thumbnails",
+      "path": "葵/default/007.webp"
+    },
+    "葵/sticker/default/default_008": {
+      "storage": "thumbnails",
+      "path": "葵/default/008.webp"
+    },
+    "葵/sticker/default/default_009": {
+      "storage": "thumbnails",
+      "path": "葵/default/009.webp"
+    },
     "蓟/sticker/default/default_001": {
       "storage": "thumbnails",
       "path": "蓟/default/001.webp"
@@ -79308,6 +82860,158 @@
     "阳子/sticker/default/default_017": {
       "storage": "thumbnails",
       "path": "阳子/default/017.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_001": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/001.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_002": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/002.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_003": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/003.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_004": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/004.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_005": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/005.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_006": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/006.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_007": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/007.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_008": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/008.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_009": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/009.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_010": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/010.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_011": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/011.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_012": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/012.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_013": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/013.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_014": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/014.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_015": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/015.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_016": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/016.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_017": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/017.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_018": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/018.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_019": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/019.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_020": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/020.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_021": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/021.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_022": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/022.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_023": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/023.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_024": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/024.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_025": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/025.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_026": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/026.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_027": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/027.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_028": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/028.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_029": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/029.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_030": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/030.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_031": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/031.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_032": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/032.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_033": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/033.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_034": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/034.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_035": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/035.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_036": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/036.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_037": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/037.webp"
+    },
+    "阿洛娜/sticker/face_portrait/face_portrait_038": {
+      "storage": "thumbnails",
+      "path": "阿洛娜/face_portrait/038.webp"
     },
     "雏芥子/sticker/default/default_001": {
       "storage": "thumbnails",
@@ -81338,6 +85042,81 @@
       ],
       "alpha": true,
       "sha256": "294fb19118f86fe602432628000c8103d97d267d306d3c67ea0956c141fc564f",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
+    "凛_default_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/凛/default.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 44,
+      "fps": 1,
+      "size": [
+        505,
+        569
+      ],
+      "alpha": false,
+      "sha256": "8f356806b5afe040cf33530066d70a76da78b8b03e91720494fdc4ed762c2b33",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
+    "凛_navigator_uniform_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/凛/navigator_uniform.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 19,
+      "fps": 1,
+      "size": [
+        898,
+        898
+      ],
+      "alpha": true,
+      "sha256": "b1a40b7c6a9ecf7915594d8a58e986c9e816bdd7fa9ecda82dc1e6415fcf86d0",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
+    "凛_set_03_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/凛/set_03.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 31,
+      "fps": 1,
+      "size": [
+        950,
+        1028
+      ],
+      "alpha": true,
+      "sha256": "2e9ec3fd940aa81b0eb8ebcdf5146ed56a829da59b8f1da80715624514c50473",
       "profile": {
         "encoder": "avifenc",
         "codec": "aom",
@@ -84975,6 +88754,31 @@
         "jobs": "4"
       }
     },
+    "普拉娜_default_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/普拉娜/default.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 22,
+      "fps": 1,
+      "size": [
+        458,
+        501
+      ],
+      "alpha": true,
+      "sha256": "53234eed8fc3b78f2eb4cf3e59939537b7be1728d197cb08c36ce198b083c0d3",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
     "晴_default_images": {
       "kind": "image-sequence",
       "path": "blobs/stickers/晴/default.avifs",
@@ -85500,6 +89304,31 @@
         "jobs": "4"
       }
     },
+    "李_default_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/李/default.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 14,
+      "fps": 1,
+      "size": [
+        918,
+        920
+      ],
+      "alpha": true,
+      "sha256": "71214ac8aabdb6d0e68e17f088462d90070e3fc1a96dc23c5f4a8dd0e472a980",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
     "果穗_default_images": {
       "kind": "image-sequence",
       "path": "blobs/stickers/果穗/default.avifs",
@@ -85888,6 +89717,56 @@
       ],
       "alpha": true,
       "sha256": "2d8762639b7e489df34e0072d19b3b2e222979897974831ea6bdf40d199a9023",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
+    "桃香_default_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/桃香/default.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 48,
+      "fps": 1,
+      "size": [
+        570,
+        637
+      ],
+      "alpha": false,
+      "sha256": "956e656c2b770645e3bc97857469257da72994d7857d957777a0576755067ae3",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
+    "桃香_navigator_uniform_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/桃香/navigator_uniform.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 14,
+      "fps": 1,
+      "size": [
+        1058,
+        1106
+      ],
+      "alpha": true,
+      "sha256": "a0cb916feb8866d913619c322ad5e48df1637b72a2023bb21018899b8f5f5cdd",
       "profile": {
         "encoder": "avifenc",
         "codec": "aom",
@@ -86375,6 +90254,56 @@
         "jobs": "4"
       }
     },
+    "步美_default_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/步美/default.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 16,
+      "fps": 1,
+      "size": [
+        582,
+        600
+      ],
+      "alpha": false,
+      "sha256": "6cdf01967f44eeb4fd5a2ed6ee510275cf4cda7b5474ade172a1dfb1731add52",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
+    "步美_navigator_uniform_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/步美/navigator_uniform.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 18,
+      "fps": 1,
+      "size": [
+        814,
+        814
+      ],
+      "alpha": true,
+      "sha256": "1bde258bb1bcedbe40d39ede942bd2fe0afad82ac30f41e3fb06fdfea407086a",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
     "泉_default_images": {
       "kind": "image-sequence",
       "path": "blobs/stickers/泉/default.avifs",
@@ -86838,6 +90767,31 @@
       ],
       "alpha": true,
       "sha256": "88c64888eb1bb29fcc60bcb05a243adae935bf62cd627c6d59823afeabb63746",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
+    "灰音_default_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/灰音/default.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 22,
+      "fps": 1,
+      "size": [
+        491,
+        486
+      ],
+      "alpha": true,
+      "sha256": "35e93a0a06f5d2b431f11124692c047927826bd4033062e91f05c9fccdf3e9e7",
       "profile": {
         "encoder": "avifenc",
         "codec": "aom",
@@ -89325,6 +93279,31 @@
         "jobs": "4"
       }
     },
+    "联邦学生会长_default_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/联邦学生会长/default.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 27,
+      "fps": 1,
+      "size": [
+        916,
+        916
+      ],
+      "alpha": true,
+      "sha256": "862af7ba322a626385b7b02c999f8a168af9b4b0cd55655b89b89fbb1d55239e",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
     "胡桃_default_images": {
       "kind": "image-sequence",
       "path": "blobs/stickers/胡桃/default.avifs",
@@ -89738,6 +93717,56 @@
       ],
       "alpha": true,
       "sha256": "1ec426078f4f66549b60155aace1264616bee374d12131debfeb651a2ba2cc18",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
+    "花耶_default_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/花耶/default.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 26,
+      "fps": 1,
+      "size": [
+        814,
+        814
+      ],
+      "alpha": true,
+      "sha256": "194815666c05505de5dcae01102deaf2004795731ee4d72390b1a0ec927a3143",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
+    "花耶_set_02_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/花耶/set_02.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 23,
+      "fps": 1,
+      "size": [
+        976,
+        988
+      ],
+      "alpha": true,
+      "sha256": "fb6ee1581a43c99a90153effdf2fa599d2b9ddd4111db84c3463448e9df6317f",
       "profile": {
         "encoder": "avifenc",
         "codec": "aom",
@@ -90700,6 +94729,31 @@
         "jobs": "4"
       }
     },
+    "葵_default_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/葵/default.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 9,
+      "fps": 1,
+      "size": [
+        505,
+        492
+      ],
+      "alpha": true,
+      "sha256": "f8888fc63b341405c9d0da8409cb97975101d3ddb22564d5d685fa68db2612b3",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
     "蓟_default_images": {
       "kind": "image-sequence",
       "path": "blobs/stickers/蓟/default.avifs",
@@ -91188,6 +95242,31 @@
       ],
       "alpha": true,
       "sha256": "46bf88c0af26e8f2a7f2a62eb13a1e2262be211af2a391eedcc5a5c1ce95b246",
+      "profile": {
+        "encoder": "avifenc",
+        "codec": "aom",
+        "qcolor": 80,
+        "qalpha": 80,
+        "yuv": "420",
+        "keyframe_interval": 30,
+        "fps": 1,
+        "speed": 8,
+        "jobs": "4"
+      }
+    },
+    "阿洛娜_face_portrait_images": {
+      "kind": "image-sequence",
+      "path": "blobs/stickers/阿洛娜/face_portrait.avifs",
+      "container": "avifs",
+      "codec": "av1",
+      "frame_count": 38,
+      "fps": 1,
+      "size": [
+        611,
+        611
+      ],
+      "alpha": false,
+      "sha256": "3745ed49ba117c6e7024fc164f83bf9fe36de7c413132d21185dc72a7129d176",
       "profile": {
         "encoder": "avifenc",
         "codec": "aom",

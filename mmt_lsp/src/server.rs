@@ -18,7 +18,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 use crate::{
-    LanguageService, ProjectionStore, build_render_project,
+    LanguageService, ProjectionStore,
     position::{MmtClientPosition, PositionEncoding},
 };
 
@@ -36,6 +36,16 @@ struct TypstRangeParams {
     text_document: TextDocumentIdentifier,
     range: Range,
     backend_encoding: PositionEncoding,
+    #[serde(default)]
+    entry_uri: Option<Url>,
+    #[serde(default)]
+    revision: Option<u64>,
+    #[serde(default)]
+    source_content: Option<SourceContentKey>,
+    #[serde(default)]
+    project_digest: Option<TypstProjectSnapshotKey>,
+    #[serde(default)]
+    projection_key: Option<ProjectionKey>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -317,16 +327,37 @@ impl MmtLanguageServer {
                 else {
                     return Ok(Value::Null);
                 };
-                encode(
-                    self.projections
-                        .project_range(
+                let projected = match (
+                    &params.entry_uri,
+                    params.revision,
+                    &params.source_content,
+                    &params.project_digest,
+                    &params.projection_key,
+                ) {
+                    (Some(entry_uri), Some(revision), Some(source_content), Some(project_digest), Some(projection_key)) => self
+                        .projections
+                        .project_range_for_generation(
                             &params.text_document.uri,
                             params.range,
                             client_encoding,
                             params.backend_encoding,
-                        )
-                        .ok(),
-                )
+                            entry_uri,
+                            revision,
+                            source_content,
+                            project_digest,
+                            projection_key,
+                        ),
+                    (None, None, None, None, None) => self.projections.project_range(
+                        &params.text_document.uri,
+                        params.range,
+                        client_encoding,
+                        params.backend_encoding,
+                    ),
+                    _ => return Err(ServerError::invalid_params(
+                        "render generation identity must be complete",
+                    )),
+                };
+                encode(projected.ok())
             }
             "mmt/validateProjectedEdit" => {
                 let transaction: ProjectedEditTransaction = decode(params)?;
@@ -512,27 +543,25 @@ impl MmtLanguageServer {
                 if self.service.pack_registry().is_none() {
                     return Ok(Value::Null);
                 }
-                encode(
-                    build_render_project(
-                        projection,
-                        self.service.pack_revision(),
-                        params
-                            .timestamp
-                            .map(|timestamp| {
-                                mmt_rs::HostTimestamp::new(
-                                    timestamp.unix_millis,
-                                    timestamp.local_offset_minutes,
-                                )
-                            })
-                            .transpose()
-                            .map_err(ServerError::invalid_params)?,
-                    )
+                let timestamp = params
+                    .timestamp
+                    .map(|timestamp| {
+                        mmt_rs::HostTimestamp::new(
+                            timestamp.unix_millis,
+                            timestamp.local_offset_minutes,
+                        )
+                    })
+                    .transpose()
+                    .map_err(ServerError::invalid_params)?;
+                let update = self
+                    .projections
+                    .build_render_project(&params.uri, self.service.pack_revision(), timestamp)
                     .map_err(|error| {
                         ServerError::invalid_params(format!(
                             "failed to build render project: {error:?}"
                         ))
-                    })?,
-                )
+                    })?;
+                encode(update)
             }
             "mmt/updatePackManifests" => {
                 let params: UpdatePackManifestsParams = decode(params)?;
@@ -1557,6 +1586,43 @@ mod tests {
     }
 
     #[test]
+    fn typst_range_maps_a_cursor_inside_a_multiline_typ_block() {
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+        let uri = lsp_types::Url::parse("file:///workspace/multiline.mmt").unwrap();
+        server
+            .notification(
+                "textDocument/didOpen",
+                serde_json::json!({
+                    "textDocument": {
+                        "uri": uri.clone(),
+                        "languageId": "mmt",
+                        "version": 1,
+                        "text": "@typ\n12345\n#divider()\nabcde 123434\n@end\n"
+                    }
+                }),
+            )
+            .unwrap();
+
+        let projected = server
+            .request(
+                "mmt/typstRange",
+                serde_json::json!({
+                    "textDocument": {"uri": uri},
+                    "range": {
+                        "start": {"line": 3, "character": 2},
+                        "end": {"line": 3, "character": 2}
+                    },
+                    "backendEncoding": "utf-16"
+                }),
+            )
+            .unwrap();
+
+        assert!(!projected.is_null());
+        assert_eq!(projected["range"]["start"], projected["range"]["end"]);
+    }
+
+    #[test]
     fn request_transcript_returns_symbols_and_folding_ranges() {
         let mut server = MmtLanguageServer::default();
         server.request("initialize", initialize(false)).unwrap();
@@ -1717,6 +1783,70 @@ mod tests {
         .unwrap();
         assert_eq!(render.source_version, 1);
         assert_eq!(render.revision, after.revision);
+        server
+            .projections
+            .response_generation(
+                &Url::parse(uri).unwrap(),
+                &render.entry_uri,
+                render.revision,
+                &render.source_content,
+                &render.project_digest,
+                &render.projection_key,
+            )
+            .expect("render generation identity must resolve");
+        server
+            .projections
+            .project_range_for_generation(
+                &Url::parse(uri).unwrap(),
+                Range::new(Position::new(0, 10), Position::new(0, 15)),
+                PositionEncoding::Utf8,
+                PositionEncoding::Utf8,
+                &render.entry_uri,
+                render.revision,
+                &render.source_content,
+                &render.project_digest,
+                &render.projection_key,
+            )
+            .expect("render generation range must map");
+        let rendered_range = server
+            .request(
+                "mmt/typstRange",
+                serde_json::json!({
+                    "textDocument": {"uri": uri},
+                    "range": {
+                        "start": {"line": 0, "character": 10},
+                        "end": {"line": 0, "character": 15}
+                    },
+                    "backendEncoding": "utf-8",
+                    "entryUri": render.entry_uri,
+                    "revision": render.revision,
+                    "sourceContent": render.source_content,
+                    "projectDigest": render.project_digest,
+                    "projectionKey": render.projection_key
+                }),
+            )
+            .unwrap();
+        assert_eq!(rendered_range["projectDigest"], render.project_digest.0);
+        let mapped_back = server
+            .request(
+                "mmt/mapTypstReadLocations",
+                serde_json::json!({
+                    "sourceUri": uri,
+                    "revision": render.revision,
+                    "entryUri": render.entry_uri,
+                    "backendEncoding": "utf-8",
+                    "sourceContent": render.source_content,
+                    "projectDigest": render.project_digest,
+                    "projectionKey": render.projection_key,
+                    "locations": [{
+                        "uri": render.entry_uri,
+                        "range": rendered_range["range"]
+                    }]
+                }),
+            )
+            .unwrap();
+        assert_eq!(mapped_back[0]["kind"], "authoredIdentity");
+        assert_eq!(mapped_back[0]["uri"], uri);
     }
 
     #[test]

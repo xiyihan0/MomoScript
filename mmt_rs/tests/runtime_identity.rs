@@ -72,14 +72,7 @@ fn rust_and_typescript_share_canonical_logical_identity_fixture() {
         &mapping_digest,
     );
     let materialization = materialization_key(&projection, "pack", "plan", "bytes");
-    let runtime = runtime_artifact_key(
-        "0.15.2",
-        "compiler-wasm",
-        "0.7.0",
-        "renderer-wasm",
-        "template",
-        "fonts",
-    );
+    let runtime = runtime_artifact_key("0.15.2", "compiler-wasm", "template", "fonts");
     let render = render_key(&materialization, &runtime, "options");
 
     assert_eq!(logical_source.0, fixture.expected.logical_source);

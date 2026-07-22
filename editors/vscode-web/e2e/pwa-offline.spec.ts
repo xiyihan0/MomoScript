@@ -25,7 +25,7 @@ test("installed production editor cold-starts offline with language workers and 
     if (!localMatch || !remoteMatch) throw new Error("generated service-worker manifests are missing");
     const local = JSON.parse(localMatch[1]) as string[];
     const remote = JSON.parse(remoteMatch[1]) as string[];
-    const requiredLocal = local.filter((url) => /(?:mmt_lsp_bg|tinymistWorker|browserWorker|typst_ts_renderer_bg)/.test(url));
+    const requiredLocal = local.filter((url) => /(?:mmt_lsp_bg|tinymistWorker|browserWorker)/.test(url));
     const required = [...requiredLocal, ...remote];
     const cached = await Promise.all(required.map(async (url) => ({ url, cached: Boolean(await caches.match(url)) })));
     return {

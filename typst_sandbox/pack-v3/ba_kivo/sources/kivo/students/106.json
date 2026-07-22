@@ -1982,7 +1982,7 @@
             "icon": "//static.kivo.wiki/images/students/%E9%97%B4%E5%AE%B5%20%E6%97%B6%E9%9B%A8/skill_icon/C3gJYoZDMWeCHyxPyNBRxfHlakbYL3xN.png",
             "title": "时雨特制燃烧瓶",
             "title_cn": "时雨特制酒瓶燃烧弹",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E9%97%B4%E5%AE%B5%20%E6%97%B6%E9%9B%A8/original/skill_preview/XHGkmw8ri8rzxnBzAkRT7YBlQMTq0TUo.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -2278,5 +2278,5 @@
   "supplementary_uuid": "95652fec-b60c-4f38-b2db-2396b6a3f065",
   "supplementary_declare_uuid": "f0ec5e54-268d-4414-80e5-16c0c4f90958",
   "created_at": 1685282553,
-  "updated_at": 1783655810
+  "updated_at": 1784720412
 }

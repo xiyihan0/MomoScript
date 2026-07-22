@@ -165,6 +165,20 @@ COLLAB_FULL_NAMES = {
 # 远古测试（CBT）时期实体的标记；构建时默认排除，可用 --exclude-entity-marker 调整。
 DEFAULT_EXCLUDED_ENTITY_MARKERS = ("(CBT)", "（CBT）")
 
+# 剧情与 Momotalk 场景中的核心角色；Kivo 将其标记为 NPC，但主资源包默认纳入。
+DEFAULT_INCLUDED_NPCS = {
+    104: "阿洛娜",
+    173: "普拉娜",
+    17: "联邦学生会长",
+    183: "凛",
+    184: "桃香",
+    168: "步美",
+    169: "花耶",
+    171: "葵",
+    276: "李",
+    275: "灰音",
+}
+
 
 def _utc_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -237,6 +251,9 @@ def _full_name(detail: dict[str, Any], *, locale: str) -> str:
 
 
 def _primary_name(detail: dict[str, Any]) -> str:
+    curated_name = DEFAULT_INCLUDED_NPCS.get(int(detail.get("id") or 0))
+    if curated_name:
+        return curated_name
     full_cn = _full_name(detail, locale="zh-CN")
     if full_cn in COLLAB_FULL_NAMES:
         return full_cn
@@ -445,6 +462,9 @@ async def _fetch_student_ids(
         parsed = parse_student_list_response(raw)
         ids.extend(s.id for s in parsed.data.students)
 
+    if not include_npc:
+        ids.extend(DEFAULT_INCLUDED_NPCS)
+    ids = list(dict.fromkeys(ids))
     return ids[:limit] if limit is not None else ids
 
 

@@ -2193,7 +2193,7 @@
             "icon": "//static.kivo.wiki/images/students/%E9%99%86%E5%85%AB%E9%AD%94%20%E9%98%BF%E9%9C%B2/%E6%AD%A3%E6%9C%88/skill_icon/OzbhkAYCAn2tJeDDRGQt1T1OIa8gBfdf.png",
             "title": "Hardboiled·羽根突Shot",
             "title_cn": "冷酷无情毽子攻击",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E9%99%86%E5%85%AB%E9%AD%94%20%E9%98%BF%E9%9C%B2/%E6%AD%A3%E6%9C%88/skill_preview/SZu3zV0XeDgmLuoNT8qubsWw9s53U88d.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -2489,5 +2489,5 @@
   "supplementary_uuid": "4ab31a7c-f316-4d77-9450-7c4df7ca1d1c",
   "supplementary_declare_uuid": "30d03bd7-3cab-486b-b048-4920134adbef",
   "created_at": 1685274889,
-  "updated_at": 1757560334
+  "updated_at": 1784720491
 }

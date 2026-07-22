@@ -54,6 +54,7 @@ import { projectionSessionKey } from "../../vscode/src/tinymistClient";
 import {
   evictPreviewPackageGeneration,
   installPreviewPackageGenerations,
+  renderArtifactLocationProviderKey,
   sanitizeSvg,
   TypstPreviewController,
   type TypstPreviewBinding
@@ -75,8 +76,6 @@ import {
   TINYMIST_WASM_SHA256,
   TYPST_COMPILER_VERSION,
   TYPST_COMPILER_WASM_SHA256,
-  TYPST_RENDERER_VERSION,
-  TYPST_RENDERER_WASM_SHA256,
 } from "./runtimeArtifacts";
 import { EditorRuntimeStatus, type RuntimeRecoveryState } from "./runtimeStatus";
 import { createPreviewArtifact, type LocationProviderKey, type PreviewArtifact, type PreviewPagePoint, type PreviewSourceTarget, type PreviewViewport } from "./previewArtifact.ts";
@@ -125,7 +124,7 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
 type E2ELifecycleKind = "runtime-ready" | "dispose-invoked" | "dispose-complete" | "retained-artifacts-cleared" | "unload" | "hmr" | "hmr-fallback";
 
 interface PreviewInteractionFixtureRequest {
-  readonly action: "install-provider" | "install-immutable" | "position" | "overlay" | "navigate" | "restart-provider" | "advance-source" | "state";
+  readonly action: "install-provider" | "install-immutable" | "position" | "position-live" | "editor-selection" | "overlay" | "navigate" | "restart-provider" | "advance-source" | "state";
   readonly range?: { start: { line: number; character: number }; end: { line: number; character: number } };
   readonly point?: PreviewPagePoint;
 }
@@ -323,8 +322,6 @@ const encoder = new TextEncoder();
 const PREVIEW_RUNTIME_KEY = runtimeArtifactKey(
   TYPST_COMPILER_VERSION,
   TYPST_COMPILER_WASM_SHA256,
-  TYPST_RENDERER_VERSION,
-  TYPST_RENDERER_WASM_SHA256,
   "mmt-template-bundle-v1",
   "c02a98146312b8756f9f23654b194885358f603eed736f037f172d617330c05c",
 );
@@ -647,6 +644,7 @@ async function initializeRuntime(
   const previewPhaseForProjectDiagnostic = (
     phase: TypstRenderProjectUpdate["diagnostics"][number]["phase"]
   ): "package" | "compiler" => phase === "materialize" ? "package" : "compiler";
+
   const previewBindingFor = async (
     project: TypstProjectUpdate,
     document: vscode.TextDocument,
@@ -670,16 +668,10 @@ async function initializeRuntime(
       packageBytesDigest,
     );
     const key = await renderKey(materialization, await PREVIEW_RUNTIME_KEY, await PREVIEW_RENDER_OPTIONS_DIGEST);
-    const mapDigest = await canonicalBytesDigest("mmt-preview-empty-location-map-v1", [encoder.encode(key)]);
     return Object.freeze({
       ...(requestId === undefined ? {} : { requestId }),
       renderKey: key,
-      locationProviderKey: Object.freeze({
-        kind: "immutable-map",
-        digest: mapDigest,
-        coordinateVersion: "typst-page-points-v1",
-      }),
-      locationMap: Object.freeze({ digest: mapDigest, sourceToPreview: Object.freeze([]), previewToSource: Object.freeze([]) }),
+      locationProviderKey: renderArtifactLocationProviderKey(key, project.revision),
       identity: previewIdentityFor(project, document),
     });
   };
@@ -692,6 +684,11 @@ async function initializeRuntime(
       textDocument: { uri: selection.identity.sourceUri },
       range: selection.range,
       backendEncoding: selection.identity.backendEncoding,
+      entryUri: selection.identity.entryUri,
+      revision: selection.identity.revision,
+      sourceContent: selection.identity.sourceContent,
+      projectDigest: selection.identity.projectDigest,
+      projectionKey: selection.identity.projectionKey,
     });
     return signal.aborted ? undefined : mapped ?? undefined;
   };
@@ -848,6 +845,7 @@ async function initializeRuntime(
           indicatorCount: layout.preview.querySelectorAll(".typst-preview-indicator").length,
           cursorCount: layout.preview.querySelectorAll(".typst-preview-cursor").length,
           pageCount: layout.preview.querySelectorAll(".typst-preview-page").length,
+          cursor: preview.currentCursorPoint ?? null,
         };
       }
       if (request.action === "overlay") {
@@ -866,6 +864,35 @@ async function initializeRuntime(
         preview.providerRestarted(restarted);
         return true;
       }
+      if (request.action === "editor-selection") {
+        const editor = vscode.window.activeTextEditor;
+        const selection = editor?.selection;
+        return !editor || !selection ? null : {
+          uri: editor.document.uri.toString(),
+          range: {
+            start: { line: selection.start.line, character: selection.start.character },
+            end: { line: selection.end.line, character: selection.end.character },
+          },
+        };
+      }
+      if (request.action === "position-live") {
+        const editor = vscode.window.activeTextEditor;
+        const sourceUri = editor?.document.uri.toString() ?? displayedPreviewSourceUri;
+        if (!sourceUri) return false;
+        const identity = currentPreviewIdentity(sourceUri);
+        if (!identity) return false;
+        const selection = request.range ?? (
+          editor?.document.uri.toString() === sourceUri
+            ? {
+                start: { line: editor.selection.start.line, character: editor.selection.start.character },
+                end: { line: editor.selection.end.line, character: editor.selection.end.character },
+              }
+            : undefined
+        );
+        if (!selection) return false;
+        return preview.navigateEditorSelection({ identity, range: selection });
+      }
+
       if (request.action === "position") {
         if (!fixtureSelection) return false;
         preview.scheduleEditorSelection(fixtureSelection);
@@ -1551,7 +1578,10 @@ async function initializeRuntime(
     own(handle.backend.on("tinymist/projectPrimeStarted", refreshRuntimeQueue));
     own(handle.backend.on("tinymist/projectPrimed", refreshRuntimeQueue));
     own(handle.backend.on("tinymist/projectPrimeFailed", refreshRuntimeQueue));
-    own(handle.backend.on("tinymist/clientRestarting", () => publishRuntimeStatus("backend-restarting", "recovering")));
+    own(handle.backend.on("tinymist/clientRestarting", () => {
+      preview.providerRestarted(undefined);
+      publishRuntimeStatus("backend-restarting", "recovering");
+    }));
     own(handle.backend.on("tinymist/clientRestarted", () => publishRuntimeStatus("backend-restarted", "ready")));
     own(handle.backend.on("tinymist/clientFailed", (params) => {
       const message = params && typeof params === "object" && "message" in params

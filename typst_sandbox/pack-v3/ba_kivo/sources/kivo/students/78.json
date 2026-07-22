@@ -3231,7 +3231,7 @@
             "icon": "//static.kivo.wiki/images/students/%E5%8D%81%E5%85%AD%E5%A4%9C%20%E9%87%8E%E5%AE%AB/skill_icon/02Cd4Ml7YQ7S2fyaCvUtgDlDpxK2AyiF.png",
             "title": "教训人的时间到啰~♣",
             "title_cn": "惩罚时间到了~♣",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E5%8D%81%E5%85%AD%E5%A4%9C%20%E9%87%8E%E5%AE%AB/original/skill_preview/bqKqtnekPx0Huu7xKCQGkF8rXq4Yx94S.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -3527,5 +3527,5 @@
   "supplementary_uuid": "77f39380-7e48-42e9-9d0a-ddaabc518865",
   "supplementary_declare_uuid": "ddc17b60-d7ae-484d-b914-e92a2e257b32",
   "created_at": 1684950082,
-  "updated_at": 1783337291
+  "updated_at": 1784720760
 }

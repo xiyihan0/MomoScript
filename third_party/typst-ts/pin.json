@@ -1,0 +1,44 @@
+{
+  "schema": "mmt-typst-ts-pin.v1",
+  "upstream": {
+    "repository": "https://github.com/Myriad-Dreamin/typst.ts.git",
+    "revision": "e1974e566ba63dcf8ecdd6730cff25de26c7dbd2",
+    "version": "0.8.0-rc3"
+  },
+  "toolchain": {
+    "rust": "1.92.0",
+    "wasmPack": "0.15.0"
+  },
+  "patch": {
+    "path": "third_party/typst-ts/patches/0001-expose-render-debug-spans.patch",
+    "sha256": "8ba7a4e4e53ae99478bb15cd6481b462a389b095980ec9f33769adc2a857bb79"
+  },
+  "build": {
+    "command": "wasm-pack build --target web --scope myriaddreamin --release -- --no-default-features --features web,misc && node ../tools/wasm-debundle.mjs",
+    "workingDirectory": "packages/compiler"
+  },
+  "artifacts": {
+    "compilerBinding": {
+      "relativePath": "third_party/typst-ts/pkg/typst_ts_web_compiler.mjs",
+      "size": 63239,
+      "sha256": "94d91940b1cc6242009962e42e31da2438f9879239efa572e3d4a92eb61e3507"
+    },
+    "compilerWasm": {
+      "relativePath": "packages/compiler/pkg/typst_ts_web_compiler_bg.wasm",
+      "size": 30326020,
+      "sha256": "fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c"
+    },
+    "compilerWasmBrotli": {
+      "size": 7640225,
+      "sha256": "f2250904c04c9f468255066b05ab0e647d79840691fd99b9bbf7561e4df34431"
+    }
+  },
+  "integration": {
+    "wasmMethods": [
+      "typstcompileworld_render_svg_with_debug_spans",
+      "typstcompileworld_resolve_main_spans"
+    ],
+    "binding": "Vite replaces the npm package wrapper with the checked-in wasm-bindgen module built alongside the pinned WASM",
+    "purpose": "Render debug-annotated SVG and resolve its data-span identifiers against the same compiler world and main Typst source"
+  }
+}

@@ -380,7 +380,7 @@ try {
     notify("textDocument/didChange", {
       textDocument: { uri, version: 2 },
       contentChanges: [{
-        text: "#let greet(name) = [Hello #name]\n#greet(\"MMT\")\n#gre\n#let broken = ["
+        text: "#let greet(name) = [Hello #name]\n#greet(\"MMT\")\n#gre\n#let broken = []"
       }]
     });
     const diagnosticsV2 = await waitForNotification(
@@ -400,6 +400,56 @@ try {
       position: { line: 1, character: 6 },
       context: { triggerKind: 1, isRetrigger: false }
     });
+    notify("textDocument/didChange", {
+      textDocument: { uri, version: 3 },
+      contentChanges: [{
+        text: "#let greet(name) = [Hello #name]\n#greet(\"MMT\")\n#greet(\"again\")\n#let broken = []"
+      }]
+    });
+    const diagnosticsV3 = await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (item) => sameDocumentUri(item.params?.uri, uri) && item.params?.diagnostics?.length === 0
+    );
+    await observeQuietPeriod();
+    await new Promise((resolve) => setTimeout(resolve, 1_500));
+    const locationCandidates = [];
+    for (const [line, text] of [
+      [0, "#let greet(name) = [Hello #name]"],
+      [1, "#greet(\"MMT\")"],
+      [2, "#greet(\"again\")"],
+      [3, "#let broken = []"],
+    ]) {
+      for (let character = 0; character <= text.length; character += 1) {
+        const locations = await request("tinymist/sourceLocations", {
+          uri,
+          position: { line, character }
+        });
+        if (Array.isArray(locations) && locations.length > 0) {
+          locationCandidates.push({ line, character, locations });
+        }
+      }
+    }
+    const sourceLocations = locationCandidates[0]?.locations ?? [];
+    if (!Array.isArray(sourceLocations) || sourceLocations.length === 0) {
+      throw new Error(`source locations unavailable: ${JSON.stringify({
+        diagnostics: diagnosticsV3.params,
+        sourceLocations,
+        locationCandidates,
+        logs: notifications.filter((item) => item.method === "tmLog")
+          .map((item) => item.params?.data ?? "")
+          .filter((message) => /file focused|compile(success|error)|could not focus|compiling document|main file/i.test(message))
+          .map((message) => message.slice(-800)),
+      })}`);
+    }
+    const previewLocation = await request("tinymist/previewLocation", {
+      uri,
+      position: sourceLocations[0]
+    });
+    const invalidPreviewLocation = await request("tinymist/previewLocation", {
+      uri,
+      position: { pageIndex: 0, x: -1, y: 0.5 }
+    });
+
 
     const legacyPackageContextResponse = await rawRequest("mmt/typstProjectContext.v1", {
       backend_generation: 1,
@@ -422,7 +472,7 @@ try {
 
     const packageUri = uri;
     packageContext(1, "web-package-ready-snapshot", "mmt-callback-ready");
-    changePackageFixture("mmt-callback-ready", 3);
+    changePackageFixture("mmt-callback-ready", 4);
     await waitForPackageCallback("mmt-callback-ready");
     const packageDiagnosticsNotification = await waitForNotification(
       "textDocument/publishDiagnostics",
@@ -431,7 +481,7 @@ try {
     const packageDiagnostics = packageDiagnosticsNotification.params;
 
     packageContext(2, "web-package-unavailable-snapshot", "mmt-callback-unavailable");
-    changePackageFixture("mmt-callback-unavailable", 4);
+    changePackageFixture("mmt-callback-unavailable", 5);
     await waitForPackageCallback("mmt-callback-unavailable");
     const unavailableDiagnostics = (await waitForNotification(
       "textDocument/publishDiagnostics",
@@ -439,7 +489,7 @@ try {
     )).params;
 
     packageContext(3, "web-package-error-snapshot", "mmt-callback-error");
-    changePackageFixture("mmt-callback-error", 5);
+    changePackageFixture("mmt-callback-error", 6);
     await waitForPackageCallback("mmt-callback-error");
     const errorDiagnostics = (await waitForNotification(
       "textDocument/publishDiagnostics",
@@ -447,7 +497,7 @@ try {
     )).params;
 
     packageContext(4, "web-package-cancel-snapshot", "mmt-callback-cancel");
-    changePackageFixture("mmt-callback-cancel", 6);
+    changePackageFixture("mmt-callback-cancel", 7);
     await waitForPackageCallback("mmt-callback-cancel");
     packageContext(5, "web-package-after-cancel-snapshot", "closed");
     const cancellationNotification = await waitForNotification("$/cancelRequest");
@@ -491,6 +541,9 @@ try {
       completion,
       hover,
       signature,
+      sourceLocations,
+      previewLocation,
+      invalidPreviewLocation,
       diagnosticVersions: [diagnosticsV1.params.version ?? null, diagnosticsV2.params.version ?? null],
       shutdown
     };
@@ -503,6 +556,25 @@ try {
   assert(completionText.includes("greet"), "user-defined completion positive transcript");
   assert(result.hover, "hover positive transcript");
   assert(result.signature?.signatures?.some((item) => item.label.includes("greet")), "signature positive transcript");
+  assert(
+    result.initialize.capabilities?.experimental?.mmtPreviewLocationProvider?.coordinateVersion === "typst-page-points-v1",
+    "Tinymist preview coordinate version"
+  );
+  assert(result.sourceLocations.length > 0, "source-to-preview positive transcript");
+  assert(
+    result.sourceLocations.every((point) =>
+      Number.isSafeInteger(point.pageIndex)
+      && point.pageIndex >= 0
+      && point.x >= 0
+      && point.x <= 1
+      && point.y >= 0
+      && point.y <= 1
+    ),
+    "source-to-preview normalized coordinates"
+  );
+  assert(sameDocumentUri(result.previewLocation?.uri, uri), "preview-to-source URI");
+  assert.equal(result.previewLocation?.range?.start?.line, 0, "preview-to-source line");
+  assert.equal(result.invalidPreviewLocation, null, "invalid preview coordinate is rejected");
 
   const versionedDiagnostics = result.diagnosticVersions[0] === 1 && result.diagnosticVersions[1] === 2;
   const unversionedDiagnostics = result.diagnosticVersions.every((version) => version == null);
@@ -536,6 +608,11 @@ try {
   const experimentalMethods = experimental && typeof experimental === "object"
     ? Object.entries(experimental).filter(([, enabled]) => Boolean(enabled)).map(([name]) => name).sort()
     : [];
+  const previewProvider = experimental?.mmtPreviewLocationProvider;
+  const qualifiedLocationMethod = result.sourceLocations.length > 0 && result.previewLocation
+    ? "tinymist/previewLocation+tinymist/sourceLocations"
+    : null;
+
 
   const evidence = normalize({
     schemaVersion: 1,
@@ -593,13 +670,16 @@ try {
         resourceCommandAdvertised: advertisedCommands.includes("tinymist.getResources"),
         previewIndexProbe: rpcOutcome(result.previewResourceResponse)
       },
-      locationMethod: locationProbes.some((probe) => probe.advertised) ? "command" : null,
-      probes: locationProbes,
-      coordinateVersion: null,
-      fallbackDecision: "immutable-location-map",
-      unavailableReason: locationProbes.some((probe) => probe.advertised)
-        ? null
-        : "The pinned Web artifact advertises no preview navigation or document-trace command and no coordinate version."
+      locationMethod: previewProvider?.previewToSourceMethod ?? null,
+      qualifiedMethod: qualifiedLocationMethod,
+      probes: [
+        { method: "tinymist/sourceLocations", outcome: result.sourceLocations.length > 0 ? "success" : "empty" },
+        { method: "tinymist/previewLocation", outcome: result.previewLocation ? "success" : "empty" },
+        { method: "tinymist/previewLocation:invalid-coordinate", outcome: result.invalidPreviewLocation === null ? "null" : "unexpected" },
+      ],
+      coordinateVersion: previewProvider?.coordinateVersion ?? null,
+      fallbackDecision: qualifiedLocationMethod ? null : "immutable-location-map",
+      unavailableReason: qualifiedLocationMethod ? null : "The pinned Web artifact exposes no qualified bidirectional location method."
     },
     transcripts: {
       positive: {
@@ -608,14 +688,15 @@ try {
         signatureContainsUserSymbol: result.signature?.signatures?.some((item) => item.label.includes("greet")) ?? false,
         diagnosticVersionMode: versionedDiagnostics ? "versioned" : "unversioned",
         previewResourceAvailable: rpcOutcome(result.previewResourceResponse).ok,
-        packageReadyResolved: packageDiagnosticSummary.length === 0 && packageOutcome("mmt-callback-ready")?.outcome?.status === "Ready"
+        packageReadyResolved: packageDiagnosticSummary.length === 0 && packageOutcome("mmt-callback-ready")?.outcome?.status === "Ready",
+        bidirectionalPreviewLocation: qualifiedLocationMethod !== null
       },
       negative: {
         packageUnavailableObserved: packageOutcome("mmt-callback-unavailable")?.outcome?.status === "Unavailable",
         packageErrorObserved: packageOutcome("mmt-callback-error")?.error?.code === -32010,
         packageCancellationObserved: packageOutcome("mmt-callback-cancel")?.outcome?.status === "Cancelled",
         backendNetworkIsolated: externalNetworkRequests.length === 0,
-        locationCommandsUnavailable: locationProbes.every((probe) => !probe.advertised && !probe.outcome.ok)
+        invalidPreviewCoordinateRejected: result.invalidPreviewLocation === null
       }
     },
     normalization: {
@@ -628,15 +709,16 @@ try {
 
   assert.equal(evidence.packageCallback.availability, "observed", "Web package callback is observed");
   assert.equal(evidence.packageCallback.requests.length, 4, "all Web callback outcomes were requested");
-  assert.equal(evidence.previewLocation.coordinateVersion, null, "missing coordinate version is explicit");
-  assert.equal(evidence.previewLocation.locationMethod, null, "missing Web location method is explicit");
+  assert.equal(evidence.previewLocation.coordinateVersion, "typst-page-points-v1", "Web coordinate version is qualified");
+  assert.equal(evidence.previewLocation.qualifiedMethod, "tinymist/previewLocation+tinymist/sourceLocations", "Web location methods are qualified");
   assert(evidence.transcripts.positive.previewResourceAvailable, "preview artifact resource positive transcript");
   assert(evidence.transcripts.positive.packageReadyResolved, "Web Ready package resolved without diagnostics");
+  assert(evidence.transcripts.positive.bidirectionalPreviewLocation, "Web bidirectional preview location transcript");
   assert(evidence.transcripts.negative.packageUnavailableObserved, "Web Unavailable callback transcript");
   assert(evidence.transcripts.negative.packageErrorObserved, "Web callback error transcript");
   assert(evidence.transcripts.negative.packageCancellationObserved, "Web callback cancellation transcript");
   assert(evidence.transcripts.negative.backendNetworkIsolated, "Web backend made no external network request");
-  assert(evidence.transcripts.negative.locationCommandsUnavailable, "location negative transcript");
+  assert(evidence.transcripts.negative.invalidPreviewCoordinateRejected, "invalid location coordinate negative transcript");
 
   await page.addScriptTag({ url: `${page.url()}extension/dist/test/workerClient.js` });
   const replay = await page.evaluate(

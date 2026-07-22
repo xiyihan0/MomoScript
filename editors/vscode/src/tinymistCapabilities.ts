@@ -1,5 +1,9 @@
 import type { JsonRpcMessage } from "./tinymistTransport";
 import { TYPST_PACKAGE_REQUEST_METHOD } from "./typstPackageProtocol";
+export const TINYMIST_PREVIEW_LOCATION_METHOD = "tinymist/previewLocation";
+export const TINYMIST_SOURCE_LOCATIONS_METHOD = "tinymist/sourceLocations";
+export const TINYMIST_PREVIEW_COORDINATE_VERSION = "typst-page-points-v1";
+
 
 export type TinymistPackageRequestHandler = (
   params: unknown,
@@ -113,6 +117,21 @@ function addInitializeCapabilities(target: Map<string, unknown>, initializeResul
       if (isAdvertised(semanticTokens.range)) {
         target.set("textDocument/semanticTokens/range", semanticTokens);
       }
+    }
+  }
+  const experimental = capabilities.experimental;
+  if (isRecord(experimental) && isRecord(experimental.mmtPreviewLocationProvider)) {
+    const provider = experimental.mmtPreviewLocationProvider;
+    const previewMethod = provider.previewToSourceMethod;
+    const sourceMethod = provider.sourceToPreviewMethod;
+    const coordinateVersion = provider.coordinateVersion;
+    if (
+      previewMethod === TINYMIST_PREVIEW_LOCATION_METHOD
+      && sourceMethod === TINYMIST_SOURCE_LOCATIONS_METHOD
+      && coordinateVersion === TINYMIST_PREVIEW_COORDINATE_VERSION
+    ) {
+      target.set(TINYMIST_PREVIEW_LOCATION_METHOD, provider);
+      target.set(TINYMIST_SOURCE_LOCATIONS_METHOD, provider);
     }
   }
 }

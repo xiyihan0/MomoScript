@@ -62,8 +62,6 @@ function retainedInputs(key, marker) {
       compilerVersion: `compiler-${marker}`,
       compilerWasmDigest: `sha256:compiler-${marker}`,
       compilerWasmBytes: compilerBytes,
-      rendererVersion: `renderer-${marker}`,
-      rendererWasmDigest: `sha256:renderer-${marker}`,
       templateBundleDigest: `sha256:templates-${marker}`,
       fontSetDigest: `sha256:fonts-${marker}`,
       fonts: [{ family: "Fixture Sans", contentDigest: `sha256:font-${marker}`, bytes: fontBytes }],

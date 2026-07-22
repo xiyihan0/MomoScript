@@ -2110,7 +2110,7 @@
             "icon": "//static.kivo.wiki/images/students/%E9%AC%BC%E6%96%B9%20%E4%BD%B3%E4%BB%A3%E5%AD%90/%E6%AD%A3%E6%9C%88/skill_icon/0B3BSv8t039uNYFp4rXPlPqgHHYXk47O.png",
             "title": "新年的护身符",
             "title_cn": "新年护身符",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E9%AC%BC%E6%96%B9%20%E4%BD%B3%E4%BB%A3%E5%AD%90/%E6%AD%A3%E6%9C%88/skill_preview/pMkL6D0NhVaQCnfVsogIi0k9SkKXitD1.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -2406,5 +2406,5 @@
   "supplementary_uuid": "24d03bd5-a8e4-4f29-95d7-abe2d7674781",
   "supplementary_declare_uuid": "c9331504-18e2-4471-9ef6-4d8eebb4d1e9",
   "created_at": 1685436798,
-  "updated_at": 1777650165
+  "updated_at": 1784720220
 }

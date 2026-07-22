@@ -1191,7 +1191,7 @@
             "icon": "//static.kivo.wiki/images/students/%E6%9C%9D%E9%A2%9C%20%E8%8A%B1%E6%B1%9F/skill_icon/XT5HNNzuAs3Mym9ruFf9uT8KVrYKJZYz.png",
             "title": "治疗时间到了~",
             "title_cn": "治疗时间到了~",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E6%9C%9D%E9%A2%9C%20%E8%8A%B1%E6%B1%9F/original/skill_preview/3s3RrREYCT7FYdGw8ay4tZ3GqGS5CHMj.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -1487,5 +1487,5 @@
   "supplementary_uuid": "12228c7f-7ed8-4cf1-bdb0-3da3ad409f0d",
   "supplementary_declare_uuid": "56fd72d6-4e91-4d1c-99b5-627e90038e8f",
   "created_at": 1685183726,
-  "updated_at": 1783335973
+  "updated_at": 1784720572
 }

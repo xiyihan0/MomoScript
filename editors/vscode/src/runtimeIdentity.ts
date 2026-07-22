@@ -119,16 +119,12 @@ export async function materializationKey(
 export async function runtimeArtifactKey(
   typstCompilerVersion: string,
   typstWasmDigest: string,
-  rendererVersion: string,
-  rendererWasmDigest: string,
   templateBundleDigest: string,
   fontSetDigest: string
 ): Promise<RuntimeArtifactKey> {
-  return await derivedKey("mmt-runtime-artifact-v1", [
+  return await derivedKey("mmt-runtime-artifact-v2", [
     typstCompilerVersion,
     typstWasmDigest,
-    rendererVersion,
-    rendererWasmDigest,
     templateBundleDigest,
     fontSetDigest
   ]) as RuntimeArtifactKey;

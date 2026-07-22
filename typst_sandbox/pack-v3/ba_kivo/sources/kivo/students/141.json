@@ -2097,7 +2097,7 @@
             "icon": "//static.kivo.wiki/images/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E5%88%A9%E8%AF%BA/%E6%B8%A9%E6%B3%89/skill_icon/YLpS4m7na76IlYOlDgZLnL3TCc4sH7A9.png",
             "title": "肃清君1号，出击！",
             "title_cn": "铲除1号，出击！",
-            "preview": "",
+            "preview": "//static.kivo.wiki/videos/students/%E8%BF%9E%E6%B2%B3%20%E5%88%87%E9%87%8C%E8%AF%BA/%E6%B8%A9%E6%B3%89/skill_preview/2HnCyIp0G27KCUNsO7BR4Nauu6q89ma5.mp4",
             "max_level": 5,
             "link_student_id": 0,
             "is_passive_skill": false,
@@ -2426,5 +2426,5 @@
   "supplementary_uuid": "20873a15-86a4-40d4-b41e-b60602b70b1b",
   "supplementary_declare_uuid": "7844f2c7-ca5e-40b2-a0cc-8971d3e45ec2",
   "created_at": 1685521597,
-  "updated_at": 1777311034
+  "updated_at": 1784720006
 }
