@@ -9,7 +9,8 @@
     "rust": "1.96.0",
     "wasmPack": "0.15.0",
     "binaryen": "116",
-    "binaryenSha256": "c55b74f3109cdae97490faf089b0286d3bba926bb6ea5ed00c8c784fc53718fd"
+    "binaryenSha256": "c55b74f3109cdae97490faf089b0286d3bba926bb6ea5ed00c8c784fc53718fd",
+    "cargoRegistry": "sparse+https://mirrors.tuna.tsinghua.edu.cn/crates.io-index/"
   },
   "patch": {
     "path": "third_party/typst-ts/patches/0001-expose-render-debug-spans.patch",

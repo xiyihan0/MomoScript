@@ -24,6 +24,7 @@ env:
   TYPST_TS_RUST_TOOLCHAIN: 1.96.0
   TYPST_TS_BINARYEN_VERSION: 116
   TYPST_TS_BINARYEN_SHA256: c55b74f3109cdae97490faf089b0286d3bba926bb6ea5ed00c8c784fc53718fd
+  TYPST_TS_CARGO_REGISTRY: sparse+https://mirrors.tuna.tsinghua.edu.cn/crates.io-index/
 
 jobs:
   core-native:
@@ -137,6 +138,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Configure pinned Cargo registry
+        run: |
+          mkdir -p "$CARGO_HOME"
+          printf '%s\n' \
+            '[source.crates-io]' \
+            "replace-with = 'mirror'" \
+            '' \
+            '[source.mirror]' \
+            "registry = \"${TYPST_TS_CARGO_REGISTRY}\"" \
+            > "$CARGO_HOME/config.toml"
       - name: Install pinned Rust and wasm-pack
         run: |
           rustup toolchain install "$TYPST_TS_RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
