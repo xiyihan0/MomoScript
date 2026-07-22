@@ -4,8 +4,8 @@ export default defineConfig({
   testDir: "./e2e",
   testIgnore: ["lifecycle.spec.ts", "pwa-offline.spec.ts"],
   fullyParallel: false,
-  // Each worker boots the full Workbench plus language/Typst WASM; two keeps CI memory bounded.
-  workers: 2,
+  // CI runners cannot reliably compile two full Tinymist/Typst WASM stacks concurrently.
+  workers: process.env.CI ? 1 : 2,
   timeout: 180_000,
   expect: { timeout: 45_000 },
   use: {
