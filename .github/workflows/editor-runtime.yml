@@ -294,6 +294,7 @@ jobs:
         env:
           TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
         run: |
+          npm run test:runtime-delivery
           npm run test:e2e:chrome
           npm run test:e2e:lifecycle
       - name: Upload E2E failure diagnostics
