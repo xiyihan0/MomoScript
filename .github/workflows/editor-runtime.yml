@@ -168,6 +168,12 @@ jobs:
           node --input-type=module -e 'import { readFile } from "node:fs/promises"; const module = await WebAssembly.compile(await readFile("pkg/typst_ts_web_compiler_bg.wasm")); const exports = new Set(WebAssembly.Module.exports(module).map(({ name }) => name)); for (const name of ["typstcompileworld_render_svg_with_debug_spans", "typstcompileworld_resolve_main_spans"]) { if (!exports.has(name)) throw new Error(`missing WASM export: ${name}`); }'
           echo "94d91940b1cc6242009962e42e31da2438f9879239efa572e3d4a92eb61e3507  pkg/typst_ts_web_compiler.mjs" | sha256sum --check
           echo "94d91940b1cc6242009962e42e31da2438f9879239efa572e3d4a92eb61e3507  $GITHUB_WORKSPACE/third_party/typst-ts/pkg/typst_ts_web_compiler.mjs" | sha256sum --check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: typst-compiler-pinned-web
+          path: ${{ runner.temp }}/typst.ts/packages/compiler/pkg/typst_ts_web_compiler_bg.wasm
+          compression-level: 0
+          if-no-files-found: error
 
   extension-desktop:
     name: extension-desktop
@@ -268,7 +274,7 @@ jobs:
 
   production-e2e:
     name: production-e2e
-    needs: [tinymist-compatibility, extension-web]
+    needs: [tinymist-compatibility, typst-compiler-compatibility, extension-web]
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
@@ -284,6 +290,10 @@ jobs:
         with:
           name: tinymist-pinned-linux-x64
           path: .ci/tinymist
+      - uses: actions/download-artifact@v4
+        with:
+          name: typst-compiler-pinned-web
+          path: .ci/typst-compiler
       - name: Install production editor dependencies
         run: |
           npm ci --prefix editors/vscode
@@ -293,6 +303,7 @@ jobs:
         working-directory: editors/vscode-web
         env:
           TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+          TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: |
           npm run test:e2e:chrome
           npm run test:e2e:lifecycle
