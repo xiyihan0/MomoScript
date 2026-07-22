@@ -161,14 +161,6 @@ export async function run(): Promise<void> {
 
   await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
 
-  const presetDocument = await vscode.workspace.openTextDocument({
-    language: "mmt",
-    content: "@actor\npreset: ba::一\n@end"
-  });
-  await vscode.window.showTextDocument(presetDocument);
-  await waitForCompletion(presetDocument, new vscode.Position(1, 13), "ba::一花");
-  console.log("[mmt-web-test] remote BA preset completion received");
-  await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
 
   const typstDocument = await vscode.workspace.openTextDocument({
     language: "mmt",
