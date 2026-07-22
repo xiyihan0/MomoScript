@@ -14,8 +14,21 @@ const candidates = [
   { url: `${baseUrl}.br?delivery=br-v1`, encoding: "br" },
 ];
 
+async function fetchWithRetry(url, attempts = 3) {
+  let lastError;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return await fetch(url, { cache: "no-store" });
+    } catch (error) {
+      lastError = error;
+      if (attempt < attempts) await new Promise((resolve) => setTimeout(resolve, attempt * 2_000));
+    }
+  }
+  throw lastError;
+}
+
 for (const candidate of candidates) {
-  const response = await fetch(candidate.url, { cache: "no-store" });
+  const response = await fetchWithRetry(candidate.url);
   assert.equal(response.status, 200, `${candidate.url} must be published`);
   assert.equal(response.headers.get("access-control-allow-origin"), "*", `${candidate.url} must allow browser fetches`);
   assert.equal(response.headers.get("content-type"), "application/wasm", `${candidate.url} must use the WASM MIME type`);
