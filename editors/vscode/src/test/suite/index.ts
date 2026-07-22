@@ -74,6 +74,8 @@ export async function run(): Promise<void> {
 
   const markerDocument = await vscode.workspace.openTextDocument({ language: "mmt", content: "" });
   const markerEditor = await vscode.window.showTextDocument(markerDocument);
+  markerEditor.selection = new vscode.Selection(0, 0, 0, 0);
+  await vscode.commands.executeCommand("workbench.action.focusActiveEditorGroup");
   await vscode.commands.executeCommand("type", { text: "[" });
   await vscode.commands.executeCommand("type", { text: ":" });
   await waitFor(
