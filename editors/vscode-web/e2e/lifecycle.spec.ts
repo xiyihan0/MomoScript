@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 const LIFECYCLE_STORAGE_KEY = "mmt-e2e-worker-lifecycle-v1";
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
@@ -64,7 +64,7 @@ test("repeated Vite HMR and unload sequences evict retained runtime generations"
 
     const oldWorkers = page.workers().filter((worker) => /(?:browserWorker|tinymistWorker)/i.test(worker.url()));
     expect(oldWorkers, `runtime ${oldGeneration} must own exactly two live language Workers`).toHaveLength(2);
-    const oldWorkersClosed = oldWorkers.map((worker) => new Promise<void>((resolve) => worker.once("close", resolve)));
+    const oldWorkersClosed = oldWorkers.map((worker) => new Promise<void>((resolve) => worker.once("close", () => resolve())));
 
     if (transition === "unload" && index === 2) {
       await page.evaluate(() => localStorage.removeItem("momoscript.active-workspace-document.v1"));

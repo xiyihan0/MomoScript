@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { expect, test, type Frame, type Locator, type Page, type Response } from "@playwright/test";
+import { expect, test, type Frame, type Locator, type Page, type Response } from "./fixtures";
 
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
 const MANIFEST_URL = `${PACK_ROOT}manifest.json`;

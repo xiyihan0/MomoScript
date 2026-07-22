@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 test("editor context menu reveals the current file in local history", async ({ page }) => {
   await page.goto("/");

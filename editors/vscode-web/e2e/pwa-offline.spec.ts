@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 test("installed production editor cold-starts offline with language workers and preview", async ({ page, context }) => {
   await page.goto("/");

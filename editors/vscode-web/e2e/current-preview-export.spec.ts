@@ -1,4 +1,4 @@
-import { expect, test, type Download, type Frame, type Page } from "@playwright/test";
+import { expect, test, type Download, type Frame, type Page } from "./fixtures";
 
 const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d/tinymist_bg.wasm.br?delivery=br-v1";
 const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
