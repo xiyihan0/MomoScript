@@ -138,6 +138,8 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
       fillsForeignObjectWidth: Math.abs(bounds.left - parentBounds.left) <= 0.01
         && Math.abs(bounds.width - parentBounds.width) <= 0.01,
       verticallyCalibrated: style.transform !== "none",
+      tokenCount: element.querySelectorAll(":scope > .tsel-token").length,
+      fontFamily: style.fontFamily,
       position: style.position,
       width: style.width,
       height: style.height,
@@ -151,8 +153,10 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
     position: "fixed",
     width: "187.5px",
     height: "62.5px",
-    textAlign: "justify",
-    textAlignLast: "justify",
+    textAlign: "left",
+    textAlignLast: "left",
+    tokenCount: 5,
+    fontFamily: "monospace",
     userSelect: "text",
   });
   const selectableText = previewFrame.locator(".tsel").filter({ hasText: "abcde 123434" }).first();
@@ -161,10 +165,14 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
     const glyphs = [...element.closest(".typst-text")!.querySelectorAll(":scope > use")].slice(0, 5);
     const first = glyphs[0]!.getBoundingClientRect();
     const last = glyphs[4]!.getBoundingClientRect();
+    const finalToken = element.querySelectorAll(":scope > .tsel-token")[4]!.getBoundingClientRect();
     return {
       startX: first.left - bounds.left + 1,
       endX: last.right - bounds.left - 1,
       y: (first.top + first.bottom) / 2 - bounds.top,
+      finalStartX: finalToken.left - bounds.left + 1,
+      finalEndX: finalToken.right - bounds.left - 1,
+      finalY: (last.top + last.bottom) / 2 - bounds.top,
     };
   });
   const selectableBounds = await selectableText.boundingBox();
@@ -181,6 +189,37 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
   );
   await page.mouse.up();
   await expect.poll(() => previewFrame.evaluate(() => getSelection()?.toString())).toBe("abcde");
+  await previewFrame.evaluate(() => getSelection()?.removeAllRanges());
+  await page.mouse.move(
+    selectableBounds!.x + selectionGeometry.finalStartX,
+    selectableBounds!.y + selectionGeometry.finalY,
+  );
+  await page.mouse.down();
+  await page.mouse.move(
+    selectableBounds!.x + selectionGeometry.finalEndX,
+    selectableBounds!.y + selectionGeometry.finalY,
+    { steps: 8 },
+  );
+  await page.mouse.up();
+  await expect.poll(() => previewFrame.evaluate(() => getSelection()?.toString())).toBe("e");
+  const finalCharacterAlignmentError = await selectableText.evaluate((element) => {
+    const token = element.querySelectorAll(":scope > .tsel-token")[4]!;
+    const glyphs = [...element.closest(".typst-text")!.querySelectorAll(":scope > use")];
+    const foreignObject = element.parentElement as unknown as SVGForeignObjectElement;
+    const foreignBounds = foreignObject.getBoundingClientRect();
+    const intrinsicWidth = Number(foreignObject.getAttribute("width"));
+    const firstAdvance = Number(glyphs[0]!.getAttribute("x")) / 16;
+    const startAdvance = Number(glyphs[4]!.getAttribute("x")) / 16 - firstAdvance;
+    const endAdvance = Number(glyphs[5]!.getAttribute("x")) / 16 - firstAdvance;
+    const scale = foreignBounds.width / intrinsicWidth;
+    const expectedLeft = foreignBounds.left + startAdvance * scale;
+    const expectedRight = foreignBounds.left + endAdvance * scale;
+    const range = document.createRange();
+    range.selectNodeContents(token);
+    const actual = range.getBoundingClientRect();
+    return Math.max(Math.abs(actual.left - expectedLeft), Math.abs(actual.right - expectedRight));
+  });
+  expect(finalCharacterAlignmentError).toBeLessThanOrEqual(0.75);
   await expect.poll(() => page.evaluate((uri) => (
     Reflect.get(globalThis, "__mmtPreviewBuildDiagnostics") as Function
   )(uri), sourceUri)).toEqual([]);

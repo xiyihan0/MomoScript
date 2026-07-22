@@ -798,23 +798,78 @@ function isSafeSelectionTextChild(child: ChildNode): boolean {
   return [...child.childNodes].every(isSafeSelectionTextChild);
 }
 
+let monospaceAdvanceAt128Px: number | undefined;
+
 function normalizeTextSelectionNode(node: SVGForeignObjectElement): void {
   const source = node.children[0] as HTMLElement;
   const normalized = node.ownerDocument.createElementNS("http://www.w3.org/1999/xhtml", "div");
   normalized.setAttribute("class", "tsel");
   normalized.setAttribute("style", source.getAttribute("style")!);
-  normalized.append(...[...source.childNodes].map((child) => cloneSafeSelectionChild(node, child)));
+  const text = source.textContent ?? "";
+  const tokens = layoutTextSelectionTokens(node, text);
+  if (tokens) normalized.append(...tokens);
+  else normalized.textContent = text;
   node.replaceChildren(normalized);
 }
 
-function cloneSafeSelectionChild(node: SVGForeignObjectElement, child: ChildNode): ChildNode {
-  if (child.nodeType === Node.TEXT_NODE) {
-    return node.ownerDocument.createTextNode(child.textContent ?? "");
+function layoutTextSelectionTokens(
+  node: SVGForeignObjectElement,
+  text: string,
+): readonly HTMLSpanElement[] | undefined {
+  const textGroup = node.closest(".typst-text");
+  if (!textGroup) return undefined;
+  const glyphs = [...textGroup.children].filter((child) => child.localName === "use");
+  const advances = glyphs.map((glyph) => Number.parseFloat(glyph.getAttribute("x") ?? "") / 16);
+  const lengths = glyphs.map((glyph) => {
+    const href = glyph.getAttribute("href") ?? glyph.getAttribute("xlink:href") ?? "";
+    const definition = href.startsWith("#") ? node.ownerDocument.getElementById(href.slice(1)) : null;
+    return 1 + (Number.parseInt(definition?.getAttribute("data-liga-len") ?? "0", 10) || 0);
+  });
+  const fontSize = Number.parseFloat((node.children[0] as HTMLElement).style.fontSize);
+  const finalAdvance = Number.parseFloat(node.getAttribute("width") ?? "");
+  if (
+    text.length === 0
+    || glyphs.length === 0
+    || advances.some((advance) => !Number.isFinite(advance))
+    || !Number.isFinite(fontSize)
+    || !Number.isFinite(finalAdvance)
+  ) return undefined;
+
+  if (monospaceAdvanceAt128Px === undefined) {
+    const context = document.createElement("canvas").getContext("2d");
+    if (!context) return undefined;
+    context.font = "128px monospace";
+    monospaceAdvanceAt128Px = context.measureText("A").width;
   }
-  const source = child as HTMLElement;
-  const span = node.ownerDocument.createElementNS("http://www.w3.org/1999/xhtml", "span");
-  span.append(...[...source.childNodes].map((nested) => cloneSafeSelectionChild(node, nested)));
-  return span;
+  const characterAdvance = monospaceAdvanceAt128Px * fontSize / 128;
+  const tokens: HTMLSpanElement[] = [];
+  let glyphIndex = 0;
+  let ligatureIndex = 0;
+  let previousAdvance = 0;
+  let previousToken: HTMLSpanElement | undefined;
+
+  for (const character of text) {
+    if (glyphIndex >= advances.length) return undefined;
+    let advance = advances[glyphIndex]!;
+    if (lengths[glyphIndex]! > 1) advance += ligatureIndex * characterAdvance;
+    const token = node.ownerDocument.createElementNS("http://www.w3.org/1999/xhtml", "span");
+    token.setAttribute("class", "tsel-token");
+    token.textContent = character;
+    if (previousToken) {
+      previousToken.style.letterSpacing = `${advance - previousAdvance - characterAdvance}px`;
+    }
+    tokens.push(token);
+    previousToken = token;
+    previousAdvance = advance;
+    ligatureIndex += 1;
+    if (ligatureIndex >= lengths[glyphIndex]!) {
+      glyphIndex += 1;
+      ligatureIndex = 0;
+    }
+  }
+  if (glyphIndex !== advances.length || ligatureIndex !== 0 || !previousToken) return undefined;
+  previousToken.style.letterSpacing = `${finalAdvance - previousAdvance - characterAdvance}px`;
+  return tokens;
 }
 
 

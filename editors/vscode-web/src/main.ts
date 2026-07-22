@@ -2342,9 +2342,9 @@ function previewWebviewHtml(
     .page { position: relative; flex: 0 0 auto; background: transparent; line-height: 0; transform-origin: top left; }
     .page svg { display: block; width: 100%; height: 100%; max-width: none; }
     .page svg > .typst-page { filter: drop-shadow(0 2px 5px #0008); }
-    .page .tsel { transform: translateY(0.32em); transform-origin: left top; }
-    .page .tsel, .page .tsel span { left: 0; position: fixed; width: 100%; height: 100%; color: transparent; text-align: justify; text-align-last: justify; white-space: pre; pointer-events: auto; user-select: text; cursor: text; }
-    .page .tsel::selection, .page .tsel span::selection { color: transparent; background: #7db9dea0; }
+    .page .tsel { left: 0; position: fixed; width: 100%; height: 100%; overflow: hidden; color: transparent; font-family: monospace; text-align: left; text-align-last: left; white-space: pre; pointer-events: auto; user-select: text; cursor: text; transform: translateY(0.32em); transform-origin: left top; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; text-size-adjust: none; }
+    .page .tsel .tsel-token { position: relative; width: fit-content; height: fit-content; }
+    .page .tsel::selection, .page .tsel .tsel-token::selection { color: transparent; background: #7db9dea0; }
     .preview-indicator, .preview-cursor { position: absolute; z-index: 4; pointer-events: none; transform: translate(-50%, -50%); }
     .preview-indicator { width: 18px; height: 18px; border: 2px solid #007acc; border-radius: 50%; background: #007acc28; box-shadow: 0 0 0 4px #007acc24; }
     .preview-cursor { width: 2px; height: 20px; background: #d16969; box-shadow: 0 0 0 1px #fff8; }
