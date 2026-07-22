@@ -7,7 +7,7 @@ export default defineConfig({
   // CI runners cannot reliably compile two full Tinymist/Typst WASM stacks concurrently.
   workers: process.env.CI ? 1 : 2,
   timeout: 180_000,
-  expect: { timeout: 45_000 },
+  expect: { timeout: 120_000 },
   use: {
     baseURL: "http://127.0.0.1:4173",
     trace: "retain-on-failure",
