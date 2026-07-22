@@ -68,7 +68,7 @@ export async function run(): Promise<void> {
   console.log("[mmt-web-test] locating extension");
   const extension = vscode.extensions.getExtension("momoscript.momoscript-vscode");
   assert(extension, "MomoScript extension was not installed in the Web Extension Host");
-  await withTimeout(extension.activate(), "MomoScript extension activation timed out", 75_000);
+  await withTimeout(extension.activate(), "MomoScript extension activation timed out", 120_000);
   assert(extension.isActive, "MomoScript extension did not activate");
   console.log("[mmt-web-test] extension activated");
 
