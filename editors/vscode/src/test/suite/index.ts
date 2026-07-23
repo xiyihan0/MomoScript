@@ -33,9 +33,10 @@ async function waitForCompletion(
 
 async function waitFor<T>(
   probe: () => T | undefined | PromiseLike<T | undefined>,
-  message: string
+  message: string,
+  timeoutMs = 30_000
 ): Promise<T> {
-  const deadline = Date.now() + 30_000;
+  const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     const value = await probe();
     if (value !== undefined) {
@@ -334,14 +335,18 @@ export async function run(): Promise<void> {
     await vscode.window.showTextDocument(renderDocument);
     const previewA = await waitFor(async () => {
       try {
-        return await vscode.commands.executeCommand<NativeRender>("mmt.previewDesktop");
+        return await withTimeout(
+          vscode.commands.executeCommand<NativeRender>("mmt.previewDesktop"),
+          "Desktop MomoScript preview timed out",
+          60_000
+        );
       } catch (error) {
         if (error instanceof Error && error.message.includes("render project is stale or unavailable")) {
           return undefined;
         }
         throw error;
       }
-    }, "Desktop MomoScript render project did not become ready");
+    }, "Desktop MomoScript render project did not become ready", 120_000);
     const svgA = await vscode.workspace.fs.readFile(previewA.outputUri);
     const exportAUri = vscode.Uri.file(process.env.MMT_DESKTOP_EXPORT_PATH);
     const displayedAUri = vscode.Uri.file(process.env.MMT_DESKTOP_EXPORT_PATH.replace(/\.pdf$/u, ".displayed-a.pdf"));
