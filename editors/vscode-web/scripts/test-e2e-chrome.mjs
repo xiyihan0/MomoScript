@@ -1,22 +1,11 @@
 import { spawn, spawnSync } from "node:child_process";
 
-const tests = [
-  "e2e/current-preview-export.spec.ts:16",
-  "e2e/editor.spec.ts:22",
-  "e2e/editor.spec.ts:551",
-  "e2e/editor.spec.ts:582",
-  "e2e/editor.spec.ts:621",
-  "e2e/editor.spec.ts:666",
-  "e2e/editor.spec.ts:748",
-  "e2e/exact-export.spec.ts:12",
-  "e2e/local-history.spec.ts:3",
-  "e2e/local-history.spec.ts:25",
-  "e2e/local-history.spec.ts:110",
-  "e2e/local-history.spec.ts:180",
-  "e2e/local-history.spec.ts:199",
-  "e2e/preview-interaction.spec.ts:17",
-  "e2e/preview-interaction.spec.ts:108",
-  "e2e/preview-interaction.spec.ts:244",
+const groups = [
+  { name: "runtime export", tag: "@runtime-export", timeout: 8 * 60_000 },
+  { name: "preview navigation", tag: "@preview-navigation", timeout: 8 * 60_000 },
+  { name: "editor runtime", tag: "@editor-runtime", timeout: 12 * 60_000 },
+  { name: "editor surfaces", tag: "@editor-surface", timeout: 10 * 60_000 },
+  { name: "local history", tag: "@local-history", timeout: 12 * 60_000 },
 ];
 
 const npm = process.platform === "win32" ? "npm.cmd" : "npm";
@@ -44,15 +33,33 @@ try {
     await new Promise((resolve) => setTimeout(resolve, 250));
   }
 
-  const env = { ...process.env, MMT_E2E_EXTERNAL_SERVER: "1" };
-  for (const entry of tests) {
+  const env = {
+    ...process.env,
+    MMT_E2E_EXTERNAL_SERVER: "1",
+    MMT_E2E_CHROME_GROUP: "1",
+  };
+  for (const group of groups) {
+    console.log(`\n=== Chrome E2E group: ${group.name} (${group.tag}) ===`);
     const result = spawnSync(
       process.execPath,
-      ["node_modules/@playwright/test/cli.js", "test", "--project=chrome", entry],
-      { stdio: "inherit", env },
+      [
+        "node_modules/@playwright/test/cli.js",
+        "test",
+        "--project=chrome",
+        "--workers=1",
+        "--grep",
+        group.tag,
+      ],
+      { stdio: "inherit", env, timeout: group.timeout, killSignal: "SIGTERM" },
     );
-    if (result.error) throw result.error;
-    if (result.status !== 0) throw new Error(`${entry} failed with exit code ${result.status ?? 1}`);
+    if (result.error) {
+      throw new Error(`${group.name} did not complete within ${group.timeout / 60_000} minutes`, {
+        cause: result.error,
+      });
+    }
+    if (result.status !== 0) {
+      throw new Error(`${group.name} failed with exit code ${result.status ?? 1}`);
+    }
   }
 } finally {
   server.kill("SIGTERM");

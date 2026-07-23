@@ -1313,16 +1313,79 @@ async function initializeRuntime(
     );
     buildStatus.show();
   };
+  const previewReadiness = (requestedSourceUri?: string) => {
+    const sourceUri = requestedSourceUri
+      ?? previewFixtureActiveSourceUri
+      ?? displayedPreviewSourceUri
+      ?? vscode.window.activeTextEditor?.document.uri.toString();
+    const runtime = runtimeStatus.snapshot();
+    const snapshot = sourceUri ? previewBuildState.snapshot(sourceUri) : undefined;
+    const diagnostics = sourceUri ? previewBuildState.diagnostics(sourceUri) : [];
+    const containerReady = layout.preview.dataset.previewReady === "true";
+    const displayedArtifact = preview.displayedArtifact;
+    const fixtureActive = previewFixtureActiveSourceUri === sourceUri;
+    const fixtureReady = fixtureActive && displayedArtifact?.sourceUri === sourceUri;
+    const stage = runtime.recoveryState !== "ready"
+      ? `runtime-${runtime.recoveryState}`
+      : !sourceUri
+        ? "source-unavailable"
+        : fixtureReady
+          ? "ready"
+          : displayedPreviewSourceUri !== sourceUri
+            ? "source-pending"
+            : snapshot?.status === "failed"
+              ? "failed"
+              : snapshot?.status !== "ready"
+                ? (snapshot?.status ?? "project-idle")
+                : !containerReady || !displayedArtifact
+                  ? "artifact-pending"
+                  : "ready";
+    return {
+      stage,
+      sourceUri: sourceUri ?? null,
+      displayedSourceUri: displayedPreviewSourceUri ?? null,
+      runtimeRecoveryState: runtime.recoveryState,
+      runtimeLastFailure: runtime.lastFailure ?? null,
+      buildStatus: snapshot?.status ?? "idle",
+      buildRevision: snapshot?.identity?.revision ?? null,
+      fixtureActive,
+      containerReady,
+      containerRevision: layout.preview.dataset.previewRevision ?? null,
+      containerRenderKey: layout.preview.dataset.previewRenderKey ?? null,
+      displayedRenderKey: displayedArtifact?.renderKey ?? null,
+      panelOpen: previewPanel !== undefined,
+      diagnostics: diagnostics.map(({ phase, severity, message }) => ({ phase, severity, message })),
+    };
+  };
+  const publishPreviewStage = (sourceUri?: string) => {
+    const readiness = previewReadiness(sourceUri);
+    document.documentElement.dataset.mmtPreviewStage = readiness.stage;
+    if (readiness.sourceUri) {
+      document.documentElement.dataset.mmtPreviewSourceUri = readiness.sourceUri;
+    } else {
+      delete document.documentElement.dataset.mmtPreviewSourceUri;
+    }
+  };
+  if (import.meta.env.VITE_MMT_E2E === "1") {
+    exposeRuntimeGlobal("__mmtPreviewReadiness", previewReadiness);
+  }
   own(previewBuildState.subscribe((sourceUri) => {
     if ((displayedPreviewSourceUri ?? vscode.window.activeTextEditor?.document.uri.toString()) === sourceUri) {
       refreshBuildStatus();
+      publishPreviewStage(sourceUri);
     }
   }));
-  own(runtimeStatus.onDidChange(() => refreshBuildStatus()));
+  own(runtimeStatus.onDidChange(() => {
+    refreshBuildStatus();
+    publishPreviewStage();
+  }));
   if (import.meta.env.VITE_MMT_E2E === "1") {
     exposeRuntimeGlobal("__mmtRuntimeStatus", () => runtimeStatus.snapshot());
   }
-  own(vscode.window.onDidChangeActiveTextEditor(refreshBuildStatus));
+  own(vscode.window.onDidChangeActiveTextEditor(() => {
+    refreshBuildStatus();
+    publishPreviewStage();
+  }));
   own(vscode.workspace.onDidChangeTextDocument((event) => {
     const sourceUri = event.document.uri.toString();
     const identity = previewBuildState.snapshot(sourceUri).identity;
@@ -1337,6 +1400,7 @@ async function initializeRuntime(
     }
   }));
   refreshBuildStatus();
+  publishPreviewStage();
   root.classList.toggle("sidebar-collapsed", !isPartVisibile(Parts.SIDEBAR_PART));
   const sidebarVisibilityRegistration = own(onPartVisibilityChange(Parts.SIDEBAR_PART, (visible) => {
     layout.setSidebarVisible(visible);

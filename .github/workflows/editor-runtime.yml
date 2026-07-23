@@ -324,12 +324,73 @@ jobs:
           TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: |
           npm run test:e2e:chrome
-          npm run test:e2e:lifecycle
       - name: Upload E2E failure diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: production-e2e-test-results
+          path: editors/vscode-web/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  lifecycle-e2e:
+    name: lifecycle-e2e
+    needs: extension-web
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            editors/vscode/package-lock.json
+            editors/vscode-web/package-lock.json
+      - name: Install lifecycle test dependencies
+        run: |
+          npm ci --prefix editors/vscode
+          npm ci --prefix editors/vscode-web
+          npx --prefix editors/vscode-web playwright install --with-deps chrome
+      - name: Run HMR and runtime lifecycle journeys
+        working-directory: editors/vscode-web
+        run: npm run test:e2e:lifecycle
+      - name: Upload lifecycle failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lifecycle-e2e-test-results
+          path: editors/vscode-web/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  pwa-e2e:
+    name: pwa-e2e
+    needs: extension-web
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            editors/vscode/package-lock.json
+            editors/vscode-web/package-lock.json
+      - name: Install PWA test dependencies
+        run: |
+          npm ci --prefix editors/vscode
+          npm ci --prefix editors/vscode-web
+          npx --prefix editors/vscode-web playwright install --with-deps chromium
+      - name: Run PWA offline lifecycle journey
+        working-directory: editors/vscode-web
+        run: npm run test:e2e:pwa-offline
+      - name: Upload PWA failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pwa-e2e-test-results
           path: editors/vscode-web/test-results/
           if-no-files-found: ignore
           retention-days: 14

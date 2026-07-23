@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { expect, test, type Frame, type Locator, type Page, type Response } from "./fixtures";
+import { expect, test, type Locator, type Page, type Response, waitForPreviewFrame } from "./fixtures";
 
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
 const MANIFEST_URL = `${PACK_ROOT}manifest.json`;
@@ -19,7 +19,7 @@ const authored = [
 ].join("\n");
 const editedIntro = "#set page(width: 420pt, height: 260pt)\n= Welcome to MomoScript\n\nIntro persisted.\n#pagebreak()\nSecond page.\n";
 
-test("production editor materializes an avatar and restores the authored story after reload", async ({ page }, testInfo) => {
+test("production editor materializes an avatar and restores the authored story after reload", { tag: "@editor-runtime" }, async ({ page }, testInfo) => {
   const local = testInfo.project.name !== "remote";
   let manifestRequests = 0;
   let avatarRequests = 0;
@@ -374,7 +374,7 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(page.getByRole("combobox", { name: "本地历史范围" })).toBeVisible();
   await expect(page.getByText(/\/ 50\.0 MB · 保留 30 天 · \d+ 个 Checkpoint/)).toBeVisible();
   await expect(historyActivity).toHaveAttribute("aria-selected", "true");
-  await mmsActivity.click();
+  await activateActivityView(mmsActivity);
   await expect(page.getByRole("textbox", { name: "资源包清单地址" })).toBeVisible();
   await expect(mmsActivity).toHaveAttribute("aria-selected", "true");
   await expect(page.getByRole("textbox", { name: "资源包清单地址" })).toHaveValue(MANIFEST_URL);
@@ -456,7 +456,7 @@ test("production editor materializes an avatar and restores the authored story a
     if (typeof revision !== "function") throw new Error("missing E2E projection revision hook");
     return revision() as number;
   });
-  await mmsActivity.click();
+  await activateActivityView(mmsActivity);
   const previewOnChange = page.getByRole("checkbox", { name: "文档变化时自动预览" });
   await expect(previewOnChange).toBeChecked();
   await previewOnChange.uncheck();
@@ -474,7 +474,7 @@ test("production editor materializes an avatar and restores the authored story a
   const staleBuildStatus = page.getByRole("status").getByRole("button", { name: /MomoScript: stale/ });
   await expect(staleBuildStatus).toBeVisible();
   await expect(staleBuildStatus).toHaveAttribute("aria-label", /Preview stale/);
-  await mmsActivity.click();
+  await activateActivityView(mmsActivity);
   await expect(previewOnChange).not.toBeChecked();
   await previewOnChange.check();
   await expect(page.getByText("实时预览已启用", { exact: true })).toBeVisible();
@@ -548,7 +548,7 @@ test("production editor materializes an avatar and restores the authored story a
   await expect.poll(() => persistedStory(page)).toBe(authored);
 });
 
-test("native notifications show a toast and remain available from the status bar", async ({ page }) => {
+test("native notifications show a toast and remain available from the status bar", { tag: "@editor-runtime" }, async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
 
@@ -579,7 +579,7 @@ test("native notifications show a toast and remain available from the status bar
   await expect(notification).toBeHidden();
 });
 
-test("a second tab blocks writes visibly until explicit takeover", async ({ page, context }) => {
+test("a second tab blocks writes visibly until explicit takeover", { tag: "@editor-surface" }, async ({ page, context }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
 
@@ -618,7 +618,7 @@ test("a second tab blocks writes visibly until explicit takeover", async ({ page
   await expect.poll(() => workspaceEntryExists(second, "/locked-write.txt")).toBe(true);
 });
 
-test("VS Code native sashes resize the explorer and panel in both directions", async ({ page }) => {
+test("VS Code native sashes resize the explorer and panel in both directions", { tag: "@editor-runtime" }, async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
 
@@ -663,7 +663,7 @@ test("VS Code native sashes resize the explorer and panel in both directions", a
     .toBeLessThan(expandedPanelHeight - 40);
 });
 
-test("character gallery browses variants and inserts an entity-scoped sticker", async ({ page }, testInfo) => {
+test("character gallery browses variants and inserts an entity-scoped sticker", { tag: "@editor-surface" }, async ({ page }, testInfo) => {
   const local = testInfo.project.name !== "remote";
   if (local) {
     await page.route("https://**/*", async (route) => {
@@ -745,7 +745,7 @@ test("character gallery browses variants and inserts an entity-scoped sticker", 
   expect(active?.text).not.toContain(`[:${entityName},#${ordinal}:]`);
 });
 
-test("editor context menu reveals sticker picker for the speaker at cursor", async ({ page }, testInfo) => {
+test("editor context menu reveals sticker picker for the speaker at cursor", { tag: "@editor-surface" }, async ({ page }, testInfo) => {
   const local = testInfo.project.name !== "remote";
   if (local) {
     await page.route("https://**/*", async (route) => {
@@ -898,23 +898,15 @@ function isPackAsset(response: Response): boolean {
     && /\.(?:avifs?|png|jpe?g|svg|webp)(?:$|\?)/i.test(url);
 }
 
-async function previewWebviewFrame(page: Page): Promise<Frame> {
-  let previewFrame: Frame | undefined;
-  await expect.poll(async () => {
-    for (const frame of page.frames()) {
-      try {
-        if (await frame.locator(".viewport .page svg").count() > 0) {
-          previewFrame = frame;
-          return true;
-        }
-      } catch {
-        // VS Code replaces its pending webview iframe after setting HTML.
-      }
-    }
-    return false;
-  }, { timeout: 300_000 }).toBe(true);
-  if (!previewFrame) throw new Error("rendered preview webview frame is missing");
-  return previewFrame;
+async function activateActivityView(activity: Locator): Promise<void> {
+  await expect(async () => {
+    if (await activity.getAttribute("aria-selected") !== "true") await activity.click();
+    await expect(activity).toHaveAttribute("aria-selected", "true", { timeout: 2_000 });
+  }).toPass({ timeout: 10_000, intervals: [100, 250, 500] });
+}
+
+async function previewWebviewFrame(page: Page) {
+  return waitForPreviewFrame(page);
 }
 
 async function seedLegacyWorkspace(page: Page, withChild: boolean): Promise<void> {
