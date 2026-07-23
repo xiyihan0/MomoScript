@@ -332,11 +332,16 @@ export async function run(): Promise<void> {
       content: "@typ: #rect(width: 1cm, height: 1cm, fill: red)"
     });
     await vscode.window.showTextDocument(renderDocument);
-    const previewA = await withTimeout(
-      vscode.commands.executeCommand<NativeRender>("mmt.previewDesktop"),
-      "Desktop MomoScript preview timed out",
-      60_000
-    );
+    const previewA = await waitFor(async () => {
+      try {
+        return await vscode.commands.executeCommand<NativeRender>("mmt.previewDesktop");
+      } catch (error) {
+        if (error instanceof Error && error.message.includes("render project is stale or unavailable")) {
+          return undefined;
+        }
+        throw error;
+      }
+    }, "Desktop MomoScript render project did not become ready");
     const svgA = await vscode.workspace.fs.readFile(previewA.outputUri);
     const exportAUri = vscode.Uri.file(process.env.MMT_DESKTOP_EXPORT_PATH);
     const displayedAUri = vscode.Uri.file(process.env.MMT_DESKTOP_EXPORT_PATH.replace(/\.pdf$/u, ".displayed-a.pdf"));
