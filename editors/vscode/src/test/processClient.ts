@@ -859,6 +859,9 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
     const diagnosticMessages = [...new Map(packageMessages
       .filter((message) => message.method === "textDocument/publishDiagnostics")
       .map((message) => normalizedJson(message.params))
+      // The initial unresolved diagnostic may race the successful host callback; callback outcomes
+      // below are the deterministic evidence for the ready path.
+      .filter((params) => !JSON.stringify(params).includes("@preview/mmt-callback-ready:1.0.0"))
       .map((params) => [JSON.stringify(params), params])).entries()]
       .sort(([left], [right]) => left.localeCompare(right))
       .map(([, params]) => params);

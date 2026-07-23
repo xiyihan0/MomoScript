@@ -260,26 +260,6 @@
         {
           "diagnostics": [
             {
-              "message": "package not found (searched for @preview/mmt-callback-ready:1.0.0)",
-              "range": {
-                "end": {
-                  "character": 43,
-                  "line": 0
-                },
-                "start": {
-                  "character": 8,
-                  "line": 0
-                }
-              },
-              "severity": 1,
-              "source": "typst"
-            }
-          ],
-          "uri": "file:///tmp/mmt-native-evidence/package.typ"
-        },
-        {
-          "diagnostics": [
-            {
               "message": "package not found (searched for @preview/mmt-callback-unavailable:1.0.0)",
               "range": {
                 "end": {
