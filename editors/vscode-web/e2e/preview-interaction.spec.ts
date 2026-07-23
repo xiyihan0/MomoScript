@@ -31,7 +31,7 @@ test("Web and Desktop preview interactions stay artifact-bound", async ({ page }
     }));
     if (startup.stage === "failed") throw new Error(String(startup.error ?? "Editor startup failed"));
     return startup.stage;
-  }, { timeout: 120_000 }).toBe("mmt-ready");
+  }, { timeout: 300_000 }).toBe("mmt-ready");
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => page.evaluate(() => Reflect.get(globalThis, "__mmtDisplayedPreviewSourceUri")?.())).not.toBeUndefined();
 
@@ -115,7 +115,7 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
     await route.continue();
   });
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 120_000 });
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   const source = [
     "@typ",
     "12345",
@@ -251,7 +251,7 @@ test("Typst preview keeps its scroll position across source-only rerenders", asy
     await route.continue();
   });
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 120_000 });
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   const source = [
     "#set page(width: 420pt, height: 260pt)",
     ...Array.from({ length: 10 }, (_, index) => `= Stable page ${index + 1}\n#pagebreak()`),

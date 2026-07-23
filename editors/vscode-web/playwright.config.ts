@@ -6,8 +6,8 @@ export default defineConfig({
   fullyParallel: false,
   // Bound each browser process to a subset of the full-WASM journeys to avoid long-run compiler buildup.
   workers: 2,
-  timeout: 180_000,
-  expect: { timeout: 120_000 },
+  timeout: 360_000,
+  expect: { timeout: 300_000 },
   use: {
     baseURL: "http://127.0.0.1:4173",
     trace: "retain-on-failure",

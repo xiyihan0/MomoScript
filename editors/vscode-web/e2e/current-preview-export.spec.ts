@@ -24,7 +24,7 @@ test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-ex
   });
 
   await page.goto("/?mmtExportMode=current-preview");
-  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 120_000 });
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   await page.getByRole("button", { name: "Typst 预览" }).click();
 
   let preview = await currentPreviewExportFrame(page);

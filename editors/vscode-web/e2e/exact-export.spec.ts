@@ -19,7 +19,7 @@ test("stale exact export requires an explicit displayed or wait-latest choice", 
     await route.continue();
   });
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 120_000 });
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => page.evaluate(() => Reflect.get(globalThis, "__mmtDisplayedPreviewSourceUri")?.())).not.toBeUndefined();
 

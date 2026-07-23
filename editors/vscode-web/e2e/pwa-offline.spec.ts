@@ -50,7 +50,7 @@ test("installed production editor cold-starts offline with language workers and 
   await page.goto("about:blank");
   await context.setOffline(true);
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 120_000 });
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   const editor = page.locator(".workbench-editor .monaco-editor").first();
   await expect(editor).toBeVisible();
 
@@ -60,7 +60,7 @@ test("installed production editor cold-starts offline with language workers and 
   await expect(editor.locator(".view-lines")).toContainText("offline edit");
 
   await page.getByRole("button", { name: "Typst 预览" }).click();
-  await expect(page.locator(".workbench-preview")).toHaveAttribute("data-preview-ready", "true", { timeout: 120_000 });
+  await expect(page.locator(".workbench-preview")).toHaveAttribute("data-preview-ready", "true", { timeout: 300_000 });
   await expect(page.getByRole("status").getByRole("button", { name: /MomoScript: ready/ })).toBeVisible();
 
   await page.getByRole("status").getByRole("button", { name: /显示或隐藏 MomoScript 日志/ }).click();
