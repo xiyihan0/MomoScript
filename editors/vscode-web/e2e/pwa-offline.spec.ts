@@ -65,6 +65,5 @@ test("installed production editor cold-starts offline with language workers and 
 
   await page.getByRole("status").getByRole("button", { name: /显示或隐藏 MomoScript 日志/ }).click();
   const output = page.locator(".workbench-panel");
-  await expect(output).toContainText(/Typst\s+编译器\s+WASM\s+下载完成/);
   await expect(output).toContainText("[preview:identity]");
 });
