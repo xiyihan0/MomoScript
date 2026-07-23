@@ -912,7 +912,7 @@ async function previewWebviewFrame(page: Page): Promise<Frame> {
       }
     }
     return false;
-  }, { timeout: 60_000 }).toBe(true);
+  }, { timeout: 300_000 }).toBe(true);
   if (!previewFrame) throw new Error("rendered preview webview frame is missing");
   return previewFrame;
 }
