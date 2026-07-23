@@ -19,7 +19,7 @@ export default defineConfig({
     { name: "chrome", use: { ...devices["Desktop Chrome"], channel: "chrome" } },
     { name: "remote", use: { ...devices["Desktop Chrome"] } }
   ],
-  webServer: {
+  webServer: process.env.MMT_E2E_EXTERNAL_SERVER ? undefined : {
     command: "VITE_MMT_E2E=1 npm run build && npm run preview -- --host 127.0.0.1 --port 4173 --strictPort",
     url: "http://127.0.0.1:4173",
     reuseExistingServer: false,
