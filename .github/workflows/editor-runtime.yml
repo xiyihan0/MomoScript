@@ -366,7 +366,7 @@ jobs:
 
   pwa-e2e:
     name: pwa-e2e
-    needs: extension-web
+    needs: [tinymist-compatibility, typst-compiler-compatibility, extension-web]
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -378,6 +378,14 @@ jobs:
           cache-dependency-path: |
             editors/vscode/package-lock.json
             editors/vscode-web/package-lock.json
+      - uses: actions/download-artifact@v4
+        with:
+          name: tinymist-pinned-linux-x64
+          path: .ci/tinymist
+      - uses: actions/download-artifact@v4
+        with:
+          name: typst-compiler-pinned-web
+          path: .ci/typst-compiler
       - name: Install PWA test dependencies
         run: |
           npm ci --prefix editors/vscode
@@ -385,6 +393,9 @@ jobs:
           npx --prefix editors/vscode-web playwright install --with-deps chromium
       - name: Run PWA offline lifecycle journey
         working-directory: editors/vscode-web
+        env:
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+          TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: npm run test:e2e:pwa-offline
       - name: Upload PWA failure diagnostics
         if: failure()
