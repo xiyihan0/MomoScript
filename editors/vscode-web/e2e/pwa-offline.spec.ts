@@ -44,7 +44,7 @@ test("installed production editor cold-starts offline with language workers and 
   expect(cacheEvidence.notoLocalCount).toBe(0);
   expect(cacheEvidence.mainFontBrotliCount).toBe(2);
   expect(cacheEvidence.wasmBrotliCount).toBe(2);
-  expect(cacheEvidence.required.length).toBeGreaterThanOrEqual(7);
+  expect(cacheEvidence.required.length).toBeGreaterThanOrEqual(6);
   expect(cacheEvidence.required.filter((entry) => !entry.cached)).toEqual([]);
 
   await page.goto("about:blank");

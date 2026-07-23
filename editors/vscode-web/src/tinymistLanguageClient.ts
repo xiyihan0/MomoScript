@@ -26,7 +26,7 @@ export async function startTinymistLanguageClient(
   packageService?: TypstPackageService
 ): Promise<TinymistHandle> {
   const wasmBytes = await downloadTinymistWasm(report);
-  const { backend, wasmUrl } = await startTinymistBackend(wasmBytes, packageService);
+  const { backend, wasmUrl, moduleUrl } = await startTinymistBackend(wasmBytes, packageService);
   const disposables: vscode.Disposable[] = [];
   return {
     backend,
@@ -49,6 +49,7 @@ export async function startTinymistLanguageClient(
       for (const disposable of disposables.splice(0).reverse()) disposable.dispose();
       await backend.stop();
       URL.revokeObjectURL(wasmUrl);
+      URL.revokeObjectURL(moduleUrl);
     }
   };
 }
@@ -56,20 +57,24 @@ export async function startTinymistLanguageClient(
 async function startTinymistBackend(
   wasmBytes: Uint8Array,
   packageService?: TypstPackageService
-): Promise<{ backend: TinymistWorkerClient; wasmUrl: string }> {
+): Promise<{ backend: TinymistWorkerClient; wasmUrl: string; moduleUrl: string }> {
+  const moduleResponse = await fetch(new URL(tinymistModuleUrl, window.location.href));
+  if (!moduleResponse.ok) throw new Error(`Tinymist module download failed: HTTP ${moduleResponse.status}`);
+  const moduleUrl = URL.createObjectURL(await moduleResponse.blob());
   const wasmUrl = URL.createObjectURL(new Blob([wasmBytes.buffer as ArrayBuffer], { type: "application/wasm" }));
   try {
     const backend = await TinymistWorkerClient.start(
       new URL(tinymistWorkerUrl, window.location.href).href,
-      new URL(tinymistModuleUrl, window.location.href).href,
+      moduleUrl,
       wasmUrl,
       (uri) => new Worker(uri, { type: "module", name: "Tinymist LS" }),
       undefined,
       packageService
     );
-    return { backend, wasmUrl };
+    return { backend, wasmUrl, moduleUrl };
   } catch (error) {
     URL.revokeObjectURL(wasmUrl);
+    URL.revokeObjectURL(moduleUrl);
     throw error;
   }
 }

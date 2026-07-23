@@ -1,5 +1,5 @@
 import { createReadStream } from "node:fs";
-import { readdir, stat } from "node:fs/promises";
+import { stat } from "node:fs/promises";
 import { createServer } from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -38,10 +38,6 @@ const address = server.address();
 if (!address || typeof address === "string") {
   throw new Error("failed to bind worker test server");
 }
-const wasmAsset = (await readdir(path.join(extensionRoot, "dist"))).find((name) =>
-  name.endsWith(".wasm")
-);
-if (!wasmAsset) throw new Error("built WASM asset was not found");
 
 const browser = await chromium.launch({ headless: true });
 try {
@@ -114,7 +110,10 @@ try {
       throw new Error(`timed out waiting for ${method}`);
     }
 
-    worker.postMessage({ method: "mmt/boot", params: { wasmUri } });
+    const wasmResponse = await fetch(wasmUri);
+    if (!wasmResponse.ok) throw new Error(`WASM fetch failed: HTTP ${wasmResponse.status}`);
+    const wasmBytes = await wasmResponse.arrayBuffer();
+    worker.postMessage({ method: "mmt/boot", params: { wasmBytes } }, [wasmBytes]);
     await waitForNotification("mmt/workerReady");
     const initialize = await request("initialize", {
       capabilities: { general: { positionEncodings: ["utf-16"] } },
@@ -556,7 +555,7 @@ try {
       ],
       multilineTypProjectionVersion: multilineTypProject.sourceVersion
     };
-  }, `http://127.0.0.1:${address.port}/dist/${wasmAsset}`);
+  }, `http://127.0.0.1:${address.port}/wasm/mmt_lsp_bg.wasm`);
 
   if (result.positionEncoding !== "utf-16") throw new Error("position encoding mismatch");
   if (result.hoverProvider !== true) throw new Error("missing negotiated hover provider");

@@ -192,7 +192,7 @@ export default defineConfig({
   },
   build: {
     target: "esnext",
-    assetsInlineLimit: 0,
+    assetsInlineLimit: (filePath) => filePath.endsWith("mmt_lsp_bg.wasm"),
     sourcemap: false,
     rollupOptions: {
       output: {
@@ -201,7 +201,12 @@ export default defineConfig({
     }
   },
   worker: {
-    format: "es"
+    format: "es",
+    rollupOptions: {
+      output: {
+        inlineDynamicImports: true,
+      },
+    },
   },
   optimizeDeps: {
     exclude: ["@myriaddreamin/typst-ts-web-compiler"],

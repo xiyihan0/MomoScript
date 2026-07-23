@@ -3,7 +3,7 @@ import {
   BrowserMessageWriter,
   createConnection
 } from "vscode-languageserver/browser";
-import init, { WasmLanguageServer } from "../wasm/mmt_lsp.js";
+import { initSync, WasmLanguageServer } from "../wasm/mmt_lsp.js";
 
 type ServerEvent = { method: string; params: unknown };
 type ResponseEnvelope = { result?: unknown; error?: { code: number; message: string } };
@@ -13,8 +13,8 @@ type NotificationOutcome = {
 };
 type PackUpdateOutcome = { revision: number; updated: boolean; events?: ServerEvent[] };
 
-async function start(wasmUri: string): Promise<void> {
-  await init({ module_or_path: new URL(wasmUri) });
+async function start(wasmBytes: ArrayBuffer): Promise<void> {
+  initSync({ module: wasmBytes });
   const server = new WasmLanguageServer();
   const connection = createConnection(
     new BrowserMessageReader(self),
@@ -93,12 +93,14 @@ async function start(wasmUri: string): Promise<void> {
   self.postMessage({ jsonrpc: "2.0", method: "mmt/workerReady", params: null });
 }
 
-function waitForBoot(): Promise<string> {
-  return new Promise((resolve) => {
+function waitForBoot(): Promise<ArrayBuffer> {
+  return new Promise((resolve, reject) => {
     const listener = (event: MessageEvent) => {
       if (event.data?.method !== "mmt/boot") return;
       self.removeEventListener("message", listener);
-      resolve(event.data.params.wasmUri as string);
+      const wasmBytes = event.data.params?.wasmBytes;
+      if (wasmBytes instanceof ArrayBuffer) resolve(wasmBytes);
+      else reject(new Error("MomoScript worker boot requires WASM bytes"));
     };
     self.addEventListener("message", listener);
   });

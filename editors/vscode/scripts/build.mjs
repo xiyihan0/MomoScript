@@ -29,7 +29,7 @@ await Promise.all([
     platform: "browser",
     format: "cjs",
     define: { MMT_TINYMIST_WEB_AVAILABLE: JSON.stringify(Boolean(tinymistPackage)) },
-    loader: { ".wasm": "file" }
+    loader: { ".wasm": "dataurl" }
   }),
   build({
     ...common,

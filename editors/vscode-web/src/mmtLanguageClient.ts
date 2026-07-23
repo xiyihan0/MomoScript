@@ -1,6 +1,7 @@
 import type { LanguageClientOptions } from "vscode-languageclient";
 import { LanguageClientWrapper } from "monaco-languageclient/lcwrapper";
 import { clientOptions } from "../../vscode/src/clientOptions";
+import { loadWasmAssetBytes } from "../../vscode/src/wasmAsset";
 import mmtWasmUrl from "../../vscode/vendor/mmt-lsp/mmt_lsp_bg.wasm?url";
 import MmtWorker from "../../vscode/src/browserWorker.ts?worker";
 
@@ -17,11 +18,12 @@ export async function startMmtLanguageClient(
 ): Promise<MmtLanguageClientHandle> {
   const worker = new MmtWorker();
   try {
+    const wasmBytes = await loadWasmAssetBytes(new URL(mmtWasmUrl, window.location.href).href);
     const ready = waitForWorker(worker);
     worker.postMessage({
       method: "mmt/boot",
-      params: { wasmUri: new URL(mmtWasmUrl, window.location.href).href }
-    });
+      params: { wasmBytes }
+    }, [wasmBytes]);
     await ready;
     const options = clientOptions(typstLanguageFeatures);
     configureOptions?.(options);
