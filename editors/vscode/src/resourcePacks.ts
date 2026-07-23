@@ -73,32 +73,54 @@ export async function syncConfiguredPackManifests(
   const revision = context.globalState.get<number>(REVISION_KEY, 0) + 1;
   await vscode.workspace.fs.createDirectory(context.globalStorageUri);
 
-  const sources = await synchronizePackSources(
-    urls,
-    revision,
-    new VsCodePackCache(context),
-    (params) => client.sendRequest("mmt/updatePackManifests", params),
-    async (url, etag) => {
-      const headers: Record<string, string> = { Accept: "application/json" };
-      if (etag !== undefined) headers["If-None-Match"] = etag;
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15_000);
-      try {
-        const response = await fetch(url, { headers, signal: controller.signal });
-        return {
-          status: response.status,
-          ok: response.ok,
-          etag: response.headers.get("etag") ?? undefined,
-          text: () => response.text()
-        };
-      } finally {
-        clearTimeout(timeout);
+  try {
+    const sources = await synchronizePackSources(
+      urls,
+      revision,
+      new VsCodePackCache(context),
+      (params) => client.sendRequest("mmt/updatePackManifests", params),
+      async (url, etag) => {
+        const headers: Record<string, string> = { Accept: "application/json" };
+        if (etag !== undefined) headers["If-None-Match"] = etag;
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 15_000);
+        try {
+          const response = await fetch(url, { headers, signal: controller.signal });
+          return {
+            status: response.status,
+            ok: response.ok,
+            etag: response.headers.get("etag") ?? undefined,
+            text: () => response.text()
+          };
+        } finally {
+          clearTimeout(timeout);
+        }
       }
+    );
+    await context.globalState.update(REVISION_KEY, revision);
+    for (const url of urls) {
+      await context.globalState.update(`mmt.resourcePacks.cache.${new URL(url).href}`, undefined);
     }
-  );
-  await context.globalState.update(REVISION_KEY, revision);
-  for (const url of urls) {
-    await context.globalState.update(`mmt.resourcePacks.cache.${new URL(url).href}`, undefined);
+    return sources;
+  } catch (error) {
+    const fallbackRevision = revision + 1;
+    try {
+      const result = await client.sendRequest<{ revision: number; updated: boolean }>(
+        "mmt/updatePackManifests",
+        { revision: fallbackRevision, sources: [] }
+      );
+      if (result.revision !== fallbackRevision || !result.updated) {
+        throw new Error(`Empty pack registry update ${fallbackRevision} was not accepted`);
+      }
+      await context.globalState.update(REVISION_KEY, fallbackRevision);
+    } catch (fallbackError) {
+      throw new AggregateError(
+        [error, fallbackError],
+        `Resource pack synchronization and empty-registry fallback both failed: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
+    }
+    throw error;
   }
-  return sources;
 }
