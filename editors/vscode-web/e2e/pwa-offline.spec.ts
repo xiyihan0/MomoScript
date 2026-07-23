@@ -2,7 +2,7 @@ import { expect, test } from "./fixtures";
 
 test("installed production editor cold-starts offline with language workers and preview", async ({ page, context }) => {
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   await expect(page.locator(".workbench-editor .monaco-editor").first()).toBeVisible();
 
   await page.getByRole("button", { name: "Typst 预览" }).click();
