@@ -328,10 +328,14 @@ export async function run(): Promise<void> {
       readonly renderKey: string;
       readonly outputUri: vscode.Uri;
     };
-    const renderDocument = await vscode.workspace.openTextDocument({
-      language: "mmt",
-      content: "@typ: #rect(width: 1cm, height: 1cm, fill: red)"
-    });
+    const renderDocumentUri = vscode.Uri.file(
+      process.env.MMT_DESKTOP_EXPORT_PATH.replace(/\.pdf$/u, ".mmt")
+    );
+    await vscode.workspace.fs.writeFile(
+      renderDocumentUri,
+      new TextEncoder().encode("@typ: #rect(width: 1cm, height: 1cm, fill: red)")
+    );
+    const renderDocument = await vscode.workspace.openTextDocument(renderDocumentUri);
     await vscode.window.showTextDocument(renderDocument);
     const previewA = await waitFor(async () => {
       try {
