@@ -137,12 +137,22 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Restore pinned Typst compiler artifact
+        id: typst-compiler-artifact-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ runner.temp }}/typst-compiler/pkg/typst_ts_web_compiler_bg.wasm
+            ${{ runner.temp }}/typst-compiler/pkg/SHA256SUMS
+          key: typst-compiler-v1-${{ runner.os }}-${{ runner.arch }}-${{ env.TYPST_TS_RUST_TOOLCHAIN }}-${{ env.WASM_PACK_VERSION }}-${{ env.TYPST_TS_BINARYEN_VERSION }}-${{ env.TYPST_TS_REVISION }}-${{ hashFiles('third_party/typst-ts/pin.json', 'third_party/typst-ts/patches/*.patch') }}
       - name: Install pinned Rust and wasm-pack
+        if: steps.typst-compiler-artifact-cache.outputs.cache-hit != 'true'
         run: |
           rustup toolchain install "$TYPST_TS_RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
           rustup default "$TYPST_TS_RUST_TOOLCHAIN"
           cargo install wasm-pack --version "$WASM_PACK_VERSION" --locked
       - name: Install pinned Binaryen
+        if: steps.typst-compiler-artifact-cache.outputs.cache-hit != 'true'
         run: |
           archive="$RUNNER_TEMP/binaryen-version_${TYPST_TS_BINARYEN_VERSION}-x86_64-linux.tar.gz"
           curl --fail --location --silent --show-error \
@@ -154,24 +164,32 @@ jobs:
           echo "$binaryen_bin" >> "$GITHUB_PATH"
           "$binaryen_bin/wasm-opt" --version | grep -F "version_${TYPST_TS_BINARYEN_VERSION}"
       - name: Check out pinned typst.ts source
+        if: steps.typst-compiler-artifact-cache.outputs.cache-hit != 'true'
         run: |
           git clone --filter=blob:none https://github.com/Myriad-Dreamin/typst.ts.git "$RUNNER_TEMP/typst.ts"
           git -C "$RUNNER_TEMP/typst.ts" checkout --detach "$TYPST_TS_REVISION"
-      - name: Apply maintained debug-span patch
-        run: git -C "$RUNNER_TEMP/typst.ts" apply "$GITHUB_WORKSPACE/third_party/typst-ts/patches/0001-expose-render-debug-spans.patch"
-      - name: Build and verify pinned Typst runtime artifacts
+      - name: Build pinned Typst runtime artifact
+        if: steps.typst-compiler-artifact-cache.outputs.cache-hit != 'true'
         working-directory: ${{ runner.temp }}/typst.ts/packages/compiler
         run: |
+          git -C "$RUNNER_TEMP/typst.ts" apply "$GITHUB_WORKSPACE/third_party/typst-ts/patches/0001-expose-render-debug-spans.patch"
           wasm-pack build --target web --scope myriaddreamin --release -- --no-default-features --features web,misc
           node ../tools/wasm-debundle.mjs
-          sha256sum pkg/typst_ts_web_compiler_bg.wasm pkg/typst_ts_web_compiler.mjs
-          node --input-type=module -e 'import { readFile } from "node:fs/promises"; const module = await WebAssembly.compile(await readFile("pkg/typst_ts_web_compiler_bg.wasm")); const exports = new Set(WebAssembly.Module.exports(module).map(({ name }) => name)); for (const name of ["typstcompileworld_render_svg_with_debug_spans", "typstcompileworld_resolve_main_spans"]) { if (!exports.has(name)) throw new Error(`missing WASM export: ${name}`); }'
           echo "94d91940b1cc6242009962e42e31da2438f9879239efa572e3d4a92eb61e3507  pkg/typst_ts_web_compiler.mjs" | sha256sum --check
           echo "94d91940b1cc6242009962e42e31da2438f9879239efa572e3d4a92eb61e3507  $GITHUB_WORKSPACE/third_party/typst-ts/pkg/typst_ts_web_compiler.mjs" | sha256sum --check
+          mkdir -p "$RUNNER_TEMP/typst-compiler/pkg"
+          cp pkg/typst_ts_web_compiler_bg.wasm "$RUNNER_TEMP/typst-compiler/pkg/typst_ts_web_compiler_bg.wasm"
+          cd "$RUNNER_TEMP/typst-compiler/pkg"
+          sha256sum typst_ts_web_compiler_bg.wasm > SHA256SUMS
+      - name: Verify pinned Typst runtime artifact
+        working-directory: ${{ runner.temp }}/typst-compiler/pkg
+        run: |
+          sha256sum --check SHA256SUMS
+          node --input-type=module -e 'import { readFile } from "node:fs/promises"; const module = await WebAssembly.compile(await readFile("typst_ts_web_compiler_bg.wasm")); const exports = new Set(WebAssembly.Module.exports(module).map(({ name }) => name)); for (const name of ["typstcompileworld_render_svg_with_debug_spans", "typstcompileworld_resolve_main_spans"]) { if (!exports.has(name)) throw new Error(`missing WASM export: ${name}`); }'
       - uses: actions/upload-artifact@v4
         with:
           name: typst-compiler-pinned-web
-          path: ${{ runner.temp }}/typst.ts/packages/compiler/pkg/typst_ts_web_compiler_bg.wasm
+          path: ${{ runner.temp }}/typst-compiler/pkg/typst_ts_web_compiler_bg.wasm
           compression-level: 0
           if-no-files-found: error
 
