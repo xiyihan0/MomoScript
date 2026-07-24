@@ -19,7 +19,7 @@ const authored = [
 ].join("\n");
 const editedIntro = "#set page(width: 420pt, height: 260pt)\n= Welcome to MomoScript\n\nIntro persisted.\n#pagebreak()\nSecond page.\n";
 
-test("production editor materializes an avatar and restores the authored story after reload", { tag: "@editor-runtime" }, async ({ page }, testInfo) => {
+test("production editor materializes an avatar and restores the authored story after reload", { tag: ["@editor-runtime", "@editor-runtime-materialization"] }, async ({ page }, testInfo) => {
   const local = testInfo.project.name !== "remote";
   let manifestRequests = 0;
   let avatarRequests = 0;
@@ -548,7 +548,7 @@ test("production editor materializes an avatar and restores the authored story a
   await expect.poll(() => persistedStory(page)).toBe(authored);
 });
 
-test("native notifications show a toast and remain available from the status bar", { tag: "@editor-runtime" }, async ({ page }) => {
+test("native notifications show a toast and remain available from the status bar", { tag: ["@editor-runtime", "@editor-runtime-notifications"] }, async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
 
@@ -618,7 +618,7 @@ test("a second tab blocks writes visibly until explicit takeover", { tag: "@edit
   await expect.poll(() => workspaceEntryExists(second, "/locked-write.txt")).toBe(true);
 });
 
-test("VS Code native sashes resize the explorer and panel in both directions", { tag: "@editor-runtime" }, async ({ page }) => {
+test("VS Code native sashes resize the explorer and panel in both directions", { tag: ["@editor-runtime", "@editor-runtime-sashes"] }, async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
 
