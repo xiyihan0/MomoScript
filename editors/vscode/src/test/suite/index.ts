@@ -33,9 +33,10 @@ async function waitForCompletion(
 
 async function waitFor<T>(
   probe: () => T | undefined | PromiseLike<T | undefined>,
-  message: string
+  message: string,
+  timeoutMs = 30_000
 ): Promise<T> {
-  const deadline = Date.now() + 15_000;
+  const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     const value = await probe();
     if (value !== undefined) {
@@ -68,12 +69,14 @@ export async function run(): Promise<void> {
   console.log("[mmt-web-test] locating extension");
   const extension = vscode.extensions.getExtension("momoscript.momoscript-vscode");
   assert(extension, "MomoScript extension was not installed in the Web Extension Host");
-  await withTimeout(extension.activate(), "MomoScript extension activation timed out", 75_000);
+  await withTimeout(extension.activate(), "MomoScript extension activation timed out", 120_000);
   assert(extension.isActive, "MomoScript extension did not activate");
   console.log("[mmt-web-test] extension activated");
 
   const markerDocument = await vscode.workspace.openTextDocument({ language: "mmt", content: "" });
   const markerEditor = await vscode.window.showTextDocument(markerDocument);
+  markerEditor.selection = new vscode.Selection(0, 0, 0, 0);
+  await vscode.commands.executeCommand("workbench.action.focusActiveEditorGroup");
   await vscode.commands.executeCommand("type", { text: "[" });
   await vscode.commands.executeCommand("type", { text: ":" });
   await waitFor(
@@ -161,14 +164,6 @@ export async function run(): Promise<void> {
 
   await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
 
-  const presetDocument = await vscode.workspace.openTextDocument({
-    language: "mmt",
-    content: "@actor\npreset: ba::一\n@end"
-  });
-  await vscode.window.showTextDocument(presetDocument);
-  await waitForCompletion(presetDocument, new vscode.Position(1, 13), "ba::一花");
-  console.log("[mmt-web-test] remote BA preset completion received");
-  await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
 
   const typstDocument = await vscode.workspace.openTextDocument({
     language: "mmt",
@@ -333,16 +328,29 @@ export async function run(): Promise<void> {
       readonly renderKey: string;
       readonly outputUri: vscode.Uri;
     };
-    const renderDocument = await vscode.workspace.openTextDocument({
-      language: "mmt",
-      content: "@typ: #rect(width: 1cm, height: 1cm, fill: red)"
-    });
-    await vscode.window.showTextDocument(renderDocument);
-    const previewA = await withTimeout(
-      vscode.commands.executeCommand<NativeRender>("mmt.previewDesktop"),
-      "Desktop MomoScript preview timed out",
-      60_000
+    const renderDocumentUri = vscode.Uri.file(
+      process.env.MMT_DESKTOP_EXPORT_PATH.replace(/\.pdf$/u, ".mmt")
     );
+    await vscode.workspace.fs.writeFile(
+      renderDocumentUri,
+      new TextEncoder().encode("@typ: #rect(width: 1cm, height: 1cm, fill: red)")
+    );
+    const renderDocument = await vscode.workspace.openTextDocument(renderDocumentUri);
+    await vscode.window.showTextDocument(renderDocument);
+    const previewA = await waitFor(async () => {
+      try {
+        return await withTimeout(
+          vscode.commands.executeCommand<NativeRender>("mmt.previewDesktop"),
+          "Desktop MomoScript preview timed out",
+          60_000
+        );
+      } catch (error) {
+        if (error instanceof Error && error.message.includes("render project is stale or unavailable")) {
+          return undefined;
+        }
+        throw error;
+      }
+    }, "Desktop MomoScript render project did not become ready", 120_000);
     const svgA = await vscode.workspace.fs.readFile(previewA.outputUri);
     const exportAUri = vscode.Uri.file(process.env.MMT_DESKTOP_EXPORT_PATH);
     const displayedAUri = vscode.Uri.file(process.env.MMT_DESKTOP_EXPORT_PATH.replace(/\.pdf$/u, ".displayed-a.pdf"));

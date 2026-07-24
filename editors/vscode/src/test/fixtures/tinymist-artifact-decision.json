@@ -1,8 +1,8 @@
 {
   "schema": "mmt-tinymist-artifact-decision.v1",
   "artifacts": {
-    "nativeDigest": "b96ce119a2ef789978350c26ccc89113435cf010e8f1f8eb2c883fb2ec631611",
-    "webDigest": "c9ff9b1d8197656e89e2ee4cc3fc74923ddfecaec3fbc4022f82d150fa995db4",
+    "nativeDigest": "1ad4decf905f38fbddd8ab76a9c5da55c48af77768e104bcdcbe421d90db4f87",
+    "webDigest": "2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d",
     "backendVersion": "0.15.2"
   },
   "decision": "retain-pinned-artifacts",

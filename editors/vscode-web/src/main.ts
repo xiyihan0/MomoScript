@@ -865,7 +865,9 @@ async function initializeRuntime(
         return true;
       }
       if (request.action === "editor-selection") {
-        const editor = vscode.window.activeTextEditor;
+        const editor = vscode.window.activeTextEditor?.document.uri.toString() === displayedPreviewSourceUri
+          ? vscode.window.activeTextEditor
+          : vscode.window.visibleTextEditors.find((candidate) => candidate.document.uri.toString() === displayedPreviewSourceUri);
         const selection = editor?.selection;
         return !editor || !selection ? null : {
           uri: editor.document.uri.toString(),
@@ -877,7 +879,7 @@ async function initializeRuntime(
       }
       if (request.action === "position-live") {
         const editor = vscode.window.activeTextEditor;
-        const sourceUri = editor?.document.uri.toString() ?? displayedPreviewSourceUri;
+        const sourceUri = displayedPreviewSourceUri ?? editor?.document.uri.toString();
         if (!sourceUri) return false;
         const identity = currentPreviewIdentity(sourceUri);
         if (!identity) return false;
@@ -1311,16 +1313,79 @@ async function initializeRuntime(
     );
     buildStatus.show();
   };
+  const previewReadiness = (requestedSourceUri?: string) => {
+    const sourceUri = requestedSourceUri
+      ?? previewFixtureActiveSourceUri
+      ?? displayedPreviewSourceUri
+      ?? vscode.window.activeTextEditor?.document.uri.toString();
+    const runtime = runtimeStatus.snapshot();
+    const snapshot = sourceUri ? previewBuildState.snapshot(sourceUri) : undefined;
+    const diagnostics = sourceUri ? previewBuildState.diagnostics(sourceUri) : [];
+    const containerReady = layout.preview.dataset.previewReady === "true";
+    const displayedArtifact = preview.displayedArtifact;
+    const fixtureActive = previewFixtureActiveSourceUri === sourceUri;
+    const fixtureReady = fixtureActive && displayedArtifact?.sourceUri === sourceUri;
+    const stage = runtime.recoveryState !== "ready"
+      ? `runtime-${runtime.recoveryState}`
+      : !sourceUri
+        ? "source-unavailable"
+        : fixtureReady
+          ? "ready"
+          : displayedPreviewSourceUri !== sourceUri
+            ? "source-pending"
+            : snapshot?.status === "failed"
+              ? "failed"
+              : snapshot?.status !== "ready"
+                ? (snapshot?.status ?? "project-idle")
+                : !containerReady || !displayedArtifact
+                  ? "artifact-pending"
+                  : "ready";
+    return {
+      stage,
+      sourceUri: sourceUri ?? null,
+      displayedSourceUri: displayedPreviewSourceUri ?? null,
+      runtimeRecoveryState: runtime.recoveryState,
+      runtimeLastFailure: runtime.lastFailure ?? null,
+      buildStatus: snapshot?.status ?? "idle",
+      buildRevision: snapshot?.identity?.revision ?? null,
+      fixtureActive,
+      containerReady,
+      containerRevision: layout.preview.dataset.previewRevision ?? null,
+      containerRenderKey: layout.preview.dataset.previewRenderKey ?? null,
+      displayedRenderKey: displayedArtifact?.renderKey ?? null,
+      panelOpen: previewPanel !== undefined,
+      diagnostics: diagnostics.map(({ phase, severity, message }) => ({ phase, severity, message })),
+    };
+  };
+  const publishPreviewStage = (sourceUri?: string) => {
+    const readiness = previewReadiness(sourceUri);
+    document.documentElement.dataset.mmtPreviewStage = readiness.stage;
+    if (readiness.sourceUri) {
+      document.documentElement.dataset.mmtPreviewSourceUri = readiness.sourceUri;
+    } else {
+      delete document.documentElement.dataset.mmtPreviewSourceUri;
+    }
+  };
+  if (import.meta.env.VITE_MMT_E2E === "1") {
+    exposeRuntimeGlobal("__mmtPreviewReadiness", previewReadiness);
+  }
   own(previewBuildState.subscribe((sourceUri) => {
     if ((displayedPreviewSourceUri ?? vscode.window.activeTextEditor?.document.uri.toString()) === sourceUri) {
       refreshBuildStatus();
+      publishPreviewStage(sourceUri);
     }
   }));
-  own(runtimeStatus.onDidChange(() => refreshBuildStatus()));
+  own(runtimeStatus.onDidChange(() => {
+    refreshBuildStatus();
+    publishPreviewStage();
+  }));
   if (import.meta.env.VITE_MMT_E2E === "1") {
     exposeRuntimeGlobal("__mmtRuntimeStatus", () => runtimeStatus.snapshot());
   }
-  own(vscode.window.onDidChangeActiveTextEditor(refreshBuildStatus));
+  own(vscode.window.onDidChangeActiveTextEditor(() => {
+    refreshBuildStatus();
+    publishPreviewStage();
+  }));
   own(vscode.workspace.onDidChangeTextDocument((event) => {
     const sourceUri = event.document.uri.toString();
     const identity = previewBuildState.snapshot(sourceUri).identity;
@@ -1335,6 +1400,7 @@ async function initializeRuntime(
     }
   }));
   refreshBuildStatus();
+  publishPreviewStage();
   root.classList.toggle("sidebar-collapsed", !isPartVisibile(Parts.SIDEBAR_PART));
   const sidebarVisibilityRegistration = own(onPartVisibilityChange(Parts.SIDEBAR_PART, (visible) => {
     layout.setSidebarVisible(visible);
@@ -2372,8 +2438,8 @@ function previewWebviewHtml(
     .page { position: relative; flex: 0 0 auto; background: transparent; line-height: 0; transform-origin: top left; }
     .page svg { display: block; width: 100%; height: 100%; max-width: none; }
     .page svg > .typst-page { filter: drop-shadow(0 2px 5px #0008); }
-    .page .tsel { left: 0; position: fixed; width: 100%; height: 100%; overflow: hidden; color: transparent; font-family: monospace; text-align: left; text-align-last: left; white-space: pre; pointer-events: auto; user-select: text; cursor: text; transform: translateY(0.32em); transform-origin: left top; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; text-size-adjust: none; }
-    .page .tsel .tsel-token { position: relative; width: fit-content; height: fit-content; }
+    .page .tsel { left: 0; position: fixed; width: 100%; height: 100%; overflow: hidden; color: transparent; font-family: monospace; line-height: normal; text-align: left; text-align-last: left; white-space: pre; pointer-events: auto; user-select: text; cursor: text; transform: translateY(0.32em); transform-origin: left top; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; text-size-adjust: none; }
+    .page .tsel .tsel-token { display: inline-block; position: relative; width: 0.602em; height: 1em; line-height: normal; }
     .page .tsel::selection, .page .tsel .tsel-token::selection { color: transparent; background: #7db9dea0; }
     .preview-indicator, .preview-cursor { position: absolute; z-index: 4; pointer-events: none; transform: translate(-50%, -50%); }
     .preview-indicator { width: 18px; height: 18px; border: 2px solid #007acc; border-radius: 50%; background: #007acc28; box-shadow: 0 0 0 4px #007acc24; }
@@ -2453,17 +2519,34 @@ function previewWebviewHtml(
     if (viewportFrame) return;
     viewportFrame = requestAnimationFrame(() => { viewportFrame = undefined; reportViewport(); });
   }, { passive: true });
+  let previewPointerOrigin;
+  let previewPointerDragged = false;
+  page?.addEventListener('pointerdown', (event) => {
+    previewPointerOrigin = { x: event.clientX, y: event.clientY };
+    previewPointerDragged = false;
+  });
+  page?.addEventListener('pointermove', (event) => {
+    if (!previewPointerOrigin) return;
+    if (Math.hypot(event.clientX - previewPointerOrigin.x, event.clientY - previewPointerOrigin.y) > 3) {
+      previewPointerDragged = true;
+    }
+  });
+  page?.addEventListener('pointerup', () => { previewPointerOrigin = undefined; });
   page?.addEventListener('click', (event) => {
     const bounds = page.getBoundingClientRect();
     if (!(bounds.width > 0) || !(bounds.height > 0)) return;
-    vscode.postMessage({
-      type: 'navigate',
-      point: {
-        pageIndex: 0,
-        x: Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width)),
-        y: Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height)),
-      },
-    });
+    const point = {
+      pageIndex: 0,
+      x: Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width)),
+      y: Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height)),
+    };
+    setTimeout(() => {
+      const selection = document.getSelection();
+      const dragged = previewPointerDragged;
+      previewPointerDragged = false;
+      if (dragged || (selection && !selection.isCollapsed)) return;
+      vscode.postMessage({ type: 'navigate', point });
+    }, 0);
   });
   let indicatorPoint;
   let cursorPoint;

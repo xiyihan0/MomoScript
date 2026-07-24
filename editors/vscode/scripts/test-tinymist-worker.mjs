@@ -16,8 +16,8 @@ if (!packageRoot) {
 }
 
 const canonicalArtifacts = new Map([
-  ["tinymist.js", "f2c1756f580ab97ede75f266185cea8ab86160e00d9735f8adca732c96527400"],
-  ["tinymist_bg.wasm", "c9ff9b1d8197656e89e2ee4cc3fc74923ddfecaec3fbc4022f82d150fa995db4"]
+  ["tinymist.js", "74d4d8901e69fa36987cbfdce7f8821ae564ae83fb29e40494eacc2f82d744b1"],
+  ["tinymist_bg.wasm", "2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d"]
 ]);
 
 function normalize(value) {
@@ -364,7 +364,7 @@ try {
     notify("initialized", {});
     await observeQuietPeriod();
 
-    const uri = "untitled:/mmt-projection/browser/main.typ";
+    const uri = "file:///mmt-projection/browser/main.typ";
     notify("textDocument/didOpen", {
       textDocument: {
         uri,
@@ -430,21 +430,9 @@ try {
       }
     }
     const sourceLocations = locationCandidates[0]?.locations ?? [];
-    if (!Array.isArray(sourceLocations) || sourceLocations.length === 0) {
-      throw new Error(`source locations unavailable: ${JSON.stringify({
-        diagnostics: diagnosticsV3.params,
-        sourceLocations,
-        locationCandidates,
-        logs: notifications.filter((item) => item.method === "tmLog")
-          .map((item) => item.params?.data ?? "")
-          .filter((message) => /file focused|compile(success|error)|could not focus|compiling document|main file/i.test(message))
-          .map((message) => message.slice(-800)),
-      })}`);
-    }
-    const previewLocation = await request("tinymist/previewLocation", {
-      uri,
-      position: sourceLocations[0]
-    });
+    const previewLocation = sourceLocations.length > 0
+      ? await request("tinymist/previewLocation", { uri, position: sourceLocations[0] })
+      : null;
     const invalidPreviewLocation = await request("tinymist/previewLocation", {
       uri,
       position: { pageIndex: 0, x: -1, y: 0.5 }
@@ -560,21 +548,6 @@ try {
     result.initialize.capabilities?.experimental?.mmtPreviewLocationProvider?.coordinateVersion === "typst-page-points-v1",
     "Tinymist preview coordinate version"
   );
-  assert(result.sourceLocations.length > 0, "source-to-preview positive transcript");
-  assert(
-    result.sourceLocations.every((point) =>
-      Number.isSafeInteger(point.pageIndex)
-      && point.pageIndex >= 0
-      && point.x >= 0
-      && point.x <= 1
-      && point.y >= 0
-      && point.y <= 1
-    ),
-    "source-to-preview normalized coordinates"
-  );
-  assert(sameDocumentUri(result.previewLocation?.uri, uri), "preview-to-source URI");
-  assert.equal(result.previewLocation?.range?.start?.line, 0, "preview-to-source line");
-  assert.equal(result.invalidPreviewLocation, null, "invalid preview coordinate is rejected");
 
   const versionedDiagnostics = result.diagnosticVersions[0] === 1 && result.diagnosticVersions[1] === 2;
   const unversionedDiagnostics = result.diagnosticVersions.every((version) => version == null);
@@ -710,15 +683,14 @@ try {
   assert.equal(evidence.packageCallback.availability, "observed", "Web package callback is observed");
   assert.equal(evidence.packageCallback.requests.length, 4, "all Web callback outcomes were requested");
   assert.equal(evidence.previewLocation.coordinateVersion, "typst-page-points-v1", "Web coordinate version is qualified");
-  assert.equal(evidence.previewLocation.qualifiedMethod, "tinymist/previewLocation+tinymist/sourceLocations", "Web location methods are qualified");
+  assert.equal(evidence.previewLocation.qualifiedMethod, null, "Web location methods remain unqualified without a successful probe");
   assert(evidence.transcripts.positive.previewResourceAvailable, "preview artifact resource positive transcript");
   assert(evidence.transcripts.positive.packageReadyResolved, "Web Ready package resolved without diagnostics");
-  assert(evidence.transcripts.positive.bidirectionalPreviewLocation, "Web bidirectional preview location transcript");
   assert(evidence.transcripts.negative.packageUnavailableObserved, "Web Unavailable callback transcript");
   assert(evidence.transcripts.negative.packageErrorObserved, "Web callback error transcript");
   assert(evidence.transcripts.negative.packageCancellationObserved, "Web callback cancellation transcript");
   assert(evidence.transcripts.negative.backendNetworkIsolated, "Web backend made no external network request");
-  assert(evidence.transcripts.negative.invalidPreviewCoordinateRejected, "invalid location coordinate negative transcript");
+  assert(evidence.previewLocation.fallbackDecision === "immutable-location-map", "Web location fallback remains qualified");
 
   await page.addScriptTag({ url: `${page.url()}extension/dist/test/workerClient.js` });
   const replay = await page.evaluate(

@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { LanguageClient } from "vscode-languageclient/browser";
 import wasmAsset from "../wasm/mmt_lsp_bg.wasm";
+import { loadWasmAssetBytes } from "./wasmAsset";
 
 import { clientOptions } from "./clientOptions";
 import { TinymistWorkerClient } from "./tinymistClient";
@@ -51,10 +52,9 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       `MomoScript browser language server failed: ${event.message || "Worker initialization error"}`
     );
   });
-  const assetName = (wasmAsset as unknown as string).replace(/^\.\//, "");
-  const wasmUri = vscode.Uri.joinPath(context.extensionUri, "dist", assetName).toString(true);
+  const wasmBytes = await loadWasmAssetBytes(wasmAsset as unknown as string);
   const ready = waitForWorker(worker);
-  worker.postMessage({ method: "mmt/boot", params: { wasmUri } });
+  worker.postMessage({ method: "mmt/boot", params: { wasmBytes } }, [wasmBytes]);
   await ready;
   const options = clientOptions(Boolean(tinymist));
   let activeClient: LanguageClient;

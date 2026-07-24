@@ -1,10 +1,10 @@
 import { readFile } from "node:fs/promises";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 const LIFECYCLE_STORAGE_KEY = "mmt-e2e-worker-lifecycle-v1";
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
 const MANIFEST_URL = `${PACK_ROOT}manifest.json`;
-const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454/tinymist_bg.wasm.br?delivery=br-v1";
+const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d/tinymist_bg.wasm.br?delivery=br-v1";
 const TINYMIST_WASM_FALLBACK_URL = TINYMIST_WASM_URL.replace(".br?delivery=br-v1", "");
 const manifest = await readFile(new URL("./fixtures/manifest.json", import.meta.url));
 const tinymistWasm = await readFile(new URL("../../vscode/vendor/tinymist-0.15.2/tinymist_bg.wasm", import.meta.url));
@@ -64,7 +64,7 @@ test("repeated Vite HMR and unload sequences evict retained runtime generations"
 
     const oldWorkers = page.workers().filter((worker) => /(?:browserWorker|tinymistWorker)/i.test(worker.url()));
     expect(oldWorkers, `runtime ${oldGeneration} must own exactly two live language Workers`).toHaveLength(2);
-    const oldWorkersClosed = oldWorkers.map((worker) => new Promise<void>((resolve) => worker.once("close", resolve)));
+    const oldWorkersClosed = oldWorkers.map((worker) => new Promise<void>((resolve) => worker.once("close", () => resolve())));
 
     if (transition === "unload" && index === 2) {
       await page.evaluate(() => localStorage.removeItem("momoscript.active-workspace-document.v1"));

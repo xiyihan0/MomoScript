@@ -334,28 +334,34 @@ impl MmtLanguageServer {
                     &params.project_digest,
                     &params.projection_key,
                 ) {
-                    (Some(entry_uri), Some(revision), Some(source_content), Some(project_digest), Some(projection_key)) => self
-                        .projections
-                        .project_range_for_generation(
-                            &params.text_document.uri,
-                            params.range,
-                            client_encoding,
-                            params.backend_encoding,
-                            entry_uri,
-                            revision,
-                            source_content,
-                            project_digest,
-                            projection_key,
-                        ),
+                    (
+                        Some(entry_uri),
+                        Some(revision),
+                        Some(source_content),
+                        Some(project_digest),
+                        Some(projection_key),
+                    ) => self.projections.project_range_for_generation(
+                        &params.text_document.uri,
+                        params.range,
+                        client_encoding,
+                        params.backend_encoding,
+                        entry_uri,
+                        revision,
+                        source_content,
+                        project_digest,
+                        projection_key,
+                    ),
                     (None, None, None, None, None) => self.projections.project_range(
                         &params.text_document.uri,
                         params.range,
                         client_encoding,
                         params.backend_encoding,
                     ),
-                    _ => return Err(ServerError::invalid_params(
-                        "render generation identity must be complete",
-                    )),
+                    _ => {
+                        return Err(ServerError::invalid_params(
+                            "render generation identity must be complete",
+                        ));
+                    }
                 };
                 encode(projected.ok())
             }
@@ -529,18 +535,33 @@ impl MmtLanguageServer {
             }
             "mmt/getTypstRenderProject" => {
                 let params: GetTypstProjectParams = decode(params)?;
-                let Some(document) = self.service.snapshot(&params.uri) else {
+                let Some((document_revision, document_version)) = self
+                    .service
+                    .snapshot(&params.uri)
+                    .map(|document| (document.revision, document.version))
+                else {
                     return Ok(Value::Null);
                 };
-                let Some(projection) = self.projections.get(&params.uri) else {
-                    return Ok(Value::Null);
-                };
-                if projection.source_revision != document.revision
-                    || projection.source_version != document.version
-                {
+                if self.service.pack_registry().is_none() {
                     return Ok(Value::Null);
                 }
-                if self.service.pack_registry().is_none() {
+                let projection_is_current =
+                    self.projections.get(&params.uri).is_some_and(|projection| {
+                        projection.source_revision == document_revision
+                            && projection.source_version == document_version
+                    });
+                if !projection_is_current {
+                    self.refresh_projection(&params.uri);
+                }
+                let Some(projection) = self.projections.get(&params.uri) else {
+                    if let Some(error) = self.projection_errors.get(&params.uri) {
+                        return Err(error.clone());
+                    }
+                    return Ok(Value::Null);
+                };
+                if projection.source_revision != document_revision
+                    || projection.source_version != document_version
+                {
                     return Ok(Value::Null);
                 }
                 let timestamp = params
@@ -1847,6 +1868,46 @@ mod tests {
             .unwrap();
         assert_eq!(mapped_back[0]["kind"], "authoredIdentity");
         assert_eq!(mapped_back[0]["uri"], uri);
+    }
+
+    #[test]
+    fn render_project_request_recovers_a_missing_current_projection() {
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+        server
+            .request(
+                "mmt/updatePackManifests",
+                serde_json::json!({ "revision": 1, "sources": [] }),
+            )
+            .unwrap();
+        let uri = Url::parse("file:///workspace/render.mmt").unwrap();
+        server
+            .notification(
+                "textDocument/didOpen",
+                serde_json::json!({
+                    "textDocument": {
+                        "uri": uri,
+                        "languageId": "mmt",
+                        "version": 1,
+                        "text": "@typ: #rect(width: 1cm, height: 1cm, fill: red)"
+                    }
+                }),
+            )
+            .unwrap();
+        server.projections.remove(&uri);
+        assert!(server.projections.get(&uri).is_none());
+
+        let render: TypstRenderProjectUpdate = serde_json::from_value(
+            server
+                .request(
+                    "mmt/getTypstRenderProject",
+                    serde_json::json!({ "uri": uri }),
+                )
+                .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(render.source_uri, uri);
+        assert_eq!(render.source_version, 1);
     }
 
     #[test]

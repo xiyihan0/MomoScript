@@ -22,7 +22,8 @@ const userDataDir = await mkdtemp(path.join(os.tmpdir(), "mmt-vscode-desktop-"))
 const exportPath = path.join(userDataDir, "mmt-desktop-export.pdf");
 await mkdir(path.join(userDataDir, "User"), { recursive: true });
 await writeFile(path.join(userDataDir, "User", "settings.json"), JSON.stringify({
-  "mmt.typst.server.path": tinymist
+  "mmt.typst.server.path": tinymist,
+  "mmt.resourcePacks.manifestUrls": ["https://127.0.0.1:1/mmt-test-pack.json"]
 }));
 process.env.MMT_DESKTOP_EXPORT_PATH = exportPath;
 try {

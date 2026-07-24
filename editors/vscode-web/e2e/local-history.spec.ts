@@ -1,6 +1,6 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, previewReadiness, test, type Page } from "./fixtures";
 
-test("editor context menu reveals the current file in local history", async ({ page }) => {
+test("editor context menu reveals the current file in local history", { tag: "@local-history" }, async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
 
@@ -22,7 +22,7 @@ test("editor context menu reveals the current file in local history", async ({ p
   await expect(page.getByRole("tree", { name: "本地历史版本" })).toContainText("story.mmt");
 });
 
-test("local history opens a single-file edit diff and restores it across reload", async ({ page }) => {
+test("local history opens a single-file edit diff and restores it across reload", { tag: "@local-history" }, async ({ page }) => {
   const baseline = "#set page(width: 420pt, height: 260pt)\n= HISTORY BASELINE\n";
   const current = "#set page(width: 420pt, height: 260pt)\n= HISTORY CURRENT\n";
 
@@ -35,7 +35,7 @@ test("local history opens a single-file edit diff and restores it across reload"
     Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function
   )(name, text), { name: "intro.typ", text: baseline });
   await expect.poll(() => persistedWorkspaceText(page, "/intro.typ")).toBe(baseline);
-  await expect.poll(() => visiblePreviewText(page), { timeout: 60_000 }).toContain("HISTORY BASELINE");
+  await waitForPreviewText(page, "HISTORY BASELINE");
 
   await page.getByRole("tab", { name: "本地历史", exact: true }).click();
   await page.getByRole("button", { name: "创建 Checkpoint" }).click();
@@ -52,7 +52,7 @@ test("local history opens a single-file edit diff and restores it across reload"
     Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function
   )(name, text), { name: "intro.typ", text: current });
   await expect.poll(() => persistedWorkspaceText(page, "/intro.typ")).toBe(current);
-  await expect.poll(() => visiblePreviewText(page), { timeout: 60_000 }).toContain("HISTORY CURRENT");
+  await waitForPreviewText(page, "HISTORY CURRENT");
 
   const editRecords = page.locator(".mms-history-revision-direct", { hasText: "编辑 intro.typ" });
   await expect(editRecords).toHaveCount(2);
@@ -73,13 +73,13 @@ test("local history opens a single-file edit diff and restores it across reload"
   await restoreBaseline.click();
   expect(restorePrompt).toBe("恢复 intro.typ？当前内容会先保存为安全 Checkpoint。");
   await expect.poll(() => persistedWorkspaceText(page, "/intro.typ")).toBe(baseline);
-  await expect.poll(() => visiblePreviewText(page), { timeout: 60_000 }).toContain("HISTORY BASELINE");
+  await waitForPreviewText(page, "HISTORY BASELINE");
 
   await page.evaluate(({ name, text }) => (
     Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function
   )(name, text), { name: "intro.typ", text: current });
   await expect.poll(() => persistedWorkspaceText(page, "/intro.typ")).toBe(current);
-  await expect.poll(() => visiblePreviewText(page), { timeout: 60_000 }).toContain("HISTORY CURRENT");
+  await waitForPreviewText(page, "HISTORY CURRENT");
 
   let workspaceRestorePrompt = "";
   page.once("dialog", (dialog) => {
@@ -95,7 +95,7 @@ test("local history opens a single-file edit diff and restores it across reload"
   await restoredNotification.getByRole("button", { name: "打开本地历史" }).click();
   await expect(page.getByRole("tab", { name: "本地历史", exact: true })).toHaveAttribute("aria-selected", "true");
   await expect.poll(() => persistedWorkspaceText(page, "/intro.typ")).toBe(baseline);
-  await expect.poll(() => visiblePreviewText(page), { timeout: 60_000 }).toContain("HISTORY BASELINE");
+  await waitForPreviewText(page, "HISTORY BASELINE");
 
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
@@ -104,10 +104,10 @@ test("local history opens a single-file edit diff and restores it across reload"
   if (!(await page.getByRole("tab", { name: /^intro\.typ（预览）/ }).isVisible())) {
     await page.getByRole("button", { name: "Typst 预览" }).click();
   }
-  await expect.poll(() => visiblePreviewText(page), { timeout: 60_000 }).toContain("HISTORY BASELINE");
+  await waitForPreviewText(page, "HISTORY BASELINE");
 });
 
-test("local history enforces retention and manages paged Checkpoints", async ({ page }) => {
+test("local history enforces retention and manages paged Checkpoints", { tag: "@local-history" }, async ({ page }) => {
   const retained = "#set page(width: 420pt, height: 260pt)\n= RETAINED AFTER GC\n";
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
@@ -129,6 +129,7 @@ test("local history enforces retention and manages paged Checkpoints", async ({ 
     for (let index = 0; index < count; index += 1) await create(`分页 Checkpoint ${index}`);
   }, 52);
   await page.getByRole("tab", { name: "本地历史", exact: true }).click();
+  await page.getByRole("combobox", { name: "本地历史范围" }).selectOption("workspace");
   await page.getByRole("button", { name: "刷新本地历史" }).click();
   await expect(page.getByText(/\/ 50\.0 MB · 保留 30 天 · \d+ 个 Checkpoint/)).toBeVisible();
   await expect(page.locator(".mms-history-revision")).toHaveCount(50);
@@ -163,6 +164,7 @@ test("local history enforces retention and manages paged Checkpoints", async ({ 
   await page.evaluate(({ name, text }) => (
     Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function
   )(name, text), { name: "intro.typ", text: `${retained}= CLEANUP CANDIDATE\n` });
+  await expect.poll(() => historyEditCountForPath(page, "/intro.typ"), { timeout: 10_000 }).toBeGreaterThan(0);
   await page.evaluate(() => (Reflect.get(globalThis, "__mmtCreateCheckpoint") as Function)("清理保护点"));
   await page.getByRole("button", { name: "刷新本地历史" }).click();
   await page.getByRole("combobox", { name: "本地历史类型" }).selectOption("edit");
@@ -177,7 +179,7 @@ test("local history enforces retention and manages paged Checkpoints", async ({ 
   await expect(page.getByText("暂无符合条件的历史记录")).toBeVisible();
 });
 
-test("local history elides an edit group that returns to its original content", async ({ page }) => {
+test("local history elides an edit group that returns to its original content", { tag: "@local-history" }, async ({ page }) => {
   const original = "#set page(width: 320pt, height: 180pt)\n= ORIGINAL\n";
   const transient = "#set page(width: 320pt, height: 180pt)\n= TRANSIENT\n";
   await page.goto("/");
@@ -196,7 +198,7 @@ test("local history elides an edit group that returns to its original content", 
   await expect.poll(() => historyEditCountForPath(page, "/history-noop.typ")).toBe(0);
 });
 
-test("local history distinguishes deleted files and reports binary metadata", async ({ page }) => {
+test("local history distinguishes deleted files and reports binary metadata", { tag: "@local-history" }, async ({ page }) => {
   const deletedText = "#set page(width: 320pt, height: 180pt)\n= DELETE ME\n";
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
@@ -261,6 +263,22 @@ async function persistedWorkspaceText(page: Page, path: string): Promise<string 
       database.close();
     }
   }, path);
+}
+
+async function waitForPreviewText(page: Page, expected: string): Promise<void> {
+  const deadline = Date.now() + 60_000;
+  while (true) {
+    const readiness = await previewReadiness(page);
+    if (readiness.stage === "failed" || readiness.stage === "runtime-failed") {
+      throw new Error(`Preview failed while waiting for ${JSON.stringify(expected)}: ${JSON.stringify(readiness)}`);
+    }
+    const text = await visiblePreviewText(page);
+    if (text.includes(expected)) return;
+    if (Date.now() >= deadline) {
+      throw new Error(`Preview text timed out for ${JSON.stringify(expected)}: ${JSON.stringify({ readiness, text })}`);
+    }
+    await page.waitForTimeout(250);
+  }
 }
 
 async function visiblePreviewText(page: Page): Promise<string> {

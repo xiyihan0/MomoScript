@@ -1,6 +1,6 @@
-import { expect, test, type Frame, type Page } from "@playwright/test";
+import { expect, test, type Page, waitForPreviewFrame } from "./fixtures";
 
-const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454/tinymist_bg.wasm.br?delivery=br-v1";
+const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d/tinymist_bg.wasm.br?delivery=br-v1";
 const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
 
 interface InteractionState {
@@ -14,7 +14,7 @@ interface InteractionState {
   readonly cursor: { pageIndex: number; x: number; y: number } | null;
 }
 
-test("Web and Desktop preview interactions stay artifact-bound", async ({ page }) => {
+test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtime-export" }, async ({ page }) => {
   await page.route("https://**/*", async (route) => {
     const url = route.request().url();
     if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
@@ -31,12 +31,12 @@ test("Web and Desktop preview interactions stay artifact-bound", async ({ page }
     }));
     if (startup.stage === "failed") throw new Error(String(startup.error ?? "Editor startup failed"));
     return startup.stage;
-  }, { timeout: 120_000 }).toBe("mmt-ready");
+  }, { timeout: 300_000 }).toBe("mmt-ready");
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => page.evaluate(() => Reflect.get(globalThis, "__mmtDisplayedPreviewSourceUri")?.())).not.toBeUndefined();
 
   await callFixture(page, { action: "install-immutable" });
-  let desktopPreview = await previewWebviewFrame(page);
+  let desktopPreview = await waitForPreviewFrame(page);
   await expect(desktopPreview.getByRole("button", { name: "Fit width" })).toBeVisible();
   await expect(desktopPreview.getByRole("button", { name: "Fit page" })).toBeVisible();
   await desktopPreview.getByRole("button", { name: "Fit page" }).click();
@@ -72,7 +72,7 @@ test("Web and Desktop preview interactions stay artifact-bound", async ({ page }
     await openDocument("interaction-b.typ", "#set page(width: 280pt, height: 180pt)\n= Interaction B\n");
   });
   await callFixture(page, { action: "install-immutable" });
-  desktopPreview = await previewWebviewFrame(page);
+  desktopPreview = await waitForPreviewFrame(page);
   await expect.poll(async () => (await interactionState(page)).viewport.fitMode).toBe("width");
   await page.evaluate(async () => {
     const showDocument = Reflect.get(globalThis, "__mmtShowWorkspaceDocument");
@@ -80,13 +80,13 @@ test("Web and Desktop preview interactions stay artifact-bound", async ({ page }
     await showDocument("intro.typ");
   });
   await callFixture(page, { action: "install-immutable" });
-  desktopPreview = await previewWebviewFrame(page);
+  desktopPreview = await waitForPreviewFrame(page);
   const restoredIntro = (await interactionState(page)).viewport;
   expect(restoredIntro.fitMode).toBe(introViewport.fitMode);
   expect(restoredIntro.zoom).toBe(introViewport.zoom);
 
   await callFixture(page, { action: "install-provider" });
-  desktopPreview = await previewWebviewFrame(page);
+  desktopPreview = await waitForPreviewFrame(page);
   await callFixture(page, { action: "position" });
   await expect(desktopPreview.locator(".preview-cursor")).toBeVisible();
   await callFixture(page, { action: "restart-provider" });
@@ -99,13 +99,13 @@ test("Web and Desktop preview interactions stay artifact-bound", async ({ page }
   await expect(desktopPreview.locator(".preview-indicator")).toHaveCount(0);
 
   await callFixture(page, { action: "install-immutable" });
-  desktopPreview = await previewWebviewFrame(page);
+  desktopPreview = await waitForPreviewFrame(page);
   await expect(desktopPreview.locator(".page svg")).toBeVisible();
   await desktopPreview.getByRole("button", { name: "Fit width" }).click();
   await expect.poll(async () => (await interactionState(page)).viewport.fitMode).toBe("width");
 });
 
-test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
+test("MMT Typst preview supports selectable text, workspace images, and bidirectional navigation", { tag: "@preview-navigation" }, async ({ page }) => {
   await page.route("https://**/*", async (route) => {
     const url = route.request().url();
     if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
@@ -115,7 +115,7 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
     await route.continue();
   });
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 120_000 });
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   const source = [
     "@typ",
     "12345",
@@ -129,7 +129,7 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
     Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function
   )(name, text), { name: "nested-workspace-image.mmt", text: source });
   await page.getByRole("button", { name: "Typst 预览" }).click();
-  const previewFrame = await previewWebviewFrame(page);
+  const previewFrame = await waitForPreviewFrame(page, sourceUri);
   await expect(previewFrame.locator("svg image").first()).toBeAttached({ timeout: 60_000 });
   await expect(previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().evaluate((element) => (
     element.closest("[data-span]")?.getAttribute("data-span") ?? null
@@ -178,12 +178,70 @@ test("MMT Typst blocks can load nested workspace images", async ({ page }) => {
     range.selectNodeContents(token);
     return range.toString();
   })).toBe("e");
+
+  const tokenGeometry = await previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().locator(".tsel-token").nth(2).evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    const style = getComputedStyle(element);
+    const parentStyle = getComputedStyle(element.parentElement!);
+    return { width: bounds.width, height: bounds.height, display: style.display, fontSize: style.fontSize, lineHeight: style.lineHeight, parentFontSize: parentStyle.fontSize, parentLineHeight: parentStyle.lineHeight };
+  });
+  expect(tokenGeometry.width > 0 && tokenGeometry.height > 0, JSON.stringify(tokenGeometry)).toBe(true);
+  await previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().locator(".tsel-token").nth(2).evaluate((element) => {
+    document.getSelection()?.removeAllRanges();
+    const bounds = element.getBoundingClientRect();
+    element.closest(".page")!.dispatchEvent(new PointerEvent("pointerdown", {
+      bubbles: true,
+      clientX: bounds.left + bounds.width / 2,
+      clientY: bounds.top + bounds.height / 2,
+    }));
+    element.closest(".page")!.dispatchEvent(new PointerEvent("pointerup", {
+      bubbles: true,
+      clientX: bounds.left + bounds.width / 2,
+      clientY: bounds.top + bounds.height / 2,
+    }));
+    element.closest(".page")!.dispatchEvent(new MouseEvent("click", {
+      bubbles: true,
+      clientX: bounds.left + bounds.width / 2,
+      clientY: bounds.top + bounds.height / 2,
+    }));
+  });
+  await expect.poll(async () => await callFixture(page, { action: "editor-selection" })).toMatchObject({
+    uri: sourceUri,
+    range: { start: { line: 1 }, end: { line: 1 } },
+  });
+
+  await selectableText.evaluate((element) => {
+    const tokens = element.querySelectorAll(":scope > .tsel-token");
+    const range = document.createRange();
+    range.setStart(tokens[0]!.firstChild!, 0);
+    range.setEnd(tokens[4]!.firstChild!, 1);
+    const selection = document.getSelection()!;
+    selection.removeAllRanges();
+    selection.addRange(range);
+    const bounds = tokens[2]!.getBoundingClientRect();
+    element.closest(".page")!.dispatchEvent(new MouseEvent("click", {
+      bubbles: true,
+      clientX: bounds.left + bounds.width / 2,
+      clientY: bounds.top + bounds.height / 2,
+    }));
+  });
+  await page.waitForTimeout(250);
+  await expect(callFixture(page, { action: "editor-selection" })).resolves.toMatchObject({
+    uri: sourceUri,
+    range: { start: { line: 1 }, end: { line: 1 } },
+  });
+
+  expect(await callFixture(page, {
+    action: "position-live",
+    range: { start: { line: 3, character: 0 }, end: { line: 3, character: 5 } },
+  })).toBe(true);
+  await expect(previewFrame.locator(".preview-cursor")).toHaveCount(1);
   await expect.poll(() => page.evaluate((uri) => (
     Reflect.get(globalThis, "__mmtPreviewBuildDiagnostics") as Function
   )(uri), sourceUri)).toEqual([]);
 });
 
-test("Typst preview keeps its scroll position across source-only rerenders", async ({ page }) => {
+test("Typst preview keeps its scroll position across source-only rerenders", { tag: "@preview-navigation" }, async ({ page }) => {
   await page.route("https://**/*", async (route) => {
     const url = route.request().url();
     if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
@@ -193,19 +251,19 @@ test("Typst preview keeps its scroll position across source-only rerenders", asy
     await route.continue();
   });
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 120_000 });
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   const source = [
     "#set page(width: 420pt, height: 260pt)",
     ...Array.from({ length: 10 }, (_, index) => `= Stable page ${index + 1}\n#pagebreak()`),
     "",
   ].join("\n");
-  await page.evaluate(({ name, text }) => {
+  const sourceUri = await page.evaluate(({ name, text }) => {
     const openDocument = Reflect.get(globalThis, "__mmtOpenWorkspaceDocument");
     if (typeof openDocument !== "function") throw new Error("workspace document fixture is unavailable");
     return openDocument(name, text);
   }, { name: "scroll-stability.typ", text: source });
   await page.getByRole("button", { name: "Typst 预览" }).click();
-  const previewFrame = await previewWebviewFrame(page);
+  const previewFrame = await waitForPreviewFrame(page, sourceUri);
   const viewport = previewFrame.locator(".viewport");
   await expect(viewport.locator(".page svg")).toBeVisible();
   const before = await viewport.evaluate((element) => {
@@ -239,23 +297,4 @@ async function callFixture(page: Page, request: Record<string, unknown>): Promis
 
 async function interactionState(page: Page): Promise<InteractionState> {
   return await callFixture(page, { action: "state" }) as InteractionState;
-}
-
-async function previewWebviewFrame(page: Page): Promise<Frame> {
-  let previewFrame: Frame | undefined;
-  await expect.poll(async () => {
-    for (const frame of page.frames()) {
-      try {
-        if (await frame.locator(".viewport .page svg").count() > 0) {
-          previewFrame = frame;
-          return true;
-        }
-      } catch {
-        // VS Code replaces the pending Webview iframe after setting its HTML.
-      }
-    }
-    return false;
-  }, { timeout: 60_000 }).toBe(true);
-  if (!previewFrame) throw new Error("rendered preview Webview frame is missing");
-  return previewFrame;
 }

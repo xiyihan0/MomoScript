@@ -1,6 +1,6 @@
-import { expect, test, type Download, type Frame, type Page } from "@playwright/test";
+import { expect, test, type Download, type Page, waitForPreviewFrame } from "./fixtures";
 
-const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/d9b946a8aa1425eeda71e6fcb603fb85ce30cd79b2a676a5d557971f202af454/tinymist_bg.wasm.br?delivery=br-v1";
+const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d/tinymist_bg.wasm.br?delivery=br-v1";
 const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
 
 const mmtSource = [
@@ -13,7 +13,7 @@ const mmtSource = [
   "",
 ].join("\n");
 
-test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-export fixture", async ({ page }) => {
+test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-export fixture", { tag: "@runtime-export" }, async ({ page }) => {
   await page.route("https://**/*", async (route) => {
     const url = route.request().url();
     if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
@@ -24,10 +24,10 @@ test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-ex
   });
 
   await page.goto("/?mmtExportMode=current-preview");
-  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 120_000 });
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   await page.getByRole("button", { name: "Typst 预览" }).click();
 
-  let preview = await currentPreviewExportFrame(page);
+  let preview = await waitForPreviewFrame(page);
   const controls = preview.getByLabel("Current preview export");
   await expect(controls).toHaveAttribute("data-mode", "current-preview");
   await expect(controls).toHaveAttribute("data-availability", "ready");
@@ -63,7 +63,7 @@ test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-ex
   await expect.poll(() => page.evaluate(() => Reflect.get(globalThis, "__mmtDisplayedPreviewSourceUri")?.()))
     .toMatch(/browser-export\.mmt$/);
 
-  preview = await currentPreviewExportFrame(page);
+  preview = await waitForPreviewFrame(page);
   await expect(preview.getByLabel("Current preview export")).toHaveAttribute("data-availability", "ready");
   await preview.getByLabel("Export format").selectOption("pdf");
   const pdfDownload = await clickForDownload(
@@ -77,24 +77,6 @@ test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-ex
   await expect(preview.getByRole("status")).toContainText("Exported current preview");
 });
 
-async function currentPreviewExportFrame(page: Page): Promise<Frame> {
-  let previewFrame: Frame | undefined;
-  await expect.poll(async () => {
-    for (const frame of page.frames()) {
-      try {
-        if (await frame.locator('.exact-export[data-mode="current-preview"]').count() > 0) {
-          previewFrame = frame;
-          return true;
-        }
-      } catch {
-        // The Monaco Webview iframe is replaced whenever a new artifact is displayed.
-      }
-    }
-    return false;
-  }, { timeout: 60_000 }).toBe(true);
-  if (!previewFrame) throw new Error("current preview export Webview frame is missing");
-  return previewFrame;
-}
 
 async function clickForDownload(page: Page, click: Promise<void>): Promise<Download> {
   const download = page.waitForEvent("download");

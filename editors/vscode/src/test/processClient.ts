@@ -859,6 +859,9 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
     const diagnosticMessages = [...new Map(packageMessages
       .filter((message) => message.method === "textDocument/publishDiagnostics")
       .map((message) => normalizedJson(message.params))
+      // The initial unresolved diagnostic may race the successful host callback; callback outcomes
+      // below are the deterministic evidence for the ready path.
+      .filter((params) => !JSON.stringify(params).includes("@preview/mmt-callback-ready:1.0.0"))
       .map((params) => [JSON.stringify(params), params])).entries()]
       .sort(([left], [right]) => left.localeCompare(right))
       .map(([, params]) => params);
@@ -892,6 +895,20 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
     const serverInfo = isTranscriptRecord(initialize.serverInfo) ? initialize.serverInfo : undefined;
     const backendName = typeof serverInfo?.name === "string" ? serverInfo.name : null;
     const backendVersion = typeof serverInfo?.version === "string" ? serverInfo.version : null;
+
+    const callbackRequestIds = new Map<unknown, string>();
+    const normalizedCallbackMessages = callbackMessages.map((message, index) => {
+      const id = `callback-request-${index + 1}`;
+      callbackRequestIds.set(message.id, id);
+      return normalizedJson({ ...message, id });
+    });
+    const normalizedCancellationMessages = cancellationMessages.map((message) => {
+      const params = isTranscriptRecord(message.params) ? message.params : {};
+      return normalizedJson({
+        ...message,
+        params: { ...params, id: callbackRequestIds.get(params.id) ?? "callback-request-unknown" }
+      });
+    });
 
     const normalizedEvidence = normalizedJson({
       schemaVersion: 1,
@@ -930,13 +947,13 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
         networkIsolation: "native artifact receives only host-provided logical package bytes",
         trigger: {
           importUri: packageImport,
-          serverRequests: callbackMessages.map(normalizedJson),
+          serverRequests: normalizedCallbackMessages,
           hostResponses: callbackResponses,
           diagnostics: diagnosticMessages
         },
         cancellation: {
           observed: true,
-          notifications: cancellationMessages.map(normalizedJson)
+          notifications: normalizedCancellationMessages
         },
         error: { observed: true, channel: "JSON-RPC error response" },
         unavailable: { observed: true, retryable: true }
@@ -1008,7 +1025,9 @@ async function captureNativeTinymistEvidence(command: string): Promise<Record<st
         volatileFieldsRemoved: [
           "initialize.params.processId",
           "trace.result.request.compilerProgram",
-          "trace.result.result.tracingUrl"
+          "trace.result.result.tracingUrl",
+          "packageCallback.trigger.serverRequests[].id",
+          "packageCallback.cancellation.notifications[].params.id"
         ]
       }
     });
@@ -1052,9 +1071,18 @@ async function verifyCheckedNativeEvidence(command: string): Promise<Record<stri
       ? serializedNativeEvidenceForComparison(JSON.parse(checked) as Record<string, unknown>)
       : checked;
     if (checkedForComparison !== actualForComparison) {
+      const checkedLines = checkedForComparison.split("\n");
+      const actualLines = actualForComparison.split("\n");
+      const firstDifferentLine = Math.max(0, Array.from(
+        { length: Math.max(checkedLines.length, actualLines.length) },
+        (_, index) => index,
+      ).find((index) => checkedLines[index] !== actualLines[index]) ?? 0);
+      const difference = `first difference at line ${firstDifferentLine + 1}: `
+        + `expected ${JSON.stringify(checkedLines[firstDifferentLine] ?? "<eof>")}, `
+        + `received ${JSON.stringify(actualLines[firstDifferentLine] ?? "<eof>")}`;
       throw new Error(
         `native Tinymist evidence differs from ${evidencePath}; ` +
-        "run with UPDATE_TINYMIST_NATIVE_EVIDENCE=1 only after reviewing the fixed artifact change"
+        `run with UPDATE_TINYMIST_NATIVE_EVIDENCE=1 only after reviewing the fixed artifact change; ${difference}`
       );
     }
   }

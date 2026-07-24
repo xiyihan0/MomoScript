@@ -3,7 +3,7 @@ import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "./e2e",
   testMatch: "pwa-offline.spec.ts",
-  timeout: 180_000,
+  timeout: 600_000,
   expect: { timeout: 60_000 },
   fullyParallel: false,
   workers: 1,

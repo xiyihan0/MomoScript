@@ -21,6 +21,9 @@ env:
   TYPST_LINUX_SHA256: 59b207df01be2dab9f13e80f73d04d7ff8273ffd46b3dd1b9eef5c60f3eeabea
   TINYMIST_REVISION: 3d63da4f93c54ddef0c63e1a6237d67aee13f5fe
   TYPST_TS_REVISION: e1974e566ba63dcf8ecdd6730cff25de26c7dbd2
+  TYPST_TS_RUST_TOOLCHAIN: 1.96.0
+  TYPST_TS_BINARYEN_VERSION: 116
+  TYPST_TS_BINARYEN_SHA256: c55b74f3109cdae97490faf089b0286d3bba926bb6ea5ed00c8c784fc53718fd
 
 jobs:
   core-native:
@@ -134,25 +137,61 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Restore pinned Typst compiler artifact
+        id: typst-compiler-artifact-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ runner.temp }}/typst-compiler/pkg/typst_ts_web_compiler_bg.wasm
+            ${{ runner.temp }}/typst-compiler/pkg/SHA256SUMS
+          key: typst-compiler-v1-${{ runner.os }}-${{ runner.arch }}-${{ env.TYPST_TS_RUST_TOOLCHAIN }}-${{ env.WASM_PACK_VERSION }}-${{ env.TYPST_TS_BINARYEN_VERSION }}-${{ env.TYPST_TS_REVISION }}-${{ hashFiles('third_party/typst-ts/pin.json', 'third_party/typst-ts/patches/*.patch') }}
       - name: Install pinned Rust and wasm-pack
+        if: steps.typst-compiler-artifact-cache.outputs.cache-hit != 'true'
         run: |
-          rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
-          rustup default "$RUST_TOOLCHAIN"
+          rustup toolchain install "$TYPST_TS_RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
+          rustup default "$TYPST_TS_RUST_TOOLCHAIN"
           cargo install wasm-pack --version "$WASM_PACK_VERSION" --locked
+      - name: Install pinned Binaryen
+        if: steps.typst-compiler-artifact-cache.outputs.cache-hit != 'true'
+        run: |
+          archive="$RUNNER_TEMP/binaryen-version_${TYPST_TS_BINARYEN_VERSION}-x86_64-linux.tar.gz"
+          curl --fail --location --silent --show-error \
+            "https://github.com/WebAssembly/binaryen/releases/download/version_${TYPST_TS_BINARYEN_VERSION}/binaryen-version_${TYPST_TS_BINARYEN_VERSION}-x86_64-linux.tar.gz" \
+            --output "$archive"
+          echo "${TYPST_TS_BINARYEN_SHA256}  ${archive}" | sha256sum --check
+          tar --extract --gzip --file "$archive" --directory "$RUNNER_TEMP"
+          binaryen_bin="$RUNNER_TEMP/binaryen-version_${TYPST_TS_BINARYEN_VERSION}/bin"
+          echo "$binaryen_bin" >> "$GITHUB_PATH"
+          "$binaryen_bin/wasm-opt" --version | grep -F "version_${TYPST_TS_BINARYEN_VERSION}"
       - name: Check out pinned typst.ts source
+        if: steps.typst-compiler-artifact-cache.outputs.cache-hit != 'true'
         run: |
           git clone --filter=blob:none https://github.com/Myriad-Dreamin/typst.ts.git "$RUNNER_TEMP/typst.ts"
           git -C "$RUNNER_TEMP/typst.ts" checkout --detach "$TYPST_TS_REVISION"
-      - name: Apply maintained debug-span patch
-        run: git -C "$RUNNER_TEMP/typst.ts" apply "$GITHUB_WORKSPACE/third_party/typst-ts/patches/0001-expose-render-debug-spans.patch"
-      - name: Build and verify pinned Typst runtime artifacts
+      - name: Build pinned Typst runtime artifact
+        if: steps.typst-compiler-artifact-cache.outputs.cache-hit != 'true'
         working-directory: ${{ runner.temp }}/typst.ts/packages/compiler
         run: |
+          git -C "$RUNNER_TEMP/typst.ts" apply "$GITHUB_WORKSPACE/third_party/typst-ts/patches/0001-expose-render-debug-spans.patch"
           wasm-pack build --target web --scope myriaddreamin --release -- --no-default-features --features web,misc
           node ../tools/wasm-debundle.mjs
-          echo "fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c  pkg/typst_ts_web_compiler_bg.wasm" | sha256sum --check
           echo "94d91940b1cc6242009962e42e31da2438f9879239efa572e3d4a92eb61e3507  pkg/typst_ts_web_compiler.mjs" | sha256sum --check
           echo "94d91940b1cc6242009962e42e31da2438f9879239efa572e3d4a92eb61e3507  $GITHUB_WORKSPACE/third_party/typst-ts/pkg/typst_ts_web_compiler.mjs" | sha256sum --check
+          mkdir -p "$RUNNER_TEMP/typst-compiler/pkg"
+          cp pkg/typst_ts_web_compiler_bg.wasm "$RUNNER_TEMP/typst-compiler/pkg/typst_ts_web_compiler_bg.wasm"
+          cd "$RUNNER_TEMP/typst-compiler/pkg"
+          sha256sum typst_ts_web_compiler_bg.wasm > SHA256SUMS
+      - name: Verify pinned Typst runtime artifact
+        working-directory: ${{ runner.temp }}/typst-compiler/pkg
+        run: |
+          sha256sum --check SHA256SUMS
+          node --input-type=module -e 'import { readFile } from "node:fs/promises"; const module = await WebAssembly.compile(await readFile("typst_ts_web_compiler_bg.wasm")); const exports = new Set(WebAssembly.Module.exports(module).map(({ name }) => name)); for (const name of ["typstcompileworld_render_svg_with_debug_spans", "typstcompileworld_resolve_main_spans"]) { if (!exports.has(name)) throw new Error(`missing WASM export: ${name}`); }'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: typst-compiler-pinned-web
+          path: ${{ runner.temp }}/typst-compiler/pkg/typst_ts_web_compiler_bg.wasm
+          compression-level: 0
+          if-no-files-found: error
 
   extension-desktop:
     name: extension-desktop
@@ -253,7 +292,7 @@ jobs:
 
   production-e2e:
     name: production-e2e
-    needs: [tinymist-compatibility, extension-web]
+    needs: [tinymist-compatibility, typst-compiler-compatibility, extension-web]
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
@@ -269,6 +308,10 @@ jobs:
         with:
           name: tinymist-pinned-linux-x64
           path: .ci/tinymist
+      - uses: actions/download-artifact@v4
+        with:
+          name: typst-compiler-pinned-web
+          path: .ci/typst-compiler
       - name: Install production editor dependencies
         run: |
           npm ci --prefix editors/vscode
@@ -278,14 +321,87 @@ jobs:
         working-directory: editors/vscode-web
         env:
           TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+          TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: |
           npm run test:e2e:chrome
-          npm run test:e2e:lifecycle
       - name: Upload E2E failure diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: production-e2e-test-results
+          path: editors/vscode-web/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  lifecycle-e2e:
+    name: lifecycle-e2e
+    needs: extension-web
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            editors/vscode/package-lock.json
+            editors/vscode-web/package-lock.json
+      - name: Install lifecycle test dependencies
+        run: |
+          npm ci --prefix editors/vscode
+          npm ci --prefix editors/vscode-web
+          npx --prefix editors/vscode-web playwright install --with-deps chrome
+      - name: Run HMR and runtime lifecycle journeys
+        working-directory: editors/vscode-web
+        run: npm run test:e2e:lifecycle
+      - name: Upload lifecycle failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lifecycle-e2e-test-results
+          path: editors/vscode-web/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  pwa-e2e:
+    name: pwa-e2e
+    needs: [tinymist-compatibility, typst-compiler-compatibility, extension-web]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            editors/vscode/package-lock.json
+            editors/vscode-web/package-lock.json
+      - uses: actions/download-artifact@v4
+        with:
+          name: tinymist-pinned-linux-x64
+          path: .ci/tinymist
+      - uses: actions/download-artifact@v4
+        with:
+          name: typst-compiler-pinned-web
+          path: .ci/typst-compiler
+      - name: Install PWA test dependencies
+        run: |
+          npm ci --prefix editors/vscode
+          npm ci --prefix editors/vscode-web
+          npx --prefix editors/vscode-web playwright install --with-deps chromium
+      - name: Run PWA offline lifecycle journey
+        working-directory: editors/vscode-web
+        env:
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+          TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
+        run: npm run test:e2e:pwa-offline
+      - name: Upload PWA failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pwa-e2e-test-results
           path: editors/vscode-web/test-results/
           if-no-files-found: ignore
           retention-days: 14

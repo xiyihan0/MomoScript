@@ -12,8 +12,8 @@ const pin = JSON.parse(await readFile(pinPath, "utf8"));
 const source = path.resolve(process.env.TINYMIST_SRC ?? "");
 const mode = process.argv[2] ?? "verify";
 if (!process.env.TINYMIST_SRC) throw new Error("TINYMIST_SRC must name a Tinymist checkout");
-if (!new Set(["apply", "verify", "build-promote", "promote"]).has(mode)) {
-  throw new Error("usage: node patch-tinymist-artifacts.mjs apply|verify|build-promote|promote");
+if (!new Set(["apply", "verify", "build-promote", "promote", "repin"]).has(mode)) {
+  throw new Error("usage: node patch-tinymist-artifacts.mjs apply|verify|build-promote|promote|repin");
 }
 
 const patchPath = path.join(root, pin.patch.path);
@@ -51,7 +51,7 @@ if (mode === "build-promote") {
 }
 
 let promotedArtifacts = pin.artifacts;
-if (mode === "build-promote" || mode === "promote") {
+if (mode === "build-promote" || mode === "promote" || mode === "repin") {
   const nativePath = path.join(source, pin.artifacts.native.relativePath);
   const jsPath = path.join(source, pin.artifacts.webJs.relativePath);
   const wasmPath = path.join(source, pin.artifacts.webWasm.relativePath);
@@ -81,27 +81,32 @@ if (mode === "build-promote" || mode === "promote") {
     webWasm: { ...pin.artifacts.webWasm, ...wasmArtifact }
   };
 
-  const canonicalWeb = jsArtifact.sha256 === pin.artifacts.webJs.sha256
-    && wasmArtifact.sha256 === pin.artifacts.webWasm.sha256;
-  if (canonicalWeb) {
+  const canonicalArtifacts = mode === "repin" ? promotedArtifacts : pin.artifacts;
+  if (mode === "repin") {
+    pin.artifacts = promotedArtifacts;
+    await writeFile(pinPath, `${JSON.stringify(pin, null, 2)}\n`);
     const vendor = path.join(root, "editors", "vscode", "vendor", `tinymist-${pin.upstream.version}`);
     await copyFile(jsPath, path.join(vendor, "tinymist.js"));
     await copyFile(wasmPath, path.join(vendor, "tinymist_bg.wasm"));
     await writeFile(
       path.join(vendor, "SHA256SUMS"),
-      `${pin.artifacts.webJs.sha256}  tinymist.js\n${pin.artifacts.webWasm.sha256}  tinymist_bg.wasm\n`
+      `${promotedArtifacts.webJs.sha256}  tinymist.js\n${promotedArtifacts.webWasm.sha256}  tinymist_bg.wasm\n`
+    );
+    await writeFile(
+      path.join(root, "editors", "vscode", "src", "test", "fixtures", "tinymist-native-patched.sha256"),
+      `${promotedArtifacts.native.sha256}  tinymist\n`
     );
   }
 
-  // Keep this checked manifest canonical-only. Rebuilt native and Web artifacts
-  // receive run-local checksum manifests beside their binaries above.
+  // Runtime builds receive adjacent checksums; only explicit repin replaces
+  // the checked canonical metadata and vendored Web package.
   await writeFile(
     path.join(root, "third_party", "tinymist", "SHA256SUMS"),
     [
       `${pin.patch.sha256}  patches/0001-mmt-host-package-callback.patch`,
-      `${pin.artifacts.native.sha256}  ${pin.artifacts.native.relativePath}`,
-      `${pin.artifacts.webJs.sha256}  ${pin.artifacts.webJs.relativePath}`,
-      `${pin.artifacts.webWasm.sha256}  ${pin.artifacts.webWasm.relativePath}`
+      `${canonicalArtifacts.native.sha256}  ${canonicalArtifacts.native.relativePath}`,
+      `${canonicalArtifacts.webJs.sha256}  ${canonicalArtifacts.webJs.relativePath}`,
+      `${canonicalArtifacts.webWasm.sha256}  ${canonicalArtifacts.webWasm.relativePath}`
     ].join("\n") + "\n"
   );
 }
