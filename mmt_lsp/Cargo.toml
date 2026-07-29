@@ -35,3 +35,5 @@ lsp-server = { version = "0.8", optional = true }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = "0.2"
+console_error_panic_hook = "0.1"
+js-sys = "0.3"

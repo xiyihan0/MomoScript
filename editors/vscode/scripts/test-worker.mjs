@@ -305,6 +305,13 @@ try {
     await waitForNotification("textDocument/publishDiagnostics", (message) => message.params.uri === renderUri);
     const renderLanguageProject = await renderLanguageProjectPromise;
     const renderProject = await request("mmt/getTypstRenderProject", { uri: renderUri });
+    const acceptedRenderProject = await waitForNotification(
+      "mmt/typstRenderProjectUpdated",
+      (message) => message.params.sourceUri === renderUri
+    );
+    if (acceptedRenderProject.params.projectDigest !== renderProject.projectDigest) {
+      throw new Error("accepted render notification identity differs from its request response");
+    }
     if (renderProject.resources.length !== 1) throw new Error("render project omitted actor avatar");
     if (renderProject.resources[0].fileName !== "yuzu.png") throw new Error("render resource path mismatch");
     if (renderProject.entryUri !== renderLanguageProject.params.entryUri) {
@@ -540,6 +547,7 @@ try {
       semanticDiagnosticCount: semanticDiagnostics.params.diagnostics.length,
       packProjectionRevisions: [beforePackProject.params.revision, afterPackProject.params.revision],
       renderResource: renderProject.resources[0].fileName,
+      renderNotificationIdentity: acceptedRenderProject.params.projectDigest === renderProject.projectDigest,
       synchronizationVersions: [afterDuplicate.sourceVersion, afterOlder.sourceVersion],
       legacyUpdateDocumentUnavailable: true,
       renderDiagnosticPhases: [...renderPhases].sort(),

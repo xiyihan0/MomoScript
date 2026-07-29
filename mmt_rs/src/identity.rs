@@ -448,8 +448,7 @@ mod tests {
             &input.source_map_digest,
         );
         let materialization = materialization_key(&projection, "pack", "plan", "bytes");
-        let runtime =
-            runtime_artifact_key("0.15.2", "compiler-wasm", "template", "fonts");
+        let runtime = runtime_artifact_key("0.15.2", "compiler-wasm", "template", "fonts");
         let render = render_key(&materialization, &runtime, "options");
         assert_eq!(project.0.len(), 64);
         assert_eq!(projection.0.len(), 64);

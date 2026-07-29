@@ -28,7 +28,10 @@ fn main() -> Result<(), Box<dyn std::error::Error + Sync + Send>> {
                                 serde_json::from_value::<Vec<ServerEvent>>(value).ok()
                             })
                             .unwrap_or_default();
-                        let response_result = result;
+                        let mut response_result = result;
+                        if let serde_json::Value::Object(fields) = &mut response_result {
+                            fields.remove("events");
+                        }
                         (Response::new_ok(request.id, response_result), events)
                     }
                     Err(error) => (

@@ -57,9 +57,15 @@ async function start(wasmBytes: ArrayBuffer): Promise<void> {
   connection.onRequest("mmt/getTypstProject", (params) =>
     request("mmt/getTypstProject", params)
   );
-  connection.onRequest("mmt/getTypstRenderProject", (params) =>
-    request("mmt/getTypstRenderProject", params)
-  );
+  connection.onRequest("mmt/getTypstRenderProject", (params) => {
+    const outcome = request<Record<string, unknown> & { events?: ServerEvent[] }>(
+      "mmt/getTypstRenderProject",
+      params
+    );
+    for (const event of outcome.events ?? []) connection.sendNotification(event.method, event.params);
+    const { events: _, ...update } = outcome;
+    return update;
+  });
   connection.onRequest("mmt/getDocumentConfig", (params) =>
     request("mmt/getDocumentConfig", params)
   );

@@ -1,4 +1,5 @@
-import type { TypstProjectUpdate, TypstVirtualFile } from "./tinymistClient";
+import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstVirtualFile } from "./tinymistClient";
+import { canonicalBytesDigest } from "./runtimeIdentity";
 
 export const DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS = 30_000;
 
@@ -17,6 +18,135 @@ export function mergeProjectFiles(current: TypstVirtualFile[], changed: TypstVir
   const files = new Map(current.map((file) => [canonicalTypstUri(file.uri), file]));
   for (const file of changed) files.set(canonicalTypstUri(file.uri), file);
   return [...files.values()];
+}
+
+export class RenderProjectDeltaError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "RenderProjectDeltaError";
+  }
+}
+
+export async function applyRenderProjectUpdate(
+  base: TypstRenderProjectUpdate | undefined,
+  update: TypstRenderProjectUpdate
+): Promise<TypstRenderProjectUpdate> {
+  await Promise.all(update.files.map(validateVirtualFileDigest));
+  if (update.full) {
+    if (update.baseRevision !== undefined
+      || update.baseProjectDigest !== undefined
+      || (update.deletedUris?.length ?? 0) > 0) {
+      throw new RenderProjectDeltaError("Full render project carries delta-only fields");
+    }
+    assertUniqueVirtualFiles(update.files);
+    return { ...update, deletedUris: [] };
+  }
+  if (!base?.full) throw new RenderProjectDeltaError("Render delta has no accepted full snapshot");
+  if (update.baseRevision === undefined || update.baseProjectDigest === undefined) {
+    throw new RenderProjectDeltaError("Render delta is missing its base identity");
+  }
+  if (
+    base.sourceUri !== update.sourceUri
+    || projectionSessionKey(base.entryUri) !== projectionSessionKey(update.entryUri)
+    || base.revision !== update.baseRevision
+    || base.projectDigest !== update.baseProjectDigest
+    || update.revision <= base.revision
+  ) {
+    throw new RenderProjectDeltaError("Render delta base identity does not match the accepted snapshot");
+  }
+  assertUniqueVirtualFiles(update.files);
+  const files = new Map(base.files.map((file) => [canonicalTypstUri(file.uri), file]));
+  for (const uri of update.deletedUris ?? []) files.delete(canonicalTypstUri(uri));
+  for (const file of update.files) files.set(canonicalTypstUri(file.uri), file);
+  if (!files.has(canonicalTypstUri(update.entryUri))) {
+    throw new RenderProjectDeltaError("Render delta does not reconstruct its current entry file");
+  }
+  return {
+    ...update,
+    files: [...files.values()],
+    full: true,
+    baseRevision: undefined,
+    baseProjectDigest: undefined,
+    deletedUris: [],
+  };
+}
+
+export interface RenderProjectAcceptance {
+  readonly project: TypstRenderProjectUpdate;
+  readonly advanced: boolean;
+}
+
+export class RenderProjectSnapshotStore {
+  readonly #snapshots = new Map<string, TypstRenderProjectUpdate>();
+  #tail: Promise<void> = Promise.resolve();
+  #epoch = 0;
+
+  get(sourceUri: string): TypstRenderProjectUpdate | undefined {
+    return this.#snapshots.get(sourceUri);
+  }
+
+  accept(update: TypstRenderProjectUpdate): Promise<RenderProjectAcceptance> {
+    const operation = this.#tail.then(() => this.#accept(update));
+    this.#tail = operation.then(() => undefined, () => undefined);
+    return operation;
+  }
+
+  async #accept(update: TypstRenderProjectUpdate): Promise<RenderProjectAcceptance> {
+    const current = this.#snapshots.get(update.sourceUri);
+    const epoch = this.#epoch;
+    if (
+      current
+      && projectionSessionKey(current.entryUri) === projectionSessionKey(update.entryUri)
+      && current.revision === update.revision
+      && current.sourceVersion === update.sourceVersion
+      && current.projectDigest === update.projectDigest
+    ) {
+      return { project: current, advanced: false };
+    }
+    if (
+      current
+      && projectionSessionKey(current.entryUri) === projectionSessionKey(update.entryUri)
+      && update.revision <= current.revision
+    ) {
+      throw new RenderProjectDeltaError("Render project update does not advance the accepted snapshot");
+    }
+    const project = await applyRenderProjectUpdate(update.full ? undefined : current, update);
+    if (epoch !== this.#epoch) {
+      throw new RenderProjectDeltaError("Render project snapshot store changed during admission");
+    }
+    this.#snapshots.set(update.sourceUri, project);
+    return { project, advanced: true };
+  }
+
+  close(sourceUri: string): void {
+    this.#snapshots.delete(sourceUri);
+    this.#epoch += 1;
+  }
+
+  clear(): void {
+    this.#snapshots.clear();
+    this.#epoch += 1;
+  }
+}
+
+async function validateVirtualFileDigest(file: TypstVirtualFile): Promise<void> {
+  if (!file.digest) throw new RenderProjectDeltaError(`Virtual file '${file.uri}' has no content digest`);
+  const bytes = file.text !== undefined
+    ? new TextEncoder().encode(file.text)
+    : Uint8Array.from(atob(file.dataBase64), (character) => character.charCodeAt(0));
+  const digest = await canonicalBytesDigest("mmt-project-file-v1", [bytes]);
+  if (digest !== file.digest) {
+    throw new RenderProjectDeltaError(`Virtual file '${file.uri}' failed content digest validation`);
+  }
+}
+
+function assertUniqueVirtualFiles(files: readonly TypstVirtualFile[]): void {
+  const uris = new Set<string>();
+  for (const file of files) {
+    const uri = canonicalTypstUri(file.uri);
+    if (uris.has(uri)) throw new RenderProjectDeltaError(`Duplicate virtual file '${file.uri}'`);
+    uris.add(uri);
+  }
 }
 
 export interface ProjectFileRotation {

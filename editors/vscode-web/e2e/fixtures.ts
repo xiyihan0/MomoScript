@@ -37,6 +37,60 @@ export const test = base.extend({
   },
 });
 
+export type SyntheticPreviewSize = "small" | "medium" | "large";
+
+const SYNTHETIC_TARGET_BYTES: Readonly<Record<SyntheticPreviewSize, number>> = Object.freeze({
+  small: 2 * 1024,
+  medium: 16 * 1024,
+  large: 44 * 1024,
+});
+
+/** Deterministic generated MMT benchmark input; contains no copied authored source. */
+export function syntheticPreviewDocument(size: SyntheticPreviewSize): string {
+  const targetBytes = SYNTHETIC_TARGET_BYTES[size];
+  const filler: string[] = [];
+  let fillerBytes = 0;
+  let index = 0;
+  while (fillerBytes < targetBytes - 1_536) {
+    const page = String(index).padStart(4, "0");
+    const line = `// Synthetic parser and compiler benchmark filler ${page}; deterministic payload ${page}.`;
+    filler.push(line);
+    fillerBytes += Buffer.byteLength(`${line}\n`, "utf8");
+    index += 1;
+  }
+  const chunks: string[][] = [];
+  for (let offset = 0; offset < filler.length; offset += 32) {
+    const batch = String(offset / 32).padStart(3, "0");
+    chunks.push([
+      "@typ",
+      ...filler.slice(offset, offset + 32),
+      "@end",
+      `- Synthetic DSL semantic batch ${batch}.`,
+    ]);
+  }
+  const midpoint = Math.floor(chunks.length / 2);
+  const source = [
+    "- PERF-START-A deterministic start marker.",
+    "@typ",
+    'Synthetic selectable preview line #image("intro-assets/basic.png", width: 36pt)',
+    "#pagebreak()",
+    "Synthetic second benchmark page.",
+    "@end",
+    ...chunks.slice(0, midpoint).flat(),
+    "- PERF-MIDDLE-A deterministic midpoint marker.",
+    ...chunks.slice(midpoint).flat(),
+    "- PERF-END-A deterministic end marker.",
+    "",
+  ].join("\n");
+  if (size === "large") {
+    const bytes = Buffer.byteLength(source, "utf8");
+    if (bytes < 40 * 1024 || bytes > 50 * 1024) {
+      throw new Error(`large synthetic preview fixture must be 40-50 KiB, received ${bytes} bytes`);
+    }
+  }
+  return source;
+}
+
 export interface PreviewReadiness {
   readonly stage: string;
   readonly sourceUri: string | null;

@@ -10,21 +10,25 @@ import { TinymistHostSession } from "./tinymistHostSession";
 import type { TypstPackageService } from "./typstPackageService";
 import { DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS } from "./typstProjectState";
 export {
+  applyRenderProjectUpdate,
   canonicalTypstUri,
   mergeProjectFiles,
   projectionSessionKey,
+  RenderProjectDeltaError,
+  RenderProjectSnapshotStore,
   ProjectFileCloseRegistry,
   projectFileIsOwned,
   releasePendingProjectFile,
   releasePendingProjectFileAfterGrace,
   rotateProjectFileGenerations,
-  type ProjectFileRotation
+  type ProjectFileRotation,
+  type RenderProjectAcceptance,
 } from "./typstProjectState";
 
 
 export type TypstVirtualFile =
-  | { uri: string; text: string; dataBase64?: never }
-  | { uri: string; text?: never; dataBase64: string };
+  | { uri: string; digest?: string; text: string; dataBase64?: never }
+  | { uri: string; digest?: string; text?: never; dataBase64: string };
 
 export interface TypstResourceRange {
   start: { line: number; character: number };
@@ -93,6 +97,24 @@ export interface TypstRenderDiagnostic {
   labels: TypstRenderDiagnosticLabel[];
 }
 
+export interface GetTypstRenderProjectParams {
+  readonly uri: string;
+  readonly timestamp?: { readonly unixMillis: number; readonly localOffsetMinutes: number };
+  readonly traceId?: string;
+  readonly baseRevision?: number;
+  readonly baseProjectDigest?: TypstProjectSnapshotKey;
+  readonly forceFull?: boolean;
+}
+
+export interface TypstRenderProjectTimings {
+  readonly rustParseMs?: number;
+  readonly rustSemanticMs?: number;
+  readonly rustResolveMs?: number;
+  readonly rustEmitMs?: number;
+  readonly rustTypstCheckMs?: number;
+  readonly rustIndexDigestMs?: number;
+}
+
 export interface TypstRenderProjectUpdate {
   sourceUri: string;
   /** LSP version of the authored MMT document. */
@@ -101,7 +123,10 @@ export interface TypstRenderProjectUpdate {
   revision: number;
   entryUri: string;
   files: TypstVirtualFile[];
-  full: true;
+  full: boolean;
+  baseRevision?: number;
+  baseProjectDigest?: TypstProjectSnapshotKey;
+  deletedUris?: string[];
   resources: TypstResourceRequest[];
   diagnostics: TypstRenderDiagnostic[];
   projectDigest: TypstProjectSnapshotKey;
@@ -111,6 +136,8 @@ export interface TypstRenderProjectUpdate {
   packRegistryDigest: string;
   resourcePlanDigest: string;
   resourceBytesDigest: string;
+  traceId?: string;
+  timings?: TypstRenderProjectTimings;
 }
 
 export function isTypstTextFile(file: TypstVirtualFile): file is Extract<TypstVirtualFile, { text: string }> {

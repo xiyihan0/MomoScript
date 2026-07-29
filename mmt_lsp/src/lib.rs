@@ -1,3 +1,4 @@
+mod clock;
 pub mod position;
 mod server;
 mod service;
@@ -27,6 +28,7 @@ mod wasm {
     impl WasmLanguageServer {
         #[wasm_bindgen(constructor)]
         pub fn new() -> Self {
+            console_error_panic_hook::set_once();
             Self {
                 inner: MmtLanguageServer::default(),
             }

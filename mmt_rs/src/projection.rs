@@ -1,20 +1,25 @@
 //! No-I/O Typst projection and conservative bidirectional source mapping.
 
 use serde::Serialize;
+use std::{
+    collections::VecDeque,
+    sync::{Arc, Mutex},
+};
 
-use crate::diag::Diagnostic;
+use crate::diag::{Diagnostic, DiagnosticPhase, Severity};
 use crate::emit::{
     EmitOptions, EmittedTypst, GeneratedKind, MaterializedContent, Origin, OriginKind, emit_typst,
 };
 use crate::materialize::{MaterializeError, MaterializedImage, ResourceMaterializer};
 use crate::pack::PackRegistry;
-use crate::pipeline::AnalyzedDocument;
+use crate::pipeline::{AnalyzedDocument, CompilationFailure};
 use crate::resolve::{ResolvedResource, ResolvedResourceKind};
-use crate::semantic::CharacterPresetCatalog;
+use crate::semantic::{CharacterPresetCatalog, HostTimestamp};
 use crate::source::TextRange;
 use crate::typst_check::check_typst_source;
 
 pub const PROJECTION_PLACEHOLDER_IMAGE: &str = "mmt-assets/placeholder.svg";
+const RENDER_PROJECTION_CACHE_CAPACITY: usize = 4;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -154,6 +159,124 @@ pub struct TypstProjection {
     pub resources: Vec<ProjectedResource>,
 }
 
+#[derive(Debug, Clone, Copy)]
+pub enum ProjectionProfile<'a> {
+    Language { placeholder_uri: &'a str },
+    Render { timestamp: Option<HostTimestamp> },
+}
+
+#[derive(Debug, Clone)]
+pub struct ProjectionPlan {
+    source: Arc<str>,
+    analysis: Arc<AnalyzedDocument>,
+    options: EmitOptions,
+    default_language: TypstProjection,
+    render_cache: Arc<Mutex<VecDeque<(Option<HostTimestamp>, TypstProjection)>>>,
+}
+
+impl ProjectionPlan {
+    pub fn from_shared(
+        source: Arc<str>,
+        analysis: Arc<AnalyzedDocument>,
+        options: &EmitOptions,
+    ) -> Result<Self, ProjectionError> {
+        let default_language = project_analyzed(&source, &analysis, options)?;
+        Ok(Self {
+            source,
+            analysis,
+            options: options.clone(),
+            default_language,
+            render_cache: Arc::new(Mutex::new(VecDeque::new())),
+        })
+    }
+
+    pub fn source(&self) -> &str {
+        &self.source
+    }
+
+    pub fn source_arc(&self) -> Arc<str> {
+        Arc::clone(&self.source)
+    }
+
+    pub fn analysis(&self) -> &Arc<AnalyzedDocument> {
+        &self.analysis
+    }
+
+    pub fn emit(&self, profile: ProjectionProfile<'_>) -> Result<TypstProjection, ProjectionError> {
+        match profile {
+            ProjectionProfile::Language { placeholder_uri }
+                if placeholder_uri == PROJECTION_PLACEHOLDER_IMAGE =>
+            {
+                Ok(self.default_language.clone())
+            }
+            ProjectionProfile::Language { placeholder_uri } => project_analyzed_with_placeholder(
+                &self.source,
+                &self.analysis,
+                &self.options,
+                placeholder_uri,
+            ),
+            ProjectionProfile::Render { timestamp } => {
+                let mut cache = self
+                    .render_cache
+                    .lock()
+                    .unwrap_or_else(|poisoned| poisoned.into_inner());
+                if let Some((_, projection)) = cache
+                    .iter()
+                    .find(|(cached_timestamp, _)| *cached_timestamp == timestamp)
+                {
+                    return Ok(projection.clone());
+                }
+                drop(cache);
+
+                let mut options = self.options.clone();
+                options.timestamp = timestamp;
+                let projection =
+                    project_analyzed_with_pack(&self.source, &self.analysis, &options)?;
+                cache = self
+                    .render_cache
+                    .lock()
+                    .unwrap_or_else(|poisoned| poisoned.into_inner());
+                if cache.len() >= RENDER_PROJECTION_CACHE_CAPACITY {
+                    cache.pop_front();
+                }
+                cache.push_back((timestamp, projection.clone()));
+                Ok(projection)
+            }
+        }
+    }
+}
+
+pub fn plan_analyzed(
+    source: &str,
+    analysis: &AnalyzedDocument,
+    options: &EmitOptions,
+) -> Result<ProjectionPlan, CompilationFailure> {
+    ProjectionPlan::from_shared(
+        Arc::<str>::from(source),
+        Arc::new(analysis.clone()),
+        options,
+    )
+    .map_err(projection_compilation_failure)
+}
+
+pub fn emit_projection_plan(
+    plan: &ProjectionPlan,
+    profile: ProjectionProfile<'_>,
+) -> Result<TypstProjection, CompilationFailure> {
+    plan.emit(profile).map_err(projection_compilation_failure)
+}
+
+fn projection_compilation_failure(error: ProjectionError) -> CompilationFailure {
+    CompilationFailure {
+        diagnostics: vec![Diagnostic::new(
+            Severity::Error,
+            DiagnosticPhase::Typst,
+            format!("projection invariant failed: {error:?}"),
+            None,
+        )],
+    }
+}
+
 impl ProjectionIndex {
     pub fn new(mmt_source: &str, emitted: &EmittedTypst) -> Result<Self, ProjectionError> {
         let mut segments = Vec::with_capacity(emitted.source_map.len());
@@ -186,7 +309,9 @@ impl ProjectionIndex {
                 }
                 if mapping == MappingMode::Escaped
                     && mmt_source.get(range.start..range.end)
-                        == emitted.source.get(entry.generated_range.start..entry.generated_range.end)
+                        == emitted
+                            .source
+                            .get(entry.generated_range.start..entry.generated_range.end)
                 {
                     mapping = MappingMode::Identity;
                 }
@@ -337,23 +462,23 @@ pub fn diagnose_analyzed(
     diagnose_and_emit(analysis, emit_options).1
 }
 
-fn diagnose_and_emit(
+fn diagnose_and_emit_with_placeholder(
     analysis: &AnalyzedDocument,
     emit_options: &EmitOptions,
+    placeholder_uri: &str,
 ) -> (EmittedTypst, Vec<Diagnostic>) {
     let mut placeholders = MaterializedContent::default();
     for marker in &analysis.resource_markers.markers {
         placeholders
             .inline_images
-            .insert(marker.range, PROJECTION_PLACEHOLDER_IMAGE.to_string());
+            .insert(marker.range, placeholder_uri.to_string());
     }
     for actor in &analysis.actors.actors {
         for revision in &actor.revisions {
             if revision.state.avatar.is_some() {
-                placeholders.actor_avatars.insert(
-                    (actor.id, revision.number),
-                    PROJECTION_PLACEHOLDER_IMAGE.to_string(),
-                );
+                placeholders
+                    .actor_avatars
+                    .insert((actor.id, revision.number), placeholder_uri.to_string());
             }
         }
     }
@@ -398,6 +523,13 @@ fn diagnose_and_emit(
     (emitted, diagnostics)
 }
 
+fn diagnose_and_emit(
+    analysis: &AnalyzedDocument,
+    emit_options: &EmitOptions,
+) -> (EmittedTypst, Vec<Diagnostic>) {
+    diagnose_and_emit_with_placeholder(analysis, emit_options, PROJECTION_PLACEHOLDER_IMAGE)
+}
+
 pub fn project_text(
     source: &str,
     catalog: &impl CharacterPresetCatalog,
@@ -413,6 +545,23 @@ pub fn project_analyzed(
     emit_options: &EmitOptions,
 ) -> Result<TypstProjection, ProjectionError> {
     let (emitted, diagnostics) = diagnose_and_emit(analysis, emit_options);
+    let index = ProjectionIndex::new(source, &emitted)?;
+    Ok(TypstProjection {
+        emitted,
+        index,
+        diagnostics,
+        resources: Vec::new(),
+    })
+}
+
+fn project_analyzed_with_placeholder(
+    source: &str,
+    analysis: &AnalyzedDocument,
+    emit_options: &EmitOptions,
+    placeholder_uri: &str,
+) -> Result<TypstProjection, ProjectionError> {
+    let (emitted, diagnostics) =
+        diagnose_and_emit_with_placeholder(analysis, emit_options, placeholder_uri);
     let index = ProjectionIndex::new(source, &emitted)?;
     Ok(TypstProjection {
         emitted,
@@ -803,5 +952,71 @@ mod tests {
                 "accepted unsafe path: {path}"
             );
         }
+    }
+    #[test]
+    fn shared_plan_language_projection_matches_clean_projection() {
+        let source = "@actor 柚子\npreset: ba::柚子\n@end\n柚子: T\"\"\"hello [:#1:]\"\"\"";
+        let options = EmitOptions::default();
+        let analysis = Arc::new(crate::pipeline::analyze_text(source, &catalog()));
+        let clean = project_analyzed(source, &analysis, &options).unwrap();
+        let plan =
+            ProjectionPlan::from_shared(Arc::<str>::from(source), Arc::clone(&analysis), &options)
+                .unwrap();
+        let shared = plan
+            .emit(ProjectionProfile::Language {
+                placeholder_uri: PROJECTION_PLACEHOLDER_IMAGE,
+            })
+            .unwrap();
+
+        assert_eq!(plan.source(), source);
+        assert!(Arc::ptr_eq(plan.analysis(), &analysis));
+        assert_eq!(shared.emitted.source, clean.emitted.source);
+        assert_eq!(shared.emitted.origins, clean.emitted.origins);
+        assert_eq!(shared.emitted.source_map, clean.emitted.source_map);
+        assert_eq!(shared.diagnostics, clean.diagnostics);
+        assert_eq!(shared.resources, clean.resources);
+        assert_eq!(shared.index.segments(), clean.index.segments());
+    }
+
+    #[test]
+    fn shared_plan_render_projection_matches_clean_projection() {
+        let source = "- hello";
+        let packs = PackRegistry::new(Vec::new()).unwrap();
+        let analysis = Arc::new(crate::pipeline::analyze_text_with_pack(source, &packs));
+        let timestamp = Some(HostTimestamp {
+            unix_millis: 1_753_702_461_000,
+            local_offset_minutes: 480,
+        });
+        let options = EmitOptions::default();
+        let clean = project_analyzed_with_pack(
+            source,
+            &analysis,
+            &EmitOptions {
+                timestamp,
+                ..options.clone()
+            },
+        )
+        .unwrap();
+        let plan =
+            ProjectionPlan::from_shared(Arc::<str>::from(source), Arc::clone(&analysis), &options)
+                .unwrap();
+        let shared = plan.emit(ProjectionProfile::Render { timestamp }).unwrap();
+
+        assert_eq!(shared.emitted.source, clean.emitted.source);
+        assert_eq!(shared.emitted.origins, clean.emitted.origins);
+        assert_eq!(shared.emitted.source_map, clean.emitted.source_map);
+        assert_eq!(shared.diagnostics, clean.diagnostics);
+        assert_eq!(shared.resources, clean.resources);
+        assert_eq!(shared.index.segments(), clean.index.segments());
+        let cached = plan.emit(ProjectionProfile::Render { timestamp }).unwrap();
+        assert_eq!(cached.emitted.source, shared.emitted.source);
+        assert_eq!(cached.diagnostics, shared.diagnostics);
+        assert_eq!(
+            plan.render_cache
+                .lock()
+                .unwrap_or_else(|poisoned| poisoned.into_inner())
+                .len(),
+            1
+        );
     }
 }

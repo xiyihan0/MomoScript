@@ -16,7 +16,8 @@ import {
   type ResourceMaterializationLimits,
   type StringResourceCache
 } from "./resourceMaterializer";
-import type { TypstRenderProjectUpdate, TypstResourceRequest, TypstVirtualFile } from "./tinymistClient";
+import { RenderProjectSnapshotStore, type TypstRenderProjectUpdate, type TypstResourceRequest, type TypstVirtualFile } from "./tinymistClient";
+import { canonicalBytesDigest } from "./runtimeIdentity";
 
 const executeFile = promisify(execFile);
 const MAX_WORKSPACE_FILE_BYTES = 8 * 1024 * 1024;
@@ -88,13 +89,22 @@ export class DesktopPreviewService implements vscode.Disposable {
   private displayedArtifact: DisplayedDesktopArtifact | undefined;
   private generation = 0;
   private active: AbortController | undefined;
+  private readonly renderProjects = new RenderProjectSnapshotStore();
+  private readonly renderProjectNotification: vscode.Disposable;
 
   constructor(
     private readonly client: BaseLanguageClient,
     private readonly tinymistCommand: string,
     private readonly storageRoot: vscode.Uri,
     private readonly host: DesktopPreviewHost = DEFAULT_DESKTOP_PREVIEW_HOST
-  ) {}
+  ) {
+    this.renderProjectNotification = client.onNotification(
+      "mmt/typstRenderProjectUpdated",
+      (update: TypstRenderProjectUpdate) => {
+        void this.renderProjects.accept(update).catch(() => undefined);
+      }
+    );
+  }
 
   setPackSources(sources: readonly PackManifestSource[]): void {
     const next = new Map<string, MaterializationPackSource>();
@@ -249,6 +259,8 @@ export class DesktopPreviewService implements vscode.Disposable {
   }
 
   dispose(): void {
+    this.renderProjectNotification.dispose();
+    this.renderProjects.clear();
     this.generation += 1;
     this.active?.abort();
     this.active = undefined;
@@ -277,6 +289,7 @@ export class DesktopPreviewService implements vscode.Disposable {
       "mmt/getTypstRenderProject",
       { uri: operation.sourceUri }
     );
+    if (project !== null) project = (await this.renderProjects.accept(project)).project;
     this.assertCurrent(operation);
     if (project === null || project.sourceUri !== operation.sourceUri || project.sourceVersion !== operation.sourceVersion) {
       throw new Error("MomoScript render project is stale or unavailable");
@@ -478,7 +491,11 @@ async function mirrorWorkspaceResources(
       throw new Error(`Workspace resource budget exceeded by ${resource.fileName}`);
     }
     total += bytes.byteLength;
-    files.push({ uri: resource.uri, dataBase64: Buffer.from(bytes).toString("base64") });
+    files.push({
+      uri: resource.uri,
+      digest: await canonicalBytesDigest("mmt-project-file-v1", [bytes]),
+      dataBase64: Buffer.from(bytes).toString("base64")
+    });
     existing.add(resource.uri);
   }
   return files.length === project.files.length ? project : { ...project, files };

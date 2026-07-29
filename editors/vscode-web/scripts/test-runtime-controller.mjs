@@ -104,6 +104,49 @@ assert.equal(stores.stores.retiredProjectSessions.has("source"), false);
 assert.equal(stores.stores.renderRequestIdBySource.has("source"), false);
 await stores.dispose();
 
+const disabledTraceRuntime = new EditorRuntimeController();
+const traceCounters = {
+  nodesReused: 0,
+  nodesRebuilt: 0,
+  chunksReused: 0,
+  chunksRebuilt: 0,
+  resourcesReused: 0,
+  resourcesRebuilt: 0,
+  projectBytes: 0,
+  fileUpserts: 0,
+  fileDeletes: 0,
+  shadowMapped: 0,
+  shadowUnmapped: 0,
+  shadowSkipped: 0,
+  staleDiscards: 0,
+  queueDepth: 0,
+};
+const traceSample = (requestSequence) => ({
+  traceId: `trace-${requestSequence}`,
+  sourceUri: "mmtfs://workspace/story.mmt",
+  sourceVersion: requestSequence,
+  revision: requestSequence,
+  requestSequence,
+  stagesMs: {},
+  counters: traceCounters,
+  outcome: "published",
+});
+disabledTraceRuntime.stores.previewPerformance.record(traceSample(0));
+assert.equal(disabledTraceRuntime.stores.previewPerformance.size, 0, "production trace collection must default off");
+await disabledTraceRuntime.dispose();
+
+const traceRuntime = new EditorRuntimeController({ previewPerformanceEnabled: true });
+for (let sequence = 0; sequence <= traceRuntime.stores.previewPerformance.capacity; sequence += 1) {
+  traceRuntime.stores.previewPerformance.record(traceSample(sequence));
+}
+const retainedTraces = traceRuntime.stores.previewPerformance.snapshot();
+assert.equal(retainedTraces.length, 512, "preview trace retention must stay bounded");
+assert.equal(retainedTraces[0].requestSequence, 1, "the trace ring must evict the oldest sample");
+assert.equal(retainedTraces.at(-1).requestSequence, 512, "the trace ring must preserve insertion order");
+traceRuntime.stores.previewPerformance.reset();
+assert.equal(traceRuntime.stores.previewPerformance.size, 0);
+await traceRuntime.dispose();
+
 let originOpenCalls = 0;
 let originDisposeCalls = 0;
 const registeredInventory = [];
@@ -175,4 +218,5 @@ console.log(JSON.stringify({
   controllerOwnedTypedStores: true,
   originPackageStorageOwnership: true,
   exactExportLifecycleOwnership: true,
+  boundedPreviewPerformanceTraces: true,
 }));

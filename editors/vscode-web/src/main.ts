@@ -59,6 +59,7 @@ import {
   TypstPreviewController,
   type TypstPreviewBinding
 } from "./preview";
+import { WorkspaceAssetMirror } from "./workspaceAssetMirror.ts";
 import { createCurrentPreviewExportClient } from "./currentPreviewExport.ts";
 import {
   PreviewBuildState,
@@ -68,6 +69,7 @@ import {
 } from "./previewDiagnostics";
 import { ownEventListener } from "./runtimeOwner";
 import { EditorRuntimeController } from "./runtimeController";
+import type { PreviewTraceSession } from "./previewPerformance.ts";
 import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
 import { registerPwaUpdateLifecycle } from "./pwaUpdate";
 import { showMomoScriptMessage } from "./notifications";
@@ -87,7 +89,13 @@ import type {
 } from "./previewInteraction.ts";
 import { ExactExportUiController, LatestExactArtifactWaiter, type ExactExportUiState } from "./exactExportUi.ts";
 import type { ExactExportFormat, ExactExportPorts, RenderAdvanceCause, RenderAdvanceToken, StaleExportChoice } from "./exactExport.ts";
-import type { TypstProjectUpdate, TypstRenderProjectUpdate, TypstVirtualFile } from "../../vscode/src/tinymistClient";
+import {
+  RenderProjectSnapshotStore,
+  type GetTypstRenderProjectParams,
+  type TypstProjectUpdate,
+  type TypstRenderProjectUpdate,
+  type TypstVirtualFile,
+} from "../../vscode/src/tinymistClient";
 import {
   canonicalBytesDigest,
   logicalSourceId,
@@ -315,6 +323,28 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
     if (!await vscode.workspace.applyEdit(edit)) throw new Error("workspace edit was rejected");
     return document.getText();
   });
+  Reflect.set(globalThis, "__mmtEditWorkspaceDocument", async (
+    name: string,
+    offset: number,
+    deleteCount: number,
+    text: string,
+  ) => {
+    if (!/^[^./\\][^/\\]*(?:\.mmt(?:\.txt)?|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
+    const uri = vscode.Uri.joinPath(WORKSPACE, name);
+    const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === uri.toString());
+    if (!document) throw new Error("workspace document is not open");
+    if (
+      !Number.isSafeInteger(offset)
+      || !Number.isSafeInteger(deleteCount)
+      || offset < 0
+      || deleteCount < 0
+      || offset + deleteCount > document.getText().length
+    ) throw new RangeError("workspace edit range is invalid");
+    const edit = new vscode.WorkspaceEdit();
+    edit.replace(uri, new vscode.Range(document.positionAt(offset), document.positionAt(offset + deleteCount)), text);
+    if (!await vscode.workspace.applyEdit(edit)) throw new Error("workspace edit was rejected");
+    return { text: document.getText(), version: document.version };
+  });
 }
 const DEFAULT_STORY = "> 佳代子: 你好，老师！\n>_: 我也可以继续说。\n< 老师好！\n> 佳代子: 看看这个：[:#1:](width: 2em)\n";
 const PACK_URL = "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json";
@@ -429,6 +459,7 @@ async function start(): Promise<void> {
   const controller = new EditorRuntimeController({
     captureAcceptedPreviewProjects: import.meta.env.VITE_MMT_E2E === "1",
     exactExport: exactExportHost?.ports,
+    previewPerformanceEnabled: import.meta.env.VITE_MMT_E2E === "1",
   });
   runtimeController = controller;
   await controller.start(() => initializeRuntime(controller, lifecycleGeneration, exactExportHost));
@@ -516,6 +547,7 @@ async function initializeRuntime(
   const previewBuildState = new PreviewBuildState();
   const {
     previewProjects,
+    previewRenderQueue,
     packSourcesByNamespace,
     latestProjectBySource,
     retiredProjectSessions,
@@ -530,6 +562,19 @@ async function initializeRuntime(
     renderRequestIdBySource,
     persistenceByUri,
   } = controller.stores;
+  const previewTraces = new Map<string, PreviewTraceSession>();
+  const previewPublicationStarted = new Map<string, number>();
+  const renderProjectSnapshots = new RenderProjectSnapshotStore();
+  own({ dispose: () => renderProjectSnapshots.clear() });
+  const previewFeatureMaster = import.meta.env.VITE_MMT_PREVIEW_INCREMENTAL;
+  const previewFeaturesEnabled = previewFeatureMaster !== "0";
+  const previewCompilerSetting = import.meta.env.VITE_MMT_PREVIEW_COMPILER_REUSE;
+  const previewCompilerReuseEnabled = previewFeaturesEnabled
+    && (previewCompilerSetting === "1" || (previewCompilerSetting === undefined && previewFeatureMaster === "1"));
+  const previewResourceReuseEnabled = import.meta.env.VITE_MMT_PREVIEW_RESOURCE_REUSE !== "0"
+    && previewFeaturesEnabled;
+  const previewSchedulerEnabled = import.meta.env.VITE_MMT_PREVIEW_SCHEDULER !== "0"
+    && previewFeaturesEnabled;
   let preview!: TypstPreviewController;
   const exactExportAdvanceBySource = new Map<string, RenderAdvanceToken>();
   const currentPreviewExport = createCurrentPreviewExportClient({
@@ -649,7 +694,8 @@ async function initializeRuntime(
     project: TypstProjectUpdate,
     document: vscode.TextDocument,
     packageGenerations: readonly TypstPackageGeneration[],
-    requestId?: number
+    requestId?: number,
+    traceId?: string,
   ): Promise<TypstPreviewBinding> => {
     const renderProject = project as Partial<TypstRenderProjectUpdate>;
     const resourceBytesDigest = renderProject.resourceBytesDigest ?? project.projectDigest;
@@ -670,6 +716,7 @@ async function initializeRuntime(
     const key = await renderKey(materialization, await PREVIEW_RUNTIME_KEY, await PREVIEW_RENDER_OPTIONS_DIGEST);
     return Object.freeze({
       ...(requestId === undefined ? {} : { requestId }),
+      ...(traceId === undefined ? {} : { traceId }),
       renderKey: key,
       locationProviderKey: renderArtifactLocationProviderKey(key, project.revision),
       identity: previewIdentityFor(project, document),
@@ -728,9 +775,25 @@ async function initializeRuntime(
   };
   preview = own(new TypstPreviewController(layout.preview, {
     status(message, error, revision) {
-      if (revision?.sourceUri === previewFixtureActiveSourceUri) return;
+      const trace = revision?.traceId ? previewTraces.get(revision.traceId) : undefined;
+      if (revision && revision.sourceUri === previewFixtureActiveSourceUri) {
+        trace?.finish("coalesced");
+        if (revision.traceId) previewTraces.delete(revision.traceId);
+        return;
+      }
       const identity = revision ? currentPreviewBuildIdentity(revision) : undefined;
-      if (revision && (!identity || !previewBuildState.isCurrent(identity))) return;
+      if (revision && (!identity || !previewBuildState.isCurrent(identity))) {
+        trace?.increment("staleDiscards");
+        trace?.finish("stale-discarded");
+        if (revision.traceId) previewTraces.delete(revision.traceId);
+        return;
+      }
+      if (error && revision?.traceId) {
+        const failedTrace = previewTraces.get(revision.traceId);
+        failedTrace?.finish("failed");
+        previewTraces.delete(revision.traceId);
+        previewPublicationStarted.delete(revision.traceId);
+      }
       if (error && identity) {
         previewBuildState.fail(identity, "renderer", message);
         const requested = controller.stores.previewArtifacts.document(identity.sourceUri).requestedRenderKey;
@@ -744,10 +807,29 @@ async function initializeRuntime(
         previewPanelHasPage = false;
       }
     },
+    timing(timing, revision) {
+      if (revision.traceId !== timing.traceId) return;
+      const trace = previewTraces.get(timing.traceId);
+      if (!trace) return;
+      trace.stage("shadowUpdate", timing.shadowUpdateMs);
+      trace.stage("typstCompile", timing.typstCompileMs);
+      trace.stage("svgParseSanitize", timing.svgParseSanitizeMs);
+      trace.stage("domUpdate", timing.domUpdateMs);
+      trace.stage("locationMeasure", timing.locationMeasureMs);
+      trace.increment("shadowMapped", timing.shadowMapped);
+      trace.increment("shadowUnmapped", timing.shadowUnmapped);
+      trace.increment("shadowSkipped", timing.shadowSkipped);
+    },
     rendered(svg, revision, shadowCount, pageSize) {
+      const trace = revision.traceId ? previewTraces.get(revision.traceId) : undefined;
       if (revision.sourceUri === previewFixtureActiveSourceUri) return;
       const identity = currentPreviewBuildIdentity(revision);
-      if (!identity || !previewBuildState.isCurrent(identity)) return;
+      if (!identity || !previewBuildState.isCurrent(identity)) {
+        trace?.increment("staleDiscards");
+        trace?.finish("stale-discarded");
+        if (revision.traceId) previewTraces.delete(revision.traceId);
+        return;
+      }
       log("preview:identity", JSON.stringify({
         event: "rendered",
         ...(revision.requestId === undefined ? {} : { requestId: revision.requestId }),
@@ -757,20 +839,44 @@ async function initializeRuntime(
         renderKey: preview.displayedRenderKey,
         shadowCount,
       }));
+      const displayedRenderKey = preview.displayedRenderKey;
+      if (displayedRenderKey) trace?.renderKey(displayedRenderKey);
       previewBuildState.complete(identity);
+      if (revision.traceId) previewPublicationStarted.set(revision.traceId, performance.now());
       if (previewPanel) {
         const panel = previewPanel;
-        const html = previewWebviewHtml(panel.webview, previewPanelTitle, svg, "", false, pageSize, preview.viewportState, exactExportUi.state);
+        const html = previewWebviewHtml(
+          panel.webview,
+          previewPanelTitle,
+          svg,
+          "",
+          false,
+          pageSize,
+          preview.viewportState,
+          exactExportUi.state,
+          revision.traceId,
+          displayedRenderKey,
+        );
         if (!previewPanelHasPage) {
           panel.webview.html = html;
           previewPanelHasPage = true;
         } else {
-          void panel.webview.postMessage({ type: "render", svg, pageSize }).then((delivered) => {
+          void panel.webview.postMessage({
+            type: "render",
+            svg,
+            pageSize,
+            traceId: revision.traceId,
+            renderKey: displayedRenderKey,
+          }).then((delivered) => {
             if (delivered || previewPanel !== panel) return;
             panel.webview.html = html;
             previewPanelHasPage = true;
           });
         }
+      } else {
+        trace?.stage("visualReady", trace.elapsedMs);
+        trace?.finish("published");
+        if (revision.traceId) previewTraces.delete(revision.traceId);
       }
     },
   }, {
@@ -791,15 +897,41 @@ async function initializeRuntime(
       },
       fullRefreshRequested(reason) { log("preview:refresh", `Full refresh required: ${reason}`); },
     },
+  }, {
+    reuseCompilerState: previewCompilerReuseEnabled,
   }));
-  const renderPreview = async (project: TypstProjectUpdate, requestId?: number): Promise<void> => {
+  const renderPreview = async (
+    project: TypstProjectUpdate,
+    requestId?: number,
+    trace?: PreviewTraceSession,
+    signal?: AbortSignal,
+  ): Promise<void> => {
     const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === project.sourceUri);
-    if (!document) return;
-    if (previewFixtureActiveSourceUri === project.sourceUri) return;
-    const packageGenerations = await typstPackageService.prepareProject(project.projectDigest, new AbortController().signal);
+    if (!document) {
+      trace?.increment("staleDiscards");
+      trace?.finish("stale-discarded");
+      if (trace) previewTraces.delete(trace.traceId);
+      return;
+    }
+    if (previewFixtureActiveSourceUri === project.sourceUri) {
+      trace?.finish("coalesced");
+      if (trace) previewTraces.delete(trace.traceId);
+      return;
+    }
+    const operationSignal = signal ?? new AbortController().signal;
+    operationSignal.throwIfAborted();
+    const packageGenerations = await typstPackageService.prepareProject(project.projectDigest, operationSignal);
     installPreviewPackageGenerations(packageGenerations);
-    const binding = await previewBindingFor(project, document, packageGenerations, requestId);
-    if (previewFixtureActiveSourceUri === project.sourceUri) return;
+    const binding = {
+      ...await previewBindingFor(project, document, packageGenerations, requestId, trace?.traceId),
+      signal: operationSignal,
+    };
+    trace?.renderKey(binding.renderKey);
+    if (previewFixtureActiveSourceUri === project.sourceUri) {
+      trace?.finish("coalesced");
+      if (trace) previewTraces.delete(trace.traceId);
+      return;
+    }
     const before = controller.stores.previewArtifacts.document(project.sourceUri);
     if (before.displayedArtifact && before.displayedArtifact.renderKey !== binding.renderKey) {
       advanceExactExport(project.sourceUri, "render");
@@ -810,15 +942,30 @@ async function initializeRuntime(
       const retained = controller.stores.previewArtifacts.get(binding.renderKey);
       if (retained) {
         preview.displayArtifact(retained, binding.identity, binding.resolver);
+        trace?.stage("visualReady", trace.elapsedMs);
+        trace?.finish("published");
+        if (trace) previewTraces.delete(trace.traceId);
       } else {
+        operationSignal.throwIfAborted();
         await preview.update(project, binding);
-        if (previewFixtureActiveSourceUri === project.sourceUri) return;
+        if (previewFixtureActiveSourceUri === project.sourceUri) {
+          trace?.finish("coalesced");
+          if (trace) previewTraces.delete(trace.traceId);
+          return;
+        }
         const artifact = preview.displayedArtifact;
-        if (!artifact || artifact.renderKey !== binding.renderKey) return;
+        if (!artifact || artifact.renderKey !== binding.renderKey) {
+          trace?.increment("staleDiscards");
+          trace?.finish("stale-discarded");
+          if (trace) previewTraces.delete(trace.traceId);
+          return;
+        }
         controller.stores.previewArtifacts.put(artifact);
       }
       controller.stores.previewArtifacts.display(project.sourceUri, binding.renderKey);
     } catch (error) {
+      trace?.finish("failed");
+      if (trace) previewTraces.delete(trace.traceId);
       controller.stores.previewArtifacts.fail(project.sourceUri, binding.renderKey);
       if (displayedPreviewSourceUri === project.sourceUri) exactExportUi.bind(project.sourceUri);
       throw error;
@@ -1137,6 +1284,7 @@ async function initializeRuntime(
       return exactExportUi.state;
     });
   }
+  let workspaceAssetMirror!: WorkspaceAssetMirror;
   const materializedResourceCache = new BoundedStringCache(MATERIALIZED_RESOURCE_CACHE_MAX_BYTES);
   const previewClock = new RevisionPinnedPreviewClock();
   if (import.meta.env.VITE_MMT_E2E === "1") {
@@ -1163,6 +1311,7 @@ async function initializeRuntime(
   };
   const closePreviewProject = (sourceUri: string) => {
     controller.stores.closeSource(sourceUri);
+    renderProjectSnapshots.close(sourceUri);
     exactExportAdvanceBySource.delete(sourceUri);
     exactExportHost?.latest.closeSource(sourceUri);
     previewBuildState.clear(sourceUri);
@@ -1230,6 +1379,32 @@ async function initializeRuntime(
     monacoWorkerFactory: configureWorkbenchWorkerFactory
   });
   await api.start();
+  workspaceAssetMirror = own(new WorkspaceAssetMirror(previewResourceReuseEnabled));
+  previewRenderQueue.setDebounceMs(
+    vscode.workspace.getConfiguration("mmt.preview").get<number>("debounceMs", 50),
+  );
+  const previewPerformanceEnabled = () => import.meta.env.VITE_MMT_E2E === "1"
+    || vscode.workspace.getConfiguration("mmt.preview.performance").get<boolean>("enabled", false);
+  controller.stores.previewPerformance.setEnabled(previewPerformanceEnabled());
+  subscribe(vscode.workspace.onDidChangeConfiguration((event) => {
+    if (event.affectsConfiguration("mmt.preview.performance.enabled")) {
+      controller.stores.previewPerformance.setEnabled(previewPerformanceEnabled());
+    }
+  }));
+  if (import.meta.env.VITE_MMT_E2E === "1") {
+    exposeRuntimeGlobal("__mmtPreviewTimings", () => controller.stores.previewPerformance.snapshot());
+    exposeRuntimeGlobal("__mmtResetPreviewTimings", () => controller.stores.previewPerformance.reset());
+    exposeRuntimeGlobal("__mmtPreviewRetainedState", () => ({
+      timingSamples: controller.stores.previewPerformance.size,
+      previewProjects: previewProjects.size,
+      latestProjects: latestProjectBySource.size,
+      artifacts: controller.stores.previewArtifacts.size,
+      artifactBytes: controller.stores.previewArtifacts.byteSize,
+      mappedShadows: Number(layout.preview.dataset.previewShadowCount ?? 0),
+      pendingMaterializations: pendingMaterializations.size,
+      activeMaterializations: materializationControllers.size,
+    }));
+  }
   subscribe(vscode.workspace.registerFileSystemProvider(
     "mmt-package",
     new WebTypstPackageFileSystemProvider(typstPackageCache),
@@ -1409,23 +1584,33 @@ async function initializeRuntime(
   const applyProject = async (
     project: TypstRenderProjectUpdate,
     replaceSameRevision = false,
-    requestId?: number
+    requestId?: number,
+    trace?: PreviewTraceSession,
+    queueSignal?: AbortSignal,
   ) => {
+    const finishTrace = (outcome: "coalesced" | "aborted" | "stale-discarded" | "failed") => {
+      if (outcome === "stale-discarded") trace?.increment("staleDiscards");
+      trace?.finish(outcome);
+      if (trace) {
+        previewTraces.delete(trace.traceId);
+        previewPublicationStarted.delete(trace.traceId);
+      }
+    };
     const session = projectionSessionKey(project.entryUri);
     const latest = latestProjectBySource.get(project.sourceUri);
     const retiredSessions = retiredProjectSessions.get(project.sourceUri);
-    if (retiredSessions?.has(session)) return;
-    if ((!latest || latest.session !== session) && !project.full) return;
+    if (retiredSessions?.has(session)) return finishTrace("stale-discarded");
+    if ((!latest || latest.session !== session) && !project.full) return finishTrace("stale-discarded");
     if (
       latest?.session === session
       && (project.revision < latest.revision
         || (project.revision === latest.revision && project.sourceVersion !== latest.sourceVersion)
         || (!replaceSameRevision && project.revision === latest.revision))
-    ) return;
+    ) return finishTrace("stale-discarded");
     const sourceDocument = vscode.workspace.textDocuments.find(
       (candidate) => candidate.uri.toString() === project.sourceUri
     );
-    if (!sourceDocument || sourceDocument.version !== project.sourceVersion) return;
+    if (!sourceDocument || sourceDocument.version !== project.sourceVersion) return finishTrace("stale-discarded");
     if (latest && latest.session !== session) {
       const nextRetiredSessions = retiredSessions ?? new Set<string>();
       nextRetiredSessions.add(latest.session);
@@ -1458,9 +1643,15 @@ async function initializeRuntime(
     materializationControllers.get(project.sourceUri)?.abort();
     const controller = new AbortController();
     materializationControllers.set(project.sourceUri, controller);
+    const signal = queueSignal ? AbortSignal.any([controller.signal, queueSignal]) : controller.signal;
     let prepared;
     try {
-      const mirroredProject = await mirrorWorkspaceFiles(project, project, controller.signal);
+      const workspaceMirrorStarted = performance.now();
+      const workspaceFiles = await workspaceAssetMirror.snapshot(project, signal);
+      const mirroredProject = workspaceFiles.length === 0
+        ? project
+        : { ...project, files: [...project.files, ...workspaceFiles] };
+      trace?.stage("workspaceMirror", performance.now() - workspaceMirrorStarted);
       const limits = configuredResourceLimits();
       log("resources:identity", JSON.stringify({
         event: "materialize",
@@ -1470,26 +1661,31 @@ async function initializeRuntime(
         maxFileBytes: limits.maxFileBytes,
         maxProjectBytes: limits.maxProjectBytes,
       }));
+      if (!previewResourceReuseEnabled) materializedResourceCache.clear();
+      const materializationStarted = performance.now();
       prepared = await materializeProjectResources(
         mirroredProject,
         packSourcesByNamespace,
         materializedResourceCache,
-        controller.signal,
+        signal,
         MATERIALIZATION_DEPENDENCIES,
         {
           maxResources: limits.maxResources,
           maxBytes: limits.maxProjectBytes
         }
       );
+      trace?.stage("materialization", performance.now() - materializationStarted);
+      trace?.increment("resourcesReused", prepared.reusedResources);
+      trace?.increment("resourcesRebuilt", prepared.rebuiltResources);
     } catch (error) {
-      if (controller.signal.aborted) return;
-      if (!sourceStillCurrent()) return;
+      if (signal.aborted) return finishTrace("aborted");
+      if (!sourceStillCurrent()) return finishTrace("stale-discarded");
       const failedCurrent = latestProjectBySource.get(project.sourceUri);
       if (
         failedCurrent?.session !== session
         || failedCurrent.sourceVersion !== project.sourceVersion
         || failedCurrent.revision !== project.revision
-      ) return;
+      ) return finishTrace("stale-discarded");
       const message = `Failed to fetch preview workspace resources: ${error instanceof Error ? error.message : String(error)}`;
       previewBuildState.fail(projectRevision, "fetch", message);
       log("resources:fetch:error", message);
@@ -1498,15 +1694,17 @@ async function initializeRuntime(
         previewPanelHasPage = false;
         previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
       }
+      finishTrace("failed");
       return;
     }
-    if (!sourceStillCurrent()) return;
+    if (signal.aborted) return finishTrace("aborted");
+    if (!sourceStillCurrent()) return finishTrace("stale-discarded");
     const current = latestProjectBySource.get(project.sourceUri);
     if (
       current?.session !== session
       || current.sourceVersion !== project.sourceVersion
       || current.revision !== project.revision
-    ) return;
+    ) return finishTrace("stale-discarded");
     if (prepared.diagnostics.length > 0) {
       for (const diagnostic of prepared.diagnostics) {
         previewBuildState.fail(projectRevision, diagnostic.phase, diagnostic.message, {
@@ -1520,27 +1718,70 @@ async function initializeRuntime(
     }
     previewProjects.set(project.sourceUri, prepared.project);
     if (displayedPreviewSourceUri === project.sourceUri && previewPanel) {
-      await renderPreview(prepared.project, requestId);
+      await renderPreview(prepared.project, requestId, trace, signal);
     }
+    else finishTrace("coalesced");
   };
-  const trackLanguageProjection = (project: TypstProjectUpdate) => advanceLanguageProjection(
-    project,
-    projectionSessionKey(project.entryUri),
-    latestLanguageProjectionBySource,
-    retiredLanguageProjectionSessions
-  );
   const previewOnChange = () => vscode.workspace.getConfiguration("mmt.preview").get<boolean>("onChange", true);
+  const trackLanguageProjection = (project: TypstProjectUpdate) => {
+    const tracked = advanceLanguageProjection(
+      project,
+      projectionSessionKey(project.entryUri),
+      latestLanguageProjectionBySource,
+      retiredLanguageProjectionSessions,
+    );
+    if (tracked) acceptedPreviewLanguageProjects?.set(project.sourceUri, project);
+    return tracked;
+  };
+  const admitRenderUpdate = async (
+    update: TypstRenderProjectUpdate,
+    token: LanguageProjectionToken,
+    sourceUri: string,
+  ) => {
+    if (
+      update.sourceUri !== sourceUri
+      || update.entryUri !== token.entryUri
+      || update.revision !== token.revision
+      || update.sourceVersion !== token.sourceVersion
+      || latestLanguageProjectionBySource.get(sourceUri) !== token
+    ) {
+      throw new Error("Render project update does not match the accepted language projection");
+    }
+    return renderProjectSnapshots.accept(update);
+  };
+
   const requestRenderProject = async (
     client: BaseLanguageClient,
     sourceUri: string,
     token: LanguageProjectionToken,
-    force = false
-  ) => {
+    force = false,
+    cancellationToken?: vscode.CancellationToken,
+    queueSignal?: AbortSignal,
+    admissionQueueDepth = 0,
+    queuedTraceId?: string,
+  ): Promise<void> => {
     if (!force && requestedRenderTokens.has(token)) return;
     requestedRenderTokens.add(token);
     const timestamp = previewClock.timestamp(token, force);
     const requestId = (renderRequestIdBySource.get(sourceUri) ?? 0) + 1;
     renderRequestIdBySource.set(sourceUri, requestId);
+    const traceId = controller.stores.previewPerformance.enabled ? queuedTraceId ?? crypto.randomUUID() : undefined;
+    const trace = traceId
+      ? controller.stores.previewPerformance.begin({
+          traceId,
+          sourceUri,
+          sourceVersion: token.sourceVersion,
+          revision: token.revision,
+          requestSequence: requestId,
+        })
+      : undefined;
+    trace?.increment("queueDepth", admissionQueueDepth);
+    if (trace) previewTraces.set(trace.traceId, trace);
+    const finishTrace = (outcome: "coalesced" | "stale-discarded" | "failed") => {
+      if (outcome === "stale-discarded") trace?.increment("staleDiscards");
+      trace?.finish(outcome);
+      if (trace) previewTraces.delete(trace.traceId);
+    };
     log("preview:identity", JSON.stringify({
       event: "request",
       requestId,
@@ -1549,24 +1790,82 @@ async function initializeRuntime(
       session: token.session,
     }));
     try {
-      const renderProject = await client.sendRequest<TypstRenderProjectUpdate | null>(
-        "mmt/getTypstRenderProject", { uri: sourceUri, timestamp }
+      const base = previewCompilerReuseEnabled && !force
+        && projectionSessionKey(renderProjectSnapshots.get(sourceUri)?.entryUri ?? "") === token.session
+        ? renderProjectSnapshots.get(sourceUri)
+        : undefined;
+      const sendRenderRequest = async (forceFull: boolean) => {
+        const requestParams: GetTypstRenderProjectParams = {
+          uri: sourceUri,
+          timestamp,
+          ...(traceId ? { traceId } : {}),
+          ...(!forceFull && base ? {
+            baseRevision: base.revision,
+            baseProjectDigest: base.projectDigest,
+          } : {}),
+          ...(forceFull ? { forceFull: true } : {}),
+        };
+        const deliveryStarted = performance.now();
+        const response = await client.sendRequest<TypstRenderProjectUpdate | null>(
+          "mmt/getTypstRenderProject",
+          requestParams,
+          cancellationToken,
+        );
+        trace?.stage("projectDelivery", performance.now() - deliveryStarted);
+        if (response) {
+          trace?.increment("projectBytes", encoder.encode(JSON.stringify(response)).byteLength);
+          trace?.increment("fileUpserts", response.files.length);
+          trace?.increment("fileDeletes", response.deletedUris?.length ?? 0);
+        }
+        return response;
+      };
+      let renderUpdate = await sendRenderRequest(force || !previewCompilerReuseEnabled);
+      const responseMatchesToken = (candidate: TypstRenderProjectUpdate | null) => Boolean(
+        candidate
+        && candidate.entryUri === token.entryUri
+        && candidate.revision === token.revision
+        && candidate.sourceVersion === token.sourceVersion
+        && candidate.traceId === traceId
       );
       if (
-        latestLanguageProjectionBySource.get(sourceUri) !== token
+        cancellationToken?.isCancellationRequested
+        || latestLanguageProjectionBySource.get(sourceUri) !== token
         || renderRequestIdBySource.get(sourceUri) !== requestId
-      ) return;
-      if (!force && !previewOnChange()) {
-        requestedRenderTokens.delete(token);
+      ) {
+        finishTrace("stale-discarded");
         return;
       }
-      if (
-        !renderProject
-        || renderProject.entryUri !== token.entryUri
-        || renderProject.revision !== token.revision
-        || renderProject.sourceVersion !== token.sourceVersion
-      ) return;
-      const application = applyProject(renderProject, force, requestId);
+      if (!force && !previewOnChange()) {
+        requestedRenderTokens.delete(token);
+        finishTrace("coalesced");
+        return;
+      }
+      if (!responseMatchesToken(renderUpdate)) {
+        finishTrace("stale-discarded");
+        return;
+      }
+      let renderProject: TypstRenderProjectUpdate;
+      try {
+        const accepted = await admitRenderUpdate(renderUpdate!, token, sourceUri);
+        renderProject = accepted.project;
+      } catch (error) {
+        log("preview:delta:fallback", error instanceof Error ? error.message : String(error));
+        renderUpdate = await sendRenderRequest(true);
+        if (!responseMatchesToken(renderUpdate)) {
+          finishTrace("stale-discarded");
+          return;
+        }
+        const accepted = await admitRenderUpdate(renderUpdate!, token, sourceUri);
+        renderProject = accepted.project;
+      }
+      const rustTimings = renderProject.timings;
+      if (rustTimings?.rustParseMs !== undefined) trace?.stage("rustParse", rustTimings.rustParseMs);
+      if (rustTimings?.rustSemanticMs !== undefined) trace?.stage("rustSemantic", rustTimings.rustSemanticMs);
+      if (rustTimings?.rustResolveMs !== undefined) trace?.stage("rustResolve", rustTimings.rustResolveMs);
+      if (rustTimings?.rustEmitMs !== undefined) trace?.stage("rustEmit", rustTimings.rustEmitMs);
+      if (rustTimings?.rustTypstCheckMs !== undefined) trace?.stage("rustTypstCheck", rustTimings.rustTypstCheckMs);
+      if (rustTimings?.rustIndexDigestMs !== undefined) trace?.stage("rustIndexDigest", rustTimings.rustIndexDigestMs);
+      const application = applyProject(renderProject, force, requestId, trace, queueSignal);
       pendingMaterializations.add(application);
       try {
         await application;
@@ -1575,16 +1874,59 @@ async function initializeRuntime(
       }
     } catch (error) {
       requestedRenderTokens.delete(token);
+      if (cancellationToken?.isCancellationRequested) {
+        finishTrace("coalesced");
+        return;
+      }
+      finishTrace("failed");
       throw error;
     }
+  };
+  const dispatchRenderProject = async (
+    client: BaseLanguageClient,
+    sourceUri: string,
+    token: LanguageProjectionToken,
+    force = false,
+  ): Promise<void> => {
+    if (!previewSchedulerEnabled) {
+      await requestRenderProject(client, sourceUri, token, force);
+      return;
+    }
+    const traceId = controller.stores.previewPerformance.enabled ? crypto.randomUUID() : "";
+    const sequence = previewRenderQueue.enqueuePreview({
+      sourceUri,
+      token,
+      kind: force ? "manual-render" : "typing",
+      traceId,
+    }, async (accepted, signal) => {
+      const cancellation = new vscode.CancellationTokenSource();
+      const cancel = () => cancellation.cancel();
+      signal.addEventListener("abort", cancel, { once: true });
+      try {
+        await requestRenderProject(
+          client,
+          sourceUri,
+          token,
+          force,
+          cancellation.token,
+          signal,
+          previewRenderQueue.pending().length,
+          accepted.traceId,
+        );
+      } finally {
+        signal.removeEventListener("abort", cancel);
+        cancellation.dispose();
+      }
+    });
+    await previewRenderQueue.waitForPreview(sourceUri, sequence);
   };
   const schedulePreviewIfEnabled = async (
     client: BaseLanguageClient,
     sourceUri: string,
-    token: LanguageProjectionToken
+    token: LanguageProjectionToken,
   ) => {
     if (!previewOnChange()) return;
-    await requestRenderProject(client, sourceUri, token);
+    await dispatchRenderProject(client, sourceUri, token);
   };
   document.documentElement.dataset.mmtStage = "api-ready";
   await ensureDefaultWorkspace();
@@ -1760,6 +2102,16 @@ async function initializeRuntime(
       });
     }));
     subscribe(activeClient.onNotification(
+      "mmt/typstRenderProjectUpdated",
+      (update: TypstRenderProjectUpdate) => {
+        const token = latestLanguageProjectionBySource.get(update.sourceUri);
+        if (!token) return;
+        void admitRenderUpdate(update, token, update.sourceUri).catch((error: unknown) => {
+          log("preview:render-notification:rejected", error instanceof Error ? error.message : String(error));
+        });
+      },
+    ));
+    subscribe(activeClient.onNotification(
       "mmt/typstProjectClosed",
       (params: { sourceUri: string; entryUri: string }) => {
         if (latestLanguageProjectionBySource.get(params.sourceUri)?.entryUri !== params.entryUri) return;
@@ -1840,10 +2192,31 @@ async function initializeRuntime(
         previewPanelDisposeRegistration = undefined;
         previewPanelMessageRegistration?.dispose();
         previewPanelMessageRegistration = undefined;
+        for (const trace of previewTraces.values()) trace.finish("aborted");
+        previewTraces.clear();
+        previewPublicationStarted.clear();
         void preview.close();
         log("preview", "Preview editor closed");
       }));
       previewPanelMessageRegistration = subscribe(previewPanel.webview.onDidReceiveMessage(async (message: unknown) => {
+        if (isPreviewVisualReadyMessage(message)) {
+          const trace = previewTraces.get(message.traceId);
+          if (!trace) return;
+          const publicationStarted = previewPublicationStarted.get(message.traceId);
+          if (preview.displayedRenderKey !== message.renderKey) {
+            trace.increment("staleDiscards");
+            trace.finish("stale-discarded");
+          } else {
+            if (publicationStarted !== undefined) {
+              trace.stage("domUpdate", performance.now() - publicationStarted);
+            }
+            trace.stage("visualReady", trace.elapsedMs);
+            trace.finish("published");
+          }
+          previewTraces.delete(message.traceId);
+          previewPublicationStarted.delete(message.traceId);
+          return;
+        }
         if (isPreviewViewportMessage(message)) {
           preview.updateViewportFromHost(message.viewport);
           return;
@@ -1859,7 +2232,27 @@ async function initializeRuntime(
         if (!isExportMessage(message)) return;
         const sourceName = displayedPreviewSourceUri ? new URL(displayedPreviewSourceUri).pathname.split("/").at(-1) : "document";
         const baseName = (sourceName ?? "document").replace(/\.(?:mmt(?:\.txt)?|typ)$/i, "") || "document";
-        const exported = await exactExportUi.export(message.format, message.staleChoice);
+        let exported: Awaited<ReturnType<typeof exactExportUi.export>>;
+        const exportSourceUri = displayedPreviewSourceUri;
+        const exportRenderKey = preview.displayedRenderKey;
+        if (previewSchedulerEnabled && exportSourceUri && exportRenderKey) {
+          const sequence = previewRenderQueue.enqueueExport({
+            sourceUri: exportSourceUri,
+            renderKey: exportRenderKey,
+            traceId: controller.stores.previewPerformance.enabled ? crypto.randomUUID() : "",
+          }, async (_accepted, signal) => {
+            const cancel = () => exactExportUi.cancel();
+            signal.addEventListener("abort", cancel, { once: true });
+            try {
+              exported = await exactExportUi.export(message.format, message.staleChoice);
+            } finally {
+              signal.removeEventListener("abort", cancel);
+            }
+          });
+          await previewRenderQueue.waitForExport(exportSourceUri, sequence);
+        } else {
+          exported = await exactExportUi.export(message.format, message.staleChoice);
+        }
         if (!exported) return;
         downloadBlob(exported.blob, `${baseName}.${exported.extension}`);
         log("export", `Downloaded ${baseName}.${exported.extension} from ${exported.metadata.renderKey}`);
@@ -1911,9 +2304,8 @@ async function initializeRuntime(
     }
     const tracked = trackLanguageProjection(project);
     if (!tracked) return;
-    acceptedPreviewLanguageProjects?.set(sourceUri, project);
     if (tracked.advanced) syncTinymistProject(project);
-    await requestRenderProject(activeClient, project.sourceUri, tracked.token, true);
+    await dispatchRenderProject(activeClient, project.sourceUri, tracked.token, true);
     refreshOpenedPreview();
   }));
 
@@ -1964,8 +2356,12 @@ async function initializeRuntime(
     });
   }));
   const previewConfigRegistration = subscribe(vscode.workspace.onDidChangeConfiguration((event) => {
-    if (!event.affectsConfiguration("mmt.preview.onChange")) return;
-    if (!previewOnChange()) return;
+    if (event.affectsConfiguration("mmt.preview.debounceMs")) {
+      previewRenderQueue.setDebounceMs(
+        vscode.workspace.getConfiguration("mmt.preview").get<number>("debounceMs", 50),
+      );
+    }
+    if (!event.affectsConfiguration("mmt.preview.onChange") || !previewOnChange()) return;
     const sourceUri = vscode.window.activeTextEditor?.document.uri.toString();
     const token = sourceUri ? latestLanguageProjectionBySource.get(sourceUri) : undefined;
     if (!sourceUri || !token) return;
@@ -2336,6 +2732,16 @@ function isExactExportCancelMessage(value: unknown): value is { readonly type: "
   return Boolean(value && typeof value === "object" && "type" in value && value.type === "exact-export-cancel");
 }
 
+function isPreviewVisualReadyMessage(
+  value: unknown,
+): value is { readonly type: "visual-ready"; readonly traceId: string; readonly renderKey: RenderKey } {
+  if (!value || typeof value !== "object") return false;
+  const message = value as { type?: unknown; traceId?: unknown; renderKey?: unknown };
+  return message.type === "visual-ready"
+    && typeof message.traceId === "string"
+    && typeof message.renderKey === "string";
+}
+
 function isPreviewViewportMessage(value: unknown): value is { type: "viewport"; viewport: PreviewViewport } {
   if (!value || typeof value !== "object") return false;
   const message = value as { type?: unknown; viewport?: Partial<PreviewViewport> };
@@ -2381,6 +2787,8 @@ function previewWebviewHtml(
   pageSize?: { width: number; height: number },
   viewportState: PreviewViewport = { page: 0, x: 0, y: 0, zoom: 1, fitMode: "width" },
   exactExportState?: ExactExportUiState,
+  traceId?: string,
+  renderedKey?: RenderKey,
 ): string {
   void webview;
   const nonce = previewNonce();
@@ -2456,6 +2864,14 @@ function previewWebviewHtml(
   const zoomLabel = document.querySelector('.zoom-label');
   const initialViewport = ${scriptJson(viewportState)};
   const initialExportState = ${scriptJson(resolvedExportState)};
+  const initialTraceId = ${scriptJson(traceId)};
+  const initialRenderKey = ${scriptJson(renderedKey)};
+  const publishVisualReady = (readyTraceId, readyRenderKey) => {
+    if (typeof readyTraceId !== 'string' || typeof readyRenderKey !== 'string') return;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      vscode.postMessage({ type: 'visual-ready', traceId: readyTraceId, renderKey: readyRenderKey });
+    }));
+  };
   let zoom = initialViewport.zoom;
   let fitMode = initialViewport.fitMode;
   let intrinsicWidth = Number(page?.dataset.intrinsicWidth);
@@ -2497,6 +2913,7 @@ function previewWebviewHtml(
     });
   };
   restoreViewport(initialViewport);
+  publishVisualReady(initialTraceId, initialRenderKey);
   document.querySelector('[data-zoom="out"]')?.addEventListener('click', () => applyZoom(zoom - .1, 'manual'));
   document.querySelector('[data-zoom="in"]')?.addEventListener('click', () => applyZoom(zoom + .1, 'manual'));
   document.querySelector('[data-fit="width"]')?.addEventListener('click', () => fitWidth());
@@ -2561,7 +2978,7 @@ function previewWebviewHtml(
     overlay.style.top = Math.min(1, Math.max(0, point.y)) * 100 + '%';
     page.append(overlay);
   };
-  const replaceRenderedPage = (svg, size) => {
+  const replaceRenderedPage = (svg, size, readyTraceId, readyRenderKey) => {
     if (!viewport || !page || typeof svg !== 'string' || !size) return;
     const parsed = new DOMParser().parseFromString(svg, 'image/svg+xml');
     const root = parsed.documentElement;
@@ -2583,13 +3000,19 @@ function previewWebviewHtml(
       viewport.scrollLeft = scrollLeft;
       viewport.scrollTop = scrollTop;
       reportViewport();
+      publishVisualReady(readyTraceId, readyRenderKey);
     });
   };
   window.addEventListener('message', (event) => {
     if (event.data?.type === 'restoreViewport') restoreViewport(event.data.viewport);
     else if (event.data?.type === 'indicator') showOverlay('preview-indicator', event.data.point);
     else if (event.data?.type === 'cursor') showOverlay('preview-cursor', event.data.point);
-    else if (event.data?.type === 'render') replaceRenderedPage(event.data.svg, event.data.pageSize);
+    else if (event.data?.type === 'render') replaceRenderedPage(
+      event.data.svg,
+      event.data.pageSize,
+      event.data.traceId,
+      event.data.renderKey,
+    );
     else if (event.data?.type === 'exactExportState') applyExactExportState(event.data.state);
   });
   const exportControl = document.querySelector('.exact-export');
@@ -2652,7 +3075,9 @@ function escapeHtml(value: string): string {
 }
 
 function scriptJson(value: unknown): string {
-  return JSON.stringify(value)
+  const json = JSON.stringify(value);
+  if (json === undefined) return "null";
+  return json
     .replaceAll("<", "\\u003c")
     .replaceAll("\u2028", "\\u2028")
     .replaceAll("\u2029", "\\u2029");
@@ -3060,8 +3485,12 @@ async function buildTypstProject(
     logicalWorkspaceId: workspaceId,
     canonicalWorkspaceRelativePath: mountedPath(document.uri)
   };
+  const digestedFiles = await Promise.all(files.map(async (file) => ({
+    ...file,
+    digest: file.digest ?? await typstVirtualFileDigest(file),
+  })));
   const logicalFiles = new Map<LogicalProjectFileId, string>();
-  for (const file of files) {
+  for (const file of digestedFiles) {
     const fileUri = vscode.Uri.parse(file.uri);
     const id: LogicalProjectFileId = {
       kind: "workspace",
@@ -3094,7 +3523,7 @@ async function buildTypstProject(
     sourceVersion: document.version,
     revision,
     entryUri,
-    files,
+    files: digestedFiles,
     full: true,
     projectDigest,
     sourceContent,
@@ -3117,46 +3546,3 @@ async function typstVirtualFileDigest(file: TypstVirtualFile): Promise<string> {
   return digest;
 }
 
-async function mirrorWorkspaceFiles(
-  sourceProject: TypstRenderProjectUpdate,
-  project: TypstRenderProjectUpdate,
-  signal: AbortSignal
-): Promise<TypstRenderProjectUpdate> {
-  const source = vscode.Uri.parse(sourceProject.sourceUri);
-  const root = vscode.Uri.parse(`${source.scheme}://${source.authority}/`);
-  const entry = vscode.Uri.parse(project.entryUri);
-  const basePath = entry.path.slice(0, entry.path.lastIndexOf("/") + 1);
-  const existing = new Set(project.files.map((file) => file.uri));
-  const imagePattern = /\.(?:png|jpe?g|gif|webp|svg|bmp|avif)$/i;
-  const maxFiles = 256;
-  const maxDirectories = 64;
-  const maxFileBytes = 8 * 1024 * 1024;
-  const maxTotalBytes = 32 * 1024 * 1024;
-  let visitedDirectories = 0;
-  let totalBytes = 0;
-  const files: TypstVirtualFile[] = [];
-  const visit = async (directory: vscode.Uri, segments: readonly string[]): Promise<void> => {
-    if (signal.aborted || files.length >= maxFiles || visitedDirectories >= maxDirectories) return;
-    visitedDirectories += 1;
-    for (const [name, type] of await vscode.workspace.fs.readDirectory(directory)) {
-      if (signal.aborted || files.length >= maxFiles) return;
-      if (name === "." || name === ".." || name.includes("/") || name.includes("\\")) continue;
-      const sourceUri = vscode.Uri.joinPath(directory, name);
-      const relativeSegments = [...segments, name];
-      if (type === vscode.FileType.Directory) {
-        await visit(sourceUri, relativeSegments);
-        continue;
-      }
-      if (type !== vscode.FileType.File || !imagePattern.test(name)) continue;
-      const uri = entry.with({ path: `${basePath}${relativeSegments.join("/")}` }).toString();
-      if (existing.has(uri)) continue;
-      const bytes = await vscode.workspace.fs.readFile(sourceUri);
-      if (bytes.byteLength > maxFileBytes || totalBytes + bytes.byteLength > maxTotalBytes) continue;
-      totalBytes += bytes.byteLength;
-      existing.add(uri);
-      files.push({ uri, dataBase64: bytesToBase64(bytes) });
-    }
-  };
-  await visit(root, []);
-  return files.length === 0 ? project : { ...project, files: [...project.files, ...files] };
-}

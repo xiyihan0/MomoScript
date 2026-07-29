@@ -55,12 +55,19 @@ export async function materializeProjectResources(
   signal: AbortSignal,
   dependencies: ResourceMaterializationDependencies,
   limits: ResourceMaterializationLimits = DEFAULT_LIMITS
-): Promise<{ project: TypstRenderProjectUpdate; diagnostics: ResourceMaterializationDiagnostic[] }> {
+): Promise<{
+  project: TypstRenderProjectUpdate;
+  diagnostics: ResourceMaterializationDiagnostic[];
+  reusedResources: number;
+  rebuiltResources: number;
+}> {
   const files = [...project.files];
   const diagnostics: ResourceMaterializationDiagnostic[] = [];
+  let reusedResources = 0;
+  let rebuiltResources = 0;
   if (project.resources.length > limits.maxResources) {
     diagnostics.push({ phase: "fetch", message: `Project requests ${project.resources.length} resources; limit is ${limits.maxResources}` });
-    return { project: { ...project, files }, diagnostics };
+    return { project: { ...project, files }, diagnostics, reusedResources, rebuiltResources };
   }
   let retainedSequenceBytes = 0;
   let retainedBase64Bytes = 0;
@@ -73,6 +80,8 @@ export async function materializeProjectResources(
           message: `Workspace resource '${resource.fileName}' was not mirrored`,
           ...resourceAttribution(resource)
         });
+      } else {
+        reusedResources += 1;
       }
       continue;
     }
@@ -84,7 +93,9 @@ export async function materializeProjectResources(
       const cacheKey = resource.kind === "image-dir"
         ? `image-dir:${source.cacheIdentity}:${url.href}`
         : `image-sequence:native-or-web-v1:${resource.sha256}:${resource.frame}:${JSON.stringify(resource.profile)}:${resource.size.join("x")}`;
+      const digestCacheKey = `materialized-file-digest-v1:${cacheKey}`;
       let dataBase64 = cache.get(cacheKey);
+      let digest = cache.get(digestCacheKey);
       if (dataBase64 === undefined) {
         const bytes = resource.kind === "image-dir"
           ? await dependencies.fetch(url, signal)
@@ -108,12 +119,19 @@ export async function materializeProjectResources(
         assertResourceBudget(retainedSequenceBytes + retainedBase64Bytes + transientBytes + base64Bytes, limits);
         retainedBase64Bytes += base64Bytes;
         cache.set(cacheKey, dataBase64);
+        rebuiltResources += 1;
       } else {
         const base64Bytes = dataBase64.length * 2;
         assertResourceBudget(retainedSequenceBytes + retainedBase64Bytes + base64Bytes, limits);
         retainedBase64Bytes += base64Bytes;
+        reusedResources += 1;
       }
-      files.push({ uri: resource.uri, dataBase64 });
+      if (digest === undefined) {
+        const bytes = dependencies.decodeBase64(dataBase64);
+        digest = await canonicalBytesDigest("mmt-project-file-v1", [bytes]);
+        cache.set(digestCacheKey, digest);
+      }
+      files.push({ uri: resource.uri, digest, dataBase64 });
     } catch (error) {
       if (signal.aborted) throw error;
       diagnostics.push({
@@ -123,6 +141,21 @@ export async function materializeProjectResources(
       });
       if (error instanceof ResourceBudgetError) break;
     }
+  }
+  const materializationPlanKey = `materialized-plan-digest-v1:${project.packRegistryDigest}:${project.resourcePlanDigest}:${
+    [...project.resources]
+      .sort((left, right) => left.id - right.id)
+      .map((resource) => `${resource.id}:${files.find((file) => file.uri === resource.uri)?.digest ?? "missing"}`)
+      .join("|")
+  }`;
+  const cachedResourceBytesDigest = diagnostics.length === 0 ? cache.get(materializationPlanKey) : undefined;
+  if (cachedResourceBytesDigest !== undefined) {
+    return {
+      project: { ...project, files, resourceBytesDigest: cachedResourceBytesDigest },
+      diagnostics,
+      reusedResources,
+      rebuiltResources,
+    };
   }
   const digestFields: Uint8Array[] = [];
   const encoder = new TextEncoder();
@@ -139,7 +172,13 @@ export async function materializeProjectResources(
     }
   }
   const resourceBytesDigest = await canonicalBytesDigest("mmt-resource-bytes-v1", digestFields);
-  return { project: { ...project, files, resourceBytesDigest }, diagnostics };
+  if (diagnostics.length === 0) cache.set(materializationPlanKey, resourceBytesDigest);
+  return {
+    project: { ...project, files, resourceBytesDigest },
+    diagnostics,
+    reusedResources,
+    rebuiltResources,
+  };
 }
 
 function resourceAttribution(resource: TypstResourceRequest): Pick<

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { build } from "esbuild";
+import { createHash } from "node:crypto";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -100,12 +101,24 @@ const sourceUri = Uri.file(sourcePath);
 const document = { uri: sourceUri, languageId: "mmt", version: 1 };
 __host.documents.push(document);
 
+function fileDigest(text) {
+  const hash = createHash("sha256");
+  for (const field of [Buffer.from("mmt-project-file-v1"), Buffer.from(text)]) {
+    const length = Buffer.alloc(8);
+    length.writeBigUInt64BE(BigInt(field.byteLength));
+    hash.update(length);
+    hash.update(field);
+  }
+  return hash.digest("hex");
+}
+
+const entryText = "#set page(width: 20pt, height: 20pt)\n#image(\"avatar.png\")\n// REV-A";
 const entryUri = "untitled:/mmt-projection/test/session/main-1.typ";
 const avatarUri = "untitled:/mmt-projection/test/session/avatar.png";
 const workspaceUri = "untitled:/mmt-projection/test/session/workspace-image.png";
 const baseProject = {
   sourceUri: sourceUri.toString(), sourceVersion: 1, revision: 1, entryUri,
-  files: [{ uri: entryUri, text: "#set page(width: 20pt, height: 20pt)\n#image(\"avatar.png\")\n// REV-A" }],
+  files: [{ uri: entryUri, text: entryText, digest: fileDigest(entryText) }],
   full: true, diagnostics: [], projectDigest: "project", mappingDigest: "mapping",
   sourceContent: "source", projectionKey: "projection", packRegistryDigest: "packs",
   resourcePlanDigest: "plan", resourceBytesDigest: "bytes",
@@ -115,7 +128,14 @@ const baseProject = {
   ]
 };
 let project = baseProject;
-const client = { async sendRequest() { return structuredClone(project); } };
+const notificationListeners = new Map();
+const client = {
+  async sendRequest() { return structuredClone(project); },
+  onNotification(method, listener) {
+    notificationListeners.set(method, listener);
+    return { dispose() { notificationListeners.delete(method); } };
+  }
+};
 const responseFor = (bytes, url) => {
   const response = new Response(bytes, { status: 200, headers: { "content-length": String(bytes.byteLength) } });
   Object.defineProperty(response, "url", { value: url.href });
@@ -146,6 +166,8 @@ service.setPackSources([{
   baseUrl: "https://packs.example/",
   json: JSON.stringify({ pack: { namespace: "ba" } })
 }]);
+notificationListeners.get("mmt/typstRenderProjectUpdated")?.(structuredClone(baseProject));
+await new Promise((resolve) => setTimeout(resolve, 0));
 const target = Uri.file(path.join(temp, "story.pdf"));
 await writeFile(target.fsPath, "OLD");
 const previewA = await service.preview(document);
@@ -165,6 +187,7 @@ assert.equal((await readFile(target.fsPath)).toString(), "CURRENT");
 // A stale displayed A supports an explicit displayed-A export or wait-latest B export.
 document.version = 2;
 const entryUriB = entryUri.replace("main-1", "main-2");
+const entryTextB = "#set page(width: 20pt, height: 20pt)\n#image(\"avatar.png\")\n// REV-B";
 project = {
   ...baseProject,
   sourceVersion: 2,
@@ -172,7 +195,7 @@ project = {
   entryUri: entryUriB,
   projectionKey: "projection-b",
   sourceContent: "source-b",
-  files: [{ uri: entryUriB, text: "#set page(width: 20pt, height: 20pt)\n#image(\"avatar.png\")\n// REV-B" }]
+  files: [{ uri: entryUriB, text: entryTextB, digest: fileDigest(entryTextB) }]
 };
 const displayedA = await service.exportPdf(document, target, "export-displayed");
 assert.equal(displayedA.sourceVersion, 1);
@@ -341,6 +364,7 @@ await assert.rejects(() => wrongSize.preview(document), /returned 1x1; expected 
 
 service.dispose(); noPreviewService.dispose(); guarded.dispose(); drifted.dispose(); midflight.dispose();
 overlap.dispose(); sequenceService.dispose(); wrongSize.dispose();
+assert.equal(notificationListeners.size, 0, "Desktop render notification subscription leaked");
 await rm(temp, { recursive: true, force: true });
 console.log(JSON.stringify({
   avatarAndWorkspaceMaterialized: true,

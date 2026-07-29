@@ -18,6 +18,7 @@ use mmt_rs::{
     StaticPresetCatalog, diagnose_analyzed, diagnose_analyzed_with_pack,
 };
 
+use crate::clock::StageTimer;
 use crate::position::LineIndex;
 
 #[derive(Debug, Clone)]
@@ -29,6 +30,7 @@ pub struct DocumentSnapshot {
     pub lines: Arc<LineIndex>,
     pub pack_revision: Option<u64>,
     pub pack_registry_digest: String,
+    pub analysis_ms: f64,
 }
 
 impl DocumentSnapshot {
@@ -39,6 +41,7 @@ impl DocumentSnapshot {
         analysis: AnalyzedDocument,
         pack_revision: Option<u64>,
         pack_registry_digest: String,
+        analysis_ms: f64,
     ) -> Self {
         let lines = Arc::new(LineIndex::new(&text));
         Self {
@@ -49,6 +52,7 @@ impl DocumentSnapshot {
             lines,
             pack_revision,
             pack_registry_digest,
+            analysis_ms,
         }
     }
 }
@@ -189,6 +193,7 @@ impl LanguageService {
     fn upsert(&mut self, uri: Url, version: i32, text: String) -> &DocumentSnapshot {
         let revision = self.next_revision;
         self.next_revision += 1;
+        let analysis_started = StageTimer::start();
         let (analysis, pack_revision, pack_registry_digest) =
             if let Some(registry) = &self.pack_registry {
                 (
@@ -203,6 +208,7 @@ impl LanguageService {
                     self.pack_registry_digest.clone(),
                 )
             };
+        let analysis_ms = analysis_started.elapsed_ms();
         self.analysis_builds += 1;
         self.authored_line_index_builds += 1;
         self.documents.insert(
@@ -214,6 +220,7 @@ impl LanguageService {
                 analysis,
                 pack_revision,
                 pack_registry_digest,
+                analysis_ms,
             ),
         );
         &self.documents[&uri]

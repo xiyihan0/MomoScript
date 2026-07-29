@@ -111,6 +111,20 @@
           "default": true,
           "description": "文档变化后自动调度与对应修订版本绑定的预览。"
         },
+        "mmt.preview.debounceMs": {
+          "type": "number",
+          "default": 50,
+          "minimum": 32,
+          "maximum": 75,
+          "scope": "window",
+          "description": "输入触发预览的 latest-wins 防抖窗口（毫秒）。"
+        },
+        "mmt.preview.performance.enabled": {
+          "type": "boolean",
+          "default": false,
+          "scope": "window",
+          "description": "收集有界的预览阶段性能样本；默认关闭，仅用于诊断和基准测试。"
+        },
         "mmt.resources.maxFileSizeMb": {
           "type": "number",
           "default": 20,

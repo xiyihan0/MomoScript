@@ -9,6 +9,7 @@ export interface PreviewRevision {
   sourceVersion: number;
   revision: number;
   requestId?: number;
+  traceId?: string;
 }
 
 export interface PreviewBuildIdentity extends PreviewRevision {

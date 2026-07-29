@@ -16,7 +16,6 @@ pub mod source;
 pub mod syntax;
 pub mod typst_check;
 
-
 pub use analysis::{
     ANALYSIS_SCHEMA, AnalysisDiagnostic, AnalysisLabel, AnalysisReport, AstReport, SourceSpan,
     analyze_text_json, analyze_text_wasm,
@@ -52,9 +51,10 @@ pub use projected_edit::{
 pub use projection::{
     MappingMode, PROJECTION_PLACEHOLDER_IMAGE, ProjectedResource, ProjectedResourceSource,
     ProjectionEdit, ProjectionError, ProjectionIndex, ProjectionKind, ProjectionMappingKind,
-    ProjectionMappingResult, ProjectionSegment, TypstProjection, diagnose_analyzed,
-    diagnose_analyzed_with_pack, diagnose_text, diagnose_text_with_pack, project_analyzed,
-    project_analyzed_with_pack, project_text, project_text_with_pack,
+    ProjectionMappingResult, ProjectionPlan, ProjectionProfile, ProjectionSegment, TypstProjection,
+    diagnose_analyzed, diagnose_analyzed_with_pack, diagnose_text, diagnose_text_with_pack,
+    emit_projection_plan, plan_analyzed, project_analyzed, project_analyzed_with_pack,
+    project_text, project_text_with_pack,
 };
 pub use resolve::{
     PackStorageSource, ResolvedResource, ResolvedResourceKind, ResourceFailure, ResourceResolution,

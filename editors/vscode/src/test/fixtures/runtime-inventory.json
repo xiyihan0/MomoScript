@@ -23,6 +23,8 @@
       { "name": "retiredLanguageProjectionSessions", "kind": "Map<Set>", "role": "permanent language-projection session retirement guard", "owner": "WebEditorRuntimeStores", "dispose": "closeSource or controller teardown" },
       { "name": "requestedRenderTokens", "kind": "WeakSet", "role": "deduplicates preview render requests by accepted token identity", "owner": "WebEditorRuntimeStores", "dispose": "garbage collected with controller" },
       { "name": "renderRequestIdBySource", "kind": "Map", "role": "latest-wins render request sequence per source", "owner": "WebEditorRuntimeStores", "dispose": "closeSource or controller teardown" },
+      { "name": "renderProjectSnapshots", "kind": "RenderProjectSnapshotStore", "role": "serializes and deduplicates revision-bound full/delta render admission", "owner": "EditorRuntimeController disposable", "dispose": "closeSource or controller teardown" },
+      { "name": "workspaceAssetMirror", "kind": "WorkspaceAssetMirror", "role": "event-driven bounded browser workspace image inventory", "owner": "EditorRuntimeController disposable", "dispose": "controller teardown disposes watcher and clears snapshots" },
       { "name": "persistenceByUri", "kind": "Map<Promise>", "role": "serialized document persistence queue per URI", "owner": "WebEditorRuntimeStores", "dispose": "entry removed on settlement; quiesce drains; controller teardown clears" }
     ],
     "listeners": [
@@ -31,6 +33,7 @@
       { "name": "typstDocumentOpenRegistration", "source": "workspace document open", "owner": "EditorRuntimeController subscription" },
       { "name": "typstEditorActivationRegistration", "source": "active editor change", "owner": "EditorRuntimeController subscription" },
       { "name": "mmt/typstProjectUpdated", "source": "MMT client notification", "owner": "EditorRuntimeController subscription" },
+      { "name": "mmt/typstRenderProjectUpdated", "source": "MMT client notification", "owner": "EditorRuntimeController subscription" },
       { "name": "mmt/typstProjectClosed", "source": "MMT client notification", "owner": "EditorRuntimeController subscription" },
       { "name": "documentConfigCommandRegistration", "source": "command", "owner": "EditorRuntimeController subscription" },
       { "name": "previewCommandRegistration", "source": "command", "owner": "EditorRuntimeController subscription" },

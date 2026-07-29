@@ -1,10 +1,15 @@
 //! Typst 0.15 syntax prechecks with MMT source-range projection.
 
-use std::ops::Range;
+use std::{
+    collections::{HashMap, VecDeque},
+    ops::Range,
+    sync::{LazyLock, Mutex},
+};
 
 use typst_syntax::{DiagSpanKind, LinkedNode, Side, Source, SyntaxDiagnostic, SyntaxMode};
 
 use crate::diag::{Diagnostic, DiagnosticPhase, Severity};
+use crate::identity::canonical_bytes_digest;
 use crate::inline::{InlineMacroParseError, InlineMacroSyntax, parse_inline_macro_at_checked};
 use crate::source::TextRange;
 
@@ -27,8 +32,91 @@ impl Default for TypstCheckConfig {
     }
 }
 
+const TYPST_CHECK_CACHE_CAPACITY: usize = 512;
+const TYPST_CHECK_CACHE_MAX_DIAGNOSTICS: usize = 256;
+const TYPST_SOURCE_CHECK_MODE: &[u8] = b"source";
+const TYPST_ARGS_CHECK_MODE: &[u8] = b"args";
+const TYPST_SYNTAX_GENERATION: &[u8] = b"typst-syntax-0.15";
+const MMT_FACADE_GENERATION: &[u8] = b"mmt-facade-v1";
+
+#[derive(Default)]
+struct TypstCheckCache {
+    entries: HashMap<String, Vec<Diagnostic>>,
+    order: VecDeque<String>,
+}
+
+impl TypstCheckCache {
+    fn get(&self, key: &str, origin: TextRange) -> Option<Vec<Diagnostic>> {
+        self.entries
+            .get(key)
+            .map(|diagnostics| relocate_diagnostics(diagnostics, origin.start))
+    }
+
+    fn insert(&mut self, key: String, diagnostics: Vec<Diagnostic>) {
+        if diagnostics.len() > TYPST_CHECK_CACHE_MAX_DIAGNOSTICS || self.entries.contains_key(&key)
+        {
+            return;
+        }
+        while self.entries.len() >= TYPST_CHECK_CACHE_CAPACITY {
+            let Some(oldest) = self.order.pop_front() else {
+                break;
+            };
+            self.entries.remove(&oldest);
+        }
+        self.order.push_back(key.clone());
+        self.entries.insert(key, diagnostics);
+    }
+}
+
+fn typst_check_cache() -> &'static Mutex<TypstCheckCache> {
+    static CACHE: LazyLock<Mutex<TypstCheckCache>> =
+        LazyLock::new(|| Mutex::new(TypstCheckCache::default()));
+    &CACHE
+}
+
 pub fn check_typst_source(text: &str, origin: TextRange) -> Vec<Diagnostic> {
     debug_assert_eq!(text.len(), origin.len());
+    cached_typst_check(
+        text,
+        origin,
+        TYPST_SOURCE_CHECK_MODE,
+        check_typst_source_uncached,
+    )
+}
+
+fn cached_typst_check(
+    text: &str,
+    origin: TextRange,
+    mode: &[u8],
+    check: fn(&str, TextRange) -> Vec<Diagnostic>,
+) -> Vec<Diagnostic> {
+    let key = canonical_bytes_digest(
+        "mmt-typst-fragment-check-v1",
+        &[
+            mode,
+            TYPST_SYNTAX_GENERATION,
+            MMT_FACADE_GENERATION,
+            text.as_bytes(),
+        ],
+    );
+    if let Some(diagnostics) = typst_check_cache()
+        .lock()
+        .unwrap_or_else(|poisoned| poisoned.into_inner())
+        .get(&key, origin)
+    {
+        return diagnostics;
+    }
+
+    let relative_origin = TextRange::new(0, text.len());
+    let diagnostics = check(text, relative_origin);
+    typst_check_cache()
+        .lock()
+        .unwrap_or_else(|poisoned| poisoned.into_inner())
+        .insert(key, diagnostics.clone());
+    relocate_diagnostics(&diagnostics, origin.start)
+}
+
+fn check_typst_source_uncached(text: &str, origin: TextRange) -> Vec<Diagnostic> {
     let source = Source::detached(text);
     syntax_errors(&source)
         .into_iter()
@@ -38,9 +126,34 @@ pub fn check_typst_source(text: &str, origin: TextRange) -> Vec<Diagnostic> {
         .collect()
 }
 
+fn relocate_diagnostics(diagnostics: &[Diagnostic], offset: usize) -> Vec<Diagnostic> {
+    diagnostics
+        .iter()
+        .cloned()
+        .map(|mut diagnostic| {
+            diagnostic.range = diagnostic
+                .range
+                .map(|range| TextRange::new(range.start + offset, range.end + offset));
+            for label in &mut diagnostic.labels {
+                label.range = TextRange::new(label.range.start + offset, label.range.end + offset);
+            }
+            diagnostic
+        })
+        .collect()
+}
+
 /// Checks a raw Typst argument list by placing it in a synthetic function call.
 pub fn check_typst_args(args: &str, origin: TextRange) -> Vec<Diagnostic> {
     debug_assert_eq!(args.len(), origin.len());
+    cached_typst_check(
+        args,
+        origin,
+        TYPST_ARGS_CHECK_MODE,
+        check_typst_args_uncached,
+    )
+}
+
+fn check_typst_args_uncached(args: &str, origin: TextRange) -> Vec<Diagnostic> {
     const PREFIX: &str = "#mmt-probe(";
     const SUFFIX: &str = ")[probe]";
     let wrapped = format!("{PREFIX}{args}{SUFFIX}");
@@ -220,6 +333,58 @@ mod tests {
         let args = "fill: green, inset: 5pt";
         assert!(check_typst_source(body, TextRange::new(20, 20 + body.len())).is_empty());
         assert!(check_typst_args(args, TextRange::new(100, 100 + args.len())).is_empty());
+    }
+
+    #[test]
+    fn cached_typst_diagnostics_relocate_to_each_fragment_origin() {
+        let text = "#let broken =";
+        let first_origin = TextRange::new(20, 20 + text.len());
+        let second_origin = TextRange::new(200, 200 + text.len());
+        let first = check_typst_source(text, first_origin);
+        let second = check_typst_source(text, second_origin);
+
+        assert!(!first.is_empty());
+        assert_eq!(
+            first
+                .iter()
+                .map(|diagnostic| diagnostic.range.map(|range| {
+                    TextRange::new(
+                        range.start - first_origin.start + second_origin.start,
+                        range.end - first_origin.start + second_origin.start,
+                    )
+                }))
+                .collect::<Vec<_>>(),
+            second
+                .iter()
+                .map(|diagnostic| diagnostic.range)
+                .collect::<Vec<_>>()
+        );
+    }
+
+    #[test]
+    fn cached_typst_argument_diagnostics_relocate_to_each_patch_origin() {
+        let args = "fill: , inset: 5pt";
+        let first_origin = TextRange::new(40, 40 + args.len());
+        let second_origin = TextRange::new(400, 400 + args.len());
+        let first = check_typst_args(args, first_origin);
+        let second = check_typst_args(args, second_origin);
+
+        assert!(!first.is_empty());
+        assert_eq!(
+            first
+                .iter()
+                .map(|diagnostic| diagnostic.range.map(|range| {
+                    TextRange::new(
+                        range.start - first_origin.start + second_origin.start,
+                        range.end - first_origin.start + second_origin.start,
+                    )
+                }))
+                .collect::<Vec<_>>(),
+            second
+                .iter()
+                .map(|diagnostic| diagnostic.range)
+                .collect::<Vec<_>>()
+        );
     }
 
     #[test]

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { build } from "esbuild";
@@ -14,9 +15,84 @@ const result = await build({
   logLevel: "silent"
 });
 const source = result.outputFiles[0].text;
-const { TypstProjectState, TypstProjectInvariantError } = await import(
-  `data:text/javascript;base64,${Buffer.from(source).toString("base64")}`
+const {
+  applyRenderProjectUpdate,
+  RenderProjectSnapshotStore,
+  TypstProjectState,
+  TypstProjectInvariantError
+} = await import(`data:text/javascript;base64,${Buffer.from(source).toString("base64")}`);
+
+function fileDigest(text) {
+  const hash = createHash("sha256");
+  for (const field of [Buffer.from("mmt-project-file-v1"), Buffer.from(text)]) {
+    const length = Buffer.alloc(8);
+    length.writeBigUInt64BE(BigInt(field.byteLength));
+    hash.update(length);
+    hash.update(field);
+  }
+  return hash.digest("hex");
+}
+
+const renderHelper = {
+  uri: "untitled:/render/a/helper.typ",
+  text: "#let value = 1",
+  digest: fileDigest("#let value = 1")
+};
+const renderEntry1 = {
+  uri: "untitled:/render/a/main-1.typ",
+  text: "#value",
+  digest: fileDigest("#value")
+};
+const renderBase = await applyRenderProjectUpdate(undefined, {
+  sourceUri: "logical-source:render",
+  sourceVersion: 1,
+  revision: 1,
+  entryUri: renderEntry1.uri,
+  full: true,
+  files: [renderHelper, renderEntry1],
+  projectDigest: "project-1"
+});
+const renderEntry2 = {
+  uri: "untitled:/render/a/main-2.typ",
+  text: "#value + 1",
+  digest: fileDigest("#value + 1")
+};
+const renderNext = await applyRenderProjectUpdate(renderBase, {
+  ...renderBase,
+  sourceVersion: 2,
+  revision: 2,
+  entryUri: renderEntry2.uri,
+  full: false,
+  files: [renderEntry2],
+  baseRevision: 1,
+  baseProjectDigest: "project-1",
+  deletedUris: [renderEntry1.uri],
+  projectDigest: "project-2"
+});
+assert.deepEqual(renderNext.files.map((file) => file.uri).sort(), [renderEntry2.uri, renderHelper.uri].sort());
+await assert.rejects(
+  applyRenderProjectUpdate(renderBase, {
+    ...renderNext,
+    revision: 3,
+    full: false,
+    files: [{ ...renderEntry2, text: "#corrupted" }],
+    baseRevision: 1,
+    baseProjectDigest: "project-1"
+  }),
+  /failed content digest validation/
 );
+
+const renderSnapshots = new RenderProjectSnapshotStore();
+assert.equal((await renderSnapshots.accept(renderBase)).advanced, true);
+assert.equal((await renderSnapshots.accept(renderBase)).advanced, false);
+assert.equal((await renderSnapshots.accept(renderNext)).advanced, true);
+assert.equal(renderSnapshots.get(renderBase.sourceUri)?.projectDigest, "project-2");
+await assert.rejects(
+  renderSnapshots.accept(renderBase),
+  /does not advance the accepted snapshot/
+);
+renderSnapshots.close(renderBase.sourceUri);
+assert.equal(renderSnapshots.get(renderBase.sourceUri), undefined);
 
 const notifications = [];
 const events = [];

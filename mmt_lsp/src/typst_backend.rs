@@ -1,7 +1,7 @@
 use base64::Engine;
 use std::{
     collections::{BTreeMap, HashMap, VecDeque},
-    sync::Arc,
+    sync::{Arc, Weak},
 };
 
 use lsp_types::{
@@ -12,16 +12,16 @@ use mmt_rs::{
     AnalyzedDocument, EmitOptions, LogicalProjectFileId, MappingMode, PROJECTION_PLACEHOLDER_IMAGE,
     ProjectDigestInput, ProjectedEditFailure, ProjectedEditTarget, ProjectedEditTransaction,
     ProjectionEdit, ProjectionError, ProjectionKey, ProjectionKind, ProjectionMappingKind,
-    ProjectionMappingResult, RetainedProjectedDocument, SourceContentKey, TypstProjectSnapshotKey,
-    TypstProjection, ValidatedProjectedEditTransaction, canonical_bytes_digest,
-    canonical_json_digest, logical_source_id, normalize_projected_edit_uri, project_analyzed,
-    project_analyzed_with_pack, project_snapshot_key, projection_key, source_content_key,
-    validate_projected_edit_transaction,
+    ProjectionMappingResult, ProjectionPlan, ProjectionProfile, RetainedProjectedDocument,
+    SourceContentKey, TypstProjectSnapshotKey, TypstProjection, ValidatedProjectedEditTransaction,
+    canonical_bytes_digest, canonical_json_digest, logical_source_id, normalize_projected_edit_uri,
+    project_snapshot_key, projection_key, source_content_key, validate_projected_edit_transaction,
 };
 #[cfg(test)]
 use mmt_rs::{StaticPresetCatalog, project_text};
 use serde::{Deserialize, Serialize};
 
+use crate::clock::StageTimer;
 use crate::{
     position::{
         LineIndex, MmtClientPosition, PositionConversionError, PositionEncoding,
@@ -91,10 +91,32 @@ const EDITOR_PLACEHOLDER_SVG: &str =
 #[serde(rename_all = "camelCase")]
 pub struct TypstVirtualFile {
     pub uri: Url,
+    pub digest: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub text: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub data_base64: Option<String>,
+}
+
+impl TypstVirtualFile {
+    fn text(uri: Url, text: impl Into<String>) -> Self {
+        let text = text.into();
+        Self {
+            uri,
+            digest: canonical_bytes_digest("mmt-project-file-v1", &[text.as_bytes()]),
+            text: Some(text),
+            data_base64: None,
+        }
+    }
+
+    fn binary(uri: Url, data: &[u8]) -> Self {
+        Self {
+            uri,
+            digest: canonical_bytes_digest("mmt-project-file-v1", &[data]),
+            text: None,
+            data_base64: Some(base64::engine::general_purpose::STANDARD.encode(data)),
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -171,7 +193,24 @@ pub struct TypstProjectUpdate {
     pub projection_key: ProjectionKey,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TypstRenderProjectTimings {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rust_parse_ms: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rust_semantic_ms: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rust_resolve_ms: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rust_emit_ms: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rust_typst_check_ms: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rust_index_digest_ms: Option<f64>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TypstRenderProjectUpdate {
     pub source_uri: Url,
@@ -182,6 +221,12 @@ pub struct TypstRenderProjectUpdate {
     pub entry_uri: Url,
     pub files: Vec<TypstVirtualFile>,
     pub full: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub base_revision: Option<u64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub base_project_digest: Option<TypstProjectSnapshotKey>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub deleted_uris: Vec<Url>,
     pub resources: Vec<TypstResourceRequest>,
     pub diagnostics: Vec<TypstRenderDiagnostic>,
     pub project_digest: TypstProjectSnapshotKey,
@@ -191,6 +236,40 @@ pub struct TypstRenderProjectUpdate {
     pub pack_registry_digest: String,
     pub resource_plan_digest: String,
     pub resource_bytes_digest: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub trace_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub timings: Option<TypstRenderProjectTimings>,
+}
+
+impl TypstRenderProjectUpdate {
+    pub(crate) fn delta_from(mut self, base: &Self) -> Self {
+        debug_assert_eq!(self.source_uri, base.source_uri);
+        let current_files = self
+            .files
+            .iter()
+            .map(|file| (file.uri.clone(), file.digest.as_str()))
+            .collect::<HashMap<_, _>>();
+        let base_files = base
+            .files
+            .iter()
+            .map(|file| (file.uri.clone(), file.digest.as_str()))
+            .collect::<HashMap<_, _>>();
+        self.deleted_uris = base_files
+            .keys()
+            .filter(|uri| !current_files.contains_key(*uri))
+            .cloned()
+            .collect();
+        self.files.retain(|file| {
+            base_files
+                .get(&file.uri)
+                .is_none_or(|digest| *digest != file.digest)
+        });
+        self.full = false;
+        self.base_revision = Some(base.revision);
+        self.base_project_digest = Some(base.project_digest.clone());
+        self
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -247,12 +326,15 @@ pub struct ProjectionDocument {
     pub revision: u64,
     pub entry_uri: Url,
     session_id: String,
-    pub source: String,
+    pub source: Arc<str>,
     pub analysis: Arc<AnalyzedDocument>,
+    pub plan: Arc<ProjectionPlan>,
     pub projection: TypstProjection,
     source_lines: Arc<LineIndex>,
     typst_lines: LineIndex,
     language_identity: ProjectIdentity,
+    analysis_ms: f64,
+    language_emit_ms: f64,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -408,39 +490,32 @@ impl ProjectionDocument {
         let mut files = Vec::new();
         if include_template {
             files.extend(EMBEDDED_TEMPLATE_TEXT_FILES.iter().map(|(path, text)| {
-                TypstVirtualFile {
-                    uri: self
-                        .entry_uri
+                TypstVirtualFile::text(
+                    self.entry_uri
                         .join(path)
                         .expect("embedded template path forms a valid virtual URI"),
-                    text: Some((*text).to_string()),
-                    data_base64: None,
-                }
+                    *text,
+                )
             }));
             files.extend(EMBEDDED_TEMPLATE_BINARY_FILES.iter().map(|(path, data)| {
-                TypstVirtualFile {
-                    uri: self
-                        .entry_uri
+                TypstVirtualFile::binary(
+                    self.entry_uri
                         .join(path)
                         .expect("embedded template path forms a valid virtual URI"),
-                    text: None,
-                    data_base64: Some(base64::engine::general_purpose::STANDARD.encode(data)),
-                }
+                    data,
+                )
             }));
-            files.push(TypstVirtualFile {
-                uri: self
-                    .entry_uri
+            files.push(TypstVirtualFile::text(
+                self.entry_uri
                     .join(PROJECTION_PLACEHOLDER_IMAGE)
                     .expect("placeholder path forms a valid virtual URI"),
-                text: Some(EDITOR_PLACEHOLDER_SVG.to_string()),
-                data_base64: None,
-            });
+                EDITOR_PLACEHOLDER_SVG,
+            ));
         }
-        files.push(TypstVirtualFile {
-            uri: self.entry_uri.clone(),
-            text: Some(self.projection.emitted.source.clone()),
-            data_base64: None,
-        });
+        files.push(TypstVirtualFile::text(
+            self.entry_uri.clone(),
+            self.projection.emitted.source.clone(),
+        ));
         let identity = &self.language_identity;
         TypstProjectUpdate {
             source_uri: self.source_uri.clone(),
@@ -826,40 +901,37 @@ fn build_render_project_generation(
             requested_revision: pack_revision,
         });
     }
-    let projection = project_analyzed_with_pack(
-        &document.source,
-        &document.analysis,
-        &EmitOptions {
-            timestamp,
-            ..EmitOptions::default()
-        },
-    )?;
+    let render_emit_started = StageTimer::start();
+    let projection = document
+        .plan
+        .emit(ProjectionProfile::Render { timestamp })?;
+    let render_emit_ms = render_emit_started.elapsed_ms();
+    let index_digest_started = StageTimer::start();
     let mut files = EMBEDDED_TEMPLATE_TEXT_FILES
         .iter()
-        .map(|(path, text)| TypstVirtualFile {
-            uri: document
-                .entry_uri
-                .join(path)
-                .expect("embedded template path forms a valid virtual URI"),
-            text: Some((*text).to_string()),
-            data_base64: None,
+        .map(|(path, text)| {
+            TypstVirtualFile::text(
+                document
+                    .entry_uri
+                    .join(path)
+                    .expect("embedded template path forms a valid virtual URI"),
+                *text,
+            )
         })
         .collect::<Vec<_>>();
     files.extend(EMBEDDED_TEMPLATE_BINARY_FILES.iter().map(|(path, data)| {
-        TypstVirtualFile {
-            uri: document
+        TypstVirtualFile::binary(
+            document
                 .entry_uri
                 .join(path)
                 .expect("embedded template path forms a valid virtual URI"),
-            text: None,
-            data_base64: Some(base64::engine::general_purpose::STANDARD.encode(data)),
-        }
+            data,
+        )
     }));
-    files.push(TypstVirtualFile {
-        uri: document.entry_uri.clone(),
-        text: Some(projection.emitted.source.clone()),
-        data_base64: None,
-    });
+    files.push(TypstVirtualFile::text(
+        document.entry_uri.clone(),
+        projection.emitted.source.clone(),
+    ));
     let resources: Vec<TypstResourceRequest> = projection
         .resources
         .iter()
@@ -941,12 +1013,16 @@ fn build_render_project_generation(
         &document.source_lines,
         &projection.diagnostics,
     );
+    let rust_index_digest_ms = index_digest_started.elapsed_ms();
     let update = TypstRenderProjectUpdate {
         source_uri: document.source_uri.clone(),
         source_version: document.source_version,
         revision: document.revision,
         entry_uri: document.entry_uri.clone(),
         full: true,
+        base_revision: None,
+        base_project_digest: None,
+        deleted_uris: Vec::new(),
         files,
         resources,
         diagnostics,
@@ -957,6 +1033,15 @@ fn build_render_project_generation(
         pack_registry_digest: document.pack_registry_digest.clone(),
         resource_plan_digest,
         resource_bytes_digest,
+        trace_id: None,
+        timings: Some(TypstRenderProjectTimings {
+            rust_parse_ms: None,
+            rust_semantic_ms: Some(document.analysis_ms),
+            rust_resolve_ms: None,
+            rust_emit_ms: Some(document.language_emit_ms + render_emit_ms),
+            rust_typst_check_ms: None,
+            rust_index_digest_ms: Some(rust_index_digest_ms),
+        }),
     };
     let mut generation = document.clone();
     generation.typst_lines = LineIndex::new(&projection.emitted.source);
@@ -975,11 +1060,26 @@ pub fn build_render_project(
 
 const RETAINED_POSITION_GENERATIONS: usize = 2;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct RenderProjectCacheKey {
+    revision: u64,
+    pack_revision: u64,
+    timestamp: Option<mmt_rs::HostTimestamp>,
+}
+
+#[derive(Debug, Clone)]
+struct RenderProjectCacheEntry {
+    key: RenderProjectCacheKey,
+    update: TypstRenderProjectUpdate,
+}
+
 #[derive(Debug)]
 pub struct ProjectionStore {
     documents: HashMap<Url, ProjectionDocument>,
     retained: HashMap<Url, VecDeque<ProjectionDocument>>,
     rendered: HashMap<Url, VecDeque<ProjectionDocument>>,
+    plans: HashMap<String, Weak<ProjectionPlan>>,
+    render_projects: HashMap<Url, RenderProjectCacheEntry>,
     session_id: String,
     next_revision: u64,
 }
@@ -990,6 +1090,8 @@ impl Default for ProjectionStore {
             documents: HashMap::new(),
             retained: HashMap::new(),
             rendered: HashMap::new(),
+            plans: HashMap::new(),
+            render_projects: HashMap::new(),
             next_revision: 1,
             session_id: uuid::Uuid::new_v4().simple().to_string(),
         }
@@ -1008,13 +1110,41 @@ impl ProjectionStore {
             .checked_add(1)
             .expect("Typst projection revision overflow");
         let entry_uri = virtual_entry_uri(&source_uri, &self.session_id, revision);
-        let projection =
-            project_analyzed(&snapshot.text, &snapshot.analysis, &EmitOptions::default())?;
+        let language_emit_started = StageTimer::start();
+        let plan_key = canonical_bytes_digest(
+            "mmt-projection-plan-cache-v1",
+            &[
+                snapshot.text.as_bytes(),
+                snapshot.pack_registry_digest.as_bytes(),
+            ],
+        );
+        let plan = if let Some(plan) = self.plans.get(&plan_key).and_then(Weak::upgrade) {
+            plan
+        } else {
+            let plan = Arc::new(ProjectionPlan::from_shared(
+                Arc::<str>::from(snapshot.text.as_str()),
+                Arc::clone(&snapshot.analysis),
+                &EmitOptions::default(),
+            )?);
+            self.plans.retain(|_, retained| retained.strong_count() > 0);
+            if self.plans.len() >= 32
+                && let Some(key) = self.plans.keys().next().cloned()
+            {
+                self.plans.remove(&key);
+            }
+            self.plans.insert(plan_key, Arc::downgrade(&plan));
+            plan
+        };
+        let source = plan.source_arc();
+        let projection = plan.emit(ProjectionProfile::Language {
+            placeholder_uri: PROJECTION_PLACEHOLDER_IMAGE,
+        })?;
+        let language_emit_ms = language_emit_started.elapsed_ms();
         let typst_lines = LineIndex::new(&projection.emitted.source);
         let language_identity = project_identity(
             ProjectIdentityInput {
                 source_uri: &source_uri,
-                source: &snapshot.text,
+                source: &source,
                 pack_revision: snapshot.pack_revision,
                 pack_registry_digest: &snapshot.pack_registry_digest,
                 session_id: &self.session_id,
@@ -1032,12 +1162,15 @@ impl ProjectionStore {
             revision,
             entry_uri,
             session_id: self.session_id.clone(),
-            source: snapshot.text.clone(),
-            analysis: Arc::clone(&snapshot.analysis),
+            source,
+            analysis: Arc::clone(plan.analysis()),
+            plan,
             projection,
             source_lines: Arc::clone(&snapshot.lines),
             typst_lines,
             language_identity,
+            analysis_ms: snapshot.analysis_ms,
+            language_emit_ms,
         };
         if let Some(previous) = self.documents.insert(source_uri.clone(), next) {
             let retained = self.retained.entry(source_uri.clone()).or_default();
@@ -1046,6 +1179,7 @@ impl ProjectionStore {
                 retained.pop_front();
             }
         }
+        self.render_projects.remove(&source_uri);
         Ok(&self.documents[&source_uri])
     }
 
@@ -1063,6 +1197,28 @@ impl ProjectionStore {
             .documents
             .get(source_uri)
             .expect("render project source generation must exist");
+        let cache_key = RenderProjectCacheKey {
+            revision: document.revision,
+            pack_revision,
+            timestamp,
+        };
+        if let Some(cached) = self
+            .render_projects
+            .get(source_uri)
+            .filter(|cached| cached.key == cache_key)
+        {
+            let mut update = cached.update.clone();
+            update.timings = Some(TypstRenderProjectTimings {
+                rust_parse_ms: None,
+                rust_semantic_ms: Some(0.0),
+                rust_resolve_ms: None,
+                rust_emit_ms: Some(0.0),
+                rust_typst_check_ms: None,
+                rust_index_digest_ms: Some(0.0),
+            });
+            return Ok(update);
+        }
+
         let (update, generation) =
             build_render_project_generation(document, pack_revision, timestamp)?;
         let rendered = self.rendered.entry(source_uri.clone()).or_default();
@@ -1075,6 +1231,13 @@ impl ProjectionStore {
         while rendered.len() > RETAINED_POSITION_GENERATIONS {
             rendered.pop_front();
         }
+        self.render_projects.insert(
+            source_uri.clone(),
+            RenderProjectCacheEntry {
+                key: cache_key,
+                update: update.clone(),
+            },
+        );
         Ok(update)
     }
 
@@ -1184,6 +1347,7 @@ impl ProjectionStore {
         self.documents.remove(source_uri);
         self.retained.remove(source_uri);
         self.rendered.remove(source_uri);
+        self.render_projects.remove(source_uri);
     }
 
     pub fn project_position(
@@ -1365,6 +1529,7 @@ mod tests {
             text,
             pack_revision: None,
             pack_registry_digest: canonical_bytes_digest("mmt-pack-registry-v1", &[]),
+            analysis_ms: 0.0,
         }
     }
 
@@ -1383,6 +1548,7 @@ mod tests {
             text,
             pack_revision: Some(pack_revision),
             pack_registry_digest: canonical_bytes_digest("mmt-pack-registry-v1", &[b"test-pack"]),
+            analysis_ms: 0.0,
         }
     }
 
@@ -1397,6 +1563,46 @@ mod tests {
             .upsert(uri(), &snapshot)
             .unwrap()
             .clone()
+    }
+
+    #[test]
+    fn repeated_render_requests_reuse_the_completed_revision() {
+        let packs = mmt_rs::pack::PackRegistry::new(Vec::new()).unwrap();
+        let source_uri = uri();
+        let first_snapshot = pack_snapshot(1, "- hello", &packs, 1);
+        let mut store = ProjectionStore::default();
+        store.upsert(source_uri.clone(), &first_snapshot).unwrap();
+        let timestamp = Some(mmt_rs::HostTimestamp {
+            unix_millis: 1_753_702_461_000,
+            local_offset_minutes: 480,
+        });
+
+        let first = store
+            .build_render_project(&source_uri, 1, timestamp)
+            .unwrap();
+        let second = store
+            .build_render_project(&source_uri, 1, timestamp)
+            .unwrap();
+        let mut expected = first.clone();
+        expected.timings = second.timings.clone();
+        assert_eq!(second, expected);
+        assert_eq!(
+            second.timings,
+            Some(TypstRenderProjectTimings {
+                rust_parse_ms: None,
+                rust_semantic_ms: Some(0.0),
+                rust_resolve_ms: None,
+                rust_emit_ms: Some(0.0),
+                rust_typst_check_ms: None,
+                rust_index_digest_ms: Some(0.0),
+            })
+        );
+        assert_eq!(store.rendered[&source_uri].len(), 1);
+        assert_eq!(store.render_projects.len(), 1);
+
+        let second_snapshot = pack_snapshot(2, "- changed", &packs, 1);
+        store.upsert(source_uri.clone(), &second_snapshot).unwrap();
+        assert!(!store.render_projects.contains_key(&source_uri));
     }
 
     #[test]
@@ -2190,5 +2396,30 @@ mod tests {
                 .unwrap_err(),
             PositionConversionError::AmbiguousGeneration
         );
+    }
+    #[test]
+    fn identical_content_reuses_bounded_projection_plan() {
+        let source_uri = uri();
+        let mut store = ProjectionStore::default();
+        let first = store
+            .upsert(
+                source_uri.clone(),
+                &snapshot(1, "- hello", &StaticPresetCatalog::default()),
+            )
+            .unwrap()
+            .clone();
+        let second = store
+            .upsert(
+                source_uri,
+                &snapshot(2, "- hello", &StaticPresetCatalog::default()),
+            )
+            .unwrap()
+            .clone();
+
+        assert!(Arc::ptr_eq(&first.plan, &second.plan));
+        assert!(Arc::ptr_eq(&first.source, &second.source));
+        assert!(Arc::ptr_eq(&first.analysis, &second.analysis));
+        assert!(store.plans.len() <= 32);
+        assert_ne!(first.entry_uri, second.entry_uri);
     }
 }

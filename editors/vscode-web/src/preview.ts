@@ -6,7 +6,7 @@ import monoUrl from "../../vscode/vendor/fonts/DejaVuSansMono.ttf?url";
 import jetBrainsMonoUrl from "../../vscode/vendor/fonts/JetBrainsMono-Regular.ttf?url";
 import mathUrl from "../../vscode/vendor/fonts/NewCMMath-Regular.otf?url";
 
-import type { TypstProjectUpdate, TypstVirtualFile } from "../../vscode/src/tinymistClient";
+import type { TypstProjectUpdate } from "../../vscode/src/tinymistClient";
 import type { TypstPackageGeneration } from "../../vscode/src/typstPackageService";
 import { TypstPreviewPackageRegistry } from "../../vscode/src/typstPreviewPackageRegistry";
 import { isCurrentPreviewUpdate, type PreviewRevision } from "./previewDiagnostics";
@@ -110,18 +110,33 @@ export function evictPreviewPackageGeneration(packageGeneration: string): void {
   previewPackageRegistry.evict(packageGeneration);
 }
 
+export interface TypstPreviewTiming {
+  readonly traceId: string;
+  readonly shadowUpdateMs: number;
+  readonly typstCompileMs: number;
+  readonly svgParseSanitizeMs: number;
+  readonly domUpdateMs: number;
+  readonly locationMeasureMs: number;
+  readonly shadowMapped: number;
+  readonly shadowUnmapped: number;
+  readonly shadowSkipped: number;
+}
+
 export interface TypstPreviewEvents {
   status(message: string, error: boolean, revision?: PreviewRevision): void;
   rendered(svg: string, revision: PreviewRevision, shadowCount: number, pageSize: { width: number; height: number }): void;
+  timing?(timing: TypstPreviewTiming, revision: PreviewRevision): void;
 }
 
 export interface TypstPreviewBinding {
   readonly renderKey: RenderKey;
   readonly requestId?: number;
+  readonly traceId?: string;
   readonly locationProviderKey: LocationProviderKey;
   readonly locationMap?: PreviewImmutableLocationMap;
   readonly identity: PreviewSourceIdentity;
   readonly resolver?: PreviewLocationResolver;
+  readonly signal?: AbortSignal;
 }
 
 interface PendingPreviewRender {
@@ -176,6 +191,10 @@ async function renderSvgWithDebugSpans(mainFilePath: string): Promise<DebugSvgRe
 }
 
 
+export interface TypstPreviewControllerOptions {
+  readonly reuseCompilerState?: boolean;
+}
+
 export class TypstPreviewController {
   private readonly container: HTMLElement;
   private readonly events: TypstPreviewEvents | undefined;
@@ -183,7 +202,8 @@ export class TypstPreviewController {
   private rendering = false;
   private typstOperationTail: Promise<void> = Promise.resolve();
   private mappedPaths = new Set<string>();
-  private mappedFiles = new Map<string, TypstVirtualFile>();
+  private mappedFiles = new Map<string, string>();
+  private readonly reuseCompilerState: boolean;
   private generation = 0;
   private closeRequested = false;
   private readonly viewport = document.createElement("div");
@@ -209,7 +229,9 @@ export class TypstPreviewController {
     container: HTMLElement,
     events?: TypstPreviewEvents,
     interactionDependencies: PreviewInteractionDependencies = {},
+    options: TypstPreviewControllerOptions = {},
   ) {
+    this.reuseCompilerState = options.reuseCompilerState ?? true;
     this.container = container;
     this.events = events;
     this.container.classList.add("typst-preview");
@@ -528,26 +550,54 @@ export class TypstPreviewController {
       sourceVersion: project.sourceVersion,
       revision: project.revision,
       ...(binding?.requestId === undefined ? {} : { requestId: binding.requestId }),
+      ...(binding?.traceId === undefined ? {} : { traceId: binding.traceId }),
     };
-    const nextPaths = new Set(project.files.map((file) => virtualPath(file.uri)));
-    const nextFiles = new Map(project.files.map((file) => [virtualPath(file.uri), file]));
+    const pathFor = (uri: string) => this.reuseCompilerState
+      ? previewExecutionPath(project, uri)
+      : virtualPath(uri);
+    const nextFiles = new Map(project.files.map((file) => [pathFor(file.uri), file]));
+    const nextPaths = new Set(nextFiles.keys());
     const mappedThisAttempt = new Set<string>();
+    const nextDigests = new Map<string, string>();
+    let shadowUpdateMs = 0;
+    let typstCompileMs = 0;
+    let svgParseSanitizeMs = 0;
+    let domUpdateMs = 0;
+    let locationMeasureMs = 0;
+    let shadowMapped = 0;
+    let shadowUnmapped = 0;
+    let shadowSkipped = 0;
     this.showStatus("Rendering preview…", false, revision, generation, this.pageElements.size > 0);
     try {
+      binding?.signal?.throwIfAborted();
       await initializeTypst((message) => this.showStatus(message, false, revision, generation, this.pageElements.size > 0));
+      const mapStarted = performance.now();
       for (const [path, file] of nextFiles) {
-        if (this.mappedFiles.get(path) === file) continue;
+        const digest = file.digest;
+        if (!digest) throw new Error(`Typst virtual file '${file.uri}' is missing its canonical content digest`);
+        nextDigests.set(path, digest);
+        if (this.reuseCompilerState && this.mappedFiles.get(path) === digest) {
+          shadowSkipped += 1;
+          continue;
+        }
         const data = file.text === undefined ? decodeBase64(file.dataBase64) : encoder.encode(file.text);
         await $typst.mapShadow(path, data);
         mappedThisAttempt.add(path);
+        shadowMapped += 1;
       }
-      const entryPath = virtualPath(project.entryUri);
+      binding?.signal?.throwIfAborted();
+      shadowUpdateMs += performance.now() - mapStarted;
+      const entryPath = pathFor(project.entryUri);
       const entryFile = nextFiles.get(entryPath);
+      const compileStarted = performance.now();
       const { svg, spans: resolvedSpans } = await renderSvgWithDebugSpans(entryPath);
+      typstCompileMs = performance.now() - compileStarted;
+      binding?.signal?.throwIfAborted();
       if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) {
         await this.unmapAbandonedPaths(mappedThisAttempt);
         return;
       }
+      const parseStarted = performance.now();
       const parsed = new DOMParser().parseFromString(svg, "text/html");
       const root = parsed.querySelector("svg");
       if (!(root instanceof SVGSVGElement) || root.namespaceURI !== "http://www.w3.org/2000/svg") {
@@ -585,15 +635,23 @@ export class TypstPreviewController {
         },
         sanitizedSvg: inlineSvg.outerHTML,
       }, 0);
+      svgParseSanitizeMs = performance.now() - parseStarted;
+      binding?.signal?.throwIfAborted();
       if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) {
         await this.unmapAbandonedPaths(mappedThisAttempt);
         return;
       }
+      const unmapStarted = performance.now();
       for (const previous of this.mappedPaths) {
-        if (!nextPaths.has(previous)) await $typst.unmapShadow(previous);
+        if (!nextPaths.has(previous)) {
+          await $typst.unmapShadow(previous);
+          shadowUnmapped += 1;
+        }
       }
+      shadowUpdateMs += performance.now() - unmapStarted;
+      binding?.signal?.throwIfAborted();
       this.mappedPaths = nextPaths;
-      this.mappedFiles = nextFiles;
+      this.mappedFiles = nextDigests;
       this.pageSize = { width, height };
       this.latestEntryPath = entryPath;
       this.latestSvg = normalizedPage.sanitizedSvg;
@@ -606,8 +664,12 @@ export class TypstPreviewController {
           if (entryFile?.text === undefined) {
             throw new Error("Rendered Typst entry source is unavailable for exact preview navigation");
           }
+          const firstMountStarted = performance.now();
           this.mountPages([normalizedPage]);
+          domUpdateMs += performance.now() - firstMountStarted;
+          const locationStarted = performance.now();
           const locations = measureRenderArtifactLocations(this.pageElements, resolvedSpans);
+          locationMeasureMs = performance.now() - locationStarted;
           resolver = createRenderArtifactLocationResolver(
             binding.locationProviderKey,
             project.entryUri,
@@ -616,6 +678,7 @@ export class TypstPreviewController {
             locations,
           );
         }
+        binding.signal?.throwIfAborted();
         const artifact = createPreviewArtifact({
           renderKey: binding.renderKey,
           sourceUri: binding.identity.sourceUri,
@@ -623,16 +686,35 @@ export class TypstPreviewController {
           locationMap: binding.locationMap,
           pages: [normalizedPage],
         });
+        const displayStarted = performance.now();
         this.displayArtifact(artifact, binding.identity, resolver);
+        domUpdateMs += performance.now() - displayStarted;
       } else {
+        const displayStarted = performance.now();
         this.mountPages([normalizedPage]);
+        domUpdateMs += performance.now() - displayStarted;
       }
       this.container.dataset.previewRevision = String(project.revision);
       this.container.dataset.previewShadowCount = String(this.mappedPaths.size);
       this.container.dataset.previewReady = "true";
+      binding?.signal?.throwIfAborted();
+      if (binding?.traceId) {
+        this.events?.timing?.({
+          traceId: binding.traceId,
+          shadowUpdateMs,
+          typstCompileMs,
+          svgParseSanitizeMs,
+          domUpdateMs,
+          locationMeasureMs,
+          shadowMapped,
+          shadowUnmapped,
+          shadowSkipped,
+        }, revision);
+      }
       this.events?.rendered(normalizedPage.sanitizedSvg, revision, this.mappedPaths.size, this.pageSize);
     } catch (error) {
       await this.unmapAbandonedPaths(mappedThisAttempt);
+      if (binding?.signal?.aborted) return;
       if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) return;
       this.container.dataset.previewReady = "false";
       this.showStatus(`Preview failed: ${error instanceof Error ? error.message : String(error)}`, true, revision, generation);
@@ -1332,6 +1414,13 @@ function decodeBase64(data: string): Uint8Array {
   const bytes = new Uint8Array(binary.length);
   for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
   return bytes;
+}
+
+function previewExecutionPath(project: TypstProjectUpdate, uri: string): string {
+  const path = virtualPath(uri);
+  if (uri !== project.entryUri) return path;
+  const separator = path.lastIndexOf("/");
+  return `${path.slice(0, separator + 1)}main-preview.typ`;
 }
 
 function virtualPath(uri: string): string {

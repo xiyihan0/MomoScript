@@ -86,9 +86,35 @@ function __wbg_get_imports() {
         __wbg___wbindgen_throw_344f42d3211c4765: function(arg0, arg1) {
             throw new Error(getStringFromWasm0(arg0, arg1));
         },
+        __wbg_error_a6fa202b58aa1cd3: function(arg0, arg1) {
+            let deferred0_0;
+            let deferred0_1;
+            try {
+                deferred0_0 = arg0;
+                deferred0_1 = arg1;
+                console.error(getStringFromWasm0(arg0, arg1));
+            } finally {
+                wasm.__wbindgen_free(deferred0_0, deferred0_1, 1);
+            }
+        },
         __wbg_getRandomValues_1cfe2d41be4e068f: function() { return handleError(function (arg0, arg1) {
             globalThis.crypto.getRandomValues(getArrayU8FromWasm0(arg0, arg1));
         }, arguments); },
+        __wbg_new_227d7c05414eb861: function() {
+            const ret = new Error();
+            return ret;
+        },
+        __wbg_now_86c0d4ba3fa605b8: function() {
+            const ret = Date.now();
+            return ret;
+        },
+        __wbg_stack_3b0d974bbf31e44f: function(arg0, arg1) {
+            const ret = arg1.stack;
+            const ptr1 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+            const len1 = WASM_VECTOR_LEN;
+            getDataViewMemory0().setInt32(arg0 + 4 * 1, len1, true);
+            getDataViewMemory0().setInt32(arg0 + 4 * 0, ptr1, true);
+        },
         __wbindgen_init_externref_table: function() {
             const table = wasm.__wbindgen_externrefs;
             const offset = table.grow(4);
@@ -118,6 +144,14 @@ function addToExternrefTable0(obj) {
 function getArrayU8FromWasm0(ptr, len) {
     ptr = ptr >>> 0;
     return getUint8ArrayMemory0().subarray(ptr / 1, ptr / 1 + len);
+}
+
+let cachedDataViewMemory0 = null;
+function getDataViewMemory0() {
+    if (cachedDataViewMemory0 === null || cachedDataViewMemory0.buffer.detached === true || (cachedDataViewMemory0.buffer.detached === undefined && cachedDataViewMemory0.buffer !== wasm.memory.buffer)) {
+        cachedDataViewMemory0 = new DataView(wasm.memory.buffer);
+    }
+    return cachedDataViewMemory0;
 }
 
 function getStringFromWasm0(ptr, len) {
@@ -212,6 +246,7 @@ function __wbg_finalize_init(instance, module) {
     wasmInstance = instance;
     wasm = instance.exports;
     wasmModule = module;
+    cachedDataViewMemory0 = null;
     cachedUint8ArrayMemory0 = null;
     wasm.__wbindgen_start();
     return wasm;

@@ -78,6 +78,19 @@ assert.deepEqual(decodedInputs, [[1, 2, 3], [1, 2, 3]], "each decoder must recei
 assert.deepEqual(result.project.files.map((file) => file.dataBase64), ["10", "11"]);
 assert.equal(MAX_PROJECT_RESOURCE_CONCURRENCY, 1);
 assert.equal(maxActiveDecoders, 1, "resource decoders must remain sequential");
+const warm = await materializeProjectResources(
+  { ...project, sourceVersion: 2, revision: 2 },
+  new Map([["fixture", source]]),
+  cache,
+  new AbortController().signal,
+  dependencies
+);
+assert.equal(fetches, 1, "warm materialization must not refetch unchanged resources");
+assert.equal(decodedInputs.length, 2, "warm materialization must not decode unchanged frames");
+assert.equal(warm.reusedResources, 2);
+assert.equal(warm.rebuiltResources, 0);
+assert.equal(warm.project.resourceBytesDigest, result.project.resourceBytesDigest);
+
 
 const countLimited = await materializeProjectResources(
   project,

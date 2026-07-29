@@ -18,7 +18,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 use crate::{
-    LanguageService, ProjectionStore,
+    LanguageService, ProjectionStore, TypstRenderProjectUpdate,
     position::{MmtClientPosition, PositionEncoding},
 };
 
@@ -106,6 +106,14 @@ struct GetTypstProjectParams {
     uri: Url,
     #[serde(default)]
     timestamp: Option<mmt_rs::HostTimestamp>,
+    #[serde(default)]
+    trace_id: Option<String>,
+    #[serde(default)]
+    base_revision: Option<u64>,
+    #[serde(default)]
+    base_project_digest: Option<TypstProjectSnapshotKey>,
+    #[serde(default)]
+    force_full: bool,
 }
 
 #[derive(Debug, Deserialize)]
@@ -216,6 +224,7 @@ pub struct MmtLanguageServer {
     service: LanguageService,
     projections: ProjectionStore,
     published_project_entries: HashMap<Url, Url>,
+    render_project_snapshots: HashMap<Url, TypstRenderProjectUpdate>,
     projection_errors: HashMap<Url, ServerError>,
     preview_on_change: bool,
     typst_language_features: bool,
@@ -228,6 +237,7 @@ impl Default for MmtLanguageServer {
             service: LanguageService::default(),
             projections: ProjectionStore::default(),
             published_project_entries: HashMap::new(),
+            render_project_snapshots: HashMap::new(),
             projection_errors: HashMap::new(),
             preview_on_change: false,
             typst_language_features: false,
@@ -574,7 +584,12 @@ impl MmtLanguageServer {
                     })
                     .transpose()
                     .map_err(ServerError::invalid_params)?;
-                let update = self
+                if params.base_revision.is_some() != params.base_project_digest.is_some() {
+                    return Err(ServerError::invalid_params(
+                        "render delta base revision and digest must be supplied together",
+                    ));
+                }
+                let full_update = self
                     .projections
                     .build_render_project(&params.uri, self.service.pack_revision(), timestamp)
                     .map_err(|error| {
@@ -582,7 +597,40 @@ impl MmtLanguageServer {
                             "failed to build render project: {error:?}"
                         ))
                     })?;
-                encode(update)
+                let mut update = match (
+                    params.force_full,
+                    params.base_revision,
+                    params.base_project_digest.as_ref(),
+                    self.render_project_snapshots.get(&params.uri),
+                ) {
+                    (false, Some(base_revision), Some(base_digest), Some(base))
+                        if full_update.revision > base.revision
+                            && base.revision == base_revision
+                            && &base.project_digest == base_digest =>
+                    {
+                        full_update.clone().delta_from(base)
+                    }
+                    _ => full_update.clone(),
+                };
+                self.render_project_snapshots
+                    .insert(params.uri.clone(), full_update);
+                if params.trace_id.is_none() {
+                    update.timings = None;
+                }
+                update.trace_id = params.trace_id;
+                let mut result = encode(update.clone())?;
+                if let Value::Object(fields) = &mut result {
+                    fields.insert(
+                        "events".to_string(),
+                        serde_json::to_value(vec![ServerEvent {
+                            method: "mmt/typstRenderProjectUpdated".to_string(),
+                            params: serde_json::to_value(update)
+                                .expect("Typst render project update is serializable"),
+                        }])
+                        .expect("server events are serializable"),
+                    );
+                }
+                Ok(result)
             }
             "mmt/updatePackManifests" => {
                 let params: UpdatePackManifestsParams = decode(params)?;
@@ -711,6 +759,7 @@ impl MmtLanguageServer {
                 self.service.close(&uri);
                 self.projections.remove(&uri);
                 self.projection_errors.remove(&uri);
+                self.render_project_snapshots.remove(&uri);
                 let mut events = vec![publish_diagnostics(uri.clone(), None, Vec::new())];
                 if let Some(entry_uri) = entry_uri {
                     events.push(ServerEvent {
@@ -1793,17 +1842,35 @@ mod tests {
         assert!(after.revision > before.revision);
         assert_ne!(after_text, before_text);
 
-        let render: TypstRenderProjectUpdate = serde_json::from_value(
+        let render_result = server
+            .request(
+                "mmt/getTypstRenderProject",
+                serde_json::json!({ "uri": uri }),
+            )
+            .unwrap();
+        assert_eq!(
+            render_result["events"][0]["method"],
+            "mmt/typstRenderProjectUpdated"
+        );
+        let render: TypstRenderProjectUpdate = serde_json::from_value(render_result).unwrap();
+        assert_eq!(render.source_version, 1);
+        assert_eq!(render.revision, after.revision);
+        assert_eq!(render.trace_id, None);
+        assert_eq!(render.timings, None);
+        let traced: TypstRenderProjectUpdate = serde_json::from_value(
             server
                 .request(
                     "mmt/getTypstRenderProject",
-                    serde_json::json!({ "uri": uri }),
+                    serde_json::json!({ "uri": uri, "traceId": "trace-render-1" }),
                 )
                 .unwrap(),
         )
         .unwrap();
-        assert_eq!(render.source_version, 1);
-        assert_eq!(render.revision, after.revision);
+        assert_eq!(traced.trace_id.as_deref(), Some("trace-render-1"));
+        let timings = traced.timings.expect("trace requests include Rust timings");
+        assert!(timings.rust_semantic_ms.is_some());
+        assert!(timings.rust_emit_ms.is_some());
+        assert!(timings.rust_index_digest_ms.is_some());
         server
             .projections
             .response_generation(
@@ -1868,6 +1935,37 @@ mod tests {
             .unwrap();
         assert_eq!(mapped_back[0]["kind"], "authoredIdentity");
         assert_eq!(mapped_back[0]["uri"], uri);
+        server
+            .notification(
+                "textDocument/didChange",
+                serde_json::json!({
+                    "textDocument": { "uri": uri, "version": 2 },
+                    "contentChanges": [{ "text": "> 花子: hello again" }]
+                }),
+            )
+            .unwrap();
+        let delta: TypstRenderProjectUpdate = serde_json::from_value(
+            server
+                .request(
+                    "mmt/getTypstRenderProject",
+                    serde_json::json!({
+                        "uri": uri,
+                        "baseRevision": render.revision,
+                        "baseProjectDigest": render.project_digest
+                    }),
+                )
+                .unwrap(),
+        )
+        .unwrap();
+        assert!(!delta.full);
+        assert_eq!(delta.base_revision, Some(render.revision));
+        assert_eq!(
+            delta.base_project_digest.as_ref(),
+            Some(&render.project_digest)
+        );
+        assert_eq!(delta.files.len(), 1);
+        assert!(delta.files.iter().all(|file| !file.digest.is_empty()));
+        assert_eq!(delta.deleted_uris, vec![render.entry_uri.clone()]);
     }
 
     #[test]

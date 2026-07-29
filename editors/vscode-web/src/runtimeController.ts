@@ -6,6 +6,8 @@ import { OriginStorageCoordinator } from "./originStorage.ts";
 import { TypstPackageCacheStorageOwner } from "./packageCacheStorage.ts";
 import { PreviewArtifactStore } from "./previewArtifact.ts";
 import { ExactExportService, type ExactExportPorts } from "./exactExport.ts";
+import { PreviewPerformanceTraceStore } from "./previewPerformance.ts";
+import { LatestPreviewRenderQueue } from "./previewRenderQueue.ts";
 
 export type EditorRuntimeState = "starting" | "ready" | "quiescing" | "disposing" | "disposed";
 
@@ -19,6 +21,8 @@ export interface PreviewProjectRevision {
 export class WebEditorRuntimeStores implements RuntimeOwnedResource {
   readonly previewArtifacts: PreviewArtifactStore;
   readonly exactExport: ExactExportService | undefined;
+  readonly previewPerformance: PreviewPerformanceTraceStore;
+  readonly previewRenderQueue: LatestPreviewRenderQueue;
   readonly previewProjects = new Map<string, TypstRenderProjectUpdate>();
   readonly packSourcesByNamespace = new Map<string, MaterializationPackSource>();
   readonly latestProjectBySource = new Map<string, PreviewProjectRevision>();
@@ -34,8 +38,15 @@ export class WebEditorRuntimeStores implements RuntimeOwnedResource {
   readonly renderRequestIdBySource = new Map<string, number>();
   readonly persistenceByUri = new Map<string, Promise<void>>();
 
-  constructor(captureAcceptedPreviewProjects = false, exactExportPorts?: ExactExportPorts) {
+  constructor(
+    captureAcceptedPreviewProjects = false,
+    exactExportPorts?: ExactExportPorts,
+    previewPerformanceEnabled = false,
+    previewDebounceMs = 50,
+  ) {
     this.previewArtifacts = new PreviewArtifactStore(32 * 1024 * 1024);
+    this.previewPerformance = new PreviewPerformanceTraceStore(previewPerformanceEnabled);
+    this.previewRenderQueue = new LatestPreviewRenderQueue(previewDebounceMs);
     this.exactExport = exactExportPorts
       ? new ExactExportService({ ...exactExportPorts, artifacts: this.previewArtifacts })
       : undefined;
@@ -49,11 +60,16 @@ export class WebEditorRuntimeStores implements RuntimeOwnedResource {
   }
 
   pendingWork(): Promise<void>[] {
-    return [...this.pendingMaterializations, ...this.persistenceByUri.values()];
+    return [
+      ...this.pendingMaterializations,
+      ...this.previewRenderQueue.pending(),
+      ...this.persistenceByUri.values(),
+    ];
   }
 
   closeSource(sourceUri: string): void {
     this.materializationControllers.get(sourceUri)?.abort();
+    this.previewRenderQueue.closeSource(sourceUri);
     this.materializationControllers.delete(sourceUri);
     this.latestProjectBySource.delete(sourceUri);
     this.retiredProjectSessions.delete(sourceUri);
@@ -69,6 +85,8 @@ export class WebEditorRuntimeStores implements RuntimeOwnedResource {
     this.abortMaterializations();
     this.exactExport?.dispose();
     this.previewArtifacts.dispose();
+    this.previewRenderQueue.dispose();
+    this.previewPerformance.dispose();
     this.previewProjects.clear();
     this.packSourcesByNamespace.clear();
     this.latestProjectBySource.clear();
@@ -89,6 +107,8 @@ export interface EditorRuntimeControllerOptions {
   readonly disposeDeadlineMs?: number;
   readonly captureAcceptedPreviewProjects?: boolean;
   readonly exactExport?: ExactExportPorts;
+  readonly previewPerformanceEnabled?: boolean;
+  readonly previewDebounceMs?: number;
 }
 
 /**
@@ -116,6 +136,8 @@ export class EditorRuntimeController {
     this.stores = this.#owner.add(new WebEditorRuntimeStores(
       options.captureAcceptedPreviewProjects,
       options.exactExport,
+      options.previewPerformanceEnabled,
+      options.previewDebounceMs,
     ));
   }
 
