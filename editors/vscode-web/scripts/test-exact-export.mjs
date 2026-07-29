@@ -6,13 +6,19 @@ import {
   ExportChoiceRequiredError,
   PreviewNotExportableError,
 } from "../src/exactExport.ts";
-import { PreviewArtifactStore, createPreviewArtifact } from "../src/previewArtifact.ts";
+import { PreviewArtifactStore, createPreviewArtifact, previewImageAssetHref } from "../src/previewArtifact.ts";
 import { LatestExactArtifactWaiter } from "../src/exactExportUi.ts";
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 const sourceUri = "mmtfs://workspace/story.mmt";
 const causes = ["source", "dependency", "materialization", "render", "backend", "runtime"];
+const imageDigest = `sha256:${"b".repeat(64)}`;
+const imageAsset = Object.freeze({
+  digest: imageDigest,
+  mimeType: "image/png",
+  blob: new Blob([new Uint8Array([65])], { type: "image/png" }),
+});
 
 function page(marker) {
   return {
@@ -23,6 +29,16 @@ function page(marker) {
 }
 
 function artifact(key, marker) {
+  const renderedPage = page(marker);
+  const withImage = marker === "A"
+    ? {
+        ...renderedPage,
+        sanitizedSvg: renderedPage.sanitizedSvg.replace(
+          "</svg>",
+          `<image href="${previewImageAssetHref(imageDigest)}"/></svg>`,
+        ),
+      }
+    : renderedPage;
   return createPreviewArtifact({
     renderKey: key,
     sourceUri,
@@ -33,7 +49,8 @@ function artifact(key, marker) {
       method: "tinymist/preview/location.v1",
       coordinateVersion: "typst-page-points-v1",
     },
-    pages: [page(marker)],
+    pages: [withImage],
+    imageAssets: marker === "A" ? [imageAsset] : [],
   });
 }
 
@@ -179,10 +196,14 @@ await assert.rejects(
   /Unsupported stale export choice/,
 );
 
+const expandedASvg = a.pages[0].sanitizedSvg.replace(
+  previewImageAssetHref(imageDigest),
+  "data:image/png;base64,QQ==",
+);
 const expectedA = {
-  svg: encoder.encode(a.pages[0].sanitizedSvg),
-  png: encoder.encode(`png:${a.pages[0].sanitizedSvg}`),
-  jpg: encoder.encode(`jpg:${a.pages[0].sanitizedSvg}`),
+  svg: encoder.encode(expandedASvg),
+  png: encoder.encode(`png:${expandedASvg}`),
+  jpg: encoder.encode(`jpg:${expandedASvg}`),
   pdf: encoder.encode("pdf:render-a:source-A:resource-A:compiler-A:font-A"),
 };
 for (const format of ["svg", "png", "jpg", "pdf"]) {
@@ -343,6 +364,7 @@ store.dispose();
 console.log(JSON.stringify({
   displayedFourFormats: true,
   waitLatestExactB: true,
+  externalizedImagesReinlined: true,
   waitLatestCancelRetry: true,
   waitLatestSetupAbortRace: true,
   sixAdvanceRaces: causes,

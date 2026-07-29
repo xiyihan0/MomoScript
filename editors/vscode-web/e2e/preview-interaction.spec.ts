@@ -131,6 +131,13 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
   await page.getByRole("button", { name: "Typst 预览" }).click();
   const previewFrame = await waitForPreviewFrame(page, sourceUri);
   await expect(previewFrame.locator("svg image").first()).toBeAttached({ timeout: 60_000 });
+  await expect.poll(() => page.evaluate(async () => {
+    const href = document.querySelector(".typst-preview-page svg image")?.getAttribute("href") ?? "";
+    if (!href.startsWith("blob:")) return { external: false, loaded: false };
+    const response = await fetch(href);
+    const image = await response.blob();
+    return { external: true, loaded: response.ok && image.type === "image/png" && image.size > 0 };
+  })).toEqual({ external: true, loaded: true });
   await expect(previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().evaluate((element) => (
     element.closest("[data-span]")?.getAttribute("data-span") ?? null
   ))).resolves.toMatch(/^[0-9a-f]+$/);

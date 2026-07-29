@@ -2,8 +2,10 @@ import assert from "node:assert/strict";
 import {
   PreviewArtifactStore,
   createPreviewArtifact,
+  inlinePreviewImageAssets,
   locationProviderMatches,
   markPreviewArtifactStale,
+  previewImageAssetHref,
 } from "../src/previewArtifact.ts";
 
 const renderKey = (value) => value;
@@ -58,6 +60,35 @@ assert.throws(() => createPreviewArtifact({
   renderKey: renderKey("bad-link"), sourceUri: "source", locationProviderKey: provider(),
   pages: [{ ...page(0), sanitizedSvg: '<svg xmlns="http://www.w3.org/2000/svg"><a href="https://evil.invalid"/></svg>' }],
 }), /unsafe link/);
+const imageDigest = `sha256:${"a".repeat(64)}`;
+const imageBytes = new Uint8Array(1024).fill(42);
+const imageAsset = Object.freeze({
+  digest: imageDigest,
+  mimeType: "image/png",
+  blob: new Blob([imageBytes], { type: "image/png" }),
+});
+const imageHref = previewImageAssetHref(imageDigest);
+const imagePage = {
+  ...page(0, "external-image"),
+  sanitizedSvg: `<svg xmlns="http://www.w3.org/2000/svg"><image href="${imageHref}"/><image href="${imageHref}"/></svg>`,
+};
+const imageArtifact = createPreviewArtifact({
+  renderKey: renderKey("render-image"),
+  sourceUri: "mmtfs://workspace/image.mmt",
+  locationProviderKey: provider(),
+  pages: [imagePage],
+  imageAssets: [imageAsset],
+});
+const inlinedImageSvg = await inlinePreviewImageAssets(imageArtifact.pages[0].sanitizedSvg, imageArtifact.imageAssets);
+assert.equal((inlinedImageSvg.match(/data:image\/png;base64,/g) ?? []).length, 2);
+assert.equal(inlinedImageSvg.includes(imageHref), false);
+assert.ok(imageArtifact.byteSize < new TextEncoder().encode(inlinedImageSvg).byteLength);
+assert.throws(() => createPreviewArtifact({
+  renderKey: renderKey("missing-image"),
+  sourceUri: "mmtfs://workspace/missing-image.mmt",
+  locationProviderKey: provider(),
+  pages: [imagePage],
+}), /unavailable image asset/);
 
 const cache = new PreviewArtifactStore(a.byteSize * 2 + 20);
 cache.put(a);
@@ -85,4 +116,13 @@ assert.equal(cache.document(a.sourceUri).status, "idle");
 cache.dispose();
 assert.throws(() => cache.get(a.renderKey), /disposed/);
 
-console.log(JSON.stringify({ immutableArtifacts: true, normalizedPages: true, exactIdentityBinding: true, boundedPinnedLru: true, multiDocumentState: true, currentFailureGuard: true }));
+const result = {
+  immutableArtifacts: true,
+  normalizedPages: true,
+  exactIdentityBinding: true,
+  deduplicatedImageAssets: true,
+  boundedPinnedLru: true,
+  multiDocumentState: true,
+  currentFailureGuard: true,
+};
+console.log(JSON.stringify(result));

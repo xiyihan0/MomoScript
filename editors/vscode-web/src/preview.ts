@@ -12,10 +12,13 @@ import { TypstPreviewPackageRegistry } from "../../vscode/src/typstPreviewPackag
 import { isCurrentPreviewUpdate, type PreviewRevision } from "./previewDiagnostics";
 import {
   createPreviewArtifact,
+  inlinePreviewImageAssets,
   normalizePreviewPage,
+  previewImageAssetHref,
   type LocationProviderKey,
   type PreviewArtifact,
   type PreviewImmutableLocationMap,
+  type PreviewImageAsset,
   type PreviewPage,
   type PreviewPagePoint,
   type PreviewSourceTarget,
@@ -219,7 +222,10 @@ export class TypstPreviewController {
   private fitMode: PreviewViewport["fitMode"] = "width";
   private pageSize: { width: number; height: number } | undefined;
   private latestEntryPath: string | undefined;
+  private latestCompilerRenderKey: RenderKey | undefined;
   private latestSvg: string | undefined;
+  private latestImageAssets: readonly PreviewImageAsset[] = [];
+  private readonly mountedImageUrls = new Set<string>();
   private scrollFrame: number | undefined;
   private acceptingHostViewport = false;
   private viewportRestoreFrame: number | undefined;
@@ -356,9 +362,10 @@ export class TypstPreviewController {
     const entryPath = this.latestEntryPath;
     const svg = this.latestSvg;
     const pageSize = this.pageSize;
-    if (!entryPath || !svg || !pageSize) throw new Error("请等待当前预览渲染完成后再导出。");
+    if (!svg || !pageSize) throw new Error("请等待当前预览渲染完成后再导出。");
     signal?.throwIfAborted();
     if (format === "pdf") {
+      if (!entryPath) throw new Error("当前预览没有可用于 PDF 导出的编译器快照。");
       const pdf = await this.withTypstOperation(() => {
         signal?.throwIfAborted();
         return $typst.pdf({ mainFilePath: entryPath });
@@ -367,7 +374,7 @@ export class TypstPreviewController {
       if (!pdf) throw new Error("Typst 未生成 PDF 数据。");
       return { blob: new Blob([new Uint8Array(pdf)], { type: "application/pdf" }), extension: format };
     }
-    const exportSvg = svgWithoutSelectionLayer(svg);
+    const exportSvg = svgWithoutSelectionLayer(await inlinePreviewImageAssets(svg, this.latestImageAssets));
     if (format === "svg") {
       return { blob: new Blob([exportSvg], { type: "image/svg+xml;charset=utf-8" }), extension: format };
     }
@@ -401,6 +408,7 @@ export class TypstPreviewController {
     this.resizeObserver?.disconnect();
     if (this.scrollFrame !== undefined) cancelAnimationFrame(this.scrollFrame);
     this.interaction.dispose();
+    this.releaseMountedImageUrls();
   }
 
   scheduleEditorSelection(selection: PreviewEditorSelection): void {
@@ -450,14 +458,31 @@ export class TypstPreviewController {
     return result;
   }
 
-  displayArtifact(artifact: PreviewArtifact, identity: PreviewSourceIdentity, resolver?: PreviewLocationResolver): void {
+  displayArtifact(
+    artifact: PreviewArtifact,
+    identity: PreviewSourceIdentity,
+    resolver?: PreviewLocationResolver,
+    retainCompilerEntry = false,
+  ): void {
     this.suppressViewportReports = true;
     if (this.scrollFrame !== undefined) {
       cancelAnimationFrame(this.scrollFrame);
       this.scrollFrame = undefined;
     }
     if (this.viewportRestoreFrame !== undefined) cancelAnimationFrame(this.viewportRestoreFrame);
-    this.mountPages(artifact.pages);
+    const firstPage = artifact.pages[0];
+    this.latestSvg = firstPage?.sanitizedSvg;
+    this.latestImageAssets = artifact.imageAssets;
+    this.pageSize = firstPage
+      ? { width: firstPage.geometry.cssWidth, height: firstPage.geometry.cssHeight }
+      : undefined;
+    if (retainCompilerEntry) {
+      this.latestCompilerRenderKey = artifact.renderKey;
+    } else if (this.latestCompilerRenderKey !== artifact.renderKey) {
+      this.latestEntryPath = undefined;
+      this.latestCompilerRenderKey = undefined;
+    }
+    this.mountPages(artifact.pages, artifact.imageAssets);
     this.interaction.bindArtifact(artifact, identity, resolver);
     this.container.dataset.previewRenderKey = artifact.renderKey;
     this.viewportRestoreFrame = requestAnimationFrame(() => {
@@ -532,7 +557,10 @@ export class TypstPreviewController {
     this.pageElements.clear();
     this.pageSize = undefined;
     this.latestEntryPath = undefined;
+    this.latestCompilerRenderKey = undefined;
     this.latestSvg = undefined;
+    this.latestImageAssets = [];
+    this.releaseMountedImageUrls();
     this.canvas.replaceChildren();
     this.outline.replaceChildren();
     this.outline.hidden = true;
@@ -620,6 +648,7 @@ export class TypstPreviewController {
       }
       if (pageGap === 0) ensureSvgPageBackground(root);
       sanitizeSvg(root);
+      const imageAssets = await externalizeSvgImages(root);
       const inlineSvg = document.importNode(root, true);
       inlineSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
       inlineSvg.setAttribute("role", "img");
@@ -634,7 +663,7 @@ export class TypstPreviewController {
           cssHeight: height,
         },
         sanitizedSvg: inlineSvg.outerHTML,
-      }, 0);
+      }, 0, imageAssets);
       svgParseSanitizeMs = performance.now() - parseStarted;
       binding?.signal?.throwIfAborted();
       if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) {
@@ -654,7 +683,9 @@ export class TypstPreviewController {
       this.mappedFiles = nextDigests;
       this.pageSize = { width, height };
       this.latestEntryPath = entryPath;
+      this.latestCompilerRenderKey = binding?.renderKey;
       this.latestSvg = normalizedPage.sanitizedSvg;
+      this.latestImageAssets = imageAssets;
       if (binding) {
         let resolver = binding.resolver;
         if (
@@ -665,7 +696,7 @@ export class TypstPreviewController {
             throw new Error("Rendered Typst entry source is unavailable for exact preview navigation");
           }
           const firstMountStarted = performance.now();
-          this.mountPages([normalizedPage]);
+          this.mountPages([normalizedPage], imageAssets);
           domUpdateMs += performance.now() - firstMountStarted;
           const locationStarted = performance.now();
           const locations = measureRenderArtifactLocations(this.pageElements, resolvedSpans);
@@ -685,13 +716,14 @@ export class TypstPreviewController {
           locationProviderKey: binding.locationProviderKey,
           locationMap: binding.locationMap,
           pages: [normalizedPage],
+          imageAssets,
         });
         const displayStarted = performance.now();
-        this.displayArtifact(artifact, binding.identity, resolver);
+        this.displayArtifact(artifact, binding.identity, resolver, true);
         domUpdateMs += performance.now() - displayStarted;
       } else {
         const displayStarted = performance.now();
-        this.mountPages([normalizedPage]);
+        this.mountPages([normalizedPage], imageAssets);
         domUpdateMs += performance.now() - displayStarted;
       }
       this.container.dataset.previewRevision = String(project.revision);
@@ -711,7 +743,10 @@ export class TypstPreviewController {
           shadowSkipped,
         }, revision);
       }
-      this.events?.rendered(normalizedPage.sanitizedSvg, revision, this.mappedPaths.size, this.pageSize);
+      const publishedSvg = await inlinePreviewImageAssets(normalizedPage.sanitizedSvg, imageAssets);
+      binding?.signal?.throwIfAborted();
+      if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) return;
+      this.events?.rendered(publishedSvg, revision, this.mappedPaths.size, this.pageSize);
     } catch (error) {
       await this.unmapAbandonedPaths(mappedThisAttempt);
       if (binding?.signal?.aborted) return;
@@ -721,9 +756,20 @@ export class TypstPreviewController {
     }
   }
 
-  private mountPages(pages: readonly PreviewPage[]): void {
+  private releaseMountedImageUrls(): void {
+    for (const url of this.mountedImageUrls) URL.revokeObjectURL(url);
+    this.mountedImageUrls.clear();
+  }
+
+  private mountPages(pages: readonly PreviewPage[], imageAssets: readonly PreviewImageAsset[] = []): void {
     this.pageElements.clear();
     this.canvas.replaceChildren();
+    this.releaseMountedImageUrls();
+    const imageUrls = new Map(imageAssets.map((asset) => {
+      const url = URL.createObjectURL(asset.blob);
+      this.mountedImageUrls.add(url);
+      return [asset.digest, url] as const;
+    }));
     for (const page of pages) {
       const element = document.createElement("article");
       element.className = "typst-preview-page";
@@ -734,6 +780,15 @@ export class TypstPreviewController {
       const svg = parsed.querySelector("svg");
       if (!(svg instanceof SVGSVGElement) || svg.namespaceURI !== "http://www.w3.org/2000/svg") {
         throw new Error("Preview artifact page has no valid SVG root");
+      }
+      for (const image of svg.querySelectorAll("image")) {
+        const hrefAttribute = image.hasAttribute("href") ? "href" : "xlink:href";
+        const href = image.getAttribute(hrefAttribute) ?? "";
+        if (!href.startsWith("mmt-preview-image:")) continue;
+        const url = imageUrls.get(href.slice("mmt-preview-image:".length) as PreviewImageAsset["digest"]);
+        if (!url) throw new Error("Preview artifact image asset is unavailable");
+        image.setAttribute("href", url);
+        if (hrefAttribute === "xlink:href") image.removeAttribute("xlink:href");
       }
       element.append(document.importNode(svg, true));
       let pointerOrigin: { x: number; y: number } | undefined;
@@ -1190,6 +1245,53 @@ export function sanitizeSvg(root: SVGElement): void {
       }
     }
   }
+}
+
+async function externalizeSvgImages(root: SVGElement): Promise<readonly PreviewImageAsset[]> {
+  const references = [...root.querySelectorAll("image")].flatMap((image) => {
+    const attribute = image.hasAttribute("href") ? "href" : (image.hasAttribute("xlink:href") ? "xlink:href" : undefined);
+    const href = attribute ? image.getAttribute(attribute)?.trim() : undefined;
+    return attribute && href?.startsWith("data:image/") ? [{ image, attribute, href }] : [];
+  });
+  const uniqueDataUrls = [...new Set(references.map((reference) => reference.href))];
+  const resolved = await Promise.all(uniqueDataUrls.map(async (dataUrl) => {
+    const { mimeType, bytes } = decodeImageDataUrl(dataUrl);
+    const mimeBytes = encoder.encode(`${mimeType}\0`);
+    const digestInput = new Uint8Array(mimeBytes.byteLength + bytes.byteLength);
+    digestInput.set(mimeBytes);
+    digestInput.set(bytes, mimeBytes.byteLength);
+    const digestBytes = new Uint8Array(await crypto.subtle.digest("SHA-256", digestInput));
+    const digest = `sha256:${[...digestBytes].map((value) => value.toString(16).padStart(2, "0")).join("")}` as const;
+    const blobBytes = Uint8Array.from(bytes).buffer;
+    return [dataUrl, Object.freeze({
+      digest,
+      mimeType,
+      blob: new Blob([blobBytes], { type: mimeType }),
+    })] as const;
+  }));
+  const byDataUrl = new Map(resolved);
+  const byDigest = new Map<PreviewImageAsset["digest"], PreviewImageAsset>();
+  for (const reference of references) {
+    const asset = byDataUrl.get(reference.href);
+    if (!asset) throw new Error("Preview image asset extraction failed");
+    byDigest.set(asset.digest, asset);
+    reference.image.setAttribute(reference.attribute, previewImageAssetHref(asset.digest));
+  }
+  return Object.freeze([...byDigest.values()]);
+}
+
+function decodeImageDataUrl(dataUrl: string): { readonly mimeType: string; readonly bytes: Uint8Array } {
+  const comma = dataUrl.indexOf(",");
+  if (comma < 0) throw new Error("Preview image has a malformed data URL");
+  const metadata = dataUrl.slice("data:".length, comma).split(";");
+  const mimeType = (metadata.shift() ?? "").toLowerCase();
+  if (!/^image\/[a-z0-9.+-]+$/.test(mimeType)) throw new Error("Preview image has an unsupported MIME type");
+  const payload = dataUrl.slice(comma + 1);
+  const bytes = metadata.some((item) => item.toLowerCase() === "base64")
+    ? decodeBase64(payload)
+    : encoder.encode(decodeURIComponent(payload));
+  if (bytes.byteLength === 0) throw new Error("Preview image data URL is empty");
+  return { mimeType, bytes };
 }
 
 function isSafeTextSelectionNode(node: SVGForeignObjectElement): boolean {

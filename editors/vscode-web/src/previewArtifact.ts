@@ -40,6 +40,12 @@ export interface PreviewPage {
   readonly sanitizedSvg: string;
 }
 
+export interface PreviewImageAsset {
+  readonly digest: `sha256:${string}`;
+  readonly mimeType: string;
+  readonly blob: Blob;
+}
+
 export interface PreviewWirePosition {
   readonly line: number;
   readonly character: number;
@@ -94,6 +100,7 @@ export interface PreviewArtifact {
   readonly locationProviderKey: LocationProviderKey;
   readonly locationMap?: PreviewImmutableLocationMap;
   readonly pages: readonly PreviewPage[];
+  readonly imageAssets: readonly PreviewImageAsset[];
   readonly warnings: readonly string[];
   readonly byteSize: number;
   readonly stale: boolean;
@@ -113,11 +120,13 @@ export interface PreviewArtifactInput {
   readonly locationProviderKey: LocationProviderKey;
   readonly locationMap?: PreviewImmutableLocationMap;
   readonly pages: readonly PreviewPage[];
+  readonly imageAssets?: readonly PreviewImageAsset[];
   readonly warnings?: readonly string[];
 }
 
 const encoder = new TextEncoder();
 const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+const PREVIEW_IMAGE_ASSET_PREFIX = "mmt-preview-image:";
 
 export function createPreviewArtifact(input: PreviewArtifactInput): PreviewArtifact {
   requireNonEmpty(input.renderKey, "RenderKey");
@@ -127,10 +136,15 @@ export function createPreviewArtifact(input: PreviewArtifactInput): PreviewArtif
     throw new Error("Immutable LocationProviderKey requires a complete retained location map");
   }
   if (input.pages.length === 0) throw new Error("Preview artifact must contain at least one page");
-  const pages = input.pages.map((page, index) => normalizePreviewPage(page, index));
+  const imageAssets = normalizePreviewImageAssets(input.imageAssets ?? []);
+  const pages = input.pages.map((page, index) => normalizePreviewPage(page, index, imageAssets));
   const locationMap = input.locationMap ? normalizeLocationMap(input.locationMap, input.locationProviderKey, pages.length) : undefined;
   const warnings = Object.freeze([...(input.warnings ?? [])].map((warning) => String(warning)));
   const byteSize = pages.reduce((total, page) => total + encoder.encode(page.sanitizedSvg).byteLength + 8 * 6, 0)
+    + imageAssets.reduce((total, asset) => total
+      + asset.blob.size
+      + encoder.encode(asset.digest).byteLength
+      + encoder.encode(asset.mimeType).byteLength, 0)
     + encoder.encode(input.sourceUri).byteLength
     + encoder.encode(JSON.stringify(input.locationProviderKey)).byteLength
     + (locationMap ? encoder.encode(JSON.stringify(locationMap)).byteLength : 0)
@@ -141,6 +155,7 @@ export function createPreviewArtifact(input: PreviewArtifactInput): PreviewArtif
     locationProviderKey: Object.freeze({ ...input.locationProviderKey }),
     locationMap,
     pages: Object.freeze(pages),
+    imageAssets,
     warnings,
     byteSize,
     stale: false,
@@ -166,7 +181,11 @@ export function locationProviderKeyId(key: LocationProviderKey): string {
     : `immutable-map:${key.digest}:${key.coordinateVersion}`;
 }
 
-export function normalizePreviewPage(page: PreviewPage, expectedIndex = page.pageIndex): PreviewPage {
+export function normalizePreviewPage(
+  page: PreviewPage,
+  expectedIndex = page.pageIndex,
+  imageAssets: readonly PreviewImageAsset[] = [],
+): PreviewPage {
   if (page.pageIndex !== expectedIndex) throw new Error(`Preview pages must be contiguous from zero (expected ${expectedIndex})`);
   const [x, y, width, height] = page.geometry.viewBox;
   for (const value of [x, y, width, height, page.geometry.cssWidth, page.geometry.cssHeight]) {
@@ -175,7 +194,7 @@ export function normalizePreviewPage(page: PreviewPage, expectedIndex = page.pag
   if (width <= 0 || height <= 0 || page.geometry.cssWidth <= 0 || page.geometry.cssHeight <= 0) {
     throw new Error("Preview page geometry must have positive dimensions");
   }
-  validateSanitizedSvg(page.sanitizedSvg);
+  validateSanitizedSvg(page.sanitizedSvg, new Set(imageAssets.map((asset) => asset.digest)));
   const viewBox: readonly [number, number, number, number] = Object.freeze([x, y, width, height]);
   return Object.freeze({
     pageIndex: page.pageIndex,
@@ -184,7 +203,40 @@ export function normalizePreviewPage(page: PreviewPage, expectedIndex = page.pag
   });
 }
 
-function validateSanitizedSvg(svg: string): void {
+export function previewImageAssetHref(digest: PreviewImageAsset["digest"]): string {
+  return `${PREVIEW_IMAGE_ASSET_PREFIX}${digest}`;
+}
+
+export async function inlinePreviewImageAssets(
+  svg: string,
+  imageAssets: readonly PreviewImageAsset[],
+): Promise<string> {
+  let expanded = svg;
+  for (const asset of imageAssets) {
+    const bytes = new Uint8Array(await asset.blob.arrayBuffer());
+    expanded = expanded.replaceAll(
+      previewImageAssetHref(asset.digest),
+      `data:${asset.mimeType};base64,${encodeBase64(bytes)}`,
+    );
+  }
+  return expanded;
+}
+
+function normalizePreviewImageAssets(imageAssets: readonly PreviewImageAsset[]): readonly PreviewImageAsset[] {
+  const digests = new Set<string>();
+  return Object.freeze(imageAssets.map((asset) => {
+    if (!/^sha256:[0-9a-f]{64}$/.test(asset.digest)) throw new Error("Preview image asset has an invalid digest");
+    if (!/^image\/[a-z0-9.+-]+$/.test(asset.mimeType)) throw new Error("Preview image asset has an invalid MIME type");
+    if (asset.blob.size === 0 || asset.blob.type !== asset.mimeType) {
+      throw new Error("Preview image asset Blob does not match its MIME type");
+    }
+    if (digests.has(asset.digest)) throw new Error("Preview image asset digests must be unique");
+    digests.add(asset.digest);
+    return Object.freeze({ digest: asset.digest, mimeType: asset.mimeType, blob: asset.blob });
+  }));
+}
+
+function validateSanitizedSvg(svg: string, imageAssetDigests: ReadonlySet<string>): void {
   const root = /^\s*<svg\b([^>]*)>/i.exec(svg);
   if (!root || !new RegExp(`\\bxmlns=["']${SVG_NAMESPACE.replaceAll("/", "\\/")}["']`, "i").test(root[1] ?? "")) {
     throw new Error("Preview page must have an SVG namespace root");
@@ -194,8 +246,22 @@ function validateSanitizedSvg(svg: string): void {
   }
   for (const match of svg.matchAll(/\s(?:href|xlink:href)\s*=\s*["']([^"']*)["']/gi)) {
     const value = match[1] ?? "";
+    if (value.startsWith(PREVIEW_IMAGE_ASSET_PREFIX)) {
+      const digest = value.slice(PREVIEW_IMAGE_ASSET_PREFIX.length);
+      if (!imageAssetDigests.has(digest)) throw new Error("Preview page references an unavailable image asset");
+      continue;
+    }
     if (!value.startsWith("#") && !value.startsWith("data:image/")) throw new Error("Preview page contains an unsafe link");
   }
+}
+
+function encodeBase64(bytes: Uint8Array): string {
+  let binary = "";
+  const chunkSize = 0x8000;
+  for (let offset = 0; offset < bytes.byteLength; offset += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(offset, offset + chunkSize));
+  }
+  return btoa(binary);
 }
 
 function normalizeLocationMap(

@@ -3,10 +3,11 @@ import type {
   RenderKey,
   RuntimeArtifactKey,
 } from "../../vscode/src/runtimeIdentity.ts";
-import type {
-  PreviewArtifactStore,
-  PreviewPage,
-  PreviewPageGeometry,
+import {
+  inlinePreviewImageAssets,
+  type PreviewArtifactStore,
+  type PreviewPage,
+  type PreviewPageGeometry,
 } from "./previewArtifact.ts";
 import type { RuntimeOwnedResource } from "./runtimeOwner.ts";
 
@@ -325,9 +326,13 @@ export class ExactExportService implements RuntimeOwnedResource {
         const pageIndex = request.pageIndex ?? 0;
         page = artifact.pages[pageIndex];
         if (!page) throw new ArtifactUnavailableError(renderKey);
+        const expandedSvg = await inlinePreviewImageAssets(page.sanitizedSvg, artifact.imageAssets);
+        const expandedPage = expandedSvg === page.sanitizedSvg
+          ? page
+          : Object.freeze({ ...page, sanitizedSvg: expandedSvg });
         bytes = request.format === "svg"
-          ? new TextEncoder().encode(page.sanitizedSvg)
-          : await this.#dependencies.raster.encode(page, request.format, signal);
+          ? new TextEncoder().encode(expandedSvg)
+          : await this.#dependencies.raster.encode(expandedPage, request.format, signal);
       }
       signal.throwIfAborted();
       if (bytes.byteLength === 0) throw new Error(`Exact ${request.format} exporter produced no bytes`);
