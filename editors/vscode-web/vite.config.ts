@@ -116,10 +116,11 @@ function monacoWebviewOfflineCachePlugin(): Plugin {
   const workerMarker = "const resourceCacheName = `vscode-resource-cache-${VERSION}`;";
   const fetchMarker = "\tconst requestUrl = new URL(event.request.url);\n";
   const offlineFallback = `${fetchMarker}\tif (requestUrl.origin === sw.origin) {
-\t\treturn event.respondWith((async () => {
+\t\treturn event.respondWith(fetch(event.request).catch(async (error) => {
 \t\t\tconst cached = await caches.match(event.request) ?? await caches.match(requestUrl.pathname);
-\t\t\treturn cached ?? fetch(event.request);
-\t\t})());
+\t\t\tif (cached) return cached;
+\t\t\tthrow error;
+\t\t}));
 \t}
 `;
   return {
