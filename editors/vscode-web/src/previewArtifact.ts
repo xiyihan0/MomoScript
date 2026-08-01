@@ -20,13 +20,24 @@ export interface QualifiedLocationProviderKey {
   readonly coordinateVersion: string;
 }
 
+export interface RendererLocationProviderKey {
+  readonly kind: "renderer-provider";
+  readonly sessionId: string;
+  readonly snapshotToken: RenderKey;
+  readonly artifactDigest: string;
+  readonly backendGeneration: number;
+  readonly rendererGeneration: number;
+  readonly method: string;
+  readonly coordinateVersion: string;
+}
+
 export interface ImmutableLocationMapKey {
   readonly kind: "immutable-map";
   readonly digest: string;
   readonly coordinateVersion: string;
 }
 
-export type LocationProviderKey = QualifiedLocationProviderKey | ImmutableLocationMapKey;
+export type LocationProviderKey = QualifiedLocationProviderKey | RendererLocationProviderKey | ImmutableLocationMapKey;
 
 export interface PreviewPageGeometry {
   readonly viewBox: readonly [number, number, number, number];
@@ -37,6 +48,9 @@ export interface PreviewPageGeometry {
 export interface PreviewPage {
   readonly pageIndex: number;
   readonly geometry: PreviewPageGeometry;
+}
+
+export interface PreviewSvgPage extends PreviewPage {
   readonly sanitizedSvg: string;
 }
 
@@ -45,6 +59,27 @@ export interface PreviewImageAsset {
   readonly mimeType: string;
   readonly blob: Blob;
 }
+
+export interface PreviewSvgVisualSnapshot {
+  readonly kind: "svg";
+  readonly pages: readonly PreviewSvgPage[];
+  readonly imageAssets: readonly PreviewImageAsset[];
+}
+
+export interface PreviewRendererVisualSnapshot {
+  readonly kind: "renderer";
+  readonly artifactDigest: string;
+  readonly sourceDigest: string;
+  readonly backendGeneration: number;
+  readonly rendererGeneration: number;
+  readonly frameKind: "new" | "diff-v1";
+  readonly sessionId: string;
+  readonly snapshotToken: RenderKey;
+  readonly byteLength: number;
+  readonly pages: readonly PreviewPage[];
+}
+
+export type PreviewVisualSnapshot = PreviewSvgVisualSnapshot | PreviewRendererVisualSnapshot;
 
 export interface PreviewWirePosition {
   readonly line: number;
@@ -99,8 +134,8 @@ export interface PreviewArtifact {
   readonly sourceUri: string;
   readonly locationProviderKey: LocationProviderKey;
   readonly locationMap?: PreviewImmutableLocationMap;
+  readonly visualSnapshot: PreviewVisualSnapshot;
   readonly pages: readonly PreviewPage[];
-  readonly imageAssets: readonly PreviewImageAsset[];
   readonly warnings: readonly string[];
   readonly byteSize: number;
   readonly stale: boolean;
@@ -119,8 +154,7 @@ export interface PreviewArtifactInput {
   readonly sourceUri: string;
   readonly locationProviderKey: LocationProviderKey;
   readonly locationMap?: PreviewImmutableLocationMap;
-  readonly pages: readonly PreviewPage[];
-  readonly imageAssets?: readonly PreviewImageAsset[];
+  readonly visualSnapshot: PreviewVisualSnapshot;
   readonly warnings?: readonly string[];
 }
 
@@ -135,16 +169,34 @@ export function createPreviewArtifact(input: PreviewArtifactInput): PreviewArtif
   if (input.locationProviderKey.kind === "immutable-map" && !input.locationMap) {
     throw new Error("Immutable LocationProviderKey requires a complete retained location map");
   }
-  if (input.pages.length === 0) throw new Error("Preview artifact must contain at least one page");
-  const imageAssets = normalizePreviewImageAssets(input.imageAssets ?? []);
-  const pages = input.pages.map((page, index) => normalizePreviewPage(page, index, imageAssets));
+  const visualSnapshot = normalizeVisualSnapshot(input.visualSnapshot);
+  const pages = visualSnapshot.pages;
+  if (visualSnapshot.kind === "renderer") {
+    if (input.locationProviderKey.kind !== "renderer-provider") {
+      throw new Error("Renderer visual snapshots require a generation-bound renderer location provider");
+    }
+    if (input.locationProviderKey.sessionId !== visualSnapshot.sessionId
+      || input.locationProviderKey.snapshotToken !== visualSnapshot.snapshotToken
+      || input.locationProviderKey.artifactDigest !== visualSnapshot.artifactDigest
+      || input.locationProviderKey.backendGeneration !== visualSnapshot.backendGeneration
+      || input.locationProviderKey.rendererGeneration !== visualSnapshot.rendererGeneration
+      || visualSnapshot.snapshotToken !== input.renderKey) {
+      throw new Error("Renderer visual snapshot identity must match its location provider and RenderKey");
+    }
+  }
   const locationMap = input.locationMap ? normalizeLocationMap(input.locationMap, input.locationProviderKey, pages.length) : undefined;
   const warnings = Object.freeze([...(input.warnings ?? [])].map((warning) => String(warning)));
-  const byteSize = pages.reduce((total, page) => total + encoder.encode(page.sanitizedSvg).byteLength + 8 * 6, 0)
-    + imageAssets.reduce((total, asset) => total
-      + asset.blob.size
-      + encoder.encode(asset.digest).byteLength
-      + encoder.encode(asset.mimeType).byteLength, 0)
+  const visualByteSize = visualSnapshot.kind === "svg"
+    ? visualSnapshot.pages.reduce((total, page) => total + encoder.encode(page.sanitizedSvg).byteLength + 8 * 6, 0)
+      + visualSnapshot.imageAssets.reduce((total, asset) => total
+        + asset.blob.size
+        + encoder.encode(asset.digest).byteLength
+        + encoder.encode(asset.mimeType).byteLength, 0)
+    : visualSnapshot.byteLength
+      + encoder.encode(visualSnapshot.artifactDigest).byteLength
+      + encoder.encode(visualSnapshot.sourceDigest).byteLength
+      + visualSnapshot.pages.length * 8 * 6;
+  const byteSize = visualByteSize
     + encoder.encode(input.sourceUri).byteLength
     + encoder.encode(JSON.stringify(input.locationProviderKey)).byteLength
     + (locationMap ? encoder.encode(JSON.stringify(locationMap)).byteLength : 0)
@@ -154,8 +206,8 @@ export function createPreviewArtifact(input: PreviewArtifactInput): PreviewArtif
     sourceUri: input.sourceUri,
     locationProviderKey: Object.freeze({ ...input.locationProviderKey }),
     locationMap,
-    pages: Object.freeze(pages),
-    imageAssets,
+    visualSnapshot,
+    pages,
     warnings,
     byteSize,
     stale: false,
@@ -176,16 +228,56 @@ export function locationProviderMatches(
 }
 
 export function locationProviderKeyId(key: LocationProviderKey): string {
+  if (key.kind === "renderer-provider") {
+    return `renderer-provider:${key.sessionId}:${key.snapshotToken}:${key.artifactDigest}:${key.backendGeneration}:${key.rendererGeneration}:${key.method}:${key.coordinateVersion}`;
+  }
   return key.kind === "provider"
     ? `provider:${key.backendOrTraceArtifactDigest}:${key.backendGeneration}:${key.method}:${key.coordinateVersion}`
     : `immutable-map:${key.digest}:${key.coordinateVersion}`;
 }
 
+function normalizeVisualSnapshot(snapshot: PreviewVisualSnapshot): PreviewVisualSnapshot {
+  if (snapshot.pages.length === 0) throw new Error("Preview artifact must contain at least one page");
+  if (snapshot.kind === "svg") {
+    const imageAssets = normalizePreviewImageAssets(snapshot.imageAssets);
+    const pages = snapshot.pages.map((page, index) => normalizePreviewPage(page, index, imageAssets));
+    return Object.freeze({
+      kind: "svg",
+      pages: Object.freeze(pages),
+      imageAssets,
+    });
+  }
+  for (const [label, digest] of [
+    ["artifact", snapshot.artifactDigest],
+    ["source", snapshot.sourceDigest],
+  ] as const) {
+    if (!/^[0-9a-f]{64}$/.test(digest)) throw new Error(`Preview renderer ${label} digest must be lowercase SHA-256`);
+  }
+  if (!Number.isSafeInteger(snapshot.backendGeneration) || snapshot.backendGeneration <= 0
+    || !Number.isSafeInteger(snapshot.rendererGeneration) || snapshot.rendererGeneration <= 0
+    || !Number.isSafeInteger(snapshot.byteLength) || snapshot.byteLength <= 0) {
+    throw new Error("Preview renderer snapshot generation metadata is invalid");
+  }
+  requireNonEmpty(snapshot.sessionId, "Preview renderer session id");
+  requireNonEmpty(snapshot.snapshotToken, "Preview renderer snapshot token");
+  const pages = snapshot.pages.map((page, index) => normalizePreviewPageGeometry(page, index));
+  return Object.freeze({
+    ...snapshot,
+    pages: Object.freeze(pages),
+  });
+}
+
 export function normalizePreviewPage(
-  page: PreviewPage,
+  page: PreviewSvgPage,
   expectedIndex = page.pageIndex,
   imageAssets: readonly PreviewImageAsset[] = [],
-): PreviewPage {
+): PreviewSvgPage {
+  const normalized = normalizePreviewPageGeometry(page, expectedIndex);
+  validateSanitizedSvg(page.sanitizedSvg, new Set(imageAssets.map((asset) => asset.digest)));
+  return Object.freeze({ ...normalized, sanitizedSvg: page.sanitizedSvg });
+}
+
+function normalizePreviewPageGeometry(page: PreviewPage, expectedIndex: number): PreviewPage {
   if (page.pageIndex !== expectedIndex) throw new Error(`Preview pages must be contiguous from zero (expected ${expectedIndex})`);
   const [x, y, width, height] = page.geometry.viewBox;
   for (const value of [x, y, width, height, page.geometry.cssWidth, page.geometry.cssHeight]) {
@@ -194,12 +286,10 @@ export function normalizePreviewPage(
   if (width <= 0 || height <= 0 || page.geometry.cssWidth <= 0 || page.geometry.cssHeight <= 0) {
     throw new Error("Preview page geometry must have positive dimensions");
   }
-  validateSanitizedSvg(page.sanitizedSvg, new Set(imageAssets.map((asset) => asset.digest)));
   const viewBox: readonly [number, number, number, number] = Object.freeze([x, y, width, height]);
   return Object.freeze({
     pageIndex: page.pageIndex,
     geometry: Object.freeze({ viewBox, cssWidth: page.geometry.cssWidth, cssHeight: page.geometry.cssHeight }),
-    sanitizedSvg: page.sanitizedSvg,
   });
 }
 
@@ -329,6 +419,16 @@ function validateLocationProviderKey(key: LocationProviderKey): void {
     requireNonEmpty(key.backendOrTraceArtifactDigest, "location provider artifact digest");
     requireNonEmpty(key.method, "location provider method");
     if (!Number.isSafeInteger(key.backendGeneration) || key.backendGeneration < 0) throw new Error("Location provider generation must be a non-negative integer");
+  } else if (key.kind === "renderer-provider") {
+    requireNonEmpty(key.sessionId, "renderer location provider session id");
+    requireNonEmpty(key.snapshotToken, "renderer location provider snapshot token");
+    requireNonEmpty(key.artifactDigest, "renderer location provider artifact digest");
+    requireNonEmpty(key.method, "renderer location provider method");
+    if (!/^[0-9a-f]{64}$/.test(key.artifactDigest)) throw new Error("Renderer location provider artifact digest must be lowercase SHA-256");
+    if (!Number.isSafeInteger(key.backendGeneration) || key.backendGeneration <= 0
+      || !Number.isSafeInteger(key.rendererGeneration) || key.rendererGeneration <= 0) {
+      throw new Error("Renderer location provider generations must be positive integers");
+    }
   } else {
     requireNonEmpty(key.digest, "immutable location map digest");
   }

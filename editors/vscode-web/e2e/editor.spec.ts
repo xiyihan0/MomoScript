@@ -3,9 +3,7 @@ import { expect, test, type Locator, type Page, type Response, waitForPreviewFra
 
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
 const MANIFEST_URL = `${PACK_ROOT}manifest.json`;
-const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d/tinymist_bg.wasm.br?delivery=br-v1";
 const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
-const TINYMIST_WASM_FALLBACK_URL = TINYMIST_WASM_URL.replace(".br?delivery=br-v1", "");
 const TYPST_COMPILER_WASM_FALLBACK_URL = TYPST_COMPILER_WASM_URL.replace(".br?delivery=br-v1", "");
 const manifest = await readFile(new URL("./fixtures/manifest.json", import.meta.url));
 const avatar = await readFile(new URL("./fixtures/佳代子.png", import.meta.url));
@@ -23,8 +21,6 @@ test("production editor materializes an avatar and restores the authored story a
   const local = testInfo.project.name !== "remote";
   let manifestRequests = 0;
   let avatarRequests = 0;
-  let tinymistRolloutRequests = 0;
-  let tinymistFallbackRequests = 0;
   let compilerRolloutRequests = 0;
   let compilerFallbackRequests = 0;
   if (local) {
@@ -56,15 +52,13 @@ test("production editor materializes an avatar and restores the authored story a
         });
         return;
       }
-      if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
-        if (url === TINYMIST_WASM_URL) tinymistRolloutRequests += 1;
-        else compilerRolloutRequests += 1;
+      if (url === TYPST_COMPILER_WASM_URL) {
+        compilerRolloutRequests += 1;
         await route.abort("connectionfailed");
         return;
       }
-      if (url === TINYMIST_WASM_FALLBACK_URL || url === TYPST_COMPILER_WASM_FALLBACK_URL) {
-        if (url === TINYMIST_WASM_FALLBACK_URL) tinymistFallbackRequests += 1;
-        else compilerFallbackRequests += 1;
+      if (url === TYPST_COMPILER_WASM_FALLBACK_URL) {
+        compilerFallbackRequests += 1;
         await route.continue();
         return;
       }
@@ -74,10 +68,6 @@ test("production editor materializes an avatar and restores the authored story a
 
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
-  if (local) {
-    expect(tinymistRolloutRequests).toBe(1);
-    expect(tinymistFallbackRequests).toBe(1);
-  }
   const outputPanel = page.locator(".workbench-panel");
   const outputToggle = page.getByRole("status").getByRole("button", { name: /显示或隐藏 MomoScript 日志/ });
   const problemsToggle = page.locator("#status\\.problems").getByRole("button");

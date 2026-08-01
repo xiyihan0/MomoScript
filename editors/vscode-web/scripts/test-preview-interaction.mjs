@@ -75,7 +75,7 @@ const immutableArtifact = (renderKey, sourceIdentity, targetUri = sourceIdentity
       },
     }],
   },
-  pages: [page(0), page(1)],
+  visualSnapshot: { kind: "svg", pages: [page(0), page(1)], imageAssets: [] },
 });
 
 class MemoryViewportPersistence {
@@ -172,7 +172,7 @@ const providerArtifact = createPreviewArtifact({
   renderKey: "render-provider",
   sourceUri: sourceA,
   locationProviderKey: providerKey(11),
-  pages: [page(0), page(1)],
+  visualSnapshot: { kind: "svg", pages: [page(0), page(1)], imageAssets: [] },
 });
 const resolver = {
   key: providerKey(11),

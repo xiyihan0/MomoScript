@@ -164,11 +164,11 @@ interface FixedProviderQualification {
 export const FIXED_TINYMIST_PROVIDER_ARTIFACTS = Object.freeze({
   native: Object.freeze({
     backendVersion: "0.15.2",
-    digest: "1ad4decf905f38fbddd8ab76a9c5da55c48af77768e104bcdcbe421d90db4f87"
+    digest: "203ffacdc8ed5ee3168b706c95002f9f4616a0bdadcc10084450feaa8df38bab"
   }),
   web: Object.freeze({
     backendVersion: "0.15.2",
-    digest: "2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d"
+    digest: "f2a10539d043f6b1483f1a6b1f38389e6133842714be8caa50d87b14cc1f53db"
   })
 });
 

@@ -9,6 +9,8 @@ const [
   fixtureText,
   mainSource,
   runtimeControllerSource,
+  previewWebviewRuntimeSource,
+  avifSequenceSource,
   workerSource,
   processSource,
   hostSessionSource,
@@ -22,6 +24,8 @@ const [
   readFile(fixturePath, "utf8"),
   readFile(path.join(root, "../vscode-web/src/main.ts"), "utf8"),
   readFile(path.join(root, "../vscode-web/src/runtimeController.ts"), "utf8"),
+  readFile(path.join(root, "../vscode-web/src/previewWebviewRuntime.ts"), "utf8"),
+  readFile(path.join(root, "../vscode-web/src/avifSequence.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistClient.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistProcessClient.ts"), "utf8"),
   readFile(path.join(root, "src/tinymistHostSession.ts"), "utf8"),
@@ -37,6 +41,8 @@ assert.equal(inventory.schemaVersion, 1);
 assert.deepEqual(inventory.scope, [
   "editors/vscode-web/src/main.ts",
   "editors/vscode-web/src/runtimeController.ts",
+  "editors/vscode-web/src/previewWebviewRuntime.ts",
+  "editors/vscode-web/src/avifSequence.ts",
   "editors/vscode/src/tinymistClient.ts",
   "editors/vscode/src/tinymistProcessClient.ts",
   "editors/vscode/src/tinymistHostSession.ts",
@@ -57,6 +63,8 @@ const expectedMainCollections = [
   "retiredLanguageProjectionSessions",
   "requestedRenderTokens",
   "renderRequestIdBySource",
+  "renderProjectSnapshots",
+  "workspaceAssetMirror",
   "persistenceByUri"
 ];
 assert.deepEqual(
@@ -64,10 +72,19 @@ assert.deepEqual(
   expectedMainCollections,
   "main.ts collection ownership inventory changed"
 );
+const composedRuntimeResources = new Map([
+  ["renderProjectSnapshots", "own({ dispose: () => renderProjectSnapshots.clear() })"],
+  ["workspaceAssetMirror", "workspaceAssetMirror = own(new WorkspaceAssetMirror("],
+]);
 for (const name of expectedMainCollections) {
-  assert.match(runtimeControllerSource, new RegExp(`\\b${name}\\b`), `controller store ${name} is missing`);
   assert.match(mainSource, new RegExp(`\\b${name}\\b`), `production composition no longer consumes ${name}`);
-  assert.doesNotMatch(mainSource, new RegExp(`(?:const|let)\\s+${name}\\s*=\\s*new\\s+(?:Map|Set|WeakSet)`), `${name} returned to main.ts ownership`);
+  const ownershipAnchor = composedRuntimeResources.get(name);
+  if (ownershipAnchor) {
+    assert.ok(mainSource.includes(ownershipAnchor), `${name} is not runtime-owned composition`);
+  } else {
+    assert.match(runtimeControllerSource, new RegExp(`\\b${name}\\b`), `controller store ${name} is missing`);
+    assert.doesNotMatch(mainSource, new RegExp(`(?:const|let)\\s+${name}\\s*=\\s*new\\s+(?:Map|Set|WeakSet)`), `${name} returned to main.ts ownership`);
+  }
 }
 assert.ok(inventory.main.collections.every((entry) => entry.role && entry.owner && entry.dispose));
 
@@ -78,6 +95,7 @@ const listenerAnchors = {
   typstEditorActivationRegistration: "const typstEditorActivationRegistration = subscribe(",
   "mmt/typstProjectUpdated": "activeClient.onNotification(\"mmt/typstProjectUpdated\"",
   "mmt/typstProjectClosed": "\"mmt/typstProjectClosed\"",
+  "mmt/typstRenderProjectUpdated": "\"mmt/typstRenderProjectUpdated\",",
   documentConfigCommandRegistration: "const documentConfigCommandRegistration = subscribe(",
   previewCommandRegistration: "const previewCommandRegistration = subscribe(",
   previewPanelDisposeRegistration: "previewPanelDisposeRegistration = subscribe(",
@@ -91,13 +109,18 @@ const listenerAnchors = {
   hmr: "hot?.dispose(hotDispose)",
   "layout activity click": "activity.addEventListener(\"click\", syncActivitySelection, true)",
   "settings controls": "previewToggle.addEventListener(\"change\", updatePreviewSetting)",
-  "preview webview controls": "exportReady?.addEventListener('click'",
+  "preview webview controls": "exportReady.addEventListener(\"click\"",
   "AVIFS abort": "signal.addEventListener(\"abort\", abort, { once: true })"
 };
+const listenerSources = new Map([
+  ["preview webview controls", previewWebviewRuntimeSource],
+  ["AVIFS abort", avifSequenceSource],
+]);
 for (const listener of inventory.main.listeners) {
   const anchor = listenerAnchors[listener.name];
   assert.ok(anchor, `listener ${listener.name} has no machine-check anchor`);
-  assert.ok(mainSource.includes(anchor), `listener ${listener.name} no longer matches main.ts`);
+  const source = listenerSources.get(listener.name) ?? mainSource;
+  assert.ok(source.includes(anchor), `listener ${listener.name} no longer matches its production owner`);
   assert.ok(listener.owner, `listener ${listener.name} has no dispose owner`);
 }
 
@@ -122,9 +145,10 @@ assert.deepEqual(workerNames, [
   "native Tinymist",
   "native MMT LSP"
 ]);
-for (const anchor of ["TextEditorWorker", "TextMateWorker", "OutputLinkDetectionWorker", "./avifSequenceWorker.ts"]) {
+for (const anchor of ["TextEditorWorker", "TextMateWorker", "OutputLinkDetectionWorker"]) {
   assert.ok(mainSource.includes(anchor), `Worker anchor ${anchor} disappeared`);
 }
+assert.ok(avifSequenceSource.includes("./avifSequenceWorker.ts"), "AVIFS worker anchor disappeared");
 assert.match(webSource, /TinymistWorkerClient\.start/);
 assert.match(webSource, /worker = new Worker/);
 assert.match(desktopSource, /TinymistProcessClient\.start/);

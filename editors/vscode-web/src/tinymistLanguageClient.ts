@@ -10,8 +10,9 @@ import {
   type TypstProblemsPublisher
 } from "../../vscode/src/typstFeatures";
 import tinymistModuleUrl from "../../vscode/vendor/tinymist-0.15.2/tinymist.js?url";
+import tinymistWasmAssetUrl from "../../vscode/vendor/tinymist-0.15.2/tinymist_bg.wasm?url";
 import tinymistWorkerUrl from "../../vscode/src/tinymistWorker.ts?worker&url";
-import { TINYMIST_WASM_URL, runtimeIdentityUrl } from "./runtimeArtifacts";
+import { TINYMIST_WASM_SHA256 } from "./runtimeArtifacts";
 
 export interface TinymistHandle {
   backend: TinymistWorkerClient;
@@ -80,12 +81,12 @@ async function startTinymistBackend(
 }
 
 async function downloadTinymistWasm(report: (message: string) => void): Promise<Uint8Array> {
-  try {
-    return await downloadValidatedWasm(TINYMIST_WASM_URL, "Tinymist WASM", report);
-  } catch {
-    report("Tinymist WASM 压缩传输失败，回退未压缩版本…");
-    return downloadValidatedWasm(runtimeIdentityUrl(TINYMIST_WASM_URL), "Tinymist WASM", report);
-  }
+  report(`Tinymist WASM ${TINYMIST_WASM_SHA256.slice(0, 12)} 使用离线固定资源…`);
+  return downloadValidatedWasm(
+    new URL(tinymistWasmAssetUrl, window.location.href).href,
+    "Tinymist WASM",
+    report,
+  );
 }
 
 async function downloadValidatedWasm(

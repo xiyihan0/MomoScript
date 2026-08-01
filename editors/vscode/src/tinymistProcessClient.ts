@@ -10,6 +10,12 @@ import { DEFAULT_PROJECT_FILE_CLOSE_GRACE_MS } from "./typstProjectState";
 import {
   semanticTokensLegendFromCapabilities,
   validateTinymistInitialize,
+  type PreviewProjectMount,
+  type PreviewRendererRenderOptions,
+  type PreviewRendererRenderResult,
+  type PreviewRendererResponse,
+  type PreviewRendererTransition,
+  type SynchronizedPreviewProject,
   type TinymistHostBackend,
   type TypstProjectUpdate
 } from "./tinymistClient";
@@ -82,6 +88,34 @@ export class TinymistProcessClient implements TinymistHostBackend {
 
   syncProject(update: TypstProjectUpdate): void {
     this.session.syncProject(update);
+  }
+
+  syncPreviewProject(
+    update: TypstProjectUpdate,
+    mount: PreviewProjectMount,
+    signal?: AbortSignal
+  ): Promise<SynchronizedPreviewProject> {
+    return this.session.syncPreviewProject(update, mount, signal);
+  }
+
+  previewRenderer(
+    update: TypstProjectUpdate,
+    mount: PreviewProjectMount,
+    options: PreviewRendererRenderOptions,
+    signal?: AbortSignal
+  ): Promise<PreviewRendererRenderResult> {
+    return this.session.previewRenderer(update, mount, options, signal);
+  }
+
+  transitionPreviewRenderer(
+    transition: PreviewRendererTransition,
+    signal?: AbortSignal
+  ): Promise<PreviewRendererResponse> {
+    return this.session.transitionPreviewRenderer(transition, signal);
+  }
+
+  closePreviewRenderer(sessionId: string, signal?: AbortSignal): Promise<PreviewRendererResponse> {
+    return this.session.closePreviewRenderer(sessionId, signal);
   }
 
   projectForEntry(entryUri: string): TypstProjectUpdate | undefined {

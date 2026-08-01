@@ -7,6 +7,8 @@ import { basename, dirname, resolve } from "node:path";
 import { PassThrough } from "node:stream";
 
 import {
+  PREVIEW_RENDERER_METHOD,
+  PREVIEW_RENDERER_PROTOCOL_VERSION,
   releasePendingProjectFileAfterGrace,
   canonicalTypstUri,
   diagnosticVersionMatchesProjection,
@@ -14,6 +16,9 @@ import {
   projectionRevisionIsCurrent,
   rotateProjectFileGenerations,
   serverRequestResponse,
+  validatePreviewRendererReady,
+  type PreviewRendererReady,
+  type PreviewRendererResponse,
   validateTinymistInitialize,
   type TypstProjectUpdate
 } from "../tinymistClient";
@@ -36,6 +41,21 @@ function fixtureIdentity(revision: number): Pick<
     projectionKey: key as TypstProjectUpdate["projectionKey"],
     mappingDigest: key
   };
+}
+
+function canonicalFixtureDigest(domain: string, fields: readonly Uint8Array[]): string {
+  const hash = createHash("sha256");
+  const length = Buffer.alloc(8);
+  length.writeBigUInt64BE(BigInt(Buffer.byteLength(domain)));
+  hash.update(length);
+  hash.update(domain);
+  for (const field of fields) {
+    const fieldLength = Buffer.alloc(8);
+    fieldLength.writeBigUInt64BE(BigInt(field.byteLength));
+    hash.update(fieldLength);
+    hash.update(field);
+  }
+  return hash.digest("hex");
 }
 
 class MemoryPackCache implements PackCacheStore {
@@ -1086,7 +1106,161 @@ async function verifyCheckedNativeEvidence(command: string): Promise<Record<stri
       );
     }
   }
+
   return evidence;
+}
+
+async function testNativePreviewRenderer(client: TinymistProcessClient): Promise<void> {
+  const encoder = new TextEncoder();
+  const sourceUri = "file:///workspace/preview-renderer.mmt";
+  const entryUri = "untitled:/mmt-projection/preview-renderer/main.typ";
+  const helperUri = "untitled:/mmt-projection/preview-renderer/support.typ";
+  const imageUri = "untitled:/mmt-projection/preview-renderer/pixel.png";
+  const logicalSourceId = "a".repeat(64);
+  const sessionId = "native-transcript";
+  const update = (revision: number, text: string): TypstProjectUpdate => {
+    const bytes = encoder.encode(text);
+    const helperText = "#let suffix = [from helper]";
+    const helperBytes = encoder.encode(helperText);
+    const imageDataBase64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=";
+    const imageBytes = Uint8Array.from(Buffer.from(imageDataBase64, "base64"));
+    const contentDigest = canonicalFixtureDigest("mmt-project-file-v1", [bytes]);
+    const helperDigest = canonicalFixtureDigest("mmt-project-file-v1", [helperBytes]);
+    const imageDigest = canonicalFixtureDigest("mmt-project-file-v1", [imageBytes]);
+    return {
+      sourceUri,
+      sourceVersion: revision,
+      revision,
+      entryUri,
+      files: [
+        { uri: entryUri, text, digest: contentDigest },
+        { uri: helperUri, text: helperText, digest: helperDigest },
+        { uri: imageUri, dataBase64: imageDataBase64, digest: imageDigest },
+      ],
+      full: true,
+      sourceContent: canonicalFixtureDigest("native-preview-source-v1", [bytes]) as TypstProjectUpdate["sourceContent"],
+      projectDigest: canonicalFixtureDigest("native-preview-project-v1", [bytes]) as TypstProjectUpdate["projectDigest"],
+      projectionKey: canonicalFixtureDigest("native-preview-projection-v1", [bytes]) as TypstProjectUpdate["projectionKey"],
+      mappingDigest: canonicalFixtureDigest("native-preview-mapping-v1", [bytes]),
+    };
+  };
+  const render = async (
+    project: TypstProjectUpdate,
+    snapshotToken: PreviewRendererReady["snapshotToken"],
+    baseGeneration: number | undefined,
+    forceFull: boolean
+  ): Promise<{
+    synchronized: Awaited<ReturnType<TinymistProcessClient["syncPreviewProject"]>>;
+    ready: PreviewRendererReady;
+  }> => {
+    const result = await client.previewRenderer(project, { logicalSourceId }, {
+      sessionId,
+      snapshotToken,
+      ...(baseGeneration === undefined ? {} : { baseGeneration }),
+      forceFull,
+    });
+    if (result.response.status !== "ready") {
+      throw new Error(`native preview renderer did not become ready: ${JSON.stringify(result.response)}`);
+    }
+    await validatePreviewRendererReady(result.response, {
+      sessionId,
+      snapshotToken,
+      sourceDigest: result.synchronized.sourceDigest,
+    });
+    return { synchronized: result.synchronized, ready: result.response };
+  };
+  const transition = async (
+    action: "commit" | "discard",
+    ready: PreviewRendererReady
+  ): Promise<PreviewRendererResponse> => client.request(PREVIEW_RENDERER_METHOD, {
+    protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+    action,
+    sessionId,
+    snapshotToken: ready.snapshotToken,
+    generation: ready.generation,
+  });
+
+  const firstToken = "b".repeat(64) as PreviewRendererReady["snapshotToken"];
+  const secondToken = "c".repeat(64) as PreviewRendererReady["snapshotToken"];
+  const firstResult = await render(
+    update(1, "#import \"support.typ\": suffix\n#set page(width: 120pt, height: 80pt)\n[#image(\"pixel.png\", width: 1pt) Renderer generation one #suffix]"),
+    firstToken,
+    undefined,
+    true,
+  );
+  const first = firstResult.synchronized;
+  const firstReady = firstResult.ready;
+  if (firstReady.frameKind !== "new" || firstReady.generation !== 1 || firstReady.baseGeneration !== 0) {
+    throw new Error("native preview renderer did not return generation-one full frame");
+  }
+  const firstCommit = await transition("commit", firstReady);
+  if (firstCommit.status !== "committed") throw new Error("native preview renderer did not commit generation one");
+  const sourceLocations = await client.request<PreviewRendererResponse>(PREVIEW_RENDERER_METHOD, {
+    protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+    action: "locateSource",
+    sessionId,
+    generation: firstReady.generation,
+    uri: first.project.entryUri,
+    position: { line: 2, character: 40 },
+  });
+  if (sourceLocations.status !== "locatedSource" || sourceLocations.locations.length === 0) {
+    throw new Error("native preview renderer did not resolve a committed source position");
+  }
+  const previewLocation = await client.request<PreviewRendererResponse>(PREVIEW_RENDERER_METHOD, {
+    protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+    action: "locatePoint",
+    sessionId,
+    generation: firstReady.generation,
+    position: sourceLocations.locations[0],
+  });
+  if (previewLocation.status !== "locatedPoint"
+    || !previewLocation.location
+    || previewLocation.location.uri !== first.project.entryUri) {
+    throw new Error("native preview renderer did not resolve a committed preview point");
+  }
+  const secondProject = update(
+    2,
+    "#import \"support.typ\": suffix\n#set page(width: 120pt, height: 80pt)\n[#image(\"pixel.png\", width: 1pt) Renderer generation two #suffix]",
+  );
+  const secondResult = await render(secondProject, secondToken, 1, false);
+  const secondReady = secondResult.ready;
+  if (secondReady.frameKind !== "diff-v1" || secondReady.generation !== 2 || secondReady.baseGeneration !== 1) {
+    throw new Error("native preview renderer did not return a generation-two diff frame");
+  }
+  const discard = await transition("discard", secondReady);
+  if (discard.status !== "discarded") throw new Error("native preview renderer did not discard staged generation two");
+  const resyncResult = await client.previewRenderer(secondProject, { logicalSourceId }, {
+    sessionId,
+    snapshotToken: secondToken,
+    baseGeneration: 1,
+    forceFull: false,
+  });
+  if (resyncResult.response.status !== "resync" || resyncResult.response.expectedBaseGeneration !== 1) {
+    throw new Error("native preview renderer did not require a full frame after discarding mutable producer state");
+  }
+  const replacement = (await render(secondProject, secondToken, undefined, true)).ready;
+  if (replacement.frameKind !== "new" || replacement.generation !== 2 || replacement.baseGeneration !== 0) {
+    throw new Error("native preview renderer did not replace discarded producer state with generation-two full frame");
+  }
+  const secondCommit = await transition("commit", replacement);
+  if (secondCommit.status !== "committed") throw new Error("native preview renderer did not commit replacement generation");
+  const oldGeneration = await client.request<PreviewRendererResponse>(PREVIEW_RENDERER_METHOD, {
+    protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+    action: "locateSource",
+    sessionId,
+    generation: firstReady.generation,
+    uri: first.project.entryUri,
+    position: { line: 2, character: 40 },
+  });
+  if (oldGeneration.status !== "unavailable") {
+    throw new Error("native preview renderer answered navigation from a replaced generation");
+  }
+  const closed = await client.request<PreviewRendererResponse>(PREVIEW_RENDERER_METHOD, {
+    protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+    action: "close",
+    sessionId,
+  });
+  if (closed.status !== "closed") throw new Error("native preview renderer did not close its session");
 }
 
 async function main(): Promise<void> {
@@ -1216,6 +1390,7 @@ async function main(): Promise<void> {
     });
   });
   try {
+    await testNativePreviewRenderer(client);
     const firstDiagnostics = waitForDiagnostics(uriV1);
     client.syncProject({
       sourceUri,

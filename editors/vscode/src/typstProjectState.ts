@@ -665,6 +665,8 @@ export class TypstProjectState {
 
   private requestTextDocumentUri(params: unknown): string | undefined {
     if (!params || typeof params !== "object") return undefined;
+    const entryUri = Reflect.get(params, "entryUri");
+    if (typeof entryUri === "string") return canonicalTypstUri(entryUri);
     const textDocument = Reflect.get(params, "textDocument");
     if (!textDocument || typeof textDocument !== "object") return undefined;
     const uri = Reflect.get(textDocument, "uri");

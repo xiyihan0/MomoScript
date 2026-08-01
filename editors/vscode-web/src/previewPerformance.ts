@@ -18,6 +18,10 @@ export type PreviewTraceStage =
   | "svgParseSanitize"
   | "domUpdate"
   | "locationMeasure"
+  | "viewportRender"
+  | "iframeTransfer"
+  | "rendererDecode"
+  | "rendererApply"
   | "visualReady";
 
 export type PreviewTraceCounter =
@@ -34,7 +38,20 @@ export type PreviewTraceCounter =
   | "shadowUnmapped"
   | "shadowSkipped"
   | "staleDiscards"
-  | "queueDepth";
+  | "queueDepth"
+  | "rendererRequestBytes"
+  | "rendererResponseBytes"
+  | "rendererFrameNew"
+  | "rendererFrameDiffV1"
+  | "rendererConsumerResyncs"
+  | "rendererGeneration"
+  | "rendererBaseGeneration"
+  | "patchedNodes"
+  | "reusedNodes"
+  | "removedNodes"
+  | "pageBuffers"
+  | "sourceQueries"
+  | "fullOracleFallbacks";
 
 export interface PreviewTraceSample {
   readonly traceId: string;
@@ -64,6 +81,19 @@ const EMPTY_COUNTERS = Object.freeze({
   shadowSkipped: 0,
   staleDiscards: 0,
   queueDepth: 0,
+  rendererRequestBytes: 0,
+  rendererResponseBytes: 0,
+  rendererFrameNew: 0,
+  rendererFrameDiffV1: 0,
+  rendererConsumerResyncs: 0,
+  rendererGeneration: 0,
+  rendererBaseGeneration: 0,
+  patchedNodes: 0,
+  reusedNodes: 0,
+  removedNodes: 0,
+  pageBuffers: 0,
+  sourceQueries: 0,
+  fullOracleFallbacks: 0,
 }) satisfies Readonly<Record<PreviewTraceCounter, number>>;
 
 export type PreviewTraceSeed = Pick<
@@ -97,6 +127,11 @@ export class PreviewTraceSession {
   increment(counter: PreviewTraceCounter, amount = 1): void {
     if (this.#finished || !Number.isFinite(amount)) return;
     this.#counters[counter] += amount;
+  }
+
+  setCounter(counter: PreviewTraceCounter, value: number): void {
+    if (this.#finished || !Number.isFinite(value) || value < 0) return;
+    this.#counters[counter] = value;
   }
 
   renderKey(renderKey: RenderKey): void {

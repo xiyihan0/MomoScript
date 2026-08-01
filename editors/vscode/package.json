@@ -119,6 +119,12 @@
           "scope": "window",
           "description": "输入触发预览的 latest-wins 防抖窗口（毫秒）。"
         },
+        "mmt.preview.diffV1": {
+          "type": "boolean",
+          "default": true,
+          "scope": "window",
+          "description": "启用已限定版本的持久化 diff-v1 预览渲染器；更改后需要重新加载工作台。"
+        },
         "mmt.preview.performance.enabled": {
           "type": "boolean",
           "default": false,
@@ -179,6 +185,7 @@
     "test:capability-manifest": "node ./scripts/test-capability-manifest.mjs",
     "test:artifact-decision": "node ./scripts/test-artifact-decision.mjs",
     "test:runtime-identity": "node ./scripts/test-runtime-identity.mjs",
+    "test:preview-renderer-protocol": "node ./scripts/test-preview-renderer-protocol.mjs",
     "test:response-identity": "node ./scripts/test-response-identity.mjs",
     "test:capability-router": "node ./scripts/test-capability-router.mjs",
     "test:provider-descriptors": "node ./scripts/test-provider-descriptors.mjs",

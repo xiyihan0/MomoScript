@@ -1,6 +1,5 @@
 import { expect, test, type Download, type Page, waitForPreviewFrame } from "./fixtures";
 
-const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d/tinymist_bg.wasm.br?delivery=br-v1";
 const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
 
 const mmtSource = [
@@ -16,7 +15,7 @@ const mmtSource = [
 test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-export fixture", { tag: "@runtime-export" }, async ({ page }) => {
   await page.route("https://**/*", async (route) => {
     const url = route.request().url();
-    if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
+    if (url === TYPST_COMPILER_WASM_URL) {
       await route.abort("connectionfailed");
       return;
     }
@@ -33,6 +32,12 @@ test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-ex
   await expect(controls).toHaveAttribute("data-availability", "ready");
   await expect(preview.getByLabel("Export format")).toBeEnabled();
   await expect(preview.getByRole("button", { name: "Export current preview" })).toBeEnabled();
+  const rendererState = await page.evaluate(async () => {
+    const fixture = Reflect.get(globalThis, "__mmtPreviewInteractionFixture");
+    if (typeof fixture !== "function") throw new Error("preview interaction fixture is unavailable");
+    return fixture({ action: "state" }) as Promise<{ visualKind: string; rendererFrameKind: string }>;
+  });
+  expect(rendererState).toMatchObject({ visualKind: "renderer", rendererFrameKind: "new" });
   await expect(preview.locator(".page")).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
   const renderedPages = preview.locator(".page > svg > .typst-page");
   const renderedPageCount = await renderedPages.count();

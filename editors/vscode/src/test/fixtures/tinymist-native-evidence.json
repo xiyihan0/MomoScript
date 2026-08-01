@@ -3,13 +3,13 @@
     "backendName": "tinymist",
     "backendVersion": "0.15.2",
     "checksumManifest": {
-      "expectedSha256": "1ad4decf905f38fbddd8ab76a9c5da55c48af77768e104bcdcbe421d90db4f87",
+      "expectedSha256": "203ffacdc8ed5ee3168b706c95002f9f4616a0bdadcc10084450feaa8df38bab",
       "reference": "tinymist-native-patched.sha256",
       "referencedArtifact": "tinymist",
       "verified": true
     },
     "digests": {
-      "tinymist": "1ad4decf905f38fbddd8ab76a9c5da55c48af77768e104bcdcbe421d90db4f87"
+      "tinymist": "203ffacdc8ed5ee3168b706c95002f9f4616a0bdadcc10084450feaa8df38bab"
     },
     "host": "native-process",
     "packageVersion": "0.15.2",
@@ -90,6 +90,27 @@
           "coordinateVersion": "typst-page-points-v1",
           "previewToSourceMethod": "tinymist/previewLocation",
           "sourceToPreviewMethod": "tinymist/sourceLocations"
+        },
+        "mmtPreviewRendererProvider": {
+          "actions": [
+            "register",
+            "render",
+            "commit",
+            "discard",
+            "locatePoint",
+            "locateSource",
+            "close"
+          ],
+          "frameKinds": [
+            "new",
+            "diff-v1"
+          ],
+          "maxSessions": 8,
+          "method": "mmt/previewRenderer.v1",
+          "protocolVersion": "mmt-preview-renderer-v1",
+          "retainedGenerationsPerSession": 2,
+          "sourceDigestDomain": "mmt-preview-compiler-snapshot-v1",
+          "transportEncoding": "base64"
         },
         "onEnter": true
       },
@@ -391,6 +412,27 @@
           "coordinateVersion": "typst-page-points-v1",
           "previewToSourceMethod": "tinymist/previewLocation",
           "sourceToPreviewMethod": "tinymist/sourceLocations"
+        },
+        "mmtPreviewRendererProvider": {
+          "actions": [
+            "register",
+            "render",
+            "commit",
+            "discard",
+            "locatePoint",
+            "locateSource",
+            "close"
+          ],
+          "frameKinds": [
+            "new",
+            "diff-v1"
+          ],
+          "maxSessions": 8,
+          "method": "mmt/previewRenderer.v1",
+          "protocolVersion": "mmt-preview-renderer-v1",
+          "retainedGenerationsPerSession": 2,
+          "sourceDigestDomain": "mmt-preview-compiler-snapshot-v1",
+          "transportEncoding": "base64"
         },
         "onEnter": true
       }

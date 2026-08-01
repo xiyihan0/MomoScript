@@ -703,8 +703,8 @@ try {
     { origin: `http://127.0.0.1:${address.port}` }
   );
   assert(
-    replay.before && replay.changed && replay.after && replay.restarted === 1 && replay.semanticLegend,
-    "Tinymist Worker replay and dynamic semantic-token legend baseline"
+    replay.before && replay.changed && replay.after && replay.restarted === 1 && replay.semanticLegend && replay.renderer,
+    "Tinymist Worker replay, renderer lifecycle, and dynamic semantic-token legend baseline"
   );
 
   const evidencePath = path.join(extensionRoot, "src", "test", "fixtures", "tinymist-web-evidence.json");

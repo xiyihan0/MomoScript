@@ -4,6 +4,17 @@ import {
   type TinymistCapabilityView
 } from "./tinymistCapabilities";
 import type { TypstProjectUpdate } from "./tinymistClient";
+import {
+  PREVIEW_RENDERER_METHOD,
+  PREVIEW_RENDERER_PROTOCOL_VERSION,
+  preparePreviewProject,
+  type PreviewProjectMount,
+  type PreviewRendererRenderOptions,
+  type PreviewRendererRenderResult,
+  type PreviewRendererResponse,
+  type PreviewRendererTransition,
+  type SynchronizedPreviewProject
+} from "./previewRendererProtocol";
 import { InMemoryTypstPackageCache, TypstPackageService } from "./typstPackageService";
 import type { TinymistBackendSession, TinymistTransport } from "./tinymistTransport";
 import {
@@ -31,6 +42,8 @@ export class TinymistHostSession {
   private readonly capabilityRegistry: TinymistCapabilityRegistry;
   private readonly packageService: TypstPackageService;
   private readonly removePackageStatusHandler: () => void;
+  private readonly previewRendererFileDigests = new Set<string>();
+  private previewRendererCacheGeneration = 0;
   private ready = false;
   private stopped = false;
   private restarting: Promise<void> | undefined;
@@ -121,6 +134,140 @@ export class TinymistHostSession {
         this.dispatch("tinymist/clientFailed", { message: String(error) });
       });
     }
+  }
+
+  async syncPreviewProject(
+    update: TypstProjectUpdate,
+    mount: PreviewProjectMount,
+    signal?: AbortSignal
+  ): Promise<SynchronizedPreviewProject> {
+    signal?.throwIfAborted();
+    await this.ensureReady();
+    signal?.throwIfAborted();
+    const synchronized = await preparePreviewProject(update, mount);
+    signal?.throwIfAborted();
+    const existing = this.projectState.projectForEntry(update.entryUri);
+    // MMT language and render projections intentionally have distinct project digests.
+    // The renderer overlays its complete immutable mount set on the accepted language
+    // world, so a matching authored snapshot is already the required compiler base.
+    if (existing
+      && existing.sourceUri === update.sourceUri
+      && existing.sourceVersion === update.sourceVersion
+      && existing.revision === update.revision
+      && existing.sourceContent === update.sourceContent) {
+      return synchronized;
+    }
+    this.packageService.registerProject(update, this.projectState.backendGeneration());
+    const transition = this.projectState.syncProject(update);
+    if (!transition.accepted) {
+      this.packageService.retireProject(update.projectDigest);
+      throw transition.error ?? new Error("Preview compiler base project was rejected");
+    }
+    return synchronized;
+  }
+
+  async previewRenderer(
+    update: TypstProjectUpdate,
+    mount: PreviewProjectMount,
+    options: PreviewRendererRenderOptions,
+    signal?: AbortSignal
+  ): Promise<PreviewRendererRenderResult> {
+    const synchronized = await this.syncPreviewProject(update, mount, signal);
+    signal?.throwIfAborted();
+    await this.registerPreviewRendererProject(synchronized, options.sessionId, signal);
+    signal?.throwIfAborted();
+    const response = await this.request<PreviewRendererResponse>(PREVIEW_RENDERER_METHOD, {
+      protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+      action: "render",
+      sessionId: options.sessionId,
+      snapshotToken: options.snapshotToken,
+      sourceDigest: synchronized.sourceDigest,
+      ...(options.baseGeneration === undefined ? {} : { baseGeneration: options.baseGeneration }),
+      ...(options.forceFull === undefined ? {} : { forceFull: options.forceFull })
+    }, signal);
+    return Object.freeze({ synchronized, response });
+  }
+
+  private async registerPreviewRendererProject(
+    synchronized: SynchronizedPreviewProject,
+    sessionId: string,
+    signal?: AbortSignal
+  ): Promise<void> {
+    const generation = this.backendGeneration();
+    if (this.previewRendererCacheGeneration !== generation) {
+      this.previewRendererCacheGeneration = generation;
+      this.previewRendererFileDigests.clear();
+    }
+    const files = new Map(synchronized.mounts.map((mount) => [mount.contentDigest, {
+      contentDigest: mount.contentDigest,
+      dataBase64: mount.dataBase64,
+    }] as const));
+    for (const font of synchronized.fonts) {
+      const existing = files.get(font.contentDigest);
+      if (existing && existing.dataBase64 !== font.dataBase64) {
+        throw new Error(`Preview renderer digest '${font.contentDigest}' has conflicting immutable bytes`);
+      }
+      files.set(font.contentDigest, font);
+    }
+    const mounts = synchronized.mounts.map((mount) => ({
+      path: mount.path,
+      contentDigest: mount.contentDigest,
+    }));
+    const request = async (contentDigests: readonly string[]): Promise<PreviewRendererResponse> => {
+      signal?.throwIfAborted();
+      return this.request(PREVIEW_RENDERER_METHOD, {
+        protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+        action: "register",
+        sessionId,
+        entryUri: synchronized.compilerEntryUri,
+        renderEntryUri: synchronized.project.entryUri,
+        sourceDigest: synchronized.sourceDigest,
+        fontDigests: synchronized.fonts.map((font) => font.contentDigest),
+        mounts,
+        files: contentDigests.map((digest) => {
+          const file = files.get(digest);
+          if (!file) throw new Error(`Preview renderer requested unknown file digest '${digest}'`);
+          return file;
+        }),
+      }, signal);
+    };
+    const initialDigests = [...files.keys()].filter((digest) => !this.previewRendererFileDigests.has(digest));
+    let response = await request(initialDigests);
+    if (response.status === "missingFiles") {
+      if (response.sessionId !== sessionId || response.sourceDigest !== synchronized.sourceDigest) {
+        throw new Error("Preview renderer missing-file response identity mismatch");
+      }
+      const missing = [...new Set(response.contentDigests)];
+      if (missing.length !== response.contentDigests.length || missing.some((digest) => !files.has(digest))) {
+        throw new Error("Preview renderer requested an invalid missing-file set");
+      }
+      for (const digest of missing) this.previewRendererFileDigests.delete(digest);
+      response = await request(missing);
+    }
+    if (response.status !== "registered"
+      || response.sessionId !== sessionId
+      || response.sourceDigest !== synchronized.sourceDigest) {
+      throw new Error(`Preview renderer did not register the immutable snapshot: ${JSON.stringify(response)}`);
+    }
+    for (const digest of files.keys()) this.previewRendererFileDigests.add(digest);
+  }
+
+  transitionPreviewRenderer(
+    transition: PreviewRendererTransition,
+    signal?: AbortSignal
+  ): Promise<PreviewRendererResponse> {
+    return this.request(PREVIEW_RENDERER_METHOD, {
+      protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+      ...transition
+    }, signal);
+  }
+
+  closePreviewRenderer(sessionId: string, signal?: AbortSignal): Promise<PreviewRendererResponse> {
+    return this.request(PREVIEW_RENDERER_METHOD, {
+      protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+      action: "close",
+      sessionId
+    }, signal);
   }
 
   projectForEntry(entryUri: string): TypstProjectUpdate | undefined {

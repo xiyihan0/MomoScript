@@ -1,6 +1,5 @@
 import { expect, test, type Page, waitForPreviewFrame } from "./fixtures";
 
-const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d/tinymist_bg.wasm.br?delivery=br-v1";
 const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
 
 interface InteractionState {
@@ -11,13 +10,16 @@ interface InteractionState {
   readonly indicatorCount: number;
   readonly cursorCount: number;
   readonly pageCount: number;
+  readonly visualKind: "svg" | "renderer" | null;
+  readonly rendererGeneration: number | null;
+  readonly rendererFrameKind: "new" | "diff-v1" | null;
   readonly cursor: { pageIndex: number; x: number; y: number } | null;
 }
 
 test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtime-export" }, async ({ page }) => {
   await page.route("https://**/*", async (route) => {
     const url = route.request().url();
-    if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
+    if (url === TYPST_COMPILER_WASM_URL) {
       await route.abort("connectionfailed");
       return;
     }
@@ -108,7 +110,7 @@ test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtim
 test("MMT Typst preview supports selectable text, workspace images, and bidirectional navigation", { tag: "@preview-navigation" }, async ({ page }) => {
   await page.route("https://**/*", async (route) => {
     const url = route.request().url();
-    if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
+    if (url === TYPST_COMPILER_WASM_URL) {
       await route.abort("connectionfailed");
       return;
     }
@@ -130,17 +132,25 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
   )(name, text), { name: "nested-workspace-image.mmt", text: source });
   await page.getByRole("button", { name: "Typst 预览" }).click();
   const previewFrame = await waitForPreviewFrame(page, sourceUri);
+  expect(await interactionState(page)).toMatchObject({
+    visualKind: "renderer",
+    rendererGeneration: 1,
+    rendererFrameKind: "new",
+  });
   await expect(previewFrame.locator("svg image").first()).toBeAttached({ timeout: 60_000 });
-  await expect.poll(() => page.evaluate(async () => {
-    const href = document.querySelector(".typst-preview-page svg image")?.getAttribute("href") ?? "";
+  await expect(page.locator(".typst-preview-page")).toHaveCount(0);
+  await expect(previewFrame.locator("svg")).toHaveCount(1);
+  await expect(previewFrame.locator("svg image").first().evaluate(async (element) => {
+    const href = element.getAttribute("href") ?? "";
     if (!href.startsWith("blob:")) return { external: false, loaded: false };
-    const response = await fetch(href);
-    const image = await response.blob();
-    return { external: true, loaded: response.ok && image.type === "image/png" && image.size > 0 };
-  })).toEqual({ external: true, loaded: true });
-  await expect(previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().evaluate((element) => (
-    element.closest("[data-span]")?.getAttribute("data-span") ?? null
-  ))).resolves.toMatch(/^[0-9a-f]+$/);
+    const probe = document.createElement("img");
+    const loaded = await new Promise<boolean>((resolve) => {
+      probe.addEventListener("load", () => resolve(probe.naturalWidth > 0 && probe.naturalHeight > 0), { once: true });
+      probe.addEventListener("error", () => resolve(false), { once: true });
+      probe.src = href;
+    });
+    return { external: true, loaded };
+  })).resolves.toEqual({ external: true, loaded: true });
 
   await expect(previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().evaluate((element) => {
     const bounds = element.getBoundingClientRect();
@@ -251,7 +261,7 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
 test("Typst preview keeps its scroll position across source-only rerenders", { tag: "@preview-navigation" }, async ({ page }) => {
   await page.route("https://**/*", async (route) => {
     const url = route.request().url();
-    if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
+    if (url === TYPST_COMPILER_WASM_URL) {
       await route.abort("connectionfailed");
       return;
     }
@@ -273,18 +283,26 @@ test("Typst preview keeps its scroll position across source-only rerenders", { t
   const previewFrame = await waitForPreviewFrame(page, sourceUri);
   const viewport = previewFrame.locator(".viewport");
   await expect(viewport.locator(".page svg")).toBeVisible();
+  await previewFrame.evaluate(() => {
+    const root = document.querySelector(".typst-renderer-root");
+    if (!root) throw new Error("renderer root is unavailable");
+    Reflect.set(globalThis, "__mmtRendererRootIdentity", root);
+  });
   const before = await viewport.evaluate((element) => {
     element.scrollTop = Math.min(900, element.scrollHeight - element.clientHeight);
     return element.scrollTop;
   });
   expect(before).toBeGreaterThan(100);
   await page.waitForTimeout(250);
-  const revision = await page.locator(".workbench-preview").getAttribute("data-preview-revision");
+  const rendererGeneration = (await interactionState(page)).rendererGeneration;
   await page.evaluate(({ name, text }) => (
     Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function
   )(name, text), { name: "scroll-stability.typ", text: `${source}// source-only edit\n` });
-  await expect.poll(() => page.locator(".workbench-preview").getAttribute("data-preview-revision"), { timeout: 60_000 })
-    .not.toBe(revision);
+  await expect.poll(async () => (await interactionState(page)).rendererGeneration, { timeout: 60_000 })
+    .not.toBe(rendererGeneration);
+  expect(await previewFrame.evaluate(() => (
+    Reflect.get(globalThis, "__mmtRendererRootIdentity") === document.querySelector(".typst-renderer-root")
+  ))).toBe(true);
   const after = await viewport.evaluate((element) => element.scrollTop);
   expect(Math.abs(after - before)).toBeLessThanOrEqual(2);
   await callFixture(page, { action: "overlay", point: { pageIndex: 0, x: 0.5, y: 0.5 } });
@@ -292,6 +310,42 @@ test("Typst preview keeps its scroll position across source-only rerenders", { t
   await page.waitForTimeout(250);
   const afterIndicator = await viewport.evaluate((element) => element.scrollTop);
   expect(Math.abs(afterIndicator - after)).toBeLessThanOrEqual(2);
+  expect(await previewFrame.evaluate(() => (
+    Reflect.get(globalThis, "__mmtRendererRootIdentity") === document.querySelector(".typst-renderer-root")
+  ))).toBe(true);
+  const retainedShape = async () => previewFrame.evaluate(() => {
+    const root = document.querySelector<SVGSVGElement>(".typst-renderer-root");
+    if (!root) throw new Error("renderer root is unavailable");
+    return {
+      nodes: root.querySelectorAll("*").length,
+      defsChildren: [...root.querySelectorAll(":scope > defs")]
+        .reduce((count, element) => count + element.childElementCount, 0),
+      styleRules: [...root.querySelectorAll<HTMLStyleElement>(":scope > style")]
+        .reduce((count, element) => count + (element.sheet?.cssRules.length ?? 0), 0),
+    };
+  });
+  const beforeRepeatedScroll = await retainedShape();
+  for (let iteration = 0; iteration < 10; iteration += 1) {
+    await viewport.evaluate((element, top) => { element.scrollTop = top; }, iteration % 2 === 0 ? 0 : after);
+    await page.waitForTimeout(50);
+  }
+  await viewport.evaluate((element, top) => { element.scrollTop = top; }, after);
+  await page.waitForTimeout(250);
+  expect(await retainedShape()).toEqual(beforeRepeatedScroll);
+  const beforeResync = await interactionState(page);
+  expect(await callFixture(page, { action: "resync-renderer" })).toBe(true);
+  await page.evaluate(({ name, text }) => (
+    Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function
+  )(name, text), { name: "scroll-stability.typ", text: `${source}// source-only edit\n// forced resync\n` });
+  await expect.poll(async () => {
+    const state = await interactionState(page);
+    return state.renderKey !== beforeResync.renderKey && state.rendererFrameKind === "new";
+  }, { timeout: 60_000 }).toBe(true);
+  expect(await previewFrame.evaluate(() => (
+    Reflect.get(globalThis, "__mmtRendererRootIdentity") === document.querySelector(".typst-renderer-root")
+  ))).toBe(true);
+  expect(Math.abs(await viewport.evaluate((element) => element.scrollTop) - after)).toBeLessThanOrEqual(2);
+  expect(await retainedShape()).toEqual(beforeRepeatedScroll);
 });
 
 async function callFixture(page: Page, request: Record<string, unknown>): Promise<unknown> {

@@ -16,22 +16,29 @@ if (!new Set(["apply", "verify", "build-promote", "promote", "repin"]).has(mode)
   throw new Error("usage: node patch-tinymist-artifacts.mjs apply|verify|build-promote|promote|repin");
 }
 
-const patchPath = path.join(root, pin.patch.path);
-await verifyFile(patchPath, { sha256: pin.patch.sha256 });
+const patches = pin.patches.map((entry) => ({
+  ...entry,
+  absolutePath: path.join(root, entry.path)
+}));
+for (const patch of patches) await verifyFile(patch.absolutePath, { sha256: patch.sha256 });
 const { stdout: head } = await run("git", ["rev-parse", "HEAD"], source, true);
 if (head.trim() !== pin.upstream.revision) {
   throw new Error(`Tinymist HEAD ${head.trim()} does not match ${pin.upstream.revision}`);
 }
 
-const alreadyApplied = await succeeds("git", ["apply", "--reverse", "--check", patchPath], source);
-if (!alreadyApplied) {
+const finalPatch = patches.at(-1);
+if (!finalPatch) throw new Error("Tinymist pin has no maintained patches");
+const seriesApplied = await succeeds("git", ["apply", "--reverse", "--check", finalPatch.absolutePath], source);
+if (!seriesApplied) {
   const { stdout: status } = await run("git", ["status", "--porcelain"], source, true);
-  if (status.trim()) throw new Error("Tinymist checkout must be clean before applying the maintained patch");
-  await run("git", ["apply", "--check", patchPath], source);
-  await run("git", ["apply", patchPath], source);
+  if (status.trim()) throw new Error("Tinymist checkout must be clean before applying the maintained patch series");
+  for (const patch of patches) {
+    await run("git", ["apply", "--check", patch.absolutePath], source);
+    await run("git", ["apply", patch.absolutePath], source);
+  }
 }
-if (!(await succeeds("git", ["apply", "--reverse", "--check", patchPath], source))) {
-  throw new Error("maintained Tinymist patch is not exactly reversible after apply");
+if (!(await succeeds("git", ["apply", "--reverse", "--check", finalPatch.absolutePath], source))) {
+  throw new Error(`maintained Tinymist patch series is not reversible after apply: ${finalPatch.path}`);
 }
 
 if (mode === "verify") {
@@ -103,7 +110,7 @@ if (mode === "build-promote" || mode === "promote" || mode === "repin") {
   await writeFile(
     path.join(root, "third_party", "tinymist", "SHA256SUMS"),
     [
-      `${pin.patch.sha256}  patches/0001-mmt-host-package-callback.patch`,
+      ...patches.map((patch) => `${patch.sha256}  ${path.relative(path.join(root, "third_party", "tinymist"), patch.absolutePath)}`),
       `${canonicalArtifacts.native.sha256}  ${canonicalArtifacts.native.relativePath}`,
       `${canonicalArtifacts.webJs.sha256}  ${canonicalArtifacts.webJs.relativePath}`,
       `${canonicalArtifacts.webWasm.sha256}  ${canonicalArtifacts.webWasm.relativePath}`

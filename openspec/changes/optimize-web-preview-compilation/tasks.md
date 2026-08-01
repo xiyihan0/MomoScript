@@ -54,20 +54,22 @@ Phase 3 was not started: full parse/semantic/resolve measured 0 ms p50 for every
 - [x] 4.4 Prove restart replay reconstructs only the newest complete project after any full/delta sequence
 - [x] 4.5 Prove rapid edits never publish stale diagnostics, preview, navigation maps, or exact-export state
 
-## 5. Optional qualified incremental renderer
+## 5. Qualified incremental renderer
 
-Phase 5 was not started: pinned Tinymist 0.15.2 exposes no qualified `diff-v1` producer preserving selectable text, debug locations, page identity, and immutable-artifact navigation.
-
-- [ ] 5.1 Capture a pinned producer/consumer protocol transcript for full vector state, `diff-v1`, gap recovery, cancellation, and restart on native and Web
-- [x] 5.2 Keep this phase unavailable if the producer cannot preserve selectable text, debug locations, page identity, and bounded partial rendering
-- [ ] 5.3 Add a persistent renderer session behind a feature flag without changing `PreviewArtifact` or `PreviewInteractionController` contracts
-- [ ] 5.4 Verify page insert/delete/reorder, zoom/scroll restore, cursor/indicator, outline, workspace images, and bidirectional navigation against full-render behavior
-- [ ] 5.5 Promote only if the post-Phase-3 benchmark proves material additional latency/DOM savings and all capability transcripts pass
+- [x] 5.1 Patch pinned Tinymist 0.15.2 with `mmt/previewRenderer.v1`, committed/staged generations, bounded sessions, and native/Web parity transcripts
+- [x] 5.2 Pin typst.ts 0.8.0-rc3 renderer binding/WASM and verify content-addressed offline delivery
+- [x] 5.3 Make the visible Webview the only DOM/viewport owner and load its runtime through the local Vite asset pipeline
+- [x] 5.4 Add a persistent viewport-windowed render session using `new`/`diff-v1`, `retrievePagesInfo`, `renderSvgDiff`, and exported `patchRoot`
+- [x] 5.5 Add generation-bound `mmt/previewLocation.v1` and `mmt/previewLocations.v1` providers and remove eager full-document geometry measurement
+- [x] 5.6 Add renderer-backed immutable artifacts and rebuild exact SVG/PNG/JPG/PDF exports from retained immutable inputs
+- [x] 5.7 Integrate staged render, visual-ready publication, commit/discard, resync, restart, and close into the runtime-owned latest-wins queue
+- [x] 5.8 Verify page changes, tall-page windows, selectable text, images, navigation, overlays, zoom/scroll, restart, rapid edits, and bounded buffers
+- [x] 5.9 Promote diff rendering only after native/Web parity, full-oracle differential, and required p50/p95 performance gates pass
 
 ## 6. Final cutover verification
 
-- [x] 6.1 Run focused Rust core/LSP tests plus TypeScript project-state, preview-artifact, preview-interaction, resource, runtime-owner, and exact-export contracts
-- [x] 6.2 Run real Chromium online/offline preview interaction and rapid-edit scenarios
-- [x] 6.3 Run native/Web project protocol parity and restart recovery scenarios
-- [x] 6.4 Publish before/after p50/p95 tables for every plane and fixture, including failures and fallbacks
-- [x] 6.5 Remove superseded full-update/cache paths only after the default path passes all gates; retain one explicit clean full-rebuild oracle for recovery and differential verification
+- [x] 6.1 Run focused Rust core/LSP and pinned Tinymist producer contract suites
+- [x] 6.2 Run TypeScript protocol, project-state, renderer-Webview, artifact, interaction, queue, runtime, and exact-export contracts
+- [x] 6.3 Run Chromium navigation, export, restart, rapid-edit, offline, and 500-edit boundedness scenarios
+- [x] 6.4 Publish full-oracle versus renderer p50/p95 tables for the generated one-long-page report fixture
+- [x] 6.5 Remove ordinary full-SVG publication only after default renderer passes every gate; retain one explicit sanitized-SVG oracle

@@ -17,7 +17,7 @@ MMT edit
        parse/sanitize -> mount/update DOM -> measure locations -> visual-ready
 ```
 
-The primary scope is A–C. Plane D remains instrumented because an end-to-end number that hides DOM work is not actionable.
+All four planes are in scope. Evidence from the real report makes plane D the remaining material bottleneck, so the renderer phase is active but capability-gated.
 
 Every preview request carries one trace id and reports at least:
 
@@ -28,8 +28,8 @@ Every preview request carries one trace id and reports at least:
 - full/delta project bytes and file upsert/delete counts;
 - shadow-VFS map/unmap/skip counts;
 - Typst compile/debug-output time;
-- SVG parse, DOM update, location measurement, and total visual-ready time;
-- coalesced, aborted, stale-discarded, or published outcome.
+- SVG parse, renderer request/response bytes and frame kind, renderer/base generation, viewport render time, patched/reused/removed nodes, page/window buffers, source-query count, full-oracle fallback count, DOM update, and total visual-ready time;
+- coalesced, aborted, stale-discarded, renderer-committed, or published outcome.
 
 Production logging remains bounded and disabled by default; benchmark builds retain detailed samples.
 
@@ -175,26 +175,30 @@ Performance state and artifact state remain separate:
 ```text
 stable live compiler path
   != projection revision
-  != mapping/location provider generation
+  != renderer session/generation
+  != location provider generation
   != RenderKey
 ```
 
-The location resolver for a displayed artifact captures its render key, mapping digest, coordinate version, revision, exact emitted entry bytes, and immutable measured debug-span map. Preview-to-source requests include the captured revision and are rejected if that generation has been evicted. Editor-to-preview requests reject a displayed artifact older than the editor source. No path performs rendered-text search or DOM-order inference.
+Each renderer backend session retains exactly two queryable `TypstDocument` generations: committed/displayed and staged. Rendering creates or replaces staged state without invalidating navigation for the committed artifact. A matching Webview visual-ready acknowledgement commits staged state; cancellation, staleness, failure, or close discards it. Location requests carry session, snapshot token, artifact digest, renderer generation, method, and coordinate version and never consult a newer document.
 
-A compiler path update may mutate the compiler universe only after the previous artifact has captured all mapping inputs required for navigation and exact export. The mutable compiler world is never queried to answer an old artifact.
+A lightweight renderer-backed `PreviewArtifact` stores immutable identity, artifact digest, and page geometry rather than canonical full-SVG bytes. Re-displaying a retained artifact reconstructs a full renderer state from its retained immutable inputs. Exact SVG/PNG/JPG/PDF export likewise rebuilds from pinned `RetainedRenderInputs` and `ImmutableRuntimeInputs`; no export reads mutable live compiler state or visible DOM.
 
-## 7. Optional Phase 4: Incremental renderer data plane
+## 7. Phase 4: Qualified incremental renderer data plane
 
-The installed typst.ts renderer can consume persistent-session vector data and exposes experimental `renderSvgDiff`; its DOM adapter accepts `new` and `diff-v1`. The current production compiler path, however, produces a full debug SVG and does not produce compatible deltas.
+Tinymist 0.15.2 is patched to expose a host-neutral `mmt/previewRenderer.v1` producer backed by `IncrSvgDocServer`. typst.ts 0.8.0-rc3 is pinned as the consumer. JSON-RPC transports the complete base64-encoded raw frame, including its `new,` or `diff-v1,` prefix, with byte length, digest, source digest, generation, and base generation validated before Webview delivery.
 
-Therefore this phase has a hard qualification gate:
+The host registers the same pinned font byte set used by the browser compiler as immutable, content-digested file records. The producer rebuilds its session font resolver from those records plus its base resolver, with the pinned records taking precedence; absent, invalid, oversized, or digest-mismatched fonts fail registration rather than producing missing or geometrically divergent glyph runs.
 
-1. pin a native/Web producer artifact and protocol version;
-2. prove full snapshot, delta, gap recovery, cancellation, page deletion/reorder, selectable text, debug locations, outline, export, and renderer restart;
-3. prove a material improvement after Phases 1–3;
-4. retain the full-SVG path until the new producer/consumer passes the same artifact/navigation suite.
+The visible Webview owns one persistent `RenderSession`, the only preview DOM, page shells, viewport, zoom, overlays, selectable text, and interaction event delegation. It uses `retrievePagesInfo`, `renderSvgDiff({window})`, and the package-exported `patchRoot` to patch only the visible document window. During scrolling it renders one screen around the viewport and retains at most eight populated page/window buffers. A tall page is windowed in document coordinates. A changed window rebuilds the WASM render session from a bounded replay log (at most 64 frames or 128 MiB), replaces rather than appends complete glyph/clip/style resource headers, and patches the existing visible SVG root. A forced `new` frame likewise replaces renderer state and resource headers without swapping the displayed root.
 
-No code is copied from Tinymist preview frontend. Integration occurs through a narrow producer/consumer protocol and existing runtime ownership.
+Source locations are queried on demand through generation-bound `mmt/previewLocation.v1` and `mmt/previewLocations.v1` requests. No ordinary diff render performs full-document geometry measurement. `getBoundingClientRect` is limited to viewport, zoom-anchor, and pointer-to-page coordinate conversion in the visible Webview.
+
+Visual-ready is a paint boundary, not merely a DOM-mutation boundary. The Webview awaits any viewport render queued by viewport restoration, two animation frames, and a final render-generation check before acknowledging the host. The full oracle uses the same paint boundary. Presentation qualification uses non-overlapping Chromium `Performance.TaskDuration` deltas from edit admission through that acknowledgement; overlapping internal DOM/renderer stage timers remain diagnostic only.
+
+Unknown base, sequence gap, restart, or digest mismatch returns `resync`; the host retries exactly once with a forced `new` frame. A second mismatch is a visible failure. The full sanitized-SVG path remains an explicit oracle for differential verification and recovery, never a silent per-edit fallback.
+
+The first Webview document is initialized once. Subsequent render/status messages do not replace it. Full-oracle publication sends compact sanitized SVG plus a digest-keyed image byte table so the Webview owns deduplicated Blob URL creation and revocation.
 
 ## 8. Rollout
 
@@ -204,7 +208,7 @@ Each phase has an independent feature flag and telemetry label:
 2. digest-based shadow mapping;
 3. stable preview compiler entry plus render deltas;
 4. shared projection plan;
-5. incremental MMT frontend;
-6. optional qualified renderer deltas.
+5. qualified persistent renderer with generation-bound locations;
+6. renderer default promotion after full-oracle differential and performance gates.
 
-Flags support immediate fallback to the clean full rebuild. Release promotion requires focused unit/contract tests, deterministic shadow equivalence, Chromium user-flow verification, Desktop/Web project-protocol parity, and the phase's benchmark target.
+`VITE_MMT_PREVIEW_DIFF_V1` / `mmt.preview.diffV1` remains off until native/Web producer transcripts, renderer-Webview contracts, navigation, export, restart, offline, and benchmark gates pass. After promotion, diff rendering is the default and full sanitized SVG is reachable only through the explicit oracle flag and differential tests.

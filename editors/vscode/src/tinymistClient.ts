@@ -1,6 +1,14 @@
 import type { TinymistCapabilityView } from "./tinymistCapabilities";
 export { serverRequestResponse } from "./tinymistCapabilities";
 import type { ProjectionKey, SourceContentKey, TypstProjectSnapshotKey } from "./runtimeIdentity";
+import type {
+  PreviewProjectMount,
+  PreviewRendererRenderOptions,
+  PreviewRendererRenderResult,
+  PreviewRendererResponse,
+  PreviewRendererTransition,
+  SynchronizedPreviewProject
+} from "./previewRendererProtocol";
 import {
   JsonRpcTinymistTransport,
   TinymistWorkerConnection,
@@ -24,6 +32,25 @@ export {
   type ProjectFileRotation,
   type RenderProjectAcceptance,
 } from "./typstProjectState";
+export {
+  PREVIEW_RENDERER_DIFF_V1_PREFIX,
+  PREVIEW_RENDERER_METHOD,
+  PREVIEW_RENDERER_NEW_PREFIX,
+  PREVIEW_RENDERER_PROTOCOL_VERSION,
+  preparePreviewProject,
+  validatePreviewRendererReady,
+  type PreviewProjectMount,
+  type PreviewRendererPoint,
+  type PreviewRendererPosition,
+  type PreviewRendererReady,
+  type PreviewRendererRequest,
+  type PreviewRendererRenderOptions,
+  type PreviewRendererRenderResult,
+  type PreviewRendererResponse,
+  type PreviewRendererSourceLocation,
+  type PreviewRendererTransition,
+  type SynchronizedPreviewProject,
+} from "./previewRendererProtocol";
 
 
 export type TypstVirtualFile =
@@ -153,6 +180,22 @@ export interface TinymistHostBackend {
   on(method: string, handler: (params: unknown) => void): { dispose(): void };
   request<T>(method: string, params: unknown, signal?: AbortSignal): Promise<T>;
   syncProject(update: TypstProjectUpdate): void;
+  syncPreviewProject(
+    update: TypstProjectUpdate,
+    mount: PreviewProjectMount,
+    signal?: AbortSignal
+  ): Promise<SynchronizedPreviewProject>;
+  previewRenderer(
+    update: TypstProjectUpdate,
+    mount: PreviewProjectMount,
+    options: PreviewRendererRenderOptions,
+    signal?: AbortSignal
+  ): Promise<PreviewRendererRenderResult>;
+  transitionPreviewRenderer(
+    transition: PreviewRendererTransition,
+    signal?: AbortSignal
+  ): Promise<PreviewRendererResponse>;
+  closePreviewRenderer(sessionId: string, signal?: AbortSignal): Promise<PreviewRendererResponse>;
   semanticTokensLegend?(): { tokenTypes: string[]; tokenModifiers: string[] } | undefined;
   closeProject(sourceUri: string, entryUri: string): boolean;
   projectForEntry(entryUri: string): TypstProjectUpdate | undefined;
@@ -319,6 +362,34 @@ export class TinymistWorkerClient implements TinymistHostBackend {
 
   syncProject(update: TypstProjectUpdate): void {
     this.session.syncProject(update);
+  }
+
+  syncPreviewProject(
+    update: TypstProjectUpdate,
+    mount: PreviewProjectMount,
+    signal?: AbortSignal
+  ): Promise<SynchronizedPreviewProject> {
+    return this.session.syncPreviewProject(update, mount, signal);
+  }
+
+  previewRenderer(
+    update: TypstProjectUpdate,
+    mount: PreviewProjectMount,
+    options: PreviewRendererRenderOptions,
+    signal?: AbortSignal
+  ): Promise<PreviewRendererRenderResult> {
+    return this.session.previewRenderer(update, mount, options, signal);
+  }
+
+  transitionPreviewRenderer(
+    transition: PreviewRendererTransition,
+    signal?: AbortSignal
+  ): Promise<PreviewRendererResponse> {
+    return this.session.transitionPreviewRenderer(transition, signal);
+  }
+
+  closePreviewRenderer(sessionId: string, signal?: AbortSignal): Promise<PreviewRendererResponse> {
+    return this.session.closePreviewRenderer(sessionId, signal);
   }
 
   projectForEntry(entryUri: string): TypstProjectUpdate | undefined {

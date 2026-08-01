@@ -16,7 +16,7 @@
     },
     "web": {
       "version": "0.15.2",
-      "wasmSha256": "2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d",
+      "wasmSha256": "2794e42b0823daba9e3a417909d9fce9c5d3338729a5644cec05b57f1eede037",
       "command": "TINYMIST_WEB_PKG=$PWD/vendor/tinymist-0.15.2 npm run test:tinymist-worker",
       "observed": {
         "import": "@preview/cetz:0.2.2",

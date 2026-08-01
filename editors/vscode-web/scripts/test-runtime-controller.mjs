@@ -120,6 +120,18 @@ const traceCounters = {
   shadowSkipped: 0,
   staleDiscards: 0,
   queueDepth: 0,
+  rendererRequestBytes: 0,
+  rendererResponseBytes: 0,
+  rendererFrameNew: 0,
+  rendererFrameDiffV1: 0,
+  rendererGeneration: 0,
+  rendererBaseGeneration: 0,
+  patchedNodes: 0,
+  reusedNodes: 0,
+  removedNodes: 0,
+  pageBuffers: 0,
+  sourceQueries: 0,
+  fullOracleFallbacks: 0,
 };
 const traceSample = (requestSequence) => ({
   traceId: `trace-${requestSequence}`,

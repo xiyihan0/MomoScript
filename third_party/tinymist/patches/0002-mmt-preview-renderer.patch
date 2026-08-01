@@ -1,0 +1,1688 @@
+diff --git a/crates/tinymist/Cargo.toml b/crates/tinymist/Cargo.toml
+index 9ea3d4be73c6a4f73edd2de35d4a0e9995281bd6..925a6eb579ea88c4598537b2645a46c8e39fdff6 100644
+--- a/crates/tinymist/Cargo.toml
++++ b/crates/tinymist/Cargo.toml
+@@ -45,6 +45,7 @@ reflexo-typst = { workspace = true, features = ["svg"] }
+ reflexo-vec2svg.workspace = true
+ rpds.workspace = true
+ serde.workspace = true
++sha2.workspace = true
+ serde_json.workspace = true
+ serde_yaml.workspace = true
+ strum.workspace = true
+diff --git a/crates/tinymist/src/lib.rs b/crates/tinymist/src/lib.rs
+index 482f4030d4aa68ad7da6fd7ac0b815707e0139dd..0fa69264465415c6ceda823b4ec0f2417db59fdc 100644
+--- a/crates/tinymist/src/lib.rs
++++ b/crates/tinymist/src/lib.rs
+@@ -54,6 +54,7 @@ mod log_;
+ mod lsp;
+ mod package_callback;
+ mod preview_location;
++mod preview_renderer;
+ mod resource;
+ mod server;
+ mod stats;
+diff --git a/crates/tinymist/src/lsp/init.rs b/crates/tinymist/src/lsp/init.rs
+index e6ee63ee3c25bbac15b2bc0812f3b680407b54fd..d4faf6ca18a65f1d53437a15967b6d9498df905b 100644
+--- a/crates/tinymist/src/lsp/init.rs
++++ b/crates/tinymist/src/lsp/init.rs
+@@ -208,6 +208,16 @@ impl Initializer for SuperInit {
+                         "previewToSourceMethod": "tinymist/previewLocation",
+                         "sourceToPreviewMethod": "tinymist/sourceLocations",
+                         "coordinateVersion": "typst-page-points-v1"
++                    },
++                    "mmtPreviewRendererProvider": {
++                        "method": "mmt/previewRenderer.v1",
++                        "protocolVersion": "mmt-preview-renderer-v1",
++                        "actions": ["register", "render", "commit", "discard", "locatePoint", "locateSource", "close"],
++                        "frameKinds": ["new", "diff-v1"],
++                        "transportEncoding": "base64",
++                        "sourceDigestDomain": "mmt-preview-compiler-snapshot-v1",
++                        "maxSessions": 8,
++                        "retainedGenerationsPerSession": 2
+                     }
+                 })),
+                 ..ServerCapabilities::default()
+diff --git a/crates/tinymist/src/preview_location.rs b/crates/tinymist/src/preview_location.rs
+index 5d00433e0eefd8f2a8e4f9904f9bc37113cfbf39..21334ab7cc966cbf3dfab722c8936770d11c7afe 100644
+--- a/crates/tinymist/src/preview_location.rs
++++ b/crates/tinymist/src/preview_location.rs
+@@ -41,32 +41,32 @@ pub(crate) struct PreviewLocationParams {
+ 
+ #[derive(Debug, Deserialize, Serialize)]
+ #[serde(rename_all = "camelCase")]
+-struct PreviewPoint {
+-    page_index: usize,
+-    x: f64,
+-    y: f64,
++pub(crate) struct PreviewPoint {
++    pub(crate) page_index: usize,
++    pub(crate) x: f64,
++    pub(crate) y: f64,
+ }
+ 
+ #[derive(Debug, Deserialize, Serialize)]
+ #[serde(rename_all = "camelCase")]
+ pub(crate) struct PreviewLocationResponse {
+-    uri: Url,
+-    range: LspRange,
++    pub(crate) uri: Url,
++    pub(crate) range: LspRange,
+ }
+ 
+ #[derive(Debug, Deserialize, Serialize)]
+ #[serde(rename_all = "camelCase")]
+ pub(crate) struct SourceLocationsParams {
+-    uri: Url,
+-    position: LspPosition,
++    pub(crate) uri: Url,
++    pub(crate) position: LspPosition,
+ }
+ 
+ #[derive(Debug, Deserialize, Serialize)]
+ #[serde(rename_all = "camelCase")]
+ pub(crate) struct SourceLocationResponse {
+-    page_index: usize,
+-    x: f64,
+-    y: f64,
++    pub(crate) page_index: usize,
++    pub(crate) x: f64,
++    pub(crate) y: f64,
+ }
+ 
+ impl ServerState {
+@@ -83,30 +83,13 @@ impl ServerState {
+         let query = CompilerQueryRequest::DocumentMetrics(DocumentMetricsRequest { path });
+         let (snapshot, _) = self.query_snapshot_with_stat(&query).ok()?;
+         let document = snapshot.snap.snap.success_doc.as_ref()?;
+-        let TypstDocument::Paged(document) = document else {
+-            return None;
+-        };
+-        let page = document.pages().get(params.position.page_index)?;
+-        let size = page.frame.size();
+-        if !params.position.x.is_finite()
+-            || !params.position.y.is_finite()
+-            || !(0.0..=1.0).contains(&params.position.x)
+-            || !(0.0..=1.0).contains(&params.position.y)
+-        {
+-            return None;
+-        }
+-        let click = Point::new(size.x * params.position.x, size.y * params.position.y);
+-        let (start, end) = jump_from_click(snapshot.world(), &page.frame, click)?;
+-        let span = start.span;
+-        let id = span.id()?;
+-        let source = snapshot.world().source(id).ok()?;
+-        let node = source.find(span)?;
+-        let base = node.range();
+-        let start = (base.start + start.offset).min(source.text().len());
+-        let end = (base.start + end.offset).min(source.text().len());
+-        let range = to_lsp_range(start.min(end)..start.max(end), &source, encoding);
+-        let uri = source_uri(snapshot.world(), &params.uri, &source, span)?;
+-        Some(PreviewLocationResponse { uri, range })
++        preview_location_for_snapshot(
++            snapshot.world(),
++            document,
++            encoding,
++            params.uri,
++            params.position,
++        )
+     }
+ 
+     pub(crate) fn source_locations(&mut self, params: SourceLocationsParams) -> ScheduleResult {
+@@ -122,14 +105,65 @@ impl ServerState {
+         let query = CompilerQueryRequest::DocumentMetrics(DocumentMetricsRequest { path });
+         let (snapshot, _) = self.query_snapshot_with_stat(&query).ok()?;
+         let document = snapshot.snap.snap.success_doc.as_ref()?;
+-        let id = snapshot.world().id_for_path(query.associated_path()?)?;
+-        let source = snapshot.world().source(id).ok()?;
+-        let cursor = tinymist_query::to_typst_position(params.position, encoding, &source)?;
+-        let locations = jump_from_cursor(document, &source, cursor);
+-        let TypstDocument::Paged(document) = document else {
+-            return None;
+-        };
+-        let locations = locations
++        source_locations_for_snapshot(
++            snapshot.world(),
++            document,
++            encoding,
++            params.uri,
++            params.position,
++        )
++    }
++}
++
++pub(crate) fn preview_location_for_snapshot(
++    world: &tinymist_project::LspWorld,
++    document: &TypstDocument,
++    encoding: tinymist_query::PositionEncoding,
++    uri: Url,
++    position: PreviewPoint,
++) -> Option<PreviewLocationResponse> {
++    let TypstDocument::Paged(document) = document else {
++        return None;
++    };
++    let page = document.pages().get(position.page_index)?;
++    let size = page.frame.size();
++    if !position.x.is_finite()
++        || !position.y.is_finite()
++        || !(0.0..=1.0).contains(&position.x)
++        || !(0.0..=1.0).contains(&position.y)
++    {
++        return None;
++    }
++    let click = Point::new(size.x * position.x, size.y * position.y);
++    let (start, end) = jump_from_click(world, &page.frame, click)?;
++    let span = start.span;
++    let id = span.id()?;
++    let source = world.source(id).ok()?;
++    let node = source.find(span)?;
++    let base = node.range();
++    let start = (base.start + start.offset).min(source.text().len());
++    let end = (base.start + end.offset).min(source.text().len());
++    let range = to_lsp_range(start.min(end)..start.max(end), &source, encoding);
++    let uri = source_uri(world, &uri, &source, span)?;
++    Some(PreviewLocationResponse { uri, range })
++}
++
++pub(crate) fn source_locations_for_snapshot(
++    world: &tinymist_project::LspWorld,
++    document: &TypstDocument,
++    encoding: tinymist_query::PositionEncoding,
++    uri: Url,
++    position: LspPosition,
++) -> Option<Vec<SourceLocationResponse>> {
++    let id = world.id_for_path(as_path_(&uri).as_path())?;
++    let source = world.source(id).ok()?;
++    let cursor = tinymist_query::to_typst_position(position, encoding, &source)?;
++    let locations = jump_from_cursor(document, &source, cursor);
++    let TypstDocument::Paged(document) = document else {
++        return None;
++    };
++    Some(
++        locations
+             .into_iter()
+             .filter_map(|location| {
+                 let page_index = location.page.get() - 1;
+@@ -145,9 +179,8 @@ impl ServerState {
+                     y: (location.point.y.to_pt() / height).clamp(0.0, 1.0),
+                 })
+             })
+-            .collect();
+-        Some(locations)
+-    }
++            .collect(),
++    )
+ }
+ 
+ fn schedule_response(value: impl Serialize) -> ScheduleResult {
+diff --git a/crates/tinymist/src/preview_renderer.rs b/crates/tinymist/src/preview_renderer.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc2171d79f
+--- /dev/null
++++ b/crates/tinymist/src/preview_renderer.rs
+@@ -0,0 +1,1428 @@
++//! Host-facing incremental preview vector data plane.
++//!
++//! This deliberately exposes only the stateful vector producer already used by
++//! Tinymist preview. Transport, DOM ownership, navigation, and export remain
++//! host responsibilities.
++
++use std::collections::{HashMap, HashSet};
++use std::path::{Path, PathBuf};
++use std::sync::Arc;
++
++use base64::{engine::general_purpose::STANDARD as BASE64, Engine};
++use lsp_types::{request::Request, Position as LspPosition, Url};
++use reflexo_typst::{ShadowApi, TaskInputs, WorldComputeGraph};
++use reflexo_vec2svg::IncrSvgDocServer;
++use serde::{Deserialize, Serialize};
++use serde_json::Value as JsonValue;
++use sha2::{Digest, Sha256};
++use sync_ls::{internal_error, invalid_params, just_ok, ScheduleResult};
++use tinymist_project::{
++    diag::print_diagnostics_to_string,
++    font::{memory::MemoryFontSearcher, FontResolverImpl},
++    EntryState, LspCompiledArtifact, LspWorld,
++};
++use tinymist_std::{typst::TypstDocument, ImmutPath};
++use typst::{foundations::Bytes, syntax::VirtualPath, World};
++
++use crate::{
++    as_path_,
++    preview_location::{
++        preview_location_for_snapshot, source_locations_for_snapshot, PreviewLocationResponse,
++        PreviewPoint, SourceLocationResponse,
++    },
++    ServerState,
++};
++
++const PROTOCOL_VERSION: &str = "mmt-preview-renderer-v1";
++const DIFF_V1_PREFIX: &[u8] = b"diff-v1,";
++const NEW_PREFIX: &[u8] = b"new,";
++const MAX_PREVIEW_RENDER_SESSIONS: usize = 8;
++
++const MAX_PREVIEW_MOUNT_FILES: usize = 1024;
++const MAX_PREVIEW_FONT_FILES: usize = 64;
++const MAX_PREVIEW_MOUNT_FILE_BYTES: usize = 64 * 1024 * 1024;
++const MAX_PREVIEW_MOUNT_TOTAL_BYTES: usize = 256 * 1024 * 1024;
++pub(crate) enum PreviewRendererRequest {}
++const MAX_PREVIEW_FILE_CACHE_RECORDS: usize = 4096;
++const MAX_PREVIEW_FILE_CACHE_BYTES: usize = 512 * 1024 * 1024;
++
++impl Request for PreviewRendererRequest {
++    type Params = PreviewRendererParams;
++    type Result = JsonValue;
++    const METHOD: &'static str = "mmt/previewRenderer.v1";
++}
++
++#[derive(Debug, Deserialize, Serialize)]
++#[serde(
++    rename_all = "camelCase",
++    rename_all_fields = "camelCase",
++    tag = "action"
++)]
++pub(crate) enum PreviewRendererParams {
++    #[serde(rename = "register")]
++    Register {
++        protocol_version: String,
++        session_id: String,
++        entry_uri: Url,
++        render_entry_uri: Url,
++        source_digest: String,
++        mounts: Vec<PreviewRendererMount>,
++        #[serde(default)]
++        font_digests: Vec<String>,
++        files: Vec<PreviewRendererFileRecord>,
++    },
++    #[serde(rename = "render")]
++    Render {
++        protocol_version: String,
++        session_id: String,
++        snapshot_token: String,
++        source_digest: String,
++        base_generation: Option<u64>,
++        #[serde(default)]
++        force_full: bool,
++    },
++    #[serde(rename = "commit")]
++    Commit {
++        protocol_version: String,
++        session_id: String,
++        snapshot_token: String,
++        generation: u64,
++    },
++    #[serde(rename = "discard")]
++    Discard {
++        protocol_version: String,
++        session_id: String,
++        snapshot_token: String,
++        generation: u64,
++    },
++    #[serde(rename = "locatePoint")]
++    LocatePoint {
++        protocol_version: String,
++        session_id: String,
++        generation: u64,
++        position: PreviewPoint,
++    },
++    #[serde(rename = "locateSource")]
++    LocateSource {
++        protocol_version: String,
++        session_id: String,
++        generation: u64,
++        uri: Url,
++        position: LspPosition,
++    },
++    #[serde(rename = "close")]
++    Close {
++        protocol_version: String,
++        session_id: String,
++    },
++}
++
++#[derive(Debug, Deserialize, Serialize)]
++#[serde(rename_all = "camelCase")]
++pub(crate) struct PreviewRendererMount {
++    path: String,
++    content_digest: String,
++}
++
++#[derive(Debug, Deserialize, Serialize)]
++#[serde(rename_all = "camelCase")]
++pub(crate) struct PreviewRendererFileRecord {
++    content_digest: String,
++    data_base64: String,
++}
++
++#[derive(Debug, Serialize)]
++#[serde(
++    rename_all = "camelCase",
++    rename_all_fields = "camelCase",
++    tag = "status"
++)]
++pub(crate) enum PreviewRendererResponse {
++    #[serde(rename = "registered")]
++    Registered {
++        protocol_version: &'static str,
++        session_id: String,
++        source_digest: String,
++    },
++    #[serde(rename = "missingFiles")]
++    MissingFiles {
++        protocol_version: &'static str,
++        session_id: String,
++        source_digest: String,
++        content_digests: Vec<String>,
++    },
++    #[serde(rename = "ready")]
++    Ready {
++        protocol_version: &'static str,
++        session_id: String,
++        snapshot_token: String,
++        source_digest: String,
++        artifact_digest: String,
++        compiler_revision: usize,
++        generation: u64,
++        base_generation: u64,
++        frame_kind: &'static str,
++        data_base64: String,
++        byte_length: usize,
++        page_count: usize,
++    },
++    #[serde(rename = "resync")]
++    Resync {
++        protocol_version: &'static str,
++        session_id: String,
++        snapshot_token: String,
++        expected_base_generation: Option<u64>,
++    },
++    #[serde(rename = "locatedPoint")]
++    LocatedPoint {
++        protocol_version: &'static str,
++        session_id: String,
++        generation: u64,
++        location: Option<PreviewLocationResponse>,
++    },
++    #[serde(rename = "locatedSource")]
++    LocatedSource {
++        protocol_version: &'static str,
++        session_id: String,
++        generation: u64,
++        locations: Vec<SourceLocationResponse>,
++    },
++    #[serde(rename = "unavailable")]
++    Unavailable {
++        protocol_version: &'static str,
++        session_id: String,
++        generation: u64,
++    },
++    #[serde(rename = "committed")]
++    Committed {
++        protocol_version: &'static str,
++        session_id: String,
++        snapshot_token: String,
++        generation: u64,
++    },
++    #[serde(rename = "discarded")]
++    Discarded {
++        protocol_version: &'static str,
++        session_id: String,
++        snapshot_token: String,
++        generation: u64,
++    },
++    #[serde(rename = "closed")]
++    Closed {
++        protocol_version: &'static str,
++        session_id: String,
++    },
++}
++
++pub(crate) struct PreviewRendererState {
++    sessions: HashMap<String, PreviewRendererSession>,
++    file_records: HashMap<String, CachedPreviewFile>,
++    file_record_bytes: usize,
++    clock: u64,
++}
++
++struct PreviewRendererSession {
++    registered: Option<RegisteredPreviewProject>,
++    live_world: Option<LspWorld>,
++    base_font_resolver: Option<Arc<FontResolverImpl>>,
++    mount_digests: HashMap<PathBuf, String>,
++    mount_byte_lengths: HashMap<PathBuf, usize>,
++    font_digests: Vec<String>,
++    committed_renderer: Option<IncrSvgDocServer>,
++    staged_renderer: Option<IncrSvgDocServer>,
++    committed: Option<PreviewRendererGeneration>,
++    staged: Option<StagedPreviewRendererGeneration>,
++    last_used: u64,
++}
++
++#[derive(Clone)]
++struct RegisteredPreviewProject {
++    compiler_entry_uri: Url,
++    render_entry_uri: Url,
++    source_digest: String,
++}
++
++#[derive(Clone)]
++struct RegisteredPreviewMount {
++    path: PathBuf,
++    content_digest: String,
++}
++
++struct CachedPreviewFile {
++    bytes: Bytes,
++    byte_length: usize,
++    last_used: u64,
++}
++
++#[derive(Clone)]
++struct PreviewRendererGeneration {
++    snapshot_token: String,
++    source_digest: String,
++    artifact_digest: String,
++    compiler_revision: usize,
++    generation: u64,
++    page_count: usize,
++    artifact: LspCompiledArtifact,
++    entry_uri: Url,
++}
++
++struct StagedPreviewRendererGeneration {
++    state: PreviewRendererGeneration,
++    base_generation: u64,
++    frame_kind: &'static str,
++    data_base64: String,
++    byte_length: usize,
++}
++
++impl StagedPreviewRendererGeneration {
++    fn response(&self, session_id: String) -> PreviewRendererResponse {
++        PreviewRendererResponse::Ready {
++            protocol_version: PROTOCOL_VERSION,
++            session_id,
++            snapshot_token: self.state.snapshot_token.clone(),
++            source_digest: self.state.source_digest.clone(),
++            artifact_digest: self.state.artifact_digest.clone(),
++            compiler_revision: self.state.compiler_revision,
++            generation: self.state.generation,
++            base_generation: self.base_generation,
++            frame_kind: self.frame_kind,
++            data_base64: self.data_base64.clone(),
++            byte_length: self.byte_length,
++            page_count: self.state.page_count,
++        }
++    }
++}
++
++impl PreviewRendererSession {
++    fn new(last_used: u64) -> Self {
++        Self {
++            registered: None,
++            live_world: None,
++            base_font_resolver: None,
++            mount_digests: HashMap::new(),
++            mount_byte_lengths: HashMap::new(),
++            font_digests: Vec::new(),
++            committed_renderer: None,
++            staged_renderer: None,
++            committed: None,
++            staged: None,
++            last_used,
++        }
++    }
++
++    fn expected_base_generation(&self) -> Option<u64> {
++        self.committed
++            .as_ref()
++            .map(|generation| generation.generation)
++    }
++}
++
++impl Default for PreviewRendererState {
++    fn default() -> Self {
++        Self {
++            sessions: HashMap::new(),
++            file_records: HashMap::new(),
++            file_record_bytes: 0,
++            clock: 0,
++        }
++    }
++}
++
++impl PreviewRendererState {
++    fn touch(&mut self) -> u64 {
++        self.clock = self.clock.checked_add(1).unwrap_or(1);
++        self.clock
++    }
++
++    fn ensure_capacity_for(&mut self, session_id: &str) {
++        if self.sessions.contains_key(session_id)
++            || self.sessions.len() < MAX_PREVIEW_RENDER_SESSIONS
++        {
++            return;
++        }
++        if let Some(oldest) = self
++            .sessions
++            .iter()
++            .min_by_key(|(_, session)| session.last_used)
++            .map(|(id, _)| id.clone())
++        {
++            self.sessions.remove(&oldest);
++        }
++    }
++
++    fn ensure_file_capacity(&mut self, added_bytes: usize) -> Result<(), sync_ls::ResponseError> {
++        if added_bytes > MAX_PREVIEW_FILE_CACHE_BYTES {
++            return Err(invalid_params(
++                "preview renderer file cache item exceeds its byte limit",
++            ));
++        }
++        while self.file_records.len() >= MAX_PREVIEW_FILE_CACHE_RECORDS
++            || self.file_record_bytes.saturating_add(added_bytes) > MAX_PREVIEW_FILE_CACHE_BYTES
++        {
++            let Some(candidate) = self
++                .file_records
++                .iter()
++                .min_by_key(|(_, record)| record.last_used)
++                .map(|(digest, _)| digest.clone())
++            else {
++                return Err(invalid_params(
++                    "preview renderer immutable file cache is exhausted",
++                ));
++            };
++            if let Some(record) = self.file_records.remove(&candidate) {
++                self.file_record_bytes = self.file_record_bytes.saturating_sub(record.byte_length);
++            }
++        }
++        Ok(())
++    }
++
++    fn cache_file_record(
++        &mut self,
++        content_digest: String,
++        bytes: Vec<u8>,
++    ) -> Result<(), sync_ls::ResponseError> {
++        let last_used = self.touch();
++        if let Some(record) = self.file_records.get_mut(&content_digest) {
++            record.last_used = last_used;
++            return Ok(());
++        }
++        self.ensure_file_capacity(bytes.len())?;
++        let byte_length = bytes.len();
++        self.file_records.insert(
++            content_digest,
++            CachedPreviewFile {
++                bytes: Bytes::new(bytes),
++                byte_length,
++                last_used,
++            },
++        );
++        self.file_record_bytes += byte_length;
++        Ok(())
++    }
++}
++
++impl ServerState {
++    pub(crate) fn preview_renderer(&mut self, params: PreviewRendererParams) -> ScheduleResult {
++        validate_params(&params)?;
++        let response = self.preview_renderer_(params)?;
++        let value =
++            serde_json::to_value(response).map_err(|error| internal_error(error.to_string()))?;
++        just_ok(value)
++    }
++
++    fn preview_renderer_(
++        &mut self,
++        params: PreviewRendererParams,
++    ) -> Result<PreviewRendererResponse, sync_ls::ResponseError> {
++        match params {
++            PreviewRendererParams::Register {
++                session_id,
++                entry_uri,
++                render_entry_uri,
++                source_digest,
++                mounts,
++                font_digests,
++                files,
++                ..
++            } => self.preview_renderer_register(
++                session_id,
++                entry_uri,
++                render_entry_uri,
++                source_digest,
++                mounts,
++                font_digests,
++                files,
++            ),
++            PreviewRendererParams::Render {
++                session_id,
++                snapshot_token,
++                source_digest,
++                base_generation,
++                force_full,
++                ..
++            } => self.preview_renderer_render(
++                session_id,
++                snapshot_token,
++                source_digest,
++                base_generation,
++                force_full,
++            ),
++            PreviewRendererParams::Commit {
++                session_id,
++                snapshot_token,
++                generation,
++                ..
++            } => {
++                let state = &mut self.preview_renderer;
++                let last_used = state.touch();
++                let Some(session) = state.sessions.get_mut(&session_id) else {
++                    return Ok(resync(session_id, snapshot_token, None));
++                };
++                session.last_used = last_used;
++                let matches = session.staged.as_ref().is_some_and(|staged| {
++                    staged.state.snapshot_token == snapshot_token
++                        && staged.state.generation == generation
++                });
++                if !matches {
++                    return Ok(resync(
++                        session_id,
++                        snapshot_token,
++                        session.expected_base_generation(),
++                    ));
++                }
++                let staged = session
++                    .staged
++                    .take()
++                    .expect("validated staged renderer generation");
++                session.committed = Some(staged.state);
++                session.committed_renderer = session.staged_renderer.take();
++                Ok(PreviewRendererResponse::Committed {
++                    protocol_version: PROTOCOL_VERSION,
++                    session_id,
++                    snapshot_token,
++                    generation,
++                })
++            }
++            PreviewRendererParams::Discard {
++                session_id,
++                snapshot_token,
++                generation,
++                ..
++            } => {
++                let state = &mut self.preview_renderer;
++                let last_used = state.touch();
++                let Some(session) = state.sessions.get_mut(&session_id) else {
++                    return Ok(resync(session_id, snapshot_token, None));
++                };
++                session.last_used = last_used;
++                let matches = session.staged.as_ref().is_some_and(|staged| {
++                    staged.state.snapshot_token == snapshot_token
++                        && staged.state.generation == generation
++                });
++                if !matches {
++                    return Ok(resync(
++                        session_id,
++                        snapshot_token,
++                        session.expected_base_generation(),
++                    ));
++                }
++                session.staged = None;
++                session.staged_renderer = None;
++                Ok(PreviewRendererResponse::Discarded {
++                    protocol_version: PROTOCOL_VERSION,
++                    session_id,
++                    snapshot_token,
++                    generation,
++                })
++            }
++            PreviewRendererParams::LocatePoint {
++                session_id,
++                generation,
++                position,
++                ..
++            } => {
++                let encoding = self.const_config().position_encoding;
++                let state = &mut self.preview_renderer;
++                let last_used = state.touch();
++                let Some(session) = state.sessions.get_mut(&session_id) else {
++                    return Ok(PreviewRendererResponse::Unavailable {
++                        protocol_version: PROTOCOL_VERSION,
++                        session_id,
++                        generation,
++                    });
++                };
++                session.last_used = last_used;
++                let Some(committed) = session
++                    .committed
++                    .as_ref()
++                    .filter(|state| state.generation == generation)
++                else {
++                    return Ok(PreviewRendererResponse::Unavailable {
++                        protocol_version: PROTOCOL_VERSION,
++                        session_id,
++                        generation,
++                    });
++                };
++                let location = committed.artifact.doc.as_ref().and_then(|document| {
++                    preview_location_for_snapshot(
++                        committed.artifact.world(),
++                        document,
++                        encoding,
++                        committed.entry_uri.clone(),
++                        position,
++                    )
++                });
++                Ok(PreviewRendererResponse::LocatedPoint {
++                    protocol_version: PROTOCOL_VERSION,
++                    session_id,
++                    generation,
++                    location,
++                })
++            }
++            PreviewRendererParams::LocateSource {
++                session_id,
++                generation,
++                uri,
++                position,
++                ..
++            } => {
++                let encoding = self.const_config().position_encoding;
++                let state = &mut self.preview_renderer;
++                let last_used = state.touch();
++                let Some(session) = state.sessions.get_mut(&session_id) else {
++                    return Ok(PreviewRendererResponse::Unavailable {
++                        protocol_version: PROTOCOL_VERSION,
++                        session_id,
++                        generation,
++                    });
++                };
++                session.last_used = last_used;
++                let Some(committed) = session
++                    .committed
++                    .as_ref()
++                    .filter(|state| state.generation == generation)
++                else {
++                    return Ok(PreviewRendererResponse::Unavailable {
++                        protocol_version: PROTOCOL_VERSION,
++                        session_id,
++                        generation,
++                    });
++                };
++                let locations = committed
++                    .artifact
++                    .doc
++                    .as_ref()
++                    .and_then(|document| {
++                        source_locations_for_snapshot(
++                            committed.artifact.world(),
++                            document,
++                            encoding,
++                            uri,
++                            position,
++                        )
++                    })
++                    .unwrap_or_default();
++                Ok(PreviewRendererResponse::LocatedSource {
++                    protocol_version: PROTOCOL_VERSION,
++                    session_id,
++                    generation,
++                    locations,
++                })
++            }
++            PreviewRendererParams::Close { session_id, .. } => {
++                self.preview_renderer.sessions.remove(&session_id);
++                Ok(PreviewRendererResponse::Closed {
++                    protocol_version: PROTOCOL_VERSION,
++                    session_id,
++                })
++            }
++        }
++    }
++
++    fn preview_renderer_register(
++        &mut self,
++        session_id: String,
++        entry_uri: Url,
++        render_entry_uri: Url,
++        source_digest: String,
++        mounts: Vec<PreviewRendererMount>,
++        font_digests: Vec<String>,
++        files: Vec<PreviewRendererFileRecord>,
++    ) -> Result<PreviewRendererResponse, sync_ls::ResponseError> {
++        let render_path = as_path_(&render_entry_uri);
++        let canonical_entry = canonical_path(&render_path)?;
++        let mount_root = preview_mount_root(&canonical_entry)?;
++        let registered_mounts =
++            validate_preview_mounts(mounts, &canonical_entry, &mount_root, &source_digest)?;
++        let mut referenced = registered_mounts
++            .iter()
++            .map(|mount| mount.content_digest.clone())
++            .collect::<HashSet<_>>();
++        let mut seen_fonts = HashSet::new();
++        for digest in &font_digests {
++            validate_digest("font digest", digest)?;
++            if !seen_fonts.insert(digest.clone()) {
++                return Err(invalid_params("preview renderer font digests must be unique"));
++            }
++            referenced.insert(digest.clone());
++        }
++        let mut seen_files = HashSet::new();
++        let mut decoded_files = Vec::with_capacity(files.len());
++        for file in files {
++            validate_digest("file contentDigest", &file.content_digest)?;
++            if !referenced.contains(&file.content_digest) {
++                return Err(invalid_params(
++                    "preview renderer file record is not referenced by the snapshot",
++                ));
++            }
++            if !seen_files.insert(file.content_digest.clone()) {
++                return Err(invalid_params(
++                    "preview renderer file record digests must be unique",
++                ));
++            }
++            if file.data_base64.len() > MAX_PREVIEW_MOUNT_FILE_BYTES.saturating_mul(2) {
++                return Err(invalid_params(
++                    "preview renderer file exceeds its size limit",
++                ));
++            }
++            let bytes = BASE64
++                .decode(file.data_base64.as_bytes())
++                .map_err(|_| invalid_params("preview renderer file is not valid base64"))?;
++            if bytes.len() > MAX_PREVIEW_MOUNT_FILE_BYTES {
++                return Err(invalid_params(
++                    "preview renderer file exceeds its size limit",
++                ));
++            }
++            if canonical_bytes_digest("mmt-project-file-v1", &[&bytes]) != file.content_digest {
++                return Err(invalid_params(
++                    "preview renderer file content digest does not match its bytes",
++                ));
++            }
++            decoded_files.push((file.content_digest, bytes));
++        }
++
++        {
++            let state = &mut self.preview_renderer;
++            state.ensure_capacity_for(&session_id);
++            for (digest, bytes) in decoded_files {
++                state.cache_file_record(digest, bytes)?;
++            }
++        }
++        let (
++            compatible,
++            current_world,
++            current_digests,
++            current_lengths,
++            current_font_digests,
++            current_base_font_resolver,
++        ) = self
++            .preview_renderer
++            .sessions
++            .get(&session_id)
++            .map(|session| {
++                let compatible = session.registered.as_ref().is_some_and(|registered| {
++                    registered.compiler_entry_uri == entry_uri
++                        && registered.render_entry_uri == render_entry_uri
++                }) && session.live_world.is_some();
++                if compatible {
++                    (
++                        true,
++                        session.live_world.clone(),
++                        session.mount_digests.clone(),
++                        session.mount_byte_lengths.clone(),
++                        session.font_digests.clone(),
++                        session.base_font_resolver.clone(),
++                    )
++                } else {
++                    (false, None, HashMap::new(), HashMap::new(), Vec::new(), None)
++                }
++            })
++            .unwrap_or_else(|| (false, None, HashMap::new(), HashMap::new(), Vec::new(), None));
++        let next_digests = registered_mounts
++            .iter()
++            .map(|mount| (mount.path.clone(), mount.content_digest.clone()))
++            .collect::<HashMap<_, _>>();
++        let changed_mounts = registered_mounts
++            .iter()
++            .filter(|mount| current_digests.get(&mount.path) != Some(&mount.content_digest))
++            .cloned()
++            .collect::<Vec<_>>();
++        let fonts_changed = current_font_digests != font_digests;
++        let mut missing = changed_mounts
++            .iter()
++            .filter(|mount| {
++                !self
++                    .preview_renderer
++                    .file_records
++                    .contains_key(&mount.content_digest)
++            })
++            .map(|mount| mount.content_digest.clone())
++            .collect::<Vec<_>>();
++        missing.extend(font_digests.iter().filter(|digest| {
++            !self.preview_renderer.file_records.contains_key(*digest)
++        }).cloned());
++        missing.sort();
++        missing.dedup();
++        if !missing.is_empty() {
++            return Ok(PreviewRendererResponse::MissingFiles {
++                protocol_version: PROTOCOL_VERSION,
++                session_id,
++                source_digest,
++                content_digests: missing,
++            });
++        }
++        let mut next_lengths = HashMap::with_capacity(registered_mounts.len());
++        let mut project_bytes = 0usize;
++        for mount in &registered_mounts {
++            let byte_length = if current_digests.get(&mount.path) == Some(&mount.content_digest) {
++                *current_lengths.get(&mount.path).ok_or_else(|| {
++                    internal_error("preview renderer live mount length is missing")
++                })?
++            } else {
++                self.preview_renderer
++                    .file_records
++                    .get(&mount.content_digest)
++                    .expect("validated renderer file record")
++                    .byte_length
++            };
++            project_bytes = project_bytes
++                .checked_add(byte_length)
++                .ok_or_else(|| invalid_params("preview renderer project size overflow"))?;
++            if project_bytes > MAX_PREVIEW_MOUNT_TOTAL_BYTES {
++                return Err(invalid_params(
++                    "preview renderer project exceeds its size limit",
++                ));
++            }
++            next_lengths.insert(mount.path.clone(), byte_length);
++        }
++        let mut sized_digests = registered_mounts
++            .iter()
++            .map(|mount| mount.content_digest.as_str())
++            .collect::<HashSet<_>>();
++        for digest in &font_digests {
++            if sized_digests.insert(digest.as_str()) {
++                project_bytes = project_bytes
++                    .checked_add(self.preview_renderer.file_records[digest].byte_length)
++                    .ok_or_else(|| invalid_params("preview renderer project size overflow"))?;
++            }
++        }
++        if project_bytes > MAX_PREVIEW_MOUNT_TOTAL_BYTES {
++            return Err(invalid_params("preview renderer project exceeds its size limit"));
++        }
++
++        if compatible
++            && changed_mounts.is_empty()
++            && !fonts_changed
++            && current_digests.len() == next_digests.len()
++        {
++            let state = &mut self.preview_renderer;
++            let last_used = state.touch();
++            let session = state
++                .sessions
++                .get_mut(&session_id)
++                .expect("compatible renderer session");
++            session.last_used = last_used;
++            session.registered = Some(RegisteredPreviewProject {
++                compiler_entry_uri: entry_uri,
++                render_entry_uri,
++                source_digest: source_digest.clone(),
++            });
++            return Ok(PreviewRendererResponse::Registered {
++                protocol_version: PROTOCOL_VERSION,
++                session_id,
++                source_digest,
++            });
++        }
++
++        let render_entry = renderer_entry_state(&canonical_entry, &mount_root)?;
++        let mut next_world = if let Some(world) = current_world {
++            world
++        } else {
++            let compiler_path = as_path_(&entry_uri);
++            let mut selected = None;
++            for project in self.project.compiler.projects() {
++                let snap = project.snapshot();
++                let world = snap.world();
++                let Some(compiler_id) = world.id_for_path(&compiler_path) else {
++                    continue;
++                };
++                if world.source(compiler_id).is_err() {
++                    continue;
++                }
++                selected = Some(world.task(TaskInputs {
++                    entry: Some(render_entry.clone()),
++                    inputs: None,
++                }));
++                break;
++            }
++            selected.ok_or_else(|| {
++                internal_error("preview renderer base compiler project is not ready")
++            })?
++        };
++        let base_font_resolver = current_base_font_resolver
++            .unwrap_or_else(|| next_world.font_resolver.clone());
++        if fonts_changed {
++            let mut searcher = MemoryFontSearcher::new();
++            for digest in &font_digests {
++                let record = self
++                    .preview_renderer
++                    .file_records
++                    .get(digest)
++                    .expect("validated renderer font record");
++                let previous_count = searcher.fonts.len();
++                searcher.add_memory_font(record.bytes.clone());
++                if searcher.fonts.len() == previous_count {
++                    return Err(invalid_params("preview renderer font record is not a valid font"));
++                }
++            }
++            searcher.extend(
++                base_font_resolver
++                    .fonts()
++                    .map(|(info, slot)| (info.clone(), slot.clone())),
++            );
++            next_world.font_resolver = Arc::new(searcher.build());
++        }
++        for path in current_digests.keys() {
++            if !next_digests.contains_key(path) {
++                next_world.unmap_shadow(path).map_err(|error| {
++                    internal_error(format!(
++                        "preview renderer cannot delete mount '{}': {error}",
++                        path.display()
++                    ))
++                })?;
++            }
++        }
++        for mount in &changed_mounts {
++            let record = self
++                .preview_renderer
++                .file_records
++                .get(&mount.content_digest)
++                .expect("validated renderer file record");
++            next_world
++                .map_shadow(&mount.path, record.bytes.clone())
++                .map_err(|error| {
++                    internal_error(format!(
++                        "preview renderer cannot upsert mount '{}': {error}",
++                        mount.path.display()
++                    ))
++                })?;
++        }
++        let state = &mut self.preview_renderer;
++        let last_used = state.touch();
++        let session = state
++            .sessions
++            .entry(session_id.clone())
++            .or_insert_with(|| PreviewRendererSession::new(last_used));
++        session.last_used = last_used;
++        session.live_world = Some(next_world);
++        session.base_font_resolver = Some(base_font_resolver);
++        session.mount_digests = next_digests;
++        session.mount_byte_lengths = next_lengths;
++        session.font_digests = font_digests;
++        session.registered = Some(RegisteredPreviewProject {
++            compiler_entry_uri: entry_uri,
++            render_entry_uri,
++            source_digest: source_digest.clone(),
++        });
++        Ok(PreviewRendererResponse::Registered {
++            protocol_version: PROTOCOL_VERSION,
++            session_id,
++            source_digest,
++        })
++    }
++
++    fn preview_renderer_render(
++        &mut self,
++        session_id: String,
++        snapshot_token: String,
++        source_digest: String,
++        base_generation: Option<u64>,
++        force_full: bool,
++    ) -> Result<PreviewRendererResponse, sync_ls::ResponseError> {
++        let (compile_world, render_entry_uri, generation) = {
++            let state = &mut self.preview_renderer;
++            state.ensure_capacity_for(&session_id);
++            let last_used = state.touch();
++            let session = state
++                .sessions
++                .entry(session_id.clone())
++                .or_insert_with(|| PreviewRendererSession::new(last_used));
++            session.last_used = last_used;
++            if let Some(staged) = session.staged.as_ref() {
++                let expected_base = if staged.frame_kind == "new" {
++                    None
++                } else {
++                    Some(staged.base_generation)
++                };
++                if staged.state.snapshot_token == snapshot_token
++                    && staged.state.source_digest == source_digest
++                    && expected_base == base_generation
++                    && force_full == (staged.frame_kind == "new")
++                {
++                    return Ok(staged.response(session_id));
++                }
++            }
++            let expected_base_generation = session.expected_base_generation();
++            if !force_full && base_generation != expected_base_generation {
++                return Ok(resync(session_id, snapshot_token, expected_base_generation));
++            }
++            let Some(registered) = session
++                .registered
++                .as_ref()
++                .filter(|project| project.source_digest == source_digest)
++            else {
++                return Ok(resync(session_id, snapshot_token, expected_base_generation));
++            };
++            let Some(live_world) = session.live_world.as_ref() else {
++                return Ok(resync(session_id, snapshot_token, expected_base_generation));
++            };
++            let generation = expected_base_generation
++                .unwrap_or(0)
++                .checked_add(1)
++                .ok_or_else(|| internal_error("preview renderer generation overflow"))?;
++            (
++                live_world.clone(),
++                registered.render_entry_uri.clone(),
++                generation,
++            )
++        };
++        let compiler_revision = compile_world.revision().get();
++        let artifact =
++            LspCompiledArtifact::from_graph(WorldComputeGraph::from_world(compile_world), false);
++        if artifact.doc.is_none() {
++            let diagnostics = artifact.diag.diagnostics();
++            let error = print_diagnostics_to_string(
++                artifact.graph.world(),
++                diagnostics,
++                reflexo_typst::DiagnosticFormat::Human,
++            )
++            .unwrap_or_else(|error| error);
++            return Err(internal_error(format!(
++                "preview renderer could not compile the immutable project: {error}"
++            )));
++        }
++        let document = artifact
++            .doc
++            .as_ref()
++            .expect("selected renderer artifact has a document")
++            .clone();
++        let state = &mut self.preview_renderer;
++        let session = state
++            .sessions
++            .get_mut(&session_id)
++            .expect("registered renderer session");
++        let (renderer, frame_kind, frame, response_base_generation) =
++            if force_full || session.committed.is_none() {
++                let mut renderer = IncrSvgDocServer::default();
++                let delta = renderer.pack_delta(&document);
++                let payload = delta.strip_prefix(DIFF_V1_PREFIX).ok_or_else(|| {
++                    internal_error("Tinymist incremental renderer produced an invalid initial frame")
++                })?;
++                let mut frame = Vec::with_capacity(NEW_PREFIX.len() + payload.len());
++                frame.extend_from_slice(NEW_PREFIX);
++                frame.extend_from_slice(payload);
++                (renderer, "new", frame, 0)
++            } else {
++                let committed = session
++                    .committed
++                    .as_ref()
++                    .expect("validated committed renderer generation");
++                let Some(mut renderer) = session.committed_renderer.take() else {
++                    return Ok(resync(
++                        session_id,
++                        snapshot_token,
++                        session.expected_base_generation(),
++                    ));
++                };
++                let frame = renderer.pack_delta(&document);
++                (renderer, "diff-v1", frame, committed.generation)
++            };
++        let expected_prefix = if frame_kind == "new" {
++            NEW_PREFIX
++        } else {
++            DIFF_V1_PREFIX
++        };
++        if !frame.starts_with(expected_prefix) {
++            return Err(internal_error(
++                "Tinymist incremental renderer returned an unknown frame",
++            ));
++        }
++        let artifact_digest = sha256_hex(&frame);
++        let byte_length = frame.len();
++        let page_count = match &document {
++            TypstDocument::Paged(document) => document.pages().len(),
++            TypstDocument::Html(_) => 0,
++        };
++        let staged = StagedPreviewRendererGeneration {
++            state: PreviewRendererGeneration {
++                snapshot_token,
++                source_digest,
++                artifact_digest,
++                compiler_revision,
++                generation,
++                page_count,
++                artifact,
++                entry_uri: render_entry_uri,
++            },
++            base_generation: response_base_generation,
++            frame_kind,
++            data_base64: BASE64.encode(&frame),
++            byte_length,
++        };
++        let response = staged.response(session_id);
++        session.staged_renderer = Some(renderer);
++        session.staged = Some(staged);
++        Ok(response)
++    }
++}
++
++fn resync(
++    session_id: String,
++    snapshot_token: String,
++    expected_base_generation: Option<u64>,
++) -> PreviewRendererResponse {
++    PreviewRendererResponse::Resync {
++        protocol_version: PROTOCOL_VERSION,
++        session_id,
++        snapshot_token,
++        expected_base_generation,
++    }
++}
++
++fn validate_params(params: &PreviewRendererParams) -> Result<(), sync_ls::ResponseError> {
++    let (protocol_version, session_id) = match params {
++        PreviewRendererParams::Register {
++            protocol_version,
++            session_id,
++            ..
++        }
++        | PreviewRendererParams::Render {
++            protocol_version,
++            session_id,
++            ..
++        }
++        | PreviewRendererParams::Commit {
++            protocol_version,
++            session_id,
++            ..
++        }
++        | PreviewRendererParams::Discard {
++            protocol_version,
++            session_id,
++            ..
++        }
++        | PreviewRendererParams::LocatePoint {
++            protocol_version,
++            session_id,
++            ..
++        }
++        | PreviewRendererParams::LocateSource {
++            protocol_version,
++            session_id,
++            ..
++        }
++        | PreviewRendererParams::Close {
++            protocol_version,
++            session_id,
++        } => (protocol_version, session_id),
++    };
++    if protocol_version != PROTOCOL_VERSION {
++        return Err(invalid_params(
++            "unsupported preview renderer protocolVersion",
++        ));
++    }
++    if session_id.is_empty()
++        || session_id.len() > 128
++        || !session_id
++            .bytes()
++            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
++    {
++        return Err(invalid_params(
++            "preview renderer sessionId must be 1-128 safe ASCII characters",
++        ));
++    }
++    match params {
++        PreviewRendererParams::Register {
++            source_digest,
++            mounts,
++            font_digests,
++            files,
++            ..
++        } => {
++            validate_digest("sourceDigest", source_digest)?;
++            if mounts.len() > MAX_PREVIEW_MOUNT_FILES
++                || font_digests.len() > MAX_PREVIEW_FONT_FILES
++                || files.len() > MAX_PREVIEW_MOUNT_FILES + MAX_PREVIEW_FONT_FILES
++            {
++                return Err(invalid_params(
++                    "preview renderer registration file count exceeds its limit",
++                ));
++            }
++        }
++        PreviewRendererParams::Render {
++            snapshot_token,
++            source_digest,
++            base_generation,
++            force_full,
++            ..
++        } => {
++            validate_digest("snapshotToken", snapshot_token)?;
++            validate_digest("sourceDigest", source_digest)?;
++            if *force_full && base_generation.is_some() {
++                return Err(invalid_params(
++                    "forceFull preview renderer requests must not specify baseGeneration",
++                ));
++            }
++        }
++        PreviewRendererParams::Commit {
++            snapshot_token,
++            generation,
++            ..
++        }
++        | PreviewRendererParams::Discard {
++            snapshot_token,
++            generation,
++            ..
++        } => {
++            validate_digest("snapshotToken", snapshot_token)?;
++            if *generation == 0 {
++                return Err(invalid_params(
++                    "preview renderer generation must be positive",
++                ));
++            }
++        }
++        PreviewRendererParams::LocatePoint {
++            generation,
++            position,
++            ..
++        } => {
++            if *generation == 0
++                || !position.x.is_finite()
++                || !position.y.is_finite()
++                || !(0.0..=1.0).contains(&position.x)
++                || !(0.0..=1.0).contains(&position.y)
++            {
++                return Err(invalid_params("invalid generation-bound preview point"));
++            }
++        }
++        PreviewRendererParams::LocateSource { generation, .. } => {
++            if *generation == 0 {
++                return Err(invalid_params(
++                    "preview renderer generation must be positive",
++                ));
++            }
++        }
++        PreviewRendererParams::Close { .. } => {}
++    }
++    Ok(())
++}
++
++fn validate_digest(name: &str, value: &str) -> Result<(), sync_ls::ResponseError> {
++    if value.len() != 64
++        || !value
++            .bytes()
++            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
++    {
++        return Err(invalid_params(format!(
++            "preview renderer {name} must be a SHA-256 hex digest"
++        )));
++    }
++    Ok(())
++}
++
++fn renderer_entry_state(
++    entry_path: &str,
++    mount_root: &str,
++) -> Result<EntryState, sync_ls::ResponseError> {
++    let relative = entry_path
++        .strip_prefix(mount_root)
++        .ok_or_else(|| internal_error("preview renderer entry is outside its immutable mount"))?;
++    let main = VirtualPath::new(relative)
++        .map_err(|_| internal_error("preview renderer entry virtual path is invalid"))?;
++    Ok(EntryState::new_rooted(
++        ImmutPath::from(Path::new(mount_root)),
++        Some(main),
++    ))
++}
++
++fn validate_preview_mounts(
++    mounts: Vec<PreviewRendererMount>,
++    entry_path: &str,
++    mount_root: &str,
++    expected_source_digest: &str,
++) -> Result<Vec<RegisteredPreviewMount>, sync_ls::ResponseError> {
++    if mounts.is_empty() || mounts.len() > MAX_PREVIEW_MOUNT_FILES {
++        return Err(invalid_params(
++            "preview renderer mount count exceeds its limit",
++        ));
++    }
++    let mount_prefix = format!("{mount_root}/");
++    let mut validated = Vec::with_capacity(mounts.len());
++    for mount in mounts {
++        validate_digest("mount contentDigest", &mount.content_digest)?;
++        let path = canonical_path(Path::new(&mount.path))?;
++        if !path.starts_with(&mount_prefix) {
++            return Err(invalid_params(
++                "preview renderer file is outside its immutable mount root",
++            ));
++        }
++        validated.push(RegisteredPreviewMount {
++            path: PathBuf::from(path),
++            content_digest: mount.content_digest,
++        });
++    }
++    validated.sort_by(|left, right| left.path.as_os_str().cmp(right.path.as_os_str()));
++    if validated
++        .windows(2)
++        .any(|pair| pair[0].path == pair[1].path)
++    {
++        return Err(invalid_params(
++            "preview renderer mount paths must be unique",
++        ));
++    }
++    if !validated
++        .iter()
++        .any(|mount| mount.path == Path::new(entry_path))
++    {
++        return Err(invalid_params("preview renderer entry file is not mounted"));
++    }
++    let mut fields = Vec::with_capacity(1 + validated.len() * 2);
++    fields.push(entry_path.as_bytes());
++    for mount in &validated {
++        fields.push(
++            mount
++                .path
++                .to_str()
++                .expect("canonical renderer path is valid UTF-8")
++                .as_bytes(),
++        );
++        fields.push(mount.content_digest.as_bytes());
++    }
++    let actual_source_digest = canonical_bytes_digest("mmt-preview-compiler-snapshot-v1", &fields);
++    if actual_source_digest != expected_source_digest {
++        return Err(invalid_params(
++            "preview renderer sourceDigest does not match its immutable mounts",
++        ));
++    }
++    Ok(validated)
++}
++
++fn preview_mount_root(entry_path: &str) -> Result<String, sync_ls::ResponseError> {
++    let mut segments = entry_path.split('/');
++    if segments.next() != Some("") || segments.next() != Some("__mmt_preview") {
++        return Err(internal_error(
++            "preview renderer entry is outside the synthetic mount root",
++        ));
++    }
++    let Some(logical_source_id) = segments.next() else {
++        return Err(internal_error(
++            "preview renderer entry has no logical source mount",
++        ));
++    };
++    if logical_source_id.len() != 64
++        || !logical_source_id
++            .bytes()
++            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
++    {
++        return Err(internal_error(
++            "preview renderer logical source mount is invalid",
++        ));
++    }
++    Ok(format!("/__mmt_preview/{logical_source_id}"))
++}
++
++fn canonical_path(path: &Path) -> Result<String, sync_ls::ResponseError> {
++    let value = path
++        .to_str()
++        .ok_or_else(|| invalid_params("preview renderer mount path is not UTF-8"))?;
++    if !value.starts_with('/')
++        || value.contains('\\')
++        || value.contains('\0')
++        || value
++            .split('/')
++            .skip(1)
++            .any(|segment| segment.is_empty() || segment == "." || segment == "..")
++    {
++        return Err(invalid_params(
++            "preview renderer mount path is not canonical",
++        ));
++    }
++    Ok(value.to_owned())
++}
++
++fn canonical_bytes_digest(domain: &str, fields: &[&[u8]]) -> String {
++    let mut digest = Sha256::new();
++    digest.update((domain.len() as u64).to_be_bytes());
++    digest.update(domain.as_bytes());
++    for field in fields {
++        digest.update((field.len() as u64).to_be_bytes());
++        digest.update(field);
++    }
++    format!("{:x}", digest.finalize())
++}
++
++fn sha256_hex(bytes: &[u8]) -> String {
++    format!("{:x}", Sha256::digest(bytes))
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    fn render_params() -> PreviewRendererParams {
++        PreviewRendererParams::Render {
++            protocol_version: PROTOCOL_VERSION.into(),
++            session_id: "session-1".into(),
++            snapshot_token: "1".repeat(64),
++            source_digest: "2".repeat(64),
++            base_generation: None,
++            force_full: false,
++        }
++    }
++
++    #[test]
++    fn validates_identity_and_generation_contract() {
++        assert!(validate_params(&render_params()).is_ok());
++        let mut invalid = render_params();
++        if let PreviewRendererParams::Render { session_id, .. } = &mut invalid {
++            *session_id = "../unsafe".into();
++        }
++        assert!(validate_params(&invalid).is_err());
++        let mut invalid = render_params();
++        if let PreviewRendererParams::Render { source_digest, .. } = &mut invalid {
++            *source_digest = "not-a-digest".into();
++        }
++        assert!(validate_params(&invalid).is_err());
++        let mut invalid = render_params();
++        if let PreviewRendererParams::Render {
++            force_full,
++            base_generation,
++            ..
++        } = &mut invalid
++        {
++            *force_full = true;
++            *base_generation = Some(1);
++        }
++        assert!(validate_params(&invalid).is_err());
++    }
++
++    #[test]
++    fn canonical_digest_matches_typescript_framing() {
++        assert_eq!(
++            canonical_bytes_digest(
++                "mmt-preview-compiler-snapshot-v1",
++                &[
++                    b"/main.typ",
++                    b"/main.typ",
++                    b"1111111111111111111111111111111111111111111111111111111111111111"
++                ],
++            ),
++            "90c87e733cdf9ab79072e601af3eca21550c3b9b79a41c1b64ead51caa7368f1"
++        );
++    }
++
++    #[test]
++    fn scopes_snapshot_digest_to_the_synthetic_source_mount() {
++        let source = "a".repeat(64);
++        assert_eq!(
++            preview_mount_root(&format!("/__mmt_preview/{source}/nested/main.typ")).unwrap(),
++            format!("/__mmt_preview/{source}")
++        );
++        assert!(preview_mount_root("/main.typ").is_err());
++        assert!(preview_mount_root("/__mmt_preview/not-a-digest/main.typ").is_err());
++    }
++
++    #[test]
++    fn session_cache_is_bounded_and_lru() {
++        let mut state = PreviewRendererState::default();
++        for index in 0..MAX_PREVIEW_RENDER_SESSIONS {
++            state.sessions.insert(
++                format!("s{index}"),
++                PreviewRendererSession::new(index as u64),
++            );
++        }
++        state.ensure_capacity_for("new");
++        assert_eq!(state.sessions.len(), MAX_PREVIEW_RENDER_SESSIONS - 1);
++        assert!(!state.sessions.contains_key("s0"));
++    }
++}
+diff --git a/crates/tinymist/src/server.rs b/crates/tinymist/src/server.rs
+index 8b03b2768c4ae36112cbbe20d0922bc5700dab71..7598b8f15908f5e475534926bb888ddf8bda58d5 100644
+--- a/crates/tinymist/src/server.rs
++++ b/crates/tinymist/src/server.rs
+@@ -21,6 +21,7 @@ use crate::package_callback::{
+     PackageCallbackState, PackageMissingEvent, TypstPackageContextNotification,
+ };
+ use crate::preview_location::{PreviewLocationRequest, SourceLocationsRequest};
++use crate::preview_renderer::{PreviewRendererRequest, PreviewRendererState};
+ use crate::project::{EntryResolver, LspInterrupt, ProjectInsId, ProjectState};
+ use crate::task::FormatTask;
+ use crate::vfs::notify::NotifyMessage;
+@@ -53,6 +54,8 @@ pub struct ServerState {
+     pub project: ProjectState,
+     /// Active host-mediated package callback state.
+     pub(crate) package_callback: PackageCallbackState,
++    /// Stateful, bounded vector-delta producers exposed to trusted hosts.
++    pub(crate) preview_renderer: PreviewRendererState,
+     /// The project route state.
+     #[cfg(feature = "lock")]
+     pub route: ProjectRouteState,
+@@ -176,6 +179,7 @@ impl ServerState {
+             client: client.clone(),
+             project: handle,
+             package_callback,
++            preview_renderer: PreviewRendererState::default(),
+             editor_tx,
+             memory_changes: HashMap::new(),
+             ever_focusing_by_activities: false,
+@@ -306,6 +310,7 @@ impl ServerState {
+             .with_request_::<Completion>(State::completion)
+             .with_request_::<PreviewLocationRequest>(State::preview_location)
+             .with_request_::<SourceLocationsRequest>(State::source_locations)
++            .with_request_::<PreviewRendererRequest>(State::preview_renderer)
+             .with_request_::<SemanticTokensFullRequest>(State::semantic_tokens_full)
+             .with_request_::<SemanticTokensFullDeltaRequest>(State::semantic_tokens_full_delta)
+             .with_request_::<DocumentHighlightRequest>(State::document_highlight)

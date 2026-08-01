@@ -4,10 +4,7 @@ import { expect, test, type Page } from "./fixtures";
 const LIFECYCLE_STORAGE_KEY = "mmt-e2e-worker-lifecycle-v1";
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
 const MANIFEST_URL = `${PACK_ROOT}manifest.json`;
-const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d/tinymist_bg.wasm.br?delivery=br-v1";
-const TINYMIST_WASM_FALLBACK_URL = TINYMIST_WASM_URL.replace(".br?delivery=br-v1", "");
 const manifest = await readFile(new URL("./fixtures/manifest.json", import.meta.url));
-const tinymistWasm = await readFile(new URL("../../vscode/vendor/tinymist-0.15.2/tinymist_bg.wasm", import.meta.url));
 
 type LanguageWorkerKind = "mmt" | "tinymist";
 type LifecycleEvent = {
@@ -211,22 +208,6 @@ async function routeStartupResources(page: Page): Promise<void> {
           "access-control-allow-origin": "*",
           "cache-control": "no-store",
           "content-type": "application/json"
-        }
-      });
-      return;
-    }
-    if (url === TINYMIST_WASM_URL) {
-      await route.abort("connectionfailed");
-      return;
-    }
-    if (url === TINYMIST_WASM_FALLBACK_URL) {
-      await route.fulfill({
-        status: 200,
-        body: tinymistWasm,
-        headers: {
-          "access-control-allow-origin": "*",
-          "cache-control": "no-store",
-          "content-type": "application/wasm"
         }
       });
       return;

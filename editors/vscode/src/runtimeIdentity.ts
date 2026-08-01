@@ -146,6 +146,48 @@ export async function canonicalBytesDigest(domain: string, fields: readonly Uint
   return canonicalDigest(domain, fields);
 }
 
+export interface PreviewCompilerSnapshotMount {
+  readonly path: string;
+  readonly contentDigest: string;
+}
+
+export async function previewCompilerSnapshotDigest(
+  entryPath: string,
+  mounts: readonly PreviewCompilerSnapshotMount[]
+): Promise<string> {
+  const canonicalEntry = canonicalCompilerMountPath(entryPath);
+  const ordered = mounts
+    .map((mount) => ({
+      path: canonicalCompilerMountPath(mount.path),
+      contentDigest: validatedHexDigest(mount.contentDigest)
+    }))
+    .sort((left, right) => compareBytes(encoder.encode(left.path), encoder.encode(right.path)));
+  const paths = new Set<string>();
+  const fields: Uint8Array[] = [encoder.encode(canonicalEntry)];
+  for (const mount of ordered) {
+    if (paths.has(mount.path)) throw new Error(`Duplicate compiler mount path: ${mount.path}`);
+    paths.add(mount.path);
+    fields.push(encoder.encode(mount.path), encoder.encode(mount.contentDigest));
+  }
+  return canonicalBytesDigest("mmt-preview-compiler-snapshot-v1", fields);
+}
+
+export function canonicalCompilerMountPath(path: string): string {
+  if (!path.startsWith("/") || path.includes("\\") || path.includes("\0")) {
+    throw new Error(`Non-canonical compiler mount path: ${path}`);
+  }
+  const segments = path.split("/");
+  if (segments.slice(1).some((segment) => !segment || segment === "." || segment === "..")) {
+    throw new Error(`Non-canonical compiler mount path: ${path}`);
+  }
+  return path;
+}
+
+function validatedHexDigest(value: string): string {
+  if (!/^[0-9a-f]{64}$/.test(value)) throw new Error(`Invalid compiler mount digest: ${value}`);
+  return value;
+}
+
 function checkedComponent(value: string): void {
   if (!value || isUriLike(value)) throw new Error(`Non-canonical logical component: ${value}`);
 }

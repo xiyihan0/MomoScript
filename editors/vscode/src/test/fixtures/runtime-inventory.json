@@ -3,6 +3,8 @@
   "scope": [
     "editors/vscode-web/src/main.ts",
     "editors/vscode-web/src/runtimeController.ts",
+    "editors/vscode-web/src/previewWebviewRuntime.ts",
+    "editors/vscode-web/src/avifSequence.ts",
     "editors/vscode/src/tinymistClient.ts",
     "editors/vscode/src/tinymistProcessClient.ts",
     "editors/vscode/src/tinymistHostSession.ts",

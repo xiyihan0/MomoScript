@@ -141,9 +141,13 @@ export async function waitForPreviewFrame(page: Page, sourceUri?: string): Promi
   const deadline = Date.now() + 90_000;
   const intervals = [100, 250, 500, 1_000];
   let attempt = 0;
+  let displayedRenderKey: string | null = null;
   while (true) {
     const state = await previewReadiness(page, sourceUri);
-    if (state.stage === "ready") break;
+    if (state.stage === "ready") {
+      displayedRenderKey = state.displayedRenderKey;
+      break;
+    }
     if (state.stage === "failed" || state.stage === "runtime-failed") {
       throw new Error(`Preview failed before readiness: ${JSON.stringify(state)}`);
     }
@@ -157,7 +161,15 @@ export async function waitForPreviewFrame(page: Page, sourceUri?: string): Promi
   while (true) {
     for (const frame of page.frames()) {
       try {
-        if (await frame.locator(".viewport .page svg").count() > 0) return frame;
+        const owner = await frame.frameElement();
+        if (!await owner.isVisible()) continue;
+        const ownerBox = await owner.boundingBox();
+        if (!ownerBox || ownerBox.width <= 0 || ownerBox.height <= 0) continue;
+        const previewPage = frame.locator(".viewport .page").first();
+        if (await previewPage.count() === 0) continue;
+        if (!await previewPage.isVisible()) continue;
+        if (displayedRenderKey && await previewPage.getAttribute("data-render-key") !== displayedRenderKey) continue;
+        if (await previewPage.locator("svg").count() > 0) return frame;
       } catch {
         // VS Code replaces the pending Webview iframe after setting its HTML.
       }

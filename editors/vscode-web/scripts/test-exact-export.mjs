@@ -49,8 +49,11 @@ function artifact(key, marker) {
       method: "tinymist/preview/location.v1",
       coordinateVersion: "typst-page-points-v1",
     },
-    pages: [withImage],
-    imageAssets: marker === "A" ? [imageAsset] : [],
+    visualSnapshot: {
+      kind: "svg",
+      pages: [withImage],
+      imageAssets: marker === "A" ? [imageAsset] : [],
+    },
   });
 }
 

@@ -50,14 +50,20 @@ import type { PackManifestSource } from "../../vscode/src/packSync";
 import { decodeAvifSequence } from "./avifSequence";
 import { packResourceUrl, projectGalleryPack, type GalleryPack } from "./galleryPack";
 import { registerCharacterGalleryCommands, renderCharacterGalleryView } from "./characterGalleryUi";
-import { projectionSessionKey } from "../../vscode/src/tinymistClient";
+import { PREVIEW_RENDERER_METHOD, projectionSessionKey } from "../../vscode/src/tinymistClient";
 import {
+  createRenderArtifactLocationResolver,
   evictPreviewPackageGeneration,
   installPreviewPackageGenerations,
   renderArtifactLocationProviderKey,
+  previewRendererFontFiles,
   sanitizeSvg,
   TypstPreviewController,
-  type TypstPreviewBinding
+  type RenderArtifactLocation,
+  type ImmutableTypstExportSnapshot,
+  type TypstPreviewBinding,
+  type TypstPreviewPublication,
+  type PreviewPublicationTiming,
 } from "./preview";
 import { WorkspaceAssetMirror } from "./workspaceAssetMirror.ts";
 import { createCurrentPreviewExportClient } from "./currentPreviewExport.ts";
@@ -81,11 +87,14 @@ import {
 } from "./runtimeArtifacts";
 import { EditorRuntimeStatus, type RuntimeRecoveryState } from "./runtimeStatus";
 import { createPreviewArtifact, type LocationProviderKey, type PreviewArtifact, type PreviewPagePoint, type PreviewSourceTarget, type PreviewViewport } from "./previewArtifact.ts";
-import type {
-  PreviewBackendLocation,
-  PreviewEditorSelection,
-  PreviewSourceIdentity,
-  ProjectedPreviewSelection,
+import {
+  BrowserPreviewViewportPersistence,
+  PreviewInteractionController,
+  type PreviewBackendLocation,
+  type PreviewEditorSelection,
+  type PreviewLocationResolver,
+  type PreviewSourceIdentity,
+  type ProjectedPreviewSelection,
 } from "./previewInteraction.ts";
 import { ExactExportUiController, LatestExactArtifactWaiter, type ExactExportUiState } from "./exactExportUi.ts";
 import type { ExactExportFormat, ExactExportPorts, RenderAdvanceCause, RenderAdvanceToken, StaleExportChoice } from "./exactExport.ts";
@@ -109,6 +118,11 @@ import {
   type RenderKey,
   type SourceStaleToken,
 } from "../../vscode/src/runtimeIdentity";
+import previewWebviewRuntimeUrl from "./previewWebviewRuntime.ts?worker&url";
+import {
+  PreviewRendererSessionOwner,
+  type PreviewRendererCandidate,
+} from "./previewRendererSession.ts";
 
 const webviewIndexUrl = new URL("../node_modules/@codingame/monaco-vscode-view-common-service-override/service-override/vs/workbench/contrib/webview/browser/pre/index.html", import.meta.url).href;
 const webviewFakeUrl = new URL("../node_modules/@codingame/monaco-vscode-view-common-service-override/service-override/vs/workbench/contrib/webview/browser/pre/fake.html", import.meta.url).href;
@@ -132,7 +146,7 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
 type E2ELifecycleKind = "runtime-ready" | "dispose-invoked" | "dispose-complete" | "retained-artifacts-cleared" | "unload" | "hmr" | "hmr-fallback";
 
 interface PreviewInteractionFixtureRequest {
-  readonly action: "install-provider" | "install-immutable" | "position" | "position-live" | "editor-selection" | "overlay" | "navigate" | "restart-provider" | "advance-source" | "state";
+  readonly action: "install-provider" | "install-immutable" | "position" | "position-live" | "editor-selection" | "reveal" | "overlay" | "navigate" | "restart-provider" | "resync-renderer" | "advance-source" | "state";
   readonly range?: { start: { line: number; character: number }; end: { line: number; character: number } };
   readonly point?: PreviewPagePoint;
 }
@@ -537,7 +551,7 @@ async function initializeRuntime(
     })
   }));
   let previewPanel: vscode.WebviewPanel | undefined;
-  let previewPanelHasPage = false;
+  let previewWebviewReady = false;
   let previewPanelTitle = "MomoScript 预览";
   let previewPanelDisposeRegistration: vscode.Disposable | undefined;
   let previewPanelMessageRegistration: vscode.Disposable | undefined;
@@ -563,7 +577,12 @@ async function initializeRuntime(
     persistenceByUri,
   } = controller.stores;
   const previewTraces = new Map<string, PreviewTraceSession>();
-  const previewPublicationStarted = new Map<string, number>();
+  const previewWebviewReadyWaiters = new Set<() => void>();
+  const pendingWebviewPublications = new Map<number, {
+    readonly renderKey: RenderKey;
+    readonly resolve: (message: PreviewVisualReadyMessage) => void;
+    readonly reject: (error: Error) => void;
+  }>();
   const renderProjectSnapshots = new RenderProjectSnapshotStore();
   own({ dispose: () => renderProjectSnapshots.clear() });
   const previewFeatureMaster = import.meta.env.VITE_MMT_PREVIEW_INCREMENTAL;
@@ -575,11 +594,53 @@ async function initializeRuntime(
     && previewFeaturesEnabled;
   const previewSchedulerEnabled = import.meta.env.VITE_MMT_PREVIEW_SCHEDULER !== "0"
     && previewFeaturesEnabled;
+  const previewRendererSetting = import.meta.env.VITE_MMT_PREVIEW_DIFF_V1;
+  let previewRendererEnabled = false;
+  let previewRendererSessions: PreviewRendererSessionOwner | undefined;
+  let previewWebviewRendererGeneration: {
+    readonly sessionId: string;
+    readonly backendGeneration: number;
+    readonly generation: number;
+  } | undefined;
+  let previewWebviewRendererResyncRequested: { readonly sessionId: string; readonly generation: number } | undefined;
   let preview!: TypstPreviewController;
   const exactExportAdvanceBySource = new Map<string, RenderAdvanceToken>();
+  const immutableRendererExports = new Map<RenderKey, {
+    readonly sourceUri: string;
+    readonly snapshot: ImmutableTypstExportSnapshot;
+    pins: number;
+  }>();
+  const evictImmutableRendererExports = (protectedRenderKey?: RenderKey): void => {
+    while (immutableRendererExports.size > 32) {
+      let evictable: RenderKey | undefined;
+      for (const [renderKey, retained] of immutableRendererExports) {
+        if (renderKey !== protectedRenderKey && retained.pins === 0) {
+          evictable = renderKey;
+          break;
+        }
+      }
+      if (!evictable) return;
+      immutableRendererExports.delete(evictable);
+    }
+  };
+  own({ dispose: () => immutableRendererExports.clear() });
   const currentPreviewExport = createCurrentPreviewExportClient({
     artifacts: controller.stores.previewArtifacts,
     preview: () => preview,
+    immutable: {
+      has: (renderKey) => immutableRendererExports.has(renderKey),
+      export: async (renderKey, format, pageIndex, signal) => {
+        const retained = immutableRendererExports.get(renderKey);
+        if (!retained) throw new Error(`Immutable renderer export input is unavailable for ${renderKey}`);
+        retained.pins += 1;
+        try {
+          return await preview.createImmutableExport(retained.snapshot, renderKey, format, pageIndex, signal);
+        } finally {
+          retained.pins -= 1;
+          evictImmutableRendererExports();
+        }
+      },
+    },
   });
   const exportMode = controller.stores.exactExport ? "exact" : "current-preview";
   const exactExportUi = own(new ExactExportUiController(controller.stores.exactExport ?? currentPreviewExport, {
@@ -773,7 +834,206 @@ async function initializeRuntime(
     );
     editor.revealRange(editor.selection, vscode.TextEditorRevealType.InCenterIfOutsideViewport);
   };
-  preview = own(new TypstPreviewController(layout.preview, {
+  let previewInteractionStatus: string | null = null;
+  let previewInteractionStatusText = "";
+  const previewInteraction = own(new PreviewInteractionController({
+    currentIdentity: currentPreviewIdentity,
+    mapProjectedSelection: mapProjectedPreviewSelection,
+    mapPreviewSource,
+    openSource: openPreviewSource,
+    persistence: typeof localStorage === "undefined"
+      ? undefined
+      : new BrowserPreviewViewportPersistence(localStorage),
+    events: {
+      statusChanged(status, message) {
+        previewInteractionStatus = status;
+        previewInteractionStatusText = message;
+        log(`preview:navigation:${status}`, message);
+      },
+      indicatorChanged(indicator) {
+        if (previewPanel) void previewPanel.webview.postMessage({ type: "indicator", point: indicator?.point });
+      },
+      cursorChanged(cursor) {
+        if (previewPanel) void previewPanel.webview.postMessage({ type: "cursor", point: cursor?.point });
+      },
+      viewportChanged(viewport) {
+        if (previewPanel) void previewPanel.webview.postMessage({ type: "restoreViewport", viewport });
+      },
+      fullRefreshRequested(reason) {
+        log("preview:refresh", `Full refresh required: ${reason}`);
+      },
+    },
+  }));
+  const displayPreviewArtifact = (
+    artifact: PreviewArtifact,
+    identity: PreviewSourceIdentity,
+    resolver?: PreviewLocationResolver,
+    retainCompilerEntry = false,
+  ): void => {
+    preview.setDisplayedArtifact(artifact, retainCompilerEntry);
+    previewInteraction.bindArtifact(artifact, identity, resolver);
+  };
+  let webviewPublicationSequence = 1;
+  const publishFixtureArtifact = async (artifact: PreviewArtifact): Promise<void> => {
+    const panel = previewPanel;
+    const visual = artifact.visualSnapshot;
+    const firstPage = visual.kind === "svg" ? visual.pages[0] : undefined;
+    if (!panel || !firstPage || visual.kind !== "svg") return;
+    await waitForPreviewWebview();
+    const imageAssets = await Promise.all(visual.imageAssets.map(async (asset) => ({
+      digest: asset.digest,
+      mimeType: asset.mimeType,
+      dataBase64: bytesToBase64(new Uint8Array(await asset.blob.arrayBuffer())),
+    })));
+    await panel.webview.postMessage({
+      type: "render",
+      svg: firstPage.sanitizedSvg,
+      imageAssets,
+      pageSize: { width: firstPage.geometry.cssWidth, height: firstPage.geometry.cssHeight },
+      requestSequence: webviewPublicationSequence++,
+      renderKey: artifact.renderKey,
+      spans: [],
+    });
+  };
+  const waitForPreviewWebview = async (signal?: AbortSignal): Promise<void> => {
+    if (previewWebviewReady) return;
+    signal?.throwIfAborted();
+    await new Promise<void>((resolve, reject) => {
+      const timeout = window.setTimeout(() => {
+        previewWebviewReadyWaiters.delete(ready);
+        reject(new Error("Preview Webview runtime did not become ready"));
+      }, 30_000);
+      const aborted = () => {
+        window.clearTimeout(timeout);
+        previewWebviewReadyWaiters.delete(ready);
+        reject(signal?.reason instanceof Error ? signal.reason : new DOMException("Aborted", "AbortError"));
+      };
+      const ready = () => {
+        window.clearTimeout(timeout);
+        signal?.removeEventListener("abort", aborted);
+        resolve();
+      };
+      signal?.addEventListener("abort", aborted, { once: true });
+      previewWebviewReadyWaiters.add(ready);
+    });
+  };
+  const publishFullSvgToWebview = async (
+    publication: TypstPreviewPublication,
+    revision: PreviewRevision,
+  ): Promise<PreviewVisualReadyMessage> => {
+    const panel = previewPanel;
+    if (!panel) throw new Error("Preview Webview is closed");
+    await waitForPreviewWebview(publication.signal);
+    publication.signal?.throwIfAborted();
+    const requestSequence = webviewPublicationSequence++;
+    const imageAssets = await Promise.all(publication.imageAssets.map(async (asset) => ({
+      digest: asset.digest,
+      mimeType: asset.mimeType,
+      dataBase64: bytesToBase64(new Uint8Array(await asset.blob.arrayBuffer())),
+    })));
+    const acknowledgement = new Promise<PreviewVisualReadyMessage>((resolve, reject) => {
+      pendingWebviewPublications.set(requestSequence, {
+        renderKey: publication.artifact.renderKey,
+        resolve,
+        reject,
+      });
+    });
+    const delivered = await panel.webview.postMessage({
+      type: "render",
+      svg: publication.compactSvg,
+      imageAssets,
+      pageSize: publication.pageSize,
+      requestSequence,
+      traceId: publication.traceId,
+      renderKey: publication.artifact.renderKey,
+      spans: publication.spans,
+    });
+    if (!delivered || panel !== previewPanel) {
+      pendingWebviewPublications.delete(requestSequence);
+      throw new Error("Preview Webview rejected the render publication");
+    }
+    const abort = () => {
+      const pending = pendingWebviewPublications.get(requestSequence);
+      if (!pending) return;
+      pendingWebviewPublications.delete(requestSequence);
+      pending.reject(publication.signal?.reason instanceof Error
+        ? publication.signal.reason
+        : new DOMException("Aborted", "AbortError"));
+    };
+    publication.signal?.addEventListener("abort", abort, { once: true });
+    try {
+      return await acknowledgement;
+    } finally {
+      publication.signal?.removeEventListener("abort", abort);
+    }
+  };
+  const publishRendererFrameToWebview = async (
+    candidate: PreviewRendererCandidate,
+    binding: TypstPreviewBinding,
+  ): Promise<PreviewVisualReadyMessage> => {
+    const panel = previewPanel;
+    if (!panel) throw new Error("Preview Webview is closed");
+    await waitForPreviewWebview(binding.signal);
+    binding.signal?.throwIfAborted();
+    const requestSequence = webviewPublicationSequence++;
+    const acknowledgement = new Promise<PreviewVisualReadyMessage>((resolve, reject) => {
+      pendingWebviewPublications.set(requestSequence, {
+        renderKey: binding.renderKey,
+        resolve,
+        reject,
+      });
+    });
+    const publishedAtEpochMs = Date.now();
+    const delivered = await panel.webview.postMessage({
+      type: "render-frame",
+      sessionId: candidate.sessionId,
+      frameKind: candidate.ready.frameKind,
+      dataBase64: candidate.ready.dataBase64,
+      byteLength: candidate.ready.byteLength,
+      artifactDigest: candidate.ready.artifactDigest,
+      sourceDigest: candidate.ready.sourceDigest,
+      backendGeneration: candidate.backendGeneration,
+      rendererGeneration: candidate.ready.generation,
+      baseGeneration: candidate.ready.baseGeneration,
+      requestSequence,
+      traceId: binding.traceId,
+      renderKey: binding.renderKey,
+      publishedAtEpochMs,
+    });
+    if (!delivered || panel !== previewPanel) {
+      pendingWebviewPublications.delete(requestSequence);
+      throw new Error("Preview Webview rejected the renderer frame");
+    }
+    const abort = () => {
+      const pending = pendingWebviewPublications.get(requestSequence);
+      if (!pending) return;
+      pendingWebviewPublications.delete(requestSequence);
+      pending.reject(binding.signal?.reason instanceof Error
+        ? binding.signal.reason
+        : new DOMException("Aborted", "AbortError"));
+    };
+    binding.signal?.addEventListener("abort", abort, { once: true });
+    try {
+      const ready = await acknowledgement;
+      const renderer = ready.renderer;
+      if (!renderer
+        || renderer.sessionId !== candidate.sessionId
+        || renderer.artifactDigest !== candidate.ready.artifactDigest
+        || renderer.sourceDigest !== candidate.ready.sourceDigest
+        || renderer.backendGeneration !== candidate.backendGeneration
+        || renderer.generation !== candidate.ready.generation
+        || renderer.baseGeneration !== candidate.ready.baseGeneration
+        || renderer.frameKind !== candidate.ready.frameKind
+        || renderer.byteLength !== candidate.ready.byteLength
+        || renderer.pageGeometries.length !== candidate.ready.pageCount) {
+        throw new Error("Preview Webview renderer acknowledgement identity mismatch");
+      }
+      return ready;
+    } finally {
+      binding.signal?.removeEventListener("abort", abort);
+    }
+  };
+  preview = own(new TypstPreviewController({
     status(message, error, revision) {
       const trace = revision?.traceId ? previewTraces.get(revision.traceId) : undefined;
       if (revision && revision.sourceUri === previewFixtureActiveSourceUri) {
@@ -789,10 +1049,8 @@ async function initializeRuntime(
         return;
       }
       if (error && revision?.traceId) {
-        const failedTrace = previewTraces.get(revision.traceId);
-        failedTrace?.finish("failed");
+        trace?.finish("failed");
         previewTraces.delete(revision.traceId);
-        previewPublicationStarted.delete(revision.traceId);
       }
       if (error && identity) {
         previewBuildState.fail(identity, "renderer", message);
@@ -800,12 +1058,8 @@ async function initializeRuntime(
         controller.stores.previewArtifacts.fail(identity.sourceUri, requested);
         if (displayedPreviewSourceUri === identity.sourceUri) exactExportUi.bind(identity.sourceUri);
       }
-      const scope = message.includes("WASM") ? "wasm" : (error ? "preview:error" : "preview");
-      log(scope, message);
-      if (previewPanel && (error || !previewPanelHasPage)) {
-        previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, error);
-        previewPanelHasPage = false;
-      }
+      log(message.includes("WASM") ? "wasm" : (error ? "preview:error" : "preview"), message);
+      if (previewPanel) void previewPanel.webview.postMessage({ type: "status", message, error });
     },
     timing(timing, revision) {
       if (revision.traceId !== timing.traceId) return;
@@ -820,7 +1074,7 @@ async function initializeRuntime(
       trace.increment("shadowUnmapped", timing.shadowUnmapped);
       trace.increment("shadowSkipped", timing.shadowSkipped);
     },
-    rendered(svg, revision, shadowCount, pageSize) {
+    async rendered(publication, revision, shadowCount): Promise<PreviewPublicationTiming | void> {
       const trace = revision.traceId ? previewTraces.get(revision.traceId) : undefined;
       if (revision.sourceUri === previewFixtureActiveSourceUri) return;
       const identity = currentPreviewBuildIdentity(revision);
@@ -830,76 +1084,209 @@ async function initializeRuntime(
         if (revision.traceId) previewTraces.delete(revision.traceId);
         return;
       }
+      const ready = await publishFullSvgToWebview(publication, revision);
+      if (ready.renderKey !== publication.artifact.renderKey) {
+        throw new Error("Preview Webview acknowledged a different render key");
+      }
+      const resolver = publication.artifact.locationProviderKey.kind === "provider"
+        ? createRenderArtifactLocationResolver(
+            publication.artifact.locationProviderKey,
+            publication.entryUri,
+            publication.entryText,
+            publication.identity.backendEncoding,
+            ready.locations,
+          )
+        : undefined;
+      displayPreviewArtifact(publication.artifact, publication.identity, resolver, true);
+      trace?.renderKey(publication.artifact.renderKey);
+      previewBuildState.complete(identity);
       log("preview:identity", JSON.stringify({
         event: "rendered",
-        ...(revision.requestId === undefined ? {} : { requestId: revision.requestId }),
+        requestId: ready.requestSequence,
         revision: identity.revision,
         projectionKey: previewProjects.get(identity.sourceUri)?.projectionKey
           ?? typstProjects.get(identity.sourceUri)?.projectionKey,
-        renderKey: preview.displayedRenderKey,
+        renderKey: publication.artifact.renderKey,
         shadowCount,
       }));
-      const displayedRenderKey = preview.displayedRenderKey;
-      if (displayedRenderKey) trace?.renderKey(displayedRenderKey);
-      previewBuildState.complete(identity);
-      if (revision.traceId) previewPublicationStarted.set(revision.traceId, performance.now());
-      if (previewPanel) {
-        const panel = previewPanel;
-        const html = previewWebviewHtml(
-          panel.webview,
-          previewPanelTitle,
-          svg,
-          "",
-          false,
-          pageSize,
-          preview.viewportState,
-          exactExportUi.state,
-          revision.traceId,
-          displayedRenderKey,
-        );
-        if (!previewPanelHasPage) {
-          panel.webview.html = html;
-          previewPanelHasPage = true;
-        } else {
-          void panel.webview.postMessage({
-            type: "render",
-            svg,
-            pageSize,
-            traceId: revision.traceId,
-            renderKey: displayedRenderKey,
-          }).then((delivered) => {
-            if (delivered || previewPanel !== panel) return;
-            panel.webview.html = html;
-            previewPanelHasPage = true;
-          });
-        }
-      } else {
-        trace?.stage("visualReady", trace.elapsedMs);
-        trace?.finish("published");
-        if (revision.traceId) previewTraces.delete(revision.traceId);
-      }
-    },
-  }, {
-    currentIdentity: currentPreviewIdentity,
-    mapProjectedSelection: mapProjectedPreviewSelection,
-    mapPreviewSource,
-    openSource: openPreviewSource,
-    events: {
-      statusChanged(status, message) { log(`preview:navigation:${status}`, message); },
-      indicatorChanged(indicator) {
-        if (previewPanel) previewPanel.webview.postMessage({ type: "indicator", point: indicator?.point });
-      },
-      cursorChanged(cursor) {
-        if (previewPanel) previewPanel.webview.postMessage({ type: "cursor", point: cursor?.point });
-      },
-      viewportChanged(viewport) {
-        if (previewPanel) previewPanel.webview.postMessage({ type: "restoreViewport", viewport });
-      },
-      fullRefreshRequested(reason) { log("preview:refresh", `Full refresh required: ${reason}`); },
+      return { domUpdateMs: ready.domUpdateMs, locationMeasureMs: ready.locationMeasureMs };
     },
   }, {
     reuseCompilerState: previewCompilerReuseEnabled,
   }));
+  const renderWithPersistentRenderer = async (
+    project: TypstProjectUpdate,
+    binding: TypstPreviewBinding,
+    packageGenerations: readonly TypstPackageGeneration[],
+    trace?: PreviewTraceSession,
+  ): Promise<PreviewArtifact | undefined> => {
+    const sessions = previewRendererSessions;
+    if (!sessions) throw new Error("Preview renderer session owner is unavailable");
+    const logicalSource = await canonicalBytesDigest(
+      "mmt-preview-renderer-logical-source-v1",
+      [encoder.encode(project.sourceUri)],
+    );
+    const fonts = await previewRendererFontFiles();
+    let candidate: PreviewRendererCandidate | undefined;
+    let committed = false;
+    try {
+      const rendererStarted = performance.now();
+      candidate = await sessions.render(
+        project,
+        { logicalSourceId: logicalSource, fonts },
+        binding.renderKey,
+        binding.signal,
+      );
+      if (candidate.ready.frameKind === "diff-v1" && (
+        !previewWebviewRendererGeneration
+        || previewWebviewRendererGeneration.sessionId !== candidate.sessionId
+        || previewWebviewRendererGeneration.backendGeneration !== candidate.backendGeneration
+        || previewWebviewRendererGeneration.generation !== candidate.ready.baseGeneration
+      )) {
+        trace?.increment("rendererConsumerResyncs");
+        await sessions.discard(candidate);
+        await sessions.closeSource(project.sourceUri);
+        candidate = await sessions.render(
+          project,
+          { logicalSourceId: logicalSource, fonts },
+          binding.renderKey,
+          binding.signal,
+        );
+        if (candidate.ready.frameKind !== "new") {
+          throw new Error("Preview renderer consumer resynchronization did not return a full frame");
+        }
+      }
+      trace?.increment("rendererResponseBytes", candidate.ready.byteLength);
+      trace?.increment(candidate.ready.frameKind === "new" ? "rendererFrameNew" : "rendererFrameDiffV1");
+      trace?.setCounter("rendererGeneration", candidate.ready.generation);
+      trace?.setCounter("rendererBaseGeneration", candidate.ready.baseGeneration);
+      const revision: PreviewRevision = {
+        sourceUri: project.sourceUri,
+        sourceVersion: project.sourceVersion,
+        revision: project.revision,
+        requestId: binding.requestId,
+        traceId: binding.traceId,
+      };
+      const identity = currentPreviewBuildIdentity(revision);
+      if (binding.signal?.aborted || !identity || !previewBuildState.isCurrent(identity)) {
+        await sessions.discard(candidate);
+        candidate = undefined;
+        trace?.increment("staleDiscards");
+        return undefined;
+      }
+      const ready = await publishRendererFrameToWebview(candidate, binding);
+      trace?.stage("viewportRender", ready.viewportRenderMs ?? 0);
+      trace?.stage("iframeTransfer", ready.iframeTransferMs ?? 0);
+      trace?.stage("rendererDecode", ready.renderer?.frameDecodeMs ?? 0);
+      trace?.stage("rendererApply", ready.renderer?.rendererApplyMs ?? 0);
+      trace?.stage("domUpdate", ready.domUpdateMs);
+      if (!ready.renderer) throw new Error("Preview Webview omitted renderer metadata");
+      trace?.increment("patchedNodes", ready.renderer.patchedNodes);
+      trace?.increment("reusedNodes", ready.renderer.reusedNodes);
+      trace?.increment("removedNodes", ready.renderer.removedNodes);
+      trace?.increment("pageBuffers", ready.renderer.pageBuffers);
+      await sessions.commit(candidate);
+      committed = true;
+      previewWebviewRendererGeneration = Object.freeze({
+        sessionId: candidate.sessionId,
+        backendGeneration: candidate.backendGeneration,
+        generation: candidate.ready.generation,
+      });
+      if (previewWebviewRendererResyncRequested) {
+        if (previewWebviewRendererResyncRequested.sessionId === candidate.sessionId
+          && previewWebviewRendererResyncRequested.generation === candidate.ready.generation) {
+          previewWebviewRendererGeneration = undefined;
+        }
+        previewWebviewRendererResyncRequested = undefined;
+      }
+
+      const locationProviderKey: LocationProviderKey = Object.freeze({
+        kind: "renderer-provider",
+        sessionId: candidate.sessionId,
+        snapshotToken: binding.renderKey,
+        artifactDigest: candidate.ready.artifactDigest,
+        backendGeneration: candidate.backendGeneration,
+        rendererGeneration: candidate.ready.generation,
+        method: PREVIEW_RENDERER_METHOD,
+        coordinateVersion: "typst-page-points-v1",
+      });
+      if (!immutableRendererExports.has(binding.renderKey)) {
+        immutableRendererExports.set(binding.renderKey, {
+          sourceUri: project.sourceUri,
+          snapshot: cloneImmutableTypstExportSnapshot(project, packageGenerations),
+          pins: 0,
+        });
+      }
+      evictImmutableRendererExports(binding.renderKey);
+      const artifact = createPreviewArtifact({
+        renderKey: binding.renderKey,
+        sourceUri: project.sourceUri,
+        locationProviderKey,
+        visualSnapshot: {
+          kind: "renderer",
+          artifactDigest: candidate.ready.artifactDigest,
+          sourceDigest: candidate.ready.sourceDigest,
+          backendGeneration: candidate.backendGeneration,
+          rendererGeneration: candidate.ready.generation,
+          frameKind: candidate.ready.frameKind,
+          sessionId: candidate.sessionId,
+          snapshotToken: binding.renderKey,
+          byteLength: candidate.ready.byteLength,
+          pages: ready.renderer.pageGeometries.map((geometry) => ({
+            pageIndex: geometry.pageIndex,
+            geometry: {
+              viewBox: [0, 0, geometry.width, geometry.height] as const,
+              cssWidth: geometry.width,
+              cssHeight: geometry.height,
+            },
+          })),
+        },
+      });
+      const resolver: PreviewLocationResolver = {
+        key: locationProviderKey,
+        locateSelection: async (request, signal) => {
+          const { start, end } = request.range;
+          const primary = start.line === end.line && end.character > start.character
+            ? { line: start.line, character: start.character + Math.floor((end.character - start.character) / 2) }
+            : start;
+          const locations = await sessions.locateSource(candidate!, request.sourceUri, primary, signal);
+          if (locations.length > 0 || signal.aborted) return locations;
+          const fallback = primary.line === start.line && primary.character === start.character ? end : start;
+          if (fallback.line === primary.line && fallback.character === primary.character) return locations;
+          return sessions.locateSource(candidate!, request.sourceUri, fallback, signal);
+        },
+        locatePoint: async (request, signal) => sessions.locatePoint(candidate!, {
+          pageIndex: request.pageIndex,
+          x: request.x,
+          y: request.y,
+        }, signal),
+      };
+      Object.freeze(resolver);
+      displayPreviewArtifact(artifact, binding.identity, resolver, false);
+      trace?.renderKey(artifact.renderKey);
+      previewBuildState.complete(identity);
+      log("preview:identity", JSON.stringify({
+        event: "renderer-committed",
+        requestId: binding.requestId,
+        revision: identity.revision,
+        projectionKey: project.projectionKey,
+        renderKey: artifact.renderKey,
+        backendGeneration: candidate.backendGeneration,
+        rendererGeneration: candidate.ready.generation,
+        frameKind: candidate.ready.frameKind,
+        rendererMs: performance.now() - rendererStarted,
+      }));
+      return artifact;
+    } catch (error) {
+      if (candidate && !committed) {
+        await sessions.closeSource(project.sourceUri);
+        previewWebviewRendererGeneration = undefined;
+        previewWebviewRendererResyncRequested = undefined;
+        if (previewPanel) void previewPanel.webview.postMessage({ type: "renderer-reset" });
+      }
+      throw error;
+    }
+  };
   const renderPreview = async (
     project: TypstProjectUpdate,
     requestId?: number,
@@ -939,31 +1326,64 @@ async function initializeRuntime(
     controller.stores.previewArtifacts.request(project.sourceUri, binding.renderKey);
     if (displayedPreviewSourceUri === project.sourceUri) exactExportUi.bind(project.sourceUri);
     try {
-      const retained = controller.stores.previewArtifacts.get(binding.renderKey);
-      if (retained) {
-        preview.displayArtifact(retained, binding.identity, binding.resolver);
-        trace?.stage("visualReady", trace.elapsedMs);
-        trace?.finish("published");
-        if (trace) previewTraces.delete(trace.traceId);
+      operationSignal.throwIfAborted();
+      let artifact: PreviewArtifact | undefined;
+      const retainedArtifact = controller.stores.previewArtifacts.get(binding.renderKey);
+      if (retainedArtifact
+        && retainedArtifact === preview.displayedArtifact
+        && retainedArtifact.sourceUri === project.sourceUri
+        && !retainedArtifact.stale) {
+        artifact = retainedArtifact;
+        const retainedIdentity = currentPreviewBuildIdentity({
+          sourceUri: project.sourceUri,
+          sourceVersion: project.sourceVersion,
+          revision: project.revision,
+          requestId: binding.requestId,
+          traceId: binding.traceId,
+        });
+        if (retainedIdentity) previewBuildState.complete(retainedIdentity);
+      } else if (previewRendererEnabled) {
+        if (!previewRendererSessions || tinymist?.backend.capabilities().has(PREVIEW_RENDERER_METHOD) !== true) {
+          throw new Error("Qualified incremental preview renderer is unavailable");
+        }
+        artifact = await renderWithPersistentRenderer(project, binding, packageGenerations, trace);
       } else {
-        operationSignal.throwIfAborted();
         await preview.update(project, binding);
-        if (previewFixtureActiveSourceUri === project.sourceUri) {
-          trace?.finish("coalesced");
-          if (trace) previewTraces.delete(trace.traceId);
-          return;
-        }
-        const artifact = preview.displayedArtifact;
-        if (!artifact || artifact.renderKey !== binding.renderKey) {
-          trace?.increment("staleDiscards");
-          trace?.finish("stale-discarded");
-          if (trace) previewTraces.delete(trace.traceId);
-          return;
-        }
-        controller.stores.previewArtifacts.put(artifact);
+        artifact = preview.displayedArtifact;
       }
+      if (previewFixtureActiveSourceUri === project.sourceUri) {
+        trace?.finish("coalesced");
+        if (trace) previewTraces.delete(trace.traceId);
+        return;
+      }
+      if (!artifact || artifact.renderKey !== binding.renderKey) {
+        trace?.increment("staleDiscards");
+        trace?.finish("stale-discarded");
+        if (trace) previewTraces.delete(trace.traceId);
+        return;
+      }
+      controller.stores.previewArtifacts.put(artifact);
       controller.stores.previewArtifacts.display(project.sourceUri, binding.renderKey);
     } catch (error) {
+      if (operationSignal.aborted) {
+        trace?.finish("aborted");
+        if (trace) previewTraces.delete(trace.traceId);
+        return;
+      }
+      const failedIdentity = currentPreviewBuildIdentity({
+        sourceUri: project.sourceUri,
+        sourceVersion: project.sourceVersion,
+        revision: project.revision,
+        requestId: binding.requestId,
+        traceId: binding.traceId,
+      });
+      if (failedIdentity) {
+        previewBuildState.fail(
+          failedIdentity,
+          "renderer",
+          error instanceof Error ? error.message : String(error),
+        );
+      }
       trace?.finish("failed");
       if (trace) previewTraces.delete(trace.traceId);
       controller.stores.previewArtifacts.fail(project.sourceUri, binding.renderKey);
@@ -978,25 +1398,54 @@ async function initializeRuntime(
       exactExportHost?.latest.publish(project.sourceUri, binding.renderKey);
     }
     if (displayedPreviewSourceUri === project.sourceUri) exactExportUi.bind(project.sourceUri);
+    trace?.stage("visualReady", trace.elapsedMs);
+    trace?.finish("published");
+    if (trace) previewTraces.delete(trace.traceId);
   };
   let fixtureProviderKey: LocationProviderKey | undefined;
   let fixtureSelection: PreviewEditorSelection | undefined;
   if (import.meta.env.VITE_MMT_E2E === "1") {
+    exposeRuntimeGlobal("__mmtSetPreviewRendererEnabled", (enabled: boolean) => {
+      if (enabled && !previewRendererSessions) {
+        throw new Error("Qualified incremental preview renderer is unavailable");
+      }
+      previewRendererEnabled = enabled;
+      return previewRendererEnabled;
+    });
     exposeRuntimeGlobal("__mmtPreviewInteractionFixture", async (request: PreviewInteractionFixtureRequest) => {
       if (request.action === "state") {
+        const displayed = previewInteraction.artifact;
+        const visual = displayed?.visualSnapshot;
         return {
           renderKey: preview.displayedRenderKey ?? null,
-          viewport: preview.viewportState,
-          status: layout.preview.querySelector(".typst-preview-interaction-status")?.getAttribute("data-status") ?? null,
-          statusText: layout.preview.querySelector(".typst-preview-interaction-status")?.textContent ?? "",
-          indicatorCount: layout.preview.querySelectorAll(".typst-preview-indicator").length,
-          cursorCount: layout.preview.querySelectorAll(".typst-preview-cursor").length,
-          pageCount: layout.preview.querySelectorAll(".typst-preview-page").length,
-          cursor: preview.currentCursorPoint ?? null,
+          viewport: previewInteraction.viewport,
+          status: previewInteractionStatus,
+          statusText: previewInteractionStatusText,
+          indicatorCount: previewInteraction.indicator ? 1 : 0,
+          cursorCount: previewInteraction.cursor ? 1 : 0,
+          backendGeneration: visual?.kind === "renderer" ? visual.backendGeneration : null,
+          rendererSessionId: visual?.kind === "renderer" ? visual.sessionId : null,
+          rendererArtifactDigest: visual?.kind === "renderer" ? visual.artifactDigest : null,
+          rendererSourceDigest: visual?.kind === "renderer" ? visual.sourceDigest : null,
+          rendererByteLength: visual?.kind === "renderer" ? visual.byteLength : null,
+          pageGeometries: displayed?.pages.map((page) => page.geometry) ?? [],
+          pageCount: displayed?.pages.length ?? 0,
+          visualKind: visual?.kind ?? null,
+          rendererGeneration: visual?.kind === "renderer" ? visual.rendererGeneration : null,
+          rendererFrameKind: visual?.kind === "renderer" ? visual.frameKind : null,
+          cursor: previewInteraction.cursor?.point ?? null,
         };
+      }
+      if (request.action === "reveal") {
+        previewPanel?.reveal(undefined, false);
+        return previewPanel !== undefined;
       }
       if (request.action === "overlay") {
         return request.point ? Boolean(await previewPanel?.webview.postMessage({ type: "indicator", point: request.point })) : false;
+      }
+      if (request.action === "resync-renderer") {
+        previewWebviewRendererGeneration = undefined;
+        return true;
       }
       if (request.action === "restart-provider") {
         const restarted: LocationProviderKey = fixtureProviderKey?.kind === "provider"
@@ -1008,7 +1457,7 @@ async function initializeRuntime(
               method: "mmt/previewLocation.fixture.v2",
               coordinateVersion: "typst-page-points-v2",
             };
-        preview.providerRestarted(restarted);
+        previewInteraction.providerRestarted(restarted);
         return true;
       }
       if (request.action === "editor-selection") {
@@ -1039,21 +1488,21 @@ async function initializeRuntime(
             : undefined
         );
         if (!selection) return false;
-        return preview.navigateEditorSelection({ identity, range: selection });
+        return Boolean(await previewInteraction.navigateEditorSelection({ identity, range: selection }));
       }
 
       if (request.action === "position") {
         if (!fixtureSelection) return false;
-        preview.scheduleEditorSelection(fixtureSelection);
+        previewInteraction.scheduleEditorSelection(fixtureSelection);
         return true;
       }
       if (request.action === "navigate") {
-        return request.point ? Boolean(await preview.navigatePreviewPoint(request.point)) : false;
+        return request.point ? Boolean(await previewInteraction.navigatePreviewPoint(request.point)) : false;
       }
       if (request.action === "advance-source") {
         const current = fixtureSelection?.identity;
         if (!current) return false;
-        preview.sourceIdentityAdvanced({
+        previewInteraction.sourceIdentityAdvanced({
           ...current,
           sourceStaleToken: {
             ...current.sourceStaleToken,
@@ -1112,25 +1561,16 @@ async function initializeRuntime(
           renderKey: fixtureRenderKey,
           sourceUri,
           locationProviderKey: fixtureProviderKey,
-          pages,
+          visualSnapshot: { kind: "svg", pages, imageAssets: [] },
         });
-        preview.displayArtifact(artifact, identity, {
+        displayPreviewArtifact(artifact, identity, {
           key: fixtureProviderKey,
           async locateSelection() { return [{ pageIndex: 0, x: 0.2, y: 0.15 }, { pageIndex: 1, x: 0.9, y: 0.95 }]; },
           async locatePoint() { return { uri: identity.entryUri, range: selectedRange }; },
         });
         if (previewPanel) {
           previewPanel.reveal(undefined, false);
-          previewPanel.webview.html = previewWebviewHtml(
-            previewPanel.webview,
-            previewPanelTitle,
-            artifact.pages[0]!.sanitizedSvg,
-            "",
-            false,
-            { width: artifact.pages[0]!.geometry.cssWidth, height: artifact.pages[0]!.geometry.cssHeight },
-            preview.viewportState,
-            exactExportUi.state,
-          );
+          await publishFixtureArtifact(artifact);
         }
       } else {
         fixtureProviderKey = undefined;
@@ -1156,21 +1596,12 @@ async function initializeRuntime(
               { pageIndex: 1, x: 0.9, y: 0.95, radius: 0.08, target },
             ],
           },
-          pages,
+          visualSnapshot: { kind: "svg", pages, imageAssets: [] },
         });
-        preview.displayArtifact(artifact, identity);
+        displayPreviewArtifact(artifact, identity);
         if (previewPanel) {
           previewPanel.reveal(undefined, false);
-          previewPanel.webview.html = previewWebviewHtml(
-            previewPanel.webview,
-            previewPanelTitle,
-            artifact.pages[0]!.sanitizedSvg,
-            "",
-            false,
-            { width: artifact.pages[0]!.geometry.cssWidth, height: artifact.pages[0]!.geometry.cssHeight },
-            preview.viewportState,
-            exactExportUi.state,
-          );
+          await publishFixtureArtifact(artifact);
         }
       }
       return true;
@@ -1217,26 +1648,21 @@ async function initializeRuntime(
         sourceUri,
         locationProviderKey: { kind: "immutable-map", digest: mapDigest, coordinateVersion: "typst-page-points-v1" },
         locationMap: { digest: mapDigest, sourceToPreview: [], previewToSource: [] },
-        pages: [{
-          pageIndex: 0,
-          geometry: { viewBox: [0, 0, 320, 480], cssWidth: 320, cssHeight: 480 },
-          sanitizedSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480"><rect width="320" height="480" fill="white"/><text x="24" y="48" fill="black">Exact export ${escapeHtml(marker)}</text></svg>`,
-        }],
+        visualSnapshot: {
+          kind: "svg",
+          imageAssets: [],
+          pages: [{
+            pageIndex: 0,
+            geometry: { viewBox: [0, 0, 320, 480], cssWidth: 320, cssHeight: 480 },
+            sanitizedSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480"><rect width="320" height="480" fill="white"/><text x="24" y="48" fill="black">Exact export ${escapeHtml(marker)}</text></svg>`,
+          }],
+        },
       });
-      const renderFixturePanel = (displayed: PreviewArtifact): void => {
-        preview.displayArtifact(displayed, identity);
+      const renderFixturePanel = async (displayed: PreviewArtifact): Promise<void> => {
+        displayPreviewArtifact(displayed, identity);
         if (previewPanel) {
           previewPanel.reveal(undefined, false);
-          previewPanel.webview.html = previewWebviewHtml(
-            previewPanel.webview,
-            previewPanelTitle,
-            displayed.pages[0]!.sanitizedSvg,
-            "",
-            false,
-            { width: displayed.pages[0]!.geometry.cssWidth, height: displayed.pages[0]!.geometry.cssHeight },
-            preview.viewportState,
-            exactExportUi.state,
-          );
+          await publishFixtureArtifact(displayed);
         }
       };
       if (request.action === "install") {
@@ -1247,7 +1673,7 @@ async function initializeRuntime(
         controller.stores.previewArtifacts.display(sourceUri, artifact.renderKey);
         exactExportHost.latest.publish(sourceUri, artifact.renderKey);
         exactExportUi.bind(sourceUri);
-        renderFixturePanel(artifact);
+        await renderFixturePanel(artifact);
         return exactExportUi.state;
       }
       if (request.action === "advance") {
@@ -1269,7 +1695,7 @@ async function initializeRuntime(
         }
         exactExportAdvanceBySource.delete(sourceUri);
         exactExportFixtureAdvance = undefined;
-        renderFixturePanel(latest);
+        await renderFixturePanel(latest);
         exactExportHost.latest.publish(sourceUri, latest.renderKey);
         return latest.renderKey;
       }
@@ -1311,7 +1737,11 @@ async function initializeRuntime(
   };
   const closePreviewProject = (sourceUri: string) => {
     controller.stores.closeSource(sourceUri);
+    void previewRendererSessions?.closeSource(sourceUri);
     renderProjectSnapshots.close(sourceUri);
+    for (const [renderKey, retained] of immutableRendererExports) {
+      if (retained.sourceUri === sourceUri) immutableRendererExports.delete(renderKey);
+    }
     exactExportAdvanceBySource.delete(sourceUri);
     exactExportHost?.latest.closeSource(sourceUri);
     previewBuildState.clear(sourceUri);
@@ -1379,6 +1809,10 @@ async function initializeRuntime(
     monacoWorkerFactory: configureWorkbenchWorkerFactory
   });
   await api.start();
+  const configuredPreviewDiff = vscode.workspace.getConfiguration("mmt.preview").get<boolean>("diffV1", true);
+  previewRendererEnabled = previewFeaturesEnabled
+    && (previewRendererSetting === "1"
+      || (previewRendererSetting === undefined && configuredPreviewDiff));
   workspaceAssetMirror = own(new WorkspaceAssetMirror(previewResourceReuseEnabled));
   previewRenderQueue.setDebounceMs(
     vscode.workspace.getConfiguration("mmt.preview").get<number>("debounceMs", 50),
@@ -1400,7 +1834,7 @@ async function initializeRuntime(
       latestProjects: latestProjectBySource.size,
       artifacts: controller.stores.previewArtifacts.size,
       artifactBytes: controller.stores.previewArtifacts.byteSize,
-      mappedShadows: Number(layout.preview.dataset.previewShadowCount ?? 0),
+      mappedShadows: preview.mappedShadowCount,
       pendingMaterializations: pendingMaterializations.size,
       activeMaterializations: materializationControllers.size,
     }));
@@ -1496,7 +1930,7 @@ async function initializeRuntime(
     const runtime = runtimeStatus.snapshot();
     const snapshot = sourceUri ? previewBuildState.snapshot(sourceUri) : undefined;
     const diagnostics = sourceUri ? previewBuildState.diagnostics(sourceUri) : [];
-    const containerReady = layout.preview.dataset.previewReady === "true";
+    const containerReady = Boolean(previewInteraction.artifact);
     const displayedArtifact = preview.displayedArtifact;
     const fixtureActive = previewFixtureActiveSourceUri === sourceUri;
     const fixtureReady = fixtureActive && displayedArtifact?.sourceUri === sourceUri;
@@ -1525,8 +1959,8 @@ async function initializeRuntime(
       buildRevision: snapshot?.identity?.revision ?? null,
       fixtureActive,
       containerReady,
-      containerRevision: layout.preview.dataset.previewRevision ?? null,
-      containerRenderKey: layout.preview.dataset.previewRenderKey ?? null,
+      containerRevision: previewInteraction.identity ? String(previewInteraction.identity.revision) : null,
+      containerRenderKey: displayedArtifact?.renderKey ?? null,
       displayedRenderKey: displayedArtifact?.renderKey ?? null,
       panelOpen: previewPanel !== undefined,
       diagnostics: diagnostics.map(({ phase, severity, message }) => ({ phase, severity, message })),
@@ -1593,7 +2027,6 @@ async function initializeRuntime(
       trace?.finish(outcome);
       if (trace) {
         previewTraces.delete(trace.traceId);
-        previewPublicationStarted.delete(trace.traceId);
       }
     };
     const session = projectionSessionKey(project.entryUri);
@@ -1691,8 +2124,7 @@ async function initializeRuntime(
       log("resources:fetch:error", message);
       void showMomoScriptMessage("warning", `Preview fetch failed: ${message}`);
       if (displayedPreviewSourceUri === project.sourceUri && previewPanel) {
-        previewPanelHasPage = false;
-        previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
+        void previewPanel.webview.postMessage({ type: "status", message, error: true });
       }
       finishTrace("failed");
       return;
@@ -1981,13 +2413,16 @@ async function initializeRuntime(
     );
     const handle = tinymist;
     own({ dispose: () => handle.dispose() });
+    if (previewRendererEnabled) {
+      previewRendererSessions = own(new PreviewRendererSessionOwner({ backend: handle.backend }));
+    }
     controller.registerTermination(() => handle.terminate());
     const refreshRuntimeQueue = () => publishRuntimeQueue("project-queue-changed");
     own(handle.backend.on("tinymist/projectPrimeStarted", refreshRuntimeQueue));
     own(handle.backend.on("tinymist/projectPrimed", refreshRuntimeQueue));
     own(handle.backend.on("tinymist/projectPrimeFailed", refreshRuntimeQueue));
     own(handle.backend.on("tinymist/clientRestarting", () => {
-      preview.providerRestarted(undefined);
+      previewInteraction.providerRestarted(undefined);
       publishRuntimeStatus("backend-restarting", "recovering");
     }));
     own(handle.backend.on("tinymist/clientRestarted", () => publishRuntimeStatus("backend-restarted", "ready")));
@@ -2057,7 +2492,7 @@ async function initializeRuntime(
     if (!identity) return;
     const selection = event.selections[0];
     if (!selection) return;
-    preview.scheduleEditorSelection({
+    previewInteraction.scheduleEditorSelection({
       identity,
       range: {
         start: { line: selection.start.line, character: selection.start.character },
@@ -2072,7 +2507,7 @@ async function initializeRuntime(
     controller.stores.previewArtifacts.markStale(sourceUri);
     exactExportUi.bind(sourceUri);
     const project = previewProjects.get(sourceUri) ?? typstProjects.get(sourceUri);
-    if (project) preview.sourceIdentityAdvanced(previewIdentityFor(project, event.document));
+    if (project) previewInteraction.sourceIdentityAdvanced(previewIdentityFor(project, event.document));
   }));
   await Promise.allSettled(vscode.workspace.textDocuments.map((document) => recognizeAndSyncTypst(document)));
   if (vscode.window.activeTextEditor) await recognizeAndSyncTypst(vscode.window.activeTextEditor.document);
@@ -2180,11 +2615,21 @@ async function initializeRuntime(
         "mmt.typstPreview",
         previewPanelTitle,
         vscode.ViewColumn.Beside,
-        { enableScripts: true, retainContextWhenHidden: true }
+        {
+          enableScripts: true,
+          retainContextWhenHidden: true,
+          localResourceRoots: [previewWebviewRuntimeResourceRoot()],
+        }
       ));
       previewPanelDisposeRegistration = subscribe(previewPanel.onDidDispose(() => {
         previewPanel = undefined;
-        previewPanelHasPage = false;
+        previewWebviewReady = false;
+        previewWebviewRendererGeneration = undefined;
+        previewWebviewRendererResyncRequested = undefined;
+        for (const pending of pendingWebviewPublications.values()) {
+          pending.reject(new Error("Preview Webview closed before visual readiness"));
+        }
+        pendingWebviewPublications.clear();
         exactExportUi.bind(undefined);
         displayedPreviewSourceUri = undefined;
         refreshBuildStatus();
@@ -2194,35 +2639,50 @@ async function initializeRuntime(
         previewPanelMessageRegistration = undefined;
         for (const trace of previewTraces.values()) trace.finish("aborted");
         previewTraces.clear();
-        previewPublicationStarted.clear();
         void preview.close();
         log("preview", "Preview editor closed");
       }));
       previewPanelMessageRegistration = subscribe(previewPanel.webview.onDidReceiveMessage(async (message: unknown) => {
+        if (isPreviewWebviewReadyMessage(message)) {
+          previewWebviewReady = true;
+          for (const ready of previewWebviewReadyWaiters) ready();
+          previewWebviewReadyWaiters.clear();
+          void previewPanel?.webview.postMessage({ type: "exactExportState", state: exactExportUi.state });
+          return;
+        }
         if (isPreviewVisualReadyMessage(message)) {
-          const trace = previewTraces.get(message.traceId);
-          if (!trace) return;
-          const publicationStarted = previewPublicationStarted.get(message.traceId);
-          if (preview.displayedRenderKey !== message.renderKey) {
-            trace.increment("staleDiscards");
-            trace.finish("stale-discarded");
+          const pending = pendingWebviewPublications.get(message.requestSequence);
+          if (!pending) return;
+          pendingWebviewPublications.delete(message.requestSequence);
+          if (pending.renderKey !== message.renderKey) {
+            pending.reject(new Error("Preview Webview visual-ready render key mismatch"));
           } else {
-            if (publicationStarted !== undefined) {
-              trace.stage("domUpdate", performance.now() - publicationStarted);
-            }
-            trace.stage("visualReady", trace.elapsedMs);
-            trace.finish("published");
+            pending.resolve(message);
           }
-          previewTraces.delete(message.traceId);
-          previewPublicationStarted.delete(message.traceId);
+          return;
+        }
+        if (isPreviewRendererResyncNeededMessage(message)) {
+          const current = previewWebviewRendererGeneration;
+          if (current?.sessionId === message.sessionId && current.generation === message.generation) {
+            previewWebviewRendererGeneration = undefined;
+          } else if (!current || (current.sessionId === message.sessionId && current.generation < message.generation)) {
+            previewWebviewRendererResyncRequested = message;
+          }
+          return;
+        }
+        if (isPreviewRenderRejectedMessage(message)) {
+          const pending = pendingWebviewPublications.get(message.requestSequence);
+          if (!pending) return;
+          pendingWebviewPublications.delete(message.requestSequence);
+          pending.reject(new Error(message.error));
           return;
         }
         if (isPreviewViewportMessage(message)) {
-          preview.updateViewportFromHost(message.viewport);
+          previewInteraction.updateViewport(message.viewport);
           return;
         }
         if (isPreviewNavigateMessage(message)) {
-          await preview.navigatePreviewPoint(message.point);
+          await previewInteraction.navigatePreviewPoint(message.point);
           return;
         }
         if (isExactExportCancelMessage(message)) {
@@ -2257,15 +2717,17 @@ async function initializeRuntime(
         downloadBlob(exported.blob, `${baseName}.${exported.extension}`);
         log("export", `Downloaded ${baseName}.${exported.extension} from ${exported.metadata.renderKey}`);
       }));
+      previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle);
     } else {
       previewPanel.title = previewPanelTitle;
       previewPanel.reveal(undefined, false);
     }
+    await waitForPreviewWebview();
     log("preview", `Opening ${sourceUri}`);
     if (document.languageId === "typst") {
-      previewPanelHasPage = false;
-      previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, "正在准备 Typst 预览…");
+      void previewPanel.webview.postMessage({ type: "status", message: "正在准备 Typst 预览…", error: false });
       const project = await buildTypstProject(document, typstRevisions);
+      if (previewFixtureActiveSourceUri === sourceUri) return;
       typstProjects.set(sourceUri, project);
       syncTinymistProject(project);
       previewBuildState.activate(previewBuildIdentityFor(project, document));
@@ -2274,12 +2736,10 @@ async function initializeRuntime(
     }
     if (!activeClient) {
       const message = "MomoScript 语言服务器不可用；Typst 编辑与语言服务仍可继续使用。";
-      previewPanelHasPage = false;
-      previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
+      void previewPanel.webview.postMessage({ type: "status", message, error: true });
       return;
     }
-    previewPanelHasPage = false;
-    previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, "正在准备 MomoScript 投影…");
+    void previewPanel.webview.postMessage({ type: "status", message: "正在准备 MomoScript 投影…", error: false });
     let project: TypstProjectUpdate | null;
     try {
       project = await waitForSynchronizedLanguageProjection(
@@ -2289,16 +2749,14 @@ async function initializeRuntime(
     } catch (error) {
       const detail = error instanceof Error ? error.message : String(error);
       const message = `无法为 ${document.fileName} 构建 Typst 投影：${detail}`;
-      previewPanelHasPage = false;
-      previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
+      void previewPanel.webview.postMessage({ type: "status", message, error: true });
       log("preview:error", message);
       return;
     }
     if (displayedPreviewSourceUri !== sourceUri) return;
     if (!project) {
       const message = `语言服务器未能及时同步 ${document.fileName} 的文档版本 ${document.version}。`;
-      previewPanelHasPage = false;
-      previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle, undefined, message, true);
+      void previewPanel.webview.postMessage({ type: "status", message, error: true });
       log("preview:error", message);
       return;
     }
@@ -2609,6 +3067,29 @@ function bytesToBase64(bytes: Uint8Array): string {
   }
   return btoa(binary);
 }
+function cloneImmutableTypstExportSnapshot(
+  project: TypstProjectUpdate,
+  packageGenerations: readonly TypstPackageGeneration[],
+): ImmutableTypstExportSnapshot {
+  const clonedProject: TypstProjectUpdate = Object.freeze({
+    ...project,
+    files: project.files.map((file) => Object.freeze({ ...file })),
+  });
+  const clonedPackages = Object.freeze(packageGenerations.map((generation) => Object.freeze({
+    ...generation,
+    spec: Object.freeze({ ...generation.spec }),
+    files: Object.freeze(generation.files.map((file) => Object.freeze({
+      ...file,
+      bytes: Uint8Array.from(file.bytes),
+    }))),
+    internalFiles: Object.freeze(generation.internalFiles.map((file) => Object.freeze({
+      ...file,
+      bytes: Uint8Array.from(file.bytes),
+    }))),
+  })));
+  return Object.freeze({ project: clonedProject, packageGenerations: clonedPackages });
+}
+
 
 function base64ToBytes(value: string): Uint8Array {
   const binary = atob(value);
@@ -2732,14 +3213,139 @@ function isExactExportCancelMessage(value: unknown): value is { readonly type: "
   return Boolean(value && typeof value === "object" && "type" in value && value.type === "exact-export-cancel");
 }
 
-function isPreviewVisualReadyMessage(
+interface PreviewRendererReadyMetadata {
+  readonly sessionId: string;
+  readonly artifactDigest: string;
+  readonly sourceDigest: string;
+  readonly backendGeneration: number;
+  readonly generation: number;
+  readonly baseGeneration: number;
+  readonly frameKind: "new" | "diff-v1";
+  readonly byteLength: number;
+  readonly pageGeometries: readonly {
+    readonly offsetY: number;
+    readonly pageIndex: number;
+    readonly width: number;
+    readonly height: number;
+  }[];
+  readonly patchedNodes: number;
+  readonly reusedNodes: number;
+  readonly removedNodes: number;
+  readonly pageBuffers: number;
+  readonly frameDecodeMs: number;
+  readonly rendererApplyMs: number;
+}
+
+interface PreviewVisualReadyMessage {
+  readonly type: "visual-ready";
+  readonly requestSequence: number;
+  readonly traceId?: string;
+  readonly renderKey: RenderKey;
+  readonly locations: readonly RenderArtifactLocation[];
+  readonly domUpdateMs: number;
+  readonly locationMeasureMs: number;
+  readonly renderer?: PreviewRendererReadyMetadata;
+  readonly viewportRenderMs?: number;
+  readonly iframeTransferMs?: number;
+}
+
+function isPreviewWebviewReadyMessage(value: unknown): value is { readonly type: "ready" } {
+  return Boolean(value && typeof value === "object" && "type" in value && value.type === "ready");
+}
+
+function isPreviewRenderRejectedMessage(
   value: unknown,
-): value is { readonly type: "visual-ready"; readonly traceId: string; readonly renderKey: RenderKey } {
+): value is { readonly type: "render-rejected"; readonly requestSequence: number; readonly renderKey: RenderKey; readonly error: string } {
   if (!value || typeof value !== "object") return false;
-  const message = value as { type?: unknown; traceId?: unknown; renderKey?: unknown };
+  const message = value as { type?: unknown; requestSequence?: unknown; renderKey?: unknown; error?: unknown };
+  return message.type === "render-rejected"
+    && Number.isSafeInteger(message.requestSequence)
+    && typeof message.renderKey === "string"
+    && typeof message.error === "string";
+}
+
+function isPreviewRendererResyncNeededMessage(
+  value: unknown,
+): value is { readonly type: "renderer-resync-needed"; readonly sessionId: string; readonly generation: number } {
+  if (!value || typeof value !== "object") return false;
+  const message = value as { type?: unknown; sessionId?: unknown; generation?: unknown };
+  return message.type === "renderer-resync-needed"
+    && typeof message.sessionId === "string"
+    && message.sessionId.length > 0
+    && Number.isSafeInteger(message.generation)
+    && Number(message.generation) > 0;
+}
+
+function isPreviewVisualReadyMessage(value: unknown): value is PreviewVisualReadyMessage {
+  if (!value || typeof value !== "object") return false;
+  const message = value as Partial<PreviewVisualReadyMessage>;
   return message.type === "visual-ready"
-    && typeof message.traceId === "string"
-    && typeof message.renderKey === "string";
+    && Number.isSafeInteger(message.requestSequence)
+    && typeof message.renderKey === "string"
+    && Array.isArray(message.locations)
+    && typeof message.domUpdateMs === "number"
+    && Number.isFinite(message.domUpdateMs)
+    && message.domUpdateMs >= 0
+    && typeof message.locationMeasureMs === "number"
+    && Number.isFinite(message.locationMeasureMs)
+    && message.locationMeasureMs >= 0
+    && (message.viewportRenderMs === undefined
+      || (typeof message.viewportRenderMs === "number"
+        && Number.isFinite(message.viewportRenderMs)
+        && message.viewportRenderMs >= 0))
+    && (message.iframeTransferMs === undefined
+      || (typeof message.iframeTransferMs === "number"
+        && Number.isFinite(message.iframeTransferMs)
+        && message.iframeTransferMs >= 0))
+    && (message.renderer === undefined || isPreviewRendererReadyMetadata(message.renderer));
+}
+
+function isPreviewRendererReadyMetadata(value: unknown): value is PreviewRendererReadyMetadata {
+  if (!value || typeof value !== "object") return false;
+  const renderer = value as Partial<PreviewRendererReadyMetadata>;
+  return typeof renderer.sessionId === "string"
+    && renderer.sessionId.length > 0
+    && typeof renderer.artifactDigest === "string"
+    && typeof renderer.sourceDigest === "string"
+    && Number.isSafeInteger(renderer.backendGeneration)
+    && Number(renderer.backendGeneration) > 0
+    && Number.isSafeInteger(renderer.generation)
+    && Number(renderer.generation) > 0
+    && Number.isSafeInteger(renderer.baseGeneration)
+    && Number(renderer.baseGeneration) >= 0
+    && (renderer.frameKind === "new" || renderer.frameKind === "diff-v1")
+    && Number.isSafeInteger(renderer.byteLength)
+    && Number(renderer.byteLength) > 0
+    && Array.isArray(renderer.pageGeometries)
+    && renderer.pageGeometries.length > 0
+    && renderer.pageGeometries.every((geometry) => Boolean(
+      geometry
+      && typeof geometry === "object"
+      && Number.isSafeInteger(geometry.pageIndex)
+      && Number(geometry.pageIndex) >= 0
+      && typeof geometry.offsetY === "number"
+      && Number.isFinite(geometry.offsetY)
+      && geometry.offsetY >= 0
+      && typeof geometry.width === "number"
+      && Number.isFinite(geometry.width)
+      && geometry.width > 0
+      && typeof geometry.height === "number"
+      && Number.isFinite(geometry.height)
+      && geometry.height > 0
+    ))
+    && renderer.pageGeometries.every((geometry, index, geometries) => (
+      geometry.pageIndex === index
+      && geometry.offsetY === (index === 0 ? 0 : geometries[index - 1].offsetY + geometries[index - 1].height)
+    ))
+    && Number.isSafeInteger(renderer.patchedNodes) && Number(renderer.patchedNodes) >= 0
+    && Number.isSafeInteger(renderer.reusedNodes) && Number(renderer.reusedNodes) >= 0
+    && Number.isSafeInteger(renderer.removedNodes) && Number(renderer.removedNodes) >= 0
+    && Number.isSafeInteger(renderer.pageBuffers)
+    && Number(renderer.pageBuffers) >= 0 && Number(renderer.pageBuffers) <= 8
+    && typeof renderer.frameDecodeMs === "number"
+    && Number.isFinite(renderer.frameDecodeMs) && renderer.frameDecodeMs >= 0
+    && typeof renderer.rendererApplyMs === "number"
+    && Number.isFinite(renderer.rendererApplyMs) && renderer.rendererApplyMs >= 0;
 }
 
 function isPreviewViewportMessage(value: unknown): value is { type: "viewport"; viewport: PreviewViewport } {
@@ -2778,48 +3384,28 @@ function previewNonce(): string {
   return crypto.randomUUID().replaceAll("-", "");
 }
 
-function previewWebviewHtml(
-  webview: vscode.Webview,
-  title: string,
-  svg?: string,
-  status = "Rendering preview…",
-  error = false,
-  pageSize?: { width: number; height: number },
-  viewportState: PreviewViewport = { page: 0, x: 0, y: 0, zoom: 1, fitMode: "width" },
-  exactExportState?: ExactExportUiState,
-  traceId?: string,
-  renderedKey?: RenderKey,
-): string {
-  void webview;
+function previewWebviewRuntimeResourceUri(): vscode.Uri {
+  return vscode.Uri.parse(new URL(previewWebviewRuntimeUrl, location.href).href);
+}
+
+function previewWebviewRuntimeResourceRoot(): vscode.Uri {
+  return vscode.Uri.parse(new URL(".", previewWebviewRuntimeResourceUri().toString()).href);
+}
+
+function previewWebviewHtml(webview: vscode.Webview, title: string): string {
   const nonce = previewNonce();
-  const resolvedExportState: ExactExportUiState = exactExportState ?? Object.freeze({
-    mode: "exact",
-    availability: "no-document",
-    phase: "idle",
-    message: "Open a preview to export its output.",
-    canSelectFormat: false,
-    canExportDisplayed: false,
-    canWaitForLatest: false,
-    canCancel: false,
-  });
-  const pageStyle = pageSize ? ` style="width:${pageSize.width}px;height:${pageSize.height}px" data-intrinsic-width="${pageSize.width}" data-intrinsic-height="${pageSize.height}"` : "";
+  const runtimeUri = webview.asWebviewUri(previewWebviewRuntimeResourceUri()).toString();
   const formats = [
-    { format: "pdf", label: "PDF document" },
-    { format: "png", label: "PNG image" },
-    { format: "jpg", label: "JPEG image" },
-    { format: "svg", label: "SVG vector" },
-  ].map(({ format, label }) => `<option value="${format}">${label}</option>`).join("");
-  const exportReadyLabel = resolvedExportState.mode === "exact" ? "Export exact revision" : "Export current preview";
-  const exportAriaLabel = resolvedExportState.mode === "exact" ? "Exact snapshot export" : "Current preview export";
-  const exportControls = `<section class="exact-export" data-mode="${resolvedExportState.mode}" data-availability="${resolvedExportState.availability}" data-phase="${resolvedExportState.phase}" aria-label="${exportAriaLabel}"><label class="exact-export-format"><span>Format</span><select aria-label="Export format" disabled>${formats}</select></label><button type="button" data-export-action="ready" hidden disabled>${exportReadyLabel}</button><div class="exact-export-stale" hidden><button type="button" data-export-action="export-displayed" disabled>Export displayed revision</button><button type="button" data-export-action="wait-for-latest" disabled>Wait for latest</button></div><button type="button" data-export-action="cancel" hidden disabled>Cancel export</button><span class="exact-export-status" role="status" aria-live="polite">${escapeHtml(resolvedExportState.message)}</span></section>`;
-  const body = svg
-    ? `<nav class="preview-toolbar" aria-label="预览操作"><div class="zoom-controls"><button type="button" data-zoom="out" aria-label="Zoom out">−</button><span class="zoom-label" aria-live="polite">100%</span><button type="button" data-zoom="in" aria-label="Zoom in">+</button><button type="button" data-fit="width">Fit width</button><button type="button" data-fit="page">Fit page</button></div>${exportControls}</nav><main class="viewport"><article class="page" data-page-index="0"${pageStyle}>${svg}</article></main>`
-    : `<main class="status${error ? " error" : ""}">${escapeHtml(status)}</main>`;
+    ["pdf", "PDF document"],
+    ["png", "PNG image"],
+    ["jpg", "JPEG image"],
+    ["svg", "SVG vector"],
+  ].map(([format, label]) => `<option value="${format}">${label}</option>`).join("");
   return `<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: blob:; style-src 'unsafe-inline'; script-src 'nonce-${nonce}'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src blob: ${escapeHtml(webview.cspSource)}; img-src data: blob:; style-src 'unsafe-inline'; script-src 'nonce-${nonce}' 'wasm-unsafe-eval' ${escapeHtml(webview.cspSource)}; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(title)}</title>
   <style>
@@ -2827,15 +3413,11 @@ function previewWebviewHtml(
     body { box-sizing: border-box; font-family: var(--vscode-font-family); }
     .preview-toolbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 4px 12px; box-sizing: border-box; border-bottom: 1px solid var(--vscode-panel-border); background: var(--vscode-editor-background); }
     .zoom-controls { display: flex; align-items: center; gap: 5px; }
-    .zoom-controls button { min-height: 26px; border: 1px solid var(--vscode-button-border, var(--vscode-panel-border)); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); cursor: pointer; }
+    .zoom-controls button, .exact-export button, .exact-export select { min-height: 26px; border: 1px solid var(--vscode-button-border, var(--vscode-panel-border)); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); cursor: pointer; }
     .zoom-label { width: 44px; color: var(--vscode-descriptionForeground); font: 12px var(--vscode-editor-font-family); text-align: center; }
     .exact-export { display: grid; grid-template-columns: auto auto; align-items: center; justify-content: end; gap: 4px 6px; min-width: 0; }
     .exact-export-format { display: inline-flex; align-items: center; gap: 5px; color: var(--vscode-descriptionForeground); font-size: 11px; }
-    .exact-export select, .exact-export button { min-height: 26px; border: 1px solid var(--vscode-button-border, var(--vscode-panel-border)); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); font: inherit; }
-    .exact-export select { color: var(--vscode-dropdown-foreground, var(--vscode-foreground)); background: var(--vscode-dropdown-background, var(--vscode-editor-background)); }
-    .exact-export button { padding: 3px 8px; cursor: pointer; }
-    .exact-export button:hover:not(:disabled) { background: var(--vscode-button-hoverBackground); }
-    .exact-export select:focus-visible, .exact-export button:focus-visible { outline: 1px solid var(--vscode-focusBorder); outline-offset: 1px; }
+    .exact-export button { padding: 3px 8px; }
     .exact-export select:disabled, .exact-export button:disabled { cursor: not-allowed; opacity: .55; }
     .exact-export-stale { display: flex; gap: 4px; }
     .exact-export-stale[hidden], .exact-export [hidden] { display: none; }
@@ -2843,10 +3425,11 @@ function previewWebviewHtml(
     .exact-export[data-availability="stale"] .exact-export-status { color: var(--vscode-editorWarning-foreground, #cca700); }
     .exact-export[data-availability="failed"] .exact-export-status, .exact-export[data-phase="error"] .exact-export-status { color: var(--vscode-errorForeground); }
     .viewport { display: flex; justify-content: center; min-width: min-content; height: calc(100vh - 43px); overflow: auto; box-sizing: border-box; padding: 24px; background: #e5e5e5; }
-    .page { position: relative; flex: 0 0 auto; background: transparent; line-height: 0; transform-origin: top left; }
-    .page svg { display: block; width: 100%; height: 100%; max-width: none; }
-    .page svg > .typst-page { filter: drop-shadow(0 2px 5px #0008); }
-    .page .tsel { left: 0; position: fixed; width: 100%; height: 100%; overflow: hidden; color: transparent; font-family: monospace; line-height: normal; text-align: left; text-align-last: left; white-space: pre; pointer-events: auto; user-select: text; cursor: text; transform: translateY(0.32em); transform-origin: left top; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; text-size-adjust: none; }
+    .page { position: relative; flex: 0 0 auto; background: transparent; line-height: 0; box-shadow: 0 2px 5px #0008; transform-origin: top left; }
+    .page > svg { display: block; width: 100%; height: 100%; max-width: none; }
+    .page > .typst-renderer-root { display: block; width: 100%; height: 100%; max-width: none; user-select: text; }
+    .page > .typst-renderer-root text { cursor: text; user-select: text; }
+    .page .tsel { contain: layout paint style; left: 0; position: fixed; width: 100%; height: 100%; overflow: hidden; color: transparent; font-family: monospace; line-height: normal; text-align: left; text-align-last: left; white-space: pre; pointer-events: auto; user-select: text; cursor: text; transform: translateY(0.32em); transform-origin: left top; -webkit-text-size-adjust: none; text-size-adjust: none; }
     .page .tsel .tsel-token { display: inline-block; position: relative; width: 0.602em; height: 1em; line-height: normal; }
     .page .tsel::selection, .page .tsel .tsel-token::selection { color: transparent; background: #7db9dea0; }
     .preview-indicator, .preview-cursor { position: absolute; z-index: 4; pointer-events: none; transform: translate(-50%, -50%); }
@@ -2856,211 +3439,30 @@ function previewWebviewHtml(
     .status.error { color: var(--vscode-errorForeground); }
   </style>
 </head>
-<body>${body}</body>
-<script nonce="${nonce}">
-  const vscode = acquireVsCodeApi();
-  const viewport = document.querySelector('.viewport');
-  const page = document.querySelector('.page');
-  const zoomLabel = document.querySelector('.zoom-label');
-  const initialViewport = ${scriptJson(viewportState)};
-  const initialExportState = ${scriptJson(resolvedExportState)};
-  const initialTraceId = ${scriptJson(traceId)};
-  const initialRenderKey = ${scriptJson(renderedKey)};
-  const publishVisualReady = (readyTraceId, readyRenderKey) => {
-    if (typeof readyTraceId !== 'string' || typeof readyRenderKey !== 'string') return;
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      vscode.postMessage({ type: 'visual-ready', traceId: readyTraceId, renderKey: readyRenderKey });
-    }));
-  };
-  let zoom = initialViewport.zoom;
-  let fitMode = initialViewport.fitMode;
-  let intrinsicWidth = Number(page?.dataset.intrinsicWidth);
-  let intrinsicHeight = Number(page?.dataset.intrinsicHeight);
-  const applyZoom = (nextZoom, nextFitMode, notify = true) => {
-    if (!page || !(intrinsicWidth > 0) || !(intrinsicHeight > 0)) return;
-    zoom = Math.round(Math.min(5, Math.max(.1, nextZoom)) * 100) / 100;
-    fitMode = nextFitMode;
-    page.style.width = intrinsicWidth * zoom + 'px';
-    page.style.height = intrinsicHeight * zoom + 'px';
-    if (zoomLabel) zoomLabel.textContent = Math.round(zoom * 100) + '%';
-    if (notify) reportViewport();
-  };
-  const reportViewport = () => {
-    if (!viewport || !page) return;
-    const viewportBounds = viewport.getBoundingClientRect();
-    const pageBounds = page.getBoundingClientRect();
-    if (!(pageBounds.width > 0) || !(pageBounds.height > 0)) return;
-    const x = Math.min(1, Math.max(0, (viewportBounds.left + viewportBounds.width / 2 - pageBounds.left) / pageBounds.width));
-    const y = Math.min(1, Math.max(0, (viewportBounds.top + viewportBounds.height / 2 - pageBounds.top) / pageBounds.height));
-    vscode.postMessage({ type: 'viewport', viewport: { page: 0, x, y, zoom, fitMode } });
-  };
-  const fitWidth = (notify = true) => {
-    if (!viewport || !(intrinsicWidth > 0)) return;
-    applyZoom((viewport.clientWidth - 48) / intrinsicWidth, 'width', notify);
-  };
-  const fitPage = (notify = true) => {
-    if (!viewport || !(intrinsicWidth > 0) || !(intrinsicHeight > 0)) return;
-    applyZoom(Math.min((viewport.clientWidth - 48) / intrinsicWidth, (viewport.clientHeight - 48) / intrinsicHeight), 'page', notify);
-  };
-  const restoreViewport = (state) => {
-    if (!viewport || !page || !state) return;
-    if (state.fitMode === 'width') fitWidth(false);
-    else if (state.fitMode === 'page') fitPage(false);
-    else applyZoom(state.zoom, 'manual', false);
-    requestAnimationFrame(() => {
-      viewport.scrollLeft = page.offsetLeft + Math.min(1, Math.max(0, state.x)) * page.offsetWidth - viewport.clientWidth / 2;
-      viewport.scrollTop = page.offsetTop + Math.min(1, Math.max(0, state.y)) * page.offsetHeight - viewport.clientHeight / 2;
-    });
-  };
-  restoreViewport(initialViewport);
-  publishVisualReady(initialTraceId, initialRenderKey);
-  document.querySelector('[data-zoom="out"]')?.addEventListener('click', () => applyZoom(zoom - .1, 'manual'));
-  document.querySelector('[data-zoom="in"]')?.addEventListener('click', () => applyZoom(zoom + .1, 'manual'));
-  document.querySelector('[data-fit="width"]')?.addEventListener('click', () => fitWidth());
-  document.querySelector('[data-fit="page"]')?.addEventListener('click', () => fitPage());
-  viewport?.addEventListener('wheel', (event) => {
-    if (!event.ctrlKey && !event.metaKey) return;
-    event.preventDefault();
-    if (!page) return;
-    const pageBounds = page.getBoundingClientRect();
-    const anchorX = (event.clientX - pageBounds.left) / pageBounds.width;
-    const anchorY = (event.clientY - pageBounds.top) / pageBounds.height;
-    applyZoom(zoom * Math.exp(-event.deltaY * .002), 'manual', false);
-    const resizedBounds = page.getBoundingClientRect();
-    viewport.scrollLeft += resizedBounds.left + anchorX * resizedBounds.width - event.clientX;
-    viewport.scrollTop += resizedBounds.top + anchorY * resizedBounds.height - event.clientY;
-    reportViewport();
-  }, { passive: false });
-  let viewportFrame;
-  viewport?.addEventListener('scroll', () => {
-    if (viewportFrame) return;
-    viewportFrame = requestAnimationFrame(() => { viewportFrame = undefined; reportViewport(); });
-  }, { passive: true });
-  let previewPointerOrigin;
-  let previewPointerDragged = false;
-  page?.addEventListener('pointerdown', (event) => {
-    previewPointerOrigin = { x: event.clientX, y: event.clientY };
-    previewPointerDragged = false;
-  });
-  page?.addEventListener('pointermove', (event) => {
-    if (!previewPointerOrigin) return;
-    if (Math.hypot(event.clientX - previewPointerOrigin.x, event.clientY - previewPointerOrigin.y) > 3) {
-      previewPointerDragged = true;
-    }
-  });
-  page?.addEventListener('pointerup', () => { previewPointerOrigin = undefined; });
-  page?.addEventListener('click', (event) => {
-    const bounds = page.getBoundingClientRect();
-    if (!(bounds.width > 0) || !(bounds.height > 0)) return;
-    const point = {
-      pageIndex: 0,
-      x: Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width)),
-      y: Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height)),
-    };
-    setTimeout(() => {
-      const selection = document.getSelection();
-      const dragged = previewPointerDragged;
-      previewPointerDragged = false;
-      if (dragged || (selection && !selection.isCollapsed)) return;
-      vscode.postMessage({ type: 'navigate', point });
-    }, 0);
-  });
-  let indicatorPoint;
-  let cursorPoint;
-  const showOverlay = (className, point) => {
-    if (className === 'preview-indicator') indicatorPoint = point;
-    else cursorPoint = point;
-    document.querySelector('.' + className)?.remove();
-    if (!point || point.pageIndex !== 0 || !page) return;
-    const overlay = document.createElement('span');
-    overlay.className = className;
-    overlay.style.left = Math.min(1, Math.max(0, point.x)) * 100 + '%';
-    overlay.style.top = Math.min(1, Math.max(0, point.y)) * 100 + '%';
-    page.append(overlay);
-  };
-  const replaceRenderedPage = (svg, size, readyTraceId, readyRenderKey) => {
-    if (!viewport || !page || typeof svg !== 'string' || !size) return;
-    const parsed = new DOMParser().parseFromString(svg, 'image/svg+xml');
-    const root = parsed.documentElement;
-    if (root.namespaceURI !== 'http://www.w3.org/2000/svg' || root.localName !== 'svg') return;
-    const scrollLeft = viewport.scrollLeft;
-    const scrollTop = viewport.scrollTop;
-    intrinsicWidth = Number(size.width);
-    intrinsicHeight = Number(size.height);
-    if (!(intrinsicWidth > 0) || !(intrinsicHeight > 0)) return;
-    page.dataset.intrinsicWidth = String(intrinsicWidth);
-    page.dataset.intrinsicHeight = String(intrinsicHeight);
-    page.replaceChildren(document.importNode(root, true));
-    if (fitMode === 'width') fitWidth(false);
-    else if (fitMode === 'page') fitPage(false);
-    else applyZoom(zoom, 'manual', false);
-    showOverlay('preview-indicator', indicatorPoint);
-    showOverlay('preview-cursor', cursorPoint);
-    requestAnimationFrame(() => {
-      viewport.scrollLeft = scrollLeft;
-      viewport.scrollTop = scrollTop;
-      reportViewport();
-      publishVisualReady(readyTraceId, readyRenderKey);
-    });
-  };
-  window.addEventListener('message', (event) => {
-    if (event.data?.type === 'restoreViewport') restoreViewport(event.data.viewport);
-    else if (event.data?.type === 'indicator') showOverlay('preview-indicator', event.data.point);
-    else if (event.data?.type === 'cursor') showOverlay('preview-cursor', event.data.point);
-    else if (event.data?.type === 'render') replaceRenderedPage(
-      event.data.svg,
-      event.data.pageSize,
-      event.data.traceId,
-      event.data.renderKey,
-    );
-    else if (event.data?.type === 'exactExportState') applyExactExportState(event.data.state);
-  });
-  const exportControl = document.querySelector('.exact-export');
-  const exportFormat = document.querySelector('.exact-export select');
-  const exportReady = document.querySelector('[data-export-action="ready"]');
-  const exportDisplayed = document.querySelector('[data-export-action="export-displayed"]');
-  const exportLatest = document.querySelector('[data-export-action="wait-for-latest"]');
-  const exportStale = document.querySelector('.exact-export-stale');
-  const exportCancel = document.querySelector('[data-export-action="cancel"]');
-  const exportStatus = document.querySelector('.exact-export-status');
-  const applyExactExportState = (state) => {
-    if (!exportControl || !state) return;
-    exportControl.dataset.availability = state.availability;
-    exportControl.dataset.mode = state.mode;
-    exportControl.dataset.phase = state.phase;
-    if (exportStatus) exportStatus.textContent = state.message;
-    if (exportFormat) exportFormat.disabled = !state.canSelectFormat;
-    if (exportReady) {
-      exportReady.textContent = state.mode === 'exact' ? 'Export exact revision' : 'Export current preview';
-      exportReady.hidden = state.availability !== 'ready' || state.canCancel;
-      exportReady.disabled = !state.canExportDisplayed;
-    }
-    if (exportStale) exportStale.hidden = state.availability !== 'stale' || state.canCancel;
-    if (exportDisplayed) exportDisplayed.disabled = !state.canExportDisplayed;
-    if (exportLatest) exportLatest.disabled = !state.canWaitForLatest;
-    if (exportCancel) {
-      exportCancel.hidden = !state.canCancel;
-      exportCancel.disabled = !state.canCancel;
-    }
-  };
-  applyExactExportState(initialExportState);
-  exportReady?.addEventListener('click', () => {
-    vscode.postMessage({ type: 'exact-export', format: exportFormat?.value });
-  });
-  exportDisplayed?.addEventListener('click', () => {
-    vscode.postMessage({ type: 'exact-export', format: exportFormat?.value, staleChoice: 'export-displayed' });
-  });
-  exportLatest?.addEventListener('click', () => {
-    vscode.postMessage({ type: 'exact-export', format: exportFormat?.value, staleChoice: 'wait-for-latest' });
-  });
-  exportCancel?.addEventListener('click', () => {
-    exportCancel.disabled = true;
-    if (exportStatus) exportStatus.textContent = initialExportState.mode === 'exact'
-      ? 'Cancelling exact export…'
-      : 'Cancelling preview export…';
-    vscode.postMessage({ type: 'exact-export-cancel' });
-  });
-</script>
+<body>
+  <nav class="preview-toolbar" aria-label="预览操作">
+    <div class="zoom-controls">
+      <button type="button" data-zoom="out" aria-label="Zoom out">−</button>
+      <span class="zoom-label" aria-live="polite">100%</span>
+      <button type="button" data-zoom="in" aria-label="Zoom in">+</button>
+      <button type="button" data-fit="width">Fit width</button>
+      <button type="button" data-fit="page">Fit page</button>
+    </div>
+    <section class="exact-export" data-mode="exact" data-availability="no-document" data-phase="idle" aria-label="Exact snapshot export">
+      <label class="exact-export-format"><span>Format</span><select aria-label="Export format" disabled>${formats}</select></label>
+      <button type="button" data-export-action="ready" hidden disabled>Export exact revision</button>
+      <div class="exact-export-stale" hidden>
+        <button type="button" data-export-action="export-displayed" disabled>Export displayed revision</button>
+        <button type="button" data-export-action="wait-for-latest" disabled>Wait for latest</button>
+      </div>
+      <button type="button" data-export-action="cancel" hidden disabled>Cancel export</button>
+      <output class="exact-export-status" role="status">Open a preview to export its output.</output>
+    </section>
+  </nav>
+  <main class="status">Rendering preview…</main>
+  <main class="viewport" hidden><article class="page" data-page-index="0"></article></main>
+  <script type="module" nonce="${nonce}" src="${escapeHtml(runtimeUri)}"></script>
+</body>
 </html>`;
 }
 
@@ -3074,14 +3476,6 @@ function escapeHtml(value: string): string {
   })[character]!);
 }
 
-function scriptJson(value: unknown): string {
-  const json = JSON.stringify(value);
-  if (json === undefined) return "null";
-  return json
-    .replaceAll("<", "\\u003c")
-    .replaceAll("\u2028", "\\u2028")
-    .replaceAll("\u2029", "\\u2029");
-}
 
 function createLayout(root: HTMLElement) {
   root.replaceChildren();
@@ -3091,11 +3485,10 @@ function createLayout(root: HTMLElement) {
   const sidebar = part("sidebar");
   const main = part("main");
   const editor = part("editor");
-  const preview = part("preview");
   const panel = part("panel");
   const status = part("status");
   body.append(activity, primary);
-  root.append(body, status, preview);
+  root.append(body, status);
 
   const sidebarMainSplit = new SplitView(primary, {
     orientation: Orientation.HORIZONTAL,
@@ -3149,7 +3542,6 @@ function createLayout(root: HTMLElement) {
     activity,
     sidebar,
     editor,
-    preview,
     panel,
     status,
     setPanelVisible(visible: boolean) {

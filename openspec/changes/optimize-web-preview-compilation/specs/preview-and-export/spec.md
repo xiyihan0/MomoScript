@@ -76,23 +76,77 @@ Ordinary typing preview work SHALL be coalesced per source. Queued superseded wo
 - THEN intermediate queued revisions SHOULD NOT start expensive preview work
 - AND no revision older than N+9 may publish preview, navigation mapping, diagnostics, or export state
 
-### Requirement: Incremental renderer use is capability-qualified
+### Requirement: Persistent renderer use is capability-qualified
 
-A persistent vector/diff renderer SHALL remain unavailable until a pinned producer and consumer prove the same snapshot, navigation, selectable-text, page, resource, export, cancellation, and restart behavior as the full renderer.
+The editor SHALL use a pinned Tinymist 0.15.2 `new`/`diff-v1` producer and typst.ts 0.8.0-rc3 consumer behind one qualification gate. The visible Webview SHALL be the sole preview DOM and viewport owner. It SHALL retain one persistent render session, create page shells from immutable page metadata, and patch only a bounded visible document window with the package-exported structured DOM patcher. No window SHALL retain more than eight populated page buffers. Consumer replay SHALL be bounded to 64 frames and 128 MiB. The producer SHALL compile with the same pinned immutable font bytes as the browser compiler; each font SHALL be content-digested, resource-bounded, and validated before use.
 
-#### Scenario: Consumer supports diff but producer is unqualified
+#### Scenario: One-character edit on a tall report
 
-- GIVEN the installed renderer accepts `diff-v1`
-- AND the active compiler/preview backend has no qualified delta producer transcript
-- WHEN the editor selects a preview path
-- THEN it MUST keep the validated full-render path
-- AND MUST NOT infer that consumer support alone makes incremental rendering safe
+- GIVEN the displayed artifact has a committed renderer generation
+- WHEN a one-character edit produces a sequential delta
+- THEN the Webview MUST require the exact base generation
+- AND MUST patch the visible document window without replacing the complete SVG
+- AND MUST perform zero eager full-document source-location measurements
+- AND MUST acknowledge visual readiness only after viewport restoration, its queued window render, two animation frames, and a final matching render-generation check
+
+#### Scenario: Viewport repeatedly crosses window boundaries
+
+- GIVEN the renderer has a displayed SVG root and bounded resource headers
+- WHEN scrolling repeatedly changes the rendered window and returns to the same viewport
+- THEN the displayed SVG root identity MUST remain unchanged
+- AND complete glyph, clip, and style headers MUST replace or deduplicate prior headers rather than append duplicates
+- AND the resource-rule count, populated page buffers, and rendered DOM count at that viewport MUST remain bounded
+
+#### Scenario: Renderer compiles selectable text with pinned fonts
+
+- GIVEN the projected Typst document contains text using a pinned browser font
+- WHEN the producer registers and renders the immutable project snapshot
+- THEN its compiler world MUST resolve that exact content-digested font record
+- AND the rendered generation MUST contain the expected selectable glyph text
+- AND a missing, invalid, oversized, or digest-mismatched font record MUST fail without publication
+
+### Requirement: Renderer generations preserve displayed navigation
+
+Each backend session SHALL retain exactly the committed/displayed and staged document generations. A staged render SHALL NOT invalidate location queries for the displayed artifact. Commit SHALL occur only after a matching visual-ready acknowledgement; cancellation, staleness, failure, or close SHALL discard staged state.
+
+#### Scenario: New generation compiles behind displayed artifact
+
+- GIVEN generation N is displayed and queryable
+- AND generation N+1 is staged
+- WHEN navigation targets generation N
+- THEN the backend MUST resolve the request against generation N
+- AND MUST NOT consult generation N+1
+
+### Requirement: Renderer artifacts support immutable exact export
+
+A renderer-backed `PreviewArtifact` MAY retain immutable identity, artifact digest, page geometry, and page count instead of canonical full-SVG bytes. SVG, PNG, JPG, and PDF export SHALL rebuild the requested render key from pinned retained render/runtime inputs and SHALL NOT read mutable live DOM or compiler state. Full sanitized SVG SHALL remain an explicit differential/recovery oracle and MUST NOT be invoked silently for ordinary edits.
+
+#### Scenario: Export renderer artifact after live state advances
+
+- GIVEN renderer artifact R remains retained after the live renderer advances
+- WHEN the user exports R
+- THEN export MUST pin R and its immutable inputs for the operation
+- AND MUST rebuild bytes for R
+- AND MUST reject stale current-preview selection according to the existing render-key policy
+
+### Requirement: Renderer resynchronization is bounded
+
+Unknown base, restart, sequence gap, digest mismatch, or malformed frame SHALL publish no partial generation and SHALL permit exactly one forced-full retry. A second mismatch SHALL fail visibly and close the affected renderer session.
+
+#### Scenario: Delta base is missing
+
+- GIVEN the consumer does not retain the requested base generation
+- WHEN a `diff-v1` frame arrives
+- THEN it MUST reject the frame without mutation
+- AND the host MUST request one forced `new` frame
+- AND an accepted `new` frame MUST replace the consumer session and complete resource headers while preserving the displayed SVG root identity
+- AND no further automatic full fallback may occur
 
 ## MODIFIED Requirements
 
 ### Requirement: Preview location mapping is artifact- and capability-versioned
 
-Editor/preview navigation SHALL use a qualified versioned location provider whose artifact digest, backend generation, method, and coordinate version are captured by the immutable `PreviewArtifact`, or SHALL use an immutable location map stored with that artifact. A stable mutable compiler path SHALL never substitute for any of these identity fields. The editor SHALL NOT infer semantic source positions by searching rendered text or DOM order.
+Editor/preview navigation SHALL use a qualified versioned location provider whose session id, snapshot token, artifact digest, backend generation, method, and coordinate version are captured by the immutable `PreviewArtifact`, or SHALL use an immutable location map stored with a full-SVG oracle artifact. The provider SHALL resolve the requested committed or staged renderer generation before querying the Typst document. A stable mutable compiler path SHALL never substitute for any identity field. The editor SHALL NOT infer semantic source positions by searching rendered text or DOM order.
 
 #### Scenario: Stable compiler path is reused
 

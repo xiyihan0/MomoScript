@@ -8,6 +8,7 @@ import {
   type PreviewArtifactStore,
   type PreviewPage,
   type PreviewPageGeometry,
+  type PreviewSvgPage,
 } from "./previewArtifact.ts";
 import type { RuntimeOwnedResource } from "./runtimeOwner.ts";
 
@@ -84,7 +85,7 @@ export interface ImmutableRenderInputs {
 }
 
 export interface RasterExportPort {
-  encode(page: PreviewPage, format: "png" | "jpg", signal: AbortSignal): Promise<Uint8Array>;
+  encode(page: PreviewSvgPage, format: "png" | "jpg", signal: AbortSignal): Promise<Uint8Array>;
 }
 
 /**
@@ -323,13 +324,15 @@ export class ExactExportService implements RuntimeOwnedResource {
         retained = cloneRetainedInputs(stored.render, stored.runtime);
         bytes = await this.#dependencies.pdf.compile(retained.render, retained.runtime, signal);
       } else {
+        if (artifact.visualSnapshot.kind !== "svg") throw new ArtifactUnavailableError(renderKey);
         const pageIndex = request.pageIndex ?? 0;
-        page = artifact.pages[pageIndex];
-        if (!page) throw new ArtifactUnavailableError(renderKey);
-        const expandedSvg = await inlinePreviewImageAssets(page.sanitizedSvg, artifact.imageAssets);
-        const expandedPage = expandedSvg === page.sanitizedSvg
-          ? page
-          : Object.freeze({ ...page, sanitizedSvg: expandedSvg });
+        const svgPage = artifact.visualSnapshot.pages[pageIndex];
+        if (!svgPage) throw new ArtifactUnavailableError(renderKey);
+        page = svgPage;
+        const expandedSvg = await inlinePreviewImageAssets(svgPage.sanitizedSvg, artifact.visualSnapshot.imageAssets);
+        const expandedPage = expandedSvg === svgPage.sanitizedSvg
+          ? svgPage
+          : Object.freeze({ ...svgPage, sanitizedSvg: expandedSvg });
         bytes = request.format === "svg"
           ? new TextEncoder().encode(expandedSvg)
           : await this.#dependencies.raster.encode(expandedPage, request.format, signal);

@@ -1,6 +1,5 @@
 import { expect, test, type Download, type Page, waitForPreviewFrame } from "./fixtures";
 
-const TINYMIST_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/tinymist/0.15.2/2dbe1a96f28dee1c580801f760855fffa7644ff30f368d6fc56124177291265d/tinymist_bg.wasm.br?delivery=br-v1";
 const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
 
 interface ExactExportState {
@@ -12,7 +11,7 @@ interface ExactExportState {
 test("stale exact export requires an explicit displayed or wait-latest choice", { tag: "@runtime-export" }, async ({ page }) => {
   await page.route("https://**/*", async (route) => {
     const url = route.request().url();
-    if (url === TINYMIST_WASM_URL || url === TYPST_COMPILER_WASM_URL) {
+    if (url === TYPST_COMPILER_WASM_URL) {
       await route.abort("connectionfailed");
       return;
     }

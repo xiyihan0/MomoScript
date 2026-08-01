@@ -64,4 +64,17 @@ for (const uri of fixture.mountUris) {
 assert.throws(() => identity.canonicalRelativePath(fixture.mountUris[0]), /Non-canonical/);
 assert.throws(() => identity.canonicalRelativePath("file:/workspace/main.typ"), /Non-canonical/);
 assert.deepEqual(actual, fixture.expected);
+const compilerSnapshot = await identity.previewCompilerSnapshotDigest("/main.typ", [
+  { path: "/main.typ", contentDigest: "1".repeat(64) }
+]);
+assert.equal(compilerSnapshot, "90c87e733cdf9ab79072e601af3eca21550c3b9b79a41c1b64ead51caa7368f1");
+assert.equal(
+  compilerSnapshot,
+  await identity.canonicalBytesDigest("mmt-preview-compiler-snapshot-v1", [
+    bytes.encode("/main.typ"),
+    bytes.encode("/main.typ"),
+    bytes.encode("1".repeat(64))
+  ])
+);
+assert.throws(() => identity.canonicalCompilerMountPath("/unsafe/../main.typ"), /Non-canonical/);
 console.log(`runtime identity fixture ok: ${render}`);

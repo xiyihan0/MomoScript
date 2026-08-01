@@ -5,6 +5,12 @@ import path from "node:path";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const pin = JSON.parse(await readFile(new URL("../../../third_party/tinymist/pin.json", import.meta.url), "utf8"));
+const typstPin = JSON.parse(await readFile(new URL("../../../third_party/typst-ts/pin.json", import.meta.url), "utf8"));
+const typstChecksums = await readChecksumManifest(
+  fileURLToPath(new URL("../../../third_party/typst-ts/SHA256SUMS", import.meta.url)),
+  "typst.ts"
+);
+const typstRendererArtifacts = [typstPin.artifacts.rendererBinding, typstPin.artifacts.rendererWasm];
 const tinymistVendor = path.join("vendor", `tinymist-${pin.upstream.version}`);
 const tinymistArtifacts = [pin.artifacts.webJs, pin.artifacts.webWasm].map((artifact) => ({
   name: path.basename(artifact.relativePath),
@@ -41,6 +47,22 @@ for (const [relative, size, digest] of expected) {
   if (actual !== digest) throw new Error(`${relative}: sha256 ${actual} does not match ${digest}`);
 }
 
+const workbenchRoot = path.resolve(root, "../vscode-web");
+for (const artifact of typstRendererArtifacts) {
+  if (typstChecksums.get(artifact.checksumPath) !== artifact.sha256) {
+    throw new Error(`third_party/typst-ts/SHA256SUMS: ${artifact.checksumPath} does not match the maintained typst.ts pin`);
+  }
+  const filename = path.join(workbenchRoot, artifact.relativePath);
+  const metadata = await stat(filename);
+  if (metadata.size !== artifact.size) {
+    throw new Error(`${artifact.relativePath}: expected ${artifact.size} bytes, got ${metadata.size}`);
+  }
+  const actual = createHash("sha256").update(await readFile(filename)).digest("hex");
+  if (actual !== artifact.sha256) {
+    throw new Error(`${artifact.relativePath}: sha256 ${actual} does not match ${artifact.sha256}`);
+  }
+}
+
 const mmtArtifacts = ["mmt_lsp.js", "mmt_lsp_bg.wasm", "mmt_lsp.d.ts"];
 const mmtChecksums = await readChecksumManifest(
   path.join(root, "vendor", "mmt-lsp", "SHA256SUMS"),
@@ -60,13 +82,13 @@ for (const name of mmtArtifacts) {
   await copyFile(path.join(root, "vendor", "mmt-lsp", name), path.join(wasmOutput, name));
 }
 
-console.log(`verified ${expected.length + mmtArtifacts.length} browser language-service artifacts`);
+console.log(`verified ${expected.length + mmtArtifacts.length + typstRendererArtifacts.length} browser language-service artifacts`);
 
 async function readChecksumManifest(filename, label) {
   const lines = (await readFile(filename, "utf8")).trim().split("\n").filter(Boolean);
   const checksums = new Map();
   for (const line of lines) {
-    const match = /^([0-9a-f]{64})  ([A-Za-z0-9_.-]+)$/.exec(line);
+    const match = /^([0-9a-f]{64})  ([A-Za-z0-9_./-]+)$/.exec(line);
     if (!match) throw new Error(`invalid ${label} checksum line: ${line}`);
     if (checksums.has(match[2])) throw new Error(`duplicate ${label} checksum entry: ${match[2]}`);
     checksums.set(match[2], match[1]);

@@ -7,6 +7,7 @@ import jetBrainsMonoUrl from "../../vscode/vendor/fonts/JetBrainsMono-Regular.tt
 import mathUrl from "../../vscode/vendor/fonts/NewCMMath-Regular.otf?url";
 
 import type { TypstProjectUpdate } from "../../vscode/src/tinymistClient";
+import type { PreviewRendererFileRecord } from "../../vscode/src/previewRendererProtocol.ts";
 import type { TypstPackageGeneration } from "../../vscode/src/typstPackageService";
 import { TypstPreviewPackageRegistry } from "../../vscode/src/typstPreviewPackageRegistry";
 import { isCurrentPreviewUpdate, type PreviewRevision } from "./previewDiagnostics";
@@ -19,31 +20,21 @@ import {
   type PreviewArtifact,
   type PreviewImmutableLocationMap,
   type PreviewImageAsset,
-  type PreviewPage,
   type PreviewPagePoint,
-  type PreviewSourceTarget,
-  type PreviewViewport,
 } from "./previewArtifact.ts";
 import {
-  BrowserPreviewViewportPersistence,
-  PreviewInteractionController,
-  PreviewUpdateCoordinator,
-  safePreviewOutline,
-  type PreviewEditorSelection,
-  type PreviewInteractionDependencies,
   type PreviewLocationResolver,
-  type PreviewOutlineSymbol,
-  type PreviewPageBatch,
-  type PreviewBatchResult,
   type PreviewProviderPointRequest,
   type PreviewProviderSelectionRequest,
-  type PreviewProtocolCapabilities,
   type PreviewSourceIdentity,
 } from "./previewInteraction.ts";
-import type { RenderKey } from "../../vscode/src/runtimeIdentity";
+import { normalizeTextSelectionNode } from "./previewSelectableText.ts";
+import { canonicalBytesDigest, type RenderKey } from "../../vscode/src/runtimeIdentity";
 import {
+  MAIN_FONT_BOLD_SHA256,
   MAIN_FONT_BOLD_URL,
   MAIN_FONT_REGULAR_URL,
+  MAIN_FONT_REGULAR_SHA256,
   TYPST_COMPILER_WASM_URL,
   runtimeIdentityUrl,
 } from "./runtimeArtifacts";
@@ -69,6 +60,7 @@ const optionalMainFontsLoader = async (
 };
 
 const encoder = new TextEncoder();
+let rendererFontsPromise: Promise<readonly PreviewRendererFileRecord[]> | undefined;
 let initialized = false;
 let compilerModule: WebAssembly.Module | undefined;
 const previewAccessModel = new MemoryAccessModel();
@@ -76,13 +68,59 @@ const previewPackageRegistry = new TypstPreviewPackageRegistry(previewAccessMode
 export const RENDER_ARTIFACT_LOCATION_METHOD = "mmt/renderArtifactLocations";
 export const RENDER_ARTIFACT_COORDINATE_VERSION = "typst-svg-debug-spans-v1";
 
+export function previewRendererFontFiles(): Promise<readonly PreviewRendererFileRecord[]> {
+  rendererFontsPromise ??= loadPreviewRendererFontFiles();
+  return rendererFontsPromise;
+}
+
+async function loadPreviewRendererFontFiles(): Promise<readonly PreviewRendererFileRecord[]> {
+  const fonts = await Promise.all([
+    fetchPreviewRendererFont(mathUrl),
+    fetchPreviewRendererFont(monoUrl),
+    fetchPreviewRendererFont(jetBrainsMonoUrl),
+    fetchPreviewRendererFont(MAIN_FONT_REGULAR_URL, MAIN_FONT_REGULAR_SHA256),
+    fetchPreviewRendererFont(MAIN_FONT_BOLD_URL, MAIN_FONT_BOLD_SHA256),
+  ]);
+  return Object.freeze(fonts);
+}
+
+async function fetchPreviewRendererFont(
+  url: string,
+  expectedSha256?: string,
+): Promise<PreviewRendererFileRecord> {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Preview renderer font download failed: HTTP ${response.status}`);
+  const bytes = new Uint8Array(await response.arrayBuffer());
+  if (bytes.byteLength === 0) throw new Error("Preview renderer font download was empty");
+  if (expectedSha256 && await rawSha256(bytes) !== expectedSha256) {
+    throw new Error("Preview renderer font digest mismatch");
+  }
+  return Object.freeze({
+    contentDigest: await canonicalBytesDigest("mmt-project-file-v1", [bytes]),
+    dataBase64: encodeRendererBytes(bytes),
+  });
+}
+
+async function rawSha256(bytes: Uint8Array): Promise<string> {
+  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", Uint8Array.from(bytes).buffer));
+  return [...digest].map((value) => value.toString(16).padStart(2, "0")).join("");
+}
+
+function encodeRendererBytes(bytes: Uint8Array): string {
+  let binary = "";
+  for (let offset = 0; offset < bytes.byteLength; offset += 0x8000) {
+    binary += String.fromCharCode(...bytes.subarray(offset, Math.min(offset + 0x8000, bytes.byteLength)));
+  }
+  return btoa(binary);
+}
+
 interface ResolvedTypstDebugSpan {
   readonly span: string;
   readonly start: number;
   readonly end: number;
 }
 
-interface RenderArtifactLocation extends ResolvedTypstDebugSpan, PreviewPagePoint {
+export interface RenderArtifactLocation extends ResolvedTypstDebugSpan, PreviewPagePoint {
   readonly left: number;
   readonly top: number;
   readonly right: number;
@@ -127,7 +165,11 @@ export interface TypstPreviewTiming {
 
 export interface TypstPreviewEvents {
   status(message: string, error: boolean, revision?: PreviewRevision): void;
-  rendered(svg: string, revision: PreviewRevision, shadowCount: number, pageSize: { width: number; height: number }): void;
+  rendered(
+    publication: TypstPreviewPublication,
+    revision: PreviewRevision,
+    shadowCount: number,
+  ): void | PreviewPublicationTiming | Promise<void | PreviewPublicationTiming>;
   timing?(timing: TypstPreviewTiming, revision: PreviewRevision): void;
 }
 
@@ -147,6 +189,11 @@ interface PendingPreviewRender {
   readonly binding?: TypstPreviewBinding;
 }
 export type TypstExportFormat = "pdf" | "png" | "jpg" | "svg";
+export interface ImmutableTypstExportSnapshot {
+  readonly project: TypstProjectUpdate;
+  readonly packageGenerations: readonly TypstPackageGeneration[];
+}
+
 
 export interface TypstExport {
   blob: Blob;
@@ -155,6 +202,31 @@ export interface TypstExport {
 interface DebugSvgRender {
   readonly svg: string;
   readonly spans: readonly ResolvedTypstDebugSpan[];
+}
+
+export interface PreviewMeasurementSpan {
+  readonly span: string;
+  readonly start: number;
+  readonly end: number;
+}
+
+export interface TypstPreviewPublication {
+  readonly artifact: PreviewArtifact;
+  readonly identity: PreviewSourceIdentity;
+  readonly compactSvg: string;
+  readonly imageAssets: readonly PreviewImageAsset[];
+  readonly pageSize: { readonly width: number; readonly height: number };
+  readonly entryUri: string;
+  readonly entryText: string;
+  readonly spans: readonly PreviewMeasurementSpan[];
+  readonly requestSequence?: number;
+  readonly traceId?: string;
+  readonly signal?: AbortSignal;
+}
+
+export interface PreviewPublicationTiming {
+  readonly domUpdateMs: number;
+  readonly locationMeasureMs: number;
 }
 
 async function renderSvgWithDebugSpans(mainFilePath: string): Promise<DebugSvgRender> {
@@ -199,7 +271,6 @@ export interface TypstPreviewControllerOptions {
 }
 
 export class TypstPreviewController {
-  private readonly container: HTMLElement;
   private readonly events: TypstPreviewEvents | undefined;
   private pending: PendingPreviewRender | undefined;
   private rendering = false;
@@ -209,153 +280,39 @@ export class TypstPreviewController {
   private readonly reuseCompilerState: boolean;
   private generation = 0;
   private closeRequested = false;
-  private readonly viewport = document.createElement("div");
-  private readonly canvas = document.createElement("div");
-  private readonly zoomLabel = document.createElement("span");
-  private readonly interactionStatus = document.createElement("span");
-  private readonly outline = document.createElement("nav");
-  private readonly pageElements = new Map<number, HTMLElement>();
-  private readonly interaction: PreviewInteractionController;
-  private readonly resizeObserver: ResizeObserver | undefined;
-  private updates = new PreviewUpdateCoordinator({ protocolVersion: "mmt-preview-v1" });
-  private zoom = 1;
-  private fitMode: PreviewViewport["fitMode"] = "width";
-  private pageSize: { width: number; height: number } | undefined;
   private latestEntryPath: string | undefined;
   private latestCompilerRenderKey: RenderKey | undefined;
   private latestSvg: string | undefined;
   private latestImageAssets: readonly PreviewImageAsset[] = [];
-  private readonly mountedImageUrls = new Set<string>();
-  private scrollFrame: number | undefined;
-  private acceptingHostViewport = false;
-  private viewportRestoreFrame: number | undefined;
-  private suppressViewportReports = false;
+  private pageSize: { width: number; height: number } | undefined;
+  private artifact: PreviewArtifact | undefined;
 
   constructor(
-    container: HTMLElement,
     events?: TypstPreviewEvents,
-    interactionDependencies: PreviewInteractionDependencies = {},
     options: TypstPreviewControllerOptions = {},
   ) {
-    this.reuseCompilerState = options.reuseCompilerState ?? true;
-    this.container = container;
     this.events = events;
-    this.container.classList.add("typst-preview");
-    const toolbar = document.createElement("div");
-    toolbar.className = "typst-preview-toolbar";
-    this.interactionStatus.className = "typst-preview-interaction-status";
-    this.interactionStatus.setAttribute("role", "status");
-    toolbar.append(
-      this.interactionStatus,
-      this.control("−", "Zoom out", () => this.setZoom(this.zoom - 0.1, "manual")),
-      this.zoomLabel,
-      this.control("+", "Zoom in", () => this.setZoom(this.zoom + 0.1, "manual")),
-      this.control("100%", "Actual size", () => this.setZoom(1, "manual")),
-      this.control("Fit width", "Fit width", () => this.fitWidth()),
-      this.control("Fit page", "Fit page", () => this.fitPage()),
-    );
-    this.zoomLabel.className = "typst-preview-zoom";
-    this.viewport.className = "typst-preview-viewport";
-    this.canvas.className = "typst-preview-canvas";
-    this.outline.className = "typst-preview-outline";
-    this.outline.setAttribute("aria-label", "Preview outline");
-    this.outline.hidden = true;
-    const persistence = interactionDependencies.persistence
-      ?? (typeof localStorage === "undefined" ? undefined : new BrowserPreviewViewportPersistence(localStorage));
-    const externalInteractionEvents = interactionDependencies.events;
-    this.interaction = new PreviewInteractionController({
-      ...interactionDependencies,
-      persistence,
-      events: {
-        statusChanged: (status, message) => {
-          this.interactionStatus.dataset.status = status;
-          this.interactionStatus.textContent = message;
-          externalInteractionEvents?.statusChanged?.(status, message);
-        },
-        indicatorChanged: (indicator) => {
-          this.showIndicator(indicator?.point);
-          externalInteractionEvents?.indicatorChanged?.(indicator);
-        },
-        cursorChanged: (cursor) => {
-          this.showCursor(cursor?.point);
-          externalInteractionEvents?.cursorChanged?.(cursor);
-        },
-        viewportChanged: (state) => {
-          this.applyViewportState(state);
-          if (!this.acceptingHostViewport) externalInteractionEvents?.viewportChanged?.(state);
-        },
-        sourceOpened: (target) => externalInteractionEvents?.sourceOpened?.(target),
-        fullRefreshRequested: (reason) => externalInteractionEvents?.fullRefreshRequested?.(reason),
-      },
-    });
-    this.viewport.addEventListener("wheel", (event) => {
-      if (!event.ctrlKey && !event.metaKey) return;
-      event.preventDefault();
-      this.setZoom(this.zoom + (event.deltaY > 0 ? -0.1 : 0.1), "manual");
-    }, { passive: false });
-    this.viewport.addEventListener("scroll", () => this.scheduleViewportReport(), { passive: true });
-    this.container.replaceChildren(toolbar, this.outline, this.viewport);
-    this.setZoom(1, "manual", false);
-    this.showStatus("Preview is waiting for the first MomoScript projection…");
-    this.resizeObserver = typeof ResizeObserver === "undefined"
-      ? undefined
-      : new ResizeObserver(() => {
-        if (this.fitMode === "width") this.fitWidth(false);
-        else if (this.fitMode === "page") this.fitPage(false);
-      });
-    this.resizeObserver?.observe(this.viewport);
+    this.reuseCompilerState = options.reuseCompilerState ?? true;
   }
 
-  get viewportState(): PreviewViewport { return this.interaction.viewport; }
-  get displayedRenderKey(): RenderKey | undefined { return this.interaction.artifact?.renderKey; }
-  get displayedArtifact(): PreviewArtifact | undefined { return this.interaction.artifact; }
+  get displayedRenderKey(): RenderKey | undefined { return this.artifact?.renderKey; }
+  get displayedArtifact(): PreviewArtifact | undefined { return this.artifact; }
+  get mappedShadowCount(): number { return this.mappedPaths.size; }
 
-  updateViewportFromHost(viewport: PreviewViewport): void {
-    this.acceptingHostViewport = true;
-    try {
-      this.interaction.updateViewport(viewport);
-    } finally {
-      this.acceptingHostViewport = false;
+  setDisplayedArtifact(artifact: PreviewArtifact, retainCompilerEntry = false): void {
+    this.artifact = artifact;
+    const firstPage = artifact.visualSnapshot.kind === "svg" ? artifact.visualSnapshot.pages[0] : undefined;
+    this.latestSvg = firstPage?.sanitizedSvg;
+    this.latestImageAssets = artifact.visualSnapshot.kind === "svg" ? artifact.visualSnapshot.imageAssets : [];
+    this.pageSize = firstPage
+      ? { width: firstPage.geometry.cssWidth, height: firstPage.geometry.cssHeight }
+      : undefined;
+    if (retainCompilerEntry) {
+      this.latestCompilerRenderKey = artifact.renderKey;
+    } else if (this.latestCompilerRenderKey !== artifact.renderKey) {
+      this.latestEntryPath = undefined;
+      this.latestCompilerRenderKey = undefined;
     }
-  }
-
-  navigatePreviewPoint(point: PreviewPagePoint): Promise<PreviewSourceTarget | undefined> {
-    return this.interaction.navigatePreviewPoint(point);
-  }
-
-  private control(label: string, title: string, action: () => void): HTMLButtonElement {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.textContent = label;
-    button.title = title;
-    button.setAttribute("aria-label", title);
-    button.addEventListener("click", action);
-    return button;
-  }
-
-  private setZoom(value: number, fitMode: PreviewViewport["fitMode"], persist = true): void {
-    this.zoom = Math.round(Math.min(5, Math.max(0.1, value)) * 100) / 100;
-    this.fitMode = fitMode;
-    this.zoomLabel.textContent = `${Math.round(this.zoom * 100)}%`;
-    this.applyPageLayout();
-    if (persist && this.interaction.artifact) {
-      this.interaction.updateViewport({ ...this.interaction.viewport, zoom: this.zoom, fitMode });
-    }
-  }
-
-  private fitWidth(persist = true): void {
-    const page = this.pageElements.get(this.interaction.viewport.page) ?? this.pageElements.values().next().value;
-    const width = Number(page?.dataset.intrinsicWidth);
-    if (!(width > 0)) return;
-    this.setZoom((this.viewport.clientWidth - 32) / width, "width", persist);
-  }
-
-  private fitPage(persist = true): void {
-    const page = this.pageElements.get(this.interaction.viewport.page) ?? this.pageElements.values().next().value;
-    const width = Number(page?.dataset.intrinsicWidth);
-    const height = Number(page?.dataset.intrinsicHeight);
-    if (!(width > 0) || !(height > 0)) return;
-    this.setZoom(Math.min((this.viewport.clientWidth - 32) / width, (this.viewport.clientHeight - 32) / height), "page", persist);
   }
 
   async createExport(format: TypstExportFormat, signal?: AbortSignal): Promise<TypstExport> {
@@ -384,10 +341,68 @@ export class TypstPreviewController {
     return { blob, extension: format };
   }
 
+  async createImmutableExport(
+    snapshot: ImmutableTypstExportSnapshot,
+    renderKey: RenderKey,
+    format: TypstExportFormat,
+    pageIndex = 0,
+    signal?: AbortSignal,
+  ): Promise<TypstExport> {
+    return this.withTypstOperation(async () => {
+      signal?.throwIfAborted();
+      await initializeTypst(() => {});
+      for (const generation of snapshot.packageGenerations) previewPackageRegistry.install(generation);
+      const exactPaths = new Set<string>();
+      try {
+        for (const file of snapshot.project.files) {
+          const bytes = file.text === undefined ? decodeBase64(file.dataBase64) : encoder.encode(file.text);
+          const exactPath = exactExportPath(renderKey, file.uri);
+          await $typst.mapShadow(exactPath, bytes);
+          exactPaths.add(exactPath);
+          const absolutePath = virtualPath(file.uri);
+          if (absolutePath !== exactPath) {
+            await $typst.mapShadow(absolutePath, bytes);
+            exactPaths.add(absolutePath);
+          }
+        }
+        const entryPath = exactExportPath(renderKey, snapshot.project.entryUri);
+        signal?.throwIfAborted();
+        if (format === "pdf") {
+          const pdf = await $typst.pdf({ mainFilePath: entryPath });
+          signal?.throwIfAborted();
+          if (!pdf) throw new Error("Typst did not produce immutable PDF export bytes");
+          return { blob: new Blob([new Uint8Array(pdf)], { type: "application/pdf" }), extension: format };
+        }
+        const { svg } = await renderSvgWithDebugSpans(entryPath);
+        signal?.throwIfAborted();
+        const parsed = new DOMParser().parseFromString(svg, "text/html");
+        const root = parsed.querySelector("svg");
+        if (!(root instanceof SVGSVGElement) || root.namespaceURI !== "http://www.w3.org/2000/svg") {
+          throw new Error("Typst did not produce immutable SVG export output");
+        }
+        const geometry = selectSvgExportPage(root, pageIndex);
+        ensureSvgPageBackground(root);
+        sanitizeSvg(root);
+        const imageAssets = await externalizeSvgImages(root);
+        const exportSvg = svgWithoutSelectionLayer(
+          await inlinePreviewImageAssets(root.outerHTML, imageAssets),
+        );
+        if (format === "svg") {
+          return { blob: new Blob([exportSvg], { type: "image/svg+xml;charset=utf-8" }), extension: format };
+        }
+        const mime = format === "png" ? "image/png" : "image/jpeg";
+        const blob = await rasterizeSvg(exportSvg, geometry, mime);
+        signal?.throwIfAborted();
+        return { blob, extension: format };
+      } finally {
+        for (const path of exactPaths) await $typst.unmapShadow(path);
+      }
+    });
+  }
+
   invalidate(): void {
     this.generation += 1;
     this.pending = undefined;
-    this.interaction.removeCursor();
   }
 
   async update(project: TypstProjectUpdate, binding?: TypstPreviewBinding): Promise<void> {
@@ -405,111 +420,8 @@ export class TypstPreviewController {
   }
 
   dispose(): void {
-    this.resizeObserver?.disconnect();
-    if (this.scrollFrame !== undefined) cancelAnimationFrame(this.scrollFrame);
-    this.interaction.dispose();
-    this.releaseMountedImageUrls();
-  }
-
-  scheduleEditorSelection(selection: PreviewEditorSelection): void {
-    this.interaction.scheduleEditorSelection(selection);
-  }
-  async navigateEditorSelection(selection: PreviewEditorSelection): Promise<boolean> {
-    return Boolean(await this.interaction.navigateEditorSelection(selection));
-  }
-
-  get currentCursorPoint(): PreviewPagePoint | undefined {
-    return this.interaction.cursor?.point;
-  }
-
-
-  sourceIdentityAdvanced(identity: PreviewSourceIdentity): void {
-    this.interaction.sourceIdentityAdvanced(identity);
-  }
-
-  providerRestarted(key: LocationProviderKey | undefined): void {
-    const displayed = this.interaction.artifact?.locationProviderKey;
-    if (displayed?.kind === "provider" && displayed.method === RENDER_ARTIFACT_LOCATION_METHOD) return;
-    this.interaction.providerRestarted(key);
-  }
-
-  setRendererCapabilities(capabilities: PreviewProtocolCapabilities): void {
-    this.updates = new PreviewUpdateCoordinator(capabilities, {
-      fullRefreshRequested: (reason) => {
-        this.interactionStatus.dataset.status = "stale";
-        this.interactionStatus.textContent = `Preview update ${reason}; waiting for a full refresh.`;
-      },
-    });
-  }
-
-  acceptPageBatch(batch: PreviewPageBatch, binding: TypstPreviewBinding): PreviewBatchResult {
-    if (batch.renderKey !== binding.renderKey) return { status: "full-refresh", reason: "mixed-render-key" };
-    const result = this.updates.accept(batch);
-    if (result.status === "complete") {
-      const artifact = createPreviewArtifact({
-        renderKey: binding.renderKey,
-        sourceUri: binding.identity.sourceUri,
-        locationProviderKey: binding.locationProviderKey,
-        locationMap: binding.locationMap,
-        pages: result.pages,
-      });
-      this.displayArtifact(artifact, binding.identity, binding.resolver);
-    }
-    return result;
-  }
-
-  displayArtifact(
-    artifact: PreviewArtifact,
-    identity: PreviewSourceIdentity,
-    resolver?: PreviewLocationResolver,
-    retainCompilerEntry = false,
-  ): void {
-    this.suppressViewportReports = true;
-    if (this.scrollFrame !== undefined) {
-      cancelAnimationFrame(this.scrollFrame);
-      this.scrollFrame = undefined;
-    }
-    if (this.viewportRestoreFrame !== undefined) cancelAnimationFrame(this.viewportRestoreFrame);
-    const firstPage = artifact.pages[0];
-    this.latestSvg = firstPage?.sanitizedSvg;
-    this.latestImageAssets = artifact.imageAssets;
-    this.pageSize = firstPage
-      ? { width: firstPage.geometry.cssWidth, height: firstPage.geometry.cssHeight }
-      : undefined;
-    if (retainCompilerEntry) {
-      this.latestCompilerRenderKey = artifact.renderKey;
-    } else if (this.latestCompilerRenderKey !== artifact.renderKey) {
-      this.latestEntryPath = undefined;
-      this.latestCompilerRenderKey = undefined;
-    }
-    this.mountPages(artifact.pages, artifact.imageAssets);
-    this.interaction.bindArtifact(artifact, identity, resolver);
-    this.container.dataset.previewRenderKey = artifact.renderKey;
-    this.viewportRestoreFrame = requestAnimationFrame(() => {
-      this.restoreViewport(this.interaction.viewport);
-      this.viewportRestoreFrame = requestAnimationFrame(() => {
-        this.viewportRestoreFrame = undefined;
-        this.suppressViewportReports = false;
-      });
-    });
-  }
-
-  setOutline(symbols: readonly PreviewOutlineSymbol[]): void {
-    const safeSymbols = safePreviewOutline(symbols);
-    this.outline.replaceChildren();
-    const append = (items: readonly PreviewOutlineSymbol[], depth: number) => {
-      for (const symbol of items) {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.textContent = symbol.label;
-        button.style.paddingInlineStart = `${8 + depth * 14}px`;
-        button.addEventListener("click", () => void this.interaction.openMappedTarget(symbol.target));
-        this.outline.append(button);
-        if (symbol.children) append(symbol.children, depth + 1);
-      }
-    };
-    append(safeSymbols, 0);
-    this.outline.hidden = safeSymbols.length === 0;
+    this.generation += 1;
+    this.pending = undefined;
   }
 
   private async processPending(): Promise<void> {
@@ -546,30 +458,16 @@ export class TypstPreviewController {
   }
 
   private async resetPreview(): Promise<void> {
-    if (this.scrollFrame !== undefined) cancelAnimationFrame(this.scrollFrame);
-    if (this.viewportRestoreFrame !== undefined) cancelAnimationFrame(this.viewportRestoreFrame);
-    this.scrollFrame = undefined;
-    this.viewportRestoreFrame = undefined;
-    this.suppressViewportReports = false;
     for (const path of this.mappedPaths) await $typst.unmapShadow(path);
     this.mappedPaths.clear();
     this.mappedFiles.clear();
-    this.pageElements.clear();
     this.pageSize = undefined;
     this.latestEntryPath = undefined;
     this.latestCompilerRenderKey = undefined;
     this.latestSvg = undefined;
     this.latestImageAssets = [];
-    this.releaseMountedImageUrls();
-    this.canvas.replaceChildren();
-    this.outline.replaceChildren();
-    this.outline.hidden = true;
-    this.interaction.dispose();
-    delete this.container.dataset.previewRevision;
-    delete this.container.dataset.previewShadowCount;
-    delete this.container.dataset.previewRenderKey;
-    this.container.dataset.previewReady = "false";
-    this.showStatus("Preview is waiting for a valid MomoScript projection…");
+    this.artifact = undefined;
+    this.events?.status("Preview is waiting for a valid MomoScript projection…", false);
   }
 
   private async render(project: TypstProjectUpdate, generation: number, binding?: TypstPreviewBinding): Promise<void> {
@@ -595,10 +493,10 @@ export class TypstPreviewController {
     let shadowMapped = 0;
     let shadowUnmapped = 0;
     let shadowSkipped = 0;
-    this.showStatus("Rendering preview…", false, revision, generation, this.pageElements.size > 0);
+    this.events?.status("Rendering preview…", false, revision);
     try {
       binding?.signal?.throwIfAborted();
-      await initializeTypst((message) => this.showStatus(message, false, revision, generation, this.pageElements.size > 0));
+      await initializeTypst((message) => this.events?.status(message, false, revision));
       const mapStarted = performance.now();
       for (const [path, file] of nextFiles) {
         const digest = file.digest;
@@ -618,7 +516,7 @@ export class TypstPreviewController {
       const entryPath = pathFor(project.entryUri);
       const entryFile = nextFiles.get(entryPath);
       const compileStarted = performance.now();
-      const { svg, spans: resolvedSpans } = await renderSvgWithDebugSpans(entryPath);
+      const { svg, spans } = await renderSvgWithDebugSpans(entryPath);
       typstCompileMs = performance.now() - compileStarted;
       binding?.signal?.throwIfAborted();
       if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) {
@@ -649,12 +547,12 @@ export class TypstPreviewController {
       if (pageGap === 0) ensureSvgPageBackground(root);
       sanitizeSvg(root);
       const imageAssets = await externalizeSvgImages(root);
-      const inlineSvg = document.importNode(root, true);
-      inlineSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-      inlineSvg.setAttribute("role", "img");
-      inlineSvg.setAttribute("aria-label", "Rendered MomoScript preview");
-      inlineSvg.setAttribute("width", "100%");
-      inlineSvg.setAttribute("height", "100%");
+      const compactSvg = document.importNode(root, true);
+      compactSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+      compactSvg.setAttribute("role", "img");
+      compactSvg.setAttribute("aria-label", "Rendered MomoScript preview");
+      compactSvg.setAttribute("width", "100%");
+      compactSvg.setAttribute("height", "100%");
       const normalizedPage = normalizePreviewPage({
         pageIndex: 0,
         geometry: {
@@ -662,7 +560,7 @@ export class TypstPreviewController {
           cssWidth: width,
           cssHeight: height,
         },
-        sanitizedSvg: inlineSvg.outerHTML,
+        sanitizedSvg: compactSvg.outerHTML,
       }, 0, imageAssets);
       svgParseSanitizeMs = performance.now() - parseStarted;
       binding?.signal?.throwIfAborted();
@@ -681,56 +579,41 @@ export class TypstPreviewController {
       binding?.signal?.throwIfAborted();
       this.mappedPaths = nextPaths;
       this.mappedFiles = nextDigests;
-      this.pageSize = { width, height };
-      this.latestEntryPath = entryPath;
-      this.latestCompilerRenderKey = binding?.renderKey;
-      this.latestSvg = normalizedPage.sanitizedSvg;
-      this.latestImageAssets = imageAssets;
-      if (binding) {
-        let resolver = binding.resolver;
-        if (
-          binding.locationProviderKey.kind === "provider"
-          && binding.locationProviderKey.method === RENDER_ARTIFACT_LOCATION_METHOD
-        ) {
-          if (entryFile?.text === undefined) {
-            throw new Error("Rendered Typst entry source is unavailable for exact preview navigation");
-          }
-          const firstMountStarted = performance.now();
-          this.mountPages([normalizedPage], imageAssets);
-          domUpdateMs += performance.now() - firstMountStarted;
-          const locationStarted = performance.now();
-          const locations = measureRenderArtifactLocations(this.pageElements, resolvedSpans);
-          locationMeasureMs = performance.now() - locationStarted;
-          resolver = createRenderArtifactLocationResolver(
-            binding.locationProviderKey,
-            project.entryUri,
-            entryFile.text,
-            binding.identity.backendEncoding,
-            locations,
-          );
-        }
-        binding.signal?.throwIfAborted();
-        const artifact = createPreviewArtifact({
-          renderKey: binding.renderKey,
-          sourceUri: binding.identity.sourceUri,
-          locationProviderKey: binding.locationProviderKey,
-          locationMap: binding.locationMap,
+      if (!binding) throw new Error("Preview publication requires an immutable render binding");
+      if (entryFile?.text === undefined) {
+        throw new Error("Rendered Typst entry source is unavailable for exact preview navigation");
+      }
+      const artifact = createPreviewArtifact({
+        renderKey: binding.renderKey,
+        sourceUri: binding.identity.sourceUri,
+        locationProviderKey: binding.locationProviderKey,
+        locationMap: binding.locationMap,
+        visualSnapshot: {
+          kind: "svg",
           pages: [normalizedPage],
           imageAssets,
-        });
-        const displayStarted = performance.now();
-        this.displayArtifact(artifact, binding.identity, resolver, true);
-        domUpdateMs += performance.now() - displayStarted;
-      } else {
-        const displayStarted = performance.now();
-        this.mountPages([normalizedPage], imageAssets);
-        domUpdateMs += performance.now() - displayStarted;
-      }
-      this.container.dataset.previewRevision = String(project.revision);
-      this.container.dataset.previewShadowCount = String(this.mappedPaths.size);
-      this.container.dataset.previewReady = "true";
-      binding?.signal?.throwIfAborted();
-      if (binding?.traceId) {
+        },
+      });
+      const publicationTiming = await this.events?.rendered({
+        artifact,
+        identity: binding.identity,
+        compactSvg: normalizedPage.sanitizedSvg,
+        imageAssets,
+        pageSize: { width, height },
+        entryUri: project.entryUri,
+        entryText: entryFile.text,
+        spans,
+        signal: binding.signal,
+        ...(binding.requestId === undefined ? {} : { requestSequence: binding.requestId }),
+        ...(binding.traceId === undefined ? {} : { traceId: binding.traceId }),
+      }, revision, this.mappedPaths.size);
+      domUpdateMs = publicationTiming?.domUpdateMs ?? 0;
+      locationMeasureMs = publicationTiming?.locationMeasureMs ?? 0;
+      binding.signal?.throwIfAborted();
+      if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) return;
+      this.latestEntryPath = entryPath;
+      this.setDisplayedArtifact(artifact, true);
+      if (binding.traceId) {
         this.events?.timing?.({
           traceId: binding.traceId,
           shadowUpdateMs,
@@ -743,159 +626,12 @@ export class TypstPreviewController {
           shadowSkipped,
         }, revision);
       }
-      const publishedSvg = await inlinePreviewImageAssets(normalizedPage.sanitizedSvg, imageAssets);
-      binding?.signal?.throwIfAborted();
-      if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) return;
-      this.events?.rendered(publishedSvg, revision, this.mappedPaths.size, this.pageSize);
     } catch (error) {
       await this.unmapAbandonedPaths(mappedThisAttempt);
       if (binding?.signal?.aborted) return;
       if (!isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) return;
-      this.container.dataset.previewReady = "false";
-      this.showStatus(`Preview failed: ${error instanceof Error ? error.message : String(error)}`, true, revision, generation);
+      this.events?.status(`Preview failed: ${error instanceof Error ? error.message : String(error)}`, true, revision);
     }
-  }
-
-  private releaseMountedImageUrls(): void {
-    for (const url of this.mountedImageUrls) URL.revokeObjectURL(url);
-    this.mountedImageUrls.clear();
-  }
-
-  private mountPages(pages: readonly PreviewPage[], imageAssets: readonly PreviewImageAsset[] = []): void {
-    this.pageElements.clear();
-    this.canvas.replaceChildren();
-    this.releaseMountedImageUrls();
-    const imageUrls = new Map(imageAssets.map((asset) => {
-      const url = URL.createObjectURL(asset.blob);
-      this.mountedImageUrls.add(url);
-      return [asset.digest, url] as const;
-    }));
-    for (const page of pages) {
-      const element = document.createElement("article");
-      element.className = "typst-preview-page";
-      element.dataset.pageIndex = String(page.pageIndex);
-      element.dataset.intrinsicWidth = String(page.geometry.cssWidth);
-      element.dataset.intrinsicHeight = String(page.geometry.cssHeight);
-      const parsed = new DOMParser().parseFromString(page.sanitizedSvg, "text/html");
-      const svg = parsed.querySelector("svg");
-      if (!(svg instanceof SVGSVGElement) || svg.namespaceURI !== "http://www.w3.org/2000/svg") {
-        throw new Error("Preview artifact page has no valid SVG root");
-      }
-      for (const image of svg.querySelectorAll("image")) {
-        const hrefAttribute = image.hasAttribute("href") ? "href" : "xlink:href";
-        const href = image.getAttribute(hrefAttribute) ?? "";
-        if (!href.startsWith("mmt-preview-image:")) continue;
-        const url = imageUrls.get(href.slice("mmt-preview-image:".length) as PreviewImageAsset["digest"]);
-        if (!url) throw new Error("Preview artifact image asset is unavailable");
-        image.setAttribute("href", url);
-        if (hrefAttribute === "xlink:href") image.removeAttribute("xlink:href");
-      }
-      element.append(document.importNode(svg, true));
-      let pointerOrigin: { x: number; y: number } | undefined;
-      let pointerDragged = false;
-      element.addEventListener("pointerdown", (event) => {
-        pointerOrigin = { x: event.clientX, y: event.clientY };
-        pointerDragged = false;
-      });
-      element.addEventListener("pointermove", (event) => {
-        if (!pointerOrigin) return;
-        if (Math.hypot(event.clientX - pointerOrigin.x, event.clientY - pointerOrigin.y) > 3) {
-          pointerDragged = true;
-        }
-      });
-      element.addEventListener("pointerup", () => { pointerOrigin = undefined; });
-      element.addEventListener("click", (event) => {
-        const dragged = pointerDragged;
-        pointerDragged = false;
-        const bounds = element.getBoundingClientRect();
-        if (bounds.width <= 0 || bounds.height <= 0) return;
-        const point = {
-          pageIndex: page.pageIndex,
-          x: Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width)),
-          y: Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height)),
-        };
-        setTimeout(() => {
-          const selection = element.ownerDocument.getSelection();
-          if (dragged || (selection && !selection.isCollapsed)) return;
-          void this.interaction.navigatePreviewPoint(point);
-        }, 0);
-      });
-      this.pageElements.set(page.pageIndex, element);
-      this.canvas.append(element);
-    }
-    this.viewport.replaceChildren(this.canvas);
-    this.applyPageLayout();
-  }
-
-  private applyPageLayout(): void {
-    this.zoomLabel.textContent = `${Math.round(this.zoom * 100)}%`;
-    let maximumWidth = 0;
-    for (const element of this.pageElements.values()) {
-      const width = Number(element.dataset.intrinsicWidth) * this.zoom;
-      const height = Number(element.dataset.intrinsicHeight) * this.zoom;
-      element.style.width = `${width}px`;
-      element.style.height = `${height}px`;
-      maximumWidth = Math.max(maximumWidth, width);
-    }
-    this.canvas.style.width = `${maximumWidth}px`;
-  }
-
-  private applyViewportState(state: PreviewViewport): void {
-    this.zoom = state.zoom;
-    this.fitMode = state.fitMode;
-    if (state.fitMode === "width") this.fitWidth(false);
-    else if (state.fitMode === "page") this.fitPage(false);
-    else this.applyPageLayout();
-  }
-
-  private restoreViewport(state: PreviewViewport): void {
-    const page = this.pageElements.get(state.page);
-    if (!page) return;
-    this.viewport.scrollLeft = page.offsetLeft + state.x * page.offsetWidth - this.viewport.clientWidth / 2;
-    this.viewport.scrollTop = page.offsetTop + state.y * page.offsetHeight - this.viewport.clientHeight / 2;
-  }
-
-  private scheduleViewportReport(): void {
-    if (this.suppressViewportReports || this.scrollFrame !== undefined || !this.interaction.artifact) return;
-    this.scrollFrame = requestAnimationFrame(() => {
-      this.scrollFrame = undefined;
-      const viewportBounds = this.viewport.getBoundingClientRect();
-      const centerX = viewportBounds.left + viewportBounds.width / 2;
-      const centerY = viewportBounds.top + viewportBounds.height / 2;
-      let nearest: { page: number; x: number; y: number; distance: number } | undefined;
-      for (const [pageIndex, element] of this.pageElements) {
-        const bounds = element.getBoundingClientRect();
-        const x = Math.min(1, Math.max(0, (centerX - bounds.left) / bounds.width));
-        const y = Math.min(1, Math.max(0, (centerY - bounds.top) / bounds.height));
-        const distance = Math.hypot(centerX - (bounds.left + bounds.width / 2), centerY - (bounds.top + bounds.height / 2));
-        if (!nearest || distance < nearest.distance) nearest = { page: pageIndex, x, y, distance };
-      }
-      if (nearest) this.interaction.updateViewport({ page: nearest.page, x: nearest.x, y: nearest.y, zoom: this.zoom, fitMode: this.fitMode });
-    });
-  }
-
-  private showIndicator(point: PreviewPagePoint | undefined): void {
-    this.canvas.querySelectorAll(".typst-preview-indicator").forEach((element) => element.remove());
-    if (!point) return;
-    const page = this.pageElements.get(point.pageIndex);
-    if (!page) return;
-    const indicator = document.createElement("span");
-    indicator.className = "typst-preview-indicator";
-    indicator.style.left = `${point.x * 100}%`;
-    indicator.style.top = `${point.y * 100}%`;
-    page.append(indicator);
-  }
-
-  private showCursor(point: PreviewPagePoint | undefined): void {
-    this.canvas.querySelectorAll(".typst-preview-cursor").forEach((element) => element.remove());
-    if (!point) return;
-    const page = this.pageElements.get(point.pageIndex);
-    if (!page) return;
-    const cursor = document.createElement("span");
-    cursor.className = "typst-preview-cursor";
-    cursor.style.left = `${point.x * 100}%`;
-    cursor.style.top = `${point.y * 100}%`;
-    page.append(cursor);
   }
 
   private async unmapAbandonedPaths(paths: ReadonlySet<string>): Promise<void> {
@@ -903,93 +639,9 @@ export class TypstPreviewController {
       if (!this.mappedPaths.has(path)) await $typst.unmapShadow(path);
     }
   }
-
-  private showStatus(
-    message: string,
-    error = false,
-    revision?: PreviewRevision,
-    generation?: number,
-    preserveContent = false,
-  ): void {
-    if (generation !== undefined && !isCurrentPreviewUpdate(generation, this.generation, Boolean(this.pending))) return;
-    if (!preserveContent) {
-      const status = document.createElement("div");
-      status.className = error ? "typst-preview-status error" : "typst-preview-status";
-      status.textContent = message;
-      this.viewport.replaceChildren(status);
-    }
-    this.events?.status(message, error, revision);
-  }
-}
-function measureRenderArtifactLocations(
-  pages: ReadonlyMap<number, HTMLElement>,
-  resolvedSpans: readonly ResolvedTypstDebugSpan[],
-): readonly RenderArtifactLocation[] {
-  const resolved = new Map(resolvedSpans.map((span) => [span.span, span]));
-  const locations: RenderArtifactLocation[] = [];
-  const seen = new Set<string>();
-  for (const [pageIndex, page] of pages) {
-    let measuredPage = page;
-    let pageBounds = measuredPage.getBoundingClientRect();
-    if (pageBounds.width <= 0 || pageBounds.height <= 0) {
-      measuredPage = page.cloneNode(true) as HTMLElement;
-      Object.assign(measuredPage.style, {
-        position: "fixed",
-        display: "block",
-        visibility: "hidden",
-        pointerEvents: "none",
-        left: "0",
-        top: "0",
-        width: `${page.dataset.intrinsicWidth ?? 1}px`,
-        height: `${page.dataset.intrinsicHeight ?? 1}px`,
-      });
-      document.body.append(measuredPage);
-      pageBounds = measuredPage.getBoundingClientRect();
-    }
-    try {
-      if (pageBounds.width <= 0 || pageBounds.height <= 0) continue;
-      for (const element of measuredPage.querySelectorAll<SVGGraphicsElement>("[data-span]")) {
-        const span = resolved.get(element.getAttribute("data-span") ?? "");
-        if (!span) continue;
-        const selectableTokens = [...element.querySelectorAll<HTMLElement>(".tsel-token")];
-        const rectangles = (selectableTokens.length > 0 ? selectableTokens : [element])
-          .map((target) => target.getBoundingClientRect());
-        const bounds = {
-          left: Math.min(...rectangles.map((rectangle) => rectangle.left)),
-          top: Math.min(...rectangles.map((rectangle) => rectangle.top)),
-          right: Math.max(...rectangles.map((rectangle) => rectangle.right)),
-          bottom: Math.max(...rectangles.map((rectangle) => rectangle.bottom)),
-          width: 0,
-          height: 0,
-        };
-        bounds.width = bounds.right - bounds.left;
-        bounds.height = bounds.bottom - bounds.top;
-        if (
-          !Number.isFinite(bounds.left)
-          || !Number.isFinite(bounds.top)
-          || bounds.width <= 0
-          || bounds.height <= 0
-        ) continue;
-        const left = clampUnit((bounds.left - pageBounds.left) / pageBounds.width);
-        const top = clampUnit((bounds.top - pageBounds.top) / pageBounds.height);
-        const right = clampUnit((bounds.right - pageBounds.left) / pageBounds.width);
-        const bottom = clampUnit((bounds.bottom - pageBounds.top) / pageBounds.height);
-        if (right <= left || bottom <= top) continue;
-        const x = (left + right) / 2;
-        const y = (top + bottom) / 2;
-        const identity = `${span.span}:${pageIndex}:${x.toFixed(5)}:${y.toFixed(5)}`;
-        if (seen.has(identity)) continue;
-        seen.add(identity);
-        locations.push(Object.freeze({ ...span, pageIndex, x, y, left, top, right, bottom }));
-      }
-    } finally {
-      if (measuredPage !== page) measuredPage.remove();
-    }
-  }
-  return Object.freeze(locations);
 }
 
-function createRenderArtifactLocationResolver(
+export function createRenderArtifactLocationResolver(
   key: LocationProviderKey,
   entryUri: string,
   sourceText: string,
@@ -1329,79 +981,6 @@ function isSafeSelectionTextChild(child: ChildNode): boolean {
   return [...child.childNodes].every(isSafeSelectionTextChild);
 }
 
-let monospaceAdvanceAt128Px: number | undefined;
-
-function normalizeTextSelectionNode(node: SVGForeignObjectElement): void {
-  const source = node.children[0] as HTMLElement;
-  const normalized = node.ownerDocument.createElementNS("http://www.w3.org/1999/xhtml", "div");
-  normalized.setAttribute("class", "tsel");
-  normalized.setAttribute("style", source.getAttribute("style")!);
-  const text = source.textContent ?? "";
-  const tokens = layoutTextSelectionTokens(node, text);
-  if (tokens) normalized.append(...tokens);
-  else normalized.textContent = text;
-  node.replaceChildren(normalized);
-}
-
-function layoutTextSelectionTokens(
-  node: SVGForeignObjectElement,
-  text: string,
-): readonly HTMLSpanElement[] | undefined {
-  const textGroup = node.closest(".typst-text");
-  if (!textGroup) return undefined;
-  const glyphs = [...textGroup.children].filter((child) => child.localName === "use");
-  const advances = glyphs.map((glyph) => Number.parseFloat(glyph.getAttribute("x") ?? "") / 16);
-  const lengths = glyphs.map((glyph) => {
-    const href = glyph.getAttribute("href") ?? glyph.getAttribute("xlink:href") ?? "";
-    const definition = href.startsWith("#") ? node.ownerDocument.getElementById(href.slice(1)) : null;
-    return 1 + (Number.parseInt(definition?.getAttribute("data-liga-len") ?? "0", 10) || 0);
-  });
-  const fontSize = Number.parseFloat((node.children[0] as HTMLElement).style.fontSize);
-  const finalAdvance = Number.parseFloat(node.getAttribute("width") ?? "");
-  if (
-    text.length === 0
-    || glyphs.length === 0
-    || advances.some((advance) => !Number.isFinite(advance))
-    || !Number.isFinite(fontSize)
-    || !Number.isFinite(finalAdvance)
-  ) return undefined;
-
-  if (monospaceAdvanceAt128Px === undefined) {
-    const context = document.createElement("canvas").getContext("2d");
-    if (!context) return undefined;
-    context.font = "128px monospace";
-    monospaceAdvanceAt128Px = context.measureText("A").width;
-  }
-  const characterAdvance = monospaceAdvanceAt128Px * fontSize / 128;
-  const tokens: HTMLSpanElement[] = [];
-  let glyphIndex = 0;
-  let ligatureIndex = 0;
-  let previousAdvance = 0;
-  let previousToken: HTMLSpanElement | undefined;
-
-  for (const character of text) {
-    if (glyphIndex >= advances.length) return undefined;
-    let advance = advances[glyphIndex]!;
-    if (lengths[glyphIndex]! > 1) advance += ligatureIndex * characterAdvance;
-    const token = node.ownerDocument.createElementNS("http://www.w3.org/1999/xhtml", "span");
-    token.setAttribute("class", "tsel-token");
-    token.textContent = character;
-    if (previousToken) {
-      previousToken.style.letterSpacing = `${advance - previousAdvance - characterAdvance}px`;
-    }
-    tokens.push(token);
-    previousToken = token;
-    previousAdvance = advance;
-    ligatureIndex += 1;
-    if (ligatureIndex >= lengths[glyphIndex]!) {
-      glyphIndex += 1;
-      ligatureIndex = 0;
-    }
-  }
-  if (glyphIndex !== advances.length || ligatureIndex !== 0 || !previousToken) return undefined;
-  previousToken.style.letterSpacing = `${finalAdvance - previousAdvance - characterAdvance}px`;
-  return tokens;
-}
 
 
 function svgWithoutSelectionLayer(svg: string): string {
@@ -1516,6 +1095,56 @@ function decodeBase64(data: string): Uint8Array {
   const bytes = new Uint8Array(binary.length);
   for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
   return bytes;
+}
+
+function exactExportPath(renderKey: RenderKey, uri: string): string {
+  const relative = virtualPath(uri).replace(/^\/+/, "");
+  return `/__mmt_exact/${renderKey}/${relative}`;
+}
+
+function selectSvgExportPage(
+  root: SVGSVGElement,
+  pageIndex: number,
+): { readonly width: number; readonly height: number } {
+  if (!Number.isSafeInteger(pageIndex) || pageIndex < 0) throw new Error("Invalid immutable export page index");
+  const pages = [...root.children].filter(
+    (child): child is SVGGElement => child instanceof SVGGElement && child.classList.contains("typst-page"),
+  );
+  const viewBox = root.getAttribute("viewBox")?.trim().split(/[ ,]+/).map(Number);
+  if (pages.length === 0) {
+    if (pageIndex !== 0 || viewBox?.length !== 4 || viewBox.some((value) => !Number.isFinite(value))) {
+      throw new Error("Immutable SVG export page geometry is unavailable");
+    }
+    const width = svgCssPixels(root.getAttribute("width")) ?? viewBox[2]!;
+    const height = svgCssPixels(root.getAttribute("height")) ?? viewBox[3]!;
+    return { width, height };
+  }
+  const page = pages[pageIndex];
+  if (!page || viewBox?.length !== 4 || viewBox.some((value) => !Number.isFinite(value))) {
+    throw new Error("Immutable SVG export page is unavailable");
+  }
+  const transforms = pages.map((candidate) =>
+    /^translate\(\s*([-+]?\d*\.?\d+)\s*[, ]\s*([-+]?\d*\.?\d+)\s*\)$/.exec(
+      candidate.getAttribute("transform") ?? "",
+    ));
+  if (transforms.some((transform) => transform === null)) {
+    throw new Error("Immutable SVG export page transform is unavailable");
+  }
+  const top = Number(transforms[pageIndex]![2]);
+  const bottom = pageIndex + 1 < pages.length
+    ? Number(transforms[pageIndex + 1]![2])
+    : viewBox[1]! + viewBox[3]!;
+  const height = bottom - top;
+  const width = viewBox[2]!;
+  if (!(width > 0 && height > 0)) throw new Error("Immutable SVG export page has invalid dimensions");
+  for (const candidate of pages) {
+    if (candidate !== page) candidate.remove();
+  }
+  page.setAttribute("transform", `translate(${transforms[pageIndex]![1]}, 0)`);
+  root.setAttribute("viewBox", `${viewBox[0]} 0 ${width} ${height}`);
+  root.setAttribute("width", String(width));
+  root.setAttribute("height", String(height));
+  return { width: svgCssPixels(root.getAttribute("width")) ?? width, height: svgCssPixels(root.getAttribute("height")) ?? height };
 }
 
 function previewExecutionPath(project: TypstProjectUpdate, uri: string): string {

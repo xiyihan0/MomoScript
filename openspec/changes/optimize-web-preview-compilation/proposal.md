@@ -4,13 +4,14 @@
 
 MomoScript SHALL reduce warm edit-to-preview latency without weakening MMT semantics, preview navigation, snapshot identity, resource safety, exact export, or Desktop/Web parity.
 
-The change focuses on compilation in three layers:
+The change spans four coupled layers:
 
 1. reuse the browser Typst compiler's warm state instead of invalidating unchanged virtual files on every revision;
 2. stop rebuilding and retransmitting unchanged MMT projection work;
-3. add a true incremental MMT analysis/emission path only after stage timings prove that the Rust frontend remains material.
+3. keep the clean Rust frontend because stage evidence proves it is already immaterial; and
+4. activate a capability-gated persistent renderer because presentation and eager location work now dominate warm visual-ready latency.
 
-Incremental renderer deltas are a later, capability-gated optimization. They are not a prerequisite for the compilation work and SHALL NOT replace the current renderer until a pinned producer/consumer pair passes navigation and artifact-identity fixtures.
+The renderer uses a pinned Tinymist 0.15.2 `new`/`diff-v1` producer and pinned typst.ts 0.8.0-rc3 consumer. The visible Webview is the sole DOM and viewport owner. Full sanitized SVG remains an explicit differential/recovery oracle, not the ordinary per-edit publication path.
 
 ## Why
 
@@ -27,7 +28,7 @@ Current code has several deterministic cold-path behaviors on every edit:
 - the render entry URI inherits the language projection's revision-scoped `main-<revision>.typ`, so the browser compiler never sees a stable live entry path;
 - preview output is still one full debug SVG, followed by full parse/sanitize/mount.
 
-A 42.6 KiB / 973-line source trace captured on 2026-07-19 measured approximately 7.96 s from edit to preview-ready: 1.40 s in Typst render/compile, 0.91 s SVG parse/sanitize, 4.12 s DOM mount, and 18.3 ms location measurement. The first change in this proposal targets the avoidable compiler invalidation and duplicate projection work. DOM replacement remains measured but is not allowed to redirect this change into another broad UI rewrite.
+A second real-report trace on a 42,635-byte / 973-line, one-long-page source measured approximately 6.24 s for a one-character warm edit. Rust analysis was below 0.4%, while native DOM update, eager source-location geometry, and repeated image inlining accounted for roughly 64% of visual-ready time. This evidence activates the previously gated renderer phase: the remaining material work is presentation and location, not parser complexity.
 
 The restored current checkout passes `npm run test:e2e:preview-interaction` with 3/3 Chromium cases, including selectable text, workspace images, bidirectional navigation, and scroll preservation. Those behaviors are the regression baseline, not optional follow-up work.
 
@@ -38,7 +39,7 @@ The restored current checkout passes `npm run test:e2e:preview-interaction` with
 - Make render virtual files content-addressed, transmit lossless full/delta project updates, and stop remapping unchanged templates/resources.
 - Share profile-independent MMT analysis/projection work, then add checkpointed incremental parsing, semantic lowering, emission, and source maps only when measured.
 - Extend the runtime-owned latest-wins queue across render-project construction, materialization, compilation, and publication.
-- Keep incremental renderer/vector deltas behind a separate pinned producer/consumer qualification gate.
+- Add a pinned persistent Tinymist/typst.ts renderer data plane with viewport-windowed structured DOM patching, generation-bound location queries, and immutable exact-export rebuilds.
 
 ## Goals
 
@@ -58,33 +59,35 @@ Rapid edits SHALL coalesce before expensive render-project construction. Work th
 
 Editor-to-preview and preview-to-source navigation SHALL remain bound to the displayed `RenderKey`, projection revision, mapping digest, and location-provider generation. A stable compiler path SHALL NOT become artifact identity and SHALL NOT permit an old preview to query a newer mapping.
 
-### G5. Evidence-driven renderer decision
+### G5. Qualified persistent rendering
 
-The project SHALL first measure the gains from stable compiler identity and incremental project updates. Tinymist/typst.ts `diff-v1` rendering MAY proceed only if a pinned producer is qualified and materially improves the remaining bottleneck.
+The visible Webview SHALL own the only preview DOM and viewport. A pinned Tinymist producer and typst.ts consumer SHALL retain generation-bound `new`/`diff-v1` state, render only a bounded viewport window, patch structured DOM, and answer source queries on demand. Promotion remains capability-gated on native/Web transcript parity and full-oracle differential fixtures.
 
 ## Success criteria
 
 The benchmark harness SHALL use deterministic small, medium, and large fixtures, including a synthetic fixture matching the observed 40–50 KiB structural distribution without committing user content. It SHALL measure cold open and at least 20 warm edits at document start, middle, and end.
 
-For the large warm-edit fixture, compared with the checked pre-change baseline on the same browser and build:
+For the generated real-report fixture, compared with explicit full-SVG oracle mode on the same browser and build:
 
-- MMT snapshot-to-render-project CPU time: at least 70% lower at p50 and 50% lower at p95;
-- browser Typst compile/debug-SVG time: at least 50% lower at p50 and 35% lower at p95;
-- edit-to-preview-ready time: at least 30% lower at p50, while reporting DOM time separately;
-- unchanged template/resource remaps: zero;
+- total visual-ready latency: at least 35% lower at p50 and 25% lower at p95;
+- edit-to-painted-visual-ready Chromium `Performance.TaskDuration`: at least 70% lower at p50;
+- eager full-document location measurements: zero;
+- unchanged template/resource remaps and identity/protocol mismatches: zero;
 - stale rendered publications: zero during a 20 Hz edit burst;
-- incremental/full output mismatches: zero across deterministic randomized edit sequences;
-- preview-navigation, exact-export, resource-limit, offline, and Desktop/Web parity fixtures: no regressions;
-- retained snapshots, file generations, caches, and queues: bounded after 500 edits.
+- renderer state: at most 8 backend sessions, 2 queryable generations per session, 8 populated page/window buffers, and a consumer replay log bounded to 64 frames / 128 MiB;
+- retained traces: at most 512 samples;
+- immutable artifact metadata: at most 32 MiB;
+- active preview work: at most one job;
+- full-oracle differential mismatches and preview-navigation, exact-export, resource-limit, offline, and Desktop/Web parity regressions: zero.
 
 A phase that misses its own target SHALL remain behind its feature flag and SHALL NOT be used to justify the next architectural phase.
 
 ## Impact
 
-- Rust: `mmt_rs` incremental analysis/emission boundaries and `mmt_lsp` document/projection stores and render-project protocol.
-- Shared editor host: Typst project state, protocol identity, restart replay, and Desktop/Web parity fixtures.
-- Web runtime: render scheduling, workspace asset mirror, preview compiler shadow VFS, timing, and publication guards.
-- Compatibility: no DSL/rendering behavior change; full snapshots and clean full rebuild remain the recovery oracle during rollout.
+- Rust/shared host: pinned Tinymist renderer and snapshot-bound location protocols, two-generation session state, synthetic preview-project synchronization, native/Web parity fixtures, and restart replay.
+- Web runtime: one persistent typst.ts render session in the visible Webview, viewport-windowed DOM patching, latest-wins publication, immutable renderer artifacts, timing, and explicit full-SVG oracle mode.
+- Compatibility: no DSL/rendering behavior change; exact SVG/PNG/JPG/PDF exports rebuild from retained immutable render/runtime inputs.
+- Risk: mutable renderer generations can alias stale mappings unless committed and staged documents remain independently queryable and publication commits only after a matching visual-ready acknowledgement.
 - Risk: stable compiler paths can alias stale mappings unless the immutable artifact contract remains separate; every phase is gated on bidirectional navigation and exact-export tests.
 
 ## Non-Goals
@@ -93,8 +96,9 @@ A phase that misses its own target SHALL remain behind its feature flag and SHAL
 - Replacing `ViewsService`, native `SplitView`, or `EditorRuntimeController` ownership.
 - Making the language/Tinymist projection entry URI stable; revision-scoped language URIs remain required because Tinymist diagnostics do not carry document versions.
 - Treating a stable renderer path as immutable preview identity.
-- Copying Tinymist preview frontend code or enabling `diff-v1` from an unqualified producer.
+- Copying Tinymist preview frontend code, loading renderer code from a CDN, or enabling an unpinned producer/consumer pair.
 - Hiding stale, mapping, fetch, decode, compile, or layout failures to improve timing numbers.
+- Treating the explicit full sanitized-SVG oracle as a silent ordinary-render fallback.
 
 ## Dependencies and ownership
 
