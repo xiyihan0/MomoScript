@@ -16,7 +16,7 @@
     },
     {
       "path": "third_party/tinymist/patches/0002-mmt-preview-renderer.patch",
-      "sha256": "142a724e225b2138c82d1c6f1bac9be5831a5cfa9414fff3d0d3655d2aebe37a"
+      "sha256": "b5a32dd5f2278d2fce75c2ad7d5175448be1af7ed5175b7bad689eee9c6e60f9"
     }
   ],
   "build": {

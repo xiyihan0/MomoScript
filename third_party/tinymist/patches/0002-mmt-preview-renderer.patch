@@ -1,3 +1,15 @@
+diff --git a/Cargo.lock b/Cargo.lock
+index 2db4317385f5ee45465d4e7d6e007300c36aadca..f587898864e512717a68dea6e28df8594413c7a8 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -6723,6 +6723,7 @@ dependencies = [
+  "serde-wasm-bindgen",
+  "serde_json",
+  "serde_yaml",
++ "sha2",
+  "strum",
+  "sync-ls",
+  "temp-env",
 diff --git a/crates/tinymist/Cargo.toml b/crates/tinymist/Cargo.toml
 index 9ea3d4be73c6a4f73edd2de35d4a0e9995281bd6..925a6eb579ea88c4598537b2645a46c8e39fdff6 100644
 --- a/crates/tinymist/Cargo.toml
