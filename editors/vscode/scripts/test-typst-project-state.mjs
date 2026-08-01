@@ -96,9 +96,11 @@ assert.equal(renderSnapshots.get(renderBase.sourceUri), undefined);
 
 const notifications = [];
 const events = [];
+const requests = [];
 const held = new Set();
 const port = {
-  request(method, _params, signal) {
+  request(method, params, signal) {
+    requests.push(structuredClone({ method, params }));
     if (method === "textDocument/foldingRange") return Promise.resolve(null);
     if (method !== "fixture/hold") return Promise.resolve(null);
     return new Promise((resolve, reject) => {
@@ -162,6 +164,13 @@ assert.equal(state.queuedProjectCount(), 1, "same logical source was counted mor
 await new Promise((resolve) => setTimeout(resolve, 0));
 assert.equal(state.queuedProjectCount(), 0, "in-flight prime was still reported as queued");
 assert.ok(events.some((item) => item.method === "tinymist/projectPrimeStarted"), "queue-to-in-flight transition was not published");
+const primeRequestCount = requests.filter((item) => item.method === "textDocument/foldingRange").length;
+await state.ensureProjectReady(entryB);
+assert.equal(
+  requests.filter((item) => item.method === "textDocument/foldingRange").length,
+  primeRequestCount + 1,
+  "explicit readiness did not re-prime an accepted compiler project"
+);
 const retired = state.syncProject({ ...full, revision: 99, entryUri: entryA2, full: true, files: [] });
 assert.equal(retired.accepted, false);
 assert.equal(retired.error.code, "RetiredSession");

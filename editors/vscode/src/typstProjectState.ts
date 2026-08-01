@@ -431,6 +431,24 @@ export class TypstProjectState {
     return this.projectsByEntry.get(canonicalTypstUri(entryUri));
   }
 
+  async ensureProjectReady(entryUri: string, signal?: AbortSignal): Promise<void> {
+    const canonicalEntryUri = canonicalTypstUri(entryUri);
+    const project = this.projectsByEntry.get(canonicalEntryUri);
+    if (!project) {
+      throw new TypstProjectInvariantError("UnknownSessionDelta", `No accepted project owns entry: ${canonicalEntryUri}`);
+    }
+    const job = this.primeProject(
+      project.sourceUri,
+      project.entryUri,
+      projectionSessionKey(project.entryUri),
+      project.revision
+    );
+    if (!job) {
+      throw new TypstProjectInvariantError("PrimeQueueFull", `Prime limit ${this.limits.maxPrimes} reached`);
+    }
+    await this.waitForProjectPrime({ entryUri: canonicalEntryUri }, signal);
+  }
+
   closeProject(sourceUri: string, entryUri: string): boolean {
     if (this.projectForEntry(entryUri)?.sourceUri !== sourceUri) return false;
     for (const [projectEntryUri, project] of this.projectsByEntry) {
@@ -561,7 +579,7 @@ export class TypstProjectState {
     this.primeProject(update.sourceUri, update.entryUri, session, update.revision);
   }
 
-  private primeProject(sourceUri: string, entryUri: string, session: string, revision: number): void {
+  private primeProject(sourceUri: string, entryUri: string, session: string, revision: number): PrimeJob | undefined {
     const existing = this.projectPrimeQueue.get(sourceUri);
     if (!existing && this.projectPrimeQueue.size + this.projectPrimeInFlight.size >= this.limits.maxPrimes) {
       this.port.emit("tinymist/projectPrimeFailed", {
@@ -592,6 +610,7 @@ export class TypstProjectState {
     this.projectPrimeQueue.set(sourceUri, job);
     this.projectPrimeByEntry.set(job.entryUri, job);
     if (!this.projectPrimeInFlight.has(sourceUri)) this.scheduleProjectPrime(sourceUri);
+    return job;
   }
 
   private scheduleProjectPrime(sourceUri: string): void {

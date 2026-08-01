@@ -173,6 +173,7 @@ export class TinymistHostSession {
     signal?: AbortSignal
   ): Promise<PreviewRendererRenderResult> {
     const synchronized = await this.syncPreviewProject(update, mount, signal);
+    if (options.forceFull) await this.projectState.ensureProjectReady(update.entryUri, signal);
     signal?.throwIfAborted();
     await this.registerPreviewRendererProject(synchronized, options.sessionId, signal);
     signal?.throwIfAborted();

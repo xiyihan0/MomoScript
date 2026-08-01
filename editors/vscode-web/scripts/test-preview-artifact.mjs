@@ -167,6 +167,33 @@ assert.throws(() => createPreviewArtifact({
   },
 }), /identity/);
 
+const replacementRendererProvider = {
+  ...rendererProvider,
+  sessionId: "renderer-session-2",
+  artifactDigest: "d".repeat(64),
+  rendererGeneration: 1,
+};
+const replacementRendererArtifact = createPreviewArtifact({
+  renderKey: rendererArtifact.renderKey,
+  sourceUri: rendererArtifact.sourceUri,
+  locationProviderKey: replacementRendererProvider,
+  visualSnapshot: {
+    ...rendererArtifact.visualSnapshot,
+    artifactDigest: replacementRendererProvider.artifactDigest,
+    rendererGeneration: replacementRendererProvider.rendererGeneration,
+    frameKind: "new",
+    sessionId: replacementRendererProvider.sessionId,
+  },
+});
+const rendererCache = new PreviewArtifactStore(rendererArtifact.byteSize * 2);
+rendererCache.put(rendererArtifact);
+rendererCache.replaceRendererArtifact(replacementRendererArtifact);
+assert.equal(rendererCache.get(rendererArtifact.renderKey), replacementRendererArtifact);
+assert.throws(
+  () => rendererCache.replaceRendererArtifact({ ...replacementRendererArtifact, sourceUri: "mmtfs://workspace/other.mmt" }),
+  /different immutable artifact/
+);
+
 const cache = new PreviewArtifactStore(a.byteSize * 2 + 20);
 cache.put(a);
 const releaseA = cache.pin(a.renderKey);

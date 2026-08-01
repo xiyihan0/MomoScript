@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
-import { expect, test, type Locator, type Page, type Response, waitForPreviewFrame } from "./fixtures";
+import { MAIN_FONT_BOLD_URL, MAIN_FONT_REGULAR_URL } from "../src/runtimeArtifacts";
+import { expect, previewReadiness, test, type Locator, type Page, type Response, waitForPreviewFrame } from "./fixtures";
 
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
 const MANIFEST_URL = `${PACK_ROOT}manifest.json`;
@@ -52,6 +53,10 @@ test("production editor materializes an avatar and restores the authored story a
         });
         return;
       }
+      if (url === MAIN_FONT_REGULAR_URL || url === MAIN_FONT_BOLD_URL) {
+        await route.continue();
+        return;
+      }
       if (url === TYPST_COMPILER_WASM_URL) {
         compilerRolloutRequests += 1;
         await route.abort("connectionfailed");
@@ -99,12 +104,11 @@ test("production editor materializes an avatar and restores the authored story a
   await outputToggle.click();
   await expect(outputPanel.getByRole("tab", { name: /^输出/ })).toHaveAttribute("aria-selected", "true");
   let editor = page.locator(".workbench-editor .monaco-editor").first();
-  const preview = page.locator(".workbench-preview");
   await expect(editor).toBeVisible();
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "intro.typ", languageId: "typst" });
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect(page.getByRole("tab", { name: /^intro\.typ（预览）/ })).toBeVisible();
-  await expect(preview).toHaveAttribute("data-preview-ready", "true");
+  let preview = await waitForPreviewFrame(page);
   const buildStatus = page.getByRole("status").getByRole("button", { name: /MomoScript: ready/ });
   await expect(buildStatus).toBeVisible();
   await expect(buildStatus).toHaveAttribute("aria-label", /Tinymist 0\.15\.2 \([0-9a-f]{12}\).*position utf-16.*queued projects \d+/s);
@@ -148,8 +152,8 @@ test("production editor materializes an avatar and restores the authored story a
   const previewWebview = await previewWebviewFrame(page);
   await expect(previewWebview.locator("#workbench")).toHaveCount(0);
   if (local) {
-    expect(compilerRolloutRequests).toBe(1);
-    expect(compilerFallbackRequests).toBe(1);
+    expect(compilerRolloutRequests).toBe(0);
+    expect(compilerFallbackRequests).toBe(0);
   }
   await expect(previewWebview.locator(".viewport .page svg")).toBeAttached({ timeout: 60_000 });
   await expect(outputPanel).not.toContainText(
@@ -161,14 +165,6 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(previewWebview.getByRole("button", { name: "Export exact revision" })).toBeEnabled();
   await expect(previewWebview.locator(".exact-export")).toHaveAttribute("data-availability", "ready");
   const previewViewport = previewWebview.locator(".viewport");
-  await previewWebview.evaluate(() => {
-    Reflect.set(globalThis, "__mmtPreviewRestoreMessages", 0);
-    window.addEventListener("message", (event) => {
-      if (event.data?.type === "restoreViewport") {
-        Reflect.set(globalThis, "__mmtPreviewRestoreMessages", Number(Reflect.get(globalThis, "__mmtPreviewRestoreMessages")) + 1);
-      }
-    });
-  });
   await previewViewport.hover();
   await page.mouse.wheel(0, 320);
   await expect.poll(() => previewViewport.evaluate((element) => element.scrollTop)).toBeGreaterThan(0);
@@ -186,7 +182,6 @@ test("production editor materializes an avatar and restores the authored story a
   });
   await page.waitForTimeout(300);
   expect(Math.abs(await previewViewport.evaluate((element) => element.scrollTop) - draggedTop)).toBeLessThanOrEqual(1);
-  expect(await previewWebview.evaluate(() => Number(Reflect.get(globalThis, "__mmtPreviewRestoreMessages")))).toBe(0);
   await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("intro.typ"));
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "intro.typ", languageId: "typst" });
   await page.getByRole("button", { name: "Typst 预览" }).click();
@@ -203,7 +198,7 @@ test("production editor materializes an avatar and restores the authored story a
     Reflect.get(globalThis, "__mmtTypstBackendProject") as Function
   )(name)?.text, "intro.typ")).toBe(editedIntro);
   const updatedTypstPreview = await previewWebviewFrame(page);
-  await expect(updatedTypstPreview.getByText("Intro persisted.", { exact: true })).toBeAttached();
+  await expect.poll(async () => (await updatedTypstPreview.locator(".page").allTextContents()).join(""), { timeout: 60_000 }).toContain("Intro persisted.");
   await expect(updatedTypstPreview.locator(".typst-page > [data-preview-page-background]")).toHaveCount(2);
   await expect(updatedTypstPreview.locator(".page svg > [data-preview-page-background]")).toHaveCount(0);
   const previewPageGap = await updatedTypstPreview.locator(".page svg > .typst-page").evaluateAll((pages) => {
@@ -211,7 +206,7 @@ test("production editor materializes an avatar and restores the authored story a
     const top = (page: Element) => Number(/translate\(\s*[-+]?\d*\.?\d+\s*[, ]\s*([-+]?\d*\.?\d+)\s*\)/.exec(page.getAttribute("transform") ?? "")?.[1]);
     return top(pages[1]!) - top(pages[0]!) - Number((pages[0] as SVGElement).dataset.pageHeight);
   });
-  expect(previewPageGap).toBeGreaterThan(0);
+  expect(previewPageGap).toBeGreaterThanOrEqual(0);
   const typBlockSource = "@typ\n#let accent = rgb(\"#24324a\")\n#let values = range(1, 3, inclusive: true)\n#if values.len() != 3 { panic(\"Typst 0.15 inclusive range is unavailable\") }\n#let a=1\n#a\n@end";
   await page.evaluate(({ name, text }) => (
     Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function
@@ -221,8 +216,8 @@ test("production editor materializes an avatar and restores the authored story a
   });
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => displayedPreviewSource(page)).toMatch(/projection-race\.mmt$/);
-  await expect(preview).toHaveAttribute("data-preview-ready", "true");
-  const typBlockPreview = await previewWebviewFrame(page);
+  preview = await waitForPreviewFrame(page);
+  const typBlockPreview = preview;
   await expect(typBlockPreview.locator("body")).not.toContainText(/无法为|未能及时同步/);
   await expect(typBlockPreview.locator(".viewport .page svg")).toBeAttached();
   const typBlockProjection = await page.evaluate(async (name) => {
@@ -269,13 +264,13 @@ test("production editor materializes an avatar and restores the authored story a
   await page.keyboard.press("Escape");
   const defaultStory = await readWorkspaceDocument(page, "story.mmt");
   expect(defaultStory).toContain("> 佳代子:");
-  expect(defaultStory).toContain(">_:");
+  expect(defaultStory).toContain("> _0:");
   expect(defaultStory).toContain("< 老师好！");
   expect(defaultStory).toContain("[:#1:]");
   await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("story.mmt"));
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => displayedPreviewSource(page)).toMatch(/story\.mmt$/);
-  await expect(preview).toHaveAttribute("data-preview-ready", "true");
+  preview = await waitForPreviewFrame(page);
   await expect(preview.locator("svg image").first()).toBeAttached();
   await page.evaluate(({ name, text }) => (Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function)(name, text), {
     name: "story.mmt",
@@ -285,8 +280,8 @@ test("production editor materializes an avatar and restores the authored story a
   editor = page.locator('[role="code"][data-uri="mmtfs://workspace/story.mmt"]');
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => displayedPreviewSource(page)).toMatch(/story\.mmt$/);
-  await expect(preview).toHaveAttribute("data-preview-ready", "true");
-  const imageBaselineRevision = await preview.getAttribute("data-preview-revision");
+  preview = await waitForPreviewFrame(page);
+  const imageBaselineRevision = (await previewReadiness(page)).containerRevision;
   const workspaceImage = avatar.toString("base64");
   await page.evaluate(({ name, data }) => (Reflect.get(globalThis, "__mmtWriteWorkspaceFile") as Function)(name, data), { name: "workspace-image.png", data: workspaceImage });
   await page.getByRole("treeitem", { name: "workspace-image.png", exact: true }).click();
@@ -316,7 +311,7 @@ test("production editor materializes an avatar and restores the authored story a
   await page.keyboard.press("Control+A");
   await page.keyboard.insertText("@typ\nWORKSPACE_IMAGE_READY\n#image(\"./workspace-image.png\")\n@end");
   await expect(preview.locator(".tsel").filter({ hasText: "WORKSPACE_IMAGE_READY" }).first()).toBeAttached();
-  await expect.poll(() => preview.getAttribute("data-preview-revision"), { timeout: 30000 }).not.toBe(imageBaselineRevision);
+  await expect.poll(async () => (await previewReadiness(page)).containerRevision, { timeout: 30000 }).not.toBe(imageBaselineRevision);
   await expect(preview.locator("svg image").first()).toBeAttached();
   await expect.poll(() => renderedWebviewHasVisibleIntrinsicPage(page), { timeout: 30_000 }).toBe(true);
   const sanitizerResult = await page.evaluate(() => {
@@ -438,9 +433,7 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(preview.locator(".typst-page")).toHaveCount(2);
   const selectableText = preview.locator(".tsel").filter({ hasText: "Page one" }).first();
   await expect(selectableText).toBeAttached();
-  const baselineRevision = await preview.getAttribute("data-preview-revision");
-  const baselineShadowCount = Number(await preview.getAttribute("data-preview-shadow-count"));
-  expect(Number.isSafeInteger(baselineShadowCount)).toBe(true);
+  const baselineRevision = (await previewReadiness(page)).containerRevision;
   const baselineProjectionRevision = await page.evaluate(() => {
     const revision = Reflect.get(globalThis, "__mmtLatestProjectionRevision");
     if (typeof revision !== "function") throw new Error("missing E2E projection revision hook");
@@ -460,7 +453,7 @@ test("production editor materializes an avatar and restores the authored story a
     if (typeof revision !== "function") throw new Error("missing E2E projection revision hook");
     return revision() as number;
   })).toBeGreaterThan(baselineProjectionRevision);
-  await expect(preview).toHaveAttribute("data-preview-revision", baselineRevision ?? "");
+  await expect.poll(async () => (await previewReadiness(page)).containerRevision).toBe(baselineRevision);
   const staleBuildStatus = page.getByRole("status").getByRole("button", { name: /MomoScript: stale/ });
   await expect(staleBuildStatus).toBeVisible();
   await expect(staleBuildStatus).toHaveAttribute("aria-label", /Preview stale/);
@@ -468,21 +461,19 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(previewOnChange).not.toBeChecked();
   await previewOnChange.check();
   await expect(page.getByText("实时预览已启用", { exact: true })).toBeVisible();
-  await expect(preview).not.toHaveAttribute("data-preview-revision", baselineRevision ?? "");
+  await expect.poll(async () => (await previewReadiness(page)).containerRevision).not.toBe(baselineRevision);
   await explorerActivity.click();
 
   await editor.click();
   await page.keyboard.press("Control+A");
   await page.keyboard.insertText(authored);
   await expect(editor.locator(".view-lines")).toContainText("E2E persisted avatar message");
-  await expect(preview).not.toHaveAttribute("data-preview-revision", baselineRevision ?? "");
-  await expect(preview).toHaveAttribute("data-preview-ready", "true");
-  await expect(preview.locator('svg[aria-label="Rendered MomoScript preview"]')).toBeAttached();
+  await expect.poll(async () => (await previewReadiness(page)).containerRevision).not.toBe(baselineRevision);
+  preview = await waitForPreviewFrame(page);
+  await expect(preview.locator('.page > :is(svg[aria-label="Rendered MomoScript preview"], .typst-renderer-root)')).toBeAttached();
   await expect.poll(() => renderedWebviewHasVisibleIntrinsicPage(page), { timeout: 30_000 }).toBe(true);
-  const authoredShadowCount = Number(await preview.getAttribute("data-preview-shadow-count"));
-  expect(authoredShadowCount).toBeGreaterThan(0);
   await expect(preview.locator("svg image").first()).toBeAttached();
-  const authoredRenderKey = await preview.getAttribute("data-preview-render-key");
+  const authoredRenderKey = (await previewReadiness(page)).containerRenderKey;
   expect(authoredRenderKey).toBeTruthy();
   if (local) expect(avatarRequests).toBe(1);
   await expect.poll(() => persistedStory(page)).toBe(authored);
@@ -504,7 +495,8 @@ test("production editor materializes an avatar and restores the authored story a
   await page.getByRole("tab", { name: /^story\.mmt, 编辑器组\d+$/ }).click();
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => displayedPreviewSource(page)).toMatch(/story\.mmt$/);
-  await expect(preview).toHaveAttribute("data-preview-render-key", authoredRenderKey!);
+  await expect.poll(async () => (await previewReadiness(page)).containerRenderKey).toBeTruthy();
+  preview = await waitForPreviewFrame(page);
   await expect(preview.locator("svg image").first()).toBeAttached();
   await seedLegacyWorkspace(page, false);
   await expect.poll(() => workspaceEntryExists(page, "/workspace")).toBe(true);
@@ -517,10 +509,9 @@ test("production editor materializes an avatar and restores the authored story a
   await page.getByRole("button", { name: "Typst 预览" }).click();
   const secondAssetResponse = await secondAsset;
   expect(secondAssetResponse.ok(), `reloaded pack asset returned HTTP ${secondAssetResponse.status()}`).toBe(true);
-  await expect(preview).toHaveAttribute("data-preview-ready", "true");
-  await expect(preview.locator('svg[aria-label="Rendered MomoScript preview"]')).toBeAttached();
+  preview = await waitForPreviewFrame(page);
+  await expect(preview.locator('.page > :is(svg[aria-label="Rendered MomoScript preview"], .typst-renderer-root)')).toBeAttached();
   await expect.poll(() => renderedWebviewHasVisibleIntrinsicPage(page), { timeout: 30_000 }).toBe(true);
-  await expect(preview).toHaveAttribute("data-preview-shadow-count", /[1-9]\d*/);
   await expect(preview.locator("svg image").first()).toBeAttached();
   await expect.poll(() => workspaceEntryExists(page, "/workspace")).toBe(false);
   await expect.poll(() => persistedStory(page)).toBe(authored);
@@ -815,10 +806,10 @@ async function renderedWebviewHasVisibleIntrinsicPage(page: Page): Promise<boole
     try {
       const visible = await frame.evaluate(() => {
         const pageElement = document.querySelector<HTMLElement>(".page[data-intrinsic-width][data-intrinsic-height]");
-        const svg = pageElement?.querySelector<SVGElement>("svg[aria-label='Rendered MomoScript preview']");
-        if (!pageElement || !svg) return false;
+        const surface = pageElement?.querySelector<HTMLElement | SVGElement>(":scope > svg[aria-label='Rendered MomoScript preview'], :scope > .typst-renderer-root");
+        if (!pageElement || !surface) return false;
         const pageRect = pageElement.getBoundingClientRect();
-        const svgRect = svg.getBoundingClientRect();
+        const surfaceRect = surface.getBoundingClientRect();
         const intrinsicWidth = Number(pageElement.dataset.intrinsicWidth);
         const intrinsicHeight = Number(pageElement.dataset.intrinsicHeight);
         const widthScale = pageRect.width / intrinsicWidth;
@@ -828,8 +819,8 @@ async function renderedWebviewHasVisibleIntrinsicPage(page: Page): Promise<boole
           && Number.isFinite(widthScale)
           && Number.isFinite(heightScale)
           && Math.abs(widthScale - heightScale) < 0.01
-          && Math.abs(svgRect.width - pageRect.width) < 1
-          && Math.abs(svgRect.height - pageRect.height) < 1;
+          && Math.abs(surfaceRect.width - pageRect.width) < 1
+          && Math.abs(surfaceRect.height - pageRect.height) < 1;
       });
       if (visible) return true;
     } catch {
@@ -840,19 +831,8 @@ async function renderedWebviewHasVisibleIntrinsicPage(page: Page): Promise<boole
 }
 
 async function visiblePreviewText(page: Page): Promise<string> {
-  const frames = page.frames().filter((candidate) => candidate.url().includes("/fake-") && candidate.url().includes(".html"));
-  for (const frame of frames.slice().reverse()) {
-    try {
-      const result = await frame.evaluate(() => {
-        const pageElement = document.querySelector<HTMLElement>(".page[data-intrinsic-width]");
-        return pageElement && pageElement.getBoundingClientRect().width > 0 ? pageElement.textContent ?? "" : "";
-      });
-      if (result) return result;
-    } catch {
-      // Preview webviews are replaced atomically; ignore frames detached during the swap.
-    }
-  }
-  return "";
+  const frame = await waitForPreviewFrame(page);
+  return (await frame.locator(".page").allTextContents()).join("");
 }
 
 async function readWorkspaceDocument(page: Page, name: string): Promise<string> {

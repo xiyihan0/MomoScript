@@ -232,7 +232,7 @@ new file mode 100644
 index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc2171d79f
 --- /dev/null
 +++ b/crates/tinymist/src/preview_renderer.rs
-@@ -0,0 +1,1428 @@
+@@ -0,0 +1,1421 @@
 +//! Host-facing incremental preview vector data plane.
 +//!
 +//! This deliberately exposes only the stateful vector producer already used by
@@ -1050,9 +1050,10 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +        }
 +
 +        let render_entry = renderer_entry_state(&canonical_entry, &mount_root)?;
-+        let mut next_world = if let Some(world) = current_world {
-+            world
-+        } else {
++        let rebuild_world = !changed_mounts.is_empty()
++            || current_digests.len() != next_digests.len()
++            || current_world.is_none();
++        let mut next_world = if rebuild_world {
 +            let compiler_path = as_path_(&entry_uri);
 +            let mut selected = None;
 +            for project in self.project.compiler.projects() {
@@ -1073,10 +1074,12 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +            selected.ok_or_else(|| {
 +                internal_error("preview renderer base compiler project is not ready")
 +            })?
++        } else {
++            current_world.expect("compatible renderer session has a live world")
 +        };
 +        let base_font_resolver = current_base_font_resolver
 +            .unwrap_or_else(|| next_world.font_resolver.clone());
-+        if fonts_changed {
++        if fonts_changed || rebuild_world {
 +            let mut searcher = MemoryFontSearcher::new();
 +            for digest in &font_digests {
 +                let record = self
@@ -1097,17 +1100,7 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +            );
 +            next_world.font_resolver = Arc::new(searcher.build());
 +        }
-+        for path in current_digests.keys() {
-+            if !next_digests.contains_key(path) {
-+                next_world.unmap_shadow(path).map_err(|error| {
-+                    internal_error(format!(
-+                        "preview renderer cannot delete mount '{}': {error}",
-+                        path.display()
-+                    ))
-+                })?;
-+            }
-+        }
-+        for mount in &changed_mounts {
++        for mount in if rebuild_world { &registered_mounts } else { &changed_mounts } {
 +            let record = self
 +                .preview_renderer
 +                .file_records

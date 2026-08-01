@@ -476,6 +476,26 @@ export class PreviewArtifactStore implements RuntimeOwnedResource {
     this.#evict();
   }
 
+  replaceRendererArtifact(artifact: PreviewArtifact): void {
+    this.#assertActive();
+    if (artifact.visualSnapshot.kind !== "renderer") {
+      throw new Error("Only renderer artifacts can replace an equivalent cached publication");
+    }
+    if (artifact.byteSize > this.maxBytes) throw new Error("Preview artifact exceeds cache byte limit");
+    const existing = this.#entries.get(artifact.renderKey);
+    if (!existing) {
+      this.put(artifact);
+      return;
+    }
+    if (existing.artifact.visualSnapshot.kind !== "renderer"
+      || existing.artifact.sourceUri !== artifact.sourceUri) {
+      throw new Error("RenderKey is already bound to a different immutable artifact");
+    }
+    this.#replaceCached(artifact);
+    this.get(artifact.renderKey);
+    this.#evict();
+  }
+
   pin(renderKey: RenderKey): () => void {
     const entry = this.#entries.get(renderKey);
     if (!entry) throw new Error("ArtifactUnavailable");

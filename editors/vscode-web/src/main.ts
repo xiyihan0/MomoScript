@@ -360,7 +360,7 @@ if (import.meta.env.VITE_MMT_E2E === "1") {
     return { text: document.getText(), version: document.version };
   });
 }
-const DEFAULT_STORY = "> 佳代子: 你好，老师！\n>_: 我也可以继续说。\n< 老师好！\n> 佳代子: 看看这个：[:#1:](width: 2em)\n";
+const DEFAULT_STORY = "> 佳代子: 你好，老师！\n> _0: 我也可以继续说。\n< 老师好！\n> 佳代子: 看看这个：[:#1:](width: 2em)\n";
 const PACK_URL = "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json";
 const encoder = new TextEncoder();
 const PREVIEW_RUNTIME_KEY = runtimeArtifactKey(
@@ -1362,7 +1362,11 @@ async function initializeRuntime(
         if (trace) previewTraces.delete(trace.traceId);
         return;
       }
-      controller.stores.previewArtifacts.put(artifact);
+      if (artifact.visualSnapshot.kind === "renderer") {
+        controller.stores.previewArtifacts.replaceRendererArtifact(artifact);
+      } else {
+        controller.stores.previewArtifacts.put(artifact);
+      }
       controller.stores.previewArtifacts.display(project.sourceUri, binding.renderKey);
     } catch (error) {
       if (operationSignal.aborted) {
@@ -2352,6 +2356,34 @@ async function initializeRuntime(
     });
     await previewRenderQueue.waitForPreview(sourceUri, sequence);
   };
+  const dispatchTypstPreview = async (
+    project: TypstProjectUpdate,
+    document: vscode.TextDocument,
+    force: boolean,
+  ): Promise<void> => {
+    const run = async (signal?: AbortSignal) => {
+      if (displayedPreviewSourceUri !== project.sourceUri) return;
+      previewBuildState.activate(previewBuildIdentityFor(project, document));
+      await renderPreview(project, undefined, undefined, signal);
+    };
+    if (!previewSchedulerEnabled) {
+      await run();
+      return;
+    }
+    const token: LanguageProjectionToken = Object.freeze({
+      entryUri: project.entryUri,
+      session: projectionSessionKey(project.entryUri),
+      sourceVersion: project.sourceVersion,
+      revision: project.revision,
+    });
+    const sequence = previewRenderQueue.enqueuePreview({
+      sourceUri: project.sourceUri,
+      token,
+      kind: force ? "manual-render" : "typing",
+      traceId: controller.stores.previewPerformance.enabled ? crypto.randomUUID() : "",
+    }, async (_accepted, signal) => run(signal));
+    await previewRenderQueue.waitForPreview(project.sourceUri, sequence);
+  };
   const schedulePreviewIfEnabled = async (
     client: BaseLanguageClient,
     sourceUri: string,
@@ -2730,8 +2762,7 @@ async function initializeRuntime(
       if (previewFixtureActiveSourceUri === sourceUri) return;
       typstProjects.set(sourceUri, project);
       syncTinymistProject(project);
-      previewBuildState.activate(previewBuildIdentityFor(project, document));
-      await renderPreview(project);
+      await dispatchTypstPreview(project, document, true);
       return;
     }
     if (!activeClient) {
@@ -2950,13 +2981,12 @@ async function initializeRuntime(
   document.documentElement.dataset.mmtWorkspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.toString() ?? "";
   const typstDocumentChangeRegistration = subscribe(vscode.workspace.onDidChangeTextDocument((event) => {
     if (!controller.acceptingWork) return;
-    void recognizeAndSyncTypst(event.document, true).then((project) => {
+    void recognizeAndSyncTypst(event.document, true).then(async (project) => {
       if (!project) return;
       const sourceUri = event.document.uri.toString();
       typstProjects.set(sourceUri, project);
       if (displayedPreviewSourceUri === sourceUri) {
-        previewBuildState.activate(previewBuildIdentityFor(project, event.document));
-        return renderPreview(project);
+        await dispatchTypstPreview(project, event.document, false);
       }
     }).catch((error: unknown) => log("preview:error", `Typst: ${error instanceof Error ? error.message : String(error)}`));
   }));
