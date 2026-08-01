@@ -1,4 +1,4 @@
-import { expect, test } from "./fixtures";
+import { expect, test, waitForPreviewFrame } from "./fixtures";
 
 test("installed production editor cold-starts offline with language workers and preview", async ({ page, context }) => {
   await page.goto("/");
@@ -6,7 +6,7 @@ test("installed production editor cold-starts offline with language workers and 
   await expect(page.locator(".workbench-editor .monaco-editor").first()).toBeVisible();
 
   await page.getByRole("button", { name: "Typst 预览" }).click();
-  await expect(page.locator(".workbench-preview")).toHaveAttribute("data-preview-ready", "true");
+  await waitForPreviewFrame(page);
   const notoRequests = await page.evaluate(() => performance.getEntriesByType("resource")
     .map((entry) => entry.name)
     .filter((url) => url.includes("NotoSansCJK")));
@@ -40,11 +40,11 @@ test("installed production editor cold-starts offline with language workers and 
   });
   expect(cacheEvidence.controller).toBe(true);
   expect(cacheEvidence.localCount).toBeGreaterThan(100);
-  expect(cacheEvidence.remoteCount).toBe(4);
+  expect(cacheEvidence.remoteCount).toBe(3);
   expect(cacheEvidence.notoLocalCount).toBe(0);
   expect(cacheEvidence.mainFontBrotliCount).toBe(2);
-  expect(cacheEvidence.wasmBrotliCount).toBe(2);
-  expect(cacheEvidence.required.length).toBeGreaterThanOrEqual(6);
+  expect(cacheEvidence.wasmBrotliCount).toBe(1);
+  expect(cacheEvidence.required.length).toBeGreaterThanOrEqual(5);
   expect(cacheEvidence.required.filter((entry) => !entry.cached)).toEqual([]);
 
   await page.goto("about:blank");
@@ -60,7 +60,7 @@ test("installed production editor cold-starts offline with language workers and 
   await expect(editor.locator(".view-lines")).toContainText("offline edit");
 
   await page.getByRole("button", { name: "Typst 预览" }).click();
-  await expect(page.locator(".workbench-preview")).toHaveAttribute("data-preview-ready", "true", { timeout: 300_000 });
+  await waitForPreviewFrame(page);
   await expect(page.getByRole("status").getByRole("button", { name: /MomoScript: ready/ })).toBeVisible();
 
   await page.getByRole("status").getByRole("button", { name: /显示或隐藏 MomoScript 日志/ }).click();

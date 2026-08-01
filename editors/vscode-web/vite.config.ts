@@ -75,7 +75,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin === self.location.origin) {
     event.respondWith((async () => {
-      const cached = await caches.match(request);
+      const cached = await caches.match(request) ?? await caches.match(url.pathname);
       if (cached) return cached;
       if (request.mode === "navigate") {
         const shell = await caches.match("/index.html");
@@ -108,6 +108,42 @@ function typstCompilerBindingsPlugin(): Plugin {
     transform(_code, id) {
       if (!compilerBinding.test(id.split("?")[0]!)) return;
       return readFileSync(pinnedBinding, "utf8");
+    },
+  };
+}
+
+function monacoWebviewOfflineCachePlugin(): Plugin {
+  const workerMarker = "const resourceCacheName = `vscode-resource-cache-${VERSION}`;";
+  const fetchMarker = "\tconst requestUrl = new URL(event.request.url);\n";
+  const offlineFallback = `${fetchMarker}\tif (requestUrl.origin === sw.origin) {
+\t\treturn event.respondWith((async () => {
+\t\t\tconst cached = await caches.match(event.request) ?? await caches.match(requestUrl.pathname);
+\t\t\treturn cached ?? fetch(event.request);
+\t\t})());
+\t}
+`;
+  return {
+    name: "momoscript-monaco-webview-offline-cache",
+    apply: "build",
+    generateBundle(_options, bundle) {
+      const workers = Object.values(bundle).filter((output) => {
+        const source = output.type === "asset"
+          ? typeof output.source === "string" ? output.source : Buffer.from(output.source).toString("utf8")
+          : output.code;
+        return typeof source === "string" && source.includes(workerMarker);
+      });
+      if (workers.length !== 1) {
+        throw new Error(`Expected one Monaco Webview service worker, found ${workers.length}`);
+      }
+      const worker = workers[0]!;
+      const source = worker.type === "asset"
+        ? typeof worker.source === "string" ? worker.source : Buffer.from(worker.source).toString("utf8")
+        : worker.code;
+      if (source.split(fetchMarker).length !== 2) {
+        throw new Error("Monaco Webview service worker fetch hook changed");
+      }
+      if (worker.type === "asset") worker.source = source.replace(fetchMarker, offlineFallback);
+      else worker.code = source.replace(fetchMarker, offlineFallback);
     },
   };
 }
@@ -186,7 +222,8 @@ function e2eLifecyclePlugin(): Plugin | undefined {
 }
 
 export default defineConfig({
-  plugins: [typstCompilerBindingsPlugin(), e2eLifecyclePlugin(), pwaPrecachePlugin()],
+
+  plugins: [typstCompilerBindingsPlugin(), e2eLifecyclePlugin(), monacoWebviewOfflineCachePlugin(), pwaPrecachePlugin()],
   define: {
     "import.meta.env.VITE_MMT_E2E": JSON.stringify(process.env.VITE_MMT_E2E === "1" ? "1" : "0")
   },

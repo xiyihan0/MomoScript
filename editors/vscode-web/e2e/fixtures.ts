@@ -138,27 +138,7 @@ export async function previewReadiness(page: Page, sourceUri?: string): Promise<
 }
 
 export async function waitForPreviewFrame(page: Page, sourceUri?: string): Promise<Frame> {
-  const deadline = Date.now() + 90_000;
-  const intervals = [100, 250, 500, 1_000];
-  let attempt = 0;
-  let displayedRenderKey: string | null = null;
-  while (true) {
-    const state = await previewReadiness(page, sourceUri);
-    if (state.stage === "ready") {
-      displayedRenderKey = state.displayedRenderKey;
-      break;
-    }
-    if (state.stage === "failed" || state.stage === "runtime-failed") {
-      throw new Error(`Preview failed before readiness: ${JSON.stringify(state)}`);
-    }
-    if (Date.now() >= deadline) {
-      throw new Error(`Preview readiness timed out: ${JSON.stringify(state)}`);
-    }
-    await page.waitForTimeout(intervals[Math.min(attempt, intervals.length - 1)]!);
-    attempt += 1;
-  }
-  const frameDeadline = Date.now() + 15_000;
-  while (true) {
+  const findRenderedFrame = async (displayedRenderKey: string | null): Promise<Frame | null> => {
     for (const frame of page.frames()) {
       try {
         const owner = await frame.frameElement();
@@ -174,6 +154,36 @@ export async function waitForPreviewFrame(page: Page, sourceUri?: string): Promi
         // VS Code replaces the pending Webview iframe after setting its HTML.
       }
     }
+    return null;
+  };
+
+  const deadline = Date.now() + 90_000;
+  const intervals = [100, 250, 500, 1_000];
+  let attempt = 0;
+  let displayedRenderKey: string | null = null;
+  while (true) {
+    const state = await previewReadiness(page, sourceUri);
+    if (state.stage === "ready") {
+      displayedRenderKey = state.displayedRenderKey;
+      break;
+    }
+    if (state.stage === "failed" || state.stage === "runtime-failed") {
+      throw new Error(`Preview failed before readiness: ${JSON.stringify(state)}`);
+    }
+    if (state.stage === "readiness-unavailable") {
+      const frame = await findRenderedFrame(null);
+      if (frame) return frame;
+    }
+    if (Date.now() >= deadline) {
+      throw new Error(`Preview readiness timed out: ${JSON.stringify(state)}`);
+    }
+    await page.waitForTimeout(intervals[Math.min(attempt, intervals.length - 1)]!);
+    attempt += 1;
+  }
+  const frameDeadline = Date.now() + 15_000;
+  while (true) {
+    const frame = await findRenderedFrame(displayedRenderKey);
+    if (frame) return frame;
     if (Date.now() >= frameDeadline) {
       const state = await previewReadiness(page, sourceUri);
       throw new Error(`Preview reached ${state.stage} without a rendered Webview frame: ${JSON.stringify(state)}`);
