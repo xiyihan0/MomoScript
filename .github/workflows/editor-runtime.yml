@@ -4,13 +4,24 @@ on:
   pull_request:
   push:
     branches: [master]
+  schedule:
+    - cron: "0 3 * * *"
   workflow_dispatch:
-
+    inputs:
+      preview_performance:
+        description: Preview performance tier
+        required: true
+        type: choice
+        default: standard
+        options:
+          - standard
+          - differential
+          - qualification
 permissions:
   contents: read
 
 concurrency:
-  group: editor-runtime-${{ github.ref }}
+  group: editor-runtime-${{ github.event_name }}-${{ github.ref }}-${{ inputs.preview_performance || 'default' }}
   cancel-in-progress: true
 
 env:
@@ -28,6 +39,7 @@ env:
 jobs:
   core-native:
     name: core-native
+    if: ${{ github.event_name != 'schedule' && (github.event_name != 'workflow_dispatch' || inputs.preview_performance == 'standard') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -195,6 +207,7 @@ jobs:
 
   extension-desktop:
     name: extension-desktop
+    if: ${{ github.event_name != 'schedule' && (github.event_name != 'workflow_dispatch' || inputs.preview_performance == 'standard') }}
     needs: tinymist-compatibility
     runs-on: ubuntu-24.04
     timeout-minutes: 45
@@ -278,6 +291,9 @@ jobs:
           npm --prefix editors/vscode run test:tinymist-worker
           npm --prefix editors/vscode run test:web
           npm --prefix editors/vscode-web run check
+          npm --prefix editors/vscode run test:preview-renderer-protocol
+          npm --prefix editors/vscode-web run test:preview-renderer-session
+          npm --prefix editors/vscode-web run test:preview-render-queue
           npm --prefix editors/vscode-web run test:resource-cache
           npm --prefix editors/vscode-web run test:resource-fetch-cache
           npm --prefix editors/vscode-web run test:resource-materializer
@@ -292,6 +308,7 @@ jobs:
 
   production-e2e:
     name: production-e2e
+    if: ${{ github.event_name != 'schedule' && (github.event_name != 'workflow_dispatch' || inputs.preview_performance == 'standard') }}
     needs: [tinymist-compatibility, typst-compiler-compatibility, extension-web]
     runs-on: ubuntu-24.04
     timeout-minutes: 45
@@ -335,6 +352,7 @@ jobs:
 
   lifecycle-e2e:
     name: lifecycle-e2e
+    if: ${{ github.event_name != 'schedule' && (github.event_name != 'workflow_dispatch' || inputs.preview_performance == 'standard') }}
     needs: extension-web
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -366,6 +384,7 @@ jobs:
 
   pwa-e2e:
     name: pwa-e2e
+    if: ${{ github.event_name != 'schedule' && (github.event_name != 'workflow_dispatch' || inputs.preview_performance == 'standard') }}
     needs: [tinymist-compatibility, typst-compiler-compatibility, extension-web]
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -405,3 +424,138 @@ jobs:
           path: editors/vscode-web/test-results/
           if-no-files-found: ignore
           retention-days: 14
+
+  preview-differential-e2e:
+    name: preview-differential-e2e
+    if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.preview_performance == 'differential') }}
+    needs: [tinymist-compatibility, typst-compiler-compatibility, extension-web]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Determine preview-sensitive scope
+        id: scope
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [ "$EVENT_NAME" != "pull_request" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          elif [ -z "$BASE_SHA" ] || [ -z "$HEAD_SHA" ] || ! git rev-parse --verify "$BASE_SHA^{commit}" >/dev/null 2>&1 || ! git rev-parse --verify "$HEAD_SHA^{commit}" >/dev/null 2>&1; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          elif git diff --quiet "$BASE_SHA" "$HEAD_SHA" -- \
+            ".github/workflows/editor-runtime.yml" \
+            "mmt_rs" \
+            "mmt_lsp" \
+            "editors/vscode-web/e2e/fixtures.ts" \
+            "editors/vscode-web/e2e/preview-*" \
+            "editors/vscode-web/playwright.config.ts" \
+            "editors/vscode-web/vite.config.ts" \
+            "editors/vscode-web/scripts/test-e2e-chrome.mjs" \
+            "editors/vscode-web/scripts/test-preview-performance-ci.mjs" \
+            "editors/vscode-web/src" \
+            "editors/vscode-web/public" \
+            "editors/vscode-web/package.json" \
+            "editors/vscode-web/package-lock.json" \
+            "editors/vscode/src" \
+            "editors/vscode/scripts" \
+            "editors/vscode/package.json" \
+            "editors/vscode/package-lock.json" \
+            "editors/vscode/vendor/tinymist-0.15.2" \
+            "third_party/tinymist" \
+            "third_party/typst-ts"
+          then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.scope.outputs.run == 'true'
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            editors/vscode/package-lock.json
+            editors/vscode-web/package-lock.json
+      - uses: actions/download-artifact@v4
+        if: steps.scope.outputs.run == 'true'
+        with:
+          name: tinymist-pinned-linux-x64
+          path: .ci/tinymist
+      - uses: actions/download-artifact@v4
+        if: steps.scope.outputs.run == 'true'
+        with:
+          name: typst-compiler-pinned-web
+          path: .ci/typst-compiler
+      - name: Install preview differential dependencies
+        if: steps.scope.outputs.run == 'true'
+        run: |
+          npm ci --prefix editors/vscode
+          npm ci --prefix editors/vscode-web
+          npx --prefix editors/vscode-web playwright install --with-deps chromium
+      - name: Run preview renderer differential
+        if: steps.scope.outputs.run == 'true'
+        working-directory: editors/vscode-web
+        env:
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+          TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
+        run: npm run ci:preview-differential
+      - name: Upload preview differential evidence
+        if: always() && steps.scope.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-differential-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            editors/vscode-web/.tmp/preview-performance/ci/differential/
+            editors/vscode-web/test-results/
+          retention-days: 14
+          if-no-files-found: warn
+
+  preview-performance-nightly:
+    name: preview-performance-nightly
+    if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.preview_performance == 'qualification') }}
+    needs: [tinymist-compatibility, typst-compiler-compatibility, extension-web]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            editors/vscode/package-lock.json
+            editors/vscode-web/package-lock.json
+      - uses: actions/download-artifact@v4
+        with:
+          name: tinymist-pinned-linux-x64
+          path: .ci/tinymist
+      - uses: actions/download-artifact@v4
+        with:
+          name: typst-compiler-pinned-web
+          path: .ci/typst-compiler
+      - name: Install preview qualification dependencies
+        run: |
+          npm ci --prefix editors/vscode
+          npm ci --prefix editors/vscode-web
+          npx --prefix editors/vscode-web playwright install --with-deps chromium
+      - name: Run nightly preview performance qualification
+        working-directory: editors/vscode-web
+        env:
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+          TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
+        run: npm run ci:preview-nightly
+      - name: Upload preview performance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-performance-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            editors/vscode-web/.tmp/preview-performance/ci/
+            editors/vscode-web/test-results/
+          retention-days: 30
+          if-no-files-found: warn

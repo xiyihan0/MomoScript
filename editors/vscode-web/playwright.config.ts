@@ -1,10 +1,15 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const groupedChromeRun = process.env.MMT_E2E_CHROME_GROUP === "1";
+const benchmarksEnabled = process.env.MMT_E2E_BENCHMARKS === "1";
 
 export default defineConfig({
   testDir: "./e2e",
-  testIgnore: ["lifecycle.spec.ts", "pwa-offline.spec.ts"],
+  testIgnore: [
+    "lifecycle.spec.ts",
+    "pwa-offline.spec.ts",
+    ...(!benchmarksEnabled ? ["**/*.benchmark.spec.ts"] : []),
+  ],
   fullyParallel: false,
   // Bound each browser process to a subset of the full-WASM journeys to avoid long-run compiler buildup.
   workers: groupedChromeRun ? 1 : 2,

@@ -150,7 +150,7 @@ Host: AMD Ryzen 9 7945HX, Linux WSL2, local Chromium, one Playwright worker
 Fixture: 43,299 bytes, 973 lines, 5,896 lexical tokens, 967 selectable rows, 12 repeated workspace-image references, and one tall rendered page.  
 Run: 20 warm one-character edits cycling through start, middle, and end, followed by the 20 Hz burst and 500-edit soak. Each pre-edit viewport was centered, allowed to pass its 120 ms idle boundary, and flushed before the non-overlapping edit-to-painted-visual-ready interval began.
 
-Command:
+Archival provenance from pre-refactor commit `dc43be0` (the combined qualification-and-stress command below is no longer runnable after the monolithic spec was deleted):
 
 ```sh
 MMT_PREVIEW_BENCHMARK_MODE=qualification \
@@ -161,6 +161,13 @@ npx playwright test --project=local e2e/preview-performance.spec.ts --grep "larg
 ```
 
 Report SHA-256: `2f3a4065a65ff504e552df315d2e9410024c90fe5cc1f146c4bdf2dfd12ae03f`
+
+Current split reproduction commands (the archival SHA above applies to neither new report):
+
+```sh
+MMT_PREVIEW_REPORT_DIR=.tmp/preview-performance/qualification-final npm run benchmark:preview-qualification
+MMT_PREVIEW_REPORT_DIR=.tmp/preview-performance/stress-final npm run test:e2e:preview-stress
+```
 
 ### Warm latency
 
