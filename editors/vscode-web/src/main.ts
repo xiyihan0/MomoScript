@@ -3467,6 +3467,7 @@ function previewWebviewHtml(webview: vscode.Webview, title: string): string {
     .preview-cursor { width: 2px; height: 20px; background: #d16969; box-shadow: 0 0 0 1px #fff8; }
     .status { display: grid; min-height: 100vh; place-items: center; color: var(--vscode-descriptionForeground); }
     .status.error { color: var(--vscode-errorForeground); }
+    .status[hidden], .viewport[hidden] { display: none; }
   </style>
 </head>
 <body>

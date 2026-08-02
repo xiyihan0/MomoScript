@@ -39,6 +39,8 @@ test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtim
 
   await callFixture(page, { action: "install-immutable" });
   let desktopPreview = await waitForPreviewFrame(page);
+  await expect(desktopPreview.locator(".status")).toBeHidden();
+  await expect(desktopPreview.locator(".viewport")).toBeVisible();
   await expect(desktopPreview.getByRole("button", { name: "Fit width" })).toBeVisible();
   await expect(desktopPreview.getByRole("button", { name: "Fit page" })).toBeVisible();
   await desktopPreview.getByRole("button", { name: "Fit page" }).click();
