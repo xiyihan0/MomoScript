@@ -1,5 +1,5 @@
 import type { PreviewTraceSample } from "../src/previewPerformance.ts";
-import { expect, waitForPreviewFrame, type Page } from "./fixtures";
+import { expect, previewReadiness, waitForPreviewFrame, type Page } from "./fixtures";
 import {
   PREVIEW_BENCHMARK_DOCUMENT_NAME,
   PREVIEW_BENCHMARK_POSITIONS,
@@ -165,6 +165,9 @@ async function openBenchmarkDocument(
     if (typeof projection !== "function") throw new Error("language projection fixture is unavailable");
     return projection(name)?.sourceVersion ?? null;
   }, PREVIEW_BENCHMARK_DOCUMENT_NAME), { timeout: 300_000, intervals: [100, 250, 500, 1_000] }).toBeGreaterThan(0);
+  if ((await previewReadiness(page, sourceUri)).stage === "idle") {
+    await page.getByRole("button", { name: "Typst 预览" }).click();
+  }
   const preview = await waitForPreviewFrame(page, sourceUri);
   await expect(preview.locator(".tsel").first()).toBeAttached();
   await expect(preview.locator("svg image").first()).toBeAttached();
