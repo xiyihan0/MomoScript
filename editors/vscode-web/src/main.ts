@@ -2797,8 +2797,8 @@ async function initializeRuntime(
     await dispatchRenderProject(activeClient, project.sourceUri, tracked.token, true);
     refreshOpenedPreview();
   }));
-  exposeRuntimeGlobal("__mmtOpenPreview", async (sourceUri: string) => {
-    await vscode.commands.executeCommand("mmt.preview.open", vscode.Uri.parse(sourceUri, true));
+  exposeRuntimeGlobal("__mmtOpenPreview", (sourceUri: string) => {
+    void vscode.commands.executeCommand("mmt.preview.open", vscode.Uri.parse(sourceUri, true));
   });
 
   packCache = own(await IndexedDbPackCache.open());

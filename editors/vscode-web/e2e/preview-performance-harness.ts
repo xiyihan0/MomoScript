@@ -140,11 +140,21 @@ export async function editBenchmarkDocument(
 }
 
 async function executePreviewCommand(page: Page, sourceUri: string): Promise<void> {
-  await page.evaluate(async (uri) => {
+  await page.evaluate((uri) => {
     const openPreview = Reflect.get(globalThis, "__mmtOpenPreview");
     if (typeof openPreview !== "function") throw new Error("preview command fixture is unavailable");
-    await openPreview(uri);
+    openPreview(uri);
   }, sourceUri);
+}
+
+async function previewRequestStarted(page: Page, sourceUri: string): Promise<boolean> {
+  const deadline = Date.now() + 15_000;
+  do {
+    const { stage } = await previewReadiness(page, sourceUri);
+    if (stage !== "idle" && stage !== "project-idle") return true;
+    await page.waitForTimeout(250);
+  } while (Date.now() < deadline);
+  return false;
 }
 
 async function openBenchmarkDocument(
@@ -173,9 +183,7 @@ async function openBenchmarkDocument(
     if (typeof projection !== "function") throw new Error("language projection fixture is unavailable");
     return projection(name)?.sourceVersion ?? null;
   }, PREVIEW_BENCHMARK_DOCUMENT_NAME), { timeout: 300_000, intervals: [100, 250, 500, 1_000] }).toBeGreaterThan(0);
-  if ((await previewReadiness(page, sourceUri)).stage === "idle") {
-    await executePreviewCommand(page, sourceUri);
-  }
+  if (!await previewRequestStarted(page, sourceUri)) await executePreviewCommand(page, sourceUri);
   const preview = await waitForPreviewFrame(page, sourceUri);
   await expect(preview.locator(".tsel").first()).toBeAttached();
   await expect(preview.locator("svg image").first()).toBeAttached();
