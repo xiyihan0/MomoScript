@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { expect, test, type Page } from "./fixtures";
+import { TINYMIST_WASM_URL } from "../src/runtimeArtifacts.ts";
 
 const LIFECYCLE_STORAGE_KEY = "mmt-e2e-worker-lifecycle-v1";
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
@@ -210,6 +211,10 @@ async function routeStartupResources(page: Page): Promise<void> {
           "content-type": "application/json"
         }
       });
+      return;
+    }
+    if (url === TINYMIST_WASM_URL) {
+      await route.fallback();
       return;
     }
     await route.abort("blockedbyclient");

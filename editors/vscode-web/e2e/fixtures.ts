@@ -1,11 +1,21 @@
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { expect, test as base, type Frame, type Page } from "@playwright/test";
+import { TINYMIST_WASM_SHA256 } from "../src/runtimeArtifacts.ts";
 
 const tinymistPackage = process.env.TINYMIST_WEB_PKG;
 const tinymistWasm = tinymistPackage
   ? await readFile(path.join(tinymistPackage, "tinymist_bg.wasm"))
   : undefined;
+if (tinymistWasm) {
+  const actualSha256 = createHash("sha256").update(tinymistWasm).digest("hex");
+  if (actualSha256 !== TINYMIST_WASM_SHA256) {
+    throw new Error(
+      `TINYMIST_WEB_PKG must contain the production-pinned Tinymist WASM: expected ${TINYMIST_WASM_SHA256}, received ${actualSha256}`,
+    );
+  }
+}
 const typstCompilerPackage = process.env.TYPST_COMPILER_WEB_PKG;
 const typstCompilerWasm = typstCompilerPackage
   ? await readFile(path.join(typstCompilerPackage, "typst_ts_web_compiler_bg.wasm"))

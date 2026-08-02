@@ -323,10 +323,6 @@ jobs:
             editors/vscode-web/package-lock.json
       - uses: actions/download-artifact@v4
         with:
-          name: tinymist-pinned-linux-x64
-          path: .ci/tinymist
-      - uses: actions/download-artifact@v4
-        with:
           name: typst-compiler-pinned-web
           path: .ci/typst-compiler
       - name: Install production editor dependencies
@@ -337,7 +333,7 @@ jobs:
       - name: Run real-Chrome production editor journeys
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.2
           TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: |
           npm run test:e2e:chrome
@@ -372,6 +368,8 @@ jobs:
           npx --prefix editors/vscode-web playwright install --with-deps chrome
       - name: Run HMR and runtime lifecycle journeys
         working-directory: editors/vscode-web
+        env:
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.2
         run: npm run test:e2e:lifecycle
       - name: Upload lifecycle failure diagnostics
         if: failure()
@@ -399,10 +397,6 @@ jobs:
             editors/vscode-web/package-lock.json
       - uses: actions/download-artifact@v4
         with:
-          name: tinymist-pinned-linux-x64
-          path: .ci/tinymist
-      - uses: actions/download-artifact@v4
-        with:
           name: typst-compiler-pinned-web
           path: .ci/typst-compiler
       - name: Install PWA test dependencies
@@ -413,7 +407,7 @@ jobs:
       - name: Run PWA offline lifecycle journey
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.2
           TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: npm run test:e2e:pwa-offline
       - name: Upload PWA failure diagnostics
@@ -484,11 +478,6 @@ jobs:
       - uses: actions/download-artifact@v4
         if: steps.scope.outputs.run == 'true'
         with:
-          name: tinymist-pinned-linux-x64
-          path: .ci/tinymist
-      - uses: actions/download-artifact@v4
-        if: steps.scope.outputs.run == 'true'
-        with:
           name: typst-compiler-pinned-web
           path: .ci/typst-compiler
       - name: Install preview differential dependencies
@@ -501,7 +490,7 @@ jobs:
         if: steps.scope.outputs.run == 'true'
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.2
           TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: npm run ci:preview-differential
       - name: Upload preview differential evidence
@@ -532,10 +521,6 @@ jobs:
             editors/vscode-web/package-lock.json
       - uses: actions/download-artifact@v4
         with:
-          name: tinymist-pinned-linux-x64
-          path: .ci/tinymist
-      - uses: actions/download-artifact@v4
-        with:
           name: typst-compiler-pinned-web
           path: .ci/typst-compiler
       - name: Install preview qualification dependencies
@@ -546,7 +531,7 @@ jobs:
       - name: Run nightly preview performance qualification
         working-directory: editors/vscode-web
         env:
-          TINYMIST_WEB_PKG: ${{ github.workspace }}/.ci/tinymist/web
+          TINYMIST_WEB_PKG: ${{ github.workspace }}/editors/vscode/vendor/tinymist-0.15.2
           TYPST_COMPILER_WEB_PKG: ${{ github.workspace }}/.ci/typst-compiler
         run: npm run ci:preview-nightly
       - name: Upload preview performance evidence
