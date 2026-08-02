@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { MAIN_FONT_BOLD_URL, MAIN_FONT_REGULAR_URL } from "../src/runtimeArtifacts";
+import { MAIN_FONT_BOLD_URL, MAIN_FONT_REGULAR_URL, TINYMIST_WASM_URL } from "../src/runtimeArtifacts";
 import { expect, previewReadiness, test, type Locator, type Page, type Response, waitForPreviewFrame } from "./fixtures";
 
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
@@ -65,6 +65,10 @@ test("production editor materializes an avatar and restores the authored story a
       if (url === TYPST_COMPILER_WASM_FALLBACK_URL) {
         compilerFallbackRequests += 1;
         await route.continue();
+        return;
+      }
+      if (url === TINYMIST_WASM_URL) {
+        await route.fallback();
         return;
       }
       await route.abort("blockedbyclient");
