@@ -139,6 +139,14 @@ export async function editBenchmarkDocument(
   }, { name, offset, replacement });
 }
 
+async function executePreviewCommand(page: Page, sourceUri: string): Promise<void> {
+  await page.evaluate(async (uri) => {
+    const openPreview = Reflect.get(globalThis, "__mmtOpenPreview");
+    if (typeof openPreview !== "function") throw new Error("preview command fixture is unavailable");
+    await openPreview(uri);
+  }, sourceUri);
+}
+
 async function openBenchmarkDocument(
   page: Page,
   fixture: GeneratedRealReportFixture,
@@ -159,20 +167,14 @@ async function openBenchmarkDocument(
     if (typeof open !== "function") throw new Error("workspace document fixture is unavailable");
     return open(name, text) as Promise<string>;
   }, { name: PREVIEW_BENCHMARK_DOCUMENT_NAME, text: fixture.source });
-  await page.getByRole("button", { name: "Typst 预览" }).click();
+  await executePreviewCommand(page, sourceUri);
   await expect.poll(() => page.evaluate((name) => {
     const projection = Reflect.get(globalThis, "__mmtLanguageProjectionEntry");
     if (typeof projection !== "function") throw new Error("language projection fixture is unavailable");
     return projection(name)?.sourceVersion ?? null;
   }, PREVIEW_BENCHMARK_DOCUMENT_NAME), { timeout: 300_000, intervals: [100, 250, 500, 1_000] }).toBeGreaterThan(0);
   if ((await previewReadiness(page, sourceUri)).stage === "idle") {
-    const restoredSourceUri = await page.evaluate(async (name) => {
-      const show = Reflect.get(globalThis, "__mmtShowWorkspaceDocument");
-      if (typeof show !== "function") throw new Error("workspace document reveal fixture is unavailable");
-      return show(name) as Promise<string>;
-    }, PREVIEW_BENCHMARK_DOCUMENT_NAME);
-    expect(restoredSourceUri).toBe(sourceUri);
-    await page.getByRole("button", { name: "Typst 预览" }).click();
+    await executePreviewCommand(page, sourceUri);
   }
   const preview = await waitForPreviewFrame(page, sourceUri);
   await expect(preview.locator(".tsel").first()).toBeAttached();
