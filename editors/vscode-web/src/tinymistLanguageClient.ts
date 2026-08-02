@@ -10,9 +10,8 @@ import {
   type TypstProblemsPublisher
 } from "../../vscode/src/typstFeatures";
 import tinymistModuleUrl from "../../vscode/vendor/tinymist-0.15.2/tinymist.js?url";
-import tinymistWasmAssetUrl from "../../vscode/vendor/tinymist-0.15.2/tinymist_bg.wasm?url";
 import tinymistWorkerUrl from "../../vscode/src/tinymistWorker.ts?worker&url";
-import { TINYMIST_WASM_SHA256 } from "./runtimeArtifacts";
+import { TINYMIST_WASM_SHA256, TINYMIST_WASM_URL } from "./runtimeArtifacts";
 
 export interface TinymistHandle {
   backend: TinymistWorkerClient;
@@ -82,19 +81,22 @@ async function startTinymistBackend(
 
 async function downloadTinymistWasm(report: (message: string) => void): Promise<Uint8Array> {
   report(`Tinymist WASM ${TINYMIST_WASM_SHA256.slice(0, 12)} 使用离线固定资源…`);
-  return downloadValidatedWasm(
-    new URL(tinymistWasmAssetUrl, window.location.href).href,
-    "Tinymist WASM",
-    report,
-  );
+  return downloadValidatedWasm(TINYMIST_WASM_URL, "Tinymist WASM", TINYMIST_WASM_SHA256, report);
 }
 
 async function downloadValidatedWasm(
   url: string,
   label: string,
+  expectedSha256: string,
   report: (message: string) => void,
 ): Promise<Uint8Array> {
   const bytes = await downloadWasm(url, label, report);
+  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", bytes.buffer as ArrayBuffer));
+  let actualSha256 = "";
+  for (const byte of digest) actualSha256 += byte.toString(16).padStart(2, "0");
+  if (actualSha256 !== expectedSha256) {
+    throw new Error(`${label} SHA-256 校验失败：${actualSha256}`);
+  }
   if (!WebAssembly.validate(bytes.buffer as ArrayBuffer)) throw new Error(`${label}不是有效的 WebAssembly 模块`);
   return bytes;
 }
@@ -108,7 +110,7 @@ async function downloadWasm(url: string, label: string, report: (message: string
     report(`${label} 已下载 ${(bytes.byteLength / 1048576).toFixed(1)} MiB`);
     return bytes;
   }
-  const encodedTransfer = new URL(url).searchParams.get("delivery") === "zstd-v1";
+  const encodedTransfer = new URL(url).searchParams.has("delivery");
   let total = encodedTransfer ? 0 : Number(response.headers.get("content-length")) || 0;
   const reader = response.body.getReader();
   const chunks: Uint8Array[] = [];

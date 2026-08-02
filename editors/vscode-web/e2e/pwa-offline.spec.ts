@@ -40,11 +40,11 @@ test("installed production editor cold-starts offline with language workers and 
   });
   expect(cacheEvidence.controller).toBe(true);
   expect(cacheEvidence.localCount).toBeGreaterThan(100);
-  expect(cacheEvidence.remoteCount).toBe(3);
+  expect(cacheEvidence.remoteCount).toBe(4);
   expect(cacheEvidence.notoLocalCount).toBe(0);
   expect(cacheEvidence.mainFontBrotliCount).toBe(2);
-  expect(cacheEvidence.wasmBrotliCount).toBe(1);
-  expect(cacheEvidence.required.length).toBeGreaterThanOrEqual(5);
+  expect(cacheEvidence.wasmBrotliCount).toBe(2);
+  expect(cacheEvidence.required.length).toBeGreaterThanOrEqual(6);
   expect(cacheEvidence.required.filter((entry) => !entry.cached)).toEqual([]);
 
   await page.goto("about:blank");

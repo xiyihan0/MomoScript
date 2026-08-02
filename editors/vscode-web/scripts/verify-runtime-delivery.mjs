@@ -13,7 +13,7 @@ const localDigest = createHash("sha256").update(localBytes).digest("hex");
 assert.equal(localDigest, digest, "vendored Tinymist WASM must match the pinned runtime digest");
 assert(WebAssembly.validate(localBytes), "vendored Tinymist WASM must be valid");
 console.log(JSON.stringify({
-  delivery: "bundled-offline",
+  delivery: "vendor-pin",
   url: vendor.pathname,
   bytes: localBytes.byteLength,
   sha256: localDigest,
