@@ -580,6 +580,7 @@ export class TypstProjectState {
   }
 
   private primeProject(sourceUri: string, entryUri: string, session: string, revision: number): PrimeJob | undefined {
+    const canonicalEntryUri = canonicalTypstUri(entryUri);
     const existing = this.projectPrimeQueue.get(sourceUri);
     if (!existing && this.projectPrimeQueue.size + this.projectPrimeInFlight.size >= this.limits.maxPrimes) {
       this.port.emit("tinymist/projectPrimeFailed", {
@@ -589,7 +590,12 @@ export class TypstProjectState {
       });
       return;
     }
-    if (existing) this.settlePrime(existing, new Error("Tinymist projection prime superseded"));
+    if (existing) {
+      this.settlePrime(
+        existing,
+        existing.entryUri === canonicalEntryUri ? undefined : new Error("Tinymist projection prime superseded")
+      );
+    }
     let resolvePromise: (() => void) | undefined;
     let rejectPromise: ((error: Error) => void) | undefined;
     const promise = new Promise<void>((resolve, reject) => {
@@ -599,7 +605,7 @@ export class TypstProjectState {
     void promise.catch(() => {});
     const job: PrimeJob = {
       sourceUri,
-      entryUri: canonicalTypstUri(entryUri),
+      entryUri: canonicalEntryUri,
       session,
       revision,
       promise,

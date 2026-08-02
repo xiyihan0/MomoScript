@@ -210,6 +210,87 @@ await assert.rejects(
   state.activateBackend(2),
   (error) => error instanceof TypstProjectInvariantError && error.code === "StaleBackendGeneration"
 );
+const coalescedRequests = [];
+const coalescedPort = {
+  request(method, params) {
+    coalescedRequests.push(structuredClone({ method, params }));
+    return Promise.resolve(null);
+  },
+  notify() {},
+  emit() {}
+};
+const coalescedState = new TypstProjectState(coalescedPort, {
+  closeGraceMs: 1,
+  primeDebounceMs: 0,
+  limits: { maxProjects: 1, maxRequests: 1, maxPrimes: 1, maxCloses: 2, maxReplay: 1 }
+});
+await coalescedState.activateBackend(1);
+const coalescedSourceUri = "logical-source:coalesced-prime";
+const coalescedEntryUri = "untitled:/coalesced-prime/main.typ";
+const coalescedProject = {
+  sourceUri: coalescedSourceUri,
+  sourceVersion: 1,
+  revision: 1,
+  entryUri: coalescedEntryUri,
+  full: true,
+  files: [{ uri: coalescedEntryUri, text: "= first" }]
+};
+assert.equal(coalescedState.syncProject(coalescedProject).accepted, true);
+const coalescedFeature = coalescedState.request("fixture/read", { textDocument: { uri: coalescedEntryUri } });
+assert.equal(coalescedState.syncProject({
+  ...coalescedProject,
+  sourceVersion: 2,
+  revision: 2,
+  files: [{ uri: coalescedEntryUri, text: "= second" }]
+}).accepted, true);
+await coalescedFeature;
+assert.equal(
+  coalescedRequests.filter((item) => item.method === "fixture/read").length,
+  1,
+  "same-entry prime coalescing rejected a current feature request"
+);
+coalescedState.dispose();
+const supersededRequests = [];
+const supersededState = new TypstProjectState({
+  request(method, params) {
+    supersededRequests.push(structuredClone({ method, params }));
+    return Promise.resolve(null);
+  },
+  notify() {},
+  emit() {}
+}, {
+  closeGraceMs: 1,
+  primeDebounceMs: 0,
+  limits: { maxProjects: 1, maxRequests: 1, maxPrimes: 1, maxCloses: 2, maxReplay: 1 }
+});
+await supersededState.activateBackend(1);
+const supersededSourceUri = "logical-source:superseded-prime";
+const supersededEntryUri = "untitled:/superseded-prime/main-1.typ";
+const replacementEntryUri = "untitled:/superseded-prime/main-2.typ";
+const supersededProject = {
+  sourceUri: supersededSourceUri,
+  sourceVersion: 1,
+  revision: 1,
+  entryUri: supersededEntryUri,
+  full: true,
+  files: [{ uri: supersededEntryUri, text: "= stale" }]
+};
+assert.equal(supersededState.syncProject(supersededProject).accepted, true);
+const supersededFeature = supersededState.request("fixture/read", { textDocument: { uri: supersededEntryUri } });
+assert.equal(supersededState.syncProject({
+  ...supersededProject,
+  sourceVersion: 2,
+  revision: 2,
+  entryUri: replacementEntryUri,
+  files: [{ uri: replacementEntryUri, text: "= current" }]
+}).accepted, true);
+await assert.rejects(supersededFeature, /projection prime superseded/);
+assert.equal(
+  supersededRequests.filter((item) => item.method === "fixture/read").length,
+  0,
+  "different-entry prime supersession dispatched a stale feature request"
+);
+supersededState.dispose();
 state.dispose();
 assert.ok(events.some((item) => item.method === "tinymist/projectRejected"));
 console.log(JSON.stringify({ checked: true, generation: 2, replay: replayOpens, boundedRequests: true, queuedProjectCount: true, queueTransitions: true }));
