@@ -174,12 +174,20 @@ async function runOss(args, allowMissing = false) {
   try {
     return { ...(await exec("ossutil", args, { maxBuffer: 16 * 1024 * 1024 })), missing: false };
   } catch (error) {
-    const stderr = typeof error?.stderr === "string" ? error.stderr : "";
-    if (allowMissing && stderr.includes("StatusCode=404") && stderr.includes("ErrorCode=NoSuchKey")) {
-      return { stdout: "", stderr, missing: true };
+    const stdout = outputText(error?.stdout);
+    const stderr = outputText(error?.stderr);
+    const details = [stdout, stderr, error?.message].filter(Boolean).join("\n");
+    if (allowMissing && details.includes("StatusCode=404") && details.includes("ErrorCode=NoSuchKey")) {
+      return { stdout: "", stderr: details, missing: true };
     }
-    throw new Error(`ossutil ${args[0]} failed: ${stderr || error?.message || String(error)}`);
+    throw new Error(`ossutil ${args[0]} failed: ${details || String(error)}`);
   }
+}
+
+function outputText(value) {
+  if (typeof value === "string") return value.trim();
+  if (value instanceof Uint8Array) return new TextDecoder().decode(value).trim();
+  return "";
 }
 
 function assertMetadata(stat, expected, target) {
