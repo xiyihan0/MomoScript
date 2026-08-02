@@ -166,6 +166,12 @@ async function openBenchmarkDocument(
     return projection(name)?.sourceVersion ?? null;
   }, PREVIEW_BENCHMARK_DOCUMENT_NAME), { timeout: 300_000, intervals: [100, 250, 500, 1_000] }).toBeGreaterThan(0);
   if ((await previewReadiness(page, sourceUri)).stage === "idle") {
+    const restoredSourceUri = await page.evaluate(async (name) => {
+      const show = Reflect.get(globalThis, "__mmtShowWorkspaceDocument");
+      if (typeof show !== "function") throw new Error("workspace document reveal fixture is unavailable");
+      return show(name) as Promise<string>;
+    }, PREVIEW_BENCHMARK_DOCUMENT_NAME);
+    expect(restoredSourceUri).toBe(sourceUri);
     await page.getByRole("button", { name: "Typst 预览" }).click();
   }
   const preview = await waitForPreviewFrame(page, sourceUri);
