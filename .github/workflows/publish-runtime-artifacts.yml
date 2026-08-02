@@ -1,0 +1,83 @@
+name: Publish Runtime Artifacts
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-runtime-artifacts
+  cancel-in-progress: false
+
+jobs:
+  tinymist:
+    name: publish-tinymist
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment: runtime-production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.0
+
+      - name: Install pinned ossutil
+        run: |
+          archive="$RUNNER_TEMP/ossutil.zip"
+          install_root="$RUNNER_TEMP/ossutil"
+          curl --fail --location --silent --show-error \
+            https://gosspublic.alicdn.com/ossutil/1.7.19/ossutil-v1.7.19-linux-amd64.zip \
+            --output "$archive"
+          echo "dcc512e4a893e16bbee63bc769339d8e56b21744fd83c8212a9d8baf28767343  $archive" | sha256sum --check
+          mkdir -p "$install_root"
+          unzip -q "$archive" -d "$install_root"
+          sudo install "$install_root"/*/ossutil /usr/local/bin/ossutil
+          ossutil --version
+
+      - name: Configure production OSS credentials
+        env:
+          ALIYUN_OSS_ACCESS_KEY_ID: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_ID }}
+          ALIYUN_OSS_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_SECRET }}
+        run: |
+          test -n "$ALIYUN_OSS_ACCESS_KEY_ID"
+          test -n "$ALIYUN_OSS_ACCESS_KEY_SECRET"
+          umask 077
+          {
+            echo "[Credentials]"
+            echo "language=EN"
+            echo "endpoint=oss-cn-shanghai.aliyuncs.com"
+            printf 'accessKeyID=%s\n' "$ALIYUN_OSS_ACCESS_KEY_ID"
+            printf 'accessKeySecret=%s\n' "$ALIYUN_OSS_ACCESS_KEY_SECRET"
+          } > "$RUNNER_TEMP/ossutilconfig"
+
+      - name: Publish and verify immutable Tinymist runtime
+        id: publish
+        run: |
+          node tools/cdn/publish_tinymist_runtime.mjs \
+            --publish \
+            --output "$RUNNER_TEMP/tinymist-runtime" \
+            --ossutil-config "$RUNNER_TEMP/ossutilconfig"
+
+      - name: Record publication
+        run: |
+          {
+            echo "### Tinymist runtime publication"
+            echo
+            echo "- Version: \`${{ steps.publish.outputs.version }}\`"
+            echo "- SHA-256: \`${{ steps.publish.outputs.digest }}\`"
+            echo "- Object prefix: \`${{ steps.publish.outputs.object_prefix }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload publication manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: tinymist-runtime-publication-${{ steps.publish.outputs.digest }}
+          path: ${{ steps.publish.outputs.manifest }}
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Remove credential file
+        if: always()
+        run: rm -f "$RUNNER_TEMP/ossutilconfig"

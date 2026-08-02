@@ -1,7 +1,7 @@
 const RUNTIME_ORIGIN = "https://mms-pack.xiyihan.cn";
 
 export const TINYMIST_VERSION = "0.15.2";
-export const TINYMIST_WASM_SHA256 = "f2a10539d043f6b1483f1a6b1f38389e6133842714be8caa50d87b14cc1f53db";
+export const TINYMIST_WASM_SHA256 = "2ab4ce828d9ecbf0f7825fb2fd32fe00119aa0d388e3c9643aaf1a98d1424d8a";
 export const TYPST_COMPILER_VERSION = "0.8.0-rc3";
 export const TYPST_COMPILER_WASM_SHA256 = "fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c";
 export const MAIN_FONT_VERSION = "2026-07-14";
