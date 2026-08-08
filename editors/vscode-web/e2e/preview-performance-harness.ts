@@ -167,6 +167,15 @@ async function previewRequestStarted(page: Page, sourceUri: string): Promise<boo
   } while (Date.now() < deadline);
   return false;
 }
+async function ensurePreviewRequestStarted(page: Page, sourceUri: string): Promise<void> {
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    if (await previewRequestStarted(page, sourceUri)) return;
+    await executePreviewCommand(page, sourceUri);
+  }
+  if (await previewRequestStarted(page, sourceUri)) return;
+  throw new Error(`preview command stayed idle after startup retries: ${JSON.stringify(await previewReadiness(page, sourceUri))}`);
+}
+
 
 export async function openBenchmarkPreview(
   page: Page,
@@ -195,7 +204,7 @@ export async function openBenchmarkPreview(
     if (typeof projection !== "function") throw new Error("language projection fixture is unavailable");
     return projection(name)?.sourceVersion ?? null;
   }, options.documentName), { timeout: 300_000, intervals: [100, 250, 500, 1_000] }).toBeGreaterThan(0);
-  if (!await previewRequestStarted(page, sourceUri)) await executePreviewCommand(page, sourceUri);
+  await ensurePreviewRequestStarted(page, sourceUri);
   return { sourceUri, preview: await waitForPreviewFrame(page, sourceUri) };
 }
 
