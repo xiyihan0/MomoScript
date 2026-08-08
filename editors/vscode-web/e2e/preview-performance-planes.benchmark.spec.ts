@@ -1,8 +1,8 @@
 import path from "node:path";
 import type { PreviewTraceSample } from "../src/previewPerformance.ts";
-import { expect, syntheticPreviewDocument, test, waitForPreviewFrame } from "./fixtures";
+import { expect, syntheticPreviewDocument, test } from "./fixtures";
 import { PREVIEW_BENCHMARK_POSITIONS } from "./preview-performance-fixtures";
-import { editBenchmarkDocument } from "./preview-performance-harness";
+import { editBenchmarkDocument, openBenchmarkPreview } from "./preview-performance-harness";
 import {
   resetTimings,
   summarize,
@@ -31,21 +31,10 @@ for (const size of ["small", "medium"] as const) {
       },
     };
     try {
-      await page.goto("/");
-      await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
-      await resetTimings(page);
-      const sourceUri = await page.evaluate(({ documentName, text }) => {
-        const open = Reflect.get(globalThis, "__mmtOpenWorkspaceDocument");
-        if (typeof open !== "function") throw new Error("workspace document fixture is unavailable");
-        return open(documentName, text) as Promise<string>;
-      }, { documentName: name, text: source });
-      await page.getByRole("button", { name: "Typst 预览" }).click();
-      await expect.poll(() => page.evaluate((documentName) => {
-        const projection = Reflect.get(globalThis, "__mmtLanguageProjectionEntry");
-        if (typeof projection !== "function") throw new Error("language projection fixture is unavailable");
-        return projection(documentName)?.sourceVersion ?? null;
-      }, name), { timeout: 300_000, intervals: [100, 250, 500, 1_000] }).toBeGreaterThan(0);
-      const preview = await waitForPreviewFrame(page, sourceUri);
+      const { sourceUri, preview } = await openBenchmarkPreview(page, {
+        documentName: name,
+        source,
+      });
       await expect(preview.locator(".tsel").filter({ hasText: "Synthetic selectable preview line" }).first()).toBeAttached();
       report.cold = await waitForPublishedTrace(page, sourceUri);
 

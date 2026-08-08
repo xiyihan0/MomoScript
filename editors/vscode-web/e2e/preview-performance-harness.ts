@@ -1,5 +1,5 @@
 import type { PreviewTraceSample } from "../src/previewPerformance.ts";
-import { expect, previewReadiness, waitForPreviewFrame, type Page } from "./fixtures";
+import { expect, previewReadiness, waitForPreviewFrame, type Frame, type Page } from "./fixtures";
 import {
   PREVIEW_BENCHMARK_DOCUMENT_NAME,
   PREVIEW_BENCHMARK_POSITIONS,
@@ -96,6 +96,17 @@ export interface RendererStressResult {
     readonly heapBytes: number;
   };
 }
+export interface BenchmarkPreviewDocument {
+  readonly documentName: string;
+  readonly source: string;
+  readonly rendererEnabled?: boolean;
+}
+
+export interface BenchmarkPreviewDocumentResult {
+  readonly sourceUri: string;
+  readonly preview: Frame;
+}
+
 
 export function assertRendererFrameTelemetry(
   sample: PreviewTraceSample,
@@ -157,34 +168,47 @@ async function previewRequestStarted(page: Page, sourceUri: string): Promise<boo
   return false;
 }
 
-async function openBenchmarkDocument(
+export async function openBenchmarkPreview(
   page: Page,
-  fixture: GeneratedRealReportFixture,
-  rendererEnabled: boolean,
-): Promise<{ readonly sourceUri: string; readonly renderedShape: BenchmarkRenderedShape }> {
+  options: BenchmarkPreviewDocument,
+): Promise<BenchmarkPreviewDocumentResult> {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
-  const configured = await page.evaluate((enabled) => {
-    const configure = Reflect.get(globalThis, "__mmtSetPreviewRendererEnabled");
-    if (typeof configure !== "function") throw new Error("preview renderer benchmark control is unavailable");
-    return configure(enabled) as boolean;
-  }, rendererEnabled);
-  expect(configured).toBe(rendererEnabled);
+  if (options.rendererEnabled !== undefined) {
+    const configured = await page.evaluate((enabled) => {
+      const configure = Reflect.get(globalThis, "__mmtSetPreviewRendererEnabled");
+      if (typeof configure !== "function") throw new Error("preview renderer benchmark control is unavailable");
+      return configure(enabled) as boolean;
+    }, options.rendererEnabled);
+    expect(configured).toBe(options.rendererEnabled);
+  }
 
   await resetTimings(page);
   const sourceUri = await page.evaluate(({ name, text }) => {
     const open = Reflect.get(globalThis, "__mmtOpenWorkspaceDocument");
     if (typeof open !== "function") throw new Error("workspace document fixture is unavailable");
     return open(name, text) as Promise<string>;
-  }, { name: PREVIEW_BENCHMARK_DOCUMENT_NAME, text: fixture.source });
+  }, { name: options.documentName, text: options.source });
   await executePreviewCommand(page, sourceUri);
   await expect.poll(() => page.evaluate((name) => {
     const projection = Reflect.get(globalThis, "__mmtLanguageProjectionEntry");
     if (typeof projection !== "function") throw new Error("language projection fixture is unavailable");
     return projection(name)?.sourceVersion ?? null;
-  }, PREVIEW_BENCHMARK_DOCUMENT_NAME), { timeout: 300_000, intervals: [100, 250, 500, 1_000] }).toBeGreaterThan(0);
+  }, options.documentName), { timeout: 300_000, intervals: [100, 250, 500, 1_000] }).toBeGreaterThan(0);
   if (!await previewRequestStarted(page, sourceUri)) await executePreviewCommand(page, sourceUri);
-  const preview = await waitForPreviewFrame(page, sourceUri);
+  return { sourceUri, preview: await waitForPreviewFrame(page, sourceUri) };
+}
+
+async function openBenchmarkDocument(
+  page: Page,
+  fixture: GeneratedRealReportFixture,
+  rendererEnabled: boolean,
+): Promise<{ readonly sourceUri: string; readonly renderedShape: BenchmarkRenderedShape }> {
+  const { sourceUri, preview } = await openBenchmarkPreview(page, {
+    documentName: PREVIEW_BENCHMARK_DOCUMENT_NAME,
+    source: fixture.source,
+    rendererEnabled,
+  });
   await expect(preview.locator(".tsel").first()).toBeAttached();
   await expect(preview.locator("svg image").first()).toBeAttached();
   const renderedShape = await preview.locator("body").evaluate((body) => ({
