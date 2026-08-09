@@ -288,6 +288,7 @@ jobs:
         run: |
           npm --prefix editors/vscode run build:wasm
           npm --prefix editors/vscode run check
+          npm --prefix editors/vscode run test:projected-reads
           npm --prefix editors/vscode run test:tinymist-worker
           npm --prefix editors/vscode run test:web
           npm --prefix editors/vscode-web run check
@@ -299,6 +300,7 @@ jobs:
           npm --prefix editors/vscode-web run test:resource-materializer
           npm --prefix editors/vscode-web run test:preview-diagnostics
           npm --prefix editors/vscode-web run test:preview-artifact
+          npm --prefix editors/vscode-web run test:preview-webview-protocol
           npm --prefix editors/vscode-web run test:runtime-controller
           npm --prefix editors/vscode-web run test:pwa-quiesce
           npm --prefix editors/vscode-web run test:workspace-atomic-apply
@@ -451,6 +453,7 @@ jobs:
             "editors/vscode-web/vite.config.ts" \
             "editors/vscode-web/scripts/test-e2e-chrome.mjs" \
             "editors/vscode-web/scripts/test-preview-performance-ci.mjs" \
+            "editors/vscode-web/scripts/production-preview-server.mjs" \
             "editors/vscode-web/src" \
             "editors/vscode-web/public" \
             "editors/vscode-web/package.json" \

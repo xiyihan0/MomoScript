@@ -1,4 +1,4 @@
-import { expect, test, type Download, type Page, waitForPreviewFrame } from "./fixtures";
+import { expect, invokeMmtE2E, test, type Download, type Page, waitForPreviewFrame } from "./fixtures";
 
 const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
 
@@ -32,11 +32,7 @@ test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-ex
   await expect(controls).toHaveAttribute("data-availability", "ready");
   await expect(preview.getByLabel("Export format")).toBeEnabled();
   await expect(preview.getByRole("button", { name: "Export current preview" })).toBeEnabled();
-  const rendererState = await page.evaluate(async () => {
-    const fixture = Reflect.get(globalThis, "__mmtPreviewInteractionFixture");
-    if (typeof fixture !== "function") throw new Error("preview interaction fixture is unavailable");
-    return fixture({ action: "state" }) as Promise<{ visualKind: string; rendererFrameKind: string }>;
-  });
+  const rendererState = await invokeMmtE2E(page, "preview", "interactionFixture", { action: "state" });
   expect(rendererState).toMatchObject({ visualKind: "renderer", rendererFrameKind: "new" });
   await expect(preview.locator(".page")).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
   const renderedPages = preview.locator(".page > svg > .typst-page");
@@ -59,13 +55,9 @@ test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-ex
   expect(svgText).not.toContain("foreignObject");
   await expect(preview.getByRole("status")).toContainText("Exported current preview");
 
-  await page.evaluate(({ name, text }) => {
-    const open = Reflect.get(globalThis, "__mmtOpenWorkspaceDocument");
-    if (typeof open !== "function") throw new Error("workspace document fixture is unavailable");
-    return open(name, text);
-  }, { name: "browser-export.mmt", text: mmtSource });
+  await invokeMmtE2E(page, "workspace", "openDocument", "browser-export.mmt", mmtSource);
   await page.getByRole("button", { name: "Typst 预览" }).click();
-  await expect.poll(() => page.evaluate(() => Reflect.get(globalThis, "__mmtDisplayedPreviewSourceUri")?.()))
+  await expect.poll(() => invokeMmtE2E(page, "preview", "displayedSourceUri"))
     .toMatch(/browser-export\.mmt$/);
 
   preview = await waitForPreviewFrame(page);

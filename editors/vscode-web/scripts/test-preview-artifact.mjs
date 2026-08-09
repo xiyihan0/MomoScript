@@ -1,11 +1,14 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import {
+  PREVIEW_SOURCE_KINDS,
   PreviewArtifactStore,
   createPreviewArtifact,
   inlinePreviewImageAssets,
   locationProviderMatches,
   markPreviewArtifactStale,
   previewImageAssetHref,
+  parsePreviewSourceTargets,
 } from "../src/previewArtifact.ts";
 
 const renderKey = (value) => value;
@@ -38,6 +41,43 @@ assert.equal(a.stale, false, "stale transitions must not mutate immutable artifa
 assert.equal(locationProviderMatches(a, renderKey("render-a"), provider()), true);
 assert.equal(locationProviderMatches(a, renderKey("render-a"), provider(2)), false, "provider restart invalidates responses");
 assert.equal(locationProviderMatches(a, renderKey("render-b"), provider()), false, "location response must bind exact RenderKey");
+
+const projectionKindsFixture = JSON.parse(await readFile(
+  new URL("../../../mmt_rs/tests/fixtures/projection-mapping-kinds.json", import.meta.url),
+  "utf8",
+));
+assert.deepEqual(projectionKindsFixture.wireKinds, Object.keys(PREVIEW_SOURCE_KINDS));
+const wireRange = {
+  start: { line: 0, character: 1 },
+  end: { line: 0, character: 2 },
+};
+const sourceTargets = projectionKindsFixture.wireKinds.map((kind) => kind === "staleUnknown"
+  ? { kind }
+  : { kind, uri: `mmt-test:/${kind}`, range: wireRange });
+assert.deepEqual(
+  parsePreviewSourceTargets(sourceTargets).map((target) => target.kind),
+  projectionKindsFixture.wireKinds,
+);
+assert.throws(
+  () => parsePreviewSourceTargets([{ kind: "unknownFutureKind" }]),
+  /unknown kind/,
+);
+assert.throws(
+  () => parsePreviewSourceTargets([{ kind: "authoredIdentity" }]),
+  /exact URI\/range/,
+);
+assert.throws(
+  () => parsePreviewSourceTargets([{
+    kind: "workspaceTypst",
+    uri: "file:///workspace/reversed.typ",
+    range: { start: { line: 2, character: 0 }, end: { line: 1, character: 0 } },
+  }]),
+  /exact URI\/range/,
+);
+assert.throws(
+  () => parsePreviewSourceTargets([{ kind: "staleUnknown", uri: "file:///stale", range: wireRange }]),
+  /must not contain a URI\/range/,
+);
 
 const fallbackKey = { kind: "immutable-map", digest: "sha256:map", coordinateVersion: "typst-page-points-v1" };
 const fallback = createPreviewArtifact({

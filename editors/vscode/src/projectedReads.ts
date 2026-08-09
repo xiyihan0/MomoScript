@@ -6,12 +6,15 @@ import type {
   SymbolInformation
 } from "vscode-languageserver-protocol";
 
-export type ProjectionMappingKind =
-  | "authoredIdentity"
-  | "workspaceTypst"
-  | "packageFile"
-  | "generatedProjection"
-  | "staleUnknown";
+export const PROJECTION_MAPPING_KINDS = Object.freeze({
+  authoredIdentity: true,
+  workspaceTypst: true,
+  packageFile: true,
+  generatedProjection: true,
+  staleUnknown: true
+} as const);
+
+export type ProjectionMappingKind = keyof typeof PROJECTION_MAPPING_KINDS;
 
 export interface ProjectedReadLocation {
   readonly kind: ProjectionMappingKind;
@@ -35,13 +38,6 @@ export interface ProjectedReadPolicy {
   readonly packageVisible?: (uri: string) => boolean;
 }
 
-const PROJECTION_MAPPING_KINDS: Readonly<Record<ProjectionMappingKind, true>> = Object.freeze({
-  authoredIdentity: true,
-  workspaceTypst: true,
-  packageFile: true,
-  generatedProjection: true,
-  staleUnknown: true
-});
 
 export function parseProjectedReadLocations(value: unknown): readonly ProjectedReadLocation[] {
   if (!Array.isArray(value)) throw new TypeError("Projected read mapping must be an array");

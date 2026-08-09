@@ -105,6 +105,6 @@ A phase that misses its own target SHALL remain behind its feature flag and SHAL
 This change extends, but does not redefine:
 
 - `complete-editor-runtime-and-typst-tooling`: `RenderKey`, immutable preview artifacts, navigation, export, runtime ownership, and capability qualification;
-- `add-mmt-lsp-vscode`: versioned MMT snapshots, separate language/render projections, no-I/O analysis, and revision-scoped Tinymist language documents;
+- `openspec/specs/language-tooling/spec.md`: versioned MMT snapshots, separate language/render projections, no-I/O analysis, and revision-scoped Tinymist language documents;
 - `redesign-dsl-syntax-v2`: syntax AST, semantic IR, source ranges, emitter, and resource resolution;
 - `design-resource-pack-v3`: materialization identity, size limits, cache keys, and decoder policy.

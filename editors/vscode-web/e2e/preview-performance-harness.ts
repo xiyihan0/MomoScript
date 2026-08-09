@@ -1,5 +1,5 @@
 import type { PreviewTraceSample } from "../src/previewPerformance.ts";
-import { expect, previewReadiness, waitForPreviewFrame, type Frame, type Page } from "./fixtures";
+import { expect, invokeMmtE2E, previewReadiness, waitForPreviewFrame, type Frame, type Page } from "./fixtures";
 import {
   PREVIEW_BENCHMARK_DOCUMENT_NAME,
   PREVIEW_BENCHMARK_POSITIONS,
@@ -130,11 +130,7 @@ export function assertRendererFrameTelemetry(
 }
 
 export async function rendererState(page: Page): Promise<BenchmarkRendererState> {
-  return page.evaluate(async () => {
-    const fixture = Reflect.get(globalThis, "__mmtPreviewInteractionFixture");
-    if (typeof fixture !== "function") throw new Error("preview interaction fixture is unavailable");
-    return fixture({ action: "state" });
-  });
+  return await invokeMmtE2E(page, "preview", "interactionFixture", { action: "state" }) as BenchmarkRendererState;
 }
 
 export async function editBenchmarkDocument(
@@ -143,19 +139,11 @@ export async function editBenchmarkDocument(
   replacement: string,
   name = PREVIEW_BENCHMARK_DOCUMENT_NAME,
 ): Promise<{ readonly version: number }> {
-  return page.evaluate(async ({ name, offset: editOffset, replacement: editText }) => {
-    const edit = Reflect.get(globalThis, "__mmtEditWorkspaceDocument");
-    if (typeof edit !== "function") throw new Error("workspace incremental edit fixture is unavailable");
-    return edit(name, editOffset, 1, editText) as Promise<{ version: number }>;
-  }, { name, offset, replacement });
+  return invokeMmtE2E(page, "workspace", "editDocument", name, offset, 1, replacement);
 }
 
 async function executePreviewCommand(page: Page, sourceUri: string): Promise<void> {
-  await page.evaluate((uri) => {
-    const openPreview = Reflect.get(globalThis, "__mmtOpenPreview");
-    if (typeof openPreview !== "function") throw new Error("preview command fixture is unavailable");
-    openPreview(uri);
-  }, sourceUri);
+  await invokeMmtE2E(page, "preview", "open", sourceUri);
 }
 
 async function previewRequestStarted(page: Page, sourceUri: string): Promise<boolean> {
@@ -184,26 +172,16 @@ export async function openBenchmarkPreview(
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   if (options.rendererEnabled !== undefined) {
-    const configured = await page.evaluate((enabled) => {
-      const configure = Reflect.get(globalThis, "__mmtSetPreviewRendererEnabled");
-      if (typeof configure !== "function") throw new Error("preview renderer benchmark control is unavailable");
-      return configure(enabled) as boolean;
-    }, options.rendererEnabled);
+    const configured = await invokeMmtE2E(page, "preview", "setRendererEnabled", options.rendererEnabled);
     expect(configured).toBe(options.rendererEnabled);
   }
 
   await resetTimings(page);
-  const sourceUri = await page.evaluate(({ name, text }) => {
-    const open = Reflect.get(globalThis, "__mmtOpenWorkspaceDocument");
-    if (typeof open !== "function") throw new Error("workspace document fixture is unavailable");
-    return open(name, text) as Promise<string>;
-  }, { name: options.documentName, text: options.source });
+  const sourceUri = await invokeMmtE2E(page, "workspace", "openDocument", options.documentName, options.source);
   await executePreviewCommand(page, sourceUri);
-  await expect.poll(() => page.evaluate((name) => {
-    const projection = Reflect.get(globalThis, "__mmtLanguageProjectionEntry");
-    if (typeof projection !== "function") throw new Error("language projection fixture is unavailable");
-    return projection(name)?.sourceVersion ?? null;
-  }, options.documentName), { timeout: 300_000, intervals: [100, 250, 500, 1_000] }).toBeGreaterThan(0);
+  await expect.poll(async () => (
+    (await invokeMmtE2E(page, "language", "projectionEntry", options.documentName))?.sourceVersion ?? null
+  ), { timeout: 300_000, intervals: [100, 250, 500, 1_000] }).toBeGreaterThan(0);
   await ensurePreviewRequestStarted(page, sourceUri);
   return { sourceUri, preview: await waitForPreviewFrame(page, sourceUri) };
 }
@@ -444,15 +422,20 @@ export async function runRendererStress(
 
     await resetTimings(page);
     const soakOffset = currentSource.indexOf("PERF-END-") + "PERF-END-".length;
-    const soak = await page.evaluate(async ({ name, offset, editCount }) => {
-      const edit = Reflect.get(globalThis, "__mmtEditWorkspaceDocument");
-      if (typeof edit !== "function") throw new Error("workspace incremental edit fixture is unavailable");
-      let version = -1;
-      for (let index = 0; index < editCount; index += 1) {
-        ({ version } = await edit(name, offset, 1, index % 2 === 0 ? "A" : "B"));
-      }
-      return { version, replacement: "B" };
-    }, { name: PREVIEW_BENCHMARK_DOCUMENT_NAME, offset: soakOffset, editCount: soakEditCount });
+    let soakVersion = -1;
+    for (let index = 0; index < soakEditCount; index += 1) {
+      const edited = await invokeMmtE2E(
+        page,
+        "workspace",
+        "editDocument",
+        PREVIEW_BENCHMARK_DOCUMENT_NAME,
+        soakOffset,
+        1,
+        index % 2 === 0 ? "A" : "B",
+      );
+      soakVersion = edited.version;
+    }
+    const soak = { version: soakVersion, replacement: "B" };
     currentSource = `${currentSource.slice(0, soakOffset)}${soak.replacement}${currentSource.slice(soakOffset + 1)}`;
     const soakPublishedTrace = await waitForPublishedTrace(page, sourceUri, soak.version);
     assertRendererFrameTelemetry(soakPublishedTrace, {

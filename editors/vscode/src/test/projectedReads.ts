@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import type { Range, SymbolInformation } from "vscode-languageserver-protocol";
 
 import {
+  PROJECTION_MAPPING_KINDS,
   mapDocumentHighlights,
   mapNavigationLocations,
   mapSelectionRanges,
@@ -27,6 +28,64 @@ const authored = (start: number, end: number): ProjectedReadLocation => ({
   uri: sourceUri,
   range: range(start, end)
 });
+
+export function assertProjectionMappingKindFixture(wireKinds: unknown): void {
+  assert.ok(Array.isArray(wireKinds));
+  assert.deepEqual(wireKinds, Object.keys(PROJECTION_MAPPING_KINDS));
+  const locations: ProjectedReadLocation[] = wireKinds.map((kind) => {
+    assert.equal(typeof kind, "string");
+    switch (kind) {
+      case "authoredIdentity":
+        return { kind, uri: sourceUri, range: range(0, 1) };
+      case "workspaceTypst":
+        return { kind, uri: "file:///workspace/helper.typ", range: range(1, 2) };
+      case "packageFile":
+        return {
+          kind,
+          uri: "mmt-package:/preview/example/1.0.0/lib.typ?digest=generation-a",
+          range: range(2, 3)
+        };
+      case "generatedProjection":
+        return {
+          kind,
+          uri: "mmt-projection:/mmt-projection/source/session/main-1.typ",
+          range: range(3, 4)
+        };
+      case "staleUnknown":
+        return { kind };
+      default:
+        assert.fail(`Unexpected projection mapping kind: ${kind}`);
+    }
+  });
+  const parsed = parseProjectedReadLocations(locations);
+  assert.deepEqual(parsed, locations);
+  for (const location of parsed) {
+    switch (location.kind) {
+      case "authoredIdentity":
+      case "workspaceTypst":
+        assert.equal(mapNavigationLocations("definition", [location]).kind, "Mapped");
+        break;
+      case "packageFile":
+        assert.equal(mapNavigationLocations("definition", [location], {
+          packageVisible: () => true
+        }).kind, "Mapped");
+        break;
+      case "generatedProjection":
+        assert.equal(mapNavigationLocations("definition", [location]).kind, "Mapped");
+        break;
+      case "staleUnknown":
+        assert.deepEqual(mapNavigationLocations("definition", [location]), {
+          kind: "StaleUnknown",
+          omitted: 1
+        });
+        break;
+    }
+  }
+  assert.throws(
+    () => parseProjectedReadLocations([{ kind: "unknownFutureKind" }]),
+    /unknown kind/
+  );
+}
 
 const definition = mapNavigationLocations("definition", [
   authored(1, 4),

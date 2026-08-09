@@ -1,7 +1,8 @@
-# language-tooling 规格增量
+# language-tooling Specification
 
-## ADDED Requirements
-
+## Purpose
+TBD - created by archiving change add-mmt-lsp-vscode. Update Purpose after archive.
+## Requirements
 ### Requirement: MMT language service is editor independent
 
 MMT language intelligence SHALL be implemented in Rust without depending on VS Code APIs or TypeScript AST interpretation.
@@ -100,7 +101,7 @@ query completion before projection and catalog services exist.
 
 ### Requirement: Resource completion may expose indexed thumbnails without resource I/O
 
-Validated pack manifests MAY provide a pack-relative thumbnail index for logical sticker variants.
+Validated pack manifests SHALL be permitted to provide a pack-relative thumbnail index for logical sticker variants.
 The language service SHALL expose an indexed preview as Markdown `CompletionItem.documentation`
 for the selected completion item, and SHALL NOT fetch、decode or materialize the underlying resource.
 
@@ -198,7 +199,6 @@ The Web editor SHALL persist text changes to its IndexedDB-backed workspace in s
 - WHEN persistence completes and the page reloads
 - THEN the workspace MUST reopen the latest text
 - AND the preview MUST be rebuilt from that persisted text and the acknowledged pack manifest
-
 
 ### Requirement: Projection segments permit only exact identity mapping
 
@@ -433,6 +433,8 @@ The shared language service SHALL advertise `textDocument/semanticTokens/full` f
 - AND Typst body and patch expressions MUST NOT be duplicated by the MMT semantic-token layer
 
 ### Requirement: Resolved resource markers expose deterministic language features
+The shared language service SHALL expose deterministic completion and hover information for resource
+markers resolved against the acknowledged pack registry without fetching or materializing resource bytes.
 
 #### Scenario: Author completes and inspects an ordinal sticker selector
 
@@ -443,6 +445,8 @@ The shared language service SHALL advertise `textDocument/semanticTokens/full` f
 - AND these language queries MUST NOT fetch or materialize resource bytes
 
 ### Requirement: Resource marker entry preserves the insertion point
+Desktop/Web extension hosts and the standalone Web workbench SHALL preserve the insertion point inside
+an automatically completed resource marker.
 
 #### Scenario: Author types a resource marker opener
 
@@ -452,9 +456,15 @@ The shared language service SHALL advertise `textDocument/semanticTokens/full` f
 - AND subsequent text MUST remain inside the marker
 - AND the behavior MUST be available in Desktop/Web extension hosts and the standalone Web workbench
 
+### Requirement: Activity Bar controls auxiliary panes
+
+The standalone Web workbench SHALL expose persistent Activity Bar controls that collapse and restore
+the corresponding auxiliary panes with accurate accessible state.
+
 #### Scenario: Activity Bar controls auxiliary panes
 
 - GIVEN the standalone Web workbench is ready
 - WHEN the author uses the Explorer Activity Bar item or the preview collapse control
 - THEN the corresponding pane MUST collapse and restore through the same persistent control
 - AND the control's accessible name and expanded state MUST describe the next action and current state
+

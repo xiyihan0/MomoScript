@@ -1,4 +1,5 @@
-import { expect, test, type Page, waitForPreviewFrame } from "./fixtures";
+import { expect, invokeMmtE2E, test, type Page, waitForPreviewFrame } from "./fixtures";
+import type { PreviewInteractionFixtureRequest } from "../src/e2eRuntimeBridge.ts";
 
 const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
 
@@ -35,7 +36,7 @@ test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtim
     return startup.stage;
   }, { timeout: 300_000 }).toBe("mmt-ready");
   await page.getByRole("button", { name: "Typst 预览" }).click();
-  await expect.poll(() => page.evaluate(() => Reflect.get(globalThis, "__mmtDisplayedPreviewSourceUri")?.())).not.toBeUndefined();
+  await expect.poll(() => invokeMmtE2E(page, "preview", "displayedSourceUri")).not.toBeUndefined();
 
   await callFixture(page, { action: "install-immutable" });
   let desktopPreview = await waitForPreviewFrame(page);
@@ -70,19 +71,17 @@ test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtim
   await expect(desktopPreview.locator(".preview-cursor")).toHaveCount(0);
   await expect(desktopPreview.locator(".preview-indicator")).toHaveCount(0);
 
-  await page.evaluate(async () => {
-    const openDocument = Reflect.get(globalThis, "__mmtOpenWorkspaceDocument");
-    if (typeof openDocument !== "function") throw new Error("workspace document fixture is unavailable");
-    await openDocument("interaction-b.typ", "#set page(width: 280pt, height: 180pt)\n= Interaction B\n");
-  });
+  await invokeMmtE2E(
+    page,
+    "workspace",
+    "openDocument",
+    "interaction-b.typ",
+    "#set page(width: 280pt, height: 180pt)\n= Interaction B\n",
+  );
   await callFixture(page, { action: "install-immutable" });
   desktopPreview = await waitForPreviewFrame(page);
   await expect.poll(async () => (await interactionState(page)).viewport.fitMode).toBe("width");
-  await page.evaluate(async () => {
-    const showDocument = Reflect.get(globalThis, "__mmtShowWorkspaceDocument");
-    if (typeof showDocument !== "function") throw new Error("workspace show fixture is unavailable");
-    await showDocument("intro.typ");
-  });
+  await invokeMmtE2E(page, "workspace", "showDocument", "intro.typ");
   await callFixture(page, { action: "install-immutable" });
   desktopPreview = await waitForPreviewFrame(page);
   const restoredIntro = (await interactionState(page)).viewport;
@@ -129,9 +128,7 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
     "@end",
     "",
   ].join("\n");
-  const sourceUri = await page.evaluate(({ name, text }) => (
-    Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function
-  )(name, text), { name: "nested-workspace-image.mmt", text: source });
+  const sourceUri = await invokeMmtE2E(page, "workspace", "openDocument", "nested-workspace-image.mmt", source);
   await page.getByRole("button", { name: "Typst 预览" }).click();
   const previewFrame = await waitForPreviewFrame(page, sourceUri);
   expect(await interactionState(page)).toMatchObject({
@@ -255,9 +252,7 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
     range: { start: { line: 3, character: 0 }, end: { line: 3, character: 5 } },
   })).toBe(true);
   await expect(previewFrame.locator(".preview-cursor")).toHaveCount(1);
-  await expect.poll(() => page.evaluate((uri) => (
-    Reflect.get(globalThis, "__mmtPreviewBuildDiagnostics") as Function
-  )(uri), sourceUri)).toEqual([]);
+  await expect.poll(() => invokeMmtE2E(page, "preview", "buildDiagnostics", sourceUri)).toEqual([]);
 });
 
 test("Typst preview keeps its scroll position across source-only rerenders", { tag: "@preview-navigation" }, async ({ page }) => {
@@ -276,11 +271,7 @@ test("Typst preview keeps its scroll position across source-only rerenders", { t
     ...Array.from({ length: 10 }, (_, index) => `= Stable page ${index + 1}\n#pagebreak()`),
     "",
   ].join("\n");
-  const sourceUri = await page.evaluate(({ name, text }) => {
-    const openDocument = Reflect.get(globalThis, "__mmtOpenWorkspaceDocument");
-    if (typeof openDocument !== "function") throw new Error("workspace document fixture is unavailable");
-    return openDocument(name, text);
-  }, { name: "scroll-stability.typ", text: source });
+  const sourceUri = await invokeMmtE2E(page, "workspace", "openDocument", "scroll-stability.typ", source);
   await page.getByRole("button", { name: "Typst 预览" }).click();
   const previewFrame = await waitForPreviewFrame(page, sourceUri);
   const viewport = previewFrame.locator(".viewport");
@@ -297,9 +288,7 @@ test("Typst preview keeps its scroll position across source-only rerenders", { t
   expect(before).toBeGreaterThan(100);
   await page.waitForTimeout(250);
   const rendererGeneration = (await interactionState(page)).rendererGeneration;
-  await page.evaluate(({ name, text }) => (
-    Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function
-  )(name, text), { name: "scroll-stability.typ", text: `${source}// source-only edit\n` });
+  await invokeMmtE2E(page, "workspace", "replaceDocument", "scroll-stability.typ", `${source}// source-only edit\n`);
   await expect.poll(async () => (await interactionState(page)).rendererGeneration, { timeout: 60_000 })
     .not.toBe(rendererGeneration);
   expect(await previewFrame.evaluate(() => (
@@ -336,9 +325,13 @@ test("Typst preview keeps its scroll position across source-only rerenders", { t
   expect(await retainedShape()).toEqual(beforeRepeatedScroll);
   const beforeResync = await interactionState(page);
   expect(await callFixture(page, { action: "resync-renderer" })).toBe(true);
-  await page.evaluate(({ name, text }) => (
-    Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function
-  )(name, text), { name: "scroll-stability.typ", text: `${source}// source-only edit\n// forced resync\n` });
+  await invokeMmtE2E(
+    page,
+    "workspace",
+    "replaceDocument",
+    "scroll-stability.typ",
+    `${source}// source-only edit\n// forced resync\n`,
+  );
   await expect.poll(async () => {
     const state = await interactionState(page);
     return state.renderKey !== beforeResync.renderKey && state.rendererFrameKind === "new";
@@ -350,12 +343,8 @@ test("Typst preview keeps its scroll position across source-only rerenders", { t
   expect(await retainedShape()).toEqual(beforeRepeatedScroll);
 });
 
-async function callFixture(page: Page, request: Record<string, unknown>): Promise<unknown> {
-  return page.evaluate(async (value) => {
-    const fixture = Reflect.get(globalThis, "__mmtPreviewInteractionFixture");
-    if (typeof fixture !== "function") throw new Error("preview interaction fixture is unavailable");
-    return fixture(value);
-  }, request);
+async function callFixture(page: Page, request: PreviewInteractionFixtureRequest): Promise<unknown> {
+  return invokeMmtE2E(page, "preview", "interactionFixture", request);
 }
 
 async function interactionState(page: Page): Promise<InteractionState> {

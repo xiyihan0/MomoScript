@@ -25,6 +25,7 @@
     "test:preview-diagnostics": "node --experimental-strip-types ./scripts/test-preview-diagnostics.mjs",
     "test:runtime-status": "node --experimental-strip-types ./scripts/test-runtime-status.mjs",
     "test:preview-artifact": "node --experimental-strip-types ./scripts/test-preview-artifact.mjs",
+    "test:preview-webview-protocol": "node --experimental-strip-types ./scripts/test-preview-webview-protocol.mjs",
     "test:preview-interaction": "node --experimental-strip-types ./scripts/test-preview-interaction.mjs",
     "test:e2e:preview-interaction": "playwright test --project=local preview-interaction.spec.ts",
     "test:e2e:preview-smoke": "playwright test --project=local --workers=1 preview-renderer-smoke.spec.ts",

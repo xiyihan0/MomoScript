@@ -32,7 +32,7 @@ The current implementation is nevertheless divided at the points that now matter
 4. embedded Typst projection has the correct conservative mapping boundary, but the host lacks a general transaction for any future mapped definition, reference, rename, formatting, code-action, highlight, selection-range or hint provider that artifact qualification may enable.
 5. MMT LSP positions may be negotiated as UTF-8 while the Tinymist host is initialized as UTF-16. Current paths are safe for the implemented features, but there is no explicit typed bridge contract for all future routed requests and responses.
 6. preview and export keep mutable renderer state. Export can compile the latest mapped entry independently of the SVG the user is looking at; it does not identify the exact source/projection/resource/runtime snapshot.
-7. browser resource failures are logged or shown as transient warnings. The existing `add-mmt-lsp-vscode` change already owns the diagnostic closure, but a later runtime must consume that result rather than invent a second error channel.
+7. browser resource failures are logged or shown as transient warnings. The stable `openspec/specs/language-tooling/spec.md` contract owns the diagnostic closure, and this runtime consumes that result rather than inventing a second error channel.
 8. the editor has no host-controlled Typst Universe/local package service. Direct backend downloads would violate the no-I/O projection boundary and would produce different Desktop/Web security behavior.
 9. preview supports zoom and fit-width but not editor-to-preview positioning, preview-to-source navigation, stable per-document viewport state, page-aware updates or partial render capability negotiation.
 
@@ -132,10 +132,10 @@ Preview navigation SHALL be revision-bound. Export SHALL use an immutable `Rende
 
 ## Dependencies and change ownership
 
-This change depends on, but SHALL NOT duplicate, the following active changes. The gates are staged rather than treated as one all-or-nothing prerequisite:
+This change depends on, but SHALL NOT duplicate, the following stable contract and active changes. The gates are staged rather than treated as one all-or-nothing prerequisite:
 
-- `add-mmt-lsp-vscode`
-  - tasks 10.1–10.7 and their focused evidence are a prerequisite for any runtime cutover;
+- `openspec/specs/language-tooling/spec.md`
+  - the archived implementation tasks 10.1–10.7 and their focused evidence are a prerequisite for any runtime cutover;
   - this change consumes the established diagnostic publishers and phase model rather than replacing them.
 - `add-workspace-storage-history-sync`
   - its workspace backend abstraction and atomic `WorkspaceCoordinator` batch/preimage contract are prerequisites for multi-document edits and coordinator cutover;
@@ -153,7 +153,7 @@ This change depends on, but SHALL NOT duplicate, the following active changes. T
 
 ## Implementation order
 
-1. Finish `add-mmt-lsp-vscode` diagnostics/runtime closure and capture native/Web capability、package-callback and location-provider evidence.
+1. Consume the completed language-tooling diagnostics/runtime closure and its native/Web capability、package-callback and location-provider evidence.
 2. Establish logical workspace identity、complete Typst project snapshot keys and typed encoding without changing visible capabilities.
 3. Land the workspace backend and atomic coordinator foundation; move Worker/process hosts only after their ownership gate is satisfied.
 4. Expand only explicitly qualified standalone providers, then projected read providers with payload-specific safety validation.

@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { expect, test, type Page } from "./fixtures";
+import { expect, invokeMmtE2E, test, type Page } from "./fixtures";
 import { TINYMIST_WASM_URL } from "../src/runtimeArtifacts.ts";
 
 const LIFECYCLE_STORAGE_KEY = "mmt-e2e-worker-lifecycle-v1";
@@ -258,19 +258,11 @@ async function exactExportFixture(
   page: Page,
   request: ExactExportFixtureRequest
 ): Promise<ExactExportFixtureState> {
-  return await page.evaluate(async (value) => {
-    const fixture = Reflect.get(globalThis, "__mmtExactExportFixture");
-    if (typeof fixture !== "function") throw new Error("exact export fixture is unavailable");
-    return await fixture(value) as ExactExportFixtureState;
-  }, request);
+  return await invokeMmtE2E(page, "exactExport", "fixture", request) as ExactExportFixtureState;
 }
 
 async function exactExportArtifactRetained(page: Page, renderKey: string): Promise<boolean> {
-  return await page.evaluate(async (key) => {
-    const fixture = Reflect.get(globalThis, "__mmtExactExportFixture");
-    if (typeof fixture !== "function") throw new Error("exact export fixture is unavailable");
-    return await fixture({ action: "has-artifact", renderKey: key }) as boolean;
-  }, renderKey);
+  return await invokeMmtE2E(page, "exactExport", "fixture", { action: "has-artifact", renderKey }) as boolean;
 }
 
 

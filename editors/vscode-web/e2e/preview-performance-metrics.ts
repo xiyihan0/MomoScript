@@ -2,7 +2,7 @@ import type { CDPSession } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { PreviewTraceSample, PreviewTraceStage } from "../src/previewPerformance.ts";
-import { expect, type Page } from "./fixtures";
+import { expect, invokeMmtE2E, type Page } from "./fixtures";
 
 export const TRACE_STAGES: readonly PreviewTraceStage[] = [
   "rustParse",
@@ -60,19 +60,11 @@ export function summarizeCpu(samples: readonly Readonly<Record<string, number>>[
 }
 
 export async function resetTimings(page: Page): Promise<void> {
-  await page.evaluate(() => {
-    const reset = Reflect.get(globalThis, "__mmtResetPreviewTimings");
-    if (typeof reset !== "function") throw new Error("preview timing reset hook is unavailable");
-    reset();
-  });
+  await invokeMmtE2E(page, "preview", "resetTimings");
 }
 
 export async function timings(page: Page): Promise<readonly PreviewTraceSample[]> {
-  return page.evaluate(() => {
-    const read = Reflect.get(globalThis, "__mmtPreviewTimings");
-    if (typeof read !== "function") throw new Error("preview timing hook is unavailable");
-    return read() as readonly PreviewTraceSample[];
-  });
+  return invokeMmtE2E(page, "preview", "timings");
 }
 
 export async function waitForPublishedTrace(page: Page, sourceUri: string, sourceVersion?: number): Promise<PreviewTraceSample> {
@@ -91,11 +83,7 @@ export async function waitForPublishedTrace(page: Page, sourceUri: string, sourc
 }
 
 export async function retainedState(page: Page): Promise<PreviewRetainedState> {
-  return page.evaluate(() => {
-    const read = Reflect.get(globalThis, "__mmtPreviewRetainedState");
-    if (typeof read !== "function") throw new Error("preview retained-state hook is unavailable");
-    return read();
-  });
+  return invokeMmtE2E(page, "preview", "retainedState");
 }
 
 export function summarize(samples: readonly PreviewTraceSample[]): Record<string, unknown> {

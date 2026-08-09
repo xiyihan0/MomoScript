@@ -37,4 +37,4 @@
 - Formal spec delta：`rendering-pipeline`
 - 相关设计：DSL v2 统一资源路径、`avatar` / `sticker` slot、contribution namespace 与 set-scoped ordinal
 - 主实现：`mmt_rs/src/{pack,resolve,materialize,pipeline}.rs`、`tools/build_kivo_pack_v3.py`
-- Web host 与 language-tooling 协议由 `openspec/changes/add-mmt-lsp-vscode/` 约束；本 change 继续定义共享 logical resource、storage metadata、cache identity 与 materializer 安全边界
+- Web host 与 language-tooling 协议由 `openspec/specs/language-tooling/spec.md` 约束；本 change 继续定义共享 logical resource、storage metadata、cache identity 与 materializer 安全边界

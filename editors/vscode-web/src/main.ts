@@ -59,10 +59,8 @@ import {
   previewRendererFontFiles,
   sanitizeSvg,
   TypstPreviewController,
-  type RenderArtifactLocation,
   type ImmutableTypstExportSnapshot,
   type TypstPreviewBinding,
-  type TypstPreviewPublication,
   type PreviewPublicationTiming,
 } from "./preview";
 import { WorkspaceAssetMirror } from "./workspaceAssetMirror.ts";
@@ -86,7 +84,18 @@ import {
   TYPST_COMPILER_WASM_SHA256,
 } from "./runtimeArtifacts";
 import { EditorRuntimeStatus, type RuntimeRecoveryState } from "./runtimeStatus";
-import { createPreviewArtifact, type LocationProviderKey, type PreviewArtifact, type PreviewPagePoint, type PreviewSourceTarget, type PreviewViewport } from "./previewArtifact.ts";
+import {
+  createPreviewArtifact,
+  parsePreviewSourceTargets,
+  type LocationProviderKey,
+  type PreviewArtifact,
+  type PreviewSourceTarget,
+} from "./previewArtifact.ts";
+import {
+  base64ToBytes,
+  bytesToBase64,
+  escapeHtml,
+} from "./previewWebviewProtocol.ts";
 import {
   BrowserPreviewViewportPersistence,
   PreviewInteractionController,
@@ -96,8 +105,8 @@ import {
   type PreviewSourceIdentity,
   type ProjectedPreviewSelection,
 } from "./previewInteraction.ts";
-import { ExactExportUiController, LatestExactArtifactWaiter, type ExactExportUiState } from "./exactExportUi.ts";
-import type { ExactExportFormat, ExactExportPorts, RenderAdvanceCause, RenderAdvanceToken, StaleExportChoice } from "./exactExport.ts";
+import { ExactExportUiController, LatestExactArtifactWaiter } from "./exactExportUi.ts";
+import type { ExactExportPorts, ExactExportResult, RenderAdvanceCause, RenderAdvanceToken } from "./exactExport.ts";
 import {
   RenderProjectSnapshotStore,
   type GetTypstRenderProjectParams,
@@ -118,11 +127,19 @@ import {
   type RenderKey,
   type SourceStaleToken,
 } from "../../vscode/src/runtimeIdentity";
-import previewWebviewRuntimeUrl from "./previewWebviewRuntime.ts?worker&url";
+import { PreviewWebviewHost, type PreviewExactExportRequest } from "./previewWebviewHost.ts";
 import {
   PreviewRendererSessionOwner,
   type PreviewRendererCandidate,
 } from "./previewRendererSession.ts";
+import {
+  createMmtE2ELanguageApi,
+  createMmtE2EWorkspaceApi,
+  installMmtE2EBridge,
+  type ExactExportFixtureRequest,
+  type MmtE2EApi,
+  type PreviewInteractionFixtureRequest,
+} from "./e2eRuntimeBridge.ts";
 
 const webviewIndexUrl = new URL("../node_modules/@codingame/monaco-vscode-view-common-service-override/service-override/vs/workbench/contrib/webview/browser/pre/index.html", import.meta.url).href;
 const webviewFakeUrl = new URL("../node_modules/@codingame/monaco-vscode-view-common-service-override/service-override/vs/workbench/contrib/webview/browser/pre/fake.html", import.meta.url).href;
@@ -139,23 +156,9 @@ registerAssets({
   "vs/workbench/contrib/webview/browser/pre/fake.html": () => deploymentHtmlUrl(webviewFakeUrl),
 });
 
-if (import.meta.env.VITE_MMT_E2E === "1") {
-  Reflect.set(globalThis, "__mmtSanitizeSvg", sanitizeSvg);
-}
 
 type E2ELifecycleKind = "runtime-ready" | "dispose-invoked" | "dispose-complete" | "retained-artifacts-cleared" | "unload" | "hmr" | "hmr-fallback";
 
-interface PreviewInteractionFixtureRequest {
-  readonly action: "install-provider" | "install-immutable" | "position" | "position-live" | "editor-selection" | "reveal" | "overlay" | "navigate" | "restart-provider" | "resync-renderer" | "advance-source" | "state";
-  readonly range?: { start: { line: number; character: number }; end: { line: number; character: number } };
-  readonly point?: PreviewPagePoint;
-}
-
-interface ExactExportFixtureRequest {
-  readonly action: "install" | "advance" | "publish-latest" | "partial" | "failed" | "evicted" | "state" | "has-artifact";
-  readonly marker?: string;
-  readonly renderKey?: string;
-}
 
 interface E2EExactExportHost {
   readonly latest: LatestExactArtifactWaiter;
@@ -222,144 +225,6 @@ async function restoreActiveWorkspaceDocument(): Promise<boolean> {
   }
 }
 
-if (import.meta.env.VITE_MMT_E2E === "1") {
-  Reflect.set(globalThis, "__mmtCompletionLabels", async (
-    line: number,
-    character: number,
-    triggerCharacter?: string,
-    name = "story.mmt"
-  ) => {
-    const uri = vscode.Uri.joinPath(WORKSPACE, name);
-    const completions = await vscode.commands.executeCommand<vscode.CompletionList>(
-      "vscode.executeCompletionItemProvider",
-      uri,
-      new vscode.Position(line, character),
-      triggerCharacter
-    );
-    return completions?.items.map((item) => (
-      typeof item.label === "string" ? item.label : item.label.label
-    )) ?? [];
-  });
-  Reflect.set(globalThis, "__mmtCompletionDocumentation", async (line: number, character: number, label: string) => {
-    const completions = await vscode.commands.executeCommand<vscode.CompletionList>(
-      "vscode.executeCompletionItemProvider",
-      STORY,
-      new vscode.Position(line, character)
-    );
-    const item = completions?.items.find((candidate) => candidate.label === label);
-    return typeof item?.documentation === "string"
-      ? item.documentation
-      : item?.documentation?.value ?? null;
-  });
-  Reflect.set(globalThis, "__mmtHoverText", async (line: number, character: number) => {
-    const hovers = await vscode.commands.executeCommand<vscode.Hover[]>(
-      "vscode.executeHoverProvider",
-      STORY,
-      new vscode.Position(line, character)
-    );
-    return hovers?.flatMap((hover) => hover.contents.map((content) =>
-      typeof content === "string" ? content : content.value
-    )) ?? [];
-  });
-  Reflect.set(globalThis, "__mmtTypstHoverText", async (name: string, line: number, character: number) => {
-    const uri = vscode.Uri.joinPath(WORKSPACE, name);
-    const hovers = await vscode.commands.executeCommand<vscode.Hover[]>("vscode.executeHoverProvider", uri, new vscode.Position(line, character));
-    return hovers?.flatMap((hover) => hover.contents.map((content) => typeof content === "string" ? content : content.value)) ?? [];
-  });
-  Reflect.set(globalThis, "__mmtTypstSemanticTokens", async (name: string) => {
-    const uri = vscode.Uri.joinPath(WORKSPACE, name);
-    const tokens = await vscode.commands.executeCommand<vscode.SemanticTokens>("vscode.provideDocumentSemanticTokens", uri);
-    return tokens ? Array.from(tokens.data) : [];
-  });
-  Reflect.set(globalThis, "__mmtTypstRawSemanticTokens", async (name: string) => {
-    const uri = vscode.Uri.joinPath(WORKSPACE, name).toString();
-    return tinymist?.backend.request<{ data: number[] } | null>("textDocument/semanticTokens/full", { textDocument: { uri } }) ?? null;
-  });
-  Reflect.set(globalThis, "__mmtTypstBackendProject", (name: string) => {
-    const uri = vscode.Uri.joinPath(WORKSPACE, name).toString();
-    const project = tinymist?.backend.projectForEntry(uri);
-    return project ? { revision: project.revision, text: project.files.find((file) => file.uri === uri && "text" in file)?.text ?? null } : null;
-  });
-  Reflect.set(globalThis, "__mmtActiveDocument", () => {
-    const active = vscode.window.activeTextEditor?.document;
-    const workspaceDocument = active?.uri.scheme === "mmtfs"
-      ? active
-      : vscode.window.visibleTextEditors.find((editor) => editor.document.uri.scheme === "mmtfs")?.document;
-    return workspaceDocument
-      ? { name: workspaceDocument.uri.path.split("/").pop(), languageId: workspaceDocument.languageId, text: workspaceDocument.getText() }
-      : null;
-  });
-  Reflect.set(globalThis, "__mmtStoryText", () =>
-    vscode.workspace.textDocuments.find((document) => document.uri.toString() === STORY.toString())?.getText()
-  );
-  Reflect.set(globalThis, "__mmtColorDecorators", () =>
-    vscode.workspace
-      .getConfiguration("editor", vscode.window.activeTextEditor?.document)
-      .get<string>("defaultColorDecorators")
-  );
-  Reflect.set(globalThis, "__mmtDefaultEol", () =>
-    vscode.workspace.getConfiguration("files").get<string>("eol")
-  );
-  Reflect.set(globalThis, "__mmtWriteWorkspaceFile", async (name: string, dataBase64: string) => {
-    if (!/^[^./\\][^/\\]*$/.test(name) || name === "..") throw new Error("invalid workspace basename");
-    await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(WORKSPACE, name), Uint8Array.from(atob(dataBase64), (char) => char.charCodeAt(0)));
-  });
-  Reflect.set(globalThis, "__mmtOpenWorkspaceDocument", async (name: string, text: string) => {
-    if (!/^[^./\\][^/\\]*(?:\.mmt(?:\.txt)?|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
-    const uri = vscode.Uri.joinPath(WORKSPACE, name);
-    await vscode.workspace.fs.writeFile(uri, encoder.encode(text));
-    const opened = await vscode.workspace.openTextDocument(uri);
-    const expectedLanguage = name.endsWith(".typ") ? "typst" : "mmt";
-    const document = opened.languageId === expectedLanguage ? opened : await vscode.languages.setTextDocumentLanguage(opened, expectedLanguage);
-    await vscode.window.showTextDocument(document, { viewColumn: vscode.ViewColumn.One, preserveFocus: false });
-    return uri.toString();
-  });
-  Reflect.set(globalThis, "__mmtShowWorkspaceDocument", async (name: string) => {
-    if (!/^[^./\\][^/\\]*(?:\.mmt(?:\.txt)?|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
-    const uri = vscode.Uri.joinPath(WORKSPACE, name);
-    const opened = await vscode.workspace.openTextDocument(uri);
-    const expectedLanguage = name.endsWith(".typ") ? "typst" : "mmt";
-    const document = opened.languageId === expectedLanguage ? opened : await vscode.languages.setTextDocumentLanguage(opened, expectedLanguage);
-    await vscode.window.showTextDocument(document, { viewColumn: vscode.ViewColumn.One, preserveFocus: false });
-    return uri.toString();
-  });
-  Reflect.set(globalThis, "__mmtReadWorkspaceDocument", async (name: string) => {
-    if (!/^[^./\\][^/\\]*(?:\.mmt(?:\.txt)?|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
-    return new TextDecoder().decode(await vscode.workspace.fs.readFile(vscode.Uri.joinPath(WORKSPACE, name)));
-  });
-  Reflect.set(globalThis, "__mmtReplaceWorkspaceDocument", async (name: string, text: string) => {
-    if (!/^[^./\\][^/\\]*(?:\.mmt(?:\.txt)?|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
-    const uri = vscode.Uri.joinPath(WORKSPACE, name);
-    const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === uri.toString());
-    if (!document) throw new Error("workspace document is not open");
-    const edit = new vscode.WorkspaceEdit();
-    edit.replace(uri, new vscode.Range(document.positionAt(0), document.positionAt(document.getText().length)), text);
-    if (!await vscode.workspace.applyEdit(edit)) throw new Error("workspace edit was rejected");
-    return document.getText();
-  });
-  Reflect.set(globalThis, "__mmtEditWorkspaceDocument", async (
-    name: string,
-    offset: number,
-    deleteCount: number,
-    text: string,
-  ) => {
-    if (!/^[^./\\][^/\\]*(?:\.mmt(?:\.txt)?|\.typ)$/.test(name)) throw new Error("invalid workspace document basename");
-    const uri = vscode.Uri.joinPath(WORKSPACE, name);
-    const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === uri.toString());
-    if (!document) throw new Error("workspace document is not open");
-    if (
-      !Number.isSafeInteger(offset)
-      || !Number.isSafeInteger(deleteCount)
-      || offset < 0
-      || deleteCount < 0
-      || offset + deleteCount > document.getText().length
-    ) throw new RangeError("workspace edit range is invalid");
-    const edit = new vscode.WorkspaceEdit();
-    edit.replace(uri, new vscode.Range(document.positionAt(offset), document.positionAt(offset + deleteCount)), text);
-    if (!await vscode.workspace.applyEdit(edit)) throw new Error("workspace edit was rejected");
-    return { text: document.getText(), version: document.version };
-  });
-}
 const DEFAULT_STORY = "> 佳代子: 你好，老师！\n> _0: 我也可以继续说。\n< 老师好！\n> 佳代子: 看看这个：[:#1:](width: 2em)\n";
 const PACK_URL = "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json";
 const encoder = new TextEncoder();
@@ -487,15 +352,6 @@ async function initializeRuntime(
 ): Promise<void> {
   const own = <T extends { dispose(): void | Promise<void> }>(resource: T): T => controller.own(resource);
   const subscribe = <T extends { dispose(): void | Promise<void> }>(subscription: T): T => controller.subscribe(subscription);
-  const exposeRuntimeGlobal = <T>(key: string, value: T): T => {
-    Reflect.set(globalThis, key, value);
-    subscribe({
-      dispose() {
-        if (Reflect.get(globalThis, key) === value) Reflect.deleteProperty(globalThis, key);
-      },
-    });
-    return value;
-  };
   if (exactExportHost) own(exactExportHost.latest);
   const root = document.querySelector<HTMLElement>("#workbench");
   if (!root) throw new Error("Missing #workbench container");
@@ -550,11 +406,7 @@ async function initializeRuntime(
       onDidChangePacks: (listener) => galleryPacksChanged.event(listener)
     })
   }));
-  let previewPanel: vscode.WebviewPanel | undefined;
-  let previewWebviewReady = false;
-  let previewPanelTitle = "MomoScript 预览";
-  let previewPanelDisposeRegistration: vscode.Disposable | undefined;
-  let previewPanelMessageRegistration: vscode.Disposable | undefined;
+  let previewWebviewHost: PreviewWebviewHost | undefined;
   let activeClient: BaseLanguageClient | undefined;
   let displayedPreviewSourceUri: string | undefined;
   let previewFixtureActiveSourceUri: string | undefined;
@@ -577,12 +429,6 @@ async function initializeRuntime(
     persistenceByUri,
   } = controller.stores;
   const previewTraces = new Map<string, PreviewTraceSession>();
-  const previewWebviewReadyWaiters = new Set<() => void>();
-  const pendingWebviewPublications = new Map<number, {
-    readonly renderKey: RenderKey;
-    readonly resolve: (message: PreviewVisualReadyMessage) => void;
-    readonly reject: (error: Error) => void;
-  }>();
   const renderProjectSnapshots = new RenderProjectSnapshotStore();
   own({ dispose: () => renderProjectSnapshots.clear() });
   const previewFeatureMaster = import.meta.env.VITE_MMT_PREVIEW_INCREMENTAL;
@@ -597,12 +443,6 @@ async function initializeRuntime(
   const previewRendererSetting = import.meta.env.VITE_MMT_PREVIEW_DIFF_V1;
   let previewRendererEnabled = false;
   let previewRendererSessions: PreviewRendererSessionOwner | undefined;
-  let previewWebviewRendererGeneration: {
-    readonly sessionId: string;
-    readonly backendGeneration: number;
-    readonly generation: number;
-  } | undefined;
-  let previewWebviewRendererResyncRequested: { readonly sessionId: string; readonly generation: number } | undefined;
   let preview!: TypstPreviewController;
   const exactExportAdvanceBySource = new Map<string, RenderAdvanceToken>();
   const immutableRendererExports = new Map<RenderKey, {
@@ -645,7 +485,7 @@ async function initializeRuntime(
   const exportMode = controller.stores.exactExport ? "exact" : "current-preview";
   const exactExportUi = own(new ExactExportUiController(controller.stores.exactExport ?? currentPreviewExport, {
     stateChanged(state) {
-      if (previewPanel) void previewPanel.webview.postMessage({ type: "exactExportState", state });
+      previewWebviewHost?.postExactExportState(state);
     },
     failed(error) {
       log("export:error", error instanceof Error ? error.message : String(error));
@@ -806,7 +646,7 @@ async function initializeRuntime(
     signal: AbortSignal,
   ): Promise<PreviewSourceTarget | undefined> => {
     if (!activeClient || signal.aborted || !identity.projectionKey) return undefined;
-    const mapped = await activeClient.sendRequest<readonly PreviewSourceTarget[] | null>("mmt/mapTypstReadLocations", {
+    const response = await activeClient.sendRequest<unknown>("mmt/mapTypstReadLocations", {
       sourceUri: identity.sourceUri,
       revision: identity.revision,
       entryUri: identity.entryUri,
@@ -817,10 +657,18 @@ async function initializeRuntime(
       locations: [location],
     });
     if (signal.aborted) return undefined;
-    const target = mapped?.[0];
-    if (!target || target.kind === "staleUnknown") return target;
-    const readOnly = target.kind === "packageFile" || target.kind === "generatedProjection";
-    return Object.freeze({ ...target, readOnly, retained: true });
+    const target = parsePreviewSourceTargets(response)[0];
+    if (!target) return undefined;
+    switch (target.kind) {
+      case "authoredIdentity":
+      case "workspaceTypst":
+        return Object.freeze({ ...target, readOnly: false, retained: true });
+      case "packageFile":
+      case "generatedProjection":
+        return Object.freeze({ ...target, readOnly: true, retained: true });
+      case "staleUnknown":
+        return target;
+    }
   };
   const openPreviewSource = async (target: PreviewSourceTarget): Promise<void> => {
     if (!target.uri || !target.range) return;
@@ -851,13 +699,13 @@ async function initializeRuntime(
         log(`preview:navigation:${status}`, message);
       },
       indicatorChanged(indicator) {
-        if (previewPanel) void previewPanel.webview.postMessage({ type: "indicator", point: indicator?.point });
+        void previewWebviewHost?.postIndicator(indicator?.point);
       },
       cursorChanged(cursor) {
-        if (previewPanel) void previewPanel.webview.postMessage({ type: "cursor", point: cursor?.point });
+        previewWebviewHost?.postCursor(cursor?.point);
       },
       viewportChanged(viewport) {
-        if (previewPanel) void previewPanel.webview.postMessage({ type: "restoreViewport", viewport });
+        previewWebviewHost?.restoreViewport(viewport);
       },
       fullRefreshRequested(reason) {
         log("preview:refresh", `Full refresh required: ${reason}`);
@@ -872,166 +720,6 @@ async function initializeRuntime(
   ): void => {
     preview.setDisplayedArtifact(artifact, retainCompilerEntry);
     previewInteraction.bindArtifact(artifact, identity, resolver);
-  };
-  let webviewPublicationSequence = 1;
-  const publishFixtureArtifact = async (artifact: PreviewArtifact): Promise<void> => {
-    const panel = previewPanel;
-    const visual = artifact.visualSnapshot;
-    const firstPage = visual.kind === "svg" ? visual.pages[0] : undefined;
-    if (!panel || !firstPage || visual.kind !== "svg") return;
-    await waitForPreviewWebview();
-    const imageAssets = await Promise.all(visual.imageAssets.map(async (asset) => ({
-      digest: asset.digest,
-      mimeType: asset.mimeType,
-      dataBase64: bytesToBase64(new Uint8Array(await asset.blob.arrayBuffer())),
-    })));
-    await panel.webview.postMessage({
-      type: "render",
-      svg: firstPage.sanitizedSvg,
-      imageAssets,
-      pageSize: { width: firstPage.geometry.cssWidth, height: firstPage.geometry.cssHeight },
-      requestSequence: webviewPublicationSequence++,
-      renderKey: artifact.renderKey,
-      spans: [],
-    });
-  };
-  const waitForPreviewWebview = async (signal?: AbortSignal): Promise<void> => {
-    if (previewWebviewReady) return;
-    signal?.throwIfAborted();
-    await new Promise<void>((resolve, reject) => {
-      const timeout = window.setTimeout(() => {
-        previewWebviewReadyWaiters.delete(ready);
-        reject(new Error("Preview Webview runtime did not become ready"));
-      }, 30_000);
-      const aborted = () => {
-        window.clearTimeout(timeout);
-        previewWebviewReadyWaiters.delete(ready);
-        reject(signal?.reason instanceof Error ? signal.reason : new DOMException("Aborted", "AbortError"));
-      };
-      const ready = () => {
-        window.clearTimeout(timeout);
-        signal?.removeEventListener("abort", aborted);
-        resolve();
-      };
-      signal?.addEventListener("abort", aborted, { once: true });
-      previewWebviewReadyWaiters.add(ready);
-    });
-  };
-  const publishFullSvgToWebview = async (
-    publication: TypstPreviewPublication,
-    revision: PreviewRevision,
-  ): Promise<PreviewVisualReadyMessage> => {
-    const panel = previewPanel;
-    if (!panel) throw new Error("Preview Webview is closed");
-    await waitForPreviewWebview(publication.signal);
-    publication.signal?.throwIfAborted();
-    const requestSequence = webviewPublicationSequence++;
-    const imageAssets = await Promise.all(publication.imageAssets.map(async (asset) => ({
-      digest: asset.digest,
-      mimeType: asset.mimeType,
-      dataBase64: bytesToBase64(new Uint8Array(await asset.blob.arrayBuffer())),
-    })));
-    const acknowledgement = new Promise<PreviewVisualReadyMessage>((resolve, reject) => {
-      pendingWebviewPublications.set(requestSequence, {
-        renderKey: publication.artifact.renderKey,
-        resolve,
-        reject,
-      });
-    });
-    const delivered = await panel.webview.postMessage({
-      type: "render",
-      svg: publication.compactSvg,
-      imageAssets,
-      pageSize: publication.pageSize,
-      requestSequence,
-      traceId: publication.traceId,
-      renderKey: publication.artifact.renderKey,
-      spans: publication.spans,
-    });
-    if (!delivered || panel !== previewPanel) {
-      pendingWebviewPublications.delete(requestSequence);
-      throw new Error("Preview Webview rejected the render publication");
-    }
-    const abort = () => {
-      const pending = pendingWebviewPublications.get(requestSequence);
-      if (!pending) return;
-      pendingWebviewPublications.delete(requestSequence);
-      pending.reject(publication.signal?.reason instanceof Error
-        ? publication.signal.reason
-        : new DOMException("Aborted", "AbortError"));
-    };
-    publication.signal?.addEventListener("abort", abort, { once: true });
-    try {
-      return await acknowledgement;
-    } finally {
-      publication.signal?.removeEventListener("abort", abort);
-    }
-  };
-  const publishRendererFrameToWebview = async (
-    candidate: PreviewRendererCandidate,
-    binding: TypstPreviewBinding,
-  ): Promise<PreviewVisualReadyMessage> => {
-    const panel = previewPanel;
-    if (!panel) throw new Error("Preview Webview is closed");
-    await waitForPreviewWebview(binding.signal);
-    binding.signal?.throwIfAborted();
-    const requestSequence = webviewPublicationSequence++;
-    const acknowledgement = new Promise<PreviewVisualReadyMessage>((resolve, reject) => {
-      pendingWebviewPublications.set(requestSequence, {
-        renderKey: binding.renderKey,
-        resolve,
-        reject,
-      });
-    });
-    const publishedAtEpochMs = Date.now();
-    const delivered = await panel.webview.postMessage({
-      type: "render-frame",
-      sessionId: candidate.sessionId,
-      frameKind: candidate.ready.frameKind,
-      dataBase64: candidate.ready.dataBase64,
-      byteLength: candidate.ready.byteLength,
-      artifactDigest: candidate.ready.artifactDigest,
-      sourceDigest: candidate.ready.sourceDigest,
-      backendGeneration: candidate.backendGeneration,
-      rendererGeneration: candidate.ready.generation,
-      baseGeneration: candidate.ready.baseGeneration,
-      requestSequence,
-      traceId: binding.traceId,
-      renderKey: binding.renderKey,
-      publishedAtEpochMs,
-    });
-    if (!delivered || panel !== previewPanel) {
-      pendingWebviewPublications.delete(requestSequence);
-      throw new Error("Preview Webview rejected the renderer frame");
-    }
-    const abort = () => {
-      const pending = pendingWebviewPublications.get(requestSequence);
-      if (!pending) return;
-      pendingWebviewPublications.delete(requestSequence);
-      pending.reject(binding.signal?.reason instanceof Error
-        ? binding.signal.reason
-        : new DOMException("Aborted", "AbortError"));
-    };
-    binding.signal?.addEventListener("abort", abort, { once: true });
-    try {
-      const ready = await acknowledgement;
-      const renderer = ready.renderer;
-      if (!renderer
-        || renderer.sessionId !== candidate.sessionId
-        || renderer.artifactDigest !== candidate.ready.artifactDigest
-        || renderer.sourceDigest !== candidate.ready.sourceDigest
-        || renderer.backendGeneration !== candidate.backendGeneration
-        || renderer.generation !== candidate.ready.generation
-        || renderer.baseGeneration !== candidate.ready.baseGeneration
-        || renderer.frameKind !== candidate.ready.frameKind
-        || renderer.byteLength !== candidate.ready.byteLength
-        || renderer.pageGeometries.length !== candidate.ready.pageCount) {
-        throw new Error("Preview Webview renderer acknowledgement identity mismatch");
-      }
-      return ready;
-    } finally {
-      binding.signal?.removeEventListener("abort", abort);
-    }
   };
   preview = own(new TypstPreviewController({
     status(message, error, revision) {
@@ -1059,7 +747,7 @@ async function initializeRuntime(
         if (displayedPreviewSourceUri === identity.sourceUri) exactExportUi.bind(identity.sourceUri);
       }
       log(message.includes("WASM") ? "wasm" : (error ? "preview:error" : "preview"), message);
-      if (previewPanel) void previewPanel.webview.postMessage({ type: "status", message, error });
+      previewWebviewHost?.postStatus(message, error);
     },
     timing(timing, revision) {
       if (revision.traceId !== timing.traceId) return;
@@ -1084,7 +772,8 @@ async function initializeRuntime(
         if (revision.traceId) previewTraces.delete(revision.traceId);
         return;
       }
-      const ready = await publishFullSvgToWebview(publication, revision);
+      if (!previewWebviewHost) throw new Error("Preview Webview host is unavailable");
+      const ready = await previewWebviewHost.publishFullSvg(publication);
       if (ready.renderKey !== publication.artifact.renderKey) {
         throw new Error("Preview Webview acknowledged a different render key");
       }
@@ -1137,12 +826,7 @@ async function initializeRuntime(
         binding.renderKey,
         binding.signal,
       );
-      if (candidate.ready.frameKind === "diff-v1" && (
-        !previewWebviewRendererGeneration
-        || previewWebviewRendererGeneration.sessionId !== candidate.sessionId
-        || previewWebviewRendererGeneration.backendGeneration !== candidate.backendGeneration
-        || previewWebviewRendererGeneration.generation !== candidate.ready.baseGeneration
-      )) {
+      if (!previewWebviewHost?.acceptsRendererCandidate(candidate)) {
         trace?.increment("rendererConsumerResyncs");
         await sessions.discard(candidate);
         await sessions.closeSource(project.sourceUri);
@@ -1174,7 +858,8 @@ async function initializeRuntime(
         trace?.increment("staleDiscards");
         return undefined;
       }
-      const ready = await publishRendererFrameToWebview(candidate, binding);
+      if (!previewWebviewHost) throw new Error("Preview Webview host is unavailable");
+      const ready = await previewWebviewHost.publishRendererFrame(candidate, binding);
       trace?.stage("viewportRender", ready.viewportRenderMs ?? 0);
       trace?.stage("iframeTransfer", ready.iframeTransferMs ?? 0);
       trace?.stage("rendererDecode", ready.renderer?.frameDecodeMs ?? 0);
@@ -1187,18 +872,7 @@ async function initializeRuntime(
       trace?.increment("pageBuffers", ready.renderer.pageBuffers);
       await sessions.commit(candidate);
       committed = true;
-      previewWebviewRendererGeneration = Object.freeze({
-        sessionId: candidate.sessionId,
-        backendGeneration: candidate.backendGeneration,
-        generation: candidate.ready.generation,
-      });
-      if (previewWebviewRendererResyncRequested) {
-        if (previewWebviewRendererResyncRequested.sessionId === candidate.sessionId
-          && previewWebviewRendererResyncRequested.generation === candidate.ready.generation) {
-          previewWebviewRendererGeneration = undefined;
-        }
-        previewWebviewRendererResyncRequested = undefined;
-      }
+      previewWebviewHost?.commitRendererCandidate(candidate);
 
       const locationProviderKey: LocationProviderKey = Object.freeze({
         kind: "renderer-provider",
@@ -1280,9 +954,7 @@ async function initializeRuntime(
     } catch (error) {
       if (candidate && !committed) {
         await sessions.closeSource(project.sourceUri);
-        previewWebviewRendererGeneration = undefined;
-        previewWebviewRendererResyncRequested = undefined;
-        if (previewPanel) void previewPanel.webview.postMessage({ type: "renderer-reset" });
+        previewWebviewHost?.resetRenderer();
       }
       throw error;
     }
@@ -1408,15 +1080,14 @@ async function initializeRuntime(
   };
   let fixtureProviderKey: LocationProviderKey | undefined;
   let fixtureSelection: PreviewEditorSelection | undefined;
-  if (import.meta.env.VITE_MMT_E2E === "1") {
-    exposeRuntimeGlobal("__mmtSetPreviewRendererEnabled", (enabled: boolean) => {
-      if (enabled && !previewRendererSessions) {
-        throw new Error("Qualified incremental preview renderer is unavailable");
-      }
-      previewRendererEnabled = enabled;
-      return previewRendererEnabled;
-    });
-    exposeRuntimeGlobal("__mmtPreviewInteractionFixture", async (request: PreviewInteractionFixtureRequest) => {
+  const setPreviewRendererEnabled = (enabled: boolean): boolean => {
+    if (enabled && !previewRendererSessions) {
+      throw new Error("Qualified incremental preview renderer is unavailable");
+    }
+    previewRendererEnabled = enabled;
+    return previewRendererEnabled;
+  };
+  const previewInteractionFixture = async (request: PreviewInteractionFixtureRequest) => {
       if (request.action === "state") {
         const displayed = previewInteraction.artifact;
         const visual = displayed?.visualSnapshot;
@@ -1441,14 +1112,13 @@ async function initializeRuntime(
         };
       }
       if (request.action === "reveal") {
-        previewPanel?.reveal(undefined, false);
-        return previewPanel !== undefined;
+        return previewWebviewHost?.reveal() ?? false;
       }
       if (request.action === "overlay") {
-        return request.point ? Boolean(await previewPanel?.webview.postMessage({ type: "indicator", point: request.point })) : false;
+        return request.point ? Boolean(await previewWebviewHost?.postIndicator(request.point)) : false;
       }
       if (request.action === "resync-renderer") {
-        previewWebviewRendererGeneration = undefined;
+        previewWebviewHost?.clearRendererGeneration();
         return true;
       }
       if (request.action === "restart-provider") {
@@ -1572,9 +1242,8 @@ async function initializeRuntime(
           async locateSelection() { return [{ pageIndex: 0, x: 0.2, y: 0.15 }, { pageIndex: 1, x: 0.9, y: 0.95 }]; },
           async locatePoint() { return { uri: identity.entryUri, range: selectedRange }; },
         });
-        if (previewPanel) {
-          previewPanel.reveal(undefined, false);
-          await publishFixtureArtifact(artifact);
+        if (previewWebviewHost?.reveal()) {
+          await previewWebviewHost.publishFixtureArtifact(artifact);
         }
       } else {
         fixtureProviderKey = undefined;
@@ -1603,18 +1272,15 @@ async function initializeRuntime(
           visualSnapshot: { kind: "svg", pages, imageAssets: [] },
         });
         displayPreviewArtifact(artifact, identity);
-        if (previewPanel) {
-          previewPanel.reveal(undefined, false);
-          await publishFixtureArtifact(artifact);
+        if (previewWebviewHost?.reveal()) {
+          await previewWebviewHost.publishFixtureArtifact(artifact);
         }
       }
       return true;
-    });
-  }
+  };
   let exactExportFixtureNext: PreviewArtifact | undefined;
   let exactExportFixtureAdvance: RenderAdvanceToken | undefined;
-  if (import.meta.env.VITE_MMT_E2E === "1") {
-    exposeRuntimeGlobal("__mmtExactExportFixture", async (request: ExactExportFixtureRequest) => {
+  const exactExportFixture = async (request: ExactExportFixtureRequest) => {
       if (request.action === "state") return exactExportUi.state;
       if (request.action === "has-artifact") {
         if (!request.renderKey) throw new Error("Exact export artifact lookup requires renderKey");
@@ -1664,9 +1330,8 @@ async function initializeRuntime(
       });
       const renderFixturePanel = async (displayed: PreviewArtifact): Promise<void> => {
         displayPreviewArtifact(displayed, identity);
-        if (previewPanel) {
-          previewPanel.reveal(undefined, false);
-          await publishFixtureArtifact(displayed);
+        if (previewWebviewHost?.reveal()) {
+          await previewWebviewHost.publishFixtureArtifact(displayed);
         }
       };
       if (request.action === "install") {
@@ -1712,28 +1377,21 @@ async function initializeRuntime(
       }
       exactExportUi.bind(sourceUri);
       return exactExportUi.state;
-    });
-  }
+  };
   let workspaceAssetMirror!: WorkspaceAssetMirror;
   const materializedResourceCache = new BoundedStringCache(MATERIALIZED_RESOURCE_CACHE_MAX_BYTES);
   const previewClock = new RevisionPinnedPreviewClock();
-  if (import.meta.env.VITE_MMT_E2E === "1") {
-    exposeRuntimeGlobal("__mmtLatestProjectionRevision", () => {
-      const sourceUri = vscode.window.activeTextEditor?.document.uri.toString();
-      return sourceUri ? latestLanguageProjectionBySource.get(sourceUri)?.revision : undefined;
-    });
-    exposeRuntimeGlobal("__mmtLanguageProjectionEntry", (name: string) => {
-      const uri = vscode.Uri.joinPath(WORKSPACE, name).toString();
-      const project = acceptedPreviewLanguageProjects!.get(uri);
-      if (!project) return null;
-      const entry = project.files.find((file) => file.uri === project.entryUri);
-      return { sourceVersion: project.sourceVersion, text: entry?.text };
-    });
-    exposeRuntimeGlobal("__mmtPreviewBuildDiagnostics", (sourceUri: string) => previewBuildState.diagnostics(sourceUri));
-  }
-  if (import.meta.env.VITE_MMT_E2E === "1") {
-    exposeRuntimeGlobal("__mmtDisplayedPreviewSourceUri", () => displayedPreviewSourceUri);
-  }
+  const latestProjectionRevision = () => {
+    const sourceUri = vscode.window.activeTextEditor?.document.uri.toString();
+    return sourceUri ? latestLanguageProjectionBySource.get(sourceUri)?.revision : undefined;
+  };
+  const languageProjectionEntry = (name: string) => {
+    const uri = vscode.Uri.joinPath(WORKSPACE, name).toString();
+    const project = acceptedPreviewLanguageProjects!.get(uri);
+    if (!project) return null;
+    const entry = project.files.find((file) => file.uri === project.entryUri);
+    return { sourceVersion: project.sourceVersion, text: entry?.text };
+  };
   const refreshOpenedPreview = () => {
     if (!displayedPreviewSourceUri) return;
     const project = previewProjects.get(displayedPreviewSourceUri);
@@ -1749,7 +1407,7 @@ async function initializeRuntime(
     exactExportAdvanceBySource.delete(sourceUri);
     exactExportHost?.latest.closeSource(sourceUri);
     previewBuildState.clear(sourceUri);
-    if (displayedPreviewSourceUri === sourceUri) previewPanel?.dispose();
+    if (displayedPreviewSourceUri === sourceUri) previewWebviewHost?.close();
   };
   try {
     provider = own(await MmtIndexedDbFileSystemProvider.open());
@@ -1829,34 +1487,12 @@ async function initializeRuntime(
       controller.stores.previewPerformance.setEnabled(previewPerformanceEnabled());
     }
   }));
-  if (import.meta.env.VITE_MMT_E2E === "1") {
-    exposeRuntimeGlobal("__mmtPreviewTimings", () => controller.stores.previewPerformance.snapshot());
-    exposeRuntimeGlobal("__mmtResetPreviewTimings", () => controller.stores.previewPerformance.reset());
-    exposeRuntimeGlobal("__mmtPreviewRetainedState", () => ({
-      timingSamples: controller.stores.previewPerformance.size,
-      previewProjects: previewProjects.size,
-      latestProjects: latestProjectBySource.size,
-      artifacts: controller.stores.previewArtifacts.size,
-      artifactBytes: controller.stores.previewArtifacts.byteSize,
-      mappedShadows: preview.mappedShadowCount,
-      pendingMaterializations: pendingMaterializations.size,
-      activeMaterializations: materializationControllers.size,
-    }));
-  }
   subscribe(vscode.workspace.registerFileSystemProvider(
     "mmt-package",
     new WebTypstPackageFileSystemProvider(typstPackageCache),
     { isReadonly: true, isCaseSensitive: true },
   ));
   subscribe(registerLocalHistoryCommands(provider));
-  if (import.meta.env.VITE_MMT_E2E === "1") {
-    exposeRuntimeGlobal("__mmtCreateCheckpoint", (name: string) => provider!.createCheckpoint(name));
-    exposeRuntimeGlobal("__mmtDeleteWorkspaceFile", async (name: string) => {
-      if (!/^[^./\\][^/\\]*$/.test(name) || name === "..") throw new Error("invalid workspace basename");
-      await vscode.workspace.fs.delete(vscode.Uri.joinPath(WORKSPACE, name));
-    });
-    exposeRuntimeGlobal("__mmtHistoryUsage", () => provider!.historyUsage());
-  }
   subscribe(registerCharacterGalleryCommands(() => galleryPacks));
   output = own(vscode.window.createOutputChannel("MomoScript"));
   log("host", "VS Code Workbench ready");
@@ -1966,7 +1602,7 @@ async function initializeRuntime(
       containerRevision: previewInteraction.identity ? String(previewInteraction.identity.revision) : null,
       containerRenderKey: displayedArtifact?.renderKey ?? null,
       displayedRenderKey: displayedArtifact?.renderKey ?? null,
-      panelOpen: previewPanel !== undefined,
+      panelOpen: previewWebviewHost?.isOpen ?? false,
       diagnostics: diagnostics.map(({ phase, severity, message }) => ({ phase, severity, message })),
     };
   };
@@ -1979,9 +1615,6 @@ async function initializeRuntime(
       delete document.documentElement.dataset.mmtPreviewSourceUri;
     }
   };
-  if (import.meta.env.VITE_MMT_E2E === "1") {
-    exposeRuntimeGlobal("__mmtPreviewReadiness", previewReadiness);
-  }
   own(previewBuildState.subscribe((sourceUri) => {
     if ((displayedPreviewSourceUri ?? vscode.window.activeTextEditor?.document.uri.toString()) === sourceUri) {
       refreshBuildStatus();
@@ -1992,9 +1625,6 @@ async function initializeRuntime(
     refreshBuildStatus();
     publishPreviewStage();
   }));
-  if (import.meta.env.VITE_MMT_E2E === "1") {
-    exposeRuntimeGlobal("__mmtRuntimeStatus", () => runtimeStatus.snapshot());
-  }
   own(vscode.window.onDidChangeActiveTextEditor(() => {
     refreshBuildStatus();
     publishPreviewStage();
@@ -2127,8 +1757,8 @@ async function initializeRuntime(
       previewBuildState.fail(projectRevision, "fetch", message);
       log("resources:fetch:error", message);
       void showMomoScriptMessage("warning", `Preview fetch failed: ${message}`);
-      if (displayedPreviewSourceUri === project.sourceUri && previewPanel) {
-        void previewPanel.webview.postMessage({ type: "status", message, error: true });
+      if (displayedPreviewSourceUri === project.sourceUri) {
+        previewWebviewHost?.postStatus(message, true);
       }
       finishTrace("failed");
       return;
@@ -2153,7 +1783,7 @@ async function initializeRuntime(
       void showMomoScriptMessage("warning", `Preview ${first.phase} failed: ${first.message}`);
     }
     previewProjects.set(project.sourceUri, prepared.project);
-    if (displayedPreviewSourceUri === project.sourceUri && previewPanel) {
+    if (displayedPreviewSourceUri === project.sourceUri && previewWebviewHost?.isOpen) {
       await renderPreview(prepared.project, requestId, trace, signal);
     }
     else finishTrace("coalesced");
@@ -2419,12 +2049,6 @@ async function initializeRuntime(
     });
     log("runtime:status", JSON.stringify({ event, ...snapshot }));
   };
-  if (import.meta.env.VITE_MMT_E2E === "1") {
-    exposeRuntimeGlobal("__mmtRuntimeStatusFixture", (
-      recoveryState: RuntimeRecoveryState,
-      lastFailure?: string,
-    ) => publishRuntimeStatus("e2e-fixture", recoveryState, lastFailure));
-  }
   const syncTinymistProject = (project: TypstProjectUpdate, incremental = false): void => {
     const backend = tinymist?.backend;
     if (backend) {
@@ -2499,16 +2123,14 @@ async function initializeRuntime(
     const recognized = document.languageId === "typst" ? document : await vscode.languages.setTextDocumentLanguage(document, "typst");
     return syncTypstLanguageDocument(recognized, incremental);
   };
-  if (import.meta.env.VITE_MMT_E2E === "1") {
-    exposeRuntimeGlobal("__mmtSyncWorkspaceTypst", async (name: string) => {
-      const uri = vscode.Uri.joinPath(WORKSPACE, name).toString();
-      const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === uri);
-      if (!document) throw new Error(`workspace document is not open: ${name}`);
-      const project = await recognizeAndSyncTypst(document);
-      const accepted = project ? tinymist?.backend.projectForEntry(project.entryUri) : undefined;
-      return project ? { entryUri: project.entryUri, revision: project.revision, acceptedRevision: accepted?.revision ?? null } : null;
-    });
-  }
+  const syncWorkspaceTypst = async (name: string) => {
+    const uri = vscode.Uri.joinPath(WORKSPACE, name).toString();
+    const document = vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === uri);
+    if (!document) throw new Error(`workspace document is not open: ${name}`);
+    const project = await recognizeAndSyncTypst(document);
+    const accepted = project ? tinymist?.backend.projectForEntry(project.entryUri) : undefined;
+    return project ? { entryUri: project.entryUri, revision: project.revision, acceptedRevision: accepted?.revision ?? null } : null;
+  };
   const typstDocumentOpenRegistration = subscribe(vscode.workspace.onDidOpenTextDocument((document) => {
     void recognizeAndSyncTypst(document).catch((error: unknown) => log("tinymist:error", error instanceof Error ? error.message : String(error)));
   }));
@@ -2627,6 +2249,57 @@ async function initializeRuntime(
       void showMomoScriptMessage("error", `文档设置失败：${detail}`);
     }
   }));
+  previewWebviewHost = own(new PreviewWebviewHost({
+    ready() {
+      previewWebviewHost?.postExactExportState(exactExportUi.state);
+    },
+    closed() {
+      exactExportUi.bind(undefined);
+      displayedPreviewSourceUri = undefined;
+      refreshBuildStatus();
+      for (const trace of previewTraces.values()) trace.finish("aborted");
+      previewTraces.clear();
+      void preview.close();
+      log("preview", "Preview editor closed");
+    },
+    viewportChanged(viewport) {
+      previewInteraction.updateViewport(viewport);
+    },
+    async navigationRequested(point) {
+      await previewInteraction.navigatePreviewPoint(point);
+    },
+    async exactExportRequested(message: PreviewExactExportRequest) {
+      const sourceName = displayedPreviewSourceUri ? new URL(displayedPreviewSourceUri).pathname.split("/").at(-1) : "document";
+      const baseName = (sourceName ?? "document").replace(/\.(?:mmt(?:\.txt)?|typ)$/i, "") || "document";
+      let exported: ExactExportResult | undefined;
+      const exportSourceUri = displayedPreviewSourceUri;
+      const exportRenderKey = preview.displayedRenderKey;
+      if (previewSchedulerEnabled && exportSourceUri && exportRenderKey) {
+        const sequence = previewRenderQueue.enqueueExport({
+          sourceUri: exportSourceUri,
+          renderKey: exportRenderKey,
+          traceId: controller.stores.previewPerformance.enabled ? crypto.randomUUID() : "",
+        }, async (_accepted, signal) => {
+          const cancel = () => exactExportUi.cancel();
+          signal.addEventListener("abort", cancel, { once: true });
+          try {
+            exported = await exactExportUi.export(message.format, message.staleChoice);
+          } finally {
+            signal.removeEventListener("abort", cancel);
+          }
+        });
+        await previewRenderQueue.waitForExport(exportSourceUri, sequence);
+      } else {
+        exported = await exactExportUi.export(message.format, message.staleChoice);
+      }
+      if (!exported) return;
+      downloadBlob(exported.blob, `${baseName}.${exported.extension}`);
+      log("export", `Downloaded ${baseName}.${exported.extension} from ${exported.metadata.renderKey}`);
+    },
+    exactExportCancelled() {
+      exactExportUi.cancel();
+    },
+  }));
   const previewCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.preview.open", async (resource?: vscode.Uri) => {
     const resourceDocument = resource
       ? vscode.workspace.textDocuments.find((candidate) => candidate.uri.toString() === resource.toString())
@@ -2641,123 +2314,12 @@ async function initializeRuntime(
     displayedPreviewSourceUri = sourceUri;
     refreshBuildStatus();
     exactExportUi.bind(sourceUri);
-    previewPanelTitle = `${document.uri.path.split("/").at(-1) ?? "文档"}（预览）`;
-    if (!previewPanel) {
-      previewPanel = own(vscode.window.createWebviewPanel(
-        "mmt.typstPreview",
-        previewPanelTitle,
-        vscode.ViewColumn.Beside,
-        {
-          enableScripts: true,
-          retainContextWhenHidden: true,
-          localResourceRoots: [previewWebviewRuntimeResourceRoot()],
-        }
-      ));
-      previewPanelDisposeRegistration = subscribe(previewPanel.onDidDispose(() => {
-        previewPanel = undefined;
-        previewWebviewReady = false;
-        previewWebviewRendererGeneration = undefined;
-        previewWebviewRendererResyncRequested = undefined;
-        for (const pending of pendingWebviewPublications.values()) {
-          pending.reject(new Error("Preview Webview closed before visual readiness"));
-        }
-        pendingWebviewPublications.clear();
-        exactExportUi.bind(undefined);
-        displayedPreviewSourceUri = undefined;
-        refreshBuildStatus();
-        previewPanelDisposeRegistration?.dispose();
-        previewPanelDisposeRegistration = undefined;
-        previewPanelMessageRegistration?.dispose();
-        previewPanelMessageRegistration = undefined;
-        for (const trace of previewTraces.values()) trace.finish("aborted");
-        previewTraces.clear();
-        void preview.close();
-        log("preview", "Preview editor closed");
-      }));
-      previewPanelMessageRegistration = subscribe(previewPanel.webview.onDidReceiveMessage(async (message: unknown) => {
-        if (isPreviewWebviewReadyMessage(message)) {
-          previewWebviewReady = true;
-          for (const ready of previewWebviewReadyWaiters) ready();
-          previewWebviewReadyWaiters.clear();
-          void previewPanel?.webview.postMessage({ type: "exactExportState", state: exactExportUi.state });
-          return;
-        }
-        if (isPreviewVisualReadyMessage(message)) {
-          const pending = pendingWebviewPublications.get(message.requestSequence);
-          if (!pending) return;
-          pendingWebviewPublications.delete(message.requestSequence);
-          if (pending.renderKey !== message.renderKey) {
-            pending.reject(new Error("Preview Webview visual-ready render key mismatch"));
-          } else {
-            pending.resolve(message);
-          }
-          return;
-        }
-        if (isPreviewRendererResyncNeededMessage(message)) {
-          const current = previewWebviewRendererGeneration;
-          if (current?.sessionId === message.sessionId && current.generation === message.generation) {
-            previewWebviewRendererGeneration = undefined;
-          } else if (!current || (current.sessionId === message.sessionId && current.generation < message.generation)) {
-            previewWebviewRendererResyncRequested = message;
-          }
-          return;
-        }
-        if (isPreviewRenderRejectedMessage(message)) {
-          const pending = pendingWebviewPublications.get(message.requestSequence);
-          if (!pending) return;
-          pendingWebviewPublications.delete(message.requestSequence);
-          pending.reject(new Error(message.error));
-          return;
-        }
-        if (isPreviewViewportMessage(message)) {
-          previewInteraction.updateViewport(message.viewport);
-          return;
-        }
-        if (isPreviewNavigateMessage(message)) {
-          await previewInteraction.navigatePreviewPoint(message.point);
-          return;
-        }
-        if (isExactExportCancelMessage(message)) {
-          exactExportUi.cancel();
-          return;
-        }
-        if (!isExportMessage(message)) return;
-        const sourceName = displayedPreviewSourceUri ? new URL(displayedPreviewSourceUri).pathname.split("/").at(-1) : "document";
-        const baseName = (sourceName ?? "document").replace(/\.(?:mmt(?:\.txt)?|typ)$/i, "") || "document";
-        let exported: Awaited<ReturnType<typeof exactExportUi.export>>;
-        const exportSourceUri = displayedPreviewSourceUri;
-        const exportRenderKey = preview.displayedRenderKey;
-        if (previewSchedulerEnabled && exportSourceUri && exportRenderKey) {
-          const sequence = previewRenderQueue.enqueueExport({
-            sourceUri: exportSourceUri,
-            renderKey: exportRenderKey,
-            traceId: controller.stores.previewPerformance.enabled ? crypto.randomUUID() : "",
-          }, async (_accepted, signal) => {
-            const cancel = () => exactExportUi.cancel();
-            signal.addEventListener("abort", cancel, { once: true });
-            try {
-              exported = await exactExportUi.export(message.format, message.staleChoice);
-            } finally {
-              signal.removeEventListener("abort", cancel);
-            }
-          });
-          await previewRenderQueue.waitForExport(exportSourceUri, sequence);
-        } else {
-          exported = await exactExportUi.export(message.format, message.staleChoice);
-        }
-        if (!exported) return;
-        downloadBlob(exported.blob, `${baseName}.${exported.extension}`);
-        log("export", `Downloaded ${baseName}.${exported.extension} from ${exported.metadata.renderKey}`);
-      }));
-      previewPanel.webview.html = previewWebviewHtml(previewPanel.webview, previewPanelTitle);
-    } else {
-      previewPanel.title = previewPanelTitle;
-      previewPanel.reveal(undefined, false);
-    }
-    await waitForPreviewWebview();
+    const previewPanelTitle = `${document.uri.path.split("/").at(-1) ?? "文档"}（预览）`;
+    if (!previewWebviewHost) throw new Error("Preview Webview host is unavailable");
+    await previewWebviewHost.open(previewPanelTitle);
     log("preview", `Opening ${sourceUri}`);
     if (document.languageId === "typst") {
-      void previewPanel.webview.postMessage({ type: "status", message: "正在准备 Typst 预览…", error: false });
+      previewWebviewHost.postStatus("正在准备 Typst 预览…", false);
       const project = await buildTypstProject(document, typstRevisions);
       if (previewFixtureActiveSourceUri === sourceUri) return;
       typstProjects.set(sourceUri, project);
@@ -2767,10 +2329,10 @@ async function initializeRuntime(
     }
     if (!activeClient) {
       const message = "MomoScript 语言服务器不可用；Typst 编辑与语言服务仍可继续使用。";
-      void previewPanel.webview.postMessage({ type: "status", message, error: true });
+      previewWebviewHost.postStatus(message, true);
       return;
     }
-    void previewPanel.webview.postMessage({ type: "status", message: "正在准备 MomoScript 投影…", error: false });
+    previewWebviewHost.postStatus("正在准备 MomoScript 投影…", false);
     let project: TypstProjectUpdate | null;
     try {
       project = await waitForSynchronizedLanguageProjection(
@@ -2780,14 +2342,14 @@ async function initializeRuntime(
     } catch (error) {
       const detail = error instanceof Error ? error.message : String(error);
       const message = `无法为 ${document.fileName} 构建 Typst 投影：${detail}`;
-      void previewPanel.webview.postMessage({ type: "status", message, error: true });
+      previewWebviewHost.postStatus(message, true);
       log("preview:error", message);
       return;
     }
     if (displayedPreviewSourceUri !== sourceUri) return;
     if (!project) {
       const message = `语言服务器未能及时同步 ${document.fileName} 的文档版本 ${document.version}。`;
-      void previewPanel.webview.postMessage({ type: "status", message, error: true });
+      previewWebviewHost.postStatus(message, true);
       log("preview:error", message);
       return;
     }
@@ -2797,9 +2359,9 @@ async function initializeRuntime(
     await dispatchRenderProject(activeClient, project.sourceUri, tracked.token, true);
     refreshOpenedPreview();
   }));
-  exposeRuntimeGlobal("__mmtOpenPreview", (sourceUri: string) => {
+  const openPreview = (sourceUri: string): void => {
     void vscode.commands.executeCommand("mmt.preview.open", vscode.Uri.parse(sourceUri, true));
-  });
+  };
 
   packCache = own(await IndexedDbPackCache.open());
   const syncConfiguredPackSources = async () => {
@@ -3027,12 +2589,70 @@ async function initializeRuntime(
     },
     runtime: controller,
   });
-  Reflect.set(globalThis, "__mmtPwaSafeRestart", safeRestart);
-  subscribe({
-    dispose() {
-      if (Reflect.get(globalThis, "__mmtPwaSafeRestart") === safeRestart) Reflect.deleteProperty(globalThis, "__mmtPwaSafeRestart");
-    },
-  });
+  if (import.meta.env.VITE_MMT_E2E === "1") {
+    const e2eApi: MmtE2EApi = {
+      workspace: createMmtE2EWorkspaceApi({
+        workspaceUri: WORKSPACE,
+        storyUri: STORY,
+        encoder,
+        async deleteFile(name: string) {
+          if (!/^[^./\\][^/\\]*$/.test(name) || name === "..") throw new Error("invalid workspace basename");
+          await vscode.workspace.fs.delete(vscode.Uri.joinPath(WORKSPACE, name));
+        },
+      }),
+      language: createMmtE2ELanguageApi({
+        workspaceUri: WORKSPACE,
+        storyUri: STORY,
+        backend: () => tinymist?.backend,
+        projectionEntry: languageProjectionEntry,
+        latestProjectionRevision,
+        syncWorkspaceTypst,
+      }),
+      preview: {
+        displayedSourceUri: () => displayedPreviewSourceUri,
+        open: openPreview,
+        buildDiagnostics: (sourceUri: string) => previewBuildState.diagnostics(sourceUri),
+        interactionFixture: previewInteractionFixture,
+        readiness: previewReadiness,
+        retainedState: () => ({
+          timingSamples: controller.stores.previewPerformance.size,
+          previewProjects: previewProjects.size,
+          latestProjects: latestProjectBySource.size,
+          artifacts: controller.stores.previewArtifacts.size,
+          artifactBytes: controller.stores.previewArtifacts.byteSize,
+          mappedShadows: preview.mappedShadowCount,
+          pendingMaterializations: pendingMaterializations.size,
+          activeMaterializations: materializationControllers.size,
+        }),
+        timings: () => controller.stores.previewPerformance.snapshot(),
+        resetTimings: () => controller.stores.previewPerformance.reset(),
+        setRendererEnabled: setPreviewRendererEnabled,
+      },
+      runtime: {
+        status: () => runtimeStatus.snapshot(),
+        statusFixture: (recoveryState: RuntimeRecoveryState, lastFailure?: string) => {
+          publishRuntimeStatus("e2e-fixture", recoveryState, lastFailure);
+        },
+        pwaSafeRestart: safeRestart,
+      },
+      history: {
+        createCheckpoint: (name: string) => provider!.createCheckpoint(name),
+        usage: () => provider!.historyUsage(),
+      },
+      exactExport: {
+        fixture: exactExportFixture,
+      },
+      security: {
+        sanitizeSvg(svg: string) {
+          const root = new DOMParser().parseFromString(svg, "text/html").querySelector("svg");
+          if (!(root instanceof SVGSVGElement)) throw new Error("E2E SVG sanitizer input has no SVG root");
+          sanitizeSvg(root);
+          return root.outerHTML;
+        },
+      },
+    };
+    subscribe(installMmtE2EBridge(e2eApi));
+  }
   if (import.meta.env.PROD && import.meta.env.VITE_MMT_E2E !== "1") {
     own(registerPwaUpdateLifecycle({
       prepareForReload: () => safeRestart.prepareForReload(10_000),
@@ -3093,13 +2713,6 @@ async function fetchResource(url: URL, signal: AbortSignal): Promise<Uint8Array>
   return readResponseBytes(response, limit, signal);
 }
 
-function bytesToBase64(bytes: Uint8Array): string {
-  let binary = "";
-  for (let offset = 0; offset < bytes.length; offset += 0x8000) {
-    binary += String.fromCharCode(...bytes.subarray(offset, offset + 0x8000));
-  }
-  return btoa(binary);
-}
 function cloneImmutableTypstExportSnapshot(
   project: TypstProjectUpdate,
   packageGenerations: readonly TypstPackageGeneration[],
@@ -3124,10 +2737,6 @@ function cloneImmutableTypstExportSnapshot(
 }
 
 
-function base64ToBytes(value: string): Uint8Array {
-  const binary = atob(value);
-  return Uint8Array.from(binary, (character) => character.charCodeAt(0));
-}
 
 async function readResponseBytes(response: Response, limit: number, signal: AbortSignal): Promise<Uint8Array> {
   if (!response.body) throw new Error("Pack resource response has no readable body");
@@ -3229,180 +2838,6 @@ async function fetchManifest(url: string, etag: string | undefined) {
   };
 }
 
-interface ExactExportWebviewMessage {
-  readonly type: "exact-export";
-  readonly format: ExactExportFormat;
-  readonly staleChoice?: StaleExportChoice;
-}
-
-function isExportMessage(value: unknown): value is ExactExportWebviewMessage {
-  if (!value || typeof value !== "object" || !("type" in value) || value.type !== "exact-export") return false;
-  if (!("format" in value) || !["pdf", "png", "jpg", "svg"].includes(String(value.format))) return false;
-  if (!("staleChoice" in value) || value.staleChoice === undefined) return true;
-  return value.staleChoice === "export-displayed" || value.staleChoice === "wait-for-latest";
-}
-
-function isExactExportCancelMessage(value: unknown): value is { readonly type: "exact-export-cancel" } {
-  return Boolean(value && typeof value === "object" && "type" in value && value.type === "exact-export-cancel");
-}
-
-interface PreviewRendererReadyMetadata {
-  readonly sessionId: string;
-  readonly artifactDigest: string;
-  readonly sourceDigest: string;
-  readonly backendGeneration: number;
-  readonly generation: number;
-  readonly baseGeneration: number;
-  readonly frameKind: "new" | "diff-v1";
-  readonly byteLength: number;
-  readonly pageGeometries: readonly {
-    readonly offsetY: number;
-    readonly pageIndex: number;
-    readonly width: number;
-    readonly height: number;
-  }[];
-  readonly patchedNodes: number;
-  readonly reusedNodes: number;
-  readonly removedNodes: number;
-  readonly pageBuffers: number;
-  readonly frameDecodeMs: number;
-  readonly rendererApplyMs: number;
-}
-
-interface PreviewVisualReadyMessage {
-  readonly type: "visual-ready";
-  readonly requestSequence: number;
-  readonly traceId?: string;
-  readonly renderKey: RenderKey;
-  readonly locations: readonly RenderArtifactLocation[];
-  readonly domUpdateMs: number;
-  readonly locationMeasureMs: number;
-  readonly renderer?: PreviewRendererReadyMetadata;
-  readonly viewportRenderMs?: number;
-  readonly iframeTransferMs?: number;
-}
-
-function isPreviewWebviewReadyMessage(value: unknown): value is { readonly type: "ready" } {
-  return Boolean(value && typeof value === "object" && "type" in value && value.type === "ready");
-}
-
-function isPreviewRenderRejectedMessage(
-  value: unknown,
-): value is { readonly type: "render-rejected"; readonly requestSequence: number; readonly renderKey: RenderKey; readonly error: string } {
-  if (!value || typeof value !== "object") return false;
-  const message = value as { type?: unknown; requestSequence?: unknown; renderKey?: unknown; error?: unknown };
-  return message.type === "render-rejected"
-    && Number.isSafeInteger(message.requestSequence)
-    && typeof message.renderKey === "string"
-    && typeof message.error === "string";
-}
-
-function isPreviewRendererResyncNeededMessage(
-  value: unknown,
-): value is { readonly type: "renderer-resync-needed"; readonly sessionId: string; readonly generation: number } {
-  if (!value || typeof value !== "object") return false;
-  const message = value as { type?: unknown; sessionId?: unknown; generation?: unknown };
-  return message.type === "renderer-resync-needed"
-    && typeof message.sessionId === "string"
-    && message.sessionId.length > 0
-    && Number.isSafeInteger(message.generation)
-    && Number(message.generation) > 0;
-}
-
-function isPreviewVisualReadyMessage(value: unknown): value is PreviewVisualReadyMessage {
-  if (!value || typeof value !== "object") return false;
-  const message = value as Partial<PreviewVisualReadyMessage>;
-  return message.type === "visual-ready"
-    && Number.isSafeInteger(message.requestSequence)
-    && typeof message.renderKey === "string"
-    && Array.isArray(message.locations)
-    && typeof message.domUpdateMs === "number"
-    && Number.isFinite(message.domUpdateMs)
-    && message.domUpdateMs >= 0
-    && typeof message.locationMeasureMs === "number"
-    && Number.isFinite(message.locationMeasureMs)
-    && message.locationMeasureMs >= 0
-    && (message.viewportRenderMs === undefined
-      || (typeof message.viewportRenderMs === "number"
-        && Number.isFinite(message.viewportRenderMs)
-        && message.viewportRenderMs >= 0))
-    && (message.iframeTransferMs === undefined
-      || (typeof message.iframeTransferMs === "number"
-        && Number.isFinite(message.iframeTransferMs)
-        && message.iframeTransferMs >= 0))
-    && (message.renderer === undefined || isPreviewRendererReadyMetadata(message.renderer));
-}
-
-function isPreviewRendererReadyMetadata(value: unknown): value is PreviewRendererReadyMetadata {
-  if (!value || typeof value !== "object") return false;
-  const renderer = value as Partial<PreviewRendererReadyMetadata>;
-  return typeof renderer.sessionId === "string"
-    && renderer.sessionId.length > 0
-    && typeof renderer.artifactDigest === "string"
-    && typeof renderer.sourceDigest === "string"
-    && Number.isSafeInteger(renderer.backendGeneration)
-    && Number(renderer.backendGeneration) > 0
-    && Number.isSafeInteger(renderer.generation)
-    && Number(renderer.generation) > 0
-    && Number.isSafeInteger(renderer.baseGeneration)
-    && Number(renderer.baseGeneration) >= 0
-    && (renderer.frameKind === "new" || renderer.frameKind === "diff-v1")
-    && Number.isSafeInteger(renderer.byteLength)
-    && Number(renderer.byteLength) > 0
-    && Array.isArray(renderer.pageGeometries)
-    && renderer.pageGeometries.length > 0
-    && renderer.pageGeometries.every((geometry) => Boolean(
-      geometry
-      && typeof geometry === "object"
-      && Number.isSafeInteger(geometry.pageIndex)
-      && Number(geometry.pageIndex) >= 0
-      && typeof geometry.offsetY === "number"
-      && Number.isFinite(geometry.offsetY)
-      && geometry.offsetY >= 0
-      && typeof geometry.width === "number"
-      && Number.isFinite(geometry.width)
-      && geometry.width > 0
-      && typeof geometry.height === "number"
-      && Number.isFinite(geometry.height)
-      && geometry.height > 0
-    ))
-    && renderer.pageGeometries.every((geometry, index, geometries) => (
-      geometry.pageIndex === index
-      && geometry.offsetY === (index === 0 ? 0 : geometries[index - 1].offsetY + geometries[index - 1].height)
-    ))
-    && Number.isSafeInteger(renderer.patchedNodes) && Number(renderer.patchedNodes) >= 0
-    && Number.isSafeInteger(renderer.reusedNodes) && Number(renderer.reusedNodes) >= 0
-    && Number.isSafeInteger(renderer.removedNodes) && Number(renderer.removedNodes) >= 0
-    && Number.isSafeInteger(renderer.pageBuffers)
-    && Number(renderer.pageBuffers) >= 0 && Number(renderer.pageBuffers) <= 8
-    && typeof renderer.frameDecodeMs === "number"
-    && Number.isFinite(renderer.frameDecodeMs) && renderer.frameDecodeMs >= 0
-    && typeof renderer.rendererApplyMs === "number"
-    && Number.isFinite(renderer.rendererApplyMs) && renderer.rendererApplyMs >= 0;
-}
-
-function isPreviewViewportMessage(value: unknown): value is { type: "viewport"; viewport: PreviewViewport } {
-  if (!value || typeof value !== "object") return false;
-  const message = value as { type?: unknown; viewport?: Partial<PreviewViewport> };
-  const viewport = message.viewport;
-  return message.type === "viewport"
-    && Boolean(viewport)
-    && typeof viewport?.page === "number"
-    && typeof viewport.x === "number"
-    && typeof viewport.y === "number"
-    && typeof viewport.zoom === "number"
-    && (viewport.fitMode === "manual" || viewport.fitMode === "width" || viewport.fitMode === "page");
-}
-
-function isPreviewNavigateMessage(value: unknown): value is { type: "navigate"; point: PreviewPagePoint } {
-  if (!value || typeof value !== "object") return false;
-  const message = value as { type?: unknown; point?: Partial<PreviewPagePoint> };
-  return message.type === "navigate"
-    && Boolean(message.point)
-    && typeof message.point?.pageIndex === "number"
-    && typeof message.point.x === "number"
-    && typeof message.point.y === "number";
-}
 
 function downloadBlob(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob);
@@ -3413,102 +2848,7 @@ function downloadBlob(blob: Blob, filename: string): void {
   setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
-function previewNonce(): string {
-  return crypto.randomUUID().replaceAll("-", "");
-}
 
-function previewWebviewRuntimeResourceUri(): vscode.Uri {
-  return vscode.Uri.parse(new URL(previewWebviewRuntimeUrl, location.href).href);
-}
-
-function previewWebviewRuntimeResourceRoot(): vscode.Uri {
-  return vscode.Uri.parse(new URL(".", previewWebviewRuntimeResourceUri().toString()).href);
-}
-
-function previewWebviewHtml(webview: vscode.Webview, title: string): string {
-  const nonce = previewNonce();
-  const runtimeUri = webview.asWebviewUri(previewWebviewRuntimeResourceUri()).toString();
-  const formats = [
-    ["pdf", "PDF document"],
-    ["png", "PNG image"],
-    ["jpg", "JPEG image"],
-    ["svg", "SVG vector"],
-  ].map(([format, label]) => `<option value="${format}">${label}</option>`).join("");
-  return `<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src blob: ${escapeHtml(webview.cspSource)}; img-src data: blob:; style-src 'unsafe-inline'; script-src 'nonce-${nonce}' 'wasm-unsafe-eval' ${escapeHtml(webview.cspSource)}; object-src 'none'; base-uri 'none'; form-action 'none'">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${escapeHtml(title)}</title>
-  <style>
-    html, body { margin: 0; min-height: 100%; background: var(--vscode-editor-background); color: var(--vscode-editor-foreground); }
-    body { box-sizing: border-box; font-family: var(--vscode-font-family); }
-    .preview-toolbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 4px 12px; box-sizing: border-box; border-bottom: 1px solid var(--vscode-panel-border); background: var(--vscode-editor-background); }
-    .zoom-controls { display: flex; align-items: center; gap: 5px; }
-    .zoom-controls button, .exact-export button, .exact-export select { min-height: 26px; border: 1px solid var(--vscode-button-border, var(--vscode-panel-border)); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); cursor: pointer; }
-    .zoom-label { width: 44px; color: var(--vscode-descriptionForeground); font: 12px var(--vscode-editor-font-family); text-align: center; }
-    .exact-export { display: grid; grid-template-columns: auto auto; align-items: center; justify-content: end; gap: 4px 6px; min-width: 0; }
-    .exact-export-format { display: inline-flex; align-items: center; gap: 5px; color: var(--vscode-descriptionForeground); font-size: 11px; }
-    .exact-export button { padding: 3px 8px; }
-    .exact-export select:disabled, .exact-export button:disabled { cursor: not-allowed; opacity: .55; }
-    .exact-export-stale { display: flex; gap: 4px; }
-    .exact-export-stale[hidden], .exact-export [hidden] { display: none; }
-    .exact-export-status { grid-column: 1 / -1; max-width: 520px; overflow: hidden; color: var(--vscode-descriptionForeground); font-size: 11px; text-align: right; text-overflow: ellipsis; white-space: nowrap; }
-    .exact-export[data-availability="stale"] .exact-export-status { color: var(--vscode-editorWarning-foreground, #cca700); }
-    .exact-export[data-availability="failed"] .exact-export-status, .exact-export[data-phase="error"] .exact-export-status { color: var(--vscode-errorForeground); }
-    .viewport { display: flex; justify-content: center; min-width: min-content; height: calc(100vh - 43px); overflow: auto; box-sizing: border-box; padding: 24px; background: #e5e5e5; }
-    .page { position: relative; flex: 0 0 auto; background: transparent; line-height: 0; box-shadow: 0 2px 5px #0008; transform-origin: top left; }
-    .page > svg { display: block; width: 100%; height: 100%; max-width: none; }
-    .page > .typst-renderer-root { display: block; width: 100%; height: 100%; max-width: none; user-select: text; }
-    .page > .typst-renderer-root text { cursor: text; user-select: text; }
-    .page .tsel { contain: layout paint style; left: 0; position: fixed; width: 100%; height: 100%; overflow: hidden; color: transparent; font-family: monospace; line-height: normal; text-align: left; text-align-last: left; white-space: pre; pointer-events: auto; user-select: text; cursor: text; transform: translateY(0.32em); transform-origin: left top; -webkit-text-size-adjust: none; text-size-adjust: none; }
-    .page .tsel .tsel-token { display: inline-block; position: relative; width: 0.602em; height: 1em; line-height: normal; }
-    .page .tsel::selection, .page .tsel .tsel-token::selection { color: transparent; background: #7db9dea0; }
-    .preview-indicator, .preview-cursor { position: absolute; z-index: 4; pointer-events: none; transform: translate(-50%, -50%); }
-    .preview-indicator { width: 18px; height: 18px; border: 2px solid #007acc; border-radius: 50%; background: #007acc28; box-shadow: 0 0 0 4px #007acc24; }
-    .preview-cursor { width: 2px; height: 20px; background: #d16969; box-shadow: 0 0 0 1px #fff8; }
-    .status { display: grid; min-height: 100vh; place-items: center; color: var(--vscode-descriptionForeground); }
-    .status.error { color: var(--vscode-errorForeground); }
-    .status[hidden], .viewport[hidden] { display: none; }
-  </style>
-</head>
-<body>
-  <nav class="preview-toolbar" aria-label="预览操作">
-    <div class="zoom-controls">
-      <button type="button" data-zoom="out" aria-label="Zoom out">−</button>
-      <span class="zoom-label" aria-live="polite">100%</span>
-      <button type="button" data-zoom="in" aria-label="Zoom in">+</button>
-      <button type="button" data-fit="width">Fit width</button>
-      <button type="button" data-fit="page">Fit page</button>
-    </div>
-    <section class="exact-export" data-mode="exact" data-availability="no-document" data-phase="idle" aria-label="Exact snapshot export">
-      <label class="exact-export-format"><span>Format</span><select aria-label="Export format" disabled>${formats}</select></label>
-      <button type="button" data-export-action="ready" hidden disabled>Export exact revision</button>
-      <div class="exact-export-stale" hidden>
-        <button type="button" data-export-action="export-displayed" disabled>Export displayed revision</button>
-        <button type="button" data-export-action="wait-for-latest" disabled>Wait for latest</button>
-      </div>
-      <button type="button" data-export-action="cancel" hidden disabled>Cancel export</button>
-      <output class="exact-export-status" role="status">Open a preview to export its output.</output>
-    </section>
-  </nav>
-  <main class="status">Rendering preview…</main>
-  <main class="viewport" hidden><article class="page" data-page-index="0"></article></main>
-  <script type="module" nonce="${nonce}" src="${escapeHtml(runtimeUri)}"></script>
-</body>
-</html>`;
-}
-
-function escapeHtml(value: string): string {
-  return value.replace(/[&<>"']/g, (character) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    "\"": "&quot;",
-    "'": "&#39;"
-  })[character]!);
-}
 
 
 function createLayout(root: HTMLElement) {

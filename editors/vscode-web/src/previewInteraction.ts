@@ -9,13 +9,15 @@ import {
   locationProviderKeyId,
   type LocationProviderKey,
   type PreviewArtifact,
-  type PreviewFitMode,
   type PreviewPage,
-  type PreviewPagePoint,
   type PreviewSourceTarget,
-  type PreviewViewport,
   type PreviewWireRange,
 } from "./previewArtifact.ts";
+import type {
+  PreviewFitMode,
+  PreviewPagePoint,
+  PreviewViewport,
+} from "./previewWebviewProtocol.ts";
 
 export interface PreviewSourceIdentity {
   readonly workspaceId: string;

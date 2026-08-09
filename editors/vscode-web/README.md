@@ -2,6 +2,8 @@
 
 本目录是独立运行的浏览器编辑器，不是普通 Monaco 页面。它组合了 VS Code Workbench、Web Extension Host、MMT LSP WASM Worker、Tinymist WASM Worker、Typst compiler/renderer、IndexedDB workspace 和浏览器端资源 materializer。
 
+编辑器跨包架构、运行形态与验证入口见 [编辑器系统指南](../README.md)。
+
 本文是维护 runbook：记录已验证的开发流程和高风险故障模式。shell 拓扑、所有权、生命周期和迁移门槛的规范性合同是：
 
 - [`openspec/specs/web-workbench-shell/spec.md`](../../openspec/specs/web-workbench-shell/spec.md)

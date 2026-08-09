@@ -17,7 +17,7 @@
 
 ### 2.1 Existing contracts retained
 
-The design retains these `add-mmt-lsp-vscode` requirements:
+The design retains these `openspec/specs/language-tooling/spec.md` requirements:
 
 - negotiated MMT position encoding and valid UTF boundary checks;
 - versioned document snapshots;
@@ -32,7 +32,7 @@ The design retains these `add-mmt-lsp-vscode` requirements:
 
 ### 2.2 Prerequisite closure
 
-Tasks 10.1–10.7 of `add-mmt-lsp-vscode` must be complete before visible feature expansion. In particular:
+Archived language-tooling tasks 10.1–10.7 must be complete before visible feature expansion. In particular:
 
 - one parse/analysis/index must feed live diagnostics and projection;
 - render/preview diagnostics must be revision-bound;
@@ -799,7 +799,7 @@ Viewport state is keyed by logical workspace ID and source URI. It stores page, 
 
 ## 11. Diagnostics and user-visible state
 
-This change consumes the diagnostic phases defined by `add-mmt-lsp-vscode`:
+This change consumes the diagnostic phases defined by `openspec/specs/language-tooling/spec.md`:
 
 - `live`: syntax, mode, actor, asset, resource declaration and placeholder Typst checks;
 - `resolve/planning`: pack and render-project planning;

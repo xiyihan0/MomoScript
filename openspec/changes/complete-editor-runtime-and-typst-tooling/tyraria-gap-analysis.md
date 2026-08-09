@@ -20,7 +20,7 @@ Primary Tyraria evidence:
 
 Primary MomoScript evidence:
 
-- `openspec/changes/add-mmt-lsp-vscode/`
+- `openspec/specs/language-tooling/spec.md`
 - `mmt_lsp/src/server.rs`
 - `mmt_lsp/src/service.rs`
 - `editors/vscode/src/typstFeatures.ts`

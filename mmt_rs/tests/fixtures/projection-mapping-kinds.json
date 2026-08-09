@@ -1,0 +1,9 @@
+{
+  "wireKinds": [
+    "authoredIdentity",
+    "workspaceTypst",
+    "packageFile",
+    "generatedProjection",
+    "staleUnknown"
+  ]
+}

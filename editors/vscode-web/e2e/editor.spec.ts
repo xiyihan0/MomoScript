@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { MAIN_FONT_BOLD_URL, MAIN_FONT_REGULAR_URL, TINYMIST_WASM_URL } from "../src/runtimeArtifacts";
-import { expect, previewReadiness, test, type Locator, type Page, type Response, waitForPreviewFrame } from "./fixtures";
+import { expect, invokeMmtE2E, previewReadiness, test, type Locator, type Page, type Response, waitForPreviewFrame } from "./fixtures";
 
 const PACK_ROOT = "https://mms-pack.xiyihan.cn/ba_kivo/";
 const MANIFEST_URL = `${PACK_ROOT}manifest.json`;
@@ -116,8 +116,8 @@ test("production editor materializes an avatar and restores the authored story a
   const buildStatus = page.getByRole("status").getByRole("button", { name: /MomoScript: ready/ });
   await expect(buildStatus).toBeVisible();
   await expect(buildStatus).toHaveAttribute("aria-label", /Tinymist 0\.15\.2 \([0-9a-f]{12}\).*position utf-16.*queued projects \d+/s);
-  await expect.poll(() => page.evaluate(() => {
-    const snapshot = (Reflect.get(globalThis, "__mmtRuntimeStatus") as Function)();
+  await expect.poll(async () => {
+    const snapshot = await invokeMmtE2E(page, "runtime", "status");
     return {
       backendVersion: snapshot.backendVersion,
       digestLength: snapshot.artifactDigestPrefix.length,
@@ -125,23 +125,19 @@ test("production editor materializes an avatar and restores the authored story a
       recoveryState: snapshot.recoveryState,
       queuedProjectCount: snapshot.queuedProjectCount,
     };
-  })).toEqual({
+  }).toEqual({
     backendVersion: "0.15.2",
     digestLength: 12,
     positionEncoding: "utf-16",
     recoveryState: "ready",
     queuedProjectCount: 0,
   });
-  await page.evaluate(() => (
-    Reflect.get(globalThis, "__mmtRuntimeStatusFixture") as Function
-  )("failed", "fixture global runtime failure"));
+  await invokeMmtE2E(page, "runtime", "statusFixture", "failed", "fixture global runtime failure");
   const failedRuntimeStatus = page.getByRole("status").getByRole("button", { name: /MomoScript: failed/ });
   await expect(failedRuntimeStatus).toBeVisible();
   await expect(failedRuntimeStatus).toHaveAttribute("aria-label", /last runtime failure: fixture global runtime failure/);
   await failedRuntimeStatus.click();
-  await page.evaluate(() => (
-    Reflect.get(globalThis, "__mmtRuntimeStatusFixture") as Function
-  )("ready"));
+  await invokeMmtE2E(page, "runtime", "statusFixture", "ready");
   await expect(buildStatus).toBeVisible();
   await expect(buildStatus).not.toHaveAttribute("aria-label", /fixture global runtime failure/);
   await expect(outputPanel.getByRole("tab", { name: /^问题/ })).toHaveAttribute("aria-selected", "true");
@@ -186,21 +182,18 @@ test("production editor materializes an avatar and restores the authored story a
   });
   await page.waitForTimeout(300);
   expect(Math.abs(await previewViewport.evaluate((element) => element.scrollTop) - draggedTop)).toBeLessThanOrEqual(1);
-  await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("intro.typ"));
+  await invokeMmtE2E(page, "workspace", "showDocument", "intro.typ");
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "intro.typ", languageId: "typst" });
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect(page.getByRole("tab", { name: /^intro\.typ（预览）/ })).toHaveAttribute("aria-selected", "true");
   const initialTypstPreview = await previewWebviewFrame(page);
   await expect(initialTypstPreview.locator(".typst-page").first()).toBeAttached();
-  await page.evaluate(({ name, text }) => (Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function)(name, text), {
-    name: "intro.typ",
-    text: editedIntro
-  });
+  await invokeMmtE2E(page, "workspace", "replaceDocument", "intro.typ", editedIntro);
   await expect.poll(() => readWorkspaceDocument(page, "intro.typ")).toBe(editedIntro);
   await expect(buildStatus).toBeVisible({ timeout: 60_000 });
-  await expect.poll(() => page.evaluate((name) => (
-    Reflect.get(globalThis, "__mmtTypstBackendProject") as Function
-  )(name)?.text, "intro.typ")).toBe(editedIntro);
+  await expect.poll(async () => (
+    await invokeMmtE2E(page, "language", "typstBackendProject", "intro.typ")
+  )?.text).toBe(editedIntro);
   const updatedTypstPreview = await previewWebviewFrame(page);
   await expect.poll(async () => (await updatedTypstPreview.locator(".page").allTextContents()).join(""), { timeout: 60_000 }).toContain("Intro persisted.");
   await expect(updatedTypstPreview.locator(".typst-page > [data-preview-page-background]")).toHaveCount(2);
@@ -212,49 +205,40 @@ test("production editor materializes an avatar and restores the authored story a
   });
   expect(previewPageGap).toBeGreaterThanOrEqual(0);
   const typBlockSource = "@typ\n#let accent = rgb(\"#24324a\")\n#let values = range(1, 3, inclusive: true)\n#if values.len() != 3 { panic(\"Typst 0.15 inclusive range is unavailable\") }\n#let a=1\n#a\n@end";
-  await page.evaluate(({ name, text }) => (
-    Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function
-  )(name, text), {
-    name: "projection-race.mmt",
-    text: typBlockSource
-  });
+  await invokeMmtE2E(page, "workspace", "openDocument", "projection-race.mmt", typBlockSource);
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => displayedPreviewSource(page)).toMatch(/projection-race\.mmt$/);
   preview = await waitForPreviewFrame(page);
   const typBlockPreview = preview;
   await expect(typBlockPreview.locator("body")).not.toContainText(/无法为|未能及时同步/);
   await expect(typBlockPreview.locator(".viewport .page svg")).toBeAttached();
-  const typBlockProjection = await page.evaluate(async (name) => {
-    const getEntry = Reflect.get(globalThis, "__mmtLanguageProjectionEntry");
-    if (typeof getEntry !== "function") throw new Error("missing E2E language projection hook");
-    return getEntry(name) as Promise<{ sourceVersion: number; text?: string } | null>;
-  }, "projection-race.mmt");
+  const typBlockProjection = await invokeMmtE2E(page, "language", "projectionEntry", "projection-race.mmt");
   expect(typBlockProjection?.sourceVersion).toBeGreaterThanOrEqual(1);
   expect(typBlockProjection?.text).toContain("#let accent = rgb(\"#24324a\")");
   expect(typBlockProjection?.text).toContain("#let a=1");
   expect(typBlockProjection?.text).toContain("#a");
   expect(typBlockProjection?.text).toContain("#let values = range(1, 3, inclusive: true)");
   expect(typBlockProjection?.text).toContain("Typst 0.15 inclusive range is unavailable");
-  await page.evaluate(({ name, text }) => (
-    Reflect.get(globalThis, "__mmtReplaceWorkspaceDocument") as Function
-  )(name, text), {
-    name: "projection-race.mmt",
-    text: "@typ\n#sym.\n@end"
-  });
+  await invokeMmtE2E(
+    page,
+    "workspace",
+    "replaceDocument",
+    "projection-race.mmt",
+    "@typ\n#sym.\n@end",
+  );
   await expect.poll(() => activeDocument(page)).toMatchObject({
     name: "projection-race.mmt",
     text: "@typ\n#sym.\n@end"
   });
-  await expect.poll(() => page.evaluate(async ({ name, line, character, triggerCharacter }) => {
-    const completionLabels = Reflect.get(globalThis, "__mmtCompletionLabels");
-    if (typeof completionLabels !== "function") throw new Error("missing E2E completion hook");
-    return completionLabels(line, character, triggerCharacter, name);
-  }, {
-    name: "projection-race.mmt",
-    line: 1,
-    character: "#sym.".length,
-    triggerCharacter: "."
-  })).toEqual(expect.arrayContaining(["AA", "acute", "alpha"]));
+  await expect.poll(() => invokeMmtE2E(
+    page,
+    "language",
+    "completionLabels",
+    1,
+    "#sym.".length,
+    ".",
+    "projection-race.mmt",
+  )).toEqual(expect.arrayContaining(["AA", "acute", "alpha"]));
   const projectionEditor = page.locator('[role="code"][data-uri="mmtfs://workspace/projection-race.mmt"]');
   await projectionEditor.click();
   await page.keyboard.press("Control+A");
@@ -271,15 +255,12 @@ test("production editor materializes an avatar and restores the authored story a
   expect(defaultStory).toContain("> _0:");
   expect(defaultStory).toContain("< 老师好！");
   expect(defaultStory).toContain("[:#1:]");
-  await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("story.mmt"));
+  await invokeMmtE2E(page, "workspace", "showDocument", "story.mmt");
   await page.getByRole("button", { name: "Typst 预览" }).click();
   await expect.poll(() => displayedPreviewSource(page)).toMatch(/story\.mmt$/);
   preview = await waitForPreviewFrame(page);
   await expect(preview.locator("svg image").first()).toBeAttached();
-  await page.evaluate(({ name, text }) => (Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function)(name, text), {
-    name: "story.mmt",
-    text: "@reply\n- 选项 A\n- 选项 B\n@end\n"
-  });
+  await invokeMmtE2E(page, "workspace", "openDocument", "story.mmt", "@reply\n- 选项 A\n- 选项 B\n@end\n");
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "story.mmt", languageId: "mmt" });
   editor = page.locator('[role="code"][data-uri="mmtfs://workspace/story.mmt"]');
   await page.getByRole("button", { name: "Typst 预览" }).click();
@@ -287,7 +268,7 @@ test("production editor materializes an avatar and restores the authored story a
   preview = await waitForPreviewFrame(page);
   const imageBaselineRevision = (await previewReadiness(page)).containerRevision;
   const workspaceImage = avatar.toString("base64");
-  await page.evaluate(({ name, data }) => (Reflect.get(globalThis, "__mmtWriteWorkspaceFile") as Function)(name, data), { name: "workspace-image.png", data: workspaceImage });
+  await invokeMmtE2E(page, "workspace", "writeFile", "workspace-image.png", workspaceImage);
   await page.getByRole("treeitem", { name: "workspace-image.png", exact: true }).click();
   await expect.poll(() => page.frames().length).toBeGreaterThan(2);
   await expect.poll(async () => {
@@ -309,7 +290,7 @@ test("production editor materializes an avatar and restores the authored story a
   await expect.poll(() => page.locator(".workbench-editor").evaluate((element) => element.getBoundingClientRect().right)).toBe(1240);
   await page.keyboard.press("Escape");
   await page.getByRole("tab", { name: /^workspace-image\.png/ }).getByRole("button", { name: /^关闭/ }).click();
-  await page.evaluate(() => (Reflect.get(globalThis, "__mmtShowWorkspaceDocument") as Function)("story.mmt"));
+  await invokeMmtE2E(page, "workspace", "showDocument", "story.mmt");
   await expect.poll(() => activeDocument(page)).toMatchObject({ name: "story.mmt", languageId: "mmt" });
   await editor.click();
   await page.keyboard.press("Control+A");
@@ -318,25 +299,23 @@ test("production editor materializes an avatar and restores the authored story a
   await expect.poll(async () => (await previewReadiness(page)).containerRevision, { timeout: 30000 }).not.toBe(imageBaselineRevision);
   await expect(preview.locator("svg image").first()).toBeAttached();
   await expect.poll(() => renderedWebviewHasVisibleIntrinsicPage(page), { timeout: 30_000 }).toBe(true);
-  const sanitizerResult = await page.evaluate(() => {
-    const sanitizeSvg = Reflect.get(globalThis, "__mmtSanitizeSvg");
-    if (typeof sanitizeSvg !== "function") throw new Error("missing E2E SVG sanitizer hook");
-    const source = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:h5="http://www.w3.org/1999/xhtml">'
-      + '<foreignObject x="0" y="0" width="100" height="20"><h5:div class="tsel" style="font-size: 16px">中文 <h5:span>styled</h5:span></h5:div></foreignObject>'
-      + '<foreignObject x="0" y="0" width="999" height="999"><h5:div class="tsel" style="font-size: 16px"><h5:span><h5:img src="https://evil.invalid/x" /></h5:span></h5:div></foreignObject>'
-      + '<a href="https://example.com"><rect class="pseudo-link" width="40" height="12"></rect></a>'
-      + '<script>alert(1)</script></svg>';
+  const sanitizerSource = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:h5="http://www.w3.org/1999/xhtml">'
+    + '<foreignObject x="0" y="0" width="100" height="20"><h5:div class="tsel" style="font-size: 16px">中文 <h5:span>styled</h5:span></h5:div></foreignObject>'
+    + '<foreignObject x="0" y="0" width="999" height="999"><h5:div class="tsel" style="font-size: 16px"><h5:span><h5:img src="https://evil.invalid/x" /></h5:span></h5:div></foreignObject>'
+    + '<a href="https://example.com"><rect class="pseudo-link" width="40" height="12"></rect></a>'
+    + '<script>alert(1)</script></svg>';
+  const sanitizedSvg = await invokeMmtE2E(page, "security", "sanitizeSvg", sanitizerSource);
+  const sanitizerResult = await page.evaluate((source) => {
     const root = new DOMParser().parseFromString(source, "text/html").querySelector("svg");
     if (!root) throw new Error("missing sanitizer fixture root");
-    sanitizeSvg(root);
     return {
       foreignObjects: root.querySelectorAll("foreignObject").length,
       activeNodes: root.querySelectorAll("script, img, iframe, object, embed").length,
       text: root.querySelector(".tsel")?.textContent,
       tag: root.querySelector(".tsel")?.localName,
-      pseudoLinkFill: root.querySelector("rect.pseudo-link")?.getAttribute("fill")
+      pseudoLinkFill: root.querySelector("rect.pseudo-link")?.getAttribute("fill"),
     };
-  });
+  }, sanitizedSvg);
   expect(sanitizerResult).toEqual({
     foreignObjects: 1,
     activeNodes: 0,
@@ -378,56 +357,35 @@ test("production editor materializes an avatar and restores the authored story a
     await editor.click();
     await page.keyboard.press("Control+A");
     await page.keyboard.insertText("- [:asset, lo");
-    await expect.poll(() => page.evaluate(async (character) => {
-      const completionLabels = Reflect.get(globalThis, "__mmtCompletionLabels");
-      if (typeof completionLabels !== "function") throw new Error("missing E2E completion hook");
-      return completionLabels(0, character);
-    }, "- [:asset, lo".length)).toContain("logo");
+    await expect.poll(() => invokeMmtE2E(page, "language", "completionLabels", 0, "- [:asset, lo".length))
+      .toContain("logo");
   }
   await editor.click();
   await page.keyboard.press("Control+A");
   await page.keyboard.type("[");
   await page.keyboard.type(":");
-  await expect.poll(() => page.evaluate(() => {
-    const storyText = Reflect.get(globalThis, "__mmtStoryText");
-    if (typeof storyText !== "function") throw new Error("missing E2E story text hook");
-    return storyText();
-  })).toBe("[::]");
+  await expect.poll(() => invokeMmtE2E(page, "workspace", "storyText")).toBe("[::]");
   await page.keyboard.type("x");
-  await expect.poll(() => page.evaluate(() => {
-    const storyText = Reflect.get(globalThis, "__mmtStoryText");
-    if (typeof storyText !== "function") throw new Error("missing E2E story text hook");
-    return storyText();
-  })).toBe("[:x:]");
+  await expect.poll(() => invokeMmtE2E(page, "workspace", "storyText")).toBe("[:x:]");
   await editor.click();
   await page.keyboard.press("Control+A");
   const resourcePrefix = "> 晴_露营: [:晴_露营,#";
   await page.keyboard.insertText(resourcePrefix);
-  await expect.poll(() => page.evaluate(async ({ character }) => {
-    const completionLabels = Reflect.get(globalThis, "__mmtCompletionLabels");
-    if (typeof completionLabels !== "function") throw new Error("missing E2E completion hook");
-    return completionLabels(0, character);
-  }, { character: resourcePrefix.length })).toContain("#1");
+  await expect.poll(() => invokeMmtE2E(page, "language", "completionLabels", 0, resourcePrefix.length))
+    .toContain("#1");
   await editor.click();
   await page.keyboard.press("Control+A");
   const resourceMarker = "> 晴_露营: [:晴_露营,#1:]";
   await page.keyboard.insertText(resourceMarker);
   const ordinalCharacter = resourceMarker.indexOf("#1") + 1;
-  await expect.poll(() => page.evaluate(async ({ character }) => {
-    const hoverText = Reflect.get(globalThis, "__mmtHoverText");
-    if (typeof hoverText !== "function") throw new Error("missing E2E hover hook");
-    return hoverText(0, character);
-  }, { character: ordinalCharacter })).toContainEqual(expect.stringContaining("default\\_001"));
+  await expect.poll(() => invokeMmtE2E(page, "language", "hoverText", 0, ordinalCharacter))
+    .toContainEqual(expect.stringContaining("default\\_001"));
   await editor.click();
   await page.keyboard.press("Control+A");
   await page.keyboard.insertText("- #123");
-  const colorDecorators = await page.evaluate(() => {
-    const readColorDecorators = Reflect.get(globalThis, "__mmtColorDecorators");
-    if (typeof readColorDecorators !== "function") throw new Error("missing E2E color configuration hook");
-    return readColorDecorators();
-  });
+  const colorDecorators = await invokeMmtE2E(page, "workspace", "colorDecorators");
   expect(colorDecorators).toBe("never");
-  const defaultEol = await page.evaluate(() => (Reflect.get(globalThis, "__mmtDefaultEol") as Function)());
+  const defaultEol = await invokeMmtE2E(page, "workspace", "defaultEol");
   expect(defaultEol).toBe("\n");
   await page.waitForTimeout(750);
   await expect(editor.locator(".colorpicker-color-decoration")).toHaveCount(0);
@@ -438,11 +396,7 @@ test("production editor materializes an avatar and restores the authored story a
   const selectableText = preview.locator(".tsel").filter({ hasText: "Page one" }).first();
   await expect(selectableText).toBeAttached();
   const baselineRevision = (await previewReadiness(page)).containerRevision;
-  const baselineProjectionRevision = await page.evaluate(() => {
-    const revision = Reflect.get(globalThis, "__mmtLatestProjectionRevision");
-    if (typeof revision !== "function") throw new Error("missing E2E projection revision hook");
-    return revision() as number;
-  });
+  const baselineProjectionRevision = await invokeMmtE2E(page, "language", "latestProjectionRevision");
   await activateActivityView(mmsActivity);
   const previewOnChange = page.getByRole("checkbox", { name: "文档变化时自动预览" });
   await expect(previewOnChange).toBeChecked();
@@ -452,11 +406,8 @@ test("production editor materializes an avatar and restores the authored story a
   await editor.click();
   await page.keyboard.press("Control+A");
   await page.keyboard.insertText("- preview paused");
-  await expect.poll(() => page.evaluate(() => {
-    const revision = Reflect.get(globalThis, "__mmtLatestProjectionRevision");
-    if (typeof revision !== "function") throw new Error("missing E2E projection revision hook");
-    return revision() as number;
-  })).toBeGreaterThan(baselineProjectionRevision);
+  await expect.poll(() => invokeMmtE2E(page, "language", "latestProjectionRevision"))
+    .toBeGreaterThan(baselineProjectionRevision!);
   await expect.poll(async () => (await previewReadiness(page)).containerRevision).toBe(baselineRevision);
   const staleBuildStatus = page.getByRole("status").getByRole("button", { name: /MomoScript: stale/ });
   await expect(staleBuildStatus).toBeVisible();
@@ -483,10 +434,7 @@ test("production editor materializes an avatar and restores the authored story a
   await expect.poll(() => persistedStory(page)).toBe(authored);
   const chapterInitial = "@typ\nCHAPTER_TWO\n@end\n";
   const chapterEdited = "@typ\nCHAPTER_TWO_EDITED\n@end\n";
-  await page.evaluate(({ name, text }) => (Reflect.get(globalThis, "__mmtOpenWorkspaceDocument") as Function)(name, text), {
-    name: "chapter-two.mmt.txt",
-    text: chapterInitial
-  });
+  await invokeMmtE2E(page, "workspace", "openDocument", "chapter-two.mmt.txt", chapterInitial);
   await expect(page.getByRole("tab", { name: /^chapter-two\.mmt\.txt，预览, 编辑器组\d+$/ })).toBeVisible();
   const chapterEditor = page.getByRole("textbox", { name: /^chapter-two\.mmt\.txt，预览, 编辑器组\d+$/ });
   await chapterEditor.focus();
@@ -576,14 +524,16 @@ test("a second tab blocks writes visibly until explicit takeover", { tag: "@edit
   await expect(readonlyStatus).toBeVisible();
   await expect(second.getByRole("dialog", { name: /此标签页的工作区为只读/ })).toBeVisible();
 
-  const rejectedWrite = await second.evaluate(async () => {
-    try {
-      await (Reflect.get(globalThis, "__mmtWriteWorkspaceFile") as Function)("locked-write.txt", "cmVqZWN0ZWQ=");
-      return "write unexpectedly succeeded";
-    } catch (error) {
-      return error instanceof Error ? error.message : String(error);
-    }
-  });
+  const rejectedWrite = await invokeMmtE2E(
+    second,
+    "workspace",
+    "writeFile",
+    "locked-write.txt",
+    "cmVqZWN0ZWQ=",
+  ).then(
+    () => "write unexpectedly succeeded",
+    (error: unknown) => error instanceof Error ? error.message : String(error),
+  );
   expect(rejectedWrite).toContain("read-only");
   await expect.poll(() => workspaceEntryExists(second, "/locked-write.txt")).toBe(false);
 
@@ -597,9 +547,7 @@ test("a second tab blocks writes visibly until explicit takeover", { tag: "@edit
 
   await expect(readonlyStatus).toBeHidden();
   await expect(page.getByRole("status").getByRole("button", { name: /工作区只读/ })).toBeVisible();
-  await second.evaluate(async () => {
-    await (Reflect.get(globalThis, "__mmtWriteWorkspaceFile") as Function)("locked-write.txt", "YWNjZXB0ZWQ=");
-  });
+  await invokeMmtE2E(second, "workspace", "writeFile", "locked-write.txt", "YWNjZXB0ZWQ=");
   await expect.poll(() => workspaceEntryExists(second, "/locked-write.txt")).toBe(true);
 });
 
@@ -710,11 +658,8 @@ test("character gallery browses variants and inserts an entity-scoped sticker", 
   await expect.poll(() => thumbnail.evaluate((image) => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   await variantTile.click();
 
-  await expect.poll(() => page.evaluate(() => {
-    const storyText = Reflect.get(globalThis, "__mmtStoryText");
-    if (typeof storyText !== "function") throw new Error("missing E2E story text hook");
-    return storyText();
-  })).toContain(`[:${entityName},#${ordinal}:]`);
+  await expect.poll(() => invokeMmtE2E(page, "workspace", "storyText"))
+    .toContain(`[:${entityName},#${ordinal}:]`);
 
   await page.getByRole("tab", { name: /^资源管理器/ }).click();
   await page.getByRole("treeitem", { name: /intro\.typ/ }).click();
@@ -723,7 +668,7 @@ test("character gallery browses variants and inserts an entity-scoped sticker", 
   await expect(variantTile).toBeVisible();
   await variantTile.click();
   await page.waitForTimeout(500);
-  const active = await page.evaluate(() => (Reflect.get(globalThis, "__mmtActiveDocument") as Function)());
+  const active = await invokeMmtE2E(page, "workspace", "activeDocument");
   expect(active?.name).toBe("intro.typ");
   // workbench 当前布局不渲染通知 toast（既有缺口，历史视图消息同样不可见），
   // 警告通过 showWarningMessage 发出；此处锁定不修改文档的行为合同。
@@ -778,11 +723,8 @@ test("editor context menu reveals sticker picker for the speaker at cursor", { t
     const kindergartenTile = page.locator(".mms-gallery-variant", { hasText: "#1" }).first();
     await expect(kindergartenTile).toBeVisible();
     await kindergartenTile.click();
-    await expect.poll(() => page.evaluate(() => {
-      const storyText = Reflect.get(globalThis, "__mmtStoryText");
-      if (typeof storyText !== "function") throw new Error("missing E2E story text hook");
-      return storyText();
-    })).toContain(`[:${speaker},kindergarten/#1:]`);
+    await expect.poll(() => invokeMmtE2E(page, "workspace", "storyText"))
+      .toContain(`[:${speaker},kindergarten/#1:]`);
     await page.keyboard.press("Control+Z");
   }
 
@@ -799,8 +741,8 @@ test("editor context menu reveals sticker picker for the speaker at cursor", { t
   await expect(detailTitle).toHaveCount(0);
 });
 
-async function activeDocument(page: Page): Promise<{ name: string; languageId: string; text: string } | null> {
-  return page.evaluate(() => (Reflect.get(globalThis, "__mmtActiveDocument") as Function)());
+async function activeDocument(page: Page): Promise<{ name?: string; languageId: string; text: string } | null> {
+  return invokeMmtE2E(page, "workspace", "activeDocument");
 }
 
 
@@ -840,20 +782,14 @@ async function visiblePreviewText(page: Page): Promise<string> {
 }
 
 async function readWorkspaceDocument(page: Page, name: string): Promise<string> {
-  return page.evaluate(async (fileName) => {
-    const readDocument = Reflect.get(globalThis, "__mmtReadWorkspaceDocument");
-    if (typeof readDocument !== "function") throw new Error("missing E2E workspace document reader");
-    return readDocument(fileName) as Promise<string>;
-  }, name);
+  return invokeMmtE2E(page, "workspace", "readDocument", name);
 }
 
 
 async function displayedPreviewSource(page: Page): Promise<string> {
-  return page.evaluate(() => {
-    const source = Reflect.get(globalThis, "__mmtDisplayedPreviewSourceUri");
-    if (typeof source !== "function") throw new Error("missing E2E displayed preview source hook");
-    return source() as string;
-  });
+  const sourceUri = await invokeMmtE2E(page, "preview", "displayedSourceUri");
+  if (!sourceUri) throw new Error("E2E displayed preview source is unavailable");
+  return sourceUri;
 }
 
 function corsHeaders(contentType: string, etag?: string): Record<string, string> {

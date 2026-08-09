@@ -20,8 +20,12 @@ import {
   type PreviewArtifact,
   type PreviewImmutableLocationMap,
   type PreviewImageAsset,
-  type PreviewPagePoint,
 } from "./previewArtifact.ts";
+import type {
+  PreviewMeasurementSpan,
+  PreviewPagePoint,
+  PreviewRenderArtifactLocation as RenderArtifactLocation,
+} from "./previewWebviewProtocol.ts";
 import {
   type PreviewLocationResolver,
   type PreviewProviderPointRequest,
@@ -120,12 +124,6 @@ interface ResolvedTypstDebugSpan {
   readonly end: number;
 }
 
-export interface RenderArtifactLocation extends ResolvedTypstDebugSpan, PreviewPagePoint {
-  readonly left: number;
-  readonly top: number;
-  readonly right: number;
-  readonly bottom: number;
-}
 
 
 interface DebugTypstCompileWorld {
@@ -204,11 +202,6 @@ interface DebugSvgRender {
   readonly spans: readonly ResolvedTypstDebugSpan[];
 }
 
-export interface PreviewMeasurementSpan {
-  readonly span: string;
-  readonly start: number;
-  readonly end: number;
-}
 
 export interface TypstPreviewPublication {
   readonly artifact: PreviewArtifact;

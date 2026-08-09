@@ -8,11 +8,26 @@
 
 #### Scenario: 浏览实体
 
-- GIVEN 已加载包含 328 个实体的 pack manifest
+- GIVEN 用户打开已发布的 `2026.07.21` pack manifest（该发布版本包含 322 个实体）
 - WHEN 用户打开角色图鉴
 - THEN 视图 MUST 分页渲染实体网格（首屏 ≤48 个单元），每个单元显示头像与 `display_name`
 - AND 搜索输入 MUST 按 `names[]`/`display_name` 子串即时过滤
 - AND 头像图片 MUST 懒加载
+
+#### Scenario: 实体显示标签保持可辨识全名
+
+- GIVEN manifest 同时提供 `display_name` 与 `names[]`
+- WHEN gallery 计算实体显示标签
+- THEN `galleryDisplayLabel` MUST 依次采用带全角括号的 alias、下划线名称推导、与 `display_name` 精确相同的名称、`names[0]` 回退
+- AND 下划线名称 MUST 转换为 `主名（差分/层级）` 形式
+
+#### Scenario: 用户缩放图鉴
+
+- GIVEN 角色图鉴已打开
+- WHEN 用户按住 Ctrl 滚动鼠标滚轮
+- THEN 图鉴缩放 MUST 以 0.1 步长限制在 0.5×–3.0×
+- AND 当前缩放 MUST 以 `mmt-gallery-zoom` 键写入 localStorage，并在下次创建视图时恢复
+- AND localStorage 不可用时 MUST 保留当前会话内缩放而不使视图失败
 
 #### Scenario: pack 未配置
 
@@ -42,7 +57,7 @@
 
 ### Requirement: 点击差分插入实体限定引用
 
-命令 `mmt.gallery.insertSticker` SHALL 在活动 mmt 编辑器的光标/选区处插入 `[:entityName,#ordinal:]`，且 MUST NOT 生成依赖 speaker 上下文的裸 `#n` 形式。
+命令 `mmt.gallery.insertSticker(entityName, ordinal, setId?)` SHALL 在活动 mmt 编辑器的光标/选区处插入实体限定引用，且 MUST NOT 生成依赖 speaker 上下文的裸 `#n` 形式。默认 set SHALL 使用 `[:entityName,#ordinal:]`，非默认 set SHALL 使用 `[:entityName,setId/#ordinal:]`。
 
 #### Scenario: 在 mmt 文档中插入
 
@@ -50,6 +65,22 @@
 - WHEN 用户点击差分格 `#2`
 - THEN 编辑器 MUST 在光标处插入 `[:entityName,#2:]` 并保持编辑器焦点
 - AND 本地历史 MUST 将此次插入记录为一次普通 edit
+
+#### Scenario: 插入非默认 sticker set
+
+- GIVEN 用户在实体的非默认 sticker set 中点击差分格 `#2`
+- WHEN gallery 调用 `mmt.gallery.insertSticker(entityName, 2, setId)`
+- THEN 编辑器 MUST 插入 `[:entityName,setId/#2:]`
+- AND 默认 sticker set MUST 省略 set id 并保持 `[:entityName,#2:]`
+
+#### Scenario: 从消息光标解析 gallery 实体
+
+- GIVEN 活动 mmt 编辑器的光标行含显式 speaker
+- WHEN 用户调用 `mmt.gallery.insertStickerAtCursor`
+- THEN gallery MUST 先按实体 key 或 `names[]` 精确匹配该 speaker
+- AND 直接匹配失败时 MUST 按当前文档的 `@actor` preset 实体 key 解析 speaker
+- AND 命中时 MUST 聚焦角色图鉴并进入该实体差分级
+- AND 未命中时 MUST 聚焦角色图鉴主界面
 
 #### Scenario: 非 mmt 编辑器
 

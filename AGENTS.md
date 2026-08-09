@@ -13,6 +13,7 @@ MomoScript (MMT) is a DSL for scripted visual storytelling (MoeTalk style), feat
 ├── mmt_rs/               # Rust DSL v2 core, CLI, pack resolver, and WASM analysis
 ├── mmt_lsp/              # Shared Rust LSP core, native stdio server, and WASM bridge
 ├── mmt_nonebot_plugin/   # NoneBot adapter using the Rust v2 project pipeline
+├── editors/README.md     # Editor subsystem architecture and runbook index
 ├── editors/vscode/       # VS Code Desktop/Web extension and browser Worker
 ├── editors/vscode-web/   # Standalone browser Workbench, preview, persistence, and PWA shell
 ├── typst_sandbox/        # Rendering engine (Typst) and asset packs
@@ -34,10 +35,11 @@ MomoScript (MMT) is a DSL for scripted visual storytelling (MoeTalk style), feat
 | **Rust/WASM Core** | `mmt_rs/` | Main language core, native CLI, fixtures, and WASM analysis |
 | **Language Server** | `mmt_lsp/` | Versioned snapshots, diagnostics, symbols, folding, stdio/WASM transports |
 | **VS Code Extension** | `editors/vscode/` | Desktop/Web language clients, Worker, grammar, and build scripts |
+| **Editor System Guide** | `editors/README.md` | Cross-package architecture, ownership, build/test matrix, artifact provenance, and troubleshooting routes |
 | **Standalone Web Workbench** | `editors/vscode-web/` | Production browser shell; start with its `README.md` |
 | **Web Workbench Architecture** | `openspec/specs/web-workbench-shell/spec.md` | ViewsService/SplitView topology, ownership, lifecycle, and WorkspaceService migration gate |
 | **LSP/VS Code Research** | `openspec/changes/redesign-dsl-syntax-v2/tinymist-typst-lsp-integration-research.md` | Research only; not an approved implementation spec |
-| **LSP/VS Code Change** | `openspec/changes/add-mmt-lsp-vscode/` | Active implementation spec and follow-up Tinymist milestones |
+| **Language Tooling Spec** | `openspec/specs/language-tooling/spec.md` | Stable MMT/Tinymist editor contract |
 | **Rendering** | `typst_sandbox/mmt_render` | Typst rendering templates |
 | **Rust Validation** | `mmt_rs/tests/` | Public API, pack, CLI, AVIFS, Typst, and source-map tests |
 | **Legacy Validation** | `tools/dsl_refactor_check.py` | Python v1 golden regression only |

@@ -1,4 +1,5 @@
-import { expect, test, type Download, type Page, waitForPreviewFrame } from "./fixtures";
+import { expect, invokeMmtE2E, test, type Download, type Page, waitForPreviewFrame } from "./fixtures";
+import type { ExactExportFixtureRequest } from "../src/e2eRuntimeBridge.ts";
 
 const TYPST_COMPILER_WASM_URL = "https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
 
@@ -20,7 +21,7 @@ test("stale exact export requires an explicit displayed or wait-latest choice", 
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   await page.getByRole("button", { name: "Typst 预览" }).click();
-  await expect.poll(() => page.evaluate(() => Reflect.get(globalThis, "__mmtDisplayedPreviewSourceUri")?.())).not.toBeUndefined();
+  await expect.poll(() => invokeMmtE2E(page, "preview", "displayedSourceUri")).not.toBeUndefined();
 
   await callFixture(page, { action: "install", marker: "partial-source" });
   let preview = await waitForPreviewFrame(page);
@@ -87,12 +88,8 @@ test("stale exact export requires an explicit displayed or wait-latest choice", 
   await expect(preview.getByRole("button", { name: "Export exact revision" })).toBeEnabled();
 });
 
-async function callFixture(page: Page, request: Record<string, unknown>): Promise<unknown> {
-  return await page.evaluate(async (value) => {
-    const fixture = Reflect.get(globalThis, "__mmtExactExportFixture");
-    if (typeof fixture !== "function") throw new Error("exact export fixture is unavailable");
-    return await fixture(value);
-  }, request);
+async function callFixture(page: Page, request: ExactExportFixtureRequest): Promise<unknown> {
+  return await invokeMmtE2E(page, "exactExport", "fixture", request);
 }
 
 async function fixtureState(page: Page): Promise<ExactExportState> {

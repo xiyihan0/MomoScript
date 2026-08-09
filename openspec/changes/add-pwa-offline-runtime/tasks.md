@@ -4,7 +4,7 @@
 - [x] 0.2 落地 shell-agnostic durable inventory/reservation foundation，足以批准 History desired budget；不得依赖 shell/pack 已实现
 - [x] 0.3 完成 `add-workspace-storage-history-sync` task 3.5/3.6 的 inventory/state 注册，再原子更新 inventory 并申请 History desired budget
   - Evidence (2026-07-18): `WorkspaceCoordinator`/IndexedDB history mutations publish protected/history-policy-managed inventory before requesting the desired budget from the sole `OriginStorageCoordinator`. `cd editors/vscode-web && npm run test:origin-storage && npm run test:workspace-atomic-apply` covers fresh-inventory gates、desired-budget allocation、external shell/pack exclusion and atomic rollback.
-- [x] 0.4 完成 `add-mmt-lsp-vscode` Web runtime owner：逆序 startup rollback、可等待 `prepareForReload` / graceful dispose 与 unload 同步 Worker terminate fallback
+- [x] 0.4 完成稳定 `openspec/specs/language-tooling/spec.md` 规定的 Web runtime owner：逆序 startup rollback、可等待 `prepareForReload` / graceful dispose 与 unload 同步 Worker terminate fallback
   - Evidence: `cd editors/vscode-web && npm run test:runtime-owner && npm run test:pwa-quiesce` covers reverse rollback、graceful deadline/fallback and the production safe-restart adapter without adding another listener or runtime lifecycle.
 - [x] 0.5 用 fault-injecting fake subsystems 验证 reservation、release、crash expiry 和并发 shell/pack request 不重复占用同一 free bytes
 

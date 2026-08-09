@@ -4,86 +4,30 @@ import { kObject } from "@myriaddreamin/typst.ts/dist/esm/internal.types.mjs";
 import * as typstRendererWrapper from "@myriaddreamin/typst-ts-renderer";
 import typstRendererWasmUrl from "@myriaddreamin/typst-ts-renderer/wasm?url";
 import { normalizeTextSelectionNode } from "./previewSelectableText.ts";
+import type { ExactExportFormat } from "./exactExport.ts";
+import {
+  base64ToBytes,
+  isPreviewHostToWebviewMessage,
+  type PreviewExactExportState as ExactExportState,
+  type PreviewImageAssetMessage as ImageAssetMessage,
+  type PreviewMeasurementSpan as MeasurementSpan,
+  type PreviewPagePoint as PreviewPoint,
+  type PreviewRenderMessage as RenderMessage,
+  type PreviewRenderArtifactLocation,
+  type PreviewRendererFrameMessage as RendererFrameMessage,
+  type PreviewRendererPageGeometry as RendererPageGeometry,
+  type PreviewViewport,
+  type PreviewWebviewToHostMessage,
+} from "./previewWebviewProtocol.ts";
 
 interface VsCodeApi {
-  postMessage(message: unknown): void;
+  postMessage(message: PreviewWebviewToHostMessage): void;
   getState(): unknown;
   setState(state: unknown): void;
 }
 
 declare function acquireVsCodeApi(): VsCodeApi;
 
-interface PreviewPoint {
-  readonly pageIndex: number;
-  readonly x: number;
-  readonly y: number;
-}
-
-interface PreviewViewport {
-  readonly page: number;
-  readonly x: number;
-  readonly y: number;
-  readonly zoom: number;
-  readonly fitMode: "manual" | "width" | "page";
-}
-
-interface ImageAssetMessage {
-  readonly digest: string;
-  readonly mimeType: string;
-  readonly dataBase64: string;
-}
-
-interface MeasurementSpan {
-  readonly span: string;
-  readonly start: number;
-  readonly end: number;
-}
-
-interface RenderMessage {
-  readonly type: "render";
-  readonly svg: string;
-  readonly imageAssets: readonly ImageAssetMessage[];
-  readonly pageSize: { readonly width: number; readonly height: number };
-  readonly requestSequence: number;
-  readonly traceId?: string;
-  readonly renderKey: string;
-  readonly spans: readonly MeasurementSpan[];
-}
-
-interface RendererFrameMessage {
-  readonly type: "render-frame";
-  readonly sessionId: string;
-  readonly frameKind: "new" | "diff-v1";
-  readonly dataBase64: string;
-  readonly byteLength: number;
-  readonly artifactDigest: string;
-  readonly sourceDigest: string;
-  readonly backendGeneration: number;
-  readonly rendererGeneration: number;
-  readonly baseGeneration: number;
-  readonly requestSequence: number;
-  readonly traceId?: string;
-  readonly renderKey: string;
-  readonly publishedAtEpochMs: number;
-}
-
-interface RendererPageGeometry {
-  readonly pageIndex: number;
-  readonly offsetY: number;
-  readonly width: number;
-  readonly height: number;
-}
-
-interface ExactExportState {
-  readonly mode: "exact" | "current-preview";
-  readonly availability: string;
-  readonly phase: string;
-  readonly message: string;
-  readonly canSelectFormat: boolean;
-  readonly canExportDisplayed: boolean;
-  readonly canWaitForLatest: boolean;
-  readonly canCancel: boolean;
-}
 
 const vscode = acquireVsCodeApi();
 const viewport = requiredElement<HTMLElement>(".viewport");
@@ -302,7 +246,7 @@ class PersistentPreviewRenderer {
       throw new Error("Preview renderer frame byte length is invalid");
     }
     const decodeStarted = performance.now();
-    const bytes = decodeBase64(message.dataBase64);
+    const bytes = base64ToBytes(message.dataBase64);
     if (bytes.byteLength !== message.byteLength) throw new Error("Preview renderer frame byte length mismatch");
     if (await sha256Hex(bytes) !== message.artifactDigest) throw new Error("Preview renderer frame digest mismatch");
     const prefix = message.frameKind === "new" ? "new," : "diff-v1,";
@@ -614,12 +558,6 @@ function requiredElement<T extends Element>(selector: string): T {
   return element;
 }
 
-function decodeBase64(value: string): Uint8Array {
-  const binary = atob(value);
-  const bytes = new Uint8Array(binary.length);
-  for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
-  return bytes;
-}
 
 async function sha256Hex(bytes: Uint8Array): Promise<string> {
   const buffer = bytes.buffer;
@@ -747,7 +685,7 @@ function materializeImageUrls(assets: readonly ImageAssetMessage[]): Map<string,
       staged.set(asset.digest, committed);
       continue;
     }
-    const bytes = decodeBase64(asset.dataBase64);
+    const bytes = base64ToBytes(asset.dataBase64);
     staged.set(asset.digest, URL.createObjectURL(new Blob([bytes.buffer as ArrayBuffer], { type: asset.mimeType })));
   }
   return staged;
@@ -954,13 +892,13 @@ async function materializeRendererImageUrls(root: ParentNode): Promise<void> {
     let digest = remembered?.source === source ? remembered.digest : digestBySource.get(source);
     let bytes: Uint8Array | undefined;
     if (!digest) {
-      bytes = decodeBase64(match[2]);
+      bytes = base64ToBytes(match[2]);
       digest = `sha256:${await sha256Hex(bytes)}`;
       digestBySource.set(source, digest);
     }
     let url = imageUrls.get(digest);
     if (!url) {
-      bytes ??= decodeBase64(match[2]);
+      bytes ??= base64ToBytes(match[2]);
       const buffer = bytes.buffer instanceof ArrayBuffer
         && bytes.byteOffset === 0
         && bytes.byteLength === bytes.buffer.byteLength
@@ -999,12 +937,12 @@ function revokeUncommittedImageUrls(staged: ReadonlyMap<string, string>): void {
   }
 }
 
-function measureLocations(spans: readonly MeasurementSpan[]): readonly Record<string, unknown>[] {
+function measureLocations(spans: readonly MeasurementSpan[]): readonly PreviewRenderArtifactLocation[] {
   const started = performance.now();
   const pageBounds = page.getBoundingClientRect();
   const resolved = new Map(spans.map((span) => [span.span, span]));
 
-  const locations: Record<string, unknown>[] = [];
+  const locations: PreviewRenderArtifactLocation[] = [];
   for (const element of page.querySelectorAll<SVGGraphicsElement>("[data-span]")) {
     const span = resolved.get(element.getAttribute("data-span") ?? "");
     if (!span) continue;
@@ -1256,17 +1194,17 @@ page.addEventListener("click", (event) => {
     if (!dragged && (!selection || selection.isCollapsed)) vscode.postMessage({ type: "navigate", point });
   }, 0);
 });
-exportReady.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value }));
-exportDisplayed.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value, staleChoice: "export-displayed" }));
-exportLatest.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value, staleChoice: "wait-for-latest" }));
+exportReady.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value as ExactExportFormat }));
+exportDisplayed.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value as ExactExportFormat, staleChoice: "export-displayed" }));
+exportLatest.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value as ExactExportFormat, staleChoice: "wait-for-latest" }));
 exportCancel.addEventListener("click", () => vscode.postMessage({ type: "exact-export-cancel" }));
 window.addEventListener("message", (event: MessageEvent<unknown>) => {
-  const message = event.data as Record<string, unknown> | null;
-  if (!message || typeof message.type !== "string") return;
-  if (message.type === "render") void render(message as unknown as RenderMessage).catch((error) => {
+  const message = event.data;
+  if (!isPreviewHostToWebviewMessage(message)) return;
+  if (message.type === "render") void render(message).catch((error) => {
     vscode.postMessage({ type: "render-rejected", requestSequence: message.requestSequence, renderKey: message.renderKey, error: error instanceof Error ? error.message : String(error) });
   });
-  else if (message.type === "render-frame") void renderFrame(message as unknown as RendererFrameMessage).catch((error) => {
+  else if (message.type === "render-frame") void renderFrame(message).catch((error) => {
     vscode.postMessage({ type: "render-rejected", requestSequence: message.requestSequence, renderKey: message.renderKey, error: error instanceof Error ? error.message : String(error) });
   });
   else if (message.type === "renderer-reset") {
@@ -1275,11 +1213,11 @@ window.addEventListener("message", (event: MessageEvent<unknown>) => {
     page.classList.remove("renderer-active");
     page.replaceChildren();
   }
-  else if (message.type === "status") showStatus(String(message.message ?? ""), message.error === true);
-  else if (message.type === "restoreViewport") void restoreViewport(message.viewport as PreviewViewport | undefined);
-  else if (message.type === "indicator") showOverlay("preview-indicator", message.point as PreviewPoint | undefined);
-  else if (message.type === "cursor") showOverlay("preview-cursor", message.point as PreviewPoint | undefined);
-  else if (message.type === "exactExportState") applyExactExportState(message.state as ExactExportState | undefined);
+  else if (message.type === "status") showStatus(message.message, message.error);
+  else if (message.type === "restoreViewport") void restoreViewport(message.viewport);
+  else if (message.type === "indicator") showOverlay("preview-indicator", message.point);
+  else if (message.type === "cursor") showOverlay("preview-cursor", message.point);
+  else if (message.type === "exactExportState") applyExactExportState(message.state);
 });
 
 if (import.meta.env.VITE_MMT_E2E === "1") {

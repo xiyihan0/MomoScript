@@ -1,4 +1,5 @@
-import { spawn, spawnSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
+import { withProductionPreview } from "./production-preview-server.mjs";
 
 const groups = [
   { name: "runtime export", tag: "@runtime-export", timeout: 8 * 60_000 },
@@ -12,31 +13,7 @@ const groups = [
   { name: "local history", tag: "@local-history", timeout: 12 * 60_000 },
 ];
 
-const npm = process.platform === "win32" ? "npm.cmd" : "npm";
-const runtimeEnv = { ...process.env, VITE_MMT_E2E: "1" };
-const build = spawnSync(npm, ["run", "build"], { stdio: "inherit", env: runtimeEnv });
-if (build.error) throw build.error;
-if (build.status !== 0) process.exit(build.status ?? 1);
-
-const server = spawn(
-  process.execPath,
-  ["node_modules/vite/bin/vite.js", "preview", "--host", "127.0.0.1", "--port", "4173", "--strictPort"],
-  { stdio: "inherit", env: runtimeEnv },
-);
-
-try {
-  const deadline = Date.now() + 30_000;
-  while (true) {
-    try {
-      const response = await fetch("http://127.0.0.1:4173/");
-      if (response.ok) break;
-    } catch {
-      if (server.exitCode !== null) throw new Error(`Vite preview exited with code ${server.exitCode}`);
-    }
-    if (Date.now() >= deadline) throw new Error("Vite preview did not become ready");
-    await new Promise((resolve) => setTimeout(resolve, 250));
-  }
-
+await withProductionPreview(() => {
   const env = {
     ...process.env,
     MMT_E2E_EXTERNAL_SERVER: "1",
@@ -65,6 +42,4 @@ try {
       throw new Error(`${group.name} failed with exit code ${result.status ?? 1}`);
     }
   }
-} finally {
-  server.kill("SIGTERM");
-}
+}, { shutdown: "signal" });

@@ -61,16 +61,16 @@ MomoScript 是一个面向 Momotalk / MoeTalk 风格视觉叙事的 DSL 与渲�
 
 - `openspec/changes/redesign-dsl-syntax-v2/`：当前 Rust DSL v2 主线；包含 `@actor`、`@asset`、正文模式、`[:...:]`、parser/core、source map 与 Typst façade
 - `openspec/changes/redesign-dsl-syntax-v2/rust-parser-architecture.md`：已实现 parser、pipeline、CLI、source map 与 Typst diagnostic 架构的主说明
-- `openspec/changes/redesign-dsl-syntax-v2/tinymist-typst-lsp-integration-research.md`：MMT language service 与 Tinymist 的历史研究输入；已批准实施合同以 `add-mmt-lsp-vscode` 为准
+- `openspec/changes/redesign-dsl-syntax-v2/tinymist-typst-lsp-integration-research.md`：MMT language service 与 Tinymist 的历史研究输入；已实施合同以 `openspec/specs/language-tooling/spec.md` 为准
 - `openspec/changes/redesign-dsl-syntax-v2/typst-template-library.md`：v2 Typst façade 和连续消息配置设计
 - `openspec/changes/add-typst-theme-api/`：区分当前可调用 API 与拟议主题扩展，并定义 `mmt-theme.v1` 的实施合同
 - `openspec/changes/redesign-dsl-syntax-v2/specs/`：Rust v2 active spec delta；在主线验收后归档到 `openspec/specs/`
 - `openspec/changes/design-resource-pack-v3/`：pack-v3 manifest、Kivo builder、AVIFS storage 与平台无关 materializer 设计
-- `openspec/changes/add-mmt-lsp-vscode/`：共享 language service、native/WASM transport、Desktop/Web、Tinymist backend、生产 Web runtime，以及尚待封口的 diagnostics/lifecycle 合同
+- `openspec/specs/language-tooling/spec.md`：共享 language service、native/WASM transport、Desktop/Web、Tinymist backend 与生产 Web runtime 的稳定合同
 - `openspec/changes/add-workspace-storage-history-sync/`：生产 Web 工作区 identity/backend、Local History、File System Access、崩溃恢复与 WebDAV 手动同步合同
 - `openspec/changes/add-pwa-offline-runtime/`：生产 Web 可安装应用、显式离线 shell/pack、prompt update、origin-wide quota 与驱逐恢复合同
-- `openspec/changes/add-character-variant-gallery/`：生产 Web 角色图鉴（实体/差分浏览、AVIFS 抽帧缩略图与 `[:name,#n:]` 插入）草案
-- `openspec/changes/complete-editor-runtime-and-typst-tooling/`：在 `add-mmt-lsp-vscode` diagnostics/runtime closure 之后，统一编辑器运行时与 Typst project state，增加能力实测门、保守投影语言功能、host-mediated package resolution、revision-bound preview navigation 和 exact-snapshot export；不重复 workspace/PWA 合同
+- `openspec/specs/character-gallery/spec.md`：生产 Web 角色图鉴（实体/差分浏览、AVIFS 抽帧缩略图与 set-aware 实体限定引用）的稳定合同
+- `openspec/changes/complete-editor-runtime-and-typst-tooling/`：基于稳定 language-tooling diagnostics/runtime 合同统一编辑器运行时与 Typst project state，增加能力实测门、保守投影语言功能、host-mediated package resolution、revision-bound preview navigation 和 exact-snapshot export；不重复 workspace/PWA 合同
 
 ## Non-Goals
 

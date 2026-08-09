@@ -3,6 +3,8 @@
 VS Code Desktop 和 Web 共用 `mmt_lsp` language service。Desktop 启动 native stdio binary，Web
 通过 `vscode-languageclient/browser`、Worker 和 Rust/WASM bridge 使用同一套 parser behavior。
 
+编辑器跨包架构、运行形态与验证入口见 [编辑器系统指南](../README.md)。
+
 ```bash
 npm install
 npm run check
@@ -17,10 +19,9 @@ npm run build
 `npm run build` 生成当前平台的 native `mmt-lsp`、WASM bridge 和 Desktop/Web bundles；构建产物不提交。
 发布 VSIX 时按 VS Code target 分别构建平台包。
 
-当前扩展直接发布 syntax 与 actor diagnostics，并提供 pack-aware character completion、symbols、folding、
-revision-bound Typst projection/preview 事件，以及经投影映射的 Tinymist completion、hover、signature help
-和 diagnostics。mode、asset、resource、pack resolve/planning 与 placeholder Typst-check 尚未统一为完整、
-无重复的 live diagnostic 集合；对应工作记录在 `add-mmt-lsp-vscode` 的第 10 组未完成任务中。Desktop 使用
+当前扩展发布由同一 pure analysis 生成的完整、去重 live diagnostics，并提供 pack-aware character completion、
+symbols、folding、revision-bound Typst projection/preview 事件，以及经投影映射的 Tinymist completion、
+hover、signature help 和 diagnostics；稳定合同见 `openspec/specs/language-tooling/spec.md`。Desktop 使用
 native Tinymist sidecar；Web 使用固定的 Tinymist 0.15.2 WASM Worker。
 
 客户端会声明 `publishDiagnostics.versionSupport` 并拒绝版本不等于当前 projection revision 的诊断；
@@ -41,5 +42,5 @@ completion/hover/folding 请求仍可正常切换 focus。
 
 生产浏览器编辑器位于 `../vscode-web/`。它使用同一 MMT/Tinymist backend，但另行拥有 Monaco/VS Code
 Workbench、IndexedDB workspace、pack cache、resource materialization 与 typst.ts preview 生命周期。
-当前 asynchronous dispose API 不等于可靠 unload teardown；统一 runtime owner、启动失败 rollback、HMR 和
-同步 Worker termination 保底同样由 OpenSpec 第 10 组任务跟踪。
+单一 `EditorRuntimeController` 负责逆序启动回滚、可等待 graceful dispose、HMR 替换和 unload 同步
+Worker terminate 保底。

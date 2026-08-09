@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { expect, test as base, type Frame, type Page } from "@playwright/test";
 import { TINYMIST_WASM_SHA256 } from "../src/runtimeArtifacts.ts";
+import type { MmtE2EApi, MmtE2EPreviewReadiness } from "../src/e2eRuntimeBridge.ts";
 
 const tinymistPackage = process.env.TINYMIST_WEB_PKG;
 const tinymistWasm = tinymistPackage
@@ -101,50 +102,71 @@ export function syntheticPreviewDocument(size: SyntheticPreviewSize): string {
   return source;
 }
 
-export interface PreviewReadiness {
-  readonly stage: string;
-  readonly sourceUri: string | null;
-  readonly displayedSourceUri: string | null;
-  readonly runtimeRecoveryState: string;
-  readonly runtimeLastFailure: string | null;
-  readonly buildStatus: string;
-  readonly buildRevision: number | null;
-  readonly fixtureActive: boolean;
-  readonly containerReady: boolean;
-  readonly containerRevision: string | null;
-  readonly containerRenderKey: string | null;
-  readonly displayedRenderKey: string | null;
-  readonly panelOpen: boolean;
-  readonly diagnostics: readonly {
-    readonly phase: string;
-    readonly severity: string;
-    readonly message: string;
-  }[];
+type MmtE2ECallable = (...args: never[]) => unknown;
+type MmtE2EDomain = keyof MmtE2EApi;
+type MmtE2EMethod<Domain extends MmtE2EDomain> = {
+  [Method in keyof MmtE2EApi[Domain]]: MmtE2EApi[Domain][Method] extends MmtE2ECallable ? Method : never;
+}[keyof MmtE2EApi[Domain]];
+type MmtE2EMethodValue<
+  Domain extends MmtE2EDomain,
+  Method extends MmtE2EMethod<Domain>,
+> = Extract<MmtE2EApi[Domain][Method], MmtE2ECallable>;
+
+export async function invokeMmtE2E<
+  Domain extends MmtE2EDomain,
+  Method extends MmtE2EMethod<Domain>,
+>(
+  page: Page,
+  domain: Domain,
+  method: Method,
+  ...args: Parameters<MmtE2EMethodValue<Domain, Method>>
+): Promise<Awaited<ReturnType<MmtE2EMethodValue<Domain, Method>>>> {
+  return await page.evaluate(
+    ({ selectedDomain, selectedMethod, methodArguments }) => {
+      const api = globalThis.__mmtE2E;
+      if (!api) throw new Error("MomoScript E2E bridge is unavailable");
+      const apiDomain = Reflect.get(api, selectedDomain);
+      if (!apiDomain || typeof apiDomain !== "object") throw new Error(`MomoScript E2E domain is unavailable: ${String(selectedDomain)}`);
+      const candidate = Reflect.get(apiDomain, selectedMethod);
+      if (typeof candidate !== "function") {
+        throw new Error(`MomoScript E2E method is unavailable: ${String(selectedDomain)}.${String(selectedMethod)}`);
+      }
+      const invoke = candidate as (...values: unknown[]) => unknown;
+      return invoke(...methodArguments);
+    },
+    { selectedDomain: domain, selectedMethod: method, methodArguments: args },
+  ) as Awaited<ReturnType<MmtE2EMethodValue<Domain, Method>>>;
 }
 
+export type PreviewReadiness = MmtE2EPreviewReadiness;
+
+/* The fallback preserves startup diagnostics before the bridge can be installed. */
+const unavailablePreviewReadiness = (sourceUri?: string): PreviewReadiness => ({
+  stage: "readiness-unavailable",
+  sourceUri: sourceUri ?? null,
+  displayedSourceUri: null,
+  runtimeRecoveryState: "starting",
+  buildStatus: "unknown",
+  runtimeLastFailure: null,
+  buildRevision: null,
+  fixtureActive: false,
+  containerReady: false,
+  containerRevision: null,
+  containerRenderKey: null,
+  displayedRenderKey: null,
+  panelOpen: false,
+  diagnostics: [],
+});
+
 export async function previewReadiness(page: Page, sourceUri?: string): Promise<PreviewReadiness> {
-  return page.evaluate((requestedSourceUri) => {
-    const readiness = Reflect.get(globalThis, "__mmtPreviewReadiness");
-    if (typeof readiness !== "function") {
-      return {
-        stage: "readiness-unavailable",
-        sourceUri: requestedSourceUri ?? null,
-        displayedSourceUri: null,
-        runtimeRecoveryState: "unknown",
-        buildStatus: "unknown",
-        runtimeLastFailure: null,
-        buildRevision: null,
-        fixtureActive: false,
-        containerReady: false,
-        containerRevision: null,
-        containerRenderKey: null,
-        displayedRenderKey: null,
-        panelOpen: false,
-        diagnostics: [],
-      };
+  try {
+    return await invokeMmtE2E(page, "preview", "readiness", sourceUri);
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("E2E bridge is unavailable")) {
+      return unavailablePreviewReadiness(sourceUri);
     }
-    return readiness(requestedSourceUri) as PreviewReadiness;
-  }, sourceUri);
+    throw error;
+  }
 }
 
 export async function waitForPreviewFrame(page: Page, sourceUri?: string): Promise<Frame> {

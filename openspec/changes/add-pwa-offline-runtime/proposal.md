@@ -1,7 +1,7 @@
 # Why
 
-`editors/vscode-web/` 已是生产 Web 编辑器，但当前只是在线 Web 应用。仓库中已有
-`add-mmt-lsp-vscode/pwa-feasibility-and-design.md` 可行性研究，尚未形成可以实施和验收的 capability delta。
+`editors/vscode-web/` 已是生产 Web 编辑器。仓库中的
+`openspec/changes/archive/2026-08-09-add-mmt-lsp-vscode/pwa-feasibility-and-design.md` 保留早期可行性研究；本 change 定义可实施和验收的 capability delta。
 
 2026-07-16 的代码与生产检查显示：
 
@@ -32,7 +32,7 @@ workspace/history，以及 pack cache 与应用壳相互驱逐。需要独立 ch
 
 本 change 当前只有 proposal、architecture、spec delta 与任务清单。生产代码尚未注册根 Service Worker，也未声明离线可用。
 
-已有研究文档 `openspec/changes/add-mmt-lsp-vscode/pwa-feasibility-and-design.md` 继续作为体积与平台研究输入；正式实施合同以本 change 的
+历史研究文档 `openspec/changes/archive/2026-08-09-add-mmt-lsp-vscode/pwa-feasibility-and-design.md` 继续作为体积与平台研究输入；正式实施合同以本 change 的
 `specs/pwa-runtime/spec.md` 为准。研究文档中“约 2 倍 payload”只用于估算，不能替代本 change 的 origin-wide protected/reclaimable inventory 与 reservation。
 
 # Scope
@@ -51,7 +51,7 @@ Phase 0 的 manifest、bounded root worker 和 deployment prototype 可以独立
 2. `add-workspace-storage-history-sync` task 3.5/3.6 再先注册 protected/history-policy-managed bytes、`quota-blocked` / `history-degraded + unreconciled` / journal state，随后原子更新 inventory 并申请 History allocation；
 3. 本 change Phase 3–6 才能启用 shell/pack reservation、download、eviction 和 update activation。
 
-update activation 还依赖 `add-mmt-lsp-vscode` 的单一 Web runtime owner、可等待 graceful dispose 和同步 terminate fallback。任一 change
+update activation 依赖稳定 `openspec/specs/language-tooling/spec.md` 所定义的单一 Web runtime owner、可等待 graceful dispose 和同步 terminate fallback。任一 change
 可以承载共享 coordinator foundation 的代码，但不得建立第二套 allocator 或以临时 estimate-only 路径绕开顺序。
 
 # Non-Goals

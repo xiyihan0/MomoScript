@@ -1,16 +1,8 @@
 import type { RenderKey } from "../../vscode/src/runtimeIdentity";
 import type { RuntimeOwnedResource } from "./runtimeOwner.ts";
+import type { PreviewPagePoint, PreviewViewport } from "./previewWebviewProtocol.ts";
 
 export type PreviewStatus = "idle" | "queued" | "materializing" | "rendering" | "ready" | "stale" | "failed";
-export type PreviewFitMode = "manual" | "width" | "page";
-
-export interface PreviewViewport {
-  readonly page: number;
-  readonly x: number;
-  readonly y: number;
-  readonly zoom: number;
-  readonly fitMode: PreviewFitMode;
-}
 
 export interface QualifiedLocationProviderKey {
   readonly kind: "provider";
@@ -91,15 +83,15 @@ export interface PreviewWireRange {
   readonly end: PreviewWirePosition;
 }
 
-export interface PreviewPagePoint {
-  readonly pageIndex: number;
-  /** Page-relative normalized coordinate in the inclusive range 0..1. */
-  readonly x: number;
-  /** Page-relative normalized coordinate in the inclusive range 0..1. */
-  readonly y: number;
-}
+export const PREVIEW_SOURCE_KINDS = Object.freeze({
+  authoredIdentity: true,
+  workspaceTypst: true,
+  packageFile: true,
+  generatedProjection: true,
+  staleUnknown: true,
+} as const);
 
-export type PreviewSourceKind = "authoredIdentity" | "workspaceTypst" | "packageFile" | "generatedProjection" | "staleUnknown";
+export type PreviewSourceKind = keyof typeof PREVIEW_SOURCE_KINDS;
 
 export interface PreviewSourceTarget {
   readonly kind: PreviewSourceKind;
@@ -107,6 +99,28 @@ export interface PreviewSourceTarget {
   readonly range?: PreviewWireRange;
   readonly readOnly?: boolean;
   readonly retained?: boolean;
+}
+
+export function parsePreviewSourceTargets(value: unknown): readonly PreviewSourceTarget[] {
+  if (!Array.isArray(value)) throw new TypeError("Preview source mapping must be an array");
+  return value.map((item) => {
+    if (!item || typeof item !== "object" || !("kind" in item)
+      || typeof item.kind !== "string" || !(item.kind in PREVIEW_SOURCE_KINDS)) {
+      throw new TypeError("Preview source mapping has an unknown kind");
+    }
+    const kind = item.kind as PreviewSourceKind;
+    if (kind === "staleUnknown") {
+      if (Object.keys(item).length !== 1) {
+        throw new TypeError("Stale preview source mapping must not contain a URI/range");
+      }
+      return Object.freeze({ kind });
+    }
+    if (!("uri" in item) || typeof item.uri !== "string"
+      || !("range" in item) || !isWireRange(item.range)) {
+      throw new TypeError("Preview source mapping is missing an exact URI/range");
+    }
+    return Object.freeze({ kind, uri: item.uri, range: normalizeWireRange(item.range) });
+  });
 }
 
 export interface PreviewSourceMapEntry {
@@ -392,6 +406,28 @@ function normalizePagePoint(point: PreviewPagePoint, pageCount: number): Preview
     throw new Error("Preview location coordinates must be normalized to 0..1");
   }
   return Object.freeze({ pageIndex: point.pageIndex, x: point.x, y: point.y });
+}
+
+function isWirePosition(value: unknown): value is PreviewWirePosition {
+  return Boolean(
+    value
+    && typeof value === "object"
+    && "line" in value
+    && Number.isSafeInteger(value.line)
+    && Number(value.line) >= 0
+    && "character" in value
+    && Number.isSafeInteger(value.character)
+    && Number(value.character) >= 0,
+  );
+}
+
+function isWireRange(value: unknown): value is PreviewWireRange {
+  if (!value || typeof value !== "object" || !("start" in value) || !("end" in value)
+    || !isWirePosition(value.start) || !isWirePosition(value.end)) {
+    return false;
+  }
+  return value.start.line < value.end.line
+    || (value.start.line === value.end.line && value.start.character <= value.end.character);
 }
 
 function normalizeWireRange(range: PreviewWireRange): PreviewWireRange {

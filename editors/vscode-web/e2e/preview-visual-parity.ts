@@ -2,7 +2,7 @@ import type { Frame } from "@playwright/test";
 import { createHash } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { expect, waitForPreviewFrame, type Page } from "./fixtures";
+import { expect, invokeMmtE2E, waitForPreviewFrame, type Page } from "./fixtures";
 import type { BenchmarkRendererState } from "./preview-performance-harness";
 
 export interface VisualParitySnapshot {
@@ -132,17 +132,13 @@ async function positionPreviewAtMarker(
   marker: string,
   readRendererState: ReadBenchmarkRendererState,
 ): Promise<void> {
-  const positioned = await page.evaluate(async ({ position }) => {
-    const fixture = Reflect.get(globalThis, "__mmtPreviewInteractionFixture");
-    if (typeof fixture !== "function") throw new Error("preview interaction fixture is unavailable");
-    return fixture({
-      action: "position-live",
-      range: {
-        start: position,
-        end: { line: position.line, character: position.character + 1 },
-      },
-    }) as Promise<boolean>;
-  }, { position });
+  const positioned = await invokeMmtE2E(page, "preview", "interactionFixture", {
+    action: "position-live",
+    range: {
+      start: position,
+      end: { line: position.line, character: position.character + 1 },
+    },
+  });
   if (!positioned) {
     throw new Error(`preview marker positioning failed: ${JSON.stringify({ position, marker, interaction: await readRendererState() })}`);
   }
@@ -163,11 +159,7 @@ async function positionPreviewAtMarker(
 }
 
 async function revealPreviewFrame(page: Page, sourceUri: string): Promise<Frame> {
-  const revealed = await page.evaluate(async () => {
-    const fixture = Reflect.get(globalThis, "__mmtPreviewInteractionFixture");
-    if (typeof fixture !== "function") throw new Error("preview interaction fixture is unavailable");
-    return fixture({ action: "reveal" }) as Promise<boolean>;
-  });
+  const revealed = await invokeMmtE2E(page, "preview", "interactionFixture", { action: "reveal" });
   if (!revealed) throw new Error("preview Webview could not be revealed for parity capture");
   return waitForPreviewFrame(page, sourceUri);
 }
@@ -191,7 +183,7 @@ async function canonicalizeParityViewport(preview: Frame): Promise<void> {
     window.dispatchEvent(new MessageEvent("message", {
       data: {
         type: "restoreViewport",
-        viewport: { pageIndex: 0, x: 0, y: 0, zoom: 1, fitMode: "manual" },
+        viewport: { page: 0, x: 0, y: 0, zoom: 1, fitMode: "manual" },
       },
     }));
   });
@@ -224,11 +216,15 @@ async function currentEditorSelection(page: Page): Promise<{
     readonly end: { readonly line: number; readonly character: number };
   };
 } | null> {
-  return page.evaluate(async () => {
-    const fixture = Reflect.get(globalThis, "__mmtPreviewInteractionFixture");
-    if (typeof fixture !== "function") throw new Error("preview interaction fixture is unavailable");
-    return fixture({ action: "editor-selection" });
-  });
+  return await invokeMmtE2E(page, "preview", "interactionFixture", {
+    action: "editor-selection",
+  }) as {
+    readonly uri: string;
+    readonly range: {
+      readonly start: { readonly line: number; readonly character: number };
+      readonly end: { readonly line: number; readonly character: number };
+    };
+  } | null;
 }
 
 export async function captureVisualParity(
@@ -296,11 +292,10 @@ export async function captureVisualParity(
   }, { editedMarker });
 
   const navigationPoint = state.cursor;
-  const navigated = await page.evaluate(async (point) => {
-    const fixture = Reflect.get(globalThis, "__mmtPreviewInteractionFixture");
-    if (typeof fixture !== "function") throw new Error("preview interaction fixture is unavailable");
-    return fixture({ action: "navigate", point }) as Promise<boolean>;
-  }, navigationPoint);
+  const navigated = await invokeMmtE2E(page, "preview", "interactionFixture", {
+    action: "navigate",
+    point: navigationPoint,
+  });
   if (!navigated) throw new Error(`preview marker has no reverse location: ${JSON.stringify({ position, navigationPoint })}`);
   await page.waitForTimeout(1_000);
   const selection = await currentEditorSelection(page);
