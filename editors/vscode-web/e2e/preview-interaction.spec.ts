@@ -151,47 +151,55 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
     return { external: true, loaded };
   })).resolves.toEqual({ external: true, loaded: true });
 
-  await expect(previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().evaluate((element) => {
+  const digitText = previewFrame.locator(".tsel").filter({ hasText: "12345" }).first();
+  await expect(digitText.evaluate((element) => {
     const bounds = element.getBoundingClientRect();
     const parentBounds = element.parentElement!.getBoundingClientRect();
     const style = getComputedStyle(element);
     return {
-      fillsForeignObjectWidth: Math.abs(bounds.left - parentBounds.left) <= 0.01
-        && Math.abs(bounds.width - parentBounds.width) <= 0.01,
-      verticallyCalibrated: style.transform !== "none",
-      tokenCount: element.querySelectorAll(":scope > .tsel-token").length,
+      fillsForeignObject: Math.abs(bounds.left - parentBounds.left) <= 0.01
+        && Math.abs(bounds.top - parentBounds.top) <= 0.01
+        && Math.abs(bounds.width - parentBounds.width) <= 0.01
+        && Math.abs(bounds.height - parentBounds.height) <= 0.01,
+      childElementCount: element.childElementCount,
       fontFamily: style.fontFamily,
+      overflow: style.overflow,
       position: style.position,
       width: style.width,
       height: style.height,
       textAlign: style.textAlign,
       textAlignLast: style.textAlignLast,
+      transform: style.transform,
       userSelect: style.userSelect,
     };
   })).resolves.toEqual({
-    fillsForeignObjectWidth: true,
-    verticallyCalibrated: true,
+    fillsForeignObject: true,
+    childElementCount: 0,
+    fontFamily: "\"Times New Roman\"",
+    overflow: "visible",
     position: "fixed",
     width: "187.5px",
     height: "62.5px",
-    textAlign: "left",
-    textAlignLast: "left",
-    tokenCount: 5,
-    fontFamily: "monospace",
+    textAlign: "justify",
+    textAlignLast: "justify",
+    transform: "none",
     userSelect: "text",
   });
   const selectableText = previewFrame.locator(".tsel").filter({ hasText: "abcde 123434" }).first();
   expect(await selectableText.evaluate((element) => {
-    const tokens = element.querySelectorAll(":scope > .tsel-token");
+    const text = element.firstChild;
+    if (!text || text.nodeType !== Node.TEXT_NODE) return null;
     const range = document.createRange();
-    range.setStart(tokens[0]!.firstChild!, 0);
-    range.setEnd(tokens[4]!.firstChild!, 1);
+    range.setStart(text, 0);
+    range.setEnd(text, 5);
     return range.toString();
   })).toBe("abcde");
   expect(await selectableText.evaluate((element) => {
-    const token = element.querySelectorAll(":scope > .tsel-token")[4]!;
+    const text = element.firstChild;
+    if (!text || text.nodeType !== Node.TEXT_NODE) return null;
     const range = document.createRange();
-    range.selectNodeContents(token);
+    range.setStart(text, 4);
+    range.setEnd(text, 5);
     return range.toString();
   })).toBe("e");
 
@@ -219,30 +227,44 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
     stroke: "rgb(247, 92, 47)",
   });
 
-  const tokenGeometry = await previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().locator(".tsel-token").nth(2).evaluate((element) => {
+  const thirdCharacterGeometry = await digitText.evaluate((element) => {
+    const text = element.textContent ?? "";
     const bounds = element.getBoundingClientRect();
+    const characterWidth = bounds.width / text.length;
     const style = getComputedStyle(element);
-    const parentStyle = getComputedStyle(element.parentElement!);
-    return { width: bounds.width, height: bounds.height, display: style.display, fontSize: style.fontSize, lineHeight: style.lineHeight, parentFontSize: parentStyle.fontSize, parentLineHeight: parentStyle.lineHeight };
+    return {
+      point: {
+        x: bounds.left + characterWidth * 2.5,
+        y: bounds.top + bounds.height / 2,
+      },
+      characterWidth,
+      height: bounds.height,
+      fontSize: style.fontSize,
+      lineHeight: style.lineHeight,
+    };
   });
-  expect(tokenGeometry.width > 0 && tokenGeometry.height > 0, JSON.stringify(tokenGeometry)).toBe(true);
-  await previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().locator(".tsel-token").nth(2).evaluate((element) => {
-    document.getSelection()?.removeAllRanges();
+  expect(thirdCharacterGeometry.characterWidth > 0 && thirdCharacterGeometry.height > 0, JSON.stringify(thirdCharacterGeometry)).toBe(true);
+  await digitText.evaluate((element) => {
+    const text = element.textContent ?? "";
     const bounds = element.getBoundingClientRect();
+    const characterWidth = bounds.width / text.length;
+    const clientX = bounds.left + characterWidth * 2.5;
+    const clientY = bounds.top + bounds.height / 2;
+    document.getSelection()?.removeAllRanges();
     element.closest(".page")!.dispatchEvent(new PointerEvent("pointerdown", {
       bubbles: true,
-      clientX: bounds.left + bounds.width / 2,
-      clientY: bounds.top + bounds.height / 2,
+      clientX,
+      clientY,
     }));
     element.closest(".page")!.dispatchEvent(new PointerEvent("pointerup", {
       bubbles: true,
-      clientX: bounds.left + bounds.width / 2,
-      clientY: bounds.top + bounds.height / 2,
+      clientX,
+      clientY,
     }));
     element.closest(".page")!.dispatchEvent(new MouseEvent("click", {
       bubbles: true,
-      clientX: bounds.left + bounds.width / 2,
-      clientY: bounds.top + bounds.height / 2,
+      clientX,
+      clientY,
     }));
   });
   await expect.poll(async () => await callFixture(page, { action: "editor-selection" })).toMatchObject({
@@ -251,14 +273,15 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
   });
 
   await selectableText.evaluate((element) => {
-    const tokens = element.querySelectorAll(":scope > .tsel-token");
+    const text = element.firstChild;
+    if (!text || text.nodeType !== Node.TEXT_NODE) throw new Error("Selectable text node is unavailable");
     const range = document.createRange();
-    range.setStart(tokens[0]!.firstChild!, 0);
-    range.setEnd(tokens[4]!.firstChild!, 1);
+    range.setStart(text, 0);
+    range.setEnd(text, 5);
     const selection = document.getSelection()!;
     selection.removeAllRanges();
     selection.addRange(range);
-    const bounds = tokens[2]!.getBoundingClientRect();
+    const bounds = element.getBoundingClientRect();
     element.closest(".page")!.dispatchEvent(new MouseEvent("click", {
       bubbles: true,
       clientX: bounds.left + bounds.width / 2,

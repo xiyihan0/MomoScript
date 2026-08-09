@@ -47,7 +47,6 @@ export interface BenchmarkRendererState {
 export interface BenchmarkRenderedShape {
   readonly svgNodes: number;
   readonly selectableSpans: number;
-  readonly textTokens: number;
   readonly hiddenWindowGroups: number;
   readonly imageNodes: number;
   readonly pageShells: number;
@@ -201,7 +200,6 @@ async function openBenchmarkDocument(
   const renderedShape = await preview.locator("body").evaluate((body) => ({
     svgNodes: body.querySelectorAll("svg *").length,
     selectableSpans: body.querySelectorAll(".tsel").length,
-    textTokens: body.querySelectorAll(".tsel-token").length,
     hiddenWindowGroups: body.querySelectorAll("[data-mmt-window-hidden]").length,
     imageNodes: body.querySelectorAll("svg image").length,
     pageShells: body.querySelectorAll("[data-page-index], .typst-page").length,
@@ -228,7 +226,7 @@ export async function runWarmBenchmarkMode(
     expect(coldRenderer.visualKind).toBe("renderer");
     expect(renderedShape.hiddenWindowGroups).toBeGreaterThan(0);
     expect(renderedShape.svgNodes).toBeLessThan(fixture.source.length / 4);
-    expect(renderedShape.textTokens).toBeGreaterThan(0);
+    expect(renderedShape.selectableSpans).toBeGreaterThan(0);
     expect(coldRenderer.rendererFrameKind).toBe("new");
     expect(coldRenderer.rendererGeneration).toBe(1);
     assertRendererFrameTelemetry(coldSample, { frameKind: "new", generation: 1, baseGeneration: 0 });

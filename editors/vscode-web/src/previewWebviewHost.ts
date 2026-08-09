@@ -428,13 +428,11 @@ function previewWebviewHtml(webview: vscode.Webview, title: string): string {
     .viewport { display: flex; justify-content: center; min-width: min-content; height: calc(100vh - 43px); overflow: auto; box-sizing: border-box; padding: 24px; background: #e5e5e5; }
     .page { position: relative; flex: 0 0 auto; background: transparent; line-height: 0; box-shadow: 0 2px 5px #0008; transform-origin: top left; }
     .page > svg { display: block; width: 100%; height: 100%; max-width: none; }
-    .page > .typst-renderer-root { display: block; width: 100%; height: 100%; max-width: none; user-select: text; }
-    .page > .typst-renderer-root text { cursor: text; user-select: text; }
+    .page > .typst-renderer-root { display: block; width: 100%; height: 100%; max-width: none; }
     .page .typst-text { pointer-events: bounding-box; cursor: text; }
     .page .typst-text:hover > use { fill: #f75c2f; stroke: #f75c2f; }
-    .page .tsel { contain: layout paint style; left: 0; position: fixed; width: 100%; height: 100%; overflow: hidden; color: transparent; font-family: monospace; line-height: normal; text-align: left; text-align-last: left; white-space: pre; pointer-events: auto; user-select: text; cursor: text; transform: translateY(0.32em); transform-origin: left top; -webkit-text-size-adjust: none; text-size-adjust: none; }
-    .page .tsel .tsel-token { display: inline-block; position: relative; width: 0.602em; height: 1em; line-height: normal; }
-    .page .tsel::selection, .page .tsel .tsel-token::selection { color: transparent; background: #7db9dea0; }
+    .page .tsel { left: 0; position: fixed; width: 100%; height: 100%; color: transparent; font-family: initial; line-height: normal; text-align: justify; text-align-last: justify; white-space: pre; user-select: text; }
+    .page .tsel span::selection, .page .tsel::selection { color: transparent; background: #7db9dea0; }
     .preview-indicator, .preview-cursor { position: absolute; z-index: 4; pointer-events: none; transform: translate(-50%, -50%); }
     .preview-indicator { width: 18px; height: 18px; border: 2px solid #007acc; border-radius: 50%; background: #007acc28; box-shadow: 0 0 0 4px #007acc24; }
     .preview-cursor { width: 2px; height: 20px; background: #d16969; box-shadow: 0 0 0 1px #fff8; }

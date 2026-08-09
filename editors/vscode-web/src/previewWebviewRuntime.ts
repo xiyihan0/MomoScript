@@ -3,7 +3,6 @@ import { patchRoot } from "@myriaddreamin/typst.ts/dist/esm/render/svg/patch.mjs
 import { kObject } from "@myriaddreamin/typst.ts/dist/esm/internal.types.mjs";
 import * as typstRendererWrapper from "@myriaddreamin/typst-ts-renderer";
 import typstRendererWasmUrl from "@myriaddreamin/typst-ts-renderer/wasm?url";
-import { normalizeTextSelectionNode } from "./previewSelectableText.ts";
 import type { ExactExportFormat } from "./exactExport.ts";
 import {
   base64ToBytes,
@@ -96,7 +95,6 @@ interface RendererImageSource {
   readonly digest: string;
 }
 
-let rendererTextSources = new WeakMap<SVGForeignObjectElement, Element>();
 let rendererImageSources = new WeakMap<SVGImageElement, RendererImageSource>();
 let rendererHiddenGroups = new Map<SVGElement, RendererHiddenGroup>();
 
@@ -112,7 +110,6 @@ class PersistentPreviewRenderer {
   #tail = Promise.resolve();
   #viewportRenderQueued = false;
   #requestedPaddingScreens = 0;
-  #requestedTextHydration = false;
   #framePayloads: Uint8Array[] = [];
   #framePayloadBytes = 0;
   #renderedWindow: RendererWindow | undefined;
@@ -140,9 +137,9 @@ class PersistentPreviewRenderer {
     return this.#tail;
   }
 
-  viewportChanged(hydrateSelectableText = true): void {
+  viewportChanged(): void {
     if (!this.#session || !this.#root) return;
-    this.#enqueueViewportRender(1, hydrateSelectableText);
+    this.#enqueueViewportRender(1);
   }
 
   viewportSettled(): void {
@@ -150,10 +147,6 @@ class PersistentPreviewRenderer {
     this.#enqueueViewportRender(5);
   }
 
-  hydrateSelectableText(): void {
-    if (!this.#session || !this.#root || this.#disposed) return;
-    synchronizeRendererTextSelectionLayers(this.#root, this.#boundedWindow(0), true);
-  }
 
   reset(): Promise<void> {
     const operation = this.#tail.then(() => this.#resetNow());
@@ -166,13 +159,11 @@ class PersistentPreviewRenderer {
     this.#framePayloadBytes = 0;
     this.#renderedWindow = undefined;
     this.#requestedPaddingScreens = 0;
-    this.#requestedTextHydration = false;
     this.#viewportRenderQueued = false;
     this.#replaceRootResources = false;
     this.#root?.remove();
     clearImageUrls();
     this.#root = undefined;
-    rendererTextSources = new WeakMap();
     rendererImageSources = new WeakMap();
     rendererHiddenGroups = new Map();
     const session = this.#session;
@@ -188,7 +179,6 @@ class PersistentPreviewRenderer {
     this.#framePayloadBytes = 0;
     this.#renderedWindow = undefined;
     this.#requestedPaddingScreens = 0;
-    this.#requestedTextHydration = false;
     this.#viewportRenderQueued = false;
     this.#replaceRootResources = Boolean(this.#root);
     const session = this.#session;
@@ -297,7 +287,7 @@ class PersistentPreviewRenderer {
     page.dataset.intrinsicHeight = String(intrinsicHeight);
     const rendererApplyMs = performance.now() - rendererApplyStarted;
     const viewportStarted = performance.now();
-    const metrics = await this.#renderVisibleWindow(1, true, false);
+    const metrics = await this.#renderVisibleWindow(1, true);
     this.#adoptRenderedPageGeometries();
     this.#sessionId = message.sessionId;
     this.#committedGeneration = message.rendererGeneration;
@@ -354,24 +344,21 @@ class PersistentPreviewRenderer {
     (previous as RuntimeRenderSession)[kObject].free();
   }
 
-  #enqueueViewportRender(paddingScreens: number, hydrateSelectableText = true): void {
+  #enqueueViewportRender(paddingScreens: number): void {
     this.#requestedPaddingScreens = Math.max(this.#requestedPaddingScreens, paddingScreens);
-    this.#requestedTextHydration ||= hydrateSelectableText;
     if (this.#viewportRenderQueued) return;
     this.#viewportRenderQueued = true;
     const operation = this.#tail.then(async () => {
       this.#viewportRenderQueued = false;
       const requested = this.#requestedPaddingScreens;
       this.#requestedPaddingScreens = 0;
-      const hydrateText = this.#requestedTextHydration;
-      this.#requestedTextHydration = false;
       if (!this.#session || !this.#root || this.#disposed) return;
       const requiredWindow = this.#boundedWindow(requested >= 5 ? requested : 0);
       if (this.#renderedWindow && rendererWindowContains(this.#renderedWindow, requiredWindow)) {
-        synchronizeRendererTextSelectionLayers(this.#root, this.#boundedWindow(0), hydrateText);
+        synchronizeRendererTextSelectionLayers(this.#root, this.#boundedWindow(0));
         return;
       }
-      await this.#renderVisibleWindow(requested, false, hydrateText);
+      await this.#renderVisibleWindow(requested);
     });
     this.#tail = operation.then(() => undefined, () => undefined);
     void operation.catch((error: unknown) => showStatus(
@@ -383,7 +370,6 @@ class PersistentPreviewRenderer {
   async #renderVisibleWindow(
     paddingScreens: number,
     preserveCoveredWindow = false,
-    hydrateSelectableText = true,
   ): Promise<RendererPatchMetrics> {
     if (!this.#session) throw new Error("Preview renderer session is unavailable");
     const requestedWindow = this.#boundedWindow(paddingScreens);
@@ -423,7 +409,7 @@ class PersistentPreviewRenderer {
       this.#root = next;
     }
     ensureRendererPageBackgrounds(this.#root);
-    synchronizeRendererTextSelectionLayers(this.#root, textWindow, hydrateSelectableText);
+    synchronizeRendererTextSelectionLayers(this.#root, textWindow);
     await materializeRendererImageUrls(this.#root);
     const currentNodeIds = rendererNodeIds(this.#root);
     const removedNodes = [...previousNodeIds].filter((id) => !currentNodeIds.has(id)).length;
@@ -651,7 +637,7 @@ async function restoreViewport(state: PreviewViewport | undefined): Promise<void
       const pageBounds = page.getBoundingClientRect();
       viewport.scrollLeft += pageBounds.left + target.x * zoom - (viewportBounds.left + viewportBounds.width / 2);
       viewport.scrollTop += pageBounds.top + target.y * zoom - (viewportBounds.top + viewportBounds.height / 2);
-      persistentRenderer.viewportChanged(false);
+      persistentRenderer.viewportChanged();
     }
     resolve();
   }));
@@ -708,7 +694,6 @@ function restoreRendererPresentationMutations(root: ParentNode): void {
 function synchronizeRendererTextSelectionLayers(
   root: SVGSVGElement,
   windowRect: RendererWindow,
-  hydrateVisibleText = true,
 ): void {
   for (const [group, hidden] of [...rendererHiddenGroups]) {
     if (!group.isConnected) {
@@ -717,24 +702,12 @@ function synchronizeRendererTextSelectionLayers(
     }
     if (rendererBoundsIntersect(hidden.bounds, windowRect)) restoreRendererHiddenGroup(group);
   }
-  const layers: Array<{
-    readonly node: SVGForeignObjectElement;
-    readonly source: Element;
-    readonly visible: boolean;
-  }> = [];
   const groupBounds = new Map<SVGElement, RendererBounds>();
   for (const node of root.querySelectorAll("foreignObject")) {
     if (!(node instanceof SVGForeignObjectElement)) continue;
     const current = node.children[0];
     if (!(current instanceof HTMLElement) || !current.classList.contains("tsel")) continue;
-    let source = rendererTextSources.get(node);
-    if (!source || (current !== source && !current.querySelector(":scope > .tsel-token"))) {
-      source = current;
-      rendererTextSources.set(node, source);
-    }
     const bounds = rendererDocumentBounds(node, root);
-    const visible = !bounds || rendererBoundsIntersect(bounds, windowRect);
-    layers.push({ node, source, visible });
     const group = rendererWindowGroup(node, root);
     if (group && bounds) groupBounds.set(group, rendererBoundsUnion(groupBounds.get(group), bounds));
   }
@@ -746,13 +719,6 @@ function synchronizeRendererTextSelectionLayers(
     fragment.append(...[...group.childNodes]);
     group.setAttribute("data-mmt-window-hidden", "");
     rendererHiddenGroups.set(group, { fragment, bounds });
-  }
-  for (const { node, source, visible } of layers) {
-    if (visible) {
-      if (hydrateVisibleText && node.children[0] === source) normalizeTextSelectionNode(node);
-    } else if (node.children[0] !== source) {
-      node.replaceChildren(source);
-    }
   }
 }
 
@@ -1031,9 +997,6 @@ async function renderFrame(message: RendererFrameMessage): Promise<void> {
     viewportRenderMs: rendered.viewportRenderMs,
     iframeTransferMs,
   });
-  window.setTimeout(() => {
-    if (generation === renderGeneration) persistentRenderer.hydrateSelectableText();
-  }, 0);
   if (persistentRenderer.requiresResync) {
     vscode.postMessage({
       type: "renderer-resync-needed",
