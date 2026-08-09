@@ -195,6 +195,30 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
     return range.toString();
   })).toBe("e");
 
+  const renderedGlyphColor = async () => await selectableText.evaluate((element) => {
+    const glyph = element.closest(".typst-text")?.querySelector(":scope > use");
+    if (!(glyph instanceof SVGElement)) {
+      return null;
+    }
+    const style = getComputedStyle(glyph);
+    return { fill: style.fill, stroke: style.stroke };
+  });
+  await previewFrame.locator(".preview-toolbar").hover();
+  await expect.poll(renderedGlyphColor).not.toEqual({
+    fill: "rgb(247, 92, 47)",
+    stroke: "rgb(247, 92, 47)",
+  });
+  await selectableText.hover();
+  await expect.poll(renderedGlyphColor).toEqual({
+    fill: "rgb(247, 92, 47)",
+    stroke: "rgb(247, 92, 47)",
+  });
+  await previewFrame.locator(".preview-toolbar").hover();
+  await expect.poll(renderedGlyphColor).not.toEqual({
+    fill: "rgb(247, 92, 47)",
+    stroke: "rgb(247, 92, 47)",
+  });
+
   const tokenGeometry = await previewFrame.locator(".tsel").filter({ hasText: "12345" }).first().locator(".tsel-token").nth(2).evaluate((element) => {
     const bounds = element.getBoundingClientRect();
     const style = getComputedStyle(element);

@@ -430,6 +430,8 @@ function previewWebviewHtml(webview: vscode.Webview, title: string): string {
     .page > svg { display: block; width: 100%; height: 100%; max-width: none; }
     .page > .typst-renderer-root { display: block; width: 100%; height: 100%; max-width: none; user-select: text; }
     .page > .typst-renderer-root text { cursor: text; user-select: text; }
+    .page .typst-text { pointer-events: bounding-box; cursor: text; }
+    .page .typst-text:hover > use { fill: #f75c2f; stroke: #f75c2f; }
     .page .tsel { contain: layout paint style; left: 0; position: fixed; width: 100%; height: 100%; overflow: hidden; color: transparent; font-family: monospace; line-height: normal; text-align: left; text-align-last: left; white-space: pre; pointer-events: auto; user-select: text; cursor: text; transform: translateY(0.32em); transform-origin: left top; -webkit-text-size-adjust: none; text-size-adjust: none; }
     .page .tsel .tsel-token { display: inline-block; position: relative; width: 0.602em; height: 1em; line-height: normal; }
     .page .tsel::selection, .page .tsel .tsel-token::selection { color: transparent; background: #7db9dea0; }
