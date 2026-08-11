@@ -410,22 +410,23 @@ function previewWebviewHtml(webview: vscode.Webview, title: string): string {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(title)}</title>
   <style>
-    html, body { margin: 0; min-height: 100%; background: var(--vscode-editor-background); color: var(--vscode-editor-foreground); }
-    body { box-sizing: border-box; font-family: var(--vscode-font-family); }
-    .preview-toolbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 4px 12px; box-sizing: border-box; border-bottom: 1px solid var(--vscode-panel-border); background: var(--vscode-editor-background); }
-    .zoom-controls { display: flex; align-items: center; gap: 5px; }
-    .zoom-controls button, .exact-export button, .exact-export select { min-height: 26px; border: 1px solid var(--vscode-button-border, var(--vscode-panel-border)); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); cursor: pointer; }
+    html, body { margin: 0; width: 100%; height: 100%; min-height: 0; overflow: hidden; background: var(--vscode-editor-background); color: var(--vscode-editor-foreground); }
+    body { display: flex; flex-direction: column; box-sizing: border-box; font-family: var(--vscode-font-family); }
+    .preview-toolbar { position: relative; z-index: 2; display: flex; flex: 0 0 auto; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 4px 12px; box-sizing: border-box; border-bottom: 1px solid var(--vscode-panel-border); background: var(--vscode-editor-background); }
+    .zoom-controls { display: flex; flex: 0 0 auto; align-items: center; gap: 5px; }
+    .zoom-controls > * { flex: 0 0 auto; }
+    .zoom-controls button, .exact-export button, .exact-export select { min-height: 26px; border: 1px solid var(--vscode-button-border, var(--vscode-panel-border)); border-radius: 2px; color: var(--vscode-button-foreground); background: var(--vscode-button-background); cursor: pointer; white-space: nowrap; }
     .zoom-label { width: 44px; color: var(--vscode-descriptionForeground); font: 12px var(--vscode-editor-font-family); text-align: center; }
-    .exact-export { display: grid; grid-template-columns: auto auto; align-items: center; justify-content: end; gap: 4px 6px; min-width: 0; }
-    .exact-export-format { display: inline-flex; align-items: center; gap: 5px; color: var(--vscode-descriptionForeground); font-size: 11px; }
+    .exact-export { display: grid; flex: 1 1 440px; grid-template-columns: auto auto minmax(100px, 1fr); align-items: center; justify-content: stretch; gap: 4px 6px; min-width: 0; }
+    .exact-export-format { display: inline-flex; align-items: center; gap: 5px; min-width: 0; color: var(--vscode-descriptionForeground); font-size: 11px; }
     .exact-export button { padding: 3px 8px; }
     .exact-export select:disabled, .exact-export button:disabled { cursor: not-allowed; opacity: .55; }
     .exact-export-stale { display: flex; gap: 4px; }
     .exact-export-stale[hidden], .exact-export [hidden] { display: none; }
-    .exact-export-status { grid-column: 1 / -1; max-width: 520px; overflow: hidden; color: var(--vscode-descriptionForeground); font-size: 11px; text-align: right; text-overflow: ellipsis; white-space: nowrap; }
+    .exact-export-status { grid-column: auto; min-width: 0; max-width: 360px; overflow: hidden; color: var(--vscode-descriptionForeground); font-size: 11px; text-align: right; text-overflow: ellipsis; white-space: nowrap; }
     .exact-export[data-availability="stale"] .exact-export-status { color: var(--vscode-editorWarning-foreground, #cca700); }
     .exact-export[data-availability="failed"] .exact-export-status, .exact-export[data-phase="error"] .exact-export-status { color: var(--vscode-errorForeground); }
-    .viewport { display: flex; justify-content: center; min-width: min-content; height: calc(100vh - 43px); overflow: auto; box-sizing: border-box; padding: 24px; background: #e5e5e5; }
+    .viewport { display: flex; flex: 1 1 auto; justify-content: center; width: 100%; min-width: 0; min-height: 0; overflow: auto; box-sizing: border-box; padding: 24px; background: #e5e5e5; }
     .page { position: relative; flex: 0 0 auto; background: transparent; line-height: 0; box-shadow: 0 2px 5px #0008; transform-origin: top left; }
     .page > svg { display: block; width: 100%; height: 100%; max-width: none; }
     .page > .typst-renderer-root { display: block; width: 100%; height: 100%; max-width: none; }
@@ -436,9 +437,16 @@ function previewWebviewHtml(webview: vscode.Webview, title: string): string {
     .preview-indicator, .preview-cursor { position: absolute; z-index: 4; pointer-events: none; transform: translate(-50%, -50%); }
     .preview-indicator { width: 18px; height: 18px; border: 2px solid #007acc; border-radius: 50%; background: #007acc28; box-shadow: 0 0 0 4px #007acc24; }
     .preview-cursor { width: 2px; height: 20px; background: #d16969; box-shadow: 0 0 0 1px #fff8; }
-    .status { display: grid; min-height: 100vh; place-items: center; color: var(--vscode-descriptionForeground); }
+    .status { display: grid; flex: 1 1 auto; min-height: 0; place-items: center; color: var(--vscode-descriptionForeground); }
     .status.error { color: var(--vscode-errorForeground); }
     .status[hidden], .viewport[hidden] { display: none; }
+    @media (max-width: 720px) {
+      .preview-toolbar { align-items: stretch; }
+      .zoom-controls { width: 100%; }
+      .exact-export { flex-basis: 100%; grid-template-columns: minmax(0, 1fr) auto; }
+      .exact-export-format select { min-width: 0; max-width: 100%; }
+      .exact-export-status { grid-column: 1 / -1; max-width: none; text-align: left; }
+    }
   </style>
 </head>
 <body>

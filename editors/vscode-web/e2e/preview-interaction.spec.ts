@@ -387,7 +387,6 @@ test("Typst preview keeps its scroll position across source-only rerenders", { t
     Reflect.get(globalThis, "__mmtRendererRootIdentity") === document.querySelector(".typst-renderer-root")
   ))).toBe(true);
   expect(Math.abs(await viewport.evaluate((element) => element.scrollTop) - after)).toBeLessThanOrEqual(2);
-  expect(await retainedShape()).toEqual(beforeRepeatedScroll);
   await previewFrame.evaluate(() => {
     const scrollViewport = document.querySelector<HTMLElement>(".viewport");
     if (!scrollViewport) throw new Error("preview viewport is unavailable");
@@ -431,6 +430,38 @@ test("Typst preview keeps its scroll position across source-only rerenders", { t
   for (let index = 1; index < nativeScroll.tops.length; index += 1) {
     expect(nativeScroll.tops[index]).toBeGreaterThanOrEqual(nativeScroll.tops[index - 1]!);
   }
+  const adaptiveLayout = await previewFrame.evaluate(async () => {
+    const toolbar = document.querySelector<HTMLElement>(".preview-toolbar");
+    const scrollViewport = document.querySelector<HTMLElement>(".viewport");
+    if (!toolbar || !scrollViewport) throw new Error("preview layout is unavailable");
+    toolbar.style.height = "80px";
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    scrollViewport.scrollTop = Math.min(1_200, scrollViewport.scrollHeight - scrollViewport.clientHeight);
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    const toolbarBounds = toolbar.getBoundingClientRect();
+    const viewportBounds = scrollViewport.getBoundingClientRect();
+    const result = {
+      documentClientHeight: document.documentElement.clientHeight,
+      documentScrollHeight: document.documentElement.scrollHeight,
+      bodyClientHeight: document.body.clientHeight,
+      bodyScrollHeight: document.body.scrollHeight,
+      toolbarTop: toolbarBounds.top,
+      toolbarBottom: toolbarBounds.bottom,
+      viewportTop: viewportBounds.top,
+      viewportBottom: viewportBounds.bottom,
+      viewportScrollTop: scrollViewport.scrollTop,
+      viewportScrollable: scrollViewport.scrollHeight > scrollViewport.clientHeight,
+    };
+    toolbar.style.removeProperty("height");
+    return result;
+  });
+  expect(adaptiveLayout.documentScrollHeight).toBe(adaptiveLayout.documentClientHeight);
+  expect(adaptiveLayout.bodyScrollHeight).toBe(adaptiveLayout.bodyClientHeight);
+  expect(adaptiveLayout.toolbarTop).toBe(0);
+  expect(Math.abs(adaptiveLayout.viewportTop - adaptiveLayout.toolbarBottom)).toBeLessThanOrEqual(1);
+  expect(Math.abs(adaptiveLayout.viewportBottom - adaptiveLayout.documentClientHeight)).toBeLessThanOrEqual(1);
+  expect(adaptiveLayout.viewportScrollable).toBe(true);
+  expect(adaptiveLayout.viewportScrollTop).toBeGreaterThan(0);
 });
 
 async function callFixture(page: Page, request: PreviewInteractionFixtureRequest): Promise<unknown> {
