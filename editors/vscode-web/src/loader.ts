@@ -1,4 +1,7 @@
 import "./style.css";
+import { MMT_BUILD_VERSION } from "./buildInfo";
+
+document.documentElement.dataset.mmtVersion = MMT_BUILD_VERSION;
 
 void import("./main").catch((error: unknown) => {
   const root = document.querySelector<HTMLElement>("#workbench");

@@ -1,13 +1,53 @@
 import { createHash } from "node:crypto";
+import { execFileSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import importMetaUrlPlugin from "@codingame/esbuild-import-meta-url-plugin";
 import { defineConfig, type Plugin } from "vite";
 import {
   PINNED_RUNTIME_ARTIFACT_URLS,
   PRELOADED_RUNTIME_ARTIFACT_URLS,
 } from "./src/runtimeArtifacts";
+
+const BUILD_VERSION_PATTERN = /^\d{12}-[0-9a-f]{7}$/;
+const REPOSITORY_ROOT = fileURLToPath(new URL("../..", import.meta.url));
+
+function resolveBuildVersion(): string {
+  const override = process.env.MOMOSCRIPT_BUILD_VERSION?.trim();
+  if (override) {
+    if (!BUILD_VERSION_PATTERN.test(override)) {
+      throw new Error("MOMOSCRIPT_BUILD_VERSION must match YYYYMMDDHHmm-abcdef0");
+    }
+    return override;
+  }
+
+  const [epochText, commit = ""] = execFileSync(
+    "git",
+    ["show", "-s", "--format=%ct%n%H", "HEAD"],
+    { cwd: REPOSITORY_ROOT, encoding: "utf8" },
+  ).trim().split(/\r?\n/, 2);
+  const epochSeconds = Number(epochText);
+  if (!Number.isSafeInteger(epochSeconds) || !/^[0-9a-f]{40}$/.test(commit)) {
+    throw new Error("Cannot derive the MomoScript build version from the current Git commit");
+  }
+
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Shanghai",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+    }).formatToParts(new Date(epochSeconds * 1_000)).map(({ type, value }) => [type, value]),
+  );
+  return `${parts.year}${parts.month}${parts.day}${parts.hour}${parts.minute}-${commit.slice(0, 7)}`;
+}
+
+const buildVersion = resolveBuildVersion();
 
 function publicAssets(root: string): Array<{ url: string; bytes: Buffer }> {
   const output: Array<{ url: string; bytes: Buffer }> = [];
@@ -226,7 +266,8 @@ export default defineConfig({
 
   plugins: [typstCompilerBindingsPlugin(), e2eLifecyclePlugin(), monacoWebviewOfflineCachePlugin(), pwaPrecachePlugin()],
   define: {
-    "import.meta.env.VITE_MMT_E2E": JSON.stringify(process.env.VITE_MMT_E2E === "1" ? "1" : "0")
+    "import.meta.env.VITE_MMT_BUILD_VERSION": JSON.stringify(buildVersion),
+    "import.meta.env.VITE_MMT_E2E": JSON.stringify(process.env.VITE_MMT_E2E === "1" ? "1" : "0"),
   },
   build: {
     target: "esnext",

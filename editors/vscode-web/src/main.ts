@@ -77,6 +77,7 @@ import type { PreviewTraceSession } from "./previewPerformance.ts";
 import { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart";
 import { registerPwaUpdateLifecycle } from "./pwaUpdate";
 import { showMomoScriptMessage } from "./notifications";
+import { MMT_BUILD_VERSION } from "./buildInfo";
 import {
   TINYMIST_VERSION,
   TINYMIST_WASM_SHA256,
@@ -1495,6 +1496,7 @@ async function initializeRuntime(
   subscribe(registerLocalHistoryCommands(provider));
   subscribe(registerCharacterGalleryCommands(() => galleryPacks));
   output = own(vscode.window.createOutputChannel("MomoScript"));
+  log("host", `MomoScript build ${MMT_BUILD_VERSION}`);
   log("host", "VS Code Workbench ready");
   const applyPanelVisibility = (visible: boolean) => {
     layout.setPanelVisible(visible);
