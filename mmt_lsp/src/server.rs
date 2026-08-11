@@ -4,8 +4,8 @@ use lsp_types::{
     CompletionItem, CompletionOptions, CompletionParams, Diagnostic, DidChangeTextDocumentParams,
     DidCloseTextDocumentParams, DidOpenTextDocumentParams, DocumentSymbolParams,
     FoldingRangeParams, FoldingRangeProviderCapability, Hover, HoverProviderCapability,
-    InitializeParams, InitializeResult, Location, LogMessageParams, MessageType, OneOf, Position,
-    PositionEncodingKind, PublishDiagnosticsParams, Range, SemanticTokenType,
+    InitializeParams, InitializeResult, InlayHintParams, Location, LogMessageParams, MessageType,
+    OneOf, Position, PositionEncodingKind, PublishDiagnosticsParams, Range, SemanticTokenType,
     SemanticTokensFullOptions, SemanticTokensLegend, SemanticTokensOptions, SemanticTokensParams,
     SemanticTokensServerCapabilities, ServerCapabilities, ServerInfo, SignatureHelpOptions,
     TextDocumentIdentifier, TextDocumentSyncCapability, TextDocumentSyncKind, Url,
@@ -292,6 +292,13 @@ impl MmtLanguageServer {
             "textDocument/semanticTokens/full" => {
                 let params: SemanticTokensParams = decode(params)?;
                 encode(self.service.semantic_tokens(&params.text_document.uri))
+            }
+            "textDocument/inlayHint" => {
+                let params: InlayHintParams = decode(params)?;
+                encode(
+                    self.service
+                        .inlay_hints(&params.text_document.uri, params.range),
+                )
             }
             "textDocument/completion" => {
                 let params: CompletionParams = decode(params)?;
@@ -840,6 +847,7 @@ impl MmtLanguageServer {
                     ..CompletionOptions::default()
                 }),
                 hover_provider: Some(HoverProviderCapability::Simple(true)),
+                inlay_hint_provider: Some(OneOf::Left(true)),
                 signature_help_provider: Some(SignatureHelpOptions {
                     trigger_characters: Some(vec!["(".to_string(), ",".to_string()]),
                     retrigger_characters: Some(vec![",".to_string()]),
@@ -1080,6 +1088,86 @@ mod tests {
         assert_eq!(events[0].method, "textDocument/publishDiagnostics");
         assert_eq!(events[1].method, "mmt/previewRequested");
         assert_eq!(events[1].params["revision"], 1);
+    }
+
+    #[test]
+    fn serves_resolved_speaker_inlay_hints_over_the_lsp_contract() {
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{
+                "A":{"names":["A"],"display_name":"Actor A"},
+                "B":{"names":["B"],"display_name":"Actor B"}
+            }
+        }"#;
+        let mut server = MmtLanguageServer::default();
+        let initialized = server.request("initialize", initialize(false)).unwrap();
+        assert_eq!(
+            initialized["capabilities"]["inlayHintProvider"],
+            serde_json::json!(true)
+        );
+        server
+            .request(
+                "mmt/updatePackManifests",
+                serde_json::json!({
+                    "revision": 1,
+                    "sources": [{
+                        "manifestUrl": "https://example.test/manifest.json",
+                        "baseUrl": "https://example.test/",
+                        "json": manifest
+                    }]
+                }),
+            )
+            .unwrap();
+        server
+            .notification(
+                "textDocument/didOpen",
+                serde_json::json!({
+                    "textDocument": {
+                        "uri": "file:///workspace/example.mmt",
+                        "languageId": "mmt",
+                        "version": 1,
+                        "text": "> A: first\n> B: second\n> _1: third\n> ~1: fourth\n> fifth"
+                    }
+                }),
+            )
+            .unwrap();
+
+        let hints = server
+            .request(
+                "textDocument/inlayHint",
+                serde_json::json!({
+                    "textDocument": { "uri": "file:///workspace/example.mmt" },
+                    "range": {
+                        "start": { "line": 0, "character": 0 },
+                        "end": { "line": 4, "character": 7 }
+                    }
+                }),
+            )
+            .unwrap();
+        assert_eq!(
+            hints,
+            serde_json::json!([
+                {
+                    "position": { "line": 2, "character": 4 },
+                    "label": "→ Actor A",
+                    "tooltip": "实际说话人：Actor A",
+                    "paddingLeft": true
+                },
+                {
+                    "position": { "line": 3, "character": 4 },
+                    "label": "→ Actor A",
+                    "tooltip": "实际说话人：Actor A",
+                    "paddingLeft": true
+                },
+                {
+                    "position": { "line": 4, "character": 1 },
+                    "label": "→ Actor A",
+                    "tooltip": "实际说话人：Actor A",
+                    "paddingLeft": true
+                }
+            ])
+        );
     }
 
     #[test]

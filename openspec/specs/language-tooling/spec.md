@@ -364,6 +364,14 @@ Explicit speaker tokens and history references SHALL resolve through the lowered
 - AND completion detail MUST label the resolved display name without rewriting bare `_` or `~` aliases
 - AND a future actor revision after the current statement MUST NOT leak into that label
 
+#### Scenario: Implicit and history speakers expose inlay names
+
+- GIVEN an implicit `>` / `<` statement or `_n` / `~n` history reference resolves to a script actor
+- WHEN a native or browser client requests inlay hints for the visible range
+- THEN the shared language service MUST label the shorthand with the display name from the actor revision selected for that statement
+- AND the hint MUST be anchored after the statement sigil or authored history reference without editing source text
+- AND explicit speaker markers、unresolved references and built-in fallbacks MUST NOT receive a duplicated or invented actor name
+
 ### Requirement: Web preview and workspace expose authored structure
 
 The Web editor SHALL render Typst SVG with user-controlled zoom and SHALL represent its `mmtfs://workspace/` authority as the workspace root without creating a duplicate `/workspace` child path.

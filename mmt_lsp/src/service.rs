@@ -3,9 +3,10 @@ use std::{collections::HashMap, sync::Arc};
 use lsp_types::{
     CompletionItem, CompletionItemKind, CompletionTextEdit, Diagnostic,
     DiagnosticRelatedInformation, DiagnosticSeverity, DocumentSymbol, FoldingRange,
-    FoldingRangeKind, Hover, HoverContents, Location, MarkupContent, MarkupKind,
-    ParameterInformation, ParameterLabel, Position, PositionEncodingKind, SemanticToken,
-    SemanticTokens, SignatureHelp, SignatureInformation, SymbolKind, TextEdit, Url,
+    FoldingRangeKind, Hover, HoverContents, InlayHint, InlayHintLabel, InlayHintTooltip, Location,
+    MarkupContent, MarkupKind, ParameterInformation, ParameterLabel, Position,
+    PositionEncodingKind, SemanticToken, SemanticTokens, SignatureHelp, SignatureInformation,
+    SymbolKind, TextEdit, Url,
 };
 use mmt_rs::diag::{Diagnostic as MmtDiagnostic, Severity};
 use mmt_rs::pack::{PackManifest, PackRegistry};
@@ -725,6 +726,73 @@ impl LanguageService {
         items
     }
 
+    pub fn inlay_hints(&self, uri: &Url, range: lsp_types::Range) -> Vec<InlayHint> {
+        let Some(document) = self.snapshot(uri) else {
+            return Vec::new();
+        };
+        let Some(request_start) =
+            document
+                .lines
+                .offset(&document.text, range.start, &self.encoding)
+        else {
+            return Vec::new();
+        };
+        let Some(request_end) = document
+            .lines
+            .offset(&document.text, range.end, &self.encoding)
+        else {
+            return Vec::new();
+        };
+
+        document
+            .analysis
+            .document
+            .nodes
+            .iter()
+            .filter_map(|node| {
+                let SyntaxNode::Statement(statement) = node else {
+                    return None;
+                };
+                if statement.kind == StatementKind::Narration {
+                    return None;
+                }
+                let anchor = match &statement.marker {
+                    None => statement
+                        .patch
+                        .as_ref()
+                        .map_or(statement.range.start.saturating_add(1), |patch| {
+                            patch.range.end
+                        }),
+                    Some(
+                        SpeakerMarkerSyntax::BackRef { range, .. }
+                        | SpeakerMarkerSyntax::UniqueIndex { range, .. },
+                    ) => range.end,
+                    Some(SpeakerMarkerSyntax::Explicit { .. }) => return None,
+                };
+                if anchor < request_start || anchor > request_end {
+                    return None;
+                }
+                let (_, revision) = resolved_statement_actor(document, statement.range)?;
+                let position = document
+                    .lines
+                    .position(&document.text, anchor, &self.encoding)?;
+                let display_name = &revision.state.display_name;
+                Some(InlayHint {
+                    position,
+                    label: InlayHintLabel::String(format!("→ {display_name}")),
+                    kind: None,
+                    text_edits: None,
+                    tooltip: Some(InlayHintTooltip::String(format!(
+                        "实际说话人：{display_name}"
+                    ))),
+                    padding_left: Some(true),
+                    padding_right: None,
+                    data: None,
+                })
+            })
+            .collect()
+    }
+
     pub fn hover(&self, uri: &Url, position: Position) -> Option<Hover> {
         let document = self.snapshot(uri)?;
         let offset = document
@@ -749,19 +817,7 @@ impl LanguageService {
                 ))
             })
         {
-            let actors = &document.analysis.actors;
-            let speaker = actors
-                .speakers
-                .iter()
-                .find(|speaker| speaker.statement_range == statement.range)?;
-            let SpeakerIdentity::Actor(actor_id) = speaker.speaker else {
-                return None;
-            };
-            let actor = actors.actors.iter().find(|actor| actor.id == actor_id)?;
-            let revision = actor
-                .revisions
-                .iter()
-                .find(|revision| Some(revision.number) == speaker.revision)?;
+            let (actor, revision) = resolved_statement_actor(document, statement.range)?;
             let mut value = format!(
                 "**{}**\n\nActor {} · preset {} · revision {}",
                 markdown_text(&revision.state.display_name),
@@ -1443,6 +1499,32 @@ impl LanguageService {
             collapsed_text: None,
         })
     }
+}
+
+fn resolved_statement_actor(
+    document: &DocumentSnapshot,
+    statement_range: TextRange,
+) -> Option<(&mmt_rs::ScriptActor, &mmt_rs::ActorRevision)> {
+    let speaker = document
+        .analysis
+        .actors
+        .speakers
+        .iter()
+        .find(|speaker| speaker.statement_range == statement_range)?;
+    let SpeakerIdentity::Actor(actor_id) = &speaker.speaker else {
+        return None;
+    };
+    let actor = document
+        .analysis
+        .actors
+        .actors
+        .iter()
+        .find(|actor| actor.id == *actor_id)?;
+    let revision = actor
+        .revisions
+        .iter()
+        .find(|revision| Some(revision.number) == speaker.revision)?;
+    Some((actor, revision))
 }
 
 fn markdown_text(value: &str) -> String {
@@ -2647,6 +2729,59 @@ mod tests {
         };
         assert!(contents.value.contains("**Revised A**"));
         assert!(contents.value.contains("Reference ` _ ` → ` Revised A `"));
+    }
+
+    #[test]
+    fn inlay_hints_show_resolved_implicit_and_reference_speakers() {
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{
+                "A":{"names":["A"],"display_name":"Actor A"},
+                "B":{"names":["B"],"display_name":"Actor B"}
+            }
+        }"#;
+        let mut service = LanguageService::default();
+        service
+            .update_pack_manifests(1, &[manifest.to_string()])
+            .unwrap();
+        service.open(
+            uri(),
+            1,
+            "@actor alice\npreset: ba::A\n@end\n@actor bob\npreset: ba::B\n@end\n> alice: first\n> second\n> bob: third\n> _1: fourth\n> ~1: fifth\n> bob: explicit\n< fallback"
+                .to_string(),
+        );
+
+        let hints = service.inlay_hints(
+            &uri(),
+            lsp_types::Range::new(Position::new(0, 0), Position::new(12, 10)),
+        );
+        assert_eq!(hints.len(), 3);
+        assert_eq!(
+            hints.iter().map(|hint| hint.position).collect::<Vec<_>>(),
+            vec![
+                Position::new(7, 1),
+                Position::new(9, 4),
+                Position::new(10, 4),
+            ]
+        );
+        assert!(hints.iter().all(|hint| {
+            matches!(
+                &hint.label,
+                InlayHintLabel::String(label) if label == "→ Actor A"
+            )
+        }));
+        assert!(matches!(
+            &hints[0].tooltip,
+            Some(InlayHintTooltip::String(tooltip)) if tooltip == "实际说话人：Actor A"
+        ));
+
+        let visible_line = service.inlay_hints(
+            &uri(),
+            lsp_types::Range::new(Position::new(9, 0), Position::new(9, 12)),
+        );
+        assert_eq!(visible_line.len(), 1);
+        assert_eq!(visible_line[0].position, Position::new(9, 4));
     }
     #[test]
     fn completes_and_hovers_resolved_ordinal_resource_markers() {

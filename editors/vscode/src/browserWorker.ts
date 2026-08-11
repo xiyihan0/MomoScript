@@ -74,6 +74,9 @@ async function start(wasmBytes: ArrayBuffer): Promise<void> {
   connection.languages.semanticTokens.on((params) =>
     request("textDocument/semanticTokens/full", params)
   );
+  connection.languages.inlayHint.on((params) =>
+    request("textDocument/inlayHint", params)
+  );
   connection.onCompletion((params) => request("textDocument/completion", params));
   connection.onHover((params) => request("textDocument/hover", params));
   connection.onSignatureHelp((params) => request("textDocument/signatureHelp", params));

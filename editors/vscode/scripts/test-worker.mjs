@@ -172,6 +172,10 @@ try {
               slots: { avatar: { default: "default", items: {
                 default: { storage: "avatars", path: "yuzu.png" }
               } } }
+            },
+            "花子": {
+              names: ["花子"],
+              display_name: "浦和花子"
             }
           },
           storage: { avatars: { kind: "image-dir", base: "assets/avatar" } }
@@ -198,6 +202,26 @@ try {
       throw new Error("pack update did not advance the virtual Typst projection revision");
     }
     if (afterPackText === beforePackText) throw new Error("pack update did not change projected Typst text");
+    const inlayHintUri = "file:///workspace/speaker-inlay-hints.mmt";
+    notify("textDocument/didOpen", {
+      textDocument: {
+        uri: inlayHintUri,
+        languageId: "mmt",
+        version: 1,
+        text: "> 柚子: first\n> 花子: second\n> _1: third\n> ~1: fourth\n> fifth"
+      }
+    });
+    await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (message) => message.params.uri === inlayHintUri
+    );
+    const speakerInlayHints = await request("textDocument/inlayHint", {
+      textDocument: { uri: inlayHintUri },
+      range: {
+        start: { line: 0, character: 0 },
+        end: { line: 4, character: 7 }
+      }
+    });
     const beforePackRoot = beforePackProject.params.entryUri.slice(0, beforePackProject.params.entryUri.lastIndexOf("/"));
     const afterPackRoot = afterPackProject.params.entryUri.slice(0, afterPackProject.params.entryUri.lastIndexOf("/"));
     if (beforePackProject.params.entryUri === afterPackProject.params.entryUri) {
@@ -535,6 +559,7 @@ try {
       positionEncoding: initialize.capabilities.positionEncoding,
       hoverProvider: initialize.capabilities.hoverProvider,
       semanticTokensProvider: initialize.capabilities.semanticTokensProvider,
+      inlayHintProvider: initialize.capabilities.inlayHintProvider,
       completionTriggerCharacters: initialize.capabilities.completionProvider?.triggerCharacters ?? [],
       diagnosticCount: diagnostics.params.diagnostics.length,
       symbolNames: symbols.map((symbol) => symbol.name),
@@ -544,6 +569,7 @@ try {
       completionLabels: completion.map((item) => item.label),
       presetLabels: presetCompletion.map((item) => item.label),
       speakerLabels: speakerCompletion.map((item) => item.label),
+      speakerInlayHints,
       semanticDiagnosticCount: semanticDiagnostics.params.diagnostics.length,
       packProjectionRevisions: [beforePackProject.params.revision, afterPackProject.params.revision],
       renderResource: renderProject.resources[0].fileName,
@@ -568,6 +594,7 @@ try {
   if (result.positionEncoding !== "utf-16") throw new Error("position encoding mismatch");
   if (result.hoverProvider !== true) throw new Error("missing negotiated hover provider");
   if (!result.semanticTokensProvider?.full) throw new Error("missing negotiated semantic tokens provider");
+  if (result.inlayHintProvider !== true) throw new Error("missing negotiated inlay hint provider");
   if (!result.completionTriggerCharacters.includes(".")) {
     throw new Error("missing negotiated Typst member completion trigger");
   }
@@ -586,6 +613,19 @@ try {
   }
   if (!result.speakerLabels.includes("Yuzu") || !result.speakerLabels.includes("ba::柚子")) {
     throw new Error("missing browser Worker speaker completion");
+  }
+  const expectedSpeakerHintPositions = [[2, 4], [3, 4], [4, 1]];
+  if (
+    result.speakerInlayHints.length !== expectedSpeakerHintPositions.length ||
+    result.speakerInlayHints.some((hint, index) =>
+      hint.label !== "→ 柚子" ||
+      hint.tooltip !== "实际说话人：柚子" ||
+      hint.paddingLeft !== true ||
+      hint.position.line !== expectedSpeakerHintPositions[index][0] ||
+      hint.position.character !== expectedSpeakerHintPositions[index][1]
+    )
+  ) {
+    throw new Error(`unexpected browser Worker speaker inlay hints: ${JSON.stringify(result.speakerInlayHints)}`);
   }
   if (result.semanticDiagnosticCount < 1) throw new Error("missing browser Worker semantic diagnostics");
   console.log(JSON.stringify(result));
