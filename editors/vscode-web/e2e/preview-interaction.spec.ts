@@ -388,6 +388,49 @@ test("Typst preview keeps its scroll position across source-only rerenders", { t
   ))).toBe(true);
   expect(Math.abs(await viewport.evaluate((element) => element.scrollTop) - after)).toBeLessThanOrEqual(2);
   expect(await retainedShape()).toEqual(beforeRepeatedScroll);
+  await previewFrame.evaluate(() => {
+    const scrollViewport = document.querySelector<HTMLElement>(".viewport");
+    if (!scrollViewport) throw new Error("preview viewport is unavailable");
+    Reflect.set(globalThis, "__mmtNativeScrollTops", []);
+    Reflect.set(globalThis, "__mmtRestoreViewportMessages", 0);
+    scrollViewport.addEventListener("scroll", () => {
+      (Reflect.get(globalThis, "__mmtNativeScrollTops") as number[]).push(scrollViewport.scrollTop);
+    }, { passive: true });
+    window.addEventListener("message", (event) => {
+      if (event.data?.type !== "restoreViewport") return;
+      Reflect.set(
+        globalThis,
+        "__mmtRestoreViewportMessages",
+        Number(Reflect.get(globalThis, "__mmtRestoreViewportMessages")) + 1,
+      );
+    });
+  });
+  await page.waitForTimeout(250);
+  await previewFrame.evaluate(() => {
+    Reflect.set(globalThis, "__mmtNativeScrollTops", []);
+    Reflect.set(globalThis, "__mmtRestoreViewportMessages", 0);
+  });
+  const previewFrameElement = await previewFrame.frameElement();
+  const previewFrameBounds = await previewFrameElement.boundingBox();
+  if (!previewFrameBounds) throw new Error("preview frame is not visible");
+  await page.mouse.move(
+    previewFrameBounds.x + previewFrameBounds.width / 2,
+    previewFrameBounds.y + previewFrameBounds.height / 2,
+  );
+  for (let step = 0; step < 8; step += 1) {
+    await page.mouse.wheel(0, 180);
+    await page.waitForTimeout(45);
+  }
+  await page.waitForTimeout(500);
+  const nativeScroll = await previewFrame.evaluate(() => ({
+    tops: Reflect.get(globalThis, "__mmtNativeScrollTops") as number[],
+    restoreMessages: Number(Reflect.get(globalThis, "__mmtRestoreViewportMessages")),
+  }));
+  expect(nativeScroll.restoreMessages).toBe(0);
+  expect(nativeScroll.tops.length).toBeGreaterThan(1);
+  for (let index = 1; index < nativeScroll.tops.length; index += 1) {
+    expect(nativeScroll.tops[index]).toBeGreaterThanOrEqual(nativeScroll.tops[index - 1]!);
+  }
 });
 
 async function callFixture(page: Page, request: PreviewInteractionFixtureRequest): Promise<unknown> {

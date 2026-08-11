@@ -379,7 +379,7 @@ export class PreviewInteractionController {
     this.#viewport = normalizeViewport(viewport, pageCount);
     const identity = this.#bound?.identity;
     if (identity) this.#dependencies.persistence?.save(identity.workspaceId, identity.sourceUri, this.#viewport);
-    this.#dependencies.events?.viewportChanged?.(this.#viewport);
+    // The webview reported this position. Echoing it back races subsequent native scroll events.
     return this.#viewport;
   }
 

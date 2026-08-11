@@ -141,48 +141,178 @@ export async function editBenchmarkDocument(
   return invokeMmtE2E(page, "workspace", "editDocument", name, offset, 1, replacement);
 }
 
+interface PreviewStartupEvent {
+  readonly elapsedMs: number;
+  readonly event: string;
+  readonly detail?: unknown;
+}
+
+function appendPreviewStartupEvent(
+  events: PreviewStartupEvent[],
+  startedAt: number,
+  event: string,
+  detail?: unknown,
+): void {
+  events.push({ elapsedMs: Date.now() - startedAt, event, detail });
+  if (events.length > 80) events.shift();
+}
+
+async function capturePreviewStartupDiagnostics(
+  page: Page,
+  documentName: string,
+  sourceUri: string | undefined,
+): Promise<Record<string, unknown>> {
+  const capture = async (operation: () => Promise<unknown>): Promise<unknown> => {
+    try {
+      return await operation();
+    } catch (error) {
+      return { captureError: error instanceof Error ? error.message : String(error) };
+    }
+  };
+  const [
+    runtimeStatus,
+    activeDocument,
+    projectionEntry,
+    displayedSourceUri,
+    readiness,
+    retainedPreviewState,
+    previewTimings,
+    buildDiagnostics,
+    documentStage,
+  ] = await Promise.all([
+    capture(() => invokeMmtE2E(page, "runtime", "status")),
+    capture(() => invokeMmtE2E(page, "workspace", "activeDocument")),
+    capture(() => invokeMmtE2E(page, "language", "projectionEntry", documentName)),
+    capture(() => invokeMmtE2E(page, "preview", "displayedSourceUri")),
+    sourceUri ? capture(() => previewReadiness(page, sourceUri)) : undefined,
+    capture(() => invokeMmtE2E(page, "preview", "retainedState")),
+    capture(async () => {
+      const samples = await invokeMmtE2E(page, "preview", "timings") as readonly unknown[];
+      return samples.slice(-10);
+    }),
+    sourceUri ? capture(() => invokeMmtE2E(page, "preview", "buildDiagnostics", sourceUri)) : undefined,
+    capture(() => page.evaluate(() => ({
+      stage: document.documentElement.dataset.mmtStage ?? null,
+      startupError: Reflect.get(globalThis, "__mmtStartupError") ?? null,
+      visibilityState: document.visibilityState,
+    }))),
+  ]);
+  return {
+    runtimeStatus,
+    activeDocument,
+    projectionEntry,
+    displayedSourceUri,
+    readiness,
+    retainedPreviewState,
+    previewTimings,
+    buildDiagnostics,
+    documentStage,
+  };
+}
+
 async function executePreviewCommand(page: Page, sourceUri: string): Promise<void> {
   await invokeMmtE2E(page, "preview", "open", sourceUri);
 }
 
-async function previewRequestStarted(page: Page, sourceUri: string): Promise<boolean> {
+async function previewRequestStarted(
+  page: Page,
+  sourceUri: string,
+  attempt: number,
+  startedAt: number,
+  events: PreviewStartupEvent[],
+): Promise<boolean> {
   const deadline = Date.now() + 15_000;
+  let previousStage: string | undefined;
   do {
-    const { stage } = await previewReadiness(page, sourceUri);
-    if (stage !== "idle" && stage !== "project-idle") return true;
+    const readiness = await previewReadiness(page, sourceUri);
+    if (readiness.stage !== previousStage) {
+      previousStage = readiness.stage;
+      appendPreviewStartupEvent(events, startedAt, "readiness-stage", { attempt, readiness });
+    }
+    if (readiness.stage !== "idle" && readiness.stage !== "project-idle") return true;
     await page.waitForTimeout(250);
   } while (Date.now() < deadline);
+  appendPreviewStartupEvent(events, startedAt, "readiness-timeout", {
+    attempt,
+    readiness: await previewReadiness(page, sourceUri),
+  });
   return false;
 }
-async function ensurePreviewRequestStarted(page: Page, sourceUri: string): Promise<void> {
-  for (let attempt = 0; attempt < 4; attempt += 1) {
-    if (await previewRequestStarted(page, sourceUri)) return;
+
+async function ensurePreviewRequestStarted(
+  page: Page,
+  sourceUri: string,
+  startedAt: number,
+  events: PreviewStartupEvent[],
+): Promise<void> {
+  for (let attempt = 1; attempt <= 4; attempt += 1) {
+    if (await previewRequestStarted(page, sourceUri, attempt, startedAt, events)) return;
+    appendPreviewStartupEvent(events, startedAt, "preview-command-dispatch", { attempt });
     await executePreviewCommand(page, sourceUri);
+    appendPreviewStartupEvent(events, startedAt, "preview-command-complete", { attempt });
   }
-  if (await previewRequestStarted(page, sourceUri)) return;
-  throw new Error(`preview command stayed idle after startup retries: ${JSON.stringify(await previewReadiness(page, sourceUri))}`);
+  if (await previewRequestStarted(page, sourceUri, 5, startedAt, events)) return;
+  throw new Error("preview command stayed idle after startup retries");
 }
+
 
 
 export async function openBenchmarkPreview(
   page: Page,
   options: BenchmarkPreviewDocument,
 ): Promise<BenchmarkPreviewDocumentResult> {
-  await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
-  if (options.rendererEnabled !== undefined) {
-    const configured = await invokeMmtE2E(page, "preview", "setRendererEnabled", options.rendererEnabled);
-    expect(configured).toBe(options.rendererEnabled);
-  }
+  const startedAt = Date.now();
+  const startupEvents: PreviewStartupEvent[] = [];
+  const browserEvents: string[] = [];
+  const appendBrowserEvent = (event: string): void => {
+    browserEvents.push(event);
+    if (browserEvents.length > 80) browserEvents.shift();
+  };
+  const onConsole = (message: { type(): string; text(): string }): void => {
+    appendBrowserEvent(`[console:${message.type()}] ${message.text()}`);
+  };
+  const onPageError = (error: Error): void => {
+    appendBrowserEvent(`[pageerror] ${error.stack ?? error.message}`);
+  };
+  page.on("console", onConsole);
+  page.on("pageerror", onPageError);
+  let sourceUri: string | undefined;
+  try {
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
+    appendPreviewStartupEvent(startupEvents, startedAt, "workbench-ready");
+    if (options.rendererEnabled !== undefined) {
+      const configured = await invokeMmtE2E(page, "preview", "setRendererEnabled", options.rendererEnabled);
+      expect(configured).toBe(options.rendererEnabled);
+      appendPreviewStartupEvent(startupEvents, startedAt, "renderer-configured", { enabled: configured });
+    }
 
-  await resetTimings(page);
-  const sourceUri = await invokeMmtE2E(page, "workspace", "openDocument", options.documentName, options.source);
-  await executePreviewCommand(page, sourceUri);
-  await expect.poll(async () => (
-    (await invokeMmtE2E(page, "language", "projectionEntry", options.documentName))?.sourceVersion ?? null
-  ), { timeout: 300_000, intervals: [100, 250, 500, 1_000] }).toBeGreaterThan(0);
-  await ensurePreviewRequestStarted(page, sourceUri);
-  return { sourceUri, preview: await waitForPreviewFrame(page, sourceUri) };
+    await resetTimings(page);
+    sourceUri = await invokeMmtE2E(page, "workspace", "openDocument", options.documentName, options.source);
+    appendPreviewStartupEvent(startupEvents, startedAt, "document-opened", { sourceUri });
+    await executePreviewCommand(page, sourceUri);
+    appendPreviewStartupEvent(startupEvents, startedAt, "preview-command-complete", { attempt: 0 });
+    await expect.poll(async () => (
+      (await invokeMmtE2E(page, "language", "projectionEntry", options.documentName))?.sourceVersion ?? null
+    ), { timeout: 300_000, intervals: [100, 250, 500, 1_000] }).toBeGreaterThan(0);
+    appendPreviewStartupEvent(startupEvents, startedAt, "projection-ready");
+    await ensurePreviewRequestStarted(page, sourceUri, startedAt, startupEvents);
+    appendPreviewStartupEvent(startupEvents, startedAt, "preview-request-started");
+    return { sourceUri, preview: await waitForPreviewFrame(page, sourceUri) };
+  } catch (error) {
+    const diagnostics = await capturePreviewStartupDiagnostics(
+      page,
+      options.documentName,
+      sourceUri,
+    );
+    throw new Error(
+      `${error instanceof Error ? error.message : String(error)}\n`
+      + `preview startup diagnostics: ${JSON.stringify({ startupEvents, browserEvents, diagnostics })}`,
+    );
+  } finally {
+    page.off("console", onConsole);
+    page.off("pageerror", onPageError);
+  }
 }
 
 async function openBenchmarkDocument(
