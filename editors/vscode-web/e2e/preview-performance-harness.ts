@@ -181,8 +181,28 @@ async function capturePreviewStartupDiagnostics(
     documentStage,
   ] = await Promise.all([
     capture(() => invokeMmtE2E(page, "runtime", "status")),
-    capture(() => invokeMmtE2E(page, "workspace", "activeDocument")),
-    capture(() => invokeMmtE2E(page, "language", "projectionEntry", documentName)),
+    capture(async () => {
+      const active = await invokeMmtE2E(page, "workspace", "activeDocument") as {
+        readonly name?: string;
+        readonly languageId: string;
+        readonly text: string;
+      } | null;
+      return active ? {
+        name: active.name ?? null,
+        languageId: active.languageId,
+        textLength: active.text.length,
+      } : null;
+    }),
+    capture(async () => {
+      const projection = await invokeMmtE2E(page, "language", "projectionEntry", documentName) as {
+        readonly sourceVersion: number;
+        readonly text?: string;
+      } | null;
+      return projection ? {
+        sourceVersion: projection.sourceVersion,
+        textLength: projection.text?.length ?? null,
+      } : null;
+    }),
     capture(() => invokeMmtE2E(page, "preview", "displayedSourceUri")),
     sourceUri ? capture(() => previewReadiness(page, sourceUri)) : undefined,
     capture(() => invokeMmtE2E(page, "preview", "retainedState")),
@@ -266,10 +286,12 @@ export async function openBenchmarkPreview(
   const browserEvents: string[] = [];
   const appendBrowserEvent = (event: string): void => {
     browserEvents.push(event);
-    if (browserEvents.length > 80) browserEvents.shift();
+    if (browserEvents.length > 40) browserEvents.shift();
   };
   const onConsole = (message: { type(): string; text(): string }): void => {
-    appendBrowserEvent(`[console:${message.type()}] ${message.text()}`);
+    const type = message.type();
+    if (type !== "warning" && type !== "error") return;
+    appendBrowserEvent(`[console:${type}] ${message.text()}`);
   };
   const onPageError = (error: Error): void => {
     appendBrowserEvent(`[pageerror] ${error.stack ?? error.message}`);
