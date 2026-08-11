@@ -1,9 +1,39 @@
 export interface PwaUpdateLifecycleOptions {
   readonly serviceWorkerUrl?: string;
   readonly prepareForReload: () => Promise<void>;
-  readonly promptForReload: () => Promise<boolean>;
+  readonly promptForReload: (latestBuildVersion: string | undefined) => Promise<boolean>;
   readonly reload?: () => void;
   readonly report: (message: string, error?: unknown) => void;
+}
+
+const BUILD_VERSION_PATTERN = /^\d{12}-[0-9a-f]{7}$/;
+
+function readWaitingBuildVersion(worker: ServiceWorker, timeoutMs = 2_000): Promise<string | undefined> {
+  const { promise, resolve } = Promise.withResolvers<string | undefined>();
+  const channel = new MessageChannel();
+  let timer: number | undefined;
+  let settled = false;
+  const finish = (version: string | undefined) => {
+    if (settled) return;
+    settled = true;
+    if (timer !== undefined) window.clearTimeout(timer);
+    channel.port1.close();
+    resolve(version);
+  };
+  channel.port1.onmessage = (event: MessageEvent<unknown>) => {
+    const data = event.data;
+    const version = data && typeof data === "object"
+      ? Reflect.get(data, "version")
+      : undefined;
+    finish(typeof version === "string" && BUILD_VERSION_PATTERN.test(version) ? version : undefined);
+  };
+  timer = window.setTimeout(() => finish(undefined), timeoutMs);
+  try {
+    worker.postMessage({ type: "GET_BUILD_VERSION" }, [channel.port2]);
+  } catch {
+    finish(undefined);
+  }
+  return promise;
 }
 
 /**
@@ -30,7 +60,9 @@ export function registerPwaUpdateLifecycle(
     if (disposed || activating || worker.state !== "installed") return;
     prompted.add(worker);
     try {
-      if (!(await options.promptForReload()) || disposed) return;
+      const latestBuildVersion = await readWaitingBuildVersion(worker);
+      if (disposed) return;
+      if (!(await options.promptForReload(latestBuildVersion)) || disposed) return;
       activating = true;
       await options.prepareForReload();
       if (disposed) return;

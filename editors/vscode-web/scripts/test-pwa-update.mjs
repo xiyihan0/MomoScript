@@ -4,7 +4,16 @@ import { registerPwaUpdateLifecycle } from "../src/pwaUpdate.ts";
 class FakeWorker extends EventTarget {
   state = "installed";
   messages = [];
-  postMessage(message) { this.messages.push(message); }
+  constructor(version = "202608121200-abcdef0") {
+    super();
+    this.version = version;
+  }
+  postMessage(message, transfer = []) {
+    this.messages.push(message);
+    if (message?.type === "GET_BUILD_VERSION") {
+      transfer[0]?.postMessage({ type: "BUILD_VERSION", version: this.version });
+    }
+  }
 }
 class FakeRegistration extends EventTarget {
   constructor(worker) {
@@ -53,13 +62,16 @@ try {
     let prepared = 0;
     const lifecycle = registerPwaUpdateLifecycle({
       prepareForReload: async () => { prepared += 1; },
-      promptForReload: async () => false,
+      promptForReload: async (latestBuildVersion) => {
+        assert.equal(latestBuildVersion, worker.version);
+        return false;
+      },
       report() {},
     });
     await flush();
     await flush();
     assert.equal(prepared, 0, "declined updates must not quiesce the editor");
-    assert.deepEqual(worker.messages, [], "declined updates must remain waiting");
+    assert.deepEqual(worker.messages, [{ type: "GET_BUILD_VERSION" }], "declined updates must remain waiting");
     lifecycle.dispose();
     assert.equal(serviceWorker.listenerCount, undefined);
   }
@@ -76,16 +88,20 @@ try {
         prepareCalls += 1;
         await prepared.promise;
       },
-      promptForReload: async () => true,
+      promptForReload: async (latestBuildVersion) => {
+        assert.equal(latestBuildVersion, worker.version);
+        return true;
+      },
       reload: () => { reloads += 1; },
       report(message, error) { if (error) throw error; assert.ok(message); },
     });
     await flush();
+    await flush();
     assert.equal(prepareCalls, 1);
-    assert.deepEqual(worker.messages, [], "waiting worker activated before durable quiescence");
+    assert.deepEqual(worker.messages, [{ type: "GET_BUILD_VERSION" }], "waiting worker activated before durable quiescence");
     prepared.resolve();
     await flush();
-    assert.deepEqual(worker.messages, [{ type: "SKIP_WAITING" }]);
+    assert.deepEqual(worker.messages, [{ type: "GET_BUILD_VERSION" }, { type: "SKIP_WAITING" }]);
     serviceWorker.dispatchEvent(new Event("controllerchange"));
     assert.equal(reloads, 1, "accepted update did not reload after controller activation");
     lifecycle.dispose();

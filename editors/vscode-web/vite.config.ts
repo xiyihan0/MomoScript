@@ -69,11 +69,13 @@ function publicAssets(root: string): Array<{ url: string; bytes: Buffer }> {
 
 function serviceWorkerSource(
   cacheId: string,
+  version: string,
   urls: readonly string[],
   immutableUrls: readonly string[],
   immutablePrecacheUrls: readonly string[]
 ): string {
   return `const SHELL_CACHE = ${JSON.stringify(`momoscript-shell-${cacheId}`)};
+const BUILD_VERSION = ${JSON.stringify(version)};
 const IMMUTABLE_CACHE = "momoscript-immutable-v1";
 const OWNED_CACHE_PREFIXES = ["momoscript-shell-", "momoscript-immutable-"];
 const PRECACHE_URLS = ${JSON.stringify(urls)};
@@ -107,6 +109,10 @@ self.addEventListener("activate", (event) => {
   })());
 });
 self.addEventListener("message", (event) => {
+  if (event.data?.type === "GET_BUILD_VERSION") {
+    event.ports[0]?.postMessage({ type: "BUILD_VERSION", version: BUILD_VERSION });
+    return;
+  }
   if (event.data?.type === "SKIP_WAITING") void self.skipWaiting();
 });
 self.addEventListener("fetch", (event) => {
@@ -201,6 +207,7 @@ function pwaPrecachePlugin(): Plugin {
       const immutableUrls = [...PINNED_RUNTIME_ARTIFACT_URLS];
       const immutablePrecacheUrls = [...PRELOADED_RUNTIME_ARTIFACT_URLS];
       hash.update(JSON.stringify({ immutableUrls, immutablePrecacheUrls }));
+      hash.update(buildVersion);
       for (const file of publicFiles) {
         urls.add(file.url);
         hash.update(file.url).update(file.bytes);
@@ -219,6 +226,7 @@ function pwaPrecachePlugin(): Plugin {
         fileName: "sw.js",
         source: serviceWorkerSource(
           cacheId,
+          buildVersion,
           [...urls].sort(),
           immutableUrls,
           immutablePrecacheUrls

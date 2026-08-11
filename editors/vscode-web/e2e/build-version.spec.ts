@@ -37,4 +37,20 @@ test("production build exposes a traceable version without status-bar clutter", 
   const buildVersion = await html.getAttribute("data-mmt-version");
   expect(buildVersion).toBe(expectedVersion);
   await expect(page.getByRole("status")).not.toContainText(buildVersion!);
+
+  await page.getByRole("button", { name: "管理", exact: true }).click();
+  await page.getByRole("menuitem", { name: "关于 MomoScript", exact: true }).click();
+  const about = page.locator(".notification-list-item-message").filter({ hasText: "MomoScript Web · 构建版本" });
+  await expect(about).toContainText(expectedVersion);
+  await expect(about).toHaveCSS("font-size", "13px");
+  await expect(about).toHaveCSS("color", "rgb(204, 204, 204)");
+
+  await page.getByRole("button", { name: "通知", exact: true }).click();
+  const notificationCenter = page.locator(".notifications-center.visible");
+  await expect(notificationCenter).toBeVisible();
+  const notificationTitle = notificationCenter.locator(".notifications-center-header-title");
+  await expect(notificationTitle).toHaveText("通知");
+  await expect(notificationTitle).toHaveCSS("color", "rgb(204, 204, 204)");
+  await expect(page.locator(".monaco-workbench")).toHaveCSS("font-size", "13px");
+  await expect(page.locator(".view-lines .view-line").first()).toHaveCSS("font-size", "14px");
 });

@@ -7,6 +7,7 @@ import { registerAssets } from "@codingame/monaco-vscode-api/assets";
 import { URI } from "@codingame/monaco-vscode-api/vscode/vs/base/common/uri";
 import { Event } from "@codingame/monaco-vscode-api/vscode/vs/base/common/event";
 import { Orientation, Sizing, SplitView, type IView } from "@codingame/monaco-vscode-api/vscode/vs/base/browser/ui/splitview/splitview";
+import { MenuId, MenuRegistry } from "@codingame/monaco-vscode-api/vscode/vs/platform/actions/common/actions";
 import getExplorerServiceOverride from "@codingame/monaco-vscode-explorer-service-override";
 import getKeybindingsServiceOverride from "@codingame/monaco-vscode-keybindings-service-override";
 import getMarkersServiceOverride from "@codingame/monaco-vscode-markers-service-override";
@@ -184,6 +185,7 @@ const WORKSPACE = URI.parse("mmtfs://workspace/");
 const STORY = URI.parse("mmtfs://workspace/story.mmt");
 const INTRO = URI.parse("mmtfs://workspace/intro.typ");
 const ACTIVE_WORKSPACE_DOCUMENT_KEY = "momoscript.active-workspace-document.v1";
+const ABOUT_COMMAND_ID = "mmt.about";
 
 function rememberActiveWorkspaceDocument(document: vscode.TextDocument): void {
   const uri = document.uri;
@@ -1498,6 +1500,22 @@ async function initializeRuntime(
   output = own(vscode.window.createOutputChannel("MomoScript"));
   log("host", `MomoScript build ${MMT_BUILD_VERSION}`);
   log("host", "VS Code Workbench ready");
+  subscribe(vscode.commands.registerCommand(ABOUT_COMMAND_ID, async () => {
+    await showMomoScriptMessage(
+      "info",
+      `MomoScript Web · 构建版本 ${MMT_BUILD_VERSION} · Tinymist ${TINYMIST_VERSION} (${TINYMIST_WASM_SHA256.slice(0, 12)})`,
+      [],
+      { id: "about" },
+    );
+  }));
+  own(MenuRegistry.appendMenuItem(MenuId.GlobalActivity, {
+    group: "z_about",
+    order: 1,
+    command: {
+      id: ABOUT_COMMAND_ID,
+      title: "关于 MomoScript",
+    },
+  }));
   const applyPanelVisibility = (visible: boolean) => {
     layout.setPanelVisible(visible);
     root.classList.toggle("panel-collapsed", !visible);
@@ -2658,11 +2676,12 @@ async function initializeRuntime(
   if (import.meta.env.PROD && import.meta.env.VITE_MMT_E2E !== "1") {
     own(registerPwaUpdateLifecycle({
       prepareForReload: () => safeRestart.prepareForReload(10_000),
-      async promptForReload() {
+      async promptForReload(latestBuildVersion) {
         const update = "安全更新并重启";
+        const nextVersion = latestBuildVersion ?? "版本信息暂不可用";
         return await showMomoScriptMessage(
           "info",
-          "MomoScript 已准备好离线更新。保存并安全重启以启用新版本。",
+          `MomoScript 新构建 ${nextVersion} 已准备好离线更新。当前构建 ${MMT_BUILD_VERSION}；保存并安全重启以启用新版本。`,
           [update],
           { id: "pwa-update-ready" },
         ) === update;

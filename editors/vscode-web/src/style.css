@@ -9,7 +9,9 @@ body,
 }
 
 body {
-  font-family: system-ui, sans-serif;
+  color: #cccccc;
+  font-family: "Segoe WPC", "Segoe UI", system-ui, sans-serif;
+  font-size: 13px;
 }
 
 #workbench {
