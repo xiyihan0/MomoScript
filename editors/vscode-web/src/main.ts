@@ -1906,6 +1906,9 @@ async function initializeRuntime(
         return response;
       };
       let renderUpdate = await sendRenderRequest(force || !previewCompilerReuseEnabled);
+      if (renderUpdate === null) {
+        log("preview:error", `Render project unavailable for ${sourceUri}`);
+      }
       const responseMatchesToken = (candidate: TypstRenderProjectUpdate | null) => Boolean(
         candidate
         && candidate.entryUri === token.entryUri
@@ -2390,13 +2393,36 @@ async function initializeRuntime(
       return;
     }
     const configured = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]);
-    const packSources = await synchronizePackSources(
-      configured,
-      Date.now(),
-      packCache!,
-      (params) => activeClient.sendRequest("mmt/updatePackManifests", params),
-      fetchManifest
-    );
+    const revision = Date.now();
+    let packSources: PackManifestSource[];
+    try {
+      packSources = await synchronizePackSources(
+        configured,
+        revision,
+        packCache!,
+        (params) => activeClient.sendRequest("mmt/updatePackManifests", params),
+        fetchManifest
+      );
+    } catch (error) {
+      const fallbackRevision = revision + 1;
+      try {
+        const result = await activeClient.sendRequest<{ revision: number; updated: boolean }>(
+          "mmt/updatePackManifests",
+          { revision: fallbackRevision, sources: [] }
+        );
+        if (result.revision !== fallbackRevision || !result.updated) {
+          throw new Error(`Empty pack registry update ${fallbackRevision} was not accepted`);
+        }
+      } catch (fallbackError) {
+        throw new AggregateError(
+          [error, fallbackError],
+          `Resource pack synchronization and empty-registry fallback both failed: ${
+            error instanceof Error ? error.message : String(error)
+          }`
+        );
+      }
+      throw error;
+    }
     packSourcesByNamespace.clear();
     const projected: GalleryPack[] = [];
     for (const source of packSources) {
@@ -2850,13 +2876,19 @@ async function manifestCacheIdentity(source: PackManifestSource): Promise<string
 async function fetchManifest(url: string, etag: string | undefined) {
   const headers = new Headers();
   if (etag) headers.set("If-None-Match", etag);
-  const response = await fetch(url, { headers });
-  return {
-    status: response.status,
-    ok: response.ok,
-    etag: response.headers.get("etag") ?? undefined,
-    text: () => response.text()
-  };
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15_000);
+  try {
+    const response = await fetch(url, { headers, signal: controller.signal });
+    return {
+      status: response.status,
+      ok: response.ok,
+      etag: response.headers.get("etag") ?? undefined,
+      text: () => response.text()
+    };
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 

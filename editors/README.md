@@ -70,6 +70,7 @@ MMT TextDocument
 | 扩展 grammar/MMT Worker | `npm --prefix editors/vscode run test:grammar`；`npm --prefix editors/vscode run test:worker` | Playwright Chromium；`test:worker` 会构建 WASM | `extension-desktop`/兼容性验证 |
 | native Tinymist transport | `npm --prefix editors/vscode run test:tinymist-process` | `TINYMIST_BIN` 指向经过 pin/digest 验证的 binary | `tinymist-compatibility`、`extension-desktop` |
 | Web Tinymist 与 VS Code Web Host | `npm --prefix editors/vscode run test:tinymist-worker`；`npm --prefix editors/vscode run test:web` | `TINYMIST_WEB_PKG` 指向经过 pin/digest 验证的 web package | `tinymist-compatibility`、`extension-web` |
+| pack 同步重试与缓存回退 | `npm --prefix editors/vscode run test:pack-sync` | Node | `extension-web` |
 | 投影信任边界 | `npm --prefix editors/vscode run test:projected-reads` | 共享 fixture 随仓库提供 | `extension-web` |
 | Workbench 静态检查与 build | `npm --prefix editors/vscode-web run check`；`npm --prefix editors/vscode-web run build` | `TINYMIST_WEB_PKG`；production compiler 路径需要 `TYPST_COMPILER_WEB_PKG` | `extension-web` 及浏览器 jobs |
 | Workbench focused contracts | `npm --prefix editors/vscode-web run test:preview-artifact`；`npm --prefix editors/vscode-web run test:preview-webview-protocol`；`npm --prefix editors/vscode-web run test:preview-interaction`；`npm --prefix editors/vscode-web run test:preview-render-queue`；`npm --prefix editors/vscode-web run test:preview-renderer-session`；`npm --prefix editors/vscode-web run test:exact-export`；`npm --prefix editors/vscode-web run test:runtime-controller` | Node 与已安装依赖 | `extension-web` |

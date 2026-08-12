@@ -25,6 +25,24 @@ interface StagedSource {
   etag: string | undefined;
 }
 
+const MANIFEST_FETCH_ATTEMPTS = 3;
+
+async function fetchManifestWithRetry(
+  manifestUrl: URL,
+  etag: string | undefined,
+  fetchManifest: (url: string, etag: string | undefined) => Promise<PackFetchResponse>
+): Promise<PackFetchResponse> {
+  let lastError: unknown;
+  for (let attempt = 0; attempt < MANIFEST_FETCH_ATTEMPTS; attempt += 1) {
+    try {
+      return await fetchManifest(manifestUrl.href, etag);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError;
+}
+
 export async function synchronizePackSources(
   urls: string[],
   revision: number,
@@ -46,7 +64,7 @@ export async function synchronizePackSources(
       const currentEtag = cache.getEtag(manifestUrl.href);
       let json: string;
       try {
-        const response = await fetchManifest(manifestUrl.href, currentEtag);
+        const response = await fetchManifestWithRetry(manifestUrl, currentEtag, fetchManifest);
         if (response.status === 304) {
           const cached = await cache.read(manifestUrl.href);
           if (cached === undefined) throw new Error("HTTP 304 without a cached manifest");

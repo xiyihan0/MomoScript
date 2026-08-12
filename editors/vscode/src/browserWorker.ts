@@ -58,10 +58,11 @@ async function start(wasmBytes: ArrayBuffer): Promise<void> {
     request("mmt/getTypstProject", params)
   );
   connection.onRequest("mmt/getTypstRenderProject", (params) => {
-    const outcome = request<Record<string, unknown> & { events?: ServerEvent[] }>(
-      "mmt/getTypstRenderProject",
-      params
-    );
+    const outcome = request<
+      | (Record<string, unknown> & { events?: ServerEvent[] })
+      | null
+    >("mmt/getTypstRenderProject", params);
+    if (outcome === null) return null;
     for (const event of outcome.events ?? []) connection.sendNotification(event.method, event.params);
     const { events: _, ...update } = outcome;
     return update;
