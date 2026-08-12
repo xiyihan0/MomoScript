@@ -667,7 +667,17 @@ async function initializeRuntime(
         ?? targets.find((candidate) => candidate.kind === "generatedProjection")
         ?? targets[0]
       : targets[0];
-    if (!target) return undefined;
+    const fallbackTarget = (): PreviewSourceTarget => Object.freeze({
+      kind: "workspaceTypst",
+      uri: location.uri,
+      range: location.range,
+      readOnly: false,
+      retained: true,
+    });
+    if (!target) {
+      log("preview:navigation:fallback", `No source mapping for ${identity.sourceUri}; using the backend location`);
+      return fallbackTarget();
+    }
     switch (target.kind) {
       case "authoredIdentity":
       case "workspaceTypst":
@@ -676,19 +686,29 @@ async function initializeRuntime(
       case "generatedProjection":
         return Object.freeze({ ...target, readOnly: true, retained: true });
       case "staleUnknown":
-        return target;
+        log("preview:navigation:fallback", `Projection mapping is stale for ${identity.sourceUri}; using the backend location`);
+        return fallbackTarget();
     }
   };
   const openPreviewSource = async (target: PreviewSourceTarget): Promise<void> => {
     if (!target.uri || !target.range) return;
     const document = await vscode.workspace.openTextDocument(vscode.Uri.parse(target.uri));
-    const editor = await vscode.window.showTextDocument(document, { preview: target.readOnly === true });
-    editor.selection = new vscode.Selection(
+    const selection = new vscode.Selection(
       target.range.start.line,
       target.range.start.character,
       target.range.end.line,
       target.range.end.character,
     );
+    const visible = vscode.window.visibleTextEditors.find((editor) => (
+      editor.document.uri.toString() === document.uri.toString()
+    ));
+    if (visible) {
+      visible.selection = selection;
+      visible.revealRange(selection, vscode.TextEditorRevealType.InCenterIfOutsideViewport);
+      return;
+    }
+    const editor = await vscode.window.showTextDocument(document, { preview: target.readOnly === true });
+    editor.selection = selection;
     editor.revealRange(editor.selection, vscode.TextEditorRevealType.InCenterIfOutsideViewport);
   };
   let previewInteractionStatus: string | null = null;
