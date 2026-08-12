@@ -587,6 +587,32 @@ function currentPageGeometries(): readonly RendererPageGeometry[] {
     : [];
 }
 
+function snapIntoTextGlyphs(
+  element: Element,
+  clientX: number,
+  clientY: number,
+): { readonly x: number; readonly y: number } | undefined {
+  const glyphs = element.querySelectorAll("use");
+  if (glyphs.length === 0) return undefined;
+  let left = Number.POSITIVE_INFINITY;
+  let top = Number.POSITIVE_INFINITY;
+  let right = Number.NEGATIVE_INFINITY;
+  let bottom = Number.NEGATIVE_INFINITY;
+  for (const glyph of glyphs) {
+    const rect = glyph.getBoundingClientRect();
+    if (!(rect.width > 0) || !(rect.height > 0)) continue;
+    left = Math.min(left, rect.left);
+    top = Math.min(top, rect.top);
+    right = Math.max(right, rect.right);
+    bottom = Math.max(bottom, rect.bottom);
+  }
+  if (!Number.isFinite(left) || right - left < 2 || bottom - top < 2) return undefined;
+  return {
+    x: Math.min(Math.max(clientX, left + 1), right - 1),
+    y: Math.min(Math.max(clientY, top + 1), bottom - 1),
+  };
+}
+
 function previewPointAtDocumentCoordinates(x: number, y: number): PreviewPoint | undefined {
   const geometries = currentPageGeometries();
   const geometry = geometries.find((candidate) => y >= candidate.offsetY && y < candidate.offsetY + candidate.height)
@@ -598,7 +624,6 @@ function previewPointAtDocumentCoordinates(x: number, y: number): PreviewPoint |
     y: Math.min(1, Math.max(0, (y - geometry.offsetY) / geometry.height)),
   };
 }
-
 function documentCoordinatesForPoint(point: PreviewPoint): { readonly x: number; readonly y: number } | undefined {
   const geometry = currentPageGeometries()[point.pageIndex];
   if (!geometry) return undefined;
@@ -1145,16 +1170,27 @@ page.addEventListener("pointerup", () => { pointerOrigin = undefined; });
 page.addEventListener("click", (event) => {
   const bounds = page.getBoundingClientRect();
   if (!(bounds.width > 0) || !(bounds.height > 0)) return;
+  const textElement = (event.target as Element | null)?.closest?.(".typst-text") ?? null;
+  let clientX = event.clientX;
+  let clientY = event.clientY;
+  const snapped = textElement ? snapIntoTextGlyphs(textElement, clientX, clientY) : undefined;
+  if (snapped) {
+    clientX = snapped.x;
+    clientY = snapped.y;
+  }
   const point = previewPointAtDocumentCoordinates(
-    (event.clientX - bounds.left) / zoom,
-    (event.clientY - bounds.top) / zoom,
+    (clientX - bounds.left) / zoom,
+    (clientY - bounds.top) / zoom,
   );
   if (!point) return;
   setTimeout(() => {
     const selection = document.getSelection();
     const dragged = pointerDragged;
     pointerDragged = false;
-    if (!dragged && (!selection || selection.isCollapsed)) vscode.postMessage({ type: "navigate", point });
+    const selectedText = selection && !selection.isCollapsed ? selection.toString().trim() : "";
+    if (!dragged && (!selection || selection.isCollapsed || selectedText.length <= 1)) {
+      vscode.postMessage({ type: "navigate", point });
+    }
   }, 0);
 });
 exportReady.addEventListener("click", () => vscode.postMessage({ type: "exact-export", format: exportFormat.value as ExactExportFormat }));
