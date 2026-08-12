@@ -131,6 +131,29 @@
           "scope": "window",
           "description": "收集有界的预览阶段性能样本；默认关闭，仅用于诊断和基准测试。"
         },
+        "mmt.inlayHints.resolvedSpeaker": {
+          "type": "boolean",
+          "default": true,
+          "description": "在说话人简写（>、>_1 等）旁显示解析出的实际说话人名称。"
+        },
+        "mmt.preview.selectionHighlight": {
+          "type": "boolean",
+          "default": true,
+          "scope": "window",
+          "description": "编辑器选中文本时，在预览中高亮并定位映射位置。"
+        },
+        "mmt.preview.bidirectionalNavigation": {
+          "type": "boolean",
+          "default": true,
+          "scope": "window",
+          "description": "点击预览内容时跳转并打开映射的源码位置；与选中高亮共同构成编辑器与预览的双向联动。"
+        },
+        "mmt.preview.preferMappedTypst": {
+          "type": "boolean",
+          "default": false,
+          "scope": "window",
+          "description": "从预览跳转源码时，优先打开映射的 Typst 文件而不是原始 MMT 文本。"
+        },
         "mmt.resources.maxFileSizeMb": {
           "type": "number",
           "default": 20,

@@ -123,6 +123,7 @@ export function installTypstMiddleware(
   }
 
   options.middleware = {
+    ...options.middleware,
     didOpen: async (document, next) => {
       router.open(routerDocument(document));
       if (document.languageId !== "typst") await next(document);

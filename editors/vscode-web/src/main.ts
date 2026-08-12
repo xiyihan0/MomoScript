@@ -660,7 +660,13 @@ async function initializeRuntime(
       locations: [location],
     });
     if (signal.aborted) return undefined;
-    const target = parsePreviewSourceTargets(response)[0];
+    const targets = parsePreviewSourceTargets(response);
+    const preferTypst = vscode.workspace.getConfiguration("mmt.preview").get("preferMappedTypst", false);
+    const target = preferTypst
+      ? targets.find((candidate) => candidate.kind === "workspaceTypst")
+        ?? targets.find((candidate) => candidate.kind === "generatedProjection")
+        ?? targets[0]
+      : targets[0];
     if (!target) return undefined;
     switch (target.kind) {
       case "authoredIdentity":
@@ -2163,6 +2169,7 @@ async function initializeRuntime(
     void recognizeAndSyncTypst(editor.document).catch((error: unknown) => log("tinymist:error", error instanceof Error ? error.message : String(error)));
   }));
   const previewSelectionRegistration = subscribe(vscode.window.onDidChangeTextEditorSelection((event) => {
+    if (!vscode.workspace.getConfiguration("mmt.preview").get("selectionHighlight", true)) return;
     const sourceUri = event.textEditor.document.uri.toString();
     if (displayedPreviewSourceUri !== sourceUri) return;
     const identity = currentPreviewIdentity(sourceUri);
@@ -2289,6 +2296,7 @@ async function initializeRuntime(
       previewInteraction.updateViewport(viewport);
     },
     async navigationRequested(point) {
+      if (!vscode.workspace.getConfiguration("mmt.preview").get("bidirectionalNavigation", true)) return;
       await previewInteraction.navigatePreviewPoint(point);
     },
     async exactExportRequested(message: PreviewExactExportRequest) {
