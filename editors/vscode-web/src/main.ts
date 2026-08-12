@@ -521,7 +521,7 @@ async function initializeRuntime(
       revision: project.revision,
       entryUri: project.entryUri,
       languageId: document.languageId === "mmt" ? "mmt" : "typst",
-      backendEncoding: "utf-8",
+      backendEncoding: "utf-16",
     });
   };
   const currentPreviewIdentity = (sourceUri: string): PreviewSourceIdentity | undefined => {

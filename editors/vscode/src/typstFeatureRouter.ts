@@ -312,7 +312,15 @@ export class TypstFeatureRouter {
       || !this.identityIsCurrent(route.identity)
       || !this.providerCapabilityIsCurrent(host, method, capability)) return undefined;
     const positionContext = this.providerPositionContext(route.identity, route.entryUri);
-    validateTypstProviderPositions(method, value, positionContext);
+    try {
+      validateTypstProviderPositions(method, value, positionContext);
+    } catch (error) {
+      if (error instanceof PositionConversionError) {
+        console.warn("standalone Typst provider positions were stale and were dropped", error);
+        return undefined;
+      }
+      throw error;
+    }
     return Object.freeze({ method, value, identity: route.identity, positionContext, capability });
   }
 
