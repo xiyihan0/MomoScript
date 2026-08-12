@@ -667,13 +667,20 @@ async function initializeRuntime(
         ?? targets.find((candidate) => candidate.kind === "generatedProjection")
         ?? targets[0]
       : targets[0];
-    const fallbackTarget = (): PreviewSourceTarget => Object.freeze({
-      kind: "workspaceTypst",
-      uri: location.uri,
-      range: location.range,
-      readOnly: false,
-      retained: true,
-    });
+    const fallbackTarget = (): PreviewSourceTarget | undefined => {
+      const scheme = /^[a-z][a-z0-9+.-]*:/i.exec(location.uri)?.[0].slice(0, -1) ?? "";
+      if (scheme !== "mmtfs" && scheme !== "untitled") {
+        log("preview:navigation:rejected", `Renderer location has no workspace URI (${location.uri}); refusing to fall back`);
+        return undefined;
+      }
+      return Object.freeze({
+        kind: "workspaceTypst",
+        uri: location.uri,
+        range: location.range,
+        readOnly: false,
+        retained: true,
+      });
+    };
     if (!target) {
       log("preview:navigation:fallback", `No source mapping for ${identity.sourceUri}; using the backend location`);
       return fallbackTarget();
@@ -692,6 +699,11 @@ async function initializeRuntime(
   };
   const openPreviewSource = async (target: PreviewSourceTarget): Promise<void> => {
     if (!target.uri || !target.range) return;
+    const scheme = vscode.Uri.parse(target.uri).scheme;
+    if (!/^(mmtfs|mmt-package|untitled)$/.test(scheme)) {
+      log("preview:navigation:rejected", `Refusing to open non-workspace preview target: ${target.uri}`);
+      return;
+    }
     const document = await vscode.workspace.openTextDocument(vscode.Uri.parse(target.uri));
     const selection = new vscode.Selection(
       target.range.start.line,

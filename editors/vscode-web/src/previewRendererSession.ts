@@ -194,8 +194,15 @@ export class PreviewRendererSessionOwner implements RuntimeOwnedResource {
       throw new Error("Preview renderer point-location response identity mismatch");
     }
     if (!response.location) return undefined;
+    const originalUri = candidate.originalUris.get(response.location.uri);
+    if (!originalUri) {
+      console.warn(
+        `Preview renderer location URI is not in the synchronized mapping: ${response.location.uri}`,
+        [...candidate.originalUris.keys()],
+      );
+    }
     return {
-      uri: candidate.originalUris.get(response.location.uri) ?? response.location.uri,
+      uri: originalUri ?? response.location.uri,
       range: response.location.range,
     };
   }
