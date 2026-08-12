@@ -717,6 +717,9 @@ async function initializeRuntime(
     if (visible) {
       visible.selection = selection;
       visible.revealRange(selection, vscode.TextEditorRevealType.InCenterIfOutsideViewport);
+      codeEditorService.listCodeEditors()
+        .find((candidate) => candidate.getModel()?.uri.toString() === target.uri)
+        ?.focus();
       return;
     }
     const editor = await vscode.window.showTextDocument(document, { preview: target.readOnly === true });
