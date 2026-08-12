@@ -18,6 +18,21 @@ export const MAIN_FONT_BOLD_URL = `${RUNTIME_ORIGIN}/fonts/mainfont/${MAIN_FONT_
 export const NOTO_SANS_CJK_REGULAR_URL = `${RUNTIME_ORIGIN}/fonts/noto-sans-cjk/${NOTO_SANS_CJK_VERSION}/${NOTO_SANS_CJK_REGULAR_SHA256}/NotoSansCJK-Regular.ttc.br?delivery=br-v1`;
 export const NOTO_SANS_CJK_BOLD_URL = `${RUNTIME_ORIGIN}/fonts/noto-sans-cjk/${NOTO_SANS_CJK_VERSION}/${NOTO_SANS_CJK_BOLD_SHA256}/NotoSansCJK-Bold.ttc.br?delivery=br-v1`;
 
+
+export async function fetchWithTimeout(
+  url: string,
+  timeoutMs: number,
+  init?: RequestInit
+): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export const runtimeIdentityUrl = (url: string): string => url
   .replace(/\.br\?delivery=br-v1$/, "")
   .replace(/\?delivery=zstd-v1$/, "");

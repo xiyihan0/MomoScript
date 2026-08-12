@@ -11,7 +11,10 @@ import {
 } from "../../vscode/src/typstFeatures";
 import tinymistModuleUrl from "../../vscode/vendor/tinymist-0.15.2/tinymist.js?url";
 import tinymistWorkerUrl from "../../vscode/src/tinymistWorker.ts?worker&url";
-import { TINYMIST_WASM_SHA256, TINYMIST_WASM_URL } from "./runtimeArtifacts";
+import { TINYMIST_WASM_SHA256, TINYMIST_WASM_URL, fetchWithTimeout } from "./runtimeArtifacts";
+
+const TINYMIST_WASM_ATTEMPTS = 3;
+const TINYMIST_WASM_TIMEOUT_MS = 30_000;
 
 export interface TinymistHandle {
   backend: TinymistWorkerClient;
@@ -102,8 +105,20 @@ async function downloadValidatedWasm(
 }
 
 async function downloadWasm(url: string, label: string, report: (message: string) => void): Promise<Uint8Array> {
+  let lastError: unknown;
+  for (let attempt = 0; attempt < TINYMIST_WASM_ATTEMPTS; attempt += 1) {
+    try {
+      return await downloadWasmOnce(url, label, report);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError;
+}
+
+async function downloadWasmOnce(url: string, label: string, report: (message: string) => void): Promise<Uint8Array> {
   report(`${label} 开始下载…`);
-  const response = await fetch(url);
+  const response = await fetchWithTimeout(url, TINYMIST_WASM_TIMEOUT_MS);
   if (!response.ok) throw new Error(`${label}下载失败：HTTP ${response.status}`);
   if (!response.body) {
     const bytes = new Uint8Array(await response.arrayBuffer());

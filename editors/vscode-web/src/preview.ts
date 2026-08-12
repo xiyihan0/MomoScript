@@ -40,6 +40,7 @@ import {
   MAIN_FONT_REGULAR_URL,
   MAIN_FONT_REGULAR_SHA256,
   TYPST_COMPILER_WASM_URL,
+  fetchWithTimeout,
   runtimeIdentityUrl,
 } from "./runtimeArtifacts";
 
@@ -49,6 +50,7 @@ const bundledFontsLoader = loadFonts([
   monoUrl,
   jetBrainsMonoUrl,
 ], { assets: false });
+const MAIN_FONT_LOAD_TIMEOUT_MS = 15_000;
 const remoteMainFontsLoader = loadFonts([
   MAIN_FONT_REGULAR_URL,
   MAIN_FONT_BOLD_URL,
@@ -56,10 +58,17 @@ const remoteMainFontsLoader = loadFonts([
 const optionalMainFontsLoader = async (
   ...args: Parameters<typeof remoteMainFontsLoader>
 ): Promise<void> => {
+  const { promise, reject } = Promise.withResolvers<void>();
+  const timer = setTimeout(
+    () => reject(new Error(`MainFont 加载超时（${MAIN_FONT_LOAD_TIMEOUT_MS}ms）`)),
+    MAIN_FONT_LOAD_TIMEOUT_MS
+  );
   try {
-    await remoteMainFontsLoader(...args);
+    await Promise.race([remoteMainFontsLoader(...args), promise]);
   } catch (error) {
     console.warn("MomoScript preview is continuing without MainFont because the remote font could not be loaded.", error);
+  } finally {
+    clearTimeout(timer);
   }
 };
 
@@ -1043,7 +1052,7 @@ async function downloadWasmModule(
   report: (message: string) => void,
 ): Promise<WebAssembly.Module> {
   report(`${label} 开始下载…`);
-  const response = await fetch(url);
+  const response = await fetchWithTimeout(url, 30_000);
   if (!response.ok) throw new Error(`${label}下载失败：HTTP ${response.status}`);
   if (!response.body) {
     const bytes = new Uint8Array(await response.arrayBuffer());
