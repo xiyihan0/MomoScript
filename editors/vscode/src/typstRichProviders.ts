@@ -277,11 +277,16 @@ export class RichTypstProviderRegistrations implements vscode.Disposable {
                 token
               );
               if (!result || result.value === null || token.isCancellationRequested) return undefined;
-              const converted = await this.client.protocol2CodeConverter.asColorInformations(
-                result.value as ColorInformation[],
-                token
-              );
-              return this.router.providerIdentityIsCurrent(result.identity) ? converted : undefined;
+              if (!this.router.providerIdentityIsCurrent(result.identity)) return undefined;
+              try {
+                return await this.client.protocol2CodeConverter.asColorInformations(
+                  result.value as ColorInformation[],
+                  token
+                );
+              } catch (conversionError) {
+                console.warn("standalone Typst document colors were stale and were dropped", conversionError);
+                return undefined;
+              }
             } catch (error) {
               console.error("standalone Typst document colors failed", error);
               return undefined;
