@@ -68,6 +68,7 @@ MomoScript 是一个面向 Momotalk / MoeTalk 风格视觉叙事的 DSL 与渲�
 - `openspec/changes/design-resource-pack-v3/`：pack-v3 manifest、Kivo builder、AVIFS storage 与平台无关 materializer 设计
 - `openspec/specs/language-tooling/spec.md`：共享 language service、native/WASM transport、Desktop/Web、Tinymist backend 与生产 Web runtime 的稳定合同
 - `openspec/changes/add-workspace-storage-history-sync/`：生产 Web 工作区 identity/backend、Local History、File System Access、崩溃恢复与 WebDAV 手动同步合同
+- `openspec/changes/add-pack-release-catalog/`：pack 内容寻址发布、OSS 桶根 catalog、发布顺序/回滚与 `tools/cdn/publish_pack.mjs` 合同
 - `openspec/changes/add-pwa-offline-runtime/`：生产 Web 可安装应用、显式离线 shell/pack、prompt update、origin-wide quota 与驱逐恢复合同
 - `openspec/specs/character-gallery/spec.md`：生产 Web 角色图鉴（实体/差分浏览、AVIFS 抽帧缩略图与 set-aware 实体限定引用）的稳定合同
 - `openspec/changes/complete-editor-runtime-and-typst-tooling/`：基于稳定 language-tooling diagnostics/runtime 合同统一编辑器运行时与 Typst project state，增加能力实测门、保守投影语言功能、host-mediated package resolution、revision-bound preview navigation 和 exact-snapshot export；不重复 workspace/PWA 合同
