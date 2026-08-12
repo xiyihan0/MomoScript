@@ -1786,6 +1786,41 @@ mod tests {
     }
 
     #[test]
+    fn chat_dialog_text_classifies_back_to_the_authored_line() {
+        let source = "@typ\n> 佳代子: 你好，老师！\n< 老师好！".to_string();
+        let mut store = ProjectionStore::default();
+        let document = store
+            .upsert(
+                uri(),
+                &snapshot(2, source.clone(), &StaticPresetCatalog::default()),
+            )
+            .unwrap();
+        // 预览中点击"你好"——先定位原文中该词的 UTF-16 偏移
+        let offset = source.find("你好").unwrap();
+        let authored_position = LineIndex::new(&source)
+            .position(&source, offset, &PositionEncodingKind::UTF16)
+            .unwrap();
+        let projected_position = document
+            .mmt_position_to_typst(
+                MmtClientPosition::new(authored_position),
+                PositionEncoding::Utf16,
+                PositionEncoding::Utf16,
+            )
+            .unwrap()
+            .into_lsp();
+        let mapped = document.classify_read_location(
+            Location::new(
+                document.entry_uri.clone(),
+                Range::new(projected_position, projected_position),
+            ),
+            PositionEncoding::Utf16,
+            PositionEncoding::Utf16,
+        );
+        assert_eq!(mapped.kind, ProjectionMappingKind::AuthoredIdentity);
+        assert_eq!(mapped.uri.as_ref(), Some(&uri()));
+    }
+
+    #[test]
     fn virtual_entry_uri_is_revision_scoped_with_a_stable_project_root() {
         let mut store = ProjectionStore::default();
         let first = store
