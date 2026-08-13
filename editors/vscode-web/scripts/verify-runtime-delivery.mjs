@@ -20,7 +20,7 @@ console.log(JSON.stringify({
 }));
 
 if (process.env.MMT_VERIFY_REMOTE_TINYMIST === "1") {
-  const baseUrl = `https://mms-pack.xiyihan.cn/wasm/tinymist/${version}/${digest}/tinymist_bg.wasm`;
+  const baseUrl = `https://mms-pack.esa.xiyihan.cn/wasm/tinymist/${version}/${digest}/tinymist_bg.wasm`;
   const candidates = [
     { url: baseUrl, encoding: null },
     { url: `${baseUrl}.br?delivery=br-v1`, encoding: "br" },

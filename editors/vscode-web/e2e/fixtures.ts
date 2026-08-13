@@ -25,7 +25,7 @@ const typstCompilerWasm = typstCompilerPackage
 export const test = base.extend({
   page: async ({ page }, use) => {
     if (tinymistWasm) {
-      await page.route("https://mms-pack.xiyihan.cn/wasm/tinymist/**", async (route) => {
+      await page.route("https://mms-pack.esa.xiyihan.cn/wasm/tinymist/**", async (route) => {
         await route.fulfill({
           status: 200,
           body: tinymistWasm,
@@ -35,7 +35,7 @@ export const test = base.extend({
       });
     }
     if (typstCompilerWasm) {
-      await page.route("https://mms-pack.xiyihan.cn/wasm/typst-ts-web-compiler/**", async (route) => {
+      await page.route("https://mms-pack.esa.xiyihan.cn/wasm/typst-ts-web-compiler/**", async (route) => {
         await route.fulfill({
           status: 200,
           body: typstCompilerWasm,
