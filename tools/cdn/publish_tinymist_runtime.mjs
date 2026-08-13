@@ -1,12 +1,10 @@
-import { execFile } from "node:child_process";
-import { createHash } from "node:crypto";
 import { copyFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import { brotliCompress, constants as zlibConstants } from "node:zlib";
+import { assertMetadata, metadataArgument, runOss, sha256 } from "./ossutil-helper.mjs";
 
-const exec = promisify(execFile);
 const compress = promisify(brotliCompress);
 const root = path.resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const options = parseArguments(process.argv.slice(2));
@@ -170,44 +168,7 @@ async function verifyPublicDelivery(prepared, origin) {
   }
 }
 
-async function runOss(args, allowMissing = false) {
-  try {
-    return { ...(await exec("ossutil", args, { maxBuffer: 16 * 1024 * 1024 })), missing: false };
-  } catch (error) {
-    const stdout = outputText(error?.stdout);
-    const stderr = outputText(error?.stderr);
-    const details = [stdout, stderr, error?.message].filter(Boolean).join("\n");
-    if (allowMissing && details.includes("StatusCode=404") && details.includes("ErrorCode=NoSuchKey")) {
-      return { stdout: "", stderr: details, missing: true };
-    }
-    throw new Error(`ossutil ${args[0]} failed: ${details || String(error)}`);
-  }
-}
 
-function outputText(value) {
-  if (typeof value === "string") return value.trim();
-  if (value instanceof Uint8Array) return new TextDecoder().decode(value).trim();
-  return "";
-}
-
-function assertMetadata(stat, expected, target) {
-  for (const [name, value] of Object.entries(expected)) {
-    const pattern = new RegExp(`^${escapeRegExp(name)}\\s*:\\s*${escapeRegExp(value)}$`, "mi");
-    if (!pattern.test(stat)) throw new Error(`${target} metadata ${name} != ${value}`);
-  }
-}
-
-function metadataArgument(metadata) {
-  return Object.entries(metadata).map(([name, value]) => `${name}:${value}`).join("#");
-}
-
-function sha256(bytes) {
-  return createHash("sha256").update(bytes).digest("hex");
-}
-
-function escapeRegExp(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
 
 function parseArguments(args) {
   const parsed = {
