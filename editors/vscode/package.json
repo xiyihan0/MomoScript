@@ -101,7 +101,7 @@
             "format": "uri"
           },
           "default": [
-            "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json"
+            "https://mms-pack.esa.xiyihan.cn/ba_kivo/manifest.json"
           ],
           "scope": "window",
           "description": "为资源感知语言功能加载的 HTTPS pack-v3 清单地址。"

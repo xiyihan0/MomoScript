@@ -1,10 +1,16 @@
 {
   "schema": "mmt-pack-catalog-v1",
-  "generated_at": "2026-08-13T02:49:12.716543Z",
+  "generated_at": "2026-08-13T03:09:09.252900Z",
   "packs": [
     {
       "namespace": "ba",
       "releases": [
+        {
+          "digest": "7610b4120efc8c82c30153c1454f4d80681b51a6e22918744e5cf209172accf1",
+          "version": "2026.08.13",
+          "manifest_url": "https://mms-pack.esa.xiyihan.cn/ba_kivo/releases/7610b4120efc8c82c30153c1454f4d80681b51a6e22918744e5cf209172accf1/manifest.json",
+          "published_at": "2026-08-13T03:09:09.252900Z"
+        },
         {
           "digest": "93b4474183594c67de4df6eaca688e5de87adda7ffce72a6d69eba43ad355f6f",
           "version": "2026.08.13",
@@ -18,10 +24,10 @@
       "eula": {
         "required": false
       },
-      "manifest_url": "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json",
+      "manifest_url": "https://mms-pack.esa.xiyihan.cn/ba_kivo/manifest.json",
       "version": "2026.08.13",
-      "manifest_digest": "93b4474183594c67de4df6eaca688e5de87adda7ffce72a6d69eba43ad355f6f",
-      "published_at": "2026-08-13T02:49:12.716543Z"
+      "manifest_digest": "7610b4120efc8c82c30153c1454f4d80681b51a6e22918744e5cf209172accf1",
+      "published_at": "2026-08-13T03:09:09.252900Z"
     }
   ]
 }

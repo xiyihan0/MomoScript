@@ -229,7 +229,7 @@ async function restoreActiveWorkspaceDocument(): Promise<boolean> {
 }
 
 const DEFAULT_STORY = "> 佳代子: 你好，老师！\n> _0: 我也可以继续说。\n< 老师好！\n> 佳代子: 看看这个：[:#1:](width: 2em)\n";
-const PACK_URL = "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json";
+const PACK_URL = "https://mms-pack.esa.xiyihan.cn/ba_kivo/manifest.json";
 const encoder = new TextEncoder();
 const PREVIEW_RUNTIME_KEY = runtimeArtifactKey(
   TYPST_COMPILER_VERSION,
