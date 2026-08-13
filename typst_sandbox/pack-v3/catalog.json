@@ -1,0 +1,27 @@
+{
+  "schema": "mmt-pack-catalog-v1",
+  "generated_at": "2026-08-13T02:49:12.716543Z",
+  "packs": [
+    {
+      "namespace": "ba",
+      "releases": [
+        {
+          "digest": "93b4474183594c67de4df6eaca688e5de87adda7ffce72a6d69eba43ad355f6f",
+          "version": "2026.08.13",
+          "manifest_url": "https://mms-pack.xiyihan.cn/ba_kivo/releases/93b4474183594c67de4df6eaca688e5de87adda7ffce72a6d69eba43ad355f6f/manifest.json",
+          "published_at": "2026-08-13T02:49:12.716543Z"
+        }
+      ],
+      "name": "Kivo Wiki Blue Archive draft pack",
+      "type": "base",
+      "requires": [],
+      "eula": {
+        "required": false
+      },
+      "manifest_url": "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json",
+      "version": "2026.08.13",
+      "manifest_digest": "93b4474183594c67de4df6eaca688e5de87adda7ffce72a6d69eba43ad355f6f",
+      "published_at": "2026-08-13T02:49:12.716543Z"
+    }
+  ]
+}

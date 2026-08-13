@@ -65,4 +65,72 @@ function acceptingRequest(revision) {
   assert.match(failure.message, /Failed to fetch/);
 }
 
+// An explicit pack.base_url wins over URL derivation.
+{
+  const sources = await synchronizePackSources(
+    [MANIFEST_URL],
+    9,
+    emptyCache(),
+    acceptingRequest(9),
+    async () => ({
+      status: 200,
+      ok: true,
+      etag: undefined,
+      text: async () => JSON.stringify({
+        schema: "mmt-pack.v3",
+        pack: { base_url: "https://cdn.example.test/ba/" },
+      }),
+    }),
+  );
+  assert.equal(sources[0].baseUrl, "https://cdn.example.test/ba/");
+}
+
+// An invalid pack.base_url is rejected without retrying the fetch.
+{
+  let attempts = 0;
+  let failure;
+  try {
+    await synchronizePackSources(
+      [MANIFEST_URL],
+      10,
+      emptyCache(),
+      acceptingRequest(10),
+      async () => {
+        attempts += 1;
+        return {
+          status: 200,
+          ok: true,
+          etag: undefined,
+          text: async () => JSON.stringify({
+            schema: "mmt-pack.v3",
+            pack: { base_url: "http://cdn.example.test/ba/" },
+          }),
+        };
+      },
+    );
+  } catch (error) {
+    failure = error;
+  }
+  assert.equal(attempts, 1);
+  assert.ok(failure instanceof Error);
+  assert.match(failure.message, /Invalid pack base_url/);
+}
+
+// A manifest without pack.base_url keeps URL derivation.
+{
+  const sources = await synchronizePackSources(
+    [MANIFEST_URL],
+    11,
+    emptyCache(),
+    acceptingRequest(11),
+    async () => ({
+      status: 200,
+      ok: true,
+      etag: undefined,
+      text: async () => JSON.stringify({ schema: "mmt-pack.v3", pack: {} }),
+    }),
+  );
+  assert.equal(sources[0].baseUrl, "https://packs.example.test/ba/");
+}
+
 console.log("pack sync retry contracts passed");

@@ -15,6 +15,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -23,8 +24,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable, Optional
-from urllib.parse import unquote, urlsplit
-
+from urllib.parse import quote, unquote, urlsplit
 _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
@@ -509,6 +509,16 @@ async def _download_one(
     async with semaphore:
         if resume and task.target.exists() and task.target.stat().st_size > 0:
             return task, True, None
+        if task.url.startswith("file://"):
+            source = Path(unquote(urlsplit(task.url).path))
+            if not source.is_file():
+                return task, False, f"local file missing: {source}"
+            try:
+                task.target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(source, task.target)
+            except Exception as exc:
+                return task, False, f"copy failed: {exc}"
+            return task, True, None
         try:
             status_code, _headers, content = await client.get_bytes(
                 task.url, timeout=timeout
@@ -542,6 +552,7 @@ def _build_manifest(
     excluded_entity_markers: list[str],
     api_versions: dict[int, str],
     api_times: dict[int, int],
+    base_url: str,
 ) -> tuple[dict[str, Any], list[DownloadTask], list[str]]:
     entities: dict[str, Any] = {}
     storage: dict[str, Any] = {
@@ -700,6 +711,7 @@ def _build_manifest(
             "type": "base",
             "source": "kivo.wiki",
             "generated_at": _utc_now_iso(),
+            "base_url": base_url,
         },
         "entities": dict(sorted(entities.items(), key=lambda kv: kv[0])),
         "contributions": [],
@@ -716,6 +728,131 @@ def _write_json(path: Path, data: Any) -> None:
         json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
 
+
+def _digest_filename(path: Path) -> str:
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    return f"{digest}{path.suffix.lower()}"
+
+
+_LOCAL_ASSET_EXTS = (".png", ".jpg", ".jpeg", ".webp", ".gif")
+
+
+def _apply_overlay(
+    details: list[dict[str, Any]], overlay_path: Path
+) -> dict[str, int]:
+    try:
+        overlay = json.loads(overlay_path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        print(f"[error] failed to read overlay {overlay_path}: {exc}", file=sys.stderr)
+        raise SystemExit(2)
+    if not isinstance(overlay, dict):
+        print(f"[error] overlay {overlay_path} must be a JSON object", file=sys.stderr)
+        raise SystemExit(2)
+
+    overlay_dir = overlay_path.resolve().parent
+
+    def resolve_asset(value: Any) -> Any:
+        if not isinstance(value, str):
+            return value
+        lowered = value.lower()
+        if lowered.startswith(("http://", "https://", "//")) or not lowered.endswith(
+            _LOCAL_ASSET_EXTS
+        ):
+            return value
+        local = (overlay_dir / value).resolve()
+        return f"file://{quote(str(local))}"
+
+    def resolve_assets(value: Any) -> Any:
+        if isinstance(value, dict):
+            return {k: resolve_assets(v) for k, v in value.items()}
+        if isinstance(value, list):
+            return [resolve_assets(item) for item in value]
+        return resolve_asset(value)
+
+    removed = 0
+    for student_id in overlay.get("remove_student_ids") or []:
+        target = int(student_id)
+        before = len(details)
+        details[:] = [d for d in details if int(d.get("id") or 0) != target]
+        removed += before - len(details)
+
+    existing_ids = {int(d.get("id") or 0) for d in details}
+    patched = 0
+    patch_map = overlay.get("patch_students") or {}
+    if not isinstance(patch_map, dict):
+        print("[error] overlay patch_students must be an object", file=sys.stderr)
+        raise SystemExit(2)
+    for raw_id, patch in patch_map.items():
+        student_id = int(raw_id)
+        if student_id not in existing_ids:
+            print(
+                f"[warn] overlay patch skipped unknown student {student_id}",
+                file=sys.stderr,
+            )
+            continue
+        if not isinstance(patch, dict):
+            print(f"[error] overlay patch for {student_id} must be an object", file=sys.stderr)
+            raise SystemExit(2)
+        target = next(d for d in details if int(d.get("id") or 0) == student_id)
+        for key, value in resolve_assets(patch).items():
+            target[key] = value
+        patched += 1
+
+    added = 0
+    for raw in overlay.get("add_students") or []:
+        if not isinstance(raw, dict):
+            print("[error] overlay add_students entries must be objects", file=sys.stderr)
+            raise SystemExit(2)
+        student_id = int(raw.get("id") or 0)
+        if student_id in existing_ids:
+            print(f"[error] overlay add_students id {student_id} collides with an existing student", file=sys.stderr)
+            raise SystemExit(2)
+        details.append(dict(resolve_assets(raw)))
+        existing_ids.add(student_id)
+        added += 1
+
+    return {"removed": removed, "patched": patched, "added": added}
+
+
+def _cleanup_unreferenced(out_dir: Path, manifest: dict[str, Any]) -> int:
+    """删除交付目录（blobs/ 与 manifest image-dir base）中未被 manifest 引用的文件。
+
+    旧构建残留下的语义名文件（如被排除实体的缩略图）不被 manifest 引用，
+    但会被发布器按目录上传；此处清理保证交付目录只含引用文件。
+    本地下载缓存（assets/stickers 源图等）不在清理范围。
+    """
+    referenced: set[str] = set()
+    for entry in manifest["storage"].values():
+        if entry.get("kind") == "image-sequence" and isinstance(entry.get("path"), str):
+            referenced.add(entry["path"])
+    for entity in manifest["entities"].values():
+        for item in (entity.get("slots", {}).get("avatar", {}).get("items") or {}).values():
+            storage_ref = item.get("storage")
+            base = (manifest.get("storage", {}).get(storage_ref) or {}).get("base")
+            if isinstance(base, str) and isinstance(item.get("path"), str):
+                referenced.add(f"{base.rstrip('/')}/{item['path']}")
+    for thumbnail in manifest.get("thumbnails", {}).values():
+        storage_ref = thumbnail.get("storage")
+        base = (manifest.get("storage", {}).get(storage_ref) or {}).get("base")
+        if isinstance(base, str) and isinstance(thumbnail.get("path"), str):
+            referenced.add(f"{base.rstrip('/')}/{thumbnail['path']}")
+
+    roots: list[Path] = []
+    for entry in manifest["storage"].values():
+        if entry.get("kind") == "image-dir" and isinstance(entry.get("base"), str):
+            roots.append(out_dir / entry["base"])
+    if (out_dir / "blobs").is_dir():
+        roots.append(out_dir / "blobs")
+
+    removed = 0
+    for root in roots:
+        for file in sorted(root.rglob("*")):
+            if not file.is_file():
+                continue
+            if file.relative_to(out_dir).as_posix() not in referenced:
+                file.unlink()
+                removed += 1
+    return removed
 
 def _entity_name_conflicts(manifest: dict[str, Any]) -> list[dict[str, Any]]:
     owners: dict[str, list[str]] = {}
@@ -914,6 +1051,7 @@ def _encode_avif_sequences(
         "compressed_bytes": 0,
         "compression_ratio": None,
         "failures": [],
+        "renames": {},
     }
 
     def run_one(job: dict[str, Any]) -> dict[str, Any]:
@@ -1005,13 +1143,21 @@ def _encode_avif_sequences(
                         or f"avifenc exited {result.returncode}"
                     )
                 status = "encoded"
-
             thumbnail_dir = (
                 out_dir / "assets" / "thumbnails" / record["entity"] / job["set_id"]
             )
             thumbnail_names = _prepare_thumbnails(
                 image_paths, thumbnail_dir, resume=bool(args.resume)
             )
+            digest_thumbnail_names: list[str] = []
+            for name in thumbnail_names:
+                old = thumbnail_dir / name
+                new_name = _digest_filename(old)
+                old.rename(thumbnail_dir / new_name)
+                digest_thumbnail_names.append(new_name)
+                prefix = f"assets/thumbnails/{record['entity']}/{job['set_id']}/"
+                job["renames"][f"{prefix}{name}"] = f"{prefix}{new_name}"
+            thumbnail_names = digest_thumbnail_names
             storage_update = {
                 "kind": "image-sequence",
                 "path": output_rel.as_posix(),
@@ -1024,8 +1170,14 @@ def _encode_avif_sequences(
                 "sha256": _sha256_file(output_path),
                 "profile": summary["profile"],
             }
+            blob_digest_name = f"{storage_update['sha256']}{output_rel.suffix.lower()}"
+            blob_new_rel = output_rel.with_name(blob_digest_name)
+            output_path.rename(out_dir / blob_new_rel)
+            job["renames"][output_rel.as_posix()] = blob_new_rel.as_posix()
+            output_rel = blob_new_rel
+            output_path = out_dir / output_rel
+            storage_update["path"] = output_rel.as_posix()
             record["status"] = status
-            record["output"] = output_rel.as_posix()
             record["bytes"] = output_path.stat().st_size
             return {
                 **job,
@@ -1099,6 +1251,7 @@ def _encode_avif_sequences(
                 / entity_id
                 / f"{set_id}.avifs",
                 "record": record,
+                "renames": {},
             }
             if variant_pairs:
                 jobs.append(job)
@@ -1139,6 +1292,7 @@ def _encode_avif_sequences(
             storage = result["storage"]
             storage.clear()
             storage.update(result["storage_update"])
+            summary["renames"].update(result.get("renames") or {})
             summary["encoded"] += 1
             summary["compressed_bytes"] += int(record.get("bytes") or 0)
         elif status == "skipped":
@@ -1252,6 +1406,9 @@ async def main_async(args: argparse.Namespace) -> int:
                     detail,
                 )
 
+        overlay_counts: dict[str, int] = {}
+        if args.overlay:
+            overlay_counts = _apply_overlay(details, Path(args.overlay))
         manifest, tasks, skipped_entities = _build_manifest(
             details,
             namespace=args.namespace,
@@ -1268,6 +1425,7 @@ async def main_async(args: argparse.Namespace) -> int:
             excluded_entity_markers=list(args.exclude_entity_marker),
             api_versions=api_versions,
             api_times=api_times,
+            base_url=args.base_url or f"https://mms-pack.xiyihan.cn/{out_dir.name}/",
         )
 
         _write_json(out_dir / "manifest.json", manifest)
@@ -1281,6 +1439,8 @@ async def main_async(args: argparse.Namespace) -> int:
             "detail_errors": errors,
             "dry_run": bool(args.dry_run),
         }
+        if args.overlay:
+            report["overlay"] = overlay_counts
 
         if args.dry_run:
             _write_json(out_dir / "build_report.json", report)
@@ -1315,13 +1475,51 @@ async def main_async(args: argparse.Namespace) -> int:
         ]
         report["downloaded"] = len(tasks) - len(failures)
         report["download_failures"] = failures
+        renames: dict[str, str] = {}
+        for entry in manifest["storage"].values():
+            if entry.get("kind") != "image-dir":
+                continue
+            base = Path(entry["base"])
+            for file in sorted((out_dir / base).rglob("*")):
+                if not file.is_file():
+                    continue
+                rel = file.relative_to(out_dir).as_posix()
+                new_name = _digest_filename(file)
+                new_rel = (base / new_name).as_posix()
+                file.rename(out_dir / base / new_name)
+                renames[rel] = new_rel
+
+        def rebase_path(storage_ref: Any, path_value: Any) -> Any:
+            storage_entry = manifest.get("storage", {}).get(storage_ref)
+            base = storage_entry.get("base") if isinstance(storage_entry, dict) else None
+            if not isinstance(base, str) or not isinstance(path_value, str):
+                return path_value
+            full = f"{base.rstrip('/')}/{path_value}"
+            new_full = renames.get(full)
+            if new_full is None:
+                return path_value
+            return new_full[len(base.rstrip("/")) + 1:]
+
+        for entity in manifest["entities"].values():
+            for item in (entity.get("slots", {}).get("avatar", {}).get("items") or {}).values():
+                item["path"] = rebase_path(item.get("storage"), item.get("path"))
+            for set_data in (entity.get("slots", {}).get("sticker", {}).get("sets") or {}).values():
+                for variant in set_data.get("variants") or []:
+                    variant["path"] = rebase_path(set_data.get("storage"), variant.get("path"))
+        for thumbnail in manifest.get("thumbnails", {}).values():
+            thumbnail["path"] = rebase_path(thumbnail.get("storage"), thumbnail.get("path"))
+        _write_json(out_dir / "manifest.json", manifest)
+        report["asset_renames"] = dict(renames)
 
         if args.encode_avifs and not failures:
             print("[info] encoding sticker sets to AVIFS")
             encode_summary = _encode_avif_sequences(out_dir, manifest, args)
             report["encode"] = encode_summary
+            report["asset_renames"].update(encode_summary.get("renames") or {})
             _write_json(out_dir / "manifest.json", manifest)
 
+        removed_unreferenced = _cleanup_unreferenced(out_dir, manifest)
+        report["removed_unreferenced"] = removed_unreferenced
         _write_json(out_dir / "build_report.json", report)
 
         encode_failures = int((report.get("encode") or {}).get("failed") or 0)
@@ -1348,6 +1546,16 @@ def build_argparser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--namespace", default="ba", help="Pack namespace written to manifest."
+    )
+    parser.add_argument(
+        "--base-url",
+        default=None,
+        help="Absolute HTTPS base URL for pack assets; defaults to https://mms-pack.xiyihan.cn/<out-dir-name>/.",
+    )
+    parser.add_argument(
+        "--overlay",
+        default=None,
+        help="JSON overlay applied to kivo student data: remove/patch/add students.",
     )
     parser.add_argument(
         "--pack-name",

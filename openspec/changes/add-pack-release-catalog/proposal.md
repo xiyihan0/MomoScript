@@ -11,14 +11,17 @@
 ## What Changes
 
 - 资产内容寻址：builder 以内容 SHA-256 命名资产文件（blob 与 image-dir 资产），manifest 记录映射；资产对象永不覆盖，`immutable` 缓存从此安全。
-- manifest 保持稳定 URL（`/<namespace>/manifest.json`），升级时原子覆盖（OSS PUT）；历史版本归档到 `/<namespace>/releases/<manifest-digest>/manifest.json` 供回滚与审计。
-- OSS 根目录新增 `packs.json` catalog（schema `mmt-pack-catalog-v1`）：每包一条记录（namespace、name、type、requires、eula、manifest_url、version、manifest_digest、published_at）。`max-age=0, must-revalidate`。
+- manifest 增加 `pack.base_url` 字段（additive，绝对 HTTPS，以 `/` 结尾）：资产解析不再从 manifest URL 位置派生，manifest 成为位置无关的自描述文档。
+- manifest 保持稳定 URL（`/<namespace>/manifest.json`），升级时原子覆盖（OSS PUT）；历史版本归档到 `/<namespace>/releases/<manifest-digest>/`（manifest.json + build_report.json），归档文件字节等同活跃版且自带 `base_url`，可直接被客户端作为版本锁定 URL 引用。
+- OSS 根目录新增 `packs.json` catalog（schema `mmt-pack-catalog-v1`）：每包一条记录（namespace、name、type、requires、eula、manifest_url、version、manifest_digest、published_at）外加 `releases` 历史数组（digest、version、manifest_url、published_at），作为版本选择的数据源。`max-age=0, must-revalidate`。
 - 新增 `tools/cdn/publish_pack.mjs`：dry-run 默认、发布编排（资产 → 归档 manifest → 覆盖活跃 manifest → 更新 catalog）、ossutil 上传、发布后公开校验，全部对齐 tinymist 发布脚本的既有模式。
 - repo 内 catalog 源文件 `typst_sandbox/pack-v3/catalog.json` 作为单一事实源；OSS 上的 `packs.json` 是发布产物，不在控制台手改。
 
 ## 设计修正说明
 
-上一轮讨论曾提议"manifest 放 digest URL + pointer 302 到当前 release"。落 OpenSpec 时修正为**不用 302**：阿里云 OSS 的对象级重定向（`x-oss-website-redirect-location`）只在静态网站托管模式下生效，CDN 回源走 API 模式不会得到重定向响应。改以 manifest 原地覆盖 + 归档实现同样的效果，客户端抓取语义零变化，且未变资产的摘要 URL 跨版本复用，升级不产生全量重下。
+落 OpenSpec 时修正为**不用 302**：阿里云 OSS 的对象级重定向（`x-oss-website-redirect-location`）只在静态网站托管模式下生效，CDN 回源走 API 模式不会得到重定向响应。改以 manifest 原地覆盖 + 归档实现同样的效果，客户端抓取语义零变化，且未变资产的摘要 URL 跨版本复用，升级不产生全量重下。
+
+后续讨论又确认两点：归档 manifest 因位置派生基址而在归档位不自洽，以及版本选择需要客户端可锁定的 URL。解法是 `pack.base_url` 显式字段——manifest 自带基址后，归档文件在归档位置即可被直接引用（配置填 `releases/<digest>/manifest.json` 即锁定版本），服务端回滚仍是"归档拷回活跃位 + catalog 翻 digest"。
 
 ## Implementation Status
 
@@ -28,5 +31,5 @@
 
 - Formal spec delta：`pack-delivery`（新）
 - 相关设计：`design-resource-pack-v3`（manifest/storage sha256 元数据是命名来源）、`add-pwa-offline-runtime`（不可变资产直接对应 shell manifest 的 exact URL + SHA-256 precache）
-- 主实现：`tools/cdn/publish_pack.mjs`、`tools/build_kivo_pack_v3.py`（命名改动）、`typst_sandbox/pack-v3/catalog.json`
-- 客户端默认 pack 源解析在 Phase 5 才接入 `editors/vscode-web/`，本 change 不改变现有 `synchronizePackSources` 与 `IndexedDbPackCache` 合同
+- 主实现：`tools/cdn/publish_pack.mjs`、`tools/build_kivo_pack_v3.py`（摘要命名 + base_url 写入）、`typst_sandbox/pack-v3/catalog.json`
+- 客户端 `editors/vscode/src/packSync.ts` 增加基址优先级（manifest `pack.base_url` > URL 派生，向后兼容）；catalog 驱动的默认 pack 源解析在 Phase 6 才接入 `editors/vscode-web/`，本 change 不改变现有 `synchronizePackSources` 与 `IndexedDbPackCache` 的抓取合同

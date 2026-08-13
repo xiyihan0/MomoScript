@@ -93,6 +93,7 @@ typst_sandbox/pack-v2/ba/**
 typst_sandbox/pack-v3/**
 !typst_sandbox/pack-v3/
 !typst_sandbox/pack-v3/**/
+!typst_sandbox/pack-v3/catalog.json
 !typst_sandbox/pack-v3/**/manifest.json
 !typst_sandbox/pack-v3/**/build_report.json
 !typst_sandbox/pack-v3/**/encode_report.jsonl

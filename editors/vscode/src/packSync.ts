@@ -43,6 +43,22 @@ async function fetchManifestWithRetry(
   throw lastError;
 }
 
+function resolvePackBaseUrl(json: string, manifestUrl: string): string {
+  let parsed: { pack?: { base_url?: unknown } } | undefined;
+  try {
+    parsed = JSON.parse(json) as typeof parsed;
+  } catch {
+    parsed = undefined;
+  }
+  const declared = parsed?.pack?.base_url;
+  if (declared !== undefined) {
+    if (typeof declared !== "string" || !declared.startsWith("https://") || !declared.endsWith("/")) {
+      throw new Error('Invalid pack base_url: must be an HTTPS URL ending in "/"');
+    }
+    return declared;
+  }
+  return new URL(".", manifestUrl).href;
+}
 export async function synchronizePackSources(
   urls: string[],
   revision: number,
@@ -86,7 +102,7 @@ export async function synchronizePackSources(
       }
       sources.push({
         manifestUrl: manifestUrl.href,
-        baseUrl: new URL(".", manifestUrl).href,
+        baseUrl: resolvePackBaseUrl(json, manifestUrl.href),
         json
       });
     }
