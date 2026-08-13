@@ -17,9 +17,9 @@ jobs:
     timeout-minutes: 20
     environment: runtime-production
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22.22.0
 
@@ -71,7 +71,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload publication manifest
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: tinymist-runtime-publication-${{ steps.publish.outputs.digest }}
           path: ${{ steps.publish.outputs.manifest }}

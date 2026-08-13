@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install AVIF decoder
         run: |
           sudo apt-get update
@@ -72,8 +72,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
@@ -133,7 +133,7 @@ jobs:
           cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/tinymist_bg.wasm" .ci/tinymist/web/tinymist_bg.wasm
           cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/package.json" .ci/tinymist/web/package.json
           cp "$RUNNER_TEMP/tinymist/crates/tinymist/pkg/SHA256SUMS" .ci/tinymist/web/SHA256SUMS
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: tinymist-pinned-linux-x64
           path: .ci/tinymist
@@ -145,8 +145,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Restore pinned Typst compiler artifact
@@ -198,7 +198,7 @@ jobs:
         run: |
           sha256sum --check SHA256SUMS
           node --input-type=module -e 'import { readFile } from "node:fs/promises"; const module = await WebAssembly.compile(await readFile("typst_ts_web_compiler_bg.wasm")); const exports = new Set(WebAssembly.Module.exports(module).map(({ name }) => name)); for (const name of ["typstcompileworld_render_svg_with_debug_spans", "typstcompileworld_resolve_main_spans"]) { if (!exports.has(name)) throw new Error(`missing WASM export: ${name}`); }'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: typst-compiler-pinned-web
           path: ${{ runner.temp }}/typst-compiler/pkg/typst_ts_web_compiler_bg.wasm
@@ -212,8 +212,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
@@ -223,7 +223,7 @@ jobs:
           rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
           rustup default "$RUST_TOOLCHAIN"
           cargo install wasm-pack --version "$WASM_PACK_VERSION" --locked
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v6
         with:
           name: tinymist-pinned-linux-x64
           path: .ci/tinymist
@@ -260,8 +260,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
@@ -273,7 +273,7 @@ jobs:
           rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
           rustup default "$RUST_TOOLCHAIN"
           cargo install wasm-pack --version "$WASM_PACK_VERSION" --locked
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v6
         with:
           name: tinymist-pinned-linux-x64
           path: .ci/tinymist
@@ -316,15 +316,15 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: |
             editors/vscode/package-lock.json
             editors/vscode-web/package-lock.json
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v6
         with:
           name: typst-compiler-pinned-web
           path: .ci/typst-compiler
@@ -342,7 +342,7 @@ jobs:
           npm run test:e2e:chrome
       - name: Upload E2E failure diagnostics
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: production-e2e-test-results
           path: editors/vscode-web/test-results/
@@ -356,8 +356,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
@@ -376,7 +376,7 @@ jobs:
         run: npm run test:e2e:lifecycle
       - name: Upload lifecycle failure diagnostics
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: lifecycle-e2e-test-results
           path: editors/vscode-web/test-results/
@@ -390,15 +390,15 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: |
             editors/vscode/package-lock.json
             editors/vscode-web/package-lock.json
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v6
         with:
           name: typst-compiler-pinned-web
           path: .ci/typst-compiler
@@ -415,7 +415,7 @@ jobs:
         run: npm run test:e2e:pwa-offline
       - name: Upload PWA failure diagnostics
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: pwa-e2e-test-results
           path: editors/vscode-web/test-results/
@@ -429,7 +429,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Determine preview-sensitive scope
@@ -471,7 +471,7 @@ jobs:
           else
             echo "run=true" >> "$GITHUB_OUTPUT"
           fi
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         if: steps.scope.outputs.run == 'true'
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -479,7 +479,7 @@ jobs:
           cache-dependency-path: |
             editors/vscode/package-lock.json
             editors/vscode-web/package-lock.json
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v6
         if: steps.scope.outputs.run == 'true'
         with:
           name: typst-compiler-pinned-web
@@ -499,7 +499,7 @@ jobs:
         run: npm run ci:preview-differential
       - name: Upload preview differential evidence
         if: always() && steps.scope.outputs.run == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: preview-differential-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
@@ -515,15 +515,15 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 100
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: |
             editors/vscode/package-lock.json
             editors/vscode-web/package-lock.json
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v6
         with:
           name: typst-compiler-pinned-web
           path: .ci/typst-compiler
@@ -540,7 +540,7 @@ jobs:
         run: npm run ci:preview-nightly
       - name: Upload preview performance evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: preview-performance-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
