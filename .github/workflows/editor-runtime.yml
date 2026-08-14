@@ -57,12 +57,15 @@ jobs:
             for (const pack of catalog.packs) {
               const current = pack.releases.find(({ digest }) => digest === pack.manifest_digest);
               if (!current) throw new Error(`${pack.namespace}: current release is absent from history`);
-              const directory = new URL(pack.manifest_url).pathname.split("/").filter(Boolean)[0];
-              const bytes = await readFile(`typst_sandbox/pack-v3/${directory}/manifest.json`);
-              const digest = createHash("sha256").update(bytes).digest("hex");
-              if (digest !== pack.manifest_digest) throw new Error(`${pack.namespace}: Catalog digest ${pack.manifest_digest} != Manifest digest ${digest}`);
-              if (!current.manifest_url.endsWith(`/releases/${digest}/manifest.json`)) throw new Error(`${pack.namespace}: current release URL does not contain its digest`);
-              console.log(`${pack.namespace}: ${digest}`);
+              if (!current.manifest_url.endsWith(`/releases/${pack.manifest_digest}/manifest.json`)) throw new Error(`${pack.namespace}: current release URL does not contain its digest`);
+              for (const url of [current.manifest_url, pack.manifest_url]) {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`${pack.namespace}: ${url} returned HTTP ${response.status}`);
+                const bytes = new Uint8Array(await response.arrayBuffer());
+                const digest = createHash("sha256").update(bytes).digest("hex");
+                if (digest !== pack.manifest_digest) throw new Error(`${pack.namespace}: Catalog digest ${pack.manifest_digest} != ${url} digest ${digest}`);
+              }
+              console.log(`${pack.namespace}: ${pack.manifest_digest}`);
             }
           '
 
