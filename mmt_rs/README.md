@@ -9,12 +9,15 @@ Typst emitter, and native project-export CLI.
 cargo run --manifest-path mmt_rs/Cargo.toml --bin mmt-compile -- \
   --input examples/example.mmt.txt \
   --output-dir /tmp/mmt-project \
-  --manifest typst_sandbox/pack-v3/ba_kivo/manifest.json \
+  --manifest /path/to/ba_kivo/manifest.json \
   --template-dir typst_sandbox/mmt_render
 
 typst compile --root /tmp/mmt-project \
   /tmp/mmt-project/main.typ /tmp/mmt-project/output.pdf
 ```
+
+Pack build workspaces are not tracked. Build the pack locally or download its
+published manifest before passing that local path to `--manifest`.
 
 Omit `--input` or pass `--input -` to read UTF-8 MMT source from stdin. The
 command writes one JSON report to stdout and uses a non-zero exit code on

@@ -327,23 +327,17 @@ test("dry-run Catalog merge prepends releases, deduplicates digests, preserves P
   );
 });
 
-test("controlled Manifest matches the current Catalog release", async () => {
+test("controlled Catalog current release is self-consistent", async () => {
   const catalog = JSON.parse(await readFile(path.join(repoRoot, "typst_sandbox/pack-v3/catalog.json"), "utf8"));
-  const manifestBytes = await readFile(path.join(repoRoot, "typst_sandbox/pack-v3/ba_kivo/manifest.json"));
-  const manifest = JSON.parse(manifestBytes);
   const pack = catalog.packs.find((entry) => entry.namespace === "ba");
   assert(pack, "Catalog must contain the controlled ba Pack");
-  assert.equal(sha256(manifestBytes), pack.manifest_digest);
-  assert.equal(manifest.pack.version, "2026.08.13");
-  assert.equal(manifest.pack.version, pack.version);
-  assert.equal(manifest.pack.base_url, "https://mms-pack.esa.xiyihan.cn/ba_kivo/");
-  assert.equal(pack.manifest_url, `${manifest.pack.base_url}manifest.json`);
-  assert(
-    pack.releases.some((release) => (
-      release.digest === pack.manifest_digest
-      && release.version === pack.version
-      && release.manifest_url === `${manifest.pack.base_url}releases/${pack.manifest_digest}/manifest.json`
-    )),
-    "Catalog current release must point at the controlled immutable Manifest",
+  const current = pack.releases.find((release) => release.digest === pack.manifest_digest);
+  assert(current, "Catalog must retain its current immutable release");
+  assert.equal(current.version, pack.version);
+  assert.equal(current.published_at, pack.published_at);
+  assert.equal(pack.manifest_url, "https://mms-pack.esa.xiyihan.cn/ba_kivo/manifest.json");
+  assert.equal(
+    current.manifest_url,
+    `https://mms-pack.esa.xiyihan.cn/ba_kivo/releases/${pack.manifest_digest}/manifest.json`,
   );
 });

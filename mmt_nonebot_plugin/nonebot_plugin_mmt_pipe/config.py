@@ -16,10 +16,8 @@ class MMTPipeConfig(BaseModel):
     mmt_work_dir: str = Field(default=".cache/nonebot_mmt")
     # Rust DSL v2 native compiler and project-export settings.
     mmt_compile_bin: str = Field(default="mmt_rs/target/release/mmt-compile")
-    # Comma-separated pack-v3 manifest paths loaded in order.
-    mmt_pack_v3_manifests: str = Field(
-        default="typst_sandbox/pack-v3/ba_kivo/manifest.json"
-    )
+    # Comma-separated local pack-v3 manifest paths loaded in order.
+    mmt_pack_v3_manifests: str = Field(default="")
     mmt_template_v2_dir: str = Field(default="typst_sandbox/mmt_render")
     mmt_materialize_cache_dir: str = Field(default=".cache/nonebot_mmt/materialized")
     mmt_compile_timeout_s: float = Field(default=30.0)

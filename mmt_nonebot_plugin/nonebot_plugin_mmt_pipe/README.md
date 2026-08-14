@@ -31,7 +31,7 @@ cargo build --release --manifest-path mmt_rs/Cargo.toml --bin mmt-compile
 NoneBot 配置项可来自环境变量、`.env` 或项目配置：
 
 - `mmt_compile_bin`：默认 `mmt_rs/target/release/mmt-compile`
-- `mmt_pack_v3_manifests`：逗号分隔 manifest，默认 `typst_sandbox/pack-v3/ba_kivo/manifest.json`
+- `mmt_pack_v3_manifests`：逗号分隔的本地 manifest 路径，默认空；资源包需在本地构建或从发布地址下载 manifest 后显式配置
 - `mmt_template_v2_dir`：默认 `typst_sandbox/mmt_render`
 - `mmt_materialize_cache_dir`：默认 `.cache/nonebot_mmt/materialized`
 - `mmt_compile_timeout_s`：默认 `30`

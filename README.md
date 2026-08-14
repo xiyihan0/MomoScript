@@ -73,7 +73,7 @@ cargo test --manifest-path mmt_lsp/Cargo.toml
 cargo run --manifest-path mmt_rs/Cargo.toml --bin mmt-compile -- \
   --input examples/example_t.mmt.txt \
   --output-dir /tmp/mmt-project \
-  --manifest typst_sandbox/pack-v3/ba_kivo/manifest.json \
+  --manifest /path/to/ba_kivo/manifest.json \
   --template-dir typst_sandbox/mmt_render
 
 typst compile --root /tmp/mmt-project \
@@ -81,6 +81,8 @@ typst compile --root /tmp/mmt-project \
 ```
 
 CLI 会向 stdout 输出 JSON report，并在失败时返回非零状态。资源物化结果写入受控工程目录和内容寻址缓存，不直接信任脚本中的任意文件路径。
+
+`pack-v3` 构建工作区不纳入 Git；先在本地构建资源包，或下载已发布的 manifest，再把本地路径传给 `--manifest`。
 
 ### 启动 NoneBot
 
