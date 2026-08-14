@@ -21,26 +21,25 @@ test("installed production editor cold-starts offline with language workers and 
     }
     const source = await (await fetch(registration.active?.scriptURL ?? "/sw.js")).text();
     const localMatch = source.match(/const PRECACHE_URLS = (\[.*?\]);\n/);
-    const remoteMatch = source.match(/const IMMUTABLE_PRECACHE_URLS = (\[.*?\]);\n/);
-    if (!localMatch || !remoteMatch) throw new Error("generated service-worker manifests are missing");
+    if (!localMatch) throw new Error("generated service-worker manifest is missing");
     const local = JSON.parse(localMatch[1]) as string[];
-    const remote = JSON.parse(remoteMatch[1]) as string[];
     const requiredLocal = local.filter((url) => /(?:mmt_lsp_bg|tinymistWorker|browserWorker)/.test(url));
-    const required = [...requiredLocal, ...remote];
+    const runtime = local.filter((url) => url.endsWith(".brotli.bin"));
+    const required = [...requiredLocal, ...runtime];
     const cached = await Promise.all(required.map(async (url) => ({ url, cached: Boolean(await caches.match(url)) })));
     return {
       controller: Boolean(navigator.serviceWorker.controller),
       localCount: local.length,
-      remoteCount: remote.length,
+      runtimeCount: runtime.length,
       notoLocalCount: local.filter((url) => url.includes("NotoSansCJK")).length,
-      mainFontBrotliCount: remote.filter((url) => /MainFont(?:_Bold)?[.]otf[.]br[?]delivery=br-v1$/.test(url)).length,
-      wasmBrotliCount: remote.filter((url) => /[.]wasm[.]br[?]delivery=br-v1$/.test(url)).length,
+      mainFontBrotliCount: runtime.filter((url) => /MainFont(?:_Bold)?[.]otf[.]brotli[.]bin$/.test(url)).length,
+      wasmBrotliCount: runtime.filter((url) => /[.]wasm[.]brotli[.]bin$/.test(url)).length,
       required: cached,
     };
   });
   expect(cacheEvidence.controller).toBe(true);
   expect(cacheEvidence.localCount).toBeGreaterThan(100);
-  expect(cacheEvidence.remoteCount).toBe(4);
+  expect(cacheEvidence.runtimeCount).toBe(4);
   expect(cacheEvidence.notoLocalCount).toBe(0);
   expect(cacheEvidence.mainFontBrotliCount).toBe(2);
   expect(cacheEvidence.wasmBrotliCount).toBe(2);

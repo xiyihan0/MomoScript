@@ -14,14 +14,15 @@
 - [ ] 1.2 在 production-like server 配置 HTML/worker/manifest revalidation、hashed asset immutable、MIME 和 navigation denylist
 - [ ] 1.3 验证未知 WASM/worker/manifest/pack/API 返回真实 404/5xx，不被 SPA fallback 改为 HTML 200
 - [ ] 1.4 在真实 Chromium 中验证 root worker 与现有 VS Code Webview `service-worker-*` scope、离线 bootstrap、更新与 unregister
-- [ ] 1.5 测量当前完整 local + remote runtime decoded inventory、Cache Storage 实际增量与 zstd/identity selection，记录可重复 build report
-- [ ] 1.6 未通过 root/Webview coexistence、跨域 runtime cache 和完全离线 smoke 前，保持生产 UI 不显示 offline-ready
+- [ ] 1.5 测量当前完整 local shell encoded/decoded inventory、Cache Storage 实际增量，记录可重复 build report
+- [ ] 1.6 未通过 root/Webview coexistence、同源 runtime cache 和完全离线 smoke 前，保持生产 UI 不显示 offline-ready
 
 ## 2. Manifest And Deterministic Shell Build
 
 - [ ] 2.1 固定 `vite-plugin-pwa`/Workbox 依赖，配置 `injectManifest`、`registerType: prompt` 和审计后的 24 MiB 单文件上限
 - [ ] 2.2 添加 manifest `id/name/short_name/start_url/scope/display/colors/lang` 与 192/512/maskable icons，并验证 safe zone
-- [ ] 2.3 将 Tinymist、Typst compiler 和 fallback candidates 收束到单一 `runtimeArtifacts.ts` catalog，移除 page/PWA 双份 URL/hash
+- [x] 2.3 将 Tinymist、Typst compiler 和 MainFont 收束到单一 `runtimeArtifacts.ts` catalog，浏览器仅使用同源 content-addressed Brotli artifacts
+  - Evidence (2026-08-14): `prepare-runtime-artifacts.mjs` verifies encoded/decoded hash and size before emitting four `*.brotli.bin` assets; `runtimeArtifactDecoder.ts` and its dedicated Worker enforce same-origin、no `Content-Encoding`、bounded streaming decode and both digests. `npm run test:runtime-delivery` and `npm run test:e2e:pwa-offline` passed; a production-browser smoke loaded all four local artifacts、rendered preview and completed current-preview export with zero external runtime requests.
 - [ ] 2.4 生成 deterministic `pwa-shell-manifest.json`，包含 exact URL、SHA-256、encoded/decoded size、MIME、role、compatibility 和 buildId
 - [ ] 2.5 build-time 拒绝遗漏必需 runtime、超限 artifact、重复 URL/role、hash/size 不一致，并排除 `.map`、测试、workspace、pack 和 legacy duplicate
 - [ ] 2.6 验证 Chromium installability；Safari/iOS/Firefox 仅显示真实支持的安装入口或说明
@@ -80,7 +81,7 @@
 ## 8. Deployment And Cross-platform Verification
 
 - [ ] 8.1 为 Netlify 与生产 Edge/CDN 建立自动 HTTP contract test，覆盖 `/sw.js`、HTML、manifest、shell manifest、hashed assets、MIME、CORS 和 404
-- [ ] 8.2 验证 CDN zstd/identity runtime response 在 Service Worker cache 中保持 Content-Encoding/Vary 语义并以 decoded bytes 校验
+- [ ] 8.2 验证生产 Edge/Pages 对 `*.brotli.bin` 保持 identity transfer、`application/octet-stream` 与 immutable cache；验证浏览器 Worker 的 encoded/decoded hash/size/WASM 检查
 - [ ] 8.3 运行 `cd editors/vscode-web && npm run check` 以及现有 resource/language projection tests，确保 PWA 不建立第二套 preview/resource 逻辑
 - [ ] 8.4 增加并运行 PWA shell、origin storage、pack installer 聚焦 tests 与本地 Playwright offline/update suite
 - [ ] 8.5 在 Chrome/Edge Desktop、Android Chromium、macOS Safari、iOS Home Screen 与 Firefox offline Web 执行平台矩阵

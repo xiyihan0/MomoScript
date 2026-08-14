@@ -130,6 +130,8 @@ web/.vite/
 editors/vscode-web/node_modules/
 editors/vscode-web/dist/
 editors/vscode-web/.vite/
+editors/vscode-web/.runtime-artifacts/
+editors/vscode-web/public/runtime/
 
 # Local Netlify folder
 .netlify

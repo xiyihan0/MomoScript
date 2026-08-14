@@ -6,10 +6,6 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import importMetaUrlPlugin from "@codingame/esbuild-import-meta-url-plugin";
 import { defineConfig, type Plugin } from "vite";
-import {
-  PINNED_RUNTIME_ARTIFACT_URLS,
-  PRELOADED_RUNTIME_ARTIFACT_URLS,
-} from "./src/runtimeArtifacts";
 
 const BUILD_VERSION_PATTERN = /^\d{12}-[0-9a-f]{7}$/;
 const REPOSITORY_ROOT = fileURLToPath(new URL("../..", import.meta.url));
@@ -71,37 +67,20 @@ function serviceWorkerSource(
   cacheId: string,
   version: string,
   urls: readonly string[],
-  immutableUrls: readonly string[],
-  immutablePrecacheUrls: readonly string[]
 ): string {
   return `const SHELL_CACHE = ${JSON.stringify(`momoscript-shell-${cacheId}`)};
 const BUILD_VERSION = ${JSON.stringify(version)};
-const IMMUTABLE_CACHE = "momoscript-immutable-v1";
-const OWNED_CACHE_PREFIXES = ["momoscript-shell-", "momoscript-immutable-"];
+const OWNED_CACHE_PREFIX = "momoscript-shell-";
 const PRECACHE_URLS = ${JSON.stringify(urls)};
-const IMMUTABLE_URLS = ${JSON.stringify(immutableUrls)};
-const IMMUTABLE_PRECACHE_URLS = ${JSON.stringify(immutablePrecacheUrls)};
 
 self.addEventListener("install", (event) => {
-  event.waitUntil((async () => {
-    const shell = await caches.open(SHELL_CACHE);
-    await shell.addAll(PRECACHE_URLS);
-    const immutable = await caches.open(IMMUTABLE_CACHE);
-    await Promise.all(IMMUTABLE_PRECACHE_URLS.map(async (url) => {
-      if (await immutable.match(url)) return;
-      const response = await fetch(url, { cache: "reload" });
-      if (!response.ok) throw new Error(\`Immutable precache failed: \${response.status} \${url}\`);
-      await immutable.put(url, response);
-    }));
-  })());
+  event.waitUntil(caches.open(SHELL_CACHE).then((cache) => cache.addAll(PRECACHE_URLS)));
 });
 self.addEventListener("activate", (event) => {
   event.waitUntil((async () => {
     const names = await caches.keys();
     await Promise.all(names.map((name) =>
-      OWNED_CACHE_PREFIXES.some((prefix) => name.startsWith(prefix))
-        && name !== SHELL_CACHE
-        && name !== IMMUTABLE_CACHE
+      name.startsWith(OWNED_CACHE_PREFIX) && name !== SHELL_CACHE
         ? caches.delete(name)
         : Promise.resolve(false)
     ));
@@ -119,28 +98,16 @@ self.addEventListener("fetch", (event) => {
   const request = event.request;
   if (request.method !== "GET") return;
   const url = new URL(request.url);
-  if (url.origin === self.location.origin) {
-    event.respondWith((async () => {
-      const cached = await caches.match(request) ?? await caches.match(url.pathname);
-      if (cached) return cached;
-      if (request.mode === "navigate") {
-        const shell = await caches.match("/index.html");
-        if (shell) return shell;
-      }
-      return fetch(request);
-    })());
-    return;
-  }
-  if (IMMUTABLE_URLS.includes(url.href)) {
-    event.respondWith((async () => {
-      const cache = await caches.open(IMMUTABLE_CACHE);
-      const cached = await cache.match(request);
-      if (cached) return cached;
-      const response = await fetch(request);
-      if (response.ok) await cache.put(request, response.clone());
-      return response;
-    })());
-  }
+  if (url.origin !== self.location.origin) return;
+  event.respondWith((async () => {
+    const cached = await caches.match(request) ?? await caches.match(url.pathname);
+    if (cached) return cached;
+    if (request.mode === "navigate") {
+      const shell = await caches.match("/index.html");
+      if (shell) return shell;
+    }
+    return fetch(request);
+  })());
 });
 `;
 }
@@ -204,9 +171,6 @@ function pwaPrecachePlugin(): Plugin {
     generateBundle(_options, bundle) {
       const urls = new Set<string>(["/", "/index.html"]);
       const hash = createHash("sha256");
-      const immutableUrls = [...PINNED_RUNTIME_ARTIFACT_URLS];
-      const immutablePrecacheUrls = [...PRELOADED_RUNTIME_ARTIFACT_URLS];
-      hash.update(JSON.stringify({ immutableUrls, immutablePrecacheUrls }));
       hash.update(buildVersion);
       for (const file of publicFiles) {
         urls.add(file.url);
@@ -224,13 +188,7 @@ function pwaPrecachePlugin(): Plugin {
       this.emitFile({
         type: "asset",
         fileName: "sw.js",
-        source: serviceWorkerSource(
-          cacheId,
-          buildVersion,
-          [...urls].sort(),
-          immutableUrls,
-          immutablePrecacheUrls
-        ),
+        source: serviceWorkerSource(cacheId, buildVersion, [...urls].sort()),
       });
     },
   };

@@ -28,7 +28,7 @@
 - embedded Typst grammar、completion、hover 和 diagnostics；
 - 可取消的实时渲染与受限内存资源缓存；
 - Web App Manifest、安装 metadata，以及 production build 生成并注册的根 `/sw.js`；
-- production shell/local assets 与选定 pinned runtime 的 Service Worker precache，以及经过 workspace/runtime quiesce 后才激活 waiting worker 的提示式更新。
+- content-addressed、同源的 Tinymist/Typst compiler/MainFont Brotli 制品、随 bundle 固定的解码器 Worker 与 Service Worker precache；客户端运行时不再请求外部 WASM/font CDN；
 
 当前仍不具备：
 
@@ -40,6 +40,8 @@
 - Monaco `WorkspaceService` 对完整 Workbench shell/layout 的接管。
 
 `IndexedDbPackCache` 当前只持久化 manifest/ETag；`BoundedStringCache` 是页面内 32 MiB 内存 LRU，不能视为离线资源缓存。当前 `/sw.js` 的 install-time precache 也不等同于 active PWA spec 中显式 reservation、artifact verification、probation 与 rollback 均完成的 offline shell。
+
+`npm run dev` / `npm run build` 的 lifecycle 会运行 `scripts/prepare-runtime-artifacts.mjs`：从 `runtimeArtifacts.ts` 的 build-only source catalog 取得固定 Brotli 对象，逐项校验压缩 SHA-256/长度、解压 SHA-256/长度后写入被忽略的 `public/runtime/`。浏览器只请求 content-addressed `*.brotli.bin` 同源路径；该后缀故意不以 `.br` 结尾，防止静态服务器误加 `Content-Encoding: br`。`test:runtime-delivery` 覆盖 catalog、生成文件、解码器 pin 与协议 allowlist。
 
 ## Architecture Boundaries
 

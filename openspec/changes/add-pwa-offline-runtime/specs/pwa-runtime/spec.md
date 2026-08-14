@@ -43,14 +43,14 @@ The UI SHALL represent app-window installation separately from the verified acti
 
 ### Requirement: Every shell revision has one complete artifact manifest
 
-A shell build SHALL bind local assets、remote runtime selections and compatibility metadata into one deterministic build identity.
+A shell build SHALL bind local assets、bundled runtime artifacts and compatibility metadata into one deterministic build identity.
 
 #### Scenario: Build generates the shell manifest
 
 - GIVEN Vite emits Workbench、Workers、extensions、fonts and bundled WASM
-- AND runtime catalog declares Tinymist and Typst compiler candidates
+- AND runtime catalog declares same-origin content-addressed Tinymist、Typst compiler and MainFont artifacts
 - WHEN PWA build completes
-- THEN `pwa-shell-manifest.json` MUST enumerate exact request URL、SHA-256、decoded size、MIME and role for every required artifact
+- THEN `pwa-shell-manifest.json` MUST enumerate exact request URL、encoded/decoded SHA-256、encoded/decoded size、MIME and role for every required artifact
 - AND `buildId` MUST change when any URL、hash、size、schema or compatibility version changes
 - AND the manifest MUST include `index.html`、MMT LSP、Tinymist、Typst compiler/renderer and required Webview bootstrap assets
 
@@ -61,12 +61,12 @@ A shell build SHALL bind local assets、remote runtime selections and compatibil
 - THEN that file MUST NOT enter the shell manifest merely because it exists under dist
 - AND required assets over the audited size limit MUST fail the build rather than disappear silently
 
-#### Scenario: Runtime source URL changes
+#### Scenario: Runtime artifact catalog changes
 
-- GIVEN preview or Tinymist client selects a different runtime artifact
+- GIVEN preview or Tinymist client selects a different bundled runtime artifact
 - WHEN the application builds
-- THEN page runtime and shell manifest MUST import the same artifact catalog
-- AND a second hardcoded URL/hash source MUST NOT remain
+- THEN page runtime、prebuild and shell manifest MUST import the same artifact catalog
+- AND a second hardcoded URL/hash source or external runtime fallback MUST NOT remain
 
 ### Requirement: The root Service Worker has a bounded bootstrap
 
@@ -396,24 +396,31 @@ Missing or damaged offline pack resources SHALL not change MMT language semantic
 - AND syntax、semantic resolution based on the acknowledged manifest and no-I/O projection MUST remain available
 - AND network failure MUST NOT be represented as an empty pack manifest
 
-### Requirement: Cross-origin cached artifacts are inspectable and immutable
+### Requirement: Bundled runtime and remote packs remain inspectable and immutable
 
-Remote runtime and pack artifacts SHALL be cached only from allowlisted、verifiable CORS responses.
+Required Tinymist、Typst compiler and font runtime artifacts SHALL be same-origin content-addressed shell entries. Remote pack artifacts SHALL be cached
+only from allowlisted、verifiable CORS responses.
 
-#### Scenario: Runtime response is redirected or opaque
+#### Scenario: Static server transforms a bundled Brotli artifact
 
-- GIVEN a runtime catalog requests an exact HTTPS URL
+- GIVEN the runtime catalog requests an exact same-origin `*.brotli.bin`
+- WHEN the response redirects、uses `Content-Encoding`、returns HTML or violates the declared encoded size/hash
+- THEN the runtime loader MUST reject it before decoding
+- AND it MUST NOT request an external or identity fallback
+
+#### Scenario: Bundled runtime is decoded
+
+- GIVEN the encoded response matches its catalog entry
+- WHEN the dedicated decoder Worker consumes it
+- THEN encoded and decoded byte limits MUST be enforced incrementally
+- AND encoded SHA-256、decoded SHA-256、decoded size and WASM validity where applicable MUST pass before use
+
+#### Scenario: Remote pack response is redirected or opaque
+
+- GIVEN a pack catalog requests an exact HTTPS URL
 - WHEN fetch returns an opaque response or redirects outside its declared origin/root
 - THEN staging MUST reject the response
 - AND it MUST NOT enter Cache Storage
-
-#### Scenario: CDN serves encoded WASM
-
-- GIVEN the selected runtime response uses `Content-Encoding` and `Vary: Accept-Encoding`
-- WHEN the worker validates and caches it
-- THEN SHA-256/size/WASM validation MUST apply to decoded bytes declared by the catalog
-- AND the cached response MUST preserve browser-managed body/header semantics
-- AND an identity fallback MAY be selected only as a separately declared、reserved and verified artifact
 
 ### Requirement: Deployment responses preserve PWA update and asset semantics
 

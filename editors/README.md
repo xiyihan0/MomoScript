@@ -72,7 +72,7 @@ MMT TextDocument
 | Web Tinymist 与 VS Code Web Host | `npm --prefix editors/vscode run test:tinymist-worker`；`npm --prefix editors/vscode run test:web` | `TINYMIST_WEB_PKG` 指向经过 pin/digest 验证的 web package | `tinymist-compatibility`、`extension-web` |
 | pack 同步重试与缓存回退 | `npm --prefix editors/vscode run test:pack-sync` | Node | `extension-web` |
 | 投影信任边界 | `npm --prefix editors/vscode run test:projected-reads` | 共享 fixture 随仓库提供 | `extension-web` |
-| Workbench 静态检查与 build | `npm --prefix editors/vscode-web run check`；`npm --prefix editors/vscode-web run build` | `TINYMIST_WEB_PKG`；production compiler 路径需要 `TYPST_COMPILER_WEB_PKG` | `extension-web` 及浏览器 jobs |
+| Workbench 静态检查、runtime delivery 与 build | `npm --prefix editors/vscode-web run check`；`npm --prefix editors/vscode-web run test:runtime-delivery`；`npm --prefix editors/vscode-web run build` | 构建机可读取固定 runtime source；prebuild 将校验后的 Brotli 对象写入同源、content-addressed build output | `extension-web` 及浏览器 jobs |
 | Workbench focused contracts | `npm --prefix editors/vscode-web run test:preview-artifact`；`npm --prefix editors/vscode-web run test:preview-webview-protocol`；`npm --prefix editors/vscode-web run test:preview-interaction`；`npm --prefix editors/vscode-web run test:preview-render-queue`；`npm --prefix editors/vscode-web run test:preview-renderer-session`；`npm --prefix editors/vscode-web run test:exact-export`；`npm --prefix editors/vscode-web run test:runtime-controller` | Node 与已安装依赖 | `extension-web` |
 | Grouped real-Chrome production journeys | `npm --prefix editors/vscode-web run test:e2e:chrome` | `TINYMIST_WEB_PKG`、`TYPST_COMPILER_WEB_PKG`、Playwright Chrome | `production-e2e` |
 | HMR/runtime lifecycle | `npm --prefix editors/vscode-web run test:e2e:lifecycle` | `TINYMIST_WEB_PKG`、Playwright Chrome | `lifecycle-e2e` |
@@ -88,6 +88,7 @@ MMT TextDocument
 - `tinymist-compatibility` 从 workflow 固定 revision 与补丁构建 native binary/Web package，生成并校验 SHA-256 文件，再上传 `tinymist-pinned-linux-x64`。`extension-desktop` 和 `extension-web` 下载该 artifact 验证兼容性，不把 runner 临时路径当发布来源。
 - `typst-compiler-compatibility` 从固定 typst.ts revision、patch、Rust/wasm-pack/Binaryen 工具链构建 compiler WASM，校验 Binaryen 下载、WASM SHA-256 与必需 exports，再上传 `typst-compiler-pinned-web`。需要真实 compiler 的 production/PWA/preview jobs 下载该 artifact，并通过 `TYPST_COMPILER_WEB_PKG` 传入。
 - `TINYMIST_BIN`、`TINYMIST_WEB_PKG` 和 `TYPST_COMPILER_WEB_PKG` 都只是已验证产物的位置；digest/SHA 文件与 workflow pin 决定来源可信度。
+- 独立 Workbench 的 Tinymist WASM、Typst compiler WASM 与 MainFont regular/bold 在 prebuild 中按 `runtimeArtifacts.ts` 固定的压缩/原始 digest 和长度验证，作为 `*.brotli.bin` 与 `tiny-brotli-dec-wasm@1.0.1` 一起进入 Pages output。浏览器只走同源 Worker 解压边界，不保留外部 runtime fallback；Pack 仍按独立发布合同从配置的 ESA origin 获取。
 - 失败时，production、lifecycle 和 PWA jobs 上传各自 `test-results/`；differential 与 nightly jobs 无论结果均上传 `.tmp/preview-performance/ci/` 和 `test-results/` 证据。artifact 名称、保留策略和触发条件以 [workflow](../.github/workflows/editor-runtime.yml) 为准。
 
 ## 变更路由与故障入口

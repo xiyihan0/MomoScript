@@ -1,16 +1,10 @@
 import { readFile } from "node:fs/promises";
 import {
-  MAIN_FONT_BOLD_URL,
-  MAIN_FONT_REGULAR_URL,
   PACK_BASE_URL as PACK_ROOT,
   PACK_MANIFEST_URL as MANIFEST_URL,
-  TINYMIST_WASM_URL,
-  TYPST_COMPILER_WASM_URL,
-  runtimeIdentityUrl,
 } from "../src/runtimeArtifacts";
 import { expect, invokeMmtE2E, previewReadiness, test, type Locator, type Page, type Response, waitForPreviewFrame } from "./fixtures";
 
-const TYPST_COMPILER_WASM_FALLBACK_URL = runtimeIdentityUrl(TYPST_COMPILER_WASM_URL);
 const manifest = await readFile(new URL("./fixtures/manifest.json", import.meta.url));
 const avatar = await readFile(new URL("./fixtures/佳代子.png", import.meta.url));
 const alphaSequence = await readFile(new URL("./fixtures/alpha-sequence.avifs", import.meta.url));
@@ -27,8 +21,6 @@ test("production editor materializes an avatar and restores the authored story a
   const local = testInfo.project.name !== "remote";
   let manifestRequests = 0;
   let avatarRequests = 0;
-  let compilerRolloutRequests = 0;
-  let compilerFallbackRequests = 0;
   if (local) {
     await page.route("https://**/*", async (route) => {
       const url = route.request().url();
@@ -56,24 +48,6 @@ test("production editor materializes an avatar and restores the authored story a
           body: alphaSequence,
           headers: corsHeaders("application/octet-stream")
         });
-        return;
-      }
-      if (url === MAIN_FONT_REGULAR_URL || url === MAIN_FONT_BOLD_URL) {
-        await route.continue();
-        return;
-      }
-      if (url === TYPST_COMPILER_WASM_URL) {
-        compilerRolloutRequests += 1;
-        await route.abort("connectionfailed");
-        return;
-      }
-      if (url === TYPST_COMPILER_WASM_FALLBACK_URL) {
-        compilerFallbackRequests += 1;
-        await route.continue();
-        return;
-      }
-      if (url === TINYMIST_WASM_URL) {
-        await route.fallback();
         return;
       }
       await route.abort("blockedbyclient");
@@ -156,10 +130,6 @@ test("production editor materializes an avatar and restores the authored story a
   await expect(outputPanel.getByRole("tab", { name: /^输出/ })).toHaveAttribute("aria-selected", "true");
   const previewWebview = await previewWebviewFrame(page);
   await expect(previewWebview.locator("#workbench")).toHaveCount(0);
-  if (local) {
-    expect(compilerRolloutRequests).toBe(0);
-    expect(compilerFallbackRequests).toBe(0);
-  }
   await expect(previewWebview.locator(".viewport .page svg")).toBeAttached({ timeout: 60_000 });
   await expect(outputPanel).not.toContainText(
     /Typst\s+编译器\s+WASM.*(?:失败|failed)/i,

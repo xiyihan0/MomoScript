@@ -1,6 +1,5 @@
 import { expect, invokeMmtE2E, test, type Download, type Page, waitForPreviewFrame } from "./fixtures";
 import type { ExactExportFixtureRequest } from "../src/e2eRuntimeBridge.ts";
-import { TYPST_COMPILER_WASM_URL } from "../src/runtimeArtifacts.ts";
 
 interface ExactExportState {
   readonly availability: "no-document" | "capability-unavailable" | "ready" | "stale" | "partial" | "failed" | "evicted";
@@ -9,14 +8,6 @@ interface ExactExportState {
 }
 
 test("stale exact export requires an explicit displayed or wait-latest choice", { tag: "@runtime-export" }, async ({ page }) => {
-  await page.route("https://**/*", async (route) => {
-    const url = route.request().url();
-    if (url === TYPST_COMPILER_WASM_URL) {
-      await route.abort("connectionfailed");
-      return;
-    }
-    await route.continue();
-  });
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   await page.getByRole("button", { name: "Typst 预览" }).click();

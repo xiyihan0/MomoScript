@@ -19,18 +19,21 @@ workspace/history，以及 pack cache 与应用壳相互驱逐。需要独立 ch
 
 - 增加正式 Web App Manifest、192/512/maskable icons 和 progressive install UI；浏览器安装状态与“完整离线运行时已安装”状态严格分离。
 - 使用 `vite-plugin-pwa` 的 `injectManifest` 构建自定义根 Service Worker；保持 prompt update，不启用自动 update/skipWaiting/reload。
-- 构建版本化 shell manifest，覆盖本地 Workbench/Workers/WASM/fonts/Webview bootstrap，以及经过完整性验证的跨域 Tinymist/Typst runtime artifacts；source maps、workspace 和 pack 不进入 shell。
+- 构建版本化 shell manifest，覆盖本地 Workbench/Workers/WASM/fonts/Webview bootstrap，包括 build-time 验证后同源交付的 Tinymist/Typst/MainFont Brotli artifacts；source maps、workspace 和 pack 不进入 shell。
 - 首次 root worker 只安装有界 bootstrap/recovery 响应。完整 shell 必须由用户显式启用离线后，经 origin-wide storage reservation 才能 staging。
 - 增加 `PwaUpdateCoordinator`：download/verify 与 restart 分阶段；restart 前等待 workspace、history 和 runtime owner 安全 quiesce，再激活 waiting worker 并执行一次受控 reload。
 - 增加 shell active/previous/staging registry、probation health check 和 asset-level rollback；新 worker 不自动 `clients.claim()`，旧客户端使用的完整 revision 不提前清理。
 - 增加 `OriginStorageCoordinator`，统一核算应用壳、offline packs、IndexedDB workspace/history、journals 和 staging peak；PWA/pack installer 只能回收可再生成 cache，不能删除 workspace protected bytes 或独立消耗 `StorageManager` 估算。
 - 增加显式 Pack Offline Installer。pack-v3 分发侧提供与 semantic manifest revision 绑定的 installation index，列出 exact URL、size、MIME 和 SHA-256；pack assets 不进入应用 shell precache。
 - 增加完全离线启动、缺 pack、缓存损坏、origin eviction、更新接受/拒绝、根 worker 与 VS Code Webview worker 共存的可见状态和验收矩阵。
-- 为 Netlify 与当前生产 origin 建立同一部署合同：HTML/worker/manifest 重验证、hashed assets immutable、正确 MIME、仅 navigation fallback、真实 404 和跨域 runtime/pack CORS。
+- 为 Netlify 与当前生产 origin 建立同一部署合同：HTML/worker/manifest 重验证、hashed assets immutable、正确 MIME、仅 navigation fallback、真实 404、同源 runtime identity transfer 和跨域 pack CORS。
 
 # Implementation Status
 
-本 change 当前只有 proposal、architecture、spec delta 与任务清单。生产代码尚未注册根 Service Worker，也未声明离线可用。
+本 change 已部分实施：生产代码已有 Web App Manifest、根 Service Worker、install-time shell precache、prompt update/quiesce，以及
+content-addressed 同源 Tinymist/Typst/MainFont Brotli runtime 与固定 Worker decoder。尚未实现显式 storage reservation、
+`pwa-shell-manifest.json`、staging/active/previous registry、probation、rollback 与 Pack Offline Installer，因此产品仍不得声明完整
+offline-ready。
 
 历史研究文档 `openspec/changes/archive/2026-08-09-add-mmt-lsp-vscode/pwa-feasibility-and-design.md` 继续作为体积与平台研究输入；正式实施合同以本 change 的
 `specs/pwa-runtime/spec.md` 为准。研究文档中“约 2 倍 payload”只用于估算，不能替代本 change 的 origin-wide protected/reclaimable inventory 与 reservation。
@@ -72,5 +75,5 @@ update activation 依赖稳定 `openspec/specs/language-tooling/spec.md` 所定�
 - 部署：`netlify.toml` 以及生产 Edge/CDN 同等规则；root `/sw.js`、manifest、runtime manifest、MIME、CORS 与 cache headers。
 - Workspace：`add-workspace-storage-history-sync` 必须向 origin coordinator 报告 protected/reclaimable bytes 和 blocked/degraded state。
 - Pack：`design-resource-pack-v3` builder/distribution 增加 installation index、total bytes 与 exact hash/MIME 清单。
-- 安全：Service Worker 只服务 exact manifest entries；跨域 runtime 和 pack response 必须验证 status、CORS、redirect、MIME、size、hash。
+- 安全：Service Worker 只服务 exact manifest entries；同源 runtime 必须验证 encoded/decoded size/hash，跨域 pack response 必须验证 status、CORS、redirect、MIME、size、hash。
 - 既有语言/预览边界保持不变：离线缺资源属于 revision-bound preview/build diagnostic，不成为 syntax/live editor diagnostic。

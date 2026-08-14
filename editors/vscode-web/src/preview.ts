@@ -35,14 +35,11 @@ import {
 import { normalizeTextSelectionNode } from "./previewSelectableText.ts";
 import { canonicalBytesDigest, type RenderKey } from "../../vscode/src/runtimeIdentity";
 import {
-  MAIN_FONT_BOLD_SHA256,
-  MAIN_FONT_BOLD_URL,
-  MAIN_FONT_REGULAR_URL,
-  MAIN_FONT_REGULAR_SHA256,
-  TYPST_COMPILER_WASM_URL,
-  fetchWithTimeout,
-  runtimeIdentityUrl,
+  MAIN_FONT_BOLD_ARTIFACT,
+  MAIN_FONT_REGULAR_ARTIFACT,
+  TYPST_COMPILER_WASM_ARTIFACT,
 } from "./runtimeArtifacts";
+import { fetchDecodedRuntimeArtifact } from "./runtimeArtifactDecoder";
 
 
 const bundledFontsLoader = loadFonts([
@@ -50,27 +47,30 @@ const bundledFontsLoader = loadFonts([
   monoUrl,
   jetBrainsMonoUrl,
 ], { assets: false });
-const MAIN_FONT_LOAD_TIMEOUT_MS = 15_000;
-const remoteMainFontsLoader = loadFonts([
-  MAIN_FONT_REGULAR_URL,
-  MAIN_FONT_BOLD_URL,
-], { assets: false });
-const optionalMainFontsLoader = async (
-  ...args: Parameters<typeof remoteMainFontsLoader>
-): Promise<void> => {
-  const { promise, reject } = Promise.withResolvers<void>();
-  const timer = setTimeout(
-    () => reject(new Error(`MainFont 加载超时（${MAIN_FONT_LOAD_TIMEOUT_MS}ms）`)),
-    MAIN_FONT_LOAD_TIMEOUT_MS
-  );
-  try {
-    await Promise.race([remoteMainFontsLoader(...args), promise]);
-  } catch (error) {
-    console.warn("MomoScript preview is continuing without MainFont because the remote font could not be loaded.", error);
-  } finally {
-    clearTimeout(timer);
-  }
+type MainFontBytes = readonly [Uint8Array<ArrayBuffer>, Uint8Array<ArrayBuffer>];
+let mainFontBytesPromise: Promise<MainFontBytes> | undefined;
+let decodedMainFontsLoaderPromise: Promise<ReturnType<typeof loadFonts>> | undefined;
+const decodedMainFontsLoader: ReturnType<typeof loadFonts> = async (...args) => {
+  const loader = await (decodedMainFontsLoaderPromise ??= mainFontBytes().then((fonts) =>
+    loadFonts([...fonts], { assets: false })
+  ));
+  await loader(...args);
 };
+
+function mainFontBytes(): Promise<MainFontBytes> {
+  return mainFontBytesPromise ??= Promise.all([
+    fetchDecodedRuntimeArtifact({
+      artifact: MAIN_FONT_REGULAR_ARTIFACT,
+      label: "MainFont Regular",
+      timeoutMs: 30_000,
+    }),
+    fetchDecodedRuntimeArtifact({
+      artifact: MAIN_FONT_BOLD_ARTIFACT,
+      label: "MainFont Bold",
+      timeoutMs: 30_000,
+    }),
+  ]);
+}
 
 const encoder = new TextEncoder();
 let rendererFontsPromise: Promise<readonly PreviewRendererFileRecord[]> | undefined;
@@ -87,36 +87,34 @@ export function previewRendererFontFiles(): Promise<readonly PreviewRendererFile
 }
 
 async function loadPreviewRendererFontFiles(): Promise<readonly PreviewRendererFileRecord[]> {
-  const fonts = await Promise.all([
-    fetchPreviewRendererFont(mathUrl),
-    fetchPreviewRendererFont(monoUrl),
-    fetchPreviewRendererFont(jetBrainsMonoUrl),
-    fetchPreviewRendererFont(MAIN_FONT_REGULAR_URL, MAIN_FONT_REGULAR_SHA256),
-    fetchPreviewRendererFont(MAIN_FONT_BOLD_URL, MAIN_FONT_BOLD_SHA256),
+  const [[regular, bold], bundled] = await Promise.all([
+    mainFontBytes(),
+    Promise.all([
+      fetchPreviewRendererFont(mathUrl),
+      fetchPreviewRendererFont(monoUrl),
+      fetchPreviewRendererFont(jetBrainsMonoUrl),
+    ]),
   ]);
-  return Object.freeze(fonts);
+  return Object.freeze([
+    ...bundled,
+    await previewRendererFontRecord(regular),
+    await previewRendererFontRecord(bold),
+  ]);
 }
 
-async function fetchPreviewRendererFont(
-  url: string,
-  expectedSha256?: string,
-): Promise<PreviewRendererFileRecord> {
+async function fetchPreviewRendererFont(url: string): Promise<PreviewRendererFileRecord> {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Preview renderer font download failed: HTTP ${response.status}`);
   const bytes = new Uint8Array(await response.arrayBuffer());
   if (bytes.byteLength === 0) throw new Error("Preview renderer font download was empty");
-  if (expectedSha256 && await rawSha256(bytes) !== expectedSha256) {
-    throw new Error("Preview renderer font digest mismatch");
-  }
+  return previewRendererFontRecord(bytes);
+}
+
+async function previewRendererFontRecord(bytes: Uint8Array): Promise<PreviewRendererFileRecord> {
   return Object.freeze({
     contentDigest: await canonicalBytesDigest("mmt-project-file-v1", [bytes]),
     dataBase64: encodeRendererBytes(bytes),
   });
-}
-
-async function rawSha256(bytes: Uint8Array): Promise<string> {
-  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", Uint8Array.from(bytes).buffer));
-  return [...digest].map((value) => value.toString(16).padStart(2, "0")).join("");
 }
 
 function encodeRendererBytes(bytes: Uint8Array): string {
@@ -1028,15 +1026,17 @@ async function rasterizeSvg(
 async function initializeTypst(report: (message: string) => void): Promise<void> {
   if (initialized) return;
   if (!compilerModule) {
-    try {
-      compilerModule = await downloadWasmModule(TYPST_COMPILER_WASM_URL, "Typst 编译器 WASM", report);
-    } catch {
-      report("Typst 编译器 WASM 压缩传输失败，回退未压缩版本…");
-      compilerModule = await downloadWasmModule(runtimeIdentityUrl(TYPST_COMPILER_WASM_URL), "Typst 编译器 WASM", report);
-    }
+    const bytes = await fetchDecodedRuntimeArtifact({
+      artifact: TYPST_COMPILER_WASM_ARTIFACT,
+      label: "Typst 编译器 WASM",
+      timeoutMs: 30_000,
+      report,
+    });
+    if (!WebAssembly.validate(bytes)) throw new Error("Typst 编译器 WASM 不是有效的 WebAssembly 模块");
+    compilerModule = await WebAssembly.compile(bytes);
   }
   $typst.setCompilerInitOptions({
-    beforeBuild: [bundledFontsLoader, optionalMainFontsLoader],
+    beforeBuild: [bundledFontsLoader, decodedMainFontsLoader],
     getModule: () => compilerModule!,
   });
   $typst.use(
@@ -1044,52 +1044,6 @@ async function initializeTypst(report: (message: string) => void): Promise<void>
     TypstSnippet.withPackageRegistry(previewPackageRegistry)
   );
   initialized = true;
-}
-
-async function downloadWasmModule(
-  url: string,
-  label: string,
-  report: (message: string) => void,
-): Promise<WebAssembly.Module> {
-  report(`${label} 开始下载…`);
-  const response = await fetchWithTimeout(url, 30_000);
-  if (!response.ok) throw new Error(`${label}下载失败：HTTP ${response.status}`);
-  if (!response.body) {
-    const bytes = new Uint8Array(await response.arrayBuffer());
-    report(`${label} 已下载 ${(bytes.byteLength / 1048576).toFixed(1)} MiB`);
-    return WebAssembly.compile(bytes);
-  }
-  const encodedTransfer = new URL(url).searchParams.get("delivery") === "zstd-v1";
-  let total = encodedTransfer ? 0 : Number(response.headers.get("content-length")) || 0;
-  const reader = response.body.getReader();
-  const chunks: Uint8Array[] = [];
-  let lastReported = -5;
-  let lastReportedBytes = 0;
-  let received = 0;
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    if (!value) continue;
-    chunks.push(value);
-    received += value.byteLength;
-    if (total > 0 && received > total) total = 0;
-    const percent = total > 0 ? Math.min(99, Math.floor(received / total * 100)) : 0;
-    const shouldReport = total > 0
-      ? percent >= lastReported + 5
-      : received - lastReportedBytes >= 1048576;
-    if (shouldReport) {
-      lastReported = total > 0 ? percent : lastReported;
-      lastReportedBytes = received;
-      report(total > 0
-        ? `${label} ${percent}% (${(received / 1048576).toFixed(1)} / ${(total / 1048576).toFixed(1)} MiB)`
-        : `${label} 已下载 ${(received / 1048576).toFixed(1)} MiB`);
-    }
-  }
-  const bytes = new Uint8Array(received);
-  let offset = 0;
-  for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength; }
-  report(`${label} 下载完成 ${(received / 1048576).toFixed(1)} MiB`);
-  return WebAssembly.compile(bytes);
 }
 
 function decodeBase64(data: string): Uint8Array {

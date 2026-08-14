@@ -31,20 +31,21 @@ Service Worker 不解释 MMT、Typst project、workspace AST 或 pack semantic m
 
 ## Current Baseline
 
-2026-07-20 工作树中的 `editors/vscode-web/dist` 为 21.34 MiB、0 个 source map。两张完整 Noto Sans CJK TTC
-不再进入本地 build；最大本地文件是 Workbench 主 JS、MMT LSP WASM、Typst renderer WASM 与 NewCMMath。该数值不包含：
+2026-08-14 工作树中的 `editors/vscode-web/dist` 为 52,373,630 bytes（49.95 MiB）、0 个 source map，其中包含：
 
-- 启动时从 `mms-pack.xiyihan.cn` 加载的 Tinymist WASM（Brotli q11/lgwin24，独立 `.br` 对象路径）；
-- 首次 preview 时加载的 Typst compiler WASM（同上）；
-- shell 预缓存的两张版本化 MainFont Brotli q11/lgwin24 对象；
-- 非默认、仅保留在 CDN 且不进入 shell precache 的 Noto Sans CJK Brotli 对象；
-- 任何 pack image/AVIFS resource。
+- content-addressed Tinymist WASM Brotli 对象 8,739,723 bytes；
+- content-addressed Typst compiler WASM Brotli 对象 7,640,225 bytes；
+- MainFont regular/bold Brotli 对象共 12,176,369 bytes；
+- 固定 `tiny-brotli-dec-wasm@1.0.1` 解码器及其 Worker；
+- Workbench、MMT LSP、Typst renderer、Webview bootstrap 与其他本地 shell assets。
 
-因此 reservation 必须根据 shell build manifest 的完整 local + selected remote decoded inventory 计算，不能用 `dist` 大小或 HTTP
-transfer size代替。构建体积只是观测基线，每个 release 都重新生成 inventory。
+两张静态 Noto Sans CJK TTC 仍不进入 build；任何 pack image/AVIFS resource 也不属于 shell。客户端只请求同源
+`*.brotli.bin`，没有外部 runtime 或 identity fallback。reservation 仍必须按完整 decoded inventory 计算，不能用
+`dist` 大小或 HTTP transfer size 代替；构建体积只是观测基线，每个 release 都重新生成 inventory。
 
-当前线上 ready 页面没有 manifest link、root Service Worker、controller 或 Cache Storage。`IndexedDbPackCache` 只缓存 manifest JSON/ETag；
-`BoundedStringCache` 和 sequence fetch map 都是页面内存缓存。
+当前实现已有 manifest link、根 Service Worker、install-time shell precache 与提示式 update，但尚未实现本 proposal 要求的显式
+reservation、staging verification、probation、active/previous revision 与 rollback。`IndexedDbPackCache` 只缓存 manifest JSON/ETag；
+`BoundedStringCache` 和 sequence fetch map 仍是页面内存缓存。
 
 ## Manifest And Installability
 
@@ -91,7 +92,7 @@ VitePWA({
 
 `injectManifest` 只负责构建 root worker、注入本地 build asset list 和 manifest 集成；update/staging/activation 由项目代码控制。禁止使用
 `autoUpdate`。Workbox 默认 2 MiB precache 上限小于当前字体和主 bundle，因此 `maximumFileSizeToCacheInBytes` 只提高到覆盖已审计的必需本地
-artifact（第一版 24 MiB），并由 build 在出现更大 artifact 时失败；不得以宽泛 200 MiB 上限掩盖意外产物。
+artifact（第一版单文件上限 24 MiB），并由 build 在出现更大 artifact 时失败；不得以宽泛 200 MiB 上限掩盖意外产物。
 
 build 输出一个可确定复算的 `pwa-shell-manifest.json`：
 
@@ -100,28 +101,32 @@ interface ShellManifest {
   schema: 1;
   buildId: string;
   local: ShellArtifact[];
-  remoteRuntime: RuntimeArtifactSelection[];
   expectedDecodedBytes: number;
 }
 
 interface ShellArtifact {
   requestUrl: string;
-  sha256: string;
-  encodedBytes?: number;
+  encodedSha256: string;
+  decodedSha256: string;
+  encodedBytes: number;
   decodedBytes: number;
+  encoding?: "brotli";
   contentType: string;
   role: "html" | "script" | "style" | "worker" | "wasm" | "font" | "image" | "webview";
 }
 ```
 
-`buildId` 绑定 manifest schema、所有 request URLs、hash、size 和 runtime compatibility version。`index.html`、MMT LSP、Tinymist、Typst
-compiler/renderer、Workers、Workbench extensions、必需 fonts 与 Webview iframe bootstrap 必须属于同一个 buildId。
+`buildId` 绑定 manifest schema、所有 request URLs、encoded/decoded hash/size 和 runtime compatibility version。`index.html`、MMT LSP、
+Tinymist、Typst compiler/renderer、Workers、Workbench extensions、必需 fonts 与 Webview iframe bootstrap 必须属于同一个 buildId。
 
-跨域 runtime 定义收束到单一 `runtimeArtifacts.ts` catalog；`preview.ts`、`tinymistLanguageClient.ts` 和 shell manifest generator 共用，禁止
-页面 hardcode 与 PWA 清单维护两份 URL/hash。预压缩表示必须使用独立对象路径作为 CDN cache key：字体与 WASM 的 Brotli candidate 使用
-`*.br?delivery=br-v1`，并保留 identity fallback。不得只靠查询参数在同一路径切换 br/zstd，因为当前 CDN cache key 忽略查询参数。shell 只激活实际下载并通过校验的 selection，registry 记录选中的 exact request URL。规则源码以 `tools/cdn/mmt_precompressed_artifacts.edgescript` 为 truth source，部署后需核对线上规则 SHA-256 与仓库一致。
+runtime 定义收束到单一 `runtimeArtifacts.ts` catalog；`preview.ts`、`tinymistLanguageClient.ts`、prebuild 与 shell manifest generator
+共用，禁止页面 hardcode 与 PWA 清单维护两份 URL/hash。prebuild 从 build-only source catalog 下载固定 Brotli 对象，同时验证压缩与
+解压后的 SHA-256/长度，再写入被忽略的 `public/runtime/`。浏览器只允许同源、content-addressed `*.brotli.bin`；该后缀不得以
+`.br` 结尾，响应不得携带 `Content-Encoding`，避免服务器先解压后破坏压缩字节校验。专用 Worker 使用随 bundle 固定的 Brotli
+decoder 流式解压，逐步执行 encoded/decoded 上限，并在返回前验证两套 digest。不存在 external/identity runtime fallback。
 
-source maps、测试 artifact、workspace、pack、WebDAV、optional Noto fallback 和未被启动/preview 路径使用的 legacy asset 不进入 shell precache manifest。
+source maps、测试 artifact、workspace、pack、WebDAV、optional Noto 和未被启动/preview 路径使用的 legacy asset 不进入 shell
+manifest。
 
 ## Root Service Worker Boundaries
 
@@ -138,8 +143,8 @@ fetch handler 只允许：
 navigation fallback 必须同时检查 `mode === "navigate"`、document destination/HTML accept 和 denylist。`.wasm`、`.js`、`.css`、font、worker、
 manifest、pack blob、API/WebDAV 与不存在的 asset 绝不回退 HTML。
 
-root worker 不缓存 opaque response、redirected response、non-2xx、错误 MIME、超限 body 或 hash mismatch。跨域 runtime/pack 必须是可检查的
-CORS response；验证 clone 的 decoded bytes，缓存原 Response，保留 `Content-Encoding` / `Vary` 语义，不自行重写 br/zstd body/header。
+root worker 不缓存 opaque response、redirected response、non-2xx、错误 MIME、超限 body 或 hash mismatch。同源 runtime 是 shell
+中的 exact immutable entry，并在消费者解压边界再次验证 encoded/decoded hash/size；跨域 pack 必须是可检查的 CORS response。
 
 ## Explicit Offline Shell Installation
 
@@ -324,12 +329,13 @@ Netlify 和生产 Edge/CDN 必须满足同一断言：
 |---|---|
 | `/`, `/index.html`, `/sw.js`, `/manifest.webmanifest`, `/pwa-shell-manifest.json` | `no-cache, max-age=0, must-revalidate` 或等价重验证 |
 | content-hashed `/assets/*` | `public, max-age=31536000, immutable` |
-| WASM | `application/wasm`，不得 fallback HTML |
+| raw WASM（包括 Brotli decoder） | `application/wasm`，不得 fallback HTML |
+| content-addressed `/runtime/*` Brotli container | `application/octet-stream`、无 `Content-Encoding`、`public,max-age=31536000,immutable` |
 | module/worker JS | 标准 JavaScript MIME |
 | fonts/manifest/SVG | 对应标准 MIME |
 | unknown worker/WASM/pack/API path | 真实 404/5xx，不返回 index |
 
-`/sw.js` 必须是稳定 URL、HTTPS、scope `/`，不能被 CDN 长期 immutable、HTML rewrite 或透明内容变换。cross-origin runtime/pack origin 必须提供 CORS、
+`/sw.js` 必须是稳定 URL、HTTPS、scope `/`，不能被 CDN 长期 immutable、HTML rewrite 或透明内容变换。cross-origin pack origin 必须提供 CORS、
 稳定 Content-Length/ETag、正确 MIME，content-addressed blob immutable；redirect、Content-Encoding 和 `Vary` 必须与 shell/pack validator 约定一致。
 
 ## Platform Targets
@@ -344,7 +350,7 @@ Netlify 和生产 Edge/CDN 必须满足同一断言：
 
 ## Verification Strategy
 
-- build-time：manifest schema、exact asset inventory、hash/size/MIME、24 MiB audited limit、source-map/test exclusion、runtime URL single source；
+- build-time：manifest schema、exact asset inventory、hash/size/MIME、24 MiB 单 artifact 审计上限、source-map/test exclusion、runtime URL single source；
 - production-like HTTP：headers、MIME、navigation denylist、真实 404、CORS/redirect/content-encoding；
 - Chromium E2E：首次 online-only、显式 offline install、完全断网冷启动、三个 WASM runtime、Webview、pack 缺失；
 - revision fixture：A 正常运行，B waiting；拒绝 B、下载 B、dirty workspace 阻止 restart、flush 后激活、single reload、probation、previous cleanup；

@@ -11,10 +11,8 @@ import {
 } from "../../vscode/src/typstFeatures";
 import tinymistModuleUrl from "../../vscode/vendor/tinymist-0.15.2/tinymist.js?url";
 import tinymistWorkerUrl from "../../vscode/src/tinymistWorker.ts?worker&url";
-import { TINYMIST_WASM_SHA256, TINYMIST_WASM_URL, fetchWithTimeout } from "./runtimeArtifacts";
-
-const TINYMIST_WASM_ATTEMPTS = 3;
-const TINYMIST_WASM_TIMEOUT_MS = 30_000;
+import { TINYMIST_WASM_ARTIFACT, TINYMIST_WASM_SHA256 } from "./runtimeArtifacts";
+import { fetchDecodedRuntimeArtifact } from "./runtimeArtifactDecoder";
 
 export interface TinymistHandle {
   backend: TinymistWorkerClient;
@@ -83,77 +81,13 @@ async function startTinymistBackend(
 }
 
 async function downloadTinymistWasm(report: (message: string) => void): Promise<Uint8Array> {
-  report(`Tinymist WASM ${TINYMIST_WASM_SHA256.slice(0, 12)} 使用离线固定资源…`);
-  return downloadValidatedWasm(TINYMIST_WASM_URL, "Tinymist WASM", TINYMIST_WASM_SHA256, report);
-}
-
-async function downloadValidatedWasm(
-  url: string,
-  label: string,
-  expectedSha256: string,
-  report: (message: string) => void,
-): Promise<Uint8Array> {
-  const bytes = await downloadWasm(url, label, report);
-  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", bytes.buffer as ArrayBuffer));
-  let actualSha256 = "";
-  for (const byte of digest) actualSha256 += byte.toString(16).padStart(2, "0");
-  if (actualSha256 !== expectedSha256) {
-    throw new Error(`${label} SHA-256 校验失败：${actualSha256}`);
-  }
-  if (!WebAssembly.validate(bytes.buffer as ArrayBuffer)) throw new Error(`${label}不是有效的 WebAssembly 模块`);
-  return bytes;
-}
-
-async function downloadWasm(url: string, label: string, report: (message: string) => void): Promise<Uint8Array> {
-  let lastError: unknown;
-  for (let attempt = 0; attempt < TINYMIST_WASM_ATTEMPTS; attempt += 1) {
-    try {
-      return await downloadWasmOnce(url, label, report);
-    } catch (error) {
-      lastError = error;
-    }
-  }
-  throw lastError;
-}
-
-async function downloadWasmOnce(url: string, label: string, report: (message: string) => void): Promise<Uint8Array> {
-  report(`${label} 开始下载…`);
-  const response = await fetchWithTimeout(url, TINYMIST_WASM_TIMEOUT_MS);
-  if (!response.ok) throw new Error(`${label}下载失败：HTTP ${response.status}`);
-  if (!response.body) {
-    const bytes = new Uint8Array(await response.arrayBuffer());
-    report(`${label} 已下载 ${(bytes.byteLength / 1048576).toFixed(1)} MiB`);
-    return bytes;
-  }
-  const encodedTransfer = new URL(url).searchParams.has("delivery");
-  let total = encodedTransfer ? 0 : Number(response.headers.get("content-length")) || 0;
-  const reader = response.body.getReader();
-  const chunks: Uint8Array[] = [];
-  let lastReported = -5;
-  let lastReportedBytes = 0;
-  let received = 0;
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    if (!value) continue;
-    chunks.push(value);
-    received += value.byteLength;
-    if (total > 0 && received > total) total = 0;
-    const percent = total > 0 ? Math.min(99, Math.floor(received / total * 100)) : 0;
-    const shouldReport = total > 0
-      ? percent >= lastReported + 5
-      : received - lastReportedBytes >= 1048576;
-    if (shouldReport) {
-      lastReported = total > 0 ? percent : lastReported;
-      lastReportedBytes = received;
-      report(total > 0
-        ? `${label} ${percent}% (${(received / 1048576).toFixed(1)} / ${(total / 1048576).toFixed(1)} MiB)`
-        : `${label} 已下载 ${(received / 1048576).toFixed(1)} MiB`);
-    }
-  }
-  const bytes = new Uint8Array(received);
-  let offset = 0;
-  for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength; }
-  report(`${label} 下载完成 ${(received / 1048576).toFixed(1)} MiB`);
+  report(`Tinymist WASM ${TINYMIST_WASM_SHA256.slice(0, 12)} 使用同源固定资源…`);
+  const bytes = await fetchDecodedRuntimeArtifact({
+    artifact: TINYMIST_WASM_ARTIFACT,
+    label: "Tinymist WASM",
+    timeoutMs: 30_000,
+    report,
+  });
+  if (!WebAssembly.validate(bytes)) throw new Error("Tinymist WASM 不是有效的 WebAssembly 模块");
   return bytes;
 }

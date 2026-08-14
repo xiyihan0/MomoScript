@@ -1,5 +1,4 @@
 import { expect, invokeMmtE2E, test, type Download, type Page, waitForPreviewFrame } from "./fixtures";
-import { TYPST_COMPILER_WASM_URL } from "../src/runtimeArtifacts.ts";
 
 const mmtSource = [
   "@typ",
@@ -12,14 +11,6 @@ const mmtSource = [
 ].join("\n");
 
 test("standalone Monaco exports solid Typst SVG and MMT PDF without the exact-export fixture", { tag: "@runtime-export" }, async ({ page }) => {
-  await page.route("https://**/*", async (route) => {
-    const url = route.request().url();
-    if (url === TYPST_COMPILER_WASM_URL) {
-      await route.abort("connectionfailed");
-      return;
-    }
-    await route.continue();
-  });
 
   await page.goto("/?mmtExportMode=current-preview");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });

@@ -1,6 +1,5 @@
 import { expect, invokeMmtE2E, test, type Page, waitForPreviewFrame } from "./fixtures";
 import type { PreviewInteractionFixtureRequest } from "../src/e2eRuntimeBridge.ts";
-import { TYPST_COMPILER_WASM_URL } from "../src/runtimeArtifacts.ts";
 
 interface InteractionState {
   readonly renderKey: string | null;
@@ -17,14 +16,6 @@ interface InteractionState {
 }
 
 test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtime-export" }, async ({ page }) => {
-  await page.route("https://**/*", async (route) => {
-    const url = route.request().url();
-    if (url === TYPST_COMPILER_WASM_URL) {
-      await route.abort("connectionfailed");
-      return;
-    }
-    await route.continue();
-  });
   await page.goto("/");
   await expect.poll(async () => {
     const startup = await page.evaluate(() => ({
@@ -108,14 +99,6 @@ test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtim
 });
 
 test("MMT Typst preview supports selectable text, workspace images, and bidirectional navigation", { tag: "@preview-navigation" }, async ({ page }) => {
-  await page.route("https://**/*", async (route) => {
-    const url = route.request().url();
-    if (url === TYPST_COMPILER_WASM_URL) {
-      await route.abort("connectionfailed");
-      return;
-    }
-    await route.continue();
-  });
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   const source = [
@@ -304,14 +287,6 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
 });
 
 test("Typst preview keeps its scroll position across source-only rerenders", { tag: "@preview-navigation" }, async ({ page }) => {
-  await page.route("https://**/*", async (route) => {
-    const url = route.request().url();
-    if (url === TYPST_COMPILER_WASM_URL) {
-      await route.abort("connectionfailed");
-      return;
-    }
-    await route.continue();
-  });
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   const source = [
