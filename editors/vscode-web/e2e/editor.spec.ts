@@ -345,7 +345,7 @@ test("production editor materializes an avatar and restores the authored story a
   const localHistory = page.getByRole("tree", { name: "本地历史版本" });
   await expect(localHistory).toBeVisible();
   await expect(page.getByRole("combobox", { name: "本地历史范围" })).toBeVisible();
-  await expect(page.getByText(/\/ 50\.0 MB · 保留 30 天 · \d+ 个 Checkpoint/)).toBeVisible();
+  await expect(page.getByText(/\/ 50\.0 MB · 普通快照 \d+ \/ 不限制 · 保留 30 天 · \d+ 个 Checkpoint/)).toBeVisible();
   await expect(historyActivity).toHaveAttribute("aria-selected", "true");
   await activateActivityView(mmsActivity);
   await expect(page.getByRole("textbox", { name: "资源包清单地址" })).toBeVisible();
