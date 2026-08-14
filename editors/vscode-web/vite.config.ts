@@ -254,7 +254,10 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    exclude: ["@myriaddreamin/typst-ts-web-compiler"],
+    exclude: [
+      "@myriaddreamin/typst-ts-web-compiler",
+      "tiny-brotli-dec-wasm",
+    ],
     include: [
       "vscode-textmate",
       "vscode-oniguruma",

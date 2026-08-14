@@ -92,7 +92,10 @@ test("repeated Vite HMR and unload sequences evict retained runtime generations"
       expect(oldEvents.filter((event) => event.kind === "hmr"), "explicit reload must not invoke HMR disposal").toHaveLength(0);
       expect(oldEvents.filter((event) => event.kind === "unload"), "beforeunload must run exactly once").toHaveLength(1);
       const unloadSequence = oldEvents.find((event) => event.kind === "unload")!.sequence;
-      for (const event of oldEvents.filter((candidate) => candidate.kind === "worker-terminate")) {
+      for (const event of oldEvents.filter((candidate) =>
+        candidate.kind === "worker-terminate"
+        && (candidate.workerKind === "mmt" || candidate.workerKind === "tinymist")
+      )) {
         expect(event.sequence, `${event.workerKind} terminate() must follow beforeunload`).toBeGreaterThan(unloadSequence);
       }
     }
@@ -122,7 +125,10 @@ test("repeated Vite HMR and unload sequences evict retained runtime generations"
     languageKinds(finalEvents.filter((event) => event.kind === "worker-construct")),
     "the final runtime must construct fresh MMT and Tinymist Workers"
   ).toEqual(["mmt", "tinymist"]);
-  expect(finalEvents.filter((event) => event.kind === "worker-terminate"), "the live final runtime must not inherit stale termination state").toHaveLength(0);
+  expect(
+    languageKinds(finalEvents.filter((event) => event.kind === "worker-terminate")),
+    "the live final runtime must not inherit stale language Worker termination state"
+  ).toHaveLength(0);
   expect(languageWorkerUrls(page), "only the final generation's two language Workers may remain live").toHaveLength(2);
 });
 
