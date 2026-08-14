@@ -735,10 +735,9 @@ async function initializeRuntime(
   };
   let previewInteractionStatus: string | null = null;
   let previewInteractionStatusText = "";
+  let previewDefaultFitMode: "width" | "page" = "width";
   const previewInteraction = own(new PreviewInteractionController({
-    defaultFitMode: () => (
-      vscode.workspace.getConfiguration("mmt.preview").get<"width" | "page">("defaultFitMode", "width")
-    ),
+    defaultFitMode: () => previewDefaultFitMode,
     currentIdentity: currentPreviewIdentity,
     mapProjectedSelection: mapProjectedPreviewSelection,
     mapPreviewSource,
@@ -1525,7 +1524,13 @@ async function initializeRuntime(
     monacoWorkerFactory: configureWorkbenchWorkerFactory
   });
   await api.start();
-  await provider.setHistoryLimits(configuredHistoryLimits());
+  const readPreviewDefaultFitMode = (): "width" | "page" => (
+    vscode.workspace.getConfiguration("mmt.preview").get<"width" | "page">("defaultFitMode", "width")
+  );
+  previewDefaultFitMode = readPreviewDefaultFitMode();
+  if (provider.workspaceStatus().lease === "writer") {
+    await provider.setHistoryLimits(configuredHistoryLimits());
+  }
   const configuredPreviewDiff = vscode.workspace.getConfiguration("mmt.preview").get<boolean>("diffV1", true);
   previewRendererEnabled = previewFeaturesEnabled
     && (previewRendererSetting === "1"
@@ -1537,6 +1542,11 @@ async function initializeRuntime(
   const previewPerformanceEnabled = () => import.meta.env.VITE_MMT_E2E === "1"
     || vscode.workspace.getConfiguration("mmt.preview.performance").get<boolean>("enabled", false);
   controller.stores.previewPerformance.setEnabled(previewPerformanceEnabled());
+  subscribe(vscode.workspace.onDidChangeConfiguration((event) => {
+    if (event.affectsConfiguration("mmt.preview.defaultFitMode")) {
+      previewDefaultFitMode = readPreviewDefaultFitMode();
+    }
+  }));
   subscribe(vscode.workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration("mmt.preview.performance.enabled")) {
       controller.stores.previewPerformance.setEnabled(previewPerformanceEnabled());
