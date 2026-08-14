@@ -57,7 +57,6 @@ export interface WarmBenchmarkSample {
   readonly sample: PreviewTraceSample;
   readonly cpuMs: Readonly<Record<string, number>>;
   readonly rendererState: BenchmarkRendererState;
-  readonly visualSnapshot?: VisualParitySnapshot;
 }
 
 export interface WarmBenchmarkModeResult {
@@ -66,6 +65,7 @@ export interface WarmBenchmarkModeResult {
   readonly coldRenderer: BenchmarkRendererState;
   readonly renderedShape: BenchmarkRenderedShape;
   readonly warmSamples: readonly WarmBenchmarkSample[];
+  readonly visualSnapshots: readonly VisualParitySnapshot[];
   readonly rendererChain: readonly BenchmarkRendererState[];
   readonly report: Record<string, unknown>;
 }
@@ -360,6 +360,55 @@ async function openBenchmarkDocument(
   return { sourceUri, renderedShape };
 }
 
+async function captureWarmVisualSnapshots(
+  page: Page,
+  options: {
+    readonly mode: BenchmarkMode;
+    readonly fixture: GeneratedRealReportFixture;
+    readonly warmEditCount: number;
+    readonly snapshotArtifactDirectory?: string;
+  },
+): Promise<readonly VisualParitySnapshot[]> {
+  const { mode, fixture, warmEditCount, snapshotArtifactDirectory } = options;
+  const { sourceUri } = await openBenchmarkDocument(page, fixture, mode === "incremental-renderer");
+  let currentSource = fixture.source;
+  const snapshots: VisualParitySnapshot[] = [];
+  for (let iteration = 0; iteration < warmEditCount; iteration += 1) {
+    const position = PREVIEW_BENCHMARK_POSITIONS[iteration % PREVIEW_BENCHMARK_POSITIONS.length]!;
+    const prefix = `PERF-${position}-`;
+    const offset = currentSource.indexOf(prefix) + prefix.length;
+    expect(offset).toBeGreaterThan(prefix.length - 1);
+    const replacement = currentSource[offset] === "A" ? "B" : "A";
+    const editPosition = {
+      line: currentSource.slice(0, offset).split("\n").length - 1,
+      character: offset - (currentSource.lastIndexOf("\n", offset - 1) + 1),
+    };
+    await prepareVisualParityCapture(
+      page,
+      sourceUri,
+      editPosition,
+      `${prefix}${currentSource[offset]}`,
+      () => rendererState(page),
+    );
+    const result = await editBenchmarkDocument(page, offset, replacement);
+    currentSource = `${currentSource.slice(0, offset)}${replacement}${currentSource.slice(offset + 1)}`;
+    const sample = await waitForPublishedTrace(page, sourceUri, result.version);
+    const state = await rendererState(page);
+    expect(state.renderKey).toBe(sample.renderKey);
+    expect(state.visualKind).toBe(mode === "incremental-renderer" ? "renderer" : "svg");
+    snapshots.push(await captureVisualParity(
+      page,
+      sourceUri,
+      editPosition,
+      `${prefix}${replacement}`,
+      fixture.shape.repeatedImages,
+      () => rendererState(page),
+      snapshotArtifactDirectory,
+    ));
+  }
+  return snapshots;
+}
+
 export async function runWarmBenchmarkMode(
   page: Page,
   options: {
@@ -438,39 +487,32 @@ export async function runWarmBenchmarkMode(
         expect(state.rendererGeneration).toBeNull();
         expect(sample.counters.rendererResponseBytes).toBe(0);
       }
-      const visualSnapshot = captureSnapshots
-        ? await captureVisualParity(
-          page,
-          sourceUri,
-          editPosition,
-          `${prefix}${replacement}`,
-          fixture.shape.repeatedImages,
-          () => rendererState(page),
-          snapshotArtifactDirectory,
-        )
-        : undefined;
       warmSamples.push({
         position,
         sample,
         cpuMs: browserPerformanceDelta(cpuBefore, cpuAfter),
         rendererState: state,
-        ...(visualSnapshot ? { visualSnapshot } : {}),
       });
     }
   } finally {
     await cdp.detach();
   }
 
-  const reportWarmSamples = warmSamples.map(({ visualSnapshot, ...sample }) => {
-    void visualSnapshot;
-    return sample;
-  });
+  const visualSnapshots = captureSnapshots
+    ? await captureWarmVisualSnapshots(page, {
+      mode,
+      fixture,
+      warmEditCount,
+      snapshotArtifactDirectory,
+    })
+    : [];
   return {
     mode,
     coldSample,
     coldRenderer,
     renderedShape,
     warmSamples,
+    visualSnapshots,
     rendererChain,
     report: {
       mode,
@@ -478,7 +520,7 @@ export async function runWarmBenchmarkMode(
       coldRenderer,
       renderedShape,
       warm: {
-        samples: reportWarmSamples,
+        samples: warmSamples,
         summary: summarize(warmSamples.map(({ sample }) => sample)),
         cpu: summarizeCpu(warmSamples.map(({ cpuMs }) => cpuMs)),
       },

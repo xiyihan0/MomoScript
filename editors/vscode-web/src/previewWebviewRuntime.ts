@@ -1183,12 +1183,12 @@ page.addEventListener("click", (event) => {
     (clientY - bounds.top) / zoom,
   );
   if (!point) return;
+  const selection = document.getSelection();
+  const hasTextSelection = Boolean(selection && !selection.isCollapsed);
   setTimeout(() => {
-    const selection = document.getSelection();
     const dragged = pointerDragged;
     pointerDragged = false;
-    const selectedText = selection && !selection.isCollapsed ? selection.toString().trim() : "";
-    if (!dragged && (!selection || selection.isCollapsed || selectedText.length <= 1)) {
+    if (!dragged && !hasTextSelection) {
       vscode.postMessage({ type: "navigate", point });
     }
   }, 0);

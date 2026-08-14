@@ -1,3 +1,10 @@
+export const DEFAULT_PACK_MANIFEST_URL =
+  "https://mms-pack.esa.xiyihan.cn/ba_kivo/manifest.json";
+
+export function packManifestUrlsOrDefault(configured: readonly string[]): readonly string[] {
+  return configured.length > 0 ? configured : [DEFAULT_PACK_MANIFEST_URL];
+}
+
 export interface PackManifestSource {
   manifestUrl: string;
   baseUrl: string;
@@ -60,7 +67,7 @@ function resolvePackBaseUrl(json: string, manifestUrl: string): string {
   return new URL(".", manifestUrl).href;
 }
 export async function synchronizePackSources(
-  urls: string[],
+  urls: readonly string[],
   revision: number,
   cache: PackCacheStore,
   request: (params: { revision: number; sources: PackManifestSource[] }) => Promise<{

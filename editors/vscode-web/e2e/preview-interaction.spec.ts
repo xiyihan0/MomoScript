@@ -1,7 +1,6 @@
 import { expect, invokeMmtE2E, test, type Page, waitForPreviewFrame } from "./fixtures";
 import type { PreviewInteractionFixtureRequest } from "../src/e2eRuntimeBridge.ts";
-
-const TYPST_COMPILER_WASM_URL = "https://mms-pack.esa.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
+import { TYPST_COMPILER_WASM_URL } from "../src/runtimeArtifacts.ts";
 
 interface InteractionState {
   readonly renderKey: string | null;
@@ -272,7 +271,7 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
     range: { start: { line: 1 }, end: { line: 1 } },
   });
 
-  await selectableText.evaluate((element) => {
+  expect(await selectableText.evaluate((element) => {
     const text = element.firstChild;
     if (!text || text.nodeType !== Node.TEXT_NODE) throw new Error("Selectable text node is unavailable");
     const range = document.createRange();
@@ -281,13 +280,15 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
     const selection = document.getSelection()!;
     selection.removeAllRanges();
     selection.addRange(range);
+    const selectionState = { collapsed: selection.isCollapsed, rangeCount: selection.rangeCount };
     const bounds = element.getBoundingClientRect();
     element.closest(".page")!.dispatchEvent(new MouseEvent("click", {
       bubbles: true,
       clientX: bounds.left + bounds.width / 2,
       clientY: bounds.top + bounds.height / 2,
     }));
-  });
+    return selectionState;
+  })).toEqual({ collapsed: false, rangeCount: 1 });
   await page.waitForTimeout(250);
   await expect(callFixture(page, { action: "editor-selection" })).resolves.toMatchObject({
     uri: sourceUri,

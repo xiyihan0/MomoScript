@@ -1425,7 +1425,7 @@ async def main_async(args: argparse.Namespace) -> int:
             excluded_entity_markers=list(args.exclude_entity_marker),
             api_versions=api_versions,
             api_times=api_times,
-            base_url=args.base_url or f"https://mms-pack.xiyihan.cn/{out_dir.name}/",
+            base_url=args.base_url or f"https://mms-pack.esa.xiyihan.cn/{out_dir.name}/",
         )
 
         _write_json(out_dir / "manifest.json", manifest)
@@ -1550,7 +1550,7 @@ def build_argparser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--base-url",
         default=None,
-        help="Absolute HTTPS base URL for pack assets; defaults to https://mms-pack.xiyihan.cn/<out-dir-name>/.",
+        help="Absolute HTTPS base URL for pack assets; defaults to https://mms-pack.esa.xiyihan.cn/<out-dir-name>/.",
     )
     parser.add_argument(
         "--overlay",

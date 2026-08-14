@@ -53,8 +53,8 @@ test("large warm preview edits qualify the renderer against the full oracle", as
     report.modes = { fullOracle: oracle.report, incrementalRenderer: renderer.report };
     pixelComparisons = await assertVisualParity(
       page,
-      oracle.warmSamples.map(({ visualSnapshot }) => visualSnapshot!),
-      renderer.warmSamples.map(({ visualSnapshot }) => visualSnapshot!),
+      oracle.visualSnapshots,
+      renderer.visualSnapshots,
     );
 
     const oracleVisualReady = percentileSummary(
@@ -92,7 +92,7 @@ test("large warm preview edits qualify the renderer against the full oracle", as
     expect(Math.max(...renderer.warmSamples.map(({ sample }) => sample.counters.queueDepth))).toBeLessThanOrEqual(1);
 
     report.parity = {
-      samples: renderer.warmSamples.length,
+      samples: renderer.visualSnapshots.length,
       artifactIdentity: "mode-local-render-key-matches-published-trace",
       pageGeometry: "rounded-1e-3",
       textIdentity: "sha256-edited-marker-selectable-text",

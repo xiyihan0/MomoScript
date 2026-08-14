@@ -1,9 +1,14 @@
 import * as vscode from "vscode";
 import type { BaseLanguageClient } from "vscode-languageclient";
 
-import { synchronizePackSources, type PackCacheStore, type PackManifestSource } from "./packSync";
+import {
+  DEFAULT_PACK_MANIFEST_URL,
+  packManifestUrlsOrDefault,
+  synchronizePackSources,
+  type PackCacheStore,
+  type PackManifestSource
+} from "./packSync";
 
-const DEFAULT_MANIFEST_URL = "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json";
 const REVISION_KEY = "mmt.resourcePacks.revision";
 
 class VsCodePackCache implements PackCacheStore {
@@ -68,8 +73,8 @@ export async function syncConfiguredPackManifests(
 ): Promise<PackManifestSource[]> {
   const configured = vscode.workspace
     .getConfiguration("mmt")
-    .get<string[]>("resourcePacks.manifestUrls", [DEFAULT_MANIFEST_URL]);
-  const urls = configured.length > 0 ? configured : [DEFAULT_MANIFEST_URL];
+    .get<string[]>("resourcePacks.manifestUrls", [DEFAULT_PACK_MANIFEST_URL]);
+  const urls = packManifestUrlsOrDefault(configured);
   const revision = context.globalState.get<number>(REVISION_KEY, 0) + 1;
   await vscode.workspace.fs.createDirectory(context.globalStorageUri);
 

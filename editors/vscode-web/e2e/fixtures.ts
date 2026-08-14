@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { expect, test as base, type Frame, type Page } from "@playwright/test";
-import { TINYMIST_WASM_SHA256 } from "../src/runtimeArtifacts.ts";
+import { RUNTIME_ORIGIN, TINYMIST_WASM_SHA256 } from "../src/runtimeArtifacts.ts";
 import type { MmtE2EApi, MmtE2EPreviewReadiness } from "../src/e2eRuntimeBridge.ts";
 
 const tinymistPackage = process.env.TINYMIST_WEB_PKG;
@@ -25,7 +25,7 @@ const typstCompilerWasm = typstCompilerPackage
 export const test = base.extend({
   page: async ({ page }, use) => {
     if (tinymistWasm) {
-      await page.route("https://mms-pack.esa.xiyihan.cn/wasm/tinymist/**", async (route) => {
+      await page.route(`${RUNTIME_ORIGIN}/wasm/tinymist/**`, async (route) => {
         await route.fulfill({
           status: 200,
           body: tinymistWasm,
@@ -35,7 +35,7 @@ export const test = base.extend({
       });
     }
     if (typstCompilerWasm) {
-      await page.route("https://mms-pack.esa.xiyihan.cn/wasm/typst-ts-web-compiler/**", async (route) => {
+      await page.route(`${RUNTIME_ORIGIN}/wasm/typst-ts-web-compiler/**`, async (route) => {
         await route.fulfill({
           status: 200,
           body: typstCompilerWasm,

@@ -1,10 +1,11 @@
 import { readFile } from "node:fs/promises";
 import { expect, invokeMmtE2E, test, type Page } from "./fixtures";
-import { TINYMIST_WASM_URL } from "../src/runtimeArtifacts.ts";
+import {
+  PACK_MANIFEST_URL as MANIFEST_URL,
+  TINYMIST_WASM_URL,
+} from "../src/runtimeArtifacts.ts";
 
 const LIFECYCLE_STORAGE_KEY = "mmt-e2e-worker-lifecycle-v1";
-const PACK_ROOT = "https://mms-pack.esa.xiyihan.cn/ba_kivo/";
-const MANIFEST_URL = `${PACK_ROOT}manifest.json`;
 const manifest = await readFile(new URL("./fixtures/manifest.json", import.meta.url));
 
 type LanguageWorkerKind = "mmt" | "tinymist";

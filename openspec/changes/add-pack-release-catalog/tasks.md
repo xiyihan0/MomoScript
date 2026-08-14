@@ -21,11 +21,11 @@
 ## 4. 发布工具
 
 - [x] 4.1 `tools/cdn/publish_pack.mjs` dry-run 模式：digest 计算、上传/复用/覆盖计划生成、publication manifest（`mmt-pack-publication.v1`）
-- [x] 4.2 ossutil 上传：`stat` 判存在、`cp --force --meta` 写 Cache-Control、已存在对象 digest 比对后复用或失败
+- [x] 4.2 ossutil 2.3/V4 上传：JSON `stat` 判存在、`cp --force --content-type ... --cache-control ...` 写对象属性、已存在 immutable 对象严格比对属性与 digest 后复用或失败
 - [x] 4.3 归档 `releases/<digest>/`（manifest.json + build_report.json，immutable）
 - [x] 4.4 活跃 manifest 原子覆盖与 catalog 更新（追加 release 记录、翻 manifest_digest，最后一步）
 - [x] 4.5 发布后公开校验：fetch `packs.json` 与活跃 manifest，验证 CORS、Cache-Control、可解析与 digest 一致
-- [x] 4.6 幂等：对同一 pack 目录重跑 publish 时全部对象 outcome 为 reused/verified，无重复上传
+- [x] 4.6 幂等：同一 pack 目录重跑时 immutable 对象 outcome 为 reused，活跃 manifest/catalog 为 updated，release 历史无重复
 
 ## 5. 首次发布与收尾
 

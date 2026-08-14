@@ -45,10 +45,8 @@ test("persistent renderer publishes a bounded cold frame and three ordered diffs
   }
 
   expect(result.warmSamples.map(({ position }) => position)).toEqual(["START", "MIDDLE", "END"]);
-  const snapshots = result.warmSamples.map(({ visualSnapshot }) => {
-    expect(visualSnapshot).toBeDefined();
-    return visualSnapshot!;
-  });
+  const snapshots = result.visualSnapshots;
+  expect(snapshots).toHaveLength(3);
   for (const snapshot of snapshots) {
     expect(snapshot.selectableTextLength).toBeGreaterThan(0);
     expect(snapshot.imageNodes).toBe(fixture.shape.repeatedImages);

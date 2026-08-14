@@ -1,11 +1,16 @@
 import { readFile } from "node:fs/promises";
-import { MAIN_FONT_BOLD_URL, MAIN_FONT_REGULAR_URL, TINYMIST_WASM_URL } from "../src/runtimeArtifacts";
+import {
+  MAIN_FONT_BOLD_URL,
+  MAIN_FONT_REGULAR_URL,
+  PACK_BASE_URL as PACK_ROOT,
+  PACK_MANIFEST_URL as MANIFEST_URL,
+  TINYMIST_WASM_URL,
+  TYPST_COMPILER_WASM_URL,
+  runtimeIdentityUrl,
+} from "../src/runtimeArtifacts";
 import { expect, invokeMmtE2E, previewReadiness, test, type Locator, type Page, type Response, waitForPreviewFrame } from "./fixtures";
 
-const PACK_ROOT = "https://mms-pack.esa.xiyihan.cn/ba_kivo/";
-const MANIFEST_URL = `${PACK_ROOT}manifest.json`;
-const TYPST_COMPILER_WASM_URL = "https://mms-pack.esa.xiyihan.cn/wasm/typst-ts-web-compiler/0.8.0-rc3/fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c/typst_ts_web_compiler_bg.wasm.br?delivery=br-v1";
-const TYPST_COMPILER_WASM_FALLBACK_URL = TYPST_COMPILER_WASM_URL.replace(".br?delivery=br-v1", "");
+const TYPST_COMPILER_WASM_FALLBACK_URL = runtimeIdentityUrl(TYPST_COMPILER_WASM_URL);
 const manifest = await readFile(new URL("./fixtures/manifest.json", import.meta.url));
 const avatar = await readFile(new URL("./fixtures/佳代子.png", import.meta.url));
 const alphaSequence = await readFile(new URL("./fixtures/alpha-sequence.avifs", import.meta.url));

@@ -5,6 +5,7 @@ import {
 } from "../src/previewArtifact.ts";
 import {
   PreviewInteractionController,
+  fallbackPreviewSourceTarget,
   PreviewUpdateCoordinator,
   nearestVisiblePage,
   normalizeViewport,
@@ -227,11 +228,99 @@ controller.bindArtifact(artifactA, identityA);
 controller.providerRestarted(providerKey(99));
 assert.equal((await controller.navigatePreviewPoint({ pageIndex: 1, x: 0.98, y: 0.99 })).uri, sourceA, "retained immutable map was disabled by unrelated provider restart");
 
-assert.equal(previewSourceTargetIsNavigable({ kind: "workspaceTypst", uri: "mmtfs://workspace/main.typ", range: range(0, 0), readOnly: false }), true);
+const staleMmtfsTarget = fallbackPreviewSourceTarget({
+  uri: "mmtfs://workspace/stale.typ",
+  range: range(0, 0),
+});
+assert.deepEqual(staleMmtfsTarget, {
+  kind: "workspaceTypst",
+  uri: "mmtfs://workspace/stale.typ",
+  range: range(0, 0),
+  readOnly: false,
+  retained: true,
+}, "stale mmtfs renderer location did not retain an editable workspace fallback");
+assert.equal(fallbackPreviewSourceTarget({
+  uri: "untitled:/mmt-projection/stale.typ",
+  range: range(0, 0),
+}), undefined, "raw generated untitled location became an editable fallback");
+assert.equal(fallbackPreviewSourceTarget({
+  uri: "https://renderer.invalid/stale.typ",
+  range: range(0, 0),
+}), undefined, "HTTP renderer location became an editable fallback");
+assert.equal(fallbackPreviewSourceTarget({
+  uri: "mmt-renderer:/internal/stale.typ",
+  range: range(0, 0),
+}), undefined, "renderer-internal location became an editable fallback");
+
+assert.equal(previewSourceTargetIsNavigable(staleMmtfsTarget), true);
+assert.equal(previewSourceTargetIsNavigable({ kind: "workspaceTypst", uri: "untitled:/authored/main.typ", range: range(0, 0), readOnly: false }), true);
+assert.equal(previewSourceTargetIsNavigable({ kind: "workspaceTypst", uri: "untitled:/mmt-projection/main.typ", range: range(0, 0), readOnly: false }), false);
+assert.equal(previewSourceTargetIsNavigable({ kind: "workspaceTypst", uri: "https://renderer.invalid/main.typ", range: range(0, 0), readOnly: false }), false);
 assert.equal(previewSourceTargetIsNavigable({ kind: "packageFile", uri: "mmt-package:/preview/name/1.0.0/lib.typ", range: range(0, 0), readOnly: true, retained: true }), true);
-assert.equal(previewSourceTargetIsNavigable({ kind: "generatedProjection", uri: "mmt-projection:/retained/main.typ", range: range(0, 0), readOnly: true, retained: true }), true);
+const retainedProjectionTarget = {
+  kind: "generatedProjection",
+  uri: "mmt-projection:/retained/main.typ",
+  range: range(0, 0),
+  readOnly: true,
+  retained: true,
+};
+assert.equal(previewSourceTargetIsNavigable(retainedProjectionTarget), true);
 assert.equal(previewSourceTargetIsNavigable({ kind: "generatedProjection", uri: sourceA, range: range(0, 0), readOnly: false, retained: true }), false, "generated output became writable authored MMT");
 assert.equal(previewSourceTargetIsNavigable({ kind: "staleUnknown" }), false);
+
+const mappedOpens = [];
+const mappedStatuses = [];
+const mappedSourceOpened = [];
+const mappedTargetController = new PreviewInteractionController({
+  openSource: async (target) => { mappedOpens.push(target); },
+  events: {
+    statusChanged: (status) => mappedStatuses.push(status),
+    sourceOpened: (target) => mappedSourceOpened.push(target),
+  },
+});
+assert.equal(await mappedTargetController.openMappedTarget(staleMmtfsTarget), true);
+assert.equal(await mappedTargetController.openMappedTarget(retainedProjectionTarget), true);
+assert.deepEqual(mappedOpens, [staleMmtfsTarget, retainedProjectionTarget], "navigable stale workspace and retained projection targets were not really opened");
+assert.deepEqual(mappedSourceOpened, mappedOpens, "sourceOpened did not follow successful opens");
+assert.deepEqual(mappedStatuses, ["ready", "ready"], "successful mapped opens did not become ready");
+
+const providerFailureStatuses = [];
+const providerFailureSourceOpened = [];
+const providerFailureController = new PreviewInteractionController({
+  currentIdentity: () => identityA,
+  openSource: async () => { throw new Error("must not open after provider failure"); },
+  events: {
+    statusChanged: (status) => providerFailureStatuses.push(status),
+    sourceOpened: (target) => providerFailureSourceOpened.push(target),
+  },
+});
+providerFailureController.bindArtifact(providerArtifact, identityA, {
+  key: providerKey(11),
+  async locateSelection() { return []; },
+  async locatePoint() { throw new Error("provider failed"); },
+});
+providerFailureStatuses.length = 0;
+assert.equal(await providerFailureController.navigatePreviewPoint({ pageIndex: 0, x: 0.2, y: 0.3 }), undefined);
+assert.deepEqual(providerFailureStatuses, ["unmapped"], "provider failure did not become unmapped");
+assert.equal(providerFailureSourceOpened.length, 0, "provider failure emitted sourceOpened");
+assert.equal(providerFailureStatuses.includes("ready"), false, "provider failure emitted ready");
+
+const openFailureStatuses = [];
+const openFailureSourceOpened = [];
+const openFailureController = new PreviewInteractionController({
+  currentIdentity: () => identityA,
+  openSource: async () => { throw new Error("open failed"); },
+  events: {
+    statusChanged: (status) => openFailureStatuses.push(status),
+    sourceOpened: (target) => openFailureSourceOpened.push(target),
+  },
+});
+openFailureController.bindArtifact(artifactA, identityA);
+openFailureStatuses.length = 0;
+assert.equal(await openFailureController.navigatePreviewPoint({ pageIndex: 1, x: 0.98, y: 0.99 }), undefined);
+assert.deepEqual(openFailureStatuses, ["unmapped"], "open failure did not become unmapped");
+assert.equal(openFailureSourceOpened.length, 0, "open failure emitted sourceOpened");
+assert.equal(openFailureStatuses.includes("ready"), false, "open failure emitted ready");
 
 const outline = safePreviewOutline([
   { label: "Authored", target: { kind: "authoredIdentity", uri: sourceA, range: range(0, 0) } },

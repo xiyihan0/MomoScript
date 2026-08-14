@@ -5,8 +5,10 @@ import { readFile } from "node:fs/promises";
 const source = await readFile(new URL("../src/runtimeArtifacts.ts", import.meta.url), "utf8");
 const digest = /TINYMIST_WASM_SHA256 = "([0-9a-f]{64})"/.exec(source)?.[1];
 const version = /TINYMIST_VERSION = "([^"]+)"/.exec(source)?.[1];
+const origin = /export const RUNTIME_ORIGIN = "([^"]+)"/.exec(source)?.[1];
 assert(digest, "runtimeArtifacts.ts must pin TINYMIST_WASM_SHA256");
 assert(version, "runtimeArtifacts.ts must pin TINYMIST_VERSION");
+assert(origin, "runtimeArtifacts.ts must pin RUNTIME_ORIGIN");
 const vendor = new URL(`../../vscode/vendor/tinymist-${version}/tinymist_bg.wasm`, import.meta.url);
 const localBytes = new Uint8Array(await readFile(vendor));
 const localDigest = createHash("sha256").update(localBytes).digest("hex");
@@ -20,7 +22,7 @@ console.log(JSON.stringify({
 }));
 
 if (process.env.MMT_VERIFY_REMOTE_TINYMIST === "1") {
-  const baseUrl = `https://mms-pack.esa.xiyihan.cn/wasm/tinymist/${version}/${digest}/tinymist_bg.wasm`;
+  const baseUrl = `${origin}/wasm/tinymist/${version}/${digest}/tinymist_bg.wasm`;
   const candidates = [
     { url: baseUrl, encoding: null },
     { url: `${baseUrl}.br?delivery=br-v1`, encoding: "br" },

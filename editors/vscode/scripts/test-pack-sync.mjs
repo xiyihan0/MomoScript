@@ -1,7 +1,22 @@
 import assert from "node:assert/strict";
-import { synchronizePackSources } from "../src/packSync.ts";
+import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import {
+  DEFAULT_PACK_MANIFEST_URL,
+  packManifestUrlsOrDefault,
+  synchronizePackSources,
+} from "../src/packSync.ts";
 
 const MANIFEST_URL = "https://packs.example.test/ba/manifest.json";
+const packageJson = JSON.parse(await readFile(fileURLToPath(new URL("../package.json", import.meta.url)), "utf8"));
+const configuredDefault =
+  packageJson.contributes.configuration.properties["mmt.resourcePacks.manifestUrls"].default;
+assert.equal(DEFAULT_PACK_MANIFEST_URL, "https://mms-pack.esa.xiyihan.cn/ba_kivo/manifest.json");
+assert.deepEqual(configuredDefault, [DEFAULT_PACK_MANIFEST_URL]);
+assert.deepEqual(packManifestUrlsOrDefault([]), [DEFAULT_PACK_MANIFEST_URL]);
+const configuredUrls = ["https://packs.example.test/custom/manifest.json"];
+assert.equal(packManifestUrlsOrDefault(configuredUrls), configuredUrls);
+
 
 function emptyCache() {
   return {

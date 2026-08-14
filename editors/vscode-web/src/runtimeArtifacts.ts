@@ -1,4 +1,6 @@
-const RUNTIME_ORIGIN = "https://mms-pack.esa.xiyihan.cn";
+export const RUNTIME_ORIGIN = "https://mms-pack.esa.xiyihan.cn";
+export const PACK_BASE_URL = `${RUNTIME_ORIGIN}/ba_kivo/`;
+export const PACK_MANIFEST_URL = `${PACK_BASE_URL}manifest.json`;
 
 export const TINYMIST_VERSION = "0.15.2";
 export const TINYMIST_WASM_SHA256 = "2ab4ce828d9ecbf0f7825fb2fd32fe00119aa0d388e3c9643aaf1a98d1424d8a";

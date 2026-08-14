@@ -16,7 +16,9 @@
 
 - GIVEN 目标桶中已存在与待上传对象同名的对象
 - WHEN publisher 执行发布
-- THEN publisher 下载该对象并比对 SHA-256
+- THEN publisher 先从 JSON `stat` 输出精确校验 Content-Type 与 Cache-Control
+- AND 任一对象属性不一致时发布失败，不覆盖远端字节
+- AND 对象属性一致时 publisher 下载该对象并比对 SHA-256
 - AND digest 一致时复用该对象（outcome 为 reused）
 - AND digest 不一致时发布失败，不覆盖远端字节
 
@@ -94,3 +96,4 @@ publisher SHALL 在发布完成后通过公开 URL 校验交付结果：CORS 头
 - WHEN 公开校验发现 catalog 或活跃 manifest 的 digest 与本地不一致
 - THEN publisher 以失败退出并报告差异对象
 - AND 不产生"发布成功"的 publication manifest
+- AND repo 内 catalog 源文件与成功 publication manifest 只在公开校验通过后写入

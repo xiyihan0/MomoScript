@@ -340,16 +340,27 @@ export class PreviewInteractionController {
         this.#dependencies.events?.statusChanged?.("unavailable", "The displayed artifact's location provider is no longer available.");
         return undefined;
       }
-      const location = await resolver.locatePoint({
-        ...normalizedPoint,
-        renderKey: captured.artifact.renderKey,
-        locationProviderKey: captured.artifact.locationProviderKey,
-      }, signal);
-      if (!location || signal.aborted) return undefined;
-      if (captured.identity.languageId === "mmt") {
-        target = await this.#dependencies.mapPreviewSource?.(captured.identity, location, signal);
-      } else {
-        target = { kind: "workspaceTypst", uri: location.uri, range: location.range, readOnly: false, retained: true };
+      try {
+        const location = await resolver.locatePoint({
+          ...normalizedPoint,
+          renderKey: captured.artifact.renderKey,
+          locationProviderKey: captured.artifact.locationProviderKey,
+        }, signal);
+        if (signal.aborted) return undefined;
+        if (!location) {
+          this.#dependencies.events?.statusChanged?.("unmapped", "The displayed preview point has no retained source location.");
+          return undefined;
+        }
+        if (captured.identity.languageId === "mmt") {
+          target = await this.#dependencies.mapPreviewSource?.(captured.identity, location, signal);
+        } else {
+          target = { kind: "workspaceTypst", uri: location.uri, range: location.range, readOnly: false, retained: true };
+        }
+      } catch {
+        if (!signal.aborted) {
+          this.#dependencies.events?.statusChanged?.("unmapped", "The preview location provider could not map this point.");
+        }
+        return undefined;
       }
     }
 
@@ -358,7 +369,17 @@ export class PreviewInteractionController {
       this.#dependencies.events?.statusChanged?.("unmapped", "Preview location is stale, unsafe, or no longer retained.");
       return undefined;
     }
-    await this.#dependencies.openSource?.(target);
+    const openSource = this.#dependencies.openSource;
+    if (!openSource) {
+      this.#dependencies.events?.statusChanged?.("unmapped", "The mapped preview source cannot be opened.");
+      return undefined;
+    }
+    try {
+      await openSource(target);
+    } catch {
+      this.#dependencies.events?.statusChanged?.("unmapped", "The mapped preview source could not be opened.");
+      return undefined;
+    }
     this.#dependencies.events?.sourceOpened?.(target);
     this.#dependencies.events?.statusChanged?.("ready", "Opened the source mapped by the displayed preview artifact.");
     return target;
@@ -369,8 +390,19 @@ export class PreviewInteractionController {
       this.#dependencies.events?.statusChanged?.("unmapped", "Outline location is stale, unsafe, or no longer retained.");
       return false;
     }
-    await this.#dependencies.openSource?.(target);
+    const openSource = this.#dependencies.openSource;
+    if (!openSource) {
+      this.#dependencies.events?.statusChanged?.("unmapped", "The mapped outline source cannot be opened.");
+      return false;
+    }
+    try {
+      await openSource(target);
+    } catch {
+      this.#dependencies.events?.statusChanged?.("unmapped", "The mapped outline source could not be opened.");
+      return false;
+    }
     this.#dependencies.events?.sourceOpened?.(target);
+    this.#dependencies.events?.statusChanged?.("ready", "Opened the source mapped by the displayed preview outline.");
     return true;
   }
 
@@ -607,6 +639,23 @@ export function nearestVisiblePage(
   return nearest;
 }
 
+export function fallbackPreviewSourceTarget(location: PreviewBackendLocation): PreviewSourceTarget | undefined {
+  let parsed: URL;
+  try {
+    parsed = new URL(location.uri);
+  } catch {
+    return undefined;
+  }
+  if (parsed.protocol !== "mmtfs:") return undefined;
+  return Object.freeze({
+    kind: "workspaceTypst",
+    uri: location.uri,
+    range: location.range,
+    readOnly: false,
+    retained: true,
+  });
+}
+
 export function previewSourceTargetIsNavigable(target: PreviewSourceTarget): boolean {
   if (!target.uri || !target.range || target.kind === "staleUnknown") return false;
   let parsed: URL;
@@ -617,7 +666,13 @@ export function previewSourceTargetIsNavigable(target: PreviewSourceTarget): boo
   }
   const path = parsed.pathname.toLowerCase();
   if (target.kind === "authoredIdentity") return path.endsWith(".mmt") || path.endsWith(".mmt.txt");
-  if (target.kind === "workspaceTypst") return path.endsWith(".typ") && target.readOnly !== true;
+  if (target.kind === "workspaceTypst") {
+    const authoredUntitled = parsed.protocol === "untitled:"
+      && !/(^|\/)mmt-projection(?:\/|$)/.test(path);
+    return path.endsWith(".typ")
+      && target.readOnly !== true
+      && (parsed.protocol === "mmtfs:" || authoredUntitled);
+  }
   if (target.kind === "packageFile") return parsed.protocol === "mmt-package:" && target.readOnly === true && target.retained === true;
   return target.kind === "generatedProjection"
     && parsed.protocol === "mmt-projection:"

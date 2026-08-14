@@ -2,7 +2,13 @@ import { readFile, writeFile, mkdir, rm } from "node:fs/promises";
 import { readdirSync, existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { assertMetadata, metadataArgument, runOss, sha256 } from "./ossutil-helper.mjs";
+import {
+  DEFAULT_BUCKET,
+  DEFAULT_ORIGIN,
+  DEFAULT_REGION,
+  sha256,
+} from "./ossutil-helper.mjs";
+import { publishPackObjects } from "./publish-pack-objects.mjs";
 
 const IMMUTABLE = "public,max-age=31536000,immutable";
 const MUST_REVALIDATE = "public,max-age=0,must-revalidate";
@@ -206,13 +212,14 @@ const publication = {
   catalog,
 };
 await mkdir(packDir, { recursive: true });
-await writeFile(
-  path.join(packDir, "publication.json"),
-  `${JSON.stringify(publication, null, 2)}\n`,
-  "utf8",
-);
+const publicationPath = path.join(packDir, "publication.json");
 
 if (!options.publish) {
+  await writeFile(
+    publicationPath,
+    `${JSON.stringify(publication, null, 2)}\n`,
+    "utf8",
+  );
   const counts = {};
   for (const object of objects) counts[object.role] = (counts[object.role] ?? 0) + 1;
   console.log(JSON.stringify({
@@ -224,8 +231,10 @@ if (!options.publish) {
     plannedCatalogEntry: entry,
   }, null, 2));
 } else {
-  if (!options.ossutilConfig) fail("--ossutil-config is required with --publish");
-  const config = path.resolve(options.ossutilConfig);
+  await rm(publicationPath, { force: true });
+  const configFile = options.ossutilConfig
+    ? path.resolve(options.ossutilConfig)
+    : undefined;
   await writeFile(catalogStagingPath, catalogBytes);
   const ordered = [
     ...objects.filter((object) => object.role === "asset"),
@@ -233,51 +242,26 @@ if (!options.publish) {
     ...objects.filter((object) => object.role === "active-manifest"),
     ...objects.filter((object) => object.role === "catalog"),
   ];
-  const outcomes = [];
-  for (const object of ordered) {
-    const target = `oss://${options.bucket}/${object.objectName}`;
-    const stat = await runOss(["stat", target, "-c", config], true);
-    const metadata = {
-      "Content-Type": object.contentType,
-      "Cache-Control": object.cacheControl,
-    };
-    if (stat.missing) {
-      await runOss([
-        "cp",
-        object.localPath,
-        target,
-        "--force",
-        "--meta",
-        metadataArgument(metadata),
-        "-c",
-        config,
-      ]);
-      outcomes.push({ role: object.role, objectName: object.objectName, outcome: "published" });
-    } else {
-      assertMetadata(stat.stdout, metadata, target);
-      const downloaded = path.join(packDir, `.remote-${object.role}-${object.sha256}`);
-      try {
-        await runOss(["cp", target, downloaded, "--force", "-c", config]);
-        const remoteDigest = sha256(new Uint8Array(await readFile(downloaded)));
-        if (remoteDigest !== object.sha256) {
-          fail(`${target} already exists with digest ${remoteDigest}, expected ${object.sha256}`);
-        }
-      } finally {
-        await rm(downloaded, { force: true });
-      }
-      outcomes.push({ role: object.role, objectName: object.objectName, outcome: "reused" });
-    }
+  try {
+    const outcomes = await publishPackObjects(ordered, {
+      bucket: options.bucket,
+      configFile,
+      profile: options.ossutilProfile,
+      region: options.region,
+      temporaryDirectory: packDir,
+    });
+    await verifyPublicDelivery();
+    await writeFile(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+    publication.outcomes = outcomes;
+    await writeFile(
+      publicationPath,
+      `${JSON.stringify(publication, null, 2)}\n`,
+      "utf8",
+    );
+    console.log(JSON.stringify({ mode: "published", outcomes }, null, 2));
+  } finally {
+    await rm(catalogStagingPath, { force: true });
   }
-  await verifyPublicDelivery();
-  await rm(catalogStagingPath, { force: true });
-  await writeFile(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
-  publication.outcomes = outcomes;
-  await writeFile(
-    path.join(packDir, "publication.json"),
-    `${JSON.stringify(publication, null, 2)}\n`,
-    "utf8",
-  );
-  console.log(JSON.stringify({ mode: "published", outcomes }, null, 2));
 }
 
 async function verifyPublicDelivery() {
@@ -322,8 +306,10 @@ function parseArguments(args) {
     catalog: undefined,
     publish: false,
     ossutilConfig: undefined,
-    bucket: "mms-pack",
-    origin: "https://mms-pack.xiyihan.cn",
+    ossutilProfile: undefined,
+    bucket: DEFAULT_BUCKET,
+    origin: DEFAULT_ORIGIN,
+    region: DEFAULT_REGION,
   };
   for (let index = 0; index < args.length; index += 1) {
     const argument = args[index];
@@ -331,8 +317,10 @@ function parseArguments(args) {
     else if (argument === "--pack-dir") parsed.packDir = requiredValue(args, ++index, argument);
     else if (argument === "--catalog") parsed.catalog = requiredValue(args, ++index, argument);
     else if (argument === "--ossutil-config") parsed.ossutilConfig = requiredValue(args, ++index, argument);
+    else if (argument === "--ossutil-profile") parsed.ossutilProfile = requiredValue(args, ++index, argument);
     else if (argument === "--bucket") parsed.bucket = requiredValue(args, ++index, argument);
     else if (argument === "--origin") parsed.origin = requiredValue(args, ++index, argument);
+    else if (argument === "--region") parsed.region = requiredValue(args, ++index, argument);
     else throw new Error(`Unknown argument: ${argument}`);
   }
   if (!parsed.packDir) throw new Error("--pack-dir is required");

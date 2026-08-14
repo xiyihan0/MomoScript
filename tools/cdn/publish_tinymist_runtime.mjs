@@ -3,7 +3,17 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import { brotliCompress, constants as zlibConstants } from "node:zlib";
-import { assertMetadata, metadataArgument, runOss, sha256 } from "./ossutil-helper.mjs";
+import {
+  DEFAULT_BUCKET,
+  DEFAULT_ORIGIN,
+  DEFAULT_REGION,
+  assertMetadata,
+  assertOssutilV2,
+  objectPropertyArguments,
+  ossutilGlobalArguments,
+  runOss,
+  sha256,
+} from "./ossutil-helper.mjs";
 
 const compress = promisify(brotliCompress);
 const root = path.resolve(fileURLToPath(new URL("../..", import.meta.url)));
@@ -107,29 +117,40 @@ if (process.env.GITHUB_OUTPUT) {
 }
 
 async function publishObjects(prepared, settings) {
-  if (!settings.ossutilConfig) throw new Error("--ossutil-config is required with --publish");
-  const config = path.resolve(settings.ossutilConfig);
+  const configFile = settings.ossutilConfig
+    ? path.resolve(settings.ossutilConfig)
+    : undefined;
+  const globalArguments = ossutilGlobalArguments({
+    configFile,
+    profile: settings.ossutilProfile,
+    region: settings.region,
+  });
+  await assertOssutilV2();
   const outcomes = [];
   for (const object of prepared.objects) {
     const target = `oss://${settings.bucket}/${object.objectName}`;
-    const stat = await runOss(["stat", target, "-c", config], true);
+    const stat = await runOss([
+      "stat",
+      target,
+      ...globalArguments,
+      "--output-format",
+      "json",
+    ], true);
     if (stat.missing) {
       await runOss([
         "cp",
         object.localPath,
         target,
         "--force",
-        "--meta",
-        metadataArgument(object.metadata),
-        "-c",
-        config,
+        ...objectPropertyArguments(object.metadata),
+        ...globalArguments,
       ]);
       outcomes.push({ delivery: object.delivery, objectName: object.objectName, outcome: "published" });
     } else {
       assertMetadata(stat.stdout, object.metadata, target);
       const downloaded = path.join(output, `.remote-${object.delivery}`);
       try {
-        await runOss(["cp", target, downloaded, "--force", "-c", config]);
+        await runOss(["cp", target, downloaded, "--force", ...globalArguments]);
         const remoteDigest = sha256(new Uint8Array(await readFile(downloaded)));
         if (remoteDigest !== object.sha256) {
           throw new Error(`${target} already exists with digest ${remoteDigest}, expected ${object.sha256}`);
@@ -176,8 +197,10 @@ function parseArguments(args) {
     output: undefined,
     publish: false,
     ossutilConfig: undefined,
-    bucket: "mms-pack",
-    origin: "https://mms-pack.xiyihan.cn",
+    ossutilProfile: undefined,
+    bucket: DEFAULT_BUCKET,
+    origin: DEFAULT_ORIGIN,
+    region: DEFAULT_REGION,
   };
   for (let index = 0; index < args.length; index += 1) {
     const argument = args[index];
@@ -185,8 +208,10 @@ function parseArguments(args) {
     else if (argument === "--source") parsed.source = requiredValue(args, ++index, argument);
     else if (argument === "--output") parsed.output = requiredValue(args, ++index, argument);
     else if (argument === "--ossutil-config") parsed.ossutilConfig = requiredValue(args, ++index, argument);
+    else if (argument === "--ossutil-profile") parsed.ossutilProfile = requiredValue(args, ++index, argument);
     else if (argument === "--bucket") parsed.bucket = requiredValue(args, ++index, argument);
     else if (argument === "--origin") parsed.origin = requiredValue(args, ++index, argument);
+    else if (argument === "--region") parsed.region = requiredValue(args, ++index, argument);
     else throw new Error(`Unknown argument: ${argument}`);
   }
   return parsed;

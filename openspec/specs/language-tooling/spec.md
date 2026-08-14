@@ -291,7 +291,7 @@ variant semantics, and the shared Rust language service SHALL validate and atomi
 
 #### Scenario: Default BA Kivo manifest becomes available
 
-- GIVEN the default source is `https://mms-pack.xiyihan.cn/ba_kivo/manifest.json`
+- GIVEN the default source is `https://mms-pack.esa.xiyihan.cn/ba_kivo/manifest.json`
 - WHEN the host receives a successful CORS-capable response and sends a revisioned `mmt/updatePackManifests` request
 - THEN Rust MUST parse the original pack-v3 JSON、run `PackRegistry` validation and acknowledge that revision
 - AND `preset:` completion MUST use canonical entity IDs and deterministic names from that registry

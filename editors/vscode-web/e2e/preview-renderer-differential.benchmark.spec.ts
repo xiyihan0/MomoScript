@@ -32,8 +32,8 @@ test("renderer matches the full oracle at START MIDDLE and END", async ({ page }
     });
     pixelComparisons = await assertVisualParity(
       page,
-      oracle.warmSamples.map(({ visualSnapshot }) => visualSnapshot!),
-      renderer.warmSamples.map(({ visualSnapshot }) => visualSnapshot!),
+      oracle.visualSnapshots,
+      renderer.visualSnapshots,
     );
   } catch (error) {
     failure = error instanceof Error ? error.stack ?? error.message : String(error);

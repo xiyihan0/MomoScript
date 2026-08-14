@@ -37,6 +37,35 @@ env:
   TYPST_TS_BINARYEN_SHA256: c55b74f3109cdae97490faf089b0286d3bba926bb6ea5ed00c8c784fc53718fd
 
 jobs:
+  pack-delivery:
+    name: pack-delivery
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Test Pack delivery contracts
+        run: node --test tools/cdn/test-publish-pack.mjs
+      - name: Verify current Catalog Manifest digest
+        run: |
+          node --input-type=module -e '
+            import { createHash } from "node:crypto";
+            import { readFile } from "node:fs/promises";
+            const catalog = JSON.parse(await readFile("typst_sandbox/pack-v3/catalog.json", "utf8"));
+            for (const pack of catalog.packs) {
+              const current = pack.releases.find(({ digest }) => digest === pack.manifest_digest);
+              if (!current) throw new Error(`${pack.namespace}: current release is absent from history`);
+              const directory = new URL(pack.manifest_url).pathname.split("/").filter(Boolean)[0];
+              const bytes = await readFile(`typst_sandbox/pack-v3/${directory}/manifest.json`);
+              const digest = createHash("sha256").update(bytes).digest("hex");
+              if (digest !== pack.manifest_digest) throw new Error(`${pack.namespace}: Catalog digest ${pack.manifest_digest} != Manifest digest ${digest}`);
+              if (!current.manifest_url.endsWith(`/releases/${digest}/manifest.json`)) throw new Error(`${pack.namespace}: current release URL does not contain its digest`);
+              console.log(`${pack.namespace}: ${digest}`);
+            }
+          '
+
   core-native:
     name: core-native
     if: ${{ github.event_name != 'schedule' && (github.event_name != 'workflow_dispatch' || inputs.preview_performance == 'standard') }}
@@ -95,7 +124,7 @@ jobs:
           git -C "$RUNNER_TEMP/tinymist" checkout --detach "$TINYMIST_REVISION"
       - name: Restore pinned Tinymist artifacts
         id: tinymist-artifact-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ${{ runner.temp }}/tinymist/target/release/tinymist
@@ -151,7 +180,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Restore pinned Typst compiler artifact
         id: typst-compiler-artifact-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ${{ runner.temp }}/typst-compiler/pkg/typst_ts_web_compiler_bg.wasm
@@ -223,7 +252,7 @@ jobs:
           rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
           rustup default "$RUST_TOOLCHAIN"
           cargo install wasm-pack --version "$WASM_PACK_VERSION" --locked
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: tinymist-pinned-linux-x64
           path: .ci/tinymist
@@ -273,7 +302,7 @@ jobs:
           rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal --target wasm32-unknown-unknown
           rustup default "$RUST_TOOLCHAIN"
           cargo install wasm-pack --version "$WASM_PACK_VERSION" --locked
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: tinymist-pinned-linux-x64
           path: .ci/tinymist
@@ -324,7 +353,7 @@ jobs:
           cache-dependency-path: |
             editors/vscode/package-lock.json
             editors/vscode-web/package-lock.json
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: typst-compiler-pinned-web
           path: .ci/typst-compiler
@@ -398,7 +427,7 @@ jobs:
           cache-dependency-path: |
             editors/vscode/package-lock.json
             editors/vscode-web/package-lock.json
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: typst-compiler-pinned-web
           path: .ci/typst-compiler
@@ -479,7 +508,7 @@ jobs:
           cache-dependency-path: |
             editors/vscode/package-lock.json
             editors/vscode-web/package-lock.json
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         if: steps.scope.outputs.run == 'true'
         with:
           name: typst-compiler-pinned-web
@@ -523,7 +552,7 @@ jobs:
           cache-dependency-path: |
             editors/vscode/package-lock.json
             editors/vscode-web/package-lock.json
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: typst-compiler-pinned-web
           path: .ci/typst-compiler

@@ -1,0 +1,349 @@
+import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
+import { mkdtemp, mkdir, readFile, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import test from "node:test";
+import { promisify } from "node:util";
+import { fileURLToPath } from "node:url";
+
+import {
+  DEFAULT_BUCKET,
+  DEFAULT_ORIGIN,
+  DEFAULT_REGION,
+  assertMetadata,
+  assertOssutilV2,
+  isMissingObjectError,
+  objectPropertyArguments,
+  ossutilGlobalArguments,
+  parseStatJson,
+  sha256,
+  statMetadata,
+} from "./ossutil-helper.mjs";
+import { publishPackObjects } from "./publish-pack-objects.mjs";
+
+const exec = promisify(execFile);
+const repoRoot = path.resolve(fileURLToPath(new URL("../..", import.meta.url)));
+const publishPackScript = path.join(repoRoot, "tools/cdn/publish_pack.mjs");
+const immutable = "public,max-age=31536000,immutable";
+const mutable = "public,max-age=0,must-revalidate";
+
+function metadata(contentType, cacheControl) {
+  return { "Content-Type": contentType, "Cache-Control": cacheControl };
+}
+
+function makeFakeOss() {
+  const objects = new Map();
+  const calls = [];
+  const run = async (args) => {
+    calls.push([...args]);
+    if (args[0] === "version") return { stdout: "ossutil version: 2.3.0", stderr: "", missing: false };
+    if (args[0] === "stat") {
+      const stored = objects.get(args[1]);
+      if (!stored) return { stdout: "", stderr: "", missing: true };
+      return {
+        stdout: JSON.stringify({
+          object: {
+            contentType: stored.metadata["Content-Type"],
+            cacheControl: stored.metadata["Cache-Control"],
+            contentEncoding: stored.metadata["Content-Encoding"],
+          },
+        }),
+        stderr: "",
+        missing: false,
+      };
+    }
+    if (args[0] !== "cp") throw new Error(`unexpected fake ossutil command: ${args.join(" ")}`);
+    if (args[1].startsWith("oss://")) {
+      const stored = objects.get(args[1]);
+      if (!stored) throw new Error(`fake object is missing: ${args[1]}`);
+      await writeFile(args[2], stored.bytes);
+      return { stdout: "", stderr: "", missing: false };
+    }
+    const target = args[2];
+    const property = (flag) => {
+      const index = args.indexOf(flag);
+      return index < 0 ? undefined : args[index + 1];
+    };
+    objects.set(target, {
+      bytes: new Uint8Array(await readFile(args[1])),
+      metadata: {
+        "Content-Type": property("--content-type"),
+        "Cache-Control": property("--cache-control"),
+        "Content-Encoding": property("--content-encoding"),
+      },
+    });
+    return { stdout: "", stderr: "", missing: false };
+  };
+  return { objects, calls, run };
+}
+
+async function localObject(directory, role, objectName, body, properties) {
+  const localPath = path.join(directory, `${role}-${sha256(body)}.json`);
+  await writeFile(localPath, body);
+  return {
+    role,
+    objectName,
+    localPath,
+    bytes: body.byteLength,
+    sha256: sha256(body),
+    contentType: properties["Content-Type"],
+    cacheControl: properties["Cache-Control"],
+  };
+}
+
+test("ossutil 2.3 arguments and JSON stat contracts", async () => {
+  assert.equal(DEFAULT_BUCKET, "mms-pack");
+  assert.equal(DEFAULT_ORIGIN, "https://mms-pack.esa.xiyihan.cn");
+  assert.equal(DEFAULT_REGION, "cn-shanghai");
+  assert.deepEqual(ossutilGlobalArguments(), ["--region", "cn-shanghai"]);
+  assert.deepEqual(
+    ossutilGlobalArguments({
+      configFile: "/tmp/isolated-ossutilconfig",
+      profile: "publisher",
+      region: "cn-hangzhou",
+    }),
+    [
+      "--region",
+      "cn-hangzhou",
+      "--config-file",
+      "/tmp/isolated-ossutilconfig",
+      "--profile",
+      "publisher",
+    ],
+  );
+  assert.deepEqual(objectPropertyArguments({
+    "Content-Type": "application/json",
+    "Cache-Control": mutable,
+    "Content-Encoding": "br",
+  }), [
+    "--content-type",
+    "application/json",
+    "--cache-control",
+    mutable,
+    "--content-encoding",
+    "br",
+  ]);
+
+  const stat = JSON.stringify({
+    object: { contentType: "application/json", cacheControl: mutable },
+  });
+  assert.deepEqual(parseStatJson(stat), JSON.parse(stat));
+  assert.deepEqual(statMetadata(stat, "packs.json"), {
+    "Content-Type": "application/json",
+    "Cache-Control": mutable,
+    "Content-Encoding": undefined,
+  });
+  assert.doesNotThrow(() => assertMetadata(stat, metadata("application/json", mutable), "packs.json"));
+  assert.throws(
+    () => assertMetadata(stat, metadata("application/json", immutable), "packs.json"),
+    /metadata Cache-Control/,
+  );
+  assert.equal(isMissingObjectError("Http Status Code: 404\nError Code: NoSuchKey"), true);
+  assert.equal(isMissingObjectError("Http Status Code: 403\nError Code: AccessDenied"), false);
+
+  assert.equal(
+    await assertOssutilV2(async (args) => {
+      assert.deepEqual(args, ["version"]);
+      return { stdout: "ossutil version: 2.3.0", stderr: "" };
+    }),
+    "2.3.0",
+  );
+  await assert.rejects(
+    assertOssutilV2(async () => ({ stdout: "ossutil version: 2.2.0", stderr: "" })),
+    /ossutil >= 2\.3\.0 is required/,
+  );
+  await assert.rejects(
+    assertOssutilV2(async () => ({ stdout: "unexpected output", stderr: "" })),
+    /ossutil >= 2\.3\.0 is required/,
+  );
+});
+
+test("immutable A/B releases coexist while mutable active and catalog objects advance", async () => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), "mmt-pack-objects-"));
+  const fake = makeFakeOss();
+  const json = metadata("application/json", immutable);
+  const currentJson = metadata("application/json", mutable);
+  const assetMetadata = metadata("image/png", immutable);
+  const assetABytes = new TextEncoder().encode("asset A");
+  const assetBBytes = new TextEncoder().encode("asset B");
+  const manifestABytes = new TextEncoder().encode('{"release":"A"}\n');
+  const manifestBBytes = new TextEncoder().encode('{"release":"B"}\n');
+  const reportABytes = new TextEncoder().encode('{"report":"A"}\n');
+  const reportBBytes = new TextEncoder().encode('{"report":"B"}\n');
+  const catalogABytes = new TextEncoder().encode('{"active":"A"}\n');
+  const catalogBBytes = new TextEncoder().encode('{"active":"B"}\n');
+  const digestA = sha256(manifestABytes);
+  const digestB = sha256(manifestBBytes);
+
+  const assetA = await localObject(directory, "asset", `ba/blobs/${sha256(assetABytes)}.png`, assetABytes, assetMetadata);
+  const releaseA = await localObject(directory, "release-manifest", `ba/releases/${digestA}/manifest.json`, manifestABytes, json);
+  const reportA = await localObject(directory, "release-report", `ba/releases/${digestA}/build_report.json`, reportABytes, json);
+  const activeA = await localObject(directory, "active-manifest", "ba/manifest.json", manifestABytes, currentJson);
+  const catalogA = await localObject(directory, "catalog", "packs.json", catalogABytes, currentJson);
+  const outcomesA = await publishPackObjects([assetA, releaseA, reportA, activeA, catalogA], {
+    temporaryDirectory: directory,
+    runOssCommand: fake.run,
+  });
+  assert.deepEqual(
+    outcomesA.map((item) => item.outcome),
+    ["published", "published", "published", "published", "published"],
+  );
+  assert.deepEqual(
+    fake.calls
+      .filter((args) => args[0] === "cp" && !args[1].startsWith("oss://"))
+      .map((args) => args[2]),
+    [
+      `oss://mms-pack/${assetA.objectName}`,
+      `oss://mms-pack/${releaseA.objectName}`,
+      `oss://mms-pack/${reportA.objectName}`,
+      "oss://mms-pack/ba/manifest.json",
+      "oss://mms-pack/packs.json",
+    ],
+  );
+
+  const assetB = await localObject(directory, "asset", `ba/blobs/${sha256(assetBBytes)}.png`, assetBBytes, assetMetadata);
+  const releaseB = await localObject(directory, "release-manifest", `ba/releases/${digestB}/manifest.json`, manifestBBytes, json);
+  const reportB = await localObject(directory, "release-report", `ba/releases/${digestB}/build_report.json`, reportBBytes, json);
+  const activeB = await localObject(directory, "active-manifest", "ba/manifest.json", manifestBBytes, currentJson);
+  const catalogB = await localObject(directory, "catalog", "packs.json", catalogBBytes, currentJson);
+  const outcomesB = await publishPackObjects([assetB, releaseB, reportB, activeB, catalogB], {
+    configFile: "/tmp/isolated-ossutilconfig",
+    profile: "default",
+    temporaryDirectory: directory,
+    runOssCommand: fake.run,
+  });
+  assert.deepEqual(
+    outcomesB.map((item) => item.outcome),
+    ["published", "published", "published", "updated", "updated"],
+  );
+
+  assert.equal(new TextDecoder().decode(fake.objects.get(`oss://mms-pack/ba/releases/${digestA}/manifest.json`).bytes), '{"release":"A"}\n');
+  assert.equal(new TextDecoder().decode(fake.objects.get(`oss://mms-pack/ba/releases/${digestB}/manifest.json`).bytes), '{"release":"B"}\n');
+  assert.equal(new TextDecoder().decode(fake.objects.get(`oss://mms-pack/ba/releases/${digestA}/build_report.json`).bytes), '{"report":"A"}\n');
+  assert.equal(new TextDecoder().decode(fake.objects.get(`oss://mms-pack/ba/releases/${digestB}/build_report.json`).bytes), '{"report":"B"}\n');
+  assert.equal(new TextDecoder().decode(fake.objects.get("oss://mms-pack/ba/manifest.json").bytes), '{"release":"B"}\n');
+  assert.equal(new TextDecoder().decode(fake.objects.get("oss://mms-pack/packs.json").bytes), '{"active":"B"}\n');
+
+  const repeated = await publishPackObjects([assetB, releaseB, reportB, activeB, catalogB], {
+    temporaryDirectory: directory,
+    runOssCommand: fake.run,
+  });
+  assert.deepEqual(
+    repeated.map((item) => item.outcome),
+    ["reused", "reused", "reused", "updated", "updated"],
+  );
+  assert.ok(fake.calls.some((args) => args[0] === "stat" && args.includes("--output-format") && args.includes("json")));
+  assert.ok(fake.calls.some((args) => args.includes("--config-file") && args.includes("--profile")));
+  assert.ok(fake.calls.some((args) => args[0] === "stat" && !args.includes("--config-file")));
+
+  const conflictingBytes = new TextEncoder().encode("different immutable bytes");
+  const conflictingRelease = await localObject(
+    directory,
+    "release-manifest",
+    `ba/releases/${digestA}/manifest.json`,
+    conflictingBytes,
+    json,
+  );
+  await assert.rejects(
+    publishPackObjects([conflictingRelease], {
+      temporaryDirectory: directory,
+      runOssCommand: fake.run,
+    }),
+    /already exists with digest/,
+  );
+
+  fake.objects.get(`oss://mms-pack/ba/releases/${digestB}/manifest.json`).metadata["Cache-Control"] = mutable;
+  await assert.rejects(
+    publishPackObjects([releaseB], {
+      temporaryDirectory: directory,
+      runOssCommand: fake.run,
+    }),
+    /metadata Cache-Control/,
+  );
+});
+
+test("dry-run Catalog merge prepends releases, deduplicates digests, preserves Packs, and sorts namespaces", async () => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), "mmt-pack-dry-run-"));
+  const packA = path.join(directory, "ba-a");
+  const packB = path.join(directory, "ba-b");
+  const catalogPath = path.join(directory, "catalog.json");
+  await Promise.all([mkdir(packA), mkdir(packB)]);
+  const manifest = (version, marker) => ({
+    schema: "mmt-pack.v3",
+    pack: {
+      namespace: "ba",
+      name: "Test Pack",
+      version,
+      type: "base",
+      base_url: "https://mms-pack.esa.xiyihan.cn/ba/",
+      requires: [],
+      eula: { required: false },
+      marker,
+    },
+    storage: {},
+  });
+  await writeFile(path.join(packA, "manifest.json"), `${JSON.stringify(manifest("A", "A"), null, 2)}\n`);
+  await writeFile(path.join(packB, "manifest.json"), `${JSON.stringify(manifest("B", "B"), null, 2)}\n`);
+  await writeFile(catalogPath, `${JSON.stringify({
+    schema: "mmt-pack-catalog-v1",
+    generated_at: null,
+    packs: [{
+      namespace: "z-pack",
+      name: "Existing Pack",
+      type: "extension",
+      requires: [],
+      eula: { required: false },
+      releases: [],
+    }],
+  }, null, 2)}\n`);
+
+  await exec(process.execPath, [publishPackScript, "--pack-dir", packA, "--catalog", catalogPath], { cwd: repoRoot });
+  const first = JSON.parse(await readFile(path.join(packA, "publication.json"), "utf8"));
+  await writeFile(catalogPath, `${JSON.stringify(first.catalog, null, 2)}\n`);
+  await exec(process.execPath, [publishPackScript, "--pack-dir", packB, "--catalog", catalogPath], { cwd: repoRoot });
+  const second = JSON.parse(await readFile(path.join(packB, "publication.json"), "utf8"));
+  const namespaces = second.catalog.packs.map((entry) => entry.namespace);
+  assert.deepEqual(namespaces, ["ba", "z-pack"]);
+  const ba = second.catalog.packs.find((entry) => entry.namespace === "ba");
+  assert.equal(ba.releases.length, 2);
+  assert.equal(ba.releases[0].digest, second.manifestDigest);
+  assert.equal(ba.releases[1].digest, first.manifestDigest);
+  assert.equal(new Set(ba.releases.map((release) => release.digest)).size, ba.releases.length);
+  assert.equal(ba.manifest_digest, second.manifestDigest);
+  assert.equal(ba.manifest_url, "https://mms-pack.esa.xiyihan.cn/ba/manifest.json");
+  await writeFile(catalogPath, `${JSON.stringify(second.catalog, null, 2)}\n`);
+  await exec(
+    process.execPath,
+    [publishPackScript, "--pack-dir", packB, "--catalog", catalogPath],
+    { cwd: repoRoot },
+  );
+  const repeated = JSON.parse(await readFile(path.join(packB, "publication.json"), "utf8"));
+  const repeatedBa = repeated.catalog.packs.find((entry) => entry.namespace === "ba");
+  assert.equal(repeatedBa.releases.length, 2);
+  assert.equal(
+    repeatedBa.releases.filter((release) => release.digest === second.manifestDigest).length,
+    1,
+  );
+});
+
+test("controlled Manifest matches the current Catalog release", async () => {
+  const catalog = JSON.parse(await readFile(path.join(repoRoot, "typst_sandbox/pack-v3/catalog.json"), "utf8"));
+  const manifestBytes = await readFile(path.join(repoRoot, "typst_sandbox/pack-v3/ba_kivo/manifest.json"));
+  const manifest = JSON.parse(manifestBytes);
+  const pack = catalog.packs.find((entry) => entry.namespace === "ba");
+  assert(pack, "Catalog must contain the controlled ba Pack");
+  assert.equal(sha256(manifestBytes), pack.manifest_digest);
+  assert.equal(manifest.pack.version, "2026.08.13");
+  assert.equal(manifest.pack.version, pack.version);
+  assert.equal(manifest.pack.base_url, "https://mms-pack.esa.xiyihan.cn/ba_kivo/");
+  assert.equal(pack.manifest_url, `${manifest.pack.base_url}manifest.json`);
+  assert(
+    pack.releases.some((release) => (
+      release.digest === pack.manifest_digest
+      && release.version === pack.version
+      && release.manifest_url === `${manifest.pack.base_url}releases/${pack.manifest_digest}/manifest.json`
+    )),
+    "Catalog current release must point at the controlled immutable Manifest",
+  );
+});

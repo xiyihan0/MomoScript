@@ -80,6 +80,7 @@ import { registerPwaUpdateLifecycle } from "./pwaUpdate";
 import { showMomoScriptMessage } from "./notifications";
 import { MMT_BUILD_VERSION } from "./buildInfo";
 import {
+  PACK_MANIFEST_URL,
   TINYMIST_VERSION,
   TINYMIST_WASM_SHA256,
   TYPST_COMPILER_VERSION,
@@ -100,6 +101,7 @@ import {
 } from "./previewWebviewProtocol.ts";
 import {
   BrowserPreviewViewportPersistence,
+  fallbackPreviewSourceTarget,
   PreviewInteractionController,
   type PreviewBackendLocation,
   type PreviewEditorSelection,
@@ -229,7 +231,6 @@ async function restoreActiveWorkspaceDocument(): Promise<boolean> {
 }
 
 const DEFAULT_STORY = "> 佳代子: 你好，老师！\n> _0: 我也可以继续说。\n< 老师好！\n> 佳代子: 看看这个：[:#1:](width: 2em)\n";
-const PACK_URL = "https://mms-pack.esa.xiyihan.cn/ba_kivo/manifest.json";
 const encoder = new TextEncoder();
 const PREVIEW_RUNTIME_KEY = runtimeArtifactKey(
   TYPST_COMPILER_VERSION,
@@ -667,23 +668,15 @@ async function initializeRuntime(
         ?? targets.find((candidate) => candidate.kind === "generatedProjection")
         ?? targets[0]
       : targets[0];
-    const fallbackTarget = (): PreviewSourceTarget | undefined => {
-      const scheme = /^[a-z][a-z0-9+.-]*:/i.exec(location.uri)?.[0].slice(0, -1) ?? "";
-      if (scheme !== "mmtfs" && scheme !== "untitled") {
-        log("preview:navigation:rejected", `Renderer location has no workspace URI (${location.uri}); refusing to fall back`);
-        return undefined;
-      }
-      return Object.freeze({
-        kind: "workspaceTypst",
-        uri: location.uri,
-        range: location.range,
-        readOnly: false,
-        retained: true,
-      });
-    };
     if (!target) {
-      log("preview:navigation:fallback", `No source mapping for ${identity.sourceUri}; using the backend location`);
-      return fallbackTarget();
+      const fallback = fallbackPreviewSourceTarget(location);
+      log(
+        fallback ? "preview:navigation:fallback" : "preview:navigation:rejected",
+        fallback
+          ? `No source mapping for ${identity.sourceUri}; using the backend location`
+          : `Renderer location has no editable workspace URI (${location.uri}); refusing to fall back`,
+      );
+      return fallback;
     }
     switch (target.kind) {
       case "authoredIdentity":
@@ -692,17 +685,23 @@ async function initializeRuntime(
       case "packageFile":
       case "generatedProjection":
         return Object.freeze({ ...target, readOnly: true, retained: true });
-      case "staleUnknown":
-        log("preview:navigation:fallback", `Projection mapping is stale for ${identity.sourceUri}; using the backend location`);
-        return fallbackTarget();
+      case "staleUnknown": {
+        const fallback = fallbackPreviewSourceTarget(location);
+        log(
+          fallback ? "preview:navigation:fallback" : "preview:navigation:rejected",
+          fallback
+            ? `Projection mapping is stale for ${identity.sourceUri}; using the backend location`
+            : `Stale projection mapping has no editable workspace URI (${location.uri}); refusing to fall back`,
+        );
+        return fallback;
+      }
     }
   };
   const openPreviewSource = async (target: PreviewSourceTarget): Promise<void> => {
-    if (!target.uri || !target.range) return;
+    if (!target.uri || !target.range) throw new Error("Preview target has no source location");
     const scheme = vscode.Uri.parse(target.uri).scheme;
-    if (!/^(mmtfs|mmt-package|untitled)$/.test(scheme)) {
-      log("preview:navigation:rejected", `Refusing to open non-workspace preview target: ${target.uri}`);
-      return;
+    if (!/^(mmtfs|mmt-package|mmt-projection|untitled)$/.test(scheme)) {
+      throw new Error(`Refusing to open non-workspace preview target: ${target.uri}`);
     }
     const document = await vscode.workspace.openTextDocument(vscode.Uri.parse(target.uri));
     const selection = new vscode.Selection(
@@ -2435,7 +2434,7 @@ async function initializeRuntime(
       log("resources", "Skipped resource pack synchronization because the MomoScript language server is unavailable");
       return;
     }
-    const configured = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]);
+    const configured = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_MANIFEST_URL]);
     const revision = Date.now();
     let packSources: PackManifestSource[];
     try {
@@ -2491,7 +2490,7 @@ async function initializeRuntime(
   }
   const packConfigRegistration = subscribe(vscode.workspace.onDidChangeConfiguration((event) => {
     if (!event.affectsConfiguration("mmt.resourcePacks.manifestUrls")) return;
-    const values = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]);
+    const values = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_MANIFEST_URL]);
     const input = root.querySelector<HTMLTextAreaElement>('textarea[aria-label="Resource pack manifest URLs"]');
     if (input) input.value = values.join("\n");
     void syncConfiguredPackSources().catch((error: unknown) => {
@@ -2512,7 +2511,7 @@ async function initializeRuntime(
       log("preview:error", error instanceof Error ? error.message : String(error));
     });
   }));
-  const packUrls = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]);
+  const packUrls = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_MANIFEST_URL]);
   const packUrlsInput = root.querySelector<HTMLTextAreaElement>('textarea[aria-label="Resource pack manifest URLs"]');
   if (packUrlsInput) packUrlsInput.value = packUrls.join("\n");
 
@@ -3239,7 +3238,7 @@ function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
   label.textContent = "清单地址";
   const urls = document.createElement("textarea");
   urls.rows = 3;
-  urls.value = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]).join("\n");
+  urls.value = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_MANIFEST_URL]).join("\n");
   urls.setAttribute("aria-label", "资源包清单地址");
   const save = document.createElement("button");
   save.type = "button";
@@ -3266,7 +3265,7 @@ function renderMmsProjectView(container: HTMLElement): vscode.Disposable {
       previewToggle.checked = vscode.workspace.getConfiguration("mmt.preview").get<boolean>("onChange", true);
     }
     if (event.affectsConfiguration("mmt.resourcePacks.manifestUrls")) {
-      urls.value = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_URL]).join("\n");
+      urls.value = vscode.workspace.getConfiguration("mmt.resourcePacks").get<string[]>("manifestUrls", [PACK_MANIFEST_URL]).join("\n");
     }
   });
   const resourceActions = document.createElement("div");

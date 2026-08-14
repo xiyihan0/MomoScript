@@ -141,6 +141,8 @@ Median render-project payload: 208,599 B → 47,418 B. Warm shadow operations: m
 
 - The first 44 KiB fixture rendered hundreds of pages and measured 95,161.6 ms cold visual-ready, including 47,416.3 ms DOM update and 43,664.0 ms location measurement. It tested DOM volume rather than edit compilation. The fixture was corrected to retain 40–50 KiB of mixed DSL/raw Typst input while bounding output to two representative pages.
 - Running four exact exports inside the performance scenario exceeded its 20-minute timeout while waiting for a download. Export is not a timing plane, so it was removed from the benchmark; exact export remains a separate hard regression gate.
+- Nightly runs `31668228873` and `31770908750` both preserved 20 `diff-v1` warm frames (generations 2–21), 99.90% node reuse, parity, and the 973-line one-page fixture. Visual-ready p50 reductions were 73.81% and 73.85%, while the only failure was the unchanged 70% `TaskDuration` gate: 5,016.5/2,455.2 ms and 4,397.5/2,151.5 ms full-oracle/renderer p50 produced only 51.06% and 51.07% reductions.
+- The first renderer edit in each run had no preceding parity capture and its `TaskDuration` tracked visual-ready (362.2/374.9 ms and 350.1/301.1 ms); every later renderer sample added roughly 1.4–1.8 s after the previous screenshot/navigation capture. The split harness had allowed diagnostic parity work to overlap the next edit-to-painted interval. The correction runs the unchanged 20-edit timing pass before a separate 20-edit visual-parity pass, preserving all thresholds and parity coverage without attributing capture CPU to either mode.
 
 
 ## Persistent renderer qualification

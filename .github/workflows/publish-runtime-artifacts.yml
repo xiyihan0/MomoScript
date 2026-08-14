@@ -28,13 +28,13 @@ jobs:
           archive="$RUNNER_TEMP/ossutil.zip"
           install_root="$RUNNER_TEMP/ossutil"
           curl --fail --location --silent --show-error \
-            https://gosspublic.alicdn.com/ossutil/1.7.19/ossutil-v1.7.19-linux-amd64.zip \
+            https://gosspublic.alicdn.com/ossutil/v2/2.3.0/ossutil-2.3.0-linux-amd64.zip \
             --output "$archive"
-          echo "dcc512e4a893e16bbee63bc769339d8e56b21744fd83c8212a9d8baf28767343  $archive" | sha256sum --check
+          echo "3ae4d9fc85a7a6e9f5654d1599766f1a3a42a3692870887b5ae9338d582ef65a  $archive" | sha256sum --check
           mkdir -p "$install_root"
           unzip -q "$archive" -d "$install_root"
           sudo install "$install_root"/*/ossutil /usr/local/bin/ossutil
-          ossutil --version
+          ossutil version
 
       - name: Configure production OSS credentials
         env:
@@ -45,10 +45,9 @@ jobs:
           test -n "$ALIYUN_OSS_ACCESS_KEY_SECRET"
           umask 077
           {
-            echo "[Credentials]"
-            echo "language=EN"
-            echo "endpoint=oss-cn-shanghai.aliyuncs.com"
-            printf 'accessKeyID=%s\n' "$ALIYUN_OSS_ACCESS_KEY_ID"
+            echo "[default]"
+            echo "region=cn-shanghai"
+            printf 'accessKeyId=%s\n' "$ALIYUN_OSS_ACCESS_KEY_ID"
             printf 'accessKeySecret=%s\n' "$ALIYUN_OSS_ACCESS_KEY_SECRET"
           } > "$RUNNER_TEMP/ossutilconfig"
 
@@ -58,7 +57,8 @@ jobs:
           node tools/cdn/publish_tinymist_runtime.mjs \
             --publish \
             --output "$RUNNER_TEMP/tinymist-runtime" \
-            --ossutil-config "$RUNNER_TEMP/ossutilconfig"
+            --ossutil-config "$RUNNER_TEMP/ossutilconfig" \
+            --region cn-shanghai
 
       - name: Record publication
         run: |

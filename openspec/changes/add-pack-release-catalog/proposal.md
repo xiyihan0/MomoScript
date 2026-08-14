@@ -1,10 +1,10 @@
 ## Why
 
-`mms-pack.xiyihan.cn`（阿里云 OSS + CDN）的桶根目录没有任何记录"存在哪些资源包"的文件。加第二个资源包没有登记处，客户端、发布工具和人都只能靠硬编码或口口相传知道有哪些包。
+`mms-pack.esa.xiyihan.cn`（阿里云 OSS + ESA）的桶根目录没有任何记录"存在哪些资源包"的文件。加第二个资源包没有登记处，客户端、发布工具和人都只能靠硬编码或口口相传知道有哪些包。
 
 现有发布流程还存在三个问题：
 
-- **无发布自动化**：`tools/build_kivo_pack_v3.py` 只产出本地目录，上传 OSS 靠手工；而 tinymist 运行时已有完整先例（`tools/cdn/publish_tinymist_runtime.mjs`，ossutil stat/cp/`--meta` + 发布后公开校验），资源包没有对应工具。
+- **无发布自动化**：`tools/build_kivo_pack_v3.py` 只产出本地目录，上传 OSS 靠手工；而 tinymist 运行时已有完整先例（`tools/cdn/publish_tinymist_runtime.mjs`，ossutil 2.3/V4 的 JSON stat、对象属性参数与发布后公开校验），资源包没有对应工具。
 - **immutable 缓存与语义路径冲突**：`/blobs/*` 已标 `max-age=31536000, immutable`，但文件名是语义路径（`blobs/stickers/一花/default.avifs`），不含内容摘要。重建改写同路径字节时，老客户端的一年期缓存会与新 manifest 组合，下载后 SHA-256 校验失败，该资源渲染失败直到缓存过期。这是当前就存在的正确性隐患。
 - **无回滚**：manifest 覆盖后旧版本无处可找；catalog 缺失使"翻回上一版"没有机器可读依据。
 

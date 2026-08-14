@@ -12,7 +12,7 @@
 ## OSS 布局
 
 ```text
-mms-pack.xiyihan.cn/
+mms-pack.esa.xiyihan.cn/
 ├── packs.json                          # catalog，max-age=0, must-revalidate
 ├── wasm/tinymist/…                     # 现有运行时资产（不动）
 ├── ba_kivo/
@@ -49,7 +49,7 @@ manifest 的 storage 元数据指向摘要文件名。同一字节永不出现�
   "pack": {
     "namespace": "ba",
     "version": "2026.07.22",
-    "base_url": "https://mms-pack.xiyihan.cn/ba_kivo/"
+    "base_url": "https://mms-pack.esa.xiyihan.cn/ba_kivo/"
   },
   "storage": { "…": { "kind": "image-sequence", "path": "blobs/stickers/…/<sha256>.avifs" } }
 }
@@ -63,7 +63,7 @@ manifest 的 storage 元数据指向摘要文件名。同一字节永不出现�
 
 - 升级：publisher 先上传新资产与归档（manifest + build_report），最后原子覆盖活跃 manifest。
 - 服务端回滚：把归档 `releases/<old-digest>/manifest.json` PUT 回活跃位，并把 catalog 的 `manifest_digest` 翻回。
-- 客户端锁定版本：配置直接填 `https://mms-pack.xiyihan.cn/ba_kivo/releases/<digest>/manifest.json`。归档自带 `base_url`，资产解析不受归档位置影响；现有抓取链路零改动。
+- 客户端锁定版本：配置直接填 `https://mms-pack.esa.xiyihan.cn/ba_kivo/releases/<digest>/manifest.json`。归档自带 `base_url`，资产解析不受归档位置影响；现有抓取链路零改动。
 - 一致性：活跃 manifest 引用的摘要资产在覆盖前必定已上传，任何时刻客户端拿到的都是完整自洽的某个版本。
 
 ### 4. 发布顺序保证客户端永远自洽
@@ -89,7 +89,7 @@ manifest 的 storage 元数据指向摘要文件名。同一字节永不出现�
       "type": "base",
       "requires": [],
       "eula": { "required": false },
-      "manifest_url": "https://mms-pack.xiyihan.cn/ba_kivo/manifest.json",
+      "manifest_url": "https://mms-pack.esa.xiyihan.cn/ba_kivo/manifest.json",
       "version": "2026.07.22",
       "manifest_digest": "sha256:…",
       "published_at": "2026-08-13T00:00:00Z",
@@ -97,7 +97,7 @@ manifest 的 storage 元数据指向摘要文件名。同一字节永不出现�
         {
           "digest": "sha256:…",
           "version": "2026.07.22",
-          "manifest_url": "https://mms-pack.xiyihan.cn/ba_kivo/releases/<digest>/manifest.json",
+          "manifest_url": "https://mms-pack.esa.xiyihan.cn/ba_kivo/releases/<digest>/manifest.json",
           "published_at": "2026-08-13T00:00:00Z"
         }
       ]
@@ -123,7 +123,7 @@ manifest 的 storage 元数据指向摘要文件名。同一字节永不出现�
 
 `typst_sandbox/pack-v3/catalog.json` 是单一事实源（纯 JSON，与发布产物同构，避免 JSON5→JSON 转换层；注释需求由 design/README 承担）。publisher 读取 pack 目录的 manifest.json 与构建报告，计算 digest 后合并/更新该文件，再上传生成的 `packs.json`。OSS 控制台手改与 repo 源并存必然漂移，因此发布后校验会对 catalog 内容做一次 digest 复核。
 
-## 缓存矩阵（由 ossutil `--meta` 管理）
+## 缓存矩阵（由 ossutil 对象属性参数管理）
 
 | 对象 | Cache-Control |
 |---|---|
@@ -134,19 +134,20 @@ manifest 的 storage 元数据指向摘要文件名。同一字节永不出现�
 
 说明：
 
-- 现有 `/assets/*` 的 `86400 + SWR 7d` 在摘要命名后可安全升为 immutable；迁移时以 publisher 写入的 `--meta` 为准。
+- 现有 `/assets/*` 的 `86400 + SWR 7d` 在摘要命名后可安全升为 immutable；迁移时以 publisher 写入的 `--content-type` 与 `--cache-control` 为准。
 - 现有 pack 目录里的 `_headers` 文件是 Pages/Netlify 约定，OSS 不读取。任务 5.3 确认其当前宿主后决定保留或删除，缓存头权威统一到 publisher。
 
 ## 发布工具合同（`tools/cdn/publish_pack.mjs`）
 
 对齐 `publish_tinymist_runtime.mjs`：
 
-- 默认 `--dry-run`：计算 digest、生成发布计划（上传/复用/覆盖清单），不写任何远端。
-- `--publish` 要求 `--ossutil-config`、`--bucket`、`--origin`；用 `ossutil stat` 判存在（404 → `NoSuchKey` 视为缺失），`ossutil cp --force --meta "…"` 上传。
-- 已存在对象：下载比对 SHA-256，不一致即失败（永不覆盖）。
-- 发布后校验：fetch `packs.json` 与活跃 manifest，验证 CORS、Cache-Control、可解析、digest 与本地一致。
-- 输出 publication manifest（`mmt-pack-publication.v1`），含每个对象 outcome（published/reused/verified）。
-- 幂等：同一 pack 目录重跑时全部对象 outcome 为 reused/verified，无重复上传。
+- 默认 dry-run：计算 digest、生成发布计划（上传/复用/覆盖清单），不写任何远端。
+- `--publish` 默认使用 bucket `mms-pack`、origin `https://mms-pack.esa.xiyihan.cn`、region `cn-shanghai`。`--ossutil-config` 与 `--ossutil-profile` 均为可选：省略时由 ossutil 2.3 的默认配置、profile 或 `OSS_` 环境变量发现凭据。
+- publisher 要求 ossutil ≥ 2.3.0 并使用 Signature V4；`stat` 以 JSON 输出判定对象存在性，`cp --force --content-type ... --cache-control ...` 写入对象属性。
+- 已存在 immutable 对象：精确校验对象属性并下载比对 SHA-256，任一不一致即失败，永不覆盖；活跃 manifest 与 catalog 始终强制更新。
+- 发布后校验：fetch `packs.json` 与活跃 manifest，验证 CORS、Cache-Control、可解析、digest 与本地一致；只有远端校验全部成功后才写回 repo catalog。
+- 输出 publication manifest（`mmt-pack-publication.v1`），含每个对象 outcome（immutable 为 published/reused，mutable 为 published/updated）。
+- 幂等：同一 pack 目录重跑时 immutable 对象为 reused，活跃 manifest 与 catalog 为 updated，release 历史不重复。
 
 ## 客户端改动
 
