@@ -120,7 +120,7 @@ test("local history enforces retention and manages paged Checkpoints", { tag: "@
   await page.getByRole("tab", { name: "本地历史", exact: true }).click();
   await page.getByRole("combobox", { name: "本地历史范围" }).selectOption("workspace");
   await page.getByRole("button", { name: "刷新本地历史" }).click();
-  await expect(page.getByText(/\/ 50\.0 MB · 保留 30 天 · \d+ 个 Checkpoint/)).toBeVisible();
+  await expect(page.getByText(/\/ 50\.0 MB · 普通快照 \d+ \/ 不限制 · 保留 30 天 · \d+ 个 Checkpoint/)).toBeVisible();
   await expect(page.locator(".mms-history-revision")).toHaveCount(50);
   const loadMore = page.getByRole("button", { name: "加载更早记录" });
   await expect(loadMore).toBeVisible();
@@ -164,6 +164,36 @@ test("local history enforces retention and manages paged Checkpoints", { tag: "@
   await page.getByRole("button", { name: "清理普通历史" }).click();
   await expect.poll(() => cleanupPrompt).toContain("Checkpoint");
   await expect(page.getByText("暂无符合条件的历史记录")).toBeVisible();
+});
+
+test("local history applies bounded and unlimited advanced settings", { tag: "@local-history" }, async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
+
+  await invokeMmtE2E(page, "history", "setLimits", 2, 0);
+  await invokeMmtE2E(page, "workspace", "openDocument", "history-limits.typ", "= revision 0\n");
+  for (let revision = 1; revision <= 5; revision += 1) {
+    await invokeMmtE2E(page, "workspace", "writeFile", "history-limits.typ", btoa(`= revision ${revision}\n`));
+    await invokeMmtE2E(page, "history", "createCheckpoint", `bounded ${revision}`);
+  }
+  const bounded = await invokeMmtE2E(page, "history", "usage");
+  expect(bounded.maxSnapshots).toBe(2);
+  expect(bounded.budgetBytes).toBeNull();
+  expect(bounded.retainedSnapshotCount).toBeLessThanOrEqual(2);
+
+  await invokeMmtE2E(page, "history", "setLimits", 0, 0);
+  for (let revision = 6; revision <= 9; revision += 1) {
+    await invokeMmtE2E(page, "workspace", "writeFile", "history-limits.typ", btoa(`= revision ${revision}\n`));
+    await invokeMmtE2E(page, "history", "createCheckpoint", `unlimited ${revision}`);
+  }
+  const unlimited = await invokeMmtE2E(page, "history", "usage");
+  expect(unlimited.maxSnapshots).toBeNull();
+  expect(unlimited.budgetBytes).toBeNull();
+  expect(unlimited.retainedSnapshotCount).toBeGreaterThan(bounded.retainedSnapshotCount);
+
+  await page.getByRole("tab", { name: "本地历史", exact: true }).click();
+  await page.getByRole("button", { name: "刷新本地历史" }).click();
+  await expect(page.getByText(/普通快照 \d+ \/ 不限制/)).toBeVisible();
 });
 
 test("local history elides an edit group that returns to its original content", { tag: "@local-history" }, async ({ page }) => {

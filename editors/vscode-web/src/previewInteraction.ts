@@ -105,6 +105,7 @@ export interface PreviewInteractionEvents {
 
 export interface PreviewInteractionDependencies {
   readonly persistence?: PreviewViewportPersistence;
+  readonly defaultFitMode?: () => Extract<PreviewFitMode, "width" | "page">;
   readonly events?: PreviewInteractionEvents;
   readonly debounceMilliseconds?: number;
   readonly currentIdentity?: (sourceUri: string) => PreviewSourceIdentity | undefined;
@@ -171,12 +172,13 @@ export class PreviewInteractionController {
   readonly #pendingSelections = new Map<string, PendingSelection>();
   #bound: BoundPreviewArtifact | undefined;
   #resolver: PreviewLocationResolver | undefined;
-  #viewport: PreviewViewport = Object.freeze({ page: 0, x: 0, y: 0, zoom: 1, fitMode: "width" });
+  #viewport: PreviewViewport;
   #cursor: PreviewCursorOverlay | undefined;
   #indicator: PreviewIndicator | undefined;
 
   constructor(dependencies: PreviewInteractionDependencies = {}) {
     this.#dependencies = dependencies;
+    this.#viewport = defaultViewport("width");
   }
 
   get artifact(): PreviewArtifact | undefined { return this.#bound?.artifact; }
@@ -205,7 +207,10 @@ export class PreviewInteractionController {
     this.#bound = Object.freeze({ artifact, identity });
     this.#resolver = retainedResolver;
     const restored = this.#dependencies.persistence?.load(identity.workspaceId, identity.sourceUri);
-    this.#viewport = normalizeViewport(restored ?? { page: 0, x: 0, y: 0, zoom: 1, fitMode: "width" }, artifact.pages.length);
+    this.#viewport = normalizeViewport(
+      restored ?? defaultViewport(this.#dependencies.defaultFitMode?.() ?? "width"),
+      artifact.pages.length,
+    );
     this.#dependencies.events?.viewportChanged?.(this.#viewport);
     this.publishAvailability();
   }
@@ -602,6 +607,10 @@ export function previewSourceIdentityMatches(left: PreviewSourceIdentity, right:
     && left.sourceStaleToken.hostUri === right.sourceStaleToken.hostUri
     && left.sourceStaleToken.documentIncarnation === right.sourceStaleToken.documentIncarnation
     && left.sourceStaleToken.documentVersion === right.sourceStaleToken.documentVersion;
+}
+
+function defaultViewport(fitMode: Extract<PreviewFitMode, "width" | "page">): PreviewViewport {
+  return Object.freeze({ page: 0, x: 0, y: 0, zoom: 1, fitMode });
 }
 
 export function normalizeViewport(viewport: Partial<PreviewViewport>, pageCount?: number): PreviewViewport {

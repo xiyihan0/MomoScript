@@ -111,6 +111,40 @@
           "default": true,
           "description": "文档变化后自动调度与对应修订版本绑定的预览。"
         },
+        "mmt.export.defaultFormat": {
+          "type": "string",
+          "enum": [
+            "pdf",
+            "png"
+          ],
+          "enumDescriptions": [
+            "PDF 文档",
+            "PNG 图片"
+          ],
+          "default": "pdf",
+          "scope": "window",
+          "description": "新打开预览面板时预选的导出格式。"
+        },
+        "mmt.preview.defaultFitMode": {
+          "type": "string",
+          "enum": [
+            "width",
+            "page"
+          ],
+          "enumDescriptions": [
+            "适应宽度",
+            "适应整页"
+          ],
+          "default": "width",
+          "scope": "window",
+          "description": "没有已保存视口状态时使用的预览适应方式。"
+        },
+        "mmt.preview.openOnDocument": {
+          "type": "boolean",
+          "default": false,
+          "scope": "window",
+          "description": "打开或切换到 MomoScript 文档时自动打开预览。"
+        },
         "mmt.preview.debounceMs": {
           "type": "number",
           "default": 50,
@@ -153,6 +187,22 @@
           "default": false,
           "scope": "window",
           "description": "从预览跳转源码时，优先打开映射的 Typst 文件而不是原始 MMT 文本。"
+        },
+        "mmt.history.maxSnapshots": {
+          "type": "integer",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 100000,
+          "scope": "window",
+          "description": "保留的普通编辑快照数量上限；0 表示不限制。当前恢复点和 Checkpoint 不受此上限清理；其他普通编辑仍受 30 天保留期约束。"
+        },
+        "mmt.history.maxSizeMb": {
+          "type": "number",
+          "default": 50,
+          "minimum": 0,
+          "maximum": 4096,
+          "scope": "window",
+          "description": "本地历史文件内容的容量上限，单位 MiB；0 表示不限制。当前恢复点和 Checkpoint 始终受保护；其他普通编辑仍受 30 天保留期和快照数量上限约束。"
         },
         "mmt.resources.maxFileSizeMb": {
           "type": "number",

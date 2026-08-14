@@ -26,6 +26,9 @@ export interface PreviewWebviewHostEvents {
   readonly exactExportRequested: (request: PreviewExactExportRequest) => void | Promise<void>;
   readonly exactExportCancelled: () => void;
 }
+interface PreviewWebviewHostOptions {
+  readonly defaultExportFormat?: () => "pdf" | "png";
+}
 
 interface PendingReadyWaiter {
   readonly resolve: () => void;
@@ -47,6 +50,7 @@ interface RendererGeneration {
 /** Owns only the preview panel and its host/webview transport lifecycle. */
 export class PreviewWebviewHost implements vscode.Disposable {
   readonly #events: PreviewWebviewHostEvents;
+  readonly #options: PreviewWebviewHostOptions;
   readonly #readyWaiters = new Set<PendingReadyWaiter>();
   readonly #pendingPublications = new Map<number, PendingPublication>();
   #panel: vscode.WebviewPanel | undefined;
@@ -58,8 +62,9 @@ export class PreviewWebviewHost implements vscode.Disposable {
   #rendererResyncRequested: { readonly sessionId: string; readonly generation: number } | undefined;
   #disposed = false;
 
-  constructor(events: PreviewWebviewHostEvents) {
+  constructor(events: PreviewWebviewHostEvents, options: PreviewWebviewHostOptions = {}) {
     this.#events = events;
+    this.#options = options;
   }
 
   get isOpen(): boolean {
@@ -91,7 +96,7 @@ export class PreviewWebviewHost implements vscode.Disposable {
     this.#panelMessageRegistration = panel.webview.onDidReceiveMessage((message: unknown) => {
       if (isPreviewWebviewToHostMessage(message)) void this.#dispatch(message);
     });
-    panel.webview.html = previewWebviewHtml(panel.webview, title);
+    panel.webview.html = previewWebviewHtml(panel.webview, title, this.#options.defaultExportFormat?.() ?? "pdf");
     await this.waitUntilReady();
   }
 
@@ -393,7 +398,7 @@ function previewWebviewRuntimeResourceRoot(): vscode.Uri {
   return vscode.Uri.parse(new URL(".", previewWebviewRuntimeResourceUri().toString()).href);
 }
 
-function previewWebviewHtml(webview: vscode.Webview, title: string): string {
+function previewWebviewHtml(webview: vscode.Webview, title: string, defaultExportFormat: "pdf" | "png"): string {
   const nonce = crypto.randomUUID().replaceAll("-", "");
   const runtimeUri = webview.asWebviewUri(previewWebviewRuntimeResourceUri()).toString();
   const formats = [
@@ -401,7 +406,9 @@ function previewWebviewHtml(webview: vscode.Webview, title: string): string {
     ["png", "PNG image"],
     ["jpg", "JPEG image"],
     ["svg", "SVG vector"],
-  ].map(([format, label]) => `<option value="${format}">${label}</option>`).join("");
+  ].map(([format, label]) => (
+    `<option value="${format}"${format === defaultExportFormat ? " selected" : ""}>${label}</option>`
+  )).join("");
   return `<!doctype html>
 <html lang="zh-CN">
 <head>

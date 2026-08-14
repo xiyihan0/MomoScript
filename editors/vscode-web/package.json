@@ -41,6 +41,7 @@
     "test:exact-export": "node --experimental-strip-types ./scripts/test-exact-export.mjs",
     "test:e2e:current-export": "playwright test --project=local current-preview-export.spec.ts",
     "test:resource-settings": "node --experimental-strip-types ./scripts/test-resource-settings.mjs",
+    "test:editor-settings": "node --experimental-strip-types ./scripts/test-editor-settings.mjs",
     "test:language-projection": "node --experimental-strip-types ./scripts/test-language-projection.mjs",
     "test:runtime-owner": "node --experimental-strip-types ./scripts/test-runtime-owner.mjs",
     "test:runtime-controller": "node --experimental-strip-types ./scripts/test-runtime-controller.mjs",

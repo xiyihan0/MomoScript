@@ -97,6 +97,10 @@ const identityA = identity(sourceA, 4);
 const identityB = identity(sourceB, 7);
 const artifactA = immutableArtifact("render-a", identityA);
 const artifactB = immutableArtifact("render-b", identityB);
+const pageFitController = new PreviewInteractionController({ defaultFitMode: () => "page" });
+pageFitController.bindArtifact(artifactA, identityA);
+assert.equal(pageFitController.viewport.fitMode, "page");
+
 const currentIdentityBySource = new Map([[sourceA, identityA], [sourceB, identityB]]);
 const persistence = new MemoryViewportPersistence();
 const statuses = [];

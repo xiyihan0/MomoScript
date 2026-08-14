@@ -1,3 +1,4 @@
+import { DEFAULT_HISTORY_LIMITS, type HistoryRetentionLimits } from "./historySettings";
 import type { WorkspaceAtomicJournal, WorkspaceAtomicJournalState, WorkspaceBackend, WorkspaceBackendMetadata, WorkspaceEntry, WorkspaceMutationStore } from "./workspace";
 import { normalizeWorkspacePath } from "./workspace";
 
@@ -16,7 +17,7 @@ export const WORKSPACE_STORES = {
   handles: "handles"
 } as const;
 
-export const HISTORY_BUDGET_BYTES = 50 * 1024 * 1024;
+export const HISTORY_BUDGET_BYTES = DEFAULT_HISTORY_LIMITS.maxBytes!;
 export const HISTORY_RETENTION_MS = 30 * 24 * 60 * 60_000;
 
 const REVISION_PAGE_INDEX = "workspace-created-id";
@@ -73,10 +74,12 @@ export interface WorkspaceHistoryPage {
 
 export interface WorkspaceHistoryUsage {
   readonly totalBytes: number;
-  readonly budgetBytes: number;
+  readonly budgetBytes: number | null;
   readonly protectedBytes: number;
   readonly checkpointBytes: number;
   readonly checkpointCount: number;
+  readonly retainedSnapshotCount: number;
+  readonly maxSnapshots: number | null;
   readonly retentionMs: number;
   readonly quotaBlocked: boolean;
 }
@@ -92,18 +95,29 @@ const META_MIGRATION = "migration";
 export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
   readonly capabilities = { paths: { caseSensitive: true, separator: "/" as const }, atomicCurrentFileTransaction: true };
   metadata: WorkspaceBackendMetadata;
+  #historyLimits: HistoryRetentionLimits;
 
-  private constructor(readonly database: IDBDatabase, metadata: WorkspaceBackendMetadata) {
+  private constructor(
+    readonly database: IDBDatabase,
+    metadata: WorkspaceBackendMetadata,
+    historyLimits: HistoryRetentionLimits,
+  ) {
     this.metadata = metadata;
+    this.#historyLimits = Object.freeze({ ...historyLimits });
   }
 
-  static async open(): Promise<IndexedDbWorkspaceBackend> {
+  static async open(historyLimits: HistoryRetentionLimits = DEFAULT_HISTORY_LIMITS): Promise<IndexedDbWorkspaceBackend> {
     const database = await openDatabase();
     const metadata = await ensureWorkspaceMetadata(database);
-    const backend = new IndexedDbWorkspaceBackend(database, metadata);
+    const backend = new IndexedDbWorkspaceBackend(database, metadata, historyLimits);
     await backend.ensureRevisionSnapshots();
     await backend.gc();
     return backend;
+  }
+
+  async setHistoryLimits(historyLimits: HistoryRetentionLimits): Promise<WorkspaceHistoryUsage> {
+    this.#historyLimits = Object.freeze({ ...historyLimits });
+    return this.gc();
   }
 
   async load(): Promise<readonly WorkspaceEntry[]> {
@@ -445,6 +459,14 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
     for (const revision of eligible) {
       if (dropAllEdits || now - revision.updatedAt > HISTORY_RETENTION_MS) retained.delete(revision.id);
     }
+    let retainedSnapshotCount = revisions.filter((revision) => retained.has(revision.id) && revision.reason === "edit").length;
+    if (this.#historyLimits.maxSnapshots !== null) {
+      for (const revision of eligible) {
+        if (retainedSnapshotCount <= this.#historyLimits.maxSnapshots) break;
+        if (!retained.delete(revision.id)) continue;
+        retainedSnapshotCount -= 1;
+      }
+    }
     const blobSizes = new Map(blobs.map((blob) => [blob.digest, blob.size]));
     const referencedFor = (revisionIds: ReadonlySet<string>): Set<string> => {
       const referenced = new Set<string>();
@@ -459,17 +481,20 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
     const bytesFor = (digests: ReadonlySet<string>) => [...digests].reduce((total, digest) => total + (blobSizes.get(digest) ?? 0), 0);
     let referenced = referencedFor(retained);
     let totalBytes = bytesFor(referenced);
-    for (const revision of eligible) {
-      if (totalBytes <= HISTORY_BUDGET_BYTES) break;
-      if (!retained.delete(revision.id)) continue;
-      referenced = referencedFor(retained);
-      totalBytes = bytesFor(referenced);
+    if (this.#historyLimits.maxBytes !== null) {
+      for (const revision of eligible) {
+        if (totalBytes <= this.#historyLimits.maxBytes) break;
+        if (!retained.delete(revision.id)) continue;
+        retainedSnapshotCount -= 1;
+        referenced = referencedFor(retained);
+        totalBytes = bytesFor(referenced);
+      }
     }
     const protectedIds = new Set(revisions.filter((revision) => retained.has(revision.id) && protectedRevision(revision)).map((revision) => revision.id));
     const checkpointIds = new Set(revisions.filter((revision) => retained.has(revision.id) && Boolean(revision.checkpoint)).map((revision) => revision.id));
     const protectedBytes = bytesFor(referencedFor(protectedIds));
     const checkpointBytes = bytesFor(referencedFor(checkpointIds));
-    const quotaBlocked = totalBytes > HISTORY_BUDGET_BYTES;
+    const quotaBlocked = this.#historyLimits.maxBytes !== null && totalBytes > this.#historyLimits.maxBytes;
     const deleted = new Set(revisions.filter((revision) => !retained.has(revision.id)).map((revision) => revision.id));
     const byId = new Map(revisions.map((revision) => [revision.id, revision]));
     const nearestParent = (parent: string | undefined): string | undefined => {
@@ -480,10 +505,12 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
     const storage = { ...this.metadata.storage, quotaBlocked };
     const usage: StoredHistoryUsage = {
       totalBytes,
-      budgetBytes: HISTORY_BUDGET_BYTES,
+      budgetBytes: this.#historyLimits.maxBytes,
       protectedBytes,
       checkpointBytes,
       checkpointCount: checkpointIds.size,
+      retainedSnapshotCount,
+      maxSnapshots: this.#historyLimits.maxSnapshots,
       retentionMs: HISTORY_RETENTION_MS,
       quotaBlocked,
       lastGcAt: now
@@ -592,7 +619,15 @@ export class IndexedDbWorkspaceBackend implements WorkspaceBackend {
 
   private async finishHistoryMutation(reason: string, addedBlobBytes: number, now: number): Promise<void> {
     const usage = await getMetadata<StoredHistoryUsage>(this.database, META_HISTORY_USAGE);
-    if (!usage || reason !== "edit" || now - usage.lastGcAt >= 60_000 || usage.totalBytes + addedBlobBytes > HISTORY_BUDGET_BYTES) {
+    const exceedsSize = this.#historyLimits.maxBytes !== null
+      && (usage?.totalBytes ?? 0) + addedBlobBytes > this.#historyLimits.maxBytes;
+    if (
+      !usage
+      || reason !== "edit"
+      || this.#historyLimits.maxSnapshots !== null
+      || now - usage.lastGcAt >= 60_000
+      || exceedsSize
+    ) {
       await this.gc(now);
       return;
     }

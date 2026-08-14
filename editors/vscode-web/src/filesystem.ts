@@ -12,6 +12,7 @@ import {
   type IWatchOptions
 } from "@codingame/monaco-vscode-files-service-override";
 import { IndexedDbWorkspaceBackend, type WorkspaceHistoryCursor, type WorkspaceHistoryPage, type WorkspaceHistoryRevision, type WorkspaceHistoryUsage, type WorkspaceRevision } from "./indexedDbWorkspace";
+import type { HistoryRetentionLimits } from "./historySettings";
 import { WorkspaceCoordinator, normalizeWorkspacePath as normalize, type WorkspaceEntry } from "./workspace";
 
 
@@ -33,8 +34,8 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
     readonly coordinator: WorkspaceCoordinator
   ) {}
 
-  static async open(): Promise<MmtIndexedDbFileSystemProvider> {
-    const backend = await IndexedDbWorkspaceBackend.open();
+  static async open(historyLimits?: HistoryRetentionLimits): Promise<MmtIndexedDbFileSystemProvider> {
+    const backend = await IndexedDbWorkspaceBackend.open(historyLimits);
     const coordinator = new WorkspaceCoordinator(backend);
     try {
       await coordinator.initialize();
@@ -194,6 +195,9 @@ export class MmtIndexedDbFileSystemProvider implements FileSystemProvider {
 
   historyUsage(): Promise<WorkspaceHistoryUsage> {
     return this.backend.historyUsage();
+  }
+  setHistoryLimits(historyLimits: HistoryRetentionLimits): Promise<WorkspaceHistoryUsage> {
+    return this.coordinator.maintainHistory(() => this.backend.setHistoryLimits(historyLimits));
   }
 
   historyChangeEntry(revision: string, path: string, side: "before" | "after"): Promise<WorkspaceEntry | undefined> {

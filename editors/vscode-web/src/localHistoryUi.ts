@@ -277,8 +277,10 @@ export function renderLocalHistoryView(container: HTMLElement, provider: MmtInde
     const problem = historyProblem(provider);
     alert.hidden = !problem;
     alert.textContent = problem ?? "";
-    footer.textContent = `${formatBytes(usage.totalBytes)} / ${formatBytes(usage.budgetBytes)} · 保留 30 天 · ${usage.checkpointCount} 个 Checkpoint（保护 ${formatBytes(usage.checkpointBytes)}）`;
-    footer.title = `恢复关键内容 ${formatBytes(usage.protectedBytes)}；历史文件内容按 SHA-256 去重，不包含索引元数据`;
+    const sizeLimit = usage.budgetBytes === null ? "不限制" : formatBytes(usage.budgetBytes);
+    const snapshotLimit = usage.maxSnapshots === null ? "不限制" : String(usage.maxSnapshots);
+    footer.textContent = `${formatBytes(usage.totalBytes)} / ${sizeLimit} · 普通快照 ${usage.retainedSnapshotCount} / ${snapshotLimit} · 保留 30 天 · ${usage.checkpointCount} 个 Checkpoint（保护 ${formatBytes(usage.checkpointBytes)}）`;
+    footer.title = `恢复关键内容 ${formatBytes(usage.protectedBytes)}；当前恢复点和 Checkpoint 不受普通快照数量与容量上限清理；历史文件内容按 SHA-256 去重，不包含索引元数据`;
     renderLoaded();
   };
   const scheduleRefresh = () => void refresh().catch((error: unknown) => {

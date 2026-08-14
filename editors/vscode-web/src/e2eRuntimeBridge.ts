@@ -153,6 +153,7 @@ export interface MmtE2EApi {
   readonly history: {
     readonly createCheckpoint: (name: string) => Promise<string>;
     readonly usage: () => Promise<WorkspaceHistoryUsage>;
+    readonly setLimits: (maxSnapshots: number, maxSizeMb: number) => Promise<WorkspaceHistoryUsage>;
   };
   readonly exactExport: {
     readonly fixture: (request: ExactExportFixtureRequest) => Promise<ExactExportUiState | boolean | string>;

@@ -33,6 +33,7 @@ import type { MaterializationPackSource, ResourceMaterializationDependencies } f
 import { mmtExtension } from "./mmtExtension";
 import { registerLocalHistoryCommands, renderLocalHistoryView } from "./localHistoryUi";
 import { normalizeResourceLimits } from "./resourceSettings";
+import { normalizeHistoryLimits, UNLIMITED_HISTORY_LIMITS } from "./historySettings";
 import { startMmtLanguageClient } from "./mmtLanguageClient";
 import type { MmtLanguageClientHandle } from "./mmtLanguageClient";
 import { startTinymistLanguageClient } from "./tinymistLanguageClient";
@@ -274,6 +275,13 @@ function configuredResourceLimits() {
     maxFileSizeMb: configuration.get("maxFileSizeMb"),
     maxProjectResources: configuration.get("maxProjectResources"),
     maxProjectSizeMb: configuration.get("maxProjectSizeMb")
+  });
+}
+function configuredHistoryLimits() {
+  const configuration = vscode.workspace.getConfiguration("mmt.history");
+  return normalizeHistoryLimits({
+    maxSnapshots: configuration.get("maxSnapshots"),
+    maxSizeMb: configuration.get("maxSizeMb"),
   });
 }
 const MATERIALIZATION_DEPENDENCIES: ResourceMaterializationDependencies = {
@@ -728,6 +736,9 @@ async function initializeRuntime(
   let previewInteractionStatus: string | null = null;
   let previewInteractionStatusText = "";
   const previewInteraction = own(new PreviewInteractionController({
+    defaultFitMode: () => (
+      vscode.workspace.getConfiguration("mmt.preview").get<"width" | "page">("defaultFitMode", "width")
+    ),
     currentIdentity: currentPreviewIdentity,
     mapProjectedSelection: mapProjectedPreviewSelection,
     mapPreviewSource,
@@ -1453,7 +1464,7 @@ async function initializeRuntime(
     if (displayedPreviewSourceUri === sourceUri) previewWebviewHost?.close();
   };
   try {
-    provider = own(await MmtIndexedDbFileSystemProvider.open());
+    provider = own(await MmtIndexedDbFileSystemProvider.open(UNLIMITED_HISTORY_LIMITS));
   } catch (error) {
     throw new Error("Browser storage is unavailable; MomoScript editor cannot persist files.", {
       cause: error
@@ -1514,6 +1525,7 @@ async function initializeRuntime(
     monacoWorkerFactory: configureWorkbenchWorkerFactory
   });
   await api.start();
+  await provider.setHistoryLimits(configuredHistoryLimits());
   const configuredPreviewDiff = vscode.workspace.getConfiguration("mmt.preview").get<boolean>("diffV1", true);
   previewRendererEnabled = previewFeaturesEnabled
     && (previewRendererSetting === "1"
@@ -1540,6 +1552,12 @@ async function initializeRuntime(
   output = own(vscode.window.createOutputChannel("MomoScript"));
   log("host", `MomoScript build ${MMT_BUILD_VERSION}`);
   log("host", "VS Code Workbench ready");
+  subscribe(vscode.workspace.onDidChangeConfiguration((event) => {
+    if (!event.affectsConfiguration("mmt.history")) return;
+    void provider!.setHistoryLimits(configuredHistoryLimits()).catch((error: unknown) => {
+      log("history:error", error instanceof Error ? error.message : String(error));
+    });
+  }));
   subscribe(vscode.commands.registerCommand(ABOUT_COMMAND_ID, async () => {
     await showMomoScriptMessage(
       "info",
@@ -2364,6 +2382,10 @@ async function initializeRuntime(
     exactExportCancelled() {
       exactExportUi.cancel();
     },
+  }, {
+    defaultExportFormat: () => (
+      vscode.workspace.getConfiguration("mmt.export").get<"pdf" | "png">("defaultFormat", "pdf")
+    ),
   }));
   const previewCommandRegistration = subscribe(vscode.commands.registerCommand("mmt.preview.open", async (resource?: vscode.Uri) => {
     const resourceDocument = resource
@@ -2424,6 +2446,28 @@ async function initializeRuntime(
     await dispatchRenderProject(activeClient, project.sourceUri, tracked.token, true);
     refreshOpenedPreview();
   }));
+  let autoOpeningPreviewUri: string | undefined;
+  const maybeAutoOpenPreview = (editor: vscode.TextEditor | undefined): void => {
+    if (!vscode.workspace.getConfiguration("mmt.preview").get<boolean>("openOnDocument", false)) return;
+    if (!editor || editor.document.languageId !== "mmt") return;
+    const sourceUri = editor.document.uri.toString();
+    if (
+      autoOpeningPreviewUri === sourceUri
+      || (previewWebviewHost?.isOpen && displayedPreviewSourceUri === sourceUri)
+    ) return;
+    autoOpeningPreviewUri = sourceUri;
+    void vscode.commands.executeCommand("mmt.preview.open", editor.document.uri).then(
+      () => {
+        if (autoOpeningPreviewUri === sourceUri) autoOpeningPreviewUri = undefined;
+      },
+      (error: unknown) => {
+        if (autoOpeningPreviewUri === sourceUri) autoOpeningPreviewUri = undefined;
+        log("preview:error", error instanceof Error ? error.message : String(error));
+      },
+    );
+  };
+  subscribe(vscode.window.onDidChangeActiveTextEditor(maybeAutoOpenPreview));
+  maybeAutoOpenPreview(vscode.window.activeTextEditor);
   const openPreview = (sourceUri: string): void => {
     void vscode.commands.executeCommand("mmt.preview.open", vscode.Uri.parse(sourceUri, true));
   };
@@ -2502,6 +2546,9 @@ async function initializeRuntime(
       previewRenderQueue.setDebounceMs(
         vscode.workspace.getConfiguration("mmt.preview").get<number>("debounceMs", 50),
       );
+    }
+    if (event.affectsConfiguration("mmt.preview.openOnDocument")) {
+      maybeAutoOpenPreview(vscode.window.activeTextEditor);
     }
     if (!event.affectsConfiguration("mmt.preview.onChange") || !previewOnChange()) return;
     const sourceUri = vscode.window.activeTextEditor?.document.uri.toString();
@@ -2726,6 +2773,9 @@ async function initializeRuntime(
       history: {
         createCheckpoint: (name: string) => provider!.createCheckpoint(name),
         usage: () => provider!.historyUsage(),
+        setLimits: (maxSnapshots: number, maxSizeMb: number) => (
+          provider!.setHistoryLimits(normalizeHistoryLimits({ maxSnapshots, maxSizeMb }))
+        ),
       },
       exactExport: {
         fixture: exactExportFixture,
