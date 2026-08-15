@@ -9,6 +9,7 @@ import {
   isPreviewWebviewToHostMessage,
   type PreviewExactExportState,
   type PreviewHostToWebviewMessage,
+  type PreviewNavigationPoint,
   type PreviewPagePoint,
   type PreviewRendererFrameMessage,
   type PreviewViewport,
@@ -22,7 +23,7 @@ export interface PreviewWebviewHostEvents {
   readonly ready?: () => void;
   readonly closed?: () => void;
   readonly viewportChanged: (viewport: PreviewViewport) => void;
-  readonly navigationRequested: (point: PreviewPagePoint) => void | Promise<void>;
+  readonly navigationRequested: (point: PreviewNavigationPoint) => void | Promise<void>;
   readonly exactExportRequested: (request: PreviewExactExportRequest) => void | Promise<void>;
   readonly exactExportCancelled: () => void;
 }

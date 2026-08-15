@@ -24,6 +24,7 @@ import {
 import type {
   PreviewMeasurementSpan,
   PreviewPagePoint,
+  PreviewNavigationPoint,
   PreviewRenderArtifactLocation as RenderArtifactLocation,
 } from "./previewWebviewProtocol.ts";
 import {
@@ -31,6 +32,7 @@ import {
   type PreviewProviderPointRequest,
   type PreviewProviderSelectionRequest,
   type PreviewSourceIdentity,
+  type PreviewBackendLocation,
 } from "./previewInteraction.ts";
 import { normalizeTextSelectionNode } from "./previewSelectableText.ts";
 import { canonicalBytesDigest, type RenderKey } from "../../vscode/src/runtimeIdentity";
@@ -73,6 +75,8 @@ function mainFontBytes(): Promise<MainFontBytes> {
 }
 
 const encoder = new TextEncoder();
+const decoder = new TextDecoder("utf-8", { fatal: true });
+const textCallPrefix = Uint8Array.of(0x23, 0x74, 0x65, 0x78, 0x74, 0x28, 0x22); // #text("
 let rendererFontsPromise: Promise<readonly PreviewRendererFileRecord[]> | undefined;
 let initialized = false;
 let compilerModule: WebAssembly.Module | undefined;
@@ -692,17 +696,123 @@ export function createRenderArtifactLocationResolver(
           ? left.area - right.area || left.distance - right.distance
           : left.distance - right.distance)[0];
       if (!nearest || (onPoint.length === 0 && nearest.distance > 0.04)) return undefined;
+      const textOffset = renderTextByteOffset(sourceText, nearest.location, request);
       return Object.freeze({
         uri: entryUri,
         range: byteRangeToWireRange(
           sourceText,
-          nearest.location.start,
-          nearest.location.end,
+          textOffset ?? nearest.location.start,
+          textOffset ?? nearest.location.end,
           backendEncoding,
         ),
       });
     },
   });
+}
+
+function renderTextByteOffset(
+  source: string,
+  location: RenderArtifactLocation,
+  request: PreviewProviderPointRequest,
+): number | undefined {
+  const expectedText = request.text !== undefined && request.textOffset !== undefined
+    ? request.text
+    : undefined;
+  const call = findProjectedTextCall(source, location.start, location.end, expectedText);
+  if (!call) return undefined;
+  if (request.text !== undefined && request.textOffset !== undefined) {
+    return projectedTextCharacterByteOffset(call, request.textOffset);
+  }
+  const characterOffsets: number[] = [];
+  let offset = 0;
+  for (const character of call.text) {
+    characterOffsets.push(offset);
+    offset += character.length;
+  }
+  if (characterOffsets.length === 0) return undefined;
+  const width = location.right - location.left;
+  const ratio = width > 0
+    ? Math.min(1, Math.max(0, (request.x - location.left) / width))
+    : 0;
+  return projectedTextCharacterByteOffset(call, characterOffsets[Math.min(
+    characterOffsets.length - 1,
+    Math.floor(ratio * characterOffsets.length),
+  )]!);
+}
+
+export function refineRenderTextLocation(
+  source: string,
+  location: PreviewBackendLocation,
+  backendEncoding: PreviewSourceIdentity["backendEncoding"],
+  point: PreviewNavigationPoint,
+): PreviewBackendLocation {
+  if (point.text === undefined || point.textOffset === undefined) return location;
+  const start = wirePositionToByteOffset(source, location.range.start, backendEncoding);
+  const end = wirePositionToByteOffset(source, location.range.end, backendEncoding);
+  if (start === undefined || end === undefined) return location;
+  const call = findProjectedTextCall(source, Math.min(start, end), Math.max(start, end), point.text);
+  if (!call) return location;
+  const textOffset = projectedTextCharacterByteOffset(call, point.textOffset);
+  if (textOffset === undefined) return location;
+  return Object.freeze({
+    uri: location.uri,
+    range: byteRangeToWireRange(source, textOffset, textOffset, backendEncoding),
+  });
+}
+
+interface ProjectedTextCall {
+  readonly text: string;
+  readonly contentStart: number;
+}
+
+function findProjectedTextCall(
+  source: string,
+  locationStart: number,
+  locationEnd: number,
+  expectedText?: string,
+): ProjectedTextCall | undefined {
+  const bytes = encoder.encode(source);
+  const expectedBytes = expectedText === undefined ? 0 : encoder.encode(expectedText).byteLength;
+  const searchStart = Math.max(0, locationStart - textCallPrefix.byteLength - expectedBytes - 2);
+  const searchEnd = Math.min(bytes.byteLength - textCallPrefix.byteLength, locationEnd + textCallPrefix.byteLength);
+  for (let markerStart = searchStart; markerStart <= searchEnd; markerStart += 1) {
+    if (!textCallPrefix.every((byte, index) => bytes[markerStart + index] === byte)) continue;
+    const identifierEnd = markerStart + 5;
+    const contentStart = markerStart + textCallPrefix.byteLength;
+    let contentEnd = contentStart;
+    while (contentEnd < bytes.byteLength && bytes[contentEnd] !== 0x22) {
+      // Escaped projection segments are intentionally not reverse-mappable.
+      if (bytes[contentEnd] === 0x5c) return undefined;
+      contentEnd += 1;
+    }
+    if (contentEnd >= bytes.byteLength || contentEnd === contentStart) return undefined;
+    const overlapsIdentifier = locationEnd >= markerStart && locationStart <= identifierEnd;
+    const liesInsideContent = contentStart <= locationStart && locationEnd <= contentEnd;
+    if (!overlapsIdentifier && !liesInsideContent) continue;
+    try {
+      const text = decoder.decode(bytes.subarray(contentStart, contentEnd));
+      if (expectedText !== undefined && text !== expectedText) continue;
+      return Object.freeze({ text, contentStart });
+    } catch {
+      return undefined;
+    }
+  }
+  return undefined;
+}
+
+function projectedTextCharacterByteOffset(call: ProjectedTextCall, textOffset: number): number | undefined {
+  if (!Number.isSafeInteger(textOffset) || textOffset < 0 || textOffset >= call.text.length) return undefined;
+  let validBoundary = false;
+  let offset = 0;
+  for (const character of call.text) {
+    if (offset === textOffset) {
+      validBoundary = true;
+      break;
+    }
+    offset += character.length;
+  }
+  if (!validBoundary) return undefined;
+  return call.contentStart + encoder.encode(call.text.slice(0, textOffset)).byteLength;
 }
 
 function uniquePagePoints(locations: readonly RenderArtifactLocation[]): readonly PreviewPagePoint[] {

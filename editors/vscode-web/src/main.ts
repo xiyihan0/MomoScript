@@ -55,6 +55,7 @@ import { registerCharacterGalleryCommands, renderCharacterGalleryView } from "./
 import { PREVIEW_RENDERER_METHOD, projectionSessionKey } from "../../vscode/src/tinymistClient";
 import {
   createRenderArtifactLocationResolver,
+  refineRenderTextLocation,
   evictPreviewPackageGeneration,
   installPreviewPackageGenerations,
   renderArtifactLocationProviderKey,
@@ -675,7 +676,8 @@ async function initializeRuntime(
       ? targets.find((candidate) => candidate.kind === "workspaceTypst")
         ?? targets.find((candidate) => candidate.kind === "generatedProjection")
         ?? targets[0]
-      : targets[0];
+      : targets.find((candidate) => candidate.kind === "authoredIdentity")
+        ?? targets[0];
     if (!target) {
       const fallback = fallbackPreviewSourceTarget(location);
       log(
@@ -982,11 +984,16 @@ async function initializeRuntime(
           if (fallback.line === primary.line && fallback.character === primary.character) return locations;
           return sessions.locateSource(candidate!, request.sourceUri, fallback, signal);
         },
-        locatePoint: async (request, signal) => sessions.locatePoint(candidate!, {
-          pageIndex: request.pageIndex,
-          x: request.x,
-          y: request.y,
-        }, signal),
+        locatePoint: async (request, signal) => {
+          const location = await sessions.locatePoint(candidate!, {
+            pageIndex: request.pageIndex,
+            x: request.x,
+            y: request.y,
+          }, signal);
+          const entryText = project.files.find((file) => file.uri === project.entryUri)?.text;
+          if (!location || location.uri !== project.entryUri || entryText === undefined) return location;
+          return refineRenderTextLocation(entryText, location, binding.identity.backendEncoding, request);
+        },
       };
       Object.freeze(resolver);
       displayPreviewArtifact(artifact, binding.identity, resolver, false);
@@ -1186,6 +1193,17 @@ async function initializeRuntime(
             };
         previewInteraction.providerRestarted(restarted);
         return true;
+      }
+      if (request.action === "active-editor-selection") {
+        const editor = vscode.window.activeTextEditor;
+        const selection = editor?.selection;
+        return !editor || !selection ? null : {
+          uri: editor.document.uri.toString(),
+          range: {
+            start: { line: selection.start.line, character: selection.start.character },
+            end: { line: selection.end.line, character: selection.end.character },
+          },
+        };
       }
       if (request.action === "editor-selection") {
         const editor = vscode.window.activeTextEditor?.document.uri.toString() === displayedPreviewSourceUri

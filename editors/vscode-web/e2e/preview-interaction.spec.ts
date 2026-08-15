@@ -286,6 +286,67 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
   await expect.poll(() => invokeMmtE2E(page, "preview", "buildDiagnostics", sourceUri)).toEqual([]);
 });
 
+test("MMT preview reverse navigation opens the authored character under the pointer", { tag: "@preview-navigation" }, async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
+  const source = [
+    "> 佳代子: 第一行",
+    "> _0: 1234abcd",
+    "> _0: 我也可以继续说。",
+    "",
+  ].join("\n");
+  const sourceUri = await invokeMmtE2E(page, "workspace", "openDocument", "reverse-navigation.mmt", source);
+  await page.getByRole("button", { name: "Typst 预览" }).click();
+  const previewFrame = await waitForPreviewFrame(page, sourceUri);
+  const renderedText = previewFrame.locator(".tsel").filter({ hasText: "1234abcd" }).first();
+  await expect(renderedText).toBeVisible();
+  await renderedText.evaluate((element) => {
+    document.getSelection()?.removeAllRanges();
+    const glyph = element.closest(".typst-text")?.querySelectorAll<SVGGraphicsElement>(":scope > use")[4];
+    if (!glyph) throw new Error("Fifth rendered glyph is unavailable");
+    const bounds = glyph.getBoundingClientRect();
+    const clientX = bounds.left + bounds.width / 2;
+    const clientY = bounds.top + bounds.height / 2;
+    for (const type of ["pointerdown", "pointerup", "click"] as const) {
+      element.dispatchEvent(type === "click"
+        ? new MouseEvent(type, { bubbles: true, clientX, clientY })
+        : new PointerEvent(type, { bubbles: true, clientX, clientY }));
+    }
+  });
+  await expect.poll(async () => await callFixture(page, { action: "active-editor-selection" })).toEqual({
+    uri: sourceUri,
+    range: {
+      start: { line: 1, character: 10 },
+      end: { line: 1, character: 10 },
+    },
+  });
+
+  await invokeMmtE2E(page, "workspace", "showDocument", "reverse-navigation.mmt");
+  const cjkText = previewFrame.locator(".tsel").filter({ hasText: "我也可以继续说。" }).first();
+  await expect(cjkText).toBeVisible();
+  await cjkText.evaluate((element) => {
+    document.getSelection()?.removeAllRanges();
+    const glyphs = element.closest(".typst-text")?.querySelectorAll<SVGGraphicsElement>(":scope > use");
+    const left = glyphs?.[3]?.getBoundingClientRect();
+    const right = glyphs?.[4]?.getBoundingClientRect();
+    if (!left || !right) throw new Error("CJK caret boundary is unavailable");
+    const clientX = (left.right + right.left) / 2;
+    const clientY = (left.top + left.bottom) / 2;
+    for (const type of ["pointerdown", "pointerup", "click"] as const) {
+      element.dispatchEvent(type === "click"
+        ? new MouseEvent(type, { bubbles: true, clientX, clientY })
+        : new PointerEvent(type, { bubbles: true, clientX, clientY }));
+    }
+  });
+  await expect.poll(async () => await callFixture(page, { action: "active-editor-selection" })).toEqual({
+    uri: sourceUri,
+    range: {
+      start: { line: 2, character: 10 },
+      end: { line: 2, character: 10 },
+    },
+  });
+});
+
 test("Typst preview keeps its scroll position across source-only rerenders", { tag: "@preview-navigation" }, async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });

@@ -9,6 +9,12 @@ export interface PreviewPagePoint {
   readonly y: number;
 }
 
+export interface PreviewNavigationPoint extends PreviewPagePoint {
+  /** UTF-16 caret offset nearest the pointer, clamped inside the rendered text. */
+  readonly textOffset?: number;
+  readonly text?: string;
+}
+
 export interface PreviewViewport {
   readonly page: number;
   readonly x: number;
@@ -127,7 +133,7 @@ export type PreviewWebviewToHostMessage =
   | { readonly type: "ready" }
   | PreviewVisualReadyMessage
   | { readonly type: "viewport"; readonly viewport: PreviewViewport }
-  | { readonly type: "navigate"; readonly point: PreviewPagePoint }
+  | { readonly type: "navigate"; readonly point: PreviewNavigationPoint }
   | { readonly type: "exact-export"; readonly format: ExactExportFormat; readonly staleChoice?: StaleExportChoice }
   | { readonly type: "exact-export-cancel" }
   | { readonly type: "render-rejected"; readonly requestSequence: number; readonly renderKey: RenderKey; readonly error: string }
@@ -279,7 +285,7 @@ export function isPreviewViewportMessage(value: unknown): value is Extract<Previ
 export function isPreviewNavigateMessage(value: unknown): value is Extract<PreviewWebviewToHostMessage, { type: "navigate" }> {
   return Boolean(value && typeof value === "object"
     && "type" in value && value.type === "navigate"
-    && "point" in value && isPreviewPagePoint(value.point));
+    && "point" in value && isPreviewNavigationPoint(value.point));
 }
 
 export function bytesToBase64(bytes: Uint8Array): string {
@@ -330,6 +336,22 @@ function isPreviewPagePoint(value: unknown): value is PreviewPagePoint {
     && "pageIndex" in value && typeof value.pageIndex === "number"
     && "x" in value && typeof value.x === "number"
     && "y" in value && typeof value.y === "number");
+}
+
+function isPreviewNavigationPoint(value: unknown): value is PreviewNavigationPoint {
+  if (!isPreviewPagePoint(value)) return false;
+  const candidate = value as PreviewPagePoint & { readonly textOffset?: unknown; readonly text?: unknown };
+  const hasTextOffset = candidate.textOffset !== undefined;
+  const hasText = candidate.text !== undefined;
+  return hasTextOffset === hasText
+    && (!hasTextOffset || (
+      Number.isSafeInteger(candidate.textOffset)
+      && Number(candidate.textOffset) >= 0
+      && typeof candidate.text === "string"
+      && candidate.text.length > 0
+      && candidate.text.length <= 65_536
+      && Number(candidate.textOffset) < candidate.text.length
+    ));
 }
 
 function isPreviewViewport(value: unknown): value is PreviewViewport {

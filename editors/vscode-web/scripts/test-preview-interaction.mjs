@@ -217,8 +217,10 @@ await projectedController.navigateEditorSelection({ identity: identityA, range: 
 assert.equal(projectedSelections, 1, "projected MMT selection bypassed the exact forward mapping adapter");
 assert.equal(providerSelectionRequest.sourceUri, identityA.entryUri);
 assert.deepEqual(providerSelectionRequest.range, range(18, 2, 4));
-await projectedController.navigatePreviewPoint({ pageIndex: 0, x: 0.2, y: 0.3 });
+await projectedController.navigatePreviewPoint({ pageIndex: 0, x: 0.2, y: 0.3, text: "1234abcd", textOffset: 4 });
 assert.equal(providerPointRequest.renderKey, providerArtifact.renderKey);
+assert.equal(providerPointRequest.text, "1234abcd");
+assert.equal(providerPointRequest.textOffset, 4);
 providerPointRequest = undefined;
 projectedController.bindArtifact(providerArtifact, identityA);
 await projectedController.navigatePreviewPoint({ pageIndex: 0, x: 0.2, y: 0.3 });

@@ -3,14 +3,14 @@ import type { WorkspaceHistoryUsage } from "./indexedDbWorkspace.ts";
 import type { ExactExportUiState } from "./exactExportUi.ts";
 import type { PreviewBuildDiagnostic } from "./previewDiagnostics.ts";
 import type { PreviewTraceSample } from "./previewPerformance.ts";
-import type { PreviewPagePoint, PreviewViewport } from "./previewWebviewProtocol.ts";
+import type { PreviewNavigationPoint, PreviewPagePoint, PreviewViewport } from "./previewWebviewProtocol.ts";
 import type { RuntimeRecoveryState, RuntimeStatusSnapshot } from "./runtimeStatus.ts";
 import type { PwaSafeRestartQuiesceAdapter } from "./pwaSafeRestart.ts";
 
 export interface PreviewInteractionFixtureRequest {
-  readonly action: "install-provider" | "install-immutable" | "position" | "position-live" | "editor-selection" | "reveal" | "overlay" | "navigate" | "restart-provider" | "resync-renderer" | "advance-source" | "state";
+  readonly action: "install-provider" | "install-immutable" | "position" | "position-live" | "editor-selection" | "active-editor-selection" | "reveal" | "overlay" | "navigate" | "restart-provider" | "resync-renderer" | "advance-source" | "state";
   readonly range?: { readonly start: { readonly line: number; readonly character: number }; readonly end: { readonly line: number; readonly character: number } };
-  readonly point?: PreviewPagePoint;
+  readonly point?: PreviewNavigationPoint;
 }
 
 export interface ExactExportFixtureRequest {

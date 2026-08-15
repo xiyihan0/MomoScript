@@ -11,6 +11,7 @@ import {
   type PreviewImageAssetMessage as ImageAssetMessage,
   type PreviewMeasurementSpan as MeasurementSpan,
   type PreviewPagePoint as PreviewPoint,
+  type PreviewNavigationPoint,
   type PreviewRenderMessage as RenderMessage,
   type PreviewRenderArtifactLocation,
   type PreviewRendererFrameMessage as RendererFrameMessage,
@@ -613,6 +614,38 @@ function snapIntoTextGlyphs(
   };
 }
 
+function renderedTextNavigationHint(
+  element: Element,
+  clientX: number,
+): Pick<PreviewNavigationPoint, "text" | "textOffset"> | undefined {
+  const selectable = element.querySelector<HTMLElement>(".tsel");
+  const text = selectable?.textContent ?? "";
+  if (!text) return undefined;
+  const offsets: number[] = [];
+  let utf16Offset = 0;
+  for (const character of text) {
+    offsets.push(utf16Offset);
+    utf16Offset += character.length;
+  }
+  const glyphs = [...element.querySelectorAll<SVGGraphicsElement>(":scope > use")]
+    .map((glyph) => glyph.getBoundingClientRect())
+    .filter((bounds) => bounds.width > 0 && bounds.height > 0);
+  if (glyphs.length === offsets.length) {
+    for (let index = 0; index < glyphs.length; index += 1) {
+      const bounds = glyphs[index]!;
+      if (clientX <= (bounds.left + bounds.right) / 2) {
+        return { text, textOffset: offsets[index]! };
+      }
+    }
+    return { text, textOffset: offsets.at(-1)! };
+  }
+  const bounds = element.getBoundingClientRect();
+  if (!(bounds.width > 0)) return undefined;
+  const ratio = Math.min(1, Math.max(0, (clientX - bounds.left) / bounds.width));
+  const index = Math.min(offsets.length - 1, Math.round(ratio * offsets.length));
+  return { text, textOffset: offsets[index]! };
+}
+
 function previewPointAtDocumentCoordinates(x: number, y: number): PreviewPoint | undefined {
   const geometries = currentPageGeometries();
   const geometry = geometries.find((candidate) => y >= candidate.offsetY && y < candidate.offsetY + candidate.height)
@@ -1183,13 +1216,17 @@ page.addEventListener("click", (event) => {
     (clientY - bounds.top) / zoom,
   );
   if (!point) return;
+  const navigationPoint: PreviewNavigationPoint = {
+    ...point,
+    ...(textElement ? renderedTextNavigationHint(textElement, clientX) : undefined),
+  };
   const selection = document.getSelection();
   const hasTextSelection = Boolean(selection && !selection.isCollapsed);
   setTimeout(() => {
     const dragged = pointerDragged;
     pointerDragged = false;
     if (!dragged && !hasTextSelection) {
-      vscode.postMessage({ type: "navigate", point });
+      vscode.postMessage({ type: "navigate", point: navigationPoint });
     }
   }, 0);
 });

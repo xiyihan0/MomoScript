@@ -16,6 +16,7 @@ import {
 import type {
   PreviewFitMode,
   PreviewPagePoint,
+  PreviewNavigationPoint,
   PreviewViewport,
 } from "./previewWebviewProtocol.ts";
 
@@ -62,7 +63,7 @@ export interface PreviewProviderSelectionRequest {
   readonly positionEncoding: "utf-8" | "utf-16" | "utf-32";
 }
 
-export interface PreviewProviderPointRequest extends PreviewPagePoint {
+export interface PreviewProviderPointRequest extends PreviewNavigationPoint {
   readonly renderKey: RenderKey;
   readonly locationProviderKey: LocationProviderKey;
 }
@@ -325,7 +326,7 @@ export class PreviewInteractionController {
     return this.#indicator;
   }
 
-  async navigatePreviewPoint(point: PreviewPagePoint, signal = new AbortController().signal): Promise<PreviewSourceTarget | undefined> {
+  async navigatePreviewPoint(point: PreviewNavigationPoint, signal = new AbortController().signal): Promise<PreviewSourceTarget | undefined> {
     const captured = this.#bound;
     if (!captured) return undefined;
     const normalizedPoint = normalizePagePoint(point, captured.artifact.pages.length);
@@ -730,12 +731,17 @@ function wireRangesEqual(left: PreviewWireRange, right: PreviewWireRange): boole
     && left.end.character === right.end.character;
 }
 
-function normalizePagePoint(point: PreviewPagePoint, pageCount: number): PreviewPagePoint {
+function normalizePagePoint(point: PreviewNavigationPoint, pageCount: number): PreviewNavigationPoint {
   if (!Number.isSafeInteger(point.pageIndex) || point.pageIndex < 0 || point.pageIndex >= pageCount) {
     throw new Error("Preview location page is outside the displayed artifact");
   }
   if (!Number.isFinite(point.x) || !Number.isFinite(point.y) || point.x < 0 || point.x > 1 || point.y < 0 || point.y > 1) {
     throw new Error("Preview location coordinates must be normalized page-relative values");
   }
-  return Object.freeze({ pageIndex: point.pageIndex, x: point.x, y: point.y });
+  return Object.freeze({
+    pageIndex: point.pageIndex,
+    x: point.x,
+    y: point.y,
+    ...(point.text === undefined ? {} : { text: point.text, textOffset: point.textOffset }),
+  });
 }
