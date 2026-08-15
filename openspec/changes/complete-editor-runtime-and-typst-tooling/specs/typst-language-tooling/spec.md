@@ -73,6 +73,13 @@ Projected definitions、references、highlights、selection ranges、links、sym
 - THEN the editor MAY open that exact generation as a read-only virtual document
 - AND MUST NOT represent the generated range as authored MMT
 
+#### Scenario: Author inspects the current MMT Typst mapping
+
+- GIVEN the active MMT document has a current retained language projection
+- WHEN the author chooses `MomoScript: Show Typst Mapping` from the editor context menu
+- THEN the editor MUST open that exact revision's entry file as a read-only `mmt-projection:` Typst document beside the authored MMT
+- AND it MUST NOT silently open an older retained generation when the current revision has not been projected
+
 #### Scenario: Package reference target is returned
 
 - GIVEN a reference target lies in an active immutable package

@@ -23,6 +23,7 @@ import { TypstNavigationProviders } from "./typstNavigationProviders";
 import type { TypstProviderHost } from "./typstProviderDescriptors";
 import {
   RetainedVirtualDocumentStore,
+  projectionReadUri,
   registerVirtualTypstContentProviders
 } from "./retainedVirtualDocuments";
 import { RichTypstProviderRegistrations } from "./typstRichProviders";
@@ -31,6 +32,9 @@ import { ProjectedTypstEditProviders } from "./projectedEdits";
 const routersByBackend = new WeakMap<TinymistHostBackend, TypstFeatureRouter>();
 const retainedDocumentsByBackend = new WeakMap<TinymistHostBackend, RetainedVirtualDocumentStore>();
 const problemsByBackend = new WeakMap<TinymistHostBackend, TypstProblemsPublisher>();
+
+const SHOW_TYPST_MAPPING_COMMAND = "mmt.showTypstMapping";
+const TYPST_MAPPING_VIEW_CONTEXT = "mmt.typstMappingViewAvailable";
 
 export interface TypstProblemsPublisher extends vscode.Disposable {
   replacePreview(uri: vscode.Uri, diagnostics: readonly vscode.Diagnostic[]): void;
@@ -255,6 +259,43 @@ export function connectTypstBackend(
     retainedDocumentsByBackend.set(backend, retainedDocuments);
   }
   const virtualContentProviders = registerVirtualTypstContentProviders(vscode.workspace, retainedDocuments);
+  const latestProjectionBySource = new Map<
+    string,
+    { readonly uri: string; readonly sourceVersion: number }
+  >();
+  const showTypstMapping = vscode.commands.registerCommand(
+    SHOW_TYPST_MAPPING_COMMAND,
+    async () => {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor || editor.document.languageId !== "mmt") {
+        void vscode.window.showInformationMessage(
+          "Open a MomoScript document to view its Typst mapping."
+        );
+        return;
+      }
+      const sourceUri = vscode.Uri.parse(editor.document.uri.toString()).toString();
+      const projection = latestProjectionBySource.get(sourceUri);
+      if (!projection || projection.sourceVersion !== editor.document.version) {
+        void vscode.window.showInformationMessage(
+          "The current MomoScript revision does not have a retained Typst mapping yet."
+        );
+        return;
+      }
+      try {
+        const document = await vscode.workspace.openTextDocument(vscode.Uri.parse(projection.uri));
+        await vscode.window.showTextDocument(document, {
+          viewColumn: vscode.ViewColumn.Beside,
+          preview: true,
+          preserveFocus: false
+        });
+      } catch (error) {
+        void vscode.window.showErrorMessage(
+          `Could not open the Typst mapping: ${error instanceof Error ? error.message : String(error)}`
+        );
+      }
+    }
+  );
+  void vscode.commands.executeCommand("setContext", TYPST_MAPPING_VIEW_CONTEXT, true);
   for (const document of vscode.workspace.textDocuments) {
     if (document.languageId === "typst") router.open(routerDocument(document));
   }
@@ -270,6 +311,8 @@ export function connectTypstBackend(
   const projectUpdated = client.onNotification(
     "mmt/typstProjectUpdated",
     (update: TypstProjectUpdate) => {
+      const sourceUri = vscode.Uri.parse(update.sourceUri).toString();
+      latestProjectionBySource.delete(sourceUri);
       router.retire(update.sourceUri);
       retainedDocuments.retainProjection({
         sourceUri: update.sourceUri,
@@ -280,6 +323,10 @@ export function connectTypstBackend(
       backend.syncProject(update);
       const current = backend.projectForEntry(update.entryUri);
       if (current?.sourceUri === update.sourceUri && current.revision === update.revision) {
+        latestProjectionBySource.set(sourceUri, {
+          uri: projectionReadUri(update.entryUri),
+          sourceVersion: update.sourceVersion
+        });
         problems.clearLanguage(vscode.Uri.parse(update.sourceUri));
       }
     }
@@ -289,6 +336,7 @@ export function connectTypstBackend(
     (params: { sourceUri: string; entryUri: string }) => {
       router.retire(params.sourceUri);
       if (backend.closeProject(params.sourceUri, params.entryUri)) {
+        latestProjectionBySource.delete(vscode.Uri.parse(params.sourceUri).toString());
         retainedDocuments.closeProjectionSource(params.sourceUri);
         problems.clear(vscode.Uri.parse(params.sourceUri));
       }
@@ -343,6 +391,10 @@ export function connectTypstBackend(
   const releaseProblems = new vscode.Disposable(() => {
     if (problemsByBackend.get(backend) === problems) problemsByBackend.delete(backend);
   });
+  const releaseProjectionViewer = new vscode.Disposable(() => {
+    latestProjectionBySource.clear();
+    void vscode.commands.executeCommand("setContext", TYPST_MAPPING_VIEW_CONTEXT, false);
+  });
   const owned: vscode.Disposable[] = [
     capabilitiesChanged,
     clientRestarting,
@@ -352,11 +404,13 @@ export function connectTypstBackend(
     closed,
     projectUpdated,
     projectClosed,
+    showTypstMapping,
     providers,
     navigationProviders,
     richProviders,
     projectedEditProviders,
     ...virtualContentProviders,
+    releaseProjectionViewer,
     releaseProblems,
     problems
   ];

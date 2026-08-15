@@ -29,8 +29,23 @@
         "title": "Export MomoScript as PDF",
         "category": "MomoScript",
         "enablement": "editorLangId == mmt && isWeb == false && mmt.desktopPreviewAvailable"
+      },
+      {
+        "command": "mmt.showTypstMapping",
+        "title": "Show Typst Mapping",
+        "category": "MomoScript",
+        "enablement": "editorLangId == mmt && mmt.typstMappingViewAvailable"
       }
     ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "mmt.showTypstMapping",
+          "when": "editorLangId == mmt && mmt.typstMappingViewAvailable",
+          "group": "navigation@20"
+        }
+      ]
+    },
     "languages": [
       {
         "id": "mmt",

@@ -261,6 +261,23 @@ export async function run(): Promise<void> {
   await waitForCompletion(typstDocument, new vscode.Position(2, 4), "greet", "=>");
   console.log("[mmt-web-test] incomplete MMT projection recovered");
 
+  await vscode.commands.executeCommand("mmt.showTypstMapping");
+  const projectionEditor = await waitFor(() => {
+    const editor = vscode.window.activeTextEditor;
+    return editor?.document.uri.scheme === "mmt-projection" ? editor : undefined;
+  }, "Typst mapping command did not open the retained projection");
+  assert(
+    projectionEditor.document.languageId === "typst",
+    "Typst mapping did not open with Typst language support"
+  );
+  assert(
+    projectionEditor.document.getText().includes("#let greet(name)"),
+    "Typst mapping did not show the current MMT revision"
+  );
+  console.log("[mmt-web-test] current Typst mapping opened");
+  await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
+  await vscode.window.showTextDocument(typstDocument);
+
   await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
 
   const patchDocument = await vscode.workspace.openTextDocument({
