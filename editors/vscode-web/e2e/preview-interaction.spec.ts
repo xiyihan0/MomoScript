@@ -102,6 +102,24 @@ test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtim
   await expect(desktopPreview.locator(".page svg")).toBeVisible();
   await desktopPreview.getByRole("button", { name: "Fit width" }).click();
   await expect.poll(async () => (await interactionState(page)).viewport.fitMode).toBe("width");
+  const horizontalViewport = desktopPreview.locator(".viewport");
+  await desktopPreview.getByRole("button", { name: "Zoom in" }).click();
+  await expect.poll(async () => (await interactionState(page)).viewport.fitMode).toBe("manual");
+  const centeredOverflow = await horizontalViewport.evaluate((element) => ({
+    scrollLeft: element.scrollLeft,
+    maxScrollLeft: element.scrollWidth - element.clientWidth,
+  }));
+  expect(centeredOverflow.maxScrollLeft).toBeGreaterThan(0);
+  expect(centeredOverflow.scrollLeft).toBeGreaterThan(0);
+  const accessibleLeftEdge = await horizontalViewport.evaluate(async (element) => {
+    element.scrollLeft = 0;
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    const viewportBounds = element.getBoundingClientRect();
+    const pageBounds = element.querySelector(".page")?.getBoundingClientRect();
+    if (!pageBounds) throw new Error("Preview page is unavailable");
+    return pageBounds.left - viewportBounds.left;
+  });
+  expect(accessibleLeftEdge).toBeGreaterThanOrEqual(0);
 });
 
 test("MMT Typst preview supports selectable text, workspace images, and bidirectional navigation", { tag: "@preview-navigation" }, async ({ page }) => {

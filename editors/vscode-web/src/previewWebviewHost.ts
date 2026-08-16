@@ -434,8 +434,8 @@ function previewWebviewHtml(webview: vscode.Webview, title: string, defaultExpor
     .exact-export-status { grid-column: auto; min-width: 0; max-width: 360px; overflow: hidden; color: var(--vscode-descriptionForeground); font-size: 11px; text-align: right; text-overflow: ellipsis; white-space: nowrap; }
     .exact-export[data-availability="stale"] .exact-export-status { color: var(--vscode-editorWarning-foreground, #cca700); }
     .exact-export[data-availability="failed"] .exact-export-status, .exact-export[data-phase="error"] .exact-export-status { color: var(--vscode-errorForeground); }
-    .viewport { display: flex; flex: 1 1 auto; justify-content: center; width: 100%; min-width: 0; min-height: 0; overflow: auto; box-sizing: border-box; padding: 24px; background: #e5e5e5; }
-    .page { position: relative; flex: 0 0 auto; background: transparent; line-height: 0; box-shadow: 0 2px 5px #0008; transform-origin: top left; }
+    .viewport { display: flex; flex: 1 1 auto; width: 100%; min-width: 0; min-height: 0; overflow: auto; box-sizing: border-box; padding: 24px; background: #e5e5e5; }
+    .page { position: relative; flex: 0 0 auto; margin-inline: auto; background: transparent; line-height: 0; box-shadow: 0 2px 5px #0008; transform-origin: top left; }
     .page > svg { display: block; width: 100%; height: 100%; max-width: none; }
     .page > .typst-renderer-root { display: block; width: 100%; height: 100%; max-width: none; }
     .page .typst-text { pointer-events: bounding-box; cursor: text; }

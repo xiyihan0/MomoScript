@@ -572,6 +572,34 @@ function applyZoom(nextZoom: number, nextFitMode: PreviewViewport["fitMode"], no
   if (notify) reportViewport();
 }
 
+function applyZoomAroundPoint(
+  nextZoom: number,
+  nextFitMode: PreviewViewport["fitMode"],
+  clientX: number,
+  clientY: number,
+  notify = true,
+): void {
+  const bounds = page.getBoundingClientRect();
+  if (!(bounds.width > 0) || !(bounds.height > 0)) return;
+  const anchorX = (clientX - bounds.left) / bounds.width;
+  const anchorY = (clientY - bounds.top) / bounds.height;
+  applyZoom(nextZoom, nextFitMode, false);
+  const resized = page.getBoundingClientRect();
+  viewport.scrollLeft += resized.left + anchorX * resized.width - clientX;
+  viewport.scrollTop += resized.top + anchorY * resized.height - clientY;
+  if (notify) reportViewport();
+}
+
+function applyZoomAtViewportCenter(nextZoom: number): void {
+  const bounds = viewport.getBoundingClientRect();
+  applyZoomAroundPoint(
+    nextZoom,
+    "manual",
+    bounds.left + bounds.width / 2,
+    bounds.top + bounds.height / 2,
+  );
+}
+
 function fitWidth(notify = true): void {
   if (!(intrinsicWidth > 0)) return;
   applyZoom((viewport.clientWidth - 48) / intrinsicWidth, "width", notify);
@@ -1164,22 +1192,19 @@ function showStatus(message: string, error: boolean): void {
   if (!page.firstElementChild) viewport.hidden = true;
 }
 
-document.querySelector('[data-zoom="out"]')?.addEventListener("click", () => applyZoom(zoom - 0.1, "manual"));
-document.querySelector('[data-zoom="in"]')?.addEventListener("click", () => applyZoom(zoom + 0.1, "manual"));
+document.querySelector('[data-zoom="out"]')?.addEventListener("click", () => applyZoomAtViewportCenter(zoom - 0.1));
+document.querySelector('[data-zoom="in"]')?.addEventListener("click", () => applyZoomAtViewportCenter(zoom + 0.1));
 document.querySelector('[data-fit="width"]')?.addEventListener("click", () => fitWidth());
 document.querySelector('[data-fit="page"]')?.addEventListener("click", () => fitPage());
 viewport.addEventListener("wheel", (event) => {
   if (!event.ctrlKey && !event.metaKey) return;
   event.preventDefault();
-  const bounds = page.getBoundingClientRect();
-  if (!(bounds.width > 0) || !(bounds.height > 0)) return;
-  const anchorX = (event.clientX - bounds.left) / bounds.width;
-  const anchorY = (event.clientY - bounds.top) / bounds.height;
-  applyZoom(zoom * Math.exp(-event.deltaY * 0.002), "manual", false);
-  const resized = page.getBoundingClientRect();
-  viewport.scrollLeft += resized.left + anchorX * resized.width - event.clientX;
-  viewport.scrollTop += resized.top + anchorY * resized.height - event.clientY;
-  reportViewport();
+  applyZoomAroundPoint(
+    zoom * Math.exp(-event.deltaY * 0.002),
+    "manual",
+    event.clientX,
+    event.clientY,
+  );
 }, { passive: false });
 viewport.addEventListener("scroll", () => {
   if (viewportIdleTimer !== undefined) clearTimeout(viewportIdleTimer);
