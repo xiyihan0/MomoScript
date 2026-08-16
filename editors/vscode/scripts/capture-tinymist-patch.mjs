@@ -46,7 +46,7 @@ if (mode === "package") {
     });
     ({ stdout: patch } = await exec(
       "git",
-      ["diff", "--binary", "--full-index", "--no-ext-diff", "--", "crates"],
+      ["diff", "--binary", "--full-index", "--no-ext-diff", "--", "Cargo.lock", "crates"],
       { cwd: source, env: environment, maxBuffer: 16 * 1024 * 1024 }
     ));
   } finally {
