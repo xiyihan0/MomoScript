@@ -300,10 +300,23 @@ if (!options.publish) {
     ...objects.filter((object) => object.role === "active-entity-catalog"),
     ...objects.filter((object) => object.role === "catalog"),
   ];
+  let lastReported = 0;
   try {
     const outcomes = await publishPackObjects(ordered, {
       bucket: options.bucket,
+      concurrency: options.concurrency,
       configFile,
+      onProgress(progress) {
+        if (
+          progress.completed === progress.total
+          || progress.completed - lastReported >= 100
+        ) {
+          lastReported = progress.completed;
+          console.error(
+            `[publish] ${progress.completed}/${progress.total} ${progress.role} ${progress.outcome}`,
+          );
+        }
+      },
       profile: options.ossutilProfile,
       region: options.region,
       temporaryDirectory: packDir,
@@ -403,6 +416,7 @@ function parseArguments(args) {
     bucket: DEFAULT_BUCKET,
     origin: DEFAULT_ORIGIN,
     region: DEFAULT_REGION,
+    concurrency: 8,
   };
   for (let index = 0; index < args.length; index += 1) {
     const argument = args[index];
@@ -411,6 +425,13 @@ function parseArguments(args) {
     else if (argument === "--catalog") parsed.catalog = requiredValue(args, ++index, argument);
     else if (argument === "--ossutil-config") parsed.ossutilConfig = requiredValue(args, ++index, argument);
     else if (argument === "--ossutil-profile") parsed.ossutilProfile = requiredValue(args, ++index, argument);
+    else if (argument === "--concurrency") {
+      const value = requiredValue(args, ++index, argument);
+      parsed.concurrency = Number(value);
+      if (!Number.isSafeInteger(parsed.concurrency) || parsed.concurrency < 1) {
+        throw new Error("--concurrency must be a positive integer");
+      }
+    }
     else if (argument === "--bucket") parsed.bucket = requiredValue(args, ++index, argument);
     else if (argument === "--origin") parsed.origin = requiredValue(args, ++index, argument);
     else if (argument === "--region") parsed.region = requiredValue(args, ++index, argument);

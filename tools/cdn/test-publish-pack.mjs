@@ -129,6 +129,13 @@ test("ossutil 2.3 arguments and JSON stat contracts", async () => {
     object: { contentType: "application/json", cacheControl: mutable },
   });
   assert.deepEqual(parseStatJson(stat), JSON.parse(stat));
+  const timedStat = `${stat}\n0.219717(s) elapsed`;
+  assert.deepEqual(parseStatJson(timedStat), JSON.parse(stat));
+  assert.deepEqual(statMetadata(timedStat, "packs.json"), {
+    "Content-Type": "application/json",
+    "Cache-Control": mutable,
+    "Content-Encoding": undefined,
+  });
   assert.deepEqual(statMetadata(stat, "packs.json"), {
     "Content-Type": "application/json",
     "Cache-Control": mutable,
@@ -260,6 +267,106 @@ test("immutable A/B releases coexist while mutable active and catalog objects ad
       runOssCommand: fake.run,
     }),
     /metadata Cache-Control/,
+  );
+});
+
+test("bounded concurrency preserves immutable and mutable publication barriers", async () => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), "mmt-pack-concurrency-"));
+  const fake = makeFakeOss();
+  const json = metadata("application/json", immutable);
+  const currentJson = metadata("application/json", mutable);
+  const image = metadata("image/png", immutable);
+  const assetA = await localObject(
+    directory,
+    "asset",
+    "ba/blobs/a.png",
+    new TextEncoder().encode("asset A"),
+    image,
+  );
+  const assetB = await localObject(
+    directory,
+    "asset",
+    "ba/blobs/b.png",
+    new TextEncoder().encode("asset B"),
+    image,
+  );
+  const release = await localObject(
+    directory,
+    "release-manifest",
+    "ba/releases/release/manifest.json",
+    new TextEncoder().encode('{"release":true}\n'),
+    json,
+  );
+  const active = await localObject(
+    directory,
+    "active-manifest",
+    "ba/manifest.json",
+    new TextEncoder().encode('{"active":true}\n'),
+    currentJson,
+  );
+  const catalog = await localObject(
+    directory,
+    "catalog",
+    "packs.json",
+    new TextEncoder().encode('{"catalog":true}\n'),
+    currentJson,
+  );
+  let activeUploads = 0;
+  let maxActiveUploads = 0;
+  const completedUploads = [];
+  const progress = [];
+  const run = async (args) => {
+    const isUpload = args[0] === "cp" && !args[1].startsWith("oss://");
+    if (!isUpload) return fake.run(args);
+    activeUploads += 1;
+    maxActiveUploads = Math.max(maxActiveUploads, activeUploads);
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    try {
+      const result = await fake.run(args);
+      completedUploads.push(args[2]);
+      return result;
+    } finally {
+      activeUploads -= 1;
+    }
+  };
+
+  const outcomes = await publishPackObjects(
+    [assetA, assetB, release, active, catalog],
+    {
+      concurrency: 2,
+      onProgress: (item) => progress.push(item),
+      runOssCommand: run,
+      temporaryDirectory: directory,
+    },
+  );
+
+  assert.equal(maxActiveUploads, 2);
+  assert.deepEqual(
+    outcomes.map(({ role }) => role),
+    ["asset", "asset", "release-manifest", "active-manifest", "catalog"],
+  );
+  const assetIndexes = [
+    completedUploads.indexOf(`oss://mms-pack/${assetA.objectName}`),
+    completedUploads.indexOf(`oss://mms-pack/${assetB.objectName}`),
+  ];
+  const releaseIndex = completedUploads.indexOf(`oss://mms-pack/${release.objectName}`);
+  const activeIndex = completedUploads.indexOf(`oss://mms-pack/${active.objectName}`);
+  const catalogIndex = completedUploads.indexOf(`oss://mms-pack/${catalog.objectName}`);
+  assert.ok(assetIndexes.every((index) => index >= 0 && index < releaseIndex));
+  assert.ok(releaseIndex < activeIndex);
+  assert.ok(activeIndex < catalogIndex);
+  assert.equal(progress.length, 5);
+  assert.deepEqual(
+    progress.map(({ completed, total }) => [completed, total]),
+    [[1, 5], [2, 5], [3, 5], [4, 5], [5, 5]],
+  );
+  await assert.rejects(
+    publishPackObjects([], {
+      concurrency: 0,
+      runOssCommand: run,
+      temporaryDirectory: directory,
+    }),
+    /concurrency must be a positive integer/,
   );
 });
 

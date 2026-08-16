@@ -36,7 +36,13 @@ export function objectPropertyArguments(metadata) {
 
 export function parseStatJson(stat, target = "ossutil stat output") {
   try {
-    const parsed = JSON.parse(stat);
+    const source = typeof stat === "string" ? stat.trim() : String(stat);
+    const objectStart = source.indexOf("{");
+    const objectEnd = source.lastIndexOf("}");
+    const payload = objectStart >= 0 && objectEnd >= objectStart
+      ? source.slice(objectStart, objectEnd + 1)
+      : source;
+    const parsed = JSON.parse(payload);
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
       throw new Error("expected a JSON object");
     }
