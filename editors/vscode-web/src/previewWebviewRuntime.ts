@@ -566,6 +566,8 @@ function applyZoom(nextZoom: number, nextFitMode: PreviewViewport["fitMode"], no
   page.style.width = width;
   page.style.height = height;
   zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
+  showOverlay("preview-indicator", indicatorPoint);
+  showOverlay("preview-cursor", cursorPoint);
   if (layoutChanged && page.querySelector(".typst-renderer-root")) persistentRenderer.viewportChanged();
   if (notify) reportViewport();
 }

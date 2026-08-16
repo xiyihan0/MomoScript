@@ -1,4 +1,4 @@
-import { expect, invokeMmtE2E, test, type Page, waitForPreviewFrame } from "./fixtures";
+import { expect, invokeMmtE2E, test, type Frame, type Page, waitForPreviewFrame } from "./fixtures";
 import type { PreviewInteractionFixtureRequest } from "../src/e2eRuntimeBridge.ts";
 
 interface InteractionState {
@@ -41,7 +41,6 @@ test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtim
     const viewport = (await interactionState(page)).viewport;
     return viewport.fitMode === "manual" && viewport.zoom > 0.1;
   }).toBe(true);
-  const introViewport = (await interactionState(page)).viewport;
 
   await callFixture(page, { action: "position" });
   await expect.poll(async () => (await interactionState(page)).indicatorCount).toBe(1);
@@ -49,6 +48,13 @@ test("Web and Desktop preview interactions stay artifact-bound", { tag: "@runtim
   await expect(desktopPreview.locator(".preview-cursor")).toBeVisible();
   const positioned = await interactionState(page);
   expect(positioned.cursorCount).toBe(1);
+  const indicatorBeforeZoom = await normalizedOverlayPoint(desktopPreview, ".preview-indicator");
+  await desktopPreview.getByRole("button", { name: "Zoom in" }).click();
+  await expect.poll(async () => (await interactionState(page)).viewport.zoom).toBeGreaterThan(positioned.viewport.zoom);
+  const indicatorAfterZoom = await normalizedOverlayPoint(desktopPreview, ".preview-indicator");
+  expect(Math.abs(indicatorAfterZoom.x - indicatorBeforeZoom.x)).toBeLessThan(0.005);
+  expect(Math.abs(indicatorAfterZoom.y - indicatorBeforeZoom.y)).toBeLessThan(0.005);
+  const introViewport = (await interactionState(page)).viewport;
 
   expect(await callFixture(page, { action: "navigate", point: { pageIndex: 0, x: 0.2, y: 0.15 } })).toBe(true);
   await callFixture(page, { action: "restart-provider" });
@@ -500,6 +506,23 @@ test("Typst preview keeps its scroll position across source-only rerenders", { t
   expect(adaptiveLayout.viewportScrollable).toBe(true);
   expect(adaptiveLayout.viewportScrollTop).toBeGreaterThan(0);
 });
+
+async function normalizedOverlayPoint(
+  frame: Frame,
+  selector: ".preview-indicator" | ".preview-cursor",
+): Promise<{ readonly x: number; readonly y: number }> {
+  return frame.locator(selector).evaluate((overlay) => {
+    const overlayBounds = overlay.getBoundingClientRect();
+    const pageBounds = overlay.parentElement?.getBoundingClientRect();
+    if (!pageBounds || !(pageBounds.width > 0) || !(pageBounds.height > 0)) {
+      throw new Error("preview overlay has no positioned page");
+    }
+    return {
+      x: (overlayBounds.left + overlayBounds.width / 2 - pageBounds.left) / pageBounds.width,
+      y: (overlayBounds.top + overlayBounds.height / 2 - pageBounds.top) / pageBounds.height,
+    };
+  });
+}
 
 async function callFixture(page: Page, request: PreviewInteractionFixtureRequest): Promise<unknown> {
   return invokeMmtE2E(page, "preview", "interactionFixture", request);
