@@ -156,6 +156,46 @@ if (existsSync(buildReportPath)) {
   });
 }
 
+const entityCatalogPath = path.join(packDir, "entity-catalog.json");
+let entityCatalogBytes;
+let entityCatalogDigest;
+if (existsSync(entityCatalogPath)) {
+  entityCatalogBytes = new Uint8Array(readFileSync(entityCatalogPath));
+  const entityCatalog = JSON.parse(new TextDecoder().decode(entityCatalogBytes));
+  if (entityCatalog.schema !== "mmt-pack-entity-catalog.v1") {
+    fail(`entity catalog schema ${entityCatalog.schema} is not mmt-pack-entity-catalog.v1`);
+  }
+  if (entityCatalog.pack?.namespace !== pack.namespace) {
+    fail(`entity catalog namespace ${entityCatalog.pack?.namespace} != ${pack.namespace}`);
+  }
+  if (entityCatalog.pack?.version !== pack.version) {
+    fail(`entity catalog version ${entityCatalog.pack?.version} != ${pack.version}`);
+  }
+  if (entityCatalog.pack?.manifest_sha256 !== digest) {
+    fail(`entity catalog manifest digest ${entityCatalog.pack?.manifest_sha256} != ${digest}`);
+  }
+  entityCatalogDigest = sha256(entityCatalogBytes);
+  objects.push({
+    role: "active-entity-catalog",
+    localPath: entityCatalogPath,
+    objectName: `${slug}/entity-catalog.json`,
+    bytes: entityCatalogBytes.byteLength,
+    sha256: entityCatalogDigest,
+    contentType: "application/json",
+    cacheControl: MUST_REVALIDATE,
+  });
+  objects.push({
+    role: "release-entity-catalog",
+    localPath: entityCatalogPath,
+    objectName: `${slug}/releases/${digest}/entity-catalog.json`,
+    bytes: entityCatalogBytes.byteLength,
+    sha256: entityCatalogDigest,
+    contentType: "application/json",
+    cacheControl: IMMUTABLE,
+  });
+}
+
+
 let catalog;
 if (existsSync(catalogPath)) {
   catalog = JSON.parse(await readFile(catalogPath, "utf8"));
@@ -171,6 +211,11 @@ const release = {
   manifest_url: `${baseUrl}releases/${digest}/manifest.json`,
   published_at: publishedAt,
 };
+if (entityCatalogDigest) {
+  release.entity_catalog_url = `${baseUrl}releases/${digest}/entity-catalog.json`;
+  release.entity_catalog_digest = entityCatalogDigest;
+}
+
 let entry = (catalog.packs ?? []).find((candidate) => candidate.namespace === pack.namespace);
 if (!entry) {
   entry = { namespace: pack.namespace, releases: [] };
@@ -184,6 +229,14 @@ entry.manifest_url = `${baseUrl}manifest.json`;
 entry.version = pack.version;
 entry.manifest_digest = digest;
 entry.published_at = publishedAt;
+if (entityCatalogDigest) {
+  entry.entity_catalog_url = `${baseUrl}entity-catalog.json`;
+  entry.entity_catalog_digest = entityCatalogDigest;
+} else {
+  delete entry.entity_catalog_url;
+  delete entry.entity_catalog_digest;
+}
+
 entry.releases = [release, ...(entry.releases ?? []).filter((item) => item.digest !== digest)];
 catalog.packs.sort((left, right) => left.namespace.localeCompare(right.namespace));
 catalog.generated_at = publishedAt;
@@ -238,8 +291,13 @@ if (!options.publish) {
   await writeFile(catalogStagingPath, catalogBytes);
   const ordered = [
     ...objects.filter((object) => object.role === "asset"),
-    ...objects.filter((object) => object.role === "release-manifest" || object.role === "release-report"),
+    ...objects.filter((object) =>
+      object.role === "release-manifest"
+      || object.role === "release-report"
+      || object.role === "release-entity-catalog"
+    ),
     ...objects.filter((object) => object.role === "active-manifest"),
+    ...objects.filter((object) => object.role === "active-entity-catalog"),
     ...objects.filter((object) => object.role === "catalog"),
   ];
   try {
@@ -287,6 +345,41 @@ async function verifyPublicDelivery() {
   }
   const remoteDigest = sha256(new Uint8Array(await manifestResponse.arrayBuffer()));
   if (remoteDigest !== digest) fail(`manifest digest ${remoteDigest} != ${digest}`);
+
+  if (entityCatalogDigest) {
+    if (
+      remoteEntry.entity_catalog_digest !== entityCatalogDigest
+      || remoteEntry.entity_catalog_url !== `${baseUrl}entity-catalog.json`
+    ) {
+      fail(`catalog entity metadata for ${pack.namespace} does not match ${entityCatalogDigest}`);
+    }
+    const entityCatalogResponse = await fetch(`${baseUrl}entity-catalog.json`, {
+      cache: "no-store",
+    });
+    if (!entityCatalogResponse.ok) {
+      fail(`entity catalog fetch returned HTTP ${entityCatalogResponse.status}`);
+    }
+    if (entityCatalogResponse.headers.get("access-control-allow-origin") !== "*") {
+      fail("entity catalog must return Access-Control-Allow-Origin: *");
+    }
+    const entityCatalogCache = entityCatalogResponse.headers.get("cache-control") ?? "";
+    if (!entityCatalogCache.includes("must-revalidate")) {
+      fail(`entity catalog cache-control ${entityCatalogCache} must include must-revalidate`);
+    }
+    const remoteEntityCatalogBytes = new Uint8Array(
+      await entityCatalogResponse.arrayBuffer(),
+    );
+    const remoteEntityCatalogDigest = sha256(remoteEntityCatalogBytes);
+    if (remoteEntityCatalogDigest !== entityCatalogDigest) {
+      fail(`entity catalog digest ${remoteEntityCatalogDigest} != ${entityCatalogDigest}`);
+    }
+    const remoteEntityCatalog = JSON.parse(
+      new TextDecoder().decode(remoteEntityCatalogBytes),
+    );
+    if (remoteEntityCatalog.pack?.manifest_sha256 !== digest) {
+      fail(`entity catalog manifest digest ${remoteEntityCatalog.pack?.manifest_sha256} != ${digest}`);
+    }
+  }
 
   const asset = objects.find((object) => object.role === "asset");
   if (asset) {

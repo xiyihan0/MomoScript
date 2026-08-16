@@ -147,7 +147,7 @@ base pack 可以在 `entities` 中定义实体：
 }
 ```
 
-entity 的 `names` 是作者可以确定性使用的角色名称，必须非空；`names[0]` 是基于该 preset 惰性创建 script actor 时采用的默认名称。`display_name` 可省略，省略时回退到 `names[0]`。搜索 aliases、多语言检索词、学校/社团和皮肤关系不参与确定性解析，应进入后续 catalog 或 search index。
+entity 的 `names` 是作者可以确定性使用的角色名称，必须非空；`names[0]` 是基于该 preset 惰性创建 script actor 时采用的默认名称。`display_name` 可省略，省略时回退到 `names[0]`。搜索 aliases、多语言检索词、学校/社团和皮肤关系不参与确定性解析，统一进入 `entity-catalog.json`。
 
 这里的 entity `names` 与 sticker set / variant 的 `handles` 不同：前者用于定位 character preset 并建立 script actor，后者只是在已确定 slot/set 范围内解析资源 selector。
 
@@ -213,6 +213,22 @@ variant 字段建议包含：
 - `handles`：可选，作者可直接写出的确定性别名，例如 `梦2`、`>_<笑`
 
 第一版主 manifest 不建议把 `tags`、`description`、原始 URL 或搜索向量写进 variant。它们更适合进入独立的 `catalog.json` / `search-index.json`，避免运行时 resolver 必须加载百科或语义搜索材料。
+
+角色展示元数据使用独立的 `entity-catalog.json`，schema 为
+`mmt-pack-entity-catalog.v1`。Catalog 以 manifest 的本地 entity id 为 key，并通过
+`pack.namespace` 与 `pack.manifest_sha256` 绑定到一个确定的 pack release。它只包含
+多语言展示名、搜索 aliases、学校/关系 taxonomy、外部稳定 id 和换装关系；不得包含
+resolver handle、storage path、远端图片 URL、百科正文或搜索向量。
+
+Kivo 构建器在构建期读取 students、schools 和 relations API，保存 API version/time
+provenance，并把结构化数据规范化到 Catalog。浏览器和 Rust resolver MUST NOT 在运行时
+请求 Kivo API。Catalog 是可选的产品级展示数据：加载失败时图鉴回退到 manifest
+`names[]`/`display_name`，而 DSL 解析、诊断和渲染结果不得变化。
+
+`entity-catalog.json` 与 `manifest.json` 一同发布。release 路径下的 Catalog 不可变，
+active Catalog 使用 `must-revalidate`；全局 `packs.json` 同时记录 active/release
+Catalog URL 和 SHA-256。Catalog 自身声明来源、转换状态、署名和许可，Kivo 派生 Catalog
+使用 `CC-BY-SA-4.0`，官方游戏素材仍遵循独立的权利和发布规则。
 
 IDE 预览图使用 manifest 顶层可选 `thumbnails` 索引，而不是把原始 URL、AVIFS frame
 或搜索元数据塞回 variant。索引 key 是 pack 内逻辑资源路径

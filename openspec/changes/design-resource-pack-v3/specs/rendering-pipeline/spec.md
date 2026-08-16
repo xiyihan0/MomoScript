@@ -110,7 +110,7 @@ pack-v3 基础资源包构建器 SHALL 能从 Kivo Wiki 数据源重建主资源
 - GIVEN Kivo Wiki 返回某个 student detail
 - WHEN 构建器生成 pack-v3 manifest
 - THEN 该 student 默认映射为一个独立 entity id
-- AND 不同 skin 的 student 记录通过 `meta.related_entities` 关联，而不是隐式合并
+- AND 不同 skin 的 student 记录通过 Entity Catalog `related_entities` 关联，而不是隐式合并或写入主 manifest
 
 #### Scenario: entity id 和 deterministic names 使用不同命名规则
 
@@ -133,9 +133,9 @@ pack-v3 基础资源包构建器 SHALL 能从 Kivo Wiki 数据源重建主资源
 #### Scenario: Search aliases stay outside the main manifest
 
 - GIVEN Kivo Wiki 提供昵称、多语言名称或其他检索词
-- WHEN 构建器生成第一版主 manifest
+- WHEN 构建器生成主 manifest 与 Entity Catalog
 - THEN those search aliases MUST NOT be emitted as deterministic entity names by default
-- AND SHOULD be preserved in raw source data or a future catalog/search index
+- AND MUST be preserved in `entity-catalog.json`
 
 #### Scenario: Duplicate deterministic names are reported
 
@@ -144,12 +144,61 @@ pack-v3 基础资源包构建器 SHALL 能从 Kivo Wiki 数据源重建主资源
 - THEN it MUST list the conflicting name and all owning entity ids
 - AND MUST NOT silently select one entity as the winner
 
-#### Scenario: 主 manifest 暂不输出 entity meta
+#### Scenario: 主 manifest 不输出 entity meta
 
-- GIVEN 构建器生成第一版默认资源包 manifest
+- GIVEN 构建器生成默认资源包 manifest
 - WHEN 写出 entity object
 - THEN entity object 不包含 `meta`
-- AND 多语言名称、学校/社团与差分皮肤关系留给后续 catalog 或索引文件
+- AND 多语言名称、学校/社团与差分皮肤关系进入 `entity-catalog.json`
+
+### Requirement: Kivo 展示元数据生成独立 Entity Catalog
+
+Kivo 构建器 SHALL 生成符合
+`schemas/mmt-pack-entity-catalog.v1.schema.json` 的 `entity-catalog.json`，且不得改变
+pack manifest 的确定性解析语义。
+
+#### Scenario: Catalog 与确定的 manifest release 绑定
+
+- GIVEN 构建器已经生成最终 `manifest.json`
+- WHEN 它写出 `entity-catalog.json`
+- THEN Catalog `pack.namespace` 和 `pack.version` 与 manifest 一致
+- AND `pack.manifest_sha256` 等于最终 manifest 字节的 SHA-256
+- AND Catalog entity key 与同一 manifest 的本地 entity id 对应
+
+#### Scenario: Kivo provenance 和许可可审计
+
+- GIVEN Catalog 数据来自 Kivo Wiki API
+- WHEN 构建器写出 Catalog source
+- THEN source 记录 API version/time range、抓取时间和转换状态
+- AND license 为 `CC-BY-SA-4.0`
+- AND attribution 指向基沃托斯古书馆与 `https://kivo.wiki/license`
+
+#### Scenario: 搜索与组织元数据不参与 resolver
+
+- GIVEN Kivo 提供多语言名、昵称、学校、relation 和 skin_list
+- WHEN 构建器规范化这些字段
+- THEN 多语言名和昵称只进入 Catalog names
+- AND Kivo taxonomy 的 `name_cn` MUST 作为默认 `display_name`
+- AND Kivo taxonomy 的 `name` 仅作为搜索 alias 保留，不得覆盖国服译名
+- AND schools/relations 进入 Catalog taxonomy
+- AND skin_list 只生成指向已构建 entity 的 `alternate_skin` 关系
+- AND manifest `names[]`、slot、set、variant 与 storage 解析不依赖 Catalog
+
+#### Scenario: Gallery 在 Catalog 缺失时退化
+
+- GIVEN Pack manifest 可用而 Entity Catalog 缺失、损坏或版本不匹配
+- WHEN 产品表面列出角色
+- THEN 它回退到 manifest `names[]` 和 `display_name`
+- AND 不得让 Catalog 故障改变 DSL 解析、诊断、渲染或导出
+
+#### Scenario: Entity Catalog 随 release 不可变发布
+
+- GIVEN `entity-catalog.json` 已绑定最终 manifest digest
+- WHEN Pack 发布器生成 active 与 release 对象
+- THEN release Catalog 使用 immutable cache policy
+- AND active Catalog 使用 must-revalidate
+- AND `packs.json` 同时记录 Catalog URL 和 SHA-256
+
 
 #### Scenario: gallery 差分组生成 sticker set
 

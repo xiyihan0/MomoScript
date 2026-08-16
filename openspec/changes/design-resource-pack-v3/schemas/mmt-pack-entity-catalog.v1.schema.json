@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://momoscript.dev/schemas/mmt-pack-entity-catalog.v1.schema.json",
+  "title": "MomoScript Pack Entity Catalog v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "generated_at", "pack", "source", "entities", "taxonomies"],
+  "properties": {
+    "schema": { "const": "mmt-pack-entity-catalog.v1" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "pack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["namespace", "version", "manifest_sha256"],
+      "properties": {
+        "namespace": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "manifest_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "url", "retrieved_at", "transformed", "license"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" },
+        "retrieved_at": { "type": "string", "format": "date-time" },
+        "transformed": { "const": true },
+        "api_versions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "api_time_range": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["first", "last"],
+          "properties": {
+            "first": { "type": "integer", "minimum": 0 },
+            "last": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "license": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "url", "terms_url", "attribution"],
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "url": { "type": "string", "format": "uri" },
+            "terms_url": { "type": "string", "format": "uri" },
+            "attribution": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "entities": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/entity" }
+    },
+    "taxonomies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schools", "relations"],
+      "properties": {
+        "schools": { "$ref": "#/$defs/taxonomy" },
+        "relations": { "$ref": "#/$defs/taxonomy" }
+      }
+    }
+  },
+  "$defs": {
+    "localeStrings": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$" },
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "localeStringLists": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$" },
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string", "minLength": 1 },
+        "uniqueItems": true
+      }
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["external_ids", "names", "affiliation", "related_entities"],
+      "properties": {
+        "external_ids": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-z][a-z0-9_-]*$" },
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        },
+        "names": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["display", "family", "given", "skin", "aliases"],
+          "properties": {
+            "display": { "$ref": "#/$defs/localeStrings" },
+            "family": { "$ref": "#/$defs/localeStrings" },
+            "given": { "$ref": "#/$defs/localeStrings" },
+            "skin": { "$ref": "#/$defs/localeStrings" },
+            "aliases": { "$ref": "#/$defs/localeStringLists" }
+          }
+        },
+        "affiliation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["relations"],
+          "properties": {
+            "school": { "type": "string", "minLength": 1 },
+            "main_relation": { "type": "string", "minLength": 1 },
+            "relations": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "uniqueItems": true
+            }
+          }
+        },
+        "related_entities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "entity"],
+            "properties": {
+              "kind": { "const": "alternate_skin" },
+              "entity": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "taxonomy": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[1-9][0-9]*$" },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["display_name", "aliases"],
+        "properties": {
+          "display_name": { "type": "string", "minLength": 1 },
+          "aliases": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "uniqueItems": true
+          }
+        }
+      }
+    }
+  }
+}

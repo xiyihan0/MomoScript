@@ -172,7 +172,7 @@ Kivo 将同一人物的不同 skin 作为独立学生记录。例如：
 
 两者字段集合一致，但 `id`、`skin`、`avatar`、`introduction`、`nick_name`、`release_date`、`character_datas[].character_id`、语音和图集都可能不同。
 
-pack-v3 因此倾向将不同 skin 建成不同 entity id，只在 `meta.related_entities` 中说明关系。
+pack-v3 将不同 skin 建成不同 entity id，并在 Entity Catalog `related_entities` 中说明关系。
 
 ### skin_list 可用于建立 related_entities
 

@@ -41,3 +41,11 @@
 - [x] 5.2 实现 HTTPS image-dir 下载、path/redirect/size 防护与 revision-bound preview 注入
 - [x] 5.3 实现 AVIFS Web Worker 的 SHA-256、profile、frame/size 校验、透明 PNG 输出和聚焦浏览器测试
 - [ ] 5.4 通过 language-tooling render response 暴露 resolve/planning diagnostics，并将 fetch/decode failure 保持为独立 revision-bound preview diagnostics
+
+## 6. Entity Catalog
+
+- [x] 6.1 定义 `mmt-pack-entity-catalog.v1` JSON Schema、manifest digest 绑定与许可 provenance
+- [x] 6.2 从 Kivo student detail 生成多语言名、aliases、affiliation 与 alternate-skin 关系
+- [x] 6.3 抓取并规范化 schools/relations taxonomy，不复制百科正文或远端图片 URL
+- [x] 6.4 随 Pack release 发布 immutable/active Entity Catalog，并在 `packs.json` 记录 URL 与 digest
+- [x] 6.5 增加纯 fixture builder、schema shape 与发布顺序回归测试

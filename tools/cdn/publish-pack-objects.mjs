@@ -12,8 +12,13 @@ import {
   sha256,
 } from "./ossutil-helper.mjs";
 
-const MUTABLE_ROLES = new Set(["active-manifest", "catalog"]);
-const IMMUTABLE_ROLES = new Set(["asset", "release-manifest", "release-report"]);
+const MUTABLE_ROLES = new Set(["active-manifest", "active-entity-catalog", "catalog"]);
+const IMMUTABLE_ROLES = new Set([
+  "asset",
+  "release-manifest",
+  "release-report",
+  "release-entity-catalog",
+]);
 
 export async function publishPackObjects(objects, {
   bucket = DEFAULT_BUCKET,

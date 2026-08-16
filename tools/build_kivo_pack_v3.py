@@ -2,9 +2,9 @@
 Build a draft pack-v3 resource pack from Kivo Wiki student data.
 
 This is intentionally a pack builder, not the final schema validator. It fetches
-Kivo student details, downloads avatars and sticker-like gallery groups in
-parallel, optionally encodes sticker sets concurrently, and writes a pack-v3
-manifest plus an auditable build report.
+Kivo student details and display taxonomies, downloads avatars and sticker-like
+gallery groups in parallel, optionally encodes sticker sets concurrently, and
+writes a pack-v3 manifest, entity Catalog, and auditable build report.
 """
 
 from __future__ import annotations
@@ -179,6 +179,15 @@ DEFAULT_INCLUDED_NPCS = {
     275: "灰音",
 }
 
+ENTITY_CATALOG_SCHEMA = "mmt-pack-entity-catalog.v1"
+KIVO_LICENSE = {
+    "id": "CC-BY-SA-4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "terms_url": "https://kivo.wiki/license",
+    "attribution": "基沃托斯古书馆（kivo.wiki）",
+}
+KIVO_SOURCE_URL = "https://kivo.wiki"
+
 
 def _utc_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -288,6 +297,21 @@ def _entity_id_for(detail: dict[str, Any]) -> str:
     return f"student_{student_id}"
 
 
+def _entity_id_map(details: list[dict[str, Any]]) -> dict[int, str]:
+    id_to_entity: dict[int, str] = {}
+    used_entity_ids: set[str] = set()
+    for detail in details:
+        student_id = int(detail.get("id") or 0)
+        base_id = _entity_id_for(detail)
+        entity_id = base_id
+        if entity_id in used_entity_ids:
+            entity_id = f"{base_id}_{student_id}"
+        used_entity_ids.add(entity_id)
+        id_to_entity[student_id] = entity_id
+    return id_to_entity
+
+
+
 def _display_name(detail: dict[str, Any]) -> str:
     return (
         _safe_text(
@@ -333,25 +357,92 @@ def _locale_map(*items: tuple[str, Any]) -> dict[str, str]:
     return {locale: text for locale, raw in items if (text := _safe_text(raw))}
 
 
-def _entity_meta(
-    detail: dict[str, Any], *, api_version: str = "", api_time: int = 0
+def _catalog_display_names(detail: dict[str, Any]) -> dict[str, str]:
+    def localized(
+        family_key: str,
+        given_key: str,
+        skin_key: str,
+        *,
+        given_first: bool = False,
+    ) -> str:
+        family = _safe_text(detail.get(family_key))
+        given = _safe_text(detail.get(given_key))
+        if given_first:
+            name = " ".join(value for value in (given, family) if value)
+        else:
+            name = f"{family}{given}".strip()
+        skin = _safe_text(detail.get(skin_key))
+        if name and skin:
+            return f"{name}（{skin}）"
+        return name
+
+    zh_cn = _display_primary(detail)
+    zh_cn_skin = _safe_text(detail.get("skin_cn") or detail.get("skin"))
+    if zh_cn and zh_cn_skin:
+        zh_cn = f"{zh_cn}（{zh_cn_skin}）"
+
+    return _drop_empty(
+        {
+            "zh-CN": zh_cn,
+            "ja-JP": localized("family_name_jp", "given_name_jp", "skin_jp"),
+            "ko-KR": localized("family_name_kr", "given_name_kr", "skin_kr"),
+            "en-US": localized(
+                "family_name_en", "given_name_en", "skin_en", given_first=True
+            ),
+            "zh-TW": localized(
+                "family_name_zh_tw", "given_name_zh_tw", "skin_zh_tw"
+            ),
+        }
+    )
+
+
+def _entity_catalog_entry(
+    detail: dict[str, Any],
+    *,
+    namespace: str,
+    entity_id: str,
+    id_to_entity: dict[int, str],
+    included_entities: set[str],
 ) -> dict[str, Any]:
     cdata = _first_character_data(detail)
-    character_id = cdata.get("character_id")
-    nicknames = _split_nicknames(_safe_text(detail.get("nick_name")))
+    external_ids = {"student": str(int(detail.get("id") or 0))}
+    character_id = int(cdata.get("character_id") or 0)
+    if character_id:
+        external_ids["character"] = str(character_id)
 
-    meta: dict[str, Any] = {
-        "external": {
-            "kivo": {
-                "student_id": int(detail.get("id") or 0),
-                "character_id": character_id,
-                "api_version": api_version,
-                "api_time": api_time,
-                "created_at": detail.get("created_at"),
-                "updated_at": detail.get("updated_at"),
-            }
-        },
+    related_entities: list[dict[str, str]] = []
+    seen_related: set[str] = set()
+    for skin in detail.get("skin_list") or []:
+        if not isinstance(skin, dict):
+            continue
+        related = id_to_entity.get(int(skin.get("id") or 0))
+        if (
+            not related
+            or related == entity_id
+            or related not in included_entities
+            or related in seen_related
+        ):
+            continue
+        seen_related.add(related)
+        related_entities.append(
+            {"kind": "alternate_skin", "entity": f"{namespace}::{related}"}
+        )
+
+    school = detail.get("school")
+    main_relation = detail.get("main_relation")
+    relations = _unique(str(value) for value in (detail.get("relation") or []))
+    affiliation: dict[str, Any] = {"relations": relations}
+    if school is not None:
+        affiliation["school"] = str(school)
+    if main_relation is not None:
+        affiliation["main_relation"] = str(main_relation)
+    aliases = _split_nicknames(_safe_text(detail.get("nick_name")))
+
+
+    return {
+        "external_ids": external_ids,
         "names": {
+            "display": _catalog_display_names(detail),
             "family": _locale_map(
                 ("zh-CN", detail.get("family_name_cn") or detail.get("family_name")),
                 ("ja-JP", detail.get("family_name_jp")),
@@ -366,27 +457,36 @@ def _entity_meta(
                 ("en-US", detail.get("given_name_en")),
                 ("zh-TW", detail.get("given_name_zh_tw")),
             ),
-            "display": _locale_map(("zh-CN", _display_name(detail))),
             "skin": _locale_map(
                 ("zh-CN", detail.get("skin_cn") or detail.get("skin")),
                 ("ja-JP", detail.get("skin_jp")),
+                ("ko-KR", detail.get("skin_kr")),
+                ("en-US", detail.get("skin_en")),
                 ("zh-TW", detail.get("skin_zh_tw")),
             ),
-            "nicknames": {"zh-CN": nicknames} if nicknames else {},
+            "aliases": {"zh-CN": aliases} if aliases else {},
         },
-        "affiliation": {
-            "school": {"source_id": detail.get("school")}
-            if detail.get("school") is not None
-            else {},
-            "main_relation": {"source_id": detail.get("main_relation")}
-            if detail.get("main_relation") is not None
-            else {},
-            "relations": [{"source_id": r} for r in (detail.get("relation") or [])],
-        },
+        "affiliation": affiliation,
+        "related_entities": related_entities,
     }
 
-    # Drop empty nested maps/lists while preserving false/0.
-    return _drop_empty(meta)
+
+def _normalize_taxonomy(
+    records: list[dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    taxonomy: dict[str, dict[str, Any]] = {}
+    for record in records:
+        source_id = int(record.get("id") or 0)
+        source_name = _safe_text(record.get("name"))
+        display_name = _safe_text(record.get("name_cn")) or source_name
+        if source_id <= 0 or not display_name:
+            continue
+        aliases = [source_name] if source_name and source_name != display_name else []
+        taxonomy[str(source_id)] = {
+            "display_name": display_name,
+            "aliases": aliases,
+        }
+    return dict(sorted(taxonomy.items(), key=lambda item: int(item[0])))
 
 
 def _drop_empty(value: Any) -> Any:
@@ -398,6 +498,65 @@ def _drop_empty(value: Any) -> Any:
             _drop_empty(v) for v in value if _drop_empty(v) not in ({}, [], "", None)
         ]
     return value
+
+
+def _build_entity_catalog(
+    details: list[dict[str, Any]],
+    *,
+    manifest: dict[str, Any],
+    manifest_sha256: str,
+    schools: list[dict[str, Any]],
+    relations: list[dict[str, Any]],
+    api_versions: Iterable[str],
+    api_times: Iterable[int],
+    generated_at: str,
+) -> dict[str, Any]:
+    namespace = _safe_text((manifest.get("pack") or {}).get("namespace"))
+    included_entities = set((manifest.get("entities") or {}).keys())
+    id_to_entity = _entity_id_map(details)
+    entities: dict[str, Any] = {}
+    for detail in details:
+        entity_id = id_to_entity.get(int(detail.get("id") or 0))
+        if not entity_id or entity_id not in included_entities:
+            continue
+        entities[entity_id] = _entity_catalog_entry(
+            detail,
+            namespace=namespace,
+            entity_id=entity_id,
+            id_to_entity=id_to_entity,
+            included_entities=included_entities,
+        )
+
+    source: dict[str, Any] = {
+        "id": "kivo.wiki",
+        "name": "基沃托斯古书馆",
+        "url": KIVO_SOURCE_URL,
+        "retrieved_at": generated_at,
+        "transformed": True,
+        "license": KIVO_LICENSE,
+    }
+    versions = sorted({_safe_text(value) for value in api_versions if _safe_text(value)})
+    if versions:
+        source["api_versions"] = versions
+    times = sorted({int(value) for value in api_times if int(value) > 0})
+    if times:
+        source["api_time_range"] = {"first": times[0], "last": times[-1]}
+
+    return {
+        "schema": ENTITY_CATALOG_SCHEMA,
+        "generated_at": generated_at,
+        "pack": {
+            "namespace": namespace,
+            "version": _safe_text((manifest.get("pack") or {}).get("version")),
+            "manifest_sha256": manifest_sha256,
+        },
+        "source": source,
+        "entities": dict(sorted(entities.items())),
+        "taxonomies": {
+            "schools": _normalize_taxonomy(schools),
+            "relations": _normalize_taxonomy(relations),
+        },
+    }
 
 
 def _set_id_for(title: str, index: int) -> str:
@@ -498,6 +657,36 @@ async def _fetch_detail(
     )
 
 
+async def _fetch_taxonomy(
+    client: KivoWikiClient,
+    *,
+    path: str,
+    data_key: str,
+    page_size: int,
+) -> tuple[list[dict[str, Any]], list[str], list[int]]:
+    records: list[dict[str, Any]] = []
+    versions: list[str] = []
+    times: list[int] = []
+    page = 1
+    max_page = 1
+    while page <= max_page:
+        raw = await client.get_json(path, params={"page": page, "page_size": page_size})
+        data = raw.get("data")
+        if not isinstance(data, dict) or not isinstance(data.get(data_key), list):
+            raise ApiError(f"{path} page {page} missing data.{data_key}")
+        records.extend(item for item in data[data_key] if isinstance(item, dict))
+        max_page = max(1, int(data.get("max_page") or 1))
+        version = _safe_text(raw.get("version"))
+        api_time = int(raw.get("time") or 0)
+        if version:
+            versions.append(version)
+        if api_time > 0:
+            times.append(api_time)
+        page += 1
+    return records, versions, times
+
+
+
 async def _download_one(
     client: KivoWikiClient,
     task: DownloadTask,
@@ -550,8 +739,6 @@ def _build_manifest(
     nickname_names: bool,
     english_names: bool,
     excluded_entity_markers: list[str],
-    api_versions: dict[int, str],
-    api_times: dict[int, int],
     base_url: str,
 ) -> tuple[dict[str, Any], list[DownloadTask], list[str]]:
     entities: dict[str, Any] = {}
@@ -564,15 +751,7 @@ def _build_manifest(
     thumbnails: dict[str, Any] = {}
     tasks: list[DownloadTask] = []
 
-    id_to_entity: dict[int, str] = {}
-    used_entity_ids: set[str] = set()
-    for detail in details:
-        base_id = _entity_id_for(detail)
-        entity_id = base_id
-        if entity_id in used_entity_ids:
-            entity_id = f"{base_id}_{int(detail.get('id') or 0)}"
-        used_entity_ids.add(entity_id)
-        id_to_entity[int(detail.get("id") or 0)] = entity_id
+    id_to_entity = _entity_id_map(details)
 
     skipped_entities: list[str] = []
     for detail in details:
@@ -1340,6 +1519,8 @@ def _encode_avif_sequences(
 
 async def main_async(args: argparse.Namespace) -> int:
     out_dir = Path(args.out_dir).resolve()
+    build_generated_at = _utc_now_iso()
+
     student_ids = list(args.student_id or [])
     if args.student_ids:
         student_ids.extend(
@@ -1398,6 +1579,42 @@ async def main_async(args: argparse.Namespace) -> int:
             )
             return 1
 
+        taxonomy_errors: list[dict[str, str]] = []
+        schools: list[dict[str, Any]] = []
+        relations: list[dict[str, Any]] = []
+        taxonomy_versions: list[str] = []
+        taxonomy_times: list[int] = []
+        taxonomy_requests = [
+            ("schools", "/data/schools", "school"),
+            ("relations", "/data/relations", "relation"),
+        ]
+        taxonomy_results = await asyncio.gather(
+            *[
+                _fetch_taxonomy(
+                    client,
+                    path=path,
+                    data_key=data_key,
+                    page_size=int(args.page_size),
+                )
+                for _label, path, data_key in taxonomy_requests
+            ],
+            return_exceptions=True,
+        )
+        for (label, _path, _data_key), result in zip(
+            taxonomy_requests, taxonomy_results
+        ):
+            if isinstance(result, BaseException):
+                taxonomy_errors.append({"taxonomy": label, "error": str(result)})
+                continue
+            records, versions, times = result
+            if label == "schools":
+                schools = records
+            else:
+                relations = records
+            taxonomy_versions.extend(versions)
+            taxonomy_times.extend(times)
+
+
         if args.save_raw:
             for detail in details:
                 student_id = int(detail.get("id") or 0)
@@ -1405,6 +1622,8 @@ async def main_async(args: argparse.Namespace) -> int:
                     out_dir / "sources" / "kivo" / "students" / f"{student_id}.json",
                     detail,
                 )
+            _write_json(out_dir / "sources" / "kivo" / "schools.json", schools)
+            _write_json(out_dir / "sources" / "kivo" / "relations.json", relations)
 
         overlay_counts: dict[str, int] = {}
         if args.overlay:
@@ -1423,12 +1642,29 @@ async def main_async(args: argparse.Namespace) -> int:
             nickname_names=bool(args.nickname_names),
             english_names=bool(args.english_names),
             excluded_entity_markers=list(args.exclude_entity_marker),
-            api_versions=api_versions,
-            api_times=api_times,
             base_url=args.base_url or f"https://mms-pack.esa.xiyihan.cn/{out_dir.name}/",
         )
 
         _write_json(out_dir / "manifest.json", manifest)
+
+        def write_entity_catalog() -> tuple[dict[str, Any], str]:
+            manifest_sha256 = hashlib.sha256(
+                (out_dir / "manifest.json").read_bytes()
+            ).hexdigest()
+            catalog = _build_entity_catalog(
+                details,
+                manifest=manifest,
+                manifest_sha256=manifest_sha256,
+                schools=schools,
+                relations=relations,
+                api_versions=[*api_versions.values(), *taxonomy_versions],
+                api_times=[*api_times.values(), *taxonomy_times],
+                generated_at=build_generated_at,
+            )
+            catalog_path = out_dir / "entity-catalog.json"
+            _write_json(catalog_path, catalog)
+            return catalog, hashlib.sha256(catalog_path.read_bytes()).hexdigest()
+
         report: dict[str, Any] = {
             "generated_at": _utc_now_iso(),
             "student_ids": student_ids,
@@ -1438,14 +1674,23 @@ async def main_async(args: argparse.Namespace) -> int:
             "download_tasks": len(tasks),
             "detail_errors": errors,
             "dry_run": bool(args.dry_run),
+            "taxonomy_errors": taxonomy_errors,
         }
         if args.overlay:
             report["overlay"] = overlay_counts
 
         if args.dry_run:
+            entity_catalog, entity_catalog_digest = write_entity_catalog()
+            report["entity_catalog"] = {
+                "schema": entity_catalog["schema"],
+                "sha256": entity_catalog_digest,
+                "entities": len(entity_catalog["entities"]),
+                "schools": len(entity_catalog["taxonomies"]["schools"]),
+                "relations": len(entity_catalog["taxonomies"]["relations"]),
+            }
             _write_json(out_dir / "build_report.json", report)
             print(f"[ok] wrote draft manifest to {out_dir / 'manifest.json'} (dry-run)")
-            return 0 if not errors else 1
+            return 0 if not errors and not taxonomy_errors else 1
 
         print(f"[info] downloading {len(tasks)} resource file(s)")
         download_sem = asyncio.Semaphore(
@@ -1520,12 +1765,22 @@ async def main_async(args: argparse.Namespace) -> int:
 
         removed_unreferenced = _cleanup_unreferenced(out_dir, manifest)
         report["removed_unreferenced"] = removed_unreferenced
+        entity_catalog, entity_catalog_digest = write_entity_catalog()
+        report["entity_catalog"] = {
+            "schema": entity_catalog["schema"],
+            "sha256": entity_catalog_digest,
+            "entities": len(entity_catalog["entities"]),
+            "schools": len(entity_catalog["taxonomies"]["schools"]),
+            "relations": len(entity_catalog["taxonomies"]["relations"]),
+        }
+
         _write_json(out_dir / "build_report.json", report)
 
         encode_failures = int((report.get("encode") or {}).get("failed") or 0)
-        if failures or errors or encode_failures:
+        if failures or errors or taxonomy_errors or encode_failures:
             print(
                 f"[warn] wrote manifest but had {len(errors)} detail error(s), "
+                f"{len(taxonomy_errors)} taxonomy error(s), "
                 f"{len(failures)} download failure(s), {encode_failures} encode failure(s); "
                 f"see {out_dir / 'build_report.json'}"
             )

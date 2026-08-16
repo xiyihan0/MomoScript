@@ -263,6 +263,65 @@ test("immutable A/B releases coexist while mutable active and catalog objects ad
   );
 });
 
+test("entity Catalog release is immutable while active metadata advances", async () => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), "mmt-entity-catalog-"));
+  const fake = makeFakeOss();
+  const json = metadata("application/json", immutable);
+  const currentJson = metadata("application/json", mutable);
+  const entityABytes = new TextEncoder().encode('{\"release\":\"A\"}\\n');
+  const entityBBytes = new TextEncoder().encode('{\"release\":\"B\"}\\n');
+  const releaseA = await localObject(
+    directory,
+    "release-entity-catalog",
+    "ba/releases/A/entity-catalog.json",
+    entityABytes,
+    json,
+  );
+  const activeA = await localObject(
+    directory,
+    "active-entity-catalog",
+    "ba/entity-catalog.json",
+    entityABytes,
+    currentJson,
+  );
+  const first = await publishPackObjects([releaseA, activeA], {
+    temporaryDirectory: directory,
+    runOssCommand: fake.run,
+  });
+  assert.deepEqual(first.map((item) => item.outcome), ["published", "published"]);
+
+  const releaseB = await localObject(
+    directory,
+    "release-entity-catalog",
+    "ba/releases/B/entity-catalog.json",
+    entityBBytes,
+    json,
+  );
+  const activeB = await localObject(
+    directory,
+    "active-entity-catalog",
+    "ba/entity-catalog.json",
+    entityBBytes,
+    currentJson,
+  );
+  const second = await publishPackObjects([releaseB, activeB], {
+    temporaryDirectory: directory,
+    runOssCommand: fake.run,
+  });
+  assert.deepEqual(second.map((item) => item.outcome), ["published", "updated"]);
+
+  const repeated = await publishPackObjects([releaseB, activeB], {
+    temporaryDirectory: directory,
+    runOssCommand: fake.run,
+  });
+  assert.deepEqual(repeated.map((item) => item.outcome), ["reused", "updated"]);
+  assert.equal(
+    new TextDecoder().decode(fake.objects.get("oss://mms-pack/ba/entity-catalog.json").bytes),
+    '{\"release\":\"B\"}\\n',
+  );
+});
+
+
 test("dry-run Catalog merge prepends releases, deduplicates digests, preserves Packs, and sorts namespaces", async () => {
   const directory = await mkdtemp(path.join(os.tmpdir(), "mmt-pack-dry-run-"));
   const packA = path.join(directory, "ba-a");
@@ -285,6 +344,34 @@ test("dry-run Catalog merge prepends releases, deduplicates digests, preserves P
   });
   await writeFile(path.join(packA, "manifest.json"), `${JSON.stringify(manifest("A", "A"), null, 2)}\n`);
   await writeFile(path.join(packB, "manifest.json"), `${JSON.stringify(manifest("B", "B"), null, 2)}\n`);
+  const manifestBBytes = new Uint8Array(await readFile(path.join(packB, "manifest.json")));
+  const manifestBDigest = sha256(manifestBBytes);
+  const entityCatalogBytes = new TextEncoder().encode(`${JSON.stringify({
+    schema: "mmt-pack-entity-catalog.v1",
+    generated_at: "2026-08-16T00:00:00Z",
+    pack: {
+      namespace: "ba",
+      version: "B",
+      manifest_sha256: manifestBDigest,
+    },
+    source: {
+      id: "fixture",
+      name: "Fixture",
+      url: "https://example.invalid/",
+      retrieved_at: "2026-08-16T00:00:00Z",
+      transformed: true,
+      license: {
+        id: "CC-BY-SA-4.0",
+        url: "https://creativecommons.org/licenses/by-sa/4.0/",
+        terms_url: "https://example.invalid/license",
+        attribution: "Fixture",
+      },
+    },
+    entities: {},
+    taxonomies: { schools: {}, relations: {} },
+  }, null, 2)}\n`);
+  await writeFile(path.join(packB, "entity-catalog.json"), entityCatalogBytes);
+
   await writeFile(catalogPath, `${JSON.stringify({
     schema: "mmt-pack-catalog-v1",
     generated_at: null,
@@ -312,6 +399,23 @@ test("dry-run Catalog merge prepends releases, deduplicates digests, preserves P
   assert.equal(new Set(ba.releases.map((release) => release.digest)).size, ba.releases.length);
   assert.equal(ba.manifest_digest, second.manifestDigest);
   assert.equal(ba.manifest_url, "https://mms-pack.esa.xiyihan.cn/ba/manifest.json");
+  assert.equal(ba.entity_catalog_digest, sha256(entityCatalogBytes));
+  assert.equal(
+    ba.entity_catalog_url,
+    "https://mms-pack.esa.xiyihan.cn/ba/entity-catalog.json",
+  );
+  assert.equal(ba.releases[0].entity_catalog_digest, sha256(entityCatalogBytes));
+  assert.equal(
+    ba.releases[0].entity_catalog_url,
+    `https://mms-pack.esa.xiyihan.cn/ba/releases/${second.manifestDigest}/entity-catalog.json`,
+  );
+  assert.deepEqual(
+    second.objects
+      .filter((object) => object.role.includes("entity-catalog"))
+      .map((object) => object.role)
+      .sort(),
+    ["active-entity-catalog", "release-entity-catalog"],
+  );
   await writeFile(catalogPath, `${JSON.stringify(second.catalog, null, 2)}\n`);
   await exec(
     process.execPath,
