@@ -21,15 +21,18 @@
 - AND 缺失 `zh-CN` 或 Catalog 时 MUST 依次采用带全角括号的 manifest alias、下划线名称推导、与 `display_name` 精确相同的名称、`names[0]` 回退
 - AND Catalog 名称或 alias MUST NOT 进入 DSL resolve、speaker resolve 或插入 selector
 
-#### Scenario: 搜索与简单筛选
+#### Scenario: 搜索与分组筛选表单
 
 - GIVEN 一个或多个 Pack，Entity Catalog 可用或不可用
-- WHEN 用户输入任意语言名称/alias，或打开折叠式筛选器
+- WHEN 用户输入任意语言名称/alias，或操作默认展开的分组筛选表单
 - THEN 搜索 MUST 以 NFKC、大小写无关方式匹配 entity key、manifest `display_name`/`names[]` 与 Catalog 全部本地化名称/aliases/taxonomy names
-- AND 形态筛选（基础/换装）与差分数量筛选 MUST 在 manifest-only 模式可用
-- AND 有 Catalog 时学校/关系筛选 MUST 按 entity affiliation 与 Pack namespace 区分 taxonomy id
+- AND 低基数条件 MUST 仿照资料站筛选表单按名称分组，以原生可切换按钮呈现“全部”、形态（基础/换装）与差分数量范围，不得压缩为无标签下拉框
+- AND 每个可切换按钮 MUST 暴露 `aria-pressed`，同组 MUST 为单选且再次选择“全部”后清除该条件
+- AND 形态与差分数量筛选 MUST 在 manifest-only 模式可用
+- AND Pack、学校、关系等高基数条件 MAY 使用带可见标签的原生选择框；有 Catalog 时学校/关系 MUST 按 entity affiliation 与 Pack namespace 区分 taxonomy id
 - AND 多 Pack 时 MUST 提供 Pack 筛选，单 Pack 列表 MUST NOT 在每行重复显示 namespace
-- AND 没有 Catalog 时 MUST 隐藏无数据的学校/关系筛选，但不得隐藏基础筛选
+- AND 没有 Catalog 时 MUST 隐藏无数据的学校/关系分组，但不得隐藏基础筛选
+- AND 表单 MUST 提供统一清除操作，并在约 240–320 px 侧栏内换行而不产生横向溢出
 
 #### Scenario: 用户缩放图鉴
 

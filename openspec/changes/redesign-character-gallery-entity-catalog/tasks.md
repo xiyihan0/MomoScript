@@ -14,11 +14,13 @@
 - [x] 2.5 保留 Ctrl+滚轮缩放并增加可见控制，完成 240–320 px 响应式样式
 - [x] 2.6 增加折叠式基础/换装与差分数量筛选，移除单 Pack namespace 重复标签，并以 NFKC/大小写无关方式搜索全部 Catalog 语言名称
 - [x] 2.7 在实体横向行显示差分总数，并仅对多 sticker set 实体追加套组数量
+- [x] 2.8 将无标签选择框筛选改为默认展开的分组表单，低基数条件使用可访问的切换按钮，高基数条件保留带标签选择框
 
 ## 3. 合同与浏览器验证
 
 - [x] 3.1 新增 parser/loader Node 合同，覆盖正负 schema、binding、URL、ETag、cache/fallback
 - [x] 3.2 新增 digest-bound E2E Catalog fixture，更新 gallery route
 - [x] 3.3 扩展 Playwright：horizontal rows、zh-CN、alias/filter、two-column、keyboard、target/disabled、fallback、no Kivo request
+- [x] 3.6 扩展 Playwright：分组标题、按钮 pressed 状态、单选/全部清除与 240–320 px 无溢出
 - [x] 3.4 运行 `openspec validate redesign-character-gallery-entity-catalog --strict`、`npm run test:gallery-entity-catalog`、`npm run check`
 - [x] 3.5 运行 shared `test:pack-sync`、focused gallery Playwright、完整 local E2E 与 production build

@@ -380,6 +380,8 @@ body {
 }
 .mms-gallery-search:focus,
 .mms-gallery-filter:focus,
+.mms-gallery-filter-choice:focus-visible,
+.mms-gallery-clear-filters:focus-visible,
 .mms-gallery-set:focus {
   border-color: var(--vscode-focusBorder);
   outline: 1px solid var(--vscode-focusBorder);
@@ -408,30 +410,77 @@ body {
   outline-offset: -1px;
 }
 .mms-gallery-filter-disclosure[open] > summary {
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
-.mms-gallery-filters {
+.mms-gallery-filter-form {
+  display: grid;
+  min-width: 0;
+  gap: 8px;
+}
+.mms-gallery-filter-group {
+  display: grid;
+  min-width: 0;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  gap: 4px;
+}
+.mms-gallery-filter-label {
+  min-width: 0;
+  padding: 0;
+  color: var(--vscode-descriptionForeground, #aaa);
+  font-size: 11px;
+  line-height: 1.2;
+}
+.mms-gallery-filter-choices {
   display: flex;
   min-width: 0;
   flex-wrap: wrap;
   gap: 4px;
 }
+.mms-gallery-filter-choice {
+  min-width: 0;
+  max-width: 100%;
+  padding: 2px 8px;
+  border: 1px solid var(--vscode-button-border, var(--vscode-widget-border, transparent));
+  border-radius: 999px;
+  color: var(--vscode-foreground);
+  background: transparent;
+  font: inherit;
+  font-size: 11px;
+  line-height: 18px;
+}
+.mms-gallery-filter-choice:hover {
+  background: var(--vscode-toolbar-hoverBackground, var(--vscode-list-hoverBackground));
+}
+.mms-gallery-filter-choice[aria-pressed="true"] {
+  border-color: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  background: var(--vscode-button-background);
+}
 .mms-gallery-filter {
+  box-sizing: border-box;
+  width: 100%;
   min-width: 0;
   max-width: 100%;
   height: 24px;
-  flex: 1 1 92px;
   padding: 1px 5px;
   border: 1px solid var(--vscode-dropdown-border, transparent);
   color: var(--vscode-dropdown-foreground, var(--vscode-foreground));
   background: var(--vscode-dropdown-background, #3c3c3c);
   font: inherit;
 }
+.mms-gallery-filter-actions {
+  display: flex;
+  min-width: 0;
+  justify-content: flex-end;
+}
 .mms-gallery-clear-filters {
-  flex: 0 0 auto;
-  padding: 2px 7px;
+  padding: 2px 8px;
   border: 1px solid var(--vscode-button-secondaryBackground, transparent);
   border-radius: 3px;
+  color: var(--vscode-button-secondaryForeground, var(--vscode-foreground));
   background: var(--vscode-button-secondaryBackground, transparent);
 }
 .mms-gallery-control-footer {

@@ -631,24 +631,45 @@ test("character gallery browses metadata, filters variants, and inserts an entit
     await expect(catalogRow).toBeVisible();
     await search.fill("");
 
-    await page.locator(".mms-gallery-filter-disclosure > summary").click();
-    const formFilter = page.getByRole("combobox", { name: "角色形态筛选" });
-    await formFilter.selectOption("alternate");
+    const filterDisclosure = page.locator(".mms-gallery-filter-disclosure");
+    await expect(filterDisclosure).toHaveAttribute("open", "");
+    const filterForm = page.locator(".mms-gallery-filter-form");
+    await expect(filterForm).toBeVisible();
+    const formGroup = filterForm.getByRole("group", { name: "角色形态" });
+    const allForms = formGroup.getByRole("button", { name: "全部", exact: true });
+    const alternateForms = formGroup.getByRole("button", { name: "换装角色", exact: true });
+    await expect(allForms).toHaveAttribute("aria-pressed", "true");
+    await expect(alternateForms).toHaveAttribute("aria-pressed", "false");
+    await alternateForms.click();
+    await expect(alternateForms).toHaveAttribute("aria-pressed", "true");
+    await expect(allForms).toHaveAttribute("aria-pressed", "false");
     await expect(page.locator(".mms-gallery-entity-row", { hasText: "晴（露营）" })).toBeVisible();
     await expect(catalogRow).toHaveCount(0);
-    await page.getByRole("button", { name: "清除角色图鉴筛选" }).click();
-    await expect(page.getByRole("combobox", { name: "差分数量筛选" })).toBeVisible();
+    await allForms.click();
+    await expect(allForms).toHaveAttribute("aria-pressed", "true");
+    await expect(catalogRow).toBeVisible();
+    await expect(filterForm.getByRole("group", { name: "差分数量" })).toBeVisible();
 
     const schoolFilter = page.getByRole("combobox", { name: "学校筛选" });
     await schoolFilter.selectOption({ label: "格黑娜学园" });
     await expect(catalogRow).toBeVisible();
     await expect(page.locator(".mms-gallery-entity-row", { hasText: "晴（露营）" })).toHaveCount(0);
     await page.getByRole("button", { name: "清除角色图鉴筛选" }).click();
+    await expect(allForms).toHaveAttribute("aria-pressed", "true");
     const relationFilter = page.getByRole("combobox", { name: "关系筛选" });
     await relationFilter.selectOption({ label: "便利屋68" });
     await expect(catalogRow).toBeVisible();
     await expect(page.locator(".mms-gallery-entity-row", { hasText: "晴（露营）" })).toHaveCount(0);
     await page.getByRole("button", { name: "清除角色图鉴筛选" }).click();
+    for (const targetWidth of [240, 320]) {
+      await resizePrimarySidebar(page, targetWidth);
+      const horizontalOverflow = await page.locator(".mms-gallery-root")
+        .evaluate((element) => element.scrollWidth - element.clientWidth);
+      expect(horizontalOverflow).toBeLessThanOrEqual(1);
+      const formOverflow = await filterForm
+        .evaluate((element) => element.scrollWidth - element.clientWidth);
+      expect(formOverflow).toBeLessThanOrEqual(1);
+    }
   }
 
   await search.fill(entityName);
@@ -671,22 +692,8 @@ test("character gallery browses metadata, filters variants, and inserts an entit
     expect(Math.abs(firstBox.y - secondBox.y)).toBeLessThan(2);
     expect(secondBox.x).toBeGreaterThan(firstBox.x);
 
-    const sidebar = page.locator(".workbench-sidebar");
-    const sidebarSash = page.locator(
-      ".workbench-primary > .monaco-split-view2.horizontal > .sash-container > .monaco-sash"
-    ).first();
     for (const targetWidth of [240, 320]) {
-      const currentWidth = await sidebar.evaluate((element) => element.getBoundingClientRect().width);
-      const sashBox = await sidebarSash.boundingBox();
-      expect(sashBox).not.toBeNull();
-      const x = sashBox!.x + sashBox!.width / 2;
-      const y = sashBox!.y + sashBox!.height / 2;
-      await page.mouse.move(x, y);
-      await page.mouse.down();
-      await page.mouse.move(x + targetWidth - currentWidth, y, { steps: 8 });
-      await page.mouse.up();
-      await expect.poll(() => sidebar.evaluate((element) => Math.round(element.getBoundingClientRect().width)))
-        .toBeCloseTo(targetWidth, -1);
+      await resizePrimarySidebar(page, targetWidth);
       const horizontalOverflow = await page.locator(".mms-gallery-root")
         .evaluate((element) => element.scrollWidth - element.clientWidth);
       expect(horizontalOverflow).toBeLessThanOrEqual(1);
@@ -812,15 +819,21 @@ test("character gallery falls back to manifest metadata when Entity Catalog is u
   await expect(page.locator(".mms-gallery-name", { hasText: "佳代子" })).toHaveText("佳代子");
   await expect(page.locator(".mms-gallery-name", { hasText: "晴（露营）" })).toHaveText("晴（露营）");
   await expect(page.locator(".mms-gallery-entity-metadata")).toHaveCount(0);
-  await page.locator(".mms-gallery-filter-disclosure > summary").click();
-  const formFilter = page.getByRole("combobox", { name: "角色形态筛选" });
-  await expect(formFilter).toBeVisible();
-  await expect(page.getByRole("combobox", { name: "差分数量筛选" })).toBeVisible();
+  const filterDisclosure = page.locator(".mms-gallery-filter-disclosure");
+  await expect(filterDisclosure).toHaveAttribute("open", "");
+  const filterForm = page.locator(".mms-gallery-filter-form");
+  const formGroup = filterForm.getByRole("group", { name: "角色形态" });
+  const allForms = formGroup.getByRole("button", { name: "全部", exact: true });
+  const alternateForms = formGroup.getByRole("button", { name: "换装角色", exact: true });
+  await expect(allForms).toHaveAttribute("aria-pressed", "true");
+  await expect(filterForm.getByRole("group", { name: "差分数量" })).toBeVisible();
   await expect(page.getByRole("combobox", { name: "学校筛选" })).toHaveCount(0);
-  await formFilter.selectOption("alternate");
+  await alternateForms.click();
+  await expect(alternateForms).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator(".mms-gallery-entity-row", { hasText: "晴（露营）" })).toBeVisible();
   await expect(page.locator(".mms-gallery-entity-row", { hasText: "佳代子" })).toHaveCount(0);
   await page.getByRole("button", { name: "清除角色图鉴筛选" }).click();
+  await expect(allForms).toHaveAttribute("aria-pressed", "true");
   await page.locator(".mms-gallery-entity-row", { hasText: "佳代子" }).click();
   const variant = page.locator(".mms-gallery-variant", { hasText: "#1" }).first();
   await expect(variant).toBeEnabled();
@@ -828,6 +841,24 @@ test("character gallery falls back to manifest metadata when Entity Catalog is u
   await expect.poll(() => invokeMmtE2E(page, "workspace", "storyText"))
     .toContain("[:佳代子,#1:]");
 });
+
+async function resizePrimarySidebar(page: Page, targetWidth: number): Promise<void> {
+  const sidebar = page.locator(".workbench-sidebar");
+  const sidebarSash = page.locator(
+    ".workbench-primary > .monaco-split-view2.horizontal > .sash-container > .monaco-sash"
+  ).first();
+  const currentWidth = await sidebar.evaluate((element) => element.getBoundingClientRect().width);
+  const sashBox = await sidebarSash.boundingBox();
+  expect(sashBox).not.toBeNull();
+  const x = sashBox!.x + sashBox!.width / 2;
+  const y = sashBox!.y + sashBox!.height / 2;
+  await page.mouse.move(x, y);
+  await page.mouse.down();
+  await page.mouse.move(x + targetWidth - currentWidth, y, { steps: 8 });
+  await page.mouse.up();
+  await expect.poll(() => sidebar.evaluate((element) => Math.round(element.getBoundingClientRect().width)))
+    .toBeCloseTo(targetWidth, -1);
+}
 
 async function activeDocument(page: Page): Promise<{ name?: string; languageId: string; text: string } | null> {
   return invokeMmtE2E(page, "workspace", "activeDocument");

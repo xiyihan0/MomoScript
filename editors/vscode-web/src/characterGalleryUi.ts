@@ -114,10 +114,12 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
   search.setAttribute("aria-label", "搜索姓名或多语言别名");
   const filterDetails = document.createElement("details");
   filterDetails.className = "mms-gallery-filter-disclosure";
+  filterDetails.open = true;
   const filterSummary = document.createElement("summary");
-  filterSummary.textContent = "筛选";
-  const filterBar = document.createElement("div");
-  filterBar.className = "mms-gallery-filters";
+  filterSummary.textContent = "筛选条件";
+  const filterBar = document.createElement("form");
+  filterBar.className = "mms-gallery-filter-form";
+  filterBar.addEventListener("submit", (event) => event.preventDefault());
   filterDetails.append(filterSummary, filterBar);
   const listSummary = document.createElement("div");
   listSummary.className = "mms-gallery-list-summary";
@@ -247,38 +249,53 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
     if (selectedPack && !packs.some((pack) => pack.namespace === selectedPack)) selectedPack = "";
     filterBar.replaceChildren();
 
-    const formSelect = selectControl("角色形态筛选", "全部形态", [
-      { value: "base", label: "基础角色" },
-      { value: "alternate", label: "换装角色" }
-    ], selectedForm);
-    formSelect.addEventListener("change", () => {
-      selectedForm = formSelect.value;
-      renderEntityList();
-    });
-    const variantSelect = selectControl("差分数量筛选", "全部差分", [
-      { value: "none", label: "无差分" },
-      { value: "few", label: "1–9 个" },
-      { value: "many", label: "10–29 个" },
-      { value: "large", label: "30 个以上" }
-    ], selectedVariantCount);
-    variantSelect.addEventListener("change", () => {
-      selectedVariantCount = variantSelect.value;
-      renderEntityList();
-    });
-    filterBar.append(formSelect, variantSelect);
+    filterBar.append(
+      toggleFilterGroup(
+        "角色形态",
+        [
+          { value: "", label: "全部" },
+          { value: "base", label: "基础角色" },
+          { value: "alternate", label: "换装角色" }
+        ],
+        selectedForm,
+        (value) => {
+          selectedForm = value;
+          renderEntityList();
+        }
+      ),
+      toggleFilterGroup(
+        "差分数量",
+        [
+          { value: "", label: "全部" },
+          { value: "none", label: "无差分" },
+          { value: "few", label: "1–9 个" },
+          { value: "many", label: "10–29 个" },
+          { value: "large", label: "30 个以上" }
+        ],
+        selectedVariantCount,
+        (value) => {
+          selectedVariantCount = value;
+          renderEntityList();
+        }
+      )
+    );
 
     if (packs.length > 1) {
-      const packSelect = selectControl("资源包筛选", "全部资源包", packs.map((pack) => ({
-        value: pack.namespace,
-        label: pack.name
-      })), selectedPack);
-      packSelect.addEventListener("change", () => {
-        selectedPack = packSelect.value;
-        selectedSchool = "";
-        selectedRelation = "";
-        renderEntityList();
-      });
-      filterBar.append(packSelect);
+      filterBar.append(selectFilterGroup(
+        "资源包",
+        "全部资源包",
+        packs.map((pack) => ({
+          value: pack.namespace,
+          label: pack.name
+        })),
+        selectedPack,
+        (value) => {
+          selectedPack = value;
+          selectedSchool = "";
+          selectedRelation = "";
+          renderEntityList();
+        }
+      ));
     } else if (packs.length === 1) {
       selectedPack = "";
     }
@@ -287,12 +304,16 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
     const schools = taxonomyOptions(scopedPacks, "school");
     if (schools.length > 0) {
       if (!schools.some((option) => option.value === selectedSchool)) selectedSchool = "";
-      const schoolSelect = selectControl("学校筛选", "全部学校", schools, selectedSchool);
-      schoolSelect.addEventListener("change", () => {
-        selectedSchool = schoolSelect.value;
-        renderEntityList();
-      });
-      filterBar.append(schoolSelect);
+      filterBar.append(selectFilterGroup(
+        "学校",
+        "全部学校",
+        schools,
+        selectedSchool,
+        (value) => {
+          selectedSchool = value;
+          renderEntityList();
+        }
+      ));
     } else {
       selectedSchool = "";
     }
@@ -300,21 +321,27 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
     const relations = taxonomyOptions(scopedPacks, "relation");
     if (relations.length > 0) {
       if (!relations.some((option) => option.value === selectedRelation)) selectedRelation = "";
-      const relationSelect = selectControl("关系筛选", "全部关系", relations, selectedRelation);
-      relationSelect.addEventListener("change", () => {
-        selectedRelation = relationSelect.value;
-        renderEntityList();
-      });
-      filterBar.append(relationSelect);
+      filterBar.append(selectFilterGroup(
+        "关系",
+        "全部关系",
+        relations,
+        selectedRelation,
+        (value) => {
+          selectedRelation = value;
+          renderEntityList();
+        }
+      ));
     } else {
       selectedRelation = "";
     }
 
     const activeFilters = [selectedPack, selectedSchool, selectedRelation, selectedForm, selectedVariantCount]
       .filter(Boolean).length;
-    filterSummary.textContent = activeFilters > 0 ? `筛选 · ${activeFilters}` : "筛选";
+    filterSummary.textContent = activeFilters > 0 ? `筛选条件 · ${activeFilters}` : "筛选条件";
     if (search.value || activeFilters > 0) {
-      const clear = iconButton("清除筛选", "清除角色图鉴筛选");
+      const actions = document.createElement("div");
+      actions.className = "mms-gallery-filter-actions";
+      const clear = iconButton("清除全部", "清除角色图鉴筛选");
       clear.className = "mms-gallery-clear-filters";
       clear.addEventListener("click", () => {
         search.value = "";
@@ -325,7 +352,8 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
         selectedVariantCount = "";
         renderEntityList();
       });
-      filterBar.append(clear);
+      actions.append(clear);
+      filterBar.append(actions);
     }
   };
 
@@ -702,20 +730,54 @@ function taxonomyFilterValue(pack: GalleryPack, id: string | undefined): string 
   return id === undefined ? "" : `${pack.namespace}:${id}`;
 }
 
-function selectControl(
-  ariaLabel: string,
+function toggleFilterGroup(
+  label: string,
+  options: readonly { readonly value: string; readonly label: string }[],
+  selected: string,
+  onSelect: (value: string) => void
+): HTMLFieldSetElement {
+  const group = document.createElement("fieldset");
+  group.className = "mms-gallery-filter-group";
+  const legend = document.createElement("legend");
+  legend.className = "mms-gallery-filter-label";
+  legend.textContent = label;
+  const choices = document.createElement("div");
+  choices.className = "mms-gallery-filter-choices";
+  for (const option of options) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "mms-gallery-filter-choice";
+    button.textContent = option.label;
+    button.setAttribute("aria-pressed", String(option.value === selected));
+    button.addEventListener("click", () => onSelect(option.value));
+    choices.append(button);
+  }
+  group.append(legend, choices);
+  return group;
+}
+
+function selectFilterGroup(
+  label: string,
   allLabel: string,
   options: readonly { readonly value: string; readonly label: string }[],
-  selected: string
-): HTMLSelectElement {
+  selected: string,
+  onSelect: (value: string) => void
+): HTMLLabelElement {
+  const group = document.createElement("label");
+  group.className = "mms-gallery-filter-group";
+  const visibleLabel = document.createElement("span");
+  visibleLabel.className = "mms-gallery-filter-label";
+  visibleLabel.textContent = label;
   const select = document.createElement("select");
   select.className = "mms-gallery-filter";
-  select.setAttribute("aria-label", ariaLabel);
+  select.setAttribute("aria-label", `${label}筛选`);
   select.append(new Option(allLabel, "", false, selected === ""));
   for (const option of options) {
     select.append(new Option(option.label, option.value, false, option.value === selected));
   }
-  return select;
+  select.addEventListener("change", () => onSelect(select.value));
+  group.append(visibleLabel, select);
+  return group;
 }
 
 function normalizeSearchText(value: string): string {
