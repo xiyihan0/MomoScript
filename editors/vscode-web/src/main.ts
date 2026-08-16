@@ -799,7 +799,9 @@ async function initializeRuntime(
         ?? targets.find((candidate) => candidate.kind === "generatedProjection")
         ?? targets[0]
       : targets.find((candidate) => candidate.kind === "authoredIdentity")
-        ?? targets[0];
+        ?? targets.find((candidate) => candidate.kind === "workspaceTypst")
+        ?? targets.find((candidate) => candidate.kind === "packageFile")
+        ?? targets.find((candidate) => candidate.kind === "staleUnknown");
     if (!target) {
       const fallback = fallbackPreviewSourceTarget(location);
       log(

@@ -292,13 +292,14 @@ test("MMT Typst preview supports selectable text, workspace images, and bidirect
   await expect.poll(() => invokeMmtE2E(page, "preview", "buildDiagnostics", sourceUri)).toEqual([]);
 });
 
-test("MMT preview reverse navigation opens the authored character under the pointer", { tag: "@preview-navigation" }, async ({ page }) => {
+test("MMT preview reverse navigation opens authored characters and rejects generated-only targets", { tag: "@preview-navigation" }, async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready", { timeout: 300_000 });
   const source = [
     "> 佳代子: 第一行",
     "> _0: 1234abcd",
     "> _0: 我也可以继续说。",
+    "> _0: \"\"\"这条至少很像新闻线索！\n\"\"\"",
     "",
   ].join("\n");
   const sourceUri = await invokeMmtE2E(page, "workspace", "openDocument", "reverse-navigation.mmt", source);
@@ -345,6 +346,31 @@ test("MMT preview reverse navigation opens the authored character under the poin
     }
   });
   await expect.poll(async () => await callFixture(page, { action: "active-editor-selection" })).toEqual({
+    uri: sourceUri,
+    range: {
+      start: { line: 2, character: 10 },
+      end: { line: 2, character: 10 },
+    },
+  });
+
+  await invokeMmtE2E(page, "workspace", "showDocument", "reverse-navigation.mmt");
+  const escapedText = previewFrame.locator(".tsel").filter({ hasText: "这条至少很像新闻线索！" }).first();
+  await expect(escapedText).toBeVisible();
+  await escapedText.evaluate((element) => {
+    document.getSelection()?.removeAllRanges();
+    const glyph = element.closest(".typst-text")?.querySelectorAll<SVGGraphicsElement>(":scope > use")[4];
+    if (!glyph) throw new Error("Escaped text glyph is unavailable");
+    const bounds = glyph.getBoundingClientRect();
+    const clientX = bounds.left + bounds.width / 2;
+    const clientY = bounds.top + bounds.height / 2;
+    for (const type of ["pointerdown", "pointerup", "click"] as const) {
+      element.dispatchEvent(type === "click"
+        ? new MouseEvent(type, { bubbles: true, clientX, clientY })
+        : new PointerEvent(type, { bubbles: true, clientX, clientY }));
+    }
+  });
+  await expect.poll(async () => (await interactionState(page)).status).toBe("unmapped");
+  expect(await callFixture(page, { action: "active-editor-selection" })).toEqual({
     uri: sourceUri,
     range: {
       start: { line: 2, character: 10 },
