@@ -8,7 +8,7 @@ Entity Catalog 已由 `design-resource-pack-v3` 定义并随 active/release mani
 
 - Workbench 对每个已接受的 manifest 读取同目录 `entity-catalog.json`，严格校验 schema、namespace、version 与 manifest SHA-256；复用现有 URL-keyed IndexedDB pack cache。
 - Catalog 缺失、损坏、陈旧或绑定不匹配时，只让对应 Pack 回退到 manifest-only 图鉴，不影响 LSP、resolver、preview、export 或其他 Pack。
-- 角色主列表改为横向元数据行；国服 `zh-CN` 名称优先，搜索覆盖 Catalog aliases/affiliation，并提供 Pack、学校、关系筛选。
+- 角色主列表改为横向元数据行；国服 `zh-CN` 名称优先，搜索覆盖 Catalog 全部语言名称/aliases/affiliation，并提供无需 Catalog 的形态/差分数量筛选和有 Catalog 时的 Pack/学校/关系筛选。
 - 角色详情改为默认双列大差分图，显示学校/关系、其他装扮跳转、数据来源和明确的插入目标。
 - 非 MMT 编辑器仍可浏览，但差分按钮禁用；插入命令本身继续执行权限检查，插入文本保持不变。
 - 保留现有 AVIFS 解码/LRU/abort、分页、缩放、ViewsService shell 和单一 `galleryPacks` 状态源。

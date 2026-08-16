@@ -385,6 +385,31 @@ body {
   outline: 1px solid var(--vscode-focusBorder);
   outline-offset: -1px;
 }
+.mms-gallery-filter-disclosure {
+  min-width: 0;
+  color: var(--vscode-descriptionForeground, #aaa);
+}
+.mms-gallery-filter-disclosure > summary {
+  width: fit-content;
+  padding: 2px 5px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: var(--vscode-foreground);
+  cursor: pointer;
+  font-size: 11px;
+  user-select: none;
+}
+.mms-gallery-filter-disclosure > summary:hover {
+  background: var(--vscode-toolbar-hoverBackground, var(--vscode-list-hoverBackground));
+}
+.mms-gallery-filter-disclosure > summary:focus-visible {
+  border-color: var(--vscode-focusBorder);
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: -1px;
+}
+.mms-gallery-filter-disclosure[open] > summary {
+  margin-bottom: 5px;
+}
 .mms-gallery-filters {
   display: flex;
   min-width: 0;

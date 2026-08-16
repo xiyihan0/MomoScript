@@ -30,7 +30,7 @@ entity key、manifest `names[]`、sticker set、ordinal、storage 与 resource U
 
 ### 窄侧栏信息架构
 
-列表使用 native `ul/li/button` 横向行：avatar、中文名、学校/主要关系、差分总数。搜索独占一行；Pack/学校/关系 filter 在第二行按可用性出现。首批仍不超过 48 项，头像继续 lazy-load。Catalog provenance 放在紧凑 disclosure 中，外链仅由用户点击且只允许 HTTPS。
+列表使用 native `ul/li/button` 横向行：avatar、中文名、可用的学校/主要关系、差分总数。搜索独占一行并以 NFKC/大小写无关方式匹配 Catalog 全部语言名称与 aliases；折叠式 filter 始终提供基础/换装和差分数量筛选，Pack/学校/关系仅在数据可用时出现。单 Pack 且无 affiliation 时不重复显示 namespace。首批仍不超过 48 项，头像继续 lazy-load。Catalog provenance 放在紧凑 disclosure 中，外链仅由用户点击且只允许 HTTPS。
 
 详情保存稳定 `{namespace, entityKey}`，而不是旧对象引用。顶部显示返回、名称、affiliation、set、其他装扮和插入目标；差分使用 native list/button 默认双列大图。极窄侧栏或高 zoom 可退为一列。
 

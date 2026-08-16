@@ -110,10 +110,15 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
   const search = document.createElement("input");
   search.className = "mms-gallery-search";
   search.type = "search";
-  search.placeholder = "搜索姓名、别名、学校或社团…";
-  search.setAttribute("aria-label", "搜索姓名、别名、学校或社团");
+  search.placeholder = "搜索姓名或多语言别名…";
+  search.setAttribute("aria-label", "搜索姓名或多语言别名");
+  const filterDetails = document.createElement("details");
+  filterDetails.className = "mms-gallery-filter-disclosure";
+  const filterSummary = document.createElement("summary");
+  filterSummary.textContent = "筛选";
   const filterBar = document.createElement("div");
   filterBar.className = "mms-gallery-filters";
+  filterDetails.append(filterSummary, filterBar);
   const listSummary = document.createElement("div");
   listSummary.className = "mms-gallery-list-summary";
   const zoomControls = document.createElement("div");
@@ -127,7 +132,7 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
   const controlFooter = document.createElement("div");
   controlFooter.className = "mms-gallery-control-footer";
   controlFooter.append(listSummary, zoomControls);
-  controls.append(search, filterBar, controlFooter);
+  controls.append(search, filterDetails, controlFooter);
   const body = document.createElement("div");
   body.className = "mms-gallery-body";
   container.append(controls, body);
@@ -173,6 +178,8 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
   let selectedPack = "";
   let selectedSchool = "";
   let selectedRelation = "";
+  let selectedForm = "";
+  let selectedVariantCount = "";
   let insertionStatus: HTMLElement | undefined;
 
   const abortOngoing = () => {
@@ -216,17 +223,20 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
   };
 
   const allEntities = (): GalleryEntry[] => {
-    const query = search.value.trim().toLocaleLowerCase("zh-Hans-CN");
+    const query = normalizeSearchText(search.value);
     const output: GalleryEntry[] = [];
     for (const pack of visiblePacks()) {
       for (const entity of pack.entities) {
+        if (selectedForm === "base" && isAlternateEntity(entity)) continue;
+        if (selectedForm === "alternate" && !isAlternateEntity(entity)) continue;
+        if (!matchesVariantCount(entity.totalVariants, selectedVariantCount)) continue;
         if (selectedSchool && taxonomyFilterValue(pack, entity.school?.id) !== selectedSchool) continue;
         if (selectedRelation) {
           const relationValues = [entity.mainRelation, ...entity.relations]
             .map((term) => taxonomyFilterValue(pack, term?.id));
           if (!relationValues.includes(selectedRelation)) continue;
         }
-        if (query && !entity.searchTerms.some((term) => term.toLocaleLowerCase("zh-Hans-CN").includes(query))) continue;
+        if (query && !entity.searchTerms.some((term) => normalizeSearchText(term).includes(query))) continue;
         output.push({ pack, entity });
       }
     }
@@ -236,10 +246,31 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
   const renderFilterBar = (packs: readonly GalleryPack[]) => {
     if (selectedPack && !packs.some((pack) => pack.namespace === selectedPack)) selectedPack = "";
     filterBar.replaceChildren();
+
+    const formSelect = selectControl("角色形态筛选", "全部形态", [
+      { value: "base", label: "基础角色" },
+      { value: "alternate", label: "换装角色" }
+    ], selectedForm);
+    formSelect.addEventListener("change", () => {
+      selectedForm = formSelect.value;
+      renderEntityList();
+    });
+    const variantSelect = selectControl("差分数量筛选", "全部差分", [
+      { value: "none", label: "无差分" },
+      { value: "few", label: "1–9 个" },
+      { value: "many", label: "10–29 个" },
+      { value: "large", label: "30 个以上" }
+    ], selectedVariantCount);
+    variantSelect.addEventListener("change", () => {
+      selectedVariantCount = variantSelect.value;
+      renderEntityList();
+    });
+    filterBar.append(formSelect, variantSelect);
+
     if (packs.length > 1) {
       const packSelect = selectControl("资源包筛选", "全部资源包", packs.map((pack) => ({
         value: pack.namespace,
-        label: pack.namespace
+        label: pack.name
       })), selectedPack);
       packSelect.addEventListener("change", () => {
         selectedPack = packSelect.value;
@@ -279,24 +310,28 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
       selectedRelation = "";
     }
 
-    if (search.value || selectedPack || selectedSchool || selectedRelation) {
-      const clear = iconButton("清除", "清除角色图鉴筛选");
+    const activeFilters = [selectedPack, selectedSchool, selectedRelation, selectedForm, selectedVariantCount]
+      .filter(Boolean).length;
+    filterSummary.textContent = activeFilters > 0 ? `筛选 · ${activeFilters}` : "筛选";
+    if (search.value || activeFilters > 0) {
+      const clear = iconButton("清除筛选", "清除角色图鉴筛选");
       clear.className = "mms-gallery-clear-filters";
       clear.addEventListener("click", () => {
         search.value = "";
         selectedPack = "";
         selectedSchool = "";
         selectedRelation = "";
+        selectedForm = "";
+        selectedVariantCount = "";
         renderEntityList();
       });
       filterBar.append(clear);
     }
-    filterBar.hidden = filterBar.childElementCount === 0;
   };
 
   const showListControls = (packs: readonly GalleryPack[], count: number) => {
     search.hidden = false;
-    filterBar.hidden = false;
+    filterDetails.hidden = packs.length === 0;
     listSummary.hidden = false;
     renderFilterBar(packs);
     listSummary.textContent = `${count} 个角色`;
@@ -304,7 +339,7 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
 
   const showDetailControls = () => {
     search.hidden = true;
-    filterBar.hidden = true;
+    filterDetails.hidden = true;
     listSummary.hidden = true;
   };
 
@@ -397,14 +432,19 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
     const name = document.createElement("span");
     name.className = "mms-gallery-name";
     name.textContent = label;
-    const metadata = document.createElement("span");
-    metadata.className = "mms-gallery-entity-metadata";
     const affiliation = [entity.school?.displayName, entity.mainRelation?.displayName].filter(Boolean).join(" · ");
-    metadata.textContent = affiliation || pack.namespace;
+    const metadataText = affiliation || (options.getPacks().length > 1 ? pack.name : "");
     const count = document.createElement("span");
     count.className = "mms-gallery-variant-count";
-    count.textContent = `${entity.totalVariants} 个差分`;
-    text.append(name, metadata, count);
+    count.textContent = entityVariantSummary(entity);
+    text.append(name);
+    if (metadataText) {
+      const metadata = document.createElement("span");
+      metadata.className = "mms-gallery-entity-metadata";
+      metadata.textContent = metadataText;
+      text.append(metadata);
+    }
+    text.append(count);
     row.append(media, text);
     row.addEventListener("click", () => {
       selectedEntityId = { namespace: pack.namespace, entityKey: entity.key };
@@ -678,6 +718,28 @@ function selectControl(
   return select;
 }
 
+function normalizeSearchText(value: string): string {
+  return value
+    .normalize("NFKC")
+    .toLocaleLowerCase("und")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
+}
+
+function isAlternateEntity(entity: GalleryEntity): boolean {
+  return [entity.key, ...entity.names].some((name) => (
+    /_[^_]+$/.test(name) || /[（(][^）)]+[）)]$/.test(name)
+  ));
+}
+
+function matchesVariantCount(total: number, filter: string): boolean {
+  if (filter === "none") return total === 0;
+  if (filter === "few") return total >= 1 && total <= 9;
+  if (filter === "many") return total >= 10 && total <= 29;
+  if (filter === "large") return total >= 30;
+  return true;
+}
+
 function appendProvenance(container: HTMLElement, packs: readonly GalleryPack[]): void {
   const sources = packs.filter((pack) => pack.provenance !== undefined);
   if (sources.length === 0) return;
@@ -713,7 +775,14 @@ function externalButton(label: string, href: string): HTMLButtonElement {
 
 function entityAriaLabel(entity: GalleryEntity): string {
   const metadata = [entity.school?.displayName, entity.mainRelation?.displayName].filter(Boolean).join("，");
-  return [galleryDisplayLabel(entity), metadata, `${entity.totalVariants} 个差分`].filter(Boolean).join("，");
+  return [galleryDisplayLabel(entity), metadata, entityVariantSummary(entity)].filter(Boolean).join("，");
+}
+
+function entityVariantSummary(entity: GalleryEntity): string {
+  const variants = `${entity.totalVariants} 个差分`;
+  return entity.stickerSets.length > 1
+    ? `${variants} · ${entity.stickerSets.length} 个套组`
+    : variants;
 }
 
 function safeAvatarUrl(pack: GalleryPack, entity: GalleryEntity): string | undefined {

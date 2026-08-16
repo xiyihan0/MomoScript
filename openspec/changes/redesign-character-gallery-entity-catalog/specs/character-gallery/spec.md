@@ -9,8 +9,9 @@
 - GIVEN 用户已加载一个含角色实体的 pack manifest
 - WHEN 用户打开角色图鉴
 - THEN 视图 MUST 分页渲染横向元数据列表，首批 MUST NOT 超过 48 项
-- AND 每项 MUST 使用 native list/listitem/button 语义并显示 lazy avatar、主显示名和差分总数
+- AND 每项 MUST 使用 native list/listitem/button 语义并显示 lazy avatar、差分总数；实体有多个 sticker set 时 MUST 同时显示套组数量
 - AND 有有效 Catalog metadata 时 MUST 显示学校与主要关系，缺失字段不得产生空标签
+- AND 单 Pack 缺失 affiliation 时 MUST 省略空元数据行，不得用 namespace 重复填充每个角色
 
 #### Scenario: 国服名称优先且 manifest 可回退
 
@@ -20,13 +21,15 @@
 - AND 缺失 `zh-CN` 或 Catalog 时 MUST 依次采用带全角括号的 manifest alias、下划线名称推导、与 `display_name` 精确相同的名称、`names[0]` 回退
 - AND Catalog 名称或 alias MUST NOT 进入 DSL resolve、speaker resolve 或插入 selector
 
-#### Scenario: 搜索与筛选展示元数据
+#### Scenario: 搜索与简单筛选
 
-- GIVEN 一个或多个 Pack 含有效 Entity Catalog
-- WHEN 用户搜索或选择 Pack、学校、关系筛选
-- THEN 搜索 MUST 匹配 entity key、manifest `display_name`/`names[]`、Catalog 全部本地化名称/aliases 与 taxonomy display name/aliases
-- AND 学校/关系筛选 MUST 按 entity affiliation 与 Pack namespace 区分 taxonomy id
-- AND 没有 Catalog 的 Pack MUST 仍可按 manifest 字段搜索，且不显示无数据的 taxonomy 筛选
+- GIVEN 一个或多个 Pack，Entity Catalog 可用或不可用
+- WHEN 用户输入任意语言名称/alias，或打开折叠式筛选器
+- THEN 搜索 MUST 以 NFKC、大小写无关方式匹配 entity key、manifest `display_name`/`names[]` 与 Catalog 全部本地化名称/aliases/taxonomy names
+- AND 形态筛选（基础/换装）与差分数量筛选 MUST 在 manifest-only 模式可用
+- AND 有 Catalog 时学校/关系筛选 MUST 按 entity affiliation 与 Pack namespace 区分 taxonomy id
+- AND 多 Pack 时 MUST 提供 Pack 筛选，单 Pack 列表 MUST NOT 在每行重复显示 namespace
+- AND 没有 Catalog 时 MUST 隐藏无数据的学校/关系筛选，但不得隐藏基础筛选
 
 #### Scenario: 用户缩放图鉴
 

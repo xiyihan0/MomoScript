@@ -51,6 +51,7 @@ export type GalleryStorageBackend =
 
 export interface GalleryPack {
   readonly namespace: string;
+  readonly name: string;
   readonly manifestUrl: string;
   readonly baseUrl: string;
   readonly entities: readonly GalleryEntity[];
@@ -65,7 +66,7 @@ export function projectGalleryPack(
   catalog?: GalleryEntityCatalog
 ): GalleryPack {
   const manifest = JSON.parse(source.json) as {
-    pack?: { namespace?: unknown };
+    pack?: { namespace?: unknown; name?: unknown };
     entities?: Record<string, unknown>;
     storage?: Record<string, unknown>;
   };
@@ -90,6 +91,9 @@ export function projectGalleryPack(
   ));
   return {
     namespace,
+    name: typeof manifest.pack?.name === "string" && manifest.pack.name.length > 0
+      ? manifest.pack.name
+      : namespace,
     manifestUrl: source.manifestUrl,
     baseUrl: source.baseUrl,
     entities,

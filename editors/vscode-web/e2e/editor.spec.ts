@@ -611,7 +611,7 @@ test("character gallery browses metadata, filters variants, and inserts an entit
   await expect(page.locator(".workbench-editor .monaco-editor").first()).toBeVisible();
   await page.getByRole("tab", { name: "角色图鉴", exact: true }).click();
 
-  const search = page.getByRole("searchbox", { name: "搜索姓名、别名、学校或社团" });
+  const search = page.getByRole("searchbox", { name: "搜索姓名或多语言别名" });
   await expect(search).toBeVisible();
   const entityList = page.locator(".mms-gallery-entity-list");
   await expect(entityList).toBeVisible();
@@ -621,11 +621,24 @@ test("character gallery browses metadata, filters variants, and inserts an entit
     const catalogRow = page.locator(".mms-gallery-entity-row", { hasText: "鬼方佳代子" });
     await expect(catalogRow).toContainText("格黑娜学园");
     await expect(catalogRow).toContainText("便利屋68");
-    await expect(catalogRow).toContainText("3 个差分");
+    await expect(catalogRow).toContainText("3 个差分 · 2 个套组");
+    await expect(page.locator(".mms-gallery-entity-row", { hasText: "晴（露营）" })).not.toContainText("个套组");
     expect(await catalogRow.evaluate((element) => element.parentElement?.tagName)).toBe("LI");
+
+    await search.fill("mika");
+    await expect(page.locator(".mms-gallery-entity-row", { hasText: "未花" })).toBeVisible();
     await search.fill("黑猫");
     await expect(catalogRow).toBeVisible();
     await search.fill("");
+
+    await page.locator(".mms-gallery-filter-disclosure > summary").click();
+    const formFilter = page.getByRole("combobox", { name: "角色形态筛选" });
+    await formFilter.selectOption("alternate");
+    await expect(page.locator(".mms-gallery-entity-row", { hasText: "晴（露营）" })).toBeVisible();
+    await expect(catalogRow).toHaveCount(0);
+    await page.getByRole("button", { name: "清除角色图鉴筛选" }).click();
+    await expect(page.getByRole("combobox", { name: "差分数量筛选" })).toBeVisible();
+
     const schoolFilter = page.getByRole("combobox", { name: "学校筛选" });
     await schoolFilter.selectOption({ label: "格黑娜学园" });
     await expect(catalogRow).toBeVisible();
@@ -798,7 +811,16 @@ test("character gallery falls back to manifest metadata when Entity Catalog is u
   await page.getByRole("tab", { name: "角色图鉴", exact: true }).click();
   await expect(page.locator(".mms-gallery-name", { hasText: "佳代子" })).toHaveText("佳代子");
   await expect(page.locator(".mms-gallery-name", { hasText: "晴（露营）" })).toHaveText("晴（露营）");
+  await expect(page.locator(".mms-gallery-entity-metadata")).toHaveCount(0);
+  await page.locator(".mms-gallery-filter-disclosure > summary").click();
+  const formFilter = page.getByRole("combobox", { name: "角色形态筛选" });
+  await expect(formFilter).toBeVisible();
+  await expect(page.getByRole("combobox", { name: "差分数量筛选" })).toBeVisible();
   await expect(page.getByRole("combobox", { name: "学校筛选" })).toHaveCount(0);
+  await formFilter.selectOption("alternate");
+  await expect(page.locator(".mms-gallery-entity-row", { hasText: "晴（露营）" })).toBeVisible();
+  await expect(page.locator(".mms-gallery-entity-row", { hasText: "佳代子" })).toHaveCount(0);
+  await page.getByRole("button", { name: "清除角色图鉴筛选" }).click();
   await page.locator(".mms-gallery-entity-row", { hasText: "佳代子" }).click();
   const variant = page.locator(".mms-gallery-variant", { hasText: "#1" }).first();
   await expect(variant).toBeEnabled();

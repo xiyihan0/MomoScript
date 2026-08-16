@@ -94,12 +94,20 @@
       },
       "names": {
         "display": {
-          "zh-CN": "透明测试"
+          "zh-CN": "未花",
+          "en-US": "Mika Misono",
+          "ja-JP": "聖園ミカ"
         },
-        "family": {},
-        "given": {},
+        "family": {
+          "zh-CN": "圣园"
+        },
+        "given": {
+          "zh-CN": "未花"
+        },
         "skin": {},
-        "aliases": {}
+        "aliases": {
+          "en-US": ["Mika"]
+        }
       },
       "affiliation": {
         "relations": []

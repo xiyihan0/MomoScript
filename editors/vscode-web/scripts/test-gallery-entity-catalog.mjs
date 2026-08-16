@@ -48,6 +48,10 @@ assert.deepEqual(kayoko?.alternateSkinKeys, ["晴_露营"]);
 assert.equal(kayoko?.schoolId, "1");
 assert.equal(kayoko?.mainRelationId, "10");
 assert.equal(catalog.schools.get("1")?.displayName, "格黑娜学园");
+const mika = catalog.entities.get("透明测试");
+assert.equal(mika?.zhCnDisplayName, "未花");
+assert.ok(mika?.localizedNames.includes("Mika Misono"));
+assert.ok(mika?.aliases.includes("Mika"));
 
 function rejected(mutator, pattern) {
   const candidate = structuredClone(fixture);
