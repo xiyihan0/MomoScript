@@ -5,9 +5,6 @@ import type {
   CodeActionParams,
   Command,
   DocumentRangeFormattingParams,
-  PrepareRenameParams,
-  PrepareRenameResult,
-  RenameParams,
   TextEdit,
   WorkspaceEdit
 } from "vscode-languageserver-protocol";
@@ -167,7 +164,7 @@ export interface ProjectedEditDocumentResolver {
   resolve(virtualUri: string, encoding: "utf-8" | "utf-16"): ResolvedProjectedEditDocument | ProjectedEditFailure;
 }
 
-interface ProjectedRouteIdentity {
+export interface ProjectedRouteIdentity {
   readonly entryUri: string;
   readonly encoding: "utf-8" | "utf-16";
   readonly revision: number;
@@ -384,7 +381,7 @@ export class ProjectedTypstEditProviders implements vscode.Disposable {
   reconcile(): void {
     if (this.disposed) return;
     const desired = new Map<string, TypstProviderRegistrationContract>();
-    for (const method of ["textDocument/rename", "textDocument/rangeFormatting", "textDocument/codeAction"] as const) {
+    for (const method of ["textDocument/rangeFormatting", "textDocument/codeAction"] as const) {
       const capability = this.router.providerCapability(this.host, method);
       if (capability.kind === "QualifiedProvider") desired.set(method, capability);
     }
@@ -417,60 +414,6 @@ export class ProjectedTypstEditProviders implements vscode.Disposable {
 
   private register(method: string, registration: TypstProviderRegistrationContract): vscode.Disposable {
     const selector: vscode.DocumentSelector = [{ language: "mmt" }];
-    if (method === "textDocument/rename") {
-      return vscode.languages.registerRenameProvider(selector, {
-        prepareRename: async (document, position, token) => {
-          const prepare = this.router.providerCapability(this.host, "textDocument/prepareRename");
-          if (prepare.kind !== "QualifiedProvider") return undefined;
-          const routed = await this.router.projectedProviderAtPosition(
-            this.host,
-            "textDocument/prepareRename",
-            routerDocument(document),
-            this.client.code2ProtocolConverter.asPosition(position),
-            {
-              textDocument: { uri: document.uri.toString() },
-              position: this.client.code2ProtocolConverter.asPosition(position)
-            } satisfies PrepareRenameParams,
-            token
-          );
-          if (!routed || routed.value === null || token.isCancellationRequested) return undefined;
-          const prepared = routed.value as PrepareRenameResult;
-          if ("defaultBehavior" in prepared) return undefined;
-          const backendRange = "start" in prepared ? prepared : prepared.range;
-          const mapped = await this.adapter.prepareTextEdits(
-            routed,
-            [{ range: backendRange, newText: "" }],
-            token
-          );
-          if (mapped.kind !== "Validated" || !this.router.providerIdentityIsCurrent(routed.identity)) return undefined;
-          const range = mapped.textEdits[0]?.range;
-          if (!range) return undefined;
-          const placeholder = "start" in prepared ? document.getText(range) : prepared.placeholder;
-          return placeholder.length > 0 && document.getText(range) === placeholder
-            ? { range, placeholder }
-            : undefined;
-        },
-        provideRenameEdits: async (document, position, newName, token) => {
-          const routed = await this.router.projectedProviderAtPosition(
-            this.host,
-            "textDocument/rename",
-            routerDocument(document),
-            this.client.code2ProtocolConverter.asPosition(position),
-            {
-              textDocument: { uri: document.uri.toString() },
-              position: this.client.code2ProtocolConverter.asPosition(position),
-              newName
-            } satisfies RenameParams,
-            token
-          );
-          if (!routed || routed.value === null || token.isCancellationRequested) return undefined;
-          const mapped = await this.adapter.prepareWorkspaceEdit(routed, routed.value as WorkspaceEdit, token);
-          return mapped.kind === "Validated" && this.router.providerIdentityIsCurrent(routed.identity)
-            ? mapped.workspaceEdit
-            : undefined;
-        }
-      });
-    }
     if (method === "textDocument/rangeFormatting") {
       return vscode.languages.registerDocumentRangeFormattingEditProvider(selector, {
         provideDocumentRangeFormattingEdits: async (document, range, options, token) => {

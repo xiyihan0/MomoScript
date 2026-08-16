@@ -33,8 +33,12 @@ async function testWorkerPreviewRenderer(client: TinymistWorkerClient): Promise<
   const sessionId = "web-transcript";
   const logicalSourceId = "a".repeat(64);
   const entryUri = "untitled:/mmt-projection/web-preview-renderer/main.typ";
-  const project = async (revision: number, length: number): Promise<TypstProjectUpdate> => {
-    const text = `#set page(width: 120pt, height: 80pt)\n#line(length: ${length}pt)`;
+  const project = async (
+    revision: number,
+    length: number,
+    source?: string,
+  ): Promise<TypstProjectUpdate> => {
+    const text = source ?? `#set page(width: 120pt, height: 80pt)\n#line(length: ${length}pt)`;
     const digest = await canonicalBytesDigest("mmt-project-file-v1", [new TextEncoder().encode(text)]);
     return {
       sourceUri: "file:///workspace/web-preview-renderer.mmt",
@@ -81,11 +85,18 @@ async function testWorkerPreviewRenderer(client: TinymistWorkerClient): Promise<
     });
     if (firstCommit.status !== "committed") throw new Error("Web preview renderer did not commit generation one");
 
-    const secondProject = await project(2, 24);
+    const secondProject = await project(
+      2,
+      24,
+      "#set page(width: 120pt, height: 80pt)\n#set text(font: \"Mmt Definitely Missing Font\")\n#line(length: 24pt)",
+    );
     const secondToken = "c".repeat(64) as PreviewRendererReady["snapshotToken"];
     const second = await render(secondProject, secondToken, first.generation, false);
     if (second.frameKind !== "diff-v1" || second.generation !== 2 || second.baseGeneration !== 1) {
       throw new Error("Web preview renderer did not return a generation-two diff frame");
+    }
+    if (second.diagnostics.length === 0) {
+      throw new Error("Web preview renderer omitted diagnostics from a successful compile with warnings");
     }
     const discarded = await client.transitionPreviewRenderer({
       action: "discard",
@@ -114,6 +125,42 @@ async function testWorkerPreviewRenderer(client: TinymistWorkerClient): Promise<
       generation: replacement.generation
     });
     if (secondCommit.status !== "committed") throw new Error("Web preview renderer did not commit generation two");
+    const failedProject = await project(
+      3,
+      24,
+      "#set page(width: 120pt, height: 80pt)\n#definitely_missing_function()",
+    );
+    const failed = await client.previewRenderer(failedProject, { logicalSourceId }, {
+      sessionId,
+      snapshotToken: "d".repeat(64) as PreviewRendererReady["snapshotToken"],
+      baseGeneration: replacement.generation,
+      forceFull: false,
+    });
+    if (failed.response.status !== "compileFailed"
+      || failed.response.diagnostics.length === 0
+      || "generation" in failed.response) {
+      throw new Error(`Web preview renderer did not return a generation-free structured compile failure: ${JSON.stringify(failed.response)}`);
+    }
+    const recovered = await render(
+      await project(4, 28),
+      "e".repeat(64) as PreviewRendererReady["snapshotToken"],
+      replacement.generation,
+      false,
+    );
+    if (recovered.frameKind !== "diff-v1"
+      || recovered.generation !== replacement.generation + 1
+      || recovered.baseGeneration !== replacement.generation) {
+      throw new Error("Web preview renderer consumed a generation on compile failure");
+    }
+    const recoveredCommit = await client.transitionPreviewRenderer({
+      action: "commit",
+      sessionId,
+      snapshotToken: recovered.snapshotToken,
+      generation: recovered.generation,
+    });
+    if (recoveredCommit.status !== "committed") {
+      throw new Error("Web preview renderer did not commit recovery generation");
+    }
     return true;
   } finally {
     const closed = await client.closePreviewRenderer(sessionId);

@@ -35,6 +35,7 @@ import { registerLocalHistoryCommands, renderLocalHistoryView } from "./localHis
 import { normalizeResourceLimits } from "./resourceSettings";
 import { normalizeHistoryLimits, UNLIMITED_HISTORY_LIMITS } from "./historySettings";
 import { startMmtLanguageClient } from "./mmtLanguageClient";
+import { installMmtSemanticMiddleware } from "../../vscode/src/mmtSemanticMiddleware";
 import type { MmtLanguageClientHandle } from "./mmtLanguageClient";
 import { startTinymistLanguageClient } from "./tinymistLanguageClient";
 import type { TinymistHandle } from "./tinymistLanguageClient";
@@ -135,9 +136,15 @@ import {
 } from "../../vscode/src/runtimeIdentity";
 import { PreviewWebviewHost, type PreviewExactExportRequest } from "./previewWebviewHost.ts";
 import {
+  PreviewRendererCompilationError,
   PreviewRendererSessionOwner,
   type PreviewRendererCandidate,
 } from "./previewRendererSession.ts";
+import {
+  mapPreviewRendererDiagnostics,
+  type PreviewRendererDiagnosticIdentity,
+  type RoutedPreviewRendererDiagnostic,
+} from "../../vscode/src/previewRendererDiagnostics.ts";
 import {
   createMmtE2ELanguageApi,
   createMmtE2EWorkspaceApi,
@@ -565,17 +572,107 @@ async function initializeRuntime(
       || project.revision !== revision.revision) return undefined;
     return previewBuildIdentityFor(project, document);
   };
+  const rendererDiagnosticIdentityIsCurrent = (
+    identity: PreviewRendererDiagnosticIdentity
+  ): boolean => {
+    const document = vscode.workspace.textDocuments.find(
+      (candidate) => candidate.uri.toString() === identity.sourceUri
+    );
+    const project = previewProjects.get(identity.sourceUri) ?? typstProjects.get(identity.sourceUri);
+    const buildIdentity = currentPreviewBuildIdentity(identity);
+    return document !== undefined
+      && project !== undefined
+      && buildIdentity !== undefined
+      && previewBuildState.isCurrent(buildIdentity)
+      && document.version === identity.sourceVersion
+      && project.sourceVersion === identity.sourceVersion
+      && project.revision === identity.revision
+      && project.sourceContent === identity.sourceContent
+      && project.projectDigest === identity.projectDigest
+      && project.projectionKey === identity.projectionKey
+      && project.entryUri === identity.entryUri
+      && controller.stores.previewArtifacts.document(identity.sourceUri).requestedRenderKey === identity.snapshotToken
+      && tinymist?.backend.backendGeneration() === identity.backendGeneration;
+  };
+  const publishRendererDiagnostics = async (
+    project: TypstProjectUpdate,
+    snapshotToken: RenderKey,
+    backendGeneration: number,
+    synchronized: PreviewRendererCandidate["synchronized"],
+    records: PreviewRendererCandidate["ready"]["diagnostics"],
+  ): Promise<readonly RoutedPreviewRendererDiagnostic[] | undefined> => {
+    const document = vscode.workspace.textDocuments.find(
+      (candidate) => candidate.uri.toString() === project.sourceUri
+    );
+    const client = activeClient;
+    if (!document || !client
+      || synchronized.compilerEntryUri !== project.entryUri
+      || synchronized.project.sourceVersion !== project.sourceVersion
+      || synchronized.project.revision !== project.revision
+      || synchronized.project.sourceContent !== project.sourceContent
+      || synchronized.project.projectDigest !== project.projectDigest
+      || synchronized.project.projectionKey !== project.projectionKey) {
+      return undefined;
+    }
+    const identity: PreviewRendererDiagnosticIdentity = Object.freeze({
+      sourceUri: project.sourceUri,
+      sourceVersion: project.sourceVersion,
+      revision: project.revision,
+      sourceContent: project.sourceContent,
+      projectDigest: project.projectDigest,
+      projectionKey: project.projectionKey,
+      entryUri: project.entryUri,
+      snapshotToken,
+      backendGeneration,
+      backendEncoding: "utf-16",
+    });
+    const routed = await mapPreviewRendererDiagnostics(
+      client,
+      identity,
+      document.getText(),
+      records,
+      rendererDiagnosticIdentityIsCurrent,
+    );
+    if (!routed) return undefined;
+    const buildIdentity = currentPreviewBuildIdentity(identity);
+    if (!buildIdentity || !rendererDiagnosticIdentityIsCurrent(identity)) return undefined;
+    previewBuildState.replace(
+      buildIdentity,
+      routed.map(({ uri, diagnostic }): PreviewBuildDiagnostic => Object.freeze({
+        ...buildIdentity,
+        phase: "layout",
+        targetUri: uri,
+        range: diagnostic.range,
+        message: diagnostic.message,
+        severity: diagnostic.severity === 1
+          ? "error"
+          : diagnostic.severity === 2
+            ? "warning"
+            : "info",
+        ...(diagnostic.code === undefined ? {} : { code: diagnostic.code }),
+        ...(diagnostic.codeDescription === undefined
+          ? {}
+          : { codeDescription: diagnostic.codeDescription }),
+        ...(diagnostic.source === undefined ? {} : { source: diagnostic.source }),
+        ...(diagnostic.tags === undefined ? {} : { tags: diagnostic.tags }),
+        ...(diagnostic.relatedInformation === undefined
+          ? {}
+          : { relatedInformation: diagnostic.relatedInformation }),
+        ...(diagnostic.data === undefined ? {} : { data: diagnostic.data }),
+      })),
+    );
+    return routed;
+  };
   const previewProblemDiagnostic = (
     diagnostic: PreviewBuildDiagnostic
-  ): vscode.Diagnostic => {
-    const range = diagnostic.range
-      ? new vscode.Range(
-          diagnostic.range.start.line,
-          diagnostic.range.start.character,
-          diagnostic.range.end.line,
-          diagnostic.range.end.character
-        )
-      : new vscode.Range(0, 0, 0, 0);
+  ): vscode.Diagnostic | undefined => {
+    if (!diagnostic.range) return undefined;
+    const range = new vscode.Range(
+      diagnostic.range.start.line,
+      diagnostic.range.start.character,
+      diagnostic.range.end.line,
+      diagnostic.range.end.character
+    );
     const problem = new vscode.Diagnostic(
       range,
       `[${diagnostic.phase}] ${diagnostic.message}`,
@@ -585,9 +682,34 @@ async function initializeRuntime(
           ? vscode.DiagnosticSeverity.Warning
           : vscode.DiagnosticSeverity.Information
     );
-    problem.source = "MomoScript preview/build";
-    problem.code = `preview/${diagnostic.phase}`;
-    if (diagnostic.dependency) {
+    problem.source = diagnostic.source ?? "MomoScript preview/build";
+    problem.code = diagnostic.codeDescription
+      ? {
+          value: diagnostic.code ?? `preview/${diagnostic.phase}`,
+          target: vscode.Uri.parse(diagnostic.codeDescription.href),
+        }
+      : diagnostic.code ?? `preview/${diagnostic.phase}`;
+    if (diagnostic.tags) {
+      problem.tags = diagnostic.tags.map((tag) =>
+        tag === 1 ? vscode.DiagnosticTag.Unnecessary : vscode.DiagnosticTag.Deprecated
+      );
+    }
+    if (diagnostic.relatedInformation) {
+      problem.relatedInformation = diagnostic.relatedInformation.map((related) =>
+        new vscode.DiagnosticRelatedInformation(
+          new vscode.Location(
+            vscode.Uri.parse(related.location.uri),
+            new vscode.Range(
+              related.location.range.start.line,
+              related.location.range.start.character,
+              related.location.range.end.line,
+              related.location.range.end.character,
+            ),
+          ),
+          related.message,
+        )
+      );
+    } else if (diagnostic.dependency) {
       const pack = diagnostic.dependency.packNamespace
         ? ` from pack '${diagnostic.dependency.packNamespace}'`
         : "";
@@ -913,6 +1035,19 @@ async function initializeRuntime(
         trace?.increment("staleDiscards");
         return undefined;
       }
+      const routedDiagnostics = await publishRendererDiagnostics(
+        project,
+        binding.renderKey,
+        candidate.backendGeneration,
+        candidate.synchronized,
+        candidate.ready.diagnostics,
+      );
+      if (!routedDiagnostics) {
+        await sessions.discard(candidate);
+        candidate = undefined;
+        trace?.increment("staleDiscards");
+        return undefined;
+      }
       if (!previewWebviewHost) throw new Error("Preview Webview host is unavailable");
       const ready = await previewWebviewHost.publishRendererFrame(candidate, binding);
       trace?.stage("viewportRender", ready.viewportRenderMs ?? 0);
@@ -1106,25 +1241,59 @@ async function initializeRuntime(
         if (trace) previewTraces.delete(trace.traceId);
         return;
       }
-      const failedIdentity = currentPreviewBuildIdentity({
-        sourceUri: project.sourceUri,
-        sourceVersion: project.sourceVersion,
-        revision: project.revision,
-        requestId: binding.requestId,
-        traceId: binding.traceId,
-      });
-      if (failedIdentity) {
-        previewBuildState.fail(
-          failedIdentity,
-          "renderer",
-          error instanceof Error ? error.message : String(error),
-        );
+      let failure: unknown = error;
+      let compilationHandled = false;
+      if (error instanceof PreviewRendererCompilationError) {
+        try {
+          const routed = await publishRendererDiagnostics(
+            project,
+            binding.renderKey,
+            error.backendGeneration,
+            error.synchronized,
+            error.diagnostics,
+          );
+          if (!routed) {
+            trace?.increment("staleDiscards");
+            trace?.finish("stale-discarded");
+            if (trace) previewTraces.delete(trace.traceId);
+            return;
+          }
+          const failedIdentity = currentPreviewBuildIdentity({
+            sourceUri: project.sourceUri,
+            sourceVersion: project.sourceVersion,
+            revision: project.revision,
+            requestId: binding.requestId,
+            traceId: binding.traceId,
+          });
+          if (failedIdentity && !routed.some(({ diagnostic }) => diagnostic.severity === 1)) {
+            previewBuildState.fail(failedIdentity, "layout", error.message);
+          }
+          compilationHandled = true;
+        } catch (mappingError) {
+          failure = mappingError;
+        }
+      }
+      if (!compilationHandled) {
+        const failedIdentity = currentPreviewBuildIdentity({
+          sourceUri: project.sourceUri,
+          sourceVersion: project.sourceVersion,
+          revision: project.revision,
+          requestId: binding.requestId,
+          traceId: binding.traceId,
+        });
+        if (failedIdentity) {
+          previewBuildState.fail(
+            failedIdentity,
+            "renderer",
+            failure instanceof Error ? failure.message : String(failure),
+          );
+        }
       }
       trace?.finish("failed");
       if (trace) previewTraces.delete(trace.traceId);
       controller.stores.previewArtifacts.fail(project.sourceUri, binding.renderKey);
       if (displayedPreviewSourceUri === project.sourceUri) exactExportUi.bind(project.sourceUri);
-      throw error;
+      throw failure;
     }
     const advance = exactExportAdvanceBySource.get(project.sourceUri);
     if (!advance) {
@@ -2278,11 +2447,13 @@ async function initializeRuntime(
 
   try {
     mmt = await startMmtLanguageClient(Boolean(tinymist), (options) => {
-      tinymist?.installMiddleware(options, () => {
+      const getClient = (): BaseLanguageClient => {
         const client = mmt?.client.getLanguageClient();
         if (!client) throw new Error("MMT language client did not start");
         return client;
-      });
+      };
+      installMmtSemanticMiddleware(options, getClient, tinymist?.backend);
+      tinymist?.installMiddleware(options, getClient);
     });
     activeClient = mmt.client.getLanguageClient();
     const handle = mmt;
@@ -2321,9 +2492,21 @@ async function initializeRuntime(
     if (problems) {
       previewBuildState.bindPublisher({
         replace(identity, diagnostics) {
+          const grouped = new Map<string, vscode.Diagnostic[]>();
+          for (const diagnostic of diagnostics) {
+            const problem = previewProblemDiagnostic(diagnostic);
+            if (!problem) continue;
+            const target = diagnostic.targetUri ?? identity.sourceUri;
+            const group = grouped.get(target) ?? [];
+            group.push(problem);
+            grouped.set(target, group);
+          }
           problems.replacePreview(
             vscode.Uri.parse(identity.sourceUri),
-            diagnostics.map(previewProblemDiagnostic)
+            [...grouped].map(([uri, groupedDiagnostics]) => ({
+              uri: vscode.Uri.parse(uri),
+              diagnostics: groupedDiagnostics,
+            })),
           );
         },
         clear(sourceUri) {

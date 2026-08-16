@@ -42,6 +42,8 @@ pub struct PackMetadata {
     #[serde(rename = "type")]
     pub pack_type: String,
     #[serde(default)]
+    pub base_url: Option<String>,
+    #[serde(default)]
     pub requires: Vec<String>,
 }
 

@@ -508,6 +508,7 @@ fn diagnose_and_emit_with_placeholder(
         .map_or(&[][..], |resolution| resolution.diagnostics.as_slice());
     let diagnostics = [
         analysis.document.diagnostics.as_slice(),
+        analysis.directive_diagnostics.as_slice(),
         analysis.document_config.diagnostics.as_slice(),
         analysis.modes.diagnostics.as_slice(),
         analysis.actors.diagnostics.as_slice(),

@@ -287,12 +287,8 @@ __host.registrations.length = 0;
 const providers = new ProjectedTypstEditProviders(router, backend, client, "native", new ProjectedEditAdapter(validator));
 providers.reconcile();
 const registered = Object.fromEntries(__host.registrations.map((item) => [item.kind, item]));
-assert.deepEqual(Object.keys(registered).sort(), ["codeAction", "rangeFormatting", "rename"]);
+assert.deepEqual(Object.keys(registered).sort(), ["codeAction", "rangeFormatting"]);
 const sourceRange = new Range(new Position(0, sourceText.indexOf("alpha")), new Position(0, sourceText.indexOf("alpha") + 5));
-const preparedRename = await registered.rename.provider.prepareRename(document, sourceRange.start, token);
-assert.equal(preparedRename.placeholder, "alpha");
-assert.equal(document.getText(preparedRename.range), "alpha");
-assert(await registered.rename.provider.provideRenameEdits(document, sourceRange.start, "renamed", token));
 assert.equal((await registered.rangeFormatting.provider.provideDocumentRangeFormattingEdits(
   document, sourceRange, { tabSize: 2, insertSpaces: true }, token
 ))[0].newText, "formatted");

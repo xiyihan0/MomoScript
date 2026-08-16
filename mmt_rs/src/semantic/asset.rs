@@ -24,6 +24,7 @@ pub enum AssetSource {
 pub struct ScriptAsset {
     pub id: AssetId,
     pub source: AssetSource,
+    pub name_range: TextRange,
     pub range: TextRange,
 }
 
@@ -41,6 +42,13 @@ impl AssetLowering {
 
 pub fn lower_assets(document: &SyntaxDocument) -> AssetLowering {
     AssetLowerer::default().lower(document)
+}
+
+pub(crate) fn short_asset_name_range(line: &DirectiveLineSyntax) -> Option<TextRange> {
+    let payload = line.payload.as_ref()?;
+    tokenize_short_asset(&payload.source, payload.range.start)
+        .first()
+        .map(|token| token.range)
 }
 
 #[derive(Default)]
@@ -264,6 +272,7 @@ impl AssetLowerer {
         self.assets.push(ScriptAsset {
             id: AssetId { namespace, name },
             source,
+            name_range,
             range: TextRange::new(name_range.start, source_range.end),
         });
     }
@@ -355,7 +364,7 @@ fn valid_namespace(value: &str) -> bool {
             .all(|ch| ch.is_alphanumeric() || ch == '_' || ch == '-')
 }
 
-fn valid_asset_name(value: &str) -> bool {
+pub fn valid_asset_name(value: &str) -> bool {
     !value.is_empty()
         && !value.chars().any(char::is_whitespace)
         && !value.contains('/')

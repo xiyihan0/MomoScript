@@ -17,6 +17,14 @@
 - WHEN syntax parser 读取该 block
 - THEN parser SHOULD produce a generic directive block syntax node containing directive name, head arguments, fields, body items, and source range
 - AND `@actor` / `@asset` field validation SHOULD happen in semantic lowering rather than the syntax phase
+#### Scenario: Unknown directives remain recoverable and visible
+
+- GIVEN 作者写出当前 semantic lowering 和 emitter 均不消费的 directive，例如 `@expr: ...`
+- WHEN language service 或 strict compiler 执行 semantic validation
+- THEN compiler MUST report a warning on the directive name
+- AND MUST state that the directive is ignored
+- AND the warning alone MUST NOT make strict compilation fail
+
 
 #### Scenario: Nested directive blocks are not supported in the first revision
 
@@ -88,6 +96,14 @@
 - WHEN native backend 使用 Typst 0.15 library 构造 `World` 并编译文档
 - THEN backend MUST compile the same generated source represented by the compilation bundle
 - AND Typst diagnostics SHOULD map through `EmittedTypst` to MMT origins
+#### Scenario: Native compiler writes PDF directly
+
+- GIVEN native backend 已从 strict compilation result 写出自包含 project files
+- WHEN 作者请求 PDF output
+- THEN backend MUST compile those exact files through an in-process Typst 0.15 `World`
+- AND MUST write the PDF without spawning the Typst CLI
+- AND Typst errors and warnings SHOULD retain their mapped MMT origins
+
 
 #### Scenario: Export a Typst CLI project
 
@@ -96,3 +112,13 @@
 - THEN exporter MUST write a self-contained Typst project using project-relative imports and resource paths
 - AND the exported entry file SHOULD compile with Typst 0.15 CLI without rerunning MMT lowering
 - AND exporter SHOULD preserve source-map metadata as a debugging sidecar
+
+#### Scenario: Missing pack objects are fetched from an explicit remote source
+
+- GIVEN 作者向 native compiler 提供本地或 HTTP(S) pack manifest
+- AND a resolved resource is absent from the manifest's local directory
+- WHEN the manifest declares `pack.base_url`
+- THEN compiler SHOULD fetch only objects required by the current resolution
+- AND MUST bound each response, reject unsafe relative paths, and verify manifest-provided or content-addressed SHA-256 values
+- AND MUST cache objects under the manifest digest so mutable manifests cannot mix releases
+- AND plaintext HTTP MUST require an explicit opt-in

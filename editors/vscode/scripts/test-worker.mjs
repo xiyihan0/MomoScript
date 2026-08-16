@@ -202,6 +202,137 @@ try {
       throw new Error("pack update did not advance the virtual Typst projection revision");
     }
     if (afterPackText === beforePackText) throw new Error("pack update did not change projected Typst text");
+    const semanticUri = "file:///workspace/semantic-routing.mmt";
+    const semanticText = [
+      "@actor main",
+      "preset: ba::柚子",
+      "also-as: [alias]",
+      "@end",
+      "> alias: one",
+      "> _0: history",
+      "@asset: hero src:hero.png",
+      "- [:asset, hero:]",
+      "> main: hello # world"
+    ].join("\n");
+    notify("textDocument/didOpen", {
+      textDocument: {
+        uri: semanticUri,
+        languageId: "mmt",
+        version: 1,
+        text: semanticText
+      }
+    });
+    await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (message) => message.params.uri === semanticUri
+    );
+    const semanticPosition = (line, needle) => ({
+      line,
+      character: semanticText.split("\n")[line].indexOf(needle)
+    });
+    const aliasReferencePosition = semanticPosition(4, "alias");
+    const aliasBindingPosition = semanticPosition(2, "alias");
+    const historyPosition = semanticPosition(5, "_0");
+    const assetReferencePosition = semanticPosition(7, "hero");
+    const routeAt = (uri, position) => request("mmt/semanticRoute", {
+      textDocument: { uri },
+      position,
+      version: 1,
+      backendEncoding: "utf-16"
+    });
+    if (await routeAt(semanticUri, aliasReferencePosition) !== "native") {
+      throw new Error("browser Worker did not route an actor reference to native semantics");
+    }
+    const projectedRouteUri = "file:///workspace/projected-semantic-routing.mmt";
+    notify("textDocument/didOpen", {
+      textDocument: {
+        uri: projectedRouteUri,
+        languageId: "mmt",
+        version: 1,
+        text: "@typ\n#let projected = 1\n@end"
+      }
+    });
+    await waitForNotification(
+      "textDocument/publishDiagnostics",
+      (message) => message.params.uri === projectedRouteUri
+    );
+    await waitForNotification(
+      "mmt/typstProjectUpdated",
+      (message) => message.params.sourceUri === projectedRouteUri
+    );
+    const projectedRoute = await routeAt(projectedRouteUri, { line: 1, character: 7 });
+    if (projectedRoute !== "projected") {
+      const projectedPosition = await request("mmt/typstPosition", {
+        textDocument: { uri: projectedRouteUri },
+        position: { line: 1, character: 7 },
+        backendEncoding: "utf-16"
+      });
+      throw new Error(
+        `browser Worker did not route an authored Typst token to projected semantics: `
+        + `${JSON.stringify({ projectedRoute, projectedPosition })}`
+      );
+    }
+    if (await routeAt(projectedRouteUri, { line: 0, character: 1 }) !== "none") {
+      throw new Error("browser Worker routed a structural directive to a semantic provider");
+    }
+    const aliasDefinition = await request("textDocument/definition", {
+      textDocument: { uri: semanticUri },
+      position: aliasReferencePosition
+    });
+    if (aliasDefinition?.range?.start?.line !== aliasBindingPosition.line) {
+      throw new Error(`browser Worker resolved the alias to the wrong definition: ${JSON.stringify(aliasDefinition)}`);
+    }
+    const aliasReferences = await request("textDocument/references", {
+      textDocument: { uri: semanticUri },
+      position: aliasReferencePosition,
+      context: { includeDeclaration: true }
+    });
+    if (!Array.isArray(aliasReferences)
+      || !aliasReferences.some((location) => location.range.start.line === 0)
+      || !aliasReferences.some((location) => location.range.start.line === 4)
+      || !aliasReferences.some((location) => location.range.start.line === 5)) {
+      throw new Error(`browser Worker returned incomplete actor references: ${JSON.stringify(aliasReferences)}`);
+    }
+    const preparedAlias = await request("textDocument/prepareRename", {
+      textDocument: { uri: semanticUri },
+      position: aliasBindingPosition
+    });
+    if (preparedAlias?.placeholder !== "alias") {
+      throw new Error(`browser Worker did not prepare the alias binding: ${JSON.stringify(preparedAlias)}`);
+    }
+    const aliasRename = await request("textDocument/rename", {
+      textDocument: { uri: semanticUri },
+      position: aliasBindingPosition,
+      newName: "alias2"
+    });
+    const aliasDocumentChange = aliasRename?.documentChanges?.[0];
+    const aliasEditLines = aliasDocumentChange?.edits?.map((edit) => edit.range.start.line) ?? [];
+    if (aliasDocumentChange?.textDocument?.version !== 1
+      || !aliasEditLines.includes(2)
+      || !aliasEditLines.includes(4)
+      || aliasEditLines.includes(0)
+      || aliasEditLines.includes(5)) {
+      throw new Error(`browser Worker returned an unsafe alias rename: ${JSON.stringify(aliasRename)}`);
+    }
+    const historyPrepare = await request("textDocument/prepareRename", {
+      textDocument: { uri: semanticUri },
+      position: historyPosition
+    });
+    if (historyPrepare !== null) throw new Error("browser Worker allowed history-marker rename");
+    const assetDefinition = await request("textDocument/definition", {
+      textDocument: { uri: semanticUri },
+      position: assetReferencePosition
+    });
+    if (assetDefinition?.range?.start?.line !== 6) {
+      throw new Error(`browser Worker resolved the script asset incorrectly: ${JSON.stringify(assetDefinition)}`);
+    }
+    const staleRoute = await request("mmt/semanticRoute", {
+      textDocument: { uri: semanticUri },
+      position: aliasReferencePosition,
+      version: 0,
+      backendEncoding: "utf-16"
+    });
+    if (staleRoute !== "none") throw new Error("browser Worker accepted a stale semantic route");
     const inlayHintUri = "file:///workspace/speaker-inlay-hints.mmt";
     notify("textDocument/didOpen", {
       textDocument: {

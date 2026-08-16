@@ -27,6 +27,19 @@ export interface PreviewBuildDiagnostic extends PreviewBuildIdentity {
     id: number;
     packNamespace?: string;
   }>;
+  targetUri?: string;
+  code?: string | number;
+  codeDescription?: Readonly<{ href: string }>;
+  source?: string;
+  tags?: readonly (1 | 2)[];
+  relatedInformation?: readonly Readonly<{
+    location: Readonly<{
+      uri: string;
+      range: TypstResourceRange;
+    }>;
+    message: string;
+  }>[];
+  data?: unknown;
 }
 
 export function isCurrentPreviewUpdate(
@@ -136,6 +149,22 @@ export class PreviewBuildState {
     this.#diagnosticsBySource.set(identity.sourceUri, diagnostics);
     if (diagnostic.severity === "error") this.#statusBySource.set(identity.sourceUri, "failed");
     this.#publisher?.replace(identity, diagnostics);
+    this.#emit(identity.sourceUri);
+    return true;
+  }
+
+  replace(
+    identity: PreviewBuildIdentity,
+    diagnostics: readonly PreviewBuildDiagnostic[]
+  ): boolean {
+    if (!this.isCurrent(identity)) return false;
+    const retained = diagnostics.map((diagnostic) => Object.freeze({ ...diagnostic }));
+    this.#diagnosticsBySource.set(identity.sourceUri, retained);
+    this.#statusBySource.set(
+      identity.sourceUri,
+      retained.some((diagnostic) => diagnostic.severity === "error") ? "failed" : "rendering"
+    );
+    this.#publisher?.replace(identity, retained);
     this.#emit(identity.sourceUri);
     return true;
   }

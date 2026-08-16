@@ -25,6 +25,7 @@
 - [x] 3.5 实现 marker subject/resource-space/full-path normalization 与确定性失败
 - [x] 3.6 使用 Typst 0.15 syntax tree 限定 `T` mode overlay 展开区域并验证 patch args
 - [x] 3.7 实现唯一 `@document` block、标题栏字段、host-injected automatic time 与严格字段诊断
+- [x] 3.8 对未被 lowering/emitter 消费的 generic directive 发布 non-fatal semantic warning
 
 ## 4. Pack、resolve 与 materialization
 
@@ -34,6 +35,7 @@
 - [x] 4.4 实现 script asset、pack asset、actor avatar 和 marker resource resolution
 - [x] 4.5 实现平台无关 `ResourceMaterializer` interface 与 range-preserving materialize diagnostics
 - [x] 4.6 增加通过 `PackRegistry` validation 的最小 pack-v3 fixture，覆盖 base、contribution、default/non-default set 与 sequence frame
+- [x] 4.7 支持从显式 HTTP(S) manifest/base URL 按需下载、校验并按 manifest digest 缓存缺失 pack object
 
 ## 5. Typst emission 与模板
 
@@ -52,7 +54,7 @@
 - [x] 6.1 为 parser、inline、semantic、pack、resolve、materialize、emit、pipeline 和公开 API 建立 Rust 行为测试
 - [x] 6.2 验证 strict pipeline 在 syntax/semantic/resolve error 后不触发 materializer I/O
 - [x] 6.3 建立无网络 Rust v2 fixture：`compile_text_strict` → generated Typst → Typst 0.15 compile
-- [ ] 6.4 将真实 Typst compile/layout diagnostic 通过 `EmittedTypst` source map 映射回 MMT origin
+- [x] 6.4 将真实 Typst compile/layout diagnostic 通过 `EmittedTypst` source map 映射回 MMT origin
 - [x] 6.5 提供以 `compile_text_strict` 为核心、支持 stdin/文件输入、JSON diagnostics 与自包含 Typst project 导出的 `mmt-compile` native CLI
 - [x] 6.6 固化 `@asset` canonical block 和 v2 第一版 short form；两者共享 `ScriptAsset` lowering 与 validation
 - [ ] 6.7 将稳定 delta 归档到 `openspec/specs/`，并把 Python v1 规格保留为明确 legacy reference 或移入 archive
@@ -60,8 +62,9 @@
 - [x] 6.9 为 text/Typst body、`@typ`、statement patch、reply/bond、resource marker/wrapper/patch 与 zero-length lookup 建立 emitter source-map 回射测试
 - [ ] 6.10 定义共享 generated source、source map、模板和物化资源的 compilation bundle
 - [x] 6.11 实现自包含 Typst CLI project exporter，并以普通资源、透明 AVIFS fixture 和真实 ba_kivo pack 验证导出项目可由 Typst 0.15 编译
-- [ ] 6.12 实现 Typst 0.15 library `World` backend，并验证它与 project exporter 使用相同 compilation bundle
+- [x] 6.12 实现 Typst 0.15 library `World` backend，并验证它与 project exporter 使用同一 strict compilation result 及其自包含文件
 - [x] 6.13 覆盖 document config、固定 instant/timezone formatting、CLI override 与 LSP/Web revision-pinned preview time
+- [x] 6.14 以本地 HTTP pack fixture 验证远程 manifest/object 下载、content-addressed 校验、缓存与进程内 PDF 输出
 
 ## 7. Syntax Spec ↔ Behavior Test Closure
 

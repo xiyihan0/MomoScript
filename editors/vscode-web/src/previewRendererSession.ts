@@ -2,9 +2,13 @@ import type { RenderKey } from "../../vscode/src/runtimeIdentity";
 import {
   PREVIEW_RENDERER_METHOD,
   PREVIEW_RENDERER_PROTOCOL_VERSION,
+  previewRendererResponseStatus,
+  validatePreviewRendererCompileFailed,
   validatePreviewRendererReady,
   type PreviewProjectMount,
   type PreviewRendererPoint,
+  type PreviewRendererCompileFailed,
+  type PreviewRendererDiagnosticRecord,
   type PreviewRendererPosition,
   type PreviewRendererReady,
   type PreviewRendererResponse,
@@ -37,6 +41,30 @@ export interface PreviewRendererSessionOwnerOptions {
   readonly backend: TinymistHostBackend;
   readonly createSessionId?: () => string;
 }
+export class PreviewRendererCompilationError extends Error {
+  readonly sourceUri: string;
+  readonly sessionId: string;
+  readonly backendGeneration: number;
+  readonly synchronized: SynchronizedPreviewProject;
+  readonly diagnostics: readonly PreviewRendererDiagnosticRecord[];
+
+  constructor(options: {
+    readonly sourceUri: string;
+    readonly sessionId: string;
+    readonly backendGeneration: number;
+    readonly synchronized: SynchronizedPreviewProject;
+    readonly diagnostics: readonly PreviewRendererDiagnosticRecord[];
+  }) {
+    super("Preview renderer could not compile the immutable project");
+    this.name = "PreviewRendererCompilationError";
+    this.sourceUri = options.sourceUri;
+    this.sessionId = options.sessionId;
+    this.backendGeneration = options.backendGeneration;
+    this.synchronized = options.synchronized;
+    this.diagnostics = options.diagnostics;
+  }
+}
+
 
 /** Owns the producer's one-committed/one-staged generation protocol. */
 export class PreviewRendererSessionOwner implements RuntimeOwnedResource {
@@ -90,35 +118,49 @@ export class PreviewRendererSessionOwner implements RuntimeOwnedResource {
           ...(forceFull ? { forceFull: true } : { baseGeneration: state.committed?.generation }),
         }, signal);
         const response = result.response;
-        if (response.status === "resync") {
+        const status = previewRendererResponseStatus(response);
+        if (status === "resync") {
           if (retriedFull) throw new Error("Preview renderer rejected a forced full resynchronization");
           forceFull = true;
           retriedFull = true;
           continue;
         }
-        if (response.status !== "ready") {
-          throw new Error(`Preview renderer returned unexpected '${response.status}' response to render`);
+        const { sourceUris, originalUris } = previewRendererUriMaps(project, result.synchronized);
+        if (status === "compileFailed") {
+          const failed = validatePreviewRendererCompileFailed(response, {
+            sessionId: state.sessionId,
+            snapshotToken,
+            sourceDigest: result.synchronized.sourceDigest,
+          });
+          preserveCommitted = true;
+          throw new PreviewRendererCompilationError({
+            sourceUri: project.sourceUri,
+            sessionId: state.sessionId,
+            backendGeneration,
+            synchronized: result.synchronized,
+            diagnostics: mapPreviewRendererDiagnosticUris(failed, originalUris),
+          });
         }
-        const bytes = await validatePreviewRendererReady(response, {
+        if (status !== "ready") {
+          throw new Error(`Preview renderer returned unexpected '${status ?? "malformed"}' response to render`);
+        }
+        const ready = response as PreviewRendererReady;
+        const bytes = await validatePreviewRendererReady(ready, {
           sessionId: state.sessionId,
           snapshotToken,
           sourceDigest: result.synchronized.sourceDigest,
         });
-        const expectedBase = response.frameKind === "new" ? 0 : state.committed?.generation;
-        if (expectedBase === undefined || response.baseGeneration !== expectedBase) {
-          await this.#discardGeneration(state, response);
+        const expectedBase = ready.frameKind === "new" ? 0 : state.committed?.generation;
+        if (expectedBase === undefined || ready.baseGeneration !== expectedBase) {
+          await this.#discardGeneration(state, ready);
           if (retriedFull) throw new Error("Preview renderer frame is not based on the committed generation");
           forceFull = true;
           retriedFull = true;
           continue;
         }
-        const sourceUris = new Map<string, string>();
-        const originalUris = new Map<string, string>();
-        project.files.forEach((file, index) => {
-          const synthetic = result.synchronized.project.files[index]?.uri;
-          if (!synthetic) throw new Error("Preview renderer synthetic project file mapping is incomplete");
-          sourceUris.set(file.uri, synthetic);
-          originalUris.set(synthetic, file.uri);
+        const mappedReady = Object.freeze({
+          ...ready,
+          diagnostics: mapPreviewRendererDiagnosticUris(ready, originalUris),
         });
         const candidate = Object.freeze({
           sourceUri: project.sourceUri,
@@ -127,7 +169,7 @@ export class PreviewRendererSessionOwner implements RuntimeOwnedResource {
           sessionId: state.sessionId,
           backendGeneration,
           synchronized: result.synchronized,
-          ready: response,
+          ready: mappedReady,
           bytes,
         });
         state.staged = candidate;
@@ -300,5 +342,53 @@ export class PreviewRendererSessionOwner implements RuntimeOwnedResource {
   #assertActive(): void {
     if (this.#disposed) throw new Error("Preview renderer session owner is disposed");
   }
+}
+
+function previewRendererUriMaps(
+  project: TypstProjectUpdate,
+  synchronized: SynchronizedPreviewProject,
+): {
+  readonly sourceUris: ReadonlyMap<string, string>;
+  readonly originalUris: ReadonlyMap<string, string>;
+} {
+  const sourceUris = new Map<string, string>();
+  const originalUris = new Map<string, string>();
+  project.files.forEach((file, index) => {
+    const synthetic = synchronized.project.files[index]?.uri;
+    if (!synthetic) throw new Error("Preview renderer synthetic project file mapping is incomplete");
+    sourceUris.set(file.uri, synthetic);
+    originalUris.set(synthetic, file.uri);
+    originalUris.set(rendererDiagnosticFileUri(synthetic), file.uri);
+  });
+  return { sourceUris, originalUris };
+}
+
+function rendererDiagnosticFileUri(syntheticUri: string): string {
+  const parsed = new URL(syntheticUri);
+  if (parsed.protocol !== "mmt-preview:" || parsed.search || parsed.hash) {
+    throw new Error("Preview renderer synthetic file URI is invalid");
+  }
+  return new URL(`file://${parsed.pathname}`).toString();
+}
+
+function mapPreviewRendererDiagnosticUris(
+  response: Pick<PreviewRendererCompileFailed | PreviewRendererReady, "diagnostics">,
+  originalUris: ReadonlyMap<string, string>,
+): readonly PreviewRendererDiagnosticRecord[] {
+  return Object.freeze(response.diagnostics.map((record) => Object.freeze({
+    uri: originalUris.get(record.uri) ?? record.uri,
+    diagnostic: Object.freeze({
+      ...record.diagnostic,
+      ...(record.diagnostic.relatedInformation === undefined ? {} : {
+        relatedInformation: Object.freeze(record.diagnostic.relatedInformation.map((related) => Object.freeze({
+          ...related,
+          location: Object.freeze({
+            ...related.location,
+            uri: originalUris.get(related.location.uri) ?? related.location.uri,
+          }),
+        }))),
+      }),
+    }),
+  })));
 }
 

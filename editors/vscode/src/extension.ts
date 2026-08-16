@@ -14,6 +14,7 @@ import { TinymistProcessClient } from "./tinymistProcessClient";
 import { syncConfiguredPackManifests } from "./resourcePacks";
 import { registerMmtLanguageEditing } from "./languageEditing";
 import { connectTypstBackend, installTypstMiddleware } from "./typstFeatures";
+import { installMmtSemanticMiddleware } from "./mmtSemanticMiddleware";
 import { TypstPackageService } from "./typstPackageService";
 
 let client: LanguageClient | undefined;
@@ -57,6 +58,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   const serverOptions: ServerOptions = { command };
   const options: LanguageClientOptions = clientOptions(Boolean(tinymist));
   let activeClient: LanguageClient;
+  installMmtSemanticMiddleware(options, () => activeClient, tinymist);
   if (tinymist) installTypstMiddleware(options, tinymist, () => activeClient);
   activeClient = new LanguageClient(
     "mmt",

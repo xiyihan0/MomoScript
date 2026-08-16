@@ -47,6 +47,28 @@ await assert.rejects(
 
 const frame = new TextEncoder().encode("new,renderer-frame");
 const artifactDigest = Buffer.from(await crypto.subtle.digest("SHA-256", frame)).toString("hex");
+const diagnostic = {
+  range: { start: { line: 1, character: 2 }, end: { line: 1, character: 5 } },
+  severity: 1,
+  code: "compile",
+  codeDescription: { href: "https://typst.app/docs/" },
+  source: "typst",
+  message: "unknown variable",
+  tags: [1],
+  relatedInformation: [{
+    location: {
+      uri: "mmt-preview:/__mmt_preview/dependency.typ",
+      range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } },
+    },
+    message: "used here",
+  }],
+  data: { phase: "layout" },
+};
+const diagnosticRecord = {
+  uri: first.project.entryUri,
+  diagnostic,
+};
+
 const ready = {
   status: "ready",
   protocolVersion: protocol.PREVIEW_RENDERER_PROTOCOL_VERSION,
@@ -61,6 +83,7 @@ const ready = {
   dataBase64: Buffer.from(frame).toString("base64"),
   byteLength: frame.byteLength,
   pageCount: 2,
+  diagnostics: [diagnosticRecord],
 };
 const decoded = await protocol.validatePreviewRendererReady(ready, {
   sessionId: ready.sessionId,
@@ -84,4 +107,64 @@ await assert.rejects(
   }),
   /generation metadata/
 );
+const compileFailed = {
+  status: "compileFailed",
+  protocolVersion: protocol.PREVIEW_RENDERER_PROTOCOL_VERSION,
+  sessionId: ready.sessionId,
+  snapshotToken: ready.snapshotToken,
+  sourceDigest: ready.sourceDigest,
+  compilerRevision: 4,
+  diagnostics: [diagnosticRecord],
+};
+assert.equal(
+  protocol.validatePreviewRendererCompileFailed(compileFailed, {
+    sessionId: ready.sessionId,
+    snapshotToken: ready.snapshotToken,
+    sourceDigest: ready.sourceDigest,
+  }),
+  compileFailed
+);
+for (const invalid of [
+  { ...compileFailed, generation: 2 },
+  { ...compileFailed, diagnostics: [{ ...diagnosticRecord, uri: "not a uri" }] },
+  { ...compileFailed, diagnostics: [{ ...diagnosticRecord, diagnostic: { ...diagnostic, unexpected: true } }] },
+  { ...compileFailed, diagnostics: [{ ...diagnosticRecord, diagnostic: { ...diagnostic, severity: 5 } }] },
+  { ...compileFailed, diagnostics: [{ ...diagnosticRecord, diagnostic: { ...diagnostic, code: {} } }] },
+  { ...compileFailed, diagnostics: [{ ...diagnosticRecord, diagnostic: { ...diagnostic, data: { value: undefined } } }] },
+  {
+    ...compileFailed,
+    diagnostics: [{
+      ...diagnosticRecord,
+      diagnostic: {
+        ...diagnostic,
+        relatedInformation: [{
+          location: {
+            uri: "not a uri",
+            range: diagnostic.range,
+          },
+          message: "bad",
+        }],
+      },
+    }],
+  },
+  {
+    ...compileFailed,
+    diagnostics: [{
+      ...diagnosticRecord,
+      diagnostic: {
+        ...diagnostic,
+        range: { start: diagnostic.range.end, end: diagnostic.range.start },
+      },
+    }],
+  },
+]) {
+  assert.throws(
+    () => protocol.validatePreviewRendererCompileFailed(invalid, {
+      sessionId: ready.sessionId,
+      snapshotToken: ready.snapshotToken,
+      sourceDigest: ready.sourceDigest,
+    }),
+    /Preview renderer/
+  );
+}
 console.log("preview renderer protocol fixture ok");

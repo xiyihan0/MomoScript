@@ -101,9 +101,32 @@ export interface PreviewRendererSourceLocation {
   readonly uri: string;
   readonly range: PreviewRendererRange;
 }
+export interface PreviewRendererDiagnostic {
+  readonly range: PreviewRendererRange;
+  readonly severity?: 1 | 2 | 3 | 4;
+  readonly code?: number | string;
+  readonly codeDescription?: {
+    readonly href: string;
+  };
+  readonly source?: string;
+  readonly message: string;
+  readonly tags?: readonly (1 | 2)[];
+  readonly relatedInformation?: readonly {
+    readonly location: PreviewRendererSourceLocation;
+    readonly message: string;
+  }[];
+  readonly data?: unknown;
+}
+
+export interface PreviewRendererDiagnosticRecord {
+  readonly uri: string;
+  readonly diagnostic: PreviewRendererDiagnostic;
+}
+
 
 export type PreviewRendererResponse =
   | PreviewRendererReady
+  | PreviewRendererCompileFailed
   | {
       readonly status: "registered";
       readonly protocolVersion: typeof PREVIEW_RENDERER_PROTOCOL_VERSION;
@@ -171,8 +194,18 @@ export interface PreviewRendererReady {
   readonly dataBase64: string;
   readonly byteLength: number;
   readonly pageCount: number;
+  readonly diagnostics: readonly PreviewRendererDiagnosticRecord[];
 }
 
+export interface PreviewRendererCompileFailed {
+  readonly status: "compileFailed";
+  readonly protocolVersion: typeof PREVIEW_RENDERER_PROTOCOL_VERSION;
+  readonly sessionId: string;
+  readonly snapshotToken: RenderKey;
+  readonly sourceDigest: string;
+  readonly compilerRevision: number;
+  readonly diagnostics: readonly PreviewRendererDiagnosticRecord[];
+}
 export interface PreviewRendererFileRecord {
   readonly contentDigest: string;
   readonly dataBase64: string;
@@ -247,21 +280,32 @@ export async function preparePreviewProject(
 }
 
 export async function validatePreviewRendererReady(
-  response: PreviewRendererReady,
+  response: unknown,
   expected: Pick<PreviewRendererRequest & { action: "render" }, "sessionId" | "snapshotToken" | "sourceDigest">
 ): Promise<Uint8Array> {
-  if (response.protocolVersion !== PREVIEW_RENDERER_PROTOCOL_VERSION
+  assertExactRecord(response, "ready response", [
+    "status", "protocolVersion", "sessionId", "snapshotToken", "sourceDigest", "artifactDigest",
+    "compilerRevision", "generation", "baseGeneration", "frameKind", "dataBase64", "byteLength",
+    "pageCount", "diagnostics"
+  ]);
+  if (response.status !== "ready"
+    || response.protocolVersion !== PREVIEW_RENDERER_PROTOCOL_VERSION
     || response.sessionId !== expected.sessionId
     || response.snapshotToken !== expected.snapshotToken
     || response.sourceDigest !== expected.sourceDigest) {
     throw new Error("Preview renderer response identity mismatch");
   }
-  if (!Number.isSafeInteger(response.generation) || response.generation <= 0
-    || !Number.isSafeInteger(response.baseGeneration) || response.baseGeneration < 0
-    || !Number.isSafeInteger(response.compilerRevision) || response.compilerRevision <= 0
-    || !Number.isSafeInteger(response.pageCount) || response.pageCount < 0) {
+  if (!isSha256(response.artifactDigest)
+    || !isPositiveInteger(response.generation)
+    || !isNonnegativeInteger(response.baseGeneration)
+    || !isPositiveInteger(response.compilerRevision)
+    || !isNonnegativeInteger(response.byteLength)
+    || !isNonnegativeInteger(response.pageCount)
+    || (response.frameKind !== "new" && response.frameKind !== "diff-v1")
+    || typeof response.dataBase64 !== "string") {
     throw new Error("Preview renderer response generation metadata is invalid");
   }
+  validatePreviewRendererDiagnosticRecords(response.diagnostics);
   const bytes = decodeBase64(response.dataBase64);
   if (bytes.byteLength !== response.byteLength) {
     throw new Error("Preview renderer response byte length mismatch");
@@ -281,6 +325,170 @@ export async function validatePreviewRendererReady(
     throw new Error("Preview renderer response artifact digest mismatch");
   }
   return bytes;
+}
+
+export function validatePreviewRendererCompileFailed(
+  response: unknown,
+  expected: Pick<PreviewRendererRequest & { action: "render" }, "sessionId" | "snapshotToken" | "sourceDigest">
+): PreviewRendererCompileFailed {
+  assertExactRecord(response, "compileFailed response", [
+    "status", "protocolVersion", "sessionId", "snapshotToken", "sourceDigest", "compilerRevision",
+    "diagnostics"
+  ]);
+  if (response.status !== "compileFailed"
+    || response.protocolVersion !== PREVIEW_RENDERER_PROTOCOL_VERSION
+    || response.sessionId !== expected.sessionId
+    || response.snapshotToken !== expected.snapshotToken
+    || response.sourceDigest !== expected.sourceDigest) {
+    throw new Error("Preview renderer compile failure identity mismatch");
+  }
+  if (!isPositiveInteger(response.compilerRevision)) {
+    throw new Error("Preview renderer compile failure compiler revision is invalid");
+  }
+  validatePreviewRendererDiagnosticRecords(response.diagnostics);
+  return response as unknown as PreviewRendererCompileFailed;
+}
+
+export function previewRendererResponseStatus(response: unknown): string | undefined {
+  return isRecord(response) && typeof response.status === "string" ? response.status : undefined;
+}
+
+function validatePreviewRendererDiagnosticRecords(value: unknown): asserts value is readonly PreviewRendererDiagnosticRecord[] {
+  if (!Array.isArray(value)) throw new Error("Preview renderer diagnostics must be an array");
+  for (const record of value) {
+    assertExactRecord(record, "diagnostic record", ["uri", "diagnostic"]);
+    assertUri(record.uri, "diagnostic URI");
+    validatePreviewRendererDiagnostic(record.diagnostic);
+  }
+}
+
+export function decodePreviewRendererDiagnostic(value: unknown): PreviewRendererDiagnostic {
+  validatePreviewRendererDiagnostic(value);
+  return value;
+}
+
+function validatePreviewRendererDiagnostic(value: unknown): asserts value is PreviewRendererDiagnostic {
+  assertAllowedRecord(value, "diagnostic", [
+    "range", "severity", "code", "codeDescription", "source", "message", "tags",
+    "relatedInformation", "data"
+  ], ["range", "message"]);
+  validateRange(value.range, "diagnostic range");
+  if (value.severity !== undefined
+    && (!isPositiveInteger(value.severity) || value.severity > 4)) {
+    throw new Error("Preview renderer diagnostic severity is invalid");
+  }
+  if (value.code !== undefined
+    && !(typeof value.code === "string" || Number.isSafeInteger(value.code))) {
+    throw new Error("Preview renderer diagnostic code is invalid");
+  }
+  if (value.codeDescription !== undefined) {
+    assertExactRecord(value.codeDescription, "diagnostic codeDescription", ["href"]);
+    assertUri(value.codeDescription.href, "diagnostic codeDescription href");
+  }
+  if (value.source !== undefined && typeof value.source !== "string") {
+    throw new Error("Preview renderer diagnostic source is invalid");
+  }
+  if (typeof value.message !== "string") throw new Error("Preview renderer diagnostic message is invalid");
+  if (value.tags !== undefined) {
+    if (!Array.isArray(value.tags)
+      || value.tags.some((tag) => tag !== 1 && tag !== 2)
+      || new Set(value.tags).size !== value.tags.length) {
+      throw new Error("Preview renderer diagnostic tags are invalid");
+    }
+  }
+  if (value.relatedInformation !== undefined) {
+    if (!Array.isArray(value.relatedInformation)) {
+      throw new Error("Preview renderer diagnostic relatedInformation is invalid");
+    }
+    for (const related of value.relatedInformation) {
+      assertExactRecord(related, "diagnostic relatedInformation", ["location", "message"]);
+      assertExactRecord(related.location, "diagnostic related location", ["uri", "range"]);
+      assertUri(related.location.uri, "diagnostic related URI");
+      validateRange(related.location.range, "diagnostic related range");
+      if (typeof related.message !== "string") {
+        throw new Error("Preview renderer diagnostic related message is invalid");
+      }
+    }
+  }
+  if (Object.hasOwn(value, "data") && !isJsonValue(value.data, new Set())) {
+    throw new Error("Preview renderer diagnostic data is invalid");
+  }
+}
+
+function validateRange(value: unknown, label: string): asserts value is PreviewRendererRange {
+  assertExactRecord(value, label, ["start", "end"]);
+  validatePosition(value.start, `${label} start`);
+  validatePosition(value.end, `${label} end`);
+  if (value.start.line > value.end.line
+    || (value.start.line === value.end.line && value.start.character > value.end.character)) {
+    throw new Error(`Preview renderer ${label} is reversed`);
+  }
+}
+
+function validatePosition(value: unknown, label: string): asserts value is PreviewRendererPosition {
+  assertExactRecord(value, label, ["line", "character"]);
+  if (!isNonnegativeInteger(value.line)
+    || !isNonnegativeInteger(value.character)) {
+    throw new Error(`Preview renderer ${label} is invalid`);
+  }
+}
+
+function assertUri(value: unknown, label: string): asserts value is string {
+  if (typeof value !== "string" || !URL.canParse(value) || !new URL(value).protocol) {
+    throw new Error(`Preview renderer ${label} is invalid`);
+  }
+}
+
+function assertExactRecord(
+  value: unknown,
+  label: string,
+  keys: readonly string[],
+): asserts value is Record<string, unknown> {
+  assertAllowedRecord(value, label, keys, keys);
+}
+
+function assertAllowedRecord(
+  value: unknown,
+  label: string,
+  allowedKeys: readonly string[],
+  requiredKeys: readonly string[],
+): asserts value is Record<string, unknown> {
+  if (!isRecord(value)) throw new Error(`Preview renderer ${label} must be an object`);
+  const allowed = new Set(allowedKeys);
+  const actual = Object.keys(value);
+  if (actual.some((key) => !allowed.has(key))
+    || requiredKeys.some((key) => !Object.hasOwn(value, key))) {
+    throw new Error(`Preview renderer ${label} has an invalid shape`);
+  }
+}
+
+function isNonnegativeInteger(value: unknown): value is number {
+  return typeof value === "number" && Number.isSafeInteger(value) && value >= 0;
+}
+
+function isPositiveInteger(value: unknown): value is number {
+  return isNonnegativeInteger(value) && value > 0;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isSha256(value: unknown): value is string {
+  return typeof value === "string" && /^[0-9a-f]{64}$/.test(value);
+}
+
+function isJsonValue(value: unknown, ancestors: Set<object>): boolean {
+  if (value === null || typeof value === "string" || typeof value === "boolean") return true;
+  if (typeof value === "number") return Number.isFinite(value);
+  if (typeof value !== "object") return false;
+  if (ancestors.has(value)) return false;
+  ancestors.add(value);
+  const valid = Array.isArray(value)
+    ? value.every((item) => isJsonValue(item, ancestors))
+    : Object.keys(value).every((key) => isJsonValue((value as Record<string, unknown>)[key], ancestors));
+  ancestors.delete(value);
+  return valid;
 }
 
 function syntheticPreviewFile(file: TypstVirtualFile, logicalSourceId: string): TypstVirtualFile {

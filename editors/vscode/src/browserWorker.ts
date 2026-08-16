@@ -81,6 +81,13 @@ async function start(wasmBytes: ArrayBuffer): Promise<void> {
   connection.onCompletion((params) => request("textDocument/completion", params));
   connection.onHover((params) => request("textDocument/hover", params));
   connection.onSignatureHelp((params) => request("textDocument/signatureHelp", params));
+  connection.onDefinition((params) => request("textDocument/definition", params));
+  connection.onReferences((params) => request("textDocument/references", params));
+  connection.onPrepareRename((params) => request("textDocument/prepareRename", params));
+  connection.onRenameRequest((params) => request("textDocument/rename", params));
+  connection.onRequest("mmt/semanticRoute", (params) =>
+    request("mmt/semanticRoute", params)
+  );
   connection.onRequest("mmt/typstPosition", (params) =>
     request("mmt/typstPosition", params)
   );

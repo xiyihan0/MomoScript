@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { PreviewRendererSessionOwner } from "../src/previewRendererSession.ts";
+import {
+  PreviewRendererCompilationError,
+  PreviewRendererSessionOwner,
+} from "../src/previewRendererSession.ts";
 import {
   PREVIEW_RENDERER_PROTOCOL_VERSION,
   preparePreviewProject,
@@ -9,14 +12,19 @@ import {
 const encoder = new TextEncoder();
 const sourceUri = "mmtfs://workspace/story.mmt";
 const entryUri = "untitled:/mmt-projection/story/main.typ";
+const packageUri = "mmt-package:/ba_kivo/template.typ";
 const mount = { logicalSourceId: "a".repeat(64) };
 const renderKey = (value) => value.repeat(64);
+const rendererDiagnosticFileUri = (uri) => new URL(`file://${new URL(uri).pathname}`).toString();
 const project = (revision) => ({
   sourceUri,
   sourceVersion: revision,
   revision,
   entryUri,
-  files: [{ uri: entryUri, text: `[generation ${revision}]`, digest: `${revision}`.repeat(64).slice(0, 64) }],
+  files: [
+    { uri: entryUri, text: `[generation ${revision}]`, digest: `${revision}`.repeat(64).slice(0, 64) },
+    { uri: packageUri, text: "#let dependency = missing", digest: "f".repeat(64) },
+  ],
   full: true,
   sourceContent: renderKey("b"),
   projectDigest: renderKey("c"),
@@ -66,6 +74,15 @@ class FakeBackend {
       dataBase64: payload.dataBase64,
       byteLength: payload.bytes.byteLength,
       pageCount: 1,
+      diagnostics: [{
+        uri: rendererDiagnosticFileUri(synchronized.project.entryUri),
+        diagnostic: {
+          range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } },
+          severity: 2,
+          source: "typst",
+          message: "preview warning",
+        },
+      }],
     };
   }
   async transitionPreviewRenderer(transition) {
@@ -113,6 +130,7 @@ const first = await owner.render(project(1), mount, renderKey("1"));
 assert.equal(first.ready.frameKind, "new");
 assert.equal(first.ready.baseGeneration, 0);
 assert.equal(first.sourceUris.get(entryUri), first.synchronized.project.entryUri);
+assert.equal(first.ready.diagnostics[0].uri, entryUri);
 await assert.rejects(() => owner.render(project(2), mount, renderKey("2")), /already has a staged generation/);
 await owner.commit(first);
 
@@ -134,8 +152,45 @@ assert.equal(replacement.ready.frameKind, "new", "resync must retry once with a 
 assert.deepEqual(backend.calls.slice(-2).map((call) => call.options.forceFull ?? false), [false, true]);
 await owner.commit(replacement);
 await assert.rejects(() => owner.locateSource(first, entryUri, { line: 0, character: 1 }), /not the committed generation/);
+backend.responses.push(async (synchronized, options) => ({
+  status: "compileFailed",
+  protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
+  sessionId: options.sessionId,
+  snapshotToken: options.snapshotToken,
+  sourceDigest: synchronized.sourceDigest,
+  compilerRevision: 3,
+  diagnostics: [{
+    uri: rendererDiagnosticFileUri(synchronized.project.files[1].uri),
+    diagnostic: {
+      range: { start: { line: 0, character: 2 }, end: { line: 0, character: 4 } },
+      severity: 1,
+      source: "typst",
+      message: "compile failed",
+      relatedInformation: [{
+        location: {
+          uri: rendererDiagnosticFileUri(synchronized.project.entryUri),
+          range: { start: { line: 0, character: 5 }, end: { line: 0, character: 6 } },
+        },
+        message: "related",
+      }],
+    },
+  }],
+}));
+await assert.rejects(
+  () => owner.render(project(3), mount, renderKey("3")),
+  (error) => {
+    assert.ok(error instanceof PreviewRendererCompilationError);
+    assert.equal(error.backendGeneration, 1);
+    assert.equal(error.diagnostics[0].uri, packageUri);
+    assert.equal(error.diagnostics[0].diagnostic.relatedInformation[0].location.uri, entryUri);
+    return true;
+  },
+);
+assert.deepEqual(backend.closes, [], "compile failure must preserve the committed renderer session");
 
 const staged = await owner.render(project(3), mount, renderKey("3"));
+assert.equal(backend.calls.at(-1).options.baseGeneration, replacement.ready.generation);
+assert.equal(staged.ready.generation, replacement.ready.generation + 1);
 await owner.discard(staged);
 assert.equal(backend.transitions.at(-1).action, "discard");
 

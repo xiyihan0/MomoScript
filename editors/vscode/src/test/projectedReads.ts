@@ -7,7 +7,6 @@ import {
   mapNavigationLocations,
   mapSelectionRanges,
   mergeWorkspaceSymbols,
-  mmtNativeFirst,
   parseProjectedReadLocations,
   type ProjectedReadLocation
 } from "../projectedReads";
@@ -185,18 +184,6 @@ const symbols = mergeWorkspaceSymbols(
 );
 assert.deepEqual(symbols.map((item) => item.name), ["accent", "helper"]);
 
-let fallbackCalls = 0;
-const nativeResult = await mmtNativeFirst([nativeSymbol], async () => {
-  fallbackCalls += 1;
-  return [symbol("fallback", sourceUri, range(0, 1))];
-});
-assert.deepEqual(nativeResult, [nativeSymbol]);
-assert.equal(fallbackCalls, 0);
-await mmtNativeFirst<SymbolInformation[]>([], async () => {
-  fallbackCalls += 1;
-  return [nativeSymbol];
-});
-assert.equal(fallbackCalls, 1);
 
 const store = new RetainedVirtualDocumentStore();
 const projectionUri = (revision: number) => `untitled:/mmt-projection/source/session/main-${revision}.typ`;
@@ -255,7 +242,6 @@ console.log(JSON.stringify({
   conservativeHighlights: true,
   selectionPrefix: true,
   symbolDedupe: true,
-  mmtNativePrecedence: true,
   retainedProjectionGenerations: 3,
   inactivePackageHidden: true,
   readOnlySchemes: registrations

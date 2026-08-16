@@ -1,15 +1,3 @@
-diff --git a/Cargo.lock b/Cargo.lock
-index 2db4317385f5ee45465d4e7d6e007300c36aadca..f587898864e512717a68dea6e28df8594413c7a8 100644
---- a/Cargo.lock
-+++ b/Cargo.lock
-@@ -6723,6 +6723,7 @@ dependencies = [
-  "serde-wasm-bindgen",
-  "serde_json",
-  "serde_yaml",
-+ "sha2",
-  "strum",
-  "sync-ls",
-  "temp-env",
 diff --git a/crates/tinymist/Cargo.toml b/crates/tinymist/Cargo.toml
 index 9ea3d4be73c6a4f73edd2de35d4a0e9995281bd6..925a6eb579ea88c4598537b2645a46c8e39fdff6 100644
 --- a/crates/tinymist/Cargo.toml
@@ -229,10 +217,10 @@ index 5d00433e0eefd8f2a8e4f9904f9bc37113cfbf39..21334ab7cc966cbf3dfab722c8936770
  fn schedule_response(value: impl Serialize) -> ScheduleResult {
 diff --git a/crates/tinymist/src/preview_renderer.rs b/crates/tinymist/src/preview_renderer.rs
 new file mode 100644
-index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc2171d79f
+index 0000000000000000000000000000000000000000..6c8273acd0de2842d28c0e408216035be7774fc9
 --- /dev/null
 +++ b/crates/tinymist/src/preview_renderer.rs
-@@ -0,0 +1,1421 @@
+@@ -0,0 +1,1511 @@
 +//! Host-facing incremental preview vector data plane.
 +//!
 +//! This deliberately exposes only the stateful vector producer already used by
@@ -243,29 +231,27 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +use std::path::{Path, PathBuf};
 +use std::sync::Arc;
 +
-+use base64::{engine::general_purpose::STANDARD as BASE64, Engine};
-+use lsp_types::{request::Request, Position as LspPosition, Url};
++use base64::{Engine, engine::general_purpose::STANDARD as BASE64};
++use lsp_types::{Diagnostic, Position as LspPosition, Url, request::Request};
 +use reflexo_typst::{ShadowApi, TaskInputs, WorldComputeGraph};
 +use reflexo_vec2svg::IncrSvgDocServer;
 +use serde::{Deserialize, Serialize};
 +use serde_json::Value as JsonValue;
 +use sha2::{Digest, Sha256};
-+use sync_ls::{internal_error, invalid_params, just_ok, ScheduleResult};
++use sync_ls::{ScheduleResult, internal_error, invalid_params, just_ok};
 +use tinymist_project::{
-+    diag::print_diagnostics_to_string,
-+    font::{memory::MemoryFontSearcher, FontResolverImpl},
 +    EntryState, LspCompiledArtifact, LspWorld,
++    font::{FontResolverImpl, memory::MemoryFontSearcher},
 +};
-+use tinymist_std::{typst::TypstDocument, ImmutPath};
-+use typst::{foundations::Bytes, syntax::VirtualPath, World};
++use tinymist_std::{ImmutPath, typst::TypstDocument};
++use typst::{World, foundations::Bytes, syntax::VirtualPath};
 +
 +use crate::{
-+    as_path_,
++    ServerState, as_path_,
 +    preview_location::{
-+        preview_location_for_snapshot, source_locations_for_snapshot, PreviewLocationResponse,
-+        PreviewPoint, SourceLocationResponse,
++        PreviewLocationResponse, PreviewPoint, SourceLocationResponse,
++        preview_location_for_snapshot, source_locations_for_snapshot,
 +    },
-+    ServerState,
 +};
 +
 +const PROTOCOL_VERSION: &str = "mmt-preview-renderer-v1";
@@ -366,6 +352,13 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +    data_base64: String,
 +}
 +
++#[derive(Clone, Debug, Serialize)]
++#[serde(rename_all = "camelCase")]
++pub(crate) struct PreviewRendererDiagnosticRecord {
++    uri: Url,
++    diagnostic: Diagnostic,
++}
++
 +#[derive(Debug, Serialize)]
 +#[serde(
 +    rename_all = "camelCase",
@@ -400,6 +393,16 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +        data_base64: String,
 +        byte_length: usize,
 +        page_count: usize,
++        diagnostics: Vec<PreviewRendererDiagnosticRecord>,
++    },
++    #[serde(rename = "compileFailed")]
++    CompileFailed {
++        protocol_version: &'static str,
++        session_id: String,
++        snapshot_token: String,
++        source_digest: String,
++        compiler_revision: usize,
++        diagnostics: Vec<PreviewRendererDiagnosticRecord>,
 +    },
 +    #[serde(rename = "resync")]
 +    Resync {
@@ -507,6 +510,7 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +    frame_kind: &'static str,
 +    data_base64: String,
 +    byte_length: usize,
++    diagnostics: Vec<PreviewRendererDiagnosticRecord>,
 +}
 +
 +impl StagedPreviewRendererGeneration {
@@ -523,6 +527,7 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +            frame_kind: self.frame_kind,
 +            data_base64: self.data_base64.clone(),
 +            byte_length: self.byte_length,
++            diagnostics: self.diagnostics.clone(),
 +            page_count: self.state.page_count,
 +        }
 +    }
@@ -877,7 +882,9 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +        for digest in &font_digests {
 +            validate_digest("font digest", digest)?;
 +            if !seen_fonts.insert(digest.clone()) {
-+                return Err(invalid_params("preview renderer font digests must be unique"));
++                return Err(invalid_params(
++                    "preview renderer font digests must be unique",
++                ));
 +            }
 +            referenced.insert(digest.clone());
 +        }
@@ -949,10 +956,26 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +                        session.base_font_resolver.clone(),
 +                    )
 +                } else {
-+                    (false, None, HashMap::new(), HashMap::new(), Vec::new(), None)
++                    (
++                        false,
++                        None,
++                        HashMap::new(),
++                        HashMap::new(),
++                        Vec::new(),
++                        None,
++                    )
 +                }
 +            })
-+            .unwrap_or_else(|| (false, None, HashMap::new(), HashMap::new(), Vec::new(), None));
++            .unwrap_or_else(|| {
++                (
++                    false,
++                    None,
++                    HashMap::new(),
++                    HashMap::new(),
++                    Vec::new(),
++                    None,
++                )
++            });
 +        let next_digests = registered_mounts
 +            .iter()
 +            .map(|mount| (mount.path.clone(), mount.content_digest.clone()))
@@ -973,9 +996,12 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +            })
 +            .map(|mount| mount.content_digest.clone())
 +            .collect::<Vec<_>>();
-+        missing.extend(font_digests.iter().filter(|digest| {
-+            !self.preview_renderer.file_records.contains_key(*digest)
-+        }).cloned());
++        missing.extend(
++            font_digests
++                .iter()
++                .filter(|digest| !self.preview_renderer.file_records.contains_key(*digest))
++                .cloned(),
++        );
 +        missing.sort();
 +        missing.dedup();
 +        if !missing.is_empty() {
@@ -1022,7 +1048,9 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +            }
 +        }
 +        if project_bytes > MAX_PREVIEW_MOUNT_TOTAL_BYTES {
-+            return Err(invalid_params("preview renderer project exceeds its size limit"));
++            return Err(invalid_params(
++                "preview renderer project exceeds its size limit",
++            ));
 +        }
 +
 +        if compatible
@@ -1077,8 +1105,8 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +        } else {
 +            current_world.expect("compatible renderer session has a live world")
 +        };
-+        let base_font_resolver = current_base_font_resolver
-+            .unwrap_or_else(|| next_world.font_resolver.clone());
++        let base_font_resolver =
++            current_base_font_resolver.unwrap_or_else(|| next_world.font_resolver.clone());
 +        if fonts_changed || rebuild_world {
 +            let mut searcher = MemoryFontSearcher::new();
 +            for digest in &font_digests {
@@ -1090,7 +1118,9 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +                let previous_count = searcher.fonts.len();
 +                searcher.add_memory_font(record.bytes.clone());
 +                if searcher.fonts.len() == previous_count {
-+                    return Err(invalid_params("preview renderer font record is not a valid font"));
++                    return Err(invalid_params(
++                        "preview renderer font record is not a valid font",
++                    ));
 +                }
 +            }
 +            searcher.extend(
@@ -1100,7 +1130,11 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +            );
 +            next_world.font_resolver = Arc::new(searcher.build());
 +        }
-+        for mount in if rebuild_world { &registered_mounts } else { &changed_mounts } {
++        for mount in if rebuild_world {
++            &registered_mounts
++        } else {
++            &changed_mounts
++        } {
 +            let record = self
 +                .preview_renderer
 +                .file_records
@@ -1147,6 +1181,7 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +        base_generation: Option<u64>,
 +        force_full: bool,
 +    ) -> Result<PreviewRendererResponse, sync_ls::ResponseError> {
++        let position_encoding = self.const_config().position_encoding;
 +        let (compile_world, render_entry_uri, generation) = {
 +            let state = &mut self.preview_renderer;
 +            state.ensure_capacity_for(&session_id);
@@ -1197,17 +1232,16 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +        let compiler_revision = compile_world.revision().get();
 +        let artifact =
 +            LspCompiledArtifact::from_graph(WorldComputeGraph::from_world(compile_world), false);
++        let diagnostics = preview_renderer_diagnostics(&artifact, position_encoding);
 +        if artifact.doc.is_none() {
-+            let diagnostics = artifact.diag.diagnostics();
-+            let error = print_diagnostics_to_string(
-+                artifact.graph.world(),
++            return Ok(PreviewRendererResponse::CompileFailed {
++                protocol_version: PROTOCOL_VERSION,
++                session_id,
++                snapshot_token,
++                source_digest,
++                compiler_revision,
 +                diagnostics,
-+                reflexo_typst::DiagnosticFormat::Human,
-+            )
-+            .unwrap_or_else(|error| error);
-+            return Err(internal_error(format!(
-+                "preview renderer could not compile the immutable project: {error}"
-+            )));
++            });
 +        }
 +        let document = artifact
 +            .doc
@@ -1219,32 +1253,33 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +            .sessions
 +            .get_mut(&session_id)
 +            .expect("registered renderer session");
-+        let (renderer, frame_kind, frame, response_base_generation) =
-+            if force_full || session.committed.is_none() {
-+                let mut renderer = IncrSvgDocServer::default();
-+                let delta = renderer.pack_delta(&document);
-+                let payload = delta.strip_prefix(DIFF_V1_PREFIX).ok_or_else(|| {
-+                    internal_error("Tinymist incremental renderer produced an invalid initial frame")
-+                })?;
-+                let mut frame = Vec::with_capacity(NEW_PREFIX.len() + payload.len());
-+                frame.extend_from_slice(NEW_PREFIX);
-+                frame.extend_from_slice(payload);
-+                (renderer, "new", frame, 0)
-+            } else {
-+                let committed = session
-+                    .committed
-+                    .as_ref()
-+                    .expect("validated committed renderer generation");
-+                let Some(mut renderer) = session.committed_renderer.take() else {
-+                    return Ok(resync(
-+                        session_id,
-+                        snapshot_token,
-+                        session.expected_base_generation(),
-+                    ));
-+                };
-+                let frame = renderer.pack_delta(&document);
-+                (renderer, "diff-v1", frame, committed.generation)
++        let (renderer, frame_kind, frame, response_base_generation) = if force_full
++            || session.committed.is_none()
++        {
++            let mut renderer = IncrSvgDocServer::default();
++            let delta = renderer.pack_delta(&document);
++            let payload = delta.strip_prefix(DIFF_V1_PREFIX).ok_or_else(|| {
++                internal_error("Tinymist incremental renderer produced an invalid initial frame")
++            })?;
++            let mut frame = Vec::with_capacity(NEW_PREFIX.len() + payload.len());
++            frame.extend_from_slice(NEW_PREFIX);
++            frame.extend_from_slice(payload);
++            (renderer, "new", frame, 0)
++        } else {
++            let committed = session
++                .committed
++                .as_ref()
++                .expect("validated committed renderer generation");
++            let Some(mut renderer) = session.committed_renderer.take() else {
++                return Ok(resync(
++                    session_id,
++                    snapshot_token,
++                    session.expected_base_generation(),
++                ));
 +            };
++            let frame = renderer.pack_delta(&document);
++            (renderer, "diff-v1", frame, committed.generation)
++        };
 +        let expected_prefix = if frame_kind == "new" {
 +            NEW_PREFIX
 +        } else {
@@ -1276,12 +1311,55 @@ index 0000000000000000000000000000000000000000..339872e100664de180088a7e6c193acc
 +            frame_kind,
 +            data_base64: BASE64.encode(&frame),
 +            byte_length,
++            diagnostics,
 +        };
 +        let response = staged.response(session_id);
 +        session.staged_renderer = Some(renderer);
 +        session.staged = Some(staged);
 +        Ok(response)
 +    }
++}
++fn preview_renderer_diagnostics(
++    artifact: &LspCompiledArtifact,
++    position_encoding: tinymist_query::PositionEncoding,
++) -> Vec<PreviewRendererDiagnosticRecord> {
++    let diagnostics = tinymist_query::convert_diagnostics(
++        artifact.graph.clone(),
++        artifact.diagnostics(),
++        position_encoding,
++    );
++    let mut records = diagnostics
++        .into_iter()
++        .flat_map(|(uri, diagnostics)| {
++            diagnostics
++                .into_iter()
++                .map(move |diagnostic| PreviewRendererDiagnosticRecord {
++                    uri: uri.clone(),
++                    diagnostic,
++                })
++        })
++        .collect::<Vec<_>>();
++    records.sort_by(|left, right| {
++        (
++            left.uri.as_str(),
++            left.diagnostic.range.start.line,
++            left.diagnostic.range.start.character,
++            left.diagnostic.range.end.line,
++            left.diagnostic.range.end.character,
++            left.diagnostic.severity,
++            left.diagnostic.message.as_str(),
++        )
++            .cmp(&(
++                right.uri.as_str(),
++                right.diagnostic.range.start.line,
++                right.diagnostic.range.start.character,
++                right.diagnostic.range.end.line,
++                right.diagnostic.range.end.character,
++                right.diagnostic.severity,
++                right.diagnostic.message.as_str(),
++            ))
++    });
++    records
 +}
 +
 +fn resync(

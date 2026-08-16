@@ -9,11 +9,11 @@ use lsp_types::{
     PositionEncodingKind, Range, TextEdit, Url,
 };
 use mmt_rs::{
-    AnalyzedDocument, EmitOptions, LogicalProjectFileId, MappingMode, PROJECTION_PLACEHOLDER_IMAGE,
+    AnalyzedDocument, EmitOptions, LogicalProjectFileId, PROJECTION_PLACEHOLDER_IMAGE,
     ProjectDigestInput, ProjectedEditFailure, ProjectedEditTarget, ProjectedEditTransaction,
-    ProjectionEdit, ProjectionError, ProjectionKey, ProjectionKind, ProjectionMappingKind,
-    ProjectionMappingResult, ProjectionPlan, ProjectionProfile, RetainedProjectedDocument,
-    SourceContentKey, TypstProjectSnapshotKey, TypstProjection, ValidatedProjectedEditTransaction,
+    ProjectionEdit, ProjectionError, ProjectionKey, ProjectionMappingKind, ProjectionMappingResult,
+    ProjectionPlan, ProjectionProfile, RetainedProjectedDocument, SourceContentKey,
+    TypstProjectSnapshotKey, TypstProjection, ValidatedProjectedEditTransaction,
     canonical_bytes_digest, canonical_json_digest, logical_source_id, normalize_projected_edit_uri,
     project_snapshot_key, projection_key, source_content_key, validate_projected_edit_transaction,
 };
@@ -771,17 +771,16 @@ impl ProjectionDocument {
             client_encoding,
         )?;
         if let Some(information) = diagnostic.related_information.take() {
-            let mut mapped = Vec::new();
+            let mut mapped = Vec::with_capacity(information.len());
             for mut related in information {
-                if related.location.uri != self.entry_uri {
-                    continue;
+                if related.location.uri == self.entry_uri {
+                    related.location.uri = self.source_uri.clone();
+                    related.location.range = self.typst_diagnostic_range_to_mmt(
+                        related.location.range,
+                        backend_encoding,
+                        client_encoding,
+                    )?;
                 }
-                related.location.uri = self.source_uri.clone();
-                related.location.range = self.typst_range_to_mmt(
-                    related.location.range,
-                    backend_encoding,
-                    client_encoding,
-                )?;
                 mapped.push(related);
             }
             diagnostic.related_information = Some(mapped);
@@ -810,32 +809,11 @@ impl ProjectionDocument {
             );
         }
 
-        // Semantic diagnostics can include generated call wrappers. Prefer the
-        // single authored patch inside that span; multiple candidates are ambiguous.
-        let mut authored = self.projection.index.segments().iter().filter(|segment| {
-            segment.mapping == MappingMode::Identity
-                && matches!(
-                    segment.kind,
-                    ProjectionKind::StatementPatch | ProjectionKind::ResourcePatch
-                )
-                && segment.typst_range.start < typst_range.end
-                && typst_range.start < segment.typst_range.end
-        });
-        let segment = authored
-            .next()
-            .ok_or(PositionConversionError::ProjectionMismatch)?;
-        if authored.next().is_some() {
-            return Err(PositionConversionError::AmbiguousMapping);
-        }
-        let overlap = mmt_rs::source::TextRange::new(
-            segment.typst_range.start.max(typst_range.start),
-            segment.typst_range.end.min(typst_range.end),
-        );
-        let mapped = self
-            .projection
-            .index
-            .typst_to_mmt(overlap)
-            .ok_or(PositionConversionError::ProjectionMismatch)?;
+        let Some(mmt_rs::emit::Origin::MmtRange { range: mapped, .. }) =
+            self.projection.emitted.unique_authored_parent(typst_range)
+        else {
+            return Err(PositionConversionError::ProjectionMismatch);
+        };
         self.source_lines.mmt_range(
             Utf8ByteRange::new(
                 Utf8ByteOffset::new(mapped.start),
@@ -2002,7 +1980,7 @@ mod tests {
     }
 
     #[test]
-    fn maps_wrapper_spanning_diagnostic_to_its_resource_patch() {
+    fn rejects_diagnostic_spanning_distinct_resource_parents() {
         let source = "@asset: hero src:https://example.com/a.png\n- T\"\"\"[:asset, hero:](width: mmt.missing-style-token)\"\"\"";
         let mut store = ProjectionStore::default();
         let document = store
@@ -2032,35 +2010,75 @@ mod tests {
                 &PositionEncodingKind::UTF16,
             )
             .unwrap();
-        let mapped = document
-            .map_diagnostic(
+
+        assert_eq!(
+            document.map_diagnostic(
                 Diagnostic::new_simple(generated_range, "unknown field".to_string()),
                 PositionEncoding::Utf16,
                 PositionEncoding::Utf16,
+            ),
+            Err(PositionConversionError::ProjectionMismatch)
+        );
+    }
+
+    #[test]
+    fn maps_generated_text_wrapper_to_body_and_preserves_dependency_related_location() {
+        let source = "- hello # world";
+        let mut store = ProjectionStore::default();
+        let document = store
+            .upsert(
+                uri(),
+                &snapshot(1, source.to_string(), &StaticPresetCatalog::default()),
             )
             .unwrap();
-        let mapped = mmt_rs::source::TextRange::new(
-            document
-                .source_lines
-                .offset(
-                    &document.source,
-                    mapped.range.start,
-                    &PositionEncodingKind::UTF16,
-                )
-                .unwrap(),
-            document
-                .source_lines
-                .offset(
-                    &document.source,
-                    mapped.range.end,
-                    &PositionEncodingKind::UTF16,
-                )
-                .unwrap(),
-        );
-        assert_eq!(
-            &source[mapped.start..mapped.end],
-            "width: mmt.missing-style-token"
-        );
+        let generated_start = document
+            .projection
+            .emitted
+            .source
+            .rfind("#text(\"")
+            .unwrap();
+        let generated_end =
+            document.projection.emitted.source.rfind("hello").unwrap() + "hello".len();
+        let generated_range = document
+            .typst_lines
+            .range(
+                &document.projection.emitted.source,
+                mmt_rs::source::TextRange::new(generated_start, generated_end),
+                &PositionEncodingKind::UTF16,
+            )
+            .unwrap();
+        let dependency_uri = Url::parse("mmt-package:/preview/lib.typ").unwrap();
+        let dependency_range = Range::new(Position::new(4, 2), Position::new(4, 7));
+        let mut diagnostic =
+            Diagnostic::new_simple(generated_range, "escaped text warning".to_string());
+        diagnostic.related_information = Some(vec![lsp_types::DiagnosticRelatedInformation {
+            location: Location::new(dependency_uri.clone(), dependency_range),
+            message: "defined here".to_string(),
+        }]);
+
+        let mapped = document
+            .map_diagnostic(diagnostic, PositionEncoding::Utf16, PositionEncoding::Utf16)
+            .unwrap();
+        let mapped_start = document
+            .source_lines
+            .offset(
+                &document.source,
+                mapped.range.start,
+                &PositionEncodingKind::UTF16,
+            )
+            .unwrap();
+        let mapped_end = document
+            .source_lines
+            .offset(
+                &document.source,
+                mapped.range.end,
+                &PositionEncodingKind::UTF16,
+            )
+            .unwrap();
+        assert_eq!(&source[mapped_start..mapped_end], "hello # world");
+        let related = mapped.related_information.unwrap();
+        assert_eq!(related[0].location.uri, dependency_uri);
+        assert_eq!(related[0].location.range, dependency_range);
     }
 
     #[test]

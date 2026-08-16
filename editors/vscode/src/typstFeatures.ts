@@ -28,6 +28,7 @@ import {
 } from "./retainedVirtualDocuments";
 import { RichTypstProviderRegistrations } from "./typstRichProviders";
 import { ProjectedTypstEditProviders } from "./projectedEdits";
+import { connectMmtProjectedSemanticDispatcher } from "./mmtSemanticMiddleware";
 
 const routersByBackend = new WeakMap<TinymistHostBackend, TypstFeatureRouter>();
 const retainedDocumentsByBackend = new WeakMap<TinymistHostBackend, RetainedVirtualDocumentStore>();
@@ -36,15 +37,21 @@ const problemsByBackend = new WeakMap<TinymistHostBackend, TypstProblemsPublishe
 const SHOW_TYPST_MAPPING_COMMAND = "mmt.showTypstMapping";
 const TYPST_MAPPING_VIEW_CONTEXT = "mmt.typstMappingViewAvailable";
 
+export interface TypstProblemGroup {
+  readonly uri: vscode.Uri;
+  readonly diagnostics: readonly vscode.Diagnostic[];
+}
+
 export interface TypstProblemsPublisher extends vscode.Disposable {
-  replacePreview(uri: vscode.Uri, diagnostics: readonly vscode.Diagnostic[]): void;
-  clearPreview(uri: vscode.Uri): void;
+  replacePreview(ownerUri: vscode.Uri, groups: readonly TypstProblemGroup[]): void;
+  clearPreview(ownerUri: vscode.Uri): void;
 }
 
 class UnifiedTypstProblemsPublisher implements TypstProblemsPublisher {
   readonly #collection = vscode.languages.createDiagnosticCollection("mmt-typst");
   readonly #language = new Map<string, readonly vscode.Diagnostic[]>();
-  readonly #preview = new Map<string, readonly vscode.Diagnostic[]>();
+  readonly #previewByOwner = new Map<string, ReadonlyMap<string, TypstProblemGroup>>();
+  readonly #previewByTarget = new Map<string, Map<string, readonly vscode.Diagnostic[]>>();
   #disposed = false;
 
   replaceLanguage(uri: vscode.Uri, diagnostics: readonly vscode.Diagnostic[]): void {
@@ -59,22 +66,44 @@ class UnifiedTypstProblemsPublisher implements TypstProblemsPublisher {
     this.#publish(uri);
   }
 
-  replacePreview(uri: vscode.Uri, diagnostics: readonly vscode.Diagnostic[]): void {
+  replacePreview(ownerUri: vscode.Uri, groups: readonly TypstProblemGroup[]): void {
     if (this.#disposed) return;
-    this.#preview.set(uri.toString(), [...diagnostics]);
-    this.#publish(uri);
+    const owner = ownerUri.toString();
+    const affected = this.#removePreviewOwner(owner);
+    const retained = new Map<string, TypstProblemGroup>();
+    for (const group of groups) {
+      const target = group.uri.toString();
+      if (retained.has(target)) throw new Error(`Duplicate preview diagnostic target '${target}'`);
+      const diagnostics = Object.freeze([...group.diagnostics]);
+      const frozen = Object.freeze({ uri: group.uri, diagnostics });
+      retained.set(target, frozen);
+      const byOwner = this.#previewByTarget.get(target) ?? new Map();
+      byOwner.set(owner, diagnostics);
+      this.#previewByTarget.set(target, byOwner);
+      affected.set(target, group.uri);
+    }
+    if (retained.size !== 0) this.#previewByOwner.set(owner, retained);
+    for (const uri of affected.values()) this.#publish(uri);
   }
 
-  clearPreview(uri: vscode.Uri): void {
+  clearPreview(ownerUri: vscode.Uri): void {
     if (this.#disposed) return;
-    this.#preview.delete(uri.toString());
-    this.#publish(uri);
+    for (const uri of this.#removePreviewOwner(ownerUri.toString()).values()) this.#publish(uri);
   }
 
   clear(uri: vscode.Uri): void {
     if (this.#disposed) return;
-    this.#language.delete(uri.toString());
-    this.#preview.delete(uri.toString());
+    const key = uri.toString();
+    this.#language.delete(key);
+    this.clearPreview(uri);
+    const affectedOwners = [...this.#previewByOwner.entries()]
+      .filter(([, groups]) => groups.has(key));
+    for (const [owner, groups] of affectedOwners) {
+      this.replacePreview(
+        vscode.Uri.parse(owner),
+        [...groups.values()].filter((group) => group.uri.toString() !== key),
+      );
+    }
     this.#collection.delete(uri);
   }
 
@@ -82,20 +111,42 @@ class UnifiedTypstProblemsPublisher implements TypstProblemsPublisher {
     if (this.#disposed) return;
     this.#disposed = true;
     this.#language.clear();
-    this.#preview.clear();
+    this.#previewByOwner.clear();
+    this.#previewByTarget.clear();
     this.#collection.dispose();
+  }
+
+  #removePreviewOwner(owner: string): Map<string, vscode.Uri> {
+    const affected = new Map<string, vscode.Uri>();
+    const previous = this.#previewByOwner.get(owner);
+    if (!previous) return affected;
+    this.#previewByOwner.delete(owner);
+    for (const [target, group] of previous) {
+      const byOwner = this.#previewByTarget.get(target);
+      byOwner?.delete(owner);
+      if (byOwner?.size === 0) this.#previewByTarget.delete(target);
+      affected.set(target, group.uri);
+    }
+    return affected;
   }
 
   #publish(uri: vscode.Uri): void {
     if (this.#disposed) return;
     const key = uri.toString();
+    const preview = [...(this.#previewByTarget.get(key)?.values() ?? [])].flat();
+    const previewKeys = new Set(preview.map(diagnosticIdentity));
     const diagnostics = [
-      ...(this.#language.get(key) ?? []),
-      ...(this.#preview.get(key) ?? [])
+      ...(this.#language.get(key) ?? []).filter((diagnostic) => !previewKeys.has(diagnosticIdentity(diagnostic))),
+      ...preview,
     ];
     if (diagnostics.length === 0) this.#collection.delete(uri);
     else this.#collection.set(uri, diagnostics);
   }
+}
+
+function diagnosticIdentity(diagnostic: vscode.Diagnostic): string {
+  const { start, end } = diagnostic.range;
+  return `${start.line}:${start.character}-${end.line}:${end.character}:${diagnostic.severity}:${diagnostic.message}`;
 }
 
 export function typstProblemsPublisher(
@@ -258,6 +309,13 @@ export function connectTypstBackend(
     retainedDocuments = new RetainedVirtualDocumentStore();
     retainedDocumentsByBackend.set(backend, retainedDocuments);
   }
+  const projectedSemanticDispatcher = connectMmtProjectedSemanticDispatcher(
+    backend,
+    router,
+    client,
+    host,
+    retainedDocuments
+  );
   const virtualContentProviders = registerVirtualTypstContentProviders(vscode.workspace, retainedDocuments);
   const latestProjectionBySource = new Map<
     string,
@@ -409,6 +467,7 @@ export function connectTypstBackend(
     navigationProviders,
     richProviders,
     projectedEditProviders,
+    projectedSemanticDispatcher,
     ...virtualContentProviders,
     releaseProjectionViewer,
     releaseProblems,

@@ -78,8 +78,46 @@ impl EmittedTypst {
     }
 
     pub fn lookup_mmt_origin(&self, generated_range: TextRange) -> Option<&Origin> {
-        let mut origin_id = self.lookup_origin_id(generated_range)?;
+        self.unique_authored_parent(generated_range)
+    }
+
+    pub fn unique_authored_parent(&self, generated_range: TextRange) -> Option<&Origin> {
+        if generated_range.start > generated_range.end || generated_range.end > self.source.len() {
+            return None;
+        }
+        if generated_range.is_empty() {
+            let origin_id = self.lookup_origin_id(generated_range)?;
+            return self.resolve_mmt_origin(origin_id);
+        }
+
+        let mut cursor = generated_range.start;
+        let mut authored: Option<&Origin> = None;
+        for entry in self.source_map.iter().filter(|entry| {
+            entry.generated_range.start < generated_range.end
+                && generated_range.start < entry.generated_range.end
+        }) {
+            if entry.generated_range.start > cursor {
+                return None;
+            }
+            let candidate = self.resolve_mmt_origin(entry.origin_id)?;
+            if authored.is_some_and(|current| current != candidate) {
+                return None;
+            }
+            authored = Some(candidate);
+            cursor = cursor.max(entry.generated_range.end.min(generated_range.end));
+        }
+        if cursor != generated_range.end {
+            return None;
+        }
+        authored
+    }
+
+    fn resolve_mmt_origin(&self, mut origin_id: usize) -> Option<&Origin> {
+        let mut visited = HashSet::new();
         loop {
+            if !visited.insert(origin_id) {
+                return None;
+            }
             match self.origins.get(origin_id)? {
                 origin @ Origin::MmtRange { .. } => return Some(origin),
                 Origin::Generated {
@@ -96,7 +134,7 @@ impl EmittedTypst {
         message: impl Into<String>,
         generated_range: TextRange,
     ) -> Diagnostic {
-        let range = match self.lookup_mmt_origin(generated_range) {
+        let range = match self.unique_authored_parent(generated_range) {
             Some(Origin::MmtRange { range, .. }) => Some(*range),
             _ => None,
         };
@@ -675,13 +713,17 @@ impl<'a> TypstEmitter<'a> {
         }
     }
 
-    fn emit_text_source(&mut self, source: &str, range: TextRange, parent: usize) {
+    fn emit_text_source(&mut self, source: &str, range: TextRange, _parent: usize) {
+        let text_parent = self.builder.register_origin(Origin::MmtRange {
+            range,
+            kind: OriginKind::TextBody,
+        });
         self.builder
-            .push_generated("#text(\"", GeneratedKind::EscapedText, Some(parent));
+            .push_generated("#text(\"", GeneratedKind::EscapedText, Some(text_parent));
         self.builder
             .push_mmt(&escape_typst_string(source), range, OriginKind::TextBody);
         self.builder
-            .push_generated("\")", GeneratedKind::EscapedText, Some(parent));
+            .push_generated("\")", GeneratedKind::EscapedText, Some(text_parent));
     }
 
     fn emit_checked_typst(&mut self, body: &BodySyntax, kind: OriginKind) {
@@ -973,6 +1015,35 @@ mod tests {
             emitted
                 .lookup_origin(TextRange::empty(emitted.source.len()))
                 .is_some()
+        );
+    }
+
+    #[test]
+    fn generated_text_wrapper_converges_to_exact_body_parent() {
+        let source = "> 柚子: hello";
+        let emitted = emit(source);
+        let wrapper_start = emitted.source.rfind("#text(\"").unwrap();
+        let body_end = emitted.source.find("hello").unwrap() + 2;
+        let source_start = source.find("hello").unwrap();
+
+        assert_eq!(
+            emitted.unique_authored_parent(TextRange::new(wrapper_start, body_end)),
+            Some(&Origin::MmtRange {
+                range: TextRange::new(source_start, source_start + "hello".len()),
+                kind: OriginKind::TextBody,
+            })
+        );
+    }
+
+    #[test]
+    fn generated_range_crossing_authored_parents_is_ambiguous() {
+        let emitted = emit("> 柚子: hello\n> 柚子: world");
+        let first_wrapper = emitted.source.find("#text(\"hello").unwrap();
+        let second_body = emitted.source.find("world").unwrap() + "world".len();
+
+        assert_eq!(
+            emitted.unique_authored_parent(TextRange::new(first_wrapper, second_body)),
+            None
         );
     }
 

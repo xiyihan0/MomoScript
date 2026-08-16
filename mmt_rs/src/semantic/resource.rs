@@ -54,9 +54,35 @@ pub struct ResolvedResourceMarker {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ResourceArgumentReplacement {
+    WholeValue,
+    StickerPathSubject { subject: String },
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) enum ResourceOccurrenceCandidate {
+    Actor {
+        actor: ActorId,
+        name: String,
+        range: TextRange,
+        marker_range: TextRange,
+        value: MacroValueSyntax,
+        replacement: ResourceArgumentReplacement,
+    },
+    Asset {
+        name: String,
+        range: TextRange,
+        marker_range: TextRange,
+        value: MacroValueSyntax,
+        replacement: ResourceArgumentReplacement,
+    },
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ResourceLowering {
     pub markers: Vec<ResolvedResourceMarker>,
     pub diagnostics: Vec<Diagnostic>,
+    pub(crate) semantic_occurrences: Vec<ResourceOccurrenceCandidate>,
 }
 
 pub fn lower_resource_markers(
@@ -73,6 +99,7 @@ struct ResourceLowerer<'a> {
     actor_names: HashMap<String, ActorId>,
     markers: Vec<ResolvedResourceMarker>,
     diagnostics: Vec<Diagnostic>,
+    semantic_occurrences: Vec<ResourceOccurrenceCandidate>,
     _actors: &'a ActorLowering,
 }
 
@@ -111,6 +138,7 @@ impl<'a> ResourceLowerer<'a> {
             actor_names,
             markers: Vec::new(),
             diagnostics: Vec::new(),
+            semantic_occurrences: Vec::new(),
             _actors: actors,
         }
     }
@@ -134,6 +162,7 @@ impl<'a> ResourceLowerer<'a> {
         ResourceLowering {
             markers: self.markers,
             diagnostics: self.diagnostics,
+            semantic_occurrences: self.semantic_occurrences,
         }
     }
 
@@ -176,11 +205,82 @@ impl<'a> ResourceLowerer<'a> {
         let Some(selector) = self.parse_marker_selector(marker, speaker) else {
             return;
         };
+        self.record_semantic_occurrence(marker, &selector);
         self.markers.push(ResolvedResourceMarker {
             range: marker.range,
             selector,
             render_patch: marker.render_patch.clone(),
         });
+    }
+
+    fn record_semantic_occurrence(
+        &mut self,
+        marker: &InlineMacroSyntax,
+        selector: &ResourceSelector,
+    ) {
+        match selector {
+            ResourceSelector::Asset { name } => {
+                let argument = match marker.args.as_slice() {
+                    [only] => only,
+                    [first, second]
+                        if explicit_resource_space(&first.value) == Some(ResourceSpace::Asset) =>
+                    {
+                        second
+                    }
+                    _ => return,
+                };
+                self.semantic_occurrences
+                    .push(ResourceOccurrenceCandidate::Asset {
+                        name: name.clone(),
+                        range: argument.range,
+                        marker_range: marker.range,
+                        value: argument.value.clone(),
+                        replacement: ResourceArgumentReplacement::WholeValue,
+                    });
+            }
+            ResourceSelector::Sticker {
+                subject: SubjectRef::Actor(actor),
+                ..
+            } => {
+                let (argument, name, replacement) = match marker.args.as_slice() {
+                    [first, _] if explicit_resource_space(&first.value).is_none() => {
+                        let Ok(atom) = atom_from_value(&first.value) else {
+                            return;
+                        };
+                        (first, atom.value, ResourceArgumentReplacement::WholeValue)
+                    }
+                    [only] => {
+                        let Ok(atom) = atom_from_value(&only.value) else {
+                            return;
+                        };
+                        if !looks_like_full_sticker_path(&atom) {
+                            return;
+                        }
+                        let Some(subject) = atom.value.split('/').next() else {
+                            return;
+                        };
+                        (
+                            only,
+                            subject.to_string(),
+                            ResourceArgumentReplacement::StickerPathSubject {
+                                subject: subject.to_string(),
+                            },
+                        )
+                    }
+                    _ => return,
+                };
+                self.semantic_occurrences
+                    .push(ResourceOccurrenceCandidate::Actor {
+                        actor: *actor,
+                        name,
+                        range: argument.range,
+                        marker_range: marker.range,
+                        value: argument.value.clone(),
+                        replacement,
+                    });
+            }
+            _ => {}
+        }
     }
 
     fn parse_marker_selector(
@@ -451,7 +551,7 @@ impl<'a> ResourceLowerer<'a> {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ResourceSpace {
     Sticker,
     Asset,

@@ -3,12 +3,14 @@ use std::collections::HashMap;
 use lsp_types::{
     CompletionItem, CompletionOptions, CompletionParams, Diagnostic, DidChangeTextDocumentParams,
     DidCloseTextDocumentParams, DidOpenTextDocumentParams, DocumentSymbolParams,
-    FoldingRangeParams, FoldingRangeProviderCapability, Hover, HoverProviderCapability,
-    InitializeParams, InitializeResult, InlayHintParams, Location, LogMessageParams, MessageType,
-    OneOf, Position, PositionEncodingKind, PublishDiagnosticsParams, Range, SemanticTokenType,
+    FoldingRangeParams, FoldingRangeProviderCapability, GotoDefinitionParams, Hover,
+    HoverProviderCapability, InitializeParams, InitializeResult, InlayHintParams, Location,
+    LogMessageParams, MessageType, OneOf, Position, PositionEncodingKind, PublishDiagnosticsParams,
+    Range, ReferenceParams, RenameOptions, RenameParams, SemanticTokenType,
     SemanticTokensFullOptions, SemanticTokensLegend, SemanticTokensOptions, SemanticTokensParams,
     SemanticTokensServerCapabilities, ServerCapabilities, ServerInfo, SignatureHelpOptions,
-    TextDocumentIdentifier, TextDocumentSyncCapability, TextDocumentSyncKind, Url,
+    TextDocumentIdentifier, TextDocumentPositionParams, TextDocumentSyncCapability,
+    TextDocumentSyncKind, Url,
 };
 use mmt_rs::{
     ProjectedEditTarget, ProjectedEditTransaction, ProjectedTargetClass, ProjectionKey,
@@ -27,6 +29,15 @@ use crate::{
 struct TypstPositionParams {
     text_document: TextDocumentIdentifier,
     position: Position,
+    backend_encoding: PositionEncoding,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct SemanticRouteParams {
+    text_document: TextDocumentIdentifier,
+    position: Position,
+    version: i32,
     backend_encoding: PositionEncoding,
 }
 
@@ -321,6 +332,72 @@ impl MmtLanguageServer {
                     params.text_document_position_params.position,
                 ))
             }
+            "textDocument/definition" => {
+                let params: GotoDefinitionParams = decode(params)?;
+                encode(self.service.definition(
+                    &params.text_document_position_params.text_document.uri,
+                    params.text_document_position_params.position,
+                ))
+            }
+            "textDocument/references" => {
+                let params: ReferenceParams = decode(params)?;
+                encode(self.service.references(
+                    &params.text_document_position.text_document.uri,
+                    params.text_document_position.position,
+                    params.context.include_declaration,
+                ))
+            }
+            "textDocument/prepareRename" => {
+                let params: TextDocumentPositionParams = decode(params)?;
+                encode(
+                    self.service
+                        .prepare_rename(&params.text_document.uri, params.position),
+                )
+            }
+            "textDocument/rename" => {
+                let params: RenameParams = decode(params)?;
+                encode(self.service.rename(
+                    &params.text_document_position.text_document.uri,
+                    params.text_document_position.position,
+                    &params.new_name,
+                ))
+            }
+            "mmt/semanticRoute" => {
+                let params: SemanticRouteParams = decode(params)?;
+                let Some(snapshot) = self.service.snapshot(&params.text_document.uri) else {
+                    return encode("none");
+                };
+                if snapshot.version != params.version {
+                    return encode("none");
+                }
+                if self
+                    .service
+                    .semantic_position_is_native(&params.text_document.uri, params.position)
+                {
+                    return encode("native");
+                }
+                let projection_is_current = self
+                    .projections
+                    .get(&params.text_document.uri)
+                    .is_some_and(|projection| {
+                        projection.source_revision == snapshot.revision
+                            && projection.source_version == snapshot.version
+                    });
+                if !projection_is_current {
+                    return encode("none");
+                }
+                let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding())
+                else {
+                    return encode("none");
+                };
+                let projected = self.projections.project_position(
+                    &params.text_document.uri,
+                    MmtClientPosition::new(params.position),
+                    client_encoding,
+                    params.backend_encoding,
+                );
+                encode(projected.is_ok().then_some("projected").unwrap_or("none"))
+            }
             "mmt/typstPosition" => {
                 let params: TypstPositionParams = decode(params)?;
                 let Ok(client_encoding) = PositionEncoding::from_lsp(self.service.encoding())
@@ -495,14 +572,12 @@ impl MmtLanguageServer {
                     .diagnostics
                     .into_iter()
                     .map(|diagnostic| {
-                        document.map_diagnostic(
-                            diagnostic,
-                            params.backend_encoding,
-                            client_encoding,
-                        )
+                        document
+                            .map_diagnostic(diagnostic, params.backend_encoding, client_encoding)
+                            .ok()
                     })
-                    .collect::<Result<Vec<_>, _>>();
-                encode(mapped.ok())
+                    .collect::<Vec<_>>();
+                encode(mapped)
             }
             "mmt/mapTypstReadLocations" => {
                 let params: MapTypstReadLocationsParams = decode(params)?;
@@ -847,6 +922,12 @@ impl MmtLanguageServer {
                     ..CompletionOptions::default()
                 }),
                 hover_provider: Some(HoverProviderCapability::Simple(true)),
+                definition_provider: Some(OneOf::Left(true)),
+                references_provider: Some(OneOf::Left(true)),
+                rename_provider: Some(OneOf::Right(RenameOptions {
+                    prepare_provider: Some(true),
+                    work_done_progress_options: Default::default(),
+                })),
                 inlay_hint_provider: Some(OneOf::Left(true)),
                 signature_help_provider: Some(SignatureHelpOptions {
                     trigger_characters: Some(vec!["(".to_string(), ",".to_string()]),
@@ -1071,6 +1152,12 @@ mod tests {
             result["capabilities"]["completionProvider"]["triggerCharacters"],
             serde_json::json!(["_", "~", "[", ":", ",", "#"])
         );
+        assert_eq!(result["capabilities"]["definitionProvider"], true);
+        assert_eq!(result["capabilities"]["referencesProvider"], true);
+        assert_eq!(
+            result["capabilities"]["renameProvider"]["prepareProvider"],
+            true
+        );
 
         let events = server
             .notification(
@@ -1088,6 +1175,83 @@ mod tests {
         assert_eq!(events[0].method, "textDocument/publishDiagnostics");
         assert_eq!(events[1].method, "mmt/previewRequested");
         assert_eq!(events[1].params["revision"], 1);
+    }
+
+    #[test]
+    fn standard_semantic_requests_return_versioned_single_document_edits() {
+        let manifest = r#"{
+            "schema":"mmt-pack.v3",
+            "pack":{"namespace":"ba","name":"BA fixture","version":"1","type":"base"},
+            "entities":{"A":{"names":["A"]}}
+        }"#;
+        let uri = "file:///workspace/semantic.mmt";
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+        server
+            .request(
+                "mmt/updatePackManifests",
+                serde_json::json!({
+                    "revision": 1,
+                    "sources": [{ "json": manifest }]
+                }),
+            )
+            .unwrap();
+        server
+            .notification(
+                "textDocument/didOpen",
+                serde_json::json!({
+                    "textDocument": {
+                        "uri": uri,
+                        "languageId": "mmt",
+                        "version": 5,
+                        "text": "@actor main\npreset: ba::A\nalso-as: [alias]\n@end\n> alias: hello"
+                    }
+                }),
+            )
+            .unwrap();
+        let position = serde_json::json!({
+            "textDocument": { "uri": uri },
+            "position": { "line": 4, "character": 3 }
+        });
+
+        let definition = server
+            .request("textDocument/definition", position.clone())
+            .unwrap();
+        assert_eq!(definition["uri"], uri);
+        assert_eq!(definition["range"]["start"]["line"], 2);
+        let references = server
+            .request(
+                "textDocument/references",
+                serde_json::json!({
+                    "textDocument": { "uri": uri },
+                    "position": { "line": 4, "character": 3 },
+                    "context": { "includeDeclaration": true }
+                }),
+            )
+            .unwrap();
+        assert_eq!(references.as_array().unwrap().len(), 3);
+        let prepared = server
+            .request("textDocument/prepareRename", position.clone())
+            .unwrap();
+        assert_eq!(prepared["placeholder"], "alias");
+        let renamed = server
+            .request(
+                "textDocument/rename",
+                serde_json::json!({
+                    "textDocument": { "uri": uri },
+                    "position": { "line": 4, "character": 3 },
+                    "newName": "renamed"
+                }),
+            )
+            .unwrap();
+        assert_eq!(renamed["documentChanges"][0]["textDocument"]["version"], 5);
+        assert_eq!(
+            renamed["documentChanges"][0]["edits"]
+                .as_array()
+                .unwrap()
+                .len(),
+            2
+        );
     }
 
     #[test]
@@ -1542,6 +1706,48 @@ mod tests {
                 .iter()
                 .any(|file| file.get("dataBase64").is_some())
         );
+    }
+
+    #[test]
+    fn semantic_route_prioritizes_unresolved_native_zones_and_rejects_stale_positions() {
+        let mut server = MmtLanguageServer::default();
+        server.request("initialize", initialize(false)).unwrap();
+        let uri = lsp_types::Url::parse("file:///workspace/semantic-route.mmt").unwrap();
+        server
+            .notification(
+                "textDocument/didOpen",
+                serde_json::json!({
+                    "textDocument": {
+                        "uri": uri.clone(),
+                        "languageId": "mmt",
+                        "version": 1,
+                        "text": "> ghost: hello\n@typ\n#let projected = 1\n@end"
+                    }
+                }),
+            )
+            .unwrap();
+        server.refresh_projection(&uri);
+        assert_ne!(
+            server.projections.get(&uri).unwrap().revision,
+            server.service.snapshot(&uri).unwrap().revision
+        );
+        let route = |server: &mut MmtLanguageServer, line, character, version| {
+            server
+                .request(
+                    "mmt/semanticRoute",
+                    serde_json::json!({
+                        "textDocument": {"uri": uri.clone()},
+                        "position": {"line": line, "character": character},
+                        "version": version,
+                        "backendEncoding": "utf-16"
+                    }),
+                )
+                .unwrap()
+        };
+        assert_eq!(route(&mut server, 0, 3, 1), serde_json::json!("native"));
+        assert_eq!(route(&mut server, 2, 7, 1), serde_json::json!("projected"));
+        assert_eq!(route(&mut server, 1, 1, 1), serde_json::json!("none"));
+        assert_eq!(route(&mut server, 2, 7, 2), serde_json::json!("none"));
     }
 
     #[test]

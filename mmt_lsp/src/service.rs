@@ -2,11 +2,12 @@ use std::{collections::HashMap, sync::Arc};
 
 use lsp_types::{
     CompletionItem, CompletionItemKind, CompletionTextEdit, Diagnostic,
-    DiagnosticRelatedInformation, DiagnosticSeverity, DocumentSymbol, FoldingRange,
-    FoldingRangeKind, Hover, HoverContents, InlayHint, InlayHintLabel, InlayHintTooltip, Location,
-    MarkupContent, MarkupKind, ParameterInformation, ParameterLabel, Position,
-    PositionEncodingKind, SemanticToken, SemanticTokens, SignatureHelp, SignatureInformation,
-    SymbolKind, TextEdit, Url,
+    DiagnosticRelatedInformation, DiagnosticSeverity, DocumentChanges, DocumentSymbol,
+    FoldingRange, FoldingRangeKind, GotoDefinitionResponse, Hover, HoverContents, InlayHint,
+    InlayHintLabel, InlayHintTooltip, Location, MarkupContent, MarkupKind, OneOf,
+    OptionalVersionedTextDocumentIdentifier, ParameterInformation, ParameterLabel, Position,
+    PositionEncodingKind, PrepareRenameResponse, SemanticToken, SemanticTokens, SignatureHelp,
+    SignatureInformation, SymbolKind, TextDocumentEdit, TextEdit, Url, WorkspaceEdit,
 };
 use mmt_rs::diag::{Diagnostic as MmtDiagnostic, Severity};
 use mmt_rs::pack::{PackManifest, PackRegistry};
@@ -15,8 +16,10 @@ use mmt_rs::syntax::{
     DirectiveItemSyntax, SpeakerMarkerSyntax, StatementKind, SyntaxDocument, SyntaxNode,
 };
 use mmt_rs::{
-    AnalyzedDocument, DocumentTimezone, EmitOptions, ResolvedResourceKind, SpeakerIdentity,
-    StaticPresetCatalog, diagnose_analyzed, diagnose_analyzed_with_pack,
+    AnalyzedDocument, AssetId, DocumentTimezone, EmitOptions, OccurrenceSyntax, RenameBindingKey,
+    ResolvedResourceKind, ResourceArgumentReplacement, SemanticIndex, SemanticOccurrence,
+    SemanticOccurrenceRole, SemanticSymbolKey, SpeakerIdentity, StaticPresetCatalog,
+    diagnose_analyzed, diagnose_analyzed_with_pack, valid_asset_name,
 };
 
 use crate::clock::StageTimer;
@@ -300,6 +303,198 @@ impl LanguageService {
             tags: None,
             data: Some(serde_json::json!({ "phase": diagnostic.phase })),
         })
+    }
+
+    pub fn semantic_position_is_native(&self, uri: &Url, position: Position) -> bool {
+        let Some(document) = self.snapshot(uri) else {
+            return false;
+        };
+        let Some(offset) = document
+            .lines
+            .offset(&document.text, position, &self.encoding)
+        else {
+            return false;
+        };
+        document.analysis.semantic_index.native_zone_at(offset)
+    }
+
+    pub fn definition(&self, uri: &Url, position: Position) -> Option<GotoDefinitionResponse> {
+        let document = self.snapshot(uri)?;
+        let offset = document
+            .lines
+            .offset(&document.text, position, &self.encoding)?;
+        let occurrence = document.analysis.semantic_index.symbol_at(offset)?;
+        let definition = document
+            .analysis
+            .semantic_index
+            .definition_for(occurrence)?;
+        Some(GotoDefinitionResponse::Scalar(Location::new(
+            uri.clone(),
+            document
+                .lines
+                .range(&document.text, definition.range, &self.encoding)?,
+        )))
+    }
+
+    pub fn references(
+        &self,
+        uri: &Url,
+        position: Position,
+        include_declaration: bool,
+    ) -> Option<Vec<Location>> {
+        let document = self.snapshot(uri)?;
+        let offset = document
+            .lines
+            .offset(&document.text, position, &self.encoding)?;
+        let occurrence = document.analysis.semantic_index.symbol_at(offset)?;
+        Some(
+            document
+                .analysis
+                .semantic_index
+                .references(&occurrence.symbol, include_declaration)
+                .into_iter()
+                .filter_map(|occurrence| {
+                    Some(Location::new(
+                        uri.clone(),
+                        document
+                            .lines
+                            .range(&document.text, occurrence.range, &self.encoding)?,
+                    ))
+                })
+                .collect(),
+        )
+    }
+
+    pub fn prepare_rename(&self, uri: &Url, position: Position) -> Option<PrepareRenameResponse> {
+        let document = self.snapshot(uri)?;
+        if self.snapshot_has_errors(document) {
+            return None;
+        }
+        let offset = document
+            .lines
+            .offset(&document.text, position, &self.encoding)?;
+        let occurrence = document.analysis.semantic_index.symbol_at(offset)?;
+        let binding = occurrence.binding.as_ref()?;
+        if !document.analysis.semantic_index.has_binding(binding) {
+            return None;
+        }
+        let placeholder = match binding {
+            RenameBindingKey::ActorName { name, .. } => name.clone(),
+            RenameBindingKey::Asset(asset) => asset.name.clone(),
+        };
+        Some(PrepareRenameResponse::RangeWithPlaceholder {
+            range: document
+                .lines
+                .range(&document.text, occurrence.range, &self.encoding)?,
+            placeholder,
+        })
+    }
+
+    pub fn rename(&self, uri: &Url, position: Position, new_name: &str) -> Option<WorkspaceEdit> {
+        let document = self.snapshot(uri)?;
+        if self.snapshot_has_errors(document) {
+            return None;
+        }
+        let offset = document
+            .lines
+            .offset(&document.text, position, &self.encoding)?;
+        let occurrence = document.analysis.semantic_index.symbol_at(offset)?;
+        let binding = occurrence.binding.as_ref()?.clone();
+        if !document.analysis.semantic_index.has_binding(&binding)
+            || rename_conflicts(&document.analysis.semantic_index, &binding, new_name)
+        {
+            return None;
+        }
+
+        let (new_binding, old_symbol, new_symbol) = rename_target(&binding, new_name)?;
+        let occurrences = document
+            .analysis
+            .semantic_index
+            .rename_occurrences(&binding);
+        let mut replacements = occurrences
+            .iter()
+            .map(|occurrence| {
+                Some((
+                    occurrence.range,
+                    serialize_semantic_occurrence(&document.text, occurrence, new_name)?,
+                ))
+            })
+            .collect::<Option<Vec<_>>>()?;
+        if replacements.is_empty() {
+            return None;
+        }
+        replacements.sort_by_key(|(range, _)| (range.start, range.end));
+        if replacements
+            .windows(2)
+            .any(|pair| pair[0].0.end > pair[1].0.start)
+        {
+            return None;
+        }
+
+        let mut candidate_text = document.text.clone();
+        for (range, replacement) in replacements.iter().rev() {
+            candidate_text.replace_range(range.start..range.end, replacement);
+        }
+        let candidate = if document.pack_revision.is_some() {
+            mmt_rs::analyze_text_with_pack(&candidate_text, self.pack_registry.as_ref()?)
+        } else {
+            mmt_rs::analyze_text(&candidate_text, &StaticPresetCatalog::default())
+        };
+        if self.analysis_has_errors(&candidate, document.pack_revision.is_some())
+            || !rename_analysis_is_stable(
+                &document.analysis,
+                &candidate,
+                &binding,
+                &new_binding,
+                &old_symbol,
+                &new_symbol,
+                new_name,
+            )
+        {
+            return None;
+        }
+
+        let edits = replacements
+            .into_iter()
+            .map(|(range, new_text)| {
+                Some(OneOf::Left(TextEdit::new(
+                    document
+                        .lines
+                        .range(&document.text, range, &self.encoding)?,
+                    new_text,
+                )))
+            })
+            .collect::<Option<Vec<_>>>()?;
+        Some(WorkspaceEdit {
+            changes: None,
+            document_changes: Some(DocumentChanges::Edits(vec![TextDocumentEdit {
+                text_document: OptionalVersionedTextDocumentIdentifier {
+                    uri: uri.clone(),
+                    version: Some(document.version),
+                },
+                edits,
+            }])),
+            change_annotations: None,
+        })
+    }
+
+    fn snapshot_has_errors(&self, document: &DocumentSnapshot) -> bool {
+        self.analysis_has_errors(&document.analysis, document.pack_revision.is_some())
+    }
+
+    fn analysis_has_errors(&self, analysis: &AnalyzedDocument, with_pack: bool) -> bool {
+        let diagnostics = if with_pack {
+            let Ok(diagnostics) = diagnose_analyzed_with_pack(analysis, &EmitOptions::default())
+            else {
+                return true;
+            };
+            diagnostics
+        } else {
+            diagnose_analyzed(analysis, &EmitOptions::default())
+        };
+        diagnostics
+            .iter()
+            .any(|diagnostic| diagnostic.severity == Severity::Error)
     }
 
     pub fn document_symbols(&self, uri: &Url) -> Vec<DocumentSymbol> {
@@ -1501,6 +1696,277 @@ impl LanguageService {
     }
 }
 
+fn rename_conflicts(index: &SemanticIndex, binding: &RenameBindingKey, new_name: &str) -> bool {
+    if new_name.is_empty() {
+        return true;
+    }
+    index.definition_bindings().any(|candidate| {
+        if candidate == binding {
+            return false;
+        }
+        match (binding, candidate) {
+            (RenameBindingKey::ActorName { .. }, RenameBindingKey::ActorName { name, .. }) => {
+                name == new_name
+            }
+            (RenameBindingKey::Asset(_), RenameBindingKey::Asset(asset)) => asset.name == new_name,
+            _ => false,
+        }
+    })
+}
+
+fn rename_target(
+    binding: &RenameBindingKey,
+    new_name: &str,
+) -> Option<(RenameBindingKey, SemanticSymbolKey, SemanticSymbolKey)> {
+    match binding {
+        RenameBindingKey::ActorName { actor, .. } => Some((
+            RenameBindingKey::ActorName {
+                actor: *actor,
+                name: new_name.to_string(),
+            },
+            SemanticSymbolKey::Actor(*actor),
+            SemanticSymbolKey::Actor(*actor),
+        )),
+        RenameBindingKey::Asset(asset) if valid_asset_name(new_name) => {
+            let renamed = AssetId {
+                namespace: asset.namespace.clone(),
+                name: new_name.to_string(),
+            };
+            Some((
+                RenameBindingKey::Asset(renamed.clone()),
+                SemanticSymbolKey::Asset(asset.clone()),
+                SemanticSymbolKey::Asset(renamed),
+            ))
+        }
+        RenameBindingKey::Asset(_) => None,
+    }
+}
+
+fn serialize_semantic_occurrence(
+    source: &str,
+    occurrence: &SemanticOccurrence,
+    new_name: &str,
+) -> Option<String> {
+    match &occurrence.syntax {
+        OccurrenceSyntax::DeclarationLiteral => encode_declaration_replacement(
+            &source[occurrence.range.start..occurrence.range.end],
+            new_name,
+        ),
+        OccurrenceSyntax::RawExplicitSpeaker => Some(new_name.to_string()),
+        OccurrenceSyntax::HistoryMarker => None,
+        OccurrenceSyntax::ResourceMacroArgument { value, replacement } => {
+            encode_resource_argument(value, replacement, new_name)
+        }
+    }
+}
+
+fn encode_declaration_replacement(original: &str, new_name: &str) -> Option<String> {
+    let parsed = mmt_rs::inline::parse_declaration_value(original, 0);
+    let mmt_rs::inline::DeclarationValueSyntax::Scalar(original) = parsed.value? else {
+        return None;
+    };
+    if let Some(quote) = original.quote {
+        let candidate = quoted_value(new_name, quote);
+        return declaration_round_trips(&candidate, new_name).then_some(candidate);
+    }
+    if declaration_round_trips(new_name, new_name) {
+        return Some(new_name.to_string());
+    }
+    let candidate = quoted_value(new_name, mmt_rs::inline::QuoteKind::Double);
+    declaration_round_trips(&candidate, new_name).then_some(candidate)
+}
+
+fn declaration_round_trips(candidate: &str, expected: &str) -> bool {
+    let parsed = mmt_rs::inline::parse_declaration_value(candidate, 0);
+    matches!(
+        parsed.value,
+        Some(mmt_rs::inline::DeclarationValueSyntax::Scalar(value))
+            if value.value == expected && parsed.diagnostics.is_empty()
+    )
+}
+
+fn quoted_value(value: &str, quote: mmt_rs::inline::QuoteKind) -> String {
+    let delimiter = match quote {
+        mmt_rs::inline::QuoteKind::Single => '\'',
+        mmt_rs::inline::QuoteKind::Double => '"',
+    };
+    let mut encoded = String::with_capacity(value.len() + 2);
+    encoded.push(delimiter);
+    for ch in value.chars() {
+        if ch == '\\' || ch == delimiter {
+            encoded.push('\\');
+        }
+        encoded.push(ch);
+    }
+    encoded.push(delimiter);
+    encoded
+}
+
+fn encode_resource_argument(
+    value: &mmt_rs::inline::MacroValueSyntax,
+    replacement: &ResourceArgumentReplacement,
+    new_name: &str,
+) -> Option<String> {
+    match replacement {
+        ResourceArgumentReplacement::WholeValue => encode_macro_value(value, new_name),
+        ResourceArgumentReplacement::StickerPathSubject { subject } => {
+            let current = macro_leaf_value(value)?;
+            let suffix = current.strip_prefix(subject)?;
+            let replaced = format!("{new_name}{suffix}");
+            encode_macro_value(value, &replaced)
+        }
+    }
+}
+
+fn encode_macro_value(
+    value: &mmt_rs::inline::MacroValueSyntax,
+    replacement: &str,
+) -> Option<String> {
+    match value {
+        mmt_rs::inline::MacroValueSyntax::Bare(_) => Some(replacement.to_string()),
+        mmt_rs::inline::MacroValueSyntax::Quoted { quote, .. } => {
+            Some(quoted_value(replacement, *quote))
+        }
+        mmt_rs::inline::MacroValueSyntax::Namespaced { namespace, value } => Some(format!(
+            "{namespace}::{}",
+            encode_macro_value(value, replacement)?
+        )),
+        mmt_rs::inline::MacroValueSyntax::Ordinal { .. } => None,
+    }
+}
+
+fn macro_leaf_value(value: &mmt_rs::inline::MacroValueSyntax) -> Option<&str> {
+    match value {
+        mmt_rs::inline::MacroValueSyntax::Bare(value)
+        | mmt_rs::inline::MacroValueSyntax::Quoted { value, .. } => Some(value),
+        mmt_rs::inline::MacroValueSyntax::Namespaced { value, .. } => macro_leaf_value(value),
+        mmt_rs::inline::MacroValueSyntax::Ordinal { .. } => None,
+    }
+}
+
+fn rename_analysis_is_stable(
+    before: &AnalyzedDocument,
+    after: &AnalyzedDocument,
+    old_binding: &RenameBindingKey,
+    new_binding: &RenameBindingKey,
+    old_symbol: &SemanticSymbolKey,
+    new_symbol: &SemanticSymbolKey,
+    new_name: &str,
+) -> bool {
+    if semantic_fingerprint(&before.semantic_index, old_symbol, old_binding)
+        != semantic_fingerprint(&after.semantic_index, new_symbol, new_binding)
+        || before
+            .actors
+            .speakers
+            .iter()
+            .map(|speaker| (&speaker.speaker, speaker.revision))
+            .ne(after
+                .actors
+                .speakers
+                .iter()
+                .map(|speaker| (&speaker.speaker, speaker.revision)))
+        || before.actors.actors.len() != after.actors.actors.len()
+        || before.assets.assets.len() != after.assets.assets.len()
+    {
+        return false;
+    }
+
+    for (before_actor, after_actor) in before.actors.actors.iter().zip(&after.actors.actors) {
+        if before_actor.id != after_actor.id
+            || before_actor.preset_id != after_actor.preset_id
+            || before_actor.revisions.len() != after_actor.revisions.len()
+        {
+            return false;
+        }
+        let renamed_actor = match old_binding {
+            RenameBindingKey::ActorName { actor, name } if *actor == before_actor.id => {
+                Some(name.as_str())
+            }
+            _ => None,
+        };
+        let transformed_primary = if renamed_actor == Some(before_actor.primary_name.as_str()) {
+            new_name.to_string()
+        } else {
+            before_actor.primary_name.clone()
+        };
+        let transformed_names = before_actor
+            .names
+            .iter()
+            .map(|name| {
+                if renamed_actor == Some(name.as_str()) {
+                    new_name.to_string()
+                } else {
+                    name.clone()
+                }
+            })
+            .collect::<Vec<_>>();
+        if transformed_primary != after_actor.primary_name || transformed_names != after_actor.names
+        {
+            return false;
+        }
+    }
+
+    before
+        .assets
+        .assets
+        .iter()
+        .zip(&after.assets.assets)
+        .all(|(before_asset, after_asset)| {
+            let expected_id = if SemanticSymbolKey::Asset(before_asset.id.clone()) == *old_symbol {
+                match new_symbol {
+                    SemanticSymbolKey::Asset(asset) => asset,
+                    SemanticSymbolKey::Actor(_) => return false,
+                }
+            } else {
+                &before_asset.id
+            };
+            expected_id == &after_asset.id && before_asset.source == after_asset.source
+        })
+}
+
+fn semantic_fingerprint(
+    index: &SemanticIndex,
+    target_symbol: &SemanticSymbolKey,
+    target_binding: &RenameBindingKey,
+) -> Vec<(String, u8, Option<String>, u8)> {
+    index
+        .occurrences()
+        .iter()
+        .map(|occurrence| {
+            let symbol = if &occurrence.symbol == target_symbol {
+                "$target".to_string()
+            } else {
+                format!("{:?}", occurrence.symbol)
+            };
+            let binding = occurrence.binding.as_ref().map(|binding| {
+                if binding == target_binding {
+                    "$target".to_string()
+                } else {
+                    format!("{binding:?}")
+                }
+            });
+            let role = match occurrence.role {
+                SemanticOccurrenceRole::Definition => 0,
+                SemanticOccurrenceRole::Reference => 1,
+            };
+            let syntax = match &occurrence.syntax {
+                OccurrenceSyntax::DeclarationLiteral => 0,
+                OccurrenceSyntax::RawExplicitSpeaker => 1,
+                OccurrenceSyntax::HistoryMarker => 2,
+                OccurrenceSyntax::ResourceMacroArgument {
+                    replacement: ResourceArgumentReplacement::WholeValue,
+                    ..
+                } => 3,
+                OccurrenceSyntax::ResourceMacroArgument {
+                    replacement: ResourceArgumentReplacement::StickerPathSubject { .. },
+                    ..
+                } => 4,
+            };
+            (symbol, role, binding, syntax)
+        })
+        .collect()
+}
+
 fn resolved_statement_actor(
     document: &DocumentSnapshot,
     statement_range: TextRange,
@@ -1949,6 +2415,40 @@ mod tests {
         Url::parse("file:///workspace/example.mmt").unwrap()
     }
 
+    const SEMANTIC_PACK: &str = r#"{
+      "schema":"mmt-pack.v3",
+      "pack":{"namespace":"ba","name":"BA","version":"1","type":"base"},
+      "entities":{"柚子":{"names":["柚子"],"slots":{"sticker":{"default":"default","sets":{"default":{"storage":"stickers","variants":[{"id":"happy","ordinal":1,"frame":0}]}}}}}},
+      "storage":{"stickers":{"kind":"image-sequence","path":"stickers.avifs","container":"avifs","codec":"av1","alpha":true,"frame_count":1,"size":[512,512],"sha256":"hash","profile":{"qcolor":80,"keyframe_interval":30}}}
+    }"#;
+
+    fn lsp_position(
+        document: &DocumentSnapshot,
+        offset: usize,
+        encoding: &PositionEncodingKind,
+    ) -> Position {
+        document
+            .lines
+            .position(&document.text, offset, encoding)
+            .unwrap()
+    }
+
+    fn lsp_slice<'a>(
+        document: &'a DocumentSnapshot,
+        range: lsp_types::Range,
+        encoding: &PositionEncodingKind,
+    ) -> &'a str {
+        let start = document
+            .lines
+            .offset(&document.text, range.start, encoding)
+            .unwrap();
+        let end = document
+            .lines
+            .offset(&document.text, range.end, encoding)
+            .unwrap();
+        &document.text[start..end]
+    }
+
     fn markdown_hover(
         service: &LanguageService,
         line: u32,
@@ -1961,6 +2461,146 @@ mod tests {
             panic!("expected markdown hover");
         };
         (contents.value, hover.range.expect("expected hover range"))
+    }
+
+    #[test]
+    fn definition_references_and_versioned_rename_preserve_unicode_semantics() {
+        let source = "@actor 主角😀\n\
+                      preset: ba::柚子\n\
+                      also-as: [别名😀]\n\
+                      @end\n\
+                      @actor 别名😀\n\
+                      display-name: Alias\n\
+                      @end\n\
+                      > 主角😀: hello\n\
+                      > 别名😀: [:主角😀, happy:]\n\
+                      > _0: history\n\
+                      - [:主角😀/sticker/happy:]\n\
+                      @asset: 图😀 src:a.png\n\
+                      - [:asset, 图😀:]";
+        for encoding in [PositionEncodingKind::UTF16, PositionEncodingKind::UTF8] {
+            let mut service = LanguageService::default();
+            service.set_encoding(encoding.clone());
+            service
+                .update_pack_manifests(1, &[SEMANTIC_PACK.to_string()])
+                .unwrap();
+            service.open(uri(), 7, source.to_string());
+            let diagnostics = service.diagnostics(&uri());
+            assert!(diagnostics.is_empty(), "{diagnostics:#?}");
+            let document = service.snapshot(&uri()).unwrap();
+
+            let alias_speaker_offset = source.rfind("> 别名😀:").unwrap() + 2;
+            let alias_position = lsp_position(document, alias_speaker_offset, &encoding);
+            let Some(GotoDefinitionResponse::Scalar(definition)) =
+                service.definition(&uri(), alias_position)
+            else {
+                panic!("expected alias definition");
+            };
+            assert_eq!(lsp_slice(document, definition.range, &encoding), "别名😀");
+            let references = service.references(&uri(), alias_position, true).unwrap();
+            assert_eq!(references.len(), 8);
+            assert_eq!(
+                service
+                    .references(&uri(), alias_position, false)
+                    .unwrap()
+                    .len(),
+                6
+            );
+            assert!(matches!(
+                service.prepare_rename(&uri(), alias_position),
+                Some(PrepareRenameResponse::RangeWithPlaceholder { placeholder, .. })
+                    if placeholder == "别名😀"
+            ));
+
+            let history_offset = source.find("> _0:").unwrap() + 2;
+            let history_position = lsp_position(document, history_offset, &encoding);
+            let Some(GotoDefinitionResponse::Scalar(history_definition)) =
+                service.definition(&uri(), history_position)
+            else {
+                panic!("expected history definition");
+            };
+            assert_eq!(
+                lsp_slice(document, history_definition.range, &encoding),
+                "主角😀"
+            );
+            assert!(service.prepare_rename(&uri(), history_position).is_none());
+
+            let rename = service
+                .rename(&uri(), alias_position, "新名😀")
+                .expect("valid alias rename");
+            let DocumentChanges::Edits(document_edits) = rename.document_changes.as_ref().unwrap()
+            else {
+                panic!("expected versioned text document edit");
+            };
+            assert_eq!(document_edits.len(), 1);
+            assert_eq!(document_edits[0].text_document.version, Some(7));
+            assert_eq!(document_edits[0].edits.len(), 3);
+            assert!(document_edits[0].edits.iter().all(|edit| {
+                matches!(edit, OneOf::Left(edit) if edit.new_text == "新名😀")
+            }));
+
+            let primary_offset = source.find("主角😀").unwrap();
+            let primary_position = lsp_position(document, primary_offset, &encoding);
+            assert!(
+                service.rename(&uri(), primary_position, "别名😀").is_none(),
+                "rename must not collapse aliases"
+            );
+            let primary_rename = service
+                .rename(&uri(), primary_position, "新主角")
+                .expect("valid primary actor rename");
+            let DocumentChanges::Edits(primary_documents) =
+                primary_rename.document_changes.as_ref().unwrap()
+            else {
+                panic!("expected versioned primary actor edit");
+            };
+            assert_eq!(primary_documents[0].edits.len(), 4);
+            assert!(primary_documents[0].edits.iter().any(|edit| {
+                matches!(edit, OneOf::Left(edit) if edit.new_text == "新主角/sticker/happy")
+            }));
+
+            let asset_offset = source.find("图😀 src:").unwrap();
+            let asset_position = lsp_position(document, asset_offset, &encoding);
+            let asset_rename = service
+                .rename(&uri(), asset_position, "新图")
+                .expect("valid script asset rename");
+            let DocumentChanges::Edits(asset_documents) =
+                asset_rename.document_changes.as_ref().unwrap()
+            else {
+                panic!("expected versioned asset edit");
+            };
+            assert_eq!(asset_documents[0].text_document.version, Some(7));
+            assert_eq!(asset_documents[0].edits.len(), 2);
+            assert!(service.rename(&uri(), asset_position, "bad/name").is_none());
+        }
+    }
+
+    #[test]
+    fn prepare_rename_rejects_pack_actor_and_error_snapshot() {
+        let mut service = LanguageService::default();
+        service
+            .update_pack_manifests(1, &[SEMANTIC_PACK.to_string()])
+            .unwrap();
+        let pack_source = "> 柚子: hello";
+        service.open(uri(), 1, pack_source.to_string());
+        let document = service.snapshot(&uri()).unwrap();
+        let pack_position = lsp_position(
+            document,
+            pack_source.find("柚子").unwrap(),
+            &PositionEncodingKind::UTF16,
+        );
+        assert!(service.definition(&uri(), pack_position).is_none());
+        assert!(service.prepare_rename(&uri(), pack_position).is_none());
+
+        let invalid = "@actor main\npreset: ba::柚子\n@end\n> main: hello\n@end";
+        service.change(uri(), 2, invalid.to_string()).unwrap();
+        let document = service.snapshot(&uri()).unwrap();
+        let main_position = lsp_position(
+            document,
+            invalid.find("main").unwrap(),
+            &PositionEncodingKind::UTF16,
+        );
+        assert!(service.prepare_rename(&uri(), main_position).is_none());
+        assert!(service.rename(&uri(), main_position, "renamed").is_none());
     }
 
     #[test]
@@ -1977,6 +2617,29 @@ mod tests {
         assert!(service.diagnostics(&uri()).is_empty());
         assert!(service.change(uri(), 1, "- stale".to_string()).is_none());
         assert_eq!(service.snapshot(&uri()).unwrap().version, 2);
+    }
+    #[test]
+    fn publishes_unknown_directives_as_semantic_warnings() {
+        let mut service = LanguageService::default();
+        service.open(
+            uri(),
+            1,
+            "@expr: actor | expression | action | 0.8\n- hello".to_string(),
+        );
+
+        let diagnostics = service.diagnostics(&uri());
+        let warning = diagnostics
+            .iter()
+            .find(|diagnostic| diagnostic.message == "unknown directive '@expr'; it is ignored")
+            .expect("unknown directive warning");
+
+        assert_eq!(warning.severity, Some(DiagnosticSeverity::WARNING));
+        assert_eq!(warning.range.start, Position::new(0, 1));
+        assert_eq!(warning.range.end, Position::new(0, 5));
+        assert_eq!(
+            warning.data,
+            Some(serde_json::json!({ "phase": "semantic" }))
+        );
     }
 
     #[test]

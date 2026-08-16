@@ -9,6 +9,10 @@ const diagnosticWrites = [];
 let diagnosticCollectionDisposed = false;
 const vscodeFixture = {
   Uri: { parse: (value) => ({ toString: () => value }) },
+  commands: {
+    registerCommand() { return { dispose() {} }; },
+    async executeCommand() {}
+  },
   languages: {
     createDiagnosticCollection() {
       return {
@@ -58,7 +62,7 @@ const bundle = await build({
     setup(buildApi) {
       buildApi.onResolve({ filter: /^vscode$/ }, () => ({ path: "vscode-characterization", namespace: "fixture" }));
       buildApi.onLoad({ filter: /.*/, namespace: "fixture" }, () => ({
-        contents: "export const Uri = globalThis.__mmtRuntimeCharacterizationVscode.Uri; export const languages = globalThis.__mmtRuntimeCharacterizationVscode.languages; export const workspace = globalThis.__mmtRuntimeCharacterizationVscode.workspace; export const window = globalThis.__mmtRuntimeCharacterizationVscode.window; export const SemanticTokensLegend = globalThis.__mmtRuntimeCharacterizationVscode.SemanticTokensLegend; export const Disposable = globalThis.__mmtRuntimeCharacterizationVscode.Disposable;",
+        contents: "export const Uri = globalThis.__mmtRuntimeCharacterizationVscode.Uri; export const commands = globalThis.__mmtRuntimeCharacterizationVscode.commands; export const languages = globalThis.__mmtRuntimeCharacterizationVscode.languages; export const workspace = globalThis.__mmtRuntimeCharacterizationVscode.workspace; export const window = globalThis.__mmtRuntimeCharacterizationVscode.window; export const SemanticTokensLegend = globalThis.__mmtRuntimeCharacterizationVscode.SemanticTokensLegend; export const Disposable = globalThis.__mmtRuntimeCharacterizationVscode.Disposable;",
         loader: "js"
       }));
     }
@@ -209,7 +213,11 @@ const client = {
       return { ...params.hover, range: { start: { line: 2, character: 1 }, end: { line: 2, character: 5 } } };
     }
     if (method === "mmt/mapTypstDiagnostics") {
-      return params.diagnostics.map((diagnostic) => ({ ...diagnostic, message: `mapped:${diagnostic.message}` }));
+      return params.diagnostics.map((diagnostic) =>
+        diagnostic.message === "unmapped-generated"
+          ? null
+          : { ...diagnostic, message: `mapped:${diagnostic.message}` }
+      );
     }
     return null;
   }
@@ -227,11 +235,31 @@ assert.ok(middleware, "Typst middleware was not installed");
 const connection = connectTypstBackend(client, backend);
 const problems = typstProblemsPublisher(backend);
 assert.ok(problems, "unified Typst Problems publisher was not installed");
-problems.replacePreview(vscodeFixture.Uri.parse("logical:/standalone.typ"), [{
-  message: "preview-build-diagnostic",
-  severity: 0,
-  range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } }
-}]);
+problems.replacePreview(vscodeFixture.Uri.parse("logical:/standalone.typ"), [
+  {
+    uri: vscodeFixture.Uri.parse("logical:/standalone.typ"),
+    diagnostics: [
+      {
+        message: "preview-build-diagnostic",
+        severity: 0,
+        range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } }
+      },
+      {
+        message: "standalone-diagnostic",
+        severity: 1,
+        range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } }
+      },
+    ],
+  },
+  {
+    uri: vscodeFixture.Uri.parse("mmt-package:/dependency.typ"),
+    diagnostics: [{
+      message: "dependency-diagnostic",
+      severity: 1,
+      range: { start: { line: 1, character: 0 }, end: { line: 1, character: 1 } }
+    }],
+  },
+]);
 
 const standalone = {
   languageId: "typst",
@@ -314,7 +342,10 @@ for (const handler of backendHandlers.get("textDocument/publishDiagnostics") ?? 
   handler({
     uri: "untitled:/fixture/embedded/main-7.typ",
     version: 7,
-    diagnostics: [{ severity: 2, message: "embedded-diagnostic", range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } } }]
+    diagnostics: [
+      { severity: 2, message: "embedded-diagnostic", range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } } },
+      { severity: 1, message: "unmapped-generated", range: { start: { line: 1, character: 0 }, end: { line: 1, character: 1 } } }
+    ]
   });
 }
 const diagnosticsSettled = Promise.withResolvers();
@@ -325,8 +356,16 @@ const latestStandaloneDiagnostics = diagnosticWrites
   .at(-1)?.diagnostics ?? [];
 assert.deepEqual(
   latestStandaloneDiagnostics.map((diagnostic) => diagnostic.message),
-  ["standalone-diagnostic", "preview-build-diagnostic"],
-  "language and preview diagnostics must share one durable Problems collection"
+  ["preview-build-diagnostic", "standalone-diagnostic"],
+  "preview diagnostics must replace matching language items without hiding distinct items"
+);
+const latestDependencyDiagnostics = diagnosticWrites
+  .filter((write) => write.uri === "mmt-package:/dependency.typ")
+  .at(-1)?.diagnostics ?? [];
+assert.deepEqual(
+  latestDependencyDiagnostics.map((diagnostic) => diagnostic.message),
+  ["dependency-diagnostic"],
+  "preview diagnostics must publish on their actual dependency URI"
 );
 
 const semanticTokens = await middleware.provideDocumentSemanticTokens(

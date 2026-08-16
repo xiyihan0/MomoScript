@@ -10,6 +10,23 @@ publish = false
 name = "mmt_rs"
 path = "src/lib.rs"
 crate-type = ["cdylib", "rlib"]
+[features]
+default = ["native-cli"]
+native-cli = [
+    "dep:jiff",
+    "dep:typst",
+    "dep:typst-kit",
+    "dep:typst-layout",
+    "dep:typst-pdf",
+    "dep:ureq",
+    "dep:url",
+]
+
+[[bin]]
+name = "mmt-compile"
+path = "src/bin/mmt-compile.rs"
+required-features = ["native-cli"]
+
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
@@ -19,7 +36,13 @@ typst-syntax = "0.15"
 time = { version = "0.3.48", features = ["formatting", "parsing"] }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-jiff = "0.2"
+jiff = { version = "0.2", optional = true }
+typst = { version = "0.15", optional = true }
+typst-kit = { version = "0.15", default-features = false, features = ["scan-fonts"], optional = true }
+typst-layout = { version = "0.15", optional = true }
+typst-pdf = { version = "0.15", optional = true }
+ureq = { version = "3", optional = true }
+url = { version = "2", optional = true }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = "0.2"

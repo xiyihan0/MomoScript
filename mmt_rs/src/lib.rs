@@ -65,11 +65,13 @@ pub use semantic::{
     AssetLowering, AssetSource, BodyModeResolution, BuiltinSpeakerId, CharacterPreset,
     CharacterPresetCatalog, CompiledAtConfig, DEFAULT_COMPILED_AT_FORMAT, DocumentConfig,
     DocumentLowering, DocumentOverrides, DocumentPresentation, DocumentTimezone, HostTimestamp,
-    PresetLookup, ResolvedBodyMode, ResolvedBodyModeEntry, ResolvedResourceMarker,
-    ResolvedStatementSpeaker, ResourceLowering, ResourceSelector, ScriptActor, ScriptAsset,
-    SpeakerIdentity, StaticPresetCatalog, SubjectRef, VariantSelector, lower_actors,
-    lower_actors_with_options, lower_assets, lower_document, lower_resource_markers,
-    resolve_body_modes, resolve_document_presentation,
+    OccurrenceSyntax, PresetLookup, RenameBindingKey, ResolvedBodyMode, ResolvedBodyModeEntry,
+    ResolvedResourceMarker, ResolvedStatementSpeaker, ResourceArgumentReplacement,
+    ResourceLowering, ResourceSelector, ScriptActor, ScriptAsset, SemanticIndex,
+    SemanticOccurrence, SemanticOccurrenceRole, SemanticSymbolKey, SpeakerIdentity,
+    StaticPresetCatalog, SubjectRef, VariantSelector, lower_actors, lower_actors_with_options,
+    lower_assets, lower_document, lower_resource_markers, resolve_body_modes,
+    resolve_document_presentation, valid_asset_name, validate_directives,
 };
 pub use typst_check::{
     TypstCheckConfig, TypstOverlayScan, check_typst_args, check_typst_source,

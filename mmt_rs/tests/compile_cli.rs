@@ -1,8 +1,12 @@
 use std::fs;
-use std::io::Write;
+use std::io::{Read, Write};
+use std::net::TcpListener;
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
-use std::time::{SystemTime, UNIX_EPOCH};
+use std::thread;
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
+
+use sha2::{Digest, Sha256};
 
 fn temp_dir(name: &str) -> PathBuf {
     let nonce = SystemTime::now()
@@ -31,6 +35,87 @@ fn copy_dir_all(source: &std::path::Path, destination: &std::path::Path) {
             fs::copy(source_path, destination_path).unwrap();
         }
     }
+}
+fn serve_remote_pack(svg: Vec<u8>) -> (String, thread::JoinHandle<usize>) {
+    let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+    listener.set_nonblocking(true).unwrap();
+    let address = listener.local_addr().unwrap();
+    let base_url = format!("http://{address}/");
+    let digest = format!("{:x}", Sha256::digest(&svg));
+    let file_name = format!("{digest}.svg");
+    let svg_path = format!("blobs/{file_name}");
+    let manifest = serde_json::to_vec(&serde_json::json!({
+        "schema": "mmt-pack.v3",
+        "pack": {
+            "namespace": "remote_fixture",
+            "name": "Remote fixture",
+            "version": "1.0.0",
+            "type": "base",
+            "base_url": base_url.clone()
+        },
+        "entities": {
+            "remote": {
+                "names": ["Remote"],
+                "slots": {
+                    "avatar": {
+                        "default": "default",
+                        "items": {
+                            "default": {
+                                "storage": "avatars",
+                                "path": file_name
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "storage": {
+            "avatars": {
+                "kind": "image-dir",
+                "base": "blobs"
+            }
+        }
+    }))
+    .unwrap();
+    let handle = thread::spawn(move || {
+        let deadline = Instant::now() + Duration::from_secs(20);
+        let mut served = 0;
+        while served < 2 && Instant::now() < deadline {
+            let (mut stream, _) = match listener.accept() {
+                Ok(connection) => connection,
+                Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                    thread::sleep(Duration::from_millis(10));
+                    continue;
+                }
+                Err(error) => panic!("remote pack server failed: {error}"),
+            };
+            let mut request = [0_u8; 2048];
+            let length = stream.read(&mut request).unwrap();
+            let request = String::from_utf8_lossy(&request[..length]);
+            let path = request
+                .lines()
+                .next()
+                .and_then(|line| line.split_whitespace().nth(1))
+                .unwrap_or("");
+            let (status, content_type, body) = if path == "/manifest.json" {
+                ("200 OK", "application/json", manifest.as_slice())
+            } else if path == format!("/{svg_path}") {
+                ("200 OK", "image/svg+xml", svg.as_slice())
+            } else {
+                ("404 Not Found", "text/plain", &b"not found"[..])
+            };
+            write!(
+                stream,
+                "HTTP/1.1 {status}\r\nContent-Type: {content_type}\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
+                body.len()
+            )
+            .unwrap();
+            stream.write_all(body).unwrap();
+            served += 1;
+        }
+        served
+    });
+    (base_url, handle)
 }
 
 #[test]
@@ -93,6 +178,97 @@ fn cli_exports_a_self_contained_typst_project_from_stdin() {
     );
     assert!(output_dir.join("output.pdf").is_file());
     fs::remove_dir_all(output_dir).unwrap();
+}
+#[test]
+fn cli_reports_unknown_directives_as_non_fatal_warnings() {
+    let output_dir = temp_dir("cli-unknown-directive");
+    let mut child = Command::new(env!("CARGO_BIN_EXE_mmt-compile"))
+        .args(["--output-dir"])
+        .arg(&output_dir)
+        .arg("--template-dir")
+        .arg(template_dir())
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .spawn()
+        .unwrap();
+    child
+        .stdin
+        .take()
+        .unwrap()
+        .write_all("@expr: actor | expression | action | 0.8\n- hello".as_bytes())
+        .unwrap();
+    let output = child.wait_with_output().unwrap();
+
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stdout)
+    );
+    let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    let warning = &report["diagnostics"][0];
+    assert_eq!(warning["severity"], "warning");
+    assert_eq!(warning["phase"], "semantic");
+    assert_eq!(
+        warning["message"],
+        "unknown directive '@expr'; it is ignored"
+    );
+    assert_eq!(warning["span"]["range"]["start"], 1);
+    assert_eq!(warning["span"]["range"]["end"], 5);
+    fs::remove_dir_all(output_dir).unwrap();
+}
+
+#[test]
+fn cli_fetches_remote_pack_resources_and_compiles_pdf_in_process() {
+    let output_dir = temp_dir("cli-remote-pdf");
+    let cache_dir = temp_dir("cli-remote-pdf-cache");
+    let pdf_path = output_dir.with_extension("pdf");
+    let svg = br#"<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="red"/></svg>"#.to_vec();
+    let (base_url, server) = serve_remote_pack(svg);
+
+    let manifest_url = format!("{base_url}manifest.json");
+    let mut child = Command::new(env!("CARGO_BIN_EXE_mmt-compile"))
+        .args(["--output-dir"])
+        .arg(&output_dir)
+        .arg("--pdf")
+        .arg(&pdf_path)
+        .arg("--manifest")
+        .arg(&manifest_url)
+        .arg("--allow-insecure-http")
+        .arg("--cache-dir")
+        .arg(&cache_dir)
+        .arg("--template-dir")
+        .arg(template_dir())
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .spawn()
+        .unwrap();
+    child
+        .stdin
+        .take()
+        .unwrap()
+        .write_all(
+            "@actor remote\npreset: remote_fixture::remote\n@end\n> remote: hello".as_bytes(),
+        )
+        .unwrap();
+    let output = child.wait_with_output().unwrap();
+    let served = server.join().unwrap();
+
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stdout)
+    );
+    assert_eq!(served, 2, "compiler did not request manifest and resource");
+    let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(report["success"], true);
+    assert_eq!(report["pdf"], pdf_path.display().to_string());
+    assert!(fs::read(&pdf_path).unwrap().starts_with(b"%PDF-"));
+    assert!(output_dir.join("assets/000000.svg").is_file());
+    assert!(cache_dir.join("remote-packs").is_dir());
+
+    fs::remove_dir_all(output_dir).unwrap();
+    fs::remove_dir_all(cache_dir).unwrap();
+    fs::remove_file(pdf_path).unwrap();
 }
 
 #[test]

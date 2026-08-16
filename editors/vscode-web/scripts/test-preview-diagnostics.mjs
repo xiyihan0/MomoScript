@@ -1,5 +1,18 @@
 import assert from "node:assert/strict";
 import { isCurrentPreviewUpdate, PreviewBuildState } from "../src/previewDiagnostics.ts";
+import { build } from "esbuild";
+
+const mapperBundle = await build({
+  entryPoints: [new URL("../../vscode/src/previewRendererDiagnostics.ts", import.meta.url).pathname],
+  bundle: true,
+  format: "esm",
+  platform: "node",
+  target: "node22",
+  write: false,
+});
+const { mapPreviewRendererDiagnostics } = await import(
+  `data:text/javascript;base64,${Buffer.from(mapperBundle.outputFiles[0].contents).toString("base64")}`
+);
 
 const sourceUri = "mmtfs://workspace/story.mmt";
 const identity = (sourceVersion, revision, incarnation = `document-${sourceVersion}`) => ({
@@ -97,6 +110,90 @@ assert.equal(state.snapshot(sourceUri).status, "ready");
 assert.equal(visiblePreview, "current SVG");
 assert.equal(visibleStatus, "ready");
 assert.ok(snapshots.some(({ snapshot }) => snapshot.status === "stale"));
+
+const structured = [{
+  ...newest,
+  phase: "layout",
+  targetUri: "mmt-package:/preview/dependency.typ",
+  range: { start: { line: 1, character: 0 }, end: { line: 1, character: 2 } },
+  message: "dependency warning",
+  severity: "warning",
+}];
+assert.equal(state.replace(newest, structured), true);
+assert.equal(state.diagnostics(sourceUri)[0].targetUri, structured[0].targetUri);
+assert.equal(state.replace(current, structured), false, "stale structured diagnostics must be rejected");
+
+const rendererIdentity = {
+  sourceUri,
+  sourceVersion: 9,
+  revision: 14,
+  sourceContent: newest.sourceContent,
+  projectDigest: "project-digest",
+  projectionKey: "projection-key",
+  entryUri: "mmtfs:/projection/main.typ",
+  snapshotToken: "render-key",
+  backendGeneration: 3,
+  backendEncoding: "utf-16",
+};
+const range = { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } };
+const records = [
+  {
+    uri: rendererIdentity.entryUri,
+    diagnostic: { range, severity: 1, source: "typst", message: "entry error" },
+  },
+  {
+    uri: "mmt-package:/preview/dependency.typ",
+    diagnostic: { range, severity: 2, source: "typst", message: "dependency warning" },
+  },
+];
+let currentRendererIdentity = true;
+const mapped = await mapPreviewRendererDiagnostics(
+  {
+    async sendRequest(method, params) {
+      assert.equal(method, "mmt/mapTypstDiagnostics");
+      assert.equal(params.projectDigest, rendererIdentity.projectDigest);
+      return [{
+        range,
+        severity: 1,
+        source: "typst",
+        message: "entry error",
+      }];
+    },
+  },
+  rendererIdentity,
+  "x",
+  records,
+  () => currentRendererIdentity,
+);
+assert.deepEqual(mapped.map(({ uri }) => uri).sort(), [
+  "mmt-package:/preview/dependency.typ",
+  sourceUri,
+].sort());
+
+const staleMapped = await mapPreviewRendererDiagnostics(
+  {
+    async sendRequest() {
+      currentRendererIdentity = false;
+      return [{ range, severity: 1, message: "late" }];
+    },
+  },
+  rendererIdentity,
+  "x",
+  records.slice(0, 1),
+  () => currentRendererIdentity,
+);
+assert.equal(staleMapped, undefined, "identity changes during mapping must reject the entire batch");
+currentRendererIdentity = true;
+await assert.rejects(
+  mapPreviewRendererDiagnostics(
+    { async sendRequest() { return []; } },
+    rendererIdentity,
+    "x",
+    records.slice(0, 1),
+    () => true,
+  ),
+  /preserve input length/,
+);
 assert.ok(snapshots.some(({ snapshot }) => snapshot.status === "ready"));
 
 console.log(JSON.stringify({

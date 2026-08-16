@@ -7,8 +7,8 @@ use crate::pack::PackRegistry;
 use crate::resolve::{ResourceResolution, resolve_actor_avatars, resolve_resources};
 use crate::semantic::{
     ActorLowering, AssetLowering, BodyModeResolution, CharacterPresetCatalog, DocumentLowering,
-    ResourceLowering, lower_actors, lower_assets, lower_document, lower_resource_markers,
-    resolve_body_modes,
+    ResourceLowering, SemanticIndex, build_semantic_index, lower_actors, lower_assets,
+    lower_document, lower_resource_markers, resolve_body_modes, validate_directives,
 };
 use crate::source::TextRange;
 use crate::syntax::SyntaxDocument;
@@ -17,28 +17,34 @@ use crate::typst_check::check_typst_source;
 #[derive(Debug, Clone)]
 pub struct AnalyzedDocument {
     pub document: SyntaxDocument,
+    pub directive_diagnostics: Vec<Diagnostic>,
     pub document_config: DocumentLowering,
     pub modes: BodyModeResolution,
     pub actors: ActorLowering,
     pub assets: AssetLowering,
     pub resource_markers: ResourceLowering,
     pub resolution: Option<ResourceResolution>,
+    pub semantic_index: SemanticIndex,
 }
 
 pub fn analyze_text(source: &str, catalog: &impl CharacterPresetCatalog) -> AnalyzedDocument {
     let document = crate::parse_text(source);
+    let directive_diagnostics = validate_directives(&document);
     let document_config = lower_document(&document);
     let modes = resolve_body_modes(&document);
     let actors = lower_actors(&document, catalog);
     let assets = lower_assets(&document);
     let resource_markers = lower_resource_markers(&document, &modes, &actors);
+    let semantic_index = build_semantic_index(&document, &actors, &assets, &resource_markers, None);
     AnalyzedDocument {
         document,
+        directive_diagnostics,
         document_config,
         modes,
         actors,
         assets,
         resource_markers,
+        semantic_index,
         resolution: None,
     }
 }
@@ -55,6 +61,13 @@ pub fn analyze_text_with_pack(source: &str, packs: &PackRegistry) -> AnalyzedDoc
     resolution.resources.extend(avatars.resources);
     resolution.failures.extend(avatars.failures);
     resolution.diagnostics.extend(avatars.diagnostics);
+    analysis.semantic_index = build_semantic_index(
+        &analysis.document,
+        &analysis.actors,
+        &analysis.assets,
+        &analysis.resource_markers,
+        Some(&resolution),
+    );
     analysis.resolution = Some(resolution);
     analysis
 }
@@ -83,6 +96,7 @@ pub(crate) fn compile_analyzed(
     validate_generated_typst(&mut typst);
     let diagnostics = [
         analysis.document.diagnostics.as_slice(),
+        analysis.directive_diagnostics.as_slice(),
         analysis.document_config.diagnostics.as_slice(),
         analysis.modes.diagnostics.as_slice(),
         analysis.actors.diagnostics.as_slice(),
@@ -132,6 +146,7 @@ pub fn compile_text(
     let compiled = compile_analyzed(&analysis, materializer, emit_options)
         .expect("pack analysis always contains resource resolution");
     let AnalyzedDocument {
+        directive_diagnostics: _,
         document,
         document_config,
         modes,
@@ -139,6 +154,7 @@ pub fn compile_text(
         assets,
         resource_markers,
         resolution,
+        semantic_index: _,
     } = analysis;
     Compilation {
         document,
@@ -164,6 +180,7 @@ pub fn compile_text_strict(
     fail_if_errors(analysis.document.diagnostics.clone())?;
     fail_if_errors(
         [
+            analysis.directive_diagnostics.as_slice(),
             analysis.document_config.diagnostics.as_slice(),
             analysis.modes.diagnostics.as_slice(),
             analysis.actors.diagnostics.as_slice(),
@@ -194,6 +211,7 @@ pub fn compile_text_strict(
     fail_if_errors(typst.diagnostics.clone())?;
     let diagnostics = [
         analysis.document.diagnostics.as_slice(),
+        analysis.directive_diagnostics.as_slice(),
         analysis.document_config.diagnostics.as_slice(),
         analysis.modes.diagnostics.as_slice(),
         analysis.actors.diagnostics.as_slice(),
@@ -208,6 +226,7 @@ pub fn compile_text_strict(
     .cloned()
     .collect();
     let AnalyzedDocument {
+        directive_diagnostics: _,
         document,
         document_config,
         modes,
@@ -215,6 +234,7 @@ pub fn compile_text_strict(
         assets,
         resource_markers,
         resolution,
+        semantic_index: _,
     } = analysis;
     Ok(Compilation {
         document,

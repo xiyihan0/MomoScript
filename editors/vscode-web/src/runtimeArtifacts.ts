@@ -19,7 +19,7 @@ export interface BuildRuntimeArtifactSource {
 }
 
 export const TINYMIST_VERSION = "0.15.2";
-export const TINYMIST_WASM_SHA256 = "2ab4ce828d9ecbf0f7825fb2fd32fe00119aa0d388e3c9643aaf1a98d1424d8a";
+export const TINYMIST_WASM_SHA256 = "13932930084baab231d5f8b47bd04a9379c0923e414318d2f5e48bf71c9f394c";
 export const TYPST_COMPILER_VERSION = "0.8.0-rc3";
 export const TYPST_COMPILER_WASM_SHA256 = "fff6c8d9852edbfb0374722c139a95a2307de19a666206936232e5f21035836c";
 export const MAIN_FONT_VERSION = "2026-07-14";
@@ -32,12 +32,12 @@ const bundledArtifact = (
 
 export const TINYMIST_WASM_ARTIFACT = bundledArtifact({
   id: "tinymist-wasm",
-  url: "/runtime/9adfb429395c27a9afbca86faf5034ab31ddf7ef8163931243278fa21063c1a5/tinymist_bg.wasm.brotli.bin",
+  url: "/runtime/528929e5b9fd134fb1abc30ff7b1749f992b4d4928010c019299474d616685d7/tinymist_bg.wasm.brotli.bin",
   encoding: "brotli",
-  expectedEncodedSha256: "9adfb429395c27a9afbca86faf5034ab31ddf7ef8163931243278fa21063c1a5",
+  expectedEncodedSha256: "528929e5b9fd134fb1abc30ff7b1749f992b4d4928010c019299474d616685d7",
   expectedRawSha256: TINYMIST_WASM_SHA256,
-  encodedBytes: 8_739_723,
-  rawBytes: 32_754_589,
+  encodedBytes: 8_749_000,
+  rawBytes: 32_756_424,
   mediaType: "application/wasm",
 });
 

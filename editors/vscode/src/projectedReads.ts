@@ -200,19 +200,6 @@ export function mergeWorkspaceSymbols(
   return [...unique.values()];
 }
 
-/** MMT-native results have strict precedence; fallback is not even invoked. */
-export async function mmtNativeFirst<T>(
-  native: T | null | undefined,
-  projected: () => Promise<T | null | undefined>,
-  definitive?: (value: T) => boolean
-): Promise<T | null | undefined> {
-  if (
-    native !== null
-    && native !== undefined
-    && (definitive ? definitive(native) : !Array.isArray(native) || native.length > 0)
-  ) return native;
-  return await projected();
-}
 
 function isWireRange(value: unknown): value is Range {
   if (!value || typeof value !== "object" || !("start" in value) || !("end" in value)) {

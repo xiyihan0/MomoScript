@@ -148,6 +148,166 @@ interface DiagnosticsParams {
   readonly diagnostics: Diagnostic[];
 }
 
+const DIAGNOSTIC_KEYS = new Set([
+  "range",
+  "severity",
+  "code",
+  "codeDescription",
+  "source",
+  "message",
+  "tags",
+  "relatedInformation",
+  "data"
+]);
+
+function diagnosticRecord(value: unknown, label: string): Record<string, unknown> {
+  if (value === null || typeof value !== "object" || Array.isArray(value)) {
+    throw new TypeError(`${label} must be an object`);
+  }
+  return value as Record<string, unknown>;
+}
+
+function diagnosticKeys(
+  value: Record<string, unknown>,
+  allowed: ReadonlySet<string>,
+  label: string
+): void {
+  for (const key of Object.keys(value)) {
+    if (!allowed.has(key)) throw new TypeError(`${label}.${key} is not allowed`);
+  }
+}
+
+function diagnosticPosition(value: unknown, label: string): void {
+  const position = diagnosticRecord(value, label);
+  diagnosticKeys(position, new Set(["line", "character"]), label);
+  for (const key of ["line", "character"] as const) {
+    if (!Number.isInteger(position[key]) || (position[key] as number) < 0) {
+      throw new TypeError(`${label}.${key} must be a non-negative integer`);
+    }
+  }
+}
+
+function diagnosticRange(value: unknown, label: string): void {
+  const range = diagnosticRecord(value, label);
+  diagnosticKeys(range, new Set(["start", "end"]), label);
+  diagnosticPosition(range.start, `${label}.start`);
+  diagnosticPosition(range.end, `${label}.end`);
+}
+
+function diagnosticUri(value: unknown, label: string): void {
+  if (typeof value !== "string") throw new TypeError(`${label} must be a URI string`);
+  try {
+    new URL(value);
+  } catch {
+    throw new TypeError(`${label} must be a valid URI`);
+  }
+}
+
+function diagnosticJson(value: unknown, label: string): void {
+  if (
+    value === null
+    || typeof value === "string"
+    || typeof value === "boolean"
+    || (typeof value === "number" && Number.isFinite(value))
+  ) {
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => diagnosticJson(item, `${label}[${index}]`));
+    return;
+  }
+  const record = diagnosticRecord(value, label);
+  for (const [key, item] of Object.entries(record)) {
+    diagnosticJson(item, `${label}.${key}`);
+  }
+}
+
+function mappedDiagnostic(value: unknown, label: string): Diagnostic {
+  const diagnostic = diagnosticRecord(value, label);
+  diagnosticKeys(diagnostic, DIAGNOSTIC_KEYS, label);
+  diagnosticRange(diagnostic.range, `${label}.range`);
+  if (typeof diagnostic.message !== "string") {
+    throw new TypeError(`${label}.message must be a string`);
+  }
+  if (
+    diagnostic.severity !== undefined
+    && (!Number.isInteger(diagnostic.severity)
+      || (diagnostic.severity as number) < 1
+      || (diagnostic.severity as number) > 4)
+  ) {
+    throw new TypeError(`${label}.severity must be an LSP diagnostic severity`);
+  }
+  if (
+    diagnostic.code !== undefined
+    && typeof diagnostic.code !== "string"
+    && typeof diagnostic.code !== "number"
+  ) {
+    throw new TypeError(`${label}.code must be a string or number`);
+  }
+  if (diagnostic.codeDescription !== undefined) {
+    const description = diagnosticRecord(diagnostic.codeDescription, `${label}.codeDescription`);
+    diagnosticKeys(description, new Set(["href"]), `${label}.codeDescription`);
+    diagnosticUri(description.href, `${label}.codeDescription.href`);
+  }
+  if (diagnostic.source !== undefined && typeof diagnostic.source !== "string") {
+    throw new TypeError(`${label}.source must be a string`);
+  }
+  if (diagnostic.tags !== undefined) {
+    if (
+      !Array.isArray(diagnostic.tags)
+      || diagnostic.tags.some((tag) => tag !== 1 && tag !== 2)
+    ) {
+      throw new TypeError(`${label}.tags must contain only LSP diagnostic tags`);
+    }
+  }
+  if (diagnostic.relatedInformation !== undefined) {
+    if (!Array.isArray(diagnostic.relatedInformation)) {
+      throw new TypeError(`${label}.relatedInformation must be an array`);
+    }
+    diagnostic.relatedInformation.forEach((item, index) => {
+      const relatedLabel = `${label}.relatedInformation[${index}]`;
+      const related = diagnosticRecord(item, relatedLabel);
+      diagnosticKeys(related, new Set(["location", "message"]), relatedLabel);
+      if (typeof related.message !== "string") {
+        throw new TypeError(`${relatedLabel}.message must be a string`);
+      }
+      const location = diagnosticRecord(related.location, `${relatedLabel}.location`);
+      diagnosticKeys(location, new Set(["uri", "range"]), `${relatedLabel}.location`);
+      diagnosticUri(location.uri, `${relatedLabel}.location.uri`);
+      diagnosticRange(location.range, `${relatedLabel}.location.range`);
+    });
+  }
+  if (diagnostic.data !== undefined) diagnosticJson(diagnostic.data, `${label}.data`);
+  return diagnostic as unknown as Diagnostic;
+}
+
+export function nullableMappedDiagnostics(
+  value: unknown,
+  expectedLength: number,
+  sourceUri: string,
+  sourceIndex: LineIndex
+): Diagnostic[] {
+  if (!Array.isArray(value) || value.length !== expectedLength) {
+    throw new TypeError("mmt/mapTypstDiagnostics must preserve input length");
+  }
+  const mapped = value.map((item, index) =>
+    item === null ? null : mappedDiagnostic(item, `diagnostics[${index}]`)
+  );
+  const diagnostics = mapped.filter((item): item is Diagnostic => item !== null);
+  for (const diagnostic of diagnostics) {
+    const localRelated = diagnostic.relatedInformation?.filter(
+      (related) => related.location.uri === sourceUri
+    );
+    validatePositionBearingPayload(
+      "diagnostics",
+      [{ ...diagnostic, relatedInformation: localRelated }],
+      sourceIndex,
+      "utf-16"
+    );
+  }
+  return diagnostics;
+}
+
 export interface TypstFeatureRouterOptions {
   readonly backendEncoding?: PositionEncoding;
   readonly unavailable?: (state: TypstCapabilityUnavailableState) => void;
@@ -311,7 +471,7 @@ export class TypstFeatureRouter {
     if (value === undefined
       || !this.identityIsCurrent(route.identity)
       || !this.providerCapabilityIsCurrent(host, method, capability)) return undefined;
-    const positionContext = this.providerPositionContext(route.identity, route.entryUri);
+    const positionContext = this.providerPositionContext(route.entryUri);
     try {
       validateTypstProviderPositions(method, value, positionContext);
     } catch (error) {
@@ -324,7 +484,12 @@ export class TypstFeatureRouter {
     return Object.freeze({ method, value, identity: route.identity, positionContext, capability });
   }
 
-  async projectedProviderAtPosition<Method extends "textDocument/prepareRename" | "textDocument/rename">(
+  async projectedProviderAtPosition<Method extends
+    | "textDocument/definition"
+    | "textDocument/references"
+    | "textDocument/prepareRename"
+    | "textDocument/rename"
+  >(
     host: TypstProviderHost,
     method: Method,
     document: TypstRouterDocument,
@@ -346,7 +511,7 @@ export class TypstFeatureRouter {
     if (value === undefined
       || !this.identityIsCurrent(route.identity)
       || !this.providerCapabilityIsCurrent(host, method, capability)) return undefined;
-    const positionContext = this.providerPositionContext(route.identity, route.entryUri);
+    const positionContext = this.providerPositionContext(route.entryUri);
     validateTypstProviderPositions(method, value, positionContext);
     return Object.freeze({
       method,
@@ -385,7 +550,7 @@ export class TypstFeatureRouter {
     if (value === undefined
       || !this.identityIsCurrent(route.identity)
       || !this.providerCapabilityIsCurrent(host, method, capability)) return undefined;
-    const positionContext = this.providerPositionContext(route.identity, route.entryUri);
+    const positionContext = this.providerPositionContext(route.entryUri);
     validateTypstProviderPositions(method, value, positionContext);
     return Object.freeze({
       method,
@@ -421,7 +586,7 @@ export class TypstFeatureRouter {
     if (value === undefined
       || !this.identityIsCurrent(resolve.identity)
       || !this.providerCapabilityIsCurrent(host, method, capability)) return undefined;
-    const positionContext = this.providerPositionContext(resolve.identity, entryUri);
+    const positionContext = this.providerPositionContext(entryUri);
     validateTypstProviderPositions(method, value, positionContext);
     return Object.freeze({
       method,
@@ -448,7 +613,7 @@ export class TypstFeatureRouter {
     if (!resolve) return undefined;
     const entryUri = this.entryByHostUri.get(resolve.identity.sourceStaleToken.hostUri);
     if (!entryUri) return undefined;
-    const positionContext = this.providerPositionContext(resolve.identity, entryUri);
+    const positionContext = this.providerPositionContext(entryUri);
     const routedItem = routeProviderResolveParams(method, resolve.item, positionContext);
     const value = await this.request(
       method,
@@ -642,7 +807,7 @@ export class TypstFeatureRouter {
         ? { uri: project.sourceUri, diagnostics: params.diagnostics, identity }
         : undefined;
     }
-    const mapped = await this.client().sendRequest<Diagnostic[] | null>(
+    const response = await this.client().sendRequest<unknown>(
       "mmt/mapTypstDiagnostics",
       {
         sourceUri: project.sourceUri,
@@ -655,8 +820,13 @@ export class TypstFeatureRouter {
         diagnostics: params.diagnostics
       }
     );
-    if (!mapped || !this.identityIsCurrent(identity)) return undefined;
-    validatePositionBearingPayload("diagnostics", mapped, this.sourceIndex(identity), "utf-16");
+    if (response === null || !this.identityIsCurrent(identity)) return undefined;
+    const mapped = nullableMappedDiagnostics(
+      response,
+      params.diagnostics.length,
+      project.sourceUri,
+      this.sourceIndex(identity)
+    );
     return { uri: project.sourceUri, diagnostics: mapped, identity };
   }
 
@@ -801,14 +971,13 @@ export class TypstFeatureRouter {
   }
 
   private providerPositionContext(
-    identity: TinymistRequestIdentity,
     entryUri: string
   ): TypstProviderPositionContext {
     const project = this.backend.projectForEntry(entryUri);
     if (!project) throw new PositionConversionError("AbsentGeneration");
     return Object.freeze({
-      sourceUri: identity.sourceStaleToken.hostUri,
-      sourceIndex: this.sourceIndex(identity),
+      sourceUri: entryUri,
+      sourceIndex: retainedProjectIndex(project, entryUri),
       encoding: this.backendEncoding,
       retainedIndex: (uri: string) => {
         try {

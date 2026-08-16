@@ -8,6 +8,11 @@ use crate::syntax::{
     StatementSyntax, SyntaxDocument, SyntaxNode,
 };
 
+use super::index::{
+    OccurrenceSyntax, RenameBindingKey, SemanticOccurrence, SemanticOccurrenceRole,
+    SemanticSymbolKey,
+};
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CharacterPreset {
     pub id: String,
@@ -105,6 +110,23 @@ pub struct ActorLowering {
     pub actors: Vec<ScriptActor>,
     pub speakers: Vec<ResolvedStatementSpeaker>,
     pub diagnostics: Vec<Diagnostic>,
+    pub(crate) semantic_occurrences: Vec<SemanticOccurrence>,
+}
+
+impl ActorLowering {
+    pub(crate) fn rename_binding(&self, actor: ActorId, name: &str) -> Option<RenameBindingKey> {
+        let binding = RenameBindingKey::ActorName {
+            actor,
+            name: name.to_string(),
+        };
+        self.semantic_occurrences
+            .iter()
+            .any(|occurrence| {
+                occurrence.role == SemanticOccurrenceRole::Definition
+                    && occurrence.binding.as_ref() == Some(&binding)
+            })
+            .then_some(binding)
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -147,6 +169,7 @@ struct ActorLowerer<'a, C> {
     left_history: SpeakerHistory,
     speakers: Vec<ResolvedStatementSpeaker>,
     diagnostics: Vec<Diagnostic>,
+    semantic_occurrences: Vec<SemanticOccurrence>,
 }
 
 #[derive(Default)]
@@ -176,6 +199,7 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
             left_history: SpeakerHistory::default(),
             speakers: Vec::new(),
             diagnostics: Vec::new(),
+            semantic_occurrences: Vec::new(),
         }
     }
 
@@ -193,6 +217,7 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
             actors: self.actors,
             speakers: self.speakers,
             diagnostics: self.diagnostics,
+            semantic_occurrences: self.semantic_occurrences,
         }
     }
 
@@ -229,12 +254,16 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
                         self.error("character preset has no deterministic names", *range);
                         return;
                     };
-                    let names = preset.names.clone();
+                    let mut names = preset.names.clone();
+                    names.extend(patch.additional_names.iter().map(|(name, _)| name.clone()));
                     let Some(actor_id) =
                         self.create_actor(&preset, primary, names, block.range, &patch)
                     else {
                         return;
                     };
+                    for (name, range) in &patch.additional_names {
+                        self.record_authored_binding(actor_id, name, *range);
+                    }
                     self.default_actors.insert(preset.id.clone(), actor_id);
                     return;
                 };
@@ -251,7 +280,14 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
                         );
                         return;
                     }
-                    self.apply_patch(actor_id, block.range, &patch, false);
+                    if self.apply_patch(actor_id, block.range, &patch, false) {
+                        self.record_actor_reference(
+                            actor_id,
+                            &name,
+                            name_range,
+                            OccurrenceSyntax::DeclarationLiteral,
+                        );
+                    }
                     return;
                 }
 
@@ -264,7 +300,14 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
                 };
                 let mut names = vec![name.clone()];
                 names.extend(patch.additional_names.iter().map(|(name, _)| name.clone()));
-                self.create_actor(&preset, name, names, block.range, &patch);
+                if let Some(actor_id) =
+                    self.create_actor(&preset, name.clone(), names, block.range, &patch)
+                {
+                    self.record_authored_binding(actor_id, &name, name_range);
+                    for (alias, range) in &patch.additional_names {
+                        self.record_authored_binding(actor_id, alias, *range);
+                    }
+                }
             }
         }
     }
@@ -424,13 +467,13 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
         origin: TextRange,
         patch: &ActorPatch,
         allow_creation_preset: bool,
-    ) {
+    ) -> bool {
         if patch.preset.is_some() && !allow_creation_preset {
             self.error(
                 "preset can only be specified when creating an actor",
                 origin,
             );
-            return;
+            return false;
         }
         let additional_names = deduplicate_names(
             patch
@@ -440,18 +483,23 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
                 .collect(),
         );
         if !self.validate_names_available(&additional_names, Some(actor_id), origin) {
-            return;
+            return false;
         }
 
-        for name in additional_names {
-            if !self.actors[actor_id.0 as usize].names.contains(&name) {
-                self.names.insert(name.clone(), actor_id);
-                self.actors[actor_id.0 as usize].names.push(name);
+        let mut recorded = HashSet::new();
+        for (name, range) in &patch.additional_names {
+            if !recorded.insert(name.clone()) {
+                continue;
             }
+            if !self.actors[actor_id.0 as usize].names.contains(name) {
+                self.names.insert(name.clone(), actor_id);
+                self.actors[actor_id.0 as usize].names.push(name.clone());
+            }
+            self.record_authored_binding(actor_id, name, *range);
         }
 
         if patch.display_name.is_none() && patch.avatar.is_none() {
-            return;
+            return true;
         }
         let actor = &mut self.actors[actor_id.0 as usize];
         let mut state = actor
@@ -470,6 +518,57 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
             number: actor.revisions.len() as u32,
             state,
             origin,
+        });
+        true
+    }
+
+    fn record_authored_binding(&mut self, actor: ActorId, name: &str, range: TextRange) {
+        let binding = RenameBindingKey::ActorName {
+            actor,
+            name: name.to_string(),
+        };
+        let role = if self.semantic_occurrences.iter().any(|occurrence| {
+            occurrence.role == SemanticOccurrenceRole::Definition
+                && occurrence.binding.as_ref() == Some(&binding)
+        }) {
+            SemanticOccurrenceRole::Reference
+        } else {
+            SemanticOccurrenceRole::Definition
+        };
+        self.semantic_occurrences.push(SemanticOccurrence {
+            symbol: SemanticSymbolKey::Actor(actor),
+            range,
+            role,
+            binding: Some(binding),
+            syntax: OccurrenceSyntax::DeclarationLiteral,
+        });
+    }
+
+    fn record_actor_reference(
+        &mut self,
+        actor: ActorId,
+        name: &str,
+        range: TextRange,
+        syntax: OccurrenceSyntax,
+    ) {
+        let binding = RenameBindingKey::ActorName {
+            actor,
+            name: name.to_string(),
+        };
+        let binding = self
+            .semantic_occurrences
+            .iter()
+            .any(|occurrence| {
+                occurrence.role == SemanticOccurrenceRole::Definition
+                    && occurrence.binding.as_ref() == Some(&binding)
+            })
+            .then_some(binding);
+        self.semantic_occurrences.push(SemanticOccurrence {
+            symbol: SemanticSymbolKey::Actor(actor),
+            range,
+            role: SemanticOccurrenceRole::Reference,
+            binding,
+            syntax,
         });
     }
 
@@ -508,8 +607,10 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
             return;
         };
 
-        if matches!(marker, SpeakerMarkerSyntax::BackRef { n: 0, .. }) {
-            self.capture_current_or_fallback(statement);
+        if let SpeakerMarkerSyntax::BackRef { n: 0, range } = marker {
+            if let Some(actor_id) = self.capture_current_or_fallback(statement) {
+                self.record_history_reference(actor_id, *range);
+            }
             return;
         }
 
@@ -527,18 +628,32 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
         let Some(actor_id) = actor_id else {
             return;
         };
+        match marker {
+            SpeakerMarkerSyntax::Explicit { raw, range } => self.record_actor_reference(
+                actor_id,
+                raw,
+                *range,
+                OccurrenceSyntax::RawExplicitSpeaker,
+            ),
+            SpeakerMarkerSyntax::BackRef { range, .. }
+            | SpeakerMarkerSyntax::UniqueIndex { range, .. } => {
+                self.record_history_reference(actor_id, *range);
+            }
+        }
         self.capture_actor_speaker(statement, actor_id);
     }
 
-    fn capture_current_or_fallback(&mut self, statement: &StatementSyntax) {
+    fn capture_current_or_fallback(&mut self, statement: &StatementSyntax) -> Option<ActorId> {
         if let Some(actor_id) = self.history(statement.kind).current {
             self.capture_actor_speaker(statement, actor_id);
+            Some(actor_id)
         } else if let Some(builtin) = self.fallback_speaker(statement.kind).cloned() {
             self.speakers.push(ResolvedStatementSpeaker {
                 statement_range: statement.range,
                 speaker: SpeakerIdentity::Builtin(builtin),
                 revision: None,
             });
+            None
         } else {
             self.error(
                 format!(
@@ -547,7 +662,18 @@ impl<'a, C: CharacterPresetCatalog> ActorLowerer<'a, C> {
                 ),
                 statement.range,
             );
+            None
         }
+    }
+
+    fn record_history_reference(&mut self, actor: ActorId, range: TextRange) {
+        self.semantic_occurrences.push(SemanticOccurrence {
+            symbol: SemanticSymbolKey::Actor(actor),
+            range,
+            role: SemanticOccurrenceRole::Reference,
+            binding: None,
+            syntax: OccurrenceSyntax::HistoryMarker,
+        });
     }
 
     fn capture_actor_speaker(&mut self, statement: &StatementSyntax, actor_id: ActorId) {

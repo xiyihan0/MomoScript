@@ -1220,12 +1220,15 @@ async function testNativePreviewRenderer(client: TinymistProcessClient): Promise
   }
   const secondProject = update(
     2,
-    "#import \"support.typ\": suffix\n#set page(width: 120pt, height: 80pt)\n[#image(\"pixel.png\", width: 1pt) Renderer generation two #suffix]",
+    "#import \"support.typ\": suffix\n#set page(width: 120pt, height: 80pt)\n#set text(font: \"Mmt Definitely Missing Font\")\n[#image(\"pixel.png\", width: 1pt) Renderer generation two #suffix]",
   );
   const secondResult = await render(secondProject, secondToken, 1, false);
   const secondReady = secondResult.ready;
   if (secondReady.frameKind !== "diff-v1" || secondReady.generation !== 2 || secondReady.baseGeneration !== 1) {
     throw new Error("native preview renderer did not return a generation-two diff frame");
+  }
+  if (secondReady.diagnostics.length === 0) {
+    throw new Error("native preview renderer omitted diagnostics from a successful compile with warnings");
   }
   const discard = await transition("discard", secondReady);
   if (discard.status !== "discarded") throw new Error("native preview renderer did not discard staged generation two");
@@ -1244,6 +1247,35 @@ async function testNativePreviewRenderer(client: TinymistProcessClient): Promise
   }
   const secondCommit = await transition("commit", replacement);
   if (secondCommit.status !== "committed") throw new Error("native preview renderer did not commit replacement generation");
+  const failedProject = update(
+    3,
+    "#set page(width: 120pt, height: 80pt)\n#definitely_missing_function()",
+  );
+  const failedToken = "d".repeat(64) as PreviewRendererReady["snapshotToken"];
+  const failed = await client.previewRenderer(failedProject, { logicalSourceId }, {
+    sessionId,
+    snapshotToken: failedToken,
+    baseGeneration: replacement.generation,
+    forceFull: false,
+  });
+  if (failed.response.status !== "compileFailed"
+    || failed.response.diagnostics.length === 0
+    || "generation" in failed.response) {
+    throw new Error(`native preview renderer did not return a generation-free structured compile failure: ${JSON.stringify(failed.response)}`);
+  }
+  const recovered = (await render(
+    update(4, "#set page(width: 120pt, height: 80pt)\n[Renderer recovered]"),
+    "e".repeat(64) as PreviewRendererReady["snapshotToken"],
+    replacement.generation,
+    false,
+  )).ready;
+  if (recovered.frameKind !== "diff-v1"
+    || recovered.generation !== replacement.generation + 1
+    || recovered.baseGeneration !== replacement.generation) {
+    throw new Error("native preview renderer consumed a generation on compile failure");
+  }
+  const recoveredCommit = await transition("commit", recovered);
+  if (recoveredCommit.status !== "committed") throw new Error("native preview renderer did not commit recovery generation");
   const oldGeneration = await client.request<PreviewRendererResponse>(PREVIEW_RENDERER_METHOD, {
     protocolVersion: PREVIEW_RENDERER_PROTOCOL_VERSION,
     action: "locateSource",

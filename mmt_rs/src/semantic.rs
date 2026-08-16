@@ -7,6 +7,7 @@
 pub mod actor;
 pub mod asset;
 pub mod document;
+pub mod index;
 pub mod resource;
 
 pub use actor::{
@@ -14,15 +15,20 @@ pub use actor::{
     CharacterPreset, CharacterPresetCatalog, PresetLookup, ResolvedStatementSpeaker, ScriptActor,
     SpeakerIdentity, StaticPresetCatalog, lower_actors, lower_actors_with_options,
 };
-pub use asset::{AssetId, AssetLowering, AssetSource, ScriptAsset, lower_assets};
+pub use asset::{AssetId, AssetLowering, AssetSource, ScriptAsset, lower_assets, valid_asset_name};
 pub use document::{
     CompiledAtConfig, DEFAULT_COMPILED_AT_FORMAT, DocumentConfig, DocumentLowering,
     DocumentOverrides, DocumentPresentation, DocumentTimezone, HostTimestamp, lower_document,
     resolve_document_presentation,
 };
+pub(crate) use index::build_semantic_index;
+pub use index::{
+    OccurrenceSyntax, RenameBindingKey, SemanticIndex, SemanticOccurrence, SemanticOccurrenceRole,
+    SemanticSymbolKey,
+};
 pub use resource::{
-    ResolvedResourceMarker, ResourceLowering, ResourceSelector, SubjectRef, VariantSelector,
-    lower_resource_markers,
+    ResolvedResourceMarker, ResourceArgumentReplacement, ResourceLowering, ResourceSelector,
+    SubjectRef, VariantSelector, lower_resource_markers,
 };
 
 use crate::diag::{Diagnostic, DiagnosticPhase, Severity};
@@ -38,6 +44,34 @@ impl Default for SemanticOptions {
     fn default() -> Self {
         Self { strict: true }
     }
+}
+const KNOWN_DIRECTIVES: &[&str] = &["document", "actor", "asset", "mode", "typ"];
+
+/// Reports generic directives that no semantic or emission pass consumes.
+pub fn validate_directives(document: &SyntaxDocument) -> Vec<Diagnostic> {
+    document
+        .nodes
+        .iter()
+        .filter_map(|node| {
+            let (name, range) = match node {
+                SyntaxNode::DirectiveLine(directive) => {
+                    (directive.name.as_str(), directive.name_range)
+                }
+                SyntaxNode::DirectiveBlock(directive) => {
+                    (directive.name.as_str(), directive.name_range)
+                }
+                _ => return None,
+            };
+            (!KNOWN_DIRECTIVES.contains(&name)).then(|| {
+                Diagnostic::new(
+                    Severity::Warning,
+                    DiagnosticPhase::Semantic,
+                    format!("unknown directive '@{name}'; it is ignored"),
+                    Some(range),
+                )
+            })
+        })
+        .collect()
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -150,6 +184,33 @@ mod tests {
     use super::*;
     use crate::diag::DiagnosticPhase;
     use crate::parse_text;
+
+    #[test]
+    fn unknown_directives_warn_without_rejecting_known_directives() {
+        let document = parse_text(
+            "@expr: 佳代子 | 严肃 | 叉腰 | 0.8\n\
+             @actor 佳代子\n\
+             name: 佳代子\n\
+             @end\n\
+             @asset: logo = ./logo.svg\n\
+             @mode: T\n\
+             @typ: #let x = 1",
+        );
+
+        let diagnostics = validate_directives(&document);
+
+        assert_eq!(diagnostics.len(), 1);
+        assert_eq!(diagnostics[0].severity, Severity::Warning);
+        assert_eq!(diagnostics[0].phase, DiagnosticPhase::Semantic);
+        assert_eq!(
+            diagnostics[0].message,
+            "unknown directive '@expr'; it is ignored"
+        );
+        assert_eq!(
+            diagnostics[0].range,
+            Some(TextRange::new("@".len(), "@expr".len()))
+        );
+    }
 
     #[test]
     fn mode_directives_apply_forward_and_explicit_fences_override_locally() {

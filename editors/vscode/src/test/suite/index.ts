@@ -163,6 +163,53 @@ export async function run(): Promise<void> {
   console.log("[mmt-web-test] completion received");
 
   await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
+  const semanticDocument = await vscode.workspace.openTextDocument({
+    language: "mmt",
+    content: "@asset: hero src:hero.png\n- [:asset, hero:]"
+  });
+  await vscode.window.showTextDocument(semanticDocument);
+  const assetReference = new vscode.Position(1, 11);
+  const assetDefinitions = await waitFor(async () => {
+    const value = await vscode.commands.executeCommand<(vscode.Location | vscode.LocationLink)[]>(
+      "vscode.executeDefinitionProvider",
+      semanticDocument.uri,
+      assetReference
+    );
+    return value?.length ? value : undefined;
+  }, "native MMT asset definition was not routed through the language client");
+  const assetDefinition = assetDefinitions[0];
+  const assetDefinitionUri = "uri" in assetDefinition ? assetDefinition.uri : assetDefinition.targetUri;
+  const assetDefinitionRange = "range" in assetDefinition
+    ? assetDefinition.range
+    : assetDefinition.targetSelectionRange ?? assetDefinition.targetRange;
+  assert(
+    assetDefinitionUri.toString() === semanticDocument.uri.toString()
+      && assetDefinitionRange.start.line === 0,
+    "native MMT asset definition targeted the wrong authored binding"
+  );
+  const assetReferences = await vscode.commands.executeCommand<vscode.Location[]>(
+    "vscode.executeReferenceProvider",
+    semanticDocument.uri,
+    assetReference
+  );
+  assert(
+    assetReferences?.some((location) => location.range.start.line === 0)
+      && assetReferences.some((location) => location.range.start.line === 1),
+    "native MMT asset references omitted the definition or resource occurrence"
+  );
+  const assetRename = await vscode.commands.executeCommand<vscode.WorkspaceEdit>(
+    "vscode.executeDocumentRenameProvider",
+    semanticDocument.uri,
+    assetReference,
+    "hero2"
+  );
+  assert(
+    assetRename?.entries().length === 1
+      && assetRename.entries()[0][1].length === 2,
+    "native MMT asset rename was not one current-document atomic edit"
+  );
+  console.log("[mmt-web-test] native semantic definition/references/rename received");
+  await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
 
 
   const typstDocument = await vscode.workspace.openTextDocument({
@@ -252,6 +299,27 @@ export async function run(): Promise<void> {
     "fixed embedded Typst diagnostics reappeared"
   );
   console.log("[mmt-web-test] fixed embedded Typst diagnostics cleared");
+  const projectedDefinitions = await vscode.commands.executeCommand<
+    (vscode.Location | vscode.LocationLink)[]
+  >(
+    "vscode.executeDefinitionProvider",
+    typstDocument.uri,
+    new vscode.Position(2, 3)
+  );
+  const projectedDefinition = projectedDefinitions?.[0];
+  assert(projectedDefinition, "projected Typst definition was not routed through the composed provider");
+  const projectedDefinitionUri = "uri" in projectedDefinition
+    ? projectedDefinition.uri
+    : projectedDefinition.targetUri;
+  const projectedDefinitionRange = "range" in projectedDefinition
+    ? projectedDefinition.range
+    : projectedDefinition.targetSelectionRange ?? projectedDefinition.targetRange;
+  assert(
+    projectedDefinitionUri.toString() === typstDocument.uri.toString()
+      && projectedDefinitionRange.start.line === 1,
+    "projected Typst definition did not map back to the authored MMT range"
+  );
+  console.log("[mmt-web-test] projected semantic definition received");
   await activeEditor.edit((builder) => {
     builder.replace(
       new vscode.Range(typstDocument.positionAt(0), typstDocument.positionAt(typstDocument.getText().length)),

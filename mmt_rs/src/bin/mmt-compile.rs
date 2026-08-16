@@ -1,4 +1,8 @@
-use std::collections::HashMap;
+#[path = "mmt_compile/pack_source.rs"]
+mod pack_source;
+#[path = "mmt_compile/typst_world.rs"]
+mod typst_world;
+
 use std::env;
 use std::ffi::OsString;
 use std::fs;
@@ -6,10 +10,11 @@ use std::io::{self, Read};
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
-use mmt_rs::pack::{PackManifest, PackRegistry};
+use mmt_rs::pack::PackRegistry;
 use mmt_rs::{
     DocumentOverrides, EmitOptions, HostTimestamp, ProjectMaterializer, ProjectMaterializerOptions,
-    SourceSpan, compile_text_strict, export_template_library,
+    SourceSpan, analyze_text_with_pack, compile_text_strict, diagnose_analyzed_with_pack,
+    export_template_library,
 };
 use serde::Serialize;
 use time::{OffsetDateTime, format_description::well_known::Rfc3339};
@@ -20,7 +25,9 @@ const LOCAL_TEMPLATE_PACKAGE: &str = "@local/mmt-render:0.1.0";
 struct Options {
     input: Option<PathBuf>,
     output_dir: PathBuf,
-    manifests: Vec<PathBuf>,
+    manifests: Vec<String>,
+    pdf: Option<PathBuf>,
+    allow_insecure_http: bool,
     template_dir: PathBuf,
     use_local_template_package: bool,
     workspace_root: PathBuf,
@@ -38,6 +45,7 @@ struct Options {
 struct CliReport {
     success: bool,
     output_dir: Option<String>,
+    pdf: Option<String>,
     diagnostics: Vec<CliDiagnostic>,
 }
 
@@ -75,7 +83,28 @@ fn run(args: Vec<OsString>) -> Result<CliReport, CliReport> {
     let options = parse_args(args).map_err(host_error)?;
     let timestamp = resolve_clock(options.clock.as_deref()).map_err(host_error)?;
     let source = read_source(options.input.as_deref()).map_err(host_error)?;
-    let (registry, pack_roots) = load_registry(&options.manifests).map_err(host_error)?;
+    let loaded_packs = pack_source::load_registry(&options.manifests, options.allow_insecure_http)
+        .map_err(host_error)?;
+    let preflight = analyze_text_with_pack(&source, &loaded_packs.registry);
+    let preflight_diagnostics = diagnose_analyzed_with_pack(&preflight, &EmitOptions::default())
+        .map_err(|error| {
+            host_error(format!("cannot diagnose pack-aware compilation: {error:?}"))
+        })?;
+    if preflight_diagnostics
+        .iter()
+        .any(|diagnostic| diagnostic.severity == mmt_rs::diag::Severity::Error)
+    {
+        return Err(CliReport {
+            success: false,
+            output_dir: None,
+            pdf: None,
+            diagnostics: diagnostics(&source, &preflight_diagnostics),
+        });
+    }
+    let pack_roots = loaded_packs
+        .prepare_roots(&preflight, &options.cache_dir, options.allow_insecure_http)
+        .map_err(host_error)?;
+    let registry: PackRegistry = loaded_packs.registry;
     let template_import = if options.use_local_template_package {
         LOCAL_TEMPLATE_PACKAGE
     } else {
@@ -85,7 +114,7 @@ fn run(args: Vec<OsString>) -> Result<CliReport, CliReport> {
         output_dir: options.output_dir.clone(),
         workspace_root: options.workspace_root,
         pack_roots,
-        cache_dir: options.cache_dir,
+        cache_dir: options.cache_dir.clone(),
         avifdec_bin: options.avifdec_bin,
         decoder_profile: options.decoder_profile,
     })
@@ -124,15 +153,32 @@ fn run(args: Vec<OsString>) -> Result<CliReport, CliReport> {
             .map_err(|error| host_error(format!("cannot serialize source map: {error}")))?;
             fs::write(options.output_dir.join("source-map.json"), source_map)
                 .map_err(|error| host_error(format!("cannot write source-map.json: {error}")))?;
+            let mut compilation_diagnostics = compilation.diagnostics.clone();
+            if let Some(pdf) = &options.pdf {
+                match typst_world::compile_pdf(&options.output_dir, pdf, &compilation.typst) {
+                    Ok(typst_diagnostics) => compilation_diagnostics.extend(typst_diagnostics),
+                    Err(typst_diagnostics) => {
+                        compilation_diagnostics.extend(typst_diagnostics);
+                        return Err(CliReport {
+                            success: false,
+                            output_dir: Some(options.output_dir.display().to_string()),
+                            pdf: None,
+                            diagnostics: diagnostics(&source, &compilation_diagnostics),
+                        });
+                    }
+                }
+            }
             Ok(CliReport {
                 success: true,
                 output_dir: Some(options.output_dir.display().to_string()),
-                diagnostics: diagnostics(&source, &compilation.diagnostics),
+                pdf: options.pdf.as_ref().map(|path| path.display().to_string()),
+                diagnostics: diagnostics(&source, &compilation_diagnostics),
             })
         }
         Err(failure) => Err(CliReport {
             success: false,
             output_dir: None,
+            pdf: None,
             diagnostics: diagnostics(&source, &failure.diagnostics),
         }),
     }
@@ -142,6 +188,8 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
     let mut input = None;
     let mut output_dir = None;
     let mut manifests = Vec::new();
+    let mut pdf = None;
+    let mut allow_insecure_http = false;
     let mut template_dir = PathBuf::from("typst_sandbox/mmt_render");
     let mut workspace_root = env::current_dir().map_err(|error| error.to_string())?;
     let mut title = None;
@@ -170,7 +218,9 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
         match arg.as_str() {
             "--input" => input = Some(PathBuf::from(value(&mut args, "--input")?)),
             "--output-dir" => output_dir = Some(PathBuf::from(value(&mut args, "--output-dir")?)),
-            "--manifest" => manifests.push(PathBuf::from(value(&mut args, "--manifest")?)),
+            "--manifest" => manifests.push(value(&mut args, "--manifest")?),
+            "--pdf" => pdf = Some(PathBuf::from(value(&mut args, "--pdf")?)),
+            "--allow-insecure-http" => allow_insecure_http = true,
             "--template-dir" => template_dir = PathBuf::from(value(&mut args, "--template-dir")?),
             "--workspace-root" => {
                 workspace_root = PathBuf::from(value(&mut args, "--workspace-root")?)
@@ -193,6 +243,8 @@ fn parse_args(args: Vec<OsString>) -> Result<Options, String> {
         input,
         output_dir: output_dir.ok_or_else(usage)?,
         manifests,
+        pdf,
+        allow_insecure_http,
         template_dir,
         workspace_root,
         title,
@@ -248,7 +300,7 @@ fn current_clock() -> Result<HostTimestamp, String> {
 }
 
 fn usage() -> String {
-    "usage: mmt-compile [--input FILE] --output-dir DIR [--manifest FILE ...] [--template-dir DIR] [--use-local-template-package] [--workspace-root DIR] [--cache-dir DIR] [--avifdec-bin FILE] [--decoder-profile ID] [--title TEXT] [--author TEXT] [--show-header | --no-header] [--compiled-at TEXT] [--clock RFC3339]".to_string()
+    "usage: mmt-compile [--input FILE] --output-dir DIR [--pdf FILE] [--manifest FILE_OR_HTTPS_URL ...] [--allow-insecure-http] [--template-dir DIR] [--use-local-template-package] [--workspace-root DIR] [--cache-dir DIR] [--avifdec-bin FILE] [--decoder-profile ID] [--title TEXT] [--author TEXT] [--show-header | --no-header] [--compiled-at TEXT] [--clock RFC3339]".to_string()
 }
 
 fn read_source(path: Option<&Path>) -> Result<String, String> {
@@ -263,31 +315,6 @@ fn read_source(path: Option<&Path>) -> Result<String, String> {
             Ok(source)
         }
     }
-}
-
-fn load_registry(paths: &[PathBuf]) -> Result<(PackRegistry, HashMap<String, PathBuf>), String> {
-    let mut manifests = Vec::new();
-    let mut roots = HashMap::new();
-    for path in paths {
-        let source = fs::read_to_string(path)
-            .map_err(|error| format!("cannot read manifest '{}': {error}", path.display()))?;
-        let manifest = PackManifest::from_json(&source)
-            .map_err(|error| format!("invalid manifest '{}': {error}", path.display()))?;
-        let root = path
-            .parent()
-            .unwrap_or_else(|| Path::new("."))
-            .to_path_buf();
-        roots.insert(manifest.pack.namespace.clone(), root);
-        manifests.push(manifest);
-    }
-    let registry = PackRegistry::new(manifests).map_err(|errors| {
-        errors
-            .into_iter()
-            .map(|error| error.message)
-            .collect::<Vec<_>>()
-            .join("; ")
-    })?;
-    Ok((registry, roots))
 }
 
 fn diagnostics(source: &str, items: &[mmt_rs::diag::Diagnostic]) -> Vec<CliDiagnostic> {
@@ -310,6 +337,7 @@ fn diagnostics(source: &str, items: &[mmt_rs::diag::Diagnostic]) -> Vec<CliDiagn
 fn host_error(message: impl Into<String>) -> CliReport {
     CliReport {
         success: false,
+        pdf: None,
         output_dir: None,
         diagnostics: vec![CliDiagnostic {
             phase: "host".to_string(),
