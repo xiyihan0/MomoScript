@@ -1,5 +1,10 @@
 import type { PackManifestSource } from "../../vscode/src/packSync";
 import { decodeAvifSequence, type ImageSequenceResource } from "./avifSequence";
+import type {
+  GalleryCatalogProvenance,
+  GalleryCatalogTaxonomyTerm,
+  GalleryEntityCatalog
+} from "./galleryEntityCatalog";
 
 export interface GalleryVariant {
   readonly id: string;
@@ -18,6 +23,13 @@ export interface GalleryEntity {
   readonly key: string;
   readonly displayName: string;
   readonly names: readonly string[];
+  readonly catalogDisplayName?: string;
+  readonly searchTerms: readonly string[];
+  readonly school?: GalleryCatalogTaxonomyTerm;
+  readonly mainRelation?: GalleryCatalogTaxonomyTerm;
+  readonly relations: readonly GalleryCatalogTaxonomyTerm[];
+  readonly alternateSkinKeys: readonly string[];
+  readonly totalVariants: number;
   readonly avatar?: { readonly storageKey: string; readonly path: string };
   readonly stickerDefault?: string;
   readonly stickerSets: readonly GalleryStickerSet[];
@@ -43,9 +55,15 @@ export interface GalleryPack {
   readonly baseUrl: string;
   readonly entities: readonly GalleryEntity[];
   readonly storage: ReadonlyMap<string, GalleryStorageBackend>;
+  readonly schools: readonly GalleryCatalogTaxonomyTerm[];
+  readonly relations: readonly GalleryCatalogTaxonomyTerm[];
+  readonly provenance?: GalleryCatalogProvenance;
 }
 
-export function projectGalleryPack(source: PackManifestSource): GalleryPack {
+export function projectGalleryPack(
+  source: PackManifestSource,
+  catalog?: GalleryEntityCatalog
+): GalleryPack {
   const manifest = JSON.parse(source.json) as {
     pack?: { namespace?: unknown };
     entities?: Record<string, unknown>;
@@ -55,6 +73,7 @@ export function projectGalleryPack(source: PackManifestSource): GalleryPack {
   if (typeof namespace !== "string" || namespace.length === 0) {
     throw new Error(`Pack manifest has no namespace: ${source.manifestUrl}`);
   }
+  const metadata = catalog?.namespace === namespace ? catalog : undefined;
   const storage = new Map<string, GalleryStorageBackend>();
   for (const [key, value] of Object.entries(manifest.storage ?? {})) {
     const backend = parseStorageBackend(value);
@@ -62,11 +81,23 @@ export function projectGalleryPack(source: PackManifestSource): GalleryPack {
   }
   const entities: GalleryEntity[] = [];
   for (const [key, value] of Object.entries(manifest.entities ?? {})) {
-    const entity = parseEntity(key, value);
+    const entity = parseEntity(key, value, metadata);
     if (entity) entities.push(entity);
   }
-  entities.sort((left, right) => left.displayName.localeCompare(right.displayName, "zh-Hans-CN"));
-  return { namespace, manifestUrl: source.manifestUrl, baseUrl: source.baseUrl, entities, storage };
+  entities.sort((left, right) => (
+    galleryDisplayLabel(left).localeCompare(galleryDisplayLabel(right), "zh-Hans-CN")
+    || left.key.localeCompare(right.key)
+  ));
+  return {
+    namespace,
+    manifestUrl: source.manifestUrl,
+    baseUrl: source.baseUrl,
+    entities,
+    storage,
+    schools: sortTaxonomy(metadata?.schools),
+    relations: sortTaxonomy(metadata?.relations),
+    provenance: metadata?.provenance
+  };
 }
 
 function parseStorageBackend(value: unknown): GalleryStorageBackend | undefined {
@@ -102,7 +133,11 @@ function parseStorageBackend(value: unknown): GalleryStorageBackend | undefined 
   return undefined;
 }
 
-function parseEntity(key: string, value: unknown): GalleryEntity | undefined {
+function parseEntity(
+  key: string,
+  value: unknown,
+  catalog: GalleryEntityCatalog | undefined
+): GalleryEntity | undefined {
   if (typeof value !== "object" || value === null) return undefined;
   const record = value as Record<string, unknown>;
   const displayName = typeof record.display_name === "string" && record.display_name.length > 0 ? record.display_name : key;
@@ -112,7 +147,40 @@ function parseEntity(key: string, value: unknown): GalleryEntity | undefined {
   const sticker = typeof slots.sticker === "object" && slots.sticker !== null ? slots.sticker as Record<string, unknown> : undefined;
   const stickerSets = parseStickerSets(slots.sticker);
   const stickerDefault = typeof sticker?.default === "string" ? sticker.default : stickerSets[0]?.key;
-  return { key, displayName, names, avatar, stickerDefault, stickerSets };
+  const metadata = catalog?.entities.get(key);
+  const school = metadata?.schoolId === undefined ? undefined : catalog?.schools.get(metadata.schoolId);
+  const mainRelation = metadata?.mainRelationId === undefined ? undefined : catalog?.relations.get(metadata.mainRelationId);
+  const relations = metadata === undefined || catalog === undefined
+    ? []
+    : metadata.relationIds.flatMap((relationId) => {
+        const term = catalog.relations.get(relationId);
+        return term === undefined ? [] : [term];
+      });
+  const taxonomyTerms = [school, mainRelation, ...relations].filter(
+    (term): term is GalleryCatalogTaxonomyTerm => term !== undefined
+  );
+  return {
+    key,
+    displayName,
+    names,
+    catalogDisplayName: metadata?.zhCnDisplayName,
+    searchTerms: uniqueSearchTerms([
+      key,
+      displayName,
+      ...names,
+      ...(metadata?.localizedNames ?? []),
+      ...(metadata?.aliases ?? []),
+      ...taxonomyTerms.flatMap((term) => [term.displayName, ...term.aliases])
+    ]),
+    school,
+    mainRelation,
+    relations,
+    alternateSkinKeys: metadata?.alternateSkinKeys ?? [],
+    totalVariants: stickerSets.reduce((total, set) => total + set.variants.length, 0),
+    avatar,
+    stickerDefault,
+    stickerSets
+  };
 }
 
 function parseAvatar(value: unknown): GalleryEntity["avatar"] {
@@ -175,17 +243,35 @@ export function packResourceUrl(packBase: string, relativePath: string, kind: "i
 }
 
 export function galleryDisplayLabel(entity: GalleryEntity): string {
-  const paren = entity.names.find((name) => /（[^）]+）$/.test(name));
+  return entity.catalogDisplayName ?? manifestDisplayLabel(entity.displayName, entity.names);
+}
+
+function manifestDisplayLabel(displayName: string, names: readonly string[]): string {
+  const paren = names.find((name) => /（[^）]+）$/.test(name));
   if (paren) return paren;
-  const underscored = entity.names.find((name) => /^[^_]+_.+$/.test(name));
+  const underscored = names.find((name) => /^[^_]+_.+$/.test(name));
   if (underscored) {
     const split = underscored.indexOf("_");
     return `${underscored.slice(0, split)}（${underscored.slice(split + 1).replaceAll("_", "/")}）`;
   }
-  const exact = entity.names.find((name) => name === entity.displayName);
+  const exact = names.find((name) => name === displayName);
   if (exact) return exact;
   // display_name 可能是截断的名（如联动角色 初音未来 被写成 未来），回退到主名
-  return entity.names[0] ?? entity.displayName;
+  return names[0] ?? displayName;
+}
+
+function sortTaxonomy(
+  taxonomy: ReadonlyMap<string, GalleryCatalogTaxonomyTerm> | undefined
+): readonly GalleryCatalogTaxonomyTerm[] {
+  if (taxonomy === undefined) return [];
+  return [...taxonomy.values()].sort((left, right) => (
+    left.displayName.localeCompare(right.displayName, "zh-Hans-CN")
+    || left.id.localeCompare(right.id)
+  ));
+}
+
+function uniqueSearchTerms(values: readonly string[]): readonly string[] {
+  return [...new Set(values.filter((value) => value.length > 0))];
 }
 
 export function galleryAvatarUrl(pack: GalleryPack, entity: GalleryEntity): URL | undefined {

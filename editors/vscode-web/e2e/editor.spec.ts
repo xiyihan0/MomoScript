@@ -6,8 +6,10 @@ import {
 import { expect, invokeMmtE2E, previewReadiness, test, type Locator, type Page, type Response, waitForPreviewFrame } from "./fixtures";
 
 const manifest = await readFile(new URL("./fixtures/manifest.json", import.meta.url));
+const entityCatalog = await readFile(new URL("./fixtures/entity-catalog.json", import.meta.url));
 const avatar = await readFile(new URL("./fixtures/佳代子.png", import.meta.url));
 const alphaSequence = await readFile(new URL("./fixtures/alpha-sequence.avifs", import.meta.url));
+const ENTITY_CATALOG_URL = new URL("entity-catalog.json", MANIFEST_URL).href;
 const authored = [
   "@actor kayoko",
   "preset: ba::佳代子",
@@ -571,13 +573,21 @@ test("VS Code native sashes resize the explorer and panel in both directions", {
     .toBeLessThan(expandedPanelHeight - 40);
 });
 
-test("character gallery browses variants and inserts an entity-scoped sticker", { tag: "@editor-surface" }, async ({ page }, testInfo) => {
+test("character gallery browses metadata, filters variants, and inserts an entity-scoped sticker", { tag: "@editor-surface" }, async ({ page }, testInfo) => {
   const local = testInfo.project.name !== "remote";
+  const kivoRequests: string[] = [];
+  page.on("request", (request) => {
+    if (new URL(request.url()).hostname === "kivo.wiki") kivoRequests.push(request.url());
+  });
   if (local) {
     await page.route("https://**/*", async (route) => {
       const url = route.request().url();
       if (url === MANIFEST_URL) {
         await route.fulfill({ status: 200, body: manifest, headers: corsHeaders("application/json", '"e2e-manifest"') });
+        return;
+      }
+      if (url === ENTITY_CATALOG_URL) {
+        await route.fulfill({ status: 200, body: entityCatalog, headers: corsHeaders("application/json", '"e2e-catalog"') });
         return;
       }
       const pathname = decodeURIComponent(new URL(url).pathname);
@@ -592,39 +602,83 @@ test("character gallery browses variants and inserts an entity-scoped sticker", 
       await route.continue();
     });
   }
-  const entityName = local ? "透明测试" : "佳代子";
+  const entityName = "佳代子";
   const ordinal = local ? 2 : 3;
 
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
-
   await page.getByRole("treeitem", { name: /story\.mmt/ }).click();
   await expect(page.locator(".workbench-editor .monaco-editor").first()).toBeVisible();
-
   await page.getByRole("tab", { name: "角色图鉴", exact: true }).click();
-  const search = page.getByRole("searchbox", { name: "搜索人物" });
+
+  const search = page.getByRole("searchbox", { name: "搜索姓名、别名、学校或社团" });
   await expect(search).toBeVisible();
+  const entityList = page.locator(".mms-gallery-entity-list");
+  await expect(entityList).toBeVisible();
+  expect(await entityList.evaluate((element) => element.tagName)).toBe("UL");
   if (local) {
-    // names 无括号变体时由下划线形式推导：display_name "晴" + names ["晴_露营"] → 晴（露营）
-    // 注：Playwright Chromium 环境无可用字体，文本 span 布局为 0 尺寸，只能断言文本内容
-    await expect(page.locator(".mms-gallery-grid .mms-gallery-name", { hasText: "晴（露营）" })).toHaveText("晴（露营）");
+    await expect(page.locator(".mms-gallery-name", { hasText: "晴（露营）" })).toHaveText("晴（露营）");
+    const catalogRow = page.locator(".mms-gallery-entity-row", { hasText: "鬼方佳代子" });
+    await expect(catalogRow).toContainText("格黑娜学园");
+    await expect(catalogRow).toContainText("便利屋68");
+    await expect(catalogRow).toContainText("3 个差分");
+    expect(await catalogRow.evaluate((element) => element.parentElement?.tagName)).toBe("LI");
+    await search.fill("黑猫");
+    await expect(catalogRow).toBeVisible();
+    await search.fill("");
+    const schoolFilter = page.getByRole("combobox", { name: "学校筛选" });
+    await schoolFilter.selectOption({ label: "格黑娜学园" });
+    await expect(catalogRow).toBeVisible();
+    await expect(page.locator(".mms-gallery-entity-row", { hasText: "晴（露营）" })).toHaveCount(0);
+    await page.getByRole("button", { name: "清除角色图鉴筛选" }).click();
+    const relationFilter = page.getByRole("combobox", { name: "关系筛选" });
+    await relationFilter.selectOption({ label: "便利屋68" });
+    await expect(catalogRow).toBeVisible();
+    await expect(page.locator(".mms-gallery-entity-row", { hasText: "晴（露营）" })).toHaveCount(0);
+    await page.getByRole("button", { name: "清除角色图鉴筛选" }).click();
   }
-  await page.evaluate((name) => {
-    const input = document.querySelector<HTMLInputElement>(".mms-gallery-search");
-    if (!input) throw new Error("gallery search input is missing");
-    input.value = name;
-    input.dispatchEvent(new InputEvent("input", { bubbles: true }));
-  }, entityName);
-  const entityTile = page.locator(".mms-gallery-grid .mms-gallery-tile", { hasText: entityName }).first();
-  await expect(entityTile).toBeVisible();
-  const tileSize = async () => (await entityTile.boundingBox())!.width;
-  const baseSize = await tileSize();
-  await entityTile.hover();
-  await page.keyboard.down("Control");
-  await page.mouse.wheel(0, -240);
-  await page.keyboard.up("Control");
-  await expect.poll(tileSize).toBeGreaterThan(baseSize);
-  await entityTile.click();
+
+  await search.fill(entityName);
+  const entityRow = page.locator(".mms-gallery-entity-row", { hasText: entityName }).first();
+  await expect(entityRow).toBeVisible();
+  const avatarMedia = entityRow.locator(".mms-gallery-entity-media");
+  const baseAvatarWidth = (await avatarMedia.boundingBox())!.width;
+  await page.getByRole("button", { name: "放大图鉴" }).click();
+  await expect.poll(async () => (await avatarMedia.boundingBox())!.width).toBeGreaterThan(baseAvatarWidth);
+  await entityRow.focus();
+  await page.keyboard.press("Enter");
+
+  await expect(page.locator(".mms-gallery-detail-title")).toContainText(entityName);
+  await expect(page.locator(".mms-gallery-insertion-status")).toContainText(/插入到 .*story\.mmt/);
+  const variantTiles = page.locator(".mms-gallery-variant");
+  if (local) {
+    await expect(variantTiles).toHaveCount(2);
+    const firstBox = (await variantTiles.nth(0).boundingBox())!;
+    const secondBox = (await variantTiles.nth(1).boundingBox())!;
+    expect(Math.abs(firstBox.y - secondBox.y)).toBeLessThan(2);
+    expect(secondBox.x).toBeGreaterThan(firstBox.x);
+
+    const sidebar = page.locator(".workbench-sidebar");
+    const sidebarSash = page.locator(
+      ".workbench-primary > .monaco-split-view2.horizontal > .sash-container > .monaco-sash"
+    ).first();
+    for (const targetWidth of [240, 320]) {
+      const currentWidth = await sidebar.evaluate((element) => element.getBoundingClientRect().width);
+      const sashBox = await sidebarSash.boundingBox();
+      expect(sashBox).not.toBeNull();
+      const x = sashBox!.x + sashBox!.width / 2;
+      const y = sashBox!.y + sashBox!.height / 2;
+      await page.mouse.move(x, y);
+      await page.mouse.down();
+      await page.mouse.move(x + targetWidth - currentWidth, y, { steps: 8 });
+      await page.mouse.up();
+      await expect.poll(() => sidebar.evaluate((element) => Math.round(element.getBoundingClientRect().width)))
+        .toBeCloseTo(targetWidth, -1);
+      const horizontalOverflow = await page.locator(".mms-gallery-root")
+        .evaluate((element) => element.scrollWidth - element.clientWidth);
+      expect(horizontalOverflow).toBeLessThanOrEqual(1);
+    }
+  }
 
   const variantTile = page.locator(".mms-gallery-variant", { hasText: `#${ordinal}` }).first();
   await expect(variantTile).toBeVisible();
@@ -632,7 +686,6 @@ test("character gallery browses variants and inserts an entity-scoped sticker", 
   await expect(thumbnail).toBeVisible({ timeout: 60_000 });
   await expect.poll(() => thumbnail.evaluate((image) => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   await variantTile.click();
-
   await expect.poll(() => invokeMmtE2E(page, "workspace", "storyText"))
     .toContain(`[:${entityName},#${ordinal}:]`);
 
@@ -640,14 +693,12 @@ test("character gallery browses variants and inserts an entity-scoped sticker", 
   await page.getByRole("treeitem", { name: /intro\.typ/ }).click();
   await expect(page.locator(".workbench-editor .monaco-editor").first()).toBeVisible();
   await page.getByRole("tab", { name: "角色图鉴", exact: true }).click();
-  await expect(variantTile).toBeVisible();
-  await variantTile.click();
-  await page.waitForTimeout(500);
+  await expect(page.locator(".mms-gallery-insertion-status")).toContainText("仅浏览");
+  await expect(variantTile).toBeDisabled();
   const active = await invokeMmtE2E(page, "workspace", "activeDocument");
   expect(active?.name).toBe("intro.typ");
-  // workbench 当前布局不渲染通知 toast（既有缺口，历史视图消息同样不可见），
-  // 警告通过 showWarningMessage 发出；此处锁定不修改文档的行为合同。
   expect(active?.text).not.toContain(`[:${entityName},#${ordinal}:]`);
+  expect(kivoRequests).toEqual([]);
 });
 
 test("editor context menu reveals sticker picker for the speaker at cursor", { tag: "@editor-surface" }, async ({ page }, testInfo) => {
@@ -657,6 +708,10 @@ test("editor context menu reveals sticker picker for the speaker at cursor", { t
       const url = route.request().url();
       if (url === MANIFEST_URL) {
         await route.fulfill({ status: 200, body: manifest, headers: corsHeaders("application/json", '"e2e-manifest"') });
+        return;
+      }
+      if (url === ENTITY_CATALOG_URL) {
+        await route.fulfill({ status: 200, body: entityCatalog, headers: corsHeaders("application/json", '"e2e-catalog"') });
         return;
       }
       const pathname = decodeURIComponent(new URL(url).pathname);
@@ -679,19 +734,17 @@ test("editor context menu reveals sticker picker for the speaker at cursor", { t
   const editor = page.locator(".workbench-editor .monaco-editor").first();
   await expect(editor).toBeVisible();
 
-  // 有明确 speaker 的行：跳到对应角色的差分级
   await editor.locator(".view-lines .view-line").first().click({ button: "right" });
   const stickerItem = page.getByRole("menuitem", { name: "插入角色表情差分" });
   await expect(stickerItem).toBeVisible();
-  // 菜单在 shadow DOM 内，焦点断言不可靠；navigation 组首项一次 ArrowDown 激活
   await page.keyboard.press("ArrowDown");
   await page.keyboard.press("Enter");
   const detailTitle = page.locator(".mms-gallery-detail-title");
-  await expect(detailTitle).toHaveText(speaker);
+  await expect(detailTitle).toContainText(speaker);
+  await expect(page.locator(".mms-gallery-insertion-status")).toContainText("story.mmt");
   const variantTile = page.locator(".mms-gallery-variant", { hasText: "#1" }).first();
   await expect(variantTile).toBeVisible();
   if (local) {
-    // 非默认 set 必须带 set id，否则落回 default set
     const setSelector = page.locator(".mms-gallery-set");
     await expect(setSelector).toBeVisible();
     await setSelector.selectOption("kindergarten");
@@ -703,7 +756,6 @@ test("editor context menu reveals sticker picker for the speaker at cursor", { t
     await page.keyboard.press("Control+Z");
   }
 
-  // 无可解析 speaker 的行：回到图鉴主界面
   await editor.click();
   await page.keyboard.press("Control+Home");
   await page.keyboard.press("ArrowDown");
@@ -712,8 +764,47 @@ test("editor context menu reveals sticker picker for the speaker at cursor", { t
   await expect(stickerItemAgain).toBeVisible();
   await page.keyboard.press("ArrowDown");
   await page.keyboard.press("Enter");
-  await expect(page.locator(".mms-gallery-grid .mms-gallery-tile").first()).toBeVisible();
+  await expect(page.locator(".mms-gallery-entity-row").first()).toBeVisible();
   await expect(detailTitle).toHaveCount(0);
+});
+
+test("character gallery falls back to manifest metadata when Entity Catalog is unavailable", { tag: "@editor-surface" }, async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "remote", "fixture-only Catalog fallback");
+  await page.route("https://**/*", async (route) => {
+    const url = route.request().url();
+    if (url === MANIFEST_URL) {
+      await route.fulfill({ status: 200, body: manifest, headers: corsHeaders("application/json", '"e2e-manifest"') });
+      return;
+    }
+    if (url === ENTITY_CATALOG_URL) {
+      await route.fulfill({ status: 404, body: "{}", headers: corsHeaders("application/json") });
+      return;
+    }
+    const pathname = decodeURIComponent(new URL(url).pathname);
+    if (pathname === "/ba_kivo/assets/avatar/佳代子.png") {
+      await route.fulfill({ status: 200, body: avatar, headers: corsHeaders("image/png") });
+      return;
+    }
+    if (pathname === "/ba_kivo/blobs/stickers/alpha/default.avifs") {
+      await route.fulfill({ status: 200, body: alphaSequence, headers: corsHeaders("application/octet-stream") });
+      return;
+    }
+    await route.continue();
+  });
+
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-mmt-stage", "mmt-ready");
+  await page.getByRole("treeitem", { name: /story\.mmt/ }).click();
+  await page.getByRole("tab", { name: "角色图鉴", exact: true }).click();
+  await expect(page.locator(".mms-gallery-name", { hasText: "佳代子" })).toHaveText("佳代子");
+  await expect(page.locator(".mms-gallery-name", { hasText: "晴（露营）" })).toHaveText("晴（露营）");
+  await expect(page.getByRole("combobox", { name: "学校筛选" })).toHaveCount(0);
+  await page.locator(".mms-gallery-entity-row", { hasText: "佳代子" }).click();
+  const variant = page.locator(".mms-gallery-variant", { hasText: "#1" }).first();
+  await expect(variant).toBeEnabled();
+  await variant.click();
+  await expect.poll(() => invokeMmtE2E(page, "workspace", "storyText"))
+    .toContain("[:佳代子,#1:]");
 });
 
 async function activeDocument(page: Page): Promise<{ name?: string; languageId: string; text: string } | null> {

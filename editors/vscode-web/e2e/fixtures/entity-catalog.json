@@ -1,0 +1,132 @@
+{
+  "schema": "mmt-pack-entity-catalog.v1",
+  "generated_at": "2026-08-16T00:00:00Z",
+  "pack": {
+    "namespace": "ba",
+    "version": "1.0.0",
+    "manifest_sha256": "68f6240c2f168d84f979c52e20cf66a902d3c4a4c99cd634c96d992a8e86f065"
+  },
+  "source": {
+    "id": "kivo.wiki",
+    "name": "基沃托斯古书馆",
+    "url": "https://kivo.wiki/",
+    "retrieved_at": "2026-08-16T00:00:00Z",
+    "transformed": true,
+    "api_versions": ["v1"],
+    "api_time_range": {
+      "first": 1,
+      "last": 1
+    },
+    "license": {
+      "id": "CC-BY-SA-4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "terms_url": "https://kivo.wiki/license",
+      "attribution": "角色资料整理自基沃托斯古书馆"
+    }
+  },
+  "entities": {
+    "佳代子": {
+      "external_ids": {
+        "student": "30"
+      },
+      "names": {
+        "display": {
+          "zh-CN": "鬼方佳代子",
+          "ja-JP": "鬼方カヨコ",
+          "en-US": "Kayoko Onikata"
+        },
+        "family": {
+          "zh-CN": "鬼方"
+        },
+        "given": {
+          "zh-CN": "佳代子"
+        },
+        "skin": {},
+        "aliases": {
+          "zh-CN": ["佳代", "黑猫"],
+          "en-US": ["Kayoko"]
+        }
+      },
+      "affiliation": {
+        "school": "1",
+        "main_relation": "10",
+        "relations": ["10"]
+      },
+      "related_entities": [
+        {
+          "kind": "alternate_skin",
+          "entity": "ba::晴_露营"
+        }
+      ]
+    },
+    "晴_露营": {
+      "external_ids": {
+        "student": "31"
+      },
+      "names": {
+        "display": {
+          "ja-JP": "ハレ（キャンプ）"
+        },
+        "family": {},
+        "given": {},
+        "skin": {
+          "zh-CN": "露营"
+        },
+        "aliases": {
+          "zh-CN": ["露营晴"]
+        }
+      },
+      "affiliation": {
+        "school": "2",
+        "main_relation": "11",
+        "relations": ["11"]
+      },
+      "related_entities": [
+        {
+          "kind": "alternate_skin",
+          "entity": "ba::佳代子"
+        }
+      ]
+    },
+    "透明测试": {
+      "external_ids": {
+        "student": "32"
+      },
+      "names": {
+        "display": {
+          "zh-CN": "透明测试"
+        },
+        "family": {},
+        "given": {},
+        "skin": {},
+        "aliases": {}
+      },
+      "affiliation": {
+        "relations": []
+      },
+      "related_entities": []
+    }
+  },
+  "taxonomies": {
+    "schools": {
+      "1": {
+        "display_name": "格黑娜学园",
+        "aliases": ["Gehenna"]
+      },
+      "2": {
+        "display_name": "千年科学学园",
+        "aliases": ["Millennium"]
+      }
+    },
+    "relations": {
+      "10": {
+        "display_name": "便利屋68",
+        "aliases": ["Problem Solver 68"]
+      },
+      "11": {
+        "display_name": "工程师部",
+        "aliases": ["Engineering Department"]
+      }
+    }
+  }
+}

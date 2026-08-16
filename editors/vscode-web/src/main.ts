@@ -53,6 +53,7 @@ import type { PackManifestSource } from "../../vscode/src/packSync";
 import { decodeAvifSequence } from "./avifSequence";
 import { packResourceUrl, projectGalleryPack, type GalleryPack } from "./galleryPack";
 import { registerCharacterGalleryCommands, renderCharacterGalleryView } from "./characterGalleryUi";
+import { loadGalleryEntityCatalog } from "./galleryEntityCatalog";
 import { PREVIEW_RENDERER_METHOD, projectionSessionKey } from "../../vscode/src/tinymistClient";
 import {
   createRenderArtifactLocationResolver,
@@ -2722,11 +2723,21 @@ async function initializeRuntime(
       }
       throw error;
     }
+    const catalogResults = await Promise.all(packSources.map((source) => (
+      loadGalleryEntityCatalog(source, revision, packCache!, fetchEntityCatalog)
+    )));
     packSourcesByNamespace.clear();
     const projected: GalleryPack[] = [];
-    for (const source of packSources) {
+    for (const [index, source] of packSources.entries()) {
+      const catalogResult = catalogResults[index];
+      if (catalogResult?.warning) {
+        log(
+          "gallery:catalog",
+          `${catalogResult.catalog ? "Using validated cached metadata" : "Using manifest fallback"} for ${source.manifestUrl}: ${catalogResult.warning}`
+        );
+      }
       try {
-        projected.push(projectGalleryPack(source));
+        projected.push(projectGalleryPack(source, catalogResult?.catalog));
       } catch (error) {
         log("gallery", `Skipped invalid gallery pack ${source.manifestUrl}: ${error instanceof Error ? error.message : String(error)}`);
       }
@@ -3189,6 +3200,30 @@ async function fetchManifest(url: string, etag: string | undefined) {
       status: response.status,
       ok: response.ok,
       etag: response.headers.get("etag") ?? undefined,
+      text: () => response.text()
+    };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function fetchEntityCatalog(url: string, etag: string | undefined) {
+  const headers = new Headers({ Accept: "application/json" });
+  if (etag) headers.set("If-None-Match", etag);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15_000);
+  try {
+    const response = await fetch(url, {
+      headers,
+      signal: controller.signal,
+      redirect: "error",
+      credentials: "omit"
+    });
+    return {
+      status: response.status,
+      ok: response.ok,
+      etag: response.headers.get("etag") ?? undefined,
+      contentType: response.headers.get("content-type") ?? undefined,
       text: () => response.text()
     };
   } finally {

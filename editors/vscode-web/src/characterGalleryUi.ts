@@ -21,6 +21,21 @@ export interface CharacterGalleryViewOptions {
   readonly onDidChangePacks: (listener: () => void) => vscode.Disposable;
 }
 
+interface SelectedEntityId {
+  readonly namespace: string;
+  readonly entityKey: string;
+}
+
+interface GalleryEntry {
+  readonly pack: GalleryPack;
+  readonly entity: GalleryEntity;
+}
+
+interface InsertionTarget {
+  readonly enabled: boolean;
+  readonly label: string;
+}
+
 let pendingEntityKey: string | undefined;
 const galleryRevealed = new vscode.EventEmitter<string>();
 
@@ -90,13 +105,43 @@ function findEntityKey(packs: readonly GalleryPack[], predicate: (entity: Galler
 
 export function renderCharacterGalleryView(container: HTMLElement, options: CharacterGalleryViewOptions): vscode.Disposable {
   container.classList.add("mms-gallery-root");
-  let zoom = normalizeZoom(Number(globalThis.localStorage?.getItem(ZOOM_STORAGE_KEY)) || 1);
-  const applyZoom = () => container.style.setProperty("--mms-gallery-zoom", String(zoom));
-  applyZoom();
-  const onWheel = (event: WheelEvent) => {
-    if (!event.ctrlKey) return;
-    event.preventDefault();
-    zoom = normalizeZoom(zoom + (event.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP));
+  const controls = document.createElement("div");
+  controls.className = "mms-gallery-controls";
+  const search = document.createElement("input");
+  search.className = "mms-gallery-search";
+  search.type = "search";
+  search.placeholder = "搜索姓名、别名、学校或社团…";
+  search.setAttribute("aria-label", "搜索姓名、别名、学校或社团");
+  const filterBar = document.createElement("div");
+  filterBar.className = "mms-gallery-filters";
+  const listSummary = document.createElement("div");
+  listSummary.className = "mms-gallery-list-summary";
+  const zoomControls = document.createElement("div");
+  zoomControls.className = "mms-gallery-zoom-controls";
+  const zoomOut = iconButton("−", "缩小图鉴");
+  const zoomValue = document.createElement("output");
+  zoomValue.className = "mms-gallery-zoom-value";
+  zoomValue.setAttribute("aria-live", "polite");
+  const zoomIn = iconButton("+", "放大图鉴");
+  zoomControls.append(zoomOut, zoomValue, zoomIn);
+  const controlFooter = document.createElement("div");
+  controlFooter.className = "mms-gallery-control-footer";
+  controlFooter.append(listSummary, zoomControls);
+  controls.append(search, filterBar, controlFooter);
+  const body = document.createElement("div");
+  body.className = "mms-gallery-body";
+  container.append(controls, body);
+
+  let zoom = readStoredZoom();
+  const applyZoom = () => {
+    container.style.setProperty("--mms-gallery-zoom", String(zoom));
+    zoomValue.value = `${Math.round(zoom * 100)}%`;
+    zoomValue.textContent = zoomValue.value;
+    zoomOut.disabled = zoom <= ZOOM_MIN;
+    zoomIn.disabled = zoom >= ZOOM_MAX;
+  };
+  const setZoom = (value: number) => {
+    zoom = normalizeZoom(value);
     applyZoom();
     try {
       globalThis.localStorage?.setItem(ZOOM_STORAGE_KEY, String(zoom));
@@ -104,42 +149,163 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
       // 存储不可用时缩放仅保留在会话内
     }
   };
+  const onWheel = (event: WheelEvent) => {
+    if (!event.ctrlKey) return;
+    event.preventDefault();
+    setZoom(zoom + (event.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP));
+  };
+  const onZoomOut = () => setZoom(zoom - ZOOM_STEP);
+  const onZoomIn = () => setZoom(zoom + ZOOM_STEP);
   container.addEventListener("wheel", onWheel, { passive: false });
-  const search = document.createElement("input");
-  search.className = "mms-gallery-search";
-  search.type = "search";
-  search.placeholder = "搜索人物…";
-  search.setAttribute("aria-label", "搜索人物");
-  const body = document.createElement("div");
-  body.className = "mms-gallery-body";
-  container.append(search, body);
+  zoomOut.addEventListener("click", onZoomOut);
+  zoomIn.addEventListener("click", onZoomIn);
+  applyZoom();
 
   const images = new GalleryImageCache();
   const disposables: vscode.Disposable[] = [];
+  const variantButtons = new Set<HTMLButtonElement>();
   let disposed = false;
   let generation = 0;
   let abortDetail: AbortController | undefined;
   let observer: IntersectionObserver | undefined;
-  let selectedEntity: { readonly pack: GalleryPack; readonly entity: GalleryEntity } | undefined;
+  let selectedEntityId: SelectedEntityId | undefined;
   let selectedSetKey: string | undefined;
+  let selectedPack = "";
+  let selectedSchool = "";
+  let selectedRelation = "";
+  let insertionStatus: HTMLElement | undefined;
 
   const abortOngoing = () => {
     abortDetail?.abort();
     abortDetail = undefined;
     observer?.disconnect();
     observer = undefined;
+    variantButtons.clear();
   };
 
-  const allEntities = (): Array<{ pack: GalleryPack; entity: GalleryEntity }> => {
-    const filter = search.value.trim().toLowerCase();
-    const output: Array<{ pack: GalleryPack; entity: GalleryEntity }> = [];
-    for (const pack of options.getPacks()) {
+  const insertionTarget = (): InsertionTarget => {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor || editor.document.uri.scheme !== "mmtfs" || editor.document.languageId !== "mmt") {
+      return { enabled: false, label: "仅浏览：请先打开 MMT 文档" };
+    }
+    const path = vscode.workspace.asRelativePath(editor.document.uri, false);
+    const position = editor.selection.active;
+    return {
+      enabled: true,
+      label: `插入到 ${path} · ${position.line + 1}:${position.character + 1}`
+    };
+  };
+
+  const refreshInsertionState = () => {
+    const target = insertionTarget();
+    if (insertionStatus) {
+      insertionStatus.textContent = target.label;
+      insertionStatus.classList.toggle("mms-gallery-insertion-disabled", !target.enabled);
+    }
+    for (const button of variantButtons) {
+      button.disabled = !target.enabled;
+      button.title = target.enabled
+        ? button.dataset.selectorTitle ?? "插入差分"
+        : "请先打开一个 MMT 文档，再插入人物差分";
+    }
+  };
+
+  const visiblePacks = (): readonly GalleryPack[] => {
+    const packs = options.getPacks();
+    return selectedPack ? packs.filter((pack) => pack.namespace === selectedPack) : packs;
+  };
+
+  const allEntities = (): GalleryEntry[] => {
+    const query = search.value.trim().toLocaleLowerCase("zh-Hans-CN");
+    const output: GalleryEntry[] = [];
+    for (const pack of visiblePacks()) {
       for (const entity of pack.entities) {
-        if (filter && !entity.names.some((name) => name.toLowerCase().includes(filter)) && !entity.displayName.toLowerCase().includes(filter)) continue;
+        if (selectedSchool && taxonomyFilterValue(pack, entity.school?.id) !== selectedSchool) continue;
+        if (selectedRelation) {
+          const relationValues = [entity.mainRelation, ...entity.relations]
+            .map((term) => taxonomyFilterValue(pack, term?.id));
+          if (!relationValues.includes(selectedRelation)) continue;
+        }
+        if (query && !entity.searchTerms.some((term) => term.toLocaleLowerCase("zh-Hans-CN").includes(query))) continue;
         output.push({ pack, entity });
       }
     }
     return output;
+  };
+
+  const renderFilterBar = (packs: readonly GalleryPack[]) => {
+    if (selectedPack && !packs.some((pack) => pack.namespace === selectedPack)) selectedPack = "";
+    filterBar.replaceChildren();
+    if (packs.length > 1) {
+      const packSelect = selectControl("资源包筛选", "全部资源包", packs.map((pack) => ({
+        value: pack.namespace,
+        label: pack.namespace
+      })), selectedPack);
+      packSelect.addEventListener("change", () => {
+        selectedPack = packSelect.value;
+        selectedSchool = "";
+        selectedRelation = "";
+        renderEntityList();
+      });
+      filterBar.append(packSelect);
+    } else if (packs.length === 1) {
+      selectedPack = "";
+    }
+
+    const scopedPacks = visiblePacks();
+    const schools = taxonomyOptions(scopedPacks, "school");
+    if (schools.length > 0) {
+      if (!schools.some((option) => option.value === selectedSchool)) selectedSchool = "";
+      const schoolSelect = selectControl("学校筛选", "全部学校", schools, selectedSchool);
+      schoolSelect.addEventListener("change", () => {
+        selectedSchool = schoolSelect.value;
+        renderEntityList();
+      });
+      filterBar.append(schoolSelect);
+    } else {
+      selectedSchool = "";
+    }
+
+    const relations = taxonomyOptions(scopedPacks, "relation");
+    if (relations.length > 0) {
+      if (!relations.some((option) => option.value === selectedRelation)) selectedRelation = "";
+      const relationSelect = selectControl("关系筛选", "全部关系", relations, selectedRelation);
+      relationSelect.addEventListener("change", () => {
+        selectedRelation = relationSelect.value;
+        renderEntityList();
+      });
+      filterBar.append(relationSelect);
+    } else {
+      selectedRelation = "";
+    }
+
+    if (search.value || selectedPack || selectedSchool || selectedRelation) {
+      const clear = iconButton("清除", "清除角色图鉴筛选");
+      clear.className = "mms-gallery-clear-filters";
+      clear.addEventListener("click", () => {
+        search.value = "";
+        selectedPack = "";
+        selectedSchool = "";
+        selectedRelation = "";
+        renderEntityList();
+      });
+      filterBar.append(clear);
+    }
+    filterBar.hidden = filterBar.childElementCount === 0;
+  };
+
+  const showListControls = (packs: readonly GalleryPack[], count: number) => {
+    search.hidden = false;
+    filterBar.hidden = false;
+    listSummary.hidden = false;
+    renderFilterBar(packs);
+    listSummary.textContent = `${count} 个角色`;
+  };
+
+  const showDetailControls = () => {
+    search.hidden = true;
+    filterBar.hidden = true;
+    listSummary.hidden = true;
   };
 
   const renderEntityList = () => {
@@ -151,228 +317,310 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
     }
     const current = ++generation;
     abortOngoing();
+    insertionStatus = undefined;
     body.replaceChildren();
     const packs = options.getPacks();
-    if (packs.length === 0) {
-      body.append(message("尚未加载资源包。请先在 MomoScript 项目视图中配置资源包清单地址。"));
-      return;
-    }
+    renderFilterBar(packs);
     const entities = allEntities();
-    if (entities.length === 0) {
-      body.append(message(search.value.trim() ? "没有匹配的人物" : "资源包中没有可浏览的人物"));
+    showListControls(packs, entities.length);
+    if (packs.length === 0) {
+      const empty = message("尚未加载资源包。请配置资源包清单地址。");
+      const configure = document.createElement("button");
+      configure.type = "button";
+      configure.className = "mms-gallery-primary-action";
+      configure.textContent = "配置资源包";
+      configure.addEventListener("click", () => {
+        void vscode.commands.executeCommand("workbench.action.openSettings", "mmt.resourcePacks.manifestUrls");
+      });
+      empty.append(configure);
+      body.append(empty);
       return;
     }
-    const grid = document.createElement("div");
-    grid.className = "mms-gallery-grid";
-    grid.setAttribute("role", "list");
-    body.append(grid);
+    if (entities.length === 0) {
+      body.append(message(search.value.trim() || selectedSchool || selectedRelation ? "没有匹配的人物" : "资源包中没有可浏览的人物"));
+      appendProvenance(body, visiblePacks());
+      return;
+    }
+
+    const list = document.createElement("ul");
+    list.className = "mms-gallery-entity-list";
+    body.append(list);
     let rendered = 0;
+    const sentinel = document.createElement("li");
+    sentinel.className = "mms-gallery-sentinel";
+    sentinel.setAttribute("aria-hidden", "true");
     const renderPage = () => {
       if (disposed || current !== generation) return;
       const slice = entities.slice(rendered, rendered + ENTITY_PAGE_SIZE);
-      for (const entry of slice) grid.append(entityTile(entry.pack, entry.entity));
+      for (const entry of slice) list.append(entityRow(entry.pack, entry.entity));
       rendered += slice.length;
       sentinel.remove();
-      if (rendered < entities.length) grid.append(sentinel);
+      if (rendered < entities.length) list.append(sentinel);
     };
-    const sentinel = document.createElement("div");
-    sentinel.className = "mms-gallery-sentinel";
     observer = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) renderPage();
     }, { root: body });
     observer.observe(sentinel);
     renderPage();
+    appendProvenance(body, visiblePacks());
   };
 
-  const entityTile = (pack: GalleryPack, entity: GalleryEntity): HTMLElement => {
-    const tile = document.createElement("button");
-    tile.type = "button";
-    tile.className = "mms-gallery-tile";
-    tile.setAttribute("role", "listitem");
-    tile.title = entity.names.join(" / ");
-    const image = document.createElement("img");
-    image.className = "mms-gallery-avatar";
-    image.loading = "lazy";
-    image.alt = "";
-    const avatarUrl = (() => {
-      try {
-        return galleryAvatarUrl(pack, entity)?.href;
-      } catch {
-        return undefined;
-      }
-    })();
-    if (avatarUrl) image.src = avatarUrl;
-    else {
-      image.hidden = true;
-      const fallback = document.createElement("span");
-      fallback.className = "mms-gallery-avatar-fallback";
-      fallback.textContent = galleryDisplayLabel(entity).slice(0, 1);
-      tile.append(fallback);
+  const entityRow = (pack: GalleryPack, entity: GalleryEntity): HTMLLIElement => {
+    const item = document.createElement("li");
+    item.className = "mms-gallery-entity-item";
+    const row = document.createElement("button");
+    row.type = "button";
+    row.className = "mms-gallery-entity-row";
+    const label = galleryDisplayLabel(entity);
+    row.title = entity.searchTerms.join(" / ");
+    row.setAttribute("aria-label", entityAriaLabel(entity));
+
+    const media = document.createElement("span");
+    media.className = "mms-gallery-entity-media";
+    const avatarUrl = safeAvatarUrl(pack, entity);
+    if (avatarUrl) {
+      const image = document.createElement("img");
+      image.className = "mms-gallery-avatar";
+      image.loading = "lazy";
+      image.alt = `${label} 头像`;
+      image.src = avatarUrl;
+      image.addEventListener("error", () => {
+        image.replaceWith(avatarFallback(label));
+      }, { once: true });
+      media.append(image);
+    } else {
+      media.append(avatarFallback(label));
     }
-    image.addEventListener("error", () => {
-      image.hidden = true;
-      if (!tile.querySelector(".mms-gallery-avatar-fallback")) {
-        const fallback = document.createElement("span");
-        fallback.className = "mms-gallery-avatar-fallback";
-        fallback.textContent = galleryDisplayLabel(entity).slice(0, 1);
-        tile.prepend(fallback);
-      }
-    }, { once: true });
+
+    const text = document.createElement("span");
+    text.className = "mms-gallery-entity-text";
     const name = document.createElement("span");
     name.className = "mms-gallery-name";
-    name.textContent = galleryDisplayLabel(entity);
-    tile.append(image, name);
-    tile.addEventListener("click", () => {
-      selectedEntity = { pack, entity };
+    name.textContent = label;
+    const metadata = document.createElement("span");
+    metadata.className = "mms-gallery-entity-metadata";
+    const affiliation = [entity.school?.displayName, entity.mainRelation?.displayName].filter(Boolean).join(" · ");
+    metadata.textContent = affiliation || pack.namespace;
+    const count = document.createElement("span");
+    count.className = "mms-gallery-variant-count";
+    count.textContent = `${entity.totalVariants} 个差分`;
+    text.append(name, metadata, count);
+    row.append(media, text);
+    row.addEventListener("click", () => {
+      selectedEntityId = { namespace: pack.namespace, entityKey: entity.key };
       selectedSetKey = undefined;
       renderDetail();
     });
-    return tile;
+    item.append(row);
+    return item;
   };
 
   const revealTarget = (target: string) => {
     if (target !== "") {
       for (const pack of options.getPacks()) {
-        const entity = pack.entities.find((candidate) => candidate.key === target);
-        if (entity) {
-          selectedEntity = { pack, entity };
+        if (pack.entities.some((candidate) => candidate.key === target)) {
+          selectedEntityId = { namespace: pack.namespace, entityKey: target };
           selectedSetKey = undefined;
           renderDetail();
           return;
         }
       }
     }
-    selectedEntity = undefined;
+    selectedEntityId = undefined;
     renderEntityList();
+  };
+
+  const resolveSelectedEntity = (): GalleryEntry | undefined => {
+    if (!selectedEntityId) return undefined;
+    const pack = options.getPacks().find((candidate) => candidate.namespace === selectedEntityId!.namespace);
+    const entity = pack?.entities.find((candidate) => candidate.key === selectedEntityId!.entityKey);
+    return pack && entity ? { pack, entity } : undefined;
   };
 
   const renderDetail = () => {
     const current = ++generation;
     abortOngoing();
     body.replaceChildren();
-    if (!selectedEntity) return;
-    const { pack, entity } = selectedEntity;
+    showDetailControls();
+    const selected = resolveSelectedEntity();
+    if (!selected) {
+      selectedEntityId = undefined;
+      renderEntityList();
+      return;
+    }
+    const { pack, entity } = selected;
     const controller = new AbortController();
     abortDetail = controller;
 
-    const header = document.createElement("div");
+    const header = document.createElement("section");
     header.className = "mms-gallery-detail-header";
+    const headingRow = document.createElement("div");
+    headingRow.className = "mms-gallery-detail-heading";
     const back = document.createElement("button");
     back.type = "button";
     back.className = "mms-gallery-back";
     back.textContent = "‹ 返回";
     back.addEventListener("click", () => {
-      selectedEntity = undefined;
+      selectedEntityId = undefined;
       renderEntityList();
     });
-    const title = document.createElement("span");
+    const title = document.createElement("h3");
     title.className = "mms-gallery-detail-title";
     title.textContent = galleryDisplayLabel(entity);
-    header.append(back, title);
+    headingRow.append(back, title);
+    header.append(headingRow);
+
+    const affiliation = [entity.school?.displayName, entity.mainRelation?.displayName].filter(Boolean);
+    if (affiliation.length > 0) {
+      const metadata = document.createElement("div");
+      metadata.className = "mms-gallery-detail-metadata";
+      metadata.textContent = affiliation.join(" · ");
+      header.append(metadata);
+    }
+
+    if (entity.alternateSkinKeys.length > 0) {
+      const related = document.createElement("div");
+      related.className = "mms-gallery-related-skins";
+      const relatedLabel = document.createElement("span");
+      relatedLabel.textContent = "其他装扮";
+      related.append(relatedLabel);
+      for (const key of entity.alternateSkinKeys) {
+        const target = pack.entities.find((candidate) => candidate.key === key);
+        if (!target) continue;
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = galleryDisplayLabel(target);
+        button.addEventListener("click", () => {
+          selectedEntityId = { namespace: pack.namespace, entityKey: target.key };
+          selectedSetKey = undefined;
+          renderDetail();
+        });
+        related.append(button);
+      }
+      if (related.childElementCount > 1) header.append(related);
+    }
+
+    if (entity.stickerSets.length > 0) {
+      if (selectedSetKey === undefined || !entity.stickerSets.some((set) => set.key === selectedSetKey)) {
+        selectedSetKey = entity.stickerSets[0]!.key;
+      }
+      if (entity.stickerSets.length > 1) {
+        const setRow = document.createElement("label");
+        setRow.className = "mms-gallery-set-row";
+        const setLabel = document.createElement("span");
+        setLabel.textContent = "差分套组";
+        const setSelector = document.createElement("select");
+        setSelector.className = "mms-gallery-set";
+        setSelector.setAttribute("aria-label", "差分套组");
+        for (const set of entity.stickerSets) {
+          setSelector.append(new Option(set.displayName, set.key, false, set.key === selectedSetKey));
+        }
+        setSelector.addEventListener("change", () => {
+          selectedSetKey = setSelector.value;
+          renderDetail();
+        });
+        setRow.append(setLabel, setSelector);
+        header.append(setRow);
+      }
+    }
+
+    insertionStatus = document.createElement("div");
+    insertionStatus.className = "mms-gallery-insertion-status";
+    header.append(insertionStatus);
+    body.append(header);
 
     if (entity.stickerSets.length === 0) {
-      body.append(header, message("该人物没有差分资源"));
+      body.append(message("该人物没有差分资源"));
+      refreshInsertionState();
+      appendProvenance(body, [pack]);
       return;
     }
-    if (selectedSetKey === undefined || !entity.stickerSets.some((set) => set.key === selectedSetKey)) {
-      selectedSetKey = entity.stickerSets[0]!.key;
-    }
-    let setSelector: HTMLSelectElement | undefined;
-    if (entity.stickerSets.length > 1) {
-      setSelector = document.createElement("select");
-      setSelector.className = "mms-gallery-set";
-      setSelector.setAttribute("aria-label", "差分套组");
-      for (const set of entity.stickerSets) {
-        const option = new Option(set.displayName, set.key, false, set.key === selectedSetKey);
-        setSelector.append(option);
-      }
-      setSelector.addEventListener("change", () => {
-        selectedSetKey = setSelector!.value;
-        renderDetail();
-      });
-      header.append(setSelector);
-    }
-    const grid = document.createElement("div");
-    grid.className = "mms-gallery-grid mms-gallery-variants";
-    grid.setAttribute("role", "list");
-    body.append(header, grid);
 
+    const grid = document.createElement("ul");
+    grid.className = "mms-gallery-variant-grid";
+    body.append(grid);
     const set = entity.stickerSets.find((candidate) => candidate.key === selectedSetKey)!;
     for (const variant of set.variants) {
-      grid.append(variantTile(pack, entity, set, variant, controller.signal, () => current === generation));
+      grid.append(variantCard(pack, entity, set, variant, controller.signal, () => current === generation));
     }
+    appendProvenance(body, [pack]);
+    refreshInsertionState();
   };
 
-  const variantTile = (
+  const variantCard = (
     pack: GalleryPack,
     entity: GalleryEntity,
     set: GalleryStickerSet,
     variant: GalleryVariant,
     signal: AbortSignal,
     isCurrent: () => boolean
-  ): HTMLElement => {
-    const tile = document.createElement("button");
-    tile.type = "button";
-    tile.className = "mms-gallery-tile mms-gallery-variant";
-    tile.setAttribute("role", "listitem");
+  ): HTMLLIElement => {
+    const item = document.createElement("li");
+    item.className = "mms-gallery-variant-item";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "mms-gallery-variant";
     const setId = set.key === entity.stickerDefault ? undefined : set.key;
-    tile.title = `插入 [:${entity.key},${setId ? `${setId}/` : ""}#${variant.ordinal}:]`;
+    const selectorTitle = `插入 [:${entity.key},${setId ? `${setId}/` : ""}#${variant.ordinal}:]`;
+    button.dataset.selectorTitle = selectorTitle;
+    button.setAttribute("aria-label", `${galleryDisplayLabel(entity)} 差分 #${variant.ordinal}`);
     const frame = document.createElement("span");
     frame.className = "mms-gallery-frame";
-    frame.textContent = "…";
+    frame.textContent = "加载中…";
     const ordinal = document.createElement("span");
     ordinal.className = "mms-gallery-ordinal";
     ordinal.textContent = `#${variant.ordinal}`;
-    tile.append(frame, ordinal);
+    button.append(frame, ordinal);
+    variantButtons.add(button);
 
+    const retry = document.createElement("button");
+    retry.type = "button";
+    retry.className = "mms-gallery-retry";
+    retry.textContent = "重试加载";
+    retry.hidden = true;
     const load = () => {
-      frame.textContent = "…";
+      retry.hidden = true;
+      item.classList.remove("mms-gallery-failed");
+      frame.textContent = "加载中…";
       void images.thumbnail(pack, entity, set, variant, signal).then((url) => {
         if (!isCurrent() || signal.aborted) return;
-        frame.replaceChildren();
         const image = document.createElement("img");
         image.className = "mms-gallery-thumb";
         image.alt = `${galleryDisplayLabel(entity)} #${variant.ordinal}`;
         image.src = url;
-        frame.append(image);
-      }).catch((error: unknown) => {
+        frame.replaceChildren(image);
+      }).catch(() => {
         if (!isCurrent() || signal.aborted) return;
-        frame.textContent = "加载失败，点击重试";
-        tile.classList.add("mms-gallery-failed");
-        tile.addEventListener("click", (event) => {
-          event.stopPropagation();
-          tile.classList.remove("mms-gallery-failed");
-          load();
-        }, { once: true });
-        void error;
+        frame.textContent = "加载失败";
+        item.classList.add("mms-gallery-failed");
+        retry.hidden = false;
       });
     };
+    retry.addEventListener("click", load);
     load();
-    tile.addEventListener("click", () => {
+    button.addEventListener("click", () => {
       void vscode.commands.executeCommand("mmt.gallery.insertSticker", entity.key, variant.ordinal, setId);
     });
-    return tile;
+    item.append(button, retry);
+    return item;
   };
 
-  search.addEventListener("input", () => {
-    if (selectedEntity) {
-      selectedEntity = undefined;
-    }
+  const onSearch = () => {
+    selectedEntityId = undefined;
     renderEntityList();
-  });
+  };
+  search.addEventListener("input", onSearch);
   disposables.push(galleryRevealed.event((target) => {
     if (pendingEntityKey !== undefined) pendingEntityKey = undefined;
     revealTarget(target);
   }));
   disposables.push(options.onDidChangePacks(() => {
-    if (selectedEntity) {
-      const stillExists = options.getPacks().some((pack) => pack.namespace === selectedEntity!.pack.namespace
-        && pack.entities.some((entity) => entity.key === selectedEntity!.entity.key));
-      if (!stillExists) selectedEntity = undefined;
-    }
-    if (selectedEntity) renderDetail();
+    if (selectedEntityId && !resolveSelectedEntity()) selectedEntityId = undefined;
+    if (selectedEntityId) renderDetail();
     else renderEntityList();
   }));
+  disposables.push(vscode.window.onDidChangeActiveTextEditor(refreshInsertionState));
+  disposables.push(vscode.window.onDidChangeTextEditorSelection(refreshInsertionState));
 
   renderEntityList();
 
@@ -382,6 +630,9 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
       disposed = true;
       generation += 1;
       container.removeEventListener("wheel", onWheel);
+      zoomOut.removeEventListener("click", onZoomOut);
+      zoomIn.removeEventListener("click", onZoomIn);
+      search.removeEventListener("input", onSearch);
       abortOngoing();
       images.dispose();
       for (const disposable of disposables) disposable.dispose();
@@ -389,14 +640,124 @@ export function renderCharacterGalleryView(container: HTMLElement, options: Char
   };
 }
 
+function taxonomyOptions(
+  packs: readonly GalleryPack[],
+  kind: "school" | "relation"
+): Array<{ readonly value: string; readonly label: string }> {
+  const multiple = packs.length > 1;
+  const output: Array<{ value: string; label: string }> = [];
+  for (const pack of packs) {
+    const terms = kind === "school" ? pack.schools : pack.relations;
+    for (const term of terms) {
+      output.push({
+        value: taxonomyFilterValue(pack, term.id),
+        label: multiple ? `${term.displayName} · ${pack.namespace}` : term.displayName
+      });
+    }
+  }
+  return output.sort((left, right) => left.label.localeCompare(right.label, "zh-Hans-CN"));
+}
+
+function taxonomyFilterValue(pack: GalleryPack, id: string | undefined): string {
+  return id === undefined ? "" : `${pack.namespace}:${id}`;
+}
+
+function selectControl(
+  ariaLabel: string,
+  allLabel: string,
+  options: readonly { readonly value: string; readonly label: string }[],
+  selected: string
+): HTMLSelectElement {
+  const select = document.createElement("select");
+  select.className = "mms-gallery-filter";
+  select.setAttribute("aria-label", ariaLabel);
+  select.append(new Option(allLabel, "", false, selected === ""));
+  for (const option of options) {
+    select.append(new Option(option.label, option.value, false, option.value === selected));
+  }
+  return select;
+}
+
+function appendProvenance(container: HTMLElement, packs: readonly GalleryPack[]): void {
+  const sources = packs.filter((pack) => pack.provenance !== undefined);
+  if (sources.length === 0) return;
+  const details = document.createElement("details");
+  details.className = "mms-gallery-provenance";
+  const summary = document.createElement("summary");
+  summary.textContent = "数据来源";
+  details.append(summary);
+  for (const pack of sources) {
+    const provenance = pack.provenance!;
+    const row = document.createElement("div");
+    row.className = "mms-gallery-provenance-row";
+    const text = document.createElement("span");
+    text.textContent = `${pack.namespace} · ${provenance.sourceName} · ${provenance.licenseId} · ${provenance.retrievedAt.slice(0, 10)}`;
+    row.append(text);
+    if (provenance.sourceUrl) row.append(externalButton("来源", provenance.sourceUrl));
+    if (provenance.licenseUrl) row.append(externalButton("许可", provenance.licenseUrl));
+    details.append(row);
+  }
+  container.append(details);
+}
+
+function externalButton(label: string, href: string): HTMLButtonElement {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "mms-gallery-link";
+  button.textContent = label;
+  button.addEventListener("click", () => {
+    void vscode.env.openExternal(vscode.Uri.parse(href, true));
+  });
+  return button;
+}
+
+function entityAriaLabel(entity: GalleryEntity): string {
+  const metadata = [entity.school?.displayName, entity.mainRelation?.displayName].filter(Boolean).join("，");
+  return [galleryDisplayLabel(entity), metadata, `${entity.totalVariants} 个差分`].filter(Boolean).join("，");
+}
+
+function safeAvatarUrl(pack: GalleryPack, entity: GalleryEntity): string | undefined {
+  try {
+    return galleryAvatarUrl(pack, entity)?.href;
+  } catch {
+    return undefined;
+  }
+}
+
+function avatarFallback(label: string): HTMLSpanElement {
+  const fallback = document.createElement("span");
+  fallback.className = "mms-gallery-avatar-fallback";
+  fallback.textContent = label.slice(0, 1);
+  fallback.setAttribute("aria-hidden", "true");
+  return fallback;
+}
+
+function iconButton(text: string, ariaLabel: string): HTMLButtonElement {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.textContent = text;
+  button.setAttribute("aria-label", ariaLabel);
+  return button;
+}
+
+function readStoredZoom(): number {
+  try {
+    return normalizeZoom(Number(globalThis.localStorage?.getItem(ZOOM_STORAGE_KEY)) || 1);
+  } catch {
+    return 1;
+  }
+}
+
 function normalizeZoom(value: number): number {
   if (!Number.isFinite(value)) return 1;
   return Math.round(Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, value)) * 10) / 10;
 }
 
-function message(text: string): HTMLElement {
+function message(text: string): HTMLDivElement {
   const element = document.createElement("div");
   element.className = "mms-gallery-message";
-  element.textContent = text;
+  const content = document.createElement("span");
+  content.textContent = text;
+  element.append(content);
   return element;
 }
